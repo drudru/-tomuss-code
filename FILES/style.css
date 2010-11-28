@@ -521,7 +521,7 @@ INPUT#comment { width: 100% ; clear: both; }
   background-repeat: no-repeat ;
   width: 7em ;
 }
-#menutop #t_table_modifiable { width: 3em ; }
+#menutop #t_table_attr_masters { font-size: 60% ; }
 
 #menutop #teachers2.empty {
   background-image: url('teacher.png');
