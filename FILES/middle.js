@@ -661,6 +661,10 @@ for(var type_i in types)
 	      "Par exemple : 20/1/2010 12/5/2010<br>" +
 	      "Les ABJ en dehors de cet intervalle ne seront pas affichées."
 	      ) +
+   table_input_attr('datess','',
+		    "Dates du premier cours et dernier examen.<br>" +
+		    "Par exemple : 20/1/2010 12/5/2010<br>" +
+		    "Les ABJ en dehors de cet intervalle ne seront pas affichées.") +
    '</tr><tr><td class="blockbottom">' +
 
    one_line('<span id="t_author"></span>',

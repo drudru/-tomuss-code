@@ -317,7 +317,41 @@ class TableModifiable(TableAttr):
         if value == 0 or value == 1:
             return
         return "L'attribut 'modifiable' peut être seulement 0 ou 1"
+
+class TableDates(TableAttr):
+    name = 'datess'
+    default_value = [0,2000000000]
+    formatter = '''
+function(value)
+{
+  if ( value.join )
+    {
+       var d = new Date() ;
+       d.setTime(value[0]*1000) ;
+       var s = formatte_date(d) ;
+       d.setTime(value[1]*1000) ;
+       return s + ' ' + formatte_date(d) ;
+    }
+  return value ;
+}'''
+    def encode(self, value):
+        if isinstance(value, str):        
+            dates = value.split(' ')
+            first_day = time.mktime(time.strptime(dates[0], '%d/%m/%Y'))
+            last_day = time.mktime(time.strptime(dates[1], '%d/%m/%Y'))
+            return [first_day, last_day]
+        else:
+            return value
         
+    def decode(self, value):
+        return time.strftime('%d/%m/%Y ',time.localtime(value[0])) + \
+               time.strftime('%d/%m/%Y',time.localtime(value[1]))
+
+    def check(self, value):
+        value = self.encode(value)
+        if value[0] > value[1]:
+            return 'La première date doit être avant la deuxième'
+
 class TableMasters(TableAttr):
     name = 'masters'
     default_value = []
@@ -362,6 +396,7 @@ return value ;
 
 TableModifiable()
 TableMasters()
+TableDates()
 
 
 import files

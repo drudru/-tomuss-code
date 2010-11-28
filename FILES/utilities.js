@@ -161,6 +161,11 @@ function get_date_sup(value)
   return -1e100 ;
 }
 
+function formatte_date(d)
+{
+  return d.getDate() + '/' + (d.getMonth() + 1) + '/' + d.getFullYear() ;
+}
+
 function left_justify(text, size)
 {
   return (text + '                                       ').substr(0,size).replace(/ /g, '&nbsp;') ;

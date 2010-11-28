@@ -81,8 +81,7 @@ function abj_init()
    end.value = _today.getDate() + '/' + (_today.getMonth() + 1) + '/' +
      _today.getFullYear() + ' ' + pm ;
    
-   ampm.childNodes[ampm.childNodes.length-1].full_time = _today.getDate()
-     + '/' + (_today.getMonth() + 1) + '/' + _today.getFullYear() + ' ' + pm ;
+   ampm.childNodes[ampm.childNodes.length-1].full_time = formatte_date(today) + ' ' + pm ;
    ampm.childNodes[ampm.childNodes.length-1].start_time = _today.getTime() ;
    
    var i = dates.childNodes.length - 2 ;
