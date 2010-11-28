@@ -647,12 +647,12 @@ for(var type_i in types)
 	      'En cliquant sur ce lien vous rendez la page publique.',
 	      '','private_toggle_deactivate') + ', ' +
    
-   /*
+
    table_select('table_attr_modifiable',
 		['Non Modifiable', 'Modifiable'],
 		'Indique si la table est modifiable.\nSeul un responsable peut changer ceci.') +
    table_input_attr('masterslist','',"Liste des LOGIN d'enseignants\nayant tous les droits sur la table\nTapez sur la touché «Entrée» pour valider.") +
-   */
+
 
    '<br></div>' +
 
