@@ -153,7 +153,7 @@ def check(filename,
     if exists is False:
         return not os.path.exists('../DBregtest/' + filename) \
                and not os.path.exists('../BACKUP_DBregtest/' + filename)
-    
+
     masters = []
     pages = []
     columns = []
@@ -161,8 +161,8 @@ def check(filename,
     cells = []
     column_dict = {}
     
-    def add_master(master,page_id=None):
-        masters.append(master)
+#    def add_master(master,page_id=None):
+#        masters.append(master)
     def new_page(page_ticket, page_author, page_ip, page_browser,date=None):
         pages.append((page_ticket, page_author, page_ip, page_browser,date))
     def default_nr_columns(nr):
@@ -174,6 +174,12 @@ def check(filename,
     def column_attr(attr, page_id, col_id, value):
         columns.append((attr, page_id, col_id, value))
         column_dict[col_id] = True
+    def table_attr(attr, page_id, value):
+        if attr == 'masters':
+            while masters:
+                masters.pop()
+            while value:
+                masters.append(value.pop(0))
     def table_comment(page_id, comment):
         columns.append((page_id, comment))
     def date_change(page_id, date):

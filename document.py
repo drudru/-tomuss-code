@@ -220,7 +220,6 @@ class Table(object):
         self.columns = Columns(self)
         self.lines = Lines(self.columns)
         self.the_lock = threading.Lock()
-        self.masters = [] # From table file
         self.full_title = ''
         self.mails = {}
         self.portails = {}
@@ -592,18 +591,12 @@ class Table(object):
 
 
     def add_master(self, name, page_id=0):
+        """Deprecated"""
         name = name.lower()
         if name in self.masters:
             self.masters.remove(name)
-            if not self.loading:
-                master_of_update('-', name, self.year, self.semester, self.ue)
         else:
             self.masters.append(name)
-            if not self.loading:
-                master_of_update('+', name, self.year, self.semester, self.ue)
-            
-        if not self.loading:
-            self.log('add_master(%s,%d)' % (repr(name), page_id))
 
     def private_toggle(self, page):
         if len(self.masters) or len(self.teachers):
@@ -647,20 +640,6 @@ la dernière saisie.
 
     def bad_ro(self, page):
         return self.error(page, "Valeur seulement accessible en lecture !")
-
-    def check_add_master(self, page, name):
-        if len(self.masters) or len(self.teachers):
-            if page.user_name not in self.masters \
-                   and page.user_name not in self.teachers \
-                   and page.user_name not in configuration.root:
-                return self.bad_auth(page)
-        if not inscrits.is_a_teacher(name):
-            return self.error(page, "Ce n'est pas un enseignant : " + name)
-        self.add_master(name, page.page_id)
-        self.send_update(None, '<script>change_teachers(%s);</script>\n'% repr(
-            [x.encode('utf8') for x in self.teachers + self.masters]))
-        return 'ok.png'
-
 
     def comment_change(self, page, col, lin, value):
         if not self.loading and not self.allow_modification:
@@ -957,8 +936,6 @@ la dernière saisie.
 
             s.append('document.write(tail_html());')
             s.append('runlog(columns, lines) ;')
-            s.append('change_teachers(%s) ;'% repr(
-                [x.encode('utf8') for x in self.teachers + self.masters]))
             s.append('change_title(%s,%d) ;' % (js(self.full_title),
                                                 self.code))
             s.append('change_mails(%s) ;' % repr(self.mails))
@@ -1362,9 +1339,6 @@ def check_requests():
                     elif action == 'column_delete':
                         col = path[0]
                         page.answer = tabl.column_delete(page, col)
-                    elif action == 'add_a_master':
-                        master = path[0]                        
-                        page.answer = tabl.check_add_master(page, master)
                     elif action == 'private_toggle':
                         page.answer = tabl.private_toggle(page)
                     elif action == 'login_list':

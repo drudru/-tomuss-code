@@ -40,9 +40,9 @@ function student_picture_url(login)
 
 def create(table):
     _ucbl_.create(table)
-    if table.ue.startswith('UE'):
-        table.add_master(table.ue.lower().replace('-','') + '.master')
-
+    table.table_attr(table.pages[0], 'masters',
+                     [table.ue.lower().replace('-','') + '.master']
+                     )
 
 def init(table):
     _ucbl_.init(table)

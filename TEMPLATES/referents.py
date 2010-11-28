@@ -27,8 +27,8 @@ import _ucbl_
 default_master = 'thierry.excoffier'
 
 def create(table):
-    table.add_master(default_master)
     p = table.new_page('' , data.ro_user, '', '')
+    table.table_attr(p, 'masters', [default_master])
     table.column_change(p,'a','Enseignant','Login','','','F',0,8)
     table.column_change(p,'b','Orientation','Text','','','F',0,3)
     table.column_comment(p, 'b',

@@ -28,9 +28,8 @@ def create(table):
     utilities.warn('Creation')
     if table.year != 0 or table.semester != 'Dossiers':
         raise ValueError('Not allowed')
-    for i in configuration.root:
-        table.add_master(i)
     p = table.new_page('' ,data.ro_user, '', '')
+    table.table_attr(p, 'masters', list(configuration.root))
     table.column_change(p,'0_0','Variable'           ,'Text','','','F',0,2 )
     table.column_change(p,'0_1','Explications'       ,'Text','','','F',0,10)
     table.column_change(p,'0_2','Valeur courante'    ,'Text','','','F',0,10 )

@@ -320,17 +320,7 @@ function Linear()
       'Responsables',
       function() { return teachers.toString().replace(/,/g,' ') ; },
       function(value) {
-	value = value.split(/  */) ;
-	for(var i in value)
-	  if ( myindex(teachers, value[i]) == -1 )
-	    {
-	      append_image(undefined, 'add_a_master/' + value[i]) ;
-	    }
-	for(var i in teachers)
-	  if ( myindex(value, teachers[i]) == -1 )
-	    {
-	      append_image(undefined, 'add_a_master/' + teachers[i]) ;
-	    }
+	append_image(undefined, 'table_attr_masters/' + encode_uri(value)) ;
       },
       function() {
 	if ( allow_modification && (i_am_the_teacher || teachers.length == 0) )

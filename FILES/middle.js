@@ -651,7 +651,6 @@ for(var type_i in types)
    table_select('table_attr_modifiable',
 		['Non Modifiable', 'Modifiable'],
 		'Indique si la table est modifiable.\nSeul un responsable peut changer ceci.') +
-   table_input_attr('masterslist','',"Liste des LOGIN d'enseignants\nayant tous les droits sur la table\nTapez sur la touché «Entrée» pour valider.") +
 
 
    '<br></div>' +
@@ -661,13 +660,6 @@ for(var type_i in types)
 	      "Dates du premier cours et dernier examen.<br>" +
 	      "Par exemple : 20/1/2010 12/5/2010<br>" +
 	      "Les ABJ en dehors de cet intervalle ne seront pas affichées."
-	      ) + '<br>' +
-
-   hidden_txt(header_input('teachers2', '',
-			   'empty onblur=if(this.value!=\'\')add_a_master(this)'),
-	      'Identifiant du responsable à enlever ou ajouter à la liste<br>'+
-	      'des responsables d\'UE pouvant modifier toutes les notes.<br>'+
-	      'Tapez sur la touche «Entrée» après avoir saisi le nom.'
 	      ) +
    '</tr><tr><td class="blockbottom">' +
 
@@ -699,10 +691,7 @@ for(var type_i in types)
 	      "Tapez le début de ce que vous cherchez.<br>" +
 	      "Pour plus d'information, regardez l'aide sur les filtres.") +
    '<td class="space"><td class="blockbottom">' +
-   one_line('<var id="teachers"></var>',
-	    'La liste des <b>responsables</b> est extraite de la page SPIRAL de l\'UE<br>'+
-	    'Les responsables de l\'UE peuvent modifier les notes saisies<br>' +
-	    'par les autres enseignants') +
+   table_input_attr('masters','',"Liste des LOGINS d'enseignants ayant tous les droits sur la table<br>Tapez sur la touche «Entrée» pour valider.") +
    hidden_txt(header_input("t_table_comment",'',
 			   'empty onblur=table_comment_change(this)'),
 	      "Tapez un commentaire pour cette table.<br>" +

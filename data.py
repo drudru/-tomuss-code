@@ -75,10 +75,6 @@ def comment_change(page_id, col, lin, value):
     """Change the comment on a cell."""
     _table.comment_change(_table.pages[page_id], col, lin, value)
 
-def add_master(name, page_id=None):
-    """Add or remove a master on the page."""
-    _table.add_master(name, page_id)
-
 def default_nr_columns(nr):
     """Specify the default number of columns displayed on screen."""
     _table.default_nr_columns_change(nr)
@@ -123,6 +119,11 @@ def column_change(page_id, col, title, ttype, test, weight, freezed,
     _table.column_change(_table.pages[page_id],
                          col, title, ttype, test, weight, freezed,
                          hidden, width)
+
+def add_master(name, page_id=None):
+    """Add or remove a master on the page."""
+    _table.add_master(name, page_id)
+
 
 
 

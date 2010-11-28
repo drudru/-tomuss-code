@@ -56,7 +56,8 @@ def check_columns(table):
 
 def create(table):
     table.new_page('' ,data.ro_user, '', '')
-    table.add_master(utilities.module_to_login(table.ue))
+    table.table_attr(table.pages[0], 'masters',
+                     [utilities.module_to_login(table.ue)])
     check_columns(table)
 
 def update_inscrits_favoris(the_ids, table, page):

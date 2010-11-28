@@ -146,7 +146,7 @@ def create_u2():
 
     # Add a master
     c = s.url('=' + root + '/%s/UE-INF20UE2' % ys +
-              '/1/6/add_a_master/ue1.master')
+              '/1/6/table_attr_masters/ue1.master')
     assert(c == ok_png)
 
     # Verify number of loads
@@ -458,7 +458,7 @@ def tests():
         assert(c == unauthorized_html)
 
         c = s.url('=' + root + '/9999/Dossiers/master' +
-                  '/1/2/add_a_master/' + abj)
+                  '/1/2/table_attr_masters/super.user%20' + abj)
         check('Y9999/SDossiers/master.py',
               masters_expected = [root,abj], nr_pages = nr_pages,
               nr_columns = nr_columns, lines_id = lines_id,
@@ -471,7 +471,7 @@ def tests():
         assert("('0', 'Dossiers', 'config_table')" in c)
 
         c = s.url('=' + abj + '/9999/Dossiers/master')
-        assert("change_teachers(['%s', '%s']" % (root, abj) in c)
+        assert("masters:['%s', '%s']" % (root, abj) in c)
         nr_pages += 1
         check('Y9999/SDossiers/master.py',
               masters_expected = [root,abj], nr_pages = nr_pages,
@@ -493,9 +493,9 @@ def tests():
               dump=False)
 
         c = s.url('=' + root + '/9999/Dossiers/master' +
-                  '/1/3/add_a_master/' + abj)
+                  '/1/3/table_attr_masters/' + root)
         check('Y9999/SDossiers/master.py',
-              masters_expected = [root,abj,abj], nr_pages = nr_pages,
+              masters_expected = [root], nr_pages = nr_pages,
               nr_columns = nr_columns, lines_id = lines_id,
               nr_cells = nr_cells,
               cell_required = cell_required,
@@ -512,7 +512,7 @@ def tests():
         nr_cells += 1
         cell_required = (2,'col_0','line_0','_VALUE3_')
         check('Y9999/SDossiers/master.py',
-              masters_expected = [root,abj,abj], nr_pages = nr_pages,
+              masters_expected = [root], nr_pages = nr_pages,
               nr_columns = nr_columns, lines_id = lines_id,
               nr_cells = nr_cells,
               cell_required = cell_required,
@@ -612,24 +612,24 @@ def tests():
     if do('addfirstmaster'):
         c = s.url('=' + abj + '/9999/Test/addfirstmaster')
         c = s.url('=' + abj + '/9999/Test/addfirstmaster' +
-                  '/1/0/add_a_master/' + abj)
+                  '/1/0/table_attr_masters/' + abj)
         assert(c == ok_png)
         check('Y9999/STest/addfirstmaster.py', masters_expected = [abj])
         c = s.url('=' + abj + '/9999/Test/addfirstmaster' +
-                  '/1/1/add_a_master/' + root)
+                  '/1/1/table_attr_masters/' + abj + '%20' + root)
         assert(c == ok_png)
         check('Y9999/STest/addfirstmaster.py', masters_expected = [abj,root])
 
     if do('badaddmaster'):
         c = s.url('=' + root + '/9999/Test/badaddmaster')
         c = s.url('=' + root + '/9999/Test/badaddmaster' +
-                  '/1/0/add_a_master/' + root)
+                  '/1/0/table_attr_masters/' + root)
         assert(c == ok_png)
         c = s.url('=' + abj + '/9999/Test/badaddmaster')
-        assert("change_teachers(['%s'])" % root in c)
+        assert("masters:['%s']" % root in c)
         c = s.url('=' + abj + '/9999/Test/badaddmaster' +
-                  '/2/0/add_a_master/' + abj)
-        assert(c == bad_png)
+                  '/2/0/table_attr_masters/' + abj)
+        assert(c == bug_png)
 
     if do('masterpower'):
         c = s.url('=' + root + '/9999/Test/masterpower')
@@ -642,7 +642,7 @@ def tests():
 
         c = s.url('=' + abj + '/9999/Test/masterpower')
         c = s.url('=' + abj + '/9999/Test/masterpower' +
-                  '/2/0/add_a_master/' + abj)
+                  '/2/0/table_attr_masters/' + abj)
         assert(c == ok_png)
         c = s.url('=' + abj + '/9999/Test/masterpower' +
                   '/2/1/cell_change/col_0/line_0/_VALUE_2_')
@@ -825,7 +825,7 @@ def tests():
 
     if do('extension'):
         c = s.url('=' + abj + '/%s/extension' % ys)
-        c = s.url('=' + abj + '/%s/extension/1/0/add_a_master/' % ys + abj)
+        c = s.url('=' + abj + '/%s/extension/1/0/table_attr_masters/' % ys + abj)
         assert( c == ok_png)        
         c = s.url('=' + abj + '/%s/extension/extension' % ys)
         if semester == 'Printemps':
@@ -1002,7 +1002,7 @@ Col({the_id:"col_1",title:"TITLE1",author:"%s",position:0,type:"Note"})
 
     if do('private'):
         c = s.url('=' + root + '/%s/UE-INF11UE2' % ys)
-        c = s.url('=' + root + '/%s/UE-INF11UE2/1/0/add_a_master/' % ys + root)
+        c = s.url('=' + root + '/%s/UE-INF11UE2/1/0/table_attr_masters/' % ys + root)
         assert( c == ok_png)
         c = s.url('=' + root + '/%s/UE-INF11UE2/1/1/private_toggle' % ys)
         assert( c == ok_png)
@@ -1013,7 +1013,7 @@ Col({the_id:"col_1",title:"TITLE1",author:"%s",position:0,type:"Note"})
         assert( c == ok_png)
         ss.start()
         c = ss.url('%s/rss2/UE-INF11UE2' % ys)
-        assert('2 changements faits' in c)
+        assert('3 changements faits' in c)
         c = ss.url('=' + abj + '/%s/10800000' % ys)
         assert('"Grp": ["X","",""],' in c)
 

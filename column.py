@@ -318,8 +318,9 @@ class TableModifiable(TableAttr):
             return
         return "L'attribut 'modifiable' peut être seulement 0 ou 1"
         
-class TableMastersList(TableAttr):
-    name = 'masterslist'
+class TableMasters(TableAttr):
+    name = 'masters'
+    default_value = []
     # Side effect to update 'i_am_the_teacher' global variable
     formatter = '''
 function(value)
@@ -360,7 +361,7 @@ return value ;
                                           table.year, table.semester, table.ue)
 
 TableModifiable()
-TableMastersList()
+TableMasters()
 
 
 import files

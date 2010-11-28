@@ -99,8 +99,6 @@ var modification_date ;
 var cell_history ;
 var server_log ;
 var the_body ;
-var p_teachers ;
-var p_teachers2 ;
 var p_title ;
 var p_title_links ;
 var nr_not_empty_lines ;
@@ -142,8 +140,6 @@ function lib_init()
   cell_history         = document.getElementById('cell_history'         );
   server_log           = document.getElementById('log'                  );
   the_body             = document.getElementById('body'                 );
-  p_teachers           = document.getElementById('teachers'             );
-  p_teachers2          = document.getElementById('teachers2'            );
   p_title              = document.getElementById('title'                );
   p_title_links        = document.getElementById('title_links'          );
   nr_not_empty_lines   = document.getElementById('nr_not_empty_lines'   );
@@ -4649,31 +4645,6 @@ function change_popup_on_red_line()
   update_popup_on_red_line() ;
 }
 
-
-function change_teachers(t)
-{
-  teachers = t ;
-  i_am_the_teacher = myindex(teachers, my_identity) != -1 ;
-
-  if ( t_date_change )
-    t_date_change.disabled = ! i_am_the_teacher ;
-
-  if ( ! p_teachers2 )
-    return ;
-
-  var tt = t.toString().replace(/,/g, ', ') ;
-  update_value_and_tip(p_teachers, tt + '.') ;
-
-  if ( i_am_the_teacher || t.length === 0 || myindex(root, my_identity) != -1)
-    p_teachers2.style.display = '' ;
-  else
-    p_teachers2.style.display = 'none' ;
-
-  p_teachers2.blur() ;
-  p_teachers2.className = 'empty' ;
-  p_teachers2.value = '' ;
-}
-
 function students_mails()
 {
   var s = '' ;
@@ -5324,8 +5295,6 @@ function runlog(the_columns, the_lines)
   t_table_comment.disabled = ! allow_modification ;
   update_input(t_date_change, table_date) ;
   t_date_change.disabled = ! allow_modification ;
-  if ( p_teachers2 )
-    p_teachers2.disabled = ! allow_modification ;
 
   if ( ue == 'javascript_regtest_ue' )
     {
@@ -5810,7 +5779,6 @@ window.Xcolumn_attr    = Xcolumn_attr ;
 window.Xtable_attr     = Xtable_attr ;
 window.change_mails    = change_mails ;
 window.change_portails = change_portails ;
-window.change_teachers = change_teachers ;
 window.saved           = saved ;
 window.the_portails    = the_portails ;
 window.update_mail     = update_mail ;

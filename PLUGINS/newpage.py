@@ -47,7 +47,6 @@ var  Xcolumn_attr    = window.parent.Xcolumn_attr    ;
 var  Xtable_attr     = window.parent.Xtable_attr     ;
 var  change_portails = window.parent.change_portails ;
 var  change_mails    = window.parent.change_mails    ;
-var  change_teachers = window.parent.change_teachers ;
 var  saved           = window.parent.saved           ;
 var  the_portails    = window.parent.the_portails    ;
 var  update_mail     = window.parent.update_mail     ;

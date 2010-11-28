@@ -20,10 +20,11 @@
 #    Contact: Thierry.EXCOFFIER@bat710.univ-lyon1.fr
 
 import data
+import configuration
 
 def create(table):
-    table.add_master('thierry.excoffier')
     p = table.new_page('' ,'thierry.excoffier', '', '')
+    table.table_attr(p, 'masters', list(configuration.root))
     table.column_change(p,'0_0','Numéro','Text','','','F',0,1)
     table.column_change(p,'0_1','Question','Text','','','F',0,10)
     table.column_change(p,'0_2','Réponse','Text','','','F',0,20)

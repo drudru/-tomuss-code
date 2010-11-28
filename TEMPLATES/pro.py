@@ -25,16 +25,12 @@ def create(table):
     new_page = table.new_page
     column_change = table.column_change
     cell_change = table.cell_change
-    add_master = table.add_master
-
-    add_master('helene.paquien')
-    add_master('saida.aissa')
-    add_master('eliane.perna')
-    add_master('florent.dupont')
-    add_master('emmanuel.coquery')
-    add_master('thierry.excoffier')
-    add_master('isabelle.guerin')
     p = new_page('' ,data.ro_user, '', '')
+    table.table_attr(p, 'masters', ['helene.paquien', 'saida.aissa',
+                                    'eliane.perna', 'florent.dupont',
+                                    'emmanuel.coquery', 'isabelle.guerin'])
+    
+
     column_change(p,'0_0','Prenom','Text','','','F',0,4)
     column_change(p,'0_1','Nom','Text','','','F',0,4)
     column_change(p,'0_2','Date Réception','Date','','','',0,2)

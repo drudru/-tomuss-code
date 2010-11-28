@@ -47,9 +47,8 @@ def update_column(table):
 def create(table):
     if table.year != 0 or table.semester != 'Dossiers':
         raise ValueError('Not allowed')
-    for i in configuration.root:
-        table.add_master(i)
     p = table.new_page('' ,data.ro_user, '', '')
+    table.table_attr(p, 'masters', list(configuration.root))
     update_column(table)
 
 def init(table):

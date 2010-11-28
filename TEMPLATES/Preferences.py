@@ -46,8 +46,8 @@ prefs = (
 )
 
 def create(table):
-    table.add_master(utilities.module_to_login(table.ue))
     p = table.new_page('' ,data.ro_user, '', '')
+    table.table_attr(p, 'masters', [utilities.module_to_login(table.ue)])
     table.column_change(p,'0_0','Explications'       ,'Text','','','F',0,20)
     table.column_change(p,'0_1','Valeur recommandée' ,'Text','','','F',0,4 )
     table.column_change(p,'0_2','Ordre'              ,'Text','','','F',1,2 )

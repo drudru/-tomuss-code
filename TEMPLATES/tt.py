@@ -23,30 +23,17 @@ import data
 import configuration
 
 def create(table):
-    table.add_master('sandrine.gourdine')
-    table.add_master('corinne.tourvieille')
-    table.add_master('nathalie.piovesan')
-    table.add_master('thierry.excoffier')
-#    table.add_master('elisabeth.parel')
-#    table.add_master('danielle.navarro')
-#    table.add_master('sarra.hanachi')
-#    table.add_master('nabila.lachter')
-#    table.add_master('lydia.barlerin')
-#    table.add_master('virginie.carpentier')
-#    table.add_master('ginette.ballandras')
-#    table.add_master('michele.perez')
-#    table.add_master('brigitte.beaux')
-#    table.add_master('florence.bengrid')
-#    table.add_master('mokhtar.derrer')
-#    table.add_master('ingrid.heidelberg')
-#    table.add_master('catalina.martinez')
-
-
-    if configuration.regtest:
-        table.add_master(configuration.invited_abj_masters[-1])
-
+    
     table.default_nr_columns_change(11)
     p = table.new_page('' ,data.ro_user, '', '')
+
+    if configuration.regtest:
+        masters = [configuration.invited_abj_masters[-1]]
+    else:
+        masters = ['sandrine.gourdine', 'corinne.tourvieille',
+                   'nathalie.piovesan', 'thierry.excoffier']
+
+    table.table_attr(p, 'masters', masters)
     table.column_change(p,'0_0','Numéro_étudiant'                 ,'Text','','' ,'',0,4 )
     table.column_change(p,'0_1','Prénom'                          ,'Text','','' ,'',0,8 )
     table.column_change(p,'0_2','Nom'                             ,'Text','','' ,'',0,8 )

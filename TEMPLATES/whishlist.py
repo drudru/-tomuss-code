@@ -23,8 +23,8 @@ import data
 
 def create(table):
     table.new_page('' ,'*', '', '')
-    table.add_master('thierry.excoffier')
     p = table.new_page("",'thierry.excoffier',"","")
+    table.table_attr(p, 'masters', list(configuration.root))
     table.column_change(p,'1_0','Num\xc3\xa9ro','Text','','','',0,1)
     table.column_change(p,'1_1','Votre_remarque_ou_voeu','Text','','','',0,10)
     table.column_change(p,'1_2','R\xc3\xa9ponse_du_programmeur','Text','','','',0,10)
