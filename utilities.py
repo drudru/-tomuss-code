@@ -1,0 +1,674 @@
+#!/usr/bin/python
+# -*- coding: utf-8 -*-
+#    TOMUSS: The Online Multi User Simple Spreadsheet
+#    Copyright (C) 2008,2009 Thierry EXCOFFIER, Universite Claude Bernard
+#
+#    This program is free software; you can redistribute it and/or modify
+#    it under the terms of the GNU General Public License as published by
+#    the Free Software Foundation; either version 2 of the License, or
+#    (at your option) any later version.
+#
+#    This program is distributed in the hope that it will be useful,
+#    but WITHOUT ANY WARRANTY; without even the implied warranty of
+#    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#    GNU General Public License for more details.
+#
+#    You should have received a copy of the GNU General Public License
+#    along with this program; if not, write to the Free Software
+#    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+#
+#    Contact: Thierry.EXCOFFIER@bat710.univ-lyon1.fr
+
+import time
+import re
+import os
+import sys
+import traceback
+import configuration
+import cgi
+
+def read_file(filename):
+    f = open(filename, 'r')
+    c = f.read()
+    f.close()
+    return c
+
+def write_file(filename, content):
+    warn('%s : %d' % (filename, len(content)), what='debug')
+    f = open(filename, 'w')
+    f.write(content)
+    f.close()
+
+def append_file(filename, content):
+    """Paranoid : check file size before and after append"""
+    warn('%s : %d' % (filename, len(content)), what='debug')
+    try:
+        before = os.path.getsize(filename)
+    except OSError:
+        before = 0
+    f = open(filename, 'a')
+    f.write(content)
+    f.close()
+    after = os.path.getsize(filename)
+    if before + len(content) != after:
+        raise IOError("Append file failed %s before=%d + %d ==> %d" % (
+            filename, before, len(content), after))
+    if filename.endswith('.py'):
+        try:
+            os.unlink(filename + 'c')
+        except OSError:
+            pass
+    warn('%s : %d done ==> %d' % (filename, len(content), after), what='debug')
+
+def safe(txt):
+    return re.sub('[^0-9a-zA-Z-.]', '_', txt)
+
+def safe_space(txt):
+    return re.sub('[^0-9a-zA-Z-. ]', '_', txt)
+
+def flat(txt):
+    return txt.translate(u"\x00\x01\x02\x03\x04\x05\x06\x07\x08\x09\x0a\x0b\x0c\x0d\x0e\x0f\x10\x11\x12\x13\x14\x15\x16\x17\x18\x19\x1a\x1b\x1c\x1d\x1e\x1f ! #$%&'()*+,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\\]^_`abcdefghijklmnopqrstuvwxyz{|}~?\x80\x81\x82\x83\x84\x85\x86\x87\x88\x89\x8a\x8b\x8c\x8d\x8e\x8f\x90\x91\x92\x93\x94\x95\x96\x97\x98\x99\x9a\x9b\x9c\x9d\x9e\x9f?????Y|?????????????'u?.????????AAAAAA?CEEEEIIIIDNOOOOOXOUUUUY?Baaaaaa?ceeeeiiiionooooo??uuuuy?y")
+
+def university_year():
+    if configuration.year_semester[1] == 'Printemps':
+        return configuration.year_semester[0] - 1
+    else:
+        return configuration.year_semester[0]
+
+live_log = None
+
+def warn(text, what='info'):
+    if what in configuration.do_not_display:
+        return
+    x = []
+    try:
+        for i in range(1, 4):
+            x.append(sys._getframe(i).f_code.co_name)
+    except ValueError:
+        pass
+    x.reverse()
+    x = '/'.join(x).rjust(50)[-50:]
+    x = '%c %13.2f %s %s\n' % (what[0].upper(), time.time(), x, text)
+    sys.stderr.write(x)
+    global live_log
+    if live_log:
+        try:
+            live_log.write(x)
+        except:
+            live_log = None
+
+def send_mail(to, subject, message, frome=None):
+    "Not safe with user given subject"
+    import smtplib
+
+    if isinstance(to, list) or isinstance(to, tuple):
+        recipients = to
+    else:
+        recipients = [to]
+    if frome == None:
+        frome = configuration.maintainer
+
+    new_to = []
+    for addr in recipients:
+        if '@' not in addr or '.' not in addr:
+            continue
+        try:
+            new_to.append(addr.encode('ascii'))
+        except UnicodeEncodeError:
+            warn('bad email address: ' + repr(addr), what='error')
+    to = new_to
+    if len(to) == 0:
+        return
+
+    try:
+        header = "From: " + frome + '\n'
+        header += "Subject: " + subject + '\n'
+        if len(to) == 1:
+            header += "To: " + to[0] + '\n'
+        if message.startswith('<html>'):
+            header += 'Content-Type: text/html; charset=UTF-8\n'
+        smtpresult = send_mail.session.sendmail(frome, recipients,
+                                                header + '\n' + message)
+    except smtplib.SMTPRecipientsRefused:
+        warn("Can't deliver mail to " + repr(recipients))
+        pass
+    except:
+        send_mail.session = smtplib.SMTP(configuration.smtpserver)
+        send_mail(to, subject, message, frome)
+        return 
+
+    try:
+        if smtpresult:
+            errstr = ""
+            for recip in smtpresult.keys():
+                errstr += """Ne peut pas envoyer le message a: %s
+    Le serveur a répondu : %s
+    %s""" % (recip, smtpresult[recip][0], smtpresult[recip][1])
+
+            send_mail.session = None
+            return errstr
+    except:
+        return 'BUG dans utilities.send_mail'
+
+send_mail.session = None
+
+
+import threading
+def start_new_thread(fct, args):
+    t = threading.Thread(target=fct, args=args)
+    t.setDaemon(True)
+    t.start()    
+
+
+def start_new_thread_immortal(fct, args, send_mail=True):
+    import threading
+    class T(threading.Thread):
+        def run(self, fct=fct, args=args, send_mail=send_mail):
+            warn("Start immortal thread:" + fct.func_name)
+            while True:
+                warn('Call ' + fct.func_name)
+                try:
+                    fct(*args)
+                except:
+                    warn("Exception in thread " + fct.func_name, what="Error")
+                    if send_mail:
+                        send_backtrace("Exception in thread " + fct.func_name)
+        def backtrace_html(self):
+            return 'Immortal thread running: ' + cgi.escape(str(fct))
+    t = T()
+    t.setDaemon(True)
+    t.start()    
+
+def stop_threads():
+    sys.exit(0)
+    import threading
+    for t in threading.enumerate():
+        t.join()
+
+
+
+send_mail_in_background_list = []
+def sendmail_thread():
+    while True:
+        time.sleep(1)
+        if len(send_mail_in_background_list) == 0:
+            continue
+        send_mail(*send_mail_in_background_list.pop(0))
+
+
+def send_mail_in_background(to, subject, message, frome=None):
+    send_mail_in_background_list.append((to, subject, message, frome))
+
+
+
+def js(t):
+    if isinstance(t, basestring):
+        # return repr(unicode(t,'utf8').encode('latin1'))
+        return '"' + t.replace('\\','\\\\').replace('"','\\"').replace('>','\\x3E').replace('<','\\x3C').replace('&', '\\x26').replace('\n','\\n') + '"'
+    elif isinstance(t, float):
+        return '%g' % t
+    else:
+        return str(t)
+
+def js2(t):
+    return '"' + t.replace('\\','\\\\').replace('"','\\"').replace('\n','\\n') + '"'
+
+def mkpath(path):
+    s = ''
+    for i in path.split(os.path.sep):
+        s += i + os.path.sep
+        try:
+            os.mkdir(s)
+            write_file(os.path.join(s, '__init__.py'), '')
+        except OSError:
+            pass
+
+#REDEFINE
+# If the student login in LDAP is not the same as the student ID.
+# This function translate student ID to student login.
+# The returned value must be usable safely.
+def the_login(student):
+    return safe(student)
+
+def tipped(html, tip, classname="", url=''):
+    """Do not use this function, use 'hidden' javascript utility"""
+
+    if url == '':
+        html = html.split('<script>')
+        if len(html) == 2:
+            if html[0] == '':
+                html = html[1].replace('</script>','')
+            else:
+                html = js2(html[0]) + '+' + html[1].replace('</script>','')
+        else:
+            html = js2(html[0])
+        return '<script>hidden(%s,%s,%s);</script>' % (html, js2(tip),
+			 js2(classname))
+    return '<script>hidden(%s,%s,%s);</script>' % (
+	js2('<a target="_blank" href="%s">%s</a>' % (url, html)), js2(tip), js2(classname))
+
+
+def newline():
+    return '<br>'
+
+def frame_info(frame, displayed):
+    s = '<tr><td class="name"><A href="file:/%s">%s</A><td class="line">%s<td>\n' % (
+        frame.f_code.co_filename,
+        frame.f_code.co_name,
+        frame.f_lineno)
+    for k, v in frame.f_locals.items():
+        if id(v) not in displayed:
+            try:
+                s += "<p><b>" + cgi.escape(k) + "</b>:<br>" + v.backtrace_html() + "\n"
+            except AttributeError:
+                pass
+            displayed[id(v)] = True
+    s += '</tr>'
+    return s
+
+import socket
+
+def send_backtrace(txt, subject='Backtrace', exception=True):
+    s = configuration.version
+    if exception and sys.exc_info()[0] != None \
+       and sys.exc_info()[0] == socket.error:
+        s += '*'
+    else:
+        s += ' '
+    s += ' '.join(sys.argv) + ' ' + subject
+    subject = s
+    displayed = {}
+    s = ''
+    if txt:
+        s += ('<h1>Information reported by the exception catcher</h1><pre>' +
+               cgi.escape(txt) + '</pre>\n')
+    if exception and sys.exc_info()[0] != None:
+        s += '<h1>Exception stack</h1>\n'
+        s += '<p>Exception class: ' + cgi.escape(str(sys.exc_info()[0])) + '\n'
+        s += '<p>Exception value: ' + cgi.escape(str(sys.exc_info()[1])) + '\n'
+        f = sys.exc_info()[2]
+        s += '<p>Exception Stack:<table>\n'
+        x = ''
+        while f:
+            ss = frame_info(f.tb_frame, displayed)
+            x = ss + x
+            f = f.tb_next
+        s += x + '</table>'
+
+    s += '<h1>Current Stack:</h1>\n<table>\n'
+    try:
+        for i in range(1, 20):
+            ss = frame_info(sys._getframe(i), displayed)
+            s += ss
+    except ValueError:
+        pass
+    s += '</table>'
+    warn(subject + '\n' + s, what='error')
+
+    send_mail_in_background(configuration.maintainer, subject,
+                            '<html><style>TABLE TD { border: 1px solid black;} .name { text-align:right } PRE { background: white ; border: 2px solid red ;}</style><body>' + s + '</body></html>')
+
+
+class StaticFile(object):
+    """Emulate a string, but it is a file content"""
+    mimetypes = {'html': 'text/html',
+                'css': 'text/css',
+                'png': 'image/png',
+                'ico': 'image/png',
+                'gif': 'image/gif',
+                'js': 'application/x-javascript',
+                'txt': 'text/plain',
+                'xml': 'application/rss+xml',
+                }
+    _url_ = 'http://???/'
+                
+    def __init__(self, name, mimetype=None):
+        self.name = name
+        if mimetype == None:
+            if '.' in name:
+                n = name.split('.')[-1]
+                if n == 'gz':
+                    n = name.split('.')[-2]
+                mimetype = self.mimetypes[n]
+        self.mimetype = mimetype
+        self.content = None
+        self.time = 0
+        self.append_text = ''
+        self.on_load_old = None
+        self.on_load_new = None
+
+    def __str__(self):
+        if self.content == None or self.time != os.path.getmtime(self.name):
+            self.content = read_file(self.name)
+            self.time = os.path.getmtime(self.name)
+            if self.on_load_old:
+                self.content = self.content.replace(self.on_load_old,
+                                                    self.on_load_new)
+
+        c = self.content + self.append_text
+
+        if self.name.endswith('.js') or self.name.endswith('.html'):
+            # It is stupid to replace every time
+            # But configuration order is tricky.
+            return c.replace('_URL_', self._url_)
+        else:
+            return c
+
+    def __len__(self):            
+        return len(str(self))
+
+    def replace_on_load(self, old, new):
+        """The replacement is does each time the file is reloaded"""
+        self.on_load_old = old
+        self.on_load_new = new
+
+    def replace(self, old, new):
+        return str(self).replace(old, new)
+
+    def append(self, content):
+        self.append_text += content
+
+def add_a_cache0(fct, timeout=None):
+    """Add a cache to a function without parameters"""
+    if timeout is None:
+        def f(fct=fct):
+            if not f.cached:
+                f.cache = fct()
+                f.cached = True
+            return f.cache
+    else:
+        def f(fct=fct, timeout=timeout):
+            if not f.cached:
+                f.cache = (fct(), time.time())
+                f.cached = True
+            else:
+                if time.time() - f.cache[1] > timeout:
+                    f.cache = (fct(), time.time())
+            return f.cache[0]
+    f.cached = False
+    f.__doc__ = fct.__doc__
+    return f
+
+
+def add_a_cache(fct, timeout=None, not_cached='neverreturnedvalue'):
+    """Add a cache to a function with one parameter.
+    If the returned value is 'not_cached' then it is not cached."""
+    if timeout is None:
+        timeout = 3600
+    def f(x, fct=fct, timeout=timeout, not_cached=not_cached):
+        if x not in f.cache:
+            f.cache[x] = (fct(x), time.time())
+        else:
+            if time.time() - f.cache[x][1] > timeout:
+                f.cache[x] = (fct(x), time.time())
+        if f.cache[x][0] == not_cached:
+            del f.cache[x]
+            return not_cached
+        else:
+            return f.cache[x][0]
+    f.cache = {}
+    f.__doc__ = fct.__doc__
+    return f
+
+def add_a_method_cache(fct, timeout=None, not_cached='neverreturnedvalue'):
+    """Add a cache to a method with one parameter.
+    If the returned value is 'not_cached' then it is not cached.
+    The CACHE IS COMMON TO EVERY INSTANCE of the class"""
+    if timeout == None:
+        timeout = 3600
+    def f(self, x, fct=fct, timeout=timeout, not_cached=not_cached):
+        if x not in f.cache:
+            f.cache[x] = (fct(self,x), time.time())
+        else:
+            if time.time() - f.cache[x][1] > timeout:
+                f.cache[x] = (fct(self,x), time.time())
+        if f.cache[x][0] == not_cached:
+            del f.cache[x]
+            return not_cached
+        else:
+            return f.cache[x][0]
+    f.cache = {}
+    f.__doc__ = fct.__doc__
+    return f
+
+def add_a_lock(fct):
+    """Add a lock to a function to forbid simultaneous call"""
+    def f(*arg, **keys):
+        warn('[[[' + f.fct.func_name + ']]]', what='debug')
+        f.the_lock.acquire()
+        warn('acquired', what='debug')
+        try:
+            r = f.fct(*arg, **keys)
+        finally:
+            f.the_lock.release()
+            warn('released', what='debug')
+        return r
+    import threading
+    f.fct = fct
+    f.the_lock = threading.Lock()
+    f.__doc__ = fct.__doc__
+    return f
+
+def unload_module(m):
+    if m not in sys.modules:
+        return
+    del(sys.modules[m])
+    del(sys.modules['.'.join(m.split('.')[:-1])].__dict__[m.split('.')[-1]])
+
+def nice_date(x):
+    year = x[0:4]
+    month = x[4:6]
+    day = x[6:8]
+    hours = x[8:10]
+    minutes = x[10:12]
+    seconds = x[12:14]
+    return hours + 'h' + minutes + '.' + seconds + ' le ' + \
+           day + '/' + month + '/' + year 
+
+def wait_scripts(name):
+    return """
+    if ( navigator.userAgent.indexOf('Konqueror') == -1 )
+        {
+            var d = document.getElementsByTagName('SCRIPT') ;            
+            for(var i in d)
+               {
+               i = d[i] ;
+               if ( i.src == undefined )
+                   continue ;
+               if ( i.src === '' )
+                   continue ;
+               if ( i.onloadDone )
+                   continue ;
+               if ( i.readyState === "loaded" )
+                   continue ;
+               if ( i.readyState === "complete" )
+                   continue ;
+               setTimeout(%s, 1000) ;
+               return ;
+               }
+         }
+               """ % name
+
+
+
+#REDEFINE
+# This function returns True if the user uses a stupid password.
+# Potential stupid passwords are in the 'passwords' list.
+# Each of the passwords should be tried to login,
+# if the login is a success, the password is bad.
+def stupid_password(login, passwords):
+    return False
+
+
+def module_to_login(module):
+    return module.replace('__','.').replace('_','-')
+
+def login_to_module(login):
+    return login.replace('.','__').replace('-','_')
+
+class AtomicWrite(object):
+    """Act as 'open' function but rename file once it is closed."""
+    def __init__(self, filename, reduce_ok=True, display_diff=False):
+        self.real_filename = filename
+        self.filename = filename + '.new'
+        self.file = open(self.filename, 'w')
+        self.reduce_ok = reduce_ok
+        self.display_diff = display_diff
+    def write(self, v):
+        self.file.write(v)
+    def close(self):
+        self.file.close()
+        if not self.reduce_ok \
+           and os.path.exists(self.real_filename) \
+           and os.path.getsize(self.filename) \
+                   < 0.5 * os.path.getsize(self.real_filename):
+            send_mail(configuration.maintainer,
+                      'BUG TOMUSS : AtomicWrite Reduce' +
+                      self.real_filename, self.real_filename)   
+            return
+        if self.display_diff:
+            os.system("diff -u '%s' '%s'" % (
+                self.real_filename.replace("'","'\"'\"'"),
+                self.filename.replace("'","'\"'\"'")))
+        os.rename(self.filename, self.real_filename)
+
+
+def python_files(dirname):
+    a = os.listdir(dirname)
+    for ue in a:
+        if not ue.endswith('.py'):
+            continue
+        if ue.startswith('__'):
+            continue
+        yield ue
+
+@add_a_lock
+def manage_key(dirname, key, separation=3, content=None, reduce_ok=True):
+    """
+    Store the content in the key and return the old content or False
+
+    The write is not *process* safe.
+    """
+    key = key.replace('/.', '/_')
+    if key is '':
+        return False
+    d1 = os.path.join(configuration.db, dirname)
+    if content is None and not os.path.isdir(d1):
+        return False
+    d2 = os.path.join(configuration.backup + configuration.db, dirname)
+    try:
+        mkpath(d1)
+        mkpath(d2)
+    except OSError:
+        pass
+
+    
+    f1 = os.path.join(d1, key[:separation])
+    if content is None and not os.path.isdir(f1):
+        return False
+    f2 = os.path.join(d2, key[:separation])
+    try:
+        os.mkdir(f1, 0750)
+        os.mkdir(f2, 0750)
+    except OSError:
+        pass
+
+    if os.path.sep in key:
+        key_dir = key.split(os.path.sep)[0]
+        if content is None and not os.path.isdir(os.path.join(f1, key_dir)):
+            return False
+        try:
+            os.mkdir(os.path.join(f1, key_dir), 0750)
+            os.mkdir(os.path.join(f2, key_dir), 0750)
+        except OSError:
+            pass
+
+    f1 = os.path.join(f1, key)
+    if os.path.exists(f1):
+        f = open(f1, 'r')
+        c = f.read()
+        f.close()
+    else:
+        c = False
+
+    if content is not None:
+        if not reduce_ok and c and len(content) < len(c)*0.5:
+            warn("Size not reduced for " + f1)
+            return c
+        
+        f = open(f1, 'w')
+        f.write(content)
+        f.close()
+        f2 = os.path.join(f2, key)
+        f = open(f2, 'w')
+        f.write(content)
+        f.close()
+    return c
+
+def charte(login, year=None, semester=None):
+    if year == None:
+        year, semester = configuration.year_semester
+    return os.path.join(login, 'charte_%s_%s' % (str(year), semester))
+
+def charte_server(login, server):
+    return charte(login, str(server.year), server.semester)
+
+
+def on_kill(x, y):
+    traceback.print_stack()
+    sys.exit(0)
+    
+
+def display_stack_on_kill():
+    import signal
+    import traceback
+    signal.signal(signal.SIGTERM, on_kill)
+    
+    
+    
+
+if __name__ == "__main__":
+    def square(g):
+        print 'square', g
+        return g*g
+    square = add_a_cache(square)
+    print square(6)
+    print square(7)
+    print square(8)
+    print square(7)
+    print square(6)
+
+    def square(g):
+        print 'square', g
+        return g*g
+    square = add_a_cache(square, not_cached=64)
+    print square(7)
+    print square(7)
+    print square(8)
+    print square(8)
+
+    class X:
+        @add_a_method_cache
+        def square(self, g):
+            print 'square', g
+            return g*g
+    x = X()
+    x.square(10)
+    x.square(10)
+    x.square(20)
+            
+
+    def xxx(g):
+        if g <= 1:
+            return 1
+        return g * xxx(g-1)
+
+    print xxx(1)
+    print xxx(2)
+    xxx = add_a_lock(xxx)
+    print xxx(1)
+    print xxx(2)
+
+    
+
+        

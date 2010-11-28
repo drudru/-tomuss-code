@@ -1,0 +1,208 @@
+#    TOMUSS: The Online Multi User Simple Spreadsheet
+#    Copyright (C) 2008,2009 Thierry EXCOFFIER, Universite Claude Bernard
+#
+#    This program is free software; you can redistribute it and/or modify
+#    it under the terms of the GNU General Public License as published by
+#    the Free Software Foundation; either version 2 of the License, or
+#    (at your option) any later version.
+#
+#    This program is distributed in the hope that it will be useful,
+#    but WITHOUT ANY WARRANTY; without even the implied warranty of
+#    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#    GNU General Public License for more details.
+#
+#    You should have received a copy of the GNU General Public License
+#    along with this program; if not, write to the Free Software
+#    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+#
+#    Contact: Thierry.EXCOFFIER@bat710.univ-lyon1.fr
+
+import os
+import time
+import utilities
+import cgi
+import configuration
+
+warn = utilities.warn
+
+def client_ip(server):
+    try:
+        # In cas of proxy
+        ip = server.headers["X-Forwarded-For"]
+        try:
+            # Take the first IP
+            return utilities.safe(ip.split(",")[0])
+        except IndexError:
+            return utilities.safe(ip)
+    except KeyError:
+        return utilities.safe(server.client_address[0])
+
+class Ticket(object):
+
+    def __init__(self, ticket, user_name=None, user_ip=None,
+                 user_browser=None, date=None):
+        self.ticket = ticket
+        self.user_name = user_name
+        self.user_ip = user_ip
+        self.user_browser = user_browser
+        if date == None:
+            self.date = time.time()
+        else:
+            self.date = date
+            
+    def is_fine(self, server):
+        # print self.user_name, (time.time() - self.date) , configuration.ticket_time_to_live, self.user_ip, client_ip(server), self.user_browser, server.headers["User-Agent"]
+        if self.user_name == self.ticket:
+            return True
+        user_browser = server.headers.get("User-Agent", '')
+        if user_browser == '':
+            utilities.send_mail_in_background(
+                configuration.maintainer,
+                'BUG TOMUSS: No user Agent !',
+                'user_ip = %s, client_ip = %s, user_name = %s' % (
+                self.user_ip,
+                client_ip(server),
+                self.user_name))
+
+        return (self.user_name != None
+                and (time.time() - self.date) < configuration.ticket_time_to_live
+                and self.user_ip == client_ip(server)
+                and self.user_browser == user_browser
+                )
+    
+    def log(self):
+        return 'add(' + \
+               repr(self.ticket) + ',' + repr(self.user_name) + \
+               ',' + repr(self.user_ip) + ',' + repr(self.user_browser) + \
+               ',' + repr(self.date) + ')\n'
+
+    def remove_file(self):
+        try:
+            os.unlink(os.path.join(configuration.ticket_directory, self.ticket))
+        except IOError:
+            pass
+        except OSError:
+            pass
+
+    def remove(self):
+        """Remove all the tickets of the user to avoid problems"""
+        warn('Remove ticket : %s' % self, what="auth")
+        user = self.user_name
+        for key, value in list(tickets.items()):
+            if value.user_name == user:
+                warn('Delete ticket : %s' % tickets[key], what="auth")
+                tickets[key].date = 0
+                tickets[key].remove_file()
+
+    def access_right(self):
+        if not hasattr(self,'is_a_teacher'):
+            return '?????'
+        s = ''
+        if self.is_a_teacher:
+            s += 'T'
+        if self.is_an_abj_master:
+            s += 'J'
+        if self.is_a_referent_master:
+            s += 'R'
+        if self.is_an_administrative:
+            s += 'A'
+        if self.password_ok:
+            s += 'P'
+        return s
+
+    def __str__(self):
+        return self.log()
+
+    def backtrace_html(self):
+        return cgi.escape(self.log())
+
+
+# A class is better....
+
+tickets = {}
+
+def add(ticket, user_name, user_ip, user_browser, date=None):
+    t = Ticket(ticket, user_name, user_ip, user_browser, date)
+    tickets[ticket] = t
+    return t
+
+def add_ticket(ticket, user_name, user_ip, user_browser):
+    t = add(ticket, user_name, user_ip, user_browser)
+    utilities.write_file(os.path.join(configuration.ticket_directory, t.ticket), t.log())
+    return t
+
+def get_ticket_string(server):
+    """Extract from the path the ticket as a string (or None) and the path"""
+    # Get the CAS ticket
+    warn('PATH: %s' % server.path, what='auth')
+    if '?ticket=' in server.path:
+        warn("?ticket=", what='auth')
+        # The user just come redirected from the CAS server
+        path = server.path.split('?ticket=')
+        ticket = path[1].split('/')[0]
+        path = path[0].lstrip('/').split('/')
+    else:
+        # The first item of the path should be the ticket
+        path = server.path.lstrip('/').split('/')
+        warn('=TICKET', what='auth')
+        if path[0] and path[0][0] == '=':
+            ticket = path[0][1:]
+            path = path[1:]
+        else:
+            ticket = None
+    warn('RETURNS: %s %s' % (ticket, path), what='auth')
+    return ticket, [cgi.urllib.unquote(x) for x in path]
+
+def remove_old_tickets():
+    """Remove old tickets from memory"""
+    if time.time() - remove_old_tickets.time < configuration.ticket_time_to_live/10:
+        return
+    remove_old_tickets.time = time.time()
+
+    assert(get_ticket_objet.the_lock.locked)
+    global tickets
+    t = {}
+    for ticket in tickets.values():
+        if (time.time() - ticket.date) > configuration.ticket_time_to_live \
+               or ticket.user_name == '':
+            ticket.remove_file()
+        else:
+            t[ticket.ticket] = ticket
+
+    tickets = t
+    
+remove_old_tickets.time = time.time()
+
+def remove_old_files():
+    """Remove old tickets from disc.
+    It should be done because TOMUSS may crash without cleaning
+    """
+    for filename in os.listdir(configuration.ticket_directory):
+        filename = os.path.join(configuration.ticket_directory, filename)
+        try:
+            if time.time() - os.path.getmtime(filename) \
+                   > configuration.ticket_time_to_live:
+                os.unlink(filename)
+        except OSError:
+            pass
+
+@utilities.add_a_lock
+def get_ticket_objet(ticket):
+    """Get the ticket object from the ticket string"""
+    
+    if ticket == None:
+        warn('No ticket', what='auth')
+        return None
+    if ticket not in tickets:
+        ticket_file = os.path.join(configuration.ticket_directory, ticket)
+        try:
+            # Update 'tickets' table with 'add' function
+            eval( utilities.read_file(ticket_file))
+        except OSError:
+            pass
+        except IOError:
+            pass
+
+    remove_old_tickets()
+
+    return tickets.get(ticket, None)

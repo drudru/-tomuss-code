@@ -1,0 +1,966 @@
+
+BODY, TABLE INPUT, TABLE TD, TH, P, H1, #current_input {
+  background: #EEEEEE ;
+  border: none ;
+  font-family: sans-serif ;
+  cursor: text ;
+}
+
+A { text-decoration: none; }
+
+/* These values are also in 'document.py' for TABLE */
+BODY.Printemps, BODY.Printemps TABLE TD, BODY.Printemps P, BODY.Printemps H1 { background: #F4FFF4 ; }
+BODY.Automne,   BODY.Automne TABLE TD,   BODY.Automne P,   BODY.Automne H1 { background:#FFF8E0 ; }
+
+
+BODY.tomuss H1, BODY.autosavefailed H1 { font-size: 130% ; }
+
+IMG { cursor: default; }
+
+SELECT { cursor: pointer; }
+
+BODY.tomuss, BODY.tomuss TABLE INPUT, BODY.tomuss TABLE TD, BODY.tomuss TH, BODY.tomuss P, BODY.tomuss H1 { 
+  padding: 0px ;
+  margin: 0px;
+}
+
+
+
+BODY.autosavefailed, BODY.autosavefailed P, BODY.autosavefailed H1, BODY.autosavefailed TABLE.tablehelp TD, BODY.autosavefailed TABLE.tablehelp TH, BODY.autosavefailed #menutop TD  { background: #F88 ; }
+
+.identity {
+  font-size: 80% ;
+  float: right ;
+  text-align: right;
+  margin-left:2em;
+}
+
+.table_ro { background: #F00; color: #FFF }
+
+.title_pointers {
+  font-size: 70% ;
+}
+
+.title_pointers DIV.tipped {
+  padding-top: 1em;
+}
+
+.autumn { background: #FB8 }
+.spring { background: #8F8 }
+/* Does not work with IE */
+/* SELECT.autumn OPTION, SELECT.spring OPTION { background: white; } */
+
+.shortcut {
+  background: #0F0 ;
+  margin-left: 1em ;
+  position: absolute;
+  right: 0px ;
+}
+
+
+TABLE.colored { 
+  background: #999 ;
+  border-spacing: 1px ;
+}
+
+/* To find if the cursor is inside the table */
+DIV#divtable:hover DIV#hover { 
+  left: -20px;
+}
+DIV#divtable DIV#hover { 
+  position:absolute;
+  left: -10px;
+}
+
+DIV#divtable { 
+  width: 100% ;
+}
+
+TABLE#thetable { 
+  table-layout: fixed ;
+  width: 100% ;
+  border-right: 2px solid black ; /* border of current_cell in last column */
+}
+
+/*
+TABLE#menutop SELECT:focus { right: 0px ;  }
+*/
+
+TABLE#thetable TD, TABLE#thetable TH, TABLE#thetable INPUT, #current_input { 
+  white-space: nowrap;
+  overflow: hidden ;
+  vertical-align: top ;
+  text-align: left;
+  padding: 0px ;
+  margin: 0px;
+}
+
+TABLE#thetable TD { height: 1.1em; }
+
+DIV#current_input_div { 
+  position: absolute ;
+  border: 3px solid blue ;
+}
+
+DIV#current_input_div INPUT#current_input {
+  width: 100% ;
+  height: 100% ;
+}
+
+
+TH, TH INPUT, TH P {
+  font-weight: 500 ;
+  font-size: 80% ;
+  background: #DFD ;
+/*  background: url(header.png) #DFD ; */
+}
+
+
+TH SELECT { 
+  background: #CDC ;
+}
+TD, TH, TABLE INPUT, #current_input {
+  font-size: 100% ;
+}
+
+THEAD TR TD { 
+  white-space: normal;
+}
+
+/* TR.filter TH INPUT.notempty { background: #DFD ; } */
+TR.filter TH INPUT.empty {
+  background: url("filtre.png") #DFD ;
+  background-repeat: no-repeat ;
+}
+
+TR.filter TH INPUT.freezed { border-bottom: 1px solid black; }
+
+#linefilter, #columns_filter, #fullfilter {
+  background: #FFF ;
+  border: 1px solid black ;
+}
+
+#linefilter.empty, #columns_filter.empty, #fullfilter.empty {
+  background: url("filtre2.png") white ;
+  background-repeat: no-repeat ;
+}
+
+TR.tablefilter INPUT { width: 10em ; }
+
+
+TR.ok TD, #current_input.ok, SPAN.ok {  }
+TR.non TD, #current_input.non, SPAN.non, LI.non { background: #FBB; }
+
+TD.rw, #current_input.rw, .rw { 
+  color: black ;
+}
+
+TR.column_title TH { color: #00F; }
+TR.column_title TH.ro { color: #88F; }
+
+TR.ro, TD.ro, #current_input.ro, TH.ro, TH.ro INPUT, TH.ro SELECT, .ro { 
+  color: #555 ;
+}
+TD.empty { 
+ /* background: #DDD ; */
+}
+
+
+.is_an_abj { text-decoration: underline ; }
+
+TABLE#thetable TD.number, TD.number, #current_input.number { 
+  text-align: right ;
+}
+
+TR TD.color_red, #current_input.color_red { 
+  background: #F88 ;
+}
+
+TR TD.color_green, #current_input.color_green { 
+  background: #8F8 ;
+}
+
+TR TD.filtered, #current_input.filtered, TR.non TD.filtered, TR.tierstemps TD.filtered, SPAN.filtered { 
+  background: #FF0 ;
+}
+
+
+TABLE#thetable TH.sorted { 
+  font-weight: bold ;
+  color: #00F ;
+  background-color: #BFB;
+}
+
+
+#t_sort_up, #t_sort_down {
+position: absolute ;
+z-index: 2;
+}
+
+
+IMG.server { 
+  width: 7px ;
+  height: 7px ;
+  background: orange ;
+  border: 0px ;
+}
+
+INPUT#comment {
+  border: 1px solid black ;
+  background: white ;
+}
+
+TABLE INPUT, TABLE SELECT { 
+  width: 100% ;
+}
+
+DIV#tip { 
+  position: absolute ;
+  border: 1px solid black ;
+  background-image: url(tip.png) ;
+  display: none ;
+  padding: 2px ;
+  min-width: 10em;
+  z-index: 2;
+}
+
+DIV#tip HR {
+   width: 20em ; /* Needed for IE, else it is the full screen width */
+}
+
+DIV#tip SPAN.title { background: #CCF ; }
+
+.cursor IMG {
+  vertical-align: middle ;
+  border: 0px ;
+}
+
+DIV#tip UL { margin: 0px ; }
+
+
+IMG.photo { 
+  width: 100px ;
+}
+
+TD.comment, #current_input.comment, .comment { 
+  font-style: italic ;
+}
+
+TD.today, #current_input.today, .today { 
+  font-weight: bolder ;
+}
+
+
+SPAN#teachers { font-weight: bold ; }
+
+#student_data { border: 0px ; width: 1px ; height: 1px ; }
+
+
+.t7, .t8 { display: none ; }
+
+.copyright {
+  color: #AAA ;
+  font-size: small ;
+}
+
+TABLE.tablehelp { border: none; }
+TABLE.tablehelp TR TH { text-align: right; background: #EEEEEE; }
+
+
+IMG.icone { height: 16px; border: none;   vertical-align: bottom ;
+ }
+IMG.bigicone { width: 100px; border: none; }
+
+.stroked { background: #BFB; font-weight: bold }
+
+DIV.import_export { 
+  position: absolute;
+  left: 10%;
+  right: 10%;
+  top: 10%;
+  padding: 0.5em ;
+  z-index: 10;
+}
+
+DIV.import_div { 
+  border: 4px solid red ;
+}
+
+DIV.export_div { 
+  border: 4px solid green ;
+}
+
+DIV.import_export H2 { margin: 0px ; }
+
+DIV.import_export TEXTAREA { 
+  width: 100%;
+}
+
+DIV.import_export, DIV#import_export P  { 
+  background: #DDD ;
+}
+
+DIV.import_export BUTTON.close { 
+  position:absolute;
+  right:0px;
+  top: 0px;
+}
+DIV.import_export UL { 
+margin-top: 0px ;
+margin-bottom: 0px ;
+ }
+
+DIV.import_export PRE { 
+margin: 0px ;
+margin-left: 1em ;
+ }
+
+
+
+
+
+#authenticate { 
+  display: none ;
+  position: absolute;
+  left: 10%;
+  right: 10%;
+  top: 10%;
+  border: 4px solid red ;
+  padding: 0.5em ;
+  font-size: 200% ;
+  background: white ;
+}
+
+DIV#horizontal_scrollbar { 
+  font-size: 60% ;
+  height: 2em ;
+  display: inline;
+  padding-bottom: 6px ;
+}
+
+DIV.horizontal_scrollbar { 
+  margin-bottom: 1em ;
+}
+DIV.horizontal_scrollbar IMG { 
+position: absolute;
+ }
+
+DIV#horizontal_scrollbar A { 
+  border-top: 1px solid black ;
+  border-left: 1px solid #AAA ;
+  border-bottom: 1px solid black ;
+  position: absolute ;
+  text-decoration: none;
+  margin: 0px ;
+  padding: 0px ;
+  overflow: hidden;
+  white-space: nowrap;
+}
+DIV#horizontal_scrollbar A.column_invisible { 
+  background: #CCC;
+}
+
+DIV#horizontal_scrollbar A.column_visible { 
+  background: #FFF;
+}
+
+DIV#horizontal_scrollbar A.cursor { 
+  background: #0F0;
+}
+
+DIV#horizontal_scrollbar A.sorted { 
+  color: #080;
+}
+
+DIV#vertical_scrollbar { 
+  font-size: 70% ;
+  width: 1.5em ;
+  border: 1px solid black ;
+  background: #CCC;
+  position: absolute;
+  overflow: hidden;
+}
+DIV#vertical_scrollbar SPAN { position: absolute ; left: 1px; }
+DIV#vertical_scrollbar SPAN.position {
+  left: 0px ;
+  right:0px ;
+  background: #FFF ;
+  width: 100% ; /* For IE */
+}
+DIV#vertical_scrollbar SPAN B.letter {
+   color: #00F ;
+}
+DIV#vertical_scrollbar SPAN B.hide {
+  color: #AAA ;
+}
+DIV#vertical_scrollbar SPAN.cursor {
+  position: absolute ;
+  background: #0F0 ;
+  height: 0px ;
+}
+
+DIV#vertical_scrollbar IMG { position: absolute ; }
+
+
+#feedback {
+  position:absolute ;
+  left: 45% ;
+  top: 45% ;
+  z-index: 2;
+}
+
+P.da {  background: #FF0 ; }
+
+/* Tiers temps */
+
+
+P.tierstemps { background: #BBF ; }
+
+TR.tierstemps TD, #current_input.tierstemps, SPAN.tt { background: #BBF ; }
+
+
+#loading_bar { 
+  position: absolute ;
+  left: 10% ;
+  right: 10% ;
+  top: 70% ;
+  bottom: 27% ;
+  background: white ;
+  border: 2px solid black ;
+  display: none ;
+}
+
+#loading_bar DIV { 
+  background: #4F4 ;
+  height: 100% ;
+}
+
+
+.login_list, .login_list OPTION { 
+  font-family: monospace;
+  white-space: pre;
+}
+
+/*****************************************************************************/
+/* MENUTOP */
+/*****************************************************************************/
+
+#menutop {
+  table-layout: fixed;
+  border-spacing: 0px;
+  margin-bottom: 0px ;
+  width: 100% ;
+  margin-top: 0em;
+}
+#menutop div.title {
+  background: #8F8 ;
+  display: inline;
+  border-top: 1px solid black ;
+  border-left: 1px solid black ;
+  border-right: 1px solid black ;
+  border-bottom: 0px ;
+  font-size: 120%;
+  padding-left: 0.2em ;
+  padding-right: 0.2em ;
+}
+
+#menutop TD.blocktop {
+  border-top: 1px solid black ;
+  border-left: 1px solid black ;
+  border-right: 1px solid black ;
+}
+#menutop TD.blockbottom {
+  border-bottom: 1px solid black ;
+  border-left: 1px solid black ;
+  border-right: 1px solid black ;
+}
+#menutop TD.space { width: 2px ; }
+
+#menutop TD.blocktop { width: 30% ; overflow: hidden;}
+#menutop TD { vertical-align: top ; }
+#t_student_picture { float: left ;   }
+#t_value { font-weight: bold; }
+INPUT#comment { width: 100% ; clear: both; }
+#menutop IMG.phot { border-width: 0 ;height: 100px ; width: 80px }
+
+#menutop .one_line { white-space: nowrap ; overflow: hidden; }
+#t_date, #t_author { font-size: 80%; }
+
+#menutop INPUT.highlight1, .highlight1 { background: #FF0 ; }
+#menutop INPUT.highlight2, .highlight2 { background: #FF4 ; }
+#menutop INPUT.highlight3, .highlight3 { background: #FF8 ; }
+#menutop INPUT.highlight4, .highlight4 { background: #FFB ; }
+
+#menutop INPUT {
+  width: 96% ;
+  margin: 1px ;
+  background: white ; 
+  border: 1px solid black;
+}
+
+#menutop SELECT#nr_cols { width: 4em ; }
+#menutop SELECT#nr_lines { width: 4em ; }
+#menutop SELECT { width: 24% ; font-size: 80%; margin: 1px ; }
+#menutop SELECT#t_column_type {  margin: 3px ; }
+
+/* #menutop #t_column_type { width: 19% ; } */
+#menutop #t_column_weight { width: 2.5em ;
+  background-image: url('weight.png');
+  background-position: right ;
+  background-repeat: no-repeat ;
+}
+#menutop #t_column_minmax { width: 3.5em ; }
+#menutop #t_column_test_filter { width: 4em ; }
+#menutop #t_column_red { width: 1.5em ; border: 1px solid #F88 ; }
+#menutop #t_column_green { width: 1.5em ; border: 1px solid #0F0 ; }
+#menutop #t_column_empty_is { width: 3em ; }
+#menutop #t_column_columns { width: 50% ; }
+#menutop #t_column_visibility_date {
+  background-image: url('eye.png');
+  background-position: right ;
+  background-repeat: no-repeat ;
+  width: 7em ;
+}
+#menutop #t_table_modifiable { width: 3em ; }
+
+#menutop #teachers2.empty {
+  background-image: url('teacher.png');
+  background-repeat: no-repeat ;
+}
+
+#menutop #t_column_author, #menutop DIV.menu, #menutop #teachers, #menutop #t_history { font-size: 80% ; }
+
+#menutop IMG.server {
+  width: 4px ;
+}
+
+#menutop DIV.menu TABLE {  width: 100% ; }
+#menutop DIV.menu TABLE TD {
+  width: 16% ;
+  text-align: center;
+}
+
+
+#comment.empty, #t_column_comment.empty, #t_table_comment.empty {
+  background-image: url("comment.png");
+  background-repeat: no-repeat;
+}
+#t_column_type { width: auto; }
+
+#t_column_title.empty {
+  background-image: url("title.png");
+  background-repeat: no-repeat;
+}
+
+#t_column_title { font-weight: bold ; }
+
+#menutop A { text-decoration: none ; }
+
+#menutop #t_column_stats {
+  width: 100% ;
+  table-layout: fixed;
+  border: 1px solid black;
+  border-spacing: 0px ;
+}
+
+#menutop #t_column_stats TR {
+  vertical-align: bottom ;
+}
+
+#t_column_stats TD.m { width: 5em ; }
+
+#menutop #t_column_stats TD {
+  white-space: nowrap ;
+  padding: 0px ;
+}
+
+#menutop #t_column_histogram { 
+  height: 1.5em ;
+}
+
+#menutop #t_column_histogram SVG {
+  /* display: block ; */
+  height: 1.5em ;
+  /* font-family: monospace ; */
+ }
+
+
+H1 {  margin: 0px  }
+.testmessage { margin: 0px }
+
+
+
+TABLE.top2 { empty-cells: show; width:100%; table-layout: fixed ; }
+
+TABLE.top2 TR TD { 
+  vertical-align: top ;
+}
+
+TABLE.top2 INPUT { background: #DDD ; }
+TABLE.top2 INPUT.search_field  {
+  background: white ;
+  border: 1px solid black ;
+  width: 100% ;
+}
+TABLE.top2 U { background: yellow; text-decoration: none }
+TABLE.top2 H2 { text-align: center; margin: 0 }
+
+TABLE.uelist, TABLE.student_list, DIV#the_students TABLE { 
+  width: 100% ;
+  table-layout: fixed ;
+  border-spacing: 0px;
+  border: 1px solid #0B0;
+}
+
+
+TABLE.with_margin { margin-top: 0.6em ; }
+
+TABLE.uelist TH, TABLE.student_list TH, DIV#the_students TABLE TH { 
+  border-bottom: 1px solid #0B0;
+  min-height: 1em ; /* Only for IE !!! */
+  
+}
+
+TABLE.searchresult { 
+  margin-top: 0em ;
+}
+
+TABLE.student_list TR.ue_list_more TD, TABLE.uelist TR.ue_list_more TD { 
+  white-space: normal ;
+}
+
+TABLE.uelist TR TD, TABLE.student_list TR TD {
+  white-space: nowrap ;
+  overflow: hidden;
+  margin: 0px ;
+  padding: 0px ;
+  color: blue;
+}
+
+COL.student_id { width: 5em; }
+COL.student_icon { width: 35px; }
+COL.code { width: 7.6em ; }
+COL.responsable { width: 10em ; }
+
+TABLE.uelist INPUT { width: 5em ;  }
+
+TABLE.uelist TR.search TD { padding: 0.4em ; color: black; }
+
+TABLE.uelist DIV.help { display: none ; font-style: italic; font-size: small }
+TABLE.uelist TR.ue_list_more DIV.help { display: block }
+
+IMG.safety { border:0 ;width: 0.7em ; vertical-align: middle  }
+
+
+
+TABLE.student_list TR.hover TD, TABLE.uelist TR.hover TD, TABLE.uelist TR.ue_list_more TD, TABLE.student_list TR.ue_list_more TD { 
+  background : #CCF ;
+}
+
+
+TABLE.uelist TR.with_students TD.title { font-weight: bold ; }
+
+TABLE.uelist TR TH { height: 0.5em ; margin: 0; padding: 0 }
+
+IMG.tt { height: 1em ; float:right; }
+
+TABLE.uelist TD.title, TABLE TD.student_id { 
+border-right: 1px solid #0B0 ;
+border-left: 1px solid #0B0 ;
+}
+
+
+DIV.ue_list_more, SPAN.ue_list_more_help {
+  border: 2px outset #AAA ;
+  border: 2px outset #4F4 ;
+  background: #CCC ;
+}
+
+DIV.ue_list_more { 
+  position:absolute;
+}
+
+DIV.ue_list_more DIV.title:hover { 
+  background : #0F0 ;
+/*  padding-bottom: 2px ; Flickering hover bug in firefox */
+}
+
+DIV.ue_list_more DIV.more DIV.no_menu { display: none; }
+DIV.ue_list_more:hover DIV.more DIV.no_menu { display: block; }
+DIV.ue_list_more DIV.more DIV.no_menu:hover { display: none; }
+
+DIV.ue_list_more DIV.title { 
+  background : #8F8 ;
+  text-align: left;
+  font-weight: bold ;
+/*  font-size: 70%; */
+}
+
+DIV.ue_list_more DIV.more { 
+  background: white ;
+}
+
+DIV.ue_list_more DIV.more A:hover { 
+  text-decoration: underline ;
+}
+
+
+#feedback .frame { 
+  position: absolute ;
+  left: 25% ;
+  top: 25% ;
+  width: 20em ;
+  height: 10em ;
+  border: 2px outset #AAA ;
+ }
+
+#feedback .frame DIV { 
+  width: 100% ;
+  background: #CCC ;
+  color: black ;
+}
+
+#feedback .frame DIV:hover { 
+  background: #EEE ;
+}
+
+#feedback .frame IFRAME { 
+  background: white ;
+  width: 100% ;
+  height: 100% ;
+}
+
+
+
+/*****************************************************************************/
+/* PRINT */
+/*****************************************************************************/
+
+TABLE.printer TR.comment { font-size: 60% ; }
+
+/*****************************************************************************/
+/* EMARGEMENT */
+/*****************************************************************************/
+
+TABLE.signature TD, TABLE.signature TH { padding: 0.5em ; }
+TABLE.signature { width: 100% ; }
+TABLE.signature TH { font-weight: bold ; }
+
+/*****************************************************************************/
+/* TOP PAGES */
+/*****************************************************************************/
+
+TABLE.top TD {
+  vertical-align: top ;
+  white-space: normal ;
+}
+TABLE.top {
+  table-layout: fixed ;
+  background: black;
+  border-spacing: 1px;
+}
+TABLE.undertop {
+  width: 100% ;
+  padding: 1px ;
+  margin: 0px ;
+  border: 1px solid black;
+}
+TABLE.undertop TH {
+  text-align: center ;
+  padding: 0.2em ;
+}
+TABLE.undertop TD {
+  padding-top: 0.5em ;
+}
+TABLE.top TD UL { padding-left: 1em ; margin-left: 0em;}
+TABLE.top P { margin-bottom: 0; }
+TABLE.top UL { margin-top: 0; }
+TABLE.top U { background : yellow ; font-weight: normal; text-decoration: none; }
+
+TABLE.top INPUT.keyword {
+  background: white ;
+  border: 1px solid black ;
+  height: 1.5em ;
+}
+
+TABLE.top H1 SELECT { font-size: 100% }
+
+TABLE.top .ue_list p { margin: 0px 0px 0px 7em ; text-indent: -7em; }
+
+
+/*****************************************************************************/
+/* TROMBINOSCOPE PAGES */
+/*****************************************************************************/
+
+DIV.trombinoscope {
+  border: 1px solid black ;
+  display: block ;
+  float: left;
+  padding: 1px ;
+  border-spacing: 0px ;
+  background: none ;
+  height: 12.5em;
+  width: 8em ;
+  margin: 2px ;
+  overflow: hidden;
+}
+
+DIV.trombinoscope IMG { 
+  width: 8em ;
+  border: 0 ;
+}
+
+@media print {
+DIV.trombinoscope { 
+    font-size: 75% ;
+  }
+
+}
+
+/*****************************************************************************/
+/* STATISTICS PAGES */
+/*****************************************************************************/
+
+TABLE.alignbottom TD { 
+  vertical-align: bottom ;
+}
+TABLE.alignbottom IMG {
+  width: 100% ;
+}
+
+
+TABLE.histogram { 
+  border-spacing: 0px ;
+}
+
+TABLE.histogram TD { 
+  vertical-align: bottom ;
+  text-align:center ;
+  font-size: smaller;
+}
+
+TABLE.histogram TR:first-child TD {
+  border-left: 1px solid #CCC ;
+  border-right: 1px solid #CCC ;
+}
+
+TABLE.histogram IMG {
+  border: 0 ;
+  background:black ;
+  width: 100% ;
+}
+
+TABLE.stat {
+  /* border: 1px solid black ; */
+}
+
+TR.separator TD { 
+    border-top: 1px solid #999 ;
+}
+
+TD.separatorvertical { 
+  border-left: 1px solid #999 ;
+}
+
+TABLE.printer { 
+    border: 2px solid #999 ;
+}
+
+
+TR.weight TD {
+  white-space: normal ;  
+}
+
+TR#dates TD { padding: 3px ;
+}
+
+.statabj { color: blue ; }
+.statabi { color: red ; }
+.statnan { background: #F00 ; color: white }
+.statpre { color: green ; }
+.statppn { background: #F88 ; }
+.statdef { background: black ; color: white; }
+.statmoy { text-align: right }
+.stats SUB { font-size: 60% ; }
+
+/*****************************************************************************/
+/* ABJ */
+/*****************************************************************************/
+
+TR#dates TD {
+  text-align: center ;
+  vertical-align: middle ;
+}
+TR#ampm TD { text-align: center ; }
+
+TD.weekend { background: #FBB; }
+
+TABLE.display_abjs TH { text-align: center ; }
+TABLE.display_abjs TD { background: #EEE ; }
+TABLE.display_abjs TH, TABLE.display_abjs TD { font-size:80%; padding: 1px }
+
+DIV#student_display {
+  min-height: 200px ;
+}
+
+DIV#student_display IMG {
+  height: 200px ;
+  text-align: left ;
+  float: left ;
+}
+
+INPUT#sendabj { 
+  width: 20em ;
+/*  border: 3px outset #444 ; */
+}
+
+SPAN.arrow { 
+  color: blue ;
+  font-size: 200% ;
+}
+
+BODY#BODY P, BODY#BODY H1 { margin: 0px ; }
+
+P.wait { background: #8F8 ; }
+
+/*****************************************************************************/
+/* PRINT */
+/*****************************************************************************/
+
+@media print {
+
+BODY { 
+    margin: 5mm ;
+}
+
+BODY, TABLE TD, TH, P, H1 {
+    background: white ;
+}
+
+TABLE.colored {
+  border-spacing: 0px ;
+}
+
+TABLE.colored TD, TABLE.colored TH { 
+    border: 0.5px solid black ;
+}
+
+TABLE.colored TR.separator TD { 
+    border-top: 2px solid black ;
+}
+
+TABLE.colored TR TD { 
+    border-top: 0px ;
+}
+
+.title_pointers {
+  display: none;
+}
+
+.hidden_on_paper {
+  display: none;
+}
+
+
+
+}

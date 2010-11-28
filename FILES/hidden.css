@@ -1,0 +1,37 @@
+DIV.tipped, DIV.help { 
+  display: inline ;
+}
+
+DIV.tipped DIV.help {
+  position: absolute ;
+  border: 1px solid black;
+  display: none;
+  font-weight: 500 ;
+  color: black ;
+  text-align: left ;
+  font-style: normal;
+  background-image: url(tip.png) ;
+  padding: 2px ;
+  text-decoration: none ;
+  font-size: 14px ;
+  white-space: nowrap;
+  z-index: 10; /* Must be over the scrollbar */
+}
+
+DIV.tipped VAR.tipped:hover { 
+  background: white;
+}
+
+DIV.tipped VAR { 
+  font-style: normal ;
+}
+
+.tipped UL { margin-top: 0px ; }
+
+
+DIV.tipped DIV.help DIV.more { 
+  white-space: normal;
+  font-weight: bold;
+  background: inherit ;
+  border-top: 1px solid black ;
+}

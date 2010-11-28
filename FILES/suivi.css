@@ -1,0 +1,104 @@
+DIV.title { 
+  margin-top: 1em;
+  font-weight: bold ;
+}
+
+.prst { background: #8F8 ; }
+.abinj { background: #F88 ; }
+.abinj2 { background: #F88 ; }
+.abjus { background: #88F ; }
+.novalue { background: #DDD ; }
+.verygood { background: #0F0 ; }
+.good { background: #BFB ; }
+.mean { background: #EEE ; }
+.bad { background: #FAA ; }
+.verybad { background: #F44 ; color: white; }
+DIV.verybad DIV:hover { color: red; }
+
+
+IFRAME { 
+width: 1em ;
+height: 1em ;
+border: 0px ;
+ }
+
+SELECT { 
+  padding: 0px ;
+  border: 1px solid black ;
+  font-size: 70% ;
+ }
+
+div.title a.title{ margin-bottom: 0.2em ; padding-top: 0em; }
+
+.noninscrit {
+  border: 1px solid black ;
+  background: #FF8080 ;
+  margin: 1em ;
+  padding: 1em ;
+}
+
+.blocnote { 
+  background: white ;
+  border: 1px solid black ;
+  margin-left: 100px ;
+  margin-top: 2px ;
+}
+
+DIV.notes, DIV.notes2 { 
+  border: 1px solid black ;
+  vertical-align: text-top ;
+  text-align: center;
+  display: inline-block ;
+  margin: 1px ;
+}
+
+DIV.notes { 
+  padding: 0px ;
+}
+
+DIV.notes2 { 
+  padding: 0px ;
+}
+
+DIV.notes2 DIV.tipped { width: 100%; }
+
+IFRAME.feedback { width: 8px ; height: 8px ; }
+
+.photo {
+	width: 50px ;
+	float: left ;
+	margin-right: 10px ;
+}
+
+DIV.student {
+	clear: both ;
+}
+
+H2.title {
+  margin-bottom: 0px ;
+}
+
+H2.title, P.title {
+  clear: both ;
+
+}
+DIV.tipped { margin-top: 0px ; }
+
+.commented { font-weight: bold ; }
+
+TABLE.input FORM  {margin:0px;  }
+TABLE.input INPUT { border:1px solid black;background:white }
+TABLE.input INPUT.button { border:2px outset #DDD;background:#DDD }
+TABLE.input TD INPUT { margin: 2px; margin-right: 2px; }
+TABLE.input TD { padding: 4px; }
+
+/*****************************************************************************/
+/* PRINT */
+/*****************************************************************************/
+
+@media print {
+
+.noprint { display: none ; }
+
+
+}

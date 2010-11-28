@@ -1,0 +1,663 @@
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
+#    TOMUSS: The Online Multi User Simple Spreadsheet)
+#    Copyright (C) 2008-2010 Thierry EXCOFFIER, Universite Claude Bernard
+#
+#    This program is free software; you can redistribute it and/or modify
+#    it under the terms of the GNU General Public License as published by
+#    the Free Software Foundation; either version 2 of the License, or
+#    (at your option) any later version.
+#
+#    This program is distributed in the hope that it will be useful,
+#    but WITHOUT ANY WARRANTY; without even the implied warranty of
+#    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#    GNU General Public License for more details.
+#
+#    You should have received a copy of the GNU General Public License
+#    along with this program; if not, write to the Free Software
+#    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+#
+#    Contact: Thierry.EXCOFFIER@bat710.univ-lyon1.fr
+
+
+# BUG : In many places, there is missing :
+#                 unicode(...., configuration.ldap_encoding)
+
+import time
+import configuration
+import utilities
+import ldap
+import sender
+import re
+
+ldap.set_option(ldap.OPT_REFERRALS, 0)
+ldap.set_option(ldap.OPT_NETWORK_TIMEOUT, 1) # For connect
+ldap.set_option(ldap.OPT_TIMEOUT, 600)       # For reading data
+
+warn = utilities.warn
+
+# To not have duplication error messages
+member_of_nothing = {}
+
+def safe(txt):
+    """Values safe in an LDAP request"""
+    return re.sub('[^0-9a-zA-Z-. _]', '', txt)
+
+class LDAP_Logic(object):
+    def member_of(self, groupe,base=configuration.ou_students):
+        """Iterator over the members of a group"""
+        alls = self.query(base=base,
+                          search='(memberOf=%s)' % groupe,
+                          attributes=(configuration.attr_login,
+                                      configuration.attr_firstname,
+                                      configuration.attr_surname,
+                                      configuration.attr_mail,
+                                      configuration.attr_login_alt,
+                                      'memberOf')
+                          )
+        for i in alls:
+            i = i[1]
+            login = login_from_ldap(i)
+
+            if configuration.attr_mail not in i:
+                i[configuration.attr_mail] = (login,)     
+
+            yield (login_to_student_id(login),
+                   i[configuration.attr_firstname][0],
+                   i[configuration.attr_surname][0],
+                   i[configuration.attr_mail][0],
+                   i['memberOf']
+                   )
+    def get_ldap_ues(self):
+        """Full list of UE"""
+        dues = {}
+        ues = self.query('(|(%s*)(CN=EC-*))' % configuration.ou_ue_starts,
+                         base=configuration.ou_groups)
+        for i in [i[0] for i in ues]:
+            dues[i[3:].split(' ')[0]] = True
+
+        dues = dues.keys()
+        dues.sort()
+        return dues
+
+    @utilities.add_a_method_cache
+    def ues_of_a_student(self, name):
+        """List of UEs where the student is registered."""
+        a = self.query_login(name, ('memberof',))
+        if len(a) == 0:
+            return []
+        a = a['memberOf']
+        return [aa
+                for aa in a
+                if (configuration.ou_ue_contains in aa)
+                and aa.startswith(configuration.ou_ue_starts)
+                ]
+
+    @utilities.add_a_method_cache
+    def ues_of_a_student_short(self, name):
+        """Extract from the OU the UE short name (code)"""
+        t = [ x.replace(' ',',').split(',')[0].split('=')[1]
+                 for x in self.ues_of_a_student(name)]
+        t.sort()
+        return t
+
+    def get_attributes(self, login, attributes):
+        """From the login of the person, retrieve the attributes"""
+        if login in demo_animaux:
+            a = dict(zip((configuration.attr_firstname,
+                          configuration.attr_surname,
+                          configuration.attr_mail),
+                         [(i.encode(configuration.ldap_encoding),)
+                          for i in demo_animaux[login][1:4]]))
+        else:
+            a = self.query_login(login, attributes)
+        if not a:
+            a = {}
+        if a.get(configuration.attr_mail) == None:
+            a[configuration.attr_mail] = [str(login)] # No unicode please
+
+        return [unicode(a.get(i, ('Inconnu',))[0],configuration.ldap_encoding) for i in attributes]
+        
+
+    def firstname_and_surname(self, login):
+        """From the login of the person, retrieve the name"""
+        return self.firstname_and_surname_and_mail(login)[:2]
+    
+    def mail(self, login):
+        """From the login of the person, retrieve the mail"""
+        a = self.firstname_and_surname_and_mail(login)[2]
+        if a == login:
+            return None
+        else:
+            return a
+
+    @utilities.add_a_method_cache
+    def firstname_and_surname_and_mail(self, login):
+        """From the login of the person, retrieve the name and mail"""
+        x = self.get_attributes(login, (configuration.attr_firstname,
+                                        configuration.attr_surname,
+                                        configuration.attr_mail,
+                                        ))
+        return [x[0], x[1], x[2].encode('utf8')]
+        
+
+    @utilities.add_a_method_cache
+    def portail(self, login):
+        """From the login of the person, retrieve the portails"""
+        a = self.member_of_list(login)
+        return [unicode(aa.split('APO-')[1].split(',')[0],
+                      configuration.ldap_encoding)
+                for aa in a if configuration.ou_portail_contains in aa]
+
+    def firstname_and_surname_to_login(self, firstname, surname):
+        firstname = safe(utilities.flat(firstname))
+        surname = safe(utilities.flat(surname))
+        aa = self.query(
+            search='(|(&('+configuration.attr_surname +'='
+            + surname.replace('-','*')
+            + ')(' +configuration.attr_firstname + '='
+            + firstname.replace('-','*')
+            + '))(' + configuration.attr_login + '=' +
+            firstname.replace(' ','-') + '.' + surname.replace(' ','-') +
+            '))',
+            attributes = (configuration.attr_login, configuration.attr_mail,
+                          'lastLogonTimestamp',),
+            base=configuration.ou_top)
+        a = []
+        for x in aa: # For all the answers
+            if x[0] == None:
+                continue
+            if configuration.attr_login not in x[1]:
+                continue
+            i = 0
+            n = unicode(x[1][configuration.attr_login][0],
+                        configuration.ldap_encoding)
+            if '.' in n:
+                i += 10000
+            if not n[-1].isdigit():
+                i += 10001
+            if ' ' not in n:
+                i += 10010
+            if 'lastLogonTimestamp' in x[1]:
+                i += 10100
+            if configuration.attr_mail in x[1]:
+                i += 11000
+            a.append( (i,n) )
+        a.sort()
+        if len(a):
+            return a[-1][1].lower()
+
+        aa = self.query_login(surname.replace(' ','-') + '.'
+                             + firstname.replace(' ','-'))
+        if aa:
+            return unicode(aa[configuration.attr_login][0],
+                           configuration.ldap_encoding).lower()
+        return None
+
+    @utilities.add_a_method_cache
+    def firstname_surname_to_login(self, firstname_surname):
+        firstname_surname = firstname_surname.split(' ')
+        for i in range(1, len(firstname_surname)):
+            login = self.firstname_and_surname_to_login(' '.join(firstname_surname[:i]),
+                                                   ' '.join(firstname_surname[i:]))
+            if login:
+                return login
+        return None
+
+    def firstname_or_surname_to_logins(self, name, base=None, attributes=None):
+        """Retrieve possible logins from a surname, a firstname
+        or an incomplete login (with a dot inside).
+        Returns the attributes needed."""
+        name = utilities.safe_space(name.strip('. '))
+        if name == '':
+            return ()
+        if '.' in name:
+            q = '(%s=%s*)' % (configuration.attr_login,
+                              name)
+        else:
+            if ' ' in name:
+                qq = '(%s=%s*)' % (configuration.attr_login,
+                                   name.replace(' ','.'))
+            else:
+                qq = ''
+            q='(|(%s=%s)(%s=%s)(%s=%s *)(%s=%s *)(%s=%s-*)(%s=%s-*)(%s=%s)(%s=%s)%s)'%(
+                configuration.attr_surname, name,
+                configuration.attr_firstname, name,
+                configuration.attr_surname, name,
+                configuration.attr_firstname, name,
+                configuration.attr_surname, name,
+                configuration.attr_firstname, name,
+                configuration.attr_login, utilities.the_login(name),
+                configuration.attr_login, login_to_student_id(name),
+                qq
+                )
+        if base:
+            q = '(&(memberof=' + base + ')' + q + ')'
+        q = '(&(objectClass=person)' + q + ')' # To accelerate query
+        if attributes == None:
+            attributes = [configuration.attr_login,
+                          configuration.attr_surname,
+                          configuration.attr_firstname]
+        aa = self.query(q,
+                        base=configuration.ou_top,
+                        attributes=attributes
+                        )
+        t = []
+        i = attributes.index(configuration.attr_login)
+        for x in aa: # For all the answers
+            if x[0] != None:
+                x = x[1]
+                if x.get(configuration.attr_login) == None:
+                    continue
+                r = [unicode(x.get(attr,('',))[0],
+                             configuration.ldap_encoding)  
+                     for attr in attributes
+                     ]
+                r[i] = r[i].lower() # login must be in lower case
+                t.append(r)
+        return t
+
+    def query_logins(self, logins, attributes):
+        logins = ''.join(['(%s=%s)' % (configuration.attr_login,
+                                      utilities.the_login(login))
+                                        for login in logins
+                         ])
+        
+        a = self.query(search='(|' + logins + ')',
+                       base=configuration.ou_top, attributes=attributes
+                       )
+        r = []
+        for i in a:
+            if i[0] != None:
+                i = i[1]
+                r.append([unicode(i.get(attr,('',))[0],
+                                 configuration.ldap_encoding)
+                         for attr in attributes])
+        return r
+
+    def member_of_list(self, login):
+        r = self.query_login(login, ('memberOf',))
+        if len(r) == 0:
+            if login not in member_of_nothing:
+                member_of_nothing[login] = True
+                s = login + ' member of nothing'
+                # utilities.send_backtrace(s, subject=s, exception=False)
+            return ()
+        return r.get('memberOf', ())
+    member_of_list = utilities.add_a_method_cache(member_of_list,
+                                                  not_cached=())
+
+    def is_in_one_of_the_groups(self, login, groups):
+        """Returns true if the login is one of the groups or sub group"""
+        r = self.member_of_list(login)
+        for group in groups:
+            for rr in r:
+                if rr.endswith(group):
+                    return True
+        return False
+
+    def ufr_of_teacher_old(self, login):
+        """Returns the UFR of the teacher"""
+        r = self.member_of_list(login)
+        for key, value in configuration.ufr_short.items():
+            if key in r:
+                return key
+        return None
+
+    @utilities.add_a_method_cache
+    def ufr_of_teacher(self, login):
+        """Returns the UFR of the teacher"""
+        r = self.query_login(login, ('distinguishedName',))
+        r = r.get('distinguishedName',('',))
+        if len(r) == 0:
+            return ()
+        r = r[0]
+        for key, value in configuration.ufr_short.items():
+            if key in r:
+                return key
+        return None
+
+    def is_a_teacher(self, login):
+        """Returns true if the login is a teacher login"""
+        if configuration.teacher_if_login_contains in login:
+            return True
+        if login in configuration.invited_teachers:
+            return True
+        if login in configuration.root:
+            return True
+        return self.is_in_one_of_the_groups(login, configuration.teachers)
+
+    def is_an_abj_master(self, login):
+        """Returns true if the login is the login of a person
+        with the right to modify the ABI"""
+        if login in configuration.invited_abj_masters:
+            return True
+        if login in configuration.root:
+            return True
+        return self.is_in_one_of_the_groups(login, configuration.abj_masters)
+
+    def is_a_referent(self, login):
+        """Returns true if the login is the login of a referent"""
+        if login in configuration.root:
+            return True
+        return self.is_in_one_of_the_groups(login, configuration.referents)
+
+    def is_an_administrative(self, login):
+        """Returns true if the login is the login of a person
+        with the right to modify the ABI"""
+        if login in configuration.invited_administratives:
+            return True
+        if login in configuration.root:
+            return True
+        return self.is_in_one_of_the_groups(login,
+                                            configuration.administratives)
+
+    def password_ok(self, login):
+        """Create a list of stupid passwords and check them"""
+        # if login in configuration.root:
+        #    return True
+
+        passwords = [login] + login.split('.')
+
+        password = self.query_login(login,
+                                    (configuration.attr_default_password,))
+        if password:
+            try:
+                passwords.append(password[configuration.attr_default_password]
+                                 [0])
+            except KeyError:
+                pass
+
+        return not utilities.stupid_password(login, passwords)
+
+    @utilities.add_a_method_cache
+    def students(self, ue):
+        """Iterator giving the student list for an UE"""
+        alls = self.query(base=configuration.ou_students,
+                          search='(memberOf=*%s*)' % ue,
+                          attributes=(configuration.attr_login,
+                                      configuration.attr_firstname,
+                                      configuration.attr_surname,
+                                      configuration.attr_mail,
+                                      configuration.attr_login_alt))
+        for i in alls:
+            utilities.warn(repr(i))
+            yield (login_to_student_id(i[configuration.attr_login][0]),
+                   i[configuration.attr_firstname][0],
+                   i[configuration.attr_surname][0],
+                   i[configuration.attr_mail][0],
+                   '', # Group
+                   '', # Sequence
+                   )
+
+
+class Empty(LDAP_Logic):
+    """Fake LDAP handler"""
+    def __init__(self, name='LDAP'):
+        self.nr = 0
+    def query(self, search='', attributes=None, base=''):
+        self.nr += 1
+        if attributes == None:
+            attributes = (configuration.attr_login,)
+        d = {}
+        for i in attributes:
+            d[i] = (i, configuration.teachers[1])
+        d['base'] = base
+        d['search'] = search
+        return (('ldapdisabled', d),)
+    def query_login(self, login, attributes=(configuration.attr_login,)):
+        self.nr += 1
+        if login in demo_animaux:
+            d = demo_animaux[login]
+            d = {configuration.attr_login: login,
+                 configuration.attr_mail: [d[3]],
+                 configuration.attr_surname: [d[2]],
+                 configuration.attr_firstname: [d[1]],
+                 'memberOf': ['CN=UE-%d,' % i + configuration.ou_ue_contains
+                              for i in range(10)],
+                 }
+        else:
+            d = {configuration.attr_login: login,
+                 configuration.attr_mail: ['???@???.???'],
+                 configuration.attr_surname: [login + 'surname'],
+                 configuration.attr_firstname: [login + 'firstname'],
+                 'memberOf': (),
+                 }
+        for k in attributes:
+            if k not in d:
+                d[k] = [k]
+        return d
+
+#REDEFINE
+# This class can be replaced by a subclass of itself in order to replace
+# the 'students' method returning the student list for an UE.
+# The student list may be computed without using LDAP.
+class LDAP(LDAP_Logic):
+    """A LDAP connection.
+    If a server is broken, take the next one
+    """
+    def __init__(self, name='LDAP'):
+        self.connexion = None
+        self.server = -1
+        self.name = name
+        self.last_query = 0
+        self.time_last_mail = 0
+
+    def connect(self):
+        while True:
+            self.server = (self.server + 1) % len(configuration.ldap_server)
+            warn('Try connect to ' + configuration.ldap_server[self.server],
+                 what="ldap")
+            try:
+                c = ldap.open(configuration.ldap_server[self.server],
+                              port=configuration.ldap_server_port)
+                c.simple_bind_s(configuration.ldap_server_login,
+                                configuration.ldap_server_password)
+                warn('Connect done', what="ldap")
+                self.connexion = c
+                
+                return
+            except ldap.SERVER_DOWN:
+                warn('Can not connect to %s: SERVER_DOWN'
+                     % configuration.ldap_server[self.server], what="error")
+            except ldap.TIMEOUT:
+                warn('Can not connect to %s: TIMEOUT'
+                     % configuration.ldap_server[self.server], what="error")
+            time.sleep(1)
+    
+    def query(self, search, attributes=(configuration.attr_login,),
+              base=configuration.ou_groups):
+        """Returns a list of answers.
+        A answer is a pair : (CN, dictionnary)
+        """
+        t = time.time()
+        if t - self.last_query > configuration.ldap_reconnect and self.connexion:
+            del self.connexion
+            self.connexion = None
+        self.last_query = t
+        # warn('search=%s base=%s attr=%s' % (search, base, attributes) )
+        if self.connexion == None:
+            self.connect()
+        while True:
+            try:
+                start_time = time.time()
+                sender.send_live_status(
+                         '<script>b("/%s");</script>\n' % self.name)
+                s = self.connexion.search_s(
+                    base,
+                    ldap.SCOPE_SUBTREE,
+                    search,
+                    attributes,
+                    )
+                sender.send_live_status(
+                         '<script>d("%s","/%s","",%6.4f,%s,"","","");</script>\n' %
+                         (configuration.ldap_server[self.server],
+                          self.name,
+                          time.time() - start_time,
+                          utilities.js(search + ':' + repr(attributes))))
+
+                return s
+            except ldap.LDAPError, e:           
+                sender.send_live_status(
+                         '<script>d("%s","/%s","",1,"","%s","%s","%s");</script>\n' %
+                         (
+                    configuration.ldap_server[self.server],
+                    self.name,
+                    time.ctime(start_time),
+                    configuration.ldap_server[self.server],
+                    e.__class__.__name__))
+
+                warn('Uncatched: %s: %s QUERY=%s ATTRIBUTES=%s' % (
+                    e,
+                    configuration.ldap_server[self.server],
+                    search, repr(attributes)
+                    ), what='error')
+                if time.time() > self.time_last_mail + 10:
+                    self.time_last_mail = time.time()
+                    utilities.send_backtrace(
+                        configuration.ldap_server[self.server] + '\n'
+                        + 'QUERY=' + search + '\n'
+                        + 'ATTRIBUTES=' + repr(attributes) + '\n'
+                        + 'BASE=' + base + '\n'
+                        , 'LDAP Error')
+
+                if isinstance(e, ldap.SIZELIMIT_EXCEEDED) or \
+                   isinstance(e, ldap.NO_SUCH_OBJECT):
+                    return ()
+                time.sleep(1)
+                self.connect() # Assume temporary network problem
+
+    def query_login(self, login, attributes=(configuration.attr_login,),
+                    star_is_safe=False):
+        if ('*' in login) and not star_is_safe:
+            return ()
+        if not star_is_safe:
+            login = utilities.the_login(login)
+        a = self.query(search='(%s=%s)' % (configuration.attr_login, login),
+                    base=configuration.ou_top, attributes=attributes
+                    )
+        a = a[0] # First answer
+        if a[0] == None:
+            a = self.query(search='(%s=%s)'% (configuration.attr_login, login),
+                        base=configuration.ou_top, attributes=attributes
+                        )
+            a = a[0]
+            if a[0] != None:
+                utilities.send_backtrace('THIS CODE IS USEFUL!')
+        if a[0] != None:
+            if len(a) >= 2:
+                return a[1]
+        return {}
+
+L = None
+
+def mail(login):                  return L.mail(login)
+def get_ldap_ues():               return L.get_ldap_ues()
+def portail(login):               return L.portail(login)
+def ues_of_a_student(name):       return L.ues_of_a_student(name)
+def ues_of_a_student_short(name): return L.ues_of_a_student_short(name)
+def firstname_and_surname(login): return L.firstname_and_surname(login)
+def member_of_list(login):        return L.member_of_list(login)
+def ufr_of_teacher(login):        return L.ufr_of_teacher(login)
+def is_a_teacher(login):          return L.is_a_teacher(login)
+def is_an_abj_master(login):      return L.is_an_abj_master(login)
+def is_an_administrative(login):  return L.is_an_administrative(login)
+def is_a_referent(login):         return L.is_a_referent(login)
+
+#REDEFINE
+# If the student login in LDAP is not the same as the student ID.
+# This function translate student login to student ID.
+# The returned value must be usable safely.
+def login_to_student_id(login):
+    return login
+
+def login_from_ldap(i):
+    if configuration.attr_login_alt in i:
+        return i[configuration.attr_login_alt][0]
+    else:
+        return i[configuration.attr_login][0]
+
+def member_of(groupe):
+    for i in L.member_of(groupe):
+        yield i
+
+def firstname_and_surname_and_mail(login):
+    return L.firstname_and_surname_and_mail(login)
+def firstname_and_surname_to_login(firstname, surname):
+    return L.firstname_and_surname_to_login(firstname, surname)
+def firstname_surname_to_login(firstname_surname):
+    return L.firstname_surname_to_login(firstname_surname)
+def firstname_or_surname_to_logins(name, base=None, attributes=None):
+    return L.firstname_or_surname_to_logins(name, base, attributes)
+def is_in_one_of_the_groups(login, groups):
+    return L.is_in_one_of_the_groups(login, groups)
+
+def password_ok(login):
+    return L.password_ok(login)
+password_ok = utilities.add_a_cache(password_ok, not_cached=False)
+
+def students(ue):
+    for i in L.students(ue):
+        yield i
+
+        
+demo_animaux = {
+    'k01':('k01',u'Bernard' ,u'BONOBO'      ,'bbonobo@africa.net'     ,'M',''),
+    'k02':('k02',u'Georges' ,u'ROUGE GORGE' ,'grouge-gorge@europe.net','O',''),
+    'k03':('k03',u'Magalie' ,u'MIGALE'      ,'mmigale@africa.net'     ,'A',''),
+    'k04':('k04',u'Lucien'  ,u'LEZARD'      ,'llezard@france.net'     ,'R',''),
+    'k05':('k05',u'Théodore',u'TIGRE'       ,'ttigre@asia.net'        ,'M',''),
+    'k06':('k06',u'Simon'   ,u'SCORPION'    ,'sscorpion@africa.net'   ,'A',''),
+    'k07':('k07',u'Cécilia' ,u'CHEVAL'      ,'ccheval@europe.net'     ,'M',''),
+    'k08':('k08',u'Tatiana' ,u'TORTUE'      ,'ttortue@ocean.net'      ,'R',''),
+    'k09':('k09',u'Ambroise',u'AIGLE'       ,'aaigle@america.net'     ,'O',''),
+    'k10':('k10',u'Bill'    ,u'BOA'         ,'bboa@africa.net'        ,'R',''),
+    'k11':('k11',u'Merlin'  ,u'MYRIAPODE'   ,'mmerlin@europe.net'     ,'A',''),
+    'k12':('k12',u'Fanny'   ,u'FLAMANT ROSE','fflamant-rose@europ.net','O',''),
+    'k13':('k13',u'Olivier' ,u'OURS'        ,'oours@us.net'           ,'M',''),
+    }
+
+if __name__ == "__main__":
+    configuration.terminate()
+    import inscrits
+    L = inscrits.LDAP()
+    print ufr_of_teacher('thierry.excoffier')
+    print firstname_or_surname_to_logins('excoffier')
+
+    if False:
+        # display mails of the member of a group
+        for j in L.query('(memberOf=CN=1072 APO-Etudes Doctorales,OU=groupes,OU=etudiants,DC=univ-lyon1,DC=fr)',
+                         base=configuration.ou_students,
+                         attributes=(configuration.attr_mail,)):
+            j = j[1]
+            if configuration.attr_mail in j:
+                print j[configuration.attr_mail][0]
+
+    if False:
+        print firstname_surname_to_login('Patrick Ravel-Chapuis')
+        print firstname_surname_to_login('Guy-Marie Arnaud')
+        print firstname_surname_to_login('bruno mascret')
+        print firstname_surname_to_login('anne-lyse papini')
+        print firstname_surname_to_login('anne lyse papini')
+        print firstname_surname_to_login('behzad shariat')
+        print firstname_surname_to_login('isabelle guerin-lassous')
+        print firstname_surname_to_login('amelie cordier')
+        print firstname_surname_to_login('beatrice leca bouvier')
+        print firstname_surname_to_login('christelle bidaud-bonod')
+        print firstname_surname_to_login('Juliette Tuaillon')
+    if False:
+        print password_ok("evelyne.martel")
+    if False:
+        configuration.allow_student_list_baseip = False
+        print list(students('UE-INF1001L'))
+    if False:
+        s = 'Éliane PERNA'
+        print ues_of_a_student(s)
+        print firstname_and_surname(s)
+        print firstname_and_surname_to_login(u'Éliane', u'Perna')
+        print '================'
+        print is_a_teacher('thierry.excoffier')
+        print '================'
+        print L.query(search='(displayname=GELAS Patrick)',
+                      base=configuration.ou_top)
+

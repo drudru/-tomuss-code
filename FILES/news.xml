@@ -1,0 +1,292 @@
+<?xml version="1.0" encoding="utf-8"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <language>fr</language>
+    <title>TOMUSS : nouveautés</title>
+    <description>
+      Liste des changements de version avec les nouvelles fonctionnalités.
+    </description>
+    <link>http://tomuss.univ-lyon1.fr/</link>
+    <item>
+      <title>25/02/2010 : Version 2.8.6</title>
+      <description>Nouveautés :
+	&lt;UL&gt;
+	&lt;LI&gt;
+	Coloration de la page d'accueil en fonction du semestre.
+	&lt;LI&gt;
+	Des flux RSS pour les étudiants, les tables et les nouvelles.
+	&lt;/UL&gt;
+      </description>      
+      <link>http://tomuss.univ-lyon1.fr/</link>
+      <guid>1</guid>
+    </item>
+    <item>
+      <title>01/03/2010 : Version 2.8.7</title>
+      <description>Corrections de bugs :
+	&lt;UL&gt;
+	&lt;LI&gt;
+        La récupération des listes d'étudiants est plus rapide.
+	&lt;LI&gt;
+        On récupère aussi les étudiants des UE hors-séquences.
+	&lt;/UL&gt;
+      </description>      
+      <link>http://tomuss.univ-lyon1.fr/</link>
+      <guid>2</guid>
+    </item>
+    <item>
+      <title>02/03/2010 : Version 2.8.8</title>
+      <description>Corrections de bugs concernant la licence STS :
+	&lt;UL&gt;
+	&lt;LI&gt;
+        Les listes d'étudiants pour les UE hors-séquences sont récupérées.
+	&lt;LI&gt;
+        La récupération des listes d'étudiants est plus rapide.
+	&lt;/UL&gt;
+      </description>      
+      <link>http://tomuss.univ-lyon1.fr/</link>
+      <guid>3</guid>
+    </item>
+    <item>
+      <title>03/03/2010 : Version 2.8.9</title>
+      <description>Cette version affiche en rouge dans le bloc note
+        du référent les étudiants qui ont quitté l'université
+        pour le semestre de printemps.</description>      
+      <link>http://tomuss.univ-lyon1.fr/</link>
+      <guid>4</guid>
+    </item>
+    <item>
+      <title>04/03/2010 : Version 2.8.10</title>
+      <description>Le suivi des étudiants n'affiche plus ABINJ???
+      pour les cases vides quand le groupe de TD
+      de l'étudiant n'est pas défini.
+      </description>      
+      <link>http://tomuss.univ-lyon1.fr/</link>
+      <guid>5</guid>
+    </item>
+    <item>
+      <title>09/03/2010 : Version 2.8.11</title>
+      <link>http://tomuss.univ-lyon1.fr/</link>
+      <description>Nouveautés :
+	&lt;UL&gt;
+	&lt;LI&gt;
+        Il est maintenant possible de saisir une date de visibilité
+        pour la colonne.
+        Pour les étudiants, la note s'affichera dans leur suivi seulement
+        à partir de la date indiquée.
+	&lt;LI&gt;
+        Dans les statistiques par groupe d'étudiants, la moyenne du groupe
+        est en &lt;B&gt;gras et noir&lt;/B&gt; si moins
+        de la moitié des étudiants ont eu une note.
+	&lt;LI&gt;
+        La documentation explique comment conserver des notes
+        d'un semestre sur l'autre pour des étudiants redoublants.
+	&lt;/UL&gt;
+      </description>      
+      <guid>6</guid>
+    </item>
+    <item>
+      <title>11/03/2010 : Version 2.8.12</title>
+      <link>http://tomuss.univ-lyon1.fr/</link>
+      <description>
+         Il est maintenant possible de rendre une table privée.
+         Seuls les responsables d'UE pourront voir le contenu de la table
+         et donc le modifier.
+         Par contre les étudiants (et les enseignants) verront les
+         notes dans le suivi.
+      </description>      
+      <guid>7</guid>
+    </item>
+    <item>
+      <title>20/03/2010 : Version 2.8.13</title>
+      <link>http://tomuss.univ-lyon1.fr/</link>
+      <description>
+Nouveautés :
+	&lt;UL&gt;
+	&lt;LI&gt;
+          Maintenant seul le propriétaire de la colonne peut changer
+          le commentaire associé (ou le responsable de l'UE).
+	&lt;LI&gt;
+          Les UE favorites sont maintenant composées des tables
+          les plus souvent consultés.
+	&lt;LI&gt;
+          On peut maintenant dire à TOMUSS de lier dynamiquement
+          le contenu d'une colonne au contenu d'une page web au format CSV.
+          Il mettra presque automatiquement à jour le contenu de la colonne
+          en fonction du contenu de la page web.
+	&lt;LI&gt;
+          Les ascenseurs étaient cassés depuis un mois sous IE et
+          personne ne m'avait prévenu. C'est maintenant réparé.
+	&lt;/UL&gt;
+
+      </description>      
+      <guid>8</guid>
+    </item>
+    <item>
+      <title>22/03/2010 : Version 2.8.14</title>
+      <link>http://tomuss.univ-lyon1.fr/</link>
+      <description>L'importation de colonnes fonctionne maintenant
+      même quand il y a des accents.
+      </description>      
+      <guid>9</guid>
+    </item>
+    <item>
+      <title>24/03/2010 : Version 2.8.15</title>
+      <link>http://tomuss.univ-lyon1.fr/</link>
+      <description>
+        Principalement des corrections de problèmes,
+        notamment dus à des bugs de IE.
+      </description>
+      <guid>10</guid>
+    </item>
+    <item>
+      <title>30/03/2010 : Version 2.8.18</title>
+      <link>http://tomuss.univ-lyon1.fr/</link>
+      <description>
+         Correction d'un bug déclenché par le passage à l'heure d'été,
+         ceci ne concerne que la gestion des ABJ.
+      </description>
+      <guid>11</guid>
+    </item>
+    <item>
+      <title>11/04/2010 : Version 2.8.19</title>
+      <link>http://tomuss.univ-lyon1.fr/</link>
+      <description>Outre la correction de nombreux bug,
+      les principaux changements sont :
+	&lt;UL&gt;
+	&lt;LI&gt; Une page de documentation interactive unique fusionnant
+           toutes les informations et questions a été créée.
+        &lt;LI&gt; Allègement de l'interface utilisateur.
+        &lt;LI&gt; Pour saisir une date «actuelle» dans une cellule
+                  de type date,
+                  on peut se contenter de saisir seulement le jour.
+        &lt;LI&gt; Le champ ø a été ajouté aux colonnes de type date et texte.
+	&lt;/UL&gt;
+      </description>
+      <guid>12</guid>
+    </item>
+    <item>
+      <title>04/05/2010 : Version 2.8.20</title>
+      <link>http://tomuss.univ-lyon1.fr/</link>
+      <description>Correction de nombreux bugs.
+        Le lien «Qui fait quoi» a été supprimé.
+        TOMUSS détecte quand un anti-virus refuse de le laisser
+        fonctionner et passe en mode dégradé pour se lancer quand même.
+      </description>
+      <guid>13</guid>
+    </item>
+    <item>
+      <title>11/05/2010 : Version 2.8.21</title>
+      <link>http://tomuss.univ-lyon1.fr/</link>
+      <description>
+        TOMUSS prend maintenant en compte la molette de la souris
+        pour se déplacer quand on édite les tables (vous pouvez
+        remercier Stéphanie Jean-Daubias).
+      </description>
+      <guid>14</guid>
+    </item>
+    <item>
+      <title>27/05/2010 : Version 2.8.23</title>
+      <link>http://tomuss.univ-lyon1.fr/home</link>
+      <description>
+        Version beta de la &lt;a href="http://tomuss.univ-lyon1.fr/home"&gt;nouvelle page d'accueil&lt;/a&gt; !
+      </description>
+      <guid>15</guid>
+    </item>
+    <item>
+      <title>06/06/2010 : Version 2.9.0</title>
+      <link>http://tomuss.univ-lyon1.fr/</link>
+      <description>
+        Nouvelle page d'accueil&lt;/a&gt; !
+        Elle permet des gérer ses UE et étudiants favoris.
+        On peut directement trouver les étudiants sans passer par le suivi.
+      </description>
+      <guid>16</guid>
+    </item>
+    <item>
+      <title>21/06/2010 : Version 2.9.2</title>
+      <link>http://tomuss.univ-lyon1.fr/</link>
+      <description>
+	Les UE avec un étudiant qui a un tiers temps
+	sont directement indiquées sur la page d'accueil.
+      </description>
+      <guid>17</guid>
+    </item>
+    <item>
+      <title>28/06/2010 : Version 2.9.5</title>
+      <link>http://tomuss.univ-lyon1.fr/</link>
+      <description>
+	Le menu sur les UE de la page d'accueil est de nouveau fonctionnel.
+      </description>
+      <guid>18</guid>
+    </item>
+    <item>
+      <title>19/08/2010 : Version 2.9.7</title>
+      <link>http://tomuss.univ-lyon1.fr/</link>
+      <description>
+        De nombreux bugs ont été corrigés, les principales nouveautés sont:
+      &lt;ul&gt;
+      &lt;li&gt; Les tables par sports seront disponibles dès que les IP
+           seront terminées. De même pour les groupes dans les différentes
+           ECUE des UE transversales.
+      &lt;li&gt; Dans le suivi des étudiants toutes les UE auxquels il est
+           inscrits sont affichées même si TOMUSS ne contient aucune
+           information les concernant.
+      &lt;/ul&gt;
+      </description>
+      <guid>19</guid>
+    </item>
+    <item>
+      <title>22/09/2010 : Version 2.10.0</title>
+      <link>http://tomuss.univ-lyon1.fr/</link>
+      <description>
+        De très nombreux bugs ont été corrigés.
+        Le principal changement est que TOMUSS est moins souvent
+        bloqué par les antivirus et par les bugs de FireFox.
+      </description>
+      <guid>20</guid>
+    </item>
+    <item>
+      <title>10/10/2010 : Version 2.10.6</title>
+      <link>http://tomuss.univ-lyon1.fr/</link>
+      <description>
+          Nouvelle fonctionnalité : le remplissage de colonne
+          avec une ou plusieurs valeurs.
+      </description>
+      <guid>21</guid>
+    </item>
+    <item>
+      <title>14/11/2010 : Version 2.10.14</title>
+      <link>http://tomuss.univ-lyon1.fr/</link>
+      <description>
+          Nouvelles fonctionnalités depuis la 2.10.6 :
+&lt;/ul&gt;
+&lt;li&gt; On peut plus facilement effacer le contenu des lignes rouges.
+&lt;li&gt; On interdit de donner une date de visibilité dans le passé.
+&lt;li&gt; On peut indiquer la place dans l'amphi dans la feuille d'émargement.
+&lt;li&gt; Le type de colonne « Copy On Write » copie aussi le comportement de la colonne original.
+&lt;li&gt; Les lignes vides ne sont plus affichées sur la feuille d'émargement.
+&lt;li&gt; Les statistiques sur l'histogramme tiennent compte de la valeur de ø
+
+&lt;li&gt; Quand on double-clique sur un Booleen ou un Présent cela ne passe plus pas une valeur vide.
+&lt;li&gt; Le coloriage rouge/vert peut contenir un filtre au lieu d'une simple note.
+&lt;li&gt; On peut modifier le coloriage rouge/vert même si l'on est pas le propriétaire de la colonne.
+&lt;/ul&gt;
+      </description>
+      <guid>22</guid>
+    </item>
+    <item>
+      <title>20/10/2010 : Version 2.10.16</title>
+      <link>http://tomuss.univ-lyon1.fr/</link>
+      <description>
+         La nouveauté de cette version est le publi postage.
+         Vous pouvez envoyer des messages personnalisés aux étudiants
+         en fonction du contenu de la ligne les concernant.
+      </description>
+      <guid>23</guid>
+    </item>
+
+
+
+
+  </channel>
+</rss>

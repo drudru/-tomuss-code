@@ -1,0 +1,86 @@
+<HTML>
+  <HEAD>
+    <META HTTP-EQUIV="Content-Type" CONTENT="text/html;charset=UTF-8">
+    <META NAME="ROBOTS" CONTENT="NOINDEX, NOFOLLOW">
+    <link rel="stylesheet" href="_URL_/style.css" type="text/css">
+    <link rel="stylesheet" href="_URL_/hidden.css" type="text/css">
+    <link REL="icon" HREF="_URL_/favicon.ico">
+    <link href="_URL_/news.xml" rel="alternate" title="TOMUSS : nouveautés" type="application/rss+xml">
+    <TITLE>Accueil TOMUSS</TITLE>
+    <script>
+      var base = "_BASE_" ;
+      var username2 = "_USERNAME2_" ;
+      var username = "_USERNAME_" ;
+      var suivi = _SUIVI_ ;
+      var ufr = "_UFR_" ;
+      var ticket = "_TICKET_" ;
+      ufr = "" ;
+    </script>
+    <script src="_URL_/utilities.js"></script>
+
+    <!-- Load these .js here in order to put these files in cache for Safari
+         THEY ARE NOT USED ! -->
+    <script src="_URL_/types.js" defer="defer"></script>
+    <script src="_URL_/middle.js" defer="defer"></script>
+    <script src="_URL_/abj.js" defer="defer"></script>
+    <script src="_URL_/lib.js" defer="defer"></script>
+    <!-- To take a new ticket after 10 hours -->
+    <script>setTimeout("window.location.reload()", 1000*3600*10)</script>
+
+  </HEAD>
+  <BODY style="margin: 0"
+    onkeypress="if (the_event(event).keyCode==27) ue_line_close();">
+    <div class="identity">
+      <p style="margin-top: 0">
+      <a href="_URL_/=_TICKET_/logout">Déconnexion</a> <b>_USERNAME_</b>
+    <a href="_URL_/news.xml"><img style="border:0px;vertical-align:top" src="_URL_/feed.png"></a><br>
+	<a href="mailto:_ADMIN_">Contact</a>.
+	<a target="_blank" href="_URL_/doc_table.html">Documentation</a>.
+	<a target="_blank" href="_URL_/=_TICKET_/0/Preferences/_USERNAME2_">Préférences</a>
+      </p>
+    </div>
+    <noscript><h1 style="font-size:400%;background:red; color:white">Cette application nécessite que JavaScript soit activé</h1></noscript>
+    <!-- Modifiable via the configuration table -->
+    _MESSAGE2_
+    <!-- Bad password message -->
+    _MESSAGE_
+
+
+    <!-- Do not insert spaces in the next line -->
+    <H1 style="margin-top: 0">TOMUSS <select id="s" onchange="change_icones()" style="font-size:70%"></select></H1>
+
+      <p class="testmessage">Pour essayer TOMUSS sans danger, choisissez <b>2008/Test</b> dans la liste ci-dessus, puis choisissez une UE.</p>
+      <TABLE class="top2">
+	<TR><TD width="40%">
+	  <h2>UE et étapes</h2>
+	  <table class="uelist searchresult">
+	    <tr><th colspan="3"><script>hidden('Recherche','Vous pouvez indiquer un code APOGÉE, un mot clef, un nom ou prénom de responsable.')</script></th></tr>
+	    <tr class="search"><td colspan="3">
+		 <script>hidden('<input style="border: 1px outset grey;" type="button" value="Chercher" onclick="update_ues2(document.getElementById(\'ue_input_name\').value,true);">',
+		  'Ce bouton permet de lancer la recherche,<br>si vous n\'avez pas de clavier') ;
+		</script> : <input class="search_field" id="ue_input_name" class="keyword" onkeyup="if ( this.value != this.old_value ) { update_ues2(this.value); this.old_value = this.value ; }" onchange="if ( this.value != this.old_value ) { update_ues2(this.value); this.old_value = this.value ; }" value="">
+		
+	      </td>
+	    </tr>
+	  </table>
+	  <div id="ue_list" class="ue_list">
+	    Le chargement de la liste des UE est en cours,
+	    veuillez patienter.
+	  </div>
+	</td>
+	<td width="20%">
+	  <h2>Étudiants</h2>
+	  <table class="uelist searchresult">
+	    <tr><th class="student_id"><script>hidden('Recherche','Vous pouvez indiquer un nom ou un prénom ou un identifiant.')</script></th></tr>
+	    <tr class="search"><td>
+		 <script>hidden('<input style="border: 1px outset grey;" type="button" value="Chercher" onclick="update_students(document.getElementById(\'search_name\').value,true);">',
+		  'Ce bouton permet de lancer la recherche,<br>si vous n\'avez pas de clavier') ;
+		</script> : <input class="search_field" id="search_name" class="keyword" onkeyup="if ( this.value != this.old_value ) { update_students(this.value); this.old_value = this.value ; }" onchange="if ( this.value != this.old_value ) { update_students(this.value); this.old_value = this.value ; }" value="">
+		</td></tr>
+	  </table>
+	  <div id="students_list"></div>
+	  <div id="the_favorite_students"></div>
+	  <div id="the_students"></div>
+	</td>
+	<td id="rightpart" width="20%">
+

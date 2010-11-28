@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.0//EN"
+"http://www.w3.org/TR/2001/REC-SVG-20010904/DTD/svg10.dtd">
+<svg xmlns="http://www.w3.org/2000/svg"
+  xmlns:xlink="http://www.w3.org/1999/xlink" 
+  width="100%" height="100%"
+  id="svgroot"
+      onmouseup="document.getElementById('g').setAttribute('transform',
+			      'translate(' + evt.clientX +
+				',' + evt.clientY + ')')"
+	>
+  <style>
+      	        rect { fill-opacity: 0.7 ; fill: #FFF; }
+    g.ip        rect { fill: #888; }
+    g.ticket    rect { fill: #FFD; }
+    g.ticket_teacher rect { fill: #FF8; }
+    g.ticket_root rect { fill: #FF0; }
+    g.ticket_abj rect { fill: #880; }
+    g.Printemps rect { fill: #0F0; }
+    g.Automne   rect { fill: #F96; }
+    text.action  { font-size: 60%; }
+    text.action tspan { text-anchor: middle }
+    line { stroke: black; }
+    .x1 { stroke-width: 2; }
+    .x2 { stroke-width: 1; }
+    .x3 { stroke-width: 0.5; }
+    .x4 { stroke-width: 0.25; }
+    .axis { stroke-width: 1; stroke: black; marker-end: url(#Triangle) }
+    .graph polyline {
+		stroke-width: 1;
+		fill-opacity: 0;
+		}
+    .graph text {
+		font-size: 10px ;
+		font-family: sans ;
+		stroke-width: 0;
+	   	}
+    .data1 { stroke: #F00; fill: #F00}
+    .data2 { stroke: #0F0; fill: #0F0}
+    .data3 { stroke: #00F; fill: #00F}
+    
+  </style>
+  <defs>
+    <marker id="Triangle"
+      viewBox="0 0 10 10" refX="0" refY="5" 
+      markerUnits="strokeWidth"
+      markerWidth="8" markerHeight="6"
+      orient="auto">
+      <path d="M 0 0 L 10 5 L 0 10 z" />
+    </marker>
+  </defs>
+
+  <g id="root"><g></g><g></g>
+    <g style="display:none">
+	<g id="ticket" class="ticket"><rect/><text x="2px"><tspan y="1em"/><tspan dy="1em" x="2px"/></text></g>
+	<g id="node" class="ip"><rect/><text x="2px"/></g>
+	<g id="table" class="table"><rect/><text x="2px"><tspan y="1em"/><tspan dy="1em" x="2px"/><tspan dy="1em" x="2px"/></text></g>
+	<g id="link"><line/><text/></g>
+	<tspan id="tspan"/>
+    </g>
+    <g transform="translate(500,150)" class="graph" id="g">
+       <polyline points="0,0 500,0" class="axis"/>
+       <polyline points="0,0 0,-100" class="axis"/>
+       <polyline id="data1" points="" class="data1"/>
+       <polyline id="data2" points="" class="data2"/>
+       <polyline id="data3" points="" class="data3"/>
+	<text y="-105" class="data1">Load Average 5min</text>
+	<text y="-115" class="data2">Disc activity</text>
+	<text y="-125" class="data3">Network activity</text>
+    </g>
+    <text x="0" y="0" id="action" class="action"><tspan>sadasd</tspan><tspan>sadasd</tspan></text>
+  </g>
+  <script xlink:href="../utilities.js"/>
+  <script xlink:href="../live_status.js"/>

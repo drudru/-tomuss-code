@@ -1,0 +1,795 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+  <head>
+    <title>Programmation de TOMUSS : retour d'expérience</title>
+    <style>
+      TD { text-align: left ; }
+      TD, TH { border: 1px solid black ; }
+      TABLE { border: 1px solid black ; border-spacing: 0px ; }
+      UL { margin-top: 0px ; }
+      P { margin-bottom: 0px ; }
+
+      A.h1 { font-size: 130% ; }
+      A.h2 { font-size: 120%   ; margin-left: 2em ; }
+      A.h3 { font-weight: bold ; margin-left: 4em  ; }
+      A.h4 { margin-left: 6em  ; }
+
+      H1 { text-align: center ; }
+      H2 { font-size: 200% ; }
+      H3 { font-size: 150% ; }
+
+      DIV.h2, DIV.h3, DIV.h4 {
+         margin-left: 2em ;
+      }
+
+      H4 { border-bottom: 1px solid black ;
+           border-left: 1px solid black ;
+           margin-bottom: 0px;
+           padding: 0.2em ;
+      }
+      DIV.h4 {
+           border-left: 1px solid black ;
+           margin-top: 0px;
+           padding-left: 0.5em ;
+           padding-top: 0.5em ;
+      }
+      DIV.h4 p:first-child { margin-top: 0px ; }
+      
+      </style>
+
+  </head>
+
+  <body>
+    <h1>Programmation de TOMUSS : retour d'expérience.</h1>
+
+    <p>
+      Au début TOMUSS était un simple tableau partagé dans lequel
+      différents enseignants pouvaient remplir des cellules.
+      Puis de nombreuses fonctionnalités non prévues ont
+      du être ajoutées.
+    <p>
+      Ce document présente différents choix techniques
+      et les analyses <i>a posteriori</i>.
+    <p>
+      TOMUSS a évolué et a pour objectif d'être utilisable par
+      l'ensembles des enseignants de Lyon 1 pour l'ensemble des UE.
+      Il supporte sans problèmes de UE avec 1500 étudiants
+      et 45 colonnes.
+    <p>
+      J'ai développé TOMUSS seul, les choix techniques et l'organisation
+      du code n'aurait pas été la même si le projet avait
+      été fait à plusieurs.
+
+
+    <div id="toc"></div>
+
+    <h2>Interface utilisateur.</h2>
+    <p>
+      Il est dans le navigateur web.
+
+    <h3>JavaScript coté client.</h3>
+
+    <p>
+      JavaScript est obligatoire si l'on veut faire une application interactive
+      dans la navigateur.
+    <p>
+      Java n'a pas été choisi, parce que :
+    <ul>
+      <li> Il doit être installé sur le client.
+      <li> Il y a des problèmes de compatibilité.
+      <li> On perd la richesse du HTML et des CSS.
+      <li> Je n'aime pas Java (ni JavaScript d'ailleurs).
+    </ul>
+    <p>
+      Cela serait à refaire, j'utiliserais un compilateur
+      permettant d'écrire en Python et de générer du JavaScript.
+      Évidemment, le code JavaScript doit rester performant.
+    <p>
+      Il y a très peu de problèmes de compatibilité JavaScript sur
+      les programmes correctement écrit (sauf <tt>split</tt>).
+      Les problèmes sont au niveau de DOM et des événements.
+      Là aussi, les programmes simples (qui ne font pas des choses
+      tordues) fonctionnent sans problèmes.
+    <p>
+      Le protocol <tt>data</tt> des URI permet à JavaScript
+      de générer n'importe quel document dynamiquement.
+      <pre>&lt;object type="image/svg+xml" data="data:image/svg+xml;utf8,&lt;svg&gt;&lt;/svg&gt;">&lt;/object&gt;</pre>
+    Malheureusement les restrictions pour des raisons de sécurité
+    interdisent dans certains navigateurs (chrome) la modification
+    du champs <tt>data</tt> d'un objet existant.
+    Il faut donc générer l'objet total.
+    <p>
+      Quand j'ai commencé à écrire TOMUSS je ne savais pas que
+      JavaScript permettait de faire des objets.
+      Il manque donc une ou deux classes qui auraient bien
+      simplifié le code.
+
+    <h3>Page unique.</h3>
+    <p>
+      Si l'on omet la page d'accueil permettant de choisir
+      quel tableau on veut éditer,
+      la seule page interactive est celle permettant d'éditer le tableau.
+    <p>
+      L'utilisateur devient donc rapidement à l'aise avec cet interface
+      qui reste inchangé durant son travail.
+    <p>
+      Pour accentuer ceci, de nombreuses fonctionnalités sont présentées
+      avec le même interface utilisateur&nbsp;:
+    <ul>
+      <li> La liste des enseignants référents.
+      <li> Les blocnotes des enseignants référents.
+      <li> Les statistiques (sur les notes, les navigateurs,
+	les UE, les enseignants, le temps de réponse du serveur...)
+      <li> Les préférences des utilisateurs.
+      <li> La liste des tiers temps.
+      <li> Les pages de configuration de TOMUSS.
+    </ul>
+    <p>
+      Le choix a été fait d'afficher constamment l'ensemble des informations
+      disponibles sans que l'utilisateur n'est besoin de le demander.
+      Cela a été possible sans que cela devienne fouilli en&nbsp;:
+    <ul>
+      <li> structurant l'espace d'affichage verticalement
+	(cellule, colonne, table) et horizontalement
+	(auteur, commentaire, filtre).
+      <li> N'indiquant pas les intitulés des valeurs affichées pour
+	gagner de la place.
+	C'est possible car&nbsp;:
+	<ul>
+	  <li> Il y a les bulles d'aide.
+	  <li> Le champs de saisie vide indique la valeur qu'il doit contenir.
+	</ul>
+    </ul>
+    <p>
+      Quand l'utilisateur déplace la cellule courante,
+      les changements de valeurs sont mis en évidence dans l'interface
+      afin de l'aider à savoir où regarder.
+	
+
+    <h3>Bulles d'aides.</h3>
+    <p>
+      Tous les éléments de l'interface utilisateur possèdent une bulle d'aide.
+    <ul>
+      <li> Elles apparaissent/disparaissent instantanément afin
+	de pouvoir chercher rapidement une information.
+      <li> Elles sont contextuelles.
+      <li> Elles sont succintes pour ne pas cacher l'interface.
+      <li> Elle permettent à l'utilisateur de ne pas avoir
+	à lire la documentation.
+      <li> Sur les champs de saisi, elle affichent le texte saisi non tronqué.
+    </ul>
+    <p>
+      Un conseil d'implémentation : ne pas utiliser les CSS, il faut
+      gérer les bulles d'aide en JavaScript.
+      Le positionnement et le contenu peut être fait défini intelligemment.
+    <p>
+      Des bulles d'aides à deux niveaux seraient bienvenues pour
+      certaines fonctionnalité complexe.
+
+    <h3>Filtres.</h3>
+    <p>
+      Les filtres permettent de sélectionner des données.
+      Leur syntaxe a été définie pour être abordable par les
+      nouveaux utilisateurs tout en offrant d'innombrables
+      possibilité pour les utilisateurs avancés.
+    <p>
+      La syntaxe des filtres est volontairement implicite afin
+      d'être le plus facilement utilisable par un être humain.
+      Par exemple <tt>&lt;5</tt> considère que l'on filtre des nombres
+      et <tt>&lt;d</tt> considère que l'on filtre des chaines de caractères.
+    <p>
+      On utilise évidemment <tt>ou</tt> et non <tt>|</tt>
+    <p>
+      Pour que les utilisateurs aient le moins possible d'apprentissages
+      à faire.
+      Les filtres sont utilisés dans de nombreux contextes&nbsp;:
+    <ul>
+      <li> Filtrer les lignes qui contiennent une certaine valeur dans
+	une colonne.
+      <li> Filtrer les lignes contenant une certaine valeur quelque part.
+      <li> Filtrer les colonnes à afficher.
+      <li> Filtrer les cellules.
+      <li> Compter le nombre de cellules respectant un critère.
+    </ul>
+    <p>
+      Implémentation : Pour que les filtres soient performant
+      une fonction JavaScript les réécrits sous la forme d'une fonction
+      JavaScript qui est donc rapidement exécutable.
+	
+    <h3>Edition dans le tableau.</h3>
+    <p>
+      N'ayant pas de formule à ralonge dans les cases ou de textes longs.
+      La zone de saisie classique dans les tableurs n'a pas été faites
+      afin de ne pas perdre de place.
+    <p>
+      La démarche initiale était de mettre un champ INPUT par
+      case du tableau.
+      Ceci n'est pas possible car cela cela prend trop de mémoire
+      et de temps.
+    <p>
+      La solution actuelle est d'avoir un champ INPUT unique que
+      l'on déplace par dessus les cases du tableau.
+      Un autre avantage de cette approche est que si l'on
+      tape du texte très vite est qu'aucun caractère n'est perdu
+      quand on change de case.
+
+    <h3>Fonctions peu usités</h3>
+    <p>
+      On ne veut pas charger l'interface utilisateur en offrant des
+      tas de fonctions qui n'intéressent que de très rares personnes.
+      Pour ce faire, ces fonctions ne sont pas visibles sur l'interface,
+      il est donc nécessaire de lire la documentation.
+      Quelques exemples&nbsp;:
+    <ul>
+      <li> La destruction/extension de table est possible via la modification
+	directe de l'URL.
+      <li> Les arrondis automatiques de colonne sont configurés
+	en indiquant simplement l'arrondi quelque part 
+	dans le commentaire de colonne (<b>arrondi à XXX</b>).
+	Idem pour la moyenne des X meilleurs notes.
+    </ul>
+      
+
+    <h2>Architecture client/serveur.</h2>
+    <p>
+      Les clients de TOMUSS sont les navigateurs web.
+
+    <h3>Serveur web.</h3>
+    <p>
+      TOMUSS n'utilise pas un serveur web car c'est un serveur web.
+      Il peut donc répondre instantanément aux requêtes car
+      il est en attente de question et il a les informations
+      disponibles en mémoire.
+    <p>
+      En fait, pour mieux égaliser la charge et pouvoir partager
+      le travail entre plusieurs machines si nécessaire,
+      il y a plusieurs serveurs.
+      Le serveur TOMUSS gère l'affichage et la modification des tables.
+      Les serveurs de suivi (un par semestre) gèrent l'extraction
+      d'information de l'ensemble des tables d'un semestre.
+      Aucun des serveurs n'a besoin de 2Go de mémoire.
+      
+    <h3>Proxy Apache.</h3>
+    <p>
+      Les différents serveurs web utilisent des ports différents.
+      Pour ne pas polluer les URL et simplifier les filtres
+      qui autorisent les ports sur le campus,
+      un serveur Apache <i>proxy</i> aiguille les requêtes
+      vers le bon serveur TOMUSS.
+    <p>
+      Malheureusement, Apache se permet des choses.
+      Il transforme les requêtes GET contenant <tt>%2F</tt> (/)
+      et <tt>%3F</tt> (&) pour des raisons de sécurité.
+      TOMUSS contient donc malheureusement une bidouille
+      pour ne pas transmettre ces codes qu'il transforme
+      en <tt>%01</tt> et <tt>%02</tt> qui sont des codes
+      que l'utilisateur ne tape pas au clavier.
+    <p>
+      Apache MaxClient impose une limite sur le nombre de pages
+      ouvertes simultanément car TOMUSS garde la session ouverte.
+
+    <h3>Serveur écrit en Python.</h3>
+    <p>
+      Le travail du serveur est tout à fait minimal puisque
+      les clients ont leur indépendance.
+      Un langage compilé n'est donc pas obligatoire.
+    <p>
+      J'ai choisi Python car :
+    <ul>
+      <li> Je le connais.
+      <li> Il est adapté au travail demandé.
+    </ul>
+
+    <h3>JavaScript fait les calculs.</h3>
+    <p>
+      Afin d'alléger au maximum la charge du serveur,
+      celui ci fait le minimum&nbsp;: vérification, stockage, diffusion.
+    <p>
+      Tout le reste est fait par le client.
+      Ceci charge les machines utilisateurs mais cela permet
+      une plus grande réactivité.
+    <p>
+      Toutes les pages de compte rendu comme les trombinoscopes,
+      les feuilles d'émargement, les statistiques...
+      sont générées complètement par JavaScript sans aucune intervention
+      du serveur.
+      Les pages contenant des tables peuvent elles-aussi être générées.
+      En effet, le serveur n'envoit pas de page HTML mais
+      des fichiers JavaScript permettant de générer le code HTML.
+
+    <p>
+      Le serveur ne faisant pratiquement rien,
+      l'application peut fonctionner pour l'université complète
+      sans aucun problème.
+    <p>
+      Cette manière de procédé soulève néanmoins un gros problème.
+      Comme c'est le navigateur web qui fait les calculs de moyenne
+      le serveur ne les connaît pas.
+      Ceci est gênant quand le serveur doit faire des calculs
+      statistiques sur de nombreuses UE.
+      Ceci n'est pas possible actuellement car la code JavaScript
+      qui calcule les moyennes n'a pas été reprogrammé en Python.
+    <p>
+      JavaScript coté client ne permet malheureusement pas
+      (pour des raisons de sécurité), d'extraire des informations de pages web
+      si cela n'a pas été prévu.
+      Le client TOMUSS ne peut donc extraire automatiquement des informations
+      d'une page web pour les intégrer dans un tableau TOMUSS.
+      TOMUSS lui-même ne peut le faire car il n'a pas l'identité
+      de l'utilisateur.
+      
+
+    <h3>Authentification.</h3>
+    <p>
+      Le client est redirigé vers CAS pour obtenir un ticket.
+      Le ticket attribué est indiqué dans l'URL,
+      TOMUSS n'utilise pas de <i>cookies</i>.
+    <p>
+      Un répertoire contient un ticket actif par fichier.
+      Ce répertoire est commun à tous les processus serveurs
+      ceci permet de partager simplement les tickets
+      sans avoir besoin de passer par un serveur de base de donnée.
+    <p>
+      L'authentification appelant un service externe, elle
+      est traité de manière asynchrone afin de ne pas
+      bloquer le système.
+
+    <h3>Communication client/serveur.</h3>
+    <p>
+      La solution de communication utilisée n'utilise pas les
+      <tt>xmlrpc</tt> qui ne sont pas standard, qui sont inadaptés
+      pour faire du <i>pulling</i>,
+      qui chargent le serveur et qui sont lourdes.
+    <p>
+      Communication du serveur vers le client :
+      la page web ne finie pas de se charger.
+      Le serveur manipule directement les structures de données
+      du client en lui envoyant du code JavaScript.
+      Un <i>ping</i> est lancé toutes les minutes pour
+      garder la liaison vivante.
+    <p>
+      Communication du client vers le serveur :
+      une image contenant le <i>feedback</i> de l'action est créée,
+      son URL déclenche l'action sur le serveur.
+      Le serveur envoit donc une image au client pour
+      indiquer le résultat de la requête, c'est le petit
+      carré vert qui apparaît pour dire que la valeur
+      est bien sauvegardée.
+    <p>
+      Les requêtes du client vers le serveur sont numérotés car :
+    <ul>
+      <li> Le navigateur ne demande pas forcément les images dans l'ordre.
+      <li> Le navigateur met en cache les requêtes identiques.
+	Il faut donc les différencier.
+    </ul>
+    <p>
+      Si une image ne peut être chargée, alors au bout d'un
+      certain temps il faut demander à réessayer le chargement
+      car certains navigateurs abandonnent définitivement le chargement.
+      Pour savoir si l'image est chargée, on utilise
+      l'événement <tt>onload</tt>.
+    <p>
+      Si le serveur fonctionne mais refuse d'accepter les requêtes
+      c'est que le ticket est invalide.
+      Il faut donc que le client relance une procédure de revalidation 
+      du ticket.
+    <p>
+      Envoit d'information du serveur vers le client.
+      On veut résoudre les problèmes suivants&nbsp;:
+    <ul>
+      <li> Envoit le plus rapide pour avoir une bonne interactivité.
+      <li> Ne pas multiplier les envois car cela ralentit
+	le système à cause de l'envois de multiples petits paquets.
+      <li> Si un client reçoit lentement les données il peut
+	bloquer le serveur en écriture sur un <em>socket</em>.
+      <li> Plusieurs <em>thread</em> peuvent envoyer des données
+	simultanément, il ne faut pas les mélanger.
+    </ul>
+    <p>
+      Solution : Un ensemble de <em>thread</em> qui tout les dixièmes
+      de secondes fusionne les demandes d'envoit et les fait.
+
+
+    <h3>Identificateurs.</h3>
+    <p>
+      A chaque chargement de page web, on affecte un numéro
+      de page unique dans la table avec les informations de session.
+      Ceci permet les reprises sans problèmes en cas de redémarrage.
+    <p>
+      Quand un utilisateur crée une nouvelle ligne ou colonne,
+      il génère un identificateur en concaténant le numéro de page
+      et un numéro d'entité créé.
+    <p>
+      Il ne peut donc jamais y avoir de conflit de création de ligne
+      ou de colonne.
+    <p>
+      Quand on fait référence à des coordonnées dans le tableau,
+      on fait systématiquement référence aux identificateurs
+      et non à des index dans des tableaux.
+
+
+
+
+    <h2>Les données.</h2>
+    <p>
+      Les données manipulées par TOMUSS sont des tables.
+
+    <h3>Stockage des données.</h3>
+    <p>
+      Pour n'avoir aucun problème :
+    <ul>
+      <li> Aucune donnée n'est jamais détruite, tout est conservé.
+      <li> Les modifications contiennent l'heure et qui a
+	fait la modification.
+      <li> On peut commenter les données.
+    </ul>
+    <p>
+      Ceci nous assure de pouvoir récupérer les données
+      en cas de problème.
+    <p>
+      De plus les données sont stockées sur deux disques différents.
+
+    <h3>__slots__</h3>
+    <p>
+      Le serveur doit stocker de très nombreuses cellules.
+      Pour que les cellules prennent le moins de place possible
+      l'attribut <tt>__slot__</tt> a été indiqué.
+      Il fige les attributs possibles pour les instances de cellule.
+
+
+    <h3>Stockage des données sous forme de programme.</h3>
+    <p>
+      J'utilise un serveur de base de donnée
+      si les données que je traite :
+    <ul>
+      <li> Ne tiennent pas en mémoire.
+      <li> Sont modifiables par plusieurs processus.
+    </ul>
+    <p>
+      Dans le cas de TOMUSS, les données tiennent en mémoire
+      et un seul processus les modifie.
+      L'utilisation d'une base de donnée ne peut donc que
+      ralentir l'application sans apporter de plus value
+      dans le cas de TOMUSS.
+    <p>
+      Les données sont stockées dans des fichiers
+      qui sont des modules Python.
+      Les fichiers sont ouverts en mode ajout,
+      on ne peut donc pas perdre d'information.
+      Le fichiers contiennent une suite d'appel à des
+      fonction qui modifient les structures de données.
+      En fait, le fichier contient un <i>log</i> des modifications.
+    <p>
+      La lecture des données se fait en faisant un <i>import</i>
+      du module Python.
+      Il n'y a pas besoin de faire un analyseur syntaxique.
+      D'autres programmes peuvent relire les données
+      en leur appliquant des traitements différents.
+      Par exemple des statistiques ou bien une vérification de la logique.
+      Ceci est possible car le fichier ne contient
+      aucun <i>a priori</i> sur les structures de données.
+
+    <h3>Copie complète des données dans le client web.</h3>
+    <p>
+      Si on veut la meilleure interactivité dans le client web
+      il faut que toutes les données soient copiées dans le navigateur.
+    <p>
+      Pour une grosse UE (1500 étudiants et 45 colonnes)
+      cela représente 2.5Mo qui se chargent très rapidement
+      sur le réseau local et en 5 secondes avec un liaison
+      qui fait du 500Ko/s.
+    <p>
+      Cette solution est donc viable à l'heure actuelle.
+      Il est possible de réduire la taille du fichier
+      d'un facteur 3 mais cela ce fait au détriment
+      de la lisibilité du code et du débuggage.
+    <p>
+      Les données sont envoyées sous la forme de programmes JavaScript.
+      Elles sont donc instantanément utilisables.
+      Ces programmes JavaScript sont presque 100% compatible Python,
+      il y a seulement un problèmes de codage de l'unicode.
+      L'idée originale était d'avoir une traduction des données
+      Python vers JavaScript qui soit très rapide puisqu'elle
+      utilise des fonctions Python ``cablées´´.
+    <p>
+      Les données étant copiées dans le navigateur
+      la connexion réseaux n'est pas indispensable pour
+      travailler sur le tableau en lecture et modification.
+      Les données sont sauvegardée quand la connexion
+      réseau est rétablie.
+    <p>
+      Quand les données sont modifiées sur le serveur
+      elles sont imédiatement mise à jours dans les clients.
+      
+
+
+
+
+    <h2>Programmation.</h2>
+      
+
+    <h3>Nommage.</h3>
+    <p>
+      Pour ne pas s'y perdre il faut utiliser un nom unique
+      pour représenter la même entité sous ses différentes formes.
+    <ul>
+      <li> Le nom du fichier plugin.
+      <li> Le nom de variable Python.
+      <li> L'id de l'élément HTML.
+      <li> La classe de l'élément HTML.
+      <li> Le nom de la variable JavaScript.
+      <li> Le nom du champ dans l'URL.
+      <li> ...
+    </ul>
+    <p>
+      Et bien sur, il faut prendre des noms suffisamment longs
+      pour n'avoir aucune ambiguïté.
+
+
+    <h3>Template.</h3>
+    <p>
+      Pour TOMUSS les tables sont vides de signification.
+      Les <i>templates</i> permettent d'associer à une table ou
+      un semestre une certaine sémantique.
+      On peut remplir automatiquement la table ou
+      bien changer légèrement l'interface utilisateur.
+
+    <h3>Données définies de manière générale.</h3>
+
+    <p>
+      Ce sont des points faibles de l'implémentation
+      dus au fait que l'objectif du programme initial était restreint.
+    <ul>
+      <li> Les types de données cellule, colonne et table sont difficiles
+	à modifier car ils sont définis par le code lui même et non
+	comme une donnée (un modèle).
+	Il faut donc pour chaque modification changer de nombreux fichiers
+	afin de mettre à jour les structures de données, le protocole
+	de communication, l'interface utilisateur et le JavaScript
+	coté client.
+      <li> Les <i>templates</i> auraient du avoir le droit par défaut
+	de modifier toutes les méthodes de l'objet table.
+	Dans le code existant, les détournements ont été ajoutés
+	au cas par cas.
+    </ul>
+      
+    <h3>Plugins.</h3>
+    <p>
+      Les <i>plugin</i> définissent les fonctions accessibles via HTTP.
+      Un <i>plugin</i> est défini par&nbsp;:
+    <ul>
+      <li> Un <i>pattern</i> d'url.
+      <li> Des droits d'accès.
+      <li> Une fonction de traitement.
+      <li> Son insertion dans l'interface utilisateur.
+      <li> S'il est lancé en tâche de fond ou non.
+    </ul>
+      <p>
+      Lorsque le serveur reçoit une requête, il l'envoit au
+      <i>plugin</i> qui correspond le mieux.
+      <p>
+      Les droits d'accès ont malheureusement été définis extensivement
+      dans l'objet plugin
+      (is root, is an abj master, is a teacher, the password is ok).
+      Ils auraient du être définie par un modèle fonction,
+      par exemple&nbsp;: <tt>is_a_teacher <b>and</b> password_is_ok</tt>
+      L'expression précédente construit une fonction qui sera évaluée
+      pour déterminer si le plugin est activable.
+      Ceci permet de faire évoluer les droits d'accès indépendamment
+      des plugins.
+      De plus, cela permettrai de modifier les droits d'accès aux plugin
+      directement dans la table de préférences en dynamique.
+      
+
+
+    <h3>Chargement dynamique.</h3>
+    <p>
+      Le chargement dynamique permet de changer des parties
+      du système sans avoir besoin de l'interrompre.
+      C'est un énorme gain de temps en développement.
+    <p>
+      TOMUSS fait du chargement dynamique pour tous les fichiers
+      qui sont envoyés au navigateur.
+      Il ne le fait malheureusement pas pour les <i>plugin</i>
+      et les <i>templates</i>.
+
+
+    <h3>Thread.</h3>
+    <p>
+      L'idée de départ était que le processus principal soit
+      le seul pouvant modifier les structures de données et
+      que les autres <i>thread</i> soient des lecteurs.
+      Avec un tel programmation les verrous ne sont pas nécessaires.
+    <p>
+      La réalité à montré que ce n'est pas possible car plusieurs
+      <i>thread</i> peuvent modifier les données en même temps.
+      Il faut donc gérer des verrous.
+    <p>
+      Les méthodes des objets ne verrouillent pas, mais elles vérifient
+      qu'elles sont bien appelées avec un verrou fermé.
+      Ceci permet de détecter les bugs et de faire des sections
+      critiques combinant plusieurs actions élémentaires.
+    <p>
+      Une <i>thread</i> par type de travail a été créée
+      afin de simplifier la programmation et éviter tout problèmes
+      en cas de lenteur réseaux avec les services extérieurs
+      ou bien avec le client web.
+      Chacune <i>thread</i> lit le travail qu'elle a à faire dans une file.
+      Ceci nous assure que si un service est lent cela ne bloquera
+      pas l'accès aux autres services, mais aussi que l'on
+      ne submergera pas un même service avec de nombreuses
+      requêtes simultanées.
+
+      
+
+
+    <h3>Mémoire.</h3>
+    <p>
+      Les fuites mémoire sont toujours possibles.
+      Une interface web a donc été créée pour naviguer interactivement
+      dans les structures de données du serveur en production.
+      Bien qu'elle n'ait été utile qu'une seule fois
+      cette interface a permis de trouver rapidement une erreur.
+    <p>
+      Ce genre d'interface est réellement requis dans
+      le cas de serveur contenant des structures de données complexes.
+      Il permet aussi d'écrire des tests de régression
+      externe à l'application.
+
+    <h3>Mail en cas de problème.</h3>
+    <p>
+      En cas de problème non prévu,
+      un mail est envoyé à l'administrateur avec
+      la pile d'appels des fonctions.
+      Il faut bien sur faire attention à l'envoi de mail
+      dans une boucle...
+    <p>
+      Ceci permet d'être très réactif en cas de problème.
+    <p>
+      D'autre part TOMUSS mesure le temps en le début de chargement
+      d'une page et son affichage effectif.
+      Il détecte les pages pour lesquelles l'utilisateur à abandonné
+      le chargement.
+      Si un utilisateur abandonne 4 chargements en une heure TOMUSS lui envoit
+      un mail lui explique qu'il faut désactiver son anti-virus
+      car dans 99% des cas c'est la source du problème.
+    <p>
+      Le mail envoyé à l'administrateur contient la pile d'appel
+      des fonctions.
+      Il appelle aussi la méthode 'backtrace_html' de toutes les variables
+      locales de chaque fonction pour donner le contexte de l'erreur.
+      Pour qu'une information soit affichée dans la pile,
+      il suffit donc d'ajouter une méthode à la classe que le veut tracer.
+
+    <h3>Surveillance.</h3>
+    <p>
+      Pour le <i>fun</i> un visualisateur graphique temps réel de l'activité
+      de TOMUSS a été réalisé.
+      Ce visualisateur écrit uniquement en JavaScript et SVG
+      ne charge pas du tout le serveur et permet de voir
+      comment le système fonctionne en affichant les clients,
+      les objets et les méthodes activées.
+    <p>
+      Il met en évidence les temps d'attente de services extérieurs.
+      Normalement c'est invisible sauf si le services extérieur
+      est bloqué.
+    <p>
+      Ce visualisateur, outre le fait qu'il soit beau a permis de trouver
+      plusieurs problèmes de fonctionnement dans le serveur.
+      En effet, tout comportement aberrant qu'il soit logiciel
+      ou bien humain est immédiatement visible et interprétable.
+
+
+    <h3>Spécialisation du code.</h3>
+
+    <p>
+      Plutôt que de prévoir des détournements partout dans le code
+      pour l'adapter à son environnement d'exécution (test de régression,
+      démonstration, Lyon 1...) ce qui aurait alourdi le code&nbsp;;
+      la spécialisation du code est faite lors du chargement
+      du module de configuration qui va <i>patcher</i> les autres
+      modules pour leur faire réaliser les bonnes fonctions.
+    <p>
+      On regroupe donc tous les changements nécessaires dans un seul
+      fichier, ceci est plus clair et aussi plus rapide car
+      il n'y a pas de test en cours d'exécution.
+      
+    <h3>Tests de régressions.</h3>
+      
+    <p>
+      Comme dans toute application il est obligatoire de faire
+      des tests de régression.
+    <p>
+      Pour tester le serveur un faux client fait des requêtes
+      et teste le résultat.
+      Malheureusement ceci ne peut ce faire qu'en remplaçant
+      les services externes utilisés par le serveur par des faux
+      services retournant toujours la même chose.
+      Le serveur dans son ensemble ne peut être testé
+      à moins de réécrire de faux serveurs externes.
+    <p>
+      Pour tester le client.
+      Un fonction javascript appelle les fonctions haut niveau de l'interface
+      utilisateur et vérifie leur action.
+    <p>
+      Une tentative de test de l'application web via une application
+      externe au navigateur a été tenté mais les résultats sont trop aléatoire.
+      Ceci a été fait en lançant le navigateur (quelque soit son type
+      y compris IE, via un terminal serveur)
+      dans un serveur X11 dédié auquel on envoit des événements clavier
+      et souris. Le testeur fait des copies de l'écran X11 et des traitements
+      pour vérifier que l'on a bien ce qui est voulu.
+      Les navigateurs ayant un comportement aléatoire ceci n'est pas possible.
+
+      
+    <h2>Les échecs.</h2>
+
+    <p>
+      La localisation du code est inexistante.
+    <p>
+      Il aurait été bien d'avoir un nommage automatiques des
+      entité HTML pour faire plus facilement des CSS.
+      Mais comme le code était généré à la main...
+    <p>
+      Il ne faut pas faire de calcul au moment du chargement
+      d'un module Python.
+      Il faut faire une fonction d'initialisation afin
+      que les initialisations soient faites dans le bon ordre.
+    <p>
+      Idem en Javascript : on ne sait pas dans quel ordre
+      les scripts sont chargés (option <tt>defer</tt> inconsistante).
+    <p>
+      Les bulles d'aides sont incluses dans le code HTML,
+      il ne faut pas car cela crée plein d'éléments inutilement.
+      Comme pour le curseur, il faut une seule bulle d'aide dont
+      le contenu sera mis à jour.
+      Ceci sera facile à corriger car les bulles d'aides sont générées
+      par du code JavaScript.
+      Cela aura un autre avantage, les bulles d'aides contextuelles
+      seront plus facile à implémenter.
+    <p>
+      Les colonnes et les lignes sont stockées dans des tableaux au lieu de
+      dictionnaires. Ceci accélère le code mais le complique inutilement
+      et est source de nombreuses erreurs d'indice et de traduction.
+    <p>
+      Difficulté de programmation DOM : on ne sait pas quand
+      les tailles des objets affichés seront correctes
+      car on ne sait pas quand ils sont affichés.
+      Moralité&nbsp;: on ne dois faire les calculs de positionnement
+      qu'une fois que la page est affichée, ou alors ne rien
+      faire de dynamique en fonction des tailles optimums.
+
+
+
+      <script>
+	var nr = 0 ;
+	function toc(node)
+	{
+	var s = '' ;
+	for(var i in node.childNodes)
+	    {
+              i = node.childNodes[i] ;
+	      if ( i.tagName && i.tagName.substr(0,1) == 'H' )
+	          {
+	          s += '<a class="h' + i.tagName.substr(1,1) + '" href="#x' + nr + '">' + i.innerHTML + '</a><br>' ;
+	          i.innerHTML = '<a name="x' + nr + '">' + i.innerHTML + '</a>' ;
+	          nr++ ;
+                  }
+	      s += toc(i) ;
+            }
+        return s ;
+        }
+        document.getElementById('toc').innerHTML = toc(
+	       document.getElementsByTagName('body')[0]) ;
+      </script>
+      
+
+
+    <hr>
+    <address><a href="mailto:exco@@liris.univ-lyon1.fr">Thierry EXCOFFIER</a></address>
+<!-- Created: Fri Oct  2 13:18:37 CEST 2009 -->
+<!-- hhmts start -->
+Last modified: Sun Jul 18 20:40:12 CEST 2010
+<!-- hhmts end -->
+  </body>
+</html>

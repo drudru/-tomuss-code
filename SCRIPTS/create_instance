@@ -1,0 +1,28 @@
+#!/bin/sh
+# -*- ksh -*-
+
+exit 1
+
+# Create or upgrade an instance of a TOMUSS server
+# An instance
+
+SRC=$(dirname $0)
+
+if [ "*" != "$(echo *)" ]
+then
+  echo "A TOMUSS instance can only be created in an empty directory." >&2
+  exit 1
+fi
+
+mkdir TMP
+mkdir LOGS
+mkdir DB
+
+if [ ! -d LOCAL ]
+then
+  cp -a "$SRC/LOCAL" .
+fi
+
+
+
+

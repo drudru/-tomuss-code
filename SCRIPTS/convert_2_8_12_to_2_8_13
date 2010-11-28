@@ -1,0 +1,46 @@
+#!/bin/sh
+# -*- ksh -*-
+
+# Arguments : DB et BACKUP_DB
+
+set -e
+
+DO() { echo $* ; }
+DO() { eval $* ; }
+
+
+for D in "$@"
+do
+  DO mkdir "$D/LOGINS"
+
+  find "$D/RSSKEYS" -type f  ! -name '*.py' |
+  while read FULLNAME
+  do
+    BASENAME=$(basename "$FULLNAME")
+    echo -n "$BASENAME "
+    DIRNAME="$D/LOGINS/$(echo "$BASENAME" | cut -c1-3)/$BASENAME"
+    DO mkdir -p "$DIRNAME"
+    DO mv "$FULLNAME" "$DIRNAME/rsskey"
+  done
+  rm -r "$D/RSSKEYS"
+  echo
+  echo
+  
+  find "$D/CHARTES" -type f  ! -name '*.py' |
+  while read FULLNAME
+  do
+    BASENAME=$(basename "$FULLNAME")
+    echo -n "$BASENAME "
+    X=$(dirname $(dirname "$FULLNAME"))
+    SEMESTER=$(basename "$X")
+    YEAR=$(basename $(dirname "$X"))
+    DIRNAME="$D/LOGINS/$(echo "$BASENAME" | cut -c1-3)/$BASENAME"
+    DO mkdir -p "$DIRNAME" || true
+    DO mv "$FULLNAME" "$DIRNAME/charte_${YEAR}_$SEMESTER"
+  done
+  rm -r "$D/CHARTES"
+
+done
+
+  
+  

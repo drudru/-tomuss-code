@@ -1,0 +1,90 @@
+BODY {
+  font-family: sans-serif ;
+  margin-bottom: 100em;
+  background: white;
+  margin-top: 0px ;
+}
+
+TT {
+  font-family: courier ;
+  font-weight: bolder;
+}
+
+DIV.top {
+  margin-left: 17em ;
+  max-width: 38em ;
+  margin-top: 0px ;
+}
+
+DIV.menu {
+  position: fixed ;
+  top: 0 ;
+  left: 0 ;
+  width: 17em ;
+}
+
+#log IMG { width:1 ; height:1 }
+
+DIV.menu P.search {
+  background: #DDF ;
+  text-align:center ;
+  padding: 0.5em;
+  margin: 0;
+  font-size: 70% ;
+  border-right: 1em solid #EEF ;
+}
+DIV.menu P.search INPUT {
+  background: #FFF;
+  width: 100%;
+}
+
+DIV.menu A {
+  font-size: 70% ;
+  margin: 0em ;
+  color: black ;
+  display: block;
+  border-right: 1em solid #EEF ;
+}
+DIV.menu A:hover {
+  background: black;
+  color: white;
+}
+DIV.menu A.current:hover {
+  background: black;
+}
+DIV.menu A.filter:hover {
+  background: black;
+  color: yellow ;
+}
+DIV.menu A.onscreen {
+  border-right: 1em solid #8F8 ;
+}
+DIV.menu A.unselected:hover {
+  border-right: 1em solid #EEF ;
+}
+DIV.menu A.current {
+  border-right: 1em solid #0B0 ;
+  /* background: #DFD; */
+}
+DIV.menu A.h1 { font-weight: bold}
+DIV.menu A.h2 { font-weight: bold ; padding-left: 1em }
+DIV.menu A.h3 { padding-left: 3em }
+.highlight { background: #DDF }
+
+H1, H2, H3 { background: #8F8 ; margin: 0px; }
+H1, H2 { text-align: center }
+H3 { display: inline }
+DIV#menu A.unselected { color: #888 }
+SPAN.filter { background: yellow ; }
+DIV.menu A.filter { background: #FF8 ; }
+
+A { text-decoration: none ; }
+
+@media print {
+  DIV.menu { display: none ; }
+  DIV.top { margin-left: 0em ; }
+  H1, H2 { border-top: 1px solid black ;
+    border-bottom: 1px solid black ;
+  }
+  H3 { border-bottom: 1px solid black ; }
+}

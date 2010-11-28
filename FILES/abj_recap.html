@@ -1,0 +1,145 @@
+<style>
+@media print {
+#x, SPAN.x { display: none ; }
+}
+</style>
+
+
+
+<script><!--
+var hiden = '' ;
+var d = document.getElementById('x') ;
+var t = document.getElementById('t') ;
+var firstline = t.childNodes[0] ;
+while ( firstline.tagName != 'TR' )
+  firstline = firstline.nextSibling ;
+firstline = firstline.nextSibling ; // Jump headers
+
+
+d.innerHTML = 'Cliquez sur l\'action que vous voulez faire :' +
+      '<ul>' +
+      '<li> <a href="javascript:hide(\'ABJ\')">Cacher les ABJ</a>.' +
+      '<li> <a href="javascript:hide(\'DAS\')">Cacher les dispenses d\'assiduité</a>.' +
+      '<li> <a href="javascript:hide(\'\')">Tout afficher</a>.' +
+      '</ul>' ;
+
+function hide(x)
+{
+var i ;
+
+if ( x == undefined )
+    x = hiden ;
+else
+    hiden = x ;
+
+for(var ii=0; t.childNodes[ii] != undefined; ii++)
+   {
+      i = t.childNodes[ii] ;
+      if ( i.childNodes[3] )
+         if ( i.childNodes[3].innerHTML == x )
+           i.style.display = 'none' ;
+      else
+           i.style.display = '' ;
+   }
+}
+
+function cmp_id(a)
+{
+  return a[3] ;
+}
+
+function cmp_name(a)
+{
+  return a[2] + a[1] ;
+}
+
+function cmp_ue_x(a)
+{
+    var x ;
+
+    a = a.split('/') ;
+    if ( a[1] == undefined )
+       return '-' + a[0] ;
+
+    if ( a[0].length == 1 )
+       a[0] = '0' + a[0] ;
+    if ( a[1].length == 1 )
+       a[1] = '0' + a[1] ;
+    x = a[2].substr(4,1) ;
+    if ( x === '' )
+       x = ' ' ;
+    a[2] = a[2].substr(0,4) ;
+  
+    return a[2] + a[1] + a[0] + x ;
+}
+
+function cmp_ue(a)
+{
+  return cmp_ue_x(a[5]) ;
+}
+
+function cmp_ue2(a)
+{
+  return cmp_ue_x(a[6]) ;
+}
+
+function cmp_comment(a)
+{
+  return a[7] ;
+}
+
+
+var content = undefined ;
+
+function sort(f)
+{
+  if ( content == undefined )
+  {
+  content = [] ;
+  for(var n = firstline ; n != undefined ; n = n.nextSibling)
+      {
+      if ( n.tagName == 'TR' )
+           {
+           content.push([
+                    '',
+                    n.childNodes[0].innerHTML,
+                    n.childNodes[1].innerHTML,
+                    n.childNodes[2].innerHTML,
+                    n.childNodes[3].innerHTML,
+                    n.childNodes[4].innerHTML,
+                    n.childNodes[5].innerHTML,
+                    n.childNodes[6].innerHTML
+                   ]
+                 ) ;
+           }
+      }
+  }
+
+ for(var i in content)
+     content[i][0] = f(content[i]) ;
+
+ content.sort() ;
+
+  var i = 0 ;
+  for(var n = firstline ; n != undefined ; n = n.nextSibling)
+      {
+      if ( n.tagName == 'TR' )
+        {
+            n.childNodes[0].innerHTML = content[i][1] ;
+            n.childNodes[1].innerHTML = content[i][2] ;
+            n.childNodes[2].innerHTML = content[i][3] ;
+            n.childNodes[3].innerHTML = content[i][4] ;
+            n.childNodes[4].innerHTML = content[i][5] ;
+            n.childNodes[5].innerHTML = content[i][6] ;
+            n.childNodes[6].innerHTML = content[i][7] ;
+            i++ ;
+        }
+      }
+  if ( hiden != '' )
+      hide() ;
+}
+
+sort(cmp_name) ;
+
+
+--></script>

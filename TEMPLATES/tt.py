@@ -1,0 +1,83 @@
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
+#    TOMUSS: The Online Multi User Simple Spreadsheet
+#    Copyright (C) 2009 Thierry EXCOFFIER, Universite Claude Bernard
+#
+#    This program is free software; you can redistribute it and/or modify
+#    it under the terms of the GNU General Public License as published by
+#    the Free Software Foundation; either version 2 of the License, or
+#    (at your option) any later version.
+#
+#    This program is distributed in the hope that it will be useful,
+#    but WITHOUT ANY WARRANTY; without even the implied warranty of
+#    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#    GNU General Public License for more details.
+#
+#    You should have received a copy of the GNU General Public License
+#    along with this program; if not, write to the Free Software
+#    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+#
+#    Contact: Thierry.EXCOFFIER@bat710.univ-lyon1.fr
+
+import data
+import configuration
+
+def create(table):
+    table.add_master('sandrine.gourdine')
+    table.add_master('corinne.tourvieille')
+    table.add_master('nathalie.piovesan')
+    table.add_master('thierry.excoffier')
+#    table.add_master('elisabeth.parel')
+#    table.add_master('danielle.navarro')
+#    table.add_master('sarra.hanachi')
+#    table.add_master('nabila.lachter')
+#    table.add_master('lydia.barlerin')
+#    table.add_master('virginie.carpentier')
+#    table.add_master('ginette.ballandras')
+#    table.add_master('michele.perez')
+#    table.add_master('brigitte.beaux')
+#    table.add_master('florence.bengrid')
+#    table.add_master('mokhtar.derrer')
+#    table.add_master('ingrid.heidelberg')
+#    table.add_master('catalina.martinez')
+
+
+    if configuration.regtest:
+        table.add_master(configuration.invited_abj_masters[-1])
+
+    table.default_nr_columns_change(11)
+    p = table.new_page('' ,data.ro_user, '', '')
+    table.column_change(p,'0_0','Numéro_étudiant'                 ,'Text','','' ,'',0,4 )
+    table.column_change(p,'0_1','Prénom'                          ,'Text','','' ,'',0,8 )
+    table.column_change(p,'0_2','Nom'                             ,'Text','','' ,'',0,8 )
+    table.column_change(p,'0_3','+Ecrit'                          ,'Text','','1','',0,3 )
+    table.column_comment(p,'0_3', '1 = +33% ou pourcentage de temps en plus')
+    table.column_change(p,'0_4','+Oral'                           ,'Text','','1','',0,3 )
+    table.column_comment(p,'0_4', '1 = +33% ou pourcentage de temps en plus')
+    table.column_change(p,'0_5','+TP'                             ,'Text','','1','',0,3 )
+    table.column_comment(p,'0_5', '1 = +33% ou pourcentage de temps en plus')
+    table.column_change(p,'0_6','Secrétaire'                      ,'Bool','','1','',0,2 )
+    table.column_comment(p,'0_6', "Il dispose d'un assistant")
+    table.column_change(p,'0_7','Salle_Particulière'              ,'Bool','','1','',0,2 )
+    table.column_comment(p,'0_7', "Il dispose d'une salle")
+    table.column_change(p,'0_8','Début'                           ,'Date','','' ,'',0,6 )
+    table.column_comment(p,'0_8', "Indiquer la durée si elle n'est pas indéfinie")
+    table.column_change(p,'0_9','Fin'                             ,'Date','','' ,'',0,6 )
+    table.column_comment(p,'0_9', "Indiquer la durée si elle n'est pas indéfinie")
+    table.column_change(p,'0_10','Remarques_Et_Autres_Dispositions','Text','','' ,'',0,13)
+
+import _ucbl_
+
+def init(table):
+    _ucbl_.init(table)
+    table.default_sort_column = 2
+    table.do_not_unload = 1
+
+def content(table):
+    return _ucbl_.update_student_information
+
+cell_change = _ucbl_.cell_change
+
+def check(table):
+    # Get mails and portails
+    _ucbl_.check(table, update_inscrits=lambda x,y,z: None)

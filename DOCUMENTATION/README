@@ -1,0 +1,47 @@
+Taper 'make' pour générer la documentation 'Welcome.xml'
+
+
+================
+
+Questions utilisateur :
+	- Retrouver un notes effacée
+	- Enlever des points ABJ
+
+=========-================================
+Saisie des étudiants suivant votre UE :
+
+1) Allez sur :
+	http://tomuss.univ-lyon1.fr
+
+2) Tapez le code APOGEE de votre UE ou un mot du titre dans le champ de saisie.
+
+3) Cliquez sur votre UE dans la liste.
+
+4) Saisissez les numéros de vos étudiants :
+
+   4a) Si vous n'avez pas une liste sous forme informatique,
+       vous tapez les numéros d'étudiants dans la colonne ID.
+
+   4b) Si vous avez une liste de numéros d'étudiants,
+
+	4b1) Vous laissez/mettez le curseur (cadre bleu) sur une
+             case de la première colonne.
+
+	4b2) Vous cliquez sur le lien «Imp.»,
+	     il se trouve dans la boite nommée «Colonne» en haut de la page.
+
+	4b3) Vous recopiez dans la fenêtre qui est apparue la liste
+	     des numéros d'étudiants. UN SEUL NUMÉRO PAR LIGNE.
+
+	4b4) Vous cliquez sur «Importer les données dans la colonne»
+
+	4b5) Un message d'erreur peut apparaître s'il y a un doublon.
+	     Dans ce cas, enlevez le numéro en trop dans votre liste.
+	     Et recliquez sur «Importer les données dans la colonne».
+
+5) Les noms et prénoms des étudiants apparaissent automatiquement
+   au bout de quelques secondes.
+
+
+
+

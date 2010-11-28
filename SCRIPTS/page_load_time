@@ -1,0 +1,79 @@
+#!/bin/sh
+# -*- ksh -*-
+
+do_graph() {
+grep page_load_time LOGS/TOMUSS/$(date '+%Y').times |
+awk "$2 "'{ A[int(10 * $2)/10]++ ; }
+ END {
+   max = 0 ;
+   for(i in A)
+     if ( i+0 > max )
+       max = i+0 ;
+   for(i=0;i<=max;i += 0.1)
+     if ( A[i] == "" )
+       print i, "0" ;
+     else
+       print i, A[i] ;
+ }' |
+sort -n > TMP/xxx.page_load_time
+
+echo "
+set terminal png large font arial
+set output 'TMP/$1.png'
+set xlabel 'Temps de chargement complet de la table en secondes'
+set ylabel 'Nombre de chargements ayant pris ce temps'
+set logscale x 2
+
+plot 'TMP/xxx.page_load_time' with histeps title '$3'
+" | gnuplot
+
+}
+
+
+export DAY=86400
+export WEEK=$(expr $DAY '*' 7)
+export MONTH=$(expr $DAY '*' 31)
+
+
+do_graph "xxx.page_load_time" "" "Statistiques totales"
+do_graph "xxx.page_load_time_1d" "\$1>$(expr $(date +'%s') - $DAY)" "Statistiques sur 24 heures"
+do_graph "xxx.page_load_time_1w" "\$1>$(expr $(date +'%s') - $WEEK)" "Statistiques sur 7 jours"
+
+
+NR_DAYS=101
+
+DATE=$(expr $(date +'%s') - \( $NR_DAYS '*' $DAY \))
+
+
+grep page_load_time LOGS/TOMUSS/$(date '+%Y').times |
+python -c '
+import sys
+d = list([[] for i in range('$NR_DAYS')])
+for i in sys.stdin.readlines():
+   i = i.split(" ")
+   t = float(i[0])
+   if t < '$DATE':
+      continue
+   d[int((t-'$DATE')/'$DAY')].append(float(i[1]))
+
+for i in range('$NR_DAYS'):
+   if d[i]:
+      d[i].sort()
+      nr = len(d[i])
+      if nr:
+          print i, sum(d[i])/nr, nr, d[i][nr//2]
+
+' >TMP/xxx.page_load_time
+
+
+echo "
+set terminal png large font arial
+set output 'TMP/xxx.page_load_time_evolution.png'
+set logscale y
+set ylabel 'Temps de chargement complet de la table en secondes'
+set xlabel 'Jours'
+
+plot 'TMP/xxx.page_load_time' using 1:2 with lines title 'Temps moyen de chargement de page par jour', 'TMP/xxx.page_load_time' using 1:4 with lines title 'Temps median de chargement de page par jour', 'TMP/xxx.page_load_time' using 1:3 with lines title 'Nombre de chargements de page par jour'
+" | gnuplot
+
+

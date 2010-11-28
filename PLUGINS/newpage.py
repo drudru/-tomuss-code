@@ -1,0 +1,245 @@
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
+#    TOMUSS: The Online Multi User Simple Spreadsheet
+#    Copyright (C) 2008,2010 Thierry EXCOFFIER, Universite Claude Bernard
+#
+#    This program is free software; you can redistribute it and/or modify
+#    it under the terms of the GNU General Public License as published by
+#    the Free Software Foundation; either version 2 of the License, or
+#    (at your option) any later version.
+#
+#    This program is distributed in the hope that it will be useful,
+#    but WITHOUT ANY WARRANTY; without even the implied warranty of
+#    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#    GNU General Public License for more details.
+#
+#    You should have received a copy of the GNU General Public License
+#    along with this program; if not, write to the Free Software
+#    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+#
+#    Contact: Thierry.EXCOFFIER@bat710.univ-lyon1.fr
+
+import plugin
+import document
+from files import files
+from utilities import warn, send_backtrace
+import configuration
+import time
+import sender
+import utilities
+import os
+
+class StringFile(object):
+    def __init__(self):
+        self.closed = False
+        self.real_file = None
+        self.open_time = time.time()
+        # XXX COPY/PASTE in the end of lib.js
+        self.content = ['''
+<script>
+var    Xcell_change  = window.parent.Xcell_change    ;
+var Xprivate_toggle  = window.parent.Xprivate_toggle ;
+var Xcomment_change  = window.parent.Xcomment_change ;
+var   Xtable_comment = window.parent.Xtable_comment  ;
+var    Xdate_change  = window.parent.Xdate_change    ;
+var  Xcolumn_delete  = window.parent.Xcolumn_delete  ;
+var  Xcolumn_attr    = window.parent.Xcolumn_attr    ;
+var  Xtable_attr     = window.parent.Xtable_attr     ;
+var  change_portails = window.parent.change_portails ;
+var  change_mails    = window.parent.change_mails    ;
+var  change_teachers = window.parent.change_teachers ;
+var  saved           = window.parent.saved           ;
+var  the_portails    = window.parent.the_portails    ;
+var  update_mail     = window.parent.update_mail     ;
+var  login_list      = window.parent.login_list      ;
+</script>
+    ''']
+    def write(self, txt):
+        self.content.append(txt)
+    def flush(self):
+        if self.real_file:
+            content = ''.join(self.content) 
+            self.content = [] # no big memory leakage
+            self.real_file.write(content)
+            self.real_file.flush()
+        else:
+            if time.time() - self.open_time > 60:
+                self.closed = True
+    def set_real_file(self, f):
+        self.real_file = f
+    def close(self):
+        self.flush()
+        if self.real_file:
+            self.real_file.close()
+            self.closed = True
+    def __str__(self):
+        if self.real_file:
+            rfc = self.real_file.closed
+        else:
+            rfc = '???'
+        return 'closed=%s content=%d real_file=%s RF.closed=%s' % (
+            self.closed, len(self.content), self.real_file, rfc
+            ) + ''.join(self.content)
+
+def new_page(server):
+    """Create a new page and send the table editor to the client."""
+    start_load = time.time()
+    try:
+        table, page = document.table(server.the_year, server.the_semester,
+                                     server.the_ue, None, server.ticket,
+                                     do_not_unload=1)
+    except IOError:
+        server.the_file.write(files["error.html"])
+        server.the_file.close()
+        warn('IOError', what="error")
+        return
+
+    if table == None:
+        server.the_file.write(files["unauthorized.html"])
+        server.the_file.close()
+        warn('No Table', what="error")
+        return            
+
+    warn('New page, do_not_unload=%d' % table.do_not_unload, what="table")
+
+    if configuration.regtest_sync:
+        document.check_new_students_real()
+        time.sleep(0.1) # XXX Wait student list update
+
+    # Update the number of access for the user
+    # No lock because it is not important (there is a lock in manage_key)
+    if server.the_semester in ('Printemps', 'Automne'):
+        d = utilities.manage_key('LOGINS',
+                                 os.path.join(server.ticket.user_name, 'pages')
+                                 )
+        if d is False:
+            d = {}
+        else:
+            d = eval(d)
+        if server.the_ue not in d:
+            d[server.the_ue] = 1
+        else:
+            d[server.the_ue] += 1
+        utilities.manage_key('LOGINS',
+                             os.path.join(server.ticket.user_name, 'pages'),
+                             content = repr(d)
+                             )
+    page.use_frame = True
+    if configuration.regtest_sync or '=linear=' in server.options:
+        page.use_frame = False
+
+    warn('New page, use_frame=%d' % page.use_frame, what="table")
+
+    # With this lock cell modification can't be lost
+    # between page content creation and the page activation
+    table.lock()
+    try:
+        server.the_file.write(table.content(page))
+        server.the_file.flush()
+
+        if page.use_frame:
+            table.active_page(page, StringFile())
+        else:
+            table.active_page(page, server.the_file)
+    finally:
+        # Can't be unloaded because it is active.
+        table.do_not_unload -= 1
+        table.unlock()
+    if configuration.regtest_sync:
+        # We want immediate update of navigator content
+        while document.update_students or \
+              sender.File.nr_active_thread or sender.File.to_send:
+            time.sleep(0.01)
+        server.the_file.close()
+    warn('Actives=%s do_not_unload=%s' % (
+        table.active_pages, table.do_not_unload), what="table")
+
+    page.start_load = start_load # For end_of_load computation
+
+    if page.use_frame:
+        server.the_file.close()
+    else:
+        if '=linear=' in server.options:
+            page.browser_file.close()
+        else:
+            if configuration.db == 'DBtest':
+                time.sleep(2) # To not lose time when debugging
+            else:
+                time.sleep(8) # 5 seconds is too short
+
+
+plugin.Plugin('emptyname', '/{Y}/{S}/', response=307,
+              headers = lambda x: (('Location', '%s/=%s' %
+                                    (configuration.server_url,
+                                     x.ticket.ticket)),
+                                   ),
+              documentation = "Bad url, redirect user to the home page")
+
+
+
+def answer_page(server):
+    """Connect the browser IFRAME to the page"""
+    try:
+        table, page = document.table(server.the_year, server.the_semester,
+                                     server.the_ue, server.the_page,
+                                     server.ticket)
+    except IOError:
+        server.the_file.write(files["error.html"])
+        warn('IOError', what="error")
+        return
+
+    if not page:
+        send_backtrace('server_answer')
+        return
+
+    if not hasattr(page, 'use_frame'):
+        # The browser ask an old IFRAME (WHY!!!!)
+        server.the_file.close()
+        return
+
+    if not page.use_frame:
+        server.the_file.close()
+        return
+
+    if isinstance(page.browser_file, StringFile):
+        page.browser_file.set_real_file(server.the_file)
+        sender.append(page.browser_file, str(page.page_id) ) # Flush data
+    else:
+        send_backtrace('server_answer: bugged firefox refresh')
+        server.the_file.close()
+
+
+plugin.Plugin('answer_page', '/{Y}/{S}/{U}/{P}',
+              function=answer_page, teacher=True,
+              keep_open = True,
+              administrative = None,
+              )
+
+
+
+plugin.Plugin('pagenew', '/{Y}/{S}/{U}/{=}', function=new_page, teacher=True,
+              keep_open = True,
+              administrative = None,
+              launch_thread = True)
+
+def set_page(server):
+    """Set the number of page load (for favorites management by users)"""
+    d = utilities.manage_key('LOGINS',
+                             os.path.join(server.ticket.user_name, 'pages')
+                             )
+    if d is False:
+        d = {}
+    else:
+        d = eval(d)
+    if server.the_page:
+        d[server.the_ue] = server.the_page # Safe because {P} is integer
+    else:
+        del d[server.the_ue]
+    utilities.manage_key('LOGINS',
+                         os.path.join(server.ticket.user_name, 'pages'),
+                         content = repr(d)
+                         )
+    return 'ok'
+
+plugin.Plugin('set_page', '/set_page/{U}/{P}', function=set_page, teacher=True)
+

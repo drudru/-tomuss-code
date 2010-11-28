@@ -1,0 +1,2314 @@
+--------------------------------
+Changement version 0 ==> 1 :
+--------------------------------
+* On ne peut plus aller trop bas dans le tableau avec le curseur.
+* La saisie du filtre est asynchrone par rapport à l'affichage du tableau.
+  Cela ne rame plus pour saisir ou effacer le champs filtre.
+* Le CSV est généré pour les français ou non.
+* Le clique sur 'CSV' ouvre bien un tableur sous Firefox.
+* Plus de popup erreur quand on fait page suivante/précédente
+  si l'on est sur une case de résultat de calcul.
+* Quand on fait le décalage horizontal, les lignes qui viennent d'être créées
+  ne sont pas triées et restent au même endroit.
+* Les calculs dans les colonnes sont convenablement mis à jour
+  quand il y a un changement de définition de colonne,
+  que cela soit le poids, l'interval, ...
+  On peut mettre les moyennes à gauche des notes.
+* Supporte les numéros d'étudiant et aussi les logins.
+* Autorise les poids négatifs, cela fait une simple soustraction.
+* Ajoute les filtres texte : case vide, case contient, case non vide.
+* Si l'on met + devant le poids, c'est une addition qui sera faite
+  au lieu d'une moyenne.
+* Le choix du nombre de lignes/colonnes a une échelle log + (TOUT)
+* Plus de problème de zone noir quand on diminue le nombre de colonnes.
+* Améliore les messages en bas d'écran.
+* La position de la photo d'étudiant est bonne même si on scroll.
+* Affiche le titre de la colonne dans la bulle d'aide.
+* La bulle d'aide sur les titres indique l'auteur et si c'est figé.
+* La couleur rouge en fond est bien gérée sur la liste des candidatures.
+* Passe l'enseignant responsable en bas de page en gras.
+* Utilise des 'tuples' au lieu de 'list' pour les cellules en python
+  afin de gagner un peu de place.
+* Affiche un historique des changements de valeur de la cellule.
+* Ajoute la possibilité de filtrer les commentaires non vide.
+* Amélioration de la page d'accueil.
+* Enlève les carrés en bas une fois la confirmation reçue.
+* Désactivation/activation du mode auto sauvegarde, bouton 'sauvegarder'
+* En cas de coupure du réseau ou du serveur, le rechargement des images
+  est fait automatiquement.
+* Ajoute des bulles d'aide sur les liens d'action en bas de page.
+* On indique dans le titre de la page que le tableau est en lecture
+  seulement si le semestre n'est pas en cours.
+* Le serveur refuse de modifier les notes/commentaires... si ce n'est pas
+  le semestre en cours.
+* La ligne «enseignant responsable» est seulement visible s'il y en a.
+* Récapitulatif de la ligne dans la bulle d'aide de première colonne.
+* Un bord de ligne sur 3 est plus épais pour faicliter le suivi de ligne.
+* Les valeurs en lecture seule sont maintenant plus foncée.
+* On ne peut plus modifier les cases RO.
+* Passe les titres de colonne en bleu pour indiquer qu'ils sont cliquables.
+* Le double clique sur le numéro d'étudiant envoi sur le récapitulatif
+  des notes de l'étudiant.
+* Affiche dans la bulle d'aide du titre l'ordre de tri des colonnes.
+* Support des étudiants IUFM.
+* Possibilité de mémoriser tous les paramètres d'affichage.
+* Cacher une colonne fait recalculer correctement les largeurs.
+* Meilleur support de la virgule dans les nombres.
+* On peut indiquer une note MIN et MAX après le poids de la colonne
+  pour colorier les cellules en fonction de leur valeur.
+* Ajout du copyright sur la page web.
+* Si l'on clique sur le tableau d'aide, il disparaît.
+* Le copié collé de colonne marche maintenant parfaitement.
+* La touche ALT-raccourci fonctionne aussi sur les titres.
+* Le 'sanstitre' est remplacé par 'séance1', 'séance2', 'séance3'...
+* Les moyennes fonctionnent sans générer de DEF.
+* Enlève les DEF de tous les tableaux.
+* Le sablier/montre n'apparaît plus sur le coeur de la page
+* Supporte le changement de taille vertical de fenêtre pour les bulles d'aide.
+* IE : maintenant le nombre de lignes/colonnes s'affichent
+* Accélère l'affichage de la page d'accueil : il manquait un -->
+
+--------------------------------
+Changement version 1 ==> 1.1 :
+--------------------------------
+
+* En cas de changement de page, le curseur se déplace APRÈS le changement.
+* En cas de changement de nombre de ligne/colonnes affiche le bon tip
+* Le changement des titres est synchronisé avec le changement du contenu
+* Supporte le mélange de numéro d'étudiant et de login (pas de doublons)
+* Affiche correctement la liste des étudiants pendant le chargement
+* Enlève la bulle d'aide quand on sort du tableau
+* Il faut cliquer sur la croix pour fermer l'aide
+* Sur la fiche étudiant : lien vers l'UE
+* Remet la bonne couleur dans l'aide pour les étudiants non inscrits
+* Gestion des dispenses d'assiduité.
+* Support des vieilles versions Netscape
+
+--------------------------------
+Changement version 1.1 ==> 1.2 :
+--------------------------------
+* Quand on change le nombre de lignes ou colonnes, on revient au début.
+* Remet le bouton déconnexion.
+* En cas de problème, ceux du bas passent en vert et aussi ceux du haut
+* Utilise le cache du navigateur.
+* La clef de session est systématiquement mise au début pour 'tomuss.py'
+  plus de TAG BASE pour les différents services.
+* Le BACK/FORWARD fonction dans ABJ.
+* Les tips ne dépassent plus vers le bas.
+* Les tips apparaissent et disparaissent au bon moment (timer).
+* Ajout de 'invited_teacher' dans configuration par ajouter des cas spéciaux.
+* On indiquer à la main dans le fichier table des noms de responsables.
+  Voir dans les TEMPLATES.
+
+--------------------------------
+Changement version 1.2 ==> 1.3 :
+--------------------------------
+* La déconnexion fonctionne vraiment.
+* Page 'stat' : affiche la date de dernière interaction par table
+* Met les bons pointeurs sur la doc.
+* Supporte les " et & correctement dans les cellules.
+* Débugge la liste des enseignants maîtres
+* Liste des étudiants dont on est référent
+* Page d'accueil ajoute :
+	* Liste référent
+	* Gestion des ABJ
+	* Suivi des étudiants
+	* Mise à jour des affectations des référents
+	* Qui fait quoi
+	* Liste des enseignants ayant saisi des notes
+* Les liens de 'suivi' refonctionnent
+* Le suivi contient le pointeur sur le bilan notes licence
+
+--------------------------------
+Changement version 1.3 ==> 1.4 :
+--------------------------------
+* Le numéro de version est dans une variable de configuration
+* Met à jour les notices de copyright
+* Corrige bug empêchant le premier chargement d'une UE
+* Ajoute icone.
+* Ajoute but 'save' dans le makefile pour sauvegarde encrypté sur 'exco'
+* L'affichage du trombinoscope est nickel même s'il manque une photo
+* Ajout des liens sur le trombinoscope
+* Éloigne les icones «flèche» du tableau
+* Répare les ABJ.
+* ABJ fonctionnent à nouveau sur Opera
+* Affiche le bon nombre de ligne colonne dans opera
+* Les tips apparaissent et disparaissent au bon moment.
+* Refais fonctionner la création de la liste des référents.
+* Les stats affichent le nombre de lignes, de pages et cellules non vides.
+* Meilleur gestion des tables en lecture seulement
+* Affiche le source d'une table sans historique en ajoutant '/rewrite' à l'URL
+* Enlève les pages inutilisées correctement.
+
+--------------------------------
+Changement version 1.4 ==> 1.5 :
+--------------------------------
+* Largeur fenêtre tip corrigée sous IE (à cause de <HR>)
+* La sauvegarde des préférences fonctionne maintenant sous IE
+* Les tips ne disparaisse plus tout seul sous IE (cas particulier 'hide_tip')
+* Correction de nombreux bugs 'abj' sur IE
+* Tests de regression sont commencés
+* Meilleur affichage de l'identité
+* Ajouter une DA dans 'abj.js' marche sous IE.
+
+--------------------------------
+Changement version 1.5 ==> 1.7 :
+--------------------------------
+* Améliore portabilité des tests de régression.
+* 'suivi' refonctionne (problème ticket)
+* Les portails étudiants sont pris dans LDAP.
+* Affiche semestre/année dans le titre ou il manquait.
+* Vérifier si l'écriture dans le fichier est correcte (vraiment paranoiac)
+* Détection table vide ('/clean' ou lieu de '/nom_ue')
+* Liens 'mails' 'suivi' pour le groupe complet d'étudiants.
+* Affichage d'icones pour le status de l'étudiant.
+* Nombreux bugs corrigé dans le cas des moyennes avec des poids
+  commençant par + ou - pour ajouter ou enlever des valeurs.
+* On enlève l'interval de valeur pour les colonnes présences.
+* Dans le 'tip' sur cellule on indique ce que l'on peut taper dedans.
+* Enlève le 'gras' des cellules titres
+* Impression des trombinoscopes par groupe
+* Accélère le tri, limite à 3 colonnes triées.
+* Ajoute l'option '=debug=' pour afficher les messages en bas de page.
+  Rend les messages de debug plus lisible.
+* Pointeur page SPIRAL
+* Qui fait quoi : trié par date
+* Ne calcule pas les statistiques 'prof' pour les logins étudiants : RAPIDE !
+* Les cases vides, ne comptent pas comme une note saisie dans les stats.
+* Corrige bug déchargement des modules des tables inutilisées.
+* Affiche nom du référent dans le récapitulatif de l'étudiant.
+
+--------------------------------
+Changement version 1.7 ==> 1.8 :
+--------------------------------
+* Création table pour référent
+* Création type 'Bool'
+* Création du nombre de colonnes par défaut
+* Le suivi découpe les lignes trop longues (option de 'line_html')
+* Colorie les notes en plus des présences
+* Dans le suivi, pointeur sur la table filtrée contenant que l'étudiant.
+* Affichage nom long pour les UE de l'UFR du visiteur
+* Sauve/Restore le contenu de la colonne dans le client quand on
+  passe de type calculé à non-calculé et inversement.
+* Confirmation sur le collé multi-lignes
+* Nom de l'UE dans la fiche de suivi.
+* Tableaux multiples pour les lignes trop longues dans le suivi.
+* Option pour afficher les tip en haut à droite.
+* Filtre colonne.
+* Changement complet du haut de page.
+* Corrige le bug du gras qui n'apparaissait plus.
+* Plus de propriétaire aux colonnes non créées.
+* Mails non MAJ résolu (mal proprement avec un time.sleep dans document.py)
+* Correction du bug d'ajout de nouvelles lignes avec un filtre actif
+* Affichage de mail de listes filtrée ok
+* Suivi épuré
+* Bulles d'aide du bas visibles.
+
+--------------------------------
+Changement version 1.8 ==> 1.9 :
+--------------------------------
+* suivi : gestion propre des TIPs, fonctionne partout !!!!
+* suivi : gestion des bascules OUI/NON
+* tomuss : url pour modifier une cellule directement
+
+--------------------------------
+Changement version 1.9 ==> 1.10 :
+--------------------------------
+* Utilisation des nouveaux tips dans tout TOMUSS
+* Création de 'utilities.js'
+* Ajoute de l'option d'affichage 'coincer la bulle'
+* Message d'alerte si on ne peut pas sauvegarder pendant une minute.
+* Option pour ne pas afficher les photos.
+* Nombre de lignes dans le menu MAJ en fonction du filtre.
+* ALT+ et - fonctionnent mieux sous IE
+
+--------------------------------
+Changement version 1.10 ==> 1.11 :
+--------------------------------
+* Nouvelle table pour les stats par utilisateur
+* Corrige bug bulle d'aide dans les stats
+* Normalise la hauteur de l'histogramme
+* Gestion propre des verrous de table.
+* Support de plusieurs pages par UE : ajoute -1 -2 -3 au code  UE
+* Recadre les nombres à droite
+* Gestion des cookies unifiée entre TOMUSS et le suivi : plus réactif
+* Affichage des statistiques par personne utilise une table
+* L'étudiant peut afficher ses notes personnelles.
+
+--------------------------------
+Changement version 1.11 ==> 1.12 :
+--------------------------------
+* Procédure d'installation d'une nouvelle version sur le site de production.
+* Cache le tip de suite quand on le demande.
+* Ne décale plus la page quand on fait page suivante
+* Changement des raccourcis clavier pour qu'ils fonctionnent partout.
+* L'affichage du suivi est plus rapide (ne relit pas tout à chaque fois)
+* Envoyer mail aux enseignants ayant saisie de notes
+* La page ABJ est moins haute.
+* ABJ : vérification de login valide
+* Support des noms avec "'" dans le nom
+* Les photos et tip HTML/CSS disparaissent maintenant sous IE.
+
+--------------------------------
+Changement version 1.12 ==> 1.13 :
+--------------------------------
+* Lister les étudiants sans IP mais avec des notes : :8889/***
+* L'envoi de mail aux étudiants/enseignants devrait mieux fonctionner.
+* Les UE ou l'étudiant n'est pas incrit sont en évidence dans le suivi.
+* On affecte un référent seulement s'il y a des IP (non testé)
+* Les responsables d'UE peuvent à nouveau modifier les notes.
+
+--------------------------------
+Changement version 1.13 ==> 1.14 :
+--------------------------------
+* Les étudiants non inscrit on leur ligne effacée si elle est vide.
+* Les listes de mails sont mises à jour en fonction du filtre.
+* Curseur vers droite/gauche fonctionnent pour changer de case (avec FF)
+
+--------------------------------
+Changement version 1.14 ==> 1.15 :
+--------------------------------
+* Finalisation du transport sur 'tomuss.univ-lyon1.fr'
+* Nouvelle procédure démarrage et arrêt
+* Procédure de sauvegarde des données cryptées
+* Mise à jours de la liste des UE toutes les nuits.
+* Prise en comptes des autres UFR Sciences.
+* Interdit la saisie de 2 fois le même numéro d'étudiant.
+* Message d'erreur quand on saisit sur une ligne sans numéro d'étudiant.
+* Message d'erreur chaque fois que l'on saisie une note d'étudiant non inscrit
+* Statistiques enseignants : nombre de commentaires par enseignant
+* Changement affichage statistiques page de notes
+* La cellule vide est maintenant à la fin de l'alphabet
+* Améliore l'action '/rewrite' de table
+* Met + d'explication quand on veux modifier une valeur saisie par un autre.
+* Ajout des statistiques sur les UE
+* Création de l'utilisateur 'root'
+* Met l'effacement des tables vides dans le menu de 'root'
+* Affichage des stats référents
+* Affichage de la liste des référents en CSV
+
+--------------------------------
+Changement version 1.15 ==> 1.16 :
+--------------------------------
+* Ajoute des 'except' dans redirect.py
+* Corrige la destruction table
+* Pour le lien mail, l'alerte 'réessayer dans quelques secondes' fonctionne.
+* Ajout de la destruction de colonnes vides.
+* Ne pas faire d'alert quand on efface la note d'un non inscrit
+* On peut à nouveau détruire un numéro d'étudiant
+* Change syntaxe envois de mail pour OutLook
+* Correction bug de debug :-)
+* Les carrés verts disparaissent correctement en cas de scroll horizontal
+
+--------------------------------
+Changement version 1.16 ==> 1.17 :
+--------------------------------
+* Passe à 5 secondes le message d'alerte pour non sauvegarde.
+* Détecte mieux noms d'usage dans les responsables d'UE.
+* Création de l'utilisateur 'rw_user' = '' modifiable par tous
+* Ne tiens pas compte du titre pour savoir si une colonne est vide (filtre col)
+* Les responsables d'UE peuvent détruire des colonnes de '*' inutiles.
+* Corrections de nombreux problèmes de décalages horizontaux
+* Changement de l'ordre des colonnes.
+* L'ordre des colonnes est bookmarkable
+* La position d'une colonne est changeable
+* Passe les objets UE en unicode
+* Liste des mails compatible outlook sur la page d'accueil.
+* Change bulle d'aide pour les ALT-numérique pour dire de ne pas faire Maj.
+* L'envoi de bug par mail remarche
+* Détourne l'envoi de mail vers une page avec toutes les adresses.
+* LDAP n'est plus bloquant pour les sauvegardes de case
+
+--------------------------------
+Changement version 1.17 ==> 1.18 :
+--------------------------------
+* Le texte 'filtre' est une image.
+* Change de serveur LDAP en cas de problème.
+* Pour les étudiants, 'tomuss' redirige vers 'tomusss'
+* Correction codage caractères pour la page suivi pour l'étudiant lui même.
+* Le / est codé %01 par TOMUSS pour éviter le problème APACHE.
+* La thread 'check_request' ne meure plus si on lui passe de mauvais paramètres.
+* Les sauvegardes toutes les nuits de la BD sont faites
+* Les table dans le semestre 'Dossiers' sont confidentielle.
+* Ajoute pointeur Tiers Temps sur la page principale
+* L'envoi de mail pour chaque UE avec les étudiants ABJ et DA et tiers temps
+
+--------------------------------
+Changement version 1.18 ==> 1.19 :
+--------------------------------
+* Supporte accent dans les noms de responsable d'UE
+* Trie par année dans la liste des UE.
+* Les threads python sont plus fiables : récupération des exceptions
+* Icones détaillées avec des pixels pour le suivi d'étudiant.
+* La page d'accueil fonctionne même si on bidouille l'URL.
+* Importation de colonne plus fiable et fonctionnant partout.
+* Exportation de valeurs en fonction de numéros d'étudiants.
+* Les cellules RO ne bloquent plus les déplacements curseurs.
+
+--------------------------------
+Changement version 1.19 ==> 1.20 :
+--------------------------------
+* Alt-flèche n'est plus intercepté.
+* Scrollbar horizontale
+* Reconnexion automatique au serveur SMTP
+* Liste des référents : http://tomusss.univ-lyon1.fr/referents.csv
+* Connexion possible pour les utilisateurs Orange.
+* Saisie de valeur invalide ne fait pas apparaitre : 'undefined'
+* Retour à la page d'accueil.
+* Lien déconnexion sur la page d'accueil
+* La bulle d'aide sur les titres n'apparaît que si l'on clique.
+* Si la bulle est coincée, celles des titres apparaissent en bas de l'écran.
+
+--------------------------------
+Changement version 1.20 ==> 1.21 :
+--------------------------------
+* Déplacement horizontal du curseur dans les headers possible.
+* http://tomusss.univ-lyon1.fr/referents.{xls|html}
+* Négation dans Nmbr : !=
+* Génération automatique d'ABI dans le suivi quand la case est vide
+  mais que les autres étudiants du groupe ont été noté.
+* Quand la valeur du test de Nmbr change cela met à jour les calculs
+* Enlever les icones gauche et droite pour le scroll horizontal
+* N'affiche plus les virgules pour 'Nmbr'
+* Limite l'exportation de colonne à 3 décimales maximum
+* La thread 'check_teachers' est plus résistante.
+* Gestion différentes pour windows des window.location et type mime.
+* Une colonne dont le titre est vide est modifiable par tous le monde.
+
+--------------------------------
+Changement version 1.21 ==> 1.22 :
+--------------------------------
+* En CSV exporte les nombres comme des nombres et non des chaines.
+* Bulle d'aide passe devant et non derrière la barre de scroll horizontal
+* Meilleur support next/previous page pour Opera
+* On ne demande plus à SPIRAL la liste des UE dont on est responsable
+  sur la page d'accueil
+* Enlève les mauvais groupes et séquences s'ils étaient mauvais.
+* Plus de requête SPIRAL pour la liste des responsables et le titre.
+* Limite la précision affichage de 'Sum' dans les stats.
+* Tient compte des colonnes figées pour l'ascenseur horizontal.
+* Dans la table des UE : ajoute #lines et #d'enseignants ayant saisi.
+* Plus de IFRAME ! Moins de bugs.
+* Statistique par groupe avec un filtre fonctionnent.
+* Le filtre <1 trouve bien les '0'
+
+--------------------------------
+Changement version 1.22 ==> 1.23 :
+--------------------------------
+* Le mail d'avertissement de bug contient le nom de l'exception et le message
+* Génération feuille d'émargement avec les tiers temps
+* Affichage de statistiques graphiques sur TOMUSS
+* fond bleu pour les lignes des tiers temps.
+* Quand on clique sur la case courante cela ne reselectionne pas tout le texte
+* is_in_one_of_the_groups ne plante plus si on est dans aucun groupe
+* Supporte les tables sans aucune colonnes
+* Page de préférence par utilisateur.
+* Les NaN n'empêchent plus le tri.
+* Le lien (SPIRAL) n'est plus imprimé.
+* Supporte mieux Opera (Il n'aime pas document.write???)
+
+--------------------------------
+Changement version 1.23 ==> 1.24 :
+--------------------------------
+* Interdit les nombres de ligne/colonnes trop grands
+* Diminue la marge des LI de la page d'accueil
+* Passe le nombre d'étudiants en haut de la page d'émargement
+* Statistiques par enseignant sur une UE.
+* Seul l'utilisateur peut modifier ses préférences
+* tomuss recharge les fichiers statiques quand ils sont modifiés.
+* Le contenu des cellules ne bouge plus quand elles se transforment en INPUT
+* Affichage d'un bandeau si le mot de passe est débile
+* Ajoute de fonctions pour ajouter un cache à des fonctions.
+* Refonte complète des filtres :
+	* cellules
+	* nom de colonnes
+	* ligne
+	* TABLE COMPLETE
+* Le type 'Nmbr' utilise le filtre pour compter
+* Ligne fond rouge marche à nouveau sous IE
+
+--------------------------------
+Changement version 1.24 ==> 1.25 :
+--------------------------------
+* 'Indiquez un filtre' disparaît au bon moment.
+* Correction graphique des stats par semaine.
+* Raccourci clavier pour la saisie du filtre ligne
+* Les bornes de coloration sont dans l'intervalle de valeur au lieu du poids
+* Passe les préférences dans l'année 0.
+* Enlève cache si password_ok retourne False
+* Largeur des colonnes un peu plus correcte.
+* On n'est plus l'auteur de toutes les cases vides.
+* Ajoute le title à la page d'accueil
+* Envoit des mail de bug en background pour ne pas être bloquant
+* Quand on édite une cellule trouvée globalement, le fond reste jaune.
+* Le pas du zèbre est réglable
+* On ne perd plus la valeur saisie NON VALIDÉE si on change de page web
+* Amélioration de la présentation des statistiques.
+* On peut ajouter/enlever un master
+* Réparation des ABJ et DA qui ne s'affichaient plus dans les tableaux
+* Sortie de DA avec des ; au lieu de ,
+* Ajout des mails du tableau des UE ouvertes à l'envoi de mails ABJ/TT/DA
+* Affiche un résumé pour l'UE avec les TT/ABJ/DA
+* Colorise correctement les cellules trouvées si pas inscrit ou tiers temps
+* Les abjs.py sont créés seulement par le template Printemps/Automne
+* Ne sauvegarde pas les pyc toutes les nuits
+* Table pour les étudiants d'étape : Year/Semester/etape-??????
+
+--------------------------------
+Changement version 1.25 ==> 1.26 :
+--------------------------------
+* Importation de numéro d'étudiant dans la première colonne (non documenté)
+* La table des ABJ et dispenses s'affiche correctement
+* Le changement du filtre ligne ne dois pas redécaler à gauche
+* Enlève chiffre après la virgule dans les ABJ dans la table
+* Les 'filtres' et croix s'affichent bien sous IE.
+* Creation de dossiers protégés dans Dossiers (template)
+
+--------------------------------
+Changement version 1.26 ==> 1.27 :
+--------------------------------
+* Correction bug d'étudiant n'existant plus (mails référent page d'accueil)
+* Correction bug 'abjs' sur la page 'referents'
+* Affichage dans suivi trié par date
+* Enlève chiffres après la virgule dans l'histogramme de stat si >100
+* Stocke user_name/date quand on modifie les ABJ. Pas encore affiché.
+* Statistiques UE refonctionne.
+* Changer l'ordre de tri fait revenir en haut du tableau.
+* Change la façon d'afficher les menus pour qu'ils aient une largeur standard
+* La gestion des ABJ ne rallonge plus l'historique de la fenêtre IFRAME->OBJECT
+* Affiche le nom d'utilisateur dans le sujet du mail de backtrace
+* Affiche le blocknote du référent dans son suivi.
+
+--------------------------------
+Changement version 1.27 ==> 1.28 :
+--------------------------------
+* Ascenseur vertical
+* Problème du tri de colonne si l'on clique pas sur le texte du titre.
+* OBJECT-->IFRAME car cela ne fonctionne plus du tout pour certains navigateurs
+* Émargement fonction sur les UE autres de Printemps/Automne
+* Le tip n'est plus derrière le menu !!!
+* Le tri alphabétique ne tient plus compte des accents
+* Le clique sur le titre inverse bien le sens du tri.
+* Aide sur ascenseur
+* Affiche horloge.
+* Préférences : Choix du décalage de page.
+* Préférences : Choix affichage ascenseur vertical ou non et #caractères
+* Affiche préférences en haut à droite de la page.
+* Root peut ajouter des responsables d'UE.
+* L'ajout de responsable d'UE est instantané ??? (onchange -> onkeypress)
+
+--------------------------------
+Changement version 1.28 ==> 1.29 :
+--------------------------------
+* Collecte et affichage des nombres d'accès au suivi
+* Les flèches bleues marchent mieux dans la gestion des ABJ (marges body)
+* On interdit les doublons d'ABJ
+* Bug : remontée du curseur ne fonctionnait plus
+* Les filtres ne tiennent plus compte des accents (sauf si demandé)
+* Les statistiques sont normalisées
+* N'affiche plus l'icone de suivi aux étudiants (gagne temps CPU)
+* Bouton déconnexion pour les étudiants.
+* Interdit les gens sans bon mot de passe.
+* Plus de message d'erreur sur l'ascenseur vertical vide
+* L'aide sur l'ascenseur horizontal l'empéchait de fonctionner
+
+--------------------------------
+Changement version 1.29 ==> 1.30 :
+--------------------------------
+* Change la position du Déconnexion dans le suivi.
+* N'affiche plus dans le suivi les listes vides de notes dans le suivi.
+* Les étudiants n'ont plus les liens vers les tableaux de note TOMUSS.
+* Gestion correcte du contenu des filtres colonne en cas de scroll
+
+--------------------------------
+Changement version 1.30 ==> 1.31 :
+--------------------------------
+* Correction MaJ des tables qui sont suivie
+* On indique mieux que le commentaire est visible par les étudiants.
+* Affiche ABINJ??? dans le suivi si il est calculé, message plus explicite.
+* Le ALT n'est pas arrêté s'il n'est pas utilisé.
+* /clean décharge les pages inutiles au fure et à mesure.
+* Recharge 'xxx_toute_les_ues.py' s'il a été modifié.
+* Les titres de colonne sont affichés pour les étudiants.
+* Les étudiants ne voient plus le toggle oui/non
+* On peut avoir des tableau de moins de 3 lignes ou 3 colonnes
+* Change de serveur LDAP en cas de TIMEOUT
+* Sauvegarde des filtre colonne, ligne et total.
+* Fait un retry sur la demande CAS car il y a souvent une erreur.
+* Ajoute de dispense d'assiduité : choix de la date
+
+--------------------------------
+Changement version 1.31 ==> 1.32 :
+--------------------------------
+* Ferme des fichiers ouverts dans 'authentication.py' et 'checkpasswd.py'
+* La raccourci ALT-8 pour aller dans le filtre de ligne sélectionne la valeur.
+* Correction fuite mémoire
+* Préférence pour avoir à nouveau les icones page suivantes/précédente.
+* Switch calcul moyenne vide ==> ABI
+* La page de préférence permet d'afficher des feuilles au lieu de croix.
+* S'il n'y a que des poids de +1 partout alors la somme simple est calculée
+* Log des temps utilisateurs des différents accès
+* Page d'accueil avec moteur recherche UE / responsable
+* Utilisation d'un fichier JS décrivant toutes les UE
+* Envoit de fichier compressé sauf pour konqueror pour 'all_ues.js'
+
+--------------------------------
+Changement version 1.32 ==> 1.33 :
+--------------------------------
+* Dans l'authentification, ne recharge pas xxx_tickets.py  pour ticket vide
+* Table résumée des infos sur tous les étudiants.
+* Copie correctement les graphiques des stats en cas d'install
+* Si une page n'a pas de responsable, n'importe qui peut ce mettre responsable.
+* Ajoute d'un script de profiling de 'tomuss.times' pour voir ou passe le temps
+* Les changements combinés de filtre total et filtre colonne changent
+  maintenant correctement les titres de colonnes.
+* Déplacement de cellule quand on est dans les filtres
+* Plus de bug si référent sans mail
+* Si carré rouge : message d'alerte + envoit de mail
+* Si changement de cellule et mauvais ticket : envoit de mail
+
+--------------------------------
+Changement version 1.33 ==> 1.34 :
+--------------------------------
+* Corrections bug d'affichage dus aux suivi et aux ABJ (accents)
+* 1 caractère dans l'ascenseur par défaut dans les préférences
+
+--------------------------------
+Changement version 1.34 ==> 1.35 :
+--------------------------------
+* Copie correcte lors de l'install des fichiers stat .png
+* Les tips textes apparaissent au dessus du texte en bas de page.
+  Ceci permet d'enlever les ligens vides en bas de page.
+  Ceci permet de ne plus avoir de soulignés dans le texte des tips
+* Première lettre en bleu dans ascenseur vertical
+* Page suivante / précédente autour de l'ascenseur vertical
+* Page suivante / précédente autour de l'ascenseur horizontal
+* Supprime les doublons de dispense d'assiduité
+* Séparateurs gris dans l'ascenseur horizontal
+
+--------------------------------
+Changement version 1.35 ==> 1.36 :
+--------------------------------
+* Correction affichage dates dans suivi.
+* Une thread authentification, création des plugin
+* Création de l'utilitaire 'warn'
+* Les liens SPIRAL/APOGÉE remarche.
+* window_width est maintenant une fonction.
+* Une moyenne ne comportant que des ABI donne comme résultat ABI au lieu de 0
+* Ne tient pas compte des login vides (élimine problème des tiers temps)
+* Les image n'ont plus un curseur en forme de curseur texte
+* L'ordre des colonnes dans le suivi est systématiquement l'ordre de saisie
+* Affiche le rang de l'étudiant dans son groupe dans le suivi.
+* URL plus courte pour les bookmarks
+* Calcul et affichage des UE favorites.
+
+--------------------------------
+Changement version 1.36 ==> 1.37 :
+--------------------------------
+* Support du type de personne : administrative
+* Enlève les espaces de la version imprimable
+* Affiche les moyennes dans le suivi
+* Affiche les statistiques sur les moyennes
+* Déchargement de table dans le suivi : /unload/UE
+* La modif de bascule oui/non est instantanément effective dans le suivi.
+* Adresse mails dans 'uninterested'
+
+--------------------------------
+Changement version 1.37 ==> 1.38 :
+--------------------------------
+* Correction bug authentification
+* Correction bug line_html si moyenne en première colonne
+* Affiche les listes de mails en plus de lancer le mailer.
+* Correction lien 'tt'
+* Correction mise en évidence KEY ==> U sur la page d'accueil
+* Impression OK même si on n'imprime pas le fond.
+
+--------------------------------
+Changement version 1.38 ==> 1.39 :
+--------------------------------
+* Affiche d'où vient la personne avec une mauvaise URL
+* Gestion de wfile = the_file est maintenant threadsafe.
+* Extrait les mails de SPIRAL pour l'envoit des ABJ/TT/DA
+
+--------------------------------
+Changement version 1.39 ==> 1.40 :
+--------------------------------
+* Tronque les moyennes dans le suivi
+* Réauthentifier automatiquement.
+* Changement d'adresse IP.
+* Enlever les flush
+
+--------------------------------
+Changement version 1.40 ==> 1.41 :
+--------------------------------
+* Retour à l'accueil est plus rapide
+* Colonne invisible si le titre commence par .
+
+--------------------------------
+Changement version 1.41 ==> 1.42 :
+--------------------------------
+* Corrige bug analyse suivi.connection dans access.py
+* Remplace quelques Number par a_float
+* Corrige bug 'classname' dans line_html de document.py
+* Envoit de mail quand bug dans le suivi.
+* Cliquer sur un header colonne déplace la cellule courante
+* Affiche maintenant les adresses mails avec puis sans @, ordre alphabétique
+* Explique dans suivi : PPN ABJUS ABINJ NaN
+* Le changement de nom de colonne change les formules.
+* Le plugin contient les infos pour dire comme l'afficher sur la home page.
+* Affichage de la trace en temps réel.
+* Correction problème du ? pour apache.
+* Correction du send_backtrace qui lançait un processus à chaque fois.
+* Le suivi est maintenant découpé en plugins
+* Dans l'import de colonne gère mieux les espaces.
+* Passage du script 'profiling' and plugin
+* L'import est plus sympa, accepte les espaces et les vides
+* L'export permet de ne pas saisir les numéros d'étudiants.
+* Ajout de 2008/Test pour tester.
+
+--------------------------------
+Changement version 1.42 ==> 1.43 :
+--------------------------------
+* Graphique de stat plus fiable
+* logout remarche
+* Revalidation ticket plus réactive.
+* middle.html devient middle.js
+* Ajout de la version de l'interface dans les préférences
+* Ajout de l'extension d'UE au Printemps.
+
+--------------------------------
+Changement version 1.43 ==> 1.44 :
+--------------------------------
+* Correction du bug sur les entêtes.
+
+--------------------------------
+Changement version 1.44 ==> 1.45 :
+--------------------------------
+* Choix de la bonne année/semestre dans le suivi.
+* Possibilité de choisir son semestre pour tous les liens.
+* Plus de problème de sélection de texte.
+* Ajoute l'option de page 'column_offset'
+* Agrandissement/Changement automatique du bloc note
+* Positionne le bon 'column_offset' pour le blocnote de printemps
+
+--------------------------------
+Changement version 1.45 ==> 1.46 :
+--------------------------------
+* Débuggage changements de semestre
+* Lien spécial pour explitement mettre à jour les favoris.
+
+--------------------------------
+Changement version 1.46 ==> 2.0.0 :
+--------------------------------
+* Finition de la nouvelle interface
+* Ajoute de commentaires sur colonne et table
+* Modification de 'freeze' n'oublie pas de réafficher la table (à distance)
+* Changement de nom de colonne dans formule, ok à distance.
+* Double clique sur BOOL/PRST change la valeur dans le header.
+* Sous IE : le tiret ne met plus sur 2 lignes (pre ==> nowrap)
+* Changements distant de cellule courante, ok à distance pour les headers
+* > et < sur les dates en jours et heures
+* Ne plante plus sur chargement d'UE vide.
+
+------------------------------------
+Changement version 2.0.0 ==> 2.1.0 :
+------------------------------------
+* Meilleur gestion des tip sur les selects
+* Corrige bug stat enseignant
+* Utilise les mails des IP de printemps.
+* Nombre de lignes/colonnes adaptatif en fonction changement taille fenêtre
+* Test de regression sur le serveur
+* Valeurs proposées dans le menu #line et #colonne afinée contextuellement
+* Création de classes Python pour les colonnes, cellules et lignes.
+* Commentaires sur les colonnes des templates standards
+* Pas de photo étudiant sur ligne vide
+* Ajoute un cache à la fonction js de Cell
+* Redirection sur la page d'accueil si nom d'UE vide
+* Corrige bug faisant recharger les tables souvent dans le suivi.
+* Changement de semestre dans le suivi.
+* Dans le suivi d'étudiant on peut taper un nom ou un prénom
+* Ajout des noms d'UE : portail-MATINFL1 portail-MATINFL2 portail-MATL3 portail-INFL3
+* Les infos header cellule sont gérées par le template
+
+------------------------------------
+Changement version 2.1.0 ==> 2.1.1 :
+------------------------------------
+* Le passage au suivi à partir de la page d'accueil garde le ticket : +rapide
+* Ajout de commentaires colonnes/tables aux tableaux de statistiques.
+* Bulles d'aides sous konqueror.
+* Bulles d'aide visible sur les zones non sensibles
+* Les filtres autorisent les nombres avec ',' au lieu de '.' pour '<' et '>'
+* Mise à jours scripts d'install et statistiques pour le suivi multi semestre
+* Test regression Javascript coté client :
+	/2009/Test/javascript_regtest_ue
+
+------------------------------------
+Changement version 2.1.1 ==> 2.2.0 :
+------------------------------------
+* plugin_profiling prend en compte la liste des serveurs de suivi
+* Enlève 'headers' de javascript
+* Enlève CUTHERE
+* Passage de la cellule en objet en javascript
+* Fait un encadré autour de la cellule active
+* Plus de INPUT dans le tableau
+* Traits du tableau en gris
+* Ajoute style 'filtered' dans la bulle d'aide
+* Saisie rapide et bufferisée
+* Les lettres dans l'ascenseur vertical : plus de mélange minuscule/majuscule
+* On peut utiliser META à la place de ALT
+* 'resume' d'UE prend les étudiants dans la table si elle existe
+
+------------------------------------
+Changement version 2.2.0 ==> 2.2.1 :
+------------------------------------
+* 'resume' prend tous les étudiants de la table et les courants (trop)
+* Création de 'CONF_UCBL' qui contient ce qui est lié à l'UCBL
+* Extraction de login_to_id et inverse de coeur
+* Extraction de l'authentification du coeur
+* Extraction de la vérification de password idiot
+* Extraction de la création de la liste des étudiants suivant une UE
+* Élimination d'ue_list car on utilise ue_all
+* Extraction de la création de la liste des UE
+* Déplacement des plugins dans un répertoire spécial
+* REGTEST_SERVER : plus fiable sur machine lente
+* Documentation des sources et du programme.
+* All the 'xxx_' files moved to TMP directory
+* Déplace les images de 'objgraph' vers TMP
+* Les tests de régression fonctionnent sans LDAP.
+* La cellule courante est maintenant cachée par les fenêtres import/export
+* Toggle pour ne plus voir la popup concernant les non-inscrits.
+* Le suivi affiche correctement les moyenne.
+
+------------------------------------
+Changement version 2.2.1 ==> 2.2.2 :
+------------------------------------
+* Un seul endroit pour indiquer les répertoires d'installation.
+* Numéro de version indiqué dans le suivi.
+* La feuille d'émargement contient les non inscrits si 'NonInscrit' est vrai.
+* Déplace les configurations purement UCBL de configuration.py dans config.py
+* But 'tar' pour le makefile
+* Vide les lignes seulement si c'est le système qui les a créé
+* Regressions tests works with the tarball.
+* Les mails sont bien envoyés en cas de bug.
+
+------------------------------------
+Changement version 2.2.2 ==> 2.2.3 :
+------------------------------------
+* Choix de VIDE=ce que l'on veut colonne par colonne
+* Détournement du bug FireFox pour le copier dans une cellue avec le bouton 2
+* Élimination de la plupart des warning 'pychecker'
+* 'check_request' thread is now thread safe
+* Comportement consistant des <input> dans tous les champs de saisie
+* Feedback visuel pour les colonnes figées.
+
+------------------------------------
+Changement version 2.2.3 ==> 2.2.4 :
+------------------------------------
+* Javascript lint : remplacement de nombreux == par ===
+* La saisie du numéro d'étudiant fait apparaître son nom et prénom.
+
+------------------------------------
+Changement version 2.2.4 ==> 2.2.5 :
+------------------------------------
+* Remplace les == ''|0 par === dans 'lib.js'
+* Accélération de la mise à jour de la liste des étudiants pour les grosses UE
+  L'algorithme n'est plus en n*n
+* Meilleur gestion des TIMEOUT LDAP
+* Corrige gros bug dans 'lin_from_data_lin'
+* Plus de mauvaise bulle d'aide sur le carré vert.
+* Plus de 'undefined' dans ø si changement distant de colonne.
+* Répartition harmonieuse des items du menu colonne sur la ligne.
+* Dans 'uninterested' affiche la liste des UE par étudiant.
+
+------------------------------------
+Changement version 2.2.5 ==> 2.2.6 :
+------------------------------------
+* Ne considère pas comme vide les tables avec un commentaire de table.
+* Ne considère pas comme vide les tables avec une cellule commenté.
+* Ajoute des Number(data_col) pour que cela soit vraiment un entier
+* Meilleurs vidage des lignes non saisies par l'utilisateur (T/PT/line_empty)
+* Corrige le lien vers les test de regression javascript
+* Met 'data_lin' en entier partout
+* Élimination de 'cell_key_in_header', c'est géré dans le BODY
+* Par défaut : NonInscrit
+* Par défaut : Note au lieu de Text
+* Amélioration de la gestion des mouvements de cellule courante.
+* Amélioration de la page Impression.
+* 'Escape' annule la saisie dans la cellule du tableau
+* Plus de 'float' pour afficher la photo étudiant : problème IE...
+
+------------------------------------
+Changement version 2.2.6 ==> 2.3.0 :
+------------------------------------
+* Par défaut pas de debuggage
+* Mail de trace sont maintenant correctement envoyé
+* Debug 'clients.py', 'access.py', ... REMOVE 'dotdot' symbolic link.
+* Histogramme de colonne, affichage de la moyenne.
+* Bulle d'aide de l'histogramme avec des informations statistiques.
+* Gros bug effacement ligne de non inscrit.
+
+------------------------------------
+Changement version 2.3.0 ==> 2.3.1 :
+------------------------------------
+* Corrections bugs saisie rapide sur case non vide (focus doit être immédiat)
+* Mise à jours des informations colonnes tout le temps même si même colonne
+* Affichage plus stable quand on change de colonne.
+* Les filtres mettent à jours l'histogramme.
+* Ajoute la médiane.
+* Calcul rang total en plus du rang dans le groupe.
+* Corrige bug dans 'data_col_from_col'
+* Ajoute PRST/OUI/NON à l'histogramme
+* L'histogramme est toujours affiché
+
+------------------------------------
+Changement version 2.3.1 ==> 2.3.2 :
+------------------------------------
+* Nombreux changements pour le mode demo : SCRIPTS/install_demo
+* Met systématiquement des URL absolues avec le 'http:'
+* Bons labels dans l'histogramme
+* Affichage des tickets connus (pour root)
+
+------------------------------------
+Changement version 2.3.2 ==> 2.3.3 :
+------------------------------------
+* Correction gros bug d'importation de numéros d'étudiants.
+* Correction du fait que la fenêtre import/export n'est plus éditable.
+* Passage en mode étudiant pour la visualisation du suivi
+
+------------------------------------
+Changement version 2.3.3 ==> 2.3.4 :
+------------------------------------
+* Affichage des nom/prénom à partir ID ne marchait plus.
+* Marche mieux si PATH ne contient pas '.'
+* Affichage des statistiques 'ticket' et 'profiling' dans une table.
+
+------------------------------------
+Changement version 2.3.4 ==> 2.3.5 :
+------------------------------------
+* ?/20 comme icone
+* Séances numérotées à partir de 1 (dans tous les cas)
+* Colonne triée : la première si pas une UE ou 'tt'
+* Ne met plus 'inconnu' sur numéro étudiant vide.
+
+------------------------------------
+Changement version 2.3.5 ==> 2.4.0 :
+------------------------------------
+* Meilleur affichage des erreurs pour le développeur
+* Cellule non modifiable dans le passé
+* Statistiques correctes pour les référents du printemps
+* Plus de débordement sur les grandes valeurs dans les tables du haut.
+* Position ligne courante dans l'ascenseur vertical.
+* Plus de perte de valeur en saisie rapide avec changement de page.
+* Correction bug clique sur ascenseur vertical
+* Amélioration vitesse.
+* Position colonne courante dans l'ascenseur horizontal.
+* Correction dans suivi de l'affichage de la liste des noms possibles
+* Dans le import on accepte les logins étudiant
+* Voir commentaire en entier dans bulle d'aide.
+* Possibilité de remplacer les . par des , dans la page impression
+* Feedback colonne triée dans l'ascenseur
+* Statistiques navigateur
+* Lien sur l'emploi du temps ADE
+* Saisie cellule dans colonne vide met à jour l'ascenseur horizontal.
+* Dans le suivi affiche le login a coté du nom quand on fait une recherche
+* La saisie d'un mauvais numéro d'étudiant ne fait plus apparaître 'Inconnu'
+* Affiche les UE sans notes.
+* Vue étudiante plus réaliste pour le référent
+* Affichage des moyennes dans 'uninterested'
+
+------------------------------------
+Changement version 2.4.0 ==> 2.4.1 :
+------------------------------------
+* Enlève les espaces et tabulations en début et fin de saisie.
+* L'export de la colonne étudiant exporte seulement les numéros.
+* Mémorise la date du 'new_page'
+* L'ascenseur vertical change de taille quand on change le nombre de lignes.
+* Moins de problème sur le suivi pour les tables sans Grp Seq
+* Amélioration des messages d'erreur sur l'import de colonne.
+* Le «back» dans le suivi fonctionne bien, l'historique n'empile plus.
+* Déplacement curseur horiz dans le filtre et le titre de colonne est ok.
+* On peut aller au suivi de l'enseignant en cliquant sur sa photo (teachers)
+* On peut aller sur l'UE cliquant sur sa photo (tables)
+* L'ordre des colonnes dans le suivi est celui de la table (plus de tri date)
+* On peut utiliser AltGr sous Windows
+* Supporte les espaces dans les noms d'étudiants dans le suivi.
+* L'exporte prévient quand des étudiants n'ont pas leur note exporté.
+* L'export ce fait avec des virgules.
+* L'export accepte les lignes vides à la fin.
+* Supprime un bug interdisant d'ajouter une ABJ dans certain cas.
+
+------------------------------------
+Changement version 2.4.1 ==> 2.4.2 :
+------------------------------------
+* Amélioration export (backporté)
+* Plus de IFRAME dans la gestion des ABJ (plus de problème historique, +rapide)
+* Unfocus sur le menu UE pour DA pour éviter les ajouts intempestifs
+* Page impression : des , au lieu des . par défaut
+
+------------------------------------
+Changement version 2.4.2 ==> 2.4.3 :
+------------------------------------
+* Plus résistant au mauvais [0;20] du coté serveur et client
+* Test la destruction de colonnes non créés.
+* Test correctement le droit de modification colonne dans le client.
+* Test URL vide dans le suivi par un prof
+* Liste des UE pages d'accueil : séparée en deux (avec/sans étudiants)
+* Interface import/export plus clair.
+
+------------------------------------
+Changement version 2.4.3 ==> 2.4.4 :
+------------------------------------
+* Affiche la liste des portails sur la page de root
+* Lien vers suivi dans la page des tickets
+* Lien ADE sur les 3 semaines courantes.
+* Comptage correcte du nombre de cellules changées dans la stat UE
+* Import et export transforment tout en numéro d'étudiant (plus de login).
+* Feuille d'emargement et d'impression remplacent les login par numéro aussi.
+* Page suivi : boite rechercher nom/prénom
+
+------------------------------------
+Changement version 2.4.4 ==> 2.4.5 :
+------------------------------------
+* Le suivi permet d'afficher une feuille IP : /ip
+* Ajout de la fonction de calcul 'Max'
+* Aide et Photo : dans une nouvelle page pour ne pas perdre la table.
+* Affiche le portail étudiant sur le résumé de ligne.
+
+------------------------------------
+Changement version 2.4.5 ==> 2.4.6 :
+------------------------------------
+* Meilleur affichage des erreurs
+* Liste des colonnes pour les calculs Moyenne/Max/Nmbr dans le suivi.
+* Préférence par défaut : échange nom/prénom
+* Sépare sur 'home' les liens root_ro et root_rw
+* Corrige problème des ALt qui sont des raccourcis navigateur.
+* Les tips sont vraiment cachés si on le demande...
+* Corrige gros bug sécurité.
+
+------------------------------------
+Changement version 2.4.6 ==> 2.4.7 :
+------------------------------------
+* Fusion des pages de préférence
+* Mail étudiants dans 'tickets' et 'preferences'
+* Rang de l'étudiant dans chaque colonne dans son résumé.
+
+------------------------------------
+Changement version 2.4.7 ==> 2.4.8 :
+------------------------------------
+* Correction gros bug : modif colonne et changement dans la colonne triée.
+
+------------------------------------
+Changement version 2.4.8 ==> 2.4.9 :
+------------------------------------
+* Le tri ne fonctionnait pas correctement sur les colonnes calculées.
+* Mise à jours du mail en même temps que le nom et prénom en cas d'ajout.
+* Pour le suivi (et ailleurs) 'les_ue' retourne seulement UE-* et EC-*
+* Nouvelle page quand on suit un lien sur la page d'accueil
+* Refait afficher les tips sur la page d'accueil.
+* Page de suivi listant les numéros d'étudiant ne correspondant pas au nom.
+
+------------------------------------
+Changement version 2.4.9 ==> 2.4.10 :
+------------------------------------
+* Le suivi n'affiche plus par défaut les UE étendues.
+* Quand on ajoute l'ID de l'étudiant, les nom/prénom appartiennent au créateur
+* Ne fait plus de DNS inverse
+
+------------------------------------
+Changement version 2.4.10 ==> 2.4.11 :
+------------------------------------
+* Par défaut trie par prénom après nom.
+* Interdit modification de valeur RO par un non autorisé.
+* Mise au propre du trombinoscope (nom en bas et plus de tables).
+* Mise à jour des codes pour les portails, accepte plusieurs codes.
+* Passe le numéro d'étudiant en user_rw s'il n'est plus inscrit officiellement
+
+------------------------------------
+Changement version 2.4.11 ==> 2.5.0 :
+------------------------------------
+* Ne perd plus la valeur de 'empty_is'
+* Le display_tips ne pose plus de problème lors du chargement initial.
+* Bordure fenêtre export : vert au lieu de rouge
+* Suivi accepte nom et prénom avec un espace, le tri est fait sur les prénoms.
+* Récupère bien SPIRAL et ADE (j'espère)
+* Plusieurs changements d'IP possible pour un ticket avec 'allow'
+* Réécriture plus fiable et puissante de la gestion des tickets.
+* Réécriture plus fiable des changements de tickets, pertes de connections...
+* Les liens de la page d'accueil ouvrent une nouvelle fenêtre.
+
+------------------------------------
+Changement version 2.5.0 ==> 2.5.1 :
+------------------------------------
+* Plus de chance que les modifications distantes de formule mettent à jour.
+* Type de colonne un peu plus explicite.
+* Dans le suivi, si cela commence par ':' alors le bilan APOGÉE est inclus
+* Le 'profiling' permet d'afficher les stats sur un intervalle de temps.
+* Le serveur possède 8 threads pour envoyer les fichiers statiques.
+* N'indique plus les cases vides dans le message d'erreur de l'exporté.
+
+------------------------------------
+Changement version 2.5.1 ==> 2.5.2 :
+------------------------------------
+* Corrige bug IE avec le // et le split.
+* Corrige les rechargements multiples dans la gestion des ABJ (innerHTML+=)
+* check_test_note retourne bien la valeur réellement stockée (%^#$@^)
+* Vérification correcte de la valeur 'test' pour changement de colonne.
+* Ne sauvegarde plus sur le serveur des valeurs identiques (header_change)
+* Met à jour les headers en cas de changement de type.
+* Nom de l'étudiant dans le titre de la fenêtre pour le suivi.
+* Ne change plus le statut 'inscrit' des lignes pour les UE étendues.
+
+------------------------------------
+Changement version 2.5.2 ==> 2.6.0 :
+------------------------------------
+* Supporte nom avec accent dans le suivi (cassé à cause du title)
+* Supporte Opéra et Safari pour le suivi.
+* Affiche (tout) pour le bon nombre de colonnes.
+* L'ajout d'étudiant ne fait plus disparaître les mails
+* Changement des couleurs de colonne/ligne courante et triée
+* Ajout de l'indicateur de direction de tri.
+* Espace horizontalement les 3 blocks du menu
+* Colorise Printemps/Automne
+* Affiche "semestre année" pour l'étudiant dans son suivi.
+* Dans le suivi, pour les moyennes et max affiche le barème.
+* Répare change_header pour le cas du titre qui n'était plus sauvé
+* Lien pour sauver la largeur courante de la colonne
+* Raccourci clavier OK AZERTY/QWERTY avec firefox
+* Le stop est fait dans le crontab, plus besoin de modifier le Makefile
+* Les test de régression supporte maintenant le changement de semestre
+* Génération automatique des semestres dans 'top.html'
+* Ajout de la fonction ufr_of_teacher, enlève la thread listant les UFR.
+* DOC de ce qui est nécessaire à TOMUSS dans le campus : services-ucbl.html
+* Création de la table de configuration
+* Passage du ticket ttl et du semestre courant dans la configuration
+* 'root' est maintenant un liste au lieu d'un seul login.
+* Découpage de 'debug' en plusieurs TAGS de débuggage.
+* Le changement de taille fenêtre ne change plus le nombre de colonnes par def.
+* Actualise correctement les menu de nombre lignes/colonnes si fenêtre change.
+* Message d'erreur (ticket.html) si un ticket devient instantanément mauvais
+* Liste des adresses IP bannies
+* Lanceur de thread immortelles avec envoit de mail en cas de problème.
+* Envoie d'une fenêtre d'alerte à tous les utilisateur TOMUSS en ligne.
+* Nouveau type de colonne : copie de colonne.
+* Aide contextuelle sur les filtres en fonction du type de la colonne.
+* Le message sur la page d'accueil est modifiable via la page configuration
+* Repositionne correctement cellule courante quand on réduit le # de colonne
+* Enlève le mode 'NonInscrit' de l'interface.
+* Décodage des entités dans l'analyse des options de l'URL
+* Mise en place de la signature de contrat étudiant, inactif pour l'instant
+* Infrastructure pour gérer facilement les table virtuelles.
+* Meilleur gestion dans remplacements dans les pages (head_html(), tail_html())
+* La sauvegarde des options supporte les filtres avec / : = ?
+* Les nombres sont alignés à droite dans la page impression.
+* ? est accepté comme valeur pour rouge/vert et recalculé au chargement.
+* Autorise change rouge/vert sur table en lecture seulement.
+* Ne fait pas d'alertes inutiles sur les tables en lecture seulement.
+* Refonte complète des statistiques par groupe, génère fichier SVG.
+* Imprime les couleurs rouge/vert des cellules.
+* Supprime ancien interface utilisateur
+* Les titres de colonnes ne sont plus éditables.
+* Une page graphique des données pour toutes les tables
+* Import d'un fichier CSV dans une table vide.
+* Favoris sur option remarche avec mauvais ticket.
+* Affiche des actions en plus dans live_status
+* Réécriture de la gestion des envois de message au serveur.
+* Affiche clairement les accélérateurs.
+* Création/utilisation de millisec()
+* Accéléation calculs des rangs (lent sous opéra à cause de 'sort')
+* Normalise les notes pour les statistiques par enseignant dans une ue.
+* Efface valeurs obsolettes des préférences.
+
+------------------------------------
+Changement version 2.6.0 ==> 2.6.1 :
+------------------------------------
+* Interface linéaire pour mals-voyants.
+* Statistiques totale : affiche les bonnes colonnes.
+
+------------------------------------
+Changement version 2.6.1 ==> 2.6.2 :
+------------------------------------
+* linear.js : Ajout commentaire sur colonne inexistante : OK
+* linear.js : Ne traite plus les événements avec Alt et Ctrl.
+* change_abj.py : Gestion des problèmes quand la gestion des ABJ ferme sa page.
+* home.py : Les liens ouvrent de nouvelles fenêtres dans la page d'accueil.
+* middle.js : Corrige style linear pour avoir les puces de l'aide.
+* linear.js : Ne resauve pas les valeurs identiques.
+* linear.js/pageaction.py : mémorise les touches utilisées.
+* linear.js : édition directe du filtre, ajout du filtre nom.
+
+------------------------------------
+Changement version 2.6.2 ==> 2.6.3 :
+------------------------------------
+* home.py : + d'ouverture de nouvelles fenêtres
+
+------------------------------------
+Changement version 2.6.3 ==> 2.6.4 :
+------------------------------------
+* Si pas d'étudiants dans la base IP, alors va les chercher dans LDAP
+* live_status : Garde vivant en envoyant la longueur des files d'attente
+* linear.js : debug nouvelle colonne, bute bordure, indicateur colonne vide
+* home.py : nouvelle page pour 'stats.html'
+* Évite une redirection pour l'accès étudiant
+
+------------------------------------
+Changement version 2.6.4 ==> 2.6.5 :
+------------------------------------
+* install_demo : bascule bien allow_student_list_update à True
+* head.html : <noscript> pour toutes les pages.
+* lib.js : saisie commentaire dans colonne vide crée la colonne.
+* tomuss.py : afficher le nombre de tickets lives dans live_status
+* live status : Fixer 'N' au centre. et '' en haut.
+* Corrige bug calcul positions.
+* live_status.js : Meilleur disposition des noeuds
+* tomuss.py live_status.js : Affiche le login au lieu du ticket.
+* tomuss.py : Affiche les tickets dans live_status quand regtest=True
+* suivi_table.py : indique Extension et 'vide' dans les statistiques
+* inscrits.py : Supporte les login sans nom ou prénom
+* linear.js : lien vers le suivi des étudiants
+* utilities.js : Bulle d'aide sur focus (utilisable seulement dans le suivi)
+* inscrits.py : firstname_and_surname_to_login est complètement réécrite
+* suivi_preferences.py tablestat.py : débug fusion des préférences
+* suivi_teacher.py authentication.py : Les favoris sont stocké dans Preferences
+* master_of.py : INITIALISATION des master_of dans les préférences.
+* lib.js utilities.js spiral.py : Change politique d'ajout d'étudiant.
+* document.py : mise a jour de 'master_of' dans les préférences.
+* home.py : Affichage des 'master_of' sur la page d'accueil.
+* students_of_ue.py : Utilise Base IP seulement pour la licence.
+
+------------------------------------
+Changement version 2.6.5 ==> 2.6.6 :
+------------------------------------
+* tomuss.py : envoie correctement ticket à live_status
+* live_status : les noeuds IP partent plus une fois décrochés
+* suivi_student : affiche les memberOf dans la page suivi
+* students_of_ue : Accepte 'info_s1' pour les étudiants de l'IUT A
+
+------------------------------------
+Changement version 2.6.6 ==> 2.6.7 :
+------------------------------------
+* Inverse + et - largeur colonne.
+* lib.js : Modifie pas l'historique pour la première modification
+* La photo apparait à la connexion à la table (ordre des redéfinitions)
+* lib.js : Les statistiques par groupe sont maintenant correctes.
+* lib.js : accents OK dans le SVG de statistiques par groupe.
+* lib.js : Coloriage avec ? ? marche maintenant (toFixed n'est pas un nombre)
+* livestatus.js : largeur boite ticket : fonction du contenu texte
+* lib.js : Corrige problème hauteur ascenseur vertical
+* document.py : 'root' a le droit de regarder les Dossiers
+* live_status.js + sender.py : Affiche requêtes LDAP
+
+------------------------------------
+Changement version 2.6.7 ==> 2.6.8 :
+------------------------------------
+* Vérifie systématiquement si la table est chargée et verrouillée.
+* Trie par numéro requête au lieu d'objet (fiabilité du tri ?)
+* Ajoute des verrous manquants.
+* Si l'on nomme une colonne 'Code_Étape' elle contiendra les étapes.
+* Ajoute des intervalles de temps dans la configuration
+
+------------------------------------
+Changement version 2.6.8 ==> 2.6.9 :
+------------------------------------
+* Corrige affichage du trombinoscope par groupe.
+* Enlève bégaiement de la saisie de commentaire sous IE : double blur.
+* Cellule vide implique pas de commentaire.
+* Réécriture complète de la gestion de update_filtered_lines
+* Tri des semestres dans le suivi.
+* Liste des UE SPIRAL extraites à nouveau (nombreux bugs)
+* Test régressions OK sous FF et Opera
+* Signature de la charte seulement pour le portail math/info.
+* Ajout de colonnes et de lignes testé y compris avec filtre : ok
+* Taille texte optimale dans l'histogramme.
+* Passe tous les noms de responsable en minuscule.
+* Affiche dans le suivi et le bloc note la signature du contrat pédagogique.
+* referents.py : débuggué, tient compte de gerland
+
+------------------------------------
+Changement version 2.6.9 ==> 2.6.10 :
+------------------------------------
+* referents.py : débuggué
+* suivi_strudent.py : ne fait pas signer la charte par les enseignants.
+* suivi_strudent.py : n'affiche pas la charte pour les non math/info
+
+------------------------------------
+Changement version 2.6.10 ==> 2.6.11 :
+------------------------------------
+* SCRIPTS/install : ménage et garde signature des chartes.
+* Blocnote modifiable si l'année universitaire est ok.
+* Moins de warning sous FireFox 3.5.3
+* Supporte le commentaire 'arrondi à X' pour les colonnes notes et moyenne.
+
+------------------------------------
+Changement version 2.6.11 ==> 2.6.12 :
+------------------------------------
+* SCRIPTS/install Makefile : Améliore 'make check'
+* suivi_students.py : Affiche un titre avec des infos si c'est un enseignant.
+* Vérifie si l'on fait un accès en écriture sur les tables dans le suivi.
+* Destruction des tables vides (détecte tables dans un état bizard)
+* Destruction d'une table quelconque en ajoutant 'delete_this_table' dans URL.
+* inscrits.py : login en minuscule
+* document.py : La destruction d'une table garde l'historique (Trash/Data/path)
+* lib.js : on a le droit de vider les cases des étudiants non inscrits.
+* cell.py : Affiche groupe et séquence et inscrit.
+* live_status est multi utilisateur et autorisé pour les profs (non visible)
+* live_status affiche les erreurs LDAP
+* live_status affiche les requêtes base IP
+
+------------------------------------
+Changement version 2.6.12 ==> 2.6.13 :
+------------------------------------
+* suivi.py crontab_run.py : détecte mieux les problèmes.
+* document.py : simplifie l'affichage de table calculées
+* suivi.py : diffuse tous les fichiers car il peut afficher une table.
+* linear.js : debuggage suite aux modifications de update_filtered_lines
+* Création blocnote remarche
+
+------------------------------------
+Changement version 2.6.13 ==> 2.6.14 :
+------------------------------------
+* Bug suivi.py (home)
+* base_ip : sleep incrémental pour ne pas réessayer toutes les secondes.
+* update ne plante pas si fichier n'existe pas.
+* /resume/ue1/ue2...
+
+------------------------------------
+Changement version 2.6.14 ==> 2.6.15 :
+------------------------------------
+* resume.py plante pas si ue inexistante
+* resume.py : freeze les colonnes de gauche
+* resume.py : Ajoute TOTAL
+* utilities.js : Affiche correctement le + dans le poids si présent
+* lib.js : update_input met correctement la valeur à jour (+1 != 1)
+* type.js : meilleur calcul du max de note quand il est automatiquement calculé
+* suivi_table.py : Affiche le nombre de groupes étudiants dans la stat UE
+* middle.js : Inverse l'affichage de AutoSave
+* Termine chargement si l'option =linear=
+* Nombreuse corrections de linear.js
+
+------------------------------------
+Changement version 2.6.15 ==> 2.6.16 :
+------------------------------------
+* Sauvegarde des CHARTES signées avec les backups.
+* Le 'unload' enlève les mises à jours des listes d'étudiants : 'clean' rapide
+* livestatus : reduit la taille de fonte en fonction nombre de noeuds.
+* live_status : affiche les pings vers les navigateurs.
+* Adresse IP passées dans utilities.safe.
+* lib.js : Historique correctement géré en intéractif.
+* access.py : diminue taille fonte
+* cell.py : Suivi : groupe A B C ne sont pas coloriés si c'est un numéro de grp
+
+------------------------------------
+Changement version 2.6.16 ==> 2.6.17 :
+------------------------------------
+* Referents.py : indique le contrat signé dans la bonne colonne
+* document.py : Affiche un warning quand il y a une page active sans ticket !
+* cell.py : N'affiche pas le booleen la vue étudiant si vide.
+* PLUGINS/referents.py : liste des adresses mails
+* Barre de chargement.
+
+------------------------------------
+Changement version 2.6.17 ==> 2.6.18 :
+------------------------------------
+* utilities.js : Efface la barre de chargement si fichier vide.
+* document.py : verrouille 'content' pour ne pas avoir d'incohérence.
+* CONF_UCBL/auth.py/ticket_login_name : bétonne accès CAS
+* Bétonnage ailleurs...
+
+-----------------------------------
+Changement version 2.6.18 ==> 2.6.19 :
+------------------------------------
+* regtest : ajoute test delete_this_table
+* regtest : test si les préférences sont mise à jour quand on ajoute un master.
+* suivi_student.py : Affichage plus claire concernant le référent
+* suivi_student.py : Affichage du pointeur sur le contrat pour math/info
+* middle.js : répare linear
+* suivi_uninterested : Affiche correctement contrat signé (celui à jour)
+
+-----------------------------------
+Changement version 2.6.19 ==> 2.6.20 :
+------------------------------------
+* suivi_student.py : Pas d'erreur pour les étudiants sans référents du passé.
+* suivi_student.py : Feedback sur le lien du semestre affiché courant.
+* utilities.js : ligne blanche après la liste des mails
+* document.py : récupère doucement les listes d'étudiant (10s entre chaque UE)
+* suivi_student.py : Plus de backtrace dans le mail d'erreur référent.
+* ticket.py : ne plante plus quand on demande des attributs inexistants
+* lib.js : Plus de blocage si une réponse arrive pendant l'alert pas de conxion
+* document.py master_of.py : Liste unique des semestres à ne pas compter
+* document.py : possibilité de charger une table non unloadable (do_not_unl..)
+* ticket.py : Mail si 'user-agent' n'existe pas
+* lib.js : Change triangle indicateur direction de tri.
+* plugin.py : interdit le . dans le nom de semestre ou UE
+* lib.js : alert si impression non triée par nom
+
+-----------------------------------
+Changement version 2.6.20 ==> 2.6.21 :
+------------------------------------
+* Referents.py : Bug colonne d'affectation du contrat
+* sender.py : Réécriture pour garantir l'envoi dans l'ordre.
+* document.py : Utilise sender.py pour envoyer (élimine source de blocage)
+* Change la couleur des icones.
+* Charge automatiquement toutes les UE au moment du lancement du suivi.
+* Affiche les code étapes, les récupères une fois par semaine.
+
+-----------------------------------
+Changement version 2.6.21 ==> 2.6.22 :
+------------------------------------
+* Affiche le commentaire de colonne pour les colonnes calculées
+* Pas de carré rouge dans l'icone si 0 points jury.
+* Les tables inutilisées sont déchargées.
+* Moyenne des X meilleurs notes.
+
+-----------------------------------
+Changement version 2.6.22 ==> 2.6.23 :
+------------------------------------
+* Export et Import de la liste des colonnes
+* Rétablissement des mouvements de curseur après un import.
+* La signature de charte est stockée par semestre.
+* Corrige bug appel à sender (peu grave : premier chargement)
+* type.js,  ABI ABJ PPN PRE sont accepté dans la moyenne.
+* abj_change.py : gros bug gestion des pages actives
+* _ucbl_.py : Numéro d'étudiant vide : vide les noms
+* Liste des ABJ/DA : sous forme de table HTML au lieu de CSV...
+* Affiche correctement le résumé quand l'étudiant n'a pas d'ABJ
+
+-----------------------------------
+Changement version 2.6.23 ==> 2.6.24 :
+------------------------------------
+* document.py : Protège les blocnotes des référents
+* inscrits.py : ues_of_a_student ne retourne plus les CN=MODU- seuls les UE
+* type.js middle.js : les import/export/... ne bloquent plus le curseur bleu
+* lib.js : Préviens quand les colonnes sont créées dans le désordre.
+
+-----------------------------------
+Changement version 2.6.24 ==> 2.7.0 :
+------------------------------------
+* Bug : Préviens quand les colonnes sont créées dans le désordre.
+* L'install recopie all_ues.js de la version en cours.
+* Ferme les connexion LDAP inutilisées
+* sender.py affiche la longueur de la file authentication dans live_status
+* abj.py/ue_resume décharge immédiatement les tables non nécessaires.
+* Ajoute de protection (safe) pour les login, noms, prénom dans inscrits.
+* Transforme les fonctions en méthode.
+* _ucbl_.py à son objet LDAP personnel pour ses requêtes.
+* Supprime l'état 'initialized' des tables : plus au premier chargement
+* Freezed ne disparaît plus
+* Corrige un 'empty' manquant dans le commentaire cellule
+* Taille feedback ok quand on change un booléen dans le suivi.
+* N'affiche pas de bulle sur les cellule vide si elles sont non modifiables
+
+-----------------------------------
+Changement version 2.7.0 ==> 2.7.1 :
+------------------------------------
+* Ajoute le master automatiquement pour les blocnotes ou il manque
+* Messages envoyer : correction
+* Affiche les vieux blocs notes dans le suivi.
+* Le /resume ne fait plus apparaître une boite blanche dans live_status.
+* Corrige abj_alpha
+* Réécriture complète de 'line_html' (passe en partie dans 'column.py')
+
+-----------------------------------
+Changement version 2.7.1 ==> 2.7.2 :
+------------------------------------
+* Remet les couleurs dans le suivi.
+* Corrige tous les bugs d'icone et de suivi.
+
+-----------------------------------
+Changement version 2.7.2 ==> 2.7.3 :
+------------------------------------
+* Déplace l'affichage du suivi dans le client
+* Affichage hiérarchique des notes inactivé si l'on est pas avec IE
+* Affiche les étudiants référés avec une ' dans leur nom...
+
+-----------------------------------
+Changement version 2.7.3 ==> 2.7.4 :
+------------------------------------
+* Améliorations ue_resume, utilisation d'une connexion LDAP privée
+* Plus de deadlock à cause de base_ip
+* Utilise 'threading'
+* abj.py/resume affiche dans l'ordre alphabétique.
+* live_status.js : Détruit les noeuds qui sortent trop de l'écran.
+* lib.js : Affichage du suivi teste sur l'affichage si inline-block fonctionne
+
+-----------------------------------
+Changement version 2.7.4 ==> 2.7.5 :
+------------------------------------
+* Met le code d'initialisation des scripts 'lib.js', 'abj.js' dans une fonction
+* Changement de l'ordre de chargement des scripts pour accélérer
+* Corrections erreurs HTML dans 'top.html' 'home.py'
+
+-----------------------------------
+Changement version 2.7.5 ==> 2.7.6 :
+------------------------------------
+* Corrige moyenne avec NMBR dans le suivi. Plus fiable.
+* Ajoute le poids quand c'est nécessaire dans le suivi.
+* N'affiche pas les années trop anciennes pour l'étudiant dans le suivi.
+* Commentaire plus petits dans la page d'impression.
+* Cache/Montre interactivement les cases vides dans le suivi.
+* Login en majuscules dans le suivi ==> bug pour les prof.
+* Liste des responsables qui n'était plus affichée.
+
+-----------------------------------
+Changement version 2.7.6 ==> 2.7.7 :
+------------------------------------
+* ticket.py : os.listdir in place of os.walk
+* Enlève les vieux ticket une seule fois
+* La deconnexion détruit immédiatement le fichier ticket.
+* crontab_run.py : log plein d'info en cas de plantage
+* access.py : Fusionne tout les fichiers de log sans en oublier
+* Interdit les noms d'UE dangereux : abj et data
+
+-----------------------------------
+Changement version 2.7.7 ==> 2.7.8 :
+------------------------------------
+* deadlock.py
+
+-----------------------------------
+Changement version 2.7.8 ==> 2.7.9 :
+------------------------------------
+* Envoi .gz seulement si le navigateur supporte l'encodage
+* Ascenseur à droite
+* Gestion nickel de l'ascenseur horizontal
+* SCRIPTS/list_ue.py liste pas seulement le premier responsable
+* suivi_students.py : Affiche les icones par semestre
+* lib.js : red/green transforment la ',' en '.'
+* Affiche dans les logs et livestatus le temps réel de chargement de page.
+* Envoi de mail pour l'annulation du chargement d'une page.
+* Menu de année/semestre dans la table affichée
+
+-----------------------------------
+Changement version 2.7.9 ==> 2.7.10 :
+------------------------------------
+* tomuss.py/log/page_load_time : ne duplique plus le noeud dans live_status
+* plugin.py : Copie de 'server' object
+
+-----------------------------------
+Changement version 2.7.10 ==> 2.7.11 :
+------------------------------------
+* Correction des bugs générés par le changement précédent
+* Affichage des statistiques de temps de chargement de table.
+* Répare live status
+* Sauvegarde totale toute les heures dans le bâtiment
+* Le 'resume' de multiples UE fonctionne à nouveau
+* La saisie du numéro étudiant fait à nouveau apparaitre le nom/prénom
+* Page canceled : affiche le navigateur utilisé
+* Plus de réauthentification inutile alors que l'on a reçu l'info.
+
+-----------------------------------
+Changement version 2.7.11 ==> 2.7.12 :
+------------------------------------
+* Couleur menu changement semestre dans table : marche mieux avec IE
+* Envoit mail au responsable d'UE : de licence seulement.
+* Nom de l'auteur d'une modif ABJ/DA
+* Récapitulatif ABJ/DA pour la personne connectée
+* Bulles ne disparaissent plus trop vite
+
+-----------------------------------
+Changement version 2.7.12 ==> 2.7.13 :
+------------------------------------
+* Enlève dynamiquement des colonnes de la feuille d'émargement.
+* Message d'alerte si les adresses mail ne sont pas chargées.
+* Affiche le récapitulatif des ABJ en HTML au lieu de XLS
+* Les cellule pleines appartenant à '' (rw_user) comptent comme vide
+  dans les stats et dans 'table.empty()'
+* Le resume d'UE (ABJ DA TT) fait plus une case vide dans live_status
+* Positionnement correcte de la liste des logins (type identificateur)
+
+-----------------------------------
+Changement version 2.7.13 ==> 2.7.14 :
+------------------------------------
+* Type de colonne : URL
+* Récupère le portail dans les TT
+
+-----------------------------------
+Changement version 2.7.14 ==> 2.7.15 :
+------------------------------------
+* Affichage du portail dans la gestion des ABJ/DA
+* TT : 'O' veut dire tiers-temps
+* login_list : meilleur gestion des accents, correction de bugs.
+* Encore une correction de bug mémorisation portail pour les nouveaux étudiants
+* Mail proactif en cas de page_cancel trop souvent (4 en 1 heure)
+
+-----------------------------------
+Changement version 2.7.15 ==> 2.7.16 :
+------------------------------------
+* Débuggage SCRIPT/page_load_time + echelle log pour les temps.
+* Plus de double BODY et TITLE au bon endroit (chrome ralait)
+* live_status : Chrome n'aimait pas le bord d'épaisseur 0
+* Tiers temps : O ===> +1/3 dans la bulle d'aide de table
+* Chrome : curseur droit en édition passe à la case de droite
+* Histogramme : n'utilise plus la balise object (à cause chrome)
+* Select ok dans opera pour déplacement horizontal
+* Restriction de l'envoi de .gz
+* Trie interactif dans le récapitulatif des ABJ/DA
+* Lance un thread pour le suivi car il peut être bloqué par LDAP.
+* Dans le suivi étudiant : message pour indiquer de patienter.
+
+-----------------------------------
+Changement version 2.7.16 ==> 2.7.17 :
+------------------------------------
+* Changement (sans effet sur la vitesse sous FF) de l'algo de tri abj_recap
+* Test Safari pour ne pas envoyer de fichier compressé.
+* Le cache par défaut dure une heure
+* inscrits.py : Ajoute plein de caches
+* inscrit.py : Déplace le cache sur les méthodes : super !
+* live_status : Passe le services LDAP en rouge pendant l'attente de réponse
+* Passe les tables en rouge quand elles sont lockées
+
+-----------------------------------
+Changement version 2.7.17 ==> 2.7.18 :
+------------------------------------
+* live_status : ajoute noeud CAS et le passe en rouge.
+* live_status : graphe d'activité de la machine
+* crontab.py : Affiche l'heure de début de la requête qui a "bloqué"
+* Safari : ne bloque plus sur le premier chargement de table <script onload>
+* regtest minimal sur le plugin resume
+* Amélioration du nombre de lignes affichées par défaut
+* google-chrome : tests régressions OK (for i in select.options)
+
+-----------------------------------
+Changement version 2.7.18 ==> 2.7.19 :
+------------------------------------
+* Bug affichage étudiant.
+* utilities.py/add_a_cache ne prenais plus en compte 'not_cached' (passwd_ok)
+* Import plus conviviale, teste import note multiple pour 1 étudiant
+* Mouvement de curseur dans la fenêtre d'import.
+* Trie des UE par code dans le suivi.
+
+-----------------------------------
+Changement version 2.7.19 ==> 2.7.20 :
+------------------------------------
+* Affiche le contact pour les bugs dans le suivi étudiant.
+* autorise espace dans les logins
+* Interdit d'avoir 2 colonnes avec le même nom.
+* Elargie le graphe de charge.
+
+-----------------------------------
+Changement version 2.7.20 ==> 2.7.21 :
+------------------------------------
+* Envoi de mail si un login n'est membre d'aucun groupe.
+* Déplace tous les traitements UCBL dans CONFIG_UCBL avec un makefile
+* Fait 'SCRIPTS/night_job' pour simplifier le crontab
+* Renomme les fichiers de log de crontab pour clarifier
+* Gros ménage dans SCRIPTS
+* Les log contiennent ce qui est écrit dans les fichiers de données
+* Ne crée pas de Table avec le verrou sur 'table' (deadlock)
+* Réecriture de la gestion de 'data.table' maintenant c'est réentrant
+* Protège par un verrou abjs.abjs
+* Protège par un verrou do_not_unload
+* Esc ferme les fênetres d'import/export
+* Passage à l'arrondi inférieur. Création de la fonction 'tofixed'
+* Sélectionne les cases RO (tag : 19/1/2010)
+* Google chrome : meilleur positionnement des tip (bug de chrome)
+* Enlève Copyright
+* Plus de lignes sous IE (resize marche toujours pas)
+* Meilleur backtrace en cas d'exception dans un plugin
+
+-----------------------------------
+Changement version 2.7.21 ==> 2.7.22 : 20/1/2010 soir
+------------------------------------
+* page_load_time plus précis
+* Better and more portable tip positionning
+* Corrige suivi uninterested.
+* Liste des mails enseignants : sur toutes les colonnes visibles.
+* Bloque le scroll droite si le tableau est vide.
+* Calcule correcte du nombre de lignes affichées sous Google-chrome si resize
+
+-----------------------------------
+Changement version 2.7.22 ==> 2.7.23 :
+------------------------------------
+* recap_abj.html fonctionne maintenant sous IE
+* Affichage pile Python quand un kill est reçu.
+* Import de colonne recalcule les moyennes
+* L'ascenseur vertical est maintenant fixé en dur pour éviter des problèmes
+* Élargie graphe dans live_status.svg (2000 secondes) pour voir les répétitions
+* Dans uninterested met des ((( ))) autour des remarques personnelles.
+
+-----------------------------------
+Changement version 2.7.23 ==> 2.7.24 :
+------------------------------------
+* TOMUSS n'est plus immortel sur kill (bug affichage pile Python)
+
+-----------------------------------
+Changement version 2.7.24 ==> 2.7.25 : 26/1/2010
+------------------------------------
+* Conversion possible de ABJ/PPN en 0 sur export APOGÉE.
+* N'essaye plus de faire des modif sur une table verrouillée dans check_request
+* Plus de documentation sur la gestion des ABJ
+* Documentation du plugin Extract
+
+-----------------------------------
+Changement version 2.7.25 ==> 2.7.26 :
+------------------------------------
+* Mail en cas de problème d'accès à mesinfos.
+* Conseille des poids en entier.
+* Le calcul de moyenne se termine par un arrondi a 6 chiffres.
+* Envoit plus d'info quand il y a un problème avec grp_col et seq_col
+* Corrige colorisation sur les statistiques par groupe (backporté)
+* Corrige bug d'arrondi 0.95 ==> 0.94
+* Export APOGÉE sur 3 chiffres.
+* Met les bons TIMEOUT pour les requêtes LDAP
+* Affichage graphique de table fonctionne avec des colonnes textes.
+* Ne vérifiait les droits de modification de empty_is (ajoute regtest)
+* Ajoute l'option permettant de ne plus désinscrire les étudiants
+
+-----------------------------------
+Changement version 2.7.26 ==> 2.7.27 : 28/1/2010
+------------------------------------
+* Trie alphabétique dans le résumé des ABJ/DA/TT
+* ABJ/DA/TT : met le nom en premier
+* Affiche les Moyenne/Nmbr dans les stats par groupe.
+* Backtrace affiche la ligne de commande de lancement.
+* Les icones d'enseignant ne retournaient pas une icone (memberof vide, closed)
+* Filtre ligne/total ne tenait compte que des colonnes à l'écran.
+* Si allow_student_removal est faux, n'efface pas les groupes et séquences
+* Corrige regtest javascript
+* Corrige destruction de multiples ABJ si date de fin OU début sont =
+* ABJ : meilleur interactivité quand on tape la date (button feedback)
+
+-----------------------------------
+Changement version 2.7.27 ==> 2.7.28 : 31/1/2010
+------------------------------------
+* Dans abj_recap : tri par fin d'ABJ
+* Réécrit live_status pour les actions : plus légère
+* Affichage d'un feedback lors du chargement des ABJ/DA/TT
+* Page load time : affiche la médiane en plus de la moyenne.
+* Si le poids est '?' alors il est calculé en fonction des ABJ (A TESTER)
+* Plus de cache si member_of_list retourne ()
+* Autocalcul des poids si le poids de la colonne Moyenne est '?'
+* 'root' est automatiquement considéré comme un enseignant/abj master/...
+* Feedback lors du chargement du 'resume'
+* '&nbsp;' lors de la saisie dans les colonnes de type 'Login'
+* Si allow_student_removal est faux : n'ajoute pas s'il y en a >15% enlevé
+* Ajoute 'teacher_if_login_contains' pour débloquer le problème MemberOf
+
+-----------------------------------
+Changement version 2.7.28 ==> 2.7.29 : 1/2/2010
+------------------------------------
+* Stocke sur le serveur la valeur de la cellule et non la valeur tapée dedans.
+* Message et lien expliquant «Lecture seulement»
+* Marque l'inscription OK même si allow_student_removal est False
+* On peut pas stocker . ou .. comme valeur de cellule
+* Interdit la destruction de vieilles tables
+* Cache colonnes interactivement dans la page d'impression.
+
+-----------------------------------
+Changement version 2.7.29 ==> 2.8.0 : 3/2/2010
+------------------------------------
+* Corrige abj_recap (le trie des dates)
+* Ajoute le commentaire sur les ABJ et DA
+* Corrige la présentation des ABJ pour que cela soit plus lisible.
+* Écrit les mauvaise notes en blanc sur rouge (noir pas lisible)
+* Ajoute titre de fenêtre pour ABJ par date
+* Affiche la bonne date pour ADE
+* Chrome : affiche stats par groupe graphique
+* MaJ tests de régression
+* ABJ par date fonctionne sous IE.
+* Note les UE qui ferment (disparition de 15% étudiants)
+* Autorise l'édition des tableaux pour le semestre suivant des UE fermées
+
+-----------------------------------
+Changement version 2.8.0 ==> 2.8.1 : 15/2/2010
+------------------------------------
+* Trie alphabétique des étudiants suivis.
+* Ajoute le nombre du chargement au temps de chargement dans le graphique
+* Sauvegarde des CHARTES et CLOSED (UE qui ferment)
+* Ajout des template DIST et SIB
+* Plus de décalage affichage si pas de master_of
+* Grace à l'utilisation de indexOf, FF ne ralentit plus bizarrement.
+* Plus de disparition de boite de select sous Opera et IE (à cause tip)
+* Vérification des mots de passe stupides avec CAS au lieu de mesinfos
+* Renommage de CONFIG_UCBL en LOCAL
+* Plus de trace dans update_students (plante toujours)
+* Evaluation et affichage de formules quelconques dans config_table
+* Affiche dans live_status de la longueur de la queue 'update_students'
+* Ajout de 'finally' pour plusieurs des verrous
+* Mis au propre et ajout de doc pour la diffusion sur Internet
+* Réduit les cas de mise à jour sur table déchargée.
+* tt n'est plus déchargeable.
+* Plus de deadlock possible dans table_manage('del',
+* Si un seul destinataire, send_mail l'indique dans le champs To.
+
+-----------------------------------
+Changement version 2.8.1 ==> 2.8.2 : 18/2/2010
+------------------------------------
+* Fait en sorte que les UE étendues soient éditable seulement dans le
+  nouveau semestre (TEMPLATES/Printemps.py) : backporté immédiatement.
+* Stocke la page HTML de fakeuser quand il y a un problème non prévu
+$ Mise au propre du TAR pour l'utilisation extérieure
+* Documentation pour l'utilisation de la version GPL publique
+
+-----------------------------------
+Changement version 2.8.2 ==> 2.8.3 : 21/2/2010
+------------------------------------
+* Plugin : groupe
+* Le 'exp.' tableau n'affiche plus les colonnes user_ro
+* Améliore checkpassword.py : plus d'erreur
+* Répare décalage ascenseur.
+* L'ascenseur vertical est maintenant draggable.
+* L'ascenseur horizontal est maintenant draggable.
+* Sur le résumé des ABJ : filtre les ABJ en dehors de la séquence
+* Ajout de 'date' pour le premier cours et le dernier examen d'une UE
+* Filtres les ABJ de resume avec ces dates.
+* Filtres les ABJ affichées intéractivement avec ces dates.
+* Filtres les ABI soulignées avec ces dates.
+* Simplification de l'affichage des dates dans le résumé.
+* Les tips ne disparaissent plus aléatoirement.
+* Affichage par date : sépare matin d'après-midi.
+
+-----------------------------------
+Changement version 2.8.3 ==> 2.8.4 : 24/2/2010
+------------------------------------
+* Un seul mail si 'base_ip' est fermé (plus à chaque UE)
+* L'émargement affiche les étudiants des UE étendues.
+* On autorise la saisie de note si c'est pas 'non' au lieu de si c'est 'ok'
+* Le fond des tables est colorié par le semestre
+* Répare les statistiques par groupe (à cause de 'table_date')
+
+-----------------------------------
+Changement version 2.8.4 ==> 2.8.5 : 25/2/2010
+------------------------------------
+* Accélération calcul suivi étudiant (index des tables/étudiants)
+* Flux RSS
+* Dans le suivi : protège les < > et &
+* Dans les tips qui affichent les valeurs non tronquées : protège les < > et &
+* Code UTF8 de la charte
+
+-----------------------------------
+Changement version 2.8.5 ==> 2.8.6 : 26/2/2010
+------------------------------------
+* RSS : ajoute virgule au cas ou le <br> ne soit pas interprété.
+* Affiche la date dans la description.
+* Normalise la date dans <pubDate>
+* Quote les URL envoyées à CAS, cela évite un blocage (sleep 1 infini)
+* RSS table : ajoute date de publication
+* Couleur semestre sur la page d'accueil
+* corrige bug sur le <guid> des RSS de table
+* Ordre d'affichage dans le titre : info importante en premier (pour onglet)
+* Corrige bug doublon dans le suivi (tables_of_student était faux)
+* Icone RSS sur table et top
+**Réécriture de utilities.manage_key pour travailler dans DB et BACKUP_DB
+* Corrige tip sur la photo étudiant.
+* Corrige un peu le tri sur les dates
+* Autorise des heures dans le type date
+* Les exceptions affiches les headers de la requete
+
+-----------------------------------
+Changement version 2.8.6 ==> 2.8.7 : 1/3/2010
+------------------------------------
+* Corrige feed location dans la barre d'URL pour la table
+* Corrige gros bug baseip.py : fonctionnent aléatoirement long (cookie)
+* Chargement étudiants hors-séquences dans base_ip.py
+* Diminue le nombre d'actions en cours dans live_status.js
+* N'escape plus les code HTML pour l'histogramme et la moyenne.
+* Le mot 'filtre' revient dans le filtre de colonne quand il faut.
+
+-----------------------------------
+Changement version 2.8.7 ==> 2.8.8 : 2/3/2010
+------------------------------------
+* Fait le tri des UE avant de tronquer.
+* base_ip.py est 5 fois plus rapide pour les UE mono-séquence
+* base_ip.py indexe les UE hors sequence
+* base_ip.py enlève récursion
+* base_ip.py : outil vérification cohérence baseIP et catalogue UE ouvertes
+* referents.py : supporte * pour ne plus ajouter d'étudiants
+* referents.py : affecte mieux les étudiants qui suivent des UE de L3
+
+-----------------------------------
+Changement version 2.8.8 ==> 2.8.9 : 3/3/2010
+------------------------------------
+* Ajoute la colonne 'inscrit' au blocnote
+* Les non inscrits au blocnote : rouge
+* Utilise COLGROUP pour la largeur, mais cela ne change rien au bug FireFox
+* Plus de message d'erreur quand on interroge BaseIP avec une mauvaise UE
+* Création de groupe automatique : les prend dans TOMUSS.
+* Affiche toutes les informations sur la requête quand il y a une exception
+
+-----------------------------------
+Changement version 2.8.9 ==> 2.8.10 : 4/3/2010
+------------------------------------
+* Corrige messages d'aide.
+* Ajout du but 'tags' dans le Makefile
+* Couleur de fond ABJ : gris au lieu de la couleur de la table.
+* Table des ABJ : fonte plus petite que celle de la table.
+* Revalidation ticket dans le suivi était cassé par 2.8.6
+* Envoi une backtrace quand il y a canceled load.
+* Ne met plus ABINJ??? quand la colonne groupe n'est pas rempli
+
+-----------------------------------
+Changement version 2.8.10 ==> 2.8.11 : 10/3/2010
+------------------------------------
+* Commentaire : «la meilleure note» pour les moyennes.
+* Ajoute doc sur la manière de conserver les notes d'une semestre sur l'autre
+* Enlève le souligné des liens
+* Date absolue pour le filtre de table donné dans le lien RSS de tables.
+* Dans le suivi enseignant : le lien a un filtre sur l'enseignant (new page)
+* Afficher les 'tables' utilisées dans le backtrace
+* Indique la langue française pour les flux RSS
+* Enlève le Grp/Seq immédiatement quand on enlève le numéro d'étudiant.
+* Statistiques par groupes : Gras+Couleur pour indiquer le % de notes.
+* Date de visibilité pour la colonne + test de régression
+* SCRIPTS/sauvegarde était écrasé par une mauvaise version à chaque installe
+* date_time ne plante pas si date is None
+* 'blur' quand un choix dans une sélection est fait pour éviter problèmes.
+
+-----------------------------------
+Changement version 2.8.11 ==> 2.8.12 : 11/3/2010
+------------------------------------
+* On peut décider qu'une table est privée.
+* Répare 'linear.js' cassé depuis 2.6.16 ?
+
+-----------------------------------
+Changement version 2.8.12 ==> 2.8.13 : 20/3/2010
+------------------------------------
+* Diminue encore le nombre d'actions en cours dans live_status.js
+* Ajouter la page qui a fait l'action à add_master dans le fichier BD
+* Commentaire de colonne : seul la personne ayant créé la colonne à le droit
+* Corrige bug : old_value au lieu de theoldvalue (table_comment, table_date)
+* Flux RSS de table : met le tag author
+* Script de Renommage de tous les RSSKEYS et CHARTES en LOGINS/logins/attribute
+* Modification du code pour prendre ne compte le changement.
+* Modification de l'initialisation des UE favorites (LOGINS/.../pages)
+* Bug accent pour les commentaires dans ABJ/DA
+* Les UE "favorites" ne sont plus prises dans les préférences.
+* Gestion complète de la liste des 'master_of' comme 'pages' favorites.
+* Affiche une seule fenêtre d'alert en cas d'import de valeurs invalides.
+* Dans le suivi : trouve les noms composés
+* Répare ascenseurs sous IE   toto.onmouseup = undefined   n'est pas autorisé
+  (cassé depuis un mois)
+* Import de colonne.
+
+-----------------------------------
+Changement version 2.8.13 ==> 2.8.14 : 22/3/2010
+------------------------------------
+* On peut importer des colonnes avec accent sans faire planter TOMUSS
+* Table favorite dans le bon ordre
+* Génération d'une liste d'UE bidon par défaut pour la démo.
+* In authentication.py : do not send more than one error mail per minute.
+* Début de la nouvelle doc.
+
+-----------------------------------
+Changement version 2.8.14 ==> 2.8.15 : 24/3/2010
+------------------------------------
+* Cases non cliquable quand on a utilisé l'ascenseur sous IE.
+* Fixe la hauteur des cellules du tableau puisque IE respecte pas TD nowrap
+* L'impression marche à nouveau
+* Ajout de l'option d'URL =read-only= et son utilisation pour les TT
+* Corrige encore des problèmes d'affichage <>& dans les tips
+
+-----------------------------------
+Changement version 2.8.15 ==> 2.8.16 : 25/3/2010
+------------------------------------
+* Corrige recursion dans body.onmouseup
+* Corrige &nbsp; dans update_input
+* Amélioration de 'referents.py' garde les anciens référents.
+
+-----------------------------------
+Changement version 2.8.16 ==> 2.8.17 : 29/3/2010
+------------------------------------
+* Dans la gestion des ABJ : la saisie au clavier des dates était impossible.
+* Fait en sorte que les configurations de base fassent fonctionner le site démo
+* Ajoute d'un plugin 'log' pour loguer les mots cherchés dans l'aide.
+* Enlève le mode débuggage
+* Ne fait plus d'erreur sur l'import de colonnes négatives.
+* Change le format des dates RSS.
+* Remplace 3F par 02 dans le lien RSS (modification non testable)
+
+-----------------------------------
+Changement version 2.8.17 ==> 2.8.18 : 30/3/2010
+------------------------------------
+* Corrige tout pour que le site de démonstration fonctionne.
+* Corrige bug changement heure d'été pour la gestion des ABJ
+* Page de doc avec un fond blanc
+
+-----------------------------------
+Changement version 2.8.18 ==> 2.8.19 : 11/4/2010
+------------------------------------
+* Le type de colonne 'Nmbr' ne bousille plus l'interface graphique
+* On accepte les nom d'UE officielle sur 10 caractères en plus de 11.
+* Page de doc terminée, avec ascenseur
+* Le suivi supporte maintenant les majuscules
+* _ucbl_.py : Désactive la désinscription à l'UE si >10% de départ
+* Saisie rapide des dates actuelles : le jour ou le jour/mois
+* Le tri sur les dates avec l'heure fonctionne correctement.
+* Épuration de la page d'accueil (aide et message)
+* Enlève les doc filtre et raccourcis de l'édition de table
+* Empty_is pour les colonnes date et text
+* Corrige le nom du plugin rss2
+* Corrige la gestion des raccourcis claviers Alt-1 marchait plus
+* Import de colonne en utilisant le CAS pour s'authentifier (non testé)
+* Correction de nombreux bugs dans le compilateur de filtre
+* Maintenant 'a b' est compris comme commençant par 'a b' et non par 'a' & 'b'
+* Correction de bug liés au changement d'heure : serveur est en GMT.
+* Le calcul d'offical_ue est dans _ucbl_ et est redéfinissable facilement
+* Double clique pour visiter URL marche si on ne l'a pas créé.
+* Affiche le tiers temps dans le suivi
+* Préchargement des .js dans la page d'accueil pour éviter bug Safari
+* Enlève une fuite mémoire possible dans la méthode Table.update()
+
+-----------------------------------
+Changement version 2.8.19 ==> 2.8.20 : 4/5/2010
+------------------------------------
+* Nouvelle page d'accueil en développement (/home)
+* Les Page et Ticket sont indiquées dans le backtrace
+* Meilleure gestion des erreurs LDAP
+* Trie alphabétique des étapes
+* Corrige problème des logins commençant par 'py'
+* Adresse mail du contact
+* Ajout d'un plugin 'evaluate' pour pouvoir tester les serveurs de suivi.
+* Enlève le lien «qui fait quoi» de la page d'accueil.
+* Détection d'anti-virus : Ferme alors la page en train de se charger.
+* Correction bug sur resume.py à cause d'un accent
+
+-----------------------------------
+Changement version 2.8.20 ==> 2.8.21 : 11/5/2010
+------------------------------------
+* Mise au propre de la gestion des listes de login
+* Prise en compte de la molette de la souris.
+* Indique ObjectClass=Person dans firstname_or_surname_to_logins
+
+
+-----------------------------------
+Changement version 2.8.21 ==> 2.8.22 : 17/5/2010
+------------------------------------
+* send_backtrace n'envoit plus l'exception s'il n'y en a pas.
+* Peaufinage page d'aide
+* Le serveur filtre les ABJ hors séquence (pour pas reprogrammer en JavaScript)
+* Gestion des étudiants favoris
+* Blocnote des étudiants favoris
+* La partie suivi de la nouvelle page d'accueil est terminée.
+
+-----------------------------------
+Changement version 2.8.22 ==> 2.8.23 : 27/5/2010
+------------------------------------
+* Recherche d'étudiant interactive : met à jour seulement si c'est la bonne
+* Coloration lignes nouvel home
+* Simplification des titres
+* Enlève l'horloge pour le feedback
+* Autorise les espaces dans la recherche 
+* Page suivante dans l'aide marche si focus input
+* Le message n'apparaît que si on a le droit de l'utiliser
+* Changement de définition du message pour les plugins sur la page d'accueil.
+* Dans le suivi : lien cliquable pour le type colonne URL
+* Mise au propre des initialisations dans les scripts de LOCAL
+
+-----------------------------------
+Changement version 2.8.23 ==> 2.8.24 : 29/5/2010
+------------------------------------
+* Les plugins non autorisés apparaissaient sur la page d'accueil
+* La recherche fonctionne sur les animaux en mode regtest (demo)
+* Nouveaux icones de danger
+* Largeur de la colonne icone suivie dans page accueil
+* Mises à jour doc technique
+* Icone de danger dans menu d'UE
+
+-----------------------------------
+Changement version 2.8.24 ==> 2.8.25 : 03/6/2010
+------------------------------------
+* Adaptation de la nouvelle home page pour IE
+* Correction bug resume : ABJ manquantes
+* Trace dans la création de la liste des mails (blocages inexplicables)
+* COW : Positionnement correcte du champs de saisie
+* Décalage colonne gauche/droite : changement de page : change plus de colonne
+
+-----------------------------------
+Changement version 2.8.25 ==> 2.9.0 : 6/6/2010
+------------------------------------
+* Décalage colonne droite dans new home
+* Ajoute définition par défaut de 'the_login' dans lib.js
+* Corrige bug overflow dans style.css
+* Donne le login dans les mails d'erreur : antivirus et canceled
+* Max histogramme de moyenne correctement fait
+* Début création 'config_plugin' pour gérer les droits d'accès des plugins
+
+-----------------------------------
+Changement version 2.9.0 ==> 2.9.1 : 7/6/2010
+------------------------------------
+* Page d'accueil fonctionne avec IE 8
+* Remove security hole in regtest mode.
+* DEMO : liste étudiants favoris ok
+* Statistiques/qui fait quoi/ticket/... : bon lien sur la page d'accueil
+* home page : ajoute marge manquante en les boites
+* bilan APOGÉE : sur une nouvelle page.
+* 'config_plugin' permet de donner des droits d'utilisation à des logins
+
+-----------------------------------
+Changement version 2.9.1 ==> 2.9.2 : 21/6/2010
+------------------------------------
+* Alerte quand popup interdit
+* Meilleur Support IE8 sous Vista
+* 'resume' fonctionne à nouveau
+* Met un texte au lieu de l'icone poids (copié collé dans openoffice)
+* Page d'accueil : message : On ne peut pas éditer les anciens semestres
+* inscrits.students peut retourner plus de champs si nécessaire (sports)
+* Peut démarrer le serveur à partir de rien dans TMP pour l'université.
+* _ucbl_.py : plus facile d'ajouter des colonnes diverses (pour sportifs)
+* Icone tiers temps sur les UE de la page d'accueil
+* Repositionnement curseur correct si réduction du nombre de lignes/colonnes
+
+-----------------------------------
+Changement version 2.9.2 ==> 2.9.3 : 22/6/2010 (seulement sur la demo)
+------------------------------------
+* Meilleurs installation démo.
+* Affiche numéro de version sur la page d'accueil.
+* 'Test' est éditable dans le menu d'UE de la page d'accueil.
+* Mise au propre liste des animaux
+* Bulle d'aide sur fauteuil roulant.
+* Fauteuil si l'étudiant est inscrit ou bien dans la table.
+
+-----------------------------------
+Changement version 2.9.3 ==> 2.9.4 : 23/6/2010
+------------------------------------
+* Liste des étudiants et groupes pour les EC de transversale.
+* Mise à jour de la liste des transversales.
+* Répare la liste des logins de responsables d'UE
+* Le lien sur le listage des modif de groupes étudiants est sur la page accueil
+* DEMO : la liste semestre sur l'accueil ne contient plus 2008/Printemps
+* Le titre du lien des colonnes 'URL' dans le suivi est modifiable TITLE(..)
+
+-----------------------------------
+Changement version 2.9.4 ==> 2.9.5 : 28/6/2010
+------------------------------------
+* Correction bug dans 'login_to_student_id'
+* Correction bug dans le menu d'UE quand il y a des tiers temps.
+
+-----------------------------------
+Changement version 2.9.5 ==> 2.9.6 : 6/7/2010
+------------------------------------
+* UE sport manquantes dans le suivi
+* Le suivi indique même les UE étendues au premier chargement.
+* Création des plugins par type de colonne (non utilisé pour l'instant)
+* Indique le type 'Maximum' dans la doc.
+* Étudiants favoris avec un accent dans le nom fonctionne !
+
+-----------------------------------
+Changement version 2.9.6 ==> 2.9.7 : 19/8/2010
+------------------------------------
+* Correction de 3 bugs dans 'suivi_extract.py'
+* Répare le '+' dans le menu de droite.
+* Ajoute la possibilité de référer un étudiant.
+* Les référents sont extraits d'un groupe LDAP.
+* Bilan TOMUSS pour les enseignants référents.
+* icone safety dans le menu étudiant.
+* target=_blank partout dans le suivi.
+* Passage en Non semestrialisé possible sur l'automne aussi
+* Enlève semestrialisé de 'vos tables'
+* référent ==> référent pédagogique
+* L'URL de TOMUSS n'est pas forcément racine (//demo710.univ-lyon1.fr/TOMUSS)
+* Les destructions de table fonctionnent parfaitement.
+* CLOSED pour 2008/Test est maintenant impossible
+* Le site de demo est de nouveau installable
+* Affiche les UE ou l'étudiant est inscrit même si pas dans TOMUSS
+* Utilisation de Chrome pour détecter le mauvais HTML.
+* Annotation des fonctions à redéfinir dans le source, extraction pour la doc
+* get_intranet_files.py : utilise le nom du lien au lieu de l'URL
+
+-----------------------------------
+Changement version 2.9.7 ==> 2.10.0 : 22/9/2010
+------------------------------------
+* column.py utilise maintenant COLUMN_TYPES
+* Création des types d'attributs de colonne.
+* Mise au propre en python/javascript des attributs de colonnes.
+* Il est maintenant facile d'ajouter de nouveaux attributs de colonne.
+* Intégration du bilan APOGEE sur le bilan TOMUSS
+* manage_key peut avoir l'attribut reduce_ok
+* On ne peut plus modifier les commentaires des autres.	
+
+-----------------------------------
+Changement version 2.10.0 ==> 2.10.1 : 23/9/2010
+------------------------------------
+* Corrections de bugs
+* Sur la page d'accueil le référent pédagogique est indiqué.
+
+------------------------------------
+Changement version 2.10.1 ==> 2.10.3 : 28/9/2010
+------------------------------------
+* Corrections de bugs
+* Le changement de nom de colonne est plus résistant (_bis) pour homonyne
+
+------------------------------------
+Changement version 2.10.3 ==> 2.10.4 : 1/10/2010
+------------------------------------
+* Feuille d'émargement par groupes.
+* Bug mise à jour contenu curseur.
+* Opera : emargement et page pour impression résolu (bug \n entre </td></td>)
+* Plus de coloriage de A B C comme des notes dans le type Text
+* Gros bug visibility date sur les vieux fichiers.
+* Enlève les flux RSS des tables pour lesquelles cela ne fonctionne pas
+* Autorise les désinscriptions massives si le groupe étudiant est FERMEE
+
+------------------------------------
+Changement version 2.10.4 ==> 2.10.5 : 7/10/2010
+------------------------------------
+* Ne recopie pas les LOGS persistent : les déplace d'une version à l'autre
+* Corrige les problèmes des UE : info_g1
+* Vérifie le miroir toutes les nuits, pas au moment de l'installation
+* ABJ : annuelles au lieu de semestrialisée
+* Lien directe sur la page d'accueil sur l'impression ou l'émargement.
+* Corrige bug fermeture de socket au chargement de page
+* Ne plante plus si le semestre courant n'a pas de suivi.
+* 'login_list' refonctionne pour 'LOGIN' type
+* La changement de page ne mettait plus le curseur à jour.
+* Mise à jour correcte de la table quand on modifie min_max
+* URL stats : qui fait quoi était mal basée
+* Préférences : on peut choisir d'aller sur le suivi du semestre courant
+
+------------------------------------
+Changement version 2.10.5 ==> 2.10.6 : 10/10/2010
+------------------------------------
+* Afficheur objets en mémoire marchait plus en version démo (base url)
+* Corrige bug date dans l'export de colonne
+* Création de la fonctionnalité remplir colonne
+* Réécriture pour unifier tout les popup : export/import/remplir
+* La roulette marche seulement dans le popup pas dans la table aussi.
+* Tous les événements claviers sont annulés quand une popup est ouverte.
+* Le type 'login' refonctionne vraiment.
+
+------------------------------------
+Changement version 2.10.6 ==> 2.10.7 : 13/10/2010
+------------------------------------
+* Émargement par salles
+* Mises à jour documentation.
+* Correction de bugs de 'rewrite'
+* Le calcul de moyenne moins min et max marche ]1,1[ non documenté.
+
+------------------------------------
+Changement version 2.10.7 ==> 2.10.8 : 17/10/2010
+------------------------------------
+* Fais la doc ABINJ???
+* Plus de recopie du filtre d'une colonne sur l'autre
+* Plus de popup modification interdite quand on clique sur les attributs
+  de colonne sans changer leur valeur
+* Statistiques par client : ajoute chrome
+
+------------------------------------
+Changement version 2.10.8 ==> 2.10.9 : 18/10/2010
+------------------------------------
+* On peut enlever du blocnote les étudiants dont on est plus référent
+* Qui fait quoi : plus lisible : gras si ouvert.
+* Le clique sur la photo sur la page du bloc note marche
+* Interdit la Date de visibilité dans le passé (2001 au lieu de 2010)
+* Statistiques par client : corrige bug
+
+------------------------------------
+Changement version 2.10.9 ==> 2.10.10 : 20/10/2010
+------------------------------------
+* Correction bug : l'option de sauvegarde de filtre ne fonctionnait plus.
+* Les filtres ne sont plus imprimés sur le papier.
+* On peut à nouveau sauvegarder la largeur et position de colonne
+* Déplacement horizontal du curseur ok avec les largeurs != (voir XXX_HS)
+* Compression des alertes trop nombreuses. alert_append_start,alert_append_stop
+* La feuille d'émargement peut indiquer la place dans l'amphi.
+
+------------------------------------
+Changement version 2.10.10 ==> 2.10.11 : 24/10/2010
+------------------------------------
+* Grosse mise à jour de 'mail_tt.py'
+* Passage du rouge au blanc dans le blocnote des référés et des favoris
+* Statistiques referents : ok pour la globale
+* Refait refonctionner les liens vers ADE dans la table.
+* is_an_official_ue est utilisé partout (défini dans configuration.py)
+* Affiche le titre de l'UE dans le suivi de l'étudiant pour les UE sans table.
+
+------------------------------------
+Changement version 2.10.11 ==> 2.10.12 : 5/11/2010
+------------------------------------
+* Déplacement des fichiers calculés de FILES dans TMP
+* Nouvelle procédure d'installation, liens symboliques pour LOGS,TMP,Trash
+* COW : 'toggle_cow'/'test_cow' permet d'avoir le comportement de l'original.
+* unload timeout est de 20 minutes au lieu de 5 minutes.
+* Détruire colonne non vide : message pour dire de remplir par rien
+* LOGS trié par processus et numéroté par année
+* Les stats de connexions/temps sont faites seulement pour la dernière année
+* Enlève bug introduit par 'answer_page' dans le live_status.
+* Réorganisation du répertoire LOGS
+* Statistique enseignants/UE : affiche l'année correspondante: go_suivi_student
+* On enlève des menus l'ajout au favoris des table ! Printemps/Automne
+* Profiling des plugins : tient compte de l'année civile
+* Protection contre le chargement par URL de 'clients' et 'tickets'
+* Statistique client : tient compte de l'année
+* Possibility to define Plugins and TEMPLATES in LOCAL
+
+------------------------------------
+Changement version 2.10.12 ==> 2.10.13 : 8/11/2010
+------------------------------------
+* Correction groupe LDAP des étudiants FST
+* Les menus de «Vos table» refonctionnent
+* Fusion du code commun de Referents/_ucbl_/Favoris	
+* Mise à jour de la documentation technique
+* Version générique pour referent.py diffusable hors UCBL
+* Ajoute des lock manquants dans base_ip/get_ue et students_of_ue/eps
+* Ne décharge plus une table avec des requêtes en attente
+
+------------------------------------
+Changement version 2.10.13 ==> 2.10.14 : 14/11/2010
+------------------------------------
+* Balise Meta ROBOTS pour éviter l'indexation
+* Liste d'émargements : enlève ligne vide
+* Affiche les changements sur les colonnes calculées quand on change empty_is
+* COW tient compte de empty_is
+* Les statistiques sur l'histogramme tiennent compte de ø
+* Réécriture du pageaction et newpage pour empêcher les unload intempestifs
+* Les notes dans le bilan TOMUSS sont revenues
+* Ajoute interactif de Code_Étape ne fait plus planter.
+* Pas de carré orange/vert pour COW
+* La colonne de tri par défaut peut être une liste.
+* Le toggle Bool et Prst ne passe plus pas une valeur vide.
+* Ajout du template 'rdv_ip'
+* TEMPLATES/test_type.py ne marchait plus
+* Création de color_green|red_filter pour généraliser le test
+* nr_cols ne peut plus devenir égal à 0 (statistics_per_group virtual page)
+* Red/Green : peut être un filtre générique
+* Le type du champs de saisie est modifié quand on change sa valeur (colorie)
+* Tient compte de 'need_authorisation', red/green modifiable partout !
+* Il y avait 2 plugins avec le même nom (problème config plugin)
+* Début d'écriture du plugin rdv_ip
+
+------------------------------------
+Changement version 2.10.14 ==> 2.10.15 : ?/11/2010
+------------------------------------
+* Bug filtre colonne avec IE8 lib.js/filter_keyup
+* L'ascenseur vertical fonctionne sous IE8
+* L'ascenseur vertical arrête de bouger quand on relache le bouton n'importe où
+* L'ascenseur vertical est encore plus fiable Math.floor(.../2)
+* L'ascenseur vertical faisait bugger IE...
+
+------------------------------------
+Changement version 2.10.15 ==> 2.10.16 : 21/11/2010
+------------------------------------
+* Cas de plantage de serveur dans remove_unused_tables
+* rouge/vert : undefined
+* Enlever diposition particuliere sur la feuille d'émargement
+* Ajoute de la fonctionnalité de publi postage
+* Bug live_status.svg (lien absolu) pour le site de demo
+
+------------------------------------
+Changement version 2.10.16 ==> 2.11.0 : 24/11/2010
+------------------------------------
+* Début création attributs de table comme les attributs de colonne.
+* Ajout de l'infrastructure pour 'table_attr_modifiable'
+* ue_official : toutes les UE SP-* sont officielles
+* IE : window.resize fonctionne
+* Limite la largeur du tip sur la photo
+* Paufinage de ce qui concerne rdv_ip
+
+------------------------------------
+Changement version 2.11.0 ==> 2.11.1 : 27/11/2010
+------------------------------------
+* Le message d'alerte de la page d'accueil n'était pas envoyé !
+* commence à ajouter l'attribut table masterslist
+* Récupère les informations sur les anciens étudiants.
+* Remet Inconnu Inconnu quand on ne trouve pas l'étudiant.
+* Commentaire sur cellule RO interdit coté client
+* Désactive gc_state quand regtest est activé.
+* Ajoute \n après chaque </script> pour désactiver la bufferisation firefox
+* Statistique par groupe/enseignant : ne charge plus une page pour rien
+* Filtre colonne : les stats ne sont pas mise à jour dans l'histogramme
+
+------------------------------------
+Changement version 2.11.1 ==> 2.11.2 : ?/11/2010
+------------------------------------
+* Mise à jour interactive du commentaire de cellule courante (Xcomment_change)
+
+
+

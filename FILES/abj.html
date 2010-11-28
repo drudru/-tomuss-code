@@ -1,0 +1,71 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+  <head>
+    <META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=UTF-8">
+    <script src="_URL_/utilities.js"></script>
+    <script src="_URL_/types.js"></script>    
+    <script src="_URL_/lib.js"></script>
+    <script src="_URL_/abj.js"></script>
+    <link REL="icon" HREF="_URL_/favicon.ico">
+    <title>Gestion des ABJ</title>
+    <!-- Do not move this line : firefox bug -->
+    <link rel="stylesheet" href="_URL_/style.css" type="text/css">
+  </head>
+  <body id="body" class="body" style="margin-left:0px;margin-right:0px">
+
+    <h1 id="h1">Gestion des ABJ (<small><a href="http://www710.univ-lyon1.fr/~exco/TOMUSS/tomuss-abj.htm">Démonstration</a></small>)</h1>
+
+    <p>
+      Numéro ou login de l'étudiant :
+      <input id="student" type="text" maxlength="8" size="8" onkeyup="login_change();">
+    </p>
+    <!-- <object id="student_data" type="text/html" data=""></object> -->
+    <div id="student_display"><IMG>
+    </div>
+    <p style="clear: both">
+      Déplacez les <span class="arrow">&uarr;</span> avec la souris ou/et éditez la date au clavier.
+    </p>
+    <table class="colored" style="margin-bottom:0;margin-left:0px;margin-right:0px">
+      <tbody>
+	<!-- Do not insert returns or spaces -->
+	<tr id="dates"><td width="50%">Il y a plus<br>de 2 semaines<br><small>Tapez la date</small></td><td colspan="2"></td><td colspan="2"></td><td colspan="2"></td><td colspan="2"></td><td colspan="2"></td><td colspan="2"></td><td colspan="2"></td><td colspan="2"></td><td colspan="2"></td><td colspan="2"></td><td colspan="2"></td><td colspan="2"></td><td colspan="2"></td><td colspan="2"></td><td colspan="2"></td><td width="50%">Futur<br><small>Tapez la date</small></td></tr>
+	<tr id="ampm"><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+      </tbody>
+    </table>
+      <span id="startdate"><input id="start" type="text" size="13" onkeypress="update_button_real()" onkeyup="update_button_real()"><span class="arrow">&uarr;</span></span>
+      <span id="enddate"><span class="arrow">&uarr;</span><input id="end" type="text" size="13" onkeypress="update_button_real()" onkeyup="update_button_real()"></span>
+    &nbsp;<br>
+    &nbsp;<br>
+    &nbsp;<br>
+    <input style="float: left; margin-right: 1em" id="sendabj" value="mémoriser l'ABJ du .... au ...." type="button" onClick='send_abj();'>
+    Indiquez un commentaire avant de créer l'ABJ ou la DA :
+    <input id="abjcomment"><br>
+    Choisir la date de début pour la dispense d'assiduité :
+    <input id="dateda"><br>
+    <b>PUIS</b> indiquez l'UE :
+    <select onChange="add_an_da();this.blur()" id="da"><option>Choisissez l'UE</option></select>
+<div id="datasend"></div>
+<SCRIPT><!--
+year = YEAR ;
+semester = SEMESTER ;
+ticket = TICKET ;
+page = PAGE ;
+baset = '_URL_/=' + ticket + '/' + year + '/' + semester + '/abj/' + page + '/' ;
+document.getElementById('h1').innerHTML += ' ' + semester + ' ' + year ;
+abj_init() ;
+--></SCRIPT>
+
+<!-- do not remove the next lines: we need events if cursor is under date ruler -->
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>

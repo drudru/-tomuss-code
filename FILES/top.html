@@ -1,0 +1,81 @@
+<HTML>
+  <HEAD>
+    <META HTTP-EQUIV="Content-Type" CONTENT="text/html;charset=UTF-8">
+    <META NAME="ROBOTS" CONTENT="NOINDEX, NOFOLLOW">
+    <link rel="stylesheet" href="_URL_/style.css" type="text/css">
+    <link rel="stylesheet" href="_URL_/hidden.css" type="text/css">
+    <link REL="icon" HREF="_URL_/favicon.ico">
+    <link href="_URL_/news.xml" rel="alternate" title="TOMUSS : nouveautés" type="application/rss+xml">
+    <TITLE>Accueil TOMUSS</TITLE>
+    <script>
+      var base = "_BASE_" ;
+      var username2 = "_USERNAME2_" ;
+      var username = "_USERNAME_" ;
+      var suivi = _SUIVI_ ;
+      var ufr = "_UFR_" ;
+    </script>
+    <script src="_URL_/utilities.js"></script>
+
+    <!-- Load these .js here in order to put these files in cache for Safari
+         THEY ARE NOT USED ! -->
+    <script src="_URL_/types.js" defer="defer"></script>
+    <script src="_URL_/middle.js" defer="defer"></script>
+    <script src="_URL_/abj.js" defer="defer"></script>
+    <script src="_URL_/lib.js" defer="defer"></script>
+
+  </HEAD>
+  <BODY style="margin-top: 0">
+    <div class="identity">
+      <p style="margin-top: 0">
+      <a href="_URL_/=_TICKET_/logout">Déconnexion</a> <b>_USERNAME_</b>
+    <a href="_URL_/news.xml"><img style="border:0px" src="feed.png"></a><br>
+	<a href="mailto:_ADMIN_">Contact</a>.
+	<a target="_blank" href="_URL_/doc_table.html">Documentation</a>.
+	<a target="_blank" href="_URL_/=_TICKET_/0/Preferences/_USERNAME2_">Préférences</a>
+      </p>
+    </div>
+    <noscript><h1 style="font-size:400%;background:red; color:white">Cette application nécessite que JavaScript soit activé</h1></noscript>
+    <!-- Modifiable via the configuration table -->
+    _MESSAGE2_
+    <!-- Bad password message -->
+    _MESSAGE_
+
+
+    <!-- Do not insert spaces in the next line -->
+    <H1 style="margin-top: 0">TOMUSS <select id="s" onchange="change_icones()" style="font-size:70%"></select></H1>
+
+      <p class="testmessage">Pour essayer TOMUSS sans danger, choisissez <b>2008/Test</b> dans la liste ci-dessus, puis cliquez sur une UE.</p>
+      <TABLE class="top" width="100%">
+	<TR><TD width="50%">
+	      <table class="undertop">
+	      <tr>
+		<th>Liste des UEs</th>
+	      </tr>
+	      <tr>
+		<td>
+		  Tapez un mot-clef, un nom de personne ou un code APOGÉE&nbsp;:
+		<table>
+		  <tr>
+		    <td width="100%">
+		      <input id="ue_input_name"
+			class="keyword"
+			onkeyup="if ( this.value != this.old_value ) { update_ues(this.value); this.old_value = this.value ; }"
+			value="_UFR_">
+		    </td>
+		    <td>
+		      <script>hidden('<input style="border: 1px outset grey; width: 5em" type="button" value="Cherche" onclick="update_ues(document.getElementById(\'ue_input_name\').value);">',
+			'Ce bouton permet de lancer la recherche,<br>si vous n\'avez pas de clavier ou si<br>vous avez fait un copié/collé') ;
+		      </script>
+		      </td>
+		  </tr>
+		</table>
+		<div id="ue_list" class="ue_list">
+		  Le chargement de la liste des UE est en cours,
+		  veuillez patienter.
+		</div>
+		</TD>
+	      </tr>
+	      </table>
+	  </td>
+	  <td id="rightpart" width="50%">
+

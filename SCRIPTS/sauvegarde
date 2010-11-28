@@ -1,0 +1,8 @@
+#!/bin/sh
+# The saved data directory is hard coded here.
+(
+D=$(date +'/BACKUP/BACKUPS/%Y/%m')
+mkdir -p $D
+tar -cvf - --exclude='*.pyc' DB/. |
+    bzip2 -9 >$D/tomuss.$(date '+%Y-%m-%d').tar.bz2
+) 2>LOGS/xxx_backup >&2

@@ -1,0 +1,21 @@
+#!/bin/sh
+# -*- ksh -*-
+
+echo "Start crypted backup the $(date)"
+SCRIPTS/sauvegarde >LOGS/xxx_crontab_night_job.sauvegarde 2>&1
+
+echo "Start compute access statistics the $(date)"
+SCRIPTS/access.py  >LOGS/xxx_crontab_night_job.access 2>&1
+
+echo "Start compute student bilan the $(date)"
+SCRIPTS/bilan.py >LOGS/xxx_crontab_night_job.bilan 2>&1
+
+echo "Start database mirroring check the $(date)"
+SCRIPTS/mirror_check >LOGS/xxx_crontab_night_job.mirror_check 2>&1
+
+echo "Start updating database from external sources the $(date)"
+cd LOCAL
+make >../LOGS/xxx_crontab_night_job.local 2>&1
+
+echo "End of night job the $(date)"
+

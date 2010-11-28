@@ -1,0 +1,1082 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+  <head>
+    <title>Documentation TOMUSS (The Online Multi User SpreadSheet)</title>
+    <META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=UTF-8">
+    <link rel="stylesheet" href="documentation.css" type="text/css">
+  </head>
+  
+  <body>
+    <div class="top">
+      
+      <div>
+	<h1>Documentation TOMUSS</h1>
+	<h1><small>The Online Multi User SpreadSheet</small></h1>
+	<p>
+	  Cet outil permet de saisir des notes concernant
+	  une UE de manière collaborative sur le web.
+	<p>
+	  Il s'utilise à partir d'un navigateur web récent,
+	  dans l'ordre de préférence&nbsp;:
+	  google-chrome, firefox, internet explorer, opera...
+	  Si cela ne fonctionne pas ou si c'est lent (plus de 5 secondes
+	  de chargement)
+	  alors regardez dans la documentation pour trouver
+	  comment <a href="javascript:go('problèmes d\'affichage')">résoudre le problème</a>.
+	<p><b>
+	  Vous avez trouvé un bug, vous avez besoin d'aide
+	  ou bien vous désirez une nouvelle fonctionnalité
+	  alors <a href="mailto:_ADMIN_">demandez à l'administrateur</a></b>.
+	<p>
+	  Vous pouvez trouver des vidéos sur l'utilisation de TOMUSS
+	  sur la <a href="http://www710.univ-lyon1.fr/~exco/TOMUSS/">page d'accueil
+	    </a>
+    </div>
+
+    <div>
+    <h2>La page d'accueil</h2>
+      <p>
+	  Elle vous permet de <b>choisir une UE</b> parmi celles présentées,
+	  ou bien de chercher une UE en tapant quelques lettres
+	  de son code APOGÉE, de son titre ou du nom de
+	  l'un des responsables de l'UE.
+    </div>
+
+    <div>
+    <h3>Choix du semestre</h3>
+      <p>
+	  Tous les liens affichés sur la page d'accueil s'appliquent
+	  au <b>semestre choisi dans le menu déroulant</b> en haut de la page.
+	<p>
+	  Les UE des semestres passés ne sont plus éditables
+	  sauf dans le cas d'une 
+	  <a href="javascript:go('UE à cheval sur 2 semestres')">UE à cheval sur 2 semestres</a>.
+
+    </div>
+    <div>
+    <h3>Suivi des étudiants</h3>
+    <p>
+      Toutes les personnes qui peuvent saisir des notes
+      ont une vue de la totalité
+      des informations saisies pour un étudiant.
+      Que cela soit les notes ou les commentaires associés.
+    <p>
+      Il suffit de cliquer sur le lien «Suivi des étudiants»
+      puis de taper le numéro d'étudiant dans la case de gauche.
+      Si on ne le connait pas, il faut alors taper son nom ou son
+      prénom complet dans la case de droite.
+    <p>
+      Quelque soit l'adresse TOMUSS utilisée par les étudiants,
+      ceux-ci ne verront que leurs notes personnelles.
+    <p>
+      Pour cacher (masquer) une colonne aux étudiants il faut
+      indiquer la date à laquelle la colonne doit leur être affichée.
+      À cette date, leur note pour cette colonne deviendra visible.
+    <p>
+      Les étudiants peuvent voir leur classement pour chacune des
+      notes saisies, mais pas pour les moyennes (bug).
+      Les enseignants peuvent voir le rang de l'étudiant dans une
+      UE pour toutes les colonnes (y compris les moyennes)
+      en mettant le curseur sur la photo de l'étudiant
+      quand il sont en train d'éditer l'UE en question.
+    </div>
+
+    <div>
+    <h3>Gestion des ABJ, DA et TT</h3>
+     <p>
+      Les <b>absences justifiées, les dispenses d'assiduité
+      et les tiers temps</b> sont saisis par
+      l'administration dans TOMUSS et sont affichés quand
+      on édite les tables.
+     <p>
+      Cette documentation contient
+      <a href="javascript:go('Gestion des absences justifiées')">quelques conseils sur la manière de gérer les ABJ</a>.
+    </div>
+
+    <div>
+    <h2>Les bases de l'édition de table</h2>
+      <p>
+	  Dès que la table apparaît vous pouvez travailler dessus.
+	  Le sablier ou l'horloge qui tourne indique seulement
+	  que si une nouvelle note est saisie par quelqu'un d'autre,
+	  elle sera directement affichée sur votre écran.
+      <p>
+	  Pour modifier une cellule, vous <b>cliquez dessus et
+	    modifiez sa valeur</b> (si vous avez le droit).
+	  Pour mémoriser la valeur vous changez de cellule
+	  en utilisant une touche du clavier ou bien en cliquant
+	  ailleurs.
+    </div>
+
+    <div>
+    <h3>Naviguer dans la table</h3>
+      <p>
+	La <b>table sur l'écran est une partie d'une grande table</b>.
+	Pour se déplacer dans la grande table il suffit de cliquer
+	sur une cellule et d'utiliser les touches clavier&nbsp;:
+	<ul>
+	  <li> «page suivante» pour aller en bas.
+	  <li> «page précédente» pour aller en haut.
+	  <li> «tab» ou «contrôle curseur droit» pour aller à droite.
+	  <li> «majuscule tab» ou «contrôle curseur gauche» pour aller à gauche.
+	</ul>
+	<p>
+	  Vous pouvez aussi utilisez les barres d'ascenseur.
+	<p>
+	  Si les bulles d'aides vous gênent vous pouvez temporairement
+	  les cacher en tapant <tt>Alt-1</tt>
+     
+    </div>
+    <div>
+    <h3>Modification des cellules</h3>
+      <p>
+	Chaque fois que vous modifiez quelque chose la <b>modification
+	est automatiquement sauvegardée</b> sans que vous ayez
+	besoin de le demander.
+	Un carré vert apparaît si la sauvegarde a réussi.
+      <p>
+	<b>Tout enseignant peut ajouter des notes et des commentaires
+	dans n'importe quel UE</b>.
+      <p>
+	Seul un <b>enseignant responsable de l'UE</b> (la liste est indiquée
+	dans SPIRAL) peut modifier les notes saisies par les
+	autres enseignants.
+	Il peut ajouter d'autres responsables d'UE.
+      <p>
+	Si plusieurs enseignants travaillent sur le même tableau,
+	les <b>modifications apportées par l'un seront instantanément
+	visibles par les autres</b>.
+      <p>
+	Il est possible que des <b>carrés oranges</b> apparaissent,
+	cela indique que les valeurs n'ont pas été sauvegardées
+	à cause d'un problème réseau ou sur le serveur.
+	Elles passeront au vert une fois le problème résolu.
+	Il est déconseillé de saisir de nombreuses notes
+	dans ces conditions car si vous fermez votre navigateur
+	tout est perdu.
+	<p>
+	  Les valeurs possibles pour une cellule dépendent
+	  du type de la colonne.
+    <ul>
+      <li><p> Le contenu d'une cellule de type 'Prst' (présent)
+	peut être&nbsp;:
+	<ul>
+	  <li> <tt>PRST</tt> : L'étudiant était présent.
+	  Vous pouvez taper <tt>P</tt> au lieu de <tt>PRST</tt></li>
+	  <li> <tt>ABINJ</tt> : ABsence INJustifiée.
+	  Vous pouvez taper <tt>I</tt> au lieu de <tt>ABINJ</tt></li>
+	  <li> <tt>ABJUS</tt> : ABsence JUStifiée.
+	  Vous pouvez taper <tt>J</tt> au lieu de <tt>ABJUS</tt></li>
+	  </li>
+	</ul>
+	En double cliquant sur la cellule vous la basculez d'une
+	valeur à une autre.
+      </li>
+      <li><p> Le contenu d'une cellule de type 'Note' peut être&nbsp;:
+	<ul>
+	  <li> <tt>ABINJ</tt> : ABsence INJustifiée.</li>
+	  <li> <tt>ABJUS</tt> : ABsence JUStifiée.</li>
+	  <li> <tt>PPN</tT> : ne Peux Pas Noter.
+	  Vous pouvez taper <tt>N</tt> au lieu de <tt>PPN</tt></li>
+	</li>
+	</ul>
+      <li><p> Le contenu d'une cellule de type calcul peut
+	  être <b>NaN</b> quand des cases nécessaires au calcul
+	  on été laissées vides.
+      </li>
+       <li> Le type de colonne <tt>URL</tt> permet de diffuser
+	  un lien cliquable aux étudiants.
+	  Le texte du lien est <em>Cliquez ici</em> et peut être remplacé
+	  par autre chose en indiquant <tt>TITLE(votre texte)</tt>
+	  dans le commentaire de colonne.
+	</li>
+    </ul>
+    </div>
+    <div>
+    <h3>Couleurs</h3>
+      <p>
+	  Les <b>lignes sur fond rouge</b> indiquent que l'étudiant
+	  n'est pas <em>actuellement</em> inscrit à l'UE.</p>
+      <p>
+	  Les <b>lignes sur fond bleu</b> indiquent que l'étudiant
+	  dispose d'un tiers temps.</p>
+      <p>
+	  Les textes en gras ont été modifié aujourd'hui.
+      <p>
+	  Les textes noirs sont ceux que vous avez saisi
+	  et les gris ceux que les autres ont saisi.
+    </div>
+    <div>
+    <a name="emargement"> </a>
+    <h3>Feuilles d'émargement</h3>
+      <p>
+	  On obtient les feuilles d'émargement en passant par
+	  le menu «Imprimer».
+	  Les feuilles d'émargement contiennent :
+	<ul>
+	  <li> Les étudiants filtrées,
+	    il faut donc penser à enlever les filtres si l'on
+	    veut tous les étudiants.
+	  <li> Seulement les étudiants officiellement inscrits.
+	  <li> La dernière page liste l'ensemble des tiers-temps.
+	</ul>
+	<p>
+	  Les feuilles d'émargement peuvent être imprimées de 3 façons
+	  différentes&nbsp;:
+	  <ul>
+	  <li> Une suite de feuilles comportant tous les étudiants.
+	  <li> La même chose mais avec une feuille par groupe de TD.
+	  <li> La même chose mais avec une feuille par salle (amphi).
+	    Dans ce cas, on se positionne sur la colonne contenant
+	    le nom de la salle ou doit aller l'étudiant avant
+	    de demander l'affichage par salle.
+	    <p>
+	      Pour faire afficher un numéro de place dans la salle,
+	      il suffit d'indiquer la place de l'étudiant dans la colonne
+	      qui est juste à droite de la colonne contenant le
+	      nom de la salle.
+	      Ceci permet d'imprimer une liste avec le placement des étudiants.
+	</ul>
+    </div>
+    <div>
+    <h3>Problèmes d'affichage</h3>
+	<p>
+	  En cas de problème réactualisez la page,
+	  mais attention, les valeurs qui n'auront pas
+	  été sauvegardées seront définitivement perdues.
+	<p>
+	  Si les pages sont longues à charger (plus de 4 secondes)
+	  ou bien si elles n'apparaissent pas.
+	<ul>
+	  <li> Vous avez un anti-virus : dites-lui que <tt>tomuss.univ-lyon1.fr</tt>
+	    est un site de confiance.
+	  <li> Vous êtes sous Safari : réactualisez la page.
+	</ul>
+	  
+    </div>
+	
+    <div>
+    <h2>Les colonnes</h2>
+    <ul>
+      <li><p>
+	Pour <b>changer ajouter/créer une colonne</b>,
+	vous donnez simplement un titre à une colonne inutilisée.
+      <li><p>
+	Pour <b>changer le titre d'une colonne</b>,
+	vous cliquez sur une cellule de la colonne dans le tableau,
+	puis vous cliquez sur le titre de la colonne juste au dessous
+	du titre de la boite «Colonne».
+	Vous pouvez alors taper son nouveau nom.
+	Le nom ne doit pas contenir d'espace et il ne doit
+	pas y avoir deux noms identiques.
+      <li><p>
+	Pour <b>trier les lignes</b> en fonction du contenu d'une colonne
+	il suffit de cliquer sur le titre de la colonne.
+      </li>
+      <li><p>
+	Si l'on veut <b>trier en fonction de plusieurs colonnes</b>
+	(en cas d'égalité) il suffit de cliquer sur les titres
+	de colonne dans le bon ordre.
+      </li>
+      <li><p>
+	Pour <b>changer l'ordre de tri</b> il faut cliquer à nouveau
+	sur le titre de la colonne.
+      </li>
+	  <li><p> On peut associer un <b>commentaire</b> à la colonne
+	      pour expliquer plus précisemment son titre ou donner
+	      des informations complémentaires aux étudiants.
+	      Ce commentaire apparaît dans une bulle d'aide.
+	      <p>
+	      Il y a aussi un commentaire de tableau
+	      pour afficher un message aux étudiants
+	      de l'UE dans leur suivi.
+	      Ce commentaire est affiché à coté du titre
+	      de l'UE.
+	  </li>
+	    
+      <li><p>
+	  Le <b>filtre en haut de chaque colonne permet de n'afficher que certaines lignes</b> du tableau.
+	  Sa définition dépend du contenu de la colonne.
+	  Mettez le curseur sur le filtre pour savoir ce que
+	  vous pouvez indiquer.
+	<p>
+	  La plupart des actions que l'on peut faire sur une table
+	  portent sur les lignes filtrées.
+	  Si vous voulez travailler sur l'ensemble de la table
+	  n'oubliez pas d'enlever tous les filtres.
+      </li>	 
+      <li>
+	Au dessus du tableau, le champ 'filtre' de colonne permet de n'afficher
+	que les colonnes dont le nom commence par le texte
+	que vous avez entré.
+      </li>
+    </ul>
+    </div>
+
+    <div>
+    <h3>Forcer l'arrondi des notes</h3>
+
+    <p>
+      Il suffit de mettre le texte «<b><tt>arrondi à X</tt></b>»
+      quelque part dans le commentaire de la colonne en remplaçant
+      <tt>X</tt> par la valeur qui vous intéresse.
+      Si <tt>X</tt> est <tt>1</tt> alors il y aura seulement
+      de notes entières.
+      Si c'est <tt>0.5</tt> alors il y aura en plus 0.5, 1.5, 2.5...
+    </div>
+
+
+
+    <div>
+    <h2>Calcul de moyenne</h2>
+    <p>
+      L'utilisation classique est très simple,
+      vous mettez des poids correctes aux colonnes
+      et vous créez une colonne <tt>Moy</tt> en indiquant
+      dans le bon champ la liste
+      des noms des colonnes sur lesquelles calculer
+      la moyenne pondérée.
+    <p>
+      Les étapes du calcul qui sont faites automatiquement par TOMUSS&nbsp;:
+    <ul>
+      <li> Normaliser les notes entre 0 et 1.
+      <li> Calculer la moyenne pondérées des notes.
+      <li> Dénormaliser en utilisant la valeur indiquée dans
+	l'intervalle de valeurs possibles pour cette colonne.
+	Si c'est <tt>[0;20]</tt> alors les moyennes calculées seront
+	entre 0 et 20.
+    </ul>
+    <p>
+      Gestion des cas particuliers&nbsp;:
+    <ul>
+	<li> <tt>ABINJ</tt> compte comme la note minimale autorisée.
+	<li> <tt>ABJUS</tt> ne compte pas dans la moyenne.
+	S'il n'y a que des <tt>ABINJ</tt> alors le résultat est
+	<tt>ABINJ</tt>.
+	S'il n'y a que des <tt>ABJUS</tt> alors le résultat est
+	<tt>ABJUS</tt>.
+	<li> <tt>PPN</tt> ne compte pas dans la moyenne.
+	S'il n'y a que des <tt>PPN</tt> et des  <tt>ABJUS</tt>
+	alors le résultat est <tt>PPN</tt>.
+    </ul>
+    </div>
+
+    <div>
+    <h3>Addition et soustraction</h3>
+    <p>
+      Pour faire des additions et soustractions (points jury
+	  ou bonus par exemple)
+      il faut indiquer des poids particuliers pour les colonnes.
+    <ul>
+      <li> Si le poids d'une colonne commence par le
+	signe '<tt>+</tt>' alors le poids de cette
+	colonne n'est pas ajouté aux autres quand
+	on calcule la moyenne pondérée, mais il est utilisé
+	comme facteur multiplicatif.
+	Ceci permet de faire une addition et non une moyenne.
+      <li> Si le poids d'une colonne est négatif.
+	Alors la valeur est soustraite au lieu d'être ajouté.
+	le poids de cette colonne n'est pas ajouté aux autres quand
+	on calcule la moyenne pondérée, mais il est utilisé
+	comme facteur multiplicatif.
+      <li> Si le poids est nul, la colonne ne compte pas.
+    </ul>
+    <p><b>
+      Évidemment <tt>ABJ + 1</tt> n'a pas de sens et affichera <tt>NaN</tt>.
+      Si vous voulez obtenir ABJ comme résultat alors faites
+      <tt>ABJ + ABJ</tt></b>
+   </div>
+   <div>   
+    <h3>Moyennes de moyennes</h3>
+
+	<p>
+	  Faire un moyenne de moyenne ne donne pas le même résultat
+	  qu'une moyenne simple, en effet :
+<tt>Moyenne(a<sub>1</sub>,b<sub>1</sub>,c<sub>1</sub>,d<sub>1</sub>)</tt>
+      est différente de
+      <tt>Moyenne(Moyenne(a<sub>1</sub>,b<sub>1</sub>,c<sub>1</sub>)<sub>3</sub>,d<sub>1</sub>)</tt>
+    <p>
+      Les chiffres en indice sont les poids des colonnes dans
+      la moyenne pondérée.
+    <p>
+      Si <tt>a</tt>, <tt>b</tt>, <tt>c</tt> et <tt>d</tt> sont quatre notes
+      alors pas de problème les deux formules donnent le même résultat.
+      Par contre si <tt>a=ABJ</tt> c'est une autre histoire.
+    <p>
+      <tt>Moyenne(ABJ<sub>1</sub>,b<sub>1</sub>,c<sub>1</sub>,d<sub>1</sub>)</tt>
+      donne <tt>Moyenne(b<sub>1</sub>,c<sub>1</sub>,d<sub>1</sub>)</tt> car
+      l'ABJ ne compte pas dans la moyenne.
+      Les trois notes restantes comptent autant les unes que les autres.
+    <p>
+      <tt>Moyenne(Moyenne(ABJ<sub>1</sub>,b<sub>1</sub>,c<sub>1</sub>)<sub>3</sub>,d<sub>1</sub>)</tt> donne
+      <tt>Moyenne(Moyenne(b<sub>1</sub>,c<sub>1</sub>)<sub>3</sub>,d<sub>1</sub>)</tt>
+      qui est égale à
+      <tt>Moyenne(b<sub>1,5</sub>,c<sub>1,5</sub>,d<sub>1</sub>)</tt>
+    <p>
+      Le choix de l'une ou de l'autre des méthodes de calcul
+      dépend des modalités de contrôle de connaissance de l'UE.
+      La méthode la plus juste est de faire une moyenne simple.
+      
+    </div>
+   <div>   
+    <h3>Calcul automatique du poids</h3>
+    <p>
+       Il est possible de mettre '<b>?</b>' comme poids d'une colonne
+       calculant une moyenne.
+    <p>
+       Dans ce cas, le poids de la colonne est la somme des poids
+       des colonnes utilisées dans la moyenne.
+       Sauf pour les ABJ, en effet dans ce cas le poids de la colonne
+       contenant l'ABJ sera annulé pour le calcul de la ligne.
+    <p>
+       Si l'on utilise ces poids automatiques, alors les moyennes
+       de moyennes sont toujours égales à la moyenne simple équivalente.
+       
+   </div>
+    <div>
+    <h3>Moyenne des X meilleurs notes</h3>
+
+    <p>
+      Il suffit de mettre le texte <tt>moyenne des X meilleurs</tt>
+      quelque part dans le commentaire de la colonne en remplaçant
+      <tt>X</tt> par la valeur qui vous intéresse.
+      Il faut ensuite recharger la table pour actualiser le calcul
+      (c'est un bug).
+    <p>
+      Si on veut prendre seulement la meilleure note
+      il faut choisir le type de colonne <b>Maximum</b>
+      au lieu de moyenne.
+    <p>
+      ATTENTION : le système refusera de calculer et affichera NaN
+      si l'une des cellules est invalide ou bien si le
+      nombre de notes est inférieurs à X.
+      Par exemple vous faites la moyenne des 2 meilleurs sur {5,ABJ,ABI}
+    <p>
+      ATTENTION : Si les poids des colonnes ne sont pas égaux,
+      le résultat du calcul n'est pas forcément égal
+      à la moyenne maximum possible.
+      Il est même possible que le résultat soit différent d'une
+      évaluation sur l'autre.
+      Mais c'est 'normal' car le titre est bien 'moyenne des X meilleurs'
+      et non 'meilleur moyenne de X'
+    </div>
+
+    <div>
+    <h2>Gestion des absences justifiées (ABJ)</h2>
+
+    <p>
+      Les absences justifiées sont saisies au
+      niveau des secrétariats qui utilisent TOMUSS
+      dès qu'elles sont reçues.
+    <p>
+      Pour intégrer ces informations dans les tableaux de note
+      il y a plusieurs méthode&nbsp;:
+    <ul>
+      <li> La plus simple est la gestion ``au fil de l'eau´´&nbsp;:
+	Vous saisissez les présences et absences moins
+	d'une semaine après le TP/TD en question.
+	Si jamais un étudiant a un justificatif d'absence
+	qui correspond à une semaine près à la date de saisie de l'ABINJ
+	alors le mot ABINJ sera souligné dans le tableau.
+      </li>
+      <li> Si vous n'avez pas fait cela, alors
+	vous triez colonne par colonne pour regrouper
+	tous les ABINJ ensemble puis vous parcourez rapidement
+	avec la touche curseur vers le bas les étudiants avec ABINJ
+	pour voir s'ils ont un justificatif (une petite fenêtre apparaît).
+      </li>
+      <li>
+	Finalement, la méthode la plus longue est d'aller dans
+	le menu «Imprimer / ABJ par date» puis de sélectionner
+	    la date pour voir la liste des étudiants ayant
+	    une ABJ pour cette date.
+      </li>
+    </ul>
+    </div>
+
+    <div>
+    <h3>Cas des grandes UE</h3>
+    <p>
+      La gestion des absences injustifiées n'est pas facile car&nbsp;:
+    <ul>
+      <li> il y a de nombreux groupes et donc enseignants.
+      <li> de nombreux étudiants changent de groupe.
+      <li> les absences justifiées ne sont pas connues à l'avance.
+      <li> un enseignant (hors responsable d'UE ou du cours quand
+	l'UE est composée de plusieurs cours) n'a pas le
+	droit de modifier une information saisie par un autre.
+    </ul>
+      Voici la procédure à suivre pour ne pas avoir de problèmes&nbsp;:
+    <ul>
+      <li> <b>Pour la séance courante</b>&nbsp;:
+	<p>
+	  L'enseignant saisit les présences et les notes.<br>
+	  <em style="color:red">L'enseignant ne doit pas indiquer une absence injustifiée,
+	    car en le faisant il empêche un autre enseignant de noter
+	    l'étudiant présent dans un autre groupe.</em>
+	<p>
+	  Pour indiquer une présence il suffit de mettre un <tt>P</tt>
+	  dans la cellule ou de double-cliquer dessus.
+
+      <li> <b>Pour les séances précédentes</b>&nbsp;:
+	<p>
+	  L'enseignant responsable de l'UE ou du cours
+	  parcourt les cellules vides et indique
+	  les absences <b>justifiées</b>
+	  en fonction de la date de la séance
+	  et des justificatifs d'absences listés par TOMUSS.
+	<p>
+	  Pour indiquer une absence justifiée, il suffit de mettre <tt>J</tt>
+	  ou <tt>ABJ</tT> dans la case.
+    </ul>
+    <p>
+      Pour que les cases <b>restées vides</b> soient comptabilisées
+      comme des ABI le responsable d'UE met <tt>ABINJ</tt>
+      dans le champ <tt>ø</tt> de la colonne représentant la séance.
+      </div>
+
+    <div>
+    <h3>Les ABINJ???</h3>
+    <p>
+	  Des <tt>ABINJ???</tt> apparaissent dans le suivi des étudiants
+	  qui n'ont pas eu de note alors que les 3/4 des étudiants
+	  du même groupe ont eu une note.
+    <p>
+	  Si vous désirez que ces <tt>ABINJ???</tt> n'apparaissent pas
+	  il suffit d'indiquer dans le champs <tt>ø</tt> (vide) de
+	  la colonne qui vous intéresse un texte.
+    <p>
+          Par exemple : « Oral pas encore passé »
+	  
+
+      </div>
+	
+
+    <div>
+    <h2>Destructions et effacements</h2>
+	<p>
+	  Il est presque impossible de perdre des informations
+	  lorsque l'on utilise TOMUSS.
+	<p>
+	  La destruction de ligne est totalement impossible.
+	  La destruction de colonne n'est possible que si
+	  la colonne a été vidée.
+    </div>
+
+    <div>
+    <h3>Vider une cellule</h3>
+
+    <p>
+	  Vous remplacez le contenu de la cellule par un texte vide
+	  si vous voulez l'effacer.
+    <p>
+	  Une fois une cellule effacée les autres enseignants pourront
+	  lui donner une nouvelle valeur.
+    <p>
+	  Les différentes valeurs prises par la cellule ainsi que
+	  le nom de la personne qui a fait la modification sont
+	  affichées dans l'historique de la cellule.
+	  Les étudiants ne voient pas l'historique, seulement
+	  la valeur actuelle de la cellule.
+    </div>
+
+    <div>
+    <a name="remplir"> </a>
+    <h3>Vider ou remplir une colonne</h3>
+
+    <p>
+        Voici comment procéder :
+    <ul>
+          <li> Vous commencer par définir les lignes que vous voulez remplir
+	    ou vider. Pour cela vous filtrez les lignes qui vous intéressent.
+	    Si vous voulez tout remplir, ne filtrez rien.
+	  <li> Vous vous mettez dans la bonne colonne en cliquant
+	       sur une case.
+	  <li> puis vous cliquez
+	  sur  «<b>Remp.</b>» au dessus de l'histogramme.
+	    Ceci fera apparaitre une fenêtre.
+	  <li> 
+	    <b>Le remplissage n'est pas réversible,
+	      désactiver la sauvegarde automatique avant de le faire</b>.
+	</ul>
+	Ensuite plusieurs choix sont possibles :
+	<ul>
+    <li>
+	  Pour vider la colonne :
+	  vous cliquez sur l'un des boutons en bas.
+    <li>
+	  Pour remplir toute la colonne avec la même valeur :
+	  vous saisissez la valeur dans le champs de saisie
+	  et vous cliquez sur l'un des deux boutons.
+    <li>
+	  Pour remplir avec plusieurs valeurs :
+	  vous les saisissez puis choisissez l'un des deux modes
+	  de remplissage.
+    </ul>
+    <p>
+	  Remarques :
+    <ul>
+          <li> Le remplissage est fait dans les lignes filtrées.
+	       Donc la table qui est visible sur l'écran.
+	  <li> Le remplissage est fait dans l'ordre des lignes
+	       sur l'écran.
+    </ul>
+	  Exemple d'utilisation :
+	<ul>
+	  <li> Vous filtrez les étudiants ayant une mauvaise note.
+	  <li> Vous triez par note.
+	  <li> Vous remplissez avec les valeurs 'Soutien Salle 1'
+	    et 'Soutien Salle 2'
+	  <li> Vous cliquez sur le bouton «ABABABAB» pour avoir
+	    deux salles avec le même niveau moyen.
+	    Ou bien le bouton «AAAABBBB» pour avoir une
+	    séparation par niveau dans les deux salles.
+	</ul>	    
+
+    </div>
+
+    <div>
+    <h3>Détruire un tableau</h3>
+
+    <p>
+      Sur la page d'accueil, vous cliquez sur le + vert et vous
+      choisissez la destruction dans le menu.
+    <p>
+      Si le tableau a été détruit par erreur, demandez sa restauration
+	à l'administrateur de TOMUSS.
+    </div>
+
+    <div>
+    <h3>Détruire une colonne</h3>
+	<p>
+	  Pour éviter tout problème on ne peut pas détruire des colonnes
+	  qui ne sont pas vide.
+	<p>
+	  Il faut donc d'abord vider la colonne.
+	<p>
+	  Ensuite il faut cliquer sur «<b>Dét.</b>» au dessus de l'histogramme.
+	<p>
+	  Aucune récupération n'est possible sans passer
+	  par l'administrateur de TOMUSS.
+      </div>
+      
+
+    <div>
+    <h2>APOGÉE</h2>
+	<p>
+	  TOMUSS conserve et calcule les notes avec plus
+	  de 3 chiffres après la virgule.
+	  Il les affiche tronqué à 2 chiffres après la virgule.
+	<p>
+	  Pour éviter tout problèmes durant les jurys les notes
+	  affichées par TOMUSS sont arrondies au centième inférieur.
+	  Lors des exports vers APOGÉE, elles sont arrondies
+	  au millième le plus proche.
+	  TOMUSS ne vous dira pas que l'étudiant à 10.00 alors que
+	  sa note réelle est 9.996
+
+    </div>
+
+
+    <div>
+    <h3>Remplir le fichier de note APOGÉE</h3>
+
+    <p>
+      On utilise cette fonctionnalité pour remplir facilement
+      le fichier que nous envoit l'administration
+      pour la saisie des notes.
+
+    <ul>
+      <li> Vous cliquez sur une cellule de la colonne que vous voulez exporter
+	vers APOGÉE.
+      <li> Au dessus de l'histogramme vous cliquez sur le lien «Exp.»
+	Une fenêtre apparaît.
+      <li> Vous copiez la liste des numéros d'étudiants
+	du tableau fourni par l'administration.
+      <li> Vous la collez dans la grande zone de saisie de la fenêtre.
+      <li> Éventuellement vous cochez la case pour
+	transformer les ABJ et les PPN en 0.
+      <li> Vous cliquez sur le bouton «Récupérer les notes».
+      <li> Vous copiez les notes affichées
+	et les collez dans le tableau venant de l'administration.
+	Elles sont dans le bon ordre&nbsp;!
+    </ul>
+    <p>
+      Si jamais votre tableur est configuré en anglais, il faut
+      le basculer en français pour ne pas avoir de problèmes
+	  avec les virgules des nombres.
+    </div>
+
+    <div>
+    <h3>Classer les étudiants par formation</h3>
+
+    <p>
+      Vous ajoutez une colonne nommée très exactement «<b>Code_Étape</b>».
+      La colonne se remplira de (ou des) étapes d'inscription des étudiants.
+
+    </div>
+
+
+    <div>
+    <h2>Import et Export</h2>
+    <p>
+	  L'<a href="javascript:go('Remplir le fichier de note APOGÉE')">exportation
+	    vers APOGÉE</a> à déjà été décrite.
+	  Elle peut être utilisée pour extraire seulement
+	  une colonne de TOMUSS.
+    </div>
+
+    <div>
+    <h3>Importation de colonne</h3>
+
+    <p>
+      Si vous avez un fichier dans un tableur qui contient
+      les étudiants et des notes
+      vous pouvez importer <b>une</b> colonne de votre
+      tableau dans TOMUSS.
+    <ul>
+	  <li> Vous cliquez sur une cellule de la colonne dans
+	    laquelle vous voulez importer des valeurs.
+      <li> Au dessus de l'histogramme, vous choisissez «Importer des valeurs».
+	Une fenêtre apparaît.
+      <li> Vous faites un copié dans votre tableur des cases contenant
+	le <b>numéro d'étudiant</b> et la <b>note</b>.
+      <li> Vous faites le collé dans TOMUSS dans la fenêtre de saisie.
+      <li> Vous cliquez sur «Importer les données».
+	En cas de problème des fenêtres explicatives apparaîtront.
+    </ul>
+    <p>
+      Avant de détuire des données existantes,
+      on vous demandera une confirmation.
+    <p>
+      Pour recopier une colonne dans une autre il suffit de faire
+      un export suivi d'un import en recopiant les données avec
+      un copier/coller.
+    <p>
+      Il est possible de recopier dynamiquement une colonne dans une autre.
+      Si la colonne originale est modifiée alors la copie est modifiée
+      <b>sauf les cellules que vous avez modifiées dans la copie</b>.
+      Ceci est pratique quand le jury veut modifier une moyenne sans
+      vouloir indiquer des points jury.
+      Pour faire une copie dynamique il faut utiliser le type
+	  de colonne «Copy On Write».
+    </div>
+
+    <div>
+    <h3>Extraire une colonne du web</h3>
+
+    <p>
+      Vous disposez d'informations sur les étudiants
+      dans une adresse web du genre&nbsp;:
+      <tt>http://www.univ-lyon1.fr/MesNotes/MonUE.csv</tt>
+    <p>
+      La première colonne de ce fichier contient des numéros d'étudiant.
+    <p>
+      Vous pouvez dire à TOMUSS de prendre le contenu d'une colonne
+      de ce tableau et de le mettre dans une de ses colonnes.
+      Si par exemple vous voulez extraire la cinquième colonne
+      du fichier CSV, vous indiquez dans le commentaire de la colonne
+      dans TOMUSS&nbsp;:
+    <pre>IMPORT(http://www.univ-lyon1.fr/MesNotes/MonUE.csv#5)</pre>
+    <p>
+      L'URL ne sera pas visible par les étudiants,
+      mais elle sera visible par les autres enseignants.
+      Les étudiants verront le reste du commentaire.
+    <p>
+      TOMUSS relira le contenu du fichier pour l'importer,
+      chaque fois que vous irez sur la table (mais au maximum
+      une fois par jour).
+    <p>
+      Attention, TOMUSS :
+      <ul>
+      <li> écrasera les informations existante dans les cellules,
+      <li> ne vérifiera pas si les informations importées sont correctes,
+      <li> gardera l'historique des changements,
+      <li> ne vous permettra pas de modifier les notes importées.
+    </ul>
+    </div>
+
+    <div>
+    <h3>Copier TOMUSS dans Excel (exporter vers Excel)</h3>
+	<p>
+	  Vous allez dans «Imprime / Table totale filtrée»
+	  puis vous suivez les instructions (il suffit de faire
+	  un copier/coller).
+      </div>
+
+    <div>
+    <h3>Extraction d'information</h3>
+	<p>
+<ul>
+      <li> <b>Pour avoir un résumé de plusieurs UE</b> :
+	Cela affiche l'ensemble des étudiants des UE en indiquant
+	le nombre de cellules saisies pour chaque étudiant.
+	Les UE doivent toutes faire partie du semestre indiqué dans l'URL.
+	<br>
+	<tt><b>http://tomusss.univ-lyon1.fr/2008/Automne/resume/UE-MAT1001L/UE-MAT1002L/UE-INF1001L/UE-TVL1001L/UE-PHY1002L</b></tt>
+      </li>
+	
+      <li> <b>Pour extraire des colonnes de plusieurs UE</b> :
+	Cela affiche l'ensemble des étudiants des UE en indiquant
+	les valeurs contenues dans les différentes UE pour
+	chacun des noms de colonne indiqués.
+	Les UE doivent toutes faire parties du semestre indiqué dans l'URL.
+	<br>
+	<tt><b>http://tomusss.univ-lyon1.fr/2008/Automne/extract/UE-MAT1001L:APO_CC:APO_CT/UE-INF1001L:APO_CC:APO_CT:APO_CT2</b></tt><br>
+	A utiliser avec circonspection car cela génère de très gros fichiers.
+
+      <li> <b>Pour fusionner des colonnes de plusieurs UE</b> :
+	<p>
+	    C'est comme l'extraction, mais cela ne génère pas une
+	      colonne par UE.
+	      Chaque case contient le nom de l'UE, de la colonne et
+	      la note de l'étudiant.
+	      Les cases vides ne contenant pas de notes ne sont
+	      pas indiquées.
+	<br>
+	<tt><b>http://tomusss.univ-lyon1.fr/2008/Automne/fusion/UE-MAT1001L:APO_CC:APO_CT/UE-INF1001L:APO_CC:APO_CT:APO_CT2</b></tt><br>
+</ul>
+</div>
+
+    <div>
+    <h2>Gestion des semestres</h2>
+    <p>
+	  TOMUSS est semestrialisé.
+    </div>
+
+    <div>
+    <a name="extension"> </a>
+    <h3>UE à cheval sur 2 semestres</h3>
+
+    <p>
+      Quand un semestre est terminé les tables sont basculées
+      en lecture seulement pour éviter tout problèmes. 
+    <p>
+      Si l'UE dure toute l'année après avoir commencé à l'automne,
+      il n'est plus possible de la modifier une fois au printemps.
+    <p>
+      Pour pouvoir continuer à la modifier au printemps :
+      il vous suffit de cliquer sur le '+' sur la ligne de l'UE
+      sur la page d'accueil de TOMUSS et de choisir
+	  « Passer cette UE en non-semestrialisé »
+    <p>
+      Votre tableau est alors sur les 2 semestres,
+      quand vous modifiez la version du printemps,
+      la version de l'automne est automatiquement mise à jour.
+     <p>
+      <b>N'utilisez pas cette procédure si l'UE est répétée sur les deux
+      semestres.</b>
+
+    </div>
+    <div>
+    <h3>Conservation des notes CC</h3>
+
+    <p>
+      Après avoir fait les calculs pour obtenir 
+      la note finale de CC il reste le problème
+      des étudiants ayant NaN ou ABJUS car ils
+      conservent leur note de CC du semestre précédent.
+    <p>
+      On ne peut pas modifier le résultat d'un calcul.
+    <p>
+      Voici une solution simple (il y en a d'autres)&nbsp;:
+    <ol>
+      <li> Vous créez une colonne «CC_Conservé»
+      <li> Vous faites un <em>import</em> dans cette colonne
+	avec les résultats de CC conservés.
+	TOMUSS protestera à propos des étudiants qui ne se sont pas
+	réinscrits car il ne les trouve pas.
+      <li> Vous faites une «max» entre la note de CC du semestre
+	courant et celle conservée.
+      <li> Si une note ne doit pas être conservée,
+	vous mettez 0 dans la bonne cellule de «CC_Conservé»
+	    ou en laissant la case vide et en indiquant la valeur «0»
+	    comme valeur par défaut pour les cases vides de la colonne.
+    </ol>
+
+    Au final, vous devriez avoir&nbsp;:
+    <ul>
+      <li> «CC» : La moyenne donnant la note de CC du semestre courant
+      <li> «CC_Conservé» : La note obtenue au semestre précédent.
+      <li> «CC_Avant_Jury» : Moyenne entre «CC» et «CC_Conservé»
+	avec le commentaire de colonne qui contient très exactement le
+	texte&nbsp;: «la meilleure note».
+    </ul>
+    </div>
+
+    <div>    
+    <h3>Recopier toutes les colonnes</h3>
+	<p>
+	Refaire la définition de toutes les colonnes dans une table
+	  vide pour faire les mêmes que celles du semestre précédent
+	  n'est pas très productif.
+	  Heureusement, on peut créer plusieurs colonnes à la fois.
+<ul>
+    <li><p>
+      Cliquez sur le lien 'Exp.' de la zone 'Tableau' de la table source.
+    <li><p>
+      Copiez la liste des colonnes.
+    <li><p>
+      Cliquez sur le lien 'Imp.' de la zone 'Tableau' de la table destination.
+      et copiez la liste des colonnes.
+    <li><p>
+      Vous pouvez modifier la liste des colonnes avant de
+      l'importer dans TOMUSS.
+    <li><p>
+      Si vous n'êtes pas certain du résultat vous pouvez désactiver
+      la sauvegarde automatique pour vérifier avant de sauvegarder.
+	    </ul>
+    </div>
+
+    <div>
+    <h3>Éléments constitutifs (ECUE)</h3>
+    <ul>
+      <li><p> Si vous voulez plusieurs tables différentes
+	  avec les mêmes étudiants (pour des UE avec des composantes).
+	  Alors ajoutez <b>-1</b>, <b>-2</b>, <b>-3</b>...
+	  à la fin du nom de l'UE dans l'URL.
+	  ATTENTION : on ne peut pas faire de calcul
+	  mélangeant les valeurs des différentes tables.
+      </li>
+    </ul>
+    </div>
+
+
+    <div>    
+    <h2>Les filtres de TOMUSS</h2>
+
+    <p>
+      Ils sont utilisés en de nombreux endroits de la même manière :
+      <ul>
+      <li> Dans chaque colonne pour choisir les lignes à filtrer.
+      <li> Pour filtrer les colonnes à afficher en fonction de leur nom.
+      <li> Pour filtrer les lignes contenant une information.
+      <li> Pour filtrer la table complète.
+      <li> Pour compter les valeurs des cellules respectant le filtre.
+      <li> Pour colorier en rouge/vert les cellules d'une colonne.
+    </ul>
+	<p>
+	  N'oubliez pas que toutes les actions sur la table
+	  tiendront compte des filtres&nbsp;:
+	  trombinoscope, émargement, mail, import, export, moyenne...
+    </div>    
+    <div>    
+    <h3>Exemples de filtres</h3>
+	<p>
+	  Seul les premiers vous seront utiles.
+	<table>
+      <tr class="highlight"><td> <b>e</b><td> la valeur commence par <tt>e</tt>, <tt>E</tt>, <tt>é</tt>, <tt>è</tt>, <tt>É</tt>, <tt>È</tt>...</tr>
+      <tr><td> <b>jean</b><td> la valeur commence par <tt>jean</tt></tr>
+      <tr class="highlight"><td> <b>=jean</b><td> la valeur est exactement <tt>jean</tt></tr>
+      <tr><td> <b>~jean</b><td> la valeur contient <tt>jean</tt></tr>
+      <tr class="highlight"><td> <b>=</b><td> la valeur est vide (égale à rien).</tr>
+      <tr><td> <b>&gt;5</b><td> la valeur est strictement supérieure à 5.</tr>
+      <tr class="highlight"><td> <b>&gt;5 &lt;15</b><td> Les nombres entre 5 et 15 exclus.</tr>
+      <tr><td> <b>&lt;=5 ou &gt;15</b><td> Les nombres inférieurs à 5 ou supérieurs à 15.</tr>
+      <tr class="highlight"><td> <b>#</b><td> La valeur a un commentaire (<b>!#=</b>).</tr>
+      <tr><td> <b>?</b><td> La valeur a été modifiée aujourd'hui (<b>?=JJ/MM/YYYY</b>).</tr>
+      <tr class="highlight"><td> <b>@</b><td> La valeur a été modifiée par vous même (<b>@=prenom.nom</b>).</tr>
+      <tr><td> <b>:</b><td> La valeur a un historique, elle a été changée plusieurs fois (<b>!:=</b>).</tr>
+      <tr class="highlight"><td> <b>&lt;1/3/2008</b><td> la valeur est une date antérieure au 1 Mars 2008.</tr>
+      <tr><td> <b>@=jacques.martin</b><td> la personne qui a modifié la cellule est <tt>jacques.martin</tt></tr>
+      <tr class="highlight"><td> <b>#ok</b><td> le commentaire commence par <tt>ok</tt></tr>
+      <tr><td> <b>#~ok</b><td> le commentaire contient <tt>ok</tt></tr>
+      <tr class="highlight"><td> <b>?&gt;1/3/2008</b><td> la valeur a été modifiée après le 1 Mars 2008.</tr>
+      <tr><td> <b>?&lt;8j</b><td> la valeur a été modifiée il y a moins de 8 jours.</tr>
+      <tr class="highlight"><td> <b>?&lt;2s ?&gt;3h</b><td> la valeur a été modifiée il y a moins de 2 semaines et plus de 3 heures.</tr>
+      <tr><td> <b>?~2008</b><td> la valeur a été modifiée en 2008 (la date contient 2008)</tr>
+      <tr class="highlight"><td> <b>:~ABINJ</b><td> la valeur a contenu <tt>ABINJ</tt> dans le passé.</tr>
+      <tr><td> <b>!=</b><td> la valeur n'est pas vide.</tr>
+      <tr class="highlight"><td> <b>!#=</b><td> le commentaire n'est pas vide.</tr>
+      <tr><td> <b>ab ou ba</b><td> La valeur commence par <tt>ab</tt> ou <tt>ba</tt></tr>
+      <tr class="highlight"><td> <b>~abc ~cba</b><td> La valeur contient <tt>abc</tt> et aussi <tt>cba</tt></tr>
+      <tr><td> <b>&lt;=b &gt;=h</b><td> Les valeurs commençant par un caractère entre 'b' et 'h'.</tr>
+      <tr class="highlight"><td> <b>@ ?</b><td> Les valeurs que j'ai modifiées aujourd'hui.</tr>
+      <tr><td> <b>!@ ?</b><td> Les valeurs modifiées par les autres aujourd'hui.</tr>
+      <tr class="highlight"><td> <b>=0 ou =ABINJ ou =PPNOT</b><td> L'une des trois valeurs</tr>
+</table>
+
+
+    </div>    
+    <div>    
+    <h3>Filtre simple</h3>
+	<p>
+	  Si vous n'êtes pas informaticien, ne lisez pas ceci.
+    <p>
+      Un filtre simple est la concaténation de 4 informations.
+	<ul>
+	  <li> La négation permet de trouver les lignes qui
+	    ne respectent pas la suite du filtre.
+	    Elle est indiquée en commençant le filtre
+	    par «<b>!</b>»
+	  <li>
+	    Par défaut, on teste le contenu de la cellule,
+	    mais si l'on ajoute un caractère particulier, on
+	    peut vérifier d'autres attributs de la cellule&nbsp;:
+	    <ul>
+	       <li>«<b>?</b>» : la date de modification
+	       <li>«<b>@</b>» : le nom de la personne qui saisie
+	       <li>«<b>:</b>» : les anciennes valeurs
+	       <li>«<b>#</b>» : le commentaire associé
+	    </ul>
+	  <li>
+	    Par défaut, on teste si la valeur <em>V</em> commence
+	    par les caractères indiqués.
+	    Sauf si ce qui suit est&nbsp;:
+            <ul>
+	       <li>«<b>~</b>» : <em>V</em> contient <em>C</em><br>
+	       <li><em>V</em> «<b>&lt;</b>» <em>C</em><br>
+	       <li><em>V</em> «<b>&lt;=</b>» <em>C</em><br>
+	       <li><em>V</em> «<b>&gt;</b>» <em>C</em><br>
+	       <li><em>V</em> «<b>&gt;=</b>» <em>C</em><br>
+	       <li><em>V</em> «<b>=</b>» <em>C</em><br>
+          
+	  </ul>
+	  <li>
+            La valeur à tester peut être&nbsp;:
+	    <ul>
+	       <li> une chaine vide.<br>
+	       <li><b>123.456</b> Si c'est un nombre, alors les tests seront numériques
+		et donc '5' sera bien égal à '5.0'<br>
+	       <li><b>abcde</b> Si c'est une chaine, alors les opérateurs
+		seront lexicographiques et ne feront pas la différence
+		entre les minuscules et les majuscules.
+		Sauf si la chaine contient des majuscules ou des accents.
+	    <li>
+	    <b>JJ/MM/AAAA</b> Pour comparer des dates.
+	    <li><b>99h</b> Il y a 99 heures.
+		<li> <b>99j</b> Il y a 99 jours.
+	  </ul>
+	</ul>
+
+
+    </div>    
+    <div>    
+    <h3>Filtre complexe</h3>
+	<p>
+      Un filtre complexe est une combinaison de filtres simples :
+      <ul>
+      <li> Si on veut faire un <em>ou</em> on écrit simplement <b>&nbsp;ou&nbsp;</b>
+	entre les tests simples,
+      <li> Si on veut faire un <em>et</em> on écrit simplement
+	les tests simples en les séparant par un espace.
+    </ul>
+
+    <p>Attention à l'ordre d'évaluation
+    <p>
+      Les opérateurs <em>ou</em> et <em>et</em> ont la même priorité.
+    <p>
+      Si vous mélangez des <em>ou</em> et des <em>et</em> il faut
+      tenir compte de l'ordre d'évaluation qui se fait de droite
+      à gauche.
+    <ul>
+      <li> <b>&gt;5 &lt;15 ou =20</b> Les entiers entre 5 et 15 exclus, auxquels on ajoute le 20.
+      <li> <b>&gt;5 ou =20 &lt;15</b> Les entiers supérieur à 5, auxquels on ajoute les entiers égaux à 20 et inférieurs à 15, mais il n'en existe pas...
+    </ul>
+</div>
+    </div>
+
+
+    <script src="documentation.js"></script>
+  </body>
+</html>

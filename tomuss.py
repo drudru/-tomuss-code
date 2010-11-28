@@ -1,0 +1,326 @@
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
+#    TOMUSS: The Online Multi User Simple Spreadsheet
+#    Copyright (C) 2008,2010 Thierry EXCOFFIER, Universite Claude Bernard
+#
+#    This program is free software; you can redistribute it and/or modify
+#    it under the terms of the GNU General Public License as published by
+#    the Free Software Foundation; either version 2 of the License, or
+#    (at your option) any later version.
+#
+#    This program is distributed in the hope that it will be useful,
+#    but WITHOUT ANY WARRANTY; without even the implied warranty of
+#    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#    GNU General Public License for more details.
+#
+#    You should have received a copy of the GNU General Public License
+#    along with this program; if not, write to the Free Software
+#    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+#
+#    Contact: Thierry.EXCOFFIER@bat710.univ-lyon1.fr
+
+import configuration
+import BaseHTTPServer
+import utilities
+import document
+import time
+import sys
+import os
+from files import files
+import ticket
+import teacher
+import inscrits
+import sender
+
+if False:
+    import deadlock
+    deadlock.start_check_deadlock()
+
+warn = utilities.warn
+
+running = True
+current_time = time.time()
+
+class FileProxy(object):
+    def __init__(self, f):
+        self.file = f
+        self.closed = False
+    def close(self):
+        warn(str(self.file), what="debug")
+        self.file.close()
+        self.closed = True
+    def write(self, t):
+        self.file.write(t)
+    def flush(self):
+        self.file.flush()
+    def __str__(self):
+        return str(self.file)
+
+class MyRequestBroker(BaseHTTPServer.BaseHTTPRequestHandler):
+
+    def send_file(self, name):
+        # print self.headers
+        if name not in files:
+            return
+        s = files[name]
+        self.send_response(200)
+        if s.name and len(s) != 0:
+            self.send_header('Content-Length', len(s))
+        self.send_header('Content-Type', s.mimetype)
+        self.send_header('Cache-Control', 'max-age=%d' % configuration.maxage)
+        if name.endswith('.gz'):
+            self.send_header('Content-Encoding', 'gzip')
+        self.end_headers()
+        sender.append(self.wfile, str(s), keep_open=False)
+        self.wfile = plugin.Useles
+
+    def log_time(self, action, start_time=None):
+        if start_time is None:
+            start_time = self.start_time
+        now = time.time()
+        logs.write('%f %g %s\n' % (start_time, now - start_time, action))
+        logs.flush()
+        if sender.live_status:
+            try:
+                t = self.ticket.ticket.split('-')
+                if len(t) == 3:
+                    t = t[1]
+                else:
+                    t = ''
+                t += '/' + self.ticket.user_name
+                tt = self.ticket.access_right()
+            except:
+                t = 'N'
+                tt = ''
+                    
+            year = ''
+            semester = ''
+            if action in ('pageaction', 'pagenew', 'pageresume',
+                          'page_load_time', 'pagerewrite', 'end_of_load',
+                          'answer_page'
+                          ):
+                if action == 'pageaction':
+                    action = '*' + self.path.split('/')[7] + '*'
+                elif action == 'page_load_time':
+                    action += '(%.1fs)' % (now - start_time)
+                year = str(self.the_year)
+                semester = self.the_semester
+            elif action == 'abjaction':
+                action = '+' + self.path.split('/')[7] + '+'
+            elif action == 'static-file':
+                action = '_' + self.path.split('/')[1] + '_'
+            try:
+                ue = self.the_ue
+            except:
+                ue = ''
+            sender.send_live_status(
+                 '<script>d(%s,"%s","%s",%6.4f,"%s","%s",%s,%s);</script>\n' %
+                 (utilities.js(ticket.client_ip(self)),
+                  t,
+                  tt,
+                  now - start_time,
+                  action, year, utilities.js(semester),
+                  utilities.js(ue)))
+
+    def do_GET_real(self):
+        # APACHE make a mess with %2F so use %01 in place
+        # APACHE make a mess with %3F so use %02 in place
+        self.path = self.path.replace('%01', '%2F').replace('%02', '%3F')
+
+        if ticket.client_ip(self) in configuration.banned_ip:
+            return
+
+        if self.path != '/' and self.path[1:] in files:
+            self.send_file(self.path[1:])
+            self.log_time('static-file')
+            return
+
+        if self.path.startswith('/status/'):
+            # No authentication because it is the way to see if server works
+            self.send_response(200)
+            self.send_header('Cache-Control', 'no-cache')
+            self.send_header('Cache-Control', 'no-store')
+            self.send_header('Content-Type', 'image/png')
+            self.end_headers()
+            self.wfile.write(files['ok.png'])
+            self.log_time('status')
+            return
+
+        if configuration.regtest and self.path == '/stop':
+            global running
+            self.send_response(200)
+            self.send_header('Cache-Control', 'no-cache')
+            self.send_header('Cache-Control', 'no-store')
+            self.send_header('Content-Type', 'test/plain')
+            self.end_headers()
+            self.wfile.write('stopped')
+            running = False
+            return
+
+        self.ticket, self.the_path = ticket.get_ticket_string(self)
+        self.ticket = ticket.get_ticket_objet(self.ticket)
+        warn('ticket=%s' % str(self.ticket)[:-1])
+        warn('the_path=%s' % str(self.the_path))
+
+        if self.path.startswith('/log/'):
+            # XXX quick hack to remove
+            # Need a generalized way to invoke plugins without authentication
+            # See suivi.py (manage_error=False?)
+            for p in plugin.plugins:
+                # Launch the log plugin that allow to log things
+                # For example the searched text in help.
+                # Syntax:  log/what/string_to_log
+                if p.name == 'log':
+                    self.the_path = self.the_path[1:]
+                    plugin.execute(self, p)
+                    break
+            return
+
+        if self.ticket == None or (self.ticket
+                                   and not self.ticket.is_fine(self)):
+            if self.ticket and time.time() - self.ticket.date < 10:
+                warn('Ticket not fine quickly', what="error")
+                self.send_response(200)
+                self.send_header('Content-Type', 'text/html')
+                self.end_headers()
+                self.wfile.write(files['ticket.html'])
+                self.log_time('ticket-new-not-fine')
+                return
+                
+
+            warn('Ticket not fine', what="auth")
+            old_ticket = self.ticket
+            self.ticket = None
+            # XXX : If Answer is an image : no redirect
+            if len(self.the_path) > 4:
+                try:
+                    int(self.the_path[3])     # Page number
+                    float(self.the_path[4])   # Request number
+                    self.log_time('ticket-not-fine-for-image')
+                    return
+                except:
+                    # Not an image, may page option
+                    pass
+            if old_ticket != None:
+                self.the_path = self.path.split('/')[2:]
+                self.path = '/' + '/'.join(self.the_path)
+
+        self.the_file = self.wfile
+        self.wfile = plugin.Useles
+
+        # Don't want to be blocked by 'is_an_abj_master' test
+        if self.ticket == None or not hasattr(self.ticket, 'password_ok'):
+            warn('Append to authentication queue', what="auth")
+            authentication.authentication_requests.append(self)
+        else:
+            self.do_GET_real_real_safe()
+        warn('the_file=%s(%s) wfile=%s' % (self.the_file,
+                                           self.the_file.closed, self.wfile),
+             what="auth")
+
+    def do_GET_real_real_safe(self):
+        warn('ticket=%s' % str(self.ticket)[:-1], what='auth')
+        warn('the_path=%s' % str(self.the_path), what='auth')
+        plugin.dispatch_request(self)
+
+    def do_GET(self):
+        # self.rfile.close()
+        # self.wfile = FileProxy(self.wfile)
+
+        global current_time
+        self.start_time = time.time()
+        if self.start_time - current_time > configuration.unload_interval:
+            current_time = self.start_time
+            document.remove_unused_tables() # Not in a thread : avoid problems
+        try:
+            self.do_GET_real()
+        except: # IOError
+            user_name = self.__dict__.get('ticket', '')
+            if user_name == None:
+                user_name = ''
+            if not isinstance(user_name, str):
+                user_name = user_name.user_name
+
+            utilities.send_backtrace('GET path = ' + self.path + '\n'
+                                     'user name:' + user_name + '\n'
+                                     'Version:' + configuration.version +'\n',
+                                     subject = 'BUG TOMUSS '
+                                     + configuration.version
+                                     + ' ' + user_name
+                                     )
+            try:
+                if 'the_file' in self.__dict__:
+                    self.wfile = self.the_file
+                if 'plugin' in self.__dict__:
+                    if self.plugin.mimetype == 'image/png':
+                        self.wfile.write(files['bug.png'])
+                    else:
+                        self.wfile.write('Il y a un bug')
+                else:
+                    self.send_file('bug.png')
+            except:
+                pass
+            raise
+
+    def address_string(self):
+        """Override to avoid DNS lookups"""
+        return "%s:%d" % self.client_address
+
+
+if __name__ == "__main__":
+    utilities.display_stack_on_kill()
+    
+    if 'regtest' in sys.argv:
+        configuration.regtest = True
+        configuration.regtest_sync = True
+    import regtestpatch
+    regtestpatch.do_patch()
+    import plugin # AFTER import regtestpatch???
+    import plugins
+    plugins.load_types()
+    document.table(0, 'Dossiers', 'config_table', None, None)
+
+    if 'checker' in sys.argv:
+        import tablestat
+        import TEMPLATES._ucbl_
+        configuration.do_not_display = ()
+        TEMPLATES._ucbl_.L = inscrits.LDAP()
+        for table in tablestat.les_ues(2009,'Automne', true_file=True):
+            warn(table.ue)
+            TEMPLATES._ucbl_.student_add_allowed(table)
+        sys.exit(0)
+
+    import authentication
+    authentication.run_authentication()
+
+    server = BaseHTTPServer.HTTPServer(("0.0.0.0",
+                                        configuration.server_port),
+                                       MyRequestBroker)
+    warn('Database:' + configuration.db)
+    warn('Backup Database:' + configuration.backup + configuration.db)
+    warn("Server Ready on:" + configuration.server_url)
+
+    logs = open(os.path.join("LOGS", "TOMUSS",
+                             str(time.localtime()[0]) +".times"), "a")
+
+    document.start_threads()
+
+    plugins.plugins_tomuss()
+    document.table(0, 'Dossiers', 'config_plugin', None, None)
+
+    authentication.authentication_redirect = configuration.server_url
+    utilities.StaticFile._url_ = authentication.authentication_redirect.replace('/=TICKET','')
+
+    utilities.start_new_thread_immortal(sender.send_thread, (True,))
+
+    for i in range(3):
+        utilities.start_new_thread_immortal(sender.send_thread, ())
+
+    utilities.start_new_thread_immortal(sender.live_status_send_thread, ())
+    utilities.start_new_thread_immortal(utilities.sendmail_thread, (),
+                                        send_mail=False)
+
+    while running:
+        server.handle_request()
+
+    utilities.stop_threads()

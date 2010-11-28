@@ -1,0 +1,67 @@
+#!/usr/bin/python
+# -*- coding: utf-8 -*-
+#    TOMUSS: The Online Multi User Simple Spreadsheet
+#    Copyright (C) 2008,2009 Thierry EXCOFFIER, Universite Claude Bernard
+#
+#    This program is free software; you can redistribute it and/or modify
+#    it under the terms of the GNU General Public License as published by
+#    the Free Software Foundation; either version 2 of the License, or
+#    (at your option) any later version.
+#
+#    This program is distributed in the hope that it will be useful,
+#    but WITHOUT ANY WARRANTY; without even the implied warranty of
+#    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#    GNU General Public License for more details.
+#
+#    You should have received a copy of the GNU General Public License
+#    along with this program; if not, write to the Free Software
+#    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+#
+#    Contact: Thierry.EXCOFFIER@bat710.univ-lyon1.fr
+
+import configuration
+
+class Suivi(object):
+    def __init__(self):
+        self.urls = {}
+    def urls_sorted(self):
+        urls = self.urls.items()
+        urls.sort(key=lambda x: (x[0][0], x[0][1].replace('Automne','Z')))
+        return zip(*urls)[1]
+    def add(self, year, semester, host, port):
+        if '%' in host:
+            host = host % port
+        self.urls[str(year), semester] = (
+            'http://%s/%s/%s' % (host, year, semester), port, year, semester, host)
+    def url(self, year=None, semester=None, ticket=None):
+        if year == None:
+            year, semester = configuration.year_semester
+        try:
+            url, port, year, semester, host = self.urls[str(year), semester]
+        except KeyError:
+            if ticket:
+                return self.url(configuration.year_semester[0],
+                                configuration.year_semester[1],
+                                ticket,
+                                )
+            return 'http://not_running_suivi_server/'
+        if ticket:
+            u = 'http://%s/=%s/%s/%s' % (host, ticket, year, semester)
+        else:
+            u = 'http://%s/%s/%s' % (host, year, semester)
+        return u
+    def url_with_ticket(self, ticket):
+        for url, port, year, semester, host in self.urls_sorted():
+            yield  ('http://%s/=%s/%s/%s' % (host, ticket, year, semester),
+                    port, year, semester, host)
+    def all(self, ticket=None):
+        if ticket:
+            return '{' + ','.join([
+                '"%d/%s": "http://%s/=%s/%s/%s"' % (
+                year, semester, host, ticket, year, semester)
+                for url, port, year, semester, host in self.urls.values()])+'}'
+        else:
+            return '{' + ','.join([
+                '"%d/%s": "%s"' % (year, semester, url)
+                for url, port, year, semester, host in self.urls.values()])+'}'
+

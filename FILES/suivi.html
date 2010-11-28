@@ -1,0 +1,100 @@
+<html>
+  <head>
+    <META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=UTF-8">
+    <META NAME="ROBOTS" CONTENT="NOINDEX, NOFOLLOW">
+    <link rel="stylesheet" href="_URL_/_YEAR_/_SEMESTER_/suivi.css" type="text/css">
+    <link rel="stylesheet" href="_URL_/_YEAR_/_SEMESTER_/hidden.css" type="text/css">
+    <link rel="stylesheet" href="_URL_/_YEAR_/_SEMESTER_/style.css" type="text/css">
+    <link REL="icon" HREF="_URL_/_YEAR_/_SEMESTER_/favicon.ico">
+    <script src="_URL_/_YEAR_/_SEMESTER_/utilities.js"></script>    
+    <script src="_URL_/_YEAR_/_SEMESTER_/types.js"></script>    
+    <script src="_URL_/_YEAR_/_SEMESTER_/lib.js"></script>    
+  </head>
+  <body class="suivi">
+    <div class="identity">
+    <div id="allow_inline_block" class="notes"></div>
+      <p>
+      <a href="_URL_/logout">Déconnexion</a> <b>_USERNAME_</b><br>
+      </p>
+    </div>
+    _MESSAGE_
+    <h1>Suivi des étudiants pour _SEMESTER_ _YEAR_ <img id="unload" width="1" height="1"></h1>
+    <p class="noprint" style="text-align:center">
+      Les informations sur cette page ne sont pas actualisées
+      instantanément, il peut y avoir des différences
+      entre les tableaux et le résumé.
+      
+<table class="colored noprint input" style="float:left">
+	<tr>
+	  <th>Numéro ou login d'étudiant :</th>
+	<tr>
+	  <td>
+    <FORM class="noprint" ACTION="_URL_/=_TICKET_/_YEAR_/_SEMESTER_/">
+      <INPUT TYPE="TEXT"  NAME="X" size="16" id="input">
+      <input class="button" type="submit" value="Afficher le suivi">
+    </FORM>
+	  </tr>
+</table>
+<table class="colored noprint input" style="float:right">
+	<tr>
+	  <th>Nom ou prénom d'étudiant :</th>
+	<tr>
+	      <td>
+    <FORM class="noprint" ACTION="_URL_/=_TICKET_/_YEAR_/_SEMESTER_/-">
+      <INPUT TYPE="TEXT" NAME="X" size="16" id="input2">
+      <input class="button" type="submit" value="Lister les possibilités">
+    </FORM>
+</tr>
+</table>
+<p style="clear:both;"></p>
+<style id="computed_style">.notempty { display: none ; }</style>
+      
+    <script>
+lib_init() ;
+document.getElementById('input').focus() ;
+var tip = undefined ;
+var unload = document.getElementById('unload') ;
+
+/* To send the cell change and feedback */
+function _cell(s, url)
+{
+var iframe = s.parentNode.lastChild ;
+if ( iframe.tagName != 'IFRAME' )
+      {
+      iframe = document.createElement('iframe') ;
+      iframe.className = 'feedback' ;
+      s.parentNode.appendChild(iframe) ;
+      }
+
+iframe.src = url + '/' + s.value ;
+
+var ticket = document.location.pathname.split('/')[1] ;
+var url = url.split('/') ;
+var ue = url[url.length-4] ;
+
+unload.src = 'http://' +document.location.host+ '/' +ticket+ '/unload/' + ue ;
+}
+
+var is_a_teacher = true ;
+
+function hide_empty()
+{
+      document.getElementById('computed_style').textContent = 'DIV.empty, .empty { display: none ; }' ;
+}
+
+function show_empty()
+{
+      document.getElementById('computed_style').textContent = '.notempty { display: none ; }' ;
+}
+
+
+</script>
+
+<a href="javascript:hide_empty()" class="empty">Cacher les cases vides.</a>
+<a href="javascript:show_empty()" class="notempty">Montrer les cases vides.</a>
+<br>
+<br>
+
+
+
+

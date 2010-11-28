@@ -1,0 +1,153 @@
+#!/bin/env python
+# -*- coding: utf-8 -*-
+#    TOMUSS: The Online Multi User Simple Spreadsheet
+#    Copyright (C) 2008,2010 Thierry EXCOFFIER, Universite Claude Bernard
+#
+#    This program is free software; you can redistribute it and/or modify
+#    it under the terms of the GNU General Public License as published by
+#    the Free Software Foundation; either version 2 of the License, or
+#    (at your option) any later version.
+#
+#    This program is distributed in the hope that it will be useful,
+#    but WITHOUT ANY WARRANTY; without even the implied warranty of
+#    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#    GNU General Public License for more details.
+#
+#    You should have received a copy of the GNU General Public License
+#    along with this program; if not, write to the Free Software
+#    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+#
+#    Contact: Thierry.EXCOFFIER@bat710.univ-lyon1.fr
+
+import text
+import cgi
+import configuration
+
+class Note(text.Text):
+    human_priority = -10
+    full_title = 'Note'
+    set_minmax = 'set_test_note'
+    set_weight = 'set_weight'
+    tip_filter = "Exemples de filtre :<ul><li><b>&gt;5</b><li><b>&gt;5 &lt;15</b><li><b>ABINJ ou ABJUS ou PPNOT</b></ul>"
+    tip_weight = """<b>Poids de cette colonne</b> dans les moyennes pondérées.<br>
+    Des poids entiers sont préférables.<br>
+    <br>
+    Si le poids commence par le signe <b>+</b> ou <b>-</b><br>
+    alors il ne compte pas dans la somme des poids de<br>
+    la moyenne pondérée.<br>
+    La valeur de la cellule multipliée par le poids est<br>
+    ajoutée à la valeur finale de la moyenne."""
+
+    tip_minmax = """<b>Intervalle possible pour les notes saisies ou calculées</b><br>
+    Par exemple <b>[0;20]</b> pour indiquer des notes<br>
+    entre 0 et 20 inclus.<br>
+    Les bornes peuvent être négatives.<br>
+    Ces valeurs n'influent pas sur les poids<br>
+    des notes dans une moyenne pondérée."""
+    tip_cell = "Une note ou bien I : ABI, J : ABJ, N : Peut pas noter"
+    cell_test = "test_note"
+    formatte = 'note_format'
+
+    should_be_a_float = 1
+
+    message = """
+La note ou présence n'est pas indiquée par l'enseignant pour cet étudiant<br>
+mais elle l'était pour les autres étudiants de son groupe.<br>
+On suppose donc qu'il n'est pas venu.<br>
+Mais il est possible :
+<ul> <li> que l'étudiant ait changé de groupe
+<li> qu'il soit dans un groupe où les présences ne sont pas notées.
+<li> que sa copie ne soit pas encore corrigée
+</ul>"""
+
+    def cell_indicator_prst(self, column, value, cell, lines):
+        if value == 'ABINJ' or value == 'ABI':
+            return 'abinj', 0
+        if value == 'ABJUS' or value == 'ABJ':
+            return 'abjus', None
+        if value == 'PRST':
+            return 'prst', 1
+        if value == '' and lines:
+            nr_abinj = len([c for c in lines if c[column.data_col].value ==''])
+            if nr_abinj / float(len(lines)) < configuration.abinj:
+                return 'abinj2', 0
+
+        return '', None
+
+    def cell_indicator(self, column, value, cell, lines):
+        if column.weight.startswith('+') or column.weight.startswith('-'):
+            return '', None
+
+        classname = self.cell_indicator_prst(column, value, cell, lines)
+        if classname[0]:
+            return classname
+
+        try:
+            value = float(value)
+        except ValueError:
+            return '', None
+
+        v_min, v_max = column.min_max()
+        ci = (value - v_min) / (v_max - v_min)
+        if   ci > 0.8: return 'verygood', ci
+        elif ci > 0.6: return 'good', ci
+        elif ci > 0.4: return 'mean', ci
+        elif ci > 0.2: return 'bad', ci
+        else: return 'verybad', ci
+
+    def test_ok(self, test):
+        if not test.startswith('['):
+            return False
+        if not test.endswith(']'):
+            return False
+        test = test[1:-1].split(';')
+        if len(test) != 2:
+            return False
+        for t in test:
+            try:
+                float(t)
+            except ValueError:
+                if t != '?':
+                    return False
+        return True
+
+    def formatter(self,column, value, cell, lines, teacher, ticket, line_id):
+        classname = self.cell_indicator(column, value, cell, lines)[0]
+        if classname == 'abinj2':
+            return ('ABINJ???', classname, self.message)
+        if classname in ('prst', 'abinj', 'abjus'):
+            return (cgi.escape(str(value)), classname, '')
+        if value == '':
+            return '', '', ''
+
+        v_min, v_max = column.min_max()
+        v = '%s%s' % (value, self.value_range(v_min, v_max))
+
+        if column.weight.startswith('+') or column.weight.startswith('-'):
+            return (v, '', '')
+
+        all_floats, floats = column.cell_values(lines)
+        floats.sort()
+        floats.reverse()
+        all_floats.sort()
+        all_floats.reverse()
+        rank = ''
+        try:
+            rank += (u'Le rang de cette note est <b>%d</b> sur les <b>%d</b> notes dans le groupe.<br>' % (floats.index(value)+1,
+                              len(floats))).encode('utf8')
+        except ValueError:
+            pass
+        try:
+            if len(floats) != len(all_floats) :
+                rank += (u'Le rang de cette note est <b>%d</b> sur les <b>%d</b> notes dans l\'UE.<br>' % (all_floats.index(value)+1,
+                                                                                                len(all_floats))).encode('utf8')
+        except ValueError:
+            pass
+
+        return (v, classname, rank)
+
+    def value_range(self, v_min, v_max):
+        if v_min == 0:
+            return '/%g' % v_max
+        else:
+            return '[%g;%g]' % (v_min, v_max)

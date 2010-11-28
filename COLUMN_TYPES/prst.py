@@ -1,0 +1,47 @@
+#!/bin/env python
+# -*- coding: utf-8 -*-
+#    TOMUSS: The Online Multi User Simple Spreadsheet
+#    Copyright (C) 2008,2010 Thierry EXCOFFIER, Universite Claude Bernard
+#
+#    This program is free software; you can redistribute it and/or modify
+#    it under the terms of the GNU General Public License as published by
+#    the Free Software Foundation; either version 2 of the License, or
+#    (at your option) any later version.
+#
+#    This program is distributed in the hope that it will be useful,
+#    but WITHOUT ANY WARRANTY; without even the implied warranty of
+#    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#    GNU General Public License for more details.
+#
+#    You should have received a copy of the GNU General Public License
+#    along with this program; if not, write to the Free Software
+#    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+#
+#    Contact: Thierry.EXCOFFIER@bat710.univ-lyon1.fr
+
+import note
+import text
+import cgi
+
+class Prst(note.Note):
+    human_priority = -9
+    full_title = 'Présence'
+    set_minmax = 'unmodifiable'
+    tip_cell = "Présence, tapez P : Présent, I : ABI, J : ABJ"
+    cell_test = 'test_prst'
+    formatte = text.Text.formatte
+    ondoubleclick = 'toggle_prst'
+    tip_filter = "Exemples de filtre :<ul><li><b>P</b> pour voir les présents<li><b>A</b>, <b>ABI</b> ou <b>ABJ</b> pour voir les absences<li><b>=</b> pour voir les cases vides</ul>"
+    tip_test = ''
+    should_be_a_float = 0
+
+    def formatter(self, column, value, cell, lines, teacher, ticket, line_id):
+        classname = self.cell_indicator(column, value, cell, lines)[0]
+        if classname != 'abinj2':
+            return (cgi.escape(str(value)), classname, '')
+
+        return ('ABINJ???', classname, note.Note.message)
+
+    cell_indicator = note.Note.cell_indicator_prst
+    def test_ok(self, test):
+        return True

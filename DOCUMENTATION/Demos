@@ -1,0 +1,257 @@
+To do demo :
+
+	Use 'wink'
+
+	Put navigator window on top left (with some tabs)
+	With 7 lines in the data table
+
+	Rectangle capture : 5, 141 644, 540
+
+	Capture video.
+
+	Remove broken frames.
+
+	Render as SWF
+
+	Create audio.
+
+Mix Flash and audio in the HTML :
+<EMBED id="audio" src="http://www710.univ-lyon1.fr/~exco/TOMUSS/demo_animaux2.mp3" mime="audio/mpeg" autostart=true loop=false volume=100 hidden=true></EMBED>
+
+
+====================
+For Audio + Flash :
+====================
+
+# Launch VNC for screen record
+x11vnc
+
+# Launch capture
+#   - The sound file has no utility
+#   - Set clipping rectangle
+#   - Save As the capture in a file in 'xxx'
+vnc2swf -S "arecord -r 22050 xxx.wav" localhost:0
+
+# Convert the audio to a good format for vnc2swf
+lame --resample 44.1 -b 128 -t public_html/TOMUSS/demo_animaux2.mp3 xxx.mp3
+
+# Add the sound to the flash file
+vnc2swf-edit -o xxxx.swf -a xxx.mp3 xxx.swf
+
+
+
+
+
+
+
+
+Introduction :
+--------------
+
+*** 0 *** 1
+Si le son est désynchronisé de l'image, réactualisez la page.
+
+*** 5 *** 1
+Voici l'interface permettant d'éditer les informations concernant
+les étudiants qui suivent une UE.
+
+*** 13 *** 2, 3
+Il y a une ligne par étudiant.
+La liste des étudiants est automatiquement générée en fonction de l'UE choisie.
+
+*** 20 *** 4, 5, 6
+La ligne bleue souligne le fait que l'étudiant à un tiers temps
+pour les examens.
+
+*** 26 *** 7, 8, 9, 10, 11, 12-28
+On dispose d'un accès direct au trombinoscope pour l'ensemble
+des étudiants ou bien groupe par groupe.
+
+*** 33 *** 28, 29, 30, 31, 32
+Les colonnes numéro d'étudiant, nom, prénom, groupe de TD
+et séquence d'enseignement sont prédéfinies.
+
+*** 41 *** 36, 37
+Si vous voulez inverser le prénom et le nom,
+il suffit de l'indiquer dans vos préférences.
+
+*** 47 *** 42
+Les enseignants peuvent créer des colonnes et saisir
+des informations concernant les étudiants.
+
+*** 53 *** 43-50
+Généralement, l'enseignant modifie le titre de la colonne
+et indique que la colonne contient des cellules qui sont des notes
+ou des présences.
+
+*** 1:03 *** 51-52
+Par defaut, les notes sont entre 0 et 20.
+Il est possible d'indiquer une absence justifiées ou non
+à la place d'une note ou bien que l'on ne peut pas noter.
+
+*** 1:12 *** 54-57
+La colonne avec le titre en rouge indique que les lignes du tableau
+sont triées en fonction de cette colonne.
+
+*** 1:18 *** 58
+La cellule courante du tableau est entourée en bleu.
+
+*** 1:22 *** 58
+On change de cellule courante en cliquant sur une autre cellule
+ou bien en utilisant les touches de déplacement de curseur.
+
+*** 1:30 *** 62
+Pour saisir une valeur, il suffit de la taper au clavier puis
+de changer de cellule courante, avec la touche entrée par exemple.
+
+*** 1:38 ***
+Le petit carré vert qui apparaît indique que la valeur
+a été sauvegardée sur le serveur.
+La sauvegarde est automatique,
+il n'y a pas besoin d'indiquer que l'on veut sauvegarder.
+
+*** 1:49 ***
+Si l'étudiant a justifié des absences, celles-ci sont indiquées.
+
+*** 1:55 ***
+Si l'étudiant a un tiers temps, les conditions de celui-ci
+sont indiqués.
+
+*** 2:01 ***
+Quand on arrive au bout du tableau, la suite est
+automatiquement affichée.
+
+*** 2:06 *** 94
+La barre à gauche est l'ascenseur vertical, la zone blanche
+est la zone visible sur l'écran.
+Les lettres dans l'ascenseur représentent
+les premières lettres des cellules de la colonne triée.
+
+*** 2:17 ***
+On peut ajouter des étudiants qui ne sont pas inscrits
+officiellement dans l'UE.
+Cette pratique n'est pas recommandée, c'est pour cela
+que des fenêtres de confirmation apparaissent.
+
+*** 2:26 ***
+On peut cliquer dans l'ascenseur vertical pour aller
+directement au bon endroit.
+
+*** 2:31 ***
+Les lignes sur fond rouge correspondent aux étudiants
+qui ne sont pas officiellement inscrit.
+
+*** 2:36 ***
+Pour trouver un étudiant, le plus simple est de taper
+le début de son nom dans le filtre de ligne.
+
+*** 2:43 ***
+Si un autre enseignant travaille en même temps que vous
+sur le tableau, ce qu'il fait apparaît instantanément
+dans votre tableau.
+
+*** 2:50 ***
+Les informations sur la cellule permettent de voir
+quand et qui a modifié la valeur.
+
+*** 2:57 ***
+On ne peut pas modifier les notes saisies par les autres enseignants.
+
+*** 3:02 ***
+Il est par contre possible d'ajouter et de modifier un commentaire
+de cellule.
+
+*** 3:07 ***
+Si l'UE n'a pas de responsable officiel alors n'importe
+qui peut indiquer le nom du responsable de l'UE.
+
+*** 3:14 ***
+Les responsables de l'UE peuvent modifier toutes les notes
+et toutes les colonnes.
+
+*** 3:20 ***
+L'historique de la cellule permet de voir toutes les
+valeurs prises par le passé par la cellule et
+qui a fait les changements.
+
+*** 3:27 ***
+On peut envoyer un message aux étudiants du tableau
+ou bien lister les adresses mails des étudiants.
+
+*** 3:34 ***
+Les adresses mails sont celles des étudiants affichés,
+on peut par exemple restreindre la liste à ceux qui
+ont une mauvaise note en utilisant un filtre sur une colonne.
+
+*** 3:45 ***
+Il est possible de faire des calculs sur les colonnes.
+On ajoute une colonne de type moyenne et on indique
+sur quelles colonnes est faite la moyenne.
+
+*** 3:53 ***
+Par defaut toutes les colonnes ont le même poids,
+on peut modifier le poids d'une colonne pour
+lui donner plus d'importance.
+
+*** 4:00 ***
+On peut trier en fonction de la note moyenne.
+
+*** 4:04 ***
+On peut colorier les cases en fonction de la note.
+
+*** 4:07 ***
+On peut afficher les statistiques sur les notes et
+les présences indiquées dans les colonnes.
+
+*** 4:14 ***
+Il est possible d'afficher les notes en les triant par
+groupe pour comparer les groupes d'étudiant en eux.
+
+*** 4:19 ***
+Il est possible de faire la même choses par enseignant.
+
+*** 4:24 ***
+Comme pour les adresses mails et le trombinoscope,
+on peut filtrer le tableau pour ne faire les calculs
+que sur les étudiants filtrés.
+
+*** 4:32 ***
+On peut directement imprimer une feuille d'émargement,
+celle-ci contiendra la liste des tiers-temps.
+
+*** 4:38 ***
+On peut aussi avoir pour l'UE la liste des étudiants
+avec un tiers temps, des absences justifiées et
+des dispenses d'assiduité.
+
+*** 4:47 ***
+Pour prendre le contenu du tableau et le mettre dans un tableur,
+il suffit de demander à l'imprimer et de faire
+un copié collé du tableau dans le tableur.
+
+*** 4:57 ***
+Pour importer une colonne dans le tableau,
+il suffit de saisir pour chaque étudiant son numéro
+et le contenu de la cellule.
+Si jamais cette manoeuvre écrase une valeur,
+alors une confirmation est demandée.
+
+*** 5:09 ***
+On peut directement accéder à la liste des toutes
+les notes dans toutes les UEs pour un étudiant
+en cliquant sur sa photo.
+
+*** 5:16 ***
+En mettant le curseur sur une note, on affiche
+plus d'informations.
+
+
+
+
+
+
+
+
+
+
+	

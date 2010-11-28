@@ -1,0 +1,35 @@
+#!/bin/sh
+# -*- ksh -*-
+
+if [ ! -f tomuss.py ]
+then
+	echo "This script must be launched from TOMUSS dir" >&2
+	exit 1
+fi
+
+if ! diff -ur \
+          -x 'teachers.py' \
+          -x 'tables.py' \
+          -x 'favorites.py' \
+          -x 'tickets.py' \
+          -x 'profile.py' \
+          -x 'clients.py' \
+          -x 'preferences.py' \
+          -x '*.pyc' \
+          DB/ BACKUP_DB/
+then
+  echo "Database in bad shape" >&2
+  exit 1
+else
+  echo "Database in good shape"
+fi
+
+find DB/ -name '*.py' |
+grep -v -e __init__.py -e abjs.py |
+while read A
+do
+  if [ $(grep -c column "$A") = 0 ]
+  then
+    echo "Strange file: $A"
+  fi
+done
