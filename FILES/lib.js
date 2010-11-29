@@ -3621,7 +3621,17 @@ function print_page(w)
     w = window_open() ;
   
   var s = html_begin_head() ;
-  s += '<p class="hidden_on_paper">Pour importer ces données dans votre tableur favori, il suffit de copier la page (Ctrl-A Ctrl-C) et de la coller (Ctrl-V) dans votre tableur. (En cas de problème avec les nombres : <a href="javascript:replace_coma_by_dot()">remplacer les \',\' par des \'.\'</a>)</p><p class="hidden_on_paper"><b>N\'utilisez pas cette méthode pour importer des notes dans APOGÉE</b> utilisez l\'export de colonne (Exp.) dans le cadre «Colonne»</p>' ;
+  s += '<div class="hidden_on_paper">' +
+    '<p>Pour importer ces données dans votre tableur favori, ' +
+    'il suffit de copier la page (Ctrl-A Ctrl-C) ' +
+    'et de la coller (Ctrl-V) dans votre tableur. ' +
+    'Attention, le copier/collé copie les colonnes cachées. ' +
+    'En cas de problème avec les nombres : ' +
+    '<a href="javascript:replace_coma_by_dot()">remplacer les \',\' ' +
+    'par des \'.\'</a></p>' +
+    '<p><b>N\'utilisez pas cette méthode pour importer ' +
+    'des notes dans APOGÉE</b> utilisez l\'export de colonne ' +
+    '(Exp.) dans le cadre «Colonne»</p></div>' ;
   if ( table_comment )
     s += '<p>Petit message : <b>' + html(table_comment) + '</b></p>' ;
   s += '<TABLE class="printer colored">' ;
