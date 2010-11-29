@@ -597,6 +597,9 @@ class Table(object):
             self.masters.remove(name)
         else:
             self.masters.append(name)
+        if not self.loading:
+            # For old TEMPLATES files
+            self.log('add_master(%s,%d)' % (repr(name), page_id)) 
 
     def private_toggle(self, page):
         if len(self.masters) or len(self.teachers):
