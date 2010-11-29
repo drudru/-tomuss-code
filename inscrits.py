@@ -325,7 +325,9 @@ class LDAP_Logic(object):
             return True
         if login in configuration.root:
             return True
-        return self.is_in_one_of_the_groups(login, configuration.teachers)
+        return self.is_in_one_of_the_groups(login, configuration.teachers)and \
+               not self.is_in_one_of_the_groups(login,
+                                                configuration.not_teachers)
 
     def is_an_abj_master(self, login):
         """Returns true if the login is the login of a person

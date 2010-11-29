@@ -160,6 +160,11 @@ teachers = (
     'CN=Professors,OU=Groupes,DC=univ-lyon1,DC=fr',
     )
 
+# It is not a teacher if it is in one of these groups
+not_teachers = (
+    'CN=NotTeachers,OU=Groupes,DC=univ-lyon1,DC=fr',
+    )
+
 administratives = (
     'CN=Administratives,OU=Groupes,DC=univ-lyon1,DC=fr',
     'CN=Administratives2,OU=Groupes,DC=univ-lyon1,DC=fr',
