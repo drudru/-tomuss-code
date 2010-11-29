@@ -89,7 +89,7 @@ def update_referents(the_ids, table, page):
     orientation = document.table(table.year, table.semester,
                                  'orientation_rp', create=False)
     if orientation:
-        teachers += tuple(orientation.lines.values())
+        teachers = tuple(orientation.lines.values()) + teachers
     
 
     ro_page = table.pages[0]
@@ -216,8 +216,11 @@ def rdv_ip(server, stats=True, dsi_table=False, student_table=False):
     orientations = collections.defaultdict(
         lambda: collections.defaultdict(lambda: 0))
     for teacher in teachers.values():
-        line = tuple(ori.get_lines(teacher.name))[0]
-        for col, cell in zip(ori.columns, line)[1:]:
+        line = tuple(ori.get_lines(teacher.name))
+        if not line:
+            continue
+        line = line[0]
+        for col, cell in zip(ori.columns, line)[2:]:
             if col.title.startswith('_'):
                 continue
             try:
@@ -240,7 +243,7 @@ def rdv_ip(server, stats=True, dsi_table=False, student_table=False):
         Nombre d\'étudiants maximum par créneaux horaire et population.
         <table><thead><tr class="first">''' +
         ''.join('<th class="c' + i + '">' + i
-                for i in ('Ori','Jour')+hoursAM + hoursPM) +
+                for i in ('Population','Jour')+hoursAM + hoursPM) +
         '<th>Total journée' +
         '</tr></thead>')
     
