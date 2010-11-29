@@ -2422,6 +2422,12 @@ function current_update_cell_headers()
 {
   var cell = this.cell ;
 
+  if ( the_comment )
+    {
+      update_input(the_comment, cell.comment, cell.comment === '') ;
+      set_editable(the_comment, cell.modifiable()) ;
+    }
+
   update_value_and_tip(t_value, cell.value) ;
   update_value_and_tip(t_history, cell.history) ;
   update_value_and_tip(t_date, date(cell.date)) ;
@@ -2464,13 +2470,6 @@ function current_update_headers_real()
     author.innerHTML = this.cell.author ;
   if ( modification_date )
     modification_date.innerHTML = date(this.cell.date) ;
-  if ( the_comment )
-    {
-      update_input(the_comment, this.cell.comment, this.cell.comment === '') ;
-      set_editable(the_comment, this.cell.modifiable()) ;
-    }
-  if ( cell_history )
-    cell_history.innerHTML = html(this.cell.history) ;
 
   tip.style.display = "none" ;
   update_student_information(this.line) ;

@@ -96,7 +96,6 @@ var current_window_height ;
 var divtable ;
 var author ;
 var modification_date ;
-var cell_history ;
 var server_log ;
 var the_body ;
 var p_teachers ;
@@ -139,7 +138,6 @@ function lib_init()
   tip                  = document.getElementById('tip'                  );
   author               = document.getElementById('author'               );
   modification_date    = document.getElementById('date'                 );
-  cell_history         = document.getElementById('cell_history'         );
   server_log           = document.getElementById('log'                  );
   the_body             = document.getElementById('body'                 );
   p_teachers           = document.getElementById('teachers'             );
@@ -3151,7 +3149,7 @@ function Xcomment_change(identity, col, lin, value)
     {
       update_cell(td, cell, columns[data_col]) ;
       if ( cell === the_current_cell.cell )
-	cell.update_cell_headers() ;
+	the_current_cell.update_cell_headers() ;
     }
 }
 
