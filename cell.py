@@ -256,13 +256,16 @@ class Lines(object):
                     s.append((value.date, c))                        
         return s
 
-    def line_compute_js(self, line):
+    def line_compute_js(self, line, for_student=False):
         """Create the JavaScript program that initalizes 'line' with
         all the informations for the student.
         The value computing is done in javascript."""
         s = []
         s.append('<script>')
-        s.append(self.columns.js(hide=True))
+        if for_student:
+            s.append(self.columns.js(hide=1))
+        else:
+            s.append(self.columns.js(hide=True))
         s.append('line = ' + line.js() + ';')
         s.append('for(var data_col in columns) { init_column(columns[data_col]); columns[data_col].data_col = data_col ; }')
         s.append('update_columns(line);')
@@ -305,7 +308,7 @@ class Lines(object):
                  cgi.escape(table.spiral_title) + '</h2>']
         if table.comment.strip():
             s.append('<p style="margin-top:0">Petit message : <em>' + cgi.escape(table.comment) + '</em></p>')
-        s.append(self.line_compute_js(line))
+        s.append(self.line_compute_js(line,for_student=not link))
 
         grp = self.get_grp(line)
         seq = self.get_seq(line)

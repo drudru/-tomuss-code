@@ -64,7 +64,9 @@ function test_cow(value, column)
 {
   var column = get_original_cow_column() ;
   if ( column )
-    return column.real_type.cell_test(value, column) ;
-  else
-    return value ;
+    {
+      if ( column.real_type.cell_test != test_read_only )
+	return column.real_type.cell_test(value, column) ;
+    }
+  return value ;
 }

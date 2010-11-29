@@ -26,6 +26,7 @@ import cgi
 import re
 import time
 import plugins
+import hashlib
 
 ###############################################################################
 
@@ -550,7 +551,7 @@ class Column(object):
         except ValueError:
             return 0, 20
 
-    def js(self, hide):
+    def js(self, hide, obfuscated={}):
         """Returns the JavaScript describing the column."""
         s = []
         for attr in ColumnAttr.attrs.values():
@@ -558,6 +559,17 @@ class Column(object):
                 value = re.sub(r'(TITLE|IMPORT)\([^)]*\)', '', self.comment)
             else:
                 value = getattr(self, attr.name)
+            if hide is 1: # see line_compute_js
+                if not self.visible():
+                    if attr.name == 'comment':
+                        value = ''
+                    elif attr.name == 'title':
+                        value = obfuscated[value]
+                if value and attr.name == 'columns':
+                    for old, new in obfuscated.items():
+                        value = (' ' + value + ' ').replace(
+                            ' ' + old + ' ', ' ' + new + ' ')[1:-1]
+                
             if value != attr.default_value:
                 s.append( attr.name + ':' + js(value) )
                                  
@@ -737,7 +749,13 @@ class Columns(object):
 
     def js(self, hide):
         """Returns the javaScript code describing all the columns."""
-        return 'columns = [\n'+',\n'.join([c.js(hide)
+        obfuscated = {}
+        if hide is 1:
+            for c in self.columns:
+                if not c.visible():
+                    obfuscated[c.title] = hashlib.md5(c.title).hexdigest()
+            
+        return 'columns = [\n'+',\n'.join([c.js(hide, obfuscated)
                                            for c in self.columns]) + '\n];'
 
     def __iter__(self):

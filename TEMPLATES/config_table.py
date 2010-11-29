@@ -99,6 +99,7 @@ variables = {
     "unload_interval": "Temps : Interval entre deux déchargements des tables inutilisées",
     "check_down_connections_interval": "Temps : Interval de temps pour l'envoi de paquets pour garder les clients vivants",
     "config_debug": "Débuggage en live : résultat de l'évaluation de fonction Python",
+    "not_teachers": "Accès : Refuse l'accès s'il appartient à l'un de ces groupes",
     }
 
 def check(table):

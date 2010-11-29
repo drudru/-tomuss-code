@@ -53,12 +53,13 @@ Par exemple [0;20] pour noter entre 0 et 20"""
             what = ''
             minmax = self.value_range(*column.min_max())
 
-        comment = ('Calcul effectué: <b>'
-                   + self.full_title
-                   + what
-                   + '</b> sur les colonnes : <em>'
-                   + column.columns
-                   + '</em>'
-                   )
+        if teacher:
+            more = ' sur les colonnes : <em>' + column.columns + '</em>'
+        else:
+            # To not leak invisible columns
+            more = ''
+
+        comment = ('Calcul effectué: <b>' + self.full_title + what + '</b>'
+                   + more )
 
         return ('\001' + minmax, '', comment)

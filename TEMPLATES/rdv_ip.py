@@ -32,6 +32,8 @@ days = {
 hoursAM = ('8h30', '9h','9h30','10h','10h30','11h','11h30', '12h')
 hoursPM = ('13h','13h30','14h','14h30','15h','15h30', '16h','16h30','17h')
 
+orientation_without_referent_rdv = ('BIO', 'BCH', 'STU')
+
 def day_for_dsi(day):
     return day.split(':')[0] + '-' + 'Fév'
 
@@ -185,6 +187,7 @@ def get_teachers_hours():
     for k, v in table.lines.items():
         teacher = teachers[v[0].value]
         teacher.name = v[0].value
+        teacher.orientation = v[1].value
         
         day = v[2].value
         value = ''
@@ -313,6 +316,8 @@ def rdv_ip(server, stats=True, dsi_table=False, student_table=False):
         for teacher in teachers.values():
             if len(teacher.hours) == 0:
                 continue
+            if teacher.orientation in orientation_without_referent_rdv:
+                continue
             for student in referent.students_of_a_teacher(teacher.name):
                 server.the_file.write(student + ' ' + repr(teacher.hours)+'\n')
 
@@ -369,6 +374,8 @@ def fill_rdv_table(server):
 
     for teacher in teachers.values():
         if len(teacher.hours) == 0:
+            continue
+        if teacher.orientation in orientation_without_referent_rdv:
             continue
         for student in referent.students_of_a_teacher(teacher.name):
             for hour in teacher.hours:

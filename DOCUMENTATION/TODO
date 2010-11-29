@@ -1,9 +1,12 @@
 Finir par priorité :
-	Tester le changement de commentaire cellule distant
 
-	Rendez-vous : ne pas tenir compte des referents SVT
+	Finir dates
 
-	Modifier la liste des responsables (gagne une ligne)
+	Generation des groupes de TD
+	Acces BD lecture
+	Liste premier cours.
+
+	COW (stable) valeur vide ==> comme si rien
 	Ajouter entete URL pour le type URL
 	Sauvegarde de l'état figé...
 	Consultation TT par les secrétaires
@@ -36,7 +39,7 @@ Finir par priorité :
 	Etudiant en stage (soie)
 	Autorise semestre passé en ecriture, bascule RO par table.
 	Calcul du poids automatique avec '?' : problème de ]1,1[, max, meilleur
-	Fairela doc ]1,1[
+	Faire la doc ]1,1[
 	Faire des plugins pour chaque fonctionnalité coté client.
 		Activable par utilisateur.
 	Renommer Inscrit en _Inscrit_, garder la compatibilité pour les vieux.
