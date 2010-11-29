@@ -110,7 +110,6 @@ def resume(server):
     lines = %s ;
     document.write(tail_html()) ;
 
-    change_teachers([]) ;
     change_title(%s,2) ;
     change_mails({}) ;
     change_portails({}) ;
