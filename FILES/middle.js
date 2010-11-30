@@ -712,9 +712,9 @@ for(var type_i in types)
 	      ) + '<br>' +
    hidden_txt(header_input('fullfilter', '',
 			   'empty onkey=full_filter_change(this)'),
-	      "Seule les <b>colonnes et lignes</b> contenant une valeur filtrée seront affichées<br>" +
-	      "Tapez le début de ce que vous cherchez.<br>" +
-	      "Pour plus d'information, regardez l'aide sur les filtres.") +
+	      "Seule les <b>colonnes et lignes</b> contenant une valeur filtrée<br>seront affichées (c'est un filtre).<br>" +
+	      "Tapez le début de ce que vous cherchez.<br>"
+	     ) +
  '</tr></table>' +
 
 /* onmouseout is here because it must contains the tip
