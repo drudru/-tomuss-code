@@ -19,8 +19,9 @@
     Contact: Thierry.EXCOFFIER@bat710.univ-lyon1.fr
 */
 
-function follow_url(value)
+function follow_url(in_value)
 {
+  value = in_value.split(' ', 1)[0] ;
    var safe = value.replace(/[&%?]/,'') ;
    if ( safe != value )
 	{
@@ -31,5 +32,5 @@ function follow_url(value)
 	}
 
    window.open(value) ;
-   return value ;
+   return in_value ;
 }

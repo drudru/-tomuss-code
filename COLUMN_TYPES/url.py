@@ -20,6 +20,8 @@
 #    Contact: Thierry.EXCOFFIER@bat710.univ-lyon1.fr
 
 import text
+import re
+import cgi
 
 class URL(text.Text):
     human_priority = 10
@@ -30,13 +32,16 @@ class URL(text.Text):
     def formatter(self, column, value, cell, lines, teacher, ticket, line_id):
         if value == '':
             return ('', '', '')
-        value = str(value)
-        if 'TITLE(' not in column.comment:
-            title = 'Cliquez ici'
+        value = str(value).split(' ', 1)
+        if len(value) > 1:
+            title = value[1]
         else:
-            title = re.sub(r'.*TITLE\(', '', column.comment)
-            title = re.sub(r'\).*', '', title)
+            if 'TITLE(' not in column.comment:
+                title = 'Cliquez ici'
+            else:
+                title = re.sub(r'.*TITLE\(', '', column.comment)
+                title = re.sub(r'\).*', '', title)
 
 
-        return ('<a href="%s">%s</a>' % (value, title), '', '')
+        return ('<a href="%s">%s</a>' % (value[0], cgi.escape(title)), '', '')
 
