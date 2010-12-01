@@ -529,6 +529,10 @@ class Column(object):
                         value = ''
                     elif attr.name == 'title':
                         value = obfuscated[value]
+                    # Type obfuscation is not possible because the
+                    # averages can't be computed on javascript side :
+                    # elif attr.name == 'type' and value.name == 'Note':
+                    #    value = 'Prst'
                 if value and attr.name == 'columns':
                     for old, new in obfuscated.items():
                         value = (' ' + value + ' ').replace(
