@@ -773,7 +773,14 @@
       dans une adresse web du genre&nbsp;:
       <tt>http://www.univ-lyon1.fr/MesNotes/MonUE.csv</tt>
     <p>
-      La première colonne de ce fichier contient des numéros d'étudiant.
+      Le format du fichier CSV :
+    <ul>
+      <li> La première colonne de ce fichier contient des numéros d'étudiant.
+      <li> Le séparateur de colonne est le premier trouvé parmi :
+           la tabulation, le point-virgule, la virgule.
+      <li> L'encodage des caractères du fichier est soit UTF8,
+           soit latin1 (ISO8859-1).
+    </ul>
     <p>
       Vous pouvez dire à TOMUSS de prendre le contenu d'une colonne
       de ce tableau et de le mettre dans une de ses colonnes.
