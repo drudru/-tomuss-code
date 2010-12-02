@@ -5319,7 +5319,7 @@ function runlog(the_columns, the_lines)
   /** IE/Opera. */
   window.onmousewheel = document.onmousewheel = wheel;
 
-  if ( page_id > 0 )
+  if ( ue != 'VIRTUALUE' && page_id > 0 )
     document.write('<img width="1" height="1" src="' + url + "/=" + ticket
 		   + '/' + year + '/' + semester + '/' + ue + '/' +
 		   page_id + '/end_of_load">') ;
@@ -5337,12 +5337,13 @@ function runlog(the_columns, the_lines)
       return ;
     }
 
-
   // Firefox bug : the page refresh reload the old iframe, not the new one
-  setTimeout(function() {
-	       document.getElementById('server_answer').src = url + "/=" + ticket + '/' + year + '/' + semester + '/' + ue + '/' + page_id ; },
-	     10) ;
-
+  if ( ue != 'VIRTUALUE' )
+    setTimeout(function() {
+		 var server_answer = document.getElementById('server_answer') ;
+		 server_answer.src = url + "/=" + ticket + '/' + year
+		   + '/' + semester + '/' + ue + '/' + page_id ;
+	       }, 10) ;
 }
 
 

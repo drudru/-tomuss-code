@@ -556,7 +556,7 @@ class Column(object):
         s = []
         for attr in ColumnAttr.attrs.values():
             if hide and attr.name == 'comment':
-                value = re.sub(r'(TITLE|IMPORT)\([^)]*\)', '', self.comment)
+                value = re.sub(r'(TITLE|IMPORT|BASE)\([^)]*\)', '', self.comment)
             else:
                 value = getattr(self, attr.name)
             if hide is 1: # see line_compute_js
@@ -565,6 +565,10 @@ class Column(object):
                         value = ''
                     elif attr.name == 'title':
                         value = obfuscated[value]
+                    # Type obfuscation is not possible because the
+                    # averages can't be computed on javascript side :
+                    # elif attr.name == 'type' and value.name == 'Note':
+                    #    value = 'Prst'
                 if value and attr.name == 'columns':
                     for old, new in obfuscated.items():
                         value = (' ' + value + ' ').replace(

@@ -275,7 +275,7 @@ Nouveautés :
       <guid>22</guid>
     </item>
     <item>
-      <title>20/10/2010 : Version 2.10.16</title>
+      <title>20/11/2010 : Version 2.10.16</title>
       <link>http://tomuss.univ-lyon1.fr/</link>
       <description>
          La nouveauté de cette version est le publi postage.
@@ -283,6 +283,23 @@ Nouveautés :
          en fonction du contenu de la ligne les concernant.
       </description>
       <guid>23</guid>
+    </item>
+    <item>
+      <title>02/12/2010 : Version 2.11.2</title>
+      <link>http://tomuss.univ-lyon1.fr/</link>
+      <description>
+        Changements :
+&lt;ul&gt;
+&lt;li&gt; Rend beaucoup plus difficile pour les étudiants
+           de voir les colonnes cachées.
+&lt;li&gt; Le changement de taille de fenêtre fonctionne sous IE.
+&lt;li&gt; Pour les colonnes de type URL, on peut choisir
+           le nom du lien cellule par cellule.
+&lt;li&gt; Interdit un groupe de personne d'accéder à TOMUSS
+           (à l'UCBL : Personnel Contractuel de Catégorie C).
+&lt;/ul&gt;
+      </description>
+      <guid>24</guid>
     </item>
 
 
