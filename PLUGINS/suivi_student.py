@@ -323,14 +323,14 @@ def student(server, login=''):
         server.the_file.write(charte.replace("_TICKET_", server.ticket.ticket))
         return
         
-    server.the_file.write(header2.replace("_USERNAME_",
+    server.the_file.write((header2.replace("_USERNAME_",
                                           server.ticket.user_name)
                           .replace("_ADMIN_", configuration.maintainer) +
-                          '<p id="x" style="background:yellow"><b>Chargement en cours, veuillez patientez s\'il vous plait. Cela ira encore plus lentement si vous réactualisez la page.</b></p>\n')
+                          '<p id="x" style="background:yellow"><b>Chargement en cours, veuillez patientez s\'il vous plait. Cela ira encore plus lentement si vous réactualisez la page.</b></p>').replace('\n',''))
     server.the_file.flush()
     server.the_file.write(
         "<script>document.getElementById('x').style.display='none';</script>" +
-        student_statistics(login, server,True).encode('utf8'))
+        student_statistics(login, server,True).replace('\n','').encode('utf8'))
 
 
 plugin.Plugin('student', '/{*}', function=student, teacher=False,
