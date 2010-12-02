@@ -1,32 +1,21 @@
 Finir par priorité :
 	Finir dates
-
-	Generation des groupes de TD
-	Acces BD lecture
-	Liste premier cours.
+	Attributs de tableaux comme les attributs de colonnes.
 
 	COW (stable) valeur vide ==> comme si rien
 	Ajouter entete URL pour le type URL
 	Sauvegarde de l'état figé...
 	Consultation TT par les secrétaires
-	Attributs de tableaux comme les attributs de colonnes.
 	Indicateur modifiable : official_ue
 	Sauvegarder le nombre de colonnes par défaut.
-	TESTER : etudiant ne regardant pas TOMUSS : Referents.py
 	Faire mail quand les scripts de nuit marchent pas.
 	SUIVI étudiants : pointeurs SPIRAL/Mails enseignants ?
-	La démo plante sur demo710!!!! tables contient des None
-	Problème : changement d'accent avec TVL1009 : bascule 1/2
-		Cela vient de extraction transversale.
-	ECUE avec que des cours : TVL1082L, ECUE BCH1003 BCH1004
-	UE a chargement automatique pour initalisation : sport/tvl/inf ?
 	Reconnexion au serveur quand la connexion est perdue
 	Bug ajoute + vidage de ligne avec changement de page
 	BILAN : probleme icone+note sous IE
 	RSS table : TT DA, ajouter + info dans le texte et le sujet ?
 	Relancer seulement le suivi ou tomuss dans Makefile
 	Nom de jeune fille
-	Récuperer dans SPIRAL les responsables administratifs.
 	Mettre UNE table en lecture seulement. Envoyer mail a l'administratif
 	linear	Afficher aide plus detaille sur la valeur de la cellule
 	linear  rendre champs saisie invisible
@@ -35,14 +24,12 @@ Finir par priorité :
 	live_status : afficher navigateur
 	Il faut enlever toute référence aux noms de types dans le JS
 	Ajouter les types Mail/telephone/responsable(UE) enumeration
-	Etudiant en stage (soie)
 	Autorise semestre passé en ecriture, bascule RO par table.
 	Calcul du poids automatique avec '?' : problème de ]1,1[, max, meilleur
 	Faire la doc ]1,1[
 	Faire des plugins pour chaque fonctionnalité coté client.
 		Activable par utilisateur.
 	Renommer Inscrit en _Inscrit_, garder la compatibilité pour les vieux.
-	DEMO : liste des UE.
 
     BUGS :
 	Chrome : statistics per group
@@ -59,7 +46,6 @@ Finir par priorité :
 	Il n'y a pas de Flux RSS pour les tables ni printemps ni automne.
 
     Moyenne :
-	Catalogue UE ouvertes printemps
 	Interface pour détruire les tables.
 	UE par formation
 	Interdire stockage mauvais encodage (liste étudiants ou autres)
@@ -72,7 +58,6 @@ Finir par priorité :
 	Histogramme : échelle log sur clique
 	Statistiques : droite de régression
 	Affichage des espaces dans les cases du tableau.
-	Affichage plus clair de l'espace dans l'export APOGÉE
 	Faire afficher l'historique dans un bulle (3 historiques donc ?)
 	Meta log à distance : stream
 	Chiffrer colonne.
@@ -80,7 +65,6 @@ Finir par priorité :
 	Statistique par groupe sur une colonne quelconque
 
     Faible :
-	Emplois du temps étudiants : il faut les code de groupes de TD dans ADE
 	stat : lien vers le suivi de la personne
 	Évidence ligne courante : lignes bleu verticales et horizontales
 	Mettre du style CSS dans le commentaire pour colorier la cellule ?
