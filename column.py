@@ -520,7 +520,7 @@ class Column(object):
         s = []
         for attr in ColumnAttr.attrs.values():
             if hide and attr.name == 'comment':
-                value = re.sub(r'(TITLE|IMPORT)\([^)]*\)', '', self.comment)
+                value = re.sub(r'(TITLE|IMPORT|BASE)\([^)]*\)', '', self.comment)
             else:
                 value = getattr(self, attr.name)
             if hide is 1: # see line_compute_js

@@ -36,12 +36,19 @@ class URL(text.Text):
         if len(value) > 1:
             title = value[1]
         else:
-            if 'TITLE(' not in column.comment:
-                title = 'Cliquez ici'
-            else:
+            if 'TITLE(' in column.comment:
                 title = re.sub(r'.*TITLE\(', '', column.comment)
                 title = re.sub(r'\).*', '', title)
+            else:
+                title = 'Cliquez ici'
+
+        if 'BASE(' in column.comment:
+            base = re.sub(r'.*BASE\(', '', column.comment)
+            base = re.sub(r'\).*', '', base)
+        else:
+            base = ''
 
 
-        return ('<a href="%s">%s</a>' % (value[0], cgi.escape(title)), '', '')
+        return ('<a href="%s">%s</a>' % (base + value[0],
+                                         cgi.escape(title)), '', '')
 

@@ -21,7 +21,15 @@
 
 function follow_url(in_value)
 {
-  value = in_value.split(' ', 1)[0] ;
+  var url_base = the_current_cell.column.comment.split('BASE(') ;
+  if ( url_base.length == 1 )
+    url_base = '' ;
+  else
+    {
+      url_base = url_base[1].split(')')[0] ;
+    }
+
+  value = url_base + in_value.split(' ', 1)[0] ;
    var safe = value.replace(/[&%?]/,'') ;
    if ( safe != value )
 	{
