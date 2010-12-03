@@ -106,8 +106,6 @@ def check(table):
     p_ro = table.pages[0]
     p_rw = table.pages[1]
 
-    variables.update(configuration.local_options)
-
     table.lock()
     try:
         for variable, comment in variables.items():
@@ -162,6 +160,7 @@ def set_value(variable, value):
     configuration.__dict__[variable] = value
 
 def onload(table):
+    variables.update(configuration.local_options)
 
     if len(table.lines) == 0:
         return
