@@ -38,7 +38,6 @@ class StringFile(object):
         self.content = ['''
 <script>
 var    Xcell_change  = window.parent.Xcell_change    ;
-var Xprivate_toggle  = window.parent.Xprivate_toggle ;
 var Xcomment_change  = window.parent.Xcomment_change ;
 var   Xtable_comment = window.parent.Xtable_comment  ;
 var  Xcolumn_delete  = window.parent.Xcolumn_delete  ;

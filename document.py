@@ -232,7 +232,6 @@ class Table(object):
         self.the_key_dict = None
         self.unloaded = False
         self.do_not_unload = 0
-        self.private = 0
         for attr in TableAttr.attrs.values():
             d = attr.default_value
             if isinstance(d, list):
@@ -602,18 +601,10 @@ class Table(object):
             self.log('table_attr("masters",%d,%s)' % (page_id, repr(name))) 
 
     def private_toggle(self, page):
-        if len(self.masters) or len(self.teachers):
-            if page.user_name not in self.masters \
-                   and page.user_name not in self.teachers \
-                   and page.user_name not in configuration.root:
-                return self.bad_auth(page)
-        
-        if not self.loading:
-            self.log('private_toggle(%s)' % page.page_id)
-
         self.private = 1 - self.private
-
-        self.send_update(page, '<script>Xprivate_toggle();</script>\n')
+        if self.loading: # compatibility with old TEMPLATES
+            self.log('table_attr(%s, "private", %d)' % (page.page_id,
+                                                        self.private))
         return 'ok.png'
 
     def error(self, page, message):
@@ -1323,8 +1314,6 @@ def check_requests():
                     elif action == 'column_delete':
                         col = path[0]
                         page.answer = tabl.column_delete(page, col)
-                    elif action == 'private_toggle':
-                        page.answer = tabl.private_toggle(page)
                     elif action == 'login_list':
                         login_list(page, utilities.safe(path[0]))
                         page.answer = 'ok.png'

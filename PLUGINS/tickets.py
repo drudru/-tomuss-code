@@ -47,7 +47,7 @@ column_change (0,'0_5','Navigateur','Text','[0;20]','','',0,6)
 column_comment(0,'0_5','Navigateur Web utilisé')
 table_comment(0, 'Les tickets actuellement valide')
 default_nr_columns(6)
-private_toggle(0)
+table_attr(0, 'private', 1)
 add_master(%s,0)
 """ % repr(server.ticket.user_name))
     for i, t in enumerate(ticket.tickets.values()):

@@ -59,10 +59,6 @@ def table_comment(page_id, comment):
     """Change the table comment."""
     _table.table_comment(_table.pages[page_id], comment)
 
-def private_toggle(page_id):
-    """Change the privacy state of the table."""
-    _table.private_toggle(_table.pages[page_id])
-
 def cell_change(page_id, col, lin, value, date):
     """Change the value of a cell."""
     _table.cell_change(_table.pages[page_id], col, lin, value, date)
@@ -123,6 +119,10 @@ def add_master(name, page_id=None):
 def date_change(page_id, dates):
     """Change the table dates."""
     _table.date_change(_table.pages[page_id], dates)
+
+def private_toggle(page_id):
+    """Change the privacy state of the table."""
+    _table.private_toggle(_table.pages[page_id])
 
 
 

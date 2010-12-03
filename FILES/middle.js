@@ -641,22 +641,15 @@ for(var type_i in types)
 	      'Importe les définitions des colonnes.') + ', ' +
 
    hidden_txt('<a href="javascript:export_columns();">Exp.</a>',
-	      'Exporte les définitions des colonnes (pas le contenu de la table)')+ ', ' +
-   hidden_txt('<a href="javascript:private_toggle_activate();">Public</a>',
-	      "<b>Rend la page invisible pour les non-responsables</b><br>" +
-	      'En cliquant sur ce lien vous rendez la page privée.<br>' +
-	      'Seuls les responsables pourront la voir et la modifier.<br>'+
-	      "Les étudiants pourront néanmoins voir leur suivi.",
-	      '','private_toggle_activate') +
-   hidden_txt('<a href="javascript:private_toggle_deactivate();" style="text-decoration: line-through">Public</a>',
-	      "<b>Rend la page visible pour tout le monde</b><br>" +
-	      'En cliquant sur ce lien vous rendez la page publique.',
-	      '','private_toggle_deactivate') + ', ' +
+	      'Exporte les définitions des colonnes (pas le contenu de la table)')+ '<br>' +
    
+   table_select('table_attr_private',
+		['Publique', 'Privée'],
+		'Une table privée est seulement visible/modifiable par les responsables,<br>les étudiants pourront néanmoins voir leur suivi.<br>Seul un responsable peut changer ceci.') +
 
    table_select('table_attr_modifiable',
 		['Non Modifiable', 'Modifiable'],
-		'Indique si la table est modifiable.\nSeul un responsable peut changer ceci.') +
+		'Indique si le contenu de la table est modifiable.<br>Seul un responsable peut changer ceci.') +
 
 
    '<br></div>' +

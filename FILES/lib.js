@@ -2937,56 +2937,6 @@ function auto_save_deactivate()
   document.getElementById('auto_save_activate').style.display = 'inline' ;
 }
 
-function table_private_update_screen()
-{
-  if ( ! document.getElementById('private_toggle_activate') )
-    {
-      return ;
-    }
-  if ( table_private )
-    {
-      document.getElementById('private_toggle_activate').style.display
-	= 'none' ;
-      document.getElementById('private_toggle_deactivate').style.display
-	= 'inline' ;
-    }
-  else
-    {
-      document.getElementById('private_toggle_deactivate').style.display
-	= 'none' ;
-      document.getElementById('private_toggle_activate').style.display
-	= 'inline' ;
-    }
-}
-
-function private_toggle_activate()
-{
-  if ( table_private )
-    alert('BUG') ;
-  if ( ! i_am_the_teacher )
-    {
-      alert('Vous ne pouvez pas rendre cette table privée car\nvous ne pourriez plus la voir.\nCommencez par vous ajouter comme étant\nun des responsable de cette table') ;
-      return ;
-    }
-  append_image(undefined, 'private_toggle') ;
-  Xprivate_toggle() ;
-}
-
-function private_toggle_deactivate()
-{
-  if ( ! table_private )
-    alert('BUG') ;
-  append_image(undefined, 'private_toggle') ;
-  Xprivate_toggle() ;
-}
-
-function Xprivate_toggle()
-{
-  table_private = 1 - table_private ;
-  table_private_update_screen() ;
-}
-
-
 function url_base()
 {
   var invisible ;
@@ -3988,7 +3938,6 @@ function virtual_table_common_begin()
     'columns = [] ;\n' +
     'allow_modification= false;\n' +
     'table_comment = "" ;\n' +
-    'table_private = 0 ;\n' +
     'table_date = "' + table_date + '" ;\n' +
     'default_nr_columns = 5 ;\n' +
     'lines = [] ;\n' +
@@ -5136,7 +5085,6 @@ function runlog(the_columns, the_lines)
 
   lib_init() ;
   auto_save_activate();
-  table_private_update_screen() ;
 
   if ( test_bool(preferences.display_tips) == no )
     display_tips = false ;
@@ -5721,7 +5669,6 @@ function javascript_regtest_ue()
 
 // XXX COPY/PASTE in the end of new_page.py
 window.Xcell_change    = Xcell_change ;
-window.Xprivate_toggle = Xprivate_toggle ;
 window.Xcomment_change = Xcomment_change ;
 window.Xtable_comment  = Xtable_comment ;
 window.Xcolumn_delete  = Xcolumn_delete ;

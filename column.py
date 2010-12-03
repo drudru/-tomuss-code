@@ -317,7 +317,23 @@ class TableModifiable(TableAttr):
         value = int(value)
         if value == 0 or value == 1:
             return
-        return "L'attribut 'modifiable' peut être seulement 0 ou 1"
+        return "Cet attribut '%s' peut être seulement 0 ou 1" % self.__class__.__name__
+
+class TablePrivate(TableModifiable):
+
+    formatter = r'''
+function(value)
+{
+  if ( (table_attr.masters.length == 0 || ! i_am_the_teacher) && value == 1)
+    {
+      alert('Vous ne pouvez pas rendre cette table privée car\nvous ne pourriez plus la voir.\nCommencez par vous ajouter comme étant\nun des responsable de cette table') ;
+      return ;
+    }
+  return value ;
+}'''
+
+    name = 'private'
+    default_value = 0
 
 class TableDates(TableAttr):
     name = 'dates'
@@ -429,6 +445,7 @@ return value ;
 TableModifiable()
 TableMasters()
 TableDates()
+TablePrivate()
 
 
 import files
