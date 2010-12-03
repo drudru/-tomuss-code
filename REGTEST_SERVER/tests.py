@@ -629,7 +629,7 @@ def tests():
         assert("masters:['%s']" % root in c)
         c = s.url('=' + abj + '/9999/Test/badaddmaster' +
                   '/2/0/table_attr_masters/' + abj)
-        assert(c == bug_png)
+        assert(c == bad_png)
 
     if do('masterpower'):
         c = s.url('=' + root + '/9999/Test/masterpower')

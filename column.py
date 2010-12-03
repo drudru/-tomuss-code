@@ -41,7 +41,7 @@ class ColumnAttr(object):
     update_content = False
     formatter = 'function(column, value) { return value ; }'
     empty = 'function(column, value) { return value == "" ; }'
-    default_value = ''
+    default_value = '' # XXX Do not put a mutable here or in sub classes
     computed = 0
     
     def __init__(self):
@@ -282,7 +282,7 @@ class TableAttr(ColumnAttr):
 
         teachers = table.teachers + table.masters
         if ( (page.user_name not in teachers) and len(teachers) != 0):
-            return self.bad_auth(page)
+            return table.bad_auth(page)
 
         error = self.check(value)
         if error:
@@ -320,20 +320,48 @@ class TableModifiable(TableAttr):
         return "L'attribut 'modifiable' peut être seulement 0 ou 1"
 
 class TableDates(TableAttr):
-    name = 'datess'
+    name = 'dates'
     default_value = [0,2000000000]
     formatter = '''
 function(value)
 {
   if ( value.join )
     {
-       var d = new Date() ;
-       d.setTime(value[0]*1000) ;
-       var s = formatte_date(d) ;
-       d.setTime(value[1]*1000) ;
-       return s + ' ' + formatte_date(d) ;
+       first_day = new Date() ;
+       first_day.setTime(value[0]*1000) ;
+
+       last_day = new Date() ;
+       last_day.setTime(value[1]*1000) ;
+       var s = formatte_date(last_day) ;
+       
+       last_day.setTime(value[1]*1000 + 1000*86400) ;
+
+       return formatte_date(first_day) + ' ' + s ;
     }
-  return value ;
+
+  var v = value.replace(/[ ,][ ,]*/g, ' ') ;
+  var vs = v.split(' ') ;
+  if ( vs.length != 2 )
+    {
+      alert('Saisir les 2 dates séparées par un espace') ;
+      return ;
+    }
+  var d1 = parse_date(vs[0]).getTime() ;
+  var d2 = parse_date(vs[1]).getTime() ;
+  if ( isNaN(d1) || isNaN(d2) )
+    {
+      alert('Une des dates est mal écrite') ;
+      return ;
+    }
+  if ( d1 > d2 )
+    {
+      alert('La date de début doit être AVANT la date de fin') ;
+      return ;
+    }
+  v = date_to_store(vs[0]).replace(/..$/,'') + ' '
+    + date_to_store(vs[1]).replace(/..$/,'') ;
+  
+  return v ;
 }'''
     def encode(self, value):
         if isinstance(value, str):        
@@ -367,7 +395,10 @@ if ( value.join )
   }
 else
    teachers = value.split(' ') ;
-i_am_the_teacher = myindex(teachers, my_identity) != -1 ;
+if ( teachers.length )
+    i_am_the_teacher = myindex(teachers, my_identity) != -1 ;
+else
+    i_am_the_teacher = true ;
 
 return value ;
 }'''

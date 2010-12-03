@@ -246,9 +246,15 @@ function table_attr_set(attr, value, td)
       return ;
     }
 
-  table_attr[attr] = value ;
+  value = table_attributes[attr].formatter(value) ;
 
-  value = table_attributes[attr].formatter(table_attr[attr]) ;
+  if ( old_value == value )
+    return  ;
+
+  if ( value === undefined )
+    return old_value ;
+
+  table_attr[attr] = value ;
 
   append_image(td, 'table_attr_' + attr + '/' + encode_uri(value)) ;
 
@@ -655,13 +661,7 @@ for(var type_i in types)
 
    '<br></div>' +
 
-   hidden_txt(header_input("t_date_change",'',
-			   'empty onblur=date_change(this)'),
-	      "Dates du premier cours et dernier examen.<br>" +
-	      "Par exemple : 20/1/2010 12/5/2010<br>" +
-	      "Les ABJ en dehors de cet intervalle ne seront pas affichées."
-	      ) +
-   table_input_attr('datess','',
+   table_input_attr('dates','',
 		    "Dates du premier cours et dernier examen.<br>" +
 		    "Par exemple : 20/1/2010 12/5/2010<br>" +
 		    "Les ABJ en dehors de cet intervalle ne seront pas affichées.") +

@@ -629,8 +629,8 @@ Cordialement.
             the_students = [(line[0].value, line[3].value, line[4].value)
                             for line in table.lines.values()
                             if line[0].value]
-            first_day = table.first_day
-            last_day = table.last_day + 86400 # End of last day
+            first_day = table.dates[0]
+            last_day = table.dates[1] + 86400 # End of last day
             table.unload()
             table = None
     if first_day == 0:

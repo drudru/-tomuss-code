@@ -45,4 +45,3 @@ plugins.load_types()
 
 import document
 document.table(0, 'Dossiers', 'config_table', None, None)
-

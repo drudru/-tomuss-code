@@ -208,7 +208,7 @@ def the_abjs(table):
             if line:
                 line = line[0]
                 the_abjs= abj.do_prune(student.abjs,
-                                       table.first_day, table.last_day+86400,
+                                       table.dates[0], table.dates[1]+86400,
                                        line[grp_col].value,line[seq_col].value,
                                        table.ue)
             else:

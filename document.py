@@ -232,12 +232,12 @@ class Table(object):
         self.the_key_dict = None
         self.unloaded = False
         self.do_not_unload = 0
-        self.first_day = 0
-        self.last_day = 8000000000
-        self.dates = 'dates des enseignements'
         self.private = 0
         for attr in TableAttr.attrs.values():
-            setattr(self, attr.name, attr.default_value)
+            d = attr.default_value
+            if isinstance(d, list):
+                d = list(d)
+            setattr(self, attr.name, d)
         dirname = os.path.join(configuration.db,
                                'Y'+str(self.year), 'S'+self.semester)
         self.filename = os.path.join(dirname, ue + '.py')
@@ -599,7 +599,7 @@ class Table(object):
             self.masters.append(name)
         if not self.loading:
             # For old TEMPLATES files
-            self.log('add_master(%s,%d)' % (repr(name), page_id)) 
+            self.log('table_attr("masters",%d,%s)' % (page_id, repr(name))) 
 
     def private_toggle(self, page):
         if len(self.masters) or len(self.teachers):
@@ -820,26 +820,7 @@ la dernière saisie.
             )
 
     def date_change(self, page, date):
-        if (page.user_name != ro_user
-            and page.user_name not in (self.teachers + self.masters)
-            and not self.loading
-            and len(self.teachers + self.masters) != 0):
-            return self.bad_auth(page)
-        dates = date.split(' ')
-        first_day = time.strptime(dates[0], '%d/%m/%Y')
-        last_day = time.strptime(dates[1], '%d/%m/%Y')
-        assert(first_day <= last_day)
-
-        if not self.loading:
-            self.log('date_change(%s,%s)' % (repr(page.page_id), repr(date)))
-            t = '<script>Xdate_change(%s);</script>\n' % js(date)
-            self.send_update(page, t)
-        else:
-            page.request += 1
-        self.first_day = time.mktime(first_day)
-        self.last_day = time.mktime(last_day)
-        self.dates = date
-        return 'ok.png'
+        return TableAttr.attrs['dates'].set(self, page, date)
 
     def logins(self):
         for v in self.lines.values():

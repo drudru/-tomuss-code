@@ -126,7 +126,6 @@ var t_column_histogram ;
 var t_column_average ;
 var t_menutop ;
 var t_table_comment ;
-var t_date_change ;
 var body ;
 
 function lib_init()
@@ -164,7 +163,6 @@ function lib_init()
   t_column_fixed       = document.getElementById('t_column_fixed'       );
   t_column_histogram   = document.getElementById('t_column_histogram'   );
   t_column_average     = document.getElementById('t_column_average'     );
-  t_date_change        = document.getElementById('t_date_change'        );
   t_menutop            = document.getElementById('menutop'              );
   t_table_comment      = document.getElementById('t_table_comment'      );
   server_feedback      = document.getElementById('server_feedback'      );
@@ -230,7 +228,7 @@ function lib_init()
   _today.setHours(0,0,0,0) ;
 
   if ( table_date )
-    Xdate_change(table_date) ;
+    Xtable_attr('dates', table_date) ;
 
   if ( isNaN(first_day) )
     first_day = 0 ;
@@ -571,45 +569,6 @@ function table_comment_change(o)
     o.className = 'empty' ;
   append_image(o, 'table_comment/' + encode_uri(o.value)) ;
   Xtable_comment(o.value) ;
-}
-
-function date_change(o)
-{
-  if ( o.theoldvalue == o.value )
-    return ;
-  
-  if ( ! i_am_the_teacher )
-    {
-      alert("Seul le responsable de l'UE peut modifier ces dates") ;
-      return ;
-    }
-
-  var v = o.value.replace(/[ ,][ ,]*/g, ' ') ;
-  var vs = v.split(' ') ;
-  if ( vs.length != 2 )
-    {
-      alert('Saisir les 2 dates séparées par un espace') ;
-      return ;
-    }
-  var d1 = parse_date(vs[0]).getTime() ;
-  var d2 = parse_date(vs[1]).getTime() ;
-  if ( isNaN(d1) || isNaN(d2) )
-    {
-      alert('Une des dates est mal écrite') ;
-      return ;
-    }
-  if ( d1 > d2 )
-    {
-      alert('La date de début doit être AVANT la date de fin') ;
-      return ;
-    }
-  v = date_to_store(vs[0]).replace(/..$/,'') + ' '
-    + date_to_store(vs[1]).replace(/..$/,'') ;
-  
-  o.theoldvalue = o.value = v ;
-
-  append_image(o, 'date_change/' + encode_uri(v)) ;
-  Xdate_change(o.value) ;
 }
 
 function filter_keyup(event)
@@ -3160,21 +3119,6 @@ function Xtable_comment(value)
   t_table_comment.disabled = ! allow_modification ;
 }
 
-function Xdate_change(value)
-{
-  table_date = value ;
-  if ( t_date_change === undefined )
-    return ;
-  update_input(t_date_change, value) ;
-
-  if ( t_date_change )
-    t_date_change.disabled = ! allow_modification ;
-
-  var dates = value.split(' ') ;
-  first_day = parse_date(dates[0]).getTime() ;
-  last_day = parse_date(dates[1]).getTime() + 1000*86400 ;
-}
-
 function Xcolumn_delete(page, col)
 {
   var data_col = data_col_from_col_id(col) ;
@@ -5301,8 +5245,6 @@ function runlog(the_columns, the_lines)
 
   update_input(t_table_comment, table_comment) ;
   t_table_comment.disabled = ! allow_modification ;
-  update_input(t_date_change, table_date) ;
-  t_date_change.disabled = ! allow_modification ;
 
   if ( ue == 'javascript_regtest_ue' )
     {
@@ -5782,7 +5724,6 @@ window.Xcell_change    = Xcell_change ;
 window.Xprivate_toggle = Xprivate_toggle ;
 window.Xcomment_change = Xcomment_change ;
 window.Xtable_comment  = Xtable_comment ;
-window.Xdate_change    = Xdate_change	;
 window.Xcolumn_delete  = Xcolumn_delete ;
 window.Xcolumn_attr    = Xcolumn_attr ;
 window.Xtable_attr     = Xtable_attr ;
