@@ -64,9 +64,6 @@ check_down_connections_interval = 60
 # The students list of the UE are updated
 allow_student_list_update = True
 
-# Allow the use of 'BaseIP' to create the student list
-allow_student_list_baseip = False
-
 # Allow to remove student from tables
 allow_student_removal = True
 
@@ -214,6 +211,11 @@ do_not_display = ('debug', 'auth', 'table', 'ldap', 'plugin', 'check')
 message = '<b>Envoyez tout de suite un mail à <a href="mailto:' + maintainer + '">l\'administrateur</a> quand il y a un problème.</b>'
 
 ticket_directory = os.path.join('TMP', 'TICKETS')
+
+# A dictionnary of local configuration options
+# It is used by TEMPLATES/config_table.py
+# It is filled by LOCAL/....py
+local_options = {}
 
 ###############################################################################
 # The following variables are not expected to be useful without modification

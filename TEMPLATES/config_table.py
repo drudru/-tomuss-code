@@ -48,7 +48,6 @@ variables = {
     "year_semester_next": "Semestre : le suivant. Modifiable si une UE est fermée (étudiants disparus ou UE vide)",
     "master_of_exceptions": "Semestre : ceux que l'on ne veut pas afficher dans la liste des tables dont est responsable",
     "allow_student_list_update": "Semestre : Si 'True' alors la liste des étudiants est mise à jour régulièrement. Il faut mettre à 'False' quand on s'approche de la remise à 0 de la base IP",
-    "allow_student_list_baseip": "Semestre : Si 'True' alors on utilise BaseIP pour obtenir les listes d'étudiants de licence",
     "allow_student_removal": "Semestre : Si 'True' alors on enlève des tables les étudiants non inscrits.",
     'abj_per_semester': "Semestre : Si 'True' les ABJ sont par semestre et non par année",
 
@@ -106,6 +105,8 @@ def check(table):
     utilities.warn('Check')
     p_ro = table.pages[0]
     p_rw = table.pages[1]
+
+    variables.update(configuration.local_options)
 
     table.lock()
     try:
