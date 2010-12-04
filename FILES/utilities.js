@@ -2500,7 +2500,7 @@ function current_update_headers_real()
   for(img in t)
     {
       img = t[img] ;
-      if ( img && img.myComplete )
+      if ( img && img.request && img.request.saved )
 	img.parentNode.removeChild(img) ;
     }
 }
