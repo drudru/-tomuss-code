@@ -104,7 +104,7 @@ column_comment(0,'0_8','Nombre de cellules saisies dans le blocnote du référen
 column_change (0,'0_9','Première_modification','Date','','','',0,4)
 column_change (0,'0_10','Dernière_modification','Date','','','',0,4)
 table_comment (0,'Statistiques par enseignant pour l\\'ensemble des tables')
-default_nr_columns(11)
+table_attr('default_nr_columns', 0, 11)
 """ % (max_cels, max_cols, max_pages, max_comment, max_students, max_blocnote))
 
     for i, t in enumerate(teachers.values()):

@@ -642,7 +642,7 @@ for(var type_i in types)
 	      'Importe les définitions des colonnes.') + ', ' +
 
    hidden_txt('<a href="javascript:export_columns();">Exp.</a>',
-	      'Exporte les définitions des colonnes (pas le contenu de la table)')+ '<br>' +
+	      'Exporte les définitions des colonnes (pas le contenu de la table)')+ '<br><small>' +
    
    table_select('table_attr_private',
 		['Publique', 'Privée'],
@@ -650,10 +650,14 @@ for(var type_i in types)
 
    table_select('table_attr_modifiable',
 		['Non Modifiable', 'Modifiable'],
-		'Indique si le contenu de la table est modifiable.<br>Seul un responsable peut changer ceci.') +
+		'Indique si le contenu de la table est modifiable.<br>Seul un responsable peut changer ceci.') ;
 
+ w += table_input_attr('default_nr_columns','',
+		       "Impose ce nombre de colonnes à tous le monde<br>" +
+		       "'0' indique que ce nombre dépend de la taille écran."
+		       ) ;
 
-   '<br></div>' +
+   w += '</small><br></div>' +
 
    table_input_attr('dates','',
 		    "Dates du premier cours et dernier examen.<br>" +

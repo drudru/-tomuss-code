@@ -42,7 +42,7 @@ def update_column(table):
             continue
         table.column_change(table.pages[0], name, name, typ,'','','',0,width)
         table.column_comment(table.pages[0], name, help)
-    table.default_nr_columns_change(len(table.columns))
+    table.table_attr(table.pages[0], 'default_nr_columns', len(table.columns))
 
 def create(table):
     if table.year != 0 or table.semester != 'Dossiers':

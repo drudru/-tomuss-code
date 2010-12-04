@@ -43,7 +43,7 @@ def create(table):
     table.cell_change(p,'0_0','2_4','0.4','20081113165456')
     table.cell_change(p,'0_1','2_4','Comment retrouver les questions que j\'ai posés ?','20081113165515')
     table.cell_change(p,'0_2','2_4','Vous tapez dans le filtre de ligne un caractère arobase : @','20081113165550')
-    table.default_nr_columns_change(3)
+    table.table_attr(p, 'default_nr_columns', 3)
 
 def init(table):
     table.default_sort_column = 0

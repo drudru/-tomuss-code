@@ -63,10 +63,6 @@ def comment_change(page_id, col, lin, value):
     """Change the comment on a cell."""
     _table.comment_change(_table.pages[page_id], col, lin, value)
 
-def default_nr_columns(nr):
-    """Specify the default number of columns displayed on screen."""
-    _table.default_nr_columns_change(nr)
-
 def table_attr(attr, page_id, value):
     attr = column.TableAttr.attrs[attr]
     page = _table.pages[page_id]
@@ -123,6 +119,11 @@ def private_toggle(page_id):
 def table_comment(page_id, comment):
     """Change the table comment."""
     _table.table_comment(_table.pages[page_id], comment)
+
+def default_nr_columns(nr):
+    """Specify the default number of columns displayed on screen."""
+    _table.default_nr_columns_change(nr)
+
 
 
 

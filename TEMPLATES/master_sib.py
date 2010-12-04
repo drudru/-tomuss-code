@@ -41,4 +41,4 @@ def create(table):
     column_change(p,'0_9','Ville (de l\'école)','Text','','','',0,4)
     column_change(p,'0_14','On prend','Bool','','','',0,1)
     column_change(p,'0_15','Accepte','Bool','','','',0,1)
-    table.default_nr_columns_change(11)
+    table.table_attr(p, 'default_nr_columns', 11)

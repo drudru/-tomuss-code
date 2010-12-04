@@ -135,7 +135,7 @@ def table_head_more(ue):
 
 def table_head(year=None, semester=None, ticket=None,
                user_name='', page_id=-1, ue='',
-               default_nr_columns=0, default_sort_column=0,
+               default_sort_column=0,
                allow_modification=False, create_pref=True,
                private=False):
     s = configuration.suivi.url(year, semester, ticket)
@@ -167,7 +167,6 @@ def table_head(year=None, semester=None, ticket=None,
             'version = "%s" ;\n' % configuration.version +
             'root = %s ;\n' % js(list(configuration.root)) +
             'cas_url = %s ;\n' % repr(configuration.cas) +
-            'default_nr_columns = %d;\n' % default_nr_columns +
             'default_sort_column = %s;\n' % default_sort_column +
             'allow_modification = %s;\n' % str(allow_modification).lower()+
             'preferences = %s ;\n' % prefs_table +
@@ -222,7 +221,6 @@ class Table(object):
         self.portails = {}
         self.ro = ro
         self.mtime = 0
-        self.default_nr_columns = 0
         self.default_sort_column = 0
         self.allow_modification = not ro
         self.the_key_dict = None
@@ -578,12 +576,8 @@ class Table(object):
         return 'ok.png'
 
     def default_nr_columns_change(self, n):
-        if self.default_nr_columns == n:
-            return
+        """Deprecated"""
         self.default_nr_columns = n
-        if not self.loading:
-            self.log('default_nr_columns(%d)' % n)
-
 
     def add_master(self, name, page_id=0):
         """Deprecated"""
@@ -599,8 +593,8 @@ class Table(object):
     def private_toggle(self, page):
         self.private = 1 - self.private
         if self.loading: # compatibility with old TEMPLATES
-            self.log('table_attr(%s, "private", %d)' % (page.page_id,
-                                                        self.private))
+            self.log('table_attr("private",%d,%d)' % (page.page_id,
+                                                      self.private))
         return 'ok.png'
 
     def error(self, page, message):
@@ -689,6 +683,7 @@ la dernière saisie.
         return True, '%d lines' % len(self.lines)
 
     def table_comment(self, page, comment):
+        """Deprecated"""
         return self.table_attr(page, 'comment', comment)
 
     def add_empty_column(self, page, the_id):
@@ -790,12 +785,13 @@ la dernière saisie.
     def content_head(self, page):
         return table_head(
             self.year, self.semester, page.ticket, page.user_name,
-            page.page_id, self.ue, self.default_nr_columns,
+            page.page_id, self.ue,
             self.default_sort_column, self.allow_modification,
             private=self.private
             )
 
     def date_change(self, page, date):
+        """Deprecated"""
         return TableAttr.attrs['dates'].set(self, page, date)
 
     def logins(self):
@@ -940,8 +936,8 @@ la dernière saisie.
                 continue
             attr_value = attr.decode(getattr(self, attr.name))
             if attr_value != attr.default_value:
-                s.append('table_attr(%d,%s,%s)' % (
-                    a, repr(attr.name),
+                s.append('table_attr(%s,%d,%s)' % (
+                    repr(attr.name), a,
                     repr(attr_value)))
                          
         for line_key, line in self.lines.items():

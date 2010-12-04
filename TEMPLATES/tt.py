@@ -24,8 +24,8 @@ import configuration
 
 def create(table):
     
-    table.default_nr_columns_change(11)
     p = table.new_page('' ,data.ro_user, '', '')
+    table.table_attr(p, 'default_nr_columns', 11)
 
     if configuration.regtest:
         masters = [configuration.invited_abj_masters[-1]]

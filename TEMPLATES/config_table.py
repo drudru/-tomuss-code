@@ -33,7 +33,7 @@ def create(table):
     table.column_change(p,'0_0','Variable'           ,'Text','','','F',0,2 )
     table.column_change(p,'0_1','Explications'       ,'Text','','','F',0,10)
     table.column_change(p,'0_2','Valeur courante'    ,'Text','','','F',0,10 )
-    table.default_nr_columns_change(3)
+    table.table_attr(p, 'default_nr_columns', 3)
     table.new_page('' ,configuration.root[0], '', '')
 
 def init(table):

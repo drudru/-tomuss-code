@@ -1770,7 +1770,7 @@ function table_fill_try()
 
   if ( current_window_width != window_width() )
     {
-      if ( default_nr_columns == 0 )
+      if ( table_attr.default_nr_columns == 0 )
 	{
 	  compute_nr_cols() ;
 	}
@@ -3907,7 +3907,6 @@ function virtual_table_common_begin()
     'default_sort_column = 0 ;\n' +
     'columns = [] ;\n' +
     'allow_modification= false;\n' +
-    'default_nr_columns = 5 ;\n' +
     'lines = [] ;\n' +
     'lines_id = [] ;\n' +
     'the_title = "";\n' +
@@ -4148,7 +4147,7 @@ function statistics_per_group()
   // The delayed function call is only here for IE
   // It is absolutely useles.
   s += 'lines_id=[];for(var i in lines) { lines_id["x"+i] = lines[i] ; };\n' +
-    'default_nr_columns = ' + (Number(c)+3)  + ' ;\n' +
+    'table_attr.default_nr_columns = ' + (Number(c)+3)  + ' ;\n' +
     '// set_columns_filter("~Moyenne") ;\n' +
     'table_attr.comment = "Gras : gris<75% des notes, noir<50% des notes" ;\n' +
     'runlog(columns, lines) ;\n' +
@@ -5076,8 +5075,8 @@ function runlog(the_columns, the_lines)
   if ( preferences.nr_cols > 0 && preferences.nr_cols < 100 )
     nr_cols = preferences.nr_cols ;
 
-  if ( default_nr_columns )
-    nr_cols = default_nr_columns ;
+  if ( table_attr.default_nr_columns )
+    nr_cols = table_attr.default_nr_columns ;
   if ( test_bool(preferences.v_scrollbar) == no )
     vertical_scrollbar = undefined ;
 

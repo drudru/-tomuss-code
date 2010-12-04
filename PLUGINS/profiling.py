@@ -199,7 +199,7 @@ column_comment(0,'0_9','Pourcentage de requête prenant plus de 4 fois le temps 
 column_change (0,'0_a','Quand','Text','[0;5]','','',0,1)
 column_comment(0,'0_a','Statistiques calculées sur la durée indiquée')
 table_comment(0, 'Profiling des services')
-default_nr_columns(11)
+table_attr('default_nr_columns', 0, 11)
 """)
 
     index = run(os.path.join('TOMUSS',

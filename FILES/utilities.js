@@ -2455,11 +2455,11 @@ function current_update_table_headers()
 	continue ;
       if ( e.selectedIndex !== undefined )
 	e.selectedIndex = Number(table_attr[attr]) ;
-	else
-	  update_input(e,
-		       table_attributes[attr].formatter(table_attr[attr]),
-		       table_attributes[attr].empty(table_attr[attr])
-		       ) ;
+      else
+	update_input(e,
+		     table_attributes[attr].formatter(table_attr[attr]),
+		     table_attributes[attr].empty(table_attr[attr])
+		     ) ;
 
       set_editable(e, !table_attributes[attr].need_authorization
 		   || !disabled) ;

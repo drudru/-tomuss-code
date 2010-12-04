@@ -87,7 +87,7 @@ column_comment(0,'0_c','S\\'il y a un nombre de lignes != 0, alors la table est 
 column_change (0,'0_d','Grp/Seq','Text','[0;20]','','',0,2)
 column_comment(0,'0_d','Nombre de groupes d\\'étudiants')
 table_comment(0, 'Statistiques par UE')
-default_nr_columns(14)
+table_attr('default_nr_columns', 0, 14)
 """ % (max_cels, max_teachers, max_lines, max_cols,  max_pages, max_comment))
 
     for i, t in enumerate(tables.values()):

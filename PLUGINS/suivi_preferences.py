@@ -38,7 +38,7 @@ column_comment(0,'0_0','Identifiant (login) de l\\'enseignant')
 column_change (0,'0_1','Attribut','Text','','','F',0,2)
 column_change (0,'0_2','Valeur','Text','','','F',0,2)
 table_comment (0,'Toutes les préférences')
-default_nr_columns(3)
+table_attr('default_nr_columns', 0, 3)
 """)
 
     i = 0

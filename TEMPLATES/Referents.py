@@ -89,7 +89,7 @@ def check_columns(table):
                     table.column_position(page, col_id, pos)
 
         if table.default_nr_columns != 9:
-            table.default_nr_columns_change(9)
+            table.table_attr(page, 'default_nr_columns', 9)
 
 
 def content(table):
@@ -106,7 +106,7 @@ def create(table):
     p = table.new_page('' ,data.ro_user, '', '')
     table.table_attr(p, 'masters', [utilities.module_to_login(table.ue)])
     check_columns(table)
-    table.default_nr_columns_change(9)
+    table.table_attr(p, 'default_nr_columns', 9)
 
 def update_inscrits_referents(the_ids, table, page):
     import referent

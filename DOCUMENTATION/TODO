@@ -1,5 +1,6 @@
 Finir par priorité :
-	Attributs de tableaux comme les attributs de colonnes : default_nr
+	Image de fond quand champs vide : responsable et dates.
+	Attributs de tableaux comme les attributs de colonne : sort column
 
 	COW (stable) valeur vide ==> comme si rien
 	Ajouter entete URL pour le type URL

@@ -165,8 +165,6 @@ def check(filename,
 #        masters.append(master)
     def new_page(page_ticket, page_author, page_ip, page_browser,date=None):
         pages.append((page_ticket, page_author, page_ip, page_browser,date))
-    def default_nr_columns(nr):
-        nr_columns_default.append(nr)
     def cell_change(page_id, col_id, line_id, value, date):
         cells.append((page_id, col_id, line_id, value))
     def comment_change(page_id, col_id, line_id, comment):
@@ -182,6 +180,8 @@ def check(filename,
                 masters.append(value.pop(0))
         elif attr == 'comment':
             columns.append((page_id, value))
+        elif attr == 'default_nr_columns':
+            nr_columns_default.append(value)
 
     c = utilities.read_file('../DBregtest/' + filename)
     if utilities.read_file('../BACKUP_DBregtest/' + filename) != c:

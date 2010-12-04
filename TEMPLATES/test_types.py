@@ -30,7 +30,7 @@ def update_column(table):
             table.column_attr(table.pages[1], t.name, 'title', t.name)
             table.column_attr(table.pages[1], t.name, 'type', t.name)
             table.column_attr(table.pages[1], t.name, 'columns', '')
-    table.default_nr_columns_change(len(plugins.types))
+    table.table_attr(p, 'default_nr_columns', len(plugins.types))
     for i, v in enumerate(('1','a','31/1/1998','é',
                            '&~!@#$%^&*()_+|-=][{}":;,.<>')):
         i = str(i)

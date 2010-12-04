@@ -31,7 +31,7 @@ def create(table):
     table.cell_change(p,'1_0','1_0','0','20081113222630')
     table.cell_change(p,'1_1','1_0','Je veux pouvoir choisir les couleurs des pages !','20081113222836')
     table.cell_change(p,'1_2','1_0','OK mais quand ce qui est vraiment important aura \xc3\xa9t\xc3\xa9 fait.','20081113222805')
-    table.default_nr_columns_change(3)
+    table.table_attr(p, 'default_nr_columns', 3)
 
 def init(table):
     table.default_sort_column = 0

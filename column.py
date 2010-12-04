@@ -27,6 +27,7 @@ import re
 import time
 import plugins
 import hashlib
+import data
 
 ###############################################################################
 
@@ -40,7 +41,7 @@ class ColumnAttr(object):
     need_authorization = 1
     update_content = False
     formatter = 'function(column, value) { return value ; }'
-    empty = 'function(column, value) { return value == "" ; }'
+    empty = 'function(column, value) { return value === "" ; }'
     default_value = '' # XXX Do not put a mutable here or in sub classes
     computed = 0
     
@@ -263,7 +264,7 @@ ColumnMinMax()
 class TableAttr(ColumnAttr):
     attrs = {}
     formatter = 'function(value) { return value ; }'
-    empty = 'function(value) { return value == "" ; }'
+    empty = 'function(value) { return value === "" ; }'
     def __init__(self):
         TableAttr.attrs[self.name] = self
 
@@ -272,6 +273,7 @@ class TableAttr(ColumnAttr):
         pass
         
     def set(self, table, page, value):
+        print '============', page, self.name, repr(value)
         if table.loading:
             setattr(table, self.name, self.encode(value))
             page.request += 1
@@ -281,7 +283,9 @@ class TableAttr(ColumnAttr):
             return table.bad_ro(page)
 
         teachers = table.teachers + table.masters
-        if ( (page.user_name not in teachers) and len(teachers) != 0):
+        if ( (page.user_name not in teachers)
+             and len(teachers) != 0
+             and page.user_name != data.ro_user):
             return table.bad_auth(page)
 
         error = self.check(value)
@@ -445,12 +449,18 @@ return value ;
                 document.master_of_update('-', login,
                                           table.year, table.semester, table.ue)
 
+class TableDefaultNrColumns(TableAttr):
+    default_value = 0
+    name = 'default_nr_columns'
+    def encode(self, value):
+        return int(value)
+
 TableModifiable()
 TableMasters()
 TableDates()
 TablePrivate()
 TableComment()
-
+TableDefaultNrColumns()
 
 import files
 files.files['types.js'].append('var column_attributes = {\n' +
