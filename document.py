@@ -137,7 +137,7 @@ def table_head(year=None, semester=None, ticket=None,
                user_name='', page_id=-1, ue='', comment='',
                default_nr_columns=0, default_sort_column=0,
                allow_modification=False, create_pref=True,
-               table_date='',private=False):
+               private=False):
     s = configuration.suivi.url(year, semester, ticket)
     prefs_table = get_preferences(user_name, create_pref)
 
@@ -164,7 +164,6 @@ def table_head(year=None, semester=None, ticket=None,
             'ticket = "%s" ;\n' % ticket +
             'ue = "%s" ;' % ue +
             'table_comment = %s ;\n' % js(comment) +
-            'table_date = %s ;\n' % js(table_date) +
             'suivi = %s ;\n' % js(s) +
             'version = "%s" ;\n' % configuration.version +
             'root = %s ;\n' % js(list(configuration.root)) +
@@ -807,7 +806,7 @@ la dernière saisie.
             self.year, self.semester, page.ticket, page.user_name,
             page.page_id, self.ue, self.comment, self.default_nr_columns,
             self.default_sort_column, self.allow_modification,
-            table_date=self.dates, private=self.private
+            private=self.private
             )
 
     def date_change(self, page, date):

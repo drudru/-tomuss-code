@@ -93,7 +93,8 @@ function head_html()
 
 
   w += '<body id="body" class="tomuss" onunload="the_current_cell.change();" onkeydown="the_current_cell.keydown(event, false)" onkeypress="the_current_cell.keypress(event)">' +
-   '<noscript>Activez JavaScript et réactualisez la page</noscript>'+
+    // This message is visible in FireFox (bug ?)
+    //   '<noscript>Activez JavaScript et réactualisez la page</noscript>'+
    '<div class="identity">' +
    '<p>' +
    '<a href="' + url + '/=' + ticket + '/logout">Déconnexion</a> <b>' +

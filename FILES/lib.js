@@ -88,7 +88,6 @@ var scrollbar_right ;
 var ask_login_list ;
 var first_day ;
 var last_day ;
-var table_date ;
 var current_window_width ;
 var current_window_height ;
 
@@ -226,9 +225,6 @@ function lib_init()
 
   _today = new Date() ;
   _today.setHours(0,0,0,0) ;
-
-  if ( table_date )
-    Xtable_attr('dates', table_date) ;
 
   if ( isNaN(first_day) )
     first_day = 0 ;
@@ -3921,6 +3917,11 @@ function virtual_table_common_begin()
     p += i + ':"' + preferences[i] + '",' ;
   p = p.substr(0,p.length-1) + '};' ;
 
+  var a = '{' ;
+  for(var i in table_attr)
+    a += i + ':"' + table_attributes[i].formatter(table_attr[i]) + '",' ;
+  a = a.substr(0,p.length-1) + '};' ;
+
   return html_begin_head(true) +
     head_html() +
     '<script>\n' +
@@ -3938,13 +3939,12 @@ function virtual_table_common_begin()
     'columns = [] ;\n' +
     'allow_modification= false;\n' +
     'table_comment = "" ;\n' +
-    'table_date = "' + table_date + '" ;\n' +
     'default_nr_columns = 5 ;\n' +
     'lines = [] ;\n' +
     'lines_id = [] ;\n' +
     'the_title = "";\n' +
     'adeweb = {};\n' + // XXX should not be here (LOCAL/spiral.py)
-    'table_attr = {} ;\n' +
+    'table_attr = ' + a + ';\n' +
     '</script>\n' +
     new_interface() ;
 }
