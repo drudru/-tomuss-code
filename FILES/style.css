@@ -524,7 +524,7 @@ INPUT#comment { width: 100% ; clear: both; }
 #menutop #t_table_attr_masters { font-size: 60% ; }
 #menutop #t_table_attr_default_nr_columns { width: 3em ; }
 
-#menutop #teachers2.empty {
+#menutop #t_table_attr_masters.empty {
   background-image: url('teacher.png');
   background-repeat: no-repeat ;
 }
@@ -542,7 +542,7 @@ INPUT#comment { width: 100% ; clear: both; }
 }
 
 
-#comment.empty, #t_column_comment.empty, #t_table_comment.empty {
+#comment.empty, #t_column_comment.empty, #t_table_attr_comment.empty {
   background-image: url("comment.png");
   background-repeat: no-repeat;
 }

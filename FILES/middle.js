@@ -665,7 +665,7 @@ for(var type_i in types)
 
    w += '</small><br></div>' +
 
-   table_input_attr('dates','',
+   table_input_attr('dates','empty',
 		    "Dates du premier cours et dernier examen.<br>" +
 		    "Par exemple : 20/1/2010 12/5/2010<br>" +
 		    "Les ABJ en dehors de cet intervalle ne seront pas affichées.") +
@@ -699,8 +699,8 @@ for(var type_i in types)
 	      "Tapez le début de ce que vous cherchez.<br>" +
 	      "Pour plus d'information, regardez l'aide sur les filtres.") +
    '<td class="space"><td class="blockbottom">' +
-   table_input_attr('masters','',"Liste des LOGINS d'enseignants ayant tous les droits sur la table<br>Tapez sur la touche «Entrée» pour valider.") +
-   table_input_attr("comment",'',
+   table_input_attr('masters','empty',"Liste des LOGINS d'enseignants ayant tous les droits sur la table<br>Tapez sur la touche «Entrée» pour valider.") +
+   table_input_attr("comment",'empty',
 		    "Tapez un commentaire pour cette table.<br>" +
 		    "Ce commentaire sera visible par les étudiants<br>" +
 		    "dans leur suivi, précédé du texte : " +

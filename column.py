@@ -273,7 +273,6 @@ class TableAttr(ColumnAttr):
         pass
         
     def set(self, table, page, value):
-        print '============', page, self.name, repr(value)
         if table.loading:
             setattr(table, self.name, self.encode(value))
             page.request += 1
