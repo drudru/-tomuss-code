@@ -39,7 +39,6 @@ class StringFile(object):
 <script>
 var    Xcell_change  = window.parent.Xcell_change    ;
 var Xcomment_change  = window.parent.Xcomment_change ;
-var   Xtable_comment = window.parent.Xtable_comment  ;
 var  Xcolumn_delete  = window.parent.Xcolumn_delete  ;
 var  Xcolumn_attr    = window.parent.Xcolumn_attr    ;
 var  Xtable_attr     = window.parent.Xtable_attr     ;

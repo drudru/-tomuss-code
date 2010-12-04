@@ -134,7 +134,7 @@ def table_head_more(ue):
     return ''
 
 def table_head(year=None, semester=None, ticket=None,
-               user_name='', page_id=-1, ue='', comment='',
+               user_name='', page_id=-1, ue='',
                default_nr_columns=0, default_sort_column=0,
                allow_modification=False, create_pref=True,
                private=False):
@@ -163,7 +163,6 @@ def table_head(year=None, semester=None, ticket=None,
             'semester = "%s" ;\n' % semester +
             'ticket = "%s" ;\n' % ticket +
             'ue = "%s" ;' % ue +
-            'table_comment = %s ;\n' % js(comment) +
             'suivi = %s ;\n' % js(s) +
             'version = "%s" ;\n' % configuration.version +
             'root = %s ;\n' % js(list(configuration.root)) +
@@ -226,7 +225,6 @@ class Table(object):
         self.default_nr_columns = 0
         self.default_sort_column = 0
         self.allow_modification = not ro
-        self.comment = ''
         self.the_key_dict = None
         self.unloaded = False
         self.do_not_unload = 0
@@ -691,18 +689,7 @@ la dernière saisie.
         return True, '%d lines' % len(self.lines)
 
     def table_comment(self, page, comment):
-
-        self.comment = comment
-        
-        if not self.loading:
-            self.log('table_comment(%s,%s)' % (
-                repr(page.page_id), repr(comment)))
-            t = '<script>Xtable_comment(%s);</script>\n' % js(comment)
-            self.send_update(page, t)
-        else:
-            page.request += 1
-
-        return 'ok.png'
+        return self.table_attr(page, 'comment', comment)
 
     def add_empty_column(self, page, the_id):
         if self.columns.columns:
@@ -803,7 +790,7 @@ la dernière saisie.
     def content_head(self, page):
         return table_head(
             self.year, self.semester, page.ticket, page.user_name,
-            page.page_id, self.ue, self.comment, self.default_nr_columns,
+            page.page_id, self.ue, self.default_nr_columns,
             self.default_sort_column, self.allow_modification,
             private=self.private
             )
@@ -1307,8 +1294,6 @@ def check_requests():
                     elif action == 'comment_change':
                         col, lin, value = path
                         page.answer = tabl.comment_change(page, col, lin, value)
-                    elif action == 'table_comment':
-                        page.answer = tabl.table_comment(page, path[0])
                     elif action == 'column_delete':
                         col = path[0]
                         page.answer = tabl.column_delete(page, col)

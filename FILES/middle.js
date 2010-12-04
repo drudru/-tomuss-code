@@ -690,13 +690,12 @@ for(var type_i in types)
 	      "Pour plus d'information, regardez l'aide sur les filtres.") +
    '<td class="space"><td class="blockbottom">' +
    table_input_attr('masters','',"Liste des LOGINS d'enseignants ayant tous les droits sur la table<br>Tapez sur la touche «Entrée» pour valider.") +
-   hidden_txt(header_input("t_table_comment",'',
-			   'empty onblur=table_comment_change(this)'),
-	      "Tapez un commentaire pour cette table.<br>" +
-	      "Ce commentaire sera visible par les étudiants<br>" +
-	      "dans leur suivi, précédé du texte : " +
-	      "«<em>Petit message</em>»"
-	      ) + '<br>' +
+   table_input_attr("comment",'',
+		    "Tapez un commentaire pour cette table.<br>" +
+		    "Ce commentaire sera visible par les étudiants<br>" +
+		    "dans leur suivi, précédé du texte : " +
+		    "«<em>Petit message</em>»"
+		    ) + '<br>' +
    hidden_txt(header_input('fullfilter', '',
 			   'empty onkey=full_filter_change(this)'),
 	      "Seule les <b>colonnes et lignes</b> contenant une valeur filtrée<br>seront affichées (c'est un filtre).<br>" +

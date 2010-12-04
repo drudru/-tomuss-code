@@ -308,6 +308,9 @@ class TableAttr(ColumnAttr):
             
         return 'ok.png'
 
+class TableComment(TableAttr):
+    name = 'comment'
+
 class TableModifiable(TableAttr):
     name = 'modifiable'
     default_value = 1
@@ -446,6 +449,7 @@ TableModifiable()
 TableMasters()
 TableDates()
 TablePrivate()
+TableComment()
 
 
 import files

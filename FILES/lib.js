@@ -124,7 +124,6 @@ var t_column_fixed ;
 var t_column_histogram ;
 var t_column_average ;
 var t_menutop ;
-var t_table_comment ;
 var body ;
 
 function lib_init()
@@ -163,7 +162,6 @@ function lib_init()
   t_column_histogram   = document.getElementById('t_column_histogram'   );
   t_column_average     = document.getElementById('t_column_average'     );
   t_menutop            = document.getElementById('menutop'              );
-  t_table_comment      = document.getElementById('t_table_comment'      );
   server_feedback      = document.getElementById('server_feedback'      );
 
   /*
@@ -549,23 +547,6 @@ function get_all_options()
 /******************************************************************************
 Function are launched on header events
 ******************************************************************************/
-
-
-function table_comment_change(o)
-{
-  if ( o.theoldvalue == o.value )
-    return ;
-  if ( ! i_am_the_teacher )
-    {
-      alert("Seul le responsable de l'UE peut modifier ce commentaire") ;
-      return ;
-    }
-  o.theoldvalue = o.value ;
-  if ( o.value === '' )
-    o.className = 'empty' ;
-  append_image(o, 'table_comment/' + encode_uri(o.value)) ;
-  Xtable_comment(o.value) ;
-}
 
 function filter_keyup(event)
 {
@@ -1781,7 +1762,6 @@ function line_fill(line, write, cls, empty_column)
 }
 
 function tf(t) { message.innerHTML += t ; }
-function tf(t) { t_table_comment.value = t ; }
 function tf(t) { }
 
 function table_fill_try()
@@ -3054,17 +3034,6 @@ function Xcomment_change(identity, col, lin, value)
     }
 }
 
-function Xtable_comment(value)
-{
-  table_comment = value ;
-  if ( t_table_comment === undefined )
-    return ;
-  update_input(t_table_comment, value) ;
-  if ( value === '' )
-    t_table_comment.className = 'empty' ;
-  t_table_comment.disabled = ! allow_modification ;
-}
-
 function Xcolumn_delete(page, col)
 {
   var data_col = data_col_from_col_id(col) ;
@@ -3520,8 +3489,8 @@ function print_page(w)
     '<p><b>N\'utilisez pas cette méthode pour importer ' +
     'des notes dans APOGÉE</b> utilisez l\'export de colonne ' +
     '(Exp.) dans le cadre «Colonne»</p></div>' ;
-  if ( table_comment )
-    s += '<p>Petit message : <b>' + html(table_comment) + '</b></p>' ;
+  if ( table_attr.comment )
+    s += '<p>Petit message : <b>' + html(table_attr.comment) + '</b></p>' ;
   s += '<TABLE class="printer colored">' ;
   s += '<THEAD><TR>\n' ;
   for(var col in cols)
@@ -3938,7 +3907,6 @@ function virtual_table_common_begin()
     'default_sort_column = 0 ;\n' +
     'columns = [] ;\n' +
     'allow_modification= false;\n' +
-    'table_comment = "" ;\n' +
     'default_nr_columns = 5 ;\n' +
     'lines = [] ;\n' +
     'lines_id = [] ;\n' +
@@ -4182,7 +4150,7 @@ function statistics_per_group()
   s += 'lines_id=[];for(var i in lines) { lines_id["x"+i] = lines[i] ; };\n' +
     'default_nr_columns = ' + (Number(c)+3)  + ' ;\n' +
     '// set_columns_filter("~Moyenne") ;\n' +
-    'table_comment = "Gras : gris<75% des notes, noir<50% des notes" ;\n' +
+    'table_attr.comment = "Gras : gris<75% des notes, noir<50% des notes" ;\n' +
     'runlog(columns, lines) ;\n' +
     'change_title("Statistiques par groupe") ;\n' +
     '}\n' +
@@ -5191,9 +5159,6 @@ function runlog(the_columns, the_lines)
   table_init() ;
   table_fill(false, true, true) ;
 
-  update_input(t_table_comment, table_comment) ;
-  t_table_comment.disabled = ! allow_modification ;
-
   if ( ue == 'javascript_regtest_ue' )
     {
       javascript_regtest_ue() ;
@@ -5670,7 +5635,6 @@ function javascript_regtest_ue()
 // XXX COPY/PASTE in the end of new_page.py
 window.Xcell_change    = Xcell_change ;
 window.Xcomment_change = Xcomment_change ;
-window.Xtable_comment  = Xtable_comment ;
 window.Xcolumn_delete  = Xcolumn_delete ;
 window.Xcolumn_attr    = Xcolumn_attr ;
 window.Xtable_attr     = Xtable_attr ;

@@ -302,10 +302,9 @@ function Linear()
      (this,
       function() {return "Commentaire sur la table, il est diffusé aux étudiants.";},
       'Commentaire',
-      function() { return table_comment ; },
+      function() { return table_attr.comment ; },
       function(value) {
-	table_comment = value ;
-	append_image(undefined, 'table_comment/' + encode_uri(value)) ;
+	table_attr_set('comment', value) ;
       },
       function() {
 	if ( allow_modification && (i_am_the_teacher || teachers.length == 0) )
@@ -320,7 +319,7 @@ function Linear()
       'Responsables',
       function() { return teachers.toString().replace(/,/g,' ') ; },
       function(value) {
-	append_image(undefined, 'table_attr_masters/' + encode_uri(value)) ;
+	table_attr_set('masters', teachers) ;
       },
       function() {
 	if ( allow_modification && (i_am_the_teacher || teachers.length == 0) )

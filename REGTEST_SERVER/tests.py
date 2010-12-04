@@ -141,7 +141,7 @@ def create_u2():
 
     # Add table comment
     c = s.url('=' + root + '/%s/UE-INF20UE2' % ys +
-              '/1/5/table_comment/_TABLE_COMMENT_')
+              '/1/5/table_attr_comment/_TABLE_COMMENT_')
     assert(c == ok_png)
 
     # Add a master
@@ -695,7 +695,7 @@ def tests():
               dump=False)
 
         c = s.url('=' + abj + '/9999/Test/comments' +
-                  '/2/1/table_comment/_COMMENT3_')
+                  '/2/1/table_attr_comment/_COMMENT3_')
         assert(c == ok_png)
         column_required = (2, '_COMMENT3_')
         check('Y9999/STest/comments.py',
@@ -706,7 +706,7 @@ def tests():
               dump=False)
         
         c = s.url('=' + root + '/9999/Test/comments' +
-                  '/1/2/table_comment/_COMMENT4_')
+                  '/1/2/table_attr_comment/_COMMENT4_')
         assert(c == ok_png)
         column_required = (1, '_COMMENT4_')
         check('Y9999/STest/comments.py',
@@ -717,7 +717,7 @@ def tests():
               dump=False)
 
         c = s.url('=' + root + '/9999/Test/comments')
-        assert('table_comment = "_COMMENT4_" ;' in c)
+        assert('comment:"_COMMENT4_",' in c)
         assert('Col({the_id:"col_0",comment:"_COMMENT_",title:"TITLE0",author:"%s",position:6,type:"Note"})' % root in c)
 
     if do('ue2'):

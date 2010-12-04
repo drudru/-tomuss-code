@@ -180,10 +180,8 @@ def check(filename,
                 masters.pop()
             while value:
                 masters.append(value.pop(0))
-    def table_comment(page_id, comment):
-        columns.append((page_id, comment))
-    def date_change(page_id, date):
-        pass
+        elif attr == 'comment':
+            columns.append((page_id, value))
 
     c = utilities.read_file('../DBregtest/' + filename)
     if utilities.read_file('../BACKUP_DBregtest/' + filename) != c:

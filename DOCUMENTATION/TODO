@@ -1,5 +1,5 @@
 Finir par priorité :
-	Attributs de tableaux comme les attributs de colonnes.
+	Attributs de tableaux comme les attributs de colonnes : default_nr
 
 	COW (stable) valeur vide ==> comme si rien
 	Ajouter entete URL pour le type URL
@@ -29,6 +29,7 @@ Finir par priorité :
 	Faire des plugins pour chaque fonctionnalité coté client.
 		Activable par utilisateur.
 	Renommer Inscrit en _Inscrit_, garder la compatibilité pour les vieux.
+	Faire le ménage des fonctions deprecated dans les TEMPLATES
 
     BUGS :
 	Chrome : statistics per group
