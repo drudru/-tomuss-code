@@ -2648,7 +2648,7 @@ function update_input(element, value, empty)
     }
   else
     {
-      if ( element.value !== value )
+      if ( element.value != value )
 	{
 	  element.value = value ;
 	  highlight_add(element) ;
@@ -5198,6 +5198,8 @@ function runlog(the_columns, the_lines)
 		 server_answer.src = url + "/=" + ticket + '/' + year
 		   + '/' + semester + '/' + ue + '/' + page_id ;
 	       }, 10) ;
+
+  the_current_cell.update_table_headers() ;
 }
 
 

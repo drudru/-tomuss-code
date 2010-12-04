@@ -2350,6 +2350,10 @@ else
 // Update ALL the columns headers saw by the user.
 function current_update_column_headers()
 {
+  if ( this.do_update_column_headers == false )
+    return ;
+  this.do_update_column_headers = false ;
+
   var column = this.column ;
   var disabled = ! allow_modification || ! column_change_allowed(column) ;
   var e, help ;
@@ -2446,7 +2450,7 @@ function current_update_cell_headers()
 
 function current_update_table_headers()
 {
-  var disabled = ! allow_modification || ! i_am_the_teacher ;
+  var disabled = ! table_change_allowed() ;
 
   for(var attr in table_attributes)
     {
@@ -2480,7 +2484,6 @@ function current_update_headers_real()
   update_student_information(this.line) ;
   this.update_cell_headers() ;
   this.update_column_headers() ;
-  this.update_table_headers() ;
 
   var s_abjs = student_abjs(this.line[0].value) ;
   if ( s_abjs !== "")
@@ -2551,6 +2554,8 @@ function current_jump(lin, col, do_not_focus, data_lin, data_col)
   this.col = col ;
   this.tr = table.childNodes[lin] ;
   this.td = this.tr.childNodes[col] ;
+  if ( data_col != this.data_col )
+    this.do_update_column_headers = true ;
   this.data_col = data_col ;
   this.column = columns[this.data_col] ;
   this.previous_data_lin = this.data_lin ;

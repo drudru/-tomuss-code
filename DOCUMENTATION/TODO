@@ -1,4 +1,6 @@
 Finir par priorité :
+	Déplacement curseur : met a jour attributs table
+	Update_input : passer en string
 	Image de fond quand champs vide : responsable et dates.
 	Attributs de tableaux comme les attributs de colonne : sort column
 

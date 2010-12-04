@@ -233,15 +233,21 @@ function column_attr_set(column, attr, value, td)
   return new_value ;
 }
 
+function table_change_allowed()
+{
+  return allow_modification && (i_am_the_teacher
+				|| myindex(root, my_identity) != -1) ;
+}
+
+
 function table_attr_set(attr, value, td)
 {
   var old_value = table_attr[attr] ;
-  var i_can_modify_table = allow_modification && i_am_the_teacher ;
 
   if ( old_value == value )
     return  ;
 
-  if ( ! i_can_modify_table )
+  if ( ! table_change_allowed() )
     {
       alert("Vous n'êtes pas autorisé à modifier cette valeur.\nSeul l'un des responsables d'UE peut le faire : " + teachers) ;
       return ;
