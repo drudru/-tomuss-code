@@ -2648,6 +2648,7 @@ function update_input(element, value, empty)
     }
   else
     {
+      value = value.toString() ;
       if ( element.value != value )
 	{
 	  element.value = value ;
