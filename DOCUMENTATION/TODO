@@ -1,6 +1,4 @@
 Finir par priorité :
-	Finir enlever table_date
-	Finir enlever table_private
 	Attributs de tableaux comme les attributs de colonnes.
 
 	COW (stable) valeur vide ==> comme si rien

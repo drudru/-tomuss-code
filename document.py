@@ -168,7 +168,6 @@ def table_head(year=None, semester=None, ticket=None,
             'version = "%s" ;\n' % configuration.version +
             'root = %s ;\n' % js(list(configuration.root)) +
             'cas_url = %s ;\n' % repr(configuration.cas) +
-            'table_private = %s ;\n' % int(private) +
             'default_nr_columns = %d;\n' % default_nr_columns +
             'default_sort_column = %s;\n' % default_sort_column +
             'allow_modification = %s;\n' % str(allow_modification).lower()+
