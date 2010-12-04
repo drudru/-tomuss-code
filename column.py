@@ -284,6 +284,7 @@ class TableAttr(ColumnAttr):
         teachers = table.teachers + table.masters
         if ( (page.user_name not in teachers)
              and len(teachers) != 0
+             and page.user_name not in configuration.root
              and page.user_name != data.ro_user):
             return table.bad_auth(page)
 
@@ -431,7 +432,7 @@ return value ;
             return value
     def check(self, value):
         value = self.encode(value)
-        if len(value) == 0:
+        if len(value) == 1:
             return
         import inscrits
         for login in value:
