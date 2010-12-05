@@ -763,7 +763,7 @@ function show_the_tip(td, tip_content)
 	{
 	  var line = lines[data_lin] ;
 	  var cell = line[data_col] ;
-	  if ( cell.is_mine() && allow_modification )
+	  if ( cell.is_mine() && table_attr.modifiable )
 	    s = '<span class="title">' + type.tip_cell + '</span><br>' ;
 	  else
 	    s = '' ;
@@ -1477,7 +1477,7 @@ function table_header_fill_real()
     {
       var className ;
       var column = cls[col] ;
-      if ( column.author != my_identity || ! allow_modification )
+      if ( column.author != my_identity || ! table_attr.modifiable )
 	className = 'ro' ;
       else
 	className = '' ;
@@ -2324,8 +2324,6 @@ function column_change_allowed_text(column)
 {
   if ( ! table_attr.modifiable )
     return "Cette table a été passée en lecture seulement par son responsable";
-  if ( ! allow_modification )
-    return "Cette table n'est pas modifiable (ancien semestre)." ;
   if ( column.title === '' )
     return true ;
   if ( column.author == '*' )
@@ -2923,7 +2921,7 @@ function url_base()
 
 function append_image(td, text)
 {
-  if ( ! allow_modification )
+  if ( ! table_attr.modifiable )
     return ;
 
   var request = new Request(text) ;
@@ -3895,7 +3893,6 @@ function virtual_table_common_begin()
     'version = "' + version + '" ;\n' +
     'preferences = ' + p + ';\n' +
     'columns = [] ;\n' +
-    'allow_modification= false;\n' +
     'lines = [] ;\n' +
     'lines_id = [] ;\n' +
     'the_title = "";\n' +

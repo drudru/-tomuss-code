@@ -31,15 +31,16 @@ class Stat(object):
         self.login = login
         self.tables = {}
 
+class Resume():
+    default_sort_column = 2
+
 def resume(server):
     """Resume"""
-    a = {}
-    a.default_sort_column = 2
     server.the_file.write(document.table_head(server.year,
                                               server.semester,
                                               server.ticket.ticket,
                                               create_pref = False,
-                                              attrs_from=a,
+                                              attrs_from=Resume(),
                                               user_name=server.ticket.user_name
                                               ) +
                           TEMPLATES._ucbl_.update_student_information +

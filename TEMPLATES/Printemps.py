@@ -32,10 +32,10 @@ def init(table):
     _ucbl_.init(table)
     table.default_sort_column = 2
     table.full_title = table.spiral_title
-    table.allow_modification = False
+    table.modifiable = 0
     if (table.year, table.semester) == configuration.year_semester:
         # Normal case : current semester modifications are allowed
-        table.allow_modification = True
+        table.modifiable = 1
         
         if (configuration.year_semester != configuration.year_semester_next
             and os.path.islink(document.table_filename(
@@ -44,18 +44,18 @@ def init(table):
                 table.ue))):
                 # The same file table can't be modified by two ways
                 # Only the 'next_semester' is allowed
-                table.allow_modification = False
+                table.modifiable = 0
 
     elif table.semester == 'Test':
-        table.allow_modification = True
+        table.modifiable = 1
     elif (table.year, table.semester) == configuration.year_semester_next:
         if utilities.manage_key('CLOSED', table.ue, separation=5
                                 ) == '%s/%s' % configuration.year_semester:
             # Closed on the previous semester
-            table.allow_modification = True
+            table.modifiable = 1
         if table.is_extended:
             # It is False for the current semester.
-            table.allow_modification = True
+            table.modifiable = 1
             
                                  
     table.abjs = abj.get_abjs(table.year, table.semester)

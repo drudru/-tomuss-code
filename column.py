@@ -68,7 +68,7 @@ class ColumnAttr(object):
             page.request += 1
             return 'ok.png'
         
-        if not table.allow_modification:
+        if not table.modifiable:
             return table.bad_ro(page)
         
         if column == None:
@@ -282,7 +282,7 @@ class TableAttr(ColumnAttr):
             page.request += 1
             return 'ok.png'
         
-        if not table.allow_modification:
+        if not table.modifiable:
             return table.bad_ro(page)
 
         teachers = table.teachers + table.masters

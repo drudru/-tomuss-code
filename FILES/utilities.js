@@ -2026,7 +2026,7 @@ function cell_changeable(cell)
 {
   if ( ! table_attr.modifiable )
     return "Cette table a été passée en lecture seulement par son responsable";
-  if ( ! allow_modification )
+  if ( ! table_attr.modifiable )
     return "Cette table n'est pas modifiable car c'est un ancien semestre." ;
   if ( ! this.is_mine() )
     {
@@ -2355,7 +2355,7 @@ function current_update_column_headers()
   this.do_update_column_headers = false ;
 
   var column = this.column ;
-  var disabled = ! allow_modification || ! column_change_allowed(column) ;
+  var disabled = ! table_attr.modifiable || ! column_change_allowed(column) ;
   var e, help ;
 
   for(var attr in column_attributes)

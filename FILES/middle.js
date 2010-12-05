@@ -61,7 +61,7 @@ function change_abjs(m)
 function head_html()
 {
   if ( window.location.pathname.search('=read-only=') != -1 )
-    allow_modification = false ;
+    table_attr.modifiable = false ;
 
   if ( window.location.pathname.search('/=linear=') != -1 )
     preferences.interface = 'L' ;
@@ -235,8 +235,7 @@ function column_attr_set(column, attr, value, td)
 
 function table_change_allowed()
 {
-  return allow_modification && (i_am_the_teacher
-				|| myindex(root, my_identity) != -1) ;
+  return i_am_the_teacher || myindex(root, my_identity) != -1 ;
 }
 
 

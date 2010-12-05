@@ -315,7 +315,7 @@ def update_referents(ticket, f):
             + str(configuration.year_semester[0]) + '</h1>\n')
     f.write(filename + '\n')
 
-    if not table.allow_modification:
+    if not table.modifiable:
         f.write('<p>Modification interdite (problème de date ?)\n')
         return
 

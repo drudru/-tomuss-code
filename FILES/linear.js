@@ -85,7 +85,7 @@ function Linear()
 				       this.L.data_col(),
 				       value);
       },
-      function() { return allow_modification ? true :
+      function() { return table_attr.modifiable ? true :
 	  "Table non modifiable" ; }
       ),
      new Information
@@ -307,7 +307,7 @@ function Linear()
 	table_attr_set('comment', value) ;
       },
       function() {
-	if ( allow_modification && (i_am_the_teacher || teachers.length == 0) )
+	if ( table_attr.modifiable && (i_am_the_teacher||teachers.length == 0))
 	  return true ;
 	return "Seul un responsable de l'U.E peut modifier ce commentaire";
       },
@@ -322,7 +322,7 @@ function Linear()
 	table_attr_set('masters', teachers) ;
       },
       function() {
-	if ( allow_modification && (i_am_the_teacher || teachers.length == 0) )
+	if ( table_attr.modifiable&&(i_am_the_teacher||teachers.length == 0) )
 	  return true ;
 	return "Seul un responsable de l'U.E peut modifier la liste des responsables.";
       },

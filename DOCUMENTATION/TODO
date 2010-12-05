@@ -1,9 +1,6 @@
 Finir par priorité :
-	Indicateur modifiable : official_ue
-	Autorise semestre passé en ecriture, bascule RO par table.
-	Faire des plugins pour chaque fonctionnalité coté client.
-		Activable par utilisateur.
-
+	TESTER : Autorise semestre passé en ecriture.
+	TESTER : problème des extensions
 	COW (stable) valeur vide ==> comme si rien
 	Ajouter entete URL pour le type URL
 	Sauvegarde de l'état figé...
@@ -23,11 +20,12 @@ Finir par priorité :
 	live_status : écarter les noeuds collés.
 	live_status : afficher navigateur
 	Il faut enlever toute référence aux noms de types dans le JS
-	Ajouter les types Mail/telephone/responsable(UE) enumeration
+	Ajouter les types Mail/telephone/responsable(UE)/enumeration
 	Calcul du poids automatique avec '?' : problème de ]1,1[, max, meilleur
 	Faire la doc ]1,1[
 	Renommer Inscrit en _Inscrit_, garder la compatibilité pour les vieux.
 	Faire le ménage des fonctions deprecated dans les TEMPLATES
+	Faire des plugins pour chaque fonctionnalité coté client.
 
     BUGS :
 	Chrome : statistics per group
@@ -43,6 +41,7 @@ Finir par priorité :
 	Il n'y a pas de Flux RSS pour les tables ni printemps ni automne.
 
     Moyenne :
+	Indicateur modifiable : official_ue
 	Interface pour détruire les tables.
 	UE par formation
 	Interdire stockage mauvais encodage (liste étudiants ou autres)

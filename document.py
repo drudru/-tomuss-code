@@ -135,7 +135,7 @@ def table_head_more(ue):
 
 def table_head(year=None, semester=None, ticket=None,
                user_name='', page_id=-1, ue='',
-               allow_modification=False, create_pref=True,
+               create_pref=True,
                attrs_from=0):
     s = configuration.suivi.url(year, semester, ticket)
     prefs_table = get_preferences(user_name, create_pref)
@@ -166,14 +166,14 @@ def table_head(year=None, semester=None, ticket=None,
             'version = "%s" ;\n' % configuration.version +
             'root = %s ;\n' % js(list(configuration.root)) +
             'cas_url = %s ;\n' % repr(configuration.cas) +
-            'allow_modification = %s;\n' % str(allow_modification).lower()+
             'preferences = %s ;\n' % prefs_table +
             'lines = [];\n' +
             'columns = [];\n' +
             'lines_to_load = 0 ;\n' +
             'the_title = "";\n' +
             'table_attr = {\n' +
-                ',\n'.join(attr.name+':'+js(getattr(attrs_from, attr.name))
+                ',\n'.join(attr.name+':'+js(getattr(attrs_from, attr.name,
+                                                    attr.default_value))
                            for attr in TableAttr.attrs.values()
                            ) + '} ;\n' +
             table_head_more(ue) +
@@ -223,7 +223,6 @@ class Table(object):
         self.portails = {}
         self.ro = ro
         self.mtime = 0
-        self.allow_modification = not ro
         self.the_key_dict = None
         self.unloaded = False
         self.do_not_unload = 0
@@ -232,6 +231,7 @@ class Table(object):
             if isinstance(d, list):
                 d = list(d)
             setattr(self, attr.name, d)
+        self.modifiable = int(not ro)
         dirname = os.path.join(configuration.db,
                                'Y'+str(self.year), 'S'+self.semester)
         self.filename = os.path.join(dirname, ue + '.py')
@@ -255,9 +255,9 @@ class Table(object):
             self.template.init(self)
 
 
-        warn('allow modification:' + str(self.allow_modification),what='table')
+        warn('allow modification:' + str(self.modifiable),what='table')
         created = False
-        if self.allow_modification:
+        if self.modifiable:
             utilities.mkpath( dirname )
             if configuration.backup:
                 utilities.mkpath( configuration.backup + dirname )
@@ -308,7 +308,7 @@ class Table(object):
             warn('Create end', what='table')
             self.pages[0].request = 1 # Not an empty page, it's for the stats
 
-        if self.allow_modification and not ro:
+        if self.modifiable and not ro:
             # Check mails or new students
             # Only mail if allow_modification is False
             warn('Update student list', what='table')
@@ -418,7 +418,7 @@ class Table(object):
             self.mtime = time.time()
 
     def new_page(self, ticket, user_name, user_ip, user_browser, date=None):
-        if not self.loading and self.allow_modification:
+        if not self.loading and self.modifiable:
             self.log('new_page(%s ,%s, %s, %s, %s) # %d' % (
                 repr(ticket),
                 repr(user_name),
@@ -508,7 +508,7 @@ class Table(object):
     def cell_change(self, page, col, lin, value=None,
                     date=None, force_update=False):
 
-        if not self.loading and not self.allow_modification:
+        if not self.loading and not self.modifiable:
             return 'bad.png'
 
         column = self.columns.from_id(col)
@@ -628,7 +628,7 @@ la dernière saisie.
         return self.error(page, "Valeur seulement accessible en lecture !")
 
     def comment_change(self, page, col, lin, value):
-        if not self.loading and not self.allow_modification:
+        if not self.loading and not self.modifiable:
             return self.bad_ro(page)
 
         column = self.columns.from_id(col)
@@ -749,7 +749,7 @@ la dernière saisie.
 
 
     def column_delete(self, page, col):
-        if not self.loading and not self.allow_modification:
+        if not self.loading and not self.modifiable:
             return self.bad_auth(page)
         column = self.columns.from_id(col)
         if column == None:
@@ -788,7 +788,6 @@ la dernière saisie.
         return table_head(
             self.year, self.semester, page.ticket, page.user_name,
             page.page_id, self.ue,
-            self.allow_modification,
             attrs_from=self
             )
 

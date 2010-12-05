@@ -28,8 +28,8 @@ import abj
 import os
 
 def init(table):
-    if table.allow_modification:
-        table.allow_modification =   table.year == utilities.university_year()
+    if table.modifiable:
+        table.modifiable = int(table.year == utilities.university_year())
 
     table.default_sort_column = 2 # Compatibility with old files
     table.abjs = abj.get_abjs(table.year, table.semester)

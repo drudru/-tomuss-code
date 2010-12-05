@@ -106,7 +106,7 @@ def extension(server):
 
     # The table in the previous semester should not be modified.
     t = document.table(server.the_year-1, 'Automne', server.the_ue, ro=True)
-    t.allow_modification = False
+    t.modifiable = 0
     
     table.delete()
 
@@ -145,8 +145,8 @@ def delete_this_table(server):
     """Delete the table."""
     table = document.table(server.the_year, server.the_semester,
                            server.the_ue, None, None)
-    if not table.allow_modification:
-        server.the_file.write('On ne peut pas détruire des anciennes tables')
+    if not table.modifiable:
+        server.the_file.write('On ne peut pas détruire des tables non modifiable')
         return
     if server.ticket.user_name not in (table.teachers + table.masters):
         server.the_file.write('Seul un responsable de l\'UE peut détruire la table')
