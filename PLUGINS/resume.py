@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 #    TOMUSS: The Online Multi User Simple Spreadsheet
-#    Copyright (C) 2009 Thierry EXCOFFIER, Universite Claude Bernard
+#    Copyright (C) 2009,2010 Thierry EXCOFFIER, Universite Claude Bernard
 #
 #    This program is free software; you can redistribute it and/or modify
 #    it under the terms of the GNU General Public License as published by
@@ -33,12 +33,13 @@ class Stat(object):
 
 def resume(server):
     """Resume"""
+    a = {}
+    a.default_sort_column = 2
     server.the_file.write(document.table_head(server.year,
                                               server.semester,
                                               server.ticket.ticket,
                                               create_pref = False,
-#                                              comment=repr(server.the_path),
-                                              default_sort_column=2,
+                                              attrs_from=a,
                                               user_name=server.ticket.user_name
                                               ) +
                           TEMPLATES._ucbl_.update_student_information +

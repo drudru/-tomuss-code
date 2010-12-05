@@ -31,7 +31,7 @@ def init(table):
     if table.allow_modification:
         table.allow_modification =   table.year == utilities.university_year()
 
-    table.default_sort_column = 2
+    table.default_sort_column = 2 # Compatibility with old files
     table.abjs = abj.get_abjs(table.year, table.semester)
     table.abjs_mtime = 0
 
@@ -107,6 +107,7 @@ def create(table):
     table.table_attr(p, 'masters', [utilities.module_to_login(table.ue)])
     check_columns(table)
     table.table_attr(p, 'default_nr_columns', 9)
+    table.table_attr(p, 'default_sort_column', 2)
 
 def update_inscrits_referents(the_ids, table, page):
     import referent

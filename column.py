@@ -454,11 +454,17 @@ return value ;
                                           table.year, table.semester, table.ue)
 
 class TableDefaultNrColumns(TableAttr):
+    name = 'default_nr_columns'
     only_masters = 1
     default_value = 0
-    name = 'default_nr_columns'
     def encode(self, value):
         return int(value)
+
+class TableDefaultSortColumns(TableAttr):
+    name = 'default_sort_column'
+    only_masters = 1
+    default_value = 0
+
 
 TableMasters()
 TableModifiable()
@@ -466,6 +472,7 @@ TableDates()
 TablePrivate()
 TableComment()
 TableDefaultNrColumns()
+TableDefaultSortColumns()
 
 import files
 files.files['types.js'].append('var column_attributes = {\n' +

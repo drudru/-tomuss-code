@@ -45,6 +45,3 @@ def create(table):
     table.cell_change(p,'0_2','2_4','Vous tapez dans le filtre de ligne un caractère arobase : @','20081113165550')
     table.table_attr(p, 'default_nr_columns', 3)
 
-def init(table):
-    table.default_sort_column = 0
-

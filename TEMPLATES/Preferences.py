@@ -53,10 +53,11 @@ def create(table):
     table.column_change(p,'0_2','Ordre'              ,'Text','','','F',1,2 )
     table.column_change(p,'0_3','Votre choix'        ,'Text','','','F',0,4 )
     table.table_attr(p, 'default_nr_columns', 3)
+    table.table_attr(p, 'default_sort_column', 2)
     table.new_page('' ,utilities.module_to_login(table.ue), '', '')
 
 def init(table):
-    table.default_sort_column = 2
+    table.default_sort_column = 2 # compatibility with old Preferences files
 
 def check(table):
     p_ro = table.pages[0]

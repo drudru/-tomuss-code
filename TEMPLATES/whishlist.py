@@ -33,6 +33,3 @@ def create(table):
     table.cell_change(p,'1_2','1_0','OK mais quand ce qui est vraiment important aura \xc3\xa9t\xc3\xa9 fait.','20081113222805')
     table.table_attr(p, 'default_nr_columns', 3)
 
-def init(table):
-    table.default_sort_column = 0
-

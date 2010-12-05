@@ -43,6 +43,7 @@ def create(table):
     table.table_attr(table.pages[0], 'masters',
                      [table.ue.lower().replace('-','') + '.master']
                      )
+    table.table_attr(table.pages[0], 'default_sort_column', 2)
 
 def init(table):
     _ucbl_.init(table)
@@ -51,7 +52,7 @@ def init(table):
     table.abjs = abj.get_abjs(table.year, table.semester)
     table.abjs_mtime = 0
     table.comment = "Pictures from wiki commons"
-    table.default_sort_column = 2
+    table.default_sort_column = 2 # compatibility with old files
 
 def content(table):
     if False: # Next lines are DANGEROUS (abj.abjs = ...)

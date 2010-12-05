@@ -25,6 +25,3 @@ def create(table):
     table.new_page('' ,'*', '', '')
     table.table_attr(table.pages[0], 'masters', [table.user])
 
-def init(table):
-    table.default_sort_column = 0
-

@@ -52,12 +52,14 @@ def create(table):
     table.column_change(p,'0_9','Fin'                             ,'Date','','' ,'',0,6 )
     table.column_comment(p,'0_9', "Indiquer la durée si elle n'est pas indéfinie")
     table.column_change(p,'0_10','Remarques_Et_Autres_Dispositions','Text','','' ,'',0,13)
+    table.table_attr(p, 'default_sort_column', 2)
+
 
 import _ucbl_
 
 def init(table):
     _ucbl_.init(table)
-    table.default_sort_column = 2
+    table.default_sort_column = 2 # compatibility with old files
     table.do_not_unload = 1
 
 def content(table):

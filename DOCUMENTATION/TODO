@@ -1,5 +1,4 @@
 Finir par priorité :
-	Attributs de tableaux comme les attributs de colonne : sort column
 	Indicateur modifiable : official_ue
 	Autorise semestre passé en ecriture, bascule RO par table.
 	Faire des plugins pour chaque fonctionnalité coté client.
@@ -37,7 +36,6 @@ Finir par priorité :
 		Sous windows seulement
 	Fuite mémoire ?
 	BUG : Le 'resume' permet d'avoir des informations non autorisée
-	lib.js : body et the_body !!!!
 	BUG : Libérer les caches ZERO arguments ???? Quand ???
 	BUG : Pourquoi TOMUSS charge toutes les UE (3500) !!!
 	Safari : requetes en double, page accueil

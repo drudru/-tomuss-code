@@ -2361,6 +2361,7 @@ function create_column(column)
       append_image(undefined, 'column_attr_title/' + page_id + '_' + column.the_local_id + '/' +
 		   encode_uri(column.title)) ;
       column.the_local_id = undefined ;
+      update_horizontal_scrollbar() ;
       return true ;
     }
 }
@@ -3893,7 +3894,6 @@ function virtual_table_common_begin()
     'suivi = "' + suivi + '";\n' +
     'version = "' + version + '" ;\n' +
     'preferences = ' + p + ';\n' +
-    'default_sort_column = 0 ;\n' +
     'columns = [] ;\n' +
     'allow_modification= false;\n' +
     'lines = [] ;\n' +
@@ -5090,30 +5090,30 @@ function runlog(the_columns, the_lines)
   // Default : Name sort
 
   add_empty_columns() ;
-  if ( default_sort_column[0] != undefined )
+  if ( table_attr.default_sort_column[0] != undefined )
     {
       // default_sort column is a list
       sort_columns = [] ;
-      for(var i in default_sort_column)
+      for(var i in table_attr.default_sort_column)
 	{
-	  sort_columns.push(columns[default_sort_column[i]]) ;
+	  sort_columns.push(columns[table_attr.default_sort_column[i]]) ;
 	  sort_columns[i].dir = 1 ;
 	}
     }
-  else if ( columns.length > default_sort_column )
+  else if ( columns.length > table_attr.default_sort_column )
     {
       if ( columns.length > 1 )
 	{
-	  sort_columns = [columns[default_sort_column], columns[1]] ;
+	  sort_columns = [columns[table_attr.default_sort_column],columns[1]] ;
 	  columns[1].dir = 1 ;
 	}
       else
-	sort_columns = [columns[default_sort_column]] ;
-      columns[default_sort_column].dir = 1 ;
+	sort_columns = [columns[table_attr.default_sort_column]] ;
+      columns[table_attr.default_sort_column].dir = 1 ;
     }
   else
     {
-      default_sort_column = 0 ;
+      table_attr.default_sort_column = 0 ;
       sort_columns = [columns[0]] ;
     }
 
@@ -5439,7 +5439,7 @@ function javascript_regtest_ue()
   columns = [] ;
   lines_id = {} ;
   add_empty_columns() ;
-  default_sort_column = 0 ;
+  table_attr.default_sort_column = 0 ;
   sort_columns = [columns[0]] ;
   update_filtered_lines();
   the_current_cell.jump(nr_headers,0) ;

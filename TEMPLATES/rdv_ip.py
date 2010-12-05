@@ -79,6 +79,8 @@ def create(table):
         for attr, value in column.items():
               table.column_attr(ro_page, str(i), attr, str(value))
 
+    table.table_attr(ro_page, 'default_sort_column', [0,2])# Name and Day.
+    table.table_attr(ro_page, 'default_nr_columns', 21)
 
 
 def update_referents(the_ids, table, page):
@@ -122,8 +124,8 @@ def check(table):
 
 
 def init(table):
-    table.default_sort_column = [0,2] # Name and Day if equal.
-    table.default_nr_columns = 21
+    table.default_sort_column = [0,2] # Compatibility with old files
+    table.default_nr_columns = 21 # Compatibility with old files
 
 
 def content(table):

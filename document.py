@@ -135,9 +135,8 @@ def table_head_more(ue):
 
 def table_head(year=None, semester=None, ticket=None,
                user_name='', page_id=-1, ue='',
-               default_sort_column=0,
                allow_modification=False, create_pref=True,
-               private=False):
+               attrs_from=0):
     s = configuration.suivi.url(year, semester, ticket)
     prefs_table = get_preferences(user_name, create_pref)
 
@@ -167,13 +166,16 @@ def table_head(year=None, semester=None, ticket=None,
             'version = "%s" ;\n' % configuration.version +
             'root = %s ;\n' % js(list(configuration.root)) +
             'cas_url = %s ;\n' % repr(configuration.cas) +
-            'default_sort_column = %s;\n' % default_sort_column +
             'allow_modification = %s;\n' % str(allow_modification).lower()+
             'preferences = %s ;\n' % prefs_table +
             'lines = [];\n' +
             'columns = [];\n' +
             'lines_to_load = 0 ;\n' +
             'the_title = "";\n' +
+            'table_attr = {\n' +
+                ',\n'.join(attr.name+':'+js(getattr(attrs_from, attr.name))
+                           for attr in TableAttr.attrs.values()
+                           ) + '} ;\n' +
             table_head_more(ue) +
             '</script>\n')
 
@@ -221,7 +223,6 @@ class Table(object):
         self.portails = {}
         self.ro = ro
         self.mtime = 0
-        self.default_sort_column = 0
         self.allow_modification = not ro
         self.the_key_dict = None
         self.unloaded = False
@@ -591,6 +592,7 @@ class Table(object):
             self.log('table_attr("masters",%d,%s)' % (page_id, repr(name))) 
 
     def private_toggle(self, page):
+        """Deprecated"""
         self.private = 1 - self.private
         if self.loading: # compatibility with old TEMPLATES
             self.log('table_attr("private",%d,%d)' % (page.page_id,
@@ -786,8 +788,8 @@ la dernière saisie.
         return table_head(
             self.year, self.semester, page.ticket, page.user_name,
             page.page_id, self.ue,
-            self.default_sort_column, self.allow_modification,
-            private=self.private
+            self.allow_modification,
+            attrs_from=self
             )
 
     def date_change(self, page, date):

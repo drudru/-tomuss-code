@@ -34,10 +34,11 @@ def create(table):
     table.column_change(p,'0_1','Explications'       ,'Text','','','F',0,10)
     table.column_change(p,'0_2','Valeur courante'    ,'Text','','','F',0,10 )
     table.table_attr(p, 'default_nr_columns', 3)
+    table.table_attr(p, 'default_sort_column', 1)
     table.new_page('' ,configuration.root[0], '', '')
 
 def init(table):
-    table.default_sort_column = 1
+    table.default_sort_column = 1 # compatibility with old files
 
 variables = {
     'abinj': "S'ils ont presque tous une note, ceux qui n'en ont pas ont 0/ABINJ. Si vous mettez 0.25 cela indique que si moins du quart du groupe n'a pas de note alors ils auront 0 ou ABINJ automatiquement.",
