@@ -40,6 +40,7 @@ class ColumnAttr(object):
     update_table_headers = 0
     need_authorization = 1
     update_content = False
+    only_masters = 0
     formatter = 'function(column, value) { return value ; }'
     empty = 'function(column, value) { return value === "" ; }'
     default_value = '' # XXX Do not put a mutable here or in sub classes
@@ -125,6 +126,7 @@ class ColumnAttr(object):
                 ',default_value:' + js(self.default_value)+
                 ',formatter:' + self.formatter+
                 ',computed:' + str(self.computed)+
+                ',only_masters:' + str(self.only_masters)+
                 ',empty:' + self.empty+
                 '}')
 
@@ -263,10 +265,12 @@ ColumnMinMax()
 
 class TableAttr(ColumnAttr):
     attrs = {}
+    attrs_list = []
     formatter = 'function(value) { return value ; }'
     empty = 'function(value) { return value === "" ; }'
     def __init__(self):
         TableAttr.attrs[self.name] = self
+        TableAttr.attrs_list.append(self)
 
     def update(self, table, old_value, new_value):
         """Called when the user make the change, not when loading table"""
@@ -316,6 +320,7 @@ class TableComment(TableAttr):
     name = 'comment'
 
 class TableModifiable(TableAttr):
+    only_masters = 1
     name = 'modifiable'
     default_value = 1
     def encode(self, value):
@@ -327,7 +332,6 @@ class TableModifiable(TableAttr):
         return "Cet attribut '%s' peut être seulement 0 ou 1" % self.__class__.__name__
 
 class TablePrivate(TableModifiable):
-
     formatter = r'''
 function(value)
 {
@@ -450,13 +454,14 @@ return value ;
                                           table.year, table.semester, table.ue)
 
 class TableDefaultNrColumns(TableAttr):
+    only_masters = 1
     default_value = 0
     name = 'default_nr_columns'
     def encode(self, value):
         return int(value)
 
-TableModifiable()
 TableMasters()
+TableModifiable()
 TableDates()
 TablePrivate()
 TableComment()
@@ -470,7 +475,7 @@ files.files['types.js'].append('var column_attributes = {\n' +
                                '} ;\n' +
                                'var table_attributes = {\n' +
                                ',\n'.join(attr.js()
-                                        for attr in TableAttr.attrs.values()
+                                        for attr in TableAttr.attrs_list
                                         ) +
                                '} ;\n')
 

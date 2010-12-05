@@ -1,12 +1,15 @@
 Finir par priorité :
-	Image de fond quand champs vide : responsable et dates.
+	Attribut invisible pour les non responsables
 	Attributs de tableaux comme les attributs de colonne : sort column
+	Indicateur modifiable : official_ue
+	Autorise semestre passé en ecriture, bascule RO par table.
+	Faire des plugins pour chaque fonctionnalité coté client.
+		Activable par utilisateur.
 
 	COW (stable) valeur vide ==> comme si rien
 	Ajouter entete URL pour le type URL
 	Sauvegarde de l'état figé...
 	Consultation TT par les secrétaires
-	Indicateur modifiable : official_ue
 	Sauvegarder le nombre de colonnes par défaut.
 	Faire mail quand les scripts de nuit marchent pas.
 	SUIVI étudiants : pointeurs SPIRAL/Mails enseignants ?
@@ -24,11 +27,8 @@ Finir par priorité :
 	live_status : afficher navigateur
 	Il faut enlever toute référence aux noms de types dans le JS
 	Ajouter les types Mail/telephone/responsable(UE) enumeration
-	Autorise semestre passé en ecriture, bascule RO par table.
 	Calcul du poids automatique avec '?' : problème de ]1,1[, max, meilleur
 	Faire la doc ]1,1[
-	Faire des plugins pour chaque fonctionnalité coté client.
-		Activable par utilisateur.
 	Renommer Inscrit en _Inscrit_, garder la compatibilité pour les vieux.
 	Faire le ménage des fonctions deprecated dans les TEMPLATES
 

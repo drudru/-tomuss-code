@@ -868,7 +868,11 @@ la dernière saisie.
         s.append(self.content_head(page))
 
         try:
-            s.append('''<script>
+            s.append('<script>table_attr = {\n' +
+                     ',\n'.join(attr.name+':'+js(getattr(self, attr.name))
+                                for attr in TableAttr.attrs.values()
+                                ) +
+                     '''} ;
             lines_to_load = %d ;
             function initialize()
             {
@@ -879,11 +883,6 @@ la dernière saisie.
             s.append(self.lines.js())
 
             s.append('the_title = ' + js(self.full_title) + ';')
-            s.append('table_attr = {\n')
-            s.append(',\n'.join(attr.name+':'+js(getattr(self, attr.name))
-                                for attr in TableAttr.attrs.values()
-                                ))
-            s.append('};\n') ;
 
             s.append('lines_id = ')
             s.append(repr(self.lines.keys()) )

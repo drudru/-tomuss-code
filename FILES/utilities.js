@@ -2454,19 +2454,24 @@ function current_update_table_headers()
 
   for(var attr in table_attributes)
     {
+      var attributes = table_attributes[attr] ;
       e = document.getElementById('t_table_attr_' + attr) ;
       if ( ! e )
 	continue ;
+      if ( attributes.only_masters && ! i_am_the_teacher )
+	e.style.display = 'none' ;
+      else
+	e.style.display = '' ;
+
       if ( e.selectedIndex !== undefined )
 	e.selectedIndex = Number(table_attr[attr]) ;
       else
 	update_input(e,
-		     table_attributes[attr].formatter(table_attr[attr]),
-		     table_attributes[attr].empty(table_attr[attr])
+		     attributes.formatter(table_attr[attr]),
+		     attributes.empty(table_attr[attr])
 		     ) ;
 
-      set_editable(e, !table_attributes[attr].need_authorization
-		   || !disabled) ;
+      set_editable(e, !attributes.need_authorization || !disabled) ;
     }
 }
 

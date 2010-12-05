@@ -348,7 +348,7 @@ function header_change_on_update(event, input, what)
 	input.value = table_attributes[attr].formatter(new_value) ;
 
       input.theoldvalue = new_value ;
-      // attr_update_user_interface(attr, column) ;
+      the_current_cell.update_table_headers();
     }
   else
     {
@@ -659,7 +659,7 @@ for(var type_i in types)
 		'Indique si le contenu de la table est modifiable.<br>Seul un responsable peut changer ceci.') ;
 
  w += table_input_attr('default_nr_columns','',
-		       "Impose ce nombre de colonnes à tous le monde<br>" +
+		       "Impose ce nombre de colonnes affichées à tous le monde<br>" +
 		       "'0' indique que ce nombre dépend de la taille écran."
 		       ) ;
 
