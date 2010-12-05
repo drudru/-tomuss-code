@@ -124,11 +124,9 @@ var t_column_fixed ;
 var t_column_histogram ;
 var t_column_average ;
 var t_menutop ;
-var body ;
 
 function lib_init()
 {
-  body                 = document.getElementById('body'                 );
   divtable             = document.getElementById('divtable'             );
   tip                  = document.getElementById('tip'                  );
   author               = document.getElementById('author'               );
@@ -793,7 +791,7 @@ function show_the_tip(td, tip_content)
 function on_mouse_down(event)
 {
   // See 'move_scrollbar_begin', we must finish scrollbar dragging
-  if ( body.onmouseup && body.onmouseup(event) )
+  if ( the_body.onmouseup && the_body.onmouseup(event) )
     {
       return false ;
     }
@@ -808,7 +806,7 @@ function on_mouse_down(event)
 
 function wheel(event)
 {
-  if ( body.offsetHeight > window_height() )
+  if ( the_body.offsetHeight > window_height() )
     return ;
   if ( popup_is_open() )
     return ;
@@ -1128,19 +1126,9 @@ function update_horizontal_scrollbar_cursor()
 // IE bug for BODY, must use document for this event
 function set_body_onmouseup(f)
 {
-  if ( body.onmouseupold === undefined )
-    body.onmouseupold = body.onmouseup ;
-  body.onmouseup = f ;
-  /*
-  if (document.onmouseupold == undefined)
-    {
-      document.onmouseupold = document.onmouseup ;
-    }
-  document.onmouseup = function(event) { f(event) ;
-				     if ( document.onmouseupold )
-				       document.onmouseupold(event) ;
-  } ;
-  */
+  if ( the_body.onmouseupold === undefined )
+    the_body.onmouseupold = the_body.onmouseup ;
+  the_body.onmouseup = f ;
 }
 
 function move_horizontal_scrollbar_begin(event)
@@ -1152,7 +1140,7 @@ function move_horizontal_scrollbar_begin(event)
   page_horizontal(0, col) ;
   set_body_onmouseup(body_on_mouse_up) ; // ??? Why not working in HTML TAG
   body_on_mouse_up_doing = "horizontal_scrollbar_drag" ;
-  body.onmousemove = function(event) {
+  the_body.onmousemove = function(event) {
     var x = the_event(event).x ;
     var b ;
     for(var a in horizontal_scrollbar.childNodes)
@@ -1344,8 +1332,8 @@ function body_on_mouse_up(event)
 {
   if ( body_on_mouse_up_doing )
     {
-      body.onmouseup = body.onmouseupold ;
-      body.onmousemove = function() { } ;
+      the_body.onmouseup = the_body.onmouseupold ;
+      the_body.onmousemove = function() { } ;
       body_on_mouse_up_doing = undefined ;
       stop_event(the_event(event)) ;
       return true ;
@@ -1357,7 +1345,7 @@ function move_vertical_scrollbar_begin(event)
 {
   set_body_onmouseup(body_on_mouse_up) ; // ??? Why not working in HTML TAG
   body_on_mouse_up_doing = "vertical_scrollbar_drag" ;
-  body.onmousemove = move_scrollbar ;
+  the_body.onmousemove = move_scrollbar ;
   move_scrollbar(event) ;
   stop_event(the_event(event));
 }

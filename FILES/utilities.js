@@ -2470,7 +2470,6 @@ function current_update_table_headers()
 		     attributes.formatter(table_attr[attr]),
 		     attributes.empty(table_attr[attr])
 		     ) ;
-
       set_editable(e, !attributes.need_authorization || !disabled) ;
     }
 }

@@ -1,5 +1,4 @@
 Finir par priorité :
-	Attribut invisible pour les non responsables
 	Attributs de tableaux comme les attributs de colonne : sort column
 	Indicateur modifiable : official_ue
 	Autorise semestre passé en ecriture, bascule RO par table.
@@ -10,7 +9,6 @@ Finir par priorité :
 	Ajouter entete URL pour le type URL
 	Sauvegarde de l'état figé...
 	Consultation TT par les secrétaires
-	Sauvegarder le nombre de colonnes par défaut.
 	Faire mail quand les scripts de nuit marchent pas.
 	SUIVI étudiants : pointeurs SPIRAL/Mails enseignants ?
 	Reconnexion au serveur quand la connexion est perdue
