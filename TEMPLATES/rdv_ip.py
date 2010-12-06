@@ -262,7 +262,7 @@ def rdv_ip(server, stats=True, dsi_table=False, student_table=False):
                     '" colspan="%d">Pas de RDV</td>' % (len(allhours) + 1) +
                     '</tr>')
                 continue
-            for day in days:
+            for day in sorted(days):
                 for j, i in enumerate(allhours):
                     day_sum[j] += orientation[dayhour(day,i)]
                 nb_day = sum(orientation[dayhour(day,i)] for i in allhours)
@@ -292,7 +292,7 @@ def rdv_ip(server, stats=True, dsi_table=False, student_table=False):
         server.the_file.write('</tr>')
         for name in sorted(orientation_rp.orientations):
             orientation = orientations[name]
-            for day in days:
+            for day in sorted(days):
                 for hour in allhours:
                     nb_max = int(orientation[dayhour(day,hour)])
                     if nb_max:
