@@ -1167,6 +1167,38 @@ Col({the_id:"col_1",title:"TITLE1",author:"%s",position:0,type:"Note"})
         assert('val2=é' in c)
         assert('val2=è' in c)
 
+    if do('past'):
+        # Normal user can't modify the past
+        utilities.mkpath('DBregtest/Y%d/SAutomne' % (year-1))
+        utilities.write_file('DBregtest/Y%d/SAutomne/UE-pastue.py' % (year-1),
+                             """# -*- coding: utf8 -*-
+from data import *
+new_page('' ,'*', '', '', None)
+""")    
+        c = s.url('=' + abj + '/%d/Automne/UE-pastue' % (year-1))
+        assert('columns = [' in c)
+        assert('modifiable:0' in c)
+        c = s.url('=' + abj + '/%d/Automne/UE-pastue/1/0/column_attr_comment/col_0/test' % (year-1))
+        assert(c == bad_png)
+        c = s.url('=' + abj + '/%d/Automne/UE-pastue/1/1/table_attr_modifiable/1' % (year-1))
+        assert(c == bad_png)
+
+        # root can modify table attribute in the past.
+        s.url('=' + root + '/%d/Automne/UE-pastue' % (year-1))
+        c = s.url('=' + root + '/%d/Automne/UE-pastue/2/0/table_attr_masters/%s' % (year-1, abj))
+        assert(c == ok_png)
+
+        # abj can now modify the table attributes (not values)
+        c = s.url('=' + abj + '/%d/Automne/UE-pastue/1/2/column_attr_comment/col_0/test2' % (year-1))
+        assert(c == bad_png)
+        c = s.url('=' + abj + '/%d/Automne/UE-pastue/1/3/table_attr_modifiable/1' % (year-1))
+        assert(c == ok_png)
+        c = s.url('=' + abj + '/%d/Automne/UE-pastue/1/4/column_attr_comment/col_0/test3' % (year-1))
+        assert(c == ok_png)
+        
+        
+                             
+
 
 n = 0
 m = []
