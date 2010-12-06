@@ -47,7 +47,7 @@ def create(table):
 
 def init(table):
     _ucbl_.init(table)
-    table.full_title = 'Techniques de base'
+    table.table_title = 'Techniques de base'
     table.modifiable = 1
     table.abjs = abj.get_abjs(table.year, table.semester)
     table.abjs_mtime = 0

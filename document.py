@@ -218,7 +218,6 @@ class Table(object):
         self.columns = Columns(self)
         self.lines = Lines(self.columns)
         self.the_lock = threading.Lock()
-        self.full_title = ''
         self.mails = {}
         self.portails = {}
         self.ro = ro
@@ -883,7 +882,7 @@ la dernière saisie.
             ''' % (len(self.lines), utilities.wait_scripts('initialize')))
             s.append(self.lines.js())
 
-            s.append('the_title = ' + js(self.full_title) + ';')
+            s.append('the_title = ' + js(self.table_title) + ';')
 
             s.append('lines_id = ')
             s.append(repr(self.lines.keys()) )
@@ -892,7 +891,7 @@ la dernière saisie.
 
             s.append('document.write(tail_html());')
             s.append('runlog(columns, lines) ;')
-            s.append('change_title(%s,%d) ;' % (js(self.full_title),
+            s.append('change_title(%s,%d) ;' % (js(self.table_title),
                                                 self.code))
             s.append('change_mails(%s) ;' % repr(self.mails))
             s.append('change_portails(%s) ;' % utilities.js(self.portails))

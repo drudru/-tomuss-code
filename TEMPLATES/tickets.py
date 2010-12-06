@@ -24,7 +24,7 @@ import abj
 
 def init(table):
     table.default_sort_column = 1
-    table.full_title = 'Statistiques sur les tickets valides'
+    table.table_title = 'Statistiques sur les tickets valides'
     table.modifiable = 0
     table.abjs = abj.get_abjs(table.year, table.semester)
     table.abjs_mtime = 0
