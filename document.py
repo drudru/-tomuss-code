@@ -206,11 +206,11 @@ class Table(object):
 
         x = teacher.all_ues().get(self.ue_code.split('-')[-1], None)
         if x:
-            self.spiral_title = x.intitule().title().encode('utf-8')
+            self.table_title = x.intitule().title().encode('utf-8')
             self.code = x.code()
             self.teachers = x.responsables_login()
         else:
-            self.spiral_title = ''
+            self.table_title = ''
             self.code = 0
             self.teachers = []
         self.pages = []

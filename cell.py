@@ -285,7 +285,7 @@ class Lines(object):
             s = ['<p class="title">']
             s.append(
                 utilities.tipped(table.ue + ' '
-                                 + cgi.escape(table.spiral_title),
+                                 + cgi.escape(table.table_title),
                                  'Voir le tableau de note complet',
                                  url='%s/=%s/%d/%s/%s' %
                                  (configuration.server_url,
@@ -305,7 +305,7 @@ class Lines(object):
             
         else:
             s = ['<h2 class="title">' + table.ue + ' : ' +
-                 cgi.escape(table.spiral_title) + '</h2>']
+                 cgi.escape(table.table_title) + '</h2>']
         if table.comment.strip():
             s.append('<p style="margin-top:0">Petit message : <em>' + cgi.escape(table.comment) + '</em></p>')
         s.append(self.line_compute_js(line,for_student=not link))

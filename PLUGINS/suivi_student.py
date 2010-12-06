@@ -571,7 +571,7 @@ def page_rss(server):
             note_range = column.type.value_range(*column.min_max())
         else:
             note_range = ''
-        table_title = escape(table.spiral_title)
+        table_title = escape(table.table_title)
         if table.comment:
             table_title += ' (<b>' + escape(table.comment) + '</b>)'
         table_title = cgi.escape(table_title + ',<br>')
