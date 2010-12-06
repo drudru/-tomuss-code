@@ -349,7 +349,7 @@ class Table(object):
     def change_mails(self, mails):
         if self.mails == mails:
             return
-        warn('change mails of ' + self.title(), what="table")
+        warn('change mails of ' + self.location(), what="table")
         self.mails = mails
         self.send_update(None,
                          '<script>change_mails(' + repr(mails) + ');</script>\n')
@@ -365,7 +365,7 @@ class Table(object):
     def change_portails(self, portails):
         if self.portails == portails:
             return
-        warn('update portails of ' + self.title(), what="table")
+        warn('update portails of ' + self.location(), what="table")
         self.portails = portails
         self.send_update(None,
                          '<script>change_portails('+utilities.js(portails)
@@ -906,7 +906,7 @@ la dernière saisie.
 
         return '\n'.join(s)
 
-    def title(self):
+    def location(self):
         return '%d %s %s' % (self.year, self.semester, self.ue)
 
     def rewrite(self):

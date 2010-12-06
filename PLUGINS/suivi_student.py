@@ -377,7 +377,7 @@ def teacher_statistics(login, server):
                               ticket.ticket + '/' + \
                               str(t.year) + '/' + str(t.semester) + '/' + \
                               t.ue + '/=full_filter=@' + login + '" target="_blank">' + \
-                              t.title() + '</a>'
+                              t.location() + '</a>'
                         tables[t] = tablestat.TableStat(url)
                         break
     for t in tables:
