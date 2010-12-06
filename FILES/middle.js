@@ -23,9 +23,12 @@
 This function is called to set the UE title on the page.
 This function is no more useful and will be deprecated.
 */
-function change_title(new_title, ade_code)
+function update_title_links()
 {
-  // p_title.innerHTML = new_title ;
+  var p_title_links = document.getElementById('title_links') ;
+  if ( p_title_links == undefined )
+     return ; // Linear interface
+  // Use table_attr.code for example
   // p_title_links.innerHTML = '<a href="">xxx</a>' ;
 }
 
@@ -164,7 +167,7 @@ function head_html()
    }
 
  w += options + ' ' + ue ;
- w += '<span id="title_links"></span></h1><h1><span id="title"></span></h1>' ;
+ w += '<span id="title_links"></span></h1><h1><span id="t_table_attr_table_title"></span></h1>' ;
 
  return w ;
 }

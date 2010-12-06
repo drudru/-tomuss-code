@@ -319,6 +319,13 @@ class TableAttr(ColumnAttr):
 class TableComment(TableAttr):
     name = 'comment'
 
+class TableTableTitle(TableAttr):
+    name = 'table_title'
+
+class TableCode(TableAttr):
+    default = 0
+    name = 'code'
+
 class TableModifiable(TableAttr):
     only_masters = 1
     name = 'modifiable'
@@ -473,6 +480,8 @@ TablePrivate()
 TableComment()
 TableDefaultNrColumns()
 TableDefaultSortColumns()
+TableTableTitle()
+TableCode()
 
 import files
 files.files['types.js'].append('var column_attributes = {\n' +

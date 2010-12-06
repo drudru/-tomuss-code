@@ -1,7 +1,6 @@
 Finir par priorité :
-	Passer le titre en attribut de table
 	TESTER : Autorise semestre passé en ecriture. (regression test)
-	TESTER : problème des extensions
+	TESTER : problème des extensions éditables
 	COW (stable) valeur vide ==> comme si rien
 	Ajouter entete URL pour le type URL
 	Sauvegarde de l'état figé...

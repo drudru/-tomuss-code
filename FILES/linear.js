@@ -339,7 +339,7 @@ function Linear()
   this.top = document.getElementById('top') ;
   this.input_edit = false ;
   this.w('<h1>' + ue + ' ' + semester + ' ' + year + '</h1>' +
-         '<h2>' + the_title + '</h2>' +
+         '<h2>' + table_attr.table_title + '</h2>' +
          "Appuyez sur <kbd>point d'interrogation</kbd> pour avoir l'aide. "
 	 ) ;
 }

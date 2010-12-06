@@ -97,7 +97,6 @@ var author ;
 var modification_date ;
 var server_log ;
 var the_body ;
-var p_title ;
 var p_title_links ;
 var nr_not_empty_lines ;
 var nr_filtered_lines ;
@@ -133,7 +132,6 @@ function lib_init()
   modification_date    = document.getElementById('date'                 );
   server_log           = document.getElementById('log'                  );
   the_body             = document.getElementById('body'                 );
-  p_title              = document.getElementById('title'                );
   p_title_links        = document.getElementById('title_links'          );
   nr_not_empty_lines   = document.getElementById('nr_not_empty_lines'   );
   nr_filtered_lines    = document.getElementById('nr_filtered_lines'    );
@@ -3683,8 +3681,8 @@ function html_begin_head(hide_title, pb, more)
   if ( ! hide_title )
     {
       s += '<body>' ;
-      s += '<h1 ' +pb + ' id="title">' + year + ' ' + semester + ' '
-	+ ue + '<br>' +	html(the_title) + more + '</h1>\n' + the_filters() ;
+      s += '<h1 ' +pb + '>' + year + ' ' + semester + ' '
+	+ ue + '<br>' +	html(table_attr.table_title) + more + '</h1>\n' + the_filters() ;
     }
 
   return s ;
@@ -3895,7 +3893,6 @@ function virtual_table_common_begin()
     'columns = [] ;\n' +
     'lines = [] ;\n' +
     'lines_id = [] ;\n' +
-    'the_title = "";\n' +
     'adeweb = {};\n' + // XXX should not be here (LOCAL/spiral.py)
     'table_attr = ' + a + ';\n' +
     '</script>\n' +
@@ -4136,8 +4133,8 @@ function statistics_per_group()
     'table_attr.default_nr_columns = ' + (Number(c)+3)  + ' ;\n' +
     '// set_columns_filter("~Moyenne") ;\n' +
     'table_attr.comment = "Gras : gris<75% des notes, noir<50% des notes" ;\n' +
+    'table_attr.table_title = "Statistiques par groupe" ;\n' +
     'runlog(columns, lines) ;\n' +
-    'change_title("Statistiques par groupe") ;\n' +
     '}\n' +
     'setTimeout("delayed_init()",100) ;\n' +
     '</script>'
@@ -4370,8 +4367,8 @@ function statistics_authors()
     'columns[4].type = "Note";\n' +
     'columns[4].minmax = "[0;' +Number(max_stddev.toFixed(0)) + ']";' +
     c +
+    'table_attr.table_title = "Statistiques enseignants" ;' +
     'runlog(columns, lines) ;' +
-    'change_title("Statistiques enseignants") ;' +
     '}\n' +
     'setTimeout("delayed_init()", 100) ;\n' +
     '</script>\n'
@@ -4620,7 +4617,7 @@ function personal_mailing()
 {
    create_popup('personal_mailing_div',
 		'Envoyer un mail personnalisé aux étudiants filtrés',
-		'Sujet : <input id="personal_mailing" style="width:100%" value="' + ue + ' ' + p_title.textContent + ' : Info pour [Prénom] [Nom]"><br>Votre message&nbsp;:',
+		'Sujet : <input id="personal_mailing" style="width:100%" value="' + ue + ' ' + table_attr.table_title + ' : Info pour [Prénom] [Nom]"><br>Votre message&nbsp;:',
 	       'Pour envoyer cliquez sur <BUTTON OnClick="personal_mailing_do();">Envoyer les ' + filtered_lines.length + ' messages</BUTTON>.') ;
    popup_set_value('Bonjour [Prénom] [Nom].\n\nVotre groupe est [Grp] et votre séquence [Seq]\n\nAu revoir.') ;
 }
@@ -5186,6 +5183,7 @@ function runlog(the_columns, the_lines)
 	       }, 10) ;
 
   the_current_cell.update_table_headers() ;
+  update_title_links() ;
 }
 
 

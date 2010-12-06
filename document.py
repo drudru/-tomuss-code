@@ -170,7 +170,6 @@ def table_head(year=None, semester=None, ticket=None,
             'lines = [];\n' +
             'columns = [];\n' +
             'lines_to_load = 0 ;\n' +
-            'the_title = "";\n' +
             'table_attr = {\n' +
                 ',\n'.join(attr.name+':'+js(getattr(attrs_from, attr.name,
                                                     attr.default_value))
@@ -204,14 +203,18 @@ class Table(object):
         # Only the official UEs are displayed in the 'suivi'
         self.official_ue = False
 
+        for attr in TableAttr.attrs.values():
+            d = attr.default_value
+            if isinstance(d, list):
+                d = list(d)
+            setattr(self, attr.name, d)
+
         x = teacher.all_ues().get(self.ue_code.split('-')[-1], None)
         if x:
             self.table_title = x.intitule().title().encode('utf-8')
             self.code = x.code()
             self.teachers = x.responsables_login()
         else:
-            self.table_title = ''
-            self.code = 0
             self.teachers = []
         self.pages = []
         self.active_pages = []
@@ -225,11 +228,6 @@ class Table(object):
         self.the_key_dict = None
         self.unloaded = False
         self.do_not_unload = 0
-        for attr in TableAttr.attrs.values():
-            d = attr.default_value
-            if isinstance(d, list):
-                d = list(d)
-            setattr(self, attr.name, d)
         self.modifiable = int(not ro)
         dirname = os.path.join(configuration.db,
                                'Y'+str(self.year), 'S'+self.semester)
@@ -868,11 +866,7 @@ la dernière saisie.
         s.append(self.content_head(page))
 
         try:
-            s.append('<script>table_attr = {\n' +
-                     ',\n'.join(attr.name+':'+js(getattr(self, attr.name))
-                                for attr in TableAttr.attrs.values()
-                                ) +
-                     '''} ;
+            s.append('''<script>
             lines_to_load = %d ;
             function initialize()
             {
@@ -882,8 +876,6 @@ la dernière saisie.
             ''' % (len(self.lines), utilities.wait_scripts('initialize')))
             s.append(self.lines.js())
 
-            s.append('the_title = ' + js(self.table_title) + ';')
-
             s.append('lines_id = ')
             s.append(repr(self.lines.keys()) )
             s.append(';')
@@ -891,8 +883,6 @@ la dernière saisie.
 
             s.append('document.write(tail_html());')
             s.append('runlog(columns, lines) ;')
-            s.append('change_title(%s,%d) ;' % (js(self.table_title),
-                                                self.code))
             s.append('change_mails(%s) ;' % repr(self.mails))
             s.append('change_portails(%s) ;' % utilities.js(self.portails))
             s.append('}')

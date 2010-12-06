@@ -2465,11 +2465,13 @@ function current_update_table_headers()
 
       if ( e.selectedIndex !== undefined )
 	e.selectedIndex = Number(table_attr[attr]) ;
-      else
+      else if ( e.tagName == 'INPUT' )
 	update_input(e,
 		     attributes.formatter(table_attr[attr]),
 		     attributes.empty(table_attr[attr])
 		     ) ;
+      else
+	e.innerHTML = attributes.formatter(table_attr[attr]) ;
       set_editable(e, !attributes.need_authorization || !disabled) ;
     }
 }
