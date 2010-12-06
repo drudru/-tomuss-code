@@ -281,11 +281,14 @@ class TableAttr(ColumnAttr):
             setattr(table, self.name, self.encode(value))
             page.request += 1
             return 'ok.png'
-        
-        if page.user_name not in configuration.root and not table.modifiable:
-            return table.bad_ro(page)
 
         teachers = table.teachers + table.masters
+
+        if (page.user_name not in teachers
+            and page.user_name not in configuration.root
+            and not table.modifiable):
+            return table.bad_ro(page)
+
         if ( (page.user_name not in teachers)
              and len(teachers) != 0
              and page.user_name not in configuration.root
