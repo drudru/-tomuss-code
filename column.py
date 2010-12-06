@@ -282,7 +282,7 @@ class TableAttr(ColumnAttr):
             page.request += 1
             return 'ok.png'
         
-        if not table.modifiable:
+        if page.user_name not in configuration.root and not table.modifiable:
             return table.bad_ro(page)
 
         teachers = table.teachers + table.masters
