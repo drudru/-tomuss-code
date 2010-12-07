@@ -20,10 +20,9 @@
 */
 
 /*REDEFINE
-This function is called to set the UE title on the page.
-This function is no more useful and will be deprecated.
+This function is called to set the UE title links on the page.
 */
-function update_title_links()
+function change_title()
 {
   var p_title_links = document.getElementById('title_links') ;
   if ( p_title_links == undefined )

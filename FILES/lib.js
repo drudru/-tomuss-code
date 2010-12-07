@@ -5183,7 +5183,7 @@ function runlog(the_columns, the_lines)
 	       }, 10) ;
 
   the_current_cell.update_table_headers() ;
-  update_title_links() ;
+  change_title(table_attr.table_title, table_attr.code)
 }
 
 
