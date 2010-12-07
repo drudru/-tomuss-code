@@ -1195,8 +1195,12 @@ new_page('' ,'*', '', '', None)
         assert(c == ok_png)
         c = s.url('=' + abj + '/%d/Automne/UE-pastue/1/4/column_attr_comment/col_0/test3' % (year-1))
         assert(c == ok_png)
-        
-        
+
+        # Can't create an UE in the past
+        s.url('=' + root + '/%d/Automne/UE-pastue2' % (year-1))
+        assert(c == ok_png)
+        assert(os.path.exists('DBregtest/Y%d/SAutomne/UE-pastue.py' % (year-1)))
+        assert(not os.path.exists('DBregtest/Y%d/SAutomne/UE-pastue2.py' % (year-1)))
                              
 
 
