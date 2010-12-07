@@ -24,10 +24,10 @@ import document
 import orientation_rp
 
 days = {
-    '14:Lundi'   : '20100214',
-    '15:Mardi'   : '20100215',
-    '16:Mercredi': '20100216',
-    '17:Jeudi'   : '20100217',
+    '14:Lundi'   : '20110214',
+    '15:Mardi'   : '20110215',
+    '16:Mercredi': '20110216',
+    '17:Jeudi'   : '20110217',
     }
 hoursAM = ('8h30', '9h','9h30','10h','10h30','11h','11h30', '12h')
 hoursPM = ('13h','13h30','14h','14h30','15h','15h30', '16h','16h30','17h')
@@ -264,7 +264,7 @@ def rdv_ip(server, stats=True, dsi_table=False, student_table=False):
                     '" colspan="%d">Pas de RDV</td>' % (len(allhours) + 1) +
                     '</tr>')
                 continue
-            for day in days:
+            for day in sorted(days):
                 for j, i in enumerate(allhours):
                     day_sum[j] += orientation[dayhour(day,i)]
                 nb_day = sum(orientation[dayhour(day,i)] for i in allhours)
@@ -294,7 +294,7 @@ def rdv_ip(server, stats=True, dsi_table=False, student_table=False):
         server.the_file.write('</tr>')
         for name in sorted(orientation_rp.orientations):
             orientation = orientations[name]
-            for day in days:
+            for day in sorted(days):
                 for hour in allhours:
                     nb_max = int(orientation[dayhour(day,hour)])
                     if nb_max:

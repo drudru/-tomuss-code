@@ -155,6 +155,8 @@ send_mail.session = None
 
 import threading
 def start_new_thread(fct, args):
+    # turn around a locking problem BUG in python threads
+    time.strptime('2010', '%Y')
     t = threading.Thread(target=fct, args=args)
     t.setDaemon(True)
     t.start()    
@@ -165,6 +167,8 @@ def start_new_thread_immortal(fct, args, send_mail=True):
     class T(threading.Thread):
         def run(self, fct=fct, args=args, send_mail=send_mail):
             warn("Start immortal thread:" + fct.func_name)
+            # turn around a locking problem BUG in python threads
+            time.strptime('2010', '%Y')
             while True:
                 warn('Call ' + fct.func_name)
                 try:
