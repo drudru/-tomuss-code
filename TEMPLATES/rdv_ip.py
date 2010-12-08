@@ -365,6 +365,21 @@ plugin.Plugin('rdv_ip_student', '/rdv_ip_student',
                   )
               )
 
+"""
+http://www.univ-lyon1.fr/cridev/Apogee_Web_Lmd/Rdv_Choix_Ip/index_test.php
+http://www.univ-lyon1.fr/cridev/Apogee_Web_Lmd/Rdv_Choix_Ip/affichage_planning.php
+
+18/11/1991
+SELECT * FROM RDV_IPUE_CRENEAUX_AUTO WHERE NUM_ETUDIANT = '11004734' ;
+
+DELETE FROM RDV_IPUE_CRENEAUX_AUTO WHERE DATE_CRENEAU < '201102161300' ;
+
+for D in 14 15 16 17 ; do for H in 0830 0900 0930 1000 1030 1100 1130 1200 1300 1330 1400 1430 1500 1530 1600 1630 1700 1730 ; do
+echo "INSERT INTO RDV_IPUE_CRENEAUX_AUTO VALUES('11004734', '201102$D$H') ;"
+done ; done
+
+"""
+
 def fill_rdv_table(server):
     """Fill the Database with information from TOMUSS"""
     

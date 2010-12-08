@@ -352,7 +352,7 @@ class Table(object):
                          '<script>change_mails(' + repr(mails) + ');</script>\n')
 
     def update_mail(self, login, mail):
-        warn('update mail of ' + self.title(), what="table")
+        warn('update mail of ' + self.location(), what="table")
         self.mails[login] = mail
         self.send_update(None,
                          ('<script>update_mail(' + repr(login)
@@ -591,7 +591,7 @@ class Table(object):
     def private_toggle(self, page):
         """Deprecated"""
         self.private = 1 - self.private
-        if self.loading: # compatibility with old TEMPLATES
+        if not self.loading: # compatibility with old TEMPLATES
             self.log('table_attr("private",%d,%d)' % (page.page_id,
                                                       self.private))
         return 'ok.png'

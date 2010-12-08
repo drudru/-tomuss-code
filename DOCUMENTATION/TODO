@@ -1,5 +1,9 @@
 Finir par priorité :
 	TESTER : problème des extensions éditables
+		Solution : Changer la direction du lien symbolique
+		Ecrire le script d'inversion
+		Changer le plugin extension
+		Interdir l'écriture dans les liens symboliques (redirection?)
 	COW (stable) valeur vide ==> comme si rien
 	Sauvegarde de l'état figé...
 	Consultation TT par les secrétaires
@@ -11,7 +15,7 @@ Finir par priorité :
 	RSS table : TT DA, ajouter + info dans le texte et le sujet ?
 	Relancer seulement le suivi ou tomuss dans Makefile
 	Nom de jeune fille
-	Mettre UNE table en lecture seulement. Envoyer mail a l'administratif
+	Mettre UNE table en lecture seulement : Envoyer mail a l'administratif
 	linear	Afficher aide plus detaille sur la valeur de la cellule
 	linear  rendre champs saisie invisible
 	live_status : pong ne doit pas mettre la date courante si existe pas
