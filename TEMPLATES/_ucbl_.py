@@ -234,9 +234,7 @@ def update_etape(the_ids, table, page, col):
         login = line[0].value
         if login == '' or login != utilities.safe(login):
             continue
-        a = L.member_of_list(utilities.the_login(login))
-        etapes = ' '.join(sorted([aa.split(' etape-')[1].split(',')[0]
-                      for aa in a if ' etape-' in aa]))
+        etapes = ' '.join(sorted(L.etapes_of_student(login)))
         table.lock()
         try:
             table.cell_change(page, col, line_key, etapes)

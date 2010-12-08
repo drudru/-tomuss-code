@@ -287,6 +287,12 @@ class LDAP_Logic(object):
     member_of_list = utilities.add_a_method_cache(member_of_list,
                                                   not_cached=())
 
+    def etapes_of_student(self, login):
+        """Assumes that LDAP contains OU with ' etape-XXXX' inside"""
+        a = self.member_of_list(utilities.the_login(login))
+        return [aa.split(' etape-')[1].split(',')[0]
+                for aa in a if ' etape-' in aa]
+
     def is_in_one_of_the_groups(self, login, groups):
         """Returns true if the login is one of the groups or sub group"""
         r = self.member_of_list(login)
