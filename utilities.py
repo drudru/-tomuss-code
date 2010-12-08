@@ -168,7 +168,12 @@ def start_new_thread_immortal(fct, args, send_mail=True):
         def run(self, fct=fct, args=args, send_mail=send_mail):
             warn("Start immortal thread:" + fct.func_name)
             # turn around a locking problem BUG in python threads
-            time.strptime('2010', '%Y')
+            while True:
+                try:
+                    time.strptime('2010', '%Y')
+                    break
+                except:
+                    time.sleep(0.01)
             while True:
                 warn('Call ' + fct.func_name)
                 try:
