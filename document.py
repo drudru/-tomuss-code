@@ -320,6 +320,10 @@ class Table(object):
                 else:
                     tables_of_student[login] = [self.ue]
 
+        if self.is_extended:
+            # To forbid the edit of the same table with 2 names
+            self.modifiable = 0
+
     def update(self):
         """Update the table if the file on disc changed."""
         # warn('Start ro=%s dt=%f p=%s' % (self.ro, time.time() - self.mtime, os.path.exists(self.filename)), what="table")
@@ -393,6 +397,8 @@ class Table(object):
             self.panic('Modification on an unloaded table')
         if not self.the_lock.locked():
             self.panic('Modification on an unlocked table')
+        if self.is_extended:
+            self.panic('Modification on an extended table')
         if configuration.read_only:
             self.panic('Modification in a readonly process')
                 
@@ -667,7 +673,7 @@ la dernière saisie.
         if not empty_even_if_created_today and time.time()-self.mtime <24*3600:
             return False, 'Created/Modified today'
         if self.comment:
-            return False, 'There is a table comment'
+            return False, 'There is a table comment: %s' % self.comment
         if not empty_even_if_column_created:
             for c in self.columns:
                 if c.author != ro_user:

@@ -1,9 +1,5 @@
 Finir par priorité :
-	TESTER : problème des extensions éditables
-		Solution : Changer la direction du lien symbolique
-		Ecrire le script d'inversion
-		Changer le plugin extension
-		Interdir l'écriture dans les liens symboliques (redirection?)
+	Un blocage check_student_list bloque tout...
 	COW (stable) valeur vide ==> comme si rien
 	Sauvegarde de l'état figé...
 	Consultation TT par les secrétaires

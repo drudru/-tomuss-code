@@ -94,8 +94,13 @@ def new_page(server):
         server.the_file.write(files["unauthorized.html"])
         server.the_file.close()
         warn('No Table', what="error")
-        return            
+        return
 
+    if table.is_extended:
+        server.the_file.write('<meta HTTP-EQUIV="REFRESH" content="0; url=../../%d/Printemps/%s">' % ( server.the_year + 1, server.the_ue))
+        server.the_file.close()
+        return
+    
     warn('New page, do_not_unload=%d' % table.do_not_unload, what="table")
 
     if configuration.regtest_sync:

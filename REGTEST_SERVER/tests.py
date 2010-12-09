@@ -826,7 +826,7 @@ def tests():
     if do('extension'):
         c = s.url('=' + abj + '/%s/extension' % ys)
         c = s.url('=' + abj + '/%s/extension/1/0/table_attr_masters/' % ys + abj)
-        assert( c == ok_png)        
+        assert( c == ok_png)
         c = s.url('=' + abj + '/%s/extension/extension' % ys)
         if semester == 'Printemps':
             assert('existait pas au semestre' in c)

@@ -173,6 +173,7 @@ def start_new_thread_immortal(fct, args, send_mail=True):
                     time.strptime('2010', '%Y')
                     break
                 except:
+                    warn('strptime', what='error')
                     time.sleep(0.01)
             while True:
                 warn('Call ' + fct.func_name)

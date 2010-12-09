@@ -1213,9 +1213,13 @@ function do_extension(code)
   ue_line_close() ;
   if ( confirm("Cette opération est irréversible.\nLes étudiants seront les mêmes pour l'automne et le printemps.\nVous êtes sûr de vouloir le faire ?") )
     {
+      var year = the_year() ;
+      if ( semester() == 'Automne')
+	year++ ;
+
       document.getElementById('feedback').innerHTML =
 	'<div class="frame"><div onclick="close_frame()">Fermer</div><iframe src="'
-	+ base + university_year() + '/Printemps/' + code + '/extension"></iframe></div>' ;
+	+ base + year + '/Printemps/' + code + '/extension"></iframe></div>' ;
     }
 }
 
@@ -1262,11 +1266,8 @@ function ue_line_click_more()
 	}
 
       var t ;
-      if ( is_the_current_semester() || semester() == 'Test' )
-	t = '<img class="safety" src="_URL_/safe.png"><a href="javascript:' + href
+      t = '<img class="safety" src="_URL_/safe.png"><a href="javascript:'+ href
 	  + '\')">Éditer la table</a>' ;
-      else
-	t = 'On ne peut pas éditer les anciens semestres' ;
 
       t += '<br><img class="safety" src="_URL_/verysafe.png"><a href="javascript:'+ href
 	+ '/=read-only=\')">Afficher la table sans la modifier</a>' ;

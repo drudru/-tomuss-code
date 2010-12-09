@@ -49,7 +49,6 @@ def page_action(server):
 def page_resume(server):
     """Display the list of ABJ, DA and TT for the students in the table.
     It is the same list being sended by mail."""
-    utilities.warn('a')
     lines, mails = abj.ue_resume(server.the_ue, server.the_year,
                                  server.the_semester, server.the_file)
     server.the_file.write(''.join(lines).encode('utf-8'))
@@ -78,12 +77,14 @@ def extension(server):
     """Extend the table used in 'Automne' semester to be used
     in 'Printemps' semester.
     A symbolic link is created and the current table is accessible
-    in the 2 semester but modifiable only in the 'Printemps' one."""
-    table = document.table(server.the_year, server.the_semester,
-                           server.the_ue, None, None)
+    in the 2 semester but modifiable only in the 'Printemps' one.
+    """
     if server.the_semester != "Printemps":
         server.the_file.write("Vous n'êtes pas autorisé à faire ceci car l'extension d'UE ce fait de l'automne vers le printemps.")
         return
+
+    table = document.table(server.the_year, server.the_semester,
+                           server.the_ue, None, None)
 
     if server.ticket.user_name not in table.masters and server.ticket.user_name not in table.teachers:
         server.the_file.write("Vous n'êtes pas autorisé à faire ceci car vous n'êtes pas responsable de l'UE.")
@@ -93,7 +94,7 @@ def extension(server):
                                  empty_even_if_created_today=True,
                                  empty_even_if_column_created=True)
     if not empty:
-        server.the_file.write("Vous n'êtes pas autorisé à faire ceci car la page n'est pas vide : " + message)
+        server.the_file.write("Vous n'êtes pas autorisé à faire ceci car la page %s n'est pas vide : " % table.location() + message)
         return
 
     old_filename = document.table_filename(server.the_year-1, 'Automne',
@@ -107,17 +108,21 @@ def extension(server):
     # The table in the previous semester should not be modified.
     t = document.table(server.the_year-1, 'Automne', server.the_ue, ro=True)
     t.modifiable = 0
-    
-    table.delete()
+
+    utilities.warn('Move %s to %s' % (old_filename, new_filename))
+    os.rename(old_filename, new_filename)
+    if configuration.backup:
+        os.rename(configuration.backup + old_filename,
+                  configuration.backup + new_filename)
 
     # XXX: We hope that nobody will recreate the table at the instant.
 
-    old_filename = os.path.join(*old_filename.split(os.path.sep)[1:])
+    new_filename = os.path.join(*new_filename.split(os.path.sep)[1:])
 
-    os.symlink(os.path.join('..', '..', old_filename), new_filename)
+    os.symlink(os.path.join('..', '..', new_filename), old_filename)
     if configuration.backup:
-        os.symlink(os.path.join('..', '..', old_filename),
-                   configuration.backup + new_filename)
+        os.symlink(os.path.join('..', '..', new_filename),
+                   configuration.backup + old_filename)
 
     server.the_file.write("Extension de l'automne vers le printemps réussie. L'UE n'est maintenant plus semestrialisée")
     return

@@ -32,19 +32,12 @@ def init(table):
     _ucbl_.init(table)
     table.default_sort_column = 2
     table.modifiable = 0
-    if (table.year, table.semester) == configuration.year_semester:
+    if table.is_extended:
+        # Never modify via a symbolic link
+        pass
+    elif (table.year, table.semester) == configuration.year_semester:
         # Normal case : current semester modifications are allowed
         table.modifiable = 1
-        
-        if (configuration.year_semester != configuration.year_semester_next
-            and os.path.islink(document.table_filename(
-                configuration.year_semester_next[0],
-                configuration.year_semester_next[1],
-                table.ue))):
-                # The same file table can't be modified by two ways
-                # Only the 'next_semester' is allowed
-                table.modifiable = 0
-
     elif table.semester == 'Test':
         table.modifiable = 1
     elif (table.year, table.semester) == configuration.year_semester_next:
@@ -52,11 +45,7 @@ def init(table):
                                 ) == '%s/%s' % configuration.year_semester:
             # Closed on the previous semester
             table.modifiable = 1
-        if table.is_extended:
-            # It is False for the current semester.
-            table.modifiable = 1
-            
-                                 
+
     table.abjs = abj.get_abjs(table.year, table.semester)
     table.abjs_mtime = 0
 
