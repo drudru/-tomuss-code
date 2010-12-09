@@ -118,16 +118,8 @@ def student_statistics(login, server, is_a_student=False, expand=False):
         s.append(u'Référent pédagogique : <script>hidden(\'<a href="mailto:' + mail_ref + '">' +
                  ref + u"</a>','Envoyez un message à l\\'enseignant référent pédagogique');</script> :: ")
     else:
-        if need_a_referent(login):
+        if referent.need_a_referent(login):
             s.append(u"<script>hidden(\'Référent pédagogique : Aucun\','Seuls les étudiants inscrits pour la première fois à l\\'université ont un référent pédagogique.');</script> :: ")
-#            if (year, semester) == configuration.year_semester:
-#                if login not in referent_missing:
-#                    referent_missing[login] = True
-#                    utilities.send_mail_in_background(
-#                        configuration.maintainer,
-#                        'TOMUSS : Manque référent pédagogique ' + login,
-#                        'TOMUSS : Manque référent pédagogique ' + login
-#                        )
         else:
             s.append(u"<script>hidden(\'Référent pédagogique : Aucun\','Vous n\\'êtes pas dans la licence STS, vous n\\'avez donc pas d\\'enseignant référent');</script> :: ")
 
@@ -267,19 +259,6 @@ def mathinfo_groups():
             configuration.the_portails['INFL3']+
             configuration.the_portails['MATL3'])
 
-def need_a_referent(login):
-    """To be redefined"""
-    return ufr_fst(login)
-    
-    return inscrits.is_in_one_of_the_groups(
-        login,
-        configuration.the_portails['MATINFL1'] +
-        configuration.the_portails['MATINFL2']) \
-        and not inscrits.is_in_one_of_the_groups(
-        login,
-        configuration.the_portails['INFL3'] +
-        configuration.the_portails['MATL3'])
-
 def need_a_charte(login):
     """To be redefined"""
     return mathinfo(login)
@@ -287,34 +266,10 @@ def need_a_charte(login):
 def mathinfo(login):
     return inscrits.is_in_one_of_the_groups(login, mathinfo_groups())
 
-def ufr_fst(login):
-    return inscrits.is_in_one_of_the_groups(
-        login, configuration.the_portails['UFRFST'])
-
-    return login[1].digit()
-
-def ask_profile(server):
-    server.the_file.write('Profile?')
-    server.the_file.close()
-
-def set_profile(server):
-    pass
-
-def display_profile(server):
-    pass
-
 def student(server, login=''):
     """Display all the informations about a student."""
     if not login:
         login = server.ticket.user_name
-
-    if False and ufr_fst(server.ticket.user_name):
-        profile = utilities.manage_key('LOGINS',
-                                       os.path.join(server.ticket.user_name,
-                                                    'profile'))
-        if profile is False:
-            ask_profile(server)
-            return
         
     if need_a_charte(server.ticket.user_name) \
            and utilities.manage_key('LOGINS',

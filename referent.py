@@ -39,7 +39,11 @@ def port():
 def not_in():
     return ()
            
-
+#REDEFINE
+# Return True if the student need a referent teacher
+def need_a_referent(login):
+    """To be redefined"""
+    return True
 
 def student_list(f, pportails, not_in_list):
     f.write('<h1>Get the student list for UEs</h1>\n')
