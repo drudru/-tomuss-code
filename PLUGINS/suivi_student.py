@@ -132,7 +132,7 @@ def student_statistics(login, server, is_a_student=False, expand=False):
         x, member_of = member_of_list(login)
         s.append(x)
 
-        if need_a_charte(login):
+        if referent.need_a_charte(login):
             if utilities.manage_key('LOGINS',
                                     utilities.charte_server(login,server)):
                 s.append(u' :: Contrat signé')
@@ -144,7 +144,7 @@ def student_statistics(login, server, is_a_student=False, expand=False):
             utilities.StaticFile._url_, ticket.ticket,
             year, semester, login))
     else:
-        if need_a_charte(login):
+        if referent.need_a_charte(login):
             s.append(u' :: <script>hidden(\'<a href="%s/charte.html" target="_blank">Contrat</a>\',"Le contrat pédagogique que vous avez signé.");</script>' %
                      utilities.StaticFile._url_)
 
@@ -252,26 +252,12 @@ def student_statistics(login, server, is_a_student=False, expand=False):
     return '\n'.join(s) + '<p>' + abj.html_abjs(server.year, server.semester,
                                                 login, read_only=True) + xx + tt + '</div>'
 
-
-def mathinfo_groups():
-    return (configuration.the_portails['MATINFL1'] +
-            configuration.the_portails['MATINFL2'] +
-            configuration.the_portails['INFL3']+
-            configuration.the_portails['MATL3'])
-
-def need_a_charte(login):
-    """To be redefined"""
-    return mathinfo(login)
-
-def mathinfo(login):
-    return inscrits.is_in_one_of_the_groups(login, mathinfo_groups())
-
 def student(server, login=''):
     """Display all the informations about a student."""
     if not login:
         login = server.ticket.user_name
         
-    if need_a_charte(server.ticket.user_name) \
+    if referent.need_a_charte(server.ticket.user_name) \
            and utilities.manage_key('LOGINS',
                                     utilities.charte(server.ticket.user_name)
                                     ) == False:

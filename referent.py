@@ -45,6 +45,11 @@ def need_a_referent(login):
     """To be redefined"""
     return True
 
+#REDEFINE
+# Return True if the student must sign an interactive document
+def need_a_charte(login):
+    return False
+
 def student_list(f, pportails, not_in_list):
     f.write('<h1>Get the student list for UEs</h1>\n')
     students = {}
@@ -292,7 +297,9 @@ def search_best_teacher(student, sorted_teachers, f, all_teachers):
 
 # REDEFINE
 # Returns True if the student need a referent.
-def student_need_a_referent(student, all_cells, f):
+# This function can heavely modify 'all_cells' and other data
+# to make some adjustement.
+def student_need_a_referent(student, all_cells, debug_file):
     return True
     
 def update_referents(ticket, f):

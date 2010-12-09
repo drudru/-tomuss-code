@@ -111,7 +111,6 @@ def create(table):
 
 def update_inscrits_referents(the_ids, table, page):
     import referent
-    import PLUGINS.suivi_student
     table.lock()
     try:
         check_columns(table)
@@ -130,7 +129,7 @@ def update_inscrits_referents(the_ids, table, page):
         firstname,surname,mail = inscrits.firstname_and_surname_and_mail(login)
         the_ids[the_id] = mail.encode('utf-8')
         # COpy/Paste with Favoris.py
-        if PLUGINS.suivi_student.need_a_charte(login):
+        if referent.need_a_charte(login):
             if utilities.manage_key('LOGINS', utilities.charte(login)):
                 s = 'OUI'
             else:
