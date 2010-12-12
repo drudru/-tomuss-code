@@ -97,7 +97,25 @@ def new_page(server):
         return
 
     if table.is_extended:
-        server.the_file.write('<meta HTTP-EQUIV="REFRESH" content="0; url=../../%d/Printemps/%s">' % ( server.the_year + 1, server.the_ue))
+        # Take the link destination (assuming ../..) and remove the .py
+        link_to = os.readlink(table.filename)[:-3].split(os.path.sep)
+        if len(link_to) == 3:
+            assert(link_to[0] == '..')
+            assert(link_to[1][0] == 'S')
+            link_to[1] = link_to[1][1:]
+        elif len(link_to) == 5:
+            assert(link_to[0] == '..')
+            assert(link_to[1] == '..')
+            assert(link_to[2][0] == 'Y')
+            assert(link_to[3][0] == 'S')
+            link_to[2] = link_to[2][1:]
+            link_to[3] = link_to[3][1:]
+        else:
+            assert(len(link_to) == 1)
+
+        link_to = os.path.join(*link_to)
+        
+        server.the_file.write('<meta HTTP-EQUIV="REFRESH" content="0; url=%s">' % (link_to,))
         server.the_file.close()
         return
     
