@@ -80,8 +80,8 @@ def update_inscrits_favoris(the_ids, table, page):
         d = eval(d)
 
     done = {}
-    for the_id in d:
-        login = utilities.the_login(the_id)
+    for login in d:
+        the_id = inscrits.login_to_student_id(login)
         done[login] = True
         firstname,surname,mail = inscrits.firstname_and_surname_and_mail(login)
         the_ids[the_id] = mail.encode('utf-8')
@@ -118,3 +118,6 @@ def update_inscrits_favoris(the_ids, table, page):
     
 def check(table, update_inscrits=update_inscrits_favoris):
     _ucbl_.check(table, update_inscrits)
+
+
+cell_change = _ucbl_.cell_change

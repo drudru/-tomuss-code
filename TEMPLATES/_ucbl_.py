@@ -319,7 +319,8 @@ def remove_students_from_table(table, students):
     table.lock()
     try:
         for line_id, line in table.lines.items():
-            if inscrits.login_to_student_id(line[0].value) not in students:
+            if (inscrits.login_to_student_id(line[0].value) not in students
+                and utilities.the_login(line[0].value) not in students):
                 if inscrit_column:
                     table.cell_change(table.pages[0], inscrit_column, line_id,
                                       'ok')
