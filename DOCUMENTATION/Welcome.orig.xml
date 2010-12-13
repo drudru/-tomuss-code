@@ -406,6 +406,10 @@ Types are defined by a class tree.
 
     _INCLUDE_ xxx_column_attr.html
 
+    <h2><a name="table_attributes">Attributes of tables</a></h2>
+
+    _INCLUDE_ xxx_table_attr.html
+
     <h2><a name="serverthreads">TOMUSS server side threads</a></h2>
     <p>
 The server need informations from other servers,

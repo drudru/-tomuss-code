@@ -22,6 +22,7 @@
 import plugin
 import utilities
 import files
+import cgi
 
 suivi_plugins = []
 
@@ -307,12 +308,26 @@ TABLE.types .defined { background: #FDD ; }
     for attr in column.ColumnAttr.attrs_list:
         f.write('<tr>')
         for i in a:
-            f.write('<td>' + str(getattr(attr, i)) + '</td>')
+            f.write('<td>' + cgi.escape(str(getattr(attr, i))) + '</td>')
         f.write('</tr>\n')
             
     f.write('</tbody></table>\n')
     f.close()
 
+    f = open('DOCUMENTATION/xxx_table_attr.html', 'w')
+    f.write('''<table border="1">
+<tbody>
+''')
+    a += ('only_masters',)
+    f.write('<tr><th>' + '</th><th>'.join([plugin.vertical_text(t)+'&nbsp;&nbsp;' for t in a]) + '</th></tr>')
+    for attr in column.TableAttr.attrs_list:
+        f.write('<tr>')
+        for i in a:
+            f.write('<td>' + cgi.escape(str(getattr(attr, i))) + '</td>')
+        f.write('</tr>\n')
+            
+    f.write('</tbody></table>\n')
+    f.close()
 
 if __name__ == "__main__":
     load_types()
