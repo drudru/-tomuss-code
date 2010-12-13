@@ -1761,6 +1761,7 @@ function table_fill_try()
 	  compute_nr_cols() ;
 	}
       update_column_menu() ;
+      update_histogram(true) ;
     }
   if ( current_window_height != window_height() )
     {
