@@ -9,13 +9,7 @@ Output :
 """
 
 
-import sys
-import os
-sys.path.append(os.getcwd())
-sys.path.append(os.path.join(os.getcwd(), '..'))
-
-import utilities
-
+import tomuss_init
 
 import TMP.xxx_toute_les_ues
 ues = TMP.xxx_toute_les_ues.all
