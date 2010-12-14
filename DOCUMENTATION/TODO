@@ -1,4 +1,7 @@
 Finir par priorité :
+	Ne pas faire d'erruer sur le poids de colonne vide ==> 1
+	Pour l'impression : cacher les entêtes et les fignoler.
+	BUG : Libérer les caches ZERO arguments ???? Quand ???
 	COW (stable) valeur vide ==> comme si rien
 	Sauvegarde de l'état figé...
 	Consultation TT par les secrétaires
@@ -31,7 +34,6 @@ Finir par priorité :
 		Sous windows seulement
 	Fuite mémoire ?
 	BUG : Le 'resume' permet d'avoir des informations non autorisée
-	BUG : Libérer les caches ZERO arguments ???? Quand ???
 	BUG : Pourquoi TOMUSS charge toutes les UE (3500) !!!
 	Safari : requetes en double, page accueil
 	chrome : requetes en double (changement de valeur cellule)

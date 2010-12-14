@@ -301,9 +301,28 @@ Nouveautés :
       </description>
       <guid>24</guid>
     </item>
-
-
-
+    <item>
+      <title>14/12/2010 : Version 2.12.0</title>
+      <link>http://tomuss.univ-lyon1.fr/</link>
+      <description>
+        Nouvelles fonctionnalités :
+&lt;ul&gt;
+&lt;li&gt; La liste des responsables de la table est directement modifiable.
+&lt;li&gt; Le responsable de la table peut interdire les écritures
+           pour que la table ne soit plus modifiable.
+&lt;li&gt; Le responsable de la table peut autoriser les écritures
+           pour une table qui est dans un ancien semestre afin
+           de pouvoir corriger une erreur par exemple.
+&lt;li&gt; Le responsable de la table peut fixer le nombre de colonnes
+           à afficher quelque soit la personne qui regarde la table.
+&lt;li&gt; Une URL de base peut être indiquée pour les colonnes
+           de type URL.
+&lt;li&gt; Les listes d'étudiants sont mises à jour plus rapidement
+           quand il y a un changement dans APOGÉE.
+&lt;/ul&gt;      
+      </description>
+      <guid>25</guid>
+    </item>
 
   </channel>
 </rss>

@@ -700,7 +700,7 @@ for(var type_i in types)
 	      "Tapez le début de ce que vous cherchez.<br>" +
 	      "Pour plus d'information, regardez l'aide sur les filtres.") +
    '<td class="space"><td class="blockbottom">' +
-   table_input_attr('masters','empty',"Liste des LOGINS d'enseignants ayant tous les droits sur la table<br>Tapez sur la touche «Entrée» pour valider.") +
+   table_input_attr('masters','empty',"Liste des LOGINS d'enseignants ayant tous les droits sur la table.<br>Les logins sont séparés par un espace.<br>Tapez sur la touche «Entrée» pour valider.") +
    table_input_attr("comment",'empty',
 		    "Tapez un commentaire pour cette table.<br>" +
 		    "Ce commentaire sera visible par les étudiants<br>" +
