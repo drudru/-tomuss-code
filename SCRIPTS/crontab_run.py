@@ -86,7 +86,7 @@ for I in * ; do echo "$I: wchan=$(cat $I/wchan) sleepavg=$(grep SleepAVG $I/stat
         if os.path.exists(loglink):
             os.unlink(loglink)
         os.symlink(logname, loglink)
-        os.system('ulimit -s 1024 ; nohup %s ./%s >%s/%s 2>&1 & echo $! >%s/pid' %
+        os.system('. LOCAL/profile ; ulimit -s 1024 ; nohup %s ./%s >%s/%s 2>&1 & echo $! >%s/pid' %
                   (strace, command, logdir, logname, logdir))
     else:
         print ', yet running'

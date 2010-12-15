@@ -1,0 +1,2 @@
+# This shell script is sourced when starting TOMUSS
+# It is useful for example to exporting LD_LIBRARY_PATH
