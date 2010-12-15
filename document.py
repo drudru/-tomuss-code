@@ -234,14 +234,14 @@ class Table(object):
         self.filename = os.path.join(dirname, ue + '.py')
         self.is_extended = os.path.islink(self.filename)
 
-        if os.path.exists(os.path.join('TEMPLATES', self.ue + '.py')):
+        if os.path.exists(os.path.join('LOCAL','Templates', self.ue + '.py')):
+            self.template = __import__('LOCAL.Templates.' + self.ue).__dict__['Templates'].__dict__[self.ue]
+        elif os.path.exists(os.path.join('TEMPLATES', self.ue + '.py')):
             self.template = __import__('TEMPLATES.' + self.ue).__dict__[self.ue]
+        elif os.path.exists(os.path.join('LOCAL','Templates', self.semester + '.py')):
+            self.template = __import__('LOCAL.Templates.' + self.semester).__dict__['Templates'].__dict__[self.semester]
         elif os.path.exists(os.path.join('TEMPLATES', self.semester + '.py')):
             self.template = __import__('TEMPLATES.' + self.semester).__dict__[self.semester]
-        elif os.path.exists(os.path.join('LOCAL','Templates', self.ue + '.py')):
-            self.template = __import__('LOCAL','Templates.' + self.ue).__dict__[self.ue]
-        elif os.path.exists(os.path.join('LOCAL','Templates', self.semester + '.py')):
-            self.template = __import__('LOCAL','Templates.' + self.semester).__dict__[self.semester]
         else:
             class TT:
                 def create(self, ttable):

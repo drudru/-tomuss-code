@@ -4,11 +4,10 @@ start:
 stop:
 	SCRIPTS/crontab_run.py stop
 
-install:clean diff
+install:clean
 	SCRIPTS/install
 check:
 	SCRIPTS/mirror_check
-
 
 stat:
 	@echo "JavaScript lines : " "$$(cat FILES/*.js COLUMNS_TYPE/*.js | wc -l)"
@@ -34,25 +33,6 @@ clean:
 tags:
 	etags *.py */*.py */*.js
 
-
-# display difference between development sources and production sources.
-diff:
-	-@find . -type f \
-	     ! \( -name '*.pyc' -o -name  '*~' -o -name 'xxx*' -o \
-		-name 'all_ues.js' -o \
-		-name 'sauvegarde' -o \
-	        -path '*/LOGS/*' -o \
-		-path '*/TICKETS/*' -o \
-		-path '*/BACKUP_DB*/*' -o \
-		-path '*/DB*/*' -o \
-		-path '*/TMP/*' -o \
-		-path '*/LOCAL/DATA/*' -o \
-		-path '*/Trash/*' \) | while read I ; do \
-	diff -u "/disc/saisienotes/SERVEUR_NOTES/$$I" "$$I" ; done
-	@echo 'Tapez "return" pour continuer ou ^C pour arréter.'
-	@read A
-
-
 regtest:
 	cd REGTEST_SERVER ; ./tests.py
 
@@ -69,19 +49,9 @@ tar:
 	cd /tmp ; \
 	tar -cvf - \
 		--exclude 'Trash' \
-		--exclude 'LOGS/*' \
-		--exclude 'LOGS/TICKETS/*' \
-		--exclude 'TMP/*' \
+		--exclude 'LOGS' \
+		--exclude 'TMP' \
 		--exclude 'services-ucbl.html' \
-		--exclude 'TEMPLATES/licence_dist.py' \
-		--exclude 'TEMPLATES/master_sib.py' \
-		--exclude 'TEMPLATES/m1.py' \
-		--exclude 'TEMPLATES/rch.py' \
-		--exclude 'TEMPLATES/cci.py' \
-		--exclude 'TEMPLATES/pro.py' \
-		--exclude 'FILES/premier_cours.py' \
-		--exclude 'all_ues.js' \
-		--exclude 'all_ues.js.gz' \
 		--exclude 'xxx*' \
 		TOMUSS-$$V \
 	    | bzip2 -9 >~/public_html/TOMUSS/TOMUSS-$$V.tar.bz2 ; \
@@ -93,14 +63,13 @@ full-tar:
 	@$(MAKE) clean 2>/dev/null >&2
 	@tar -cf - \
 		--exclude 'Trash' \
-		--exclude 'LOGS/*' \
-		--exclude 'LOGS/TICKETS/*' \
+		--exclude 'LOGS' \
 		--exclude 'DBtest' \
 		--exclude 'BACKUP_DBtest' \
 		--exclude 'DBregtest' \
 		--exclude 'BACKUP_DBregtest' \
+		--exclude '.git' \
 		 .
-
 
 tar-check:
 	V=$$(python -c 'import configuration;print configuration.version') ; \
