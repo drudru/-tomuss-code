@@ -1085,14 +1085,19 @@ def table(year, semester, ue, page=None, ticket=None, ro=False, create=True,
     elif t is False:
         # I must create the table
         # Only one thread can be here at the same time.
-        if ticket == None:
-            if (not create
-                and not os.path.exists(table_filename(year, semester, ue))):
-                del tables[year, semester, ue]
-                return None
-            t = Table(year, semester, ue, ro)
-        else:
-            t = Table(year, semester, ue, ro, user=ticket.user_name)
+        try:
+            if ticket == None:
+                if (not create
+                    and not os.path.exists(table_filename(year, semester, ue))):
+                    del tables[year, semester, ue]
+                    return None
+                t = Table(year, semester, ue, ro)
+            else:
+                t = Table(year, semester, ue, ro, user=ticket.user_name)
+        except:
+            # The table import failed, allow the new one to retry
+            tables[year, semester, ue] = False
+            raise
         t.do_not_unload += do_not_unload # Only on this case
         tables[year, semester, ue] = t
     else:
