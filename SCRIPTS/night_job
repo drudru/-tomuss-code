@@ -19,3 +19,25 @@ make >../LOGS/xxx_crontab_night_job.local 2>&1
 
 echo "End of night job the $(date)"
 
+
+cd ..
+M=''
+for I in LOGS/xxx_crontab_*
+do
+  N=$(expr $(grep -ic traceback $I) - $(grep -ic shutdown $I))
+  if [ "$N" != 0 ]
+  then
+    M="$M $I"
+  fi
+done
+
+if [ '' != "$M" ]
+then
+  python -c "
+import SCRIPTS.tomuss_init
+import utilities 
+import configuration
+
+utilities.send_mail(configuration.maintainer,
+                    'BUG night job : $M', 'All in subject')"
+fi
