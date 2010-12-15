@@ -177,7 +177,7 @@ class ColumnTitle(ColumnAttr):
     # def check(self, value):
     #    if ' ' in value:
     #        return 'Espace interdit dans les titres de colonnes'
-    empty = 'function(column, value) { return column.title.substr(0,default_title.length) == default_title ; }'
+    empty = 'function(column, value) { return column.title.substr(0,default_title.length) == default_title && !isNaN(column.title.substr(default_title.length))  ; }'
 
 
 class ColumnComment(ColumnAttr):
