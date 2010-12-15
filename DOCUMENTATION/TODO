@@ -1,5 +1,4 @@
 Finir par priorité :
-	Pour l'impression : cacher les entêtes et les fignoler.
 	BUG : Libérer les caches ZERO arguments ???? Quand ???
 	COW (stable) valeur vide ==> comme si rien
 	Sauvegarde de l'état figé...

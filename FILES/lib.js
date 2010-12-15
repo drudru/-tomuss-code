@@ -3480,6 +3480,7 @@ function print_page(w)
     s += '<p>Petit message : <b>' + html(table_attr.comment) + '</b></p>' ;
   s += '<TABLE class="printer colored">' ;
   s += '<THEAD><TR>\n' ;
+  var minmax, test_filter ;
   for(var col in cols)
     s += print_cell('', col,
 		    '<a class="hidden_on_paper" href="javascript:hide_class(\'col' + cols[col] + '\',true)"><small>Cacher</small></a>', cols[col]
@@ -3492,14 +3493,24 @@ function print_page(w)
     s += print_cell(columns[cols[col]].type, col, '', cols[col]) ;
   s += '</TR>\n<TR CLASS="test">\n' ;
   for(var col in cols)
-    s += print_cell(columns[cols[col]].minmax + ' ' + columns[cols[col]].test_filter, col, '', cols[col]) ;
+    {
+      if ( columns[cols[col]].real_type.set_minmax != unmodifiable )
+	minmax = columns[cols[col]].minmax ;
+      else
+	minmax = '' ;
+      if ( columns[cols[col]].real_type.set_test_filter != unmodifiable )
+	test_filter = columns[cols[col]].test_filter ;
+      else
+	test_filter = '' ;
+      s += print_cell(minmax + ' ' + test_filter, col, '', cols[col]) ;
+    }
   s += '</TR>\n<TR CLASS="visibility_date">\n' ;
   for(var col in cols)
     s += print_cell(columns[cols[col]].visibility_date, col, '', cols[col]) ;
   s += '</TR>\n<TR CLASS="weight">\n' ;
   for(var col in cols)
     {
-      if ( columns[cols[col]].weight !== '' )
+      if ( columns[cols[col]].real_type.set_weight != unmodifiable )
 	s += print_cell(columns[cols[col]].weight, col,
 			'Poids:', cols[col]) ;
       /* '<img src="' + url + '/weight.png">', cols[col]) ; */
@@ -3524,6 +3535,8 @@ function print_page(w)
     s += print_cell(columns[cols[col]].comment, col, '', cols[col]) ;
 
   s += '</TR></THEAD><TBODY><TR CLASS="separator">' ;
+  var hide_link = '<TD><a class="hidden_on_paper" href="#" onclick="this.parentNode.parentNode.style.display=\'none\';return false"><small>Cacher</small></a>' ;
+  s = s.replace(/<.TR>/g, hide_link + '</TR>') ;
   w.document.write(s) ;
   
   var i = 0 ;
@@ -3538,7 +3551,7 @@ function print_page(w)
 	  else
 	    s += print_cell(line[cols[col]].value, col, '', cols[col]) ;
 	}
-      s += '</TR>\n' ;
+      s += hide_link + '</TR>\n' ;
       i++ ;
       if ( i % zebra_step === 0 )
 	s += '<TR CLASS="separator">' ;
