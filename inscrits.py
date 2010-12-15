@@ -196,6 +196,7 @@ class LDAP_Logic(object):
 
     @utilities.add_a_method_cache
     def firstname_surname_to_login(self, firstname_surname):
+        """Give a login from a firstname and a surname"""
         firstname_surname = firstname_surname.split(' ')
         for i in range(1, len(firstname_surname)):
             login = self.firstname_and_surname_to_login(' '.join(firstname_surname[:i]),
@@ -276,6 +277,7 @@ class LDAP_Logic(object):
         return r
 
     def member_of_list(self, login):
+        """List of the LDAP groups containing the login"""
         r = self.query_login(login, ('memberOf',))
         if len(r) == 0:
             if login not in member_of_nothing:
@@ -377,6 +379,7 @@ class LDAP_Logic(object):
                 pass
 
         return not utilities.stupid_password(login, passwords)
+    password_ok = utilities.add_a_method_cache(password_ok, not_cached=False)
 
     @utilities.add_a_method_cache
     def students(self, ue):
@@ -601,8 +604,8 @@ def is_in_one_of_the_groups(login, groups):
     return L.is_in_one_of_the_groups(login, groups)
 
 def password_ok(login):
+    """Returns True if the password if fine"""
     return L.password_ok(login)
-password_ok = utilities.add_a_cache(password_ok, not_cached=False)
 
 def students(ue):
     for i in L.students(ue):

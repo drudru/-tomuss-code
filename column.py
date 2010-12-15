@@ -509,6 +509,7 @@ files.files['types.js'].append('var column_attributes = {\n' +
 cookies = None
 
 def read_url_not_cached(url):
+    """Read an URL content to import in a column"""
     import urllib2
     try:
         f = urllib2.urlopen(url)

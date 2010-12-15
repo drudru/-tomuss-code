@@ -378,25 +378,25 @@ class StaticFile(object):
     def append(self, content):
         self.append_text += content
 
+caches = []
+
+def register_cache(f, fct, timeout, the_type):
+    f.__doc__ = fct.__doc__
+    f.fct = fct
+    f.timeout = timeout
+    f.the_type = the_type
+    caches.append(f)
+
 def add_a_cache0(fct, timeout=None):
     """Add a cache to a function without parameters"""
     if timeout is None:
-        def f(fct=fct):
-            if not f.cached:
-                f.cache = fct()
-                f.cached = True
-            return f.cache
-    else:
-        def f(fct=fct, timeout=timeout):
-            if not f.cached:
-                f.cache = (fct(), time.time())
-                f.cached = True
-            else:
-                if time.time() - f.cache[1] > timeout:
-                    f.cache = (fct(), time.time())
-            return f.cache[0]
-    f.cached = False
-    f.__doc__ = fct.__doc__
+        timeout = 3600
+    def f(fct=fct, timeout=timeout):
+        if time.time() - f.cache[1] > timeout:
+            f.cache = (fct(), time.time())
+        return f.cache[0]
+    f.cache = ('', 0)
+    register_cache(f, fct, timeout, 'add_a_cache0')
     return f
 
 
@@ -417,7 +417,7 @@ def add_a_cache(fct, timeout=None, not_cached='neverreturnedvalue'):
         else:
             return f.cache[x][0]
     f.cache = {}
-    f.__doc__ = fct.__doc__
+    register_cache(f, fct, timeout, 'add_a_cache')
     return f
 
 def add_a_method_cache(fct, timeout=None, not_cached='neverreturnedvalue'):
@@ -438,7 +438,7 @@ def add_a_method_cache(fct, timeout=None, not_cached='neverreturnedvalue'):
         else:
             return f.cache[x][0]
     f.cache = {}
-    f.__doc__ = fct.__doc__
+    register_cache(f, fct, timeout, 'add_a_method_cache')
     return f
 
 def add_a_lock(fct):
@@ -551,6 +551,26 @@ def python_files(dirname):
         if ue.startswith('__'):
             continue
         yield ue
+
+def count(t):
+    """Generator : given an iterable it returns tuples :
+    (nr_identical_items, item_value)
+    """
+    t = t.__iter__()
+    last = t.next()
+    i = 1
+    try:
+        while True:
+            a = t.next()
+            if a == last:
+                i += 1
+            else:
+                yield (i, last)
+                i = 1
+                last = a
+    except StopIteration:
+        yield (i, last)
+
 
 @add_a_lock
 def manage_key(dirname, key, separation=3, content=None, reduce_ok=True):

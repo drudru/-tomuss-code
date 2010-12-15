@@ -134,7 +134,8 @@ def the_value(t):
         return str(t)
 
 @utilities.add_a_cache
-def value_class(attr):    
+def value_class(attr):
+    """Extract an HTML display class from the type attributes"""
     d = {}
     for t in types.values():
         d[getattr(t.__class__, attr)] = True
