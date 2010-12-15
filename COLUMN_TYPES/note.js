@@ -129,6 +129,11 @@ function set_weight(value, column)
       v = 0 ;
       value = '0' ;
     }
+  else if ( value === '' )
+    {
+      v = 1 ;
+      value = '1' ;
+    }
   else
     {
       if ( value.substr(0,1) == '+' || value.substr(0,1) == '-' )
