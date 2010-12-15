@@ -129,7 +129,6 @@ NE SERA PAS FAIT :
 		même ticket car le navigateur croit que c'est la même.
 	Importation de colonnes venant du web par le client : IMPOSSIBLE 
 	Unifier les 'tip' : 2 tips simultanés possibles : photo + ABJ
-	Import / Export de visibility_date pour la liste des colonnes
 	Récupérer automatiquement openue.xls
 		Il faut passer par gnuméric pour l'assainir.
 	Prendre les mail étudiants de SPIRAL : pas politiquement correcte

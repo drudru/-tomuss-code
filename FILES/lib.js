@@ -4729,6 +4729,7 @@ function import_columns_do()
       return ;
     }
   var cols = [] ;
+  alert_append_start();
   for(var line in lines)
     {
       line = lines[line] ;
@@ -4756,6 +4757,7 @@ function import_columns_do()
       init_column(cols[i]) ;
     }
   popup_close() ;
+  alert_append_stop();
   table_header_fill() ;
 }
 

@@ -58,7 +58,7 @@ function set_title(value, column, xcolumn_attr)
 	  continue ;
 	if ( ! column_change_allowed(formula_column) )
 	  {
-	    alert("Cette colonne est utilisée dans une formule qui ne peut être mise à jour car vous n'avez pas le droit. Les calculs seront donc faux.") ;
+	    alert_append("Cette colonne est utilisée dans une formule qui ne peut être mise à jour car vous n'avez pas le droit. Les calculs seront donc faux.") ;
 	  }
 	else
 	  {
@@ -76,7 +76,7 @@ function type_title_to_type(title)
   for(var v in types)
     if ( types[v].title == title )
       return types[v] ;
-  // alert('bug type_title_to_type : ' + title);
+  // alert_append('bug type_title_to_type : ' + title);
 }
 
 function set_type(value, column)
@@ -418,12 +418,17 @@ function set_visibility_date(value, column)
   v = get_date(value) ;
   if ( v == false )
     {
-      alert("La date que vous donnez n'est pas valide : " + value) ;
+      alert_append("La date que vous donnez n'est pas valide : " + value) ;
       return column.visibility_date ;
     }
   if ( (v.getTime() - millisec())/(86400*1000) > 31 )
     {
-      alert("La date de visibilité doit être dans moins d'un mois") ;
+      alert_append("La date de visibilité doit être dans moins d'un mois") ;
+      return column.visibility_date ;
+    }
+  if ( v.getTime() - millisec() < 0 )
+    {
+      alert_append("La date de visibilité ne doit pas être dans le passé") ;
       return column.visibility_date ;
     }
   v = ''+v.getFullYear()+two_digits(v.getMonth()+1)+two_digits(v.getDate()) ;

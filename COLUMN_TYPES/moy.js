@@ -61,7 +61,7 @@ function set_columns(value, column, xcolumn_attr)
 	    setTimeout(function() {set_columns(value, column, xcolumn_attr)},
 		       1000) ;
 	  else
-	    alert("Je ne connais pas le titre de colonne '"
+	    alert_append("Je ne connais pas le titre de colonne '"
 		  + column.average_from[i]
 		  + "' qui est utilisé dans la moyenne de la colonne "
 		  + column.title) ;
