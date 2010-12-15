@@ -86,7 +86,7 @@ for syear in os.listdir(configuration.db):
     except ValueError:
         continue
     for semester in os.listdir(os.path.join(configuration.db, syear)):
-        if (semester == 'STest'
+        if (semester[1:] not in order
             or not os.path.isdir(os.path.join(configuration.db, syear,
                                               semester))
             ):
@@ -99,7 +99,7 @@ for syear in os.listdir(configuration.db):
                 continue
             if name[-1].isdigit():
                 continue
-            if name[-1] != 'L':
+            if name[-1] != 'L': # Licence
                 continue
             name = name[3:]
 
