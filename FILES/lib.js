@@ -4751,7 +4751,7 @@ function bookmark_this()
 {
   var p ;
 
-  var s = '/=' + ticket + '/' + year + '/' + semester + '/' + ue +
+  var s = url + '/=' + ticket + '/' + year + '/' + semester + '/' + ue +
     '/=nr_cols=' + nr_cols +
     '/=nr_lines=' + nr_lines
     ;
