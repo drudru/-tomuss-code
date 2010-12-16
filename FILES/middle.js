@@ -285,8 +285,11 @@ function attr_update_user_interface(attr, column, force_update_header)
 
   if ( (force_update_header || attr.update_headers)
        && column == the_current_cell.column )
-    the_current_cell.update_headers() ;
-  if ( attr.update_table_headers )
+    {
+      the_current_cell.do_update_column_headers = true ;
+      the_current_cell.update_headers() ;
+    }
+if ( attr.update_table_headers )
     table_header_fill() ;
 }
 
@@ -321,8 +324,8 @@ function header_change_on_update(event, input, what)
 
       input.theoldvalue = new_value ;
       attr_update_user_interface(attr, column) ;
-
     }
+
   if ( what.match(/^table_attr_/) )
     {
       var td = the_td(event) ;
