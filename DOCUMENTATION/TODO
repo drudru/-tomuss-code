@@ -1,5 +1,4 @@
 Finir par priorité :
-	Remplir : trop d'alert
 	BUG : Libérer les caches ZERO arguments ???? Quand ???
 	COW (stable) valeur vide ==> comme si rien
 	Sauvegarde de l'état figé...

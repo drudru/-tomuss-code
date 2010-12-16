@@ -201,16 +201,16 @@ function column_attr_set(column, attr, value, td)
   if ( column_attributes[attr].need_authorization && ! i_can_modify_column )
     {
       if ( column.author == '*' )
-	alert("Vous n'êtes pas autorisé à modifier cette valeur,\ncar elle a été définie par le système") ;
+	alert_append("Vous n'êtes pas autorisé à modifier cette valeur,\ncar elle a été définie par le système") ;
       else
-	alert("Vous n'êtes pas autorisé à modifier cette valeur.\nSeul '" + column.author + "' qui a saisie la valeur peut le faire.\nOu bien l'un des responsables d'UE : " + teachers) ;
+	alert_append("Vous n'êtes pas autorisé à modifier cette valeur.\nSeul '" + column.author + "' qui a saisie la valeur peut le faire.\nOu bien l'un des responsables d'UE : " + teachers) ;
       return ;
     }
 
   if ( column.is_empty && column.data_col > 0
        && columns[column.data_col-1].is_empty )
     {
-      alert("Il faut créer les colonnes de gauche à droite.\n\n" +
+      alert_append("Il faut créer les colonnes de gauche à droite.\n\n" +
 	    "Quand vous rechargerez la page, les colonnes ne\n" +
 	    "seront pas dans le même ordre.\n" +
 	    "C'est un bug compliqué à corriger, cela ne sera pas fait.") ;
@@ -250,7 +250,7 @@ function table_attr_set(attr, value, td)
 
   if ( ! table_change_allowed() )
     {
-      alert("Vous n'êtes pas autorisé à modifier cette valeur.\nSeul l'un des responsables d'UE peut le faire : " + teachers) ;
+      alert_append("Vous n'êtes pas autorisé à modifier cette valeur.\nSeul l'un des responsables d'UE peut le faire : " + teachers) ;
       return ;
     }
 
