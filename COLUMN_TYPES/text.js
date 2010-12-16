@@ -411,7 +411,7 @@ function text_format(c)
   return c ;
 }
 
-function set_visibility_date(value, column)
+function set_visibility_date(value, column, interactive_modification)
 {
   if ( value === '')
     return value ;
@@ -426,7 +426,7 @@ function set_visibility_date(value, column)
       alert_append("La date de visibilité doit être dans moins d'un mois") ;
       return column.visibility_date ;
     }
-  if ( v.getTime() - millisec() < 0 )
+  if ( interactive_modification && v.getTime() - millisec() < 0 )
     {
       alert_append("La date de visibilité ne doit pas être dans le passé") ;
       return column.visibility_date ;

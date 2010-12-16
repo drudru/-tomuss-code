@@ -217,7 +217,7 @@ function column_attr_set(column, attr, value, td)
     }
 
   var check = column.real_type['set_' + attr] ;
-  var new_value = check(value, column) ;
+  var new_value = check(value, column, true) ;
 
   if ( old_value === new_value && attr != 'width' && attr != 'position' )
     return ;
