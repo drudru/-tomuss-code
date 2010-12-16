@@ -191,7 +191,7 @@ function compute_average(data_col, line)
       var s = '' ;
       for(var i in values)
 	s += ' ' + values[i][0] ;
-      line[data_col].set_comment(s) ;
+      // line[data_col].set_comment(s) ;
     }
  
   var weight = 0, w ;

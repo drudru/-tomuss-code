@@ -184,6 +184,7 @@ class ColumnComment(ColumnAttr):
     name = 'comment'
     update_headers = 1
     update_content = True
+    display_table = 1
 
 class ColumnAuthor(ColumnAttr):
     computed = 1

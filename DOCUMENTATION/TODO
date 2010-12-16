@@ -1,5 +1,5 @@
 Finir par priorité :
-	Ne pas donner de référents aux gens sans UE ?
+	Nombre de n'affiche pas de suite le test.
 	BUG : Libérer les caches ZERO arguments ???? Quand ???
 	COW (stable) valeur vide ==> comme si rien
 	Sauvegarde de l'état figé...
@@ -24,6 +24,7 @@ Finir par priorité :
 	Renommer Inscrit en _Inscrit_, garder la compatibilité pour les vieux.
 	Faire le ménage des fonctions deprecated dans les TEMPLATES
 	Faire des plugins pour chaque fonctionnalité coté client.
+	Ne pas donner de référents aux gens sans UE ?
 
     BUGS :
 	Chrome : statistics per group

@@ -455,8 +455,6 @@
       Il suffit de mettre le texte <tt>moyenne des X meilleurs</tt>
       quelque part dans le commentaire de la colonne en remplaçant
       <tt>X</tt> par la valeur qui vous intéresse.
-      Il faut ensuite recharger la table pour actualiser le calcul
-      (c'est un bug).
     <p>
       Si on veut prendre seulement la meilleure note
       il faut choisir le type de colonne <b>Maximum</b>
@@ -474,7 +472,36 @@
       évaluation sur l'autre.
       Mais c'est 'normal' car le titre est bien 'moyenne des X meilleurs'
       et non 'meilleur moyenne de X'
-    </div>
+
+    <h4>Éliminer les plus mauvaises et les meilleurs notes</h4>
+	<p>
+	  Pour enlever les <tt>x</tt> moins bonnes et les <tt>y</tt>
+	  meilleures notes
+	  il suffit de mettre <tt>]x,y[</tt> dans le commentaire
+	  de la colonne de moyenne.
+	<p>
+	  Par exemple, <tt>]2,1[</tt> enlève les deux plus mauvaises
+	  notes et la meilleur.
+	<p>
+	  Cela n'a pas beaucoup de sens de faire cette opération
+	  si les poids des colonnes moyennées sont différents.
+	  En effet, dans ce cas, si l'on enlève la plus mauvaise note
+	  il est possible que cela ne soit pas celle qui fait perdre
+	  le plus de points dans la moyenne.
+	<p>
+	  Les ABJ/PPN ne sont pas considérés comme des mauvaises notes&nbsp;:
+	  Si l'étudiant à comme note<tt>ABJ, 8, 10, 12</tt>
+	  et que l'on indique dans le commentaire de colonne&nbsp;:
+	<ul>
+	  <li> <tt>]1,0[</tt> sa moyenne sera de 11.
+	  <li> <tt>]1,1[</tt> sa moyenne sera de 10.
+	  <li> <tt>]0,1[</tt> sa moyenne sera de 9.
+	  <li> <tt>]0,2[</tt> sa moyenne sera de 8.
+	  <li> <tt>]2,0[</tt> sa moyenne sera de 12.
+	  <li> <tt>]2,1[</tt> sa moyenne sera PPN.
+	</ul>
+      </div>
+
 
     <div>
     <h2>Gestion des absences justifiées (ABJ)</h2>

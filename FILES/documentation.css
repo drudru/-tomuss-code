@@ -74,6 +74,7 @@ DIV.menu A.h3 { padding-left: 3em }
 H1, H2, H3 { background: #8F8 ; margin: 0px; }
 H1, H2 { text-align: center }
 H3 { display: inline }
+H4 { display: inline ; border-bottom: 0.2em solid #8F8 }
 DIV#menu A.unselected { color: #888 }
 SPAN.filter { background: yellow ; }
 DIV.menu A.filter { background: #FF8 ; }
