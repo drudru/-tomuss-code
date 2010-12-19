@@ -26,6 +26,7 @@ var horizontal_scrollbar_height = 10 ;
 var nr_headers = 2 ;
 var histo_image_height = 90 ;
 var bs = '<td>' ;
+var maximum_url_length = 3000 ;
 
 
 // Work value
@@ -4631,7 +4632,7 @@ function personal_mailing()
 {
    create_popup('personal_mailing_div',
 		'Envoyer un mail personnalisé aux étudiants filtrés',
-		'Sujet : <input id="personal_mailing" style="width:100%" value="' + ue + ' ' + table_attr.table_title + ' : Info pour [Prénom] [Nom]"><br>Votre message&nbsp;:',
+		'<p style="background:#F00;color:#FFF">N\'ENVOYEZ PAS DE NOTES AUX ÉTUDIANTS.</p><br>Sujet : <input id="personal_mailing" style="width:100%" value="' + ue + ' ' + table_attr.table_title + ' : Info pour [Prénom] [Nom]"><br>Votre message&nbsp;:',
 	       'Pour envoyer cliquez sur <BUTTON OnClick="personal_mailing_do();">Envoyer les ' + filtered_lines.length + ' messages</BUTTON>.') ;
    popup_set_value('Bonjour [Prénom] [Nom].\n\nVotre groupe est [Grp] et votre séquence [Seq]\n\nAu revoir.') ;
 }
@@ -4670,6 +4671,8 @@ function personal_mailing_do()
   var subject = document.getElementById('personal_mailing').value ;
   var column_used = {}, column_data_col = {} ;
   var t, col_name, nr, message, line, data_col ;
+  var url_content, feedback_content ;
+  var nr_frame ;
 
   nr = 0 ;
   message = '' ;
@@ -4685,21 +4688,39 @@ function personal_mailing_do()
   subject = personal_mailing_parse_line(subject, column_used, column_data_col);
   if ( subject === undefined )
     return ;
-
-  message = encode_uri(message) ;
   subject = encode_uri(subject) ;
+  url_content = '' ;
+  feedback_content = '' ;
+  nr_frame = 0 ;
   for(var i in filtered_lines)
     {
+      if ( url_content === '' )
+	{
+	  nr_frame++ ;
+	  url_content = '<iframe src="_URL_/=' + ticket + '/send_mail/'
+	    + subject + '/' + encode_uri(message) ;
+	}
+
       line = filtered_lines[i] ;
-      message += '/' + encode_uri(line[0].value) ;
+      url_content += '/' + encode_uri(line[0].value) ;
       for(data_col in column_data_col)
-	message += '/' + encode_uri(line[data_col].value) ;
+	url_content += '/' + encode_uri(line[data_col].value) ;
+
+      if ( url_content.length > maximum_url_length
+	   || i == filtered_lines.length-1 )
+	{
+	  feedback_content += url_content
+	    + '" style="width:100%; height:2em;"></iframe>' ;
+	  url_content = '' ;
+	}
     }
   
-  server_feedback.innerHTML = '<iframe src="_URL_/=' + ticket + '/send_mail/'
-    + subject + '/' + message + '" style="width:100%; height:10em;"></iframe>';
+  server_feedback.innerHTML = feedback_content ;
   
   popup_close() ;
+
+  if ( nr_frame > 4 )
+    alert("Ne fermez pas cette page tant que vous n'avez pas vu le/les message(s) « Les messages ont été envoyés » au dessous du tableau") ;
 }
 
 function import_columns()

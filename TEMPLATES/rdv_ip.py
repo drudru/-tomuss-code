@@ -33,6 +33,7 @@ hoursAM = ('8h30', '9h','9h30','10h','10h30','11h','11h30', '12h')
 hoursPM = ('13h','13h30','14h','14h30','15h','15h30', '16h','16h30','17h')
 
 orientation_without_referent_rdv = ('BIO', 'BCH', 'STU')
+orientation_without_referent_rdv = ()
 
 def day_for_dsi(day):
     return day.split(':')[0] + '-' + 'Fév'

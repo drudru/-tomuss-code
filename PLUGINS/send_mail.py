@@ -48,6 +48,9 @@ def send_mail(server):
         utilities.send_backtrace('send_mail')
         return
 
+    server.the_file.write('Commence à envoyer %d messages.' % (len(args)/n))
+    server.the_file.flush()
+
     frome = mail(server.ticket.user_name)
     bad_mails = []
     for i in range(0, len(args), n):
@@ -65,6 +68,7 @@ def send_mail(server):
 
         the_subject = unicode(the_subject, 'utf8').encode('latin1')
         content = unicode(content, 'utf8').encode('latin1')
+        # print m, the_subject, content, frome
         utilities.send_mail_in_background(m, the_subject, content, frome)
         
     if len(bad_mails) == 0:

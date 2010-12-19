@@ -161,7 +161,7 @@ echo "
 30  * * * * (. .profile ; cd $REAL/SERVEUR_NOTES ; rsync --archive --no-g --delete --exclude '*.pyc' DB/ /home/tomuss/partage/MIRROR ) >$REAL/SERVEUR_NOTES/LOGS/xxx_crontab_1h 2>&1
 
 # Once per night
-30  2 * * * (. .profile ; cd $REAL/SERVEUR_NOTES ; SCRIPTS/night_job ; ) >$REAL/SERVEUR_NOTES/LOGS/xxx_crontab_night_job 2>&1
+30  3 * * * (. .profile ; cd $REAL/SERVEUR_NOTES ; SCRIPTS/night_job ; ) >$REAL/SERVEUR_NOTES/LOGS/xxx_crontab_night_job 2>&1
 
 " | crontab -
 

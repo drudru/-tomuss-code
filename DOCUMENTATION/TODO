@@ -1,4 +1,6 @@
 Finir par priorité :
+	Pas de photo pour inscription toeic ?
+	Change mail/portail comme attribut de table
 	BUG : Libérer les caches ZERO arguments ???? Quand ???
 	COW (stable) valeur vide ==> comme si rien
 	Sauvegarde de l'état figé...
@@ -19,7 +21,6 @@ Finir par priorité :
 	Il faut enlever toute référence aux noms de types dans le JS
 	Ajouter les types Mail/telephone/responsable(UE)/enumeration
 	Calcul du poids automatique avec '?' : problème de ]1,1[, max, meilleur
-	Faire la doc ]1,1[
 	Renommer Inscrit en _Inscrit_, garder la compatibilité pour les vieux.
 	Faire le ménage des fonctions deprecated dans les TEMPLATES
 	Faire des plugins pour chaque fonctionnalité coté client.
@@ -47,7 +48,6 @@ Finir par priorité :
 	Lien sur l'envoi de mail aux étudiants d'une UE sur la page d'accueil
 	Problème ascenseur qui apparait home page avec le + a droite
 	Python 3
-	Vérifier les conflits : identité cookie / ticket (voir mails) ?
 	Histogramme : échelle log sur clique
 	Statistiques : droite de régression
 	Affichage des espaces dans les cases du tableau.
@@ -56,6 +56,7 @@ Finir par priorité :
 	Chiffrer colonne.
 	Importation de colonnes d'autres tableaux : nécessite calcul serveur
 	Statistique par groupe sur une colonne quelconque
+	Très nombreux changements dans une table : append_file est trop lent
 
     Faible :
 	stat : lien vers le suivi de la personne
@@ -76,6 +77,7 @@ Finir par priorité :
 	Tester le nouveau utility.js()
 	Trombinoscope enseignant : voir boite a outil Intranet UCBL
 	Ajouter des droits d'accès {'UE-MAT': 'philippe.malbos'}
+	Vérifier les conflits : identité cookie / ticket (voir mails) ?
 
     Amusant :
 	Surveillance actions client envoyées sur onunload
