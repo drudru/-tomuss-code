@@ -52,10 +52,7 @@ def init(table):
 def content(table):
     table.abjs_mtime = table.abjs.mtime
     c = the_abjs(table)
-    if table.ue.split('-')[0] in ('UE', 'EC', 'SP', 'etape', 'portail', 'teachers') or \
-           '_' in table.ue:
-        c += update_student_information
-    elif table.ue == 'tables':
+    if table.ue == 'tables':
         c += """
 <script>
 function update_student_information(line)
@@ -67,6 +64,8 @@ if ( line[0].value == '' )
 t_student_picture.parentNode.href =  '%s/=' + ticket + '/' + year + '/' + semester + '/' + line[0].value ;
 }
 </script>""" % utilities.StaticFile._url_ 
+    else:
+        c += update_student_information
 
     return c
 
