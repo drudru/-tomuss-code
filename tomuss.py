@@ -304,6 +304,7 @@ if __name__ == "__main__":
                              str(time.localtime()[0]) +".times"), "a")
 
     document.start_threads()
+    utilities.init()
 
     plugins.plugins_tomuss()
     document.table(0, 'Dossiers', 'config_plugin', None, None)
@@ -317,8 +318,6 @@ if __name__ == "__main__":
         utilities.start_new_thread_immortal(sender.send_thread, ())
 
     utilities.start_new_thread_immortal(sender.live_status_send_thread, ())
-    utilities.start_new_thread_immortal(utilities.sendmail_thread, (),
-                                        send_mail=False)
 
     while running:
         server.handle_request()

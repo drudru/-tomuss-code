@@ -441,6 +441,8 @@ def add_a_method_cache(fct, timeout=None, not_cached='neverreturnedvalue'):
     register_cache(f, fct, timeout, 'add_a_method_cache')
     return f
 
+lock_list = []
+
 def add_a_lock(fct):
     """Add a lock to a function to forbid simultaneous call"""
     def f(*arg, **keys):
@@ -457,6 +459,7 @@ def add_a_lock(fct):
     f.fct = fct
     f.the_lock = threading.Lock()
     f.__doc__ = fct.__doc__
+    lock_list.append(f)
     return f
 
 def unload_module(m):
@@ -643,19 +646,46 @@ def charte(login, year=None, semester=None):
 def charte_server(login, server):
     return charte(login, str(server.year), server.semester)
 
+def lock_state():
+    import imp
+    s = 'Global Python import locked: %s\n' % imp.lock_held()
+    for f in lock_list:
+        if f.the_lock.locked():
+            s += 'Locked   '
+        else:
+            s += 'Unlocked '
+        s += '%s [%s]\n' % (f.fct.func_name, f.fct.__module__)
+    return s
 
 def on_kill(x, y):
+    sys.stderr.write('=' * 79 + '\n' +
+                     'KILLED\n' +
+                     '=' * 79 + '\n' +
+                     lock_state() +
+                     '=' * 79 + '\n'
+                     )
     traceback.print_stack()
     sys.exit(0)
-    
+
+def print_lock_state():
+    while True:
+        f = open(os.path.join('LOGS', 'xxx.locks.%d' % os.getpid()), 'w')
+        f.write(lock_state())
+        f.close()
+        time.sleep(60)
+
+def start_threads():
+    start_new_thread_immortal(print_lock_state, ())
 
 def display_stack_on_kill():
     import signal
     import traceback
     signal.signal(signal.SIGTERM, on_kill)
-    
-    
-    
+
+def init():
+    start_threads()
+    display_stack_on_kill()
+    start_new_thread_immortal(sendmail_thread, (), send_mail=False)
 
 if __name__ == "__main__":
     def square(g):

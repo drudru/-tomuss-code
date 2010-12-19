@@ -158,10 +158,8 @@ class MyRequestBroker(BaseHTTPServer.BaseHTTPRequestHandler):
         return "%s:%d" % self.client_address
 
 if __name__ == "__main__":
-    utilities.display_stack_on_kill()
+    utilities.init()
 
-    utilities.start_new_thread_immortal(utilities.sendmail_thread, (),
-                                        send_mail=False)
     try:
         year = int(sys.argv[1])
         semester = sys.argv[2]
