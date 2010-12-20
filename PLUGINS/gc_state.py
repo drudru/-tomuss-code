@@ -136,3 +136,17 @@ plugin.Plugin('locks'   , '/locks'   , root=True, function=locks,
                           )
               )
 
+def threads(server):
+    server.the_file.write('<pre>' +
+                          '\n'.join(cgi.escape(str(t))
+                                    for t in utilities.thread_list) +
+                          '</pre>')
+
+plugin.Plugin('threads'   , '/threads'   , root=True, function=threads,
+              link=plugin.Link(text='Affiche les threads',
+                               help="Utile pour trouver ce qui charge",
+                               where='debug',
+                               html_class='verysafe',
+                          )
+              )
+

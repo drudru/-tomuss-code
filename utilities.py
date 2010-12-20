@@ -26,6 +26,7 @@ import sys
 import traceback
 import configuration
 import cgi
+import threading
 
 def read_file(filename):
     f = open(filename, 'r')
@@ -53,7 +54,6 @@ def add_a_lock(fct):
             f.the_lock.release()
             warn('released', what='debug')
         return r
-    import threading
     f.fct = fct
     f.the_lock = threading.Lock()
     f.__doc__ = fct.__doc__
@@ -196,21 +196,22 @@ def send_mail(to, subject, message, frome=None):
 
 send_mail.session = None
 
-
-import threading
-def start_new_thread(fct, args):
-    # turn around a locking problem BUG in python threads
-    time.strptime('2010', '%Y')
-    t = threading.Thread(target=fct, args=args)
-    t.setDaemon(True)
-    t.start()    
-
+thread_list = []
 
 def start_new_thread_immortal(fct, args, send_mail=True):
-    import threading
+    start_new_thread(fct, args, send_mail=send_mail, immortal=True)
+
+def start_new_thread(fct, args, send_mail=True, immortal=False):
     class T(threading.Thread):
-        def run(self, fct=fct, args=args, send_mail=send_mail):
-            warn("Start immortal thread:" + fct.func_name)
+        def __init__(self):
+            self.send_mail = send_mail
+            self.immortal = immortal
+            self.fct = fct
+            self.args = args
+            threading.Thread.__init__(self)
+        def run(self):
+            thread_list.append(self)
+            warn("Start %s" % self)
             # turn around a locking problem BUG in python threads
             while True:
                 try:
@@ -220,22 +221,27 @@ def start_new_thread_immortal(fct, args, send_mail=True):
                     warn('strptime', what='error')
                     time.sleep(0.01)
             while True:
-                warn('Call ' + fct.func_name)
+                warn('Call ' + self.fct.func_name)
                 try:
-                    fct(*args)
+                    self.fct(*self.args)
                 except:
-                    warn("Exception in thread " + fct.func_name, what="Error")
-                    if send_mail:
-                        send_backtrace("Exception in thread " + fct.func_name)
+                    warn("Exception in " % self, what="Error")
+                    if self.send_mail:
+                        send_backtrace("Exception in %s" % self)
+                if not self.immortal:
+                    break
+            thread_list.remove(self)
         def backtrace_html(self):
-            return 'Immortal thread running: ' + cgi.escape(str(fct))
+            return str(self)
+        def __str__(self):
+            return 'Thread immortal=%-5s send_mail=%-5s %s' % (
+                self.immortal, self.send_mail, fct.func_name)
     t = T()
     t.setDaemon(True)
     t.start()    
 
 def stop_threads():
     sys.exit(0)
-    import threading
     for t in threading.enumerate():
         t.join()
 
