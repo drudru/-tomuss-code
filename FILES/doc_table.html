@@ -400,6 +400,32 @@
       Évidemment <tt>ABJ + 1</tt> n'a pas de sens et affichera <tt>NaN</tt>.
       Si vous voulez obtenir ABJ comme résultat alors faites
       <tt>ABJ + ABJ</tt></b>
+
+    <h4>Malus de 0.5 point par absence injustifiée</h4>
+	<p>
+	  Vous faites une colonne pour compter le nombre d'absence
+	  injustifiées. C'est le type de colonne : «Nombre de»
+	<p>
+	  Il y a alors une nouvelle case contenant « !ABINJ »
+	  qui indique ce qu'il faut compter.
+	  Il faut mettre « ABINJ » car c'est ce que l'on veut compter.
+	<p>
+	  Vous indiquez dans la zone au dessous de « ABINJ » la liste
+	  des noms de colonnes dans lesquelles vous voulez compter
+	  le nombre d'absences.
+	  Comme pour la moyenne, vous séparez les noms de colonne
+	  par un espace.
+	<p>
+	  Vous mettez ensuite un poids de « -0.5 » à cette colonne qui
+	  compte le nombre d'absences injustifiées afin d'enlever
+	  0.5 point par absence.
+	<p>
+	  Vous ajoutez cette colonne dans la liste des colonnes qui
+	  permettent de calculer la moyenne finale de l'UE.
+	<p>
+	  Vous vérifiez à la main sur un étudiant pour voir
+	  si le calcul est exact...
+
    </div>
    <div>   
     <h3>Moyennes de moyennes</h3>
