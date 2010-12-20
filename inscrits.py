@@ -295,6 +295,13 @@ class LDAP_Logic(object):
         return [aa.split(' etape-')[1].split(',')[0]
                 for aa in a if ' etape-' in aa]
 
+    def etapes_of_students(self, logins):
+        """If possible, optimize this function"""
+        d = {}
+        for login in logins:
+            d[login] = self.etapes_of_student(login)
+        return d
+
     def is_in_one_of_the_groups(self, login, groups):
         """Returns true if the login is one of the groups or sub group"""
         r = self.member_of_list(login)
@@ -580,7 +587,7 @@ def is_a_referent(login):         return L.is_a_referent(login)
 # This function translate student login to student ID.
 # The returned value must be usable safely.
 def login_to_student_id(login):
-    return login
+    return utilities.safe(login)
 
 def login_from_ldap(i):
     if configuration.attr_login_alt in i:

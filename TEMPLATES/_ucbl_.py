@@ -230,11 +230,15 @@ def the_abjs(table):
 
 
 def update_etape(the_ids, table, page, col):
+    etapes = L.etapes_of_students(table.logins())
     for line_key, line in table.lines.items():
         login = line[0].value
         if login == '' or login != utilities.safe(login):
             continue
-        etapes = ' '.join(sorted(L.etapes_of_student(login)))
+        try:
+            etapes = ' '.join(sorted(etapes[inscrits.login_to_student_id(login)]))
+        except KeyError:
+            continue
         table.lock()
         try:
             table.cell_change(page, col, line_key, etapes)
