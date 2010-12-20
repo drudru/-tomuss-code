@@ -124,3 +124,15 @@ plugin.Plugin('caches'   , '/caches'   , root=True, function=caches,
                                html_class='verysafe',
                           )
               )
+
+def locks(server):
+    server.the_file.write('<pre>' + utilities.lock_state() + '</pre>')
+
+plugin.Plugin('locks'   , '/locks'   , root=True, function=locks,
+              link=plugin.Link(text='Affiche les verrous',
+                               help="Utile pour trouver ce qui bloque",
+                               where='debug',
+                               html_class='verysafe',
+                          )
+              )
+
