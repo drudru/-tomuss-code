@@ -3902,6 +3902,7 @@ function virtual_table_common_begin()
     'semester = "' + semester + '" ;\n' +
     'ticket = "' + ticket + '" ;\n' +
     'ue = "VIRTUALUE" ;\n' +
+    'root = [];\n' +
     'suivi = "' + suivi + '";\n' +
     'version = "' + version + '" ;\n' +
     'preferences = ' + p + ';\n' +
@@ -4307,7 +4308,7 @@ function statistics_authors()
 	  line = filtered_lines[line] ;
 	  cell = line[data_col] ;
 	  author = cell.author ;
-	  if ( author == '*' || author === '' )
+	  if ( author == '*' || author === '' || cell.value === '' )
 	    continue ;
 	  if ( t[author] === undefined )
 	    t[author] = {nr:0, nr_numbers:0, sum:0, sum2: 0} ;
@@ -4362,12 +4363,9 @@ function statistics_authors()
   v = virtual_table_common_begin() + virtual_table_common_end() +
     '<script>' +
     'function delayed_init() {\n' +
+    'do_not_read_option = true ;' +
     'lib_init() ;' +
-    'add_empty_column(true);\n' +
-    'add_empty_column(true);\n' +
-    'add_empty_column(true);\n' +
-    'add_empty_column(true);\n' +
-    'add_empty_column(true);\n' +
+    'for(var i=0; i<5; i++) add_empty_column(true);\n' +
     'columns[0].title = "Enseignant";\n' +
     'columns[1].title = "#Cellules";\n' +
     'columns[1].type = "Note";\n' +
@@ -4383,6 +4381,7 @@ function statistics_authors()
     'columns[4].minmax = "[0;' +Number(max_stddev.toFixed(0)) + ']";' +
     c +
     'table_attr.table_title = "Statistiques enseignants" ;' +
+    'table_attr.default_nr_columns = 5 ;\n' +
     'runlog(columns, lines) ;' +
     '}\n' +
     'setTimeout("delayed_init()", 100) ;\n' +
