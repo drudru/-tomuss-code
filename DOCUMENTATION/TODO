@@ -127,8 +127,6 @@ NE SERA PAS FAIT :
 	Enlever le javascript 'go()' de la page accueil : problème year/semest
 	Passer directement les fichiers UE à Javascript :
 		En effet, le serveur a BESOIN de les évaluer de toute façon.
-	On ne peut pas ouvrir 2* la même page simultanément avec le
-		même ticket car le navigateur croit que c'est la même.
 	Importation de colonnes venant du web par le client : IMPOSSIBLE 
 	Unifier les 'tip' : 2 tips simultanés possibles : photo + ABJ
 	Récupérer automatiquement openue.xls

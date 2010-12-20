@@ -236,12 +236,12 @@ def update_etape(the_ids, table, page, col):
         if login == '' or login != utilities.safe(login):
             continue
         try:
-            etapes = ' '.join(sorted(etapes[inscrits.login_to_student_id(login)]))
+            etape=' '.join(sorted(etapes[inscrits.login_to_student_id(login)]))
         except KeyError:
             continue
         table.lock()
         try:
-            table.cell_change(page, col, line_key, etapes)
+            table.cell_change(page, col, line_key, etape)
         finally:
             table.unlock()
     
