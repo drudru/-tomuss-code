@@ -39,9 +39,29 @@ def write_file(filename, content):
     f.write(content)
     f.close()
 
-def append_file(filename, content):
+lock_list = []
+
+def add_a_lock(fct):
+    """Add a lock to a function to forbid simultaneous call"""
+    def f(*arg, **keys):
+        warn('[[[' + f.fct.func_name + ']]]', what='debug')
+        f.the_lock.acquire()
+        warn('acquired', what='debug')
+        try:
+            r = f.fct(*arg, **keys)
+        finally:
+            f.the_lock.release()
+            warn('released', what='debug')
+        return r
+    import threading
+    f.fct = fct
+    f.the_lock = threading.Lock()
+    f.__doc__ = fct.__doc__
+    lock_list.append(f)
+    return f
+
+def append_file_unlocked(filename, content):
     """Paranoid : check file size before and after append"""
-    warn('%s : %d' % (filename, len(content)), what='debug')
     try:
         before = os.path.getsize(filename)
     except OSError:
@@ -58,7 +78,31 @@ def append_file(filename, content):
             os.unlink(filename + 'c')
         except OSError:
             pass
-    warn('%s : %d done ==> %d' % (filename, len(content), after), what='debug')
+
+
+filename_to_bufferize = None
+filename_buffer = []
+
+def bufferize_this_file(filename):
+    """Should be called with None to flush the buffered content"""
+    append_file.the_lock.acquire()
+    try:
+        global filename_to_bufferize, filename_buffer
+        if filename_to_bufferize:
+            append_file_unlocked(filename_to_bufferize,
+                                 ''.join(filename_buffer))
+        
+        filename_to_bufferize = None
+        filename_buffer = []
+    finally:
+        append_file.the_lock.release()
+    
+@add_a_lock
+def append_file(filename, content):
+    if filename == filename_to_bufferize:
+        filename_buffer.append(content)
+    else:
+        append_file_unlocked(filename, content)
 
 def safe(txt):
     return re.sub('[^0-9a-zA-Z-.]', '_', txt)
@@ -441,26 +485,6 @@ def add_a_method_cache(fct, timeout=None, not_cached='neverreturnedvalue'):
     register_cache(f, fct, timeout, 'add_a_method_cache')
     return f
 
-lock_list = []
-
-def add_a_lock(fct):
-    """Add a lock to a function to forbid simultaneous call"""
-    def f(*arg, **keys):
-        warn('[[[' + f.fct.func_name + ']]]', what='debug')
-        f.the_lock.acquire()
-        warn('acquired', what='debug')
-        try:
-            r = f.fct(*arg, **keys)
-        finally:
-            f.the_lock.release()
-            warn('released', what='debug')
-        return r
-    import threading
-    f.fct = fct
-    f.the_lock = threading.Lock()
-    f.__doc__ = fct.__doc__
-    lock_list.append(f)
-    return f
 
 def unload_module(m):
     if m not in sys.modules:

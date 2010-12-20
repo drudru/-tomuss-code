@@ -1160,13 +1160,17 @@ def check_new_students_real():
     try:
         while update_students:
             t = update_students.pop()
-            warn('start update students of %s' % t.ue, what="table")
+            utilities.bufferize_this_file(t.filename)
+            try:
+                warn('start update students of %s' % t.ue, what="table")
 
-            if t.template and hasattr(t.template, 'check'):
-                t.template.check(t)
-            warn('done %s' % t.ue, what="table")
+                if t.template and hasattr(t.template, 'check'):
+                    t.template.check(t)
+                warn('done %s' % t.ue, what="table")
 
-            t.columns.update_content()
+                t.columns.update_content()
+            finally:
+                utilities.bufferize_this_file(None)
             
     except IndexError:
         pass # Because of a call when doing regtest
