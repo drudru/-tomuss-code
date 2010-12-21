@@ -323,6 +323,19 @@ Nouveautés :
       </description>
       <guid>25</guid>
     </item>
+    <item>
+      <title>21/12/2010 : Version 2.12.3</title>
+      <link>http://tomuss.univ-lyon1.fr/</link>
+      <description>
+Nouvelles fonctionnalités :
+&lt;ul&gt;
+&lt;li&gt; On peut cacher des lignes avant d'imprimer.
+&lt;li&gt; La documentation indique comment faire une moyenne sans les meilleurs ni les plus mauvaises notes.
+&lt;li&gt; L'emploi du temps personnel de l'étudiant de licence STS est accessible via la page de suivi.
+&lt;/ul&gt;
+      </description>
+      <guid>26</guid>
+    </item>
 
   </channel>
 </rss>
