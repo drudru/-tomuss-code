@@ -437,18 +437,28 @@ def register_cache(f, fct, timeout, the_type):
     f.the_type = the_type
     caches.append(f)
 
+def clean_cache0(f):
+    if time.time() - f.cache[1] > f.timeout:
+        f.cache = ('', 0)
+
+
 def add_a_cache0(fct, timeout=None):
     """Add a cache to a function without parameters"""
     if timeout is None:
         timeout = 3600
     def f(fct=fct, timeout=timeout):
-        if time.time() - f.cache[1] > timeout:
+        if time.time() - f.cache[1] > f.timeout:
             f.cache = (fct(), time.time())
         return f.cache[0]
     f.cache = ('', 0)
     register_cache(f, fct, timeout, 'add_a_cache0')
+    f.clean = clean_cache0
     return f
 
+def clean_cache(f):
+    for key, value in f.cache.items():
+        if time.time() - value[1] > f.timeout:
+            del f.cache[key]
 
 def add_a_cache(fct, timeout=None, not_cached='neverreturnedvalue'):
     """Add a cache to a function with one parameter.
@@ -468,6 +478,7 @@ def add_a_cache(fct, timeout=None, not_cached='neverreturnedvalue'):
             return f.cache[x][0]
     f.cache = {}
     register_cache(f, fct, timeout, 'add_a_cache')
+    f.clean = clean_cache
     return f
 
 def add_a_method_cache(fct, timeout=None, not_cached='neverreturnedvalue'):
@@ -489,6 +500,7 @@ def add_a_method_cache(fct, timeout=None, not_cached='neverreturnedvalue'):
             return f.cache[x][0]
     f.cache = {}
     register_cache(f, fct, timeout, 'add_a_method_cache')
+    f.clean = clean_cache
     return f
 
 
@@ -697,15 +709,20 @@ def on_kill(x, y):
     traceback.print_stack()
     sys.exit(0)
 
-def print_lock_state():
+def print_lock_state_clean_cache():
     while True:
+        
         f = open(os.path.join('LOGS', 'xxx.locks.%d' % os.getpid()), 'w')
         f.write(lock_state())
         f.close()
+
+        for cache in caches:
+            cache.clean(cache)
+            
         time.sleep(60)
 
 def start_threads():
-    start_new_thread_immortal(print_lock_state, ())
+    start_new_thread_immortal(print_lock_state_clean_cache, ())
 
 def display_stack_on_kill():
     import signal

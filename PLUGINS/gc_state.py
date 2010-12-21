@@ -89,9 +89,40 @@ plugin.Plugin('gctype'  , '/type/{*}'  , root=True, function=gc_type)
 plugin.Plugin('gcobject', '/object/{*}', root=True, function=gc_object,
               mimetype = 'image/png')
 
+import math
+def histogram(values):
+    if len(values) == 0:
+        return ''
+    bin_size = 300 # 5 minute
+    value_max = max(values)
+    nr_bins = value_max // bin_size
+    counters = [0] * (nr_bins+1)
+    for v in values:
+        counters[v//bin_size] += 1
+
+    while counters and counters[-1] == 0:
+        del counters[-1]
+
+    if len(counters) == 0:
+        return ''
+
+    counter_max = math.log(max(counters)+1)
+
+    s = '<table width="100%" style="table-layout:fixed"><colgroup>'
+    s += '<col with="*">' * len(counters) + '</colgroup>'
+    s += '<tr style="vertical-align:bottom">'
+    for v in counters:
+        s += '<td><img src="../ok.png" style="width:100%%" height="%dpx">' % int(50*math.log(v+1)/counter_max)
+    s += '</tr><tr>'
+    i = 0
+    for v in counters:
+        s += '<td style="text-align:center">%d<br><small><small>%s' % (int(i), v)
+        i += bin_size / 60.
+    s += '</tr></table>'
+    return s
 
 def caches(server):
-    s = ['<table><tr><th>Name<th>What<th>Type<th>Age<th>Max Age<th>Content']
+    s = ['<table border="1"><tr><th>Name<th>What<th>Type<th>Age x:minutes y:log(nr_items)<th>Max Age<th>Content']
     now = int(time.time())
     for cache in utilities.caches:
         if  cache.the_type == 'add_a_cache0':
@@ -102,17 +133,15 @@ def caches(server):
             nr_items = len(cache.cache)
             size = ''
             sinces = list([now - int(c[1]) for c in cache.cache.values()])
-            sinces.sort()
-            
-            since = ' '.join('%d*%d' % (nb, v)
-                             for nb,v in utilities.count(sinces))
+            since = histogram(sinces)
         if cache.__doc__ is None:
             doc = '???'
         else:
             doc = cache.__doc__
         
-        s.append('<tr><td>%s<td>%s<td>%s<td>%s<td>%s<td>%s items %s' % (
-            cache.fct.func_name, cgi.escape(doc), cache.the_type,
+        s.append('<tr><td>%s<td>%s<td>%s<td width="50%%">%s<td>%s<td>%s items %s' % (
+            cache.fct.func_name.replace('_',' '), cgi.escape(doc),
+            cache.the_type.replace('_',' '),
             since, cache.timeout, nr_items, size))
     s.append('</table>')
     server.the_file.write('\n'.join(s))
