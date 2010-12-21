@@ -80,26 +80,41 @@ class LDAP_Logic(object):
         dues.sort()
         return dues
 
-    @utilities.add_a_method_cache
     def ues_of_a_student(self, name):
         """List of UEs where the student is registered."""
-        a = self.query_login(name, ('memberof',))
+        a = tuple(self.member_of_list(name))
         if len(a) == 0:
             return []
-        a = a['memberOf']
         return [aa
                 for aa in a
                 if (configuration.ou_ue_contains in aa)
                 and aa.startswith(configuration.ou_ue_starts)
                 ]
 
-    @utilities.add_a_method_cache
     def ues_of_a_student_short(self, name):
         """Extract from the OU the UE short name (code)"""
         t = [ x.replace(' ',',').split(',')[0].split('=')[1]
                  for x in self.ues_of_a_student(name)]
         t.sort()
         return t
+
+    def ues_of_a_student_with_groups(self, name):
+        """List of UEs where the student as triplets (ue, group, sequence)."""
+        a = tuple(self.member_of_list(name))
+        if len(a) == 0:
+            return []
+        def parse(x):
+            x = x.split(',')[0].split('-')
+            
+            grp_seq = x[-1].split('_')
+            try:
+                return x[-2], grp_seq[0], grp_seq[1][1:]
+            except IndexError:
+                return x[-2], grp_seq[0], ''
+        return [parse(aa)
+                for aa in a
+                if 'GRP-GRP' in aa
+                ]
 
     def get_attributes(self, login, attributes):
         """From the login of the person, retrieve the attributes"""
@@ -639,6 +654,9 @@ if __name__ == "__main__":
     configuration.terminate()
     import inscrits
     L = inscrits.LDAP()
+    for i in L.ues_of_a_student_with_groups('p0704986'):
+        print i
+    addfas
     print ufr_of_teacher('thierry.excoffier')
     print firstname_or_surname_to_logins('excoffier')
 

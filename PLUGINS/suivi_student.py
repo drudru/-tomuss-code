@@ -128,6 +128,7 @@ def student_statistics(login, server, is_a_student=False, expand=False):
                  (configuration.bilan_des_notes + login) + '</script> :: ')
 
     s.append(tomuss_links(login, ticket, server, is_a_student))
+    s.append('<script>i_am_a_student = %d ; </script>' % int(is_a_student))
     if not is_a_student:
         x, member_of = member_of_list(login)
         s.append(x)
@@ -147,6 +148,8 @@ def student_statistics(login, server, is_a_student=False, expand=False):
         if referent.need_a_charte(login):
             s.append(u' :: <script>hidden(\'<a href="%s/charte.html" target="_blank">Contrat</a>\',"Le contrat pédagogique que vous avez signé.");</script>' %
                      utilities.StaticFile._url_)
+
+    s.append(configuration.more_on_suivi(login))
 
     if ref and ref == ticket.user_name and not is_a_student:
         if semester == 'Printemps':

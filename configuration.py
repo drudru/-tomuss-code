@@ -291,6 +291,11 @@ def picture(student_id):
     import utilities
     return utilities.StaticFile._url_ + '/' + student_id + '.png'
 
+#REDEFINE
+# This function returns a string inserted into student suivi page
+def more_on_suivi(student_login):
+    return ''
+
 # And an error message if the password is trivial
 bad_password = """
 <div onclick="this.style.display='none';"

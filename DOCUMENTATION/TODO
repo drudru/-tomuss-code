@@ -1,4 +1,5 @@
 Finir par priorité :
+	Évidence ligne courante : lignes bleu verticales et horizontales
 	Change mail/portail comme attribut de table
 	COW (stable) valeur vide ==> comme si rien
 	Sauvegarde de l'état figé...
@@ -58,7 +59,6 @@ Finir par priorité :
 
     Faible :
 	stat : lien vers le suivi de la personne
-	Évidence ligne courante : lignes bleu verticales et horizontales
 	Mettre du style CSS dans le commentaire pour colorier la cellule ?
 	regtest javascript : filter, double clique
 	Faire un tip deuxième niveau (+ en haut/gauche) XXX dans utilities.js
