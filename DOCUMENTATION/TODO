@@ -1,5 +1,4 @@
 Finir par priorité :
-	Évidence ligne courante : lignes bleu verticales et horizontales
 	Change mail/portail comme attribut de table
 	COW (stable) valeur vide ==> comme si rien
 	Sauvegarde de l'état figé...
@@ -24,6 +23,7 @@ Finir par priorité :
 	Faire le ménage des fonctions deprecated dans les TEMPLATES
 	Faire des plugins pour chaque fonctionnalité coté client.
 	Ne pas donner de référents aux gens sans UE ?
+	Rendre des cellules éditables par les étudiants dans le suivi ?
 
     BUGS :
 	Chrome : statistics per group

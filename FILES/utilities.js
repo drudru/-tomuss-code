@@ -2560,6 +2560,9 @@ function current_jump(lin, col, do_not_focus, data_lin, data_col)
   this.previous_col = this.col ;
   this.col = col ;
   this.tr = table.childNodes[lin] ;
+  remove_highlight() ;
+  the_current_line = this.tr ;
+  this.tr.className += ' highlight' ;
   this.td = this.tr.childNodes[col] ;
   if ( data_col != this.data_col )
     this.do_update_column_headers = true ;

@@ -33,7 +33,7 @@ prefs = (
 ('nr_favorites'   ,2.5,"Nombre d'UE favorites affichées"               ,"6"  ),
 ('nr_lines'       ,3  ,"Nombre de lignes affichées par défaut"         ,"0"  ),
 ('nr_cols'        ,4  ,"Nombre de colonnes affichées par défaut"       ,"0"  ),
-('zebra_step'     ,4.5,"Nombres de lignes entre les traits épais"      ,"3"  ),
+('zebra_step'     ,4.5,"Nombres de lignes entre les traits épais"      ,"5"  ),
 ('page_step'      ,4.6,"Avec 0,5 «page suivante» décale d'½ page"      ,"1"  ),
 ('invert_name'    ,5  ,"Inverse les colonnes NOM et PRÉNOM"            ,"OUI"),
 ('v_scrollbar'    ,6  ,"Affiche l'ascenseur vertical"                  ,"OUI"),

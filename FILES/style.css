@@ -165,6 +165,8 @@ TD.empty {
  /* background: #DDD ; */
 }
 
+TR.highlight TD { color: #00A;  }
+
 
 .is_an_abj { text-decoration: underline ; }
 

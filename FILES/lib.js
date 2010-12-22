@@ -739,6 +739,8 @@ function mouse_over(event)
   show_the_tip(td) ;
 }
 
+var the_current_line ;
+
 function show_the_tip(td, tip_content)
 {
   var bottom = false ;
@@ -757,6 +759,7 @@ function show_the_tip(td, tip_content)
 	{
 	  bottom = true ;
 	  s = type['tip_' + td.parentNode.className.split(' ')[0]] ;
+	  remove_highlight() ;
 	}
       else
 	{
@@ -766,6 +769,10 @@ function show_the_tip(td, tip_content)
 	    s = '<span class="title">' + type.tip_cell + '</span><br>' ;
 	  else
 	    s = '' ;
+	  // higlight line
+	  remove_highlight() ;
+	  the_current_line = td.parentNode ;
+	  td.parentNode.className += ' highlight' ;
 	}
       if ( s === '' )
 	{
@@ -4464,10 +4471,20 @@ function full_import()
   table_fill(false, true) ;
 }
 
+function remove_highlight()
+{
+  if ( the_current_line )
+    {
+      the_current_line.className = the_current_line.className.replace(' highlight', '') ;
+      the_current_line = undefined ;
+    }
+}
+
 function hide_the_tip_real()
 {
   tip.onmousemove = function() {} ;
   tip.style.display = "none" ;
+  remove_highlight() ;
 }
 
 function hide_the_tip(real)
