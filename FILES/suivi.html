@@ -12,12 +12,12 @@
   </head>
   <body class="suivi">
     <div class="identity">
-    <div id="allow_inline_block" class="notes"></div>
-      <p>
       <a href="_URL_/logout">Déconnexion</a> <b>_USERNAME_</b><br>
-      </p>
+    <div id="allow_inline_block" class="notes"></div>
     </div>
     _MESSAGE_
+    <img id="unload" width="1" height="1">
+<!--
     <h1>Suivi des étudiants pour _SEMESTER_ _YEAR_ <img id="unload" width="1" height="1"></h1>
     <p class="noprint" style="text-align:center">
       Les informations sur cette page ne sont pas actualisées
@@ -47,11 +47,14 @@
 </tr>
 </table>
 <p style="clear:both;"></p>
+ -->
 <style id="computed_style">.notempty { display: none ; }</style>
       
     <script>
 lib_init() ;
-document.getElementById('input').focus() ;
+var input = document.getElementById('input') ;
+if ( input )
+    input.focus() ;
 var tip = undefined ;
 var unload = document.getElementById('unload') ;
 

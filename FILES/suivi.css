@@ -3,18 +3,26 @@ DIV.title {
   font-weight: bold ;
 }
 
-.prst { background: #8F8 ; }
-.abinj { background: #F88 ; }
-.abinj2 { background: #F88 ; }
-.abjus { background: #88F ; }
-.novalue { background: #DDD ; }
-.verygood { background: #0F0 ; }
-.good { background: #BFB ; }
-.mean { background: #EEE ; }
-.bad { background: #FAA ; }
-.verybad { background: #F44 ; color: white; }
-DIV.verybad DIV:hover { color: red; }
+.prst     { background: #8F8 ;               }
+.abinj    { background: #F88 ;               }
+.abinj2   { background: #F88 ;               }
+.abjus    { background: #88F ;               }
+.novalue  { background: #DDD ;               }
+.verygood { background: #0F0 ;               }
+.good     { background: #BFB ;               }
+.mean     { background: #EEE ;               }
+.bad      { background: #FAA ;               }
+.verybad  { background: #F44 ; color: white; }
 
+DIV.notes P:hover, DIV.fine:hover {
+  background: black ;
+  color: white ;
+}
+
+TABLE.memberof { background: black; border-spacing: 1px}
+TABLE.memberof TH, TABLE.memberof TD { padding: 0px }
+TABLE.memberof TH { text-align: left; font-size: 80% }
+TABLE.memberof TD { font-size: 60% }
 
 IFRAME { 
 width: 1em ;
@@ -28,7 +36,32 @@ SELECT {
   font-size: 70% ;
  }
 
+.tomuss_links { 
+ float:right;
+  margin: 0px;
+}
+.tomuss_links .highlight { 
+  border:2px solid black;
+}
+
+H1 { margin-top: 0px }
+
+
 div.title a.title{ margin-bottom: 0.2em ; padding-top: 0em; }
+
+.column_title {
+  display: block ;
+  font-size: 120% ;
+  font-weight: bold ;
+  text-align: center ;
+  padding: 0px ;
+  margin: 0.1em ;
+}
+
+.column_title EM {
+  font-size: 60%;
+  font-weight: normal;
+}
 
 .noninscrit {
   border: 1px solid black ;
@@ -40,27 +73,41 @@ div.title a.title{ margin-bottom: 0.2em ; padding-top: 0em; }
 .blocnote { 
   background: white ;
   border: 1px solid black ;
-  margin-left: 100px ;
-  margin-top: 2px ;
+  clear: both; 
 }
 
-DIV.notes, DIV.notes2 { 
+DIV.notes { 
   border: 1px solid black ;
   vertical-align: text-top ;
   text-align: center;
   display: inline-block ;
   margin: 1px ;
-}
-
-DIV.notes { 
   padding: 0px ;
 }
 
-DIV.notes2 { 
+
+DIV.notes P {
+  border-bottom: 1px solid black;
+  margin: 0px ;
   padding: 0px ;
 }
 
-DIV.notes2 DIV.tipped { width: 100%; }
+DIV.notes DIV.notes { 
+  margin: 0px ;
+  border: 0px ;
+  border-left: 1px solid black;
+}
+
+DIV.fine P { 
+  border-bottom: 1px solid #AAA;
+}
+
+DIV.notes DIV.first_child { 
+  border-left: 0px;
+}
+
+
+DIV.notes DIV.tipped { width: 100%; }
 
 IFRAME.feedback { width: 8px ; height: 8px ; }
 

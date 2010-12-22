@@ -1,4 +1,5 @@
 Finir par priorité :
+	Modification de table du passé : problème : pas de newpage
 	Change mail/portail comme attribut de table
 	COW (stable) valeur vide ==> comme si rien
 	Sauvegarde de l'état figé...

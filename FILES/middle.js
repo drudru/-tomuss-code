@@ -656,11 +656,11 @@ for(var type_i in types)
    
    table_select('table_attr_private',
 		['Publique', 'Privée'],
-		'Une table privée est seulement visible/modifiable par les responsables,<br>les étudiants pourront néanmoins voir leur suivi.<br>Seul un responsable peut changer ceci.') +
+		'Une table privée est seulement visible/modifiable par les responsables,<br>les étudiants pourront néanmoins voir leur suivi.<br>Seul un responsable peut changer ceci.') /* +
 
    table_select('table_attr_modifiable',
 		['Non Modifiable', 'Modifiable'],
-		'Indique si le contenu de la table est modifiable.<br>Seul un responsable peut changer ceci.') ;
+		'Indique si le contenu de la table est modifiable.<br>Seul un responsable peut changer ceci.') */ ;
 
  w += table_input_attr('default_nr_columns','',
 		       "Impose ce nombre de colonnes affichées à tous le monde<br>" +

@@ -1,5 +1,6 @@
 
-BODY, TABLE INPUT, TABLE TD, TH, P, H1, #current_input {
+/* BODY, TABLE INPUT, TABLE TD, TH, P, H1, #current_input { */
+BODY, INPUT, TABLE TD {
   background: #EEEEEE ;
   border: none ;
   font-family: sans-serif ;

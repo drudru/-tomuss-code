@@ -52,7 +52,7 @@ def tomuss_links(login, ticket, server, is_a_student=False):
     for url, port, tyear, tsemester, thost \
             in configuration.suivi.url_with_ticket(ticket.ticket):
         if tyear == server.year and tsemester == server.semester:
-            highlight = ' style="background: #CFC;border:1px solid black;"'
+            highlight = ' class="highlight"'
         else:
             highlight = ''
         if tyear < year:
@@ -63,16 +63,17 @@ def tomuss_links(login, ticket, server, is_a_student=False):
         else:
             icone = '<img class="icone" src="%s/_%s">' % (url, login)
 
-        t.append(' <script>hidden(\'<span%s><a href="%s/%s">%s%s</a>%s</span>\',"Voir les notes dans TOMUSS pour un autre semestre");</script>' % (
-            highlight, url, login, tsemester, tyear, icone))
+        t.append('<div%s>%s<a href="%s/%s">%s %s</a></div>' % (
+            highlight, icone, url, login, tsemester, tyear))
     t.sort(key=lambda x: x.split('href="')[1].replace('A','Z') )
-    return 'TOMUSS :' + ', '.join(t)
+    return '<table class="tomuss_links colored"><tr><th><script>hidden(\'<span>Semestres</span>\',"Voir les notes dans TOMUSS pour un autre semestre");</script></tr><tr><td>' + ''.join(t) + '</tr></table>'
 
 def member_of_list(login):
-    x = ':: <script>hidden("memberOf","<table>'
+    x = '<script>hidden("Membre de...","<table class=\\"memberof\\">'
     member_of = list(inscrits.member_of_list(login))
+    member_of.sort()
     for i in member_of:
-        x += '<tr><td>' + cgi.escape(unicode(i,configuration.ldap_encoding)).replace('"','\\"') \
+        x += '<tr><th>' + cgi.escape(unicode(i,configuration.ldap_encoding)).replace('"','\\"') \
                                  .replace(',DC=univ-lyon1,DC=fr','') \
                                  .replace(',','<td>') + '</tr>'
     x += '</table>");</script>'
@@ -103,12 +104,16 @@ def student_statistics(login, server, is_a_student=False, expand=False):
     year = server.year
     semester = server.semester
     firstname, surname, mail = inscrits.firstname_and_surname_and_mail(login)
-    s = ['<div class="student"><img class="photo" src="%s"><h1>' %
-        configuration.picture(inscrits.login_to_student_id(login))]
-    if is_a_student:
-        s.append("%s %s, " % (semester, year))
+    s = ['<div class="student"><img class="photo" src="',
+         configuration.picture(inscrits.login_to_student_id(login)),
+         '">',
+         tomuss_links(login, ticket, server, is_a_student),
+         '<h1>'
+         ]
     s.append('%s <a href="mailto:%s">%s %s</a></h1>' % (
         login, mail, firstname.title(), surname))
+
+    ################################################# REFERENT
 
     ref = referent.referent(year, semester, login)
     if ref:
@@ -116,40 +121,50 @@ def student_statistics(login, server, is_a_student=False, expand=False):
         if mail_ref == None:
             mail_ref = 'mail_inconnu'
         s.append(u'Référent pédagogique : <script>hidden(\'<a href="mailto:' + mail_ref + '">' +
-                 ref + u"</a>','Envoyez un message à l\\'enseignant référent pédagogique');</script> :: ")
+                 ref + u"</a>','Envoyez un message à l\\'enseignant référent pédagogique');</script><br>")
     else:
         if referent.need_a_referent(login):
-            s.append(u"<script>hidden(\'Référent pédagogique : Aucun\','Seuls les étudiants inscrits pour la première fois à l\\'université ont un référent pédagogique.');</script> :: ")
+            s.append(u"<script>hidden(\'Référent pédagogique : Aucun\','Seuls les étudiants inscrits pour la première fois à l\\'université ont un référent pédagogique.');</script><br>")
         else:
-            s.append(u"<script>hidden(\'Référent pédagogique : Aucun\','Vous n\\'êtes pas dans la licence STS, vous n\\'avez donc pas d\\'enseignant référent');</script> :: ")
+            s.append(u"<script>hidden(\'Référent pédagogique : Aucun\','Vous n\\'êtes pas dans la licence STS, vous n\\'avez donc pas d\\'enseignant référent');</script><br>")
 
+    ################################################# LOOK
+
+    s.append('Regarder : ')
+    
+    # BILAN
+    
     if not expand:
         s.append(u"""<script>hidden('<a href="%s" target="_blank">Bilan APOGÉE</a>','Affiche le récapitulatif des notes présentes dans APOGÉE<br>pour l\\'ensemble de la licence');""" %
-                 (configuration.bilan_des_notes + login) + '</script> :: ')
+                 (configuration.bilan_des_notes + login) + '</script>, ')
+    # CONTRACT
 
-    s.append(tomuss_links(login, ticket, server, is_a_student))
-    s.append('<script>i_am_a_student = %d ; </script>' % int(is_a_student))
     if not is_a_student:
-        x, member_of = member_of_list(login)
-        s.append(x)
-
         if referent.need_a_charte(login):
             if utilities.manage_key('LOGINS',
                                     utilities.charte_server(login,server)):
-                s.append(u' :: Contrat signé')
+                s.append(u'Contrat signé, ')
             else:
-                s.append(u' :: <span style="background:red">Contrat non signé</span>')
+                s.append(u'<span style="background:red">Contrat non signé</span>, ')
 
-
-        s.append(u' :: <script>hidden(\'<a href="%s/=%s/%s/%s/ %s" target="_blank">Vue étudiant</a>\',"Afficher ce que voit réellement l\'étudiant dans son navigateur");</script>' % (
+        s.append(u'<script>hidden(\'<a href="%s/=%s/%s/%s/ %s" target="_blank">Vue étudiant</a>\',"Afficher ce que voit réellement l\'étudiant dans son navigateur");</script>, ' % (
             utilities.StaticFile._url_, ticket.ticket,
             year, semester, login))
     else:
         if referent.need_a_charte(login):
-            s.append(u' :: <script>hidden(\'<a href="%s/charte.html" target="_blank">Contrat</a>\',"Le contrat pédagogique que vous avez signé.");</script>' %
+            s.append(u'<script>hidden(\'<a href="%s/charte.html" target="_blank">Contrat</a>\',"Le contrat pédagogique que vous avez signé.");</script>, ' %
                      utilities.StaticFile._url_)
 
+    # MORE
+
     s.append(configuration.more_on_suivi(login))
+    s.append('<br>')
+
+    if not is_a_student:
+        x, member_of = member_of_list(login)
+        s.append(x)
+
+    ################################################# FOR REFERENT
 
     if ref and ref == ticket.user_name and not is_a_student:
         if semester == 'Printemps':
@@ -177,6 +192,9 @@ def student_statistics(login, server, is_a_student=False, expand=False):
             # table.unload() # XXX Memory leak
             tyear -= 1
 
+    ################################################# FOR STUDENT
+
+
     if is_a_student:
         key = utilities.manage_key('LOGINS', os.path.join(login,'rsskey'))
         if key is False:
@@ -194,7 +212,7 @@ def student_statistics(login, server, is_a_student=False, expand=False):
             key = ''
 
         rss = '%s/rss/%s' % (utilities.StaticFile._url_, key)
-        s.append(u':: <script>hidden(\'<a href="%s"><img src="/feed.png" style="border:0px"></a>\',"Suivez ce lien pour recevoir les changements comme des actualités.<br>Dans votre navigateur, site web, lecteur de mail, portail étudiant...")</script>' % rss)
+        s.append(u'<script>hidden(\'<a href="%s">Flux RSS : <img src="/feed.png" style="border:0px"></a>\',"Suivez ce lien pour recevoir les changements comme des actualités.<br>Dans votre navigateur, site web, lecteur de mail, portail étudiant...")</script>' % rss)
         s.append('<link href="%s" rel="alternate" title="TOMUSS" type="application/rss+xml">' % rss)
  
     

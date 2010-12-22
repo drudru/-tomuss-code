@@ -5268,9 +5268,10 @@ function display_suivi(cols) /* [value, class, comment] */
       visual_cell = cols[column.title] ;
       if ( visual_cell === undefined )
 	continue ;
-      comment = 'Colonne : <b>' + column.title + '</b>' ;
+      comment = '<span class="column_title">' + column.title ;
       if (column.comment)
-	comment += ' (<em>' + html(column.comment) + '</em>)' ;
+	comment += '<em> : ' + html(column.comment) + '</em>' ;
+      comment += '</span>' ;
       cell = line[column.data_col] ;
       // For evaluated columns
       visual_cell[0] = visual_cell[0].replace('\001',cell.value_fixed())
@@ -5278,17 +5279,17 @@ function display_suivi(cols) /* [value, class, comment] */
 
       if ( cell.comment )
 	{
-	  comment += '<br>Commentaire : <b>' + html(cell.comment) + '</b>' ;
+	  comment += 'Commentaire : <b>' + html(cell.comment) + '</b><br>' ;
 	  visual_cell[1] += ' commented' ;
 	}
       if (cell.date)
-	comment += '<br>Date modification : <b>' + date(cell.date) + '</b>';
+	comment += 'Date modification : <b>' + date(cell.date) + '</b><br>';
       if (cell.author)
-	comment += '<br>Par : <b>' + cell.author + '</b>' ;
+	comment += 'Par : <b>' + cell.author + '</b><br>' ;
       if (column.should_be_a_float)
-	comment += '<br>Poids dans la moyenne pondérée : <b>' + column.weight + '</B>' ;
+	comment += 'Poids dans la moyenne pondérée : <b>' + column.weight + '</B><br>' ;
       if (comment)
-	visual_cell[2] = comment + '<br>' + visual_cell[2] ;
+	visual_cell[2] = comment + visual_cell[2] ;
       if ( visual_cell[0] === '' )
 	visual_cell[1] += ' empty' ;
     }
@@ -5310,7 +5311,7 @@ function display_suivi(cols) /* [value, class, comment] */
       }
   else
     {
-      function fusion(title)
+      function fusion(title, first)
       {
 	var name, s, visual_cell, v ;
 	var column = columns[data_col_from_col_title(title)] ;
@@ -5326,21 +5327,25 @@ function display_suivi(cols) /* [value, class, comment] */
 	    visual_cell[3] = true; // Used
 	    
 	    if ( column.type == 'Nmbr' ) // XXX Why ?
-	      s += fusion(name).replace(/<br>Poids[^B]*B>/, '') ;
+	      s += fusion(name, depend==0).replace(/<br>Poids[^B]*B>/, '') ;
 	    else
-	      s += fusion(name) ;
+	      s += fusion(name, depend==0) ;
 	  }
 	visual_cell = cols[title] ;
 	//return '['+title+','+s+']' ;
+	if ( first )
+	  first = ' first_child' ;
+	else
+	  first = '' ;
 	if ( s === '' )
-	  v = '<div class="notes2 ' + visual_cell[1] + '">'
-	    + hidden_txt(title + '<br>' + visual_cell[0], visual_cell[2])
+	  v = '<div class="notes fine ' + visual_cell[1] + first + '">'
+	    + hidden_txt('<p>' + title + '</p>' + visual_cell[0], visual_cell[2])
 	    + '</div>' ;
 	else
-	  v = '<div class="notes">'
-	    + hidden_txt(title + ': ' + visual_cell[0],
+	  v = '<div class="notes' + first + '">'
+	    + hidden_txt('<p>' + title + ': ' + visual_cell[0] + '</p>',
 			 visual_cell[2], visual_cell[1])
-	    + '<br>' + s + '</div>' ;
+	    + s + '</div>' ;
 	return v ;
       }
       for(var title in cols)
