@@ -155,6 +155,8 @@ They are automaticaly reloaded when they are modified.</li>
 <ul>
 	  <li><b>start</b>: Starts all the servers.</li>
 	  <li><b>stop</b>: Stops all the servers.</li>
+	  <li><b>stopsuivi</b>: Stops TOMUSS 'suivi' server.</li>
+	  <li><b>stoptomuss</b>: Stops TOMUSS server.</li>
 	  <li><b>install</b>: Put development version in production.</li>
 	  <li><b>stat</b>: Display some sources stats</li>
 	  <li><b>clean</b>: Delete garbages.</li>

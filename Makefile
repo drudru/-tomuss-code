@@ -1,8 +1,8 @@
 
 start:
 	SCRIPTS/crontab_run.py
-stop:
-	SCRIPTS/crontab_run.py stop
+stop stopsuivi stoptomuss:
+	SCRIPTS/crontab_run.py $@
 
 install:clean
 	SCRIPTS/install

@@ -108,13 +108,23 @@ def stop(name):
     except OSError:
         pass
 
-
-if 'stop' in sys.argv:
+def stop_suivi():
     for url, port, year, semester, host in configuration.suivi.urls.values():
         stop("suivi%d" % port)
+
+
+if 'stop' in sys.argv:
+    stop_suivi()
     stop('tomuss')
     sys.exit(0)
 
+if 'stoptomuss' in sys.argv:
+    stop('tomuss')
+    sys.exit(0)
+
+if 'stopsuivi' in sys.argv:
+    stop_suivi()
+    sys.exit(0)
 
 # Running suivi.
 
