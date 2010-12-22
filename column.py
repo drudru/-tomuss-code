@@ -78,10 +78,15 @@ class ColumnAttr(object):
             return table.bad_auth(page)
 
         if self.computed and self.name != 'hidden': # XXX Not nice test
-            table.error(page, "Attribut de colonne non modifiable:"+self.name)
-
-        if getattr(column.type, 'set_' + self.name) == 'unmodifiable':
-            table.error(page, "Attribut de colonne non modifiable:"+self.name)
+            return table.error(page,
+                               "Attribut de colonne non modifiable:"+self.name)
+        # The columns list is not modifiable for a Note
+        # But the names in column list must be renamed on column rename.
+        # It is so because columns_list value is not forgotten when
+        # the type is changed.
+        # if getattr(column.type, 'set_' + self.name) == 'unmodifiable':
+        #    return table.error(page,
+        #                       "Attribut de colonne non modifiable:"+self.name)
             
         error = self.check(value)
         if error:

@@ -27,8 +27,6 @@
 
 function set_title(value, column, xcolumn_attr)
 {
-  var old_title = column.title ;
-
   value = value.replace(/ /g, '_') ;
 
   for(var data_col in columns)
@@ -40,32 +38,36 @@ function set_title(value, column, xcolumn_attr)
 	return set_title(value + '_bis', column, xcolumn_attr) ;
       }
 
-  column.title = value ;
   // XXX does not replace multiple occurrence because
   // Regex can not be used easely with special characters
   // that may appear in titles.
 
-  if ( ! xcolumn_attr && old_title !== '' )
-    for(var data_col in columns)
-      {
-	var formula_column = columns[data_col] ;
-	var w = (' ' + formula_column.columns + ' ')
-	  .replace(' ' + old_title + ' ',
-		   ' ' + column.title + ' ') ;
-	w = w.substr(1, w.length-2) ; // Remove appended space
-	
-	if ( w == formula_column.columns )
-	  continue ;
-	if ( ! column_change_allowed(formula_column) )
-	  {
-	    alert_append("Cette colonne est utilisée dans une formule qui ne peut être mise à jour car vous n'avez pas le droit. Les calculs seront donc faux.") ;
-	  }
-	else
-	  {
-	    column_attr_set(formula_column, 'columns', w) ;
-	  }
-      }
+  if ( ! xcolumn_attr && column.title !== '' )
+    {
+      var job_to_do = [] ;
 
+      for(var data_col in columns)
+	{
+	  var formula_column = columns[data_col] ;
+	  var w = (' ' + formula_column.columns + ' ')
+	    .replace(' ' + column.title + ' ',
+		     ' ' + value + ' ') ;
+	  w = w.substr(1, w.length-2) ; // Remove appended space
+	  
+	  if ( w == formula_column.columns )
+	    continue ;
+	  if ( ! column_change_allowed(formula_column) )
+	    {
+	      alert_append("Cette colonne est utilisée dans une formule qui ne peut être mise à jour car vous n'avez pas le droit.\nLe changement de ce titre est donc interdit.\nSeul le responsable de la table peut faire ce changement.") ;
+	      return column.title ;
+	    }
+	  job_to_do.push([formula_column, 'columns', w]) ;
+	}
+      // Title change is possible
+      for(var i in job_to_do)
+	column_attr_set(job_to_do[i][0], job_to_do[i][1], job_to_do[i][2]) ;
+    }
+  column.title = value ;
   return column.title ;
 }
 

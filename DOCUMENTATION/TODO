@@ -10,8 +10,6 @@ Finir par priorité :
 	RSS table : TT DA, ajouter + info dans le texte et le sujet ?
 	Nom de jeune fille
 	Mettre UNE table en lecture seulement : Envoyer mail a l'administratif
-	linear	Afficher aide plus detaille sur la valeur de la cellule
-	linear  rendre champs saisie invisible
 	live_status : pong ne doit pas mettre la date courante si existe pas
 	live_status : écarter les noeuds collés.
 	live_status : afficher navigateur
@@ -38,6 +36,8 @@ Finir par priorité :
 
     Moyenne :
 	Indicateur modifiable : official_ue
+	linear	Afficher aide plus detaille sur la valeur de la cellule
+	linear  rendre champs saisie invisible
 	Interface pour détruire les tables.
 	UE par formation
 	Interdire stockage mauvais encodage (liste étudiants ou autres)
