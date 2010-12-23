@@ -222,6 +222,8 @@ function column_attr_set(column, attr, value, td)
   if ( old_value === new_value && attr != 'width' && attr != 'position' )
     return ;
 
+  if ( new_value === null )
+    return null ; // Do not store, but leave unchanged in user interface
 
   if ( create_column(column) && attr == 'title' )
     return new_value ; // The title is yet sended to the server
@@ -315,6 +317,9 @@ function header_change_on_update(event, input, what)
 	  input.value = input.theoldvalue ;
 	  return ;
 	}
+
+      if ( new_value === null )
+	return ; // Not stored, but leave user input unchanged
       
       if ( input.selectedIndex === undefined )
 	input.value = column_attributes[attr].formatter(column, new_value) ;
