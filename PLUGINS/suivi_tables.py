@@ -86,6 +86,8 @@ column_change (0,'0_c','Vide','Text','[0;20]','','',0,4)
 column_comment(0,'0_c','S\\'il y a un nombre de lignes != 0, alors la table est vide')
 column_change (0,'0_d','Grp/Seq','Text','[0;20]','','',0,2)
 column_comment(0,'0_d','Nombre de groupes d\\'étudiants')
+column_comment(0,'0_e','Problème de formule')
+column_attr('title', 0,'0_e','Formules')
 table_comment(0, 'Statistiques par UE')
 table_attr('default_nr_columns', 0, 14)
 """ % (max_cels, max_teachers, max_lines, max_cols,  max_pages, max_comment))
@@ -110,6 +112,7 @@ cell_change(0,'0_a','%d',%s,'')
 cell_change(0,'0_b','%d','%s','')
 cell_change(0,'0_c','%d',%s,'')
 cell_change(0,'0_d','%d',%s,'')
+cell_change(0,'0_e','%d',%s,'')
 """ % (i, repr(t.name), i, repr(str(t.nr)), i, repr(str(len(t.teachers))),
        i, repr(t.nr_lines),i, repr(t.nr_cols), i, repr(str(t.nr_pages)),
        i, repr(str(t.nr_comments)),
@@ -118,6 +121,7 @@ cell_change(0,'0_d','%d',%s,'')
        i, t.t.is_extended and 'OUI' or 'NON' ,
        i, utilities.js(t.t.empty()[1]),
        i, len([g for g in t.group_and_seq if g != '']),
+       i, utilities.js(t.t.problem_in_column_name())
        ))
     f.close()
 

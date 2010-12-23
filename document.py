@@ -692,6 +692,18 @@ la dernière saisie.
 
         return True, '%d lines' % len(self.lines)
 
+    def problem_in_column_name(self):
+        names = set()
+        for c in self.columns:
+            if c.title in names:
+                return 'Duplicate name: ' + c.title
+            names.add(c.title)
+        for c in self.columns:
+            for name in c.depends_on():
+                if name not in names:
+                    return '"%s" use non-existent column "%s"' %(c.title, name)
+        
+
     def table_comment(self, page, comment):
         """Deprecated"""
         return self.table_attr(page, 'comment', comment)
