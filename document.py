@@ -324,6 +324,11 @@ class Table(object):
             # To forbid the edit of the same table with 2 names
             self.modifiable = 0
 
+        if len(self.masters) == 0:
+            for login in self.teachers:
+                if login not in self.masters:
+                    self.masters.append(login.encode('utf8'))
+
     def update(self):
         """Update the table if the file on disc changed."""
         # warn('Start ro=%s dt=%f p=%s' % (self.ro, time.time() - self.mtime, os.path.exists(self.filename)), what="table")
