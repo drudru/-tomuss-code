@@ -107,6 +107,7 @@ class Abj(object):
 
         s = []
         if self.abjs:
+            s.append('<h2>Informations concernant les absences justifiées</h2>')
             s.append('<TABLE class="display_abjs colored">')
             s.append('<TR><TH>ABJ du</TH><TH>Au</TH><TH>Commentaire</TH></TR>')
             for abj in self.abjs: 
@@ -115,6 +116,7 @@ class Abj(object):
             s.append('</TABLE>')
 
         if self.da:
+            s.append("<h2>Informations concernant les dispenses d'assiduité</h2>")
             s.append('<TABLE class="display_da colored">')
             s.append('<TR><TH>Dispense pour l\'UE</TH><TH>À partir du</TH><TH>Commentaire</TH></TR>')
             for da in self.da: 
@@ -160,7 +162,7 @@ class Abjs(object):
         """Reload the file if another process modified it"""
         if self.getmtime() <= self.mtime:
             return
-        if time.time() - self.last_update < 60*60:
+        if time.time() - self.last_update < configuration.maximum_out_of_date:
             return
         self.load_module()
         

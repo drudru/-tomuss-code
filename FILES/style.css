@@ -1,12 +1,12 @@
 
 /* BODY, TABLE INPUT, TABLE TD, TH, P, H1, #current_input { */
-BODY, INPUT, TABLE TD {
+BODY, TABLE TD, #current_input, TR.filter INPUT {
   background: #EEEEEE ;
   border: none ;
   font-family: sans-serif ;
   cursor: text ;
 }
-
+INPUT { cursor: text ; }
 A { text-decoration: none; }
 
 /* These values are also in 'document.py' for TABLE */
@@ -900,8 +900,8 @@ TR#ampm TD { text-align: center ; }
 TD.weekend { background: #FBB; }
 
 TABLE.display_abjs TH { text-align: center ; }
-TABLE.display_abjs TD { background: #EEE ; }
-TABLE.display_abjs TH, TABLE.display_abjs TD { font-size:80%; padding: 1px }
+TABLE.display_abjs TD, TABLE.display_da TD { background: #EEE ; }
+TABLE.display_abjs TH, TABLE.display_abjs TD, TABLE.display_da TD, TABLE.display_da TH { font-size:80%; padding: 1px }
 
 DIV#student_display {
   min-height: 200px ;

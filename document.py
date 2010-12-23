@@ -1064,7 +1064,7 @@ def tables_values():
     # XXX Need a lock ?
     return [t
             for t in list(tables.values())
-            if t is not None
+            if t not in (None, False, True)
             ]
 
             

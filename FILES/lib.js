@@ -28,6 +28,8 @@ var histo_image_height = 90 ;
 var bs = '<td>' ;
 var maximum_url_length = 3000 ;
 
+var is_a_teacher = false ;
+
 
 // Work value
 var element_focused ;

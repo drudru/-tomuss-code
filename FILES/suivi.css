@@ -18,8 +18,9 @@ DIV.notes P:hover, DIV.fine:hover {
   background: black ;
   color: white ;
 }
+DIV.notes:hover A { color: #AAF  }
 
-TABLE.memberof { background: black; border-spacing: 1px}
+TABLE.memberof { background: black; border-spacing: 1px }
 TABLE.memberof TH, TABLE.memberof TD { padding: 0px }
 TABLE.memberof TH { text-align: left; font-size: 80% }
 TABLE.memberof TD { font-size: 60% }
@@ -37,12 +38,18 @@ SELECT {
  }
 
 .tomuss_links { 
- float:right;
+  float: right;
   margin: 0px;
 }
-.tomuss_links .highlight { 
+.tomuss_links DIV.highlight { 
   border:2px solid black;
+  padding:0px;
 }
+.tomuss_links DIV { 
+  padding:2px;
+}
+.tomuss_links TD { text-align: right; padding: 0px }
+.tomuss_links IMG { float: left }
 
 H1 { margin-top: 0px }
 

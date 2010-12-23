@@ -63,8 +63,8 @@ def tomuss_links(login, ticket, server, is_a_student=False):
         else:
             icone = '<img class="icone" src="%s/_%s">' % (url, login)
 
-        t.append('<div%s>%s<a href="%s/%s">%s %s</a></div>' % (
-            highlight, icone, url, login, tsemester, tyear))
+        t.append('<div%s><a href="%s/%s">%s %s %s</a></div>' % (
+            highlight, url, login, icone, tsemester, tyear))
     t.sort(key=lambda x: x.split('href="')[1].replace('A','Z') )
     return '<table class="tomuss_links colored"><tr><th><script>hidden(\'<span>Semestres</span>\',"Voir les notes dans TOMUSS pour un autre semestre");</script></tr><tr><td>' + ''.join(t) + '</tr></table>'
 
@@ -268,10 +268,12 @@ def student_statistics(login, server, is_a_student=False, expand=False):
                            ro=True)
     tt = abj.tierstemps(login, aall=True, table=table)
     if tt:
-        tt = '<p>Informations concernant le tiers temps :</p><pre>' + cgi.escape(tt) + '</pre>'
+        tt = '<h2>Informations concernant le tiers temps :</h2><pre>' + cgi.escape(tt) + '</pre>'
 
-    return '\n'.join(s) + '<p>' + abj.html_abjs(server.year, server.semester,
-                                                login, read_only=True) + xx + tt + '</div>'
+    return ('\n'.join(s)
+            + abj.html_abjs(server.year, server.semester,
+                            login, read_only=True)
+            + xx + tt + '</div>')
 
 def student(server, login=''):
     """Display all the informations about a student."""
