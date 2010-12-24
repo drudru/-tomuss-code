@@ -288,18 +288,23 @@ class TableAttr(ColumnAttr):
             page.request += 1
             return 'ok.png'
 
-        teachers = table.teachers + table.masters
+        teachers = table.masters
 
         if (page.user_name not in teachers
             and page.user_name not in configuration.root
-            and not table.modifiable):
-            return table.bad_ro(page)
+            and page.user_name != data.ro_user):
 
-        if ( (page.user_name not in teachers)
-             and len(teachers) != 0
-             and page.user_name not in configuration.root
-             and page.user_name != data.ro_user):
-            return table.bad_auth(page)
+            if not table.modifiable:
+                return table.bad_ro(page)
+
+            if len(teachers) != 0:
+                return table.bad_auth(page)
+
+            if self.name == 'modifiable':
+                return table.bad_auth(page)
+
+        if not table.modifiable and not self.name == 'modifiable':
+            return table.bad_ro(page)
 
         error = self.check(value)
         if error:

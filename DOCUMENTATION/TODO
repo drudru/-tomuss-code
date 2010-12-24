@@ -1,5 +1,6 @@
 Finir par priorité :
 	Ajouter test regression pour la modification dans le passé
+	Ne pas autoriser les modification d'attributs de table sans responsable
 	Reconnexion au serveur quand la connexion est perdue
 	Change mail/portail comme attribut de table
 	COW (stable) valeur vide ==> comme si rien

@@ -1186,14 +1186,22 @@ new_page('' ,'*', '', '', None)
         # root can modify table attribute in the past.
         s.url('=' + root + '/%d/Automne/UE-pastue' % (year-1))
         c = s.url('=' + root + '/%d/Automne/UE-pastue/2/0/table_attr_masters/%s' % (year-1, abj))
+        assert(c == bad_png)
+        c = s.url('=' + root + '/%d/Automne/UE-pastue/2/1/table_attr_modifiable/1' % (year-1))
+        assert(c == ok_png)
+        c = s.url('=' + root + '/%d/Automne/UE-pastue/2/2/table_attr_masters/%s' % (year-1, abj))
+        assert(c == ok_png)
+        c = s.url('=' + root + '/%d/Automne/UE-pastue/2/3/table_attr_modifiable/0' % (year-1))
         assert(c == ok_png)
 
         # abj can now modify the table attributes (not values)
         c = s.url('=' + abj + '/%d/Automne/UE-pastue/1/2/column_attr_comment/col_0/test2' % (year-1))
         assert(c == bad_png)
-        c = s.url('=' + abj + '/%d/Automne/UE-pastue/1/3/table_attr_modifiable/1' % (year-1))
+        c = s.url('=' + abj + '/%d/Automne/UE-pastue/1/3/table_attr_comment/col_0/cococo' % (year-1))
+        assert(c == bad_png)
+        c = s.url('=' + abj + '/%d/Automne/UE-pastue/1/4/table_attr_modifiable/1' % (year-1))
         assert(c == ok_png)
-        c = s.url('=' + abj + '/%d/Automne/UE-pastue/1/4/column_attr_comment/col_0/test3' % (year-1))
+        c = s.url('=' + abj + '/%d/Automne/UE-pastue/1/5/column_attr_comment/col_0/test3' % (year-1))
         assert(c == ok_png)
 
         # Can't create an UE in the past
@@ -1202,6 +1210,30 @@ new_page('' ,'*', '', '', None)
         assert(os.path.exists('DBregtest/Y%d/SAutomne/UE-pastue.py' % (year-1)))
         assert(not os.path.exists('DBregtest/Y%d/SAutomne/UE-pastue2.py' % (year-1)))
                              
+    if do('modifiable'):
+        c = s.url('=' + abj +'/%s/UE-modif' % ys)
+        assert('modifiable:1' in c)
+        c = s.url('=' + abj +'/%s/UE-modif/1/0/table_attr_modifiable/0' % ys)
+        assert(c == bad_png)
+        c = s.url('=' + abj +'/%s/UE-modif/1/1/table_attr_masters/%s'%(ys,abj))
+        assert(c == ok_png)
+        c = s.url('=' + abj +'/%s/UE-modif/1/2/table_attr_modifiable/0' % ys)
+        assert(c == ok_png)
+        check('Y%d/S%s/UE-modif.py' % (year, semester),
+              nr_pages = 2)
+
+        c = s.url('=' + abj +'/%s/UE-modif' % ys)
+        assert('modifiable:0' in c)
+        c = s.url('=' + abj +'/%s/UE-modif' % ys)
+        assert('modifiable:0' in c)
+        c = s.url('=' + abj +'/%s/UE-modif/3/0/table_attr_masters/'%(ys))
+        assert(c == bad_png)
+        check('Y%d/S%s/UE-modif.py' % (year, semester),
+              nr_pages = 2)
+        c = s.url('=' + abj +'/%s/UE-modif/3/1/table_attr_modifiable/1'%(ys))
+        assert(c == ok_png)
+        check('Y%d/S%s/UE-modif.py' % (year, semester),
+              nr_pages = 4)
 
 
 n = 0
