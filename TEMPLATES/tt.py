@@ -21,6 +21,7 @@
 
 import data
 import configuration
+import utilities
 
 def create(table):
     
@@ -61,6 +62,9 @@ def init(table):
     _ucbl_.init(table)
     table.default_sort_column = 2 # compatibility with old files
     table.do_not_unload = 1
+    table.modifiable = int(table.modifiable
+                           and utilities.university_year() == table.year)
+    table.update_inscrits = table.modifiable
 
 def content(table):
     return _ucbl_.update_student_information

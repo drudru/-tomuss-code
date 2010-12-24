@@ -101,7 +101,7 @@ class ColumnAttr(object):
         setattr(column, self.name, value)
         
         table.log('column_attr(%s,%s,%s,%s)' % (
-            repr(self.name), repr(page.page_id), repr(column.the_id),
+            repr(self.name), page.page_id, repr(column.the_id),
             repr(self.decode(value))))
         t = '<script>Xcolumn_attr(%s,%s,%s);</script>' % (
             repr(self.name), js(column.the_id), js(self.decode(value)))
@@ -278,7 +278,7 @@ class TableAttr(ColumnAttr):
         TableAttr.attrs[self.name] = self
         TableAttr.attrs_list.append(self)
 
-    def update(self, table, old_value, new_value):
+    def update(self, table, old_value, new_value, page):
         """Called when the user make the change, not when loading table"""
         pass
         
@@ -313,12 +313,13 @@ class TableAttr(ColumnAttr):
         if value == old_value:
             return 'ok.png' # Unchanged value
 
-        self.update(table, old_value, value) # Side effect of attribute change
+        # Compute side effects of the attribute change
+        self.update(table, old_value, value, page)
 
         setattr(table, self.name, value)
         
         table.log('table_attr(%s,%s,%s)' % (
-            repr(self.name), repr(page.page_id), repr(self.decode(value))))
+            repr(self.name), page.page_id, repr(self.decode(value))))
         t = '<script>Xtable_attr(%s,%s);</script>\n' % (
             repr(self.name), js(self.decode(value)))
         table.send_update(page, t)
@@ -345,7 +346,29 @@ class TableModifiable(TableAttr):
         value = int(value)
         if value == 0 or value == 1:
             return
-        return "Cet attribut '%s' peut être seulement 0 ou 1" % self.__class__.__name__
+        return "Cet attribut '%s' peut être seulement 0 ou 1" % self.name
+    def update(self, table, old_value, new_value, page):
+        if not new_value:
+            return # Not modifiable
+        if old_value:
+            return # Was yet modifiable : no change
+        # Become modifiable
+        if page.logged:
+            return # Page defined on disc
+        # Need to store the unlogged pages.
+        for i, p in enumerate(table.pages):
+            if p.logged:
+                continue
+            table.log('new_page(%s ,%s, %s, %s, %s) # %d' % (
+                repr(p.ticket),
+                repr(p.user_name),
+                repr(p.user_ip),
+                repr(p.user_browser),
+                repr(p.date),
+                i,
+                ))
+            p.logged = True
+
 
 class TablePrivate(TableModifiable):
     formatter = r'''
@@ -458,7 +481,7 @@ return value ;
         for login in value:
             if not inscrits.is_a_teacher(login):
                 return "Ce n'est pas un enseignant : " + login
-    def update(self, table, old_value, new_value):
+    def update(self, table, old_value, new_value, page):
         import document
         for login in new_value:
             if login not in old_value:

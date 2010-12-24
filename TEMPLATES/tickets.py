@@ -23,6 +23,7 @@ import _ucbl_
 import abj
 
 def init(table):
+    _ucbl_.init(table)
     table.default_sort_column = 1
     table.table_title = 'Statistiques sur les tickets valides'
     table.modifiable = 0

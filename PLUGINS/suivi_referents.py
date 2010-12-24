@@ -21,6 +21,7 @@
 
 import plugin
 import referent
+import utilities
 
 class StatCol(object):
     def __init__(self, titles, increment=lambda x: True):
@@ -75,10 +76,7 @@ def stat_referent(f, year, semester):
     nr_students = 0
     nr_teachers = 0
 
-    if semester == 'Printemps':
-        year_blocnote = year - 1
-    else:
-        year_blocnote = year
+    year_blocnote = utilities.university_year(year, semester)
 
     for t in referent.les_blocsnotes(year_blocnote):
         empty = True

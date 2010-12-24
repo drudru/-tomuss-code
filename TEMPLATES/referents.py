@@ -26,6 +26,12 @@ import _ucbl_
 
 default_master = 'thierry.excoffier'
 
+def init(table):
+    _ucbl_.init(table)
+    if (table.year, table.semester) != configuration.year_semester:
+        table.modifiable = table.update_inscrits = 0
+
+
 def create(table):
     p = table.new_page('' , data.ro_user, '', '')
     table.table_attr(p, 'masters', [default_master])

@@ -113,11 +113,15 @@ def safe_space(txt):
 def flat(txt):
     return txt.translate(u"\x00\x01\x02\x03\x04\x05\x06\x07\x08\x09\x0a\x0b\x0c\x0d\x0e\x0f\x10\x11\x12\x13\x14\x15\x16\x17\x18\x19\x1a\x1b\x1c\x1d\x1e\x1f ! #$%&'()*+,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\\]^_`abcdefghijklmnopqrstuvwxyz{|}~?\x80\x81\x82\x83\x84\x85\x86\x87\x88\x89\x8a\x8b\x8c\x8d\x8e\x8f\x90\x91\x92\x93\x94\x95\x96\x97\x98\x99\x9a\x9b\x9c\x9d\x9e\x9f?????Y|?????????????'u?.????????AAAAAA?CEEEEIIIIDNOOOOOXOUUUUY?Baaaaaa?ceeeeiiiionooooo??uuuuy?y")
 
-def university_year():
-    if configuration.year_semester[1] == 'Printemps':
-        return configuration.year_semester[0] - 1
+def university_year(year=None, semester=None):
+    if semester is None:
+        semester = configuration.year_semester[1]
+    if year is None:
+        year = configuration.year_semester[0]
+    if semester == 'Printemps':
+        return year - 1
     else:
-        return configuration.year_semester[0]
+        return year
 
 live_log = None
 

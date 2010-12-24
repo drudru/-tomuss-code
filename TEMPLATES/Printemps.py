@@ -45,7 +45,7 @@ def init(table):
                                 ) == '%s/%s' % configuration.year_semester:
             # Closed on the previous semester
             table.modifiable = 1
-
+    table.update_inscrits = table.modifiable
     table.abjs = abj.get_abjs(table.year, table.semester)
     table.abjs_mtime = 0
 

@@ -474,10 +474,8 @@ def nice_date(d):
     return d.replace('M',' matin').replace('A', u' après-midi')
 
 def get_table_tt(year, semester):
-    if semester == 'Printemps':
-        return document.table(int(year)-1, 'Dossiers', 'tt')
-    else:
-        return document.table(year, 'Dossiers', 'tt')
+    return document.table(utilities.university_year(year, semester),
+                          'Dossiers', 'tt')
 
 L = None
 

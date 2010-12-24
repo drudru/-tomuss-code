@@ -167,12 +167,12 @@ def check(table, update_inscrits=update_inscrits_ue):
         warn("Create LDAP connection", what="check")
         L = type(inscrits.L)('LDAP2')
 
-    
     the_ids = {}
 
     warn("Update student list", what="check")
     if (configuration.allow_student_list_update
-        or update_inscrits != update_inscrits_ue) and table.modifiable:
+        or update_inscrits != update_inscrits_ue
+        ) and table.modifiable and table.update_inscrits:
         page = table.pages[0]
         warn("Update inscrits", what="check")
         update_inscrits(the_ids, table, page)
@@ -408,15 +408,14 @@ def cell_change(table, page, col, lin, value, date):
     get_info.append((table, lin, page, value))
 
 def init(table):
-    # Hack to not initialize in a locked state : We use a thread.
+    # Hack to not initialize table in a locked state : We use a thread.
     global thread_started
     if not thread_started:
         thread_started = True
         start_new_thread_immortal(check_get_info, ())
         
     table.official_ue = configuration.is_an_official_ue(table.ue_code)
-
-
+    table.update_inscrits = table.modifiable
 
 def check_get_info():
     """Update the name, surname, mail, portail from ID"""

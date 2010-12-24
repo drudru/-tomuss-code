@@ -22,6 +22,8 @@
 import data
 import document
 import orientation_rp
+import _ucbl_
+
 
 days = {
     '14:Lundi'   : '20110214',
@@ -120,11 +122,13 @@ def update_referents(the_ids, table, page):
     
 
 def check(table):
-    import _ucbl_
     _ucbl_.check(table, update_referents)
 
 
 def init(table):
+    _ucbl_.init(table)
+    if (table.year, table.semester) != configuration.year_semester:
+        table.modifiable = table.update_inscrits = 0
     table.default_sort_column = [0,2] # Compatibility with old files
     table.default_nr_columns = 21 # Compatibility with old files
 

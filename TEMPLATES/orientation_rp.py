@@ -21,6 +21,7 @@
 
 import data
 import document
+import _ucbl_
 
 # The orientation is the key.
 # The couple is : the screen order and the Mention of the Orientation
@@ -80,6 +81,9 @@ def create(table):
     table.table_comment(ro_page, "Populations traitées par les enseignants")
 
 def init(table):
+    _ucbl_.init(table)
+    if (table.year, table.semester) != configuration.year_semester:
+        table.modifiable = table.update_inscrits = 0
     table.default_nr_columns = len(orientations) + 3 + len(
         [i for i in orientations if i.startswith('Portail')])
     
@@ -106,7 +110,6 @@ def update_referents(the_ids, table, page):
         table.unlock()
 
 def check(table):
-    import _ucbl_
     _ucbl_.check(table, update_referents)
 
 def content(table):

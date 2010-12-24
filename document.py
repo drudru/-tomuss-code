@@ -437,6 +437,7 @@ class Table(object):
                 ))
         p = Page(ticket, user_name, len(self.pages), self,
                  user_ip, user_browser, date)
+        p.logged = self.loading or self.modifiable
         self.pages.append(p)
         return p
 
@@ -785,7 +786,7 @@ la dernière saisie.
             return self.error(page, "Modification interdite (colonne pleine)")
 
         if not self.loading:
-            self.log('column_delete(%s,%s)' % (repr(page.page_id), repr(col)))
+            self.log('column_delete(%s,%s)' % (page.page_id, repr(col)))
             t = '<script>Xcolumn_delete(%s,%s);</script>\n' % (
                 js(page.user_name), js(col))
             self.send_update(page, t)

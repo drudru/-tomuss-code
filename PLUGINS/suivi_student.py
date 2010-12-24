@@ -167,10 +167,7 @@ def student_statistics(login, server, is_a_student=False, expand=False):
     ################################################# FOR REFERENT
 
     if ref and ref == ticket.user_name and not is_a_student:
-        if semester == 'Printemps':
-            tyear = year - 1
-        else:
-            tyear = year
+        tyear = utilities.university_year(year, semester)
         while True:
             table = document.table(tyear, 'Referents',
                                    utilities.login_to_module(ref), ro=True,

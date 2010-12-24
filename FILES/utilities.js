@@ -2027,8 +2027,6 @@ function cell_changeable(cell)
 {
   if ( ! table_attr.modifiable )
     return "Cette table a été passée en lecture seulement par son responsable";
-  if ( ! table_attr.modifiable )
-    return "Cette table n'est pas modifiable car c'est un ancien semestre." ;
   if ( ! this.is_mine() )
     {
       if ( ! i_am_the_teacher )
@@ -2451,7 +2449,7 @@ function current_update_cell_headers()
 
 function current_update_table_headers()
 {
-  var disabled = ! table_change_allowed() ;
+  var disabled = ! table_change_allowed() || ! table_attr.modifiable ;
 
   for(var attr in table_attributes)
     {
@@ -2459,21 +2457,27 @@ function current_update_table_headers()
       e = document.getElementById('t_table_attr_' + attr) ;
       if ( ! e )
 	continue ;
-      if ( attributes.only_masters && ! i_am_the_teacher )
+      if ( attributes.only_masters
+	   && ! ( i_am_the_teacher || myindex(root, my_identity) != -1 )
+	   )
 	e.style.display = 'none' ;
       else
 	e.style.display = '' ;
 
       if ( e.selectedIndex !== undefined )
 	e.selectedIndex = Number(table_attr[attr]) ;
-      else if ( e.tagName == 'INPUT' )
-	update_input(e,
-		     attributes.formatter(table_attr[attr]),
-		     attributes.empty(table_attr[attr])
-		     ) ;
       else
-	e.innerHTML = attributes.formatter(table_attr[attr]) ;
-      set_editable(e, !attributes.need_authorization || !disabled) ;
+	if ( e.tagName == 'INPUT' )
+	  update_input(e,
+		       attributes.formatter(table_attr[attr]),
+		       attributes.empty(table_attr[attr])
+		       ) ;
+	else
+	  e.innerHTML = attributes.formatter(table_attr[attr]) ;
+      if ( attr == 'modifiable' )
+	set_editable(e, table_change_allowed()) ;
+      else
+	set_editable(e, !attributes.need_authorization || !disabled) ;
     }
 }
 

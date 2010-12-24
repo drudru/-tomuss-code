@@ -2928,9 +2928,9 @@ function url_base()
   return s ;
 }
 
-function append_image(td, text)
+function append_image(td, text, force)
 {
-  if ( ! table_attr.modifiable )
+  if ( ! table_attr.modifiable && ! force )
     return ;
 
   var request = new Request(text) ;
@@ -5238,7 +5238,7 @@ function runlog(the_columns, the_lines)
 	       }, 10) ;
 
   the_current_cell.update_table_headers() ;
-  change_title(table_attr.table_title, table_attr.code)
+  change_title(table_attr.table_title, table_attr.code) ;
 }
 
 
