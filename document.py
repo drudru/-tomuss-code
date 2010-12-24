@@ -1125,7 +1125,7 @@ def table(year, semester, ue, page=None, ticket=None, ro=False, create=True,
     if page == None:
         if ticket == None:
             return t
-        if semester == 'Dossiers' or semester == 'Referents' or t.private:
+        if t.private:
             if ticket.user_name not in t.masters \
                    and ticket.user_name not in configuration.root:
                 warn('Unauthorized access', what='table')

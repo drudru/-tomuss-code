@@ -58,6 +58,7 @@ def create(table):
 
 def init(table):
     table.default_sort_column = 2 # compatibility with old Preferences files
+    table.private = 1
 
 def check(table):
     p_ro = table.pages[0]

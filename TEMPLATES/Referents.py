@@ -32,6 +32,7 @@ def init(table):
     table.default_sort_column = 2 # Compatibility with old files
     table.abjs = abj.get_abjs(table.year, table.semester)
     table.abjs_mtime = 0
+    table.private = 1
 
 def check_columns(table):
     page = table.pages[0]

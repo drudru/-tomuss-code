@@ -39,6 +39,7 @@ def create(table):
 
 def init(table):
     table.default_sort_column = 1 # compatibility with old files
+    table.private = 1
 
 variables = {
     'abinj': "S'ils ont presque tous une note, ceux qui n'en ont pas ont 0/ABINJ. Si vous mettez 0.25 cela indique que si moins du quart du groupe n'a pas de note alors ils auront 0 ou ABINJ automatiquement.",

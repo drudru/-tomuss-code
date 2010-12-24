@@ -24,4 +24,5 @@ import data
 def create(table):
     table.new_page('' ,'*', '', '')
     table.table_attr(table.pages[0], 'masters', [table.user])
+    table.private = 1
 
