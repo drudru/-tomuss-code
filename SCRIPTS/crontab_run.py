@@ -143,6 +143,12 @@ try:
 
     run(configuration.server_url, 'tomuss.py',
         run_only_if_not_properly_stopped, strace="")
+
+    try:
+        import LOCAL.crontab_run
+        LOCAL.crontab_run.run()
+    except ImportError:
+        pass
 finally:
     os.unlink(lock)
     
