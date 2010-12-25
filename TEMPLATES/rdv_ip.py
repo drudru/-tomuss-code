@@ -23,7 +23,7 @@ import data
 import document
 import orientation_rp
 import _ucbl_
-
+import configuration
 
 days = {
     '14:Lundi'   : '20110214',
@@ -170,7 +170,6 @@ preferences.display_tips = 'NON' ;
 #
 
 import plugin
-import configuration
 import collections
 import referent
 

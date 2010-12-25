@@ -22,6 +22,7 @@
 import data
 import document
 import _ucbl_
+import configuration
 
 # The orientation is the key.
 # The couple is : the screen order and the Mention of the Orientation
