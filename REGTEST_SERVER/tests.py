@@ -47,6 +47,10 @@ unauthorized_html = utilities.read_file('../FILES/unauthorized.html')
 
 year = configuration.year_semester[0]
 semester = configuration.year_semester[1]
+if semester == 'Printemps':
+    uyear = year - 1
+else:
+    uyear = year
 
 ys = '%d/%s' % (year, semester)
 
@@ -278,23 +282,23 @@ def tests():
 
 
     if do('emptydossier'):
-        c = s.url('=' + abj + '/9999/Dossiers/emptydossier')
+        c = s.url('=' + abj + '/%d/Dossiers/emptydossier' % uyear)
 
         lines_id = []
         nr_columns = 0
         nr_pages = 2
         nr_cells = 0
-        check('Y9999/SDossiers/emptydossier.py',
+        check('Y%d/SDossiers/emptydossier.py' % uyear,
               masters_expected = [abj], nr_pages = nr_pages,
               nr_columns = nr_columns, lines_id = lines_id,
               nr_cells = nr_cells,
               dump=False)
 
         # Create cell in non existent column
-        c = s.url('='+abj+'/9999/Dossiers/emptydossier' +
+        c = s.url('='+abj+'/%d/Dossiers/emptydossier' % uyear +
                   '/1/0/cell_change/col_0/line_0/_VALUE_')
         assert(c == bug_png)
-        check('Y9999/SDossiers/emptydossier.py',
+        check('Y%d/SDossiers/emptydossier.py' % uyear,
               masters_expected = [abj], nr_pages = nr_pages,
               nr_columns = nr_columns, lines_id = lines_id,
               nr_cells = nr_cells,
@@ -302,11 +306,11 @@ def tests():
 
 
         # Create column
-        c = s.url('='+abj+'/9999/Dossiers/emptydossier' +
+        c = s.url('='+abj+'/%d/Dossiers/emptydossier' % uyear +
                   '/1/1/column_attr_title/col_0/TITLE0')
         assert(c == ok_png)
         nr_columns += 1
-        check('Y9999/SDossiers/emptydossier.py',
+        check('Y%d/SDossiers/emptydossier.py' % uyear,
               masters_expected = [abj], nr_pages = nr_pages,
               nr_columns = nr_columns, lines_id = lines_id,
               nr_cells = nr_cells,
@@ -314,12 +318,12 @@ def tests():
               dump=False)
 
         # Create cell
-        c = s.url('='+abj+'/9999/Dossiers/emptydossier' +
+        c = s.url('='+abj+'/%d/Dossiers/emptydossier' % uyear +
                   '/1/2/cell_change/col_0/line_0/_VALUE_')
         assert(c == ok_png)
         lines_id = ['line_0']
         nr_cells += 1
-        check('Y9999/SDossiers/emptydossier.py',
+        check('Y%d/SDossiers/emptydossier.py' % uyear,
               masters_expected = [abj], nr_pages = nr_pages,
               nr_columns = nr_columns, lines_id = lines_id,
               nr_cells = nr_cells,
@@ -327,10 +331,10 @@ def tests():
               dump=False)
 
         # Change comment on cell
-        c = s.url('='+abj+'/9999/Dossiers/emptydossier' +
+        c = s.url('='+abj+'/%d/Dossiers/emptydossier' % uyear +
                   '/1/3/comment_change/col_0/line_0/_COMMENT_')
         nr_cells += 1
-        check('Y9999/SDossiers/emptydossier.py',
+        check('Y%d/SDossiers/emptydossier.py' % uyear,
               masters_expected = [abj], nr_pages = nr_pages,
               nr_columns = nr_columns, lines_id = lines_id,
               cell_required = (1,'col_0','line_0','_COMMENT_'),
@@ -338,12 +342,12 @@ def tests():
               dump=False)
 
         # Change cell value
-        c = s.url('='+abj+'/9999/Dossiers/emptydossier' +
+        c = s.url('='+abj+'/%d/Dossiers/emptydossier' % uyear +
                   '/1/4/cell_change/col_0/line_0/_VALUE_2_')
         assert(c == ok_png)
         lines_id = ['line_0']
         nr_cells += 1
-        check('Y9999/SDossiers/emptydossier.py',
+        check('Y%d/SDossiers/emptydossier.py' % uyear,
               masters_expected = [abj], nr_pages = nr_pages,
               nr_columns = nr_columns, lines_id = lines_id,
               nr_cells = nr_cells,
@@ -351,9 +355,9 @@ def tests():
               dump=False)
 
         # Check HTML
-        c = s.url('=' + abj + '/9999/Dossiers/emptydossier')
+        c = s.url('=' + abj + '/%d/Dossiers/emptydossier' % uyear)
         nr_pages += 1
-        check('Y9999/SDossiers/emptydossier.py',
+        check('Y%d/SDossiers/emptydossier.py' % uyear,
               masters_expected = [abj], nr_pages = nr_pages,
               nr_columns = nr_columns, lines_id = lines_id,
               nr_cells = nr_cells,
@@ -363,37 +367,37 @@ def tests():
         assert('","_COMMENT_","_VALUE_(%s), ")])' % abj in c)
 
     if do('badorder'):
-        c = s.url('=' + abj + '/9999/Dossiers/badorder')
+        c = s.url('=' + abj + '/%d/Dossiers/badorder' % uyear)
         lines_id = []
         nr_columns = 0
         nr_pages = 2
         nr_cells = 0
-        check('Y9999/SDossiers/badorder.py',
+        check('Y%d/SDossiers/badorder.py' % uyear,
               masters_expected = [abj], nr_pages = nr_pages,
               nr_columns = nr_columns, lines_id = lines_id,
               nr_cells = nr_cells,
               dump=False)
 
         # Create cell comment in non existent cell
-        g = s.url('=' + abj + '/9999/Dossiers/badorder' +
+        g = s.url('=' + abj + '/%d/Dossiers/badorder' % uyear +
                   '/1/2/comment_change/col_0/line_0/_COMMENT_',
                   returns_file=True)
-        check('Y9999/SDossiers/badorder.py',
+        check('Y%d/SDossiers/badorder.py' % uyear,
               masters_expected = [abj], nr_pages = nr_pages,
               nr_columns = nr_columns, lines_id = lines_id,
               nr_cells = nr_cells,
               dump=False)
 
         # Create cell in non existent column
-        f = s.url('=' + abj + '/9999/Dossiers/badorder' +
+        f = s.url('=' + abj + '/%d/Dossiers/badorder' % uyear +
                   '/1/1/cell_change/col_0/line_0/_VALUE_', returns_file=True)
-        check('Y9999/SDossiers/badorder.py',
+        check('Y%d/SDossiers/badorder.py' % uyear,
               masters_expected = [abj], nr_pages = nr_pages,
               nr_columns = nr_columns, lines_id = lines_id,
               nr_cells = nr_cells,
               dump=False)
 
-        c = s.url('='+abj+'/9999/Dossiers/badorder' +
+        c = s.url('='+abj+'/%d/Dossiers/badorder' % uyear +
                   '/1/0/column_attr_title/col_0/TITLE0')
         assert(c == ok_png)
         assert(f.read() == ok_png)
@@ -404,16 +408,16 @@ def tests():
         lines_id = ['line_0']
         nr_cells += 2
         nr_columns += 1
-        check('Y9999/SDossiers/badorder.py',
+        check('Y%d/SDossiers/badorder.py' % uyear,
               masters_expected = [abj], nr_pages = nr_pages,
               nr_columns = nr_columns, lines_id = lines_id,
               nr_cells = nr_cells,
               dump=False)
         
         # Check HTML
-        c = s.url('=' + abj + '/9999/Dossiers/badorder')
+        c = s.url('=' + abj + '/%d/Dossiers/badorder' % uyear)
         nr_pages += 1
-        check('Y9999/SDossiers/badorder.py',
+        check('Y%d/SDossiers/badorder.py' % uyear,
               masters_expected = [abj], nr_pages = nr_pages,
               nr_columns = nr_columns, lines_id = lines_id,
               nr_cells = nr_cells,
@@ -423,23 +427,23 @@ def tests():
         assert('","_COMMENT_")])' in c)
 
     if do('badsyntax'):
-        c = s.url('=' + abj + '/9999/Dossiers/badsyntax')
-        c = s.url('=' + abj + '/9999/Dossiers/badsyntax' +
+        c = s.url('=' + abj + '/%d/Dossiers/badsyntax' % uyear)
+        c = s.url('=' + abj + '/%d/Dossiers/badsyntax' % uyear +
                   '/1/0/cell_change/col_0/line_0/_VALUE_')
         assert(c == bug_png)
-        c = s.url('=' + abj + '/9999/Dossiers/badsyntax' +
+        c = s.url('=' + abj + '/%d/Dossiers/badsyntax' % uyear +
                   '/1/1/cell_chane/col_0/line_0/_VALUE_')
         assert(c == bug_png)
-        c = s.url('=' + abj + '/9999/Dossiers/badsyntax' +
+        c = s.url('=' + abj + '/%d/Dossiers/badsyntax' % uyear +
                   '/1/0/dsfsdffds')
         assert(c == ok_png) # ok for old requests
 
     if do('master'):
-        c = s.url('=' + root + '/9999/Dossiers/master')
-        c = s.url('=' + root + '/9999/Dossiers/master' +
+        c = s.url('=' + root + '/%d/Dossiers/master' % uyear)
+        c = s.url('=' + root + '/%d/Dossiers/master' % uyear +
                   '/1/0/column_attr_title/col_0/TITLE0')
         assert(c == ok_png)
-        c = s.url('=' + root + '/9999/Dossiers/master' +
+        c = s.url('=' + root + '/%d/Dossiers/master' % uyear +
                   '/1/1/cell_change/col_0/line_0/_VALUE_')
         assert(c == ok_png)
         lines_id = ['line_0']
@@ -447,19 +451,19 @@ def tests():
         nr_pages = 2
         nr_cells = 1
         cell_required = (1,'col_0','line_0','_VALUE_')
-        check('Y9999/SDossiers/master.py',
+        check('Y%d/SDossiers/master.py' % uyear,
               masters_expected = [root], nr_pages = nr_pages,
               nr_columns = nr_columns, lines_id = lines_id,
               nr_cells = nr_cells,
               cell_required = cell_required,
               dump=False)
 
-        c = s.url('=' + abj + '/9999/Dossiers/master')
+        c = s.url('=' + abj + '/%d/Dossiers/master' % uyear)
         assert(c == unauthorized_html)
 
-        c = s.url('=' + root + '/9999/Dossiers/master' +
+        c = s.url('=' + root + '/%d/Dossiers/master' % uyear +
                   '/1/2/table_attr_masters/super.user%20' + abj)
-        check('Y9999/SDossiers/master.py',
+        check('Y%d/SDossiers/master.py' % uyear,
               masters_expected = [root,abj], nr_pages = nr_pages,
               nr_columns = nr_columns, lines_id = lines_id,
               nr_cells = nr_cells,
@@ -467,51 +471,51 @@ def tests():
               dump=False)
 
         c = utilities.manage_key('LOGINS', os.path.join(root, 'master_of'))
-        assert("('9999', 'Dossiers', 'master')" in c)
+        assert("('%d', 'Dossiers', 'master')" % uyear in c)
         assert("('0', 'Dossiers', 'config_table')" in c)
 
-        c = s.url('=' + abj + '/9999/Dossiers/master')
+        c = s.url('=' + abj + '/%d/Dossiers/master' % uyear)
         assert("masters:['%s', '%s']" % (root, abj) in c)
         nr_pages += 1
-        check('Y9999/SDossiers/master.py',
+        check('Y%d/SDossiers/master.py' % uyear,
               masters_expected = [root,abj], nr_pages = nr_pages,
               nr_columns = nr_columns, lines_id = lines_id,
               nr_cells = nr_cells,
               cell_required = cell_required,
               dump=False)
 
-        c = s.url('=' + abj + '/9999/Dossiers/master' +
+        c = s.url('=' + abj + '/%d/Dossiers/master' % uyear +
                   '/2/0/cell_change/col_0/line_0/_VALUE_2_')
         assert(c == ok_png)
         nr_cells += 1
         cell_required = (2,'col_0','line_0','_VALUE_2_')
-        check('Y9999/SDossiers/master.py',
+        check('Y%d/SDossiers/master.py' % uyear,
               masters_expected = [root,abj], nr_pages = nr_pages,
               nr_columns = nr_columns, lines_id = lines_id,
               nr_cells = nr_cells,
               cell_required = cell_required,
               dump=False)
 
-        c = s.url('=' + root + '/9999/Dossiers/master' +
+        c = s.url('=' + root + '/%d/Dossiers/master' % uyear +
                   '/1/3/table_attr_masters/' + root)
-        check('Y9999/SDossiers/master.py',
+        check('Y%d/SDossiers/master.py' % uyear,
               masters_expected = [root], nr_pages = nr_pages,
               nr_columns = nr_columns, lines_id = lines_id,
               nr_cells = nr_cells,
               cell_required = cell_required,
               dump=False)
 
-        c = s.url('=' + abj + '/9999/Dossiers/master')
+        c = s.url('=' + abj + '/%d/Dossiers/master' % uyear)
         assert(c == unauthorized_html)
 
-        c = s.url('=' + abj + '/9999/Dossiers/master' +
+        c = s.url('=' + abj + '/%d/Dossiers/master' % uyear +
                   '/2/1/cell_change/col_0/line_0/_VALUE3_')
         # It is ok because we are the cell author.
         # But it could be 'bad' because we are not a master in 'Dossiers'
         assert(c == ok_png)
         nr_cells += 1
         cell_required = (2,'col_0','line_0','_VALUE3_')
-        check('Y9999/SDossiers/master.py',
+        check('Y%d/SDossiers/master.py' % uyear,
               masters_expected = [root], nr_pages = nr_pages,
               nr_columns = nr_columns, lines_id = lines_id,
               nr_cells = nr_cells,
@@ -519,20 +523,20 @@ def tests():
               dump=False)
 
     if do('badpage'):
-        c = s.url('=' + abj + '/9999/Dossiers/badpage' +
+        c = s.url('=' + abj + '/%d/Dossiers/badpage' % uyear +
                   '/1/0/column_change/col_0/TITLE0/Note/[0;20]/1//1')
         # The answer may be different if the user is yet
         # authenticated or not
         assert(c == "<type 'exceptions.IndexError'>\nlist index out of range"
                or c == bug_png)
 
-        c = s.url('=' + abj + '/9999/Dossiers/badpage')
-        c = s.url('=' + abj + '/9999/Dossiers/badpage' +
+        c = s.url('=' + abj + '/%d/Dossiers/badpage' % uyear)
+        c = s.url('=' + abj + '/%d/Dossiers/badpage' % uyear +
                   '/99/0/column_change/col_0/TITLE0/Note/[0;20]/1//1')
         assert(c == bug_png)
 
         # Take the page of somebody else
-        c = s.url('=' + root + '/9999/Dossiers/badpage' +
+        c = s.url('=' + root + '/%d/Dossiers/badpage' % uyear +
                   '/0/0/column_change/col_0/TITLE0/Note/[0;20]/1//1')
         assert('Cheater' in c or c == bug_png)
 
@@ -864,30 +868,30 @@ def tests():
         assert("crits : 1/3" in c)
 
     if do('delcol'):
-        c = s.url('=' + abj + '/9999/Dossiers/delcol')
-        c = s.url('='+abj+'/9999/Dossiers/delcol' +
+        c = s.url('=' + abj + '/%d/Dossiers/delcol' % uyear)
+        c = s.url('='+abj+'/%d/Dossiers/delcol' % uyear +
                   '/1/0/column_attr_title/col_0/TITLE0')
         assert( c == ok_png)
-        c = s.url('='+abj+'/9999/Dossiers/delcol' +
+        c = s.url('='+abj+'/%d/Dossiers/delcol' % uyear +
                   '/1/1/cell_change/col_0/line_0/_VALUE_')
         assert(c == ok_png)
-        c = s.url('='+abj+'/9999/Dossiers/delcol' +
+        c = s.url('='+abj+'/%d/Dossiers/delcol' % uyear +
                   '/1/2/column_delete/col_0')
         assert(c == bad_png)
-        c = s.url('='+abj+'/9999/Dossiers/delcol' +
+        c = s.url('='+abj+'/%d/Dossiers/delcol' % uyear +
                   '/1/3/cell_change/col_0/line_0/')
         assert(c == ok_png)
-        c = s.url('='+abj+'/9999/Dossiers/delcol' +
+        c = s.url('='+abj+'/%d/Dossiers/delcol' % uyear +
                   '/1/4/column_delete/col_0')
         assert(c == ok_png)
-        c = s.url('='+abj+'/9999/Dossiers/delcol' +
+        c = s.url('='+abj+'/%d/Dossiers/delcol' % uyear +
                   '/1/5/column_attr_title/col_1/TITLE1')
         assert( c == ok_png)
 
         s.stop()
         s.restart()
 
-        c = s.url('=' + abj + '/9999/Dossiers/delcol')
+        c = s.url('=' + abj + '/%d/Dossiers/delcol' % uyear)
         assert('''columns = [
 Col({the_id:"col_1",title:"TITLE1",author:"%s",position:0,type:"Note"})
 ];''' % abj in c)

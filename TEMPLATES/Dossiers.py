@@ -20,9 +20,13 @@
 #    Contact: Thierry.EXCOFFIER@bat710.univ-lyon1.fr
 
 import data
+import utilities
 
 def create(table):
     table.new_page('' ,'*', '', '')
     table.table_attr(table.pages[0], 'masters', [table.user])
     table.private = 1
+    table.modifiable = int(table.modifiable
+                           and utilities.university_year() == table.year)
+    table.update_inscrits = table.modifiable
 
