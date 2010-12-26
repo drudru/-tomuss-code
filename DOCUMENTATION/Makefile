@@ -4,4 +4,4 @@ doc:
 	./generate_doc.py <Welcome.orig.xml >Welcome.xml # New TOC
 
 clean:
-	rm xxx_*
+	rm -f xxx_*

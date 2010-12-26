@@ -23,12 +23,12 @@ clean:
                  -o -name '*.pyc' \
                  -o -name 'xxx[!_]*' \) \
                  -exec rm {} \; 2>/dev/null
-	@rm -rf DBregtest BACKUP_DBregtest || true
-	@-for I in */. ;\
+	@rm -rf DBregtest BACKUP_DBregtest
+	@for I in */. ;\
           do [ -f $$I/Makefile ] && ( cd $$I ; \
                                       echo "CLEAN $$I" ; \
                                       $(MAKE) -s clean ) ; \
-         done
+         done || true
 
 tags:
 	etags *.py */*.py */*.js
@@ -40,22 +40,23 @@ tar:
 	V=$$(python -c 'import configuration;print configuration.version') ; \
 	$(MAKE) clean ; rm -rf /tmp/TOMUSS-$$V ; \
 	cp -a $$(pwd) /tmp/TOMUSS-$$V ; \
-	rm -r /tmp/TOMUSS-$$V/LOCAL ; \
-	rm -r /tmp/TOMUSS-$$V/BACKUP_DBtest ; \
-	rm -r /tmp/TOMUSS-$$V/DBtest ; \
-	rm -r /tmp/TOMUSS-$$V/BACKUP_DB ; \
-	rm -r /tmp/TOMUSS-$$V/DB ; \
+	rm -rf /tmp/TOMUSS-$$V/LOCAL ; \
+	rm -rf /tmp/TOMUSS-$$V/BACKUP_DBtest ; \
+	rm -rf /tmp/TOMUSS-$$V/DBtest ; \
+	rm -rf /tmp/TOMUSS-$$V/BACKUP_DB ; \
+	rm -rf /tmp/TOMUSS-$$V/DB ; \
 	mv /tmp/TOMUSS-$$V/LOCAL.template /tmp/TOMUSS-$$V/LOCAL ; \
 	cd /tmp ; \
 	tar -cvf - \
 		--exclude 'Trash' \
 		--exclude 'LOGS' \
 		--exclude 'TMP' \
+		--exclude '.git' \
 		--exclude 'services-ucbl.html' \
 		--exclude 'xxx*' \
 		TOMUSS-$$V \
 	    | bzip2 -9 >~/public_html/TOMUSS/TOMUSS-$$V.tar.bz2 ; \
-	rm -r TOMUSS-$$V ; \
+	rm -rf TOMUSS-$$V ; \
 	rm -f ~/public_html/TOMUSS/tomuss.tar.bz2 ; \
 	ln -s TOMUSS-$$V.tar.bz2 ~/public_html/TOMUSS/tomuss.tar.bz2
 
