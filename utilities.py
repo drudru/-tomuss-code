@@ -620,35 +620,22 @@ def count(t):
     except StopIteration:
         yield (i, last)
 
-
-@add_a_lock
-def manage_key(dirname, key, separation=3, content=None, reduce_ok=True):
+def manage_key_real(dirname, key, separation=3, content=None, reduce_ok=True):
     """
-    Store the content in the key and return the old content or False
-
-    The write is not *process* safe.
+    Do not use this function
     """
-    key = key.replace('/.', '/_')
-    if key is '':
+    if content is None and not os.path.isdir(dirname):
         return False
-    d1 = os.path.join(configuration.db, dirname)
-    if content is None and not os.path.isdir(d1):
-        return False
-    d2 = os.path.join(configuration.backup + configuration.db, dirname)
     try:
-        mkpath(d1)
-        mkpath(d2)
+        mkpath(dirname)
     except OSError:
         pass
-
     
-    f1 = os.path.join(d1, key[:separation])
+    f1 = os.path.join(dirname, key[:separation])
     if content is None and not os.path.isdir(f1):
         return False
-    f2 = os.path.join(d2, key[:separation])
     try:
         os.mkdir(f1, 0750)
-        os.mkdir(f2, 0750)
     except OSError:
         pass
 
@@ -658,7 +645,6 @@ def manage_key(dirname, key, separation=3, content=None, reduce_ok=True):
             return False
         try:
             os.mkdir(os.path.join(f1, key_dir), 0750)
-            os.mkdir(os.path.join(f2, key_dir), 0750)
         except OSError:
             pass
 
@@ -678,10 +664,28 @@ def manage_key(dirname, key, separation=3, content=None, reduce_ok=True):
         f = open(f1, 'w')
         f.write(content)
         f.close()
-        f2 = os.path.join(f2, key)
-        f = open(f2, 'w')
-        f.write(content)
-        f.close()
+    return c
+
+@add_a_lock
+def manage_key(dirname, key, separation=3, content=None, reduce_ok=True):
+    """
+    Store the content in the key and return the old content or False
+
+    The write is not *process* safe.
+    """
+    key = key.replace('/.', '/_')
+    if key is '':
+        return False
+    c = manage_key_real(os.path.join(configuration.db, dirname),
+                        key, separation, content, reduce_ok)
+    if content is None:
+        return c
+    d = manage_key_real(os.path.join(configuration.backup
+                                     + configuration.db, dirname),
+                        key, separation, content, reduce_ok)
+    if c != d:
+        send_backtrace('manage_key backup', 'normal=%s\nbackup=%s\n' % (
+            repr(c), repr(d)))
     return c
 
 def charte(login, year=None, semester=None):
