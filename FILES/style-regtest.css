@@ -6,40 +6,40 @@ A:visited { color: #00F; }
 
 TABLE UL LI, TABLE UL {list-style-type: square ;}
 
-TD.empty { background: #FF0; }
-TD.empty INPUT { background: #FF6; }
-TD.current { background: #FFA ; }
-TD.current INPUT { background: #FFC ; }
-TR.non > TD.current > INPUT { background: #FFC; } /* XXX */
+TD.empty { background-color: #FF0; }
+TD.empty INPUT { background-color: #FF6; }
+TD.current { background-color: #FFA ; }
+TD.current INPUT { background-color: #FFC ; }
+TR.non > TD.current > INPUT { background-color: #FFC; } /* XXX */
 
 /* So the text cursor doesn't split the cell in 2 */
 TD INPUT { padding: 1px ; }
 
 /* Really hide under */
-DIV#tip { background: white ; }
+DIV#tip { background-color: white ; }
 
 UL.t1 LI, UL.t1 { color: #000008; }
 UL.t2 LI, UL.t2 { color: #000010; }
 UL.t3 LI, UL.t3 { color: #000018; }
 UL.t4 LI, UL.t4 { color: #000020; }
 DIV.t7 { display: block; }
-DIV.t5 { background: #FF0028 ; width:10px; height:10px ; position:absolute;
-         left:0px; top:0px ;}
-DIV.t6 { background: #FF0030 ; width:10px; height:10px ; position:absolute;
-         left:20px; top:0px ;}
-DIV.t7 { background: #FF0038 ; width:10px; height:10px ; position:absolute;
-         left:40px; top:0px ;}
-DIV.t8 { background: #FF0040 ; width:10px; height:10px ; position:absolute;
-         left:60px; top:0px ;}
-DIV.t9 { background: #FF0048 ; width:10px; height:10px ; position:absolute;
-         left:80px; top:0px ;}
+DIV.t5 { background-color: #FF0028 ; width:10px; height:10px ;
+  position:absolute; left:0px; top:0px ;}
+DIV.t6 { background-color: #FF0030 ; width:10px; height:10px ;
+  position:absolute; left:20px; top:0px ;}
+DIV.t7 { background-color: #FF0038 ; width:10px; height:10px ;
+  position:absolute; left:40px; top:0px ;}
+DIV.t8 { background-color: #FF0040 ; width:10px; height:10px ;
+  position:absolute; left:60px; top:0px ;}
+DIV.t9 { background-color: #FF0048 ; width:10px; height:10px ;
+  position:absolute; left:80px; top:0px ;}
 TABLE.printer TR TD { background-color: #FFF8FF ; }
 
 
 /* The headers */
 
-TR.filter TH.unmodifiable > INPUT { background: #08FF20 ; }
-TR.test   TH.unmodifiable > INPUT { background: #18FF08 ; }
-TR.weight TH.unmodifiable > INPUT { background: #20FF28 ; }
+TR.filter TH.unmodifiable > INPUT { background-color: #08FF20 ; }
+TR.test   TH.unmodifiable > INPUT { background-color: #18FF08 ; }
+TR.weight TH.unmodifiable > INPUT { background-color: #20FF28 ; }
 
 

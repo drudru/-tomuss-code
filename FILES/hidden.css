@@ -19,7 +19,7 @@ DIV.tipped DIV.help {
 }
 
 DIV.tipped VAR.tipped:hover { 
-  background: white;
+  background-color: white;
 }
 
 DIV.tipped VAR { 
@@ -32,6 +32,6 @@ DIV.tipped VAR {
 DIV.tipped DIV.help DIV.more { 
   white-space: normal;
   font-weight: bold;
-  background: inherit ;
+  background-color: inherit ;
   border-top: 1px solid black ;
 }

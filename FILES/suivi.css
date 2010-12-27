@@ -3,24 +3,24 @@ DIV.title {
   font-weight: bold ;
 }
 
-.prst     { background: #8F8 ;               }
-.abinj    { background: #F88 ;               }
-.abinj2   { background: #F88 ;               }
-.abjus    { background: #88F ;               }
-.novalue  { background: #DDD ;               }
-.verygood { background: #0F0 ;               }
-.good     { background: #BFB ;               }
-.mean     { background: #EEE ;               }
-.bad      { background: #FAA ;               }
-.verybad  { background: #F44 ; color: white; }
+.prst     { background-color: #8F8 ;               }
+.abinj    { background-color: #F88 ;               }
+.abinj2   { background-color: #F88 ;               }
+.abjus    { background-color: #88F ;               }
+.novalue  { background-color: #DDD ;               }
+.verygood { background-color: #0F0 ;               }
+.good     { background-color: #BFB ;               }
+.mean     { background-color: #EEE ;               }
+.bad      { background-color: #FAA ;               }
+.verybad  { background-color: #F44 ; color: white; }
 
 DIV.notes P:hover, DIV.fine:hover {
-  background: black ;
+  background-color: black ;
   color: white ;
 }
 DIV.notes:hover A { color: #AAF  }
 
-TABLE.memberof { background: black; border-spacing: 1px }
+TABLE.memberof { background-color: black; border-spacing: 1px }
 TABLE.memberof TH, TABLE.memberof TD { padding: 0px }
 TABLE.memberof TH { text-align: left; font-size: 80% }
 TABLE.memberof TD { font-size: 60% }
@@ -72,13 +72,13 @@ div.title a.title{ margin-bottom: 0.2em ; padding-top: 0em; }
 
 .noninscrit {
   border: 1px solid black ;
-  background: #FF8080 ;
+  background-color: #FF8080 ;
   margin: 1em ;
   padding: 1em ;
 }
 
 .blocnote { 
-  background: white ;
+  background-color: white ;
   border: 1px solid black ;
   clear: both; 
 }
@@ -141,8 +141,8 @@ DIV.tipped { margin-top: 0px ; }
 .commented { font-weight: bold ; }
 
 TABLE.input FORM  {margin:0px;  }
-TABLE.input INPUT { border:1px solid black;background:white }
-TABLE.input INPUT.button { border:2px outset #DDD;background:#DDD }
+TABLE.input INPUT { border:1px solid black;background-color:white }
+TABLE.input INPUT.button { border:2px outset #DDD;background-color:#DDD }
 TABLE.input TD INPUT { margin: 2px; margin-right: 2px; }
 TABLE.input TD { padding: 4px; }
 

@@ -21,19 +21,19 @@
 */
 
 TABLE {
-  background: #888 ;
+  background-color: #888 ;
   border-spacing: 1px ;
   clear: both;
 }
 TABLE TD {
-  background: #EEE ;
+  background-color: #EEE ;
   border: 0;
   padding: 0;
 }
 
 IFRAME { width:50% ; height:100em }
 
-TABLE TD.inscrit { background: #FFF ; }
+TABLE TD.inscrit { background-color: #FFF ; }
 
 IMG.picture { 
   width: 10em ;

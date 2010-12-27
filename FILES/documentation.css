@@ -1,7 +1,7 @@
 BODY {
   font-family: sans-serif ;
   margin-bottom: 100em;
-  background: white;
+  background-color: white;
   margin-top: 0px ;
 }
 
@@ -26,7 +26,7 @@ DIV.menu {
 #log IMG { width:1 ; height:1 }
 
 DIV.menu P.search {
-  background: #DDF ;
+  background-color: #DDF ;
   text-align:center ;
   padding: 0.5em;
   margin: 0;
@@ -34,7 +34,7 @@ DIV.menu P.search {
   border-right: 1em solid #EEF ;
 }
 DIV.menu P.search INPUT {
-  background: #FFF;
+  background-color: #FFF;
   width: 100%;
 }
 
@@ -46,14 +46,14 @@ DIV.menu A {
   border-right: 1em solid #EEF ;
 }
 DIV.menu A:hover {
-  background: black;
+  background-color: black;
   color: white;
 }
 DIV.menu A.current:hover {
-  background: black;
+  background-color: black;
 }
 DIV.menu A.filter:hover {
-  background: black;
+  background-color: black;
   color: yellow ;
 }
 DIV.menu A.onscreen {
@@ -64,20 +64,20 @@ DIV.menu A.unselected:hover {
 }
 DIV.menu A.current {
   border-right: 1em solid #0B0 ;
-  /* background: #DFD; */
+  /* background-color: #DFD; */
 }
 DIV.menu A.h1 { font-weight: bold}
 DIV.menu A.h2 { font-weight: bold ; padding-left: 1em }
 DIV.menu A.h3 { padding-left: 3em }
-.highlight { background: #DDF }
+.highlight { background-color: #DDF }
 
-H1, H2, H3 { background: #8F8 ; margin: 0px; }
+H1, H2, H3 { background-color: #8F8 ; margin: 0px; }
 H1, H2 { text-align: center }
 H3 { display: inline }
 H4 { display: inline ; border-bottom: 0.2em solid #8F8 }
 DIV#menu A.unselected { color: #888 }
-SPAN.filter { background: yellow ; }
-DIV.menu A.filter { background: #FF8 ; }
+SPAN.filter { background-color: yellow ; }
+DIV.menu A.filter { background-color: #FF8 ; }
 
 A { text-decoration: none ; }
 

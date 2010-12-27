@@ -4650,7 +4650,7 @@ function personal_mailing()
 {
    create_popup('personal_mailing_div',
 		'Envoyer un mail personnalisé aux étudiants filtrés',
-		'<p style="background:#F00;color:#FFF">N\'ENVOYEZ PAS DE NOTES AUX ÉTUDIANTS.</p><br>Sujet : <input id="personal_mailing" style="width:100%" value="' + ue + ' ' + table_attr.table_title + ' : Info pour [Prénom] [Nom]"><br>Votre message&nbsp;:',
+		'<p style="background-color:#F00;color:#FFF">N\'ENVOYEZ PAS DE NOTES AUX ÉTUDIANTS.</p><br>Sujet : <input id="personal_mailing" style="width:100%" value="' + ue + ' ' + table_attr.table_title + ' : Info pour [Prénom] [Nom]"><br>Votre message&nbsp;:',
 	       'Pour envoyer cliquez sur <BUTTON OnClick="personal_mailing_do();">Envoyer les ' + filtered_lines.length + ' messages</BUTTON>.') ;
    popup_set_value('Bonjour [Prénom] [Nom].\n\nVotre groupe est [Grp] et votre séquence [Seq]\n\nAu revoir.') ;
 }

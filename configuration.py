@@ -148,6 +148,9 @@ ou_portail_contains = ' APO-'   # UE portail name contains this string
 # Banned list of IP addresses
 banned_ip = ( '255.255.255.255', '0.0.0.0' )
 
+# LOGO URL
+logo = 'http://xxx.yyy.zzz/logo.png'
+
 #--------------------------------------
 # Defines authorities using LDAP groups
 #--------------------------------------

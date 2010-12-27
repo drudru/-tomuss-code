@@ -1707,7 +1707,7 @@ function update_ues_searched(txt, txt_upper)
       
     }
   if ( s.length == 0 && txt != 'UNFOUNDABLETEXT\001' )
-      s.push('<tr><th colspan="3" style="background:white">Aucune UE ne correspond à votre recherche</td></tr>');
+      s.push('<tr><th colspan="3" style="background-color:white">Aucune UE ne correspond à votre recherche</td></tr>');
 
   s = ue_line_join(s) ;
   document.getElementById('ue_list').childNodes[0].innerHTML = '<table class="with_margin uelist searchresult"><colgroup><col class="code"><col class="title"><col class="responsable"></colgroup>' + s + '</table>' ;

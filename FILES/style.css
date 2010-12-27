@@ -1,7 +1,11 @@
 
 /* BODY, TABLE INPUT, TABLE TD, TH, P, H1, #current_input { */
+/* These values are also in 'document.py' for TABLE */
+BODY          ,BODY           TABLE.colored TD { background-color: #EEEEEE ; }
+BODY.Printemps,BODY.Printemps TABLE.colored TD { background-color: #F4FFF4 ; }
+BODY.Automne  ,BODY.Automne   TABLE.colored TD { background-color: #FFF8E0 ; }
+
 BODY, TABLE TD, #current_input, TR.filter INPUT {
-  background: #EEEEEE ;
   border: none ;
   font-family: sans-serif ;
   cursor: text ;
@@ -9,9 +13,6 @@ BODY, TABLE TD, #current_input, TR.filter INPUT {
 INPUT { cursor: text ; }
 A { text-decoration: none; }
 
-/* These values are also in 'document.py' for TABLE */
-BODY.Printemps, BODY.Printemps TABLE TD, BODY.Printemps P, BODY.Printemps H1 { background: #F4FFF4 ; }
-BODY.Automne,   BODY.Automne TABLE TD,   BODY.Automne P,   BODY.Automne H1 { background:#FFF8E0 ; }
 
 
 BODY.tomuss H1, BODY.autosavefailed H1 { font-size: 130% ; }
@@ -27,7 +28,7 @@ BODY.tomuss, BODY.tomuss TABLE INPUT, BODY.tomuss TABLE TD, BODY.tomuss TH, BODY
 
 
 
-BODY.autosavefailed, BODY.autosavefailed P, BODY.autosavefailed H1, BODY.autosavefailed TABLE.tablehelp TD, BODY.autosavefailed TABLE.tablehelp TH, BODY.autosavefailed #menutop TD  { background: #F88 ; }
+BODY.autosavefailed, BODY.autosavefailed P, BODY.autosavefailed H1, BODY.autosavefailed TABLE.tablehelp TD, BODY.autosavefailed TABLE.tablehelp TH, BODY.autosavefailed #menutop TD  { background-color: #F88 ; }
 
 .identity {
   font-size: 80% ;
@@ -36,7 +37,7 @@ BODY.autosavefailed, BODY.autosavefailed P, BODY.autosavefailed H1, BODY.autosav
   margin-left:2em;
 }
 
-.table_ro { background: #F00; color: #FFF }
+.table_ro { background-color: #F00; color: #FFF }
 
 .title_pointers {
   font-size: 70% ;
@@ -46,13 +47,13 @@ BODY.autosavefailed, BODY.autosavefailed P, BODY.autosavefailed H1, BODY.autosav
   padding-top: 1em;
 }
 
-.autumn { background: #FB8 }
-.spring { background: #8F8 }
+.autumn { background-color: #FB8 }
+.spring { background-color: #8F8 }
 /* Does not work with IE */
-/* SELECT.autumn OPTION, SELECT.spring OPTION { background: white; } */
+/* SELECT.autumn OPTION, SELECT.spring OPTION { background-color: white; } */
 
 .shortcut {
-  background: #0F0 ;
+  background-color: #0F0 ;
   margin-left: 1em ;
   position: absolute;
   right: 0px ;
@@ -60,7 +61,7 @@ BODY.autosavefailed, BODY.autosavefailed P, BODY.autosavefailed H1, BODY.autosav
 
 
 TABLE.colored { 
-  background: #999 ;
+  background-color: #999 ;
   border-spacing: 1px ;
 }
 
@@ -112,13 +113,13 @@ DIV#current_input_div INPUT#current_input {
 TH, TH INPUT, TH P {
   font-weight: 500 ;
   font-size: 80% ;
-  background: #DFD ;
+  background-color: #DFD ;
 /*  background: url(header.png) #DFD ; */
 }
 
 
 TH SELECT { 
-  background: #CDC ;
+  background-color: #CDC ;
 }
 TD, TH, TABLE INPUT, #current_input {
   font-size: 100% ;
@@ -128,7 +129,7 @@ THEAD TR TD {
   white-space: normal;
 }
 
-/* TR.filter TH INPUT.notempty { background: #DFD ; } */
+/* TR.filter TH INPUT.notempty { background-color: #DFD ; } */
 TR.filter TH INPUT.empty {
   background: url("filtre.png") #DFD ;
   background-repeat: no-repeat ;
@@ -137,7 +138,7 @@ TR.filter TH INPUT.empty {
 TR.filter TH INPUT.freezed { border-bottom: 1px solid black; }
 
 #linefilter, #columns_filter, #fullfilter {
-  background: #FFF ;
+  background-color: #FFF ;
   border: 1px solid black ;
 }
 
@@ -150,7 +151,7 @@ TR.tablefilter INPUT { width: 10em ; }
 
 
 TR.ok TD, #current_input.ok, SPAN.ok {  }
-TR.non TD, #current_input.non, SPAN.non, LI.non { background: #FBB; }
+TR.non TD, #current_input.non, SPAN.non, LI.non { background-color: #FBB; }
 
 TD.rw, #current_input.rw, .rw { 
   color: black ;
@@ -163,7 +164,7 @@ TR.ro, TD.ro, #current_input.ro, TH.ro, TH.ro INPUT, TH.ro SELECT, .ro {
   color: #555 ;
 }
 TD.empty { 
- /* background: #DDD ; */
+ /* background-color: #DDD ; */
 }
 
 TR.highlight TD { color: #00A;  }
@@ -176,15 +177,15 @@ TABLE#thetable TD.number, TD.number, #current_input.number {
 }
 
 TR TD.color_red, #current_input.color_red { 
-  background: #F88 ;
+  background-color: #F88 ;
 }
 
 TR TD.color_green, #current_input.color_green { 
-  background: #8F8 ;
+  background-color: #8F8 ;
 }
 
 TR TD.filtered, #current_input.filtered, TR.non TD.filtered, TR.tierstemps TD.filtered, SPAN.filtered { 
-  background: #FF0 ;
+  background-color: #FF0 ;
 }
 
 
@@ -204,13 +205,13 @@ z-index: 2;
 IMG.server { 
   width: 7px ;
   height: 7px ;
-  background: orange ;
+  background-color: orange ;
   border: 0px ;
 }
 
 INPUT#comment {
   border: 1px solid black ;
-  background: white ;
+  background-color: white ;
 }
 
 TABLE INPUT, TABLE SELECT { 
@@ -231,7 +232,7 @@ DIV#tip HR {
    width: 20em ; /* Needed for IE, else it is the full screen width */
 }
 
-DIV#tip SPAN.title { background: #CCF ; }
+DIV#tip SPAN.title { background-color: #CCF ; }
 
 .cursor IMG {
   vertical-align: middle ;
@@ -267,14 +268,14 @@ SPAN#teachers { font-weight: bold ; }
 }
 
 TABLE.tablehelp { border: none; }
-TABLE.tablehelp TR TH { text-align: right; background: #EEEEEE; }
+TABLE.tablehelp TR TH { text-align: right; background-color: #EEEEEE; }
 
 
 IMG.icone { height: 16px; border: none;   vertical-align: bottom ;
  }
 IMG.bigicone { width: 100px; border: none; }
 
-.stroked { background: #BFB; font-weight: bold }
+.stroked { background-color: #BFB; font-weight: bold }
 
 DIV.import_export { 
   position: absolute;
@@ -300,7 +301,7 @@ DIV.import_export TEXTAREA {
 }
 
 DIV.import_export, DIV#import_export P  { 
-  background: #DDD ;
+  background-color: #DDD ;
 }
 
 DIV.import_export BUTTON.close { 
@@ -331,7 +332,7 @@ margin-left: 1em ;
   border: 4px solid red ;
   padding: 0.5em ;
   font-size: 200% ;
-  background: white ;
+  background-color: white ;
 }
 
 DIV#horizontal_scrollbar { 
@@ -360,15 +361,15 @@ DIV#horizontal_scrollbar A {
   white-space: nowrap;
 }
 DIV#horizontal_scrollbar A.column_invisible { 
-  background: #CCC;
+  background-color: #CCC;
 }
 
 DIV#horizontal_scrollbar A.column_visible { 
-  background: #FFF;
+  background-color: #FFF;
 }
 
 DIV#horizontal_scrollbar A.cursor { 
-  background: #0F0;
+  background-color: #0F0;
 }
 
 DIV#horizontal_scrollbar A.sorted { 
@@ -379,7 +380,7 @@ DIV#vertical_scrollbar {
   font-size: 70% ;
   width: 1.5em ;
   border: 1px solid black ;
-  background: #CCC;
+  background-color: #CCC;
   position: absolute;
   overflow: hidden;
 }
@@ -387,7 +388,7 @@ DIV#vertical_scrollbar SPAN { position: absolute ; left: 1px; }
 DIV#vertical_scrollbar SPAN.position {
   left: 0px ;
   right:0px ;
-  background: #FFF ;
+  background-color: #FFF ;
   width: 100% ; /* For IE */
 }
 DIV#vertical_scrollbar SPAN B.letter {
@@ -398,7 +399,7 @@ DIV#vertical_scrollbar SPAN B.hide {
 }
 DIV#vertical_scrollbar SPAN.cursor {
   position: absolute ;
-  background: #0F0 ;
+  background-color: #0F0 ;
   height: 0px ;
 }
 
@@ -412,14 +413,14 @@ DIV#vertical_scrollbar IMG { position: absolute ; }
   z-index: 2;
 }
 
-P.da {  background: #FF0 ; }
+P.da {  background-color: #FF0 ; }
 
 /* Tiers temps */
 
 
-P.tierstemps { background: #BBF ; }
+P.tierstemps { background-color: #BBF ; }
 
-TR.tierstemps TD, #current_input.tierstemps, SPAN.tt { background: #BBF ; }
+TR.tierstemps TD, #current_input.tierstemps, SPAN.tt { background-color: #BBF ; }
 
 
 #loading_bar { 
@@ -428,13 +429,13 @@ TR.tierstemps TD, #current_input.tierstemps, SPAN.tt { background: #BBF ; }
   right: 10% ;
   top: 70% ;
   bottom: 27% ;
-  background: white ;
+  background-color: white ;
   border: 2px solid black ;
   display: none ;
 }
 
 #loading_bar DIV { 
-  background: #4F4 ;
+  background-color: #4F4 ;
   height: 100% ;
 }
 
@@ -456,7 +457,7 @@ TR.tierstemps TD, #current_input.tierstemps, SPAN.tt { background: #BBF ; }
   margin-top: 0em;
 }
 #menutop div.title {
-  background: #8F8 ;
+  background-color: #8F8 ;
   display: inline;
   border-top: 1px solid black ;
   border-left: 1px solid black ;
@@ -489,15 +490,15 @@ INPUT#comment { width: 100% ; clear: both; }
 #menutop .one_line { white-space: nowrap ; overflow: hidden; }
 #t_date, #t_author { font-size: 80%; }
 
-#menutop INPUT.highlight1, .highlight1 { background: #FF0 ; }
-#menutop INPUT.highlight2, .highlight2 { background: #FF4 ; }
-#menutop INPUT.highlight3, .highlight3 { background: #FF8 ; }
-#menutop INPUT.highlight4, .highlight4 { background: #FFB ; }
+#menutop INPUT.highlight1, .highlight1 { background-color: #FF0 ; }
+#menutop INPUT.highlight2, .highlight2 { background-color: #FF4 ; }
+#menutop INPUT.highlight3, .highlight3 { background-color: #FF8 ; }
+#menutop INPUT.highlight4, .highlight4 { background-color: #FFB ; }
 
 #menutop INPUT {
   width: 96% ;
   margin: 1px ;
-  background: white ; 
+  background-color: white ; 
   border: 1px solid black;
 }
 
@@ -600,13 +601,13 @@ TABLE.top2 TR TD {
   vertical-align: top ;
 }
 
-TABLE.top2 INPUT { background: #DDD ; }
+TABLE.top2 INPUT { background-color: #DDD ; }
 TABLE.top2 INPUT.search_field  {
-  background: white ;
+  background-color: white ;
   border: 1px solid black ;
   width: 100% ;
 }
-TABLE.top2 U { background: yellow; text-decoration: none }
+TABLE.top2 U { background-color: yellow; text-decoration: none }
 TABLE.top2 H2 { text-align: center; margin: 0 }
 
 TABLE.uelist, TABLE.student_list, DIV#the_students TABLE { 
@@ -658,7 +659,7 @@ IMG.safety { border:0 ;width: 0.7em ; vertical-align: middle  }
 
 
 TABLE.student_list TR.hover TD, TABLE.uelist TR.hover TD, TABLE.uelist TR.ue_list_more TD, TABLE.student_list TR.ue_list_more TD { 
-  background : #CCF ;
+  background-color: #CCF ;
 }
 
 
@@ -677,7 +678,7 @@ border-left: 1px solid #0B0 ;
 DIV.ue_list_more, SPAN.ue_list_more_help {
   border: 2px outset #AAA ;
   border: 2px outset #4F4 ;
-  background: #CCC ;
+  background-color: #CCC ;
 }
 
 DIV.ue_list_more { 
@@ -685,7 +686,7 @@ DIV.ue_list_more {
 }
 
 DIV.ue_list_more DIV.title:hover { 
-  background : #0F0 ;
+  background-color: #0F0 ;
 /*  padding-bottom: 2px ; Flickering hover bug in firefox */
 }
 
@@ -694,14 +695,14 @@ DIV.ue_list_more:hover DIV.more DIV.no_menu { display: block; }
 DIV.ue_list_more DIV.more DIV.no_menu:hover { display: none; }
 
 DIV.ue_list_more DIV.title { 
-  background : #8F8 ;
+  background-color: #8F8 ;
   text-align: left;
   font-weight: bold ;
 /*  font-size: 70%; */
 }
 
 DIV.ue_list_more DIV.more { 
-  background: white ;
+  background-color: white ;
 }
 
 DIV.ue_list_more DIV.more A:hover { 
@@ -720,16 +721,16 @@ DIV.ue_list_more DIV.more A:hover {
 
 #feedback .frame DIV { 
   width: 100% ;
-  background: #CCC ;
+  background-color: #CCC ;
   color: black ;
 }
 
 #feedback .frame DIV:hover { 
-  background: #EEE ;
+  background-color: #EEE ;
 }
 
 #feedback .frame IFRAME { 
-  background: white ;
+  background-color: white ;
   width: 100% ;
   height: 100% ;
 }
@@ -760,7 +761,7 @@ TABLE.top TD {
 }
 TABLE.top {
   table-layout: fixed ;
-  background: black;
+  background-color: black;
   border-spacing: 1px;
 }
 TABLE.undertop {
@@ -779,10 +780,10 @@ TABLE.undertop TD {
 TABLE.top TD UL { padding-left: 1em ; margin-left: 0em;}
 TABLE.top P { margin-bottom: 0; }
 TABLE.top UL { margin-top: 0; }
-TABLE.top U { background : yellow ; font-weight: normal; text-decoration: none; }
+TABLE.top U { background-color: yellow ; font-weight: normal; text-decoration: none; }
 
 TABLE.top INPUT.keyword {
-  background: white ;
+  background-color: white ;
   border: 1px solid black ;
   height: 1.5em ;
 }
@@ -802,7 +803,7 @@ DIV.trombinoscope {
   float: left;
   padding: 1px ;
   border-spacing: 0px ;
-  background: none ;
+  background-color: inherit ;
   height: 12.5em;
   width: 8em ;
   margin: 2px ;
@@ -850,7 +851,7 @@ TABLE.histogram TR:first-child TD {
 
 TABLE.histogram IMG {
   border: 0 ;
-  background:black ;
+  background-color:black ;
   width: 100% ;
 }
 
@@ -880,10 +881,10 @@ TR#dates TD { padding: 3px ;
 
 .statabj { color: blue ; }
 .statabi { color: red ; }
-.statnan { background: #F00 ; color: white }
+.statnan { background-color: #F00 ; color: white }
 .statpre { color: green ; }
-.statppn { background: #F88 ; }
-.statdef { background: black ; color: white; }
+.statppn { background-color: #F88 ; }
+.statdef { background-color: black ; color: white; }
 .statmoy { text-align: right }
 .stats SUB { font-size: 60% ; }
 
@@ -897,10 +898,10 @@ TR#dates TD {
 }
 TR#ampm TD { text-align: center ; }
 
-TD.weekend { background: #FBB; }
+TD.weekend { background-color: #FBB; }
 
 TABLE.display_abjs TH { text-align: center ; }
-TABLE.display_abjs TD, TABLE.display_da TD { background: #EEE ; }
+TABLE.display_abjs TD, TABLE.display_da TD { background-color: #EEE ; }
 TABLE.display_abjs TH, TABLE.display_abjs TD, TABLE.display_da TD, TABLE.display_da TH { font-size:80%; padding: 1px }
 
 DIV#student_display {
@@ -925,7 +926,7 @@ SPAN.arrow {
 
 BODY#BODY P, BODY#BODY H1 { margin: 0px ; }
 
-P.wait { background: #8F8 ; }
+P.wait { background-color: #8F8 ; }
 
 /*****************************************************************************/
 /* PRINT */
@@ -938,7 +939,7 @@ BODY {
 }
 
 BODY, TABLE TD, TH, P, H1 {
-    background: white ;
+    background-color: white ;
 }
 
 TABLE.colored {

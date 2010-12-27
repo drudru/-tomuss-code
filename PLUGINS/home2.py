@@ -85,7 +85,8 @@ def home_page(server):
             .replace('_USERNAME_', ticket.user_name)
             .replace('_TICKET_', ticket.ticket)
             .replace('_MESSAGE2_', configuration.message)
-            .replace('_ADMIN_', configuration.maintainer)            
+            .replace('_ADMIN_', configuration.maintainer)
+            .replace('_LOGO_', configuration.logo)
             )
     f.write('''<h2>Autres</h2>''')
 

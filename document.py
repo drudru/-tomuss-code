@@ -148,7 +148,7 @@ def table_head(year=None, semester=None, ticket=None,
         background = ''
 
     if background:
-        background = '<style>BODY, TABLE INPUT, TABLE TD, P, H1, #current_input { background: ' + background + '}</style>'
+        background = '<style>BODY, TABLE INPUT, #current_input { background-color: ' + background + '}</style>'
 
     my_identity2 = utilities.login_to_module(user_name)
 
@@ -169,6 +169,7 @@ def table_head(year=None, semester=None, ticket=None,
             'preferences = %s ;\n' % prefs_table +
             'lines = [];\n' +
             'columns = [];\n' +
+            'logo = ' + js(configuration.logo) + ';\n' +
             'lines_to_load = 0 ;\n' +
             'table_attr = {\n' +
                 ',\n'.join(attr.name+':'+js(getattr(attrs_from, attr.name,
