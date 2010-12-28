@@ -171,6 +171,7 @@ def table_head(year=None, semester=None, ticket=None,
             'columns = [];\n' +
             'logo = ' + js(configuration.logo) + ';\n' +
             'lines_to_load = 0 ;\n' +
+            'check_down_connections_interval = %d ;\n' % configuration.check_down_connections_interval +
             'table_attr = {\n' +
                 ',\n'.join(attr.name+':'+js(getattr(attrs_from, attr.name,
                                                     attr.default_value))
@@ -1367,7 +1368,7 @@ def check_down_connections():
     while True:
         time.sleep(configuration.check_down_connections_interval)
         for ttable in tables_values():
-            ttable.send_update(None, ' ')
+            ttable.send_update(None, '<script>connected()</script>')
             for page in ttable.active_pages:
                 if page.ticket not in ticket.tickets:
                     warn('%s ticked expired page=%s ticket=%s' % (

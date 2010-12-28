@@ -2771,9 +2771,12 @@ function auto_save_errors()
   // In millisecond
   var max_answer_time = 10000 ;
 
+  if ( last_server_answer != 0
+       && (millisec() - last_server_answer) > 5000+1000*check_down_connections_interval)
+      reconnect() ;
+
   if ( auto_save_running || ! auto_save )
     return ;
-
 
   auto_save_running = true ;
 
@@ -2882,6 +2885,11 @@ function saved(r)
 	  return ;
 	}
     }
+}
+
+function connected()
+{
+  last_server_answer = millisec() ;
 }
 
 
@@ -5082,6 +5090,17 @@ function abj_per_day()
   w.document.close() ;
 }
 
+var last_reconnect = 0 ;
+
+function reconnect()
+{
+  if ( millisec() - last_reconnect < 1000*check_down_connections_interval )
+    return ;
+  var server_answer = document.getElementById('server_answer') ;
+  server_answer.src = url + "/=" + ticket + '/' + year
+    + '/' + semester + '/' + ue + '/' + page_id ;
+  last_reconnect = millisec() ;
+}
 
 function runlog(the_columns, the_lines)
 {
@@ -5231,11 +5250,7 @@ function runlog(the_columns, the_lines)
 
   // Firefox bug : the page refresh reload the old iframe, not the new one
   if ( ue != 'VIRTUALUE' )
-    setTimeout(function() {
-		 var server_answer = document.getElementById('server_answer') ;
-		 server_answer.src = url + "/=" + ticket + '/' + year
-		   + '/' + semester + '/' + ue + '/' + page_id ;
-	       }, 10) ;
+    setTimeout(reconnect, 10) ;
 
   the_current_cell.update_table_headers() ;
   change_title(table_attr.table_title, table_attr.code) ;
@@ -5684,8 +5699,10 @@ window.Xcolumn_delete  = Xcolumn_delete ;
 window.Xcolumn_attr    = Xcolumn_attr ;
 window.Xtable_attr     = Xtable_attr ;
 window.change_mails    = change_mails ;
+window.change_abjs     = change_abjs ;
 window.change_portails = change_portails ;
 window.saved           = saved ;
+window.connected       = connected ;
 window.the_portails    = the_portails ;
 window.update_mail     = update_mail ;
 window.login_list      = login_list ;

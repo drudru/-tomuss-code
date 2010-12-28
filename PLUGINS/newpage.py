@@ -29,13 +29,7 @@ import sender
 import utilities
 import os
 
-class StringFile(object):
-    def __init__(self):
-        self.closed = False
-        self.real_file = None
-        self.open_time = time.time()
-        # XXX COPY/PASTE in the end of lib.js
-        self.content = ['''
+initial_content = '''
 <script>
 var    Xcell_change  = window.parent.Xcell_change    ;
 var Xcomment_change  = window.parent.Xcomment_change ;
@@ -44,12 +38,22 @@ var  Xcolumn_attr    = window.parent.Xcolumn_attr    ;
 var  Xtable_attr     = window.parent.Xtable_attr     ;
 var  change_portails = window.parent.change_portails ;
 var  change_mails    = window.parent.change_mails    ;
+var  change_abjs     = window.parent.change_abjs     ;
 var  saved           = window.parent.saved           ;
+var  connected       = window.parent.connected       ;
 var  the_portails    = window.parent.the_portails    ;
 var  update_mail     = window.parent.update_mail     ;
 var  login_list      = window.parent.login_list      ;
 </script>
-    ''']
+    '''
+
+class StringFile(object):
+    def __init__(self):
+        self.closed = False
+        self.real_file = None
+        self.open_time = time.time()
+        # XXX COPY/PASTE in the end of lib.js
+        self.content = [initial_content]
     def write(self, txt):
         self.content.append(txt)
     def flush(self):
@@ -62,6 +66,8 @@ var  login_list      = window.parent.login_list      ;
             if time.time() - self.open_time > 60:
                 self.closed = True
     def set_real_file(self, f):
+        if self.real_file is not None:
+            self.content = [initial_content]
         self.real_file = f
     def close(self):
         self.flush()
@@ -212,20 +218,28 @@ def answer_page(server):
         return
 
     if not hasattr(page, 'use_frame'):
-        # The browser ask an old IFRAME (WHY!!!!)
-        server.the_file.close()
-        return
+        warn('The browser ask an old IFRAME (WHY!!!!)', what="error")
+        page.use_frame = True
+        # server.the_file.close()
+        # return
 
     if not page.use_frame:
+        warn('Page not using frame (LINEAR?)', what="error")
         server.the_file.close()
         return
 
     if isinstance(page.browser_file, StringFile):
+        warn('ok', what="info")
         page.browser_file.set_real_file(server.the_file)
         sender.append(page.browser_file, str(page.page_id) ) # Flush data
     else:
-        send_backtrace('server_answer: bugged firefox refresh')
-        server.the_file.close()
+        warn('Browser reconnection', what='Info')
+        if page.browser_file is None:
+             page.browser_file = StringFile()
+            
+        page.browser_file.set_real_file(server.the_file)
+        table.active_page(page, page.browser_file)
+        # server.the_file.close()
 
 
 plugin.Plugin('answer_page', '/{Y}/{S}/{U}/{P}',
