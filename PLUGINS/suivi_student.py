@@ -216,42 +216,35 @@ def student_statistics(login, server, is_a_student=False, expand=False):
     s.append('<p>')
 
     ss = []
-    try:
-        codes = {}
-        for t in the_ues(year, semester, login):
-            for line_id, line in t.get_items(login):
-                ss.append(unicode(t.lines.line_html(
-                    t, line, line_id, ticket.ticket,
-                    link=not is_a_student
-                    ),'utf8'))
-                if ss[-1]:
-                    # A line has been displayed
-                    codes[t.ue_code] = True
-        if (year, semester) == configuration.year_semester:
-            for t in inscrits.ues_of_a_student_short(login):
-                # import cgi
-                # ss.append(cgi.escape(repr(t)))
-                title = teacher.all_ues().get(t.split('-')[1])
-                if title:
-                    title = title.intitule()
+    codes = {}
+    for t in the_ues(year, semester, login):
+        for line_id, line in t.get_items(login):
+            ss.append(unicode(t.lines.line_html(
+                t, line, line_id, ticket.ticket,
+                link=not is_a_student
+                ),'utf8'))
+            if ss[-1]:
+                # A line has been displayed
+                codes[t.ue_code] = True
+    if (year, semester) == configuration.year_semester:
+        for t in inscrits.ues_of_a_student_short(login):
+            # import cgi
+            # ss.append(cgi.escape(repr(t)))
+            if '-' not in t:
+                continue
+            title = teacher.all_ues().get(t.split('-')[1])
+            if title:
+                title = title.intitule()
+            else:
+                title = ''
+            if t not in codes:
+                if is_a_student:
+                    s.append(u"<h2 class=\"title\">Vous êtes inscrit à " + t
+                             + ' ' + title + u"</h2><p>TOMUSS n'a pas été utilisé par un enseignant pour saisir des informations dans cette UE")
                 else:
-                    title = ''
-                if t not in codes:
-                    if is_a_student:
-                        s.append(u"<h2 class=\"title\">Vous êtes inscrit à " + t + ' ' + title + u"</h2><p>TOMUSS n'a pas été utilisé par un enseignant pour saisir des informations dans cette UE")
-                    else:
-                        s.append(u"<p class=\"title\">Étudiant inscrit à " + t + ' ' + title + u"</p>")
-    except TypeError:
-        print 'x'*99
-        raise
-        print 'y'*99
-        utilities.send_backtrace('TypeError on table',
-                                 'Table=%s grp_col=%s seq_col=%s' %
-                                 (t.ue,
-                                  t.columns.get_grp(),
-                                  t.columns.get_seq(),
-                                  ))
-        raise
+                    s.append(u"<p class=\"title\">Étudiant inscrit à "
+                             + t + ' ' + title + u"</p>")
+
     if ss:
         ss.sort()
     s += ss
