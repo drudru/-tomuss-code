@@ -107,7 +107,7 @@ class ColumnAttr(object):
             repr(self.name), js(column.the_id), js(self.decode(value)))
         if column.author != page.user_name:
             t += '<script>Xcolumn_attr("author",%s,%s);</script>' % (
-                js(column.the_id), js(self.decode(value)))
+                js(column.the_id), js(page.user_name))
         table.send_update(page, t + '\n')
 
         column.author = page.user_name
@@ -193,6 +193,7 @@ class ColumnComment(ColumnAttr):
 
 class ColumnAuthor(ColumnAttr):
     computed = 1
+    update_headers = 1
     name = 'author'
 
 class ColumnWidth(ColumnAttr):

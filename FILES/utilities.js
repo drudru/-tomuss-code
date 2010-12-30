@@ -2360,6 +2360,14 @@ function current_update_column_headers()
       e = document.getElementById('t_column_' + attr) ;
       if ( ! e )
 	continue ;
+      if ( column_attributes[attr].computed )
+	{
+	  update_value_and_tip(e,
+			       column_attributes[attr].formatter(column,
+								 column[attr])
+			       ) ;
+	  continue ;
+	}
       if ( column.real_type['set_' + attr] == unmodifiable )
 	{
 	  e.parentNode.style.display = 'none' ;
@@ -2409,9 +2417,6 @@ function current_update_column_headers()
 	  t_column_average.style.display = 'none' ;
 	}
     }
-
-  update_value_and_tip(t_column_author, column.author) ;
-
   var v ;
   if ( column.freezed )
     v = 'Défige' ;

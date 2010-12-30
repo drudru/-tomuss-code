@@ -224,8 +224,15 @@ function column_attr_set(column, attr, value, td)
   column[attr] = new_value ;  
 
   if ( i_can_modify_column )
-    append_image(td, 'column_attr_' + attr + '/' + column.the_id + '/' +
-		 encode_uri(new_value)) ;
+    {
+      append_image(td, 'column_attr_' + attr + '/' + column.the_id + '/' +
+		   encode_uri(new_value)) ;
+      if ( column.author != my_identity )
+	{
+	  column.author = my_identity ;
+	  the_current_cell.do_update_column_headers = true ;
+	}
+    }
 
   return new_value ;
 }
