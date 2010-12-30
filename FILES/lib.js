@@ -5680,6 +5680,19 @@ function javascript_regtest_ue()
   alert_real('Test duration:' + (end_test - start_test)/1000 + 'seconds') ;
 }
 
+/*REDEFINE
+*/
+function do_change_abjs(m)
+{
+  the_student_abjs = m ;
+}
+
+var the_student_abjs = {} ;
+function change_abjs(m)
+{
+  do_change_abjs(m) ;
+}
+
 // XXX COPY/PASTE in the end of new_page.py
 window.Xcell_change    = Xcell_change ;
 window.Xcomment_change = Xcomment_change ;

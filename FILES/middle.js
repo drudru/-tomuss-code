@@ -47,18 +47,11 @@ function modification_allowed_on_this_line(data_lin,
   return true ;
 }
 
-/* To redefine */
+/*REDEFINE
+*/
 function update_student_information(line)
 {
 }
-
-// Not clean, should be in lib.js. But should be defined before it is loaded
-var the_student_abjs = {} ;
-function change_abjs(m)
-{
-  the_student_abjs = m ;
-}
-
 
 function head_html()
 {
