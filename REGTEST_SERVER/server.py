@@ -40,7 +40,7 @@ class Server(object):
     name = "tomuss"
     started = False
     
-    def start(self):
+    def start(self, cleaning=True):
         for dirname in ['../DBregtest', '../BACKUP_DBregtest',
                         ] + glob.glob('../TMP/xxx_tickets.py*'):
             print 'delete:', dirname
@@ -79,7 +79,7 @@ class Server(object):
 
     def url(self, url, stop_if_error=True, display_log_if_error=True,
             returns_file=False):
-        full_url = 'http://' + socket.getfqdn() + ':' + str(self.port) + '/' + url
+        full_url = 'http://'+socket.getfqdn()+':'+str(self.port) + '/' + url
         print '\t' + full_url,
         sys.stdout.flush()
         try:

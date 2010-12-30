@@ -22,7 +22,7 @@
 import plugin
 import document
 from files import files
-from utilities import warn, send_backtrace
+from utilities import warn
 import configuration
 import time
 import sender
@@ -206,17 +206,16 @@ def answer_page(server):
         table, page = document.table(server.the_year, server.the_semester,
                                      server.the_ue, server.the_page,
                                      server.ticket)
-    except IOError:
-        server.the_file.write(files["error.html"])
-        warn('IOError', what="error")
-        return
-
-    if not page:
-        send_backtrace('server_answer')
+    except:
+        # Reconnection of an old non modifiable page on a stoped server.
+        # See REGTEST_SERVER/tests.py 'lostpage'
+        server.the_file.write('<script>window.location += "/.."</script>')
+        server.the_file.close()
+        utilities.send_backtrace('', 'Page not found')
         return
 
     if not hasattr(page, 'use_frame'):
-        warn('The browser ask an old IFRAME (WHY!!!!)', what="error")
+        warn('Browser reconnection', what="error")
         page.use_frame = True
         # server.the_file.close()
         # return

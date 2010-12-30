@@ -1,4 +1,5 @@
 Finir par priorité :
+	Passer 'fige' en attribut de colonne non-modifiable ?
 	Pylint
 	Faire des plugins pour chaque fonctionnalité coté client.
 	Faire disparaitre UE- EC- ...

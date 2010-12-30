@@ -1223,8 +1223,7 @@ new_page('' ,'*', '', '', None)
         assert(c == ok_png)
         c = s.url('=' + abj +'/%s/UE-modif/1/2/table_attr_modifiable/0' % ys)
         assert(c == ok_png)
-        check('Y%d/S%s/UE-modif.py' % (year, semester),
-              nr_pages = 2)
+        check('Y%d/S%s/UE-modif.py' % (year, semester), nr_pages = 2)
 
         c = s.url('=' + abj +'/%s/UE-modif' % ys)
         assert('modifiable:0' in c)
@@ -1232,13 +1231,29 @@ new_page('' ,'*', '', '', None)
         assert('modifiable:0' in c)
         c = s.url('=' + abj +'/%s/UE-modif/3/0/table_attr_masters/'%(ys))
         assert(c == bad_png)
-        check('Y%d/S%s/UE-modif.py' % (year, semester),
-              nr_pages = 2)
+        check('Y%d/S%s/UE-modif.py' % (year, semester), nr_pages = 2)
         c = s.url('=' + abj +'/%s/UE-modif/3/1/table_attr_modifiable/1'%(ys))
         assert(c == ok_png)
-        check('Y%d/S%s/UE-modif.py' % (year, semester),
-              nr_pages = 4)
+        check('Y%d/S%s/UE-modif.py' % (year, semester), nr_pages = 4)
 
+    if do('lostpage'):
+        c = s.url('=' + abj +'/%s/UE-lost' % ys)
+        assert('modifiable:1' in c)
+        c = s.url('=' + abj +'/%s/UE-lost/1/0/table_attr_masters/%s'%(ys,abj))
+        assert(c == ok_png)
+        c = s.url('=' + abj +'/%s/UE-lost/1/1/table_attr_modifiable/0' % ys)
+        assert(c == ok_png)
+        check('Y%d/S%s/UE-lost.py' % (year, semester), nr_pages = 2)
+        c = s.url('=' + abj +'/%s/UE-lost' % ys)
+        assert('modifiable:0' in c)
+        check('Y%d/S%s/UE-lost.py' % (year, semester), nr_pages = 2)
+        s.stop()
+        s.restart()
+        check('Y%d/S%s/UE-lost.py' % (year, semester), nr_pages = 2)
+        c = s.url('=' + abj +'/%s/UE-lost/2' % ys)
+        assert(c == '<script>window.location += "/.."</script>')
+        
+        
 
 n = 0
 m = []
