@@ -1,6 +1,6 @@
 Finir par priorité :
-	Change mail/portail/abjs comme attribut de table
 	Pourquoi il reste t_column_author ?
+	Pylint
 	Faire des plugins pour chaque fonctionnalité coté client.
 	Faire disparaitre UE- EC- ...
 	COW (stable) valeur vide ==> comme si rien

@@ -339,6 +339,11 @@ class TableMails(TableAttr):
     default_value = {}
     computed = 1
 
+class TablePortails(TableAttr):
+    name = 'portails'
+    default_value = {}
+    computed = 1
+
 class TableTableTitle(TableAttr):
     name = 'table_title'
 
@@ -524,7 +529,9 @@ TableDefaultNrColumns()
 TableDefaultSortColumns()
 TableTableTitle()
 TableCode()
+
 TableMails()
+TablePortails()
 
 import files
 files.files['types.js'].append('var column_attributes = {\n' +

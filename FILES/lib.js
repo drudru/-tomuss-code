@@ -58,7 +58,6 @@ var line_filter ;
 var line_filter_value ;
 var tr_classname ;		// Column containing the className of the line
 var popup_on_red_line ;
-var the_portails ;
 var do_not_read_option ;	// Option disabled for virtual tables
 var nr_cols ;			// Number of displayed columns on the screen
 var nr_lines ;
@@ -193,7 +192,6 @@ function lib_init()
   line_filter_value = '' ;
   prst_is_input = true ;
   popup_on_red_line = true ;
-  the_portails = {} ;
   do_not_read_option = false ; // Option disabled for virtual tables
   the_current_cell = new Current() ;
   request_id = 0 ;
@@ -706,7 +704,7 @@ function line_resume(data_lin)
 	}
     }
   s += '</table>' ;
-  var x = the_portails[lines[data_lin][0].value] ;
+  var x = table_attr.portails[lines[data_lin][0].value] ;
 
   if ( x === undefined )
     x = '' ;
@@ -4588,14 +4586,12 @@ function authors_mails()
 
 function update_mail(login, mail)
 {
-  _d('mails[' + login + '] = ' + mail + '\n') ;
-  _d('mails mails = ' + students_mails() + '\n') ;
   table_attr.mails[login] = mail ;
 }
 
-function change_portails(m)
+function update_portail(login, portail)
 {
-  the_portails = m ;
+  table_attr.portails[login] = portail ;
 }
 
 function change_size(dx, dy)
@@ -5691,9 +5687,8 @@ window.Xcolumn_delete  = Xcolumn_delete ;
 window.Xcolumn_attr    = Xcolumn_attr ;
 window.Xtable_attr     = Xtable_attr ;
 window.change_abjs     = change_abjs ;
-window.change_portails = change_portails ;
 window.saved           = saved ;
 window.connected       = connected ;
-window.the_portails    = the_portails ;
 window.update_mail     = update_mail ;
+window.update_portail  = update_portail ;
 window.login_list      = login_list ;

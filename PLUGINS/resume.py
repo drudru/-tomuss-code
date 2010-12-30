@@ -113,7 +113,6 @@ def resume(server):
     document.write(tail_html()) ;
 
     table_attr.table_title = %s ;
-    change_portails({}) ;
     runlog(columns, lines) ;
     </script>
     """ % (lines_id, columns, lines, utilities.js(repr(server.the_path)) ))

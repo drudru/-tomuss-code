@@ -455,8 +455,4 @@ def check_get_info():
                 table.update_mail(line[0].value, mail.encode('utf8'))
 
                 portails = [i.encode('latin1') for i in L.portail(value)]
-                table.send_update(None,
-                                  '<script>the_portails[%s]=%s;</script>' %
-                                  (utilities.js(value),
-                                   utilities.js(portails)))
-                table.portails[value] = portails
+                table.update_portail(line[0].value, portails)

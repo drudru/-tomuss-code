@@ -117,7 +117,7 @@ def do_patch():
         return
 
     configuration.do_not_display = ()
-
+    
     import authentication
     import utilities
     def ticket_login_name(ticket_key, service):

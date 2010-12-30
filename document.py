@@ -225,7 +225,6 @@ class Table(object):
         self.columns = Columns(self)
         self.lines = Lines(self.columns)
         self.the_lock = threading.Lock()
-        self.portails = {}
         self.ro = ro
         self.mtime = 0
         self.the_key_dict = None
@@ -357,6 +356,8 @@ class Table(object):
 
     def change_mails(self, mails):
         return self.table_attr_computed('mails', mails)
+    def change_portails(self, portails):
+        return self.table_attr_computed('portails', portails)
 
     def table_attr_computed(self, attr, value):
         setattr(self, attr, value)
@@ -371,16 +372,13 @@ class Table(object):
                          + ',' + js(mail) + ');</script>\n').encode('utf-8')
                          )
 
-    def change_portails(self, portails):
-        if self.portails == portails:
-            return
-        warn('update portails of ' + self.location(), what="table")
-        self.portails = portails
+    def update_portail(self, login, portail): 
+        self.portails[login] = portail
         self.send_update(None,
-                         '<script>change_portails('+utilities.js(portails)
-                         +');</script>\n')
-
-
+                         ('<script>update_portail(' + repr(login)
+                         + ',' + js(portail) + ');</script>\n').encode('utf-8')
+                         )
+        
     def lock(self):
         warn('start', what='debug')
         sender.send_live_status('<script>b("%d/%s/%s");</script>\n' %
@@ -910,7 +908,6 @@ la dernière saisie.
 
             s.append('document.write(tail_html());')
             s.append('runlog(columns, lines) ;')
-            s.append('change_portails(%s) ;' % utilities.js(self.portails))
             s.append('}')
             if self.template and hasattr(self.template, 'content'):
                 s.append(self.template.content(self).replace('<script>','').replace('</script>',''))
