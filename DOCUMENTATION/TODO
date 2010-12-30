@@ -1,5 +1,8 @@
 Finir par priorité :
 	Change mail/portail/abjs comme attribut de table
+	Pourquoi il reste t_column_author ?
+	Faire des plugins pour chaque fonctionnalité coté client.
+	Faire disparaitre UE- EC- ...
 	COW (stable) valeur vide ==> comme si rien
 	Sauvegarde de l'état figé...
 	Consultation TT par les secrétaires
@@ -17,7 +20,6 @@ Finir par priorité :
 	Calcul du poids automatique avec '?' : problème de ]1,1[, max, meilleur
 	Renommer Inscrit en _Inscrit_, garder la compatibilité pour les vieux.
 	Faire le ménage des fonctions deprecated dans les TEMPLATES
-	Faire des plugins pour chaque fonctionnalité coté client.
 	Ne pas donner de référents aux gens sans UE ?
 	Rendre des cellules éditables par les étudiants dans le suivi ?
 

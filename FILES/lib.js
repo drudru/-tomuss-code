@@ -50,7 +50,6 @@ var tip_fixed ;
 var i_am_the_teacher ;
 var teachers ;
 var display_tips ;
-var the_student_mails ;
 var columns_filter ;
 var columns_filter_value ;
 var full_filter ;
@@ -186,7 +185,6 @@ function lib_init()
   i_am_the_teacher  = false;
   teachers          = []   ;
   display_tips      = true ;
-  the_student_mails = {}   ;
   delayed_list = [] ;
   highlight_list = [] ;
   columns_filter = compile_filter_generic('') ;
@@ -1694,7 +1692,6 @@ function update_filtered_lines()
     }
 
   update_line_menu() ;
-  // change_mails(the_student_mails) ;
 
   var d2 = millisec() ;
   if ( sort_columns.length !== 0 )
@@ -4546,8 +4543,8 @@ function students_mails()
       line = filtered_lines[data_lin] ;
       if ( line[0].value !== '' )
 	{
-	  if ( the_student_mails[line[0].value] )
-	    s += the_student_mails[line[0].value] ;
+	  if ( table_attr.mails[line[0].value] )
+	    s += table_attr.mails[line[0].value] ;
 	  else
 	    s += line[0].value ;
 	  s += ',' ;
@@ -4580,8 +4577,8 @@ function authors_mails()
   for(var i in a)
     {
       if ( a[i] == i )
-	if ( the_student_mails[i] )
-	  s += the_student_mails[i] ;
+	if ( table_attr.mails[i] )
+	  s += table_attr.mails[i] ;
 	else
 	  s += i ;
       s += ',' ;
@@ -4589,16 +4586,11 @@ function authors_mails()
   return s ;
 }
 
-function change_mails(m)
-{
-  the_student_mails = m ;
-}
-
 function update_mail(login, mail)
 {
   _d('mails[' + login + '] = ' + mail + '\n') ;
   _d('mails mails = ' + students_mails() + '\n') ;
-  the_student_mails[login] = mail ;
+  table_attr.mails[login] = mail ;
 }
 
 function change_portails(m)
@@ -5698,7 +5690,6 @@ window.Xcomment_change = Xcomment_change ;
 window.Xcolumn_delete  = Xcolumn_delete ;
 window.Xcolumn_attr    = Xcolumn_attr ;
 window.Xtable_attr     = Xtable_attr ;
-window.change_mails    = change_mails ;
 window.change_abjs     = change_abjs ;
 window.change_portails = change_portails ;
 window.saved           = saved ;

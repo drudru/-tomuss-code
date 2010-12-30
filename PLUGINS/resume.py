@@ -113,7 +113,6 @@ def resume(server):
     document.write(tail_html()) ;
 
     table_attr.table_title = %s ;
-    change_mails({}) ;
     change_portails({}) ;
     runlog(columns, lines) ;
     </script>

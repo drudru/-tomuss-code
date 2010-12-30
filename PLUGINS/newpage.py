@@ -37,7 +37,6 @@ var  Xcolumn_delete  = window.parent.Xcolumn_delete  ;
 var  Xcolumn_attr    = window.parent.Xcolumn_attr    ;
 var  Xtable_attr     = window.parent.Xtable_attr     ;
 var  change_portails = window.parent.change_portails ;
-var  change_mails    = window.parent.change_mails    ;
 var  change_abjs     = window.parent.change_abjs     ;
 var  saved           = window.parent.saved           ;
 var  connected       = window.parent.connected       ;

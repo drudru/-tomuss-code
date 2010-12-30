@@ -1508,8 +1508,8 @@ function student_click_more(t)
     more_link1 = '<img class="safety" src="_URL_/verysafe.png"><a href="javascript:goto_url(base+\'bilan/' + login + '\')">Bilan TOMUSS de l\'étudiant</a><br>' ;
 
   var send_mail = 'Adresse mail inconnue.<br>' ;
-  if ( the_student_mails[login] !== '' )
-    send_mail = '<img class="safety" src="_URL_/verysafe.png"><a href="mailto:' + the_student_mails[login]
+  if ( table_attr.mails[login] !== '' )
+    send_mail = '<img class="safety" src="_URL_/verysafe.png"><a href="mailto:' + table_attr.mails[login]
       + '">Envoyer un mail</a><br>' ;
 
   var more_link = '<span id="student_referent">Son référent est...</span><br>';
@@ -1763,11 +1763,9 @@ function cmp_students(a,b)
   return 0 ;
 }
 
-var the_student_mails = {} ;
-
 function student_line(i, hide_icon)
 {
-  the_student_mails[i[0]] = i[3] ;
+  table_attr.mails[i[0]] = i[3] ;
   if ( hide_icon )
     hide_icon = '&nbsp;' ;
   else

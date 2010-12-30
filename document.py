@@ -161,7 +161,7 @@ def table_head(year=None, semester=None, ticket=None,
             'year = "%s" ;\n' % year +
             'semester = "%s" ;\n' % semester +
             'ticket = "%s" ;\n' % ticket +
-            'ue = "%s" ;' % ue +
+            'ue = "%s" ;\n' % ue +
             'suivi = %s ;\n' % js(s) +
             'version = "%s" ;\n' % configuration.version +
             'root = %s ;\n' % js(list(configuration.root)) +
@@ -209,6 +209,8 @@ class Table(object):
             d = attr.default_value
             if isinstance(d, list):
                 d = list(d)
+            elif isinstance(d, dict):
+                d = dict(d)
             setattr(self, attr.name, d)
 
         x = teacher.all_ues().get(self.ue_code.split('-')[-1], None)
@@ -223,7 +225,6 @@ class Table(object):
         self.columns = Columns(self)
         self.lines = Lines(self.columns)
         self.the_lock = threading.Lock()
-        self.mails = {}
         self.portails = {}
         self.ro = ro
         self.mtime = 0
@@ -355,12 +356,12 @@ class Table(object):
 
 
     def change_mails(self, mails):
-        if self.mails == mails:
-            return
-        warn('change mails of ' + self.location(), what="table")
-        self.mails = mails
-        self.send_update(None,
-                         '<script>change_mails(' + repr(mails) + ');</script>\n')
+        return self.table_attr_computed('mails', mails)
+
+    def table_attr_computed(self, attr, value):
+        setattr(self, attr, value)
+        t = '<script>Xtable_attr(%s,%s);</script>\n' % (repr(attr), js(value))
+        self.send_update(None, t)
 
     def update_mail(self, login, mail):
         warn('update mail of ' + self.location(), what="table")
@@ -909,7 +910,6 @@ la dernière saisie.
 
             s.append('document.write(tail_html());')
             s.append('runlog(columns, lines) ;')
-            s.append('change_mails(%s) ;' % repr(self.mails))
             s.append('change_portails(%s) ;' % utilities.js(self.portails))
             s.append('}')
             if self.template and hasattr(self.template, 'content'):

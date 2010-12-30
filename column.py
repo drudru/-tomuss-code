@@ -334,6 +334,11 @@ class TableAttr(ColumnAttr):
 class TableComment(TableAttr):
     name = 'comment'
 
+class TableMails(TableAttr):
+    name = 'mails'
+    default_value = {}
+    computed = 1
+
 class TableTableTitle(TableAttr):
     name = 'table_title'
 
@@ -519,6 +524,7 @@ TableDefaultNrColumns()
 TableDefaultSortColumns()
 TableTableTitle()
 TableCode()
+TableMails()
 
 import files
 files.files['types.js'].append('var column_attributes = {\n' +
