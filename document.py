@@ -307,7 +307,7 @@ class Table(object):
             warn('Create end', what='table')
             self.pages[0].request = 1 # Not an empty page, it's for the stats
 
-        if self.modifiable and not ro:
+        if not ro:
             # Check mails or new students
             # Only mail if allow_modification is False
             warn('Update student list', what='table')
