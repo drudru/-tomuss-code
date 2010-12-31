@@ -1,0 +1,42 @@
+#!/usr/bin/python
+"""
+This script change the symbolic links in DataBase
+to swap the file and the link.
+
+After this, link in Automne points on Printemps
+
+Arguments : DB and BACKUP_DB
+"""
+
+import sys
+import os
+
+for top in sys.argv[1:]:
+  p = os.popen('find "%s%c" -type l -print' % (top, os.path.sep), 'r')
+
+  
+  for name in p:
+      name = name.strip(' \n')
+      splited = name.split(os.path.sep)
+      if splited[-2] != 'SPrintemps':
+          sys.stderr.write('Link not moved:' + name + '\n')
+          continue
+      link = os.readlink(name).split(os.path.sep)
+      
+      print name, '==>', os.readlink(name)
+      print 'unlink', name
+      os.unlink(name)
+      oldname = os.path.sep.join(splited[:-3] + link[-3:])
+      print 'rename', oldname, 'to', name
+      os.rename(oldname, name)
+
+      newlink = os.path.sep.join(['..', '..', splited[-3],
+                                  'SPrintemps', splited[-1]])
+      print 'symlink', oldname, 'to', newlink
+      os.symlink(newlink, oldname)
+      
+
+      
+
+  
+  

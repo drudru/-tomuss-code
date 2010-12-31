@@ -148,7 +148,7 @@ def table_head(year=None, semester=None, ticket=None,
         background = ''
 
     if background:
-        background = '<style>BODY, TABLE INPUT, #current_input { background-color: ' + background + '}</style>'
+        background = '<style>BODY, TABLE INPUT, #current_input, BODY TABLE.colored TD { background-color: ' + background + '}</style>'
 
     my_identity2 = utilities.login_to_module(user_name)
 

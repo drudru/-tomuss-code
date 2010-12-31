@@ -38,7 +38,7 @@ regtest:
 
 tar:
 	V=$$(python -c 'import configuration;print configuration.version') ; \
-	$(MAKE) clean ; rm -rf /tmp/TOMUSS-$$V ; \
+	$(MAKE) changelog clean ; rm -rf /tmp/TOMUSS-$$V ; \
 	cp -a $$(pwd) /tmp/TOMUSS-$$V ; \
 	rm -rf /tmp/TOMUSS-$$V/LOCAL ; \
 	rm -rf /tmp/TOMUSS-$$V/BACKUP_DBtest ; \
@@ -49,8 +49,8 @@ tar:
 	cd /tmp ; \
 	tar -cvf - \
 		--exclude 'Trash' \
-		--exclude 'LOGS' \
-		--exclude 'TMP' \
+		--exclude TOMUSS-$$V/'LOGS' \
+		--exclude TOMUSS-$$V/'TMP' \
 		--exclude '.git' \
 		--exclude 'services-ucbl.html' \
 		--exclude 'xxx*' \
@@ -59,6 +59,9 @@ tar:
 	rm -rf TOMUSS-$$V ; \
 	rm -f ~/public_html/TOMUSS/tomuss.tar.bz2 ; \
 	ln -s TOMUSS-$$V.tar.bz2 ~/public_html/TOMUSS/tomuss.tar.bz2
+
+changelog:
+	-if [ -x git ] ; then SCRIPTS/changelog >DOCUMENTATION/changelog ; fi
 
 full-tar:
 	@$(MAKE) clean 2>/dev/null >&2

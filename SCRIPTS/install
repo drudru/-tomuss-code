@@ -80,7 +80,10 @@ do
          then
          cp -a $REAL/SERVEUR_NOTES/$J $I/$J
          fi
-      mkdir $I/$J
+      if [ ! -d $I/$J ]
+      then
+	mkdir $I/$J
+      fi
     fi
     # Create symbolic links.
     rm -rf $I/SERVEUR_NOTES.new/$J

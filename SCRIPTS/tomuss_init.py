@@ -23,7 +23,11 @@ import os
 
 if not os.path.isdir('LOCAL'):
     for i in ('FILES', 'TEMPLATES', 'TMP', 'DB'):
-        assert( os.path.isdir(i) and os.path.islink(i) )
+        if not os.path.islink(i):
+            sys.stderr.write('Missing link: %s in %s\n' % (i, os.getcwd()))
+        elif not os.path.isdir(i):
+            sys.stderr.write('Should be a directory: %s in %s\n' % (
+                i, os.getcwd()))
 
     sys.path.insert(0,
                     os.path.sep

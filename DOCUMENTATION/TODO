@@ -1,9 +1,9 @@
 Finir par priorité :
-	Passer 'fige' en attribut de colonne non-modifiable ?
 	Pylint
 	Faire des plugins pour chaque fonctionnalité coté client.
 	Faire disparaitre UE- EC- ...
 	COW (stable) valeur vide ==> comme si rien
+	Passer 'fige' en attribut de colonne non-modifiable ?
 	Sauvegarde de l'état figé...
 	Consultation TT par les secrétaires
 	SUIVI étudiants : pointeurs SPIRAL/Mails enseignants ?
@@ -22,6 +22,8 @@ Finir par priorité :
 	Faire le ménage des fonctions deprecated dans les TEMPLATES
 	Ne pas donner de référents aux gens sans UE ?
 	Rendre des cellules éditables par les étudiants dans le suivi ?
+	Normaliser date début/fin : [x, y]
+	Normaliser les dates : nombre de secondes
 
     BUGS :
 	Chrome : statistics per group

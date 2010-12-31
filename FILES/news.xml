@@ -336,6 +336,20 @@ Nouvelles fonctionnalités :
       </description>
       <guid>26</guid>
     </item>
+    <item>
+      <title>31/12/2010 : Version 2.12.6</title>
+      <link>http://tomuss.univ-lyon1.fr/</link>
+      <description>
+Nouvelles fonctionnalités :
+&lt;ul&gt;
+&lt;li&gt; Mise en évidence de la ligne courante.
+&lt;li&gt; Le suivi des étudiants est plus lisible.
+&lt;li&gt; Les UE des semestres passés sont modifiables par un responsable.
+&lt;li&gt; Le logo de l'université apparaît en haut des pages.
+&lt;/ul&gt;
+      </description>
+      <guid>27</guid>
+    </item>
 
   </channel>
 </rss>

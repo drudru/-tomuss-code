@@ -1,0 +1,58 @@
+#!/usr/bin/python
+# -*- python -*-
+
+import os
+
+def pairs(a):
+    previous = a[0]
+    for i in a[1:]:
+        yield previous, i
+        previous = i
+
+
+
+f = os.popen('git tag', 'r')
+versions = [i.strip() for i in f]
+f.close()
+
+versions.insert(0, '7236ceb319fb02e34394c091964c214510c735b2')
+versions.reverse()
+
+for a, b in pairs(versions):
+    f = os.popen('git log %s..%s' % (b, a), 'r')
+    state = ''
+    logs = []
+    last_date = None
+    for line in f:
+        if line.startswith('commit'):
+            continue
+        if line.startswith('Author'):
+            continue
+        if line.startswith('Date'):
+            first_date = line[5:].strip()
+            if last_date is None:
+                last_date = first_date
+            state = 'date'
+            continue
+        if line == '\n':
+            if state == 'date':
+                state = 'title'
+            continue
+            
+        line = line.strip(' \n')
+        if line == '':
+            continue
+        if state == 'title':
+            if line.startswith('Merge: ') or line.startswith('Merge branch'):
+                pass
+            else:
+                logs.append('* ' + line)
+            state = ''
+            continue
+        logs.append('  ' + line)
+    print '\n' + '-'*79
+    print last_date, a
+    print first_date, b
+    print '-'*79
+    print '\n'.join(logs)
+    f.close()

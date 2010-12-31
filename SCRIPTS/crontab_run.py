@@ -93,7 +93,11 @@ for I in * ; do echo "$I: wchan=$(cat $I/wchan) sleepavg=$(grep SleepAVG $I/stat
 
 def stop(name):
     pid = None
-    f = open(os.path.join('LOGS', name.upper(), 'pid'))
+    try:
+        f = open(os.path.join('LOGS', name.upper(), 'pid'))
+    except IOError:
+        print '%s : there is no "pid" file to stop it' % name
+        return
     try:
         try:
             pid = int(f.read().strip())
