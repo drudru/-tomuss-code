@@ -1,7 +1,7 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
 #    TOMUSS: The Online Multi User Simple Spreadsheet
-#    Copyright (C) 2008,2009 Thierry EXCOFFIER, Universite Claude Bernard
+#    Copyright (C) 2008-2011 Thierry EXCOFFIER, Universite Claude Bernard
 #
 #    This program is free software; you can redistribute it and/or modify
 #    it under the terms of the GNU General Public License as published by
@@ -386,7 +386,7 @@ class StaticFile(object):
                 }
     _url_ = 'http://???/'
                 
-    def __init__(self, name, mimetype=None):
+    def __init__(self, name, mimetype=None, translate=None):
         self.name = name
         if mimetype == None:
             if '.' in name:
@@ -400,6 +400,15 @@ class StaticFile(object):
         self.append_text = ''
         self.on_load_old = None
         self.on_load_new = None
+        if translate is None:
+            if name.endswith('.js') or name.endswith('.html'):
+                # It is stupid to replace every time
+                # But configuration order is tricky.
+                translate = lambda x: x.replace('_URL_', StaticFile._url_)
+            else:
+                translate = lambda x: x
+
+        self.translate = translate
 
     def __str__(self):
         if self.content == None or self.time != os.path.getmtime(self.name):
@@ -409,14 +418,7 @@ class StaticFile(object):
                 self.content = self.content.replace(self.on_load_old,
                                                     self.on_load_new)
 
-        c = self.content + self.append_text
-
-        if self.name.endswith('.js') or self.name.endswith('.html'):
-            # It is stupid to replace every time
-            # But configuration order is tricky.
-            return c.replace('_URL_', self._url_)
-        else:
-            return c
+        return self.translate(self.content + self.append_text)
 
     def __len__(self):            
         return len(str(self))

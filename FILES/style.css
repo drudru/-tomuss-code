@@ -5,6 +5,12 @@ BODY          ,BODY           TABLE.colored TD { background-color: #EEEEEE ; }
 BODY.Printemps,BODY.Printemps TABLE.colored TD { background-color: #F4FFF4 ; }
 BODY.Automne  ,BODY.Automne   TABLE.colored TD { background-color: #FFF8E0 ; }
 
+BODY {
+  background-image: url('_LOGO_');
+  background-repeat: no-repeat;
+  background-position: center top;
+}
+
 BODY, TABLE TD, #current_input, TR.filter INPUT {
   border: none ;
   font-family: sans-serif ;

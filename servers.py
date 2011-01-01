@@ -1,7 +1,7 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
 #    TOMUSS: The Online Multi User Simple Spreadsheet
-#    Copyright (C) 2008,2009 Thierry EXCOFFIER, Universite Claude Bernard
+#    Copyright (C) 2008-2011 Thierry EXCOFFIER, Universite Claude Bernard
 #
 #    This program is free software; you can redistribute it and/or modify
 #    it under the terms of the GNU General Public License as published by
@@ -39,7 +39,7 @@ class Suivi(object):
         try:
             url, port, year, semester, host = self.urls[str(year), semester]
         except KeyError:
-            if ticket:
+            if ticket and (year, semester) != configuration.year_semester:
                 return self.url(configuration.year_semester[0],
                                 configuration.year_semester[1],
                                 ticket,

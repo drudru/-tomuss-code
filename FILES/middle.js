@@ -62,7 +62,7 @@ function head_html()
     preferences.interface = 'L' ;
   if ( preferences.interface == 'L' )
     {
-      return '</head><body id="body" onunload="send_key_history()" class="tomuss" style="background-image: url(\'' + logo + '\');background-repeat: no-repeat;background-position: center top">' +
+      return '</head><body id="body" onunload="send_key_history()" class="tomuss">' +
 	'<style>' +
 	'ul { margin-top: 0px ; margin-bottom: 0px; }\n' +
 	'@media speech { u { pause-after: 1s; } }\n' +
@@ -87,7 +87,7 @@ function head_html()
     + '</title></head>' ;
 
 
-  w += '<body id="body" class="tomuss" onunload="the_current_cell.change();" onkeydown="the_current_cell.keydown(event, false)" onkeypress="the_current_cell.keypress(event)" style="background-image: url(\'' + logo + '\');background-repeat: no-repeat;background-position: center top;">' +
+  w += '<body id="body" class="tomuss" onunload="the_current_cell.change();" onkeydown="the_current_cell.keydown(event, false)" onkeypress="the_current_cell.keypress(event)">' +
     // This message is visible in FireFox (bug ?)
     //   '<noscript>Activez JavaScript et réactualisez la page</noscript>'+
    '<div class="identity">' +

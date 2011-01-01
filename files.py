@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 #    TOMUSS: The Online Multi User Simple Spreadsheet
-#    Copyright (C) 2008 Thierry EXCOFFIER, Universite Claude Bernard
+#    Copyright (C) 2008-2011 Thierry EXCOFFIER, Universite Claude Bernard
 #
 #    This program is free software; you can redistribute it and/or modify
 #    it under the terms of the GNU General Public License as published by
@@ -65,3 +65,4 @@ for name in (
     files[name] = StaticFile(os.path.join('TMP', name))
 
 files['charte.html'].replace_on_load('<input', '<p')
+files['style.css'].translate = lambda x:x.replace('_LOGO_', configuration.logo)

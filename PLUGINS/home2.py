@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 #    TOMUSS: The Online Multi User Simple Spreadsheet
-#    Copyright (C) 2008-2010 Thierry EXCOFFIER, Universite Claude Bernard
+#    Copyright (C) 2008-2011 Thierry EXCOFFIER, Universite Claude Bernard
 #
 #    This program is free software; you can redistribute it and/or modify
 #    it under the terms of the GNU General Public License as published by
@@ -86,7 +86,6 @@ def home_page(server):
             .replace('_TICKET_', ticket.ticket)
             .replace('_MESSAGE2_', configuration.message)
             .replace('_ADMIN_', configuration.maintainer)
-            .replace('_LOGO_', configuration.logo)
             )
     f.write('''<h2>Autres</h2>''')
 

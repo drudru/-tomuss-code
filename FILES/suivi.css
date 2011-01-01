@@ -90,6 +90,7 @@ DIV.notes {
   display: inline-block ;
   margin: 1px ;
   padding: 0px ;
+  white-space: nowrap;
 }
 
 
