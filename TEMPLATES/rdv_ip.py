@@ -183,7 +183,7 @@ class Teacher(object):
 
 
 def get_teachers_hours():
-    year, semester = configuration.year_semester_next
+    year, semester = configuration.year_semester
 
     table = document.table(year, semester, 'rdv_ip', create=False)
     if table is None:
