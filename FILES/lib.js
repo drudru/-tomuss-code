@@ -5289,7 +5289,7 @@ function display_suivi(cols) /* [value, class, comment] */
 	comment += 'Date modification : <b>' + date(cell.date) + '</b><br>';
       if (cell.author)
 	comment += 'Par : <b>' + cell.author + '</b><br>' ;
-      if (column.should_be_a_float)
+      if (column.real_type.should_be_a_float)
 	comment += 'Poids dans la moyenne pondérée : <b>' + column.weight + '</B><br>' ;
       if (comment)
 	visual_cell[2] = comment + visual_cell[2] ;
@@ -5329,8 +5329,8 @@ function display_suivi(cols) /* [value, class, comment] */
 	      continue ;
 	    visual_cell[3] = true; // Used
 	    
-	    if ( column.type == 'Nmbr' ) // XXX Why ?
-	      s += fusion(name, depend==0).replace(/<br>Poids[^B]*B>/, '') ;
+	    if ( column.type == 'Nmbr' ) // No weight on Nmbr compute
+	      s += fusion(name, depend==0).replace(/Poids[^B]*B><br>/, '') ;
 	    else
 	      s += fusion(name, depend==0) ;
 	  }
@@ -5366,7 +5366,7 @@ function display_suivi(cols) /* [value, class, comment] */
 	    {
 	      if ( visual_cell[0] !== '' || is_a_teacher )
 		{
-		  cell = visual_cell[4].replace(/<br>Poids[^B]*B>/, '') ;
+		  cell = visual_cell[4].replace(/Poids[^B]*B><br>/, '') ;
 		  document.write(cell) ;
 		}
 	    }

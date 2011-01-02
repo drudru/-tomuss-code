@@ -8,7 +8,7 @@ BODY.Automne  ,BODY.Automne   TABLE.colored TD { background-color: #FFF8E0 ; }
 BODY {
   background-image: url('_LOGO_');
   background-repeat: no-repeat;
-  background-position: center top;
+  background-position: center -10px;
 }
 
 BODY, TABLE TD, #current_input, TR.filter INPUT {

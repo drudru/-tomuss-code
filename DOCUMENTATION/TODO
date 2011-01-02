@@ -1,7 +1,5 @@
 Finir par priorité :
 	TOMUSS : interdir de détruire des colonnes inexistante.
-	Suivi : Case vide affichées
-	Suivi : n'indique plus les poids
 	ABJ très lent si utilise Oracle
 	Enlever les tests : configuration.backup
 	Pylint

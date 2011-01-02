@@ -307,7 +307,8 @@ class Lines(object):
             s = ['<h2 class="title">' + table.ue + ' : ' +
                  cgi.escape(table.table_title) + '</h2>']
         if table.comment.strip():
-            s.append('<p style="margin-top:0">Petit message : <em>' + cgi.escape(table.comment) + '</em></p>')
+            s.append('<p style="margin-top:0">Petit message : <em>'
+                     + cgi.escape(table.comment) + '</em></p>')
         s.append(self.line_compute_js(line,for_student=not link))
 
         grp = self.get_grp(line)
