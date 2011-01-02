@@ -95,7 +95,11 @@ class ColumnAttr(object):
 
         value = self.encode(value)
 
-        if value == getattr(column, self.name):
+        # The "value == ''" is here because in some case Javascript want
+        # to create a column by sending an empty title.
+        # Even is 'empty' is the default value for the title, it must be saved
+        # in order to create the column.
+        if value == getattr(column, self.name) and value == '':
             return 'ok.png' # Unchanged value
 
         setattr(column, self.name, value)
@@ -182,7 +186,7 @@ class ColumnTitle(ColumnAttr):
     # def check(self, value):
     #    if ' ' in value:
     #        return 'Espace interdit dans les titres de colonnes'
-    empty = 'function(column, value) { return column.title.substr(0,default_title.length) == default_title && !isNaN(column.title.substr(default_title.length))  ; }'
+    empty = 'function(column, value) { return value.substr(0,default_title.length) == default_title && !isNaN(value.substr(default_title.length))  ; }'
 
 
 class ColumnComment(ColumnAttr):

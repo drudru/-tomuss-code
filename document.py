@@ -783,7 +783,7 @@ la dernière saisie.
             if not self.authorized_column(page, column):
                 return self.bad_auth(page)
         if not column.empty():
-            return self.error(page, "Modification interdite (colonne pleine)")
+            return self.error(page, "Destruction interdite (colonne pas vide)")
 
         if not self.loading:
             self.log('column_delete(%s,%s)' % (page.page_id, repr(col)))

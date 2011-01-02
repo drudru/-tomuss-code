@@ -1,5 +1,4 @@
 Finir par priorité :
-	TOMUSS : interdir de détruire des colonnes inexistante.
 	ABJ très lent si utilise Oracle
 	Enlever les tests : configuration.backup
 	Pylint
@@ -40,14 +39,6 @@ Finir par priorité :
 	Safari : requetes en double, page accueil
 	chrome : requetes en double (changement de valeur cellule)
 	Il n'y a pas de Flux RSS pour les tables ni printemps ni automne.
-	???? :
-		Un utilisateur charge une page non modifiable.
-		La connexion est coupée
-		Il attend longtemps (la table est déchargée : pages perdues)
-		Il se reconnecte sur la table dans un autre onglet
-		Il rend la table modifiable dans le premier onglet.
-		Il y a 2* la même page...
-		SOLUTION : reconnecter automatiquement.
 
     Moyenne :
 	Indicateur modifiable : official_ue

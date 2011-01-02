@@ -215,6 +215,9 @@ function column_attr_set(column, attr, value, td)
   if ( old_value === new_value && attr != 'width' && attr != 'position' )
     return ;
 
+  if ( column_attributes[attr].empty(column, old_value) && new_value == '')
+    return ; // The value stays empty...
+
   if ( new_value === null )
     return null ; // Do not store, but leave unchanged in user interface
 
