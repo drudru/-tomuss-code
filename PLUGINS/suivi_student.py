@@ -256,7 +256,7 @@ def student_statistics(login, server, is_a_student=False, expand=False):
 
     table = document.table(utilities.university_year(), 'Dossiers', 'tt',
                            ro=True)
-    tt = abj.tierstemps(login, aall=True, table=table)
+    tt = abj.tierstemps(login, aall=True, table_tt=table)
     if tt:
         tt = '<h2>Informations concernant le tiers temps :</h2><pre>' + cgi.escape(tt) + '</pre>'
 

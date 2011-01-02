@@ -104,6 +104,11 @@ def append_file(filename, content):
     else:
         append_file_unlocked(filename, content)
 
+def append_file_safe(filename, content):
+    append_file(filename, content)
+    if configuration.backup:
+        append_file(configuration.backup + filename, content)
+
 def safe(txt):
     return re.sub('[^0-9a-zA-Z-.]', '_', txt)
 
@@ -286,6 +291,12 @@ def mkpath(path):
             write_file(os.path.join(s, '__init__.py'), '')
         except OSError:
             pass
+
+def mkpath_safe(path):
+    mkpath(path)
+    if configuration.backup:
+        mkpath(configuration.backup + path)
+
 
 #REDEFINE
 # If the student login in LDAP is not the same as the student ID.

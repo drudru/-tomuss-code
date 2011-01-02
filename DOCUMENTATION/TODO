@@ -1,6 +1,8 @@
 Finir par priorité :
-	Menu unexpected popdown : answer use your own menu
+	ABJ très lent si utilise Oracle
+	Enlever les tests : configuration.backup
 	Pylint
+	Menu unexpected popdown : answer use your own menu
 	Faire des plugins pour chaque fonctionnalité coté client.
 	Faire disparaitre UE- EC- ...
 	COW (stable) valeur vide ==> comme si rien
