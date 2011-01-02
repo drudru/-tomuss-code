@@ -201,10 +201,17 @@ server_base_url = 'http://' + socket.getfqdn()
 server_url = '%s:%d' % (server_base_url, server_port)
 
 # URLs of the 'suivi' servers
+# This example defines 2 servers for the current university year.
+# Changing these values may broke the regression tests.
 import servers
 suivi = servers.Suivi()
-suivi.add(time.localtime()[0], 'Printemps', socket.getfqdn() + ':%d', 8889)
-suivi.add(time.localtime()[0], 'Automne', socket.getfqdn() + ':%d', 8890)
+if time.localtime()[1] < 7:
+    suivi.add(time.localtime()[0]-1, 'Automne'  , socket.getfqdn()+':%d', 8889)
+    suivi.add(time.localtime()[0]  , 'Printemps', socket.getfqdn()+':%d', 8890)
+else:
+    suivi.add(time.localtime()[0]  , 'Automne'  , socket.getfqdn()+':%d', 8889)
+    suivi.add(time.localtime()[0]+1, 'Printemps', socket.getfqdn()+':%d', 8890)
+
 # suivi.add(2008, 'Automne'  , socket.getfqdn() + ':%d', 8889)
 
 # Do not display 'debug' warning

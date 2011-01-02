@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 #    TOMUSS: The Online Multi User Simple Spreadsheet
-#    Copyright (C) 2009-2010 Thierry EXCOFFIER, Universite Claude Bernard
+#    Copyright (C) 2009-2011 Thierry EXCOFFIER, Universite Claude Bernard
 #
 #    This program is free software; you can redistribute it and/or modify
 #    it under the terms of the GNU General Public License as published by
@@ -53,6 +53,11 @@ else:
     uyear = year
 
 ys = '%d/%s' % (year, semester)
+
+abj_date_old      = '1/1/%d' % (utilities.university_year()-2)
+abj_date_previous = '1/1/%d' % (utilities.university_year()-1)
+abj_date_current  = '1/1/%d' % (utilities.university_year())
+abj_date_next     = '31/12/%d' % (utilities.university_year()+1)
 
 print ys, utilities.university_year()
 
@@ -759,29 +764,38 @@ def tests():
         c = s.url('=' + abj + '/%s/abj/display/10800000' % ys)
         assert("display_da([['UE-INF20UE2','%d/1/1','%s',\"com2\"]])" % (year, abj) in c)
 
-        c = s.url('=' + abj + '/%s/abj/0/10800000/addabj/01/01/2008/M/01/01/2009/A/com4' % ys)
-        assert(c == ok_png)
-        c = s.url('=' + abj + '/%s/abj/display/10800000' % ys)
-        assert("display_da([['UE-INF20UE2','%d/1/1','%s',\"com2\"]])" % (year, abj) in c)
-        assert("display_abjs([['1/1/2008M','1/1/2009A','%s',\"com4\"]])" % abj in c)
 
-        c = s.url('=' + abj + '/%s/abj/0/10800000/addabj/01/01/2010/M/01/01/2011/A/com5' % ys)
+        c = s.url('=' + abj + '/%s/abj/0/10800000/addabj/%s/M/%s/A/com4' % (
+            ys, abj_date_old, abj_date_previous))
         assert(c == ok_png)
         c = s.url('=' + abj + '/%s/abj/display/10800000' % ys)
         assert("display_da([['UE-INF20UE2','%d/1/1','%s',\"com2\"]])" % (year, abj) in c)
-        assert("display_abjs([['1/1/2008M','1/1/2009A','%s',\"com4\"],['1/1/2010M','1/1/2011A','%s',\"com5\"]])" % (abj, abj) in c)
+        assert("display_abjs([['%sM','%sA','%s',\"com4\"]])" % (
+            abj_date_old, abj_date_previous, abj) in c)
 
-        c = s.url('=' + abj + '/%s/abj/0/10800000/delabj/01/01/2008/M/01/01/2009/A' % ys)
+        c = s.url('=' + abj + '/%s/abj/0/10800000/addabj/%s/M/%s/A/com5' % (
+            ys, abj_date_current, abj_date_next))
         assert(c == ok_png)
         c = s.url('=' + abj + '/%s/abj/display/10800000' % ys)
         assert("display_da([['UE-INF20UE2','%d/1/1','%s',\"com2\"]])" % (year, abj) in c)
-        assert("display_abjs([['1/1/2010M','1/1/2011A','%s',\"com5\"]])" % abj in c)
+        assert("display_abjs([['%sM','%sA','%s',\"com4\"],['%sM','%sA','%s',\"com5\"]])" % (
+            abj_date_old, abj_date_previous, abj,
+            abj_date_current, abj_date_next, abj) in c)
+
+        c = s.url('=' + abj + '/%s/abj/0/10800000/delabj/%s/M/%s/A' % (
+            ys, abj_date_old, abj_date_previous))
+        assert(c == ok_png)
+        c = s.url('=' + abj + '/%s/abj/display/10800000' % ys)
+        assert("display_da([['UE-INF20UE2','%d/1/1','%s',\"com2\"]])" % (year, abj) in c)
+        assert("display_abjs([['%sM','%sA','%s',\"com5\"]])" % (
+            abj_date_current, abj_date_next, abj) in c)
 
         # Add a DA in licence
         # c = s.url('=' + abj + '/%s/abj/0/10800000/add_da/UE-INF20UE2L/%d/1/1' % (ys,year))
 
         c = s.url('=' + abj + '/%s/abj/alpha.xls' % ys)
-        assert('<tbody id="t"><tr><td>10800000firstname</td><td>10800000surname</td><td>10800000</td><td>ABJ</td><td>1/1/2010M</td><td>1/1/2011A</td></tr>\n<tr><td>10800000firstname</td><td>10800000surname</td><td>10800000</td><td>DAS</td><td>UE-INF20UE2</td><td>%d/1/1</td></tr>\n</tbody></table>' % year)
+        assert('<tbody id="t"><tr><td>10800000firstname</td><td>10800000surname</td><td>10800000</td><td>ABJ</td><td>%sM</td><td>%sA</td></tr>\n<tr><td>10800000firstname</td><td>10800000surname</td><td>10800000</td><td>DAS</td><td>UE-INF20UE2</td><td>%d/1/1</td></tr>\n</tbody></table>' % (
+            abj_date_current, abj_date_next, year))
 
         # No messages sent because there is no UE master mail
         c = s.url('=' + abj + '/%s/abj/list_mail' % ys)
@@ -799,14 +813,16 @@ def tests():
         assert('),C("MARTIN","*","' in c)
         assert('),C(11.11,"%s","' % root in c)
         assert("'10800000': 'jacques@martin'" in c)
-        assert('change_abjs({"10800000":[[["1/1/2010M","1/1/2011A","com5"]],[["UE-INF20UE2","%d/1/1","com2"]],""]});' % year in c)
+        assert('change_abjs({"10800000":[[["%sM","%sA","com5"]],[["UE-INF20UE2","%d/1/1","com2"]],""]});' % (
+            abj_date_current, abj_date_next, year) in c)
 
         c = s.url('=' + root + '/%s/UE-INF20UE2/resume' % ys)
         assert('Liste des ABJ' in c)
         assert('10800000 10800000SURNAME 10800000Firstname' in c)
-        assert('Du 1/1/2010 matin au 1/1/2011 apr' in c)
+        assert('Du %s matin au %s apr' % (
+            abj_date_current, abj_date_next) in c)
         assert('avec une DA' in c)
-        assert('partir du 2010/1/1' in c)
+        assert('partir du %s' % year in c)
 
         s.stop()
         s.restart()
@@ -817,14 +833,16 @@ def tests():
         assert('),C("MARTIN","*","' in c)
         assert('),C(11.11,"%s","' % root in c)
         assert("'10800000': 'jacques@martin'" in c)
-        assert('change_abjs({"10800000":[[["1/1/2010M","1/1/2011A","com5"]],[["UE-INF20UE2","%d/1/1","com2"]],""]});' % year in c)
+        assert('change_abjs({"10800000":[[["%sM","%sA","com5"]],[["UE-INF20UE2","%d/1/1","com2"]],""]});' % (
+            abj_date_current, abj_date_next, year) in c)
 
         c = s.url('=' + root + '/%s/UE-INF20UE2/resume' % ys)
         assert('Liste des ABJ' in c)
         assert('10800000 10800000SURNAME 10800000Firstname' in c)
-        assert('Du 1/1/2010 matin au 1/1/2011 apr' in c)
+        assert('Du %s matin au %s apr' % (
+            abj_date_current, abj_date_next) in c)
         assert('avec une DA' in c)
-        assert('partir du 2010/1/1' in c)
+        assert('partir du %d/1/1' % year in c) # XXX
 
 
     if do('extension'):
@@ -943,7 +961,7 @@ Col({the_id:"col_1",title:"TITLE1",author:"%s",position:0,type:"Note"})
         assert('/=%s/%s/UE-XXX9999L\\">UE-XXX9999L </a>' % (abj,ys) in c)
 
         assert(r'''"TITLE0": ["\x3Cselect class=\"hidden\" onchange=\"_cell(this,'http://''' in c)
-        assert(r'''/=%s/2010/Printemps/UE-XXX9999L/cell/col_0/0_0');\"\x3E\x3Coption value=\"\"  selected=\"1\"\x3E\x3C/option\x3E\x3Coption value=\"OUI\" \x3EOUI\x3C/option\x3E\x3Coption value=\"NON\" \x3ENON\x3C/option\x3E\x3C/select\x3E","",""]''' % abj in c)
+        assert(r'''/=%s/%d/Printemps/UE-XXX9999L/cell/col_0/0_0');\"\x3E\x3Coption value=\"\"  selected=\"1\"\x3E\x3C/option\x3E\x3Coption value=\"OUI\" \x3EOUI\x3C/option\x3E\x3Coption value=\"NON\" \x3ENON\x3C/option\x3E\x3C/select\x3E","",""]''' % (abj, year) in c)
         assert('toto' in c)
 
         c = s.url('=' + abj + '/%s/UE-XXX9999L/cell/col_0/0_0/OUI' % ys)
@@ -956,7 +974,7 @@ Col({the_id:"col_1",title:"TITLE1",author:"%s",position:0,type:"Note"})
         assert('/=%s/%s/UE-INF20UE2\\">UE-INF20UE2 </a>' % (abj,ys) in c)
         assert('/=%s/%s/UE-XXX9999L\\">UE-XXX9999L </a>' % (abj,ys) in c)
         assert(r'''"TITLE0": ["\x3Cselect class=\"hidden\" onchange=\"_cell(this,'http://''' in c)
-        assert(r'''/=%s/2010/Printemps/UE-XXX9999L/cell/col_0/0_0');\"\x3E\x3Coption value=\"\" \x3E\x3C/option\x3E\x3Coption value=\"OUI\"  selected=\"1\"\x3EOUI\x3C/option\x3E\x3Coption value=\"NON\" \x3ENON\x3C/option\x3E\x3C/select\x3E","",""]''' % abj in c)
+        assert(r'''/=%s/%s/Printemps/UE-XXX9999L/cell/col_0/0_0');\"\x3E\x3Coption value=\"\" \x3E\x3C/option\x3E\x3Coption value=\"OUI\"  selected=\"1\"\x3EOUI\x3C/option\x3E\x3Coption value=\"NON\" \x3ENON\x3C/option\x3E\x3C/select\x3E","",""]''' % (abj, year) in c)
 
         c = s.url('=' + root + '/%s/UE-XXX9999L/cell/col_0/0_0/NON' % ys)
         assert('<body style="background:red">' == c)
