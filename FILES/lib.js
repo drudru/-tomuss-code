@@ -4478,7 +4478,7 @@ function remove_highlight()
 {
   if ( the_current_line )
     {
-      the_current_line.className = the_current_line.className.replace(' highlight', '') ;
+      the_current_line.className = the_current_line.className.replace('highlight', '') ;
       the_current_line = undefined ;
     }
 }

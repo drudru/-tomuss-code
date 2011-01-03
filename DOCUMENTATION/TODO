@@ -1,5 +1,9 @@
 Finir par priorité :
-	ABJ très lent si utilise Oracle
+	Séquence 2 en MAT1001L
+        demo-animaux : statistiques referent
+        demo-animaux : tt
+        demo-animaux ne remplit pas avec des notes
+
 	Enlever les tests : configuration.backup
 	Pylint
 	Menu unexpected popdown : answer use your own menu

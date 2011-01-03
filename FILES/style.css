@@ -157,7 +157,7 @@ TR.tablefilter INPUT { width: 10em ; }
 
 
 TR.ok TD, #current_input.ok, SPAN.ok {  }
-TR.non TD, #current_input.non, SPAN.non, LI.non { background-color: #FBB; }
+BODY TABLE.colored TR.non TD, #current_input.non, SPAN.non, LI.non { background-color: #FBB; }
 
 TD.rw, #current_input.rw, .rw { 
   color: black ;
@@ -173,7 +173,7 @@ TD.empty {
  /* background-color: #DDD ; */
 }
 
-TR.highlight TD { color: #00A;  }
+BODY TABLE.colored TR.highlight TD { color: #00A;  }
 
 
 .is_an_abj { text-decoration: underline ; }
@@ -426,7 +426,7 @@ P.da {  background-color: #FF0 ; }
 
 P.tierstemps { background-color: #BBF ; }
 
-TR.tierstemps TD, #current_input.tierstemps, SPAN.tt { background-color: #BBF ; }
+BODY TABLE.colored TR.tierstemps TD, #current_input.tierstemps, SPAN.tt { background-color: #BBF ; }
 
 
 #loading_bar { 

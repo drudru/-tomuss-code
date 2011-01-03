@@ -23,7 +23,7 @@ DIV.notes:hover A { color: #AAF  }
 TABLE.memberof { background-color: black; border-spacing: 1px }
 TABLE.memberof TH, TABLE.memberof TD { padding: 0px }
 TABLE.memberof TH { text-align: left; font-size: 80% }
-TABLE.memberof TD { font-size: 60% }
+TABLE.memberof TD { font-size: 60%; background-color: #DDD; }
 
 IFRAME { 
 width: 1em ;
