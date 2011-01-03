@@ -195,7 +195,7 @@ function lib_init()
   request_id = 0 ;
   auto_save = true ;
   connection_state = 'ok' ;
-  last_server_answer = 0 ;
+  last_server_answer = millisec() ;
   nr_saved = 0 ;
   auto_save_running = false ;
   pending_requests = [] ;
@@ -2684,6 +2684,9 @@ function server_answered(t)
       connection_state = 'ok' ;
     }
 
+  if ( t === undefined )
+    return ;
+
   if ( t.request.saved )
     return ;
   saved(t.request.request_id) ;
@@ -2751,7 +2754,16 @@ function request_send()
 Request.prototype.url = request_url ;
 Request.prototype.send = request_send ;
 
-
+function click_to_revalidate_ticket()
+{
+  var m =  '<a target="_blank" href="' + cas_url + '/login?service='
+    + encode_uri('http://' + document.location.host +
+		 '/allow/' + ticket + '/' + millisec()).replace(/%01/g, '%2F')
+    + '">CLIQUEZ SUR CE LIEN<br>POUR VOUS AUTHENTIFIER À NOUVEAU<br>votre session a expiré ou<br>votre machine a changé de réseau.</a>' ; 
+  t_authenticate.style.display = 'block' ;
+  t_authenticate.innerHTML = m ;
+  connection_state = 'auth' ;
+}
 
 // Restart image loading if the connection was not successul
 
@@ -2805,8 +2817,6 @@ function auto_save_errors()
   if ( i == -1 )
     pending_requests.splice(0,10) ;
 
-      
-
   if ( connection_state == 'ok' && errors
        && d > last_server_answer + max_answer_time ) // TO BE THREAD SAFE
     {
@@ -2828,20 +2838,12 @@ function auto_save_errors()
       server_feedback.time = d ;
     }
 
+  // See PLUGINS/newpage.py before modifying
   if ( connection_state == 'no_save'
        && d - server_feedback.time > max_answer_time )
     {
       if ( server_feedback.answered )
-	{
-	  _d('\nSTATE=AUTH');
-	  var m =  '<a target="_blank" href="' + cas_url + '/login?service='
-	    + encode_uri('http://' + document.location.host +
-			 '/allow/' + ticket + '/' + d).replace(/%01/g, '%2F')
-	    + '">CLIQUEZ SUR CE LIEN<br>POUR VOUS AUTHENTIFIER À NOUVEAU<br>votre session a expiré ou<br>votre machine a changé de réseau.</a>' ; 
-	  t_authenticate.style.display = 'block' ;
-	  t_authenticate.innerHTML = m ;
-	  connection_state = 'auth' ;
-	}
+	click_to_revalidate_ticket() ;
       else
 	{
 	  _d('STATE=NO_CONNECTION');
@@ -2863,7 +2865,7 @@ function auto_save_errors()
 // The function is called :
 //    * On feedback image load
 //    * On pending image load
-//    * When the server by the normal connection.
+//    * When the server answer by the normal connection (page_answer).
 function saved(r)
 {
   nr_saved++ ;
@@ -5703,3 +5705,5 @@ window.connected       = connected ;
 window.update_mail     = update_mail ;
 window.update_portail  = update_portail ;
 window.login_list      = login_list ;
+window.click_to_revalidate_ticket = click_to_revalidate_ticket ;
+window.server_answered = server_answered ;

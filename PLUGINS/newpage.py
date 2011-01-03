@@ -31,6 +31,7 @@ import os
 
 initial_content = '''
 <script>
+window.parent.server_answered() ;
 var    Xcell_change  = window.parent.Xcell_change    ;
 var Xcomment_change  = window.parent.Xcomment_change ;
 var  Xcolumn_delete  = window.parent.Xcolumn_delete  ;
@@ -198,14 +199,17 @@ plugin.Plugin('emptyname', '/{Y}/{S}/', response=307,
                                    ),
               documentation = "Bad url, redirect user to the home page")
 
-
-
 def answer_page(server):
     """Connect the browser IFRAME to the page"""
     try:
         table, page = document.table(server.the_year, server.the_semester,
                                      server.the_ue, server.the_page,
                                      server.ticket)
+    except ValueError, e:
+        server.the_file.write(
+            '<script>window.parent.click_to_revalidate_ticket()</script>')
+        server.the_file.close()
+        return
     except:
         # Reconnection of an old non modifiable page on a stoped server.
         # See REGTEST_SERVER/tests.py 'lostpage'
