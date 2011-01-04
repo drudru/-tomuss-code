@@ -182,15 +182,15 @@ TABLE#thetable TD.number, TD.number, #current_input.number {
   text-align: right ;
 }
 
-TR TD.color_red, #current_input.color_red { 
+BODY TABLE.colored TR TD.color_red, #current_input.color_red { 
   background-color: #F88 ;
 }
 
-TR TD.color_green, #current_input.color_green { 
+BODY TABLE.colored TR TD.color_green, #current_input.color_green { 
   background-color: #8F8 ;
 }
 
-TR TD.filtered, #current_input.filtered, TR.non TD.filtered, TR.tierstemps TD.filtered, SPAN.filtered { 
+BODY TABLE.colored TR TD.filtered, #current_input.filtered, BODY TABLE.colored TR.non TD.filtered, BODY TABLE.colored TR.tierstemps TD.filtered, SPAN.filtered { 
   background-color: #FF0 ;
 }
 
