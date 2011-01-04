@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 #    TOMUSS: The Online Multi User Simple Spreadsheet
-#    Copyright (C) 2010 Thierry EXCOFFIER, Universite Claude Bernard
+#    Copyright (C) 2010-2011 Thierry EXCOFFIER, Universite Claude Bernard
 #
 #    This program is free software; you can redistribute it and/or modify
 #    it under the terms of the GNU General Public License as published by
@@ -178,9 +178,21 @@ class Teacher(object):
         self.hours = set()
         self.orientation = None
         self.name = None
+        self.students_per_population = collections.defaultdict(int)
     def add(self, hour):
         self.hours.add(hour)
-
+    def nr_students(self):
+        if self.students_per_population:
+            return sum(t for t in self.students_per_population.values())
+        else:
+            return 0
+    def html(self):
+        return '<tr><td>%s<td>%s<td>%d<td>%d<td>%s</tr>' % (
+            self.name, self.orientation,
+            len(referent.students_of_a_teacher(self.name)),
+            self.nr_students(),
+            ' '.join('%s:%d' % (k, v)
+                     for k, v in self.students_per_population.items()))
 
 def get_teachers_hours():
     year, semester = configuration.year_semester
@@ -208,7 +220,8 @@ def get_teachers_hours():
                 
     return teachers
 
-def rdv_ip(server, stats=True, dsi_table=False, student_table=False):
+def rdv_ip(server, stats=True, dsi_table=False, student_table=False,
+           stats_per_teacher=False):
     """Display informations about rdv_ip"""
 
     teachers = get_teachers_hours()
@@ -239,6 +252,7 @@ def rdv_ip(server, stats=True, dsi_table=False, student_table=False):
             orientation = orientations[col.title]
             for hour in teacher.hours:
                 orientation[hour] += nb_students
+                teacher.students_per_population[col.title] += nb_students
 
     server.the_file.write(
         '''<style>
@@ -291,6 +305,15 @@ def rdv_ip(server, stats=True, dsi_table=False, student_table=False):
 
         server.the_file.write('</table>')
 
+    if stats_per_teacher:
+        s = ['<h1>Étudiants par enseignants</h1>',
+             '<table border="1">',
+             '<tr><th>Login<th>Disc.<th>#Étudiants<br>référés<th>#Étudiant<br>RDV<th>#Étudiant par population</tr>']
+        for teacher in teachers.values():
+            s.append(teacher.html())
+        s.append('</table>')
+        server.the_file.write('\n'.join(s))
+
     if dsi_table:
         server.the_file.write('Fichier pour la DSI :<table border><tr>')
         for c in ('Mention','Parcours','Jour','Heure','Effectif','Ouverture immédiate','Obligation','Interdiction'):
@@ -333,7 +356,7 @@ def rdv_ip(server, stats=True, dsi_table=False, student_table=False):
 
 
 plugin.Plugin('rdv_ip', '/rdv_ip',
-              function=rdv_ip,
+              function=lambda server:rdv_ip(server, stats_per_teacher=True),
               launch_thread=True,
               root=True,
               link=plugin.Link(
