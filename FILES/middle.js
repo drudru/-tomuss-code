@@ -242,7 +242,8 @@ function column_attr_set(column, attr, value, td)
 
 function table_change_allowed()
 {
-  return i_am_the_teacher || myindex(root, my_identity) != -1 ;
+  return i_am_the_teacher || myindex(root, my_identity) != -1
+    || table_attr.masters[0] === '' ;
 }
 
 
@@ -712,7 +713,7 @@ for(var type_i in types)
 	      "Tapez le début de ce que vous cherchez.<br>" +
 	      "Pour plus d'information, regardez l'aide sur les filtres.") +
    '<td class="space"><td class="blockbottom">' +
-   table_input_attr('masters','empty',"Liste des LOGINS d'enseignants ayant tous les droits sur la table.<br>Les logins sont séparés par un espace.<br>Tapez sur la touche «Entrée» pour valider.") +
+   table_input_attr('masters','empty',"Liste des LOGINS d'enseignants ayant tous les droits sur la table.<br>Les logins sont séparés par un espace.<br><b>Ajoutez votre nom en premier !</b><br>Tapez sur la touche «Entrée» pour valider.") +
    table_input_attr("comment",'empty',
 		    "Tapez un commentaire pour cette table.<br>" +
 		    "Ce commentaire sera visible par les étudiants<br>" +

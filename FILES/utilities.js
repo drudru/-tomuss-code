@@ -2452,6 +2452,7 @@ function current_update_cell_headers()
 			line_resume(this.data_lin), '') ;
 }
 
+
 function current_update_table_headers()
 {
   var disabled = ! table_change_allowed() || ! table_attr.modifiable ;
@@ -2481,6 +2482,14 @@ function current_update_table_headers()
 	  e.innerHTML = attributes.formatter(table_attr[attr]) ;
       if ( attr == 'modifiable' )
 	set_editable(e, table_change_allowed()) ;
+      else if ( attr == 'masters' )
+	{
+	  set_editable(e, !disabled
+		       || myindex(root, my_identity) != -1
+		       || (table_attr.modifiable
+			   && table_attr.masters[0] == '')
+		       ) ;
+	}
       else
 	set_editable(e, !attributes.need_authorization || !disabled) ;
     }
