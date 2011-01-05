@@ -4480,7 +4480,10 @@ function remove_highlight()
 {
   if ( the_current_line )
     {
-      the_current_line.className = the_current_line.className.replace(' highlight_current', '') ;
+      var name = the_current_line.className.replace('highlight_current', ' ') ;
+      // The spaces broke the filter input : WHY XXX !!!
+      name = name.replace(/^ */,'').replace(/ *$/,'') ;
+      the_current_line.className = name ;
       the_current_line = undefined ;
     }
 }
