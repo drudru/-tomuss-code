@@ -230,8 +230,12 @@ class ColumnRed(ColumnGreen):
 class ColumnWeight(ColumnAttr):
     default_value = '1'
     name = 'weight'
+
     def check(self, value):
-        float(value)
+        try:
+            float(value)
+        except ValueError:
+            return "Le poids doit être un nombre réel ou entier"
 
 class ColumnPosition(ColumnAttr):
     position = 0
@@ -363,7 +367,10 @@ class TableModifiable(TableAttr):
     def encode(self, value):
         return int(value)
     def check(self, value):
-        value = int(value)
+        try:
+            value = int(value)
+        except ValueError:
+            return 'Cette valeur doit être entière'
         if value == 0 or value == 1:
             return
         return "Cet attribut '%s' peut être seulement 0 ou 1" % self.name

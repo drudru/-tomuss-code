@@ -116,6 +116,7 @@ Check the 'weight' of a column.
 
 function set_weight(value, column)
 {
+  value = value.replace(',', '.') ;
   var v = a_float(value) ;
 
   column.real_weight_add = true ; // Pondered average

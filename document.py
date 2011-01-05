@@ -610,7 +610,7 @@ class Table(object):
 
     def error(self, page, message):
         utilities.send_backtrace(
-            'UE: %s, Page: %s' % (self.ue, page) , subject=message)
+            'UE: %s, Page: %s' % (self.ue, page) , subject='###' + message)
 
         message = message + '''
 

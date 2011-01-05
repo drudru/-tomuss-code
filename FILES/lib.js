@@ -5084,6 +5084,9 @@ function reconnect()
 {
   if ( millisec() - last_reconnect < 1000*check_down_connections_interval )
     return ;
+  if ( millisec() - last_server_answer > 1000*5*3600 )
+    // XXX The ticket is too old, The reconnection will fail.
+    return ;
   var server_answer = document.getElementById('server_answer') ;
   server_answer.src = url + "/=" + ticket + '/' + year
     + '/' + semester + '/' + ue + '/' + page_id ;
