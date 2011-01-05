@@ -91,7 +91,8 @@ pour la trier dans une direction ou l'autre."""
     tip_green = """<b>Colorie en vert</b> les cellules contenant<br>
     une valeur supérieure à celle indiquée.<br>On peut utiliser un filtre"""
     tip_visibility_date = """<b>Date où la colonne devient visible pour les étudiants</b>.<br>
-    La date est indiquée sous la forme JJ/MM/AAAA"""
+    La date est indiquée sous la forme JJ/MM/AAAA.<br>
+    <b><em>Si rien n'est indiqué : tout est visible pas les étudiants.</em></b>"""
     tip_empty_is = """<b>Valeur par défaut des cellules vides</b>.<br>
     Cette valeur sera utilisée dans les moyennes que<br>
     cela soit dans le tableau ou le suivi des étudiants.<br>
