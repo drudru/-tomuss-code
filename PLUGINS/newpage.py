@@ -207,7 +207,13 @@ def answer_page(server):
                                      server.ticket)
     except ValueError, e:
         server.the_file.write(
-            '<script>window.parent.click_to_revalidate_ticket()</script>')
+            '''
+<script>
+if (window.parent.click_to_revalidate_ticket)
+      window.parent.click_to_revalidate_ticket() ;
+else
+      alert("Votre page est trop vieille, réactualisez la.") ;
+</script>''')
         server.the_file.close()
         return
     except:

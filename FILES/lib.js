@@ -5079,14 +5079,22 @@ function abj_per_day()
 }
 
 var last_reconnect = 0 ;
+var reconnect_giveup ;
 
 function reconnect()
 {
   if ( millisec() - last_reconnect < 1000*check_down_connections_interval )
     return ;
-  if ( millisec() - last_server_answer > 1000*5*3600 )
-    // XXX The ticket is too old, The reconnection will fail.
-    return ;
+  if ( millisec() - last_server_answer > 1000*(ticket_time_to_live-3600))
+    {
+      if ( ! reconnect_giveup )
+	{
+	  reconnect_giveup = true ;
+	  alert('Votre page est trop ancienne, actualisez-la') ;
+	}
+      // XXX The ticket is too old, The reconnection will fail.
+      return ;
+    }
   var server_answer = document.getElementById('server_answer') ;
   server_answer.src = url + "/=" + ticket + '/' + year
     + '/' + semester + '/' + ue + '/' + page_id ;

@@ -170,6 +170,7 @@ def table_head(year=None, semester=None, ticket=None,
             'lines = [];\n' +
             'columns = [];\n' +
             'lines_to_load = 0 ;\n' +
+            'ticket_time_to_live = %d ;\n' % configuration.ticket_time_to_live+
             'check_down_connections_interval = %d ;\n' % configuration.check_down_connections_interval +
             'table_attr = {\n' +
                 ',\n'.join(attr.name+':'+js(getattr(attrs_from, attr.name,
