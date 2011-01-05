@@ -765,10 +765,10 @@ function show_the_tip(td, tip_content)
 	    s = '<span class="title">' + type.tip_cell + '</span><br>' ;
 	  else
 	    s = '' ;
-	  // higlight line
+	  // highlight line
 	  remove_highlight() ;
 	  the_current_line = td.parentNode ;
-	  td.parentNode.className += ' highlight' ;
+	  td.parentNode.className += ' highlight_current' ;
 	}
       if ( s === '' )
 	{
@@ -4480,7 +4480,7 @@ function remove_highlight()
 {
   if ( the_current_line )
     {
-      the_current_line.className = the_current_line.className.replace('highlight', '') ;
+      the_current_line.className = the_current_line.className.replace(' highlight_current', '') ;
       the_current_line = undefined ;
     }
 }
