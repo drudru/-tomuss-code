@@ -180,6 +180,14 @@ def table_head(year=None, semester=None, ticket=None,
             table_head_more(ue) +
             '</script>\n')
 
+def import_template(names):
+    for name in names:
+        if os.path.exists(os.path.join(*name) + '.py'):
+            module = __import__('.'.join(name))
+            for item in name[1:]:
+                module = module.__dict__[item]
+            return module
+    return None
 
 class Table(object):
     def __init__(self, year, semester, ue, ro=True, user=None):
@@ -236,23 +244,20 @@ class Table(object):
         self.filename = os.path.join(dirname, ue + '.py')
         self.is_extended = os.path.islink(self.filename)
 
-        if os.path.exists(os.path.join('LOCAL','Templates', self.ue + '.py')):
-            self.template = __import__('LOCAL.Templates.' + self.ue).__dict__['Templates'].__dict__[self.ue]
-        elif os.path.exists(os.path.join('TEMPLATES', self.ue + '.py')):
-            self.template = __import__('TEMPLATES.' + self.ue).__dict__[self.ue]
-        elif os.path.exists(os.path.join('LOCAL','Templates', self.semester + '.py')):
-            self.template = __import__('LOCAL.Templates.' + self.semester).__dict__['Templates'].__dict__[self.semester]
-        elif os.path.exists(os.path.join('TEMPLATES', self.semester + '.py')):
-            self.template = __import__('TEMPLATES.' + self.semester).__dict__[self.semester]
-        else:
+        self.template = import_template((
+            ('LOCAL', 'Templates', self.ue_code),
+            ('TEMPLATES', self.ue_code),
+            ('LOCAL', 'Templates', self.semester),
+            ('TEMPLATES', self.semester),
+            ))
+        if self.template is None:            
             class TT:
                 def create(self, ttable):
                     return ttable.new_page('', ro_user, '', '')
             self.template = TT()
 
-        if self.template and hasattr(self.template, 'init'):
+        if hasattr(self.template, 'init'):
             self.template.init(self)
-
 
         warn('allow modification:' + str(self.modifiable),what='table')
         created = False
