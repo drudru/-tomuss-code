@@ -1271,7 +1271,27 @@ new_page('' ,'*', '', '', None)
         c = s.url('=' + abj +'/%s/UE-lost/2' % ys)
         assert(c == '<script>window.location += "/.."</script>')
         
-        
+    if do('template_reload'):
+        f = open('../TEMPLATES/xxx_regtest.py', 'w')
+        f.write('''
+from data import ro_user
+def content(table):
+    return "XXX_REGTEST1"
+def create(table):
+    table.new_page("", ro_user, "", "")
+''')
+        f.close()
+        c = s.url('=' + abj +'/%s/xxx_regtest-1' % ys)
+        assert("XXX_REGTEST1" in c)
+        time.sleep(1)
+
+        f = open('../TEMPLATES/xxx_regtest.py', 'a')
+        f.write('def content(table): return "XXX_REGTEST2"\n')
+        f.close()
+        c = s.url('=' + abj +'/%s/xxx_regtest-3' % ys)
+        assert("XXX_REGTEST2" in c)
+        os.unlink('../TEMPLATES/xxx_regtest.py')
+        os.unlink('../TEMPLATES/xxx_regtest.pyc')
 
 n = 0
 m = []
