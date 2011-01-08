@@ -87,7 +87,7 @@ function head_html()
     + '</title></head>' ;
 
 
-  w += '<body id="body" class="tomuss" onunload="the_current_cell.change();" onkeydown="the_current_cell.keydown(event, false)" onkeypress="the_current_cell.keypress(event)">' +
+  w += '<body id="body" class="tomuss" onunload="the_current_cell.change();" onkeydown="the_current_cell.keydown(event, false)">' +
     // This message is visible in FireFox (bug ?)
     //   '<noscript>Activez JavaScript et réactualisez la page</noscript>'+
    '<div class="identity">' +
@@ -519,7 +519,6 @@ for(var type_i in types)
 /* Use a TABLE because text-align: justify doesn't work */
    '<div class="menu"><table><tr><td>' +
    hidden_txt('<a href="javascript:do_move_column_left();">«</a>',
-	      "<span class=\"shortcut\">(Alt-6)</span>" +
 	      "<b>Décale la colonne vers la gauche</b><br>" +
 	      "Ce changement n'est pas visible par les autres utilisateurs."
 	      ) +
@@ -528,14 +527,12 @@ for(var type_i in types)
 	      "Le changement sera alors visible par les autres."
 	      ) +
    hidden_txt('<a href="javascript:do_move_column_right();">»</a>',
-	      "<span class=\"shortcut\">(Alt-7)</span>" +
 	      "<b>Décale la colonne vers la droite</b><br>" +
 	      "Ce changement n'est pas visible par les autres utilisateurs."
 	      ) +
    '</td><td>' +
 
    hidden_txt('<a href="javascript:smaller_column();">-</a>',
-	      "<span class=\"shortcut\">(Alt-9)</span>" +
 	      "<b>Amincir la colonne</b><br>" +
 	      "Ce changement n'est pas visible par les autres utilisateurs."
 	      ) + '&nbsp;' +
@@ -544,7 +541,6 @@ for(var type_i in types)
 	      "Le changement sera alors visible par les autres."
 	      ) + '&nbsp;' +
    hidden_txt('<a href="javascript:bigger_column();">+</a>',
-	      "<span class=\"shortcut\">(Alt-0)</span>" +
 	      "<b>Élargir la colonne</b><br>" +
 	      "Ce changement n'est pas visible par les autres utilisateurs."
 	      ) + '</td><td>' +
@@ -566,14 +562,12 @@ for(var type_i in types)
 	      "CETTE ACTION N'EST PAS RÉVERSIBLE"
 	      ) + '</td><td>' +
    hidden_txt('<a href="javascript:freeze_column();" id="t_column_fixed">Fige</a>',
-	      "<span class=\"shortcut\">(Alt-4)</span>" +
 	      "<b>Fige ou défige cette colonne</b><br>" +
 	      "Une fois figée elle est toujours affichée,<br>" +
 	      "même quand il y a des filtres ou décalages.<br>" +
 	      "Les colonnes figées sont callées à gauche du tableau."
 	      ) + '</td><td>' +
    hidden_txt('<a href="javascript:hide_column();">&times;</a>',
-	      "<span class=\"shortcut\">(Alt-5)</span>" +	      
 	      "<b>Cache cette colonne</b><br>" +
 	      "Ce changement n'est pas visible par les<br>" +
 	      "autres utilisateurs.<br>" +
@@ -690,7 +684,6 @@ for(var type_i in types)
    hidden_txt(header_input('comment','',
 			   'empty onblur=comment_on_change(event)')
 	      + '<br>',
-	      "<span class=\"shortcut\">(Alt-3)</span>" +
 	      "Tapez un commentaire pour cette cellule<br>" +
 	      "afin de ne pas oublier les choses importantes.<br>" +
 	      "Le texte des cellules avec un commentaire est en italique.<br>"+
@@ -891,7 +884,6 @@ function tail_html()
     '<input id="current_input" ' +
     'ondblclick="the_current_cell.toggle();" ' +
     'OnKeyDown="the_current_cell.keydown(event, true)" ' +
-    'OnKeyPress="the_current_cell.keypress(event)" ' +
     'OnBlur="the_current_cell.focused=false;the_current_cell.change()" ' +
     '>' +
     '</div>' +

@@ -2715,43 +2715,12 @@ function alt_shortcut(event, td)
   switch(event.charCode)
     {
     case 38: /* AZERTY: 1/& */
+    case 55: /* AZERTY: 1/& */
     case 49: /* QWERTY: 1/! */
       toggle_display_tips() ;
       break ;
 
-    case 233: /* AZERTY: 2/é */
-    case 50:  /* QWERTY: 2/@ */
-      // toggle_display_picture() ;
-      break ;
-
-    case 34:  /* AZERTY: 3/" */
-    case 222: /* AZERTY: 3/" */
-    case 51:  /* QWERTY: 3/# */
-      the_comment.focus() ;
-      break ;
-
-    case 39:  /* AZERTY: 4/' */
-    case 52:  /* QWERTY: 4/$ */
-      freeze_column() ;
-      break ;
-
-      //  case 68:
-      //  case 100:
-    case 40:  /* AZERTY: 5/( */
-    case 53:  /* QWERTY: 5/% */
-      hide_column() ;
-      break ;
-
-    case 45:  /* AZERTY: 6/- */
-    case 54:  /* QWERTY: 6/^ */
-      do_move_column_left() ;
-      break ;
-
-    case 232: /* AZERTY: 7/è */
-    case 55:  /* QWERTY: 7/& */
-      do_move_column_right() ;
-      break ;
-
+    case 189: /* AZERTY: 8/_ */
     case 109: /* AZERTY: 8/_ */
     case 95:  /* AZERTY: 8/_ */
     case 56:  /* QWERTY: 8/ * */
@@ -2760,25 +2729,14 @@ function alt_shortcut(event, td)
 	linefilter.select();
       break;
 
-    case 231: /* AZERTY: 9/ç */
-    case 57:  /* QWERTY: 9/( */
-      smaller_column() ;
-      break ;
-
-    case 224: /* AZERTY: 0/à */
-    case 48:  /* QWERTY: 0/) */
-      bigger_column() ;
-      break ;
-
     case 16:
-    case 18:
     case 0:
       break ;
+    case 18: // ALT
+      // Navigator must process the event
     default:
 	return true ;
     }
-
-
   stop_event(event) ; // Else ALTs are navigator shortcut
   return false ;
 }
@@ -2807,7 +2765,8 @@ function current_keydown(event, in_input)
 	{
 	  // IE case
 	  event.charCode = event.keyCode ;
-	  alt_shortcut(event, this.td) ;
+	  if ( alt_shortcut(event, this.td) )
+	    return true ; // Navigator must process event
 	  stop_event(event) ;
 	  return false ;
 	}
@@ -2825,8 +2784,6 @@ function current_keydown(event, in_input)
       if ( element_focused )
 	{
 	  if (key == 37  || key == 39)
-	    return ;
-	  if ( element_focused.tagName == 'TEXTAREA' )
 	    return ;
 	}
     }
@@ -2895,49 +2852,6 @@ function current_keydown(event, in_input)
     }
   stop_event(event) ;
   return false ;
-}
-
-/* For Opera, to stop next/previous page */
-/* For Opera, to stop ctrl left/right page */
-function current_keypress(event)
-{
-  if ( popup_is_open() )
-    return ;
-
-  event = the_event(event) ;
-  /*
-  if ( this.column.type == 'Login' )
-    {
-      if ( this.input.value.length > 4 )
-	ask_login_list = this.input.value ; // A thread will read it
-    }
-  */
-  if ( event.altKey || event.metaKey  )
-    {
-      if ( ! event.ctrlKey ) // Alt Gr Key on FireFox/Window XP
-	{
-	  return false ;
-
-	  alt_shortcut(event, this.td) ;
-	  stop_event(event) ;
-	  return false ;
-	}
-    }
-
-  if ( event.altKey !== true && event.shiftKey !== true
-       && event.ctrlKey !== true )
-    {
-      if ( event.keyCode == 33 || event.keyCode == 34
-	   // This line block up/down cursor in TEXTAREA
-	   || ( (event.keyCode == 38 || event.keyCode == 40)
-		&& event.target.tagName == 'INPUT' ) 
-	   )
-	{
-	  stop_event(event) ;
-	  return false ;
-	}
-    }
-  return true ;
 }
 
 
@@ -3026,7 +2940,6 @@ function current_toggle()
 Current.prototype.jump                  = current_jump                  ;
 Current.prototype.change                = current_change                ;
 Current.prototype.keydown               = current_keydown               ;
-Current.prototype.keypress              = current_keypress              ;
 Current.prototype.update                = current_update                ;
 Current.prototype.cursor_down           = current_cursor_down           ;
 Current.prototype.cursor_up             = current_cursor_up             ;
@@ -3039,9 +2952,3 @@ Current.prototype.update_headers_real   = current_update_headers_real   ;
 Current.prototype.update_cell_headers   = current_update_cell_headers   ;
 Current.prototype.update_column_headers = current_update_column_headers ;
 Current.prototype.update_table_headers  = current_update_table_headers  ;
-
-
-
-
-
-
