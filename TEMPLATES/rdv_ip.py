@@ -187,8 +187,8 @@ class Teacher(object):
         else:
             return 0
     def html(self):
-        return '<tr><td>%s<td>%s<td>%d<td>%d<td>%s</tr>' % (
-            self.name, self.orientation,
+        return '<tr><!-- %s --><td>%s<td>%s<td>%d<td>%d<td>%s</tr>' % (
+            self.orientation, self.name, self.orientation,
             len(referent.students_of_a_teacher(self.name)),
             self.nr_students(),
             ' '.join('%s:%d' % (k, v)
@@ -306,13 +306,16 @@ def rdv_ip(server, stats=True, dsi_table=False, student_table=False,
         server.the_file.write('</table>')
 
     if stats_per_teacher:
-        s = ['<h1>Étudiants par enseignants</h1>',
-             '<table border="1">',
-             '<tr><th>Login<th>Disc.<th>#Étudiants<br>référés<th>#Étudiant<br>RDV<th>#Étudiant par population</tr>']
+        s = []
         for teacher in teachers.values():
             s.append(teacher.html())
-        s.append('</table>')
-        server.the_file.write('\n'.join(s))
+        s.sort()
+        server.the_file.write('\n'.join(
+            ['<h1>Nombre de rendez-vous potentiels par enseignants</h1>',
+             '<table border="1">',
+             '<tr><th>Login<th>Disc.<th>#Étudiants<br>référés<th>#Étudiant<br>RDV<th>#Étudiant par population</tr>'] +
+            s +
+            ['</table>']))
 
     if dsi_table:
         server.the_file.write('Fichier pour la DSI :<table border><tr>')
