@@ -48,6 +48,7 @@ var tr_filter ;
 var tip_display_date ;
 var tip_fixed ;
 var i_am_the_teacher ;
+var i_am_root ;
 var teachers ;
 var display_tips ;
 var columns_filter ;
@@ -199,13 +200,12 @@ function lib_init()
   nr_saved = 0 ;
   auto_save_running = false ;
   pending_requests = [] ;
-
+  i_am_root = myindex(root, my_identity) != -1 ;
 
   compute_nr_cols() ;
   compute_nr_lines() ;
   current_window_height = window_height() ;
   current_window_width = window_width() ;
-
 
   today = new Date() ;
   today = today.getFullYear() + two_digits(today.getMonth() + 1) +

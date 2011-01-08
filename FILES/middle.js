@@ -242,8 +242,7 @@ function column_attr_set(column, attr, value, td)
 
 function table_change_allowed()
 {
-  return i_am_the_teacher || myindex(root, my_identity) != -1
-    || table_attr.masters[0] === '' ;
+  return i_am_the_teacher || i_am_root || !table_attr.masters[0] ;
 }
 
 

@@ -2341,8 +2341,8 @@ if ( navigator.appName == 'Opera' )
 else
   var set_editable = function(item, editable){
     if (  item.selectedIndex === undefined ) // XXX: FireFox bug
-      item.contentEditable = editable;
-    item.tomuss_editable = editable ;
+      item.contentEditable = !!editable;
+    item.tomuss_editable = !!editable ;
     // item.disabled = ! editable ; // No more tip on unsensitives
   };
 
@@ -2463,9 +2463,7 @@ function current_update_table_headers()
       e = document.getElementById('t_table_attr_' + attr) ;
       if ( ! e )
 	continue ;
-      if ( attributes.only_masters
-	   && ! ( i_am_the_teacher || myindex(root, my_identity) != -1 )
-	   )
+      if ( attributes.only_masters && ! ( i_am_the_teacher || i_am_root ) )
 	e.style.display = 'none' ;
       else
 	e.style.display = '' ;
@@ -2485,9 +2483,8 @@ function current_update_table_headers()
       else if ( attr == 'masters' )
 	{
 	  set_editable(e, !disabled
-		       || myindex(root, my_identity) != -1
-		       || (table_attr.modifiable
-			   && table_attr.masters[0] == '')
+		       || i_am_root || i_am_the_teacher
+		       || (table_attr.modifiable && !table_attr.masters[0])
 		       ) ;
 	}
       else

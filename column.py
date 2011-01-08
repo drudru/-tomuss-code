@@ -487,7 +487,7 @@ if ( value.join )
    value = value.join(' ') ;
   }
 else
-   teachers = value.split(' ') ;
+   teachers = value.split(/ +/) ;
 if ( teachers.length )
     i_am_the_teacher = myindex(teachers, my_identity) != -1 ;
 else
@@ -502,8 +502,6 @@ return value ;
             return value
     def check(self, value):
         value = self.encode(value)
-        if len(value) == 1:
-            return
         import inscrits
         for login in value:
             if not inscrits.is_a_teacher(login):
