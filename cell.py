@@ -61,6 +61,8 @@ class CellEmpty(CellVirtual):
         """Create the javascript code for an empty cell."""
         return 'C()'
 
+    js_student = js
+
     def empty(self):
         """Returns True"""
         return True
@@ -120,22 +122,13 @@ class Cell(CellVirtual):
                     )
             elif self.comment:
                 self.cache = 'C(%s,"%s","%s",%s)' % (
-                    js(self.value),
-                    self.author,
-                    self.date,
-                    js(self.comment)
-                    )
+                    js(self.value), self.author, self.date, js(self.comment))
             elif self.date:
                 self.cache = 'C(%s,"%s","%s")' % (
-                    js(self.value),
-                    self.author,
-                    self.date,
-                    )
+                    js(self.value), self.author, self.date)
             elif self.author:
                 self.cache = 'C(%s,"%s")' % (
-                    js(self.value),
-                    self.author,
-                    )
+                    js(self.value), self.author)
             elif self.value:
                 self.cache = 'C(%s)' % (
                     js(self.value),
@@ -144,6 +137,13 @@ class Cell(CellVirtual):
                 self.cache = 'C()'
             
         return self.cache
+
+    def js_student(self):
+        t = self.js()
+        if not self.history:
+            return t
+        return 'C(%s,"%s","%s",%s)' % (
+            js(self.value), self.author, self.date, js(self.comment))
 
     def empty(self):
         """Returns True if the cell is empty"""
@@ -179,9 +179,13 @@ class Line(object):
         """The the number of cell in the line."""
         return len(self.cells)
 
-    def js(self):
+    def js(self, for_student=False):
         """Translate the line in JavaScript"""
-        return '[' + ','.join([cell.js() for cell in self.cells]) + ']'
+        if for_student:
+            return '[' + ','.join([cell.js_student()
+                                   for cell in self.cells]) + ']'
+        else:
+            return '[' + ','.join([cell.js() for cell in self.cells]) + ']'
 
 class Lines(object):
     """The Lines object is usable as a Python list of Line.
@@ -266,7 +270,7 @@ class Lines(object):
             s.append(self.columns.js(hide=1))
         else:
             s.append(self.columns.js(hide=True))
-        s.append('line = ' + line.js() + ';')
+        s.append('line = ' + line.js(for_student) + ';')
         s.append('for(var data_col in columns) { init_column(columns[data_col]); columns[data_col].data_col = data_col ; }')
         s.append('update_columns(line);')
         s.append('</script>\n')
@@ -341,11 +345,10 @@ class Lines(object):
         return '\n'.join(s) # + 'empty=%s' % empty_line
 
 
-    def js(self):
+    def js(self, for_student=False):
         """Create JavaScript generating all the lines data."""
-        # One script per line (Opera bug?)
         s = []
         for line in self.lines.values():
-            s.append('P(' + line.js() + ');')
+            s.append('P(' + line.js(for_student) + ');')
         return '\n'.join(s)
 

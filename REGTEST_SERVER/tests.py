@@ -1100,7 +1100,9 @@ Col({the_id:"col_1",title:"TITLE1",author:"%s",position:0,type:"Note"})
         now = time.strftime('%Y%m%d')
         c = s.url('=' + root + '/%s/UE-INF20UE9/1/8/column_attr_visibility_date/col_1/%s' % (ys, now))
         assert(c == ok_png)
-        c = s.url('=' + root + '/%s/UE-INF20UE9/1/9/cell_change/col_1/lin_0/8.88' % ys)
+        c = s.url('=' + root + '/%s/UE-INF20UE9/1/9/cell_change/col_1/lin_0/1.234' % ys)
+        assert(c == ok_png)
+        c = s.url('=' + root + '/%s/UE-INF20UE9/1/10/cell_change/col_1/lin_0/8.88' % ys)
         assert(c == ok_png)
         ss.start()
         c = ss.url('=' + abj + '/%s/10123456' % ys)
@@ -1114,6 +1116,8 @@ Col({the_id:"col_1",title:"TITLE1",author:"%s",position:0,type:"Note"})
         assert('8.88' in c)
         c = c.replace('8.88','',1)
         assert('8.88' not in c)
+        # This history is visible
+        assert('1.234' in c)
 
         # The student the rank 7.77 is only once in the file (not visible)
         # And the rank 8.88 twice
@@ -1127,6 +1131,8 @@ Col({the_id:"col_1",title:"TITLE1",author:"%s",position:0,type:"Note"})
         assert('8.88' in c)
         c = c.replace('8.88','',1)
         assert('8.88' not in c)
+        # This history is not visible
+        assert('1.234' not in c)
 
     if do('import'):
         s.url('=' + root + '/%s/UE-INF21UE9' % ys)

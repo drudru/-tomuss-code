@@ -1,11 +1,9 @@
 Finir par priorité :
-	Enlever l'historique dans cellule dans le suivi.
 	! dans chrome
 	Affectation référent : prendre code étape d'ORACLE
 	Statistiques clients, Profiling des plugin
 	Vérifier modification masters
 	Ajouter rechargement PLUGINS
-	Méthode javascript pour attr : editable
 	Séquence 2 en MAT1001L
         demo-animaux : statistiques referent
         demo-animaux : tt
@@ -13,6 +11,7 @@ Finir par priorité :
 
 	Enlever les tests : configuration.backup
 	Pylint
+	Méthode javascript pour attr : editable (masters attributes)
 	Menu unexpected popdown : answer use your own menu
 	Faire des plugins pour chaque fonctionnalité coté client.
 	Faire disparaitre UE- EC- ...
