@@ -83,7 +83,7 @@ for I in * ; do echo "$I: wchan=$(cat $I/wchan) sleepavg=$(grep SleepAVG $I/stat
         utilities.mkpath(logdir)
         logname = time.strftime('%Y-%m-%d_%H:%M:%S')
         loglink = os.path.join(logdir, 'log')
-        if os.path.exists(loglink):
+        if os.path.islink(loglink):
             os.unlink(loglink)
         os.symlink(logname, loglink)
         os.system('. LOCAL/profile ; ulimit -s 1024 ; nohup %s ./%s >%s/%s 2>&1 & echo $! >%s/pid' %
