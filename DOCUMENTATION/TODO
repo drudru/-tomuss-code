@@ -1,6 +1,4 @@
 Finir par priorité :
-	Déchargement de la page de template Referents.py pendant mise à jour.
-	Statistiques clients, Profiling des plugin
 	Ajouter rechargement PLUGINS
 	Séquence 2 en MAT1001L
         demo-animaux : statistiques referent
@@ -16,7 +14,6 @@ Finir par priorité :
 	COW (stable) valeur vide ==> comme si rien
 	Passer 'fige' en attribut de colonne non-modifiable ?
 	Sauvegarde de l'état figé...
-	Consultation TT par les secrétaires
 	SUIVI étudiants : pointeurs SPIRAL/Mails enseignants ?
 	Bug ajoute + vidage de ligne avec changement de page
 	BILAN : probleme icone+note sous IE

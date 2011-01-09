@@ -1170,10 +1170,6 @@ def remove_unused_tables():
     warn('start', what="table")
     for atable in tables_values():
         if not atable.active_pages:
-            if time.time() - atable.mtime < 1200:
-                # Do not unload table modified less than 5 minutes before
-                # in order to not update student list on an unloaded table
-                continue
             atable.unload()
     warn('stop', what="table")
 
@@ -1193,6 +1189,9 @@ def check_new_students_real():
     try:
         while update_students:
             t = update_students.pop()
+            t.lock()
+            t.do_not_unload += 1
+            t.unlock()
             utilities.bufferize_this_file(t.filename)
             try:
                 warn('start update students of %s' % t.ue, what="table")
@@ -1203,6 +1202,9 @@ def check_new_students_real():
 
                 t.columns.update_content()
             finally:
+                t.lock()
+                t.do_not_unload -= 1
+                t.unlock()
                 utilities.bufferize_this_file(None)
             
     except IndexError:
