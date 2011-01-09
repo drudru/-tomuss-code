@@ -180,24 +180,11 @@ def table_head(year=None, semester=None, ticket=None,
             table_head_more(ue) +
             '</script>\n')
 
-mtimes = {}
-
 def import_template(names):
     for name in names:
         filename = os.path.join(*name) + '.py'
         if os.path.exists(filename):
-            mtime = os.path.getmtime(filename)
-            module_name = '.'.join(name)
-            module = __import__(module_name)
-            if module_name in mtimes and mtimes[module_name] != mtime:
-                utilities.warn('Reimport of %s %d => %d' % (
-                    module_name, mtimes[module_name], mtime) , what='Warning')
-                utilities.unload_module(module_name)
-                module = __import__(module_name)
-            for item in name[1:]:
-                module = module.__dict__[item]
-            mtimes[module_name] = mtime
-            return module
+            return utilities.import_reload(filename)[0]
     return None
 
 class Table(object):

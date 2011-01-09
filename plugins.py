@@ -60,6 +60,7 @@ def plugins_tomuss():
     import PLUGINS.bilan
     import PLUGINS.suivi_referent
     import PLUGINS.send_mail
+    import PLUGINS.reload_plugins
     import TEMPLATES.rdv_ip
     plugins_tomuss_more()
 

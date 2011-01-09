@@ -208,8 +208,11 @@ They are automaticaly reloaded when they are modified.</li>
       The most important attributes of a plugin are.
     </p>
     <p>Do not modify <tt>plugins.py</tt> source to add plugins,
-       use a <a href="#local">redifine</a> to add plugins</p>
-
+       use a <a href="#local">redefine</a> to add plugins</p>
+    <p>
+       Do modify global state with plugins because
+       it may cause problems if the plugin is reloaded while
+       the server is running.</p>
 
     <h3><a name="url_template">URL template</a></h3>
 
