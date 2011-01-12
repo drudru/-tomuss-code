@@ -38,7 +38,7 @@ orientation_without_referent_rdv = ('BIO', 'BCH', 'STU')
 orientation_without_referent_rdv = ()
 
 def day_for_dsi(day):
-    return day.split(':')[0] + '-' + 'Fév'
+    return '%02d' % int(day.split(':')[0]) + '/02/2011'
 
 allhours = hoursAM + hoursPM
 
@@ -220,6 +220,23 @@ def get_teachers_hours():
                 
     return teachers
 
+portails = {
+'Portail_Math-Info': 'MATHINFO',
+'MASS'             : 'MATHINFO',
+'MATHMIV'          : 'MATHINFO',
+'INFOMIV'          : 'MATHINFO',
+'Portail_PCSI'     : 'PCSI',
+'EEA'              : 'PCSI',
+'GENPROC'          : 'PCSI',
+'GCC'              : 'PCSI',
+'PHYPHYCHI'        : 'PCSI',
+'Portail_SVT'      : 'SVT',
+'BGSTU_MIV'        : 'SVT',
+'GBC_M_P_BOP'      : 'SVT',
+'BIOCH'            : 'SVT',
+'STE'              : 'SVT',
+}
+
 def rdv_ip(server, stats=True, dsi_table=False, student_table=False,
            stats_per_teacher=False):
     """Display informations about rdv_ip"""
@@ -259,6 +276,9 @@ def rdv_ip(server, stats=True, dsi_table=False, student_table=False,
         .first TD { border-top:1px solid black ; }
         .c12h, .c17h { border-right:1px solid black ; }
         TABLE { border-spacing: 0px }
+        .c { text-align: right }
+        .total { background-color: #FF9 }
+        .grandtotal TD { font-weight: bold ; padding: 3px }
         </style>''')
 
     if stats:
@@ -269,6 +289,9 @@ def rdv_ip(server, stats=True, dsi_table=False, student_table=False,
                 for i in ('Population','Jour')+hoursAM + hoursPM) +
         '<th>Total journée' +
         '</tr></thead>')
+
+        full_day_sum = [0] * len(allhours)
+        portails_sum = collections.defaultdict(int)
     
         for name in sorted(orientations):
             orientation = orientations[name]
@@ -288,22 +311,32 @@ def rdv_ip(server, stats=True, dsi_table=False, student_table=False,
                 nb_day = sum(orientation[dayhour(day,i)] for i in allhours)
                 server.the_file.write(
                     '<tr' + first + '><td>' + name + '<td>' + day +
-                    ''.join('<td class="c' + i + '">'
+                    ''.join('<td class="c c' + i + '">'
                             + str(int(orientation[dayhour(day,i)]))
                             for i in allhours
                             ) +
-                    '<td class="c%s"><b>' % allhours[-1] + str(int(nb_day)) +
+                    '<td class="c c%s"><b>' % allhours[-1] + str(int(nb_day)) +
                     '</tr>\n')
                 nr += nb_day
                 first = ''
             server.the_file.write(
-                '<tr><td colspan="2"><i>Sur les %d jours' % len(days)
-                + ''.join('<td class="c%s"><i>%d' % (hour, i)
+                '<tr><td colspan="2" class="total">Sur les %d jours' % len(days)
+                + ''.join('<td class="total c c%s">%d' % (hour, i)
                           for hour, i in zip(allhours, day_sum))
-                + '<td class="c%s"><b><i>%d' % (allhours[-1], nr)
-            )
+                + '<td class="total c c%s"><b>%d' % (allhours[-1], nr))
+            for i, v in enumerate(day_sum):
+                full_day_sum[i] += v
+            portails_sum[portails[name]] += sum(day_sum)
+        server.the_file.write(
+            '<tr class="first grandtotal"><td colspan="2">Toutes populations confondues'
+            + ''.join('<td class="c c%s">%d' % (hour, i)
+                      for hour, i in zip(allhours, full_day_sum))
+            + '<td class="c c%s">%d' % (allhours[-1], sum(full_day_sum)))
 
         server.the_file.write('</table>')
+        server.the_file.write('<p>Total par portail :<br>')
+        for k, v in portails_sum.items():
+            server.the_file.write('%s : %d<br>\n' % (k, v))
 
     if stats_per_teacher:
         s = []
