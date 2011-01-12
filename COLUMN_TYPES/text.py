@@ -92,7 +92,7 @@ pour la trier dans une direction ou l'autre."""
     une valeur supérieure à celle indiquée.<br>On peut utiliser un filtre"""
     tip_visibility_date = """<b>Date où la colonne devient visible pour les étudiants</b>.<br>
     La date est indiquée sous la forme JJ/MM/AAAA.<br>
-    <b><em>Si rien n'est indiqué : tout est visible pas les étudiants.</em></b>"""
+    <b><em>Si rien n'est indiqué : tout est visible par les étudiants.</em></b>"""
     tip_empty_is = """<b>Valeur par défaut des cellules vides</b>.<br>
     Cette valeur sera utilisée dans les moyennes que<br>
     cela soit dans le tableau ou le suivi des étudiants.<br>
@@ -171,6 +171,22 @@ pour la trier dans une direction ou l'autre."""
             return getattr(self, k)
         else:
             return utilities.js(getattr(self, k))
+
+    def update_one(self, the_table, line_id, column):
+        """Do some server side compute on the cell.
+        This function is used when the user input interactivly one cell.
+        """
+        pass
+
+    def update_all(self, the_table, column, attr=None):
+        """Do some server side compute on the cell.
+        This function update the full column content for every line.
+        It is called :
+           * on page load to check changs.
+           * when the 'attr' column attribute is changed.
+           * when a column used by this one changed
+        """
+        pass
 
 
 Text.keys = sorted([i for i in Text.__dict__ if not i.startswith('_')])

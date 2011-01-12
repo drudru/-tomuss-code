@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 #    TOMUSS: The Online Multi User Simple Spreadsheet
-#    Copyright (C) 2009-2010 Thierry EXCOFFIER, Universite Claude Bernard
+#    Copyright (C) 2009-2011 Thierry EXCOFFIER, Universite Claude Bernard
 #
 #    This program is free software; you can redistribute it and/or modify
 #    it under the terms of the GNU General Public License as published by
@@ -176,10 +176,6 @@ def check(table, update_inscrits=update_inscrits_ue):
         page = table.pages[0]
         warn("Update inscrits", what="check")
         update_inscrits(the_ids, table, page)
-
-        column = table.columns.from_title('Code_Étape')
-        if column:
-            update_etape(the_ids, table, page, column.the_id)
         
     warn("Update mail list", what="check")
     get_mails(table, the_ids)
@@ -227,24 +223,6 @@ def the_abjs(table):
                 js(tt.encode('utf-8'))))
 
     return '<script>change_abjs({%s});</script>\n' % ',\n'.join(t)
-
-
-def update_etape(the_ids, table, page, col):
-    etapes = L.etapes_of_students(table.logins())
-    for line_key, line in table.lines.items():
-        login = line[0].value
-        if login == '' or login != utilities.safe(login):
-            continue
-        try:
-            etape=' '.join(sorted(etapes[inscrits.login_to_student_id(login)]))
-        except KeyError:
-            continue
-        table.lock()
-        try:
-            table.cell_change(page, col, line_key, etape)
-        finally:
-            table.unlock()
-    
 
 def update_student(table, page, the_ids, infos):
     the_id, firstname, surname, mail, grp, seq = infos[:6]
@@ -387,13 +365,6 @@ def terminate_update(table, the_ids, page):
         table.send_update(None, the_abjs(table))
 
     warn("Done", what="check")
-
-
-def column_change(table, column):
-    if column.title == 'Code_Étape':
-        import document
-        document.update_students.append(table)
-
 
 # Get Firstname and surname when id is given.
 

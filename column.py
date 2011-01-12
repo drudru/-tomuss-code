@@ -28,6 +28,7 @@ import time
 import plugins
 import hashlib
 import data
+import document
 
 ###############################################################################
 
@@ -116,12 +117,8 @@ class ColumnAttr(object):
 
         column.author = page.user_name
 
-        if (table.template and hasattr(table.template, 'column_change')):
-            table.template.column_change(table, column)
+        document.column_changed_list.append((table, column, self))
 
-        if self.update_content:
-            column.update_content() # To import data (URL in the comment)
-            
         return 'ok.png'
 
     def js(self):
@@ -807,7 +804,6 @@ class Column(object):
 
         utilities.start_new_thread(update_column_content, (self, url))
 
-
 class Columns(object):
     """A set of Column associated to a table.
     The columns are stored in a list, so they have an index.
@@ -846,6 +842,13 @@ class Columns(object):
     def __getitem__(self, k):
         """Get the column at the given index."""
         return self.columns[k]
+
+    def use(self, column):
+        """Columns using this one."""
+        return (col
+                for col in self.columns
+                if column.title in col.depends_on()
+                )
 
     def update_content(self):
         """Update each column with external content"""

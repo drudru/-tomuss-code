@@ -43,6 +43,10 @@ def do_patch():
                     for i in inscrits.demo_animaux.values()[-1]:
                         yield i
                 return
+
+            def etapes_of_students(self, logins):
+                return dict( (login, ('etape-' + login,)) for login in logins )
+            
             def firstname_and_surname_and_mail(self, r):
                 if r == 'toto':
                     return 'firstnametoto', 'surnametoto', 'mail@toto'

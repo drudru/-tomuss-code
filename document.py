@@ -583,9 +583,9 @@ class Table(object):
                 self.send_update(None, t)
             else:
                 self.send_update(page, t)
+            cell_changed_list_fast.append((self, lin, column))
         else:
             page.request += 1
-
 
         return 'ok.png'
 
@@ -1187,7 +1187,10 @@ def check_new_students_real():
                     t.template.check(t)
                 warn('done %s' % t.ue, what="table")
 
-                t.columns.update_content()
+                if t.modifiable:
+                    t.columns.update_content() # for IMPORT(URL)
+                    for column in t.columns:
+                        column.type.update_all(t, column)
             finally:
                 t.lock()
                 t.do_not_unload -= 1
@@ -1388,9 +1391,37 @@ def check_down_connections():
                         ttable.year, utilities.js(ttable.semester),
                         utilities.js(ttable.ue)))
 
+# Update computed values
+
+cell_changed_list_fast = []
+
+def update_computed_values_fast():
+    while True:
+        time.sleep(0.1)
+        while cell_changed_list_fast:
+            the_table, lin, column = cell_changed_list_fast.pop()
+            for col in the_table.columns.use(column):
+                col.type.update_one(the_table, lin, col)
+
+column_changed_list = []
+
+def update_computed_values_slow():
+    while True:
+        time.sleep(0.1)
+        while column_changed_list:
+            the_table, column, attr = column_changed_list.pop()
+            if attr.update_content:
+                column.update_content() # To import data (URL in the comment)
+
+            column.type.update_all(the_table, column, attr)
+            for col in the_table.columns.use(column):
+                col.type.update_all(the_table, col)
+
 def start_threads():
     utilities.start_new_thread_immortal(check_new_students, ())
     utilities.start_new_thread_immortal(check_students_in_tables, ())
     utilities.start_new_thread_immortal(check_requests, ())
     utilities.start_new_thread_immortal(check_down_connections, ())
+    utilities.start_new_thread_immortal(update_computed_values_fast, ())
+    utilities.start_new_thread_immortal(update_computed_values_slow, ())
 

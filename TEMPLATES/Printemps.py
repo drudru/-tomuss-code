@@ -25,7 +25,7 @@ import configuration
 import os
 import document
 
-from _ucbl_ import check, update_student_information, create, the_abjs, update_student, terminate_update, cell_change, column_change
+from _ucbl_ import check, update_student_information, create, the_abjs, update_student, terminate_update, cell_change
 import _ucbl_
 
 def init(table):

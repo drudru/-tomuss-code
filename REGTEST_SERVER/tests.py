@@ -53,6 +53,7 @@ else:
     uyear = year
 
 ys = '%d/%s' % (year, semester)
+ys_old = '%d/%s' % (year-1, semester)
 
 abj_date_old      = '1/1/%d' % (utilities.university_year()-2)
 abj_date_previous = '1/1/%d' % (utilities.university_year()-1)
@@ -1298,6 +1299,52 @@ def create(table):
         assert("XXX_REGTEST2" in c)
         os.unlink('../TEMPLATES/xxx_regtest.py')
         os.unlink('../TEMPLATES/xxx_regtest.pyc')
+
+    if do('code_etape'):
+        c = s.url('=' + abj +'/%s/UE-etape' % ys)
+        assert('modifiable:1' in c)
+        c = s.url('='+abj+'/%s/UE-etape/1/0/column_attr_type/A/Code_Etape'%ys)
+        assert(c == ok_png)
+        c = s.url('='+abj+'/%s/UE-etape/1/1/cell_change/0_0/L1/10800000' % ys)
+        assert(c == ok_png)
+        c = s.url('='+abj+'/%s/UE-etape/1/2/cell_change/0_0/L2/10800001' % ys)
+        assert(c == ok_png)
+        c = s.url('='+abj+'/%s/UE-etape/1/3/column_attr_columns/A/ID' % ys)
+        assert(c == ok_png)
+
+        c = s.url('=' + abj +'/%s/UE-etape' % ys)
+        assert('etape-10800000' in c)
+        assert('etape-10800001' in c)
+        c = s.url('='+abj+'/%s/UE-etape/1/4/cell_change/0_0/L3/10800002' % ys)
+        assert(c == ok_png)
+
+        c = s.url('=' + abj +'/%s/UE-etape' % ys)
+        assert('etape-10800002' in c)
+
+        c = s.url('='+abj+'/%s/UE-etape/1/5/table_attr_masters/%s' % (ys,abj))
+        assert(c == ok_png)
+
+        # os.mkdir('../DBregtest/Y%d' % (year-1))
+        # os.mkdir('../BACKUP_DBregtest/Y%d' % (year-1))
+        utilities.mkpath('../DBregtest/Y%d/S%s' % (year-1, semester))
+        utilities.mkpath('../BACKUP_DBregtest/Y%d/S%s' % (year-1, semester))
+        os.rename('../DBregtest/Y%d/S%s/UE-etape.py' % (year, semester),
+        '../DBregtest/Y%d/S%s/UE-etape.py' % (year-1, semester))
+        
+        c = s.url('=' + abj +'/%s/UE-etape' % ys_old)
+        assert('modifiable:0' in c)
+        c = s.url('='+abj+'/%s/UE-etape/1/6/table_attr_modifiable/1' % ys_old)
+        assert(c == ok_png)
+        c = s.url('='+abj+'/%s/UE-etape/1/7/cell_change/0_0/L4/10800003' % ys_old)
+        assert(c == ok_png)
+
+        c = s.url('=' + abj +'/%s/UE-etape' % ys_old)
+        assert('10800003' in c)
+        assert('etape-10800003' not in c)
+
+        
+        
+
 
 n = 0
 m = []
