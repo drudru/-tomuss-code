@@ -40,6 +40,16 @@ orientation_without_referent_rdv = ()
 def day_for_dsi(day):
     return '%02d' % int(day.split(':')[0]) + '/02/2011'
 
+def recommended_creneaux_number(nr_students):
+    """Depends the minimal number of creneaux : 12"""
+    if nr_students == 0:
+        return 0
+    if nr_students < 16:
+        return 12
+    if nr_students < 21:
+        return 13
+    return int(nr_students/3 + 6.8)
+
 allhours = hoursAM + hoursPM
 
 separator = ' '
@@ -186,13 +196,27 @@ class Teacher(object):
             return sum(t for t in self.students_per_population.values())
         else:
             return 0
+
     def html(self):
-        return '<tr><!-- %s --><td>%s<td>%s<td>%d<td>%d<td>%s</tr>' % (
+        nr_students_ref = len(referent.students_of_a_teacher(self.name))
+        nr_rdv = self.nr_students()
+        min_creneaux = recommended_creneaux_number(nr_students_ref)
+        try:
+            nb_creneaux = int(nr_rdv / self.students_per_creneaux)
+        except ZeroDivisionError:
+            nb_creneaux = 0
+        more = str(nb_creneaux)
+        if nb_creneaux < min_creneaux:
+            more = '<span class="problem">' + more
+
+        return '<tr><!-- %s --><td>%s<td>%s<td>%d<td>%s<td>%s<td>%s<td>%s</tr>' % (
             self.orientation, self.name, self.orientation,
-            len(referent.students_of_a_teacher(self.name)),
-            self.nr_students(),
+            nr_students_ref, nr_rdv,
             ' '.join('%s:%d' % (k, v)
-                     for k, v in self.students_per_population.items()))
+                     for k, v in self.students_per_population.items()),
+            more,
+            min_creneaux
+            )
 
 def get_teachers_hours():
     year, semester = configuration.year_semester
@@ -253,23 +277,30 @@ def rdv_ip(server, stats=True, dsi_table=False, student_table=False,
         return
 
     orientations = collections.defaultdict(
-        lambda: collections.defaultdict(lambda: 0))
+        lambda: collections.defaultdict(int))
+    orientations_creneaux = collections.defaultdict(
+        lambda: collections.defaultdict(set))
     for teacher in teachers.values():
         line = tuple(ori.get_lines(teacher.name))
         if not line:
             continue
         line = line[0]
+        teacher.students_per_creneaux = 0
         for col, cell in zip(ori.columns, line)[2:]:
             if col.title.startswith('_'):
                 continue
             try:
                 nb_students = float(cell.value)
+                teacher.students_per_creneaux += nb_students
             except ValueError:
                 continue
             orientation = orientations[col.title]
+            orientation_creneaux = orientations_creneaux[col.title]
             for hour in teacher.hours:
                 orientation[hour] += nb_students
                 teacher.students_per_population[col.title] += nb_students
+                if nb_students:
+                    orientation_creneaux[hour].add(teacher.name)
 
     server.the_file.write(
         '''<style>
@@ -278,12 +309,32 @@ def rdv_ip(server, stats=True, dsi_table=False, student_table=False,
         TABLE { border-spacing: 0px }
         .c { text-align: right }
         .total { background-color: #FF9 }
+        .total2 { background-color: #FF0 }
         .grandtotal TD { font-weight: bold ; padding: 3px }
+        .portail TD { background-color: #9F9 }
+        .problem {  background-color: #F88 }
+        tr { vertical-align: top }
+        /* tr:hover small.tip span { display: block; position:relative } */
+
+        td.tip:hover span { display: block }
+        td.tip:hover { background: #CFC; }
+        .tip { position: relative }
+        .tip span, td.tip span:hover {
+           display: none;
+           background: #8FF;
+           position:absolute;
+           border: 1px solid black;
+           text-align:left ;
+           z-index: 1;
+           white-space: nowrap;
+           font-size: 120%;
+           padding: 0.3em;
+           }
         </style>''')
 
     if stats:
         server.the_file.write('''
-        Nombre d\'étudiants maximum par créneaux horaire et population.
+        <h2>Nombre d\'étudiants maximum par créneaux horaire et population.</h2>
         <table><thead><tr class="first">''' +
         ''.join('<th class="c' + i + '">' + i
                 for i in ('Population','Jour')+hoursAM + hoursPM) +
@@ -291,11 +342,18 @@ def rdv_ip(server, stats=True, dsi_table=False, student_table=False,
         '</tr></thead>')
 
         full_day_sum = [0] * len(allhours)
-        portails_sum = collections.defaultdict(int)
+        portails_sum_day = collections.defaultdict(
+            lambda: collections.defaultdict(
+                lambda: [0] * len(allhours)))
+        portails_sum_day_teachers = collections.defaultdict(
+            lambda: collections.defaultdict(
+                lambda: [set() for i in range(len(allhours))]))
     
         for name in sorted(orientations):
             orientation = orientations[name]
+            orientation_creneaux = orientations_creneaux[name]
             first = ' class="first"'
+            portail = portails[name]
             nr = 0
             day_sum = [0] * len(allhours)
             if len(orientation) == 0:
@@ -307,7 +365,11 @@ def rdv_ip(server, stats=True, dsi_table=False, student_table=False,
                 continue
             for day in sorted(days):
                 for j, i in enumerate(allhours):
-                    day_sum[j] += orientation[dayhour(day,i)]
+                    nb_student = orientation[dayhour(day,i)]
+                    day_sum[j] += nb_student
+                    portails_sum_day[portail][day][j] += nb_student
+                    portails_sum_day_teachers[portail][day][j].update(orientation_creneaux[dayhour(day,i)])
+                    
                 nb_day = sum(orientation[dayhour(day,i)] for i in allhours)
                 server.the_file.write(
                     '<tr' + first + '><td>' + name + '<td>' + day +
@@ -326,7 +388,25 @@ def rdv_ip(server, stats=True, dsi_table=False, student_table=False,
                 + '<td class="total c c%s"><b>%d' % (allhours[-1], nr))
             for i, v in enumerate(day_sum):
                 full_day_sum[i] += v
-            portails_sum[portails[name]] += sum(day_sum)
+        for name in portails_sum_day:
+            day_sum = [0] * len(allhours)
+            for day in sorted(days):
+                nbs = portails_sum_day[name][day]
+                server.the_file.write(
+                    '<tr class="first portail"><td>%s<td>%s' % (name, day)
+                    + ''.join('<td class="tip c c%s"><small>%s<span><b>%s</b><br>%s</span></small> %d' % (hour, len(i2), hour, '<br>'.join(sorted(i2)), i)
+                              for hour, i, i2 in zip(allhours, nbs, portails_sum_day_teachers[name][day]))
+                    + '<td class="c c%s">%d' % (allhours[-1], sum(nbs)))
+                for j, i in enumerate(allhours):
+                    day_sum[j] += nbs[j]
+            server.the_file.write(
+                '<tr><td colspan="2" class="total2">Sur les %d jours' % len(days)
+                + ''.join('<td class="total2 c c%s">%d' % (hour, i)
+                          for hour, i in zip(allhours, day_sum))
+                + '<td class="total2 c c%s"><b>%d' % (allhours[-1], sum(day_sum)))
+                    
+            
+            
         server.the_file.write(
             '<tr class="first grandtotal"><td colspan="2">Toutes populations confondues'
             + ''.join('<td class="c c%s">%d' % (hour, i)
@@ -334,9 +414,6 @@ def rdv_ip(server, stats=True, dsi_table=False, student_table=False,
             + '<td class="c c%s">%d' % (allhours[-1], sum(full_day_sum)))
 
         server.the_file.write('</table>')
-        server.the_file.write('<p>Total par portail :<br>')
-        for k, v in portails_sum.items():
-            server.the_file.write('%s : %d<br>\n' % (k, v))
 
     if stats_per_teacher:
         s = []
@@ -346,7 +423,7 @@ def rdv_ip(server, stats=True, dsi_table=False, student_table=False,
         server.the_file.write('\n'.join(
             ['<h1>Nombre de rendez-vous potentiels par enseignants</h1>',
              '<table border="1">',
-             '<tr><th>Login<th>Disc.<th>#Étudiants<br>référés<th>#Étudiant<br>RDV<th>#Étudiant par population</tr>'] +
+             '<tr><th>Login<th>Disc.<th>#Étudiants<br>référés<th>#Étudiant<br>RDV<th>#Étudiant par population<th>#créneaux<th>#créneaux<br>minimum</tr>'] +
             s +
             ['</table>']))
 
@@ -387,7 +464,37 @@ def rdv_ip(server, stats=True, dsi_table=False, student_table=False,
                 server.the_file.write(student + ' ' + repr(teacher.hours)+'\n')
 
 
-    
+    if stats:
+        disciplines = tuple(set(t.orientation
+                                for t in teachers.values()
+                                if len(t.orientation) == 3
+                                ))
+        server.the_file.write('''
+        <h2>Nombre d\'enseignants par créneaux horaire et par discipline.</h2>
+        <table><thead>''')
+        for day in sorted(days):
+            server.the_file.write('''<tr class="first">''' +
+        ''.join('<th class="c' + i + '">' + i
+                for i in ('Discipline','Jour')+hoursAM + hoursPM) +
+        '<th>Total journée' +
+        '</tr>')
+            for discipline in disciplines:
+                day_sum = list(set() for i in allhours)
+                for teacher in teachers.values():
+                    if teacher.orientation != discipline:
+                        continue
+                    for j, i in enumerate(allhours):
+                        if dayhour(day,i) in teacher.hours:
+                            day_sum[j].add(teacher.name)
+                server.the_file.write(
+                    '<tr class="first"><td>%s<td>%s' % (
+                        day, discipline)
+                    + ''.join('<td class="tip c c%s">%s<span><small>%s</span>' % (hour, len(i),
+                                                        '<br>'.join(i))
+                              for hour, i in zip(allhours, day_sum))
+                    + '<td class="c c%s">%d' % (allhours[-1], sum(len(i) for i in day_sum)))
+
+    server.the_file.write('</table>&nbsp;<br>'*20)
     server.the_file.close()
 
 
