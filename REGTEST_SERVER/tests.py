@@ -1275,7 +1275,7 @@ new_page('' ,'*', '', '', None)
         s.restart()
         check('Y%d/S%s/UE-lost.py' % (year, semester), nr_pages = 2)
         c = s.url('=' + abj +'/%s/UE-lost/2' % ys)
-        assert(c == '<script>window.location += "/.."</script>')
+        assert(c.startswith('<script>window.parent.location = "'))
         
     if do('template_reload'):
         f = open('../TEMPLATES/xxx_regtest.py', 'w')

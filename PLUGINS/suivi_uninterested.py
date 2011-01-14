@@ -49,7 +49,6 @@ def uninterested(f, year, semester, port):
                      for title in ('RDV_1','RDV_2', 'Commentaire Jury Automne',
                                'RDV_3', 'RDV_4', 'Commentaire Jury Printemps')
                      ]
-
         for line in t.lines.values():
             
             students_in_blocnote[utilities.the_login(line[0].value)] = [
