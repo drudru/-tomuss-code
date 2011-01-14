@@ -490,7 +490,8 @@ def execute(server, plugin):
                 server.the_file.close()
             except socket.error:
                 pass
-            raise
+            server.the_file = None
+            return
         if not plugin.keep_open:
             server.the_file.close()
         server.the_file = None

@@ -654,8 +654,7 @@ if __name__ == "__main__":
     configuration.terminate()
     import inscrits
     L = inscrits.LDAP()
-    print L.ues_of_a_student('p0704986')
-    print L.ues_of_a_student_short('p0704986')
+    print L.ues_of_a_student_short('11009121')
     for i in L.ues_of_a_student_with_groups('p0704986'):
         print i
     addfas
