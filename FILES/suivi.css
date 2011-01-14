@@ -1,4 +1,4 @@
-DIV.title { 
+DIV.title {
   margin-top: 1em;
   font-weight: bold ;
 }
@@ -14,38 +14,40 @@ DIV.title {
 .bad      { background-color: #FAA ;               }
 .verybad  { background-color: #F44 ; color: white; }
 
-DIV.notes P:hover, DIV.fine:hover {
+DIV.notes I:hover {
   background-color: black ;
   color: white ;
 }
 DIV.notes:hover A { color: #AAF  }
+
+DIV.notes I { display: inline-block; width: 100% }
 
 TABLE.memberof { background-color: black; border-spacing: 1px }
 TABLE.memberof TH, TABLE.memberof TD { padding: 0px }
 TABLE.memberof TH { text-align: left; font-size: 80% }
 TABLE.memberof TD { font-size: 60%; background-color: #DDD; }
 
-IFRAME { 
+IFRAME {
 width: 1em ;
 height: 1em ;
 border: 0px ;
  }
 
-SELECT { 
+SELECT {
   padding: 0px ;
   border: 1px solid black ;
   font-size: 70% ;
  }
 
-.tomuss_links { 
+.tomuss_links {
   float: right;
   margin: 0px;
 }
-.tomuss_links DIV.highlight { 
+.tomuss_links DIV.highlight {
   border:2px solid black;
   padding:0px;
 }
-.tomuss_links DIV { 
+.tomuss_links DIV {
   padding:2px;
 }
 .tomuss_links TD { text-align: right; padding: 0px }
@@ -76,13 +78,13 @@ div.title a.title{ margin-bottom: 0.2em ; padding-top: 0em; }
   padding: 1em ;
 }
 
-.blocnote { 
+.blocnote {
   background-color: white ;
   border: 1px solid black ;
   clear: both; 
 }
 
-DIV.notes { 
+DIV.notes {
   border: 1px solid black ;
   vertical-align: text-top ;
   text-align: center;
@@ -93,23 +95,23 @@ DIV.notes {
 }
 
 
-DIV.notes P {
+DIV.notes I {
   border-bottom: 1px solid black;
   margin: 0px ;
   padding: 0px ;
 }
 
-DIV.notes DIV.notes { 
+DIV.notes DIV.notes {
   margin: 0px ;
   border: 0px ;
   border-left: 1px solid black;
 }
 
-DIV.fine P { 
+DIV.fine I {
   border-bottom: 1px solid #AAA;
 }
 
-DIV.notes DIV.first_child { 
+DIV.notes DIV.first_child {
   border-left: 0px;
 }
 

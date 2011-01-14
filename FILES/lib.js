@@ -5358,11 +5358,11 @@ function display_suivi(cols) /* [value, class, comment] */
 	  first = '' ;
 	if ( s === '' )
 	  v = '<div class="notes fine ' + visual_cell[1] + first + '">'
-	    + hidden_txt('<p>' + title + '</p>' + visual_cell[0], visual_cell[2])
+	    + hidden_txt('<i>' + title + '<br>' + visual_cell[0] + '</i>', visual_cell[2])
 	    + '</div>' ;
 	else
 	  v = '<div class="notes' + first + '">'
-	    + hidden_txt('<p>' + title + ': ' + visual_cell[0] + '</p>',
+	    + hidden_txt('<i>' + title + ': ' + visual_cell[0] + '</i><br>',
 			 visual_cell[2], visual_cell[1])
 	    + s + '</div>' ;
 	return v ;
