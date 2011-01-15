@@ -4587,6 +4587,64 @@ function authors_mails()
   return s ;
 }
 
+var mail_separator = '\n' ;
+
+function mail_div_box(mails)
+{
+  return '<textarea readonly="1" class="mails" onclick="this.select()">'
+    + mails.replace(/,/g, mail_separator) + '</textarea>' ;
+}
+
+
+function mail_window()
+{
+  var the_student_mails = students_mails() ;
+  var nr_student_mails = the_student_mails.split(',').length - 1 ;
+
+  if ( the_student_mails.search('@') == -1 )
+    {
+      alert("Désolé, votre navigateur n'a pas encore reçu les adresses mails.\nRéessayez dans quelques secondes.") ;
+      return ;
+    }
+
+  var link_students = nr_student_mails + ' Étudiants' ;
+  if ( mailto_url_usable(the_student_mails) )
+    link_students = hidden_txt('<a href="javascript: window.location=\'mailto:?bcc=' +
+			       the_student_mails + '\'">' + link_students + ' (Lien rapide)</a>',
+			       'Suivez le lien pour directement lancer ' +
+			       'votre logiciel de messagerie.') ;
+
+  var the_author_mails = authors_mails() ;
+  var nr_author_mails = the_author_mails.split(',').length - 1 ;
+  var link_authors = nr_author_mails + ' Enseignants' ;
+  if ( mailto_url_usable(the_author_mails) )
+    link_authors = hidden_txt('<a href="javascript: window.location=\'mailto:?bcc=' +
+			       the_author_mails + '\'">' + link_authors + ' (Lien rapide)</a>',
+			       'Suivez le lien pour directement lancer ' +
+			       'votre logiciel de messagerie.') ;
+
+
+  create_popup('mails_div',
+	       'Gestion des mails',
+	       '<ul>' +
+	       '<li> <b>Cliquez sur une adresse</b> pour toutes les sélectionner.' +
+	       '<li> Puis faites <b>Ctrl-C</b> pour les copier' +
+	       '<li> Puis faites <b>Ctrl-V</b> dans la liste des destinataires en <b>Copie Carbone Invisible (CCI ou BCC)</b> si vous ne voulez pas que les étudiants connaissent les autres destinataires.' +
+	       '</ul>' +
+	       'En cas de problème, utilisez le <a href="javascript:mail_separator=\';\';mail_window()">point-virgule</a> ou la <a href="javascript:mail_separator=\',\';mail_window()">virgule</a>  comme séparateur.' +
+	       '<table class="colored"><tr>' +
+	       '<th>' + link_students +
+	       '<th>' + link_authors +
+	       '</tr><tr><td>' +
+	       mail_div_box(the_student_mails) +
+	       '</td><td>' +
+	       mail_div_box(the_author_mails) +
+	       '</td></tr></table>'
+	       ,
+	       'TOMUSS peut faire du <a href="javascript:personal_mailing()">publi-postage</a> en envoyant les mails pour vous.<br>Ceci permet d\'envoyer des informations personnalisées aux étudiants en fonction du contenu de la table.') ;
+
+}
+
 function update_mail(login, mail)
 {
   table_attr.mails[login] = mail ;
@@ -4649,8 +4707,8 @@ function personal_mailing()
 {
    create_popup('personal_mailing_div',
 		'Envoyer un mail personnalisé aux étudiants filtrés',
-		'<p style="background-color:#F00;color:#FFF">N\'ENVOYEZ PAS DE NOTES AUX ÉTUDIANTS.</p><br>Sujet : <input id="personal_mailing" style="width:100%" value="' + ue + ' ' + table_attr.table_title + ' : Info pour [Prénom] [Nom]"><br>Votre message&nbsp;:',
-	       'Pour envoyer cliquez sur <BUTTON OnClick="personal_mailing_do();">Envoyer les ' + filtered_lines.length + ' messages</BUTTON>.') ;
+		'<p style="background-color:#F00;color:#FFF">N\'ENVOYEZ PAS DE NOTES PAR MAIL AUX ÉTUDIANTS.</p>Les titres de colonne entre crochets sont remplacés par la valeur de la case correspondant à l\'étudiant pour cette colonne. Vous pouvez utiliser toutes les colonnes existantes.<p>&nbsp;<br>Sujet du message : <input id="personal_mailing" style="width:100%" value="' + ue + ' ' + table_attr.table_title + ' : Info pour [Prénom] [Nom]"><br>Votre message&nbsp;:',
+	       'Pour envoyer, cliquez sur : <BUTTON OnClick="personal_mailing_do();">Envoyer les ' + filtered_lines.length + ' messages</BUTTON>.') ;
    popup_set_value('Bonjour [Prénom] [Nom].\n\nVotre groupe est [Grp] et votre séquence [Seq]\n\nAu revoir.') ;
 }
 
