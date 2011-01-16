@@ -233,7 +233,7 @@ def authentication_thread():
                 x.do_GET_real_real_safe()
                 what = 'close'
                 x.wfile.close()
-            except IOError:
+            except (IOError, socket.error):
                 utilities.send_backtrace(
                     '', subject = 'AUTH '+ what + ' ' + str(tick)[:-1])
 
