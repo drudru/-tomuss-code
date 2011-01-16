@@ -1,6 +1,5 @@
 Finir par priorité :
-        demo-animaux ne remplit pas avec des notes
-
+	'referents.py' ==> 'referents_table.py'
 	Enlever les tests : configuration.backup
 	Pylint
 	Méthode javascript pour attr : editable (masters attributes)

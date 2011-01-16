@@ -23,10 +23,11 @@ import inscrits
 import utilities
 import abj
 import time
+import random
 import _ucbl_
 from _ucbl_ import the_abjs, update_student, terminate_update, cell_change
 
-# Do not edit this first line (SCRIPTS/install_demo)
+# Do not edit this first line (see SCRIPTS/install_demo)
 update_student_information = _ucbl_.update_student_information + """
 <script>
 function student_picture_url(login)
@@ -44,6 +45,7 @@ def create(table):
                      [table.ue.lower().replace('-','') + '.master']
                      )
     table.table_attr(table.pages[0], 'default_sort_column', 2)
+    table.new_page('', '', '', '')
 
 def init(table):
     _ucbl_.init(table)
@@ -89,33 +91,44 @@ def update_inscrits_ue(the_ids, table, page):
         update_student(table, page, the_ids, t)
     terminate_update(table, the_ids, page)
 
-def check(table):
-    if table.ue.startswith('UE') and len(table.lines) == 0:
-        prefill = True
-    else:
-        prefill = False
+def create_column(table, title, content_type, average=10., delta=5.):
+    p = table.pages[1]
+    table.column_attr(p, title, 'title', title)
+    table.column_attr(p, title, 'type', content_type)
+    table.column_attr(p, title, 'comment',
+                      'Column auto generated for demo purpose')
+    data_col = table.columns.data_col_from_title(title)
+    for key, line in table.lines.items():
+        if line[data_col].value != '':
+            continue
+        if content_type == 'Prst':
+            value = ('PRST','ABINJ','ABJUS')[random.randint(0,2)]
+        elif content_type == 'Note':
+            if random.randint(0,4) == 0:
+                value = ('ABINJ','ABJUS')[random.randint(0,1)]
+            else:
+                value = '%4.1f' % random.gauss(average, delta)
+        else:
+            value = ''
+        table.cell_change(p, title, key, value, "20090509213856")
 
+def check(table):
     _ucbl_.check(table, update_inscrits_ue)
 
-    if prefill:
-        import random
-        table.lock()
-        try:
-            table.new_page('', '', '', '')
-            p = table.pages[-1]
-            table.column_change(p, '0_6', 'CM1', 'Prst', '[0;20]', '1', '','','4')
-            table.column_change(p, '0_7', 'TP1', 'Note', '[0;20]', '1', '','','4')
-            for lin in range(len(table.lines)):
-                table.cell_change(p, '0_6', '0_%d' % lin,
-                                  ('PRST','ABINJ','ABJUS','')[random.randint(0,3)],
-                                  "20090509213856")
-                table.cell_change(p, '0_7', '0_%d' % lin,
-                                  '%4.1f' % random.gauss(10,3),
-                                  "20090509213856")
-        finally:
-            table.unlock()
-
-
-
-
-
+    table.lock()
+    try:
+        p = table.pages[1]
+        create_column(table, 'CM1', 'Prst')
+        create_column(table, 'CM2', 'Prst')
+        create_column(table, 'CM3', 'Prst')
+        table.column_attr(p, '#ABINJ', 'title', '#ABINJ')
+        table.column_attr(p, '#ABINJ', 'type', 'Nmbr')
+        table.column_attr(p, '#ABINJ', 'columns', "CM1 CM2 CM3")
+        create_column(table, 'TP1', 'Note', 10, 3)
+        create_column(table, 'TP2', 'Note', 8, 2)
+        create_column(table, 'TP3', 'Note', 14, 1)
+        table.column_attr(p, 'Avg.TP', 'title', 'Avg.TP')
+        table.column_attr(p, 'Avg.TP', 'type', 'Moy')
+        table.column_attr(p, 'Avg.TP', 'columns', "TP1 TP2 TP3")
+    finally:
+        table.unlock()

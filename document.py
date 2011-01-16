@@ -1195,7 +1195,9 @@ def check_new_students_real():
                 utilities.bufferize_this_file(None)
             
     except IndexError:
-        pass # Because of a call when doing regtest
+        if not configuration.regtest:
+            raise # Real problem
+        # XXX The regtest raise a bug, why ?
 
 def check_new_students():
     while True:
