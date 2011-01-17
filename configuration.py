@@ -281,8 +281,8 @@ the_portails = {
     'UFRFST' :
     (
         'CN=148891 CGE-UFR Sciences et Technologie,OU=groupes,OU=etudiants,DC=univ-lyon1,DC=fr',
-        'CN=139284 APO-UFR Sciences et Technologie,OU=groupes,OU=etudiants,DC=univ-lyon1,DC=fr',
-        'CN=OU=UFR Sciences et Technologies,DC=univ-lyon1,DC=fr',
+#        'CN=139284 APO-UFR Sciences et Technologie,OU=groupes,OU=etudiants,DC=univ-lyon1,DC=fr',
+#        'CN=OU=UFR Sciences et Technologies,DC=univ-lyon1,DC=fr',
         ),
     }
 

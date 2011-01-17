@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 #    TOMUSS: The Online Multi User Simple Spreadsheet)
-#    Copyright (C) 2008,2009 Thierry EXCOFFIER, Universite Claude Bernard
+#    Copyright (C) 2008-2011 Thierry EXCOFFIER, Universite Claude Bernard
 #
 #    This program is free software; you can redistribute it and/or modify
 #    it under the terms of the GNU General Public License as published by
@@ -31,7 +31,7 @@ def referents_table_real():
     done = {}
     d = {}
     for student in referent.student_list(sys.stderr,
-                                         configuration.the_portails['UFRFST'],
+                                         referent.port(),
                                          referent.not_in()).values():
         if student.key in done:
             continue
