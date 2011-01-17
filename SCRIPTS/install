@@ -132,8 +132,9 @@ sleep 1
 # Database conversion
 if [ -d "$REAL/TOMUSS_DB/CHARTES" ]
 then
-  SCRIPTS/convert_2_8_12_to_2_8_13 "$REAL/TOMUSS_DB" "$BACK/TOMUSS_DB" 
+  SCRIPTS/convert_2_8_12_to_2_8_13 "$REAL/TOMUSS_DB" "$BACK/TOMUSS_DB"
 fi
+SCRIPTS/convert_2_12_11_to_2_12_12 "$REAL/TOMUSS_DB" "$BACK/TOMUSS_DB"
 
 # Do not start server
 if [ "$START" != "1" ]

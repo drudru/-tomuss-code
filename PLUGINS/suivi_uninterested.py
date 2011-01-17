@@ -29,7 +29,7 @@ import inscrits
 import time
 
 def uninterested(f, year, semester, port):    
-    table = document.table(year, semester, 'referents')
+    table = document.table(year, semester, 'referents_students')
     students = {}
     students_ue = {}
     for line in table.lines.values():

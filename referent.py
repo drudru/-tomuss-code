@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 #    TOMUSS: The Online Multi User Simple Spreadsheet)
-#    Copyright (C) 2008-2010 Thierry EXCOFFIER, Universite Claude Bernard
+#    Copyright (C) 2008-2011 Thierry EXCOFFIER, Universite Claude Bernard
 #
 #    This program is free software; you can redistribute it and/or modify
 #    it under the terms of the GNU General Public License as published by
@@ -150,9 +150,7 @@ class Teacher(object):
 
 
 def students_of_a_teacher(tteacher):
-    table = document.table(configuration.year_semester[0], configuration.year_semester[1],
-                           'referents', do_not_unload=1)
-    for line in table.lines.values():
+    for line in referents_students().lines.values():
         if line[0].value == tteacher:
             s = []
             for cell in line[2:]:
@@ -162,18 +160,14 @@ def students_of_a_teacher(tteacher):
     return []
 
 def portail_of_a_teacher(tteacher):
-    table = document.table(configuration.year_semester[0], configuration.year_semester[1],
-                           'referents', do_not_unload=1)
-    for line in table.get_lines(tteacher):
+    for line in referents_students().get_lines(tteacher):
         return line[1].value
     return ''
-
 
 def is_a_referent_master(name):
     # Get the referent table    
     try:
-        table = document.table(configuration.year_semester[0], configuration.year_semester[1],
-                               'referents', do_not_unload=1)
+        table = referents_students()
     except ImportError:
         return False
 
@@ -181,23 +175,22 @@ def is_a_referent_master(name):
 
 
 def referent(year, semester, login):
+    """Returns the 'referent' of a student."""
     login = utilities.the_login(login)
-    table = document.table(year, semester, 'referents',
-                           ro=configuration.read_only)
-    for line in table.lines.values():
+    for line in referents_students(year, semester).lines.values():
         for cell in line[2:]:
             if utilities.the_login(cell.value) == login:
                 return line[0].value
     return None
     
 def referents_login(year, semester):
-    table = document.table(year, semester, 'referents', do_not_unload=1)
-    return [t for t in table.logins() if t != '']
+    """Returns the referent list"""
+    return [t for t in referents_students(year, semester).logins() if t != '']
 
 def nr_students(year, semester):
-    table = document.table(year, semester, 'referents', do_not_unload=1)
+    """Number of student of a 'referent'"""
     n = 0
-    for line in table.lines.values():
+    for line in referents_students(year, semester).lines.values():
         if line[0].value == '':
             continue
         n -= 1
@@ -207,9 +200,7 @@ def nr_students(year, semester):
     return n
 
 def remove_student_from_referent(referent, student):
-    table = document.table(configuration.year_semester[0],
-                           configuration.year_semester[1],
-                           'referents')
+    table = referents_students()
     line_key, line = tuple(table.get_items(referent))[0]
     student = inscrits.login_to_student_id(student)
     for cell, column in zip(line, table.columns):
@@ -247,9 +238,7 @@ def add_student_to_this_line(table, line_key, line, student):
 
 
 def add_student_to_referent(referent, student):
-    table = document.table(configuration.year_semester[0],
-                           configuration.year_semester[1],
-                           'referents')
+    table = referents_students()
     line_key, line = tuple(table.get_items(referent))[0]
     add_student_to_this_line(table, line_key, line, student)
 
@@ -301,7 +290,13 @@ def search_best_teacher(student, sorted_teachers, f, all_teachers):
 # to make some adjustement.
 def student_need_a_referent(student, all_cells, debug_file):
     return True
-    
+
+def referents_students(year=None, semester=None):
+    if year is None:
+        year, semester = configuration.year_semester
+    return document.table(year, semester, 'referents_students',
+                          do_not_unload=1, ro=configuration.read_only)
+
 def update_referents(ticket, f):
 
     if not is_a_referent_master(ticket.user_name):
@@ -310,11 +305,7 @@ def update_referents(ticket, f):
         return
 
     # Get the referent table
-    filename = document.table_filename(configuration.year_semester[0],
-                                       configuration.year_semester[1], 'referents')
-    table = document.table(configuration.year_semester[0],
-                           configuration.year_semester[1],
-                           'referents')
+    table = referents_students()
     table.lock()
     try:
         page = table.new_page(ticket.ticket, ticket.user_name, ticket.user_ip,
@@ -324,7 +315,7 @@ def update_referents(ticket, f):
 
     f.write('<h1>' + configuration.year_semester[1] + ' '
             + str(configuration.year_semester[0]) + '</h1>\n')
-    f.write(filename + '\n')
+    f.write(table.filename + '\n')
 
     if not table.modifiable:
         f.write('<p>Modification interdite (problème de date ?)\n')

@@ -1,0 +1,21 @@
+#!/bin/sh
+# -*- ksh -*-
+
+# Arguments : DB et BACKUP_DB
+
+set -e
+
+DO() { echo $* ; }
+DO() { eval $* ; }
+
+for D in "$@"
+do
+  for F in $D/Y*/S*/referents.py
+  do
+    DO mv $F $(echo $F | sed 's/referents.py/referents_students.py/')
+    DO rm "$F"c
+  done
+done
+
+  
+  

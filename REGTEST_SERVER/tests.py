@@ -167,11 +167,11 @@ def create_referents():
         return
     done['create_referents'] = True
     global c
-    c = s.url('=' + abj + '/%s/referents' % ys)
-    c = s.url('=' + abj + '/%s/referents' % ys +
+    c = s.url('=' + abj + '/%s/referents_students' % ys)
+    c = s.url('=' + abj + '/%s/referents_students' % ys +
               '/2/0/cell_change/a/line_0/toto')
     assert(c == ok_png)
-    c = s.url('=' + abj + '/%s/referents' % ys +
+    c = s.url('=' + abj + '/%s/referents_students' % ys +
               '/2/1/cell_change/a/line_1/a_referent')
     assert(c == ok_png)
 
@@ -179,7 +179,7 @@ def create_referents():
     c = s.url('=a_referent/referent_get/10900000')
     assert(c == 'Vous êtes maintenant le référent pédagogique de cet étudiant.')
     
-    c = s.url('=' + abj + '/%s/referents' % ys +
+    c = s.url('=' + abj + '/%s/referents_students' % ys +
               '/2/2/cell_change/0/line_0/10800000')
     assert(c == ok_png)
 
@@ -916,8 +916,7 @@ Col({the_id:"col_1",title:"TITLE1",author:"%s",position:0,type:"Note"})
 
     if do('referents'):
         create_referents()
-        
-        
+
     if do('rss'):
         create_u2()
         ss.start()
