@@ -98,7 +98,8 @@ def the_ues(year, semester, login):
 # To not have duplicate error messages
 referent_missing = {}
 
-def student_statistics(login, server, is_a_student=False, expand=False):
+def student_statistics(login, server, is_a_student=False, expand=False,
+                       is_a_referent=False):
     utilities.warn('Start', what='table')
     ticket = server.ticket
     year = server.year
@@ -137,6 +138,10 @@ def student_statistics(login, server, is_a_student=False, expand=False):
     if not expand:
         s.append(u"""<script>hidden('<a href="%s" target="_blank">Bilan APOGÉE</a>','Affiche le récapitulatif des notes présentes dans APOGÉE<br>pour l\\'ensemble de la licence');""" %
                  (configuration.bilan_des_notes + login) + '</script>, ')
+
+    if is_a_referent:
+        s.append(u"""<script>hidden('<a href="%s/=%s/bilan/%s" target="_blank">Bilan TOMUSS</a>','Affiche le récapitulatif des notes présentes dans TOMUSS et APOGÉE.<br>Ceci permet de voir le nombre d'inscriptions à une UE.');""" %
+                 (utilities.StaticFile._url_, ticket.ticket, login) + '</script>, ')
     # CONTRACT
 
     if not is_a_student:
@@ -390,10 +395,12 @@ def display_login(server, login, expand=False):
         # Student
         try:
             login = utilities.the_login(login)
-            server.the_file.write(student_statistics(login, server,
-                                                     is_a_student=False,
-                                                     expand=expand)
-                                .encode('utf8'))
+            server.the_file.write(
+                student_statistics(login, server,
+                                   is_a_student=False,
+                                   is_a_referent=server.ticket.is_a_referent,
+                                   expand=expand)
+                .encode('utf8'))
         except ValueError:
             raise
     else:
