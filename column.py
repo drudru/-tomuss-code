@@ -230,6 +230,7 @@ class ColumnRed(ColumnGreen):
 class ColumnWeight(ColumnAttr):
     default_value = '1'
     name = 'weight'
+    display_table = 1
 
     def check(self, value):
         try:
