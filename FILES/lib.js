@@ -2371,8 +2371,10 @@ function cell_set_value_real(data_lin, data_col, value, td)
   var cell = lines[data_lin][data_col] ;
   var column = columns[data_col] ;
 
-  if ( td && value.toString() == cell_get_value_real(data_lin, data_col).toString() )
-    return false ;
+  // toString is used because '' != '0' and '00' != '000'
+  // === is not used because 5.1 == "5.1"
+  if ( value.toString() == lines[data_lin][data_col].value.toString() )
+    return ;
 
   if ( ! cell.modifiable() )
     return ;
@@ -2428,7 +2430,7 @@ function cell_set_value(td, value, data_lin, data_col)
     return cell_get_value_real(data_lin, data_col) ;
 
   var v = cell_set_value_real(data_lin, data_col, value, td) ;
-  if ( v !== undefined && v !== false )
+  if ( v !== undefined )
     return v ;
   return cell_get_value_real(data_lin, data_col) ;
 }
