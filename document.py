@@ -260,18 +260,13 @@ class Table(object):
         warn('allow modification:' + str(self.modifiable),what='table')
         created = False
         if self.modifiable:
-            utilities.mkpath( dirname )
-            if configuration.backup:
-                utilities.mkpath( configuration.backup + dirname )
-
+            utilities.mkpath_safe(dirname)
             if not os.path.exists(self.filename):
                 s = ['# -*- coding: utf8 -*- ']
                 s.append('from data import *')
                 s = '\n'.join(s) + '\n'
-                utilities.mkpath( dirname ) # XXX
-                utilities.write_file(self.filename, s)
-                if configuration.backup:
-                    utilities.write_file(configuration.backup+self.filename, s)
+                utilities.mkpath_safe(dirname)
+                utilities.append_file_safe(self.filename, s)
                 created = True
 
         # Remove final .py
@@ -411,23 +406,11 @@ class Table(object):
         if configuration.read_only:
             self.panic('Modification in a readonly process')
                 
-    if configuration.backup:
-        def log(self, text):
-            self.state_is_fine()                
-            b = configuration.backup + self.filename
-            if not os.path.exists(b):
-                utilities.write_file(b, utilities.read_file(self.filename))
-                
-            utilities.append_file(self.filename, text + '\n')
-            utilities.append_file(b            , text + '\n')
-            warn(self.filename + ' ' + text)
-            self.mtime = time.time()
-    else:
-        def log(self, text):
-            self.state_is_fine()
-            utilities.append_file(self.filename, text + '\n')
-            warn(self.filename + ' ' + text)
-            self.mtime = time.time()
+    def log(self, text):
+        self.state_is_fine()
+        utilities.append_file_safe(self.filename, text + '\n')
+        warn(self.filename + ' ' + text)
+        self.mtime = time.time()
 
     def new_page(self, ticket, user_name, user_ip, user_browser, date=None):
         if not self.loading and self.modifiable:
@@ -1025,14 +1008,8 @@ la dernière saisie.
                   os.path.join(dirname,
                                self.filename.replace(os.path.sep, '___'))
                   )
-        try:
-            os.unlink(self.filename + 'c')
-        except OSError:
-            pass
-        try:
-            os.unlink(configuration.backup + self.filename)
-        except OSError:
-            pass
+        utilities.unlink_safe(self.filename)
+        utilities.unlink_safe(self.filename + 'c')
 
         for name in self.masters:
             master_of_update('-', name, self.year, self.semester, self.ue)

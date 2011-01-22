@@ -1,7 +1,10 @@
 Finir par priorité :
-	'referents.py' ==> 'referents_table.py'
-	Enlever les tests : configuration.backup
 	Pylint
+	Doc plugins
+	Cacher a gauche dans la page imprimee
+	Reconnection persistente pour certains utilisateurs
+	veryunsafe : ajouter une boite de confirmation avant
+	choix année RDV IP si cela a un sens
 	Méthode javascript pour attr : editable (masters attributes)
 	Menu unexpected popdown : answer use your own menu
 	Faire des plugins pour chaque fonctionnalité coté client.

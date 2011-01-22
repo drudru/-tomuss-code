@@ -110,19 +110,14 @@ def extension(server):
     t.modifiable = 0
 
     utilities.warn('Move %s to %s' % (old_filename, new_filename))
-    os.rename(old_filename, new_filename)
-    if configuration.backup:
-        os.rename(configuration.backup + old_filename,
-                  configuration.backup + new_filename)
+    utilities.rename_safe(old_filename, new_filename)
 
     # XXX: We hope that nobody will recreate the table at the instant.
 
     new_filename = os.path.join(*new_filename.split(os.path.sep)[1:])
 
-    os.symlink(os.path.join('..', '..', new_filename), old_filename)
-    if configuration.backup:
-        os.symlink(os.path.join('..', '..', new_filename),
-                   configuration.backup + old_filename)
+    utilities.symlink_safe(os.path.join('..', '..', new_filename),
+                           old_filename)
 
     server.the_file.write("Extension de l'automne vers le printemps réussie. L'UE n'est maintenant plus semestrialisée")
     return
