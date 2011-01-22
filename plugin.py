@@ -440,6 +440,25 @@ links_without_plugins = [
          ),
     ]
 
+@utilities.add_a_cache0
+def get_box_list():
+    boxes_title = {}
+    for link in links_without_plugins:
+        boxes_title[link.where] = link.where
+    for p in plugins:
+        if p.link:
+            boxes_title[p.link.where] = p.link.where
+
+    boxes_title['abj_master'  ] = '<!--1-->Scolarité'
+    boxes_title['informations'] = '<!--2-->Informations'
+    boxes_title['root_rw'     ] = '<!--7-->Administration'
+    boxes_title['debug'       ] = '<!--8-->Debuggage'
+    boxes_title['deprecated'  ] = '<!--9-->Obsolete'
+
+    boxes_title = sorted(list(boxes_title.items()),
+                         key=lambda x: x[1])
+
+    return boxes_title
 
 def get_menu_for(where, server, with_help=False):
     messages = []
