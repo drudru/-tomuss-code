@@ -1,7 +1,7 @@
 // -*- coding: utf-8 -*-
 /*
     TOMUSS: The Online Multi User Simple Spreadsheet
-    Copyright (C) 2008,2009 Thierry EXCOFFIER, Universite Claude Bernard
+    Copyright (C) 2008-2011 Thierry EXCOFFIER, Universite Claude Bernard
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -164,6 +164,12 @@ function parse_date(t)
     h = 12 ;
   else
     h = 0 ;
+
+  if ( y > _today.getFullYear() + 1 )
+    {
+      alert("Je refuse la saisie de l'année : " + y) ;
+      y = _today.getFullYear() ;
+    }
 
   var d = new Date(y, text[1]-1, text[0], h) ;
 
