@@ -1,6 +1,6 @@
 /*
     TOMUSS: The Online Multi User Simple Spreadsheet
-    Copyright (C) 2008-2010 Thierry EXCOFFIER, Universite Claude Bernard
+    Copyright (C) 2008-2011 Thierry EXCOFFIER, Universite Claude Bernard
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -606,7 +606,7 @@ for(var type_i in types)
 	      "Ceci permet d'ouvrir une nouvelle fenêtre<br>" +
 	      "faite pour être imprimée ou <b>exportée</b> vers un tableur.<br>"+
 	      'Seuls les étudiants filtrés seront affichés.') +
-   hidden_txt('<a href="javascript:mail_window();">Mails</a>',
+   hidden_txt('<select onclick="javascript:this.blur();mail_window();"><option>Mails</option></select>',
 	      "Gestion des mails") +
    hidden_txt('<select onfocus="take_focus(this);" onchange="this.blur();if ( this.selectedIndex == 1) statistics(); else if ( this.selectedIndex == 2) statistics_per_group() ; if ( this.selectedIndex == 3) statistics_authors() ; else if ( this.selectedIndex == 4) table_graph(); this.selectedIndex = 0 ;"><option selected="1">Statistiques</option><option>Totales</option><option>Par groupe d\'étudiant</option><option>Par enseignant</option><option>Représentation graphique de la table</option></select>',
 	      "Ceci permet d'ouvrir une nouvelle fenêtre<br>" +

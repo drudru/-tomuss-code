@@ -1,7 +1,7 @@
 // -*- coding: utf-8 -*-
 /*
     TOMUSS: The Online Multi User Simple Spreadsheet
-    Copyright (C) 2008-2010 Thierry EXCOFFIER, Universite Claude Bernard
+    Copyright (C) 2008-2011 Thierry EXCOFFIER, Universite Claude Bernard
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -4537,7 +4537,7 @@ function change_popup_on_red_line()
   update_popup_on_red_line() ;
 }
 
-function students_mails()
+function students_mails(missing)
 {
   var s = '' ;
 
@@ -4546,17 +4546,18 @@ function students_mails()
       line = filtered_lines[data_lin] ;
       if ( line[0].value !== '' )
 	{
-	  if ( table_attr.mails[line[0].value] )
-	    s += table_attr.mails[line[0].value] ;
+	  if ( table_attr.mails[line[0].value]
+	       && table_attr.mails[line[0].value].indexOf('@') != -1)
+	    s += table_attr.mails[line[0].value] + ',' ;
 	  else
-	    s += line[0].value ;
-	  s += ',' ;
+	    if ( missing )
+	      missing.push(line[0].value) ;
 	}
       
     }
   return s ;
 }
-function authors_mails()
+function authors_mails(missing)
 {
   var cls = column_list_all() ;
   var cols = [] ;
@@ -4580,11 +4581,11 @@ function authors_mails()
   for(var i in a)
     {
       if ( a[i] == i )
-	if ( table_attr.mails[i] )
-	  s += table_attr.mails[i] ;
+	if ( table_attr.mails[i] && table_attr.mails[i].indexOf('@') != -1 )
+	  s += table_attr.mails[i] + ',' ;
 	else
-	  s += i ;
-      s += ',' ;
+	  if ( missing )
+	      missing.push(i) ;
     }
   return s ;
 }
@@ -4600,7 +4601,8 @@ function mail_div_box(mails)
 
 function mail_window()
 {
-  var the_student_mails = students_mails() ;
+  var missing = [] ;
+  var the_student_mails = students_mails(missing) ;
   var nr_student_mails = the_student_mails.split(',').length - 1 ;
 
   if ( the_student_mails.search('@') == -1 )
@@ -4616,7 +4618,7 @@ function mail_window()
 			       'Suivez le lien pour directement lancer ' +
 			       'votre logiciel de messagerie.') ;
 
-  var the_author_mails = authors_mails() ;
+  var the_author_mails = authors_mails(missing) ;
   var nr_author_mails = the_author_mails.split(',').length - 1 ;
   var link_authors = nr_author_mails + ' Enseignants' ;
   if ( mailto_url_usable(the_author_mails) )
@@ -4625,6 +4627,18 @@ function mail_window()
 			       'Suivez le lien pour directement lancer ' +
 			       'votre logiciel de messagerie.') ;
 
+  if ( missing.length )
+    {
+	var missing_text = '<p class="unknown_mails">' + missing.length
+	  + ' adresses mail inconnues' ;
+       if ( missing.length > 20 )
+	 missing_text += '.' ;
+       else
+	 missing_text += ' : ' + missing ;
+       missing_text += '</p>' ;
+    }
+  else
+    missing = '' ;
 
   create_popup('mails_div',
 	       'Gestion des mails',
@@ -4641,7 +4655,7 @@ function mail_window()
 	       mail_div_box(the_student_mails) +
 	       '</td><td>' +
 	       mail_div_box(the_author_mails) +
-	       '</td></tr></table>'
+	       '</td></tr></table>' + missing_text
 	       ,
 	       'TOMUSS peut faire du <a href="javascript:personal_mailing()">publi-postage</a> en envoyant les mails pour vous.<br>Ceci permet d\'envoyer des informations personnalisées aux étudiants en fonction du contenu de la table.') ;
 
