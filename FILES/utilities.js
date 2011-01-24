@@ -2020,7 +2020,11 @@ function cell_value_export()
 	}
     }
   else
-    return tofixedapogee(xx) ;
+    {
+      if ( xx < 0 )
+	xx = 0 ;
+      return tofixedapogee(xx) ;
+    }
 }
 
 
