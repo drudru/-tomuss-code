@@ -1,7 +1,7 @@
 #!/bin/env python
 # -*- coding: utf-8 -*-
 #    TOMUSS: The Online Multi User Simple Spreadsheet
-#    Copyright (C) 2008,2010 Thierry EXCOFFIER, Universite Claude Bernard
+#    Copyright (C) 2008-2011 Thierry EXCOFFIER, Universite Claude Bernard
 #
 #    This program is free software; you can redistribute it and/or modify
 #    it under the terms of the GNU General Public License as published by
@@ -21,6 +21,98 @@
 
 import cgi
 import utilities
+import re
+import configuration
+
+###############################################################################
+# This part is for column import.
+# column import can by done on any column type.
+###############################################################################
+
+cookies = None
+
+def read_url_not_cached(url):
+    """Read an URL content to import in a column"""
+    import urllib2
+    try:
+        f = urllib2.urlopen(url)
+        c = f.read()
+        f.close()
+
+        if '<html>' in c.lower():
+            try:
+                import LOCAL.fakeuser
+                global cookies
+                c, cookies = LOCAL.fakeuser.connection(url, cookies)[:2]
+            except ImportError:
+                utilities.send_backtrace('Missing LOCAL.fakeuser.connection')
+        
+        return c
+    except:
+        utilities.send_backtrace('IMPORT ' + url)
+        return
+read_url = utilities.add_a_cache(read_url_not_cached, timeout=5)    
+
+
+@utilities.add_a_lock
+def update_column_content(column, url):
+    utilities.warn('IMPORT %s' % url)
+
+    url_base = url.split('#')[0]
+
+    if configuration.regtest:
+        c = read_url_not_cached(url_base)
+    else:
+        c = read_url(url_base)
+    if c is None:
+        return
+    for encoding in ('utf8', 'latin1'):
+        try:
+            c = unicode(c, encoding)
+            break
+        except:
+            pass
+    else:
+        utilities.send_backtrace('Bad encoding for %s' % url,
+                                 exception=False)
+        return # Bad encoding
+
+    c = c.encode('utf8').replace('\r','\n').split('\n')
+
+    utilities.warn('READ %d LINES IN %s' % (len(c), url))
+
+    try:
+        col = int(url.split('#')[1]) - 1
+    except (IndexError, ValueError):
+        return
+
+    if col <= 0:
+        return
+
+    import csv
+    if '\t' in c[0]:
+        delimiter = '\t'
+    elif ';' in c[0]:
+        delimiter = ';'
+    else:
+        delimiter = ','
+    for line in csv.reader(c, delimiter=delimiter):
+        if len(line) <= col:
+            continue
+        for line_id, cells in  column.table.get_items(line[0]):
+            new_value = line[col]
+            if cells[column.data_col].value != new_value:
+                column.table.lock()
+                try:
+                    column.table.cell_change(column.table.pages[0],
+                                           column.the_id,
+                                           line_id, new_value)
+                finally:
+                    column.table.unlock()
+
+###############################################################################
+# Text column definition
+###############################################################################
 
 class Text(object):
 
@@ -186,8 +278,28 @@ pour la trier dans une direction ou l'autre."""
            * when the 'attr' column attribute is changed.
            * when a column used by this one changed
         """
-        pass
+        if attr is not None and attr.name != 'comment':
+            return
 
+        if 'IMPORT(' not in column.comment:
+            return
+        
+        url = re.sub(r'.*IMPORT\(', '', column.comment)
+        url = re.sub(r'\).*', '', url)
+
+        if column.import_url == url:
+            return
+
+        column.import_url = url
+
+        if not (url.startswith('http:')
+                or url.startswith('https:')
+                or url.startswith('ftp:')
+                or (url.startswith('file:') and configuration.regtest)
+                ):
+            return
+
+        update_column_content(column, url)
 
 Text.keys = sorted([i for i in Text.__dict__ if not i.startswith('_')])
 Text.keys.remove('full_title')

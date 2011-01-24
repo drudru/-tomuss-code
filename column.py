@@ -40,7 +40,6 @@ class ColumnAttr(object):
     update_headers = 0
     update_table_headers = 0
     need_authorization = 1
-    update_content = False
     only_masters = 0
     formatter = 'function(column, value) { return value ; }'
     empty = 'function(column, value) { return value === "" ; }'
@@ -189,7 +188,6 @@ class ColumnTitle(ColumnAttr):
 class ColumnComment(ColumnAttr):
     name = 'comment'
     update_headers = 1
-    update_content = True
     display_table = 1
 
 class ColumnAuthor(ColumnAttr):
@@ -251,7 +249,6 @@ class ColumnMinMax(ColumnAttr):
 
 class ColumnEmptyIs(ColumnAttr):
     name = 'empty_is'
-    update_content = True
     display_table = 1
     
 class ColumnColumns(ColumnAttr):
@@ -555,93 +552,6 @@ files.files['types.js'].append('var column_attributes = {\n' +
 
     
 
-###############################################################################
-
-# content, cookies, ticket = fakeuser.connection(url_dir)
-# content, cookies, ticket = fakeuser.connection(url_ip, cookies)
-
-cookies = None
-
-def read_url_not_cached(url):
-    """Read an URL content to import in a column"""
-    import urllib2
-    try:
-        f = urllib2.urlopen(url)
-        c = f.read()
-        f.close()
-
-        if '<html>' in c.lower():
-            try:
-                import LOCAL.fakeuser
-                global cookies
-                c, cookies = LOCAL.fakeuser.connection(url, cookies)[:2]
-            except ImportError:
-                utilities.send_backtrace('Missing LOCAL.fakeuser.connection')
-        
-        return c
-    except:
-        utilities.send_backtrace('IMPORT ' + url)
-        return
-read_url = utilities.add_a_cache(read_url_not_cached, timeout=5)    
-
-
-@utilities.add_a_lock
-def update_column_content(column, url):
-    warn('IMPORT %s' % url)
-
-    url_base = url.split('#')[0]
-
-    if configuration.regtest:
-        c = read_url_not_cached(url_base)
-    else:
-        c = read_url(url_base)
-    if c is None:
-        return
-    for encoding in ('utf8', 'latin1'):
-        try:
-            c = unicode(c, encoding)
-            break
-        except:
-            pass
-    else:
-        utilities.send_backtrace('Bad encoding for %s' % url,
-                                 exception=False)
-        return # Bad encoding
-
-    c = c.encode('utf8').replace('\r','\n').split('\n')
-
-    warn('READ %d LINES IN %s' % (len(c), url))
-
-    try:
-        col = int(url.split('#')[1]) - 1
-    except (IndexError, ValueError):
-        return
-
-    if col <= 0:
-        return
-
-    import csv
-    if '\t' in c[0]:
-        delimiter = '\t'
-    elif ';' in c[0]:
-        delimiter = ';'
-    else:
-        delimiter = ','
-    for line in csv.reader(c, delimiter=delimiter):
-        if len(line) <= col:
-            continue
-        for line_id, cells in  column.table.get_items(line[0]):
-            new_value = line[col]
-            if cells[column.data_col].value != new_value:
-                column.table.lock()
-                try:
-                    column.table.cell_change(column.table.pages[0],
-                                           column.the_id,
-                                           line_id, new_value)
-                finally:
-                    column.table.unlock()
-
-
 class Column(object):
     """The Column object contains all the informations about the column.
     Once the Column is integrated in a table, it memorizes the table pointer.
@@ -781,29 +691,6 @@ class Column(object):
                 return False
         return True
 
-    def update_content(self):
-        """Fill the column with external content"""
-
-        if 'IMPORT(' not in self.comment:
-            return
-        
-        url = re.sub(r'.*IMPORT\(', '', self.comment)
-        url = re.sub(r'\).*', '', url)
-
-        if self.import_url == url:
-            return
-
-        self.import_url = url
-
-        if not (url.startswith('http:')
-                or url.startswith('https:')
-                or url.startswith('ftp:')
-                or (url.startswith('file:') and configuration.regtest)
-                ):
-            return
-
-        utilities.start_new_thread(update_column_content, (self, url))
-
 class Columns(object):
     """A set of Column associated to a table.
     The columns are stored in a list, so they have an index.
@@ -849,11 +736,6 @@ class Columns(object):
                 for col in self.columns
                 if column.title in col.depends_on()
                 )
-
-    def update_content(self):
-        """Update each column with external content"""
-        for column in self.columns:
-            column.update_content()
 
     def get_grp(self):
         """Get the data_col of the column named 'Grp'"""

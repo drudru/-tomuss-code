@@ -1188,7 +1188,6 @@ def check_new_students_real():
                 warn('done %s' % t.ue, what="table")
 
                 if t.modifiable:
-                    t.columns.update_content() # for IMPORT(URL)
                     for column in t.columns:
                         column.type.update_all(t, column)
             finally:
@@ -1410,9 +1409,6 @@ def update_computed_values_slow():
         time.sleep(0.1)
         while column_changed_list:
             the_table, column, attr = column_changed_list.pop()
-            if attr.update_content:
-                column.update_content() # To import data (URL in the comment)
-
             column.type.update_all(the_table, column, attr)
             for col in the_table.columns.use(column):
                 col.type.update_all(the_table, col)
