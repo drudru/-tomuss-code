@@ -21,14 +21,13 @@
 
 import text
 import inscrits
-import utilities
 
 def etapes_text(etapes):
     return ' '.join(sorted(etapes))
 
 class Code_Etape(text.Text):
     human_priority = 12
-    full_title = 'Code Etape'
+    full_title = 'ID ==&gt;Code Etape'
     cell_is_modifiable = 0
     tip_cell = ""
     set_columns = 'set_columns'
@@ -43,18 +42,30 @@ class Code_Etape(text.Text):
             return None
         return the_table.columns.data_col_from_title(id_column_title)
 
+    def get_one_value(self, student_id):
+        return etapes_text(inscrits.L.etapes_of_student(student_id))
+
     def update_one(self, the_table, line_id, column):
         data_col = self.data_col(the_table, column)
         if data_col is None:
             return
-        student_id = the_table.lines[line_id][data_col].value
-        etape = etapes_text(inscrits.L.etapes_of_student(student_id))
+        etape = self.get_one_value(the_table.lines[line_id][data_col].value)
         the_table.lock()
         try:
             the_table.cell_change(the_table.pages[0], column.the_id, line_id,
                                   etape)
         finally:
             the_table.unlock()
+
+    def get_all_values(self, students):
+        students_etapes = inscrits.L.etapes_of_students(tuple(students))
+        formatted = {}
+        for student, etapes in students_etapes.items():
+            try:
+                formatted[student] = etapes_text(etapes)
+            except KeyError:
+                formatted[student] = ''
+        return formatted
 
     def update_all(self, the_table, column, attr=None):
         if attr is not None and attr.name != 'columns':
@@ -68,11 +79,11 @@ class Code_Etape(text.Text):
         students = set(inscrits.login_to_student_id(line[data_col].value)
                        for line in the_table.lines.values()
                        )
-        etapes = inscrits.L.etapes_of_students(tuple(students))
+        etapes = self.get_all_values(students)
         for line_key, line in the_table.lines.items():
             try:
                 student_id = inscrits.login_to_student_id(line[data_col].value)
-                etape = etapes_text(etapes[student_id])
+                etape = etapes[student_id]
             except KeyError:
                 continue
             the_table.lock()
