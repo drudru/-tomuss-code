@@ -23,7 +23,7 @@ import socket
 import os
 import time
 
-version = '2.12.13'
+version = '2.12.14'
 
 # The following information can be redefined by python modules
 # loaded at the end of this file.
@@ -295,11 +295,11 @@ bilan_des_notes = "http://students.domain.org/history?student_id="
 
 #REDEFINE
 # This function returns the URL of the student picture.
-# This example is for the demonstration site, in which the students
-# picture are dispatched by the TOMUSS server.
-def picture(student_id):
+# This example assumes that TOMUSS itself send pictures.
+def picture(student_id, ticket):
     import utilities
-    return utilities.StaticFile._url_ + '/' + student_id + '.png'
+    return (utilities.StaticFile._url_ + '/=' + ticket.ticket
+            + '/picture/' + student_id + '.JPG')
 
 #REDEFINE
 # This function returns a string inserted into student suivi page

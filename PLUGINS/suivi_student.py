@@ -106,7 +106,8 @@ def student_statistics(login, server, is_a_student=False, expand=False,
     semester = server.semester
     firstname, surname, mail = inscrits.firstname_and_surname_and_mail(login)
     s = ['<div class="student"><img class="photo" src="',
-         configuration.picture(inscrits.login_to_student_id(login)),
+         configuration.picture(inscrits.login_to_student_id(login),
+                               ticket=ticket),
          '">',
          tomuss_links(login, ticket, server, is_a_student),
          '<h1>'
@@ -285,7 +286,7 @@ def student(server, login=''):
     server.the_file.write((header2.replace("_USERNAME_",
                                           server.ticket.user_name)
                           .replace("_ADMIN_", configuration.maintainer) +
-                          '<p id="x" style="background:yellow"><b>Chargement en cours, veuillez patientez s\'il vous plait. Cela ira encore plus lentement si vous réactualisez la page.</b></p>').replace('\n',''))
+                          '<p id="x" style="background:yellow"><b>Chargement en cours, veuillez patienter s\'il vous plait. Cela ira encore plus lentement si vous réactualisez la page.</b></p>').replace('\n',''))
     server.the_file.flush()
     server.the_file.write(
         "<script>document.getElementById('x').style.display='none';</script>" +

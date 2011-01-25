@@ -71,7 +71,7 @@ do
   # Copy sources
   cp -a . $I/SERVEUR_NOTES.new
 
-  for J in TMP LOGS Trash
+  for J in TMP LOGS Trash PICTURES
   do
     # Copy informations from files for older TOMUSS versions
     if [ ! -d $I/$J ]

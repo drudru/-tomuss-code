@@ -704,7 +704,7 @@ This function returns the URL of the student picture.
 function student_picture_url(login)
 {
   if ( login )
-    return 'http://www.org/' + login_to_id(login) + '.png' ;
+    return  '_URL_/=' + ticket + '/picture/' + login_to_id(login) + '.JPG' ;
   return '' ;
 }
 
