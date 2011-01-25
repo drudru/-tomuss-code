@@ -19,20 +19,14 @@
 #
 #    Contact: Thierry.EXCOFFIER@bat710.univ-lyon1.fr
 
-import code_etape
+import mail
 import inscrits
 
-class Mail(code_etape.Code_Etape):
-    full_title = 'Mail(ID)'
-    tip_columns = """<b>Trouve l'adresse mail</b><br>
+class Phone(mail.Mail):
+    full_title = 'Téléphone(ID)'
+    tip_columns = """<b>Trouve le numéro de téléphone</b><br>
     Indiquez la colonne de comptes (ID)<br>
-    pour lesquels on veut trouver l'adresse mail."""
+    pour lesquels on veut trouver le téléphone."""
 
     def get_one_value(self, student_id):
-        return inscrits.mail(student_id)
-
-    def get_all_values(self, students):
-        values = {}
-        for login in students:
-            values[login] = self.get_one_value(login)
-        return values
+        return inscrits.phone(student_id)

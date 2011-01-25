@@ -146,6 +146,10 @@ class LDAP_Logic(object):
         else:
             return a
 
+    def phone(self, login):
+        "Retrieve the phone linked to the login"
+        return self.get_attributes(login, (configuration.attr_phone,))[0]
+
     @utilities.add_a_method_cache
     def firstname_and_surname_and_mail(self, login):
         """From the login of the person, retrieve the name and mail"""
@@ -590,6 +594,7 @@ def portail(login):               return L.portail(login)
 def ues_of_a_student(name):       return L.ues_of_a_student(name)
 def ues_of_a_student_short(name): return L.ues_of_a_student_short(name)
 def firstname_and_surname(login): return L.firstname_and_surname(login)
+def phone(login):                 return L.phone(login)
 def member_of_list(login):        return L.member_of_list(login)
 def ufr_of_teacher(login):        return L.ufr_of_teacher(login)
 def is_a_teacher(login):          return L.is_a_teacher(login)
@@ -651,9 +656,11 @@ demo_animaux = {
     }
 
 if __name__ == "__main__":
+    import document # If not here, this main can't execute ???
     configuration.terminate()
     import inscrits
     L = inscrits.LDAP()
+    print L.phone('thierry.excoffier')
     print L.ues_of_a_student('p0704986')
     print L.ues_of_a_student_short('p0704986')
     for i in L.ues_of_a_student_with_groups('p0704986'):

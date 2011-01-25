@@ -23,7 +23,7 @@ import socket
 import os
 import time
 
-version = '2.12.11'
+version = '2.13.0'
 
 # The following information can be redefined by python modules
 # loaded at the end of this file.
@@ -132,6 +132,7 @@ attr_mail             = "mail"
 attr_surname          = "sn"
 attr_firstname        = "givenName"
 attr_default_password = "password"
+attr_phone            = "telephoneNumber"
 
 # TOP
 ou_top = "DC=univ-lyon1,DC=fr"
