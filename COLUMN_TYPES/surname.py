@@ -22,11 +22,11 @@
 import mail
 import inscrits
 
-class Phone(mail.Mail):
-    full_title = 'Téléphone(ID)'
-    tip_columns = """<b>Trouve le numéro de téléphone</b><br>
+class Surname(mail.Mail):
+    full_title = 'Nom(ID)'
+    tip_columns = """<b>Trouve le nom de famille</b><br>
     Indiquez la colonne de comptes (ID)<br>
-    pour lesquels on veut trouver le téléphone."""
+    pour lesquels on veut trouver le nom de famille."""
 
     def get_one_value(self, student_id):
-        return inscrits.phone(student_id).encode('utf8')
+        return inscrits.firstname_and_surname(student_id)[1].encode('utf8')
