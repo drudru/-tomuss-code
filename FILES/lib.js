@@ -3904,12 +3904,14 @@ function virtual_table_common_begin()
   var a = '{' ;
   for(var i in table_attr)
     a += i + ':"' + table_attributes[i].formatter(table_attr[i]) + '",' ;
-  a = a.substr(0,p.length-1) + '};' ;
+  a = a.substr(0,a.length-1) + '}' ;
 
   return html_begin_head(true) +
     head_html() +
     '<script>\n' +
+    'root = [] ;\n' +
     'page_id = "" ;\n' +
+    'check_down_connections_interval = 0 ;\n' +
     'url = "' + url.split('/=')[0] + '";\n' +
     'my_identity = "' + my_identity + '" ;\n' +
     'year = "' + year + '" ;\n' +
@@ -5168,6 +5170,8 @@ var reconnect_giveup ;
 
 function reconnect()
 {
+  if ( check_down_connections_interval == 0 )
+    return ;
   if ( millisec() - last_reconnect < 1000*check_down_connections_interval )
     return ;
   if ( millisec() - last_server_answer > 1000*(ticket_time_to_live-3600))
