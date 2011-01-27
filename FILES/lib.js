@@ -125,6 +125,10 @@ var t_column_histogram ;
 var t_column_average ;
 var t_menutop ;
 
+// Redefined if needed
+var root = [] ;
+var my_identity = 'identity undefined' ;
+
 function lib_init()
 {
   divtable             = document.getElementById('divtable'             );
@@ -3909,7 +3913,6 @@ function virtual_table_common_begin()
   return html_begin_head(true) +
     head_html() +
     '<script>\n' +
-    'root = [] ;\n' +
     'page_id = "" ;\n' +
     'check_down_connections_interval = 0 ;\n' +
     'url = "' + url.split('/=')[0] + '";\n' +

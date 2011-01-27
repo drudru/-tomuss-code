@@ -74,7 +74,7 @@ function bilan(ticket, login, resume, firstname, surname, mail, suivi,
     + "<li>La note sur 20 est une moyenne de TOUTES les notes saisies dans TOMUSS sans tenir compte des poids. <b>Ce n'est pas la note de l'UE</b>"
     + '</ul>' ;
 
-  if ( i_can_refer )
+  if ( false && i_can_refer )
     s += '<a href="_URL_/=' + ticket + '/referent_get/' + login +
       '">Je veux devenir le référent pédagogique de cet étudiant</a> (vous ne pourrez plus vous en séparer sauf si quelqu\'un vous le prend)' ;
 

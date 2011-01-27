@@ -306,6 +306,13 @@ def picture(student_id, ticket):
 def more_on_suivi(student_login):
     return ''
 
+#REDEFINE
+# To add external information in the 'bilan'
+# This function is used by PLUGINS/bilan.py to get external information
+def external_bilan(login):
+    return "[]"
+
+
 # And an error message if the password is trivial
 bad_password = """
 <div onclick="this.style.display='none';"

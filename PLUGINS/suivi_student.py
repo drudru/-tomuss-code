@@ -141,7 +141,7 @@ def student_statistics(login, server, is_a_student=False, expand=False,
                  (configuration.bilan_des_notes + login) + '</script>, ')
 
     if is_a_referent:
-        s.append(u"""<script>hidden('<a href="%s/=%s/bilan/%s" target="_blank">Bilan TOMUSS</a>','Affiche le récapitulatif des notes présentes dans TOMUSS et APOGÉE.<br>Ceci permet de voir le nombre d'inscriptions à une UE.');""" %
+        s.append(u"""<script>hidden('<a href="%s/=%s/bilan/%s" target="_blank">Bilan TOMUSS</a>','Affiche le récapitulatif des notes présentes dans TOMUSS et APOGÉE.<br>Ceci permet de voir le nombre d\\'inscriptions à une UE.');""" %
                  (utilities.StaticFile._url_, ticket.ticket, login) + '</script>, ')
     # CONTRACT
 
