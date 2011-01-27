@@ -5100,7 +5100,7 @@ function abj_per_day()
       names += ',\"' + i + '\":\"' + lines[login_to_line(i)][2].value
 	+ ' ' + lines[login_to_line(i)][1].value+ '\"';
       i = the_student_abjs[i] ;
-      t = '' ;
+      var t = '' ;
       for(var j in i[0])
 	{
 	  j = i[0][j] ;
@@ -5110,7 +5110,14 @@ function abj_per_day()
 	      d.getTime() < end;
 	      d.setTime(d.getTime() + 86400*1000)
 	      )
-	    days[d.getMonth() + '/' + d.getDate()] = d.getTime() ;
+	    {
+	      if ( d.getHours() == 23 )
+		d.setHours(24) ;
+	      else if ( d.getHours() == 1 )
+		d.setHours(0) ;
+	      days[d.getFullYear()+'/'+d.getMonth()+'/'+d.getDate()] = d.getTime() ;
+	    }
+	      
 	}
       s += (t+' ').substr(1) + '] ;\n' ;
     }
@@ -5121,17 +5128,18 @@ function abj_per_day()
   var mm, first ;
 
   if ( semester == 'Automne' )
-    var start = 7, stop = 13 ;
+    var start = 7, stop = 13, yy = year ;
   else
-    var start = 1, stop = 7 ;
-
+    var start = 1, stop = 7, yy = year + 1 ;
 
   for(var m=start; m<stop; m++)
     {
       first = true ;
       mm = m % 12 ;
+      if ( mm == 0 )
+	  yy++ ;
       for(var d=1; d<32; d++)
-	if ( days[mm + '/' + d] )
+	if ( days[yy + '/' + mm + '/' + d] )
 	  {
 	    if ( first )
 	      {
@@ -5141,7 +5149,7 @@ function abj_per_day()
 		  p += '<td>&nbsp;' ;
 	      }
 	    p += '<td><a onclick="javascript:compute_abj_per_day('
-	      + days[mm + '/' + d] + ');">' + d + '</a>' ;
+	      + days[yy + '/' + mm + '/' + d] + ');">' + d + '</a>' ;
 	  }
       if ( ! first )
 	{

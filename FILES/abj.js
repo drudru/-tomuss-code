@@ -148,6 +148,8 @@ function abj_init()
 
 function parse_date(t)
 {
+  var h ;
+
   if ( t === undefined )
     return new Date() ;
   text = t.split(/[ \/AMPamp]/) ; /* \/ because of old netscape versions */
@@ -165,6 +167,7 @@ function parse_date(t)
   else
     h = 0 ;
 
+  var _today = new Date() ;
   if ( y > _today.getFullYear() + 1 )
     {
       alert("Je refuse la saisie de l'année : " + y) ;
