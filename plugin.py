@@ -76,7 +76,8 @@ class Link(object):
         if url.startswith('javascript:'):
             target = ''
         elif url.startswith('/'):
-            url = '%s/=%s%s' % (configuration.server_url, server.ticket.ticket, url)
+            url = "javascript:do_action('%s')" % url[1:]
+            target = ''
 
         text = self.text
         if text is None:

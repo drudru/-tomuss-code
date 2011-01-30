@@ -1,9 +1,9 @@
 Finir par priorité :
 	Pylint
 	Doc plugins
+	veryunsafe : ajouter une boite de confirmation avant
 	redirection : garde l'ancienne ouverte ?
 	Reconnection persistente pour certains utilisateurs
-	veryunsafe : ajouter une boite de confirmation avant
 	choix année RDV IP si cela a un sens
 	Méthode javascript pour attr : editable (masters attributes)
 	Menu unexpected popdown : answer use your own menu
