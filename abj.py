@@ -293,7 +293,7 @@ def rem_da(login, ue_code, user_name='', date=''):
 def get_abjs(year, semester):
     """Get the ABJ/DA database for the indicated semester"""
     if semester == 'Printemps' \
-           and year > configuration.abj_per_semester_before \
+           and year >= configuration.abj_per_semester_before \
            and not configuration.abj_per_semester:
         # Take ABJ from first semester
         semester = 'Automne'
