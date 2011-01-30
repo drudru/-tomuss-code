@@ -652,7 +652,7 @@ for(var type_i in types)
 	      'Importe les définitions des colonnes.') + ', ' +
 
    hidden_txt('<a href="javascript:export_columns();">Exp.</a>',
-	      'Exporte les définitions des colonnes (pas le contenu de la table)')+ '<br><small>' +
+	      'Exporte les définitions des colonnes (pas le contenu de la table)')+ '<br>' +
    
    table_select('table_attr_private',
 		['Publique', 'Privée'],
@@ -667,7 +667,7 @@ for(var type_i in types)
 		       "'0' indique que ce nombre dépend de la taille écran."
 		       ) ;
 
-   w += '</small><br></div>' +
+   w += '<br></div>' +
 
    table_input_attr('dates','empty',
 		    "Dates du premier cours et dernier examen.<br>" +

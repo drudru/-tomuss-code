@@ -59,6 +59,9 @@ class Link(object):
         self.authorized = authorized
         self.plugin = None
 
+    def __str__(self):
+        return 'Link(%s,%s)' % (self.text, self.url)
+
     def html(self, server, plugin, with_help=False):
         if self.target:
             target = ' target="' + self.target + '"'
@@ -67,7 +70,8 @@ class Link(object):
 
         url = self.url
         if url is None:
-            assert(len(plugin.url) == 1)
+            if len(plugin.url) != 1:
+                raise ValueError('BUG: "%s" %s' % (plugin, self))
             url = '/' + plugin.url[0]
         if url.startswith('javascript:'):
             target = ''
