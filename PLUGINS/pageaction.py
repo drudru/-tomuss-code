@@ -152,18 +152,19 @@ def delete_this_table(server):
         server.the_file.write('Seul un responsable de l\'UE peut détruire la table')
         return
 
-    d = utilities.manage_key('LOGINS',
-                             os.path.join(server.ticket.user_name, 'pages')
-                             )
-    if d:
-        d = eval(d)
-        if server.the_ue in d:
-            del d[server.the_ue]
-            utilities.manage_key('LOGINS',
-                                 os.path.join(server.ticket.user_name,
-                                              'pages'),
-                                 content = repr(d)
-                                 )
+## Uncomment these lines in order to remove deleted tables from favorites.
+##    d = utilities.manage_key('LOGINS',
+##                             os.path.join(server.ticket.user_name, 'pages')
+##                             )
+##    if d:
+##        d = eval(d)
+##        if server.the_ue in d:
+##            del d[server.the_ue]
+##            utilities.manage_key('LOGINS',
+##                                 os.path.join(server.ticket.user_name,
+##                                              'pages'),
+##                                 content = repr(d)
+##                                 )
     
     table.delete()
     server.the_file.write('La destruction a été faite.')
