@@ -3477,6 +3477,7 @@ function signatures_page_per_column()
 
 function print_page(w)
 {
+  var hide_link = '<TD><a class="hidden_on_paper" href="#" onclick="this.parentNode.parentNode.style.display=\'none\';return false"><small>Cacher</small></a>' ;
   assert_name_sort() ;
   var cols = column_list_all() ;
 
@@ -3498,19 +3499,19 @@ function print_page(w)
   if ( table_attr.comment )
     s += '<p>Petit message : <b>' + html(table_attr.comment) + '</b></p>' ;
   s += '<TABLE class="printer colored">' ;
-  s += '<THEAD><TR>\n' ;
+  s += '<THEAD><TR><TD>&nbsp;\n' ;
   var minmax, test_filter ;
   for(var col in cols)
     s += print_cell('', col,
 		    '<a class="hidden_on_paper" href="javascript:hide_class(\'col' + cols[col] + '\',true)"><small>Cacher</small></a>', cols[col]
 		    ) ;
-  s += '</TR><TR CLASS="title">\n' ;
+  s += '</TR><TR CLASS="title">\n' + hide_link ;
   for(var col in cols)
     s += print_cell(columns[cols[col]].title, col, '', cols[col]) ;
-  s += '</TR>\n<TR CLASS="type">\n' ;
+  s += '</TR>\n<TR CLASS="type">\n' + hide_link ;
   for(var col in cols)
     s += print_cell(columns[cols[col]].type, col, '', cols[col]) ;
-  s += '</TR>\n<TR CLASS="test">\n' ;
+  s += '</TR>\n<TR CLASS="test">\n' + hide_link ;
   for(var col in cols)
     {
       if ( columns[cols[col]].real_type.set_minmax != unmodifiable )
@@ -3523,10 +3524,10 @@ function print_page(w)
 	test_filter = '' ;
       s += print_cell(minmax + ' ' + test_filter, col, '', cols[col]) ;
     }
-  s += '</TR>\n<TR CLASS="visibility_date">\n' ;
+  s += '</TR>\n<TR CLASS="visibility_date">\n' + hide_link ;
   for(var col in cols)
     s += print_cell(columns[cols[col]].visibility_date, col, '', cols[col]) ;
-  s += '</TR>\n<TR CLASS="weight">\n' ;
+  s += '</TR>\n<TR CLASS="weight">\n' + hide_link ;
   for(var col in cols)
     {
       if ( columns[cols[col]].real_type.set_weight != unmodifiable )
@@ -3539,7 +3540,7 @@ function print_page(w)
   for(var col in cols)
     if ( columns[cols[col]].empty_is )
       {
-	s += '</TR>\n<TR CLASS="empty_is">\n' ;
+	s += '</TR>\n<TR CLASS="empty_is">\n' + hide_link ;
 	for(var col in cols)
 	  if ( columns[cols[col]].empty_is )
 	    s += print_cell(columns[cols[col]].empty_is, col, '&#8709;=',
@@ -3549,20 +3550,18 @@ function print_page(w)
 	break ;
       }
 
-  s += '</TR>\n<TR CLASS="comment">\n' ;
+  s += '</TR>\n<TR CLASS="comment">\n' + hide_link ;
   for(var col in cols)
     s += print_cell(columns[cols[col]].comment, col, '', cols[col]) ;
 
   s += '</TR></THEAD><TBODY><TR CLASS="separator">' ;
-  var hide_link = '<TD><a class="hidden_on_paper" href="#" onclick="this.parentNode.parentNode.style.display=\'none\';return false"><small>Cacher</small></a>' ;
-  s = s.replace(/<.TR>/g, hide_link + '</TR>') ;
   w.document.write(s) ;
   
   var i = 0 ;
   for(var data_line in filtered_lines)
     {      
       var line = filtered_lines[data_line] ;
-      s = "" ;
+      s = hide_link ;
       for(var col in cols)
 	{
 	  if ( col === 0 )
@@ -3570,7 +3569,7 @@ function print_page(w)
 	  else
 	    s += print_cell(line[cols[col]].value, col, '', cols[col]) ;
 	}
-      s += hide_link + '</TR>\n' ;
+      s += '</TR>\n' ;
       i++ ;
       if ( i % zebra_step === 0 )
 	s += '<TR CLASS="separator">' ;

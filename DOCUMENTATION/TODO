@@ -1,7 +1,6 @@
 Finir par priorité :
 	Pylint
 	Doc plugins
-	Cacher a gauche dans la page imprimee
 	redirection : garde l'ancienne ouverte ?
 	Reconnection persistente pour certains utilisateurs
 	veryunsafe : ajouter une boite de confirmation avant
