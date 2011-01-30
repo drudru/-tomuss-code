@@ -447,7 +447,7 @@ function(value)
       return ;
     }
   var d1 = parse_date(vs[0]).getTime() ;
-  var d2 = parse_date(vs[1]).getTime() ;
+  var d2 = parse_date(vs[1], true).getTime() ;
   if ( isNaN(d1) || isNaN(d2) )
     {
       alert('Une des dates est mal écrite') ;
@@ -459,7 +459,7 @@ function(value)
       return ;
     }
   v = date_to_store(vs[0]).replace(/..$/,'') + ' '
-    + date_to_store(vs[1]).replace(/..$/,'') ;
+    + date_to_store(vs[1], true).replace(/..$/,'') ;
   
   return v ;
 }'''

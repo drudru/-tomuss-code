@@ -146,7 +146,7 @@ function abj_init()
 }
 
 
-function parse_date(t)
+function parse_date(t, allow_far_future)
 {
   var h ;
 
@@ -167,11 +167,14 @@ function parse_date(t)
   else
     h = 0 ;
 
-  var _today = new Date() ;
-  if ( y > _today.getFullYear() + 1 )
+  if ( ! allow_far_future )
     {
-      alert("Je refuse la saisie de l'année : " + y) ;
-      y = _today.getFullYear() ;
+      var _today = new Date() ;
+      if ( y > _today.getFullYear() + 1 )
+	{
+	  alert("Je refuse la saisie de l'année : " + y) ;
+	  y = _today.getFullYear() ;
+	}
     }
 
   var d = new Date(y, text[1]-1, text[0], h) ;
@@ -242,9 +245,9 @@ function nice_date(d)
     .replace(/A$/, ' Après-midi') ;
 }
 
-function date_to_store(d)
+function date_to_store(d, allow_far_future)
 {
-  d = parse_date(d) ;
+  d = parse_date(d, allow_far_future) ;
   return d.getDate() + '/' + (d.getMonth() + 1) + '/' +
     d.getFullYear() + '/' + (d.getHours() < 8 ? 'M' : 'A') ;
 }
