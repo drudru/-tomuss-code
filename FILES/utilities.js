@@ -1330,7 +1330,10 @@ function ue_line_click_more()
 	  t +=  '<br><img class="safety" src="_URL_/unsafe.png"><a href="javascript:do_extension(\'' + code + '\');">Passer cette UE en NON-SEMESTRIALISÉE</a>' ;
 	}
 
-      if ( is_the_current_semester() || semester() == 'Test' )
+      if ( is_the_current_semester()
+	   || semester() == 'Test'
+	   || (code && code.match('.*/.*'))
+	   )
 	if ( code )
 	  t +=  '<br><img class="safety" src="_URL_/unsafe.png"><a href="javascript:do_delete(\'' + code + '\');">Détruire cette table</a>' ;
 	else
