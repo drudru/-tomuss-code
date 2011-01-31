@@ -78,7 +78,8 @@ class Link(object):
         if url.startswith('javascript:'):
             target = ''
         elif url.startswith('/'):
-            url = "javascript:do_action('%s')" % url[1:]
+            url = "javascript:do_action('%s','%s')" % (url[1:],
+                                                       self.html_class)
             target = ''
 
         text = self.text

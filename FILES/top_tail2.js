@@ -59,8 +59,11 @@ function the_year()
   return year_semester().split('/')[0] ;
 }
 
-function do_action(action)
+function do_action(action, html_class)
 {
+  if ( html_class == 'veryunsafe' )
+    if ( ! confirm('Cette action est irréversible, voulez-vous la faire ?') )
+      return ;
   goto_url(base + action) ;
 }
 
