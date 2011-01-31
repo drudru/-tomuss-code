@@ -24,6 +24,8 @@ import utilities
 import files
 import socket
 import re
+import cgi
+import time
 
 warn = utilities.warn
 
@@ -213,7 +215,6 @@ class Plugin(object):
 
         s += '</td><td>'
         if self.link:
-            import cgi
             s += '<b>%s</b> in %s<br/><em>%s</em>' % (
                 cgi.escape(self.link.text),
                 self.link.where,
@@ -545,8 +546,8 @@ class FakeRequestHandler(object):
         self.server.log_time(*args,**keys)
 
     def backtrace_html(self):
-        import cgi
-        s = repr(self) + '\n'
+        s = repr(self) + '\nRequest started %f seconds before\n' % (
+            time.time() - self.start_time, )
         s += '<h2>SERVER HEADERS</h2>\n'
         for k,v in self.headers.items():
             s += '<b>' + k + '</b>:' + cgi.escape(str(v)) + '<br>\n'
