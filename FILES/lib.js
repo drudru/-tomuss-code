@@ -4155,10 +4155,11 @@ function statistics_per_group()
       column = columns[col.data_col] ;
       t = column.title ;
       s += 'add_empty_column(true);\n' +
-	'columns[' + (Number(c)+2) +'].title = "' + t + ' Moyenne";\n' +
-	'columns[' + (Number(c)+2) +'].minmax = "[' + column.min + ';' + column.max + ']";' +
-	'columns[' + (Number(c)+2) +'].red = "NaN";' +
-	'columns[' + (Number(c)+2) +'].green = "NaN";' ;
+	'column = columns[' + (Number(c)+2) +'] ;\n' +
+	'column.title = "' + t + ' Moyenne";\n' +
+	'column.minmax = "[' + column.min + ';' + column.max + ']";' +
+	'column.green = "NaN" ;\n' +
+	'column.red = "NaN" ;\n' ;
     }
 
   // The delayed function call is only here for IE
@@ -5281,12 +5282,12 @@ function runlog(the_columns, the_lines)
   update_column_menu() ;
   update_popup_on_red_line() ;
 
+  update_filtered_lines(); // Before init_columns to compute RED/GREEN
   for(var data_col in columns)
     {
       init_column(columns[data_col]) ;
       columns[data_col].need_update = true ;
     }
-  update_filtered_lines(); // Before update_columns to compute RED/GREEN
   update_columns() ;
 
   if ( server_log )
