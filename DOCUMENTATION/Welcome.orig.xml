@@ -144,7 +144,7 @@ They are automaticaly reloaded when they are modified.</li>
 <li><b>LOCAL</b>: All the customization code and data must be inside.
 <ul>
 <li> <b>__init__.py</b>: Your real configuration</li>
-<li> <b>Templates</b>: Your local TEMPLATES directory</li>
+<li> <b>LOCAL.TEMPLATES</b>: Your local TEMPLATES directory</li>
 </ul>
 </li>
     </ul>

@@ -3,8 +3,6 @@
 
 # Arguments : DB et BACKUP_DB
 
-set -e
-
 DO() { echo $* ; }
 DO() { eval $* ; }
 

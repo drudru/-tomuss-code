@@ -243,9 +243,9 @@ class Table(object):
         self.is_extended = os.path.islink(self.filename)
 
         self.template = import_template((
-            ('LOCAL', 'Templates', self.ue_code),
+            ('LOCAL', 'LOCAL.TEMPLATES', self.ue_code),
             ('TEMPLATES', self.ue_code),
-            ('LOCAL', 'Templates', self.semester),
+            ('LOCAL', 'LOCAL.TEMPLATES', self.semester),
             ('TEMPLATES', self.semester),
             ))
         if self.template is None:            
