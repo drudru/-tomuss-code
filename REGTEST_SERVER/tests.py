@@ -1298,12 +1298,21 @@ def create(table):
         os.unlink('../TEMPLATES/xxx_regtest.py')
         os.unlink('../TEMPLATES/xxx_regtest.pyc')
 
+
+if '1' in sys.argv:
+   sys.argv.remove('1')
+   only_once = True
+else:
+   only_once = False
+
+
 n = 0
 m = []
 while True:
     start = time.time()
     try:
         tests()
+        exit_status = 0
         print 'Test fine'
     except AssertionError:
         if c == '':
@@ -1319,7 +1328,8 @@ while True:
             f.write(c)
             f.close()
             print c
-        print 'End of regressions tests : failure'
+        exit_status = 1
+        print 'End of regressions tests : failure'       
         raise
     finally:
         try:
@@ -1327,13 +1337,15 @@ while True:
         except:
             shutil.rmtree('../DBregtest', ignore_errors=True)
             shutil.rmtree('../BACKUP_DBregtest', ignore_errors=True)
-            sys.exit(0)
             
         m.append('Running time : %g seconds' % (time.time() - start))
         if ss and ss.started:
             ss.stop()
         for i in m:
             print i
+        if only_once:
+            sys.exit(exit_status)
+        
 
 
 
