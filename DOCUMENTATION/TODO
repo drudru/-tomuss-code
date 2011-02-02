@@ -1,4 +1,6 @@
 Finir par priorité :
+	/resume : le total est pas bon : UE virtuelle doit pas recontacter
+	Affectation référents : retester
 	Pylint
 	Doc plugins
 	MAJ de la liste des étudiants par l'utilisateur ?

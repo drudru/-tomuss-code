@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 #    TOMUSS: The Online Multi User Simple Spreadsheet
-#    Copyright (C) 2008-2010 Thierry EXCOFFIER, Universite Claude Bernard
+#    Copyright (C) 2008-2011 Thierry EXCOFFIER, Universite Claude Bernard
 #
 #    This program is free software; you can redistribute it and/or modify
 #    it under the terms of the GNU General Public License as published by
@@ -142,7 +142,7 @@ def student_statistics(login, server, is_a_student=False, expand=False,
 
     if is_a_referent:
         s.append(u"""<script>hidden('<a href="%s/=%s/bilan/%s" target="_blank">Bilan TOMUSS</a>','Affiche le récapitulatif des notes présentes dans TOMUSS et APOGÉE.<br>Ceci permet de voir le nombre d\\'inscriptions à une UE.');""" %
-                 (utilities.StaticFile._url_, ticket.ticket, login) + '</script>, ')
+                 (configuration.server_url, ticket.ticket, login) + '</script>, ')
     # CONTRACT
 
     if not is_a_student:
