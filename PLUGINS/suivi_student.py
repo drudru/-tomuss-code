@@ -189,7 +189,7 @@ def student_statistics(login, server, is_a_student=False, expand=False,
                             first = False
                         s.append(u'%s&nbsp;:&nbsp;<b>%s</b>,'
                                  % ( unicode(col.title, 'utf8'),
-                                     unicode(line[i].value, 'utf8') ))
+                                     unicode(cgi.escape(str(line[i].value)), 'utf8') ))
             if first == False:
                    s.append('</div>')
             # table.unload() # XXX Memory leak
