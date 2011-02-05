@@ -1,5 +1,5 @@
 Finir par priorité :
-	/resume : le total est pas bon : UE virtuelle doit pas recontacter
+	UE virtuelle doit pas recontacter le serveur
 	Affectation référents : retester
 	Pylint
 	Doc plugins

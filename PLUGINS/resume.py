@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 #    TOMUSS: The Online Multi User Simple Spreadsheet
-#    Copyright (C) 2009,2010 Thierry EXCOFFIER, Universite Claude Bernard
+#    Copyright (C) 2009-2011 Thierry EXCOFFIER, Universite Claude Bernard
 #
 #    This program is free software; you can redistribute it and/or modify
 #    it under the terms of the GNU General Public License as published by
@@ -24,6 +24,7 @@ import utilities
 import configuration
 import document
 import column
+import plugins
 import TEMPLATES._ucbl_
 
 class Stat(object):
@@ -62,7 +63,7 @@ def resume(server):
                                      position=i,
                                      title=table,
                                      weight='+1',
-                                     ttype="Note",
+                                     type="Note",
                                      test='[0;NaN]',
                                      empty_is=0,
                                      comment='Nombre de cellules saisies',
@@ -82,11 +83,15 @@ def resume(server):
                 )
     columns.append(
         column.Column('c3', '', position=2, title='TOTAL',
-                      weight='1 ' + ' '.join([c.title for c in columns[3:]]),
-                      ttype="Moy",
-                      test='[0;NaN]',
+                      type="Moy",                      
+                      weight='1',
+                      columns=' '.join([c.title for c in columns[3:]]),
+                      minmax='[0;NaN]',
                       )
         )
+    # XXX Really not nice.
+    # Why the 'type' attribute does not work like the others ?
+    columns[-1].type = plugins.types['Moy']
 
 
     lines_id = '[' + ','.join(['"l%d"' % i for i in range(len(logins))]) + ']'
