@@ -2929,7 +2929,7 @@ function current_toggle()
     {
       return ;
     }
-  this.input.value = toggle(this.input.value) ;
+  this.input.value = toggle(this.input.value, this.column) ;
   this.change() ;
   this.update() ;
 }

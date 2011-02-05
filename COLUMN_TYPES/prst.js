@@ -31,9 +31,9 @@ function test_prst(value, column)
   return '' ;
 }
 
-function toggle_PA(test, v, values)
+function toggle_PA(test, v, values, column)
 {
-  v = test(v) ;
+  v = test(v, column) ;
   
   /* Cycle through values */
   var i = myindex(values, v) ;
