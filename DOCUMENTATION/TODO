@@ -13,7 +13,6 @@ Finir par priorité :
 	COW (stable) valeur vide ==> comme si rien
 	Passer 'fige' en attribut de colonne non-modifiable ?
 	Sauvegarde de l'état figé...
-	SUIVI étudiants : pointeurs SPIRAL/Mails enseignants ?
 	Bug ajoute + vidage de ligne avec changement de page
 	BILAN : probleme icone+note sous IE
 	RSS table : TT DA, ajouter + info dans le texte et le sujet ?

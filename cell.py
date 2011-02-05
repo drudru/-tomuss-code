@@ -26,6 +26,7 @@ import cgi
 import configuration
 import time
 import data
+import inscrits
 
 js = utilities.js
 
@@ -285,6 +286,18 @@ class Lines(object):
         This function is expensive because the student rank is computed
         for all 'Note' columns.
         """
+        more = []
+        for login in table.masters:
+            firstname, surname, mail = inscrits.firstname_and_surname_and_mail(login)
+            more.append('<a href="mailto:%s">%s %s</a>' %
+                        (mail, firstname.title().encode('utf8'),
+                         surname.upper().encode('utf8')))
+        if more:
+            more = (" <small>(Responsables de l'UE : "
+                    + ', '.join(more)
+                    + ')</small>')
+        else:
+            more = ''
         if link:
             s = ['<p class="title">']
             s.append(
@@ -306,10 +319,10 @@ class Lines(object):
                                   table.year, table.semester,
                                   table.ue, line[0].value)
                                  , classname='title'))
-            
+            s.append(more)
         else:
             s = ['<h2 class="title">' + table.ue + ' : ' +
-                 cgi.escape(table.table_title) + '</h2>']
+                 cgi.escape(table.table_title) + more + '</h2>']
         if table.comment.strip():
             s.append('<p style="margin-top:0">Petit message : <em>'
                      + cgi.escape(table.comment) + '</em></p>')
