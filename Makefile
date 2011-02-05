@@ -39,6 +39,9 @@ regtest:
 V := $(shell python -c 'import configuration;print configuration.version')
 
 release:
+	@echo "Check if we are in the 'stable' branch"
+	@git branch | grep -F '* stable' >/dev/null
+	@cd LOCAL ; git branch | grep -F '* stable' >/dev/null
 	@echo "This release will be tagged $(V)"
 	@echo "Running regression tests (about a minute)"
 	@cd REGTEST_SERVER ; ./tests.py 1 >/dev/null 2>&1
@@ -46,6 +49,8 @@ release:
 	@echo "Tagging GIT"
 	@git tag $(V)
 	@cd LOCAL ; git tag $(V)
+	@echo "Documentation update"
+	@cd DOCUMENTATION ; $(MAKE)
 	@$(MAKE) -s tar
 
 tar:
