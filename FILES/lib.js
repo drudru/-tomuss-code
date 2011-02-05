@@ -5173,6 +5173,8 @@ var reconnect_giveup ;
 
 function reconnect()
 {
+  if ( ue == 'VIRTUALUE' || ue == '' )
+    return ;
   if ( check_down_connections_interval == 0 )
     return ;
   if ( millisec() - last_reconnect < 1000*check_down_connections_interval )
@@ -5321,7 +5323,7 @@ function runlog(the_columns, the_lines)
   /** IE/Opera. */
   window.onmousewheel = document.onmousewheel = wheel;
 
-  if ( ue != 'VIRTUALUE' && page_id > 0 )
+  if ( ue != 'VIRTUALUE' && ue != '' && page_id > 0 )
     document.write('<img width="1" height="1" src="' + url + "/=" + ticket
 		   + '/' + year + '/' + semester + '/' + ue + '/' +
 		   page_id + '/end_of_load">') ;
@@ -5340,8 +5342,7 @@ function runlog(the_columns, the_lines)
     }
 
   // Firefox bug : the page refresh reload the old iframe, not the new one
-  if ( ue != 'VIRTUALUE' )
-    setTimeout(reconnect, 10) ;
+  setTimeout(reconnect, 10) ;
 
   the_current_cell.update_table_headers() ;
   change_title(table_attr.table_title, table_attr.code) ;
