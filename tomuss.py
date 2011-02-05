@@ -241,12 +241,9 @@ class MyRequestBroker(BaseHTTPServer.BaseHTTPRequestHandler):
             if not isinstance(user_name, str):
                 user_name = user_name.user_name
 
-            utilities.send_backtrace('GET path = ' + self.path + '\n'
-                                     'user name:' + user_name + '\n'
-                                     'Version:' + configuration.version +'\n',
-                                     subject = 'BUG TOMUSS '
-                                     + configuration.version
-                                     + ' ' + user_name
+            utilities.send_backtrace('',
+                                     subject = 'BUG TOMUSS ('
+                                     + self.path + ') ' + user_name
                                      )
             try:
                 if 'the_file' in self.__dict__:
@@ -260,7 +257,6 @@ class MyRequestBroker(BaseHTTPServer.BaseHTTPRequestHandler):
                     self.send_file('bug.png')
             except:
                 pass
-            raise
 
     def address_string(self):
         """Override to avoid DNS lookups"""

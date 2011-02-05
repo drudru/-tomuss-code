@@ -1,7 +1,7 @@
 // -*- coding: utf-8 -*-
 /*
     TOMUSS: The Online Multi User Simple Spreadsheet
-    Copyright (C) 2008,2009 Thierry EXCOFFIER, Universite Claude Bernard
+    Copyright (C) 2008-2011 Thierry EXCOFFIER, Universite Claude Bernard
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -146,8 +146,10 @@ function abj_init()
 }
 
 
-function parse_date(t)
+function parse_date(t, allow_far_future)
 {
+  var h ;
+
   if ( t === undefined )
     return new Date() ;
   text = t.split(/[ \/AMPamp]/) ; /* \/ because of old netscape versions */
@@ -164,6 +166,16 @@ function parse_date(t)
     h = 12 ;
   else
     h = 0 ;
+
+  if ( ! allow_far_future )
+    {
+      var _today = new Date() ;
+      if ( y > _today.getFullYear() + 1 )
+	{
+	  alert("Je refuse la saisie de l'année : " + y) ;
+	  y = _today.getFullYear() ;
+	}
+    }
 
   var d = new Date(y, text[1]-1, text[0], h) ;
 
@@ -233,9 +245,9 @@ function nice_date(d)
     .replace(/A$/, ' Après-midi') ;
 }
 
-function date_to_store(d)
+function date_to_store(d, allow_far_future)
 {
-  d = parse_date(d) ;
+  d = parse_date(d, allow_far_future) ;
   return d.getDate() + '/' + (d.getMonth() + 1) + '/' +
     d.getFullYear() + '/' + (d.getHours() < 8 ? 'M' : 'A') ;
 }

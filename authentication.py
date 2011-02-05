@@ -193,9 +193,9 @@ def authentication_thread():
             x.wfile = x.the_file
             tick = x.ticket
             try:
-                warn('check: %s' % x.path, what='auth')
+                what = 'init'
                 if tick == None:
-                    warn('goto get ticket', what="auth")
+                    what = 'no-ticket'
                     x.ticket, x.the_path = get_path(x, authentication_redirect)
                     tick = x.ticket
                     if tick == None:
@@ -203,16 +203,20 @@ def authentication_thread():
                         x.log_time('redirection')
                         continue # Redirection done
                 
+                what = 'is-teacher?'
                 tick.is_a_teacher = inscrits.is_a_teacher(tick.user_name)
-                warn('Info: the_path=%s is_a_teacher=%s' % (
-                    str(x.the_path), tick.is_a_teacher), what='auth')
                 
                 if tick.is_a_teacher:
+                    what = 'is-administrative?'
                     tick.is_an_administrative = inscrits.is_an_administrative(tick.user_name)
+                    what = 'is-abj-master?'
                     tick.is_an_abj_master = inscrits.is_an_abj_master(
                         tick.user_name)
+                    what = 'is-referent-master?'
                     tick.is_a_referent_master = referent.is_a_referent_master(tick.user_name)
+                    what = 'password-ok?'
                     tick.password_ok = inscrits.password_ok(tick.user_name)
+                    what = 'is-referent?'
                     tick.is_a_referent = inscrits.is_a_referent(tick.user_name)
                         
                 else:
@@ -222,19 +226,16 @@ def authentication_thread():
                     tick.is_an_administrative = False
                     tick.password_ok          = True
 
-                warn("abj_master=%s ref_master=%s pass_ok=%s" % (
-                tick.is_an_abj_master, tick.is_a_referent_master,
-                tick.password_ok), what="auth")
-                
                 x.log_time('authentication')
                 x.start_time = time.time()
+
+                what = 'send-answer'
                 x.do_GET_real_real_safe()
+                what = 'close'
                 x.wfile.close()
-                warn('the_file %s closed=%s' % (x.the_file, x.the_file.closed),
-                     what="auth")
-            except IOError:
-                warn('IOError: %s' % str(tick)[:-1], what='error')
-                raise
+            except (IOError, socket.error):
+                utilities.send_backtrace(
+                    '', subject = 'AUTH '+ what + ' ' + str(tick)[:-1])
 
 
 def run_authentication():

@@ -34,17 +34,19 @@ import document
 
 class ColumnAttr(object):
     attrs = {}
-    attrs_list = []
-    display_table = 0
-    update_horizontal_scrollbar = 0
-    update_headers = 0
-    update_table_headers = 0
-    need_authorization = 1
-    only_masters = 0
+    attrs_list = []                 # Set the GUI order.
+    
+    display_table = 0               # Update the table content on change
+    update_horizontal_scrollbar = 0 # Update the horizontal scroolbar
+    update_headers = 0              # Update the Cell/Column/Table headers
+    update_table_headers = 0        # Update the table headers
+    need_authorization = 1          # Authorization needed to modify attribute
+    update_content = False          # On change, update column content
+    only_masters = 0                # Only the table masters see the attribute
     formatter = 'function(column, value) { return value ; }'
     empty = 'function(column, value) { return value === "" ; }'
-    default_value = '' # XXX Do not put a mutable here or in sub classes
-    computed = 0
+    default_value = ''              # XXX Must not be a mutable value
+    computed = 0                    # Is a computed attribute (not modifiable)
     
     def __init__(self):
         ColumnAttr.attrs[self.name] = self
@@ -55,12 +57,17 @@ class ColumnAttr(object):
         return ''
         
     def encode(self, value):
+        """Translate the value (string from browser or other) into
+        the Python iternal coding (not stored form)"""
         return value
 
     def decode(self, value):
+        """Translate the internal value into a Python/Javascript object
+        to be send into the database or into the browser"""
         return value
         
     def set(self, table, page, column, value):
+        """Set the value of te attribute"""
         if table.loading:
             setattr(column, self.name, self.encode(value))
             if self.name != 'comment': # Historical remnent
@@ -121,6 +128,7 @@ class ColumnAttr(object):
         return 'ok.png'
 
     def js(self):
+        """Attribute JavaScript description"""
         return (self.name +
                 ':{' +
                 'display_table:' + str(self.display_table)+
@@ -225,6 +233,7 @@ class ColumnRed(ColumnGreen):
 class ColumnWeight(ColumnAttr):
     default_value = '1'
     name = 'weight'
+    display_table = 1
 
     def check(self, value):
         try:
@@ -355,7 +364,6 @@ class TableCode(TableAttr):
     name = 'code'
 
 class TableModifiable(TableAttr):
-    only_masters = 1
     name = 'modifiable'
     default_value = 1
     def encode(self, value):
@@ -434,7 +442,7 @@ function(value)
       return ;
     }
   var d1 = parse_date(vs[0]).getTime() ;
-  var d2 = parse_date(vs[1]).getTime() ;
+  var d2 = parse_date(vs[1], true).getTime() ;
   if ( isNaN(d1) || isNaN(d2) )
     {
       alert('Une des dates est mal écrite') ;
@@ -446,7 +454,7 @@ function(value)
       return ;
     }
   v = date_to_store(vs[0]).replace(/..$/,'') + ' '
-    + date_to_store(vs[1]).replace(/..$/,'') ;
+    + date_to_store(vs[1], true).replace(/..$/,'') ;
   
   return v ;
 }'''
@@ -513,14 +521,12 @@ return value ;
 
 class TableDefaultNrColumns(TableAttr):
     name = 'default_nr_columns'
-    only_masters = 1
     default_value = 0
     def encode(self, value):
         return int(value)
 
 class TableDefaultSortColumns(TableAttr):
     name = 'default_sort_column'
-    only_masters = 1
     default_value = 0
 
 

@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 #    TOMUSS: The Online Multi User Simple Spreadsheet
-#    Copyright (C) 2008-2010 Thierry EXCOFFIER, Universite Claude Bernard
+#    Copyright (C) 2008-2011 Thierry EXCOFFIER, Universite Claude Bernard
 #
 #    This program is free software; you can redistribute it and/or modify
 #    it under the terms of the GNU General Public License as published by
@@ -24,6 +24,8 @@ import utilities
 import files
 import socket
 import re
+import cgi
+import time
 
 warn = utilities.warn
 
@@ -59,6 +61,9 @@ class Link(object):
         self.authorized = authorized
         self.plugin = None
 
+    def __str__(self):
+        return 'Link(%s,%s)' % (self.text, self.url)
+
     def html(self, server, plugin, with_help=False):
         if self.target:
             target = ' target="' + self.target + '"'
@@ -67,12 +72,15 @@ class Link(object):
 
         url = self.url
         if url is None:
-            assert(len(plugin.url) == 1)
+            if len(plugin.url) != 1:
+                raise ValueError('BUG: "%s" %s' % (plugin, self))
             url = '/' + plugin.url[0]
         if url.startswith('javascript:'):
             target = ''
         elif url.startswith('/'):
-            url = '%s/=%s%s' % (configuration.server_url, server.ticket.ticket, url)
+            url = "javascript:do_action('%s','%s')" % (url[1:],
+                                                       self.html_class)
+            target = ''
 
         text = self.text
         if text is None:
@@ -208,7 +216,6 @@ class Plugin(object):
 
         s += '</td><td>'
         if self.link:
-            import cgi
             s += '<b>%s</b> in %s<br/><em>%s</em>' % (
                 cgi.escape(self.link.text),
                 self.link.where,
@@ -372,7 +379,7 @@ links_without_plugins = [
          help="""Affiche les statistiques sur l'utilisation de TOMUSS""",
          ),
     Link(text='Table des référents pédagogiques',
-         url="javascript:go('referents')",
+         url="javascript:go('referents_students')",
          help="""Il faut indiquer dans cette table TOMUSS
          la liste des enseignants référents pédagogiques.
          Il est possible de modifier manuellement des affectations
@@ -440,6 +447,25 @@ links_without_plugins = [
          ),
     ]
 
+@utilities.add_a_cache0
+def get_box_list():
+    boxes_title = {}
+    for link in links_without_plugins:
+        boxes_title[link.where] = link.where
+    for p in plugins:
+        if p.link:
+            boxes_title[p.link.where] = p.link.where
+
+    boxes_title['abj_master'  ] = '<!--1-->Scolarité'
+    boxes_title['informations'] = '<!--2-->Informations'
+    boxes_title['root_rw'     ] = '<!--7-->Administration'
+    boxes_title['debug'       ] = '<!--8-->Debuggage'
+    boxes_title['deprecated'  ] = '<!--9-->Obsolete'
+
+    boxes_title = sorted(list(boxes_title.items()),
+                         key=lambda x: x[1])
+
+    return boxes_title
 
 def get_menu_for(where, server, with_help=False):
     messages = []
@@ -490,7 +516,8 @@ def execute(server, plugin):
                 server.the_file.close()
             except socket.error:
                 pass
-            raise
+            server.the_file = None
+            return
         if not plugin.keep_open:
             server.the_file.close()
         server.the_file = None
@@ -520,8 +547,8 @@ class FakeRequestHandler(object):
         self.server.log_time(*args,**keys)
 
     def backtrace_html(self):
-        import cgi
-        s = repr(self) + '\n'
+        s = repr(self) + '\nRequest started %f seconds before\n' % (
+            time.time() - self.start_time, )
         s += '<h2>SERVER HEADERS</h2>\n'
         for k,v in self.headers.items():
             s += '<b>' + k + '</b>:' + cgi.escape(str(v)) + '<br>\n'

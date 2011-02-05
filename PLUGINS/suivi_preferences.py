@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 #    TOMUSS: The Online Multi User Simple Spreadsheet)
-#    Copyright (C) 2009,2010 Thierry EXCOFFIER, Universite Claude Bernard
+#    Copyright (C) 2009-2011 Thierry EXCOFFIER, Universite Claude Bernard
 #
 #    This program is free software; you can redistribute it and/or modify
 #    it under the terms of the GNU General Public License as published by
@@ -27,7 +27,7 @@ import document
 
 def preferences(server):
     """Join of all the preferences table"""
-    filename = document.table_filename('0', 'Stats', 'preferences')
+    filename = document.table_filename('0', 'Stats', 'stat_preferences')
 
     f = open(filename, "w")
     f.write("""# -*- coding: utf8 -*-
@@ -56,11 +56,12 @@ cell_change(0,'0_2','%d',%s,'')
 
 def headers(server):
     return (
-        ('Location','%s/=%s/0/Stats/preferences' % (
+        ('Location','%s/=%s/0/Stats/stat_preferences' % (
         configuration.server_url, server.ticket.ticket), ),)
 
 
-plugin.Plugin('preferences', '/preferences', function=preferences, root=True,
+plugin.Plugin('preferences', '/stat_preferences',
+              function=preferences, root=True,
               launch_thread = True,
               response=307,
               headers = headers,
@@ -68,7 +69,7 @@ plugin.Plugin('preferences', '/preferences', function=preferences, root=True,
                                where="informations",
                                html_class="verysafe",
                                # Should be the last semester
-                               url="javascript:go_suivi('preferences')",
+                               url="javascript:go_suivi('stat_preferences')",
                                help="""Pour voir globalement ce que les
                                utilisateurs modifient dans leurs
                                préférences TOMUSS""",

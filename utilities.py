@@ -109,6 +109,28 @@ def append_file_safe(filename, content):
     if configuration.backup:
         append_file(configuration.backup + filename, content)
 
+def unlink_safe(filename):
+    try:
+        os.unlink(filename)
+    except OSError:
+        pass
+    if configuration.backup:
+        try:
+            os.unlink(configuration.backup + filename)
+        except OSError:
+            pass
+
+def rename_safe(old_filename, new_filename):
+    os.rename(old_filename, new_filename)
+    if configuration.backup:
+        os.rename(configuration.backup + old_filename,
+                  configuration.backup + new_filename)
+
+def symlink_safe(old_filename, new_filename):
+    os.symlink(old_filename, new_filename)
+    if configuration.backup:
+        os.symlink(old_filename, configuration.backup + new_filename)
+    
 def safe(txt):
     return re.sub('[^0-9a-zA-Z-.]', '_', txt)
 

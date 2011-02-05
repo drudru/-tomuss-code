@@ -1,7 +1,7 @@
 // -*- coding: utf-8 -*-
 /*
     TOMUSS: The Online Multi User Simple Spreadsheet
-    Copyright (C) 2008-2010 Thierry EXCOFFIER, Universite Claude Bernard
+    Copyright (C) 2008-2011 Thierry EXCOFFIER, Universite Claude Bernard
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -491,6 +491,12 @@ function set_green(value, column)
     {
       column.color_green_filter = returns_false ;
     }
+  else if ( value === 'NaN' )
+    {
+      column.color_green_filter = the_green_filter ;
+      var stats = compute_histogram(column.data_col) ;
+      column.color_green = stats.average() + stats.standard_deviation() ;
+    }
   else if ( isNaN(value) )
     {
       column.color_green_filter = compile_filter_generic(value) ;
@@ -518,6 +524,12 @@ function set_red(value, column)
   if ( value === '' )
     {
       column.color_red_filter = returns_false ;
+    }
+  else if ( value === 'NaN' )
+    {
+      column.color_red_filter = the_red_filter ;
+      var stats = compute_histogram(column.data_col) ;
+      column.color_red = stats.average() - stats.standard_deviation() ;
     }
   else if ( isNaN(value) )
     {

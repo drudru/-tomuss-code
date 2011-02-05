@@ -158,11 +158,8 @@ def home_page(server):
     #####################################################################
 
     hclass = ''
-    hclass=home_box(server,'abj_master'  ,'Scolarité'     ,html_class=hclass)
-    hclass=home_box(server,'informations','Informations'  ,html_class=hclass)
-    hclass=home_box(server,'root_rw'     ,'Administration',html_class=hclass)
-    hclass=home_box(server,'debug'       ,'Debuggage'     ,html_class=hclass)
-    hclass=home_box(server,'deprecated'  ,'Obsolete'      ,html_class=hclass)
+    for key, title in plugin.get_box_list():
+        hclass=home_box(server, key, title ,html_class=hclass)
 
     if ticket.user_name in configuration.root:
         f.write("Les portails : " +

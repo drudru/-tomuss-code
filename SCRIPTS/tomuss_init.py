@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-#    Copyright (C) 2010 Thierry EXCOFFIER, Universite Claude Bernard
+#    Copyright (C) 2010-2011 Thierry EXCOFFIER, Universite Claude Bernard
 #
 #    This program is free software; you can redistribute it and/or modify
 #    it under the terms of the GNU General Public License as published by
@@ -22,7 +22,7 @@ import sys
 import os
 
 if not os.path.isdir('LOCAL'):
-    for i in ('FILES', 'TEMPLATES', 'TMP', 'DB'):
+    for i in ('FILES', 'TMP', 'DB', 'TEMPLATES'):
         if not os.path.islink(i):
             sys.stderr.write('Missing link: %s in %s\n' % (i, os.getcwd()))
         elif not os.path.isdir(i):
@@ -43,6 +43,7 @@ if configuration.regtest:
     regtestpatch.do_patch()
 
 configuration.terminate()
+sys.stderr.write('DB=%s\n' % configuration.db)
 
 import plugins
 plugins.load_types()

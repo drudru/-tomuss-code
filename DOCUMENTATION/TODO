@@ -1,5 +1,11 @@
 Finir par priorité :
+	Affectation référents : retester
 	Pylint
+	Doc plugins
+	MAJ de la liste des étudiants par l'utilisateur ?
+	redirection : garde l'ancienne ouverte ?
+	Reconnection persistente pour certains utilisateurs
+	choix année RDV IP si cela a un sens
 	Méthode javascript pour attr : editable (masters attributes)
 	Menu unexpected popdown : answer use your own menu
 	Faire des plugins pour chaque fonctionnalité coté client.
@@ -7,7 +13,6 @@ Finir par priorité :
 	COW (stable) valeur vide ==> comme si rien
 	Passer 'fige' en attribut de colonne non-modifiable ?
 	Sauvegarde de l'état figé...
-	SUIVI étudiants : pointeurs SPIRAL/Mails enseignants ?
 	Bug ajoute + vidage de ligne avec changement de page
 	BILAN : probleme icone+note sous IE
 	RSS table : TT DA, ajouter + info dans le texte et le sujet ?
@@ -54,12 +59,10 @@ Finir par priorité :
 	Histogramme : échelle log sur clique
 	Statistiques : droite de régression
 	Affichage des espaces dans les cases du tableau.
-	Faire afficher l'historique dans un bulle (3 historiques donc ?)
 	Meta log à distance : stream
 	Chiffrer colonne.
 	Importation de colonnes d'autres tableaux : nécessite calcul serveur
 	Statistique par groupe sur une colonne quelconque
-	Très nombreux changements dans une table : append_file est trop lent
 
     Faible :
 	stat : lien vers le suivi de la personne
@@ -86,15 +89,12 @@ Finir par priorité :
 	Histogramme date
 
 Questions en suspend :
-	Si =read-only- : ouvrir en read-only ?
 	Mettre en évidence la ligne courante ?
 	Pas de feedback quand ticket expiré ?
 	Nouvelle page quand on clique dans le suivi ?
 	Wizard création table ?
 	Téléphone dans suivi et fiche ?
 	Détruire les lignes vides ?
-	Message si la liste des mails n'est pas a jour ????
-	Faire des threads dans suivi ?
 	Temps d'apparition des tips.
 	Symbole Excel pour commentaire ?
 	Un utilisateur 'root' pouvant modifier toutes les valeurs ?
@@ -109,8 +109,6 @@ BUGS/Problèmes en suspend :
 	ALT-LEFT : marche pas partout :-(
 	<10 trouve les cases vides ? Faut-il corriger ?
 	ABI => ABI et ne met pas ABINJ car INPUT change pas de valeur
-	Perd le compteur favoris quand on détruit une UE
-		
 	
 Amélioration du code :
 	La gestion de _url_ dans StaticFile et de BASE est NULLE........
@@ -133,8 +131,6 @@ NE SERA PAS FAIT :
 		En effet, le serveur a BESOIN de les évaluer de toute façon.
 	Importation de colonnes venant du web par le client : IMPOSSIBLE 
 	Unifier les 'tip' : 2 tips simultanés possibles : photo + ABJ
-	Récupérer automatiquement openue.xls
-		Il faut passer par gnuméric pour l'assainir.
 	Prendre les mail étudiants de SPIRAL : pas politiquement correcte
 
 

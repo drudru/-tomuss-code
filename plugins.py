@@ -61,7 +61,7 @@ def plugins_tomuss():
     import PLUGINS.suivi_referent
     import PLUGINS.send_mail
     import PLUGINS.reload_plugins
-    import TEMPLATES.rdv_ip
+    import PLUGINS.picture
     plugins_tomuss_more()
 
     # Get plugins links from suivi in order to create home page
@@ -105,6 +105,7 @@ def plugins_suivi():
     import PLUGINS.suivi_extract
     import PLUGINS.log
     import PLUGINS.evaluate
+    import PLUGINS.picture
     plugins_suivi_more()
 
 types = {}

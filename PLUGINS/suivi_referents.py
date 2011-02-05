@@ -28,6 +28,7 @@ class StatCol(object):
         self.titles = titles
         self.counter = 0
         self.increment = increment
+        self.data_col = None
 
     def get_data_col(self, table):
         for title in self.titles:
@@ -47,7 +48,11 @@ class StatCol(object):
     def html(self):
         # if self.counter == 0:
         #    return ''
-        return '[' + str(self.data_col) + '] ' + self.titles[0] + ' : ' + str(self.counter) + '\n'
+        if self.data_col is None:
+            return '[???NO TABLE WITH %s???]\n' % self.titles[0]
+        else:
+            return '[' + str(self.data_col) + '] ' + self.titles[0] + ' : ' + str(self.counter) + '\n'
+        
 
 def stat_referent(f, year, semester):
 

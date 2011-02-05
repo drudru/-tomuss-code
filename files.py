@@ -46,9 +46,6 @@ for name in (
     'doc_table.html', 'doc_suivi.html', 'documentation.js', 'documentation.css',
     'stats.html', 'ticket.html',
     'live_status.js', 'bilan.js', 'bilan.css',
-    'k01.png', 'k02.png', 'k03.png', 'k04.png', 'k05.png', 'k06.png',
-    'k07.png', 'k08.png', 'k09.png', 'k10.png', 'k11.png', 'k12.png',
-    'k13.png',
     ):
     files[name] = StaticFile(os.path.join('FILES', name))
 

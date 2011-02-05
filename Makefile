@@ -36,29 +36,46 @@ tags:
 regtest:
 	cd REGTEST_SERVER ; ./tests.py
 
+V := $(shell python -c 'import configuration;print configuration.version')
+
+release:
+	@echo "Check if we are in the 'stable' branch"
+	@git branch | grep -F '* stable' >/dev/null
+	@cd LOCAL ; git branch | grep -F '* stable' >/dev/null
+	@echo "This release will be tagged $(V)"
+	@echo "Running regression tests (about a minute)"
+	@cd REGTEST_SERVER ; ./tests.py 1 >/dev/null 2>&1
+	@echo "Regression tests are fine."
+	@echo "Tagging GIT"
+	@git tag $(V)
+	@cd LOCAL ; git tag $(V)
+	@echo "Documentation update"
+	@cd DOCUMENTATION ; $(MAKE)
+	@$(MAKE) -s tar
+
 tar:
-	V=$$(python -c 'import configuration;print configuration.version') ; \
-	$(MAKE) changelog clean ; rm -rf /tmp/TOMUSS-$$V ; \
-	cp -a $$(pwd) /tmp/TOMUSS-$$V ; \
-	rm -rf /tmp/TOMUSS-$$V/LOCAL ; \
-	rm -rf /tmp/TOMUSS-$$V/BACKUP_DBtest ; \
-	rm -rf /tmp/TOMUSS-$$V/DBtest ; \
-	rm -rf /tmp/TOMUSS-$$V/BACKUP_DB ; \
-	rm -rf /tmp/TOMUSS-$$V/DB ; \
-	mv /tmp/TOMUSS-$$V/LOCAL.template /tmp/TOMUSS-$$V/LOCAL ; \
+	$(MAKE) changelog clean
+	rm -rf /tmp/TOMUSS-$(V)
+	cp -a $$(pwd) /tmp/TOMUSS-$(V)
+	rm -rf /tmp/TOMUSS-$(V)/LOCAL
+	rm -rf /tmp/TOMUSS-$(V)/BACKUP_DBtest
+	rm -rf /tmp/TOMUSS-$(V)/DBtest
+	rm -rf /tmp/TOMUSS-$(V)/BACKUP_DB
+	rm -rf /tmp/TOMUSS-$(V)/DB
+	mv /tmp/TOMUSS-$(V)/LOCAL.template /tmp/TOMUSS-$(V)/LOCAL
 	cd /tmp ; \
 	tar -cvf - \
 		--exclude 'Trash' \
-		--exclude TOMUSS-$$V/'LOGS' \
-		--exclude TOMUSS-$$V/'TMP' \
+		--exclude TOMUSS-$(V)/'LOGS' \
+		--exclude TOMUSS-$(V)/'TMP' \
 		--exclude '.git' \
 		--exclude 'services-ucbl.html' \
 		--exclude 'xxx*' \
-		TOMUSS-$$V \
-	    | bzip2 -9 >~/public_html/TOMUSS/TOMUSS-$$V.tar.bz2 ; \
-	rm -rf TOMUSS-$$V ; \
-	rm -f ~/public_html/TOMUSS/tomuss.tar.bz2 ; \
-	ln -s TOMUSS-$$V.tar.bz2 ~/public_html/TOMUSS/tomuss.tar.bz2
+		TOMUSS-$(V) \
+	    | bzip2 -9 >~/public_html/TOMUSS/TOMUSS-$(V).tar.bz2 ; \
+	rm -rf TOMUSS-$(V)
+	rm -f ~/public_html/TOMUSS/tomuss.tar.bz2
+	ln -s TOMUSS-$(V).tar.bz2 ~/public_html/TOMUSS/tomuss.tar.bz2
 
 changelog:
 	-if [ -x git ] ; then SCRIPTS/changelog >DOCUMENTATION/changelog ; fi
@@ -76,10 +93,6 @@ full-tar:
 		 .
 
 tar-check:
-	V=$$(python -c 'import configuration;print configuration.version') ; \
-	cd /tmp ; \
-	bzcat ~/public_html/TOMUSS/TOMUSS-$$V.tar.bz2 | \
-	tar -xf - ; \
-	cd TOMUSS-$$V ; \
-	make regtest
+	cd /tmp ; bzcat ~/public_html/TOMUSS/TOMUSS-$(V).tar.bz2 | tar -xf -
+	cd TOMUSS-$(V) ; $(MAKE) regtest
 

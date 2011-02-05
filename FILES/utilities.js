@@ -628,6 +628,13 @@ function mail_sort(x, y)
   return 0 ;
 }
 
+function mailto_url_usable(mails)
+{
+  if ( mails.length < max_url_length || ! on_windows() )
+    return true ;
+  return false ;
+}
+
 function my_mailto(mails, display)
 {
   if ( mails.search('@') == -1 )
@@ -640,8 +647,7 @@ function my_mailto(mails, display)
   mails.sort(mail_sort) ;
   mails = mails.join(',') ;
 
-  if ( display === undefined &&
-       (mails.length < max_url_length || ! on_windows()) )
+  if ( display === undefined && mailto_url_usable(mails) )
     {
       window.location = 'mailto:?bcc=' + mails ;
       return ;
@@ -698,7 +704,7 @@ This function returns the URL of the student picture.
 function student_picture_url(login)
 {
   if ( login )
-    return 'http://www.org/' + login_to_id(login) + '.png' ;
+    return  '_URL_/=' + ticket + '/picture/' + login_to_id(login) + '.JPG' ;
   return '' ;
 }
 
@@ -1324,7 +1330,10 @@ function ue_line_click_more()
 	  t +=  '<br><img class="safety" src="_URL_/unsafe.png"><a href="javascript:do_extension(\'' + code + '\');">Passer cette UE en NON-SEMESTRIALISÉE</a>' ;
 	}
 
-      if ( is_the_current_semester() || semester() == 'Test' )
+      if ( is_the_current_semester()
+	   || semester() == 'Test'
+	   || (code && code.match('.*/.*'))
+	   )
 	if ( code )
 	  t +=  '<br><img class="safety" src="_URL_/unsafe.png"><a href="javascript:do_delete(\'' + code + '\');">Détruire cette table</a>' ;
 	else
@@ -2014,7 +2023,11 @@ function cell_value_export()
 	}
     }
   else
-    return tofixedapogee(xx) ;
+    {
+      if ( xx < 0 )
+	xx = 0 ;
+      return tofixedapogee(xx) ;
+    }
 }
 
 

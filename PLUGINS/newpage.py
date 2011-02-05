@@ -217,9 +217,10 @@ else
         server.the_file.close()
         return
     except:
-        # Reconnection of an old non modifiable page on a stoped server.
+        # Reconnection of an old non modifiable page on: a stoped server
+        # or with an old ticket after a connection lost.
         # See REGTEST_SERVER/tests.py 'lostpage'
-        server.the_file.write('<script>window.location += "/.."</script>')
+        server.the_file.write('<script>window.parent.location = "%s/%s/%s/%s"</script>' % (configuration.server_url, server.the_year, server.the_semester, server.the_ue))
         server.the_file.close()
         utilities.send_backtrace('', 'Page not found')
         return

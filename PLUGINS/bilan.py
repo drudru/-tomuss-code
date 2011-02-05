@@ -26,11 +26,6 @@ from inscrits import firstname_and_surname_and_mail
 import configuration
 from referent import students_of_a_teacher
 
-#REDEFINE
-# To add external information in the 'bilan'
-def external_bilan(login):
-    return "[]"
-
 # The bilan is computed by SCRIPTS/bilan.py once per night
 def bilan(server):
     """Displays all the informations about a student in TOMUSS for
@@ -57,18 +52,20 @@ def bilan(server):
 <SCRIPT src="%s/lib.js"></SCRIPT>
 <SCRIPT src="%s/utilities.js"></SCRIPT>
 <SCRIPT><!--
+ticket = "%s" ;
 bilan("%s","%s",%s,%s,%s,%s,%s,%s,%s) ;
 --></SCRIPT>''' % (
                               configuration.server_url,
                               configuration.server_url,
                               configuration.server_url,
+                              server.ticket.ticket,
                              server.ticket.ticket, server.the_student, v,
                    utilities.js(firstname.encode('utf8')),
                    utilities.js(surname.title().encode('utf8')),
                    utilities.js(mail.encode('utf8')),
                    configuration.suivi.all(server.ticket.ticket),
                    i_can_refer,
-                   external_bilan(server.the_student)
+                   configuration.external_bilan(server.the_student)
                    ))
 
 

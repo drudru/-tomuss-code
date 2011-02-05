@@ -1,6 +1,6 @@
 /*
     TOMUSS: The Online Multi User Simple Spreadsheet
-    Copyright (C) 2008-2010 Thierry EXCOFFIER, Universite Claude Bernard
+    Copyright (C) 2008-2011 Thierry EXCOFFIER, Universite Claude Bernard
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -606,11 +606,8 @@ for(var type_i in types)
 	      "Ceci permet d'ouvrir une nouvelle fenêtre<br>" +
 	      "faite pour être imprimée ou <b>exportée</b> vers un tableur.<br>"+
 	      'Seuls les étudiants filtrés seront affichés.') +
-   hidden_txt('<select onfocus="take_focus(this);" onchange="this.blur();if ( this.selectedIndex == 1) my_mailto(students_mails()); else if ( this.selectedIndex == 2) my_mailto(students_mails(), true) ; if ( this.selectedIndex == 3) my_mailto(authors_mails()) ; if ( this.selectedIndex == 4) my_mailto(authors_mails(),true) ; if ( this.selectedIndex == 5) personal_mailing() ; this.selectedIndex = 0 ;"><option selected="1">Mél</option><option>Étudiant envoyer message</option><option>Étudiant liste des adresses</option><option>Enseignant envoyer message</option><option>Enseignant liste des adresses</option><option>Publi Postage</option></select>',
-	      "Choix permettant d'<b>envoyer des messages</b> aux<br>" +
-	      "étudiants ou enseignants filtrés.<br>" +
-	      'Dans le cas des enseignants, c\'est parce qu\'ils<br>' +
-	      "ont saisi au moins une valeur, y compris «besoin soutien».") +
+   hidden_txt('<select onmousedown="javascript:mail_window();setTimeout(\'linefilter.focus()\',100)"><option>Mails</option></select>',
+	      "Gestion des mails") +
    hidden_txt('<select onfocus="take_focus(this);" onchange="this.blur();if ( this.selectedIndex == 1) statistics(); else if ( this.selectedIndex == 2) statistics_per_group() ; if ( this.selectedIndex == 3) statistics_authors() ; else if ( this.selectedIndex == 4) table_graph(); this.selectedIndex = 0 ;"><option selected="1">Statistiques</option><option>Totales</option><option>Par groupe d\'étudiant</option><option>Par enseignant</option><option>Représentation graphique de la table</option></select>',
 	      "Ceci permet d'ouvrir une nouvelle fenêtre<br>" +
 	      "contenant des <b>statistiques</b> sur les notes.<br>" +
@@ -655,7 +652,7 @@ for(var type_i in types)
 	      'Importe les définitions des colonnes.') + ', ' +
 
    hidden_txt('<a href="javascript:export_columns();">Exp.</a>',
-	      'Exporte les définitions des colonnes (pas le contenu de la table)')+ '<br><small>' +
+	      'Exporte les définitions des colonnes (pas le contenu de la table)')+ '<br>' +
    
    table_select('table_attr_private',
 		['Publique', 'Privée'],
@@ -670,7 +667,7 @@ for(var type_i in types)
 		       "'0' indique que ce nombre dépend de la taille écran."
 		       ) ;
 
-   w += '</small><br></div>' +
+   w += '<br></div>' +
 
    table_input_attr('dates','empty',
 		    "Dates du premier cours et dernier examen.<br>" +
@@ -740,7 +737,8 @@ function popup_close()
 {
   element_focused = undefined ;
   var e = document.getElementById('popup_id') ;
-  e.parentNode.removeChild(e);
+  if ( e )
+    e.parentNode.removeChild(e);
 }
 
 function parse_lines(text)
@@ -784,12 +782,14 @@ function popup_column()
 
 function create_popup(html_class, title, before, after)
 {
+  popup_close() ;
+
   var popup = document.getElementById('popup') ;
 
   popup.innerHTML += '<div id="popup_id" class="import_export ' +
     html_class + '"><h2>' + title
     + '</h2>' + before +
-    '<TEXTAREA ROWS="10" onfocus="element_focused=this;"></TEXTAREA>'+
+    '<TEXTAREA ROWS="10" class="popup_input" onfocus="element_focused=this;"></TEXTAREA>'+
     '<BUTTON class="close" OnClick="popup_close()">&times;</BUTTON>' +
     after ;
 
@@ -809,7 +809,7 @@ function fill_column()
       ' vous la réactiverez après avoir vérifié le résultat.</div>';
 
 
-  create_popup('',
+  create_popup('fill_column_div',
 	       'Remplir la colonne «'
 	       + the_current_cell.column.title + '»',
 	       'Indiquez une valeur par ligne dans la zone de saisie.<br>' +

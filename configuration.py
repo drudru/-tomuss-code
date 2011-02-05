@@ -282,8 +282,8 @@ the_portails = {
     'UFRFST' :
     (
         'CN=148891 CGE-UFR Sciences et Technologie,OU=groupes,OU=etudiants,DC=univ-lyon1,DC=fr',
-        'CN=139284 APO-UFR Sciences et Technologie,OU=groupes,OU=etudiants,DC=univ-lyon1,DC=fr',
-        'CN=OU=UFR Sciences et Technologies,DC=univ-lyon1,DC=fr',
+#        'CN=139284 APO-UFR Sciences et Technologie,OU=groupes,OU=etudiants,DC=univ-lyon1,DC=fr',
+#        'CN=OU=UFR Sciences et Technologies,DC=univ-lyon1,DC=fr',
         ),
     }
 
@@ -296,16 +296,23 @@ bilan_des_notes = "http://students.domain.org/history?student_id="
 
 #REDEFINE
 # This function returns the URL of the student picture.
-# This example is for the demonstration site, in which the students
-# picture are dispatched by the TOMUSS server.
-def picture(student_id):
+# This example assumes that TOMUSS itself send pictures.
+def picture(student_id, ticket):
     import utilities
-    return utilities.StaticFile._url_ + '/' + student_id + '.png'
+    return (utilities.StaticFile._url_ + '/=' + ticket.ticket
+            + '/picture/' + student_id + '.JPG')
 
 #REDEFINE
 # This function returns a string inserted into student suivi page
 def more_on_suivi(student_login):
     return ''
+
+#REDEFINE
+# To add external information in the 'bilan'
+# This function is used by PLUGINS/bilan.py to get external information
+def external_bilan(login):
+    return "[]"
+
 
 # And an error message if the password is trivial
 bad_password = """

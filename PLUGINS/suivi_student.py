@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 #    TOMUSS: The Online Multi User Simple Spreadsheet
-#    Copyright (C) 2008-2010 Thierry EXCOFFIER, Universite Claude Bernard
+#    Copyright (C) 2008-2011 Thierry EXCOFFIER, Universite Claude Bernard
 #
 #    This program is free software; you can redistribute it and/or modify
 #    it under the terms of the GNU General Public License as published by
@@ -98,14 +98,16 @@ def the_ues(year, semester, login):
 # To not have duplicate error messages
 referent_missing = {}
 
-def student_statistics(login, server, is_a_student=False, expand=False):
+def student_statistics(login, server, is_a_student=False, expand=False,
+                       is_a_referent=False):
     utilities.warn('Start', what='table')
     ticket = server.ticket
     year = server.year
     semester = server.semester
     firstname, surname, mail = inscrits.firstname_and_surname_and_mail(login)
     s = ['<div class="student"><img class="photo" src="',
-         configuration.picture(inscrits.login_to_student_id(login)),
+         configuration.picture(inscrits.login_to_student_id(login),
+                               ticket=ticket),
          '">',
          tomuss_links(login, ticket, server, is_a_student),
          '<h1>'
@@ -137,6 +139,10 @@ def student_statistics(login, server, is_a_student=False, expand=False):
     if not expand:
         s.append(u"""<script>hidden('<a href="%s" target="_blank">Bilan APOGÉE</a>','Affiche le récapitulatif des notes présentes dans APOGÉE<br>pour l\\'ensemble de la licence');""" %
                  (configuration.bilan_des_notes + login) + '</script>, ')
+
+    if is_a_referent:
+        s.append(u"""<script>hidden('<a href="%s/=%s/bilan/%s" target="_blank">Bilan TOMUSS</a>','Affiche le récapitulatif des notes présentes dans TOMUSS et APOGÉE.<br>Ceci permet de voir le nombre d\\'inscriptions à une UE.');""" %
+                 (configuration.server_url, ticket.ticket, login) + '</script>, ')
     # CONTRACT
 
     if not is_a_student:
@@ -183,7 +189,7 @@ def student_statistics(login, server, is_a_student=False, expand=False):
                             first = False
                         s.append(u'%s&nbsp;:&nbsp;<b>%s</b>,'
                                  % ( unicode(col.title, 'utf8'),
-                                     unicode(line[i].value, 'utf8') ))
+                                     unicode(cgi.escape(str(line[i].value)), 'utf8') ))
             if first == False:
                    s.append('</div>')
             # table.unload() # XXX Memory leak
@@ -280,7 +286,7 @@ def student(server, login=''):
     server.the_file.write((header2.replace("_USERNAME_",
                                           server.ticket.user_name)
                           .replace("_ADMIN_", configuration.maintainer) +
-                          '<p id="x" style="background:yellow"><b>Chargement en cours, veuillez patientez s\'il vous plait. Cela ira encore plus lentement si vous réactualisez la page.</b></p>').replace('\n',''))
+                          '<p id="x" style="background:yellow"><b>Chargement en cours, veuillez patienter s\'il vous plait. Cela ira encore plus lentement si vous réactualisez la page.</b></p>').replace('\n',''))
     server.the_file.flush()
     server.the_file.write(
         "<script>document.getElementById('x').style.display='none';</script>" +
@@ -390,10 +396,12 @@ def display_login(server, login, expand=False):
         # Student
         try:
             login = utilities.the_login(login)
-            server.the_file.write(student_statistics(login, server,
-                                                     is_a_student=False,
-                                                     expand=expand)
-                                .encode('utf8'))
+            server.the_file.write(
+                student_statistics(login, server,
+                                   is_a_student=False,
+                                   is_a_referent=server.ticket.is_a_referent,
+                                   expand=expand)
+                .encode('utf8'))
         except ValueError:
             raise
     else:

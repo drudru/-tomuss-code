@@ -1,7 +1,7 @@
 // -*- coding: utf-8 -*-
 /*
     TOMUSS: The Online Multi User Simple Spreadsheet
-    Copyright (C) 2008-2010 Thierry EXCOFFIER, Universite Claude Bernard
+    Copyright (C) 2008-2011 Thierry EXCOFFIER, Universite Claude Bernard
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -124,6 +124,10 @@ var t_column_fixed ;
 var t_column_histogram ;
 var t_column_average ;
 var t_menutop ;
+
+// Redefined if needed
+var root = [] ;
+var my_identity = 'identity undefined' ;
 
 function lib_init()
 {
@@ -2371,8 +2375,10 @@ function cell_set_value_real(data_lin, data_col, value, td)
   var cell = lines[data_lin][data_col] ;
   var column = columns[data_col] ;
 
-  if ( td && value.toString() == cell_get_value_real(data_lin, data_col).toString() )
-    return false ;
+  // toString is used because '' != '0' and '00' != '000'
+  // === is not used because 5.1 == "5.1"
+  if ( value.toString() == lines[data_lin][data_col].value.toString() )
+    return ;
 
   if ( ! cell.modifiable() )
     return ;
@@ -2428,7 +2434,7 @@ function cell_set_value(td, value, data_lin, data_col)
     return cell_get_value_real(data_lin, data_col) ;
 
   var v = cell_set_value_real(data_lin, data_col, value, td) ;
-  if ( v !== undefined && v !== false )
+  if ( v !== undefined )
     return v ;
   return cell_get_value_real(data_lin, data_col) ;
 }
@@ -3471,6 +3477,7 @@ function signatures_page_per_column()
 
 function print_page(w)
 {
+  var hide_link = '<TD><a class="hidden_on_paper" href="#" onclick="this.parentNode.parentNode.style.display=\'none\';return false"><small>Cacher</small></a>' ;
   assert_name_sort() ;
   var cols = column_list_all() ;
 
@@ -3492,19 +3499,19 @@ function print_page(w)
   if ( table_attr.comment )
     s += '<p>Petit message : <b>' + html(table_attr.comment) + '</b></p>' ;
   s += '<TABLE class="printer colored">' ;
-  s += '<THEAD><TR>\n' ;
+  s += '<THEAD><TR><TD>&nbsp;\n' ;
   var minmax, test_filter ;
   for(var col in cols)
     s += print_cell('', col,
 		    '<a class="hidden_on_paper" href="javascript:hide_class(\'col' + cols[col] + '\',true)"><small>Cacher</small></a>', cols[col]
 		    ) ;
-  s += '</TR><TR CLASS="title">\n' ;
+  s += '</TR><TR CLASS="title">\n' + hide_link ;
   for(var col in cols)
     s += print_cell(columns[cols[col]].title, col, '', cols[col]) ;
-  s += '</TR>\n<TR CLASS="type">\n' ;
+  s += '</TR>\n<TR CLASS="type">\n' + hide_link ;
   for(var col in cols)
     s += print_cell(columns[cols[col]].type, col, '', cols[col]) ;
-  s += '</TR>\n<TR CLASS="test">\n' ;
+  s += '</TR>\n<TR CLASS="test">\n' + hide_link ;
   for(var col in cols)
     {
       if ( columns[cols[col]].real_type.set_minmax != unmodifiable )
@@ -3517,10 +3524,10 @@ function print_page(w)
 	test_filter = '' ;
       s += print_cell(minmax + ' ' + test_filter, col, '', cols[col]) ;
     }
-  s += '</TR>\n<TR CLASS="visibility_date">\n' ;
+  s += '</TR>\n<TR CLASS="visibility_date">\n' + hide_link ;
   for(var col in cols)
     s += print_cell(columns[cols[col]].visibility_date, col, '', cols[col]) ;
-  s += '</TR>\n<TR CLASS="weight">\n' ;
+  s += '</TR>\n<TR CLASS="weight">\n' + hide_link ;
   for(var col in cols)
     {
       if ( columns[cols[col]].real_type.set_weight != unmodifiable )
@@ -3533,7 +3540,7 @@ function print_page(w)
   for(var col in cols)
     if ( columns[cols[col]].empty_is )
       {
-	s += '</TR>\n<TR CLASS="empty_is">\n' ;
+	s += '</TR>\n<TR CLASS="empty_is">\n' + hide_link ;
 	for(var col in cols)
 	  if ( columns[cols[col]].empty_is )
 	    s += print_cell(columns[cols[col]].empty_is, col, '&#8709;=',
@@ -3543,20 +3550,18 @@ function print_page(w)
 	break ;
       }
 
-  s += '</TR>\n<TR CLASS="comment">\n' ;
+  s += '</TR>\n<TR CLASS="comment">\n' + hide_link ;
   for(var col in cols)
     s += print_cell(columns[cols[col]].comment, col, '', cols[col]) ;
 
   s += '</TR></THEAD><TBODY><TR CLASS="separator">' ;
-  var hide_link = '<TD><a class="hidden_on_paper" href="#" onclick="this.parentNode.parentNode.style.display=\'none\';return false"><small>Cacher</small></a>' ;
-  s = s.replace(/<.TR>/g, hide_link + '</TR>') ;
   w.document.write(s) ;
   
   var i = 0 ;
   for(var data_line in filtered_lines)
     {      
       var line = filtered_lines[data_line] ;
-      s = "" ;
+      s = hide_link ;
       for(var col in cols)
 	{
 	  if ( col === 0 )
@@ -3564,7 +3569,7 @@ function print_page(w)
 	  else
 	    s += print_cell(line[cols[col]].value, col, '', cols[col]) ;
 	}
-      s += hide_link + '</TR>\n' ;
+      s += '</TR>\n' ;
       i++ ;
       if ( i % zebra_step === 0 )
 	s += '<TR CLASS="separator">' ;
@@ -3902,12 +3907,13 @@ function virtual_table_common_begin()
   var a = '{' ;
   for(var i in table_attr)
     a += i + ':"' + table_attributes[i].formatter(table_attr[i]) + '",' ;
-  a = a.substr(0,p.length-1) + '};' ;
+  a = a.substr(0,a.length-1) + '}' ;
 
   return html_begin_head(true) +
     head_html() +
     '<script>\n' +
     'page_id = "" ;\n' +
+    'check_down_connections_interval = 0 ;\n' +
     'url = "' + url.split('/=')[0] + '";\n' +
     'my_identity = "' + my_identity + '" ;\n' +
     'year = "' + year + '" ;\n' +
@@ -4149,10 +4155,11 @@ function statistics_per_group()
       column = columns[col.data_col] ;
       t = column.title ;
       s += 'add_empty_column(true);\n' +
-	'columns[' + (Number(c)+2) +'].title = "' + t + ' Moyenne";\n' +
-	'columns[' + (Number(c)+2) +'].minmax = "[' + column.min + ';' + column.max + ']";' +
-	'columns[' + (Number(c)+2) +'].red = "NaN";' +
-	'columns[' + (Number(c)+2) +'].green = "NaN";' ;
+	'column = columns[' + (Number(c)+2) +'] ;\n' +
+	'column.title = "' + t + ' Moyenne";\n' +
+	'column.minmax = "[' + column.min + ';' + column.max + ']";' +
+	'column.green = "NaN" ;\n' +
+	'column.red = "NaN" ;\n' ;
     }
 
   // The delayed function call is only here for IE
@@ -4535,7 +4542,7 @@ function change_popup_on_red_line()
   update_popup_on_red_line() ;
 }
 
-function students_mails()
+function students_mails(missing)
 {
   var s = '' ;
 
@@ -4544,17 +4551,18 @@ function students_mails()
       line = filtered_lines[data_lin] ;
       if ( line[0].value !== '' )
 	{
-	  if ( table_attr.mails[line[0].value] )
-	    s += table_attr.mails[line[0].value] ;
+	  if ( table_attr.mails[line[0].value]
+	       && table_attr.mails[line[0].value].indexOf('@') != -1)
+	    s += table_attr.mails[line[0].value] + ',' ;
 	  else
-	    s += line[0].value ;
-	  s += ',' ;
+	    if ( missing )
+	      missing.push(line[0].value) ;
 	}
       
     }
   return s ;
 }
-function authors_mails()
+function authors_mails(missing)
 {
   var cls = column_list_all() ;
   var cols = [] ;
@@ -4578,13 +4586,84 @@ function authors_mails()
   for(var i in a)
     {
       if ( a[i] == i )
-	if ( table_attr.mails[i] )
-	  s += table_attr.mails[i] ;
+	if ( table_attr.mails[i] && table_attr.mails[i].indexOf('@') != -1 )
+	  s += table_attr.mails[i] + ',' ;
 	else
-	  s += i ;
-      s += ',' ;
+	  if ( missing )
+	      missing.push(i) ;
     }
   return s ;
+}
+
+var mail_separator = '\n' ;
+
+function mail_div_box(mails)
+{
+  return '<textarea readonly="1" class="mails" onclick="this.select()">'
+    + mails.replace(/,/g, mail_separator) + '</textarea>' ;
+}
+
+
+function mail_window()
+{
+  var missing = [] ;
+  var the_student_mails = students_mails(missing) ;
+  var nr_student_mails = the_student_mails.split(',').length - 1 ;
+
+  if ( the_student_mails.search('@') == -1 )
+    {
+      alert("Désolé, votre navigateur n'a pas encore reçu les adresses mails.\nRéessayez dans quelques secondes.") ;
+      return ;
+    }
+
+  var link_students = nr_student_mails + ' Étudiants' ;
+  if ( mailto_url_usable(the_student_mails) )
+    link_students = hidden_txt('<a href="javascript: window.location=\'mailto:?bcc=' +
+			       the_student_mails + '\'">' + link_students + ' (Lien rapide)</a>',
+			       'Suivez le lien pour directement lancer ' +
+			       'votre logiciel de messagerie.') ;
+
+  var the_author_mails = authors_mails(missing) ;
+  var nr_author_mails = the_author_mails.split(',').length - 1 ;
+  var link_authors = nr_author_mails + ' Enseignants' ;
+  if ( mailto_url_usable(the_author_mails) )
+    link_authors = hidden_txt('<a href="javascript: window.location=\'mailto:?bcc=' +
+			       the_author_mails + '\'">' + link_authors + ' (Lien rapide)</a>',
+			       'Suivez le lien pour directement lancer ' +
+			       'votre logiciel de messagerie.') ;
+
+  if ( missing.length )
+    {
+	var missing_text = '<p class="unknown_mails">' + missing.length
+	  + ' adresses mail inconnues' ;
+       if ( missing.length > 20 )
+	 missing_text += '.' ;
+       else
+	 missing_text += ' : ' + missing ;
+       missing_text += '</p>' ;
+    }
+  else
+    missing = '' ;
+
+  create_popup('mails_div',
+	       'Gestion des mails',
+	       '<ul>' +
+	       '<li> <b>Cliquez sur une adresse</b> pour toutes les sélectionner.' +
+	       '<li> Puis faites <b>Ctrl-C</b> pour les copier' +
+	       '<li> Puis faites <b>Ctrl-V</b> dans la liste des destinataires en <b>Copie Carbone Invisible (CCI ou BCC)</b> si vous ne voulez pas que les étudiants connaissent les autres destinataires.' +
+	       '</ul>' +
+	       'En cas de problème, utilisez le <a href="javascript:mail_separator=\';\';mail_window()">point-virgule</a> ou la <a href="javascript:mail_separator=\',\';mail_window()">virgule</a>  comme séparateur.' +
+	       '<table class="colored"><tr>' +
+	       '<th>' + link_students +
+	       '<th>' + link_authors +
+	       '</tr><tr><td>' +
+	       mail_div_box(the_student_mails) +
+	       '</td><td>' +
+	       mail_div_box(the_author_mails) +
+	       '</td></tr></table>' + missing_text
+	       ,
+	       'TOMUSS peut faire du <a href="javascript:personal_mailing()">publi-postage</a> en envoyant les mails pour vous.<br>Ceci permet d\'envoyer des informations personnalisées aux étudiants en fonction du contenu de la table.') ;
+
 }
 
 function update_mail(login, mail)
@@ -4649,8 +4728,8 @@ function personal_mailing()
 {
    create_popup('personal_mailing_div',
 		'Envoyer un mail personnalisé aux étudiants filtrés',
-		'<p style="background-color:#F00;color:#FFF">N\'ENVOYEZ PAS DE NOTES AUX ÉTUDIANTS.</p><br>Sujet : <input id="personal_mailing" style="width:100%" value="' + ue + ' ' + table_attr.table_title + ' : Info pour [Prénom] [Nom]"><br>Votre message&nbsp;:',
-	       'Pour envoyer cliquez sur <BUTTON OnClick="personal_mailing_do();">Envoyer les ' + filtered_lines.length + ' messages</BUTTON>.') ;
+		'<p style="background-color:#F00;color:#FFF">N\'ENVOYEZ PAS DE NOTES PAR MAIL AUX ÉTUDIANTS.</p>Les titres de colonne entre crochets sont remplacés par la valeur de la case correspondant à l\'étudiant pour cette colonne. Vous pouvez utiliser toutes les colonnes existantes.<p>&nbsp;<br>Sujet du message : <input id="personal_mailing" style="width:100%" value="' + ue + ' ' + table_attr.table_title + ' : Info pour [Prénom] [Nom]"><br>Votre message&nbsp;:',
+	       'Pour envoyer, cliquez sur : <BUTTON OnClick="personal_mailing_do();">Envoyer les ' + filtered_lines.length + ' messages</BUTTON>.') ;
    popup_set_value('Bonjour [Prénom] [Nom].\n\nVotre groupe est [Grp] et votre séquence [Seq]\n\nAu revoir.') ;
 }
 
@@ -5026,7 +5105,7 @@ function abj_per_day()
       names += ',\"' + i + '\":\"' + lines[login_to_line(i)][2].value
 	+ ' ' + lines[login_to_line(i)][1].value+ '\"';
       i = the_student_abjs[i] ;
-      t = '' ;
+      var t = '' ;
       for(var j in i[0])
 	{
 	  j = i[0][j] ;
@@ -5036,7 +5115,14 @@ function abj_per_day()
 	      d.getTime() < end;
 	      d.setTime(d.getTime() + 86400*1000)
 	      )
-	    days[d.getMonth() + '/' + d.getDate()] = d.getTime() ;
+	    {
+	      if ( d.getHours() == 23 )
+		d.setHours(24) ;
+	      else if ( d.getHours() == 1 )
+		d.setHours(0) ;
+	      days[d.getFullYear()+'/'+d.getMonth()+'/'+d.getDate()] = d.getTime() ;
+	    }
+	      
 	}
       s += (t+' ').substr(1) + '] ;\n' ;
     }
@@ -5047,17 +5133,18 @@ function abj_per_day()
   var mm, first ;
 
   if ( semester == 'Automne' )
-    var start = 7, stop = 13 ;
+    var start = 7, stop = 13, yy = year ;
   else
-    var start = 1, stop = 7 ;
-
+    var start = 1, stop = 7, yy = year + 1 ;
 
   for(var m=start; m<stop; m++)
     {
       first = true ;
       mm = m % 12 ;
+      if ( mm == 0 )
+	  yy++ ;
       for(var d=1; d<32; d++)
-	if ( days[mm + '/' + d] )
+	if ( days[yy + '/' + mm + '/' + d] )
 	  {
 	    if ( first )
 	      {
@@ -5067,7 +5154,7 @@ function abj_per_day()
 		  p += '<td>&nbsp;' ;
 	      }
 	    p += '<td><a onclick="javascript:compute_abj_per_day('
-	      + days[mm + '/' + d] + ');">' + d + '</a>' ;
+	      + days[yy + '/' + mm + '/' + d] + ');">' + d + '</a>' ;
 	  }
       if ( ! first )
 	{
@@ -5086,6 +5173,10 @@ var reconnect_giveup ;
 
 function reconnect()
 {
+  if ( ue == 'VIRTUALUE' || ue == '' )
+    return ;
+  if ( check_down_connections_interval == 0 )
+    return ;
   if ( millisec() - last_reconnect < 1000*check_down_connections_interval )
     return ;
   if ( millisec() - last_server_answer > 1000*(ticket_time_to_live-3600))
@@ -5193,12 +5284,12 @@ function runlog(the_columns, the_lines)
   update_column_menu() ;
   update_popup_on_red_line() ;
 
+  update_filtered_lines(); // Before init_columns to compute RED/GREEN
   for(var data_col in columns)
     {
       init_column(columns[data_col]) ;
       columns[data_col].need_update = true ;
     }
-  update_filtered_lines(); // Before update_columns to compute RED/GREEN
   update_columns() ;
 
   if ( server_log )
@@ -5232,7 +5323,7 @@ function runlog(the_columns, the_lines)
   /** IE/Opera. */
   window.onmousewheel = document.onmousewheel = wheel;
 
-  if ( ue != 'VIRTUALUE' && page_id > 0 )
+  if ( ue != 'VIRTUALUE' && ue != '' && page_id > 0 )
     document.write('<img width="1" height="1" src="' + url + "/=" + ticket
 		   + '/' + year + '/' + semester + '/' + ue + '/' +
 		   page_id + '/end_of_load">') ;
@@ -5251,8 +5342,7 @@ function runlog(the_columns, the_lines)
     }
 
   // Firefox bug : the page refresh reload the old iframe, not the new one
-  if ( ue != 'VIRTUALUE' )
-    setTimeout(reconnect, 10) ;
+  setTimeout(reconnect, 10) ;
 
   the_current_cell.update_table_headers() ;
   change_title(table_attr.table_title, table_attr.code) ;
@@ -5358,11 +5448,11 @@ function display_suivi(cols) /* [value, class, comment] */
 	  first = '' ;
 	if ( s === '' )
 	  v = '<div class="notes fine ' + visual_cell[1] + first + '">'
-	    + hidden_txt('<p>' + title + '</p>' + visual_cell[0], visual_cell[2])
+	    + hidden_txt('<i>' + title + '<br>' + visual_cell[0] + '</i>', visual_cell[2])
 	    + '</div>' ;
 	else
 	  v = '<div class="notes' + first + '">'
-	    + hidden_txt('<p>' + title + ': ' + visual_cell[0] + '</p>',
+	    + hidden_txt('<i>' + title + ': ' + visual_cell[0] + '</i><br>',
 			 visual_cell[2], visual_cell[1])
 	    + s + '</div>' ;
 	return v ;

@@ -502,7 +502,6 @@ function export_column_value()
 	  if ( error === false )
 	    {
 	      error = true ;
-	      alert("Au moins un numéro d'étudiant n'a pas été trouvé.\nLa valeur a été mise à ???.") ;
 	    }
 	  continue ;
 	}
@@ -514,6 +513,9 @@ function export_column_value()
   popup_set_value(v) ;
 
   var m = '' ;
+  if ( error )
+    m = "Au moins un numéro d'étudiant n'a pas été trouvé.\nLa valeur a été mise à ???.\n\n" ;
+
   for(var line in filtered_lines)
     if ( exported[filtered_lines[line][0].value] != true )
       if ( filtered_lines[line][data_col].value !== '' )

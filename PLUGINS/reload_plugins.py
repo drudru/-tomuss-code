@@ -23,6 +23,7 @@ import collections
 import os
 import plugin
 import utilities
+import document
 
 def reload_plugins(server):
     plugin_files = collections.defaultdict(list)
@@ -50,6 +51,7 @@ def reload_plugins(server):
             for i in plugin_files[i]:
                 plugin.plugins.remove(i)
     server.the_file.write('</table>\n')
+    document.table(0, 'Dossiers', 'config_plugin', None, None)
 
 plugin.Plugin('reload_plugins', '/reload_plugins',
               function=reload_plugins,
