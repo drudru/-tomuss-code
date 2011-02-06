@@ -52,6 +52,7 @@ class ColumnAttr(object):
     visible_for = []                # The 'types' needing this attribute
     default_value = ''              # XXX Must not be a mutable value
     computed = 0                    # Is a computed attribute (not modifiable)
+    tip = ''                        # Helpful message
     
     def __init__(self):
         ColumnAttr.attrs[self.name] = self
@@ -148,6 +149,7 @@ class ColumnAttr(object):
                 ',empty:' + self.empty +
                 ',check_and_set:' + self.check_and_set +
                 ',visible_for:' + js(self.visible_for) +
+                ',tip:' + js(self.tip) +
                 '}')
 
 
@@ -161,6 +163,17 @@ class ColumnType(ColumnAttr):
         return plugins.types[value]
     def decode(self, value):
         return value.name
+    tip = """<b>Type de la colonne</b>, il indique le contenu des cellules :
+<ul>
+<li> 'Text' : du texte libre
+<li> 'Note' : une note, ou un indicateur de présence
+<li> 'Moy' : calcul de la moyenne pondérée de plusieurs colonnes
+<li> 'Prst' : Cellules cliquables pour indiquer la présence
+<li> 'Nmbr' : Compte le nombre de cellules contenant une valeur
+<li> 'Date' : Des dates de la forme JJ/MM/AAAA
+<li> 'Bool' : Oui ou Non
+<li> 'Max' : Maximum sur plusieurs colonnes
+</ul>"""
 
 class ColumnVisibilityDate(ColumnAttr):
     name = 'visibility_date'
@@ -183,6 +196,9 @@ function(column, value)
 	 column.visibility_date.substr(0,4) ;
 }'''
     check_and_set = 'set_visibility_date'
+    tip = """<b>Date où la colonne devient visible pour les étudiants</b>.<br>
+    La date est indiquée sous la forme JJ/MM/AAAA.<br>
+    <b><em>Si rien n'est indiqué : tout est visible par les étudiants.</em></b>"""
 
 class ColumnFreezed(ColumnAttr):
     name = 'freezed'
@@ -202,18 +218,32 @@ class ColumnTitle(ColumnAttr):
     #        return 'Espace interdit dans les titres de colonnes'
     empty = 'function(column, value) { return value.substr(0,default_title.length) == default_title && !isNaN(value.substr(default_title.length))  ; }'
     check_and_set = 'set_title'
+    tip = """<b>Titre de la colonne.</b><br>
+    Indiquez des noms compréhensibles pour les étudiants.<br>
+    Noms standards pour importer dans APOGÉE&nbsp;:
+    <ul>
+    <li> APO_CC : Contrôle Continu (seule note à saisir si l'UE est 100% contrôle continue).
+    <li> APO_CP : Partiel.
+    <li> APO_CT : Examen.
+    <li> APO_CT2 : Examen, session 2.
+    </ul>"""
 
 class ColumnComment(ColumnAttr):
     name = 'comment'
     update_headers = 1
     display_table = 1
     check_and_set = 'set_comment'
+    tip = """Tapez un commentaire pour cette colonne.<br>
+    Il est visible par les étudiants."""
+
 
 class ColumnAuthor(ColumnAttr):
     computed = 1
     update_headers = 1
     name = 'author'
     check_and_set = 'test_nothing'
+    tip = "Personne qui a modifié la définition<br>de la colonne pour la dernière fois :"
+
 
 class ColumnWidth(ColumnAttr):
     default_value = 4
@@ -243,10 +273,14 @@ class ColumnGreen(ColumnAttr):
     name = 'green'
     display_table = 1
     check_and_set = 'set_green'
+    tip = """<b>Colorie en vert</b> les cellules contenant<br>
+    une valeur supérieure à celle indiquée.<br>On peut utiliser un filtre"""
 
 class ColumnRed(ColumnGreen):
     name = 'red'
     check_and_set = 'set_red'
+    tip = """<b>Colorie en rouge</b> les cellules contenant<br>
+    une valeur inférieure à celle indiquée.<br>On peut utiliser un filtre"""
 
 class ColumnWeight(ColumnAttr):
     default_value = '1'
@@ -254,6 +288,14 @@ class ColumnWeight(ColumnAttr):
     display_table = 1
     check_and_set = 'set_weight'
     visible_for = ['Note', 'Nmbr', 'Moy', 'URL', 'Enumeration']
+    tip = """<b>Poids de cette colonne</b> dans les moyennes pondérées.<br>
+    Des poids entiers sont préférables.<br>
+    <br>
+    Si le poids commence par le signe <b>+</b> ou <b>-</b><br>
+    alors il ne compte pas dans la somme des poids de<br>
+    la moyenne pondérée.<br>
+    La valeur de la cellule multipliée par le poids est<br>
+    ajoutée à la valeur finale de la moyenne."""
 
     def check(self, value):
         try:
@@ -280,7 +322,15 @@ function(value, column)
   column.nmbr_filter = compile_filter_generic(value) ;
   return value ;
 }'''
-    
+    tip = """<b>Filtre indiquant les cellules à compter</b><br>
+    Exemples pour compter les cellules :<ul>
+    <li> <b>ABI</b> : commençant par ABI.
+    <li> <b>!=ABINJ</b> : valeur différente de ABINJ.
+    <li> <b>=</b> compte les cellules vides.
+    <li> <b>&lt;8</b> compte les nombres plus petits que 8.
+    </ul>
+    Pour plus d'information, regardez l'aide sur les filtres."""
+
 class ColumnEnumeration(ColumnAttr):
     default_value = ''
     name = 'enumeration'
@@ -293,11 +343,23 @@ class ColumnMinMax(ColumnAttr):
     name = 'minmax'
     check_and_set = 'set_test_note'
     visible_for = ['Note', 'Moy', 'Max']
+    tip = """<b>Intervalle possible pour les notes saisies ou calculées</b><br>
+    Par exemple <b>[0;20]</b> pour indiquer des notes<br>
+    entre 0 et 20 inclus.<br>
+    Les bornes peuvent être négatives.<br>
+    Ces valeurs n'influent pas sur les poids<br>
+    des notes dans une moyenne pondérée."""
+
 
 class ColumnEmptyIs(ColumnAttr):
     name = 'empty_is'
     display_table = 1
     check_and_set = 'function(value, column){column.need_update = true ; return value ; }'
+    tip = """<b>Valeur par défaut des cellules vides</b>.<br>
+    Cette valeur sera utilisée dans les moyennes que<br>
+    cela soit dans le tableau ou le suivi des étudiants.<br>
+    La case restera vide dans le tableau.<br>
+    Par exemple : ABINJ, PRST, 0, 10..."""
     
 class ColumnColumns(ColumnAttr):
     name = 'columns'

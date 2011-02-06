@@ -127,57 +127,17 @@ class Text(object):
     # Default tips
     tip_column_title = """Titre de la colonne, cliquez dessus
 pour la trier dans une direction ou l'autre."""
-    tip_title = """<b>Titre de la colonne.</b><br>
-    Indiquez des noms compréhensibles pour les étudiants.<br>
-    Noms standards pour importer dans APOGÉE&nbsp;:
-    <ul>
-    <li> APO_CC : Contrôle Continu (seule note à saisir si l'UE est 100% contrôle continue).
-    <li> APO_CP : Partiel.
-    <li> APO_CT : Examen.
-    <li> APO_CT2 : Examen, session 2.
-    </ul>"""
-    tip_type = """<b>Type de la colonne</b>, il indique le contenu des cellules :
-<ul>
-<li> 'Text' : du texte libre
-<li> 'Note' : une note, ou un indicateur de présence
-<li> 'Moy' : calcul de la moyenne pondérée de plusieurs colonnes
-<li> 'Prst' : Cellules cliquables pour indiquer la présence
-<li> 'Nmbr' : Compte le nombre de cellules contenant une valeur
-<li> 'Date' : Des dates de la forme JJ/MM/AAAA
-<li> 'Bool' : Oui ou Non
-<li> 'Max' : Maximum sur plusieurs colonnes
-</ul>"""
     tip_filter = """Exemple de filtre :
 <ul>
 <li><b>abc</b> pour afficher seulement les valeurs commençant par <b>abc</b>
 <li><b>~ab</b> pour afficher les valeurs contenant <b>ab</b>
 <li><b>!A</b> pour afficher seulement les valeurs ne commençant pas par <b>A</b>
 </ul>"""
-    tip_weight = ''
-    tip_test_filter = ''
-    tip_minmax = ''
     tip_cell = "Texte libre"
     tip_columns = ''
-    tip_red = """<b>Colorie en rouge</b> les cellules contenant<br>
-    une valeur inférieure à celle indiquée.<br>On peut utiliser un filtre"""
-    tip_green = """<b>Colorie en vert</b> les cellules contenant<br>
-    une valeur supérieure à celle indiquée.<br>On peut utiliser un filtre"""
-    tip_visibility_date = """<b>Date où la colonne devient visible pour les étudiants</b>.<br>
-    La date est indiquée sous la forme JJ/MM/AAAA.<br>
-    <b><em>Si rien n'est indiqué : tout est visible par les étudiants.</em></b>"""
-    tip_empty_is = """<b>Valeur par défaut des cellules vides</b>.<br>
-    Cette valeur sera utilisée dans les moyennes que<br>
-    cela soit dans le tableau ou le suivi des étudiants.<br>
-    La case restera vide dans le tableau.<br>
-    Par exemple : ABINJ, PRST, 0, 10..."""
-    tip_comment = """Tapez un commentaire pour cette colonne.<br>
-    Il est visible par les étudiants."""
-    tip_author = "Personne qui a modifié la définition<br>de la colonne pour la dernière fois :"
-
 
     # The value is a float most of the time
     should_be_a_float = 0
-
 
     # check value to be stored in the cell
     cell_test = 'test_nothing'

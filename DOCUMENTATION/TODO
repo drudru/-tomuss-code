@@ -1,5 +1,6 @@
 Finir par priorité :
-	Vérifier linear et set 'title'
+	Passer les tip dans les attributs de table ?
+	Finir : tip 'columns' attr
 	Affectation référents : retester
 	Pylint
 	Doc plugins

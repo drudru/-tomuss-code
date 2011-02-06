@@ -2412,7 +2412,9 @@ function current_update_column_headers()
       // It does not work with IE.
       if ( e )
 	{
-	  help = column.real_type['tip_' + attr] ;
+	  help = column_attributes[attr].tip ;
+	  if ( ! help )
+	    help = column.real_type['tip_' + attr] ;
 	  if ( help )
 	    e.firstChild.firstChild.innerHTML = help ;
 	}

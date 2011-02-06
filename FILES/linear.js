@@ -147,7 +147,7 @@ function Linear()
       ),
      new Information
      (this,
-      function() {return this.L.column().real_type.tip_weight ; },
+      function() {return column_attributes['weight'].tip ; },
       'Poids',
       function()
       {

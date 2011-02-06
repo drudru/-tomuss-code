@@ -27,21 +27,6 @@ class Note(text.Text):
     human_priority = -10
     full_title = 'Note'
     tip_filter = "Exemples de filtre :<ul><li><b>&gt;5</b><li><b>&gt;5 &lt;15</b><li><b>ABINJ ou ABJUS ou PPNOT</b></ul>"
-    tip_weight = """<b>Poids de cette colonne</b> dans les moyennes pondérées.<br>
-    Des poids entiers sont préférables.<br>
-    <br>
-    Si le poids commence par le signe <b>+</b> ou <b>-</b><br>
-    alors il ne compte pas dans la somme des poids de<br>
-    la moyenne pondérée.<br>
-    La valeur de la cellule multipliée par le poids est<br>
-    ajoutée à la valeur finale de la moyenne."""
-
-    tip_minmax = """<b>Intervalle possible pour les notes saisies ou calculées</b><br>
-    Par exemple <b>[0;20]</b> pour indiquer des notes<br>
-    entre 0 et 20 inclus.<br>
-    Les bornes peuvent être négatives.<br>
-    Ces valeurs n'influent pas sur les poids<br>
-    des notes dans une moyenne pondérée."""
     tip_cell = "Une note ou bien I : ABI, J : ABJ, N : Peut pas noter"
     cell_test = "test_note"
     formatte = 'note_format'

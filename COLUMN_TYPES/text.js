@@ -309,34 +309,18 @@ function text_format(c)
 function ___NAME__()
 {
   types.push({title: '__NAME__',
-      full_title: __FULL_TITLE__,
-
-      default_filter: __DEFAULT_FILTER__,
-
-      tip_column_title: __TIP_COLUMN_TITLE__,
-      tip_title: __TIP_TITLE__,
-      tip_type: __TIP_TYPE__,
-      tip_filter: __TIP_FILTER__,
-      tip_weight: __TIP_WEIGHT__,
-      tip_test_filter: __TIP_TEST_FILTER__,
-      tip_minmax: __TIP_MINMAX__,
-      tip_cell: __TIP_CELL__,
-      tip_columns: __TIP_COLUMNS__,
-      tip_red: __TIP_RED__,
-      tip_green: __TIP_GREEN__,
-      tip_visibility_date: __TIP_VISIBILITY_DATE__,
-      tip_empty_is: __TIP_EMPTY_IS__,
-      tip_comment: __TIP_COMMENT__,
-		 //      tip_author: __TIP_AUTHOR__,  XXX Problems with IE
-
-      cell_test: __CELL_TEST__,   
-      cell_compute: __CELL_COMPUTE__,   
-      cell_is_modifiable: __CELL_IS_MODIFIABLE__,   
-      onmousedown: __ONMOUSEDOWN__,
-      formatte: __FORMATTE__,
-
-      should_be_a_float: __SHOULD_BE_A_FLOAT__
-
+		 full_title: __FULL_TITLE__,
+		 default_filter: __DEFAULT_FILTER__,
+		 tip_column_title: __TIP_COLUMN_TITLE__,
+		 tip_filter: __TIP_FILTER__,
+		 tip_cell: __TIP_CELL__,
+		 tip_columns: __TIP_COLUMNS__,
+		 cell_test: __CELL_TEST__,   
+		 cell_compute: __CELL_COMPUTE__,   
+		 cell_is_modifiable: __CELL_IS_MODIFIABLE__,   
+		 onmousedown: __ONMOUSEDOWN__,
+		 formatte: __FORMATTE__,
+		 should_be_a_float: __SHOULD_BE_A_FLOAT__
 		 }) ;
   types[types.length-1].index = types.length - 1 ;
   return types[types.length-1] ;

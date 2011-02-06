@@ -25,15 +25,6 @@ import text
 class Nmbr(moy.Moy):
     human_priority = -5
     full_title = 'Nombre de'
-    tip_test_filter = """<b>Filtre indiquant les cellules à compter</b><br>
-    Exemples pour compter les cellules :<ul>
-    <li> <b>ABI</b> : commençant par ABI.
-    <li> <b>!=ABINJ</b> : valeur différente de ABINJ.
-    <li> <b>=</b> compte les cellules vides.
-    <li> <b>&lt;8</b> compte les nombres plus petits que 8.
-    </ul>
-    Pour plus d'information, regardez l'aide sur les filtres."""
-
     tip_columns = """<b>Noms des colonnes où il faut compter
     les cellules</b><br>
     qui correspondent au filtre"""

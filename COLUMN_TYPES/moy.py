@@ -24,9 +24,6 @@ import note
 class Moy(note.Note):
     human_priority = -8
     full_title = 'Moyenne'
-    tip_minmax = """Définition de l'intervalle des valeurs possibles pour les
-notes qui ont été calculées.<br>
-Par exemple [0;20] pour noter entre 0 et 20"""
     tip_cell = "Cellule non modifiable"
     tip_columns = """<b>Noms des colonnes à moyenner</b><br>
     Par exemple : <b>td1 td2 td3</b>.<br>

@@ -31,7 +31,6 @@ class Bool(note.Note):
     formatte = text.Text.formatte
     ondoubleclick = 'toggle_bool'
     tip_filter = "Vous pouvez indiquer <b>O</b> ou <b>N</b> comme filtre."
-    tip_minmax = ''
     should_be_a_float = 0
 
     def cell_indicator(self, column, value, cell, lines):
