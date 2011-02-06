@@ -121,26 +121,6 @@ class Text(object):
     # Title displayed in the TYPE menu
     full_title = 'Texte libre'
 
-    # The following variables contains the name of a JavaScript
-    # function defined in the text.js file
-    
-    set_title = 'set_title'
-    set_type = 'set_type'
-    set_test_filter = 'unmodifiable'
-    set_minmax = 'unmodifiable'
-    set_weight = 'unmodifiable'
-    set_green = 'set_green'
-    set_red = 'set_red'
-    set_empty_is = 'set_empty_is'
-    set_columns = 'unmodifiable'
-    set_visibility_date = 'set_visibility_date'
-    set_comment = 'set_comment'
-    set_freezed = 'test_nothing'
-    set_width = 'test_float'
-    set_position = 'test_float'
-    set_hidden = 'test_float'
-    set_author = 'test_nothing'
-
     # Default values
     default_filter = ''
 

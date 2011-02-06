@@ -52,12 +52,3 @@ function compute_nmbr(data_col, line)
     }
   line[data_col].set_value(sum) ;
 }
-
-/* The max is computed by check_weight_average */
-function set_test_nmbr(value, column)
-{
-  column.min = 0 ; // Max computed elsewhere
-  column.need_update = true ;
-  column.nmbr_filter = compile_filter_generic(value) ;
-  return value ;
-}

@@ -26,7 +26,6 @@ import cgi
 class Prst(note.Note):
     human_priority = -9
     full_title = 'Présence'
-    set_minmax = 'unmodifiable'
     tip_cell = "Présence, tapez P : Présent, I : ABI, J : ABJ"
     cell_test = 'test_prst'
     formatte = text.Text.formatte

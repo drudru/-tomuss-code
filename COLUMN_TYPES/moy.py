@@ -24,8 +24,6 @@ import note
 class Moy(note.Note):
     human_priority = -8
     full_title = 'Moyenne'
-    set_columns = 'set_columns'
-    set_empty_is = 'unmodifiable'
     tip_minmax = """Définition de l'intervalle des valeurs possibles pour les
 notes qui ont été calculées.<br>
 Par exemple [0;20] pour noter entre 0 et 20"""

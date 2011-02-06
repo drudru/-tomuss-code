@@ -539,6 +539,7 @@ INPUT#comment { width: 100% ; clear: both; }
 #menutop #t_column_green { width: 1.5em ; border: 1px solid #0F0 ; }
 #menutop #t_column_empty_is { width: 3em ; }
 #menutop #t_column_columns { width: 50% ; }
+#menutop #t_column_enumeration { width: 50% ; }
 #menutop #t_column_visibility_date {
   background-image: url('eye.png');
   background-position: right ;

@@ -26,8 +26,6 @@ import configuration
 class Note(text.Text):
     human_priority = -10
     full_title = 'Note'
-    set_minmax = 'set_test_note'
-    set_weight = 'set_weight'
     tip_filter = "Exemples de filtre :<ul><li><b>&gt;5</b><li><b>&gt;5 &lt;15</b><li><b>ABINJ ou ABJUS ou PPNOT</b></ul>"
     tip_weight = """<b>Poids de cette colonne</b> dans les moyennes pondérées.<br>
     Des poids entiers sont préférables.<br>

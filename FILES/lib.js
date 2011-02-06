@@ -827,12 +827,15 @@ function wheel(event)
 
 function column_parse_attr(attr, value, column, xcolumn_attr)
 {
-  return column.real_type['set_' + attr](value, column, xcolumn_attr) ;
+  return column_attributes[attr].check_and_set(value, column, xcolumn_attr) ;
 }
 
 function column_modifiable_attr(attr, column)
 {
-  return column.real_type['set_' + attr] != unmodifiable ;
+  if ( column_attributes[attr].visible_for.length )
+    return myindex(column_attributes[attr].visible_for, column.type) >= 0 ;
+  else
+    return true ;
 }
 
 /******************************************************************************
@@ -3523,11 +3526,11 @@ function print_page(w)
   s += '</TR>\n<TR CLASS="test">\n' + hide_link ;
   for(var col in cols)
     {
-      if ( columns[cols[col]].real_type.set_minmax != unmodifiable )
+      if ( column_modifiable_attr('minmax', columns[cols[col]]) )
 	minmax = columns[cols[col]].minmax ;
       else
 	minmax = '' ;
-      if ( columns[cols[col]].real_type.set_test_filter != unmodifiable )
+      if ( column_modifiable_attr('set_test_filter', columns[cols[col]]) )
 	test_filter = columns[cols[col]].test_filter ;
       else
 	test_filter = '' ;

@@ -43,8 +43,13 @@ class ColumnAttr(object):
     need_authorization = 1          # Authorization needed to modify attribute
     update_content = False          # On change, update column content
     only_masters = 0                # Only the table masters see the attribute
+    # String to display to the user
     formatter = 'function(column, value) { return value ; }'
+    # Return true if empty
     empty = 'function(column, value) { return value === "" ; }'
+    # Verify, clean up the attribute and store special value
+    check_and_set = "undefined"
+    visible_for = []                # The 'types' needing this attribute
     default_value = ''              # XXX Must not be a mutable value
     computed = 0                    # Is a computed attribute (not modifiable)
     
@@ -133,14 +138,16 @@ class ColumnAttr(object):
                 ':{' +
                 'display_table:' + str(self.display_table)+
                 ',update_horizontal_scrollbar:' + str(self.update_horizontal_scrollbar)+
-                ',update_headers:' + str(self.update_headers)+
-                ',update_table_headers:' + str(self.update_table_headers)+
-                ',need_authorization:' + str(self.need_authorization)+
-                ',default_value:' + js(self.default_value)+
-                ',formatter:' + self.formatter+
-                ',computed:' + str(self.computed)+
-                ',only_masters:' + str(self.only_masters)+
-                ',empty:' + self.empty+
+                ',update_headers:' + str(self.update_headers) +
+                ',update_table_headers:' + str(self.update_table_headers) +
+                ',need_authorization:' + str(self.need_authorization) +
+                ',default_value:' + js(self.default_value) +
+                ',formatter:' + self.formatter +
+                ',computed:' + str(self.computed) +
+                ',only_masters:' + str(self.only_masters) +
+                ',empty:' + self.empty +
+                ',check_and_set:' + self.check_and_set +
+                ',visible_for:' + js(self.visible_for) +
                 '}')
 
 
@@ -149,6 +156,7 @@ class ColumnType(ColumnAttr):
     update_headers = 1
     display_table = 1
     default_value = 'Note'
+    check_and_set = 'set_type'
     def encode(self, value):
         return plugins.types[value]
     def decode(self, value):
@@ -174,10 +182,12 @@ function(column, value)
 	 column.visibility_date.substr(4,2) + '/' +
 	 column.visibility_date.substr(0,4) ;
 }'''
+    check_and_set = 'set_visibility_date'
 
 class ColumnFreezed(ColumnAttr):
     name = 'freezed'
     display_table = 1
+    check_and_set = 'test_nothing'
     def check(self, value):
         if value in ('', 'C', 'F'):
             return ''
@@ -191,21 +201,24 @@ class ColumnTitle(ColumnAttr):
     #    if ' ' in value:
     #        return 'Espace interdit dans les titres de colonnes'
     empty = 'function(column, value) { return value.substr(0,default_title.length) == default_title && !isNaN(value.substr(default_title.length))  ; }'
-
+    check_and_set = 'set_title'
 
 class ColumnComment(ColumnAttr):
     name = 'comment'
     update_headers = 1
     display_table = 1
+    check_and_set = 'set_comment'
 
 class ColumnAuthor(ColumnAttr):
     computed = 1
     update_headers = 1
     name = 'author'
+    check_and_set = 'test_nothing'
 
 class ColumnWidth(ColumnAttr):
     default_value = 4
     name = 'width'
+    check_and_set = 'test_float'
     def encode(self, value):
         return int(value)
     
@@ -213,6 +226,8 @@ class ColumnHidden(ColumnAttr):
     computed = 1
     default_value = 0
     name = 'hidden'
+    check_and_set = 'test_float'
+
     def encode(self, value):
         try:
             return int(value)
@@ -227,13 +242,18 @@ class ColumnGreen(ColumnAttr):
     need_authorization = 0
     name = 'green'
     display_table = 1
+    check_and_set = 'set_green'
+
 class ColumnRed(ColumnGreen):
     name = 'red'
+    check_and_set = 'set_red'
 
 class ColumnWeight(ColumnAttr):
     default_value = '1'
     name = 'weight'
     display_table = 1
+    check_and_set = 'set_weight'
+    visible_for = ['Note', 'Nmbr', 'Moy', 'URL', 'Enumeration']
 
     def check(self, value):
         try:
@@ -244,25 +264,47 @@ class ColumnWeight(ColumnAttr):
 class ColumnPosition(ColumnAttr):
     position = 0
     name = 'position'
+    check_and_set = 'test_float'
     def encode(self, value):
         return float(value)
 
 class ColumnTestFilter(ColumnAttr):
     default_value = '!ABINJ'
     name = 'test_filter'
+    visible_for = ['Nmbr']
+    check_and_set = '''/* The max is computed by check_weight_average */
+function(value, column)
+{
+  column.min = 0 ; // Max computed elsewhere
+  column.need_update = true ;
+  column.nmbr_filter = compile_filter_generic(value) ;
+  return value ;
+}'''
+    
+class ColumnEnumeration(ColumnAttr):
+    default_value = ''
+    name = 'enumeration'
+    visible_for = ['Enumeration']
+    check_and_set = 'set_test_enumeration'
 
 class ColumnMinMax(ColumnAttr):
     default_value = '[0;20]'
     display_table = 1
     name = 'minmax'
+    check_and_set = 'set_test_note'
+    visible_for = ['Note', 'Moy', 'Max']
 
 class ColumnEmptyIs(ColumnAttr):
     name = 'empty_is'
     display_table = 1
+    check_and_set = 'function(value, column){column.need_update = true ; return value ; }'
     
 class ColumnColumns(ColumnAttr):
     name = 'columns'
     display_table = 1
+    check_and_set = 'set_columns'
+    visible_for = ['Moy', 'Nmbr', 'Mail', 'Code_Etape',
+                   'COW', 'FirstName', 'Surname', 'Phone', 'Max']
 
 ColumnType()
 ColumnTitle()
@@ -278,6 +320,7 @@ ColumnVisibilityDate()
 ColumnComment()
 ColumnPosition()
 ColumnColumns()
+ColumnEnumeration()
 ColumnAuthor()
 ColumnMinMax()
 

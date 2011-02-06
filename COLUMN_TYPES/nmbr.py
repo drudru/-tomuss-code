@@ -25,8 +25,6 @@ import text
 class Nmbr(moy.Moy):
     human_priority = -5
     full_title = 'Nombre de'
-    set_test_filter = 'set_test_nmbr'
-    set_minmax = 'unmodifiable'
     tip_test_filter = """<b>Filtre indiquant les cellules à compter</b><br>
     Exemples pour compter les cellules :<ul>
     <li> <b>ABI</b> : commençant par ABI.

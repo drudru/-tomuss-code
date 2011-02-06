@@ -1,4 +1,5 @@
 Finir par priorité :
+	Vérifier linear et set 'title'
 	Affectation référents : retester
 	Pylint
 	Doc plugins

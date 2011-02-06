@@ -24,62 +24,6 @@ function test_read_only(value, column)
   alert_append("Résultat de calcul non modifiable") ;
 }
 
-function set_columns(value, column, xcolumn_attr)
-{
-  var cols = [] ;
-  var weight = 0 ;
-  var ok ;
-
-  value = value.replace(/ *$/,'').replace(/^ */,'') ;
-
-  if ( value === '' )
-    {
-      column.average_from = [] ;
-      column.average_columns = [] ;
-      column.need_update = true ;
-      return value ;
-    }
-
-
-  column.average_from = value.split(/ +/) ;
-
-  for(var i=0; i<column.average_from.length; i++)
-    {
-      ok = false ;
-      for(var c in columns)
-	if ( columns[c].title == column.average_from[i] )
-	  {
-	    cols.push(c) ;
-	    weight += columns[c].real_weight ;
-	    ok = true ;
-	    break ;
-	  }
-      if ( ! ok )
-	{
-	  if ( xcolumn_attr )
-	    // Wait the good value
-	    setTimeout(function() {set_columns(value, column, xcolumn_attr)},
-		       1000) ;
-	  else
-	    {
-	      alert_append("Je ne connais pas le titre de colonne '"
-			   + column.average_from[i]
-			   + "' qui est utilisé dans la moyenne de la colonne "
-			   + column.title + "\n"
-			   + "LA LISTE DES COLONNES N'A PAS ÉTÉ SAUVEGARDÉE"
-			   ) ;
-	      return null ; // Do not save, but leaves user input unchanged
-	    }
-	}
-    }
-  column.average_columns = cols ;
-  column.average_weight = weight ;
-  column.need_update = true ;
-  if ( column.type == 'Nmbr' )
-    column.max = column.average_columns.length ;
-
-  return value ;
-}
 
 /******************************************************************************
 Cell Compute funtions.

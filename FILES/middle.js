@@ -512,6 +512,7 @@ for(var type_i in types)
    '<div><div style="height: 1.5em">' +
    column_input_attr('visibility_date') +
    column_input_attr('empty_is', 'before=&#8709;=') +
+   column_input_attr('enumeration') +
    column_input_attr('columns') + '&nbsp;</div>' +
 
 /* Use a TABLE because text-align: justify doesn't work */

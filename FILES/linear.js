@@ -127,7 +127,7 @@ function Linear()
       'Titre',
       function() { return this.L.column().title ; },
       function(value) {
-	this.L.column().real_type.set_title(value, this.L.column());
+	// this.L.column().real_type.set_title(value, this.L.column());
 	column_attr_set(this.L.column(), 'title', value) ;
       },
       function() { return column_change_allowed_text(this.L.column()) ; },

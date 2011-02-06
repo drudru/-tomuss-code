@@ -26,7 +26,6 @@ import configuration
 class Bool(note.Note):
     human_priority = 1
     full_title = 'Booléen'
-    set_minmax = 'unmodifiable'
     tip_cell = "Booléen, tapez O : oui, N : non"
     cell_test = 'test_bool'
     formatte = text.Text.formatte

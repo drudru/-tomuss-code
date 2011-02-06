@@ -540,3 +540,373 @@ var types = [] ;
 
 
 
+/*
+ * Set the column title and change formula if necessary.
+ * Returns the new title.
+ */
+
+function set_title(value, column, xcolumn_attr)
+{
+  value = value.replace(/ /g, '_') ;
+
+  for(var data_col in columns)
+    if ( data_col != column.data_col
+	 && column.data_col // For display_suivi()
+	 && !xcolumn_attr
+	 && columns[data_col].title == value )
+      {
+	return column_attributes.title.check_and_set(value + '_bis', column,
+                                                     xcolumn_attr) ;
+      }
+
+  // XXX does not replace multiple occurrence because
+  // Regex can not be used easely with special characters
+  // that may appear in titles.
+
+  if ( ! xcolumn_attr && column.title !== '' )
+    {
+      var job_to_do = [] ;
+
+      for(var data_col in columns)
+	{
+	  var formula_column = columns[data_col] ;
+	  var w = (' ' + formula_column.columns + ' ')
+	    .replace(' ' + column.title + ' ',
+		     ' ' + value + ' ') ;
+	  w = w.substr(1, w.length-2) ; // Remove appended space
+	  
+	  if ( w == formula_column.columns )
+	    continue ;
+	  if ( ! column_change_allowed(formula_column) )
+	    {
+	      alert_append("Cette colonne est utilisée dans une formule qui ne peut être mise à jour car vous n'avez pas le droit.\nLe changement de ce titre est donc interdit.\nSeul le responsable de la table peut faire ce changement.") ;
+	      return column.title ;
+	    }
+	  job_to_do.push([formula_column, 'columns', w]) ;
+	}
+      // Title change is possible
+      for(var i in job_to_do)
+	column_attr_set(job_to_do[i][0], job_to_do[i][1], job_to_do[i][2]) ;
+    }
+  column.title = value ;
+  return column.title ;
+}
+
+function test_nothing(value, column)
+{
+  return value ;
+}
+
+function test_float(value, column)
+{
+  return Number(value) ;
+}
+
+function unmodifiable(value, column)
+{
+  // It was "return '' ;" before the 2010-09-13
+  // It was modified in order to make the 'import_columns' function work.
+  return value ;
+}
+
+function set_test_note(v, column)
+{
+  column.min = 0 ;
+  column.max = 20 ;
+
+  if ( v === '' )   // Should never be here except for old tables
+    v = '[0;20]' ;
+  
+  value = v.replace(/;/g, ' ').replace(/\[/g, ' ').replace(/]/g, ' ').replace(/^ */, '').replace(/ *$/,'').split(/  */) ;
+
+if ( value.length != 2 )
+  {
+    alert_append('Pour la colonne "' + column.title + '(' + column.type + ')".\nVous devez indiquer la note minimum et maximum\nsous la forme : [0;20]') ;
+    return column.minmax ;
+  }
+
+if ( Number(value[0]) > Number(value[value.length-1]) )
+    {
+      alert_append('La note minimum doit être plus petite que la note maximum') ;
+      return column.minmax ;
+    }
+
+column.need_update = true ;
+column.min = a_float(value[0]) ;
+if ( isNaN(column.min) )
+  column.min = 0 ;
+
+column.max = a_float(value[1]) ;
+if ( isNaN(column.max) )
+  {
+    compute_column_stat(column) ;
+    column.max = column.computed_max ;
+  }
+value = '[' + column.min + ';' + column.max + ']' ;
+
+column.need_update = true ;
+
+return value ;
+}
+
+/******************************************************************************
+Check the 'weight' of a column.
+******************************************************************************/
+
+function set_weight(value, column)
+{
+  value = value.replace(',', '.') ;
+  var v = a_float(value) ;
+
+  column.real_weight_add = true ; // Pondered average
+
+  if ( value === '?' && column.type == 'Moy' ) // XXX Only Moy ?
+    {
+      value = v = '?' ;
+    }
+  else if ( isNaN(v) )
+    {
+      v = 0 ;
+      value = '0' ;
+    }
+  else if ( value === '' )
+    {
+      v = 1 ;
+      value = '1' ;
+    }
+  else
+    {
+      if ( value.substr(0,1) == '+' || value.substr(0,1) == '-' )
+	column.real_weight_add = false ;
+    }
+
+  column.real_weight = v ;
+  column.need_update = true ;
+
+  return value ;
+}
+
+function set_comment(value, column)
+{
+  var round_by = value.replace(/.*arrondi[es]* *[aà] *([0-9.,]*).*/i,'$1') ; 
+  if ( round_by === '' )
+    column.round_by = undefined ;
+  else
+    column.round_by = a_float(round_by) ;
+
+  var best_of = value.replace(/.*oyenne *des *([0-9]*) *meilleur.*/i,'$1') ; 
+  if ( best_of === '' )
+    {
+      if ( value.search('la meilleure note') == -1 )
+	column.best_of = undefined ;
+      else
+	column.best_of = 1 ;
+    }
+  else
+    column.best_of = a_float(best_of) ;
+
+  var best_of = value.replace(/.*]([0-9]*),([0-9]*)\[.*/,'][ $1 $2').split(/ /) ;
+
+  if ( best_of.length == 3 && best_of[0] == '][' )
+    {
+      column.best_of = - a_float(best_of[2]) ;
+      if ( isNaN(column.best_of) )
+	column.best_of = undefined ;
+
+      column.mean_of = - a_float(best_of[1]) ;
+      if ( isNaN(column.mean_of) )
+	column.mean_of = undefined ;
+    }
+  else
+    column.mean_of = undefined ;
+
+  column.need_update = true ;
+
+  return value ;
+}
+
+function set_columns(value, column, xcolumn_attr)
+{
+  var cols = [] ;
+  var weight = 0 ;
+  var ok ;
+
+  value = value.replace(/ *$/,'').replace(/^ */,'') ;
+
+  if ( value === '' )
+    {
+      column.average_from = [] ;
+      column.average_columns = [] ;
+      column.need_update = true ;
+      return value ;
+    }
+
+
+  column.average_from = value.split(/ +/) ;
+
+  for(var i=0; i<column.average_from.length; i++)
+    {
+      ok = false ;
+      for(var c in columns)
+	if ( columns[c].title == column.average_from[i] )
+	  {
+	    cols.push(c) ;
+	    weight += columns[c].real_weight ;
+	    ok = true ;
+	    break ;
+	  }
+      if ( ! ok )
+	{
+	  if ( xcolumn_attr )
+	    // Wait the good value
+	    setTimeout(function() {set_columns(value, column, xcolumn_attr)},
+		       1000) ;
+	  else
+	    {
+	      alert_append("Je ne connais pas le titre de colonne '"
+			   + column.average_from[i]
+			   + "' qui est utilisé dans la moyenne de la colonne "
+			   + column.title + "\n"
+			   + "LA LISTE DES COLONNES N'A PAS ÉTÉ SAUVEGARDÉE"
+			   ) ;
+	      return null ; // Do not save, but leaves user input unchanged
+	    }
+	}
+    }
+  column.average_columns = cols ;
+  column.average_weight = weight ;
+  column.need_update = true ;
+  if ( column.type == 'Nmbr' )
+    column.max = column.average_columns.length ;
+
+  return value ;
+}
+
+function set_visibility_date(value, column, interactive_modification)
+{
+  if ( value === '')
+    return value ;
+  v = get_date(value) ;
+  if ( v == false )
+    {
+      alert_append("La date que vous donnez n'est pas valide : " + value) ;
+      return column.visibility_date ;
+    }
+  if ( (v.getTime() - millisec())/(86400*1000) > 31 )
+    {
+      alert_append("La date de visibilité doit être dans moins d'un mois") ;
+      return column.visibility_date ;
+    }
+  if ( interactive_modification && v.getTime() - millisec() < 0 )
+    {
+      alert_append("La date de visibilité ne doit pas être dans le passé") ;
+      return column.visibility_date ;
+    }
+  v = ''+v.getFullYear()+two_digits(v.getMonth()+1)+two_digits(v.getDate()) ;
+  return v ;
+}
+
+function returns_false() { return false ; } ;
+
+function the_green_filter(c, column)
+{
+  return c.value > column.color_green ;
+}
+
+function set_green(value, column)
+{
+  if ( value === undefined )
+    value = '' ;
+  if ( value === '' )
+    {
+      column.color_green_filter = returns_false ;
+    }
+  else if ( value === 'NaN' )
+    {
+      column.color_green_filter = the_green_filter ;
+      var stats = compute_histogram(column.data_col) ;
+      column.color_green = stats.average() + stats.standard_deviation() ;
+    }
+  else if ( isNaN(value) )
+    {
+      column.color_green_filter = compile_filter_generic(value) ;
+    }
+  else
+    {
+      value = Number(value) ;
+      column.color_green_filter = the_green_filter ;
+      column.color_green = value ;
+    }
+
+  return value ;
+}
+
+function the_red_filter(c, column)
+{
+  return c.value < column.color_red ;
+}
+
+function set_red(value, column)
+{
+  if ( value === undefined )
+    value = '' ;
+  if ( value === '' )
+    {
+      column.color_red_filter = returns_false ;
+    }
+  else if ( value === 'NaN' )
+    {
+      column.color_red_filter = the_red_filter ;
+      var stats = compute_histogram(column.data_col) ;
+      column.color_red = stats.average() - stats.standard_deviation() ;
+    }
+  else if ( isNaN(value) )
+    {
+      column.color_red_filter = compile_filter_generic(value) ;
+    }
+  else
+    {
+      value = Number(value) ;
+      column.color_red_filter = the_red_filter ;
+      column.color_red = value ;
+    }
+
+  return value ;
+}
+
+function set_type(value, column)
+{
+  var checked = type_title_to_type(value) ;
+
+  if ( column.real_type
+       && column.real_type.cell_compute !== undefined
+       && checked.cell_compute === undefined
+       && lines[0][column.data_col]._save !== undefined
+       )
+	{
+	  // Restore uncomputed values. XXX some may missing if never in client
+	  for(var line in lines)
+	    lines[line][column.data_col].restore() ;
+	  table_fill(false, false, true) ;
+	}
+  if ( column.real_type
+       && column.real_type.cell_compute === undefined
+       && checked.cell_compute !== undefined )
+    {
+      /* Save values */
+      for(var line in lines)
+	lines[line][column.data_col].save() ;
+    }
+
+  column.real_type = checked ;
+  column.need_update = true ;
+
+  return value ;
+}
+
+function set_test_enumeration(value, column)
+{
+  value = value.replace(/  */g, ' ') ;
+  column.possible_values = value.split(' ') ;
+  return value ;
+}
