@@ -823,6 +823,17 @@ function wheel(event)
     previous_page(undefined, zebra_step) ;
 }
 
+// Helper functions
+
+function column_parse_attr(attr, value, column, xcolumn_attr)
+{
+  return column.real_type['set_' + attr](value, column, xcolumn_attr) ;
+}
+
+function column_modifiable_attr(attr, column)
+{
+  return column.real_type['set_' + attr] != unmodifiable ;
+}
 
 /******************************************************************************
 Table initialization. Only done once
@@ -831,14 +842,12 @@ Table initialization. Only done once
 // 'set' each of the column attributes
 function init_column(column)
 {
-  var type = type_title_to_type(column.type) ;
+  column.real_type = type_title_to_type(column.type) ;
 
   for(var attr in column_attributes)
-    {
-      type['set_' + attr](column_attributes[attr].formatter(column,
-							    column[attr]),
-			  column) ;
-    }
+    column_parse_attr(attr, 
+		      column_attributes[attr].formatter(column, column[attr]),
+		      column) ;
 }
 
 
@@ -2087,7 +2096,7 @@ function add_empty_column(keep_data)
 		filter: ""
   } ;
 
-  var type = type_title_to_type(column_attributes['type'].default_value) ;
+  column.real_type = type_title_to_type(column_attributes['type'].default_value) ;
   var value ;
   for(var attr in column_attributes)
     {
@@ -2098,7 +2107,7 @@ function add_empty_column(keep_data)
 	case 'author':  value = my_identity ; break ;
 	default:        value = column_attributes[attr].default_value ; break ;
 	}
-      column[attr] = type['set_' + attr](value, column) ;
+      column[attr] = column_parse_attr(attr, value, column) ;
     }
   columns[columns.length] = column ;
   nr_new_columns++ ;
@@ -3073,7 +3082,7 @@ function Xcolumn_attr(attr, col, value)
     }
   else
     column = columns[data_col] ;
-  column[attr] = column.real_type['set_' + attr](value, column, true) ;
+  column[attr] = column_parse_attr(attr, value, column, true) ;
   attr_update_user_interface(attr, column, true) ;
 }
 
@@ -4860,7 +4869,7 @@ function import_columns_do()
 	  if ( c == 'position' )
 	    continue ;
 	  i++ ;
-	  if ( c != 'type' && column.real_type['set_' + c] == unmodifiable )
+	  if ( c != 'type' && ! column_modifiable_attr(c, column) )
 	    continue ;
 	  column_attr_set(column, c, line[i]) ;
 	}
@@ -5552,7 +5561,7 @@ function javascript_regtest_ue()
 	correct_this_problem_please ;
       }
   alert_messages = '' ;
-  }
+  } ;
   function fill_col(content, check, messages)
   {
     // message.innerHTML += '[' + the_current_cell.column.title + '(' + the_current_cell.column.type + ')]';

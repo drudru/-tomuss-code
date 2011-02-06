@@ -2383,7 +2383,7 @@ function current_update_column_headers()
 			       ) ;
 	  continue ;
 	}
-      if ( column.real_type['set_' + attr] == unmodifiable )
+      if ( ! column_modifiable_attr(attr, column) )
 	{
 	  e.parentNode.style.display = 'none' ;
 	  continue ;

@@ -209,8 +209,7 @@ function column_attr_set(column, attr, value, td)
 	    "C'est un bug compliqué à corriger, cela ne sera pas fait.") ;
     }
 
-  var check = column.real_type['set_' + attr] ;
-  var new_value = check(value, column, td === undefined) ;
+  var new_value = column_parse_attr(attr, value, column, td === undefined) ;
 
   if ( old_value === new_value && attr != 'width' && attr != 'position' )
     return ;
