@@ -31,6 +31,11 @@ do
   fi
 done
 
+if grep 'bad shape' LOGS/xxx_crontab_night_job.mirror_check
+then
+  M="$M Mirroring failure"
+fi
+
 if [ '' != "$M" ]
 then
   python -c "
