@@ -4632,9 +4632,10 @@ function mail_window()
 			       'Suivez le lien pour directement lancer ' +
 			       'votre logiciel de messagerie.') ;
 
+  var missing_text ;
   if ( missing.length )
     {
-	var missing_text = '<p class="unknown_mails">' + missing.length
+	missing_text = '<p class="unknown_mails">' + missing.length
 	  + ' adresses mail inconnues' ;
        if ( missing.length > 20 )
 	 missing_text += '.' ;
@@ -4643,7 +4644,7 @@ function mail_window()
        missing_text += '</p>' ;
     }
   else
-    missing = '' ;
+    missing_text = '' ;
 
   create_popup('mails_div',
 	       'Gestion des mails',
