@@ -10,8 +10,12 @@ for D in "$@"
 do
   for F in $D/Y*/S*/referents.py
   do
-    DO mv $F $(echo $F | sed 's/referents.py/referents_students.py/')
-    DO rm "$F"c
+    NEW_F=$(echo $F | sed 's/referents.py/referents_students.py/')
+    if [ ! -f "$NEW_F" ]
+    then
+      DO mv $F $NEW_F
+      DO rm "$F"c
+    fi
   done
 done
 
