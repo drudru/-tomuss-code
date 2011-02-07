@@ -32,7 +32,7 @@ def infos(page):
 
 def stat_page(server):
     """Display the table in memory and the user on them."""
-    s = ['<table border><tbody><tr><th>Year</th><th>Semester</th><th>UE</th><th>#pages</th><th>#lines</th><th>#cols</th><th>#cells</th><th>Users on the page</th><th>Last User Interaction</th></tr>']
+    s = ['<title>Who\'s connected</title><table border><tbody><tr><th>Year</th><th>Semester</th><th>UE</th><th>#pages</th><th>#lines</th><th>#cols</th><th>#cells</th><th>Users on the page</th><th>Last User Interaction</th></tr>']
     tables = document.tables_values()
     tables.sort(key = lambda x: x.mtime)
     tables.reverse()

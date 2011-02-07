@@ -33,11 +33,7 @@ def reload_plugins(server):
             continue
         plugin_files[plugin_file].append(i)
         
-        set(i.function.__module__
-                       for i in plugin.plugins
-                       if '.' in i.function.__module__
-                       )
-    server.the_file.write('<table border>\n')
+    server.the_file.write('<title>Reload Plugins</title><table border>\n')
     server.the_file.write('<tr><th>Module name<th>#Plugins in<br>the module<th>Reloaded?</tr>\n')
     for i in sorted(plugin_files.keys()):
         if __name__ == i:
