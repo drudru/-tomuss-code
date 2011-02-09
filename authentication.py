@@ -227,6 +227,7 @@ def authentication_thread():
                     tick.password_ok          = True
 
                 x.log_time('authentication')
+                x.start_time_old = x.start_time
                 x.start_time = time.time()
 
                 what = 'send-answer'
