@@ -1,9 +1,8 @@
 Finir par priorité :
-	Remonter liste des ABJ en haut à droite.
 	Affectation référents : retester
+	MAJ de la liste des étudiants par l'utilisateur ?
 	Pylint
 	Doc plugins
-	MAJ de la liste des étudiants par l'utilisateur ?
 	redirection : garde l'ancienne ouverte ?
 	Reconnection persistente pour certains utilisateurs
 	choix année RDV IP si cela a un sens

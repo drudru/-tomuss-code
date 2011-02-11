@@ -116,7 +116,6 @@ class Abj(object):
         content = []
         if self.abjs:
             content.append('''
-<h2>Informations concernant les absences justifiées</h2>
 <TABLE class="display_abjs colored">
 <TR><TH>ABJ du</TH><TH>Au</TH><TH>Commentaire</TH></TR>''')
             for abj in self.abjs: 
@@ -126,7 +125,6 @@ class Abj(object):
 
         if self.da:
             content.append("""
-<h2>Informations concernant les dispenses d'assiduité</h2>
 <TABLE class="display_da colored">
 <TR><TH>Dispense pour l'UE</TH>""")
             content.append('<TH>À partir du</TH><TH>Commentaire</TH></TR>')

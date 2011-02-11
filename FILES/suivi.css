@@ -53,6 +53,8 @@ SELECT {
 .tomuss_links TD { text-align: right; padding: 0px }
 .tomuss_links IMG { float: left }
 
+.display_abjs, .display_da { clear: right;float: right; width: 20em; }
+
 H1 { margin-top: 0px }
 
 div.title a.title{ margin-bottom: 0.2em ; padding-top: 0em; }
@@ -135,8 +137,7 @@ H2.title {
 }
 
 H2.title, P.title {
-  clear: both ;
-
+  clear: left ;
 }
 DIV.tipped { margin-top: 0px ; }
 

@@ -556,7 +556,6 @@ def import_reload(filename):
     module_name = '.'.join(name)
     module = __import__(module_name)
     mtime_pyc =  os.path.getmtime(filename + 'c')
-    print mtime, mtime_pyc
     to_reload = mtime > mtime_pyc
     if to_reload:
         unload_module(module_name)

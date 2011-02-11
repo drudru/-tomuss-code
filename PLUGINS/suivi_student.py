@@ -109,7 +109,9 @@ def student_statistics(login, server, is_a_student=False, expand=False,
          configuration.picture(inscrits.login_to_student_id(login),
                                ticket=ticket),
          '">',
-         tomuss_links(login, ticket, server, is_a_student),
+         tomuss_links(login, ticket, server, is_a_student) +
+         abj.html_abjs(server.year, server.semester, login, read_only=True)
+         ,
          '<h1>'
          ]
     s.append('%s <a href="mailto:%s">%s %s</a></h1>' % (
@@ -266,10 +268,11 @@ def student_statistics(login, server, is_a_student=False, expand=False,
     if tt:
         tt = '<h2>Informations concernant le tiers temps :</h2><pre>' + cgi.escape(tt) + '</pre>'
 
-    return ('\n'.join(s)
-            + abj.html_abjs(server.year, server.semester,
-                            login, read_only=True)
-            + xx + tt + '</div>')
+    s.append(xx)
+    s.append(tt)
+    s.append('</div>')
+
+    return '\n'.join(s)
 
 def student(server, login=''):
     """Display all the informations about a student."""
