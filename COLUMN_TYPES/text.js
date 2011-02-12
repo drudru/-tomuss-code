@@ -314,7 +314,6 @@ function ___NAME__()
 		 tip_column_title: __TIP_COLUMN_TITLE__,
 		 tip_filter: __TIP_FILTER__,
 		 tip_cell: __TIP_CELL__,
-		 tip_columns: __TIP_COLUMNS__,
 		 cell_test: __CELL_TEST__,   
 		 cell_compute: __CELL_COMPUTE__,   
 		 cell_is_modifiable: __CELL_IS_MODIFIABLE__,   

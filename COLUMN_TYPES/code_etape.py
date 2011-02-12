@@ -31,9 +31,6 @@ class Code_Etape(text.Text):
     cell_is_modifiable = 0
     tip_cell = ""
     set_columns = 'set_columns'
-    tip_columns = """<b>Extrait le code étape</b><br>
-    Indiquez la colonne de numéro d'étudiants <b>ID</b><br>
-    pour lesquels on veut extraire le code étape."""
 
     def data_col(self, the_table, column):
         try:

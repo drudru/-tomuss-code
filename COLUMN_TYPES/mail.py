@@ -24,9 +24,6 @@ import inscrits
 
 class Mail(code_etape.Code_Etape):
     full_title = 'Mail(ID)'
-    tip_columns = """<b>Trouve l'adresse mail</b><br>
-    Indiquez la colonne de comptes (ID)<br>
-    pour lesquels on veut trouver l'adresse mail."""
 
     def get_one_value(self, student_id):
         return inscrits.mail(student_id)

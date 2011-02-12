@@ -134,7 +134,6 @@ pour la trier dans une direction ou l'autre."""
 <li><b>!A</b> pour afficher seulement les valeurs ne commençant pas par <b>A</b>
 </ul>"""
     tip_cell = "Texte libre"
-    tip_columns = ''
 
     # The value is a float most of the time
     should_be_a_float = 0

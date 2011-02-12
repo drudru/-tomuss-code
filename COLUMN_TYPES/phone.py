@@ -24,9 +24,6 @@ import inscrits
 
 class Phone(mail.Mail):
     full_title = 'Téléphone(ID)'
-    tip_columns = """<b>Trouve le numéro de téléphone</b><br>
-    Indiquez la colonne de comptes (ID)<br>
-    pour lesquels on veut trouver le téléphone."""
 
     def get_one_value(self, student_id):
         return inscrits.phone(student_id).encode('utf8')

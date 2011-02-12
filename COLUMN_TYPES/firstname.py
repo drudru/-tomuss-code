@@ -24,9 +24,6 @@ import inscrits
 
 class Firstname(mail.Mail):
     full_title = 'Prénom(ID)'
-    tip_columns = """<b>Trouve le prénom</b><br>
-    Indiquez la colonne de comptes (ID)<br>
-    pour lesquels on veut trouver le prénom."""
 
     def get_one_value(self, student_id):
         return inscrits.firstname_and_surname(student_id)[0].encode('utf8')

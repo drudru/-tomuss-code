@@ -25,13 +25,6 @@ class Moy(note.Note):
     human_priority = -8
     full_title = 'Moyenne'
     tip_cell = "Cellule non modifiable"
-    tip_columns = """<b>Noms des colonnes à moyenner</b><br>
-    Par exemple : <b>td1 td2 td3</b>.<br>
-    Le calcul de la note est la somme des<br>
-    &nbsp;&nbsp;&nbsp;&nbsp;<em>td<sub>i</sub>.poids * (td<sub>i</sub>.note - td<sub>i</sub>.min) / (td<sub>i</sub>.max - td<sub>i</sub>.min)</em><br>
-    divisée par la somme des poids ne commençant pas par <b>+</b> ou <b>-</b><br>
-    Il est normalisé dans l'intervalle que vous avez indiqué.<br>
-    Il est tenu compte des ABI, ABJ, PPN..."""
     cell_test = 'test_read_only'
     cell_compute = 'compute_average'
     cell_is_modifiable = 0

@@ -25,6 +25,3 @@ class Max(moy.Moy):
     human_priority = -6
     full_title = 'Maximum'
     cell_compute = 'compute_max_real'
-    tip_columns = """<b>Noms des colonnes pour le calcul du maximum.</b><br>
-    Le poids des colonnes n'intervient pas, par contre<br>
-    les notes sont normalisées avant la comparaison"""

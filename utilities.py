@@ -298,6 +298,9 @@ def js(t):
         return '"' + t.replace('\\','\\\\').replace('"','\\"').replace('>','\\x3E').replace('<','\\x3C').replace('&', '\\x26').replace('\n','\\n') + '"'
     elif isinstance(t, float):
         return '%g' % t
+    elif isinstance(t, dict):
+        return '{' + ','.join("'%s':%s" % (k, js(v))
+                              for k, v in t.items()) + '}'
     else:
         return str(t)
 

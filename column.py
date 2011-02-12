@@ -336,6 +336,8 @@ class ColumnEnumeration(ColumnAttr):
     name = 'enumeration'
     visible_for = ['Enumeration']
     check_and_set = 'set_test_enumeration'
+    tip = """<b>Liste des valeurs autorisées dans la colonne</b><br>
+    Les valeurs sont séparées par un espace"""
 
 class ColumnMinMax(ColumnAttr):
     default_value = '[0;20]'
@@ -366,7 +368,49 @@ class ColumnColumns(ColumnAttr):
     display_table = 1
     check_and_set = 'set_columns'
     visible_for = ['Moy', 'Nmbr', 'Mail', 'Code_Etape',
-                   'COW', 'FirstName', 'Surname', 'Phone', 'Max']
+                   'COW', 'Firstname', 'Surname', 'Phone', 'Max']
+    tip = {
+        'Code_Etape':
+        """<b>Extrait le code étape</b><br>
+        Indiquez la colonne de numéro d'étudiants <b>ID</b><br>
+        pour lesquels on veut extraire le code étape.""",
+        'COW':
+        """<b>Nom de la colonne dont on veut copier le contenu.</b><br>
+        La copie ne se fera plus si vous saisissez une valeur<br>
+        dans la cellule. Vous pouvez par exemple copier une colonne<br>
+        contenant des moyennes pour en modifier certaines.""",
+        'Firstname':
+        """<b>Trouve le prénom</b><br>
+        Indiquez la colonne de comptes (ID)<br>
+        pour lesquels on veut trouver le prénom.""",
+        'Mail':
+        """<b>Trouve l'adresse mail</b><br>
+        Indiquez la colonne de comptes (ID)<br>
+        pour lesquels on veut trouver l'adresse mail.""",
+        'Max':
+        """<b>Noms des colonnes pour le calcul du maximum.</b><br>
+        Le poids des colonnes n'intervient pas, par contre<br>
+        les notes sont normalisées avant la comparaison""",
+        'Moy':
+        """<b>Noms des colonnes à moyenner</b><br>
+        Par exemple : <b>td1 td2 td3</b>.<br>
+        Le calcul de la note est la somme des<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;<em>td<sub>i</sub>.poids * (td<sub>i</sub>.note - td<sub>i</sub>.min) / (td<sub>i</sub>.max - td<sub>i</sub>.min)</em><br>
+        divisée par la somme des poids ne commençant pas par <b>+</b> ou <b>-</b><br>
+        Il est normalisé dans l'intervalle que vous avez indiqué.<br>
+        Il est tenu compte des ABI, ABJ, PPN...""",
+        'Nmbr':
+        """<b>Noms des colonnes où il faut compter les cellules</b><br>
+        qui correspondent au filtre""",
+        'Phone':
+        """<b>Trouve le numéro de téléphone</b><br>
+        Indiquez la colonne de comptes (ID)<br>
+        pour lesquels on veut trouver le téléphone.""",
+        'Surname':
+        """<b>Trouve le nom de famille</b><br>
+        Indiquez la colonne de comptes (ID)<br>
+        pour lesquels on veut trouver le nom de famille.""",
+        }
 
 ColumnType()
 ColumnTitle()

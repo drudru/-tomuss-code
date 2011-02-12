@@ -2407,14 +2407,11 @@ function current_update_column_headers()
 		   || !disabled) ;
 
       e = tip_top(e) ;
-      // alert(e.innerHTML + '\n\n' + column.real_type['tip_' + attr]);
-      // All the tests are for the 'author' column attribute
-      // It does not work with IE.
       if ( e )
 	{
-	  help = column_attributes[attr].tip ;
+	  help = column_attributes[attr].tip[column.type] ; // A dictionnary?
 	  if ( ! help )
-	    help = column.real_type['tip_' + attr] ;
+	    help = column_attributes[attr].tip ; // No: it's a constant message
 	  if ( help )
 	    e.firstChild.firstChild.innerHTML = help ;
 	}

@@ -25,9 +25,6 @@ import text
 class Nmbr(moy.Moy):
     human_priority = -5
     full_title = 'Nombre de'
-    tip_columns = """<b>Noms des colonnes où il faut compter
-    les cellules</b><br>
-    qui correspondent au filtre"""
     cell_compute = 'compute_nmbr'
     formatte = text.Text.formatte
 

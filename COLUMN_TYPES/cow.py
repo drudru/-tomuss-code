@@ -31,8 +31,4 @@ class COW(moy.Moy):
     formatte = 'text_format'
     cell_test = 'test_cow'
     ondoubleclick = 'toggle_cow'
-    tip_columns = """<b>Nom de la colonne dont on veut copier le contenu.</b><br>
-    La copie ne se fera plus si vous saisissez une valeur<br>
-    dans la cellule. Vous pouvez par exemple copier une colonne<br>
-    contenant des moyennes pour en modifier certaines."""
 
