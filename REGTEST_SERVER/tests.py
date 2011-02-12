@@ -1341,7 +1341,15 @@ def create(table):
         assert('10800003' in c)
         assert('etape-10800003' not in c)
 
-        
+    if do('enumeration'):
+        c = s.url('=' + abj +'/%s/UE-enum' % ys)
+        assert('modifiable:1' in c)
+        c = s.url('='+abj+'/%s/UE-enum/1/0/column_attr_type/A/Enumeration'%ys)
+        assert(c == ok_png)
+        c = s.url('='+abj+'/%s/UE-enum/1/1/column_attr_columns/A/X%%20Y'%ys)
+        assert(c == ok_png)
+        c = s.url('=' + abj +'/%s/UE-enum' % ys)
+        assert(',columns:"X Y",' in c)
         
 if '1' in sys.argv:
    sys.argv.remove('1')
