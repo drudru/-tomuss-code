@@ -432,6 +432,15 @@ function table_input_attr(attr, options, tip)
 		    ,tip) ;
 }
 
+function column_select(attr, options, tip)
+{
+  var s = '<SELECT onfocus="take_focus(this);" id="t_column_' + attr
+    + '" onChange="this.blur();header_change_on_update(event, this, \'column_attr_' + attr + '\');">' ;
+  for(var i in options)
+    s += '<OPTION>' + options[i] + '</OPTION>' ;
+  return hidden_txt(s + '</SELECT>', '') ;
+}
+
 function table_select(attr, options, tip)
 {
   var s = '<SELECT id="t_' + attr + '" onblur="if(element_focused===undefined)return;element_focused=undefined;" onchange="header_change_on_update(event,this,\''+ attr + '\');" onfocus="take_focus(this);">' ;
@@ -444,11 +453,8 @@ function table_select(attr, options, tip)
   return hidden_txt(s, tip) ;
 }
 
-
-
 function new_interface()
 {
-
 var w ;
 
 /* The boxes title */
@@ -490,20 +496,16 @@ var w ;
    column_input_attr('title', 'one_line') +
    '<div>' ;
 
-var s = '<SELECT onfocus="take_focus(this);" id="t_column_type" onChange="this.blur();header_change_on_update(event, this, \'column_attr_type\');">' ;
+var options = [] ;
 for(var type_i in types)
   {
-    if ( types[type_i].action !== undefined )
-      continue ;
     if ( types[type_i].full_title )
-      var title = types[type_i].full_title ;
+      options.push(types[type_i].full_title) ;
     else
-      var title = types[type_i].title ;
-    s += '<OPTION>' + title + '</OPTION>' ;
+      options.push(types[type_i].title) ;
   }
- s += '</SELECT>' ;
  
- w += hidden_txt(s, '') +
+ w += column_select('type', options, '') +
    column_input_attr('red') +
    column_input_attr('green') +
    column_input_attr('weight') +
