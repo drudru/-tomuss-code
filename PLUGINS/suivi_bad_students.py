@@ -24,6 +24,7 @@ from tablestat import les_ues
 import utilities
 
 def bad_student_with_notes(f, year, semester):
+    f.write('<title>Sans IP mais avec des notes</title>\n')
     f.write('<h1>Étudiants sans IP avec des notes</h1>\n')
     f.write('<table><tr><th>UE<th>Numéro<th>Prénom<th>Nom<th>Valeurs saisies</tr>\n')
     nr = 0

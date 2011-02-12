@@ -100,6 +100,7 @@ def stat_referent(f, year, semester):
 
         nr_teachers += 1
 
+    f.write('<title>Statistiques Référents</title>\n')
     f.write('<h1>Statistiques sur les référents pédagogiques</h1>\n')
     f.write('<pre>')
     f.write('#étudiants suivis : %d\n' %

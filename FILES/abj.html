@@ -7,6 +7,7 @@
     <script src="_URL_/lib.js"></script>
     <script src="_URL_/abj.js"></script>
     <link REL="icon" HREF="_URL_/favicon.ico">
+    <link rel="stylesheet" href="_URL_/hidden.css" type="text/css">
     <title>Gestion des ABJ</title>
     <!-- Do not move this line : firefox bug -->
     <link rel="stylesheet" href="_URL_/style.css" type="text/css">
@@ -39,7 +40,8 @@
     &nbsp;<br>
     <input style="float: left; margin-right: 1em" id="sendabj" value="mémoriser l'ABJ du .... au ...." type="button" onClick='send_abj();'>
     Indiquez un commentaire avant de créer l'ABJ ou la DA :
-    <input id="abjcomment"><br>
+    <script>var display_tips = true ; hidden('<input id="abjcomment">',
+      'Ce commentaire est visible par les enseignants et étudiants')</script><br>
     Choisir la date de début pour la dispense d'assiduité :
     <input id="dateda"><br>
     <b>PUIS</b> indiquez l'UE :

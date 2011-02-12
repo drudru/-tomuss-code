@@ -549,6 +549,9 @@ class FakeRequestHandler(object):
     def backtrace_html(self):
         s = repr(self) + '\nRequest started %f seconds before\n' % (
             time.time() - self.start_time, )
+        if hasattr(self, 'start_time_old'):
+            s+= 'Authentication started %f seconds before\n' % (
+            time.time() - self.start_time, )
         s += '<h2>SERVER HEADERS</h2>\n'
         for k,v in self.headers.items():
             s += '<b>' + k + '</b>:' + cgi.escape(str(v)) + '<br>\n'
@@ -566,6 +569,8 @@ def dispatch_request(server, manage_error=True):
     s.ticket = server.ticket
     s.the_file = server.the_file
     s.start_time = server.start_time
+    if hasattr(server, 'start_time_old'):
+        s.start_time_old = server.start_time_old
     s.server = server
     
     try:

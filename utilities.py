@@ -549,23 +549,19 @@ def unload_module(m):
     del(sys.modules[m])
     del(sys.modules['.'.join(m.split('.')[:-1])].__dict__[m.split('.')[-1]])
 
-mtimes = {}
-
 def import_reload(filename):
     mtime = os.path.getmtime(filename)
     name = filename.split(os.path.sep)
     name[-1] = name[-1].replace('.py','')
     module_name = '.'.join(name)
     module = __import__(module_name)
-    to_reload = module_name in mtimes and mtimes[module_name] != mtime
+    mtime_pyc =  os.path.getmtime(filename + 'c')
+    to_reload = mtime > mtime_pyc
     if to_reload:
-        warn('Reimport of %s %d => %d' % (
-            module_name, mtimes[module_name], mtime) , what='Warning')
         unload_module(module_name)
         module = __import__(module_name)
     for item in name[1:]:
         module = module.__dict__[item]
-    mtimes[module_name] = mtime
     return module, to_reload
 
 def nice_date(x):

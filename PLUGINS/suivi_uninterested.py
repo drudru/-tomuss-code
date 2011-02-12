@@ -116,7 +116,7 @@ def uninterested(f, year, semester, port):
         
     k.sort(compare)
 
-    f.write('<html><body>\n')
+    f.write('<html><title>Surveillance des étudiants</title><body>\n')
     f.write('<script src="/utilities.js"></script>\n')
     f.write('<script src="/types.js"></script>\n')
     f.write('<script src="/lib.js"></script>\n')
