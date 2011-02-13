@@ -9,14 +9,6 @@ install:clean
 check:
 	SCRIPTS/mirror_check
 
-stat:
-	@echo "JavaScript lines : " "$$(cat FILES/*.js COLUMNS_TYPE/*.js | wc -l)"
-	@echo "Python     lines : " "$$(cat [!x]*.py REGTEST*/*.py TEMPLATES/*.py PLUGINS/*.py COLUMN_TYPES/*.py LOCAL/[!x]*.py | wc -l)"
-	@echo "HTML       lines : " "$$(cat FILES/*.html | wc -l)"
-	@echo "CSS        lines : " "$$(cat FILES/*.css | wc -l)"
-	@echo "Images           : " "$$(ls FILES/*.png FILES/*.gif FILES/*.ico | wc -l)"
-	@echo "SVG              : " "$$(ls FILES/*.svg | wc -l)"
-
 clean:
 	@echo 'CLEAN'
 	@-find . \( -name '*~' \
@@ -92,7 +84,20 @@ full-tar:
 		--exclude '.git' \
 		 .
 
-tar-check:
+untar:
 	cd /tmp ; bzcat ~/public_html/TOMUSS/TOMUSS-$(V).tar.bz2 | tar -xf -
+
+tar-check:untar
 	cd TOMUSS-$(V) ; $(MAKE) regtest
 
+
+S=count() { git ls-files | grep -E "$$1" | xargs cat | wc -l ; echo '(' ; git ls-files | grep -E "$$1" | wc -l; echo 'files)';} ; search() { A=$$(count "$$1") ; cd LOCAL ; B=$$(count "$$1") ; echo $$A '   LOCAL:' $$B; } ; search
+
+stat:
+	@echo "Copyright and comment lines are counted"
+	@echo "JavaScript lines : " "$$($(S) '\.js$$')"
+	@echo "Python     lines : " "$$($(S) '\.py$$')"
+	@echo "HTML       lines : " "$$($(S) '\.html$$')"
+	@echo "CSS        lines : " "$$($(S) '\.css$$')"
+	@echo "SVG        lines : " "$$($(S) '\.svg$$')"
+	@echo "Images           : " "$$(git ls-files | grep -E '\.(png|jpg|gif)$$' | wc -l)"
