@@ -1,6 +1,4 @@
 Finir par priorité :
-	reload attribute
-	enleve le copyright du JS attribute
 	Affectation référents : retester
 	MAJ de la liste des étudiants par l'utilisateur ?
 	Pylint
@@ -24,7 +22,6 @@ Finir par priorité :
 	live_status : écarter les noeuds collés.
 	live_status : afficher navigateur
 	Il faut enlever toute référence aux noms de types dans le JS
-	Ajouter les types Mail/telephone/responsable(UE)/enumeration
 	Calcul du poids automatique avec '?' : problème de ]1,1[, max, meilleur
 	Renommer Inscrit en _Inscrit_, garder la compatibilité pour les vieux.
 	Faire le ménage des fonctions deprecated dans les TEMPLATES

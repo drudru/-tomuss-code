@@ -23,6 +23,7 @@ import plugin
 import utilities
 import files
 import cgi
+import re
 
 suivi_plugins = []
 
@@ -178,16 +179,20 @@ def load_types():
     import COLUMN_TYPES
     import csv
 
+    types.clear()
+
     # Load TYPES modules
+    reloadeds = []
     for filename in os.listdir(COLUMN_TYPES.__path__[0]):
         if filename.endswith('.py'):
-            filename = filename[:-3]
-            if filename == '__init__':
+            if filename == '__init__.py':
                 continue
-            m= __import__('COLUMN_TYPES.'+filename).__dict__[filename].__dict__
+            m, reloaded = utilities.import_reload(
+                os.path.join('COLUMN_TYPES', filename))
+            filename = filename[:-3]
             for title in (filename.title(), filename.upper()):
                 try:
-                    m = m[title]
+                    m = m.__dict__[title]
                     break
                 except KeyError:
                     continue
@@ -197,13 +202,14 @@ def load_types():
             m = m()
             m.filename = filename
             types[m.name] = m
+            reloadeds.append((m.name, reloaded))
 
     # Terminate loading
     for name, t in types.items():
         t.children = list(childs(name))
     for t in types.values():
         t.children.sort(key=lambda x: len(types[x].children))
-    all_js = "/* FOLLOWING CODE IS COMPUTED FROM 'COLUMN_TYPES' content */\n"
+    all_js = "// FOLLOWING CODE IS COMPUTED FROM 'COLUMN_TYPES' content\n"
     for m in types_ordered():
         try:
             js = utilities.read_file(os.path.join('COLUMN_TYPES',
@@ -242,11 +248,13 @@ function _%s()
     for m in sorted(types.keys(), key=lambda x: types[x].human_priority):
       all_js += '_%s() ;\n' % m
 
-            
-    files.files['types.js'].append(all_js)
+    files.files['types.js'].append_text = re.sub(
+        '(?ms)// FOLLOWING CODE IS COMPUTED.*// END OF FOLLOWING CODE', '',
+        files.files['types.js'].append_text)
+    files.files['types.js'].append(all_js + '// END OF FOLLOWING CODE\n')
 
     if not os.path.exists('DOCUMENTATION'):
-        return
+        return reloadeds
 
     head = """
 <META HTTP-EQUIV="Content-Type" CONTENT="text/html;charset=UTF-8">
@@ -331,6 +339,7 @@ TABLE.types .defined { background: #FDD ; }
             
     f.write('</tbody></table>\n')
     f.close()
+    return reloadeds
 
 if __name__ == "__main__":
     load_types()
