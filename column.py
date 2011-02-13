@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 #    TOMUSS: The Online Multi User Simple Spreadsheet
-#    Copyright (C) 2008-2010 Thierry EXCOFFIER, Universite Claude Bernard
+#    Copyright (C) 2008-2011 Thierry EXCOFFIER, Universite Claude Bernard
 #
 #    This program is free software; you can redistribute it and/or modify
 #    it under the terms of the GNU General Public License as published by
@@ -29,12 +29,10 @@ import plugins
 import hashlib
 import data
 import document
-
-###############################################################################
+import os
 
 class ColumnAttr(object):
     attrs = {}
-    attrs_list = []                 # Set the GUI order.
     
     display_table = 0               # Update the table content on change
     update_horizontal_scrollbar = 0 # Update the horizontal scroolbar
@@ -53,10 +51,17 @@ class ColumnAttr(object):
     default_value = ''              # XXX Must not be a mutable value
     computed = 0                    # Is a computed attribute (not modifiable)
     tip = ''                        # Helpful message
+    priority = 0
     
     def __init__(self):
-        ColumnAttr.attrs[self.name] = self
-        ColumnAttr.attrs_list.append(self)
+        self.__class__.attrs[self.name] = self
+        try:
+            js = utilities.read_file(
+                os.path.join('ATTRIBUTES',
+                             self.__class__.__name__.lower() + '.js'))
+        except IOError:
+            js = ''
+        self.js_functions = js
 
     def check(self, value):
         """Additionnal value checks"""
@@ -152,292 +157,10 @@ class ColumnAttr(object):
                 ',tip:' + js(self.tip) +
                 '}')
 
-
-class ColumnType(ColumnAttr):
-    name = 'type'
-    update_headers = 1
-    display_table = 1
-    default_value = 'Note'
-    check_and_set = 'set_type'
-    def encode(self, value):
-        return plugins.types[value]
-    def decode(self, value):
-        return value.name
-    tip = """<b>Type de la colonne</b>, il indique le contenu des cellules :
-<ul>
-<li> 'Text' : du texte libre
-<li> 'Note' : une note, ou un indicateur de présence
-<li> 'Moy' : calcul de la moyenne pondérée de plusieurs colonnes
-<li> 'Prst' : Cellules cliquables pour indiquer la présence
-<li> 'Nmbr' : Compte le nombre de cellules contenant une valeur
-<li> 'Date' : Des dates de la forme JJ/MM/AAAA
-<li> 'Bool' : Oui ou Non
-<li> 'Max' : Maximum sur plusieurs colonnes
-</ul>"""
-
-class ColumnVisibilityDate(ColumnAttr):
-    name = 'visibility_date'
-    def check(self, date):
-        if date == '':
-            return
-        mktime = time.mktime(time.strptime(date, '%Y%m%d'))
-        if mktime > time.time() + 86400*31:
-            return "Date invalide car dans plus d'un mois (%s jours)" % \
-                   int((time.mktime(time.strptime(date, '%Y%m%d'))
-                        - time.time())/86400)
-        if mktime < time.time() - 86400*31:
-            return "Date invalide car dans le passé"
-    formatter = '''
-function(column, value)
-{
-  if ( value === '' ) return '' ;
-  return column.visibility_date.substr(6,2) + '/' +
-	 column.visibility_date.substr(4,2) + '/' +
-	 column.visibility_date.substr(0,4) ;
-}'''
-    check_and_set = 'set_visibility_date'
-    tip = """<b>Date où la colonne devient visible pour les étudiants</b>.<br>
-    La date est indiquée sous la forme JJ/MM/AAAA.<br>
-    <b><em>Si rien n'est indiqué : tout est visible par les étudiants.</em></b>"""
-
-class ColumnFreezed(ColumnAttr):
-    name = 'freezed'
-    display_table = 1
-    check_and_set = 'test_nothing'
-    def check(self, value):
-        if value in ('', 'C', 'F'):
-            return ''
-        return "Valeur invalide pour 'freezed':" + value
-
-class ColumnTitle(ColumnAttr):
-    name = 'title'
-    update_table_headers = 1
-    # System tables may contains spaces
-    # def check(self, value):
-    #    if ' ' in value:
-    #        return 'Espace interdit dans les titres de colonnes'
-    empty = 'function(column, value) { return value.substr(0,default_title.length) == default_title && !isNaN(value.substr(default_title.length))  ; }'
-    check_and_set = 'set_title'
-    tip = """<b>Titre de la colonne.</b><br>
-    Indiquez des noms compréhensibles pour les étudiants.<br>
-    Noms standards pour importer dans APOGÉE&nbsp;:
-    <ul>
-    <li> APO_CC : Contrôle Continu (seule note à saisir si l'UE est 100% contrôle continue).
-    <li> APO_CP : Partiel.
-    <li> APO_CT : Examen.
-    <li> APO_CT2 : Examen, session 2.
-    </ul>"""
-
-class ColumnComment(ColumnAttr):
-    name = 'comment'
-    update_headers = 1
-    display_table = 1
-    check_and_set = 'set_comment'
-    tip = """Tapez un commentaire pour cette colonne.<br>
-    Il est visible par les étudiants."""
-
-
-class ColumnAuthor(ColumnAttr):
-    computed = 1
-    update_headers = 1
-    name = 'author'
-    check_and_set = 'test_nothing'
-    tip = "Personne qui a modifié la définition<br>de la colonne pour la dernière fois :"
-
-
-class ColumnWidth(ColumnAttr):
-    default_value = 4
-    name = 'width'
-    check_and_set = 'test_float'
-    def encode(self, value):
-        return int(value)
-    
-class ColumnHidden(ColumnAttr):
-    computed = 1
-    default_value = 0
-    name = 'hidden'
-    check_and_set = 'test_float'
-
-    def encode(self, value):
-        try:
-            return int(value)
-        except ValueError:
-            return 0
-    def check(self, value):
-        if value in ('0', '1',0,1):
-            return ''
-        return "Valeur invalide pour 'hidden':" + repr(value)
-
-class ColumnGreen(ColumnAttr):
-    need_authorization = 0
-    name = 'green'
-    display_table = 1
-    check_and_set = 'set_green'
-    tip = """<b>Colorie en vert</b> les cellules contenant<br>
-    une valeur supérieure à celle indiquée.<br>On peut utiliser un filtre"""
-
-class ColumnRed(ColumnGreen):
-    name = 'red'
-    check_and_set = 'set_red'
-    tip = """<b>Colorie en rouge</b> les cellules contenant<br>
-    une valeur inférieure à celle indiquée.<br>On peut utiliser un filtre"""
-
-class ColumnWeight(ColumnAttr):
-    default_value = '1'
-    name = 'weight'
-    display_table = 1
-    check_and_set = 'set_weight'
-    visible_for = ['Note', 'Nmbr', 'Moy', 'URL', 'Enumeration']
-    tip = """<b>Poids de cette colonne</b> dans les moyennes pondérées.<br>
-    Des poids entiers sont préférables.<br>
-    <br>
-    Si le poids commence par le signe <b>+</b> ou <b>-</b><br>
-    alors il ne compte pas dans la somme des poids de<br>
-    la moyenne pondérée.<br>
-    La valeur de la cellule multipliée par le poids est<br>
-    ajoutée à la valeur finale de la moyenne."""
-
-    def check(self, value):
-        try:
-            float(value)
-        except ValueError:
-            return "Le poids doit être un nombre réel ou entier"
-
-class ColumnPosition(ColumnAttr):
-    position = 0
-    name = 'position'
-    check_and_set = 'test_float'
-    def encode(self, value):
-        return float(value)
-
-class ColumnTestFilter(ColumnAttr):
-    default_value = '!ABINJ'
-    name = 'test_filter'
-    visible_for = ['Nmbr']
-    check_and_set = '''/* The max is computed by check_weight_average */
-function(value, column)
-{
-  column.min = 0 ; // Max computed elsewhere
-  column.need_update = true ;
-  column.nmbr_filter = compile_filter_generic(value) ;
-  return value ;
-}'''
-    tip = """<b>Filtre indiquant les cellules à compter</b><br>
-    Exemples pour compter les cellules :<ul>
-    <li> <b>ABI</b> : commençant par ABI.
-    <li> <b>!=ABINJ</b> : valeur différente de ABINJ.
-    <li> <b>=</b> compte les cellules vides.
-    <li> <b>&lt;8</b> compte les nombres plus petits que 8.
-    </ul>
-    Pour plus d'information, regardez l'aide sur les filtres."""
-
-class ColumnEnumeration(ColumnAttr):
-    default_value = ''
-    name = 'enumeration'
-    visible_for = ['Enumeration']
-    check_and_set = 'set_test_enumeration'
-    tip = """<b>Liste des valeurs autorisées dans la colonne</b><br>
-    Les valeurs sont séparées par un espace"""
-
-class ColumnMinMax(ColumnAttr):
-    default_value = '[0;20]'
-    display_table = 1
-    name = 'minmax'
-    check_and_set = 'set_test_note'
-    visible_for = ['Note', 'Moy', 'Max']
-    tip = """<b>Intervalle possible pour les notes saisies ou calculées</b><br>
-    Par exemple <b>[0;20]</b> pour indiquer des notes<br>
-    entre 0 et 20 inclus.<br>
-    Les bornes peuvent être négatives.<br>
-    Ces valeurs n'influent pas sur les poids<br>
-    des notes dans une moyenne pondérée."""
-
-
-class ColumnEmptyIs(ColumnAttr):
-    name = 'empty_is'
-    display_table = 1
-    check_and_set = 'function(value, column){column.need_update = true ; return value ; }'
-    tip = """<b>Valeur par défaut des cellules vides</b>.<br>
-    Cette valeur sera utilisée dans les moyennes que<br>
-    cela soit dans le tableau ou le suivi des étudiants.<br>
-    La case restera vide dans le tableau.<br>
-    Par exemple : ABINJ, PRST, 0, 10..."""
-    
-class ColumnColumns(ColumnAttr):
-    name = 'columns'
-    display_table = 1
-    check_and_set = 'set_columns'
-    visible_for = ['Moy', 'Nmbr', 'Mail', 'Code_Etape',
-                   'COW', 'Firstname', 'Surname', 'Phone', 'Max']
-    tip = {
-        'Code_Etape':
-        """<b>Extrait le code étape</b><br>
-        Indiquez la colonne de numéro d'étudiants <b>ID</b><br>
-        pour lesquels on veut extraire le code étape.""",
-        'COW':
-        """<b>Nom de la colonne dont on veut copier le contenu.</b><br>
-        La copie ne se fera plus si vous saisissez une valeur<br>
-        dans la cellule. Vous pouvez par exemple copier une colonne<br>
-        contenant des moyennes pour en modifier certaines.""",
-        'Firstname':
-        """<b>Trouve le prénom</b><br>
-        Indiquez la colonne de comptes (ID)<br>
-        pour lesquels on veut trouver le prénom.""",
-        'Mail':
-        """<b>Trouve l'adresse mail</b><br>
-        Indiquez la colonne de comptes (ID)<br>
-        pour lesquels on veut trouver l'adresse mail.""",
-        'Max':
-        """<b>Noms des colonnes pour le calcul du maximum.</b><br>
-        Le poids des colonnes n'intervient pas, par contre<br>
-        les notes sont normalisées avant la comparaison""",
-        'Moy':
-        """<b>Noms des colonnes à moyenner</b><br>
-        Par exemple : <b>td1 td2 td3</b>.<br>
-        Le calcul de la note est la somme des<br>
-        &nbsp;&nbsp;&nbsp;&nbsp;<em>td<sub>i</sub>.poids * (td<sub>i</sub>.note - td<sub>i</sub>.min) / (td<sub>i</sub>.max - td<sub>i</sub>.min)</em><br>
-        divisée par la somme des poids ne commençant pas par <b>+</b> ou <b>-</b><br>
-        Il est normalisé dans l'intervalle que vous avez indiqué.<br>
-        Il est tenu compte des ABI, ABJ, PPN...""",
-        'Nmbr':
-        """<b>Noms des colonnes où il faut compter les cellules</b><br>
-        qui correspondent au filtre""",
-        'Phone':
-        """<b>Trouve le numéro de téléphone</b><br>
-        Indiquez la colonne de comptes (ID)<br>
-        pour lesquels on veut trouver le téléphone.""",
-        'Surname':
-        """<b>Trouve le nom de famille</b><br>
-        Indiquez la colonne de comptes (ID)<br>
-        pour lesquels on veut trouver le nom de famille.""",
-        }
-
-ColumnType()
-ColumnTitle()
-ColumnRed()
-ColumnGreen()
-ColumnWeight()
-ColumnEmptyIs()
-ColumnTestFilter()
-ColumnWidth()
-ColumnHidden()
-ColumnFreezed()
-ColumnVisibilityDate()
-ColumnComment()
-ColumnPosition()
-ColumnColumns()
-ColumnEnumeration()
-ColumnAuthor()
-ColumnMinMax()
-
 class TableAttr(ColumnAttr):
     attrs = {}
-    attrs_list = []
     formatter = 'function(value) { return value ; }'
     empty = 'function(value) { return value === "" ; }'
-    def __init__(self):
-        TableAttr.attrs[self.name] = self
-        TableAttr.attrs_list.append(self)
 
     def update(self, table, old_value, new_value, page):
         """Called when the user make the change, not when loading table"""
@@ -492,220 +215,41 @@ class TableAttr(ColumnAttr):
             
         return 'ok.png'
 
-class TableComment(TableAttr):
-    name = 'comment'
+attributes = []
+for name in os.listdir('ATTRIBUTES'):
+    if not name.endswith('.py'):
+        continue
+    the_module = utilities.import_reload(os.path.join('ATTRIBUTES', name))[0]
+    for key, item in the_module.__dict__.items():
+        if hasattr(item, 'name'):
+            attributes.append(item())
 
-class TableMails(TableAttr):
-    name = 'mails'
-    default_value = {}
-    computed = 1
+attributes.sort(key=lambda x: (x.priority, x.name))
 
-class TablePortails(TableAttr):
-    name = 'portails'
-    default_value = {}
-    computed = 1
+def column_attributes():
+    for attr in attributes:
+        if isinstance(attr, ColumnAttr) and not isinstance(attr, TableAttr):
+            yield attr
 
-class TableTableTitle(TableAttr):
-    name = 'table_title'
-
-class TableCode(TableAttr):
-    default = 0
-    name = 'code'
-
-class TableModifiable(TableAttr):
-    name = 'modifiable'
-    default_value = 1
-    def encode(self, value):
-        return int(value)
-    def check(self, value):
-        try:
-            value = int(value)
-        except ValueError:
-            return 'Cette valeur doit être entière'
-        if value == 0 or value == 1:
-            return
-        return "Cet attribut '%s' peut être seulement 0 ou 1" % self.name
-    def update(self, table, old_value, new_value, page):
-        if not new_value:
-            return # Not modifiable
-        if old_value:
-            return # Was yet modifiable : no change
-        # Become modifiable
-        if page.logged:
-            return # Page defined on disc
-        # Need to store the unlogged pages.
-        for i, p in enumerate(table.pages):
-            if p.logged:
-                continue
-            table.log('new_page(%s ,%s, %s, %s, %s) # %d' % (
-                repr(p.ticket),
-                repr(p.user_name),
-                repr(p.user_ip),
-                repr(p.user_browser),
-                repr(p.date),
-                i,
-                ))
-            p.logged = True
-
-
-class TablePrivate(TableModifiable):
-    formatter = r'''
-function(value)
-{
-  if ( (table_attr.masters.length == 0 || ! i_am_the_teacher) && value == 1)
-    {
-      alert('Vous ne pouvez pas rendre cette table privée car\nvous ne pourriez plus la voir.\nCommencez par vous ajouter comme étant\nun des responsable de cette table') ;
-      return ;
-    }
-  return value ;
-}'''
-
-    name = 'private'
-    default_value = 0
-
-class TableDates(TableAttr):
-    name = 'dates'
-    default_value = [0,2000000000]
-    formatter = '''
-function(value)
-{
-  if ( value.join )
-    {
-       first_day = new Date() ;
-       first_day.setTime(value[0]*1000) ;
-
-       last_day = new Date() ;
-       last_day.setTime(value[1]*1000) ;
-       var s = formatte_date(last_day) ;
-       
-       last_day.setTime(value[1]*1000 + 1000*86400) ;
-
-       return formatte_date(first_day) + ' ' + s ;
-    }
-
-  var v = value.replace(/[ ,][ ,]*/g, ' ') ;
-  var vs = v.split(' ') ;
-  if ( vs.length != 2 )
-    {
-      alert('Saisir les 2 dates séparées par un espace') ;
-      return ;
-    }
-  var d1 = parse_date(vs[0]).getTime() ;
-  var d2 = parse_date(vs[1], true).getTime() ;
-  if ( isNaN(d1) || isNaN(d2) )
-    {
-      alert('Une des dates est mal écrite') ;
-      return ;
-    }
-  if ( d1 > d2 )
-    {
-      alert('La date de début doit être AVANT la date de fin') ;
-      return ;
-    }
-  v = date_to_store(vs[0]).replace(/..$/,'') + ' '
-    + date_to_store(vs[1], true).replace(/..$/,'') ;
-  
-  return v ;
-}'''
-    def encode(self, value):
-        if isinstance(value, str):        
-            dates = value.split(' ')
-            first_day = time.mktime(time.strptime(dates[0], '%d/%m/%Y'))
-            last_day = time.mktime(time.strptime(dates[1], '%d/%m/%Y'))
-            return [first_day, last_day]
-        else:
-            return value
-        
-    def decode(self, value):
-        return time.strftime('%d/%m/%Y ',time.localtime(value[0])) + \
-               time.strftime('%d/%m/%Y',time.localtime(value[1]))
-
-    def check(self, value):
-        value = self.encode(value)
-        if value[0] > value[1]:
-            return 'La première date doit être avant la deuxième'
-
-class TableMasters(TableAttr):
-    name = 'masters'
-    default_value = []
-    # Side effect to update 'i_am_the_teacher' global variable
-    formatter = '''
-function(value)
-{
-if ( value.join )
-  {
-   teachers = value ;
-   value = value.join(' ') ;
-  }
-else
-   teachers = value.split(/ +/) ;
-if ( teachers.length )
-    i_am_the_teacher = myindex(teachers, my_identity) != -1 ;
-else
-    i_am_the_teacher = true ;
-
-return value ;
-}'''
-    def encode(self, value):
-        if isinstance(value, str):
-            return re.split(' +', value.strip().lower())
-        else:
-            return value
-    def check(self, value):
-        value = self.encode(value)
-        import inscrits
-        for login in value:
-            if not inscrits.is_a_teacher(login):
-                return "Ce n'est pas un enseignant : " + login
-    def update(self, table, old_value, new_value, page):
-        import document
-        for login in new_value:
-            if login not in old_value:
-                document.master_of_update('+', login,
-                                          table.year, table.semester, table.ue)
-        for login in old_value:
-            if login not in new_value:
-                document.master_of_update('-', login,
-                                          table.year, table.semester, table.ue)
-
-class TableDefaultNrColumns(TableAttr):
-    name = 'default_nr_columns'
-    default_value = 0
-    def encode(self, value):
-        return int(value)
-
-class TableDefaultSortColumns(TableAttr):
-    name = 'default_sort_column'
-    default_value = 0
-
-
-TableMasters()
-TableModifiable()
-TableDates()
-TablePrivate()
-TableComment()
-TableDefaultNrColumns()
-TableDefaultSortColumns()
-TableTableTitle()
-TableCode()
-
-TableMails()
-TablePortails()
+def table_attributes():
+    for attr in attributes:
+        if isinstance(attr, TableAttr):
+            yield attr
 
 import files
 files.files['types.js'].append('var column_attributes = {\n' +
                                ',\n'.join(attr.js()
-                                        for attr in ColumnAttr.attrs_list
-                                        ) +
+                                          for attr in column_attributes()
+                                          ) +
                                '} ;\n' +
                                'var table_attributes = {\n' +
                                ',\n'.join(attr.js()
-                                        for attr in TableAttr.attrs_list
-                                        ) +
-                               '} ;\n')
-
-
-    
+                                          for attr in table_attributes()
+                                          ) +
+                               '} ;\n' +
+                               '\n'.join(attr.js_functions
+                                         for attr in attributes) +
+                               '\n')
 
 class Column(object):
     """The Column object contains all the informations about the column.
@@ -760,7 +304,7 @@ class Column(object):
     def js(self, hide, obfuscated={}):
         """Returns the JavaScript describing the column."""
         s = []
-        for attr in ColumnAttr.attrs.values():
+        for attr in column_attributes():
             if hide and attr.name == 'comment':
                 value = re.sub(r'(TITLE|IMPORT|BASE)\([^)]*\)', '', self.comment)
             else:

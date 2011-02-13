@@ -1,0 +1,66 @@
+#!/bin/env python
+# -*- coding: utf-8 -*-
+#    TOMUSS: The Online Multi User Simple Spreadsheet
+#    Copyright (C) 2008-2011 Thierry EXCOFFIER, Universite Claude Bernard
+#
+#    This program is free software; you can redistribute it and/or modify
+#    it under the terms of the GNU General Public License as published by
+#    the Free Software Foundation; either version 2 of the License, or
+#    (at your option) any later version.
+#
+#    This program is distributed in the hope that it will be useful,
+#    but WITHOUT ANY WARRANTY; without even the implied warranty of
+#    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#    GNU General Public License for more details.
+#
+#    You should have received a copy of the GNU General Public License
+#    along with this program; if not, write to the Free Software
+#    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+#
+#    Contact: Thierry.EXCOFFIER@bat710.univ-lyon1.fr
+
+from column import TableAttr
+import re
+
+class TableMasters(TableAttr):
+    name = 'masters'
+    default_value = []
+    # Side effect to update 'i_am_the_teacher' global variable
+    formatter = '''
+function(value)
+{
+if ( value.join )
+  {
+   teachers = value ;
+   value = value.join(' ') ;
+  }
+else
+   teachers = value.split(/ +/) ;
+if ( teachers.length )
+    i_am_the_teacher = myindex(teachers, my_identity) != -1 ;
+else
+    i_am_the_teacher = true ;
+
+return value ;
+}'''
+    def encode(self, value):
+        if isinstance(value, str):
+            return re.split(' +', value.strip().lower())
+        else:
+            return value
+    def check(self, value):
+        value = self.encode(value)
+        import inscrits
+        for login in value:
+            if not inscrits.is_a_teacher(login):
+                return "Ce n'est pas un enseignant : " + login
+    def update(self, table, old_value, new_value, page):
+        import document
+        for login in new_value:
+            if login not in old_value:
+                document.master_of_update('+', login,
+                                          table.year, table.semester, table.ue)
+        for login in old_value:
+            if login not in new_value:
+                document.master_of_update('-', login,
+                                          table.year, table.semester, table.ue)

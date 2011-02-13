@@ -88,7 +88,7 @@ def create_tt():
 
     global c
     c = s.url('=' + abj + '/%d/Dossiers/tt' % utilities.university_year())
-    assert('Col({the_id:"0_10",title:"Remarques_Et_Autres_Dispositions",author:"*",width:13,position:10,type:"Text"})' in c)
+    assert('Col({the_id:"0_10",type:"Text",author:"*",position:10,title:"Remarques_Et_Autres_Dispositions",width:13})' in c)
 
     c = s.url('=' + abj + '/%d/Dossiers/tt' % utilities.university_year()
               + '/1/0/cell_change/0_0/0_0/10800000')
@@ -231,7 +231,7 @@ def tests():
         # Second load : full table is here
         c = s.url('=' + abj + '/0/Preferences/'+utilities.login_to_module(abj))
         assert('P([' in c)
-        assert('Col({the_id:"0_2",title:"Ordre",author:"*",width:2,freezed:"F",position:2,hidden:1,type:"Text"})' in c)
+        assert('Col({the_id:"0_2",type:"Text",author:"*",freezed:"F",hidden:1,position:2,title:"Ordre",width:2})' in c)
         assert('Xcell_change(' not in c)
         assert("x.value=" not in c)
         nr_pages += 1
@@ -368,7 +368,7 @@ def tests():
               nr_columns = nr_columns, lines_id = lines_id,
               nr_cells = nr_cells,
               dump=False)
-        assert('Col({the_id:"col_0",title:"TITLE0",author:"%s",position:0,type:"Note"})' % abj in c)
+        assert('Col({the_id:"col_0",type:"Note",author:"%s",position:0,title:"TITLE0"})' % abj in c)
         assert('P([C("_VALUE_2_","%s","' % abj in c)
         assert('","_COMMENT_","_VALUE_(%s), ")])' % abj in c)
 
@@ -428,7 +428,7 @@ def tests():
               nr_columns = nr_columns, lines_id = lines_id,
               nr_cells = nr_cells,
               dump=False)
-        assert('Col({the_id:"col_0",title:"TITLE0",author:"%s",position:0,type:"Note"})' % abj in c)
+        assert('Col({the_id:"col_0",type:"Note",author:"%s",position:0,title:"TITLE0"})' % abj in c)
         assert('P([C("_VALUE_","%s","' % abj in c)
         assert('","_COMMENT_")])' in c)
 
@@ -728,7 +728,7 @@ def tests():
 
         c = s.url('=' + root + '/9999/Test/comments')
         assert('comment:"_COMMENT4_",' in c)
-        assert('Col({the_id:"col_0",comment:"_COMMENT_",title:"TITLE0",author:"%s",position:6,type:"Note"})' % root in c)
+        assert('Col({the_id:"col_0",type:"Note",author:"%s",comment:"_COMMENT_",position:6,title:"TITLE0"})' % root in c)
 
     if do('ue2'):
         # See 'tomuss.py' for more information on this case
@@ -813,7 +813,7 @@ def tests():
         assert('),C("Jacques","*","' in c)
         assert('),C("MARTIN","*","' in c)
         assert('),C(11.11,"%s","' % root in c)
-        assert("'10800000': 'jacques@martin'" in c)
+        assert("'10800000':\"jacques@martin\"" in c)
         assert('change_abjs({"10800000":[[["%sM","%sA","com5"]],[["UE-INF20UE2","%d/1/1","com2"]],""]});' % (
             abj_date_current, abj_date_next, year) in c)
 
@@ -833,7 +833,7 @@ def tests():
         assert('),C("Jacques","*","' in c)
         assert('),C("MARTIN","*","' in c)
         assert('),C(11.11,"%s","' % root in c)
-        assert("'10800000': 'jacques@martin'" in c)
+        assert("'10800000':\"jacques@martin\"" in c)
         assert('change_abjs({"10800000":[[["%sM","%sA","com5"]],[["UE-INF20UE2","%d/1/1","com2"]],""]});' % (
             abj_date_current, abj_date_next, year) in c)
 
@@ -912,7 +912,7 @@ def tests():
 
         c = s.url('=' + abj + '/%d/Dossiers/delcol' % uyear)
         assert('''columns = [
-Col({the_id:"col_1",title:"TITLE1",author:"%s",position:0,type:"Note"})
+Col({the_id:"col_1",type:"Note",author:"%s",position:0,title:"TITLE1"})
 ];''' % abj in c)
 
     if do('referents'):
@@ -942,7 +942,7 @@ Col({the_id:"col_1",title:"TITLE1",author:"%s",position:0,type:"Note"})
         ss.start()
         c = ss.url('=' + abj + '/%s/10800000' % ys)
         assert('/=%s/%s/UE-INF20UE2\\">UE-INF20UE2 </a>' % (abj,ys) in c)
-        assert('Col({the_id:"col_0",title:"TITLE0",author:"%s",position:6,type:"Note"})' % root in c)
+        assert('Col({the_id:"col_0",type:"Note",author:"%s",position:6,title:"TITLE0"})' % root in c)
         assert('),C(11.11,"%s","' % root in c)
         assert(r"Le rang de cette note est \x3Cb\x3E1\x3C/b\x3E sur les \x3Cb\x3E1\x3C/b\x3E notes dans le groupe.\x3Cbr\x3ELe rang de cette note est \x3Cb\x3E2\x3C/b\x3E sur les \x3Cb\x3E2\x3C/b\x3E notes dans l'UE." in c)
         assert("message : <em>_TABLE_COMMENT_</em>" in c)

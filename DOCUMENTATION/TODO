@@ -1,4 +1,6 @@
 Finir par priorité :
+	reload attribute
+	enleve le copyright du JS attribute
 	Affectation référents : retester
 	MAJ de la liste des étudiants par l'utilisateur ?
 	Pylint

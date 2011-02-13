@@ -308,7 +308,7 @@ TABLE.types .defined { background: #FDD ; }
               'formatter', 'empty', 'default_value',
               'computed')
     f.write('<tr><th>' + '</th><th>'.join([plugin.vertical_text(t)+'&nbsp;&nbsp;' for t in a]) + '</th></tr>')
-    for attr in column.ColumnAttr.attrs_list:
+    for attr in column.column_attributes():
         f.write('<tr>')
         for i in a:
             f.write('<td>' + cgi.escape(str(getattr(attr, i))) + '</td>')
@@ -323,7 +323,7 @@ TABLE.types .defined { background: #FDD ; }
 ''')
     a += ('only_masters',)
     f.write('<tr><th>' + '</th><th>'.join([plugin.vertical_text(t)+'&nbsp;&nbsp;' for t in a]) + '</th></tr>')
-    for attr in column.TableAttr.attrs_list:
+    for attr in column.table_attributes():
         f.write('<tr>')
         for i in a:
             f.write('<td>' + cgi.escape(str(getattr(attr, i))) + '</td>')
