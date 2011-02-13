@@ -24,6 +24,7 @@ import os
 import plugin
 import utilities
 import document
+import column
 
 def reload_plugins(server):
     plugin_files = collections.defaultdict(list)
@@ -47,6 +48,12 @@ def reload_plugins(server):
             for i in plugin_files[i]:
                 plugin.plugins.remove(i)
     server.the_file.write('</table>\n')
+    server.the_file.write('The attribute javascript is reloaded even if the Python module is not reloaded\n')
+    server.the_file.write('<table border>\n')
+    server.the_file.write('<tr><th>Attribute name<th>Reloaded?</tr>\n')
+    server.the_file.write('\n'.join('<tr><td>%s<td>%s</tr>' % (
+        name, reloaded) for name, reloaded in column.initialize()))
+    server.the_file.write('</table>\n')
     document.table(0, 'Dossiers', 'config_plugin', None, None)
 
 plugin.Plugin('reload_plugins', '/reload_plugins',
@@ -55,6 +62,8 @@ plugin.Plugin('reload_plugins', '/reload_plugins',
               link=plugin.Link(
                   text='Recharge les plugins',
                   help="""Met à jours les plugins modifiés sur disque.
+                  C'est-à-dire : le contenu des répertoires PLUGINS,
+                  ATTRIBUTES (y compris JavaScript).
                   Les plugins modifiant l'état de l'application
                   ou lançant des threads ne doivent pas être rechargés.""",
                   where='debug',

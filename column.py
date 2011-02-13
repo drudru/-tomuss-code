@@ -30,6 +30,7 @@ import hashlib
 import data
 import document
 import os
+import files
 
 class ColumnAttr(object):
     attrs = {}
@@ -217,15 +218,6 @@ class TableAttr(ColumnAttr):
         return 'ok.png'
 
 attributes = []
-for name in os.listdir('ATTRIBUTES'):
-    if not name.endswith('.py'):
-        continue
-    the_module = utilities.import_reload(os.path.join('ATTRIBUTES', name))[0]
-    for key, item in the_module.__dict__.items():
-        if hasattr(item, 'name'):
-            attributes.append(item())
-
-attributes.sort(key=lambda x: (x.priority, x.name))
 
 def column_attributes():
     for attr in attributes:
@@ -237,20 +229,40 @@ def table_attributes():
         if isinstance(attr, TableAttr):
             yield attr
 
-import files
-files.files['types.js'].append('var column_attributes = {\n' +
-                               ',\n'.join(attr.js()
-                                          for attr in column_attributes()
-                                          ) +
-                               '} ;\n' +
-                               'var table_attributes = {\n' +
-                               ',\n'.join(attr.js()
-                                          for attr in table_attributes()
-                                          ) +
-                               '} ;\n' +
-                               '\n'.join(attr.js_functions
-                                         for attr in attributes) +
-                               '\n')
+def initialize():
+    global attributes
+
+    attributes = []
+    reloadeds = []
+    for name in os.listdir('ATTRIBUTES'):
+        if not name.endswith('.py'):
+            continue
+        
+        the_module, reloaded = utilities.import_reload(
+            os.path.join('ATTRIBUTES', name))
+        for key, item in the_module.__dict__.items():
+            if hasattr(item, 'name'):
+                attributes.append(item())
+                reloadeds.append((item.__name__, reloaded))
+
+    attributes.sort(key=lambda x: (x.priority, x.name))
+
+    # Remove old ones in cas of reload
+    files.files['types.js'].append_text = re.sub(
+        '(?ms)// BEGIN ATTRIBUTES.*// END ATTRIBUTES', '',
+        files.files['types.js'].append_text)
+    files.files['types.js'].append(
+        '// BEGIN ATTRIBUTES\n' +
+        'var column_attributes = {\n' +
+        ',\n'.join(attr.js() for attr in column_attributes() ) + '} ;\n' +
+        'var table_attributes = {\n' +
+        ',\n'.join(attr.js() for attr in table_attributes() ) + '} ;\n' +
+        '\n'.join(attr.js_functions for attr in attributes) +
+        '// END ATTRIBUTES\n' +
+        '\n')
+    return reloadeds
+
+initialize()
 
 class Column(object):
     """The Column object contains all the informations about the column.
