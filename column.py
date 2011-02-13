@@ -59,6 +59,7 @@ class ColumnAttr(object):
             js = utilities.read_file(
                 os.path.join('ATTRIBUTES',
                              self.__class__.__name__.lower() + '.js'))
+            js = '*/'.join(js.split('*/')[1:])
         except IOError:
             js = ''
         self.js_functions = js
