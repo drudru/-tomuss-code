@@ -23,35 +23,44 @@ import plugin
 import inscrits
 import configuration
 import utilities
+import time
 
+def send(server, values, f):
+    server.the_file.write('full_login_list('
+                          + utilities.js(server.the_path[0])
+                          + ',[' + ','.join(values)
+                          + '], %d);' % f)
+    
 def login_list(server):
     """Retrieve information about any person, not only teachers"""
-    a = list(inscrits.firstname_or_surname_to_logins(
+    a = inscrits.firstname_or_surname_to_logins(
         server.the_path[0],
         attributes=[configuration.attr_login,
                     configuration.attr_surname,
                     configuration.attr_firstname,
                     configuration.attr_mail,
                     ]
-        ))
+        )
 
-    if a:
-        s = []
-        for login, surname, firstname, mail  in a:
-            login = login.lower().encode('utf8')
-            firstname = firstname.title().encode('utf8')
-            surname = surname.upper().encode('utf8')
-            mail = mail.encode('utf8')
-            s.append('[' + utilities.js(login)
-                     + ',' + utilities.js(firstname)
-                     + ',' + utilities.js(surname)
-                     + ',' + utilities.js(mail)
-                     + ']')
-    else:
-        s = []
-    s = 'full_login_list(' + utilities.js(server.the_path[0]) + ',[' \
-        + ',\n'.join(s) + ']);'
-    server.the_file.write(s)
+    append = 0
+    t = time.time()
+    r = []
+    for login, surname, firstname, mail  in a:
+        login = login.lower().encode('utf8')
+        firstname = firstname.title().encode('utf8')
+        surname = surname.upper().encode('utf8')
+        mail = mail.encode('utf8')
+        r.append('[' + utilities.js(login)
+                 + ',' + utilities.js(firstname)
+                 + ',' + utilities.js(surname)
+                 + ',' + utilities.js(mail)
+                 + ']')
+        if time.time() - t > 1:
+            send(server, r, append)
+            r = []
+            t = time.time()
+            append = 1
+    send(server, r, append)
     server.the_file.close()
 
 plugin.Plugin('login_list', '/login_list/{*}',

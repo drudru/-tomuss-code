@@ -1848,7 +1848,7 @@ var the_last_login_list ;
 var the_last_login_asked ;
 var last_login_cache = {} ;
 
-function full_login_list(login, results)
+function full_login_list(login, results, add)
 {
   if ( ! document.getElementById('students_list') )
     {
@@ -1859,7 +1859,13 @@ function full_login_list(login, results)
 
   var s = [], firstname, surname, icone ;
 
-  if ( last_login_cache[login] === undefined )
+  if ( add )
+    {
+      results = results.concat(results, last_login_cache[login]) ;
+      results.sort(cmp_students) ;
+      last_login_cache[login] = results ;
+    }
+  else
     {
       results.sort(cmp_students) ;
       last_login_cache[login] = results ;
