@@ -26,14 +26,14 @@ import utilities
 
 def login_list(server):
     """Retrieve information about any person, not only teachers"""
-    a = inscrits.firstname_or_surname_to_logins(
+    a = list(inscrits.firstname_or_surname_to_logins(
         server.the_path[0],
         attributes=[configuration.attr_login,
                     configuration.attr_surname,
                     configuration.attr_firstname,
                     configuration.attr_mail,
                     ]
-        )
+        ))
 
     if a:
         s = []

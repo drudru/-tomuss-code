@@ -1211,14 +1211,14 @@ def master_of_update(what, name, year, semester, ue):
 
 def login_list(page, name):
     # XXX Not very clean the : configuration.teachers[-1]
-    t = inscrits.firstname_or_surname_to_logins(
+    t = list(inscrits.firstname_or_surname_to_logins(
         name.replace('_',' '),
         base=configuration.teachers[-1],
         attributes = [configuration.attr_login,
                       configuration.attr_surname,
                       configuration.attr_firstname,
                       'cn']
-        )
+        ))
     t.sort(key = lambda x: x[1] + x[2])
     if t:
         s = []

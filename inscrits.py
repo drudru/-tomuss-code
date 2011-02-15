@@ -230,7 +230,7 @@ class LDAP_Logic(object):
         Returns the attributes needed."""
         name = utilities.safe_space(name.strip('. '))
         if name == '':
-            return ()
+            return
         if '.' in name:
             q = '(%s=%s*)' % (configuration.attr_login,
                               name)
@@ -260,22 +260,20 @@ class LDAP_Logic(object):
                           configuration.attr_firstname]
         aa = self.query(q,
                         base=configuration.ou_top,
-                        attributes=attributes
+                        attributes=attributes,
+                        async=True
                         )
         t = []
         i = attributes.index(configuration.attr_login)
-        for x in aa: # For all the answers
-            if x[0] != None:
-                x = x[1]
-                if x.get(configuration.attr_login) == None:
-                    continue
-                r = [unicode(x.get(attr,('',))[0],
-                             configuration.ldap_encoding)  
-                     for attr in attributes
-                     ]
-                r[i] = r[i].lower() # login must be in lower case
-                t.append(r)
-        return t
+        for x in self.generator(aa): # For all the answers
+            if x.get(configuration.attr_login) == None:
+                continue
+            r = [unicode(x.get(attr,('',))[0],
+                         configuration.ldap_encoding)  
+                 for attr in attributes
+                 ]
+            r[i] = r[i].lower() # login must be in lower case
+            yield r
 
     def query_logins(self, logins, attributes):
         logins = ''.join(['(%s=%s)' % (configuration.attr_login,
@@ -501,9 +499,17 @@ class LDAP(LDAP_Logic):
                 warn('Can not connect to %s: TIMEOUT'
                      % configuration.ldap_server[self.server], what="error")
             time.sleep(1)
-    
+
+    def generator(self, msg_id):
+        while True:
+            result_type, result = self.connexion.result(msg_id, all=0)
+            if result_type == ldap.RES_SEARCH_RESULT:
+                break
+            if result_type == ldap.RES_SEARCH_ENTRY:
+                yield result[0][1]
+
     def query(self, search, attributes=(configuration.attr_login,),
-              base=configuration.ou_groups):
+              base=configuration.ou_groups, async=False):
         """Returns a list of answers.
         A answer is a pair : (CN, dictionnary)
         """
@@ -520,12 +526,12 @@ class LDAP(LDAP_Logic):
                 start_time = time.time()
                 sender.send_live_status(
                          '<script>b("/%s");</script>\n' % self.name)
-                s = self.connexion.search_s(
-                    base,
-                    ldap.SCOPE_SUBTREE,
-                    search,
-                    attributes,
-                    )
+                if async:
+                    s = self.connexion.search(base, ldap.SCOPE_SUBTREE,
+                                              search, attributes)
+                else:
+                    s = self.connexion.search_s(base, ldap.SCOPE_SUBTREE,
+                                                search, attributes)
                 sender.send_live_status(
                          '<script>d("%s","/%s","",%6.4f,%s,"","","");</script>\n' %
                          (configuration.ldap_server[self.server],
@@ -660,6 +666,8 @@ if __name__ == "__main__":
     configuration.terminate()
     import inscrits
     L = inscrits.LDAP()
+    for i in firstname_or_surname_to_logins('thierry'):
+        print i
     print L.phone('thierry.excoffier')
     print L.ues_of_a_student('p0704986')
     print L.ues_of_a_student_short('p0704986')

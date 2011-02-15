@@ -373,7 +373,7 @@ def display_list(server, name):
     if name == '':
         return
     name = utilities.safe(name)
-    t = inscrits.firstname_or_surname_to_logins(name.replace('_',' '))
+    t = list(inscrits.firstname_or_surname_to_logins(name.replace('_',' ')))
     t.sort(key = lambda x: x[1] + x[2])
     if t:
         for lo, surname, name in t:
