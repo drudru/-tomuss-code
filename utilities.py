@@ -477,7 +477,7 @@ def register_cache(f, fct, timeout, the_type):
     caches.append(f)
 
 def clean_cache0(f):
-    if time.time() - f.cache[1] > f.timeout:
+    if f.cache[1] and time.time() - f.cache[1] > f.timeout:
         f.cache = ('', 0)
 
 
@@ -486,9 +486,11 @@ def add_a_cache0(fct, timeout=None):
     if timeout is None:
         timeout = 3600
     def f(fct=fct, timeout=timeout):
-        if time.time() - f.cache[1] > f.timeout:
-            f.cache = (fct(), time.time())
-        return f.cache[0]
+        cache = f.cache
+        if time.time() - cache[1] > f.timeout:
+            cache = (fct(), time.time())
+            f.cache = cache
+        return cache[0]
     f.cache = ('', 0)
     register_cache(f, fct, timeout, 'add_a_cache0')
     f.clean = clean_cache0
@@ -505,16 +507,15 @@ def add_a_cache(fct, timeout=None, not_cached='neverreturnedvalue'):
     if timeout is None:
         timeout = 3600
     def f(x, fct=fct, timeout=timeout, not_cached=not_cached):
-        if x not in f.cache:
-            f.cache[x] = (fct(x), time.time())
-        else:
-            if time.time() - f.cache[x][1] > timeout:
-                f.cache[x] = (fct(x), time.time())
-        if f.cache[x][0] == not_cached:
-            del f.cache[x]
+        cache = f.cache.get(x, ('',0))
+        if time.time() - cache[1] > timeout:
+            cache = (fct(x), time.time())
+            
+        if cache[0] == not_cached:
             return not_cached
         else:
-            return f.cache[x][0]
+            f.cache[x] = cache
+            return cache[0]
     f.cache = {}
     register_cache(f, fct, timeout, 'add_a_cache')
     f.clean = clean_cache
@@ -527,16 +528,15 @@ def add_a_method_cache(fct, timeout=None, not_cached='neverreturnedvalue'):
     if timeout == None:
         timeout = 3600
     def f(self, x, fct=fct, timeout=timeout, not_cached=not_cached):
-        if x not in f.cache:
-            f.cache[x] = (fct(self,x), time.time())
-        else:
-            if time.time() - f.cache[x][1] > timeout:
-                f.cache[x] = (fct(self,x), time.time())
-        if f.cache[x][0] == not_cached:
-            del f.cache[x]
+        cache = f.cache.get(x, ('',0))
+        if time.time() - cache[1] > timeout:
+            cache = (fct(self, x), time.time())
+            
+        if cache[0] == not_cached:
             return not_cached
         else:
-            return f.cache[x][0]
+            f.cache[x] = cache
+            return cache[0]
     f.cache = {}
     register_cache(f, fct, timeout, 'add_a_method_cache')
     f.clean = clean_cache
