@@ -1,6 +1,13 @@
 Finir par priorité :
-	Affectation référents : retester
-	MAJ de la liste des étudiants par l'utilisateur ?
+	Affectation référents : retester (bug)
+	Extension semestre marche
+	Page d'accueil : rafraichir plus vite peremption ticket
+	SORTIR VERSION 2.12.17 sur demo et FM
+	Liste des responsables
+	Accelerer chargemetn liste des référents.
+	Message : se reauthentifier ne disparait pas.
+	MAJ de la liste des étudiants par l'utilisateur ? regler le changement de semestre
+	Ne pas sauvegarder le new-page si pas nécessaire ?
 	Pylint
 	Doc plugins
 	redirection : garde l'ancienne ouverte ?

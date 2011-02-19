@@ -234,7 +234,9 @@ def student_statistics(login, server, is_a_student=False, expand=False,
             if ss[-1]:
                 # A line has been displayed
                 codes[t.ue_code] = True
-    if (year, semester) == configuration.year_semester:
+    if (configuration.suivi_display_more_ue
+        and (year, semester) == configuration.year_semester
+        ):
         for t in inscrits.ues_of_a_student_short(login):
             # import cgi
             # ss.append(cgi.escape(repr(t)))
