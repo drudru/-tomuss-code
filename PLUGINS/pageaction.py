@@ -119,6 +119,11 @@ def extension(server):
     utilities.symlink_safe(os.path.join('..', '..', new_filename),
                            old_filename)
 
+    pages = len(table.active_pages) + len(t.active_pages)
+
+    table.unload(force=True)
+    t.unload(force=True)
+
     server.the_file.write("Extension de l'automne vers le printemps réussie. L'UE n'est maintenant plus semestrialisée")
     return
         

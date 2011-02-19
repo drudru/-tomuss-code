@@ -966,12 +966,15 @@ la dernière saisie.
     def close_active_pages(self):
         for page in self.active_pages:
             try:
+                page.browser_file.write('<script>window.parent.close();</script>')
                 page.browser_file.close()
             except:
                 pass
         self.active_pages = []
 
-    def unload(self):
+    def unload(self, force=False):
+        if force:
+            self.close_active_pages()
         if self.active_pages:
             return
         if self.do_not_unload:
@@ -992,24 +995,14 @@ la dernière saisie.
         tables_manage("del", self.year, self.semester, self.ue)
         utilities.unload_module(self.module) # 2009-09-07 Add this
 
-
-
     def delete(self):
         warn(str(self.ue), what="table")
-        self.close_active_pages()
-        self.unload()
+        self.unload(force=True)
         if not self.unloaded:
             return
-        dirname = os.path.join('Trash', time.strftime('%Y%m%d'))
-        utilities.mkpath(dirname)
         # XXX Not locked, so the table may be reloaded before deletion....
-        import shutil
-        shutil.move(self.filename,
-                  os.path.join(dirname,
-                               self.filename.replace(os.path.sep, '___'))
-                  )
         utilities.unlink_safe(self.filename)
-        utilities.unlink_safe(self.filename + 'c')
+        utilities.unlink_safe(self.filename + 'c', do_backup=False)
 
         for name in self.masters:
             master_of_update('-', name, self.year, self.semester, self.ue)

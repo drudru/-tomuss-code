@@ -27,6 +27,7 @@ import traceback
 import configuration
 import cgi
 import threading
+import shutil
 
 def read_file(filename):
     f = open(filename, 'r')
@@ -109,7 +110,15 @@ def append_file_safe(filename, content):
     if configuration.backup:
         append_file(configuration.backup + filename, content)
 
-def unlink_safe(filename):
+def unlink_safe(filename, do_backup=True):
+    if do_backup and os.path.exists(filename):
+        dirname = os.path.join('Trash', time.strftime('%Y%m%d'))
+        mkpath(dirname)
+
+        shutil.move(filename,
+                    os.path.join(dirname,
+                                 filename.replace(os.path.sep, '___'))
+                    )
     try:
         os.unlink(filename)
     except OSError:
@@ -121,6 +130,7 @@ def unlink_safe(filename):
             pass
 
 def rename_safe(old_filename, new_filename):
+    unlink_safe(new_filename)
     os.rename(old_filename, new_filename)
     if configuration.backup:
         os.rename(configuration.backup + old_filename,

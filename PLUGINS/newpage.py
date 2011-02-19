@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 #    TOMUSS: The Online Multi User Simple Spreadsheet
-#    Copyright (C) 2008,2010 Thierry EXCOFFIER, Universite Claude Bernard
+#    Copyright (C) 2008-2011 Thierry EXCOFFIER, Universite Claude Bernard
 #
 #    This program is free software; you can redistribute it and/or modify
 #    it under the terms of the GNU General Public License as published by
@@ -92,7 +92,7 @@ def new_page(server):
     except IOError:
         server.the_file.write(files["error.html"])
         server.the_file.close()
-        warn('IOError', what="error")
+        utilities.send_backtrace(repr(server.the_path), 'Newpage IOError')
         return
 
     if table == None:
