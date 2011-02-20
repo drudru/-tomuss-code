@@ -100,8 +100,8 @@ def home_page(server):
     prefs_table = document.get_preferences(ticket.user_name, True)
 
     f.write('<script>var preferences = ' + repr(prefs_table)
-            + ' ; var ues_favorites = ' + utilities.js(favorites)
-            + ' ; i_am_a_referent = %d' % int(ticket.is_a_referent)
+            + ' ;\nvar ues_favorites = ' + utilities.js(favorites)
+            + ' ;\ni_am_a_referent = %d' % int(ticket.is_a_referent)
             + ';</script>\n')
 
     #####################################################################
