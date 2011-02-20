@@ -26,8 +26,8 @@ import os
 import teacher
 import configuration
 
+real_remove = False
 real_remove = True
-
 
 #REDEFINE
 # List of LDAP OU of student to be affected to a 'referent'
@@ -50,6 +50,8 @@ def need_a_referent(login):
 def need_a_charte(login):
     return False
 
+# REDEFINE
+# Compute the student list needing a referent
 def student_list(f, pportails, not_in_list):
     f.write('<h1>Get the student list for UEs</h1>\n')
     students = {}
@@ -129,6 +131,11 @@ class Student(object):
         return '%s %s %s %s %s %s' % (self.key, self.firstname, self.surname,
                                    self.mail, self.ues, self.discipline.keys())
 
+    def html(self):
+        return '%s %s %s %s' % (self.key,
+                                   self.firstname, self.surname,
+                                   self.ues)
+
 class Teacher(object):
     def __init__(self, name, discipline, line_key):
         self.name = name
@@ -139,6 +146,7 @@ class Teacher(object):
         self.line_key = line_key
         self.students = []
         self.nr = 0
+        self.message = []
 
     def append(self, student):
         self.students.append(student)
@@ -313,6 +321,12 @@ def update_referents(ticket, f):
     finally:
         table.unlock()
 
+    f.write('''
+    <link rel="stylesheet" href="../hidden.css" type="text/css">
+    <script src="../utilities.js"></script>
+    <script>display_tips = true;</script>
+    ''')
+
     f.write('<h1>' + configuration.year_semester[1] + ' '
             + str(configuration.year_semester[0]) + '</h1>\n')
     f.write(table.filename + '\n')
@@ -323,12 +337,13 @@ def update_referents(ticket, f):
 
     students = student_list(f, port(), not_in())
 
-    f.write('<h1>ALL %d students</h1>\n' % len(students))
-    for student in students.values():
-        if student.discipline:
-            f.write('<li> %s' % student)
-        else:
-            f.write('<li> <b>%s</b>' % student)
+    f.write('<h1>%d students</h1>\n' % len(students))
+    if False:
+        for student in students.values():
+            if student.discipline:
+                f.write('<li> %s' % student)
+            else:
+                f.write('<li> <b>%s</b>' % student)
 
 
     f.write('<h1>Remove multiple instances of students or teachers</h1>\n')
@@ -370,6 +385,8 @@ def update_referents(ticket, f):
                                                  os.path.join(the_student,
                                                               'old_referent'),
                                                  content=line[0].value)
+                            tteacher.message.append('Enlève étudiant : %s' %
+                                                    the_student)
                         else:
                             f.write('not removed')
                             tteacher.append(cell.value)
@@ -388,8 +405,7 @@ def update_referents(ticket, f):
     for student in students.values():
         if student_need_a_referent(student, all_cells, f):
             missing.append(student.key)
-        
-    f.write(repr(missing))
+            f.write(student.html() + '<br>\n')
 
 
     f.write('<h1>Teacher list sorted by number of student</h1>\n')
@@ -416,6 +432,7 @@ def update_referents(ticket, f):
         f.write('<li><b>' + tteacher.name + '[' + str(tteacher.nr) + ']</b> (%s): '
                 % (tteacher.discipline,) + ss) 
         tteacher.append(s)
+        tteacher.message.append('Ajoute étudiant : %s' % students[s].html())
         add_student_to_this_line(table,
                                  tteacher.line_key,
                                  table.lines[tteacher.line_key],
@@ -423,3 +440,10 @@ def update_referents(ticket, f):
 
         # Remove student from lists
         missing.remove(s)
+
+    f.write('<h1>Résume</h1>\n')
+    for tteacher in sorted_teachers:
+        f.write('<li> %s<br>\n' % tteacher.name
+                + '<br>\n'.join(tteacher.message))
+        
+        
