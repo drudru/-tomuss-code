@@ -105,6 +105,10 @@ def extension(server):
         server.the_file.write("Vous n'êtes pas autorisé à faire ceci car l'UE n'existait pas au semestre d'automne")
         return
 
+    if os.path.islink(old_filename):
+        server.the_file.write("L'UE est déjà NON-semestrialisée")
+        return
+
     # The table in the previous semester should not be modified.
     t = document.table(server.the_year-1, 'Automne', server.the_ue, ro=True)
     t.modifiable = 0
