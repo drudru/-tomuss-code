@@ -47,7 +47,7 @@ def need_a_referent(login):
 def need_a_charte(login):
     return False
 
-# REDEFINE
+#REDEFINE
 # Compute the student list needing a referent
 def student_list(f, pportails, not_in_list):
     f.write('<h1>Get the student list for UEs</h1>\n')
@@ -88,8 +88,8 @@ def les_blocsnotes(year):
         ue = utilities.login_to_module(ue[:-3])
         yield document.table(str(year), 'Referents', ue, ro=True)
 
-# REDEFINE
-# This function compute for the student some attributes needed to
+#REDEFINE
+# This function computes for the student some attributes needed to
 # assign it a referent teacher.
 # Attributes are :
 # discipline (dict or set), ues (list), licence, licence_first_year
@@ -250,7 +250,7 @@ def add_student_to_referent(referent, student):
     add_student_to_this_line(table, line_key, line, student)
 
 
-# REDEFINE
+#REDEFINE
 # This function returns the teacher to assign to a student.
 # It is only needed for special case of the generic algorithm.
 def search_best_teacher_local(student, sorted_teachers, f, all_teachers):
@@ -292,7 +292,7 @@ def search_best_teacher(student, sorted_teachers, f, all_teachers):
         return tteacher
     return None
 
-# REDEFINE
+#REDEFINE
 # Returns True if the student need a referent.
 # This function can heavely modify 'all_cells' and other data
 # to make some adjustement.
@@ -444,9 +444,9 @@ def update_referents(ticket, f, really_do_it = False):
                 + '<br>\n'.join(tteacher.message).encode('utf8'))
 
         if really_do_it:
-            utilities.send_mail('thierry.excoffier@univ-lyon1.fr',
+            utilities.send_mail(inscrits.mail(tteacher.name),
                                 "Changements d'etudiants referes",
-                                (u"""Bonjour.
+                                (u"""Bonjour
 
 La liste de vos étudiants référés vient de changer automatiquement.
 

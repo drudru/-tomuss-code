@@ -348,7 +348,7 @@ The position specify the name of the box where to insert the code.
     These information can be augmented with other data</td></tr><tr><td><b><a name="plugin_caches">caches</a></b><br/></td><td><b>Affiche les caches</b> in debug<br/><em>Utile pour trouver les fuites mémoire</em></td><td></td></tr><tr><td><b><a name="plugin_cell">cell</a></b><br/><a href="../PLUGINS/cell_change.py">cell_change.py:25</a></td><td></td><td>Modify an unique cell in a table.
     For example, the boolean values can be changed by teacher
     in the 'suivi'</td></tr><tr><td><b><a name="plugin_clean">clean</a></b><br/><a href="../PLUGINS/clean.py">clean.py:26</a></td><td><b>Détruit les UE vides</b> in root_rw<br/><em>Les UE détruites sont mises dans le répertoire Trash. C'est LENT : il ne faut pas le faire en charge. Il est préférable de ne pas le faire pour garder un historique des étudiants inscrits. Ceci n'est fait que pour les UE du semestre choisi.</em></td><td>Remove all the UE that where not modified and are not actives.
-    Display the list of the tables and why they are not deleted.</td></tr><tr><td><b><a name="plugin_clean_other">clean_other</a></b><br/><a href="../PLUGINS/clean.py">clean.py:58</a></td><td><b>Détruit les tables vides</b> in root_rw<br/><em>Les tables détruites sont mises dans le répertoire Trash. C'est LENT : il ne faut pas le faire en charge. Seul les tables complètement vides sont détruites. Ceci ne détruit pas les UE. </em></td><td>Remove all the tables (not UE) that are completly empty.</td></tr><tr><td><b><a name="plugin_clients">clients</a></b><br/><a href="../PLUGINS/clients.py">clients.py:146</a></td><td><b>Statistiques clients</b> in informations<br/><em>Sur les navigateurs, les systèmes d'exploitation et les adresses IP. C'est pas très bien pour la vie privée.</em></td><td>Display client statistics</td></tr><tr><td><b><a name="plugin_delete_this_table">delete_this_table</a></b><br/><a href="../PLUGINS/pageaction.py">pageaction.py:149</a></td><td></td><td>Delete the table.</td></tr><tr><td><b><a name="plugin_emptyname">emptyname</a></b><br/></td><td></td><td>Bad url, redirect user to the home page</td></tr><tr><td><b><a name="plugin_end_of_load">end_of_load</a></b><br/><a href="../PLUGINS/pageaction.py">pageaction.py:183</a></td><td></td><td>Keep track of the end of page loading to do stats.
+    Display the list of the tables and why they are not deleted.</td></tr><tr><td><b><a name="plugin_clean_other">clean_other</a></b><br/><a href="../PLUGINS/clean.py">clean.py:58</a></td><td><b>Détruit les tables vides</b> in root_rw<br/><em>Les tables détruites sont mises dans le répertoire Trash. C'est LENT : il ne faut pas le faire en charge. Seul les tables complètement vides sont détruites. Ceci ne détruit pas les UE. </em></td><td>Remove all the tables (not UE) that are completly empty.</td></tr><tr><td><b><a name="plugin_clients">clients</a></b><br/><a href="../PLUGINS/clients.py">clients.py:146</a></td><td><b>Statistiques clients</b> in informations<br/><em>Sur les navigateurs, les systèmes d'exploitation et les adresses IP. C'est pas très bien pour la vie privée.</em></td><td>Display client statistics</td></tr><tr><td><b><a name="plugin_delete_this_table">delete_this_table</a></b><br/><a href="../PLUGINS/pageaction.py">pageaction.py:153</a></td><td></td><td>Delete the table.</td></tr><tr><td><b><a name="plugin_emptyname">emptyname</a></b><br/></td><td></td><td>Bad url, redirect user to the home page</td></tr><tr><td><b><a name="plugin_end_of_load">end_of_load</a></b><br/><a href="../PLUGINS/pageaction.py">pageaction.py:187</a></td><td></td><td>Keep track of the end of page loading to do stats.
     If the page takes too long to load, then 'newpage.py' assumes
     that something blocked TOMUSS because the page loading does not finish.
     </td></tr><tr><td><b><a name="plugin_evaluate">evaluate</a></b><br/><a href="../PLUGINS/evaluate.py">evaluate.py:25</a></td><td></td><td>Evaluate a Python statement and display result</td></tr><tr><td><b><a name="plugin_extension">extension</a></b><br/><a href="../PLUGINS/pageaction.py">pageaction.py:76</a></td><td></td><td>Extend the table used in 'Automne' semester to be used
@@ -359,13 +359,13 @@ The position specify the name of the box where to insert the code.
     and not by TOMUSS</td></tr><tr><td><b><a name="plugin_home">home</a></b><br/><a href="../PLUGINS/suivi_student.py">suivi_student.py:318</a></td><td></td><td>Display the home page for 'suivi', it asks the student id.</td></tr><tr><td><b><a name="plugin_homepage">homepage</a></b><br/><a href="../PLUGINS/home.py">home.py:51</a></td><td></td><td>Display TOMUSS home page, it extracts some links from the
     plugin list. The page content depends on user role.</td></tr><tr><td><b><a name="plugin_homepage2">homepage2</a></b><br/><a href="../PLUGINS/home2.py">home2.py:64</a></td><td></td><td>Display TOMUSS home page, it extracts some links from the
     plugin list. The page content depends on user role.</td></tr><tr><td><b><a name="plugin_icone">icone</a></b><br/><a href="../PLUGINS/suivi_icone.py">suivi_icone.py:28</a></td><td></td><td>Generate an icone summarising the student information
-    from all the tables.</td></tr><tr><td><b><a name="plugin_infos">infos</a></b><br/><a href="../PLUGINS/suivi_student.py">suivi_student.py:417</a></td><td></td><td>Display the informations about all the students indicated.</td></tr><tr><td><b><a name="plugin_ip">ip</a></b><br/><a href="../PLUGINS/suivi_ip.py">suivi_ip.py:26</a></td><td><b>Trouve IP</b> in deprecated<br/><em>Pour chaque étudiants dans TOMUSS, à partir des informations saisies, essaye de deviner son IP. Ceci a été utilisé l'année ou les IP n'ont pas été faites. </em></td><td>For each student, display the tables where he's present</td></tr><tr><td><b><a name="plugin_key_history">key_history</a></b><br/><a href="../PLUGINS/pageaction.py">pageaction.py:136</a></td><td></td><td>Store the received data in the key history.
+    from all the tables.</td></tr><tr><td><b><a name="plugin_infos">infos</a></b><br/><a href="../PLUGINS/suivi_student.py">suivi_student.py:417</a></td><td></td><td>Display the informations about all the students indicated.</td></tr><tr><td><b><a name="plugin_ip">ip</a></b><br/><a href="../PLUGINS/suivi_ip.py">suivi_ip.py:26</a></td><td><b>Trouve IP</b> in deprecated<br/><em>Pour chaque étudiants dans TOMUSS, à partir des informations saisies, essaye de deviner son IP. Ceci a été utilisé l'année ou les IP n'ont pas été faites. </em></td><td>For each student, display the tables where he's present</td></tr><tr><td><b><a name="plugin_key_history">key_history</a></b><br/><a href="../PLUGINS/pageaction.py">pageaction.py:140</a></td><td></td><td>Store the received data in the key history.
     It is used in 'linear' interface to analyse how it is used.</td></tr><tr><td><b><a name="plugin_live_log">live_log</a></b><br/><a href="../PLUGINS/live_log.py">live_log.py:25</a></td><td><b>Live log</b> in debug<br/><em>Affiche en temps réel le fichier de log</em></td><td>This page continuously display logs of the server.</td></tr><tr><td><b><a name="plugin_live_status_svg">live_status_svg</a></b><br/><a href="../PLUGINS/live_status.py">live_status.py:28</a></td><td><b>Live status</b> in debug<br/><em>Affichage graphique temps réel de TOMUSS</em></td><td>This page continuously display logs of the server.</td></tr><tr><td><b><a name="plugin_locks">locks</a></b><br/></td><td><b>Affiche les verrous</b> in debug<br/><em>Utile pour trouver ce qui bloque</em></td><td></td></tr><tr><td><b><a name="plugin_log">log</a></b><br/><a href="../PLUGINS/log.py">log.py:28</a></td><td></td><td>Store a text in a log file</td></tr><tr><td><b><a name="plugin_login_list">login_list</a></b><br/><a href="../PLUGINS/login_list.py">login_list.py:27</a></td><td></td><td>Retrieve information about any person, not only teachers</td></tr><tr><td><b><a name="plugin_logout">logout</a></b><br/><a href="../PLUGINS/logout.py">logout.py:25</a></td><td></td><td>User deconnexion from the server.</td></tr><tr><td><b><a name="plugin_master_of">master_of</a></b><br/><a href="../PLUGINS/master_of.py">master_of.py:29</a></td><td><b>Réinitialise responsables</b> in root_rw<br/><em>À utiliser seulement en cas de bug. Ceci recalcule pour chaque utilisateur la liste des tables dont il est responsable. Ceci est normalement inutile.</em></td><td>Update the preferences to add the list of UE where the user is master.
     This function is only used in case of bug in the algorithm updating
     the master list incrementaly</td></tr><tr><td><b><a name="plugin_pageaction">pageaction</a></b><br/><a href="../PLUGINS/pageaction.py">pageaction.py:36</a></td><td></td><td>An editing action on the table is queued.
     The client may not send the action in the good order.</td></tr><tr><td><b><a name="plugin_pagenew">pagenew</a></b><br/><a href="../PLUGINS/newpage.py">newpage.py:85</a></td><td></td><td>Create a new page and send the table editor to the client.</td></tr><tr><td><b><a name="plugin_pageresume">pageresume</a></b><br/><a href="../PLUGINS/pageaction.py">pageaction.py:49</a></td><td></td><td>Display the list of ABJ, DA and TT for the students in the table.
     It is the same list being sended by mail.</td></tr><tr><td><b><a name="plugin_pagerewrite">pagerewrite</a></b><br/><a href="../PLUGINS/pageaction.py">pageaction.py:28</a></td><td></td><td>Generate the minimal python module defining the current
-    table state. So there is no more history.</td></tr><tr><td><b><a name="plugin_picture">picture</a></b><br/></td><td></td><td></td></tr><tr><td><b><a name="plugin_preferences">preferences</a></b><br/><a href="../PLUGINS/suivi_preferences.py">suivi_preferences.py:28</a></td><td><b>Fusion des préférences</b> in informations<br/><em>Pour voir globalement ce que les utilisateurs modifient dans leurs préférences TOMUSS</em></td><td>Join of all the preferences table</td></tr><tr><td><b><a name="plugin_profiling">profiling</a></b><br/><a href="../utilities.py">utilities.py:48</a></td><td><b>Profiling des plugins</b> in debug<br/><em>Calcule des performances des différents plugins TOMUSS</em></td><td>Display the statistics on the plugin usage, number of call and times.</td></tr><tr><td><b><a name="plugin_referent">referent</a></b><br/><a href="../PLUGINS/suivi_referent.py">suivi_referent.py:28</a></td><td></td><td>Display the referent of the named student</td></tr><tr><td><b><a name="plugin_referent_get">referent_get</a></b><br/><a href="../PLUGINS/referent_get.py">referent_get.py:29</a></td><td></td><td>Add a student to its refered students</td></tr><tr><td><b><a name="plugin_referents">referents</a></b><br/><a href="../PLUGINS/suivi_referents.py">suivi_referents.py:117</a></td><td><b>Statistiques référents pédagogiques</b> in informations<br/><em>Affiche des statistiques sur les enseignants référents pédagogiques</em></td><td>Display statistics about referents.</td></tr><tr><td><b><a name="plugin_referents.csv">referents.csv</a></b><br/><a href="../PLUGINS/suivi_referent_list.py">suivi_referent_list.py:73</a></td><td></td><td>Generate the referent list in CSV</td></tr><tr><td><b><a name="plugin_referents.html">referents.html</a></b><br/><a href="../PLUGINS/suivi_referent_list.py">suivi_referent_list.py:81</a></td><td><b>Liste des étudiants référés HTML</b> in informations<br/><em>Tableau donnant pour chaque étudiant référé le nom/mail de son enseignant référent pédagogique.</em></td><td>Generate the referent list in HTML</td></tr><tr><td><b><a name="plugin_referents.xls">referents.xls</a></b><br/><a href="../PLUGINS/suivi_referent_list.py">suivi_referent_list.py:81</a></td><td><b>Liste des étudiants référés XLS</b> in informations<br/><em>Tableau donnant pour chaque étudiant référé le nom/mail de son enseignant référent pédagogique.</em></td><td>Generate the referent list in HTML</td></tr><tr><td><b><a name="plugin_referents_update">referents_update</a></b><br/><a href="../PLUGINS/referent_update.py">referent_update.py:25</a></td><td><b>Affectation des référents pédagogiques</b> in abj_master<br/><em>Met à jour les affectations des enseignants référents pédagogiques. La procédure contient beaucoup d'heuristiques. Il est préférable de la lancer sur la version de développement avant de le faire sur la version de production.</em></td><td>Dispatch students without referents to a referent.</td></tr><tr><td><b><a name="plugin_reload_plugins">reload_plugins</a></b><br/></td><td><b>Recharge les plugins</b> in debug<br/><em>Met à jours les plugins modifiés sur disque. Les plugins modifiant l'état de l'application ou lançant des threads ne doivent pas être rechargés.</em></td><td></td></tr><tr><td><b><a name="plugin_resume">resume</a></b><br/><a href="../PLUGINS/resume.py">resume.py:38</a></td><td></td><td>Resume</td></tr><tr><td><b><a name="plugin_rss">rss</a></b><br/><a href="../PLUGINS/suivi_student.py">suivi_student.py:476</a></td><td></td><td>RSS for the student.</td></tr><tr><td><b><a name="plugin_rss2">rss2</a></b><br/><a href="../PLUGINS/suivi_student.py">suivi_student.py:577</a></td><td></td><td>RSS for the table.</td></tr><tr><td><b><a name="plugin_send_alert">send_alert</a></b><br/><a href="../PLUGINS/send_alert.py">send_alert.py:28</a></td><td><b>Envoyer le message suivant :&lt;br&gt;&lt;form style="margin:0" action="javascript:var m = document.getElementById('message').value ; if(confirm('Vous allez envoyer le message :\n\n' + m)) window.location='/='+ticket+'/send_alert//' + m"&gt;&lt;input id="message" class="search_field" name="x" class="keyword" value="Le serveur va être redémarré dans quelques secondes, il est conseillé (mais non obligatoire) de réactualiser la page après le redémarrage."&gt;&lt;/form&gt;</b> in root_rw<br/><em>Vous pouvez éditer le champ texte afin d'envoyer un message (fenêtre popup) à tous les utilisateurs actuellement connectés à TOMUSS. Taper 'return' pour envoyer le message.</em></td><td>Send an alert popup to the TABLE clients or all clients .</td></tr><tr><td><b><a name="plugin_send_mail">send_mail</a></b><br/><a href="../PLUGINS/send_mail.py">send_mail.py:28</a></td><td></td><td>Send personnalized mails</td></tr><tr><td><b><a name="plugin_set_page">set_page</a></b><br/><a href="../PLUGINS/newpage.py">newpage.py:266</a></td><td></td><td>Set the number of page load (for favorites management by users)</td></tr><tr><td><b><a name="plugin_statpage">statpage</a></b><br/><a href="../PLUGINS/statpage.py">statpage.py:33</a></td><td><b>Qui fait quoi</b> in informations<br/><em>Liste les tables TOMUSS en mémoire</em></td><td>Display the table in memory and the user on them.</td></tr><tr><td><b><a name="plugin_student">student</a></b><br/><a href="../PLUGINS/suivi_student.py">suivi_student.py:279</a></td><td></td><td>Display all the informations about a student.</td></tr><tr><td><b><a name="plugin_student_redirect">student_redirect</a></b><br/></td><td></td><td>Redirect the student on the 'suivi'.</td></tr><tr><td><b><a name="plugin_suivi_extract">suivi_extract</a></b><br/><a href="../PLUGINS/suivi_extract.py">suivi_extract.py:102</a></td><td></td><td>Extract named columns from tables, display as an HTML table
+    table state. So there is no more history.</td></tr><tr><td><b><a name="plugin_picture">picture</a></b><br/></td><td></td><td></td></tr><tr><td><b><a name="plugin_preferences">preferences</a></b><br/><a href="../PLUGINS/suivi_preferences.py">suivi_preferences.py:28</a></td><td><b>Fusion des préférences</b> in informations<br/><em>Pour voir globalement ce que les utilisateurs modifient dans leurs préférences TOMUSS</em></td><td>Join of all the preferences table</td></tr><tr><td><b><a name="plugin_profiling">profiling</a></b><br/><a href="../utilities.py">utilities.py:48</a></td><td><b>Profiling des plugins</b> in debug<br/><em>Calcule des performances des différents plugins TOMUSS</em></td><td>Display the statistics on the plugin usage, number of call and times.</td></tr><tr><td><b><a name="plugin_referent">referent</a></b><br/><a href="../PLUGINS/suivi_referent.py">suivi_referent.py:28</a></td><td></td><td>Display the referent of the named student</td></tr><tr><td><b><a name="plugin_referent_get">referent_get</a></b><br/><a href="../PLUGINS/referent_get.py">referent_get.py:29</a></td><td></td><td>Add a student to its refered students</td></tr><tr><td><b><a name="plugin_referents">referents</a></b><br/><a href="../PLUGINS/suivi_referents.py">suivi_referents.py:117</a></td><td><b>Statistiques référents pédagogiques</b> in informations<br/><em>Affiche des statistiques sur les enseignants référents pédagogiques</em></td><td>Display statistics about referents.</td></tr><tr><td><b><a name="plugin_referents.csv">referents.csv</a></b><br/><a href="../PLUGINS/suivi_referent_list.py">suivi_referent_list.py:73</a></td><td></td><td>Generate the referent list in CSV</td></tr><tr><td><b><a name="plugin_referents.html">referents.html</a></b><br/><a href="../PLUGINS/suivi_referent_list.py">suivi_referent_list.py:81</a></td><td><b>Liste des étudiants référés HTML</b> in informations<br/><em>Tableau donnant pour chaque étudiant référé le nom/mail de son enseignant référent pédagogique.</em></td><td>Generate the referent list in HTML</td></tr><tr><td><b><a name="plugin_referents.xls">referents.xls</a></b><br/><a href="../PLUGINS/suivi_referent_list.py">suivi_referent_list.py:81</a></td><td><b>Liste des étudiants référés XLS</b> in informations<br/><em>Tableau donnant pour chaque étudiant référé le nom/mail de son enseignant référent pédagogique.</em></td><td>Generate the referent list in HTML</td></tr><tr><td><b><a name="plugin_referents_update">referents_update</a></b><br/><a href="../PLUGINS/referent_update.py">referent_update.py:25</a></td><td><b>Faire l'affectation des référents pédagogiques</b> in abj_master<br/><em>Met à jour les affectations des enseignants référents pédagogiques. La procédure contient beaucoup d'heuristiques. Il est préférable de la lancer sur la version de développement avant de le faire sur la version de production.</em></td><td>Dispatch students without referents to a referent.</td></tr><tr><td><b><a name="plugin_referents_update_safe">referents_update_safe</a></b><br/><a href="../PLUGINS/referent_update.py">referent_update.py:46</a></td><td><b>Afficher l'affectation des référents pédagogiques</b> in abj_master<br/><em>Affiche ce que l'affectation va faire.</em></td><td>Dispatch students without referents to a referent.</td></tr><tr><td><b><a name="plugin_reload_plugins">reload_plugins</a></b><br/></td><td><b>Recharge les plugins</b> in debug<br/><em>Met à jours les plugins modifiés sur disque. Les plugins modifiant l'état de l'application ou lançant des threads ne doivent pas être rechargés.</em></td><td></td></tr><tr><td><b><a name="plugin_resume">resume</a></b><br/><a href="../PLUGINS/resume.py">resume.py:38</a></td><td></td><td>Resume</td></tr><tr><td><b><a name="plugin_rss">rss</a></b><br/><a href="../PLUGINS/suivi_student.py">suivi_student.py:476</a></td><td></td><td>RSS for the student.</td></tr><tr><td><b><a name="plugin_rss2">rss2</a></b><br/><a href="../PLUGINS/suivi_student.py">suivi_student.py:577</a></td><td></td><td>RSS for the table.</td></tr><tr><td><b><a name="plugin_send_alert">send_alert</a></b><br/><a href="../PLUGINS/send_alert.py">send_alert.py:28</a></td><td><b>Envoyer le message suivant :&lt;br&gt;&lt;form style="margin:0" action="javascript:var m = document.getElementById('message').value ; if(confirm('Vous allez envoyer le message :\n\n' + m)) window.location='/='+ticket+'/send_alert//' + m"&gt;&lt;input id="message" class="search_field" name="x" class="keyword" value="Le serveur va être redémarré dans quelques secondes, il est conseillé (mais non obligatoire) de réactualiser la page après le redémarrage."&gt;&lt;/form&gt;</b> in root_rw<br/><em>Vous pouvez éditer le champ texte afin d'envoyer un message (fenêtre popup) à tous les utilisateurs actuellement connectés à TOMUSS. Taper 'return' pour envoyer le message.</em></td><td>Send an alert popup to the TABLE clients or all clients .</td></tr><tr><td><b><a name="plugin_send_mail">send_mail</a></b><br/><a href="../PLUGINS/send_mail.py">send_mail.py:28</a></td><td></td><td>Send personnalized mails</td></tr><tr><td><b><a name="plugin_set_page">set_page</a></b><br/><a href="../PLUGINS/newpage.py">newpage.py:266</a></td><td></td><td>Set the number of page load (for favorites management by users)</td></tr><tr><td><b><a name="plugin_statpage">statpage</a></b><br/><a href="../PLUGINS/statpage.py">statpage.py:33</a></td><td><b>Qui fait quoi</b> in informations<br/><em>Liste les tables TOMUSS en mémoire</em></td><td>Display the table in memory and the user on them.</td></tr><tr><td><b><a name="plugin_student">student</a></b><br/><a href="../PLUGINS/suivi_student.py">suivi_student.py:279</a></td><td></td><td>Display all the informations about a student.</td></tr><tr><td><b><a name="plugin_student_redirect">student_redirect</a></b><br/></td><td></td><td>Redirect the student on the 'suivi'.</td></tr><tr><td><b><a name="plugin_suivi_extract">suivi_extract</a></b><br/><a href="../PLUGINS/suivi_extract.py">suivi_extract.py:102</a></td><td></td><td>Extract named columns from tables, display as an HTML table
              /extract/UE-XXXXX:Column1:Column2/UE-YYYY:ColumnX:ColumnY...
     </td></tr><tr><td><b><a name="plugin_suivi_fusion_inscrit_author">suivi_fusion_inscrit_author</a></b><br/><a href="../PLUGINS/suivi_extract.py">suivi_extract.py:203</a></td><td></td><td>Fusion of named columns from tables, display as an HTML table
              /fusion_inscrit_author/UE-INF2011L:a/UE-INF2012L:
@@ -440,6 +440,7 @@ but the server send javascript fragment when there is an update to send.
 <tr><td><a href="Welcome.xml#plugin_referent">referent</a></td><td>referent/{?}</td><td>T</td><td>T</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>T</td><td>F</td><td>F</td><td>F</td><td>text/html; charset=UTF-8</td></tr>
 <tr><td><a href="Welcome.xml#plugin_referent_get">referent_get</a></td><td>referent_get/{?}</td><td>T</td><td>&nbsp;</td><td>T</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>T</td><td>F</td><td>F</td><td>F</td><td>text/plain</td></tr>
 <tr><td><a href="Welcome.xml#plugin_referents_update">referents_update</a></td><td>referents</td><td>T</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>T</td><td>&nbsp;</td><td>T</td><td>T</td><td>F</td><td>F</td><td>text/html; charset=UTF-8</td></tr>
+<tr><td><a href="Welcome.xml#plugin_referents_update_safe">referents_update_safe</a></td><td>referents_safe</td><td>T</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>T</td><td>&nbsp;</td><td>T</td><td>T</td><td>F</td><td>F</td><td>text/html; charset=UTF-8</td></tr>
 <tr><td><a href="Welcome.xml#plugin_reload_plugins">reload_plugins</a></td><td>reload_plugins</td><td>T</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>T</td><td>T</td><td>F</td><td>F</td><td>F</td><td>text/html; charset=UTF-8</td></tr>
 <tr><td><a href="Welcome.xml#plugin_send_alert">send_alert</a></td><td>send_alert/{U}/{*}</td><td>T</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>T</td><td>T</td><td>F</td><td>F</td><td>F</td><td>text/html; charset=UTF-8</td></tr>
 <tr><td><a href="Welcome.xml#plugin_send_mail">send_mail</a></td><td>send_mail/{*}</td><td>T</td><td>T</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>T</td><td>T</td><td>F</td><td>F</td><td>text/html; charset=UTF-8</td></tr>
@@ -1388,15 +1389,61 @@ a_module.to_be_redefined = to_be_redefined
 
 
 <table border="1">
-<tr><td>utilities.py</td><td><tt><small>def&nbsp;the_login(student):<br/>&nbsp;&nbsp;&nbsp;&nbsp;return&nbsp;safe(student)
+<tr><td>referent.py</td><td><tt><small>def&nbsp;port():<br/>&nbsp;&nbsp;&nbsp;&nbsp;return&nbsp;configuration.the_portails['UFRFST']&nbsp;
 <br/>
-<br/></small></tt></td><td> If the student login in LDAP is not the same as the student ID.  This function translate student ID to student login.  The returned value must be usable safely. </td></tr>
-<tr><td>utilities.py</td><td><tt><small>def&nbsp;stupid_password(login,&nbsp;passwords):<br/>&nbsp;&nbsp;&nbsp;&nbsp;return&nbsp;False
+<br/></small></tt></td><td> List of LDAP OU of student to be affected to a 'referent' </td></tr>
+<tr><td>referent.py</td><td><tt><small>def&nbsp;not_in():<br/>&nbsp;&nbsp;&nbsp;&nbsp;return&nbsp;()
+<br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+<br/></small></tt></td><td> List of LDAP OU of student not to be affected to a 'referent' </td></tr>
+<tr><td>referent.py</td><td><tt><small>def&nbsp;need_a_referent(login):<br/>&nbsp;&nbsp;&nbsp;&nbsp;"""To&nbsp;be&nbsp;redefined"""
+<br/>&nbsp;&nbsp;&nbsp;&nbsp;return&nbsp;True
 <br/>
-<br/></small></tt></td><td> This function returns True if the user uses a stupid password.  Potential stupid passwords are in the 'passwords' list.  Each of the passwords should be tried to login,  if the login is a success, the password is bad. </td></tr>
+<br/></small></tt></td><td> Return True if the student need a referent teacher </td></tr>
+<tr><td>referent.py</td><td><tt><small>def&nbsp;need_a_charte(login):<br/>&nbsp;&nbsp;&nbsp;&nbsp;return&nbsp;False
+<br/>
+<br/></small></tt></td><td> Return True if the student must sign an interactive document </td></tr>
+<tr><td>inscrits.py</td><td><tt><small>class&nbsp;LDAP(LDAP_Logic):<br/></small></tt></td><td> This class can be replaced by a subclass of itself in order to replace  the 'students' method returning the student list for an UE.  The student list may be computed without using LDAP. </td></tr>
+<tr><td>inscrits.py</td><td><tt><small>def&nbsp;login_to_student_id(login):<br/>&nbsp;&nbsp;&nbsp;&nbsp;return&nbsp;utilities.safe(login)
+<br/>
+<br/></small></tt></td><td> If the student login in LDAP is not the same as the student ID.  This function translate student login to student ID.  The returned value must be usable safely. </td></tr>
+<tr><td>configuration.py</td><td><tt><small>def&nbsp;picture(student_id,&nbsp;ticket):<br/>&nbsp;&nbsp;&nbsp;&nbsp;import&nbsp;utilities
+<br/>&nbsp;&nbsp;&nbsp;&nbsp;return&nbsp;(utilities.StaticFile._url_&nbsp;+&nbsp;'/='&nbsp;+&nbsp;ticket.ticket
+<br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;+&nbsp;'/picture/'&nbsp;+&nbsp;student_id&nbsp;+&nbsp;'.JPG')
+<br/>
+<br/></small></tt></td><td> This function returns the URL of the student picture.  This example assumes that TOMUSS itself send pictures. </td></tr>
+<tr><td>configuration.py</td><td><tt><small>def&nbsp;more_on_suivi(student_login):<br/>&nbsp;&nbsp;&nbsp;&nbsp;return&nbsp;''
+<br/>
+<br/></small></tt></td><td> This function returns a string inserted into student suivi page </td></tr>
+<tr><td>configuration.py</td><td><tt><small>def&nbsp;external_bilan(login):<br/>&nbsp;&nbsp;&nbsp;&nbsp;return&nbsp;"[]"
+<br/>
+<br/></small></tt></td><td> To add external information in the 'bilan'  This function is used by PLUGINS/bilan.py to get external information </td></tr>
 <tr><td>document.py</td><td><tt><small>def&nbsp;table_head_more(ue):<br/>&nbsp;&nbsp;&nbsp;&nbsp;return&nbsp;''
 <br/>
 <br/></small></tt></td><td> This function returns javascript code to be included  in the header of the 'ue' table </td></tr>
+<tr><td>abj.py</td><td><tt><small>def&nbsp;prune_abjs(abj_list,&nbsp;group,&nbsp;sequence,&nbsp;ue_code):<br/>&nbsp;&nbsp;&nbsp;&nbsp;"""Trim&nbsp;unecessary&nbsp;ABJS"""
+<br/>&nbsp;&nbsp;&nbsp;&nbsp;return&nbsp;abj_list
+<br/>
+<br/></small></tt></td><td> When a student has an ABJ it may be outside of UE schedule.  The function returns the ABJs without ABJ outside of UE planning. </td></tr>
+<tr><td>plugins.py</td><td><tt><small>def&nbsp;plugins_tomuss_more():<br/>&nbsp;&nbsp;&nbsp;&nbsp;pass
+<br/>
+<br/></small></tt></td><td> This function do the import of local Plugins for the TOMUSS server </td></tr>
+<tr><td>plugins.py</td><td><tt><small>def&nbsp;plugins_suivi_more():<br/>&nbsp;&nbsp;&nbsp;&nbsp;pass
+<br/>
+<br/></small></tt></td><td> This function do the import of local Plugins for the 'suivi' server </td></tr>
+<tr><td>authentication.py</td><td><tt><small>def&nbsp;ticket_login_name(ticket_key,&nbsp;service):<br/>
+<br/></small></tt></td><td> From the CAS ticket and the service required by client,  returns the login name of the user. </td></tr>
+<tr><td>authentication.py</td><td><tt><small>def&nbsp;ticket_ask(server,&nbsp;server_url,&nbsp;service):<br/>&nbsp;&nbsp;&nbsp;&nbsp;service&nbsp;=&nbsp;canonize(service)
+<br/>&nbsp;&nbsp;&nbsp;&nbsp;server.send_response(307)
+<br/>&nbsp;&nbsp;&nbsp;&nbsp;server.send_header('Location',
+<br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'%s/login?service=%s'&nbsp;%&nbsp;(
+<br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;configuration.cas,
+<br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;service))
+<br/>&nbsp;&nbsp;&nbsp;&nbsp;server.end_headers()
+<br/>&nbsp;&nbsp;&nbsp;&nbsp;return&nbsp;None,&nbsp;None
+<br/>
+<br/></small></tt></td><td> This function is called when the browser does not give a valid ticket.  The browser is redirected on the CAS authentification service. </td></tr>
+<tr><td>authentication.py</td><td><tt><small>def&nbsp;get_path(server,&nbsp;server_url):<br/>&nbsp;&nbsp;&nbsp;&nbsp;
+<br/></small></tt></td><td> If the user is connected, the function returns the ticket object  and a clean path.  If the user is not connected, it is redirected to the  authentication service. </td></tr>
 <tr><td>teacher.py</td><td><tt><small>def&nbsp;get_ue_dict():<br/>&nbsp;&nbsp;&nbsp;&nbsp;if&nbsp;configuration.ldap_server[0]&nbsp;!=&nbsp;'ldap1.domain.org':
 <br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ldap_ues&nbsp;=&nbsp;inscrits.get_ldap_ues()
 <br/>&nbsp;&nbsp;&nbsp;&nbsp;else:
@@ -1422,86 +1469,18 @@ a_module.to_be_redefined = to_be_redefined
 <br/>&nbsp;&nbsp;&nbsp;&nbsp;return&nbsp;ues
 <br/>
 <br/></small></tt></td><td> Returns the UE list from LDAP or other sources.  This function is called once per night,  so it can be long to execute.  The function result is stored as a Python and JavaScript file </td></tr>
-<tr><td>abj.py</td><td><tt><small>def&nbsp;prune_abjs(abj_list,&nbsp;group,&nbsp;sequence,&nbsp;ue_code):<br/>&nbsp;&nbsp;&nbsp;&nbsp;"""Trim&nbsp;unecessary&nbsp;ABJS"""
-<br/>&nbsp;&nbsp;&nbsp;&nbsp;return&nbsp;abj_list
+<tr><td>utilities.py</td><td><tt><small>def&nbsp;the_login(student):<br/>&nbsp;&nbsp;&nbsp;&nbsp;return&nbsp;safe(student)
 <br/>
-<br/></small></tt></td><td> When a student has an ABJ it may be outside of UE schedule.  The function returns the ABJs without ABJ outside of UE planning. </td></tr>
-<tr><td>inscrits.py</td><td><tt><small>class&nbsp;LDAP(LDAP_Logic):<br/></small></tt></td><td> This class can be replaced by a subclass of itself in order to replace  the 'students' method returning the student list for an UE.  The student list may be computed without using LDAP. </td></tr>
-<tr><td>inscrits.py</td><td><tt><small>def&nbsp;login_to_student_id(login):<br/>&nbsp;&nbsp;&nbsp;&nbsp;return&nbsp;utilities.safe(login)
+<br/></small></tt></td><td> If the student login in LDAP is not the same as the student ID.  This function translate student ID to student login.  The returned value must be usable safely. </td></tr>
+<tr><td>utilities.py</td><td><tt><small>def&nbsp;stupid_password(login,&nbsp;passwords):<br/>&nbsp;&nbsp;&nbsp;&nbsp;return&nbsp;False
 <br/>
-<br/></small></tt></td><td> If the student login in LDAP is not the same as the student ID.  This function translate student login to student ID.  The returned value must be usable safely. </td></tr>
-<tr><td>configuration.py</td><td><tt><small>def&nbsp;picture(student_id,&nbsp;ticket):<br/>&nbsp;&nbsp;&nbsp;&nbsp;import&nbsp;utilities
-<br/>&nbsp;&nbsp;&nbsp;&nbsp;return&nbsp;(utilities.StaticFile._url_&nbsp;+&nbsp;'/='&nbsp;+&nbsp;ticket.ticket
-<br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;+&nbsp;'/picture/'&nbsp;+&nbsp;student_id&nbsp;+&nbsp;'.JPG')
-<br/>
-<br/></small></tt></td><td> This function returns the URL of the student picture.  This example assumes that TOMUSS itself send pictures. </td></tr>
-<tr><td>configuration.py</td><td><tt><small>def&nbsp;more_on_suivi(student_login):<br/>&nbsp;&nbsp;&nbsp;&nbsp;return&nbsp;''
-<br/>
-<br/></small></tt></td><td> This function returns a string inserted into student suivi page </td></tr>
-<tr><td>configuration.py</td><td><tt><small>def&nbsp;external_bilan(login):<br/>&nbsp;&nbsp;&nbsp;&nbsp;return&nbsp;"[]"
-<br/>
-<br/></small></tt></td><td> To add external information in the 'bilan'  This function is used by PLUGINS/bilan.py to get external information </td></tr>
-<tr><td>authentication.py</td><td><tt><small>def&nbsp;ticket_login_name(ticket_key,&nbsp;service):<br/>
-<br/></small></tt></td><td> From the CAS ticket and the service required by client,  returns the login name of the user. </td></tr>
-<tr><td>authentication.py</td><td><tt><small>def&nbsp;ticket_ask(server,&nbsp;server_url,&nbsp;service):<br/>&nbsp;&nbsp;&nbsp;&nbsp;service&nbsp;=&nbsp;canonize(service)
-<br/>&nbsp;&nbsp;&nbsp;&nbsp;server.send_response(307)
-<br/>&nbsp;&nbsp;&nbsp;&nbsp;server.send_header('Location',
-<br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'%s/login?service=%s'&nbsp;%&nbsp;(
-<br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;configuration.cas,
-<br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;service))
-<br/>&nbsp;&nbsp;&nbsp;&nbsp;server.end_headers()
-<br/>&nbsp;&nbsp;&nbsp;&nbsp;return&nbsp;None,&nbsp;None
-<br/>
-<br/></small></tt></td><td> This function is called when the browser does not give a valid ticket.  The browser is redirected on the CAS authentification service. </td></tr>
-<tr><td>authentication.py</td><td><tt><small>def&nbsp;get_path(server,&nbsp;server_url):<br/>&nbsp;&nbsp;&nbsp;&nbsp;
-<br/></small></tt></td><td> If the user is connected, the function returns the ticket object  and a clean path.  If the user is not connected, it is redirected to the  authentication service. </td></tr>
-<tr><td>referent.py</td><td><tt><small>def&nbsp;port():<br/>&nbsp;&nbsp;&nbsp;&nbsp;return&nbsp;configuration.the_portails['UFRFST']&nbsp;
-<br/>
-<br/></small></tt></td><td> List of LDAP OU of student to be affected to a 'referent' </td></tr>
-<tr><td>referent.py</td><td><tt><small>def&nbsp;not_in():<br/>&nbsp;&nbsp;&nbsp;&nbsp;return&nbsp;()
-<br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-<br/></small></tt></td><td> List of LDAP OU of student not to be affected to a 'referent' </td></tr>
-<tr><td>referent.py</td><td><tt><small>def&nbsp;need_a_referent(login):<br/>&nbsp;&nbsp;&nbsp;&nbsp;"""To&nbsp;be&nbsp;redefined"""
-<br/>&nbsp;&nbsp;&nbsp;&nbsp;return&nbsp;True
-<br/>
-<br/></small></tt></td><td> Return True if the student need a referent teacher </td></tr>
-<tr><td>referent.py</td><td><tt><small>def&nbsp;need_a_charte(login):<br/>&nbsp;&nbsp;&nbsp;&nbsp;return&nbsp;False
-<br/>
-<br/></small></tt></td><td> Return True if the student must sign an interactive document </td></tr>
-<tr><td>plugins.py</td><td><tt><small>def&nbsp;plugins_tomuss_more():<br/>&nbsp;&nbsp;&nbsp;&nbsp;pass
-<br/>
-<br/></small></tt></td><td> This function do the import of local Plugins for the TOMUSS server </td></tr>
-<tr><td>plugins.py</td><td><tt><small>def&nbsp;plugins_suivi_more():<br/>&nbsp;&nbsp;&nbsp;&nbsp;pass
-<br/>
-<br/></small></tt></td><td> This function do the import of local Plugins for the 'suivi' server </td></tr>
+<br/></small></tt></td><td> This function returns True if the user uses a stupid password.  Potential stupid passwords are in the 'passwords' list.  Each of the passwords should be tried to login,  if the login is a success, the password is bad. </td></tr>
 <tr><td>FILES/utilities.js</td><td><tt><small>function&nbsp;student_picture_url(login)<br/>{
 <br/>&nbsp;&nbsp;if&nbsp;(&nbsp;login&nbsp;)
 <br/>&nbsp;&nbsp;&nbsp;&nbsp;return&nbsp;&nbsp;'_URL_/='&nbsp;+&nbsp;ticket&nbsp;+&nbsp;'/picture/'&nbsp;+&nbsp;login_to_id(login)&nbsp;+&nbsp;'.JPG'&nbsp;;
 <br/>&nbsp;&nbsp;return&nbsp;''&nbsp;;
 <br/>}
 <br/></small></tt></td><td>This function returns the URL of the student picture. </td></tr>
-<tr><td>FILES/middle.js</td><td><tt><small>function&nbsp;change_title()<br/>{
-<br/>&nbsp;&nbsp;var&nbsp;p_title_links&nbsp;=&nbsp;document.getElementById('title_links')&nbsp;;
-<br/>&nbsp;&nbsp;if&nbsp;(&nbsp;p_title_links&nbsp;==&nbsp;undefined&nbsp;)
-<br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return&nbsp;;&nbsp;//&nbsp;Linear&nbsp;interface
-<br/>&nbsp;&nbsp;//&nbsp;Use&nbsp;table_attr.code&nbsp;for&nbsp;example
-<br/>&nbsp;&nbsp;//&nbsp;p_title_links.innerHTML&nbsp;=&nbsp;'&lt;a&nbsp;href=""&gt;xxx&lt;/a&gt;'&nbsp;;
-<br/>}
-<br/></small></tt></td><td>This function is called to set the UE title links on the page. </td></tr>
-<tr><td>FILES/middle.js</td><td><tt><small>function&nbsp;modification_allowed_on_this_line(data_lin,<br/>					&nbsp;&nbsp;&nbsp;data_col)
-<br/>{
-<br/>&nbsp;&nbsp;if&nbsp;(&nbsp;tr_classname&nbsp;===&nbsp;undefined&nbsp;)
-<br/>&nbsp;&nbsp;&nbsp;&nbsp;return&nbsp;true&nbsp;;
-<br/>&nbsp;&nbsp;if&nbsp;(&nbsp;!&nbsp;popup_on_red_line&nbsp;)
-<br/>&nbsp;&nbsp;&nbsp;&nbsp;return&nbsp;true&nbsp;;
-<br/>&nbsp;&nbsp;if&nbsp;(&nbsp;lines[data_lin][tr_classname].value&nbsp;==&nbsp;'non'&nbsp;)
-<br/>&nbsp;&nbsp;&nbsp;&nbsp;return&nbsp;true&nbsp;;&nbsp;//&nbsp;Returns&nbsp;false&nbsp;here&nbsp;to&nbsp;forbid&nbsp;red&nbsp;line&nbsp;editing
-<br/>&nbsp;&nbsp;return&nbsp;true&nbsp;;
-<br/>}
-<br/></small></tt></td><td>Some table lines must not be modified. This function return 'true' to allow the line editing. </td></tr>
-<tr><td>FILES/middle.js</td><td><tt><small>function&nbsp;update_student_information(line)<br/>{
-<br/>}
-<br/></small></tt></td><td></td></tr>
 <tr><td>FILES/bilan.js</td><td><tt><small>function&nbsp;update_ues_with_external_data(resume,&nbsp;external_info)<br/>{
 <br/>&nbsp;&nbsp;var&nbsp;ues&nbsp;=&nbsp;[]&nbsp;;
 <br/>&nbsp;&nbsp;for(var&nbsp;i&nbsp;in&nbsp;resume)
@@ -1525,6 +1504,28 @@ a_module.to_be_redefined = to_be_redefined
 <br/></small></tt></td><td>If LDAP students login and real students ID are not equals then a translation must be done. This function translate the student number to a login </td></tr>
 <tr><td>FILES/lib.js</td><td><tt><small>function&nbsp;do_change_abjs(m)<br/>{
 <br/>&nbsp;&nbsp;the_student_abjs&nbsp;=&nbsp;m&nbsp;;
+<br/>}
+<br/></small></tt></td><td></td></tr>
+<tr><td>FILES/middle.js</td><td><tt><small>function&nbsp;change_title()<br/>{
+<br/>&nbsp;&nbsp;var&nbsp;p_title_links&nbsp;=&nbsp;document.getElementById('title_links')&nbsp;;
+<br/>&nbsp;&nbsp;if&nbsp;(&nbsp;p_title_links&nbsp;==&nbsp;undefined&nbsp;)
+<br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return&nbsp;;&nbsp;//&nbsp;Linear&nbsp;interface
+<br/>&nbsp;&nbsp;//&nbsp;Use&nbsp;table_attr.code&nbsp;for&nbsp;example
+<br/>&nbsp;&nbsp;//&nbsp;p_title_links.innerHTML&nbsp;=&nbsp;'&lt;a&nbsp;href=""&gt;xxx&lt;/a&gt;'&nbsp;;
+<br/>}
+<br/></small></tt></td><td>This function is called to set the UE title links on the page. </td></tr>
+<tr><td>FILES/middle.js</td><td><tt><small>function&nbsp;modification_allowed_on_this_line(data_lin,<br/>					&nbsp;&nbsp;&nbsp;data_col)
+<br/>{
+<br/>&nbsp;&nbsp;if&nbsp;(&nbsp;tr_classname&nbsp;===&nbsp;undefined&nbsp;)
+<br/>&nbsp;&nbsp;&nbsp;&nbsp;return&nbsp;true&nbsp;;
+<br/>&nbsp;&nbsp;if&nbsp;(&nbsp;!&nbsp;popup_on_red_line&nbsp;)
+<br/>&nbsp;&nbsp;&nbsp;&nbsp;return&nbsp;true&nbsp;;
+<br/>&nbsp;&nbsp;if&nbsp;(&nbsp;lines[data_lin][tr_classname].value&nbsp;==&nbsp;'non'&nbsp;)
+<br/>&nbsp;&nbsp;&nbsp;&nbsp;return&nbsp;true&nbsp;;&nbsp;//&nbsp;Returns&nbsp;false&nbsp;here&nbsp;to&nbsp;forbid&nbsp;red&nbsp;line&nbsp;editing
+<br/>&nbsp;&nbsp;return&nbsp;true&nbsp;;
+<br/>}
+<br/></small></tt></td><td>Some table lines must not be modified. This function return 'true' to allow the line editing. </td></tr>
+<tr><td>FILES/middle.js</td><td><tt><small>function&nbsp;update_student_information(line)<br/>{
 <br/>}
 <br/></small></tt></td><td></td></tr>
 </table>
