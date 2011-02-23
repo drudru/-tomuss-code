@@ -123,7 +123,7 @@ def safe(x):
     return re.sub('[^a-zA-Z]', '_', x).encode('latin1')
 
 for i, ues in students.items():
-    # a = inscrits.firstname_and_surname(i)
+    # a = inscrits.L_batch.firstname_and_surname(i)
     # print i, safe(a[1].upper()), safe(a[0].lower()),
     s = sorted(list(ues), key=lambda x: len(ues[x].infos))
     s.reverse()

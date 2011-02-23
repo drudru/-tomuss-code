@@ -280,7 +280,6 @@ if __name__ == "__main__":
         import tablestat
         import TEMPLATES._ucbl_
         configuration.do_not_display = ()
-        TEMPLATES._ucbl_.L = inscrits.LDAP()
         for table in tablestat.les_ues(2009,'Automne', true_file=True):
             warn(table.ue)
             TEMPLATES._ucbl_.student_add_allowed(table)

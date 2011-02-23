@@ -204,20 +204,20 @@ def authentication_thread():
                         continue # Redirection done
                 
                 what = 'is-teacher?'
-                tick.is_a_teacher = inscrits.is_a_teacher(tick.user_name)
+                tick.is_a_teacher = inscrits.L_fast.is_a_teacher(tick.user_name)
                 
                 if tick.is_a_teacher:
                     what = 'is-administrative?'
-                    tick.is_an_administrative = inscrits.is_an_administrative(tick.user_name)
+                    tick.is_an_administrative = inscrits.L_fast.is_an_administrative(tick.user_name)
                     what = 'is-abj-master?'
-                    tick.is_an_abj_master = inscrits.is_an_abj_master(
+                    tick.is_an_abj_master = inscrits.L_fast.is_an_abj_master(
                         tick.user_name)
                     what = 'is-referent-master?'
                     tick.is_a_referent_master = referent.is_a_referent_master(tick.user_name)
                     what = 'password-ok?'
-                    tick.password_ok = inscrits.password_ok(tick.user_name)
+                    tick.password_ok = inscrits.L_fast.password_ok(tick.user_name)
                     what = 'is-referent?'
-                    tick.is_a_referent = inscrits.is_a_referent(tick.user_name)
+                    tick.is_a_referent = inscrits.L_fast.is_a_referent(tick.user_name)
                         
                 else:
                     tick.is_an_abj_master     = False

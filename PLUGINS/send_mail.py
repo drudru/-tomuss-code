@@ -20,7 +20,7 @@
 #    Contact: Thierry.EXCOFFIER@bat710.univ-lyon1.fr
 
 import plugin
-from inscrits import mail
+import inscrits
 from files import files
 import utilities
 import configuration
@@ -31,7 +31,6 @@ def send_mail(server):
         server.the_file.write('Functionality disabled on demonstration server')
         return
 
-    
     subject = server.the_path[0]
     message = server.the_path[1]
     i = 0
@@ -51,10 +50,10 @@ def send_mail(server):
     server.the_file.write('Commence à envoyer %d messages.' % (len(args)/n))
     server.the_file.flush()
 
-    frome = mail(server.ticket.user_name)
+    frome = inscrits.L_slow.mail(server.ticket.user_name)
     bad_mails = []
     for i in range(0, len(args), n):
-        m = mail(args[i])
+        m = inscrits.L_slow.mail(args[i])
         if m is None:
             bad_mails.append(args[i])
             continue

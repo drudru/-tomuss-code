@@ -452,9 +452,9 @@ class Table(object):
                     user = p.user_name
                     nr = list([i for i in canceled_loads if i[1] == user])
                     if len(nr) == 4: # 4 cancels in less than one hour
-                        warn('Send mail to ' + inscrits.mail(user))
+                        warn('Send mail to ' + inscrits.L_fast.mail(user))
                         utilities.send_mail_in_background(
-                            inscrits.mail(user),
+                            inscrits.L_fast.mail(user),
                             'Vous avez des ennuis avec TOMUSS ?',
                             unicode(utilities.read_file(os.path.join('FILES',
                                                              'mail_cancel')),
@@ -1202,7 +1202,7 @@ def master_of_update(what, name, year, semester, ue):
 
 def login_list(page, name):
     # XXX Not very clean the : configuration.teachers[-1]
-    t = inscrits.firstname_or_surname_to_logins(
+    t = inscrits.L_slow.firstname_or_surname_to_logins(
         name.replace('_',' '),
         base=configuration.teachers[-1],
         attributes = [configuration.attr_login,

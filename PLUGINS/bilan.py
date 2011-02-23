@@ -22,7 +22,7 @@
 import plugin
 import utilities
 import os
-from inscrits import firstname_and_surname_and_mail
+import inscrits
 import configuration
 from referent import students_of_a_teacher
 
@@ -43,10 +43,8 @@ def bilan(server):
         i_can_refer = '1'
     else:
         i_can_refer = '0'
-    
 
-    
-    firstname,surname,mail = firstname_and_surname_and_mail(server.the_student)
+    firstname,surname,mail = inscrits.L_fast.firstname_and_surname_and_mail(server.the_student)
     server.the_file.write('''<META HTTP-EQUIV="Content-Type" CONTENT="text/html;charset=UTF-8">
 <SCRIPT src="%s/bilan.js"></SCRIPT>
 <SCRIPT src="%s/lib.js"></SCRIPT>

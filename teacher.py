@@ -34,7 +34,7 @@ warn = utilities.warn
 # The function result is stored as a Python and JavaScript file
 def get_ue_dict():
     if configuration.ldap_server[0] != 'ldap1.domain.org':
-        ldap_ues = inscrits.get_ldap_ues()
+        ldap_ues = inscrits.L_batch.get_ldap_ues()
     else:
         ldap_ues = ()
     ues = {}
@@ -199,7 +199,7 @@ class UE(object):
                 ue.unload()
 
             if tt == 0:
-                for student in inscrits.students('UE-' + self.name):
+                for student in inscrits.L_batch.students('UE-' + self.name):
                     if utilities.the_login(student[0]) in table.the_keys():
                         tt += 1
         else:
@@ -240,8 +240,8 @@ def responsable_pedagogique_ldap(name):
             surname.append(x)
         else:
             firstname.append(x)
-    return inscrits.firstname_and_surname_to_login(' '.join(firstname),
-                                                   ' '.join(surname))
+    return inscrits.L_batch.firstname_and_surname_to_login(' '.join(firstname),
+                                                           ' '.join(surname))
 
 def responsables_pedagogiques_ldap(ue):
     return all_ues()[ue].responsable_login()

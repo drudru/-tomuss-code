@@ -392,6 +392,5 @@ def terminate():
             backup = ''
 
     import inscrits
-    utilities.warn('Create LDAP connector')
-    inscrits.L = inscrits.LDAP()
+    inscrits.init()
 

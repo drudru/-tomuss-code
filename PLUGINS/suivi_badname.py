@@ -34,7 +34,7 @@ def the_badname(server):
             login = inscrits.login_to_student_id(line[0].value)
             if login.strip() == '':
                 continue
-            first_name, surname = inscrits.firstname_and_surname(login)
+            first_name, surname = inscrits.L_batch.firstname_and_surname(login)
             if (normalize(first_name) != normalize(unicode(line[1].value,'utf8'))
                 or normalize(surname) != normalize(unicode(line[2].value, 'utf8'))):
                 server.the_file.write('%s\t%s\t%s %s != %s %s\n' % (

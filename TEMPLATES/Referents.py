@@ -124,7 +124,7 @@ def update_inscrits_referents(the_ids, table, page):
     for the_id in referent.students_of_a_teacher(utilities.module_to_login(table.ue)):
         login = utilities.the_login(the_id)
         done[login] = True
-        firstname,surname,mail = inscrits.firstname_and_surname_and_mail(login)
+        firstname,surname,mail = inscrits.L_batch.firstname_and_surname_and_mail(login)
         the_ids[the_id] = mail.encode('utf-8')
         # COpy/Paste with Favoris.py
         if referent.need_a_charte(login):
@@ -138,7 +138,7 @@ def update_inscrits_referents(the_ids, table, page):
             else:
                 s = 'NON'
         if login[1:3] == current_year:
-            for group in inscrits.member_of_list(login):
+            for group in inscrits.L_batch.member_of_list(login):
                 if '1A,OU=' in group:
                     pe = 'OUI'
                     break

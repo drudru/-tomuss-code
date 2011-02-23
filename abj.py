@@ -103,7 +103,7 @@ class Abj(object):
 
     def ues_without_da(self):
         """List of the UE_CODE registered by the student, but without DA"""
-        ues = inscrits.ues_of_a_student_short(self.login)
+        ues = inscrits.L_fast.ues_of_a_student_short(self.login)
         if len(self.da) == 0:
             return ues
         da = zip(*self.da)[0]
@@ -344,8 +344,8 @@ def a_student(browser, year, semester, ticket, student, do_close=True):
     html += "append_html('<A HREF=\"%s/%s\">%s</A>, %s<br>');" % (
         configuration.suivi.url(year,semester,ticket.ticket),
         student.replace("'","\\'"),
-        ' '.join(inscrits.firstname_and_surname(student)).replace("'","\\'"),
-        ', '.join(inscrits.portail(student)).replace("'","\\'")
+        ' '.join(inscrits.L_fast.firstname_and_surname(student)).replace("'","\\'"),
+        ', '.join(inscrits.L_fast.portail(student)).replace("'","\\'")
         )
 
     if student in aabjs.students:
@@ -357,7 +357,7 @@ def a_student(browser, year, semester, ticket, student, do_close=True):
     else:
         html += "display_abjs([]);"
         html += "display_da([]);"
-        ue_list = inscrits.ues_of_a_student_short(student)
+        ue_list = inscrits.L_fast.ues_of_a_student_short(student)
 
     ue_list.sort()
     html += "ues_without_da(%s);" % js(ue_list)
@@ -429,7 +429,7 @@ def alpha(browser, year, semester):
     aabjs = get_abjs(year, semester)
     writer = csv.writer(browser, delimiter=';', quoting=csv.QUOTE_ALL)
     for student in aabjs.students.values():
-        fn, sn = inscrits.firstname_and_surname(student.login)
+        fn, sn = inscrits.L_slow.firstname_and_surname(student.login)
         fn = fn.encode('latin1')
         sn = sn.encode('latin1')
         for from_date, to_date, author, comment in student.abjs:
@@ -449,10 +449,6 @@ def title(name, sort_fct):
 
 def alpha_html(browser, year, semester, ue_name_endswith=None, author=None):
     """Returns ABJ/DA information for all the students in HTML format"""
-    global L
-    if L is None:
-        L = type(inscrits.L)('LDAP3')
-
     aabjs = get_abjs(year, semester)
     browser.write('''<html>
 <head>
@@ -474,14 +470,14 @@ def alpha_html(browser, year, semester, ue_name_endswith=None, author=None):
     for student in aabjs.students.values():
 
         if ue_name_endswith:
-            for ue_code in L.ues_of_a_student_short(student.login):
+            for ue_code in inscrits.L_batch.ues_of_a_student_short(student.login):
                 if ue_code[-1] == ue_name_endswith:
                     break
             else:
                 # No UE ended by the required character
                 continue
 
-        fn, sn = inscrits.firstname_and_surname(student.login)
+        fn, sn = inscrits.L_slow.firstname_and_surname(student.login)
         fn = fn.encode('utf8')
         sn = sn.encode('utf8')
         for from_date, to_date, author2, comment in student.abjs:
@@ -509,8 +505,6 @@ def get_table_tt(year, semester):
     """Returns the current database for TT"""
     return document.table(utilities.university_year(year, semester),
                           'Dossiers', 'tt')
-
-L = None
 
 def feedback(browser, letter, nr_letters):
     """This function displays a feedback in the browser while
@@ -553,10 +547,6 @@ def do_prune(abj_list, first_day, last_day, group, sequence, ue_code):
 def ue_mails_and_comments(ue_code):
     """Returns the mails of the master of the UE and a comment
     about the origin of the mail address"""
-    global L
-    if L is None:
-        L = type(inscrits.L)('LDAP3')
-
     mails = []
     text = []
     the_ue = teacher.all_ues().get(ue_code[3:], None)
@@ -567,7 +557,7 @@ def ue_mails_and_comments(ue_code):
             if teacher_login is None:
                 text.append('ENSEIGNANT INCONNU !')
             else:
-                mail = L.mail(teacher_login)
+                mail = inscrits.L_slow.mail(teacher_login)
                 if mail == None:
                     text.append('MAIL INCONNU !')
                 else:
@@ -609,9 +599,6 @@ def ue_mails_and_comments(ue_code):
 
 def ue_resume(ue_code, year, semester, browser=None):
     """Returns all the ABJ/DA/TT informations about the all the UE students"""
-    global L
-    if L is None:
-        L = type(inscrits.L)('LDAP3')
     nr_letters = 0
 
     current_year =   (year, semester) == configuration.year_semester
@@ -658,7 +645,7 @@ Cordialement.
     first_day = 0
     last_day = 8000000000
     if current_year:
-        for infos in L.students(ue_code):
+        for infos in inscrits.L_slow.students(ue_code):
             if infos[0] not in the_students:
                 the_students.append((infos[0], infos[4], infos[5]))
 
@@ -700,7 +687,7 @@ Cordialement.
         if first:
             first = False
             text.append(underline("Liste des ABJ", char='-'))
-        fs = L.firstname_and_surname(student.login)
+        fs = inscrits.L_slow.firstname_and_surname(student.login)
         the_abjs = ('   * ' + student.login + ' ' + fs[1].upper() + ' ' +
                     fs[0].title() + '\n')
         for abj in abjs_pruned:
@@ -738,7 +725,7 @@ Cordialement.
                 first = False
                 text.append(underline(u"Liste des étudiants avec une DA",
                                    char='-'))
-            fs = L.firstname_and_surname(student_login)
+            fs = inscrits.L_slow.firstname_and_surname(student_login)
             an_abj = ('   * ' + student_login + ' '
                       + fs[1].upper() + ' ' + fs[0].title()
                       + u' à partir du ' + dates[0][1])
@@ -768,7 +755,7 @@ Cordialement.
             first = False
             text.append(underline(u"Liste des étudiants avec un tiers temps",
                                char='-'))
-        fs = L.firstname_and_surname(student_login)
+        fs = inscrits.L_slow.firstname_and_surname(student_login)
         a_tt = ('   * ' + student_login + ' ' + fs[1].upper() + ' '
                 + fs[0].title() + '\n')
         for line in infos_tt.split('\n')[:-1]:
@@ -788,9 +775,6 @@ to_send_ok = [] # (Recipent, Title, message) list
 def list_mail(browser, year, semester, only_licence=True):
     """Compute and display for all the UE the 'ue_resume'.
     Store the result in order to send all the mails after human check"""
-    global L
-    if L is None:
-        L = type(inscrits.L)('LDAP3')
 
     to_send = []
     sender = configuration.abj_sender
@@ -803,13 +787,13 @@ def list_mail(browser, year, semester, only_licence=True):
         for a_da in student.da:
             ues[a_da[0]] = True
         if student.abjs:
-            for ue_code in L.ues_of_a_student_short(student.login):
+            for ue_code in inscrits.L_batch.ues_of_a_student_short(student.login):
                 ues[ue_code] = True
 
     table_tt = get_table_tt(year, semester)
     tt_logins = list(table_tt.logins())
     for student_login in tt_logins:
-        for ue_code in L.ues_of_a_student_short(student_login):
+        for ue_code in inscrits.L_batch.ues_of_a_student_short(student_login):
             ues[ue_code] = True
 
     if only_licence:

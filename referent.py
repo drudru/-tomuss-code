@@ -55,7 +55,7 @@ def student_list(f, pportails, not_in_list):
     for portail in pportails:
         f.write('<h2>' + portail + '</h2>')
         f.flush()
-        for sstudent in inscrits.member_of(portail):
+        for sstudent in inscrits.L_batch.member_of(portail):
             f.write(sstudent[0])
             for p in sstudent[4]:
                 if p in not_in_list:
@@ -130,7 +130,7 @@ class Student(object):
 
     def html(self):
         if self.mail is None:
-            self.mail = inscrits.mail(self.key)
+            self.mail = inscrits.L_batch.mail(self.key)
         return '%s %s %s %s %s %s' % (self.key,
                                    self.firstname, self.surname,self.mail, 
                                    self.ues, self.discipline.keys())
@@ -382,7 +382,7 @@ def update_referents(ticket, f, really_do_it = False):
                                                  content=line[0].value)
                         tteacher.message.append(u'Enlève étudiant : %s %s' %
                                                 (the_student,
-                                                ' '.join(inscrits.firstname_and_surname_and_mail(the_student))))
+                                                ' '.join(inscrits.L_slow.firstname_and_surname_and_mail(the_student))))
                         f.write('<br>\n')
                     else:
                         tteacher.append(cell.value)
@@ -444,7 +444,7 @@ def update_referents(ticket, f, really_do_it = False):
                 + '<br>\n'.join(tteacher.message).encode('utf8'))
 
         if really_do_it:
-            utilities.send_mail(inscrits.mail(tteacher.name),
+            utilities.send_mail(inscrits.L_batch.mail(tteacher.name),
                                 "Changements d'etudiants referes",
                                 (u"""Bonjour
 

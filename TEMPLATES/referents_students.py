@@ -48,9 +48,9 @@ def update_referents(the_ids, table, page):
     
     table.with_inscrits = False
     for r in configuration.referents:
-        r = inscrits.L.query(base="DC=univ-lyon1,DC=fr",
-                             search='(memberOf=%s)'% r,
-                             attributes=(configuration.attr_login,))
+        r = inscrits.L_batch.query(base="DC=univ-lyon1,DC=fr",
+                                   search='(memberOf=%s)'% r,
+                                   attributes=(configuration.attr_login,))
         try:
             table.lock()
             for infos in r:

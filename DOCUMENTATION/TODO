@@ -1,5 +1,7 @@
 Finir par priorité :
 	Flux LDAP
+	redirection : garde l'ancienne ouverte ?
+		Reconnection persistente pour certains utilisateurs
 	Liste des responsables : prendre GASEL
 	Non modifiable ==> modifiable : pas instantané ?
 	Accelerer chargemetn liste des référents.
@@ -7,11 +9,9 @@ Finir par priorité :
 	Ordre alphabétique des favoris
 	Message : se reauthentifier ne disparait pas.
 	MAJ de la liste des étudiants par l'utilisateur ? regler le changement de semestre
-	Ne pas sauvegarder le new-page si pas nécessaire ?
+	Ne pas sauvegarder le new-page si pas nécessaire (comme RO) ?
 	Pylint
 	Doc plugins
-	redirection : garde l'ancienne ouverte ?
-	Reconnection persistente pour certains utilisateurs
 	choix année RDV IP si cela a un sens
 	Méthode javascript pour attr : editable (masters attributes)
 	Menu unexpected popdown : answer use your own menu

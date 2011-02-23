@@ -511,7 +511,7 @@ return value ;
         value = self.encode(value)
         import inscrits
         for login in value:
-            if not inscrits.is_a_teacher(login):
+            if not inscrits.L_fast.is_a_teacher(login):
                 return "Ce n'est pas un enseignant : " + login
     def update(self, table, old_value, new_value, page):
         import document

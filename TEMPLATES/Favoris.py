@@ -83,7 +83,7 @@ def update_inscrits_favoris(the_ids, table, page):
     for login in d:
         the_id = inscrits.login_to_student_id(login)
         done[login] = True
-        firstname,surname,mail = inscrits.firstname_and_surname_and_mail(login)
+        firstname,surname,mail = inscrits.L_batch.firstname_and_surname_and_mail(login)
         the_ids[the_id] = mail.encode('utf-8')
         # COpy/Paste with Referents.py
         if referent.need_a_charte(login):

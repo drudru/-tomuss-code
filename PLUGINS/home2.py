@@ -67,9 +67,9 @@ def home_page(server):
     f = server.the_file
     ticket = server.ticket
 
-    ufr = inscrits.ufr_of_teacher(ticket.user_name)
+    ufr = inscrits.L_fast.ufr_of_teacher(ticket.user_name)
 
-    if inscrits.password_ok(ticket.user_name):
+    if inscrits.L_fast.password_ok(ticket.user_name):
         password_ok = ''
     else:
         password_ok = configuration.bad_password
@@ -123,7 +123,7 @@ def home_page(server):
     f.write('<script>var referent_of = [')
     t = []
     for login in referent.students_of_a_teacher(ticket.user_name):
-        a,b,c = inscrits.firstname_and_surname_and_mail(login)
+        a,b,c = inscrits.L_fast.firstname_and_surname_and_mail(login)
         t.append(('[' + utilities.js(login) + ','
                  + utilities.js(a) + ','
                  + utilities.js(b) + ','
@@ -139,12 +139,12 @@ def home_page(server):
         favstu = ''
     else:
         favstu = eval(favstu)
-        favstu = inscrits.L.query_logins(favstu,
-                                         (configuration.attr_login,
-                                          configuration.attr_firstname,
-                                          configuration.attr_surname,
-                                          configuration.attr_mail,
-                                          ))
+        favstu = inscrits.L_fast.query_logins(favstu,
+                                              (configuration.attr_login,
+                                               configuration.attr_firstname,
+                                               configuration.attr_surname,
+                                               configuration.attr_mail,
+                                               ))
         favstu = ','.join(['[%s,%s,%s,%s]' %
                           (utilities.js(inscrits.login_to_student_id(x[0].lower().encode('utf8'))),
                            utilities.js(x[1].encode('utf8')),

@@ -28,8 +28,6 @@ import utilities
 import configuration
 import os
 
-L = None
-
 update_student_suivi = """
 <script>
 function update_student_suivi(line)
@@ -67,7 +65,7 @@ def line_empty(line):
 def get_mails(table, the_ids):
     for login in list(table.logins()) + table.authors():
         if login not in the_ids:
-            mail = L.mail(login)
+            mail = inscrits.L_batch.mail(login)
             if mail:
                 the_ids[login] = mail
             else:
@@ -115,7 +113,7 @@ def student_add_allowed(table, new_list=None):
         # We don't allow to add students if there is too many
         # to remove.
         if new_list is None:
-            new_list = list(L.students(table.ue_code))
+            new_list = list(inscrits.L_batch.students(table.ue_code))
         
         nr_yet = 0
         for student in new_list:
@@ -145,7 +143,7 @@ def update_inscrits_ue(the_ids, table, page):
 
     warn("Update inscrit list of " + table.ue, what="check")
 
-    new_list = list(L.students(table.ue_code))
+    new_list = list(inscrits.L_batch.students(table.ue_code))
 
     warn("Update inscrit list of " + table.ue + ' DONE', what="check")
 
@@ -162,11 +160,6 @@ def update_inscrits_ue(the_ids, table, page):
     terminate_update(table, the_ids, page)
 
 def check(table, update_inscrits=update_inscrits_ue):
-    global L
-    if L is None:
-        warn("Create LDAP connection", what="check")
-        L = type(inscrits.L)('LDAP2')
-
     the_ids = {}
 
     warn("Update student list", what="check")
@@ -190,7 +183,8 @@ def check(table, update_inscrits=update_inscrits_ue):
     warn("Update portail list", what="check")
     portails = {}
     for login in list(the_ids.keys()):
-        portails[login] = [i.encode('latin1') for i in L.portail(login)]
+        portails[login] = [i.encode('latin1')
+                           for i in inscrits.L_batch.portail(login)]
     warn("Change portails", what="check")
     table.change_portails(portails)
     warn("Update done", what="check")
@@ -230,7 +224,7 @@ def the_abjs(table):
 
 
 def update_etape(the_ids, table, page, col):
-    etapes = L.etapes_of_students(table.logins())
+    etapes = inscrits.L_batch.etapes_of_students(table.logins())
     for line_key, line in table.lines.items():
         login = line[0].value
         if login == '' or login != utilities.safe(login):
@@ -430,7 +424,7 @@ def check_get_info():
             if value == '':
                 firstname, surname, mail = '', '', ''
             else:
-                firstname, surname, mail = L.firstname_and_surname_and_mail(
+                firstname, surname, mail = inscrits.L_batch.firstname_and_surname_and_mail(
                 value)
             if firstname:
                 firstname = firstname.encode('utf8')
@@ -454,5 +448,5 @@ def check_get_info():
                     table.unlock()
                 table.update_mail(line[0].value, mail.encode('utf8'))
 
-                portails = [i.encode('latin1') for i in L.portail(value)]
+                portails = [i.encode('latin1') for i in inscrits.L_batch.portail(value)]
                 table.update_portail(line[0].value, portails)

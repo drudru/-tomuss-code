@@ -70,7 +70,7 @@ def tomuss_links(login, ticket, server, is_a_student=False):
 
 def member_of_list(login):
     x = '<script>hidden("Membre de...","<table class=\\"memberof\\">'
-    member_of = list(inscrits.member_of_list(login))
+    member_of = list(inscrits.L_fast.member_of_list(login))
     member_of.sort()
     for i in member_of:
         x += '<tr><th>' + cgi.escape(unicode(i,configuration.ldap_encoding)).replace('"','\\"') \
@@ -104,7 +104,7 @@ def student_statistics(login, server, is_a_student=False, expand=False,
     ticket = server.ticket
     year = server.year
     semester = server.semester
-    firstname, surname, mail = inscrits.firstname_and_surname_and_mail(login)
+    firstname, surname, mail = inscrits.L_fast.firstname_and_surname_and_mail(login)
     s = ['<div class="student"><img class="photo" src="',
          configuration.picture(inscrits.login_to_student_id(login),
                                ticket=ticket),
@@ -121,7 +121,7 @@ def student_statistics(login, server, is_a_student=False, expand=False,
 
     ref = referent.referent(year, semester, login)
     if ref:
-        mail_ref = inscrits.mail(ref)
+        mail_ref = inscrits.L_fast.mail(ref)
         if mail_ref == None:
             mail_ref = 'mail_inconnu'
         s.append(u'Référent pédagogique : <script>hidden(\'<a href="mailto:' + mail_ref + '">' +
@@ -237,7 +237,7 @@ def student_statistics(login, server, is_a_student=False, expand=False,
     if (configuration.suivi_display_more_ue
         and (year, semester) == configuration.year_semester
         ):
-        for t in inscrits.ues_of_a_student_short(login):
+        for t in inscrits.L_fast.ues_of_a_student_short(login):
             # import cgi
             # ss.append(cgi.escape(repr(t)))
             if '-' not in t:
@@ -352,7 +352,7 @@ def teacher_statistics(login, server):
                     tables[t].update(v)
 
     s = []
-    firstname, surname, mail = inscrits.firstname_and_surname_and_mail(login)
+    firstname, surname, mail = inscrits.L_fast.firstname_and_surname_and_mail(login)
     s.append('%s <a href="mailto:%s">%s %s</a></h1>' % (
         login, mail, firstname.title(), surname))
     s.append(tomuss_links(login, ticket, server))
@@ -375,7 +375,7 @@ def display_list(server, name):
     if name == '':
         return
     name = utilities.safe(name)
-    t = inscrits.firstname_or_surname_to_logins(name.replace('_',' '))
+    t = inscrits.L_slow.firstname_or_surname_to_logins(name.replace('_',' '))
     t.sort(key = lambda x: x[1] + x[2])
     if t:
         for lo, surname, name in t:
@@ -444,8 +444,8 @@ def page_suivi(server):
         logins = [inscrits.safe(lo).lower() for lo in logins]
         server.the_file.write(
             '<title>' +
-            ', '.join([inscrits.firstname_and_surname(login)[0].title() +
-                       ' ' + inscrits.firstname_and_surname(login)[1]
+            ', '.join([inscrits.L_fast.firstname_and_surname(login)[0].title() +
+                       ' ' + inscrits.L_fast.firstname_and_surname(login)[1]
                       for login in logins]).encode('utf8') +
             '</title>'
                               ) ;
