@@ -55,7 +55,7 @@ def page_groupe(server):
             if line[4].value == '':
                 # Not an official : there is no sequence
                 continue
-            g.append((t.ue, int(line[4].value), line[0].value,
+            g.append((t.ue, line[4].value, line[0].value,
                       line[3].value, line[3].author))
 
         # SPlit by UE/Sequence
@@ -66,7 +66,7 @@ def page_groupe(server):
                 s += '\t%s %s %s<br>\n' % (j[2], j[3], j[4])
             server.the_file.write(
                 '%s(%s) ' % key
-                + '<a href="groupe/%s(%d).csv">CSV</a><br>\n' % (t.ue, j[1])
+                + '<a href="groupe/%s(%s).csv">CSV</a><br>\n' % (t.ue, j[1])
                 + s)
 
 
@@ -74,7 +74,7 @@ def page_one_groupe(server):
     """Group affectation for one table"""
 
     ue = server.the_path[0].split('(')[0]
-    seq = int(server.the_path[0].split('(')[1][0])
+    seq = server.the_path[0].split('(')[1].split(')')[0]
 
     t = document.table(server.year, server.semester, ue, ro=True)
 
@@ -90,7 +90,7 @@ def page_one_groupe(server):
     w.writerow(('DATE :'                , '', date         , ''))
     w.writerow(("CODE APOGEE DE L\'UE :", '', t.ue[3:]     , ''))
     w.writerow(("NOM DE L\'UE :"        , '', t.table_title, ''))
-    w.writerow(("NUMERO DE SEQUENCE :"  , '', str(seq)     , ''))
+    w.writerow(("NUMERO DE SEQUENCE :"  , '', seq          , ''))
     w.writerow(("n ETUDIANT"            ,"NOM","PRENOM","GROUPE"))
           
     g = []
@@ -105,7 +105,7 @@ def page_one_groupe(server):
         if line[4].value == '':
             # Not an official : there is no sequence
             continue
-        if int(line[4].value) != seq:
+        if line[4].value != seq:
             continue
 
         w.writerow((line[0].value, '', '', line[3].value))
