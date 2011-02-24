@@ -407,7 +407,19 @@
       on fait systématiquement référence aux identificateurs
       et non à des index dans des tableaux.
 
-
+    <h3>Interrogation de serveurs.</h3>
+    <p>
+      On n'ouvre pas une connexion par requête pour ne pas surcharger
+      le serveur distant.
+    <p>
+      Dans le cas de LDAP 3 connexions sont ouvertes qui doivent être utilisées
+      à bon escient :
+    <ul>
+      <li> <tt>fast</tt> requêtes rapides ponctuelles.
+      <li> <tt>slow</tt> beaucoup de requêtes utilisées pour une page
+	interactive.
+      <li> <tt>batch</tt> Le temps d'exécution n'a pas d'importance.
+    </ul>
 
 
     <h2>Les données.</h2>
@@ -790,7 +802,7 @@
     <address><a href="mailto:exco@@liris.univ-lyon1.fr">Thierry EXCOFFIER</a></address>
 <!-- Created: Fri Oct  2 13:18:37 CEST 2009 -->
 <!-- hhmts start -->
-Last modified: Mon Jan 10 09:22:04 CET 2011
+Last modified: Thu Feb 24 21:01:10 CET 2011
 <!-- hhmts end -->
   </body>
 </html>
