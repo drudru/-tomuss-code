@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 #    TOMUSS: The Online Multi User Simple Spreadsheet
-#    Copyright (C) 2009,2010 Thierry EXCOFFIER, Universite Claude Bernard
+#    Copyright (C) 2009,2011 Thierry EXCOFFIER, Universite Claude Bernard
 #
 #    This program is free software; you can redistribute it and/or modify
 #    it under the terms of the GNU General Public License as published by
@@ -30,7 +30,7 @@ prefs = (
 ('display_picture',9.9  ,""                     ,""),
 ('unmodifiable'   ,9.9  ,"", ""),
 ('tipfixed'       ,9.9  ,""     ,""),
-('nr_favorites'   ,2.5,"Nombre d'UE favorites affichées"               ,"6"  ),
+('nr_favorites'   ,2.5,"Page d'accueil : nombre d'UE favorites affichées"               ,"6"  ),
 ('nr_lines'       ,3  ,"Nombre de lignes affichées par défaut"         ,"0"  ),
 ('nr_cols'        ,4  ,"Nombre de colonnes affichées par défaut"       ,"0"  ),
 ('zebra_step'     ,4.5,"Nombres de lignes entre les traits épais"      ,"5"  ),
@@ -42,7 +42,8 @@ prefs = (
 ('interface'      ,7.1,"Interface utilisateur : N:normal L:lineaire (pour malvoyant)"   ,"N"),
 ('favoris'        ,9.9  ,""   ,""),
 ('master_of'      ,9.9  ,""   ,"[]"),
-('current_suivi'  ,10   ,"Page d'accueil : on fait le suivi du semestre courant","NON"),
+('current_suivi'  ,10   ,"Page d'accueil : on fait le suivi du semestre courant au lieu du semestre choisi","NON"),
+('favoris_sort'  ,11   ,"Page d'accueil : trie les favoris par code","NON"),
 )
 
 def create(table):
