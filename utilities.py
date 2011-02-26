@@ -369,6 +369,8 @@ def frame_info(frame, displayed):
                 s += "<p><b>" + cgi.escape(k) + "</b>:<br>" + v.backtrace_html() + "\n"
             except AttributeError:
                 pass
+            except TypeError:
+                pass
             displayed[id(v)] = True
     s += '</tr>'
     return s
@@ -788,6 +790,59 @@ def print_lock_state_clean_cache():
             cache.clean(cache)
             
         time.sleep(60)
+
+import BaseHTTPServer
+
+class FakeRequestHandler(BaseHTTPServer.BaseHTTPRequestHandler):
+    """Used because there is only only one request handler for every request.
+    And the initial TOMUSS version was not assuming this.
+    A clean program must not store information in the request handler object
+    """
+    def __init__(self, *args, **keys):
+        if len(args) != 1:
+            BaseHTTPServer.BaseHTTPRequestHandler.__init__(self, *args)
+            return
+        server = args[0]
+        if 'full' in keys:
+            self.__dict__.update(server.__dict__)
+            
+        self.the_path = server.the_path
+        self.headers = server.headers
+        self.ticket = server.ticket
+        self.the_file = server.the_file
+        self.start_time = server.start_time
+        if hasattr(server, 'start_time_old'):
+            self.start_time_old = server.start_time_old
+        self.server = server
+
+        try:
+            self.year = server.year
+            self.semester = server.semester
+            self.the_port = server.the_port
+        except AttributeError:
+            pass
+
+    def backtrace_html(self):
+        s = repr(self) + '\nRequest started %f seconds before\n' % (
+            time.time() - self.start_time, )
+        if hasattr(self, 'start_time_old'):
+            s+= 'Authentication started %f seconds before\n' % (
+            time.time() - self.start_time, )
+        s += '<h2>SERVER HEADERS</h2>\n'
+        for k,v in self.headers.items():
+            s += '<b>' + k + '</b>:' + cgi.escape(str(v)) + '<br>\n'
+        s += '<h2>SERVER DICT</h2>\n'
+        for k,v in self.__dict__.items():
+            if k != 'headers':
+                s += '<b>' + k + '</b>:' + cgi.escape(str(v)) + '<br>\n'
+        return s
+
+    def address_string(self):
+        """Override to avoid DNS lookups"""
+        return "%s:%d" % self.client_address
+
+    def log_time(self, action):
+        self.server.__class__.log_time.__func__(self, action)
 
 def start_threads():
     start_new_thread_immortal(print_lock_state_clean_cache, ())
