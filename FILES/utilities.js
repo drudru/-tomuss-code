@@ -1648,7 +1648,7 @@ function update_ues_favorites(txt, txt_upper)
   ues_favorites_sorted.sort(cmp_favorites) ;
   ues_favorites_sorted= ues_favorites_sorted.slice(0,preferences.nr_favorites);
 
-  if ( preferences.favoris_sort === "NON" )
+  if ( preferences.favoris_sort === "OUI" )
     ues_favorites_sorted.sort() ;
   
   var s = ['<tr><th colspan="3">' +

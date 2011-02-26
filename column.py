@@ -371,6 +371,7 @@ class TableCode(TableAttr):
 class TableModifiable(TableAttr):
     name = 'modifiable'
     default_value = 1
+    update_headers = 1
     def encode(self, value):
         return int(value)
     def check(self, value):

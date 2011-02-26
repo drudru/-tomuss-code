@@ -231,7 +231,10 @@ def authentication_thread():
                 x.start_time = time.time()
 
                 what = 'send-answer'
-                x.server.__class__.do_GET_real_real_safe.__func__(x)
+                try:
+                    x.server.__class__.do_GET_real_real_safe.im_func(x)
+                except TypeError:
+                    x.server.__class__.do_GET_real_real_safe.__func__(x)
                 what = 'close'
                 x.wfile.close()
             except (IOError, socket.error):
