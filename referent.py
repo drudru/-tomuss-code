@@ -437,6 +437,7 @@ def update_referents(ticket, f, really_do_it = False):
         missing.remove(s)
 
     f.write('<h1>Résume</h1>\n')
+    my_mail = inscrits.L_slow.mail(ticket.user_name)
     for tteacher in sorted_teachers:
         if not tteacher.message:
             continue
@@ -467,7 +468,7 @@ La liste à jour est celle indiquée sur http://TOMUSS.univ-lyon1.fr
 
 Amicalement.
 
-""" % '\n'.join(tteacher.message)).encode('latin1'), frome=configuration.root[0])
+""" % '\n'.join(tteacher.message)).encode('latin1'), frome=my_mail)
 
         
         
