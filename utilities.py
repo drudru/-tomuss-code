@@ -841,8 +841,8 @@ class FakeRequestHandler(BaseHTTPServer.BaseHTTPRequestHandler):
         """Override to avoid DNS lookups"""
         return "%s:%d" % self.client_address
 
-    def log_time(self, action):
-        self.server.__class__.log_time.__func__(self, action)
+    def log_time(self, action, **keys):
+        self.server.__class__.log_time.__func__(self, action, **keys)
 
 def start_threads():
     start_new_thread_immortal(print_lock_state_clean_cache, ())

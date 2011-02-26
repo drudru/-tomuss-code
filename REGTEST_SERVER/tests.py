@@ -213,11 +213,10 @@ def tests():
     if do('preferences'):
         # First load : progressive display
         c = s.url('=' + abj + '/0/Preferences/'+utilities.login_to_module(abj))
-        lines_id = ['current_suivi', 'display_tips', 'interface', 
-                    'invert_name',
-                    'nr_cols', 'nr_favorites', 'nr_lines', 'page_step', 'scrollbar_right',
-                    'v_scrollbar',
-                    'v_scrollbar_nr', 'zebra_step']
+        lines_id = ['current_suivi', 'display_tips', 'favoris_sort',
+                    'interface', 'invert_name', 'nr_cols',
+                    'nr_favorites', 'nr_lines', 'page_step', 'scrollbar_right',
+                    'v_scrollbar', 'v_scrollbar_nr', 'zebra_step']
         nr_columns = 4
         nr_pages = 3
         nr_cells = len(lines_id) * nr_columns
