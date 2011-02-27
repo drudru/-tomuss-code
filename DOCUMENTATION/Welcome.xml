@@ -790,7 +790,7 @@ else
 
 return value ;
 }</td><td>function(value) { return value === "" ; }</td><td>[]</td><td>0</td><td>0</td></tr>
-<tr><td>modifiable</td><td>0</td><td>0</td><td>0</td><td>0</td><td>1</td><td>False</td><td>function(value) { return value ; }</td><td>function(value) { return value === "" ; }</td><td>1</td><td>0</td><td>0</td></tr>
+<tr><td>modifiable</td><td>0</td><td>0</td><td>1</td><td>0</td><td>1</td><td>False</td><td>function(value) { return value ; }</td><td>function(value) { return value === "" ; }</td><td>1</td><td>0</td><td>0</td></tr>
 <tr><td>dates</td><td>0</td><td>0</td><td>0</td><td>0</td><td>1</td><td>False</td><td>
 function(value)
 {
@@ -832,7 +832,7 @@ function(value)
   
   return v ;
 }</td><td>function(value) { return value === "" ; }</td><td>[0, 2000000000]</td><td>0</td><td>0</td></tr>
-<tr><td>private</td><td>0</td><td>0</td><td>0</td><td>0</td><td>1</td><td>False</td><td>
+<tr><td>private</td><td>0</td><td>0</td><td>1</td><td>0</td><td>1</td><td>False</td><td>
 function(value)
 {
   if ( (table_attr.masters.length == 0 || ! i_am_the_teacher) &amp;&amp; value == 1)
