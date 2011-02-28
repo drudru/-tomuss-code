@@ -127,7 +127,9 @@ def add(ticket, user_name, user_ip, user_browser, date=None):
     return t
 
 def add_ticket(ticket, user_name, user_ip, user_browser):
+    get_ticket_objet.the_lock.acquire()
     t = add(ticket, user_name, user_ip, user_browser)
+    get_ticket_objet.the_lock.release()
     utilities.write_file(os.path.join(configuration.ticket_directory, t.ticket), t.log())
     return t
 
