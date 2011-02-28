@@ -99,7 +99,7 @@ for syear in os.listdir(configuration.db):
                 continue
             if name[-1].isdigit():
                 continue
-            if name[-1] != 'L': # Licence
+            if name[-1] != 'L' and name[-1] != 'M': # Licence and master
                 continue
             name = name[3:]
 
