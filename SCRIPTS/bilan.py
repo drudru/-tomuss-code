@@ -97,6 +97,8 @@ for syear in os.listdir(configuration.db):
             name = ue.ue
             if not name.startswith('UE-'):
                 continue
+            if ue.is_extended:
+                continue
             if name[-1].isdigit():
                 continue
             if name[-1] != 'L' and name[-1] != 'M': # Licence and master
