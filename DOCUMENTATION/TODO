@@ -1,4 +1,5 @@
 Finir par priorité :
+	Trie des UE dans le bilan, ne pas mettre les non-semestrialisee 2*
 	Accelerer chargemetn liste des référents.
 	Statistiques histogramme : ne pas compter les lignes vides.
 	MAJ de la liste des étudiants par l'utilisateur ? regler le changement de semestre
