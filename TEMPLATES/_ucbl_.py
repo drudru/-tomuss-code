@@ -426,27 +426,32 @@ def check_get_info():
             else:
                 firstname, surname, mail = inscrits.L_batch.firstname_and_surname_and_mail(
                 value)
-            if firstname:
-                firstname = firstname.encode('utf8')
-                # DO NOT USE the user page (use pages[0])
-                # BECAUSE IT BREAKS THE NUMBER OF REQUESTS
-                # It loose value on tomuss reboot.
+                
+            firstname = firstname.encode('utf8')
+            line = table.lines[lin]
+            # DO NOT USE the user page (use pages[0])
+            # BECAUSE IT BREAKS THE NUMBER OF REQUESTS
+            # It loose value on tomuss reboot.
 
-                table.lock()
-                try:
+            table.lock()
+            try:
+                if value or line[1].author == data.ro_user:
                     table.cell_change(table.pages[0], '0_1', lin, firstname,
                                       force_update=True)
+                if value or line[2].author == data.ro_user:
                     surname = surname.encode('utf8')
                     table.cell_change(table.pages[0], '0_2', lin, surname,
                                       force_update=True)
-                    if value == '':
-                        table.cell_change(table.pages[0], '0_3', lin, '',
-                                          force_update=True)
-                        table.cell_change(table.pages[0], '0_4', lin, '',
-                                          force_update=True)
-                finally:
-                    table.unlock()
-                table.update_mail(line[0].value, mail.encode('utf8'))
 
-                portails = [i.encode('latin1') for i in inscrits.L_batch.portail(value)]
-                table.update_portail(line[0].value, portails)
+                if value or line[3].author == data.ro_user:
+                    table.cell_change(table.pages[0], '0_3', lin, '',
+                                      force_update=True)
+                if value or line[4].author == data.ro_user:
+                    table.cell_change(table.pages[0], '0_4', lin, '',
+                                      force_update=True)
+            finally:
+                table.unlock()
+            table.update_mail(line[0].value, mail.encode('utf8'))
+
+            portails = [i.encode('latin1') for i in inscrits.L_batch.portail(value)]
+            table.update_portail(line[0].value, portails)
