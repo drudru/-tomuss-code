@@ -3687,6 +3687,7 @@ function histo_image(nr, maxmax)
     (nr*histo_image_height)/maxmax + '" src="' + url + '/bug.png"><br>' + nr ;
 }
 
+// pb = page break
 function html_begin_head(hide_title, pb, more)
 {
   var s = '' ;
@@ -3701,6 +3702,7 @@ function html_begin_head(hide_title, pb, more)
       '<script src="' + url + '/types.js"></script>\n' +
       '<script src="' + url + '/abj.js"></script>\n' +
       '<style id="computed_style"></style>\n' +
+      '<title>' + ue + ' ' + year + ' ' + semester + '</title>' +
       '</head>' ;
 
   if ( ! pb )
