@@ -3729,7 +3729,8 @@ function compute_histogram(data_col)
   var stats = new Stats(columns[data_col].min, columns[data_col].max,
 			columns[data_col].empty_is) ;
   for(var line in filtered_lines)
-    stats.add(filtered_lines[line][data_col].value) ;
+    if ( filtered_lines[line][0].value || filtered_lines[line][1].value )
+      stats.add(filtered_lines[line][data_col].value) ;
   return stats ;
 }
 
