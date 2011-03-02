@@ -109,7 +109,7 @@ def page_one_groupe(server):
             continue
 
         w.writerow((line[0].value, '', '', line[3].value))
-    w.writerow(('','','',''))
+    w.writerow((line[0].value, '', '', line[3].value))
 
 plugin.Plugin('groupe', '/groupe', teacher=True, password_ok = None,
               mimetype = 'text/html',

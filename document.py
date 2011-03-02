@@ -525,6 +525,10 @@ class Table(object):
                 # This come here only by the way of _ucbl_.py
                 # We want to allow everybody to change the value
                 pass
+            elif cell.author != ro_user and page.user_name == ro_user:
+                # This come here only by the way of _ucbl_.py
+                # When user entered data is "rewrote" by ro_user
+                pass
             else:
                 return 'ok.png'
             
