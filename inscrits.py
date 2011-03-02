@@ -100,21 +100,29 @@ class LDAP_Logic(object):
 
     def ues_of_a_student_with_groups(self, name):
         """List of UEs where the student as triplets (ue, group, sequence)."""
-        a = tuple(self.member_of_list(name))
-        if len(a) == 0:
+        groups = tuple(self.member_of_list(name))
+        if len(groups) == 0:
             return []
-        def parse(x):
-            x = x.split(',')[0].split('-')
-            
-            grp_seq = x[-1].split('_')
-            try:
-                return x[-2], grp_seq[0], grp_seq[1][1:]
-            except IndexError:
-                return x[-2], grp_seq[0], ''
-        return [parse(aa)
-                for aa in a
-                if 'GRP-GRP' in aa
-                ]
+        ues = set()
+        result = []
+        for group in groups:
+            if 'GRP-GRP' in group:
+                group = group.split(',')[0].split('-')
+                ue = group[-2]
+                grp_seq = group[-1].split('_')
+                try:
+                    result.append((ue, grp_seq[0], grp_seq[1][1:]))
+                except IndexError:
+                    result.append((ue, grp_seq[0], ''))
+                ues.add(ue)
+                
+        for group in groups:
+            if group.startswith(configuration.ou_ue_starts):
+                ue = group.split(' ')[0][6:]
+                if ue not in ues: # Do not erase existing group
+                    result.append((ue, '', ''))
+
+        return result
 
     def get_attributes(self, login, attributes):
         """From the login of the person, retrieve the attributes"""
