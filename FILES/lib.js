@@ -2774,10 +2774,10 @@ Request.prototype.send = request_send ;
 
 function click_to_revalidate_ticket()
 {
-  var m =  '<a target="_blank" href="' + cas_url + '/login?service='
+  var m =  '<a onclick="javascript: t_authenticate.style.display = \'none\' ; window_open(\'' + cas_url + '/login?service='
     + encode_uri('http://' + document.location.host +
 		 '/allow/' + ticket + '/' + millisec()).replace(/%01/g, '%2F')
-    + '">CLIQUEZ SUR CE LIEN<br>POUR VOUS AUTHENTIFIER À NOUVEAU<br>votre session a expiré ou<br>votre machine a changé de réseau.</a>' ; 
+    + '\')">CLIQUEZ ICI<br>POUR VOUS AUTHENTIFIER À NOUVEAU<br>votre session a expiré ou<br>votre machine a changé de réseau.</a>' ; 
   t_authenticate.style.display = 'block' ;
   t_authenticate.innerHTML = m ;
   connection_state = 'auth' ;
@@ -3699,6 +3699,7 @@ function histo_image(nr, maxmax)
     (nr*histo_image_height)/maxmax + '" src="' + url + '/bug.png"><br>' + nr ;
 }
 
+// pb = page break
 function html_begin_head(hide_title, pb, more)
 {
   var s = '' ;
@@ -3713,6 +3714,7 @@ function html_begin_head(hide_title, pb, more)
       '<script src="' + url + '/types.js"></script>\n' +
       '<script src="' + url + '/abj.js"></script>\n' +
       '<style id="computed_style"></style>\n' +
+      '<title>' + ue + ' ' + year + ' ' + semester + '</title>' +
       '</head>' ;
 
   if ( ! pb )
@@ -3739,7 +3741,8 @@ function compute_histogram(data_col)
   var stats = new Stats(columns[data_col].min, columns[data_col].max,
 			columns[data_col].empty_is) ;
   for(var line in filtered_lines)
-    stats.add(filtered_lines[line][data_col].value) ;
+    if ( filtered_lines[line][0].value || filtered_lines[line][1].value )
+      stats.add(filtered_lines[line][data_col].value) ;
   return stats ;
 }
 

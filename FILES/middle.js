@@ -355,6 +355,12 @@ function header_change_on_update(event, input, what)
 	    input.selectedIndex = Number(table_attr[attr]) ;
 	  return ;
 	}
+
+      if ( table_attributes[attr].update_headers )
+	{
+	  the_current_cell.do_update_column_headers = true ;
+	  the_current_cell.update_headers() ;
+	}
       
       if ( input.selectedIndex === undefined )
 	input.value = table_attributes[attr].formatter(new_value) ;

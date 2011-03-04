@@ -1,10 +1,10 @@
 Finir par priorité :
-	Affectation référents : retester
-	MAJ de la liste des étudiants par l'utilisateur ?
+	Message destruction/extension : avec le nom de la table
+	MAJ de la liste des étudiants par l'utilisateur ? regler le changement de semestre
+	Ne pas sauvegarder le new-page si pas nécessaire (comme RO) ?
+	Dans le suivi : moyenne des notes en plus du rang.
 	Pylint
 	Doc plugins
-	redirection : garde l'ancienne ouverte ?
-	Reconnection persistente pour certains utilisateurs
 	choix année RDV IP si cela a un sens
 	Méthode javascript pour attr : editable (masters attributes)
 	Menu unexpected popdown : answer use your own menu
@@ -30,6 +30,8 @@ Finir par priorité :
 	Rendre des cellules éditables par les étudiants dans le suivi ?
 	Normaliser date début/fin : [x, y]
 	Normaliser les dates : nombre de secondes
+	Accelerer le chargement de la liste des référents.
+	Droit d'accès : généraliser la notion de groupe, pouvoir en créer
 
     BUGS :
 	Chrome : statistics per group

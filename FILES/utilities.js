@@ -1647,10 +1647,13 @@ function update_ues_favorites(txt, txt_upper)
 
   ues_favorites_sorted.sort(cmp_favorites) ;
   ues_favorites_sorted= ues_favorites_sorted.slice(0,preferences.nr_favorites);
+
+  if ( preferences.favoris_sort === "OUI" )
+    ues_favorites_sorted.sort() ;
   
   var s = ['<tr><th colspan="3">' +
 	   hidden_txt('UE Favorites',
-		      'Vous pouvez modifier cette liste en cliquant sur le <span class="ue_list_more_help">+</span>.<br>Le nombre de favoris est modifiable dans les préférences')
+		      'Vous pouvez modifier cette liste en cliquant sur le <span class="ue_list_more_help">+</span>.<br>Le nombre de favoris est modifiable dans les préférences,<br>ainsi que l\'ordre du tri.')
 	   + '</th></tr>'] ;
   display_ue_list(s, txt, txt_upper, ues_favorites_sorted) ;
   s = ue_line_join(s) ;

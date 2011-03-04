@@ -54,9 +54,9 @@ def home_page(server):
     f = server.the_file
     ticket = server.ticket
 
-    ufr = inscrits.ufr_of_teacher(ticket.user_name)
+    ufr = inscrits.L_fast.ufr_of_teacher(ticket.user_name)
 
-    if inscrits.password_ok(ticket.user_name):
+    if inscrits.L_fast.password_ok(ticket.user_name):
         password_ok = ''
     else:
         password_ok = configuration.bad_password
@@ -187,7 +187,7 @@ def home_page(server):
     mails = []
     students = []
     for login in referent.students_of_a_teacher(ticket.user_name):
-        firstname,surname,mail = inscrits.firstname_and_surname_and_mail(login)
+        firstname,surname,mail = inscrits.L_fast.firstname_and_surname_and_mail(login)
         students.append( (surname, firstname, mail,
                           utilities.the_login(login)) )
     students.sort() # alpha

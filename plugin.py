@@ -536,49 +536,12 @@ def search_plugin(server):
                 return p
     return False
 
-
-class FakeRequestHandler(object):
-    def log_time(self, *args, **keys):
-        try:
-            self.server.the_year = self.the_year
-            self.server.the_semester = self.the_semester
-        except AttributeError:
-            pass
-        self.server.log_time(*args,**keys)
-
-    def backtrace_html(self):
-        s = repr(self) + '\nRequest started %f seconds before\n' % (
-            time.time() - self.start_time, )
-        if hasattr(self, 'start_time_old'):
-            s+= 'Authentication started %f seconds before\n' % (
-            time.time() - self.start_time, )
-        s += '<h2>SERVER HEADERS</h2>\n'
-        for k,v in self.headers.items():
-            s += '<b>' + k + '</b>:' + cgi.escape(str(v)) + '<br>\n'
-        s += '<h2>SERVER DICT</h2>\n'
-        for k,v in self.__dict__.items():
-            if k != 'headers':
-                s += '<b>' + k + '</b>:' + cgi.escape(str(v)) + '<br>\n'
-        return s
-
 def dispatch_request(server, manage_error=True):
 
-    s = FakeRequestHandler()
-    s.the_path = server.the_path
-    s.headers = server.headers
-    s.ticket = server.ticket
-    s.the_file = server.the_file
-    s.start_time = server.start_time
-    if hasattr(server, 'start_time_old'):
-        s.start_time_old = server.start_time_old
-    s.server = server
-    
-    try:
-        s.year = server.year
-        s.semester = server.semester
-        s.the_port = server.the_port
-    except AttributeError:
-        pass
+    if server.__class__ is utilities.FakeRequestHandler:
+        s = server
+    else:
+        s = utilities.FakeRequestHandler(server)
     
     warn('dispatch %s' % server.the_path, what='debug')
     p = search_plugin(s)

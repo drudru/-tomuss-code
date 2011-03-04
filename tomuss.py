@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 #    TOMUSS: The Online Multi User Simple Spreadsheet
-#    Copyright (C) 2008,2010 Thierry EXCOFFIER, Universite Claude Bernard
+#    Copyright (C) 2008-2011 Thierry EXCOFFIER, Universite Claude Bernard
 #
 #    This program is free software; you can redistribute it and/or modify
 #    it under the terms of the GNU General Public License as published by
@@ -56,7 +56,7 @@ class FileProxy(object):
     def __str__(self):
         return str(self.file)
 
-class MyRequestBroker(BaseHTTPServer.BaseHTTPRequestHandler):
+class MyRequestBroker(utilities.FakeRequestHandler):
 
     def send_file(self, name):
         # print self.headers
@@ -211,9 +211,10 @@ class MyRequestBroker(BaseHTTPServer.BaseHTTPRequestHandler):
         # Don't want to be blocked by 'is_an_abj_master' test
         if self.ticket == None or not hasattr(self.ticket, 'password_ok'):
             warn('Append to authentication queue', what="auth")
-            authentication.authentication_requests.append(self)
+            authentication.authentication_requests.append(
+                utilities.FakeRequestHandler(self, full=True))
         else:
-            self.do_GET_real_real_safe()
+            plugin.dispatch_request(self)
         warn('the_file=%s(%s) wfile=%s' % (self.the_file,
                                            self.the_file.closed, self.wfile),
              what="auth")
@@ -258,11 +259,6 @@ class MyRequestBroker(BaseHTTPServer.BaseHTTPRequestHandler):
             except:
                 pass
 
-    def address_string(self):
-        """Override to avoid DNS lookups"""
-        return "%s:%d" % self.client_address
-
-
 if __name__ == "__main__":
     utilities.display_stack_on_kill()
     
@@ -280,7 +276,6 @@ if __name__ == "__main__":
         import tablestat
         import TEMPLATES._ucbl_
         configuration.do_not_display = ()
-        TEMPLATES._ucbl_.L = inscrits.LDAP()
         for table in tablestat.les_ues(2009,'Automne', true_file=True):
             warn(table.ue)
             TEMPLATES._ucbl_.student_add_allowed(table)

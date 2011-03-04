@@ -26,9 +26,6 @@ import os
 import teacher
 import configuration
 
-real_remove = True
-
-
 #REDEFINE
 # List of LDAP OU of student to be affected to a 'referent'
 def port():
@@ -50,13 +47,15 @@ def need_a_referent(login):
 def need_a_charte(login):
     return False
 
+#REDEFINE
+# Compute the student list needing a referent
 def student_list(f, pportails, not_in_list):
     f.write('<h1>Get the student list for UEs</h1>\n')
     students = {}
     for portail in pportails:
         f.write('<h2>' + portail + '</h2>')
         f.flush()
-        for sstudent in inscrits.member_of(portail):
+        for sstudent in inscrits.L_batch.member_of(portail):
             f.write(sstudent[0])
             for p in sstudent[4]:
                 if p in not_in_list:
@@ -89,8 +88,8 @@ def les_blocsnotes(year):
         ue = utilities.login_to_module(ue[:-3])
         yield document.table(str(year), 'Referents', ue, ro=True)
 
-# REDEFINE
-# This function compute for the student some attributes needed to
+#REDEFINE
+# This function computes for the student some attributes needed to
 # assign it a referent teacher.
 # Attributes are :
 # discipline (dict or set), ues (list), licence, licence_first_year
@@ -129,6 +128,13 @@ class Student(object):
         return '%s %s %s %s %s %s' % (self.key, self.firstname, self.surname,
                                    self.mail, self.ues, self.discipline.keys())
 
+    def html(self):
+        if self.mail is None:
+            self.mail = inscrits.L_batch.mail(self.key)
+        return '%s %s %s %s %s %s' % (self.key,
+                                   self.firstname, self.surname,self.mail, 
+                                   self.ues, self.discipline.keys())
+
 class Teacher(object):
     def __init__(self, name, discipline, line_key):
         self.name = name
@@ -139,6 +145,7 @@ class Teacher(object):
         self.line_key = line_key
         self.students = []
         self.nr = 0
+        self.message = []
 
     def append(self, student):
         self.students.append(student)
@@ -243,7 +250,7 @@ def add_student_to_referent(referent, student):
     add_student_to_this_line(table, line_key, line, student)
 
 
-# REDEFINE
+#REDEFINE
 # This function returns the teacher to assign to a student.
 # It is only needed for special case of the generic algorithm.
 def search_best_teacher_local(student, sorted_teachers, f, all_teachers):
@@ -265,7 +272,8 @@ def search_best_teacher(student, sorted_teachers, f, all_teachers):
                                           'old_referent'))
     if k:
         k = k.strip() # \n at the end if hand edited
-    if k in all_teachers:
+    if k in all_teachers \
+        and all_teachers[k].discipline in student.discipline:
         return all_teachers[k]
 
     # The teacher is in the same discipline with the less students.
@@ -284,7 +292,7 @@ def search_best_teacher(student, sorted_teachers, f, all_teachers):
         return tteacher
     return None
 
-# REDEFINE
+#REDEFINE
 # Returns True if the student need a referent.
 # This function can heavely modify 'all_cells' and other data
 # to make some adjustement.
@@ -297,7 +305,7 @@ def referents_students(year=None, semester=None):
     return document.table(year, semester, 'referents_students',
                           do_not_unload=1, ro=configuration.read_only)
 
-def update_referents(ticket, f):
+def update_referents(ticket, f, really_do_it = False):
 
     if not is_a_referent_master(ticket.user_name):
         f.write("You are not allowed to do this")
@@ -313,6 +321,12 @@ def update_referents(ticket, f):
     finally:
         table.unlock()
 
+    f.write('''
+    <link rel="stylesheet" href="../hidden.css" type="text/css">
+    <script src="../utilities.js"></script>
+    <script>display_tips = true;</script>
+    ''')
+
     f.write('<h1>' + configuration.year_semester[1] + ' '
             + str(configuration.year_semester[0]) + '</h1>\n')
     f.write(table.filename + '\n')
@@ -323,13 +337,7 @@ def update_referents(ticket, f):
 
     students = student_list(f, port(), not_in())
 
-    f.write('<h1>ALL %d students</h1>\n' % len(students))
-    for student in students.values():
-        if student.discipline:
-            f.write('<li> %s' % student)
-        else:
-            f.write('<li> <b>%s</b>' % student)
-
+    f.write('<h1>%d students</h1>\n' % len(students))
 
     f.write('<h1>Remove multiple instances of students or teachers</h1>\n')
     all_cells = {}
@@ -345,8 +353,9 @@ def update_referents(ticket, f):
             else:
                 if line[0].value:
                     f.write('Remove teacher: %s<br>\n' % line[0].value)
-                    table.cell_change(page, 'a', line_key, '')
-                    table.cell_change(page, 'b', line_key, '')
+                    if really_do_it:
+                        table.cell_change(page, 'a', line_key, '')
+                        table.cell_change(page, 'b', line_key, '')
                 tteacher = None
 
             for cell_key, cell in zip(table.columns, line)[2:]:
@@ -355,30 +364,32 @@ def update_referents(ticket, f):
                 cell_key = cell_key.the_id
                 if tteacher == None:
                     f.write('Student without teacher: %s<br>\n' % cell.value)
-                    table.cell_change(page, cell_key , line_key, '')
+                    if really_do_it:
+                        table.cell_change(page, cell_key , line_key, '')
                     continue
                 if cell.value not in all_cells:
                     all_cells[cell.value] = tteacher
                     if cell.value not in students:
                         f.write('%s not in the student list (%s) ' % (
-                            cell.value, line[0].value))
-                        if real_remove:
-                            f.write('REMOVED')
-                            the_student = utilities.the_login(cell.value)
+                        cell.value, line[0].value))
+                        f.write('REMOVED')
+                        the_student = utilities.the_login(cell.value)
+                        if really_do_it:
                             table.cell_change(page, cell_key, line_key, '')
                             utilities.manage_key('LOGINS',
                                                  os.path.join(the_student,
                                                               'old_referent'),
                                                  content=line[0].value)
-                        else:
-                            f.write('not removed')
-                            tteacher.append(cell.value)
+                        tteacher.message.append(u'Enlève étudiant : %s %s' %
+                                                (the_student,
+                                                ' '.join(inscrits.L_slow.firstname_and_surname_and_mail(the_student))))
                         f.write('<br>\n')
                     else:
-                        tteacher.append(cell.value)                        
+                        tteacher.append(cell.value)
                 else:
                     f.write('Remove duplicate student: %s<br>\n' % cell.value)
-                    table.cell_change(page, cell_key, line_key, '')
+                    if really_do_it:
+                        table.cell_change(page, cell_key, line_key, '')
     finally:
         table.unlock()
 
@@ -388,8 +399,7 @@ def update_referents(ticket, f):
     for student in students.values():
         if student_need_a_referent(student, all_cells, f):
             missing.append(student.key)
-        
-    f.write(repr(missing))
+            f.write(student.html() + '<br>\n')
 
 
     f.write('<h1>Teacher list sorted by number of student</h1>\n')
@@ -414,12 +424,51 @@ def update_referents(ticket, f):
         ss += ' ' + repr(students[s].discipline.keys())
 
         f.write('<li><b>' + tteacher.name + '[' + str(tteacher.nr) + ']</b> (%s): '
-                % (tteacher.discipline,) + ss) 
+                % (tteacher.discipline,) + ss)
         tteacher.append(s)
-        add_student_to_this_line(table,
-                                 tteacher.line_key,
-                                 table.lines[tteacher.line_key],
-                                 s)
+        tteacher.message.append(u'Ajoute étudiant : %s' % students[s].html())
+        if really_do_it:
+            add_student_to_this_line(table,
+                                     tteacher.line_key,
+                                     table.lines[tteacher.line_key],
+                                     s)
 
         # Remove student from lists
         missing.remove(s)
+
+    f.write('<h1>Résume</h1>\n')
+    my_mail = inscrits.L_slow.mail(ticket.user_name)
+    for tteacher in sorted_teachers:
+        if not tteacher.message:
+            continue
+        f.write('<li> %s<br>\n' % tteacher.name
+                + '<br>\n'.join(tteacher.message).encode('utf8'))
+
+        if really_do_it:
+            utilities.send_mail(inscrits.L_batch.mail(tteacher.name),
+                                "Changements d'etudiants referes",
+                                (u"""Bonjour
+
+La liste de vos étudiants référés vient de changer automatiquement.
+
+* Un étudiant est considéré comme faisant la licence FST
+  s'il suit une UE de la licence FST.
+  C'est le seul critère permettant de ne pas oublier les étudiants
+  qui viennent de Médecine, IUT...
+
+* Un étudiant n'ayant pas fait son IP n'as de référent.
+
+* Quand un étudiant revient, son ancien référent lui est affecté si possible.
+
+Voici la liste des changements :
+
+%s
+
+La liste à jour est celle indiquée sur http://TOMUSS.univ-lyon1.fr
+
+Amicalement.
+
+""" % '\n'.join(tteacher.message)).encode('latin1'), frome=my_mail)
+
+        
+        

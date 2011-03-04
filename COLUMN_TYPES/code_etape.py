@@ -40,7 +40,7 @@ class Code_Etape(text.Text):
         return the_table.columns.data_col_from_title(id_column_title)
 
     def get_one_value(self, student_id):
-        return etapes_text(inscrits.L.etapes_of_student(student_id))
+        return etapes_text(inscrits.L_slow.etapes_of_student(student_id))
 
     def update_one(self, the_table, line_id, column):
         data_col = self.data_col(the_table, column)
@@ -55,7 +55,7 @@ class Code_Etape(text.Text):
             the_table.unlock()
 
     def get_all_values(self, students):
-        students_etapes = inscrits.L.etapes_of_students(tuple(students))
+        students_etapes = inscrits.L_batch.etapes_of_students(tuple(students))
         formatted = {}
         for student, etapes in students_etapes.items():
             try:

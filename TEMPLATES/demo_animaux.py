@@ -93,8 +93,8 @@ def update_inscrits_ue(the_ids, table, page):
 
 def create_column(table, title, content_type, average=10., delta=5.):
     p = table.pages[1]
-    table.column_attr(p, title, 'title', title)
     table.column_attr(p, title, 'type', content_type)
+    table.column_attr(p, title, 'title', title)
     table.column_attr(p, title, 'comment',
                       'Column auto generated for demo purpose')
     data_col = table.columns.data_col_from_title(title)
@@ -115,20 +115,23 @@ def create_column(table, title, content_type, average=10., delta=5.):
 def check(table):
     _ucbl_.check(table, update_inscrits_ue)
 
+    if table.columns.from_id('#ABINJ') is None:
+        return
+
     table.lock()
     try:
         p = table.pages[1]
         create_column(table, 'CM1', 'Prst')
         create_column(table, 'CM2', 'Prst')
         create_column(table, 'CM3', 'Prst')
-        table.column_attr(p, '#ABINJ', 'title', '#ABINJ')
         table.column_attr(p, '#ABINJ', 'type', 'Nmbr')
+        table.column_attr(p, '#ABINJ', 'title', '#ABINJ')
         table.column_attr(p, '#ABINJ', 'columns', "CM1 CM2 CM3")
         create_column(table, 'TP1', 'Note', 10, 3)
         create_column(table, 'TP2', 'Note', 8, 2)
         create_column(table, 'TP3', 'Note', 14, 1)
-        table.column_attr(p, 'Avg.TP', 'title', 'Avg.TP')
         table.column_attr(p, 'Avg.TP', 'type', 'Moy')
+        table.column_attr(p, 'Avg.TP', 'title', 'Avg.TP')
         table.column_attr(p, 'Avg.TP', 'columns', "TP1 TP2 TP3")
     finally:
         table.unlock()

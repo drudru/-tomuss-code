@@ -183,7 +183,7 @@ def display_fusion(f, year, semester, path,
     f.write('<table class="colored">')
     f.write('<tbody>')
     for student, values in students.items():
-        firstname, surname = inscrits.firstname_and_surname(student)
+        firstname, surname = inscrits.L_batch.firstname_and_surname(student)
         f.write('<tr><td>' + inscrits.login_to_student_id(student)
                 + '<td>' + firstname.encode('utf8')
                 + '<td>' + surname.encode('utf8')

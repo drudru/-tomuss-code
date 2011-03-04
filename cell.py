@@ -288,7 +288,7 @@ class Lines(object):
         """
         more = []
         for login in table.masters:
-            firstname, surname, mail = inscrits.firstname_and_surname_and_mail(login)
+            firstname, surname, mail = inscrits.L_fast.firstname_and_surname_and_mail(login)
             more.append('<a href="mailto:%s">%s %s</a>' %
                         (mail, firstname.title().encode('utf8'),
                          surname.upper().encode('utf8')))

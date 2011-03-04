@@ -350,6 +350,21 @@ Nouvelles fonctionnalités :
       </description>
       <guid>27</guid>
     </item>
+    <item>
+      <title>02/03/2011 : Version 2.12.20</title>
+      <link>http://tomuss.univ-lyon1.fr/</link>
+      <description>
+Depuis la version 2.12.6 ce sont principalement des bugs qui ont été
+corrigés, ou bien des fonctionnalités liées à la prise des rendez-vous IP.
+Les changements visibles par tous :
+&lt;ul&gt;
+&lt;li&gt; L'interface de gestion des mails a été changé.
+&lt;li&gt; Les noms/mails de responsables d'UE sont affichés dans le suivi.
+&lt;li&gt; On peut trier les UE favorites par code UE.
+&lt;/ul&gt;
+      </description>
+      <guid>28</guid>
+    </item>
 
   </channel>
 </rss>

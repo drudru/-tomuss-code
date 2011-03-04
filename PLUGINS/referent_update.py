@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 #    TOMUSS: The Online Multi User Simple Spreadsheet
-#    Copyright (C) 2008 Thierry EXCOFFIER, Universite Claude Bernard
+#    Copyright (C) 2008-2011 Thierry EXCOFFIER, Universite Claude Bernard
 #
 #    This program is free software; you can redistribute it and/or modify
 #    it under the terms of the GNU General Public License as published by
@@ -24,12 +24,13 @@ import referent
 
 def update_referents(server):
     """Dispatch students without referents to a referent."""
-    referent.update_referents(server.ticket, server.the_file)
+    referent.update_referents(server.ticket, server.the_file,
+                              really_do_it=True)
 
 plugin.Plugin('referents_update', '/referents',
               function=update_referents, referent_master=True,
               launch_thread=True,
-              link=plugin.Link(text='Affectation des référents pédagogiques',
+              link=plugin.Link(text="Faire l'affectation des référents pédagogiques",
                                help="""Met à jour les affectations des
                                enseignants référents pédagogiques.
                                La procédure contient beaucoup d'heuristiques.
@@ -39,5 +40,21 @@ plugin.Plugin('referents_update', '/referents',
                                html_class='veryunsafe',
                                where='abj_master',
                                priority=1000,
-                               ),                               
+                               ),
+              )
+
+def update_referents_safe(server):
+    """Dispatch students without referents to a referent."""
+    referent.update_referents(server.ticket, server.the_file,
+                              really_do_it=False)
+
+plugin.Plugin('referents_update_safe', '/referents_safe',
+              function=update_referents_safe, referent_master=True,
+              launch_thread=True,
+              link=plugin.Link(text="Afficher l'affectation des référents pédagogiques",
+                               help="Affiche ce que l'affectation va faire.",
+                               html_class='verysafe',
+                               where='abj_master',
+                               priority=1000,
+                               ),
               )

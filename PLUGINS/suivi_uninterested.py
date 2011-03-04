@@ -127,7 +127,7 @@ def uninterested(f, year, semester, port):
     f.write('<tr><td>Étudiants<td>Mail<td>#de notes<td>#Visites à TOMUSS\n')
     f.write('<td>RDV 1<td>RDV 2<td>Jury Automne<td>RDV 3<td>RDV 4<td>Jury Printemps<td>Référent pédagogique<td>UE 1<td>UE 2<td>UE 3<td>UE 4<td>UE 5</tr>\n')
     for s in k:
-        student_mail = inscrits.mail(s)
+        student_mail = inscrits.L_batch.mail(s)
         if student_mail == None:
             student_mail = '???'
         x = '<tr><td>' + student_mail + '</td><td>' + s + '</td><td>' + str(students_notes[s]) \
@@ -138,7 +138,7 @@ def uninterested(f, year, semester, port):
         if utilities.manage_key('LOGINS', utilities.charte(s, year, semester)):
             bn[2] += '(Charte Signée)'
 
-        referent_mail = inscrits.mail(referent.referent(year, semester, s))
+        referent_mail = inscrits.L_batch.mail(referent.referent(year, semester, s))
         if referent_mail == None:
             referent_mail = ''
         else:

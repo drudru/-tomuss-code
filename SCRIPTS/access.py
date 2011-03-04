@@ -97,38 +97,40 @@ class Stats:
 
     def plot_weeks(self, name):
         a = self.date_number()
-        s = []
-        for v in a:
-            s.append("%d %d" % v)
-        s = '\n'.join(s)
-        f = open('xxx', 'w')
-        f.write(s)
-        f.close()
         av = sum([v[1] for v in a]) / float(len(a))
-        
-        s = []
         start_year, start_month = time.localtime(a[0][0])[0:2]
 
-        while True:
-            tup = (start_year, start_month, 1, 0, 0, 0, 0, 0, 0)
+        year = start_year
+        years = []
+        while a:
+            f = open('xxx.%d' % year, 'w')
+            while a:
+                local = time.localtime(a[0][0])
+                if local[0] == year:
+                    f.write("%d %d\n" % (local[7], a.pop(0)[1]))
+                else:
+                    break
+            f.close()
+            years.append("'xxx.%d' with lines lw 2 title \"%d\""
+                         % (year, year))
+            year += 1
+                        
+        
+        s = []
+        for month in range(1,13):
+            tup = (2000, month, 1, 0, 0, 0, 0, 0, 0)
             i = time.mktime( tup )
-            if i > a[-1][0]:
-                break
             tup = time.localtime(i)
-            label = time.strftime("%m/%y", tup)
-            start_month += 1
-            if start_month == 13:
-                start_month = 1
-                start_year += 1        
-            s.append('"%s" %d' % (label, i))
+            label = time.strftime("%b", tup)
+            s.append('"%s" %d' % (label, tup[7]))
 
+        # years.reverse()
         plot(name, 'set xtics (%s)\n' % ','.join(s)
              + """
              set grid ytics
              set grid xtics
-             set xtics rotate 
-             plot 'xxx' with boxes fs solid 0.3 title \"Par semaine\", %g with lines title \"Moyenne\"
-             """ % av)
+             plot %s, %g with lines title \"Moyenne\"
+             """ % (','.join(years), av))
 
 
 d = configuration.db + '/Y*/S*/*.py'

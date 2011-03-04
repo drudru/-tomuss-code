@@ -97,9 +97,11 @@ for syear in os.listdir(configuration.db):
             name = ue.ue
             if not name.startswith('UE-'):
                 continue
+            if ue.is_extended:
+                continue
             if name[-1].isdigit():
                 continue
-            if name[-1] != 'L': # Licence
+            if name[-1] != 'L' and name[-1] != 'M': # Licence and master
                 continue
             name = name[3:]
 
@@ -123,7 +125,7 @@ def safe(x):
     return re.sub('[^a-zA-Z]', '_', x).encode('latin1')
 
 for i, ues in students.items():
-    # a = inscrits.firstname_and_surname(i)
+    # a = inscrits.L_batch.firstname_and_surname(i)
     # print i, safe(a[1].upper()), safe(a[0].lower()),
     s = sorted(list(ues), key=lambda x: len(ues[x].infos))
     s.reverse()

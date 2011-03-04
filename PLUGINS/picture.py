@@ -37,12 +37,21 @@ def picture(server):
                                                                login)))
     except IOError:
         pass
-    
 
 plugin.Plugin('picture', '/picture/{?}',
               function=picture,
               mimetype='image/jpeg',
               teacher=True,
+              )
+
+def my_picture(server):
+    server.something = inscrits.login_to_student_id(server.ticket.user_name) + '.JPG'
+    picture(server)
+
+plugin.Plugin('my_picture', '/picture/{?}',
+              function=my_picture,
+              mimetype='image/jpeg',
+              teacher=False,
               )
 
 

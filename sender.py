@@ -74,8 +74,14 @@ class File(object):
                 self.file.close()
         except:
             # Close on error
-            if not self.file.closed:
-                self.file.close()
+            try:
+                if not self.file.closed:
+                    self.file.close()
+            except socket.error:
+                try:
+                    self.file.closed = True
+                except AttributeError:
+                    pass
             
             append.the_lock.acquire()            
             self.in_processing = False

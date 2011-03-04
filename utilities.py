@@ -27,6 +27,7 @@ import traceback
 import configuration
 import cgi
 import threading
+import shutil
 
 def read_file(filename):
     f = open(filename, 'r')
@@ -109,7 +110,15 @@ def append_file_safe(filename, content):
     if configuration.backup:
         append_file(configuration.backup + filename, content)
 
-def unlink_safe(filename):
+def unlink_safe(filename, do_backup=True):
+    if do_backup and os.path.exists(filename):
+        dirname = os.path.join('Trash', time.strftime('%Y%m%d'))
+        mkpath(dirname)
+
+        shutil.move(filename,
+                    os.path.join(dirname,
+                                 filename.replace(os.path.sep, '___'))
+                    )
     try:
         os.unlink(filename)
     except OSError:
@@ -121,6 +130,7 @@ def unlink_safe(filename):
             pass
 
 def rename_safe(old_filename, new_filename):
+    unlink_safe(new_filename)
     os.rename(old_filename, new_filename)
     if configuration.backup:
         os.rename(configuration.backup + old_filename,
@@ -362,6 +372,8 @@ def frame_info(frame, displayed):
                 s += "<p><b>" + cgi.escape(k) + "</b>:<br>" + v.backtrace_html() + "\n"
             except AttributeError:
                 pass
+            except TypeError:
+                pass
             displayed[id(v)] = True
     s += '</tr>'
     return s
@@ -480,7 +492,7 @@ def register_cache(f, fct, timeout, the_type):
     caches.append(f)
 
 def clean_cache0(f):
-    if time.time() - f.cache[1] > f.timeout:
+    if f.cache[1] and time.time() - f.cache[1] > f.timeout:
         f.cache = ('', 0)
 
 
@@ -489,9 +501,11 @@ def add_a_cache0(fct, timeout=None):
     if timeout is None:
         timeout = 3600
     def f(fct=fct, timeout=timeout):
-        if time.time() - f.cache[1] > f.timeout:
-            f.cache = (fct(), time.time())
-        return f.cache[0]
+        cache = f.cache
+        if time.time() - cache[1] > f.timeout:
+            cache = (fct(), time.time())
+            f.cache = cache
+        return cache[0]
     f.cache = ('', 0)
     register_cache(f, fct, timeout, 'add_a_cache0')
     f.clean = clean_cache0
@@ -508,16 +522,15 @@ def add_a_cache(fct, timeout=None, not_cached='neverreturnedvalue'):
     if timeout is None:
         timeout = 3600
     def f(x, fct=fct, timeout=timeout, not_cached=not_cached):
-        if x not in f.cache:
-            f.cache[x] = (fct(x), time.time())
-        else:
-            if time.time() - f.cache[x][1] > timeout:
-                f.cache[x] = (fct(x), time.time())
-        if f.cache[x][0] == not_cached:
-            del f.cache[x]
+        cache = f.cache.get(x, ('',0))
+        if time.time() - cache[1] > timeout:
+            cache = (fct(x), time.time())
+            
+        if cache[0] == not_cached:
             return not_cached
         else:
-            return f.cache[x][0]
+            f.cache[x] = cache
+            return cache[0]
     f.cache = {}
     register_cache(f, fct, timeout, 'add_a_cache')
     f.clean = clean_cache
@@ -530,16 +543,15 @@ def add_a_method_cache(fct, timeout=None, not_cached='neverreturnedvalue'):
     if timeout == None:
         timeout = 3600
     def f(self, x, fct=fct, timeout=timeout, not_cached=not_cached):
-        if x not in f.cache:
-            f.cache[x] = (fct(self,x), time.time())
-        else:
-            if time.time() - f.cache[x][1] > timeout:
-                f.cache[x] = (fct(self,x), time.time())
-        if f.cache[x][0] == not_cached:
-            del f.cache[x]
+        cache = f.cache.get(x, ('',0))
+        if time.time() - cache[1] > timeout:
+            cache = (fct(self, x), time.time())
+            
+        if cache[0] == not_cached:
             return not_cached
         else:
-            return f.cache[x][0]
+            f.cache[x] = cache
+            return cache[0]
     f.cache = {}
     register_cache(f, fct, timeout, 'add_a_method_cache')
     f.clean = clean_cache
@@ -781,6 +793,65 @@ def print_lock_state_clean_cache():
             cache.clean(cache)
             
         time.sleep(60)
+
+import BaseHTTPServer
+
+class FakeRequestHandler(BaseHTTPServer.BaseHTTPRequestHandler):
+    """Used because there is only only one request handler for every request.
+    And the initial TOMUSS version was not assuming this.
+    A clean program must not store information in the request handler object
+    """
+    def __init__(self, *args, **keys):
+        if len(args) != 1:
+            BaseHTTPServer.BaseHTTPRequestHandler.__init__(self, *args)
+            return
+        server = args[0]
+        if 'full' in keys:
+            self.__dict__.update(server.__dict__)
+        else:
+            self.path = server.path
+            self.client_address = server.client_address
+            
+        self.the_path = server.the_path
+        self.headers = server.headers
+        self.ticket = server.ticket
+        self.the_file = server.the_file
+        self.start_time = server.start_time
+        if hasattr(server, 'start_time_old'):
+            self.start_time_old = server.start_time_old
+        self.server = server
+
+        try:
+            self.year = server.year
+            self.semester = server.semester
+            self.the_port = server.the_port
+        except AttributeError:
+            pass
+
+    def backtrace_html(self):
+        s = repr(self) + '\nRequest started %f seconds before\n' % (
+            time.time() - self.start_time, )
+        if hasattr(self, 'start_time_old'):
+            s+= 'Authentication started %f seconds before\n' % (
+            time.time() - self.start_time, )
+        s += '<h2>SERVER HEADERS</h2>\n'
+        for k,v in self.headers.items():
+            s += '<b>' + k + '</b>:' + cgi.escape(str(v)) + '<br>\n'
+        s += '<h2>SERVER DICT</h2>\n'
+        for k,v in self.__dict__.items():
+            if k != 'headers':
+                s += '<b>' + k + '</b>:' + cgi.escape(str(v)) + '<br>\n'
+        return s
+
+    def address_string(self):
+        """Override to avoid DNS lookups"""
+        return "%s:%d" % self.client_address
+
+    def log_time(self, action, **keys):
+        try:
+            self.server.__class__.log_time.im_func(self, action, **keys)
+        except TypeError:
+            self.server.__class__.log_time.__func__(self, action, **keys)
 
 def start_threads():
     start_new_thread_immortal(print_lock_state_clean_cache, ())

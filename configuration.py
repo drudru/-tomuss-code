@@ -101,6 +101,9 @@ abj_per_semester = True
 # The years strictly before have abj per semester.
 abj_per_semester_before = 2011
 
+# Display students UE list for which there is no TOMUSS table
+suivi_display_more_ue = True
+
 # Return True if the name is the code of an official UE.
 # The official UE are displayed to the students in the suivi.
 def is_an_official_ue(code):
@@ -282,7 +285,7 @@ the_portails = {
     'UFRFST' :
     (
         'CN=148891 CGE-UFR Sciences et Technologie,OU=groupes,OU=etudiants,DC=univ-lyon1,DC=fr',
-#        'CN=139284 APO-UFR Sciences et Technologie,OU=groupes,OU=etudiants,DC=univ-lyon1,DC=fr',
+        'CN=139284 APO-UFR Sciences et Technologie,OU=groupes,OU=etudiants,DC=univ-lyon1,DC=fr',
 #        'CN=OU=UFR Sciences et Technologies,DC=univ-lyon1,DC=fr',
         ),
     }
@@ -390,6 +393,5 @@ def terminate():
             backup = ''
 
     import inscrits
-    utilities.warn('Create LDAP connector')
-    inscrits.L = inscrits.LDAP()
+    inscrits.init()
 

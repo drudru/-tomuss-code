@@ -44,7 +44,7 @@ def safe(txt):
     return re.sub('[^0-9a-zA-Z-. _]', '', txt)
 
 class LDAP_Logic(object):
-    def member_of(self, groupe,base=configuration.ou_students):
+    def member_of(self, groupe, base=configuration.ou_students):
         """Iterator over the members of a group"""
         alls = self.query(base=base,
                           search='(memberOf=%s)' % groupe,
@@ -100,21 +100,29 @@ class LDAP_Logic(object):
 
     def ues_of_a_student_with_groups(self, name):
         """List of UEs where the student as triplets (ue, group, sequence)."""
-        a = tuple(self.member_of_list(name))
-        if len(a) == 0:
+        groups = tuple(self.member_of_list(name))
+        if len(groups) == 0:
             return []
-        def parse(x):
-            x = x.split(',')[0].split('-')
-            
-            grp_seq = x[-1].split('_')
-            try:
-                return x[-2], grp_seq[0], grp_seq[1][1:]
-            except IndexError:
-                return x[-2], grp_seq[0], ''
-        return [parse(aa)
-                for aa in a
-                if 'GRP-GRP' in aa
-                ]
+        ues = set()
+        result = []
+        for group in groups:
+            if 'GRP-GRP' in group:
+                group = group.split(',')[0].split('-')
+                ue = group[-2]
+                grp_seq = group[-1].split('_')
+                try:
+                    result.append((ue, grp_seq[0], grp_seq[1][1:]))
+                except IndexError:
+                    result.append((ue, grp_seq[0], ''))
+                ues.add(ue)
+                
+        for group in groups:
+            if group.startswith(configuration.ou_ue_starts):
+                ue = group.split(' ')[0][6:]
+                if ue not in ues: # Do not erase existing group
+                    result.append((ue, '', ''))
+
+        return result
 
     def get_attributes(self, login, attributes):
         """From the login of the person, retrieve the attributes"""
@@ -592,21 +600,16 @@ class LDAP(LDAP_Logic):
                 return a[1]
         return {}
 
-L = None
+L_fast  = None # Fast interactive access
+L_slow  = None # Slow request interactive access
+L_batch = None # Any request in a batch thread
 
-def mail(login):                  return L.mail(login)
-def get_ldap_ues():               return L.get_ldap_ues()
-def portail(login):               return L.portail(login)
-def ues_of_a_student(name):       return L.ues_of_a_student(name)
-def ues_of_a_student_short(name): return L.ues_of_a_student_short(name)
-def firstname_and_surname(login): return L.firstname_and_surname(login)
-def phone(login):                 return L.phone(login)
-def member_of_list(login):        return L.member_of_list(login)
-def ufr_of_teacher(login):        return L.ufr_of_teacher(login)
-def is_a_teacher(login):          return L.is_a_teacher(login)
-def is_an_abj_master(login):      return L.is_an_abj_master(login)
-def is_an_administrative(login):  return L.is_an_administrative(login)
-def is_a_referent(login):         return L.is_a_referent(login)
+def init():
+    global L_fast, L_slow, L_batch
+    utilities.warn('Create LDAP connector')
+    L_fast = LDAP()
+    L_slow = LDAP('LDAP2')
+    L_batch = LDAP('LDAP3')
 
 #REDEFINE
 # If the student login in LDAP is not the same as the student ID.
@@ -621,30 +624,6 @@ def login_from_ldap(i):
     else:
         return i[configuration.attr_login][0]
 
-def member_of(groupe):
-    for i in L.member_of(groupe):
-        yield i
-
-def firstname_and_surname_and_mail(login):
-    return L.firstname_and_surname_and_mail(login)
-def firstname_and_surname_to_login(firstname, surname):
-    return L.firstname_and_surname_to_login(firstname, surname)
-def firstname_surname_to_login(firstname_surname):
-    return L.firstname_surname_to_login(firstname_surname)
-def firstname_or_surname_to_logins(name, base=None, attributes=None):
-    return L.firstname_or_surname_to_logins(name, base, attributes)
-def is_in_one_of_the_groups(login, groups):
-    return L.is_in_one_of_the_groups(login, groups)
-
-def password_ok(login):
-    """Returns True if the password if fine"""
-    return L.password_ok(login)
-
-def students(ue):
-    for i in L.students(ue):
-        yield i
-
-        
 demo_animaux = {
     'k01':('k01',u'Bernard' ,u'BONOBO'      ,'bbonobo@africa.net'     ,'M',''),
     'k02':('k02',u'Georges' ,u'ROUGE GORGE' ,'grouge-gorge@europe.net','O',''),
@@ -664,7 +643,7 @@ demo_animaux = {
 if __name__ == "__main__":
     import document # If not here, this main can't execute ???
     configuration.terminate()
-    import inscrits
+    inscrits.init()
     L = inscrits.LDAP()
     for i in firstname_or_surname_to_logins('thierry'):
         print i
@@ -673,44 +652,4 @@ if __name__ == "__main__":
     print L.ues_of_a_student_short('p0704986')
     for i in L.ues_of_a_student_with_groups('p0704986'):
         print i
-    addfas
-    print ufr_of_teacher('thierry.excoffier')
-    print firstname_or_surname_to_logins('excoffier')
-
-    if False:
-        # display mails of the member of a group
-        for j in L.query('(memberOf=CN=1072 APO-Etudes Doctorales,OU=groupes,OU=etudiants,DC=univ-lyon1,DC=fr)',
-                         base=configuration.ou_students,
-                         attributes=(configuration.attr_mail,)):
-            j = j[1]
-            if configuration.attr_mail in j:
-                print j[configuration.attr_mail][0]
-
-    if False:
-        print firstname_surname_to_login('Patrick Ravel-Chapuis')
-        print firstname_surname_to_login('Guy-Marie Arnaud')
-        print firstname_surname_to_login('bruno mascret')
-        print firstname_surname_to_login('anne-lyse papini')
-        print firstname_surname_to_login('anne lyse papini')
-        print firstname_surname_to_login('behzad shariat')
-        print firstname_surname_to_login('isabelle guerin-lassous')
-        print firstname_surname_to_login('amelie cordier')
-        print firstname_surname_to_login('beatrice leca bouvier')
-        print firstname_surname_to_login('christelle bidaud-bonod')
-        print firstname_surname_to_login('Juliette Tuaillon')
-    if False:
-        print password_ok("evelyne.martel")
-    if False:
-        configuration.allow_student_list_baseip = False
-        print list(students('UE-INF1001L'))
-    if False:
-        s = 'Éliane PERNA'
-        print ues_of_a_student(s)
-        print firstname_and_surname(s)
-        print firstname_and_surname_to_login(u'Éliane', u'Perna')
-        print '================'
-        print is_a_teacher('thierry.excoffier')
-        print '================'
-        print L.query(search='(displayname=GELAS Patrick)',
-                      base=configuration.ou_top)
 

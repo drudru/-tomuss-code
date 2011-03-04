@@ -33,7 +33,7 @@ def send(server, values, f):
     
 def login_list(server):
     """Retrieve information about any person, not only teachers"""
-    a = inscrits.firstname_or_surname_to_logins(
+    a = inscrits.L_slow.firstname_or_surname_to_logins(
         server.the_path[0],
         attributes=[configuration.attr_login,
                     configuration.attr_surname,
