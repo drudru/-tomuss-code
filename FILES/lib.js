@@ -5206,6 +5206,8 @@ function reconnect()
       return ;
     }
   var server_answer = document.getElementById('server_answer') ;
+  if ( ! server_answer )
+    return ;
   server_answer.src = url + "/=" + ticket + '/' + year
     + '/' + semester + '/' + ue + '/' + page_id ;
   last_reconnect = millisec() ;

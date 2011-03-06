@@ -1,4 +1,8 @@
 Finir par priorité :
+	CMI
+	Préferences : trier
+	Nom de jeune fille
+	Utilitaire générateur de colonne pour les templates.
 	Message destruction/extension : avec le nom de la table
 	MAJ de la liste des étudiants par l'utilisateur ? regler le changement de semestre
 	Ne pas sauvegarder le new-page si pas nécessaire (comme RO) ?
@@ -16,7 +20,6 @@ Finir par priorité :
 	Bug ajoute + vidage de ligne avec changement de page
 	BILAN : probleme icone+note sous IE
 	RSS table : TT DA, ajouter + info dans le texte et le sujet ?
-	Nom de jeune fille
 	Mettre UNE table en lecture seulement : Envoyer mail a l'administratif
 	live_status : pong ne doit pas mettre la date courante si existe pas
 	live_status : écarter les noeuds collés.

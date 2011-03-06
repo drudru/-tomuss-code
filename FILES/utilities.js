@@ -2245,6 +2245,8 @@ function update_histogram_real()
   do_update_histogram = false ;
   if ( the_current_cell.data_col == update_histogram_data_col )
     return ;
+  if ( ! t_column_histogram )
+    return ;
   update_histogram_data_col = the_current_cell.data_col ;
 
 

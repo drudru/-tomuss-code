@@ -1,6 +1,6 @@
 /*
     TOMUSS: The Online Multi User Simple Spreadsheet
-    Copyright (C) 2009 Thierry EXCOFFIER, Universite Claude Bernard
+    Copyright (C) 2009-2011 Thierry EXCOFFIER, Universite Claude Bernard
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -177,7 +177,7 @@ function Linear()
 	  return "" ;
       },
       function(value) {
-	column_attr_set(this.L.column(), 'test', value) ;
+	column_attr_set(this.L.column(), 'minmax', value) ;
 	this.L.update_column() ;
       },
       function() { return column_change_allowed_text(this.L.column()) ; },
@@ -319,7 +319,7 @@ function Linear()
       'Responsables',
       function() { return teachers.toString().replace(/,/g,' ') ; },
       function(value) {
-	table_attr_set('masters', teachers) ;
+	table_attr_set('masters', value) ;
       },
       function() {
 	if ( table_attr.modifiable&&(i_am_the_teacher||teachers.length == 0) )
@@ -365,12 +365,14 @@ function linear_w_real()
     }
   if ( L.input_to_init !== undefined )
     {
-      L.input.style.width = '100%' ;
       L.input_edit = true ;
       L.input.value = L.input_to_init ;
       L.input.initial_value = L.input.value ;
-      L.input.select() ;
       L.input_to_init = undefined ;
+      L.input.style.display = '' ;
+      L.input.select() ;
+      L.input.focus() ;
+      document.body.scrollTop = 10000000 ;
     }
 }
 
@@ -557,8 +559,8 @@ function linear_onkeypress(event)
   event = the_event(event) ;
   if ( event.keyCode == 13 )
     {
-      L.stop_edit() ;
       stop_event(event) ;
+      L.stop_edit() ;
       return false ;
     }
   if ( event.keyCode != 27 )
@@ -590,7 +592,7 @@ function linear_stop_edit(abort)
     this.information.change(this.input.value) ;
   this.input_edit = false ;
   this.input.value = '' ;
-  this.input.style.width = '1em' ;
+  this.input.style.display = 'none' ;
 
   if ( this.informations_save !== undefined )
     {
@@ -711,7 +713,7 @@ function linear_help()
     ('<p>Chaque ligne du tableau contient les informations sur un étudiant. '+
      '<ul><li>Les touches curseur permettent de se déplacer dans le tableau.'+
      "<li><kbd>i</kbd> permet de naviguer parmi les informations affichables."+
-     "<li><kbd>a</kbd> l'aide affiche une explication concernant ce que vous voyez."+
+     "<li><kbd>a</kbd> affiche une explication sur la valeur affichée."+
      "<li><kbd>entrée</kbd> permet d'éditer une valeur." +
      " <kbd>escape</kbd> annule la saisie en cours."+
      "<li>Si l'on utilise la touche majuscule en même temps qu'une des "+
@@ -838,7 +840,8 @@ function dispatch(x)
       update_filtered_lines() ;
       L = new Linear() ;
       L.input = document.getElementsByTagName('INPUT')[0] ;
-      L.input.focus();
+      L.input.style.width = '100%' ;
+      L.input.style.display = 'none' ;
       L.display() ;
       return ;
     }
@@ -847,6 +850,14 @@ function dispatch(x)
       L.onkeypress(x) ;
       return ;
     }
+  if ( x.keyCode == 13 && L.input_edit === false )
+    {
+      // Do not take into account the 'Return' just after a 'stop_edit'
+      L.input_edit = 0 ;
+      return ;
+    }
+  L.input_edit = 0 ;
+
   if ( x.altKey || x.ctrlKey )
     return ;
 
@@ -858,6 +869,8 @@ function dispatch(x)
   if ( k == null )
     k = '' ;
   k = k.toLowerCase() ;
+
+
 
   switch( x.keyCode )
     {

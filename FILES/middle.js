@@ -62,7 +62,7 @@ function head_html()
     preferences.interface = 'L' ;
   if ( preferences.interface == 'L' )
     {
-      return '</head><body id="body" onunload="send_key_history()" class="tomuss">' +
+      return '</head><body id="body" onunload="send_key_history()" class="tomuss"  onkeydown="dispatch2(the_event(event))" onkeypress="dispatch(the_event(event))">' +
 	'<style>' +
 	'ul { margin-top: 0px ; margin-bottom: 0px; }\n' +
 	'@media speech { u { pause-after: 1s; } }\n' +
