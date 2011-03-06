@@ -1217,7 +1217,7 @@ function close_frame()
 function do_extension(code)
 {
   ue_line_close() ;
-  if ( confirm("Cette opération est irréversible.\nLes étudiants seront les mêmes pour l'automne et le printemps.\nVous êtes sûr de vouloir le faire ?") )
+  if ( confirm("Extension de " + code + ".\n\nCette opération est irréversible.\nLes étudiants seront les mêmes pour l'automne et le printemps.\nVous êtes sûr de vouloir le faire ?") )
     {
       var year = the_year() ;
       if ( semester() == 'Automne')
@@ -1233,7 +1233,7 @@ function do_delete(ue_code)
 {
   var code ;
   ue_line_close() ;
-  if ( confirm("Cette DESTRUCTION est irréversible sauf pour l'administrateur TOMUSS.\nVous êtes sûr de vouloir le faire ?") )
+  if ( confirm("Destruction de " + ue_code + ".\n\nCette DESTRUCTION est irréversible sauf pour l'administrateur TOMUSS.\nVous êtes sûr de vouloir le faire ?") )
     {
       if ( ue_code.search('/') == -1 )
 	code = base + year_semester() + '/' + ue_code ;
