@@ -28,7 +28,6 @@ import time
 import plugins
 import hashlib
 import data
-import document
 import os
 import files
 
@@ -136,6 +135,7 @@ class ColumnAttr(object):
 
         column.author = page.user_name
 
+        import document # Import here (problem with circular import)
         document.column_changed_list.append((table, column, self))
 
         return 'ok.png'
