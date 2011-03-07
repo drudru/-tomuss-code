@@ -70,10 +70,10 @@ def check(table):
 
         # Add/update new attributes
         for lin, value in prefs.items():
-            table.cell_change(p_ro, '0_0', lin, value[0])
-            table.cell_change(p_ro, '0_1', lin, value[1])
             if lin not in table.lines:
                 table.cell_change(p_rw, '0_3', lin, value[1])
+            table.cell_change(p_ro, '0_0', lin, value[0])
+            table.cell_change(p_ro, '0_1', lin, value[1])
     finally:
         table.unlock()
 
