@@ -243,9 +243,9 @@ class Table(object):
         self.is_extended = os.path.islink(self.filename)
 
         self.template = import_template((
-            ('LOCAL', 'LOCAL.TEMPLATES', self.ue_code),
+            ('LOCAL', 'LOCAL_TEMPLATES', self.ue_code),
             ('TEMPLATES', self.ue_code),
-            ('LOCAL', 'LOCAL.TEMPLATES', self.semester),
+            ('LOCAL', 'LOCAL_TEMPLATES', self.semester),
             ('TEMPLATES', self.semester),
             ))
         if self.template is None:            
@@ -871,7 +871,21 @@ la dernière saisie.
                     a[cell.author] = True
         return list(a.keys())
 
-
+    def update_columns(self, columns):
+        """Update the default columns of the table.
+        This can be called by the TEMPLATE 'check' method
+        """
+        ro_page = self.pages[0]
+        locked = self.the_lock.locked()
+        try:
+            if not locked:
+                self.lock()
+            for col in sorted(columns):
+                for attr, value in columns[col].items():
+                    self.column_attr(ro_page, col, attr, str(value))
+        finally:
+            if not locked:
+                self.unlock()
 
     def content(self, page):
         warn('%s content for page %d' % (

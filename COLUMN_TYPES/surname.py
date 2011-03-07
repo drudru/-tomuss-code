@@ -26,4 +26,4 @@ class Surname(mail.Mail):
     full_title = 'Nom(ID)'
 
     def get_one_value(self, student_id):
-        return inscrits.firstname_and_surname(student_id)[1].encode('utf8')
+        return inscrits.L_slow.firstname_and_surname(student_id)[1].encode('utf8')
