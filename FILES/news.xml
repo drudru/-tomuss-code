@@ -365,6 +365,19 @@ Les changements visibles par tous :
       </description>
       <guid>28</guid>
     </item>
+    <item>
+      <title>07/03/2011 : Version 2.13.0</title>
+      <link>http://tomuss.univ-lyon1.fr/</link>
+      <description>
+Cette version en préparation depuis longtemps contient de nouveaux
+types de colonnes :  Enumération de valeurs possibles,
+Code étape, Mail, Téléphone (pour le personnel), Nom, Prénom.
+&lt;p&gt;
+Ces gros changements ont imposé des modifications conséquentes dans TOMUSS,
+donc si vous constatez des problèmes, prévenez-nous rapidement.
+      </description>
+      <guid>29</guid>
+    </item>
 
   </channel>
 </rss>
