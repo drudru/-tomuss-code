@@ -184,6 +184,7 @@ def new_page(server):
         server.the_file.close()
     else:
         if '=linear=' in server.options:
+            table.active_pages.remove(page) # Avoid 'Canceled load' message
             page.browser_file.close()
         else:
             if configuration.db == 'DBtest':
