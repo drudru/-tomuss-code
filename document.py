@@ -719,6 +719,10 @@ la dernière saisie.
             col = self.add_empty_column(page, col_id)
         return ColumnAttr.attrs[attr].set(self, page, col, value)
 
+    def column_changed(self, column, attribute):
+        "An column attribute change, column content may be updated"
+        column_changed_list.append((self, column, attribute))
+
     def table_attr(self, page, attr, value):
         return TableAttr.attrs[attr].set(self, page, value)
 

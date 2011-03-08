@@ -134,9 +134,7 @@ class ColumnAttr(object):
         table.send_update(page, t + '\n')
 
         column.author = page.user_name
-
-        import document # Import here (problem with circular import)
-        document.column_changed_list.append((table, column, self))
+        table.column_changed(column, self)
 
         return 'ok.png'
 
