@@ -926,7 +926,8 @@ function dispatch(x)
 
 function dispatch2(x)
 {
-  if ( navigator.appName == 'Microsoft Internet Explorer' )
+  if ( navigator.appName == 'Microsoft Internet Explorer'
+       || navigator.appName.toString().indexOf('Chrome') != 1)
     if ( x.keyCode == 39 || x.keyCode == 37 ||
 	 x.keyCode == 40 || x.keyCode == 38 )
       {
