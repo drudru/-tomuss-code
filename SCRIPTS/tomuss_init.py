@@ -21,7 +21,7 @@
 import sys
 import os
 
-if not os.path.isdir('LOCAL'):
+if not os.path.isdir('SCRIPTS'):
     for i in ('FILES', 'TMP', 'DB', 'TEMPLATES'):
         if not os.path.islink(i):
             sys.stderr.write('Missing link: %s in %s\n' % (i, os.getcwd()))

@@ -1667,7 +1667,7 @@ function update_ues_spiral(txt, txt_upper)
   ues_spiral_sorted = true ;
   var s = ['<tr><th colspan="3">' +
 	   hidden_txt('Responsable des UE',
-		      'Ce sont les UE pour lesquelles vous êtes<br>indiqué comme responsable dans la fiche SPIRAL')
+		      'Ce sont les UE pour lesquelles vous êtes<br>indiqué comme responsable dans GASEL')
 	   + '</th></tr>'] ;
   display_ue_list(s, txt, txt_upper, ues_spiral) ;
   s = ue_line_join(s) ;

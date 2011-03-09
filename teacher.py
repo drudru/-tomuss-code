@@ -129,6 +129,7 @@ class UE(object):
         self._nr_students_ue = nr_students_ue
         # Number of students subscribing to the EC
         self._nr_students_ec = nr_students_ec
+        # These mails can't be extracted from responsable logins.
         self._mails = tuple(mails)
         self.len = len(pparcours)
         self.planning = planning

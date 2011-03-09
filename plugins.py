@@ -254,7 +254,8 @@ function _%s()
 }
 ''' % (m.name, s.name, m.name, '\n'.join(v))
 
-    for m in sorted(types.keys(), key=lambda x: types[x].human_priority):
+    for m in sorted(types.keys(), key=lambda x: (types[x].human_priority,
+                                                 types[x].full_title)):
       all_js += '_%s() ;\n' % m
 
     # Here because Column type loading may change ATTRIBUTE definitions
