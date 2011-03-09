@@ -149,7 +149,8 @@ def new_page(server):
                              content = repr(d)
                              )
     page.use_frame = True
-    if configuration.regtest_sync or '=linear=' in server.options:
+    page.use_linear = '=linear=' in server.options
+    if configuration.regtest_sync or page.use_linear:
         page.use_frame = False
 
     warn('New page, use_frame=%d' % page.use_frame, what="table")
@@ -183,7 +184,7 @@ def new_page(server):
     if page.use_frame:
         server.the_file.close()
     else:
-        if '=linear=' in server.options:
+        if page.use_linear:
             table.active_pages.remove(page) # Avoid 'Canceled load' message
             page.browser_file.close()
         else:

@@ -19,12 +19,10 @@
     Contact: Thierry.EXCOFFIER@bat710.univ-lyon1.fr
 */
 
-// Reconnexion marche pas
+// Reconnexion marche pas, ne reçois pas les changements (pas de frame)
 
 function Linear()
 {
-  runlog(columns, lines) ;
-
   /////////////////////////////////////////////////////////////////////////////
   /////////////////////////////////////////////////////////////////////////////
   /////////////////////////////////////////////////////////////////////////////
@@ -837,7 +835,6 @@ function dispatch(x)
 {
   if ( x == 'init' )
     {
-      update_filtered_lines() ;
       L = new Linear() ;
       L.input = document.getElementsByTagName('INPUT')[0] ;
       L.input.style.width = '100%' ;
@@ -927,7 +924,7 @@ function dispatch(x)
 function dispatch2(x)
 {
   if ( navigator.appName == 'Microsoft Internet Explorer'
-       || navigator.appName.toString().indexOf('Chrome') != 1)
+       || navigator.appName.toString().indexOf('Chrome') != -1)
     if ( x.keyCode == 39 || x.keyCode == 37 ||
 	 x.keyCode == 40 || x.keyCode == 38 )
       {

@@ -801,11 +801,17 @@ la dernière saisie.
         return None
 
     def content_head(self, page):
+        if page.use_linear:
+            more = ('<script src="' + utilities.StaticFile._url_
+                    + '/linear.js" onload="this.onloadDone=true;"> </script>')
+        else:
+            more = ''
+
         return table_head(
             self.year, self.semester, page.ticket, page.user_name,
             page.page_id, self.ue,
             attrs_from=self
-            )
+            ) + more
 
     def date_change(self, page, date):
         """Deprecated"""

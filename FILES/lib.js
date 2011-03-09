@@ -5316,6 +5316,7 @@ function runlog(the_columns, the_lines)
 
   if ( preferences.interface == 'L' )
     {
+      dispatch('init') ;
       return ;
     }
 

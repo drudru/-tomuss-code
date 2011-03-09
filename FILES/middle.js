@@ -69,7 +69,6 @@ function head_html()
 	'@media aural { u { pause-after: 1s; } }\n' +
 	'u { pause-after: 1s; }\n' +
 	'</style>' +
-	'<script src="' + url + '/linear.js"> </script>' +
 	'<div id="loading_bar"><div></div></div>' +
 	'<div id="top"></div><input onkeydown="dispatch2(the_event(event))" onkeypress="dispatch(the_event(event))" style="width:1em"><div id="log"></div>' ;
     }
@@ -878,10 +877,7 @@ function fill_column_do_abab()
 function tail_html()
 {
   if ( preferences.interface == 'L' )
-    {
-      return '<span id="server_feedback"></span><div id="authenticate"></div>'
-	+ "<script>lib_init() ; dispatch('init');</script>";
-    }
+    return '<span id="server_feedback"></span><div id="authenticate"></div>';
 
   var a = '<p class="copyright"><span id="server_feedback"></span></p>' +
     '<div id="log"></div>' +
