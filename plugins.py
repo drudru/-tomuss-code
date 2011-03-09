@@ -24,6 +24,7 @@ import utilities
 import files
 import cgi
 import re
+import os
 
 suivi_plugins = []
 
@@ -172,23 +173,32 @@ def make_td(f, html_class, k, m):
         value.replace('_',' ')
         ))
 
+def column_type_list():
+    import COLUMN_TYPES
+    for filename in os.listdir(COLUMN_TYPES.__path__[0]):
+        yield 'COLUMN_TYPES', filename
 
+    try:
+        import LOCAL.LOCAL_COLUMN_TYPES
+        for filename in os.listdir(LOCAL.LOCAL_COLUMN_TYPES.__path__[0]):
+            yield 'LOCAL', 'LOCAL_COLUMN_TYPES', filename
+    except ImportError:
+        pass
 
 def load_types():
-    import os
-    import COLUMN_TYPES
     import csv
 
     types.clear()
 
     # Load TYPES modules
     reloadeds = []
-    for filename in os.listdir(COLUMN_TYPES.__path__[0]):
+    for path in column_type_list():
+        filename = path[-1]
         if filename.endswith('.py'):
             if filename == '__init__.py':
                 continue
-            m, reloaded = utilities.import_reload(
-                os.path.join('COLUMN_TYPES', filename))
+            fullname = os.path.sep.join(path)
+            m, reloaded = utilities.import_reload(fullname)
             filename = filename[:-3]
             for title in (filename.title(), filename.upper()):
                 try:
@@ -200,7 +210,7 @@ def load_types():
                 raise ValueError("BUG TYPE: " + filename)
             setattr(m, 'name', m.__name__)
             m = m()
-            m.filename = filename
+            m.fullname = fullname
             types[m.name] = m
             reloadeds.append((m.name, reloaded))
 
@@ -212,8 +222,7 @@ def load_types():
     all_js = "// FOLLOWING CODE IS COMPUTED FROM 'COLUMN_TYPES' content\n"
     for m in types_ordered():
         try:
-            js = utilities.read_file(os.path.join('COLUMN_TYPES',
-                                                  m.filename + '.js'))
+            js = utilities.read_file(m.fullname.replace('.py', '.js'))
         except IOError:
             js = ''
         for k in m.keys:
@@ -248,6 +257,10 @@ function _%s()
     for m in sorted(types.keys(), key=lambda x: types[x].human_priority):
       all_js += '_%s() ;\n' % m
 
+    # Here because Column type loading may change ATTRIBUTE definitions
+    import column
+    column.initialize()
+    
     files.files['types.js'].append_text = re.sub(
         '(?ms)// FOLLOWING CODE IS COMPUTED.*// END OF FOLLOWING CODE', '',
         files.files['types.js'].append_text)
