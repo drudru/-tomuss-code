@@ -25,6 +25,7 @@ import files
 import cgi
 import re
 import os
+import configuration
 
 suivi_plugins = []
 
@@ -177,6 +178,8 @@ def column_type_list():
     import COLUMN_TYPES
     for filename in os.listdir(COLUMN_TYPES.__path__[0]):
         yield 'COLUMN_TYPES', filename
+    if configuration.regtest:
+        return
 
     try:
         import LOCAL.LOCAL_COLUMN_TYPES
