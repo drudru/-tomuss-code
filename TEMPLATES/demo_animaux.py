@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 #    TOMUSS: The Online Multi User Simple Spreadsheet
-#    Copyright (C) 2009 Thierry EXCOFFIER, Universite Claude Bernard
+#    Copyright (C) 2009-2011 Thierry EXCOFFIER, Universite Claude Bernard
 #
 #    This program is free software; you can redistribute it and/or modify
 #    it under the terms of the GNU General Public License as published by
@@ -41,11 +41,10 @@ function student_picture_url(login)
 
 def create(table):
     _ucbl_.create(table)
-    table.table_attr(table.pages[0], 'masters',
-                     [table.ue.lower().replace('-','') + '.master']
-                     )
+    master = table.ue.split('-')[1].lower().replace('-','') + '.master'
+    table.table_attr(table.pages[0], 'masters', master)
     table.table_attr(table.pages[0], 'default_sort_column', 2)
-    table.new_page('', '', '', '')
+    table.new_page('', master, '', '')
 
 def init(table):
     _ucbl_.init(table)
@@ -115,7 +114,7 @@ def create_column(table, title, content_type, average=10., delta=5.):
 def check(table):
     _ucbl_.check(table, update_inscrits_ue)
 
-    if table.columns.from_id('#ABINJ') is None:
+    if table.columns.from_id('#ABINJ') is not None:
         return
 
     table.lock()

@@ -15,6 +15,7 @@ f = os.popen('git tag', 'r')
 versions = [i.strip() for i in f]
 f.close()
 
+versions.sort(key = lambda x: [int(i) for i in x.split('.')])
 versions.insert(0, '7236ceb319fb02e34394c091964c214510c735b2')
 versions.reverse()
 

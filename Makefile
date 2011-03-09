@@ -46,14 +46,15 @@ release:
 	@$(MAKE) -s tar
 
 tar:
-	$(MAKE) changelog clean
+	$(MAKE) clean changelog
 	rm -rf /tmp/TOMUSS-$(V)
-	cp -a $$(pwd) /tmp/TOMUSS-$(V)
+	cp -a $$(pwd)/ /tmp/TOMUSS-$(V)
 	rm -rf /tmp/TOMUSS-$(V)/LOCAL
 	rm -rf /tmp/TOMUSS-$(V)/BACKUP_DBtest
 	rm -rf /tmp/TOMUSS-$(V)/DBtest
 	rm -rf /tmp/TOMUSS-$(V)/BACKUP_DB
 	rm -rf /tmp/TOMUSS-$(V)/DB
+	ls /tmp/TOMUSS-$(V)
 	mv /tmp/TOMUSS-$(V)/LOCAL.template /tmp/TOMUSS-$(V)/LOCAL
 	cd /tmp ; \
 	tar -cvf - \
