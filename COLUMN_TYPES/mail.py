@@ -26,7 +26,7 @@ class Mail(code_etape.Code_Etape):
     full_title = 'Mail(ID)'
 
     def get_one_value(self, student_id):
-        return inscrits.mail(student_id)
+        return inscrits.L_slow.mail(student_id)
 
     def get_all_values(self, students):
         values = {}
