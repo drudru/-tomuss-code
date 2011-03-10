@@ -65,7 +65,7 @@ class Code_Etape(text.Text):
         return formatted
 
     def update_all(self, the_table, column, attr=None):
-        if attr is not None and attr.name != 'columns':
+        if attr is not None and attr.name != 'columns' and attr.name != 'type':
             return
         if not getattr(the_table, 'update_inscrits', True):
             return
