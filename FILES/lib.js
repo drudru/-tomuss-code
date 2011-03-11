@@ -832,6 +832,9 @@ function column_parse_attr(attr, value, column, xcolumn_attr)
 
 function column_modifiable_attr(attr, column)
 {
+  if ( ! column_attributes[attr] )
+    return false ;
+
   if ( column_attributes[attr].visible_for.length )
     return myindex(column_attributes[attr].visible_for, column.type) >= 0 ;
   else
