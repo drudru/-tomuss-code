@@ -26,4 +26,4 @@ class Phone(mail.Mail):
     full_title = 'Téléphone(ID)'
 
     def get_one_value(self, student_id, column):
-        return inscrits.L_slow.phone(student_id).encode('utf8')
+        return inscrits.L_slow.phone(student_id).encode('utf8').replace('Inconnu','')
