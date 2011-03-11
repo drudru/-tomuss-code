@@ -40,15 +40,16 @@ class Code_Etape(text.Text):
             return None
         return the_table.columns.data_col_from_title(id_column_title)
 
-    def get_one_value(self, student_id, column):
+    def get_one_value(self, student_id, column, line_id):
+        student_id = inscrits.login_to_student_id(student_id)
         return etapes_text(inscrits.L_slow.etapes_of_student(student_id))
 
     def update_one(self, the_table, line_id, column):
         data_col = self.data_col(the_table, column)
         if data_col is None:
             return
-        student_id = inscrits.login_to_student_id(the_table.lines[line_id][data_col].value)
-        etape = self.get_one_value(student_id, column)
+        student_id = the_table.lines[line_id][data_col].value
+        etape = self.get_one_value(student_id, column, line_id)
         the_table.lock()
         try:
             the_table.cell_change(the_table.pages[0], column.the_id, line_id,
@@ -56,17 +57,20 @@ class Code_Etape(text.Text):
         finally:
             the_table.unlock()
 
-    def get_all_values(self, students, column):
+    def values(self, column):
+        data_col = self.data_col(column.table, column)
+        if data_col is None:
+            return
+        for line_id, line in column.table.lines.items():
+            yield line_id, line[data_col].value
+
+    def get_all_values(self, column):
+        students = self.values(column)
         students_etapes = inscrits.L_batch.etapes_of_students(tuple(
-            inscrits.login_to_student_id(i) for i in students))
-        formatted = {}
-        for student, etapes in students_etapes.items():
-            login = utilities.the_login(student)
-            try:
-                formatted[login] = formatted[student] = etapes_text(etapes)
-            except KeyError:
-                formatted[login] = formatted[student] = ''
-        return formatted
+            inscrits.login_to_student_id(i[1]) for i in students))
+        for line_id, student in self.values(column):
+            student = inscrits.login_to_student_id(student)
+            yield line_id, etapes_text(students_etapes.get(student,[]))
 
     def update_all(self, the_table, column, attr=None):
         if attr is not None and attr.name != 'columns' and attr.name != 'type':
@@ -74,21 +78,10 @@ class Code_Etape(text.Text):
         if not getattr(the_table, 'update_inscrits', True):
             return
         
-        data_col = self.data_col(the_table, column)
-        if data_col is None:
-            return
-        students = set(line[data_col].value
-                       for line in the_table.lines.values()
-                       )
-        etapes = self.get_all_values(students, column)
-        for line_key, line in the_table.lines.items():
-            try:
-                etape = etapes[line[data_col].value]
-            except KeyError:
-                continue
+        for line_id, value in self.get_all_values(column):
             the_table.lock()
             try:
                 the_table.cell_change(the_table.pages[0], column.the_id,
-                                      line_key, etape)
+                                      line_id, value)
             finally:
                 the_table.unlock()
