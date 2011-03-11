@@ -25,5 +25,5 @@ import inscrits
 class Firstname(mail.Mail):
     full_title = 'Prénom(ID)'
 
-    def get_one_value(self, student_id):
+    def get_one_value(self, student_id, column):
         return inscrits.L_slow.firstname_and_surname(student_id)[0].encode('utf8')

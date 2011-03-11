@@ -25,11 +25,11 @@ import inscrits
 class Mail(code_etape.Code_Etape):
     full_title = 'Mail(ID)'
 
-    def get_one_value(self, student_id):
+    def get_one_value(self, student_id, column):
         return inscrits.L_slow.mail(student_id)
 
-    def get_all_values(self, students):
+    def get_all_values(self, students, column):
         values = {}
         for login in students:
-            values[login] = self.get_one_value(login)
+            values[login] = self.get_one_value(login, column)
         return values

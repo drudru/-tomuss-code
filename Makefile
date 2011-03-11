@@ -28,6 +28,9 @@ tags:
 regtest:
 	cd REGTEST_SERVER ; ./tests.py
 
+regtest1:
+	cd REGTEST_SERVER ; ./tests.py 1
+
 V := $(shell python -c 'import configuration;print configuration.version')
 
 release:
@@ -89,7 +92,7 @@ untar:
 	cd /tmp ; bzcat ~/public_html/TOMUSS/TOMUSS-$(V).tar.bz2 | tar -xf -
 
 tar-check:untar
-	cd TOMUSS-$(V) ; $(MAKE) regtest
+	cd TOMUSS-$(V) ; $(MAKE) regtest1
 
 
 S=count() { git ls-files | grep -E "$$1" | xargs cat | wc -l ; echo '(' ; git ls-files | grep -E "$$1" | wc -l; echo 'files)';} ; search() { A=$$(count "$$1") ; cd LOCAL ; B=$$(count "$$1") ; echo $$A '   LOCAL:' $$B; } ; search
