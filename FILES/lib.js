@@ -2634,14 +2634,13 @@ function update_tip_from_value(o, value)
 
 function update_value_and_tip(o, value)
 {
-  value = value.toString() ;
-  if ( value === '' )
-    value = ' ' ;
+  value = html(value.toString()) + '&nbsp;' ;
   if ( o.innerHTML != value )
-    highlight_add(o) ;
-  o.innerHTML = html(value) ;
-
-  update_tip_from_value(o, value) ;
+    {
+      highlight_add(o) ;
+      o.innerHTML = value ;
+      update_tip_from_value(o, value) ;
+    }
 }
 
 function update_input(element, value, empty)
