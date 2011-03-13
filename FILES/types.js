@@ -434,7 +434,7 @@ function export_column()
 	       '<li>Cochez <input type="checkbox" id="abjvalue"> pour transformer les ABJ et les PPN en 0.'+
 	       '<li>Cliquez sur <BUTTON OnClick="export_column_value();">récupérer les notes</BUTTON>' +
 	       '<li>Copiez les notes de la zone de saisie vers APOGÉE (en utilisant Excel en Français).</ul>' +
-	       'Sinon vous pouvez <BUTTON OnClick="export_column_id_value();">exporter les numéros d\'étudiants et les valeurs</BUTTON> de cette colonne vers la zone de saisie pour les copier dans votre tableur favori.',
+	       'Sinon vous pouvez <BUTTON OnClick="export_column_id_value();">exporter les numéros d\'étudiants et les valeurs</BUTTON> ou <BUTTON OnClick="export_column_uniques_values();">les valeurs <b>uniques</b></BUTTON> de cette colonne vers la zone de saisie pour les copier dans votre tableur favori.',
 	       '') ;
 }
 
@@ -451,6 +451,28 @@ function abj_ppn_value()
       abjvalue = 'ABJ' ;
       ppnvalue = 'PPN' ;
     }
+}
+
+function export_column_uniques_values()
+{
+  var data_col = popup_column().data_col, student_id ;
+  var v = {} ;
+
+  abj_ppn_value() ;
+
+  for(var lin in filtered_lines)
+    {
+      lin = filtered_lines[lin] ;
+      if ( lin[0].value )
+	v[lin[data_col].value] = true ;
+    }
+
+  var text = [] ;
+  for(var i in v)
+    text.push(i) ;
+  text.sort() ;
+
+  popup_set_value(text.join('\n')) ;
 }
 
 function export_column_id_value()
