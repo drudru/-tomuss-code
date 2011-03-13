@@ -2634,11 +2634,12 @@ function update_tip_from_value(o, value)
 
 function update_value_and_tip(o, value)
 {
-  value = html(value.toString()) + '&nbsp;' ;
-  if ( o.innerHTML != value )
+  value = html(value.toString()) ;
+  var v = value + '&nbsp;' ;
+  if ( o.innerHTML != v )
     {
       highlight_add(o) ;
-      o.innerHTML = value ;
+      o.innerHTML = v ;
       update_tip_from_value(o, value) ;
     }
 }
