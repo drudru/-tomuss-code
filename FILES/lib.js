@@ -120,7 +120,6 @@ var t_value ;
 var t_history ;
 var t_date ;
 var t_author ;
-var t_column_fixed ;
 var t_column_histogram ;
 var t_column_average ;
 var t_menutop ;
@@ -158,7 +157,6 @@ function lib_init()
   t_history            = document.getElementById('t_history'            );
   t_date               = document.getElementById('t_date'               );
   t_author             = document.getElementById('t_author'             );
-  t_column_fixed       = document.getElementById('t_column_fixed'       );
   t_column_histogram   = document.getElementById('t_column_histogram'   );
   t_column_average     = document.getElementById('t_column_average'     );
   t_menutop            = document.getElementById('menutop'              );
@@ -1521,7 +1519,7 @@ function table_header_fill_real()
       else
 	td_filter.childNodes[0].className = '' ;
       if ( column.freezed !== '' )
-	td_filter.childNodes[0].className += ' freezed' ;	  
+	td_filter.childNodes[0].className += ' freezed' ;
       
       td_title.className = className ;
 
@@ -2594,6 +2592,11 @@ function highlight_effect()
 
 function highlight_add(element)
 {
+  // The spaces broke the filter input with empty message ??? XXX WHY
+  // element.className += (element.className + ' highlight1')
+  //  .replace('empty','').replace(/^ */,'').replace(/ *$/,'') ;
+  // With this code, highlight of 'freezed' links does not happen.
+
   element.className = 'highlight1' ;
   if ( myindex(highlight_list, element) == -1 )
     highlight_list.push(element) ;

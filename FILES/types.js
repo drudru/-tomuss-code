@@ -205,17 +205,6 @@ function right_column(column)
   table_fill(false, true) ;
 }
 
-function freeze_column(column)
-{
-  if ( column === undefined )
-    column = the_current_cell.column ;
-  if ( column.freezed == 'F' )
-    column.freezed = '' ;
-  else
-    column.freezed = 'F' ;
-  table_fill(false, true) ;
-}
-
 function column_title_to_data_col(title)
 {
   for(var data_col in columns)

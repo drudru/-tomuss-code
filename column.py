@@ -52,6 +52,9 @@ class ColumnAttr(object):
     computed = 0                    # Is a computed attribute (not modifiable)
     tip = ''                        # Helpful message
     priority = 0
+    gui_display = 'GUI_input'
+    action = ''
+    title = ''
     
     def __init__(self):
         self.__class__.attrs[self.name] = self
@@ -154,6 +157,9 @@ class ColumnAttr(object):
                 ',empty:' + self.empty +
                 ',check_and_set:' + self.check_and_set +
                 ',visible_for:' + js(self.visible_for) +
+                ',gui_display:' + js(self.gui_display) +
+                ',title:' + js(self.title) +
+                ',action:' + js(self.action) +
                 ',tip:' + js(self.tip) +
                 '}')
 

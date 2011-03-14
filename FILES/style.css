@@ -283,6 +283,8 @@ IMG.bigicone { width: 100px; border: none; }
 
 .stroked { background-color: #BFB; font-weight: bold }
 
+#menutop A.linkstroked { text-decoration: line-through }
+
 DIV.import_export { 
   position: absolute;
   left: 10%;

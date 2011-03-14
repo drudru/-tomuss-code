@@ -423,10 +423,17 @@ function header_input(the_id, the_header_name, options)
 
 function column_input_attr(attr, options)
 {
-  return hidden_txt(header_input("t_column_" + attr,
-				 "column_attr_" + attr,
-				 options)
-		    ,'') ;
+  var gui_display = column_attributes[attr].gui_display ;
+  if ( gui_display === 'GUI_input' )
+    return hidden_txt(header_input("t_column_" + attr,
+				   "column_attr_" + attr,
+				   options),'') ;
+  if ( gui_display === 'GUI_a' )
+    return hidden_txt('<a href="javascript:'
+		      + column_attributes[attr].action + '()"' +
+		      ' id="t_column_' + attr + '">' +
+		      column_attributes[attr].title + '</a>',
+		      column_attributes[attr].tip) ;
 }
 
 function table_input_attr(attr, options, tip)
@@ -567,12 +574,7 @@ for(var type_i in types)
 	      "<b>Détruit cette colonne</b> si elle est vide.<br>" +
 	      "CETTE ACTION N'EST PAS RÉVERSIBLE"
 	      ) + '</td><td>' +
-   hidden_txt('<a href="javascript:freeze_column();" id="t_column_fixed">Fige</a>',
-	      "<b>Fige ou défige cette colonne</b><br>" +
-	      "Une fois figée elle est toujours affichée,<br>" +
-	      "même quand il y a des filtres ou décalages.<br>" +
-	      "Les colonnes figées sont callées à gauche du tableau."
-	      ) + '</td><td>' +
+   column_input_attr('freezed') + '</td><td>' +
    hidden_txt('<a href="javascript:hide_column();">&times;</a>',
 	      "<b>Cache cette colonne</b><br>" +
 	      "Ce changement n'est pas visible par les<br>" +

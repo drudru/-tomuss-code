@@ -2406,6 +2406,23 @@ function current_update_column_headers()
 	  // e.value = column.type ;
 	  // highlight_add(e) ; // Why is it necessary ?
 	}
+      else if ( column_attributes[attr].gui_display === 'GUI_a' )
+	{
+	  var x = e.className.replace('linkstroked', '') ;
+	  var old_class = e.className ;
+	  if ( ! column[attr] )
+	      x += ' linkstroked' ;
+	  if ( !!column[attr] != (old_class.search('linkstroked') == -1) )
+	    {
+	      highlight_add(e) ;
+	      // Classname change must be done before 'highlight_add'
+	      // And 'highlight_add' should not erase classname
+	      // But if classname is not erased, it brokes thing
+	      // when there is 'empty' class
+	      x += ' highlight1' ;
+	    }
+	  e.className = x.replace(/^ */,'') ;
+	}
       else
 	{
 	  update_input(e,
@@ -2414,11 +2431,12 @@ function current_update_column_headers()
 		       ) ;
 	}
 
-      set_editable(e, !column_attributes[attr].need_authorization
-		   || !disabled) ;
+      if ( column_attributes[attr].gui_display !== 'GUI_a' )
+	set_editable(e, !column_attributes[attr].need_authorization
+		     || !disabled) ;
 
       e = tip_top(e) ;
-      if ( e )
+      if ( e && column_attributes[attr].gui_display !== 'GUI_a' )
 	{
 	  help = column_attributes[attr].tip[column.type] ; // A dictionnary?
 	  if ( ! help )
@@ -2441,16 +2459,6 @@ function current_update_column_headers()
 	  t_column_histogram.style.display = 'none' ;
 	  t_column_average.style.display = 'none' ;
 	}
-    }
-  var v ;
-  if ( column.freezed )
-    v = 'Défige' ;
-  else
-    v = 'Fige' ;
-  if (t_column_fixed.innerHTML != v )
-    {
-      t_column_fixed.innerHTML = v ;
-      highlight_add(t_column_fixed) ;
     }
 }
 
