@@ -851,7 +851,9 @@ function init_column(column)
   for(var attr in column_attributes)
     column_parse_attr(attr, 
 		      column_attributes[attr].formatter(column, column[attr]),
-		      column) ;
+		      column,
+		      ! column_modifiable_attr(attr, column)
+		      ) ;
 }
 
 

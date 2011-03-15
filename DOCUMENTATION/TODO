@@ -1,7 +1,4 @@
 Finir par priorité :
-	Ne pas faire de message d'erreur columns si attribut pas visible
-	dans le suivi
-
 	Sauvegarde de l'état figé...
 	MAJ de la liste des étudiants par l'utilisateur ? regler le changement de semestre
 	Ne pas sauvegarder le new-page si pas nécessaire (comme RO) ?
