@@ -182,8 +182,10 @@ class UE(object):
             )
 
     def js(self, read_tt=True):
-        """Returns the code to create the JavaScript object for this one."""
-        if read_tt:
+        """Returns the code to create the JavaScript object for this one.
+        If read_tt is a list, then TT students are stored in the list.
+        """
+        if read_tt is not False:
             table = document.table(utilities.university_year(),
                                    'Dossiers', 'tt')
             tt = 0
@@ -197,12 +199,16 @@ class UE(object):
                         continue
                     if utilities.the_login(student) in table.the_keys():
                         tt += 1
+                        if isinstance(read_tt, list):
+                            read_tt.append(utilities.the_login(student))
                 ue.unload()
 
             if tt == 0:
                 for student in inscrits.L_batch.students('UE-' + self.name):
                     if utilities.the_login(student[0]) in table.the_keys():
                         tt += 1
+                        if isinstance(read_tt, list):
+                            read_tt.append(utilities.the_login(student[0]))
         else:
             tt = 0
         

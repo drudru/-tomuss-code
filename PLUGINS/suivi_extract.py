@@ -199,7 +199,12 @@ def fusion(server):
     """
     display_fusion(server.the_file, server.year, server.semester,
             server.the_path)
-    
+
+plugin.Plugin('fusion', '/fusion/{*}',
+              function=fusion, teacher=True,
+              launch_thread = True,
+              )
+
 def fusion_inscrit_author(server):
     """Fusion of named columns from tables, display as an HTML table
              /fusion_inscrit_author/UE-INF2011L:a/UE-INF2012L:
