@@ -3497,7 +3497,7 @@ function signatures_page_per_column()
 
 function print_page(w)
 {
-  var hide_link = '<TD><a class="hidden_on_paper" href="#" onclick="this.parentNode.parentNode.style.display=\'none\';return false"><small>Cacher</small></a>' ;
+  var hide_link = '<TD class="hidden_on_paper"><a href="#" onclick="this.parentNode.parentNode.style.display=\'none\';return false"><small>Cacher</small></a>' ;
   assert_name_sort() ;
   var cols = column_list_all() ;
 
@@ -3519,11 +3519,11 @@ function print_page(w)
   if ( table_attr.comment )
     s += '<p>Petit message : <b>' + html(table_attr.comment) + '</b></p>' ;
   s += '<TABLE class="printer colored">' ;
-  s += '<THEAD><TR><TD>&nbsp;\n' ;
+  s += '<THEAD><TR  class="hidden_on_paper"><TD>&nbsp;\n' ;
   var minmax, test_filter ;
   for(var col in cols)
     s += print_cell('', col,
-		    '<a class="hidden_on_paper" href="javascript:hide_class(\'col' + cols[col] + '\',true)"><small>Cacher</small></a>', cols[col]
+		    '<a href="javascript:hide_class(\'col' + cols[col] + '\',true)"><small>Cacher</small></a>', cols[col]
 		    ) ;
   s += '</TR><TR CLASS="title">\n' + hide_link ;
   for(var col in cols)
