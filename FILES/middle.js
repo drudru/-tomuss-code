@@ -447,7 +447,7 @@ function table_input_attr(attr, options, tip)
   if ( gui_display === 'GUI_a' )
     return hidden_txt('<a href="javascript:'
 		      + table_attributes[attr].action + '()"' +
-		      ' id="t_table_' + attr + '">' +
+		      ' id="t_table_attr_' + attr + '">' +
 		      table_attributes[attr].title + '</a>',
 		      table_attributes[attr].tip) ;
 }
@@ -638,19 +638,7 @@ for(var type_i in types)
 	      ,'','popup_on_red_line') +
 
    table_input_attr('bookmark') + ', ' +
-   hidden_txt('<a href="javascript:auto_save_deactivate();">AutoSauve</a>',
-	      "<b>Désactive la sauvegarde automatique</b><br>" +
-	      'Actuellement, chaque fois que vous modifiez une valeur,<br>' +
-	      'elle est immédiatement sauvegardée.<br>' +
-	      'En suivant ce lien, vous pourrez sauvegarder seulement<br>' +
-	      'au moment où vous le désirez.', '','auto_save_deactivate') +
-
-   hidden_txt('<a href="javascript:auto_save_activate();" style="text-decoration: line-through">AutoSauve</a>',
-	      'Sauvegarde les modifications qui n\'ont pas encore été sauvegardées,<br>' +
-	      'puis revient à la sauvegarde automatique.<br>' +
-	      'Si vous ne VOULEZ PAS sauvegarder, rechargez (réactualisez) la page.',
-	      '', 'auto_save_activate') + ', ' +
-
+   table_input_attr('autosave') + ', ' +
    table_input_attr('linear') + ', ' +
    table_input_attr('import') + ', ' +
    table_input_attr('export') + '<br>' +
@@ -802,10 +790,10 @@ function fill_column()
 {
   var m = '' ;
 
-  if ( auto_save )
+  if ( table_attr.autosave )
     m = '<div style="text-align:right" id="stop_the_auto_save">' +
       'Cette opération ne sera pas annulable.<br>' +
-      'Désactivez la <a href="#" onclick="auto_save_deactivate();document.getElementById(\'stop_the_auto_save\').style.display=\'none\';">'+
+      'Désactivez la <a href="#" onclick="table_autosave_toggle();document.getElementById(\'stop_the_auto_save\').style.display=\'none\';">'+
       'sauvegarde automatique</a> pour être tranquille,<br>' +
       ' vous la réactiverez après avoir vérifié le résultat.</div>';
 

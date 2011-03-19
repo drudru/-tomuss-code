@@ -80,7 +80,6 @@ var next_page_col ;
 var next_page_line ;
 var highlight_list ;
 var request_id ;
-var auto_save ;
 var connection_state ;
 var last_server_answer ;
 var nr_saved ;
@@ -196,7 +195,6 @@ function lib_init()
   do_not_read_option = false ; // Option disabled for virtual tables
   the_current_cell = new Current() ;
   request_id = 0 ;
-  auto_save = true ;
   connection_state = 'ok' ;
   last_server_answer = millisec() ;
   nr_saved = 0 ;
@@ -2486,12 +2484,6 @@ function highlight_add(element)
     highlight_list.push(element) ;
 }
 
-function update_tip_from_value(o, value)
-{
-  var e = o.parentNode.parentNode.childNodes[0].lastChild ;
-  e.className = 'more' ;
-  e.innerHTML = value ;
-}
 
 // In firefox a VAR object disapear from DOM tree !
 function update_tip_from_value(o, value)
@@ -2499,17 +2491,7 @@ function update_tip_from_value(o, value)
   if ( !o )
     return ;
 
-  var e = o ;
-  var i ;
-
-  i = 0 ;
-  while( i < 2 && (e.tagName != 'DIV' || e.className === undefined || e.className.substr(0,6) != 'tipped') )
-    {
-      e = e.parentNode ;
-      i++ ;
-    }
-  var xxx = e.innerHTML ;
-  e = e.childNodes[0].lastChild ;
+  var e = tip_top(o).childNodes[0].lastChild ;
   e.className = 'more' ;
 
   if ( value.substr(value.length-1) != '\n' ) // Tip with HTML inside
@@ -2688,7 +2670,7 @@ function auto_save_errors()
        && (millisec() - last_server_answer) > 5000+1000*check_down_connections_interval)
       reconnect() ;
 
-  if ( auto_save_running || ! auto_save )
+  if ( auto_save_running || ! table_attr.autosave )
     return ;
 
   auto_save_running = true ;
@@ -2795,36 +2777,10 @@ function connected()
   last_server_answer = millisec() ;
 }
 
-
-function auto_save_activate()
-{
-  if ( ! document.getElementById('auto_save_activate') )
-    {
-      // auto_save = false ;
-      return ;
-    }
-  for(var i in pending_requests)
-    {
-      if ( pending_requests[i].image )
-	pending_requests[i].image.style.display = 'inline' ;
-    }
-
-  document.getElementById('auto_save_activate').style.display = 'none' ;
-  document.getElementById('auto_save_deactivate').style.display = 'inline' ;
-  auto_save = true ;
-}
-
-function auto_save_deactivate()
-{
-  auto_save = false ;
-  document.getElementById('auto_save_deactivate').style.display = 'none' ;
-  document.getElementById('auto_save_activate').style.display = 'inline' ;
-}
-
 function url_base()
 {
   var invisible ;
-  if ( auto_save )
+  if ( table_attr.autosave )
     {
       invisible = '' ;
     }
@@ -4962,7 +4918,6 @@ function runlog(the_columns, the_lines)
   lines = the_lines ;
 
   lib_init() ;
-  auto_save_activate();
 
   if ( test_bool(preferences.display_tips) == no )
     display_tips = false ;
@@ -5388,7 +5343,7 @@ function javascript_regtest_ue()
   update_columns() ;
   table_fill(false, true,true) ; table_fill_try() ;
 
-  auto_save_deactivate() ;
+  table_autosave_toggle() ;
 
   var t_column_title       = document.getElementById('t_column_title'      );
   var t_column_test_filter = document.getElementById('t_column_test_filter');

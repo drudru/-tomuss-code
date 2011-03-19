@@ -2487,7 +2487,6 @@ function current_update_cell_headers()
 function current_update_table_headers()
 {
   var disabled = ! table_change_allowed() || ! table_attr.modifiable ;
-
   for(var attr in table_attributes)
     {
       var attributes = table_attributes[attr] ;
@@ -2508,7 +2507,25 @@ function current_update_table_headers()
 		       attributes.empty(table_attr[attr])
 		       ) ;
 	else
-	  e.innerHTML = attributes.formatter(table_attr[attr]) ;
+	  if ( e.tagName == 'A' )
+	    {
+	      if ( table_attr[attr] || table_attr[attr] === '' )
+		e.className = '' ;
+	      else
+		e.className = 'linkstroked' ;
+	      if ( table_attributes[attr].tip.toLowerCase === undefined )
+		{
+		  var tip ;
+		  if ( e.className == '' )
+		    tip = table_attributes[attr].tip[1] ;
+		  else
+		    tip = table_attributes[attr].tip[0] ;
+		  tip_top(e).firstChild.innerHTML = tip ;
+		}
+	      continue ;
+	    }
+	else
+	    e.innerHTML = attributes.formatter(table_attr[attr]) ;
       if ( attr == 'modifiable' )
 	set_editable(e, table_change_allowed()) ;
       else if ( attr == 'masters' )
