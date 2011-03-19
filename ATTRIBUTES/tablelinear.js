@@ -19,6 +19,11 @@
     Contact: Thierry.EXCOFFIER@bat710.univ-lyon1.fr
 */
 
+function table_linear()
+{
+   window.location = '_URL_/='+ticket+'/'+year+'/'+semester+'/'+ue+'/=linear=';
+}
+
 // Reconnexion marche pas, ne reçois pas les changements (pas de frame)
 
 function Linear()

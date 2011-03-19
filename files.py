@@ -39,7 +39,7 @@ for name in (
     'sort_down.png', 'sort_up.png',
     'tt.png',
     'lib.js', 'abj.js','types.js','utilities.js',
-    'middle.js', 'linear.js',
+    'middle.js',
     'abj.html',
     'nat.html', 'nabjm.html', 'error.html', 'unauthorized.html',
     'robots.txt',

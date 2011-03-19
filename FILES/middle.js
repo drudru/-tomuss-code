@@ -659,13 +659,8 @@ for(var type_i in types)
 	      'puis revient à la sauvegarde automatique.<br>' +
 	      'Si vous ne VOULEZ PAS sauvegarder, rechargez (réactualisez) la page.',
 	      '', 'auto_save_activate') + ', ' +
-   hidden_txt('<a href="javascript:window.location = \'_URL_/=\' + ticket + \'/\' + year + \'/\' + semester + \'/\' + ue + \'/=linear=\';" >Lin.</a>',
-	      "<b>Interface utilisateur linéaire.</b><br>" +
-	      "Si vous suivez ce lien l'interface utilisateur deviendra linéaire<br>"+
-	      'Cette interface linéaire est adaptée aux petits écrans.<br>' +
-	      'Elle permet de naviguer en utilisant de gros caractères.') +
-   ', ' +
 
+   table_input_attr('linear') + ', ' +
    table_input_attr('import') + ', ' +
    table_input_attr('export') + '<br>' +
    

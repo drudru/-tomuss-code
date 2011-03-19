@@ -49,7 +49,6 @@ Finir par priorité :
     Moyenne :
 	Indicateur modifiable : official_ue
 	linear	Afficher aide plus detaille sur la valeur de la cellule
-	linear  rendre champs saisie invisible
 	Interface pour détruire les tables.
 	UE par formation
 	Interdire stockage mauvais encodage (liste étudiants ou autres)
