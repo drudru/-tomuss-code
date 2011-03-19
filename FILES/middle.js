@@ -665,9 +665,8 @@ for(var type_i in types)
 	      'Cette interface linéaire est adaptée aux petits écrans.<br>' +
 	      'Elle permet de naviguer en utilisant de gros caractères.') +
    ', ' +
-   hidden_txt('<a href="javascript:import_columns();">Imp.</a>',
-	      'Importe les définitions des colonnes.') + ', ' +
 
+   table_input_attr('import') + ', ' +
    table_input_attr('export') + '<br>' +
    
    table_select('table_attr_private',

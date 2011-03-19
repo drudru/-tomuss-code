@@ -4816,65 +4816,6 @@ function personal_mailing_do()
     alert("Ne fermez pas cette page tant que vous n'avez pas vu le/les message(s) « Les messages ont été envoyés » au dessous du tableau") ;
 }
 
-function import_columns()
-{
-  create_popup('import_div',
-	       'Importer une liste de colonne',
-	       'Copiez ici le tableau que vous avez obtenu en faisant l\'exportation des définitions de colonnes&nbsp;:',
-	       'Puis cliquez sur <BUTTON OnClick="import_columns_do();">importer les colonnes dans TOMUSS</BUTTON>.') ;
-}
-
-function import_columns_do()
-{
-  // Do not remove padding here (IE bug on split)
-  var import_lines = popup_value() ;
-  var lines = [] ;
-  var item ;
-  for(var line in import_lines)
-    {
-      line = import_lines[line] ;
-      item = line.split('\t') ;
-      if ( item.length > 5 && type_title_to_type(item[0]) )
-	lines.push(item) ;
-    }
-  if ( lines.length == 0 )
-    {
-      alert("Je ne trouve pas la description.\nLes séparateurs qui sont des tabulations ont disparu") ;
-      return ;
-    }
-  var cols = [] ;
-  alert_append_start();
-  for(var line in lines)
-    {
-      line = lines[line] ;
-      var column = columns[add_empty_columns()] ;
-
-      var i = -1 ;
-      for(var c in column_attributes)
-	{
-	  if ( column_attributes[c].computed )
-	    continue ;
-	  if ( c == 'position' )
-	    continue ;
-	  i++ ;
-	  if ( c != 'type' && ! column_modifiable_attr(c, column) )
-	    continue ;
-	  column_attr_set(column, c, line[i]) ;
-	}
-
-      create_column(column) ;
-      cols.push(column) ;
-    }
-  // 3 loops because of the formula (dependencies)
-  for(var i in cols)
-    {
-      init_column(cols[i]) ;
-    }
-  popup_close() ;
-  alert_append_stop();
-  table_header_fill() ;
-}
-
 
 function bookmark_this()
 {
