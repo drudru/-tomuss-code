@@ -636,17 +636,8 @@ for(var type_i in types)
 	      "Cliquez-ici pour basculer entre le mode tenant compte<br>" +
 	      "des inscriptions pédagogiques et celui n'en tenant pas compte."
 	      ,'','popup_on_red_line') +
-   hidden_txt('<a href="javascript:bookmark_this();">Options</a>',
-	      '<b>Sauve les options d\'affichage</b><br>' +
-	      'Une fois ce lien suivi vous arriverez sur une page (identique)<br>' +
-	      'sur laquelle vous pourrez garder un signet (favori) vous<br>' +
-	      'permettant de retrouver les paramètres d\'affichage&nbsp;:<br>' +
-	      '* Nombre de lignes/colonnes.<br>' +
-	      '* Les colonnes cachées.<br>' +
-	      '* Les colonnes figées.<br>' +
-	      '* Les filtres.<br>' +
-	      '* Les colonnes triées.<br>' +
-	      '* ...') + ', ' +
+
+   table_input_attr('bookmark') + ', ' +
    hidden_txt('<a href="javascript:auto_save_deactivate();">AutoSauve</a>',
 	      "<b>Désactive la sauvegarde automatique</b><br>" +
 	      'Actuellement, chaque fois que vous modifiez une valeur,<br>' +

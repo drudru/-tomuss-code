@@ -223,7 +223,7 @@ class Table(object):
         if x:
             self.table_title = x.intitule().title().encode('utf-8')
             self.code = x.code()
-            self.teachers = x.responsables_login()
+            self.teachers = list(x.responsables_login())
         else:
             self.teachers = []
         self.pages = []
