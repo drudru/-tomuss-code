@@ -438,10 +438,18 @@ function column_input_attr(attr, options)
 
 function table_input_attr(attr, options, tip)
 {
-  return hidden_txt(header_input("t_table_attr_" + attr,
-				 "table_attr_" + attr,
-				 options)
-		    ,tip) ;
+  var gui_display = table_attributes[attr].gui_display ;
+  if ( gui_display === 'GUI_input' )
+    return hidden_txt(header_input("t_table_attr_" + attr,
+				   "table_attr_" + attr,
+				   options)
+		      ,tip) ;
+  if ( gui_display === 'GUI_a' )
+    return hidden_txt('<a href="javascript:'
+		      + table_attributes[attr].action + '()"' +
+		      ' id="t_table_' + attr + '">' +
+		      table_attributes[attr].title + '</a>',
+		      table_attributes[attr].tip) ;
 }
 
 function column_select(attr, options, tip)
@@ -660,8 +668,7 @@ for(var type_i in types)
    hidden_txt('<a href="javascript:import_columns();">Imp.</a>',
 	      'Importe les définitions des colonnes.') + ', ' +
 
-   hidden_txt('<a href="javascript:export_columns();">Exp.</a>',
-	      'Exporte les définitions des colonnes (pas le contenu de la table)')+ '<br>' +
+   table_input_attr('export') + '<br>' +
    
    table_select('table_attr_private',
 		['Publique', 'Privée'],

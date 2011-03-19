@@ -4721,33 +4721,6 @@ function ljust(txt, len)
   return txt + bs ;
 }
 
-function export_columns()
-{
-  var s = 'Faites un copié collé du tableau suivant dans l\'import de colonnes si vous voulez les mettre dans une autre table.<pre>\n' ;
-
-  s += '<table border><tr>' ;
-  for(var c in column_attributes)
-    if ( ! column_attributes[c].computed && c != 'position' )
-      s += bs + '<small>' + c ;
-  var cls = column_list_all();
-
-  for(var column in cls)
-    {
-      column = columns[cls[column]] ;
-      if ( column.is_empty )
-	continue ;
-      if ( column.author == '*' ) // ro_user
-	continue ;
-      s += '<tr>' ;
-      for(var c in column_attributes)
-	if ( ! column_attributes[c].computed && c != 'position'  )
-	  s += bs + column_attributes[c].formatter(column, column[c]) ;
-      s += '\n</tr>' ;
-    }
-  s += '\n</table>\n' ;
-  new_window(s, 'text/html') ;
-}
-
 function personal_mailing()
 {
    create_popup('personal_mailing_div',
