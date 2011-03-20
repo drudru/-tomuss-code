@@ -224,7 +224,7 @@ function column_attr_set(column, attr, value, td)
 
   column[attr] = new_value ;  
 
-  if ( i_can_modify_column )
+  if ( i_can_modify_column && ! column_attributes[attr].action )
     {
       append_image(td, 'column_attr_' + attr + '/' + column.the_id + '/' +
 		   encode_uri(new_value)) ;
@@ -251,7 +251,7 @@ function table_attr_set(attr, value, td)
   if ( old_value == value )
     return  ;
 
-  if ( ! table_change_allowed() )
+  if ( ! table_attributes[attr].action && ! table_change_allowed() )
     {
       alert_append("Vous n'êtes pas autorisé à modifier cette valeur.\nSeul l'un des responsables d'UE peut le faire : " + teachers) ;
       return ;
@@ -267,8 +267,9 @@ function table_attr_set(attr, value, td)
 
   table_attr[attr] = value ;
 
-  append_image(td, 'table_attr_' + attr + '/' + encode_uri(value),
-	       attr == 'modifiable') ;
+  if ( ! table_attributes[attr].action )
+    append_image(td, 'table_attr_' + attr + '/' + encode_uri(value),
+		 attr == 'modifiable') ;
 
   return value ;
 }
