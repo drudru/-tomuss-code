@@ -332,6 +332,8 @@ function header_change_on_update(event, input, what)
 
       input.theoldvalue = new_value ;
       attr_update_user_interface(attr, column) ;
+      update_value_and_tip(input, new_value) ;
+
     }
 
   if ( what.match(/^table_attr_/) )
