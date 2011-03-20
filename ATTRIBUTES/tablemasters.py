@@ -43,6 +43,11 @@ else
 
 return value ;
 }'''
+    tip = """Les LOGINS d'enseignants ayant tous les droits sur la table.<br>
+Les logins sont séparés par un espace.<br>
+<b>Ajoutez votre nom en premier !</b><br>
+Tapez sur la touche «Entrée» pour valider."""
+
     def encode(self, value):
         if isinstance(value, str):
             return re.split(' +', value.strip().lower())

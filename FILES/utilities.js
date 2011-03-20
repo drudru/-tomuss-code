@@ -2349,6 +2349,19 @@ function update_histogram(force)
   update_histogram_id = setTimeout(update_histogram_real, 300) ;
 }
 
+function set_select_by_value(element, value)
+{
+  for(i in element.options)
+    {
+      if ( element.options[i].value == value
+	   || element.options[i].text == value )
+	{
+	  element.selectedIndex = element.options[i].index ;
+	  return ;
+	}
+    }
+}
+
 function Current()
 {
   this.input = document.getElementById('current_input') ;
@@ -2400,14 +2413,13 @@ function current_update_column_headers()
 	  continue ;
 	}
       e.parentNode.style.display = '' ;
-      if ( attr == 'type' )
+      switch(e.tagName)
 	{
-	  e.selectedIndex = column.real_type.index ;
-	  // e.value = column.type ;
+	case 'SELECT':
+	  set_select_by_value(e, column[attr]) ;
 	  // highlight_add(e) ; // Why is it necessary ?
-	}
-      else if ( column_attributes[attr].gui_display === 'GUI_a' )
-	{
+	  break ;
+	case 'A':
 	  var x = e.className.replace('linkstroked', '') ;
 	  var old_class = e.className ;
 	  if ( ! column[attr] )
@@ -2422,16 +2434,17 @@ function current_update_column_headers()
 	      x += ' highlight1' ;
 	    }
 	  e.className = x.replace(/^ */,'') ;
-	}
-      else
-	{
+	  break ;
+	case 'INPUT':
 	  update_input(e,
 		       column_attributes[attr].formatter(column, column[attr]),
 		       column_attributes[attr].empty(column, column[attr])
 		       ) ;
+	default:
+	  e.innerHTML= column_attributes[attr].formatter(column, column[attr]);
 	}
 
-      if ( column_attributes[attr].gui_display !== 'GUI_a' )
+      if ( e.tagName != 'A' )
 	set_editable(e, !column_attributes[attr].need_authorization
 		     || !disabled) ;
 
@@ -2498,34 +2511,35 @@ function current_update_table_headers()
       else
 	e.style.display = '' ;
 
-      if ( e.selectedIndex !== undefined )
-	e.selectedIndex = Number(table_attr[attr]) ;
-      else
-	if ( e.tagName == 'INPUT' )
+      switch(e.tagName)
+	{
+	case 'SELECT':
+	  set_select_by_value(e, table_attr[attr]) ;
+	  break ;
+	case 'INPUT':
 	  update_input(e,
 		       attributes.formatter(table_attr[attr]),
 		       attributes.empty(table_attr[attr])
 		       ) ;
-	else
-	  if ( e.tagName == 'A' )
+	  break ;
+	case 'A':
+	  if ( table_attr[attr] || table_attr[attr] === '' )
+	    e.className = '' ;
+	  else
+	    e.className = 'linkstroked' ;
+	  if ( table_attributes[attr].tip.toLowerCase === undefined )
 	    {
-	      if ( table_attr[attr] || table_attr[attr] === '' )
-		e.className = '' ;
+	      var tip ;
+	      if ( e.className == '' )
+		tip = table_attributes[attr].tip[1] ;
 	      else
-		e.className = 'linkstroked' ;
-	      if ( table_attributes[attr].tip.toLowerCase === undefined )
-		{
-		  var tip ;
-		  if ( e.className == '' )
-		    tip = table_attributes[attr].tip[1] ;
-		  else
-		    tip = table_attributes[attr].tip[0] ;
-		  tip_top(e).firstChild.innerHTML = tip ;
-		}
-	      continue ;
+		tip = table_attributes[attr].tip[0] ;
+	      tip_top(e).firstChild.innerHTML = tip ;
 	    }
-	else
-	    e.innerHTML = attributes.formatter(table_attr[attr]) ;
+	  continue ;
+	default:
+	  e.innerHTML = attributes.formatter(table_attr[attr]) ;
+	}
       if ( attr == 'modifiable' )
 	set_editable(e, table_change_allowed()) ;
       else if ( attr == 'masters' )
@@ -2703,8 +2717,8 @@ function current_update(do_not_focus)
 
   if ( lin >= nr_lines + nr_headers )
     lin = nr_lines + nr_headers - 1 ;
-  if ( col >= nr_cols - 1 )
-    col = nr_cols - 1 ;
+  if ( col >= table_attr.nr_columns - 1 )
+    col = table_attr.nr_columns - 1 ;
 
   this.jump(lin, col, do_not_focus) ;
 }
@@ -2740,7 +2754,7 @@ function current_cursor_right()
 {
   this.change() ;
 
-  if ( this.col == nr_cols - 1 )
+  if ( this.col == table_attr.nr_columns - 1 )
     next_page_horizontal() ;
   else
     this.jump(this.lin, this.col + 1) ;

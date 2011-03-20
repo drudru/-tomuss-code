@@ -161,6 +161,7 @@ class ColumnAttr(object):
                 ',title:' + js(self.title) +
                 ',action:' + js(self.action) +
                 ',tip:' + js(self.tip) +
+                ',name:' + js(self.name) +
                 '}')
 
 class TableAttr(ColumnAttr):
@@ -238,14 +239,17 @@ def initialize():
 
     attributes = []
     reloadeds = []
+    names = set()
     for name in os.listdir('ATTRIBUTES'):
         if not name.endswith('.py'):
             continue
-        
         the_module, reloaded = utilities.import_reload(
             os.path.join('ATTRIBUTES', name))
         for key, item in the_module.__dict__.items():
             if hasattr(item, 'name'):
+                if key in names:
+                    continue
+                names.add(key)
                 attributes.append(item())
                 reloadeds.append((item.__name__, reloaded))
 

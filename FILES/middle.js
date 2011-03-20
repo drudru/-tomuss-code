@@ -420,36 +420,37 @@ function header_input(the_id, the_header_name, options)
     + '" onkeyup="' + onkey  +'">' ;
 }
 
+function an_input_attribute(attr, options, prefix_id, prefix_)
+{
+  switch(attr.gui_display)
+    {
+    case 'GUI_input':
+      return hidden_txt(header_input(prefix_id + attr.name,
+				     prefix_ + attr.name, options), attr.tip) ;
+    case 'GUI_a':
+      return hidden_txt('<a href="javascript:'
+			+ attr.action + '()"' +
+			' id="' + prefix_id + attr.name + '">' +
+			attr.title + '</a>', attr.tip) ;
+    case 'GUI_select':
+      return hidden_txt('<select onfocus="take_focus(this);" id="'
+			+ prefix_id + attr.name + '" onChange="this.blur();'
+			+ attr.action + '(this)"></select>', attr.tip) ;
+    default:
+      alert('BUG gui_display') ;
+    }
+}
 
 function column_input_attr(attr, options)
 {
-  var gui_display = column_attributes[attr].gui_display ;
-  if ( gui_display === 'GUI_input' )
-    return hidden_txt(header_input("t_column_" + attr,
-				   "column_attr_" + attr,
-				   options),'') ;
-  if ( gui_display === 'GUI_a' )
-    return hidden_txt('<a href="javascript:'
-		      + column_attributes[attr].action + '()"' +
-		      ' id="t_column_' + attr + '">' +
-		      column_attributes[attr].title + '</a>',
-		      column_attributes[attr].tip) ;
+  return an_input_attribute(column_attributes[attr], options,
+			    "t_column_", "column_attr_") ;
 }
 
-function table_input_attr(attr, options, tip)
+function table_input_attr(attr, options)
 {
-  var gui_display = table_attributes[attr].gui_display ;
-  if ( gui_display === 'GUI_input' )
-    return hidden_txt(header_input("t_table_attr_" + attr,
-				   "table_attr_" + attr,
-				   options)
-		      ,tip) ;
-  if ( gui_display === 'GUI_a' )
-    return hidden_txt('<a href="javascript:'
-		      + table_attributes[attr].action + '()"' +
-		      ' id="t_table_attr_' + attr + '">' +
-		      table_attributes[attr].title + '</a>',
-		      table_attributes[attr].tip) ;
+  return an_input_attribute(table_attributes[attr], options,
+			    "t_table_attr_", "table_attr_") ;
 }
 
 function column_select(attr, options, tip)
@@ -457,7 +458,8 @@ function column_select(attr, options, tip)
   var s = '<SELECT onfocus="take_focus(this);" id="t_column_' + attr
     + '" onChange="this.blur();header_change_on_update(event, this, \'column_attr_' + attr + '\');">' ;
   for(var i in options)
-    s += '<OPTION>' + options[i] + '</OPTION>' ;
+    s += '<OPTION VALUE="' + options[i][0] + '">'
+          + options[i][1] + '</OPTION>' ;
   return hidden_txt(s + '</SELECT>', '') ;
 }
 
@@ -520,9 +522,9 @@ var options = [] ;
 for(var type_i in types)
   {
     if ( types[type_i].full_title )
-      options.push(types[type_i].full_title) ;
+      options.push([types[type_i].title, types[type_i].full_title]) ;
     else
-      options.push(types[type_i].title) ;
+      options.push([types[type_i].title, types[type_i].title]) ;
   }
  
  w += column_select('type', options, '') +
@@ -612,8 +614,7 @@ for(var type_i in types)
 
    hidden_txt('<select onfocus="take_focus(this);" id="nr_lines" onChange="this.blur();change_table_size(this);update_line_menu()"></select>',
 	      "Nombre de <b>lignes</b> affichées sur l'écran.") + '&times;' +
-   hidden_txt("<select onfocus=\"take_focus(this);\" id=\"nr_cols\" onChange=\"this.blur();change_table_size(this);update_column_menu()\"></select>",
-	      "Nombre de <b>colonnes</b> affichées sur l'écran.") + '<br>' +
+   table_input_attr('nr_columns') + '<br>' +
    hidden_txt('<select onfocus="take_focus(this);" onchange="this.blur();if ( this.selectedIndex == 1) students_pictures() ; else if ( this.selectedIndex == 2) students_pictures_per_grp_seq(); this.selectedIndex = 0 ;"><option selected="1">Trombinoscope</option><option>Des étudiants filtrés</option><option>Idem, une page par groupe</option></select>',
 	      'Ouvre une nouvelle page avec le <b>trombinoscope</b>.<br>' +
 	      'Seuls les étudiants filtrés seront affichés.<br>' +
@@ -651,18 +652,9 @@ for(var type_i in types)
 		['Non Modifiable', 'Modifiable'],
 		'Dans une table «Non Modifiable» <b>personne</b> ne peut changer son contenu.') ;
 
- w += table_input_attr('default_nr_columns','',
-		       "Impose ce nombre de colonnes affichées à tous le monde<br>" +
-		       "'0' indique que ce nombre dépend de la taille écran."
-		       ) ;
+ w += table_input_attr('default_nr_columns') + '<br></div>' +
 
-   w += '<br></div>' +
-
-   table_input_attr('dates','empty',
-		    "Dates du premier cours et dernier examen.<br>" +
-		    "Par exemple : 20/1/2010 12/5/2010<br>" +
-		    "Les ABJ en dehors de cet intervalle ne seront pas affichées.") +
-   '</tr><tr><td class="blockbottom">' +
+   table_input_attr('dates','empty') + '</tr><tr><td class="blockbottom">' +
 
    one_line('<span id="t_author"></span>',
 	    "Personne qui a modifié la cellule pour la dernière fois :") +
@@ -691,13 +683,8 @@ for(var type_i in types)
 	      "Tapez le début de ce que vous cherchez.<br>" +
 	      "Pour plus d'information, regardez l'aide sur les filtres.") +
    '<td class="space"><td class="blockbottom">' +
-   table_input_attr('masters','empty',"Liste des LOGINS d'enseignants ayant tous les droits sur la table.<br>Les logins sont séparés par un espace.<br><b>Ajoutez votre nom en premier !</b><br>Tapez sur la touche «Entrée» pour valider.") +
-   table_input_attr("comment",'empty',
-		    "Tapez un commentaire pour cette table.<br>" +
-		    "Ce commentaire sera visible par les étudiants<br>" +
-		    "dans leur suivi, précédé du texte : " +
-		    "«<em>Petit message</em>»"
-		    ) + '<br>' +
+   table_input_attr('masters','empty') +
+   table_input_attr("comment",'empty') + '<br>' +
    hidden_txt(header_input('fullfilter', '',
 			   'empty onkey=full_filter_change(this)'),
 	      "Seule les <b>colonnes et lignes</b> contenant une valeur filtrée<br>seront affichées (c'est un filtre).<br>" +

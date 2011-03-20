@@ -21,11 +21,10 @@
 
 from column import TableAttr
 
-class TableDefaultNrColumns(TableAttr):
-    name = 'default_nr_columns'
+class TableNrColumns(TableAttr):
+    name = 'nr_columns'
     default_value = 0
-    tip = """Impose ce nombre de colonnes affichées à tous le monde<br>
-'0' indique que ce nombre dépend de la taille écran."""
-    
-    def encode(self, value):
-        return int(value)
+    tip = "Nombre de <b>colonnes</b> affichées sur l'écran"
+    # formatter = function(value)
+    gui_display = "GUI_select"
+    action = "nr_columns_change"

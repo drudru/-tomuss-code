@@ -60,7 +60,6 @@ var line_filter_value ;
 var tr_classname ;		// Column containing the className of the line
 var popup_on_red_line ;
 var do_not_read_option ;	// Option disabled for virtual tables
-var nr_cols ;			// Number of displayed columns on the screen
 var nr_lines ;
 var the_current_cell ;
 var today ;
@@ -102,7 +101,6 @@ var p_title_links ;
 var nr_not_empty_lines ;
 var nr_filtered_lines ;
 var select_nr_lines ;
-var select_nr_cols ;
 var message ;
 var the_comment ;
 var linefilter ;
@@ -139,7 +137,6 @@ function lib_init()
   nr_not_empty_lines   = document.getElementById('nr_not_empty_lines'   );
   nr_filtered_lines    = document.getElementById('nr_filtered_lines'    );
   select_nr_lines      = document.getElementById('nr_lines'             );
-  select_nr_cols       = document.getElementById('nr_cols'              );
   message              = document.getElementById('message'              );
   the_comment          = document.getElementById('comment'              );
   linefilter           = document.getElementById('linefilter'           );
@@ -230,9 +227,10 @@ function _d(txt)
 
 function compute_nr_cols()
 {
-  nr_cols = Math.floor(16 * (window_width() / 1280)) ;
-  if ( nr_cols <= 0 )
-    nr_cols = 1 ; // Needed for 'statistics_per_group' virtual table
+  table_attr.nr_columns = Math.floor(16 * (window_width() / 1280)) ;
+  if ( table_attr.nr_columns <= 0 )
+    // Needed for 'statistics_per_group' virtual table
+    table_attr.nr_columns = 1 ;
 }
 
 var header_height ;
@@ -778,7 +776,7 @@ function table_init()
 
   colgroup = document.createElement('COLGROUP') ;
   thetable.appendChild(colgroup) ;
-  for(var i=0 ; i<nr_cols; i++)
+  for(var i=0 ; i<table_attr.nr_columns; i++)
     colgroup.appendChild(document.createElement('COL')) ;
   
 
@@ -795,7 +793,7 @@ function table_init()
   tr_title.className = 'column_title' ;
   var th = document.createElement('th') ;
   th.innerHTML = '<p onmousedown="header_title_click(this);sort_column(event) ;"></p>' ;
-  for(var i = 0 ; i < nr_cols ; i++ )
+  for(var i = 0 ; i < table_attr.nr_columns ; i++ )
     {
       var th2 = th.cloneNode(true) ;
       tr_title.appendChild(th2) ;
@@ -806,7 +804,7 @@ function table_init()
   th.innerHTML = input_line ;
   tr_filter = document.createElement('tr') ;
   tr_filter.className = 'filter' ;
-  for(var i = 0 ; i < nr_cols ; i++ )
+  for(var i = 0 ; i < table_attr.nr_columns ; i++ )
     {
       var th2 = th.cloneNode(true) ;
       th2.onclick = empty_header ;
@@ -820,7 +818,7 @@ function table_init()
   var td = document.createElement('td') ;
   td.innerHTML = '&nbsp;' ;
   var tr = document.createElement('tr') ;
-  for(var i = 0 ; i < nr_cols ; i++ )
+  for(var i = 0 ; i < table_attr.nr_columns ; i++ )
     tr.appendChild(td.cloneNode(true)) ;
 
   for(var i = 0 ; i < nr_lines ; i++ )
@@ -839,7 +837,7 @@ function table_init()
     {
       tr = table.childNodes[lin] ;
 
-      for(var col = 0 ; col < nr_cols ; col++ )
+      for(var col = 0 ; col < table_attr.nr_columns ; col++ )
 	{
 	  td = tr.childNodes[col] ;
 	  if ( lin >= nr_headers )
@@ -922,7 +920,7 @@ function column_list(col_offset, number_of_cols)
   if ( col_offset === undefined )
     col_offset = column_offset ;
   if ( number_of_cols === undefined )
-    number_of_cols = nr_cols ;
+    number_of_cols = table_attr.nr_columns ;
 
   var freezed = [] ;
   var cl = [] ;
@@ -1356,13 +1354,13 @@ function table_header_fill_real()
   // This loop is not with the other in order to speed up display.
   // So the table is not displayed with all the possible columns width.
   var width = 0 ;
-  for(var col = 0 ; col < nr_cols ; col++)
+  for(var col = 0 ; col < table_attr.nr_columns ; col++)
     {
       width += cls[col].width + 1 ;
     }
 
   //var x = '' ;
-  for(var col = 0 ; col < nr_cols ; col++)
+  for(var col = 0 ; col < table_attr.nr_columns ; col++)
     {
       w = ((window_width()*cls[col].width)/width-8).toFixed(0) ;
       // tr_title.childNodes[col].style.width = width + 'px' ;
@@ -1374,7 +1372,7 @@ function table_header_fill_real()
   //alert(x) ;
 
   var sort_indicator ;
-  for(var col = 0 ; col < nr_cols ; col++)
+  for(var col = 0 ; col < table_attr.nr_columns ; col++)
     {
       var className ;
       var column = cls[col] ;
@@ -1632,7 +1630,7 @@ function line_fill(line, write, cls, empty_column)
   var data_col, td ;
   tr = tr.childNodes ;
   var data_line = the_line['number'] ;
-  for(var col = 0 ; col < nr_cols ; col++)
+  for(var col = 0 ; col < table_attr.nr_columns ; col++)
     {
       data_col = cls[col].data_col ;
       td = tr[col] ;
@@ -1881,7 +1879,7 @@ function table_fill_real()
     {
       var tr = table.childNodes[write] ;
       tr.className = tr.zebra ;
-      for(var col = 0 ; col < nr_cols ; col++)
+      for(var col = 0 ; col < table_attr.nr_columns ; col++)
 	{
 	  var data_col = cls[col].data_col ;
 	  td = tr.childNodes[col] ;
@@ -2035,7 +2033,7 @@ function add_empty_columns()
      because there is missing empty columns.
      So, we add some more.
   */
-  for(var i = 0 ; i < nr_cols - nr_empty_columns + 5 ; i++)
+  for(var i = 0 ; i < table_attr.nr_columns - nr_empty_columns + 5 ; i++)
     add_empty_column() ;
 
   return not_empty + 1 ;
@@ -2093,11 +2091,11 @@ function table_fill_hook_horizontal()
   var tr = table.childNodes[next_page_line] ;
   var col = next_page_col - column_offset ;
   if ( col < 0 )
-    cell_goto(tr.childNodes[0]); 
-  else if ( col < nr_cols )
+    cell_goto(tr.childNodes[0]);
+  else if ( col < table_attr.nr_columns )
     cell_goto(tr.childNodes[col]); 
   else
-    cell_goto(tr.childNodes[nr_cols-1]); 
+    cell_goto(tr.childNodes[table_attr.nr_columns-1]); 
 }
 
 /*
@@ -2123,14 +2121,14 @@ function page_horizontal(direction, col)
     }
   else
     {
-      column_offset = col - Math.floor((nr_cols+nr_freezed())/2) ;
+      column_offset = col - Math.floor((table_attr.nr_columns+nr_freezed())/2);
     }
 
   next_page_col = col ;
   next_page_line = the_current_cell.lin ;
  
-  if ( column_offset + nr_cols > columns.length )
-    column_offset = columns.length - nr_cols ;
+  if ( column_offset + table_attr.nr_columns > columns.length )
+    column_offset = columns.length - table_attr.nr_columns ;
   if ( column_offset < 0 )
     column_offset = 0 ;
 
@@ -2142,12 +2140,12 @@ function page_horizontal(direction, col)
 
 function next_page_horizontal(delta)
 {
-  page_horizontal( Math.floor((nr_cols-nr_freezed()) / 2), delta) ;
+  page_horizontal( Math.floor((table_attr.nr_columns-nr_freezed()) / 2),delta);
 }
 
 function previous_page_horizontal(delta)
 {
-  page_horizontal( -Math.floor((nr_cols-nr_freezed()) / 2), delta) ;
+  page_horizontal(-Math.floor((table_attr.nr_columns-nr_freezed())/ 2),delta) ;
 }
 
 
@@ -2978,13 +2976,13 @@ function toggle_display_tips()
 function do_move_column_right()
 {
   var x ;
-  if (the_current_cell.col == nr_cols - 1 )
+  if (the_current_cell.col == table_attr.nr_columns - 1 )
     x = the_current_cell.data_col - 1 ;
   var col = the_current_cell.col ;
   var column = the_current_cell.column ;
   the_current_cell.cursor_right() ;
   right_column(column) ;
-  if ( col == nr_cols - 1 )
+  if ( col == table_attr.nr_columns - 1 )
     next_page_horizontal_data_col = x ;
 }
 
@@ -4540,7 +4538,7 @@ function update_portail(login, portail)
 
 function change_size(dx, dy)
 {
-  nr_cols += dx ;
+  table_attr.nr_columns += dx ;
   nr_lines += dy ;
   table_init() ;
   table_fill(false, true) ;
@@ -4658,12 +4656,12 @@ function change_table_size(select)
 {
   var i = select.childNodes[select.selectedIndex].innerHTML ;
   var i = Math.floor(i.split(' ')[0]) ; // Remove text after number
-  if ( select.id == 'nr_cols' )
+  if ( select.id == 't_table_attr_nr_columns' )
     {
-      nr_cols = i ;
+      table_attr.nr_columns = i ;
       column_offset = 0 ;
-      if ( the_current_cell.col >= nr_cols )
-	the_current_cell.col = nr_cols - 1 ;
+      if ( the_current_cell.col >= table_attr.nr_columns )
+	the_current_cell.col = table_attr.nr_columns - 1 ;
     }
   else
     {
@@ -4741,12 +4739,6 @@ function update_line_menu()
 
   update_a_menu(2, nr_lines, nr, Math.max(nr*1.5, nr_lines*1.1),
 		select_nr_lines) ;
-}
-
-function update_column_menu()
-{
-  update_a_menu(2, nr_cols, add_empty_columns() - (tr_classname !== undefined),
-		columns.length, select_nr_cols) ;
 }
 
 function compute_abj_per_day(t)
@@ -4939,10 +4931,10 @@ function runlog(the_columns, the_lines)
   else
     zebra_step = 3 ;
   if ( preferences.nr_cols > 0 && preferences.nr_cols < 100 )
-    nr_cols = preferences.nr_cols ;
+    table_attr.nr_columns = preferences.nr_cols ;
 
   if ( table_attr.default_nr_columns )
-    nr_cols = table_attr.default_nr_columns ;
+    table_attr.nr_columns = table_attr.default_nr_columns ;
   if ( test_bool(preferences.v_scrollbar) == no )
     vertical_scrollbar = undefined ;
 
@@ -5330,7 +5322,7 @@ function javascript_regtest_ue()
   sort_columns = [columns[0]] ;
   update_filtered_lines();
   the_current_cell.jump(nr_headers,0) ;
-  nr_cols = 12 ;
+  table_attr.nr_columns = 12 ;
 
 
   alert_real = alert ;

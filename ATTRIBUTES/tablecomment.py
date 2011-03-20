@@ -23,3 +23,6 @@ from column import TableAttr
 
 class TableComment(TableAttr):
     name = 'comment'
+    tip = """Tapez un commentaire pour cette table.<br>
+Ce commentaire sera visible par les étudiants<br>
+dans leur suivi, précédé du texte : «<em>Petit message</em>»"""

@@ -26,6 +26,10 @@ class TableDates(TableAttr):
     name = 'dates'
     default_value = [0,2000000000]
     formatter = 'date_formatter'
+    tip = """Dates du premier cours et dernier examen.<br>
+Par exemple : 20/1/2010 12/5/2010<br>
+Les ABJ en dehors de cet intervalle ne seront pas affichées."""
+
     def encode(self, value):
         if isinstance(value, str):
             dates = value.split(' ')
