@@ -35,3 +35,8 @@ function(value)
 
     name = 'private'
     default_value = 0
+    gui_display = "GUI_select"
+    
+    tip = """Une table publiques est visible/modifiable par TOUS les <b>enseignants</b>.<br>
+Une table privée est seulement visible/modifiable par les responsables,<br>
+les étudiants pourront néanmoins voir leur suivi."""

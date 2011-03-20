@@ -1,4 +1,5 @@
 Finir par priorité :
+	Ne pas sauvegarder attributs nr_columns, vérifier droits d'accès
 	Lien rapide mail marche plus
 	SELECT dans live status (les guillemets)
 

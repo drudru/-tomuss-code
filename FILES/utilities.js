@@ -2356,7 +2356,7 @@ function set_select_by_value(element, value)
       if ( element.options[i].value == value
 	   || element.options[i].text == value )
 	{
-	  element.selectedIndex = element.options[i].index ;
+	  element.selectedIndex = i ;
 	  return ;
 	}
     }
@@ -2447,31 +2447,13 @@ function current_update_column_headers()
       if ( e.tagName != 'A' )
 	set_editable(e, !column_attributes[attr].need_authorization
 		     || !disabled) ;
-
-      e = tip_top(e) ;
-      if ( e && column_attributes[attr].gui_display !== 'GUI_a' )
-	{
-	  help = column_attributes[attr].tip[column.type] ; // A dictionnary?
-	  if ( ! help )
-	    help = column_attributes[attr].tip ; // No: it's a constant message
-	  if ( help )
-	    e.firstChild.firstChild.innerHTML = help ;
-	}
     }
 
   if ( t_column_histogram )
     {
-      if ( true )
-	{
-	  t_column_histogram.style.display = '' ;
-	  t_column_average.style.display = '' ;
-	  update_histogram() ;
-	}
-      else
-	{
-	  t_column_histogram.style.display = 'none' ;
-	  t_column_average.style.display = 'none' ;
-	}
+      t_column_histogram.style.display = '' ;
+      t_column_average.style.display = '' ;
+      update_histogram() ;
     }
 }
 

@@ -2475,7 +2475,7 @@ function highlight_add(element)
   // The spaces broke the filter input with empty message ??? XXX WHY
   // element.className += (element.className + ' highlight1')
   //  .replace('empty','').replace(/^ */,'').replace(/ *$/,'') ;
-  // With this code, highlight of 'freezed' links does not happen.
+  // With this code, highlight of 'freezed' link does not happen.
 
   element.className = 'highlight1' ;
   if ( myindex(highlight_list, element) == -1 )
@@ -4655,7 +4655,7 @@ function personal_mailing_do()
 function change_table_size(select)
 {
   var i = select.childNodes[select.selectedIndex].innerHTML ;
-  var i = Math.floor(i.split(' ')[0]) ; // Remove text after number
+  i = Math.floor(i.split(' ')[0]) ; // Remove text after number
   if ( select.id == 't_table_attr_nr_columns' )
     {
       table_attr.nr_columns = i ;

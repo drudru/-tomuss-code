@@ -308,7 +308,7 @@ function header_change_on_update(event, input, what)
       var new_value ;
 
       if ( input.selectedIndex !== undefined )
-	new_value = index_to_type(input.selectedIndex) ;
+	new_value = input.options[input.selectedIndex].value ;
       else
 	new_value = input.value ;
 
@@ -340,7 +340,7 @@ function header_change_on_update(event, input, what)
       var new_value ;
 
       if ( input.selectedIndex !== undefined )
-	new_value = input.selectedIndex ;
+	new_value = input.options[input.selectedIndex].value ;
       else
 	new_value = input.value ;
 
@@ -392,8 +392,8 @@ function header_input(the_id, the_header_name, options)
   // Don't call onblur twice (IE bug) : so no blur if not focused
   var onblur='if(element_focused===undefined)return;element_focused=undefined;';
 
-  if ( options && options.search('"') != -1 )
-    alert('BUG : header_input parameter') ;
+  if ( options && (!options.search || options.search('"') != -1) )
+    alert('BUG : header_input parameter: ' + the_id + ' ' + options) ;
 
   if ( the_header_name !== '' )
     {
@@ -433,9 +433,19 @@ function an_input_attribute(attr, options, prefix_id, prefix_)
 			' id="' + prefix_id + attr.name + '">' +
 			attr.title + '</a>', attr.tip) ;
     case 'GUI_select':
+      var opts = '' ;
+      for(var i in options)
+	opts += '<OPTION VALUE="' + options[i][0] + '">'
+                                  + options[i][1] + '</OPTION>' ;
+      
       return hidden_txt('<select onfocus="take_focus(this);" id="'
 			+ prefix_id + attr.name + '" onChange="this.blur();'
-			+ attr.action + '(this)"></select>', attr.tip) ;
+                        + "header_change_on_update(event,this,'" +
+			prefix_ + attr.name + "');"
+			+ attr.action + '(this)"'
+                        + ' onblur="if(element_focused===undefined)return;element_focused=undefined;">'
+                        + opts + '</select>',
+			attr.tip) ;
     default:
       alert('BUG gui_display') ;
     }
@@ -451,28 +461,6 @@ function table_input_attr(attr, options)
 {
   return an_input_attribute(table_attributes[attr], options,
 			    "t_table_attr_", "table_attr_") ;
-}
-
-function column_select(attr, options, tip)
-{
-  var s = '<SELECT onfocus="take_focus(this);" id="t_column_' + attr
-    + '" onChange="this.blur();header_change_on_update(event, this, \'column_attr_' + attr + '\');">' ;
-  for(var i in options)
-    s += '<OPTION VALUE="' + options[i][0] + '">'
-          + options[i][1] + '</OPTION>' ;
-  return hidden_txt(s + '</SELECT>', '') ;
-}
-
-function table_select(attr, options, tip)
-{
-  var s = '<SELECT id="t_' + attr + '" onblur="if(element_focused===undefined)return;element_focused=undefined;" onchange="header_change_on_update(event,this,\''+ attr + '\');" onfocus="take_focus(this);">' ;
-
-  for(var i in options)
-    s += '<OPTION>' + options[i] + '</OPTION>' ;
-
-  s += '</SELECT>' ;
-  
-  return hidden_txt(s, tip) ;
 }
 
 function new_interface()
@@ -527,7 +515,7 @@ for(var type_i in types)
       options.push([types[type_i].title, types[type_i].title]) ;
   }
  
- w += column_select('type', options, '') +
+ w += column_input_attr('type', options) +
    column_input_attr('red') +
    column_input_attr('green') +
    column_input_attr('weight') +
@@ -643,19 +631,13 @@ for(var type_i in types)
    table_input_attr('linear') + ', ' +
    table_input_attr('import') + ', ' +
    table_input_attr('export') + '<br>' +
-   
-   table_select('table_attr_private',
-		['Publique', 'Privée'],
-		'Une table publiques est visible/modifiable par TOUS les <b>enseignants</b>.<br>Une table privée est seulement visible/modifiable par les responsables,<br>les étudiants pourront néanmoins voir leur suivi.') +
-
-   table_select('table_attr_modifiable',
-		['Non Modifiable', 'Modifiable'],
-		'Dans une table «Non Modifiable» <b>personne</b> ne peut changer son contenu.') ;
-
- w += table_input_attr('default_nr_columns') + '<br></div>' +
-
-   table_input_attr('dates','empty') + '</tr><tr><td class="blockbottom">' +
-
+   table_input_attr('private',
+		    [[0,'Publique'],[1,'Privée']]) +
+   table_input_attr('modifiable',
+		    [[0,'Non Modifiable'],[1,'Modifiable']]) +
+   table_input_attr('default_nr_columns') + '<br></div>' +
+   table_input_attr('dates','empty') +
+   '</tr><tr><td class="blockbottom">' +
    one_line('<span id="t_author"></span>',
 	    "Personne qui a modifié la cellule pour la dernière fois :") +
    hidden_txt(header_input('comment','',

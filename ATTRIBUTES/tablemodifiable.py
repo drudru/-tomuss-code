@@ -25,6 +25,9 @@ class TableModifiable(TableAttr):
     name = 'modifiable'
     default_value = 1
     update_headers = 1
+    tip = """Dans une table «Non Modifiable» <b>personne</b> ne peut changer son contenu."""
+    gui_display = "GUI_select"
+
     def encode(self, value):
         return int(value)
     def check(self, value):

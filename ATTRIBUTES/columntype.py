@@ -29,6 +29,7 @@ class ColumnType(ColumnAttr):
     display_table = 1
     default_value = 'Note'
     check_and_set = 'set_type'
+    gui_display = 'GUI_select'
     def encode(self, value):
         return plugins.types[value]
     def decode(self, value):
