@@ -2351,10 +2351,10 @@ function update_histogram(force)
 
 function set_select_by_value(element, value)
 {
-  for(i in element.options)
+  var options = element.getElementsByTagName('OPTIONS') ;
+  for(i in options)
     {
-      if ( element.options[i].value == value
-	   || element.options[i].text == value )
+      if ( options[i].value == value || options[i].text == value )
 	{
 	  element.selectedIndex = i ;
 	  return ;
@@ -2440,6 +2440,7 @@ function current_update_column_headers()
 		       column_attributes[attr].formatter(column, column[attr]),
 		       column_attributes[attr].empty(column, column[attr])
 		       ) ;
+	  break ;
 	default:
 	  e.innerHTML= column_attributes[attr].formatter(column, column[attr]);
 	}
