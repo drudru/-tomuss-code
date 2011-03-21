@@ -22,7 +22,7 @@
 from column import TableAttr
 
 class TableImport(TableAttr):
-    name = 'import'
+    name = 't_import'
     action = 'table_import'
     tip = "Importe les définitions des colonnes."
     gui_display = "GUI_a"

@@ -632,8 +632,8 @@ for(var type_i in types)
    table_input_attr('bookmark') + ', ' +
    table_input_attr('autosave') + ', ' +
    table_input_attr('linear') + ', ' +
-   table_input_attr('import') + ', ' +
-   table_input_attr('export') + '<br>' +
+   table_input_attr('t_import') + ', ' +
+   table_input_attr('t_export') + '<br>' +
    table_input_attr('private',
 		    [[0,'Publique'],[1,'Privée']]) +
    table_input_attr('modifiable',

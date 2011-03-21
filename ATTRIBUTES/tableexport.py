@@ -22,7 +22,7 @@
 from column import TableAttr
 
 class TableExport(TableAttr):
-    name = 'export'
+    name = 't_export'
     action = 'table_export'
     tip = "Exporte les définitions des colonnes (pas le contenu de la table)"
     gui_display = "GUI_a"
