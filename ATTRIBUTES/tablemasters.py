@@ -35,7 +35,9 @@ if ( value.join )
    value = value.join(' ') ;
   }
 else
+  {
    teachers = value.split(/ +/) ;
+  }
 if ( teachers.length )
     i_am_the_teacher = myindex(teachers, my_identity) != -1 ;
 else

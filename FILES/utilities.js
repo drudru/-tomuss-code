@@ -2351,7 +2351,7 @@ function update_histogram(force)
 
 function set_select_by_value(element, value)
 {
-  var options = element.getElementsByTagName('OPTIONS') ;
+  var options = element.getElementsByTagName('OPTION') ;
   for(i in options)
     {
       if ( options[i].value == value || options[i].text == value )

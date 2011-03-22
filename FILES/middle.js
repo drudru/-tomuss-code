@@ -276,8 +276,6 @@ function table_attr_set(attr, value, td)
 
 function attr_update_user_interface(attr, column, force_update_header)
 {
-  attr = column_attributes[attr] ;
-
   if ( column.need_update )
     {
       update_columns() ;
@@ -288,14 +286,61 @@ function attr_update_user_interface(attr, column, force_update_header)
   if ( attr.update_horizontal_scrollbar )
     update_horizontal_scrollbar() ;
 
+  //  the_current_cell.update_headers() ;
+
   if ( (force_update_header || attr.update_headers)
        && column == the_current_cell.column )
     {
       the_current_cell.do_update_column_headers = true ;
       the_current_cell.update_headers() ;
     }
-if ( attr.update_table_headers )
+  if ( attr.what == 'table' )
+    the_current_cell.update_table_headers();
+
+  if ( attr.update_table_headers )
     table_header_fill() ;
+}
+
+function an_user_update(event, input, column, attr)
+{
+  var td = the_td(event) ;
+  var new_value ;
+
+  if ( input.selectedIndex !== undefined )
+    new_value = input.options[input.selectedIndex].value ;
+  else
+    new_value = input.value ;
+
+  if ( attr.what == 'column' )
+    new_value = column_attr_set(column, attr.name, new_value, td) ;
+  else
+    new_value = table_attr_set(attr.name, new_value, td) ;
+
+  if ( new_value === undefined )
+    {
+      if ( input.selectedIndex === undefined )
+	input.value = input.theoldvalue ;
+      else
+	input.selectedIndex = input.theoldvalue ;
+      return ;
+    }
+
+  if ( new_value === null )
+    return ; // Not stored, but leave user input unchanged
+  
+  if ( input.selectedIndex === undefined )
+    if ( attr.what == 'column' )
+      input.value = attr.formatter(column, new_value) ;
+    else
+      input.value = attr.formatter(new_value) ;
+
+  input.theoldvalue = new_value ;
+
+  if ( attr == 'type' )
+    init_column(column) ; // Need to update other attributes.
+
+  attr_update_user_interface(attr, column) ;
+  update_value_and_tip(input, new_value) ;
 }
 
 function header_change_on_update(event, input, what)
@@ -303,73 +348,11 @@ function header_change_on_update(event, input, what)
   var column = the_current_cell.column ;
 
   if ( what.match(/^column_attr_/) )
-    {
-      var td = the_td(event) ;
-      var attr = what.replace('column_attr_','') ;
-      var new_value ;
-
-      if ( input.selectedIndex !== undefined )
-	new_value = input.options[input.selectedIndex].value ;
-      else
-	new_value = input.value ;
-
-      new_value = column_attr_set(column, attr, new_value, td) ;
-
-      if ( new_value === undefined )
-	{
-	  input.value = input.theoldvalue ;
-	  return ;
-	}
-
-      if ( new_value === null )
-	return ; // Not stored, but leave user input unchanged
-      
-      if ( input.selectedIndex === undefined )
-	input.value = column_attributes[attr].formatter(column, new_value) ;
-
-      if ( attr == 'type' )
-	init_column(column) ; // Need to update other attributes.
-
-      input.theoldvalue = new_value ;
-      attr_update_user_interface(attr, column) ;
-      update_value_and_tip(input, new_value) ;
-
-    }
-
-  if ( what.match(/^table_attr_/) )
-    {
-      var td = the_td(event) ;
-      var attr = what.replace('table_attr_','') ;
-      var new_value ;
-
-      if ( input.selectedIndex !== undefined )
-	new_value = input.options[input.selectedIndex].value ;
-      else
-	new_value = input.value ;
-
-      new_value = table_attr_set(attr, new_value, td) ;
-
-      if ( new_value === undefined )
-	{
-	  if ( input.selectedIndex === undefined )
-	    input.value = input.theoldvalue ;
-	  else
-	    input.selectedIndex = Number(table_attr[attr]) ;
-	  return ;
-	}
-
-      if ( table_attributes[attr].update_headers )
-	{
-	  the_current_cell.do_update_column_headers = true ;
-	  the_current_cell.update_headers() ;
-	}
-      
-      if ( input.selectedIndex === undefined )
-	input.value = table_attributes[attr].formatter(new_value) ;
-
-      input.theoldvalue = new_value ;
-      the_current_cell.update_table_headers();
-    }
+    an_user_update(event, input, column,
+		   column_attributes[what.replace('column_attr_','')]) ;
+  else if ( what.match(/^table_attr_/) )
+    an_user_update(event, input, column,
+		   table_attributes[what.replace('table_attr_','')]) ;
   else
     {
       // Input in the TABLE

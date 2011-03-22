@@ -51,6 +51,7 @@ class ColumnAttr(object):
     default_value = ''              # XXX Must not be a mutable value
     computed = 0                    # Is a computed attribute (not modifiable)
     tip = ''                        # Helpful message
+    what = 'column'                 # It is a 'column' attribute
     priority = 0
     gui_display = 'GUI_input'
     action = ''
@@ -162,12 +163,14 @@ class ColumnAttr(object):
                 ',action:' + js(self.action) +
                 ',tip:' + js(self.tip) +
                 ',name:' + js(self.name) +
+                ',what:' + js(self.what) +
                 '}')
 
 class TableAttr(ColumnAttr):
     attrs = {}
     formatter = 'function(value) { return value ; }'
     empty = 'function(value) { return value === "" ; }'
+    what = 'table'                 # It is a 'column' attribute
 
     def update(self, table, old_value, new_value, page):
         """Called when the user make the change, not when loading table"""

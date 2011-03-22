@@ -2501,6 +2501,8 @@ function update_tip_from_value(o, value)
 
 function update_value_and_tip(o, value)
 {
+  if ( o.tagName != 'INPUT' )
+    return ;
   value = html(value.toString()) ;
   var v = value + '&nbsp;' ;
   if ( o.innerHTML != v )
@@ -2930,7 +2932,7 @@ function Xcolumn_attr(attr, col, value)
   else
     column = columns[data_col] ;
   column[attr] = column_parse_attr(attr, value, column, true) ;
-  attr_update_user_interface(attr, column, true) ;
+  attr_update_user_interface(column_attributes[attr], column, true) ;
 }
 
 function Xtable_attr(attr, value)
@@ -4506,7 +4508,7 @@ function mail_window()
     missing_text = '' ;
 
   create_popup('mails_div',
-	       'Gestion des mails',
+	       'Gestion des mails (des étudiants filtrés) ',
 	       '<ul>' +
 	       '<li> <b>Cliquez sur une adresse</b> pour toutes les sélectionner.' +
 	       '<li> Puis faites <b>Ctrl-C</b> pour les copier' +
