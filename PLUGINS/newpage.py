@@ -277,7 +277,8 @@ def set_page(server):
     if server.the_page:
         d[server.the_ue] = server.the_page # Safe because {P} is integer
     else:
-        del d[server.the_ue]
+        if server.the_ue in d:
+            del d[server.the_ue]
     utilities.manage_key('LOGINS',
                          os.path.join(server.ticket.user_name, 'pages'),
                          content = repr(d)
