@@ -1318,8 +1318,6 @@ def check_requests():
                     elif action == 'login_list':
                         login_list(page, utilities.safe(path[0]))
                         page.answer = 'ok.png'
-                    elif action == 'date_change':
-                        page.answer = tabl.date_change(page, path[0])
                     else:
                         warn('BUG: %s' % str(path), what="error")
                         page.answer = 'bug.png'
