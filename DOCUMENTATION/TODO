@@ -1,4 +1,5 @@
 Finir par priorité :
+	La reconnexion marche pas quand on l'utilise avant la reconnexion
 	La page d'accueil expire sans être rechargée.
 	BUG : Le 'resume' permet d'avoir des informations non autorisées
 	BUg : le suivi étudiant permet d'avoir des informations non autorisées

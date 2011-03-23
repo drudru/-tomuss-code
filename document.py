@@ -505,7 +505,7 @@ class Table(object):
                     date=None, force_update=False):
 
         if not self.loading and not self.modifiable:
-            return 'bad.png'
+            return self.bad_ro(page)
 
         column = self.columns.from_id(col)
         if column == None:
@@ -518,7 +518,7 @@ class Table(object):
             value = cell.value
 
         if not self.authorized(page, cell):
-            return 'bad.png'
+            return self.bad_auth(page)
 
         if str(cell.value) == str(value):
             if cell.author == ro_user and page.user_name == rw_user:
@@ -640,7 +640,7 @@ la dernière saisie.
 
         if not self.loading:
             if not self.authorized(page, line[column.data_col]):
-                return 'bad.png'
+                return self.bad_auth(page)
             self.log('comment_change(%s,%s,%s,%s)' % (
                 page.page_id,
                 repr(col),
@@ -1344,11 +1344,6 @@ def check_requests():
                     sender.append(page.browser_file,
                                   """<script>
 alert("Un bug c'est produit, l'administrateur a été prévenu. Vérifiez la valeur que vous avez saisie") ;
-</script>\n""")
-                elif page.answer == 'bad.png':
-                    sender.append(page.browser_file,
-                                  """<script>
-alert("Vous avez tenté de modifier une valeur que vous n'avez pas le droit de modifier. La modification n'a donc pas été faite.") ;
 </script>\n""")
                     
             except socket.error:
