@@ -30,6 +30,7 @@ import hashlib
 import data
 import os
 import files
+import sender
 
 class ColumnAttr(object):
     attrs = {}
@@ -203,7 +204,7 @@ class TableAttr(ColumnAttr):
         error = self.check(value)
         if error:
             t = '<script>alert("%s\\nLa modification n\'a pas été enregistrée");</script>\n' % error
-            table.send_update(None, t)
+            sender.append(page.browser_file, t)
             return 'bad.png'
 
         value = self.encode(value)

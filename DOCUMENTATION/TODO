@@ -1,5 +1,7 @@
 Finir par priorité :
-	Cas de l'enseignant : alerte sur TOUS les navigatuer :-(
+	La page d'accueil expire sans être rechargée.
+	BUG : Le 'resume' permet d'avoir des informations non autorisées
+	BUg : le suivi étudiant permet d'avoir des informations non autorisées
 	Finir nombre de lignes et les 4 menus.
 	Fusionner update_{column|table}_headers
 	Lien rapide mail marche plus
@@ -43,7 +45,6 @@ Finir par priorité :
 	Copier puis drag fait n'importe quoi sur les cases du tableau.
 		Sous windows seulement
 	Fuite mémoire ?
-	BUG : Le 'resume' permet d'avoir des informations non autorisée
 	BUG : Pourquoi TOMUSS charge toutes les UE (3500) !!!
 	Safari : requetes en double, page accueil
 	chrome : requetes en double (changement de valeur cellule)
