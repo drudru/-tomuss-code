@@ -251,7 +251,9 @@ class Table(object):
         if self.template is None:            
             class TT:
                 def create(self, ttable):
-                    return ttable.new_page('', ro_user, '', '')
+                    ttable.new_page('', ro_user, '', '')
+                    ttable.table_attr(ttable.pages[0],'masters',[ttable.user])
+
             self.template = TT()
 
         if hasattr(self.template, 'init'):
