@@ -309,7 +309,7 @@ function an_user_update(event, input, column, attr)
   if ( input.selectedIndex !== undefined )
     new_value = input.options[input.selectedIndex].value ;
   else
-    new_value = input.value ;
+    new_value = input.value.replace(/\t/g, ' ') ;
 
   if ( attr.what == 'column' )
     new_value = column_attr_set(column, attr.name, new_value, td) ;

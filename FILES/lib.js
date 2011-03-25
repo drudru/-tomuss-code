@@ -3041,7 +3041,7 @@ function csv_cell_coma(x)
   if ( x.replace === undefined )
     return x + ',' ; // Number
   else
-    return '"' + x.replace('"', '""') + '",' ;
+    return '"' + x.replace(/"/g, '""') + '",' ;
 }
 
 function csv_cell_dot_coma(x)
@@ -3049,7 +3049,7 @@ function csv_cell_dot_coma(x)
   if ( x.replace === undefined )
     return x.toString().replace('.',',') + ';' ; // Number
   else
-    return '"' + x.replace('"', '""') + '";' ;
+    return '"' + x.replace(/"/g, '""') + '";' ;
 }
 
 function csv(csv_cell)
