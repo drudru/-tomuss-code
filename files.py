@@ -37,6 +37,7 @@ for name in (
     'filtre.png','filtre2.png', 'comment.png', 'title.png',
     'up.gif', 'down.gif', 'next.gif', 'prev.gif',
     'sort_down.png', 'sort_up.png',
+    'sort_down2.png', 'sort_up2.png',
     'tt.png',
     'lib.js', 'abj.js','types.js','utilities.js',
     'middle.js',

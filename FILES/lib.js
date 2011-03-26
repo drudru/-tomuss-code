@@ -790,7 +790,7 @@ function table_init()
   tr_title = document.createElement('tr') ;
   tr_title.className = 'column_title' ;
   var th = document.createElement('th') ;
-  th.innerHTML = '<div onmousedown="header_title_click(this);sort_column(event) ;"><var></var><img src="' + url + '/sort_down.png" width="12"></div>' ;
+  th.innerHTML = '<div onmousedown="header_title_click(this);sort_column(event) ;"><var></var><img src="' + url + '/sort_down.png" width="12"><img src="' + url + '/sort_down2.png" width="12"></div>' ;
   for(var i = 0 ; i < table_attr.nr_columns ; i++ )
     {
       var th2 = th.cloneNode(true) ;
@@ -1401,20 +1401,22 @@ function table_header_fill_real()
       
       td_title.className = className ;
 
-      if ( sort_columns.length !== 0 )
-	if ( column != sort_columns[0] )
-	    title.lastChild.style.display = 'none' ;
-	else
-	  {
-	    td_title.className += ' sorted' ;
-	    if ( column.dir < 0 )
-	      title.lastChild.src = title.lastChild.src.replace('sort_up',
-								'sort_down');
-	    else
-	      title.lastChild.src = title.lastChild.src.replace('sort_down',
-								'sort_up');
-	    title.lastChild.style.display = '' ;
-	  }
+      for(var i=0; i<2; i++)
+	{
+	  var img = title.childNodes[i+1] ;
+	  if ( column != sort_columns[i] )
+	    img.style.display = 'none' ;
+	  else
+	    {
+	      if ( i == 0 )
+		td_title.className += ' sorted' ;
+	      if ( column.dir < 0 )
+		img.src = img.src.replace('sort_up', 'sort_down');
+	      else
+		img.src = img.src.replace('sort_down', 'sort_up');
+	      img.style.display = '' ;
+	    }
+	}
     }
   // XXX If updated, the value being edited may be erased
   if ( ! the_current_cell.focused )
