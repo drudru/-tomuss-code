@@ -214,16 +214,17 @@ def authentication_thread():
                         tick.user_name)
                     what = 'is-referent-master?'
                     tick.is_a_referent_master = referent.is_a_referent_master(tick.user_name)
-                    what = 'password-ok?'
-                    tick.password_ok = inscrits.L_fast.password_ok(tick.user_name)
                     what = 'is-referent?'
                     tick.is_a_referent = inscrits.L_fast.is_a_referent(tick.user_name)
-                        
+                    # Must be the last attribute to be defined
+                    what = 'password-ok?'
+                    tick.password_ok = inscrits.L_fast.password_ok(tick.user_name)                        
                 else:
                     tick.is_an_abj_master     = False
                     tick.is_a_referent_master = False
                     tick.is_a_referent        = False
                     tick.is_an_administrative = False
+                    # Must be the last attribute to be defined
                     tick.password_ok          = True
 
                 x.log_time('authentication')
