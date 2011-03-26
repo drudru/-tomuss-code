@@ -1,10 +1,10 @@
 Finir par priorité :
-	La reconnexion marche pas quand on l'utilise avant la reconnexion
-	La page d'accueil expire sans être rechargée.
+	complétion énumeration
 	BUG : Le 'resume' permet d'avoir des informations non autorisées
 	BUg : le suivi étudiant permet d'avoir des informations non autorisées
 	Finir nombre de lignes et les 4 menus.
 	Fusionner update_{column|table}_headers
+	Stockage JavaScript
 	Lien rapide mail marche plus
 
 	Sauvegarde de l'état figé...
@@ -14,6 +14,7 @@ Finir par priorité :
 	Copier une table vers le semestre suivant en vidant l'historique
 	Pylint
 	Heure sur le graph livestatus
+	La page d'accueil expire sans être rechargée.
 	Doc plugins
 	choix année RDV IP si cela a un sens
 	Méthode javascript pour attr : editable (masters attributes)
@@ -39,6 +40,7 @@ Finir par priorité :
 	Normaliser les dates : nombre de secondes
 	Accelerer le chargement de la liste des référents.
 	Droit d'accès : généraliser la notion de groupe, pouvoir en créer
+	Mettre le ticket en fin d'URL ?
 
     BUGS :
 	Chrome : statistics per group
@@ -107,7 +109,6 @@ Questions en suspend :
 	Faire erreur gentille sur mauvaise URL (sans année).	
 	Lire responsable dans GASEL ?
 	Déterminer plus fiablement quand un serveur a planté.
-	Mettre le ticket en fin d'URL ?
 
 BUGS/Problèmes en suspend :
 	Problème accents dans opera : filtre et accueil : diacritics

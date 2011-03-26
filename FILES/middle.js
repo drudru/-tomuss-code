@@ -826,10 +826,7 @@ function tail_html()
     'OnKeyDown="the_current_cell.keydown(event, true)" ' +
     'OnBlur="the_current_cell.focused=false;the_current_cell.change()" ' +
     '>' +
-    '</div>' +
-    '<img id="t_sort_down" src="' + url + '/sort_down.png" width="12">' +
-    '<img id="t_sort_up" src="' + url + '/sort_up.png" width="12">' ;
-
+    '</div>' ;
   if ( ue != 'VIRTUALUE' )
     a += '<iframe id="server_answer" style="width:1px;height:1px;border:0px;position:absolute;top:0px;left:0px" src="' + url + '/sort_up.png"></iframe>' +
     '</body>' ;

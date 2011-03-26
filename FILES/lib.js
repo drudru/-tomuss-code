@@ -104,8 +104,6 @@ var select_nr_lines ;
 var message ;
 var the_comment ;
 var linefilter ;
-var sort_down ;
-var sort_up ;
 var horizontal_scrollbar ;
 var vertical_scrollbar ;
 var t_authenticate ;
@@ -140,8 +138,6 @@ function lib_init()
   message              = document.getElementById('message'              );
   the_comment          = document.getElementById('comment'              );
   linefilter           = document.getElementById('linefilter'           );
-  sort_down            = document.getElementById('t_sort_down'          );
-  sort_up              = document.getElementById('t_sort_up'            );
   horizontal_scrollbar = document.getElementById('horizontal_scrollbar' );
   vertical_scrollbar   = document.getElementById('vertical_scrollbar'   );
   t_authenticate       = document.getElementById('authenticate'         );
@@ -634,6 +630,8 @@ function show_the_tip(td, tip_content)
       if ( data_lin === undefined )
 	{
 	  bottom = true ;
+	  while ( td.tagName != 'TH' )
+	    td = td.parentNode ;
 	  s = type['tip_' + td.parentNode.className.split(' ')[0]] ;
 	  remove_highlight() ;
 	}
@@ -792,7 +790,7 @@ function table_init()
   tr_title = document.createElement('tr') ;
   tr_title.className = 'column_title' ;
   var th = document.createElement('th') ;
-  th.innerHTML = '<p onmousedown="header_title_click(this);sort_column(event) ;"></p>' ;
+  th.innerHTML = '<div onmousedown="header_title_click(this);sort_column(event) ;"><var></var><img src="' + url + '/sort_down.png" width="12"></div>' ;
   for(var i = 0 ; i < table_attr.nr_columns ; i++ )
     {
       var th2 = th.cloneNode(true) ;
@@ -1371,7 +1369,6 @@ function table_header_fill_real()
     }
   //alert(x) ;
 
-  var sort_indicator ;
   for(var col = 0 ; col < table_attr.nr_columns ; col++)
     {
       var className ;
@@ -1389,10 +1386,11 @@ function table_header_fill_real()
 	td_title.removeChild(td_title.childNodes[1]);
 
       column.col = col ;
+      var title = td_title.childNodes[0] ;
 
       // td_title.data_col = td_filter.data_col = column.data_col ;
 
-      td_title.childNodes[0].innerHTML = html(column.title) ;
+      title.firstChild.innerHTML = html(column.title) ;
       td_filter.childNodes[0].value = column.filter ;
       if ( column.filter === '' )
 	td_filter.childNodes[0].className = 'empty' ;
@@ -1404,29 +1402,19 @@ function table_header_fill_real()
       td_title.className = className ;
 
       if ( sort_columns.length !== 0 )
-	if ( column == sort_columns[0] )
+	if ( column != sort_columns[0] )
+	    title.lastChild.style.display = 'none' ;
+	else
 	  {
 	    td_title.className += ' sorted' ;
-	    
 	    if ( column.dir < 0 )
-	      {
-		sort_indicator = sort_down ;
-		sort_up.style.display = 'none' ;
-	      }
+	      title.lastChild.src = title.lastChild.src.replace('sort_up',
+								'sort_down');
 	    else
-	      {
-		sort_indicator = sort_up ;
-		sort_down.style.display = 'none' ;
-	      }
-	    sort_indicator.style.left = findPosX(td_title) + td_title.offsetWidth - 12 ;
-	    sort_indicator.style.top = findPosY(td_title) ;
-	    sort_indicator.style.display = '' ;
+	      title.lastChild.src = title.lastChild.src.replace('sort_down',
+								'sort_up');
+	    title.lastChild.style.display = '' ;
 	  }
-    }
-  if ( sort_indicator === undefined )
-    {
-      sort_up.style.display = 'none' ;
-      sort_down.style.display = 'none' ;
     }
   // XXX If updated, the value being edited may be erased
   if ( ! the_current_cell.focused )

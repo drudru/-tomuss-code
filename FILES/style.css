@@ -165,6 +165,10 @@ TD.rw, #current_input.rw, .rw {
 
 TR.column_title TH { color: #00F; }
 TR.column_title TH.ro { color: #88F; }
+TR.column_title DIV { position: relative; width:100% }
+TR.column_title DIV VAR { float: left; width:100% }
+TR.column_title DIV IMG { position: absolute; right: 0 }
+
 
 TR.ro, TD.ro, #current_input.ro, TH.ro, TH.ro INPUT, TH.ro SELECT, .ro { 
   color: #555 ;
@@ -199,12 +203,6 @@ TABLE#thetable TH.sorted {
   font-weight: bold ;
   color: #00F ;
   background-color: #BFB;
-}
-
-
-#t_sort_up, #t_sort_down {
-position: absolute ;
-z-index: 2;
 }
 
 
