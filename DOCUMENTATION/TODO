@@ -1,11 +1,12 @@
 Finir par priorité :
-	complétion énumeration
-	BUG : Le 'resume' permet d'avoir des informations non autorisées
-	BUg : le suivi étudiant permet d'avoir des informations non autorisées
 	Finir nombre de lignes et les 4 menus.
 	Fusionner update_{column|table}_headers
-	Stockage JavaScript
+	Stockage JavaScript des modifs sur la page.
+	BUG : Le 'resume' permet d'avoir des informations non autorisées
+	BUg : le suivi étudiant permet d'avoir des informations non autorisées
+	complétion énumeration
 	Lien rapide mail marche plus
+	Faire des plugins pour chaque fonctionnalité coté client.
 
 	Sauvegarde de l'état figé...
 	MAJ de la liste des étudiants par l'utilisateur ? regler le changement de semestre
@@ -19,7 +20,6 @@ Finir par priorité :
 	choix année RDV IP si cela a un sens
 	Méthode javascript pour attr : editable (masters attributes)
 	Menu unexpected popdown : answer use your own menu
-	Faire des plugins pour chaque fonctionnalité coté client.
 	Faire disparaitre UE- EC- ...
 	COW (stable) valeur vide ==> comme si rien
 	Bug ajoute + vidage de ligne avec changement de page

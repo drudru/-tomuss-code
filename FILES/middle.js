@@ -677,12 +677,18 @@ w += '<div id="divtable" class="colored"><div id="hover"></div><div id="tip"></d
  return w ;
 }
 
+var popup_old_values = {} ;
+
 function popup_close()
 {
   element_focused = undefined ;
   var e = document.getElementById('popup_id') ;
   if ( e )
-    e.parentNode.removeChild(e);
+    {
+      popup_old_values[e.className] = e.getElementsByTagName('TEXTAREA'
+							     )[0].value ;
+      e.parentNode.removeChild(e);
+    }
 }
 
 function parse_lines(text)
@@ -724,16 +730,28 @@ function popup_column()
   return document.getElementById('popup').column ;
 }
 
-function create_popup(html_class, title, before, after)
+function create_popup(html_class, title, before, after, default_answer)
 {
   popup_close() ;
 
   var popup = document.getElementById('popup') ;
+  var new_value ;
+
+  if ( default_answer )
+    {
+      var new_value = popup_old_values['import_export ' + html_class] ;
+      if ( new_value === undefined )
+	new_value = default_answer ;
+      new_value = html(new_value) ;
+    }
+  else
+    new_value = '' ;
 
   popup.innerHTML += '<div id="popup_id" class="import_export ' +
     html_class + '"><h2>' + title
     + '</h2>' + before +
-    '<TEXTAREA ROWS="10" class="popup_input" onfocus="element_focused=this;"></TEXTAREA>'+
+    '<TEXTAREA ROWS="10" class="popup_input" onfocus="element_focused=this;">'+
+    new_value + '</TEXTAREA>' +
     '<BUTTON class="close" OnClick="popup_close()">&times;</BUTTON>' +
     after ;
 
