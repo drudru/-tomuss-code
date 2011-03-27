@@ -790,7 +790,7 @@ function table_init()
   tr_title = document.createElement('tr') ;
   tr_title.className = 'column_title' ;
   var th = document.createElement('th') ;
-  th.innerHTML = '<div onmousedown="header_title_click(this);sort_column(event) ;"><var></var><img src="' + url + '/sort_down.png" width="12"><img src="' + url + '/sort_down2.png" width="12"></div>' ;
+  th.innerHTML = '<div onmousedown="header_title_click(this);sort_column(event) ;"><span></span><img src="' + url + '/sort_down.png" width="12"><img src="' + url + '/sort_down2.png" width="12"></div>' ;
   for(var i = 0 ; i < table_attr.nr_columns ; i++ )
     {
       var th2 = th.cloneNode(true) ;
@@ -5212,20 +5212,11 @@ function javascript_regtest_ue()
     switch( i.tagName )
       {
       case 'SELECT':
-	//	i.value = v ; // 8/12/2009
-
-	for(var j in i.childNodes)
-	  {
-	    if ( i.childNodes[j].value == v )
-	      {
-		i.selectedIndex = j ;
-		i.childNodes[j].selected = true ;
-		window.event = new Object() ;
-		window.event.target = i ;
-		i.onchange(window.event) ;
-		break ;
-	      }
-	  }
+	set_select_by_value(i, v) ;
+	window.event = new Object() ;
+	window.event.target = i ;
+	i.onchange(window.event) ;
+	break ;
 	if ( i.blur )
 	  i.blur() ;
 	break ;
@@ -5383,6 +5374,7 @@ function javascript_regtest_ue()
     }
   message.innerHTML += 'a';
   expected('');
+  message.innerHTML += '.';
   for(var col_type in col_types)
     {
       the_current_cell.cursor_left() ;
