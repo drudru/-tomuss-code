@@ -2491,8 +2491,6 @@ function update_tip_from_value(o, value)
 
 function update_value_and_tip(o, value)
 {
-  if ( o.tagName != 'INPUT' )
-    return ;
   value = html(value.toString()) ;
   var v = value + '&nbsp;' ;
   if ( o.innerHTML != v )
