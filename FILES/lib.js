@@ -2478,7 +2478,6 @@ function update_tip_from_value(o, value)
 {
   if ( !o )
     return ;
-
   var e = tip_top(o).childNodes[0].lastChild ;
   e.className = 'more' ;
 
@@ -2491,6 +2490,9 @@ function update_tip_from_value(o, value)
 
 function update_value_and_tip(o, value)
 {
+  if ( o.tagName == 'SELECT' )
+    return ;
+
   value = html(value.toString()) ;
   var v = value + '&nbsp;' ;
   if ( o.innerHTML != v )

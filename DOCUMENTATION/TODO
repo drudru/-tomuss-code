@@ -1,5 +1,6 @@
 Finir par priorité :
 	BUG IE pour Modifiable et Privee
+	Ajouter attribut : visible dans le suivi.
 	Finir nombre de lignes et les 4 menus.
 	Fusionner update_{column|table}_headers
 	Stockage JavaScript des modifs sur la page.
