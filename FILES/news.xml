@@ -378,6 +378,27 @@ donc si vous constatez des problèmes, prévenez-nous rapidement.
       </description>
       <guid>29</guid>
     </item>
+    <item>
+      <title>28/03/2011 : Version 2.13.7</title>
+      <link>http://tomuss.univ-lyon1.fr/</link>
+Mis à part de nombreux bugs corrigés :
+      <description>
+&lt;ul&gt;
+&lt;li&gt; Il est maintenant possible d'afficher ou non n'importe quelle
+           table Printemps ou Automne dans le suivi de l'étudiant.
+           On peut donc maintenant afficher une table contenant une étape
+           dans le suivi de l'étudiant.
+&lt;li&gt; Il est possible d'exporter la liste des valeurs uniques trouvées
+           dans la colonne.
+&lt;li&gt; Maintenant, par défaut toutes les tables qui ne sont pas
+           dans Printemps ou Automne ont comme 'responsable' la personne
+           qui les a créés.
+&lt;li&gt; L'indicateur de tri secondaire (en cas d'égalité) est affiché.
+&lt;/ul&gt;
+
+      </description>
+      <guid>30</guid>
+    </item>
 
   </channel>
 </rss>
