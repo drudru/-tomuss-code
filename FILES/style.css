@@ -167,7 +167,7 @@ TR.column_title TH { color: #00F; }
 TR.column_title TH.ro { color: #88F; }
 TR.column_title DIV { position: relative; width:100% }
 TR.column_title DIV SPAN { float: left; width:100% }
-TR.column_title DIV IMG { position: absolute; right: 0 }
+TR.column_title DIV IMG { position: absolute; right: 0px; top: 0px }
 
 
 TR.ro, TD.ro, #current_input.ro, TH.ro, TH.ro INPUT, TH.ro SELECT, .ro { 
