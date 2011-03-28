@@ -307,7 +307,7 @@ function an_user_update(event, input, column, attr)
   var new_value ;
 
   if ( input.selectedIndex !== undefined )
-    new_value = input.options[input.selectedIndex].text ;
+    new_value = input.options[input.selectedIndex].value ;
   else
     new_value = input.value.replace(/\t/g, ' ') ;
 

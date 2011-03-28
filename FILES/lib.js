@@ -4698,7 +4698,7 @@ function update_a_menu(min, current, all, max, select)
   if ( ! select )
     return ;
 
-  var i ;
+  var i, i_striped ;
   var sel ;
   var t = nice_scale_from(min, current, all, max) ;
 
@@ -4712,9 +4712,11 @@ function update_a_menu(min, current, all, max, select)
 	  created = true ;
 	}
       i = t[ii] ;
-      if ( i.toString().replace(' (tout)','') == current )
+      i_striped = i.toString().replace(' (tout)','') ;
+      if ( i_striped == current )
 	sel = ii ;
       option.innerHTML = i ;
+      option.value = i_striped ;
       if ( created )
 	select.appendChild(option) ;
     }
