@@ -1,7 +1,7 @@
 #!/bin/env python
 # -*- coding: utf-8 -*-
 #    TOMUSS: The Online Multi User Simple Spreadsheet
-#    Copyright (C) 2008-2011 Thierry EXCOFFIER, Universite Claude Bernard
+#    Copyright (C) 2011 Thierry EXCOFFIER, Universite Claude Bernard
 #
 #    This program is free software; you can redistribute it and/or modify
 #    it under the terms of the GNU General Public License as published by
@@ -21,22 +21,11 @@
 
 from tablemodifiable import TableModifiable
 
-class TablePrivate(TableModifiable):
-    formatter = r'''
-function(value)
-{
-  if ( (table_attr.masters.length == 0 || ! i_am_the_teacher) && value == 1)
-    {
-      alert('Vous ne pouvez pas rendre cette table privée car\nvous ne pourriez plus la voir.\nCommencez par vous ajouter comme étant\nun des responsable de cette table') ;
-      return ;
-    }
-  return value ;
-}'''
-
-    name = 'private'
+class TableOfficialUE(TableModifiable):
+    name = 'official_ue'
+    # This value is set to True by the TEMPLATE/_ucbl_.py
+    # Only the official UEs are displayed in the 'suivi'
     default_value = 0
     gui_display = "GUI_select"
-    
-    tip = """Une table publique est visible/modifiable par TOUS les <b>enseignants</b>.<br>
-Une table privée est seulement visible/modifiable par les responsables,<br>
-les étudiants pourront néanmoins voir leur suivi."""
+    tip = """<b>Visible</b> : La table est affichée dans le suivi des étudiants<br>
+<b>Invisible</b> : La table est invisible dans le suivi des étudiants."""

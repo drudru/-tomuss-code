@@ -621,6 +621,8 @@ for(var type_i in types)
 		    [[0,'Publique'],[1,'Privée']]) +
    table_input_attr('modifiable',
 		    [[0,'Non Modifiable'],[1,'Modifiable']]) +
+   table_input_attr('official_ue',
+		    [[0,'Invisible'],[1,'Visible']]) +
    table_input_attr('default_nr_columns') + '<br></div>' +
    table_input_attr('dates','empty') +
    '</tr><tr><td class="blockbottom">' +

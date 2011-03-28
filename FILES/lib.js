@@ -195,8 +195,11 @@ function lib_init()
   pending_requests = [] ;
   i_am_root = myindex(root, my_identity) != -1 ;
 
-  compute_nr_cols() ;
-  compute_nr_lines() ;
+  if ( divtable ) // In a table
+    {
+      compute_nr_cols() ;
+      compute_nr_lines() ;
+    }
   current_window_height = window_height() ;
   current_window_width = window_width() ;
 

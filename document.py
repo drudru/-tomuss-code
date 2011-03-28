@@ -207,10 +207,6 @@ class Table(object):
         else:
             self.ue_code = ue
 
-        # This value is set to True by the TEMPLATE/_ucbl_.py
-        # Only the official UEs are displayed in the 'suivi'
-        self.official_ue = False
-
         for attr in TableAttr.attrs.values():
             d = attr.default_value
             if isinstance(d, list):

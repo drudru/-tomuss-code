@@ -30,17 +30,13 @@ def les_ues(year, semester, true_file=False, all_files=False):
     """true_file is for UE that link to another UE"""
     dirname = os.path.join(configuration.db,'Y'+ str(year),'S' + str(semester))
     for ue in utilities.python_files(dirname):
-        if all_files or configuration.is_an_official_ue(ue):
-            if true_file and os.path.islink(os.path.join(dirname, ue)):
-                continue
-            if ue == 'abjs.py':
-                continue
-            yield document.table(str(year), str(semester), ue[:-3], ro=True)
-##        if ue in ('abjs.py', 'referents.py', 'tables.py', 'teachers.py'):
-##            continue
-##        if ue.startswith('portail-'):
-##            continue
-##        yield document.table(str(year), str(semester), ue[:-3], ro=True)
+        if ue == 'abjs.py':
+            continue
+        if true_file and os.path.islink(os.path.join(dirname, ue)):
+            continue
+        table = document.table(str(year), str(semester), ue[:-3], ro=True)
+        if table.official_ue:
+            yield table
 
 
 def all_the_tables(directory=None):

@@ -106,8 +106,10 @@ suivi_display_more_ue = True
 
 # Return True if the name is the code of an official UE.
 # The official UE are displayed to the students in the suivi.
+
 def is_an_official_ue(code):
-    return True
+    "Must be 0 or 1 (JavaScript compatible"
+    return 1
 
 
 # LDAP informations

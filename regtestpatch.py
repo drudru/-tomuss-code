@@ -157,7 +157,7 @@ def do_patch():
     TEMPLATES.Printemps.cell_change = lambda table,page,col,lin,value,date:0
 
     def is_an_official_ue(code):
-        return '-' in code
+        return int('-' in code)
     configuration.is_an_official_ue = is_an_official_ue
 
 

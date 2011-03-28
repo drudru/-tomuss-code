@@ -1,8 +1,7 @@
 Finir par priorité :
-	Ajouter attribut : visible dans le suivi.
+	Stockage JavaScript des modifs sur la page.
 	Finir nombre de lignes et les 4 menus.
 	Fusionner update_{column|table}_headers
-	Stockage JavaScript des modifs sur la page.
 	BUG : Le 'resume' permet d'avoir des informations non autorisées
 	BUg : le suivi étudiant permet d'avoir des informations non autorisées
 	complétion énumeration
@@ -55,7 +54,6 @@ Finir par priorité :
 	Il n'y a pas de Flux RSS pour les tables ni printemps ni automne.
 
     Moyenne :
-	Indicateur modifiable : official_ue
 	linear	Afficher aide plus detaille sur la valeur de la cellule
 	Interface pour détruire les tables.
 	UE par formation

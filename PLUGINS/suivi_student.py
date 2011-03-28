@@ -88,12 +88,13 @@ def the_ues(year, semester, login):
         last_full_read_time = time.time()
         return tablestat.les_ues(year, semester, true_file=False)
     else:
-        # NE FONCTIONNE PAS AVEC LE FICHIER LIONEL
         login = utilities.the_login(login)
-        return [document.table(year, semester, ue, ro=True)
-                for ue in document.tables_of_student.get(login,[])
-                if configuration.is_an_official_ue(ue)
-                ]
+        tables = []
+        for ue in document.tables_of_student.get(login,[]):
+            the_table = document.table(year, semester, ue, ro=True)
+            if the_table.official_ue:
+                tables.append(the_table)
+        return tables
 
 # To not have duplicate error messages
 referent_missing = {}
