@@ -3,10 +3,11 @@ Finir par priorité :
 	Stockage JavaScript des modifs sur la page.
 	Finir nombre de lignes et les 4 menus.
 	Fusionner update_{column|table}_headers
+	Lien rapide mail marche plus
+	Rechargement page d'accueil
 	BUG : Le 'resume' permet d'avoir des informations non autorisées
 	BUg : le suivi étudiant permet d'avoir des informations non autorisées
 	complétion énumeration
-	Lien rapide mail marche plus
 	Faire des plugins pour chaque fonctionnalité coté client.
 
 	Sauvegarde de l'état figé...
@@ -98,7 +99,6 @@ Finir par priorité :
 
 Questions en suspend :
 	Mettre en évidence la ligne courante ?
-	Pas de feedback quand ticket expiré ?
 	Nouvelle page quand on clique dans le suivi ?
 	Wizard création table ?
 	Téléphone dans suivi et fiche ?

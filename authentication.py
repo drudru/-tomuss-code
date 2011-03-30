@@ -132,9 +132,8 @@ def get_path(server, server_url):
                        or ( ticket.tickets[path[1]].user_name == user_name
                             and ticket.tickets[path[1]].user_browser == server.headers["User-Agent"]
                             ):
-                    ticket.tickets[path[1]] = ticket.tickets[ticket_key]
-                    ticket.tickets[path[1]].ticket = path[1]
-                    del ticket.tickets[ticket_key] # DO NOT CALL REMOVE METHOD
+                    # Update the old ticket
+                    ticket.tickets[path[1]] = ticket.clone(path[1], t)
                     server.send_response(200)
                     server.send_header('Content-Type', 'text/html')
                     server.end_headers()

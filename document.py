@@ -90,10 +90,10 @@ class Page(object):
             and user_browser == self.user_browser):
             return
         warn('received ticket=%s user_name=%s user_browser=%s ip=%s' % (
-            ticket, user_name, user_browser, user_ip), what="auth")
+            ticket, user_name, user_browser, user_ip), what="Info")
         warn('current  ticket=%s user_name=%s user_browser=%s ip=%s' % (
             self.ticket, self.user_name, self.user_browser, self.user_ip),
-             what="auth")
+             what="Info")
         raise ValueError('Cheater')
 
     def add_request(self, request, action, path, output_file):

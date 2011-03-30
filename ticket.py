@@ -69,7 +69,7 @@ class Ticket(object):
                 and self.user_ip == client_ip(server)
                 and self.user_browser == user_browser
                 )
-    
+
     def log(self):
         return 'add(' + \
                repr(self.ticket) + ',' + repr(self.user_name) + \
@@ -154,6 +154,11 @@ def get_ticket_string(server):
             ticket = None
     warn('RETURNS: %s %s' % (ticket, path), what='auth')
     return ticket, [cgi.urllib.unquote(x) for x in path]
+
+def clone(ticket_key, ticket):
+    return Ticket(ticket_key,
+                  ticket.user_name, ticket.user_ip, ticket.user_browser,
+                  ticket.date)
 
 def remove_old_tickets():
     """Remove old tickets from memory"""
