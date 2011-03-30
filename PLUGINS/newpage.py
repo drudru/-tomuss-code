@@ -122,6 +122,7 @@ def new_page(server):
         
         server.the_file.write('<meta HTTP-EQUIV="REFRESH" content="0; url=%s">' % (link_to,))
         server.the_file.close()
+        table.do_not_unload_add(-1)
         return
     
     warn('New page, do_not_unload=%d' % table.do_not_unload, what="table")
@@ -168,7 +169,7 @@ def new_page(server):
             table.active_page(page, server.the_file)
     finally:
         # Can't be unloaded because it is active.
-        table.do_not_unload -= 1
+        table.do_not_unload_add(-1)
         table.unlock()
     if configuration.regtest_sync:
         # We want immediate update of navigator content
@@ -217,9 +218,10 @@ else
       alert("Votre page est trop vieille, réactualisez la.") ;
 </script>''')
         server.the_file.close()
+        utilities.send_backtrace(str(e), 'Too old page')
         return
     except:
-        # Reconnection of an old non modifiable page on: a stoped server
+        # Reconnection of an old non modifiable page on: a stopped server
         # or with an old ticket after a connection lost.
         # See REGTEST_SERVER/tests.py 'lostpage'
         server.the_file.write('<script>window.parent.location = "%s/%s/%s/%s"</script>' % (configuration.server_url, server.the_year, server.the_semester, server.the_ue))

@@ -140,11 +140,11 @@ pour la trier dans une direction ou l'autre."""
 
     # check value to be stored in the cell
     cell_test = 'test_nothing'
-    # What to do on mouse lcick
+    # What to do on mouse click
     onmousedown = 'cell_select'
     # How to display the cell value
     formatte = 'text_format'
-    # What to to on cell double click
+    # What to do on cell double click
     ondoubleclick = 'undefined'
     # How to compute the cell value
     cell_compute = 'undefined'

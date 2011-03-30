@@ -992,6 +992,10 @@ la dernière saisie.
                 pass
         self.active_pages = []
 
+    @utilities.add_a_lock
+    def do_not_unload_add(self, value):
+        self.do_not_unload += value
+
     def unload(self, force=False):
         if force:
             self.close_active_pages()
@@ -1051,7 +1055,7 @@ def tables_manage(action, year, semester, ue, do_not_unload=0, new_table=None):
         try:
             t = tables[year, semester, ue]
             if t:
-                t.do_not_unload += do_not_unload # XXX to lock ???
+                t.do_not_unload_add(do_not_unload)
             return t
         except KeyError:
             tables[year, semester, ue] = None
@@ -1108,7 +1112,7 @@ def table(year, semester, ue, page=None, ticket=None, ro=False, create=True,
             # The table import failed, allow the new one to retry
             tables[year, semester, ue] = False
             raise
-        t.do_not_unload += do_not_unload # Only on this case
+        t.do_not_unload_add(do_not_unload) # Only on this case
         tables[year, semester, ue] = t
     else:
         # Table yet loaded
@@ -1166,9 +1170,7 @@ def check_new_students_real():
     try:
         while update_students:
             t = update_students.pop()
-            t.lock()
-            t.do_not_unload += 1
-            t.unlock()
+            t.do_not_unload_add(1)
             utilities.bufferize_this_file(t.filename)
             try:
                 warn('start update students of %s' % t.ue, what="table")
@@ -1181,9 +1183,7 @@ def check_new_students_real():
                     for column in t.columns:
                         column.type.update_all(t, column)
             finally:
-                t.lock()
-                t.do_not_unload -= 1
-                t.unlock()
+                t.do_not_unload_add(-1)
                 utilities.bufferize_this_file(None)
             
     except IndexError:
@@ -1271,7 +1271,7 @@ def check_requests():
             tabl = page.table
             if page.request > request:
                 # An old request was given. Assume same answer XXX
-                tabl.do_not_unload -= 1
+                tabl.do_not_unload_add(-1)
                 try:
                     warn('Old request asked : %d in place of %d' % (
                         request, page.request))
@@ -1296,7 +1296,7 @@ def check_requests():
             try:
                 real_bug = True
                 tabl.lock()
-                tabl.do_not_unload -= 1
+                tabl.do_not_unload_add(-1)
                 try:
                     if action.startswith('column_attr_'):
                         page.answer = tabl.column_attr(page, path[0],

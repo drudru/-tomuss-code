@@ -30,21 +30,23 @@ def cell(server):
     table, page = document.table(server.the_year, server.the_semester,
                                  server.the_ue, None, server.ticket,
                                  do_not_unload=1)
-    col = server.the_path[0]
-    lin = server.the_path[1]
-    value = server.the_path[2]
-    table.lock()
     try:
+        col = server.the_path[0]
+        lin = server.the_path[1]
+        value = server.the_path[2]
         if lin not in table.lines or table.columns.from_id(col) == None:
             r = 'bad.png'
         else:
+            table.lock()
             try:
-                r = table.cell_change(page, col, lin, value)
-            except ValueError:
-                r = 'bad.png'
+                    try:
+                        r = table.cell_change(page, col, lin, value)
+                    except ValueError:
+                        r = 'bad.png'
+            finally:
+                table.unlock()
     finally:
-        table.do_not_unload -= 1 # Protected
-        table.unlock()
+        table.do_not_unload_add(-1)
     if r == 'bad.png':
         server.the_file.write('<body style="background:red">')
     elif r == 'ok.png':
