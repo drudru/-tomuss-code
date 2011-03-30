@@ -33,18 +33,18 @@ def cell(server):
     col = server.the_path[0]
     lin = server.the_path[1]
     value = server.the_path[2]
-    if lin not in table.lines or table.columns.from_id(col) == None:
-        r = 'bad.png'
-    else:
-        table.lock()
-        try:
+    table.lock()
+    try:
+        if lin not in table.lines or table.columns.from_id(col) == None:
+            r = 'bad.png'
+        else:
             try:
                 r = table.cell_change(page, col, lin, value)
             except ValueError:
                 r = 'bad.png'
-        finally:
-            table.do_not_unload -= 1 # Protected
-            table.unlock()
+    finally:
+        table.do_not_unload -= 1 # Protected
+        table.unlock()
     if r == 'bad.png':
         server.the_file.write('<body style="background:red">')
     elif r == 'ok.png':
