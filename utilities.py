@@ -92,8 +92,7 @@ def bufferize_this_file(filename):
         if filename_to_bufferize:
             append_file_unlocked(filename_to_bufferize,
                                  ''.join(filename_buffer))
-        
-        filename_to_bufferize = None
+        filename_to_bufferize = filename
         filename_buffer = []
     finally:
         append_file.the_lock.release()
