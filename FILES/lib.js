@@ -5086,7 +5086,7 @@ function runlog(the_columns, the_lines)
    */
 
   table_init() ;
-  table_fill(false, true, true) ;
+  table_fill(true, true, true) ;
 
   if ( ue == 'javascript_regtest_ue' )
     {
