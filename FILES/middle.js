@@ -86,7 +86,7 @@ function head_html()
     + '</title></head>' ;
 
 
-  w += '<body id="body" class="tomuss" onunload="the_current_cell.change();" onkeydown="the_current_cell.keydown(event, false)">' +
+  w += '<body id="body" class="tomuss" onunload="the_current_cell.change();store_unsaved()" onkeydown="the_current_cell.keydown(event, false)">' +
     // This message is visible in FireFox (bug ?)
     //   '<noscript>Activez JavaScript et réactualisez la page</noscript>'+
    '<div class="identity">' +

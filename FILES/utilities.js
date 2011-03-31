@@ -1040,7 +1040,7 @@ function _UE(name, responsable, intitule, parcours, code, login,
     this.code = '<!-- ' + lm + this.name + ' -->';
   else
   */
-    this.code = '<!-- ' + this.name + ' -->';
+  this.code = '<!-- ' + this.name + ' -->';
 }
 
 function UE(name, responsable, intitule, parcours, code, login,
@@ -1551,8 +1551,20 @@ function student_click_more(t)
 }
 
 
-function ue_line(with_students, code, content)
+function ue_line(ue, code, content)
 {
+  if ( ! ue )
+    return ;
+  var html_class = '' ;
+  /*      
+  if ( localStorage && localStorage['/' + year_semester() + '/' + code] )
+    html_class = 'unsaved_data' ; 
+  */
+  if (code.match(/^UE-/) && ue.nr_students_ue)
+    html_class += ' with_students' ;
+  if (code.match(/^EC-/) == 0 && ue.nr_students_ec)
+    html_class += ' with_students' ;
+
   var tt ;
   var c = code.substr(3).split('-')[0] ;
   if ( all_ues[c] && all_ues[c].tt )
@@ -1562,7 +1574,7 @@ function ue_line(with_students, code, content)
   else
     tt = '' ;
 
-  return '<tr' + with_students + ' onmouseover="ue_line_over(\'' + code + '\',this,ue_line_click_more);" onclick="javascript:go(\'' + code
+  return '<tr class="' + html_class + '" onmouseover="ue_line_over(\'' + code + '\',this,ue_line_click_more);" onclick="javascript:go(\'' + code
     + '\')"><td>' + tt + content + '</td></tr>' ;
 
 }
@@ -1595,13 +1607,8 @@ function display_ue_list(s, txt, txt_upper, names)
 	  t_upper = ue.line_upper.replace(/.*\003/, ue_code + '\003') ;
 	}
       t_replaced = check_and_replace(t, t_upper, txt, txt_upper) ;
-      var with_students = '' ;
       
-      if (ue && ue.nr_students_ue)
-	with_students = ' class="with_students"' ;
-      
-      s.push(ue_line(with_students, ue_code,
-		     t_replaced ? t_replaced : t)) ;
+      s.push(ue_line(ue, ue_code, t_replaced ? t_replaced : t)) ;
     }
 }
 
@@ -1621,7 +1628,12 @@ function update_ues_master_of(txt, txt_upper)
     {
       i = master_of[i] ;
       var code = i[0] + '/' + i[1] + '/' + i[2] ;
-      s.push('<tr onmouseover="ue_line_over(\'' + code + '\',this,ue_line_click_more);" '
+      /*
+      if ( localStorage && localStorage['/' + code] )
+	html_class = ' class="unsaved_data" ' ;
+      */
+      s.push('<tr onmouseover="ue_line_over(\''
+	     + code + '\',this,ue_line_click_more);" '
 	     + 'onclick="javascript:goto_url(\'' + base + code
 	     + '\')"><td></td><td colspan="2">' + code + '</td></tr>') ;
     }
@@ -1691,24 +1703,20 @@ function update_ues_searched(txt, txt_upper)
 	{
 	  t_replaced = check_and_replace(t, t_upper, txt, txt_upper) ;
 	  if ( t_replaced !== undefined )
-	    s.push(ue_line('', ue.name, t_replaced)) ;
+	    s.push(ue_line(ue, ue.name, t_replaced)) ;
 	}
       else
 	{
-	  var with_students = '' ;
-	  if (ue.nr_students_ue)
-	    with_students = ' class="with_students"' ;
-	  
 	  t_replaced = check_and_replace('UE-' + t, 'UE-' + t_upper,
 					 txt, txt_upper) ;
 	  if ( t_replaced !== undefined )
-	    s.push(ue_line(with_students, 'UE-' + ue.name, t_replaced)) ;
+	    s.push(ue_line(ue, 'UE-' + ue.name, t_replaced)) ;
 	  if (ue.nr_students_ec)
 	    {
 	      t_replaced = check_and_replace('EC-' + t, 'EC-' + t_upper,
 					     txt, txt_upper) ;
 	      if ( t_replaced !== undefined )
-		s.push(ue_line(with_students, 'EC-' + ue.name, t_replaced));
+		s.push(ue_line(ue, 'EC-' + ue.name, t_replaced));
 	    }
 	}
       if ( s.length == 100 )
@@ -1744,7 +1752,7 @@ function update_ues2(txt, clicked)
 	all_ues_sorted.push( t[ue][1] ) ;
 
       document.getElementById('ue_list').innerHTML =
-	'<div></div><div></div><div></div><div></div>' ;
+	'<div></div><div></div><div></div><div></div><div></div>' ;
     }
 
   ue_line_out() ;
@@ -1757,7 +1765,44 @@ function update_ues2(txt, clicked)
   update_ues_favorites(txt, txt_upper) ;
   update_ues_spiral(txt, txt_upper) ;
   update_ues_master_of(txt, txt_upper) ;
+  update_ues_unsaved() ;
+
+  window.addEventListener('storage', storageEventHandler, false);
 }
+
+function storageEventHandler(e)
+{
+  ue_line_close() ;
+  update_ues_unsaved() ;
+}
+
+function update_ues_unsaved()
+{
+  if ( ! localStorage )
+    return ;
+  var index = localStorage['index'] ;
+  if ( ! index )
+    {
+      document.getElementById('ue_list').childNodes[4].innerHTML = '' ;
+      return ;
+    }
+  var s = ['<tr><th colspan="3">' +
+	   hidden_txt('Table avec des données non sauvegardées',
+		      'VISITEZ CES TABLES POUR SAUVER LEUR CONTENU.<br>\nEn effet, le contenu de ces tables est en parti dans votre navigateur')
+	   + '</th></tr>'] ;
+  var unsaved = index.substr(1).split('\n') ;
+  for(var i in unsaved)
+    {
+      i = unsaved[i].substr(1) ;
+      s.push('<tr class="unsaved_data" onmouseover="ue_line_over(\''
+	     + i + '\',this,ue_line_click_more);" '
+	     + 'onclick="javascript:goto_url(\'' + base + i
+	     + '\')"><td></td><td colspan="2">' + i + '</td></tr>') ;
+    }
+  s = ue_line_join(s) ;
+  document.getElementById('ue_list').childNodes[4].innerHTML = '<table class="with_margin uelist"><colgroup><col class="code"><col class="title"><col class="responsable"></colgroup>' + s + '</table>' ;
+}
+
 
 var update_referent_of_done ;
 

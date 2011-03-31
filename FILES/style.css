@@ -683,6 +683,7 @@ TABLE.student_list TR.hover TD, TABLE.uelist TR.hover TD, TABLE.uelist TR.ue_lis
   background-color: #CCF ;
 }
 
+TABLE.uelist TR.unsaved_data TD { color: #F00; }
 
 TABLE.uelist TR.with_students TD.title { font-weight: bold ; }
 

@@ -2588,6 +2588,75 @@ function revalidate_ticket()
     }
 }
 
+function store_unsaved()
+{
+  if ( ! table_attr.autosave )
+    return ;
+  auto_save_errors() ; // Cleanup pending_requests list
+  if ( pending_requests.length == 0 )
+    return ;
+  if ( ! localStorage )
+    {
+      alert("Désol�, la fenêtre a été fermée sans tout sauvegarder") ;
+      return ;
+    }
+  var s = [] ;
+  for(var i in pending_requests)
+    {
+      i = pending_requests[i] ;
+      s.push(i.content) ;
+    }
+  localStorage['/' + year + '/' + semester + '/' + ue] = s.join('\n') ;
+  index = localStorage['index'] ;
+  if ( ! index )
+    index = '' ;
+  index += '\n' + '/' + year + '/' + semester + '/' + ue ;
+  localStorage['index'] = index ;
+}
+
+var do_reload_when_all_saved = false ;
+
+function restore_unsaved()
+{
+  if ( ! localStorage )
+    return ;
+  var t = localStorage['/' + year + '/' + semester + '/' + ue] ;
+  if ( ! t )
+    return ;
+  var t_splited = t.split('\n') ;
+  var message = '', line ;
+  for(var i in t_splited)
+    {
+      line = t_splited[i].split('/') ;
+      if ( line[0] == 'cell_change' )
+	{
+	  var data_col = data_col_from_col_id(line[1]) ;
+	  var data_lin = data_lin_from_lin_id(line[2]) ;
+	  if ( data_col !== undefined && data_lin !== undefined )
+	    {
+	      message += lines[data_lin][0].value + ' ' +
+		lines[data_lin][1].value + ' ' + lines[data_lin][2].value 
+		+ ',' + columns[data_col].title + ' = ' + line[3] + '\n' ;
+	      continue ;
+	    }
+	}
+      message += t_splited[i] + '\n' ;
+    }
+
+  if ( confirm("Voulez-vous restaurer les actions suivantes :\n" + message) )
+    {
+      for(var i in t_splited)
+	pending_requests.push(new Request(t_splited[i])) ;
+    }
+  else
+    t = '' ;
+  localStorage['/' + year + '/' + semester + '/' + ue] = '' ;
+  index = localStorage['index'] ;
+  localStorage['index'] = index.replace(RegExp('\n/'+year+'/'+semester+'/'+ue,
+					       'g'), '') ;
+  if ( t )
+    do_reload_when_all_saved = true ;
+}
 
 function Request(content)
 {
@@ -2675,9 +2744,9 @@ function auto_save_errors()
   var d = millisec() ;
   nr_saved = 0 ;
 
-  for(var i in  pending_requests)
+  for(var i in pending_requests)
     {
-      i =  pending_requests[i] ;
+      i = pending_requests[i] ;
       if ( i.saved )
 	continue ;
       nr_unsaved++ ;
@@ -2693,9 +2762,15 @@ function auto_save_errors()
 	}
     }
 
+  if ( do_reload_when_all_saved && nr_unsaved == 0 )
+    {
+      window.location = window.location ;
+      do_reload_when_all_saved = false ;
+    }
+
   // Remove the item 10 by 10 (it's slow one by one)
   for(var i=10; i>=0; i--)
-    if (  pending_requests[i] === undefined || !  pending_requests[i].saved )
+    if (  pending_requests[i] && ! pending_requests[i].saved )
       break ;
   if ( i == -1 )
     pending_requests.splice(0,10) ;
@@ -5051,6 +5126,8 @@ function runlog(the_columns, the_lines)
 
   the_current_cell.update_table_headers() ;
   change_title(table_attr.table_title, table_attr.code) ;
+
+  restore_unsaved() ;
 }
 
 
