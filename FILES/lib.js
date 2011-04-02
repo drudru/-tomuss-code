@@ -2597,7 +2597,7 @@ function store_unsaved()
     return ;
   if ( ! localStorage )
     {
-      alert("Désol�, la fenêtre a été fermée sans tout sauvegarder") ;
+      alert("Désol��, la fenêtre a été fermée sans tout sauvegarder") ;
       return ;
     }
   var s = [] ;
@@ -2636,7 +2636,7 @@ function restore_unsaved()
 	    {
 	      message += lines[data_lin][0].value + ' ' +
 		lines[data_lin][1].value + ' ' + lines[data_lin][2].value 
-		+ ',' + columns[data_col].title + ' = ' + line[3] + '\n' ;
+		+ ', ' + columns[data_col].title + ' = ' + line[3] + '\n' ;
 	      continue ;
 	    }
 	}
@@ -2647,6 +2647,9 @@ function restore_unsaved()
     {
       for(var i in t_splited)
 	pending_requests.push(new Request(t_splited[i])) ;
+      create_popup('restoring_data',
+		   'Sauvegarde en cours, veuillez patienter',
+		   '', '', message) ;
     }
   else
     t = '' ;

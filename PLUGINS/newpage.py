@@ -215,10 +215,9 @@ def answer_page(server):
 if (window.parent.click_to_revalidate_ticket)
       window.parent.click_to_revalidate_ticket() ;
 else
-      alert("Votre page est trop vieille, réactualisez la.") ;
+      alert("Votre page est trop vieille, réactualisez la. Si votre navigateur est récent vous ne perdrez aucune donnée si 'AutoSauve' est bien activé.") ;
 </script>''')
         server.the_file.close()
-        utilities.send_backtrace(str(e), 'Too old page')
         return
     except:
         # Reconnection of an old non modifiable page on: a stopped server
