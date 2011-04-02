@@ -21,9 +21,9 @@
 
 from column import TableAttr
 
-class TableNrColumns(TableAttr):
-    name = 'nr_columns'
+class TableNrLines(TableAttr):
+    name = 'nr_lines'
     default_value = 0
-    tip = "Nombre de <b>colonnes</b> affichées sur l'écran"
+    tip = "Nombre de <b>lignes</b> affichées sur l'écran"
     gui_display = "GUI_select"
-    action = "nr_columns_change"
+    action = "nr_lines_change"

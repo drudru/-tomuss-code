@@ -25,8 +25,8 @@ function table_bookmark()
   var p ;
 
   var s = url + '/=' + ticket + '/' + year + '/' + semester + '/' + ue +
-    '/=nr_cols=' + nr_cols +
-    '/=nr_lines=' + nr_lines
+    '/=nr_cols=' + table_attr.nr_columns +
+    '/=nr_lines=' + table_attr.nr_lines
     ;
  
   p = '' ;
@@ -106,8 +106,8 @@ function get_all_options()
   if ( window.location.pathname.search('=display_tips=') != -1 )
     display_tips = false ;
 
-  nr_lines = Number(get_option('nr_lines', nr_lines)) ;
-  nr_cols = Number(get_option('nr_cols', nr_cols)) ;
+  table_attr.nr_lines = Number(get_option('nr_lines', table_attr.nr_lines)) ;
+  table_attr.nr_columns = Number(get_option('nr_cols', table_attr.nr_columns));
   column_offset = Number(get_option('column_offset', column_offset)) ;
   h = get_option('hidden', '').split('=') ;
   for(var i in h)

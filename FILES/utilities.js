@@ -2741,8 +2741,8 @@ function current_update(do_not_focus)
   lin = this.lin ;
   col = this.col ;
 
-  if ( lin >= nr_lines + nr_headers )
-    lin = nr_lines + nr_headers - 1 ;
+  if ( lin >= table_attr.nr_lines + nr_headers )
+    lin = table_attr.nr_lines + nr_headers - 1 ;
   if ( col >= table_attr.nr_columns - 1 )
     col = table_attr.nr_columns - 1 ;
 
@@ -2752,7 +2752,7 @@ function current_update(do_not_focus)
 function current_cursor_down()
 {
   this.change() ;
-  if ( this.lin == nr_lines + nr_headers - 1 )
+  if ( this.lin == table_attr.nr_lines + nr_headers - 1 )
     {
       next_page(true) ;
       table_fill_try() ; // Want change NOW (bad input if fast typing)

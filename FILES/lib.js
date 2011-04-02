@@ -60,7 +60,6 @@ var line_filter_value ;
 var tr_classname ;		// Column containing the className of the line
 var popup_on_red_line ;
 var do_not_read_option ;	// Option disabled for virtual tables
-var nr_lines ;
 var the_current_cell ;
 var today ;
 var debug_window ;
@@ -100,7 +99,6 @@ var the_body ;
 var p_title_links ;
 var nr_not_empty_lines ;
 var nr_filtered_lines ;
-var select_nr_lines ;
 var message ;
 var the_comment ;
 var linefilter ;
@@ -134,7 +132,6 @@ function lib_init()
   p_title_links        = document.getElementById('title_links'          );
   nr_not_empty_lines   = document.getElementById('nr_not_empty_lines'   );
   nr_filtered_lines    = document.getElementById('nr_filtered_lines'    );
-  select_nr_lines      = document.getElementById('nr_lines'             );
   message              = document.getElementById('message'              );
   the_comment          = document.getElementById('comment'              );
   linefilter           = document.getElementById('linefilter'           );
@@ -237,14 +234,14 @@ function compute_nr_lines()
   if ( the_current_cell.input )
     {
       // Number of displayed lines on the screen
-      nr_lines = (window_height() - header_height)
+      table_attr.nr_lines = (window_height() - header_height)
 	/ (3 + the_current_cell.input.offsetHeight) ;
-      nr_lines = Math.floor(nr_lines) - 3 ;
+      table_attr.nr_lines = Math.floor(table_attr.nr_lines) - 3 ;
     }
 
-  // nr_lines = Math.floor( (window_height() - 350) / 22) ;
-  if ( nr_lines < 3 )
-    nr_lines = 3 ;
+  // table_attr.nr_lines = Math.floor( (window_height() - 350) / 22) ;
+  if ( table_attr.nr_lines < 3 )
+    table_attr.nr_lines = 3 ;
 }
 
 /*
@@ -304,7 +301,7 @@ function lin_from_data_lin(data_lin)
 	break ;
       }
   */
-  if ( lin < 0  || lin >= nr_lines )
+  if ( lin < 0  || lin >= table_attr.nr_lines )
     return ;
   return lin ;
 }
@@ -312,18 +309,6 @@ function lin_from_data_lin(data_lin)
 function td_from_data_lin_data_col(data_lin, data_col)
 {
   var col, lin ;
-
-  /*
-  var cls = column_list() ;
-  for(var i in cls)
-    if ( cls[i].data_col == data_col )
-      {
-	col = i - column_offset ;
-	break ;
-      }
-  if ( col < 0 || col >= nr_cols )
-    return ;
-  */
 
   col = columns[data_col].col ;
   if ( col === undefined )
@@ -815,7 +800,7 @@ function table_init()
   for(var i = 0 ; i < table_attr.nr_columns ; i++ )
     tr.appendChild(td.cloneNode(true)) ;
 
-  for(var i = 0 ; i < nr_lines ; i++ )
+  for(var i = 0 ; i < table_attr.nr_lines ; i++ )
     {
       var t = tr.cloneNode(true) ;
       if ( i % zebra_step === 0 )
@@ -827,7 +812,7 @@ function table_init()
 
   _d('headers inited\n') ;
 
-  for(var lin = 0 ; lin < nr_lines + nr_headers ; lin++ )
+  for(var lin = 0 ; lin < table_attr.nr_lines + nr_headers ; lin++ )
     {
       tr = table.childNodes[lin] ;
 
@@ -1159,8 +1144,8 @@ function sb_pixel_to_line(pixel, dont_cut)
   line = (filtered_lines.length*(pixel-vertical_scrollbar_width))/sb_height() ;
   line = Number(line.toFixed(0));
   if ( dont_cut === undefined )
-    if ( line >= filtered_lines.length - nr_lines )
-      line = filtered_lines.length - nr_lines + 1 ;
+    if ( line >= filtered_lines.length - table_attr.nr_lines )
+      line = filtered_lines.length - table_attr.nr_lines + 1 ;
   if ( line < 0 )
     line = 0 ;
   return line ;
@@ -1207,7 +1192,7 @@ function update_vertical_scrollbar_position_real()
   else
     {
       p.style.top = sb_line_to_pixel(line_offset) ;
-      p.style.height = sb_line_to_pixel(line_offset + nr_lines)
+      p.style.height = sb_line_to_pixel(line_offset + table_attr.nr_lines)
 	- sb_line_to_pixel(line_offset) ;
     }
   update_vertical_scrollbar_cursor_real() ;
@@ -1252,12 +1237,12 @@ function move_scrollbar(event)
     return ;
   if ( y > divtable.offsetHeight - vertical_scrollbar_width )
     return ;
-  line_offset = sb_pixel_to_line(y,true) - Math.floor(nr_lines/2) ;
+  line_offset = sb_pixel_to_line(y,true) - Math.floor(table_attr.nr_lines/2) ;
   if ( line_offset < 0 )
     line_offset = 0 ;
   var new_y = sb_pixel_to_line(y,true) - line_offset + nr_headers ;
-  if ( new_y >= nr_lines + nr_headers ) // Should never be true.
-    new_y = nr_lines - 1 + nr_headers ;
+  if ( new_y >= table_attr.nr_lines + nr_headers ) // Should never be true.
+    new_y = table_attr.nr_lines - 1 + nr_headers ;
   table_fill();
   table_fill_hook = function() { the_current_cell.jump(new_y,
 						       the_current_cell.col,
@@ -1794,7 +1779,7 @@ function login_list(name, x)
   display_tips_saved = display_tips ;
   display_tips = false ;
 
-  var nr = Math.floor(nr_lines / 2) ;
+  var nr = Math.floor(table_attr.nr_lines / 2) ;
   if ( x.length < nr )
     nr = x.length ;
   if ( nr < 2 )
@@ -1857,11 +1842,11 @@ function table_fill_real()
 	}
       line_fill(line, write, cls, empty_column) ;
       write++ ;
-      if ( write == nr_lines + nr_headers )
+      if ( write == table_attr.nr_lines + nr_headers )
 	break ;
     }
   // lines of tables after the end of the data, the empty lines
-  while( write < nr_lines + nr_headers )
+  while( write < table_attr.nr_lines + nr_headers )
     {
       var tr = table.childNodes[write] ;
       tr.className = tr.zebra ;
@@ -2000,7 +1985,7 @@ function add_empty_lines()
   var not_empty = first_line_not_empty() ;
   var nr_empty_lines = lines.length - not_empty - 1 ;
 
-  for(var i = 0 ; i < nr_lines - nr_empty_lines ; i++)
+  for(var i = 0 ; i < table_attr.nr_lines - nr_empty_lines ; i++)
     add_empty_line() ;
 
   if ( nr_not_empty_lines )
@@ -2034,17 +2019,17 @@ function next_page(next_cell, dy)
   the_current_cell.change() ;
 
   if ( filtered_lines !== undefined 
-       && line_offset + nr_lines > filtered_lines.length )
+       && line_offset + table_attr.nr_lines > filtered_lines.length )
     return true;
 
   if ( dy === undefined )
-    dy = Number((nr_lines * preferences.page_step).toFixed(0)) ;
+    dy = Number((table_attr.nr_lines * preferences.page_step).toFixed(0)) ;
 
 
   if ( next_cell )
     {
       table_fill_hook = function() {
-	cell_goto(table.childNodes[nr_headers+nr_lines-dy].childNodes[the_current_cell.col]) ;
+	cell_goto(table.childNodes[nr_headers+table_attr.nr_lines-dy].childNodes[the_current_cell.col]) ;
       } ;
     }
 
@@ -2058,7 +2043,7 @@ function previous_page(previous_cell, dy)
 {
   the_current_cell.change() ;
   if ( dy === undefined )
-    dy = Number((nr_lines * preferences.page_step).toFixed(0)) ;
+    dy = Number((table_attr.nr_lines * preferences.page_step).toFixed(0)) ;
   if ( previous_cell )
     {
       table_fill_hook = function() {
@@ -2911,7 +2896,7 @@ function Xcell_change(col, lin, value, date, identity, history)
       */
       filtered_lines.push(lines[data_lin]) ;
       lin = filtered_lines.length - line_offset ;
-      if ( lin > 0 && lin < nr_lines - nr_headers )
+      if ( lin > 0 && lin < table_attr.nr_lines - nr_headers )
 	{
 	  line_fill(filtered_lines.length-1, lin + nr_headers) ;
 	}
@@ -3008,7 +2993,7 @@ function Xtable_attr(attr, value)
 function update_table_size()
 {
   // In order to force Gecko to update table size
-  var tr = table.childNodes[nr_lines + nr_headers - 1] ;
+  var tr = table.childNodes[table_attr.nr_lines + nr_headers - 1] ;
 
   table.removeChild(tr);
   table.appendChild(tr) ;
@@ -4605,7 +4590,7 @@ function update_portail(login, portail)
 function change_size(dx, dy)
 {
   table_attr.nr_columns += dx ;
-  nr_lines += dy ;
+  table_attr.nr_lines += dy ;
   table_init() ;
   table_fill(false, true) ;
 }
@@ -4732,7 +4717,7 @@ function change_table_size(select)
     }
   else
     {
-      nr_lines = i ;
+      table_attr.nr_lines = i ;
       line_offset = 0 ;
     }
   table_init() ;
@@ -4795,19 +4780,6 @@ function update_a_menu(min, current, all, max, select)
 	select.appendChild(option) ;
     }
   select.selectedIndex = sel ;
-}
-
-function update_line_menu()
-{
-  var nr ;
-
-  if ( filtered_lines )
-    nr = filtered_lines.length ;
-  else
-    nr = lines.length ;
-
-  update_a_menu(2, nr_lines, nr, Math.max(nr*1.5, nr_lines*1.1),
-		select_nr_lines) ;
 }
 
 function compute_abj_per_day(t)
@@ -4984,7 +4956,7 @@ function runlog(the_columns, the_lines)
       columns[2].position = columns[1].position - 0.1 ;
     }
   if ( preferences.nr_lines > 0 && preferences.nr_lines < 1000 )
-    nr_lines = preferences.nr_lines ;
+    table_attr.nr_lines = preferences.nr_lines ;
   if ( Number(preferences.zebra_step) > 0 )
     zebra_step = Number(preferences.zebra_step) ;
   else

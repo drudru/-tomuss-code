@@ -1,5 +1,9 @@
 Finir par priorité :
-	Finir nombre de lignes et les 4 menus.
+	Passer les 4 menus de tableau en attributs :
+		Trombinoscope
+		Imprime
+		Mail
+		Statistiques
 	Lien rapide mail marche plus
 	Rechargement page d'accueil si la recherche étudiant marche pas
 	BUG : Le 'resume' permet d'avoir des informations non autorisées
@@ -32,7 +36,6 @@ Finir par priorité :
 	Calcul du poids automatique avec '?' : problème de ]1,1[, max, meilleur
 	Renommer Inscrit en _Inscrit_, garder la compatibilité pour les vieux.
 	Faire le ménage des fonctions deprecated dans les TEMPLATES
-	Ne pas donner de référents aux gens sans UE ?
 	Trombinoscope par valeur
 	Rendre des cellules éditables par les étudiants dans le suivi ?
 	Normaliser date début/fin : [x, y]

@@ -590,8 +590,7 @@ for(var type_i in types)
 	      "Nombre de lignes filtrées et<br>" +
 	      "nombre de lignes dans le tableau total") + ', ' +
 
-   hidden_txt('<select onfocus="take_focus(this);" id="nr_lines" onChange="this.blur();change_table_size(this);update_line_menu()"></select>',
-	      "Nombre de <b>lignes</b> affichées sur l'écran.") + '&times;' +
+   table_input_attr('nr_lines') +  '&times;' +
    table_input_attr('nr_columns') + '<br>' +
    hidden_txt('<select onfocus="take_focus(this);" onchange="this.blur();if ( this.selectedIndex == 1) students_pictures() ; else if ( this.selectedIndex == 2) students_pictures_per_grp_seq(); this.selectedIndex = 0 ;"><option selected="1">Trombinoscope</option><option>Des étudiants filtrés</option><option>Idem, une page par groupe</option></select>',
 	      'Ouvre une nouvelle page avec le <b>trombinoscope</b>.<br>' +
