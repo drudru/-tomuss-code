@@ -408,16 +408,20 @@ function header_input(the_id, the_header_name, options)
 
 function an_input_attribute(attr, options, prefix_id, prefix_)
 {
+  var tip = attr.tip ;
+  if ( i_am_root )
+    tip += '<hr><b>' + prefix_id + attr.name + '</b>' ;
+
   switch(attr.gui_display)
     {
     case 'GUI_input':
       return hidden_txt(header_input(prefix_id + attr.name,
-				     prefix_ + attr.name, options), attr.tip) ;
+				     prefix_ + attr.name, options), tip) ;
     case 'GUI_a':
       return hidden_txt('<a href="javascript:'
 			+ attr.action + '()"' +
 			' id="' + prefix_id + attr.name + '">' +
-			attr.title + '</a>', attr.tip) ;
+			attr.title + '</a>', tip) ;
     case 'GUI_select':
       var opts = '' ;
       for(var i in options)
@@ -431,7 +435,7 @@ function an_input_attribute(attr, options, prefix_id, prefix_)
 			+ attr.action + '(this)"'
                         + ' onblur="if(element_focused===undefined)return;element_focused=undefined;">'
                         + opts + '</select>',
-			attr.tip) ;
+			tip) ;
     default:
       alert('BUG gui_display') ;
     }
@@ -862,6 +866,8 @@ function insert_middle()
     {
       return ;
     }
+  i_am_root = myindex(root, my_identity) != -1 ;
+
   document.write(new_interface()) ;
 }
 

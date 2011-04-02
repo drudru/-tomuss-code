@@ -2477,6 +2477,8 @@ function update_attribute_value(e, attr, table, editable)
 	    tip = attr.tip[1] ;
 	  else
 	    tip = attr.tip[0] ;
+	  if ( i_am_root )
+	    tip += '<hr><b>' + e.id + '</b>' ;
 	  tip_top(e).firstChild.innerHTML = tip ;
 	}
       return ;
