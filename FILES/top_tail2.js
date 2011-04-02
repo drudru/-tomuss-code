@@ -134,6 +134,10 @@ for(var img in icones)
 
 var display_tips = true ;
 
+// To not wait lib.js load
+i_am_root = myindex(root, my_identity) != -1 ;
+               
+
 update_ues2('');
 update_referent_of();
 update_favorite_student();

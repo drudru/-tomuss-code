@@ -12,10 +12,10 @@ Finir par priorité :
 	MAJ de la liste des étudiants par l'utilisateur ? regler le changement de semestre
 	Ne pas sauvegarder le new-page si pas nécessaire (comme RO) ?
 	Dans le suivi : moyenne des notes en plus du rang.
-	Copier une table vers le semestre suivant en vidant l'historique
+	Copier une table en vidant l'historique ou non, meme semestre ou pas
+	Symbole Excel pour commentaire
 	Pylint
 	Heure sur le graph livestatus
-	La page d'accueil expire sans être rechargée.
 	Doc plugins
 	choix année RDV IP si cela a un sens
 	Méthode javascript pour attr : editable (masters attributes)
@@ -102,7 +102,6 @@ Questions en suspend :
 	Téléphone dans suivi et fiche ?
 	Détruire les lignes vides ?
 	Temps d'apparition des tips.
-	Symbole Excel pour commentaire ?
 	Un utilisateur 'root' pouvant modifier toutes les valeurs ?
 	Faire erreur gentille sur mauvaise URL (sans année).	
 	Lire responsable dans GASEL ?

@@ -1283,7 +1283,9 @@ function ue_line_click_more()
 
       t += '<br><img class="safety" src="_URL_/verysafe.png"><a href="javascript:'+ href
 	+ '/=signatures-page=/=read-only=\')">Feuille d\'émargement</a>' ;
-	
+      if ( i_am_root )
+	t += '<br><img class="safety" src="_URL_/unsafe.png"><a href="javascript:'+ href
+	+ '/page_unload\')">Ferme les pages sur les navigateurs</a>' ;
 
       t += ue_line_more_links(code) ;
 

@@ -120,8 +120,8 @@ var t_column_average ;
 var t_menutop ;
 
 // Redefined if needed
-var root = [] ;
-var my_identity = 'identity undefined' ;
+var root ;
+var my_identity ;
 
 function lib_init()
 {
@@ -154,17 +154,10 @@ function lib_init()
   t_menutop            = document.getElementById('menutop'              );
   server_feedback      = document.getElementById('server_feedback'      );
 
-  /*
-  if ( t_column_test )
-    {
-      t_column_test.style.display = 'none' ;
-      t_column_red.style.display = 'none' ;
-      t_column_green.style.display = 'none' ;
-      t_column_columns.style.display = 'none' ;
-      t_column_weight.style.display = 'none' ;
-      t_column_visibility_date.style.display = '' ;
-    }
-  */
+  if ( root === undefined )
+    root = [] ;
+  if ( my_identity === undefined )
+    my_identity = 'identity undefined' ;
 
   line_offset       = 0    ;// The page being displayed
   column_offset     = 0    ;
@@ -2597,7 +2590,7 @@ function store_unsaved()
     return ;
   if ( ! localStorage )
     {
-      alert("Désol��, la fenêtre a été fermée sans tout sauvegarder") ;
+      alert("Désol�, la fenêtre a été fermée sans tout sauvegarder") ;
       return ;
     }
   var s = [] ;

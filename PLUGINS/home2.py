@@ -86,6 +86,7 @@ def home_page(server):
             .replace('_TICKET_', ticket.ticket)
             .replace('_MESSAGE2_', configuration.message)
             .replace('_ADMIN_', configuration.maintainer)
+            .replace('_ROOT_', utilities.js(list(configuration.root)))
             )
     f.write('''<h2>Autres</h2>''')
 

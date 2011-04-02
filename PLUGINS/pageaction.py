@@ -75,6 +75,20 @@ plugin.Plugin('pageaction', '/{Y}/{S}/{U}/{P}/{*}', function=page_action,
               cached = True, # We don't want browser reloading actions
               )
 
+def page_unload(server):
+    """Unload page from memory"""
+    table = document.table(server.the_year, server.the_semester,
+                           server.the_ue, None, None)
+    if table:
+        server.the_file.write('Unload try<br>\n')
+        table.unload(force=True)
+        server.the_file.write('Unload done<br>\n')
+    else:
+        server.the_file.write("Can't find table<br>\n")
+
+plugin.Plugin('page_unload', '/{Y}/{S}/{U}/page_unload',
+              function=page_unload, root=True)
+
 import os
 import configuration
 
