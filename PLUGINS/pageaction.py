@@ -40,9 +40,14 @@ def page_action(server):
                                  server.the_ue, server.the_page,
                                  server.ticket, do_not_unload=1)
     # the time is after the '.' in order to fully disable caching
-    request = int(server.the_path[0].split('.')[0])
-    action = server.the_path[1]
-    path = server.the_path[2:]
+    try:
+        request = int(server.the_path[0].split('.')[0])
+        action = server.the_path[1]
+        path = server.the_path[2:]
+    except:
+        table.do_not_unload_add(-1)
+        utilities.send_backtrace(repr(server.the_path), 'Page Action')
+        return
     page.add_request(request, action, path, server.the_file)
 
 

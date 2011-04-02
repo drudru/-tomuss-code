@@ -1170,8 +1170,8 @@ def check_new_students_real():
     try:
         while update_students:
             t = update_students.pop()
-            t.do_not_unload_add(1)
             utilities.bufferize_this_file(t.filename)
+            t.do_not_unload_add(1)
             try:
                 warn('start update students of %s' % t.ue, what="table")
 
@@ -1269,6 +1269,10 @@ def check_requests():
         for r in my_request_list:
             request, page, action, path, output_file = r
             tabl = page.table
+            warn('R=%d P=%d A=%s P=%s DNU=%d' % (request, page.page_id,
+                                                 action, path,
+                                                 tabl.do_not_unload),
+                 what="DNU")
             if page.request > request:
                 # An old request was given. Assume same answer XXX
                 tabl.do_not_unload_add(-1)
@@ -1296,7 +1300,6 @@ def check_requests():
             try:
                 real_bug = True
                 tabl.lock()
-                tabl.do_not_unload_add(-1)
                 try:
                     if action.startswith('column_attr_'):
                         page.answer = tabl.column_attr(page, path[0],
@@ -1320,6 +1323,7 @@ def check_requests():
                         warn('BUG: %s' % str(path), what="error")
                         page.answer = 'bug.png'
                 finally:
+                    tabl.do_not_unload_add(-1)
                     tabl.unlock()
                 # We don't want asynchronous update when doing regtest
                 if configuration.regtest_sync:
