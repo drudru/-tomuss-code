@@ -22,6 +22,7 @@
 from column import TableAttr
 
 class TableExport(TableAttr):
+    default_value = 1
     name = 't_export'
     action = 'table_export'
     tip = "Exporte les définitions des colonnes (pas le contenu de la table)"

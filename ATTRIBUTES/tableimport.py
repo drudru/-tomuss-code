@@ -22,6 +22,7 @@
 from column import TableAttr
 
 class TableImport(TableAttr):
+    default_value = 1
     name = 't_import'
     action = 'table_import'
     tip = "Importe les définitions des colonnes."

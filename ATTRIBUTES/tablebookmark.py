@@ -23,6 +23,7 @@ from column import TableAttr
 
 class TableBookmark(TableAttr):
     name = 'bookmark'
+    default_value = 1
     action = 'table_bookmark'
     tip = """<b>Sauve les options d\'affichage</b><br>
 Une fois ce lien suivi vous arriverez sur une page (identique)<br>

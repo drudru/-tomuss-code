@@ -2430,6 +2430,62 @@ else
     // item.disabled = ! editable ; // No more tip on unsensitives
   };
 
+function update_attribute_value(e, attr, table, editable)
+{
+  var value = table[attr.name] ;
+  var formatted ;
+
+  if ( value === undefined )
+    return ;
+
+  if ( attr.what == 'table' )
+    formatted = attr.formatter(value) ;
+  else
+    formatted = attr.formatter(table, value) ;
+
+  switch(e.tagName)
+    {
+    case 'SELECT':
+      set_select_by_value(e, value) ;
+      break ;
+    case 'INPUT':
+      if ( attr.what == 'table' )
+	update_input(e, formatted, attr.empty(value)) ;
+      else
+	update_input(e, formatted, attr.empty(table, value)) ;
+      break ;
+    case 'A':
+      var x = e.className.replace('linkstroked', '') ;
+      var old_class = e.className ;
+      if ( ! value )
+	x += ' linkstroked' ;
+      if ( !!value != (old_class.search('linkstroked') == -1) )
+	{
+	  highlight_add(e) ;
+	  // Classname change must be done before 'highlight_add'
+	  // And 'highlight_add' should not erase classname
+	  // But if classname is not erased, it brokes thing
+	  // when there is 'empty' class
+	  x += ' highlight1' ;
+	}
+      e.className = x.replace(/^ */,'') ;
+
+      if ( attr.tip.toLowerCase === undefined )
+	{
+	  var tip ;
+	  if ( e.className == '' )
+	    tip = attr.tip[1] ;
+	  else
+	    tip = attr.tip[0] ;
+	  tip_top(e).firstChild.innerHTML = tip ;
+	}
+      return ;
+    default:
+      e.innerHTML = formatted ;
+    }
+  set_editable(e, editable) ;
+}
+
 // Update ALL the columns headers saw by the user.
 function current_update_column_headers()
 {
@@ -2460,41 +2516,9 @@ function current_update_column_headers()
 	  continue ;
 	}
       e.parentNode.style.display = '' ;
-      switch(e.tagName)
-	{
-	case 'SELECT':
-	  set_select_by_value(e, column[attr]) ;
-	  // highlight_add(e) ; // Why is it necessary ?
-	  break ;
-	case 'A':
-	  var x = e.className.replace('linkstroked', '') ;
-	  var old_class = e.className ;
-	  if ( ! column[attr] )
-	      x += ' linkstroked' ;
-	  if ( !!column[attr] != (old_class.search('linkstroked') == -1) )
-	    {
-	      highlight_add(e) ;
-	      // Classname change must be done before 'highlight_add'
-	      // And 'highlight_add' should not erase classname
-	      // But if classname is not erased, it brokes thing
-	      // when there is 'empty' class
-	      x += ' highlight1' ;
-	    }
-	  e.className = x.replace(/^ */,'') ;
-	  break ;
-	case 'INPUT':
-	  update_input(e,
-		       column_attributes[attr].formatter(column, column[attr]),
-		       column_attributes[attr].empty(column, column[attr])
-		       ) ;
-	  break ;
-	default:
-	  e.innerHTML= column_attributes[attr].formatter(column, column[attr]);
-	}
-
-      if ( e.tagName != 'A' )
-	set_editable(e, !column_attributes[attr].need_authorization
-		     || !disabled) ;
+      update_attribute_value(e, column_attributes[attr], column,
+			     !column_attributes[attr].need_authorization
+			     || !disabled) ;
     }
 
   if ( t_column_histogram )
@@ -2526,10 +2550,10 @@ function current_update_cell_headers()
 			line_resume(this.data_lin), '') ;
 }
 
-
 function current_update_table_headers()
 {
   var disabled = ! table_change_allowed() || ! table_attr.modifiable ;
+  var editable ;
   for(var attr in table_attributes)
     {
       var attributes = table_attributes[attr] ;
@@ -2541,46 +2565,16 @@ function current_update_table_headers()
       else
 	e.style.display = '' ;
 
-      switch(e.tagName)
-	{
-	case 'SELECT':
-	  set_select_by_value(e, table_attr[attr]) ;
-	  break ;
-	case 'INPUT':
-	  update_input(e,
-		       attributes.formatter(table_attr[attr]),
-		       attributes.empty(table_attr[attr])
-		       ) ;
-	  break ;
-	case 'A':
-	  if ( table_attr[attr] || table_attr[attr] === '' )
-	    e.className = '' ;
-	  else
-	    e.className = 'linkstroked' ;
-	  if ( table_attributes[attr].tip.toLowerCase === undefined )
-	    {
-	      var tip ;
-	      if ( e.className == '' )
-		tip = table_attributes[attr].tip[1] ;
-	      else
-		tip = table_attributes[attr].tip[0] ;
-	      tip_top(e).firstChild.innerHTML = tip ;
-	    }
-	  continue ;
-	default:
-	  e.innerHTML = attributes.formatter(table_attr[attr]) ;
-	}
       if ( attr == 'modifiable' )
-	set_editable(e, table_change_allowed()) ;
+	editable = table_change_allowed() ;
       else if ( attr == 'masters' )
-	{
-	  set_editable(e, !disabled
-		       || i_am_root || i_am_the_teacher
-		       || (table_attr.modifiable && !table_attr.masters[0])
-		       ) ;
-	}
+	editable = !disabled
+	  || i_am_root || i_am_the_teacher
+	  || (table_attr.modifiable && !table_attr.masters[0]) ;
       else
-	set_editable(e, !attributes.need_authorization || !disabled) ;
+	editable = !attributes.need_authorization || !disabled  ;
+
+      update_attribute_value(e, attributes, table_attr, editable) ;
     }
 }
 

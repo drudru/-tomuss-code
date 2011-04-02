@@ -23,6 +23,7 @@ from column import TableAttr
 
 class TableLinear(TableAttr):
     name = 'linear'
+    default_value = 1
     action = "table_linear"
     tip = """<b>Interface utilisateur linéaire.</b><br>
 Si vous suivez ce lien l'interface utilisateur deviendra linéaire<br>
