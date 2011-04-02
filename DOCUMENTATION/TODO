@@ -15,7 +15,6 @@ Finir par priorité :
 	Ne pas sauvegarder le new-page si pas nécessaire (comme RO) ?
 	Dans le suivi : moyenne des notes en plus du rang.
 	Copier une table en vidant l'historique ou non, meme semestre ou pas
-	Symbole Excel pour commentaire
 	Pylint
 	Sauvegarde de l'état figé...
 	Heure sur le graph livestatus

@@ -399,6 +399,25 @@ Mis à part de nombreux bugs corrigés :
       </description>
       <guid>30</guid>
     </item>
+    <item>
+      <title>03/04/2011 : Version 2.13.9</title>
+      <link>http://tomuss.univ-lyon1.fr/</link>
+Mis à part de nombreux bugs corrigés :
+      <description>
+&lt;ul&gt;
+&lt;li&gt; Les cellules avec un commentaire ont un petit triangle comme
+           dans les autres tableurs.
+&lt;li&gt; Vous pouvez indiquer pour toutes les tables Printemps/Automne
+           si la table est visible dans le suivi.
+&lt;li&gt; En cas de problème de connexion au serveur.
+           Votre travail est sauvé sur votre machine personnelle quand
+           vous fermez la page web ou quittez le navigateur.
+           Vous pourrez alors la sauvegarder ultérieurement.
+           Cette fonctionnalité étant nouvelle, il ne faut pas en abuser.
+&lt;/ul&gt;
+      </description>
+      <guid>31</guid>
+    </item>
 
   </channel>
 </rss>

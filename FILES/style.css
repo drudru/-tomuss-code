@@ -250,8 +250,10 @@ IMG.photo {
   width: 100px ;
 }
 
-TD.comment, #current_input.comment, .comment { 
-  font-style: italic ;
+TD.comment, .comment { 
+  background: url('cell_comment.png');
+  background-repeat:no-repeat;
+  background-position:right top;
 }
 
 TD.today, #current_input.today, .today { 
@@ -987,7 +989,5 @@ TABLE.colored TR TD {
 .hidden_on_paper {
   display: none;
 }
-
-
 
 }

@@ -103,7 +103,7 @@ function head_html()
 
  w += hidden_txt('<span class="ro">S</span><span class="comment">t</span><span class="today">y</span><span class="is_an_abj">l</span><span class="non">e</span><span class="tt">s</span>',
 		 "<span class=\"ro\">Le texte est gris si la cellule est définie par quelqu'un d'autre.</span><br>" +
-		 "<span class=\"comment\">Le texte est en italique s'il y a un commentaire.</span><br>" +
+		 "<span class=\"comment\">Triangle s'il y a un commentaire.</span><br>" +
 		 "<span class=\"today\">Le texte est gras si la cellule a été modifiée aujourd'hui.</span><br>" +
 		 "<span class=\"is_an_abj\">Si ABINJ est souligné, cliquez dessus pour vérifier s'il a un justificatif.</span><br>" +
 		 "<span class=\"non\">Le fond est rouge si l'étudiant n'est pas inscrit à l'UE.</span><br>" +
@@ -639,7 +639,6 @@ for(var type_i in types)
 	      + '<br>',
 	      "Tapez un commentaire pour cette cellule<br>" +
 	      "afin de ne pas oublier les choses importantes.<br>" +
-	      "Le texte des cellules avec un commentaire est en italique.<br>"+
 	      "<b>ATTENTION : les étudiants voient ce commentaire</b>") +
    hidden_txt(header_input('linefilter','',
 			   'empty onkey=line_filter_change(this)'),

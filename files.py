@@ -33,7 +33,7 @@ for name in (
     'tip.png', 'feed.png', 'news.xml', 'eye.png', 
     'ok.png', 'bad.png', 'bug.png', 'feedback.png', 'abjus.png',
     'cross.png', 'leaves.png', 'weight.png', 'teacher.png',
-    'close.png',
+    'close.png', 'cell_comment.png',
     'filtre.png','filtre2.png', 'comment.png', 'title.png',
     'up.gif', 'down.gif', 'next.gif', 'prev.gif',
     'sort_down.png', 'sort_up.png',
