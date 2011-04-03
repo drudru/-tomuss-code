@@ -546,7 +546,7 @@ INPUT#comment { width: 100% ; clear: both; }
   background-image: url('eye.png');
   background-position: right ;
   background-repeat: no-repeat ;
-  width: 7em ;
+  width: 5.5em ;
 }
 #menutop #t_table_attr_masters { font-size: 60% ; }
 #menutop #t_table_attr_default_nr_columns { width: 3em ; }
