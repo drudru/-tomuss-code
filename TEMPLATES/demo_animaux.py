@@ -41,7 +41,10 @@ function student_picture_url(login)
 
 def create(table):
     _ucbl_.create(table)
-    master = table.ue.split('-')[1].lower().replace('-','') + '.master'
+    try:
+        master = table.ue.split('-')[1].lower().replace('-','') + '.master'
+    except IndexError:
+        master = table.user
     table.table_attr(table.pages[0], 'masters', master)
     table.table_attr(table.pages[0], 'default_sort_column', 2)
     table.new_page('', master, '', '')
@@ -123,9 +126,9 @@ def check(table):
         create_column(table, 'CM1', 'Prst')
         create_column(table, 'CM2', 'Prst')
         create_column(table, 'CM3', 'Prst')
-        table.column_attr(p, '#ABINJ', 'type', 'Nmbr')
-        table.column_attr(p, '#ABINJ', 'title', '#ABINJ')
-        table.column_attr(p, '#ABINJ', 'columns', "CM1 CM2 CM3")
+        table.column_attr(p, 'ABINJ', 'type', 'Nmbr')
+        table.column_attr(p, 'ABINJ', 'title', '#ABINJ')
+        table.column_attr(p, 'ABINJ', 'columns', "CM1 CM2 CM3")
         create_column(table, 'TP1', 'Note', 10, 3)
         create_column(table, 'TP2', 'Note', 8, 2)
         create_column(table, 'TP3', 'Note', 14, 1)
