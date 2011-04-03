@@ -2473,7 +2473,7 @@ function update_attribute_value(e, attr, table, editable)
       if ( attr.tip.toLowerCase === undefined )
 	{
 	  var tip ;
-	  if ( e.className == '' )
+	  if ( e.className.search('linkstroked') == -1 )
 	    tip = attr.tip[1] ;
 	  else
 	    tip = attr.tip[0] ;
