@@ -113,6 +113,8 @@ def create_column(table, title, content_type, average=10., delta=5.):
         else:
             value = ''
         table.cell_change(p, title, key, value, "20090509213856")
+        if random.randint(0,10) == 0:
+            table.comment_change(p, title, key, "Commentaire sur la case")
 
 def check(table):
     _ucbl_.check(table, update_inscrits_ue)
