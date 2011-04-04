@@ -2171,7 +2171,7 @@ function update_cell(td, cell, column, abj)
 	  a = abj[0][a] ;
 	  if ( ! abj_is_fine(a) )
 	    continue ;
-	  if ( parse_date(a[0]).getTime() < d
+	  if ( parse_date(a[0]).getTime() <= d
 	       && d < parse_date(a[1]).getTime() + 86400000*7 )
 	    {
 	      className += ' is_an_abj' ;
