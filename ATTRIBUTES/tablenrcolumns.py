@@ -24,6 +24,7 @@ from column import TableAttr
 class TableNrColumns(TableAttr):
     name = 'nr_columns'
     default_value = 0
+    need_authorization = 0
     tip = "Nombre de <b>colonnes</b> affichées sur l'écran"
     gui_display = "GUI_select"
     action = "nr_columns_change"
