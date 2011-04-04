@@ -1558,10 +1558,7 @@ function ue_line(ue, code, content)
   if ( ! ue )
     return ;
   var html_class = '' ;
-  /*      
-  if ( localStorage && localStorage['/' + year_semester() + '/' + code] )
-    html_class = 'unsaved_data' ; 
-  */
+
   if (code.match(/^UE-/) && ue.nr_students_ue)
     html_class += ' with_students' ;
   if (code.match(/^EC-/) == 0 && ue.nr_students_ec)
@@ -1630,10 +1627,6 @@ function update_ues_master_of(txt, txt_upper)
     {
       i = master_of[i] ;
       var code = i[0] + '/' + i[1] + '/' + i[2] ;
-      /*
-      if ( localStorage && localStorage['/' + code] )
-	html_class = ' class="unsaved_data" ' ;
-      */
       s.push('<tr onmouseover="ue_line_over(\''
 	     + code + '\',this,ue_line_click_more);" '
 	     + 'onclick="javascript:goto_url(\'' + base + code
@@ -1769,7 +1762,8 @@ function update_ues2(txt, clicked)
   update_ues_master_of(txt, txt_upper) ;
   update_ues_unsaved() ;
 
-  window.addEventListener('storage', storageEventHandler, false);
+  if ( window.localStorage )
+    window.addEventListener('storage', storageEventHandler, false);
 }
 
 function storageEventHandler(e)
@@ -1780,7 +1774,7 @@ function storageEventHandler(e)
 
 function update_ues_unsaved()
 {
-  if ( ! localStorage )
+  if ( ! window.localStorage )
     return ;
   var index = localStorage['index'] ;
   if ( ! index )
@@ -2399,7 +2393,7 @@ function update_histogram(force)
 function set_select_by_value(element, value)
 {
   var options = element.getElementsByTagName('OPTION') ;
-  for(i in options)
+  for(var i in options)
     {
       if ( options[i].value == value || options[i].text == value )
 	{
