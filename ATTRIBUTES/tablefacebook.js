@@ -27,7 +27,7 @@ function facebook_picture(line)
   if ( firstname.length >= 2 )
     firstname = firstname.substr(0,1)+ firstname.substr(1).toLowerCase() ;
     
-  return '<DIV CLASS="trombinoscope">' + url +
+  return '<DIV CLASS="facebook">' + url +
     '<IMG SRC="' + student_picture_url(line[0][0]) + '"><BR>' +
     firstname + '<br>' + line[2][0] + '</A></DIV>' ;
 }

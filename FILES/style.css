@@ -823,51 +823,6 @@ TABLE.top H1 SELECT { font-size: 100% }
 
 TABLE.top .ue_list p { margin: 0px 0px 0px 7em ; text-indent: -7em; }
 
-
-/*****************************************************************************/
-/* TROMBINOSCOPE PAGES */
-/*****************************************************************************/
-
-DIV.trombinoscope {
-  border: 1px solid black ;
-  display: block ;
-  float: left;
-  padding: 1px ;
-  border-spacing: 0px ;
-  background-color: inherit ;
-  height: 12.5em;
-  width: 8em ;
-  margin: 2px ;
-  overflow: hidden;
-}
-
-DIV.trombinoscope IMG { 
-  width: 8em ;
-  border: 0 ;
-}
-
-span.facebook_column { 
-  border: 1px solid black;
-  padding: 1px ;
-}
-
-p.facebook_columns { 
-  line-height: 180%;
-}
-
-
-
-span.facebook_column:hover { 
-  background: white ;
-}
-
-@media print {
-DIV.trombinoscope { 
-    font-size: 75% ;
-  }
-
-}
-
 /*****************************************************************************/
 /* STATISTICS PAGES */
 /*****************************************************************************/

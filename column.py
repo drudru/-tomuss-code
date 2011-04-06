@@ -57,6 +57,7 @@ class ColumnAttr(object):
     gui_display = 'GUI_input'
     action = ''
     title = ''
+    css = ''
     
     def __init__(self):
         self.__class__.attrs[self.name] = self
@@ -272,6 +273,15 @@ def initialize():
         '\n'.join(attr.js_functions for attr in attributes) +
         '// END ATTRIBUTES\n' +
         '\n')
+
+
+    css = '\n'.join([attr.css for attr in attributes])
+    files.files['style.css'].append_text = re.sub(
+        '(?ms)/. BEGIN ATTRIBUTES.*./ END ATTRIBUTES ./', '',
+        files.files['style.css'].append_text)
+    files.files['style.css'].append(
+        '/* BEGIN ATTRIBUTES */\n' + css + '\n/* END ATTRIBUTES */\n')
+    
     return reloadeds
 
 initialize()

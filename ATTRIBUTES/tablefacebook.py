@@ -28,5 +28,34 @@ class TableFaceBook(TableAttr):
     need_authorization = 0
     action = "tablefacebook"
     title = 'Trombinoscope'
+    css = '''
+DIV.facebook {
+  border: 1px solid black ;
+  display: block ;
+  float: left;
+  padding: 1px ;
+  border-spacing: 0px ;
+  background-color: inherit ;
+  height: 12.5em;
+  width: 8em ;
+  margin: 2px ;
+  overflow: hidden;
+}
+DIV.facebook IMG { 
+  width: 8em ;
+  border: 0 ;
+}
+span.facebook_column { 
+  border: 1px solid black;
+  padding: 1px ;
+}
+
+p.facebook_columns { line-height: 180%; }
+
+span.facebook_column:hover { background: white ; }
+
+@media print { DIV.facebook { font-size: 75% ; } }
+'''
+
 
 
