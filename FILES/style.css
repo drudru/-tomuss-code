@@ -550,6 +550,13 @@ INPUT#comment { width: 100% ; clear: both; }
 }
 #menutop #t_table_attr_masters { font-size: 60% ; }
 #menutop #t_table_attr_default_nr_columns { width: 3em ; }
+#menutop INPUT.gui_button {
+  width: 24%;
+  font-size: smaller;
+  border: 2px outset #888;
+  background: #EEE;
+ }
+#menutop INPUT.gui_button:hover { background: #FFF ; }
 
 #menutop #t_table_attr_masters.empty {
   background-image: url('teacher.png');
@@ -837,6 +844,21 @@ DIV.trombinoscope {
 DIV.trombinoscope IMG { 
   width: 8em ;
   border: 0 ;
+}
+
+span.facebook_column { 
+  border: 1px solid black;
+  padding: 1px ;
+}
+
+p.facebook_columns { 
+  line-height: 180%;
+}
+
+
+
+span.facebook_column:hover { 
+  background: white ;
 }
 
 @media print {

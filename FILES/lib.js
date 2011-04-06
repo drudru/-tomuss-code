@@ -3489,39 +3489,6 @@ function print_page(w)
   return w ;
 }
 
-function a_picture(line)
-{
-  var url = '<A HREF="' + suivi + '/' + line[0].value + '">' ;
-  var firstname ;
-  if ( line[1].value.length >= 2 )
-    firstname = line[1].value.substr(0,1)+ line[1].value.substr(1).toLowerCase() ;
-  else
-    firstname = line[1].value ;
-    
-  return '<DIV CLASS="trombinoscope">' + url +
-    '<IMG SRC="' + student_picture_url(line[0].value) + '"><BR>' +
-    firstname + '<br>' +
-    line[2].value + '</A></DIV>' ;
-}
-
-function students_pictures()
-{
-  var s = '' ;
-
-  for(var data_lin in filtered_lines)
-    {
-      line = filtered_lines[data_lin] ;
-      if ( line[0].value !== '' )
-	s += a_picture(line) ;
-    }
-  
-  var w = window_open() ;
-  w.document.open('text/html') ;
-  w.document.write(html_begin_head() + s) ;
-  w.document.close() ;
-  return w ;
-}
-
 function goto_resume()
 {
   window_open('/=' + ticket + '/' + year + '/' + semester + '/' + ue + '/resume');
@@ -3558,35 +3525,6 @@ function values_in_a_column(column)
   return t
 }
 
-function students_pictures_per_grp_seq()
-{
-  var g = grp_and_seq() ;
-  var s = '' ;
-
-  for(var gs in g)
-    {
-      gs = g[gs] ;
-      var grp = gs.split('\001')[1] ;
-      var seq = gs.split('\001')[0] ;
-      s += '<h2 style="page-break-before:always;clear:left">' + year + ' ' + semester +
-	' ' + ue +  ' séq. ' + seq + ", grp. " + grp + "</h2>" ;
-      s += '<div>' ;
-      for(var data_lin in filtered_lines)
-	{
-	  line = filtered_lines[data_lin] ;
-	  if ( line[0].value != '' && line[3].value == grp && line[4].value == seq)
-	    s += a_picture(line) ;
-	}
-      s += '</div>' ;
-    }
-  var w = window_open() ;
-  w.document.open('text/html') ;
-  w.document.write(html_begin_head() + s) ;
-  w.document.close() ;
-  return w ;
-}
-
-
 
 function histo_image(nr, maxmax)
 {
@@ -3599,6 +3537,16 @@ function html_begin_head(hide_title, pb, more)
 {
   var s = '' ;
 
+  var p = '{' ;
+  for(var i in preferences)
+    p += i + ':"' + preferences[i] + '",' ;
+  p = p.substr(0,p.length-1) + '};' ;
+
+  var a = '{' ;
+  for(var i in table_attr)
+    a += i + ':"' + table_attributes[i].formatter(table_attr[i]) + '",' ;
+  a = a.substr(0,a.length-1) + '}' ;
+
   if ( ! pb )
     s = '<html><head>\n' +
       '<link rel="stylesheet" href="'+url + '/style.css" type="text/css">\n' +
@@ -3609,6 +3557,25 @@ function html_begin_head(hide_title, pb, more)
       '<script src="' + url + '/types.js"></script>\n' +
       '<script src="' + url + '/abj.js"></script>\n' +
       '<style id="computed_style"></style>\n' +
+      '<script>\n' +
+      'page_id = "" ;\n' +
+      'check_down_connections_interval = 0 ;\n' +
+      'url = "' + url.split('/=')[0] + '";\n' +
+      'my_identity = "' + my_identity + '" ;\n' +
+      'year = "' + year + '" ;\n' +
+      'semester = "' + semester + '" ;\n' +
+      'ticket = "' + ticket + '" ;\n' +
+      'ue = "VIRTUALUE" ;\n' +
+      'root = [];\n' +
+      'suivi = "' + suivi + '";\n' +
+      'version = "' + version + '" ;\n' +
+      'preferences = ' + p + ';\n' +
+      'columns = [] ;\n' +
+      'lines = [] ;\n' +
+      'lines_id = [] ;\n' +
+      'adeweb = {};\n' + // XXX should not be here (LOCAL/spiral.py)
+      'table_attr = ' + a + ';\n' +
+      '</script>\n' +
       '<title>' + ue + ' ' + year + ' ' + semester + '</title>' +
       '</head>' ;
 
@@ -3809,37 +3776,8 @@ function notes_columns()
 
 function virtual_table_common_begin()
 {
-  var p = '{' ;
-  for(var i in preferences)
-    p += i + ':"' + preferences[i] + '",' ;
-  p = p.substr(0,p.length-1) + '};' ;
-
-  var a = '{' ;
-  for(var i in table_attr)
-    a += i + ':"' + table_attributes[i].formatter(table_attr[i]) + '",' ;
-  a = a.substr(0,a.length-1) + '}' ;
-
   return html_begin_head(true) +
     head_html() +
-    '<script>\n' +
-    'page_id = "" ;\n' +
-    'check_down_connections_interval = 0 ;\n' +
-    'url = "' + url.split('/=')[0] + '";\n' +
-    'my_identity = "' + my_identity + '" ;\n' +
-    'year = "' + year + '" ;\n' +
-    'semester = "' + semester + '" ;\n' +
-    'ticket = "' + ticket + '" ;\n' +
-    'ue = "VIRTUALUE" ;\n' +
-    'root = [];\n' +
-    'suivi = "' + suivi + '";\n' +
-    'version = "' + version + '" ;\n' +
-    'preferences = ' + p + ';\n' +
-    'columns = [] ;\n' +
-    'lines = [] ;\n' +
-    'lines_id = [] ;\n' +
-    'adeweb = {};\n' + // XXX should not be here (LOCAL/spiral.py)
-    'table_attr = ' + a + ';\n' +
-    '</script>\n' +
     new_interface() ;
 }
 
@@ -5508,8 +5446,6 @@ function javascript_regtest_ue()
   w = print_page()                    ; w.close() ; message.innerHTML += '1';
   w = signatures_page()               ; w.close() ; message.innerHTML += '2';
   // w = goto_resume()                ; w.close() ; message.innerHTML += '3';
-  w = students_pictures()             ; w.close() ; message.innerHTML += '4';
-  w = students_pictures_per_grp_seq() ; w.close() ; message.innerHTML += '5';
   w = statistics()                    ; w.close() ; message.innerHTML += '6';
   w = statistics_per_group()          ; w.close() ; message.innerHTML += '7';
   w = statistics_authors()            ; w.close() ; message.innerHTML += '8';

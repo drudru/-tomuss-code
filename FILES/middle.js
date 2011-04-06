@@ -422,6 +422,12 @@ function an_input_attribute(attr, options, prefix_id, prefix_)
 			+ attr.action + '()"' +
 			' id="' + prefix_id + attr.name + '">' +
 			attr.title + '</a>', tip) ;
+    case 'GUI_button':
+      return hidden_txt('<input type="button" class="gui_button" id="' + prefix_id + attr.name + '" '
+			+ 'onclick="' + attr.action + '(this);'
+			+ 'setTimeout(\'linefilter.focus()\',100)"'
+			+ ' value="' + attr.title + '">',
+			tip) ;
     case 'GUI_select':
       var opts = '' ;
       for(var i in options)
@@ -592,11 +598,7 @@ for(var type_i in types)
 
    table_input_attr('nr_lines') +  '&times;' +
    table_input_attr('nr_columns') + '<br>' +
-   hidden_txt('<select onfocus="take_focus(this);" onchange="this.blur();if ( this.selectedIndex == 1) students_pictures() ; else if ( this.selectedIndex == 2) students_pictures_per_grp_seq(); this.selectedIndex = 0 ;"><option selected="1">Trombinoscope</option><option>Des étudiants filtrés</option><option>Idem, une page par groupe</option></select>',
-	      'Ouvre une nouvelle page avec le <b>trombinoscope</b>.<br>' +
-	      'Seuls les étudiants filtrés seront affichés.<br>' +
-	      "L'ordre d'affichage est celui de la table.<br>" +
-	      "Le deuxième choix permet d'imprimer une page par groupe.") +
+   table_input_attr('facebook') +
    hidden_txt('<select onfocus="take_focus(this);" onchange="this.blur();if ( this.selectedIndex == 1) print_page(); else if ( this.selectedIndex == 2) signatures_page() ; if ( this.selectedIndex == 3) signatures_page_grp_seq() ; if ( this.selectedIndex == 4) signatures_page_per_column() ; if ( this.selectedIndex == 5) goto_resume() ; if ( this.selectedIndex == 6) abj_per_day() ; this.selectedIndex = 0 ;"><option selected="1">Imprime</option><option>Table totale filtrée</option><option>Émargement filtrée</option><option>Émargement par groupe</option><option>Émargement par valeur</option><option>ABJ, DA et TT</option><option>ABJ par date</option></select>',
 	      "Ceci permet d'ouvrir une nouvelle fenêtre<br>" +
 	      "faite pour être imprimée ou <b>exportée</b> vers un tableur.<br>"+

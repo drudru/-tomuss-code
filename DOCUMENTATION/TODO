@@ -1,9 +1,10 @@
 Finir par priorité :
 	Passer les 4 menus de tableau en attributs :
-		Trombinoscope
 		Imprime
 		Mail
 		Statistiques
+	Put CSS in ATTRIBUTES
+	Favoris : enlever vraiment
 	Lien rapide mail marche plus
 	Rechargement page d'accueil si la recherche étudiant marche pas
 	BUG : Le 'resume' permet d'avoir des informations non autorisées

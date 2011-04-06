@@ -2198,8 +2198,21 @@ function cell_key()
   return this._key ;
 }
 
+function js(t)
+{
+  return '"'
+    + t.toString().replace('\\','\\\\').replace('"','\"').replace('\n','\\n')
+    + '"' ;
+}
+
+function cell_get_data()
+{
+  return '[' + js(this.value) + ',' + js(this.author) + ',' + js(this.comment) + ',' + js(this.date) + ']' ;
+}
+
 
 Cell.prototype.save = cell_save ;
+Cell.prototype.get_data = cell_get_data ;
 Cell.prototype.restore = cell_restore ;
 Cell.prototype.value_html = cell_value_html ;
 Cell.prototype.value_fixed = cell_value_fixed ;
@@ -2443,10 +2456,13 @@ function update_attribute_value(e, attr, table, editable)
       set_select_by_value(e, value) ;
       break ;
     case 'INPUT':
-      if ( attr.what == 'table' )
-	update_input(e, formatted, attr.empty(value)) ;
-      else
-	update_input(e, formatted, attr.empty(table, value)) ;
+      if ( e.type != 'button' )
+	{
+	  if ( attr.what == 'table' )
+	    update_input(e, formatted, attr.empty(value)) ;
+	  else
+	    update_input(e, formatted, attr.empty(table, value)) ;
+	}
       break ;
     case 'A':
       var x = e.className.replace('linkstroked', '') ;
