@@ -39,8 +39,10 @@ class Server(object):
     port = 8888
     name = "tomuss"
     started = False
+    start_time = 0
     
     def start(self, cleaning=True):
+        self.start_time = time.time()
         for dirname in ['../DBregtest', '../BACKUP_DBregtest',
                         ] + glob.glob('../TMP/xxx_tickets.py*'):
             print 'delete:', dirname
@@ -58,13 +60,17 @@ class Server(object):
             return sys.stdout, sys.stderr
 
     def wait_start(self):
+        i = 0
         while True:
             try:
                 self.url('lib.js', stop_if_error=False,
-                         display_log_if_error=False)
+                         display_log_if_error=False, silent=i)
                 self.started = True
                 break
             except (urllib2.HTTPError, urllib2.URLError):
+                i += 1
+                sys.stdout.write('*')
+                sys.stdout.flush()
                 time.sleep(0.1)
 
 
@@ -78,9 +84,10 @@ class Server(object):
         self.wait_start()
 
     def url(self, url, stop_if_error=True, display_log_if_error=True,
-            returns_file=False, timeout=0):
+            returns_file=False, timeout=0, silent=False):
         full_url = 'http://'+socket.getfqdn()+':'+str(self.port) + '/' + url
-        print '\t' + full_url,
+        if not silent:
+            print '%6.2f ' % (time.time() - self.start_time) + url,
         sys.stdout.flush()
         try:
             if timeout:

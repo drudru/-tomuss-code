@@ -252,7 +252,7 @@ else
             
         page.browser_file.set_real_file(server.the_file)
         table.active_page(page, page.browser_file)
-        # server.the_file.close()
+        server.the_file.flush()
 
 
 plugin.Plugin('answer_page', '/{Y}/{S}/{U}/{P}',

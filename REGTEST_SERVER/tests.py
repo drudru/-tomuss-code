@@ -197,6 +197,8 @@ def tests():
     if do('badurl'):
         c = s.url('=' + root + '/BADURL')
         assert(c == 'bad_url')
+        c = s.url('='+root+'/evaluate/5-2')
+        assert('Action not allowed in demo mode' in c)
     if do('homeroot'):
         c = s.url('=' + root)
         assert("javascript:go('clean')" in c)
@@ -1343,15 +1345,32 @@ def create(table):
         assert(',columns:"X Y",' in c)
 
     if do('regtest-bug1'):
-       conf = os.path.join('DBregtest','Y0','SDossiers', 'config_table.py')
+       while True:
+           c = s.url('='+root+'/0/Dossiers/config_table')
+           if '"unload_interval' in c:
+              break
+
+       conf = os.path.join('..', 'DBregtest','Y0','SDossiers', 'config_table.py')
+       try:
+          os.unlink(conf + 'c')
+       except:
+          pass
+       ticket_ttl = 6
        utilities.write_file(conf + '.old', utilities.read_file(conf))
        utilities.append_file(conf,'''
-cell_change(0,'0_2','check_down_connections_interval',1,"")
-cell_change(0,'0_2','unload_interval',1,"")
-cell_change(0,'0_2','ticket_time_to_live','3',"")
-''')
+cell_change(1,'0_2','check_down_connections_interval',2,"")
+cell_change(1,'0_2','unload_interval',2,"")
+cell_change(1,'0_2','ticket_time_to_live','%d',"")
+''' % ticket_ttl)
        s.stop()
+       import glob
+       for t in glob.glob(os.path.join('..','TMP','TICKETS','*')):
+           os.unlink(t)
        s.restart(more=['regtest-bug1'])
+
+       c = s.url('='+root+'/0/Dossiers/config_table')
+       assert('C(2,"super.user","","","600(super.user), ")' in c)
+
        c = s.url('='+abj+'/%d/Dossiers/regtest-bug1' % uyear)
        assert('runlog' in c)
 
@@ -1389,9 +1408,13 @@ cell_change(0,'0_2','ticket_time_to_live','3',"")
           ok = True
        assert( ok )
 
+       # Make the ticket last longer because if it is short regtest may fail
+       c = s.url('='+root+'/0/Dossiers/config_table/cell/0_2/ticket_time_to_live/1000')
+       assert('green' in c)
+
        # The browser attempt to reconnect
        c = s.url('='+abj+'/%d/Dossiers/regtest-bug1/1' % uyear,
-                 display_log_if_error=False, timeout=1)
+                 display_log_if_error=False, timeout=2)
        # Because page load does not end
        assert('***TIMEOUT***' in c)
        assert('window.parent.server_answered()' in c)
@@ -1422,6 +1445,7 @@ while True:
         exit_status = 0
         print 'Test fine'
     except AssertionError:
+        exit_status = 1
         if c == '':
             print 'assert: empty !!!!!'
         elif c == bad_png:
@@ -1435,7 +1459,6 @@ while True:
             f.write(c)
             f.close()
             print c
-        exit_status = 1
         print 'End of regressions tests : failure'       
         raise
     finally:
