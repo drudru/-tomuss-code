@@ -156,9 +156,10 @@ function tablefacebook()
   for(var data_col in columns)
     s.push(js(columns[data_col].title)) ;
   p.push(s.join(',')) ;
-  p.push( '] ;') ;  
-  p.push( 'ue=' + js(ue)) ;  
-  p.push('facebook_display();') ;
+  p.push( '] ;') ;
+  p.push( 'ue=' + js(ue)) ;
+  // turn around IE bug : do not call facebook_display yet....
+  p.push('setTimeout("facebook_display()", 100);') ;
   p.push('</script>') ;
 
   var w = window_open() ;
