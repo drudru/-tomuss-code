@@ -121,26 +121,13 @@ class MyRequestBroker(utilities.FakeRequestHandler):
         if plugin.dispatch_request(self, manage_error=False) == None:
             return # Unauthenticated dispatch is done
 
-        self.ticket, self.the_path = ticket.get_ticket_string(self)
-        self.ticket = ticket.get_ticket_objet(self.ticket)
+        the_ticket, self.the_path = ticket.get_ticket_string(self)
+        self.ticket = ticket.get_ticket_objet(the_ticket, self)
         warn('ticket=%s' % str(self.ticket)[:-1])
         warn('the_path=%s' % str(self.the_path))
 
-        if self.ticket and not self.ticket.is_fine(self):
-            warn('Ticket not fine!', what="auth")
-            old_ticket = self.ticket
-            self.ticket = None
-            if old_ticket != None:
-                self.the_path = self.path.split('/')[2:]
-                self.path = '/' + '/'.join(self.the_path)
-
-            authentication.authentication_requests.append(
-                utilities.FakeRequestHandler(self, full=True))
-            return
-
-
         # Don't want to be blocked by 'is_an_abj_master' test
-        if self.ticket == None or not hasattr(self.ticket, 'password_ok'):
+        if self.ticket is None or not hasattr(self.ticket, 'password_ok'):
             warn('Append to authentication queue', what="auth")
             authentication.authentication_requests.append(
                 utilities.FakeRequestHandler(self, full=True))

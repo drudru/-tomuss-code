@@ -22,6 +22,8 @@
 import sys
 import os
 import shutil
+import httplib
+
 sys.path.append(os.getcwd())
 sys.path.append(os.path.join(os.getcwd(), '..'))
 
@@ -1339,7 +1341,71 @@ def create(table):
         assert(c == ok_png)
         c = s.url('=' + abj +'/%s/UE-enum' % ys)
         assert(',columns:"X Y",' in c)
-        
+
+    if do('regtest-bug1'):
+       conf = os.path.join('DBregtest','Y0','SDossiers', 'config_table.py')
+       utilities.write_file(conf + '.old', utilities.read_file(conf))
+       utilities.append_file(conf,'''
+cell_change(0,'0_2','check_down_connections_interval',1,"")
+cell_change(0,'0_2','unload_interval',1,"")
+cell_change(0,'0_2','ticket_time_to_live','3',"")
+''')
+       s.stop()
+       s.restart(more=['regtest-bug1'])
+       c = s.url('='+abj+'/%d/Dossiers/regtest-bug1' % uyear)
+       assert('runlog' in c)
+
+       # TOMUSS assumes that this page come from the future so it must
+       # be from en read-only table (not the case here).
+       # So it redirect browser in order to reload the table (read-only)
+       c = s.url('='+abj+'/%d/Dossiers/regtest-bug1/10' % uyear)
+       assert('window.parent.location' in c)
+       c = s.url('='+abj+'/%d/Dossiers/regtest-bug1/0' % uyear)
+
+       # We are not allowed to see an old page from an other navigator
+       assert('window.parent.click_to_revalidate_ticket' in c)
+
+       # This the good page content
+       c = s.url('='+abj+'/%d/Dossiers/regtest-bug1/1' % uyear,
+                 display_log_if_error=False, timeout=1)
+       # Because page load does not end
+       assert('***TIMEOUT***' in c)
+       assert('window.parent.server_answered()' in c)
+
+       # The frame connection is now broken.
+       # Wait the page unloading
+       while True:
+          c = s.url('='+root+'/stat')
+          if 'regtest-bug1' not in c:
+             break
+          time.sleep(1)
+
+       # Create a column
+       ok = False
+       try:
+          c = s.url('='+abj+'/%d/Dossiers/regtest-bug1/1/0/column_attr_title/col_0/TITLE0' % uyear, display_log_if_error=False, stop_if_error=False)
+       except httplib.BadStatusLine:
+          # The ticket is no more fine : the server does not reply
+          ok = True
+       assert( ok )
+
+       # The browser attempt to reconnect
+       c = s.url('='+abj+'/%d/Dossiers/regtest-bug1/1' % uyear,
+                 display_log_if_error=False, timeout=1)
+       # Because page load does not end
+       assert('***TIMEOUT***' in c)
+       assert('window.parent.server_answered()' in c)
+
+       # The ticket is now valid
+       c = s.url('='+abj+'/%d/Dossiers/regtest-bug1/1/0/column_attr_title/col_0/TITLE0' % uyear)
+       assert(c == ok_png)
+
+       utilities.write_file(conf, utilities.read_file(conf + '.old'))
+
+       s.stop()
+       s.restart()
+       
+
 if '1' in sys.argv:
    sys.argv.remove('1')
    only_once = True

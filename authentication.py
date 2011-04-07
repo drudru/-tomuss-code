@@ -97,7 +97,7 @@ def ticket_ask(server, server_url, service):
 def get_path(server, server_url):
     
     ticket_key, path = ticket.get_ticket_string(server)
-    ticket_object = ticket.get_ticket_objet(ticket_key)
+    ticket_object = ticket.get_ticket_objet(ticket_key, server)
     # Ticket OK
     if ticket_object != None:
         warn('fast ticket:%s' % str(ticket_object)[:-1], what='auth')

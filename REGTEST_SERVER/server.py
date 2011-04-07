@@ -68,9 +68,9 @@ class Server(object):
                 time.sleep(0.1)
 
 
-    def restart(self, mode='a'):
+    def restart(self, mode='a', more=[]):
         stdout, stderr = self.log_files(mode)
-        self.process = subprocess.Popen(['./tomuss.py', 'regtest'],
+        self.process = subprocess.Popen(['./tomuss.py', 'regtest'] + more,
                                         cwd = '..',
                                         stdout = stdout.fileno(),
                                         stderr = stderr.fileno(),
@@ -78,16 +78,27 @@ class Server(object):
         self.wait_start()
 
     def url(self, url, stop_if_error=True, display_log_if_error=True,
-            returns_file=False):
+            returns_file=False, timeout=0):
         full_url = 'http://'+socket.getfqdn()+':'+str(self.port) + '/' + url
         print '\t' + full_url,
         sys.stdout.flush()
         try:
-            f = urllib2.urlopen(full_url)
+            if timeout:
+                f = urllib2.urlopen(full_url, timeout=timeout)
+            else:
+                f = urllib2.urlopen(full_url)
             if returns_file:
                 c = f
             else:
-                c = f.read()
+                if timeout:
+                    c = ''
+                    try:
+                        while True:
+                            c += f.read(1)
+                    except socket.timeout:
+                        c += '***TIMEOUT***'
+                else:
+                    c = f.read()
             print '*'
         except:
             if stop_if_error:

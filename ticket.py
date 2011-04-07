@@ -152,6 +152,7 @@ def get_ticket_string(server):
             path = path[1:]
         else:
             ticket = None
+
     warn('RETURNS: %s %s' % (ticket, path), what='auth')
     return ticket, [cgi.urllib.unquote(x) for x in path]
 
@@ -194,17 +195,19 @@ def remove_old_files():
             pass
 
 @utilities.add_a_lock
-def get_ticket_objet(ticket):
+def get_ticket_objet(ticket, server):
     """Get the ticket object from the ticket string"""
     
     if ticket == None:
         warn('No ticket', what='auth')
         return None
     if ticket not in tickets:
+        warn('Unknown ticket', what='auth')
         ticket_file = os.path.join(configuration.ticket_directory, ticket)
         try:
             # Update 'tickets' table with 'add' function
             eval( utilities.read_file(ticket_file))
+            warn('Found in file', what='auth')
         except OSError:
             pass
         except IOError:
@@ -212,4 +215,14 @@ def get_ticket_objet(ticket):
 
     remove_old_tickets()
 
-    return tickets.get(ticket, None)
+    ticket_object = tickets.get(ticket, None)
+
+    if ticket_object  and not ticket_object.is_fine(server):
+        warn('Remove ticket no more fine : %d secs' % (time.time() -
+                                                    ticket_object.date)
+                                                    , what='auth')
+        ticket_object.remove_file()
+        del tickets[ticket]
+        return None
+
+    return ticket_object 

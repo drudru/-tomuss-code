@@ -157,8 +157,8 @@ class MyRequestBroker(utilities.FakeRequestHandler):
             running = False
             return
 
-        self.ticket, self.the_path = ticket.get_ticket_string(self)
-        self.ticket = ticket.get_ticket_objet(self.ticket)
+        the_ticket, self.the_path = ticket.get_ticket_string(self)
+        self.ticket = ticket.get_ticket_objet(the_ticket, self)
         warn('ticket=%s' % str(self.ticket)[:-1])
         warn('the_path=%s' % str(self.the_path))
 
@@ -176,40 +176,26 @@ class MyRequestBroker(utilities.FakeRequestHandler):
                     break
             return
 
-        if self.ticket == None or (self.ticket
-                                   and not self.ticket.is_fine(self)):
-            if self.ticket and time.time() - self.ticket.date < 10:
-                warn('Ticket not fine quickly', what="error")
-                self.send_response(200)
-                self.send_header('Content-Type', 'text/html')
-                self.end_headers()
-                self.wfile.write(files['ticket.html'])
-                self.log_time('ticket-new-not-fine')
-                return
-                
-
-            warn('Ticket not fine', what="auth")
-            old_ticket = self.ticket
-            self.ticket = None
+        if self.ticket is None:
             # XXX : If Answer is an image : no redirect
             if len(self.the_path) > 4:
                 try:
                     int(self.the_path[3])     # Page number
                     float(self.the_path[4])   # Request number
                     self.log_time('ticket-not-fine-for-image')
+                    warn('Ticket not fine for image', what="auth")
+                    # DO NOT MAKE AN ANSWER.
+                    # THe BROWSER MUST UNDERSTAND THAT CONNECTION IS BROKEN
                     return
                 except:
-                    # Not an image, may page option
-                    pass
-            if old_ticket != None:
-                self.the_path = self.path.split('/')[2:]
-                self.path = '/' + '/'.join(self.the_path)
+                    # Not an image, may be a page option
+                    warn('Ticket not fine for not an image', what="auth")
 
         self.the_file = self.wfile
         self.wfile = plugin.Useles
 
         # Don't want to be blocked by 'is_an_abj_master' test
-        if self.ticket == None or not hasattr(self.ticket, 'password_ok'):
+        if self.ticket is None or not hasattr(self.ticket, 'password_ok'):
             warn('Append to authentication queue', what="auth")
             authentication.authentication_requests.append(
                 utilities.FakeRequestHandler(self, full=True))
@@ -265,6 +251,7 @@ if __name__ == "__main__":
     if 'regtest' in sys.argv:
         configuration.regtest = True
         configuration.regtest_sync = True
+    configuration.regtest_bug1 = 'regtest-bug1' in sys.argv
     import regtestpatch
     regtestpatch.do_patch()
     import plugin # AFTER import regtestpatch???

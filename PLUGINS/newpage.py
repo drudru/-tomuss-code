@@ -152,7 +152,8 @@ def new_page(server):
     page.use_frame = True
     page.use_linear = '=linear=' in server.options
     if configuration.regtest_sync or page.use_linear:
-        page.use_frame = False
+        if not configuration.regtest_bug1:
+            page.use_frame = False
 
     warn('New page, use_frame=%d' % page.use_frame, what="table")
 
@@ -176,7 +177,8 @@ def new_page(server):
         while document.update_students or \
               sender.File.nr_active_thread or sender.File.to_send:
             time.sleep(0.01)
-        server.the_file.close()
+        if not configuration.regtest_bug1:
+            server.the_file.close()
     warn('Actives=%s do_not_unload=%s' % (
         table.active_pages, table.do_not_unload), what="table")
 
