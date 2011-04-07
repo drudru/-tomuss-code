@@ -381,8 +381,8 @@ donc si vous constatez des problèmes, prévenez-nous rapidement.
     <item>
       <title>28/03/2011 : Version 2.13.7</title>
       <link>http://tomuss.univ-lyon1.fr/</link>
-Mis à part de nombreux bugs corrigés :
       <description>
+Mis à part de nombreux bugs corrigés :
 &lt;ul&gt;
 &lt;li&gt; Il est maintenant possible d'afficher ou non n'importe quelle
            table Printemps ou Automne dans le suivi de l'étudiant.
@@ -402,8 +402,8 @@ Mis à part de nombreux bugs corrigés :
     <item>
       <title>03/04/2011 : Version 2.13.9</title>
       <link>http://tomuss.univ-lyon1.fr/</link>
-Mis à part de nombreux bugs corrigés :
       <description>
+Mis à part de nombreux bugs corrigés :
 &lt;ul&gt;
 &lt;li&gt; Les cellules avec un commentaire ont un petit triangle comme
            dans les autres tableurs.
@@ -417,6 +417,16 @@ Mis à part de nombreux bugs corrigés :
 &lt;/ul&gt;
       </description>
       <guid>31</guid>
+    </item>
+    <item>
+      <title>07/04/2011 : Version 2.13.10</title>
+      <link>http://tomuss.univ-lyon1.fr/</link>
+      <description>
+Cette version propose une nouvelle interface pour le trombinoscope.
+Vous pouvez maintenant paginer en utilisant n'importe quels critères,
+par exemple par salle de TP.
+      </description>
+      <guid>32</guid>
     </item>
 
   </channel>
