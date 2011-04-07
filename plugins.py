@@ -265,10 +265,7 @@ function _%s()
     import column
     column.initialize()
     
-    files.files['types.js'].append_text = re.sub(
-        '(?ms)// FOLLOWING CODE IS COMPUTED.*// END OF FOLLOWING CODE', '',
-        files.files['types.js'].append_text)
-    files.files['types.js'].append(all_js + '// END OF FOLLOWING CODE\n')
+    files.files['types.js'].append('plugins.py', all_js)
 
     if not os.path.exists('DOCUMENTATION'):
         return reloadeds

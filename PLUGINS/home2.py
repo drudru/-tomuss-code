@@ -42,12 +42,11 @@ for url, port, year, semester, host in urls:
     else:
         selected = ''
     options += '<option%s>%s/%s</option>' % (selected, year, semester)
-top.replace_on_load('</select>', options + '</select>')
+top.replace('home.py', '</select>', options + '</select>')
 
 import files
-files.files['middle.js'].replace_on_load('__OPTIONS__',
-                                         options.replace('selected',''))
-
+files.files['middle.js'].replace('home',
+                                 '__OPTIONS__',options.replace('selected',''))
 
 def home_box(server, where, title, html_class='with_margin'):
     links = plugin.get_menu_for(where, server, True)
@@ -74,7 +73,7 @@ def home_page(server):
     else:
         password_ok = configuration.bad_password
 
-    f.write(top.replace('_MESSAGE_', password_ok)
+    f.write(str(top).replace('_MESSAGE_', password_ok)
             .replace('_BASE_',
                      configuration.server_url+'/='+ticket.ticket+'/')
             .replace('_SUIVI_', configuration.suivi.all(ticket.ticket))

@@ -26,6 +26,7 @@ import utilities
 import document
 import column
 import plugins
+import files
 
 def reload_plugins(server):
     plugin_files = collections.defaultdict(list)
@@ -61,6 +62,10 @@ def reload_plugins(server):
     server.the_file.write('\n'.join('<tr><td>%s<td>%s</tr>' % (
         name, reloaded) for name, reloaded in plugins.load_types()))
     server.the_file.write('</table>\n')
+
+    for a_file in files.files.values():
+        a_file.content = None
+    
     document.table(0, 'Dossiers', 'config_plugin', None, None)
 
 plugin.Plugin('reload_plugins', '/reload_plugins',

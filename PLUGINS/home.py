@@ -42,11 +42,11 @@ for url, port, year, semester, host in urls:
     else:
         selected = ''
     options += '<option%s>%s/%s</option>' % (selected, year, semester)
-top.replace_on_load('</select>', options + '</select>')
+top.replace('home.py', '</select>', options + '</select>')
 
 import files
-files.files['middle.js'].replace_on_load('__OPTIONS__',
-                                         options.replace('selected',''))
+files.files['middle.js'].replace('home',
+                                 '__OPTIONS__', options.replace('selected',''))
 
 def home_page(server):
     """Display TOMUSS home page, it extracts some links from the

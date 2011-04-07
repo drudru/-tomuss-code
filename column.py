@@ -260,27 +260,17 @@ def initialize():
 
     attributes.sort(key=lambda x: (x.priority, x.name))
 
-    # Remove old ones in cas of reload
-    files.files['types.js'].append_text = re.sub(
-        '(?ms)// BEGIN ATTRIBUTES.*// END ATTRIBUTES', '',
-        files.files['types.js'].append_text)
-    files.files['types.js'].append(
-        '// BEGIN ATTRIBUTES\n' +
+    files.files['types.js'].append('column.py',
         'var column_attributes = {\n' +
         ',\n'.join(attr.js() for attr in column_attributes() ) + '} ;\n' +
         'var table_attributes = {\n' +
         ',\n'.join(attr.js() for attr in table_attributes() ) + '} ;\n' +
         '\n'.join(attr.js_functions for attr in attributes) +
-        '// END ATTRIBUTES\n' +
         '\n')
 
 
     css = '\n'.join([attr.css for attr in attributes])
-    files.files['style.css'].append_text = re.sub(
-        '(?ms)/. BEGIN ATTRIBUTES.*./ END ATTRIBUTES ./', '',
-        files.files['style.css'].append_text)
-    files.files['style.css'].append(
-        '/* BEGIN ATTRIBUTES */\n' + css + '\n/* END ATTRIBUTES */\n')
+    files.files['style.css'].append('column.py', css)
     
     return reloadeds
 

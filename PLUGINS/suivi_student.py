@@ -289,7 +289,7 @@ def student(server, login=''):
         server.the_file.write(charte.replace("_TICKET_", server.ticket.ticket))
         return
         
-    server.the_file.write((header2.replace("_USERNAME_",
+    server.the_file.write((str(header2).replace("_USERNAME_",
                                           server.ticket.user_name)
                           .replace("_ADMIN_", configuration.maintainer) +
                           '<p id="x" style="background:yellow"><b>Chargement en cours, veuillez patienter s\'il vous plait. Cela ira encore plus lentement si vous réactualisez la page.</b></p>').replace('\n',''))
@@ -318,7 +318,7 @@ plugin.Plugin('accept', '/accept', function=accept, teacher=False,
 
 def home(server, nothing_behind=True):
     """Display the home page for 'suivi', it asks the student id."""
-    the_header = header.replace("_TICKET_", server.ticket.ticket) \
+    the_header = str(header).replace("_TICKET_", server.ticket.ticket) \
                  .replace("_MESSAGE_", '') \
                  .replace("_SEMESTER_", server.semester) \
                  .replace("_USERNAME_", server.ticket.user_name) \

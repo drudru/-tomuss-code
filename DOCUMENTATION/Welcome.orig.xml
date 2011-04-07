@@ -928,7 +928,7 @@ by <tt>LOCAL/__init__.py</tt> script using this procedure:
 
 <pre>import files
 
-files.files['lib.js'].append("""
+files.files['lib.js'].append("a_key", """
 function the_function_to_be_redefined()
 {
 }

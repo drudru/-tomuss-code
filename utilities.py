@@ -444,9 +444,8 @@ class StaticFile(object):
         self.mimetype = mimetype
         self.content = None
         self.time = 0
-        self.append_text = ''
-        self.on_load_old = None
-        self.on_load_new = None
+        self.append_text = {}
+        self.replace_text = {}
         if translate is None:
             if name.endswith('.js') or name.endswith('.html'):
                 # It is stupid to replace every time
@@ -459,27 +458,25 @@ class StaticFile(object):
 
     def __str__(self):
         if self.content == None or self.time != os.path.getmtime(self.name):
-            self.content = read_file(self.name)
             self.time = os.path.getmtime(self.name)
-            if self.on_load_old:
-                self.content = self.content.replace(self.on_load_old,
-                                                    self.on_load_new)
+            content = read_file(self.name)
+            for old, new in self.replace_text.values():
+                content = content.replace(old, new)
+            content += ''.join(self.append_text.values())
+            self.content = content
 
-        return self.translate(self.content + self.append_text)
+        return self.translate(self.content)
 
     def __len__(self):            
         return len(str(self))
 
-    def replace_on_load(self, old, new):
-        """The replacement is does each time the file is reloaded"""
-        self.on_load_old = old
-        self.on_load_new = new
+    def replace(self, key, old, new):
+        """The replacement is done each time the file is reloaded"""
+        self.replace_text[key] = (old, new)
 
-    def replace(self, old, new):
-        return str(self).replace(old, new)
-
-    def append(self, content):
-        self.append_text += content
+    def append(self, key, content):
+        """The append is done each time the file is reloaded"""
+        self.append_text[key] = content
 
 caches = []
 

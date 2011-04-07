@@ -175,8 +175,8 @@ def onload(table):
 
     # Can't be done before (not nice :-( )
     import files
-    files.files['doc_table.html'].replace_on_load('_ADMIN_',
-                                        configuration.maintainer)
+    files.files['doc_table.html'].replace('config_table',
+                                          '_ADMIN_', configuration.maintainer)
 
 
 def cell_change(table, page, col, lin, value, date):

@@ -62,5 +62,5 @@ for name in (
     ):
     files[name] = StaticFile(os.path.join('TMP', name))
 
-files['charte.html'].replace_on_load('<input', '<p')
+files['charte.html'].replace('files', '<input', '<p')
 files['style.css'].translate = lambda x:x.replace('_LOGO_', configuration.logo)
