@@ -259,9 +259,6 @@ function compute_nr_lines()
  * type_txt : textual type
  */
 
-
-
-
 function data_col_from_col_id(col)
 {
   for(var i in columns)
@@ -2962,7 +2959,9 @@ function Xcolumn_delete(page, col)
 
   if ( page != ' ')
     alert("Désolé pour le dérangement, mais je dois tout réafficher car quelqu'un a détruit une colonne") ;
-  table_fill(true, true,true) ;  
+  the_current_cell.do_update_column_headers = true ;
+  the_current_cell.update_headers() ;
+  table_fill(true, true,true) ;
 }
 
 function Xcolumn_attr(attr, col, value)

@@ -227,7 +227,8 @@ function column_used_in_average(name)
 function column_delete()
 {
   var column = the_current_cell.column ;
-  if ( ! column_empty_of_cells(column.data_col) )
+  var empty = column_empty_of_cells(column.data_col) ;
+  if ( column.real_type.cell_is_modifiable && ! empty )
     {
       alert('On peut seulement détruire des colonnes vides.\n\nVous devez donc d\'abord vider la colonne en cliquant sur "Remp."') ;
       return ;
@@ -254,9 +255,13 @@ function column_delete()
       alert("Cette colonne n'existe pas encore.\nPour afficher moins de colonnes sur l'écran, changez le nombre de colonnes à afficher dans le menu en haut de la case «Tableau».") ;
       return ;
     }
+  if ( ! empty )
+    if (!confirm("Voulez-vous vraiment détruire la colonne : " + column.title))
+      return ;
 
   append_image(undefined, 'column_delete/' + column.the_id) ;
   Xcolumn_delete(' ', column.the_id) ;
+  the_current_cell.update_headers() ;
 }
 
 function save_position_column(column, td)
