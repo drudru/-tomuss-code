@@ -2462,6 +2462,9 @@ function update_attribute_value(e, attr, table, editable)
 	    update_input(e, formatted, attr.empty(value)) ;
 	  else
 	    update_input(e, formatted, attr.empty(table, value)) ;
+
+	  if ( attr.tip[the_current_cell.column.type] )
+	    tip_top(e).firstChild.innerHTML = attr.tip[the_current_cell.column.type] ;
 	}
       break ;
     case 'A':
