@@ -603,8 +603,7 @@ for(var type_i in types)
 	      "Ceci permet d'ouvrir une nouvelle fenêtre<br>" +
 	      "faite pour être imprimée ou <b>exportée</b> vers un tableur.<br>"+
 	      'Seuls les étudiants filtrés seront affichés.') +
-   hidden_txt('<select onmousedown="javascript:mail_window();setTimeout(\'linefilter.focus()\',100)"><option>Mails</option></select>',
-	      "Gestion des mails") +
+   table_input_attr('mail') +
    hidden_txt('<select onfocus="take_focus(this);" onchange="this.blur();if ( this.selectedIndex == 1) statistics(); else if ( this.selectedIndex == 2) statistics_per_group() ; if ( this.selectedIndex == 3) statistics_authors() ; else if ( this.selectedIndex == 4) table_graph(); this.selectedIndex = 0 ;"><option selected="1">Statistiques</option><option>Totales</option><option>Par groupe d\'étudiant</option><option>Par enseignant</option><option>Représentation graphique de la table</option></select>',
 	      "Ceci permet d'ouvrir une nouvelle fenêtre<br>" +
 	      "contenant des <b>statistiques</b> sur les notes.<br>" +

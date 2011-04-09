@@ -327,23 +327,9 @@ margin: 0px ;
 margin-left: 1em ;
  }
 
-DIV.mails_div, DIV.personal_mailing_div  { 
-  border: 4px solid black ;
-}
-
-
-DIV.mails_div .popup_input { display: none }
 
 DIV.import_export TD { width: 50% }
 DIV.import_export TABLE { width: 100% ; }
-DIV.import_export TEXTAREA.mails {
-  width: 100% ;
-  height: 10em ;
-  font-size: 70%;
-}
-
-DIV.mails_div .unknown_mails { background: #FF0 ; }
-
 
 #authenticate { 
   display: none ;
