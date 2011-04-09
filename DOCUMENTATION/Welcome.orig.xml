@@ -141,6 +141,7 @@ They are automaticaly reloaded when they are modified.</li>
 </li>
 <li><b>PLUGINS</b>: They define how the servers react to an URL</li>
 <li><b>COLUMN_TYPES</b>: They define define the possible column types.</li>
+<li><b>ATTRIBUTES</b>: They define the possible column and table attributes.</li>
 <li><b>LOCAL</b>: All the customization code and data must be inside.
 <ul>
 <li> <b>__init__.py</b>: Your real configuration</li>
@@ -162,6 +163,8 @@ They are automaticaly reloaded when they are modified.</li>
 	  <li><b>clean</b>: Delete garbages.</li>
 	  <li><b>diff</b>: Difference between development and production source version.</li>
 	  <li><b>regtest</b>: Run server regression tests.</li>
+	  <li><b>regtest1</b>: Run server regression tests only once</li>
+	  <li><b>release</b> : Package a release.
 	</ul>
 
  </li>
@@ -677,8 +680,12 @@ the teaching organisation.
 </p>
 <p>
 Do not store information in the module itself because it will be
-lost when the TEMPLATE is reloaded(it is triggered by a file change).
+lost when the TEMPLATE is reloaded (it is triggered by a file change).
 </p>
+<p>
+The recommended way to define columns in a template is the table
+method <tt>update_columns</tt>.
+It will create and update columns definitions.
 
 
 
