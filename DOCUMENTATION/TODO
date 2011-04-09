@@ -1,5 +1,4 @@
 Finir par priorité :
-	Version fichier statiques
 	Passer les 4 menus de tableau en attributs :
 		Imprime
 		Mail
@@ -43,6 +42,7 @@ Finir par priorité :
 	Accelerer le chargement de la liste des référents.
 	Droit d'accès : généraliser la notion de groupe, pouvoir en créer
 	Mettre le ticket en fin d'URL ?
+	Version fichier statiques
 
     BUGS :
 	Chrome : statistics per group
