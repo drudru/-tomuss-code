@@ -56,6 +56,7 @@ def reload_plugins(server):
     server.the_file.write('\n'.join('<tr><td>%s<td>%s</tr>' % (
         name, reloaded) for name, reloaded in column.initialize()))
     server.the_file.write('</table>\n')
+    server.the_file.write('BEWARE: subclasses are not recomputed.\n')
     server.the_file.write('The column type javascript is reloaded even if the Python module is not reloaded\n')
     server.the_file.write('<table border>\n')
     server.the_file.write('<tr><th>Type name<th>Reloaded?</tr>\n')

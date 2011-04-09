@@ -1,6 +1,7 @@
 Finir par priorité :
-	Mail(ID) : si vide n'efface pas la précédente
-	Passage pour les PLUGIN ?
+	RELOAD marche pas pour les COLUMN_TYPES ?
+	Passage du CSS dans les PLUGIN.
+	Passage du CSS dans les TEMPLATES.
 	Version fichier statiques
 	Passer les 4 menus de tableau en attributs :
 		Imprime

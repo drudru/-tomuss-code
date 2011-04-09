@@ -22,6 +22,7 @@
 import text
 import inscrits
 import utilities
+import data
 
 def etapes_text(etapes):
     return ' '.join(sorted(etapes))
@@ -52,6 +53,11 @@ class Code_Etape(text.Text):
         etape = self.get_one_value(student_id, column, line_id)
         the_table.lock()
         try:
+            if etape is None:
+                if the_table.lines[line_id][column.data_col].author == data.ro_user:
+                    etape = ''
+                else:
+                    return
             the_table.cell_change(the_table.pages[0], column.the_id, line_id,
                                   etape)
         finally:
@@ -81,6 +87,11 @@ class Code_Etape(text.Text):
         for line_id, value in self.get_all_values(column):
             the_table.lock()
             try:
+                if value is None:
+                    if the_table.lines[line_id][column.data_col].author == data.ro_user:
+                        etape = ''
+                    else:
+                        continue
                 the_table.cell_change(the_table.pages[0], column.the_id,
                                       line_id, value)
             finally:
