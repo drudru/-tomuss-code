@@ -46,3 +46,11 @@ function(column, value)
     tip = """<b>Date où la colonne devient visible pour les étudiants</b>.<br>
     La date est indiquée sous la forme JJ/MM/AAAA.<br>
     <b><em>Si rien n'est indiqué : tout est visible par les étudiants.</em></b>"""
+    css = """
+#menutop #t_column_visibility_date {
+  background-image: url('eye.png');
+  background-position: right ;
+  background-repeat: no-repeat ;
+  width: 5.5em ;
+}
+"""

@@ -1,6 +1,8 @@
 Finir par priorité :
 	Finir passage du CSS dans les attributs existants
+	Mail(ID) : si vide n'efface pas la précédente
 	Passage pour les PLUGIN ?
+	Version fichier statiques
 	Passer les 4 menus de tableau en attributs :
 		Imprime
 		Mail

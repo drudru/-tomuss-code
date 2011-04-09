@@ -45,3 +45,7 @@ class ColumnType(ColumnAttr):
 <li> 'Bool' : Oui ou Non
 <li> 'Max' : Maximum sur plusieurs colonnes
 </ul>"""
+    css = """
+#menutop SELECT#t_column_type {  margin: 3px ; }
+#t_column_type { width: auto; }
+"""

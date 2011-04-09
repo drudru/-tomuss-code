@@ -50,6 +50,14 @@ Les logins sont séparés par un espace.<br>
 <b>Ajoutez votre nom en premier !</b><br>
 Tapez sur la touche «Entrée» pour valider."""
 
+    css = """
+#menutop #t_table_attr_masters { font-size: 60% ; }
+#menutop #t_table_attr_masters.empty {
+  background-image: url('teacher.png');
+  background-repeat: no-repeat ;
+}
+"""
+
     def encode(self, value):
         if isinstance(value, str):
             return re.split(' +', value.strip().lower())

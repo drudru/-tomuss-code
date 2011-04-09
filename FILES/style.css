@@ -527,29 +527,7 @@ INPUT#comment { width: 100% ; clear: both; }
 #menutop SELECT#nr_cols { width: 4em ; }
 #menutop SELECT#nr_lines { width: 4em ; }
 #menutop SELECT { width: 24% ; font-size: 80%; margin: 1px ; }
-#menutop SELECT#t_column_type {  margin: 3px ; }
 
-/* #menutop #t_column_type { width: 19% ; } */
-#menutop #t_column_weight { width: 2.5em ;
-  background-image: url('weight.png');
-  background-position: right ;
-  background-repeat: no-repeat ;
-}
-#menutop #t_column_minmax { width: 3.5em ; }
-#menutop #t_column_test_filter { width: 4em ; }
-#menutop #t_column_red { width: 1.5em ; border: 1px solid #F88 ; }
-#menutop #t_column_green { width: 1.5em ; border: 1px solid #0F0 ; }
-#menutop #t_column_empty_is { width: 3em ; }
-#menutop #t_column_columns { width: 50% ; }
-#menutop #t_column_enumeration { width: 50% ; }
-#menutop #t_column_visibility_date {
-  background-image: url('eye.png');
-  background-position: right ;
-  background-repeat: no-repeat ;
-  width: 5.5em ;
-}
-#menutop #t_table_attr_masters { font-size: 60% ; }
-#menutop #t_table_attr_default_nr_columns { width: 3em ; }
 #menutop INPUT.gui_button {
   width: 24%;
   font-size: smaller;
@@ -558,10 +536,6 @@ INPUT#comment { width: 100% ; clear: both; }
  }
 #menutop INPUT.gui_button:hover { background: #FFF ; }
 
-#menutop #t_table_attr_masters.empty {
-  background-image: url('teacher.png');
-  background-repeat: no-repeat ;
-}
 
 #menutop #t_column_author, #menutop DIV.menu, #menutop #teachers, #menutop #t_history { font-size: 80% ; }
 
@@ -575,19 +549,10 @@ INPUT#comment { width: 100% ; clear: both; }
   text-align: center;
 }
 
-
 #comment.empty, #t_column_comment.empty, #t_table_attr_comment.empty {
   background-image: url("comment.png");
   background-repeat: no-repeat;
 }
-#t_column_type { width: auto; }
-
-#t_column_title.empty {
-  background-image: url("title.png");
-  background-repeat: no-repeat;
-}
-
-#t_column_title { font-weight: bold ; }
 
 #menutop A { text-decoration: none ; }
 

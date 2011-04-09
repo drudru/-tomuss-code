@@ -28,3 +28,4 @@ class ColumnEnumeration(ColumnAttr):
     check_and_set = 'set_test_enumeration'
     tip = """<b>Liste des valeurs autorisées dans la colonne</b><br>
     Les valeurs sont séparées par un espace"""
+    css = "#menutop #t_column_enumeration { width: 50% ; }"

@@ -39,3 +39,10 @@ class ColumnTitle(ColumnAttr):
     <li> APO_CT : Examen.
     <li> APO_CT2 : Examen, session 2.
     </ul>"""
+    css = '''
+#t_column_title.empty {
+  background-image: url("title.png");
+  background-repeat: no-repeat;
+}
+#t_column_title { font-weight: bold ; }
+'''
