@@ -40,7 +40,6 @@ def plugins_tomuss():
     import PLUGINS.cell_change
     import PLUGINS.clean
     import PLUGINS.gc_state
-    import PLUGINS.home
     import PLUGINS.home2
     import PLUGINS.logout
     import PLUGINS.newpage

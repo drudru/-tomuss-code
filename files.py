@@ -26,7 +26,7 @@ import configuration
 files = {}
 for name in (
     'style.css', 'hidden.css', 'suivi.css',
-    'favicon.ico', 'top_tail.js', 'top_tail2.js', 
+    'favicon.ico', 'top_tail2.js',
     'header.png',
     'charte.html',
     'verysafe.png', 'safe.png', 'unsafe.png', 'veryunsafe.png',

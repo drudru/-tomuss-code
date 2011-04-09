@@ -783,47 +783,6 @@ TABLE.signature { width: 100% ; }
 TABLE.signature TH { font-weight: bold ; }
 
 /*****************************************************************************/
-/* TOP PAGES */
-/*****************************************************************************/
-
-TABLE.top TD {
-  vertical-align: top ;
-  white-space: normal ;
-}
-TABLE.top {
-  table-layout: fixed ;
-  background-color: black;
-  border-spacing: 1px;
-}
-TABLE.undertop {
-  width: 100% ;
-  padding: 1px ;
-  margin: 0px ;
-  border: 1px solid black;
-}
-TABLE.undertop TH {
-  text-align: center ;
-  padding: 0.2em ;
-}
-TABLE.undertop TD {
-  padding-top: 0.5em ;
-}
-TABLE.top TD UL { padding-left: 1em ; margin-left: 0em;}
-TABLE.top P { margin-bottom: 0; }
-TABLE.top UL { margin-top: 0; }
-TABLE.top U { background-color: yellow ; font-weight: normal; text-decoration: none; }
-
-TABLE.top INPUT.keyword {
-  background-color: white ;
-  border: 1px solid black ;
-  height: 1.5em ;
-}
-
-TABLE.top H1 SELECT { font-size: 100% }
-
-TABLE.top .ue_list p { margin: 0px 0px 0px 7em ; text-indent: -7em; }
-
-/*****************************************************************************/
 /* STATISTICS PAGES */
 /*****************************************************************************/
 
