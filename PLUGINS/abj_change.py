@@ -25,6 +25,44 @@ import abj
 import configuration
 from files import files
 
+css = """
+TR#dates TD {
+  text-align: center ;
+  vertical-align: middle ;
+}
+TR#ampm TD { text-align: center ; }
+
+TD.weekend { background-color: #FBB; }
+
+TABLE.display_abjs TH { text-align: center ; }
+TABLE.display_abjs TD, TABLE.display_da TD { background-color: #EEE ; }
+TABLE.display_abjs TH, TABLE.display_abjs TD, TABLE.display_da TD, TABLE.display_da TH { font-size:80%; padding: 1px }
+
+DIV#student_display {
+  min-height: 200px ;
+}
+
+DIV#student_display IMG {
+  height: 200px ;
+  text-align: left ;
+  float: left ;
+}
+
+INPUT#sendabj { 
+  width: 20em ;
+/*  border: 3px outset #444 ; */
+}
+
+SPAN.arrow { 
+  color: blue ;
+  font-size: 200% ;
+}
+
+BODY#BODY P, BODY#BODY H1 { margin: 0px ; }
+
+P.wait { background-color: #8F8 ; }
+"""
+
 class Page(object):
     closed = False
     def __init__(self, ticket, the_file):
@@ -164,6 +202,7 @@ plugin.Plugin('abj', '/{Y}/{S}/abj', function=abj_home, abj_master=True,
                   where='abj_master',
                   html_class="safe",
                   ),
+              css=css,
               keep_open=True,
               )
 

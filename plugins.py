@@ -30,7 +30,7 @@ import configuration
 suivi_plugins = []
 
 #REDEFINE
-# This function do the import of local Plugins for the TOMUSS server
+# This function do the import of LOCAL Plugins for the TOMUSS server
 def plugins_tomuss_more():
     pass
 
@@ -76,13 +76,14 @@ def plugins_tomuss():
                      if p not in plugins]
     # Restore normal plugins
     plugin.plugins = plugins
+    init_plugins()
 
     links = [p.link for p in suivi_plugins if p.link]
     print 'Links added from suivi:', [link.text for link in links]
     plugin.links_without_plugins += links
 
 #REDEFINE
-# This function do the import of local Plugins for the 'suivi' server
+# This function do the import of LOCAL Plugins for the 'suivi' server
 def plugins_suivi_more():
     pass
 
@@ -109,6 +110,7 @@ def plugins_suivi():
     import PLUGINS.evaluate
     import PLUGINS.picture
     plugins_suivi_more()
+    init_plugins()
 
 types = {}
 
@@ -187,6 +189,16 @@ def column_type_list():
     except ImportError:
         pass
 
+def init_plugins():
+    # Compute CSS for plugins
+    all_css = []
+    import plugin
+    for p in plugin.plugins:
+        all_css.append(p.css)
+    files.files['style.css'].append('plugins.py', '\n'.join(all_css))
+    
+
+
 def load_types():
     import csv
 
@@ -263,6 +275,8 @@ function _%s()
     # Here because Column type loading may change ATTRIBUTE definitions
     import column
     column.initialize()
+
+    init_plugins()
     
     files.files['types.js'].append('plugins.py', all_js)
 

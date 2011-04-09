@@ -125,6 +125,7 @@ class Plugin(object):
                  link = None,
                  documentation = '',
                  referent=None,
+                 css='',
                  ):
         if url[0] != '/':
             raise ValueError('not an absolute URL')
@@ -149,6 +150,7 @@ class Plugin(object):
         self.cached          = cached
         self.invited         = ()
         self.link            = link
+        self.css             = css
         if link:
             link.plugin = self
         if documentation:
