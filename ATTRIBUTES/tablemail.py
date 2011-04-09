@@ -35,6 +35,8 @@ DIV.import_export TEXTAREA.mails {
   font-size: 70%;
 }
 
+
+
 DIV.mails_div .unknown_mails { background: #FF0 ; }
 DIV.mails_div, DIV.personal_mailing_div  { border: 4px solid black ; }
 

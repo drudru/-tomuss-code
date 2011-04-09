@@ -515,7 +515,7 @@ INPUT#comment { width: 100% ; clear: both; }
 #menutop SELECT { width: 24% ; font-size: 80%; margin: 1px ; }
 
 #menutop INPUT.gui_button {
-  width: 24%;
+  width: auto;
   font-size: smaller;
   border: 2px outset #888;
   background: #EEE;
