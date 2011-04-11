@@ -60,6 +60,9 @@ Tapez sur la touche «Entrée» pour valider."""
 
     def encode(self, value):
         if isinstance(value, str):
+            value = value.strip()
+            if value == '':
+                return []
             return re.split(' +', value.strip().lower())
         else:
             return value
