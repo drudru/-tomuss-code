@@ -286,7 +286,7 @@ def student(server, login=''):
            and utilities.manage_key('LOGINS',
                                     utilities.charte(server.ticket.user_name)
                                     ) == False:
-        server.the_file.write(charte.replace("_TICKET_", server.ticket.ticket))
+        server.the_file.write(str(charte).replace("_TICKET_", server.ticket.ticket))
         return
         
     server.the_file.write((str(header2).replace("_USERNAME_",
