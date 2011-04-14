@@ -135,7 +135,11 @@ if 'stopsuivi' in sys.argv:
 lock = os.path.join('TMP','crontab_run.running')
 
 if os.path.exists(lock):
-    sys.exit(0)
+    if time.time() - os.path.getmtime(lock) < 3600:
+        print 'The crontab is yet running'
+        sys.exit(0)
+    print "Assume the lock is really too old (host reboot?)"
+    os.remove(lock)
 
 try:
     utilities.write_file(lock, time.ctime())
