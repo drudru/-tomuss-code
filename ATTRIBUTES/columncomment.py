@@ -26,5 +26,5 @@ class ColumnComment(ColumnAttr):
     update_headers = 1
     display_table = 1
     check_and_set = 'set_comment'
-    tip = """Tapez un commentaire pour cette colonne.<br>
+    tip = """<b>Commentaire pour cette colonne.</b><br>
     Il est visible par les étudiants."""

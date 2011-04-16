@@ -22,39 +22,19 @@
 
 function facebook_picture(line)
 {
-  var url = '<A HREF="' + suivi + '/' + line[0][0] + '">' ;
-  var firstname = line[1][0] ;
+  var url = '<A HREF="' + suivi + '/' + line[0].value + '">' ;
+  var firstname = line[1].value ;
   if ( firstname.length >= 2 )
     firstname = firstname.substr(0,1)+ firstname.substr(1).toLowerCase() ;
     
   return '<DIV CLASS="facebook">' + url +
-    '<IMG SRC="' + student_picture_url(line[0][0]) + '"><BR>' +
-    firstname + '<br>' + line[2][0] + '</A></DIV>' ;
-}
-
-function compute_groups_key(line)
-{
-  var s = [] ;
-  for(var data_col in grouped_by)
-    s.push(line[data_col][0]) ;
-  return s.join('\001') ;
-}
-
-function groups_values()
-{
-  var g = {}, s ;
-  for(var data_lin in lines)
-    g[compute_groups_key(lines[data_lin])] = true ;
-  tabl = [] ;
-  for(var gg in g)
-    tabl.push(gg) ;
-  tabl.sort() ;
-  return tabl ;
+    '<IMG SRC="' + student_picture_url(line[0].value) + '"><BR>' +
+    firstname + '<br>' + line[2].value + '</A></DIV>' ;
 }
 
 function facebook_display()
 {
-  var groups = groups_values() ;
+  var groups = compute_groups_values(grouped_by) ;
   var s = [] ;
   var first = '' ;
 
@@ -74,55 +54,37 @@ function facebook_display()
 	var i = 0 ;
 	for(var g in grouped_by)
 	  {
-	    s.push(' ' + grouped_by[g] + '=' + group.split('\001')[i++] ) ;
+	    s.push(' ' + columns[g].title + '=' + group.split('\001')[i++] ) ;
 	  }
 	s.push("</h2>")
 	for(var data_lin in lines)
-	  if ( compute_groups_key(lines[data_lin]) == group )
+	  if ( compute_groups_key(grouped_by, lines[data_lin]) == group )
 	    s.push(facebook_picture(lines[data_lin])) ;
       }
   document.getElementById('content').innerHTML = s.join('\n') ;
 }
 
-function facebook_toggle(data_col, tag)
-{
-  if ( grouped_by[data_col] )
-    {
-      delete grouped_by[data_col] ;
-      tag.style.background = '' ;
-      tag.style.color = '' ;
-    }
-  else
-    {
-      tag.style.background = 'black' ;
-      tag.style.color = 'white' ;
-      grouped_by[data_col] = columns[data_col] ;
-    }
-}
-
 function facebook_a_toggle(data_col)
 {
-  return '<span class="facebook_column" onclick="facebook_toggle('
+  return '<span class="button_toggle" onclick="button_toggle(grouped_by,'
     + data_col + ',this);facebook_display();">'
     + html(columns[data_col].title) + '</span>' ;
 }
 
 function tablefacebook()
 {
+  assert_name_sort() ;
+
   var p, s, line ;
 
-  p = [
-       '<p class="hidden_on_paper">',
-       'Ce préambule ne sera pas imprimé. ',
-       'Seuls les étudiants filtrés apparaissent ici. ',
-       'L\'ordre d\'affichage est celui du tableau. ',
+  p = [printable_introduction(),
        '<p class="hidden_on_paper">',
        'Si vous voulez une page par groupe d\'étudiants, ',
        'il vous suffit de cliquer sur ',
-       facebook_a_toggle(3), ' et ', facebook_a_toggle(4), '.',
+       facebook_a_toggle(3), ' et ', facebook_a_toggle(4), '.<br>',
        'Si vous avez une colonne indiquant un nom de salle, ',
        'vous pouvez la sélectionner pour avoir une feuille par salle :</p>',
-       '<p class="hidden_on_paper facebook_columns">'
+       '<p class="hidden_on_paper toggles">'
        ] ;
   for(var data_col in columns)
     {
@@ -136,28 +98,13 @@ function tablefacebook()
     }
 
   p.push('<div style="clear:both" id="content">') ;
-  p.push('<script>var grouped_by=[], lines = [') ;
-  s = [] ;
-  for(var data_lin in filtered_lines)
-    {
-      line = filtered_lines[data_lin] ;
-      if ( line[0].value !== '' )
-	{
-	  var t = [] ;
-	  for(var data_col in columns)
-	    t.push(line[data_col].get_data()) ;
-	  s.push('[' + t.join(',') + ']') ;
-	}
-    }
-  p.push( s.join(',\n') ) ;
-  p.push( '] ;') ;
-  p.push( 'var columns = [') ;
-  s = [] ;
-  for(var data_col in columns)
-    s.push(js(columns[data_col].title)) ;
-  p.push(s.join(',')) ;
-  p.push( '] ;') ;
-  p.push( 'ue=' + js(ue)) ;
+  p.push('<script>var grouped_by=[], lines = ') ;
+  p.push(lines_in_javascript()) ;
+  p.push( ';') ;
+  p.push( 'var columns = ') ;
+  p.push(columns_in_javascript()) ;
+  p.push( ';') ;
+  p.push( 'ue=' + js(ue) + ';') ;
   // turn around IE bug : do not call facebook_display yet....
   p.push('setTimeout("facebook_display()", 100);') ;
   p.push('</script>') ;
@@ -167,5 +114,4 @@ function tablefacebook()
   w.document.write(html_begin_head(true) + p.join('\n')) ;
   w.document.close() ;
   return w ;
-
 }

@@ -28,6 +28,7 @@ class ColumnColumns(ColumnAttr):
     visible_for = ['Moy', 'Nmbr', 'Mail', 'Code_Etape',
                    'COW', 'Firstname', 'Surname', 'Phone', 'Max']
     tip = {
+        '': '<b>Colonnes utilisées pour faire le calcul',
         'Code_Etape':
         """<b>Extrait le code étape</b><br>
         Indiquez la colonne de numéro d'étudiants <b>ID</b><br>

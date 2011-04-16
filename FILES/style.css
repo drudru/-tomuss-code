@@ -186,11 +186,11 @@ TABLE#thetable TD.number, TD.number, #current_input.number {
   text-align: right ;
 }
 
-BODY TABLE.colored TR TD.color_red, #current_input.color_red { 
+BODY TABLE.colored TR TD.color_red, #current_input.color_red, .color_red { 
   background-color: #F88 ;
 }
 
-BODY TABLE.colored TR TD.color_green, #current_input.color_green { 
+BODY TABLE.colored TR TD.color_green, #current_input.color_green, .color_green { 
   background-color: #8F8 ;
 }
 
@@ -512,7 +512,7 @@ INPUT#comment { width: 100% ; clear: both; }
 
 #menutop SELECT#nr_cols { width: 4em ; }
 #menutop SELECT#nr_lines { width: 4em ; }
-#menutop SELECT { width: 24% ; font-size: 80%; margin: 1px ; }
+#menutop SELECT { width: 20% ; font-size: 80%; margin: 1px ; }
 
 #menutop INPUT.gui_button {
   width: auto;
@@ -656,6 +656,34 @@ TR#dates TD { padding: 3px ;
 .statdef { background-color: black ; color: white; }
 .statmoy { text-align: right }
 .stats SUB { font-size: 60% ; }
+
+
+
+.hidden_on_paper {  background: #FF8; margin: 0px; }
+.printable_introduction {
+  float: right;
+  border: 1px solid black;
+  font-size: smaller ;
+  background: #FF0 ;
+}
+
+span.button_toggle { 
+  border: 1px solid black;
+  padding: 0px ;
+  font-size: 70% ;
+  white-space: nowrap ;
+  vertical-align: middle;
+}
+span.button_toggle:hover { background: white ; color: black }
+
+span.toggled:hover { background: #0C0 ; color: white }
+
+span.toggled { background: #080 ; color: white }
+
+.nowrap, TABLE.nowrap TD, TABLE.tdnowrap TD { white-space: nowrap ; }
+
+.small { font-size: 80% }
+.smaller { font-size: 60% }
 
 /*****************************************************************************/
 /* PRINT */

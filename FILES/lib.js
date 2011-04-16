@@ -3143,70 +3143,20 @@ function the_filters()
     {
       column = columns[data_col] ;
       if ( column.filter !== '' )
-	s += '<span class="hidden_on_paper">Filtre sur la colonne <B>' + column.title + '</B> : ' +
-	  column.filter + '<BR></span>\n' ;
+	s += 'Filtre sur la colonne <B>'
+	  + column.title + '</B> : <b>' + html(column.filter)
+	  + '</b><BR>\n' ;
     }
   return s ;
 }
 
-
-function print_cell(x, i, prepend, data_col)
+function printable_introduction()
 {
-  var html_class = 'col' + data_col ;
-
-  if ( i % zebra_step === 0 )
-    html_class += ' separatorvertical' ;
-
-  if ( prepend === undefined )
-    prepend = '' ;
-
-  if ( x.toFixed )
-    {
-      if ( data_col )
-	{
-	  if ( x < columns[data_col].color_red )
-	    html_class += ' color_red' ;
-	  if ( x > columns[data_col].color_green )
-	    html_class += ' color_green' ;
-	}
-      x = tofixedlocal(x) ;
-      html_class += ' number' ;
-    }
-
-  x = html(x) ;
-  if ( x === '' )
-    x = '&nbsp;' ;
-
-  return '<TD CLASS="' + html_class + '">' + prepend + x + '</TD>' ;
-}
-
-function assert_name_sort()
-{
-  if ( tr_classname === undefined )
-	return ; // Pas des étudiants
-  if ( sort_columns[0].data_col != 2 )
-	alert("La liste n'est pas dans l'ordre alpabétique des noms.") ;
-}
-
-function hide_class(c, add)
-{
-  var s = document.getElementById('computed_style') ;
-  if ( s !== undefined )
-    {
-      var x = '.' + c + '{ display: none ; }' ;
-      if ( add )
-	s.textContent += x ;
-      else
-	s.textContent = x ;
-    }
-}
-
-function show_class(c)
-{
-  var s = document.getElementById('computed_style') ;
-  if ( s !== undefined )
-      s.textContent = s.textContent.replace('.' + c + '{ display: none ; }',
-					    '') ;
+  return '<p class="hidden_on_paper printable_introduction">'
+    + "Ce qui est sur fond jaune n'est pas imprimé.<br>"
+    + "Les lignes sont triées par «<b>" + sort_columns[0].title
+    + '</b>» puis «<b>' + sort_columns[1].title + '</b>»<br>'
+    + the_filters() ;
 }
 
 function display_on_signature_table(line)
@@ -3226,266 +3176,118 @@ function display_on_signature_table(line)
   return true ;
 }
 
-function signature_table(line_list, tt, pb, more)
+function lines_in_javascript()
 {
-  var i = 0 ;
-  var salle ;
-
-  for(var data_line in line_list)
-    if ( display_on_signature_table(line_list[data_line]) )
-	 i++ ;
-
-  if ( more && more.substr(0,5) == 'Salle' )
+  var s = [], t, x ;
+  for(var data_lin in filtered_lines)
     {
-      salle = more.replace(/[^ ]* /,'') ;
-      more = '' ;
+      line = filtered_lines[data_lin] ;
+      if ( display_on_signature_table(line) )
+	{
+	  t = [] ;
+	  for(var data_col in columns)
+	    t.push(line[data_col].get_data()) ;
+
+	  x = the_student_abjs[line[0].value] ;
+	  if ( x && x[2] )
+	    t.push(js('<li>' +x[2].substr(0,x[2].length-1).replace(/\n/g,'<li>'))) ;
+
+	  s.push('[' + t.join(',') + ']') ;
+	}
+    }
+  return '[\n' + s.join(',\n') + ']' ;
+}
+
+function columns_in_javascript()
+{
+  var s = [], p, column ;
+  for(var data_col in columns)
+    {
+      column = columns[data_col] ;
+      p = [] ;
+
+      for(var attr in column_attributes)
+	p.push(attr + ':' + js(column[attr])) ;
+
+      p.push("green_filter:" + column.color_green_filter) ;
+      p.push("red_filter:" + column.color_red_filter) ;
+      s.push('{' + p.join(',\n') + '}') ;
+    }
+  return '[\n' + s.join(',\n') + ']' ;
+}
+
+function button_toggle(dictionnary, data_col, tag)
+{
+  if ( dictionnary[data_col] )
+    {
+      delete dictionnary[data_col] ;
+      tag.className = tag.className.replace(/ toggled/g, '') ;
     }
   else
-    salle = '' ;
-
-  var a = html_begin_head(false, pb, more) ;
-  if ( salle && ! pb )
-    a += '<small class="hidden_on_paper">Si la colonne qui est à droite de la colonne contenant le nom de la salle indique la place de l\'étudiant dans la salle, alors vous pouvez <a href="javascript:show_class(\'zz\')">faire apparaître la place de l\'étudiant sur la feuille démargement</a>.</small>' ;
-
-  a += '<table width="100%" style="white-space: pre ;">' ;
-  a += '<tr style="vertical-align:top;"><td width="75%">' ;
-  a += '<p>Date/Heure/Durée de l\'examen :' ;
-  a += "<p>Surveillants :" ;
-  a += "<p>Salle : " + salle ;
-  a += "<p>Nombre d'étudiants sur cette liste : <b>" + i + "</b>" ;
-  a += "</td>" ;
-  a += '<td><p>Nombre de présents :' ;
-  a += "<p>Nombre de signatures :" ;
-  a += "<p>Nombre de copies :" ;
-  a += "</td></tr></table><p>" ;
-  a += "<script>hide_class('zz');</script>" ;
-  a += '<TABLE class="printer colored signature" style="white-space: pre">' ;
-  a += '<THEAD><TR><TH>ID<TH>Nom<TH>Prénom' +
-    '<TH class="zz">Place<p class="hidden_on_paper"><small><a href="javascript:hide_class(\'zz\',true)">Cacher cette colonne</a></small></p></TH>' +
-    '<TH class="yy">Est présent<p class="hidden_on_paper"><small><a href="javascript:hide_class(\'yy\',true)">Cacher cette colonne</a></small></p></TH>' +
-    '<TH class="xx">Signature copie rendue<p class="hidden_on_paper"><small><a href="javascript:hide_class(\'xx\',true)">Cacher cette colonne</a></small></p></TH></TR></THEAD>';
-
-  var x ;
-  i = 0 ;
-  var col = next_column_from_data_col(the_current_cell.data_col) ;
-  if ( col === undefined )
-    col = 3 ;
-
-  for(var data_line in line_list)
-    {  
-      var line = line_list[data_line] ;
-      if ( ! display_on_signature_table(line) )
-	continue ;
-    
-      i++ ;
-      if ( i % zebra_step == 1 )
-	s = '<TR CLASS="separator">' ;
-      else
-	s = '<TR>' ;
-
-      s += print_cell(login_to_id(line[0].value), 1) ;
-      s += print_cell(line[2].value, 1) ;
-      s += print_cell(line[1].value, 1) ;
-      s += '<TD class="zz">' + html(line[col].value) + '</TD>' ;
-      s += '<TD class="yy">&nbsp;</TD><TD class="xx">&nbsp;</TD></TR>' ;
-      a += s
-
-      x = the_student_abjs[line[0].value] ;
-      if ( x && x[2] )
-	tt.push(line[1].value + ' ' + line[2].value + '<ul><li>'
-		+ x[2].substr(0,x[2].length-1).replace(/\n/g,'<li>')
-		+ '</ul>') ;
+    {
+      tag.className += ' toggled' ;
+      dictionnary[data_col] = true ;
     }
-  a += '</table>' ;
-  return a ;
 }
 
-function signatures_page()
+function radio_buttons(variable, values, selected)
 {
-  assert_name_sort() ;
-  var w = window_open() ;
-  var tt = [] ;
-  w.document.write( signature_table(filtered_lines, tt) ) ;
-  
-  if ( tt.length )
-    w.document.write('<h2 style="page-break-before:always">Dispositions particulières</h2>' + tt);
-  w.document.close() ;
-  return w ;
+  var value, the_class ;
+  var s = ['<script>' + variable + ' = "' + selected + '";</script>'] ;
+
+  s.push('<var>') ;
+  for(var i in values)
+    {
+      value = values[i] ;
+      
+      if ( value == selected )
+	the_class = 'toggled' ;
+      else
+	the_class = '' ;
+      s.push('<span class="button_toggle ' + the_class
+	     + '" onclick="' + variable + "='" + value
+	     + "'; radio_clean(this);this.className += ' toggled' ;"
+	     + 'do_printable_display=true;">' + value + '</span>') ;
+    }
+  s.push('</var>') ;
+  return s.join('\n') ;
 }
 
-function signatures_page_grp_seq()
+function radio_clean(t)
 {
-  assert_name_sort() ;
-
-  var g = grp_and_seq() ;
-  var s = '' ;
-  var t ;
-  var w = window_open() ;
-  var tt = [] ;
-  var pb = '' ; // No page break for the first one
-
-  for(var gs in g)
-    {
-      gs = g[gs] ;
-      var grp = gs.split('\001')[1] ;
-      var seq = gs.split('\001')[0] ;
-
-      t = [] ;
-      for(var data_lin in filtered_lines)
-	{
-	  line = filtered_lines[data_lin] ;
-	  if ( line[0].value != '' && line[3].value == grp && line[4].value == seq)
-	    t.push(line) ;
-	}
-      w.document.write(signature_table(t, tt, pb,
-				       'séq. ' + seq + ", grp. " + grp) ) ;
-      pb = ' style="page-break-before:always;clear:left"' ;
-    }
-  
-  if ( tt.length )
-    w.document.write('<h2 style="page-break-before:always">Dispositions particulières</h2>' + tt);
-  w.document.close() ;
-  return w ;
+  for(t = t.parentNode.firstChild; t; t = t.nextSibling)
+    if ( t.tagName == 'SPAN' )
+      t.className = t.className.replace(/ toggled/,'') ;
 }
 
-function signatures_page_per_column()
+function assert_name_sort()
 {
-  assert_name_sort() ;
-
-  var g = values_in_a_column(the_current_cell.column) ;
-  var s = '' ;
-  var t ;
-  var w = window_open() ;
-  var tt = [] ;
-  var pb = '' ; // No page break for the first one
-
-  for(var gs in g)
-    {
-      gs = g[gs] ;
-
-      t = [] ;
-      for(var data_lin in filtered_lines)
-	{
-	  line = filtered_lines[data_lin] ;
-	  if ( line[0].value != ''
-	       && line[the_current_cell.data_col].value == gs)
-	    t.push(line) ;
-	}
-      w.document.write(signature_table(t, tt, pb, 'Salle ' + gs) ) ;
-      pb = ' style="page-break-before:always;clear:left"' ;
-    }
-  
-  if ( tt.length )
-    w.document.write('<h2 style="page-break-before:always">Dispositions particulières</h2>' + tt);
-  w.document.close() ;
-  return w ;
+  if ( tr_classname === undefined )
+	return ; // Pas des étudiants
+  if ( sort_columns[0].data_col != 2 )
+	alert("La liste n'est pas dans l'ordre alpabétique des noms.") ;
 }
 
-function print_page(w)
+
+function compute_groups_key(grouped_by, line)
 {
-  var hide_link = '<TD class="hidden_on_paper"><a href="#" onclick="this.parentNode.parentNode.style.display=\'none\';return false"><small>Cacher</small></a>' ;
-  assert_name_sort() ;
-  var cols = column_list_all() ;
+  var s = [] ;
+  for(var data_col in grouped_by)
+    if ( grouped_by[data_col] )
+      s.push(line[data_col].value) ;
+  return s.join('\001') ;
+}
 
-  if ( w === undefined )
-    w = window_open() ;
-  
-  var s = html_begin_head() ;
-  s += '<div class="hidden_on_paper">' +
-    '<p>Pour importer ces données dans votre tableur favori, ' +
-    'il suffit de copier la page (Ctrl-A Ctrl-C) ' +
-    'et de la coller (Ctrl-V) dans votre tableur. ' +
-    'Attention, le copier/collé copie les colonnes cachées. ' +
-    'En cas de problème avec les nombres : ' +
-    '<a href="javascript:replace_coma_by_dot()">remplacer les \',\' ' +
-    'par des \'.\'</a></p>' +
-    '<p><b>N\'utilisez pas cette méthode pour importer ' +
-    'des notes dans APOGÉE</b> utilisez l\'export de colonne ' +
-    '(Exp.) dans le cadre «Colonne»</p></div>' ;
-  if ( table_attr.comment )
-    s += '<p>Petit message : <b>' + html(table_attr.comment) + '</b></p>' ;
-  s += '<TABLE class="printer colored">' ;
-  s += '<THEAD><TR  class="hidden_on_paper"><TD>&nbsp;\n' ;
-  var minmax, test_filter ;
-  for(var col in cols)
-    s += print_cell('', col,
-		    '<a href="javascript:hide_class(\'col' + cols[col] + '\',true)"><small>Cacher</small></a>', cols[col]
-		    ) ;
-  s += '</TR><TR CLASS="title">\n' + hide_link ;
-  for(var col in cols)
-    s += print_cell(columns[cols[col]].title, col, '', cols[col]) ;
-  s += '</TR>\n<TR CLASS="type">\n' + hide_link ;
-  for(var col in cols)
-    s += print_cell(columns[cols[col]].type, col, '', cols[col]) ;
-  s += '</TR>\n<TR CLASS="test">\n' + hide_link ;
-  for(var col in cols)
-    {
-      if ( column_modifiable_attr('minmax', columns[cols[col]]) )
-	minmax = columns[cols[col]].minmax ;
-      else
-	minmax = '' ;
-      if ( column_modifiable_attr('set_test_filter', columns[cols[col]]) )
-	test_filter = columns[cols[col]].test_filter ;
-      else
-	test_filter = '' ;
-      s += print_cell(minmax + ' ' + test_filter, col, '', cols[col]) ;
-    }
-  s += '</TR>\n<TR CLASS="visibility_date">\n' + hide_link ;
-  for(var col in cols)
-    s += print_cell(columns[cols[col]].visibility_date, col, '', cols[col]) ;
-  s += '</TR>\n<TR CLASS="weight">\n' + hide_link ;
-  for(var col in cols)
-    {
-      if ( columns[cols[col]].real_type.set_weight != unmodifiable )
-	s += print_cell(columns[cols[col]].weight, col,
-			'Poids:', cols[col]) ;
-      /* '<img src="' + url + '/weight.png">', cols[col]) ; */
-      else
-	s += print_cell('', col, '', cols[col]) ;
-    }
-  for(var col in cols)
-    if ( columns[cols[col]].empty_is )
-      {
-	s += '</TR>\n<TR CLASS="empty_is">\n' + hide_link ;
-	for(var col in cols)
-	  if ( columns[cols[col]].empty_is )
-	    s += print_cell(columns[cols[col]].empty_is, col, '&#8709;=',
-			    cols[col]);
-	  else
-	    s += print_cell('', col, '', cols[col]) ;
-	break ;
-      }
-
-  s += '</TR>\n<TR CLASS="comment">\n' + hide_link ;
-  for(var col in cols)
-    s += print_cell(columns[cols[col]].comment, col, '', cols[col]) ;
-
-  s += '</TR></THEAD><TBODY><TR CLASS="separator">' ;
-  w.document.write(s) ;
-  
-  var i = 0 ;
-  for(var data_line in filtered_lines)
-    {      
-      var line = filtered_lines[data_line] ;
-      s = hide_link ;
-      for(var col in cols)
-	{
-	  if ( col === 0 )
-	    s += print_cell(login_to_id(line[cols[col]].value), col,'',cols[col]);
-	  else
-	    s += print_cell(line[cols[col]].value, col, '', cols[col]) ;
-	}
-      s += '</TR>\n' ;
-      i++ ;
-      if ( i % zebra_step === 0 )
-	s += '<TR CLASS="separator">' ;
-      else
-	s += '<TR>' ;
-      w.document.write(s) ;
-    }
-  w.document.write('</TR></TBODY></TABLE>') ;
-  w.document.close() ;
-  return w ;
+function compute_groups_values(grouped_by)
+{
+  var g = {}, s ;
+  for(var data_lin in lines)
+    g[compute_groups_key(grouped_by, lines[data_lin])] = true ;
+  tabl = [] ;
+  for(var gg in g)
+    tabl.push(gg) ;
+  tabl.sort() ;
+  return tabl ;
 }
 
 function goto_resume()
@@ -3550,11 +3352,11 @@ function html_begin_head(hide_title, pb, more)
     s = '<html><head>\n' +
       '<link rel="stylesheet" href="'+url + '/style.css" type="text/css">\n' +
       '<link rel="stylesheet" href="'+url + '/hidden.css" type="text/css">\n' +
-      '<script src="' + url + '/utilities.js"></script>\n' +
-      '<script src="' + url + '/middle.js"></script>\n' +
-      '<script src="' + url + '/lib.js"></script>\n' +
-      '<script src="' + url + '/types.js"></script>\n' +
-      '<script src="' + url + '/abj.js"></script>\n' +
+      '<script src="' + url + '/utilities.js" onload="this.onloadDone=true;"></script>\n' +
+      '<script src="' + url + '/middle.js" onload="this.onloadDone=true;"></script>\n' +
+      '<script src="' + url + '/lib.js" onload="this.onloadDone=true;"></script>\n' +
+      '<script src="' + url + '/types.js" onload="this.onloadDone=true;"></script>\n' +
+      '<script src="' + url + '/abj.js" onload="this.onloadDone=true;"></script>\n' +
       '<style id="computed_style"></style>\n' +
       '<script>\n' +
       'page_id = "" ;\n' +
@@ -3574,6 +3376,7 @@ function html_begin_head(hide_title, pb, more)
       'lines_id = [] ;\n' +
       'adeweb = {};\n' + // XXX should not be here (LOCAL/spiral.py)
       'table_attr = ' + a + ';\n' +
+      wait_scripts + // The function definition
       '</script>\n' +
       '<title>' + ue + ' ' + year + ' ' + semester + '</title>' +
       '</head>' ;
@@ -4796,13 +4599,13 @@ function runlog(the_columns, the_lines)
 
   if ( get_option('print-table', 'a') !== 'a' )
     {
-      print_page() ;
+      print_selection() ;
       window.close() ;
       return ;
     }
   if ( get_option('signatures-page', 'a') !== 'a' )
     {
-      signatures_page() ;
+      print_selection(1) ;
       window.close() ;
       return ;
     }
@@ -5062,7 +4865,7 @@ function javascript_regtest_ue()
   lines_id = {} ;
   add_empty_columns() ;
   table_attr.default_sort_column = 0 ;
-  sort_columns = [columns[0]] ;
+  sort_columns = [columns[0],columns[1]] ;
   update_filtered_lines();
   the_current_cell.jump(nr_headers,0) ;
   table_attr.nr_columns = 12 ;
@@ -5224,8 +5027,7 @@ function javascript_regtest_ue()
 
   message.innerHTML += 's';
   
-  w = print_page()                    ; w.close() ; message.innerHTML += '1';
-  w = signatures_page()               ; w.close() ; message.innerHTML += '2';
+  w = print_selection(1)              ; w.close() ; message.innerHTML += '2';
   // w = goto_resume()                ; w.close() ; message.innerHTML += '3';
   w = statistics()                    ; w.close() ; message.innerHTML += '6';
   w = statistics_per_group()          ; w.close() ; message.innerHTML += '7';

@@ -41,6 +41,7 @@ Mais il est possible :
 <ul> <li> que l'étudiant ait changé de groupe
 <li> qu'il soit dans un groupe où les présences ne sont pas notées.
 <li> que sa copie ne soit pas encore corrigée
+<li> que son justificatif d'absence ne soit pas encore pris en compte.
 </ul>"""
 
     def cell_indicator_prst(self, column, value, cell, lines):

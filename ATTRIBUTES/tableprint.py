@@ -21,32 +21,29 @@
 
 from column import TableAttr
 
-class TableFaceBook(TableAttr):
-    name = "facebook"
-    tip = """Affiche le trombinoscope des étudiants filtrés"""
+class TablePrint(TableAttr):
+    name = "print"
+    tip = """Gestion des impressions et exportation"""
     gui_display = "GUI_button"
     need_authorization = 0
-    action = "tablefacebook"
-    title = 'Trombino'
+    action = "print_selection"
+    title = 'Imprime'
     css = '''
-DIV.facebook {
-  border: 1px solid black ;
-  display: block ;
-  float: left;
-  padding: 1px ;
-  border-spacing: 0px ;
-  background-color: inherit ;
-  height: 12.5em;
-  width: 8em ;
-  margin: 2px ;
-  overflow: hidden;
+TABLE.printable_table {
+   border-spacing: 0px ;
 }
-DIV.facebook IMG { 
-  width: 8em ;
-  border: 0 ;
+TABLE.printable_table TD {
+   border-left: 1px solid black ;
+   border-right: 1px solid black ;
+   border-top: 1px solid black ;
+}
+TABLE.printable_table TR.separatorvertical TD {
+   border-bottom: 1px solid black ;
 }
 
-@media print { DIV.facebook { font-size: 75% ; } }
+TABLE.printable_table TH {
+   border: 1px solid black ;
+}
 '''
 
 

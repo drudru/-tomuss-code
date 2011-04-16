@@ -585,29 +585,42 @@ def nice_date(x):
     return hours + 'h' + minutes + '.' + seconds + ' le ' + \
            day + '/' + month + '/' + year 
 
-def wait_scripts(name):
+def wait_scripts():
+    # Returns 'true' if the script are loaded and so processing must continue.
+    # If it returns 'false' then the calling function must stop processing.
+    # It will be recalled with a 'setTimeOut'
+    
+    # The parameter is a string evaluated if the loading is not fine,
+    # It must be a function recalling 'wait_scripts'
+    # By the way :
+    #    * this function can not be stored in a script.
+    #    * It must not be in a loop
     return """
+    function wait_scripts(recall)
+    {
     if ( navigator.userAgent.indexOf('Konqueror') == -1 )
         {
-            var d = document.getElementsByTagName('SCRIPT') ;            
-            for(var i in d)
+            var d = document.getElementsByTagName('SCRIPT'), e ;            
+            for(var i=0; i<d.length; i++)
                {
-               i = d[i] ;
-               if ( i.src == undefined )
+               e = d[i] ;
+               if ( e.src === undefined )
                    continue ;
-               if ( i.src === '' )
+               if ( e.src === '' )
                    continue ;
-               if ( i.onloadDone )
+               if ( e.onloadDone )
                    continue ;
-               if ( i.readyState === "loaded" )
+               if ( e.readyState === "loaded" )
                    continue ;
-               if ( i.readyState === "complete" )
+               if ( e.readyState === "complete" )
                    continue ;
-               setTimeout(%s, 1000) ;
+               setTimeout(recall, 1000) ;
                return ;
                }
          }
-               """ % name
+    return true ;
+    }
+         """
 
 
 

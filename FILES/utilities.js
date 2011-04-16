@@ -2200,14 +2200,19 @@ function cell_key()
 
 function js(t)
 {
-  return '"'
-    + t.toString().replace('\\','\\\\').replace('"','\"').replace('\n','\\n')
+  return '"' + t.toString().replace(/\\/g,'\\\\')
+    .replace(/"/g,'\\"').replace(/\n/g,'\\n')
     + '"' ;
 }
 
 function cell_get_data()
 {
-  return '[' + js(this.value) + ',' + js(this.author) + ',' + js(this.comment) + ',' + js(this.date) + ']' ;
+  var v ;
+  if ( this.value.toFixed )
+    v = this.value ;
+  else
+    v = js(this.value) ;
+  return 'C(' + v + ',' + js(this.author) + ',' + js(this.comment) + ',' + js(this.date) + ')' ;
 }
 
 
@@ -2463,7 +2468,8 @@ function update_attribute_value(e, attr, table, editable)
 	  else
 	    update_input(e, formatted, attr.empty(table, value)) ;
 
-	  if ( attr.tip[the_current_cell.column.type] )
+	  // XXX In some case 'the_current_cell.column' is undefined
+	  if ( the_current_cell.column && attr.tip[the_current_cell.column.type] )
 	    tip_top(e).firstChild.innerHTML = attr.tip[the_current_cell.column.type] ;
 	}
       break ;

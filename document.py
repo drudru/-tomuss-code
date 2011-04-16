@@ -899,12 +899,14 @@ la dernière saisie.
         try:
             s.append('''<script>
             lines_to_load = %d ;
+            %s
             function initialize()
             {
-            %s
+            if ( ! wait_scripts("initialize()") )
+               return ;
             document.write(head_html()) ;
             insert_middle();
-            ''' % (len(self.lines), utilities.wait_scripts('initialize')))
+            ''' % (len(self.lines), utilities.wait_scripts()))
             s.append(self.lines.js())
 
             s.append('lines_id = ')

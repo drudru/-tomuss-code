@@ -19,7 +19,7 @@
 #
 #    Contact: Thierry.EXCOFFIER@bat710.univ-lyon1.fr
 
-from utilities import StaticFile
+import utilities
 import os
 import configuration
 
@@ -48,7 +48,7 @@ for name in (
     'stats.html', 'ticket.html',
     'live_status.js', 'bilan.js', 'bilan.css',
     ):
-    files[name] = StaticFile(os.path.join('FILES', name))
+    files[name] = utilities.StaticFile(os.path.join('FILES', name))
 
 for name in (
     'xxx.change.weeks.png', 'xxx.change.hours.png', 'xxx.change.days.png',
@@ -60,7 +60,9 @@ for name in (
     'all_ues.js.gz','all_ues.js',
     'premier_cours.html',
     ):
-    files[name] = StaticFile(os.path.join('TMP', name))
+    files[name] = utilities.StaticFile(os.path.join('TMP', name))
 
-files['charte.html'].replace('files', '<input', '<p')
+files['charte.html'].replace('files.py', '<input', '<p')
 files['style.css'].translate = lambda x:x.replace('_LOGO_', configuration.logo)
+files['lib.js'].append('files.py', utilities.wait_scripts() )
+

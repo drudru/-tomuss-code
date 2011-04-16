@@ -27,7 +27,7 @@ class TableMail(TableAttr):
     gui_display = "GUI_button"
     need_authorization = 0
     action = "mail_window"
-    title = 'Mails'
+    title = 'Mail'
     css = '''
 DIV.import_export TEXTAREA.mails {
   width: 100% ;

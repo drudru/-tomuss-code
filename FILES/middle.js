@@ -599,10 +599,9 @@ for(var type_i in types)
    table_input_attr('nr_lines') +  '&times;' +
    table_input_attr('nr_columns') + '<br>' +
    table_input_attr('facebook') +
-   hidden_txt('<select onfocus="take_focus(this);" onchange="this.blur();if ( this.selectedIndex == 1) print_page(); else if ( this.selectedIndex == 2) signatures_page() ; if ( this.selectedIndex == 3) signatures_page_grp_seq() ; if ( this.selectedIndex == 4) signatures_page_per_column() ; if ( this.selectedIndex == 5) goto_resume() ; if ( this.selectedIndex == 6) abj_per_day() ; this.selectedIndex = 0 ;"><option selected="1">Imprime</option><option>Table totale filtrée</option><option>Émargement filtrée</option><option>Émargement par groupe</option><option>Émargement par valeur</option><option>ABJ, DA et TT</option><option>ABJ par date</option></select>',
-	      "Ceci permet d'ouvrir une nouvelle fenêtre<br>" +
-	      "faite pour être imprimée ou <b>exportée</b> vers un tableur.<br>"+
-	      'Seuls les étudiants filtrés seront affichés.') +
+   table_input_attr('print') +
+   hidden_txt('<select onfocus="take_focus(this);" onchange="this.blur();if ( this.selectedIndex == 1) goto_resume() ; if ( this.selectedIndex == 2) abj_per_day() ; this.selectedIndex = 0 ;"><option>ABJ</option><option>ABJ, DA et TT</option><option>ABJ par date</option></select>',
+	      "Gestion des ABJ/TT") +
    table_input_attr('mail') +
    hidden_txt('<select onfocus="take_focus(this);" onchange="this.blur();if ( this.selectedIndex == 1) statistics(); else if ( this.selectedIndex == 2) statistics_per_group() ; if ( this.selectedIndex == 3) statistics_authors() ; else if ( this.selectedIndex == 4) table_graph(); this.selectedIndex = 0 ;"><option selected="1">Statistiques</option><option>Totales</option><option>Par groupe d\'étudiant</option><option>Par enseignant</option><option>Représentation graphique de la table</option></select>',
 	      "Ceci permet d'ouvrir une nouvelle fenêtre<br>" +
@@ -764,6 +763,8 @@ function create_popup(html_class, title, before, after, default_answer)
     after ;
 
   popup.column = the_current_cell.column ;
+
+  popup.getElementsByTagName('TEXTAREA')[0].focus() ;
 }
 
 
