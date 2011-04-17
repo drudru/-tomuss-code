@@ -428,6 +428,15 @@ par exemple par salle de TP.
       </description>
       <guid>32</guid>
     </item>
+    <item>
+      <title>17/04/2011 : Version 2.13.11</title>
+      <link>http://tomuss.univ-lyon1.fr/</link>
+      <description>
+La gestion des impressions et des feuilles d'émargement est maintenant
+complètement paramétrables interactivement.
+      </description>
+      <guid>33</guid>
+    </item>
 
   </channel>
 </rss>
