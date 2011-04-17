@@ -96,15 +96,19 @@ function tablefacebook()
     }
 
   p.push('<div style="clear:both" id="content">') ;
-  p.push('<script>var grouped_by=[], lines = ') ;
-  p.push(lines_in_javascript()) ;
-  p.push( ';') ;
+  p.push('<script>') ;
+  p.push( 'ue=' + js(ue) + ';') ;
   p.push( 'var columns = ') ;
   p.push(columns_in_javascript()) ;
   p.push( ';') ;
-  p.push( 'ue=' + js(ue) + ';') ;
-  // turn around IE bug : do not call facebook_display yet....
-  p.push('setTimeout("facebook_display()", 100);') ;
+  p.push('var grouped_by=[], lines ;') ;
+  p.push('function initialize()') ;
+  p.push('{') ;
+  p.push('if ( ! wait_scripts("initialize()") ) return ; ') ;
+  p.push('lines = ' + lines_in_javascript() + ';') ;
+  p.push('facebook_display();') ;
+  p.push('}') ;
+  p.push('initialize();') ;
   p.push('</script>') ;
 
   var w = window_open() ;

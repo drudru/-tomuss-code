@@ -23,7 +23,7 @@ import socket
 import os
 import time
 
-version = '2.13.11'
+version = '2.13.12'
 
 # The following information can be redefined by python modules
 # loaded at the end of this file.
