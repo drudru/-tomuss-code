@@ -3152,11 +3152,17 @@ function the_filters()
 
 function printable_introduction()
 {
+  var name_sort = '' ;
+
+  if ( tr_classname !== undefined )
+    if ( sort_columns[0].data_col != 2 )
+      name_sort = '<span style="background:#F00;color:white">La liste n\'est pas dans l\'ordre alpabétique des noms.</span>' ;
+
   return '<p class="hidden_on_paper printable_introduction">'
     + "Ce qui est sur fond jaune n'est pas imprimé.<br>"
     + "Les lignes sont triées par «<b>" + sort_columns[0].title
     + '</b>» puis «<b>' + sort_columns[1].title + '</b>»<br>'
-    + the_filters() ;
+    + the_filters() + name_sort ;
 }
 
 function display_on_signature_table(line)
@@ -3259,15 +3265,6 @@ function radio_clean(t)
     if ( t.tagName == 'SPAN' )
       t.className = t.className.replace(/ toggled/,'') ;
 }
-
-function assert_name_sort()
-{
-  if ( tr_classname === undefined )
-	return ; // Pas des étudiants
-  if ( sort_columns[0].data_col != 2 )
-	alert("La liste n'est pas dans l'ordre alpabétique des noms.") ;
-}
-
 
 function compute_groups_key(grouped_by, line)
 {
@@ -4605,7 +4602,7 @@ function runlog(the_columns, the_lines)
     }
   if ( get_option('signatures-page', 'a') !== 'a' )
     {
-      print_selection(1) ;
+      print_selection(undefined, 1) ;
       window.close() ;
       return ;
     }
@@ -5027,7 +5024,7 @@ function javascript_regtest_ue()
 
   message.innerHTML += 's';
   
-  w = print_selection(1)              ; w.close() ; message.innerHTML += '2';
+  w = print_selection(undefined,1)    ; w.close() ; message.innerHTML += '2';
   // w = goto_resume()                ; w.close() ; message.innerHTML += '3';
   w = statistics()                    ; w.close() ; message.innerHTML += '6';
   w = statistics_per_group()          ; w.close() ; message.innerHTML += '7';

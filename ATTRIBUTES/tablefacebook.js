@@ -73,8 +73,6 @@ function facebook_a_toggle(data_col)
 
 function tablefacebook()
 {
-  assert_name_sort() ;
-
   var p, s, line ;
 
   p = [printable_introduction(),

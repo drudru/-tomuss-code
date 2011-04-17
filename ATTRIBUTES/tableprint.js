@@ -310,9 +310,8 @@ function print_choice_line(p, title, title_tip, choices, the_id)
 }
 
 
-function print_selection(emargement)
+function print_selection(object, emargement)
 {
-  assert_name_sort() ;
   var p = [ printable_introduction() ] ;
   p.push('<script>') ;
   p.push('var do_printable_display = true ;') ;
