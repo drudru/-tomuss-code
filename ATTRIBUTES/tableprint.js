@@ -71,7 +71,7 @@ function printable_display_page(lines, title, page_break)
       if ( tt.length )
 	v = ' dont <b>' + tt.length + ' tiers-temps</b>' ;
       else
-	v = '' ;
+	v = ', il n\'y a pas de tiers-temps' ;
       s.push(
 	     '<table width="100%" style="white-space: pre ;">'
 	     + '<tr style="vertical-align:top;"><td>'
@@ -377,7 +377,7 @@ function print_selection(object, emargement)
 
   t = [] ;
   for(var i=0; i<2; i++)
-    t.push('<input id="free' + i + '" style="width:15em" onkeypress="do_printable_display=true;">') ;
+    t.push(hidden_txt('<input id="free' + i + '" style="width:15em" onkeypress="do_printable_display=true;">', 'Indiquez le titre de la colonne à ajouter')) ;
   print_choice_line(p, 'Colonnes à ajouter',
 		    'Ceci vous permet d\'ajouter des colonnes vides<br>avec le titre de votre choix.',
 		    '<small>' + t.join(' '),
