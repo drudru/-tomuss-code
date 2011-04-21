@@ -745,8 +745,8 @@ la dernière saisie.
         t = test.split(';')
         if len(t) == 4:
             test = '[' + t[0].strip('[') + ';' + t[3].strip(']') + ']'
-            attrs['green'].set(self, page, col, t[1])
-            attrs['red'].set(self, page, col, t[2])
+            attrs['red'].set(self, page, col, t[1])
+            attrs['green'].set(self, page, col, t[2])
         if ttype == 'Nmbr':
             attrs['test_filter'].set(self, page, col, test)
         else:
