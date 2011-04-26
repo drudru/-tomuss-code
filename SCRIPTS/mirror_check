@@ -7,21 +7,26 @@ then
 	exit 1
 fi
 
-if ! diff -ur \
-          -x 'teachers.py' \
-          -x 'tables.py' \
-          -x 'favorites.py' \
-          -x 'tickets.py' \
-          -x 'profile.py' \
-          -x 'clients.py' \
-          -x 'preferences.py' \
-          -x '*.pyc' \
-          DB/ BACKUP_DB/
+if [ ! -d BACKUP_DB/ ]
 then
-  echo "Database in bad shape" >&2
-  exit 1
+  echo 'Mirroring not enabled'
 else
-  echo "Database in good shape"
+  if ! diff -ur \
+   -x 'teachers.py' \
+   -x 'tables.py' \
+   -x 'favorites.py' \
+   -x 'tickets.py' \
+   -x 'profile.py' \
+   -x 'clients.py' \
+   -x 'preferences.py' \
+   -x '*.pyc' \
+   DB/ BACKUP_DB/
+  then
+    echo "Database in bad shape" >&2
+    exit 1
+  else
+    echo "Database in good shape"
+  fi
 fi
 
 find DB/ -name '*.py' |
