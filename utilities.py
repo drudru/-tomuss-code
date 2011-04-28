@@ -422,14 +422,14 @@ def send_backtrace(txt, subject='Backtrace', exception=True):
 
 class StaticFile(object):
     """Emulate a string, but it is a file content"""
-    mimetypes = {'html': 'text/html',
-                'css': 'text/css',
+    mimetypes = {'html': 'text/html;charset=utf8',
+                'css': 'text/css;charset=utf8',
                 'png': 'image/png',
                 'ico': 'image/png',
                 'gif': 'image/gif',
-                'js': 'application/x-javascript',
+                'js': 'application/x-javascript;charset=utf8',
                 'txt': 'text/plain',
-                'xml': 'application/rss+xml',
+                'xml': 'application/rss+xml;charset=utf8',
                 }
     _url_ = 'http://???/'
                 
@@ -752,14 +752,13 @@ def manage_key(dirname, key, separation=3, content=None, reduce_ok=True):
         return False
     c = manage_key_real(os.path.join(configuration.db, dirname),
                         key, separation, content, reduce_ok)
-    if content is None:
-        return c
-    d = manage_key_real(os.path.join(configuration.backup
-                                     + configuration.db, dirname),
-                        key, separation, content, reduce_ok)
-    if c != d:
-        send_backtrace('manage_key backup', 'normal=%s\nbackup=%s\n' % (
-            repr(c), repr(d)))
+    if configuration.backup:
+        d = manage_key_real(os.path.join(configuration.backup
+                                         + configuration.db, dirname),
+                            key, separation, content, reduce_ok)
+        if c != d:
+            send_backtrace('normal=%s\nbackup=%s\n' % (repr(c), repr(d)),
+                           'manage key backup' + key)
     return c
 
 def charte(login, year=None, semester=None):
