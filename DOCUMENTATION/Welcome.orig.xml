@@ -164,7 +164,7 @@ They are automaticaly reloaded when they are modified.</li>
 	  <li><b>diff</b>: Difference between development and production source version.</li>
 	  <li><b>regtest</b>: Run server regression tests.</li>
 	  <li><b>regtest1</b>: Run server regression tests only once</li>
-	  <li><b>release</b> : Package a release.
+	  <li><b>release</b> : Package a release.</li>
 	</ul>
 
  </li>
@@ -370,7 +370,6 @@ in a Python module. The parameters are:</p>
 The functions to modify the data are:
 </p>
 
-
 <pre>add   (login, from, to  , user_name, action_date)
 rem   (login, from, to  , user_name, action_date)
 add_da(login, ue  , date, user_name, action_date)
@@ -450,7 +449,6 @@ compute some files periodicaly.
 TOMUSS reread the file is they appear to be modified.
 </p>
 
-
     <h2><a name="client">TOMUSS client side</a></h2>
     <p>
 A maximum of work is done by the client,
@@ -484,7 +482,6 @@ the server answer is a JavaScript program updating the screen data.
 <p>
 The clients files are <tt>abj.html</tt> and <tt>abj.js</tt>
 </p>
-
 
     <h3><a name="clienttable">The table editing page</a></h3>
 
@@ -623,8 +620,6 @@ They can be&nbsp;:
       </tr>
     </table>
 
-
-
     <h3><a name="templates">Table templates</a></h3>
 
     <p>Table templates are stored in 'TEMPLATES' directory.
@@ -686,9 +681,7 @@ lost when the TEMPLATE is reloaded (it is triggered by a file change).
 The recommended way to define columns in a template is the table
 method <tt>update_columns</tt>.
 It will create and update columns definitions.
-
-
-
+</p>
 
     <h3><a name="authentication">Authentication process</a></h3>
 
@@ -781,7 +774,6 @@ server {
       <li> <tt>http://tomusss.fr/2009/Printemps/</tt> 'Suivi' for Printemps 2009</li>
     </ul>
 
-
     <h3><a name="configuration">TOMUSS configuration</a></h3>
     <p>
 The initial TOMUSS configuration is stored in <tt>configuration.py</tt>.
@@ -841,7 +833,6 @@ The <tt>URL http://SERVER/2009/Test/javascript_regtest_ue</tt>
 run some javascripts tests on the user interface.
 These tests works on FireFox and Opera but not on IE.
 </p>
-
 
 
     <h3><a name="startstop">TOMUSS starting and stopping</a></h3>
@@ -918,7 +909,6 @@ in order to not have a memory leak.</p>
     <p>Never modify the database files if the table is loaded in the
 TOMUSS server.</p>
 
-
     <h2><a name="local">Functions to redefine in order to customize TOMUSS</a></h2>
 
     <p>
@@ -927,6 +917,7 @@ TOMUSS server.</p>
      The functions listed are the ones that you need to modify,
      but you can modify any function you want.
 </p>
+
     <table><tr><td><p>
 	In the following table the javascript functions must not be
 modified in the javascript source, they must be redefined
@@ -958,9 +949,7 @@ a_module.to_be_redefined = to_be_redefined
 
 
 
-
     _INCLUDE_ xxx_redefined.html
-
 
 
   </body>
