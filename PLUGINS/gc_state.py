@@ -122,6 +122,7 @@ def histogram(values):
     return s
 
 def caches(server):
+    """Display the caches statistics"""
     s = ['<title>Cache TOMUSS</title><table border="1"><tr><th>Name<th>What<th>Type<th>Age x:minutes y:log(nr_items)<th>Max Age<th>Content']
     now = int(time.time())
     for cache in utilities.caches:
@@ -155,6 +156,7 @@ plugin.Plugin('caches'   , '/caches'   , root=True, function=caches,
               )
 
 def locks(server):
+    """Displays all the lock states"""
     server.the_file.write('<title>Locks TOMUSS</title><pre>'
                           + utilities.lock_state() + '</pre>')
 
@@ -167,6 +169,7 @@ plugin.Plugin('locks'   , '/locks'   , root=True, function=locks,
               )
 
 def threads(server):
+    """Displays the running thread"""
     server.the_file.write('<title>Threads TOMUSS</title><pre>' +
                           '\n'.join(cgi.escape(str(t))
                                     for t in utilities.thread_list) +

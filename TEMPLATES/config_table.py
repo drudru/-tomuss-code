@@ -55,7 +55,7 @@ variables = {
 
 
     'maintainer': "Mail : Adresse ou sont envoyés les messages d'erreur de TOMUSS",
-    'smtpserver': 'Mail : Adresse du serveur STMP pour envoyer des mails',
+    'smtpserver': 'Mail : Adresse du serveur SMTP pour envoyer des mails',
     'abj_sender': 'Mail : Nom de la personne "envoyant" les mails via TOMUSS listant les ABJ pour toutes les UEs',
 
     

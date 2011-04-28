@@ -29,6 +29,7 @@ import plugins
 import files
 
 def reload_plugins(server):
+    """Reload all the plugins from PLUGINS, COLUMN_TYPES, ATTRIBUTES"""
     plugin_files = collections.defaultdict(list)
     for i in plugin.plugins:
         plugin_file = i.function.__module__
