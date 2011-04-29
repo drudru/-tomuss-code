@@ -115,7 +115,15 @@ function a_graph(all_values, zoom)
   return svg ;
 }
 
-function stat_display_flower(s, groups, all_stats, column, zoom)
+function stat_flower_zoom(t, column)
+{
+  var w = document.getElementById('tip') ;
+  w.innerHTML = stat_display_flower(stats_groups, all_stats, column, 8) ;
+  set_element_relative_position(t, w) ;
+  w.style.display = 'block' ;
+}
+
+function stat_display_flower(groups, all_stats, column, zoom)
 {
   if ( zoom === undefined )
     zoom = 1 ;
@@ -124,14 +132,15 @@ function stat_display_flower(s, groups, all_stats, column, zoom)
   var height = stat_svg_height * zoom ;
   var v = [], stat ;
   function X(c) { return (width*c).toFixed(1) ; };
-  function Y(c) { return (height*(0.5+c/10)).toFixed(1) ; } ;
+  function Y(c) { return (height*(1-c)).toFixed(1) ; } ;
 
   for(var group in groups)
     {
       stat = all_stats[groups[group] + '\001' + column] ;
-      if ( stat )
+      if ( stat && stat.nr != 0 )
+
 	v.push('<text x="' + X(stat.normalized_average()) + '" y="'
-	       + Y(stat.standard_deviation()) + '">X</text>') ;
+	       + Y(2*stat.standard_deviation()/stat.size) + '">.</text>') ;
     }
 
   return '<object type="image/svg+xml;utf-8" height="' + height 
@@ -148,7 +157,10 @@ function stat_display_flowers(s, groups, sorted_cols, all_stats)
   for(var column in sorted_cols)
     {
       column = sorted_cols[column] ;
-      s.push('<td>' + stat_display_flower(s, groups, all_stats, column) + '</td>') ;
+      s.push('<td><div class="s_graph">'
+	     + stat_display_flower(groups, all_stats, column)
+	     + '<div class="s_clickable" onclick="stat_flower_zoom(this,'
+	     + column + ')"></div></div></td>') ;
     }
   s.push('</tr>') ;
 }
@@ -558,6 +570,7 @@ function compute_line_totals(groups, sorted_cols, all_stats)
 }
 
 var sorted_cols ;
+var stat_groups ;
 
 function statistics_display()
 {
@@ -609,31 +622,31 @@ function statistics_display()
   // Creates statistics table
 
   all_stats = {} ;
-  var groups = [] ;
+  stats_groups = [] ;
   if ( regrouping == 'auteur' )
-    statistics_author(sorted_cols, all_stats, groups) ;
+    statistics_author(sorted_cols, all_stats, stats_groups) ;
   else
-    statistics_values(sorted_cols, all_stats, groups) ;
+    statistics_values(sorted_cols, all_stats, stats_groups) ;
 
   // Compute line/column totals
-  compute_column_totals(groups, sorted_cols, all_stats) ;
-  if ( groups.length != 1)
-    groups.push('TOTAL') ;
-  compute_line_totals(groups, sorted_cols, all_stats) ;
+  compute_column_totals(stats_groups, sorted_cols, all_stats) ;
+  if ( stats_groups.length != 1)
+    stats_groups.push('TOTAL') ;
+  compute_line_totals(stats_groups, sorted_cols, all_stats) ;
   sorted_cols.push('TOTAL') ;
 
   // Coloring
 
   color_coef = colorations[coloration] ;
-  vertical_coloring(all_stats, groups, sorted_cols) ;
-  horizontal_coloring(all_stats, groups, sorted_cols) ;
+  vertical_coloring(all_stats, stats_groups, sorted_cols) ;
+  horizontal_coloring(all_stats, stats_groups, sorted_cols) ;
 
   // Display table
 
   var all_values = [] ;
-  stat_display_table(s, groups, sorted_cols, all_stats, all_values) ;
+  stat_display_table(s, stats_groups, sorted_cols, all_stats, all_values) ;
 
-  stat_display_flowers(s, groups, sorted_cols, all_stats) ;
+  stat_display_flowers(s, stats_groups, sorted_cols, all_stats) ;
 
   s.push('</table>') ;
     
