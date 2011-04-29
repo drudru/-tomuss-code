@@ -2396,27 +2396,27 @@ function set_element_relative_position(anchor, element)
 
   tip_display_date = millisec() ;
 
-  if ( pos[1] + element.offsetHeight > window_height() + scrollTop())
+  if ( pos[1] > (window_height() + scrollTop())/2)
     {
-      element.style.top = window_height() + scrollTop() - element.offsetHeight;
-      if ( pos[0] + anchor.offsetWidth + element.offsetWidth
-	   > window_width() + scrollLeft() )
-	element.style.left = pos[0] - element.offsetWidth ;
-      else
-	element.style.left = pos[0] + anchor.offsetWidth ;
-      return ;
-    }     
-
-  element.style.top = pos[1] + anchor.offsetHeight ;
+      element.style.bottom = window_height() - pos[1] ;
+      element.style.top = 'auto' ;
+    } 
+  else
+    {
+      element.style.top = pos[1] + anchor.offsetHeight ;
+      element.style.bottom = 'auto' ;
+    }
 
   if ( pos[0] + element.offsetWidth > window_width() + scrollLeft() )
-    element.style.left = window_width() + scrollLeft() - element.offsetWidth ;
+    {
+      element.style.right = -scrollLeft() ;
+      element.style.left = 'auto' ;
+    }
   else
-    element.style.left = pos[0] ;
-  /*
-  element.style.right = 'auto' ;
-  element.style.bottom = 'auto' ;
-  */
+    {
+      element.style.left = pos[0] ;
+      element.style.right = 'auto' ;
+    }
 }
 
 function highlight_effect()
