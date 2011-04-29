@@ -160,7 +160,7 @@ function stat_display_flowers(s, groups, sorted_cols, all_stats)
       s.push('<td><div class="s_graph">'
 	     + stat_display_flower(groups, all_stats, column)
 	     + '<div class="s_clickable" onclick="stat_flower_zoom(this,'
-	     + column + ')"></div></div></td>') ;
+	     + js2(column) + ')"></div></div></td>') ;
     }
   s.push('</tr>') ;
 }
