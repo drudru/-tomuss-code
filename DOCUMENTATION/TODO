@@ -1,16 +1,21 @@
 Finir par priorité :
+	Finir Stats
+
+	2011/Dossiers : non modifiable en creation, #nb col par defaut
+
+	Clignotement photo quand on reste sur la même ligne
+	Public / colonne : change largeur ==> bascule de Text en Note
 	Finir print :
 		- Sous IE : bulle d'aide
-	Passer les 4 menus de tableau en attributs :
-		Mail
-		Statistiques
+	METTRE A JOUR DOC
+	Passer javascript de 'Mail' en attribut javascript
+	Faire des plugins pour chaque fonctionnalité coté client.
 	Favoris : enlever vraiment
 	Lien rapide mail marche plus
 	Rechargement page d'accueil si la recherche étudiant marche pas
 	BUG : Le 'resume' permet d'avoir des informations non autorisées
 	BUg : le suivi étudiant permet d'avoir des informations non autorisées
 	complétion énumeration
-	Faire des plugins pour chaque fonctionnalité coté client.
 	Remplace querY_login par query_logins dans students_list
 
 	MAJ de la liste des étudiants par l'utilisateur ? regler le changement de semestre
@@ -23,7 +28,6 @@ Finir par priorité :
 	Doc plugins
 	choix année RDV IP si cela a un sens
 	Méthode javascript pour attr : editable (masters attributes)
-	Menu unexpected popdown : answer use your own menu
 	Faire disparaitre UE- EC- ...
 	COW (stable) valeur vide ==> comme si rien
 	Bug ajoute + vidage de ligne avec changement de page
@@ -37,7 +41,6 @@ Finir par priorité :
 	Calcul du poids automatique avec '?' : problème de ]1,1[, max, meilleur
 	Renommer Inscrit en _Inscrit_, garder la compatibilité pour les vieux.
 	Faire le ménage des fonctions deprecated dans les TEMPLATES
-	Trombinoscope par valeur
 	Rendre des cellules éditables par les étudiants dans le suivi ?
 	Normaliser date début/fin : [x, y]
 	Normaliser les dates : nombre de secondes
@@ -58,6 +61,7 @@ Finir par priorité :
 	Il n'y a pas de Flux RSS pour les tables ni printemps ni automne.
 
     Moyenne :
+	Redirection d'une table sur un autre.
 	linear	Afficher aide plus detaille sur la valeur de la cellule
 	Interface pour détruire les tables.
 	UE par formation

@@ -7,7 +7,7 @@ then
 	exit 1
 fi
 
-if [ ! -d BACKUP_DB/ ]
+if [ ! -e BACKUP_DB -o ! -d BACKUP_DB ]
 then
   echo 'Mirroring not enabled'
 else

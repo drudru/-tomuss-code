@@ -1,23 +1,23 @@
 /* -*- coding: utf-8 -*- */
 /*
-    TOMUSS: The Online Multi User Simple Spreadsheet
-    Copyright (C) 2008-2010 Thierry EXCOFFIER, Universite Claude Bernard
+  TOMUSS: The Online Multi User Simple Spreadsheet
+  Copyright (C) 2008-2010 Thierry EXCOFFIER, Universite Claude Bernard
 
-    This program is free software; you can redistribute it and/or modify
-    it under the terms of the GNU General Public License as published by
-    the Free Software Foundation; either version 2 of the License, or
-    (at your option) any later version.
+  This program is free software; you can redistribute it and/or modify
+  it under the terms of the GNU General Public License as published by
+  the Free Software Foundation; either version 2 of the License, or
+  (at your option) any later version.
 
-    This program is distributed in the hope that it will be useful,
-    but WITHOUT ANY WARRANTY; without even the implied warranty of
-    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    GNU General Public License for more details.
+  This program is distributed in the hope that it will be useful,
+  but WITHOUT ANY WARRANTY; without even the implied warranty of
+  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  GNU General Public License for more details.
 
-    You should have received a copy of the GNU General Public License
-    along with this program; if not, write to the Free Software
-    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+  You should have received a copy of the GNU General Public License
+  along with this program; if not, write to the Free Software
+  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
-    Contact: Thierry.EXCOFFIER@bat710.univ-lyon1.fr
+  Contact: Thierry.EXCOFFIER@bat710.univ-lyon1.fr
 */
 
 var tip ;
@@ -94,31 +94,31 @@ function get_date(value)
     if ( isNaN(Number(v[i])) )
       return false ;
   /*
-  if ( v.length == 1 )
+    if ( v.length == 1 )
     {
-      d = new Date(v[0], 0,      1) ;
-      d.sup = new Date() ;
-      d.sup.setTime(d.getTime()) ;
-      d.sup.setMonth(11) ;
-      d.sup.setDate(31) ;
+    d = new Date(v[0], 0,      1) ;
+    d.sup = new Date() ;
+    d.sup.setTime(d.getTime()) ;
+    d.sup.setMonth(11) ;
+    d.sup.setDate(31) ;
     }
     else */ if ( v.length == 2 )
-    {
-      d = new Date(v[1], v[0]-1, 1) ;
-      d.sup = new Date() ;
-      d.sup.setTime(d.getTime()) ;
-      d.sup.setDate(31) ;
-      if ( d.sup.getDate() < 4 )
-	d.sup.setDate(-d.sup.getDate()) ;
-    }
-  else if ( v.length == 3 )
-    {
-      d = new Date(v[2], v[1]-1, v[0]) ;
-      d.sup = new Date() ;
-      d.sup.setTime(d.getTime()) ;
-    }
-  else
-    return false ;
+      {
+	d = new Date(v[1], v[0]-1, 1) ;
+	d.sup = new Date() ;
+	d.sup.setTime(d.getTime()) ;
+	d.sup.setDate(31) ;
+	if ( d.sup.getDate() < 4 )
+	  d.sup.setDate(-d.sup.getDate()) ;
+      }
+    else if ( v.length == 3 )
+      {
+	d = new Date(v[2], v[1]-1, v[0]) ;
+	d.sup = new Date() ;
+	d.sup.setTime(d.getTime()) ;
+      }
+    else
+      return false ;
   d.sup.setHours(23, 59, 59) ;
   return d ;
 }
@@ -316,7 +316,7 @@ function add_some_help()
 
 function remove_some_help()
 {
-//  displayed_tip.childNodes[0].childNodes[1].innerHTML = 'Y';
+  //  displayed_tip.childNodes[0].childNodes[1].innerHTML = 'Y';
 }
 
 function tip_top(tt)
@@ -541,6 +541,13 @@ function scrollTop()
   return window.screenY ;
 }
 
+function scrollLeft()
+{
+  if ( document.body.scrollLeft !== undefined )
+    return document.body.scrollLeft ;
+  return window.screenX ;
+}
+
 function window_width()
 {
   var ww = window.innerWidth ;
@@ -564,14 +571,14 @@ function base64(s)
   var i, len ;
   var replace = "%\r\n!#$&'()*+/[\\]^`\"<>" ;
   /* Bad for SVG with diacritics
-  for(i = 128 ; i < 256 ; i++)
-    replace += String.fromCharCode(i) ;
+     for(i = 128 ; i < 256 ; i++)
+     replace += String.fromCharCode(i) ;
   */
   len = replace.length ;
   for(i=0; i<len; i++)
     {
       var code = replace.charCodeAt(i) ;
-      s = s.replace(RegExp('\\' + replace[i], 'g'),
+      s = s.replace(RegExp('\\' + replace.substr(i,1), 'g'),
 		    '%' +
 		    '0123456789ABCDEF'.charAt(code/16) +
 		    '0123456789ABCDEF'.charAt(code%16)
@@ -595,7 +602,7 @@ function window_open(url)
   else
     w = window.open() ;
   if ( ! w )
-     alert('Vous devez autoriser les "popup" dans votre navigateur') ;
+    alert('Vous devez autoriser les "popup" dans votre navigateur') ;
   return w ;
 }
 
@@ -699,7 +706,7 @@ function replaceDiacritics(s)
 }
 
 /*REDEFINE
-This function returns the URL of the student picture.
+  This function returns the URL of the student picture.
 */
 function student_picture_url(login)
 {
@@ -874,13 +881,6 @@ function Stats(v_min, v_max, empty_is)
 {
   this.min = 1e40 ;
   this.max = -1e40 ;
-  this.nr_abi = 0 ;
-  this.nr_abj = 0 ;
-  this.nr_ppn = 0 ;
-  this.nr_nan = 0 ;
-  this.nr_pre = 0 ;
-  this.nr_yes = 0 ;
-  this.nr_no = 0 ;
   this.sum = 0 ;
   this.sum2 = 0 ;
   this.nr = 0 ;
@@ -888,31 +888,61 @@ function Stats(v_min, v_max, empty_is)
   this.v_min = v_min ;
   this.v_max = v_max ;
   this.size = v_max - v_min ;
-  this.values = [] ;
+  this.values = [] ; // numeric ones
+  this.all_values = {} ;
+  this.all_values[abi] = 0 ;
+  this.all_values[abj] = 0 ;
+  this.all_values[pre] = 0 ;
+  this.all_values[ppn] = 0 ;
+  this.all_values[yes] = 0 ;
+  this.all_values[no] = 0 ;
+  this.all_values[''] = 0 ;
   if ( empty_is )
     this.empty_is = empty_is ;
   else
     this.empty_is = '' ;    
 }
 
+// This function does not works when merging things with not the same size
+function stats_merge(v)
+{
+  this.min = Math.min(this.min, v.min) ;
+  this.max = Math.max(this.max, v.max) ;
+  this.sum += v.sum ;
+  this.sum2 += v.sum2 ;
+  this.nr += v.nr ;
+  for(var i in this.histogram)
+    this.histogram[i] += v.histogram[i] ;
+  if ( v.v_min == this.v_min && v.v_max == this.v_max )
+    this.values = this.values.concat(v.values) ;
+  else
+    for(var i in v.values)
+      this.values.push(this.v_min + this.size * (v.values[i]-v.v_min)/v.size) ;
+  for(var i in v.all_values)
+    if ( this.all_values[i] )
+      this.all_values[i] += v.all_values[i] ;
+    else
+      this.all_values[i] = v.all_values[i] ;
+
+  this.merge_min = v.v_min ;
+  this.merge_max = v.v_max ;
+  this.merge_size = v.size ;
+}
+
 function stats_add(v)
 {
   if ( v === '' )
     v = this.empty_is ;
-  switch(v)
-    {
-    case '' : this.nr_nan++ ; return ;
-    case abi: this.nr_abi++ ; return ;
-    case abj: this.nr_abj++ ; return ;
-    case ppn: this.nr_ppn++ ; return ;
-    case pre: this.nr_pre++ ; return ;
-    case yes: this.nr_yes++ ; return ;
-    case no : this.nr_no++ ; return ;
-    }
-      
+  if ( this.all_values[v] )
+    this.all_values[v]++ ;      
+  else
+    this.all_values[v] = 1 ; 
+  if ( v === '' )
+    return ;
   v = a_float(v) ;
-  if ( isNaN(v) ) { this.nr_nan++ ; return ; }
-      
+  if ( isNaN(v) )
+    return ;
+  delete this.all_values[v] ;
   if ( v < this.min )
     this.min = v ;
   if ( v > this.max )
@@ -936,7 +966,7 @@ function stats_variance()
 
 function stats_standard_deviation()
 {
-  return Math.pow(this.variance(),0.5) ;
+  return Math.pow(this.variance(), 0.5) ;
 }
 
 function stats_average()
@@ -955,18 +985,39 @@ function stats_mediane()
     return Number(0);
 }
 
-function stats_maxmax()
+function stats_uniques()
+{
+  var d = {} ;
+  this.values.sort(function(a,b){return a - b}) ;
+  for(var i in this.values)
+    d[this.values[i]]++ ;
+  for(var i in this.all_values)
+    d[i] += this.all_values[i] ;
+  return d ;
+}
+
+function stats_nr_uniques()
+{
+  var d = this.uniques() ;
+  var j = 0 ;
+  for(var i in d)
+    j++ ;
+
+  return j ;
+}
+function stats_histo_max()
 {
   var maxmax = 1 ;
-  if ( this.nr_abi > maxmax ) maxmax = this.nr_abi ;
-  if ( this.nr_abj > maxmax ) maxmax = this.nr_abj ;
-  if ( this.nr_ppn > maxmax ) maxmax = this.nr_ppn ;
-  if ( this.nr_nan > maxmax ) maxmax = this.nr_nan ;
-  if ( this.nr_pre > maxmax ) maxmax = this.nr_pre ;
-  if ( this.nr_yes > maxmax ) maxmax = this.nr_yes ;
-  if ( this.nr_no > maxmax ) maxmax = this.nr_no ;
   for(var i=0; i<20; i++)
     if ( this.histogram[i] > maxmax ) maxmax = this.histogram[i] ;
+  return maxmax ;
+}
+
+function stats_maxmax()
+{
+  var maxmax = this.histo_max() ;
+  for(var i in this.all_values)
+    if ( this.all_values[i] > maxmax ) maxmax = this.all_values[i] ;
   return maxmax ;
 }
 
@@ -982,6 +1033,14 @@ function stats_html_resume()
     'Sum:&nbsp;'      + this.sum                 .toFixed(3) + '\n' ;
 }
 
+function stats_normalized_average()
+{
+  if ( this.merge_size !== undefined )
+    return (this.average() - this.merge_min) / this.merge_size ;
+  else    
+    return (this.average() - this.v_min) / this.size ;
+}
+
 Stats.prototype.add = stats_add  ;
 Stats.prototype.variance = stats_variance  ;
 Stats.prototype.standard_deviation = stats_standard_deviation  ;
@@ -989,6 +1048,18 @@ Stats.prototype.html_resume = stats_html_resume ;
 Stats.prototype.average = stats_average ;
 Stats.prototype.mediane = stats_mediane ;
 Stats.prototype.maxmax = stats_maxmax ;
+Stats.prototype.histo_max = stats_histo_max ;
+Stats.prototype.merge = stats_merge ;
+Stats.prototype.uniques = stats_uniques ;
+Stats.prototype.nr_uniques = stats_nr_uniques ;
+Stats.prototype.nr_abi = function() { return this.all_values[abi] ; } ;
+Stats.prototype.nr_abj = function() { return this.all_values[abj] ; } ;
+Stats.prototype.nr_ppn = function() { return this.all_values[ppn] ; } ;
+Stats.prototype.nr_nan = function() { return this.all_values[''] ; } ;
+Stats.prototype.nr_pre = function() { return this.all_values[pre] ; } ;
+Stats.prototype.nr_yes = function() { return this.all_values[yes] ; } ;
+Stats.prototype.nr_no  = function() { return this.all_values[no] ; } ;
+Stats.prototype.normalized_average = stats_normalized_average ;
 
 /******************************************************************************
  *
@@ -1035,10 +1106,10 @@ function _UE(name, responsable, intitule, parcours, code, login,
     + replaceDiacritics(responsable.join(', ')).toUpperCase() ;
 
   /*
-  var lm = this.name.substr(this.name.length-1) ;
-  if ( lm == 'M' || lm == 'L' )
+    var lm = this.name.substr(this.name.length-1) ;
+    if ( lm == 'M' || lm == 'L' )
     this.code = '<!-- ' + lm + this.name + ' -->';
-  else
+    else
   */
   this.code = '<!-- ' + this.name + ' -->';
 }
@@ -1062,9 +1133,9 @@ function check_and_replace(value, value_upper, search, search_upper)
 }
 
 /*
-   students = undefined : All the UE
-   students = true      : UE with students
-   students = false     : UE without students
+  students = undefined : All the UE
+  students = true      : UE with students
+  students = false     : UE without students
 */
 
 var all_ues_sorted ;
@@ -1185,7 +1256,7 @@ function ue_line_close()
 function ue_line_out(t)
 {
   if ( ue_line_over_last )
-      ue_line_over_last.className = ue_line_over_last.className.replace(/ *hover/g, '') ;
+    ue_line_over_last.className = ue_line_over_last.className.replace(/ *hover/g, '') ;
   ue_line_over_last = undefined ;
   if ( ue_line_over_plus )
     ue_line_over_plus.style.left = -1000 ;
@@ -1273,7 +1344,7 @@ function ue_line_click_more()
 
       var t ;
       t = '<img class="safety" src="_URL_/safe.png"><a href="javascript:'+ href
-	  + '\')">Éditer la table</a>' ;
+	+ '\')">Éditer la table</a>' ;
 
       t += '<br><img class="safety" src="_URL_/verysafe.png"><a href="javascript:'+ href
 	+ '/=read-only=\')">Afficher la table sans la modifier</a>' ;
@@ -1285,7 +1356,7 @@ function ue_line_click_more()
 	+ '/=signatures-page=/=read-only=\')">Feuille d\'émargement</a>' ;
       if ( i_am_root )
 	t += '<br><img class="safety" src="_URL_/unsafe.png"><a href="javascript:'+ href
-	+ '/page_unload\')">Ferme les pages sur les navigateurs</a>' ;
+	  + '/page_unload\')">Ferme les pages sur les navigateurs</a>' ;
 
       t += ue_line_more_links(code) ;
 
@@ -1325,9 +1396,9 @@ function ue_line_click_more()
 	  ((1000000+ues_favorites[code])%1000000) + ' fois' ;
 
       if ( code && ! code.match('.*/.*') && (
-		    (semester() == 'Printemps' && is_the_current_semester())
-		    || (semester() == 'Automne' && is_the_last_semester())
-			))
+					     (semester() == 'Printemps' && is_the_current_semester())
+					     || (semester() == 'Automne' && is_the_last_semester())
+					     ))
 	{
 	  t +=  '<br><img class="safety" src="_URL_/unsafe.png"><a href="javascript:do_extension(\'' + code + '\');">Passer cette UE en NON-SEMESTRIALISÉE</a>' ;
 	}
@@ -1341,7 +1412,7 @@ function ue_line_click_more()
 	else
 	  t +=  '<br><img class="safety" src="_URL_/unsafe.png"><a href="javascript:do_delete(\'' + (ue_line_over_last.childNodes[1].textContent || ue_line_over_last.childNodes[1].innerText) + '\');">Détruire cette table</a>' ;
 
-  ue_line_over_plus.childNodes[1].style.display = 'block' ;
+      ue_line_over_plus.childNodes[1].style.display = 'block' ;
       ue_line_over_plus.childNodes[1].innerHTML = t ;
       ue_line_over_plus.childNodes[0].innerHTML = '&times;' ;
     }
@@ -1391,11 +1462,11 @@ function ue_line_over(code, t, click_more)
     ue_line_over_plus.childNodes[0].innerHTML = '+' ;
 
   /*
-  if ( no_menu )
+    if ( no_menu )
     {
-      ue_line_over_plus.childNodes[1].innerHTML = '<div class="no_menu">'
-	+ no_menu(t) + '</div>' ;
-      ue_line_over_plus.childNodes[0].onclick = function() { } ;
+    ue_line_over_plus.childNodes[1].innerHTML = '<div class="no_menu">'
+    + no_menu(t) + '</div>' ;
+    ue_line_over_plus.childNodes[0].onclick = function() { } ;
     }
   */
   ue_line_over_plus.childNodes[1].style.display = 'none' ;
@@ -1722,7 +1793,7 @@ function update_ues_searched(txt, txt_upper)
       
     }
   if ( s.length == 0 && txt != 'UNFOUNDABLETEXT\001' )
-      s.push('<tr><th colspan="3" style="background-color:white">Aucune UE ne correspond à votre recherche</td></tr>');
+    s.push('<tr><th colspan="3" style="background-color:white">Aucune UE ne correspond à votre recherche</td></tr>');
 
   s = ue_line_join(s) ;
   document.getElementById('ue_list').childNodes[0].innerHTML = '<table class="with_margin uelist searchresult"><colgroup><col class="code"><col class="title"><col class="responsable"></colgroup>' + s + '</table>' ;
@@ -1877,8 +1948,8 @@ function update_a_student_list(html_id, student_list, title, notes)
 			 "Envoi d'un message à ces étudiants") ;
 
   var suivis = hidden_txt('<a href="javascript:go_suivi_student(\''
-			 + logins.join(',') + '\')">Suivi</a>',
-			 "Afficher le suivi de ces étudiants") ;
+			  + logins.join(',') + '\')">Suivi</a>',
+			  "Afficher le suivi de ces étudiants") ;
 
   the_students.innerHTML =
     '<table class="with_margin student_list">'
@@ -2205,6 +2276,13 @@ function js(t)
     + '"' ;
 }
 
+function js2(t)
+{
+  return "'" + t.toString().replace(/\\/g,'\\\\')
+    .replace(/'/g,"\\'").replace(/\n/g,'\\n')
+    + "'" ;
+}
+
 function cell_get_data()
 {
   var v ;
@@ -2263,9 +2341,9 @@ function svg_text(text)
 {
   var r = document.createElementNS("http://www.w3.org/2000/svg",'text') ;
   if ( r.textContent !== undefined )
-     r.textContent = text ;
+    r.textContent = text ;
   else
-     r.innerText = text ;
+    r.innerText = text ;
   return r ;
 }
 
@@ -2337,7 +2415,7 @@ function update_histogram_real()
       try
 	{
 	  d = document.createElementNS("http://www.w3.org/2000/svg",
-					   'svg');
+				       'svg');
 	}
       catch(err)
 	{
@@ -2350,20 +2428,20 @@ function update_histogram_real()
       d.appendChild(svg_object) ;
     }
   if ( svg_style.textContent !== undefined )
-     svg_style.textContent = the_style ;
+    svg_style.textContent = the_style ;
   else
-     svg_style.innerText = the_style ;
+    svg_style.innerText = the_style ;
 
   while ( svg_object.firstChild )
     svg_object.removeChild(svg_object.firstChild) ;
 
-  s+= histogram_bar('ppn',0*dx,dx,dy,maxmax,stats.nr_ppn,false,0,0,svg_object);
-  s+= histogram_bar('abi',1*dx,dx,dy,maxmax,stats.nr_abi,false,0,0,svg_object);
-  s+= histogram_bar('abj',2*dx,dx,dy,maxmax,stats.nr_abj,false,0,0,svg_object);
-  s+= histogram_bar('pre',3*dx,dx,dy,maxmax,stats.nr_pre,false,0,0,svg_object);
-  s+= histogram_bar('oui',4*dx,dx,dy,maxmax,stats.nr_yes,false,0,0,svg_object);
-  s+= histogram_bar('non',5*dx,dx,dy,maxmax,stats.nr_no ,false,0,0,svg_object);
-  s+= histogram_bar('nan',6*dx,dx,dy,maxmax,stats.nr_nan,false,0,0,svg_object);
+  s+= histogram_bar('ppn',0*dx,dx,dy,maxmax,stats.nr_ppn(),false,0,0,svg_object);
+  s+= histogram_bar('abi',1*dx,dx,dy,maxmax,stats.nr_abi(),false,0,0,svg_object);
+  s+= histogram_bar('abj',2*dx,dx,dy,maxmax,stats.nr_abj(),false,0,0,svg_object);
+  s+= histogram_bar('pre',3*dx,dx,dy,maxmax,stats.nr_pre(),false,0,0,svg_object);
+  s+= histogram_bar('oui',4*dx,dx,dy,maxmax,stats.nr_yes(),false,0,0,svg_object);
+  s+= histogram_bar('non',5*dx,dx,dy,maxmax,stats.nr_no (),false,0,0,svg_object);
+  s+= histogram_bar('nan',6*dx,dx,dy,maxmax,stats.nr_nan(),false,0,0,svg_object);
 
   for(i=0; i<20; i++)
     s += histogram_bar(i, (i+7)*dx, dx, dy, maxmax, stats.histogram[i],
@@ -2382,14 +2460,14 @@ function update_histogram_real()
   update_tip_from_value(t_column_average,
 			stats.nr + ' valeurs<br>' + stats.html_resume()) ;
 
-  t = "Vide (ou inclassable) : " + stats.nr_nan + '<br>' ;
-  if ( stats.nr_ppn ) t += "Peut Pas Noter : " + stats.nr_ppn + '<br>' ;
-  if ( stats.nr_abi ) t += "ABI : " + stats.nr_abi + '<br>' ;
-  if ( stats.nr_abj ) t += "ABJ : " + stats.nr_abj + '<br>' ;
-  if ( stats.nr_pre ) t += "Présent : " + stats.nr_pre + '<br>' ;
-  if ( stats.nr_yes ) t += "OUI : " + stats.nr_yes + '<br>' ;
-  if ( stats.nr_no  ) t += "NON : " + stats.nr_no + '<br>' ;
-  if ( stats.nr )     t += "Notes : " + stats.nr + '<br>' ;
+  t = "Vide (ou inclassable) : " + stats.nr_nan() + '<br>' ;
+  if ( stats.nr_ppn() ) t += "Peut Pas Noter : " + stats.nr_ppn() + '<br>' ;
+  if ( stats.nr_abi() ) t += "ABI : " + stats.nr_abi() + '<br>' ;
+  if ( stats.nr_abj() ) t += "ABJ : " + stats.nr_abj() + '<br>' ;
+  if ( stats.nr_pre() ) t += "Présent : " + stats.nr_pre() + '<br>' ;
+  if ( stats.nr_yes() ) t += "OUI : " + stats.nr_yes() + '<br>' ;
+  if ( stats.nr_no()  ) t += "NON : " + stats.nr_no() + '<br>' ;
+  if ( stats.nr )       t += "Notes : " + stats.nr + '<br>' ;
 
   // + '\n' : explanation in update_tip_from_value
   update_tip_from_value(t_column_histogram, t + '\n') ;
@@ -2434,13 +2512,13 @@ function Current()
 
 if ( navigator.appName == 'Opera' )
   var set_editable = function() { } ;
-else
-  var set_editable = function(item, editable){
-    if (  item.selectedIndex === undefined ) // XXX: FireFox bug
-      item.contentEditable = !!editable;
-    item.tomuss_editable = !!editable ;
-    // item.disabled = ! editable ; // No more tip on unsensitives
-  };
+ else
+   var set_editable = function(item, editable){
+     if (  item.selectedIndex === undefined ) // XXX: FireFox bug
+       item.contentEditable = !!editable;
+     item.tomuss_editable = !!editable ;
+     // item.disabled = ! editable ; // No more tip on unsensitives
+   };
 
 function update_attribute_value(e, attr, table, editable)
 {
@@ -2674,8 +2752,8 @@ function current_jump(lin, col, do_not_focus, data_lin, data_col)
     }
 
   /* Removed the 19/1/2010 In order to select RO values
-  if (  ! cell.modifiable() )
-    do_not_focus = true ;
+     if (  ! cell.modifiable() )
+     do_not_focus = true ;
   */
 
   this.lin = lin ;
@@ -2839,7 +2917,7 @@ function alt_shortcut(event, td)
     case 18: // ALT
       // Navigator must process the event
     default:
-	return true ;
+      return true ;
     }
   stop_event(event) ; // Else ALTs are navigator shortcut
   return false ;
@@ -2907,7 +2985,7 @@ function current_keydown(event, in_input)
 	   || !this.cell.modifiable()
 	   || ((this.input.selectionEnd === this.input.textLength ||
 		this.input.selectionEnd === this.input.value.length ||
-	       this.input.selectionEnd === 0)
+		this.input.selectionEnd === 0)
 	       && this.input.selectionStart === 0)
 	   )
 	this.cursor_left() ;
@@ -2916,9 +2994,9 @@ function current_keydown(event, in_input)
       break ;
     case 9:
       if ( event.shiftKey )
-	  this.cursor_left() ;
+	this.cursor_left() ;
       else
-	  this.cursor_right() ;
+	this.cursor_right() ;
       break ;
     case 39:
       if ( event.ctrlKey

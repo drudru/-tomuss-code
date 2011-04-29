@@ -575,87 +575,12 @@ H1 {  margin: 0px  }
 .testmessage { margin: 0px }
 
 
-
-
-/*****************************************************************************/
-/* PRINT */
-/*****************************************************************************/
-
-TABLE.printer TR.comment { font-size: 60% ; }
-
-/*****************************************************************************/
-/* EMARGEMENT */
-/*****************************************************************************/
-
-TABLE.signature TD, TABLE.signature TH { padding: 0.5em ; }
-TABLE.signature { width: 100% ; }
-TABLE.signature TH { font-weight: bold ; }
-
-/*****************************************************************************/
-/* STATISTICS PAGES */
-/*****************************************************************************/
-
-TABLE.alignbottom TD { 
-  vertical-align: bottom ;
-}
-TABLE.alignbottom IMG {
-  width: 100% ;
-}
-
-
-TABLE.histogram { 
-  border-spacing: 0px ;
-}
-
-TABLE.histogram TD { 
-  vertical-align: bottom ;
-  text-align:center ;
-  font-size: smaller;
-}
-
-TABLE.histogram TR:first-child TD {
-  border-left: 1px solid #CCC ;
-  border-right: 1px solid #CCC ;
-}
-
-TABLE.histogram IMG {
-  border: 0 ;
-  background-color:black ;
-  width: 100% ;
-}
-
-TABLE.stat {
-  /* border: 1px solid black ; */
-}
-
 TR.separator TD { 
     border-top: 1px solid #999 ;
 }
 
-TD.separatorvertical { 
-  border-left: 1px solid #999 ;
-}
-
-TABLE.printer { 
-    border: 2px solid #999 ;
-}
-
-
-TR.weight TD {
-  white-space: normal ;  
-}
-
 TR#dates TD { padding: 3px ;
 }
-
-.statabj { color: blue ; }
-.statabi { color: red ; }
-.statnan { background-color: #F00 ; color: white }
-.statpre { color: green ; }
-.statppn { background-color: #F88 ; }
-.statdef { background-color: black ; color: white; }
-.statmoy { text-align: right }
-.stats SUB { font-size: 60% ; }
 
 
 

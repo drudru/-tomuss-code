@@ -2393,7 +2393,6 @@ function student_abjs(login)
 function set_element_relative_position(anchor, element)
 {
   var pos = findPos(anchor) ;
-  var table_pos = findPos(table) ;
 
   tip_display_date = millisec() ;
 
@@ -2401,7 +2400,7 @@ function set_element_relative_position(anchor, element)
     {
       element.style.top = window_height() + scrollTop() - element.offsetHeight;
       if ( pos[0] + anchor.offsetWidth + element.offsetWidth
-	   > table_pos[0] + table.offsetWidth )
+	   > window_width() + scrollLeft() )
 	element.style.left = pos[0] - element.offsetWidth ;
       else
 	element.style.left = pos[0] + anchor.offsetWidth ;
@@ -2410,14 +2409,14 @@ function set_element_relative_position(anchor, element)
 
   element.style.top = pos[1] + anchor.offsetHeight ;
 
-  if ( pos[0] + element.offsetWidth > table_pos[0] + table.offsetWidth)
-    element.style.left = table_pos[0] + table.offsetWidth - element.offsetWidth ;
+  if ( pos[0] + element.offsetWidth > window_width() + scrollLeft() )
+    element.style.left = window_width() + scrollLeft() - element.offsetWidth ;
   else
     element.style.left = pos[0] ;
-
+  /*
   element.style.right = 'auto' ;
   element.style.bottom = 'auto' ;
-
+  */
 }
 
 function highlight_effect()
@@ -3217,6 +3216,8 @@ function columns_in_javascript()
 
       p.push("green_filter:" + column.color_green_filter) ;
       p.push("red_filter:" + column.color_red_filter) ;
+      p.push("min:" + column.min) ;
+      p.push("max:" + column.max) ;
       s.push('{' + p.join(',\n') + '}') ;
     }
   return '[\n' + s.join(',\n') + ']' ;
@@ -3395,8 +3396,6 @@ function html_begin_head(hide_title, pb, more)
   return s ;
 }
 
-
-
 function compute_histogram(data_col)
 {
   var stats = new Stats(columns[data_col].min, columns[data_col].max,
@@ -3405,150 +3404,6 @@ function compute_histogram(data_col)
     if ( filtered_lines[line][0].value || filtered_lines[line][1].value )
       stats.add(filtered_lines[line][data_col].value) ;
   return stats ;
-}
-
-function statistics()
-{
-  var w = window_open() ;
-  w.document.open('text/html') ;
-
-  w.document.write(html_begin_head()) ;
-  w.document.write('Statistiques des colonnes de type note') ;
-
-  w.document.write('<TABLE class="stat colored"><TR><TH>Colonne</TH>' +
-		   '<TH>Nb<br>Notes' +
-		   '</TH><TH>Statistiques</TH>' +
-		   '<TH>Histogramme</TH></TR>') ;
-  var cls = column_list_all() ;
-  for(var data_col in cls)
-    {
-      data_col = cls[data_col] ;
-      column = columns[data_col] ;
-      if ( ! column.real_type.should_be_a_float)
-	continue ;
-      w.document.write('<TR><TH>' + column.title + '</TH>') ;
-
-      var stats = compute_histogram(data_col) ;
-
-      w.document.write('<TD>' + stats.nr  +  '</TD><TD>') ;
-      /* XXX
-      if ( nr != 0 )
-	w.document.write(stats.html_resume()) ;
-      */
-
-      var maxmax = stats.maxmax() ;
-
-      var h = '<TD><TABLE class="histogram colored"><tbody><tr>' ;
-      h += '<TD COLSPAN="2">' + histo_image(stats.nr_abi, maxmax) + '</TD>' ;
-      h += '<TD COLSPAN="2">' + histo_image(stats.nr_abj, maxmax) + '</TD>' ;
-      h += '<TD COLSPAN="2">' + histo_image(stats.nr_ppn, maxmax) + '</TD>' ;
-      h += '<TD COLSPAN="2">' + histo_image(stats.nr_nan, maxmax) + '</TD>' ;
-      h += '<TD></TD>' ;
-      for(i=0; i<20; i++)
-	h += '<TD COLSPAN="2">' +
-	  histo_image(stats.histogram[i], maxmax) + '</TD>' ;
-      h += '<TD></TD></TR><TR>' ;
-      h += '<TD COLSPAN="2">' + abi + '</TD>' ;
-      h += '<TD COLSPAN="2">' + abj + '</TD>' ;
-      h += '<TD COLSPAN="2">' + ppn + '</TD>' ;
-      h += '<TD COLSPAN="2">???</TD>' ;
-      for(i=0; i<21; i++)
-	{
-	  var v = i / 20 * (column.max-column.min) + column.min ;
-	  if ( v > 100 )
-	    v = v.toFixed(0) ;
-	  else
-	    v = v.toFixed(1).toString().replace('.0','') ;
-
-	  h += '<TD COLSPAN="2">' + v + '</TD>' ;
-	}
-      h += '</TR><TR>' ;
-      for(i=0; i<50; i++)
-	h += '<td width="20px"></td>' ;
-      h += '</TR></TBODY></TABLE>' ;
-      
-      w.document.write(h + '</TD></TR>') ;
-      
-    }
-  w.document.write('</TABLE>') ;	  
-
- 
-  var maxmax = 1 ;
-  var cols = [] ;
-  for(var data_col in cls)
-      {
-	data_col = cls[data_col] ;
-	column = columns[data_col] ;
-
-	if ( column.type != 'Prst' && column.type != 'Bool' )
-	  continue ;
-	var nr_pre = 0 ;
-	var nr_abi = 0 ;
-	var nr_abj = 0 ;
-	var nr_ppn = 0 ;
-	var nr_nan = 0 ;
-	var nr_yes = 0 ;
-	var nr_no = 0 ;
-	var nr = 0 ;
-	var i ;
-	for(var line in filtered_lines)
-	  {
-	    nr++ ;
-	    switch(filtered_lines[line][data_col].value)
-	      {
-	      case pre : nr_pre++ ; break ;
-	      case yes : nr_yes++ ; break ;
-	      case no  : nr_no++  ; break ;
-	      case abi : nr_abi++ ; break ;
-	      case abj : nr_abj++ ; break ;
-	      case ppn : nr_ppn++ ; break ;
-	      default: nr_nan++ ;
-	      }
-	  }
-	if ( nr_pre > maxmax ) maxmax = nr_pre ;
-	if ( nr_abi > maxmax ) maxmax = nr_abi ;
-	if ( nr_abj > maxmax ) maxmax = nr_abj ;
-	if ( nr_ppn > maxmax ) maxmax = nr_ppn ;
-	if ( nr_yes > maxmax ) maxmax = nr_yes ;
-	if ( nr_no  > maxmax ) maxmax = nr_no  ;
-	if ( nr_nan > maxmax ) maxmax = nr_nan ;
-
-	cols.push([column, nr_pre, nr_abi,  nr_abj, nr_ppn , nr_yes, nr_no, nr_nan]) ;
-      }
-
-  var h = "<p>Statistiques sur les présences et booléens." ; 
-  h += '<TABLE class="colored alignbottom"><tbody>' ;
-  h += '<tr><th width="1%">Titre</th>' ;
-  for(var c in cols)
-    h += '<th width="10%">' + cols[c][0].title + '</th>' ;
-  h += '</tr><th>PRST</th>' ;
-  for(var c in cols)
-    h += '<td>' + histo_image(cols[c][1], maxmax) + '</td>' ;
-  h += '</tr><th>ABINJ</th>' ;
-  for(var c in cols)
-    h += '<td>' + histo_image(cols[c][2], maxmax) + '</td>' ;
-  h += '</tr><th>ABJUS</th>' ;
-  for(var c in cols)
-    h += '<td>' + histo_image(cols[c][3], maxmax) + '</td>' ;
-  h += '</tr><th>PPNOT</th>' ;
-  for(var c in cols)
-    h += '<td>' + histo_image(cols[c][4], maxmax) + '</td>' ;
-  h += '</tr><th>OUI</th>' ;
-  for(var c in cols)
-    h += '<td>' + histo_image(cols[c][5], maxmax) + '</td>' ;
-  h += '</tr><th>NON</th>' ;
-  for(var c in cols)
-    h += '<td>' + histo_image(cols[c][6], maxmax) + '</td>' ;
-  h += '</tr><th>???</th>' ;
-  for(var c in cols)
-    h += '<td>' + histo_image(cols[c][7], maxmax) + '</td>' ;
-  h += '</tr></tbody></table>' ;
-
-  if ( cols.length !== 0 )
-    w.document.write(h) ;
- 
-  w.document.close() ;
-  return w ;
 }
 
 function notes_columns()
@@ -3649,411 +3504,6 @@ function svgGrid(label_x, label_y, label, x_tics, y_tics)
 	grid += svgText(-0.01, ii, i/2, 'tic') ;
     }
   return grid ;
-}
-
-
-/*
- * Compute the statistics per groups and columns
- */
-
-function compute_statistics_per_group()
-{
-  var grps = {} ;
-
-  for(var data_line in filtered_lines)
-    {
-      line = filtered_lines[data_line] ;
-      var grp = line[3].value + line[4].value ;
-      if ( grps[grp] === undefined )
-	grps[grp] = {nr: 0, cols: notes_columns()} ;
-      grps[grp].nr++ ;
-      for(var col in grps[grp].cols)
-	{
-	  col = grps[grp].cols[col] ;
-	  var v = line[col.data_col].value ;
-	  if ( col.notes === undefined )
-	    col.notes = [] ;
-	  if ( v === '' )
-	    v = columns[col.data_col].empty_is ;
-
-	  if ( v === '' )
-	    col.notes.push('_') ;
-	  else
-	    col.notes.push(v) ;
-	  if ( v === '' ) { col.nr_nan++ ; continue ; }
-	  if ( v == pre ) { col.nr_pre++ ; continue ; }
-	  if ( v == abi ) { col.nr_abi++ ; continue ; }
-	  if ( v == abj ) { col.nr_abj++ ; continue ; }
-	  if ( v == ppn ) { col.nr_ppn++ ; continue ; }
-	  v = a_float(v) ;
-	  if ( isNaN(v) ) { col.nr_nan++ ; continue ; }
-	  if ( v < col.min ) col.min = v ;
-	  if ( v > col.max ) col.max = v ;
-	  col.sum += v ;
-	  col.sum2 += v*v ;
-	  col.nr++ ;
-	}
-    }
-  for(var grp in grps)
-    {
-      for(var col in grps[grp].cols)
-	{
-	  col = grps[grp].cols[col] ;
-	  if ( col.nr && col.min != 1000000 )
-	    {
-	      var column = columns[col.data_col] ;
-	      col.avg_real = col.sum/col.nr ;
-	      col.avg = (col.avg_real-column.min) / (column.max-column.min) ;
-	      col.vari_real = Math.pow(col.sum2/col.nr
-				 - col.sum*col.sum/col.nr/col.nr
-				 , 0.5) ;
-	      col.vari = col.vari_real/(column.max-column.min) ;
-	    }
-	  else
-	    {
-	      col.avg = '' ;
-	      col.vari = '' ;
-	    }
-	}
-    }
-  return grps ;
-}
-
-function statistics_per_group()
-{
-  var avg, vari, col, x, nr, date, auth ;
-  var grps = compute_statistics_per_group() ;
-  var s ;
-
-  s = 'lines = [] ;' ;
-  for(var grp in grps)
-    {
-      s += 'lines.push([C("' + grp + '"),C(' + grps[grp].nr + ')' ;
-      
-      for(var col in grps[grp].cols)
-	{
-	  col = grps[grp].cols[col] ;
-
-	  x = '' ;
-	  nr = Math.ceil((col.notes.length+1)/3) ;
-	  for(var i in col.notes)
-	    {
-	      if ( i % nr == (nr-1) )
-		x += '\\n' ;
-	      else
-		x += ' ' ;
-	      x += col.notes[i] ;
-	    }
-	  x += '\\n\\n' ;
-	  if ( col.nr_ppn )
-	    x += col.nr_ppn + ' PPN, ' ;
-	  if ( col.nr_abi )
-	    x += col.nr_abi + ' ABI, ' ;
-	  if ( col.nr_abj )
-	    x += col.nr_abj + ' ABJ, ' ;
-	  if ( col.nr_pre )
-	    x += col.nr_pre + ' PRE, ' ;
-	  if ( col.nr_nan )
-	    x += col.nr_nan + ' Vides' ;
-	  if ( col.avg !== '' )
-	    avg = tofixed(col.avg_real) ;
-	  else
-	    avg = '""' ;
-	  if ( col.vari !== '' )
-	    vari = tofixed(col.vari_real) ;
-	  else
-	    vari = '' ;
-	  auth = '' ;
-	  date = '' ;
-	  if ( col.nr < grps[grp].nr * 0.75 )
-	    {
-	      date = today ;
-	      if ( col.nr > grps[grp].nr * 0.5 )
-		auth = '*' ;
-	    }
-
-	  s += ',C(' + avg + ',"' + auth + '","' + date + '","' + col.nr +' notes, min=' + col.min +
-	    ', max=' + col.max + ', écart-type=' + vari +
-	    '","' + x.replace(/\042/g, '\\"') + '")\n' ; // \042 = "
-	}
-      s += ']) ;' ;
-    }
-
-  s = virtual_table_common_begin() + virtual_table_common_end() + '<script>' +
-    'function delayed_init() {\n' +
-    s +
-    'do_not_read_option = true ;' +
-    'lib_init() ;' +
-    'for(var i=0; i<2; i++) add_empty_column(true);' +
-    'columns[0].title = "Groupe" ;' +
-    'columns[0].freezed = "F" ;' +
-    'columns[0].type = "Text" ;' +
-    'columns[0].minmax = "[0;100]" ;' +
-    'columns[0].green = "0" ;' +
-    'columns[0].red = "100" ;' +
-    'columns[1].title = "#étudiants" ;' +
-    'columns[1].minmax = "[0;NaN]" ;' +
-    'columns[1].freezed = "F" ;' ;
-
-  var t, column, col ;
-  for(var c in grps[grp].cols)
-    {
-      col = grps[grp].cols[c] ;
-      column = columns[col.data_col] ;
-      t = column.title ;
-      s += 'add_empty_column(true);\n' +
-	'column = columns[' + (Number(c)+2) +'] ;\n' +
-	'column.title = "' + t + ' Moyenne";\n' +
-	'column.minmax = "[' + column.min + ';' + column.max + ']";' +
-	'column.green = "NaN" ;\n' +
-	'column.red = "NaN" ;\n' ;
-    }
-
-  // The delayed function call is only here for IE
-  // It is absolutely useles.
-  s += 'lines_id=[];for(var i in lines) { lines_id["x"+i] = lines[i] ; };\n' +
-    'table_attr.default_nr_columns = ' + (Number(c)+3)  + ' ;\n' +
-    '// set_columns_filter("~Moyenne") ;\n' +
-    'table_attr.comment = "Gras : gris<75% des notes, noir<50% des notes" ;\n' +
-    'table_attr.table_title = "Statistiques par groupe" ;\n' +
-    'runlog(columns, lines) ;\n' +
-    '}\n' +
-    'setTimeout("delayed_init()",100) ;\n' +
-    '</script>'
-    ;
-
-  var svg = '', rgb, rgb2, i=0, r, grid ;
-
-  grid = svgGrid("Moyennes des notes des groupes",
-		 "Écart-type des notes des groupes",
-		 "Rectangle : La taille : taille du groupe, couleur interne : groupe, bord noir : colonne identique") ;
-   
-  var nr_grps = dict_size(grps) ;
-  for(var grp in grps)
-    {
-      rgb = hls2rgb(i/nr_grps, 0.7, 1) ;
-      i++ ;
-      for(var c in grps[grp].cols)
-	{
-	  col = grps[grp].cols[c] ;
-	  column = columns[col.data_col] ;
-	  if ( col.nr > 1 )
-	    {
-	      r = col.nr/2 ;
-	      svg += svgTranslate(col.avg, col.vari,
-				  '<rect x="' + (-r) + '" y="' + (-r)
-				  + '" width="' + 2*r +
-				  '" height="' + 2*r + '" style="fill:' + rgb +
-				  '"/>' +
-				  '<text y="-2">' + html(grp) + '</text>' +
-				  '<text y="8">' +
-				  html(columns[col.data_col].title) +
-				  '</text>') ;
-	    }
-	}
-    }
-	  
-
-  svg = 'data:image/svg+xml;utf-8,' +
-    base64('<?xml version="1.0" encoding="UTF-8" standalone="no"?>' +
-	   '<svg xmlns="http://www.w3.org/2000/svg">' +
-	   '<style>' +
-	   'svg { background: white; }' +
-	   'text.tic { font-size: 10px ; text-anchor: middle}' +
-	   'g.node g.show text { opacity:1; font-weight: bold; font-size:12px}' +
-	   'g.node g.showcol rect { stroke-opacity:1}' +
-	   'g.node text { font-size: 12px; text-anchor: middle; opacity:0}' +
-	   'text.label { font-size: 12px ; text-anchor: start}' +
-	   'rect { fill-opacity: 0.7; stroke-opacity: 0 ;stroke-width:3 ; stroke: #666; }' +
-	   'line { stroke-width: 1px; stroke-opacity:1;stroke:#888}' +
-	   '@media print { g.node text { opacity:1 } }' +
-	   '</style>' +
-	   '<script>' +
-	   'function svgMouseOver(t)' +
-	   '{' +
-	   'var grp = t.childNodes[1].textContent ;' +
-	   'var col = t.childNodes[2].textContent ;' +
-	   'var top = t.parentNode.childNodes ;' +
-	   'var cls ;' +
-	   'for(var i in top)' +
-	   '   {' +
-	   '   i = top[i] ;' +
-	   '   if ( i.childNodes === undefined ) continue ;' +
-	   '   if ( grp === i.childNodes[1].textContent )' +
-	   '         cls = "show" ;' +
-	   '   else' +
-	   '         cls = "" ;' +
-	   '   if ( col == i.childNodes[2].textContent )' +
-	   '        cls += " showcol" ;' +
-	   '   i.setAttribute("class",cls) ;' +
-	   '   }' +
-	   '}' +
-	   '</script>' +
-	   '<g transform="translate(0,0)">' +
-	   grid + '<g class="node">' + svg + '</g>' +
-	   '</g></svg>') ;
-
-  s +='<object type="image/svg+xml" height="700" width="100%" data="' + svg + '"></object>';
-
-  return new_window(s, 'text/html') ;
-
-}
-
-
-function table_graph()
-{
-  var s, i, column, v ;
-
-  s = '' ;
-  i = 0 ;
-  var cols = notes_columns() ;
-  for(var line in filtered_lines)
-    {
-      line = filtered_lines[line] ;
-      rgb = hls2rgb(i/filtered_lines.length, 0.5, 1) ;
-      i++ ;
-      s += '<path d="M ' ;
-      for(var c in cols)
-	{
-	  column = columns[cols[c].data_col] ;
-	  v = line[cols[c].data_col].value ;
-	  if ( isNaN(v) )
-	       continue ;
-	  s += XX(c/20.).toFixed(1) + ' ' +
-	    YY((v - column.min)/(column.max-column.min)/2).toFixed(1) + ' L ' ;
-	}
-      s = s.replace(/ L $/,'') + '" style="stroke:' + rgb + '"/>\n' ;
-    }
-  var cc = [] ;
-  for(var c in cols)
-    cc[c] = columns[cols[c].data_col].title ;
-  grid = svgGrid("Colonnes du tableau",
-		 "Valeur des cellules (normalisées entre 0 et 20)",
-		 "",
-		 cc,
-		 [0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20]
-		 ) ;
-
-  svg = '<object type="image/svg+xml;utf-8" height="700" data="data:image/svg+xml;utf-8,' +
-    base64('<?xml version="1.0" encoding="UTF-8" standalone="no"?>' +
-	   '<svg xmlns="http://www.w3.org/2000/svg">' +
-	   '<style>' +
-	   'svg { background: white; }' +
-	   'text.tic { font-size: 10px ; text-anchor: middle}' +
-	   'text.label { font-size: 12px ; text-anchor: start}' +
-	   'line { stroke-width: 1px; stroke-opacity:1;stroke:#888}' +
-	   'path { fill: none;stroke-width: 1px; stroke-opacity:1}' +
-	   '@media print { }' +
-	   '</style>' +
-	   '<script>' +
-	   '</script>' +
-	   '<g transform="translate(0,0)">' +
-	   grid + '<g class="node">' + s + '</g>' +
-	   '</g></svg>') + '"></object>' ;
-
-  return new_window(svg, 'text/html') ;
-}
-
-
-function statistics_authors()
-{
-  var s, v, cell, author, column ;
-
-  var t = [] ;
-  for(var data_col in columns)
-    {
-      column = columns[data_col] ;
-      if ( column.author == '*' || column.author === '' )
-	continue ;
-      /*
-	if ( column.type != 'Note' && column.type != 'Prst')
-	continue ;
-      */
-      for(var line in filtered_lines)
-	{
-	  line = filtered_lines[line] ;
-	  cell = line[data_col] ;
-	  author = cell.author ;
-	  if ( author == '*' || author === '' || cell.value === '' )
-	    continue ;
-	  if ( t[author] === undefined )
-	    t[author] = {nr:0, nr_numbers:0, sum:0, sum2: 0} ;
-	  s = t[author] ;
-	  s.nr++ ;
-	  v = a_float(cell.value) ;
-	  if ( ! isNaN(v) )
-	    {
-	      v = (v - column.min) / (column.max - column.min) ;
-	      s.nr_numbers++ ;
-	      s.sum += v ;
-	      s.sum2 += v*v ;
-	    }
-	}
-    }
-
-  var c = 'lines = [];' ;
-  var i, max_nr=0, max_nr_numbers=0, max_stddev=0 ;
-  var average, stddev ;
-  i = 0 ;
-  for(var author_name in t)
-    {
-      author = t[author_name] ;
-      c += 'lines.push([' ;
-      c += 'C("' + author_name + '"),' ;
-
-      c += 'C(' + author.nr + '),' ;
-      if ( author.nr > max_nr )
-	max_nr = author.nr ;
-
-      c += 'C(' + author.nr_numbers + '),' ;
-      if ( author.nr_numbers > max_nr_numbers )
-	max_nr_numbers = author.nr_numbers ;
-
-      average = 20 * author.sum / author.nr_numbers ;
-      c += 'C(' + tofixed(average) + '),' ;
-
-      stddev = 20 * Math.pow(author.sum2 / author.nr_numbers -
-			author.sum*author.sum/author.nr_numbers
-			/author.nr_numbers, 0.5) ;
-
-      c += 'C(' + tofixed(stddev) + ')]);\n' ;  
-      if ( stddev > max_stddev )
-	max_stddev = stddev ;
-    }
-  // c = c.substr(0,c.length-1) ;
-  c += 'lines_id = [] ; for(var i in lines) { lines_id["x"+i] = lines[i] ; };\n' ;
-
-
-  // The delayed function call is only here for IE
-  // It is absolutely useles.
-  v = virtual_table_common_begin() + virtual_table_common_end() +
-    '<script>' +
-    'function delayed_init() {\n' +
-    'do_not_read_option = true ;' +
-    'lib_init() ;' +
-    'for(var i=0; i<5; i++) add_empty_column(true);\n' +
-    'columns[0].title = "Enseignant";\n' +
-    'columns[1].title = "#Cellules";\n' +
-    'columns[1].type = "Note";\n' +
-    'columns[1].minmax = "[0;' + Number(max_nr.toFixed(0)) + ']";\n' +
-    'columns[2].title = "#Notes";\n' +
-    'columns[2].type = "Note";\n' +
-    'columns[2].minmax = "[0;' +Number(max_nr_numbers.toFixed(0)) + ']";' +
-    'columns[3].title = "Moyenne";\n' +
-    'columns[3].type = "Note";\n' +
-    'columns[3].minmax = "[0;20]";' +
-    'columns[4].title = "Écart_Type";\n' +
-    'columns[4].type = "Note";\n' +
-    'columns[4].minmax = "[0;' +Number(max_stddev.toFixed(0)) + ']";' +
-    c +
-    'table_attr.table_title = "Statistiques enseignants" ;' +
-    'table_attr.default_nr_columns = 5 ;\n' +
-    'runlog(columns, lines) ;' +
-    '}\n' +
-    'setTimeout("delayed_init()", 100) ;\n' +
-    '</script>\n'
-
-  return new_window(v, 'text/html') ;
 }
 
 // XXX yet done somewhere else
@@ -5026,9 +4476,7 @@ function javascript_regtest_ue()
   
   w = print_selection(undefined,1)    ; w.close() ; message.innerHTML += '2';
   // w = goto_resume()                ; w.close() ; message.innerHTML += '3';
-  w = statistics()                    ; w.close() ; message.innerHTML += '6';
-  w = statistics_per_group()          ; w.close() ; message.innerHTML += '7';
-  w = statistics_authors()            ; w.close() ; message.innerHTML += '8';
+  w = display_statistics()            ; w.close() ; message.innerHTML += '6';
   w = my_mailto(students_mails()+'@',true);w.close(); message.innerHTML += '9';
   w = my_mailto(authors_mails()+'@',true) ;w.close(); message.innerHTML += 'A';
 
