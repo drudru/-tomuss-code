@@ -601,7 +601,7 @@ span.button_toggle {
 }
 span.button_toggle:hover { background: white ; color: black }
 
-span.toggled:hover { background: #0C0 ; color: white }
+span.toggled:hover { background: #0C0 ; color: #0F0 }
 
 span.toggled { background: #080 ; color: white }
 

@@ -146,7 +146,10 @@ function stat_flower_zoom(t, column)
   var w = stat_tip_window(t, column) ;
   if ( ! w )
     return ;
-  w.innerHTML = stat_display_flower(stats_groups, all_stats, column, 12) ;
+  w.innerHTML = stat_zoom_header(column) + '<br>'
+    + 'Axe horizontal : moyenne du groupe<br>'
+    + 'Axe vertical : écart-type des notes du groupe</div>'
+    + stat_display_flower(stats_groups, all_stats, column, 12) ;
   set_element_relative_position(t, w) ;
   w.style.display = 'block' ;
 }
@@ -267,9 +270,15 @@ var values_names = {
 } ;
 
 var colorations = {
-  'couleurs': 1.5,
   'incolore': 100,
+  'couleurs': 1.5,
   'plein de couleurs': 1
+} ;
+
+var colorations_tip = {
+  'couleurs': "Les cases coloriées : écart à la moyenne &gt; 1.5 * écart-type",
+  'incolore': "Aucun coloriage",
+  'plein de couleurs': "Les cases coloriées : écart à la moyenne &gt; écart-type"
 } ;
 
 function stat_span(s, value_type, value, html_class)
@@ -307,30 +316,54 @@ function stat_graph_zoom(t, group)
   w.style.display = 'block' ;
 }
 
+function stat_zoom_header(data_col, group)
+{
+  var s = '<div class="s_stat_tip">' ;
+  if ( data_col == 'TOTAL' )
+    s += 'TOTAL' ;
+  else
+    s += 'Colonne : <b>' + html(columns[data_col].title) + '</b>' ;
+
+  if ( group !== undefined )
+    {
+      if ( regrouping == 'auteur' )
+	s += '. Auteur : <b>' + group + '</b>' ;
+      else
+	if ( group != 'TOTAL' )
+	  {
+	    s += ', pour les lignes : ' ;
+	    j = 0 ;
+	    for(var i in grouped_by)
+	      if ( grouped_by[i] )
+		s += ' ' + html(columns[i].title) +
+		  '=<b>' + group.split('\001')[j++] + '</b>' ;
+	  }
+    }
+  else
+    {
+      if ( regrouping == 'auteur' )
+	s += '. Groupement par auteur' ;
+      else
+	{
+	  s += '. Groupement par :<b>' ;
+	  for(var i in grouped_by)
+	    if ( grouped_by[i] )
+	      s += ' ' + html(columns[i].title) ;
+	  s += '</b>' ;
+	}
+    }
+
+  return s ;
+}
+
 function stat_zoom(t, data_col, group)
 {
   var w = stat_tip_window(t, '\003' + data_col + group) ;
   if ( ! w )
     return ;
   var stats = all_stats[group + '\001' + data_col] ;
-  var s = '<div class="s_stat_tip">', value, j ;
-  if ( data_col == 'TOTAL' )
-    s += 'TOTAL' ;
-  else
-    s += 'Colonne : <b>' + html(columns[data_col].title) + '</b>' ;
-  if ( regrouping == 'auteur' )
-    s += '. Auteur : <b>' + group + '</b>' ;
-  else
-    if ( group != 'TOTAL' )
-      {
-	s += ', pour les lignes : ' ;
-	j = 0 ;
-	for(var i in grouped_by)
-	  if ( grouped_by[i] )
-	    s += ' ' + html(columns[i].title) +
-	      '=<b>' + group.split('\001')[j++] + '</b>' ;
-      }
-
+  var s, value, j ;
+  s = stat_zoom_header(data_col, group) ;
   if ( stats.nr )
     {
       s += '<table><tr><td>' ;
@@ -728,7 +761,7 @@ function statistics_display()
 	      { return columns[a].position - columns[b].position ; }) ;
 
   var stats = new Stats(0,20,'') ;
-  var s = [ue + ' ' + semester + ' ' + year], td ;
+  var s = ['<div style="text-align:center;font-weight:bold">' + ue + ' ' + semester + ' ' + year + '</div>'], td ;
   var td_width = 0 ;
   nr_decimals = Number(nr_decimals) ;
   if ( values_to_display[values_names['s_average']] )
@@ -744,14 +777,17 @@ function statistics_display()
   s.push('<tr><th><div class="s_td">') ;
   s.push('<div class="s_center">') ;
 
-  a_value_button(s, 's_average', 'Moy', 'moyenne') ;
-  a_value_button(s, 's_mediane', 'med', 'médiane') ;
+  a_value_button(s, 's_average', 'Moy', 'Moyenne des notes du groupe') ;
+  a_value_button(s, 's_mediane', 'med', 'Médiane des notes du groupe') ;
   s.push('</div>') ;
-  a_value_button(s, 's_histogram', 'Histogram.', 'Histo') ;
-  a_value_button(s, 's_stddev', 'E.T.', 'Écart-type') ;
-  a_value_button(s, 's_nr', 'Nbr.', 'Nombre') ;
-  a_value_button(s, 's_minimum', 'min', 'Min') ;
-  a_value_button(s, 's_maximum', 'max', 'Max') ;
+  a_value_button(s, 's_histogram', 'Histogram.',
+		 'Histogramme des notes du groupe') ;
+  a_value_button(s, 's_stddev', 'E.T.',
+		 'Écart-type des notes du groupe') ;
+  a_value_button(s, 's_nr', 'Nbr.',
+		 'Nombre de notes utilisée pour faire les calculs') ;
+  a_value_button(s, 's_minimum', 'min', 'La note la plus faible') ;
+  a_value_button(s, 's_maximum', 'max', 'La note la plus forte') ;
   for(var column in sorted_cols)
     s.push('<th><div style="min-width:' + td_width + 'em">' + html(columns[sorted_cols[column]].title) + '</div></th>') ;
   s.push('<th>TOTAL<th>&Eacute;volution') ;
@@ -844,15 +880,19 @@ function display_statistics(object)
 	continue ;
       var stats = compute_stats(filtered_lines, data_col) ;
       if ( filtered_lines.length / stats.nr_uniques() > 1 )
-	t.push(display_button(data_col, column.title,
-			      column.title == 'Seq' || column.title == 'Grp',
-			      'grouped_by',
-			      html(column.comment
-				   + '\n(' + stats.nr_uniques() +
-				   ' valeurs différentes)')));
+	{
+	  var comment = html(column.comment) ;
+	  if ( comment )
+	    comment += '<br>' ;
+	  comment += stats.nr_uniques() + ' valeurs différentes'
+	  
+	  t.push(display_button(data_col, column.title,
+				column.title == 'Seq' || column.title == 'Grp',
+				'grouped_by', comment));
+	}
     }
   print_choice_line(p, 'Regrouper par',
-		    'Critère indiquant quand il faut changer de page lors de l\'impression.<br>On peut utiliser ceci pour faire une feuille d\'émargement par salle de TP ou enseignant.',
+		    'Indique le critère de regroupement de lignes pour calculer les statistiques.',
 		    t.join(' '),
 		    'grouped_by') ;
       
@@ -863,15 +903,20 @@ function display_statistics(object)
 
   t = [] ;
   for(var i in colorations)
-    t.push(i) ;
+    t.push([i, colorations_tip[i]]) ;
   print_choice_line(p, 'Coloration',
-		    'En rouge les valeurs trop petites et en vert les trop grandes.',
+		    'En rouge les valeurs trop petites et en vert les trop grandes.<br>Les moyennes sont coloriées par colonnes<br>Les nombres d\'étudiants sont colorié par ligne.',
 		    radio_buttons('coloration', t, 'couleurs'),
 		    'coloration') ;
 
   print_choice_line(p, 'Regrouper par',
 		    "Qu'est ce que l'on regroupe",
-		    radio_buttons('regrouping', ['valeur', 'auteur'],'valeur'),
+		    radio_buttons('regrouping',
+				  [['valeur',
+				    'En fonction du contenu des cellules (la note)'],
+				   ['auteur',
+				    'En fonction de la personne qui a saisie la valeur (l\'enseignant)']
+				   ],'valeur'),
 		    'regrouping') ;
 
   p.push('</table>') ;

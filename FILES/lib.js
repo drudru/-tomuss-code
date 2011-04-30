@@ -3239,22 +3239,33 @@ function button_toggle(dictionnary, data_col, tag)
 
 function radio_buttons(variable, values, selected)
 {
-  var value, the_class ;
+  var value, the_class, tip, v ;
   var s = ['<script>' + variable + ' = "' + selected + '";</script>'] ;
 
   s.push('<var>') ;
   for(var i in values)
     {
       value = values[i] ;
+
+      if ( value.sort )
+	{
+	  tip = value[1] ;
+	  value = value[0] ;
+	}
+      else
+	tip = '' ;
+
       
       if ( value == selected )
 	the_class = 'toggled' ;
       else
 	the_class = '' ;
-      s.push('<span class="button_toggle ' + the_class
-	     + '" onclick="' + variable + "='" + value
-	     + "'; radio_clean(this);this.className += ' toggled' ;"
-	     + 'do_printable_display=true;">' + value + '</span>') ;
+      v = '<span class="button_toggle ' + the_class
+	+ '" onclick="' + variable + "='" + value
+	+ "'; radio_clean(this);this.className += ' toggled' ;"
+	+ 'do_printable_display=true;">' +
+	(tip ? hidden_txt(value,tip) : value) + '</span>' ;
+      s.push(v) ;
     }
   s.push('</var>') ;
   return s.join('\n') ;
