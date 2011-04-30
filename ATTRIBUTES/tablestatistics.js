@@ -150,7 +150,7 @@ function stat_flower_zoom(t, column)
   var w = stat_tip_window(t, column) ;
   if ( ! w )
     return ;
-  w.innerHTML = stat_display_flower(stats_groups, all_stats, column, 8) ;
+  w.innerHTML = stat_display_flower(stats_groups, all_stats, column, 12) ;
   set_element_relative_position(t, w) ;
   w.style.display = 'block' ;
 }
@@ -163,8 +163,9 @@ function stat_display_flower(groups, all_stats, column, zoom)
   var width = stat_svg_height * zoom ;
   var height = stat_svg_height * zoom ;
   var v = [], stat ;
-  function X(c) { return (width*c).toFixed(1) ; };
+  function X(c) { return (width*c).toFixed(1) ; } ;
   function Y(c) { return (height*(1-c)).toFixed(1) ; } ;
+  var x, y, s ;
 
   v.push('<path style="stroke:#F00" d="M ' + X(0.25) + ' ' + Y(0) +
 	 ' L ' + X(0.25) + ' ' + Y(1) + '"/>') ;
@@ -172,14 +173,25 @@ function stat_display_flower(groups, all_stats, column, zoom)
 	 ' L ' + X(0.5) + ' ' + Y(1) + '"/>') ;
   v.push('<path style="stroke:#0F0" d="M ' + X(0.75) + ' ' + Y(0) +
 	 ' L ' + X(0.75) + ' ' + Y(1) + '"/>') ;
+
+  s = [] ;
   for(var group in groups)
     {
-      stat = all_stats[groups[group] + '\001' + column] ;
-      if ( stat && stat.nr != 0 )
-
-	v.push('<text x="' + X(stat.normalized_average()) + '" y="'
-	       + Y(2*stat.standard_deviation()/stat.size) + '">.</text>') ;
+      group = groups[group] ;
+      stat = all_stats[group + '\001' + column] ;
+      if ( stat && stat.nr != 0 && group != 'TOTAL' )
+	{
+	  x = X(stat.normalized_average()) ;
+	  y = Y(2*stat.standard_deviation()/stat.size) ;
+	  v.push('<circle style="fill:#000" cx="' + x + '" cy="' + y +
+		 '" r="' + Math.log(stat.nr)/2*zoom  + '"/>') ;
+	  s.push('<text style="fill:#FF0;font-size:70%;font-weight:bold;text-anchor:middle;dominant-baseline:middle" x="' + x + '" y="' + y + '">'
+		 + html(group.replace(/\001/g,''))
+		 + '</text>') ;
+	}
     }
+  if ( zoom > 2 )
+    v = v.concat(s) ;
 
   return '<object type="image/svg+xml;utf-8" height="' + height 
     + 'px" width="' + width + 'px" data="data:image/svg+xml;utf-8,' +
