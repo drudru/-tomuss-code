@@ -68,6 +68,8 @@ vertical-align: middle ;
 
 TH DIV.s_td { min-width: 7em ; min-height: 1.7em ; font-size: 80% }
 
+TD DIV.s_td:hover { background: #FFA ; }
+
 SPAN.s_histogram {
 position: absolute ;
 bottom: 0 ;

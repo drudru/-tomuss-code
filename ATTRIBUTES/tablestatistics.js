@@ -21,7 +21,6 @@
 */
 
 // fleurs
-// tip boutton pour fermer ou onmouseenter
 // max petit histogram pour eviter débordement 
 // Histgramme pour colonne pas notes
 // Faire histogramme avec le bon nombre de colonnes
@@ -115,9 +114,34 @@ function a_graph(all_values, zoom)
   return svg ;
 }
 
-function stat_flower_zoom(t, column)
+var stat_current_zoom ;
+var stat_current_zoom_t ;
+
+function stat_tip_window(t, x)
 {
   var w = document.getElementById('tip') ;
+  if ( stat_current_zoom_t )
+    stat_current_zoom_t.parentNode.style.background = '' ;
+  if ( stat_current_zoom == x )
+    {
+      stat_current_zoom = undefined ;
+      // Not display='none' : bad first positionning because the width
+      // is not computed.
+      w.style.left = -10000 ;
+      w.style.right = 'auto' ;
+      return ;
+    }
+  stat_current_zoom_t = t ;
+  stat_current_zoom = x ;
+  t.parentNode.style.background = '#FF6' ;
+  return w ;
+}
+
+function stat_flower_zoom(t, column)
+{
+  var w = stat_tip_window(t, column) ;
+  if ( ! w )
+    return ;
   w.innerHTML = stat_display_flower(stats_groups, all_stats, column, 8) ;
   set_element_relative_position(t, w) ;
   w.style.display = 'block' ;
@@ -200,7 +224,10 @@ function stat_span(s, value_type, value, html_class)
 
 function stat_graph_zoom(t, group)
 {
-  var w = document.getElementById('tip') ;
+  var w = stat_tip_window(t, '\002' + group) ;
+  if ( ! w )
+    return ;
+
   var td = [], stats, key ;
   for(var column in sorted_cols)
     {
@@ -225,7 +252,9 @@ function stat_graph_zoom(t, group)
 
 function stat_zoom(t, data_col, group)
 {
-  var w = document.getElementById('tip') ;
+  var w = stat_tip_window(t, '\003' + data_col + group) ;
+  if ( ! w )
+    return ;
   var stats = all_stats[group + '\001' + data_col] ;
   var s = '<div class="s_stat_tip">', value, j ;
   if ( data_col == 'TOTAL' )
