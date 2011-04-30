@@ -20,7 +20,6 @@
   Contact: Thierry.EXCOFFIER@bat710.univ-lyon1.fr
 */
 
-// fleurs
 // max petit histogram pour eviter débordement 
 // Histgramme pour colonne pas notes
 // Faire histogramme avec le bon nombre de colonnes
@@ -165,7 +164,7 @@ function stat_display_flower(groups, all_stats, column, zoom)
   var v = [], stat ;
   function X(c) { return (width*c).toFixed(1) ; } ;
   function Y(c) { return (height*(1-c)).toFixed(1) ; } ;
-  var x, y, s, r, rd ;
+  var x, y, s, r, rd, p, a, sw, rh, o, fs ;
 
   v.push('<path style="stroke:#F00" d="M ' + X(0.25) + ' ' + Y(0) +
 	 ' L ' + X(0.25) + ' ' + Y(1) + '"/>') ;
@@ -174,11 +173,12 @@ function stat_display_flower(groups, all_stats, column, zoom)
   v.push('<path style="stroke:#0F0" d="M ' + X(0.75) + ' ' + Y(0) +
 	 ' L ' + X(0.75) + ' ' + Y(1) + '"/>') ;
 
-  s = [] ;
   if ( column == 'TOTAL' )
     rd = sorted_cols.length ;
   else
     rd = 1 ;
+  s = [] ;
+  p = [] ;
   for(var group in groups)
     {
       group = groups[group] ;
@@ -188,15 +188,44 @@ function stat_display_flower(groups, all_stats, column, zoom)
 	  x = X(stat.normalized_average()) ;
 	  y = Y(2*stat.standard_deviation()/stat.size) ;
 	  r = Math.pow(stat.nr/rd, 0.5)/4 * zoom ;
-	  v.push('<circle style="fill:#000;opacity:0.8" cx="'
+	  if ( zoom > 2 )
+	    o = 0.3 ;
+	  else
+	    o = 1 ;
+	  v.push('<circle style="fill:#000;opacity:' + o + '" cx="'
 		 + x + '" cy="' + y + '" r="' + r  + '"/>') ;
-	  s.push('<text style="fill:#FF0;font-size:70%;font-weight:bold;text-anchor:middle;dominant-baseline:middle" x="' + x + '" y="' + y + '">'
-		 + html(group.replace(/\001/g,''))
-		 + '</text>') ;
+	  if ( zoom > 2 )
+	    {
+	      if ( group.length > 6 )
+		fs = '50' ;
+	      else
+		fs = '70' ;
+	      s.push('<text style="fill:#000;font-size:' + fs
+		     + '%;text-anchor:middle;dominant-baseline:middle" x="' + x + '" y="' + y + '">'
+		     + html(group.replace(/\001/g,''))
+		     + '</text>') ;
+	      x = Number(x) ;
+	      y = Number(y) ;
+	      rh = 10 / rd ;
+	      sw = r.toFixed(1) / 2 ;
+	      for(var i in stat.histogram)
+		{
+		  a = i*3.14/10 + 3.14/2 ;
+		  p.push('<path style="opacity:0.6;stroke-width:'
+			 + sw + 'px;stroke-linecap:round;stroke:#' +
+			 s_colors[i] + '" d="M '
+			 + x + ' ' + y +
+			 ' L ' + (x+Math.cos(a)*stat.histogram[i]*rh)
+			 + ' ' + (y+Math.sin(a)*stat.histogram[i]*rh)
+			 + '"/>') ;
+		}
+	    }
 	}
     }
   if ( zoom > 2 )
-    v = v.concat(s) ;
+    {      
+      v = p.concat(v.concat(s)) ;
+    }
 
   return '<object type="image/svg+xml;utf-8" height="' + height 
     + 'px" width="' + width + 'px" data="data:image/svg+xml;utf-8,' +
