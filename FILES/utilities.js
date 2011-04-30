@@ -2296,7 +2296,7 @@ function cell_get_data()
     v = this.value ;
   else
     v = js(this.value) ;
-  return 'C(' + v + ',' + js(this.author) + ',' + js(this.comment) + ',' + js(this.date) + ')' ;
+  return 'C(' + v + ',' + js(this.author) + ',' + js(this.date) + ',' + js(this.comment) + ')' ;
 }
 
 

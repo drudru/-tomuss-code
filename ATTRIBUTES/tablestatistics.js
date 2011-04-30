@@ -21,8 +21,6 @@
 */
 
 // faire disparaitre colonne en cliquant sur le titre
-// groupage par date
-// graphique total
 
 var stat_svg_height = 35 ;
 var stat_svg_width = 120 ;
@@ -658,6 +656,32 @@ function statistics_author(sorted_cols, all_stats, groups)
   groups.sort() ;
 }
 
+function statistics_date(sorted_cols, all_stats, groups)
+{
+  var days = {}, cell, col, key, stats, td, tds, day ;
+
+  for(var line in lines)
+    {
+      line = lines[line] ;
+      for(var column in sorted_cols)
+	{
+	  column = sorted_cols[column] ;
+	  cell = line[column] ;
+	  col = columns[column] ;
+	  day = cell.date.substr(0,4) + ' ' + cell.date.substr(4,2) ;
+	  // + (cell.date.substr(6,2)/10).toFixed(0) ;
+	  key = day + '\001' + column ;
+	  if ( all_stats[key] === undefined )
+	    all_stats[key] = new Stats(col.min, col.max, col.empty_is) ;
+	  all_stats[key].add(cell.value) ;
+	  days[day] = true ;
+	}
+    }
+  for(day in days)
+    groups.push(day) ;
+  groups.sort() ;
+}
+
 function stat_display_line(s, i_group, group, sorted_cols, all_stats,
 			   all_values, td, groups)
 {
@@ -800,6 +824,8 @@ function statistics_display()
   stats_groups = [] ;
   if ( regrouping == 'auteur' )
     statistics_author(sorted_cols, all_stats, stats_groups) ;
+  else if ( regrouping == 'par mois' )
+    statistics_date(sorted_cols, all_stats, stats_groups) ;
   else
     statistics_values(sorted_cols, all_stats, stats_groups) ;
 
@@ -914,7 +940,9 @@ function display_statistics(object)
 				  [['valeur',
 				    'En fonction du contenu des cellules (la note)'],
 				   ['auteur',
-				    'En fonction de la personne qui a saisie la valeur (l\'enseignant)']
+				    'En fonction de la personne qui a saisie la valeur (l\'enseignant)'],
+				   ['par mois',
+				    'En fonction de la date de saisie de la valeur']
 				   ],'valeur'),
 		    'regrouping') ;
 
