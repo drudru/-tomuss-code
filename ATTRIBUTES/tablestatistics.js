@@ -121,7 +121,15 @@ function stat_tip_window(t, x)
 {
   var w = document.getElementById('tip') ;
   if ( stat_current_zoom_t )
-    stat_current_zoom_t.parentNode.style.background = '' ;
+    {
+      if ( stat_current_zoom_t.parentNode )
+	stat_current_zoom_t.parentNode.style.background = '' ;
+      else
+	{
+	  // The object was destroyed by a content change
+	  stat_current_zoom = undefined ;
+	}
+    }
   if ( stat_current_zoom == x )
     {
       stat_current_zoom = undefined ;
@@ -158,6 +166,12 @@ function stat_display_flower(groups, all_stats, column, zoom)
   function X(c) { return (width*c).toFixed(1) ; };
   function Y(c) { return (height*(1-c)).toFixed(1) ; } ;
 
+  v.push('<path style="stroke:#F00" d="M ' + X(0.25) + ' ' + Y(0) +
+	 ' L ' + X(0.25) + ' ' + Y(1) + '"/>') ;
+  v.push('<path style="stroke:#888" d="M ' + X(0.5) + ' ' + Y(0) +
+	 ' L ' + X(0.5) + ' ' + Y(1) + '"/>') ;
+  v.push('<path style="stroke:#0F0" d="M ' + X(0.75) + ' ' + Y(0) +
+	 ' L ' + X(0.75) + ' ' + Y(1) + '"/>') ;
   for(var group in groups)
     {
       stat = all_stats[groups[group] + '\001' + column] ;
@@ -732,7 +746,7 @@ function display_statistics(object)
       if ( column.is_empty )
 	continue ;
       var stats = compute_stats(filtered_lines, data_col) ;
-      if ( filtered_lines.length / stats.nr_uniques() > 8 )
+      if ( filtered_lines.length / stats.nr_uniques() > 1 )
 	t.push(display_button(data_col, column.title,
 			      column.title == 'Seq' || column.title == 'Grp',
 			      'grouped_by',
