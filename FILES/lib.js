@@ -2396,7 +2396,7 @@ function set_element_relative_position(anchor, element)
 
   tip_display_date = millisec() ;
 
-  if ( pos[1] > (window_height() + scrollTop())/2)
+  if ( pos[1] > scrollTop() + window_height()/2)
     {
       element.style.bottom = window_height() - pos[1] ;
       element.style.top = 'auto' ;
