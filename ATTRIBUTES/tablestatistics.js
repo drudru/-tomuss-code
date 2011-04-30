@@ -604,7 +604,7 @@ function compute_line_totals(groups, sorted_cols, all_stats)
       stats = new Stats(0, 20, '') ;
       for(var column in sorted_cols)
 	{
-	  key = groups[group] + '\001' + column ;
+	  key = groups[group] + '\001' + sorted_cols[column] ;
 	  if ( all_stats[key] )
 	    stats.merge(all_stats[key]) ;
 	}
