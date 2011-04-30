@@ -165,7 +165,7 @@ function stat_display_flower(groups, all_stats, column, zoom)
   var v = [], stat ;
   function X(c) { return (width*c).toFixed(1) ; } ;
   function Y(c) { return (height*(1-c)).toFixed(1) ; } ;
-  var x, y, s ;
+  var x, y, s, r, rd ;
 
   v.push('<path style="stroke:#F00" d="M ' + X(0.25) + ' ' + Y(0) +
 	 ' L ' + X(0.25) + ' ' + Y(1) + '"/>') ;
@@ -175,6 +175,10 @@ function stat_display_flower(groups, all_stats, column, zoom)
 	 ' L ' + X(0.75) + ' ' + Y(1) + '"/>') ;
 
   s = [] ;
+  if ( column == 'TOTAL' )
+    rd = sorted_cols.length ;
+  else
+    rd = 1 ;
   for(var group in groups)
     {
       group = groups[group] ;
@@ -183,8 +187,9 @@ function stat_display_flower(groups, all_stats, column, zoom)
 	{
 	  x = X(stat.normalized_average()) ;
 	  y = Y(2*stat.standard_deviation()/stat.size) ;
-	  v.push('<circle style="fill:#000" cx="' + x + '" cy="' + y +
-		 '" r="' + Math.log(stat.nr)/2*zoom  + '"/>') ;
+	  r = Math.pow(stat.nr/rd, 0.5)/4 * zoom ;
+	  v.push('<circle style="fill:#000;opacity:0.8" cx="'
+		 + x + '" cy="' + y + '" r="' + r  + '"/>') ;
 	  s.push('<text style="fill:#FF0;font-size:70%;font-weight:bold;text-anchor:middle;dominant-baseline:middle" x="' + x + '" y="' + y + '">'
 		 + html(group.replace(/\001/g,''))
 		 + '</text>') ;
