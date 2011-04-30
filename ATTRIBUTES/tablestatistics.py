@@ -70,6 +70,8 @@ TH DIV.s_td { min-width: 7em ; min-height: 1.7em ; font-size: 80% }
 
 TD DIV.s_td:hover { background: #FFA ; }
 
+DIV.stat_enum { font-size: 60% ; }
+
 SPAN.s_histogram {
 position: absolute ;
 bottom: 0 ;
@@ -146,7 +148,16 @@ position: absolute ;
 font-size: 80% ;
 bottom: -1.2em ;
 text-align: center;
-left: -1em ;
 border: 0px ;
 }
+
+DIV.s_zoomed_histogram_note {
+left: -1em ;
+}
+
+DIV.s_zoomed_histogram_enum DIV DIV {
+width: 100%;
+}
+
+
 '''

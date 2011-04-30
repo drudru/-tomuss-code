@@ -20,9 +20,6 @@
   Contact: Thierry.EXCOFFIER@bat710.univ-lyon1.fr
 */
 
-// max petit histogram pour eviter débordement 
-// Histgramme pour colonne pas notes
-// Faire histogramme avec le bon nombre de colonnes
 // finir les messages d'aide.
 
 // faire disparaitre colonne en cliquant sur le titre
@@ -189,7 +186,7 @@ function stat_display_flower(groups, all_stats, column, zoom)
 	  y = Y(2*stat.standard_deviation()/stat.size) ;
 	  r = Math.pow(stat.nr/rd, 0.5)/4 * zoom ;
 	  if ( zoom > 2 )
-	    o = 0.3 ;
+	    o = 0.2 ;
 	  else
 	    o = 1 ;
 	  v.push('<circle style="fill:#000;opacity:' + o + '" cx="'
@@ -333,38 +330,69 @@ function stat_zoom(t, data_col, group)
 	    s += ' ' + html(columns[i].title) +
 	      '=<b>' + group.split('\001')[j++] + '</b>' ;
       }
-  s += '<table><tr><td>' ;
-  s += 'Minimum : ' + stats.min.toFixed(3)
-    + ', Maximum: ' + stats.max.toFixed(3)
-    + '<br>Moyenne : '+ stats.average().toFixed(3)
-    + ', Médiane : ' + stats.mediane().toFixed(3)
-    + '<br>Variance : ' + stats.variance().toFixed(3)
-    + ', Écart-Type : ' + stats.standard_deviation().toFixed(3)
-    + '<br>Somme des ' + stats.nr + ' valeurs : ' + stats.sum.toFixed(3)
-    + '<td class="s_enumeration">' ;
-  
-  for(var i in stats.all_values)
-    if ( stats.all_values[i] )
-      {
-	if ( i === '' )
-	  s += 'vide' ;
-	else
-	  s += i ;
-	s += ':' + stats.all_values[i] + '<br>' ;
-      }
-  s += '</tr></table>' ;
-  s += '<div class="s_zoomed_histogram">\n' ;
-  var max = stats.histo_max() ;
-  for(var i in stats.histogram)
+
+  if ( stats.nr )
     {
-      if ( stats.histogram[i] )
-	value = stats.histogram[i]  ;
-      else
-	value = '' ;
-      s += '<div style="height:' + (100*stats.histogram[i]/max)
-	+ '%;left:' + (2*i)
-	+ 'em;background:#' + s_colors[i] + '"><span>'
+      s += '<table><tr><td>' ;
+      s += 'Minimum : ' + stats.min.toFixed(3)
+	+ ', Maximum: ' + stats.max.toFixed(3)
+	+ '<br>Moyenne : '+ stats.average().toFixed(3)
+	+ ', Médiane : ' + stats.mediane().toFixed(3)
+	+ '<br>Variance : ' + stats.variance().toFixed(3)
+	+ ', Écart-Type : ' + stats.standard_deviation().toFixed(3)
+	+ '<br>Somme des ' + stats.nr + ' valeurs : ' + stats.sum.toFixed(3)
+	+ '<td class="s_enumeration">' ;
+  
+      for(var i in stats.all_values)
+	if ( stats.all_values[i] )
+	  {
+	    if ( i === '' )
+	      s += 'vide' ;
+	    else
+	      s += i ;
+	    s += ':' + stats.all_values[i] + '<br>' ;
+	  }
+      s += '</tr></table>' ;
+    }
+
+  var max ;
+  if ( stats.nr )
+    {
+      s += '<div class="s_zoomed_histogram s_zoomed_histogram_note">\n' ;
+      max = stats.histo_max() ;
+      for(var i in stats.histogram)
+	{
+	  if ( stats.histogram[i] )
+	    value = stats.histogram[i]  ;
+	  else
+	    value = '' ;
+	  s += '<div style="height:' + (100*stats.histogram[i]/max)
+	    + '%;left:' + (2*i)
+	    + 'em;background:#' + s_colors[i] + '"><span>'
 	+ value + '</span><div>' + i + '</div></div>' ;
+	}
+    }
+  else
+    {
+      s += '<div class="s_zoomed_histogram s_zoomed_histogram_enum">\n' ;
+      max = stats.maxmax() ;
+      var nr_cols = 0
+      for(var ii in all_values)
+	if ( stats.all_values[ii] )
+	  nr_cols++ ;
+      i = 0 ;
+      for(var ii in all_values)
+	{
+	  if ( stats.all_values[ii] )
+	    value = stats.all_values[ii]  ;
+	  else
+	    continue ;
+	  s += '<div style="height:' + (100*stats.all_values[ii]/max)
+	    + '%;width:' + 100./nr_cols + '%; left:' + 100*i/nr_cols
+	    + '%;background:#' + s_colors[ii] + '"><span>'
+	    + value + '</span><div>' + ii + '</div></div>' ;
+	  i++ ;
+	}
     }
   s += '</div></div>\n' ;
 
@@ -375,10 +403,29 @@ function stat_zoom(t, data_col, group)
 
 function display_stats_td(s, stats, data_col, group)
 {
+  var z = 2 ;
+  if ( group == 'TOTAL' )
+    z /= stats_groups.length ;
+  if ( data_col == 'TOTAL' )
+    z /= sorted_cols.length ;
+
+  if ( stats.nr == 0 )
+    {
+      s.push('<td><div class="stat_enum" onclick="stat_zoom(this,\''
+	     + data_col + "'," + js2(group) + ')">') ;
+      for(var i in stats.all_values)
+	if ( stats.all_values[i] )
+	  s.push(i + ':' + stats.all_values[i] + '<br>') ;
+      s.push('</div></td>') ;
+      return ;
+    }
+
   s.push('<td><div class="s_td" onclick="stat_zoom(this,\''
 	 + data_col + "'," + js2(group) + ')">') ;
+
   if ( values_to_display['histogramme'] )
-    s.push(stats_histogram(stats)) ;
+    s.push(stats_histogram(stats, z)) ;
+
   s.push('<div class="s_center">') ;
   stat_span(s, 's_average', stats.average().toFixed(nr_decimals),
 	    stats.average_class
@@ -393,14 +440,18 @@ function display_stats_td(s, stats, data_col, group)
   s.push('</td>') ;
 }
 
-var s_colors = ['F00', 'F00', 'F00', 'F00', 'F00',
-		'DA0', 'DA0', 'DA0', 'DA0', 'DA0',
-		'ADA', 'ADA', 'ADA', 'ADA', 'ADA',
-		'0F0', '0F0', '0F0', '0F0', '0F0'] ;
+var s_colors = {} ;
+
+for(i=0;i<20;i++)
+  s_colors[i] = i<5 ? 'F44' : (i<10 ? 'DA0' : (i<15 ? '9C9' : '0F0')) ;
+s_colors[pre] = '8F8' ;
+s_colors[abi] = 'F88' ;
+s_colors[abj] = '88F' ;
+s_colors[ppn] = '0FF' ;
 
 var all_stats = {} ;
 
-function stats_histogram(stats)
+function stats_histogram(stats, z)
 {
   var s = '<div class="s_histogram">' ;
   var color ;
@@ -411,7 +462,7 @@ function stats_histogram(stats)
       else
 	color = 'BBB' ;
 
-      s += '<div style="height:' + stats.histogram[i].toFixed(0)
+      s += '<div style="height:' + (stats.histogram[i]*z).toFixed(0)
 	+ 'px;left:' + (2*(i-10)) + 'px;background:#' + color + '"></div>' ;
     }
 
