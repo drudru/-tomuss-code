@@ -21,8 +21,8 @@
 */
 
 // finir les messages d'aide.
-
 // faire disparaitre colonne en cliquant sur le titre
+// groupage par date
 // graphique total
 
 var stat_svg_height = 35 ;

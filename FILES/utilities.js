@@ -988,11 +988,16 @@ function stats_mediane()
 function stats_uniques()
 {
   var d = {} ;
-  this.values.sort(function(a,b){return a - b}) ;
   for(var i in this.values)
-    d[this.values[i]]++ ;
+    if ( d[this.values[i]] )
+      d[this.values[i]]++ ;
+    else
+      d[this.values[i]] = 1 ;
   for(var i in this.all_values)
-    d[i] += this.all_values[i] ;
+    if ( d[this.all_values[i]] )
+      d[i] += this.all_values[i] ;
+    else
+      d[i] = this.all_values[i] ;
   return d ;
 }
 
@@ -1001,7 +1006,8 @@ function stats_nr_uniques()
   var d = this.uniques() ;
   var j = 0 ;
   for(var i in d)
-    j++ ;
+    if ( d[i] )
+      j++ ;
 
   return j ;
 }
