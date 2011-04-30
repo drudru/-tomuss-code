@@ -20,7 +20,6 @@
   Contact: Thierry.EXCOFFIER@bat710.univ-lyon1.fr
 */
 
-// finir les messages d'aide.
 // faire disparaitre colonne en cliquant sur le titre
 // groupage par date
 // graphique total
@@ -100,8 +99,8 @@ function a_graph(all_values, zoom)
       all.push('</text>') ;
     }
 
-  svg = '<div class="s_graph"><object type="image/svg+xml;utf-8" height="'
-    + height + 'px" width="' + width + 'px" data="data:image/svg+xml;utf-8,' +
+  svg = '<div class="s_graph"><object type="image/svg+xml;charset=utf-8" height="'
+    + height + 'px" width="' + width + 'px" data="data:image/svg+xml;charset=utf-8,' +
     base64('<?xml version="1.0" encoding="UTF-8" standalone="no"?>' +
 	   '<svg xmlns="http://www.w3.org/2000/svg" style="background:white">' +
 	   '<g>' + all.join('\n') + '</g>' + '</svg>')
@@ -227,8 +226,8 @@ function stat_display_flower(groups, all_stats, column, zoom)
       v = p.concat(v.concat(s)) ;
     }
 
-  return '<object type="image/svg+xml;utf-8" height="' + height 
-    + 'px" width="' + width + 'px" data="data:image/svg+xml;utf-8,' +
+  return '<object type="image/svg+xml;charset=utf-8" height="' + height 
+    + 'px" width="' + width + 'px" data="data:image/svg+xml;charset=utf-8,' +
     base64('<?xml version="1.0" encoding="UTF-8" standalone="no"?>' +
 	   '<svg xmlns="http://www.w3.org/2000/svg" style="background:white">' +
 	   '<g>' + v.join('\n') + '</g>' + '</svg>') + '"></object><div>'  ;
