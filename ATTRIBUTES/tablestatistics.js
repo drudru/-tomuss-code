@@ -20,8 +20,6 @@
   Contact: Thierry.EXCOFFIER@bat710.univ-lyon1.fr
 */
 
-// Histogram must use min/max (eg [0;5])
-
 var stat_svg_height = 35 ;
 var stat_svg_width = 120 ;
 
@@ -402,8 +400,14 @@ function stat_zoom(t, data_col, group)
 	  s += '<div style="height:' + (100*stats.histogram[i]/max)
 	    + '%;left:' + (2*i)
 	    + 'em;background:#' + s_colors[i] + '"><span>'
-	+ value + '</span><div>' + i + '</div></div>' ;
+	    + value + '</span><div>'
+	    + (stats.merge_size === undefined
+	       ? stats.v_min + i/20.*stats.size
+	       : stats.merge_min+i/20.*stats.merge_size) + '</div></div>' ;
 	}
+      s += '<div style="left:40em;border:0px"><div>'
+	+ (stats.merge_size === undefined
+	   ? stats.v_max : stats.merge_max) + '</div></div>' ;
     }
   else
     {

@@ -146,12 +146,12 @@ width: 100% ;
 DIV.s_zoomed_histogram DIV DIV {
 position: absolute ;
 font-size: 80% ;
-bottom: -1.2em ;
+bottom: -1.4em ;
 text-align: center;
 border: 0px ;
 }
 
-DIV.s_zoomed_histogram_note {
+DIV.s_zoomed_histogram_note DIV DIV {
 left: -1em ;
 }
 
