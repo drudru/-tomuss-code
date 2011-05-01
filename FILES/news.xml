@@ -437,6 +437,27 @@ complètement paramétrables interactivement.
       </description>
       <guid>33</guid>
     </item>
+    <item>
+      <title>01/05/2011 : Version 2.????</title>
+      <link>http://tomuss.univ-lyon1.fr/</link>
+      <description>
+Les statistiques sur une tableau de note ont été refaites,
+elles permettent l'affichage de nombreux indicateurs et graphiques.
+Elles ont été créées avec comme objectif l'analyse des résultats des
+UE comportant beaucoup de groupes et de notes par étudiants.
+&lt;p&gt;
+Maintenant, on peut :
+&lt;ul&gt;
+&lt;li&gt; voir instantanément les différences de notation entre groupes ;
+&lt;li&gt; analyser la manière de noter des enseignants ;
+&lt;li&gt; demander à voir l'influence de la présence au premier TD
+           ou au soutien sur la note finale pour l'UE ;
+&lt;li&gt; suivre l'évolution du nombre de présents au cours du temps ;
+&lt;li&gt; détailler la plage de saisie des informations dans la table.
+&lt;/ul&gt;
+      </description>
+      <guid>34</guid>
+    </item>
 
   </channel>
 </rss>

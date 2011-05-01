@@ -302,7 +302,9 @@ function stat_graph_zoom(t, group)
 	td.push(0) ;
       else
 	if ( ! isNaN(column) ) // Not the TOTAL
-	  td.push([stats.normalized_average(), stats.nr]);
+	  td.push([stats.normalized_average(),
+		   stats.nr + (stats.all_values[pre]
+			       ? stats.all_values[pre]:0)]);
     }
 
   w.innerHTML = '<div class="s_graph_zoomed"><small>'
@@ -828,7 +830,7 @@ function statistics_display()
     + '<li>Médiane des notes'
     + '<li>Histogramme des notes'
     + '<li>Écart-type des notes'
-    + '<li>Nombre de notes utilisée pour faire les calculs'
+    + '<li>Nombre de notes utilisées pour faire les calculs'
     + '<li>La note la plus faible'
     + '<li>La note la plus forte'
     + '</ul>'
