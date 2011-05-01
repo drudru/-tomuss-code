@@ -391,7 +391,6 @@ function hidden_over(event)
       if ( oh !== 0 )
 	break ;
     }
-
   // The default is to put the tip box under the object.
 
   // If it it is right truncated, align it to the right

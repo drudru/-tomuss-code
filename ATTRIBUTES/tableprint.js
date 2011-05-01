@@ -249,14 +249,14 @@ function display_button(data_col, title, selected, table_name, tip, not_escape,
     html_class = '' ;
   if ( ! not_escape )
     title = html(title) ;
-  if ( ! tip )
-    tip = '' ;
-  return hidden_txt('<span class="button_toggle ' + selected + ' ' + html_class
-		    + '" onclick="button_toggle(' + table_name + ','
-		    + data_col + ',this);do_printable_display=true;"'
-		    + ' id="' + table_name + '_'
-		    + data_col.replace(/\'/g,'')+ '">'
-		    + title + '</span>', tip) + '<script>'
+  if ( tip )
+    title = hidden_txt(title, tip) ;
+  return '<span class="button_toggle ' + selected + ' ' + html_class
+    + '" onclick="button_toggle(' + table_name + ','
+    + data_col + ',this);do_printable_display=true;"'
+    + ' id="' + table_name + '_'
+    + data_col.replace(/\'/g,'')+ '">'
+    + title + '</span>' + '<script>'
     + table_name + '[' + data_col + '] =' + !!selected + '</script>' ;
 }
 

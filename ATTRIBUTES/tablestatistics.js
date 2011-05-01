@@ -20,6 +20,8 @@
   Contact: Thierry.EXCOFFIER@bat710.univ-lyon1.fr
 */
 
+// Histogram must use min/max (eg [0;5])
+
 var stat_svg_height = 35 ;
 var stat_svg_width = 120 ;
 
@@ -232,7 +234,10 @@ function stat_display_flower(groups, all_stats, column, zoom)
 
 function stat_display_flowers(s, groups, sorted_cols, all_stats)
 {
-  s.push('<tr><th>Moy/E.T.') ;
+  s.push('<tr><th>'
+	 + hidden_txt('Moy/E.T.',
+ 		      'Cliquez sur un graphique pour avoir les explications'
+		      )) ;
   for(var column in sorted_cols)
     {
       column = sorted_cols[column] ;
@@ -795,29 +800,57 @@ function statistics_display()
   td_width /= 1.5 ;
 
   s.push('<table class="colored">') ;
-  s.push('<tr><th><div class="s_td">') ;
-  s.push('<div class="s_center">') ;
+  s.push('<tr><th>') ;
 
-  a_value_button(s, 's_average', 'Moy', 'Moyenne des notes du groupe') ;
-  a_value_button(s, 's_mediane', 'med', 'Médiane des notes du groupe') ;
-  s.push('</div>') ;
-  a_value_button(s, 's_histogram', 'Histogram.',
-		 'Histogramme des notes du groupe') ;
-  a_value_button(s, 's_stddev', 'E.T.',
-		 'Écart-type des notes du groupe') ;
-  a_value_button(s, 's_nr', 'Nbr.',
-		 'Nombre de notes utilisée pour faire les calculs') ;
-  a_value_button(s, 's_minimum', 'min', 'La note la plus faible') ;
-  a_value_button(s, 's_maximum', 'max', 'La note la plus forte') ;
+  var t = [] ;
+
+  t.push('<div class="s_td">') ;
+  t.push('<div class="s_center">') ;
+  a_value_button(t, 's_average', 'Moy') ;
+  a_value_button(t, 's_mediane', 'med') ;
+  t.push('</div>') ;
+  a_value_button(t, 's_histogram', 'Histogram.') ;
+  a_value_button(t, 's_stddev', 'E.T.') ;
+  a_value_button(t, 's_nr', 'Nbr.') ;
+  a_value_button(t, 's_minimum', 'min') ;
+  a_value_button(t, 's_maximum', 'max') ;
+  t.push('</div>') ;
+
+  var c ;
+  c = "Les case du tableau représentent les statistiques pour un groupe.<br>"
+    + "Vous pouvez cliquez ici pour choisir ce que vous voulez afficher :"
+    + "<ul>"
+    + '<li>Moyenne des notes'
+    + '<li>Médiane des notes'
+    + '<li>Histogramme des notes'
+    + '<li>Écart-type des notes'
+    + '<li>Nombre de notes utilisée pour faire les calculs'
+    + '<li>La note la plus faible'
+    + '<li>La note la plus forte'
+    + '</ul>'
+    + "Cliquez sur les case du tableau pour afficher les détails" ;
+
+  s.push(hidden_txt(t.join('\n'), c)) ;
+
   for(var column in sorted_cols)
     s.push('<th onclick="button_toggle(columns_to_display,'
 	   + sorted_cols[column] +
 	   ',document.getElementById(\'columns_to_display\').getElementsByTagName(\'SPAN\')['
 	   + sorted_cols[column] + ']); do_printable_display=true"><div style="min-width:' + td_width + 'em">'
 	   + hidden_txt(html(columns[sorted_cols[column]].title),
-			"Cliquez pour cacher")
+			"Cliquez sur le titre pour cacher<br>"
+			+ "Cliquez sur les cases pour zoomer"
+			)
 	   + '</div></th>') ;
-  s.push('<th>TOTAL<th>&Eacute;volution') ;
+  s.push('<th>'
+	 + hidden_txt('TOTAL',
+		      'Somme des notes de la ligne en normalisant en 0 et 20'
+		      )
+	 + '<th>'
+	 + hidden_txt('Évolution',
+		      'Cliquez sur un graphique pour avoir les explications'
+		      )
+	 );
   s.push('</tr>') ;
 
   var line_sum = Stats(0, 20, '') ;
