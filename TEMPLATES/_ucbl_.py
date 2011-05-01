@@ -32,9 +32,13 @@ update_student_suivi = """
 <script>
 function update_student_suivi(line)
 {
-t_student_picture.src = '/tip.png' ;
-if ( line[0].value )
+var src = student_picture_url(line[0].value) ;
+if ( src != t_student_picture.src )
+   {
+   t_student_picture.src = '/tip.png' ;
+   if ( line[0].value )
 	t_student_picture.src = student_picture_url(line[0].value) ;
+   }
 t_student_picture.parentNode.href = suivi + '/' + line[0].value ;
 }
 </script>

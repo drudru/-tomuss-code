@@ -57,10 +57,7 @@ def content(table):
 <script>
 function update_student_information(line)
 {
-t_student_picture.src = '/tip.png' ;
-if ( line[0].value )
-     t_student_picture.src = student_picture_url(line[0].value) ;
-t_student_picture.parentNode.href =  '%s/=' + ticket + '/' + year + '/' + semester + '/' + line[0].value ;
+t_student_picture.parentNode.href = '%s/=' + ticket + '/' + year + '/' + semester + '/' + line[0].value ;
 }
 </script>""" % utilities.StaticFile._url_ 
     else:
