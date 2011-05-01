@@ -20,8 +20,6 @@
   Contact: Thierry.EXCOFFIER@bat710.univ-lyon1.fr
 */
 
-// faire disparaitre colonne en cliquant sur le titre
-
 var stat_svg_height = 35 ;
 var stat_svg_width = 120 ;
 
@@ -812,7 +810,13 @@ function statistics_display()
   a_value_button(s, 's_minimum', 'min', 'La note la plus faible') ;
   a_value_button(s, 's_maximum', 'max', 'La note la plus forte') ;
   for(var column in sorted_cols)
-    s.push('<th><div style="min-width:' + td_width + 'em">' + html(columns[sorted_cols[column]].title) + '</div></th>') ;
+    s.push('<th onclick="button_toggle(columns_to_display,'
+	   + sorted_cols[column] +
+	   ',document.getElementById(\'columns_to_display\').getElementsByTagName(\'SPAN\')['
+	   + sorted_cols[column] + ']); do_printable_display=true"><div style="min-width:' + td_width + 'em">'
+	   + hidden_txt(html(columns[sorted_cols[column]].title),
+			"Cliquez pour cacher")
+	   + '</div></th>') ;
   s.push('<th>TOTAL<th>&Eacute;volution') ;
   s.push('</tr>') ;
 
