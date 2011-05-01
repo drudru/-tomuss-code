@@ -1,15 +1,11 @@
 Finir par priorité :
-	Finir Stats
-
-	2011/Dossiers : non modifiable en creation, #nb col par defaut
-
 	Clignotement photo quand on reste sur la même ligne
 	Public / colonne : change largeur ==> bascule de Text en Note
 	Finir print :
 		- Sous IE : bulle d'aide
 	METTRE A JOUR DOC
 	Passer javascript de 'Mail' en attribut javascript
-	Faire des plugins pour chaque fonctionnalité coté client.
+	Faire des plugins pour chaque fonctionnalité coté client (colonnes).
 	Favoris : enlever vraiment
 	Lien rapide mail marche plus
 	Rechargement page d'accueil si la recherche étudiant marche pas

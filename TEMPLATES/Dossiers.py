@@ -26,7 +26,6 @@ def create(table):
     table.new_page('', data.ro_user, '', '')
     table.table_attr(table.pages[0], 'masters', [table.user])
     table.private = 1
-    table.modifiable = int(table.modifiable
-                           and utilities.university_year() == table.year)
+    table.modifiable = 1
     table.update_inscrits = table.modifiable
 

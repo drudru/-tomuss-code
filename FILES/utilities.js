@@ -2656,7 +2656,7 @@ function current_update_cell_headers()
 
 function current_update_table_headers()
 {
-  var disabled = ! table_change_allowed() || ! table_attr.modifiable ;
+  var disabled ;
   var editable ;
   for(var attr in table_attributes)
     {
@@ -2669,6 +2669,8 @@ function current_update_table_headers()
       else
 	e.style.display = '' ;
 
+      // In the loop because its value may change on attr masters
+      disabled = ! table_change_allowed() || ! table_attr.modifiable ;
       if ( attr == 'modifiable' )
 	editable = table_change_allowed() ;
       else if ( attr == 'masters' )
