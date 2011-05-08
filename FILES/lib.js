@@ -195,7 +195,7 @@ function lib_init()
 
   today = new Date() ;
   today = today.getFullYear() + two_digits(today.getMonth() + 1) +
-    two_digits(today.getDate()) ;
+    two_digits(today.getDate()) + '000000' ;
 
   if ( tip )
     tip.display_number = 1 ;
@@ -2138,7 +2138,7 @@ function update_cell(td, cell, column, abj)
 
   if ( cell.comment !== '' )
     className += ' comment' ;
-  if ( cell.date.indexOf(today) === 0 )
+  if ( cell.date >= today )
     className += ' today' ;
   if ( v.toFixed )
     {
