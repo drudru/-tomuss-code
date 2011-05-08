@@ -96,7 +96,7 @@ function a_graph(all_values, zoom)
     }
 
   svg = '<div class="s_graph"><object type="image/svg+xml;charset=utf-8" height="'
-    + height + 'px" width="' + width + 'px" data="data:image/svg+xml;charset=utf-8,' +
+    + height + 'px" width="' + width + 'px" data="data:text/xml;charset=utf-8,' +
     base64('<?xml version="1.0" encoding="UTF-8" standalone="no"?>' +
 	   '<svg xmlns="http://www.w3.org/2000/svg" style="background:white">' +
 	   '<g>' + all.join('\n') + '</g>' + '</svg>')
@@ -149,6 +149,51 @@ function stat_flower_zoom(t, column)
   w.style.display = 'block' ;
 }
 
+function stat_display_one_flower(s, v, p, x, y, stat, group, zoom)
+{
+  if ( stat === undefined )
+    return '' ;
+  var o, t ;
+  var r = Math.log(stat.nr+1)/2 * zoom ;
+  if ( zoom > 2 )
+    o = 0.2 ;
+  else
+    o = 1 ;
+  v.push('<circle style="fill:#000;opacity:' + o + '" cx="'
+	 + x + '" cy="' + y + '" r="' + r + '"/>') ;
+  if ( zoom > 2 )
+    {
+      if ( group.length > 6 )
+	fs = '60' ;
+      else
+	fs = '80' ;
+      s.push('<text style="fill:#000;font-size:' + fs
+	     + '%;text-anchor:middle;dominant-baseline:middle" x="' + x
+	     + '" y="' + y + '">') ;
+      t = group.replace(/\001/g,' ').split('\n') ;
+      for(var i in t)
+	s.push('<tspan x="' + x + '"' + (i==0 ? '' : ' dy="1em"') + '>'
+	       + html(t[i]) + '</tspan>') ;
+      s.push('</text>') ;
+      x = Number(x) ;
+      y = Number(y) ;
+      var rh = 20*r/stat.nr ;
+      var sw = (r/3.14).toFixed(2) ;
+      for(var i in stat.histogram)
+	{
+	  a = i*3.14/10 + 3.14/2 ;
+	  p.push('<path style="opacity:0.6;stroke-width:'
+		 + sw + 'px;stroke-linecap:round;stroke:#' +
+		 s_colors[i] + '" d="M '
+		 + x + ' ' + y +
+		 ' L ' + (x+Math.cos(a)*stat.histogram[i]*rh)
+		 + ' ' + (y+Math.sin(a)*stat.histogram[i]*rh)
+		 + '"/>') ;
+	}
+    }
+  return r ;
+}
+
 function stat_display_flower(groups, all_stats, column, zoom)
 {
   if ( zoom === undefined )
@@ -159,7 +204,7 @@ function stat_display_flower(groups, all_stats, column, zoom)
   var v = [], stat ;
   function X(c) { return (width*c).toFixed(1) ; } ;
   function Y(c) { return (height*(1-c)).toFixed(1) ; } ;
-  var x, y, s, r, rd, p, a, sw, rh, o, fs ;
+  var s, p ;
 
   v.push('<path style="stroke:#F00" d="M ' + X(0.25) + ' ' + Y(0) +
 	 ' L ' + X(0.25) + ' ' + Y(1) + '"/>') ;
@@ -168,10 +213,6 @@ function stat_display_flower(groups, all_stats, column, zoom)
   v.push('<path style="stroke:#0F0" d="M ' + X(0.75) + ' ' + Y(0) +
 	 ' L ' + X(0.75) + ' ' + Y(1) + '"/>') ;
 
-  if ( column == 'TOTAL' )
-    rd = sorted_cols.length ;
-  else
-    rd = 1 ;
   s = [] ;
   p = [] ;
   for(var group in groups)
@@ -179,56 +220,177 @@ function stat_display_flower(groups, all_stats, column, zoom)
       group = groups[group] ;
       stat = all_stats[group + '\001' + column] ;
       if ( stat && stat.nr != 0 && group != 'TOTAL' )
-	{
-	  x = X(stat.normalized_average()) ;
-	  y = Y(2*stat.standard_deviation()/stat.size) ;
-	  r = Math.pow(stat.nr/rd, 0.5)/4 * zoom ;
-	  if ( zoom > 2 )
-	    o = 0.2 ;
-	  else
-	    o = 1 ;
-	  v.push('<circle style="fill:#000;opacity:' + o + '" cx="'
-		 + x + '" cy="' + y + '" r="' + r  + '"/>') ;
-	  if ( zoom > 2 )
-	    {
-	      if ( group.length > 6 )
-		fs = '50' ;
-	      else
-		fs = '70' ;
-	      s.push('<text style="fill:#000;font-size:' + fs
-		     + '%;text-anchor:middle;dominant-baseline:middle" x="' + x + '" y="' + y + '">'
-		     + html(group.replace(/\001/g,''))
-		     + '</text>') ;
-	      x = Number(x) ;
-	      y = Number(y) ;
-	      rh = 10 / rd ;
-	      sw = r.toFixed(1) / 2 ;
-	      for(var i in stat.histogram)
-		{
-		  a = i*3.14/10 + 3.14/2 ;
-		  p.push('<path style="opacity:0.6;stroke-width:'
-			 + sw + 'px;stroke-linecap:round;stroke:#' +
-			 s_colors[i] + '" d="M '
-			 + x + ' ' + y +
-			 ' L ' + (x+Math.cos(a)*stat.histogram[i]*rh)
-			 + ' ' + (y+Math.sin(a)*stat.histogram[i]*rh)
-			 + '"/>') ;
-		}
-	    }
-	}
+	stat_display_one_flower(s, v, p,
+				X(stat.normalized_average()),
+				Y(2*stat.standard_deviation()/stat.size),
+				stat, group, zoom) ;
     }
   if ( zoom > 2 )
     {      
       v = p.concat(v.concat(s)) ;
     }
-
-  return '<object type="image/svg+xml;charset=utf-8" height="' + height 
-    + 'px" width="' + width + 'px" data="data:image/svg+xml;charset=utf-8,' +
+  return '<object type="image/svg+xml" height="' + height 
+    + 'px" width="' + width + 'px" data="data:text/xml;charset=utf-8,' +
     base64('<?xml version="1.0" encoding="UTF-8" standalone="no"?>' +
 	   '<svg xmlns="http://www.w3.org/2000/svg" style="background:white">' +
 	   '<g>' + v.join('\n') + '</g>' + '</svg>') + '"></object><div>'  ;
 
 }
+
+function stat_display_fractal_flower(groups, sorted_cols, all_stats, zoom)
+{
+  var s=[], v=[], p=[] ;
+  var stat, size = .4 ;
+
+  if ( zoom === undefined )
+    zoom = 1 ;
+
+  var width = stat_svg_height * zoom ;
+  var height = stat_svg_height * zoom ;
+  function X(c) { return (width*c).toFixed(1) ; } ;
+  function Y(c) { return (height*(1-c)).toFixed(1) ; } ;
+
+  var title = '' ;
+  if ( zoom > 2 )
+    title = html(ue) + '\n' + html(semester) + '\n' + html(year) ;
+
+  stat = all_stats['TOTAL\001TOTAL'] ;
+  if ( stat === undefined )
+    for(var i in groups)
+      {
+	stat = all_stats[groups[i] + '\001TOTAL'] ;
+	break ;
+      }
+
+  var central_radius = stat_display_one_flower(s, v, p, X(0.5), Y(0.5),
+					       stat, title, zoom) ;
+  p.push('<circle style="fill:none;stroke:#888" cx="' + X(0.5) + '" cy="' + Y(0.5) + '" r="'
+	 + (central_radius+width/2*size) + '"/>') ;
+  p.push('<circle style="fill:none;stroke:#F00" cx="' + X(0.5) + '" cy="' + Y(0.5) + '" r="'
+	 + (central_radius+width/4*size) + '"/>') ;
+  p.push('<circle style="fill:none;stroke:#0F0" cx="' + X(0.5) + '" cy="' + Y(0.5) + '" r="'
+	 + (central_radius+3*width/4*size) + '"/>') ;
+  p.push('<circle style="fill:none;stroke:#FF0" cx="' + X(0.5) + '" cy="' + Y(0.5) + '" r="'
+	 + (central_radius+width*size) + '"/>') ;
+
+  var flowers_s = [] ;
+  var flowers_v = [] ;
+  var flowers_p = [] ;
+  var flowers_nr = [] ;
+  var s2, v2, p2 ;
+
+  for(var column in sorted_cols)
+    {
+      column = sorted_cols[column] ;
+      if ( column == 'TOTAL' )
+	continue ;
+      
+      stat = all_stats['TOTAL\001' + column] ;
+      if ( stat === undefined || stat.nr == 0 )
+	continue ;
+      
+      s2 = [] ;
+      v2 = [] ;
+      p2 = [] ;
+      stat_display_one_flower(s2, v2, p2, 0., 0., stat,
+			      columns[column].title, zoom/4) ;
+      flowers_nr.push(stat.normalized_average()) ;
+      flowers_s.push(s2.join('\n')) ;
+      flowers_v.push(v2.join('\n')) ;
+      flowers_p.push(p2.join('\n')) ;
+    }
+
+
+  for(var j=-2; j<columns.length; j++)
+    {
+      var _all_stats = {} ;
+      var _stats_groups = [] ;
+      var _grouped_by ;
+      var title = '' ;
+      var data_col = j ;
+      
+      _grouped_by = grouped_by ;
+      switch(j)
+	{
+	case -2: statistics_author(sorted_cols, _all_stats, _stats_groups) ;
+	  break;
+	case -1: statistics_date(sorted_cols, _all_stats, _stats_groups) ;
+	  break;
+	default:
+	  if ( data_col == 'TOTAL' )
+	    continue ;
+	  var stat = compute_stats(lines, data_col) ;
+	  var nr_uniques = stat.nr_uniques() ;
+	  if ( data_col != 3 && data_col != 4
+	       && (nr_uniques > 10 || nr_uniques <= 1) )
+	    continue ;
+	  grouped_by = {} ;
+	  grouped_by[data_col] = true ;
+	  statistics_values(sorted_cols, _all_stats, _stats_groups) ;
+	  title = columns[data_col].title + '\n' ;
+	  break;
+	}
+      compute_column_totals(_stats_groups, sorted_cols, _all_stats) ;
+      compute_line_totals(_stats_groups, sorted_cols, _all_stats) ;
+      for(var group in _stats_groups)
+	{
+	  group = _stats_groups[group] ;
+	  stat = _all_stats[group + '\001TOTAL'] ;
+	  if ( stat && stat.nr != 0 && group != 'TOTAL' )
+	    {
+	      s2 = [] ;
+	      v2 = [] ;
+	      p2 = [] ;
+	      stat_display_one_flower(s2, v2, p2, 0., 0.,
+				      stat, title + group, zoom/4) ;
+	      flowers_nr.push(stat.normalized_average()) ;
+	      flowers_s.push(s2.join('\n')) ;
+	      flowers_v.push(v2.join('\n')) ;
+	      flowers_p.push(p2.join('\n')) ;
+	    }
+	}
+      grouped_by = _grouped_by ;
+    }
+
+  var angle, teta =  2*3.14 / flowers_s.length ;
+  var translate, d ;
+  angle = 0 ;
+  for(var i=0; i<flowers_s.length; i++)
+    {
+      d = central_radius + width * size * flowers_nr[i] ;
+      translate = '<g transform="translate('
+	+ (width/2 + Math.cos(angle) * d) + ','
+	+ (height/2 + Math.sin(angle) * d) + ')">' ;
+      s.push( translate + flowers_s[i] + '</g>' ) ;
+      v.push( translate + flowers_v[i] + '</g>' ) ;
+      p.push( translate + flowers_p[i] + '</g>' ) ;
+      angle += teta ;
+    }
+ 
+  if ( zoom > 2 )
+    {    
+      v = p.concat(v.concat(s)) ;
+    }
+
+  return '<object type="image/svg+xml;charset=utf-8" height="' + height 
+    + 'px" width="' + width + 'px" data="data:text/xml;charset=utf-8,' +
+    base64('<?xml version="1.0" encoding="UTF-8" standalone="no"?>' +
+	   '<svg xmlns="http://www.w3.org/2000/svg" style="background:white">' +
+	   '<g>' + v.join('\n') + '</g>' + '</svg>') + '"></object>'  ;
+  
+}
+
+function stat_fractal_flower_zoom(t)
+{
+  var w = window_open() ;
+  w.document.open('text/html;charset=utf-8') ;
+  w.document.write(stat_display_fractal_flower(stats_groups, sorted_cols, 
+					       all_stats,
+					       window_width()/stat_svg_height)
+		   ) ;
+  w.document.close() ;
+}
+
 
 function stat_display_flowers(s, groups, sorted_cols, all_stats)
 {
@@ -244,6 +406,11 @@ function stat_display_flowers(s, groups, sorted_cols, all_stats)
 	     + '<div class="s_clickable" onclick="stat_flower_zoom(this,'
 	     + js2(column) + ')"></div></div></td>') ;
     }
+  s.push('<td><div class="s_graph">'
+	 + stat_display_fractal_flower(groups, sorted_cols, all_stats)
+	 + '<div class="s_clickable" onclick="stat_fractal_flower_zoom(this)'
+	 + '"></div></div></td>') ;
+
   s.push('</tr>') ;
 }
 
@@ -251,7 +418,8 @@ function stat_display_flowers(s, groups, sorted_cols, all_stats)
 function compute_stats(lines, data_col)
 {
   var column = columns[data_col] ;
-  var s = new Stats(column.min, column.max, column.empty_is) ;
+  var s = new Stats(Number(column.min), Number(column.max), column.empty_is) ;
+  s = new Stats(column.min, column.max, column.empty_is) ;
   for(var line in lines)
     s.add(lines[line][data_col].value) ;
   return s ;
@@ -403,13 +571,11 @@ function stat_zoom(t, data_col, group)
 	    + '%;left:' + (2*i)
 	    + 'em;background:#' + s_colors[i] + '"><span>'
 	    + value + '</span><div>'
-	    + (stats.merge_size === undefined
-	       ? stats.v_min + i/20.*stats.size
-	       : stats.merge_min+i/20.*stats.merge_size) + '</div></div>' ;
+	    + (stats.v_min + i/20.*stats.size).toFixed(1).replace(/[.]*0*$/,'')
+	    + '</div></div>' ;
 	}
       s += '<div style="left:40em;border:0px"><div>'
-	+ (stats.merge_size === undefined
-	   ? stats.v_max : stats.merge_max) + '</div></div>' ;
+	+ stats.v_max + '</div></div>' ;
     }
   else
     {
@@ -635,8 +801,9 @@ function statistics_values(sorted_cols, all_stats, groups)
     {
       i++ ;
       for(var column in sorted_cols)
-	all_stats[group + '\001' + sorted_cols[column]] =
-	  compute_stats(grouped_lines[group], sorted_cols[column]);
+	if ( sorted_cols[column] != 'TOTAL' )
+	  all_stats[group + '\001' + sorted_cols[column]] =
+	    compute_stats(grouped_lines[group], sorted_cols[column]);
     }
 }
 
@@ -649,6 +816,8 @@ function statistics_author(sorted_cols, all_stats, groups)
       line = lines[line] ;
       for(var column in sorted_cols)
 	{
+	  if ( sorted_cols[column] == 'TOTAL' )
+	    continue ;
 	  column = sorted_cols[column] ;
 	  cell = line[column] ;
 	  col = columns[column] ;
@@ -674,6 +843,8 @@ function statistics_date(sorted_cols, all_stats, groups)
       line = lines[line] ;
       for(var column in sorted_cols)
 	{
+	  if ( sorted_cols[column] == 'TOTAL' )
+	    continue ;
 	  column = sorted_cols[column] ;
 	  cell = line[column] ;
 	  col = columns[column] ;
@@ -745,8 +916,11 @@ function compute_column_totals(groups, sorted_cols, all_stats)
 
   for(var column in sorted_cols)
     {
-      stats = new Stats(0, 20, '') ;
       column = sorted_cols[column] ;
+      if ( column != 'TOTAL' )
+	stats = new Stats(columns[column].min, columns[column].max, '') ;
+      else
+	stats = new Stats(0, 20, '') ;
       for(var group in groups)
 	{
 	  key = groups[group] + '\001' + column ;
@@ -823,7 +997,7 @@ function statistics_display()
   t.push('</div>') ;
 
   var c ;
-  c = "Les case du tableau représentent les statistiques pour un groupe.<br>"
+  c = "Les cases du tableau représentent les statistiques pour un groupe.<br>"
     + "Vous pouvez cliquez ici pour choisir ce que vous voulez afficher :"
     + "<ul>"
     + '<li>Moyenne des notes'
@@ -834,7 +1008,7 @@ function statistics_display()
     + '<li>La note la plus faible'
     + '<li>La note la plus forte'
     + '</ul>'
-    + "Cliquez sur les case du tableau pour afficher les détails" ;
+    + "Cliquez sur les cases du tableau pour afficher les détails" ;
 
   s.push(hidden_txt(t.join('\n'), c)) ;
 
@@ -947,7 +1121,7 @@ function display_statistics(object)
       if ( column.is_empty )
 	continue ;
       var stats = compute_stats(filtered_lines, data_col) ;
-      if ( filtered_lines.length / stats.nr_uniques() > 1 )
+      if ( true || filtered_lines.length / stats.nr_uniques() > 1 )
 	{
 	  var comment = html(column.comment) ;
 	  if ( comment )

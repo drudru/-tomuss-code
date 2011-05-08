@@ -905,27 +905,24 @@ function Stats(v_min, v_max, empty_is)
 // This function does not works when merging things with not the same size
 function stats_merge(v)
 {
+  var value ;
   this.min = Math.min(this.min, v.min) ;
   this.max = Math.max(this.max, v.max) ;
-  this.sum += v.sum ;
-  this.sum2 += v.sum2 ;
   this.nr += v.nr ;
   for(var i in this.histogram)
     this.histogram[i] += v.histogram[i] ;
-  if ( v.v_min == this.v_min && v.v_max == this.v_max )
-    this.values = this.values.concat(v.values) ;
-  else
-    for(var i in v.values)
-      this.values.push(this.v_min + this.size * (v.values[i]-v.v_min)/v.size) ;
+  for(var i in v.values)
+    {
+      value = this.v_min + this.size * (v.values[i] - v.v_min)/v.size ;
+      this.values.push(value) ;
+      this.sum += value ;
+      this.sum2 += value * value ;
+    }
   for(var i in v.all_values)
     if ( this.all_values[i] )
       this.all_values[i] += v.all_values[i] ;
     else
       this.all_values[i] = v.all_values[i] ;
-
-  this.merge_min = v.v_min ;
-  this.merge_max = v.v_max ;
-  this.merge_size = v.size ;
 }
 
 function stats_add(v)
@@ -1040,10 +1037,7 @@ function stats_html_resume()
 
 function stats_normalized_average()
 {
-  if ( this.merge_size !== undefined )
-    return (this.average() - this.merge_min) / this.merge_size ;
-  else    
-    return (this.average() - this.v_min) / this.size ;
+  return (this.average() - this.v_min) / this.size ;
 }
 
 Stats.prototype.add = stats_add  ;

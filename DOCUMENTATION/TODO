@@ -1,4 +1,8 @@
 Finir par priorité :
+	Probleme Pascal LAINE
+	Mettre l'adresse mail de Coquery.
+	Style gras pour les notes aujourd'hui : vérifier.
+	Le REMPLI ne fait pas recacluler les lignes
 	Finir print :
 		- Sous IE : bulle d'aide
 	METTRE A JOUR DOC
@@ -11,7 +15,9 @@ Finir par priorité :
 	BUg : le suivi étudiant permet d'avoir des informations non autorisées
 	complétion énumeration
 	Remplace querY_login par query_logins dans students_list
-
+	Dans le publipostage : mode HTML avec des vrais URL
+	Indiquer que la sauvegarde est en cours (pendant import)
+	Stats : Impression et sauvegarde
 	MAJ de la liste des étudiants par l'utilisateur ? regler le changement de semestre
 	Ne pas sauvegarder le new-page si pas nécessaire (comme RO) ?
 	Dans le suivi : moyenne des notes en plus du rang.
