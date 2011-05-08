@@ -64,6 +64,7 @@ function set_columns(value, column, xcolumn_attr)
 			   + column.title + "\n"
 			   + "LA LISTE DES COLONNES N'A PAS ÉTÉ SAUVEGARDÉE"
 			   ) ;
+	      column.average_columns = [] ;
 	      return null ; // Do not save, but leaves user input unchanged
 	    }
 	}
