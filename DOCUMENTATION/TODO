@@ -1,9 +1,9 @@
 Finir par priorité :
-	Probleme Pascal LAINE
 	Mettre l'adresse mail de Coquery. : faire un alias 'tomuss' ?
 	Le REMPLI ne fait pas recacluler les lignes
 	Finir print :
 		- Sous IE : bulle d'aide
+	Indiquer que la sauvegarde est en cours (pendant import)
 	METTRE A JOUR DOC
 	Passer javascript de 'Mail' en attribut javascript
 	Faire des plugins pour chaque fonctionnalité coté client (colonnes).
@@ -15,7 +15,6 @@ Finir par priorité :
 	complétion énumeration
 	Remplace querY_login par query_logins dans students_list
 	Dans le publipostage : mode HTML avec des vrais URL
-	Indiquer que la sauvegarde est en cours (pendant import)
 	Stats : Impression et sauvegarde
 	MAJ de la liste des étudiants par l'utilisateur ? regler le changement de semestre
 	Ne pas sauvegarder le new-page si pas nécessaire (comme RO) ?
@@ -49,7 +48,6 @@ Finir par priorité :
 	Version fichier statiques
 
     BUGS :
-	Chrome : statistics per group
 	liste des UE dans le suivi, change au rechargement ???
 	Copier puis drag fait n'importe quoi sur les cases du tableau.
 		Sous windows seulement
@@ -60,7 +58,7 @@ Finir par priorité :
 	Il n'y a pas de Flux RSS pour les tables ni printemps ni automne.
 
     Moyenne :
-	Redirection d'une table sur un autre.
+	Redirection d'une table sur une autre (renommage).
 	linear	Afficher aide plus detaille sur la valeur de la cellule
 	Interface pour détruire les tables.
 	UE par formation
@@ -103,7 +101,6 @@ Finir par priorité :
 	Histogramme date
 
 Questions en suspend :
-	Mettre en évidence la ligne courante ?
 	Nouvelle page quand on clique dans le suivi ?
 	Wizard création table ?
 	Téléphone dans suivi et fiche ?

@@ -210,10 +210,13 @@ def home_page(server):
     plugin list. The page content depends on user role."""
     f = server.the_file
     ticket = server.ticket
+    user_name = ticket.user_name
+    if (user_name in configuration.root) and server.options:
+        user_name = server.options[0].strip('=')
 
-    ufr = inscrits.L_fast.ufr_of_teacher(ticket.user_name)
+    ufr = inscrits.L_fast.ufr_of_teacher(user_name)
 
-    if inscrits.L_fast.password_ok(ticket.user_name):
+    if inscrits.L_fast.password_ok(user_name):
         password_ok = ''
     else:
         password_ok = configuration.bad_password
@@ -225,8 +228,8 @@ def home_page(server):
             .replace('_UFR_',
                      'UE-' + configuration.ufr_short.get(ufr,('',''))[0])
             .replace('_USERNAME2_',
-                    utilities.login_to_module(ticket.user_name))
-            .replace('_USERNAME_', ticket.user_name)
+                    utilities.login_to_module(user_name))
+            .replace('_USERNAME_', user_name)
             .replace('_TICKET_', ticket.ticket)
             .replace('_MESSAGE2_', configuration.message)
             .replace('_ADMIN_', configuration.maintainer)
@@ -237,12 +240,12 @@ def home_page(server):
     #####################################################################
 
     favorites = utilities.manage_key('LOGINS',
-                                     os.path.join(ticket.user_name, 'pages'))
+                                     os.path.join(user_name, 'pages'))
     if favorites is False:
         favorites = {}
     else:
         favorites = eval(favorites)
-    prefs_table = document.get_preferences(ticket.user_name, True)
+    prefs_table = document.get_preferences(user_name, True)
 
     f.write('<script>var preferences = ' + repr(prefs_table)
             + ' ;\nvar ues_favorites = ' + utilities.js(favorites)
@@ -252,8 +255,7 @@ def home_page(server):
     #####################################################################
 
     master_of = utilities.manage_key('LOGINS',
-                                     os.path.join(ticket.user_name,
-                                                  'master_of'))
+                                     os.path.join(user_name, 'master_of'))
     if master_of is False:
         master_of = []
     else:
@@ -267,7 +269,7 @@ def home_page(server):
 
     f.write('<script>var referent_of = [')
     t = []
-    for login in referent.students_of_a_teacher(ticket.user_name):
+    for login in referent.students_of_a_teacher(user_name):
         a,b,c = inscrits.L_fast.firstname_and_surname_and_mail(login)
         t.append(('[' + utilities.js(login) + ','
                  + utilities.js(a) + ','
@@ -278,7 +280,7 @@ def home_page(server):
     #####################################################################
 
     favstu = utilities.manage_key('LOGINS',
-                             os.path.join(ticket.user_name, 'favstu')
+                             os.path.join(user_name, 'favstu')
                              )
     if favstu is False:
         favstu = ''
@@ -306,7 +308,7 @@ def home_page(server):
     for key, title in plugin.get_box_list():
         hclass=home_box(server, key, title ,html_class=hclass)
 
-    if ticket.user_name in configuration.root:
+    if user_name in configuration.root:
         f.write("Les portails : " +
                 ',\n'.join(['<a href="javascript:go(%s)">%s</a>' %(
             repr('portail-' + p),p)
@@ -329,5 +331,5 @@ def home_page(server):
             + configuration.version + '</p>')
 
 
-plugin.Plugin('homepage2', '/', function=home_page, teacher=True,
+plugin.Plugin('homepage2', '/{=}', function=home_page, teacher=True,
               launch_thread=True, css=css)
