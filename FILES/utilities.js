@@ -1833,7 +1833,15 @@ function update_ues2(txt, clicked)
   update_ues_unsaved() ;
 
   if ( window.localStorage )
-    window.addEventListener('storage', storageEventHandler, false);
+    {
+      try
+	{
+	  window.addEventListener('storage', storageEventHandler, false);
+	}
+      catch(e)
+	{
+	}
+    }
 }
 
 function storageEventHandler(e)
