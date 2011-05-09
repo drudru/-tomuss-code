@@ -390,10 +390,27 @@ function stat_fractal_flower_zoom(t)
 {
   var w = window_open() ;
   w.document.open('text/html;charset=utf-8') ;
-  w.document.write(stat_display_fractal_flower(stats_groups, sorted_cols, 
-					       all_stats,
-					       window_width()/stat_svg_height)
-		   ) ;
+  w.document.write
+    (
+     "Au centre c'est l'histogramme de toutes les notes saisies.<br>"
+     +"Le rayon des disques gris représente le nombre de notes (hors ABI).<br>"
+     +"Tout autour on retrouve la même représentation par ensemble de note, "
+     +"la distance au centre représente la moyenne de l'ensemble, "
+     +"le cercle rouge représente 5/20 et le vert 15/20 (le gris 10/20).<br>"
+     +"Les ensembles affichés sont définis par :"
+     +"<ul>"
+     +"<li> La personne qui a fait la saisie de la note."
+     +"<li> La colonne dans laquelle se trouve la note."
+     +"<li> L'année+mois de la saisie de la note."
+     +"<li> Toutes les notes des étudiants pour lesquels la colonne "
+     +"indiquée contient la valeur indiquées (par exemple <b>Seq 1</b>, "
+     +"représente toutes les notes des étudiants de séquence 1."
+     +"</ul>"
+     + stat_display_fractal_flower(stats_groups, sorted_cols, 
+				   all_stats,
+				   window_width()
+				   / stat_svg_height)
+     ) ;
   w.document.close() ;
 }
 

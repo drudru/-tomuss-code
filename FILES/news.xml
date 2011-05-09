@@ -438,7 +438,7 @@ complètement paramétrables interactivement.
       <guid>33</guid>
     </item>
     <item>
-      <title>01/05/2011 : Version 2.????</title>
+      <title>10/05/2011 : Version 2.14.0</title>
       <link>http://tomuss.univ-lyon1.fr/</link>
       <description>
 Les statistiques sur une tableau de note ont été refaites,
@@ -455,6 +455,8 @@ Maintenant, on peut :
 &lt;li&gt; suivre l'évolution du nombre de présents au cours du temps ;
 &lt;li&gt; détailler la plage de saisie des informations dans la table.
 &lt;/ul&gt;
+Cette fonctionnalité étant nouvelle, ne lui faites pas confiance
+les yeux fermés, tous les cas n'ont pas du être testés.
       </description>
       <guid>34</guid>
     </item>
