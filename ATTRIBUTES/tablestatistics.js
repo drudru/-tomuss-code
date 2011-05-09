@@ -163,17 +163,21 @@ function stat_display_one_flower(s, v, p, x, y, stat, group, zoom)
 	 + x + '" cy="' + y + '" r="' + r + '"/>') ;
   if ( zoom > 2 )
     {
-      if ( group.length > 6 )
-	fs = '60' ;
-      else
-	fs = '80' ;
-      s.push('<text style="fill:#000;font-size:' + fs
-	     + '%;text-anchor:middle;dominant-baseline:middle" x="' + x
-	     + '" y="' + y + '">') ;
       t = group.replace(/\001/g,' ').split('\n') ;
+      if ( group.length/t.length > 30 )
+	fs = 8 ;
+      else if ( group.length/t.length > 20 )
+	fs = 10 ;
+      else if ( group.length/t.length > 10 )
+	fs = 12 ;
+      else
+	fs = 14 ;
+      s.push('<text style="fill:#000;font-size:' + fs
+	     + 'px;text-anchor:middle;dominant-baseline:middle" x="' + x
+	     + '" y="' + y + '">') ;
       for(var i in t)
-	s.push('<tspan x="' + x + '"' + (i==0 ? '' : ' dy="1em"') + '>'
-	       + html(t[i]) + '</tspan>') ;
+	s.push('<tspan x="' + x + '" dy="' + (i==0 ? -fs*(t.length-1.5) :(fs+1)) + 'px"'
+	       + '>' + html(t[i]) + '</tspan>') ;
       s.push('</text>') ;
       x = Number(x) ;
       y = Number(y) ;
@@ -371,12 +375,14 @@ function stat_display_fractal_flower(groups, sorted_cols, all_stats, zoom)
     {    
       v = p.concat(v.concat(s)) ;
     }
+  v = '<g>' + v.join('\n') + '</g>' ;
 
   return '<object type="image/svg+xml;charset=utf-8" height="' + height 
     + 'px" width="' + width + 'px" data="data:text/xml;charset=utf-8,' +
-    base64('<?xml version="1.0" encoding="UTF-8" standalone="no"?>' +
-	   '<svg xmlns="http://www.w3.org/2000/svg" style="background:white">' +
-	   '<g>' + v.join('\n') + '</g>' + '</svg>') + '"></object>'  ;
+    base64('<?xml version="1.0" encoding="UTF-8" standalone="no"?>\n' +	   
+	   '<svg onclick="w=window.open();w.document.write(html(base64_decode(\'' + base64('<svg xmlns="http://www.w3.org/2000/svg">' + v + '</svg>')+ '\')))" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" style="background:white">' +
+	   '<script xlink:href="' + url + '/utilities.js"></script>' +
+	   v + '</svg>') + '"></object>'  ;
   
 }
 

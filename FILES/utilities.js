@@ -565,22 +565,40 @@ function window_height()
 
 }
 
+var base64_replace = "%\r\n!#$&'()*+/[\\]^`\"<>" ;
+
 function base64(s)
 {
   var i, len ;
-  var replace = "%\r\n!#$&'()*+/[\\]^`\"<>" ;
   /* Bad for SVG with diacritics
      for(i = 128 ; i < 256 ; i++)
      replace += String.fromCharCode(i) ;
   */
-  len = replace.length ;
+  len = base64_replace.length ;
   for(i=0; i<len; i++)
     {
-      var code = replace.charCodeAt(i) ;
-      s = s.replace(RegExp('\\' + replace.substr(i,1), 'g'),
+      var code = base64_replace.charCodeAt(i) ;
+      s = s.replace(RegExp('\\' + base64_replace.substr(i,1), 'g'),
 		    '%' +
 		    '0123456789ABCDEF'.charAt(code/16) +
 		    '0123456789ABCDEF'.charAt(code%16)
+		    ) ;
+    }
+  return s ;
+}
+
+function base64_decode(s)
+{
+  var i, len ;
+  len = base64_replace.length ;
+  for(i=len-1; i>=0; i--)
+    {
+      var code = base64_replace.charCodeAt(i) ;
+      s = s.replace(RegExp('%' +
+			   '0123456789ABCDEF'.charAt(code/16) +
+			   '0123456789ABCDEF'.charAt(code%16),
+			   'g'),
+		    base64_replace.substr(i,1)
 		    ) ;
     }
   return s ;
