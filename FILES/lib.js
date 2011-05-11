@@ -3860,9 +3860,9 @@ function abj_per_day()
   var mm, first ;
 
   if ( semester == 'Automne' )
-    var start = 7, stop = 13, yy = year ;
+    var start = 8, stop = 14, yy = year ;
   else
-    var start = 1, stop = 7, yy = year + 1 ;
+    var start = 1, stop = 8, yy = year ;
 
   for(var m=start; m<stop; m++)
     {
