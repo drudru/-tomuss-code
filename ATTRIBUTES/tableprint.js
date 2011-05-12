@@ -324,7 +324,7 @@ function print_selection(object, emargement)
   p.push('var columns_to_display = {};') ;
   p.push('var headers_to_display = {};') ;
   p.push('var grouped_by = {};') ;
-  p.push('var do_emargement_header = ' + emargement + ';') ;
+  p.push('var do_emargement_header = 0;') ;
   p.push('var tr_classname = "' + tr_classname + '";') ;
   p.push('var popup_on_red_line = ' + popup_on_red_line + ';') ;
   p.push('var ue = ' + js(ue) + ';') ;
@@ -334,6 +334,8 @@ function print_selection(object, emargement)
   p.push('function initialize() {') ;
   p.push('if ( ! wait_scripts("initialize()") ) return ;') ;
   p.push('lines = ' + lines_in_javascript() + ';') ;
+  if ( emargement )
+    p.push('do_emargement();') ;
   p.push('setInterval("printable_display()", 200);') ;
   p.push('}') ;
   p.push('</script>') ;

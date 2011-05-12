@@ -1,9 +1,11 @@
 Finir par priorité :
-	Mettre l'adresse mail de Coquery. : faire un alias 'tomuss' ?
+	Redémarrage TOMUSS et vieille pages : pas réglé.
+	https pour le suivi
+	Ctrl Shift fleche ne doit pas changer de case.
 	Le REMPLI ne fait pas recacluler les lignes
-	Finir print :
-		- Sous IE : bulle d'aide
+	Finir print : Sous IE : bulle d'aide
 	Indiquer que la sauvegarde est en cours (pendant import)
+	ABJ par date : afficher toutes les dates (noir pour les ABJ)
 	Nom de jeune fille
 	METTRE A JOUR DOC
 	Passer javascript de 'Mail' en attribut javascript
@@ -15,10 +17,11 @@ Finir par priorité :
 	BUg : le suivi étudiant permet d'avoir des informations non autorisées
 	complétion énumeration
 	Remplace querY_login par query_logins dans students_list
-	Dans le publipostage : mode HTML avec des vrais URL
 	Stats : Impression et sauvegarde
 	MAJ de la liste des étudiants par l'utilisateur ? regler le changement de semestre
 	Ne pas sauvegarder le new-page si pas nécessaire (comme RO) ?
+	Envoyer un mail aux responsable d'UE d'un étudiant.
+	Dans le publipostage : mode HTML avec des vrais URL
 	Dans le suivi : moyenne des notes en plus du rang.
 	Copier une table en vidant l'historique ou non, meme semestre ou pas
 	Pylint
@@ -46,7 +49,7 @@ Finir par priorité :
 	Accelerer le chargement de la liste des référents.
 	Droit d'accès : généraliser la notion de groupe, pouvoir en créer
 	Mettre le ticket en fin d'URL ?
-	Version fichier statiques
+	Version fichier statiques dans l'URL ?
 
     BUGS :
 	liste des UE dans le suivi, change au rechargement ???
