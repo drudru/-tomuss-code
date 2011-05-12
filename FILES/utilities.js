@@ -3007,6 +3007,8 @@ function current_keydown(event, in_input)
     case 34: next_page()        ; break ;
     case 33: previous_page()    ; break ;
     case 37:
+      if ( event.shiftKey )
+	return true ;
       if ( event.ctrlKey
 	   || this.input.value.length === 0
 	   || !this.cell.modifiable()
@@ -3026,6 +3028,8 @@ function current_keydown(event, in_input)
 	this.cursor_right() ;
       break ;
     case 39:
+      if ( event.shiftKey )
+	return true ;
       if ( event.ctrlKey
 	   || this.input.value.length === 0
 	   || !this.cell.modifiable()
