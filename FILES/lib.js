@@ -3871,18 +3871,25 @@ function abj_per_day()
       if ( mm == 0 )
 	  yy++ ;
       for(var d=1; d<32; d++)
-	if ( days[yy + '/' + mm + '/' + d] )
-	  {
-	    if ( first )
-	      {
-		first = false ;
-		p += '<tr><th>' + months[mm] ;
-		for(var i=1;i<d;i++)
-		  p += '<td>&nbsp;' ;
-	      }
-	    p += '<td><a onclick="javascript:compute_abj_per_day('
-	      + days[yy + '/' + mm + '/' + d] + ');">' + d + '</a>' ;
-	  }
+	{
+	  if ( first )
+	    {
+	      first = false ;
+	      p += '<tr><th>' + months[mm] ;
+	      for(var i=1;i<d;i++)
+		p += '<td>&nbsp;' ;
+	    }
+	  if ( days[yy + '/' + mm + '/' + d] )
+	    {
+	      p += '<td><a onclick="javascript:compute_abj_per_day('
+		+ days[yy + '/' + mm + '/' + d] + ');">' + d + '</a>' ;
+	    }
+	  else
+	    {
+	      p += '<td><span style="color:#DDD">' + d ;
+	    }
+	}
+	
       if ( ! first )
 	{
 	  p += '</tr>\n' ;
