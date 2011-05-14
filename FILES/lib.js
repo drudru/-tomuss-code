@@ -2739,6 +2739,11 @@ function auto_save_errors()
 	}
     }
 
+  if ( nr_unsaved > 10 )
+    document.getElementById('saving').style.display = 'block' ;
+  if ( nr_unsaved == 0 )
+    document.getElementById('saving').style.display = 'none' ;
+
   if ( do_reload_when_all_saved && nr_unsaved == 0 )
     {
       window.location = window.location ;

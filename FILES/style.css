@@ -453,6 +453,16 @@ BODY TABLE.colored TR.tierstemps TD, #current_input.tierstemps, SPAN.tt { backgr
   white-space: pre;
 }
 
+#saving { 
+display: none ;
+position: absolute ;
+background: #FFF ;
+border: 1px solid black ;
+left:25%;
+right:25%;
+bottom: 0;
+font-size: 200%;
+}
 /*****************************************************************************/
 /* MENUTOP */
 /*****************************************************************************/

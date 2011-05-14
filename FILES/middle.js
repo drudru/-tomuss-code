@@ -846,6 +846,7 @@ function tail_html()
   var a = '<p class="copyright"><span id="server_feedback"></span></p>' +
     '<div id="log"></div>' +
     '<div id="message">&nbsp;</div>' +
+    "<div id=\"saving\">Les données sont en train d'être envoyées au serveur.<br>Veuillez patienter (ou vérifiez votre connexion réseau)</div>" +
     '<div id="authenticate"></div>' +
     '<div id="current_input_div">' +
     '<input id="current_input" ' +
