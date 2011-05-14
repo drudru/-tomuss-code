@@ -811,6 +811,8 @@ function fill_column_do_aabb()
     }
   alert_append_stop() ;
   popup_close() ;
+  the_current_cell.column.need_update = true ;
+  update_columns() ;
   table_fill() ;
 }
 
@@ -829,6 +831,8 @@ function fill_column_do_abab()
 			  value) ;
     }
   alert_append_stop() ;
+  the_current_cell.column.need_update = true ;
+  update_columns() ;
   popup_close() ;
   table_fill() ;
 }
