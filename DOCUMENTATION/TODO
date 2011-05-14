@@ -1,12 +1,11 @@
 Finir par priorité :
 	Redémarrage TOMUSS et vieille pages : pas réglé.
-	https pour le suivi
 	Le REMPLI ne fait pas recacluler les lignes
 	Finir print : Sous IE : bulle d'aide
 	Indiquer que la sauvegarde est en cours (pendant import)
-	ABJ par date : afficher toutes les dates (noir pour les ABJ)
 	Nom de jeune fille
 	METTRE A JOUR DOC
+	ABJ par date : passer en attribut (page avec la liste + TT + DA)
 	Passer javascript de 'Mail' en attribut javascript
 	Faire des plugins pour chaque fonctionnalité coté client (colonnes).
 	Favoris : enlever vraiment

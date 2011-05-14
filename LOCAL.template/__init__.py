@@ -23,7 +23,7 @@ import servers
 import socket
 import time
 
-configuration.suivi = servers.Suivi()
+configuration.suivi = servers.Suivi(https=False)
 configuration.suivi.add(time.localtime()[0], 'Printemps',
                         socket.getfqdn() + ':%d', 8889)
 configuration.suivi.add(time.localtime()[0], 'Automne',
