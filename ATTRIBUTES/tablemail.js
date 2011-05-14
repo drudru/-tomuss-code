@@ -31,7 +31,7 @@ function students_mails(missing)
 	{
 	  if ( table_attr.mails[line[0].value]
 	       && table_attr.mails[line[0].value].indexOf('@') != -1)
-	    s += table_attr.mails[line[0].value] + ',' ;
+	    s += table_attr.mails[line[0].value].replace(/'/g,"\\'") + ',' ;
 	  else
 	    if ( missing )
 	      missing.push(line[0].value) ;
