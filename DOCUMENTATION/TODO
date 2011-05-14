@@ -2,14 +2,12 @@ Finir par priorité :
 	Redémarrage TOMUSS et vieille pages : pas réglé.
 	Nom de jeune fille (dans Oracle, pas base IP)
 	METTRE A JOUR DOC
-	ABJ par date : passer en attribut (page avec la liste + TT + DA)
 	Faire des plugins pour chaque fonctionnalité coté client (colonnes).
 	Rechargement page d'accueil si la recherche étudiant marche pas
 	BUG : Le 'resume' permet d'avoir des informations non autorisées
 	BUg : le suivi étudiant permet d'avoir des informations non autorisées
 	complétion énumeration
 	Remplace querY_login par query_logins dans students_list
-	Stats : Impression et sauvegarde sous Chrome
 	MAJ de la liste des étudiants par l'utilisateur ? regler le changement de semestre
 	Ne pas sauvegarder le new-page si pas nécessaire (comme RO) ?
 	Finir print : Sous IE : bulle d'aide
@@ -44,6 +42,7 @@ Finir par priorité :
 	Version fichier statiques dans l'URL ?
 
     BUGS :
+	Stats : Impression et sauvegarde sous Chrome
 	liste des UE dans le suivi, change au rechargement ???
 	Copier puis drag fait n'importe quoi sur les cases du tableau.
 		Sous windows seulement

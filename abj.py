@@ -730,7 +730,7 @@ Cordialement.
                       + fs[1].upper() + ' ' + fs[0].title()
                       + u' à partir du ' + dates[0][1])
             if dates[0][3]:
-                an_abj += ' (' + dates[0][3] + ')'
+                an_abj += ' (' + unicode(dates[0][3],'utf-8') + ')'
             an_abj += '\n'
             
             infos.append((utilities.flat(fs[1]).lower(),

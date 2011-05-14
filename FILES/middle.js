@@ -600,8 +600,7 @@ for(var type_i in types)
    table_input_attr('nr_columns') + '<br>' +
    table_input_attr('facebook') +
    table_input_attr('print') +
-   hidden_txt('<select onfocus="take_focus(this);" onchange="this.blur();if ( this.selectedIndex == 1) goto_resume() ; if ( this.selectedIndex == 2) abj_per_day() ; this.selectedIndex = 0 ;"><option>ABJ</option><option>ABJ, DA et TT</option><option>ABJ par date</option></select>',
-	      "Gestion des ABJ/TT") +
+   table_input_attr('abj') +
    table_input_attr('mail') +
    table_input_attr('statistics') + '<br>' +
 
