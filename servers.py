@@ -25,9 +25,9 @@ class Suivi(object):
     def __init__(self, https=False):
         self.urls = {}
         if https:
-            self.http = 'http'
-        else:
             self.http = 'https'
+        else:
+            self.http = 'http'
     def urls_sorted(self):
         urls = self.urls.items()
         urls.sort(key=lambda x: (x[0][0], x[0][1].replace('Automne','Z')))
