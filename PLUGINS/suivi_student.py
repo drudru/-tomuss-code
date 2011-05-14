@@ -37,6 +37,7 @@ import authentication
 import cgi
 import time
 import teacher
+import collections
 
 header = utilities.StaticFile(os.path.join('FILES', 'suivi.html'))
 header2 = utilities.StaticFile(os.path.join('FILES', 'suivi2.html'))
@@ -106,6 +107,7 @@ def student_statistics(login, server, is_a_student=False, expand=False,
     year = server.year
     semester = server.semester
     firstname, surname, mail = inscrits.L_fast.firstname_and_surname_and_mail(login)
+
     s = ['<div class="student"><img class="photo" src="',
          configuration.picture(inscrits.login_to_student_id(login),
                                ticket=ticket),
@@ -118,9 +120,12 @@ def student_statistics(login, server, is_a_student=False, expand=False,
     s.append('%s <a href="mailto:%s">%s %s</a></h1>' % (
         login, mail, firstname.title(), surname))
 
+        
+
     ################################################# REFERENT
 
     ref = referent.referent(year, semester, login)
+
     if ref:
         mail_ref = inscrits.L_fast.mail(ref)
         if mail_ref == None:
@@ -133,7 +138,29 @@ def student_statistics(login, server, is_a_student=False, expand=False,
         else:
             s.append(u"<script>hidden(\'Référent pédagogique : Aucun\','Vous n\\'êtes pas dans la licence STS, vous n\\'avez donc pas d\\'enseignant référent');</script><br>")
 
+    ################################################# TEACHERS MAILS
+
+    if not is_a_student:
+        teachers = collections.defaultdict(list)
+        for t in the_ues(year, semester, login):
+            if tuple(t.get_items(login)):
+                for teacher_login in t.masters:
+                    teachers[teacher_login].append(t.ue)
+        if ref:
+            teachers[ref].append(u'Référent')
+
+        if teachers:
+            s[-1] = s[-1].replace('<br>','')
+            s.append(', <script>hidden(\'<a href="mailto:?to='
+                     + ','.join([inscrits.L_fast.mail(k)
+                                 + ' <' + ','.join(v) + '>'
+                                 for k, v in teachers.items()])
+                     + '&subject=' + (login + ' ' + firstname + ' ' + surname
+                                      ).replace("'","\\'")
+                     + u'">Mails responsables</a>\',"Liste les adresses mails du réferent ainsi que des<br>enseignants responsables des UE suivies par l\'étudiant.")</script><br>')
+
     ################################################# LOOK
+
 
     s.append('Regarder : ')
     
