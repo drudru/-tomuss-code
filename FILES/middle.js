@@ -551,10 +551,7 @@ for(var type_i in types)
 	      "<b>Élargir la colonne</b><br>" +
 	      "Ce changement n'est pas visible par les autres utilisateurs."
 	      ) + '</td><td>' +
-   hidden_txt('<a href="javascript:import_column();">Imp.</a>',
-	      "<b>Importer</b> des valeurs dans cette colonne.<br>" +
-	      "Cliquez pour avoir plus d'information"
-	      ) + '</td><td>' +
+   column_input_attr('import') + '</td><td>' +
    column_input_attr('fill') + '</td><td>' +
    column_input_attr('export') + '</td><td>' +
    hidden_txt('<a href="javascript:column_delete();">Dét.</a>',

@@ -28,3 +28,49 @@ class ColumnExport(ColumnFill):
     Cliquez pour avoir plus d'information"""
     action = "export_column"
     title = 'Exp.'
+    css = """
+
+DIV.export_div { 
+  border: 4px solid green ;
+}
+
+/* Also used by 'import' */
+
+DIV.import_export { 
+  position: absolute;
+  left: 10%;
+  right: 10%;
+  top: 25%;
+  padding: 0.5em ;
+  z-index: 10;
+}
+DIV.import_export TEXTAREA { 
+  width: 100%;
+}
+
+DIV.import_export, DIV#import_export P  { 
+  background-color: #DDD ;
+}
+
+DIV.import_export H2 { margin: 0px ; }
+
+
+DIV.import_export BUTTON.close { 
+  position:absolute;
+  right:0px;
+  top: 0px;
+}
+DIV.import_export UL { 
+margin-top: 0px ;
+margin-bottom: 0px ;
+ }
+
+DIV.import_export PRE { 
+margin: 0px ;
+margin-left: 1em ;
+ }
+
+DIV.import_export TD { width: 50% }
+DIV.import_export TABLE { width: 100% ; }
+
+"""

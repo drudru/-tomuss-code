@@ -19,16 +19,14 @@
 #
 #    Contact: Thierry.EXCOFFIER@bat710.univ-lyon1.fr
 
-from column import ColumnAttr
+from columnexport import ColumnExport
 
-class ColumnFill(ColumnAttr):
-    name = "fill"
-    tip = """<b>Remplir</b> cette colonne avec des valeurs.<br>
-    Plusieurs méthodes de remplissage sont possibles."""
-    gui_display = "GUI_a"
-    need_authorization = 0
-    action = "fill_column"
-    title = 'Remp.'
-    default_value = 1
-    check_and_set = 'function() { return 1; }'
-    css = "DIV.fill_column_div { border: 4px solid red ; }"
+class ColumnImport(ColumnExport):
+    name = "import"
+    tip = """<b>Importer</b> des valeurs dans cette colonne.<br>
+    Cliquez pour avoir plus d'information"""
+    action = "import_column"
+    title = 'Imp.'
+    css = "DIV.import_div { border: 4px solid red ; }"
+
+
