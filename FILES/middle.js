@@ -554,10 +554,7 @@ for(var type_i in types)
    column_input_attr('import') + '</td><td>' +
    column_input_attr('fill') + '</td><td>' +
    column_input_attr('export') + '</td><td>' +
-   hidden_txt('<a href="javascript:column_delete();">Dét.</a>',
-	      "<b>Détruit cette colonne</b> si elle est vide.<br>" +
-	      "CETTE ACTION N'EST PAS RÉVERSIBLE"
-	      ) + '</td><td>' +
+   column_input_attr('delete') + '</td><td>' +
    column_input_attr('freezed') + '</td><td>' +
    hidden_txt('<a href="javascript:hide_column();">&times;</a>',
 	      "<b>Cache cette colonne</b><br>" +

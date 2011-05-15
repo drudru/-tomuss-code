@@ -224,46 +224,6 @@ function column_used_in_average(name)
   return false ;
 }
 
-function column_delete()
-{
-  var column = the_current_cell.column ;
-  var empty = column_empty_of_cells(column.data_col) ;
-  if ( column.real_type.cell_is_modifiable && ! empty )
-    {
-      alert('On peut seulement détruire des colonnes vides.\n\nVous devez donc d\'abord vider la colonne en cliquant sur "Remp."') ;
-      return ;
-    }
-  if ( column.author == '*' && column.data_col < 6 )
-    {
-      alert("Il est interdit d'enlever cette colonne") ;
-      return ;
-    }
-  if ( ! column_change_allowed(column) )
-    {
-      alert("La colonne n'a pas été créée par vous mais par " + column.author +
-	    " et vous n'êtes pas responsable de l'UE : " + teachers) ;
-      return ;
-    }
-  var c = column_used_in_average(column.title) ;
-  if ( c )
-    {
-      alert("Cette colonne est utilisée par la colonne «" + c + '»') ;
-      return ;
-    }
-  if ( column.the_local_id !== undefined )
-    {
-      alert("Cette colonne n'existe pas encore.\nPour afficher moins de colonnes sur l'écran, changez le nombre de colonnes à afficher dans le menu en haut de la case «Tableau».") ;
-      return ;
-    }
-  if ( ! empty )
-    if (!confirm("Voulez-vous vraiment détruire la colonne : " + column.title))
-      return ;
-
-  append_image(undefined, 'column_delete/' + column.the_id) ;
-  Xcolumn_delete(' ', column.the_id) ;
-  the_current_cell.update_headers() ;
-}
-
 function save_position_column(column, td)
 {
   column_attr_set(column, 'position', column.position, td) ;
