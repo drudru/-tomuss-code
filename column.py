@@ -53,6 +53,7 @@ class ColumnAttr(object):
     computed = 0                    # Is a computed attribute (not modifiable)
     tip = ''                        # Helpful message
     what = 'column'                 # It is a 'column' attribute
+    strokable = 1                   # The <A> is strokable if false
     priority = 0
     gui_display = 'GUI_input'
     action = ''
@@ -166,6 +167,7 @@ class ColumnAttr(object):
                 ',tip:' + js(self.tip) +
                 ',name:' + js(self.name) +
                 ',what:' + js(self.what) +
+                ',strokable:' + js(self.strokable) +
                 '}')
 
 class TableAttr(ColumnAttr):

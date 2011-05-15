@@ -25,7 +25,7 @@ class ColumnHidden(ColumnAttr):
     computed = 1
     default_value = 0
     name = 'hidden'
-    check_and_set = 'test_float'
+    check_and_set = "function(value, column) { return value ;}"
 
     def encode(self, value):
         try:
@@ -36,3 +36,15 @@ class ColumnHidden(ColumnAttr):
         if value in ('0', '1',0,1):
             return ''
         return "Valeur invalide pour 'hidden':" + repr(value)
+
+    gui_display = "GUI_a"
+    need_authorization = 0
+    tip = """<b>Cache cette colonne</b><br>
+    Ce changement n'est pas visible par les<br>
+    autres utilisateurs.<br>
+    Une fois cachée, il faut actualiser la page<br>
+    pour faire réapparaître la colonne."""
+    action = "hide_column"
+    title = '&times;'
+    strokable = 0
+

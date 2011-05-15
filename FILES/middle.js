@@ -556,16 +556,8 @@ for(var type_i in types)
    column_input_attr('export') + '</td><td>' +
    column_input_attr('delete') + '</td><td>' +
    column_input_attr('freezed') + '</td><td>' +
-   hidden_txt('<a href="javascript:hide_column();">&times;</a>',
-	      "<b>Cache cette colonne</b><br>" +
-	      "Ce changement n'est pas visible par les<br>" +
-	      "autres utilisateurs.<br>" +
-	      "Une fois cachée, il faut actualiser la page<br>" +
-	      "pour la faire réapparaître"
-	      ) +
-
+   column_input_attr('hidden') +
    '</td></tr></table></div><table id="t_column_stats"><tr><td>' +
-
 
    hidden_txt('<div id="t_column_histogram"></div>',
 	      "Histogramme des valeurs des cellules de la colonne<br>"+

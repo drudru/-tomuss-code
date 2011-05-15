@@ -2553,7 +2553,7 @@ function update_attribute_value(e, attr, table, editable)
     case 'A':
       var x = e.className.replace('linkstroked', '') ;
       var old_class = e.className ;
-      if ( ! value )
+      if ( ! value && attr.strokable )
 	x += ' linkstroked' ;
       if ( !!value != (old_class.search('linkstroked') == -1) )
 	{
@@ -2602,10 +2602,11 @@ function current_update_column_headers()
 	continue ;
       if ( column_attributes[attr].computed )
 	{
-	  update_value_and_tip(e,
-			       column_attributes[attr].formatter(column,
-								 column[attr])
-			       ) ;
+	  if ( e.tagName == 'INPUT' )
+	    update_value_and_tip(e,
+				 column_attributes[attr].formatter(column,
+								   column[attr]
+								   )) ;
 	  continue ;
 	}
       if ( ! column_modifiable_attr(attr, column) )

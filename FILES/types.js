@@ -145,13 +145,6 @@ function my_focus(event)
 Column actions
 ******************************************************************************/
 
-function hide_column()
-{
-  var column = the_current_cell.column ;
-  column.hidden = 1 ;
-  table_fill(false, true) ;
-}
-
 function bigger_column()
 {
   var column = the_current_cell.column ;
