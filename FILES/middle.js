@@ -556,11 +556,7 @@ for(var type_i in types)
 	      "Cliquez pour avoir plus d'information"
 	      ) + '</td><td>' +
    column_input_attr('fill') + '</td><td>' +
-   hidden_txt('<a href="javascript:export_column();">Exp.</a>',
-	      "<b>Exporter</b> les valeurs de cette colonne<br>" +
-	      "afin de les importer dans les fichiers pour APOGÉE<br>" +
-	      "Cliquez pour avoir plus d'information"
-	      ) + '</td><td>' +
+   column_input_attr('export') + '</td><td>' +
    hidden_txt('<a href="javascript:column_delete();">Dét.</a>',
 	      "<b>Détruit cette colonne</b> si elle est vide.<br>" +
 	      "CETTE ACTION N'EST PAS RÉVERSIBLE"

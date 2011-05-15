@@ -2153,30 +2153,6 @@ function cell_value_fixed()
       return tofixed(v) ;
 }
 
-function cell_value_export()
-{
-  var xx = a_float(this.value) ;
-  if ( isNaN(xx) )
-    {
-      xx = this.value.toString() ;
-      switch(xx)
-	{
-	case 'NaN': return '' ;
-	case abi: return 'ABI' ;
-	case abj: return abjvalue ;
-	case ppn: return ppnvalue ;
-	default: return xx ;
-	}
-    }
-  else
-    {
-      if ( xx < 0 )
-	xx = 0 ;
-      return tofixedapogee(xx) ;
-    }
-}
-
-
 function cell_comment_html()
 {
   return html(this.comment) ;
@@ -2318,13 +2294,11 @@ function cell_get_data()
   return 'C(' + v + ',' + js(this.author) + ',' + js(this.date) + ',' + js(this.comment) + ')' ;
 }
 
-
 Cell.prototype.save = cell_save ;
 Cell.prototype.get_data = cell_get_data ;
 Cell.prototype.restore = cell_restore ;
 Cell.prototype.value_html = cell_value_html ;
 Cell.prototype.value_fixed = cell_value_fixed ;
-Cell.prototype.value_export = cell_value_export ;
 Cell.prototype.set_value = cell_set_value2 ;
 Cell.prototype.set_weight = cell_set_weight ;
 Cell.prototype.set_comment = cell_set_comment ;
