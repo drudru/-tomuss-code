@@ -85,7 +85,7 @@ class ColumnAttr(object):
         return value
         
     def set(self, table, page, column, value):
-        """Set the value of te attribute"""
+        """Set the value of the attribute"""
         if table.loading:
             setattr(column, self.name, self.encode(value))
             if self.name != 'comment': # Historical remnent

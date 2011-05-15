@@ -555,10 +555,7 @@ for(var type_i in types)
 	      "<b>Importer</b> des valeurs dans cette colonne.<br>" +
 	      "Cliquez pour avoir plus d'information"
 	      ) + '</td><td>' +
-   hidden_txt('<a href="javascript:fill_column();">Remp.</a>',
-	      "<b>Remplir</b> cette colonne avec des valeurs.<br>" +
-	      "Plusieurs méthodes sont possibles."
-	      ) + '</td><td>' +
+   column_input_attr('fill') + '</td><td>' +
    hidden_txt('<a href="javascript:export_column();">Exp.</a>',
 	      "<b>Exporter</b> les valeurs de cette colonne<br>" +
 	      "afin de les importer dans les fichiers pour APOGÉE<br>" +
@@ -762,79 +759,6 @@ function create_popup(html_class, title, before, after, default_answer)
   popup.getElementsByTagName('TEXTAREA')[0].focus() ;
 }
 
-
-function fill_column()
-{
-  var m = '' ;
-
-  if ( table_attr.autosave )
-    m = '<div style="text-align:right" id="stop_the_auto_save">' +
-      'Cette opération ne sera pas annulable.<br>' +
-      'Désactivez la <a href="#" onclick="table_autosave_toggle();document.getElementById(\'stop_the_auto_save\').style.display=\'none\';">'+
-      'sauvegarde automatique</a> pour être tranquille,<br>' +
-      ' vous la réactiverez après avoir vérifié le résultat.</div>';
-
-
-  create_popup('fill_column_div',
-	       'Remplir la colonne «'
-	       + the_current_cell.column.title + '»',
-	       'Indiquez une valeur par ligne dans la zone de saisie.<br>' +
-	       'Les valeurs seront recopiées '+
-	       'autant de fois que nécessaire pour remplir la colonne de' +
-	       ' la table telle qu\'elle apparaît sur l\'écran.' +
-	       m
-	       ,
-	       "Pour remplir la colonne, cliquez sur le bouton indiquant " +
-	       "dans quel ordre seront insérées les valeurs. " +
-	       "Si vous avez indiqué les valeurs A, B et C sur 3 lignes :<br>" +
-	       '<BUTTON OnClick="fill_column_do_aabb();">AAAABBBBCCCC</BUTTON> ou '+
-	       '<BUTTON OnClick="fill_column_do_abab();">ABCABCABCABC</BUTTON>.'
-	       ) ;
-}
-
-function fill_column_do_aabb()
-{
-  var values = popup_value() ;
-  var i, value ;
-
-  alert_append_start() ;
-  for(data_lin in filtered_lines)
-    {
-      i = Math.floor((values.length * data_lin) / filtered_lines.length) ;
-      if ( i >= values.length )
-	i = values.length ;
-      value = values[i] ;
-      cell_set_value_real(filtered_lines[data_lin].number,
-			  the_current_cell.data_col,
-			  value) ;
-    }
-  alert_append_stop() ;
-  popup_close() ;
-  the_current_cell.column.need_update = true ;
-  update_columns() ;
-  table_fill() ;
-}
-
-function fill_column_do_abab()
-{
-  var values = popup_value() ;
-  var i, value ;
-
-  alert_append_start() ;
-  for(data_lin in filtered_lines)
-    {
-      i = data_lin % values.length ;
-      value = values[i] ;
-      cell_set_value_real(filtered_lines[data_lin].number,
-			  the_current_cell.data_col,
-			  value) ;
-    }
-  alert_append_stop() ;
-  the_current_cell.column.need_update = true ;
-  update_columns() ;
-  popup_close() ;
-  table_fill() ;
-}
 
 
 function tail_html()
