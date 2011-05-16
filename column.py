@@ -147,7 +147,7 @@ class ColumnAttr(object):
 
     def js(self):
         """Attribute JavaScript description"""
-        return (self.name +
+        return ('"' + self.name + '"' +
                 ':{' +
                 'display_table:' + str(self.display_table)+
                 ',update_horizontal_scrollbar:' + str(self.update_horizontal_scrollbar)+

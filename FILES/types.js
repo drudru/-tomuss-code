@@ -1,6 +1,6 @@
 /*
     TOMUSS: The Online Multi User Simple Spreadsheet
-    Copyright (C) 2008,2009 Thierry EXCOFFIER, Universite Claude Bernard
+    Copyright (C) 2008-2011 Thierry EXCOFFIER, Universite Claude Bernard
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -65,11 +65,6 @@ function alert_append(x)
   else
     alert_merged += '\n' + x ;
 }
- 
-
-
-
-
 
 /******************************************************************************
 When an header change, update cells
@@ -145,59 +140,6 @@ function my_focus(event)
 Column actions
 ******************************************************************************/
 
-function bigger_column()
-{
-  var column = the_current_cell.column ;
-  column.width += 1 ;
-  table_header_fill() ;
-  setTimeout('update_table_size()', 200) ;
-}
-
-function smaller_column()
-{
-  var column = the_current_cell.column ;
-  if ( column.width > 1 )
-    {
-      column.width -= 1 ;
-      table_header_fill() ;
-      setTimeout('update_table_size()', 200) ;
-    }
-}
-
-function left_column(column)
-{
-  if ( table_fill_queued )
-    return ; // XXX Hide a bug (moving column quickly lost it sometimes)
-
-  var cls = column_list(0, columns.length) ;
-
-  var i = myindex(cls, column) ;
-
-  if ( i == 1 )
-    column.position = cls[0].position - 1 ;
-  else if ( i !== 0 )
-    column.position = (cls[i-1].position + cls[i-2].position) / 2 ;
-
-  table_fill(false, true) ;
-}
-
-function right_column(column)
-{
-  if ( table_fill_queued )
-    return ; // XXX Hide a bug (moving column quickly lost it sometimes)
-
-  var cls = column_list(0, columns.length) ;
-
-  var i = myindex(cls, column) ;
-
-  if ( i == cls.length - 2 )
-    column.position = cls[i+1].position + 1 ;
-  else if ( i != cls.length - 1 )
-    column.position = (cls[i+1].position + cls[i+2].position) / 2 ;
-
-  table_fill(false, true) ;
-}
-
 function column_title_to_data_col(title)
 {
   for(var data_col in columns)
@@ -215,11 +157,6 @@ function column_used_in_average(name)
 	  return column.title ;
     }
   return false ;
-}
-
-function save_width_column(column, td)
-{
-  column_attr_set(column, 'width', column.width, td) ;
 }
 
 /******************************************************************************

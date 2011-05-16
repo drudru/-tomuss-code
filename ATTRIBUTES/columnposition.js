@@ -28,6 +28,40 @@ function save_position_column(the_id)
   column_attr_set(column, 'position', column.position, td, true) ;
 }
 
+function left_column(column)
+{
+  if ( table_fill_queued )
+    return ; // XXX Hide a bug (moving column quickly lost it sometimes)
+
+  var cls = column_list(0, columns.length) ;
+
+  var i = myindex(cls, column) ;
+
+  if ( i == 1 )
+    column.position = cls[0].position - 1 ;
+  else if ( i !== 0 )
+    column.position = (cls[i-1].position + cls[i-2].position) / 2 ;
+
+  table_fill(false, true) ;
+}
+
+function right_column(column)
+{
+  if ( table_fill_queued )
+    return ; // XXX Hide a bug (moving column quickly lost it sometimes)
+
+  var cls = column_list(0, columns.length) ;
+
+  var i = myindex(cls, column) ;
+
+  if ( i == cls.length - 2 )
+    column.position = cls[i+1].position + 1 ;
+  else if ( i != cls.length - 1 )
+    column.position = (cls[i+1].position + cls[i+2].position) / 2 ;
+
+  table_fill(false, true) ;
+}
+
 function do_move_column_right()
 {
   var x ;

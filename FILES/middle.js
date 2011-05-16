@@ -542,10 +542,7 @@ for(var type_i in types)
 	      "<b>Amincir la colonne</b><br>" +
 	      "Ce changement n'est pas visible par les autres utilisateurs."
 	      ) + '&nbsp;' +
-   hidden_txt('<span id="t_save_width"><a href="javascript:save_width_column(the_current_cell.column,document.getElementById(\'t_save_width\'))">L</a></span>',
-	      "<b>Sauve la largeur courante de cette colonne</b>.<br>" +
-	      "Le changement sera alors visible par les autres."
-	      ) + '&nbsp;' +
+   column_input_attr('width') +
    hidden_txt('<a href="javascript:bigger_column();">+</a>',
 	      "<b>Élargir la colonne</b><br>" +
 	      "Ce changement n'est pas visible par les autres utilisateurs."

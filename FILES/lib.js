@@ -2861,10 +2861,15 @@ function append_image(td, text, force)
     {
       if ( td.childNodes[0] !== undefined
 	   && td.childNodes[0].style !== undefined )
-	if ( td.childNodes[0].id === '' )
-	  td.childNodes[0].style.width = td.childNodes[0].offsetWidth - 7 ;
-	else
-	  td.childNodes[0].style.width = td.childNodes[0].offsetWidth - 0 ;
+	{
+	  var width ;
+	  if ( td.childNodes[0].id === '' )
+	    width = td.childNodes[0].offsetWidth - 7 ;
+	  else
+	    width = td.childNodes[0].offsetWidth - 0 ;
+	  if ( width > 0 )
+	    td.childNodes[0].style.width = width ;
+	}
 
       s = url_base() ;
       request.image = s.childNodes[0] ;
@@ -3515,67 +3520,6 @@ function student_search(id)
       return Number(data_lin) ;
 }
 
-
-function full_import()
-{
-  var cls = column_list_all() ;
-
-  if ( filtered_lines.length !== 0 )
-    {
-      alert("Il est interdit d'importer dans une table non vide") ;
-      return ;
-    }
-
-  var import_lines = popup_value() ;
-  var line, nr_cols, new_lines, new_lines_id ;
-  new_lines = [] ;
-  for(var a in import_lines)
-    {
-      var line = parseLineCSV(import_lines[a]) ;
-      if ( nr_cols === undefined )
-	nr_cols = line.length ;
-      else
-	if ( line.length > nr_cols )
-	  {
-	    alert('Nombre de colonnes variable... La première ligne doit être la plus longue.') ;
-	    return ;
-	  }
-	else
-	  {
-	    while( line.length != nr_cols )
-	      line.push('') ;
-	  }
-      new_lines.push(line) ;
-    }
-  if ( ! confirm("Confirmez l'importation de " + new_lines.length +
-		 ' lignes et de ' + nr_cols + ' colonnes ?\n\nAucun retour en arrière ne sera possible.\nAucun autre import CSV ne sera possible.\n\nCet importation peut prendre ' + (new_lines.length*nr_cols)/10 + ' secondes') )
-    return ;
-
-
-  for(var data_col=0; data_col < nr_cols; data_col++)
-    {
-      if ( columns[data_col] === undefined )
-	add_empty_column() ;
-      column_attr_set(columns[data_col], 'type', 'Text')
-      column_attr_set(columns[data_col], 'title', 'csv_' + data_col)
-      create_column(columns[data_col]) ;
-    }
-
-  for(var data_line in new_lines)
-    for(var data_col=0 ; data_col < nr_cols ; data_col++ )
-      cell_set_value_real(data_line, data_col,
-			  new_lines[data_line][data_col]) ;
-
-  the_current_cell.jump(nr_headers,0,false,0,0) ;
-  
-
-  // mettre a jours colonnes, envoyer au serveur
-
-  popup_close() ;
-  table_init() ;
-  table_fill(false, true) ;
-}
-
 function remove_highlight()
 {
   if ( the_current_line )
@@ -3610,12 +3554,6 @@ function hide_the_tip(real)
 function tip_bottom_right()
 {
   tip_fixed = 1 - tip_fixed ;
-}
-
-function add_a_master(t)
-{
-  append_image(undefined, 'add_a_master/' + t.value.toLowerCase()) ;
-  t.value = '' ; // Was WAIT A MOMENT
 }
 
 function update_popup_on_red_line()
