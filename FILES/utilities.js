@@ -2602,7 +2602,7 @@ function current_update_column_headers()
 	continue ;
       if ( column_attributes[attr].computed )
 	{
-	  if ( e.tagName == 'INPUT' )
+	  if ( e.tagName == 'INPUT' || e.tagName == 'SPAN' ) // XXX
 	    update_value_and_tip(e,
 				 column_attributes[attr].formatter(column,
 								   column[attr]
