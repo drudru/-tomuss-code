@@ -100,6 +100,12 @@ function get_all_options()
 
   _d('start get_all_options\n') ;
 
+  if ( window.location.pathname.search('=user=') != -1 )
+    {
+      root = [] ;
+      i_am_root = false ;
+    }
+
   if ( window.location.pathname.search('=tipfixed=') != -1 )
     tip_fixed = 1 ;
 
