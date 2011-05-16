@@ -358,10 +358,14 @@ function data_lin_from_td(td)
   return data_lin_from_lin(lin_from_td(td)) ;
 }
 
+// The parameter can be an event or an HTML element
 function the_td(event)
 {
-  event = the_event(event) ;
-  var td = event.target ;
+  var td ;
+  if ( event && event.tagName )
+    td = event ;
+  else
+    td = the_event(event).target ;
   if ( td.tagName == 'INPUT' || td.tagName == 'SELECT' || td.tagName == 'IMG' )
     return td.parentNode ;
   else
@@ -3026,30 +3030,6 @@ function toggle_display_tips()
   if ( ! display_tips )
     hide_the_tip_real() ;
 }
-
-function do_move_column_right()
-{
-  var x ;
-  if (the_current_cell.col == table_attr.nr_columns - 1 )
-    x = the_current_cell.data_col - 1 ;
-  var col = the_current_cell.col ;
-  var column = the_current_cell.column ;
-  the_current_cell.cursor_right() ;
-  right_column(column) ;
-  if ( col == table_attr.nr_columns - 1 )
-    next_page_horizontal_data_col = x ;
-}
-
-function do_move_column_left()
-{
-  var col = the_current_cell.col ;
-  var column = the_current_cell.column ;
-  the_current_cell.cursor_left() ;
-  left_column(column) ;
-  if ( col === 0 )
-    next_page_horizontal_data_col = 0 ;
-}
-
 
 // Set comment
 

@@ -217,11 +217,6 @@ function column_used_in_average(name)
   return false ;
 }
 
-function save_position_column(column, td)
-{
-  column_attr_set(column, 'position', column.position, td) ;
-}
-
 function save_width_column(column, td)
 {
   column_attr_set(column, 'width', column.width, td) ;

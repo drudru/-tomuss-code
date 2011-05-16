@@ -176,7 +176,7 @@ function one_line(text, tip)
   return '<div class="one_line">' + hidden_txt(text, tip) + '</div>' ;
 }
 
-function column_attr_set(column, attr, value, td)
+function column_attr_set(column, attr, value, td, force_save)
 {
   var old_value = column[attr] ;
   var i_can_modify_column = column_change_allowed(column) ;
@@ -222,9 +222,10 @@ function column_attr_set(column, attr, value, td)
   if ( create_column(column) && attr == 'title' )
     return new_value ; // The title is yet sended to the server
 
-  column[attr] = new_value ;  
+  column[attr] = new_value ;
 
-  if ( i_can_modify_column && ! column_attributes[attr].action )
+  if ( i_can_modify_column
+       && ( ! column_attributes[attr].action || force_save ) )
     {
       append_image(td, 'column_attr_' + attr + '/' + column.the_id + '/' +
 		   encode_uri(new_value)) ;
@@ -411,19 +412,20 @@ function an_input_attribute(attr, options, prefix_id, prefix_)
   var tip = attr.tip ;
   if ( i_am_root )
     tip += '<hr><b>' + prefix_id + attr.name + '</b>' ;
+  var the_id = prefix_id + attr.name ;
 
   switch(attr.gui_display)
     {
     case 'GUI_input':
-      return hidden_txt(header_input(prefix_id + attr.name,
-				     prefix_ + attr.name, options), tip) ;
+      return hidden_txt(header_input(the_id, prefix_ + attr.name,options),tip);
     case 'GUI_a':
       return hidden_txt('<a href="javascript:'
-			+ attr.action + '()"' +
-			' id="' + prefix_id + attr.name + '">' +
+			+ attr.action + '(\'' + the_id + '\')"' +
+			' id="' + the_id + '">' +
 			attr.title + '</a>', tip) ;
     case 'GUI_button':
-      return hidden_txt('<input type="button" class="gui_button" id="' + prefix_id + attr.name + '" '
+      return hidden_txt('<input type="button" class="gui_button" id="'
+			+ the_id + '" '
 			+ 'onclick="' + attr.action + '(this);'
 			+ 'setTimeout(\'linefilter.focus()\',100)"'
 			+ ' value="' + attr.title + '">',
@@ -435,7 +437,7 @@ function an_input_attribute(attr, options, prefix_id, prefix_)
                                   + options[i][1] + '</OPTION>' ;
       
       return hidden_txt('<select onfocus="take_focus(this);" id="'
-			+ prefix_id + attr.name + '" onChange="this.blur();'
+			+ the_id + '" onChange="this.blur();'
                         + "header_change_on_update(event,this,'" +
 			prefix_ + attr.name + "');"
 			+ attr.action + '(this)"'
@@ -529,10 +531,7 @@ for(var type_i in types)
 	      "<b>Décale la colonne vers la gauche</b><br>" +
 	      "Ce changement n'est pas visible par les autres utilisateurs."
 	      ) +
-   hidden_txt('<span id="t_save_position"><a href="javascript:save_position_column(the_current_cell.column,document.getElementById(\'t_save_position\'))">P</a></span>',
-	      "<b>Sauve la position courante de cette colonne</b>.<br>" +
-	      "Le changement sera alors visible par les autres."
-	      ) +
+   column_input_attr('position') +
    hidden_txt('<a href="javascript:do_move_column_right();">»</a>',
 	      "<b>Décale la colonne vers la droite</b><br>" +
 	      "Ce changement n'est pas visible par les autres utilisateurs."

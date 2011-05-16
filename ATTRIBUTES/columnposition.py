@@ -27,3 +27,9 @@ class ColumnPosition(ColumnAttr):
     check_and_set = 'test_float'
     def encode(self, value):
         return float(value)
+    tip = """<b>Sauve la position courante de cette colonne</b>.<br>
+    Le changement sera alors visible par les autres."""
+    action = 'save_position_column'
+    title = 'P'
+    gui_display = "GUI_a"
+    strokable = 0

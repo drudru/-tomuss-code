@@ -1,0 +1,54 @@
+// -*- coding: utf-8 -*-
+/*
+  TOMUSS: The Online Multi User Simple Spreadsheet
+  Copyright (C) 2011 Thierry EXCOFFIER, Universite Claude Bernard
+
+  This program is free software; you can redistribute it and/or modify
+  it under the terms of the GNU General Public License as published by
+  the Free Software Foundation; either version 2 of the License, or
+  (at your option) any later version.
+
+  This program is distributed in the hope that it will be useful,
+  but WITHOUT ANY WARRANTY; without even the implied warranty of
+  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  GNU General Public License for more details.
+
+  You should have received a copy of the GNU General Public License
+  along with this program; if not, write to the Free Software
+  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+
+  Contact: Thierry.EXCOFFIER@bat710.univ-lyon1.fr
+*/
+
+function save_position_column(the_id)
+{
+  var column = the_current_cell.column ;
+  var td = the_td(document.getElementById(the_id)) ;
+
+  column_attr_set(column, 'position', column.position, td, true) ;
+}
+
+function do_move_column_right()
+{
+  var x ;
+  if (the_current_cell.col == table_attr.nr_columns - 1 )
+    x = the_current_cell.data_col - 1 ;
+  var col = the_current_cell.col ;
+  var column = the_current_cell.column ;
+  the_current_cell.cursor_right() ;
+  right_column(column) ;
+  if ( col == table_attr.nr_columns - 1 )
+    next_page_horizontal_data_col = x ;
+}
+
+function do_move_column_left()
+{
+  var col = the_current_cell.col ;
+  var column = the_current_cell.column ;
+  the_current_cell.cursor_left() ;
+  left_column(column) ;
+  if ( col === 0 )
+    next_page_horizontal_data_col = 0 ;
+}
+
+
