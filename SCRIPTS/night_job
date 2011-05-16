@@ -25,7 +25,7 @@ M=''
 for I in LOGS/xxx_crontab_*
 do
   N=$(expr $(grep -ic traceback $I) - $(grep -ic shutdown $I))
-  if [ "$N" != 0 ]
+  if [ "$N" -gt 0 ]
   then
     M="$M $I"
   fi
