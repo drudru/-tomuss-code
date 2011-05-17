@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 #    TOMUSS: The Online Multi User Simple Spreadsheet
-#    Copyright (C) 2009 Thierry EXCOFFIER, Universite Claude Bernard
+#    Copyright (C) 2009-2011 Thierry EXCOFFIER, Universite Claude Bernard
 #
 #    This program is free software; you can redistribute it and/or modify
 #    it under the terms of the GNU General Public License as published by
@@ -27,6 +27,8 @@ import socket
 
 live_status = []
 
+# xxx = open('xxx', 'w')
+
 class File(object):
     nr_active_thread = 0
     to_send = {}
@@ -46,26 +48,28 @@ class File(object):
         self.send.append(txt)
         self.keep_open = keep_open
 
+    def delete(self):
+        del File.to_send[self.file]
+        File.nr_active_thread -= 1
+
     def send_text(self):
         """Return True if a text is sent"""
         assert(self.in_processing)
         append.the_lock.acquire()
         try:
-            # Next line raise FireFox bug : (start buffering on many changes)
-            # txt = ''.join(self.send).replace('</script><script>','')
-            txt = ''.join(self.send)
+            # The mergin of <script> may a raise a FireFox bug.
+            txt = ''.join(self.send).replace('</script>\n<script>','')
             self.send = []
             keep_open = self.keep_open
             if txt == '':
-                # Now another thread can take job for
-                # this file because all write are done
-                self.in_processing = False
-                File.nr_active_thread -= 1
+                # Remove this sender object, no more useful
+                self.delete()
                 return False
         finally:
             append.the_lock.release()
 
         try:
+            # xxx.write('+' + txt + '\n')
             self.file.write(txt)
 
             if keep_open:
@@ -84,8 +88,7 @@ class File(object):
                     pass
             
             append.the_lock.acquire()            
-            self.in_processing = False
-            File.nr_active_thread -= 1
+            self.delete()
             append.the_lock.release()
             return False
 
@@ -99,42 +102,40 @@ def add_client(f):
     global live_status
     live_status = [fi for fi in live_status if not fi.closed]
     live_status.append(f)
-      
+
 def send_thread(verbose=False):
     while True:
         time.sleep(0.1)
         while File.to_send:
             try:
-                # Get a file to write into
-                append.the_lock.acquire()
                 try:
-                    while True: # Stopped by Exception on pop
-                        fil, f = File.to_send.popitem()
+                    # Get a file to write into
+                    append.the_lock.acquire()
+                    for f in File.to_send.values():
                         if not f.in_processing:
-                            f.in_processing = True
-                            File.nr_active_thread += 1
-                            break
-                        # If 'in_processing' is True
-                        # IT MUST BE processed by its thread.
-                        # So pop another one
+                                f.in_processing = True
+                                File.nr_active_thread += 1
+                                break
+                    else:
+                        continue # No work to do
                 finally:
                     append.the_lock.release()
-                # If here : no exception on pop
-                # While the file must be wrote, continue
+
+                # While there is content to send: continue
                 while f.send_text():
                     pass
+                # Now the File queue is empty, it self destroyed
             except socket.error: # A write error on a socket
                 utilities.warn('Write error on %s closed=%s' % (
                     f.file, f.file.closed))
-            except KeyError: # To thread trying the popitem()
-                utilities.warn('Bad pop')
-                pass
+
 @utilities.add_a_lock
 def append(f, txt, keep_open=True):
     # if not txt.startswith('GIF'): utilities.warn('%s %s %s' % (f, txt[0:20], keep_open), what='sender')
     if f is None:
         utilities.warn('f is None: ' + txt)
         return
+    # xxx.write('*' + txt + '\n')
     try:
         File.to_send[f].append(txt, keep_open)
     except KeyError:
