@@ -546,8 +546,8 @@ class Table(object):
         cell = line[column.data_col] = cell.set_value(value=value,
                                                       author=page.user_name,
                                                       date=date)
-        # Why not only if data_col==0 ?
-        self.the_key_dict = None # Dict must be recomputed
+        if column.data_col == 0:
+            self.the_key_dict = None # Dict must be recomputed
 
         if not self.loading:
             self.log('cell_change(%s,%s,%s,%s,"%s")' % (
