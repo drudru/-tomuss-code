@@ -1321,6 +1321,9 @@ def check_requests():
                     elif action == 'login_list':
                         login_list(page, utilities.safe(path[0]))
                         page.answer = 'ok.png'
+                    elif action == 'update_content':
+                        if tabl not in update_students:
+                            update_students.append(tabl)
                     else:
                         warn('BUG: %s' % str(path), what="error")
                         page.answer = 'bug.png'

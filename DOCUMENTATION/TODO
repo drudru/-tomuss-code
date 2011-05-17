@@ -1,14 +1,17 @@
 Finir par priorité :
+	Faire des plugins pour chaque fonctionnalité coté client :
+		Histogramme
+		Moyenne
+		Les filtres ?
+		popup_on_red ?
+	complétion énumeration
+	Rechargement page d'accueil si la recherche étudiant marche pas
 	Redémarrage TOMUSS et vieille pages : pas réglé.
 	Nom de jeune fille (dans Oracle, pas base IP)
 	METTRE A JOUR DOC
-	Faire des plugins pour chaque fonctionnalité coté client (colonnes).
-	Rechargement page d'accueil si la recherche étudiant marche pas
 	BUG : Le 'resume' permet d'avoir des informations non autorisées
 	BUg : le suivi étudiant permet d'avoir des informations non autorisées
-	complétion énumeration
 	Remplace querY_login par query_logins dans students_list
-	MAJ de la liste des étudiants par l'utilisateur ? regler le changement de semestre
 	Ne pas sauvegarder le new-page si pas nécessaire (comme RO) ?
 	Finir print : Sous IE : bulle d'aide
 	Dans le publipostage : mode HTML avec des vrais URL
