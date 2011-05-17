@@ -134,9 +134,12 @@ for i, ues in students.items():
     for ue in s:
         v.append( repr(ue) + ':' + str(ues[ue]) )
 
-    print i,
-    sys.stdout.flush()
-    utilities.manage_key('LOGINS', os.path.join(i, 'resume'),
-                         content='{' + ',\n'.join(v) + '}')
+    print i
+    try:
+        utilities.manage_key('LOGINS', os.path.join(i, 'resume'),
+                             content='{' + ',\n'.join(v) + '}')
+    except IOError:
+        # Non existent student
+        print 'Non existent student:', i
 
 
