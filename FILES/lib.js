@@ -3700,6 +3700,9 @@ function reconnect()
   var server_answer = document.getElementById('server_answer') ;
   if ( ! server_answer )
     return ;
+  if ( connection_state == 'auth' )
+    return ;
+
   server_answer.src = url + "/=" + ticket + '/' + year
     + '/' + semester + '/' + ue + '/' + page_id ;
   last_reconnect = millisec() ;
