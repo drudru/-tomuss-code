@@ -54,12 +54,11 @@ def content(table):
     c = the_abjs(table)
     if table.ue == 'tables':
         c += """
-<script>
 function update_student_information(line)
 {
 t_student_picture.parentNode.href = '%s/=' + ticket + '/' + year + '/' + semester + '/' + line[0].value ;
 }
-</script>""" % utilities.StaticFile._url_ 
+""" % utilities.StaticFile._url_
     else:
         c += update_student_information
 

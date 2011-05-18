@@ -32,12 +32,11 @@ def init(table):
 
 def content(table):
     return _ucbl_.update_student_suivi + """
-<script>
 function update_student_information(line)
 {
 update_student_suivi(line) ;
 }
-</script>"""
+"""
 
 check = _ucbl_.check
 

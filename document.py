@@ -911,7 +911,7 @@ la dernière saisie.
         s.append(self.content_head(page))
 
         try:
-            s.append('''<script>
+            s.append('''  <script><!--
             lines_to_load = %d ;
             %s
             function initialize()
@@ -932,9 +932,9 @@ la dernière saisie.
             s.append('runlog(columns, lines) ;')
             s.append('}')
             if self.template and hasattr(self.template, 'content'):
-                s.append(self.template.content(self).replace('<script>','').replace('</script>',''))
+                s.append(self.template.content(self))
             s.append('initialize();')
-            s.append('</script>\n')
+            s.append('--></script>  \n')
         finally:
             pass
 

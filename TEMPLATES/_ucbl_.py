@@ -29,7 +29,6 @@ import configuration
 import os
 
 update_student_suivi = """
-<script>
 function update_student_suivi(line)
 {
 var src = student_picture_url(line[0].value) ;
@@ -41,11 +40,9 @@ if ( src != t_student_picture.src )
    }
 t_student_picture.parentNode.href = suivi + '/' + line[0].value ;
 }
-</script>
 """
 
 update_student_information = update_student_suivi + """
-<script>
 function update_student_information(line)
 {
 update_student_suivi(line) ;
@@ -55,8 +52,6 @@ update_value_and_tip(t_student_firstname,
                      n.substr(0,1) + n.substr(1).toLowerCase()) ;
 update_value_and_tip(t_student_surname, line[2].value) ;
 }
-
-</script>
 """
 
 def line_empty(line):
@@ -219,7 +214,7 @@ def the_abjs(table):
                           %(js(a),js(b),js(d)) for a,b,c,d in da]),
                 js(tt.encode('utf-8'))))
 
-    return '<script>change_abjs({%s});</script>\n' % ',\n'.join(t)
+    return 'change_abjs({%s});\n' % ',\n'.join(t)
 
 def update_student(table, page, the_ids, infos):
     the_id, firstname, surname, mail, grp, seq = infos[:6]
@@ -360,7 +355,7 @@ def terminate_update(table, the_ids, page):
 
     if table.abjs.mtime != table.abjs_mtime:
         table.abjs_mtime = table.abjs.mtime
-        table.send_update(None, the_abjs(table))
+        table.send_update(None, '<script>' + the_abjs(table) + '</script>')
 
     warn("Done", what="check")
 

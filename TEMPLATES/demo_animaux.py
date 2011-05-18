@@ -29,14 +29,12 @@ from _ucbl_ import the_abjs, update_student, terminate_update, cell_change
 
 # Do not edit this first line (see SCRIPTS/install_demo)
 update_student_information = _ucbl_.update_student_information + """
-<script>
 function student_picture_url(login)
 {
   if ( login )
     return '/' + login_to_id(login) + '.png' ;
   return '' ;
 }
-</script>
 """
 
 def create(table):
