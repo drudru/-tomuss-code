@@ -5,6 +5,7 @@ Finir par priorité :
 		Les filtres ?
 		popup_on_red ?
 	complétion énumeration
+	Javascript : supprimer data_lin et utiliser les id directement
 	Rechargement page d'accueil si la recherche étudiant marche pas
 	Redémarrage TOMUSS et vieille pages : pas réglé.
 	Nom de jeune fille (dans Oracle, pas base IP)

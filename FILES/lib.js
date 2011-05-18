@@ -2479,7 +2479,8 @@ function update_value_and_tip(o, value)
   if ( o.innerHTML != v )
     {
       highlight_add(o) ;
-      o.innerHTML = v ;
+      if ( o.tagName != 'INPUT' )
+	o.innerHTML = v ;
       update_tip_from_value(o, value) ;
     }
 }
