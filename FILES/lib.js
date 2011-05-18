@@ -2901,7 +2901,7 @@ function Xcell_change(col, lin, value, date, identity, history)
       data_lin = add_empty_lines() ;
       lines_id[data_lin] = lin ;
 
-      /* Update screen : dangerous, but necessary in order to take into
+      /* XXX Update screen : dangerous, but necessary in order to take into
        account the fact that empty lines may be no more empty...
       */
       filtered_lines.push(lines[data_lin]) ;

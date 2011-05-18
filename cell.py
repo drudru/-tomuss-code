@@ -348,7 +348,7 @@ class Lines(object):
             ss.append('%s: [%s,"%s",%s]' % (js(column.title),
                                     js(v), classname, js(comment)))
         s.append(',\n'.join(ss))
-        s.append('}); </script>\n') ;
+        s.append('});</script>\n') ;
 
         if empty_line and table.ue_code != table.ue:
             # If the table name ends with -1 -2 -3...

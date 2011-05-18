@@ -1366,7 +1366,7 @@ def check_down_connections():
     while True:
         time.sleep(configuration.check_down_connections_interval)
         for ttable in tables_values():
-            ttable.send_update(None, '<script>connected()</script>')
+            ttable.send_update(None, '<script>connected();</script>')
             for page in ttable.active_pages:
                 if page.ticket not in ticket.tickets:
                     warn('%s ticked expired page=%s ticket=%s' % (

@@ -120,6 +120,6 @@ def cell_change(table, page, col, lin, value, date):
             p.invited = eval(value)
         except:
             sender.append(page.browser_file,
-                          '<script>alert("Error!")</script>')
+                          '<script>alert("Error!");</script>')
             utilities.send_backtrace('config_plugin')
     config_table.tell_to_reload_config()
