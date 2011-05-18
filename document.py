@@ -229,7 +229,7 @@ class Table(object):
         self.the_lock = threading.Lock()
         self.ro = ro
         self.mtime = 0
-        self.the_key_dict = None
+        self.the_key_dict = {}
         self.unloaded = False
         self.do_not_unload = 0
         self.modifiable = int(not ro)
@@ -518,7 +518,9 @@ class Table(object):
         if not self.authorized(page, cell):
             return self.bad_auth(page)
 
-        if str(cell.value) == str(value):
+        old_value = str(cell.value)
+        new_value = str(value)
+        if old_value == new_value:
             if cell.author == ro_user and page.user_name == rw_user:
                 # This come here only by the way of _ucbl_.py
                 # We want to allow everybody to change the value
@@ -542,13 +544,24 @@ class Table(object):
             and hasattr(self.template, 'cell_change')):
             self.template.cell_change(self, page, col, lin, value, date)
 
+        if column.data_col == 0:
+            login = utilities.the_login(old_value)
+            if login in self.the_key_dict:
+                try:
+                    self.the_key_dict[login].remove(lin)
+                except:
+                    utilities.warn(login + ' ' + lin + ' ' + repr(self.the_key_dict[login]))
+
+            login = utilities.the_login(new_value)
+            if login in self.the_key_dict:
+                self.the_key_dict[login].append(lin)
+            else:
+                self.the_key_dict[login] = [lin]
+
         # The class may change on value change
         cell = line[column.data_col] = cell.set_value(value=value,
                                                       author=page.user_name,
                                                       date=date)
-        if column.data_col == 0:
-            self.the_key_dict = None # Dict must be recomputed
-
         if not self.loading:
             self.log('cell_change(%s,%s,%s,%s,"%s")' % (
                 page.page_id,
@@ -827,6 +840,7 @@ la dernière saisie.
 
     def the_keys(self):
         """Returns a dictionary for fast access by student login"""
+        return self.the_key_dict
         if self.the_key_dict:
             return self.the_key_dict
         d = {}
