@@ -33,7 +33,6 @@ BODY.tomuss, BODY.tomuss TABLE INPUT, BODY.tomuss TABLE TD, BODY.tomuss TH, BODY
 }
 
 
-
 BODY.autosavefailed, BODY.autosavefailed P, BODY.autosavefailed H1, BODY.autosavefailed TABLE.tablehelp TD, BODY.autosavefailed TABLE.tablehelp TH, BODY.autosavefailed #menutop TD  { background-color: #F88 ; }
 
 .identity {
@@ -487,20 +486,18 @@ INPUT#comment { width: 100% ; clear: both; }
  }
 #menutop INPUT.gui_button:hover { background: #FFF ; }
 
-
-#menutop #t_column_author, #menutop DIV.menu, #menutop #teachers, #menutop #t_history { font-size: 80% ; }
-
 #menutop IMG.server {
   width: 4px ;
 }
 
+#menutop DIV.menu, #menutop #t_history { font-size: 80% ; }
 #menutop DIV.menu TABLE {  width: 100% ; }
 #menutop DIV.menu TABLE TD {
   width: 16% ;
   text-align: center;
 }
 
-#comment.empty, #t_column_comment.empty, #t_table_attr_comment.empty {
+#comment.empty {
   background-image: url("comment.png");
   background-repeat: no-repeat;
 }
@@ -519,8 +516,6 @@ TR.separator TD {
 
 TR#dates TD { padding: 3px ;
 }
-
-
 
 .hidden_on_paper {  background: #FF8; margin: 0px; }
 .printable_introduction {

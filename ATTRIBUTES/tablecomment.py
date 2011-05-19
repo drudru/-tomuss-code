@@ -26,3 +26,9 @@ class TableComment(TableAttr):
     tip = """Tapez un commentaire pour cette table.<br>
 Ce commentaire sera visible par les étudiants<br>
 dans leur suivi, précédé du texte : «<em>Petit message</em>»"""
+    css = '''
+#t_table_attr_comment.empty {
+  background-image: url("comment.png");
+  background-repeat: no-repeat;
+}
+'''

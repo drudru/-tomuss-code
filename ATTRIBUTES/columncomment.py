@@ -28,3 +28,8 @@ class ColumnComment(ColumnAttr):
     check_and_set = 'set_comment'
     tip = """<b>Commentaire pour cette colonne.</b><br>
     Il est visible par les étudiants."""
+    css = '''
+#t_column_comment.empty {
+  background-image: url("comment.png");
+  background-repeat: no-repeat;
+}'''

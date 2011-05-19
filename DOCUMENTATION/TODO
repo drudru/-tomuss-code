@@ -1,8 +1,10 @@
 Finir par priorité :
+	Scroolbar jamais visible : enlever ?
 	Faire des plugins pour chaque fonctionnalité coté client :
 		Les filtres ?
 		popup_on_red ?
 	complétion énumeration
+	Pourcentage d'ABJ en fonction du poids
 	Javascript : supprimer data_lin et utiliser les id directement
 	Rechargement page d'accueil si la recherche étudiant marche pas
 	Redémarrage TOMUSS et vieille pages : pas réglé.
