@@ -423,6 +423,8 @@ function an_input_attribute(attr, options, prefix_id, prefix_)
 			+ attr.action + '(\'' + the_id + '\')"' +
 			' id="' + the_id + '">' +
 			attr.title + '</a>', tip) ;
+    case 'GUI_none':
+      return attr.title ;
     case 'GUI_button':
       return hidden_txt('<input type="button" class="gui_button" id="'
 			+ the_id + '" '
@@ -553,18 +555,9 @@ for(var type_i in types)
    column_input_attr('delete') + '</td><td>' +
    column_input_attr('freezed') + '</td><td>' +
    column_input_attr('hidden') +
-   '</td></tr></table></div><table id="t_column_stats"><tr><td>' +
+   '</td></tr></table></div>' +
 
-   hidden_txt('<div id="t_column_histogram"></div>',
-	      "Histogramme des valeurs des cellules de la colonne<br>"+
-	      "en tenant compte du filtrage.<br>"+
-	      "Les colonnes de gauche indiquent le nombre de cases<br>"+
-	      "contenant des valeurs particulières :<br>" +
-	      "PPN, ABI, ABJ, PRE, OUI, NON et vide"
-	      ) + '</td><td class="m">' +
-
-   hidden_txt('<div id="t_column_average"></div>',
-	      "Moyenne des nombres de la colonne.") + '</td></tr></table>' +
+   column_input_attr('stats') +
  
    '<td class="space"><td class="blocktop">' +
    hidden_txt('<span id="nr_filtered_lines"></span>/<span id="nr_not_empty_lines"></span> lignes',

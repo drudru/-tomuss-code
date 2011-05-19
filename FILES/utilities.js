@@ -2322,169 +2322,6 @@ Cell.prototype.toString = cell_tostring ;
  *
  *****************************************************************************/
 
-function svg_rect(x, y, width, height, classe)
-{
-  var r = document.createElementNS("http://www.w3.org/2000/svg",'rect') ;
-  r.setAttribute('x', x);
-  r.setAttribute('y', y);
-  if ( width < 0 )
-    width = 0 ;
-  r.setAttribute('width', width);
-  r.setAttribute('height', height);
-  if ( classe )
-    r.setAttribute('class', classe);
-  return r ;
-}
-
-function svg_text(text)
-{
-  var r = document.createElementNS("http://www.w3.org/2000/svg",'text') ;
-  if ( r.textContent !== undefined )
-    r.textContent = text ;
-  else
-    r.innerText = text ;
-  return r ;
-}
-
-function histogram_bar(cls, x, dx, dy, maxmax, v, is_note, val_min, val_max,
-		       container)
-{
-  var h = (dy*v) / maxmax ;
-
-  if ( is_note )
-    {
-      label = (val_max - val_min) * cls / 20. + val_min ;
-      if ( isNaN(label) )
-	label = '' ;
-      else
-	if ( val_max - val_min >= 20 )
-	  label = label.toFixed(0) ;
-	else
-	  label = label.toFixed(1) ;
-    }
-  else
-    label = cls ;
-
-  var r = svg_rect(x, dy - h, dx, h, 'a' + cls) ;
-  container.appendChild(r) ;
-  r = svg_text(label) ;
-  r.setAttribute('transform', 'translate(' + (x+dx/1.5) + ',0),rotate(-90)');
-  container.appendChild(r) ;
-}
-
-var update_histogram_data_col = -1 ;
-var update_histogram_id ;
-var svg_object, svg_style ;
-
-function update_histogram_real()
-{
-  do_update_histogram = false ;
-  if ( the_current_cell.data_col == update_histogram_data_col )
-    return ;
-  if ( ! t_column_histogram )
-    return ;
-  update_histogram_data_col = the_current_cell.data_col ;
-
-
-  var dx = (t_column_histogram.offsetWidth-1) / 27 ;
-  var dy = t_column_histogram.offsetHeight ;
-  var font_size = Math.min( (dx/0.9).toFixed(0), (dy/2.4).toFixed(0) ) ;
-  var the_style =
-    'rect { stroke: #000 ; stroke-opacity: 0.5 ; stroke-width:1 }' +
-    '.a0, .a1, .a2, .a3, .a4 { fill: #F00 }' +
-    '.a5, .a6, .a7, .a8, .a9 { fill: #FA0 }' +
-    '.a10, .a11, .a12, .a13, .a14 { fill: #AFA }' +
-    '.a15, .a16, .a17, .a18, .a19 { fill: #0F0 }' +
-    '.appn { fill: #F8F }' +
-    '.anan { fill: #FFF }' +
-    '.aabi { fill: #F88 }' +
-    '.aabj { fill: #88F }' +
-    '.apre { fill: #8F8 }' +
-    '.aoui { fill: #8FF }' +
-    '.anon  { fill: #FF8 }' +
-    'text { text-anchor:end; font-size:' + font_size + 'px; }' ;
-  var stats = compute_histogram(the_current_cell.data_col) ;
-  var i ;
-  var maxmax = stats.maxmax() ;
-  var s = '' ;
-
-  if ( ! svg_object )
-    {
-      var d ;
-      try
-	{
-	  d = document.createElementNS("http://www.w3.org/2000/svg",
-				       'svg');
-	}
-      catch(err)
-	{
-	  return ;
-	}
-      t_column_histogram.appendChild(d) ;
-      svg_style=document.createElementNS("http://www.w3.org/2000/svg",'style');
-      d.appendChild(svg_style) ;
-      svg_object = document.createElementNS("http://www.w3.org/2000/svg", 'g');
-      d.appendChild(svg_object) ;
-    }
-  if ( svg_style.textContent !== undefined )
-    svg_style.textContent = the_style ;
-  else
-    svg_style.innerText = the_style ;
-
-  while ( svg_object.firstChild )
-    svg_object.removeChild(svg_object.firstChild) ;
-
-  s+= histogram_bar('ppn',0*dx,dx,dy,maxmax,stats.nr_ppn(),false,0,0,svg_object);
-  s+= histogram_bar('abi',1*dx,dx,dy,maxmax,stats.nr_abi(),false,0,0,svg_object);
-  s+= histogram_bar('abj',2*dx,dx,dy,maxmax,stats.nr_abj(),false,0,0,svg_object);
-  s+= histogram_bar('pre',3*dx,dx,dy,maxmax,stats.nr_pre(),false,0,0,svg_object);
-  s+= histogram_bar('oui',4*dx,dx,dy,maxmax,stats.nr_yes(),false,0,0,svg_object);
-  s+= histogram_bar('non',5*dx,dx,dy,maxmax,stats.nr_no (),false,0,0,svg_object);
-  s+= histogram_bar('nan',6*dx,dx,dy,maxmax,stats.nr_nan(),false,0,0,svg_object);
-
-  for(i=0; i<20; i++)
-    s += histogram_bar(i, (i+7)*dx, dx, dy, maxmax, stats.histogram[i],
-		       the_current_cell.column.real_type.should_be_a_float,
-		       the_current_cell.column.min,
-		       the_current_cell.column.max,
-		       svg_object
-		       ) ;
-
-  i = stats.average() ;
-  if ( i > 1 )
-    i = i.toFixed(1) ;
-  else
-    i = i.toFixed(2) ;
-  t_column_average.innerHTML = i ;
-  update_tip_from_value(t_column_average,
-			stats.nr + ' valeurs<br>' + stats.html_resume()) ;
-
-  t = "Vide (ou inclassable) : " + stats.nr_nan() + '<br>' ;
-  if ( stats.nr_ppn() ) t += "Peut Pas Noter : " + stats.nr_ppn() + '<br>' ;
-  if ( stats.nr_abi() ) t += "ABI : " + stats.nr_abi() + '<br>' ;
-  if ( stats.nr_abj() ) t += "ABJ : " + stats.nr_abj() + '<br>' ;
-  if ( stats.nr_pre() ) t += "Présent : " + stats.nr_pre() + '<br>' ;
-  if ( stats.nr_yes() ) t += "OUI : " + stats.nr_yes() + '<br>' ;
-  if ( stats.nr_no()  ) t += "NON : " + stats.nr_no() + '<br>' ;
-  if ( stats.nr )       t += "Notes : " + stats.nr + '<br>' ;
-
-  // + '\n' : explanation in update_tip_from_value
-  update_tip_from_value(t_column_histogram, t + '\n') ;
-}
-
-function update_histogram(force)
-{
-  if ( t_column_histogram === undefined )
-    return ;
-  if ( force )
-    update_histogram_data_col = -1 ;
-
-  if ( update_histogram_id )
-    clearTimeout(update_histogram_id) ;
-
-  update_histogram_id = setTimeout(update_histogram_real, 300) ;
-}
-
 function set_select_by_value(element, value)
 {
   var options = element.getElementsByTagName('OPTION') ;
@@ -2579,7 +2416,7 @@ function update_attribute_value(e, attr, table, editable)
 	}
       return ;
     default:
-      e.innerHTML = formatted ;
+      return ;
     }
   set_editable(e, editable) ;
 }
@@ -2614,17 +2451,12 @@ function current_update_column_headers()
 	  e.parentNode.style.display = 'none' ;
 	  continue ;
 	}
+      if ( column_attributes[attr].gui_display == 'GUI_none' )
+	eval(column_attributes[attr].action + '()') ;
       e.parentNode.style.display = '' ;
       update_attribute_value(e, column_attributes[attr], column,
 			     !column_attributes[attr].need_authorization
 			     || !disabled) ;
-    }
-
-  if ( t_column_histogram )
-    {
-      t_column_histogram.style.display = '' ;
-      t_column_average.style.display = '' ;
-      update_histogram() ;
     }
 }
 

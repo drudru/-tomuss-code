@@ -113,8 +113,6 @@ var t_value ;
 var t_history ;
 var t_date ;
 var t_author ;
-var t_column_histogram ;
-var t_column_average ;
 var t_menutop ;
 
 // Redefined if needed
@@ -146,8 +144,6 @@ function lib_init()
   t_history            = document.getElementById('t_history'            );
   t_date               = document.getElementById('t_date'               );
   t_author             = document.getElementById('t_author'             );
-  t_column_histogram   = document.getElementById('t_column_histogram'   );
-  t_column_average     = document.getElementById('t_column_average'     );
   t_menutop            = document.getElementById('menutop'              );
   server_feedback      = document.getElementById('server_feedback'      );
 
