@@ -1,8 +1,9 @@
 Finir par priorité :
-	Scroolbar jamais visible : enlever ?
-	Faire des plugins pour chaque fonctionnalité coté client :
-		Les filtres ?
-		popup_on_red ?
+	'root' a le droit de modifier 'visible' même s'il n'est pas responsable
+	Le résultat de moyenne est modifiable (mais modif refusée)
+	Finir print : Sous IE : bulle d'aide
+
+	Scroolbar chargement jamais visible : enlever ?
 	complétion énumeration
 	Pourcentage d'ABJ en fonction du poids
 	Javascript : supprimer data_lin et utiliser les id directement
@@ -14,11 +15,13 @@ Finir par priorité :
 	BUg : le suivi étudiant permet d'avoir des informations non autorisées
 	Remplace querY_login par query_logins dans students_list
 	Ne pas sauvegarder le new-page si pas nécessaire (comme RO) ?
-	Finir print : Sous IE : bulle d'aide
 	Dans le publipostage : mode HTML avec des vrais URL
 	Dans le suivi : moyenne des notes en plus du rang.
 	Copier une table en vidant l'historique ou non, meme semestre ou pas
 	Pylint
+	Faire des plugins pour chaque fonctionnalité coté client :
+		Les filtres ?
+		popup_on_red ?
 	Sauvegarde de l'état figé...
 	Heure sur le graph livestatus
 	Doc plugins

@@ -23,6 +23,9 @@
 # BUG : In many places, there is missing :
 #                 unicode(...., configuration.ldap_encoding)
 
+if __name__ == "__main__":
+    import SCRIPTS.tomuss_init
+
 import time
 import configuration
 import utilities
@@ -641,11 +644,12 @@ demo_animaux = {
     }
 
 if __name__ == "__main__":
-    import document # If not here, this main can't execute ???
-    configuration.terminate()
-    inscrits.init()
-    L = inscrits.LDAP()
-    for i in firstname_or_surname_to_logins('thierry'):
+    # import document # If not here, this main can't execute ???
+    # configuration.terminate()
+    # init()
+    import inscrits
+    L = inscrits.L_fast
+    for i in L.students('UE-BIO2010L'):
         print i
     print L.phone('thierry.excoffier')
     print L.ues_of_a_student('p0704986')
