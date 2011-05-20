@@ -23,11 +23,7 @@ from columnfill import ColumnFill
 
 class ColumnStats(ColumnFill):
     name = "stats"
-    tip = """Histogramme des valeurs des cellules de la colonne<br>
-    en tenant compte du filtrage.<br>
-    Les colonnes de gauche indiquent le nombre de cases<br>
-    contenant des valeurs particulières :<br>
-    PPN, ABI, ABJ, PRE, OUI, NON et vide"""
+    tip = "?"
     action = "update_histogram"
     gui_display = "GUI_none"
     title = '''
@@ -35,7 +31,13 @@ class ColumnStats(ColumnFill):
 <tr>
 <td>
 <script>
-hidden('<div id="t_column_histogram"></div>', 'HISOT')
+hidden('<div id="t_column_histogram"></div>',
+       'Histogramme des valeurs des cellules de la colonne<br>'
+       + "en tenant compte du filtrage.<br>"
+       + "Les colonnes de gauche indiquent le nombre de cases<br>"
+       + "contenant des valeurs particulières :<br>"
+       + "PPN, ABI, ABJ, PRE, OUI, NON et vide"
+       )
 </script>
 </td><td class="m">
 <script>
