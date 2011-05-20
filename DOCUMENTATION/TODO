@@ -1,5 +1,4 @@
 Finir par priorité :
-	'root' a le droit de modifier 'visible' même s'il n'est pas responsable
 	Le résultat de moyenne est modifiable (mais modif refusée)
 	Finir print : Sous IE : bulle d'aide
 
@@ -9,7 +8,6 @@ Finir par priorité :
 	Javascript : supprimer data_lin et utiliser les id directement
 	Rechargement page d'accueil si la recherche étudiant marche pas
 	Redémarrage TOMUSS et vieille pages : pas réglé.
-	Nom de jeune fille (dans Oracle, pas base IP)
 	METTRE A JOUR DOC
 	BUG : Le 'resume' permet d'avoir des informations non autorisées
 	BUg : le suivi étudiant permet d'avoir des informations non autorisées

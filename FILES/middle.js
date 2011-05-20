@@ -241,7 +241,7 @@ function column_attr_set(column, attr, value, td, force_save)
 
 function table_change_allowed()
 {
-  return i_am_the_teacher || i_am_root || !table_attr.masters[0] ;
+  return i_am_the_teacher || !table_attr.masters[0] ;
 }
 
 
@@ -252,7 +252,8 @@ function table_attr_set(attr, value, td)
   if ( old_value == value )
     return  ;
 
-  if ( ! table_attributes[attr].action && ! table_change_allowed() )
+  if ( ! table_attributes[attr].action && ! table_change_allowed()
+       && ! i_am_root )
     {
       alert_append("Vous n'êtes pas autorisé à modifier cette valeur.\nSeul l'un des responsables d'UE peut le faire : " + teachers) ;
       return ;
