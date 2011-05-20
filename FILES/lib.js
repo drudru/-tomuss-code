@@ -2456,6 +2456,14 @@ function update_tip_from_value(o, value)
   if ( !o )
     return ;
   var e = tip_top(o).childNodes[0].lastChild ;
+
+  // XXX
+  // with IE there is a problem because 'e' can be a 'text' element
+  // It is impossible : so where is the bug ?
+  // It is raised on 'column_columns' tip attribute
+  if ( e.className === undefined )
+    return ;
+
   e.className = 'more' ;
 
   if ( value.substr(value.length-1) != '\n' ) // Tip with HTML inside
