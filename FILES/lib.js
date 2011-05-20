@@ -3207,7 +3207,7 @@ function columns_in_javascript()
       p = [] ;
 
       for(var attr in column_attributes)
-	p.push(attr + ':' + js(column[attr])) ;
+	p.push('"' + attr + '":' + js(column[attr])) ;
 
       p.push("green_filter:" + column.color_green_filter) ;
       p.push("red_filter:" + column.color_red_filter) ;
