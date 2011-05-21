@@ -1123,14 +1123,17 @@ function display_statistics(object)
   p.push('<p class="hidden_on_paper">Exporter dans un tableur : faites un copier/coller de toute la page dans votre tableur (Ctrl-A Ctrl-C Ctrl-V)');
   p.push('<table class="hidden_on_paper">') ;
 
-  var t = [] ;
-  for(var data_col in columns)
-    if ( ! columns[data_col].is_empty )
-      t.push(display_button(data_col, columns[data_col].title,
-			    ! columns[data_col].hidden
-			    && columns[data_col].type == 'Note',
-			    'columns_to_display',
-			    html(columns[data_col].comment)));
+  var t = [], cols = column_list_all() ;
+  for(var data_col in cols)
+    {
+      data_col = cols[data_col].toString() ;
+      if ( ! columns[data_col].is_empty )
+	t.push(display_button(data_col, columns[data_col].title,
+			      ! columns[data_col].hidden
+			      && columns[data_col].type == 'Note',
+			      'columns_to_display',
+			      html(columns[data_col].comment)));
+    }
   print_choice_line(p, 'Colonnes à afficher',
 		    'Choisissez les colonnes à afficher.',
 		    t.join(' '),
@@ -1138,8 +1141,9 @@ function display_statistics(object)
 
   t = [] ;
   var column ;
-  for(var data_col in columns)
+  for(var data_col in cols)
     {
+      data_col = cols[data_col].toString() ;
       column = columns[data_col] ;
       if ( column.is_empty )
 	continue ;

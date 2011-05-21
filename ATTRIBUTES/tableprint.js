@@ -359,25 +359,31 @@ function print_selection(object, emargement)
 		    + ' obligatoirement sur une seule ligne.',
 		    radio_buttons('uniform',['oui', 'non'], 'oui'));
 
-  var t = [] ;
-  for(var data_col in columns)
+  var t = [], cols = column_list_all() ;
+  for(var data_col in cols)
+    {
+      data_col = cols[data_col].toString() ;
       if ( ! columns[data_col].is_empty )
 	t.push(display_button(data_col, columns[data_col].title,
 			      ! columns[data_col].hidden,
 			      'columns_to_display',
 			      html(columns[data_col].comment)));
+    }
   print_choice_line(p, 'Colonnes à afficher',
 		    'Choisissez les colonnes à afficher.',
 		    t.join(' '),
 		    'columns_to_display') ;
 
   t = [] ;
-  for(var data_col in columns)
-    if ( ! columns[data_col].is_empty )
-      t.push(display_button(data_col, columns[data_col].title,
-			    false,
-			    'grouped_by',
-			    html(columns[data_col].comment)));
+  for(var data_col in cols)
+    {
+      data_col = cols[data_col].toString() ;
+      if ( ! columns[data_col].is_empty )
+	t.push(display_button(data_col, columns[data_col].title,
+			      false,
+			      'grouped_by',
+			      html(columns[data_col].comment)));
+    }
   print_choice_line(p, 'Paginer par',
 		    'Critère indiquant quand il faut changer de page lors de l\'impression.<br>On peut utiliser ceci pour faire une feuille d\'émargement par salle de TP ou enseignant.',
 		    t.join(' '),
