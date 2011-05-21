@@ -460,6 +460,22 @@ les yeux fermés, tous les cas n'ont pas du être testés.
       </description>
       <guid>34</guid>
     </item>
+    <item>
+      <title>21/05/2011 : Version 2.14.4</title>
+      <link>http://tomuss.univ-lyon1.fr/</link>
+      <description>
+Beaucoup d'améliorations de fonctionnement, notamment pour les utilisateurs
+d'Internet Explorer.
+&lt;ul&gt;
+&lt;li&gt; La page de gestion des justificatifs d'absence est plus claire.
+&lt;li&gt; Dans le suivi de l'étudiant il y a un lien pour envoyer un
+          message à tous les enseignants de l'étudiant.
+&lt;li&gt; Il y a maintenant l'auto-complétion pour les colonnes
+          de type présence, booléen et énumération.
+&lt;/ul&gt;
+      </description>
+      <guid>35</guid>
+    </item>
 
   </channel>
 </rss>

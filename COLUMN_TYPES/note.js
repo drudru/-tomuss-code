@@ -77,7 +77,7 @@ function test_note(value, column)
   var vv = test_prst(v, column) ;
   if ( vv !== '' && vv !== pre )
     return vv ;
-  if ( v === 'N' || v === ppn )
+  if ( v === 'N' || v == 'PP' || v === ppn )
     return ppn ;
   if ( v === '' )
     return v ;

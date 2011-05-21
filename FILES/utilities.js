@@ -2122,21 +2122,12 @@ function set_selection(e, start_pos, end_pos)
     else if(document.selection)
     {
       var i ;
-        e.focus();
-        var tr = e.createTextRange();
-
-        //Fix IE from counting the newline characters as two seperate characters
-        var stop_it = start_pos;
-        for (i=0; i < stop_it; i++)
-	  if( e.value[i].search(/[\r\n]/) != -1 ) start_pos = start_pos - .5;
-        stop_it = end_pos;
-        for (i=0; i < stop_it; i++)
-	  if( e.value[i].search(/[\r\n]/) != -1 ) end_pos = end_pos - .5;
-
-        tr.moveEnd('textedit', -1);
-        tr.moveStart('character', start_pos);
-        tr.moveEnd('character', end_pos - start_pos);
-        tr.select();
+      e.focus();
+      var tr = e.createTextRange();
+      tr.moveEnd('textedit', -1);
+      tr.moveStart('character', start_pos);
+      tr.moveEnd('character', end_pos - start_pos);
+      tr.select();
     }
     return get_selection(e);
 }
@@ -2917,7 +2908,9 @@ function current_keydown(event, in_input)
 
   // __d('alt=' + event.altKey + ' ctrl=' + event.ctrlKey + ' key=' + key + ' charcode=' + event.charCode + ' which=' + event.real_event.which + '\n') ;
 
-  var selection = get_selection(this.input) ;
+  var selection ;
+  if ( event.target === this.input )
+    selection = get_selection(this.input) ;
 
   switch(key)
     {
@@ -2978,12 +2971,32 @@ function current_keydown(event, in_input)
 	      return false ;
 	    }
 	}
+      // completion only in table cells
+      if (  event.target === this.input && key >= 32 ) // No control code
+	setTimeout("the_current_cell.do_completion()") ;
       return true ;
     }
   stop_event(event) ;
   return false ;
 }
 
+function current_do_completion()
+{
+  alert_merged = '' ;
+  var completion = this.column.real_type.cell_test(this.input.value,
+						   this.column) ;
+  alert_merged = false ;
+  if ( completion && completion.substr
+       && completion.substr(0, this.input.value.length).toLowerCase()
+       == this.input.value.toLowerCase())
+    {
+      completion = completion.substr(this.input.value.length) ;
+      this.input.value += completion ;
+      set_selection(this.input,
+		    this.input.value.length - completion.length,
+		    this.input.value.length) ;
+    }
+}
 
 var current_change_running = false ;
 
@@ -3078,6 +3091,7 @@ Current.prototype.cursor_right          = current_cursor_right          ;
 Current.prototype.focus                 = current_focus                 ;
 Current.prototype.toggle                = current_toggle                ;
 Current.prototype.cell_modifiable       = current_cell_modifiable       ;
+Current.prototype.do_completion         = current_do_completion         ;
 Current.prototype.update_headers        = current_update_headers        ;
 Current.prototype.update_headers_real   = current_update_headers_real   ;
 Current.prototype.update_cell_headers   = current_update_cell_headers   ;
