@@ -1,5 +1,4 @@
 Finir par priorité :
-	Finir print : Sous IE : bulle d'aide
 	Scroolbar chargement jamais visible : enlever ?
 	complétion énumeration
 	Pourcentage d'ABJ en fonction du poids
@@ -42,7 +41,13 @@ Finir par priorité :
 	Accelerer le chargement de la liste des référents.
 	Droit d'accès : généraliser la notion de groupe, pouvoir en créer
 	Mettre le ticket en fin d'URL ?
-	Version fichier statiques dans l'URL ?
+	Version TOMUSS du fichier statiques dans l'URL ?
+
+	Finir print : Sous IE : bulle d'aide le problème est du au fait
+		que le html généré utilise une fonction d'un script non
+		encore chargé. Il faut que la génération du HTML soit
+		elle-même dans un script qui sera appelé après...
+		Ou alors : redefinir la fonction 'hidden'
 
     BUGS :
 	Stats : Impression et sauvegarde sous Chrome

@@ -2049,6 +2049,112 @@ function update_students()
   document.getElementById('students_list').innerHTML = 'Recherche en cours' ;
 }
 
+
+/*
+ * The selection functions came from :
+ * http://stackoverflow.com/questions/401593/javascript-textarea-selection/403526#403526
+ */
+
+function get_selection(e)
+{
+    //Mozilla and DOM 3.0
+    if('selectionStart' in e)
+    {
+        var l = e.selectionEnd - e.selectionStart;
+        return { start: e.selectionStart,
+                   end: e.selectionEnd,
+                length: l,
+                  text: e.value.substr(e.selectionStart, l) };
+    }
+    //IE
+    else if(document.selection)
+    {
+        e.focus();
+        var r = document.selection.createRange();
+        var tr = e.createTextRange();
+        var tr2 = tr.duplicate();
+        tr2.moveToBookmark(r.getBookmark());
+        tr.setEndPoint('EndToStart', tr2);
+        if (r == null || tr == null)
+	  return { start: e.value.length,
+                     end: e.value.length,
+                  length: 0,
+                    text: '' };
+	//for some reason IE doesn't always count the \n and \r in the length
+        var text_part = r.text.replace(/[\r\n]/g, '.');
+        var text_whole = e.value.replace(/[\r\n]/g, '.');
+        var the_start = text_whole.indexOf(text_part, tr.text.length);
+        return { start: the_start,
+                   end: the_start + text_part.length,
+                length: text_part.length,
+                  text: r.text };
+    }
+    //Browser not supported
+    else return { start: e.value.length,
+                    end: e.value.length,
+                 length: 0, text: '' };
+}
+
+function replace_selection(e, replace_str)
+{
+    selection = get_selection(e);
+    var start_pos = selection.start;
+    var end_pos = start_pos + replace_str.length;
+    e.value = e.value.substr(0, start_pos) + replace_str
+              + e.value.substr(selection.end, e.value.length);
+    set_selection(e, start_pos, end_pos);
+    return {start: start_pos,
+              end: end_pos,
+           length: replace_str.length,
+             text: replace_str};
+}
+
+function set_selection(e, start_pos, end_pos)
+{
+    //Mozilla and DOM 3.0
+    if('selectionStart' in e)
+    {
+        e.focus();
+        e.selectionStart = start_pos;
+        e.selectionEnd = end_pos;
+    }
+    //IE
+    else if(document.selection)
+    {
+      var i ;
+        e.focus();
+        var tr = e.createTextRange();
+
+        //Fix IE from counting the newline characters as two seperate characters
+        var stop_it = start_pos;
+        for (i=0; i < stop_it; i++)
+	  if( e.value[i].search(/[\r\n]/) != -1 ) start_pos = start_pos - .5;
+        stop_it = end_pos;
+        for (i=0; i < stop_it; i++)
+	  if( e.value[i].search(/[\r\n]/) != -1 ) end_pos = end_pos - .5;
+
+        tr.moveEnd('textedit', -1);
+        tr.moveStart('character', start_pos);
+        tr.moveEnd('character', end_pos - start_pos);
+        tr.select();
+    }
+    return get_selection(e);
+}
+
+function wrap_selection(e, left_str, right_str, sel_offset, sel_length)
+{
+    var the_sel_text = get_selection(e).text;
+    var selection =  replace_selection(e, left_str + the_sel_text + right_str);
+    if(sel_offset !== undefined && sel_length !== undefined)
+      selection = set_selection(e, selection.start + sel_offset,
+				selection.start + sel_offset + sel_length);
+    else
+      if(the_sel_text == '')
+	selection = set_selection(e, selection.start + left_str.length,
+				  selection.start + left_str.length);
+    return selection;
+}
+
 /******************************************************************************
  *
  *
@@ -2811,6 +2917,8 @@ function current_keydown(event, in_input)
 
   // __d('alt=' + event.altKey + ' ctrl=' + event.ctrlKey + ' key=' + key + ' charcode=' + event.charCode + ' which=' + event.real_event.which + '\n') ;
 
+  var selection = get_selection(this.input) ;
+
   switch(key)
     {
     case 40: this.cursor_down() ; break ;
@@ -2824,10 +2932,10 @@ function current_keydown(event, in_input)
       if ( event.ctrlKey
 	   || this.input.value.length === 0
 	   || !this.cell_modifiable()
-	   || ((this.input.selectionEnd === this.input.textLength ||
-		this.input.selectionEnd === this.input.value.length ||
-		this.input.selectionEnd === 0)
-	       && this.input.selectionStart === 0)
+	   || ((selection.end === this.input.textLength ||
+		selection.end === this.input.value.length ||
+		selection.end === 0)
+	       && selection.start === 0)
 	   )
 	this.cursor_left() ;
       else
@@ -2845,11 +2953,8 @@ function current_keydown(event, in_input)
       if ( event.ctrlKey
 	   || this.input.value.length === 0
 	   || !this.cell_modifiable()
-	   || (this.input.selectionEnd !== undefined
-	       && (this.input.textLength == this.input.selectionEnd
-		   || this.input.value.length == this.input.selectionEnd
-		   )
-	       )
+	   || this.input.textLength == selection.end
+	   || this.input.value.length == selection.end
 	   )
 	this.cursor_right() ;
       else
