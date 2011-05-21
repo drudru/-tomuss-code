@@ -24,7 +24,6 @@ import note
 class Moy(note.Note):
     human_priority = -8
     full_title = 'Moyenne'
-    tip_cell = "Cellule non modifiable"
     cell_test = 'test_read_only'
     cell_compute = 'compute_average'
     cell_is_modifiable = 0

@@ -2664,6 +2664,11 @@ function current_focus()
     this.input.select() ;
 }
 
+function current_cell_modifiable()
+{
+  return this.cell.modifiable() && this.column.real_type.cell_is_modifiable ;
+}
+   
 // Update input from real table content (external change)
 function current_update(do_not_focus)
 {
@@ -2818,7 +2823,7 @@ function current_keydown(event, in_input)
 	return true ;
       if ( event.ctrlKey
 	   || this.input.value.length === 0
-	   || !this.cell.modifiable()
+	   || !this.cell_modifiable()
 	   || ((this.input.selectionEnd === this.input.textLength ||
 		this.input.selectionEnd === this.input.value.length ||
 		this.input.selectionEnd === 0)
@@ -2839,7 +2844,7 @@ function current_keydown(event, in_input)
 	return true ;
       if ( event.ctrlKey
 	   || this.input.value.length === 0
-	   || !this.cell.modifiable()
+	   || !this.cell_modifiable()
 	   || (this.input.selectionEnd !== undefined
 	       && (this.input.textLength == this.input.selectionEnd
 		   || this.input.value.length == this.input.selectionEnd
@@ -2857,7 +2862,7 @@ function current_keydown(event, in_input)
       this.input.focus() ;
       break ;
     default:
-      if ( ! this.cell.modifiable() )
+      if ( ! this.cell_modifiable() )
 	{
 	  if ( event.ctrlKey === false && element_focused === undefined )
 	    {
@@ -2967,6 +2972,7 @@ Current.prototype.cursor_left           = current_cursor_left           ;
 Current.prototype.cursor_right          = current_cursor_right          ;
 Current.prototype.focus                 = current_focus                 ;
 Current.prototype.toggle                = current_toggle                ;
+Current.prototype.cell_modifiable       = current_cell_modifiable       ;
 Current.prototype.update_headers        = current_update_headers        ;
 Current.prototype.update_headers_real   = current_update_headers_real   ;
 Current.prototype.update_cell_headers   = current_update_cell_headers   ;
