@@ -1,147 +1,225 @@
-Finir par priorité :
-	Scroolbar chargement jamais visible : enlever ?
-	Pourcentage d'ABJ en fonction du poids
-	Javascript : supprimer data_lin et utiliser les id directement
-	Rechargement page d'accueil si la recherche étudiant marche pas
-	Redémarrage TOMUSS et vieille pages : pas réglé.
-	METTRE A JOUR DOC
-	BUG : Le 'resume' permet d'avoir des informations non autorisées
-	BUg : le suivi étudiant permet d'avoir des informations non autorisées
-	Remplace querY_login par query_logins dans students_list
-	Ne pas sauvegarder le new-page si pas nécessaire (comme RO) ?
-	Dans le publipostage : mode HTML avec des vrais URL
-	Dans le suivi : moyenne des notes en plus du rang.
-	Copier une table en vidant l'historique ou non, meme semestre ou pas
-	Pylint
-	Faire des plugins pour chaque fonctionnalité coté client :
-		Les filtres ?
-		popup_on_red ?
-	Sauvegarde de l'état figé...
-	Heure sur le graph livestatus
-	Doc plugins
-	choix année RDV IP si cela a un sens
-	Méthode javascript pour attr : editable (masters attributes)
-	Faire disparaitre UE- EC- ...
-	COW (stable) valeur vide ==> comme si rien
-	Bug ajoute + vidage de ligne avec changement de page
-	BILAN : probleme icone+note sous IE
-	RSS table : TT DA, ajouter + info dans le texte et le sujet ?
-	Mettre UNE table en lecture seulement : Envoyer mail a l'administratif
-	live_status : pong ne doit pas mettre la date courante si existe pas
-	live_status : écarter les noeuds collés.
-	live_status : afficher navigateur
-	Il faut enlever toute référence aux noms de types dans le JS
-	Calcul du poids automatique avec '?' : problème de ]1,1[, max, meilleur
-	Renommer Inscrit en _Inscrit_, garder la compatibilité pour les vieux.
-	Faire le ménage des fonctions deprecated dans les TEMPLATES
-	Rendre des cellules éditables par les étudiants dans le suivi ?
-	Normaliser date début/fin : [x, y]
-	Normaliser les dates : nombre de secondes
-	Accelerer le chargement de la liste des référents.
-	Droit d'accès : généraliser la notion de groupe, pouvoir en créer
-	Mettre le ticket en fin d'URL ?
-	Version TOMUSS du fichier statiques dans l'URL ?
+Dans chaque partie, les choses à faire sont triées par priorité.
 
-	Finir print : Sous IE : bulle d'aide le problème est du au fait
-		que le html généré utilise une fonction d'un script non
-		encore chargé. Il faut que la génération du HTML soit
-		elle-même dans un script qui sera appelé après...
-		Ou alors : redefinir la fonction 'hidden'
+==========================
+Nouvelles fonctionnalités.
+==========================
 
-    BUGS :
-	Stats : Impression et sauvegarde sous Chrome
-	liste des UE dans le suivi, change au rechargement ???
-	Copier puis drag fait n'importe quoi sur les cases du tableau.
-		Sous windows seulement
-	Fuite mémoire ?
-	BUG : Pourquoi TOMUSS charge toutes les UE (3500) !!!
-	Safari : requetes en double, page accueil
-	chrome : requetes en double (changement de valeur cellule)
-	Il n'y a pas de Flux RSS pour les tables ni printemps ni automne.
+--------------------
+Utilisateurs finaux.
+--------------------
 
-    Moyenne :
-	Redirection d'une table sur une autre (renommage).
-	linear	Afficher aide plus detaille sur la valeur de la cellule
-	Interface pour détruire les tables.
-	UE par formation
-	Interdire stockage mauvais encodage (liste étudiants ou autres)
-	Trace des actions TOMUSS stockée dans le navigateur.
-	Interface pour faire les extractions ?
-	Lien sur l'envoi de mail aux étudiants d'une UE sur la page d'accueil
-	Problème ascenseur qui apparait home page avec le + a droite
-	Python 3
-	Histogramme : échelle log sur clique
-	Statistiques : droite de régression
-	Affichage des espaces dans les cases du tableau.
-	Meta log à distance : stream
-	Chiffrer colonne.
-	Importation de colonnes d'autres tableaux : nécessite calcul serveur
-	Statistique par groupe sur une colonne quelconque
+* Pourcentage d'ABJ pour le résultat d'un calcul en fonction du poids
+  des colonnes moyennées.
 
-    Faible :
-	stat : lien vers le suivi de la personne
-	Mettre du style CSS dans le commentaire pour colorier la cellule ?
-	regtest javascript : filter, double clique
-	Faire un tip deuxième niveau (+ en haut/gauche) XXX dans utilities.js
-	Autoriser n'importe qui à modifier les infos des autres (tous respons.)
-	Espionner les filtres
-	Version ligne de commande qui liste les personnes connectées
-	WII : home.py : Largeur champ saisie est nul
-	WII : largeur colonne tableau principal
-	Tip de connexion ?	
-	ABJ/DA : interdir de les faire pour l'année universitaire suivante
-	Vérifier si les options sont envoyée dans les URL vers le serveur =xxx=
-	Vue de la table telle qu'elle était à une date donnée.
-	Type de colonne : remplace    filtre: valeur
-	Tester le nouveau utility.js()
-	Trombinoscope enseignant : voir boite a outil Intranet UCBL
-	Ajouter des droits d'accès {'UE-MAT': 'philippe.malbos'}
-	Vérifier les conflits : identité cookie / ticket (voir mails) ?
+* IE : Suivi de l'étudiant plus joli.
 
-    Amusant :
-	Surveillance actions client envoyées sur onunload
-	Histogramme date
+* Rendre des cellules éditables par les étudiants dans le suivi.
 
-Questions en suspend :
-	Nouvelle page quand on clique dans le suivi ?
-	Wizard création table ?
-	Téléphone dans suivi et fiche ?
-	Détruire les lignes vides ?
-	Temps d'apparition des tips.
-	Un utilisateur 'root' pouvant modifier toutes les valeurs ?
-	Faire erreur gentille sur mauvaise URL (sans année).	
-	Lire responsable dans GASEL ?
-	Déterminer plus fiablement quand un serveur a planté.
+* Dans le publipostage : mode HTML avec des vrais URL
 
-BUGS/Problèmes en suspend :
-	Problème accents dans opera : filtre et accueil : diacritics
-	Pouvoir patcher une table .py sans arrêter TOMUSS
-	ALT-LEFT : marche pas partout :-(
-	<10 trouve les cases vides ? Faut-il corriger ?
-	ABI => ABI et ne met pas ABINJ car INPUT change pas de valeur
-	
-Amélioration du code :
-	La gestion de _url_ dans StaticFile et de BASE est NULLE........
-	Faire proprement StaticFile
-	Devrait faire une erreur quand on créer une année/semestres inexistant
-	Dans bookmark : utiliser des ID plutot que le numéro de colonne
-	Faire de l'UTF8 partout en interne
-	Faire des objets JavaScript : ***Columns***, Line, Table, Tip...
-	Javascript : supprimer data_col data_lin et utiliser les id directement
-	Préfixer les variables globales par _ ou les supprimer (ou objet)
-	Enlever ce qui est devenu inutile.
-	Enlever les liens symboliques : trop de problèmes potentiels
+* Dans le suivi : moyenne des notes en plus du rang.
 
-NE SERA PAS FAIT :
-	Dans SUIVI : mettre directement les commentaires visibles
-		en effet, l'étudiant n'a pas à les voir par dessus
-		l'épaule du référent.
-	Enlever le javascript 'go()' de la page accueil : problème year/semest
-	Passer directement les fichiers UE à Javascript :
-		En effet, le serveur a BESOIN de les évaluer de toute façon.
-	Importation de colonnes venant du web par le client : IMPOSSIBLE 
-	Unifier les 'tip' : 2 tips simultanés possibles : photo + ABJ
-	Prendre les mail étudiants de SPIRAL : pas politiquement correcte
+* Dans le suivi : rang pour les moyennes.
+
+* Redirection d'une table sur une autre (renommage).
+
+* Copier une table en vidant l'historique ou non, même semestre ou pas
+
+* Sauvegarde de l'état figé d'une colonne (à faire dans le nouvel interface).
+
+* COW (stable) valeur vide ==> comme si rien dans la case (compliqué à faire)
+
+* IE : BILAN TOMUSS : probleme icone+note mal positionné
+
+* RSS étudiant : ajouter + d'info dans le texte et le sujet.
+
+* Mettre UNE table en lecture seulement : Envoyer mail a l'administratif
+
+* Calcul du poids automatique avec '?' : problème de ]1,1[, max, meilleur
+
+* Mettre le ticket en fin d'URL.
+
+* IE : bulle d'aide de la page impressios/stat le problème est du au fait
+  que le html généré utilise une fonction d'un script non
+  encore chargé. Il faut que la génération du HTML soit
+  elle-même dans un script qui sera appelé après...
+  Ou alors : redefinir la fonction 'hidden'
+
+* Il n'y a pas de Flux RSS pour les tables ni printemps ni automne. Le faire ?
+
+* Gestion des formations : liste des UE, fusion des UE.
+  Le gestionnaire de formation doit pouvoir passer les UE en
+  non-semestrialisée.
+
+* Importation de colonnes d'autres tableaux : nécessite calcul serveur
+
+* Interface intuitive pour faire les extractions/resumé ?
+  Ceci lié à la gestion des formations.
+
+* Lien sur l'envoi de mail aux étudiants d'une UE sur la page d'accueil.
+
+* Chiffrer colonne avec une clef saisie par l'utilisateur.
+
+* Faire un tip deuxième niveau (+ en haut/gauche) XXX dans utilities.js
+
+* Autoriser n'importe qui à modifier les infos saisies par les autres.
+  Comme si tous le monde était responsable.
+
+* Tip de connexion ?	
+
+* Trombinoscope enseignant : voir boite a outil Intranet UCBL
+
+* Wizard création table ?
+
+* Ajouter le téléphone de l'enseignant en plus du mail dans le suivi.
+
+* Détruire les lignes vides dans les tableaux ?
+
+* Temps d'apparition des tips.
+
+* En cas d'URL non reconnue, afficher un message d'erreur explicite.
+
+* Le filtre "<x" trouve les cases vides ? Faut-il corriger ?
+
+* Vue de la table telle qu'elle était à une date donnée.
+
+---------------
+Administrateur.
+---------------
+
+* Ne pas envoyer de backtrace quand il y a une page non trouvée
+  pour un table en lecture seulement.
+
+* Heures sur le graph livestatus
+
+* live_status : pong ne doit pas mettre la date courante si existe pas
+
+* live_status : écarter les noeuds collés.
+
+* live_status : afficher navigateur
+
+* Droit d'accès : généraliser la notion de groupe, pouvoir en créer.
+  Un groupe peut contenir : un groupe LDAP, une personne, un autre groupe.
+  Ne plus avoir de groupes indiqué en dur dans le code.
+
+* Interface pour détruire les tables facilement.
+  Fusionner avec destruction de tables vides et bizarres.
+
+* Trace des actions TOMUSS stockées dans le navigateur.
+
+* Histogramme : échelle log
+
+* Meta log à distance : stream
+
+* « qui fait quoi » : lien vers le suivi de la personne
+
+* Version ligne de commande qui liste les personnes connectées.
+
+=====================
+Problèmes à résoudre.
+=====================
+
+* Toute modification envoit en fin de ligne sous Chrome
+
+* La molette marche plus sous Chrome pour scroller la table.
+
+* Vérifier si les options sont envoyée dans les URL vers le serveur =xxx=
+
+* Le plugin 'resume' permet d'avoir des informations non autorisées.
+
+* Le suivi étudiant permet d'avoir des informations non autorisées.
+
+* Rechargement page d'accueil si la recherche étudiant marche pas
+
+* Redémarrage TOMUSS et vieille pages : pas réglé, le client persiste à vouloir
+  se reconnecter.
+
+* Bug ajoute ligne + vidage de ligne avec changement de page
+
+* Stats : Impression et sauvegarde sous Chrome
+
+* Version TOMUSS des fichiers statiques indiqué dans l'URL afin que les
+  changements de version se passent bien.
+
+* Copier puis drag fait n'importe quoi sur les cases du tableau.
+  Sous windows seulement
+
+* Problème ascenseur qui apparait sur la home page avec le + a droite
+
+=============================
+Améliorations de code source.
+=============================
+
+* Séparer le javascript par plugin.
+
+* Tester le nouveau utility.js()
+
+* Remplacer 'query_login' par 'query_logins' dans 'students_list'.
+
+* Scrollbar de chargement jamais visible : l'enlever ?
+
+* Javascript : supprimer data_lin et utiliser les id directement
+
+* Regtest javascript : filtre et double clique
+
+* Pylint
+
+* Faire des plugins pour chaque fonctionnalité coté client :
+  Les filtres ?
+  Popup_on_red ?
+
+* Méthode javascript pour attr : editable (masters attributes)
+
+* Faire disparaitre UE- EC- car ce n'est pas portable.
+
+* Faire disparaître Printemps/Automne
+
+* Il faut enlever toute référence aux noms de types dans le JS
+
+* Renommer Inscrit en _Inscrit_, garder la compatibilité pour les vieux.
+
+* Faire le ménage des fonctions deprecated dans les TEMPLATES
+
+* Normaliser les dates début/fin : [x, y] au lieu de "x y"
+
+* Normaliser les dates : nombre de secondes ?
+
+* Safari/Chrome : requetes en double (changement de valeur cellule)
+
+* Interdire stockage mauvais encodage (liste étudiants ou autres)
+  Ou passer sur Python3
+
+* Passage à Python 3
+
+* La gestion de _url_ dans StaticFile et de BASE est NULLE........
+  Faire proprement StaticFile. Générer des fichier externes.
+
+* Dans bookmark (save options): utiliser des ID plutot que le numéro de colonne
+
+* Faire des objets JavaScript : ***Columns***, Line, Table, Tip...
+
+* Javascript : Préfixer les variables globales par _ ou les supprimer
+
+* Enlever les liens symboliques : trop de problèmes potentiels
+
+===============================================
+Pourquoi certaines choses ne seront pas faites.
+===============================================
+
+* Il faut toujours sauvegarder le new_page même si cela ne sert à rien.
+
+* Dans SUIVI : mettre directement les commentaires visibles
+  en effet, l'étudiant n'a pas à les voir par dessus
+  l'épaule du référent.
+
+* Passer directement les fichiers python décrivant la table Javascript :
+  Non car le serveur a BESOIN de les évaluer de toute façon.
+
+* Importation de colonnes venant du web par le client : IMPOSSIBLE 
+
+* Unifier les 'tip' : 2 tips simultanés possibles : photo + ABJ
+
+* Prendre les mail étudiants de SPIRAL : pas politiquement correcte
 
 
 

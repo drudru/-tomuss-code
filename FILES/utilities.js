@@ -2972,7 +2972,8 @@ function current_keydown(event, in_input)
 	    }
 	}
       // completion only in table cells
-      if (  event.target === this.input && key >= 32 ) // No control code
+      if (  event.target === this.input && key >= 64
+	    && this.input.textLength == selection.end ) // No control code
 	setTimeout("the_current_cell.do_completion()") ;
       return true ;
     }
