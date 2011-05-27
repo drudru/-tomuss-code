@@ -2581,7 +2581,7 @@ function store_unsaved()
     return ;
   if ( ! localStorage )
     {
-      alert("Désol�, la fenêtre a été fermée sans tout sauvegarder") ;
+      alert("Désolé, la fenêtre a été fermée sans tout sauvegarder") ;
       return ;
     }
   var s = [] ;

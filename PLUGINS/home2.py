@@ -28,153 +28,12 @@ import referent
 import teacher
 import time
 import document
+import files
 
-css = '''
+top = utilities.StaticFile(os.path.join('PLUGINS','home2.html'))
 
-TABLE.top2 { empty-cells: show; width:100%; table-layout: fixed ; }
-
-TABLE.top2 TR TD { 
-  vertical-align: top ;
-}
-
-TABLE.top2 INPUT { background-color: #DDD ; }
-TABLE.top2 INPUT.search_field  {
-  background-color: white ;
-  border: 1px solid black ;
-  width: 100% ;
-}
-TABLE.top2 U { background-color: yellow; text-decoration: none }
-TABLE.top2 H2 { text-align: center; margin: 0 }
-
-TABLE.uelist, TABLE.student_list, DIV#the_students TABLE { 
-  width: 100% ;
-  table-layout: fixed ;
-  border-spacing: 0px;
-  border: 1px solid #0B0;
-}
-
-
-TABLE.with_margin { margin-top: 0.6em ; }
-
-TABLE.uelist TH, TABLE.student_list TH, DIV#the_students TABLE TH { 
-  border-bottom: 1px solid #0B0;
-  min-height: 1em ; /* Only for IE !!! */
-  
-}
-
-TABLE.searchresult { 
-  margin-top: 0em ;
-}
-
-TABLE.student_list TR.ue_list_more TD, TABLE.uelist TR.ue_list_more TD { 
-  white-space: normal ;
-}
-
-TABLE.uelist TR TD, TABLE.student_list TR TD {
-  white-space: nowrap ;
-  overflow: hidden;
-  margin: 0px ;
-  padding: 0px ;
-  color: blue;
-}
-
-COL.student_id { width: 5em; }
-COL.student_icon { width: 35px; }
-COL.code { width: 7.6em ; }
-COL.responsable { width: 10em ; }
-
-TABLE.uelist INPUT { width: 5em ;  }
-
-TABLE.uelist TR.search TD { padding: 0.4em ; color: black; }
-
-TABLE.uelist DIV.help { display: none ; font-style: italic; font-size: small }
-TABLE.uelist TR.ue_list_more DIV.help { display: block }
-
-IMG.safety { border:0 ;width: 0.7em ; vertical-align: middle  }
-
-
-
-TABLE.student_list TR.hover TD, TABLE.uelist TR.hover TD, TABLE.uelist TR.ue_list_more TD, TABLE.student_list TR.ue_list_more TD { 
-  background-color: #CCF ;
-}
-
-TABLE.uelist TR.unsaved_data TD { color: #F00; }
-
-TABLE.uelist TR.with_students TD.title { font-weight: bold ; }
-
-TABLE.uelist TR TH { height: 0.5em ; margin: 0; padding: 0 }
-
-IMG.tt { height: 1em ; float:right; }
-
-TABLE.uelist TD.title, TABLE TD.student_id { 
-border-right: 1px solid #0B0 ;
-border-left: 1px solid #0B0 ;
-}
-
-
-DIV.ue_list_more, SPAN.ue_list_more_help {
-  border: 2px outset #AAA ;
-  border: 2px outset #4F4 ;
-  background-color: #CCC ;
-}
-
-DIV.ue_list_more { 
-  position:absolute;
-}
-
-DIV.ue_list_more DIV.title:hover { 
-  background-color: #0F0 ;
-/*  padding-bottom: 2px ; Flickering hover bug in firefox */
-}
-
-DIV.ue_list_more DIV.more DIV.no_menu { display: none; }
-DIV.ue_list_more:hover DIV.more DIV.no_menu { display: block; }
-DIV.ue_list_more DIV.more DIV.no_menu:hover { display: none; }
-
-DIV.ue_list_more DIV.title { 
-  background-color: #8F8 ;
-  text-align: left;
-  font-weight: bold ;
-/*  font-size: 70%; */
-}
-
-DIV.ue_list_more DIV.more { 
-  background-color: white ;
-}
-
-DIV.ue_list_more DIV.more A:hover { 
-  text-decoration: underline ;
-}
-
-
-#feedback .frame { 
-  position: absolute ;
-  left: 25% ;
-  top: 25% ;
-  width: 20em ;
-  height: 10em ;
-  border: 2px outset #AAA ;
- }
-
-#feedback .frame DIV { 
-  width: 100% ;
-  background-color: #CCC ;
-  color: black ;
-}
-
-#feedback .frame DIV:hover { 
-  background-color: #EEE ;
-}
-
-#feedback .frame IFRAME { 
-  background-color: white ;
-  width: 100% ;
-  height: 100% ;
-}
-
-'''
-
-top = utilities.StaticFile(os.path.join('FILES','top2.html'))
+files.add('PLUGINS', 'home2.js')
+files.add('PLUGINS', 'home2.css')
 
 options = configuration.special_semesters
 urls = configuration.suivi.urls.values()
@@ -332,4 +191,4 @@ def home_page(server):
 
 
 plugin.Plugin('homepage2', '/{=}', function=home_page, teacher=True,
-              launch_thread=True, css=css)
+              launch_thread=True)
