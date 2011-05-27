@@ -25,6 +25,10 @@ import os
 import inscrits
 import configuration
 from referent import students_of_a_teacher
+import files
+
+files.add('PLUGINS', 'bilan.js')
+files.add('PLUGINS', 'bilan.css')
 
 # The bilan is computed by SCRIPTS/bilan.py once per night
 def bilan(server):

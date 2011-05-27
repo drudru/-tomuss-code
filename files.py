@@ -24,6 +24,11 @@ import os
 import configuration
 
 files = {}
+
+def add(dirname, filename):
+    files[filename] = utilities.StaticFile(os.path.join(dirname, filename))
+
+
 for name in (
     'style.css', 'hidden.css', 'suivi.css',
     'favicon.ico', 'top_tail2.js',
@@ -46,9 +51,8 @@ for name in (
     'robots.txt',
     'doc_table.html', 'doc_suivi.html', 'documentation.js', 'documentation.css',
     'stats.html', 'ticket.html',
-    'bilan.js', 'bilan.css',
     ):
-    files[name] = utilities.StaticFile(os.path.join('FILES', name))
+    add('FILES', name)
 
 for name in (
     'xxx.change.weeks.png', 'xxx.change.hours.png', 'xxx.change.days.png',
@@ -60,7 +64,7 @@ for name in (
     'all_ues.js.gz','all_ues.js',
     'premier_cours.html',
     ):
-    files[name] = utilities.StaticFile(os.path.join('TMP', name))
+    add('TMP', name)
 
 files['charte.html'].replace('files.py', '<input', '<p')
 files['style.css'].translate = lambda x:x.replace('_LOGO_', configuration.logo)

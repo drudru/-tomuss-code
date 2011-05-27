@@ -26,8 +26,7 @@ import sys
 import sender
 import files
 
-files.files['live_status.js'] = utilities.StaticFile(
-    os.path.join('PLUGINS', 'live_status.js'))
+files.add('PLUGINS', 'live_status.js')
 
 def live_status(server):
     """This page continuously display logs of the server."""
