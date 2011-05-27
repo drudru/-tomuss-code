@@ -46,7 +46,7 @@ for name in (
     'robots.txt',
     'doc_table.html', 'doc_suivi.html', 'documentation.js', 'documentation.css',
     'stats.html', 'ticket.html',
-    'live_status.js', 'bilan.js', 'bilan.css',
+    'bilan.js', 'bilan.css',
     ):
     files[name] = utilities.StaticFile(os.path.join('FILES', name))
 

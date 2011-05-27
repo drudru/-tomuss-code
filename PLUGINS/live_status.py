@@ -24,10 +24,14 @@ import utilities
 import os
 import sys
 import sender
+import files
+
+files.files['live_status.js'] = utilities.StaticFile(
+    os.path.join('PLUGINS', 'live_status.js'))
 
 def live_status(server):
     """This page continuously display logs of the server."""
-    server.the_file.write(utilities.read_file(os.path.join('FILES',
+    server.the_file.write(utilities.read_file(os.path.join('PLUGINS',
                                                            'live_status.svg')
                                               ))
     sender.add_client(server.the_file)
