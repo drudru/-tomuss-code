@@ -27,13 +27,12 @@ files = {}
 
 def add(dirname, filename):
     files[filename] = utilities.StaticFile(os.path.join(dirname, filename))
-
+    return files[filename]
 
 for name in (
-    'style.css', 'hidden.css', 'suivi.css',
+    'style.css', 'hidden.css',
     'favicon.ico', 'top_tail2.js',
     'header.png',
-    'charte.html',
     'verysafe.png', 'safe.png', 'unsafe.png', 'veryunsafe.png',
     'tip.png', 'feed.png', 'news.xml', 'eye.png', 
     'ok.png', 'bad.png', 'bug.png', 'feedback.png', 'abjus.png',
@@ -49,8 +48,8 @@ for name in (
     'abj.html',
     'nat.html', 'nabjm.html', 'error.html', 'unauthorized.html',
     'robots.txt',
-    'doc_table.html', 'doc_suivi.html', 'documentation.js', 'documentation.css',
-    'stats.html', 'ticket.html',
+    'doc_table.html', 'documentation.js', 'documentation.css',
+    'stats.html',
     ):
     add('FILES', name)
 
@@ -66,7 +65,6 @@ for name in (
     ):
     add('TMP', name)
 
-files['charte.html'].replace('files.py', '<input', '<p')
 files['style.css'].translate = lambda x:x.replace('_LOGO_', configuration.logo)
 files['lib.js'].append('files.py', utilities.wait_scripts() )
 

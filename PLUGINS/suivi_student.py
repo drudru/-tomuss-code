@@ -38,11 +38,16 @@ import cgi
 import time
 import teacher
 import collections
+import files
 
-header = utilities.StaticFile(os.path.join('FILES', 'suivi.html'))
-header2 = utilities.StaticFile(os.path.join('FILES', 'suivi2.html'))
-charte = utilities.StaticFile(os.path.join('FILES', 'charte.html'))
+header =utilities.StaticFile(os.path.join('PLUGINS','suivi_student.html'))
+header2=utilities.StaticFile(os.path.join('PLUGINS','suivi_student2.html'))
+charte =utilities.StaticFile(os.path.join('PLUGINS','suivi_student_charte.html'))
 
+files.add('PLUGINS', 'suivi_student.css')
+files.add('PLUGINS', 'suivi_student_doc.html')
+files.add('PLUGINS', 'suivi_student_charte.html').replace('suivi_student',
+                                                          '<input', '<p')
 
 def tomuss_links(login, ticket, server, is_a_student=False):
     t = []
@@ -188,7 +193,7 @@ def student_statistics(login, server, is_a_student=False, expand=False,
             year, semester, login))
     else:
         if referent.need_a_charte(login):
-            s.append(u'<script>hidden(\'<a href="%s/charte.html" target="_blank">Contrat</a>\',"Le contrat pédagogique que vous avez signé.");</script>, ' %
+            s.append(u'<script>hidden(\'<a href="%s/suivi_student_charte.html" target="_blank">Contrat</a>\',"Le contrat pédagogique que vous avez signé.");</script>, ' %
                      utilities.StaticFile._url_)
 
     # MORE
