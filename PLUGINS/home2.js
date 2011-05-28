@@ -167,7 +167,7 @@ function update_ues(txt)
   var without_students = display_ues(txt, false) ;
 
   if ( without_students.length > 10 )
-    without_students = "<h3>Les UE suivantes n'ont pas d'étudiants inscrits</h3>"
+    without_students = "<h3>Les UE suivantes n'ont pas d'Ã©tudiants inscrits</h3>"
       + without_students ;
 
 
@@ -237,7 +237,7 @@ function close_frame()
 function do_extension(code)
 {
   ue_line_close() ;
-  if ( confirm("Extension de " + code + ".\n\nCette opération est irréversible.\nLes étudiants seront les mêmes pour l'automne et le printemps.\nVous êtes sûr de vouloir le faire ?") )
+  if ( confirm("Extension de " + code + ".\n\nCette opÃ©ration est irrÃ©versible.\nLes Ã©tudiants seront les mÃªmes pour l'automne et le printemps.\nVous Ãªtes sÃ»r vouloir le faire ?") )
     {
       var year = the_year() ;
       if ( semester() == 'Automne')
@@ -253,7 +253,7 @@ function do_delete(ue_code)
 {
   var code ;
   ue_line_close() ;
-  if ( confirm("Destruction de " + ue_code + ".\n\nCette DESTRUCTION est irréversible sauf pour l'administrateur TOMUSS.\nVous êtes sûr de vouloir le faire ?") )
+  if ( confirm("Destruction de " + ue_code + ".\n\nCette DESTRUCTION est irrÃ©versible sauf pour l'administrateur TOMUSS.\nVous Ãªtes sÃ»r vouloir le faire ?") )
     {
       if ( ue_code.search('/') == -1 )
 	code = base + year_semester() + '/' + ue_code ;
@@ -293,7 +293,7 @@ function ue_line_click_more()
 
       var t ;
       t = '<img class="safety" src="_URL_/safe.png"><a href="javascript:'+ href
-	+ '\')">Éditer la table</a>' ;
+	+ '\')">Ã‰diter la table</a>' ;
 
       t += '<br><img class="safety" src="_URL_/verysafe.png"><a href="javascript:'+ href
 	+ '/=read-only=\')">Afficher la table sans la modifier</a>' ;
@@ -302,7 +302,7 @@ function ue_line_click_more()
 	+ '/=print-table=/=read-only=\')">Exporter ou imprimer la table</a>' ;
 
       t += '<br><img class="safety" src="_URL_/verysafe.png"><a href="javascript:'+ href
-	+ '/=signatures-page=/=read-only=\')">Feuille d\'émargement</a>' ;
+	+ '/=signatures-page=/=read-only=\')">Feuille d\'Ã©margement</a>' ;
       if ( i_am_root )
 	t += '<br><img class="safety" src="_URL_/unsafe.png"><a href="javascript:'+ href
 	  + '/page_unload\')">Ferme les pages sur les navigateurs</a>' ;
@@ -341,7 +341,7 @@ function ue_line_click_more()
 	}
       
       if ( ues_favorites[code] )
-	t += '<br><img class="safety" src="_URL_/verysafe.png">Vous avez consulté cette table ' + 
+	t += '<br><img class="safety" src="_URL_/verysafe.png">Vous avez consultÃ© cette table ' + 
 	  ((1000000+ues_favorites[code])%1000000) + ' fois' ;
 
       if ( code && ! code.match('.*/.*') && (
@@ -349,7 +349,7 @@ function ue_line_click_more()
 					     || (semester() == 'Automne' && is_the_last_semester())
 					     ))
 	{
-	  t +=  '<br><img class="safety" src="_URL_/unsafe.png"><a href="javascript:do_extension(\'' + code + '\');">Passer cette UE en NON-SEMESTRIALISÉE</a>' ;
+	  t +=  '<br><img class="safety" src="_URL_/unsafe.png"><a href="javascript:do_extension(\'' + code + '\');">Passer cette UE en NON-SEMESTRIALISÃ‰</a>' ;
 	}
 
       if ( is_the_current_semester()
@@ -357,9 +357,9 @@ function ue_line_click_more()
 	   || (code && code.match('.*/.*'))
 	   )
 	if ( code )
-	  t +=  '<br><img class="safety" src="_URL_/unsafe.png"><a href="javascript:do_delete(\'' + code + '\');">Détruire cette table</a>' ;
+	  t +=  '<br><img class="safety" src="_URL_/unsafe.png"><a href="javascript:do_delete(\'' + code + '\');">DÃ©truire cette table</a>' ;
 	else
-	  t +=  '<br><img class="safety" src="_URL_/unsafe.png"><a href="javascript:do_delete(\'' + (ue_line_over_last.childNodes[1].textContent || ue_line_over_last.childNodes[1].innerText) + '\');">Détruire cette table</a>' ;
+	  t +=  '<br><img class="safety" src="_URL_/unsafe.png"><a href="javascript:do_delete(\'' + (ue_line_over_last.childNodes[1].textContent || ue_line_over_last.childNodes[1].innerText) + '\');">DÃ©truire cette table</a>' ;
 
       ue_line_over_plus.childNodes[1].style.display = 'block' ;
       ue_line_over_plus.childNodes[1].innerHTML = t ;
@@ -536,14 +536,14 @@ function student_click_more(t)
 
   var more_link1 = '' ;
   if ( i_am_a_referent )
-    more_link1 = '<img class="safety" src="_URL_/verysafe.png"><a href="javascript:goto_url(base+\'bilan/' + login + '\')">Bilan TOMUSS de l\'étudiant</a><br>' ;
+    more_link1 = '<img class="safety" src="_URL_/verysafe.png"><a href="javascript:goto_url(base+\'bilan/' + login + '\')">Bilan TOMUSS de l\'Ã©tudiant</a><br>' ;
 
   var send_mail = 'Adresse mail inconnue.<br>' ;
   if ( the_student_mails[login] !== '' )
     send_mail = '<img class="safety" src="_URL_/verysafe.png"><a href="mailto:' + the_student_mails[login]
       + '">Envoyer un mail</a><br>' ;
 
-  var more_link = '<span id="student_referent">Son référent est...</span><br>';
+  var more_link = '<span id="student_referent">Son rÃ©fÃ©rent est...</span><br>';
 
   document.getElementById('feedback').innerHTML = '<iframe style="width:1;height:1;border:0px" src="' + base + 'referent/' + login + '"></iframe>' ;
 
@@ -552,14 +552,14 @@ function student_click_more(t)
       if ( ! i_am_referent_of(login) )
 	{
 	  more_link += '<img class="safety" src="_URL_/veryunsafe.png"><a href="javascript:referent_get(\'' + login +
-	    '\')">Je veux être référent pédagogique de cet étudiant</a><br>' ;
+	    '\')">Je veux Ãªtre rÃ©fÃ©rent pÃ©dagogique de cet Ã©tudiant</a><br>' ;
 	}
     }
 
   ue_line_over_plus.childNodes[0].innerHTML = '&times;' ;
   ue_line_over_plus.childNodes[1].style.display = 'block' ;
   ue_line_over_plus.childNodes[1].innerHTML = 
-    '<img class="safety" src="_URL_/verysafe.png"><a href="javascript:go_suivi_student(\'' + the_login(login) + '\')">Suivi de l\'étudiant.</a><br>'
+    '<img class="safety" src="_URL_/verysafe.png"><a href="javascript:go_suivi_student(\'' + the_login(login) + '\')">Suivi de l\'Ã©tudiant.</a><br>'
     + student_line_more_links(login)
     + more_link1
     + send_mail
@@ -568,8 +568,8 @@ function student_click_more(t)
     + '<img class="photo" src="' + student_picture_url(login) + '">'
     + '<img class="bigicone" src="'+suivi[year_semester()] + '/_'+ login
     + '"><br>'
-    + '<small>Carré de couleur de gauche : les présences<br>'
-    + 'Carré de couleur de droite : les notes</small>' ;
+    + '<small>CarrÃ© de couleur de gauche : les prÃ©sences<br>'
+    + 'CarrÃ© de couleur de droite : les notes</small>' ;
 }
 
 
@@ -588,7 +588,7 @@ function ue_line(ue, code, content)
   var c = code.substr(3).split('-')[0] ;
   if ( all_ues[c] && all_ues[c].tt )
     tt = hidden_txt('<img class="tt" src="tt.png">',
-		    'Il y a au moins un étudiant inscrit dans cette UE<br>'
+		    'Il y a au moins un Ã©tudiant inscrit dans cette UE<br>'
 		    + 'avec un tiers temps') ;
   else
     tt = '' ;
@@ -641,7 +641,7 @@ function update_ues_master_of(txt, txt_upper)
 
   var s = ['<tr><th colspan="3">' +
 	   hidden_txt('Vos tables',
-		      'Ces tables TOMUSS ne correspondent pas à des UE<br>Mais vous en êtes un des responsables')
+		      'Ces tables TOMUSS ne correspondent pas ?es UE<br>Mais vous en ?s un des responsables')
 	   + '</th></tr>'] ;
   for(var i in master_of)
     {
@@ -680,7 +680,7 @@ function update_ues_favorites(txt, txt_upper)
   
   var s = ['<tr><th colspan="3">' +
 	   hidden_txt('UE Favorites',
-		      'Vous pouvez modifier cette liste en cliquant sur le <span class="ue_list_more_help">+</span>.<br>Le nombre de favoris est modifiable dans les préférences,<br>ainsi que l\'ordre du tri.')
+		      'Vous pouvez modifier cette liste en cliquant sur le <span class="ue_list_more_help">+</span>.<br>Le nombre de favoris est modifiable dans les prÃ©fÃ©rences,<br>ainsi que l\'ordre du tri.')
 	   + '</th></tr>'] ;
   display_ue_list(s, txt, txt_upper, ues_favorites_sorted) ;
   s = ue_line_join(s) ;
@@ -694,7 +694,7 @@ function update_ues_spiral(txt, txt_upper)
   ues_spiral_sorted = true ;
   var s = ['<tr><th colspan="3">' +
 	   hidden_txt('Responsable des UE',
-		      'Ce sont les UE pour lesquelles vous êtes<br>indiqué comme responsable dans GASEL')
+		      'Ce sont les UE pour lesquelles vous Ãªtes<br>indiquÃ© comme responsable dans GASEL')
 	   + '</th></tr>'] ;
   display_ue_list(s, txt, txt_upper, ues_spiral) ;
   s = ue_line_join(s) ;
@@ -736,13 +736,13 @@ function update_ues_searched(txt, txt_upper)
 	}
       if ( s.length == 100 )
 	{
-	  s.push('<tr><td colspan="3">La liste a été tronquée.</td></tr>') ;
+	  s.push('<tr><td colspan="3">La liste a Ã©tÃ© tronquÃ©e</td></tr>') ;
 	  break ;
 	}
       
     }
   if ( s.length == 0 && txt != 'UNFOUNDABLETEXT\001' )
-    s.push('<tr><th colspan="3" style="background-color:white">Aucune UE ne correspond à votre recherche</td></tr>');
+    s.push('<tr><th colspan="3" style="background-color:white">Aucune UE ne correspond Ã  votre recherche</td></tr>');
 
   s = ue_line_join(s) ;
   document.getElementById('ue_list').childNodes[0].innerHTML = '<table class="with_margin uelist searchresult"><colgroup><col class="code"><col class="title"><col class="responsable"></colgroup>' + s + '</table>' ;
@@ -811,7 +811,7 @@ function update_ues_unsaved()
       return ;
     }
   var s = ['<tr><th colspan="3">' +
-	   hidden_txt('Table avec des données non sauvegardées',
+	   hidden_txt('Table avec des donn? non sauvegard?',
 		      'VISITEZ CES TABLES POUR SAUVER LEUR CONTENU.<br>\nEn effet, le contenu de ces tables est en parti dans votre navigateur')
 	   + '</th></tr>'] ;
   var unsaved = index.substr(1).split('\n') ;
@@ -865,7 +865,7 @@ function student_line(i, hide_icon)
 function update_favorite_student()
 {
   update_a_student_list('the_favorite_students', favstu,
-			'Étudiants favoris', 'javascript:go_favoris()') ;
+			'Ã©tudiants favoris', 'javascript:go_favoris()') ;
 }
 
 function update_referent_of()
@@ -874,7 +874,7 @@ function update_referent_of()
     return ;
   update_referent_of_done = true ;
   update_a_student_list('the_students', referent_of,
-			'Étudiants référés', 'javascript:go_referent()') ;
+			'Ã©tudiants rÃ©fÃ©rÃ©s', 'javascript:go_referent()') ;
 }
 
 
@@ -899,14 +899,14 @@ function update_a_student_list(html_id, student_list, title, notes)
     }
 
   var blocnote = hidden_txt('<a href="' + notes + '">Blocnote</a>',
-			    'Pour prendre des notes sur ces étudiants') ;
+			    'Pour prendre des notes sur ces Ã©tudiants') ;
 
   var mails = hidden_txt('<a href="mailto:?bcc=' + m.join(',') + '">Mail</a>',
-			 "Envoi d'un message à ces étudiants") ;
+			 "Envoi d'un message Ã  ces Ã©tudiants") ;
 
   var suivis = hidden_txt('<a href="javascript:go_suivi_student(\''
 			  + logins.join(',') + '\')">Suivi</a>',
-			  "Afficher le suivi de ces étudiants") ;
+			  "Afficher le suivi de ces Ã©tudiants") ;
 
   the_students.innerHTML =
     '<table class="with_margin student_list">'
