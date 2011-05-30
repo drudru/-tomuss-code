@@ -109,7 +109,7 @@ function head_html()
 		 "<span class=\"non\">Le fond est rouge si l'étudiant n'est pas inscrit à l'UE.</span><br>" +
 		 "<span class=\"tt\">Le fond est bleu si l'étudiant a un tiers temps.</span><br>" +
 		 "<span class=\"filtered\">Le fond est jaune si la cellule est sélectionnée par le filtre de table</span>") + ',' ;
- w += hidden_txt('&nbsp;<img class="server" src="data:"> ',
+ w += hidden_txt('&nbsp;<img class="server"> ',
 	    'Ce petit carré apparaît quand :<br>' +
 	    'on essaye de stocker la valeur sur le serveur,<br>' +
 	    'si cela dure plus de 5 secondes il y a un <b>problème</b> (réseaux ?),<br>' +
