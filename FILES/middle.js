@@ -464,6 +464,341 @@ function table_input_attr(attr, options)
 			    "t_table_attr_", "table_attr_") ;
 }
 
+/* tabbed view */
+
+function create_tabs(name, tabs)
+{
+  var s = ['<div class="tabs" id="' + name + '"><div class="titles">'] ;
+  for(var i in tabs)
+     s.push('<span id="title_' + tabs[i][0] + '" onclick="select_tab(\'' + name + "','" +
+            tabs[i][0] + '\')">' + tabs[i][0]
+             + '</span>') ;
+  s.push('</div><div class="contents">') ;
+  for(var i in tabs)
+     s.push('<div class="content" id="title_' + tabs[i][0] + '">'
+             + tabs[i][1] + '</div>') ;
+  s.push('</div></div>') ;
+
+  return s.join('') ;
+}
+
+function select_tab(name, tab)
+{
+  var tabs = document.getElementById(name) ;
+  for(var child = tabs.childNodes[1].firstChild;child;child=child.nextSibling)
+     if ( child.id != 'title_' + tab )
+         child.style.display = 'none' ;
+     else
+         child.style.display = '' ;
+
+  for(var child = tabs.childNodes[0].firstChild;child;child=child.nextSibling)
+        if ( child.id != 'title_' + tab )
+            child.className = '' ;
+        else
+            child.className = 'tab_selected' ;
+
+}
+
+function new_new_interface()
+{
+  var o, t ;
+
+  // CELLULE / Cellule
+
+  t = ['<table class="cell"><tr><td>'] ;
+  t.push(hidden_txt('<a href="" target="_blank">' +
+		    '<img id="t_student_picture" class="phot"></a>',
+		    'Cliquez sur la photo pour voir la fiche de suivi '
+		    + 'de l\'étudiant')) ;
+  t.push('</td><td>') ;
+  t.push(one_line('<span id="t_value"></span>',
+		  "Valeur de la cellule.")) ;
+  t.push(one_line('<span id="t_student_firstname"></span>',
+		  "Prénom de l'étudiant.")) ;
+  t.push(one_line('<span id="t_student_surname"></span>',
+		  "Nom de l'étudiant.")) ;
+  t.push(hidden_txt(header_input('comment', '',
+				 'empty onblur=comment_on_change(event)')
+		    + '<br>',
+		    "Tapez un commentaire pour cette cellule<br>" +
+		    "afin de ne pas oublier les choses importantes.<br>" +
+		    "<b>ATTENTION : les étudiants voient ce commentaire</b>"));
+  t.push(hidden_txt(header_input('linefilter', '',
+				 'empty onkey=line_filter_change(this)'),
+		    "<span class=\"shortcut\">(Alt-8)</span>" +
+		    "<b>Filtre les lignes</b><br>" +
+		    "Seules les lignes contenant une valeur filtrée " +
+		    "seront affichées.<br>" +
+		    "Tapez le début de ce que vous cherchez."
+		    )) ;
+  t.push('</td></table') ;
+  o = [['Cellule', t.join('\n')]] ;
+
+  // CELLULE / Historique
+
+  t = [] ;
+  t.push(one_line('<span id="t_author"></span>',
+		  "Personne qui a modifié la cellule pour la dernière fois :"
+		  )) ;
+  t.push(one_line('<span id="t_date"></span>',
+		  "Date ou la cellule a été modifiée pour la dernière fois."
+		  )) ;
+  t.push(one_line('<span id="t_history"></span>',
+		  "Valeurs précédentes prises par la cellule.<br>"+
+		  "De la plus ancienne à la plus récente.<br>" +
+		  "Le nom de la personne qui a fait la modification<br>" +
+		  "est indiqué si la valeur précédente n'était<br>" +
+		  "pas saisie par elle.")) ;
+  o.push(['Historique', t.join('\n')]) ;
+		 
+  // CELLULE / ?
+
+  t = [] ;
+  t.push(hidden_txt('La <a href="_URL_/doc_table.html" target="_blank">' +
+		    'documentation</a><br>',
+		    "Cliquez sur le lien pour avoir tous les détails sur<br>" +
+		    "l'utilisation de ce tableur")) ;
+  t.push(hidden_txt('<span class="ro">S</span>' +
+		    '<span class="comment">t</span>' +
+		    '<span class="today">y</span>' +
+		    '<span class="is_an_abj">l</span>' +
+		    '<span class="non">e</span>' +
+		    '<span class="tt">s</span> d\'affichage',
+		    "<span class=\"ro\">Le texte est gris si la cellule " +
+		    "est définie par quelqu'un d'autre.</span><br>" +
+		    "<span class=\"comment\">Triangle s'il y a un " +
+		    "commentaire.</span><br>" +
+		    "<span class=\"today\">Le texte est gras si la cellule " +
+		    "a été modifiée aujourd'hui.</span><br>" +
+		    "<span class=\"is_an_abj\">Si ABINJ est souligné, " +
+		    "cliquez dessus pour vérifier s'il a un justificatif." +
+		    "</span><br>" +
+		    "<span class=\"non\">Le fond est rouge si l'étudiant " +
+		    "n'est pas inscrit à l'UE.</span><br>" +
+		    "<span class=\"tt\">Le fond est bleu si l'étudiant " +
+		    "a un tiers temps.</span><br>" +
+		    "<span class=\"filtered\">Le fond est jaune si la " +
+		    "cellule est sélectionnée par le filtre de table</span>"
+		    ));
+  t.push(hidden_txt('&nbsp;<img class="server"> ',
+		    'Ce petit carré apparaît quand :<br>' +
+		    'on essaye de stocker la valeur sur le serveur,<br>' +
+		    'si cela dure plus de 5 secondes il y a un ' +
+		    '<b>problème</b> (réseaux ?),<br>' +
+		    'évitez de saisir des valeurs dans ces conditions.')) ;
+  t.push(hidden_txt('&nbsp;<img class="server" src="_URL_/ok.png"> ',
+		    'Ce petit carré apparaît quand :<br>' +
+		    'la valeur a été <b>stockée avec succès</b> ' +
+		    'sur le serveur')) ;
+  t.push(hidden_txt('&nbsp;<img class="server" src="_URL_/bad.png"> ',
+		    'Ce petit carré apparaît quand :<br>' +
+		    'le serveur <b>refuse de stocker cette valeur</b>.<br>' +
+		    'C\'est certainement du à un problème de droit')) ;
+  t.push(hidden_txt('&nbsp;<img class="server" src="_URL_/bug.png">',
+		    'Ce petit carré apparaît quand :<br>' +
+		    'Il y a un <b>bug</b> quelque part,<br>'+
+		    'le responsable du logiciel a reçu un message ' +
+		    'le prévenant.')) ;
+  t.push('<br>') ;
+
+  o.push(['?', t.join('\n')]) ;
+
+  // CELLULE
+
+  var w = [] ;
+
+  w.push('<table id="menutop" class="tabbed_headers"><tr><td class="tabbed_headers">') ;
+  w.push( create_tabs('cellule', o) ) ;
+
+  // COLUMN / Column
+
+  t = [] ;
+  t.push(column_input_attr('title', 'one_line')) ;
+
+  var options = [] ;
+  for(var type_i in types)
+    {
+      if ( types[type_i].full_title )
+	options.push([types[type_i].title, types[type_i].full_title]) ;
+      else
+	options.push([types[type_i].title, types[type_i].title]) ;
+    }
+  t.push(column_input_attr('type', options)) ;
+  t.push(column_input_attr('minmax') + '<br>') ;
+  t.push(column_input_attr('stats')) ;
+  t.push(column_input_attr('comment', 'empty one_line')) ;
+  t.push(hidden_txt(header_input("columns_filter",'',
+				 'empty onkey=columns_filter_change(this)'),
+		    "Seules les <b>colonnes</b> dont le nom est filtré " +
+		    "seront affichées.<br>" +
+		    "Tapez le début de ce que vous cherchez.<br>" +
+		    "Pour plus d'information, regardez l'aide sur les filtres."
+		    )) ;
+  o = [['Colonne', t.join('\n')]] ;
+
+  // COLUMN / Formula
+
+  t = [] ;
+  t.push(column_input_attr('columns')) ;
+  t.push('<br>') ;
+  t.push(column_input_attr('test_filter')) ;
+  t.push(column_input_attr('enumeration')) ;
+  t.push('<br>Coloriage :') ;
+  t.push(column_input_attr('red')) ;
+  t.push(column_input_attr('green')) ;
+  t.push('<br>') ;
+  t.push(column_input_attr('weight', 'before=Poids=')) ;
+  t.push(column_input_attr('empty_is', 'before=Cellule vide =')) ;
+
+  o.push(['Formule', t.join('\n')]) ;
+
+  // COLUMN / Display
+
+  var x ="<br>Ce changement n'est pas visible par les autres utilisateurs.";
+
+  t = [] ;
+  t.push(column_input_attr('visibility_date')) ;
+  t.push('Déplace colonne : ') ;
+  t.push(hidden_txt('<a href="javascript:do_move_column_left();">«</a>',
+		    "<b>Décale la colonne vers la gauche</b>" + x)) ;
+  t.push(column_input_attr('position')) ;
+  t.push(hidden_txt('<a href="javascript:do_move_column_right();">»</a>',
+		    "<b>Décale la colonne vers la droite</b>" + x)) ;
+  t.push('<br>') ;
+  t.push('Largeur colonne : ') ;
+  t.push(hidden_txt('<a href="javascript:smaller_column();">-</a>',
+		    "<b>Amincir la colonne</b>" + x)) ;
+  t.push(column_input_attr('width')) ;
+  t.push(hidden_txt('<a href="javascript:bigger_column();">+</a>',
+		    "<b>Élargir la colonne</b>" + x)) ;
+  t.push('<br>') ;
+  t.push(column_input_attr('freezed')) ;
+  t.push('<br>') ;
+  t.push(column_input_attr('hidden')) ;
+
+  o.push(['Affiche', t.join('\n')]) ;
+
+  // COLUMN / Action
+
+  t = [] ;
+  t.push(column_input_attr('import') + '<br>') ;
+  t.push(column_input_attr('fill') + '<br>') ;
+  t.push(column_input_attr('export') + '<br>') ;
+  t.push(column_input_attr('delete') + '<br>') ;
+  t.push(one_line('<span id="t_column_author"></span>',
+		  "Personne qui a modifié la définition<br>" +
+		  "de la colonne pour la dernière fois :")) ;
+
+  o.push(['Action', t.join('\n')]) ;
+
+  // COLUMN / Help
+
+  o.push(['?', 'bla bla bla']) ;
+
+  // COLUMN
+
+  w.push('</td><td class="tabbed_headers">') ;
+  w.push( create_tabs('column', o) ) ;
+
+
+  // Table / Table
+
+  t = [] ;
+ 
+  t.push(hidden_txt('<span id="nr_filtered_lines"></span> lignes filtrées',
+		    "C'est le nombre de lignes qui sont affichées<br>\n" +
+		    "après avoir appliqués les filtres")) ;
+
+  t.push(hidden_txt('sur <span id="nr_not_empty_lines"></span>',
+		    "C'est le nombre de lignes dans le tableau total<br>\n" +
+		    "y compris les lignes vidées")) ;
+  t.push('<br>') ;
+  t.push(hidden_txt(table_input_attr('nr_lines') +  'lignes, ' +
+		    table_input_attr('nr_columns') + ' colonnes',
+		    "Taille du tableau affiché sur l'écran")) ;
+  t.push('<br>') ;
+  t.push(table_input_attr('facebook')) ;
+  t.push(table_input_attr('print')) ;
+  t.push(table_input_attr('abj')) ;
+  t.push(table_input_attr('mail')) ;
+  t.push('<br>') ;
+
+  t.push(table_input_attr("comment",'empty')) ;
+  t.push('<br>') ;
+  t.push(hidden_txt(header_input('fullfilter', '',
+				 'empty onkey=full_filter_change(this)'),
+		    "Seule les <b>colonnes et lignes</b> contenant " +
+		    "une valeur filtrée<br>seront affichées " +
+		    "(c'est un filtre).<br>" +
+		    "Tapez le début de ce que vous cherchez.<br>"
+		    )) ;
+
+  o = [['Table', t.join('\n')]] ;
+
+  // Table / Paramétrage
+
+  t = [] ;
+  
+  t.push("Nb colonnes affichées " +
+	 table_input_attr('default_nr_columns')) ;
+  t.push('<br>') ;
+
+  t.push("Droits d'accès :" +
+	 table_input_attr('private', [[0,'Publique'],[1,'Privée']]));
+  t.push(" " +
+	 table_input_attr('modifiable',
+			  [[0,'Non Modifiable'],[1,'Modifiable']])) ;
+  t.push('<br>') ;
+
+  if ( semester == 'Printemps' || semester == 'Automne' )
+    t.push('Affiche étudiant :' +
+	   table_input_attr('official_ue', [[0,'Invisible'],[1,'Visible']])) ;
+  else
+    t.push('&nbsp;') ;
+
+  t.push('<br>') ;
+  t.push('Début/fin : ' + table_input_attr('dates','empty')) ;
+  t.push('<br>') ;
+  t.push(table_input_attr('masters','empty')) ;
+
+  o.push(['Paramétrage', t.join('\n')]) ;
+
+  // Table / Action
+
+  t = [] ;
+
+  t.push(table_input_attr('autosave')) ;
+  t.push('<br>') ;
+  t.push(table_input_attr('statistics')) ;
+  t.push('<br>') ;
+  t.push(table_input_attr('t_import') + ' / ' + table_input_attr('t_export')) ;
+  t.push('<br>') ;
+  t.push(table_input_attr('bookmark')) ;
+  t.push('<br>') ;
+  t.push(table_input_attr('linear')) ;
+  t.push(table_input_attr('update_content')) ;
+  t.push(hidden_txt('<a href="javascript:change_popup_on_red_line()">.</a>',
+		    "Basculer entre le mode tenant compte ou non<br>" +
+		    "des inscriptions pédagogiques."
+		    ,'','popup_on_red_line')) ;
+
+  o.push(['Action', t.join('\n')]) ;
+
+  // Table / Help
+
+  o.push(['Aide', 'bla bla bla']) ;
+
+  w.push('</td><td class="tabbed_headers">') ;
+  w.push( create_tabs('table', o) ) ;
+
+  w.push('</td></tr></table>') ;
+  w.push('<script>select_tab("cellule", "Cellule")</script>') ;
+  w.push('<script>select_tab("column", "Colonne")</script>') ;
+  w.push('<script>select_tab("table", "Table")</script>') ;
+
+  return w.join('\n') ;
+}
+
 function new_interface()
 {
 var w ;
@@ -627,21 +962,7 @@ for(var type_i in types)
 	      "Seule les <b>colonnes et lignes</b> contenant une valeur filtrée<br>seront affichées (c'est un filtre).<br>" +
 	      "Tapez le début de ce que vous cherchez.<br>"
 	     ) +
- '</tr></table>' +
-
-/* onmouseout is here because it must contains the tip
-    If you change the content, read 'table_init' in 'lib.js'
-*/
-   '<div class="horizontal_scrollbar"><img src="' + url + '/prev.gif" onclick="javascript:previous_page_horizontal();"><div id="horizontal_scrollbar"></div><img src="' + url + '/next.gif" onclick="javascript:next_page_horizontal();"></div>' +
-   '<div>' ;
-
- if ( ! scrollbar_right )
-   w += '<div id="vertical_scrollbar"></div>' ;
-w += '<div id="divtable" class="colored"><div id="hover"></div><div id="tip"></div></div>' ;
- if ( scrollbar_right )
-   w += '<div id="vertical_scrollbar"></div>' ;
- w += '</div><div id="popup"></div>' +
-   '</div><div id="loading_bar"><div></div></div>' ;
+   '</tr></table>' ;
 
  return w ;
 }
@@ -762,7 +1083,29 @@ function insert_middle()
     }
   i_am_root = myindex(root, my_identity) != -1 ;
 
-  document.write(new_interface()) ;
+  if ( window.location.pathname.search('=new-interface=') != -1 )
+      document.write(new_new_interface()) ;
+  else
+      document.write(new_interface()) ;
+/* onmouseout is here because it must contains the tip
+    If you change the content, read 'table_init' in 'lib.js'
+*/
+  
+  var w = '<div class="horizontal_scrollbar"><img src="' + url
+    + '/prev.gif" onclick="javascript:previous_page_horizontal();">'
+    + '<div id="horizontal_scrollbar"></div><img src="' + url
+    + '/next.gif" onclick="javascript:next_page_horizontal();"></div>' +
+    '<div>' ;
+  
+  if ( ! scrollbar_right )
+    w += '<div id="vertical_scrollbar"></div>' ;
+  w += '<div id="divtable" class="colored"><div id="hover"></div>'
+    + '<div id="tip"></div></div>' ;
+  if ( scrollbar_right )
+    w += '<div id="vertical_scrollbar"></div>' ;
+  w += '</div><div id="popup"></div>'
+    + '</div><div id="loading_bar"><div></div></div>' ;
+  document.write(w) ;
 }
 
 

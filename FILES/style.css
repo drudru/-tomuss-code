@@ -417,6 +417,7 @@ right:25%;
 bottom: 0;
 font-size: 200%;
 }
+
 /*****************************************************************************/
 /* MENUTOP */
 /*****************************************************************************/
@@ -542,6 +543,34 @@ span.toggled { background: #080 ; color: white }
 
 .small { font-size: 80% }
 .smaller { font-size: 60% }
+
+/*****************************************************************************/
+/* New new interface */
+
+DIV.tabs DIV.titles SPAN:first-child { font-size: 100% }
+DIV.tabs DIV.titles SPAN {
+  border: 1px solid black ;
+  margin-right: 2px ;
+  font-size: 80% ;
+  cursor: pointer ;
+}
+DIV.tabs DIV.titles SPAN:hover {
+  background: #DFD ;
+}
+
+DIV.tabs DIV.titles SPAN.tab_selected {
+  background: #0F0 ;
+  border-bottom: 0px ;
+}
+DIV.tabs DIV.contents {
+  border: 1px solid black;
+  height: 7em;
+}
+DIV.tabs DIV.contents DIV.content {  height: 100% }
+DIV.tabs { width: 100% ; }
+
+TABLE.tabbed_headers { width: 100%; }
+TD.tabbed_headers { width: 30%; }
 
 /*****************************************************************************/
 /* PRINT */
