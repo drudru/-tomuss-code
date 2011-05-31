@@ -20,6 +20,7 @@
     Contact: Thierry.EXCOFFIER@bat710.univ-lyon1.fr
 */
 
+var free_print_headers = ['Présent', 'Signature copie rendue'] ;
 
 function printable_display_page(lines, title, page_break)
 {
@@ -37,7 +38,7 @@ function printable_display_page(lines, title, page_break)
       if ( ! input )
 	break ;
       if ( input.value )
-	sorted.push(input.value) ;
+	sorted.push([input.value, i]) ;
     }
 
   var s = [] ;
@@ -87,7 +88,6 @@ function printable_display_page(lines, title, page_break)
 	     + "</td></tr></table>"
 	     ) ;
     }
-
   if ( tierstemps != 'seulement' )
     {
       s.push('<table class="' + html_class + '"><thead>') ;
@@ -109,7 +109,13 @@ function printable_display_page(lines, title, page_break)
 	      if ( isNaN(c) )
 		{
 		  if ( header == 'title' )
-		    s.push('<th>' + html(c) + '</th>') ;
+		    {
+		      s.push('<th onclick="do_printable_display=true;'
+			     + 'document.getElementById(\'free'
+			     + c[1] + '\').value = \'\'">'
+			     + hidden_txt(html(c[0]), "Cache cette colonne")
+			     + '</th>') ;
+		    }
 		  else
 		    s.push('<th>&nbsp;</th>') ;
 		  continue ;
@@ -271,8 +277,9 @@ function first_line_of_tip(attr)
 
 function do_emargement()
 {
-  document.getElementById('free0').value = 'Présent' ;
-  document.getElementById('free1').value = 'Signature copie rendue' ;
+  for(var i in free_print_headers)
+    document.getElementById('free' + i).value = free_print_headers[i] ;
+
   for(var data_col in columns_to_display)
     {
       if ( (data_col < 3) !=  columns_to_display[data_col] )
@@ -389,7 +396,7 @@ function print_selection(object, emargement)
 		    'grouped_by') ;
 
   t = [] ;
-  for(var i=0; i<2; i++)
+  for(var i in free_print_headers)
     t.push(hidden_txt('<input id="free' + i + '" style="width:15em" onkeypress="do_printable_display=true;">', 'Indiquez le titre de la colonne à ajouter')) ;
   print_choice_line(p, 'Colonnes à ajouter',
 		    'Ceci vous permet d\'ajouter des colonnes vides<br>avec le titre de votre choix.',
