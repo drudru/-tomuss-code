@@ -3201,7 +3201,11 @@ function lines_in_javascript()
 
 function columns_in_javascript()
 {
-  var s = [], p, column ;
+  var s = [], p, column, all_cls ;
+  all_cls = column_list_all() ;
+  for(var i in all_cls)
+    columns[all_cls[i]].ordered_index = i ;
+
   for(var data_col in columns)
     {
       column = columns[data_col] ;
@@ -3214,6 +3218,7 @@ function columns_in_javascript()
       p.push("red_filter:" + column.color_red_filter) ;
       p.push("min:" + column.min) ;
       p.push("max:" + column.max) ;
+      p.push("ordered_index:" + column.ordered_index) ;
       s.push('{' + p.join(',\n') + '}') ;
     }
   return '[\n' + s.join(',\n') + ']' ;

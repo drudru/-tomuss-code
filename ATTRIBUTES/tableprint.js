@@ -101,10 +101,10 @@ function printable_display_page(lines, title, page_break)
 		 + header + '\'));'
 		 + 'do_printable_display=true;">'
 		 + hidden_txt(header, first_line_of_tip(header)
-			      + "<br>Cliquer pour cacher cette ligne") + '</td>') ;
+			      + "<br>Cliquer pour cacher cette ligne")
+		 + '</td>') ;
 	  for(var c in sorted)
 	    {
-
 	      c = sorted[c] ;
 	      if ( isNaN(c) )
 		{
@@ -131,10 +131,9 @@ function printable_display_page(lines, title, page_break)
 	      if ( v === '' )
 		v = '&nbsp;' ;
 
-
 	      s.push('<th onclick="button_toggle(columns_to_display,'
 		     + c + ',document.getElementById(\'columns_to_display\').getElementsByTagName(\'SPAN\')['
-		     + c + ']);do_printable_display=true" class="'
+		     + columns[c].ordered_index + ']);do_printable_display=true" class="'
 		     + th_class + '">'
 		     + hidden_txt(v, "Cache cette colonne") + '</th>') ;
 	    }
