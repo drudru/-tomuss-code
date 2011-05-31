@@ -1039,7 +1039,9 @@ function statistics_display()
     s.push('<th onclick="button_toggle(columns_to_display,'
 	   + sorted_cols[column] +
 	   ',document.getElementById(\'columns_to_display\').getElementsByTagName(\'SPAN\')['
-	   + sorted_cols[column] + ']); do_printable_display=true"><div style="min-width:' + td_width + 'em">'
+	   + columns[sorted_cols[column]].ordered_index
+	   + ']); do_printable_display=true"><div style="min-width:'
+	   + td_width + 'em">'
 	   + hidden_txt(html(columns[sorted_cols[column]].title),
 			"Cliquez sur le titre pour cacher<br>"
 			+ "Cliquez sur les cases pour zoomer"
