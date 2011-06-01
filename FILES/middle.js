@@ -510,7 +510,7 @@ function new_new_interface()
 		    '<img id="t_student_picture" class="phot"></a>',
 		    'Cliquez sur la photo pour voir la fiche de suivi '
 		    + 'de l\'étudiant')) ;
-  t.push('</td><td>') ;
+  t.push('</td><td class="cell_values">') ;
   t.push(one_line('<span id="t_value"></span>',
 		  "Valeur de la cellule.")) ;
   t.push(one_line('<span id="t_student_firstname"></span>',
@@ -531,19 +531,20 @@ function new_new_interface()
 		    "seront affichées.<br>" +
 		    "Tapez le début de ce que vous cherchez."
 		    )) ;
+  t.push(one_line('<span id="t_student_id" style="display:none"></span>', "Numéro d'étudiant.")) ;
   t.push('</td></table') ;
   o = [['Cellule', t.join('\n')]] ;
 
   // CELLULE / Historique
 
   t = [] ;
-  t.push(one_line('<span id="t_author"></span>',
+  t.push(one_line('Saisie par : <span id="t_author"></span>',
 		  "Personne qui a modifié la cellule pour la dernière fois :"
 		  )) ;
-  t.push(one_line('<span id="t_date"></span>',
+  t.push(one_line('Le <span id="t_date"></span>',
 		  "Date ou la cellule a été modifiée pour la dernière fois."
 		  )) ;
-  t.push(one_line('<span id="t_history"></span>',
+  t.push(one_line('Historique :<br><span id="t_history"></span>',
 		  "Valeurs précédentes prises par la cellule.<br>"+
 		  "De la plus ancienne à la plus récente.<br>" +
 		  "Le nom de la personne qui a fait la modification<br>" +
@@ -580,6 +581,7 @@ function new_new_interface()
 		    "<span class=\"filtered\">Le fond est jaune si la " +
 		    "cellule est sélectionnée par le filtre de table</span>"
 		    ));
+  t.push('<br>Feedback : ') ;
   t.push(hidden_txt('&nbsp;<img class="server"> ',
 		    'Ce petit carré apparaît quand :<br>' +
 		    'on essaye de stocker la valeur sur le serveur,<br>' +

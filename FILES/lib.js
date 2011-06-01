@@ -2476,6 +2476,11 @@ function update_tip_from_value(o, value)
 
 function update_value_and_tip(o, value)
 {
+  if ( !o )
+    {
+      alert(value) ;
+      return ;
+    }
   if ( o.tagName == 'SELECT' )
     return ;
 

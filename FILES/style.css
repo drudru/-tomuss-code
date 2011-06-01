@@ -564,13 +564,14 @@ DIV.tabs DIV.titles SPAN.tab_selected {
 }
 DIV.tabs DIV.contents {
   border: 1px solid black;
-  height: 7em;
+  height: 8em;
+  overflow: hidden ;
 }
 DIV.tabs DIV.contents DIV.content {  height: 100% }
-DIV.tabs { width: 100% ; }
+DIV.tabs { margin: 2px }
 
 TABLE.tabbed_headers { width: 100%; }
-TD.tabbed_headers { width: 30%; }
+TD.tabbed_headers { width: 20%; }
 
 /*****************************************************************************/
 /* PRINT */
