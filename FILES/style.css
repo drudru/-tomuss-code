@@ -460,7 +460,13 @@ font-size: 200%;
 INPUT#comment { width: 100% ; clear: both; }
 #menutop IMG.phot { border-width: 0 ;height: 100px ; width: 80px }
 
-#menutop .one_line { white-space: nowrap ; overflow: hidden; }
+#menutop .one_line {
+  white-space: nowrap ;
+  overflow: hidden;
+}
+
+/* #menutop SELECT { position:relative; top: -3px } */
+
 #t_date, #t_author { font-size: 80%; }
 
 #menutop INPUT.highlight1, .highlight1 { background-color: #FF0 ; }
@@ -475,9 +481,7 @@ INPUT#comment { width: 100% ; clear: both; }
   border: 1px solid black;
 }
 
-#menutop SELECT#nr_cols { width: 4em ; }
-#menutop SELECT#nr_lines { width: 4em ; }
-#menutop SELECT { width: 20% ; font-size: 80%; margin: 1px ; }
+#menutop SELECT { width: 20% ; font-size: 80%; }
 
 #menutop INPUT.gui_button {
   width: auto;
@@ -567,11 +571,28 @@ DIV.tabs DIV.contents {
   height: 8em;
   overflow: hidden ;
 }
-DIV.tabs DIV.contents DIV.content {  height: 100% }
+DIV.tabs DIV.contents DIV.content { height: 100% }
 DIV.tabs { margin: 2px }
+
+DIV.tabs #t_column_type { width: 8em }
+DIV.tabs #t_column_enumeration { }
 
 TABLE.tabbed_headers { width: 100%; }
 TD.tabbed_headers { width: 20%; }
+
+TABLE.cell { border-spacing: 0px ; width: 100% }
+TABLE.cell TD.cell_values { width: 100% }
+
+#menutop DIV.tabs .one_line {
+  height: 1.4em ;
+}
+
+#menutop DIV.tabs #t_column_stats {
+  border-top: 0px solid black;
+  border-bottom: 0px solid black;
+}
+
+
 
 /*****************************************************************************/
 /* PRINT */

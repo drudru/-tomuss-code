@@ -376,7 +376,7 @@ function header_change_on_update(event, input, what)
 */
 function header_input(the_id, the_header_name, options)
 {
-  var classe='', onkey='', before='' ;
+  var classe='', onkey='', before='', after='' ;
   // Don't call onblur twice (IE bug) : so no blur if not focused
   var onblur='if(element_focused===undefined)return;element_focused=undefined;';
 
@@ -400,12 +400,15 @@ function header_input(the_id, the_header_name, options)
   if ( options && options.search('before=') != -1 )
     before = options.split('before=')[1].split(' ')[0] ;
   if ( options && options.search('one_line') != -1 )
-    classe += ' one_line' ;
+    {
+      before = '<div class="one_line">' + before ;
+      after = '</div>' ;
+    }
 
-  return before+'<input type="text" id="' + the_id + '" class="' + classe
+  return before+'<input style="margin-top:0px" type="text" id="' + the_id + '" class="' + classe
     + '" onfocus="if ( this.tomuss_editable === false ) this.blur() ; else { this.className=\'\';element_focused=this;}" '
     + ' onblur="' + onblur
-    + '" onkeyup="' + onkey  +'">' ;
+    + '" onkeyup="' + onkey  +'">' + after ;
 }
 
 function an_input_attribute(attr, options, prefix_id, prefix_)
@@ -439,7 +442,7 @@ function an_input_attribute(attr, options, prefix_id, prefix_)
 	opts += '<OPTION VALUE="' + options[i][0] + '">'
                                   + options[i][1] + '</OPTION>' ;
       
-      return hidden_txt('<select onfocus="take_focus(this);" id="'
+      return hidden_txt('<select style="margin:0px" onfocus="take_focus(this);" id="'
 			+ the_id + '" onChange="this.blur();'
                         + "header_change_on_update(event,this,'" +
 			prefix_ + attr.name + "');"
@@ -522,17 +525,19 @@ function new_new_interface()
 		    + '<br>',
 		    "Tapez un commentaire pour cette cellule<br>" +
 		    "afin de ne pas oublier les choses importantes.<br>" +
-		    "<b>ATTENTION : les étudiants voient ce commentaire</b>"));
+		    "<b>ATTENTION : les étudiants voient ce commentaire</b>",
+		    'one_line'));
   t.push(hidden_txt(header_input('linefilter', '',
 				 'empty onkey=line_filter_change(this)'),
 		    "<span class=\"shortcut\">(Alt-8)</span>" +
 		    "<b>Filtre les lignes</b><br>" +
 		    "Seules les lignes contenant une valeur filtrée " +
 		    "seront affichées.<br>" +
-		    "Tapez le début de ce que vous cherchez."
+		    "Tapez le début de ce que vous cherchez.",
+		    'one_line'
 		    )) ;
-  t.push(one_line('<span id="t_student_id" style="display:none"></span>', "Numéro d'étudiant.")) ;
-  t.push('</td></table') ;
+  t.push(hidden_txt('<span id="t_student_id" style="display:none"></span>', "Numéro d'étudiant.")) ;
+  t.push('</td></tr></table>') ;
   o = [['Cellule', t.join('\n')]] ;
 
   // CELLULE / Historique
@@ -625,12 +630,15 @@ function new_new_interface()
       else
 	options.push([types[type_i].title, types[type_i].title]) ;
     }
+  t.push('<div class="one_line">') ;
   t.push(column_input_attr('type', options)) ;
-  t.push(column_input_attr('minmax') + '<br>') ;
-  t.push(column_input_attr('stats')) ;
+  t.push(column_input_attr('enumeration')) ;
+  t.push(column_input_attr('minmax')) ;
+  t.push('</div>') ;
+  t.push(column_input_attr('stats', 'one_line')) ;
   t.push(column_input_attr('comment', 'empty one_line')) ;
   t.push(hidden_txt(header_input("columns_filter",'',
-				 'empty onkey=columns_filter_change(this)'),
+				 'empty one_line onkey=columns_filter_change(this)'),
 		    "Seules les <b>colonnes</b> dont le nom est filtré " +
 		    "seront affichées.<br>" +
 		    "Tapez le début de ce que vous cherchez.<br>" +
@@ -641,13 +649,13 @@ function new_new_interface()
   // COLUMN / Formula
 
   t = [] ;
+  t.push('Coloriage :') ;
+  t.push(column_input_attr('red')) ;
+  t.push(column_input_attr('green')) ;
+  t.push('<br>') ;
   t.push(column_input_attr('columns')) ;
   t.push('<br>') ;
   t.push(column_input_attr('test_filter')) ;
-  t.push(column_input_attr('enumeration')) ;
-  t.push('<br>Coloriage :') ;
-  t.push(column_input_attr('red')) ;
-  t.push(column_input_attr('green')) ;
   t.push('<br>') ;
   t.push(column_input_attr('weight', 'before=Poids=')) ;
   t.push(column_input_attr('empty_is', 'before=Cellule vide =')) ;
@@ -827,7 +835,7 @@ var w ;
    '<td class="blocktop"><table class="cell"><tr><td>' +
    hidden_txt('<a href="" target="_blank"><img id="t_student_picture" class="phot"></a>',
 	      'Cliquez sur la photo pour voir la fiche de suivi de l\'étudiant') +
-   '</td><td>' +
+   '</td><td class="cell_values">' +
    one_line('<span id="t_value"></span>', "Valeur de la cellule.") +
    one_line('<span id="t_student_firstname"></span>',"Prénom de l'étudiant.")+
    one_line('<span id="t_student_surname"></span>',"Nom de l'étudiant.")+

@@ -50,7 +50,8 @@ hidden('<div id="t_column_average"></div>',
 #menutop #t_column_stats {
   width: 100% ;
   table-layout: fixed;
-  border: 1px solid black;
+  border-top: 1px solid black;
+  border-bottom: 1px solid black;
   border-spacing: 0px ;
 }
 
@@ -66,11 +67,11 @@ hidden('<div id="t_column_average"></div>',
 }
 
 #menutop #t_column_histogram { 
-  height: 1.5em ;
+  height: 1.4em ;
 }
 
 #menutop #t_column_histogram SVG {
-  height: 1.5em ;
+  height: 1.3em ;
  }
 '''
 
