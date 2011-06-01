@@ -30,9 +30,6 @@ function save_position_column(the_id)
 
 function left_column(column)
 {
-  if ( table_fill_queued )
-    return ; // XXX Hide a bug (moving column quickly lost it sometimes)
-
   var cls = column_list(0, columns.length) ;
 
   var i = myindex(cls, column) ;
@@ -47,9 +44,6 @@ function left_column(column)
 
 function right_column(column)
 {
-  if ( table_fill_queued )
-    return ; // XXX Hide a bug (moving column quickly lost it sometimes)
-
   var cls = column_list(0, columns.length) ;
 
   var i = myindex(cls, column) ;
@@ -64,6 +58,9 @@ function right_column(column)
 
 function do_move_column_right()
 {
+  if ( table_fill_queued )
+    return ; // XXX Hide a bug (moving column quickly lost it sometimes)
+
   var x ;
   if (the_current_cell.col == table_attr.nr_columns - 1 )
     x = the_current_cell.data_col - 1 ;
@@ -77,6 +74,9 @@ function do_move_column_right()
 
 function do_move_column_left()
 {
+  if ( table_fill_queued )
+    return ; // XXX Hide a bug (moving column quickly lost it sometimes)
+
   var col = the_current_cell.col ;
   var column = the_current_cell.column ;
   the_current_cell.cursor_left() ;
