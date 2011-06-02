@@ -540,6 +540,13 @@ function new_new_interface()
   column_attributes['export'].title = '<b>Exporter</b> <small>la colonne pour APOGÉE</small>' ;
   column_attributes['delete'].title = '<b>Détruire</b> <small>définitivement la colonne</small>' ;
 
+  table_attributes['autosave'].title = 'Sauvegarde automatique' ;
+  table_attributes['t_import'].title = '<b>Importer</b> <small>des définitions de colonnes</small>' ;
+  table_attributes['t_export'].title = '<b>Exporter</b> <small>les définitions de colonnes</small>' ;
+  table_attributes['bookmark'].title = "<b>Options d'affichage</b> <small>: les sauver avec un signet</small>" ;
+  table_attributes['linear'].title = "Linéaire" ;
+  table_attributes['update_content'].title = "Mise à jour" ;
+
   // CELLULE / Cellule
 
   t = ['<table class="cell"><tr><td>'] ;
@@ -743,10 +750,10 @@ function new_new_interface()
 
   t = [] ;
   t.push('<div class="one_line">') ;
-  t.push(column_input_attr('import')) ;
+  t.push(column_input_attr('export')) ;
   t.push('</div>') ;
   t.push('<div class="one_line">') ;
-  t.push(column_input_attr('export')) ;
+  t.push(column_input_attr('import')) ;
   t.push('</div>') ;
   t.push('<div class="one_line">') ;
   t.push(column_input_attr('fill')) ;
@@ -794,6 +801,7 @@ function new_new_interface()
   t.push(table_input_attr('print')) ;
   t.push(table_input_attr('abj')) ;
   t.push(table_input_attr('mail')) ;
+  t.push(table_input_attr('statistics')) ;
   t.push('</div>') ;
 
   t.push(table_input_attr("comment", 'empty one_line')) ;
@@ -846,20 +854,27 @@ function new_new_interface()
 
   t = [] ;
 
+  t.push('<div class="one_line">') ;
+  t.push(table_input_attr('t_export')) ;
+  t.push('</div>') ;
+  t.push('<div class="one_line">') ;
+  t.push(table_input_attr('t_import')) ;
+  t.push('</div>') ;
+  t.push('<div class="one_line">') ;
   t.push(table_input_attr('autosave')) ;
-  t.push('<br>') ;
-  t.push(table_input_attr('statistics')) ;
-  t.push('<br>') ;
-  t.push(table_input_attr('t_import') + ' / ' + table_input_attr('t_export')) ;
-  t.push('<br>') ;
+  t.push('</div>') ;
+  t.push('<div class="one_line">') ;
   t.push(table_input_attr('bookmark')) ;
-  t.push('<br>') ;
+  t.push('</div>') ;
+  t.push('<div class="one_line">') ;
   t.push(table_input_attr('linear')) ;
+  t.push('.') ;
   t.push(table_input_attr('update_content')) ;
   t.push(hidden_txt('<a href="javascript:change_popup_on_red_line()">.</a>',
 		    "Basculer entre le mode tenant compte ou non<br>" +
 		    "des inscriptions pédagogiques."
 		    ,'','popup_on_red_line')) ;
+  t.push('</div>') ;
 
   o.push(['Action', t.join('\n')]) ;
 
