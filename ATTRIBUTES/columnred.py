@@ -28,5 +28,5 @@ class ColumnRed(ColumnGreen):
     une valeur inférieure à celle indiquée.<br>On peut utiliser un filtre"""
     css = """
 #menutop #t_column_red { width: 1.5em ; border: 1px solid #F88 ; }
-#menutop DIV.tabs #t_column_red { width: 25% ; }
+#menutop DIV.tabs #t_column_red { width: 100% ; }
     """

@@ -477,7 +477,7 @@ function create_tabs(name, tabs)
   var s = ['<div class="tabs" id="' + name + '"><div class="titles">'] ;
   for(var i in tabs)
      s.push('<span id="title_' + tabs[i][0] + '" onclick="select_tab(\'' + name + "','" +
-            tabs[i][0] + '\')">' + tabs[i][0]
+            tabs[i][0] + '\');the_current_cell.input.focus()">' + tabs[i][0]
              + '</span>') ;
   s.push('</div><div class="contents">') ;
   for(var i in tabs)
@@ -491,6 +491,8 @@ function create_tabs(name, tabs)
 function select_tab(name, tab)
 {
   var tabs = document.getElementById(name) ;
+  if ( ! tabs )
+    return ;
   for(var child = tabs.childNodes[1].firstChild;child;child=child.nextSibling)
      if ( child.id != 'title_' + tab )
          child.style.display = 'none' ;
@@ -502,7 +504,6 @@ function select_tab(name, tab)
             child.className = '' ;
         else
             child.className = 'tab_selected' ;
-
 }
 
 function new_new_interface()
@@ -605,8 +606,9 @@ function new_new_interface()
 		    'Il y a un <b>bug</b> quelque part,<br>'+
 		    'le responsable du logiciel a reçu un message ' +
 		    'le prévenant.')) ;
-  t.push('<br>') ;
 
+  t.push('<br><small>ALT-1 : cache les bulles d\'aide</small>') ;
+  t.push('<br><small>ALT-8 : édite le filtre de lignes</small>') ;
   o.push(['?', t.join('\n')]) ;
 
   // CELLULE
@@ -633,8 +635,11 @@ function new_new_interface()
   t.push(column_input_attr('type', options)) ;
   t.push(column_input_attr('enumeration')) ;
   t.push(column_input_attr('minmax')) ;
+  t.push(column_input_attr('test_filter')) ;
   t.push('</div>') ;
-  t.push(column_input_attr('stats', 'one_line')) ;
+  t.push('<div class="one_line">') ;
+  t.push(column_input_attr('stats')) ;
+  t.push('</div>') ;
   t.push(column_input_attr('comment', 'empty one_line')) ;
   t.push(hidden_txt(header_input("columns_filter",'',
 				 'empty one_line onkey=columns_filter_change(this)'),
@@ -649,21 +654,22 @@ function new_new_interface()
   // COLUMN / Formula
 
   t = [] ;
-  t.push('<div class="one_line"><small>Coloriage :</small>') ;
-  t.push(column_input_attr('red')) ;
-  t.push(column_input_attr('green')) ;
+  t.push('<div class="one_line">') ;
+  t.push(column_input_attr('red',
+			   'before=<small>Rougir&nbsp;:&nbsp;</small>')) ;
+  t.push('</div>') ;
+  t.push('<div class="one_line">') ;
+  t.push(column_input_attr('green',
+			   'before=<small>Verdir&nbsp;:&nbsp;</small>')) ;
+  t.push('</div>') ;
+  t.push('<div class="one_line">') ;
+  t.push(column_input_attr('empty_is', 'before=<small>Si&nbsp;vide&nbsp;:&nbsp;</small>')) ;
   t.push('</div>') ;
   t.push('<div class="one_line">') ;
   t.push(column_input_attr('columns', 'before=<small>Formule&nbsp;:&nbsp;</small>')) ;
   t.push('</div>') ;
   t.push('<div class="one_line">') ;
   t.push(column_input_attr('weight', 'before=<small>Poids&nbsp;:&nbsp;</small>')) ;
-  t.push('</div>') ;
-  t.push('<div class="one_line">') ;
-  t.push(column_input_attr('empty_is', 'before=<small>Si&nbsp;vide&nbsp;:&nbsp;</small>')) ;
-  t.push('</div>') ;
-  t.push('<div class="one_line">') ;
-  t.push(column_input_attr('test_filter', 'before=<small>Nombre de&nbsp;:&nbsp;</small>')) ;
   t.push('</div>') ;
 
   o.push(['Formule', t.join('\n')]) ;

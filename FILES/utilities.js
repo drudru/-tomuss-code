@@ -1873,6 +1873,7 @@ function alt_shortcut(event, td)
     case 109: /* AZERTY: 8/_ */
     case 95:  /* AZERTY: 8/_ */
     case 56:  /* QWERTY: 8/ * */
+      select_tab("cellule", "Cellule") ;
       linefilter.focus() ;
       if (linefilter.select)
 	linefilter.select();

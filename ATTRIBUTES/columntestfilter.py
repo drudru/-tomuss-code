@@ -41,4 +41,8 @@ function(value, column)
     <li> <b>&lt;8</b> compte les nombres plus petits que 8.
     </ul>
     Pour plus d'information, regardez l'aide sur les filtres."""
-    css = "#menutop #t_column_test_filter { width: 4em ; }"
+    css = """
+    #menutop #t_column_test_filter { width: 4em ; }
+    #menutop DIV.tabs #t_column_test_filter { width: 100% ; }
+    """
+

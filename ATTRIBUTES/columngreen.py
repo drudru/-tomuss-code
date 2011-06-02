@@ -30,5 +30,5 @@ class ColumnGreen(ColumnAttr):
     une valeur supérieure à celle indiquée.<br>On peut utiliser un filtre"""
     css = """
 #menutop #t_column_green { width: 1.5em ; border: 1px solid #0F0 ;}
-#menutop DIV.tabs #t_column_green { width: 25% ; }
+#menutop DIV.tabs #t_column_green { width: 100% ; }
     """
