@@ -279,7 +279,9 @@ for(var i_div in divs)
             if ( text_divs.length % 2 == 0)
               m.className = 'highlight' ;
             m.className += ' ' + e.tagName ;
-            e.innerHTML = '<a name="n' + class_divs.length + '">' + e.innerHTML + '</a>' ;
+            e.innerHTML = '<a name="n' + class_divs.length + '">'
+	      + '<a name="' + escape(e.textContent) + '">'
+	      + e.innerHTML + '</a></a>' ;
             class_divs.push(m.className) ;
             content_divs.push(div.innerHTML) ;
             menu.appendChild(m) ;

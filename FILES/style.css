@@ -492,10 +492,6 @@ INPUT#comment { width: 100% ; clear: both; }
 
 /* #menutop .gui_button:hover { background: #EFE ; } */
 
-#menutop IMG.server {
-  width: 4px ;
-}
-
 #menutop DIV.menu, #menutop #t_history { font-size: 80% ; }
 #menutop DIV.menu TABLE {  width: 100% ; }
 #menutop DIV.menu TABLE TD {

@@ -597,16 +597,19 @@ function new_new_interface()
   // CELLULE / ?
 
   t = [] ;
-  t.push(hidden_txt('La <a href="_URL_/doc_table.html" target="_blank">' +
-		    'documentation</a><br>',
+  t.push('<div class="one_line">')
+  t.push(hidden_txt('<a href="_URL_/doc_table.html" target="_blank">' +
+		    'Documentation</a><small> complète et intéractive</small>',
 		    "Cliquez sur le lien pour avoir tous les détails sur<br>" +
 		    "l'utilisation de ce tableur")) ;
-  t.push(hidden_txt('<span class="ro">S</span>' +
+  t.push('</div>')
+  t.push('<div class="one_line">')
+  t.push(hidden_txt('<small><span class="ro">S</span>' +
 		    '<span class="comment">t</span>' +
 		    '<span class="today">y</span>' +
 		    '<span class="is_an_abj">l</span>' +
 		    '<span class="non">e</span>' +
-		    '<span class="tt">s</span> d\'affichage',
+		    '<span class="tt">s</span> d\'affichage utilisés dans la table</small>',
 		    "<span class=\"ro\">Le texte est gris si la cellule " +
 		    "est définie par quelqu'un d'autre.</span><br>" +
 		    "<span class=\"comment\">Triangle s'il y a un " +
@@ -623,7 +626,8 @@ function new_new_interface()
 		    "<span class=\"filtered\">Le fond est jaune si la " +
 		    "cellule est sélectionnée par le filtre de table</span>"
 		    ));
-  t.push('<br>Feedback : ') ;
+  t.push('</div>')
+  t.push('<div class="one_line">')
   t.push(hidden_txt('&nbsp;<img class="server"> ',
 		    'Ce petit carré apparaît quand :<br>' +
 		    'on essaye de stocker la valeur sur le serveur,<br>' +
@@ -643,9 +647,17 @@ function new_new_interface()
 		    'Il y a un <b>bug</b> quelque part,<br>'+
 		    'le responsable du logiciel a reçu un message ' +
 		    'le prévenant.')) ;
+  t.push(hidden_txt('<small> carré vert = sauvegarde réussie !</small>',
+		    "Mettez le curseur sur les petits carrés pour savoir<br>"
+		    + "ce qu'ils représentent")) ;
+  t.push('</div>')
 
-  t.push('<br><small>ALT-1 : cache les bulles d\'aide</small>') ;
-  t.push('<br><small>ALT-8 : édite le filtre de lignes</small>') ;
+  t.push('<div class="one_line">')
+  t.push('<small>ALT-1 : cache les bulles d\'aide</small>') ;
+  t.push('</div>')
+  t.push('<div class="one_line">')
+  t.push('<small>ALT-8 : édite le filtre de lignes</small>') ;
+  t.push('</div>')
   o.push(['?', t.join('\n')]) ;
 
   // CELLULE
@@ -770,7 +782,18 @@ function new_new_interface()
 
   // COLUMN / Help
 
-  o.push(['?', 'bla bla bla']) ;
+  t = [] ;
+  t.push('<div class="one_line">') ;
+  t.push('<small>Ce que vous faites est sauvegardé automatiquement</small>') ;
+  t.push('</div>') ;
+  t.push('<div class="one_line">') ;
+  t.push("<small>Rien n'est caché aux étudiants par défaut</small>") ;
+  t.push('</div>') ;
+  t.push('<div class="one_line">') ;
+  t.push('<small>Comment <a href="_URL_/doc_table.html#Calcul de moyenne">calculer une moyenne</a> ?</small>') ;
+  t.push('</div>') ;
+
+  o.push(['?', t.join('\n')]) ;
 
   // COLUMN
 
@@ -880,7 +903,14 @@ function new_new_interface()
 
   // Table / Help
 
-  o.push(['?', 'bla bla bla']) ;
+  o.push(['?',
+	  '<small>Tout le monde peut remplir des cases vides. '
+	  + 'Mais seul les responsables de la table peuvent modifier '
+	  + 'les notes et commentaires saisis par les autres enseignants. '
+	  + "Si personne n'est responsable de la table, n'importe qui "
+	  + " à le droit d'en prendre la responsabilité."
+	  + '</small>'
+	  ]) ;
 
   w.push('</td><td class="tabbed_headers">') ;
   w.push( create_tabs('table', o) ) ;
