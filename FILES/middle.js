@@ -511,6 +511,10 @@ function new_new_interface()
   var o, t ;
 
   column_attributes['hidden'].title = 'Cacher la colonne' ;
+  column_attributes['import'].title = '<b>Importer</b> <small>des valeurs dans la colonne</small>' ;
+  column_attributes['fill'].title = '<b>Remplir</b> <small>la colonne avec des valeurs</small>' ;
+  column_attributes['export'].title = '<b>Exporter</b> <small>la colonne pour APOGÉE</small>' ;
+  column_attributes['delete'].title = '<b>Détruire</b> <small>définitivement la colonne</small>' ;
 
   // CELLULE / Cellule
 
@@ -714,11 +718,20 @@ function new_new_interface()
   // COLUMN / Action
 
   t = [] ;
-  t.push(column_input_attr('import') + '<br>') ;
-  t.push(column_input_attr('fill') + '<br>') ;
-  t.push(column_input_attr('export') + '<br>') ;
-  t.push(column_input_attr('delete') + '<br>') ;
-  t.push(one_line('<span id="t_column_author"></span>',
+  t.push('<div class="one_line">') ;
+  t.push(column_input_attr('import')) ;
+  t.push('</div>') ;
+  t.push('<div class="one_line">') ;
+  t.push(column_input_attr('export')) ;
+  t.push('</div>') ;
+  t.push('<div class="one_line">') ;
+  t.push(column_input_attr('fill')) ;
+  t.push('</div>') ;
+  t.push('<div class="one_line">') ;
+  t.push(column_input_attr('delete')) ;
+  t.push('</div>') ;
+  t.push(one_line('<small>Définie par </small>'
+		  + '<span id="t_column_author"></span>',
 		  "Personne qui a modifié la définition<br>" +
 		  "de la colonne pour la dernière fois :")) ;
 

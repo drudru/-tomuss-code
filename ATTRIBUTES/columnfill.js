@@ -27,7 +27,7 @@ function fill_column()
   if ( table_attr.autosave )
     m = '<div style="text-align:right" id="stop_the_auto_save">' +
       'Cette opération ne sera pas annulable.<br>' +
-      'Désactivez la <a href="#" onclick="table_autosave_toggle();document.getElementById(\'stop_the_auto_save\').style.display=\'none\';">'+
+      'Désactivez la <a href="#" onclick="select_tab(\'table\', \'Action\');table_autosave_toggle();document.getElementById(\'stop_the_auto_save\').style.display=\'none\';">'+
       'sauvegarde automatique</a> pour être tranquille,<br>' +
       ' vous la réactiverez après avoir vérifié le résultat.</div>';
 
