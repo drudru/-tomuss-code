@@ -788,27 +788,33 @@ function new_new_interface()
 
   t = [] ;
   
-  t.push("Nb colonnes affichées " +
-	 table_input_attr('default_nr_columns')) ;
-  t.push('<br>') ;
-
-  t.push("Droits d'accès :" +
+  t.push('<div class="one_line">') ;
+  t.push(table_input_attr('default_nr_columns',
+			  'before=<small>Nb&nbsp;colonnes&nbsp;affichées&nbsp;:&nbsp;</small>')) ;
+  t.push('</div>') ;
+  t.push('<div class="one_line">') ;
+  t.push("<small>Droits d'accès : </small>" +
 	 table_input_attr('private', [[0,'Publique'],[1,'Privée']]));
   t.push(" " +
 	 table_input_attr('modifiable',
 			  [[0,'Non Modifiable'],[1,'Modifiable']])) ;
-  t.push('<br>') ;
+  t.push('</div>') ;
+  t.push('<div class="one_line">') ;
 
   if ( semester == 'Printemps' || semester == 'Automne' )
-    t.push('Affiche étudiant :' +
+    t.push('<small>Affichage étudiant : </small>' +
 	   table_input_attr('official_ue', [[0,'Invisible'],[1,'Visible']])) ;
   else
     t.push('&nbsp;') ;
 
-  t.push('<br>') ;
-  t.push('Début/fin : ' + table_input_attr('dates','empty')) ;
-  t.push('<br>') ;
-  t.push(table_input_attr('masters','empty')) ;
+  t.push('</div>') ;
+  t.push('<div class="one_line">') ;
+  t.push(table_input_attr('dates',
+			  'empty before=<small>Début/fin</small>&nbsp;:&nbsp;')) ;
+  t.push('</div>') ;
+  t.push('<div class="one_line">') ;
+  t.push(table_input_attr('masters','empty before=<small>Responsables&nbsp;:&nbsp;</small>')) ;
+  t.push('</div>') ;
 
   o.push(['Paramétrage', t.join('\n')]) ;
 

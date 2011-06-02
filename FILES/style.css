@@ -481,7 +481,7 @@ INPUT#comment { width: 100% ; clear: both; }
   border: 1px solid black;
 }
 
-#menutop SELECT { width: 20% ; font-size: 80%; }
+#menutop SELECT { width: 25% ; font-size: 80%; }
 
 .gui_button {
   margin: 1px ;

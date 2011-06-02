@@ -56,6 +56,7 @@ Tapez sur la touche «Entrée» pour valider."""
   background-image: url('teacher.png');
   background-repeat: no-repeat ;
 }
+#menutop DIV.tabs #t_table_attr_masters { font-size: 100% ; }
 """
 
     def encode(self, value):
