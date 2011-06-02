@@ -510,6 +510,8 @@ function new_new_interface()
 {
   var o, t ;
 
+  column_attributes['hidden'].title = 'Cacher la colonne' ;
+
   // CELLULE / Cellule
 
   t = ['<table class="cell"><tr><td>'] ;
@@ -679,24 +681,33 @@ function new_new_interface()
   var x ="<br>Ce changement n'est pas visible par les autres utilisateurs.";
 
   t = [] ;
-  t.push(column_input_attr('visibility_date')) ;
+  t.push('<div class="one_line">') ;
+  t.push(column_input_attr('visibility_date',
+			   'before=<small>Visible&nbsp;le&nbsp;:&nbsp;</small>'
+			   )) ;
+  t.push('</div>') ;
+  t.push('<div class="one_line">') ;
   t.push('Déplace colonne : ') ;
   t.push(hidden_txt('<a href="javascript:do_move_column_left();">«</a>',
 		    "<b>Décale la colonne vers la gauche</b>" + x)) ;
   t.push(column_input_attr('position')) ;
   t.push(hidden_txt('<a href="javascript:do_move_column_right();">»</a>',
 		    "<b>Décale la colonne vers la droite</b>" + x)) ;
-  t.push('<br>') ;
+  t.push('</div>') ;
+  t.push('<div class="one_line">') ;
   t.push('Largeur colonne : ') ;
   t.push(hidden_txt('<a href="javascript:smaller_column();">-</a>',
 		    "<b>Amincir la colonne</b>" + x)) ;
   t.push(column_input_attr('width')) ;
   t.push(hidden_txt('<a href="javascript:bigger_column();">+</a>',
 		    "<b>Élargir la colonne</b>" + x)) ;
-  t.push('<br>') ;
+  t.push('</div>') ;
+  t.push('<div class="one_line">') ;
   t.push(column_input_attr('freezed')) ;
-  t.push('<br>') ;
+  t.push('</div>') ;
+  t.push('<div class="one_line">') ;
   t.push(column_input_attr('hidden')) ;
+  t.push('</div>') ;
 
   o.push(['Affiche', t.join('\n')]) ;
 

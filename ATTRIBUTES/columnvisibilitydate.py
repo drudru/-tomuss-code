@@ -53,4 +53,7 @@ function(column, value)
   background-repeat: no-repeat ;
   width: 5.5em ;
 }
+
+#menutop DIV.tabs #t_column_visibility_date { width: 100% }
+
 """
