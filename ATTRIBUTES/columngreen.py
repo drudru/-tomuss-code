@@ -28,4 +28,7 @@ class ColumnGreen(ColumnAttr):
     check_and_set = 'set_green'
     tip = """<b>Colorie en vert</b> les cellules contenant<br>
     une valeur supérieure à celle indiquée.<br>On peut utiliser un filtre"""
-    css = "#menutop #t_column_green { width: 1.5em ; border: 1px solid #0F0 ;}"
+    css = """
+#menutop #t_column_green { width: 1.5em ; border: 1px solid #0F0 ;}
+#menutop DIV.tabs #t_column_green { width: 25% ; }
+    """

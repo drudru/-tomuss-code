@@ -48,4 +48,5 @@ class ColumnType(ColumnAttr):
     css = """
 #menutop SELECT#t_column_type {  margin: 3px ; }
 #t_column_type { width: auto; }
+DIV.tabs #t_column_type { width: 8em }
 """

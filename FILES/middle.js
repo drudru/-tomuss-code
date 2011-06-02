@@ -97,35 +97,38 @@ function head_html()
     if ( semester == 'Printemps' || semester == 'Automne' )
       w += '<a href="' + suivi.split('/=')[0] + '/rss2/' + ue + '"><img style="border:0px" src="' + url + '/feed.png"></a>' ;
 
- w += hidden_txt('<a href="_URL_/doc_table.html" target="_blank">Documentation</a>',
-		 "Cliquez sur le lien pour avoir tous les détails sur<br>" +
-		 "l'utilisation de ce tableur") + ', ' ;
-
- w += hidden_txt('<span class="ro">S</span><span class="comment">t</span><span class="today">y</span><span class="is_an_abj">l</span><span class="non">e</span><span class="tt">s</span>',
-		 "<span class=\"ro\">Le texte est gris si la cellule est définie par quelqu'un d'autre.</span><br>" +
-		 "<span class=\"comment\">Triangle s'il y a un commentaire.</span><br>" +
-		 "<span class=\"today\">Le texte est gras si la cellule a été modifiée aujourd'hui.</span><br>" +
-		 "<span class=\"is_an_abj\">Si ABINJ est souligné, cliquez dessus pour vérifier s'il a un justificatif.</span><br>" +
-		 "<span class=\"non\">Le fond est rouge si l'étudiant n'est pas inscrit à l'UE.</span><br>" +
-		 "<span class=\"tt\">Le fond est bleu si l'étudiant a un tiers temps.</span><br>" +
-		 "<span class=\"filtered\">Le fond est jaune si la cellule est sélectionnée par le filtre de table</span>") + ',' ;
- w += hidden_txt('&nbsp;<img class="server"> ',
-	    'Ce petit carré apparaît quand :<br>' +
-	    'on essaye de stocker la valeur sur le serveur,<br>' +
-	    'si cela dure plus de 5 secondes il y a un <b>problème</b> (réseaux ?),<br>' +
-	    'évitez de saisir des valeurs dans ces conditions.') ;
- w += hidden_txt('&nbsp;<img class="server" src="_URL_/ok.png"> ',
-	    'Ce petit carré apparaît quand :<br>' +
-	    'la valeur a été <b>stockée avec succès</b> sur le serveur') ;
- w += hidden_txt('&nbsp;<img class="server" src="_URL_/bad.png"> ',
-	    'Ce petit carré apparaît quand :<br>' +
-	    'le serveur <b>refuse de stocker cette valeur</b>.<br>' +
-	    'C\'est certainement du à un problème de droit') ;
- w += hidden_txt('&nbsp;<img class="server" src="_URL_/bug.png">',
-	    'Ce petit carré apparaît quand :<br>' +
-	    'Il y a un <b>bug</b> quelque part,<br>'+
-	    'le responsable du logiciel a reçu un message le prévenant.') +
-   ', ' ;
+  if ( window.location.pathname.search('=new-interface=') == -1 )
+    {
+      w += hidden_txt('<a href="_URL_/doc_table.html" target="_blank">Documentation</a>',
+		      "Cliquez sur le lien pour avoir tous les détails sur<br>" +
+		      "l'utilisation de ce tableur") + ', ' ;
+      
+      w += hidden_txt('<span class="ro">S</span><span class="comment">t</span><span class="today">y</span><span class="is_an_abj">l</span><span class="non">e</span><span class="tt">s</span>',
+		      "<span class=\"ro\">Le texte est gris si la cellule est définie par quelqu'un d'autre.</span><br>" +
+		      "<span class=\"comment\">Triangle s'il y a un commentaire.</span><br>" +
+		      "<span class=\"today\">Le texte est gras si la cellule a été modifiée aujourd'hui.</span><br>" +
+		      "<span class=\"is_an_abj\">Si ABINJ est souligné, cliquez dessus pour vérifier s'il a un justificatif.</span><br>" +
+		      "<span class=\"non\">Le fond est rouge si l'étudiant n'est pas inscrit à l'UE.</span><br>" +
+		      "<span class=\"tt\">Le fond est bleu si l'étudiant a un tiers temps.</span><br>" +
+		      "<span class=\"filtered\">Le fond est jaune si la cellule est sélectionnée par le filtre de table</span>") + ',' ;
+      w += hidden_txt('&nbsp;<img class="server"> ',
+		      'Ce petit carré apparaît quand :<br>' +
+		      'on essaye de stocker la valeur sur le serveur,<br>' +
+		      'si cela dure plus de 5 secondes il y a un <b>problème</b> (réseaux ?),<br>' +
+		      'évitez de saisir des valeurs dans ces conditions.') ;
+      w += hidden_txt('&nbsp;<img class="server" src="_URL_/ok.png"> ',
+		      'Ce petit carré apparaît quand :<br>' +
+		      'la valeur a été <b>stockée avec succès</b> sur le serveur') ;
+      w += hidden_txt('&nbsp;<img class="server" src="_URL_/bad.png"> ',
+		      'Ce petit carré apparaît quand :<br>' +
+		      'le serveur <b>refuse de stocker cette valeur</b>.<br>' +
+		      'C\'est certainement du à un problème de droit') ;
+      w += hidden_txt('&nbsp;<img class="server" src="_URL_/bug.png">',
+		      'Ce petit carré apparaît quand :<br>' +
+		      'Il y a un <b>bug</b> quelque part,<br>'+
+		      'le responsable du logiciel a reçu un message le prévenant.') +
+	', ' ;
+    }
  w += hidden_txt('<a href="' + url + '/=' + ticket + '/0/Preferences/'
 		 + my_identity2 + '" target="_blank">Préférences</a>',
 		 "Ce lien vous permet de régler les préférences.<br>" +
@@ -430,11 +433,11 @@ function an_input_attribute(attr, options, prefix_id, prefix_)
     case 'GUI_none':
       return attr.title ;
     case 'GUI_button':
-      return hidden_txt('<input type="button" class="gui_button" id="'
+      return hidden_txt('<span class="gui_button" id="'
 			+ the_id + '" '
 			+ 'onclick="' + attr.action + '(this);'
 			+ 'setTimeout(\'linefilter.focus()\',100)"'
-			+ ' value="' + attr.title + '">',
+			+ '>' + attr.title + '</span>',
 			tip) ;
     case 'GUI_select':
       var opts = '' ;
@@ -521,21 +524,17 @@ function new_new_interface()
   t.push(one_line('<span id="t_student_surname"></span>',
 		  "Nom de l'étudiant.")) ;
   t.push(hidden_txt(header_input('comment', '',
-				 'empty onblur=comment_on_change(event)')
-		    + '<br>',
+				 'empty one_line onblur=comment_on_change(event)'),
 		    "Tapez un commentaire pour cette cellule<br>" +
 		    "afin de ne pas oublier les choses importantes.<br>" +
-		    "<b>ATTENTION : les étudiants voient ce commentaire</b>",
-		    'one_line'));
+		    "<b>ATTENTION : les étudiants voient ce commentaire</b>"));
   t.push(hidden_txt(header_input('linefilter', '',
-				 'empty onkey=line_filter_change(this)'),
+				 'empty one_line onkey=line_filter_change(this)'),
 		    "<span class=\"shortcut\">(Alt-8)</span>" +
 		    "<b>Filtre les lignes</b><br>" +
 		    "Seules les lignes contenant une valeur filtrée " +
 		    "seront affichées.<br>" +
-		    "Tapez le début de ce que vous cherchez.",
-		    'one_line'
-		    )) ;
+		    "Tapez le début de ce que vous cherchez.")) ;
   t.push(hidden_txt('<span id="t_student_id" style="display:none"></span>', "Numéro d'étudiant.")) ;
   t.push('</td></tr></table>') ;
   o = [['Cellule', t.join('\n')]] ;
@@ -543,18 +542,18 @@ function new_new_interface()
   // CELLULE / Historique
 
   t = [] ;
-  t.push(one_line('Saisie par : <span id="t_author"></span>',
+  t.push(one_line('<small>Saisie par : </small><b><span id="t_author"></span></b>',
 		  "Personne qui a modifié la cellule pour la dernière fois :"
 		  )) ;
-  t.push(one_line('Le <span id="t_date"></span>',
+  t.push(one_line('<small>Le </small><b><span id="t_date"></span></b>',
 		  "Date ou la cellule a été modifiée pour la dernière fois."
 		  )) ;
-  t.push(one_line('Historique :<br><span id="t_history"></span>',
-		  "Valeurs précédentes prises par la cellule.<br>"+
-		  "De la plus ancienne à la plus récente.<br>" +
-		  "Le nom de la personne qui a fait la modification<br>" +
-		  "est indiqué si la valeur précédente n'était<br>" +
-		  "pas saisie par elle.")) ;
+  t.push(hidden_txt('<small>Historique :</small><br><span id="t_history"></span>',
+		    "Valeurs précédentes prises par la cellule.<br>"+
+		    "De la plus ancienne à la plus récente.<br>" +
+		    "Le nom de la personne qui a fait la modification<br>" +
+		    "est indiqué si la valeur précédente n'était<br>" +
+		    "pas saisie par elle.")) ;
   o.push(['Historique', t.join('\n')]) ;
 		 
   // CELLULE / ?
@@ -642,23 +641,30 @@ function new_new_interface()
 		    "Seules les <b>colonnes</b> dont le nom est filtré " +
 		    "seront affichées.<br>" +
 		    "Tapez le début de ce que vous cherchez.<br>" +
-		    "Pour plus d'information, regardez l'aide sur les filtres."
+		    "Pour plus d'information, regardez l'aide sur les filtres.",
+		    'one_line'
 		    )) ;
   o = [['Colonne', t.join('\n')]] ;
 
   // COLUMN / Formula
 
   t = [] ;
-  t.push('Coloriage :') ;
+  t.push('<div class="one_line"><small>Coloriage :</small>') ;
   t.push(column_input_attr('red')) ;
   t.push(column_input_attr('green')) ;
-  t.push('<br>') ;
-  t.push(column_input_attr('columns')) ;
-  t.push('<br>') ;
-  t.push(column_input_attr('test_filter')) ;
-  t.push('<br>') ;
-  t.push(column_input_attr('weight', 'before=Poids=')) ;
-  t.push(column_input_attr('empty_is', 'before=Cellule vide =')) ;
+  t.push('</div>') ;
+  t.push('<div class="one_line">') ;
+  t.push(column_input_attr('columns', 'before=<small>Formule&nbsp;:&nbsp;</small>')) ;
+  t.push('</div>') ;
+  t.push('<div class="one_line">') ;
+  t.push(column_input_attr('weight', 'before=<small>Poids&nbsp;:&nbsp;</small>')) ;
+  t.push('</div>') ;
+  t.push('<div class="one_line">') ;
+  t.push(column_input_attr('empty_is', 'before=<small>Si&nbsp;vide&nbsp;:&nbsp;</small>')) ;
+  t.push('</div>') ;
+  t.push('<div class="one_line">') ;
+  t.push(column_input_attr('test_filter', 'before=<small>Nombre de&nbsp;:&nbsp;</small>')) ;
+  t.push('</div>') ;
 
   o.push(['Formule', t.join('\n')]) ;
 
@@ -715,28 +721,31 @@ function new_new_interface()
 
   t = [] ;
  
-  t.push(hidden_txt('<span id="nr_filtered_lines"></span> lignes filtrées',
+  t.push('<div class="one_line">') ;
+  t.push(hidden_txt('<span id="nr_filtered_lines"></span><small> lignes filtrées sur </small>',
 		    "C'est le nombre de lignes qui sont affichées<br>\n" +
 		    "après avoir appliqués les filtres")) ;
 
-  t.push(hidden_txt('sur <span id="nr_not_empty_lines"></span>',
+  t.push(hidden_txt('<span id="nr_not_empty_lines"></span>',
 		    "C'est le nombre de lignes dans le tableau total<br>\n" +
 		    "y compris les lignes vidées")) ;
-  t.push('<br>') ;
-  t.push(hidden_txt(table_input_attr('nr_lines') +  'lignes, ' +
-		    table_input_attr('nr_columns') + ' colonnes',
+  t.push('</div>') ;
+  t.push('<div class="one_line">') ;
+  t.push(hidden_txt(table_input_attr('nr_lines') +  '<small>lignes, </small>' +
+		    table_input_attr('nr_columns') +'<small> colonnes</small>',
 		    "Taille du tableau affiché sur l'écran")) ;
-  t.push('<br>') ;
+  t.push('</div>') ;
+  t.push('<div class="one_line">') ;
   t.push(table_input_attr('facebook')) ;
   t.push(table_input_attr('print')) ;
   t.push(table_input_attr('abj')) ;
   t.push(table_input_attr('mail')) ;
-  t.push('<br>') ;
+  t.push('</div>') ;
 
-  t.push(table_input_attr("comment",'empty')) ;
-  t.push('<br>') ;
+  t.push(table_input_attr("comment", 'empty one_line')) ;
+
   t.push(hidden_txt(header_input('fullfilter', '',
-				 'empty onkey=full_filter_change(this)'),
+				 'empty one_line onkey=full_filter_change(this)'),
 		    "Seule les <b>colonnes et lignes</b> contenant " +
 		    "une valeur filtrée<br>seront affichées " +
 		    "(c'est un filtre).<br>" +
@@ -796,7 +805,7 @@ function new_new_interface()
 
   // Table / Help
 
-  o.push(['Aide', 'bla bla bla']) ;
+  o.push(['?', 'bla bla bla']) ;
 
   w.push('</td><td class="tabbed_headers">') ;
   w.push( create_tabs('table', o) ) ;

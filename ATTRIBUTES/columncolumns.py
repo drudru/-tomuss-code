@@ -70,4 +70,7 @@ class ColumnColumns(ColumnAttr):
         Indiquez la colonne de comptes (ID)<br>
         pour lesquels on veut trouver le nom de famille.""",
         }
-    css = "#menutop #t_column_columns { width: 40% ; }"
+    css = """
+    #menutop #t_column_columns { width: 40% ; }
+    #menutop DIV.tabs #t_column_columns { width: 100% ; }
+    """

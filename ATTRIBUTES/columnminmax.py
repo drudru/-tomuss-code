@@ -33,4 +33,7 @@ class ColumnMinMax(ColumnAttr):
     Les bornes peuvent être négatives.<br>
     Ces valeurs n'influent pas sur les poids<br>
     des notes dans une moyenne pondérée."""
-    css = "#menutop #t_column_minmax { width: 3.5em ; }"
+    css = """
+    #menutop #t_column_minmax { width: 3.5em ; }
+    #menutop DIV.tabs #t_column_minmax { width: 100% ; }
+    """

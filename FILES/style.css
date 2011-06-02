@@ -458,7 +458,7 @@ font-size: 200%;
 #t_student_picture { float: left ;   }
 #t_value { font-weight: bold; }
 INPUT#comment { width: 100% ; clear: both; }
-#menutop IMG.phot { border-width: 0 ;height: 100px ; width: 80px }
+#menutop IMG.phot { border-width: 0 ;height: 7em ; width: 90px }
 
 #menutop .one_line {
   white-space: nowrap ;
@@ -483,13 +483,14 @@ INPUT#comment { width: 100% ; clear: both; }
 
 #menutop SELECT { width: 20% ; font-size: 80%; }
 
-#menutop INPUT.gui_button {
-  width: auto;
-  font-size: smaller;
-  border: 2px outset #888;
-  background: #EEE;
- }
-#menutop INPUT.gui_button:hover { background: #FFF ; }
+.gui_button {
+  margin: 1px ;
+  background: #EEE ;
+  border: 1px outset #AAA ;
+  font-size: 70% ;
+}
+
+/* #menutop .gui_button:hover { background: #EFE ; } */
 
 #menutop IMG.server {
   width: 4px ;
@@ -568,14 +569,11 @@ DIV.tabs DIV.titles SPAN.tab_selected {
 }
 DIV.tabs DIV.contents {
   border: 1px solid black;
-  height: 8em;
+  height: 7em;
   overflow: hidden ;
 }
 DIV.tabs DIV.contents DIV.content { height: 100% }
 DIV.tabs { margin: 2px }
-
-DIV.tabs #t_column_type { width: 8em }
-DIV.tabs #t_column_enumeration { }
 
 TABLE.tabbed_headers { width: 100%; }
 TD.tabbed_headers { width: 20%; }
@@ -593,6 +591,12 @@ TABLE.cell TD.cell_values { width: 100% }
 }
 
 
+#menutop DIV.tabs INPUT{ width: 99% }
+
+/*
+DIV.tipped { background:red;}
+.one_line { background:green  }
+*/
 
 /*****************************************************************************/
 /* PRINT */

@@ -26,4 +26,7 @@ class ColumnRed(ColumnGreen):
     check_and_set = 'set_red'
     tip = """<b>Colorie en rouge</b> les cellules contenant<br>
     une valeur inférieure à celle indiquée.<br>On peut utiliser un filtre"""
-    css = "#menutop #t_column_red { width: 1.5em ; border: 1px solid #F88 ; }"
+    css = """
+#menutop #t_column_red { width: 1.5em ; border: 1px solid #F88 ; }
+#menutop DIV.tabs #t_column_red { width: 25% ; }
+    """

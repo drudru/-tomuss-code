@@ -1510,7 +1510,9 @@ function update_attribute_value(e, attr, table, editable)
 
 	  // XXX In some case 'the_current_cell.column' is undefined
 	  if ( the_current_cell.column && attr.tip[the_current_cell.column.type] )
-	    tip_top(e).firstChild.innerHTML = attr.tip[the_current_cell.column.type] ;
+	    {
+	      tip_top(e).firstChild.innerHTML = attr.tip[the_current_cell.column.type] + '<hr><b>' + html(e.value) ;
+	    }
 	}
       break ;
     case 'A':
