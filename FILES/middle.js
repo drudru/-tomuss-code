@@ -377,6 +377,31 @@ function header_change_on_update(event, input, what)
   The definition of an input that dispatch update correctly
   and return focus in the table on key up/down/return
 */
+
+function header_input_focus(e)
+{
+  if ( e.tomuss_editable === false )
+    {
+      e.blur() ;
+      return ;
+    }
+  e.className = '' ; // Remove 'empty' class
+  element_focused = e ;
+
+  // Adjust width to the tab right side
+
+  var tab = e.parentNode ;
+  while(tab && tab.className != 'content' )
+    tab = tab.parentNode ;
+
+  if ( tab )
+    {
+      var w = tab.offsetWidth - (findPosX(e) - findPosX(tab)) + 1 ;
+      if ( w < e.offsetWidth )
+	e.style.width = w ;
+    }
+}
+
 function header_input(the_id, the_header_name, options)
 {
   var classe='', onkey='', before='', after='' ;
@@ -409,8 +434,7 @@ function header_input(the_id, the_header_name, options)
     }
 
   return before+'<input style="margin-top:0px" type="text" id="' + the_id + '" class="' + classe
-    + '" onfocus="if ( this.tomuss_editable === false ) this.blur() ; else { this.className=\'\';element_focused=this;}" '
-    + ' onblur="' + onblur
+    + '" onfocus="header_input_focus(this)" onblur="' + onblur
     + '" onkeyup="' + onkey  +'">' + after ;
 }
 
