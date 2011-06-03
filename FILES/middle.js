@@ -566,13 +566,16 @@ for(var type_i in types)
 	      "nombre de lignes dans le tableau total") + ', ' +
 
    table_input_attr('nr_lines') +  '&times;' +
-   table_input_attr('nr_columns') + '<br>' +
+   table_input_attr('nr_columns') +
+   '<div class="one_line">' +
    table_input_attr('facebook') +
    table_input_attr('print') +
    table_input_attr('abj') +
    table_input_attr('mail') +
-   table_input_attr('statistics') + '<br>' +
+   table_input_attr('statistics') +
+   '</div>' +
 
+   '<div class="one_line">' +
    '<div class="menu">' +
    hidden_txt('<a href="javascript:change_popup_on_red_line()">&nbsp;</a>',
 	      "Cliquez-ici pour basculer entre le mode tenant compte<br>" +
@@ -584,7 +587,8 @@ for(var type_i in types)
    table_input_attr('linear') + ', ' +
    table_input_attr('t_import') + ', ' +
    table_input_attr('t_export') + ', ' +
-   table_input_attr('update_content') + '<br>' +
+   table_input_attr('update_content') +
+   '</div>' +
    table_input_attr('private',    [[0,'Publique'],[1,'Privée']]) +
    table_input_attr('modifiable', [[0,'Non Modifiable'],[1,'Modifiable']]) ;
 
