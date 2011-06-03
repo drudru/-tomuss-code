@@ -127,6 +127,7 @@ function lib_init()
   modification_date    = document.getElementById('date'                 );
   server_log           = document.getElementById('log'                  );
   the_body             = document.getElementById('body'                 );
+  the_body.style.overflowX = 'hidden' ;
   p_title_links        = document.getElementById('title_links'          );
   nr_not_empty_lines   = document.getElementById('nr_not_empty_lines'   );
   nr_filtered_lines    = document.getElementById('nr_filtered_lines'    );
@@ -222,17 +223,19 @@ var header_height ;
 
 function compute_nr_lines()
 {
-  if ( the_current_cell.input && header_height === undefined )
+  if ( ! header_height )
     {
-      header_height = findPosY(the_current_cell.input) ;
+      setTimeout("header_height = findPosY(the_current_cell.input); compute_nr_lines();table_init();table_fill(true,true,true)", 500) ;
+      table_attr.nr_lines = 1 ;
+      return ;
     }
-
   if ( the_current_cell.input )
     {
       // Number of displayed lines on the screen
-      table_attr.nr_lines = (window_height() - header_height)
-	/ (3 + the_current_cell.input.offsetHeight) ;
-      table_attr.nr_lines = Math.floor(table_attr.nr_lines) - 3 ;
+      table_attr.nr_lines = (window_height() - header_height
+			     - 1.5*the_current_cell.input.offsetHeight)
+	/ (1+the_current_cell.input.offsetHeight) ;
+      table_attr.nr_lines = Math.floor(table_attr.nr_lines) ;
     }
 
   // table_attr.nr_lines = Math.floor( (window_height() - 350) / 22) ;
@@ -1829,7 +1832,6 @@ function table_fill_real()
   var empty_line = add_empty_lines() ;
   var empty_column = add_empty_columns() ;
   var cls = column_list() ;
-
   var d1 = millisec() ;
   for(var line in filtered_lines)
     {

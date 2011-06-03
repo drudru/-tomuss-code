@@ -20,12 +20,9 @@
     Contact: Thierry.EXCOFFIER@bat710.univ-lyon1.fr
 */
 
-function freeze_column(column)
+function freeze_column(the_id)
 {
-  if ( column === undefined )
-    column = the_current_cell.column ;
-  if ( ! column )
-    return ;
+  var column = the_current_cell.column ;
   if ( column.freezed == 'F' )
     column.freezed = '' ;
   else
