@@ -225,7 +225,7 @@ function compute_nr_lines()
 {
   if ( ! header_height )
     {
-      setTimeout("header_height = findPosY(the_current_cell.input); compute_nr_lines();table_init();table_fill(true,true,true)", 500) ;
+      setTimeout("header_height = findPosY(the_current_cell.input); compute_nr_lines();table_init();table_fill(true,true,true)", 1000) ;
       table_attr.nr_lines = 1 ;
       return ;
     }
@@ -234,7 +234,7 @@ function compute_nr_lines()
       // Number of displayed lines on the screen
       table_attr.nr_lines = (window_height() - header_height
 			     - 1.5*the_current_cell.input.offsetHeight)
-	/ (1+the_current_cell.input.offsetHeight) ;
+        / (1+table.childNodes[nr_headers].firstChild.offsetHeight) ;
       table_attr.nr_lines = Math.floor(table_attr.nr_lines) ;
     }
 
