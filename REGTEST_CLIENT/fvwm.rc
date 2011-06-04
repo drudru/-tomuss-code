@@ -1,0 +1,6 @@
+# Configuration for FVWM
+
+Style * MouseFocus
+
+Key F8 A N Maximize 100 100
+

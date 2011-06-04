@@ -1,0 +1,50 @@
+Afficher les différence trouvée dans le log.
+forever continu si erreur !
+
+
+
+BEWARE : the regression tests are quite special.
+They didnt' tell if the application is working, they tell if
+the application give the same result than the last time.
+
+In order to use these regression tests :
+   * You checkout a working version
+   * You run the regression tests
+   * You checkout the next version
+   * You run the regression tests
+
+If there is GUI change, the tests will fail.
+
+
+
+
+
+======================
+Testing IE from Linux.
+======================
+
+---------
+ies4linux
+---------
+
+'ies4linux' works nicely until some DNS errors: unusable
+
+---------
+    VNC
+---------
+* Install 'tightvnc' under vista home
+* Allow port '3389' on windows firewall
+* Run 'tightvnc' server
+* Set tight vnc server :
+	- Correct port
+	- Set password ''
+	- Allow empty password
+	- Run IE
+	- Set the window to display to be IE one
+	- Close preference (does not work if you don't)
+	- Activate the IE window to put it in focus
+* On linux install 'xtightvncviewer'
+* To run the IE window :
+
+  xtightvncviewer 192.168.0.131::3389 -encodings raw -compresslevel 1 -nojpeg \
+                  -x11cursor
