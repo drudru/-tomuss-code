@@ -2002,6 +2002,7 @@ function current_keydown(event, in_input)
 	}
       // completion only in table cells
       if (  event.target === this.input && key >= 64
+	    && event.ctrlKey === false
 	    && this.input.textLength == selection.end ) // No control code
 	setTimeout("the_current_cell.do_completion()") ;
       return true ;
