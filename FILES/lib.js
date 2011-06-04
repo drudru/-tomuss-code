@@ -127,7 +127,8 @@ function lib_init()
   modification_date    = document.getElementById('date'                 );
   server_log           = document.getElementById('log'                  );
   the_body             = document.getElementById('body'                 );
-  the_body.style.overflowX = 'hidden' ;
+  if ( the_body )
+    the_body.style.overflowX = 'hidden' ;
   p_title_links        = document.getElementById('title_links'          );
   nr_not_empty_lines   = document.getElementById('nr_not_empty_lines'   );
   nr_filtered_lines    = document.getElementById('nr_filtered_lines'    );
