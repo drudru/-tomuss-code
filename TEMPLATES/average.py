@@ -28,6 +28,7 @@ def create(table):
     cell_change = table.cell_change
 
     p = new_page('' ,data.ro_user, '', '')
+    table.table_attr(table.pages[0], 'default_nr_columns', 13)
     column_change(p,'0_0','ID','Text','','','F',0,4)
     column_change(p,'0_1','Pr\xc3\xa9nom','Text','','','F',0,8)
     column_change(p,'0_2','Nom','Text','','','F',0,8)
@@ -123,3 +124,5 @@ def create(table):
     cell_change(p,'br3','1_8','NaN',"")
     cell_change(p,'br3','5_0','NaN',"")
     cell_change(p,'br3','5_1','NaN',"")
+    for i, line in enumerate(sorted(table.lines)):
+        cell_change(p,'0_0', line, str(i),"")
