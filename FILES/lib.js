@@ -3031,7 +3031,7 @@ function stop_event(event)
   else
     {
       event.returnValue = false;
-      event.keyCode = 0;
+      try { event.keyCode = 0; } catch(e) { } ;
     }
 
   event.cancelBubble = true ;
@@ -3136,6 +3136,7 @@ function csv(csv_cell)
 function the_filters()
 {
   var s = "" ;
+  var column ;
 
   for(var data_col in columns)
     {

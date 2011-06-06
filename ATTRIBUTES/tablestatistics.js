@@ -1197,7 +1197,7 @@ function display_statistics(object)
   p.push('<div id="tip"></div>') ;
   p.push('<script>') ;
   // The timeout is for IE
-  p.push('setTimeout("initialize() ;",100) ;') ;
+  p.push('setTimeout(initialize,100) ;') ;
   p.push('</script>') ;
 
   var w = window_open() ;

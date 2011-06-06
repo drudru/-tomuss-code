@@ -108,7 +108,7 @@ function tablefacebook()
   p.push('lines = ' + lines_in_javascript() + ';') ;
   p.push('facebook_display();') ;
   p.push('}') ;
-  p.push('initialize();') ;
+  p.push('setTimeout(initialize,100) ;') ; // Timeout for IE
   p.push('</script>') ;
 
   var w = window_open() ;
