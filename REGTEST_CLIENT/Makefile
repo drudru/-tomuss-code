@@ -10,7 +10,13 @@ tests:
 forever:
 	@echo 'Display status after test end'
 	@echo 'Tests logs are in "xxx" file.'
-	@I=1 ; while ./test.py 2>&1 | grep --line-buffered -e 'Start testing' -e 'The log file' ; do echo "$$I tests done $$(date)" ; I=$$(expr $$I + 1) ; done
+	@echo "Start test : $$(date)"
+	@I=1 ; \
+        while ./test.py 2>&1 ; \
+            do echo "$$I tests done $$(date)" ; \
+            I=$$(expr $$I + 1) ; \
+        done | tee xxx | grep --line-buffered -e 'Start testing' \
+                                              -e 'The log file' 
 	@echo "ERROR: regression tests failed"
 
 clean:

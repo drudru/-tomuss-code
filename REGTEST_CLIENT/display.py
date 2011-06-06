@@ -3,10 +3,11 @@
 import os
 import time
 import subprocess
+import collections
 
-check_interval = 3         # Number of seconds between to wait_change check
+check_interval = 1         # Number of seconds between dumps
 pixel_diff_min = 500       # Number of pixel that idicates a REAL screen change
-no_change_interval = 3   # Number of seconds to wait for a modification
+no_change_interval = 7     # If no change in this time : the changes are done
 
 class Regtest(ValueError):
     pass
@@ -41,14 +42,19 @@ class Display:
                  resolution="1200x1000", # To allow Xnest full screen
                  port=0,
                  server=("/usr/bin/Xvfb", "", "/usr/bin/Xnest")[0],
+                 dump_dir = None,
                  ):
+        self.dumps_diff = []
         self.nr_dumps = 0
+        self.last_dump = None
+        self.dump_dir = dump_dir
+        self.no_change_interval = collections.defaultdict(
+            lambda: no_change_interval)
         if server == '': # Real display
             self.port = 0
             self.width = 1280
             self.height = 1024
             self.last_dump = ''
-            self.clip = (0, 0, self.width-1, self.height-1)
             return
         
         while True:
@@ -76,8 +82,6 @@ class Display:
         self.port = port
         self.width = int(resolution.split('x')[0])
         self.height = int(resolution.split('x')[1])
-        self.clip = (0, 0, self.width-1, self.height-1)
-        self.clips = []
         self.run('fvwm -f $(pwd)/fvwm.rc 2>&1 | grep -v WARNING',
                  background=True)
         self.dump()
@@ -95,57 +99,54 @@ class Display:
         if wait:
             self.wait_change("command: " + command)
 
-    def set_clip(self, t):
-        self.clips.append(self.clip)
-        self.clip = (t[0], t[1], t[0]+t[2]-1, t[1]+t[3]-1)
-
-    def pop_clip(self):
-        self.clip = self.clips.pop()
-
     def dump(self):
         self.nr_dumps += 1
+        old_dump = self.last_dump
+        if self.dump_dir:
+            dump_dir =  '| tee %s%sxxx.%03d.ppm' % (
+                self.dump_dir, os.path.sep, self.nr_dumps)
+        else:
+            dump_dir = ''
         self.last_dump = self.run(
             """(xwd -silent -root -screen || (sleep 1 ; xwd -silent -root -screen) ) |
-            convert xwd:- ppm:- 2>/dev/null |
-            pnmcut -left %d -top %d -right %d -bottom %d""" % self.clip,
+            convert xwd:- ppm:- 2>/dev/null""" + dump_dir,
             return_stdout=True)
+        if old_dump is None:
+            self.dumps_diff.append(0)
+        else:
+            self.dumps_diff.append(diff(old_dump, self.last_dump))
+        print '\tdump[%d] diff=%d' % (self.nr_dumps,  self.dumps_diff[-1])
+        
         return self.last_dump
 
     def display(self):
         display(self.dump())
 
     def wait_change(self, comment="", timeout=60):
-        last_dump = self.last_dump
         t = time.time()
-        print 'WAIT CHANGE'
+        print 'WAIT CHANGE', comment
         while True:
-            d = diff(last_dump, self.dump())
-            if d > pixel_diff_min: # Small changes
+            self.dump()
+            if self.dumps_diff[-1] > pixel_diff_min: # Small changes
                 break
             if time.time() - t > timeout:
                 raise Regtest('Timeout')
-            print '\twait dump=', self.nr_dumps, comment
             time.sleep(check_interval)
-        print '\tdump', self.nr_dumps, 'changed ! nr bytes changed:', d
-            
+        print '\tCHANGED !'
 
-    def wait_end_of_change(self):
-        v = self.last_dump
-        t = time.time()
-        time.sleep(self.no_change_interval)
-        print 'WAIT END OF CHANGE'
-        while True:
-            d = diff(self.dump(), v)
-            if d <= pixel_diff_min:
-                break
-            print '\tA display change :', d, 'bytes, dump=', self.nr_dumps, time.time() - t
-            time.sleep(self.no_change_interval)
-            v = self.last_dump
-            if time.time() - t > 60:
-                self.error('TIMEOUT end of change')
-                raise Regtest('Timeout')
-        print '\tdump', self.nr_dumps, 'unchanged'
-        return self.last_dump
+    def wait_end_of_change(self, speed):
+        """Returns the number of seconds of changes"""
+        print 'WAIT END OF CHANGE (%f seconds) "%s"' % (
+            self.no_change_interval[speed], speed)
+
+        t = start = time.time()        
+        while time.time() - start < self.no_change_interval[speed]:
+            time.sleep(check_interval)
+            self.dump()
+            if self.dumps_diff[-1] > pixel_diff_min:
+                t = time.time()
+        print 'Last change:', t - start
+        self.no_change_interval[speed] = check_interval + 1.5*(t - start)
 
     def stop(self):
         os.kill(self.server.pid, 15)
