@@ -326,10 +326,16 @@ def terminate_update(table, the_ids, page):
                      if line[0].value not in the_ids
                          and line[grp_col].value != 'FERMEE'
                      ]
-        # Do not remove if there is more than 10% removal.
+        # Do not remove if there is more than :
+        #     10% removal (>=20 lines)
+        #     50% removal (<20 lines)
         # Or if there is less than 12 students
-        if len(table.lines) > 11 and len(to_remove) > 1+len(table.lines)/10:
-            allow_student_removal = False
+        if len(table.lines) >= 20:
+            if len(to_remove) > 1+len(table.lines)/10:
+                allow_student_removal = False
+        else:
+            if len(to_remove) >= 1+len(table.lines)/2:
+                allow_student_removal = False
         
         p = None
         warn("Lock", what="check")
