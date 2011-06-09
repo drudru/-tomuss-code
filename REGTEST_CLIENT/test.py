@@ -46,22 +46,28 @@ class Tester:
         # self.xnee.goto(self.display.width/2,self.display.height/2)
         if 'opera' in client:
             # Accept licence
+            self.check_image('opera', speed="slow", hide=True)
             self.xnee.key("Return")
-            self.wait_change()
+            time.sleep(10)
         if 'chrom' in client:
             # Choose search engine
             self.xnee.goto(20,20)
             self.xnee.key("Tab")
+            self.check_image('chrome', speed="slow", hide=True)
             self.xnee.key("Return")
-            self.wait_change()
+            # self.wait_change()
             self.xnee.goto(10,10)
             time.sleep(1)
             self.xnee.button()
         if 'konqueror' in client:
             import collections
             self.display.no_change_interval = collections.defaultdict(
-                lambda: 20)
+                lambda: 30)
         self.maximize_window()
+        time.sleep(1)
+        self.xnee.goto(1,1)
+        self.goto_url('about:')
+        self.check_image('start', speed='veryslow')
         print 'Tester started for', client.split(' ')[0]
         # self.display.run('export PATH="$PATH:/usr/games" ; oneko -speed 1000', background=True)
 
@@ -72,6 +78,20 @@ class Tester:
         os.system('mkdir ../DBtest/Y9999 ; mkdir ../DBtest/Y9999/Sx')
         os.system('touch ../DBtest/Y9999/__init__.py ; touch ../DBtest/Y9999/Sx/__init__.py')
         os.mkdir(tmp_dir)
+        
+        create_write((tmp_dir, '.config', 'chromium', 'Default','Preferences'),
+                     '''
+                     {
+                     "translate_language_blacklist": ["fr","en"],
+                     "session": {
+                                "restore_on_startup": 1,
+                                "urls_to_restore_on_startup": [ "data:" ]
+                                }
+                     }
+
+                     ''')
+    
+
         # os.system('echo $HOME ; ls -lsa %s' % tmp_dir)
         os.system('(cd .. ; ./tomuss.py regtest >/dev/null 2>/dev/null &)')
         # Wait server start
@@ -92,32 +112,31 @@ class Tester:
         self.xnee.goto(self.display.width/2,self.display.height/2)        
         self.xnee.key('F8')
         # self.xnee.key('F11') # don't work with chromium
-        self.display.wait_end_of_change('fast')
 
-    def goto_url(self, url, speed="slow"):
+    def goto_url(self, url):
         print 'goto', url
-        self.xnee.goto(10,10)
-        self.xnee.key("l", control=True)
-        self.xnee.string(url)
-        self.display.wait_end_of_change('fast')
-        self.xnee.key("Return")
-        self.display.dump() # Get the screen with 'loading' message
-
-        self.display.wait_end_of_change(speed)
-        
         self.display_message('URL: ' + url.replace('/', ' /'))
-        self.display.dumps_diff = []
+        self.xnee.key("l", control=True)
+        time.sleep(0.1)
+        self.xnee.string(url)
+        # self.display.wait_end_of_change('fast')
+        self.xnee.key("Return")
 
     def error(self, message):
         global nr_logs
-        f = open(os.path.join(log_dir, '%d.ppm' % nr_logs), 'w')
+        while True:
+            filename = os.path.join(log_dir, '%d.ppm' % nr_logs)
+            if os.path.exists(filename):
+                nr_logs += 1
+            else:
+                break
+        f = open(filename, 'w')
         f.write(self.display.last_dump)
         f.close()
         os.system('cd %s ; convert %d.ppm %d.png ; rm %d.ppm' % (
             log_dir, nr_logs,  nr_logs,  nr_logs))
-        self.output.write('<span class="bad">BAD: ' + message + '</span><br>'
-                     '<a href="%d.png"><img src="%d.png" style="width:100%%">' % (nr_logs, nr_logs) +
-                     '</a>]\n'
+        self.output.write('<a href="%d.png"><img src="%d.png" style="width:100%%">' % (nr_logs, nr_logs) +
+                     '</a>\n'
                      )
         nr_logs += 1
 
@@ -133,42 +152,55 @@ class Tester:
             self.output.write('<h3>' + message + '</h3>\n')
             self.output.flush()
     
-    def wait_change(self, message=None, speed='slow'):
-        if message:
-            self.display_message(message)
-        self.display.wait_change(message)
-        return self.display.wait_end_of_change(speed)
-
-    def check_image(self, filename, retry=True):
+    def is_identical(self, snapshot):
         f = open('xxx.ppm', 'w')
         f.write(self.display.last_dump)
         f.close()
+
+        d = display.file_diff('xxx.ppm', snapshot)
+        if d > display.pixel_diff_min:
+            return d
+        return True
+
+    def check_image(self, filename, retry=True, speed="slow", message=None,
+                    hide=False):
+        print 'check_image', filename
+        if message:
+            self.display_message(message)
+        self.image = filename # For the error message
+
         snapshot = os.path.join('Trash',
                                 filename+'_'+self.client.split(' ')[0]+'.ppm')
         snap_png = snapshot.replace('.ppm','.png')
-        self.output.write('<a href="%s"><img src="%s" style="width:100%%"></a>'
-                          % (snap_png, snap_png))
+
+        if not hide:
+            self.output.write(
+                '<a href="%s"><img src="%s" style="width:100%%"></a>'
+                % (snap_png, snap_png))
+
         if os.path.exists(snapshot):
-            d = display.file_diff('xxx.ppm', snapshot)
-            if d > display.pixel_diff_min:
-                if retry:
-                    print 'RETRY !'
-                    time.sleep(10)
-                    self.display.dump()
-                    self.check_image(filename, retry=False)
-                    return
-                
-                os.rename('xxx.ppm', snapshot.replace('.ppm','.bug.ppm'))
-                self.error("Difference: %d" % d)
-                print snapshot, 'is not the same !!!!!!!!!!!!'
-                raise DiffError('Difference')
-            print snapshot, 'is identical'
+            start = time.time()
+            identical = True
+            while self.is_identical(snapshot) is not True:
+                self.display.dump()
+                if time.time() - start > 30:
+                    identical = self.is_identical(snapshot)
+                    break               
+                time.sleep(1)
+        else:
+            self.display.wait_end_of_change(speed)
+            f = open('xxx.ppm', 'w')
+            f.write(self.display.last_dump)
+            f.close()
+            os.system('convert xxx.ppm %s' % snap_png)
+            os.rename('xxx.ppm', snapshot)
+            print snapshot, 'created'
             return
 
-        os.system('convert xxx.ppm %s' % snap_png)
-        os.rename('xxx.ppm', snapshot)
-        print snapshot, 'created'
-            
+        if identical is not True:
+            self.error("Difference: %d" % identical)
+            print snapshot, 'is not the same !!!!!!!!!!!!'
+            raise DiffError('Difference')
 
     def stop(self):
         self.stop_tomuss()
@@ -205,11 +237,25 @@ def do_tests(client, output, server, nb):
         if t:
             t.stop()
         output.write('</td>\n')
-        return 'bad'
+        return 'bad[' + t.image + ']'
     except DiffError:
         if t:
             t.stop()
         return 'bad'
+
+def create_open(path):
+    for i in range(1, len(path)):
+        try:
+            os.mkdir(os.path.sep.join(path[:i]))
+        except OSError:
+            pass
+    return open(os.path.sep.join(path), 'w')
+
+def create_write(path, content):
+    f = create_open(path)
+    f.write(content)
+    f.close()
+
 
 if __name__ == "__main__":
     for i in ('http_proxy', 'https_proxy', 'MAIL', 'MAILCHECK'):
@@ -226,7 +272,6 @@ if __name__ == "__main__":
                    os.path.join(log_dir, 'Trash'))
     except OSError:
         pass
-    
     name = os.path.join(log_dir, 'xxx.html.new')
     output = open(name, 'w')
     output.write('''
@@ -238,6 +283,7 @@ if __name__ == "__main__":
     H2 { margin-bottom: 0px ; font-size: 100% ;
          border: 1px solid black; background: #8F8; text-align: center }
     H3 { margin-bottom: 0px ; margin-top: 0.3em ; font-size: 70% ; }
+    IMG { border: 0px }
     </style>
     <table><tr>
     ''')
@@ -263,12 +309,12 @@ if __name__ == "__main__":
     t = []
     if chromium:
         t.append((chromium, "-width %d -height %d about:"))
+    if opera:
+        t.append((opera, "--geometry %dx%d-0-0 -nosession -nomail"))
     if konqueror:
         t.append((konqueror, "--geometry %dx%d-0-0"))
     if firefox3:
         t.append((firefox3, "-width %d -height %d about:"))
-    if opera:
-        t.append((opera, "--geometry %dx%d-0-0 -nosession -nomail"))
     if galeon:
         t.append((galeon, "-f about: about: $(echo %dx%d >/dev/null)"))
     if ie6:
@@ -278,10 +324,10 @@ if __name__ == "__main__":
     if iceape:
         t.append((iceape, "-width %d -height %d"))
 
-    s = ''
+    s = '= ' # Filtered by 'forever Makefile goal
     for name, args in t:
         print '*'*79
-        print 'Start testing', name
+        print '= Start testing', name
         print '*'*79
         s += name + ':' + do_tests(name + ' >/dev/null 2>&1 ' + args,
                                    output, server, len(t)) + ' '
@@ -295,6 +341,6 @@ if __name__ == "__main__":
     print s
     import sys
     if 'bad' in s:
-        sys.exit(1)
+        sys.exit(0)
     else:
         sys.exit(0)
