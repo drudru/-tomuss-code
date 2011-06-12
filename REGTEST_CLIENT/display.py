@@ -5,37 +5,12 @@ import time
 import subprocess
 import collections
 
-check_interval = 1         # Number of seconds between dumps
+check_interval = 0.5       # Number of seconds between dumps
 pixel_diff_min = 500       # Number of pixel that idicates a REAL screen change
 no_change_interval = 7     # If no change in this time : the changes are done
 
 class Regtest(ValueError):
     pass
-
-def display(image):
-    f = os.popen("display -", 'w')
-    f.write(image)
-    f.close()
-
-def diff(a, b):
-    if a == b:
-        return 0
-    i = len(a) // 2
-    if i:
-        nb = diff(a[:i], b[:i])
-        if nb > 1000:
-            return 1000
-        return nb + diff(a[i:], b[i:])
-    return 1
-
-def file_diff(a, b):
-    f = open(a, 'r')
-    a = f.read()
-    f.close()
-    f = open(b, 'r')
-    b = f.read()
-    f.close()
-    return diff(a, b)
 
 class Display:
     def __init__(self,
@@ -48,8 +23,7 @@ class Display:
         self.nr_dumps = 0
         self.last_dump = None
         self.dump_dir = dump_dir
-        self.no_change_interval = collections.defaultdict(
-            lambda: no_change_interval)
+        self.no_change_interval = no_change_interval
         if server == '': # Real display
             self.port = 0
             self.width = 1280
@@ -84,7 +58,16 @@ class Display:
         self.height = int(resolution.split('x')[1])
         self.run('fvwm -f $(pwd)/fvwm.rc 2>&1 | grep -v WARNING',
                  background=True)
-        self.dump()
+
+        print 'Start dumper'
+        self.dumper = subprocess.Popen(
+                ('./dumper', ':%d' % port),
+                stdin = subprocess.PIPE,
+                stdout = subprocess.PIPE,
+                )
+        self.dumper.stdin.write('diff\n')
+        self.dumper.stdin.flush()
+        self.dumper.stdout.readline()
 
     def run(self, command, return_stdout=False, background=False, wait=False):
         c = "export DISPLAY=:%d ; %s" % (self.port, command)
@@ -101,26 +84,25 @@ class Display:
 
     def dump(self):
         self.nr_dumps += 1
-        old_dump = self.last_dump
+        self.dumper.stdin.write('snapshot\n')
         if self.dump_dir:
-            dump_dir =  '| tee %s%sxxx.%03d.ppm' % (
-                self.dump_dir, os.path.sep, self.nr_dumps)
-        else:
-            dump_dir = ''
-        self.last_dump = self.run(
-            """(xwd -silent -root -screen || (sleep 1 ; xwd -silent -root -screen) ) |
-            convert xwd:- ppm:- 2>/dev/null""" + dump_dir,
-            return_stdout=True)
-        if old_dump is None:
-            self.dumps_diff.append(0)
-        else:
-            self.dumps_diff.append(diff(old_dump, self.last_dump))
+            self.dumper.stdin.write('save %s%sxxx.%03d.ppm\n' % (
+                self.dump_dir, os.path.sep, self.nr_dumps) )
+        self.dumper.stdin.write('diff\n')
+        self.dumper.stdin.flush()
+        d = self.dumper.stdout.readline()
+        self.dumps_diff.append(int(d))
         print '\tdump[%d] diff=%d' % (self.nr_dumps,  self.dumps_diff[-1])
-        
-        return self.last_dump
 
-    def display(self):
-        display(self.dump())
+    def store_dump(self, filename):
+        self.dumper.stdin.write('save %s\n' % filename)
+
+    def store_diff(self, filename):
+        self.dumper.stdin.write('subtract %s\n' % filename)
+
+    def diff(self, filename):
+        self.dumper.stdin.write('diff %s\n' % filename)
+        return int(self.dumper.stdout.readline())
 
     def wait_change(self, comment="", timeout=60):
         t = time.time()
@@ -134,21 +116,29 @@ class Display:
             time.sleep(check_interval)
         print '\tCHANGED !'
 
-    def wait_end_of_change(self, speed):
-        """Returns the number of seconds of changes"""
-        print 'WAIT END OF CHANGE (%f seconds) "%s"' % (
-            self.no_change_interval[speed], speed)
+    def wait_end_of_change(self, wait=None, timeout=None):
+        """Waits until here is no more change for 'wait' seconds
+        Returns True is there is no change or False if there is timeout
+        """
+        if wait is None:
+            wait = self.no_change_interval
+        if timeout is None:
+            timeout = 40
+        print 'WAIT END OF CHANGE (%f seconds)' % wait
 
-        t = start = time.time()        
-        while time.time() - start < self.no_change_interval[speed]:
+        start = t = time.time()
+        while time.time() - t < wait:
             time.sleep(check_interval)
             self.dump()
             if self.dumps_diff[-1] > pixel_diff_min:
                 t = time.time()
-        print 'Last change:', t - start
-        self.no_change_interval[speed] = check_interval + 1.5*(t - start)
+            if time.time() - start > timeout:
+                return False # TIMEOUT
+        return True
 
     def stop(self):
+        self.dumper.stdin.write('quit\n')
+        self.dumper.stdin.flush()
         os.kill(self.server.pid, 15)
 
 

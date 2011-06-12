@@ -6,9 +6,9 @@ import modmap
 import subprocess
 
 class Xnee:
-    def __init__(self, port):
+    def __init__(self, port=0):
         """The port is the X11 port (0 by default)"""
-        print 'xnee start'
+        print 'xnee start on display', port
         for xnee in ('cnee', 'xnee'):
             f = os.popen('%s --help 2>&1 ; %s --version 2>&1' % (xnee,xnee),
                          'r')
@@ -50,9 +50,10 @@ class Xnee:
         print 'run xnee'
         self.process = subprocess.Popen([xnee,
                                          '--display',
-                                         ':%d' % port,
+                                         '127.0.0.1:%d' % port,
                                          '--replay'] + o,
                                         stdin = subprocess.PIPE,
+                                        env = { 'DISPLAY': ':%d' % port },
                                         )
         self.counter = 1000
         self.x = 501
@@ -62,6 +63,7 @@ class Xnee:
             self.key('a') # To turn around an old xnee bug (unbutu 6.10)
         
         print 'xnee is running'
+
         # self.file.write("# Xnee version:           1.08\n")
         # os.system('export DISPLAY=:%d ; xmodmap -pk ; xmodmap -pm' % port)
         
@@ -70,7 +72,6 @@ class Xnee:
         self.process.stdin.write(v)
         self.process.stdin.flush()
         self.counter += 10
-        # print v,
 
     def goto(self, x, y):        
         self.x = x
@@ -84,7 +85,7 @@ class Xnee:
         if k[1]:
             self.keypress("Shift_L")
         self.send("0,2,0,0,0,%d" % k[0])
-        time.sleep(0.1) # To avoid buffer overflow
+        time.sleep(0.05) # To avoid buffer overflow
 
     def keyrelease(self, key):
         k = self.keys[key]

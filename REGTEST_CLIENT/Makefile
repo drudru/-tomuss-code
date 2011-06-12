@@ -1,6 +1,8 @@
+CFLAGS = -O3
+
 # Launch the regression tests once.
 tests:check
-	@echo "Use 'forever' goal to run tests until an error"
+	@echo "Use 'forever' goal to run tests without stopping"
 	@./test.py
 
 # Launch the regression tests until an error is detected
@@ -13,17 +15,25 @@ forever:check
 	@echo "Start test : $$(date)"
 	@I=1 ; \
         while ./test.py 2>&1 ; \
-            do echo "$$I tests done $$(date)" ; \
+            do echo "= $$I tests done $$(date)" ; \
             I=$$(expr $$I + 1) ; \
         done | tee xxx.forever | grep --line-buffered -e '^= '
 	@echo "ERROR: regression tests failed"
+
+dumper:dumper.c
+	$(CC) $(CFLAGS) dumper.c $$(pkg-config --libs x11) -o $@
 
 clean:
 	rm *~ *.pyc Trash/*
 
 EXECUTABLE = which >/dev/null
 
-check:
+check:dumper
 	@$(EXECUTABLE) fvwm
 	@$(EXECUTABLE) cnee || $(EXECUTABLE) xnee
-	@$(EXECUTABLE) Xvfb || $(EXECUTABLE) Xnest
+	@$(EXECUTABLE) Xnest || $(EXECUTABLE) Xvfb
+	@$(EXECUTABLE) epiphany || echo "'epiphany' browser is missing"
+	@$(EXECUTABLE) chromium-browser || echo "'chromium' browser is missing"
+	@$(EXECUTABLE) opera || echo "'opera' browser is missing"
+	@$(EXECUTABLE) firefox || echo "'firefox' browser is missing"
+

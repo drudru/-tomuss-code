@@ -1,50 +1,53 @@
-Afficher les différence trouvée dans le log.
-forever continu si erreur !
 
-
-
-BEWARE : the regression tests are quite special.
-They didnt' tell if the application is working, they tell if
+BEWARE : these regression tests are quite specials.
+They did not tell if the application is working, they tell if
 the application give the same result than the last time.
 
 In order to use these regression tests :
-   * You checkout a working version
-   * You run the regression tests
+
+   * You checkout a working version of TOMUSS
+
+   * You erase the content of 'Trash' directory (the 'good' snaphots)
+
+   * You run the regression tests.
+     It is very long this first time because we must wait a long time to
+     be sure that the browser has finished to display the page
+     before taking the snapshot.
+
    * You checkout the next version
-   * You run the regression tests
+
+   * You run the regression tests ON THE SAME SYSTEM : NO UPGRADE !
 
 If there is GUI change, the tests will fail.
-
-
-
-
 
 ======================
 Testing IE from Linux.
 ======================
 
----------
-ies4linux
----------
+In 'test.py' file, you need to:
 
-'ies4linux' works nicely until some DNS errors: unusable
+  * Configure IE lauching.
+    It is done by customize the following command in 'test.py'
 
----------
-    VNC
----------
-* Install 'tightvnc' under vista home
-* Allow port '3389' on windows firewall
-* Run 'tightvnc' server
-* Set tight vnc server :
-	- Correct port
-	- Set password ''
-	- Allow empty password
-	- Run IE
-	- Set the window to display to be IE one
-	- Close preference (does not work if you don't)
-	- Activate the IE window to put it in focus
-* On linux install 'xtightvncviewer'
-* To run the IE window :
+    rdesktop windows.univ-lyon1.fr \
+         -u thierry.excoffier \
+         -d UNIV-LYON1 \
+         -f \
+         -s 'C:/Program Files/Internet Explorer/iexplore.exe http://www.univ-lyon1.fr/'
 
-  xtightvncviewer 192.168.0.131::3389 -encodings raw -compresslevel 1 -nojpeg \
-                  -x11cursor
+  * Set the 'password' needed to connect to the remote desktop.
+
+======================
+    GIT checking (not yet done)
+======================
+
+The 'Trash/GIT/checksum' contains the snapshots for the indicated commit.
+
+for each untested commit:
+   Launch 3 time the regression test with snapshot from previous commit
+   and store the results.
+
+   Store the results
+
+   Remove all bad snapshot, make the others points (sym links) onto
+   the good snapshot from the previous commit.

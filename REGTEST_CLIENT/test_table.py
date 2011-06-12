@@ -1,6 +1,6 @@
 
 def run(t):
-    t.goto_url("http://%s:8888/=super.user/2008/Test/average" % t.server)
+    t.goto_url("http://%s:8888/=super.user/9999/Test/average" % t.server)
     t.check_image("home_average")
 
     t.xnee.key('Down')
