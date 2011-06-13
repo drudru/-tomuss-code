@@ -121,9 +121,9 @@ Administrateur.
 Problèmes à résoudre.
 =====================
 
-* Toute modification envoit en fin de ligne sous Chrome
-
 * La molette marche plus sous Chrome pour scroller la table.
+
+* Messages d'erreur quand 'root' veut voir une table privée
 
 * Vérifier si les options sont envoyée dans les URL vers le serveur =xxx=
 

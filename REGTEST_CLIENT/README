@@ -38,7 +38,7 @@ In 'test.py' file, you need to:
   * Set the 'password' needed to connect to the remote desktop.
 
 ======================
-    GIT checking (not yet done)
+    GIT checking
 ======================
 
 The 'Trash/GIT/checksum' contains the snapshots for the indicated commit.
@@ -51,3 +51,35 @@ for each untested commit:
 
    Remove all bad snapshot, make the others points (sym links) onto
    the good snapshot from the previous commit.
+
+
+======================
+    TO DO
+======================
+  * epiphany : enlever l'indicateur de chargement qui est trop gros
+  * Filters
+  * Bookmark
+  * ABJ input
+  * Master of tables
+  * Suivi
+  * TT
+  * Other table actions
+  * Favorites students and UE
+  * Actions on favorite
+
+How to click on the right place :
+
+  * Stroke 'Tab' the good number of time.
+    Broken on GUI change.
+
+  * Before each table attribute : encode attribute name in a 3x3 square.
+
+    - Do not work with older version of TOMUSS.
+
+    - Do not work on home page.
+
+  * Detect special user interface features :
+
+    + It works for the '+' on the home page
+
+  * Use browser 'Search' feature !

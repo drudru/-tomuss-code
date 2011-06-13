@@ -11,7 +11,7 @@ forever:check
 	@echo 'Tests logs are in "xxx.forever" file.'
 	@echo 'Results of the last test are in /tmp/XXX/xxx.html'
 	@echo 'Results of the current test are in /tmp/XXX/xxx.html.new'
-	@echo 'The bad snapshots are in /tmp/XXX/999.png'
+	@echo 'The bad snapshots (and image diffs) are in /tmp/XXX/'
 	@echo "Start test : $$(date)"
 	@I=1 ; \
         while ./test.py 2>&1 ; \

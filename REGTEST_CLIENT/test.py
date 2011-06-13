@@ -75,7 +75,7 @@ class Tester:
             # Accept licence
             self.check_image('opera', hide=True)
             self.xnee.key("Return")
-            time.sleep(10)
+            time.sleep(12)
         if 'chrom' in self.client:
             # Choose search engine
             self.xnee.goto(20,20)
@@ -93,7 +93,9 @@ class Tester:
             self.xnee.string(password)
             self.xnee.key('Return')
             time.sleep(10) # Login time...
+        time.sleep(1)
         self.maximize_window()
+        time.sleep(2)
         self.xnee.goto(5,5)
         self.goto_url('about:')
         self.check_image('start')
@@ -101,9 +103,9 @@ class Tester:
 
     def start_tomuss(self):
         rmdir(tmp_dir)
-        rmdir(tomuss_dir + '/DBtest/Y9999')
-        rmdir(tomuss_dir + '/DBtest/Y*/S*/referents.py ')
-        for i in ('DBtest', 'DBtest/Y9999'):
+        rmdir(tomuss_dir + '/DBregtest')
+        for i in ('DBregtest', 'DBregtest/Y9999',
+                  'DBregtest/Y9999/STest'):
             try:
                 os.mkdir(tomuss_dir + '/' + i)
             except OSError:
@@ -133,7 +135,7 @@ class Tester:
     
 
         # os.system('echo $HOME ; ls -lsa %s' % tmp_dir)
-        os.system('(cd %s ; ./tomuss.py regtest >/dev/null 2>/dev/null &)' %
+        os.system('(cd %s ; ./tomuss.py regtest >/dev/null 2>&1 &)' %
                   tomuss_dir)
         # Wait server start
         while True:
@@ -147,8 +149,9 @@ class Tester:
                 continue
 
     def stop_tomuss(self):
-        f = urllib2.urlopen("http://%s:8888/=super.user/stop" % self.server)
-        f.read()
+        print 'Stop tomuss'
+        f = urllib2.urlopen("http://%s:8888/stop" % self.server)
+        assert('stopped' in f.read())
         f.close()
 
     def maximize_window(self):
@@ -160,7 +163,8 @@ class Tester:
 
     def goto_url(self, url):
         print 'goto', url
-        self.display_message('URL: ' + url.replace('/', ' /'))
+        self.display_message('URL: <a href="' + url + '">'
+                             + url.replace('/', ' /') + '</a>')
         self.xnee.key("l", control=True)
         time.sleep(0.1)
         self.xnee.string(url)
@@ -245,6 +249,7 @@ class Tester:
             raise Regtest('Difference')
 
     def stop(self):
+        print 'Stop test for this browser'
         self.stop_tomuss()
         self.xnee.key("w", control=True)
         time.sleep(0.2)
@@ -269,17 +274,18 @@ def do_tests(client, output, server, nb):
     start = time.time()
     t = Tester(client, output, server)
     try:
-        t.initialize()
-        
-        run('test_home', t)
-        run('test_table', t)
-        
-        t.stop()
-        m = 'ok'
-    except Regtest:
+        try:
+            t.initialize()
+
+            run('test_home', t)
+            run('test_table', t)
+
+            m = 'ok'
+        except Regtest:
+            m = '***bad[' + t.image + ']***'
+    finally:
         if t:
             t.stop()
-        m = '***bad[' + t.image + ']***'
 
     m = t.client_name + ':' + m + '(%ds) ' % (time.time() - start)
     output.write(m + '</td>\n')

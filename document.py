@@ -516,6 +516,7 @@ class Table(object):
             value = cell.value
 
         if not self.authorized(page, cell):
+            utilities.warn('cell value = (%s)' % cell.value)
             return self.bad_auth(page)
 
         old_value = str(cell.value)
