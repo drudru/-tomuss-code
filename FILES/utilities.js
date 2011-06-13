@@ -1987,6 +1987,7 @@ function current_keydown(event, in_input)
       this.input.value = this.initial_value ;
       this.input.blur() ;
       this.input.focus() ;
+      this.input.select() ;
       break ;
     default:
       if ( ! this.cell_modifiable() )
