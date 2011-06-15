@@ -1,8 +1,10 @@
+import time
 
 def run(t):
     t.goto_url("http://%s:8888/=super.user/" % t.server)
     t.check_image('home')
-    
+
+    time.sleep(1)
     t.xnee.key('2')
     t.check_image('home_search_ue', message="Key stroke in UE search")
 

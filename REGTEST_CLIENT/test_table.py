@@ -18,7 +18,9 @@ def run(t):
     t.check_image('table_input_1', message="Input '1' in a cell")
 
     t.xnee.key('a')
+    time.sleep(0.2)
     t.xnee.key('b')
+    time.sleep(0.2)
     t.xnee.key('j')
     t.check_image('table_input_abj',
                   message="Input 'abj' in a cell to test completion")

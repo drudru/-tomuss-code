@@ -4,7 +4,6 @@
 Most Timing configurations are in 'display.py'
 """
 
-# TODO : small 'rotating' loading for epiphany
 # TODO : more tests
 
 import sys
@@ -23,6 +22,7 @@ tomuss_dir = '..'
 trash = 'Trash'
 tmp_dir = "/tmp/xxx-home"
 log_dir = "/tmp/XXX"
+retry = 1
 
 password = "your rdesktop password"
 
@@ -95,9 +95,11 @@ class Tester:
             time.sleep(10) # Login time...
         time.sleep(1)
         self.maximize_window()
-        time.sleep(2)
         self.xnee.goto(5,5)
+        self.xnee.key("Escape") # Remove any visible popup
         self.goto_url('about:')
+        time.sleep(10)
+        self.xnee.key("Escape") # Remove any visible popup
         self.check_image('start')
         print 'Tester started for', self.client_name
 
@@ -105,7 +107,7 @@ class Tester:
         rmdir(tmp_dir)
         rmdir(tomuss_dir + '/DBregtest')
         for i in ('DBregtest', 'DBregtest/Y9999',
-                  'DBregtest/Y9999/STest'):
+                  'DBregtest/Y9999/STest', 'LOGS', 'LOGS/TOMUSS'):
             try:
                 os.mkdir(tomuss_dir + '/' + i)
             except OSError:
@@ -132,7 +134,9 @@ class Tester:
                      }
 
                      ''')
-    
+
+        os.system('gconftool-2 --set /apps/epiphany/general/show_toolbars '
+                  + '--type bool "0"')
 
         # os.system('echo $HOME ; ls -lsa %s' % tmp_dir)
         os.system('(cd %s ; ./tomuss.py regtest >/dev/null 2>&1 &)' %
@@ -171,18 +175,21 @@ class Tester:
         # self.display.wait_end_of_change('fast')
         self.xnee.key("Return")
 
-    def error(self, message):
-        filename = os.path.join(log_dir, '%s-%s' % (self.client_name, message))
-        self.display.store_diff(filename + '-diff.png')
-        self.display.store_dump(filename + '.png')
+    def error(self, message, image):
+        filename = os.path.join(log_dir,
+                                '%s-%s-diff.png' % (self.client_name, message))
+        self.display.store_diff(filename)
+
+        imagename = os.path.join('Trash', self.client_name, image + '.bug.png')
+        self.display.store_dump(imagename)
         
         self.output.write(
             '<span class="bad">'
             + message
             + '</span><br>'
-            + '<a href="%s.png"><img src="%s.png"></a>' % (
-                filename, filename)
-            + '<a href="%s-diff.png"><img src="%s-diff.png"></a>' % (
+            + '<a href="%s"><img src="%s"></a>' % (
+                imagename, imagename)
+            + '<a href="%s"><img src="%s"></a>' % (
                 filename, filename)
             )
 
@@ -244,7 +251,7 @@ class Tester:
             return
 
         if identical is not True:
-            self.error("%s{%d}" % (filename, identical))
+            self.error("%s{%d}" % (filename, identical), filename)
             print snapshot, 'is not the same !!!!!!!!!!!!'
             raise Regtest('Difference')
 
@@ -312,6 +319,8 @@ if __name__ == "__main__":
             tomuss_dir = sys.argv[i+1]
         if arg == '--trash':
             trash = sys.argv[i+1]
+        if arg == '--retry':
+            retry = int(sys.argv[i+1])
 
     start = time.time()
     
@@ -362,7 +371,9 @@ if __name__ == "__main__":
     vnc = None
     ie = None
 
-    if server == "lirispaj":
+    ## epiphany = firefox3 = opera = None ##
+
+    if password != "your rdesktop password":
         ie = "rdesktop sa1cs.univ-lyon1.fr -u thierry.excoffier -d UNIV-LYON1  -f -s 'C:/Program Files/Internet Explorer/iexplore.exe http://www.univ-lyon1.fr'"
 
     t = []
@@ -386,12 +397,21 @@ if __name__ == "__main__":
         t.append((iceape, "-width %d -height %d"))
 
     s = '= ' # Filtered by 'forever Makefile goal
+    ok = True
     for name, args in t:
-        print '*'*79
-        print '= Start testing', name
-        print '*'*79
-        s += do_tests(name+' >/dev/null 2>&1 ' + args, output, server, len(t))
-        print 'Testing done for', name
+        for i in range(retry):
+            print '*'*79
+            print '= Start testing', name
+            print '*'*79
+            m = do_tests(name+' >/dev/null 2>&1 ' + args,
+                         output, server, len(t))
+            print 'Testing done for', name
+            print '=', m
+            s += m
+            if ':ok' in m:
+                break
+        else:
+            ok = False
     output.write('</tr></table>\n')
 
     os.rename(os.path.join(log_dir, 'xxx.html.new'),
@@ -400,7 +420,9 @@ if __name__ == "__main__":
     print 'Results are in %s/xxx.html' % log_dir
     print s
     print '= Runtime: %.1f' % ((time.time() - start)/60), 'minutes'
-    if 'bad' in s:
+    if ok:
+        print 'REGTESTSOK'
         sys.exit(0)
     else:
-        sys.exit(0)
+        print 'REGTESTSBAD'
+        sys.exit(1)

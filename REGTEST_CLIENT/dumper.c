@@ -15,6 +15,7 @@ and accept the following commands (ended by a \n) :
 * 'find <charname>': -1: unknown char, 0 not found, 1 found in current snap.
                      The char images are in the 'D' directory.
 * 'subtract <filename>': Store the last diff computed in the file
+                         (- is PPM stdout)
 
 The image filename define the format.
 If it is 'stdout' the image is PPM
@@ -153,7 +154,7 @@ Image *load_file(char *filename)
  * Write a PPM file
  *****************************************************************************/
 
-void display(Image *image, FILE *f)
+void to_file(Image *image, FILE *f)
 {
   int y ;
 
@@ -161,6 +162,21 @@ void display(Image *image, FILE *f)
   for(y=0; y<image->height; y++)
     if ( fwrite(image->image[y], 1, 3*image->width, f) != 3*image->width )
 	exit(1) ;
+}
+
+void display(Image *image, char *filename)
+{
+  if ( strcmp(filename, "-") == 0 )
+    to_file(image, stdout) ;
+  else
+    {
+      char cmd[999] ;
+      FILE *f ;
+      sprintf(cmd, "convert ppm:- %s", filename) ;
+      f = popen(cmd, "w") ;
+      to_file(image, f) ;
+      pclose(f) ;
+    }
 }
 
 /******************************************************************************
@@ -492,11 +508,8 @@ int main(int argc, char **argv)
       else if ( strcmp(command, "subtract") == 0 )
 	{
 	  Image *s ;
-	  FILE *f ;
 	  s = subtract(current, diff_image) ;
-	  f = fopen(parameter, "w") ;
-	  display(s, f) ;
-	  fclose(f) ;
+	  display(s, parameter) ;
 	  free_image(s) ;
 	}
       else if ( strcmp(command, "find") == 0 )
@@ -514,24 +527,7 @@ int main(int argc, char **argv)
 	}
       else if ( strcmp(command, "save") == 0 )
 	{
-	  FILE *f ;
-	  if ( strcmp(parameter, "-") == 0 )
-	    display(current, stdout) ;
-	  else if ( strcmp(parameter + strlen(parameter) - 4, ".ppm") == 0 )
-	    {
-	      f = fopen(parameter, "w") ;
-	      display(current, f) ;
-	      fclose(f) ;
-	    }
-	  else
-	    {
-	      char cmd[999] ;
-	      sprintf(cmd, "convert ppm:- %s", parameter) ;
-	      f = popen(cmd, "w") ;
-	      display(current, f) ;
-	      pclose(f) ;
-	    }
-
+	  display(current, parameter) ;
 	  continue ;
 	}
       else if ( strcmp(command, "analyse") == 0 )

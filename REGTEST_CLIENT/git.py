@@ -37,6 +37,7 @@ def p(txt):
     sys.stdout.flush()
 
 start = '2.14.7'
+start = 'dec670be3288e6c91f639181e418e153b887c752'
 
 f = os.popen("git log --pretty=oneline --reverse %s.." % start, "r")
 lines = f.readlines()
@@ -67,26 +68,24 @@ for line in lines:
         continue
 
     messages = []
-    success = False
-    for retry in range(5):
-        f = os.popen('./test.py --tomuss_dir /tmp/TOMUSS-REGTEST --trash '
-                     + 'Trash/GIT/' + previous, "r"
-                     )
-        while True:
-            line = f.readline()
-            if line == '':
-                break
-            print line,
-            if line.startswith('= ') and (':ok' in line or 'bad' in line):
-                p(line)
-                messages.append(line)
-                if 'bad' not in line:
-                    p('Regtest success on all the browser !')
-                    success = True
-                    break
-        if success:
+    f = os.popen('./test.py --tomuss_dir /tmp/TOMUSS-REGTEST --trash '
+                 + 'Trash/GIT/' + previous + ' --retry 5', "r"
+                 )
+    while True:
+        line = f.readline()
+        if line == '':
             break
-        f.close()
+        print line,
+        if line.startswith('= '):
+            p(line)
+            messages.append(line)
+        if 'REGTESTSOK' in line:
+            success = True
+            break
+        if 'REGTESTSBAD' in line:
+            success = False
+            break
+    f.close()
 
     if success:
         p('The regression tests are fine for ' + commit)
@@ -100,18 +99,17 @@ for line in lines:
     g.write(''.join(messages))
     g.close()
 
-    os.system('./test.py --tomuss_dir /tmp/TOMUSS-REGTEST --trash '
-              + 'Trash/GIT/' + commit)
-    for i in os.listdir('Trash/GIT/' + commit):
-        for j in os.listdir('Trash/GIT/' + commit + '/' + i):
-            p = 'Trash/GIT/' + previous + '/' + i + '/' + j
-            c = 'Trash/GIT/' + commit   + '/' + i + '/' + j
-            if read_file(p) == read_file(c):
-                p('Create symbolic link for ' + i + ' ' + j)
-                os.remove(c)
-                os.symlink('../../' + previous + '/' + i + '/' + j, c)
-            else:
+    for i in os.listdir('Trash/GIT/' + previous):
+        for j in os.listdir('Trash/GIT/' + previous + '/' + i):
+            pr = 'Trash/GIT/' + previous + '/' + i + '/' + j
+            co = 'Trash/GIT/' + commit   + '/' + i + '/' + j
+            if j.endswith('.bug.png'):
                 p('Files are different ' + i + ' ' + j)
-
+                os.rename(pr, co.replace('.bug.png', '.png'))
+            else:
+                if not os.path.exists(co):
+                    # Not created with .bug.png renaming
+                    p('Create symbolic link for ' + i + ' ' + j)
+                    os.symlink('../../' + previous + '/' + i + '/' + j, co)
 
 shutil.rmtree('/tmp/TOMUSS-REGTEST')

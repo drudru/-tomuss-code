@@ -11,7 +11,8 @@ forever:check
 	@echo 'Tests logs are in "xxx.forever" file.'
 	@echo 'Results of the last test are in /tmp/XXX/xxx.html'
 	@echo 'Results of the current test are in /tmp/XXX/xxx.html.new'
-	@echo 'The bad snapshots (and image diffs) are in /tmp/XXX/'
+	@echo 'The bad snapshots Trash/xxxx/xxxx.bug.png'
+	@echo 'Difference between good and bad  are in /tmp/XXX/'
 	@echo "Start test : $$(date)"
 	@I=1 ; \
         while ./test.py 2>&1 ; \
@@ -26,7 +27,7 @@ dumper:dumper.c
 clean:
 	rm *~ *.pyc Trash/*
 
-EXECUTABLE = which >/dev/null
+EXECUTABLE = which $$1 >/dev/null
 
 check:dumper
 	@$(EXECUTABLE) fvwm
