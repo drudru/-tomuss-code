@@ -69,13 +69,13 @@ for line in lines:
 
     messages = []
     f = os.popen('./test.py --tomuss_dir /tmp/TOMUSS-REGTEST --trash '
-                 + 'Trash/GIT/' + previous + ' --retry 5', "r"
+                 + 'Trash/GIT/' + previous
+                 + ' --retry 5 --continue-on-error', "r"
                  )
     while True:
         line = f.readline()
         if line == '':
             break
-        print line,
         if line.startswith('= '):
             p(line)
             messages.append(line)
@@ -100,6 +100,7 @@ for line in lines:
     g.close()
 
     for i in os.listdir('Trash/GIT/' + previous):
+        os.mkdir('Trash/GIT/' + commit   + '/' + i)
         for j in os.listdir('Trash/GIT/' + previous + '/' + i):
             pr = 'Trash/GIT/' + previous + '/' + i + '/' + j
             co = 'Trash/GIT/' + commit   + '/' + i + '/' + j

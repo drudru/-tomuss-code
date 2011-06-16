@@ -23,6 +23,7 @@ trash = 'Trash'
 tmp_dir = "/tmp/xxx-home"
 log_dir = "/tmp/XXX"
 retry = 1
+continue_on_error = False
 
 password = "your rdesktop password"
 
@@ -55,9 +56,7 @@ class Tester:
         self.output = output
         self.output.write('<h1>' + self.client_name + '</h1>\n')
 
-        self.append_message = ''
-        # add 'dump_dir = log_dir' parameter in order to save ALL
-        # the screen snapshot done.
+        self.errors = []
         self.display = display.Display(resolution='800x600')
         self.xnee = Xnee(self.display.port)
         self.start_tomuss()
@@ -196,14 +195,8 @@ class Tester:
     def display_message(self, message):
         if not message:
             return
-        if message == '(C)':
-            self.append_message += message
-        else:
-            if self.append_message:
-                message = self.append_message + message
-                self.append_message = ""
-            self.output.write('<h3>' + message + '</h3>\n')
-            self.output.flush()
+        self.output.write('<h3>' + message + '</h3>\n')
+        self.output.flush()
     
     def is_identical(self, snapshot):
         d = self.display.diff(snapshot)
@@ -216,7 +209,6 @@ class Tester:
         print 'check_image', filename
         if message:
             self.display_message(message)
-        self.image = filename # For the error message
 
         snapshot = os.path.join(trash, self.client_name, filename + '.png')
 
@@ -253,7 +245,9 @@ class Tester:
         if identical is not True:
             self.error("%s{%d}" % (filename, identical), filename)
             print snapshot, 'is not the same !!!!!!!!!!!!'
-            raise Regtest('Difference')
+            self.errors.append(filename)
+            if not continue_on_error:
+                raise Regtest('Difference')
 
     def stop(self):
         print 'Stop test for this browser'
@@ -280,16 +274,19 @@ def do_tests(client, output, server, nb):
                  % int(100./nb))
     start = time.time()
     t = Tester(client, output, server)
+    m = '?BUG?'
     try:
         try:
             t.initialize()
 
             run('test_home', t)
             run('test_table', t)
-
-            m = 'ok'
         except Regtest:
-            m = '***bad[' + t.image + ']***'
+            pass
+        if t.errors:
+            m = '***bad[' + ' '.join(t.errors) + ']***'
+        else:
+            m = 'ok'
     finally:
         if t:
             t.stop()
@@ -314,13 +311,23 @@ def create_write(path, content):
 
 
 if __name__ == "__main__":
-    for i, arg in enumerate(sys.argv):
+    i = 1
+    while i < len(sys.argv):
+        arg = sys.argv[i]
         if arg == '--tomuss_dir':
-            tomuss_dir = sys.argv[i+1]
-        if arg == '--trash':
-            trash = sys.argv[i+1]
-        if arg == '--retry':
-            retry = int(sys.argv[i+1])
+            i += 1
+            tomuss_dir = sys.argv[i]
+        elif arg == '--trash':
+            i += 1
+            trash = sys.argv[i]
+        elif arg == '--retry':
+            i += 1
+            retry = int(sys.argv[i])
+        elif arg == '--continue-on-error':
+            continue_on_error = True
+        else:
+            raise ValueError("Unknown arg: " + arg)
+        i += 1
 
     start = time.time()
     
