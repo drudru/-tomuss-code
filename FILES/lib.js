@@ -4070,7 +4070,7 @@ function javascript_regtest_ue()
   update_filtered_lines();
   the_current_cell.jump(nr_headers,0) ;
   table_attr.nr_columns = 12 ;
-
+  table_attr.nr_lines = 14 ;
 
   alert_real = alert ;
   var alert_messages = '' ;
