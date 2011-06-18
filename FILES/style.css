@@ -548,15 +548,17 @@ span.toggled { background: #080 ; color: white }
 /*****************************************************************************/
 /* New new interface */
 
-DIV.tabs DIV.titles SPAN:first-child { font-size: 100% }
 DIV.tabs DIV.titles SPAN {
   border: 1px solid black ;
   margin-right: 2px ;
-  font-size: 80% ;
   cursor: pointer ;
 }
 DIV.tabs DIV.titles SPAN:hover {
   background: #DFD ;
+}
+
+DIV.tabs DIV.titles SPAN:first-child {
+  font-weight: bold ;
 }
 
 DIV.tabs DIV.titles SPAN.tab_selected {
@@ -565,20 +567,28 @@ DIV.tabs DIV.titles SPAN.tab_selected {
 }
 DIV.tabs DIV.contents {
   border: 1px solid black;
-  height: 7em;
+  height: 7.5em;
   overflow: hidden ;
 }
 DIV.tabs DIV.contents DIV.content { height: 100% }
-DIV.tabs { margin: 2px }
+DIV.tabs {
+  margin: 2px ;
+  font-size: 80% ;
+}
+
+DIV.tabs .gui_button {font-size: 90% ; vertical-align: bottom }
+
 
 TABLE.tabbed_headers { width: 100%; }
 TD.tabbed_headers { width: 20%; }
 
 TABLE.cell { border-spacing: 0px ; width: 100% }
-TABLE.cell TD.cell_values { width: 100% }
+TABLE.cell TD.cell_values { width: 100%; font-size: 80% ; }
 
 #menutop DIV.tabs .one_line {
-  height: 1.4em ;
+  height: 1.5em ;
+  margin-left: 1px;
+  margin-right: 1px;
 }
 
 #menutop DIV.tabs #t_column_stats {
@@ -586,8 +596,9 @@ TABLE.cell TD.cell_values { width: 100% }
   border-bottom: 0px solid black;
 }
 
-
 #menutop DIV.tabs INPUT{ width: 99% }
+
+
 
 /*
 DIV.tipped { background:red;}

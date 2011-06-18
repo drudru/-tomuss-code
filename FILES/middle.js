@@ -110,7 +110,7 @@ function head_html()
 		      "<span class=\"is_an_abj\">Si ABINJ est souligné, cliquez dessus pour vérifier s'il a un justificatif.</span><br>" +
 		      "<span class=\"non\">Le fond est rouge si l'étudiant n'est pas inscrit à l'UE.</span><br>" +
 		      "<span class=\"tt\">Le fond est bleu si l'étudiant a un tiers temps.</span><br>" +
-		      "<span class=\"filtered\">Le fond est jaune si la cellule est sélectionnée par le filtre de table</span>") + ',' ;
+		      "<span class=\"filtered\">Le fond est jaune si la cellule est sélectionnée par un filtre</span>") + ',' ;
       w += hidden_txt('&nbsp;<img class="server"> ',
 		      'Ce petit carré apparaît quand :<br>' +
 		      'on essaye de stocker la valeur sur le serveur,<br>' +
@@ -535,15 +535,15 @@ function new_new_interface()
   var o, t ;
 
   column_attributes['hidden'].title = 'Cacher la colonne' ;
-  column_attributes['import'].title = '<b>Importer</b> <small>des valeurs dans la colonne</small>' ;
-  column_attributes['fill'].title = '<b>Remplir</b> <small>la colonne avec des valeurs</small>' ;
-  column_attributes['export'].title = '<b>Exporter</b> <small>la colonne pour APOGÉE</small>' ;
-  column_attributes['delete'].title = '<b>Détruire</b> <small>définitivement la colonne</small>' ;
+  column_attributes['import'].title = '<b>Importer</b> des valeurs dans la colonne' ;
+  column_attributes['fill'].title = '<b>Remplir</b> la colonne avec des valeurs' ;
+  column_attributes['export'].title = '<b>Exporter</b> la colonne pour APOGÉE' ;
+  column_attributes['delete'].title = '<b>Détruire</b> définitivement la colonne' ;
 
   table_attributes['autosave'].title = 'Sauvegarde automatique' ;
-  table_attributes['t_import'].title = '<b>Importer</b> <small>des définitions de colonnes</small>' ;
-  table_attributes['t_export'].title = '<b>Exporter</b> <small>les définitions de colonnes</small>' ;
-  table_attributes['bookmark'].title = "<b>Options d'affichage</b> <small>: les sauver avec un signet</small>" ;
+  table_attributes['t_import'].title = '<b>Importer</b> des définitions de colonnes' ;
+  table_attributes['t_export'].title = '<b>Exporter</b> les définitions de colonnes' ;
+  table_attributes['bookmark'].title = "<b>Options d'affichage</b> : les sauver avec un signet" ;
   table_attributes['linear'].title = "Linéaire" ;
   table_attributes['update_content'].title = "Mise à jour" ;
 
@@ -555,12 +555,12 @@ function new_new_interface()
 		    'Cliquez sur la photo pour voir la fiche de suivi '
 		    + 'de l\'étudiant')) ;
   t.push('</td><td class="cell_values">') ;
-  t.push(one_line('<span id="t_value"></span>',
-		  "Valeur de la cellule.")) ;
-  t.push(one_line('<span id="t_student_firstname"></span>',
-		  "Prénom de l'étudiant.")) ;
   t.push(one_line('<span id="t_student_surname"></span>',
 		  "Nom de l'étudiant.")) ;
+  t.push(one_line('<span id="t_student_firstname"></span>',
+		  "Prénom de l'étudiant.")) ;
+  t.push(one_line('<span id="t_value"></span>',
+		  "Valeur de la cellule.")) ;
   t.push(hidden_txt(header_input('comment', '',
 				 'empty one_line onblur=comment_on_change(event)'),
 		    "Tapez un commentaire pour cette cellule<br>" +
@@ -580,13 +580,13 @@ function new_new_interface()
   // CELLULE / Historique
 
   t = [] ;
-  t.push(one_line('<small>Saisie par : </small><b><span id="t_author"></span></b>',
+  t.push(one_line('Saisie par : <b><span id="t_author"></span></b>',
 		  "Personne qui a modifié la cellule pour la dernière fois :"
 		  )) ;
-  t.push(one_line('<small>Le </small><b><span id="t_date"></span></b>',
+  t.push(one_line('Le <b><span id="t_date"></span></b>',
 		  "Date ou la cellule a été modifiée pour la dernière fois."
 		  )) ;
-  t.push(hidden_txt('<small>Historique :</small><br><span id="t_history"></span>',
+  t.push(hidden_txt('Historique :<br><span id="t_history"></span>',
 		    "Valeurs précédentes prises par la cellule.<br>"+
 		    "De la plus ancienne à la plus récente.<br>" +
 		    "Le nom de la personne qui a fait la modification<br>" +
@@ -599,17 +599,17 @@ function new_new_interface()
   t = [] ;
   t.push('<div class="one_line">')
   t.push(hidden_txt('<a href="_URL_/doc_table.html" target="_blank">' +
-		    'Documentation</a><small> complète et intéractive</small>',
+		    'Documentation</a> complète et intéractive',
 		    "Cliquez sur le lien pour avoir tous les détails sur<br>" +
 		    "l'utilisation de ce tableur")) ;
   t.push('</div>')
   t.push('<div class="one_line">')
-  t.push(hidden_txt('<small><span class="ro">S</span>' +
+  t.push(hidden_txt('<span class="ro">S</span>' +
 		    '<span class="comment">t</span>' +
 		    '<span class="today">y</span>' +
 		    '<span class="is_an_abj">l</span>' +
 		    '<span class="non">e</span>' +
-		    '<span class="tt">s</span> d\'affichage utilisés dans la table</small>',
+		    '<span class="tt">s</span> d\'affichage utilisés dans la table',
 		    "<span class=\"ro\">Le texte est gris si la cellule " +
 		    "est définie par quelqu'un d'autre.</span><br>" +
 		    "<span class=\"comment\">Triangle s'il y a un " +
@@ -624,7 +624,7 @@ function new_new_interface()
 		    "<span class=\"tt\">Le fond est bleu si l'étudiant " +
 		    "a un tiers temps.</span><br>" +
 		    "<span class=\"filtered\">Le fond est jaune si la " +
-		    "cellule est sélectionnée par le filtre de table</span>"
+		    "cellule est sélectionnée par un filtre</span>"
 		    ));
   t.push('</div>')
   t.push('<div class="one_line">')
@@ -647,16 +647,16 @@ function new_new_interface()
 		    'Il y a un <b>bug</b> quelque part,<br>'+
 		    'le responsable du logiciel a reçu un message ' +
 		    'le prévenant.')) ;
-  t.push(hidden_txt('<small> carré vert = sauvegarde réussie !</small>',
+  t.push(hidden_txt(' carré vert = sauvegarde réussie !',
 		    "Mettez le curseur sur les petits carrés pour savoir<br>"
 		    + "ce qu'ils représentent")) ;
   t.push('</div>')
 
   t.push('<div class="one_line">')
-  t.push('<small>ALT-1 : cache les bulles d\'aide</small>') ;
+  t.push('ALT-1 : cache les bulles d\'aide') ;
   t.push('</div>')
   t.push('<div class="one_line">')
-  t.push('<small>ALT-8 : édite le filtre de lignes</small>') ;
+  t.push('ALT-8 : édite le filtre de lignes') ;
   t.push('</div>')
   o.push(['?', t.join('\n')]) ;
 
@@ -705,20 +705,20 @@ function new_new_interface()
   t = [] ;
   t.push('<div class="one_line">') ;
   t.push(column_input_attr('red',
-			   'before=<small>Rougir&nbsp;:&nbsp;</small>')) ;
+			   'before=Rougir&nbsp;:&nbsp;')) ;
   t.push('</div>') ;
   t.push('<div class="one_line">') ;
   t.push(column_input_attr('green',
-			   'before=<small>Verdir&nbsp;:&nbsp;</small>')) ;
+			   'before=Verdir&nbsp;:&nbsp;')) ;
   t.push('</div>') ;
   t.push('<div class="one_line">') ;
-  t.push(column_input_attr('empty_is', 'before=<small>Si&nbsp;vide&nbsp;:&nbsp;</small>')) ;
+  t.push(column_input_attr('empty_is', 'before=Si&nbsp;vide&nbsp;:&nbsp;')) ;
   t.push('</div>') ;
   t.push('<div class="one_line">') ;
-  t.push(column_input_attr('columns', 'before=<small>Formule&nbsp;:&nbsp;</small>')) ;
+  t.push(column_input_attr('columns', 'before=Formule&nbsp;:&nbsp;')) ;
   t.push('</div>') ;
   t.push('<div class="one_line">') ;
-  t.push(column_input_attr('weight', 'before=<small>Poids&nbsp;:&nbsp;</small>')) ;
+  t.push(column_input_attr('weight', 'before=Poids&nbsp;:&nbsp;')) ;
   t.push('</div>') ;
 
   o.push(['Formule', t.join('\n')]) ;
@@ -730,7 +730,7 @@ function new_new_interface()
   t = [] ;
   t.push('<div class="one_line">') ;
   t.push(column_input_attr('visibility_date',
-			   'before=<small>Visible&nbsp;le&nbsp;:&nbsp;</small>'
+			   'before=Visible&nbsp;le&nbsp;:&nbsp;'
 			   )) ;
   t.push('</div>') ;
   t.push('<div class="one_line">') ;
@@ -773,7 +773,7 @@ function new_new_interface()
   t.push('<div class="one_line">') ;
   t.push(column_input_attr('delete')) ;
   t.push('</div>') ;
-  t.push(one_line('<small>Définie par </small>'
+  t.push(one_line('Définie par '
 		  + '<span id="t_column_author"></span>',
 		  "Personne qui a modifié la définition<br>" +
 		  "de la colonne pour la dernière fois :")) ;
@@ -784,13 +784,13 @@ function new_new_interface()
 
   t = [] ;
   t.push('<div class="one_line">') ;
-  t.push('<small>Ce que vous faites est sauvegardé automatiquement</small>') ;
+  t.push('Ce que vous faites est sauvegardé automatiquement') ;
   t.push('</div>') ;
   t.push('<div class="one_line">') ;
-  t.push("<small>Rien n'est caché aux étudiants par défaut</small>") ;
+  t.push("Rien n'est caché aux étudiants par défaut") ;
   t.push('</div>') ;
   t.push('<div class="one_line">') ;
-  t.push('<small>Comment <a href="_URL_/doc_table.html#Calcul de moyenne">calculer une moyenne</a> ?</small>') ;
+  t.push('Comment <a href="_URL_/doc_table.html#Calcul de moyenne">calculer une moyenne</a> ?') ;
   t.push('</div>') ;
 
   o.push(['?', t.join('\n')]) ;
@@ -806,7 +806,7 @@ function new_new_interface()
   t = [] ;
  
   t.push('<div class="one_line">') ;
-  t.push(hidden_txt('<span id="nr_filtered_lines"></span><small> lignes filtrées sur </small>',
+  t.push(hidden_txt('<span id="nr_filtered_lines"></span> lignes filtrées sur ',
 		    "C'est le nombre de lignes qui sont affichées<br>\n" +
 		    "après avoir appliqués les filtres")) ;
 
@@ -815,8 +815,8 @@ function new_new_interface()
 		    "y compris les lignes vidées")) ;
   t.push('</div>') ;
   t.push('<div class="one_line">') ;
-  t.push(hidden_txt(table_input_attr('nr_lines') +  '<small>lignes, </small>' +
-		    table_input_attr('nr_columns') +'<small> colonnes</small>',
+  t.push(hidden_txt(table_input_attr('nr_lines') +  'lignes, ' +
+		    table_input_attr('nr_columns') +' colonnes',
 		    "Taille du tableau affiché sur l'écran")) ;
   t.push('</div>') ;
   t.push('<div class="one_line">') ;
@@ -845,10 +845,10 @@ function new_new_interface()
   
   t.push('<div class="one_line">') ;
   t.push(table_input_attr('default_nr_columns',
-			  'before=<small>Nb&nbsp;colonnes&nbsp;affichées&nbsp;:&nbsp;</small>')) ;
+			  'before=Nb&nbsp;colonnes&nbsp;affichées&nbsp;:&nbsp;')) ;
   t.push('</div>') ;
   t.push('<div class="one_line">') ;
-  t.push("<small>Droits d'accès : </small>" +
+  t.push("Droits d'accès : " +
 	 table_input_attr('private', [[0,'Publique'],[1,'Privée']]));
   t.push(" " +
 	 table_input_attr('modifiable',
@@ -857,7 +857,7 @@ function new_new_interface()
   t.push('<div class="one_line">') ;
 
   if ( semester == 'Printemps' || semester == 'Automne' )
-    t.push('<small>Affichage étudiant : </small>' +
+    t.push('Affichage étudiant : ' +
 	   table_input_attr('official_ue', [[0,'Invisible'],[1,'Visible']])) ;
   else
     t.push('&nbsp;') ;
@@ -865,10 +865,10 @@ function new_new_interface()
   t.push('</div>') ;
   t.push('<div class="one_line">') ;
   t.push(table_input_attr('dates',
-			  'empty before=<small>Début/fin</small>&nbsp;:&nbsp;')) ;
+			  'empty before=Début/fin&nbsp;:&nbsp;')) ;
   t.push('</div>') ;
   t.push('<div class="one_line">') ;
-  t.push(table_input_attr('masters','empty before=<small>Responsables&nbsp;:&nbsp;</small>')) ;
+  t.push(table_input_attr('masters','empty before=Responsables&nbsp;:&nbsp;')) ;
   t.push('</div>') ;
 
   o.push(['Paramétrage', t.join('\n')]) ;
@@ -904,12 +904,11 @@ function new_new_interface()
   // Table / Help
 
   o.push(['?',
-	  '<small>Tout le monde peut remplir des cases vides. '
+	  'Tout le monde peut remplir des cases vides. '
 	  + 'Mais seul les responsables de la table peuvent modifier '
 	  + 'les notes et commentaires saisis par les autres enseignants. '
 	  + "Si personne n'est responsable de la table, n'importe qui "
 	  + " à le droit d'en prendre la responsabilité."
-	  + '</small>'
 	  ]) ;
 
   w.push('</td><td class="tabbed_headers">') ;
