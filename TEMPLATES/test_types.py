@@ -30,7 +30,7 @@ def update_column(table):
             table.column_attr(table.pages[1], t.name, 'title', t.name)
             table.column_attr(table.pages[1], t.name, 'type', t.name)
             table.column_attr(table.pages[1], t.name, 'columns', '')
-    table.table_attr(p, 'default_nr_columns', len(plugins.types))
+    table.table_attr(table.pages[0], 'default_nr_columns', len(plugins.types))
     for i, v in enumerate(('1','a','31/1/1998','é',
                            '&~!@#$%^&*()_+|-=][{}":;,.<>')):
         i = str(i)
@@ -42,7 +42,7 @@ def update_column(table):
         
 
 def create(table):
-    if table.year != 2008 or table.semester != 'Test':
+    if table.year < 2008 or table.year < 2030 or table.semester != 'Test':
         raise ValueError('Not allowed')
     p = table.new_page('' ,data.ro_user, '', '')
     table.table_attr(p, 'masters', list(configuration.root))

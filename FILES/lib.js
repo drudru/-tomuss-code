@@ -127,7 +127,8 @@ function lib_init()
   modification_date    = document.getElementById('date'                 );
   server_log           = document.getElementById('log'                  );
   the_body             = document.getElementById('body'                 );
-  the_body.style.overflowX = 'hidden' ;
+  if ( the_body )
+    the_body.style.overflowX = 'hidden' ;
   p_title_links        = document.getElementById('title_links'          );
   nr_not_empty_lines   = document.getElementById('nr_not_empty_lines'   );
   nr_filtered_lines    = document.getElementById('nr_filtered_lines'    );
@@ -225,7 +226,7 @@ function compute_nr_lines()
 {
   if ( ! header_height )
     {
-      setTimeout("header_height = findPosY(the_current_cell.input); compute_nr_lines();table_init();table_fill(true,true,true)", 500) ;
+      setTimeout("header_height = findPosY(the_current_cell.input); compute_nr_lines();table_init();table_fill(true,true,true)", 1000) ;
       table_attr.nr_lines = 1 ;
       return ;
     }
@@ -234,7 +235,7 @@ function compute_nr_lines()
       // Number of displayed lines on the screen
       table_attr.nr_lines = (window_height() - header_height
 			     - 1.5*the_current_cell.input.offsetHeight)
-	/ (1+the_current_cell.input.offsetHeight) ;
+        / (1+table.childNodes[nr_headers].firstChild.offsetHeight) ;
       table_attr.nr_lines = Math.floor(table_attr.nr_lines) ;
     }
 
@@ -3035,7 +3036,7 @@ function stop_event(event)
   else
     {
       event.returnValue = false;
-      event.keyCode = 0;
+      try { event.keyCode = 0; } catch(e) { } ;
     }
 
   event.cancelBubble = true ;
@@ -3140,6 +3141,7 @@ function csv(csv_cell)
 function the_filters()
 {
   var s = "" ;
+  var column ;
 
   for(var data_col in columns)
     {
@@ -4073,7 +4075,7 @@ function javascript_regtest_ue()
   update_filtered_lines();
   the_current_cell.jump(nr_headers,0) ;
   table_attr.nr_columns = 12 ;
-
+  table_attr.nr_lines = 14 ;
 
   alert_real = alert ;
   var alert_messages = '' ;

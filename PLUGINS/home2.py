@@ -182,6 +182,7 @@ def home_page(server):
     utilities.warn('Encodings: ' + encodings)
     if 'Safari' not in ticket.user_browser \
        and 'Konqueror' not in ticket.user_browser \
+       and 'Python-urllib' not in ticket.user_browser \
        and 'gzip' in encodings:
         f.write('<script src="' + configuration.server_url + '/all_ues.js.gz"></script>')
     else:

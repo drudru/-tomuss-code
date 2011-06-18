@@ -1990,6 +1990,7 @@ function current_keydown(event, in_input)
       this.input.value = this.initial_value ;
       this.input.blur() ;
       this.input.focus() ;
+      this.input.select() ;
       break ;
     default:
       if ( ! this.cell_modifiable() )
@@ -2005,8 +2006,11 @@ function current_keydown(event, in_input)
 	}
       // completion only in table cells
       if (  event.target === this.input && key >= 64
-	    && this.input.textLength == selection.end ) // No control code
-	setTimeout("the_current_cell.do_completion()") ;
+	    && event.ctrlKey === false
+	    && this.input.value.length == selection.end ) // No control code
+	{
+	  setTimeout("the_current_cell.do_completion()", 100) ;
+	}
       return true ;
     }
   stop_event(event) ;

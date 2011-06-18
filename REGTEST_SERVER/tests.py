@@ -550,14 +550,14 @@ def tests():
         lines_id = ['line_0']
         nr_columns = 7
         nr_pages = 2
-        nr_cells = 2
+        nr_cells = 1
         check('Y9999/STest/cellprotect.py',
               masters_expected = [], nr_pages = nr_pages,
               nr_columns = nr_columns, lines_id = lines_id,
               nr_cells = nr_cells,
               dump=False)
         c = s.url('=' + abj + '/9999/Test/cellprotect')
-        assert('P([C(),C(),C(),C(),C(),C("ok","*","' in c)
+        assert('P([C(),C(),C(),C(),C(),C()' in c)
         assert('),C("_VALUE_1_","%s","' % root in c)
         c = s.url('=' + abj + '/9999/Test/cellprotect' +
                   '/2/0/cell_change/col_0/line_0/_VALUE_2_')
@@ -565,7 +565,7 @@ def tests():
         c = s.url('=' + root + '/9999/Test/cellprotect' +
                   '/1/2/cell_change/col_0/line_0/_VALUE_2_')
         assert(c == ok_png)
-        nr_cells = 3
+        nr_cells = 2
         nr_pages += 1
         check('Y9999/STest/cellprotect.py',
               masters_expected = [], nr_pages = nr_pages,
@@ -587,7 +587,7 @@ def tests():
               dump=False)
 
         c = s.url('=' + abj + '/9999/Test/cellprotect')
-        assert('P([C(),C(),C(),C(),C(),C("ok","*","' in c)
+        assert('P([C(),C(),C(),C(),C(),C()' in c)
         assert('),C("_VALUE_2_","%s","' % root in c)
         assert('_COMMENT_' not in c)
 
@@ -603,7 +603,7 @@ def tests():
         lines_id = ['line_0']
         nr_columns = 7
         nr_pages = 2
-        nr_cells = 2
+        nr_cells = 1
         cell_required = (1,'col_0','line_0','~`!@#$%^&*()+[]{}|\\;:\'"/?.,?')
         check('Y9999/STest/badchars.py',
               masters_expected = [], nr_pages = nr_pages,
@@ -653,7 +653,7 @@ def tests():
         lines_id = ['line_0']
         nr_columns = 7
         nr_pages = 3
-        nr_cells = 3
+        nr_cells = 2
         cell_required = (2,'col_0','line_0','_VALUE_2_')
         check('Y9999/STest/masterpower.py',
               masters_expected = [abj], nr_pages = nr_pages,
@@ -1440,12 +1440,12 @@ n = 0
 m = []
 while True:
     start = time.time()
+    exit_status = 1
     try:
         tests()
         exit_status = 0
         print 'Test fine'
     except AssertionError:
-        exit_status = 1
         if c == '':
             print 'assert: empty !!!!!'
         elif c == bad_png:
@@ -1474,7 +1474,9 @@ while True:
         for i in m:
             print i
         if only_once:
-            sys.exit(exit_status)
+            break
+
+sys.exit(exit_status)
         
 
 

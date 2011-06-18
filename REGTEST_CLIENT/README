@@ -1,0 +1,85 @@
+
+BEWARE : these regression tests are quite specials.
+They did not tell if the application is working, they tell if
+the application give the same result than the last time.
+
+In order to use these regression tests :
+
+   * You checkout a working version of TOMUSS
+
+   * You erase the content of 'Trash' directory (the 'good' snaphots)
+
+   * You run the regression tests.
+     It is very long this first time because we must wait a long time to
+     be sure that the browser has finished to display the page
+     before taking the snapshot.
+
+   * You checkout the next version
+
+   * You run the regression tests ON THE SAME SYSTEM : NO UPGRADE !
+
+If there is GUI change, the tests will fail.
+
+======================
+Testing IE from Linux.
+======================
+
+In 'test.py' file, you need to:
+
+  * Configure IE lauching.
+    It is done by customize the following command in 'test.py'
+
+    rdesktop windows.univ-lyon1.fr \
+         -u thierry.excoffier \
+         -d UNIV-LYON1 \
+         -f \
+         -s 'C:/Program Files/Internet Explorer/iexplore.exe http://www.univ-lyon1.fr/'
+
+  * Set the 'password' needed to connect to the remote desktop.
+
+======================
+    GIT checking
+======================
+
+The 'Trash/GIT/checksum' contains the snapshots for the indicated commit.
+
+for each untested commit:
+   Launch 3 time the regression test with snapshot from previous commit
+   and store the results.
+
+   Store the results
+
+   Remove all bad snapshot, make the others points (sym links) onto
+   the good snapshot from the previous commit.
+
+
+======================
+    TO DO
+======================
+  * epiphany : enlever l'indicateur de chargement qui est trop gros
+  * Filters
+  * Bookmark
+  * ABJ input
+  * Master of tables
+  * Suivi
+  * TT
+  * Other table actions
+  * Favorites students and UE
+  * Actions on favorite
+
+How to click on the right place :
+
+  * Stroke 'Tab' the good number of time.
+    Broken on GUI change.
+
+  * Before each table attribute : encode attribute name in a 3x3 square.
+
+    - Do not work with older version of TOMUSS.
+
+    - Do not work on home page.
+
+  * Detect special user interface features :
+
+    + It works for the '+' on the home page
+
+  * Use browser 'Search' feature !

@@ -23,12 +23,12 @@ from column import ColumnAttr
 
 class ColumnTestFilter(ColumnAttr):
     default_value = '!ABINJ'
+    display_table = 1
     name = 'test_filter'
     visible_for = ['Nmbr']
-    check_and_set = '''/* The max is computed by check_weight_average */
+    check_and_set = '''
 function(value, column)
 {
-  column.min = 0 ; // Max computed elsewhere
   column.need_update = true ;
   column.nmbr_filter = compile_filter_generic(value) ;
   return value ;

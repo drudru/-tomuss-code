@@ -811,7 +811,7 @@ function update_ues_unsaved()
       return ;
     }
   var s = ['<tr><th colspan="3">' +
-	   hidden_txt('Table avec des donn? non sauvegard?',
+	   hidden_txt('Table avec des donnée non sauvegardée',
 		      'VISITEZ CES TABLES POUR SAUVER LEUR CONTENU.<br>\nEn effet, le contenu de ces tables est en parti dans votre navigateur')
 	   + '</th></tr>'] ;
   var unsaved = index.substr(1).split('\n') ;
