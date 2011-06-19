@@ -28,4 +28,4 @@ class TableNrColumns(TableAttr):
     tip = "Nombre de <b>colonnes</b> affichées sur l'écran"
     gui_display = "GUI_select"
     action = "nr_columns_change"
-    css = '#menutop SELECT#nr_cols { width: 4em ; }'
+    css = '#menutop SELECT#t_table_attr_nr_columns { width: 6em ; }'

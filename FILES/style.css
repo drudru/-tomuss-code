@@ -586,9 +586,8 @@ TABLE.cell { border-spacing: 0px ; width: 100% }
 TABLE.cell TD.cell_values { width: 100%; font-size: 80% ; }
 
 #menutop DIV.tabs .one_line {
-  height: 1.5em ;
-  margin-left: 1px;
-  margin-right: 1px;
+  height: 1.41em ;
+  margin: 1px ;
 }
 
 #menutop DIV.tabs #t_column_stats {
@@ -596,7 +595,7 @@ TABLE.cell TD.cell_values { width: 100%; font-size: 80% ; }
   border-bottom: 0px solid black;
 }
 
-#menutop DIV.tabs INPUT{ width: 99% }
+#menutop DIV.tabs INPUT{ width: 99% ; margin: 0px }
 
 
 

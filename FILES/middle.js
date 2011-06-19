@@ -695,9 +695,7 @@ function new_new_interface()
 		    "Seules les <b>colonnes</b> dont le nom est filtré " +
 		    "seront affichées.<br>" +
 		    "Tapez le début de ce que vous cherchez.<br>" +
-		    "Pour plus d'information, regardez l'aide sur les filtres.",
-		    'one_line'
-		    )) ;
+		    "Pour plus d'information, regardez l'aide sur les filtres.")) ;
   o = [['Colonne', t.join('\n')]] ;
 
   // COLUMN / Formula
