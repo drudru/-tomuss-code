@@ -427,6 +427,9 @@ function header_input(the_id, the_header_name, options)
     onkey = options.split('onkey=')[1].split(' ')[0] ;
   if ( options && options.search('before=') != -1 )
     before = options.split('before=')[1].split(' ')[0] ;
+  if ( options && options.search('beforeclass=') != -1 )
+    before = '<span class="' + options.split('beforeclass=')[1].split(' ')[0]
+      + '">' + before + '</span>' ;
   if ( options && options.search('one_line') != -1 )
     {
       before = '<div class="one_line">' + before ;
@@ -703,20 +706,22 @@ function new_new_interface()
   t = [] ;
   t.push('<div class="one_line">') ;
   t.push(column_input_attr('red',
-			   'before=Rougir&nbsp;:&nbsp;')) ;
+			   'before=Rougir beforeclass=widthleft')) ;
   t.push('</div>') ;
   t.push('<div class="one_line">') ;
   t.push(column_input_attr('green',
-			   'before=Verdir&nbsp;:&nbsp;')) ;
+			   'before=Verdir beforeclass=widthleft')) ;
   t.push('</div>') ;
   t.push('<div class="one_line">') ;
-  t.push(column_input_attr('empty_is', 'before=Si&nbsp;vide&nbsp;:&nbsp;')) ;
+  t.push(column_input_attr('empty_is',
+			   'before=Si&nbsp;vide beforeclass=widthleft')) ;
   t.push('</div>') ;
   t.push('<div class="one_line">') ;
-  t.push(column_input_attr('columns', 'before=Formule&nbsp;:&nbsp;')) ;
+  t.push(column_input_attr('columns',
+			   'before=Formule beforeclass=widthleft')) ;
   t.push('</div>') ;
   t.push('<div class="one_line">') ;
-  t.push(column_input_attr('weight', 'before=Poids&nbsp;:&nbsp;')) ;
+  t.push(column_input_attr('weight', 'before=Poids beforeclass=widthleft')) ;
   t.push('</div>') ;
 
   o.push(['Formule', t.join('\n')]) ;
@@ -813,8 +818,8 @@ function new_new_interface()
 		    "y compris les lignes vidées")) ;
   t.push('</div>') ;
   t.push('<div class="one_line">') ;
-  t.push(hidden_txt(table_input_attr('nr_lines') +  'lignes, ' +
-		    table_input_attr('nr_columns') +' colonnes',
+  t.push(hidden_txt(table_input_attr('nr_lines') +  ' lignes, ' +
+		    table_input_attr('nr_columns') + ' colonnes',
 		    "Taille du tableau affiché sur l'écran")) ;
   t.push('</div>') ;
   t.push('<div class="one_line">') ;
