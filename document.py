@@ -1316,6 +1316,7 @@ def check_requests():
 
             try:
                 real_bug = True
+                page.answer = 'bug.png'
                 tabl.lock()
                 try:
                     if action.startswith('column_attr_'):
@@ -1341,7 +1342,6 @@ def check_requests():
                             update_students.append(tabl)
                     else:
                         warn('BUG: %s' % str(path), what="error")
-                        page.answer = 'bug.png'
                 finally:
                     tabl.do_not_unload_add(-1)
                     tabl.unlock()
