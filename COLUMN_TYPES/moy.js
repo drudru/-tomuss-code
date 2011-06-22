@@ -86,6 +86,11 @@ function compute_average(data_col, line)
 	  break ;
 	}
     }
+  if ( nr_abj == column.average_columns.length )
+    {
+      line[data_col].set_value(abj) ;
+      return ;
+    }
   if ( column.best_of )
     {
       if ( column.best_of > 0 )
@@ -118,7 +123,6 @@ function compute_average(data_col, line)
       if( i>0 && nr_abi )
 	{
 	  var n = Math.min(i, nr_abi) ;
-	  nr_abi -= n ;
 	  i -= n ;
 	  if ( values.length < n )
 	    {
@@ -127,7 +131,6 @@ function compute_average(data_col, line)
 	    }
 	  values = values.slice(0, values.length - n) ;
 	}
-      // i -= nr_ppn + nr_abj ; // Uncomment to see ABJ as a bad rank
       if ( i > 0 )
 	{
 	  if ( values.length < i )
@@ -137,10 +140,13 @@ function compute_average(data_col, line)
 	    }
 	  values = values.slice(0, values.length - i) ;
 	}
-      var s = '' ;
-      for(var i in values)
-	s += ' ' + values[i][0] ;
-      // line[data_col].set_comment(s) ;
+      if ( false )
+	{
+	  var s = '' ;
+	  for(var ii in values)
+	    s += ' ' + values[ii][0] ;
+	  line[data_col].set_comment(s) ;
+	}
     }
  
   var weight = 0, w ;
