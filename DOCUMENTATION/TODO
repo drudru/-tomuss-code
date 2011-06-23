@@ -8,6 +8,10 @@ Nouvelles fonctionnalités.
 Utilisateurs finaux.
 --------------------
 
+* Double clique page d'accueil
+
+* moteur recherche étudiant : si 0 réponse : chercher seulement le début
+
 * Pourcentage d'ABJ pour le résultat d'un calcul en fonction du poids
   des colonnes moyennées.
 
@@ -120,6 +124,18 @@ Administrateur.
 =====================
 Problèmes à résoudre.
 =====================
+
+* Le live status bloque TOMUSS quand on charge une grosse UE ?
+
+* Vérifier si les attributs de colonne ne sont modifiables que par le
+  responsable de la colonne.
+
+* La recherche étudiant de la page d'accueil affiche parfois tous les
+  étudiants en double (extrèmement rare juin 2011)
+
+* Type 'identifiant' n'affiche plus la liste
+
+* Liste de la page d'accueil : ajouter les UE GASEL en plus de LDAP et SPIRAL
 
 * La valeur maximale pour le type Nmbr doit être affichée correctement
 
