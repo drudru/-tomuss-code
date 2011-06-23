@@ -42,7 +42,7 @@ def compute_one(table, line, column):
         value = line[col.data_col].value
         if value == 'ABINJ':
             abinj += 1
-            values.append((0, col.weight))
+            values.append((0, float(col.weight)))
         elif value == 'ABJUS':
             abjus += 1
         elif value == 'PPNOT':
@@ -50,24 +50,34 @@ def compute_one(table, line, column):
         else:
             v_min, v_max = min_max(col.minmax)
             try:
-                weight = float(col.weight)
+                if col.weight == '?':
+                    # For a future functionnality?
+                    weight = float(line[col.data_col].comment)
+                else:
+                    weight = float(col.weight)
                 if col.weight[0] in "+-":
                     bonus += weight * float(value)
                 else:
                     values.append(((float(value)-v_min)/(v_max-v_min), weight))
             except ValueError:
                 return 'NaN', ''
+
     nr = abjus + ppnot + len(values)
-    if abinj == nr:
-        return 'ABINJ'
     if abjus == nr:
-        return 'ABJUS'
+        return 'ABJUS', ''
+
+    if values:
+        full_weight = sum(zip(*values)[1])
+    else:
+        full_weight = 0
+    if abinj == nr:
+        return 'ABINJ', full_weight
 
     values.sort()
     worst, best = best_worst_of(column.comment)
 
     if best + worst > len(values):
-        return 'NaN'
+        return 'NaN', ''
 
     if best:
         values = values[worst:-best]
@@ -75,20 +85,19 @@ def compute_one(table, line, column):
         values = values[worst:]
 
     if len(values) == 0:
-        return 'PPNOT'
+        return 'PPNOT', full_weight
 
     s = 0
     w = 0
     for value, weight in values:
-        float_weight = float(weight)
-        s += value * float_weight
-        w += float_weight
+        s += value * weight
+        w += weight
 
     if w == 0:
-        return 'NaN'
+        return 'NaN', ''
             
     v_min, v_max = min_max(column.minmax)
-    return v_min + (s / w) * (v_max - v_min) + bonus
+    return v_min + (s / w) * (v_max - v_min) + bonus, full_weight
 
 
 
@@ -112,16 +121,16 @@ def create(table):
         {'title': 'B', 'type': 'Note', 'minmax': '[0;20]', "weight": 2},
         {'title': 'C', 'type': 'Note', 'minmax': '[0;20]', "weight": 3},
         {'title': 'D', 'type': 'Note', 'minmax': '[0;20]', "weight": '+2'},
-        {'title': 'Moy', 'type': 'Moy', 'columns': 'A B C D'},
+        {'title': 'Moy', 'type': 'Moy', 'columns': 'A B C D', 'weight': '1'},
         {'title': 'Moy_OK', 'type': 'Text'},
-        {'title': 'Moy-min', 'type': 'Moy', 'columns': 'A B C D',
-         'comment': ']1,0['},
+        {'title': 'Moy-min', 'type': 'Moy', 'columns': 'A B C',
+         'comment': ']1,0[', 'weight': '1'},
         {'title': 'Moy-min_OK', 'type': 'Text'},
-        {'title': 'Moy-max', 'type': 'Moy', 'columns': 'A B C D',
-         'comment': ']0,1['},
+        {'title': 'Moy-max', 'type': 'Moy', 'columns': 'A B C',
+         'comment': ']0,1[', 'weight': '1'},
         {'title': 'Moy-max_OK', 'type': 'Text'},
-        {'title': 'Moy-minmax', 'type': 'Moy', 'columns': 'A B C D',
-         'comment': ']1,1['},
+        {'title': 'Moy-minmax', 'type': 'Moy', 'columns': 'A B C',
+         'comment': ']1,1[', 'weight': '1'},
         {'title': 'Moy-minmax_OK', 'type': 'Text'},
         {'title': 'MoyMoy', 'type': 'Moy',
          'columns': 'Moy Moy-min Moy-max Moy-minmax'},
@@ -142,8 +151,9 @@ def create(table):
         table.cell_change(p, '2', i, values[3])
         table.cell_change(p, '3', i, values[0])
         for c in (5, 7, 9, 11, 13):
-            v = compute_one(table, table.lines[i], table.columns[c-1])
+            v, w = compute_one(table, table.lines[i], table.columns[c-1])
             v = str(v)
             table.cell_change(p, str(c), i, v)
+            table.comment_change(p, str(c), i, str(w))
             table.lines[i][c-1] = table.lines[i][c-1].set_value(v)
     
