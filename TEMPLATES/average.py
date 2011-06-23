@@ -20,112 +20,140 @@
 #    Contact: Thierry.EXCOFFIER@bat710.univ-lyon1.fr
 
 import data
+import re
+
+def best_worst_of(txt):
+    values = re.sub(r".*]([0-9]*),([0-9]*)\[.*", r'][ \1 \2', txt).split(" ")
+    if len(values) != 3 or values[0] != '][':
+        return (0, 0)
+    return (int(values[1]), int(values[2]))
+
+def min_max(txt):
+    return [float(v) for v in txt.strip('[]').split(';')]
+
+def compute_one(table, line, column):
+    abinj = 0
+    abjus = 0
+    ppnot = 0
+    values = []
+    bonus = 0
+    for title in column.depends_on():
+        col = table.columns.from_title(title)
+        value = line[col.data_col].value
+        if value == 'ABINJ':
+            abinj += 1
+            values.append((0, float(col.weight)))
+        elif value == 'ABJUS':
+            abjus += 1
+        elif value == 'PPNOT':
+            ppnot += 1
+        else:
+            v_min, v_max = min_max(col.minmax)
+            try:
+                if col.weight == '?':
+                    # For a future functionnality?
+                    weight = float(line[col.data_col].comment)
+                else:
+                    weight = float(col.weight)
+                if col.weight[0] in "+-":
+                    bonus += weight * float(value)
+                else:
+                    values.append(((float(value)-v_min)/(v_max-v_min), weight))
+            except ValueError:
+                return 'NaN', ''
+
+    nr = abjus + ppnot + len(values)
+    if abjus == nr:
+        return 'ABJUS', ''
+
+    if values:
+        full_weight = sum(zip(*values)[1])
+    else:
+        full_weight = 0
+    if abinj == nr:
+        return 'ABINJ', full_weight
+
+    values.sort()
+    worst, best = best_worst_of(column.comment)
+
+    if best + worst > len(values):
+        return 'NaN', ''
+
+    if best:
+        values = values[worst:-best]
+    else:
+        values = values[worst:]
+
+    if len(values) == 0:
+        return 'PPNOT', full_weight
+
+    s = 0
+    w = 0
+    for value, weight in values:
+        s += value * weight
+        w += weight
+
+    if w == 0:
+        return 'NaN', ''
+            
+    v_min, v_max = min_max(column.minmax)
+    return v_min + (s / w) * (v_max - v_min) + bonus, full_weight
+
+
+
+possible = (5, 'ABINJ', 'ABJUS', 'PPNOT')
+
+def values_next(i):
+    if i == 0:
+        yield [0]
+        yield [1]
+        return
+    for j in possible:
+        for k in values_next(i-1):
+            k.append(j)
+            yield k
 
 def create(table):
-    p = table.new_page('' ,data.ro_user, '', '')
-    
-    column_attr = table.column_attr
-    table_attr = table.table_attr
-    cell_change = table.cell_change
+    p = table.new_page('' ,data.rw_user, '', '')
 
-    column_attr(p,'00','title','ID')
-    column_attr(p,'00','freezed','F')
-    column_attr(p,'00','type','Text')
-    column_attr(p,'00','position',0)
-    column_attr(p,'10','title','Note1')
-    column_attr(p,'10','position',6)
-    column_attr(p,'11','minmax','[0;10]')
-    column_attr(p,'11','title','Note2')
-    column_attr(p,'11','position',7)
-    column_attr(p,'12','minmax','[0;40]')
-    column_attr(p,'12','title','Moyenne1')
-    column_attr(p,'12','width',10)
-    column_attr(p,'12','type','Moy')
-    column_attr(p,'12','columns','Note1 Note2')
-    column_attr(p,'12','position',8)
-    column_attr(p,'20','weight','2')
-    column_attr(p,'20','title','Note3')
-    column_attr(p,'20','position',9)
-    column_attr(p,'21','title','Moyenne2')
-    column_attr(p,'21','width',10)
-    column_attr(p,'21','type','Moy')
-    column_attr(p,'21','columns','Moyenne1 Note3')
-    column_attr(p,'21','position',10)
-    column_attr(p,'40','title','BonneR\xc3\xa9ponse')
-    column_attr(p,'40','width',8)
-    column_attr(p,'40','type','Text')
-    column_attr(p,'40','position',11)
-    column_attr(p,'m3','comment','Moyenne des 2 meilleurs notes')
-    column_attr(p,'m3','title','Moyenne3')
-    column_attr(p,'m3','width',10)
-    column_attr(p,'m3','type','Moy')
-    column_attr(p,'m3','columns','Note1 Note2 Note3')
-    column_attr(p,'m3','position',12)
-    column_attr(p,'br3','title','BonneReponse3')
-    column_attr(p,'br3','width',10)
-    column_attr(p,'br3','type','Text')
-    column_attr(p,'br3','position',13)
-    table_attr(p, 'default_nr_columns', 9)
-    cell_change(p,'00','50','9','')
-    cell_change(p,'10','50','PPNOT','20080716162232')
-    cell_change(p,'11','50','PPNOT','20080716162256')
-    cell_change(p,'20','50',13.0,'20080716162303')
-    cell_change(p,'40','50','13','20080716162316')
-    cell_change(p,'br3','50','NaN','')
-    cell_change(p,'00','51','10','')
-    cell_change(p,'10','51','ABJUS','20080716162328')
-    cell_change(p,'11','51','PPNOT','20080716162340')
-    cell_change(p,'20','51',13.0,'20080716162346')
-    cell_change(p,'40','51','13','20080716162350')
-    cell_change(p,'br3','51','NaN','')
-    cell_change(p,'00','17','7','')
-    cell_change(p,'11','17','ABINJ','20080716161306')
-    cell_change(p,'20','17','PPNOT','20080716161912')
-    cell_change(p,'40','17','NaN','20080716162003')
-    cell_change(p,'br3','17','NaN','')
-    cell_change(p,'00','16','6','')
-    cell_change(p,'11','16',5.0,'20080716161303')
-    cell_change(p,'20','16',13.0,'20080716161830')
-    cell_change(p,'40','16','NaN','20080716161947')
-    cell_change(p,'br3','16','NaN','')
-    cell_change(p,'00','15','5','')
-    cell_change(p,'10','15','ABJUS','20080716161240')
-    cell_change(p,'11','15','ABJUS','20080716161241')
-    cell_change(p,'20','15',13.0,'20080716161814')
-    cell_change(p,'40','15','13','20080716161944')
-    cell_change(p,'br3','15','NaN','')
-    cell_change(p,'00','14','4','')
-    cell_change(p,'10','14','ABINJ','20080716161231')
-    cell_change(p,'11','14','ABJUS','20080716161232')
-    cell_change(p,'20','14','ABINJ','20080716161837')
-    cell_change(p,'40','14','0','20080716161951')
-    cell_change(p,'br3','14',0,'')
-    cell_change(p,'00','13','3','')
-    cell_change(p,'10','13','ABINJ','20080716161224')
-    cell_change(p,'11','13','ABINJ','20080716161226')
-    cell_change(p,'20','13','ABJUS','20080716161840')
-    cell_change(p,'40','13','0','20080716161952')
-    cell_change(p,'br3','13',0,'')
-    cell_change(p,'00','12','2','')
-    cell_change(p,'10','12','ABJUS','20080716161218')
-    cell_change(p,'11','12',5.0,'20080716161219')
-    cell_change(p,'20','12','PPNOT','20080716161921')
-    cell_change(p,'40','12','10','20080716161957')
-    cell_change(p,'br3','12','NaN','')
-    cell_change(p,'00','11','1','')
-    cell_change(p,'10','11','ABINJ','20080716161204')
-    cell_change(p,'11','11',5.0,'20080716161209')
-    cell_change(p,'20','11',13.0,'20080716161852')
-    cell_change(p,'40','11','10.33','20080716161959')
-    cell_change(p,'br3','11',12,'')
-    cell_change(p,'00','10','0','')
-    cell_change(p,'10','10',10.0,'20080716161115')
-    cell_change(p,'11','10',5.0,'20080716161126')
-    cell_change(p,'20','10',13.0,'20080716161604')
-    cell_change(p,'40','10','12','20080716162000')
-    cell_change(p,'br3','10',12,'')
-    cell_change(p,'00','18','8','')
-    cell_change(p,'11','18','ABJUS','20080716161308')
-    cell_change(p,'20','18',13.0,'20080716161928')
-    cell_change(p,'40','18','NaN','20080716162005')
-    cell_change(p,'br3','18','NaN','')
+    attrs = (
+        {'title': 'A', 'type': 'Note', 'minmax': '[0;10]'},
+        {'title': 'B', 'type': 'Note', 'minmax': '[0;20]', "weight": 2},
+        {'title': 'C', 'type': 'Note', 'minmax': '[0;20]', "weight": 3},
+        {'title': 'D', 'type': 'Note', 'minmax': '[0;20]', "weight": '+2'},
+        {'title': 'Moy', 'type': 'Moy', 'columns': 'A B C D', 'weight': '1'},
+        {'title': 'Moy_OK', 'type': 'Text'},
+        {'title': 'Moy-min', 'type': 'Moy', 'columns': 'A B C',
+         'comment': ']1,0[', 'weight': '1'},
+        {'title': 'Moy-min_OK', 'type': 'Text'},
+        {'title': 'Moy-max', 'type': 'Moy', 'columns': 'A B C',
+         'comment': ']0,1[', 'weight': '1'},
+        {'title': 'Moy-max_OK', 'type': 'Text'},
+        {'title': 'Moy-minmax', 'type': 'Moy', 'columns': 'A B C',
+         'comment': ']1,1[', 'weight': '1'},
+        {'title': 'Moy-minmax_OK', 'type': 'Text'},
+        {'title': 'MoyMoy', 'type': 'Moy',
+         'columns': 'Moy Moy-min Moy-max Moy-minmax'},
+        {'title': 'MoyMoy_OK', 'type': 'Text'},
+        )
+
+    for i, column in enumerate(attrs):
+        for attr, value in column.items():
+            table.column_attr(p, str(i), attr, str(value))
+
+    table.table_attr(p, 'default_sort_column', [0,1])
+    table.table_attr(p, 'default_nr_columns', 14)
+
+    for i, values in enumerate(values_next(3)):
+        i = str(i)
+        table.cell_change(p, '0', i, values[1])
+        table.cell_change(p, '1', i, values[2])
+        table.cell_change(p, '2', i, values[3])
+        table.cell_change(p, '3', i, values[0])
+        for c in (5, 7, 9, 11, 13):
+            v, w = compute_one(table, table.lines[i], table.columns[c-1])
+            v = str(v)
+            table.cell_change(p, str(c), i, v)
+            table.comment_change(p, str(c), i, str(w))
+            table.lines[i][c-1] = table.lines[i][c-1].set_value(v)
+    

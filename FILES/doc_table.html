@@ -464,13 +464,15 @@
    <div>   
     <h3>Calcul automatique du poids</h3>
     <p>
+       <b>Ceci n'est pas fonctionnel pour l'instant</b>
+    <p>
        Il est possible de mettre '<b>?</b>' comme poids d'une colonne
        calculant une moyenne.
     <p>
        Dans ce cas, le poids de la colonne est la somme des poids
        des colonnes utilisées dans la moyenne.
-       Sauf pour les ABJ, en effet dans ce cas le poids de la colonne
-       contenant l'ABJ sera annulé pour le calcul de la ligne.
+       Sauf pour les ABJ/PPN, en effet dans ce cas le poids de la colonne
+       contenant l'ABJ/PNN sera annulé pour le calcul de la ligne.
     <p>
        Si l'on utilise ces poids automatiques, alors les moyennes
        de moyennes sont toujours égales à la moyenne simple équivalente.
@@ -775,6 +777,42 @@
       Si jamais votre tableur est configuré en anglais, il faut
       le basculer en français pour ne pas avoir de problèmes
 	  avec les virgules des nombres.
+
+    <h4>La table APOGÉE contient déjà des notes et PrC</h4>
+
+    <p>Voici une solution (elle prend moins de 2 minutes montre en main).
+	<ul>
+	  <li> Vous désactivez la sauvegarde automatique
+	    car vous ne voulez rien sauvegarder.
+
+	  <li> Vous "créez" une colonne de type texte (à cause des PrC).
+
+	  <li> Vous importez dans cette colonne le tableau APOGÉE
+	    avec les notes déjà acquises (la colonne sera presque vide).
+	    
+	  <li> Il faut ensuite recopier vos nouvelles notes dans cette colonne,
+	    en faisant ceci :
+
+	    <ul>
+	      <li> Vous filtrez les lignes qui sont vides (vous mettez le
+		symbole <b>=</b> dans le filtre de la nouvelle colonne)
+
+	      <li> Vous exportez les « numéro d'étudiant et les valeurs » de la
+		colonne de note que vous voulez envoyer à APOGÉE
+
+	      <li> Vous faites un copié des valeurs affichées et vous vous 
+		en servez pour importer les notes dans la nouvelle colonne.
+		Cela n'écrasera pas les notes APOGÉE.
+	    </ul>
+
+	    <li> Vous avez toutes les bonnes valeurs dans la nouvelle colonne
+	    et vous pouvez donc l'importer dans le fichier APOGÉE.
+	</ul>
+	<p>
+	Vous vérifiez bien sûr que les cases grises contiennent PrC pour
+	vérifier que tout est Ok. 
+
+
     </div>
 
     <div>

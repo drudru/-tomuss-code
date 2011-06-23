@@ -694,7 +694,7 @@ function my_csv(csv_content)
       return ;
     }
 
-  window.location = 'data:text/csv;utf8,' + base64(csv_content) ;
+  window.location = 'data:text/csv;utf-8,' + base64(csv_content) ;
 }
 
 /* From Olavi Ivask's Weblog */
