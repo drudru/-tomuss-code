@@ -79,10 +79,19 @@ function compute_average(data_col, line)
 	      return ;
 	    }
 	  if ( from.real_weight_add )
-	    values.push([(value - from.min) / from.max, from,
-			 line[c].weight]) ;
+	    {
+	      values.push([(value - from.min) / from.max, from,
+			   line[c].weight]) ;
+	    }
 	  else
-	    values.push([value, from]) ;
+	    {
+	      values.push([value, from]) ;
+	      if (column.mean_of || column.best_of )
+		{
+		  line[data_col].set_value('???') ;
+		  return ;
+		}
+	    }
 	  break ;
 	}
     }

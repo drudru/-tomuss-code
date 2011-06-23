@@ -36,11 +36,10 @@ def compute_one(table, line, column):
     abjus = 0
     ppnot = 0
     values = []
-    nr = 0
+    bonus = 0
     for title in column.depends_on():
         col = table.columns.from_title(title)
         value = line[col.data_col].value
-        nr += 1
         if value == 'ABINJ':
             abinj += 1
             values.append((0, col.weight))
@@ -51,10 +50,14 @@ def compute_one(table, line, column):
         else:
             v_min, v_max = min_max(col.minmax)
             try:
-                values.append(((float(value)-v_min)/(v_max-v_min), col.weight))
+                weight = float(col.weight)
+                if col.weight[0] in "+-":
+                    bonus += weight * float(value)
+                else:
+                    values.append(((float(value)-v_min)/(v_max-v_min), weight))
             except ValueError:
-                return 'NaN'
-
+                return 'NaN', ''
+    nr = abjus + ppnot + len(values)
     if abinj == nr:
         return 'ABINJ'
     if abjus == nr:
@@ -76,14 +79,10 @@ def compute_one(table, line, column):
 
     s = 0
     w = 0
-    bonus = 0
     for value, weight in values:
         float_weight = float(weight)
-        if weight[0] in '+-':
-            bonus += value * float_weight
-        else:
-            s += value * float_weight
-            w += float_weight
+        s += value * float_weight
+        w += float_weight
 
     if w == 0:
         return 'NaN'
@@ -97,7 +96,8 @@ possible = (5, 'ABINJ', 'ABJUS', 'PPNOT')
 
 def values_next(i):
     if i == 0:
-        yield []
+        yield [0]
+        yield [1]
         return
     for j in possible:
         for k in values_next(i-1):
@@ -111,15 +111,16 @@ def create(table):
         {'title': 'A', 'type': 'Note', 'minmax': '[0;10]'},
         {'title': 'B', 'type': 'Note', 'minmax': '[0;20]', "weight": 2},
         {'title': 'C', 'type': 'Note', 'minmax': '[0;20]', "weight": 3},
-        {'title': 'Moy', 'type': 'Moy', 'columns': 'A B C'},
+        {'title': 'D', 'type': 'Note', 'minmax': '[0;20]', "weight": '+2'},
+        {'title': 'Moy', 'type': 'Moy', 'columns': 'A B C D'},
         {'title': 'Moy_OK', 'type': 'Text'},
-        {'title': 'Moy-min', 'type': 'Moy', 'columns': 'A B C',
+        {'title': 'Moy-min', 'type': 'Moy', 'columns': 'A B C D',
          'comment': ']1,0['},
         {'title': 'Moy-min_OK', 'type': 'Text'},
-        {'title': 'Moy-max', 'type': 'Moy', 'columns': 'A B C',
+        {'title': 'Moy-max', 'type': 'Moy', 'columns': 'A B C D',
          'comment': ']0,1['},
         {'title': 'Moy-max_OK', 'type': 'Text'},
-        {'title': 'Moy-minmax', 'type': 'Moy', 'columns': 'A B C',
+        {'title': 'Moy-minmax', 'type': 'Moy', 'columns': 'A B C D',
          'comment': ']1,1['},
         {'title': 'Moy-minmax_OK', 'type': 'Text'},
         {'title': 'MoyMoy', 'type': 'Moy',
@@ -132,14 +133,15 @@ def create(table):
             table.column_attr(p, str(i), attr, str(value))
 
     table.table_attr(p, 'default_sort_column', [0,1])
-    table.table_attr(p, 'default_nr_columns', 13)
+    table.table_attr(p, 'default_nr_columns', 14)
 
     for i, values in enumerate(values_next(3)):
         i = str(i)
-        table.cell_change(p, '0', i, values[0])
-        table.cell_change(p, '1', i, values[1])
-        table.cell_change(p, '2', i, values[2])
-        for c in (4, 6, 8, 10, 12):
+        table.cell_change(p, '0', i, values[1])
+        table.cell_change(p, '1', i, values[2])
+        table.cell_change(p, '2', i, values[3])
+        table.cell_change(p, '3', i, values[0])
+        for c in (5, 7, 9, 11, 13):
             v = compute_one(table, table.lines[i], table.columns[c-1])
             v = str(v)
             table.cell_change(p, str(c), i, v)
