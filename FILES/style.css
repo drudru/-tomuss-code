@@ -585,6 +585,7 @@ TD.tabbed_headers { width: 20%; }
 TABLE.cell { border-spacing: 0px ; width: 100% }
 TABLE.cell TD.cell_values { width: 100%; font-size: 80% ; }
 
+
 #menutop DIV.tabs .one_line {
   height: 1.41em ;
   margin: 1px ;
@@ -599,6 +600,9 @@ TABLE.cell TD.cell_values { width: 100%; font-size: 80% ; }
 
 #menutop DIV.tabs SPAN.widthleft { display:block; float: left ; width: 4.5em; }
 
+DIV.tabs TABLE.colored TD, DIV.tabs TABLE.colored TH { font-size: 80% ; }
+
+DIV.tabs #t_history { overflow: auto; height: 100% }
 
 /*
 DIV.tipped { background:red;}

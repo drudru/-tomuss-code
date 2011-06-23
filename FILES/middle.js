@@ -583,18 +583,10 @@ function new_new_interface()
   // CELLULE / Historique
 
   t = [] ;
-  t.push(one_line('Saisie par : <b><span id="t_author"></span></b>',
-		  "Personne qui a modifié la cellule pour la dernière fois :"
-		  )) ;
-  t.push(one_line('Le <b><span id="t_date"></span></b>',
-		  "Date ou la cellule a été modifiée pour la dernière fois."
-		  )) ;
-  t.push(hidden_txt('Historique :<br><span id="t_history"></span>',
+  t.push(hidden_txt('<div id="t_history"></div>',
 		    "Valeurs précédentes prises par la cellule.<br>"+
-		    "De la plus ancienne à la plus récente.<br>" +
-		    "Le nom de la personne qui a fait la modification<br>" +
-		    "est indiqué si la valeur précédente n'était<br>" +
-		    "pas saisie par elle.")) ;
+		    "De la plus récente à la plus récente."
+		    )) ;
   o.push(['Historique', t.join('\n')]) ;
 		 
   // CELLULE / ?

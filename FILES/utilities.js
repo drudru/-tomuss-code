@@ -1599,12 +1599,35 @@ function current_update_cell_headers()
     }
 
   update_value_and_tip(t_value, cell.value) ;
-  update_value_and_tip(t_history, cell.history) ;
-  update_value_and_tip(t_date, date(cell.date)) ;
-  if ( cell.author )
-    update_value_and_tip(t_author, cell.author) ;
+
+  if ( t_author )
+    {
+      update_value_and_tip(t_history, cell.history) ;
+      update_value_and_tip(t_date, date(cell.date)) ;
+      if ( cell.author )
+	update_value_and_tip(t_author, cell.author) ;
+      else
+	update_value_and_tip(t_author, '.') ;
+    }
   else
-    update_value_and_tip(t_author, '.') ;
+    {
+      var s = ['<table class="colored">'] ;
+      s.push('<tr><th>Date<th>Qui<th>Valeur</tr>') ;
+      s.push('<tr><td>' + date(cell.date) + '<td>' + cell.author + '<td>'
+	     + html(cell.value) + '</tr>') ;
+      var h = cell.history.split('),') ;
+      h.pop() ;
+      h.reverse() ;
+      for(var i in h)
+	{
+	  i = h[i].split('(') ;
+	  s.push('<tr><td>' + '?' + '<td>' + i[1] + '<td>'
+		 + html(i[0]) + '</tr>') ;
+	}
+      s.push('</table>') ;
+      t_history.innerHTML = s.join('\n') ;
+      
+    }
   update_tip_from_value(t_student_picture.parentNode,
 			line_resume(this.data_lin), '') ;
 }
