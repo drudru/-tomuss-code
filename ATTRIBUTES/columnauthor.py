@@ -26,6 +26,7 @@ class ColumnAuthor(ColumnAttr):
     update_headers = 1
     name = 'author'
     check_and_set = 'test_nothing'
+    formatter = 'get_author2'
     tip = "Personne qui a modifié la définition<br>de la colonne pour la dernière fois :"
     css = '''
     #menutop #t_column_author { font-size: 80% ; }

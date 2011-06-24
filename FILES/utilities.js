@@ -1344,6 +1344,12 @@ function get_author(author)
   return author ;
 }
 
+function get_author2(column)
+{
+  return get_author(column.author);
+}
+
+
 function cell_get_author()
 {
   return get_author(this.author) ;
