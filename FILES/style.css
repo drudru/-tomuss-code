@@ -229,7 +229,10 @@ DIV#tip {
   padding: 2px ;
   min-width: 10em;
   z-index: 2;
+  font-size: 70%;
 }
+
+DIV.help > * { font-size: 80%; }
 
 DIV#tip HR {
    width: 20em ; /* Needed for IE, else it is the full screen width */

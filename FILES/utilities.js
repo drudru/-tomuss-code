@@ -458,7 +458,7 @@ function hidden_txt(html, help, classname, id)
   html = html.toString() ;
   html = html.replace('<a', '<a onfocus="hidden_over(event);" onblur="hidden_out();"') ;
 
-  return '<div ' + id + 'class="tipped' + classname + '" onmouseover="hidden_over(event);" onmouseout="hidden_out();"><div class="help" onmousemove="hidden_out();">' + help + '<div></div><div></div></div><var class="tipped">' + html + '</var></div>' ;
+  return '<div ' + id + 'class="tipped' + classname + '" onmouseover="hidden_over(event);" onmouseout="hidden_out();"><div class="help" onmousemove="hidden_out();"><p>' + help + '<div></div><div></div></div><var class="tipped">' + html + '</var></div>' ;
 
 }
 
@@ -1534,7 +1534,7 @@ function update_attribute_value(e, attr, table, editable)
 	  // XXX In some case 'the_current_cell.column' is undefined
 	  if ( the_current_cell.column && attr.tip[the_current_cell.column.type] )
 	    {
-	      tip_top(e).firstChild.innerHTML = attr.tip[the_current_cell.column.type] + '<hr><b>' + html(e.value) ;
+	      tip_top(e).firstChild.firstChild.innerHTML = attr.tip[the_current_cell.column.type] + '<hr><b>' + html(e.value) ;
 	    }
 	}
       break ;

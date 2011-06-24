@@ -47,8 +47,7 @@ return value ;
 }'''
     tip = """Les LOGINS d'enseignants ayant tous les droits sur la table.<br>
 Les logins sont séparés par un espace.<br>
-<b>Ajoutez votre nom en premier !</b><br>
-Tapez sur la touche «Entrée» pour valider."""
+<b>Ajoutez votre nom en premier !</b>"""
 
     css = """
 #menutop #t_table_attr_masters { font-size: 60% ; }
