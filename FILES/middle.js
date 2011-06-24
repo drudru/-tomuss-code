@@ -396,9 +396,14 @@ function header_input_focus(e)
 
   if ( tab )
     {
-      var w = tab.offsetWidth - (findPosX(e) - findPosX(tab)) + 1 ;
-      if ( w < e.offsetWidth )
-	e.style.width = w ;
+      var left = findPosX(e) ;
+      var w = tab.offsetWidth - (left - findPosX(tab)) - 1 ;
+      if ( e.style.position !== 'absolute' )
+	{
+	  e.style.position = 'absolute' ;
+	  e.style.width = w ;
+	  e.style.left = left ;
+	}
     }
 }
 
