@@ -100,8 +100,7 @@ function printable_display_page(lines, title, page_break)
 		 + '\',document.getElementById(\'headers_to_display_'
 		 + header + '\'));'
 		 + 'do_printable_display=true;">'
-		 + hidden_txt(header, first_line_of_tip(header)
-			      + "<br>Cliquer pour cacher cette ligne")
+		 + header
 		 + '</td>') ;
 	  for(var c in sorted)
 	    {
@@ -113,7 +112,7 @@ function printable_display_page(lines, title, page_break)
 		      s.push('<th onclick="do_printable_display=true;'
 			     + 'document.getElementById(\'free'
 			     + c[1] + '\').value = \'\'">'
-			     + hidden_txt(html(c[0]), "Cache cette colonne")
+			     + html(c[0])
 			     + '</th>') ;
 		    }
 		  else
@@ -141,7 +140,7 @@ function printable_display_page(lines, title, page_break)
 		     + c + ',document.getElementById(\'columns_to_display\').getElementsByTagName(\'SPAN\')['
 		     + columns[c].ordered_index + ']);do_printable_display=true" class="'
 		     + th_class + '">'
-		     + hidden_txt(v, "Cache cette colonne") + '</th>') ;
+		     + v + '</th>') ;
 	    }
 	  s.push('</tr>') ;
 	}
@@ -155,7 +154,7 @@ function printable_display_page(lines, title, page_break)
 	  else
 	    html_class = '' ;
 	  s.push('<tr' + html_class + '><td class="hidden_on_paper" onclick="delete lines[\'' + line_id + '\'];do_printable_display=true;">'
-		 + hidden_txt(i, "Cache cette ligne") + '</td>') ;
+		 + i + '</td>') ;
 	  i++ ;
 
 	  for(var c in sorted)
@@ -347,7 +346,8 @@ function print_selection(object, emargement)
   p.push('</script>') ;
   p.push('<p class="hidden_on_paper"><a href="javascript:do_emargement()">Je veux une feuille d\'émargement !</a>');
   p.push('<p class="hidden_on_paper"><a href="javascript:do_page_per_group()">Je veux une feuille par groupe !</a>');
-  p.push('<p class="hidden_on_paper">Exporter dans un tableur : faites un copier/coller de toute la page dans votre tableur (Ctrl-A Ctrl-C Ctrl-V)');
+  p.push('<p class="hidden_on_paper">Exporter dans un tableur : faites un copier/coller de toute la page dans votre tableur (Ctrl-A Ctrl-C Ctrl-V).');
+  p.push('<p class="hidden_on_paper">Vous pouvez cacher des colonnes en cliquant sur le titre et les lignes en cliquant sur le numéro') ;
   p.push('<table class="hidden_on_paper">') ;
   print_choice_line(p, 'Affiche tiers-temps',
 		    'Si oui alors le détail sur les tiers-temps<br>'
