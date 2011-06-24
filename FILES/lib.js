@@ -2086,7 +2086,7 @@ function page_horizontal(direction, col)
 	( direction > 0 ? 1 : -1 )  ;
       if ( direction > 0 && col === 0 )
 	{
-	  alert("À quoi cela vous sert d'aller à droite, le tableau est vide !") ;
+	  // alert("À quoi cela vous sert d'aller à droite, le tableau est vide !") ;
 	  return ;
 	}
       column_offset += direction ;
