@@ -1157,7 +1157,13 @@ def table(year, semester, ue, page=None, ticket=None, ro=False, create=True,
             t.unlock()
         return t, page
 
-    page = t.pages[page]
+    try:
+        page = t.pages[page]
+    except IndexError:
+        if t.modifiable:
+            raise ValueError("REAL BUG: Page unknow in %s" % t)
+        else:
+            raise ValueError("Bug raised by TOMUSS restart on %s" % t)
     page.check_identity(ticket.ticket, ticket.user_name,
                         ticket.user_ip, ticket.user_browser)
     return t, page
