@@ -2263,7 +2263,7 @@ function cell_set_value_real(data_lin, data_col, value, td)
 
   // Does history should be modified in set_value ?
   if ( ! cell.never_modified() )
-    cell.history += cell.value + '(' + cell.author + '),' ;
+    cell.history += cell.value + '(' + cell.date + ' ' + cell.author + '),' ;
   cell.set_value(value) ;
   cell.author = my_identity ;
   var d = new Date() ;

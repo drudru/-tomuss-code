@@ -1334,6 +1334,21 @@ function cell_is_empty()
   return this.value.toString() === '' && this.comment === '' ;
 }
 
+function get_author(author)
+{
+  if ( author === '' )
+    return '' ;
+  if ( author === '*' )
+    return 'tomuss' ;
+
+  return author ;
+}
+
+function cell_get_author()
+{
+  return get_author(this.author) ;
+}
+
 function cell_never_modified()
 {
   return this.author === '' ;
@@ -1437,6 +1452,8 @@ Cell.prototype.is_empty = cell_is_empty ;
 Cell.prototype.is_not_empty = cell_is_not_empty ;
 Cell.prototype.never_modified = cell_never_modified ;
 Cell.prototype.toString = cell_tostring ;
+Cell.prototype.get_author = cell_get_author ;
+
 
 
 /******************************************************************************
@@ -1613,7 +1630,8 @@ function current_update_cell_headers()
     {
       var s = ['<table class="colored">'] ;
       s.push('<tr><th>Date<th>Qui<th>Valeur</tr>') ;
-      s.push('<tr><td>' + date(cell.date) + '<td>' + cell.author + '<td>'
+      s.push('<tr><td>' + date(cell.date) + '<td>'
+	     + cell.get_author() + '<td>'
 	     + html(cell.value) + '</tr>') ;
       var h = cell.history.split('),') ;
       h.pop() ;
@@ -1621,8 +1639,10 @@ function current_update_cell_headers()
       for(var i in h)
 	{
 	  i = h[i].split('(') ;
-	  s.push('<tr><td>' + '?' + '<td>' + i[1] + '<td>'
-		 + html(i[0]) + '</tr>') ;
+	  var date_author = i[1].split(' ') ;
+	  s.push('<tr><td>' + date(date_author[0]) + '<td>'
+		 + get_author(date_author[1])
+		 + '<td>' + html(i[0]) + '</tr>') ;
 	}
       s.push('</table>') ;
       t_history.innerHTML = s.join('\n') ;
