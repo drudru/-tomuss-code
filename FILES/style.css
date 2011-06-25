@@ -570,7 +570,7 @@ DIV.tabs DIV.titles SPAN.tab_selected {
 }
 DIV.tabs DIV.contents {
   border: 1px solid black;
-  height: 7.5em;
+  height: 7.6em;
   overflow: hidden ;
 }
 DIV.tabs DIV.contents DIV.content { height: 100% }
@@ -590,7 +590,7 @@ TABLE.cell TD.cell_values { width: 100%; font-size: 80% ; }
 
 
 #menutop DIV.tabs .one_line {
-  height: 1.41em ;
+  height: 1.43em ;
   margin: 1px ;
 }
 
