@@ -125,6 +125,10 @@ Administrateur.
 Problèmes à résoudre.
 =====================
 
+* Position bulle d'aide : décaler sur le coté.
+
+* La création de colonne à distance ne change pas le propriétaire.
+
 * Le live status bloque TOMUSS quand on charge une grosse UE ?
 
 * Vérifier si les attributs de colonne ne sont modifiables que par le

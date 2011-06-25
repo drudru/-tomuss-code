@@ -200,6 +200,15 @@ function column_attr_set(column, attr, value, td, force_save)
     }
 
   if ( column.is_empty && column.data_col > 0
+       && ( columns_filter_value || full_filter) )
+    {
+      alert_append("On a pas le droit de créer des colonnes quand "
+		   + "il y a un filtre de colonne ou table. "
+		   + "Désolé, vous devez enlever les filtres."
+		   ) ;
+      return ;
+    }
+  if ( column.is_empty && column.data_col > 0
        && columns[column.data_col-1].is_empty )
     {
       alert_append("Il faut créer les colonnes de gauche à droite.\n\n" +
