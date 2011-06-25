@@ -25,9 +25,7 @@ class TableUpdateContent(TableAttr):
     default_value = 1
     name = 'update_content'
     action = 'table_update_content'
-    tip = """Met à jour la liste des étudiants,<br>
-    et des contenus externes.<br>
-    <b>La mise à jour est automatiquement faite<br>
-    une fois par jour</b>"""
+    tip = """Met à jour la liste des étudiants et des contenus externes.<br>
+    <b>La mise à jour est automatiquement faite une fois par jour</b>"""
     gui_display = "GUI_a"
     title = 'MaJ'

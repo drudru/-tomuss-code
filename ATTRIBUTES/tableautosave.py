@@ -25,12 +25,12 @@ class TableAutosave(TableAttr):
     name = 'autosave'
     action = "table_autosave_toggle"
     default_value = 1
-    tip = {1:"""<b>Désactive la sauvegarde automatique</b><br>
+    tip = {1:"""<p><b>Désactive la sauvegarde automatique</b><br>
 Actuellement, chaque fois que vous modifiez une valeur,<br>
 elle est immédiatement sauvegardée.<br>
 En suivant ce lien, vous pourrez sauvegarder seulement<br>
 au moment où vous le désirez.""",
-           0:"""<b>Sauvegarde les modifications</b> qui n'ont pas encore été sauvegardées,<br>
+           0:"""<p><b>Sauvegarde les modifications</b> qui n'ont pas encore été sauvegardées,<br>
 puis revient à la sauvegarde automatique.<br>
 Si vous ne VOULEZ PAS sauvegarder, rechargez (réactualisez) la page."""}
     

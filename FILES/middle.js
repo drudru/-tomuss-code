@@ -35,8 +35,7 @@ function change_title()
 Some table lines must not be modified.
 This function return 'true' to allow the line editing.
 */
-function modification_allowed_on_this_line(data_lin,
-					   data_col)
+function modification_allowed_on_this_line(data_lin, data_col)
 {
   if ( tr_classname === undefined )
     return true ;
@@ -435,10 +434,12 @@ function header_input(the_id, the_header_name, options)
   if ( options && options.search('beforeclass=') != -1 )
     before = '<span class="' + options.split('beforeclass=')[1].split(' ')[0]
       + '">' + before + '</span>' ;
+  if ( options && options.search('after=') != -1 )
+    after = options.split('after=')[1].split(' ')[0] ;
   if ( options && options.search('one_line') != -1 )
     {
       before = '<div class="one_line">' + before ;
-      after = '</div>' ;
+      after += '</div>' ;
     }
 
   return before+'<input style="margin-top:0px" type="text" id="' + the_id + '" class="' + classe
@@ -553,9 +554,9 @@ function new_new_interface()
   table_attributes['autosave'].title = 'Sauvegarde automatique' ;
   table_attributes['t_import'].title = '<b>Importer</b> des définitions de colonnes' ;
   table_attributes['t_export'].title = '<b>Exporter</b> les définitions de colonnes' ;
-  table_attributes['bookmark'].title = "<b>Options d'affichage</b> : les sauver avec un signet" ;
+  table_attributes['bookmark'].title = "Créer un signet avec les <b>options d'affichage</b>" ;
   table_attributes['linear'].title = "Linéaire" ;
-  table_attributes['update_content'].title = "Mise à jour" ;
+  table_attributes['update_content'].title = "Forcer la mise à jour" ;
 
   // CELLULE / Cellule
 
@@ -592,20 +593,20 @@ function new_new_interface()
   t = [] ;
   t.push(hidden_txt('<div id="t_history"></div>',
 		    "Valeurs précédentes prises par la cellule.<br>"+
-		    "De la plus récente à la plus récente."
+		    "De la plus récente à la plus ancienne."
 		    )) ;
   o.push(['Historique', t.join('\n')]) ;
 		 
   // CELLULE / ?
 
   t = [] ;
-  t.push('<div class="one_line">')
+  t.push('<div class="one_line">') ;
   t.push(hidden_txt('<a href="_URL_/doc_table.html" target="_blank">' +
-		    'Documentation</a> complète et intéractive',
+		    'Documentation complète et intéractive</a>',
 		    "Cliquez sur le lien pour avoir tous les détails sur<br>" +
 		    "l'utilisation de ce tableur")) ;
-  t.push('</div>')
-  t.push('<div class="one_line">')
+  t.push('</div>') ;
+  t.push('<div class="one_line">') ;
   t.push(hidden_txt('<span class="ro">S</span>' +
 		    '<span class="comment">t</span>' +
 		    '<span class="today">y</span>' +
@@ -628,8 +629,8 @@ function new_new_interface()
 		    "<span class=\"filtered\">Le fond est jaune si la " +
 		    "cellule est sélectionnée par un filtre</span>"
 		    ));
-  t.push('</div>')
-  t.push('<div class="one_line">')
+  t.push('</div>') ;
+  t.push('<div class="one_line">') ;
   t.push(hidden_txt('&nbsp;<img class="server"> ',
 		    'Ce petit carré apparaît quand :<br>' +
 		    'on essaye de stocker la valeur sur le serveur,<br>' +
@@ -652,14 +653,21 @@ function new_new_interface()
   t.push(hidden_txt(' carré vert = sauvegarde réussie !',
 		    "Mettez le curseur sur les petits carrés pour savoir<br>"
 		    + "ce qu'ils représentent")) ;
+  t.push('</div>') ;
+  
+  t.push('<div class="one_line">') ;
+  t.push(hidden_txt
+	 ('ALT-8 : édite le filtre de lignes',
+	  "Le filtre de ligne permet de n'afficher que les lignes<br>"
+	  +"qui contiennent le début de ce que vous avez tapé.<br>"
+	  +"Par exemple le NOM, PRÉNOM ou numéro d'étudiant"
+	  )) ;
   t.push('</div>')
-
-  t.push('<div class="one_line">')
-  t.push('ALT-1 : cache les bulles d\'aide') ;
-  t.push('</div>')
-  t.push('<div class="one_line">')
-  t.push('ALT-8 : édite le filtre de lignes') ;
-  t.push('</div>')
+  t.push('<div class="one_line">') ;
+  t.push(hidden_txt('ALT-1 : cache les bulles d\'aide',
+		    "Au cas où les bulles d'aide soient gênantes<br>"
+		    +"Vous pouvez aussi l'indiquer dans vos préférences")) ;
+  t.push('</div>') ;
   o.push(['?', t.join('\n')]) ;
 
   // CELLULE
@@ -784,13 +792,25 @@ function new_new_interface()
 
   t = [] ;
   t.push('<div class="one_line">') ;
-  t.push('Ce que vous faites est sauvegardé automatiquement') ;
+  t.push(hidden_txt('Ce que vous faites est sauvegardé automatiquement',
+		    "Quand vous saisissez une note dans une cellule<br>"
+		    + 'un <img class="server" src="_URL_/ok.png"> '
+		    +"apparaît pour indiquer que la sauvegarde est OK.<br>"
+		    +'S\'il n\'y a pas eu de <img class="server" '
+		    + 'src="_URL_/ok.png"> la sauvegarde n\'est pas garantie.'
+		    )) ;
   t.push('</div>') ;
   t.push('<div class="one_line">') ;
-  t.push("Rien n'est caché aux étudiants par défaut") ;
+  t.push(hidden_txt("Rien n'est caché aux étudiants par défaut",
+		    "Vous pouvez rendre la table complète invisible<br>"
+		    +"en l'indiquant dans l'onglet « Paramétrage ».<br>"
+		    +"Vous pouvez aussi indiquer une date de visiblité<br>"
+		    +"dans l'onglet « Affiche » de la colonne."
+		    )) ;
   t.push('</div>') ;
   t.push('<div class="one_line">') ;
-  t.push('Comment <a href="_URL_/doc_table.html#Calcul de moyenne">calculer une moyenne</a> ?') ;
+  t.push(hidden_txt('<a target="_blank" href="_URL_/doc_table.html#Calcul de moyenne">Comment calculer une moyenne</a> ?',
+		    "Il est recommandé de lire le sommaire de la documentation.")) ;
   t.push('</div>') ;
 
   o.push(['?', t.join('\n')]) ;
@@ -807,17 +827,18 @@ function new_new_interface()
  
   t.push('<div class="one_line">') ;
   t.push(hidden_txt('<span id="nr_filtered_lines"></span> lignes filtrées sur ',
-		    "C'est le nombre de lignes qui sont affichées<br>\n" +
-		    "après avoir appliqués les filtres")) ;
+		    "C'est le nombre de lignes dans le tableau<br>\n" +
+		    "après avoir appliqué les filtres")) ;
 
   t.push(hidden_txt('<span id="nr_not_empty_lines"></span>',
 		    "C'est le nombre de lignes dans le tableau total<br>\n" +
 		    "y compris les lignes vidées")) ;
   t.push('</div>') ;
   t.push('<div class="one_line">') ;
-  t.push(hidden_txt(table_input_attr('nr_lines') +  ' lignes, ' +
-		    table_input_attr('nr_columns') + ' colonnes',
-		    "Taille du tableau affiché sur l'écran")) ;
+  t.push(table_input_attr('nr_lines').replace('</select>',
+					      '</select> lignes') + ', ') ;
+  t.push(table_input_attr('nr_columns').replace('</select>',
+					      '</select> colonnes')) ;
   t.push('</div>') ;
   t.push('<div class="one_line">') ;
   t.push(table_input_attr('facebook')) ;
@@ -904,7 +925,8 @@ function new_new_interface()
   // Table / Help
 
   o.push(['?',
-	  'Tout le monde peut remplir des cases vides. '
+	  '<div class="scroll_auto">'
+	  + 'Tout le monde peut remplir des cases vides. '
 	  + 'Mais seul les responsables de la table peuvent modifier '
 	  + 'les notes et commentaires saisis par les autres enseignants. '
 	  + "Si personne n'est responsable de la table, n'importe qui "

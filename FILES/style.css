@@ -605,7 +605,8 @@ TABLE.cell TD.cell_values { width: 100%; font-size: 80% ; }
 
 DIV.tabs TABLE.colored TD, DIV.tabs TABLE.colored TH { font-size: 80% ; }
 
-DIV.tabs #t_history { overflow: auto; height: 100% }
+DIV.tabs #t_history,  DIV.tabs .scroll_auto { overflow: auto; height: 100% }
+
 
 /*
 DIV.tipped { background:red;}
