@@ -601,7 +601,7 @@ TABLE.cell TD.cell_values { width: 100%; font-size: 80% ; }
 
 #menutop DIV.tabs INPUT{ width: 99% ; margin: 0px }
 
-#menutop DIV.tabs SPAN.widthleft { display:block; float: left ; width: 4.5em; }
+#menutop DIV.tabs SPAN.widthleft { display:block; float: left ; width: 25%; }
 
 DIV.tabs TABLE.colored TD, DIV.tabs TABLE.colored TH { font-size: 80% ; }
 

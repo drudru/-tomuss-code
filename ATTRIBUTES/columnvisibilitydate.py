@@ -54,6 +54,6 @@ function(column, value)
   width: 5.5em ;
 }
 
-#menutop DIV.tabs #t_column_visibility_date { width: 100% }
+#menutop DIV.tabs #t_column_visibility_date { width: 74% }
 
 """

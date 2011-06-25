@@ -40,7 +40,11 @@ class ColumnWeight(ColumnAttr):
   background-image: url('weight.png');
   background-position: right ;
   background-repeat: no-repeat ;
-}"""
+}
+
+#menutop DIV.tabs #t_column_weight { width: 25% ; }
+
+"""
 
 
     def check(self, value):

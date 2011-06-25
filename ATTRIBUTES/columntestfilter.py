@@ -43,6 +43,6 @@ function(value, column)
     Pour plus d'information, regardez l'aide sur les filtres."""
     css = """
     #menutop #t_column_test_filter { width: 4em ; }
-    #menutop DIV.tabs #t_column_test_filter { width: 100% ; }
+    #menutop DIV.tabs #t_column_test_filter { width: 66% ; }
     """
 

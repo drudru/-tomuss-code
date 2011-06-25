@@ -35,5 +35,5 @@ class ColumnMinMax(ColumnAttr):
     des notes dans une moyenne pondérée."""
     css = """
     #menutop #t_column_minmax { width: 3.5em ; }
-    #menutop DIV.tabs #t_column_minmax { width: 100% ; }
+    #menutop DIV.tabs #t_column_minmax { width: 66% ; }
     """

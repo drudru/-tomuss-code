@@ -29,5 +29,5 @@ class ColumnRed(ColumnGreen):
     On peut utiliser un filtre quelconque !"""
     css = """
 #menutop #t_column_red { width: 1.5em ; border: 1px solid #F88 ; }
-#menutop DIV.tabs #t_column_red { width: 100% ; }
+#menutop DIV.tabs #t_column_red { width: 74% ; }
     """

@@ -386,24 +386,6 @@ function header_input_focus(e)
     }
   e.className = '' ; // Remove 'empty' class
   element_focused = e ;
-
-  // Adjust width to the tab right side
-
-  var tab = e.parentNode ;
-  while(tab && tab.className != 'content' )
-    tab = tab.parentNode ;
-
-  if ( tab )
-    {
-      var left = findPosX(e) ;
-      var w = tab.offsetWidth - (left - findPosX(tab)) - 1 ;
-      if ( e.style.position !== 'absolute' )
-	{
-	  e.style.position = 'absolute' ;
-	  e.style.width = w ;
-	  e.style.left = left ;
-	}
-    }
 }
 
 function header_input(the_id, the_header_name, options)
@@ -740,7 +722,7 @@ function new_new_interface()
   t = [] ;
   t.push('<div class="one_line">') ;
   t.push(column_input_attr('visibility_date',
-			   'before=Visible&nbsp;le&nbsp;:&nbsp;'
+			   'before=Visible&nbsp;le&nbsp;:&nbsp; beforeclass=widthleft'
 			   )) ;
   t.push('</div>') ;
   t.push('<div class="one_line" style="text-align:center">') ;

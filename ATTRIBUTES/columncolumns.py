@@ -72,5 +72,5 @@ class ColumnColumns(ColumnAttr):
         }
     css = """
     #menutop #t_column_columns { width: 40% ; }
-    #menutop DIV.tabs #t_column_columns { width: 100% ; }
+    #menutop DIV.tabs #t_column_columns { width: 74% ; }
     """
