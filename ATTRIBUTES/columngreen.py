@@ -31,5 +31,5 @@ class ColumnGreen(ColumnAttr):
     On peut utiliser un filtre quelconque !"""
     css = """
 #menutop #t_column_green { width: 1.5em ; border: 1px solid #0F0 ;}
-#menutop DIV.tabs #t_column_green { width: 74% ; }
+#menutop DIV.tabs #t_column_green { width: 73% ; }
     """

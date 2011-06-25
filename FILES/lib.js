@@ -2873,16 +2873,17 @@ function append_image(td, text, force)
 
   if ( td )
     {
-      if ( td.childNodes[0] !== undefined
-	   && td.childNodes[0].style !== undefined )
+      var child = td.childNodes[0] ;
+      if ( child !== undefined && child.style !== undefined
+	   && child.tagName != 'SPAN')
 	{
 	  var width ;
-	  if ( td.childNodes[0].id === '' )
-	    width = td.childNodes[0].offsetWidth - 7 ;
+	  if ( child.id === '' )
+	    width = child.offsetWidth - 7 ;
 	  else
-	    width = td.childNodes[0].offsetWidth - 0 ;
+	    width = child.offsetWidth - 0 ;
 	  if ( width > 0 )
-	    td.childNodes[0].style.width = width ;
+	    child.style.width = width ;
 	}
 
       s = url_base() ;

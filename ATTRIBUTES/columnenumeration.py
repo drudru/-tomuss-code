@@ -30,5 +30,5 @@ class ColumnEnumeration(ColumnAttr):
     Les valeurs sont séparées par un espace"""
     css = """
     #menutop #t_column_enumeration { width: 40% ; }
-    #menutop DIV.tabs #t_column_enumeration { width: 66% ; }
+    #menutop DIV.tabs #t_column_enumeration { width: 65% ; }
     """
