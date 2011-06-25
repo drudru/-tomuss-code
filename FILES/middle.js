@@ -98,6 +98,10 @@ function head_html()
 
   if ( window.location.pathname.search('=new-interface=') == -1 )
     {
+      w += hidden_txt('<b><a href="' + url + '/=' + ticket + '/' + year + '/'
+		      + semester + '/' + ue + '/=new-interface=">'
+		      + '&beta;</a></b> ',
+		      'Essayez la futur interface de TOMUSS !') ;
       w += hidden_txt('<a href="_URL_/doc_table.html" target="_blank">Documentation</a>',
 		      "Cliquez sur le lien pour avoir tous les détails sur<br>" +
 		      "l'utilisation de ce tableur") + ', ' ;
