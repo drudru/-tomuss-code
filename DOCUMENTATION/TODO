@@ -91,9 +91,6 @@ Utilisateurs finaux.
 Administrateur.
 ---------------
 
-* Ne pas envoyer de backtrace quand il y a une page non trouvée
-  pour un table en lecture seulement.
-
 * Heures sur le graph livestatus
 
 * live_status : pong ne doit pas mettre la date courante si existe pas
@@ -122,8 +119,6 @@ Administrateur.
 =====================
 Problèmes à résoudre.
 =====================
-
-* Position bulle d'aide : décaler sur le coté.
 
 * La création de colonne à distance ne change pas le propriétaire.
 
