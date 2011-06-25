@@ -588,8 +588,7 @@ function ue_line(ue, code, content)
   var c = code.substr(3).split('-')[0] ;
   if ( all_ues[c] && all_ues[c].tt )
     tt = hidden_txt('<img class="tt" src="tt.png">',
-		    'Il y a au moins un étudiant inscrit dans cette UE<br>'
-		    + 'avec un tiers temps') ;
+		    'Il y a au moins<br>un tiers temps<br>qui suit l\'UE') ;
   else
     tt = '' ;
 
