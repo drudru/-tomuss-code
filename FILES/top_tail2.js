@@ -43,8 +43,19 @@ function current_year_semester()
   return s.childNodes[s.childNodes.length - 1].innerHTML ; 
 }
 
+var goto_url_last_url ;
+var goto_url_last_time ;
+
 function goto_url(url)
 {
+  if ( url === goto_url_last_url && (millisec() - goto_url_last_time) < 1000 )
+    {
+      alert("Ne double-cliquez pas, un simple clique suffit !") ;
+      return ;
+    }
+  goto_url_last_url = url ;
+  goto_url_last_time = millisec() ;
+    
   window.open(url) ;
   // window.location = url ;
 }
