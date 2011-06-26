@@ -4263,6 +4263,18 @@ function change_abjs(m)
   do_change_abjs(m) ;
 }
 
+function the_full_login_list(login, results, add)
+{
+  if ( ! document.getElementById('students_list') )
+    {
+      // We are in a table, not the home page
+      login_list(login, results) ;
+    }
+  else
+    full_login_list(login, results, add) ; // Defined in home2.js
+}
+
+
 // XXX COPY/PASTE in the end of new_page.py
 window.Xcell_change    = Xcell_change ;
 window.Xcomment_change = Xcomment_change ;
