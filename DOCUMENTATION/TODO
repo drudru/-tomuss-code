@@ -8,7 +8,8 @@ Nouvelles fonctionnalités.
 Utilisateurs finaux.
 --------------------
 
-* moteur recherche étudiant : si 0 réponse : chercher seulement le début
+* moteur recherche étudiant : chercher les X premier résultats de chacun
+  des mots saisis : p09 sil cal
 
 * Pourcentage d'ABJ pour le résultat d'un calcul en fonction du poids
   des colonnes moyennées.
@@ -64,10 +65,8 @@ Utilisateurs finaux.
 
 * Chiffrer colonne avec une clef saisie par l'utilisateur.
 
-* Faire un tip deuxième niveau (+ en haut/gauche) XXX dans utilities.js
-
 * Autoriser n'importe qui à modifier les infos saisies par les autres.
-  Comme si tous le monde était responsable.
+  Comme si tous le monde était responsable ?
 
 * Tip de connexion ?	
 
@@ -119,8 +118,6 @@ Administrateur.
 =====================
 Problèmes à résoudre.
 =====================
-
-* La création de colonne à distance ne change pas le propriétaire.
 
 * Le live status bloque TOMUSS quand on charge une grosse UE ?
 

@@ -135,7 +135,7 @@ class ColumnAttr(object):
             repr(self.decode(value))))
         t = '<script>Xcolumn_attr(%s,%s,%s);</script>' % (
             repr(self.name), js(column.the_id), js(self.decode(value)))
-        if column.author != page.user_name:
+        if True: # XXX Should be only done if the column is a new one
             t += '<script>Xcolumn_attr("author",%s,%s);</script>' % (
                 js(column.the_id), js(page.user_name))
         table.send_update(page, t + '\n')
