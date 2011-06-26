@@ -73,7 +73,10 @@ function set_columns(value, column, xcolumn_attr)
   column.average_weight = weight ;
   column.need_update = true ;
   if ( column.type == 'Nmbr' )
-    column.max = column.average_columns.length ;
+    {
+      column.minmax = '[0;' + column.average_columns.length + ']' ;
+      column.max = column.average_columns.length ;
+    }
 
   return value ;
 }

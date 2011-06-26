@@ -119,21 +119,15 @@ Administrateur.
 Problèmes à résoudre.
 =====================
 
-* Le live status bloque TOMUSS quand on charge une grosse UE ?
+* FAIT RAMER LES NAVIGATEURS ! Colonnes détruites ?
+  2010/Printemps/UE-IF5503L
 
-* Vérifier si les attributs de colonne ne sont modifiables que par le
-  responsable de la colonne.
+* Le live status bloque TOMUSS quand on charge une grosse UE ?
 
 * La recherche étudiant de la page d'accueil affiche parfois tous les
   étudiants en double (extrèmement rare juin 2011)
 
-* Type 'identifiant' n'affiche plus la liste
-
 * Liste de la page d'accueil : ajouter les UE GASEL en plus de LDAP et SPIRAL
-
-* La valeur maximale pour le type Nmbr doit être affichée correctement
-
-* La molette marche plus sous Chrome pour scroller la table.
 
 * Messages d'erreur quand 'root' veut voir une table privée
 
@@ -234,6 +228,4 @@ Pourquoi certaines choses ne seront pas faites.
 * Unifier les 'tip' : 2 tips simultanés possibles : photo + ABJ
 
 * Prendre les mail étudiants de SPIRAL : pas politiquement correcte
-
-
 
