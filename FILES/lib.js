@@ -2411,14 +2411,20 @@ function set_element_relative_position(anchor, element)
       element.style.bottom = 'auto' ;
     }
 
-  if ( pos[0] + element.offsetWidth > window_width() + scrollLeft() )
+  if ( element.offsetWidth < pos[0] - scrollLeft() )
     {
-      element.style.right = -scrollLeft() ;
+      element.style.right = window_width() - pos[0] ;
       element.style.left = 'auto' ;
+    }
+  else if ( pos[0] + anchor.offsetWidth + element.offsetWidth
+	    < window_width() + scrollLeft() )
+    {
+      element.style.left = pos[0] + anchor.offsetWidth ;
+      element.style.right = 'auto' ;
     }
   else
     {
-      element.style.left = pos[0] ;
+      element.style.left = scrollLeft() ;
       element.style.right = 'auto' ;
     }
 }
@@ -4262,6 +4268,18 @@ function change_abjs(m)
 {
   do_change_abjs(m) ;
 }
+
+function the_full_login_list(login, results, add)
+{
+  if ( ! document.getElementById('students_list') )
+    {
+      // We are in a table, not the home page
+      login_list(login, results) ;
+    }
+  else
+    full_login_list(login, results, add) ; // Defined in home2.js
+}
+
 
 // XXX COPY/PASTE in the end of new_page.py
 window.Xcell_change    = Xcell_change ;

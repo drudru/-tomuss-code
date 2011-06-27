@@ -19,6 +19,7 @@
     Contact: Thierry.EXCOFFIER@bat710.univ-lyon1.fr
 */
 
+/* 'Nmbr' type is used in 'columncolumns.js' */
 
 function compute_nmbr(data_col, line)
 {

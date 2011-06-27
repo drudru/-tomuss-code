@@ -8,9 +8,8 @@ Nouvelles fonctionnalités.
 Utilisateurs finaux.
 --------------------
 
-* Double clique page d'accueil
-
-* moteur recherche étudiant : si 0 réponse : chercher seulement le début
+* moteur recherche étudiant : chercher les X premier résultats de chacun
+  des mots saisis : p09 sil cal
 
 * Pourcentage d'ABJ pour le résultat d'un calcul en fonction du poids
   des colonnes moyennées.
@@ -66,10 +65,8 @@ Utilisateurs finaux.
 
 * Chiffrer colonne avec une clef saisie par l'utilisateur.
 
-* Faire un tip deuxième niveau (+ en haut/gauche) XXX dans utilities.js
-
 * Autoriser n'importe qui à modifier les infos saisies par les autres.
-  Comme si tous le monde était responsable.
+  Comme si tous le monde était responsable ?
 
 * Tip de connexion ?	
 
@@ -92,9 +89,6 @@ Utilisateurs finaux.
 ---------------
 Administrateur.
 ---------------
-
-* Ne pas envoyer de backtrace quand il y a une page non trouvée
-  pour un table en lecture seulement.
 
 * Heures sur le graph livestatus
 
@@ -125,21 +119,18 @@ Administrateur.
 Problèmes à résoudre.
 =====================
 
-* Le live status bloque TOMUSS quand on charge une grosse UE ?
+* Redémarrage TOMUSS et vieille pages : pas réglé, le client persiste à vouloir
+  se reconnecter.
 
-* Vérifier si les attributs de colonne ne sont modifiables que par le
-  responsable de la colonne.
+* FAIT RAMER LES NAVIGATEURS ! Colonnes détruites ?
+  2010/Printemps/UE-IF5503L
+
+* Le live status bloque TOMUSS quand on charge une grosse UE ?
 
 * La recherche étudiant de la page d'accueil affiche parfois tous les
   étudiants en double (extrèmement rare juin 2011)
 
-* Type 'identifiant' n'affiche plus la liste
-
 * Liste de la page d'accueil : ajouter les UE GASEL en plus de LDAP et SPIRAL
-
-* La valeur maximale pour le type Nmbr doit être affichée correctement
-
-* La molette marche plus sous Chrome pour scroller la table.
 
 * Messages d'erreur quand 'root' veut voir une table privée
 
@@ -150,9 +141,6 @@ Problèmes à résoudre.
 * Le suivi étudiant permet d'avoir des informations non autorisées.
 
 * Rechargement page d'accueil si la recherche étudiant marche pas
-
-* Redémarrage TOMUSS et vieille pages : pas réglé, le client persiste à vouloir
-  se reconnecter.
 
 * Bug ajoute ligne + vidage de ligne avec changement de page
 
@@ -240,6 +228,4 @@ Pourquoi certaines choses ne seront pas faites.
 * Unifier les 'tip' : 2 tips simultanés possibles : photo + ABJ
 
 * Prendre les mail étudiants de SPIRAL : pas politiquement correcte
-
-
 

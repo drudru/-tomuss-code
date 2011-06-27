@@ -26,7 +26,7 @@ import utilities
 import time
 
 def send(server, values, f):
-    server.the_file.write('full_login_list('
+    server.the_file.write('the_full_login_list('
                           + utilities.js(server.the_path[0])
                           + ',[' + ','.join(values)
                           + '], %d);' % f)

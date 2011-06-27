@@ -1157,7 +1157,13 @@ def table(year, semester, ue, page=None, ticket=None, ro=False, create=True,
             t.unlock()
         return t, page
 
-    page = t.pages[page]
+    try:
+        page = t.pages[page]
+    except IndexError:
+        if t.modifiable:
+            raise IndexError("REAL BUG: Page unknow in %s" % t)
+        else:
+            raise IndexError("Bug raised by TOMUSS restart on %s" % t)
     page.check_identity(ticket.ticket, ticket.user_name,
                         ticket.user_ip, ticket.user_browser)
     return t, page
@@ -1187,8 +1193,10 @@ def check_new_students_real():
     try:
         while update_students:
             t = update_students.pop()
-            utilities.bufferize_this_file(t.filename)
             t.do_not_unload_add(1)
+            if t.unloaded:
+                continue
+            utilities.bufferize_this_file(t.filename)
             try:
                 warn('start update students of %s' % t.ue, what="table")
 
