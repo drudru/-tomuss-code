@@ -119,6 +119,9 @@ Administrateur.
 Problèmes à résoudre.
 =====================
 
+* Redémarrage TOMUSS et vieille pages : pas réglé, le client persiste à vouloir
+  se reconnecter.
+
 * FAIT RAMER LES NAVIGATEURS ! Colonnes détruites ?
   2010/Printemps/UE-IF5503L
 
@@ -138,9 +141,6 @@ Problèmes à résoudre.
 * Le suivi étudiant permet d'avoir des informations non autorisées.
 
 * Rechargement page d'accueil si la recherche étudiant marche pas
-
-* Redémarrage TOMUSS et vieille pages : pas réglé, le client persiste à vouloir
-  se reconnecter.
 
 * Bug ajoute ligne + vidage de ligne avec changement de page
 
