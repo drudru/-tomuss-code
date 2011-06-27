@@ -500,14 +500,17 @@ function table_input_attr(attr, options)
 
 /* tabbed view */
 
-function create_tabs(name, tabs)
+function create_tabs(name, tabs, more)
 {
+  if ( more === undefined )
+    more = '' ;
+
   var s = ['<div class="tabs" id="' + name + '"><div class="titles">'] ;
   for(var i in tabs)
      s.push('<span id="title_' + tabs[i][0] + '" onclick="select_tab(\'' + name + "','" +
             tabs[i][0] + '\');the_current_cell.input.focus()">' + tabs[i][0]
              + '</span>') ;
-  s.push('</div><div class="contents">') ;
+  s.push(more + '</div><div class="contents">') ;
   for(var i in tabs)
      s.push('<div class="content" id="title_' + tabs[i][0] + '">'
              + tabs[i][1] + '</div>') ;
@@ -670,7 +673,8 @@ function new_new_interface()
   var w = [] ;
 
   w.push('<table id="menutop" class="tabbed_headers"><tr><td class="tabbed_headers">') ;
-  w.push( create_tabs('cellule', o) ) ;
+  w.push( create_tabs('cellule', o,
+		      '<span style="border:0px" id="log"></span>') ) ;
 
   // COLUMN / Column
 
@@ -1201,9 +1205,12 @@ function tail_html()
   if ( preferences.interface == 'L' )
     return '<span id="server_feedback"></span><div id="authenticate"></div>';
 
-  var a = '<p class="copyright"><span id="server_feedback"></span></p>' +
-    '<div id="log"></div>' +
-    '<div id="message">&nbsp;</div>' +
+  var a = '<p class="copyright"><span id="server_feedback"></span></p>' ;
+
+  if ( window.location.pathname.search('=new-interface=') == -1 )
+    a += '<div id="log"></div>' ;
+
+  a += '<div id="message">&nbsp;</div>' +
     "<div id=\"saving\">Les données sont en train d'être envoyées au serveur.<br>Veuillez patienter (ou vérifiez votre connexion réseau)</div>" +
     '<div id="authenticate"></div>' +
     '<div id="current_input_div">' +
