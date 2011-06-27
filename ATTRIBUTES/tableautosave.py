@@ -36,3 +36,6 @@ Si vous ne VOULEZ PAS sauvegarder, rechargez (réactualisez) la page."""}
     
     gui_display = "GUI_a"
     title = 'AutoSauve'
+    css = """
+#autosavelog { text-decoration:line-through ; color: red ; display: none }
+    """

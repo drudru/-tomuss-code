@@ -673,8 +673,9 @@ function new_new_interface()
   var w = [] ;
 
   w.push('<table id="menutop" class="tabbed_headers"><tr><td class="tabbed_headers">') ;
-  w.push( create_tabs('cellule', o,
-		      '<span style="border:0px" id="log"></span>') ) ;
+  w.push(create_tabs('cellule', o,
+		     '<var id="autosavelog">AutoSauve</var>' +
+		     '<var style="border:0px;white-space:nowrap" id="log"></var>')) ;
 
   // COLUMN / Column
 

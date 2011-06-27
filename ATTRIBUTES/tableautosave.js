@@ -22,12 +22,18 @@
 
 function table_autosave_toggle()
 {
+  var e = document.getElementById('autosavelog') ;
   if ( table_attr.autosave )
     {
       table_attr.autosave = false ;
+      if ( e )
+	e.style.display = 'inline' ;
     }
   else
     {
+      if ( e )
+	e.style.display = 'none' ;
+
       for(var i in pending_requests)
 	{
 	  if ( pending_requests[i].image )
