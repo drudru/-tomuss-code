@@ -549,7 +549,7 @@ function new_new_interface()
   column_attributes['position'].title = "Sauve position" ;
   column_attributes['width'].title = "Sauve largeur" ;
 
-  table_attributes['autosave'].title = 'Sauvegarde automatique' ;
+  table_attributes['autosave'].title = 'Enregistrement automatique' ;
   table_attributes['t_import'].title = '<b>Importer</b> des définitions de colonnes' ;
   table_attributes['t_export'].title = '<b>Exporter</b> les définitions de colonnes' ;
   table_attributes['bookmark'].title = "Créer un signet avec les <b>options d'affichage</b>" ;
@@ -674,7 +674,7 @@ function new_new_interface()
 
   w.push('<table id="menutop" class="tabbed_headers"><tr><td class="tabbed_headers">') ;
   w.push(create_tabs('cellule', o,
-		     '<var id="autosavelog">AutoSauve</var>' +
+		     '<a id="autosavelog" href="#" onclick="table_autosave_toggle()">Enregistrer les modifications</a>' +
 		     '<var style="border:0px;white-space:nowrap" id="log"></var>')) ;
 
   // COLUMN / Column
