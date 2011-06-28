@@ -163,7 +163,7 @@ function head_html()
        + semester + '</span>' ;
    }
 
- w += options + ' ' + ue ;
+ w += options + ' ' + ue + ' ' + table_attr.table_title ;
  w += '<span id="title_links"></span></h1><h1><span id="t_table_attr_table_title"></span></h1>' ;
 
  return w ;

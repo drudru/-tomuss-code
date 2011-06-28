@@ -21,7 +21,9 @@ A { text-decoration: none; }
 
 
 
-BODY.tomuss H1, BODY.autosavefailed H1 { font-size: 130% ; }
+BODY.autosavefailed H1 { font-size: 130% ; }
+
+BODY.tomuss H1 { font-size: 90% }
 
 IMG { cursor: default; }
 
