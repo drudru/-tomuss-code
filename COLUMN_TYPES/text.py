@@ -126,7 +126,9 @@ class Text(object):
 
     # Default tips
     tip_column_title = """Titre de la colonne, cliquez dessus
-pour la trier dans une direction ou l'autre."""
+pour la <b>trier</b> dans une direction ou l'autre.<br>
+<b>Changez le titre</b> dans la zone au dessous de l'onglet «Colonne»
+"""
     tip_filter = """Exemple de filtre :
 <ul>
 <li><b>abc</b> pour afficher seulement les valeurs commençant par <b>abc</b>

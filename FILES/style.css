@@ -552,7 +552,7 @@ span.toggled { background: #080 ; color: white }
 
 /*****************************************************************************/
 /* New new interface */
-
+DIV.tabs DIV.titles { white-space: nowrap }
 DIV.tabs DIV.titles SPAN {
   border: 1px solid black ;
   margin-right: 2px ;

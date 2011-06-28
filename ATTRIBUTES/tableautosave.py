@@ -37,5 +37,5 @@ Si vous ne VOULEZ PAS enregistrer, rechargez (réactualisez) la page."""}
     gui_display = "GUI_a"
     title = 'AutoSauve'
     css = """
-#autosavelog { color: red ; display: none }
+#autosavelog { color: red ; display: none; }
     """
