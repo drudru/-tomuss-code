@@ -1243,11 +1243,17 @@ function insert_middle()
     If you change the content, read 'table_init' in 'lib.js'
 */
   
-  var w = '<div class="horizontal_scrollbar"><img src="' + url
+  var hs = '<div class="horizontal_scrollbar"><img src="' + url
     + '/prev.gif" onclick="javascript:previous_page_horizontal();">'
     + '<div id="horizontal_scrollbar"></div><img src="' + url
     + '/next.gif" onclick="javascript:next_page_horizontal();"></div>' +
     '<div>' ;
+  var w ;
+
+  if ( window.location.pathname.search('=new-interface=') != -1 )
+    w = '' ;
+  else
+    w = hs ;
   
   if ( ! scrollbar_right )
     w += '<div id="vertical_scrollbar"></div>' ;
@@ -1255,6 +1261,9 @@ function insert_middle()
     + '<div id="tip"></div></div>' ;
   if ( scrollbar_right )
     w += '<div id="vertical_scrollbar"></div>' ;
+  if ( window.location.pathname.search('=new-interface=') != -1 )
+    w += hs ;
+
   w += '</div><div id="popup"></div>'
     + '</div><div id="loading_bar"><div></div></div>' ;
   document.write(w) ;
