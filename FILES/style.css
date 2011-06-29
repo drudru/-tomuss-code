@@ -223,6 +223,17 @@ TABLE INPUT, TABLE SELECT {
   width: 100% ;
 }
 
+DIV.tipped { display: inline ; }
+
+DIV.tipped DIV.help { display: none; }
+
+DIV.more { 
+  white-space: normal;
+  font-weight: bold;
+  background-color: inherit ;
+  border-top: 1px solid black ;
+}
+
 DIV#tip { 
   position: absolute ;
   border: 1px solid black ;

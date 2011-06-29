@@ -322,7 +322,7 @@ def update_referents(ticket, f, really_do_it = False):
         table.unlock()
 
     f.write('''
-    <link rel="stylesheet" href="../hidden.css" type="text/css">
+    <link rel="stylesheet" href="../style.css" type="text/css">
     <script src="../utilities.js"></script>
     <script>display_tips = true;</script>
     ''')

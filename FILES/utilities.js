@@ -289,7 +289,6 @@ function myindex(table, x)
 }
 
 
-var displayed_tip ;
 var select_with_focus  ;// To be blurred if a tip appear.
 var id_add_some_help ;
 
@@ -303,20 +302,6 @@ function take_focus(t)
   select_with_focus = t ;
   t.onblur = function() { select_with_focus = undefined ; } ;
   hidden_out() ;
-}
-
-function add_some_help()
-{
-  __d(displayed_tip.nodeName + ' ' + displayed_tip.className + ' : ');
-  for(var i in displayed_tip.childNodes)
-    __d(displayed_tip.childNodes[i].nodeName + '/' + displayed_tip.childNodes[i].className + ' ' );
-  __d('\n');
-  displayed_tip.childNodes[0].childNodes[1].innerHTML = '*XXX*';
-}
-
-function remove_some_help()
-{
-  //  displayed_tip.childNodes[0].childNodes[1].innerHTML = 'Y';
 }
 
 function tip_top(tt)
@@ -346,100 +331,16 @@ var display_tips = false ; // Overriden by lib.js
 
 function hidden_over(event)
 {
-  if ( displayed_tip !== undefined )
-    return ;
-
-  if ( ! display_tips )
-    return ;
-
-  if ( select_with_focus )
-    return ;
-
   event = the_event(event) ;
 
   var t = tip_top(event.target) ;
-  
-  displayed_tip = t ;
-  t.childNodes[0].style.top = '' ;
-  t.childNodes[0].style.right = '' ;
-  t.childNodes[0].style.display = 'inline' ;
 
-  // Get size and position of object and tip box.
-
-  var pos = findPos(t.childNodes[1]) ;
-  var x = pos[0] ;
-  var y = pos[1] ;
-  var tiph = t.childNodes[0].offsetHeight ;
-  var tipw = t.childNodes[0].offsetWidth ;
-  var oh, ow ;
-  var tag ;
-  // The DOM tree is not the same for every browser.
-  // There is certainly a bug in the generated HTML
-  // This loop turn around the possible bug.
-  for(var i=0; i<4; i++)
-    {
-      switch(i)
-	{
-	case 0: tag = t ; break ; // Bug FireFox
-	case 1: tag = t.childNodes[1] ; break ;
-	case 2: tag = t.childNodes[1].firstChild ; break ;
-	case 3: tag = t.childNodes[1].firstChild.firstChild ; break ;
-	}
-      
-      oh = tag.offsetHeight ;
-      ow = tag.offsetWidth ;
-      if ( oh !== 0 )
-	break ;
-    }
-  // The default is to put the tip box under the object.
-
-  // If it it is right truncated, align it to the right
-  if ( x + tipw > window_width())
-    t.childNodes[0].style.right = '0px' ;
-  else
-    t.childNodes[0].style.left = x ;
-
-  if ( y + oh + tiph - scrollTop() < window_height() )
-    {
-      t.childNodes[0].style.top = y + oh + 2;
-    }
-  else
-    {
-      // If it is bottom truncated, 
-      var top = y - tiph ;
-      if ( top > 0 )
-	t.childNodes[0].style.top = top ;
-      else
-	{
-	  // It is top truncated : move it right or left.
-	  t.childNodes[0].style.top = '0' ;
-	  if ( x + ow + tipw > window_width() )
-	    t.childNodes[0].style.left = '0' ;
-	  else
-	    t.childNodes[0].style.left = x + ow ;
-	}
-    }
-
-  // XXX
-  //  id_add_some_help = setTimeout(add_some_help, 1000) ;
-
-  if ( tip )
-    tip.style.display = 'none' ;
+  show_the_tip(event.target, t.childNodes[0].innerHTML);
 }
 
 function hidden_out()
 {
-  if ( displayed_tip )
-    {
-      if ( id_add_some_help !== undefined )
-	{
-	  clearTimeout(id_add_some_help) ;
-	  id_add_some_help = undefined ;
-	}
-      remove_some_help() ;
-      displayed_tip.childNodes[0].style.display = 'none' ;
-      displayed_tip = undefined ;
-    }
+  hide_the_tip_real() ;
 }
 
 function hidden_txt(html, help, classname, id)
@@ -458,7 +359,7 @@ function hidden_txt(html, help, classname, id)
   html = html.toString() ;
   html = html.replace('<a', '<a onfocus="hidden_over(event);" onblur="hidden_out();"') ;
 
-  return '<div ' + id + 'class="tipped' + classname + '" onmouseover="hidden_over(event);" onmouseout="hidden_out();"><div class="help" onmousemove="hidden_out();"><p>' + help + '<div></div><div></div></div><var class="tipped">' + html + '</var></div>' ;
+  return '<div ' + id + 'class="tipped' + classname + '" onmouseover="hidden_over(event);" onmouseout="hidden_out();"><div class="help"><p>' + help + '<div></div><div></div></div>' + html + '</div>' ;
 
 }
 

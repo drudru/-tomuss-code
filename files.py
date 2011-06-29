@@ -30,7 +30,7 @@ def add(dirname, filename):
     return files[filename]
 
 for name in (
-    'style.css', 'hidden.css',
+    'style.css',
     'favicon.ico', 'top_tail2.js',
     'header.png',
     'verysafe.png', 'safe.png', 'unsafe.png', 'veryunsafe.png',

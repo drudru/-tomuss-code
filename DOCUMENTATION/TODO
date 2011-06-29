@@ -8,6 +8,8 @@ Nouvelles fonctionnalités.
 Utilisateurs finaux.
 --------------------
 
+* ^A sur imprime ne devrait sélectionner que le tableau.
+
 * moteur recherche étudiant : chercher les X premier résultats de chacun
   des mots saisis : p09 sil cal
 
@@ -35,6 +37,8 @@ Utilisateurs finaux.
 * COW (stable) valeur vide ==> comme si rien dans la case (compliqué à faire)
 
 * IE : BILAN TOMUSS : probleme icone+note mal positionné
+
+* Complétion lors de la saisie de noms de colonnes dans la formule
 
 * RSS étudiant : ajouter + d'info dans le texte et le sujet.
 

@@ -2379,6 +2379,23 @@ function set_element_relative_position(anchor, element)
 
   tip_display_date = millisec() ;
 
+  if ( element.tagName != 'TD' )
+    {
+      element.style.top = pos[1] + anchor.offsetHeight ;
+      element.style.bottom = 'auto' ;
+      if ( pos[0] + element.offsetWidth < window_width() + scrollLeft() )
+	{
+	  element.style.left = pos[0] ;
+	  element.style.right = 'auto' ;
+	}
+      else
+	{
+	  element.style.left = 'auto' ;
+	  element.style.right = 0 ;
+	}
+      return ;
+    }
+
   if ( pos[1] > scrollTop() + window_height()/2)
     {
       element.style.bottom = window_height() - pos[1] ;
@@ -3357,7 +3374,6 @@ function html_begin_head(hide_title, pb, more)
   if ( ! pb )
     s = '<html><head>\n' +
       '<link rel="stylesheet" href="'+url + '/style.css" type="text/css">\n' +
-      '<link rel="stylesheet" href="'+url + '/hidden.css" type="text/css">\n' +
       '<script src="' + url + '/utilities.js" onload="this.onloadDone=true;"></script>\n' +
       '<script src="' + url + '/middle.js" onload="this.onloadDone=true;"></script>\n' +
       '<script src="' + url + '/lib.js" onload="this.onloadDone=true;"></script>\n' +

@@ -675,7 +675,7 @@ function new_new_interface()
   w.push('<table id="menutop" class="tabbed_headers"><tr><td class="tabbed_headers">') ;
   w.push(create_tabs('cellule', o,
 		     '<a id="autosavelog" href="#" onclick="table_autosave_toggle()">Enregistrer les modifications</a>' +
-		     '<span id="server_feedback"></span>' +
+		     '<span style="border:0px" id="server_feedback"></span>' +
 		     '<var style="border:0px;white-space:nowrap" id="log"></var>')) ;
 
   // COLUMN / Column
