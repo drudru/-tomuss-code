@@ -99,7 +99,6 @@ var the_body ;
 var p_title_links ;
 var nr_not_empty_lines ;
 var nr_filtered_lines ;
-var message ;
 var the_comment ;
 var linefilter ;
 var horizontal_scrollbar ;
@@ -132,7 +131,6 @@ function lib_init()
   p_title_links        = document.getElementById('title_links'          );
   nr_not_empty_lines   = document.getElementById('nr_not_empty_lines'   );
   nr_filtered_lines    = document.getElementById('nr_filtered_lines'    );
-  message              = document.getElementById('message'              );
   the_comment          = document.getElementById('comment'              );
   linefilter           = document.getElementById('linefilter'           );
   horizontal_scrollbar = document.getElementById('horizontal_scrollbar' );
@@ -1620,9 +1618,6 @@ function line_fill(line, write, cls, empty_column)
     }
 }
 
-function tf(t) { message.innerHTML += t ; }
-function tf(t) { }
-
 function table_fill_try()
 {
   var terminate ;
@@ -1658,22 +1653,17 @@ function table_fill_try()
     }
   if ( table_fill_queued )
     {
-      tf('(TF');
       table_fill_queued = 0 ;
       table_fill_real() ;
       terminate = true ;
-      tf(')');
     }
   if ( terminate )
     {
       if ( table_fill_hook )
 	{
-	  tf('(TFH');
 	  table_fill_hook() ;
 	  table_fill_hook = undefined ;
-	  tf(')');
 	}
-      tf('(CU');
       // XXX_HS Do not update while the cell is being edited
       if ( ! the_current_cell.focused )
 	{
@@ -1684,48 +1674,37 @@ function table_fill_try()
 	  setTimeout("the_current_cell.update("+table_fill_do_not_focus+");"
 		     ,100) ;
 	}
-      tf(')');
     }
 
   if ( table_fill_display_headers )
     {
-      tf('(THF');
       // update_vertical_scrollbar() ;
       table_header_fill_real() ;
-      tf(')');
     }
 
   if ( the_current_cell.do_update_headers )
     {
-      tf('(UH');
       the_current_cell.update_headers_real() ;
-      tf(')');
     }
 
   if ( do_update_vertical_scrollbar )
     {
-      tf('(VS');
       update_vertical_scrollbar_real() ;
       do_update_vertical_scrollbar = false ;
       do_update_vertical_scrollbar_position = false ;
       do_update_vertical_scrollbar_cursor = false ;
-      tf(')');
     }
   else if ( do_update_vertical_scrollbar_position )
     {
-      tf('(VSP');
       update_vertical_scrollbar_position_real() ;
       update_vertical_scrollbar_cursor_real() ;
       do_update_vertical_scrollbar_position = false ;
       do_update_vertical_scrollbar_cursor = false ;
-      tf(')');
     }
   else if ( do_update_vertical_scrollbar_cursor )
     {
-      tf('(VSC');
       update_vertical_scrollbar_cursor_real() ;
       do_update_vertical_scrollbar_cursor = false ;
-      tf(')');
     }
 
   if ( the_current_cell.column.type == 'Login'
@@ -4031,10 +4010,8 @@ function javascript_regtest_ue()
   } ;
   function fill_col(content, check, messages)
   {
-    // message.innerHTML += '[' + the_current_cell.column.title + '(' + the_current_cell.column.type + ')]';
     for(var i in content)
       {
-	// message.innerHTML += '{' + content[i] + '}' ;
 	set(the_current_cell.input, content[i]) ;
 	the_current_cell.change() ;
 	var v = the_current_cell.td.innerHTML ;
@@ -4147,9 +4124,7 @@ function javascript_regtest_ue()
       set(t_column_type, 'Texte libre') ;
       the_current_cell.cursor_right() ;
     }
-  message.innerHTML += 'a';
   expected('');
-  message.innerHTML += '.';
   for(var col_type in col_types)
     {
       the_current_cell.cursor_left() ;
@@ -4181,7 +4156,6 @@ function javascript_regtest_ue()
   smaller_column() ;
   smaller_column() ;
   smaller_column() ;
-  message.innerHTML += 'n';
 
   cell_goto(table.childNodes[nr_headers].childNodes[3]) ;
   export_column() ; // Moyenne
@@ -4191,7 +4165,6 @@ function javascript_regtest_ue()
     if ( v[i] != inputs[i] + '\t' + expore[i] )
       alert_real('Export BUG:' + v[i] + ' != ' + inputs[i] + '\t' + expore[i]);
   popup_close() ;
-  message.innerHTML += 'o';
   expected('');
 
   cell_goto(table.childNodes[nr_headers].childNodes[11]) ;
@@ -4199,7 +4172,6 @@ function javascript_regtest_ue()
   import_column() ;
   popup_set_value('p PP\ni II\nj JJ') ;
   import_column_do() ;
-  message.innerHTML += 'p';
   expected('');
   freeze_column() ;
   table_fill(false, true) ; table_fill_try() ;
@@ -4208,7 +4180,6 @@ function javascript_regtest_ue()
   if ( the_current_cell.td.innerHTML != 'PP' )
     alert_real('Import problem: ' + the_current_cell.td.innerHTML) ;
 
-  message.innerHTML += 'q';
   column_delete() ;
   if ( the_current_cell.column.title != default_title + '12' )
     alert_real('Non empty column destroyed') ;
@@ -4218,7 +4189,6 @@ function javascript_regtest_ue()
   if ( the_current_cell.column.the_local_id !== undefined )
     alert_real('Bug local_id') ;
 
-  message.innerHTML += 'r';
   set(the_current_cell.input, '') ;
   the_current_cell.cursor_down() ;
   set(the_current_cell.input, '') ;
@@ -4238,13 +4208,11 @@ function javascript_regtest_ue()
 
   var w ;
 
-  message.innerHTML += 's';
-  
-  w = print_selection(undefined,1)    ; w.close() ; message.innerHTML += '2';
-  // w = goto_resume()                ; w.close() ; message.innerHTML += '3';
-  w = display_statistics()            ; w.close() ; message.innerHTML += '6';
-  w = my_mailto(students_mails()+'@',true);w.close(); message.innerHTML += '9';
-  w = my_mailto(authors_mails()+'@',true) ;w.close(); message.innerHTML += 'A';
+  w = print_selection(undefined,1)    ; w.close() ;
+  // w = goto_resume()                ; w.close() ;
+  w = display_statistics()            ; w.close() ;
+  w = my_mailto(students_mails()+'@',true);w.close();
+  w = my_mailto(authors_mails()+'@',true) ;w.close();
 
   if ( alert_messages )
     {

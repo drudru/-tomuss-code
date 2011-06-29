@@ -45,7 +45,7 @@ function authors_mails(missing)
 {
   var cls = column_list_all() ;
   var cols = [] ;
-  for (column in cls)
+  for (var column in cls)
     cols.push(cls[column]) ;
 
   var a = {} ;

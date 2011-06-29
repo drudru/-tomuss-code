@@ -1211,8 +1211,7 @@ function tail_html()
   if ( window.location.pathname.search('=new-interface=') == -1 )
     a += '<div id="log"></div>' ;
 
-  a += '<div id="message">&nbsp;</div>' +
-    "<div id=\"saving\">Les données sont en train d'être envoyées au serveur.<br>Veuillez patienter (ou vérifiez votre connexion réseau)</div>" +
+  a += "<div id=\"saving\">Les données sont en train d'être envoyées au serveur.<br>Veuillez patienter (ou vérifiez votre connexion réseau)</div>" +
     '<div id="authenticate"></div>' +
     '<div id="current_input_div">' +
     '<input id="current_input" ' +

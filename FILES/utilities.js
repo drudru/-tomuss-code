@@ -1797,12 +1797,8 @@ function current_jump(lin, col, do_not_focus, data_lin, data_col)
   this.input_div.style.top = pos[1] - 3 + border ;
   this.input_div.style.width = this.td.offsetWidth ;
   this.input_div.style.height = this.td.offsetHeight - border ;
-
   this.input.className = this.td.className + ' ' + this.tr.className ;
-
-  // message.innerHTML += '('; // XXX
-  this.input.value = columns[this.data_col].real_type.formatte(this.cell.value);
-  // message.innerHTML += ')';
+  this.input.value =columns[this.data_col].real_type.formatte(this.cell.value);
   this.initial_value = this.input.value ;
 
   // Update position in scrollbar
