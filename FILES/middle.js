@@ -1123,11 +1123,11 @@ function popup_close()
   element_focused = undefined ;
   var e = document.getElementById('popup_id') ;
   if ( e )
-    {
+    if ( e.getElementsByTagName('TEXTAREA')[0] )
       popup_old_values[e.className] = e.getElementsByTagName('TEXTAREA'
 							     )[0].value ;
+    else
       e.parentNode.removeChild(e);
-    }
 }
 
 function parse_lines(text)
@@ -1186,17 +1186,18 @@ function create_popup(html_class, title, before, after, default_answer)
   else
     new_value = '' ;
 
-  popup.innerHTML += '<div id="popup_id" class="import_export ' +
-    html_class + '"><h2>' + title
-    + '</h2>' + before +
-    '<TEXTAREA ROWS="10" class="popup_input" onfocus="element_focused=this;">'+
-    new_value + '</TEXTAREA>' +
-    '<BUTTON class="close" OnClick="popup_close()">&times;</BUTTON>' +
-    after ;
+  var s = '<div id="popup_id" class="import_export ' + html_class
+           + '"><h2>' + title + '</h2>' + before ;
+  if ( default_answer !== false )
+    s += '<TEXTAREA ROWS="10" class="popup_input" onfocus="element_focused=this;">'+ new_value + '</TEXTAREA>' ;
 
+  s += '<BUTTON class="close" OnClick="popup_close()">&times;</BUTTON>'+after ;
+
+  popup.innerHTML = s ;
   popup.column = the_current_cell.column ;
 
-  popup.getElementsByTagName('TEXTAREA')[0].focus() ;
+  if ( default_answer !== false )
+    popup.getElementsByTagName('TEXTAREA')[0].focus() ;
 }
 
 
@@ -1206,10 +1207,15 @@ function tail_html()
   if ( preferences.interface == 'L' )
     return '<span id="server_feedback"></span><div id="authenticate"></div>';
 
-  var a = '<p class="copyright"><span id="server_feedback"></span></p>' ;
+  var a ;
 
   if ( window.location.pathname.search('=new-interface=') == -1 )
-    a += '<div id="log"></div>' ;
+    {
+    a = '<p class="copyright"><span id="server_feedback"></span></p>'
+        + '<div id="log"></div>' ;
+    }
+  else
+    a = '<p class="copyright"><span id="server_feedback"></span></p>';
 
   a += "<div id=\"saving\">Les données sont en train d'être envoyées au serveur.<br>Veuillez patienter (ou vérifiez votre connexion réseau)</div>" +
     '<div id="authenticate"></div>' +

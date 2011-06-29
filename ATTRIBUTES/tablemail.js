@@ -227,16 +227,12 @@ function personal_mailing_do()
 	   || i == filtered_lines.length-1 )
 	{
 	  feedback_content += url_content
-	    + '" style="width:100%; height:2em;"></iframe>' ;
+	    + '"></iframe>' ;
 	  url_content = '' ;
 	}
     }
-  
-  server_feedback.innerHTML = feedback_content ;
-  
-  popup_close() ;
 
-  if ( nr_frame > 4 )
-    alert("Ne fermez pas cette page tant que vous n'avez pas vu le/les message(s) « Les messages ont été envoyés » au dessous du tableau") ;
+ create_popup('personal_mailing_fb', 'Publipostage', feedback_content, '',
+	      false) ;
 }
 

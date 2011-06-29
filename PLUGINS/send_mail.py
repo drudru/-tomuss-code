@@ -43,11 +43,11 @@ def send_mail(server):
     n += 2
     args = server.the_path[2:]
     if len(args) % n != 0:
-        server.the_file.write('Il y a eu un bug...')
+        server.the_file.write('Il y a eu un bug...\n')
         utilities.send_backtrace('send_mail')
         return
 
-    server.the_file.write('Commence à envoyer %d messages.' % (len(args)/n))
+    server.the_file.write('Commence à envoyer %d messages : ' % (len(args)/n))
     server.the_file.flush()
 
     frome = inscrits.L_slow.mail(server.ticket.user_name)
@@ -71,11 +71,12 @@ def send_mail(server):
         utilities.send_mail_in_background(m, the_subject, content, frome)
         
     if len(bad_mails) == 0:
-        server.the_file.write('Les messages ont été envoyés')
+        server.the_file.write('Les messages ont été envoyés\n')
     else:
         server.the_file.write("Impossible d'envoyer le mail à : "
-                              + repr(bad_mails))
+                              + repr(bad_mails) + '\n')
     
 
 plugin.Plugin('send_mail', '/send_mail/{*}', function=send_mail,
-              teacher=True, launch_thread=True)
+              teacher=True, launch_thread=True,
+              mimetype='text/plain;charset=utf-8')

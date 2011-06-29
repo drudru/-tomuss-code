@@ -35,12 +35,19 @@ DIV.import_export TEXTAREA.mails {
   font-size: 70%;
 }
 
-
-
 DIV.mails_div .unknown_mails { background: #FF0 ; }
 DIV.mails_div, DIV.personal_mailing_div  { border: 4px solid black ; }
 
 DIV.mails_div .popup_input { display: none }
+
+.personal_mailing_fb IFRAME {
+    padding: 0px;
+    border: 1px solid black;
+    display: block ;
+    width:100%;
+    height:60px;
+    margin: 0px ;
+}
 
 '''
 
