@@ -1534,7 +1534,12 @@ function update_attribute_value(e, attr, table, editable)
 	  // XXX In some case 'the_current_cell.column' is undefined
 	  if ( the_current_cell.column && attr.tip[the_current_cell.column.type] )
 	    {
-	      tip_top(e).firstChild.firstChild.innerHTML = attr.tip[the_current_cell.column.type] + '<hr><b>' + html(e.value) ;
+	      try {
+		tip_top(e).firstChild.firstChild.innerHTML = attr.tip[the_current_cell.column.type] + '<hr><b>' + html(e.value) ;
+	      }
+	      catch(e) {
+		// XXX IE has an unknown exception here...
+	      }
 	    }
 	}
       break ;
