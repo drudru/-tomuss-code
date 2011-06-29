@@ -223,7 +223,7 @@ TABLE INPUT, TABLE SELECT {
   width: 100% ;
 }
 
-DIV.tipped { display: inline ; }
+DIV.tipped, DIV.tipped DIV.text { display: inline ; }
 
 DIV.tipped DIV.help { display: none; }
 

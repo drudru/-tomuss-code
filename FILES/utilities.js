@@ -333,9 +333,19 @@ function hidden_over(event)
 {
   event = the_event(event) ;
 
-  var t = tip_top(event.target) ;
+  if ( event.target.tagName == 'OPTION' )
+    return ;
 
-  show_the_tip(event.target, t.childNodes[0].innerHTML);
+  var t = tip_top(event.target) ;
+  var value ;
+
+  value = event.target.value ;
+  if ( ! value )
+    value = '' ;
+  else
+    value = '<div class="more">' + html(value) + '</div>' ;
+
+  show_the_tip(event.target, t.childNodes[0].innerHTML + value) ;
 }
 
 function hidden_out()
@@ -359,8 +369,7 @@ function hidden_txt(html, help, classname, id)
   html = html.toString() ;
   html = html.replace('<a', '<a onfocus="hidden_over(event);" onblur="hidden_out();"') ;
 
-  return '<div ' + id + 'class="tipped' + classname + '" onmouseover="hidden_over(event);" onmouseout="hidden_out();"><div class="help"><p>' + help + '<div></div><div></div></div>' + html + '</div>' ;
-
+  return '<div ' + id + 'class="tipped' + classname + '" onmouseover="hidden_over(event);" onmouseout="hidden_out();"><div class="help"><p>' + help + '<div></div></div><div class="text">' + html + '</div></div>' ;
 }
 
 

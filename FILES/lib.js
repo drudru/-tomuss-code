@@ -2478,7 +2478,6 @@ function update_tip_from_value(o, value)
     e.innerHTML = value ;
 }
 
-
 function update_value_and_tip(o, value)
 {
   if ( !o )
@@ -2495,8 +2494,10 @@ function update_value_and_tip(o, value)
     {
       highlight_add(o) ;
       if ( o.tagName != 'INPUT' )
-	o.innerHTML = v ;
-      update_tip_from_value(o, value) ;
+	{
+	  o.innerHTML = v ;
+	  update_tip_from_value(o, value) ;
+	}
     }
 }
 
@@ -2522,7 +2523,7 @@ function update_input(element, value, empty)
 	}
     }
   element.theoldvalue = element.value ;
-  update_tip_from_value(element, element.value) ;
+  // update_tip_from_value(element, element.value) ;
 }
 
 function cell_goto(td, do_not_focus)
