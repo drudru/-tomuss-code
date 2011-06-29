@@ -2542,6 +2542,7 @@ function server_answered(t)
       t_authenticate.style.display = 'none' ;
       server_feedback.answered = true ;
       connection_state = 'ok' ;
+      server_feedback.innerHTML = '' ; // Hide green image
     }
 
   if ( t === undefined )
