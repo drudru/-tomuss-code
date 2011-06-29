@@ -3787,7 +3787,7 @@ function runlog(the_columns, the_lines)
   if ( ue != 'VIRTUALUE' && ue != '' && page_id > 0 )
     document.write('<img width="1" height="1" src="' + url + "/=" + ticket
 		   + '/' + year + '/' + semester + '/' + ue + '/' +
-		   page_id + '/end_of_load">') ;
+		   page_id + '/end_of_load" style="position:absolute;left:0;top:0">') ;
 
   if ( get_option('print-table', 'a') !== 'a' )
     {
