@@ -65,9 +65,9 @@ def check_columns(table):
             # do not create the column if it exists.
             if ( col.the_id == col_id
                  and col.title == col_title
-                 and col.comment == col_comment
-                 and col.width == col_width
-                 and col.position == pos
+                 # and col.comment == col_comment
+                 # and col.width == col_width
+                 # and col.position == pos
                  ):
                 break
         else:

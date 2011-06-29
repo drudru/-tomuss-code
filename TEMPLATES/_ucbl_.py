@@ -284,9 +284,11 @@ def remove_students_from_table(table, students):
     If it contains user information, ro_user cells are given to rw_user
     so any user can erase the line manualy"""
 
-    inscrit_column = table.column_inscrit()
-    if inscrit_column:
-        inscrit_column = table.columns[inscrit_column].the_id
+    data_col = table.column_inscrit()
+    if data_col:
+        inscrit_column = table.columns[data_col].the_id
+    else:
+        inscrit_column = None
 
     p = None
 
@@ -310,7 +312,8 @@ def remove_students_from_table(table, students):
                                           column.the_id, line_id, '')
             else:
                 for i, column in enumerate(table.columns):
-                    if line[i].value and line[i].author == data.ro_user:
+                    if (line[i].value and line[i].author == data.ro_user
+                        and i != inscrit_column):
                         if p == None:
                             p = rw_page(table)
                         table.cell_change(p, column.the_id, line_id)
