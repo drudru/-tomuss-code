@@ -20,8 +20,6 @@
   Contact: Thierry.EXCOFFIER@bat710.univ-lyon1.fr
 */
 
-var tip ;
-
 function a_float(txt)
 {
   if ( txt.replace )
@@ -1613,6 +1611,7 @@ function current_update_headers_real()
   if ( modification_date )
     modification_date.innerHTML = date(this.cell.date) ;
 
+  var tip = document.getElementById('tip') ;
   tip.style.display = "none" ;
   update_student_information(this.line) ;
   this.update_cell_headers() ;

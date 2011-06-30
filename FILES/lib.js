@@ -121,7 +121,6 @@ var my_identity ;
 function lib_init()
 {
   divtable             = document.getElementById('divtable'             );
-  tip                  = document.getElementById('tip'                  );
   author               = document.getElementById('author'               );
   modification_date    = document.getElementById('date'                 );
   server_log           = document.getElementById('log'                  );
@@ -192,6 +191,8 @@ function lib_init()
   today = new Date() ;
   today = today.getFullYear() + two_digits(today.getMonth() + 1) +
     two_digits(today.getDate()) + '000000' ;
+
+  var tip = document.getElementById('tip');
 
   if ( tip )
     tip.display_number = 1 ;
@@ -470,6 +471,7 @@ function sort_column(event, data_col)
 
 function set_tip_position(td, bottom)
 {
+  var tip = document.getElementById('tip') ;
   if ( tip_fixed )
     {
       tip.style.left = 'auto' ;
@@ -596,14 +598,17 @@ var the_current_line ;
 function show_the_tip(td, tip_content)
 {
   var bottom = false ;
-  var data_col = data_col_from_td(td) ;
-  //   alert('td:' + td.tagName + ' col_from_td:' + col_from_td(td) + ' data_col:' + data_col) ;
-  var data_lin = data_lin_from_td(td) ;
-  var column = columns[data_col] ;
-  if ( column === undefined )
-    return ;
+  var data_col, data_lin, column, type ;
+  try {
+    data_col = data_col_from_td(td) ;
+    data_lin = data_lin_from_td(td) ;
+    column = columns[data_col] ;
+    type = column.real_type ;
+  }
+  catch(e) {
+  }
 
-  var type = column.real_type ;
+  var tip = document.getElementById('tip') ;
 
   if ( tip_content === undefined )
     {
@@ -3417,6 +3422,7 @@ function html_begin_head(hide_title, pb, more)
       s += '<h1 ' +pb + '>' + year + ' ' + semester + ' '
 	+ ue + '<br>' +	html(table_attr.table_title) + more + '</h1>\n' + the_filters() ;
     }
+  s += '<div id="tip"></div>' ;
 
   return s ;
 }
@@ -3493,6 +3499,7 @@ function remove_highlight()
 
 function hide_the_tip_real()
 {
+  var tip = document.getElementById('tip') ;
   tip.onmousemove = function() {} ;
   tip.style.display = "none" ;
   remove_highlight() ;
@@ -3500,7 +3507,8 @@ function hide_the_tip_real()
 
 function hide_the_tip(real)
 {
-  if (  tip.style.display == "none" )
+  var tip = document.getElementById('tip') ;
+  if ( tip.style.display == "none" )
     return ;
 
   if ( real == tip.display_number ) // To not receive event from old tips
