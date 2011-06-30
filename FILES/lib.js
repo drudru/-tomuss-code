@@ -472,6 +472,7 @@ function sort_column(event, data_col)
 function set_tip_position(td, bottom)
 {
   var tip = document.getElementById('tip') ;
+  tip.target = undefined ;
   if ( tip_fixed )
     {
       tip.style.left = 'auto' ;
@@ -605,7 +606,7 @@ function show_the_tip(td, tip_content)
     column = columns[data_col] ;
     type = column.real_type ;
   }
-  catch(e) {
+  catch(e) { // Not in a 'table' page
   }
 
   var tip = document.getElementById('tip') ;
@@ -651,6 +652,7 @@ function show_the_tip(td, tip_content)
   tip.onmousemove = function() { hide_the_tip(a); } ;
 
   set_tip_position(td, bottom) ;
+  return tip ;
 }
 
 // XXX should be renamed on_mouse_up
@@ -2380,6 +2382,9 @@ function student_abjs(login)
 
 function set_element_relative_position(anchor, element)
 {
+  while ( anchor.offsetHeight === undefined ) // Firefox bug on SVG histogram
+    anchor = anchor.parentNode ;
+
   var pos = findPos(anchor) ;
 
   tip_display_date = millisec() ;
@@ -3502,6 +3507,7 @@ function hide_the_tip_real()
   var tip = document.getElementById('tip') ;
   tip.onmousemove = function() {} ;
   tip.style.display = "none" ;
+  tip.tip_target = undefined ;
   remove_highlight() ;
 }
 

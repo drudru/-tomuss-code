@@ -327,6 +327,22 @@ function tip_top(tt)
 
 var display_tips = false ; // Overriden by lib.js
 
+function compute_tip(element)
+{
+  if ( element.offsetHeight === 0 )
+    return '' ;
+
+  var value = element.value ;
+  if ( ! value )
+    value = '' ;
+  else
+    value = '<div class="more">' + html(value) + '</div>' ;
+
+  var t = tip_top(element) ;
+
+  return t.childNodes[0].innerHTML + value ;
+}
+
 function hidden_over(event)
 {
   event = the_event(event) ;
@@ -334,16 +350,10 @@ function hidden_over(event)
   if ( event.target.tagName == 'OPTION' )
     return ;
 
-  var t = tip_top(event.target) ;
-  var value ;
+  var value = compute_tip(event.target) ;
+  var tip = show_the_tip(event.target, value) ;
 
-  value = event.target.value ;
-  if ( ! value )
-    value = '' ;
-  else
-    value = '<div class="more">' + html(value) + '</div>' ;
-
-  show_the_tip(event.target, t.childNodes[0].innerHTML + value) ;
+  tip.tip_target = event.target ;
 }
 
 function hidden_out()
@@ -1612,7 +1622,6 @@ function current_update_headers_real()
     modification_date.innerHTML = date(this.cell.date) ;
 
   var tip = document.getElementById('tip') ;
-  tip.style.display = "none" ;
   update_student_information(this.line) ;
   this.update_cell_headers() ;
   this.update_column_headers() ;
@@ -1625,7 +1634,13 @@ function current_update_headers_real()
       set_tip_position(this.td) ;
     }
   else
-    tip.style.display = "none" ;
+    {
+      if ( tip.tip_target )
+	{
+	  tip.innerHTML = compute_tip(tip.tip_target) ;
+	  set_tip_position(tip.tip_target) ;
+	}
+    }
 
   // Remove green square from top menu
   var t = t_menutop.getElementsByTagName('IMG') ;

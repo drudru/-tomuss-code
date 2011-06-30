@@ -258,7 +258,7 @@ DIV#tip SPAN.title { background-color: #CCF ; }
   border: 0px ;
 }
 
-DIV#tip UL { margin: 0px ; }
+DIV#tip UL, DIV#tip P { margin: 0px ; }
 
 
 IMG.photo { 
