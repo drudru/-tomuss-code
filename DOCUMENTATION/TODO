@@ -44,12 +44,6 @@ Utilisateurs finaux.
 
 * Mettre le ticket en fin d'URL.
 
-* IE : bulle d'aide de la page impressios/stat le problème est du au fait
-  que le html généré utilise une fonction d'un script non
-  encore chargé. Il faut que la génération du HTML soit
-  elle-même dans un script qui sera appelé après...
-  Ou alors : redefinir la fonction 'hidden'
-
 * Il n'y a pas de Flux RSS pour les tables ni printemps ni automne. Le faire ?
 
 * Gestion des formations : liste des UE, fusion des UE.
@@ -224,8 +218,6 @@ Pourquoi certaines choses ne seront pas faites.
   Non car le serveur a BESOIN de les évaluer de toute façon.
 
 * Importation de colonnes venant du web par le client : IMPOSSIBLE 
-
-* Unifier les 'tip' : 2 tips simultanés possibles : photo + ABJ
 
 * Prendre les mail étudiants de SPIRAL : pas politiquement correcte
 

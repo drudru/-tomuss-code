@@ -28,24 +28,13 @@ import utilities
 import configuration
 import os
 
-update_student_suivi = """
-function update_student_suivi(line)
-{
-var src = student_picture_url(line[0].value) ;
-if ( src != t_student_picture.src )
-   {
-   t_student_picture.src = '/tip.png' ;
-   if ( line[0].value )
-	t_student_picture.src = student_picture_url(line[0].value) ;
-   }
-t_student_picture.parentNode.href = suivi + '/' + line[0].value ;
-}
-"""
+update_student_information = """
 
-update_student_information = update_student_suivi + """
+var update_student_information_default = update_student_information ;
+
 function update_student_information(line)
 {
-update_student_suivi(line) ;
+update_student_information_default(line) ;
 update_value_and_tip(t_student_id, line[0].value) ;
 var n = line[1].value.toString() ;
 update_value_and_tip(t_student_firstname,

@@ -30,14 +30,6 @@ def init(table):
     table.abjs = abj.get_abjs(table.year, table.semester)
     table.abjs_mtime = 0
 
-def content(table):
-    return _ucbl_.update_student_suivi + """
-function update_student_information(line)
-{
-update_student_suivi(line) ;
-}
-"""
-
 check = _ucbl_.check
 
 

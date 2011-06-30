@@ -448,7 +448,7 @@ Image* read_chars()
 int main(int argc, char **argv)
 {
   char command[999], *parameter, filename[999] = "" ;
-  Image *current, *previous, *first, *image = NULL, *diff_image ;
+  Image *current, *previous, *first, *image = NULL, *diff_image = NULL ;
 
   if ( argc != 2 )
     {

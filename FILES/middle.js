@@ -51,6 +51,16 @@ function modification_allowed_on_this_line(data_lin,
 */
 function update_student_information(line)
 {
+  if ( columns[0].type != 'Login' || columns[0].title == 'ID' )
+    return ;
+  var src = student_picture_url(line[0].value) ;
+  if ( src != t_student_picture.src )
+    {
+      t_student_picture.src = '/tip.png' ;
+      if ( line[0].value )
+	t_student_picture.src = student_picture_url(line[0].value) ;
+    }
+  t_student_picture.parentNode.href = suivi + '/' + line[0].value ;
 }
 
 function head_html()
