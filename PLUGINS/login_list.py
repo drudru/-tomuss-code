@@ -55,7 +55,7 @@ def login_list(server):
                  + ',' + utilities.js(surname)
                  + ',' + utilities.js(mail)
                  + ']')
-        if time.time() - t > 1:
+        if time.time() - t > 5: # In cas of long time to compute list
             send(server, r, append)
             r = []
             t = time.time()
