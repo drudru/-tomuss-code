@@ -476,6 +476,25 @@ d'Internet Explorer.
       </description>
       <guid>35</guid>
     </item>
+    <item>
+      <title>21/05/2011 : Version 2.14.10</title>
+      <link>http://tomuss.univ-lyon1.fr/</link>
+      <description>
+La recherche de personnes sur la page d'accueil est plus rapide,
+plus pratique et plus puissante :
+vous tapez simplement le début du nom et/ou du prénom et/ou
+du numéro d'étudiant.
+Par exemple :
+&lt;ul&gt;
+&lt;li&gt; «do re» pour trouver les personnes dont le nom ou prénom commence
+           par «do» ET le nom ou prénom commence par «re»
+&lt;li&gt; «charle p10» pour trouver les étudiants dont le numéro d'étudiant
+           commence par «p10» et le nom ou prénom commence par «charle»
+&lt;/ul&gt;
+Par contre, la liste est maintenant tronquée si elle trop longue.
+      </description>
+      <guid>36</guid>
+    </item>
 
   </channel>
 </rss>

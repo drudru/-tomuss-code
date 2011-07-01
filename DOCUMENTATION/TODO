@@ -8,15 +8,13 @@ Nouvelles fonctionnalités.
 Utilisateurs finaux.
 --------------------
 
-* moteur recherche étudiant : chercher les X premier résultats de chacun
-  des mots saisis : p09 sil cal
-
 * Pourcentage d'ABJ pour le résultat d'un calcul en fonction du poids
   des colonnes moyennées.
 
 * IE : Suivi de l'étudiant plus joli.
 
-* Collé multiligne dans une cellule.
+* Collé multiligne dans une cellule : message d'erreur indiquant
+  que c'est trop dangereux.
 
 * Rendre des cellules éditables par les étudiants dans le suivi.
 
@@ -148,8 +146,6 @@ Problèmes à résoudre.
 =============================
 Améliorations de code source.
 =============================
-
-* Séparer le javascript par plugin.
 
 * Tester le nouveau utility.js()
 
