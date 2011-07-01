@@ -121,8 +121,6 @@ Problèmes à résoudre.
 
 * Liste de la page d'accueil : ajouter les UE GASEL en plus de LDAP et SPIRAL
 
-* Messages d'erreur quand 'root' veut voir une table privée
-
 * Vérifier si les options sont envoyée dans les URL vers le serveur =xxx=
 
 * Le plugin 'resume' permet d'avoir des informations non autorisées.
