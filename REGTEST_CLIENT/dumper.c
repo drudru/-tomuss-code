@@ -383,7 +383,7 @@ Rect* ocr(Image *stack)
 	    nr_rect = merge(rect, nr_rect, &to_concat, &line_start, y) ;
 	}
     }
-  nr_rect = merge(rect, nr_rect+1, &to_concat, &line_start, y) ;
+  nr_rect = merge(rect, nr_rect, &to_concat, &line_start, y) ;
   rect[nr_rect].w = 0 ;
 
   return rect ;
