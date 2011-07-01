@@ -47,11 +47,9 @@ function modification_allowed_on_this_line(data_lin,
   return true ;
 }
 
-/*REDEFINE
-*/
-function update_student_information(line)
+function update_student_information_default(line)
 {
-  if ( columns[0].type != 'Login' || columns[0].title == 'ID' )
+  if ( columns[0].type != 'Login' && columns[0].title != 'ID' )
     return ;
   var src = student_picture_url(line[0].value) ;
   if ( src != t_student_picture.src )
@@ -61,6 +59,13 @@ function update_student_information(line)
 	t_student_picture.src = student_picture_url(line[0].value) ;
     }
   t_student_picture.parentNode.href = suivi + '/' + line[0].value ;
+}
+
+/*REDEFINE
+*/
+function update_student_information(line)
+{
+  update_student_information_default(line) ;
 }
 
 function head_html()

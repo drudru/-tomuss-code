@@ -30,8 +30,6 @@ import os
 
 update_student_information = """
 
-var update_student_information_default = update_student_information ;
-
 function update_student_information(line)
 {
 update_student_information_default(line) ;
