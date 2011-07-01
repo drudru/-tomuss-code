@@ -103,13 +103,13 @@ Administrateur.
 
 * Meta log à distance : stream
 
-* « qui fait quoi » : lien vers le suivi de la personne
-
 * Version ligne de commande qui liste les personnes connectées.
 
 =====================
 Problèmes à résoudre.
 =====================
+
+* Passer les .css avant les .js
 
 * Redémarrage TOMUSS et vieille pages : pas réglé, le client persiste à vouloir
   se reconnecter.
