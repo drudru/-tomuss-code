@@ -10,9 +10,9 @@ def run(t):
     t.xnee.key('Right')
     t.check_image('table_cur_right', message='Cursor right')
 
-    for i in range(10):
+    for i in range(128):
         t.xnee.key('Down')
-    # Empty cell in 'Note1' column
+    # Empty cell in '' column
     t.xnee.key('1')
     t.xnee.key('Right')
     t.check_image('table_input_1', message="Input '1' in a cell")
@@ -26,6 +26,7 @@ def run(t):
                   message="Input 'abj' in a cell to test completion")
 
     t.xnee.key('Right')
+    t.xnee.key('Right')
     t.xnee.key('1')
     t.check_image('table_input_ro',
                   message="Try to modify a constant cell")
@@ -33,6 +34,8 @@ def run(t):
     t.xnee.key('Tab')
     t.check_image('table_cur_tab', message='Tabulation')
 
+    t.xnee.key('Left')
+    t.xnee.key('Left')
     t.xnee.key('2')
     t.xnee.key('2')
     t.xnee.key('2')

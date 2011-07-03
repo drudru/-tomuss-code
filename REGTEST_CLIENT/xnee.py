@@ -112,6 +112,14 @@ class Xnee:
         self.send("0,5,0,0,%d,0" % button)
 
     def button(self, button=1):
+        time.sleep(0.1)
+        self.button_press(button)
+        self.button_release(button)
+        time.sleep(0.1)
+
+    def double_button(self, button=1):
+        self.button_press(button)
+        self.button_release(button)
         self.button_press(button)
         self.button_release(button)
 

@@ -3816,6 +3816,12 @@ function runlog(the_columns, the_lines)
       window.close() ;
       return ;
     }
+  if ( get_option('facebook', 'a') !== 'a' )
+    {
+      tablefacebook() ;
+      window.close() ;
+      return ;
+    }
 
   // Firefox bug : the page refresh reload the old iframe, not the new one
   setTimeout(reconnect, 10) ;

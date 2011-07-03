@@ -15,6 +15,7 @@ Utilisateurs finaux.
 
 * Collé multiligne dans une cellule : message d'erreur indiquant
   que c'est trop dangereux.
+  C'est dangereux car il faut transformer le INPUT en TEXTAREA
 
 * Rendre des cellules éditables par les étudiants dans le suivi.
 
@@ -113,6 +114,8 @@ Problèmes à résoudre.
 
 * Redémarrage TOMUSS et vieille pages : pas réglé, le client persiste à vouloir
   se reconnecter.
+  Quand le client a perdu sa connexion longtemps, il la retrouve tout seul
+  alors qu'il n'y a pas de connexion réseau (IE)
 
 * Le live status bloque TOMUSS quand on charge une grosse UE ?
 
@@ -144,6 +147,8 @@ Problèmes à résoudre.
 =============================
 Améliorations de code source.
 =============================
+
+* Ne plus convertir en PNG en lançant un processus
 
 * Tester le nouveau utility.js()
 
