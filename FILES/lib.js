@@ -3881,7 +3881,14 @@ function display_suivi(cols) /* [value, class, comment] */
       if (cell.author)
 	comment += 'Par : <b>' + cell.author + '</b><br>' ;
       if (column.real_type.should_be_a_float)
-	comment += 'Poids dans la moyenne pondérée : <b>' + column.weight + '</B><br>' ;
+	{
+	  if ( column.weight.substr(0,1) == '+'
+	       || column.weight.substr(0,1) == '-' )
+	    comment += 'Poids du bonus/malus : ' ;
+	  else
+	    comment += 'Poids dans la moyenne pondérée : ' ;
+	  comment += '<b>' + column.weight + '</B><br>' ;
+	}
       if (comment)
 	visual_cell[2] = comment + visual_cell[2] ;
       if ( visual_cell[0] === '' )
@@ -3912,18 +3919,17 @@ function display_suivi(cols) /* [value, class, comment] */
 	if ( column === undefined )
 	  return '???' + title + '???' ;
 	s = '' ;
-	for(var depend in column.average_columns)
+	if ( column_modifiable_attr('columns', column) )
 	  {
-	    name = columns[column.average_columns[depend]].title
-	    visual_cell = cols[name] ;
-	    if ( visual_cell === undefined )
-	      continue ;
-	    visual_cell[3] = true; // Used
-	    
-	    if ( column.type == 'Nmbr' ) // No weight on Nmbr compute
-	      s += fusion(name, depend==0).replace(/Poids[^B]*B><br>/, '') ;
-	    else
-	      s += fusion(name, depend==0) ;
+	    for(var depend in column.average_columns)
+	      {
+		name = columns[column.average_columns[depend]].title
+		  visual_cell = cols[name] ;
+		if ( visual_cell === undefined )
+		  continue ;
+		visual_cell[3] = true; // Used
+		s += fusion(name, depend==0) ;
+	      }
 	  }
 	visual_cell = cols[title] ;
 	//return '['+title+','+s+']' ;
