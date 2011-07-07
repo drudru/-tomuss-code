@@ -116,6 +116,9 @@ Administrateur.
 Problèmes à résoudre.
 =====================
 
+* Le rechargement plugin ajoute plein de fois le lien sur la page d'accueil
+  (rdv_ip.py)
+
 * Passer les .css avant les .js
 
 * Redémarrage TOMUSS et vieille pages : pas réglé, le client persiste à vouloir
