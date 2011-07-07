@@ -52,9 +52,10 @@ function set_columns(value, column, xcolumn_attr)
 	  }
       if ( ! ok )
 	{
-	  if ( xcolumn_attr )
+	  if ( xcolumn_attr === true )
 	    // Wait the good value
-	    setTimeout(function() {set_columns(value, column, xcolumn_attr)},
+	    // Nezt time 'xcolumn_attr' will be '1' in place of 'true'
+	    setTimeout(function() {set_columns(value, column, 1)},
 		       1000) ;
 	  else
 	    {

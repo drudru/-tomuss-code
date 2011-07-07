@@ -951,6 +951,8 @@ function full_login_list(login, results, add)
     s.push(student_line(results[infos], results.length > 20)) ;
   if ( results.length === 0 )
     s = ['<tr><td colspan="3" style="color:black">Recherche infructueuse</tr>'] ;
+  if ( s.length >= 99 )
+    s.push('<tr><td colspan="3" style="color:black">Liste tronquée...</tr>') ;
   document.getElementById('students_list').innerHTML =
     '<table class="student_list" style="margin-top:0">'
     + '<colgroup><col class="student_icon"><col class="student_id"><col></colgroup>'

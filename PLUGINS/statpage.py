@@ -23,9 +23,13 @@ import plugin
 import document
 import time
 import utilities
+import configuration
 
-def infos(page):
-    s = page.user_name + '/' + page.user_ip
+def infos(server, page):
+    s = ('<a target="_blank" href="%s/%s">' % (
+        configuration.suivi.url(ticket=server.ticket.ticket), page.user_name)
+         + page.user_name + '</a>/' + page.user_ip
+         )
     if not page.browser_file.closed:
         s = '<b>' + s + '</b>'
     return s
@@ -46,7 +50,7 @@ def stat_page(server):
             for c in line:
                 if c[0] != '':
                     nr_cells += 1
-        s.append('<tr><td>%d</td><td>%s</td><td><a href="%s">%s</a></td><td>%d/%d[%d]</td><td>%d</td><td>%d</td><td>%d</td><td>%s</td><td>%s</td></tr>' % (
+        s.append('<tr><td>%d</td><td>%s</td><td><a target="_blank" href="%s">%s</a></td><td>%d/%d[%d]</td><td>%d</td><td>%d</td><td>%d</td><td>%s</td><td>%s</td></tr>' % (
             t.year,
             t.semester,
             "%s/=%s/%s/%s/%s" % (utilities.StaticFile._url_,
@@ -56,7 +60,7 @@ def stat_page(server):
             len(t.lines),
             len(t.columns),
             nr_cells,
-            '<br>'.join([infos(u) for u in t.pages if u.browser_file]),
+            '<br>'.join([infos(server, u) for u in t.pages if u.browser_file]),
             time.ctime(t.mtime)
             )
                  )

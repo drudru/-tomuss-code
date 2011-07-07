@@ -21,6 +21,15 @@ In order to use these regression tests :
 If there is GUI change, the tests will fail.
 
 ======================
+THERE IS SOME PROBLEM
+======================
+
+Some tests may fail due to date changes in the snapshots.
+Popup are not allowed, we must simulate click.
+The only reliable way to do this is to display image markers
+on each gui element.
+
+======================
 Testing IE from Linux.
 ======================
 

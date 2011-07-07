@@ -10,13 +10,14 @@ import sys
 import os
 import time
 import socket
-import display
+import dumper
 from xnee import Xnee
 import urllib2
 import shutil
 import glob
 
-Regtest = display.Regtest
+class Regtest(Exception):
+    pass
 
 tomuss_dir = '..'
 trash = 'Trash'
@@ -57,7 +58,7 @@ class Tester:
         self.output.write('<h1>' + self.client_name + '</h1>\n')
 
         self.errors = []
-        self.display = display.Display(resolution='800x600')
+        self.display = dumper.Display(resolution='800x600')
         self.xnee = Xnee(self.display.port)
         self.start_tomuss()
         self.display.run(client % (self.display.width, self.display.height),
@@ -200,7 +201,7 @@ class Tester:
     
     def is_identical(self, snapshot):
         d = self.display.diff(snapshot)
-        if d > display.pixel_diff_min:
+        if d > self.display.pixel_diff_min:
             return d
         return True
 
@@ -211,11 +212,6 @@ class Tester:
             self.display_message(message)
 
         snapshot = os.path.join(trash, self.client_name, filename + '.png')
-
-        if not hide:
-            self.output.write(
-                '<a href="%s"><img src="%s" style="width:100%%"></a>'
-                % (snapshot, snapshot))
 
         if os.path.exists(snapshot):
             start = time.time()
@@ -240,7 +236,12 @@ class Tester:
             
             self.display.store_dump(snapshot)
             print snapshot, 'created'
-            return
+            identical = True
+
+        if not hide:
+            self.output.write(
+                '<a href="%s"><img src="%s" style="width:100%%"></a>'
+                % (snapshot, snapshot))
 
         if identical is not True:
             self.error("%s{%d}" % (filename, identical), filename)
@@ -281,6 +282,7 @@ def do_tests(client, output, server, nb):
 
             run('test_home', t)
             run('test_table', t)
+            run('test_popup', t)
         except Regtest:
             pass
         if t.errors:

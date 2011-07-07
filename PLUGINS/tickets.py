@@ -34,7 +34,7 @@ def tickets(server):
     f.write("""# -*- coding: utf8 -*-
 from data import *
 new_page('' ,'*', '', '')
-column_change (0,'0_0','Login','Text','','','F',0,2)
+column_change (0,'0_0','Login','Login','','','F',0,2)
 column_change (0,'0_1','Date','Text','','','',0,2)
 column_comment(0,'0_1','Date de première connexion')
 column_change (0,'0_2','IP','Text','','','',0,2)

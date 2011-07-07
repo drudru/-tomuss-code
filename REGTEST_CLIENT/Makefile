@@ -3,7 +3,7 @@ CFLAGS = -O3
 # Launch the regression tests once.
 tests:check
 	@echo "Use 'forever' goal to run tests without stopping"
-	@./test.py
+	@./test.py --continue-on-error
 
 # Launch the regression tests until an error is detected
 forever:check

@@ -239,44 +239,35 @@ class LDAP_Logic(object):
         """Retrieve possible logins from a surname, a firstname
         or an incomplete login (with a dot inside).
         Returns the attributes needed."""
-        name = utilities.safe_space(name.strip('. '))
-        if name == '':
+        q = []
+        for start in name.split(' '):
+            start = utilities.safe(start.strip())
+            if start == '':
+                continue
+            q.append('(|(%s=%s*)(%s=%s*)(%s=%s*))' % (
+                configuration.attr_surname, start,
+                configuration.attr_firstname, start,
+                configuration.attr_login, start))
+        if len(q) == 0:
             return
-        if '.' in name:
-            q = '(%s=%s*)' % (configuration.attr_login,
-                              name)
-        else:
-            if ' ' in name:
-                qq = '(%s=%s*)' % (configuration.attr_login,
-                                   name.replace(' ','.'))
-            else:
-                qq = ''
-            q='(|(%s=%s)(%s=%s)(%s=%s *)(%s=%s *)(%s=%s-*)(%s=%s-*)(%s=%s)(%s=%s)%s)'%(
-                configuration.attr_surname, name,
-                configuration.attr_firstname, name,
-                configuration.attr_surname, name,
-                configuration.attr_firstname, name,
-                configuration.attr_surname, name,
-                configuration.attr_firstname, name,
-                configuration.attr_login, utilities.the_login(name),
-                configuration.attr_login, login_to_student_id(name),
-                qq
-                )
+        q = ''.join(q)
         if base:
             q = '(&(memberof=' + base + ')' + q + ')'
         q = '(&(objectClass=person)' + q + ')' # To accelerate query
+
         if attributes == None:
             attributes = [configuration.attr_login,
                           configuration.attr_surname,
                           configuration.attr_firstname]
+        nr = 100 # Maximum number of answer
         aa = self.query(q,
                         base=configuration.ou_top,
                         attributes=attributes,
-                        async=True
+                        async=nr+1
                         )
         t = []
         i = attributes.index(configuration.attr_login)
-        for x in self.generator(aa): # For all the answers
+        for x in self.generator(aa, nr): # For all the answers
             if x.get(configuration.attr_login) == None:
                 continue
             r = [unicode(x.get(attr,('',))[0],
@@ -285,6 +276,7 @@ class LDAP_Logic(object):
                  ]
             r[i] = r[i].lower() # login must be in lower case
             yield r
+        self.connexion.cancel(aa)
 
     def query_logins(self, logins, attributes):
         logins = ''.join(['(%s=%s)' % (configuration.attr_login,
@@ -511,8 +503,9 @@ class LDAP(LDAP_Logic):
                      % configuration.ldap_server[self.server], what="error")
             time.sleep(1)
 
-    def generator(self, msg_id):
-        while True:
+    def generator(self, msg_id, nr):
+        while nr:
+            nr -= 1
             result_type, result = self.connexion.result(msg_id, all=0)
             if result_type == ldap.RES_SEARCH_RESULT:
                 break
@@ -538,8 +531,8 @@ class LDAP(LDAP_Logic):
                 sender.send_live_status(
                          '<script>b("/%s");</script>\n' % self.name)
                 if async:
-                    s = self.connexion.search(base, ldap.SCOPE_SUBTREE,
-                                              search, attributes)
+                    s = self.connexion.search_ext(base, ldap.SCOPE_SUBTREE,
+                                              search, attributes, sizelimit=async)
                 else:
                     s = self.connexion.search_s(base, ldap.SCOPE_SUBTREE,
                                                 search, attributes)

@@ -383,7 +383,7 @@ Rect* ocr(Image *stack)
 	    nr_rect = merge(rect, nr_rect, &to_concat, &line_start, y) ;
 	}
     }
-  nr_rect = merge(rect, nr_rect+1, &to_concat, &line_start, y) ;
+  nr_rect = merge(rect, nr_rect, &to_concat, &line_start, y) ;
   rect[nr_rect].w = 0 ;
 
   return rect ;
@@ -448,7 +448,7 @@ Image* read_chars()
 int main(int argc, char **argv)
 {
   char command[999], *parameter, filename[999] = "" ;
-  Image *current, *previous, *first, *image = NULL, *diff_image ;
+  Image *current, *previous, *first, *image = NULL, *diff_image = NULL ;
 
   if ( argc != 2 )
     {

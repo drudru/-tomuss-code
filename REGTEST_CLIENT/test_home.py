@@ -2,6 +2,7 @@ import time
 
 def run(t):
     t.goto_url("http://%s:8888/=super.user/" % t.server)
+    time.sleep(3)
     t.check_image('home')
 
     time.sleep(1)

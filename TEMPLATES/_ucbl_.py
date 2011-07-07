@@ -28,24 +28,11 @@ import utilities
 import configuration
 import os
 
-update_student_suivi = """
-function update_student_suivi(line)
-{
-var src = student_picture_url(line[0].value) ;
-if ( src != t_student_picture.src )
-   {
-   t_student_picture.src = '/tip.png' ;
-   if ( line[0].value )
-	t_student_picture.src = student_picture_url(line[0].value) ;
-   }
-t_student_picture.parentNode.href = suivi + '/' + line[0].value ;
-}
-"""
+update_student_information = """
 
-update_student_information = update_student_suivi + """
 function update_student_information(line)
 {
-update_student_suivi(line) ;
+update_student_information_default(line) ;
 update_value_and_tip(t_student_id, line[0].value) ;
 var n = line[1].value.toString() ;
 update_value_and_tip(t_student_firstname,
@@ -284,9 +271,11 @@ def remove_students_from_table(table, students):
     If it contains user information, ro_user cells are given to rw_user
     so any user can erase the line manualy"""
 
-    inscrit_column = table.column_inscrit()
-    if inscrit_column:
-        inscrit_column = table.columns[inscrit_column].the_id
+    data_col = table.column_inscrit()
+    if data_col:
+        inscrit_column = table.columns[data_col].the_id
+    else:
+        inscrit_column = None
 
     p = None
 
@@ -310,7 +299,8 @@ def remove_students_from_table(table, students):
                                           column.the_id, line_id, '')
             else:
                 for i, column in enumerate(table.columns):
-                    if line[i].value and line[i].author == data.ro_user:
+                    if (line[i].value and line[i].author == data.ro_user
+                        and i != inscrit_column):
                         if p == None:
                             p = rw_page(table)
                         table.cell_change(p, column.the_id, line_id)
