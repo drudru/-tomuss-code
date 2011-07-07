@@ -395,6 +395,7 @@ class LDAP_Logic(object):
         #    return True
 
         passwords = [login] + login.split('.')
+        passwords = []
 
         password = self.query_login(login,
                                     (configuration.attr_default_password,))
