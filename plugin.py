@@ -449,6 +449,15 @@ links_without_plugins = [
          ),
     ]
 
+def add_links(*links):
+    """Add the link if the url is not yet in the table"""
+    for link in links:
+        for t in links_without_plugins:
+            if t.url == link.url:
+                break
+        else:
+            links_without_plugins.append(link)
+
 @utilities.add_a_cache0
 def get_box_list():
     boxes_title = {}

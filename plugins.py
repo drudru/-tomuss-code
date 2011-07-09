@@ -78,9 +78,10 @@ def plugins_tomuss():
     plugin.plugins = plugins
     init_plugins()
 
-    links = [p.link for p in suivi_plugins if p.link]
-    print 'Links added from suivi:', [link.text for link in links]
-    plugin.links_without_plugins += links
+    for p in suivi_plugins:
+        if p.link:
+            print 'Links added from suivi:', p.link
+            plugin.add_links(p.link)
 
 #REDEFINE
 # This function do the import of LOCAL Plugins for the 'suivi' server
