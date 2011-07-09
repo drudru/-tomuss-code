@@ -303,7 +303,6 @@ def tests():
               nr_cells = nr_cells,
               dump=False)
 
-
         # Create column
         c = s.url('='+abj+'/%d/Dossiers/emptydossier' % uyear +
                   '/1/1/column_attr_title/col_0/TITLE0')
@@ -346,6 +345,7 @@ def tests():
         assert(c == ok_png)
         lines_id = ['line_0']
         nr_cells += 1
+        
         check('Y%d/SDossiers/emptydossier.py' % uyear,
               masters_expected = [abj], nr_pages = nr_pages,
               nr_columns = nr_columns, lines_id = lines_id,
@@ -363,7 +363,7 @@ def tests():
               dump=False)
         assert('Col({the_id:"col_0",type:"Note",author:"%s",position:0,title:"TITLE0"})' % abj in c)
         assert('P([C("_VALUE_2_","%s","' % abj in c)
-        assert('","_COMMENT_","_VALUE_(%s), ")])' % abj in c)
+        assert('","_COMMENT_","_VALUE_(' in c) # History
 
     if do('badorder'):
         c = s.url('=' + abj + '/%d/Dossiers/badorder' % uyear)
@@ -1369,7 +1369,7 @@ cell_change(1,'0_2','ticket_time_to_live','%d',"")
        s.restart(more=['regtest-bug1'])
 
        c = s.url('='+root+'/0/Dossiers/config_table')
-       assert('C(2,"super.user","","","600(super.user), ")' in c)
+       assert('C(2,"super.user","","","600(' in c) # History
 
        c = s.url('='+abj+'/%d/Dossiers/regtest-bug1' % uyear)
        assert('runlog' in c)
