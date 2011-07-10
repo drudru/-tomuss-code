@@ -1139,11 +1139,12 @@ function popup_close()
   element_focused = undefined ;
   var e = document.getElementById('popup_id') ;
   if ( e )
-    if ( e.getElementsByTagName('TEXTAREA')[0] )
-      popup_old_values[e.className] = e.getElementsByTagName('TEXTAREA'
-							     )[0].value ;
-    else
+    {
+      if ( e.getElementsByTagName('TEXTAREA')[0] )
+	popup_old_values[e.className] = e.getElementsByTagName('TEXTAREA'
+							       )[0].value ;
       e.parentNode.removeChild(e);
+    }
 }
 
 function parse_lines(text)
