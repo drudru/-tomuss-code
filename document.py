@@ -892,7 +892,7 @@ la dernière saisie.
         """Update the default columns of the table.
         This can be called by the TEMPLATE 'check' method
         """
-        if not table.modifiable:
+        if not self.modifiable:
             return
         ro_page = self.pages[0]
         locked = self.the_lock.locked()
