@@ -586,6 +586,12 @@ DIV.tabs DIV.contents {
   height: 7.6em;
   overflow: hidden ;
 }
+
+#menutop DIV.tabs IMG.phot {
+height: 6em;
+width: auto;
+}
+
 DIV.tabs DIV.contents DIV.content { height: 100% }
 DIV.tabs {
   margin: 2px ;
