@@ -118,8 +118,10 @@ Administrateur.
 Problèmes à résoudre.
 =====================
 
-* Le rechargement plugin ajoute plein de fois le lien sur la page d'accueil
-  (rdv_ip.py)
+* La liste des ABJ ne disparaît plus.
+
+* Remplacer 'query_login' par 'query_logins' dans 'students_list'.
+  Sinon c'est trop lent
 
 * Passer les .css avant les .js
 
@@ -162,8 +164,6 @@ Améliorations de code source.
 * Ne plus convertir en PNG en lançant un processus
 
 * Tester le nouveau utility.js()
-
-* Remplacer 'query_login' par 'query_logins' dans 'students_list'.
 
 * Scrollbar de chargement jamais visible : l'enlever ?
 

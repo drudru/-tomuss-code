@@ -1640,6 +1640,8 @@ function current_update_headers_real()
 	  tip.innerHTML = compute_tip(tip.tip_target) ;
 	  set_tip_position(tip.tip_target) ;
 	}
+      else
+	hide_the_tip(true) ;
     }
 
   // Remove green square from top menu
