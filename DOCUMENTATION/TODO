@@ -8,8 +8,6 @@ Nouvelles fonctionnalités.
 Utilisateurs finaux.
 --------------------
 
-* ^A sur imprime ne devrait sélectionner que le tableau.
-
 * Améliorer doc Remp.
 
 * Deux inscriptions en TR
@@ -117,8 +115,6 @@ Administrateur.
 =====================
 Problèmes à résoudre.
 =====================
-
-* La liste des ABJ ne disparaît plus.
 
 * Remplacer 'query_login' par 'query_logins' dans 'students_list'.
   Sinon c'est trop lent

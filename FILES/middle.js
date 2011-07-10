@@ -1206,12 +1206,13 @@ function create_popup(html_class, title, before, after, default_answer)
   var s = '<div id="popup_id" class="import_export ' + html_class
            + '"><h2>' + title + '</h2>' + before ;
   if ( default_answer !== false )
-    s += '<TEXTAREA ROWS="10" class="popup_input" onfocus="element_focused=this;">'+ new_value + '</TEXTAREA>' ;
+    s += '<TEXTAREA WRAP="off" ROWS="10" class="popup_input" onfocus="element_focused=this;">'+ new_value + '</TEXTAREA>' ;
 
   s += '<BUTTON class="close" OnClick="popup_close()">&times;</BUTTON>'+after ;
 
   popup.innerHTML = s ;
-  popup.column = the_current_cell.column ;
+  if ( the_current_cell )
+    popup.column = the_current_cell.column ;
 
   if ( default_answer !== false )
     popup.getElementsByTagName('TEXTAREA')[0].focus() ;
