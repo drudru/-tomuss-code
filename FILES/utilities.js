@@ -1621,7 +1621,7 @@ function current_update_headers_real()
   if ( modification_date )
     modification_date.innerHTML = date(this.cell.date) ;
 
-  var tip = document.getElementById('tip') ;
+  var tip = get_tip_element() ;
   update_student_information(this.line) ;
   this.update_cell_headers() ;
   this.update_column_headers() ;

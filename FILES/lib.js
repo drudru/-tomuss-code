@@ -30,7 +30,6 @@ var maximum_url_length = 3000 ;
 
 var is_a_teacher = false ;
 
-
 // Work value
 var element_focused ;
 var server_feedback ;
@@ -191,11 +190,6 @@ function lib_init()
   today = new Date() ;
   today = today.getFullYear() + two_digits(today.getMonth() + 1) +
     two_digits(today.getDate()) + '000000' ;
-
-  var tip = document.getElementById('tip');
-
-  if ( tip )
-    tip.display_number = 1 ;
 
   _today = new Date() ;
   _today.setHours(0,0,0,0) ;
@@ -469,9 +463,23 @@ function sort_column(event, data_col)
   table_fill(true, true,true) ;
 }
 
-function set_tip_position(td, bottom)
+function get_tip_element()
 {
   var tip = document.getElementById('tip') ;
+
+  if ( ! tip )
+    {
+      tip = document.createElement('div') ;
+      tip.display_number = 1 ;
+      tip.id = 'tip' ;
+      document.getElementsByTagName('BODY')[0].appendChild(tip) ;
+    }
+  return tip ;
+}
+
+function set_tip_position(td, bottom)
+{
+  var tip = get_tip_element() ;
   tip.target = undefined ;
   if ( tip_fixed )
     {
@@ -609,7 +617,7 @@ function show_the_tip(td, tip_content)
   catch(e) { // Not in a 'table' page
   }
 
-  var tip = document.getElementById('tip') ;
+  var tip = get_tip_element() ;
 
   if ( tip_content === undefined )
     {
@@ -730,9 +738,9 @@ function table_init()
   var thetable ;
 
   // Create the table
-  // The first two childs are HOVER et TIP
-  while( divtable.childNodes[2] )
-    divtable.removeChild(divtable.childNodes[2]) ;
+  // The first child is HOVER
+  while( divtable.childNodes[1] )
+    divtable.removeChild(divtable.childNodes[1]) ;
   thetable = document.createElement('table') ;
   thetable.className = "colored" ;
   if ( preferences.unmodifiable == 1 )
@@ -3427,7 +3435,6 @@ function html_begin_head(hide_title, pb, more)
       s += '<h1 ' +pb + '>' + year + ' ' + semester + ' '
 	+ ue + '<br>' +	html(table_attr.table_title) + more + '</h1>\n' + the_filters() ;
     }
-  s += '<div id="tip"></div>' ;
 
   return s ;
 }
@@ -3504,7 +3511,7 @@ function remove_highlight()
 
 function hide_the_tip_real()
 {
-  var tip = document.getElementById('tip') ;
+  var tip = get_tip_element() ;
   tip.onmousemove = function() {} ;
   tip.style.display = "none" ;
   tip.tip_target = undefined ;
@@ -3513,7 +3520,7 @@ function hide_the_tip_real()
 
 function hide_the_tip(real)
 {
-  var tip = document.getElementById('tip') ;
+  var tip = get_tip_element() ;
   if ( tip.style.display == "none" )
     return ;
 

@@ -1280,8 +1280,7 @@ function insert_middle()
   
   if ( ! scrollbar_right )
     w += '<div id="vertical_scrollbar"></div>' ;
-  w += '<div id="divtable" class="colored"><div id="hover"></div>'
-    + '<div id="tip"></div></div>' ;
+  w += '<div id="divtable" class="colored"><div id="hover"></div></div>' ;
   if ( scrollbar_right )
     w += '<div id="vertical_scrollbar"></div>' ;
   if ( window.location.pathname.search('=new-interface=') != -1 )
