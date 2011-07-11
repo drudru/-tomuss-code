@@ -1175,27 +1175,37 @@ function popup_set_value(value)
   text_area.select() ;
 }
 
+function popup_get_element()
+{
+  var popup = document.getElementById('popup') ;
+  if ( ! popup )
+    {
+      popup = document.createElement('div') ;
+      popup.id = 'popup' ;
+      document.getElementsByTagName('BODY')[0].appendChild(popup) ;
+    }
+  return popup ;
+}
+
 function popup_is_open()
 {
   return !! document.getElementById('popup_id') ;
 }
 
-
 function popup_column()
 {
-  return document.getElementById('popup').column ;
+  return popup_get_element().column ;
 }
 
 function create_popup(html_class, title, before, after, default_answer)
 {
   popup_close() ;
 
-  var popup = document.getElementById('popup') ;
   var new_value ;
 
   if ( default_answer )
     {
-      var new_value = popup_old_values['import_export ' + html_class] ;
+      new_value = popup_old_values['import_export ' + html_class] ;
       if ( new_value === undefined )
 	new_value = default_answer ;
       new_value = html(new_value) ;
@@ -1210,6 +1220,7 @@ function create_popup(html_class, title, before, after, default_answer)
 
   s += '<BUTTON class="close" OnClick="popup_close()">&times;</BUTTON>'+after ;
 
+  var popup = popup_get_element() ;
   popup.innerHTML = s ;
   if ( the_current_cell )
     popup.column = the_current_cell.column ;
@@ -1286,8 +1297,7 @@ function insert_middle()
   if ( window.location.pathname.search('=new-interface=') != -1 )
     w += hs ;
 
-  w += '</div><div id="popup"></div>'
-    + '</div><div id="loading_bar"><div></div></div>' ;
+  w += '</div></div><div id="loading_bar"><div></div></div>' ;
   document.write(w) ;
 }
 

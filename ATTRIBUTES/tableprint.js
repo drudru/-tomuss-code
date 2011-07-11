@@ -455,7 +455,7 @@ function print_selection(object, emargement)
 
   p.push('</table>') ;
   p.push('<div style="clear:both" id="content"></div>') ;
-  p.push('</div><div id="popup"></div>') ;
+  p.push('</div>') ;
   p.push('<script>') ;
   p.push('setTimeout(initialize, 100) ;') ; // Timeout for IE
   p.push('</script>') ;
