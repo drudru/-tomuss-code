@@ -116,9 +116,6 @@ Administrateur.
 Problèmes à résoudre.
 =====================
 
-* Remplacer 'query_login' par 'query_logins' dans 'students_list'.
-  Sinon c'est trop lent
-
 * Passer les .css avant les .js
 
 * Redémarrage TOMUSS et vieille pages : pas réglé, le client persiste à vouloir

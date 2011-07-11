@@ -363,7 +363,7 @@ def tests():
               dump=False)
         assert('Col({the_id:"col_0",type:"Note",author:"%s",position:0,title:"TITLE0"})' % abj in c)
         assert('P([C("_VALUE_2_","%s","' % abj in c)
-        assert('","_COMMENT_","_VALUE_(' in c) # History
+        assert('","_COMMENT_","_VALUE_\\n(' in c) # History
 
     if do('badorder'):
         c = s.url('=' + abj + '/%d/Dossiers/badorder' % uyear)
@@ -1369,7 +1369,7 @@ cell_change(1,'0_2','ticket_time_to_live','%d',"")
        s.restart(more=['regtest-bug1'])
 
        c = s.url('='+root+'/0/Dossiers/config_table')
-       assert('C(2,"super.user","","","600(' in c) # History
+       assert('C(2,"super.user","","","600\\n(' in c) # History
 
        c = s.url('='+abj+'/%d/Dossiers/regtest-bug1' % uyear)
        assert('runlog' in c)
