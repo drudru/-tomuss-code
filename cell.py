@@ -102,7 +102,7 @@ class Cell(CellVirtual):
         if date == None:
             date = time.strftime('%Y%m%d%H%M%S')
 
-        self.history += '%s(%s %s), ' % (self.value, self.date, self.author)
+        self.history += '%s\n(%s %s),·' % (self.value, self.date, self.author)
         self.value = value
         self.author = author
         self.date = date

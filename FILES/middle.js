@@ -995,10 +995,7 @@ var w ;
 	    "Date ou la cellule a été modifiée pour la dernière fois.")+
    one_line('<span id="t_history"></span>',
 	    "Valeurs précédentes prises par la cellule.<br>"+
-	    "De la plus ancienne à la plus récente.<br>" +
-	    "Le nom de la personne qui a fait la modification<br>" +
-	    "est indiqué si la valeur précédente n'était<br>" +
-	    "pas saisie par elle.") +
+	    "De la plus ancienne à la plus récente.") +
    '</td></tr></table><td class="space"><td class="blocktop">' +
    column_input_attr('title', 'one_line') +
    '<div>' ;

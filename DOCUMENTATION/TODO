@@ -116,8 +116,6 @@ Administrateur.
 Problèmes à résoudre.
 =====================
 
-* historique : probleme des valeurs avec virgule
-
 * Remplacer 'query_login' par 'query_logins' dans 'students_list'.
   Sinon c'est trop lent
 

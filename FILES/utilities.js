@@ -1562,12 +1562,12 @@ function current_update_cell_headers()
       s.push('<tr><td>' + date(cell.date) + '<td>'
 	     + cell.get_author() + '<td>'
 	     + html(cell.value) + '</tr>') ;
-      var h = cell.history.split('),') ;
+      var h = cell.history.split('),·') ;
       h.pop() ;
       h.reverse() ;
       for(var i in h)
 	{
-	  i = h[i].split('(') ;
+	  i = h[i].split('\n(') ;
 	  var date_author = i[1].split(' ') ;
 	  s.push('<tr><td>' + date(date_author[0]) + '<td>'
 		 + get_author(date_author[1])
