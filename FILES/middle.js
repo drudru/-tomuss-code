@@ -571,6 +571,13 @@ function new_new_interface()
   table_attributes['linear'].title = "Linéaire" ;
   table_attributes['update_content'].title = "Forcer la mise à jour" ;
 
+  var doc_link = '<div class="one_line">' +
+    hidden_txt('<a href="_URL_/doc_table.html" target="_blank">' +
+	       'Documentation complète et intéractive</a>',
+	       "Cliquez sur le lien pour avoir tous les détails sur<br>" +
+	       "l'utilisation de ce tableur") + '</div>' ;
+
+
   // CELLULE / Cellule
 
   t = ['<table class="cell"><tr><td>'] ;
@@ -613,12 +620,7 @@ function new_new_interface()
   // CELLULE / ?
 
   t = [] ;
-  t.push('<div class="one_line">') ;
-  t.push(hidden_txt('<a href="_URL_/doc_table.html" target="_blank">' +
-		    'Documentation complète et intéractive</a>',
-		    "Cliquez sur le lien pour avoir tous les détails sur<br>" +
-		    "l'utilisation de ce tableur")) ;
-  t.push('</div>') ;
+  t.push(doc_link) ;
   t.push('<div class="one_line">') ;
   t.push(hidden_txt('<span class="ro">S</span>' +
 		    '<span class="comment">t</span>' +
@@ -807,6 +809,7 @@ function new_new_interface()
   // COLUMN / Help
 
   t = [] ;
+  t.push(doc_link) ;
   t.push('<div class="one_line">') ;
   t.push(hidden_txt('Ce que vous faites est sauvegardé automatiquement',
 		    "Quand vous saisissez une note dans une cellule<br>"
@@ -942,6 +945,7 @@ function new_new_interface()
 
   o.push(['?',
 	  '<div class="scroll_auto">'
+	  + doc_link
 	  + 'Tout le monde peut remplir des cases vides. '
 	  + 'Mais seul les responsables de la table peuvent modifier '
 	  + 'les notes et commentaires saisis par les autres enseignants. '
