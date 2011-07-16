@@ -2138,6 +2138,11 @@ function update_cell(td, cell, column, abj)
     className += ' comment' ;
   if ( cell.date >= today )
     className += ' today' ;
+  if ( v === '' && column.empty_is )
+    {
+      className += ' default' ;
+      v = column.empty_is ;
+    }
   if ( v.toFixed )
     {
       className += ' number' ;

@@ -275,6 +275,8 @@ TD.today, #current_input.today, .today {
   font-weight: bolder ;
 }
 
+TD.default { color: #BBB }
+
 
 SPAN#teachers { font-weight: bold ; }
 
