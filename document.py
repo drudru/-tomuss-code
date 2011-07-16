@@ -521,18 +521,8 @@ class Table(object):
 
         old_value = str(cell.value)
         new_value = str(value)
-        if old_value == new_value:
-            if cell.author == ro_user and page.user_name == rw_user:
-                # This come here only by the way of _ucbl_.py
-                # We want to allow everybody to change the value
-                pass
-            elif cell.author != ro_user and page.user_name == ro_user:
-                # This come here only by the way of _ucbl_.py
-                # When user entered data is "rewrote" by ro_user
-                pass
-            else:
-                return 'ok.png'
-            
+        if old_value == new_value and cell.author == page.user_name:
+            return 'ok.png'            
 
         # if isinstance(value, str) and value.find('.') != -1:
         if column.type.name == 'Note':

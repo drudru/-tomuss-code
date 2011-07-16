@@ -8,6 +8,12 @@ Nouvelles fonctionnalités.
 Utilisateurs finaux.
 --------------------
 
+* Meilleur synchronisation orientaiton_rp -> rdv_ip
+  Synchronisation de la discipline
+  Lieu de rendez-vous par personne.
+
+* Valeur par défaut en gris
+
 * Améliorer doc Remp.
 
 * Deux inscriptions en TR
@@ -115,6 +121,10 @@ Administrateur.
 =====================
 Problèmes à résoudre.
 =====================
+
+* Blocnote : modifiés dans le passé 2009
+
+* Bilan TOMUSS donne NaN pour 10510159
 
 * Passer les .css avant les .js
 
