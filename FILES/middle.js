@@ -1160,17 +1160,19 @@ function parse_lines(text)
   return text ;
 }
 
+function popup_text_area()
+{
+  return document.getElementById('popup_id').getElementsByTagName('TEXTAREA')[0] ;
+}
+
 function popup_value()
 {
-  var e = document.getElementById('popup_id') ;
-  text_area = e.getElementsByTagName('TEXTAREA')[0] ;
-  return parse_lines(text_area.value) ;
+  return parse_lines(popup_text_area().value) ;
 }
 
 function popup_set_value(value)
 {
-  var e = document.getElementById('popup_id') ;
-  text_area = e.getElementsByTagName('TEXTAREA')[0] ;
+  var text_area = popup_text_area() ;
   text_area.value = value ;
   text_area.focus() ;
   text_area.select() ;
