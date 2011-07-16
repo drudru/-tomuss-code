@@ -239,6 +239,9 @@ class LDAP_Logic(object):
         """Retrieve possible logins from a surname, a firstname
         or an incomplete login (with a dot inside).
         Returns the attributes needed."""
+        name = name.strip()
+        if len(name) == 1:
+            return
         q = []
         for start in name.split(' '):
             start = utilities.safe(start.strip())

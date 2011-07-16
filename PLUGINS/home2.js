@@ -959,11 +959,19 @@ function full_login_list(login, results, add)
     + s.join('\n') + '</table>' ;
 }
 
+var update_students_timeout ;
 
 function update_students()
 {
-  var what = replaceDiacritics(document.getElementById('search_name').value) ;
+  var input = document.getElementById('search_name') ;
+  var what = replaceDiacritics(input.value) ;
   what = what.replace(/ *$/,'') ;
+
+  if ( what == input.old_value )
+    return ;
+
+  input.old_value = what ;
+
   ue_line_out() ;
   the_last_login_asked = what ;
   if ( what === '' )
@@ -976,9 +984,17 @@ function update_students()
       full_login_list(what, last_login_cache[what]) ;
       return ;
     }
-    
+  if ( update_students_timeout )
+    clearTimeout(update_students_timeout) ;
+  
+  update_students_timeout = setTimeout(update_students_real, 500) ;
+}
+
+function update_students_real()
+{
   var s = document.createElement('SCRIPT') ;
-  s.src = base + 'login_list/' + encode_uri(what) ;
+  s.src = base + 'login_list/' + encode_uri(the_last_login_asked) ;
   document.getElementsByTagName('BODY')[0].appendChild(s) ;
   document.getElementById('students_list').innerHTML = 'Recherche en cours' ;
+  update_students_timeout = undefined ;
 }
