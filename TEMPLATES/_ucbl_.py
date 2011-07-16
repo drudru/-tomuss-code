@@ -56,7 +56,7 @@ def get_mails(table, the_ids):
                                                (configuration.attr_login,
                                                 configuration.attr_mail, )):
             if x[1]:
-                login = inscrits.login_to_student_id(x[0].lower())
+                login = inscrits.login_to_student_id(x[0].lower()).encode('utf-8')
                 the_ids[login] = x[1].encode('utf-8')
 
     else:
