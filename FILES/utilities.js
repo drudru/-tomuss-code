@@ -1917,8 +1917,8 @@ function current_keydown(event, in_input)
   // __d('alt=' + event.altKey + ' ctrl=' + event.ctrlKey + ' key=' + key + ' charcode=' + event.charCode + ' which=' + event.real_event.which + '\n') ;
 
   var selection ;
-  if ( event.target === this.input )
-    selection = get_selection(this.input) ;
+  if ( event.target.tagName === 'INPUT' )
+    selection = get_selection(event.target) ;
 
   switch(key)
     {
@@ -1980,12 +1980,15 @@ function current_keydown(event, in_input)
 	      return false ;
 	    }
 	}
-      // completion only in table cells
-      if (  event.target === this.input && key >= 64
-	    && event.ctrlKey === false
-	    && this.input.value.length == selection.end ) // No control code
+      // completion
+      if ( selection && key >= 64 && event.ctrlKey === false
+	    && event.target.value.length == selection.end ) // No control code
 	{
-	  setTimeout("the_current_cell.do_completion()", 100) ;
+	  if ( do_completion_for_this_input == undefined )
+	    {
+	      do_completion_for_this_input = event.target ;
+	      setTimeout('the_current_cell.do_completion()', 100) ;
+	    }
 	}
       return true ;
     }
@@ -1993,21 +1996,51 @@ function current_keydown(event, in_input)
   return false ;
 }
 
+var do_completion_for_this_input ;
+
 function current_do_completion()
 {
+  var completion ;
+  var input = do_completion_for_this_input ;
+
+  do_completion_for_this_input = undefined ;
+
   alert_merged = '' ;
-  var completion = this.column.real_type.cell_test(this.input.value,
-						   this.column) ;
+  if ( input == this.input )
+    {
+      completion = this.column.real_type.cell_test(input.value, this.column) ;
+    }
+  else if ( input.id == 't_column_columns' )
+    {
+      var names = input.value.split(' ') ;
+      if ( names[0] === '' )
+	return ;
+      var last = names[names.length-1] ;
+      completion = '' ;
+      for(var column in columns)
+	{
+	  column = columns[column] ;
+	  if ( column.title.substr(0, last.length) == last )
+	    {
+	      names[names.length-1] = column.title ;
+	      completion = names.join(' ') ;
+	      break ;
+	    }
+	}
+    }
+  else
+    return ; // No completion
+
   alert_merged = false ;
   if ( completion && completion.substr
-       && completion.substr(0, this.input.value.length).toLowerCase()
-       == this.input.value.toLowerCase())
+       && completion.substr(0, input.value.length).toLowerCase()
+       == input.value.toLowerCase())
     {
-      completion = completion.substr(this.input.value.length) ;
-      this.input.value += completion ;
-      set_selection(this.input,
-		    this.input.value.length - completion.length,
-		    this.input.value.length) ;
+      completion = completion.substr(input.value.length) ;
+      input.value += completion ;
+      set_selection(input,
+		    input.value.length - completion.length,
+		    input.value.length) ;
     }
 }
 
