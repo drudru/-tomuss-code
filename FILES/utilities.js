@@ -2037,7 +2037,23 @@ function current_do_completion()
        == input.value.toLowerCase())
     {
       completion = completion.substr(input.value.length) ;
-      input.value += completion ;
+
+      if (window.KeyEvent)
+	{
+	  // The following code reset horizontal scroll in the input field
+	  // It is not usable
+	  // input.value += completion
+	  for(var i=0; i<completion.length; i++)
+	    {
+	      var evt = document.createEvent("KeyboardEvent");
+	      evt.initKeyEvent("keypress", true, true, null, false, false,
+			       false, false, 0, completion.charCodeAt(i));
+	      input.dispatchEvent(evt);
+	    }
+	}
+      else
+	input.value += completion ;
+
       set_selection(input,
 		    input.value.length - completion.length,
 		    input.value.length) ;
