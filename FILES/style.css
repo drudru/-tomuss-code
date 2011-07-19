@@ -227,7 +227,7 @@ DIV.tipped, DIV.tipped DIV.text { display: inline ; }
 
 DIV.tipped DIV.help { display: none; }
 
-DIV.more { 
+DIV#tip DIV.more { 
   white-space: normal;
   font-weight: bold;
   background-color: inherit ;
