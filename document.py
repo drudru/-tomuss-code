@@ -541,7 +541,11 @@ class Table(object):
                 try:
                     self.the_key_dict[login].remove(lin)
                 except:
-                    utilities.warn(login + ' ' + lin + ' ' + repr(self.the_key_dict[login]))
+                    if login:
+                        utilities.warn(str(page) + ' old_login=' + login
+                                       + ' new_login=' + new_value
+                                       + ' lin=' + lin
+                                       + ' ' + repr(self.the_key_dict[login]))
 
             login = utilities.the_login(new_value)
             if login in self.the_key_dict:
