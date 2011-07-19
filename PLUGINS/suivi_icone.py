@@ -72,7 +72,7 @@ plugin.Plugin('icone', '/{_I}',
               mimetype = 'image/png',
               )
 
-plugin.Plugin('icone', '/{?}/{_I}',
+plugin.Plugin('icone_withticket', '/{?}/{_I}',
               function=student_icone,
               authenticated=False,
               # launch_thread=True,

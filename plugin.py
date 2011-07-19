@@ -158,6 +158,10 @@ class Plugin(object):
         else:
             self.documentation = function.__doc__
 
+        for plugin in plugins:
+            if plugin.name == self.name:
+                raise ValueError('Two plugins named ' + self.name)
+
         plugins.append(self)
         plugins.sort(lambda x, y: cmp(x.url, y.url))
 

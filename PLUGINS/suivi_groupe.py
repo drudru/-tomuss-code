@@ -33,8 +33,7 @@ import csv
 debug = False
 
 def page_groupe(server):
-    """List all the students groups defined by the teacher
-    and not by TOMUSS"""
+    """List all the students groups defined by the teacher and not by TOMUSS"""
     
     for t in tablestat.les_ues(server.year, server.semester):
         col_inscrit = t.column_inscrit()
@@ -125,7 +124,7 @@ plugin.Plugin('groupe', '/groupe', teacher=True, password_ok = None,
                                ),
               )
 
-plugin.Plugin('groupe', '/groupe/{*}',
+plugin.Plugin('one_groupe', '/groupe/{*}',
               teacher=True, password_ok = None,
               mimetype = 'text/csv',
               function = page_one_groupe,
