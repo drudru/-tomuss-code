@@ -561,8 +561,8 @@ function new_new_interface()
   column_attributes['fill'].title = '<b>Remplir</b> la colonne avec des valeurs' ;
   column_attributes['export'].title = '<b>Exporter</b> la colonne pour APOGÉE' ;
   column_attributes['delete'].title = '<b>Détruire</b> définitivement la colonne' ;
-  column_attributes['position'].title = "Sauve position" ;
-  column_attributes['width'].title = "Sauve largeur" ;
+  column_attributes['position'].title = "position" ;
+  column_attributes['width'].title = "largeur" ;
 
   table_attributes['autosave'].title = 'Enregistrement automatique' ;
   table_attributes['t_import'].title = '<b>Importer</b> des définitions de colonnes' ;
@@ -762,17 +762,20 @@ function new_new_interface()
 			   )) ;
   t.push('</div>') ;
   t.push('<div class="one_line" style="text-align:center">') ;
-  t.push(hidden_txt('<a href="javascript:do_move_column_left();" style="font-size:130%">«--</a>',
+  t.push(hidden_txt('<img src="' + url + '/prev.gif" style="height:1em" onclick="do_move_column_left();">',
 		    "<b>Décale la colonne vers la gauche</b>" + x)) ;
-  t.push('&nbsp;&nbsp;'+column_input_attr('position')+'&nbsp;&nbsp;') ;
-  t.push(hidden_txt('<a href="javascript:do_move_column_right();" style="font-size:130%">--»</a>',
+  t.push(column_input_attr('position')) ;
+  t.push(hidden_txt('<img src="' + url + '/next.gif" style="height:1em" onclick="do_move_column_right();">',
 		    "<b>Décale la colonne vers la droite</b>" + x)) ;
+  t.push('&nbsp;') ;
+  /*
   t.push('</div>') ;
   t.push('<div class="one_line" style="text-align:center">') ;
-  t.push(hidden_txt('<a href="javascript:smaller_column();" style="font-size:130%">»-«</a>',
+  */
+  t.push(hidden_txt('<a href="javascript:smaller_column();"><img src="' + url + '/next.gif" style="height:1em;border:0"><img src="' + url + '/prev.gif" style="height:1em;border:0"></a>',
 		    "<b>Amincir la colonne</b>" + x)) ;
-  t.push('&nbsp;&nbsp;'+column_input_attr('width')+'&nbsp;&nbsp;') ;
-  t.push(hidden_txt('<a href="javascript:bigger_column();" style="font-size:130%">«-»</a>',
+  t.push(column_input_attr('width')) ;
+  t.push(hidden_txt('<a href="javascript:bigger_column();"><img src="' + url + '/prev.gif" style="height:1em;border:0"><img src="' + url + '/next.gif" style="height:1em;border:0"></a>',
 		    "<b>Élargir la colonne</b>" + x)) ;
   t.push('</div>') ;
   t.push('<div class="one_line">') ;
