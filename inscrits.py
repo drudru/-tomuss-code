@@ -244,7 +244,7 @@ class LDAP_Logic(object):
             return
         q = []
         for start in name.split(' '):
-            start = utilities.safe(start.strip())
+            start = utilities.safe_quote(start.strip())
             if start == '':
                 continue
             q.append('(|(%s=%s*)(%s=%s*)(%s=%s*))' % (
@@ -253,9 +253,13 @@ class LDAP_Logic(object):
                 configuration.attr_login, start))
         if len(q) == 0:
             return
-        q = ''.join(q)
+        q = '(&' + ''.join(q) + ')'
+        if ' ' in name and len(name) >= 3:
+            q = '(|' + q + '(%s=%s*)' % (configuration.attr_surname,
+                                         utilities.safe_space_quote(name))+ ')'
         if base:
             q = '(&(memberof=' + base + ')' + q + ')'
+
         q = '(&(objectClass=person)' + q + ')' # To accelerate query
 
         if attributes == None:
