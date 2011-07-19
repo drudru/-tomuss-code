@@ -1453,7 +1453,7 @@ function update_attribute_value(e, attr, table, editable)
 	  if ( the_current_cell.column && attr.tip[the_current_cell.column.type] )
 	    {
 	      try {
-		tip_top(e).firstChild.firstChild.innerHTML = attr.tip[the_current_cell.column.type] + '<hr><b>' + html(e.value) ;
+		tip_top(e).firstChild.firstChild.innerHTML = attr.tip[the_current_cell.column.type] ;
 	      }
 	      catch(e) {
 		// XXX IE has an unknown exception here...
