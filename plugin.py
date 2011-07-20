@@ -93,7 +93,21 @@ class Link(object):
             html_class = ''
 
         if with_help:
-            help = '<div class="help">' + self.help + '</div>'
+            if server.ticket.user_name in configuration.root:
+                if self.plugin:
+                    m = re.split('  *', str(self.plugin).strip())
+                    m = ("<hr><b>"
+                         + self.plugin.function.func_code.co_filename.replace(
+                             os.getcwd(), '') + '</b><br>'
+                         + 'Plugin name: ' + m[0] + '<br>'
+                         + 'Plugin URL: ' + m[1] + '<br>'
+                         + 'Attributes: ' + ' '.join(m[2:])
+                         )
+                else:
+                    m = "<hr>Link without plugin"
+            else:
+                m = ''
+            help = '<div class="help">' + self.help + m + '</div>'
             icon = '<img class="safety" src="' + configuration.server_url + '/' + self.html_class + '.png">'
         else:
             help = ''
