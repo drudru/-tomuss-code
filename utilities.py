@@ -299,7 +299,7 @@ def stop_threads():
 send_mail_in_background_list = []
 def sendmail_thread():
     while True:
-        time.sleep(1)
+        time.sleep(0.25)
         if len(send_mail_in_background_list) == 0:
             continue
         send_mail(*send_mail_in_background_list.pop(0))

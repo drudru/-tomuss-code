@@ -70,8 +70,9 @@ def home_page(server):
     f = server.the_file
     ticket = server.ticket
     user_name = ticket.user_name
-    if (user_name in configuration.root) and server.options:
-        user_name = server.options[0].strip('=')
+    # Not working because the functions look the ticket
+    # if (user_name in configuration.root) and server.options:
+    #    user_name = server.options[0].strip('=')
 
     ufr = inscrits.L_fast.ufr_of_teacher(user_name)
 
