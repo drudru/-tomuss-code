@@ -26,6 +26,7 @@ import socket
 import re
 import cgi
 import time
+import os
 
 warn = utilities.warn
 
@@ -160,7 +161,13 @@ class Plugin(object):
 
         for plugin in plugins:
             if plugin.name == self.name:
-                raise ValueError('Two plugins named ' + self.name)
+                f1 = plugin.function.func_code.co_filename
+                f2 = self.function.func_code.co_filename
+                if f1.split(os.path.sep)[-1] == f2.split(os.path.sep)[-1]:
+                    # __main__ module is loaded twice
+                    continue
+                raise ValueError('Two plugins named "%s" (%s & %s)' %
+                                 (self.name, f1, f2))
 
         plugins.append(self)
         plugins.sort(lambda x, y: cmp(x.url, y.url))
