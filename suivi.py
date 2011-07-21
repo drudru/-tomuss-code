@@ -54,8 +54,8 @@ class MyRequestBroker(utilities.FakeRequestHandler):
         # self.rfile.close()
         try:
             self.do_GET_real()
-        except:            
-            utilities.send_backtrace(repr(self.header),
+        except:
+            utilities.send_backtrace('',
                                      subject='GET path = ' + self.path)
 
     def do_GET_real(self):
