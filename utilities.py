@@ -213,22 +213,22 @@ def send_mail(to, subject, message, frome=None):
     if len(to) == 0:
         return
 
-    try:
-        header = "From: " + frome + '\n'
-        header += "Subject: " + subject + '\n'
-        if len(to) == 1:
-            header += "To: " + to[0] + '\n'
-        if message.startswith('<html>'):
-            header += 'Content-Type: text/html; charset=UTF-8\n'
-        smtpresult = send_mail.session.sendmail(frome, recipients,
-                                                header + '\n' + message)
-    except smtplib.SMTPRecipientsRefused:
-        warn("Can't deliver mail to " + repr(recipients))
-        pass
-    except:
-        send_mail.session = smtplib.SMTP(configuration.smtpserver)
-        send_mail(to, subject, message, frome)
-        return 
+    while True:
+        try:
+            header = "From: " + frome + '\n'
+            header += "Subject: " + subject + '\n'
+            if len(to) == 1:
+                header += "To: " + to[0] + '\n'
+            if message.startswith('<html>'):
+                header += 'Content-Type: text/html; charset=UTF-8\n'
+            smtpresult = send_mail.session.sendmail(frome, recipients,
+                                                    header + '\n' + message)
+            break
+        except smtplib.SMTPRecipientsRefused:
+            warn("Can't deliver mail to " + repr(recipients))
+            break
+        except:
+            send_mail.session = smtplib.SMTP(configuration.smtpserver)
 
     try:
         if smtpresult:
