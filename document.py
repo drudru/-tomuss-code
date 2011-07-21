@@ -1056,7 +1056,14 @@ la dernière saisie.
     def backtrace_html(self):
         return "Table: " + str(self)
 
-
+    def readable_by(self, ticket):
+        if (self.private
+            and ticket.user_name not in self.masters 
+            and ticket.user_name not in configuration.root
+            ):
+            warn('Unauthorized access', what='table')
+            return False
+        return True
 
 def send_alert(text):    
     for atable in tables_values():
@@ -1134,11 +1141,8 @@ def table(year, semester, ue, page=None, ticket=None, ro=False, create=True,
     if page == None:
         if ticket == None:
             return t
-        if t.private:
-            if ticket.user_name not in t.masters \
-                   and ticket.user_name not in configuration.root:
-                warn('Unauthorized access', what='table')
-                return None, None
+        if not t.readable_by(ticket):
+            return None, None
         # The new page may append work to check_students_in_tables
         # And the work is done without call to 'table'.
         # So possible simultaneous execution is possible.

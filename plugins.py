@@ -111,6 +111,7 @@ def plugins_suivi():
     import PLUGINS.log
     import PLUGINS.evaluate
     import PLUGINS.picture
+    import PLUGINS.change_identity
     plugins_suivi_more()
     init_plugins()
 
