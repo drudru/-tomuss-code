@@ -372,7 +372,7 @@ function an_user_update(event, input, column, attr)
     init_column(column) ; // Need to update other attributes.
 
   attr_update_user_interface(attr, column) ;
-  update_value_and_tip(input, new_value) ;
+  compute_tip(input);
 }
 
 function header_change_on_update(event, input, what)

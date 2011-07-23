@@ -1492,6 +1492,11 @@ function update_attribute_value(e, attr, table, editable)
 	  tip_top(e).firstChild.innerHTML = tip ;
 	}
       return ;
+    case 'SPAN':
+      if ( e.innerHTML != formatted )
+	highlight_add(e) ;
+      e.innerHTML = formatted ;
+      return ;
     default:
       return ;
     }
@@ -1516,11 +1521,7 @@ function current_update_column_headers()
 	continue ;
       if ( column_attributes[attr].computed )
 	{
-	  if ( e.tagName == 'INPUT' || e.tagName == 'SPAN' ) // XXX
-	    update_value_and_tip(e,
-				 column_attributes[attr].formatter(column,
-								   column[attr]
-								   )) ;
+	  update_attribute_value(e, column_attributes[attr], column, false);
 	  continue ;
 	}
       if ( ! column_modifiable_attr(attr, column) )
@@ -1936,10 +1937,11 @@ function current_keydown(event, in_input)
       if ( event.ctrlKey
 	   || this.input.value.length === 0
 	   || !this.cell_modifiable()
-	   || ((selection.end === this.input.textLength ||
-		selection.end === this.input.value.length ||
-		selection.end === 0)
-	       && selection.start === 0)
+	   || (selection && selection.start === 0 
+	       && (selection.end === this.input.textLength ||
+		   selection.end === this.input.value.length ||
+		   selection.end === 0)
+	       )
 	   )
 	this.cursor_left() ;
       else
@@ -1954,11 +1956,12 @@ function current_keydown(event, in_input)
     case 39:
       if ( event.shiftKey )
 	return true ;
-      if ( event.ctrlKey
-	   || this.input.value.length === 0
-	   || !this.cell_modifiable()
-	   || this.input.textLength == selection.end
-	   || this.input.value.length == selection.end
+      if ( selection && ( event.ctrlKey
+			  || this.input.value.length === 0
+			  || !this.cell_modifiable()
+			  || this.input.textLength == selection.end
+			  || this.input.value.length == selection.end
+			  )
 	   )
 	this.cursor_right() ;
       else
