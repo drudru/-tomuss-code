@@ -774,6 +774,15 @@ function new_new_interface()
 		    "<b>Élargir la colonne</b>" + x)) ;
   t.push('</div>') ;
   t.push('<div class="one_line">') ;
+
+  t.push(column_input_attr('modifiable',
+			  [[0,'Personne ne peut modifier à partir du suivi'],
+			   [1,'Les enseignants peuvent modifier la valeur'],
+			   [2,'Les étudiants peuvent modifier leur valeur'],
+			   ])) ;
+
+  t.push('</div>') ;
+  t.push('<div class="one_line">') ;
   t.push(column_input_attr('freezed')) ;
   t.push('</div>') ;
   t.push('<div class="one_line">') ;
