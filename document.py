@@ -643,6 +643,8 @@ la dernière saisie.
 
         value = value.replace('\n','')
         line = self.lines[lin]
+        if value == line[column.data_col].comment:
+            return 'ok.png'
 
         if not self.loading:
             if not self.authorized(page, line[column.data_col]):
