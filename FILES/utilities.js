@@ -1937,10 +1937,11 @@ function current_keydown(event, in_input)
       if ( event.ctrlKey
 	   || this.input.value.length === 0
 	   || !this.cell_modifiable()
-	   || ((selection.end === this.input.textLength ||
-		selection.end === this.input.value.length ||
-		selection.end === 0)
-	       && selection.start === 0)
+	   || (selection && selection.start === 0 
+	       && (selection.end === this.input.textLength ||
+		   selection.end === this.input.value.length ||
+		   selection.end === 0)
+	       )
 	   )
 	this.cursor_left() ;
       else
@@ -1955,11 +1956,12 @@ function current_keydown(event, in_input)
     case 39:
       if ( event.shiftKey )
 	return true ;
-      if ( event.ctrlKey
-	   || this.input.value.length === 0
-	   || !this.cell_modifiable()
-	   || this.input.textLength == selection.end
-	   || this.input.value.length == selection.end
+      if ( selection && ( event.ctrlKey
+			  || this.input.value.length === 0
+			  || !this.cell_modifiable()
+			  || this.input.textLength == selection.end
+			  || this.input.value.length == selection.end
+			  )
 	   )
 	this.cursor_right() ;
       else
