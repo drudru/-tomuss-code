@@ -259,33 +259,33 @@ class Plugin(object):
 
     def is_allowed(self, server):
         if not self.authenticated:
-            return True
+            return True, 'Not authenticated'
         if server.ticket == None:
-            return False
+            return False, 'No ticket'
         if server.ticket.user_name in self.invited:
-            return True
+            return True, 'Because invited'
         if self.teacher is True and not server.ticket.is_a_teacher:
-            return False
+            return False, 'Teacher only'
         if self.teacher is False and server.ticket.is_a_teacher:
-            return False
+            return False, 'Teacher not allowed'
         if self.referent is True and not server.ticket.is_a_referent:
-            return False
+            return False, 'Referent only'
         if self.administrative is True \
            and not server.ticket.is_an_administrative:
-            return False
+            return False, 'Administrative only'
         if self.administrative is False and server.ticket.is_an_administrative:
-            return False
+            return False, 'Administrative not allowed'
         if self.root is True and server.ticket.user_name not in configuration.root:
-            return False
+            return False, 'Only for root'
         if self.abj_master and not server.ticket.is_an_abj_master:
-            return False
+            return False, 'ABJ master only'
         if self.referent_master and not server.ticket.is_a_referent_master:
-            return False
+            return False, 'Referent master only'
         if self.password_ok is True and not server.ticket.password_ok:
-            return False
+            return False, 'Only with good password'
         if self.password_ok is False and server.ticket.password_ok:
-            return False
-        return True
+            return False, 'Only with bad password'
+        return True, 'without condition'
 
     def path_match(self, server):
         path = server.the_path
@@ -510,12 +510,12 @@ def get_menu_for(where, server, with_help=False):
     if with_help:
         for link in links_without_plugins:
             if link.where == where and link.authorized(server):
-                if link.plugin and not link.plugin.is_allowed(server):
+                if link.plugin and not link.plugin.is_allowed(server)[0]:
                     continue # Not allowed by plugin
                 messages.append((link.priority,
                                  link.html(server,None,with_help)))
     for p in plugins:
-        if p.link and p.link.where == where and p.is_allowed(server):
+        if p.link and p.link.where == where and p.is_allowed(server)[0]:
                 messages.append((p.link.priority,
                                 p.link.html(server,p,with_help)))
 
@@ -567,7 +567,8 @@ def execute(server, plugin):
 
 def search_plugin(server):
     for p in plugins:
-        if p.is_allowed(server):
+        # warn('%s %s' % (p, p.is_allowed(server)))
+        if p.is_allowed(server)[0]:
             t = p.path_match(server)
             if t != False:
                 server.the_path = t[1]
@@ -590,7 +591,8 @@ def dispatch_request(server, manage_error=True):
             if to_top is None:
                 if configuration.regtest:
                     to_top = Plugin('bad-url', '/{url_not_possible}',
-                                    function = bad_url_message)
+                                    function = bad_url_message,
+                                    priority=1)
                 else:
                     to_top = Plugin('bad-url', '/{url_not_possible}',
                                     response=307,
@@ -599,7 +601,8 @@ def dispatch_request(server, manage_error=True):
                                         ('Location', '%s/=%s' %
                                          (configuration.server_url,
                                           x.ticket.ticket)),
-                                        ))
+                                        ),
+                                    priority=1)
             p = to_top
         else:
             return False
