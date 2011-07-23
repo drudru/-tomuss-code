@@ -227,7 +227,7 @@ DIV.tipped, DIV.tipped DIV.text { display: inline ; }
 
 DIV.tipped DIV.help { display: none; }
 
-DIV.more { 
+DIV#tip DIV.more { 
   white-space: normal;
   font-weight: bold;
   background-color: inherit ;
@@ -271,9 +271,15 @@ TD.comment, .comment {
   background-position:right top;
 }
 
+TD.comment, #current_input.comment { 
+  background-color: white;
+}
+
 TD.today, #current_input.today, .today { 
   font-weight: bolder ;
 }
+
+TD.default { color: #BBB }
 
 
 SPAN#teachers { font-weight: bold ; }
@@ -586,6 +592,12 @@ DIV.tabs DIV.contents {
   height: 7.6em;
   overflow: hidden ;
 }
+
+#menutop DIV.tabs IMG.phot {
+height: 6em;
+width: auto;
+}
+
 DIV.tabs DIV.contents DIV.content { height: 100% }
 DIV.tabs {
   margin: 2px ;

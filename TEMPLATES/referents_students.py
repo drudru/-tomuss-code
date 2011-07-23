@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 #    TOMUSS: The Online Multi User Simple Spreadsheet
-#    Copyright (C) 2009-2010 Thierry EXCOFFIER, Universite Claude Bernard
+#    Copyright (C) 2009-2011 Thierry EXCOFFIER, Universite Claude Bernard
 #
 #    This program is free software; you can redistribute it and/or modify
 #    it under the terms of the GNU General Public License as published by
@@ -24,8 +24,6 @@ import inscrits
 import configuration
 import _ucbl_
 
-default_master = 'thierry.excoffier'
-
 def init(table):
     _ucbl_.init(table)
     if (table.year, table.semester) != configuration.year_semester:
@@ -33,8 +31,10 @@ def init(table):
 
 
 def create(table):
+    default_master = configuration.root[0]
+
     p = table.new_page('' , data.ro_user, '', '')
-    table.table_attr(p, 'masters', [default_master])
+    table.table_attr(p, 'masters', default_master)
     table.column_change(p,'a','Enseignant','Login','','','F',0,8)
     table.column_change(p,'b','Orientation','Text','','','F',0,3)
     table.column_comment(p, 'b',
@@ -57,10 +57,9 @@ def update_referents(the_ids, table, page):
                 if infos[0] is None:
                     continue
                 login = infos[1][configuration.attr_login][0].lower()
-                line_key = tuple(table.get_lines(login))
-                if len(line_key) == 0:
+                line = tuple(table.get_lines(login))
+                if len(line) == 0:
                     table.cell_change(page, "a", str(len(table.lines)), login)
-                    line_key = table.get_lines(login)
         finally:
             table.unlock()
     

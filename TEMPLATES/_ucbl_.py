@@ -48,14 +48,26 @@ def line_empty(line):
     return True
 
 def get_mails(table, the_ids):
-    for login in list(table.logins()) + table.authors():
-        if login not in the_ids:
-            mail = inscrits.L_batch.mail(login)
-            if mail:
-                the_ids[login] = mail
-            else:
-                warn("No mail for " + login, what="check")
-                
+
+    if not configuration.regtest:
+        # Fast version
+        for x in inscrits.L_batch.query_logins(list(table.logins())
+                                               + table.authors(),
+                                               (configuration.attr_login,
+                                                configuration.attr_mail, )):
+            if x[1]:
+                login = inscrits.login_to_student_id(x[0].lower()).encode('utf-8')
+                the_ids[login] = x[1].encode('utf-8')
+
+    else:
+        for login in list(table.logins()) + table.authors():
+            if login not in the_ids:
+                mail = inscrits.L_batch.mail(login)
+                if mail:
+                    print login, mail
+                    the_ids[login] = mail
+                else:
+                    warn("No mail for " + login, what="check")
 
 
 

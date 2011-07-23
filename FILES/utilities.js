@@ -332,11 +332,13 @@ function compute_tip(element)
   if ( element.offsetHeight === 0 )
     return '' ;
 
-  var value = element.value ;
+  var value = element.selectedText ;
   if ( ! value )
-    value = '' ;
-  else
+    value = element.value ;
+  if ( value )
     value = '<div class="more">' + html(value) + '</div>' ;
+  else
+    value = '' ;
 
   var t = tip_top(element) ;
 
@@ -1397,6 +1399,7 @@ function set_select_by_value(element, value)
       if ( options[i].value == value || options[i].text == value )
 	{
 	  element.selectedIndex = i ;
+	  element.selectedText = options[i].text ;
 	  return ;
 	}
     }
@@ -1453,7 +1456,7 @@ function update_attribute_value(e, attr, table, editable)
 	  if ( the_current_cell.column && attr.tip[the_current_cell.column.type] )
 	    {
 	      try {
-		tip_top(e).firstChild.firstChild.innerHTML = attr.tip[the_current_cell.column.type] + '<hr><b>' + html(e.value) ;
+		tip_top(e).firstChild.firstChild.innerHTML = attr.tip[the_current_cell.column.type] ;
 	      }
 	      catch(e) {
 		// XXX IE has an unknown exception here...
@@ -1562,12 +1565,12 @@ function current_update_cell_headers()
       s.push('<tr><td>' + date(cell.date) + '<td>'
 	     + cell.get_author() + '<td>'
 	     + html(cell.value) + '</tr>') ;
-      var h = cell.history.split('),') ;
+      var h = cell.history.split('),·') ;
       h.pop() ;
       h.reverse() ;
       for(var i in h)
 	{
-	  i = h[i].split('(') ;
+	  i = h[i].split('\n(') ;
 	  var date_author = i[1].split(' ') ;
 	  s.push('<tr><td>' + date(date_author[0]) + '<td>'
 		 + get_author(date_author[1])
@@ -1621,7 +1624,7 @@ function current_update_headers_real()
   if ( modification_date )
     modification_date.innerHTML = date(this.cell.date) ;
 
-  var tip = document.getElementById('tip') ;
+  var tip = get_tip_element() ;
   update_student_information(this.line) ;
   this.update_cell_headers() ;
   this.update_column_headers() ;
@@ -1640,6 +1643,8 @@ function current_update_headers_real()
 	  tip.innerHTML = compute_tip(tip.tip_target) ;
 	  set_tip_position(tip.tip_target) ;
 	}
+      else
+	hide_the_tip_real() ;
     }
 
   // Remove green square from top menu
@@ -1915,8 +1920,8 @@ function current_keydown(event, in_input)
   // __d('alt=' + event.altKey + ' ctrl=' + event.ctrlKey + ' key=' + key + ' charcode=' + event.charCode + ' which=' + event.real_event.which + '\n') ;
 
   var selection ;
-  if ( event.target === this.input )
-    selection = get_selection(this.input) ;
+  if ( event.target.tagName === 'INPUT' )
+    selection = get_selection(event.target) ;
 
   switch(key)
     {
@@ -1978,12 +1983,15 @@ function current_keydown(event, in_input)
 	      return false ;
 	    }
 	}
-      // completion only in table cells
-      if (  event.target === this.input && key >= 64
-	    && event.ctrlKey === false
-	    && this.input.value.length == selection.end ) // No control code
+      // completion
+      if ( selection && key >= 64 && event.ctrlKey === false
+	    && event.target.value.length == selection.end ) // No control code
 	{
-	  setTimeout("the_current_cell.do_completion()", 100) ;
+	  if ( do_completion_for_this_input == undefined )
+	    {
+	      do_completion_for_this_input = event.target ;
+	      setTimeout('the_current_cell.do_completion()', 100) ;
+	    }
 	}
       return true ;
     }
@@ -1991,21 +1999,67 @@ function current_keydown(event, in_input)
   return false ;
 }
 
+var do_completion_for_this_input ;
+
 function current_do_completion()
 {
+  var completion ;
+  var input = do_completion_for_this_input ;
+
+  do_completion_for_this_input = undefined ;
+
   alert_merged = '' ;
-  var completion = this.column.real_type.cell_test(this.input.value,
-						   this.column) ;
+  if ( input == this.input )
+    {
+      completion = this.column.real_type.cell_test(input.value, this.column) ;
+    }
+  else if ( input.id == 't_column_columns' )
+    {
+      var names = input.value.split(' ') ;
+      if ( names[0] === '' )
+	return ;
+      var last = names[names.length-1] ;
+      completion = '' ;
+      for(var column in columns)
+	{
+	  column = columns[column] ;
+	  if ( column.title.substr(0, last.length) == last )
+	    {
+	      names[names.length-1] = column.title ;
+	      completion = names.join(' ') ;
+	      break ;
+	    }
+	}
+    }
+  else
+    return ; // No completion
+
   alert_merged = false ;
   if ( completion && completion.substr
-       && completion.substr(0, this.input.value.length).toLowerCase()
-       == this.input.value.toLowerCase())
+       && completion.substr(0, input.value.length).toLowerCase()
+       == input.value.toLowerCase())
     {
-      completion = completion.substr(this.input.value.length) ;
-      this.input.value += completion ;
-      set_selection(this.input,
-		    this.input.value.length - completion.length,
-		    this.input.value.length) ;
+      completion = completion.substr(input.value.length) ;
+
+      if (window.KeyEvent)
+	{
+	  // The following code reset horizontal scroll in the input field
+	  // It is not usable
+	  // input.value += completion
+	  for(var i=0; i<completion.length; i++)
+	    {
+	      var evt = document.createEvent("KeyboardEvent");
+	      evt.initKeyEvent("keypress", true, true, null, false, false,
+			       false, false, 0, completion.charCodeAt(i));
+	      input.dispatchEvent(evt);
+	    }
+	}
+      else
+	input.value += completion ;
+
+      set_selection(input,
+		    input.value.length - completion.length,
+		    input.value.length) ;
     }
 }
 

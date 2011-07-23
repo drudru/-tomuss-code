@@ -278,6 +278,7 @@ if __name__ == "__main__":
     warn('Backup Database:' + configuration.backup + configuration.db)
     warn("Server Ready on:" + configuration.server_url)
 
+    utilities.mkpath(os.path.join("LOGS", "TOMUSS"))
     logs = open(os.path.join("LOGS", "TOMUSS",
                              str(time.localtime()[0]) +".times"), "a")
 

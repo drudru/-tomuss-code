@@ -561,8 +561,8 @@ function new_new_interface()
   column_attributes['fill'].title = '<b>Remplir</b> la colonne avec des valeurs' ;
   column_attributes['export'].title = '<b>Exporter</b> la colonne pour APOGÉE' ;
   column_attributes['delete'].title = '<b>Détruire</b> définitivement la colonne' ;
-  column_attributes['position'].title = "Sauve position" ;
-  column_attributes['width'].title = "Sauve largeur" ;
+  column_attributes['position'].title = "position" ;
+  column_attributes['width'].title = "largeur" ;
 
   table_attributes['autosave'].title = 'Enregistrement automatique' ;
   table_attributes['t_import'].title = '<b>Importer</b> des définitions de colonnes' ;
@@ -570,6 +570,13 @@ function new_new_interface()
   table_attributes['bookmark'].title = "Créer un signet avec les <b>options d'affichage</b>" ;
   table_attributes['linear'].title = "Linéaire" ;
   table_attributes['update_content'].title = "Forcer la mise à jour" ;
+
+  var doc_link = '<div class="one_line">' +
+    hidden_txt('<a href="_URL_/doc_table.html" target="_blank">' +
+	       'Documentation complète et intéractive</a>',
+	       "Cliquez sur le lien pour avoir tous les détails sur<br>" +
+	       "l'utilisation de ce tableur") + '</div>' ;
+
 
   // CELLULE / Cellule
 
@@ -613,12 +620,7 @@ function new_new_interface()
   // CELLULE / ?
 
   t = [] ;
-  t.push('<div class="one_line">') ;
-  t.push(hidden_txt('<a href="_URL_/doc_table.html" target="_blank">' +
-		    'Documentation complète et intéractive</a>',
-		    "Cliquez sur le lien pour avoir tous les détails sur<br>" +
-		    "l'utilisation de ce tableur")) ;
-  t.push('</div>') ;
+  t.push(doc_link) ;
   t.push('<div class="one_line">') ;
   t.push(hidden_txt('<span class="ro">S</span>' +
 		    '<span class="comment">t</span>' +
@@ -760,17 +762,20 @@ function new_new_interface()
 			   )) ;
   t.push('</div>') ;
   t.push('<div class="one_line" style="text-align:center">') ;
-  t.push(hidden_txt('<a href="javascript:do_move_column_left();" style="font-size:130%">«--</a>',
+  t.push(hidden_txt('<img src="' + url + '/prev.gif" style="height:1em" onclick="do_move_column_left();">',
 		    "<b>Décale la colonne vers la gauche</b>" + x)) ;
-  t.push('&nbsp;&nbsp;'+column_input_attr('position')+'&nbsp;&nbsp;') ;
-  t.push(hidden_txt('<a href="javascript:do_move_column_right();" style="font-size:130%">--»</a>',
+  t.push(column_input_attr('position')) ;
+  t.push(hidden_txt('<img src="' + url + '/next.gif" style="height:1em" onclick="do_move_column_right();">',
 		    "<b>Décale la colonne vers la droite</b>" + x)) ;
+  t.push('&nbsp;') ;
+  /*
   t.push('</div>') ;
   t.push('<div class="one_line" style="text-align:center">') ;
-  t.push(hidden_txt('<a href="javascript:smaller_column();" style="font-size:130%">»-«</a>',
+  */
+  t.push(hidden_txt('<a href="javascript:smaller_column();"><img src="' + url + '/next.gif" style="height:1em;border:0"><img src="' + url + '/prev.gif" style="height:1em;border:0"></a>',
 		    "<b>Amincir la colonne</b>" + x)) ;
-  t.push('&nbsp;&nbsp;'+column_input_attr('width')+'&nbsp;&nbsp;') ;
-  t.push(hidden_txt('<a href="javascript:bigger_column();" style="font-size:130%">«-»</a>',
+  t.push(column_input_attr('width')) ;
+  t.push(hidden_txt('<a href="javascript:bigger_column();"><img src="' + url + '/prev.gif" style="height:1em;border:0"><img src="' + url + '/next.gif" style="height:1em;border:0"></a>',
 		    "<b>Élargir la colonne</b>" + x)) ;
   t.push('</div>') ;
   t.push('<div class="one_line">') ;
@@ -816,6 +821,7 @@ function new_new_interface()
   // COLUMN / Help
 
   t = [] ;
+  t.push(doc_link) ;
   t.push('<div class="one_line">') ;
   t.push(hidden_txt('Ce que vous faites est sauvegardé automatiquement',
 		    "Quand vous saisissez une note dans une cellule<br>"
@@ -951,6 +957,7 @@ function new_new_interface()
 
   o.push(['?',
 	  '<div class="scroll_auto">'
+	  + doc_link
 	  + 'Tout le monde peut remplir des cases vides. '
 	  + 'Mais seul les responsables de la table peuvent modifier '
 	  + 'les notes et commentaires saisis par les autres enseignants. '
@@ -1004,10 +1011,7 @@ var w ;
 	    "Date ou la cellule a été modifiée pour la dernière fois.")+
    one_line('<span id="t_history"></span>',
 	    "Valeurs précédentes prises par la cellule.<br>"+
-	    "De la plus ancienne à la plus récente.<br>" +
-	    "Le nom de la personne qui a fait la modification<br>" +
-	    "est indiqué si la valeur précédente n'était<br>" +
-	    "pas saisie par elle.") +
+	    "De la plus ancienne à la plus récente.") +
    '</td></tr></table><td class="space"><td class="blocktop">' +
    column_input_attr('title', 'one_line') +
    '<div>' ;
@@ -1148,11 +1152,12 @@ function popup_close()
   element_focused = undefined ;
   var e = document.getElementById('popup_id') ;
   if ( e )
-    if ( e.getElementsByTagName('TEXTAREA')[0] )
-      popup_old_values[e.className] = e.getElementsByTagName('TEXTAREA'
-							     )[0].value ;
-    else
+    {
+      if ( e.getElementsByTagName('TEXTAREA')[0] )
+	popup_old_values[e.className] = e.getElementsByTagName('TEXTAREA'
+							       )[0].value ;
       e.parentNode.removeChild(e);
+    }
 }
 
 function parse_lines(text)
@@ -1167,20 +1172,34 @@ function parse_lines(text)
   return text ;
 }
 
+function popup_text_area()
+{
+  return document.getElementById('popup_id').getElementsByTagName('TEXTAREA')[0] ;
+}
+
 function popup_value()
 {
-  var e = document.getElementById('popup_id') ;
-  text_area = e.getElementsByTagName('TEXTAREA')[0] ;
-  return parse_lines(text_area.value) ;
+  return parse_lines(popup_text_area().value) ;
 }
 
 function popup_set_value(value)
 {
-  var e = document.getElementById('popup_id') ;
-  text_area = e.getElementsByTagName('TEXTAREA')[0] ;
+  var text_area = popup_text_area() ;
   text_area.value = value ;
   text_area.focus() ;
   text_area.select() ;
+}
+
+function popup_get_element()
+{
+  var popup = document.getElementById('popup') ;
+  if ( ! popup )
+    {
+      popup = document.createElement('div') ;
+      popup.id = 'popup' ;
+      document.getElementsByTagName('BODY')[0].appendChild(popup) ;
+    }
+  return popup ;
 }
 
 function popup_is_open()
@@ -1188,22 +1207,20 @@ function popup_is_open()
   return !! document.getElementById('popup_id') ;
 }
 
-
 function popup_column()
 {
-  return document.getElementById('popup').column ;
+  return popup_get_element().column ;
 }
 
 function create_popup(html_class, title, before, after, default_answer)
 {
   popup_close() ;
 
-  var popup = document.getElementById('popup') ;
   var new_value ;
 
   if ( default_answer )
     {
-      var new_value = popup_old_values['import_export ' + html_class] ;
+      new_value = popup_old_values['import_export ' + html_class] ;
       if ( new_value === undefined )
 	new_value = default_answer ;
       new_value = html(new_value) ;
@@ -1214,12 +1231,14 @@ function create_popup(html_class, title, before, after, default_answer)
   var s = '<div id="popup_id" class="import_export ' + html_class
            + '"><h2>' + title + '</h2>' + before ;
   if ( default_answer !== false )
-    s += '<TEXTAREA ROWS="10" class="popup_input" onfocus="element_focused=this;">'+ new_value + '</TEXTAREA>' ;
+    s += '<TEXTAREA WRAP="off" ROWS="10" class="popup_input" onfocus="element_focused=this;">'+ new_value + '</TEXTAREA>' ;
 
   s += '<BUTTON class="close" OnClick="popup_close()">&times;</BUTTON>'+after ;
 
+  var popup = popup_get_element() ;
   popup.innerHTML = s ;
-  popup.column = the_current_cell.column ;
+  if ( the_current_cell )
+    popup.column = the_current_cell.column ;
 
   if ( default_answer !== false )
     popup.getElementsByTagName('TEXTAREA')[0].focus() ;
@@ -1287,15 +1306,13 @@ function insert_middle()
   
   if ( ! scrollbar_right )
     w += '<div id="vertical_scrollbar"></div>' ;
-  w += '<div id="divtable" class="colored"><div id="hover"></div>'
-    + '<div id="tip"></div></div>' ;
+  w += '<div id="divtable" class="colored"><div id="hover"></div></div>' ;
   if ( scrollbar_right )
     w += '<div id="vertical_scrollbar"></div>' ;
   if ( window.location.pathname.search('=new-interface=') != -1 )
     w += hs ;
 
-  w += '</div><div id="popup"></div>'
-    + '</div><div id="loading_bar"><div></div></div>' ;
+  w += '</div></div><div id="loading_bar"><div></div></div>' ;
   document.write(w) ;
 }
 

@@ -477,7 +477,7 @@ d'Internet Explorer.
       <guid>35</guid>
     </item>
     <item>
-      <title>21/05/2011 : Version 2.14.10</title>
+      <title>01/07/2011 : Version 2.14.10</title>
       <link>http://tomuss.univ-lyon1.fr/</link>
       <description>
 La recherche de personnes sur la page d'accueil est plus rapide,
@@ -494,6 +494,33 @@ Par exemple :
 Par contre, la liste est maintenant tronquée si elle trop longue.
       </description>
       <guid>36</guid>
+    </item>
+    <item>
+      <title>09/07/2011 : Version 2.14.11</title>
+      <link>http://tomuss.univ-lyon1.fr/</link>
+      <description>
+Vous pouvez maintenant essayer la nouvelle version de l'interface utilisateur.
+Quand vous êtes dans une table, vous cliquez sur le lien &amp;beta;
+qui est à coté de la documentation.
+      </description>
+      <guid>37</guid>
+    </item>
+    <item>
+      <title>17/07/2011 : Version 2.14.13</title>
+      <link>http://tomuss.univ-lyon1.fr/</link>
+      <description>
+Les améliorations les plus visibles sont :
+&lt;ul&gt;
+&lt;li&gt; L'exportation de valeurs vers un tableur est maintenant plus facile.
+&lt;li&gt; Maintenant les valeurs par défauts dans les cellules apparaissent
+           comme des fantômes dans les cellules
+&lt;li&gt; L'interface de remplissage de colonne a été modifié pour
+           être plus simple.
+&lt;li&gt; Il y a maintenant l'auto-complétion des noms de colonne
+           quand on saisi une formule.
+&lt;/ul&gt;
+      </description>
+      <guid>38</guid>
     </item>
 
   </channel>

@@ -31,4 +31,9 @@ class ColumnFill(ColumnAttr):
     title = 'Remp.'
     default_value = 1
     check_and_set = 'function() { return 1; }'
-    css = "DIV.fill_column_div { border: 4px solid red ; }"
+    css = """
+    DIV.fill_column_div { border: 4px solid red ; }
+    #stop_the_auto_save { float:right; font-size:70%; border:1px solid red}
+    DIV.fill_column_div BUTTON, DIV.fill_column_div SELECT { font-size: 100% }
+    DIV.fill_column_div TEXTAREA { height: 5em }
+    """

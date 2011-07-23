@@ -180,6 +180,27 @@ authentication_requests = []
 
 authentication_redirect = None
 
+def update_ticket(tick):
+    tick.is_a_teacher = inscrits.L_fast.is_a_teacher(tick.user_name)
+
+    if tick.is_a_teacher:
+        tick.is_an_administrative = inscrits.L_fast.is_an_administrative(
+            tick.user_name)
+        tick.is_an_abj_master = inscrits.L_fast.is_an_abj_master(
+            tick.user_name)
+        tick.is_a_referent_master = referent.is_a_referent_master(
+            tick.user_name)
+        tick.is_a_referent = inscrits.L_fast.is_a_referent(tick.user_name)
+        # Must be the last attribute to be defined
+        tick.password_ok = inscrits.L_fast.password_ok(tick.user_name)
+    else:
+        tick.is_an_abj_master     = False
+        tick.is_a_referent_master = False
+        tick.is_a_referent        = False
+        tick.is_an_administrative = False
+        # Must be the last attribute to be defined
+        tick.password_ok          = True
+
 def authentication_thread():
     ticket.remove_old_files()
     while True:
@@ -201,30 +222,9 @@ def authentication_thread():
                         x.wfile.close()
                         x.log_time('redirection')
                         continue # Redirection done
-                
-                what = 'is-teacher?'
-                tick.is_a_teacher = inscrits.L_fast.is_a_teacher(tick.user_name)
-                
-                if tick.is_a_teacher:
-                    what = 'is-administrative?'
-                    tick.is_an_administrative = inscrits.L_fast.is_an_administrative(tick.user_name)
-                    what = 'is-abj-master?'
-                    tick.is_an_abj_master = inscrits.L_fast.is_an_abj_master(
-                        tick.user_name)
-                    what = 'is-referent-master?'
-                    tick.is_a_referent_master = referent.is_a_referent_master(tick.user_name)
-                    what = 'is-referent?'
-                    tick.is_a_referent = inscrits.L_fast.is_a_referent(tick.user_name)
-                    # Must be the last attribute to be defined
-                    what = 'password-ok?'
-                    tick.password_ok = inscrits.L_fast.password_ok(tick.user_name)                        
-                else:
-                    tick.is_an_abj_master     = False
-                    tick.is_a_referent_master = False
-                    tick.is_a_referent        = False
-                    tick.is_an_administrative = False
-                    # Must be the last attribute to be defined
-                    tick.password_ok          = True
+
+                what = 'update-ticket'
+                update_ticket(tick)
 
                 x.log_time('authentication')
                 x.start_time_old = x.start_time

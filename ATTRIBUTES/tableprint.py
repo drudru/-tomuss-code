@@ -44,6 +44,14 @@ TABLE.printable_table TR.separatorvertical TD {
 TABLE.printable_table TH {
    border: 1px solid black ;
 }
+
+DIV.textual_table TEXTAREA {
+   white-space: nowrap;
+   overflow-x:scroll;
+   }
+
+DIV.textual_table { border: 4px solid green ;}
+
 '''
 
 

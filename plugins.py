@@ -64,6 +64,7 @@ def plugins_tomuss():
     import PLUGINS.send_mail
     import PLUGINS.reload_plugins
     import PLUGINS.picture
+    import PLUGINS.change_identity
     plugins_tomuss_more()
 
     # Get plugins links from suivi in order to create home page
@@ -78,9 +79,10 @@ def plugins_tomuss():
     plugin.plugins = plugins
     init_plugins()
 
-    links = [p.link for p in suivi_plugins if p.link]
-    print 'Links added from suivi:', [link.text for link in links]
-    plugin.links_without_plugins += links
+    for p in suivi_plugins:
+        if p.link:
+            print 'Links added from suivi:', p.link
+            plugin.add_links(p.link)
 
 #REDEFINE
 # This function do the import of LOCAL Plugins for the 'suivi' server
@@ -109,6 +111,7 @@ def plugins_suivi():
     import PLUGINS.log
     import PLUGINS.evaluate
     import PLUGINS.picture
+    import PLUGINS.change_identity
     plugins_suivi_more()
     init_plugins()
 

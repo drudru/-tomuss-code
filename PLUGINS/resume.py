@@ -36,7 +36,7 @@ class Resume():
     default_sort_column = 2
 
 def resume(server):
-    """Resume"""
+    """Resume the number of cells used in the given tables"""
     server.the_file.write(document.table_head(server.year,
                                               server.semester,
                                               server.ticket.ticket,

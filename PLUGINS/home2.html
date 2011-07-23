@@ -74,9 +74,9 @@
 	  <table class="uelist searchresult">
 	    <tr><th class="student_id"><script>hidden('Recherche','Indiquez des <b>débuts</b> de nom, prénom ou identifiant<br>Par exemple : <b>t ex</b>')</script></th></tr>
 	    <tr class="search"><td>
-		 <script>hidden('<input style="border: 1px outset grey;" type="button" value="Chercher" onclick="update_students(document.getElementById(\'search_name\').value,true);">',
+		 <script>hidden('<input style="border: 1px outset grey;" type="button" value="Chercher" onclick="update_students()">',
 		  'Ce bouton permet de lancer la recherche,<br>si vous n\'avez pas de clavier') ;
-		</script> : <input class="search_field" id="search_name" class="keyword" onkeyup="if ( this.value != this.old_value ) { update_students(this.value); this.old_value = this.value ; }" onchange="if ( this.value != this.old_value ) { update_students(this.value); this.old_value = this.value ; }" value="">
+		</script> : <input class="search_field" id="search_name" class="keyword" onkeyup="update_students()" onchange="update_students()" value="">
 		</td></tr>
 	  </table>
 	  <div id="students_list"></div>

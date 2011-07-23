@@ -521,18 +521,8 @@ class Table(object):
 
         old_value = str(cell.value)
         new_value = str(value)
-        if old_value == new_value:
-            if cell.author == ro_user and page.user_name == rw_user:
-                # This come here only by the way of _ucbl_.py
-                # We want to allow everybody to change the value
-                pass
-            elif cell.author != ro_user and page.user_name == ro_user:
-                # This come here only by the way of _ucbl_.py
-                # When user entered data is "rewrote" by ro_user
-                pass
-            else:
-                return 'ok.png'
-            
+        if old_value == new_value and cell.author == page.user_name:
+            return 'ok.png'            
 
         # if isinstance(value, str) and value.find('.') != -1:
         if column.type.name == 'Note':
@@ -551,7 +541,11 @@ class Table(object):
                 try:
                     self.the_key_dict[login].remove(lin)
                 except:
-                    utilities.warn(login + ' ' + lin + ' ' + repr(self.the_key_dict[login]))
+                    if login:
+                        utilities.warn(str(page) + ' old_login=' + login
+                                       + ' new_login=' + new_value
+                                       + ' lin=' + lin
+                                       + ' ' + repr(self.the_key_dict[login]))
 
             login = utilities.the_login(new_value)
             if login in self.the_key_dict:
@@ -649,6 +643,8 @@ la dernière saisie.
 
         value = value.replace('\n','')
         line = self.lines[lin]
+        if value == line[column.data_col].comment:
+            return 'ok.png'
 
         if not self.loading:
             if not self.authorized(page, line[column.data_col]):
@@ -892,7 +888,7 @@ la dernière saisie.
         """Update the default columns of the table.
         This can be called by the TEMPLATE 'check' method
         """
-        if not table.modifiable:
+        if not self.modifiable:
             return
         ro_page = self.pages[0]
         locked = self.the_lock.locked()
@@ -1062,7 +1058,14 @@ la dernière saisie.
     def backtrace_html(self):
         return "Table: " + str(self)
 
-
+    def readable_by(self, ticket):
+        if (self.private
+            and ticket.user_name not in self.masters 
+            and ticket.user_name not in configuration.root
+            ):
+            warn('Unauthorized access', what='table')
+            return False
+        return True
 
 def send_alert(text):    
     for atable in tables_values():
@@ -1140,11 +1143,8 @@ def table(year, semester, ue, page=None, ticket=None, ro=False, create=True,
     if page == None:
         if ticket == None:
             return t
-        if t.private:
-            if ticket.user_name not in t.masters \
-                   and ticket.user_name not in configuration.root:
-                warn('Unauthorized access', what='table')
-                return None, None
+        if not t.readable_by(ticket):
+            return None, None
         # The new page may append work to check_students_in_tables
         # And the work is done without call to 'table'.
         # So possible simultaneous execution is possible.

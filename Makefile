@@ -23,7 +23,7 @@ clean:
          done || true
 
 tags:
-	etags *.py */*.py */*.js
+	etags $$(find . \( -name '*.js' -o -name '*.py' \) -print)
 
 regtest:
 	cd REGTEST_SERVER ; ./tests.py

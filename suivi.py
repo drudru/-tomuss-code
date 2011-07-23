@@ -54,8 +54,8 @@ class MyRequestBroker(utilities.FakeRequestHandler):
         # self.rfile.close()
         try:
             self.do_GET_real()
-        except:            
-            utilities.send_backtrace(repr(self.header),
+        except:
+            utilities.send_backtrace('',
                                      subject='GET path = ' + self.path)
 
     def do_GET_real(self):
@@ -167,6 +167,7 @@ if __name__ == "__main__":
                    ro=True, create=False)
     warn("Configuration table loaded, do_not_display=%s" % repr(configuration.do_not_display))
 
+    utilities.mkpath(os.path.join("LOGS", "SUIVI%d" % server_port))
     logs = open(os.path.join("LOGS", "SUIVI%d" % server_port,
                              str(time.localtime()[0]) + '.connections'), "a")
     time_logs = open(os.path.join("LOGS", "SUIVI%d" % server_port,

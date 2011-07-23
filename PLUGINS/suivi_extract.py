@@ -24,22 +24,26 @@ import document
 import utilities
 import inscrits
 
-# http://pundit.univ-lyon1.fr:8891/2009/Automne/extract/UE-INF1001L:TD1:TD4/UE-MAT1001L:Test_rentrée:CC2
+# /2011/Printemps/extract/UE-INF1001L:TD1:TD4/UE-MAT1001L:CC1:CC2
 
-
-
-def display(f, year, semester, path):
+def display(server):
+    f, year, semester = server.the_file, server.year, server.semester
     # Create dict of all tables
     tables = []
     students = {}
     nr_cols = 0
-    for what in path:
+    for what in server.the_path:
         what = what.split(':')
         tables.append(
             (document.table(year, semester, what[0], ro=True, create=False),
              nr_cols,
              what[1:]))
         nr_cols += len(what)-1
+        if not tables[-1][0].readable_by(server.ticket):
+            f.write('Vous n\'avez pas le droit de lire ' + tables[-1][0].ue)
+            f.close()
+            return
+
   
     # Create dict of all students, with the good number of columns
     for table, position, columns in tables:
@@ -66,6 +70,8 @@ def display(f, year, semester, path):
             data_col = column.data_col
             for line in table.lines.values():
                 s = utilities.the_login(line[0].value)
+                if s == '':
+                    continue
                 students[s][i] = (
                     table.lines.line_compute_js(line) +
                     '<script>document.write(line[' +
@@ -103,31 +109,30 @@ def page(server):
     """Extract named columns from tables, display as an HTML table
              /extract/UE-XXXXX:Column1:Column2/UE-YYYY:ColumnX:ColumnY...
     """
-    display(server.the_file, server.year, server.semester,
-            server.the_path)
+    display(server)
 
 plugin.Plugin('suivi_extract', '/extract/{*}', function=page, teacher=True,
               launch_thread = True,
               )
 
-
-
-
-
-
-def display_fusion(f, year, semester, path,
+def display_fusion(server,
                    with_inscrit=False, with_author=False, with_column=True):
-    # Create dict of all tables
+    f, year, semester = server.the_file, server.year, server.semester
     tables = []
     students = {}
     nr_cols = 0
-    for what in path:
+    for what in server.the_path:
         what = what.split(':')
         table = document.table(year, semester, what[0], ro=True, create=False)
         if table is None:
             f.write('Je ne trouve pas la table ' + what[0])
             f.close()
             return
+        if not table.readable_by(server.ticket):
+            f.write('Vous n\'avez pas le droit de lire ' + what[0])
+            f.close()
+            return
+
         coli = table.column_inscrit()
         if coli is None:
             continue
@@ -197,8 +202,7 @@ def fusion(server):
     """Fusion of named columns from tables, display as an HTML table
              /fusion/UE-INF2011L:a/UE-INF2012L:
     """
-    display_fusion(server.the_file, server.year, server.semester,
-            server.the_path)
+    display_fusion(server)
 
 plugin.Plugin('fusion', '/fusion/{*}',
               function=fusion, teacher=True,
@@ -209,8 +213,7 @@ def fusion_inscrit_author(server):
     """Fusion of named columns from tables, display as an HTML table
              /fusion_inscrit_author/UE-INF2011L:a/UE-INF2012L:
     """
-    display_fusion(server.the_file, server.year, server.semester,
-                   server.the_path,
+    display_fusion(server,
                    with_inscrit=True, with_author=True, with_column=False)
 
 plugin.Plugin('suivi_fusion_inscrit_author', '/fusion_inscrit_author/{*}',

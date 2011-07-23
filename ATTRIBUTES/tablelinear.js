@@ -379,7 +379,8 @@ function linear_w_real()
     }
 }
 
-setInterval(linear_w_real, 100) ;
+if ( window.location.pathname.search('/=linear=') != -1 )
+  setInterval(linear_w_real, 100) ;
 
 function linear_w(x)
 {

@@ -49,10 +49,12 @@ class UE:
                 abjus += 1
             elif column.type.name == 'Note':
                 try:
+                    value = float(value)
                     min, max = column.min_max()
-                    summation += (float(value)-min)/(max-min)
-                    nr += 1
-                    prst += 1
+                    if value >= min and value <= max:
+                        summation += (value - min) / (max - min)
+                        nr += 1
+                        prst += 1
                 except ValueError:
                     pass
 

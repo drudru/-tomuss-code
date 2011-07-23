@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 #    TOMUSS: The Online Multi User Simple Spreadsheet)
-#    Copyright (C) 2008 Thierry EXCOFFIER, Universite Claude Bernard
+#    Copyright (C) 2008-2011 Thierry EXCOFFIER, Universite Claude Bernard
 #
 #    This program is free software; you can redistribute it and/or modify
 #    it under the terms of the GNU General Public License as published by
@@ -21,18 +21,17 @@
 
 import plugin
 import utilities
-import subprocess
-from tablestat import les_ues
-import os
+import PIL.Image
+import suivi_student
 
 def student_icone(server):
-    """Generate an icone summarising the student information
+    """Generate an icon summarising the student information
     from all the tables."""
     login = server.the_student
     
     prst = []
     note = []
-    for t in les_ues(server.year, server.semester):
+    for t in suivi_student.the_ues(server.year, server.semester, login):
         for line in t.get_lines(login):
             prst += t.lines.line_indicator(line, what='Prst')
             note += t.lines.line_indicator(line, what='Note')
@@ -44,26 +43,20 @@ def student_icone(server):
     note = [v[1] for v in note]
                 
     n = max(int(len(prst)**0.5), int(len(note)**0.5), 3) + 1
-    s = ["\356\356\356"] * ((2*n+1) * n)
-    for i in range(n): s[n+i*(2*n+1)] = '\377\377\377'
+    s = [(238, 238, 238)] * ((2*n+1) * n)
+    for i in range(n): s[n+i*(2*n+1)] = (255, 255, 255)
 
     for i, vv in enumerate(prst):
         vv = int(vv * 255)
-        s[int(i/n)*(2*n+1) + i%n] = chr(255-vv) + chr(vv) + chr(128)
+        s[int(i/n)*(2*n+1) + i%n] = (255-vv, vv, 128)
 
     for i, vv in enumerate(note):
         vv = int(vv * 255)
-        s[int(i/n)*(2*n+1) + i%n + n+1] = chr(255-vv) + chr(vv) + chr(128)
+        s[int(i/n)*(2*n+1) + i%n + n+1] = (255-vv, vv, 128)
 
-    process = subprocess.Popen("pnmtopng",
-                               stdin = subprocess.PIPE,
-                               stdout = server.the_file,
-                               )
-
-    process.stdin.write("P6\n%d %d\n255\n" % (2*n+1, n) + ''.join(s))
-    process.stdin.close()
-    # os.waitpid(process.pid, 0)
-
+    im = PIL.Image.new("RGB", (2*n+1, n))
+    im.putdata(s)
+    im.save(server.the_file, 'PNG')
 
 plugin.Plugin('icone', '/{_I}',
               function=student_icone,
@@ -72,7 +65,7 @@ plugin.Plugin('icone', '/{_I}',
               mimetype = 'image/png',
               )
 
-plugin.Plugin('icone', '/{?}/{_I}',
+plugin.Plugin('icone_withticket', '/{?}/{_I}',
               function=student_icone,
               authenticated=False,
               # launch_thread=True,

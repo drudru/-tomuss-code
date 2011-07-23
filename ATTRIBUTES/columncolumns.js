@@ -59,12 +59,13 @@ function set_columns(value, column, xcolumn_attr)
 		       1000) ;
 	  else
 	    {
-	      alert_append("Je ne connais pas le titre de colonne '"
-			   + column.average_from[i]
-			   + "' qui est utilisé dans la moyenne de la colonne "
-			   + column.title + "\n"
-			   + "LA LISTE DES COLONNES N'A PAS ÉTÉ SAUVEGARDÉE"
-			   ) ;
+	      if ( column_modifiable_attr('columns', column) )
+		alert_append("Je ne connais pas le titre de colonne '"
+			     + column.average_from[i]
+			     + "'  utilisé dans la moyenne de la colonne "
+			     + column.title + "\n"
+			     + "LA LISTE DES COLONNES N'A PAS ÉTÉ SAUVEGARDÉE"
+			     ) ;
 	      column.average_columns = [] ;
 	      return null ; // Do not save, but leaves user input unchanged
 	    }

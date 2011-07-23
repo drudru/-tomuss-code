@@ -22,6 +22,8 @@
 
 var free_print_headers = ['Présent', 'Signature copie rendue'] ;
 
+var textual_table = '' ;
+
 function printable_display_page(lines, title, page_break)
 {
 
@@ -90,7 +92,8 @@ function printable_display_page(lines, title, page_break)
     }
   if ( tierstemps != 'seulement' )
     {
-      s.push('<table class="' + html_class + '"><thead>') ;
+      var t = [], txt_line ;
+      s.push('<table id="table_to_print" class="' + html_class + '"><thead>') ;
       for(var header in headers_to_display)
 	{
 	  if ( ! headers_to_display[header] )
@@ -102,6 +105,7 @@ function printable_display_page(lines, title, page_break)
 		 + 'do_printable_display=true;">'
 		 + header
 		 + '</td>') ;
+	  txt_line = [] ;
 	  for(var c in sorted)
 	    {
 	      c = sorted[c] ;
@@ -114,15 +118,20 @@ function printable_display_page(lines, title, page_break)
 			     + c[1] + '\').value = \'\'">'
 			     + html(c[0])
 			     + '</th>') ;
+		      txt_line.push(c[0]) ;
 		    }
 		  else
-		    s.push('<th>&nbsp;</th>') ;
+		    {
+		      txt_line.push('') ;
+		      s.push('<th>&nbsp;</th>') ;
+		    }
 		  continue ;
 		}
 	      if ( ! columns_to_display[c] )
 		continue ;
 
 	      v = columns[c][header] ;
+	      txt_line.push(v) ;
 	      if ( v.length > 30 )
 		th_class = ' smaller' ;
 	      else if ( v.length > 10 )
@@ -143,6 +152,7 @@ function printable_display_page(lines, title, page_break)
 		     + v + '</th>') ;
 	    }
 	  s.push('</tr>') ;
+	  t.push( txt_line.join('\t') ) ;
 	}
       s.push('<thead>') ;
       i = 1 ;
@@ -156,12 +166,13 @@ function printable_display_page(lines, title, page_break)
 	  s.push('<tr' + html_class + '><td class="hidden_on_paper" onclick="delete lines[\'' + line_id + '\'];do_printable_display=true;">'
 		 + i + '</td>') ;
 	  i++ ;
-
+	  txt_line = [] ;
 	  for(var c in sorted)
 	    {
 	      c = sorted[c] ;
 	      if ( isNaN(c) )
 		{
+		  txt_line.push('') ;
 		  s.push('<td>&nbsp;</td>') ;
 		  continue ;
 		}
@@ -178,6 +189,7 @@ function printable_display_page(lines, title, page_break)
 		}
 	      else
 		v = cell.value_html() ;
+	      txt_line.push(v) ;
 	      if ( v === '' )
 		v = '&nbsp;' ;
 	      if ( columns[c].green_filter(cell, columns[c]) )
@@ -187,9 +199,11 @@ function printable_display_page(lines, title, page_break)
 	    
 	      s.push('<td class="' + html_class + '">' + v + '</td>') ;
 	    }
+	  t.push( txt_line.join('\t') ) ;
 	  s.push('</tr>') ;
 	}
       s.push('</table>') ;
+      textual_table = t.join('\n') ;
     }
   if ( tierstemps != 'non' && tt.length )
     s.push('<h2 style="page-break-before:always;">Tiers-temps</h2>' + tt.join('\n'));
@@ -320,6 +334,14 @@ function print_choice_line(p, title, title_tip, choices, the_id)
 	 + choices + '</td></tr>') ;
 }
 
+function popup_export_window(event)
+{
+  create_popup('textual_table', 'Copiez ceci dans votre tableur',
+	       'Pour cela tapez Ctrl-C ici, puis Ctrl-V dans le tableur',
+	       '') ;
+  popup_set_value(textual_table) ;
+}
+
 
 function print_selection(object, emargement)
 {
@@ -346,7 +368,7 @@ function print_selection(object, emargement)
   p.push('</script>') ;
   p.push('<p class="hidden_on_paper"><a href="javascript:do_emargement()">Je veux une feuille d\'émargement !</a>');
   p.push('<p class="hidden_on_paper"><a href="javascript:do_page_per_group()">Je veux une feuille par groupe !</a>');
-  p.push('<p class="hidden_on_paper">Exporter dans un tableur : faites un copier/coller de toute la page dans votre tableur (Ctrl-A Ctrl-C Ctrl-V).');
+  p.push('<p class="hidden_on_paper"><A href="javascript:popup_export_window()">Je veux exporter dans un tableur&nbsp;!</a>');
   p.push('<p class="hidden_on_paper">Vous pouvez cacher des colonnes en cliquant sur le titre et les lignes en cliquant sur le numéro') ;
   p.push('<table class="hidden_on_paper">') ;
   print_choice_line(p, 'Affiche tiers-temps',
@@ -433,6 +455,7 @@ function print_selection(object, emargement)
 
   p.push('</table>') ;
   p.push('<div style="clear:both" id="content"></div>') ;
+  p.push('</div>') ;
   p.push('<script>') ;
   p.push('setTimeout(initialize, 100) ;') ; // Timeout for IE
   p.push('</script>') ;
