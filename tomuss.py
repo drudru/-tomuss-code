@@ -28,8 +28,6 @@ import sys
 import os
 from files import files
 import ticket
-import teacher
-import inscrits
 import sender
 
 if False:

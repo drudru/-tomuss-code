@@ -29,6 +29,7 @@ plugin.Plugin('student_redirect', '/{*}', teacher=False, password_ok = None,
                                                 configuration.year_semester[1],
                                                 ticket=x.ticket.ticket)),),
               documentation = "Redirect the student on the 'suivi'.",
+              priority = -5,
               )
 
 

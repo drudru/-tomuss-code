@@ -259,9 +259,8 @@ plugin.Plugin('answer_page', '/{Y}/{S}/{U}/{P}',
               function=answer_page, teacher=True,
               keep_open = True,
               administrative = None,
+              priority = -2, # Before other actions
               )
-
-
 
 plugin.Plugin('pagenew', '/{Y}/{S}/{U}/{=}', function=new_page, teacher=True,
               keep_open = True,

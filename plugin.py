@@ -141,6 +141,7 @@ class Plugin(object):
                  documentation = '',
                  referent=None,
                  css='',
+                 priority=0,
                  ):
         if url[0] != '/':
             raise ValueError('not an absolute URL')
@@ -166,6 +167,7 @@ class Plugin(object):
         self.invited         = ()
         self.link            = link
         self.css             = css
+        self.priority        = priority
         if link:
             link.plugin = self
         if documentation:
@@ -184,7 +186,7 @@ class Plugin(object):
                                  (self.name, f1, f2))
 
         plugins.append(self)
-        plugins.sort(lambda x, y: cmp(x.url, y.url))
+        plugins.sort(key=lambda x: (x.priority, x.url))
 
     def __str__(self):
         s = '%14s %-21s ' % (self.name, '/'.join(self.url))
