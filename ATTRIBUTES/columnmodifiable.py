@@ -24,7 +24,7 @@ from column import ColumnAttr
 class ColumnModifiable(ColumnAttr):
     default_value = 0
     name = 'modifiable'
-    check_and_set = "function(value, column) { return value ;}"
+    check_and_set = "function(value, column) { return Number(value) ;}"
 
     def encode(self, value):
         try:
@@ -32,7 +32,7 @@ class ColumnModifiable(ColumnAttr):
         except ValueError:
             return 0
     def check(self, value):
-        if value in (0, 1, 2):
+        if value in (0, 1, 2, '0', '1', '2'):
             return ''
         return "Valeur invalide pour 'modifiable':" + repr(value)
 
