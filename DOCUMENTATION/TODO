@@ -8,11 +8,16 @@ Nouvelles fonctionnalités.
 Utilisateurs finaux.
 --------------------
 
+* Finir de Gerer les referent oracle : recopie et prise étudiant
+  mais pas l'affectation automatique
+
+* Rendre des cellules éditables par les étudiants dans le suivi.
+
+* Deux inscriptions en TR
+
 * Meilleur synchronisation orientaiton_rp -> rdv_ip
   Synchronisation de la discipline
   Lieu de rendez-vous par personne.
-
-* Deux inscriptions en TR
 
 * Pourcentage d'ABJ pour le résultat d'un calcul en fonction du poids
   des colonnes moyennées.
@@ -23,9 +28,9 @@ Utilisateurs finaux.
   que c'est trop dangereux.
   C'est dangereux car il faut transformer le INPUT en TEXTAREA
 
-* Rendre des cellules éditables par les étudiants dans le suivi.
-
 * Dans le publipostage : mode HTML avec des vrais URL
+
+* Associer une/des dates à une colonne
 
 * Dans le suivi : moyenne des notes en plus du rang.
 
@@ -98,8 +103,13 @@ Administrateur.
 * live_status : afficher navigateur
 
 * Droit d'accès : généraliser la notion de groupe, pouvoir en créer.
-  Un groupe peut contenir : un groupe LDAP, une personne, un autre groupe.
+  Un groupe peut contenir :
+	* un groupe LDAP,
+	* une personne,
+	* un autre groupe.
+	* les login d'une table
   Ne plus avoir de groupes indiqué en dur dans le code.
+  Faire disparaitre : is_referent, is_teacher, ...
 
 * Interface pour détruire les tables facilement.
   Fusionner avec destruction de tables vides et bizarres.
@@ -116,6 +126,10 @@ Administrateur.
 Problèmes à résoudre.
 =====================
 
+* heures sydney : les mauvaises (à cause rechargement plugins ?)
+
+* Vérifier que config_plugin marche bien pour 'rdv_ip'
+
 * Passer les .css avant les .js
 
 * Redémarrage TOMUSS et vieille pages : pas réglé, le client persiste à vouloir
@@ -129,10 +143,6 @@ Problèmes à résoudre.
   étudiants en double (extrèmement rare juin 2011, juillet)
 
 * Liste de la page d'accueil : ajouter les UE GASEL en plus de LDAP et SPIRAL
-
-* Vérifier si les options sont envoyée dans les URL vers le serveur =xxx=
-
-* Le plugin 'resume' permet d'avoir des informations non autorisées.
 
 * Le suivi étudiant permet d'avoir des informations non autorisées.
 
@@ -148,13 +158,9 @@ Problèmes à résoudre.
 * Copier puis drag fait n'importe quoi sur les cases du tableau.
   Sous windows seulement
 
-* Problème ascenseur qui apparait sur la home page avec le + a droite
-
 =============================
 Améliorations de code source.
 =============================
-
-* Ne plus convertir en PNG en lançant un processus
 
 * Tester le nouveau utility.js()
 

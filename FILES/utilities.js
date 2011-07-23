@@ -332,11 +332,13 @@ function compute_tip(element)
   if ( element.offsetHeight === 0 )
     return '' ;
 
-  var value = element.value ;
+  var value = element.selectedText ;
   if ( ! value )
-    value = '' ;
-  else
+    value = element.value ;
+  if ( value )
     value = '<div class="more">' + html(value) + '</div>' ;
+  else
+    value = '' ;
 
   var t = tip_top(element) ;
 
@@ -1397,6 +1399,7 @@ function set_select_by_value(element, value)
       if ( options[i].value == value || options[i].text == value )
 	{
 	  element.selectedIndex = i ;
+	  element.selectedText = options[i].text ;
 	  return ;
 	}
     }
