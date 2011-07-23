@@ -947,6 +947,9 @@ Col({the_id:"col_1",type:"Note",author:"%s",position:0,title:"TITLE1"})
         c = s.url('=' + root + '/%s/UE-XXX9999L' % ys +
                   '/1/1/column_attr_title/col_0/TITLE0')
         assert(c == ok_png)
+        c = s.url('=' + root + '/%s/UE-XXX9999L' % ys +
+                  '/1/2/column_attr_modifiable/col_0/1')
+        assert(c == ok_png)
         time.sleep(1) # In order to update table
 
         c = ss.url('=' + abj + '/%s/10800000' % ys)
@@ -1409,8 +1412,12 @@ cell_change(1,'0_2','ticket_time_to_live','%d',"")
        assert( ok )
 
        # Make the ticket last longer because if it is short regtest may fail
-       c = s.url('='+root+'/0/Dossiers/config_table/cell/0_2/ticket_time_to_live/1000')
-       assert('green' in c)
+       utilities.append_file(conf,
+       'cell_change(1,"0_2","ticket_time_to_live","1000","")\n')
+       c = s.url('=' + root + '/0/Dossiers/config_table/page_unload')
+       assert('Unload done' in c)
+       c = s.url('=' + root + '/0/Dossiers/config_table')
+       assert( ok )
 
        # The browser attempt to reconnect
        c = s.url('='+abj+'/%d/Dossiers/regtest-bug1/1' % uyear,
