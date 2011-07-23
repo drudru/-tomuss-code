@@ -1492,6 +1492,11 @@ function update_attribute_value(e, attr, table, editable)
 	  tip_top(e).firstChild.innerHTML = tip ;
 	}
       return ;
+    case 'SPAN':
+      if ( e.innerHTML != formatted )
+	highlight_add(e) ;
+      e.innerHTML = formatted ;
+      return ;
     default:
       return ;
     }
@@ -1516,11 +1521,7 @@ function current_update_column_headers()
 	continue ;
       if ( column_attributes[attr].computed )
 	{
-	  if ( e.tagName == 'INPUT' || e.tagName == 'SPAN' ) // XXX
-	    update_value_and_tip(e,
-				 column_attributes[attr].formatter(column,
-								   column[attr]
-								   )) ;
+	  update_attribute_value(e, column_attributes[attr], column, false);
 	  continue ;
 	}
       if ( ! column_modifiable_attr(attr, column) )
