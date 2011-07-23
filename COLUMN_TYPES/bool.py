@@ -37,7 +37,7 @@ class Bool(note.Note):
         return '', None
 
     def formatter(self, column, value, cell, lines, teacher, ticket, line_id):
-        if teacher and configuration.year_semester == (column.table.year, column.table.semester):
+        if column.is_modifiable(teacher):
             v = '<select class="hidden" onchange="_cell(this,\'%s/=%s/%d/%s/%s/cell/%s/%s\');">' % (
                 configuration.server_url,
                 ticket,

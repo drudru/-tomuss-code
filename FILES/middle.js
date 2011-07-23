@@ -785,8 +785,8 @@ function new_new_interface()
 
   t.push(column_input_attr('modifiable',
 			  [[0,'Personne ne peut modifier à partir du suivi'],
-			   [1,'Les enseignants peuvent modifier la valeur'],
-			   [2,'Les étudiants peuvent modifier leur valeur'],
+			   [1,'Les enseignants peuvent modifier à partir du suivi'],
+			   [2,'Les étudiants peuvent modifier leur valeur à partir du suivi'],
 			   ])) ;
 
   t.push('</div>') ;
