@@ -21,6 +21,7 @@
 
 import note
 import text
+import bool
 
 class Enumeration(text.Text):
     full_title = 'Énumération'
@@ -29,4 +30,11 @@ class Enumeration(text.Text):
     ondoubleclick = 'toggle_enumeration'
     tip_test_filter = """<b>Valeurs autorisées</b><br>
     Vous séparez les valeurs autorisées par un espace."""
+
+    def formatter(self, column, value, cell, lines, teacher, ticket, line_id):
+        v = column.enumeration.split(' ')
+        v.insert(0, '')
+
+        return bool.option_list(column, value, cell, lines, teacher,
+                                ticket,line_id, v)
 

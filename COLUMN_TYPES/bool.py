@@ -23,6 +23,26 @@ import note
 import text
 import configuration
 
+def option_list(column, value, cell, lines, teacher, ticket, line_id, values):
+    if column.is_modifiable(teacher):
+        v = '<select class="hidden" onchange="_cell(this,\'%s/=%s/%d/%s/%s/cell/%s/%s\');">' % (
+            configuration.server_url,
+            ticket,
+            column.table.year, column.table.semester,
+            column.table.ue, column.the_id, line_id)
+        for i in values:
+            if i == value:
+                sel = ' selected="1"'
+            else:
+                sel = ""
+            v += '<option value="%s" %s>%s</option>' % (i, sel, i)
+        v += '</select>'
+    else:
+        v = value
+
+    return (v, '', '')
+    
+
 class Bool(note.Note):
     human_priority = 1
     full_title = 'Booléen'
@@ -37,20 +57,5 @@ class Bool(note.Note):
         return '', None
 
     def formatter(self, column, value, cell, lines, teacher, ticket, line_id):
-        if column.is_modifiable(teacher):
-            v = '<select class="hidden" onchange="_cell(this,\'%s/=%s/%d/%s/%s/cell/%s/%s\');">' % (
-                configuration.server_url,
-                ticket,
-                column.table.year, column.table.semester,
-                column.table.ue, column.the_id, line_id)
-            for i in ('', 'OUI', 'NON'):
-                if i == value:
-                    sel = ' selected="1"'
-                else:
-                    sel = ""
-                v += '<option value="%s" %s>%s</option>' % (i, sel, i)
-            v += '</select>'
-        else:
-            v = value
-
-        return (v, '', '')
+        return option_list(column, value, cell, lines, teacher, ticket,line_id,
+                           ('', 'OUI', 'NON'))
