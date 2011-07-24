@@ -29,6 +29,7 @@ def unload(server):
 
 plugin.Plugin('unload', '/unload/{U}',
               function=unload,
-              teacher=True,
+              # Student may unload page to update them
+              # teacher=True,
               )
 
