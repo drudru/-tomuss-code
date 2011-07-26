@@ -368,7 +368,8 @@ function an_user_update(event, input, column, attr)
       input.value = attr.formatter(column, new_value) ;
     else
       input.value = attr.formatter(new_value) ;
-
+  else
+    attr.formatter(column, new_value) ;
   input.theoldvalue = new_value ;
 
   if ( attr == 'type' )

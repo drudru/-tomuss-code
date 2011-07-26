@@ -25,6 +25,7 @@ class ColumnModifiable(ColumnAttr):
     default_value = 0
     name = 'modifiable'
     check_and_set = "function(value, column) { return Number(value) ;}"
+    formatter = "function(column, value) { var e = document.getElementById('t_column_modifiable') ; if ( e ) if ( value >= 2 ) e.style.background = '#F88' ; else e.style.background = '' ; return value ;}"
 
     def encode(self, value):
         try:
