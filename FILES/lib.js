@@ -3520,7 +3520,7 @@ function hide_the_tip_real()
   tip.onmousemove = function() {} ;
   tip.style.display = "none" ;
   tip.tip_target = undefined ;
-  remove_highlight() ;
+  // remove_highlight() ;
 }
 
 function hide_the_tip(real)
