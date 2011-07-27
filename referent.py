@@ -206,6 +206,11 @@ def nr_students(year, semester):
                 n += 1
     return n
 
+#REDEFINE
+# Triggered when a student is removed from a teacher
+def remove_student_from_referent_hook(referent, student_id):
+    return
+
 def remove_student_from_referent(referent, student):
     table = referents_students()
     line_key, line = tuple(table.get_items(referent))[0]
@@ -217,6 +222,7 @@ def remove_student_from_referent(referent, student):
                 table.cell_change(table.pages[1], column.the_id, line_key, '')
             finally:
                 table.unlock()
+                remove_student_from_referent_hook(referent, student)
             break
 
 def add_column(table):
@@ -228,6 +234,11 @@ def add_column(table):
         table.unlock()
 
 
+#REDEFINE
+# Triggered when a student is added to a teacher
+def add_student_to_referent_hook(referent, student_id):
+    return
+
 def add_student_to_this_line(table, line_key, line, student):
     student = inscrits.login_to_student_id(student)
     for cell, column in zip(line, table.columns)[2:]:
@@ -238,6 +249,7 @@ def add_student_to_this_line(table, line_key, line, student):
                                   student)
             finally:
                 table.unlock()
+                add_student_to_referent_hook(line[0].value, student)
             break
     else:
         add_column(table)

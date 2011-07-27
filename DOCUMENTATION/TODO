@@ -8,10 +8,8 @@ Nouvelles fonctionnalités.
 Utilisateurs finaux.
 --------------------
 
-* Finir de Gerer les referent oracle : recopie et prise étudiant
-  mais pas l'affectation automatique
-
-* Rendre des cellules éditables par les étudiants dans le suivi.
+* Rendre des cellules éditables par les étudiants dans le suivi :
+  faire les types textuels (avec vérification en JS)
 
 * Deux inscriptions en TR
 
