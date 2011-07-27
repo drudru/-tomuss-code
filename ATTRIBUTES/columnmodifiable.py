@@ -38,8 +38,7 @@ class ColumnModifiable(ColumnAttr):
         return "Valeur invalide pour 'modifiable':" + repr(value)
 
     gui_display = "GUI_select"
-    tip = """<small>Ceci ne fonctionne pour le moment qu'avec les booléens.</small><br>
-    Les cellules de la colonne sont modifiables à partir<br>
+    tip = """Les cellules de la colonne sont modifiables à partir<br>
     de la page de suivi de l'étudiant par :"""
     css = '#menutop DIV.tabs #t_column_modifiable { width: auto }'
 
