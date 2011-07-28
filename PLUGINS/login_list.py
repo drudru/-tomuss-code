@@ -25,7 +25,7 @@ import configuration
 import utilities
 import time
 
-def send(server, values, f):
+def send(server, values, f=0):
     server.the_file.write('the_full_login_list('
                           + utilities.js(server.the_path[0])
                           + ',[' + ','.join(values)
@@ -55,12 +55,7 @@ def login_list(server):
                  + ',' + utilities.js(surname)
                  + ',' + utilities.js(mail)
                  + ']')
-        if time.time() - t > 5: # In cas of long time to compute list
-            send(server, r, append)
-            r = []
-            t = time.time()
-            append = 1
-    send(server, r, append)
+    send(server, r)
     server.the_file.close()
 
 plugin.Plugin('login_list', '/login_list/{*}',
