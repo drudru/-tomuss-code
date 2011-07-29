@@ -933,6 +933,7 @@ function full_login_list(login, results, add)
 
   if ( add )
     {
+      // Not used. And there is a bug
       results = results.concat(results, last_login_cache[login]) ;
       results.sort(cmp_students) ;
       last_login_cache[login] = results ;

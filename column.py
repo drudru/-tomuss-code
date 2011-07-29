@@ -417,6 +417,12 @@ class Column(object):
                 return False
         return True
 
+    def is_modifiable(self, teacher):
+        return (self.table.modifiable
+                and self.modifiable
+                and (teacher or self.modifiable == 2)
+                )
+
 class Columns(object):
     """A set of Column associated to a table.
     The columns are stored in a list, so they have an index.

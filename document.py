@@ -182,6 +182,8 @@ def table_head(year=None, semester=None, ticket=None,
 
 def import_template(names):
     for name in names:
+        if configuration.regtest and name[0] == 'LOCAL':
+            continue
         filename = os.path.join(*name) + '.py'
         if os.path.exists(filename):
             return utilities.import_reload(filename)[0]

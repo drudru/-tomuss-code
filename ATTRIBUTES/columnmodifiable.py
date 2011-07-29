@@ -19,22 +19,26 @@
 #
 #    Contact: Thierry.EXCOFFIER@bat710.univ-lyon1.fr
 
-import note
-import text
-import bool
+from column import ColumnAttr
 
-class Enumeration(text.Text):
-    full_title = 'Énumération'
-    tip_cell = "Une des valeurs autorisées"
-    cell_test = 'test_enumeration'
-    ondoubleclick = 'toggle_enumeration'
-    tip_test_filter = """<b>Valeurs autorisées</b><br>
-    Vous séparez les valeurs autorisées par un espace."""
+class ColumnModifiable(ColumnAttr):
+    default_value = 0
+    name = 'modifiable'
+    check_and_set = "function(value, column) { return Number(value) ;}"
+    formatter = "function(column, value) { var e = document.getElementById('t_column_modifiable') ; if ( e ) if ( value >= 2 ) e.style.background = '#F88' ; else e.style.background = '' ; return value ;}"
 
-    def formatter(self, column, value, cell, lines, teacher, ticket, line_id):
-        v = column.enumeration.split(' ')
-        v.insert(0, '')
+    def encode(self, value):
+        try:
+            return int(value)
+        except ValueError:
+            return 0
+    def check(self, value):
+        if value in (0, 1, 2, '0', '1', '2'):
+            return ''
+        return "Valeur invalide pour 'modifiable':" + repr(value)
 
-        return bool.option_list(column, value, cell, lines, teacher,
-                                ticket,line_id, v)
+    gui_display = "GUI_select"
+    tip = """Les cellules de la colonne sont modifiables à partir<br>
+    de la page de suivi de l'étudiant par :"""
+    css = '#menutop DIV.tabs #t_column_modifiable { width: auto }'
 

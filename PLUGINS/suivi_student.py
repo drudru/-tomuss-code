@@ -45,6 +45,7 @@ header2=utilities.StaticFile(os.path.join('PLUGINS','suivi_student2.html'))
 charte =utilities.StaticFile(os.path.join('PLUGINS','suivi_student_charte.html'))
 
 files.add('PLUGINS', 'suivi_student.css')
+files.add('PLUGINS', 'suivi_student.js')
 files.add('PLUGINS', 'suivi_student_doc.html')
 files.add('PLUGINS', 'suivi_student_charte.html').replace('suivi_student',
                                                           '<input', '<p')

@@ -73,6 +73,7 @@ plugin.Plugin('pageaction', '/{Y}/{S}/{U}/{P}/{*}', function=page_action,
               teacher=True, mimetype = "image/png",
               keep_open=True,
               cached = True, # We don't want browser reloading actions
+              priority = -1, # The most frequent plugin call
               )
 
 def page_unload(server):

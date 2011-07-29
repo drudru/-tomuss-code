@@ -2,12 +2,13 @@
   <head>
     <META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=UTF-8">
     <META NAME="ROBOTS" CONTENT="NOINDEX, NOFOLLOW">
-    <link rel="stylesheet" href="_URL_/_YEAR_/_SEMESTER_/suivi_student.css" type="text/css">
-    <link rel="stylesheet" href="_URL_/_YEAR_/_SEMESTER_/style.css" type="text/css">
-    <link REL="icon" HREF="_URL_/_YEAR_/_SEMESTER_/favicon.ico">
-    <script src="_URL_/_YEAR_/_SEMESTER_/utilities.js"></script>
-    <script src="_URL_/_YEAR_/_SEMESTER_/types.js"></script>
-    <script src="_URL_/_YEAR_/_SEMESTER_/lib.js"></script>
+    <link rel="stylesheet" href="_URL_/suivi_student.css" type="text/css">
+    <link rel="stylesheet" href="_URL_/style.css" type="text/css">
+    <link REL="icon" HREF="_URL_/favicon.ico">
+    <script src="_URL_/utilities.js"></script>
+    <script src="_URL_/types.js"></script>
+    <script src="_URL_/lib.js"></script>
+    <script src="_URL_/suivi_student.js"></script>
   </head>
   <body class="suivi _SEMESTER_">
     <div class="identity">
@@ -59,41 +60,8 @@ lib_init() ;
 var input = document.getElementById('input') ;
 if ( input )
     input.focus() ;
-var tip = undefined ;
-var unload = document.getElementById('unload') ;
-
-/* To send the cell change and feedback */
-function _cell(s, url)
-{
-var iframe = s.parentNode.lastChild ;
-if ( iframe.tagName != 'IFRAME' )
-      {
-      iframe = document.createElement('iframe') ;
-      iframe.className = 'feedback' ;
-      s.parentNode.appendChild(iframe) ;
-      }
-
-iframe.src = url + '/' + s.value ;
-
-var ticket = document.location.pathname.split('/')[1] ;
-var url = url.split('/') ;
-var ue = url[url.length-4] ;
-
-unload.src = 'http://' +document.location.host+ '/' +ticket+ '/unload/' + ue ;
-}
 
 is_a_teacher = true ;
-
-function hide_empty()
-{
-      document.getElementById('computed_style').textContent = 'DIV.empty, .empty, DIV.empty P { display: none ; }' ;
-}
-
-function show_empty()
-{
-      document.getElementById('computed_style').textContent = '.notempty { display: none ; }' ;
-}
-
 
 </script>
 

@@ -339,7 +339,10 @@ function an_user_update(event, input, column, attr)
   var new_value ;
 
   if ( input.selectedIndex !== undefined )
-    new_value = input.options[input.selectedIndex].value ;
+    {
+      new_value = input.options[input.selectedIndex].value ;
+      input.selectedText = input.options[input.selectedIndex].text ;
+    }
   else
     new_value = input.value.replace(/\t/g, ' ') ;
 
@@ -365,7 +368,8 @@ function an_user_update(event, input, column, attr)
       input.value = attr.formatter(column, new_value) ;
     else
       input.value = attr.formatter(new_value) ;
-
+  else
+    attr.formatter(column, new_value) ;
   input.theoldvalue = new_value ;
 
   if ( attr == 'type' )
@@ -777,6 +781,15 @@ function new_new_interface()
   t.push(column_input_attr('width')) ;
   t.push(hidden_txt('<a href="javascript:bigger_column();"><img src="' + url + '/prev.gif" style="height:1em;border:0"><img src="' + url + '/next.gif" style="height:1em;border:0"></a>',
 		    "<b>Élargir la colonne</b>" + x)) ;
+  t.push('</div>') ;
+  t.push('<div class="one_line">') ;
+
+  t.push(column_input_attr('modifiable',
+			  [[0,'Personne ne peut modifier à partir du suivi'],
+			   [1,'Les enseignants peuvent modifier à partir du suivi'],
+			   [2,'Les étudiants peuvent modifier leur valeur à partir du suivi'],
+			   ])) ;
+
   t.push('</div>') ;
   t.push('<div class="one_line">') ;
   t.push(column_input_attr('freezed')) ;

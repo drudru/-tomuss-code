@@ -204,6 +204,7 @@ plugin.Plugin('abj', '/{Y}/{S}/abj', function=abj_home, abj_master=True,
                   ),
               css=css,
               keep_open=True,
+              priority = -3,
               )
 
 plugin.Plugin('abjalpha', '/{Y}/{S}/abj/alpha.xls',
@@ -218,6 +219,7 @@ plugin.Plugin('abjalpha', '/{Y}/{S}/abj/alpha.xls',
                   where='abj_master',
                   html_class="verysafe",
                   ),
+              priority = -3,
               )
 
 plugin.Plugin('abjalphamaster', '/{Y}/{S}/abj/alpha_master.xls',
@@ -231,7 +233,8 @@ plugin.Plugin('abjalphamaster', '/{Y}/{S}/abj/alpha_master.xls',
                   les étudiants de master.""",
                   where='abj_master',
                   html_class="verysafe",
-                  )
+                  ),
+              priority = -3,
               )
 
 plugin.Plugin('abjalphaauthor', '/{Y}/{S}/abj/alpha_author.xls',
@@ -242,7 +245,8 @@ plugin.Plugin('abjalphaauthor', '/{Y}/{S}/abj/alpha_author.xls',
                   url="javascript:go('abj/alpha_author.xls')",
                   where='abj_master',
                   html_class="verysafe",
-                  )
+                  ),
+              priority = -3,
               )
 
 plugin.Plugin('abjlistmail', '/{Y}/{S}/abj/list_mail',
@@ -257,16 +261,25 @@ plugin.Plugin('abjlistmail', '/{Y}/{S}/abj/list_mail',
                   des dispenses et les tiers temps.""",
                   where='abj_master',
                   html_class="safe",
-                  )
+                  ),
+              priority = -3,
               )
 
-plugin.Plugin('abjhacker', '/{Y}/{S}/abjs', function=abj_no)
+plugin.Plugin('abjhacker', '/{Y}/{S}/abjs', function=abj_no,
+              priority = -3,
+              )
 
 plugin.Plugin('abjaction', '/{Y}/{S}/abj/{P}/{I}/{*}',
               mimetype = 'image/png',
-              function=abj_action, abj_master=True)
+              function=abj_action, abj_master=True,
+              priority = -3,
+              )
 plugin.Plugin('abjsendmail', '/{Y}/{S}/abj/send_mail',
               function=abj_send_mail, abj_master=True,
-              launch_thread = True)
+              launch_thread = True,
+              priority = -3,
+              )
 plugin.Plugin('abj_display', '/{Y}/{S}/abj/display/{I}',
-              function=abj_display, abj_master=True)
+              function=abj_display, abj_master=True,
+              priority = -3,
+              )
