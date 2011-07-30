@@ -1493,9 +1493,12 @@ function update_attribute_value(e, attr, table, editable)
     case 'GUI_button':
       break ;
     case 'GUI_none':
-      if ( e.innerHTML != formatted )
-	highlight_add(e) ;
-      e.innerHTML = formatted ;
+      if ( e.tagName == 'SPAN' )
+	{
+	  if ( e.innerHTML != formatted )
+	    highlight_add(e) ;
+	  e.innerHTML = formatted ;
+	}
       return ;
     default:
       alert('BUG GUI:' + attr.gui_display) ;
