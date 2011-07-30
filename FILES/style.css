@@ -480,7 +480,7 @@ font-size: 200%;
 #t_student_picture { float: left ;   }
 #t_value { font-weight: bold; }
 INPUT#comment { width: 100% ; clear: both; }
-#menutop IMG.phot { border-width: 0 ;height: 7em ; width: 90px }
+#menutop IMG.phot { border-width: 0 ;height: 7em ; width: 5.6em }
 
 #menutop .one_line {
   white-space: nowrap ;
@@ -595,7 +595,7 @@ DIV.tabs DIV.contents {
 
 #menutop DIV.tabs IMG.phot {
 height: 6em;
-width: auto;
+width: 4.8em;
 }
 
 DIV.tabs DIV.contents DIV.content { height: 100% }
