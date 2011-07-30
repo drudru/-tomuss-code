@@ -575,14 +575,15 @@ function student_click_more(t)
 
 function ue_line(ue, code, content)
 {
-  if ( ! ue )
-    return ;
   var html_class = '' ;
 
-  if (code.match(/^UE-/) && ue.nr_students_ue)
-    html_class += ' with_students' ;
-  if (code.match(/^EC-/) == 0 && ue.nr_students_ec)
-    html_class += ' with_students' ;
+  if ( ue )
+    {
+      if (code.match(/^UE-/) && ue.nr_students_ue)
+	html_class += ' with_students' ;
+      if (code.match(/^EC-/) == 0 && ue.nr_students_ec)
+	html_class += ' with_students' ;
+    }
 
   var tt ;
   var c = code.substr(3).split('-')[0] ;
@@ -616,7 +617,7 @@ function display_ue_list(s, txt, txt_upper, names)
       ue = all_ues[apogee] ;
       if ( ue === undefined )
 	{
-	  t = ue_code + '\003\001???\002???' ;
+	  t = ue_code + '\003?\001\002' ;
 	  t_upper = t ;
 	}
       else
@@ -667,9 +668,16 @@ function update_ues_favorites(txt, txt_upper)
     return ;
 
   ues_favorites_sorted = [] ;
+  var begin ;
   for(var i in ues_favorites)
-    if ( ues_favorites[i] > 0 )
-      ues_favorites_sorted.push(i) ;
+    {
+      // XXX Find a better way to sort Printemps/Automne from the others
+      if ( ues_favorites[i] > 0
+	   && ( i.substr(2 ,1) == '-'
+		|| i.substr(0,6) == 'etape-'
+		))
+	ues_favorites_sorted.push(i) ;
+    }
 
   ues_favorites_sorted.sort(cmp_favorites) ;
   ues_favorites_sorted= ues_favorites_sorted.slice(0,preferences.nr_favorites);
