@@ -24,7 +24,6 @@
 var vertical_scrollbar_width = 17 ;
 var horizontal_scrollbar_height = 10 ;
 var nr_headers = 2 ;
-var histo_image_height = 90 ;
 var bs = '<td>' ;
 var maximum_url_length = 3000 ;
 
@@ -3375,13 +3374,6 @@ function values_in_a_column(column)
   for(var i in g)
     t.push(i) ;
   return t
-}
-
-
-function histo_image(nr, maxmax)
-{
-  return '<img HEIGHT="' +
-    (nr*histo_image_height)/maxmax + '" src="' + url + '/bug.png"><br>' + nr ;
 }
 
 // pb = page break
