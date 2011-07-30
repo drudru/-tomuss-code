@@ -8,10 +8,11 @@ Nouvelles fonctionnalités.
 Utilisateurs finaux.
 --------------------
 
-* Rendre des cellules éditables par les étudiants dans le suivi :
-  faire les types textuels (avec vérification en JS)
-
 * Deux inscriptions en TR
+
+* Sauvegarde de l'état figé d'une colonne (à faire dans le nouvel interface).
+
+* Copier une table en vidant l'historique ou non, même semestre ou pas
 
 * Meilleur synchronisation orientaiton_rp -> rdv_ip
   Synchronisation de la discipline
@@ -35,10 +36,6 @@ Utilisateurs finaux.
 * Dans le suivi : rang pour les moyennes.
 
 * Redirection d'une table sur une autre (renommage).
-
-* Copier une table en vidant l'historique ou non, même semestre ou pas
-
-* Sauvegarde de l'état figé d'une colonne (à faire dans le nouvel interface).
 
 * COW (stable) valeur vide ==> comme si rien dans la case (compliqué à faire)
 
@@ -136,9 +133,6 @@ Problèmes à résoudre.
   alors qu'il n'y a pas de connexion réseau (IE)
 
 * Le live status bloque TOMUSS quand on charge une grosse UE ?
-
-* La recherche étudiant de la page d'accueil affiche parfois tous les
-  étudiants en double (extrèmement rare juin 2011, juillet)
 
 * Liste de la page d'accueil : ajouter les UE GASEL en plus de LDAP et SPIRAL
 

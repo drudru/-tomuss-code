@@ -522,6 +522,20 @@ Les améliorations les plus visibles sont :
       </description>
       <guid>38</guid>
     </item>
+    <item>
+      <title>29/07/2011 : Version 3.0.0</title>
+      <link>http://tomuss.univ-lyon1.fr/</link>
+      <description>
+Les améliorations les plus visibles sont :
+&lt;ul&gt;
+&lt;li&gt; Le moteur de recherche étudiant accepte les noms composés.
+&lt;li&gt; La nouvelle interface d'édition de tableau permet de
+           rendre une colonne modifiable par les étudiants dans leur suivi.
+           Les étudiants ne pourront modifier que la valeur dans leur ligne.
+&lt;/ul&gt;
+      </description>
+      <guid>39</guid>
+    </item>
 
   </channel>
 </rss>

@@ -168,6 +168,7 @@ def key_history(server):
 plugin.Plugin('key_history', '/{Y}/{S}/{U}/{P}/key_history/{*}',
               function=key_history,
               teacher=True, mimetype = None,
+              priority=-2
               )
 
 def delete_this_table(server):
@@ -221,5 +222,6 @@ def end_of_load(server):
 plugin.Plugin('end_of_load', '/{Y}/{S}/{U}/{P}/end_of_load',
               function=end_of_load,
               teacher=True,
-              mimetype='image/png'
+              mimetype='image/png',
+              priority=-2
               )

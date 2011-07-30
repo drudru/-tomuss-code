@@ -307,7 +307,10 @@ class Plugin(object):
                     server.the_ue = utilities.safe(path[i]).replace('.','_')
                     continue
                 if f == '{P}':
-                    server.the_page = int(path[i])
+                    try:
+                        server.the_page = int(path[i])
+                    except:
+                        return False
                     continue
                 if f == '{?}':
                     server.something = path[i]
