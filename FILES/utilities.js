@@ -1439,37 +1439,35 @@ function update_attribute_value(e, attr, table, editable)
   else
     formatted = attr.formatter(table, value) ;
 
-  switch(e.tagName)
+  switch(attr.gui_display)
     {
-    case 'SELECT':
+    case 'GUI_select':
       set_select_by_value(e, value) ;
       break ;
-    case 'INPUT':
-      if ( e.type != 'button' )
-	{
-	  if ( attr.what == 'table' )
-	    update_input(e, formatted, attr.empty(value)) ;
-	  else
-	    update_input(e, formatted, attr.empty(table, value)) ;
+    case 'GUI_input':
+      if ( attr.what == 'table' )
+	update_input(e, formatted, attr.empty(value)) ;
+      else
+	update_input(e, formatted, attr.empty(table, value)) ;
 
-	  // XXX In some case 'the_current_cell.column' is undefined
-	  if ( the_current_cell.column && attr.tip[the_current_cell.column.type] )
-	    {
-	      try {
-		tip_top(e).firstChild.firstChild.innerHTML = attr.tip[the_current_cell.column.type] ;
-	      }
-	      catch(e) {
-		// XXX IE has an unknown exception here...
-	      }
-	    }
+      // XXX In some case 'the_current_cell.column' is undefined
+      if ( the_current_cell.column && attr.tip[the_current_cell.column.type] )
+	{
+	  try {
+	    tip_top(e).firstChild.firstChild.innerHTML = attr.tip[the_current_cell.column.type] ;
+	  }
+	  catch(e) {
+	    // XXX IE has an unknown exception here...
+	  }
 	}
       break ;
-    case 'A':
+    case 'GUI_a':
       var x = e.className.replace('linkstroked', '') ;
       var old_class = e.className ;
       if ( ! value && attr.strokable )
 	x += ' linkstroked' ;
-      if ( !!value != (old_class.search('linkstroked') == -1) )
+      if ( attr.strokable
+	   && !!value != (old_class.search('linkstroked') == -1) )
 	{
 	  highlight_add(e) ;
 	  // Classname change must be done before 'highlight_add'
@@ -1492,13 +1490,15 @@ function update_attribute_value(e, attr, table, editable)
 	  tip_top(e).firstChild.innerHTML = tip ;
 	}
       return ;
-    case 'SPAN':
+    case 'GUI_button':
+      break ;
+    case 'GUI_none':
       if ( e.innerHTML != formatted )
 	highlight_add(e) ;
       e.innerHTML = formatted ;
       return ;
     default:
-      return ;
+      alert('BUG GUI:' + attr.gui_display) ;
     }
   set_editable(e, editable) ;
 }
