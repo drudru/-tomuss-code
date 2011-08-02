@@ -24,28 +24,38 @@ import utilities
 import referent
 import configuration
 import inscrits
-import files
 
 def referent_get(server):
     """Add a student to its refered students"""
     login = utilities.the_login(server.ticket.user_name)
-    student = inscrits.login_to_student_id(server.something)
-
     students = referent.students_of_a_teacher(login)
-    if student not in students:
-        old_referent = referent.referent(configuration.year_semester[0],
-                                         configuration.year_semester[1],
-                                         utilities.the_login(student))
-        if old_referent:
-            referent.remove_student_from_referent(old_referent, student)
+    year, semester = configuration.year_semester
 
-        referent.add_student_to_referent(login, student)
+    server.the_file.write("Vous êtes maintenant référent pédagogique de :\n")
 
-    server.the_file.write("Vous êtes maintenant le référent pédagogique de cet étudiant.")
+    for student in server.the_path:
+        if student == '':
+            continue
+        student = inscrits.login_to_student_id(student)
+        firstname, surname = inscrits.L_fast.firstname_and_surname(student)
 
+        if firstname == 'Inconnu' and surname == 'Inconnu':
+            server.the_file.write("%s : N'est pas un étudiant\n" % student)
+        elif student in students:
+            server.the_file.write("%s : Vous êtes déjà son référent\n"%student)
+        else:
+            old_referent = referent.referent(year, semester,
+                                             utilities.the_login(student))
+            if old_referent:
+                referent.remove_student_from_referent(old_referent, student)
 
-plugin.Plugin('referent_get', '/referent_get/{?}',
-              mimetype = 'text/plain',
+            referent.add_student_to_referent(login, student)
+
+            server.the_file.write('%s : %s %s\n' % (
+                student, firstname, surname))
+
+plugin.Plugin('referent_get', '/referent_get/{*}',
+              mimetype = 'text/plain; charset=UTF-8',
               function=referent_get, referent=True)
 
 

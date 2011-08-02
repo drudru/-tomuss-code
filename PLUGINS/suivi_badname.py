@@ -46,7 +46,7 @@ def the_badname(server):
 
 plugin.Plugin('badname', '/badname', function=the_badname, root=True,
               launch_thread = True,
-              mimetype = "text/plain; charset=utf8",
+              mimetype = "text/plain; charset=utf-8",
               link=plugin.Link(text="Mauvais noms",
                                where="deprecated",
                                html_class="verysafe",
