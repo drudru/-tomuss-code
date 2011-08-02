@@ -884,6 +884,28 @@ function update_referent_of()
 			'étudiants référés', 'javascript:go_referent()') ;
 }
 
+function go_import_list()
+{
+  create_popup('import_list',
+	       "Devenir référent d'une liste d'étudiants",
+	       "Indiquez les <b>numéros d'étudiants</b> dont "
+	       + "vous voulez devenir référent pédagogique",
+	       'Puis cliquez sur : <BUTTON OnClick="go_import_list_do();">Je veux être le référent pédagogique !</BUTTON>.',
+	       '') ;
+}
+
+function go_import_list_do()
+{
+  var values = popup_text_area().value.split(/[ \t\n,;.:]+/) ;
+
+  create_popup('import_list',
+	       "Résultat de l'opération :",
+	       '<iframe width="100%" src="' + base + 'referent_get/'
+	       + values.join('/') + '">' + '</iframe>',
+	       "Actualisez la page d'accueil pour voir la nouvelle liste.",
+	       false) ;
+}
+
 
 function update_a_student_list(html_id, student_list, title, notes)
 {
@@ -915,11 +937,19 @@ function update_a_student_list(html_id, student_list, title, notes)
 			  + logins.join(',') + '\')">Suivi</a>',
 			  "Afficher le suivi de ces étudiants") ;
 
+
+  var import_list = '';
+  if ( html_id === 'the_students')
+    import_list = hidden_txt('<a href="javascript:go_import_list(\''
+			     + logins.join(',') + '\')">Import</a>',
+			     "Devenir référent d'une liste d'étudiants") ;
+
   the_students.innerHTML =
     '<table class="with_margin student_list">'
     + '<colgroup><col class="student_icon"><col class="student_id"><col></colgroup>'
     + '<tr><th colspan="3">' + student_list.length + ' ' +title + '<br><small>'
-    + blocnote + '/' + mails + '/' + suivis + '</small></th></tr>'
+    + blocnote + '/' + mails + '/' + suivis + '/' + import_list
+    + '</small></th></tr>'
     + s.join('\n') + '</table>' ;
 }
 

@@ -8,13 +8,11 @@ Nouvelles fonctionnalités.
 Utilisateurs finaux.
 --------------------
 
-* Inscription massive d'étudiant.
+* Copier une table en vidant l'historique ou non, même semestre ou pas
 
 * Deux inscriptions en TR
 
 * Sauvegarde de l'état figé d'une colonne (à faire dans le nouvel interface).
-
-* Copier une table en vidant l'historique ou non, même semestre ou pas
 
 * Meilleur synchronisation orientaiton_rp -> rdv_ip
   Synchronisation de la discipline
