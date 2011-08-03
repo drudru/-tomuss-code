@@ -241,7 +241,7 @@ DIV#tip {
   display: none ;
   padding: 2px ;
   min-width: 10em;
-  z-index: 2;
+  z-index: 20;
   font-size: 70%;
 }
 
