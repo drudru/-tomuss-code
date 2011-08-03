@@ -552,10 +552,12 @@ TR#dates TD { padding: 3px ;
 span.button_toggle { 
   border: 1px solid black;
   padding: 0px ;
-  font-size: 70% ;
   white-space: nowrap ;
   vertical-align: middle;
 }
+
+TABLE.hidden_on_paper span.button_toggle { font-size: 70% ; }
+
 span.button_toggle:hover { background: white ; color: black }
 
 span.toggled:hover { background: #0C0 ; color: #0F0 }
