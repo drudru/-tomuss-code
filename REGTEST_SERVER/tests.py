@@ -180,7 +180,8 @@ def create_referents():
 
     # Create a column in referents table (a a line)
     c = s.url('=a_referent/referent_get/10900000')
-    assert(c == 'Vous êtes maintenant le référent pédagogique de cet étudiant.')
+    assert('Vous êtes maintenant référent pédagogique de' in c)
+    assert('10900000' in c)
     
     c = s.url('=' + abj + '/%s/referents_students' % ys +
               '/2/2/cell_change/0/line_0/10800000')
@@ -633,6 +634,36 @@ def tests():
         c = s.url('=' + abj + '/9999/Test/badaddmaster' +
                   '/2/0/table_attr_masters/' + abj)
         assert(c == bad_png)
+
+    if do('tablecopy'):
+        create_u2()
+
+        # Copy only columns
+        c = s.url('=' + root + '/%s/UE-INF20UE2/tablecopy/0/Dossiers/columns'
+                  % ys)
+        assert('OK' in c)
+        c = s.url('=ue1.master')
+        assert("['0', 'Dossiers', 'UE-INF20UE2']" in c)
+        c = s.url('=' + root + '/0/Dossiers/UE-INF20UE2')
+        assert('TITLE0' in c)
+        assert('_TABLE_COMMENT_' in c)
+        assert('MARTIN' not in c)
+
+        # Copy content without history
+        c = s.url('=' + root + '/%s/UE-INF20UE2/tablecopy/0/Dossiers/content'
+                  % ys)
+        assert('OK' in c)
+        c = s.url('=' + root + '/0/Dossiers/UE-INF20UE2')
+        assert('MARTIN' in c)
+
+        # Copy history
+        c = s.url('=' + root + '/%s/UE-INF20UE2/tablecopy/0/Dossiers/history'
+                  % ys)
+        assert('OK' in c)
+        a = utilities.read_file('../DBregtest/Y0/SDossiers/UE-INF20UE2.py')
+        b = utilities.read_file('../DBregtest/Y%d/S%s/UE-INF20UE2.py' % (
+            year, semester))
+        assert( a == b )
 
     if do('masterpower'):
         c = s.url('=' + root + '/9999/Test/masterpower')
@@ -1515,8 +1546,10 @@ cell_change(1,'0_2','ticket_time_to_live','%d',"")
         c = ss.url('=10800001/%s/unload/UE-modifcol' % ys)
         c = ss.url('=10800001/%s/' % ys)
         assert('GOOD_OR_BAD' in c)
-        
 
+        
+        
+        
 if '1' in sys.argv:
    sys.argv.remove('1')
    only_once = True
