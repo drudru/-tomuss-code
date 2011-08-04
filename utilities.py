@@ -41,6 +41,11 @@ def write_file(filename, content):
     f.write(content)
     f.close()
 
+def write_file_safe(filename, content):
+    write_file(filename, content)
+    if configuration.backup:
+        write_file(configuration.backup + filename, content)
+
 lock_list = []
 
 def add_a_lock(fct):
