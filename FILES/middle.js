@@ -569,8 +569,8 @@ function new_new_interface()
   column_attributes['width'].title = "largeur" ;
 
   table_attributes['autosave'].title = 'Enregistrement automatique' ;
-  table_attributes['t_import'].title = '<b>Importer</b> des définitions de colonnes' ;
-  table_attributes['t_export'].title = '<b>Exporter</b> les définitions de colonnes' ;
+  table_attributes['t_import'].title = '<b>Importer</b>' ;
+  table_attributes['t_export'].title = '<b>Exporter</b>' ;
   table_attributes['bookmark'].title = "Créer un signet avec les <b>options d'affichage</b>" ;
   table_attributes['linear'].title = "Linéaire" ;
   table_attributes['update_content'].title = "Forcer la mise à jour" ;
@@ -935,9 +935,12 @@ function new_new_interface()
 
   t.push('<div class="one_line">') ;
   t.push(table_input_attr('t_export')) ;
+  t.push('/') ;
+  t.push(table_input_attr('t_import')) ;
+  t.push(' les définitions de colonnes') ;
   t.push('</div>') ;
   t.push('<div class="one_line">') ;
-  t.push(table_input_attr('t_import')) ;
+  t.push(table_input_attr('t_copy')) ;
   t.push('</div>') ;
   t.push('<div class="one_line">') ;
   t.push(table_input_attr('autosave')) ;
