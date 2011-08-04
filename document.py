@@ -944,7 +944,7 @@ la dernière saisie.
     def location(self):
         return '%d %s %s' % (self.year, self.semester, self.ue)
 
-    def rewrite(self):
+    def rewrite(self, only_columns=False):
         authors = {'*':0}
         s = ['# -*- coding: utf8 -*-']
         s.append('from data import *')
@@ -962,8 +962,8 @@ la dernière saisie.
                     continue
                 attr_value = attr.decode(getattr(c, attr.name))
                 if attr_value != attr.default_value:
-                    s.append('column_attr(%d,%s,%s,%s)' % (
-                        a, repr(c.the_id), repr(attr.name),
+                    s.append('column_attr(%s,%d,%s,%s)' % (
+                        repr(attr.name), a, repr(c.the_id),
                         repr(attr_value)))
                          
         for attr in TableAttr.attrs.values():
@@ -974,6 +974,9 @@ la dernière saisie.
                 s.append('table_attr(%s,%d,%s)' % (
                     repr(attr.name), a,
                     repr(attr_value)))
+
+        if only_columns:
+            return '\n'.join(s) + '\n'
                          
         for line_key, line in self.lines.items():
             for col, cell in zip(self.columns, line):
@@ -998,7 +1001,7 @@ la dernière saisie.
                             repr(cell.comment),
                             ))
                                                     
-        return '\n'.join(s)
+        return '\n'.join(s) + '\n'
 
     def close_active_pages(self):
         for page in self.active_pages:
