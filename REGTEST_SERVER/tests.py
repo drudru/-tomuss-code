@@ -652,11 +652,19 @@ def tests():
         # Copy content without history
         c = s.url('=' + root + '/%s/UE-INF20UE2/tablecopy/0/Dossiers/content'
                   % ys)
+        assert('OK' not in c) # Overwrite not allowed
+        c = s.url('=ue1.master/0/Dossiers/UE-INF20UE2/delete_this_table')
+        c = s.url('=' + root + '/%s/UE-INF20UE2/tablecopy/0/Dossiers/content'
+                  % ys)
         assert('OK' in c)
         c = s.url('=' + root + '/0/Dossiers/UE-INF20UE2')
         assert('MARTIN' in c)
 
         # Copy history
+        c = s.url('=' + root + '/%s/UE-INF20UE2/tablecopy/0/Dossiers/history'
+                  % ys)
+        assert('OK' not in c) # Overwrite not allowed
+        c = s.url('=ue1.master/0/Dossiers/UE-INF20UE2/delete_this_table')
         c = s.url('=' + root + '/%s/UE-INF20UE2/tablecopy/0/Dossiers/history'
                   % ys)
         assert('OK' in c)

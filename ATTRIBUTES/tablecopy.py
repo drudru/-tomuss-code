@@ -57,13 +57,16 @@ def tablecopy(server):
     if dest_table:
         if not dest_table.empty(empty_even_if_used_page=True,
                                 empty_even_if_created_today=True,
-                                empty_even_if_column_created=True):
-            server.the_file.write("""\nLa table destination n'est pas vide.
-            Vous devez la détruire avant d'avoir le droit de faire la copie.
-            La destruction est possible à partir du menu de l'UE sur la
-            page d'accueil.""")
+                                empty_even_if_column_created=True)[0]:
+            server.the_file.write("""\nLa table destination n'est pas vide :
+Vous devez la détruire avant d'avoir le droit de faire la copie.
+La destruction est possible à partir du menu de l'UE sur la
+page d'accueil.""")
             return
+        server.the_file.write("La table destination est actuellement vide.\n")
         dest_table.delete()
+    else:
+        server.the_file.write("La table destination n'existe pas.\n")
 
     if option == 'history':
         c = utilities.read_file(table.filename)
@@ -77,9 +80,8 @@ def tablecopy(server):
 
     filename = document.table_filename(dest_year, dest_semester, server.the_ue)
     utilities.write_file_safe(filename, c)
-    server.the_file.write("La copie a été faite, elle va être vérifiée.\n")
-    
-    
+    server.the_file.write("Copie terminée (%.1fKo), début de vérification.\n" %
+                          (len(c)/1024.))
     dest_table = document.table(dest_year, dest_semester,
                                 server.the_ue, create=False)
     if (len(table.columns) != len(dest_table.columns)
@@ -88,6 +90,15 @@ def tablecopy(server):
         server.the_file.write("\nErreur de copie... %d/%d %s/%s\n" % (
            len(table.columns), len(dest_table.columns),
            table.masters, dest_table.masters))
+
+        for c in table.columns:
+            server.the_file.write(' %s' % c.title)
+        server.the_file.write('\n')
+        for c in dest_table.columns:
+            server.the_file.write(' %s' % c.title)
+            
+
+        
         server.the_file.close()
         raise ValueError('Table Copy Error')
 

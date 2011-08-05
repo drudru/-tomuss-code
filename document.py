@@ -950,8 +950,8 @@ la dernière saisie.
         s.append('from data import *')
         s.append("new_page('' ,'*', '', '')")
         for c in self.columns:
-            if c.empty() and c.type.cell_compute == 'undefined':
-                continue
+            # if c.empty() and c.type.cell_compute == 'undefined':
+            #    continue
             if c.author not in authors:
                 s.append('new_page("",%s,"","")' % repr(c.author))
                 authors[c.author] = len(authors)

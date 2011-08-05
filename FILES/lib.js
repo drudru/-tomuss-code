@@ -3342,7 +3342,7 @@ function compute_groups_values(grouped_by)
 
 function goto_resume()
 {
-  window_open('/=' + ticket + '/' + year + '/' + semester + '/' + ue + '/resume');
+  window_open(url + '/=' + ticket + '/' + year + '/' + semester + '/' + ue + '/resume');
 }
 
 

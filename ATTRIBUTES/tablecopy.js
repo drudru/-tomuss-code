@@ -83,6 +83,12 @@ function previous_year_semester(year, semester)
 function tablecopy_do(t)
 {
   var id = t.id.replace('table_copy_', '') ;
+  var option = 'columns' ;
+  if ( tablecopy_toggle('H') )
+    option = 'history' ;
+  else if ( tablecopy_toggle('C') )
+    option = 'content' ;
+
   if ( t.type == 'button' )
     switch(id)
       {
@@ -119,7 +125,28 @@ function tablecopy_do(t)
 		     ,
 		     '', false) ;
 	break ;
-
+      case 'F':
+	var next_ys = next_year_semester(year, semester) ;
+	create_popup('export_div',
+		     'Copie de la table courante dans le futur.',
+		     'Déroulement de la copie :'
+		     + '<iframe width="100%" src="' + url + '/=' + ticket + '/'
+		     + year + '/' + semester + '/' + ue + '/tablecopy/'
+		     + next_ys[0] + '/' + next_ys[1] + '/' + option
+		     + '">' + '</iframe>',
+		     "", false) ;
+	break ;
+      case 'P':
+	var previous_ys = previous_year_semester(year, semester) ;
+	create_popup('export_div',
+		     'Copie du passé dans la table courante.',
+		     'Déroulement de la copie :'
+		     + '<iframe width="100%" src="' + url + '/=' + ticket + '/'
+		     + previous_ys[0] + '/' + previous_ys[1] + '/' + ue
+		     + '/tablecopy/' + year + '/' + semester + '/' + option
+		     + '">' + '</iframe>',
+		     "", false) ;
+	break ;
       }
   else
     {
@@ -156,17 +183,19 @@ function table_copy()
 			     'Dans le futur.<br>'
 			     +'Action possible seulement si la table '
 			     +"n'est pas vide.",
-			     false, filtered_lines.length == 0) ;
+			     false, false) ;
 
   past = table_copy_button('P', '&nbsp;--&gt;&nbsp;',
 			   'Récupérer le passé.<br>'
-			   +'Action possible seulement si la table '
-			   +'est modifiable.',
-			   false, ! table_attr.modifiable ) ;
+			   +'Action possible seulement si la table courante '
+			   +'est modifiable.<br>'
+			   +'CECI FERME LA TABLE COURANTE, il faudra la rouvrir.'
+			   ,
+			   false, false) ;
 
   st = table_copy_button('ST', '&darr;',
 			 "Copier le contenu d'un tableur dans TOMUSS",
-			 false, ! table_attr.modifiable ) ;
+			 false, false) ;
 
   ts = table_copy_button('TS', '&uarr;',
 			 'Copier le contenu du tableau dans un tableur',
