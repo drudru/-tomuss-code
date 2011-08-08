@@ -17,8 +17,6 @@
     g.ticket_teacher rect { fill: #FF8; }
     g.ticket_root rect { fill: #FF0; }
     g.ticket_abj rect { fill: #880; }
-    g.Printemps rect { fill: #0F0; }
-    g.Automne   rect { fill: #F96; }
     text.action  { font-size: 60%; }
     text.action tspan { text-anchor: middle }
     line { stroke: black; }
@@ -39,8 +37,8 @@
     .data1 { stroke: #F00; fill: #F00}
     .data2 { stroke: #0F0; fill: #0F0}
     .data3 { stroke: #00F; fill: #00F}
-    
   </style>
+  <style id="computed"></style>
   <defs>
     <marker id="Triangle"
       viewBox="0 0 10 10" refX="0" refY="5" 
@@ -72,4 +70,5 @@
     <text x="0" y="0" id="action" class="action"><tspan>sadasd</tspan><tspan>sadasd</tspan></text>
   </g>
   <script xlink:href="../utilities.js"/>
+  <script xlink:href="../lib.js"/>
   <script xlink:href="../live_status.js"/>

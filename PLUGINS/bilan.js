@@ -22,16 +22,6 @@
 
 var size = 1.3 ;
 
-function next_semester(a)
-{
-  if ( a[1] == 'P' )
-    return [a[0], 'a'] ;
-  return [a[0]+1, 'P'] ;
-}
-
-var names = {'a': 'Aut.', 'P': 'Print.'} ;
-var names_full = {'a': 'Automne', 'P': 'Printemps'} ;
-
 /*REDEFINE
 Update the'ues' list with external informations.
 'ues' is a dictionary of tables (see SCRIPTS/bilan.py).
@@ -51,12 +41,11 @@ function update_ues_with_external_data(resume, external_info)
   return ues ;
 }
 
-
 function bilan(ticket, login, resume, firstname, surname, mail, suivi,
 	       i_can_refer, external_info)
 {
-  var older = [9999, 'P'] ;
-  var newer = [0, 'A'] ;
+  var older = [9999, 1] ;
+  var newer = [0, 0] ;
   var s ;
 
   s = '<html><head><link rel="stylesheet" href="/bilan.css" type="text/css">'
@@ -86,20 +75,19 @@ function bilan(ticket, login, resume, firstname, surname, mail, suivi,
   // Compute first and last semester
   for(var i in resume)
     {
-      var semesters = resume[i] ;
-      for(var j in semesters)
+      var t_semesters = resume[i] ;
+      var semester ;
+      for(var j in t_semesters)
 	{
-	  semester = semesters[j] ;
-	  if ( semester[1] == 'Printemps' )
-	    semester[1] = 'P' ;
-	  else if ( semester[1] == 'Automne' )
-	    semester[1] = 'a' ;
-	  else
+	  j = t_semesters[j] ;
+	  semester = [j[0], myindex(semesters, j[1])] ;	  
+	  if ( semester[1] == -1 )
 	    continue ;
 	  if ( semester < older )
 	    older = semester ;
 	  if ( semester > newer )
 	    newer = semester ;
+	  j[1] = semester[1] ; // To sort by time
 	}
     }
 
@@ -109,11 +97,11 @@ function bilan(ticket, login, resume, firstname, surname, mail, suivi,
 
   s = '<table>' ;
   s += '<tr><td>UE' ;
-  for(var i = older ; i <= newer ; i = next_semester(i) )
+  for(var i = older ; i <= newer ; i = next_year_semester_number(i[0], i[1]) )
     {
-      s += '<td><a href="' + suivi[i[0] + '/' + names_full[i[1]]] + '/'
-	+ login + '">' + i[0] + '<br>' + names[i[1]] + '</a></td>';
-      
+      semester = semesters[i[1]] ;
+      s += '<td><a href="' + suivi[i[0] + '/' + semester] + '/'
+	+ login + '">' + i[0] + '<br>' + semester.substr(0,4) + '</a></td>';
     }
   s += '</tr>' ;
   for(var i in ues)
@@ -122,7 +110,7 @@ function bilan(ticket, login, resume, firstname, surname, mail, suivi,
       s += '<tr class="' + t.tr_class + '"><td style="text-align:right">' + ues[i] + '</td>' ;
       if ( t === undefined )
 	alert(1);
-      for(var j = older ; j <= newer ; j = next_semester(j) )
+      for(var j = older ; j <= newer ; j = next_year_semester_number(j[0],j[1]) )
 	{
 	  if ( t[0] === undefined )
 	    {
@@ -135,12 +123,13 @@ function bilan(ticket, login, resume, firstname, surname, mail, suivi,
 	      t.splice(0,1) ;
 	      t.push(tmp) ;
 	    }
+	  semester = semesters[j[1]] ;
 	  if ( t[0][0] == j[0] && t[0][1] == j[1] )
 	    {
 	      var v = t[0] ;
 	      var n = v[2] + v[3] + v[4] ;
 	      s += '<td class="inscrit"><a href="/=' + ticket + '/'
-		+ j[0] + '/' + names_full[j[1]] +'/UE-' + ues[i]
+		+ j[0] + '/' + semester +'/UE-' + ues[i]
 		+ '/=read-only=/=filters=0:' + login_to_id(login)
 		+ '=" target="_blank">' ;
 	      if ( n == 0 )
@@ -166,8 +155,8 @@ function bilan(ticket, login, resume, firstname, surname, mail, suivi,
 	      s += '<td>&nbsp;</td>' ;
 	    }
 	}
-      if ( t.length )
-	      s += '<td>' + t[0][2] + '</td>' ;
+      if ( t.length ) // Display remaining external information
+	s += '<td>' + t[0][2] + '</td>' ;
       s += '</tr>\n' ;
     }
 

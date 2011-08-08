@@ -24,8 +24,6 @@ import document
 import utilities
 import inscrits
 
-# /2011/Printemps/extract/UE-INF1001L:TD1:TD4/UE-MAT1001L:CC1:CC2
-
 def display(server):
     f, year, semester = server.the_file, server.year, server.semester
     # Create dict of all tables

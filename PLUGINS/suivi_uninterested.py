@@ -27,6 +27,7 @@ import os
 import tablestat
 import inscrits
 import time
+import configuration
 
 def uninterested(f, year, semester, port):    
     table = document.table(year, semester, 'referents_students')
@@ -43,11 +44,12 @@ def uninterested(f, year, semester, port):
     students_notes = dict(students)
 
     students_in_blocnote = {}
+    us = configuration.university_semesters
     for t in referent.les_blocsnotes(utilities.university_year(year,
                                                                semester)):
         data_cols = [t.columns.data_col_from_title(title)
-                     for title in ('RDV_1','RDV_2', 'Commentaire Jury Automne',
-                               'RDV_3', 'RDV_4', 'Commentaire Jury Printemps')
+                     for title in ('RDV_1','RDV_2', 'Commentaire Jury '+us[0],
+                               'RDV_3', 'RDV_4', 'Commentaire Jury '+us[1])
                      ]
         for line in t.lines.values():
             
@@ -125,7 +127,9 @@ def uninterested(f, year, semester, port):
     f.write("<p>Ceci ne comptabilise que les visites étudiantes depuis le début de l'année civile")
     f.write('<table border>')
     f.write('<tr><td>Mail<td>Étudiant<td>#de notes<td>#Visites à TOMUSS\n')
-    f.write('<td>RDV 1<td>RDV 2<td>Jury Automne<td>RDV 3<td>RDV 4<td>Jury Printemps<td>Référent pédagogique<td>UE 1<td>UE 2<td>UE 3<td>UE 4<td>UE 5</tr>\n')
+    f.write('<td>RDV 1<td>RDV 2<td>Jury ' + us[0]
+            + '<td>RDV 3<td>RDV 4<td>Jury ' + us[1]
+            + '<td>Référent pédagogique<td>UE 1<td>UE 2<td>UE 3<td>UE 4<td>UE 5</tr>\n')
     for s in k:
         student_mail = inscrits.L_batch.mail(s)
         if student_mail == None:

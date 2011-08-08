@@ -20,6 +20,7 @@
 #    Contact: Thierry.EXCOFFIER@bat710.univ-lyon1.fr
 
 import configuration
+import utilities
 
 class Suivi(object):
     def __init__(self, https=False):
@@ -30,7 +31,7 @@ class Suivi(object):
             self.http = 'http'
     def urls_sorted(self):
         urls = self.urls.items()
-        urls.sort(key=lambda x: (x[0][0], x[0][1].replace('Automne','Z')))
+        urls.sort(key=lambda x: utilities.semester_key(x[0][0], x[0][1]))
         return zip(*urls)[1]
     def add(self, year, semester, host, port):
         if '%' in host:

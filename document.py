@@ -139,16 +139,11 @@ def table_head(year=None, semester=None, ticket=None,
                attrs_from=0):
     s = configuration.suivi.url(year, semester, ticket)
     prefs_table = get_preferences(user_name, create_pref)
-
-    if semester == 'Printemps':
-        background = '#EEFFEE'
-    elif semester == 'Automne':
-        background = '#FFE8D0'
-    else:
-        background = ''
-
-    if background:
+    try:
+        background = configuration.semesters_color[configuration.semesters.index(semester)]
         background = '<style>BODY, TABLE INPUT, #current_input, BODY TABLE.colored TD { background-color: ' + background + '}</style>'
+    except ValueError:
+        background = ''
 
     my_identity2 = utilities.login_to_module(user_name)
 

@@ -290,12 +290,10 @@ def rem_da(login, ue_code, user_name='', date=''):
 @utilities.add_a_lock # Protect the global variable 'abjs'
 def get_abjs(year, semester):
     """Get the ABJ/DA database for the indicated semester"""
-    if semester == 'Printemps' \
-           and year >= configuration.abj_per_semester_before \
+    if year >= configuration.abj_per_semester_before \
            and not configuration.abj_per_semester:
         # Take ABJ from first semester
-        semester = 'Automne'
-        year -= 1
+        year, semester = university_year_semester(year, semester)
     year = str(year)
     try:
         return Abjs.abjs[(year, semester)]
@@ -660,12 +658,11 @@ Cordialement.
             last_day = table_ue.dates[1] + 86400 # End of last day
             table_ue.unload()
     if first_day == 0:
-        if semester == 'Automne':
-            first_day = time.mktime( (year  , 8, 15, 0, 0, 0, 0, 0, 0) )
-            last_day  = time.mktime( (year+1, 1, 31, 0, 0, 0, 0, 0, 0) )
-        elif semester == 'Printemps':
-            first_day = time.mktime( (year  , 1, 31, 0, 0, 0, 0, 0, 0) )
-            last_day  = time.mktime( (year  , 7, 31, 0, 0, 0, 0, 0, 0) )
+        ss = configuration.semester_span(year, semester)
+        if ss:
+            fd, ld = ss.split(' ')
+            first_day = date_to_time(fd)
+            last_day  = date_to_time(ld)
     utilities.warn('first_day=%s %s' % (first_day, last_day))
     #
     # The ABJ

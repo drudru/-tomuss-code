@@ -94,21 +94,18 @@ import os
 import configuration
 
 def extension(server):
-    """Extend the table used in 'Automne' semester to be used
-    in 'Printemps' semester.
+    """Extend the current table to the next semester.
     A symbolic link is created and the current table is accessible
-    in the 2 semester but modifiable only in the 'Printemps' one.
+    in the 2 semesters but modifiable only in the 'next' semester.
     """
-    if server.the_semester != "Printemps":
-        server.the_file.write("Vous n'êtes pas autorisé à faire ceci car l'extension d'UE ce fait de l'automne vers le printemps.")
-        return
+    # if server.the_semester != "Printemps":
+    #    server.the_file.write("Vous n'êtes pas autorisé à faire ceci car l'extension d'UE ce fait de l'automne vers le printemps.")
+    #    return
 
-    table = document.table(server.the_year, server.the_semester,
-                           server.the_ue, None, None)
+    next_year, next_semester = utilities.next_year_semester(
+        server.the_year, server.the_semester)
 
-    if server.ticket.user_name not in table.masters and server.ticket.user_name not in table.teachers:
-        server.the_file.write("Vous n'êtes pas autorisé à faire ceci car vous n'êtes pas responsable de l'UE.")
-        return
+    table = document.table(next_year, next_semester, server.the_ue, None, None)
 
     empty, message = table.empty(empty_even_if_used_page=True,
                                  empty_even_if_created_today=True,
@@ -117,12 +114,13 @@ def extension(server):
         server.the_file.write("Vous n'êtes pas autorisé à faire ceci car la page %s n'est pas vide : " % table.location() + message)
         return
 
-    old_filename = document.table_filename(server.the_year-1, 'Automne',
+    old_filename = document.table_filename(server.the_year,
+                                           server.the_semester,
                                            server.the_ue)
     new_filename = table.filename
 
     if not os.path.exists(old_filename):
-        server.the_file.write("Vous n'êtes pas autorisé à faire ceci car l'UE n'existait pas au semestre d'automne")
+        server.the_file.write("Vous n'êtes pas autorisé à faire ceci car l'UE n'existait pas en %d/%s" % (server.the_year, server.the_semester))
         return
 
     if os.path.islink(old_filename):
@@ -130,7 +128,12 @@ def extension(server):
         return
 
     # The table in the previous semester should not be modified.
-    t = document.table(server.the_year-1, 'Automne', server.the_ue, ro=True)
+    t = document.table(server.the_year, server.the_semester, server.the_ue,
+                       ro=True)
+    if server.ticket.user_name not in t.masters and server.ticket.user_name not in t.teachers:
+        server.the_file.write("Vous n'êtes pas autorisé à faire ceci car vous n'êtes pas responsable de l'UE.")
+        return
+
     t.modifiable = 0
 
     utilities.warn('Move %s to %s' % (old_filename, new_filename))
@@ -148,7 +151,7 @@ def extension(server):
     table.unload(force=True)
     t.unload(force=True)
 
-    server.the_file.write("Extension de l'automne vers le printemps réussie. L'UE n'est maintenant plus semestrialisée")
+    server.the_file.write("Extension de '%s' vers '%s' est réussie. L'UE n'est maintenant plus semestrialisée" % (server.the_semester, next_semester))
     return
         
 

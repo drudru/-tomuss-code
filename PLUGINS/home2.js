@@ -237,15 +237,13 @@ function close_frame()
 function do_extension(code)
 {
   ue_line_close() ;
-  if ( confirm("Extension de " + code + ".\n\nCette opération est irréversible.\nLes étudiants seront les mêmes pour l'automne et le printemps.\nVous êtes sûr vouloir le faire ?") )
+  if ( confirm("Extension de " + code + ".\n\nCette opération est irréversible.\nLes étudiants seront les mêmes pour les 2 semestres.\nVous êtes sûr vouloir le faire ?") )
     {
-      var year = the_year() ;
-      if ( semester() == 'Automne')
-	year++ ;
-
+      var ys = first_university_year_semester() ;
       document.getElementById('feedback').innerHTML =
 	'<div class="frame"><div onclick="close_frame()">Fermer</div><iframe src="'
-	+ base + year + '/Printemps/' + code + '/extension"></iframe></div>' ;
+	+ base + ys[0] + '/' + ys[1] + '/' + code
+	+ '/extension"></iframe></div>' ;
     }
 }
 
@@ -310,7 +308,7 @@ function ue_line_click_more()
       t += ue_line_more_links(code) ;
 
       var txt, n ;
-      // UE Not in Printemps/Automne cannot be in favorites
+      // UE Not in a semester cannot be in favorites
       if ( code && ! code.match('.*/.*') )
 	{
 	  n = ues_favorites[code] ;	  
@@ -344,10 +342,7 @@ function ue_line_click_more()
 	t += '<br><img class="safety" src="_URL_/verysafe.png">Vous avez consulté cette table ' + 
 	  ((1000000+ues_favorites[code])%1000000) + ' fois' ;
 
-      if ( code && ! code.match('.*/.*') && (
-					     (semester() == 'Printemps' && is_the_current_semester())
-					     || (semester() == 'Automne' && is_the_last_semester())
-					     ))
+      if ( code && ! code.match('.*/.*') )
 	{
 	  t +=  '<br><img class="safety" src="_URL_/unsafe.png"><a href="javascript:do_extension(\'' + code + '\');">Passer cette UE en NON-SEMESTRIALISÉ</a>' ;
 	}
@@ -671,7 +666,7 @@ function update_ues_favorites(txt, txt_upper)
   var begin ;
   for(var i in ues_favorites)
     {
-      // XXX Find a better way to sort Printemps/Automne from the others
+      // XXX Find a better way to sort 'semester' tables from the others tables
       if ( ues_favorites[i] > 0
 	   && ( i.substr(2 ,1) == '-'
 		|| i.substr(0,6) == 'etape-'

@@ -585,7 +585,6 @@ They can be&nbsp;:
 	</td>
 	<td>
           Copy the 'referents_students' table in the new semester.<br/>
-          cp DB/Y2009/SAutomne/referents.py  DB/Y2010/SPrintemps
 	    <p>
 	  Restart TOMUSS: <tt>make stop ; make</tt>
 </p>

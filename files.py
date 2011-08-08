@@ -66,5 +66,15 @@ for name in (
     add('TMP', name)
 
 files['style.css'].translate = lambda x:x.replace('_LOGO_', configuration.logo)
-files['lib.js'].append('files.py', utilities.wait_scripts() )
+files['lib.js'].append('files.py',
+                       utilities.wait_scripts()
+                       + '\nvar semesters = '
+                       + utilities.js(configuration.semesters) + ';\n'
+                       + '\nvar semesters_year = '
+                       + utilities.js(configuration.semesters_year) + ';\n'
+                       + '\nvar semesters_months = '
+                       + utilities.js(configuration.semesters_months) + ';\n'
+                       + '\nvar semesters_color = '
+                       + utilities.js(configuration.semesters_color) + ';\n'
+                       )
 

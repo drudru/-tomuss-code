@@ -2099,7 +2099,7 @@ function current_change()
   current_change_running = true ;
 
   // XXX This test should in the template.
-  if ( semester == 'Printemps' || semester == 'Automne' )
+  if ( myindex(semesters, semester) != -1 )
     {
       if ( this.data_col === 0 )
 	{

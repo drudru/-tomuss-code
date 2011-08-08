@@ -36,11 +36,7 @@ files.add('PLUGINS', 'home2.js')
 files.add('PLUGINS', 'home2.css')
 
 options = configuration.special_semesters
-urls = configuration.suivi.urls.values()
-# XXX HORRIBLE KLUDGE because Autumne is before Printemps
-# sort the semesters by time
-urls.sort(cmp=lambda x,y: cmp( (x[2], y[3]), (y[2], x[3]) ))
-for url, port, year, semester, host in urls:
+for url, port, year, semester, host in configuration.suivi.urls_sorted():
     if configuration.year_semester[1] == semester and configuration.year_semester[0] == year:
         selected = ' selected'
     else:

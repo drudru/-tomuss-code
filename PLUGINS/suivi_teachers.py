@@ -50,8 +50,7 @@ def teachers_statistics_table(year, semester):
             for v in line[6:]:
                 teachers[v.author].update(v, table=t)
 
-    if semester == 'Printemps':
-        year -= 1
+    year = utilities.university_year(year, semester)
     for t in referent.les_blocsnotes(year):
         for p in t.pages:
             if p.user_name not in teachers:

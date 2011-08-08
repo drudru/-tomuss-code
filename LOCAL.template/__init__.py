@@ -24,7 +24,8 @@ import socket
 import time
 
 configuration.suivi = servers.Suivi(https=False)
-configuration.suivi.add(time.localtime()[0], 'Printemps',
-                        socket.getfqdn() + ':%d', 8889)
-configuration.suivi.add(time.localtime()[0], 'Automne',
-                        socket.getfqdn() + ':%d', 8890)
+
+# Add a server for each semester.
+for i, semester in enumerate(configuration.semesters):
+    configuration.suivi.add(time.localtime()[0], semester,
+                            socket.getfqdn() + ':%d', 8889 + i)

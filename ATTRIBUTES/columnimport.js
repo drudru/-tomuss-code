@@ -23,8 +23,11 @@
 function import_column()
 {
   var m = '' ;
-  if ( semester != 'Printemps' && semester != 'Automne' )
-   m = '<small><a href="javascript:full_import()">Import d\'une table complète : copier le fichier CSV au dessus et cliquez ici.</a></small>' ;
+
+  if ( filtered_lines.length !== 0 )
+    m = "<small>L'importation de table complète fonctionne seulement si la table est vide.</small>" ;
+  else
+    m = '<small><a href="javascript:full_import()">Import d\'une table complète : copier le fichier CSV au dessus et cliquez ici.</a></small>' ;
 
   var t ;
   if ( the_current_cell.data_col === 0 )
@@ -168,13 +171,6 @@ function import_column_do()
 function full_import()
 {
   var cls = column_list_all() ;
-
-  if ( filtered_lines.length !== 0 )
-    {
-      alert("Il est interdit d'importer dans une table non vide") ;
-      return ;
-    }
-
   var import_lines = popup_value() ;
   var line, nr_cols, new_lines, new_lines_id ;
   new_lines = [] ;

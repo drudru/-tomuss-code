@@ -119,10 +119,12 @@ function abj_per_day()
   
   var mm, first, start, stop, yy, nr, table_abjs = '' ;
 
-  if ( semester == 'Automne' )
-    { start = 8 ; stop = 14 ; yy = year ; }
+  var i = myindex(semesters, semester) ;
+  yy = year ;
+  if ( i != -1 )
+    { start = semesters_months[i][0] ; stop = semesters_months[i][1] ; }
   else
-    { start = 1 ; stop = 8 ; yy = year ; }
+    { start = 1 ; stop = 12 ; }
 
   nr = 0 ;
   for(var m=start; m<stop; m++)

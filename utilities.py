@@ -168,10 +168,54 @@ def university_year(year=None, semester=None):
         semester = configuration.year_semester[1]
     if year is None:
         year = configuration.year_semester[0]
-    if semester == 'Printemps':
-        return year - 1
-    else:
+    try:
+        i = configuration.semesters.index(semester)
+    except ValueError:
         return year
+    return year + configuration.semesters_year[i]
+
+def university_year_semester(year=None, semester=None):
+    if semester is None:
+        semester = configuration.year_semester[1]
+    if year is None:
+        year = configuration.year_semester[0]
+    try:
+        i = configuration.semesters.index(semester)
+    except ValueError:
+        return year, semester
+    
+    return year + configuration.semesters_year[i], university_semesters[0]
+
+
+def next_year_semester(year, semester):
+    try:
+        i = (configuration.semesters.index(semester) + 1) % len(
+            configuration.semesters)
+    except ValueError:
+        return year + 1, semester
+    if i != 0:
+        return year, configuration.semesters[i]
+    else:
+        return year + 1, configuration.semesters[i]
+
+def previous_year_semester(year, semester):
+    try:
+        i = (configuration.semesters.index(semester)
+             + len(configuration.semesters) - 1) % len(
+                 configuration.semesters)
+    except ValueError:
+        return year - 1, semester
+    if i != len(configuration.semesters) - 1:
+        return year, configuration.semesters[i]
+    else:
+        return year - 1, configuration.semesters[i]
+
+def semester_key(year, semester):
+    try:
+        return year, configuration.semesters.index(semester)
+    except ValueError:
+        return year, semester
+
 
 live_log = None
 
@@ -324,6 +368,8 @@ def js(t):
     elif isinstance(t, dict):
         return '{' + ','.join("'%s':%s" % (k, js(v))
                               for k, v in t.items()) + '}'
+    elif isinstance(t, tuple):
+        return str(list(t))
     else:
         return str(t)
 

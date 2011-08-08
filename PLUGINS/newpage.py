@@ -133,7 +133,7 @@ def new_page(server):
 
     # Update the number of access for the user
     # No lock because it is not important (there is a lock in manage_key)
-    if server.the_semester in ('Printemps', 'Automne'):
+    if server.the_semester in configuration.semesters:
         d = utilities.manage_key('LOGINS',
                                  os.path.join(server.ticket.user_name, 'pages')
                                  )

@@ -37,6 +37,7 @@ def init(table):
 
 def check_columns(table):
     page = table.pages[0]
+    us = configuration.university_semesters
     # Don't change line order.
     # The line content is used in other plugins and the order must be unchanged
     # To change display order, use the number in the first column.
@@ -46,21 +47,21 @@ def check_columns(table):
 (2 ,'0_2' ,'Nom'                     ,'Text','F',8 ,""),
 (90,'0_3' ,'Contacté'                ,'Bool','' ,4 ,""),
 (6 ,'0_4' ,'RDV_1'                   ,'Prst','' ,4 ,"Premier rendez-vous"),
-(4 ,'0_5' ,'TOMUSS_Automne'          ,'Bool','' ,4 ,"L'étudiant s'est connecté"),
+(4 ,'0_5' ,'TOMUSS_'+us[0]           ,'Bool','' ,4 ,us[0] + " : L'étudiant s'est connecté"),
 (7 ,'0_6' ,'RDV_2'                   ,'Prst','' ,4 ,"Deuxième rendez-vous"),
 (91,'0_7' ,'ContratRespecté'         ,'Bool','' ,4 ,""),
-(5 ,'0_8' ,'Remarques IP automne'    ,'Text','' ,16,'Remarques à usage privé'),
+(5 ,'0_8' ,'Remarques IP ' + us[0]   ,'Text','' ,16,'Remarques à usage privé'),
 (92,'0_9' ,'Contacté_2'              ,'Bool','' ,4 ,""),
 (11,'0_10','RDV_3'                   ,'Prst','' ,4 ,""),
-(9 ,'0_11','TOMUSS_Printemps'        ,'Bool','' ,4 ,"L'étudiant s'est connecté"),
+(9 ,'0_11','TOMUSS_'+us[1]           ,'Bool','' ,4 ,us[1] + " : L'étudiant s'est connecté"),
 (12,'0_12','RDV_4'                   ,'Prst','' ,4 ,""),
 (93,'0_13','ContratRespecté_2'       ,'Bool','' ,4 ,""),
-(10,'0_14','Remarques IP Printemps'  ,'Text','' ,16,'Remarques à usage privé'),
+(10,'0_14','Remarques IP ' + us[1]   ,'Text','' ,16,'Remarques à usage privé'),
 (94,'0_15','.Réussite'               ,'Bool','' ,4 ,"Étudiant en situation de réussite"),
-(8 ,'0_16','Commentaire Jury Automne','Text','' ,16,"Transmis aux membres des jurys"),
+(8 ,'0_16','Commentaire Jury ' +us[0],'Text','' ,16,"Transmis aux membres des jurys"),
 (95,'0_17','Inscrit'                 ,'Text','C',1 ,""),
 (3 ,'0_18','Primo Entrant'           ,'Bool','F',4 ,"Première inscription en licence."),
-(13,'0_19','Commentaire Jury Printemps','Text','',16,"Transmis aux membres des jurys"),
+(13,'0_19','Commentaire Jury ' +us[1],'Text','',16,"Transmis aux membres des jurys"),
 ):
         for col in table.columns:
             # do not create the column if it exists.
@@ -115,7 +116,7 @@ def update_inscrits_referents(the_ids, table, page):
         check_columns(table)
     finally:
         table.unlock()
-    if configuration.year_semester[1] == 'Automne':
+    if configuration.year_semester[1] == configuration.university_semesters[0]:
         contrat = '0_5'
     else:
         contrat = '0_11'

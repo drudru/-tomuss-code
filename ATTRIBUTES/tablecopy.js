@@ -59,27 +59,6 @@ function tablecopy_toggle(id, toggle)
   return toggled ;
 }
 
-function next_year_semester(year, semester)
-{
-  switch(semester)
-    {
-    case 'Printemps': return [year, 'Automne'] ;
-    case 'Automne': return [Number(year)+1, 'Printemps'] ;
-    default: return [Number(year)+1, semester] ;
-    }
-}
-
-function previous_year_semester(year, semester)
-{
-  switch(semester)
-    {
-    case 'Printemps': return [year - 1, 'Automne'] ;
-    case 'Automne': return [year, 'Printemps'] ;
-    default: return [year - 1, semester] ;
-    }
-}
-  
-
 function tablecopy_do(t)
 {
   var id = t.id.replace('table_copy_', '') ;

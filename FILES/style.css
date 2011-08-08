@@ -1,9 +1,5 @@
 
-/* BODY, TABLE INPUT, TABLE TD, TH, P, H1, #current_input { */
-/* These values are also in 'document.py' for TABLE */
-BODY          ,BODY           TABLE.colored TD { background-color: #EEEEEE ; }
-BODY.Printemps,BODY.Printemps TABLE.colored TD { background-color: #F4FFF4 ; }
-BODY.Automne  ,BODY.Automne   TABLE.colored TD { background-color: #FFF8E0 ; }
+BODY, BODY TABLE.colored TD { background-color: #EEEEEE ; }
 
 BODY {
   background-image: url('_LOGO_');
@@ -53,11 +49,6 @@ BODY.autosavefailed, BODY.autosavefailed P, BODY.autosavefailed H1, BODY.autosav
 .title_pointers DIV.tipped {
   padding-top: 1em;
 }
-
-.autumn { background-color: #FB8 }
-.spring { background-color: #8F8 }
-/* Does not work with IE */
-/* SELECT.autumn OPTION, SELECT.spring OPTION { background-color: white; } */
 
 .shortcut {
   background-color: #0F0 ;

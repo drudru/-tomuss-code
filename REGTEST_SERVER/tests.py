@@ -49,11 +49,7 @@ unauthorized_html = utilities.read_file('../FILES/unauthorized.html')
 
 year = configuration.year_semester[0]
 semester = configuration.year_semester[1]
-if semester == 'Printemps':
-    uyear = year - 1
-else:
-    uyear = year
-
+uyear = utilities.university_year()
 ys = '%d/%s' % (year, semester)
 ys_old = '%d/%s' % (year-1, semester)
 
@@ -883,10 +879,7 @@ def tests():
         c = s.url('=' + abj + '/%s/extension/1/0/table_attr_masters/' % ys + abj)
         assert( c == ok_png)
         c = s.url('=' + abj + '/%s/extension/extension' % ys)
-        if semester == 'Printemps':
-            assert('existait pas au semestre' in c)
-        else:
-            assert('automne vers le printemps' in c)
+        assert( ("Extension de '%s' vers '" % semester) in c)
 
     if do('tt'):
         create_tt()

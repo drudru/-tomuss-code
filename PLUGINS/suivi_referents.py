@@ -22,6 +22,7 @@
 import plugin
 import referent
 import utilities
+import configuration
 
 class StatCol(object):
     def __init__(self, titles, increment=lambda x: True):
@@ -55,26 +56,26 @@ class StatCol(object):
         
 
 def stat_referent(f, year, semester):
-
+    us = configuration.university_semesters
     columns = (
         StatCol( ('RDV_1',), increment=lambda x: x == 'PRST'),
         StatCol( ('RDV_2',), increment=lambda x: x == 'PRST'),
         StatCol( ('RDV_3',), increment=lambda x: x == 'PRST'),
         StatCol( ('RDV_4',), increment=lambda x: x == 'PRST'),
-        StatCol( ('Remarques', 'Remarques IP automne')),
-        StatCol( ('Remarques_2', 'Remarques IP Printemps')),
+        StatCol( ('Remarques', 'Remarques IP ' + us[0])),
+        StatCol( ('Remarques_2', 'Remarques IP ' + us[1])),
         StatCol( ('Contacté',)),
         StatCol( ('Contacté_2',)),
         StatCol( ('ContratSigné',)),
-        StatCol( ('TOMUSS_Automne',)),
-        StatCol( ('TOMUSS_Printemps',)),
+        StatCol( ('TOMUSS_'+us[0], us[0])),
+        StatCol( ('TOMUSS_'+us[1], us[1])),
         StatCol( ('ContratSigné 2',)),
         StatCol( ('ContratRespecté',), increment=lambda x: x == 'OUI'),
         StatCol( ('ContratNonRespecté',), increment=lambda x: x == 'NON'),
         StatCol( ('ContratRespecté_2',), increment=lambda x: x == 'OUI'),
         StatCol( ('ContratNonRespecté_2',), increment=lambda x: x == 'NON'),
-        StatCol( ('Commentaire Jury Automne',)),
-        StatCol( ('Commentaire Jury Printemps',)),
+        StatCol( ('Commentaire Jury ' + us[0],)),
+        StatCol( ('Commentaire Jury ' + us[1],)),
         StatCol( ('Primo Entrant',)),
     )
 

@@ -19,6 +19,7 @@
 #
 #    Contact: Thierry.EXCOFFIER@bat710.univ-lyon1.fr
 
+import document # Fix circular import problem
 import data
 import utilities
 import configuration

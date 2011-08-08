@@ -8,8 +8,6 @@ Nouvelles fonctionnalités.
 Utilisateurs finaux.
 --------------------
 
-* Copier une table en vidant l'historique ou non, même semestre ou pas
-
 * Deux inscriptions en TR
 
 * Sauvegarde de l'état figé d'une colonne (à faire dans le nouvel interface).
@@ -154,6 +152,8 @@ Problèmes à résoudre.
 Améliorations de code source.
 =============================
 
+* Attribut : clef unique
+
 * Tester le nouveau utility.js()
 
 * Scrollbar de chargement jamais visible : l'enlever ?
@@ -171,8 +171,6 @@ Améliorations de code source.
 * Méthode javascript pour attr : editable (masters attributes)
 
 * Faire disparaitre UE- EC- car ce n'est pas portable.
-
-* Faire disparaître Printemps/Automne
 
 * Il faut enlever toute référence aux noms de types dans le JS
 

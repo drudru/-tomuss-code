@@ -32,12 +32,13 @@ from Referents import init, content
 
 def check_columns(table):
     page = table.pages[0]
+    us = configuration.university_semesters
     for col_id, col_title, col_type, col_fixed, col_width, col_comment in (
         ('0_0' ,'ID'               ,'Text','F', 4,"Numéro étudiant"),
         ('0_1' ,'Prénom'           ,'Text','F', 8,""),
         ('0_2' ,'Nom'              ,'Text','F', 8,""),
-        ('0_3' ,'TOMUSS_Automne'   ,'Bool','' , 4,"l'étudiant s'est connecté"),
-        ('0_4' ,'TOMUSS_Printemps' ,'Bool','' , 4,"l'étudiant s'est connecté"),
+        ('0_3' ,'TOMUSS_'+us[0]    ,'Bool','' , 4,us[0] + " : l'étudiant s'est connecté"),
+        ('0_4' ,'TOMUSS_'+us[1]    ,'Bool','' , 4,us[1] + " : l'étudiant s'est connecté"),
         ('0_5' ,'Inscrit'          ,'Text','C' ,1,""),
         ):
         for col in table.columns:
@@ -67,7 +68,7 @@ def update_inscrits_favoris(the_ids, table, page):
         check_columns(table)
     finally:
         table.unlock()
-    if configuration.year_semester[1] == 'Automne':
+    if configuration.year_semester[1] == configuration.university_semesters[0]:
         contrat = '0_3'
     else:
         contrat = '0_4'

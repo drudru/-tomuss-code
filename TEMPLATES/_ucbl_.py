@@ -97,11 +97,10 @@ def create(table):
                              'Text', '[0;20]','1','',0, 8)
         table.column_comment(p, '0_10', "Commentaire de l'enseignant")
         
-
-    if table.semester == 'Automne':
-        table.date_change(p, '15/8/%d 31/1/%d' % (table.year, table.year+1))
-    elif table.semester == 'Printemps':
-        table.date_change(p, '1/1/%d 31/7/%d' % (table.year, table.year))
+    ts = configuration.semester_span(table.year, table.semester)
+    utilities.warn('*'*99 + repr(ts))
+    if ts:
+        table.date_change(p, ts)
 
 def student_add_allowed(table, new_list=None):
     warn('%s allow_student_removal %s' % (

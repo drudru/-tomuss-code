@@ -29,6 +29,13 @@ var tspan_template  = document.getElementById('tspan') ;
 var graphes ;
 var graphes_data ;
 
+var s = '' ;
+for(var i in semesters)
+  {
+    s += 'g.' + semesters[i] + ' rect { fill: ' + semesters_color[i] + '; }\n';
+  }
+document.getElementById('computed').textContent = s ;
+
 
 function g(x)
 {

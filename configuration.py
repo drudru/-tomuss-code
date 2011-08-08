@@ -25,6 +25,47 @@ import time
 
 version = '3.0.2'
 
+
+###############################################################################
+# The semester list must not change in the time.
+# The student 'suivi' is on these semesters.
+#
+# The semesters are defined in the REAL YEAR order (not university one)
+# The quadruples are :
+#   * The semester name as it is used on the screen and on the filesystem
+#   * The value to add to the year to find the 'university' year.
+#     To use semesters with the university year number: use [0, 0] and
+#     define the semesters in the order of the university year
+#   * The first and last year month of the semester.
+#     From 1 to 23, 13 = January
+#   * The HTML color.
+# By the way, you can use 1 or more than 2 semesters...
+# You need to create TEMPLATES for each semester (See Automne.py)
+
+semesters, semesters_year, semesters_months, semesters_color = zip(
+    ('Printemps', -1, [1, 8], '#EEFFEE' ),
+    ('Automne'  ,  0, [8,13], '#FFE8D0' ),
+    )
+
+# construct the university semesters from previous information
+university_semesters = (semesters[semesters_year.index(0):]
+                        + semesters[:semesters_year.index(0)])
+
+#REDEFINE
+# Time span of the given semester
+def semester_span(year, semester):
+    try:
+        i = semesters.index(semester)
+    except ValueError:
+        return
+    def p(month):
+        overflow = int(month > 12)
+        return '%d/%d' % (month - overflow*12, year + overflow)
+    return '1/%s 31/%s' % (p(semesters_months[i][0]),
+                           p(semesters_months[i][1]))
+
+###############################################################################
+
 # The following information can be redefined by python modules
 # loaded at the end of this file.
 # DO NOT EDIT THE VALUES IN THIS FILE.
@@ -71,17 +112,17 @@ allow_student_removal = True
 ticket_time_to_live = 10 * 3600 # in seconds
 
 # Current semester/year
-year_semester = (time.localtime()[0], 'Printemps')
+year_semester = (time.localtime()[0], semesters[0])
 
 # Semester always in the menu on the first page.
 # Other are added for each 'suivi' server.
-special_semesters = '<option>2008/Test</option><option>2008/Printemps</option>'
+special_semesters = '<option>2008/Test</option><option>2008/' + semesters[0] + '</option>'
 
 # Next semester (usable if UE is closed)
-year_semester_next = (time.localtime()[0], 'Automne')
+year_semester_next = (time.localtime()[0], semesters[1])
 
 # Semester we don't want to be displayed as a 'master_of'
-master_of_exceptions = ('Printemps', 'Automne', 'Test', 'Referents', 'Preferences')
+master_of_exceptions = tuple(semesters) + ('Test', 'Referents', 'Preferences')
 
 # The TOMUSS super user
 root = ('super.user',)
@@ -212,11 +253,11 @@ server_url = '%s:%d' % (server_base_url, server_port)
 import servers
 suivi = servers.Suivi(https=False)
 if time.localtime()[1] < 9:
-    suivi.add(time.localtime()[0]-1, 'Automne'  , socket.getfqdn()+':%d', 8889)
-    suivi.add(time.localtime()[0]  , 'Printemps', socket.getfqdn()+':%d', 8890)
+    suivi.add(time.localtime()[0]-1, semesters[1],socket.getfqdn()+':%d', 8889)
+    suivi.add(time.localtime()[0]  , semesters[0],socket.getfqdn()+':%d', 8890)
 else:
-    suivi.add(time.localtime()[0]  , 'Automne'  , socket.getfqdn()+':%d', 8889)
-    suivi.add(time.localtime()[0]+1, 'Printemps', socket.getfqdn()+':%d', 8890)
+    suivi.add(time.localtime()[0]  , semesters[1],socket.getfqdn()+':%d', 8889)
+    suivi.add(time.localtime()[0]+1, semesters[0],socket.getfqdn()+':%d', 8890)
 
 # suivi.add(2008, 'Automne'  , socket.getfqdn() + ':%d', 8889)
 

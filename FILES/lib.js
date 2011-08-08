@@ -387,6 +387,41 @@ function get_option(name, default_value, do_not_unescape)
   return o ;
 }
 
+function previous_year_semester(year, semester)
+{
+  var i = myindex(semesters, semester) ;
+  if ( i == -1 )
+    return [year - 1, semester] ;
+  i = ( i + semesters.length - 1 ) % semesters.length ;
+  if (i != semesters.length - 1)
+    return [year, semesters[i]] ;
+  else
+    return [year - 1, semesters[i]] ;
+}
+
+function next_year_semester(year, semester)
+{
+  var i = myindex(semesters, semester) ;
+  if ( i == -1 )
+    return [year + 1, semester] ;
+  i = ( i + 1 ) % semesters.length ;
+  if (i != 0)
+    return [year, semesters[i]] ;
+  else
+    return [year + 1, semesters[i]] ;
+}
+
+function next_year_semester_number(year, semester)
+{
+  semester += 1 ;
+  if ( semester == semesters.length )
+    {
+      semester = 0 ;
+      year += 1 ;
+    }
+  return [year, semester] ;
+}
+
 /******************************************************************************
 Function are launched on header events
 ******************************************************************************/

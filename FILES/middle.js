@@ -89,7 +89,7 @@ function head_html()
 
   var w ;
 
-  if ( semester == 'Printemps' || semester == 'Automne' )
+  if ( myindex(semesters, semester) != -1 )
     w = '<link href="' + suivi.split('/=')[0] + '/rss2/' + ue + '" rel="alternate" title="TOMUSS" type="application/rss+xml">' ;
   else
     w = '' ;
@@ -108,7 +108,7 @@ function head_html()
    '<a href="' + url + '/=' + ticket + '/logout">Déconnexion</a> <b>' +
     my_identity + '</b>' ;
 
-    if ( semester == 'Printemps' || semester == 'Automne' )
+  if ( myindex(semesters, semester) != -1 )
       w += '<a href="' + suivi.split('/=')[0] + '/rss2/' + ue + '"><img style="border:0px" src="' + url + '/feed.png"></a>' ;
 
   if ( window.location.pathname.search('=new-interface=') == -1 )
@@ -154,28 +154,21 @@ function head_html()
  
  w += '</div><h1>'  ;
 
- var semester_class ;
- if ( semester == 'Printemps' )
-   semester_class = "spring" ;
- else if ( semester == 'Automne' )
-   semester_class = "autumn" ;
- else
-   semester_class = '' ;
+ var semester_color = semesters_color[myindex(semesters, semester)] ;
 
  var options ;
- if ( semester_class !== '' )
+ if ( semester_color )
    {
      options = "__OPTIONS__" ;
      options = options.replace('>' + year + '/' + semester,
 			       ' selected>' + year + '/' + semester) ;
-
-     options = '<select onchange="semester_change(this);" class="'
-       + semester_class + '">' + options + '</select>' ;
+     options = '<select onchange="semester_change(this);" '
+       + 'style="background:' + semester_color + '">'
+       + options + '</select>' ;
    }
  else
    {
-     options = '<span class="' + semester_class + '">' + year + ' '
-       + semester + '</span>' ;
+     options = '<span>' + year + ' ' + semester + '</span>' ;
    }
 
  w += options + ' ' + ue + ' ' + table_attr.table_title ;
@@ -912,7 +905,7 @@ function new_new_interface()
   t.push('</div>') ;
   t.push('<div class="one_line">') ;
 
-  if ( semester == 'Printemps' || semester == 'Automne' )
+  if ( myindex(semesters, semester) != -1 )
     t.push('Affichage étudiant : ' +
 	   table_input_attr('official_ue', [[0,'Invisible'],[1,'Visible']])) ;
   else
@@ -1108,7 +1101,7 @@ for(var type_i in types)
    table_input_attr('private',    [[0,'Publique'],[1,'Privée']]) +
    table_input_attr('modifiable', [[0,'Non Modifiable'],[1,'Modifiable']]) ;
 
- if ( semester == 'Printemps' || semester == 'Automne' )
+ if ( myindex(semesters, semester) != -1 )
    w += table_input_attr('official_ue', [[0,'Invisible'],[1,'Visible']]) ;
 
  w += table_input_attr('default_nr_columns') + '<br></div>' +

@@ -43,6 +43,21 @@ function current_year_semester()
   return s.childNodes[s.childNodes.length - 1].innerHTML ; 
 }
 
+function first_university_year_semester()
+{
+  var ys = current_year_semester().split('/') ;
+  var the_year = ys[0] ;
+  var the_semester = ys[1] ;
+  // Search first semester
+  while ( semesters_year[myindex(semesters, the_semester)] != 0 )
+    {
+      ys = previous_year_semester(the_year, the_semester) ;
+      the_year = ys[0] ;
+      the_semester = ys[1] ;
+    }
+  return [the_year, the_semester] ;
+}
+
 var goto_url_last_url ;
 var goto_url_last_time ;
 
@@ -67,7 +82,7 @@ function go(x)
 
 function the_year()
 {
-  return year_semester().split('/')[0] ;
+  return Number(year_semester().split('/')[0]) ;
 }
 
 function do_action(action, html_class)
@@ -81,9 +96,10 @@ function do_action(action, html_class)
 function university_year()
 {
   var ys = year_semester().split('/') ;
-  if ( ys[1] == 'Printemps' )
-     ys[0] = ys[0] - 1 ;
-  return ys[0] ;
+  var i = myindex(semesters, ys[1]) ;
+  if ( i == -1 )
+    return Number(ys[0]) ;
+  return Number(ys[0]) + semesters_year[i] ;
 }
 
 function semester()
@@ -93,8 +109,9 @@ function semester()
 
 function go_referent()
 {
+  var ys = first_university_year_semester() ;
   var s = base + university_year() + "/Referents/" + username2 ;
-  if ( semester() == 'Printemps' )
+  if ( semester() != ys[1] )
       s += '/=column_offset=6' ;
   goto_url(s) ;
 }

@@ -25,8 +25,6 @@ import utilities
 import sys
 import inscrits
 
-order = {'Printemps':1, 'Automne':0}
-
 class UE:
     def __init__(self):
         self.infos = {}
@@ -68,7 +66,7 @@ class UE:
 
     def __str__(self):
         keys = list(self.infos.keys())
-        keys.sort(key=lambda x: (x[0], order[x[1]]))
+        keys.sort(key=lambda x: utilities.semester_key(x[0], x[1]))
         s = []
         for k in keys:
             v = self.infos[k]
@@ -88,7 +86,7 @@ for syear in os.listdir(configuration.db):
     except ValueError:
         continue
     for semester in os.listdir(os.path.join(configuration.db, syear)):
-        if (semester[1:] not in order
+        if (semester[1:] not in configuration.semesters
             or not os.path.isdir(os.path.join(configuration.db, syear,
                                               semester))
             ):
