@@ -90,8 +90,8 @@ function abj_per_day()
   for(var i in the_student_abjs)
     {
       s += "the_abjs['" + i + "'] = [" ;
-      names += ',\"' + i + '\":\"' + lines[login_to_line(i)][2].value
-	+ ' ' + lines[login_to_line(i)][1].value+ '\"';
+      names += ',\"' + i + '\":\"' + lines[login_to_line_id(i)][2].value
+	+ ' ' + lines[login_to_line_id(i)][1].value+ '\"';
       i = the_student_abjs[i] ;
       var t = '' ;
       for(var j in i[0])
@@ -181,7 +181,7 @@ function abj_per_day()
       if ( data[1].length == 0 && data[2] == '' )
 	continue ;
 	
-      line = lines[login_to_line(login)] ;
+      line = lines[login_to_line_id(login)] ;
       student = login ;
       if ( line )
 	student = html(line[2].value) + ' ' + html(line[1].value)

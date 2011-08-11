@@ -361,7 +361,8 @@ class Lines(object):
     def js(self, for_student=False):
         """Create JavaScript generating all the lines data."""
         s = []
-        for line in self.lines.values():
-            s.append('P(' + line.js(for_student) + ');')
+        for line_id, line in self.lines.items():
+            s.append('P(%s,' % utilities.js(line_id)
+                     + line.js(for_student) + ');')
         return '\n'.join(s)
 

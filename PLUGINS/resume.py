@@ -44,8 +44,9 @@ def resume(server):
                                               attrs_from=Resume(),
                                               user_name=server.ticket.user_name
                                               ) +
+                          '<script>' +
                           TEMPLATES._ucbl_.update_student_information +
-         "<script>document.write(head_html()); insert_middle();</script>")
+         ";\ndocument.write(head_html()); insert_middle();</script>")
                           
     logins = {}
     columns = [
@@ -94,25 +95,20 @@ def resume(server):
     columns[-1].type = plugins.types['Moy']
 
 
-    lines_id = '[' + ','.join(['"l%d"' % i for i in range(len(logins))]) + ']'
-
     lines = []
-    for stat in logins.values():
-        lines.append('[C(' + utilities.js(stat.login)
+    for i, stat in enumerate(logins.values()):
+        lines.append('"%d": [C(' % i  + utilities.js(stat.login)
                      + '),C(' + utilities.js(stat.surname)
                      + '),C(' + utilities.js(stat.name)
                      + '),' +
                      ','.join(['C(%s)' % stat.tables.get(col.title,('',))[0]
                       for col in columns[3:]])
                      + ',C()]')
-    lines = '[' + ',\n'.join(lines) + ']'
-    
-
+    lines = '{' + ',\n'.join(lines) + '}'
     columns = '[' + ',\n'.join([col.js(hide=False) for col in columns]) + ']'
     
     server.the_file.write("""
     <script>
-    lines_id = %s ;
     columns = %s ;
     lines = %s ;
     document.write(tail_html()) ;
@@ -120,7 +116,7 @@ def resume(server):
     table_attr.table_title = %s ;
     runlog(columns, lines) ;
     </script>
-    """ % (lines_id, columns, lines, utilities.js(repr(server.the_path)) ))
+    """ % (columns, lines, utilities.js(repr(server.the_path)) ))
     server.the_file.close()
 
 

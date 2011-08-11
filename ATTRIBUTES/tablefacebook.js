@@ -57,9 +57,9 @@ function facebook_display()
 	    s.push(' ' + columns[g].title + '=' + group.split('\001')[i++] ) ;
 	  }
 	s.push("</h2>")
-	for(var data_lin in lines)
-	  if ( compute_groups_key(grouped_by, lines[data_lin]) == group )
-	    s.push(facebook_picture(lines[data_lin])) ;
+	for(var line_id in lines)
+	  if ( compute_groups_key(grouped_by, lines[line_id]) == group )
+	    s.push(facebook_picture(lines[line_id])) ;
       }
   document.getElementById('content').innerHTML = s.join('\n') ;
 }

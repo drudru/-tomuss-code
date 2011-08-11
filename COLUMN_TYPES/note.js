@@ -22,7 +22,7 @@
 function compute_column_stat(column)
 {
   var data_col = column.data_col ;
-  var max = lines[0][data_col].value ;
+  var max = -1e40 ;
   var v, sum, sum2, nr ;
 
   sum = 0 ;

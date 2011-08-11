@@ -10,7 +10,7 @@ Utilisateurs finaux.
 
 * Deux inscriptions en TR
 
-* Sauvegarde de l'état figé d'une colonne (à faire dans le nouvel interface).
+* Associer une/des dates à une colonne
 
 * Meilleur synchronisation orientaiton_rp -> rdv_ip
   Synchronisation de la discipline
@@ -19,15 +19,15 @@ Utilisateurs finaux.
 * Pourcentage d'ABJ pour le résultat d'un calcul en fonction du poids
   des colonnes moyennées.
 
+* Dans le publipostage : mode HTML avec des vrais URL
+
 * IE : Suivi de l'étudiant plus joli.
+
+* Sauvegarde de l'état figé d'une colonne (à faire dans le nouvel interface).
 
 * Collé multiligne dans une cellule : message d'erreur indiquant
   que c'est trop dangereux.
   C'est dangereux car il faut transformer le INPUT en TEXTAREA
-
-* Dans le publipostage : mode HTML avec des vrais URL
-
-* Associer une/des dates à une colonne
 
 * Dans le suivi : moyenne des notes en plus du rang.
 
@@ -157,8 +157,6 @@ Améliorations de code source.
 * Tester le nouveau utility.js()
 
 * Scrollbar de chargement jamais visible : l'enlever ?
-
-* Javascript : supprimer data_lin et utiliser les id directement
 
 * Regtest javascript : filtre et double clique
 

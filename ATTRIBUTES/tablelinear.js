@@ -49,7 +49,7 @@ function Linear()
 	  value = tofixed(value).replace(/[.]*0*$/,'') ;
 	return value ;
       },
-      function(value) { cell_set_value_real(this.L.data_lin(),
+      function(value) { cell_set_value_real(this.L.line_id(),
 					    this.L.data_col(),
 					    value);
       },
@@ -84,7 +84,7 @@ function Linear()
 	  'les étudiants peuvent voir ce commentaire.' ; },
       'Commentaire',
       function() { return this.L.cell().comment ; },
-      function(value) { comment_change(this.L.data_lin(),
+      function(value) { comment_change(this.L.line_id(),
 				       this.L.data_col(),
 				       value);
       },
@@ -109,7 +109,7 @@ function Linear()
      (this,
       function() { return "Rang de la note dans la colonne." ; },
       'Rang',
-      function() { return compute_rank(this.L.data_lin(), this.L.column()).replace('&nbsp;','').replace('/', ' sur ') ; }
+      function() { return compute_rank(this.L.line_id(), this.L.column()).replace('&nbsp;','').replace('/', ' sur ') ; }
       ),
      new Information
      (this,
@@ -299,7 +299,7 @@ function Linear()
       function() {return "Statistiques." ; },
       '',
       function() { return filtered_lines.length + " lignes affichées sur " +
-	  (first_line_not_empty()+1) ; }
+	  nr_not_empty_lines ; }
       ),
      new Information
      (this,
@@ -396,7 +396,7 @@ function column_list_all2()
 }
 
 function linear_data_col() { return column_list_all2()[this.col]      ; }
-function linear_data_lin() { return this.line()['number']             ; }
+function linear_line_id()  { return this.line().line_id               ; }
 function linear_column()   { return columns[this.data_col()]          ; }
 function linear_cell()     { return this.line()[this.data_col()]      ; }
 function linear_line()
@@ -405,7 +405,12 @@ function linear_line()
   if ( this.lin < filtered_lines.length )
     return filtered_lines[this.lin] ;
   else
-    return lines[add_empty_lines()] ;
+    {
+      if ( this.lin != filtered_lines.length )
+	alert('Il y a un bug') ;
+      add_a_new_line() ;
+      return filtered_lines[this.lin] ;
+    }
 }
 
 function linear_column_title()
@@ -622,7 +627,7 @@ function linear_stop_edit(abort)
     }
   this.display() ;
 
-  update_line(this.data_lin(), this.data_col()) ;
+  update_line(this.line_id(), this.data_col()) ;
 
   if ( this.informations == this.informations_column )
     {
@@ -740,7 +745,7 @@ function linear_help()
 }
 
 Linear.prototype.data_col            = linear_data_col            ;
-Linear.prototype.data_lin            = linear_data_lin            ;
+Linear.prototype.line_id             = linear_line_id             ;
 Linear.prototype.cell                = linear_cell                ;
 Linear.prototype.line                = linear_line                ;
 Linear.prototype.column              = linear_column              ;

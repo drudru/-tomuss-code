@@ -22,11 +22,11 @@
 
 function students_mails(missing)
 {
-  var s = '' ;
+  var s = '', i ;
 
-  for(var data_lin in filtered_lines)
+  for(var i in filtered_lines)
     {
-      line = filtered_lines[data_lin] ;
+      line = filtered_lines[i] ;
       if ( line[0].value !== '' )
 	{
 	  if ( table_attr.mails[line[0].value]
@@ -49,9 +49,9 @@ function authors_mails(missing)
     cols.push(cls[column]) ;
 
   var a = {} ;
-  for(var data_lin in filtered_lines)
+  for(var i in filtered_lines)
     {
-      line = filtered_lines[data_lin] ;
+      line = filtered_lines[i] ;
       for (data_col in cols)
 	{
 	  cell = line[cols[data_col]] ;

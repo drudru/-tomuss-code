@@ -37,6 +37,7 @@ var column_offset ;
 var filters ;			// The filters to apply to the lines
 var nr_new_lines ;		// Number of created lines
 var nr_new_columns ;		// Number of created columns
+var nr_not_empty_lines ;        // Number of non empty lines
 var sort_columns ;		// Define the sort columns
 var table ;			// The table displayed on the screen
 var tr_title ;			// The header TR element for 'title'
@@ -95,7 +96,6 @@ var modification_date ;
 var server_log ;
 var the_body ;
 var p_title_links ;
-var nr_not_empty_lines ;
 var nr_filtered_lines ;
 var the_comment ;
 var linefilter ;
@@ -126,7 +126,6 @@ function lib_init()
   if ( the_body )
     the_body.style.overflowX = 'hidden' ;
   p_title_links        = document.getElementById('title_links'          );
-  nr_not_empty_lines   = document.getElementById('nr_not_empty_lines'   );
   nr_filtered_lines    = document.getElementById('nr_filtered_lines'    );
   the_comment          = document.getElementById('comment'              );
   linefilter           = document.getElementById('linefilter'           );
@@ -238,14 +237,14 @@ function compute_nr_lines()
 
 /*
  * Standard Variable name used in all the code :
- * data_lin : index of the line in 'lines'
+ * line_id  : index of the line in 'lines'
  * lin      : index of the line in 'table'
- * data_col : index of the column in 'lines[data_lin]'
+ * data_col : index of the column in 'lines[line_id]'
  * col      : index of the column in 'table[lin]'
  * column   : is columns[data_col]
- * line     : is lines[data_lin]
+ * line     : is lines[line_id]
  * tr       : is 'table[lin]'
- * td       : is 'table[lin][col]' attributes : data_lin, data_col, lin, col
+ * td       : is 'table[lin][col]' attributes : line_id, data_col, lin, col
  * type     : a type of column
  * type_i   : type index
  * type_txt : textual type
@@ -265,37 +264,18 @@ function data_col_from_col_title(title)
       return Number(i) ;
 }
 
-function data_lin_from_lin_id(lin)
-{
-  var data_lin = myindex(lines_id, lin) ;
-  if ( data_lin != -1 )
-    return data_lin ;
-  return ;
-
-  for(var i in lines_id)
-    if ( lines_id[i] == lin )
-      return Number(i) ;
-}
-
-function lin_from_data_lin(data_lin)
+// Index in 'filtered_lines'
+function lin_from_line_id(line_id)
 {
   var lin ;
 
-  lin = myindex(filtered_lines, lines[data_lin]) - line_offset ;
-  /* Commented 5/2/2010
-  for(var i in filtered_lines)
-    if ( filtered_lines[i]['number'] == data_lin )
-      {
-	lin = i - line_offset ;
-	break ;
-      }
-  */
+  lin = myindex(filtered_lines, lines[line_id]) - line_offset ;
   if ( lin < 0  || lin >= table_attr.nr_lines )
     return ;
   return lin ;
 }
 
-function td_from_data_lin_data_col(data_lin, data_col)
+function td_from_line_id_data_col(line_id, data_col)
 {
   var col, lin ;
 
@@ -303,7 +283,7 @@ function td_from_data_lin_data_col(data_lin, data_col)
   if ( col === undefined )
     return ;
 
-  lin = lin_from_data_lin(data_lin) ;
+  lin = lin_from_line_id(line_id) ;
   if ( lin === undefined )
     return ;
 
@@ -335,19 +315,19 @@ function lin_from_td(td)
   return myindex(td.parentNode.parentNode.childNodes, td.parentNode) ;
 }
 
-function data_lin_from_lin(lin)
+function line_id_from_lin(lin)
 {
   var line = line_offset + lin - nr_headers ;
   if ( line >= filtered_lines.length )
-    return add_empty_lines() + line - filtered_lines.length ;
+    return add_a_new_line() ;
   if ( line < 0 )
     return ;
-  return filtered_lines[line]['number'] ;
+  return filtered_lines[line].line_id ;
 }
 
-function data_lin_from_td(td)
+function line_id_from_td(td)
 {
-  return data_lin_from_lin(lin_from_td(td)) ;
+  return line_id_from_lin(lin_from_td(td)) ;
 }
 
 // The parameter can be an event or an HTML element
@@ -553,10 +533,10 @@ function header_title_click(t)
   the_current_cell.jump(the_current_cell.lin, col_from_td(t), true) ;
 }
 
-function compute_rank(data_lin, column)
+function compute_rank(line_id, column)
 {
   var data_col = column.data_col ;
-  var the_value = a_float(lines[data_lin][data_col].value) ;
+  var the_value = a_float(lines[line_id][data_col].value) ;
 
   if ( isNaN(the_value) )
     return '&nbsp;' ;
@@ -575,14 +555,14 @@ function compute_rank(data_lin, column)
   return rank + '/' + nr ;
 }
 
-function line_resume(data_lin)
+function line_resume(line_id)
 {
   var s, column ;
   s = '<table class="colored" style="max-width:' + Math.floor(window_width()*0.75) + 'px">' ;
   s += '<tr><th>Colonne</th><th>Valeur</th><th>Rang</th><th>Commentaire</th></tr>';
   for(var data_col in columns)
     {
-      cell = lines[data_lin][data_col] ;
+      cell = lines[line_id][data_col] ;
       if ( cell.value !== "" || cell.comment !== "" )
 	{
 	  column = columns[data_col] ;
@@ -594,7 +574,7 @@ function line_resume(data_lin)
 	  s += '<tr class="' + classe + '"><td style="text-align:right">' +
 	    html(columns[data_col].title) + '</td><td>' +
 	    cell.value_fixed() + '</td><td>' +
-	    compute_rank(data_lin, column) + '</td>' ;
+	    compute_rank(line_id, column) + '</td>' ;
 	  if (cell.comment)
 	    s += '<td>' + cell.comment_html() + '</td>' ;
 	  else
@@ -603,7 +583,7 @@ function line_resume(data_lin)
 	}
     }
   s += '</table>' ;
-  var x = table_attr.portails[lines[data_lin][0].value] ;
+  var x = table_attr.portails[lines[line_id][0].value] ;
 
   if ( x === undefined )
     x = '' ;
@@ -641,10 +621,10 @@ var the_current_line ;
 function show_the_tip(td, tip_content)
 {
   var bottom = false ;
-  var data_col, data_lin, column, type ;
+  var data_col, line_id, column, type ;
   try {
     data_col = data_col_from_td(td) ;
-    data_lin = data_lin_from_td(td) ;
+    line_id = line_id_from_td(td) ;
     column = columns[data_col] ;
     type = column.real_type ;
   }
@@ -655,7 +635,7 @@ function show_the_tip(td, tip_content)
 
   if ( tip_content === undefined )
     {
-      if ( data_lin === undefined )
+      if ( line_id === undefined )
 	{
 	  bottom = true ;
 	  while ( td.tagName != 'TH' )
@@ -665,7 +645,7 @@ function show_the_tip(td, tip_content)
 	}
       else
 	{
-	  var line = lines[data_lin] ;
+	  var line = lines[line_id] ;
 	  var cell = line[data_col] ;
 	  if ( cell.is_mine() && table_attr.modifiable
 	       && column.real_type.cell_is_modifiable)
@@ -879,9 +859,9 @@ function table_init()
 Update one line of the table
 ******************************************************************************/
 
-function update_line(data_lin, data_col)
+function update_line(line_id, data_col)
 {
-  var line = lines[data_lin] ;
+  var line = lines[line_id] ;
   if ( line_empty(line) )
     return ;
 
@@ -892,7 +872,7 @@ function update_line(data_lin, data_col)
   if ( table === undefined )
     return ;
 
-  var lin = lin_from_data_lin(data_lin) ;
+  var lin = lin_from_line_id(line_id) ;
   if ( lin === undefined )
     return ;
   
@@ -1456,19 +1436,32 @@ function table_header_fill_real()
 /******************************************************************************
 Filter and sort the lines of data
 ******************************************************************************/
-
-function get_filtered_lines(empty_line)
+function get_filtered_lines()
 {
-  var not_empty_lines = lines.slice(0, empty_line) ;
+  var f = [], empty ;
 
+  nr_not_empty_lines = 0 ;
   if ( filters.length === 0 )
-    return not_empty_lines ;  
-
-  var f = [] ;
-
-  for(var line in not_empty_lines)
     {
-      line = not_empty_lines[line] ;
+      for(var line in lines)
+	{
+	  empty = line_empty(lines[line]) ;
+	  if ( ! empty )           // Not empty on screen
+	    nr_not_empty_lines++ ;
+	  if ( empty !== true )
+	    f.push(lines[line]) ;  // Not empty on screen AND history
+	}
+      return f ;
+    }
+
+  for(var line in lines)
+    {
+      line = lines[line] ;
+      empty = line_empty(line) ;
+      if ( ! empty )
+	nr_not_empty_lines++ ;
+      if ( empty === true ) // empty on screen AND history
+	continue ;
       var ok = true ;
       for(var filter in filters)
 	{
@@ -1566,9 +1559,8 @@ Update the content of the table
 
 function update_filtered_lines()
 {
-  var empty_line = add_empty_lines() ;
   var d1 = millisec();
-  filtered_lines = get_filtered_lines(empty_line) ;
+  filtered_lines = get_filtered_lines() ;
 
   if ( full_filter !== undefined )
     {
@@ -1623,6 +1615,9 @@ function update_filtered_lines()
       nr_filtered_lines.innerHTML = filtered_lines.length ;
       highlight_add(nr_filtered_lines) ;
     }
+  if ( document.getElementById('nr_not_empty_lines') )
+    document.getElementById('nr_not_empty_lines').innerHTML
+      = nr_not_empty_lines ;
 
   update_vertical_scrollbar() ;
 }
@@ -1649,7 +1644,6 @@ function line_fill(line, write, cls, empty_column)
     tr.className = tr.zebra ;
   var data_col, td ;
   tr = tr.childNodes ;
-  var data_line = the_line['number'] ;
   for(var col = 0 ; col < table_attr.nr_columns ; col++)
     {
       data_col = cls[col].data_col ;
@@ -1858,7 +1852,6 @@ function table_fill_real()
   var read = 0 ;
   var write = nr_headers ;
   var td ;
-  var empty_line = add_empty_lines() ;
   var empty_column = add_empty_columns() ;
   var cls = column_list() ;
   var d1 = millisec() ;
@@ -1891,7 +1884,6 @@ function table_fill_real()
 	  else
 	    td.className = 'rw empty' ;
 	}    
-      empty_line++ ;
       write++ ;
     }
   update_vertical_scrollbar_position() ;
@@ -1909,6 +1901,9 @@ function line_empty(line)
   for(var i in columns)
     if ( line[i].is_not_empty() )
       return false ;
+  for(var i in columns)
+    if ( line[i].history )
+      return 1 ;
   return true ;
 }
 
@@ -1927,31 +1922,12 @@ function column_empty_of_cells(column)
   return true ;
 }
 
-function first_line_not_empty()
-{
-  for(var i = lines.length - 1 ; i >=0 ; i--)
-    if ( ! line_empty( lines[i] ) )
-      break ;
-  return i ;
-}
-
 function first_column_not_empty()
 {
   for(var i = columns.length - 1 ; i >=0 ; i--)
     if ( ! column_empty( i ) )
       break ;
   return i ;
-}
-
-function add_empty_line()
-{
-  var line = [] ;
-  for(var c in columns)
-    line[c] = C();
-  line['number'] = lines.length ;
-  lines[lines.length] = line ;
-  lines_id[lines_id.length] = page_id + '_' + nr_new_lines ;
-  nr_new_lines++ ;
 }
 
 function add_empty_column(keep_data)
@@ -2005,22 +1981,6 @@ function Col(attrs)
 	attrs[attr] = column_attributes[attr].default_value ;
     }
   return attrs ;
-}
-
-// Create many empty lines in order to fill the screen
-// Returns the first line empty
-function add_empty_lines()
-{
-  var not_empty = first_line_not_empty() ;
-  var nr_empty_lines = lines.length - not_empty - 1 ;
-
-  for(var i = 0 ; i < table_attr.nr_lines - nr_empty_lines ; i++)
-    add_empty_line() ;
-
-  if ( nr_not_empty_lines )
-    nr_not_empty_lines.innerHTML = not_empty + 1 ;
-
-  return not_empty + 1 ;
 }
 
 function add_empty_columns()
@@ -2153,9 +2113,9 @@ function previous_page_horizontal(delta)
 Cursor movement
 ******************************************************************************/
 
-function cell_get_value_real(data_lin, data_col)
+function cell_get_value_real(line_id, data_col)
 {
-  return columns[data_col].real_type.formatte(lines[data_lin][data_col].value);
+  return columns[data_col].real_type.formatte(lines[line_id][data_col].value);
 }
 
 function update_cell(td, cell, column, abj)
@@ -2244,15 +2204,34 @@ function column_change_allowed(column)
   return column_change_allowed_text(column) === true ;
 }
 
-function add_a_new_line(data_lin)
+// Indicate that 'line_id' will be filled
+function add_a_new_line(line_id)
 {
-  if ( line_empty(lines[data_lin]) )
+  if ( line_id === undefined )
     {
-      for(var i=add_empty_lines(); i <= data_lin; i++)
-	filtered_lines.push(lines[i]) ;
-      if ( nr_filtered_lines )
-	nr_filtered_lines.innerHTML = filtered_lines.length ;
+      line_id = page_id + '_' + nr_new_lines ;
+      nr_new_lines++ ;
     }
+
+  if ( lines[line_id] )
+    return ;
+
+  // Create a new line
+
+  var line = [] ;
+  for(var c in columns)
+    line[c] = C();
+  line.line_id = line_id ;
+  lines[line_id] = line ;
+  filtered_lines.push(line) ;
+
+  /* Update screen table with the new id */
+  var lin = filtered_lines.length - line_offset ;
+  if ( lin > 0 && lin < table_attr.nr_lines - nr_headers )
+    {
+      line_fill(filtered_lines.length-1, lin + nr_headers) ;
+    }
+  return line_id ;
 }
 
 function create_column(column)
@@ -2268,14 +2247,14 @@ function create_column(column)
     }
 }
 
-function cell_set_value_real(data_lin, data_col, value, td)
+function cell_set_value_real(line_id, data_col, value, td)
 {
-  var cell = lines[data_lin][data_col] ;
+  var cell = lines[line_id][data_col] ;
   var column = columns[data_col] ;
 
   // toString is used because '' != '0' and '00' != '000'
   // === is not used because 5.1 == "5.1"
-  if ( value.toString() == lines[data_lin][data_col].value.toString() )
+  if ( value.toString() == lines[line_id][data_col].value.toString() )
     return ;
 
   if ( ! cell.modifiable() )
@@ -2292,7 +2271,7 @@ function cell_set_value_real(data_lin, data_col, value, td)
     return ;
 
   create_column(columns[data_col]) ;
-  add_a_new_line(data_lin) ;
+  add_a_new_line(line_id) ;
 
   // Does history should be modified in set_value ?
   if ( ! cell.never_modified() )
@@ -2313,7 +2292,7 @@ function cell_set_value_real(data_lin, data_col, value, td)
 
   /* Create cell */
   append_image(td, 'cell_change/' + column.the_id + '/' +
-	       lines_id[data_lin] + "/" + encode_uri(cell.value)
+	       line_id + "/" + encode_uri(cell.value)
 	       );
 
   if ( value !== '' )
@@ -2325,16 +2304,16 @@ function cell_set_value_real(data_lin, data_col, value, td)
 
 }
 
-function cell_set_value(td, value, data_lin, data_col)
+function cell_set_value(td, value, line_id, data_col)
 {
   if ( value === undefined )
     // Next/Prev page if there is not a cell selected (Prst)
-    return cell_get_value_real(data_lin, data_col) ;
+    return cell_get_value_real(line_id, data_col) ;
 
-  var v = cell_set_value_real(data_lin, data_col, value, td) ;
+  var v = cell_set_value_real(line_id, data_col, value, td) ;
   if ( v !== undefined )
     return v ;
-  return cell_get_value_real(data_lin, data_col) ;
+  return cell_get_value_real(line_id, data_col) ;
 }
 
 /*REDEFINE
@@ -2588,7 +2567,7 @@ function cell_goto(td, do_not_focus)
   var lin = lin_from_td(td) ;
   var col = col_from_td(td) ;
   var data_col = data_col_from_col(col) ;
-  var data_lin = data_lin_from_lin(lin) ;
+  var line_id = line_id_from_lin(lin) ;
   var column = columns[data_col] ;
 
   if ( do_not_focus !== true && element_focused )
@@ -2601,7 +2580,7 @@ function cell_goto(td, do_not_focus)
   if ( the_current_cell.td != td && do_not_focus !== true )
     the_current_cell.input.selectionEnd = 0 ; // For Opera
 
-  the_current_cell.jump(lin, col, do_not_focus, data_lin, data_col) ;
+  the_current_cell.jump(lin, col, do_not_focus, line_id, data_col) ;
 }
 
 /* Communication to the server */
@@ -2684,11 +2663,11 @@ function restore_unsaved()
       if ( line[0] == 'cell_change' )
 	{
 	  var data_col = data_col_from_col_id(line[1]) ;
-	  var data_lin = data_lin_from_lin_id(line[2]) ;
-	  if ( data_col !== undefined && data_lin !== undefined )
+	  var line_id = line[2] ;
+	  if ( data_col !== undefined )
 	    {
-	      message += lines[data_lin][0].value + ' ' +
-		lines[data_lin][1].value + ' ' + lines[data_lin][2].value 
+	      message += lines[line_id][0].value + ' ' +
+		lines[line_id][1].value + ' ' + lines[line_id][2].value 
 		+ ', ' + columns[data_col].title + ' = ' + line[3] + '\n' ;
 	      continue ;
 	    }
@@ -2932,7 +2911,6 @@ function append_image(td, text, force)
 {
   if ( ! table_attr.modifiable && ! force )
     return ;
-
   var request = new Request(text) ;
   pending_requests.push(request) ;
 
@@ -2958,47 +2936,28 @@ function append_image(td, text, force)
     }
 }
 
-function login_to_line(login)
+function login_to_line_id(login)
 {
-  for(var data_lin in lines)
-    {
-      if (login_to_id(lines[data_lin][0].value) == login)
-	return Number(data_lin) ;
-    }
+  for(var line_id in lines)
+    if (login_to_id(lines[line_id][0].value) == login)
+      return line_id ;
 }
 
 
 /* Communication from the server */
-
-function Xcell_change(col, lin, value, date, identity, history)
+function Xcell_change(col, line_id, value, date, identity, history)
 {
   var data_col = data_col_from_col_id(col) ;
-  var data_lin = data_lin_from_lin_id(lin) ;
+  add_a_new_line(line_id) ;
 
-  if ( data_lin === undefined )
-    {
-      // Create empty lines
-      data_lin = add_empty_lines() ;
-      lines_id[data_lin] = lin ;
-
-      /* XXX Update screen : dangerous, but necessary in order to take into
-       account the fact that empty lines may be no more empty...
-      */
-      filtered_lines.push(lines[data_lin]) ;
-      lin = filtered_lines.length - line_offset ;
-      if ( lin > 0 && lin < table_attr.nr_lines - nr_headers )
-	{
-	  line_fill(filtered_lines.length-1, lin + nr_headers) ;
-	}
-    }
-  var cell = lines[data_lin][data_col] ;
+  var cell = lines[line_id][data_col] ;
 
   cell.set_value(value) ;
   cell.author = identity ;
   cell.date = date ;
   cell.history = history ;
 
-  var td = td_from_data_lin_data_col(data_lin, data_col) ;
+  var td = td_from_line_id_data_col(line_id, data_col) ;
 
   if ( td !== undefined )
     {
@@ -3010,25 +2969,18 @@ function Xcell_change(col, lin, value, date, identity, history)
 				the_current_cell.col) ;
 	}
     }
-  update_line(data_lin, data_col) ;
+  update_line(line_id, data_col) ;
 }
 
-function Xcomment_change(identity, col, lin, value)
+function Xcomment_change(identity, col, line_id, value)
 {
   var data_col = data_col_from_col_id(col) ;
-  var data_lin = data_lin_from_lin_id(lin) ;
-  if ( data_lin === undefined )
-    {
-      data_lin = add_empty_lines() ;
-      lines_id[data_lin] = lin ;
-      /* Update screen : dangerous, but necessary */
-      filtered_lines.push(lines[data_lin]) ;
-    }
-  var cell = lines[data_lin][data_col] ;
+  add_a_new_line(line_id) ;
+  var cell = lines[line_id][data_col] ;
 
   cell.set_comment(value) ;
 
-  var td = td_from_data_lin_data_col(data_lin, data_col) ;
+  var td = td_from_line_id_data_col(line_id, data_col) ;
   if ( td !== undefined )
     {
       update_cell(td, cell, columns[data_col]) ;
@@ -3041,10 +2993,8 @@ function Xcolumn_delete(page, col)
 {
   var data_col = data_col_from_col_id(col) ;
 
-  for(data_lin in lines)
-    {
-      lines[data_lin].splice(data_col ,1) ;
-    }
+  for(line_id in lines)
+    lines[line_id].splice(data_col ,1) ;
   columns.splice(data_col ,1) ;
   for(data_col in columns)
     columns[data_col].data_col = Number(data_col) ;
@@ -3118,16 +3068,15 @@ function toggle_display_tips()
 
 // Set comment
 
-function comment_change(data_lin, data_col, comment, td)
+function comment_change(line_id, data_col, comment, td)
 {
   create_column(columns[data_col]) ;
-  add_a_new_line(data_lin) ;
+  add_a_new_line(line_id) ;
 
-  lines[data_lin][data_col].set_comment(comment);
+  lines[line_id][data_col].set_comment(comment);
   var col_id = columns[data_col].the_id ;
-  var lin_id = lines_id[data_lin] ;
   append_image(td, 'comment_change/' + col_id + '/' +
-	       lin_id + '/' + encode_uri(comment)) ;
+	       line_id + '/' + encode_uri(comment)) ;
 }
 
 function comment_on_change()
@@ -3137,7 +3086,7 @@ function comment_on_change()
   if ( the_comment === undefined )
     return ;
 
-  if ( lines[the_current_cell.data_lin][the_current_cell.data_col].comment == input.value )
+  if ( lines[the_current_cell.line_id][the_current_cell.data_col].comment == input.value )
     return ;
 
   if ( ! cell.modifiable() )
@@ -3147,7 +3096,7 @@ function comment_on_change()
     }
   
   the_current_cell.td.className += ' comment' ;
-  comment_change(the_current_cell.data_lin, the_current_cell.data_col,
+  comment_change(the_current_cell.line_id, the_current_cell.data_col,
 		 input.value, the_current_cell.td) ;
 }
 
@@ -3191,9 +3140,9 @@ function csv(csv_cell)
   s += '\r\n' ;
 
 
-  for(var data_line in filtered_lines)
+  for(var i in filtered_lines)
     {
-      var line = filtered_lines[data_line] ;
+      var line = filtered_lines[i] ;
       for(var data_col in cols)
 	{
 	  s += csv_cell(line[data_col].value) ;
@@ -3254,10 +3203,10 @@ function display_on_signature_table(line)
 
 function lines_in_javascript()
 {
-  var s = [], t, x ;
-  for(var data_lin in filtered_lines)
+  var s = [], t, x, i ;
+  for(i in filtered_lines)
     {
-      line = filtered_lines[data_lin] ;
+      line = filtered_lines[i] ;
       if ( display_on_signature_table(line) )
 	{
 	  t = [] ;
@@ -3366,8 +3315,8 @@ function compute_groups_key(grouped_by, line)
 function compute_groups_values(grouped_by)
 {
   var g = {}, s ;
-  for(var data_lin in lines)
-    g[compute_groups_key(grouped_by, lines[data_lin])] = true ;
+  for(var line_id in lines)
+    g[compute_groups_key(grouped_by, lines[line_id])] = true ;
   tabl = [] ;
   for(var gg in g)
     tabl.push(gg) ;
@@ -3384,9 +3333,9 @@ function goto_resume()
 function grp_and_seq()
 {
   var g = {} ;
-  for(var data_lin in filtered_lines)
+  for(var i in filtered_lines)
     {
-      line = filtered_lines[data_lin] ;
+      line = filtered_lines[i] ;
       if ( line[0].value !== '' )
 	g[line[4].value + '\001' + line[3].value] = true ;
     }
@@ -3401,9 +3350,9 @@ function values_in_a_column(column)
 {
   var g = {} ;
   var data_col = column.data_col ;
-  for(var data_lin in filtered_lines)
+  for(var i in filtered_lines)
     {
-      g[filtered_lines[data_lin][data_col].value] = true ;
+      g[filtered_lines[i][data_col].value] = true ;
     }
   var t = [] ;
   for(var i in g)
@@ -3449,8 +3398,7 @@ function html_begin_head(hide_title, pb, more)
       'version = "' + version + '" ;\n' +
       'preferences = ' + p + ';\n' +
       'columns = [] ;\n' +
-      'lines = [] ;\n' +
-      'lines_id = [] ;\n' +
+      'lines = {} ;\n' +
       'adeweb = {};\n' + // XXX should not be here (LOCAL/spiral.py)
       'table_attr = ' + a + ';\n' +
       wait_scripts + // The function definition
@@ -3523,14 +3471,14 @@ function virtual_table_common_end()
 // XXX yet done somewhere else
 function student_search(id)
 {
-  for(var data_lin in lines)
-    if ( lines[data_lin][0].value == id )
-      return Number(data_lin) ;
+  for(var line_id in lines)
+    if ( lines[line_id][0].value == id )
+      return line_id ;
 
   id = login_to_id(id) ;
-  for(var data_lin in lines)
-    if ( lines[data_lin][0].value == id )
-      return Number(data_lin) ;
+  for(var line_id in lines)
+    if ( lines[line_id][0].value == id )
+      return line_id ;
 }
 
 function remove_highlight()
@@ -3757,9 +3705,9 @@ function runlog(the_columns, the_lines)
   if ( test_bool(preferences.v_scrollbar) == no )
     vertical_scrollbar = undefined ;
 
-  for(var data_lin in lines)
+  for(var line_id in lines)
     {
-      lines[data_lin]['number'] = Number(data_lin) ;
+      lines[line_id].line_id = line_id ;
     }
 
   for(var data_col in columns)
@@ -4137,9 +4085,8 @@ function javascript_regtest_ue()
 	      ''    ,''   ,'' ,'' ,''   ,'' ,'04/03/2008','03/04/2008',
 	      '12/12/1999', '', ''] ;
 
-  lines = [] ;
+  lines = {} ;
   columns = [] ;
-  lines_id = {} ;
   add_empty_columns() ;
   table_attr.default_sort_column = 0 ;
   sort_columns = [columns[0],columns[1]] ;

@@ -24,7 +24,7 @@ function import_column()
 {
   var m = '' ;
 
-  if ( filtered_lines.length !== 0 )
+  if ( nr_not_empty_lines !== 0 )
     m = "<small>L'importation de table complète fonctionne seulement si la table est vide.</small>" ;
   else
     m = '<small><a href="javascript:full_import()">Import d\'une table complète : copier le fichier CSV au dessus et cliquez ici.</a></small>' ;
@@ -58,7 +58,6 @@ function import_column()
 function import_column_do()
 {
   var multiline = popup_value() ;
-  var empty_line = add_empty_lines() ;
   var column = popup_column() ;
   var data_col = column.data_col ;
 
@@ -67,7 +66,7 @@ function import_column_do()
       create_column(column) ;
     }
 
-  var data_lin ;
+  var line_id ;
   var replace = '' ;
   var todo = [] ;
   var i ;
@@ -87,7 +86,7 @@ function import_column_do()
 		+ multiline[i] + '\n' ;
 	      continue ;
 	    }
-	  if ( login_to_line(m[0]) !== undefined )
+	  if ( login_to_line_id(m[0]) !== undefined )
 	    {
 	      problems += "L'étudiant est déja dans la table : " + m[0] + '\n';
 	      continue ;
@@ -113,8 +112,8 @@ function import_column_do()
 	    continue ;
 	  var login = multiline[i].replace(/[\t ].*/, '') ;
 	  var value = multiline[i].replace(RegExp(login + '[\t ]*'), '') ;
-	  data_lin = login_to_line(login_to_id(login)) ;
-	  if ( data_lin === undefined )
+	  line_id = login_to_line_id(login_to_id(login)) ;
+	  if ( line_id === undefined )
 	    {
 	      replace += login + " n'est pas dans la table, sa note (" +
 		value + ") ne sera pas importée\n" ;
@@ -122,18 +121,18 @@ function import_column_do()
 	      continue ;
 	    }
 
-	  val = lines[data_lin][data_col].value ;
+	  val = lines[line_id][data_col].value ;
 	  if ( val !== '' && val != value )
-	    replace += lines[data_lin][0].value + ' : ' + val + ' ==> '
+	    replace += lines[line_id][0].value + ' : ' + val + ' ==> '
 	      + value + '\n' ;
-	  if ( twin[data_lin] !== undefined )
+	  if ( twin[line_id] !== undefined )
 	    {
 	      replace += 'Vous donnez plusieurs notes à ' + login +
 		' seule la première sera importée\n' ;
 	      continue ;
 	    }
-	  twin[data_lin] = value ;
-	  todo.push([data_lin, data_col, value]) ;
+	  twin[line_id] = value ;
+	  todo.push([line_id, data_col, value]) ;
 	}
       /*
       if ( problems !== '' )
@@ -157,7 +156,7 @@ function import_column_do()
     {
       i = todo[i] ;
       if ( i[0] == -1 )
-	i[0] = add_empty_lines() ;
+	i[0] = add_a_new_line() ;
       cell_set_value_real(i[0], i[1], i[2]) ;
     }
   alert_append_stop() ;
@@ -176,7 +175,7 @@ function full_import()
   new_lines = [] ;
   for(var a in import_lines)
     {
-      var line = parseLineCSV(import_lines[a]) ;
+      line = parseLineCSV(import_lines[a]) ;
       if ( nr_cols === undefined )
 	nr_cols = line.length ;
       else
@@ -196,26 +195,32 @@ function full_import()
 		 ' lignes et de ' + nr_cols + ' colonnes ?\n\nAucun retour en arrière ne sera possible.\nAucun autre import CSV ne sera possible.\n\nCet importation peut prendre ' + (new_lines.length*nr_cols)/10 + ' secondes') )
     return ;
 
-
+  alert_append_start() ;
   for(var data_col=0; data_col < nr_cols; data_col++)
     {
       if ( columns[data_col] === undefined )
 	add_empty_column() ;
-      column_attr_set(columns[data_col], 'type', 'Text')
-      column_attr_set(columns[data_col], 'title', 'csv_' + data_col)
-      create_column(columns[data_col]) ;
+      if ( columns[data_col].author !== '*' )
+	{
+	  column_attr_set(columns[data_col], 'type', 'Text') ;
+	  column_attr_set(columns[data_col], 'title', 'csv_' + data_col) ;
+	  create_column(columns[data_col]) ;
+	}
     }
-
-  for(var data_line in new_lines)
-    for(var data_col=0 ; data_col < nr_cols ; data_col++ )
-      cell_set_value_real(data_line, data_col,
-			  new_lines[data_line][data_col]) ;
+  for(line in new_lines)
+    {
+      add_a_new_line(line.toString()) ;
+      // From right to left in order to not have a race between
+      // the firstname and surname stored from the CSV and the sames
+      // extracted from database.
+      // If the race is lost, the user try to write a system computed data
+      // and an error is displayed (one for each race lost)
+      for(var data_col=nr_cols-1 ; data_col >= 0 ; data_col-- )
+	cell_set_value_real(line, data_col, new_lines[line][data_col]) ;
+    }
+  alert_append_stop() ;
 
   the_current_cell.jump(nr_headers,0,false,0,0) ;
-  
-
-  // mettre a jours colonnes, envoyer au serveur
-
   popup_close() ;
   table_init() ;
   table_fill(false, true) ;

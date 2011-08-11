@@ -125,6 +125,7 @@ function export_column_value()
   var error = false ;
   var v = '' ;
   var exported = [] ;
+  var line_id ;
 
   abj_ppn_value() ;
 
@@ -136,8 +137,8 @@ function export_column_value()
 	  alert("Il y a une ligne sans numéro d'étudiant") ;
 	  return ;
 	}
-      data_lin = login_to_line(login_to_id(multiline[i].replace(/ */g,''))) ;
-      if ( data_lin === undefined )
+      line_id = login_to_line_id(login_to_id(multiline[i].replace(/ */g,''))) ;
+      if ( line_id === undefined )
 	{
 	  v += '???\n' ;
 	  if ( error === false )
@@ -147,9 +148,9 @@ function export_column_value()
 	  continue ;
 	}
 
-      v += lines[data_lin][data_col].value_export() + '\n' ;
+      v += lines[line_id][data_col].value_export() + '\n' ;
 
-      exported[lines[data_lin][0].value] = true ;
+      exported[lines[line_id][0].value] = true ;
     }
   popup_set_value(v) ;
 

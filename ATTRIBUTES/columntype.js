@@ -27,7 +27,7 @@ function set_type(value, column)
   if ( column.real_type
        && column.real_type.cell_compute !== undefined
        && checked.cell_compute === undefined
-       && lines[0][column.data_col]._save !== undefined
+       && the_current_cell.line[column.data_col]._save !== undefined
        )
 	{
 	  // Restore uncomputed values. XXX some may missing if never in client

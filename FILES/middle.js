@@ -35,13 +35,13 @@ function change_title()
 Some table lines must not be modified.
 This function return 'true' to allow the line editing.
 */
-function modification_allowed_on_this_line(data_lin, data_col)
+function modification_allowed_on_this_line(line_id, data_col)
 {
   if ( tr_classname === undefined )
     return true ;
   if ( ! popup_on_red_line )
     return true ;
-  if ( lines[data_lin][tr_classname].value == 'non' )
+  if ( lines[line_id][tr_classname].value == 'non' )
     return true ; // Returns false here to forbid red line editing
   return true ;
 }
@@ -860,7 +860,7 @@ function new_new_interface()
 
   t.push(hidden_txt('<span id="nr_not_empty_lines"></span>',
 		    "C'est le nombre de lignes dans le tableau total<br>\n" +
-		    "y compris les lignes vidées")) ;
+		    "<b>sans compter les lignes vidées</b>")) ;
   t.push('</div>') ;
   t.push('<div class="one_line">') ;
   t.push(table_input_attr('nr_lines').replace('</select>',

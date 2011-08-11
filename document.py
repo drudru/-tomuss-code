@@ -162,7 +162,7 @@ def table_head(year=None, semester=None, ticket=None,
             'root = %s ;\n' % js(list(configuration.root)) +
             'cas_url = %s ;\n' % repr(configuration.cas) +
             'preferences = %s ;\n' % prefs_table +
-            'lines = [];\n' +
+            'lines = {};\n' +
             'columns = [];\n' +
             'lines_to_load = 0 ;\n' +
             'ticket_time_to_live = %d ;\n' % configuration.ticket_time_to_live+
@@ -918,10 +918,6 @@ la dernière saisie.
             insert_middle();
             ''' % (len(self.lines), utilities.wait_scripts()))
             s.append(self.lines.js())
-
-            s.append('lines_id = ')
-            s.append(repr(self.lines.keys()) )
-            s.append(';')
             s.append(self.columns.js(hide=False))
 
             s.append('document.write(tail_html());')

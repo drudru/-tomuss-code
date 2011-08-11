@@ -79,30 +79,28 @@ function fill_column_do_fill()
 
 function fill_column_do_aabb(values)
 {
-  var i, value ;
+  var i, j, value ;
 
-  for(data_lin in filtered_lines)
+  for(j in filtered_lines)
     {
-      i = Math.floor((values.length * data_lin) / filtered_lines.length) ;
+      i = Math.floor((values.length * j) / filtered_lines.length) ;
       if ( i >= values.length )
 	i = values.length ;
       value = values[i] ;
-      cell_set_value_real(filtered_lines[data_lin].number,
-			  the_current_cell.data_col,
+      cell_set_value_real(filtered_lines[j].line_id, the_current_cell.data_col,
 			  value) ;
     }
 }
 
 function fill_column_do_abab(values)
 {
-  var i, value ;
+  var i, j, value ;
 
-  for(data_lin in filtered_lines)
+  for(j in filtered_lines)
     {
-      i = data_lin % values.length ;
+      i = j % values.length ;
       value = values[i] ;
-      cell_set_value_real(filtered_lines[data_lin].number,
-			  the_current_cell.data_col,
+      cell_set_value_real(filtered_lines[j].line_id, the_current_cell.data_col,
 			  value) ;
     }
 }

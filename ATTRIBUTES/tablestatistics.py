@@ -76,6 +76,7 @@ SPAN.s_histogram {
 position: absolute ;
 bottom: 0 ;
 left: 25% ;
+font-size:60%;
 }
 
 DIV.s_histogram {

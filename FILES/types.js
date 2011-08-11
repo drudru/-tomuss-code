@@ -91,9 +91,9 @@ function update_column_recursive(column, line)
     {
       if ( line === undefined )
 	{
-	  for(var data_lin in lines)
-	    if ( ! line_empty(lines[data_lin]) )
-	      type.cell_compute(column.data_col, lines[data_lin]) ;
+	  for(var line_id in lines)
+	    if ( ! line_empty(lines[line_id]) )
+	      type.cell_compute(column.data_col, lines[line_id]) ;
 	}
       else
 	{

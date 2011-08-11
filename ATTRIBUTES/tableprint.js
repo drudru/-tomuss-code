@@ -221,9 +221,9 @@ function printable_display()
   var x, selected_lines, i, title ;
 
   if ( do_emargement_header ) 
-    for(var data_lin in lines)
-      if ( ! display_on_signature_table(lines[data_lin]) )
-	delete lines[data_lin] ;
+    for(var i in lines)
+      if ( ! display_on_signature_table(lines[i]) )
+	delete lines[i] ;
 
   if ( groups.length == 1 )
     x = printable_display_page(lines, '', false) ;
@@ -243,9 +243,9 @@ function printable_display()
 	    }
 	  title = html(' ' + title.join(', ')) ;
 	  selected_lines = {} ;
-	  for(var data_lin in lines)
-	    if ( compute_groups_key(grouped_by, lines[data_lin]) == group )
-	      selected_lines[data_lin] = lines[data_lin] ;
+	  for(var j in lines)
+	    if ( compute_groups_key(grouped_by, lines[j]) == group )
+	      selected_lines[j] = lines[j] ;
 	  t.push(printable_display_page(selected_lines,
 					title,
 					t.length != 0)) ;

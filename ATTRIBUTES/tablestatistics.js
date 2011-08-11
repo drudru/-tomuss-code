@@ -808,12 +808,12 @@ function statistics_values(sorted_cols, all_stats, groups)
 {
   var grouped_lines = {} ;
   var key ;
-  for(var data_lin in lines)
+  for(var i in lines)
     {
-      key = compute_groups_key(grouped_by, lines[data_lin]) ;
+      key = compute_groups_key(grouped_by, lines[i]) ;
       if ( grouped_lines[key] === undefined )
 	grouped_lines[key] = [] ;
-      grouped_lines[key].push(lines[data_lin]) ;
+      grouped_lines[key].push(lines[i]) ;
     }
 
   for(var i in grouped_lines)

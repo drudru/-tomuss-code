@@ -781,7 +781,7 @@ function parseLineCSV(lineCSV)
 var loading_bar ;
 var loading_bar_2 ;
 
-function P(t)
+function P(k,t)
 {
   if ( lines.length === 0 )
     {
@@ -792,7 +792,7 @@ function P(t)
 	  loading_bar.style.display = 'block' ;
 	}
     }
-  lines.push(t) ;
+  lines[k] = t ;
   if ( loading_bar )
     {
       loading_bar_2.style.width = (100*lines.length/lines_to_load) + '%' ;
@@ -1411,7 +1411,7 @@ function Current()
   this.input_div = document.getElementById('current_input_div') ;
   this.lin = nr_headers ;
   this.col = 0 ;
-  this.data_lin = 0 ;
+  this.line_id = '' ;
   this.data_col = 0 ;
 }
 
@@ -1585,7 +1585,7 @@ function current_update_cell_headers()
       
     }
   update_tip_from_value(t_student_picture.parentNode,
-			line_resume(this.data_lin), '') ;
+			line_resume(this.line_id), '') ;
 }
 
 function current_update_table_headers()
@@ -1666,17 +1666,17 @@ function current_update_headers()
   this.do_update_headers = true ;
 }
 
-function current_jump(lin, col, do_not_focus, data_lin, data_col)
+function current_jump(lin, col, do_not_focus, line_id, data_col)
 {
   if ( data_col === undefined )
     data_col = data_col_from_col(col) ;
-  if ( data_lin === undefined )
-    data_lin = data_lin_from_lin(lin) ;
+  if ( line_id === undefined )
+    line_id = line_id_from_lin(lin) ;
 
-  var line = lines[data_lin] ;
+  var line = lines[line_id] ;
   if ( ! line )
     {
-      alert('BUG current jump:' + data_lin) ;
+      alert('BUG current jump:' + line_id) ;
     }
 
   var cell = line[data_col] ;
@@ -1717,8 +1717,8 @@ function current_jump(lin, col, do_not_focus, data_lin, data_col)
     this.do_update_column_headers = true ;
   this.data_col = data_col ;
   this.column = columns[this.data_col] ;
-  this.previous_data_lin = this.data_lin ;
-  this.data_lin = data_lin ;
+  this.previous_line_id = this.line_id ;
+  this.line_id = line_id ;
   this.line = line ;
   this.cell = cell ;
 
@@ -1740,7 +1740,7 @@ function current_jump(lin, col, do_not_focus, data_lin, data_col)
   this.initial_value = this.input.value ;
 
   // Update position in scrollbar
-  if ( vertical_scrollbar && this.previous_data_lin != this.data_lin )
+  if ( vertical_scrollbar && this.previous_line_id != this.line_id )
     update_vertical_scrollbar_cursor() ;
   if ( horizontal_scrollbar && this.previous_col != this.col )
     update_horizontal_scrollbar_cursor() ;
@@ -2105,7 +2105,7 @@ function current_change()
 	{
 	  /* Verify ID */
 	  if ( value !== '' )
-	    if ( login_to_line(value) !== undefined )
+	    if ( login_to_line_id(value) !== undefined )
 	      {
 		alert("Ce numéro d'étudiant existe déjà !") ;
 		this.input.value = this.initial_value ;
@@ -2114,13 +2114,13 @@ function current_change()
 	      }
 	}
       else
-	if ( this.data_col !== 0 && lines[this.data_lin][0].is_empty()
+	if ( this.data_col !== 0 && lines[this.line_id][0].is_empty()
 	     && value !== '' )
 	  {
 	    alert("Vous devez impérativement saisir un numéro d'étudiant") ;
 	  }
       if ( value !== ''
-	   && ! modification_allowed_on_this_line(this.data_lin,this.data_col))
+	   && ! modification_allowed_on_this_line(this.line_id,this.data_col))
 	{	    
 	  this.input.value = this.initial_value ;
 	  current_change_running = false ;
@@ -2129,10 +2129,10 @@ function current_change()
     }
   this.input.blur() ; // If have focus : problem with page change
   this.input.value = cell_set_value(this.td, value,
-				    this.data_lin, this.data_col) ;
+				    this.line_id, this.data_col) ;
   this.initial_value = this.input.value ;
 
-  update_line(this.data_lin, this.data_col) ;
+  update_line(this.line_id, this.data_col) ;
   current_change_running = false ;
 }
 

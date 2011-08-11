@@ -98,7 +98,6 @@ def create(table):
         table.column_comment(p, '0_10', "Commentaire de l'enseignant")
         
     ts = configuration.semester_span(table.year, table.semester)
-    utilities.warn('*'*99 + repr(ts))
     if ts:
         table.date_change(p, ts)
 
