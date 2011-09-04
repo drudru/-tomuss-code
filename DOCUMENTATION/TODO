@@ -12,6 +12,14 @@ Utilisateurs finaux.
 
 * Associer une/des dates à une colonne
 
+* Type de colonne : Referent(ID)
+
+* Import table complete CSV : autoriser tabulation
+
+* Passer l'arrondi dans les paramètres colonnes ?
+* Passer la source de donnée dans les paramètres colonnes ?
+* Passer le nombre de notes min.max a enlever dans les paramètres colonnes ?
+
 * Meilleur synchronisation orientaiton_rp -> rdv_ip
   Synchronisation de la discipline
   Lieu de rendez-vous par personne.
@@ -119,9 +127,19 @@ Administrateur.
 Problèmes à résoudre.
 =====================
 
+@ Emargement ariane : PC sur place.
+
+* Découpler referents_students pour avoir les bon referents par semestre.
+
+* Liens sur la saisie des IP
+
 * heures sydney : les mauvaises (à cause rechargement plugins ?)
 
-* Vérifier que config_plugin marche bien pour 'rdv_ip'
+* Pourquoi les TEMPLATES recharge le fichier python
+
+* Pourquoi on peut définir plusieurs fois le même plugin
+
+* Séparer rdv_ip en 2.
 
 * Passer les .css avant les .js
 

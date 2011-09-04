@@ -257,7 +257,7 @@ if time.localtime()[1] < 9:
     suivi.add(time.localtime()[0]  , semesters[0],socket.getfqdn()+':%d', 8890)
 else:
     suivi.add(time.localtime()[0]  , semesters[1],socket.getfqdn()+':%d', 8889)
-    suivi.add(time.localtime()[0]+1, semesters[0],socket.getfqdn()+':%d', 8890)
+    suivi.add(time.localtime()[0]  , semesters[0],socket.getfqdn()+':%d', 8890)
 
 # suivi.add(2008, 'Automne'  , socket.getfqdn() + ':%d', 8889)
 
@@ -324,6 +324,32 @@ the_portails = {
      ),
     'MIVINFL3' :
     ('CN=IF5633 etape-IF5633,OU=groupes,OU=etudiants,DC=univ-lyon1,DC=fr',
+     ),
+    'UFRFST' :
+    (
+        'CN=148891 CGE-UFR Sciences et Technologie,OU=groupes,OU=etudiants,DC=univ-lyon1,DC=fr',
+        'CN=139284 APO-UFR Sciences et Technologie,OU=groupes,OU=etudiants,DC=univ-lyon1,DC=fr',
+#        'CN=OU=UFR Sciences et Technologies,DC=univ-lyon1,DC=fr',
+        ),
+    }
+
+the_portails = {
+    'MATINFL1' :
+    ("CN=DV0041 etape-DV0041,OU=groupes,OU=etudiants,DC=univ-lyon1,DC=fr",
+     ),
+    'MATINFL2' :
+    ("CN=DV0042 etape-DV0042,OU=groupes,OU=etudiants,DC=univ-lyon1,DC=fr",
+     ),
+    'INFL3' :
+    ('CN=IF6731 etape-IF6731,OU=groupes,OU=etudiants,DC=univ-lyon1,DC=fr',
+     'CN=IF6733 etape-IF6733,OU=groupes,OU=etudiants,DC=univ-lyon1,DC=fr',
+     'CN=IF6734 etape-IF6734,OU=groupes,OU=etudiants,DC=univ-lyon1,DC=fr',
+     ),
+    'MATL3' :
+    ('CN=MT3531 etape-MT3531,OU=groupes,OU=etudiants,DC=univ-lyon1,DC=fr',
+     'CN=MT3532 etape-MT3532,OU=groupes,OU=etudiants,DC=univ-lyon1,DC=fr',
+     'CN=MT3533 etape-MT3533,OU=groupes,OU=etudiants,DC=univ-lyon1,DC=fr',
+     'CN=MT3534 etape-MT3534,OU=groupes,OU=etudiants,DC=univ-lyon1,DC=fr',
      ),
     'UFRFST' :
     (
