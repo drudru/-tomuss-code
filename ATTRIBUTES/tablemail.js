@@ -31,7 +31,8 @@ function students_mails(missing)
 	{
 	  if ( table_attr.mails[line[0].value]
 	       && table_attr.mails[line[0].value].indexOf('@') != -1)
-	    s += table_attr.mails[line[0].value].replace(/'/g,"\\'") + ',' ;
+	    // s += table_attr.mails[line[0].value].replace(/'/g,"\\'") + ',' ;
+	    s += table_attr.mails[line[0].value] + ',' ;
 	  else
 	    if ( missing )
 	      missing.push(line[0].value) ;
@@ -97,7 +98,7 @@ function mail_window()
   var link_students = nr_student_mails + ' Étudiants' ;
   if ( mailto_url_usable(the_student_mails) )
     link_students = hidden_txt('<a href="javascript: window.location=\'mailto:?bcc=' +
-			       the_student_mails + '\'">' + link_students + ' (Lien rapide)</a>',
+			       the_student_mails.replace(/'/g,"\\'") + '\'">' + link_students + ' (Lien rapide)</a>',
 			       'Suivez le lien pour directement lancer ' +
 			       'votre logiciel de messagerie.') ;
 
@@ -106,7 +107,7 @@ function mail_window()
   var link_authors = nr_author_mails + ' Enseignants' ;
   if ( mailto_url_usable(the_author_mails) )
     link_authors = hidden_txt('<a href="javascript: window.location=\'mailto:?bcc=' +
-			       the_author_mails + '\'">' + link_authors + ' (Lien rapide)</a>',
+			       the_author_mails.replace(/'/g,"\\'") + '\'">' + link_authors + ' (Lien rapide)</a>',
 			       'Suivez le lien pour directement lancer ' +
 			       'votre logiciel de messagerie.') ;
 
