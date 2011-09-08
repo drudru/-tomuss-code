@@ -30,7 +30,7 @@ import teacher
 from files import files
 import socket
 import inscrits
-from column import Column, Columns, ColumnAttr, TableAttr
+import column
 from cell import Cell, Lines, cellempty
 import sender
 import plugins
@@ -58,9 +58,6 @@ warn = utilities.warn
 tables = {}
 
 the_head   = utilities.StaticFile(os.path.join('FILES','head.html'))
-
-ro_user = data.ro_user
-rw_user = data.rw_user
 
 js = utilities.js
 
@@ -170,7 +167,7 @@ def table_head(year=None, semester=None, ticket=None,
             'table_attr = {\n' +
                 ',\n'.join(attr.name+':'+js(getattr(attrs_from, attr.name,
                                                     attr.default_value))
-                           for attr in TableAttr.attrs.values()
+                           for attr in column.TableAttr.attrs.values()
                            ) + '} ;\n' +
             table_head_more(ue) +
             '</script>\n')
@@ -204,7 +201,7 @@ class Table(object):
         else:
             self.ue_code = ue
 
-        for attr in TableAttr.attrs.values():
+        for attr in column.TableAttr.attrs.values():
             d = attr.default_value
             if isinstance(d, list):
                 d = list(d)
@@ -221,7 +218,7 @@ class Table(object):
             self.teachers = []
         self.pages = []
         self.active_pages = []
-        self.columns = Columns(self)
+        self.columns = column.Columns(self)
         self.lines = Lines(self.columns)
         self.the_lock = threading.Lock()
         self.ro = ro
@@ -244,7 +241,7 @@ class Table(object):
         if self.template is None:            
             class TT:
                 def create(self, ttable):
-                    ttable.new_page('', ro_user, '', '')
+                    ttable.new_page('', data.ro_user, '', '')
                     ttable.table_attr(ttable.pages[0],'masters',[ttable.user])
 
             self.template = TT()
@@ -472,7 +469,7 @@ class Table(object):
         if self.loading:
             return True
         # Values setted by user '' are modifiable
-        if value.author == rw_user:
+        if value.author == data.rw_user:
             return True
         # Empty values are modifiable by anyone
         if value.value == '':
@@ -481,10 +478,10 @@ class Table(object):
         if value.author == page.user_name:
             return True
         # RO and RW users have all the rights
-        if page.user_name == ro_user or page.user_name == rw_user:
+        if page.user_name == data.ro_user or page.user_name == data.rw_user:
             return True
         # Values setted by user '*' are not modifiable
-        if value.author == ro_user:
+        if value.author == data.ro_user:
             return False
         # The teachers of the UE may change any value setted by another user
         if page.user_name in self.teachers:
@@ -493,8 +490,8 @@ class Table(object):
             return True
         return False
 
-    def authorized_column(self, page, column):
-        return self.authorized(page, Cell(column.title, column.author))
+    def authorized_column(self, page, a_column):
+        return self.authorized(page, Cell(a_column.title, a_column.author))
 
     def cell_change(self, page, col, lin, value=None,
                     date=None, force_update=False):
@@ -502,12 +499,12 @@ class Table(object):
         if not self.loading and not self.modifiable:
             return self.bad_ro(page)
 
-        column = self.columns.from_id(col)
-        if column == None:
+        a_column = self.columns.from_id(col)
+        if a_column == None:
             raise ValueError("Bug in 'cell_change' can't find column %s" % col)
 
         line = self.lines[lin]
-        cell = line[column.data_col]
+        cell = line[a_column.data_col]
 
         if value is None:
             value = cell.value
@@ -522,7 +519,7 @@ class Table(object):
             return 'ok.png'            
 
         # if isinstance(value, str) and value.find('.') != -1:
-        if column.type.name == 'Note':
+        if a_column.type.name == 'Note':
             try:
                 value = float(value)
             except ValueError:
@@ -532,7 +529,7 @@ class Table(object):
             and hasattr(self.template, 'cell_change')):
             self.template.cell_change(self, page, col, lin, value, date)
 
-        if column.data_col == 0:
+        if a_column.data_col == 0:
             login = utilities.the_login(old_value)
             if login in self.the_key_dict:
                 try:
@@ -551,9 +548,9 @@ class Table(object):
                 self.the_key_dict[login] = [lin]
 
         # The class may change on value change
-        cell = line[column.data_col] = cell.set_value(value=value,
-                                                      author=page.user_name,
-                                                      date=date)
+        cell = line[a_column.data_col] = cell.set_value(value=value,
+                                                        author=page.user_name,
+                                                        date=date)
         if not self.loading:
             self.log('cell_change(%s,%s,%s,%s,"%s")' % (
                 page.page_id,
@@ -573,7 +570,7 @@ class Table(object):
                 self.send_update(None, t)
             else:
                 self.send_update(page, t)
-            cell_changed_list_fast.append((self, lin, column))
+            cell_changed_list_fast.append((self, lin, a_column))
         else:
             page.request += 1
 
@@ -634,17 +631,17 @@ la dernière saisie.
         if not self.loading and not self.modifiable:
             return self.bad_ro(page)
 
-        column = self.columns.from_id(col)
-        if column == None:
+        a_column = self.columns.from_id(col)
+        if a_column == None:
             return self.bad_column(page)
 
         value = value.replace('\n','')
         line = self.lines[lin]
-        if value == line[column.data_col].comment:
+        if value == line[a_column.data_col].comment:
             return 'ok.png'
 
         if not self.loading:
-            if not self.authorized(page, line[column.data_col]):
+            if not self.authorized(page, line[a_column.data_col]):
                 return self.bad_auth(page)
             self.log('comment_change(%s,%s,%s,%s)' % (
                 page.page_id,
@@ -662,7 +659,7 @@ la dernière saisie.
         else:
             page.request += 1
 
-        line[column.data_col] = line[column.data_col].set_comment(value)
+        line[a_column.data_col] = line[a_column.data_col].set_comment(value)
 
         return 'ok.png'
 
@@ -678,7 +675,7 @@ la dernière saisie.
             return False, 'There is a table comment: %s' % self.comment
         if not empty_even_if_column_created:
             for c in self.columns:
-                if c.author != ro_user:
+                if c.author != data.ro_user:
                     return False, 'A column title is set'
         for line in self.lines.values():
             for j in line:
@@ -711,25 +708,25 @@ la dernière saisie.
         else:
             position = 0
 
-        column = Column(the_id, page.user_name, position=position)
+        a_column = column.Column(the_id, page.user_name, position=position)
 
-        self.columns.append(column)
+        self.columns.append(a_column)
         for line in self.lines.values():
             line.append(cellempty)
-        return column
+        return a_column
 
     def column_attr(self, page, col_id, attr, value):
         col = self.columns.from_id(col_id)
         if col is None:
             col = self.add_empty_column(page, col_id)
-        return ColumnAttr.attrs[attr].set(self, page, col, value)
+        return column.ColumnAttr.attrs[attr].set(self, page, col, value)
 
-    def column_changed(self, column, attribute):
+    def column_changed(self, a_column, attribute):
         "An column attribute change, column content may be updated"
-        column_changed_list.append((self, column, attribute))
+        column_changed_list.append((self, a_column, attribute))
 
     def table_attr(self, page, attr, value):
-        return TableAttr.attrs[attr].set(self, page, value)
+        return column.TableAttr.attrs[attr].set(self, page, value)
 
     def column_comment(self, page, col_id, comment):
         """DEPRECATED : use column_attr"""
@@ -742,7 +739,7 @@ la dernière saisie.
         col = self.columns.from_id(col_id)
         if col is None:
             col = self.add_empty_column(page, col_id)
-        attrs = ColumnAttr.attrs
+        attrs = column.ColumnAttr.attrs
         attrs['type'].set(self, page, col, ttype)
         attrs['title'].set(self, page, col, title)
         attrs['freezed'].set(self, page, col, freezed)
@@ -772,17 +769,17 @@ la dernière saisie.
     def column_delete(self, page, col):
         if not self.loading and not self.modifiable:
             return self.bad_auth(page)
-        column = self.columns.from_id(col)
-        if column == None:
+        a_column = self.columns.from_id(col)
+        if a_column == None:
             return self.bad_column(page)
         # The first 'if' is to allow teachers to destroy
-        # Columns created by 'ro_user' if they are not firsts ones.
+        # Columns created by 'data.ro_user' if they are not firsts ones.
         # THIS SHOULD BE REMOVED, but not yet.
         # It was tested because bad columns were created.
-        if page.user_name not in self.masters and column.data_col < 6 :
-            if not self.authorized_column(page, column):
+        if page.user_name not in self.masters and a_column.data_col < 6 :
+            if not self.authorized_column(page, a_column):
                 return self.bad_auth(page)
-        if column.type.cell_is_modifiable and not column.empty():
+        if a_column.type.cell_is_modifiable and not a_column.empty():
             return self.error(page, "Destruction interdite (colonne pas vide)")
 
         if not self.loading:
@@ -794,8 +791,8 @@ la dernière saisie.
             page.request += 1
 
         for line in self.lines.values():
-            line.pop(column.data_col)
-        self.columns.pop(column.data_col)
+            line.pop(a_column.data_col)
+        self.columns.pop(a_column.data_col)
             
         return 'ok.png'
 
@@ -814,7 +811,7 @@ la dernière saisie.
 
     def date_change(self, page, date):
         """Deprecated"""
-        return TableAttr.attrs['dates'].set(self, page, date)
+        return column.TableAttr.attrs['dates'].set(self, page, date)
 
     def logins(self):
         for v in self.lines.values():
@@ -877,7 +874,7 @@ la dernière saisie.
         a = {}
         for v in self.lines.values():
             for cell in v:
-                if cell.author not in ('', ro_user):
+                if cell.author not in ('', data.ro_user):
                     a[cell.author] = True
         return list(a.keys())
 
@@ -948,7 +945,7 @@ la dernière saisie.
                 authors[c.author] = len(authors)
             a = authors[c.author]
 
-            for attr in ColumnAttr.attrs.values():
+            for attr in column.ColumnAttr.attrs.values():
                 if attr.computed:
                     continue
                 attr_value = attr.decode(getattr(c, attr.name))
@@ -957,7 +954,7 @@ la dernière saisie.
                         repr(attr.name), a, repr(c.the_id),
                         repr(attr_value)))
                          
-        for attr in TableAttr.attrs.values():
+        for attr in column.TableAttr.attrs.values():
             if attr.computed:
                 continue
             attr_value = attr.decode(getattr(self, attr.name))
@@ -1203,8 +1200,8 @@ def check_new_students_real():
                 warn('done %s' % t.ue, what="table")
 
                 if t.modifiable:
-                    for column in t.columns:
-                        column.type.update_all(t, column)
+                    for a_column in t.columns:
+                        a_column.type.update_all(t, a_column)
             finally:
                 t.do_not_unload_add(-1)
                 utilities.bufferize_this_file(None)
@@ -1413,8 +1410,8 @@ def update_computed_values_fast():
     while True:
         time.sleep(0.1)
         while cell_changed_list_fast:
-            the_table, lin, column = cell_changed_list_fast.pop()
-            for col in the_table.columns.use(column):
+            the_table, lin, a_column = cell_changed_list_fast.pop()
+            for col in the_table.columns.use(a_column):
                 col.type.update_one(the_table, lin, col)
 
 column_changed_list = []
@@ -1423,9 +1420,9 @@ def update_computed_values_slow():
     while True:
         time.sleep(0.1)
         while column_changed_list:
-            the_table, column, attr = column_changed_list.pop()
-            column.type.update_all(the_table, column, attr)
-            for col in the_table.columns.use(column):
+            the_table, a_column, attr = column_changed_list.pop()
+            column.type.update_all(the_table, a_column, attr)
+            for col in the_table.columns.use(a_column):
                 col.type.update_all(the_table, col)
 
 def start_threads():
