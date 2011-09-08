@@ -111,7 +111,7 @@ function head_html()
   if ( myindex(semesters, semester) != -1 )
       w += '<a href="' + suivi.split('/=')[0] + '/rss2/' + ue + '"><img style="border:0px" src="' + url + '/feed.png"></a>' ;
 
-  if ( window.location.pathname.search('=new-interface=') == -1 )
+  if ( false )
     {
       w += hidden_txt('<b><a href="' + url + '/=' + ticket + '/' + year + '/'
 		      + semester + '/' + ue + '/=new-interface=">'
@@ -1253,7 +1253,7 @@ function tail_html()
 
   var a ;
 
-  if ( window.location.pathname.search('=new-interface=') == -1 )
+  if ( false )
     {
     a = '<p class="copyright"><span id="server_feedback"></span></p>'
         + '<div id="log"></div>' ;
@@ -1284,7 +1284,7 @@ function insert_middle()
     }
   i_am_root = myindex(root, my_identity) != -1 ;
 
-  if ( window.location.pathname.search('=new-interface=') != -1 )
+  if ( true )
       document.write(new_new_interface()) ;
   else
       document.write(new_interface()) ;
@@ -1299,7 +1299,7 @@ function insert_middle()
     '<div>' ;
   var w ;
 
-  if ( window.location.pathname.search('=new-interface=') != -1 )
+  if ( true )
     w = '' ;
   else
     w = hs ;
@@ -1309,7 +1309,7 @@ function insert_middle()
   w += '<div id="divtable" class="colored"><div id="hover"></div></div>' ;
   if ( scrollbar_right )
     w += '<div id="vertical_scrollbar"></div>' ;
-  if ( window.location.pathname.search('=new-interface=') != -1 )
+  if ( true )
     w += hs ;
 
   w += '</div></div><div id="loading_bar"><div></div></div>' ;
