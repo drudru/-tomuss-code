@@ -139,13 +139,8 @@ def update_inscrits_referents(the_ids, table, page):
                 s = 'OUI'
             else:
                 s = 'NON'
-        if login[1:3] == current_year:
-            for group in inscrits.L_batch.member_of_list(login):
-                if '1A,OU=' in group:
-                    pe = 'OUI'
-                    break
-            else:
-                pe = 'NON'
+        if configuration.student_in_first_year(login):
+            pe = 'OUI'
         else:
             pe = 'NON'
         table.lock()

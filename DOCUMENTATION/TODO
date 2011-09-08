@@ -133,6 +133,10 @@ Problèmes à résoudre.
   (sur 'atr' notamment, parce que rdv_ip est un TEMPLATE ?)
   A CORRIGER EN PRIORITÉ
 
+* "'" dans l'adresse mail
+
+* Formule coté serveur : colonne inéfaçable.
+
 * Découpler referents_students pour avoir les bon referents par semestre.
 
 * heures sydney : les mauvaises (à cause rechargement plugins ?)

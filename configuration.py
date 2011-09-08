@@ -153,6 +153,18 @@ def is_an_official_ue(code):
     return 1
 
 
+#REDEFINE
+# Returns True if the student is in the first year.
+# The information is displayed in the 'blocnote'
+def student_in_first_year(login):
+    import inscrits
+    if login[1:3] == current_year:
+        for group in inscrits.L_batch.member_of_list(login):
+            if '1A,OU=' in group:
+                return True
+    return False
+
+
 # LDAP informations
 # A list of LDAP server to query
 ldap_server = ('ldap1.domain.org', 'ldap2.domain.org', 'ldap3.domain.org')
