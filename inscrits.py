@@ -628,6 +628,11 @@ def login_from_ldap(i):
     else:
         return i[configuration.attr_login][0]
 
+def a_mailto(login):
+    firstname, surname, mail = L_fast.firstname_and_surname_and_mail(login)
+    return '<a href="mailto:%s">%s %s</a><!-- %s -->' % (
+        mail, firstname.title(), surname, login)
+
 demo_animaux = {
     'k01':('k01',u'Bernard' ,u'BONOBO'      ,'bbonobo@africa.net'     ,'M',''),
     'k02':('k02',u'Georges' ,u'ROUGE GORGE' ,'grouge-gorge@europe.net','O',''),

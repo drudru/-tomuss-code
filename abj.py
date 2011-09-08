@@ -293,7 +293,7 @@ def get_abjs(year, semester):
     if year >= configuration.abj_per_semester_before \
            and not configuration.abj_per_semester:
         # Take ABJ from first semester
-        year, semester = university_year_semester(year, semester)
+        year, semester = utilities.university_year_semester(year, semester)
     year = str(year)
     try:
         return Abjs.abjs[(year, semester)]

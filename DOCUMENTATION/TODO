@@ -95,6 +95,8 @@ Utilisateurs finaux.
 Administrateur.
 ---------------
 
+* Liste des threads : dire dans quel fonction elles sont
+
 * Heures sur le graph livestatus
 
 * live_status : pong ne doit pas mettre la date courante si existe pas
@@ -127,11 +129,11 @@ Administrateur.
 Problèmes à résoudre.
 =====================
 
-@ Emargement ariane : PC sur place.
+* Les droits d'utilisation sur les plugins sont parfois perdu au lancement.
+  (sur 'atr' notamment, parce que rdv_ip est un TEMPLATE ?)
+  A CORRIGER EN PRIORITÉ
 
 * Découpler referents_students pour avoir les bon referents par semestre.
-
-* Liens sur la saisie des IP
 
 * heures sydney : les mauvaises (à cause rechargement plugins ?)
 

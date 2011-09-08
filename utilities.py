@@ -184,7 +184,8 @@ def university_year_semester(year=None, semester=None):
     except ValueError:
         return year, semester
     
-    return year + configuration.semesters_year[i], university_semesters[0]
+    return (year + configuration.semesters_year[i],
+            configuration.university_semesters[0])
 
 
 def next_year_semester(year, semester):
