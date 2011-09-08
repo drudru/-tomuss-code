@@ -25,37 +25,66 @@ import referent
 import configuration
 import inscrits
 
+def referent_get_a_student(server, login, students, student,
+                           allow_referent_change=True):
+    year, semester = configuration.year_semester
+    student = inscrits.login_to_student_id(student)
+    firstname, surname = inscrits.L_fast.firstname_and_surname(student)
+
+    if firstname == 'Inconnu' and surname == 'Inconnu':
+        server.the_file.write("%s : N'est pas un étudiant\n" % student)
+    elif student in students:
+        server.the_file.write("%s : Vous êtes déjà son référent\n"%student)
+    else:
+        old_referent = referent.referent(year, semester,
+                                         utilities.the_login(student))
+        if old_referent:
+            if allow_referent_change:
+                referent.remove_student_from_referent(old_referent, student)
+            else:
+                server.the_file.write('%s : A déjà un référent\n' % student)
+                return
+        referent.add_student_to_referent(login, student)
+
+        server.the_file.write('%s : %s %s\n' % (
+            student, firstname, surname))
+
 def referent_get(server):
     """Add a student to its refered students"""
     login = utilities.the_login(server.ticket.user_name)
     students = referent.students_of_a_teacher(login)
-    year, semester = configuration.year_semester
 
     server.the_file.write("Vous êtes maintenant référent pédagogique de :\n")
 
     for student in server.the_path:
         if student == '':
             continue
-        student = inscrits.login_to_student_id(student)
-        firstname, surname = inscrits.L_fast.firstname_and_surname(student)
-
-        if firstname == 'Inconnu' and surname == 'Inconnu':
-            server.the_file.write("%s : N'est pas un étudiant\n" % student)
-        elif student in students:
-            server.the_file.write("%s : Vous êtes déjà son référent\n"%student)
-        else:
-            old_referent = referent.referent(year, semester,
-                                             utilities.the_login(student))
-            if old_referent:
-                referent.remove_student_from_referent(old_referent, student)
-
-            referent.add_student_to_referent(login, student)
-
-            server.the_file.write('%s : %s %s\n' % (
-                student, firstname, surname))
+        referent_get_a_student(server, login, students, student)
 
 plugin.Plugin('referent_get', '/referent_get/{*}',
               mimetype = 'text/plain; charset=UTF-8',
               function=referent_get, referent=True)
+
+
+def referent_set(server):
+    """Add a student to a referent :
+            ...../referent_set/user.name/student1/student2/...
+    """
+    login = utilities.the_login(server.the_path[0])
+    students = referent.students_of_a_teacher(login)
+
+    server.the_file.write("%s est maintenant référent pédagogique de :\n" %
+                          login)
+
+    for student in server.the_path[1:]:
+        if student == '':
+            continue
+        referent_get_a_student(server, login, students, student,
+                               allow_referent_change=False)
+
+
+plugin.Plugin('referent_set', '/referent_set/{*}',
+              mimetype = 'text/plain; charset=UTF-8',
+              function=referent_set, root=True)
 
 
