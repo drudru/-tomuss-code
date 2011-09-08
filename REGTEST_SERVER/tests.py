@@ -230,7 +230,7 @@ def tests():
 
         # Second load : full table is here
         c = s.url('=' + abj + '/0/Preferences/'+utilities.login_to_module(abj))
-        assert('P([' in c)
+        assert('P("zebra_step",[' in c)
         assert('Col({the_id:"0_2",type:"Text",author:"*",freezed:"F",hidden:1,position:2,title:"Ordre",width:2})' in c)
         assert('Xcell_change(' not in c)
         assert("x.value=" not in c)
@@ -359,7 +359,7 @@ def tests():
               nr_cells = nr_cells,
               dump=False)
         assert('Col({the_id:"col_0",type:"Note",author:"%s",position:0,title:"TITLE0"})' % abj in c)
-        assert('P([C("_VALUE_2_","%s","' % abj in c)
+        assert('P("line_0",[C("_VALUE_2_","%s","' % abj in c)
         assert('","_COMMENT_","_VALUE_\\n(' in c) # History
 
     if do('badorder'):
@@ -419,7 +419,7 @@ def tests():
               nr_cells = nr_cells,
               dump=False)
         assert('Col({the_id:"col_0",type:"Note",author:"%s",position:0,title:"TITLE0"})' % abj in c)
-        assert('P([C("_VALUE_","%s","' % abj in c)
+        assert('P("line_0",[C("_VALUE_","%s","' % abj in c)
         assert('","_COMMENT_")])' in c)
 
     if do('badsyntax'):
@@ -554,7 +554,7 @@ def tests():
               nr_cells = nr_cells,
               dump=False)
         c = s.url('=' + abj + '/9999/Test/cellprotect')
-        assert('P([C(),C(),C(),C(),C(),C()' in c)
+        assert('P("line_0",[C(),C(),C(),C(),C(),C()' in c)
         assert('),C("_VALUE_1_","%s","' % root in c)
         c = s.url('=' + abj + '/9999/Test/cellprotect' +
                   '/2/0/cell_change/col_0/line_0/_VALUE_2_')
@@ -584,7 +584,7 @@ def tests():
               dump=False)
 
         c = s.url('=' + abj + '/9999/Test/cellprotect')
-        assert('P([C(),C(),C(),C(),C(),C()' in c)
+        assert('P("line_0",[C(),C(),C(),C(),C(),C()' in c)
         assert('),C("_VALUE_2_","%s","' % root in c)
         assert('_COMMENT_' not in c)
 
@@ -761,7 +761,7 @@ def tests():
     if do('ue2'):
         # See 'tomuss.py' for more information on this case
         c = s.url('=' + root + '/%s/UE-INF20UE2' % ys)
-        assert('P([C("10800000","*","' in c)
+        assert('P("0_0",[C("10800000","*","' in c)
         assert('),C("Jacques","*","' in c)
         assert('),C("MARTIN","*","' in c)
 
@@ -837,7 +837,7 @@ def tests():
 
         # See 'tomuss.py' for more information on this case
         c = s.url('=' + root + '/%s/UE-INF20UE2' % ys)
-        assert('P([C("10800000","*","' in c)
+        assert('P("0_0",[C("10800000","*","' in c)
         assert('),C("Jacques","*","' in c)
         assert('),C("MARTIN","*","' in c)
         assert('),C(11.11,"%s","' % root in c)
@@ -857,7 +857,7 @@ def tests():
         s.restart()
 
         c = s.url('=' + root + '/%s/UE-INF20UE2' % ys)
-        assert('P([C("10800000","*","' in c)
+        assert('P("0_0",[C("10800000","*","' in c)
         assert('),C("Jacques","*","' in c)
         assert('),C("MARTIN","*","' in c)
         assert('),C(11.11,"%s","' % root in c)
@@ -1043,12 +1043,12 @@ Col({the_id:"col_1",type:"Note",author:"%s",position:0,title:"TITLE1"})
 
         c = ss.url('=' + abj + '/%s/*' % ys )
         assert('#cellules_saisies' in c)
-        assert('P([C("%s","*"),' % root in c)
+        assert('P("1",[C("%s","*"),' % root in c)
 
         c = ss.url('=' + abj + '/%s/*2' % ys )
         assert('#enseignants' in c)
         # assert('P([C("teachers","*"),' in c)
-        assert('P([C("UE-INF20UE2","*"),' in c)
+        assert('P("2",[C("UE-INF20UE2","*"),' in c)
 
     if do('private'):
         c = s.url('=' + root + '/%s/UE-INF11UE2' % ys)
@@ -1072,7 +1072,7 @@ Col({the_id:"col_1",type:"Note",author:"%s",position:0,title:"TITLE1"})
         create_u2()
         ss.start()
         c = ss.url('=' + root + '/%s/resume/UE-INF20UE2/UE-INF20UE2' % ys)
-        assert('lines = [[C("10800001"),C(""),C(""),C(1),C(1),C(),C()],\n[C("10800000"),C("Jacques"),C("MARTIN"),C(1),C(1),C(),C()]] ' in c)
+        assert('lines = {"0": [C("10800001"),C(""),C(""),C(1),C(1),C(),C()],\n"1": [C("10800000"),C("Jacques"),C("MARTIN"),C(1),C(1),C(),C()]}' in c)
 
     if do('delete_this_table'):
         create_u2()

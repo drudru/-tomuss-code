@@ -10,6 +10,9 @@ Utilisateurs finaux.
 
 * Deux inscriptions en TR
 
+* Afficher le semestre de l'operation dans le menu de la page d'accueil
+  Par exemple pour 'détruire'
+
 * Associer une/des dates à une colonne
 
 * Type de colonne : Referent(ID)
@@ -132,8 +135,6 @@ Problèmes à résoudre.
 * Les droits d'utilisation sur les plugins sont parfois perdu au lancement.
   (sur 'atr' notamment, parce que rdv_ip est un TEMPLATE ?)
   A CORRIGER EN PRIORITÉ
-
-* "'" dans l'adresse mail
 
 * Formule coté serveur : colonne inéfaçable.
 
