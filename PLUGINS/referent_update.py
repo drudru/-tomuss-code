@@ -32,11 +32,23 @@ plugin.Plugin('referents_update', '/referents',
               launch_thread=True,
               link=plugin.Link(text="Faire l'affectation des référents pédagogiques",
                                help="""Met à jour les affectations des
-                               enseignants référents pédagogiques.
-                               La procédure contient beaucoup d'heuristiques.
-                               Il est préférable de la lancer sur la version
-                               de développement avant de le faire sur
-                               la version de production.""",
+                               enseignants référents pédagogiques.""",
+                               html_class='veryunsafe',
+                               where='abj_master',
+                               priority=1000,
+                               ),
+              )
+
+def update_referents_R(server):
+    """Dispatch students without referents to a referent."""
+    referent.update_referents(server.ticket, server.the_file,
+                              really_do_it=True, add_students=False)
+
+plugin.Plugin('referents_update_R', '/referents_R',
+              function=update_referents_R, referent_master=True,
+              launch_thread=True,
+              link=plugin.Link(text="Enlever les anciens étudiants aux référents pédagogiques",
+                               help="""N'ajoute pas les nouveaux""",
                                html_class='veryunsafe',
                                where='abj_master',
                                priority=1000,
@@ -53,6 +65,21 @@ plugin.Plugin('referents_update_safe', '/referents_safe',
               launch_thread=True,
               link=plugin.Link(text="Afficher l'affectation des référents pédagogiques",
                                help="Affiche ce que l'affectation va faire.",
+                               html_class='verysafe',
+                               where='abj_master',
+                               priority=1000,
+                               ),
+              )
+
+def update_referents_safe_R(server):
+    """Dispatch students without referents to a referent."""
+    referent.update_referents(server.ticket, server.the_file,
+                              really_do_it=False, add_students=False)
+
+plugin.Plugin('referents_update_safe_R', '/referents_safe_R',
+              function=update_referents_safe_R, referent_master=True,
+              launch_thread=True,
+              link=plugin.Link(text="Afficher les étudiants qui vont être enlevés aux référents pédagogiques",
                                html_class='verysafe',
                                where='abj_master',
                                priority=1000,

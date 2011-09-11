@@ -1421,7 +1421,7 @@ def update_computed_values_slow():
         time.sleep(0.1)
         while column_changed_list:
             the_table, a_column, attr = column_changed_list.pop()
-            column.type.update_all(the_table, a_column, attr)
+            a_column.type.update_all(the_table, a_column, attr)
             for col in the_table.columns.use(a_column):
                 col.type.update_all(the_table, col)
 

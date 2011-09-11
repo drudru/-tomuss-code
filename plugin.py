@@ -419,7 +419,7 @@ links_without_plugins = [
          html_class='safe',
          where='abj_master',
          priority=999,
-         authorized = lambda s: s.ticket.is_a_referent_master,
+         authorized = lambda s: s.ticket.user_name in configuration.root,
          ),                               
     Link(text='Afficher la configuration de TOMUSS',
          where="root_rw",

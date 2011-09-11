@@ -92,7 +92,7 @@ def les_blocsnotes(year):
 # This function computes for the student some attributes needed to
 # assign it a referent teacher.
 # Attributes are :
-# discipline (dict or set), ues (list), licence, licence_first_year
+# discipline (set), ues (list), licence, licence_first_year
 def analyse_groups(student, groups):
     # Update list of the UE of the student
     for ue in groups:            
@@ -102,9 +102,9 @@ def analyse_groups(student, groups):
 class Student(object):
     def __init__(self, v, portail):
         self.key = v[0]
-        self.firstname = v[1]
-        self.surname = v[2]
-        self.mail = v[3]
+        self.firstname = unicode(v[1], 'utf8')
+        self.surname = unicode(v[2], 'utf8')
+        self.mail = unicode(v[3], 'utf8')
         self.portail = portail
         self.primo_entrant = self.key[1:3] == '%2d' % (
             utilities.university_year() - 2000)
@@ -116,7 +116,7 @@ class Student(object):
                 self.short_portail = k
                 break
 
-        self.discipline = {}
+        self.discipline = set()
         self.ues = []
         self.licence = False
         self.licence_first_year = False
@@ -126,21 +126,21 @@ class Student(object):
 
     def __str__(self):
         return '%s %s %s %s %s %s' % (self.key, self.firstname, self.surname,
-                                   self.mail, self.ues, self.discipline.keys())
+                                   self.mail, self.ues, self.discipline)
 
     def html(self):
         if self.mail is None:
             self.mail = inscrits.L_batch.mail(self.key)
         return '%s %s %s %s %s %s' % (self.key,
                                    self.firstname, self.surname,self.mail, 
-                                   self.ues, self.discipline.keys())
+                                   self.ues, self.discipline)
 
 class Teacher(object):
     def __init__(self, name, discipline, line_key):
         self.name = name
-        self.no_more_students = discipline.endswith('*')
+        self.no_more_students = '*' in discipline
         discipline = discipline.replace('*', '')
-        self.discipline = discipline
+        self.discipline = set(discipline.split(' '))
             
         self.line_key = line_key
         self.students = []
@@ -152,8 +152,8 @@ class Teacher(object):
         self.nr += 1
 
     def __str__(self):
-        return '%s %s (%f) %s' % (self.name, self.discipline, self.nr,
-                                  self.students)
+        return '%s %s (%f) %s' % (self.name, ' '.join(self.discipline),
+                                  self.nr, self.students)
 
 
 def students_of_a_teacher(tteacher):
@@ -266,7 +266,7 @@ def add_student_to_referent(referent, student):
 # This function returns the teacher to assign to a student.
 # It is only needed for special case of the generic algorithm.
 def search_best_teacher_local(student, sorted_teachers, f, all_teachers):
-    if 'INFL3' in student.discipline and student.primo_entrant:
+    if 'INFO_L3' in student.discipline and student.primo_entrant:
         return all_teachers['elodie.desseree']
 
 def search_best_teacher(student, sorted_teachers, f, all_teachers):        
@@ -285,16 +285,13 @@ def search_best_teacher(student, sorted_teachers, f, all_teachers):
     if k:
         k = k.strip() # \n at the end if hand edited
     if k in all_teachers \
-        and all_teachers[k].discipline in student.discipline:
+        and all_teachers[k].discipline.intersection(student.discipline):
         return all_teachers[k]
 
     # The teacher is in the same discipline with the less students.
     
     for tteacher in sorted_teachers:
-        if tteacher.discipline not in student.discipline :
-            if False:
-                f.write('<li> %s[%d] et %s pas la bonne discipline\n' % (
-                    tteacher.name, tteacher.nr, student.key))
+        if not tteacher.discipline.intersection(student.discipline) :
             continue
 
         # No new students for this teacher
@@ -317,7 +314,7 @@ def referents_students(year=None, semester=None):
     return document.table(year, semester, 'referents_students',
                           do_not_unload=1, ro=configuration.read_only)
 
-def update_referents(ticket, f, really_do_it = False):
+def update_referents(ticket, f, really_do_it = False, add_students=True):
 
     if not is_a_referent_master(ticket.user_name):
         f.write("You are not allowed to do this")
@@ -360,7 +357,7 @@ def update_referents(ticket, f, really_do_it = False):
         for line_key, line in table.lines.items():
             if line[0].value and line[0].value not in all_teachers:
                 tteacher = Teacher(line[0].value, line[1].value, line_key)
-                if tteacher.discipline != '' and tteacher.discipline[-1]!= '*':
+                if tteacher.discipline and not tteacher.no_more_students:
                     all_teachers[line[0].value] = tteacher
             else:
                 if line[0].value:
@@ -382,8 +379,10 @@ def update_referents(ticket, f, really_do_it = False):
                 if cell.value not in all_cells:
                     all_cells[cell.value] = tteacher
                     if cell.value not in students:
-                        f.write('%s not in the student list (%s) ' % (
-                        cell.value, line[0].value))
+                        f.write('%s not in the student list (%s) %s ' % (
+                            cell.value, line[0].value,
+                            inscrits.L_batch.etapes_of_student(cell.value)
+                            ))
                         f.write('REMOVED')
                         the_student = utilities.the_login(cell.value)
                         if really_do_it:
@@ -407,12 +406,11 @@ def update_referents(ticket, f, really_do_it = False):
 
     f.write('<h1>Students in need of a teacher</h1>\n')
     missing = []
-    i = 0
-    for student in students.values():
-        if student_need_a_referent(student, all_cells, f):
-            missing.append(student.key)
-            f.write(student.html() + '<br>\n')
-
+    if add_students:
+        for student in students.values():
+            if student_need_a_referent(student, all_cells, f):
+                missing.append(student.key)
+                f.write(student.html().encode('utf8') + '<br>\n')
 
     f.write('<h1>Teacher list sorted by number of student</h1>\n')
     sorted_teachers = list(all_teachers.values())
@@ -429,11 +427,11 @@ def update_referents(ticket, f, really_do_it = False):
         tteacher = search_best_teacher(students[s], sorted_teachers, f, all_teachers)
         if tteacher == None:
             f.write('<li> MANQUE ENSEIGNANT!!!!!!!!!! pour %s\n' %
-                    students[s])
+                    students[s].html().encode('utf8'))
             missing.remove(s)
             continue
         ss = s
-        ss += ' ' + repr(students[s].discipline.keys())
+        ss += ' ' + repr(students[s].discipline)
 
         f.write('<li><b>' + tteacher.name + '[' + str(tteacher.nr) + ']</b> (%s): '
                 % (tteacher.discipline,) + ss)
@@ -456,7 +454,7 @@ def update_referents(ticket, f, really_do_it = False):
         f.write('<li> %s<br>\n' % tteacher.name
                 + '<br>\n'.join(tteacher.message).encode('utf8'))
 
-        if really_do_it:
+        if False and really_do_it:
             utilities.send_mail(inscrits.L_batch.mail(tteacher.name),
                                 "Changements d'etudiants referes",
                                 (u"""Bonjour

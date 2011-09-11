@@ -110,6 +110,7 @@ plugin.Plugin('referents.xls', '/referents.xls',
                                pédagogique.""",
                                priority=100,
                                ),
+              root = True,
               )
 
 plugin.Plugin('referents.html', '/referents.html',
@@ -126,4 +127,5 @@ plugin.Plugin('referents.html', '/referents.html',
                                pédagogique.""",
                                priority=100,
                                ),
+              root = True,
               )
