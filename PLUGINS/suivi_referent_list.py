@@ -51,8 +51,8 @@ def referents_table_real():
         except KeyError:
             firstname, surname, mail = inscrits.L_batch.firstname_and_surname_and_mail(r)
             d[r] = firstname, surname, mail
-        s_surname = unicode(student.surname,'utf-8').encode('latin1')
-        s_firstname = unicode(student.firstname,'utf-8').title().encode('latin1')
+        s_surname = student.surname.encode('latin1')
+        s_firstname = student.firstname.title().encode('latin1')
         yield (p, student.key, s_surname, s_firstname, surname.encode('latin1'), firstname.title().encode('latin1'), mail.encode('latin1'))
 
 

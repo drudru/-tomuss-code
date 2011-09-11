@@ -1032,7 +1032,7 @@ Col({the_id:"col_1",type:"Note",author:"%s",position:0,title:"TITLE1"})
         assert('10800001' in c)
         assert('22.2' in c)
 
-        c = ss.url('=' + abj + '/%s/referents.csv' % ys )
+        c = ss.url('=' + root + '/%s/referents.csv' % ys )
         assert(';10800000;MartiN;Jacques;surnametoto;Firstnametoto;mail@toto' in c)
 
     if do('suivitable'):
