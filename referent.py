@@ -323,13 +323,13 @@ def update_referents(ticket, f, really_do_it = False, add_students=True):
 
     # Get the referent table
     table = referents_students()
-    table.lock()
-    try:
-        page = table.new_page(ticket.ticket, ticket.user_name, ticket.user_ip,
-                      ticket.user_browser)
-    finally:
-        table.unlock()
-
+    page = table.pages[0]
+    # table.lock()
+    # try:
+    #    page = table.new_page(ticket.ticket, ticket.user_name, ticket.user_ip,
+    #                          ticket.user_browser)
+    # finally:
+    #    table.unlock()
     f.write('''
     <link rel="stylesheet" href="../style.css" type="text/css">
     <script src="../utilities.js"></script>
@@ -386,6 +386,8 @@ def update_referents(ticket, f, really_do_it = False, add_students=True):
                         f.write('REMOVED')
                         the_student = utilities.the_login(cell.value)
                         if really_do_it:
+                            remove_student_from_referent_hook(line[0].value,
+                                                              cell.value)
                             table.cell_change(page, cell_key, line_key, '')
                             utilities.manage_key('LOGINS',
                                                  os.path.join(the_student,
@@ -400,7 +402,10 @@ def update_referents(ticket, f, really_do_it = False, add_students=True):
                 else:
                     f.write('Remove duplicate student: %s<br>\n' % cell.value)
                     if really_do_it:
+                        remove_student_from_referent_hook(line[0].value,
+                                                          cell.value)
                         table.cell_change(page, cell_key, line_key, '')
+
     finally:
         table.unlock()
 
