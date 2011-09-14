@@ -917,7 +917,7 @@ function update_a_student_list(html_id, student_list, title, notes)
   for(var i in student_list)
     {
       i = student_list[i] ;
-      s.push(student_line(i)) ;
+      s.push(student_line(i, student_list.length > 100)) ;
       m.push(i[3]) ;
       logins.push(i[0]) ;
     }
