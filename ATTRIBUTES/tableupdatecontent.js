@@ -22,5 +22,5 @@
 
 function table_update_content(the_id)
 {
-  append_image(the_td(document.getElementById(the_id)), 'update_content') ;
+  append_image(document.getElementById(the_id).parentNode, 'update_content') ;
 }

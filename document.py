@@ -1343,6 +1343,7 @@ def check_requests():
                     elif action == 'update_content':
                         if tabl not in update_students:
                             update_students.append(tabl)
+                        page.answer = 'ok.png'
                     else:
                         warn('BUG: %s' % str(path), what="error")
                 finally:
