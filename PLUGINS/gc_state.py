@@ -171,7 +171,7 @@ plugin.Plugin('locks'   , '/locks'   , root=True, function=locks,
 def threads(server):
     """Displays the running thread"""
     server.the_file.write('<title>Threads TOMUSS</title><pre>' +
-                          '\n'.join(cgi.escape(str(t))
+                          '\n'.join(cgi.escape(t.stack())
                                     for t in utilities.thread_list) +
                           '</pre>')
 

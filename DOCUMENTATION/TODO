@@ -96,8 +96,6 @@ Utilisateurs finaux.
 Administrateur.
 ---------------
 
-* Liste des threads : dire dans quel fonction elles sont
-
 * Heures sur le graph livestatus
 
 * live_status : pong ne doit pas mettre la date courante si existe pas

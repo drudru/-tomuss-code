@@ -334,7 +334,13 @@ def start_new_thread(fct, args, send_mail=True, immortal=False):
             return str(self)
         def __str__(self):
             return 'Thread immortal=%-5s send_mail=%-5s %s' % (
-                self.immortal, self.send_mail, fct.func_name)
+                   self.immortal, self.send_mail, fct.func_name)
+
+        def stack(self):
+            return (str(self) + '\n'
+                    + ''.join(traceback.format_stack(
+                        sys._current_frames()[self.ident])[3:]))
+
     t = T()
     t.setDaemon(True)
     t.start()    
