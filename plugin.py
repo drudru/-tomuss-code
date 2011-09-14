@@ -185,6 +185,11 @@ class Plugin(object):
                 raise ValueError('Two plugins named "%s" (%s & %s)' %
                                  (self.name, f1, f2))
 
+        for p in plugins:
+            if p.name == self.name:
+                utilities.warn('Remove duplicate plugin name: %s' % p.name)
+                plugins.remove(p)
+                break
         plugins.append(self)
         plugins.sort(key=lambda x: (x.priority, x.url))
 

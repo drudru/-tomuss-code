@@ -47,9 +47,6 @@ def reload_plugins(server):
         reimported = ('', 'Reloaded')[reimported]
         server.the_file.write('<tr><td>%s<td>%d<td>%s</tr>\n' % (
             i, len(plugin_files[i]), reimported))
-        if reimported:
-            for i in plugin_files[i]:
-                plugin.plugins.remove(i)
     server.the_file.write('</table>\n')
     server.the_file.write('The attribute javascript is reloaded even if the Python module is not reloaded\n')
     server.the_file.write('<table border>\n')

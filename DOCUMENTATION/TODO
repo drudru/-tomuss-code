@@ -46,8 +46,6 @@ Utilisateurs finaux.
 
 * Redirection d'une table sur une autre (renommage).
 
-* COW (stable) valeur vide ==> comme si rien dans la case (compliqué à faire)
-
 * IE : BILAN TOMUSS : probleme icone+note mal positionné
 
 * RSS étudiant : ajouter + d'info dans le texte et le sujet.
@@ -146,8 +144,6 @@ Problèmes à résoudre.
 
 * Pourquoi les TEMPLATES recharge le fichier python
 
-* Pourquoi on peut définir plusieurs fois le même plugin
-
 * Séparer rdv_ip en 2.
 
 * Passer les .css avant les .js
@@ -189,9 +185,9 @@ Améliorations de code source.
 
 * Pylint
 
-* Faire des plugins pour chaque fonctionnalité coté client :
-  Les filtres ?
-  Popup_on_red ?
+* Faire des plugins pour chaque fonctionnalité coté client, il reste :
+	  Les filtres ?
+	  Popup_on_red ?
 
 * Méthode javascript pour attr : editable (masters attributes)
 
@@ -204,6 +200,7 @@ Améliorations de code source.
 * Faire le ménage des fonctions deprecated dans les TEMPLATES
 
 * Normaliser les dates début/fin : [x, y] au lieu de "x y"
+  Faire 2 attributs au lieu d'un
 
 * Normaliser les dates : nombre de secondes ?
 
@@ -241,4 +238,8 @@ Pourquoi certaines choses ne seront pas faites.
 * Importation de colonnes venant du web par le client : IMPOSSIBLE 
 
 * Prendre les mail étudiants de SPIRAL : pas politiquement correcte
+
+* COW (stable) valeur vide ==> comme si rien dans la case (compliqué à faire)
+  Et pas sympa si l'on veut vraiment vider la case
+
 
