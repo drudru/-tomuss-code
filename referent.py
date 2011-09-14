@@ -145,11 +145,19 @@ class Teacher(object):
         self.line_key = line_key
         self.students = []
         self.nr = 0
+        self.nr_weight = 0
         self.message = []
 
     def append(self, student):
         self.students.append(student)
+        if student.startswith('111'): # XXX Primo entrant
+            self.nr_weight += 1000
+        else:
+            self.nr_weight += 1
         self.nr += 1
+        if 'MATH' in self.discipline:
+            self.nr_weight += 0.1
+
 
     def __str__(self):
         return '%s %s (%f) %s' % (self.name, ' '.join(self.discipline),
@@ -419,14 +427,14 @@ def update_referents(ticket, f, really_do_it = False, add_students=True):
 
     f.write('<h1>Teacher list sorted by number of student</h1>\n')
     sorted_teachers = list(all_teachers.values())
-    sorted_teachers.sort(key=lambda x: x.nr)
+    sorted_teachers.sort(key=lambda x: x.nr_weight)
     for tteacher in sorted_teachers:
         f.write('<li>' + str(tteacher))
 
 
     f.write('<h1>Affectations</h1>\n')
     while missing:
-        sorted_teachers.sort(key=lambda x: x.nr)
+        sorted_teachers.sort(key=lambda x: x.nr_weight)
         s = missing[0]
 
         tteacher = search_best_teacher(students[s], sorted_teachers, f, all_teachers)
