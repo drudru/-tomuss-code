@@ -109,8 +109,8 @@ plugin.Plugin('referents.xls', '/referents.xls',
                                référé le nom/mail de son enseignant référent
                                pédagogique.""",
                                priority=100,
+                               authorized = lambda s: s.ticket.user_name in configuration.root,
                                ),
-              root = True,
               )
 
 plugin.Plugin('referents.html', '/referents.html',
@@ -126,6 +126,6 @@ plugin.Plugin('referents.html', '/referents.html',
                                référé le nom/mail de son enseignant référent
                                pédagogique.""",
                                priority=100,
+                               authorized = lambda s: s.ticket.user_name in configuration.root,
                                ),
-              root = True,
               )
