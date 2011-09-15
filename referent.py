@@ -151,7 +151,7 @@ class Teacher(object):
     def append(self, student):
         self.students.append(student)
         if student.startswith('111'): # XXX Primo entrant
-            self.nr_weight += 1000
+            self.nr_weight += 4
         else:
             self.nr_weight += 1
         self.nr += 1
@@ -467,27 +467,17 @@ def update_referents(ticket, f, really_do_it = False, add_students=True):
         f.write('<li> %s<br>\n' % tteacher.name
                 + '<br>\n'.join(tteacher.message).encode('utf8'))
 
-        if False and really_do_it:
+        if really_do_it:
             utilities.send_mail(inscrits.L_batch.mail(tteacher.name),
                                 "Changements d'etudiants referes",
                                 (u"""Bonjour
 
 La liste de vos étudiants référés vient de changer automatiquement.
-
-* Un étudiant est considéré comme faisant la licence FST
-  s'il suit une UE de la licence FST.
-  C'est le seul critère permettant de ne pas oublier les étudiants
-  qui viennent de Médecine, IUT...
-
-* Un étudiant n'ayant pas fait son IP n'as de référent.
-
-* Quand un étudiant revient, son ancien référent lui est affecté si possible.
-
 Voici la liste des changements :
 
 %s
 
-La liste à jour est celle indiquée sur http://TOMUSS.univ-lyon1.fr
+La liste à jour est celle indiquée sur https://TOMUSS.univ-lyon1.fr/
 
 Amicalement.
 

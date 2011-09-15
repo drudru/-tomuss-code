@@ -132,6 +132,8 @@ Problèmes à résoudre.
   (sur 'atr' notamment, parce que rdv_ip est un TEMPLATE ?)
   A CORRIGER EN PRIORITÉ
 
+* Le chargement de TEMPLATE ne charge pas les bon modules
+
 * Sauve option : marche pas pour les lignes
 
 * Formule coté serveur : colonne inéfaçable.
