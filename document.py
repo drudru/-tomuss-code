@@ -946,8 +946,6 @@ la dernière saisie.
             a = authors[c.author]
 
             for attr in column.ColumnAttr.attrs.values():
-                if attr.computed:
-                    continue
                 attr_value = attr.decode(getattr(c, attr.name))
                 if attr_value != attr.default_value:
                     s.append('column_attr(%s,%d,%s,%s)' % (
@@ -956,6 +954,8 @@ la dernière saisie.
                          
         for attr in column.TableAttr.attrs.values():
             if attr.computed:
+                continue
+            if attr.name in ('modifiable', 'dates'):
                 continue
             attr_value = attr.decode(getattr(self, attr.name))
             if attr_value != attr.default_value:
