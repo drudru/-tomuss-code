@@ -343,7 +343,7 @@ function popup_export_window(event)
 }
 
 
-function print_selection(object, emargement)
+function print_selection(object, emargement, replace)
 {
   var p = [ printable_introduction() ] ;
   p.push('<script>') ;
@@ -460,7 +460,7 @@ function print_selection(object, emargement)
   p.push('setTimeout(initialize, 100) ;') ; // Timeout for IE
   p.push('</script>') ;
 
-  var w = window_open() ;
+  var w = window_open(undefined, replace) ;
   w.document.open('text/html') ;
   w.document.write(html_begin_head(true) + p.join('\n')) ;
   w.document.close() ;

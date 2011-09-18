@@ -531,15 +531,21 @@ function on_windows()
   return navigator.platform.indexOf('Win') != -1 ;
 }
 
-function window_open(url)
+var allow_popup_message = 'Vous devez autoriser les "popup" dans votre navigateur.\nTOMUSS ne fonctionnera pas correctement si vous les bloquez.\n\nPour les débloquer, il y a un petit icone vers la droite de l\'adresse de la page' ;
+
+function window_open(url, replace)
 {
   var w ;
   if ( url )
-    w = window.open(url) ;
+    w = window.open(url, replace) ;
   else
-    w = window.open() ;
+    w = window.open(undefined, replace) ;
   if ( ! w )
-    alert('Vous devez autoriser les "popup" dans votre navigateur') ;
+    {
+      alert(allow_popup_message) ;
+    }
+  setTimeout(function() { if ( w.outerHeight === 0 ) popup_blocker = true ;},
+	     500) ;
   return w ;
 }
 

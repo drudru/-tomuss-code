@@ -71,7 +71,7 @@ function facebook_a_toggle(data_col)
     + html(columns[data_col].title) + '</span>' ;
 }
 
-function tablefacebook()
+function tablefacebook(replace)
 {
   var p, s, line ;
 
@@ -111,7 +111,7 @@ function tablefacebook()
   p.push('setTimeout(initialize,100) ;') ; // Timeout for IE
   p.push('</script>') ;
 
-  var w = window_open() ;
+  var w = window_open(undefined, replace) ;
   w.document.open('text/html') ;
   w.document.write(html_begin_head(true) + p.join('\n')) ;
   w.document.close() ;

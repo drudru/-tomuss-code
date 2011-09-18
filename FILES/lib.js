@@ -30,6 +30,7 @@ var maximum_url_length = 3000 ;
 var is_a_teacher = false ;
 
 // Work value
+var popup_blocker = false ;
 var element_focused ;
 var server_feedback ;
 var line_offset ;		// The page being displayed
@@ -3775,9 +3776,37 @@ function runlog(the_columns, the_lines)
     }
   update_columns() ;
 
+  // This function is used when we want to replace the current window
+  // content by the popup content.
+  // It is NEEDED because some browser open popup UNDER the current window
+  function replace_window_content(w)
+  {
+    for(var i in the_body.childNodes)
+      if ( the_body.childNodes[i].style )
+	the_body.childNodes[i].style.display = 'none' ;
+    
+    if (w)
+      setTimeout(function() { if ( popup_blocker ) { alert(allow_popup_message);popup_blocker=false;}} , 10000) ;
+  }
+
+  if ( get_option('print-table', 'a') !== 'a' )
+    {
+      replace_window_content(print_selection(undefined, undefined, '_self'));
+      return ;
+    }
+  if ( get_option('signatures-page', 'a') !== 'a' )
+    {
+      replace_window_content(print_selection(undefined, 1, '_self')) ;
+      return ;
+    }
+  if ( get_option('facebook', 'a') !== 'a' )
+    {
+      replace_window_content(tablefacebook('_self')) ;
+      return ;
+    }
+
   if ( server_log )
     setInterval(auto_save_errors, 100) ;
-
 
   if ( preferences.interface == 'L' )
     {
@@ -3812,24 +3841,6 @@ function runlog(the_columns, the_lines)
 		   + '/' + year + '/' + semester + '/' + ue + '/' +
 		   page_id + '/end_of_load" style="position:absolute;left:0;top:0">') ;
 
-  if ( get_option('print-table', 'a') !== 'a' )
-    {
-      print_selection() ;
-      window.close() ;
-      return ;
-    }
-  if ( get_option('signatures-page', 'a') !== 'a' )
-    {
-      print_selection(undefined, 1) ;
-      window.close() ;
-      return ;
-    }
-  if ( get_option('facebook', 'a') !== 'a' )
-    {
-      tablefacebook() ;
-      window.close() ;
-      return ;
-    }
 
   // Firefox bug : the page refresh reload the old iframe, not the new one
   setTimeout(reconnect, 10) ;
