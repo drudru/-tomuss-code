@@ -3917,7 +3917,7 @@ function display_suivi(cols) /* [value, class, comment] */
   if ( document.getElementById("allow_inline_block").offsetWidth > 50 )
     for(var title in c)
       {
-	title = columns[c[title]].title ;
+	title = columns[c[title]].title.replace(/_/g,' ') ;
 	visual_cell = cols[title] ;
 	if ( visual_cell === undefined )
 	  continue ;
@@ -3958,11 +3958,13 @@ function display_suivi(cols) /* [value, class, comment] */
 	  first = '' ;
 	if ( s === '' )
 	  v = '<div class="notes fine ' + visual_cell[1] + first + '">'
-	    + hidden_txt('<i>' + title + '<br>' + visual_cell[0] + '</i>', visual_cell[2])
+	    + hidden_txt('<i>' + title.replace(/_/g,' ') + '<br>'
+			 + visual_cell[0] + '</i>', visual_cell[2])
 	    + '</div>' ;
 	else
 	  v = '<div class="notes' + first + '">'
-	    + hidden_txt('<i>' + title + ': ' + visual_cell[0] + '</i><br>',
+	    + hidden_txt('<i>' + title.replace(/_/g,' ')
+			 + ': ' + visual_cell[0] + '</i><br>',
 			 visual_cell[2], visual_cell[1])
 	    + s + '</div>' ;
 	return v ;
