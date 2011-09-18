@@ -27,6 +27,8 @@ class TableModifiable(TableAttr):
     update_headers = 1
     tip = """Dans une table «Non Modifiable» <b>personne</b> ne peut changer son contenu."""
     gui_display = "GUI_select"
+    formatter = "table_modifiable_toggle"
+    css = "#tablemodifiableFB {color: #F00; border:0}"
 
     def encode(self, value):
         return int(value)

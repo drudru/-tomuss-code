@@ -8,11 +8,6 @@ Nouvelles fonctionnalités.
 Utilisateurs finaux.
 --------------------
 
-* Enlever les _ des titres de colonne dans le suivi.
-
-* Afficher le semestre de l'operation dans le menu de la page d'accueil
-  Par exemple pour 'détruire'
-
 * Associer une/des dates à une colonne
 
 * Type de colonne : Referent(ID)
@@ -127,6 +122,9 @@ Administrateur.
 =====================
 Problèmes à résoudre.
 =====================
+
+* Copie des colonnes : virer l'ancien propriétaire, ajouter le copieur
+  comme responsable de table ?
 
 * Les droits d'utilisation sur les plugins sont parfois perdu au lancement.
   (sur 'atr' notamment, parce que rdv_ip est un TEMPLATE ?)

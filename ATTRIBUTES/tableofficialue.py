@@ -26,6 +26,7 @@ class TableOfficialUE(TableModifiable):
     # This value is set to True by the TEMPLATE/_ucbl_.py
     # Only the official UEs are displayed in the 'suivi'
     default_value = 0
+    formatter = "function(v){return v;}"
     gui_display = "GUI_select"
     tip = """<b>Visible</b> : La table est affichée dans le suivi des étudiants<br>
 <b>Invisible</b> : La table est invisible dans le suivi des étudiants."""

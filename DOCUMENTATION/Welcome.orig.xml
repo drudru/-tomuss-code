@@ -385,9 +385,13 @@ There is a line per student.</p>
 
     <h3><a name="referent_storage">Referent storage</a></h3>
 
-    <p>The information about referents teacher are stored in a normal table.
-Each line contains the teacher login, its portal and the list
-of the students he helps.</p>
+    <p>The information about referents teacher are stored
+       in a normal table named 'orientation_rp'.
+       Each line contains the teacher login, its portals.
+    </p>
+    <p>The list of students per referent 
+       is stored in 'referents_students' table
+    </p>
 
 
 
