@@ -281,6 +281,12 @@ function ue_line_click_more()
   else
     {
       var code = ue_line_over_code ;
+      var title ;
+      if ( code && code.match('.*/.*') )
+	title = code ;
+      else
+	title = year_semester() + '/' + code ;
+	
       var href ;
       if ( code && code.split('/').length == 1 )
 	href = "go('" + code ;
@@ -352,13 +358,13 @@ function ue_line_click_more()
 	   || (code && code.match('.*/.*'))
 	   )
 	if ( code )
-	  t +=  '<br><img class="safety" src="_URL_/unsafe.png"><a href="javascript:do_delete(\'' + code + '\');">Détruire cette table</a>' ;
+	  t +=  '<br><img class="safety" src="_URL_/unsafe.png"><a href="javascript:do_delete(\'' + code + '\');">Détruire '+ title + '</a>' ;
 	else
 	  t +=  '<br><img class="safety" src="_URL_/unsafe.png"><a href="javascript:do_delete(\'' + (ue_line_over_last.childNodes[1].textContent || ue_line_over_last.childNodes[1].innerText) + '\');">Détruire cette table</a>' ;
 
       ue_line_over_plus.childNodes[1].style.display = 'block' ;
       ue_line_over_plus.childNodes[1].innerHTML = t ;
-      ue_line_over_plus.childNodes[0].innerHTML = '&times;' ;
+      ue_line_over_plus.childNodes[0].innerHTML = '&times; ' + title ;
     }
 }
 
@@ -876,7 +882,7 @@ function update_referent_of()
     return ;
   update_referent_of_done = true ;
   update_a_student_list('the_students', referent_of,
-			'étudiants référés', 'javascript:go_referent()') ;
+			'étudiants liés', 'javascript:go_referent()') ;
 }
 
 function go_import_list()
