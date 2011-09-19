@@ -1983,6 +1983,14 @@ function current_keydown(event, in_input)
       this.input.focus() ;
       this.input.select() ;
       break ;
+    case 80: // P
+      if (  event.ctrlKey === true )
+	{
+	  print_selection() ;
+	  stop_event(event) ;
+	  return false ;
+	}
+      // Fall Thru
     default:
       if ( ! this.cell_modifiable() )
 	{
