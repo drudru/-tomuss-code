@@ -491,7 +491,6 @@ class LDAP(LDAP_Logic):
 
     def connect(self):
         while True:
-            self.server = (self.server + 1) % len(configuration.ldap_server)
             warn('Try connect to ' + configuration.ldap_server[self.server],
                  what="ldap")
             try:
@@ -506,9 +505,11 @@ class LDAP(LDAP_Logic):
             except ldap.SERVER_DOWN:
                 warn('Can not connect to %s: SERVER_DOWN'
                      % configuration.ldap_server[self.server], what="error")
+                self.server = (self.server + 1) % len(configuration.ldap_server)
             except ldap.TIMEOUT:
                 warn('Can not connect to %s: TIMEOUT'
                      % configuration.ldap_server[self.server], what="error")
+                self.server = (self.server + 1) % len(configuration.ldap_server)
             time.sleep(1)
 
     def generator(self, msg_id, nr):
