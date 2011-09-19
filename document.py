@@ -932,35 +932,34 @@ la dernière saisie.
     def location(self):
         return '%d %s %s' % (self.year, self.semester, self.ue)
 
-    def rewrite(self, only_columns=False):
-        authors = {'*':0}
+    def rewrite(self, only_columns=False, user_name=''):
         s = ['# -*- coding: utf8 -*-']
         s.append('from data import *')
         s.append("new_page('' ,'*', '', '')")
+        s.append("new_page('' ,'%s', '', '')" % user_name)
         for c in self.columns:
             # if c.empty() and c.type.cell_compute == 'undefined':
             #    continue
-            if c.author not in authors:
-                s.append('new_page("",%s,"","")' % repr(c.author))
-                authors[c.author] = len(authors)
-            a = authors[c.author]
-
             for attr in column.ColumnAttr.attrs.values():
                 attr_value = attr.decode(getattr(c, attr.name))
+                if attr.name == 'author' and attr_value != data.ro_user:
+                    attr_value = user_name
                 if attr_value != attr.default_value:
-                    s.append('column_attr(%s,%d,%s,%s)' % (
-                        repr(attr.name), a, repr(c.the_id),
-                        repr(attr_value)))
+                    s.append('column_attr(%s,1,%s,%s)' % (
+                        repr(attr.name), repr(c.the_id), repr(attr_value)))
                          
         for attr in column.TableAttr.attrs.values():
             if attr.computed:
                 continue
             if attr.name in ('modifiable', 'dates'):
                 continue
-            attr_value = attr.decode(getattr(self, attr.name))
+            attr_value = getattr(self, attr.name)
+            if (attr.name == 'masters' and user_name not in attr_value):
+                attr_value.append(user_name)
+            attr_value = attr.decode(attr_value)
             if attr_value != attr.default_value:
-                s.append('table_attr(%s,%d,%s)' % (
-                    repr(attr.name), a,
+                s.append('table_attr(%s,1,%s)' % (
+                    repr(attr.name),
                     repr(attr_value)))
 
         if only_columns:
@@ -969,21 +968,14 @@ la dernière saisie.
         for line_key, line in self.lines.items():
             for col, cell in zip(self.columns, line):
                 if cell.value != '':
-                    if cell.author not in authors:
-                        s.append('new_page("",%s,"","")' % repr(cell.author))
-                        authors[cell.author] = len(authors)
-                    a = authors[cell.author]
-
-                    s.append('cell_change(%d,%s,%s,%s,%s)' % (
-                        a,
+                    s.append('cell_change(1,%s,%s,%s,%s)' % (
                         repr(col.the_id),
                         repr(line_key),
                         repr(cell.value),
                         repr(cell.date),
                         ))
                     if cell.comment:
-                        s.append('comment_change(%d,%s,%s,%s)' % (
-                            a,
+                        s.append('comment_change(1,%s,%s,%s)' % (
                             repr(col.the_id),
                             repr(line_key),
                             repr(cell.comment),

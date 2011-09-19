@@ -71,9 +71,9 @@ page d'accueil.""")
     if option == 'history':
         c = utilities.read_file(table.filename)
     elif option == 'content':
-        c = table.rewrite()
+        c = table.rewrite(user_name=server.ticket.user_name)
     elif option == 'columns':
-        c = table.rewrite(only_columns=True)
+        c = table.rewrite(only_columns=True, user_name=server.ticket.user_name)
     else:
         server.the_file.write("\nIl y a un bug: '%s'." % option)
         return

@@ -382,6 +382,7 @@ function previous_year_semester(year, semester)
 
 function next_year_semester(year, semester)
 {
+  year = Number(year) ;
   var i = myindex(semesters, semester) ;
   if ( i == -1 )
     return [year + 1, semester] ;
@@ -394,6 +395,7 @@ function next_year_semester(year, semester)
 
 function next_year_semester_number(year, semester)
 {
+  year = Number(year) ;
   semester += 1 ;
   if ( semester == semesters.length )
     {
