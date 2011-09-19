@@ -59,7 +59,9 @@ def teachers_statistics_table(year, semester):
         user_name = utilities.module_to_login(t.ue)
         if user_name not in teachers:
             teachers[user_name] = TableStat(user_name)
-        teachers[user_name].nr_students = len([x for x in t.logins() if x])
+        # teachers[user_name].nr_students = len([x for x in t.logins() if x])
+        teachers[user_name].nr_students = len(
+            referent.students_of_a_teacher(user_name))
         for line in t.lines.values():
             for v in line[3:]:
                 teachers[v.author].update(v, blocnote=True)
