@@ -536,6 +536,28 @@ Les améliorations les plus visibles sont :
       </description>
       <guid>39</guid>
     </item>
+    <item>
+      <title>21/09/2011 : Version 3.0.6</title>
+      <link>http://tomuss.univ-lyon1.fr/</link>
+      <description>
+Les améliorations les plus visibles sont :
+&lt;ul&gt;
+&lt;li&gt; Le référent peut indiquer une liste de numéros d'étudiant
+           dont il veut s'occuper sur la page d'accueil.
+&lt;li&gt; Dans l'éditeur de table, il y a une interface permettant de
+           copier les tables TOMUSS d'un semestre à l'autre avec
+           ou sans les valeurs et l'historique des modifications.
+&lt;li&gt; Un nouveau type de colonne permet de trouver le référent
+           d'un étudiant à partir de son numéro.
+&lt;li&gt; On peut maintenant associer une liste de jours ou demi-journées
+           d'enseignement à une colonne.
+           Quand un étudiant a un justificatif d'absence pour l'une
+           de ces demi-journée et qu'il est noté ABI alors cet ABI
+           est affichée en rouge.
+&lt;/ul&gt;
+      </description>
+      <guid>40</guid>
+    </item>
 
   </channel>
 </rss>

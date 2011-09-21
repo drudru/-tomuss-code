@@ -84,23 +84,6 @@ page d'accueil.""")
                           (len(c)/1024.))
     dest_table = document.table(dest_year, dest_semester,
                                 server.the_ue, create=False)
-    if (len(table.columns) != len(dest_table.columns)
-        or len(table.masters) != len(dest_table.masters)
-        ):
-        server.the_file.write("\nErreur de copie... %d/%d %s/%s\n" % (
-           len(table.columns), len(dest_table.columns),
-           table.masters, dest_table.masters))
-
-        for c in table.columns:
-            server.the_file.write(' %s' % c.title)
-        server.the_file.write('\n')
-        for c in dest_table.columns:
-            server.the_file.write(' %s' % c.title)
-            
-
-        
-        server.the_file.close()
-        raise ValueError('Table Copy Error')
 
     for name in dest_table.masters:
             document.master_of_update('+', name, dest_year, dest_semester,
