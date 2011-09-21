@@ -44,3 +44,24 @@ function go_referent_set_do()
 	       "",
 	       false) ;
 }
+
+function go_orphan_students()
+{
+  create_popup('import_list',
+	       "Indiquer une liste d'étudiants qui vont quitter leur référent",
+	       "",
+	       'Puis cliquez sur : <BUTTON OnClick="go_orphan_students_do();">Abandonner les étudiants</BUTTON>.',
+	       '') ;
+}
+
+function go_orphan_students_do()
+{
+  var values = popup_text_area().value.split(/[ \t\n,;.:]+/) ;
+
+  create_popup('import_list',
+	       "Résultat de l'opération :",
+	       '<iframe width="100%" src="' + base
+	       + 'orphan_students/' + values.join('/') + '">' + '</iframe>',
+	       "",
+	       false) ;
+}

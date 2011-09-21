@@ -100,3 +100,29 @@ plugin.Plugin('referent_set', '/referent_set/{*}',
               )
 
 
+def orphan_students(server):
+    """Remove the teacher of students"""
+
+    year, semester = configuration.year_semester
+
+    for student in server.the_path:
+        if student == '':
+            continue
+        teacher = referent.referent(year, semester, student)
+        if teacher is None:
+            server.the_file.write(student + " n'a pas de référent\n")
+            continue
+        referent.remove_student_from_referent(teacher, student)
+        server.the_file.write(student + " a quitté " + teacher + '\n')
+
+plugin.Plugin('orphan_students', '/orphan_students/{*}',
+              mimetype = 'text/plain; charset=UTF-8',
+              link=plugin.Link(text="Enlever le référent d'étudiants",
+                               html_class="safe",
+                               where="<!--3-->Contacts pédagogique",
+                               url="javascript:go_orphan_students()",
+                               ),
+              function=orphan_students, root=True
+              )
+
+
