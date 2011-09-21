@@ -115,7 +115,7 @@ plugin.Plugin('groupe', '/groupe', teacher=True, password_ok = None,
               function = page_groupe,
               launch_thread=True,
               link=plugin.Link(text="Tous les groupes saisis dans TOMUSS",
-                               where="informations",
+                               where="<!--4-->Groupage",
                                html_class="verysafe",
                                url="javascript:go_suivi('groupe')",
                                help="""Extrait pour toutes les UE la liste
