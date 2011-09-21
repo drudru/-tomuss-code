@@ -422,7 +422,7 @@ links_without_plugins = [
          Il est possible de modifier manuellement des affectations
          d'étudiants.""",
          html_class='safe',
-         where='abj_master',
+         where='<!--3-->Contacts pédagogique',
          priority=999,
          authorized = lambda s: s.ticket.user_name in configuration.root,
          ),                               

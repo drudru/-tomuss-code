@@ -93,7 +93,7 @@ plugin.Plugin('referent_set', '/referent_set/{*}',
               mimetype = 'text/plain; charset=UTF-8',
               link=plugin.Link(text="Affecter des étudiants à un enseignant",
                                html_class="verysafe",
-                               where="informations",
+                               where="<!--3-->Contacts pédagogique",
                                url="javascript:go_referent_set()",
                                ),
               function=referent_set, root=True

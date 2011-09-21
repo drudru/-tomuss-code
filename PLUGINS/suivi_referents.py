@@ -123,7 +123,7 @@ plugin.Plugin('referents', '/*3', function=referents, teacher=True,
               launch_thread = True,
               link=plugin.Link(text='Statistiques référents pédagogiques',
                                url="javascript:go_suivi('*3')",
-                               where="informations",
+                               where="<!--3-->Contacts pédagogique",
                                html_class="verysafe",
                                help="""Affiche des statistiques sur
                                les enseignants référents pédagogiques""",
