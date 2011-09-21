@@ -19,40 +19,28 @@
 #
 #    Contact: Thierry.EXCOFFIER@bat710.univ-lyon1.fr
 
-from column import TableAttr
+from column import ColumnAttr
+import time
 
-class TablePrint(TableAttr):
-    name = "print"
-    tip = """Permet d'exporter vers un tableur,<br>et aussi d'imprimer les feuilles d'émargement."""
-    gui_display = "GUI_button"
-    need_authorization = 0
-    action = "print_selection"
-    title = 'Imprime/Exporte'
-    css = '''
-TABLE.printable_table {
-   border-spacing: 0px ;
-}
-TABLE.printable_table TD {
-   border-left: 1px solid black ;
-   border-right: 1px solid black ;
-   border-top: 1px solid black ;
-}
-TABLE.printable_table TR.separatorvertical TD {
-   border-bottom: 1px solid black ;
-}
+class ColumnCourseDates(ColumnAttr):
+    name = 'course_dates'
+    def check(self, dates):
+        if dates == '':
+            return
+        dates = dates.split(' ')
+        for date in dates:
+            date = date.strip('MA')
+            mktime = time.mktime(time.strptime(date, '%Y%m%d'))
 
-TABLE.printable_table TH {
-   border: 1px solid black ;
-}
+    display_table = 1
+    formatter = 'course_dates_formatter'
+    check_and_set = 'set_course_dates'
+    tip = """<b>Dates des enseignements</b>.<br>
+    Les dates sont indiquées sous la forme JJ/MM/AAAA<br>
+    suivi éventuellement de M ou A pour Matin ou Après-midi.<br>
+    Les ABINJ concernant ces dates sont soulignés.
+    """
+    css = """
+#menutop DIV.tabs #t_column_course_dates { width: 74% }
 
-DIV.textual_table TEXTAREA {
-   white-space: nowrap;
-   overflow-x:scroll;
-   }
-
-DIV.textual_table { border: 4px solid green ;}
-
-'''
-
-
-
+"""

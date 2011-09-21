@@ -220,7 +220,7 @@ class Display:
 
     def html(self, zoom=1):
         s = ''
-        for x, y, dx, dy, txt in self.rects:
+        for x, y, dx, dy, txt in self.rects():
             s += '<div style="position:absolute;background:#0F0;left:%d;top:%d;width:%d;height:%d">%s</div>\n' % (
                 x*zoom, y*zoom, dx*zoom, dy*zoom, cgi.escape(txt))
         return s

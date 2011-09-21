@@ -2159,20 +2159,46 @@ function update_cell(td, cell, column, abj)
 
   if ( v === abi && abj && abj[0].length )
     {
-      var d = new Date(cell.date.substr(0,4),
-		       cell.date.substr(4,2)-1,
-		       cell.date.substr(6,2)) ;
-      d = d.getTime() ;
-      for(var a in abj[0])
+      if ( column.parsed_course_dates )
 	{
-	  a = abj[0][a] ;
-	  if ( ! abj_is_fine(a) )
-	    continue ;
-	  if ( parse_date(a[0]).getTime() <= d
-	       && d < parse_date(a[1]).getTime() + 86400000*7 )
+	  var t, first, last, stop = false ;
+	  for(var a in abj[0])
 	    {
-	      className += ' is_an_abj' ;
-	      break ;
+	      a = abj[0][a] ;
+	      first = parse_date(a[0]).getTime() ;
+	      last = parse_date(a[1]).getTime() ;
+	      for(var date in column.parsed_course_dates)
+		{
+		  t = column.parsed_course_dates[date] ;
+		  if ( t >= first && t <= last )
+		    {
+		      className = className.substr(2).replace(' default','')
+		      className += ' is_not_an_abi' ;
+		      stop = true ;
+		      break ;
+		    }
+		}
+	      if ( stop )
+		break ;
+	    }
+	}
+      else
+	{
+	  var d = new Date(cell.date.substr(0,4),
+			   cell.date.substr(4,2)-1,
+			   cell.date.substr(6,2)) ;
+	  d = d.getTime() ;
+	  for(var a in abj[0])
+	    {
+	      a = abj[0][a] ;
+	      if ( ! abj_is_fine(a) )
+		continue ;
+	      if ( parse_date(a[0]).getTime() <= d
+		   && d < parse_date(a[1]).getTime() + 86400000*7 )
+		{
+		  className += ' is_an_abj' ;
+		  break ;
+		}
 	    }
 	}
     }

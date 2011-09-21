@@ -759,6 +759,11 @@ function new_new_interface()
 			   'before=Visible&nbsp;le&nbsp;:&nbsp; beforeclass=widthleft'
 			   )) ;
   t.push('</div>') ;
+  t.push('<div class="one_line">') ;
+  t.push(column_input_attr('course_dates',
+			   'before=Dates cours&nbsp;:&nbsp; beforeclass=widthleft'
+			   )) ;
+  t.push('</div>') ;
   t.push('<div class="one_line" style="text-align:center">') ;
   t.push(hidden_txt('<img src="' + url + '/prev.gif" style="height:1em" onclick="do_move_column_left();">',
 		    "<b>Décale la colonne vers la gauche</b>" + x)) ;
@@ -787,8 +792,7 @@ function new_new_interface()
   t.push('</div>') ;
   t.push('<div class="one_line">') ;
   t.push(column_input_attr('freezed')) ;
-  t.push('</div>') ;
-  t.push('<div class="one_line">') ;
+  t.push('.') ;
   t.push(column_input_attr('hidden')) ;
   t.push('</div>') ;
 

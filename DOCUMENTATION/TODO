@@ -8,15 +8,12 @@ Nouvelles fonctionnalités.
 Utilisateurs finaux.
 --------------------
 
-* Associer une/des dates à une colonne
-
-* Type de colonne : Referent(ID)
-
-* Import table complete CSV : autoriser tabulation
-
 * Passer l'arrondi dans les paramètres colonnes ?
-* Passer la source de donnée dans les paramètres colonnes ?
 * Passer le nombre de notes min.max a enlever dans les paramètres colonnes ?
+
+* Insérer les lignes qui viennent du serveur aux bons endroits
+
+* Passer la source de donnée dans les paramètres colonnes ?
 
 * Meilleur synchronisation orientaiton_rp -> rdv_ip
   Synchronisation de la discipline
@@ -123,24 +120,11 @@ Administrateur.
 Problèmes à résoudre.
 =====================
 
-* Copie des colonnes : virer l'ancien propriétaire, ajouter le copieur
-  comme responsable de table ?
-
-* Les droits d'utilisation sur les plugins sont parfois perdu au lancement.
-  (sur 'atr' notamment, parce que rdv_ip est un TEMPLATE ?)
-  A CORRIGER EN PRIORITÉ
-
-* Le chargement de TEMPLATE ne charge pas les bon modules
-
 * Sauve option : marche pas pour les lignes
 
 * Formule coté serveur : colonne inéfaçable.
 
 * Découpler referents_students pour avoir les bon referents par semestre.
-
-* heures sydney : les mauvaises (à cause rechargement plugins ?)
-
-* Pourquoi les TEMPLATES recharge le fichier python
 
 * Séparer rdv_ip en 2.
 
@@ -159,8 +143,6 @@ Problèmes à résoudre.
 
 * Rechargement page d'accueil si la recherche étudiant marche pas
 
-* Bug ajoute ligne + vidage de ligne avec changement de page
-
 * Stats : Impression et sauvegarde sous Chrome
 
 * Version TOMUSS des fichiers statiques indiqué dans l'URL afin que les
@@ -173,7 +155,7 @@ Problèmes à résoudre.
 Améliorations de code source.
 =============================
 
-* Attribut : clef unique
+* Attribut 'clef unique' pour les numéros d'étudiant
 
 * Tester le nouveau utility.js()
 
