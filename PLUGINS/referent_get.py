@@ -24,6 +24,12 @@ import utilities
 import referent
 import configuration
 import inscrits
+import os
+
+import files
+files.files['types.js'].append(
+    'referent_get',
+    utilities.read_file(os.path.join('PLUGINS', 'referent_get.js')))
 
 def referent_get_a_student(server, login, students, student,
                            allow_referent_change=True):
@@ -85,6 +91,12 @@ def referent_set(server):
 
 plugin.Plugin('referent_set', '/referent_set/{*}',
               mimetype = 'text/plain; charset=UTF-8',
-              function=referent_set, root=True)
+              link=plugin.Link(text="Affecter des étudiants à un enseignant",
+                               html_class="verysafe",
+                               where="informations",
+                               url="javascript:go_referent_set()",
+                               ),
+              function=referent_set, root=True
+              )
 
 
