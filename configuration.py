@@ -202,6 +202,7 @@ ou_students = 'OU=etudiants,DC=univ-lyon1,DC=fr'
 ou_groups = "OU=groupes,OU=etudiants,DC=univ-lyon1,DC=fr"
 ou_ue_contains = 'elp-'         # UE group name contains this string
 ou_ue_starts = 'CN=UE-'         # UE name starts with
+ou_ue_starts2 = 'CN=EC-'        # UE name starts with
 ou_portail_contains = ' APO-'   # UE portail name contains this string
 
 # Banned list of IP addresses

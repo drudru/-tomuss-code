@@ -74,7 +74,8 @@ class LDAP_Logic(object):
     def get_ldap_ues(self):
         """Full list of UE"""
         dues = {}
-        ues = self.query('(|(%s*)(CN=EC-*))' % configuration.ou_ue_starts,
+        ues = self.query('(|(%s*)(%s*))' % (configuration.ou_ue_starts,
+                                            configuration.ou_ue_starts2),
                          base=configuration.ou_groups)
         for i in [i[0] for i in ues]:
             dues[i[3:].split(' ')[0]] = True
@@ -91,7 +92,8 @@ class LDAP_Logic(object):
         return [aa
                 for aa in a
                 if (configuration.ou_ue_contains in aa)
-                and aa.startswith(configuration.ou_ue_starts)
+                and (aa.startswith(configuration.ou_ue_starts)
+                     or aa.startswith(configuration.ou_ue_starts2))
                 ]
 
     def ues_of_a_student_short(self, name):
@@ -120,7 +122,7 @@ class LDAP_Logic(object):
                 ues.add(ue)
                 
         for group in groups:
-            if group.startswith(configuration.ou_ue_starts):
+            if group.startswith(configuration.ou_ue_starts) or group.startswith(configuration.ou_ue_starts2):
                 ue = group.split(' ')[0][6:]
                 if ue not in ues: # Do not erase existing group
                     result.append((ue, '', ''))
@@ -659,8 +661,8 @@ if __name__ == "__main__":
     for i in L.students('UE-BIO2010L'):
         print i
     print L.phone('thierry.excoffier')
-    print L.ues_of_a_student('p0704986')
-    print L.ues_of_a_student_short('p0704986')
-    for i in L.ues_of_a_student_with_groups('p0704986'):
+    print L.ues_of_a_student('p0805711')
+    print L.ues_of_a_student_short('p0805711')
+    for i in L.ues_of_a_student_with_groups('p0805711'):
         print i
 

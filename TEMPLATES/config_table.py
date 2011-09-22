@@ -78,6 +78,7 @@ variables = {
     "ou_groups": "LDAP: Endroit ou sont stockés les groupes d'étudiants",
     "ou_ue_contains": "LDAP: Un objet est une UE avec les séquences/groupe s'il contient cette chaine de caractère",
     "ou_ue_starts": "LDAP: Un objet est une UE s'il commence par cette chaine de caractère",
+    "ou_ue_starts2": "LDAP: Un objet est une UE s'il commence par cette chaine de caractère",
     "ou_portail_contains": "LDAP: Un objet est un portail s'il contient cette chaine de caractères",
 
     "banned_ip": "Accès : Liste des adresses IP interdites",
