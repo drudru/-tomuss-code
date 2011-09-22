@@ -187,8 +187,7 @@ function table_copy()
 				   'Les types, titres, commentaire...', true)
 	       + 'et'
 	       + table_copy_button('C', 'le contenu', 
-				   'Les valeurs des cellules de la table.',
-				   true)
+				   'Les valeurs des cellules de la table.')
 	       + 'et'
 	       + table_copy_button('H', "l'historique", 
 				   "L'historique de toutes les modifications")
