@@ -15,10 +15,6 @@ Utilisateurs finaux.
 
 * Passer la source de donnée dans les paramètres colonnes ?
 
-* Meilleur synchronisation orientaiton_rp -> rdv_ip
-  Synchronisation de la discipline
-  Lieu de rendez-vous par personne.
-
 * Pourcentage d'ABJ pour le résultat d'un calcul en fonction du poids
   des colonnes moyennées.
 
@@ -119,6 +115,8 @@ Administrateur.
 =====================
 Problèmes à résoudre.
 =====================
+
+* publipostage : ligne vide
 
 * Sauve option : marche pas pour les lignes
 

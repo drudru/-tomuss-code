@@ -891,7 +891,9 @@ la dernière saisie.
                 self.lock()
             for col in sorted(columns):
                 for attr, value in columns[col].items():
-                    self.column_attr(ro_page, col, attr, str(value))
+                    value = str(value)
+                    if value != getattr(column, attr):
+                        self.column_attr(ro_page, col, attr, value)
         finally:
             if not locked:
                 self.unlock()
