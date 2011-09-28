@@ -147,10 +147,15 @@ function mail_window()
 
 function personal_mailing()
 {
+ var nb = 0;
+ for(var i in filtered_lines)
+   if ( filtered_lines[i][0].value )
+     nb++ ;
+
    create_popup('personal_mailing_div',
 		'Envoyer un mail personnalisé aux étudiants filtrés',
 		'<p style="background-color:#F00;color:#FFF">N\'ENVOYEZ PAS DE NOTES PAR MAIL AUX ÉTUDIANTS.</p>Les titres de colonne entre crochets sont remplacés par la valeur de la case correspondant à l\'étudiant pour cette colonne. Vous pouvez utiliser toutes les colonnes existantes.<p>&nbsp;<br>Sujet du message : <input id="personal_mailing" style="width:100%" value="' + ue + ' ' + table_attr.table_title + ' : Info pour [Prénom] [Nom]"><br>Votre message&nbsp;:',
-		'Pour envoyer, cliquez sur : <BUTTON OnClick="personal_mailing_do();">Envoyer les ' + filtered_lines.length + ' messages</BUTTON>.',
+		'Pour envoyer, cliquez sur : <BUTTON OnClick="personal_mailing_do();">Envoyer les ' + nb + ' messages</BUTTON>.',
 		'Bonjour [Prénom] [Nom].\n\nVotre groupe est [Grp] et votre séquence [Seq]\n\nAu revoir.'
 		) ;
 }
@@ -212,6 +217,8 @@ function personal_mailing_do()
   nr_frame = 0 ;
   for(var i in filtered_lines)
     {
+      line = filtered_lines[i] ;
+
       if ( url_content === '' )
 	{
 	  nr_frame++ ;
@@ -219,10 +226,12 @@ function personal_mailing_do()
 	    + subject + '/' + encode_uri(message) ;
 	}
 
-      line = filtered_lines[i] ;
-      url_content += '/' + encode_uri(line[0].value) ;
-      for(data_col in column_data_col)
-	url_content += '/' + encode_uri(line[data_col].value) ;
+      if ( line[0].value )
+	{
+	  url_content += '/' + encode_uri(line[0].value) ;
+          for(data_col in column_data_col)
+	     url_content += '/' + encode_uri(line[data_col].value) ;
+	}
 
       if ( url_content.length > maximum_url_length
 	   || i == filtered_lines.length-1 )
