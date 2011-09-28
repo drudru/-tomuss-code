@@ -3945,14 +3945,14 @@ function display_suivi(cols) /* [value, class, comment] */
   if ( document.getElementById("allow_inline_block").offsetWidth > 50 )
     for(var title in c)
       {
-	title = columns[c[title]].title.replace(/_/g,' ') ;
+	title = columns[c[title]].title ;
 	visual_cell = cols[title] ;
 	if ( visual_cell === undefined )
 	  continue ;
 
 	if ( visual_cell[0] !== '' || is_a_teacher )
 	  {
-	    hidden(title+':<b>'+ visual_cell[0] + '</b>', 
+	    hidden(title.replace(/_/g,' ')+':<b>'+ visual_cell[0] + '</b>', 
 		   visual_cell[2], visual_cell[1]);
 	    document.write(', ') ;
 	  }
