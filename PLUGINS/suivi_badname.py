@@ -23,12 +23,17 @@ import plugin
 import tablestat
 import inscrits
 import utilities
+import itertools
+
 
 def normalize(txt):
     return utilities.flat(txt).lower().replace('  ', ' ')
 
 def the_badname(server):
     """Display the names not matching the student ID."""
+    server.the_file.write('<p>ATTENDEZ QUELQUES MINUTES</p>\n')
+    server.the_file.flush()
+    students = []
     for t in tablestat.les_ues(server.year, server.semester, true_file=True):
         for line in t.lines.values():
             login = inscrits.login_to_student_id(line[0].value)
@@ -37,16 +42,25 @@ def the_badname(server):
             first_name, surname = inscrits.L_batch.firstname_and_surname(login)
             if (normalize(first_name) != normalize(unicode(line[1].value,'utf8'))
                 or normalize(surname) != normalize(unicode(line[2].value, 'utf8'))):
-                server.the_file.write('%s\t%s\t%s %s != %s %s\n' % (
-                t.ue, login,
-                first_name.encode('utf8'), surname.encode('utf8'),
-                unicode(line[1].value, 'utf8').encode('utf8'),
-                unicode(line[2].value, 'utf8').encode('utf8')))
+                server.the_file.write('* ')
+                server.the_file.flush()
+                students.append((
+                    login, t.ue,
+                    first_name.encode('utf8'),
+                    unicode(line[1].value, 'utf8').encode('utf8'),
+                    surname.encode('utf8'),
+                    unicode(line[2].value, 'utf8').encode('utf8')))
+    students.sort()
+    server.the_file.write('<table>')
+    for student, lines in itertools.groupby(students, lambda x: x[0]):
+        for line in lines:
+            server.the_file.write('<tr><td>%s<td>%s<td>%s<td>%s<td>%s<td>%s</tr>\n' % line)
+    server.the_file.write('</table>')
+    
 
 
 plugin.Plugin('badname', '/badname', function=the_badname, root=True,
               launch_thread = True,
-              mimetype = "text/plain; charset=utf-8",
               link=plugin.Link(text="Mauvais noms",
                                where="deprecated",
                                html_class="verysafe",
