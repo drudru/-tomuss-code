@@ -116,7 +116,7 @@ Administrateur.
 Problèmes à résoudre.
 =====================
 
-* publipostage : ligne vide
+* Nom(ID) si columns est vide : prendre la première
 
 * Sauve option : marche pas pour les lignes
 
@@ -132,8 +132,6 @@ Problèmes à résoudre.
   se reconnecter.
   Quand le client a perdu sa connexion longtemps, il la retrouve tout seul
   alors qu'il n'y a pas de connexion réseau (IE)
-
-* Le live status bloque TOMUSS quand on charge une grosse UE ?
 
 * Liste de la page d'accueil : ajouter les UE GASEL en plus de LDAP et SPIRAL
 

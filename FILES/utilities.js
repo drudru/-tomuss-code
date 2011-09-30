@@ -539,7 +539,13 @@ function window_open(url, replace)
   if ( url )
     w = window.open(url, replace) ;
   else
-    w = window.open(undefined, replace) ;
+    try {
+      w = window.open(undefined, replace) ;
+    }
+    catch(e) {
+      // XXX IE
+      w = window.open() ;
+    }
   if ( ! w )
     {
       alert(allow_popup_message) ;
