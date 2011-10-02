@@ -411,6 +411,17 @@ function header_input_focus(e)
     }
   e.className = '' ; // Remove 'empty' class
   element_focused = e ;
+
+  // To resize the INPUT tag if it is larger than the tab.
+  // For example: the Table Dates
+  var x = e.offsetLeft ;
+  var width = e.parentNode.parentNode.parentNode.offsetWidth ;
+  var margin = 5 ;
+  if ( x + e.offsetWidth > width + 1 )
+    {
+      alert(x + e.offsetWidth + ' ' + width);
+      e.style.width = '' + (width - x - margin) + 'px' ;
+    }
 }
 
 function header_input(the_id, the_header_name, options)
