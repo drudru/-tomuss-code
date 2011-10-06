@@ -499,13 +499,21 @@ plugin.Plugin('infos', '/{*}', teacher=True, password_ok = None,
 def escape(t):
     return unicode(t,'utf8').replace('>', u'\ufe65').replace('<', u'\ufe64').replace('&','&amp;').encode('utf-8')
 
+def rss_author(x):
+    try:
+        fn, sn = inscrits.L_fast.firstname_and_surname(x)
+        fn = fn.encode('utf8')
+        sn = sn.encode('utf8')
+        return inscrits.L_fast.mail(x) + ' (%s %s)' % (fn.title(), sn.upper())
+    except:
+        return x
 
 def rss_date(date=None):
     if date is None:
         date = time.localtime(time.time())
     elif isinstance(date, str):
         date = time.strptime(date, '%Y%m%d%H%M%S')
-    return time.strftime('%a, %d %b %Y %H:%M:%S CEST', date)
+    return time.strftime('%a, %d %b %Y %H:%M:%S +0000', date)
 
 def page_rss(server):
     """RSS for the student."""
@@ -591,9 +599,10 @@ def page_rss(server):
                            + '<br>')
                 ) +
             '<link>%s</link>' % utilities.StaticFile._url_ +
-            '<author>%s</author>\n' % cell.author +
+            '<author>%s</author>\n' % rss_author(cell.author) +
             '<pubDate>%s</pubDate>\n' % rss_date(document.date_time(date))+
-            '<guid>%s %s</guid>\n' % (table.ue, date) +
+            '<guid isPermaLink="false">%s %s</guid>\n' % (table.ue,
+                                                          column.the_id) +
             '</item>\n')
 
     server.the_file.write('''    
@@ -647,8 +656,8 @@ def page_rss2(server):
             '<description>%s</description>\n' % cgi.escape(d) +
             '<link>%s%s</link>\n' % (link, f) +
             '<pubDate>%s</pubDate>\n' % rss_date(date)+
-            '<author>%s</author>\n' % p.user_name +
-            '<guid>%d</guid>\n' % t.pages.index(p) +
+            '<author>%s</author>\n' % rss_author(p.user_name) +
+            '<guid isPermaLink="false">%d</guid>\n' % t.pages.index(p) +
             '</item>\n'
             )
 
