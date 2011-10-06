@@ -32,7 +32,10 @@ class Suivi(object):
     def urls_sorted(self):
         urls = self.urls.items()
         urls.sort(key=lambda x: utilities.semester_key(x[0][0], x[0][1]))
-        return zip(*urls)[1]
+        if urls:
+            return zip(*urls)[1]
+        else:
+            return ()
     def add(self, year, semester, host, port):
         if '%' in host:
             host = host % port
