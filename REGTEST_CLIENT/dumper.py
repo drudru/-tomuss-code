@@ -173,7 +173,12 @@ class Display:
             f = open('xxx.analyses', 'a')
             f.write(line)
             f.close()
-        return eval(line)
+        try:
+            return eval(line)
+        except SyntaxError: # Le dumper a planter :-( XXX Pourquoi
+            self.start_dumper()
+            self.dump()
+            return self.rects()
 
     def wait_change(self, comment="", timeout=60):
         t = time.time()
