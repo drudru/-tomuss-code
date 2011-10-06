@@ -235,7 +235,8 @@
 	    il faut donc penser à enlever les filtres si l'on
 	    veut tous les étudiants.
 	  <li> Seulement les étudiants officiellement inscrits.
-	  <li> La dernière page liste l'ensemble des tiers-temps.
+	  <li> La dernière page liste l'ensemble des tiers-temps
+	    <b>si vous avez cliquez sur le bouton les demandant</b>
 	</ul>
 	<p>
 	  Les feuilles d'émargement peuvent être adaptées
@@ -276,15 +277,16 @@
 	Pour <b>changer le titre d'une colonne</b>,
 	vous cliquez sur une cellule de la colonne dans le tableau,
 	puis vous cliquez sur le titre de la colonne juste au dessous
-	du titre de la boite «Colonne».
+	de l'onglet «Colonne».
 	Vous pouvez alors taper son nouveau nom.
 	Le nom ne doit pas contenir d'espace et il ne doit
 	pas y avoir deux noms identiques.
       <li><p>
 	Pour <b>inserrer une colonne entre deux colonnes</b>,
-	vous créez une nouvelle colonne puis vous la décalez à gauche
-        en cliquant sur '«' jusqu'à la position désirée.
-        Ensuite vous cliquez sur 'P' pour sauvegarder la position
+	vous créez une nouvelle colonne à droite puis vous la décalez à gauche
+	en allant dans l'onglet « Colonne / Affiche »
+        puis en cliquant sur '«' jusqu'à la position désirée.
+        Ensuite vous cliquez sur « position » pour sauvegarder la position
         de la colonne que vous avez déplacé.
       <li><p>
 	Pour <b>trier les lignes</b> en fonction du contenu d'une colonne
@@ -557,6 +559,11 @@
 	avec la touche curseur vers le bas les étudiants avec ABINJ
 	pour voir s'ils ont un justificatif (une petite fenêtre apparaît).
       </li>
+      <li> Vous pouvez aussi associer une liste de demi-journée
+	    d'enseignement à une colonne,
+	    si vous saisissez un ABINJ alors que l'étudiant a un justificatif
+	    pour l'une des demi-journée alors le ABINJ est affiché en rouge.
+	    </li>
       <li>
 	Finalement, la méthode la plus longue est d'aller dans
 	le menu «ABJ par date» puis de sélectionner
@@ -664,8 +671,8 @@
 	    Si vous voulez tout remplir, ne filtrez rien.
 	  <li> Vous vous mettez dans la bonne colonne en cliquant
 	       sur une case.
-	  <li> puis vous cliquez
-	  sur  «<b>Remp.</b>» au dessus de l'histogramme.
+	  <li> Dans l'onglet «Colonne/Action» cliquez sur
+	  sur  « Remplir la colonne avec des valeurs »
 	    Ceci fera apparaitre une fenêtre.
 	  <li> 
 	    <b>Le remplissage n'est pas réversible,
@@ -674,16 +681,15 @@
 	Ensuite plusieurs choix sont possibles :
 	<ul>
     <li>
-	  Pour vider la colonne :
-	  vous cliquez sur l'un des boutons en bas.
+	  Pour vider la colonne : cliquez sur « effacer les valeurs »
     <li>
 	  Pour remplir toute la colonne avec la même valeur :
 	  vous saisissez la valeur dans le champs de saisie
-	  et vous cliquez sur l'un des deux boutons.
+	  et vous cliquez sur « remplir »
     <li>
 	  Pour remplir avec plusieurs valeurs :
 	  vous les saisissez puis choisissez l'un des deux modes
-	  de remplissage.
+	  de remplissage en bas à droite puis vous cliquez sur « remplir »
     </ul>
     <p>
 	  Remarques :
@@ -699,9 +705,9 @@
 	  <li> Vous triez par note.
 	  <li> Vous remplissez avec les valeurs 'Soutien Salle 1'
 	    et 'Soutien Salle 2'
-	  <li> Vous cliquez sur le bouton «ABABABAB» pour avoir
+	  <li> Vous choisissez le remplissage «ABABABAB» pour avoir
 	    deux salles avec le même niveau moyen.
-	    Ou bien le bouton «AAAABBBB» pour avoir une
+	    Ou bien le remplissage «AAAABBBB» pour avoir une
 	    séparation par niveau dans les deux salles.
 	</ul>	    
 
@@ -726,7 +732,8 @@
 	<p>
 	  Il faut donc d'abord vider la colonne.
 	<p>
-	  Ensuite il faut cliquer sur «<b>Dét.</b>» au dessus de l'histogramme.
+	  Ensuite il faut aller dans l'onglet « Colonne/Action »
+	  et cliquer sur «<b>Détruire définitivement la colonne</b>»
 	<p>
 	  Aucune récupération n'est possible sans passer
 	  par l'administrateur de TOMUSS.
@@ -761,7 +768,8 @@
     <ul>
       <li> Vous cliquez sur une cellule de la colonne que vous voulez exporter
 	vers APOGÉE.
-      <li> Au dessus de l'histogramme vous cliquez sur le lien «Exp.»
+      <li> Dans l'onglet « Colonne/Action »
+           cliquez sur le lien «Exporter la colonne pour APOGEE»
 	Une fenêtre apparaît.
       <li> Vous copiez la liste des numéros d'étudiants
 	du tableau fourni par l'administration.
@@ -1003,7 +1011,8 @@
 	avec les résultats de CC conservés.
 	TOMUSS protestera à propos des étudiants qui ne se sont pas
 	réinscrits car il ne les trouve pas.
-      <li> Vous faites une «max» entre la note de CC du semestre
+      <li> Vous faites une colonne de type «Maximum»
+	    entre la note de CC du semestre
 	courant et celle conservée.
       <li> Si une note ne doit pas être conservée,
 	vous mettez 0 dans la bonne cellule de «CC_Conservé»
@@ -1015,9 +1024,7 @@
     <ul>
       <li> «CC» : La moyenne donnant la note de CC du semestre courant
       <li> «CC_Conservé» : La note obtenue au semestre précédent.
-      <li> «CC_Avant_Jury» : Moyenne entre «CC» et «CC_Conservé»
-	avec le commentaire de colonne qui contient très exactement le
-	texte&nbsp;: «la meilleure note».
+      <li> «CC_Avant_Jury» : Maximum de «CC» et «CC_Conservé»
     </ul>
     </div>
 
@@ -1027,14 +1034,20 @@
 	Refaire la définition de toutes les colonnes dans une table
 	  vide pour faire les mêmes que celles du semestre précédent
 	  n'est pas très productif.
-	  Heureusement, on peut créer plusieurs colonnes à la fois.
+	  </p>
+	<p>Pour faire une recopie sans rien changée, alors
+	  faites une recopie de table (Onglet «Table/Action», «Copie de table TOMUSS»)</p>
+
+	<p>Pour faire une copie en faisant des changements :
+	  </p>
 <ul>
     <li><p>
-      Cliquez sur le lien 'Exp.' de la zone 'Tableau' de la table source.
+      Onglet «Table/Action», Cliquez sur le lien « Exporter »
     <li><p>
       Copiez la liste des colonnes.
     <li><p>
-      Cliquez sur le lien 'Imp.' de la zone 'Tableau' de la table destination.
+       Dans la table destination des colonnes,
+       Onglet «Table/Action», cliquez sur le lien « Importer »
       et copiez la liste des colonnes.
     <li><p>
       Vous pouvez modifier la liste des colonnes avant de
@@ -1056,6 +1069,45 @@
 	  mélangeant les valeurs des différentes tables.
       </li>
     </ul>
+    </div>
+
+    <div>
+    <h3>Créer une table vierge</h3>
+    <p>Il est possible de créer une nouvelle table vide et
+	  d'y mettre les étudiants que vous voulez.
+	  Pour cela, il suffit simplement d'indiquer l'adresse
+	  de la table dans votre navigateur web pour la créer.
+	  <tt>http://tomuss....../Annee/Semestre/Table</tt>
+	<p>L'année est indiquée avec 4 chiffres</p>
+    </p>
+    <p>Voici quelques consignes concernant le semestre :
+    <ul>
+      <li><p> Si la table contient des étudiants, alors le semestre 
+	      est impérativement <tt>Automne</tt> ou <tt>Printemps</tt>
+	    <p></li>
+      <li><p> Si vous voulez que la table ne soit visible que par
+	      les personnes indiquées comme responsable de la table
+	      alors il convient de mettre <tt>Dossiers</tt> pour
+	      le semestre.
+	    </p></li>
+      <li><p> Si la table peut être vue par tous le monde,
+	      alors il convient de mettre <tt>Public</tt> pour
+	      le semestre.
+	    </p></li>
+    </ul>
+    <p>Si le nom de la table commence par UE-, EC- ou SP- alors
+	  le contenu de la table sera automatiquement vu par les
+	  étudiants.<p>
+    <p>Les tables que vous créez ne sont pas trouvées par le moteur
+	  de recherche d'UE, vous devez conserver précieusement l'URL.
+	  Vous pouvez retrouver les tables dans lesquelles vous avez
+	  fait des saisies en allant sur votre page de suivi
+	  en tapant votre nom dans le moteur de recherche étudiant.
+	  (ceci sera amélioré dans le futur.)</p>
+    <p>Les tables de <tt>Dossiers</tt> et <tt>Public</tt> ne contiennent
+	  aucune colonne.</p>
+	  
+
     </div>
 
 
