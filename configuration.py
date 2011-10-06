@@ -51,6 +51,11 @@ semesters, semesters_year, semesters_months, semesters_color = zip(
 university_semesters = (semesters[semesters_year.index(0):]
                         + semesters[:semesters_year.index(0)])
 
+# For old Python version
+semesters_year = list(semesters_year)
+semesters = list(semesters)
+
+
 #REDEFINE
 # Time span of the given semester
 def semester_span(year, semester):
@@ -263,6 +268,7 @@ server_url = '%s:%d' % (server_base_url, server_port)
 # URLs of the 'suivi' servers
 # This example defines 2 servers for the current university year.
 # Changing these values may broke the regression tests.
+# You must redefine your semesters in LOCAL/__init__.py
 import servers
 suivi = servers.Suivi(https=False)
 if time.localtime()[1] < 9:
@@ -271,8 +277,6 @@ if time.localtime()[1] < 9:
 else:
     suivi.add(time.localtime()[0]  , semesters[1],socket.getfqdn()+':%d', 8889)
     suivi.add(time.localtime()[0]  , semesters[0],socket.getfqdn()+':%d', 8890)
-
-# suivi.add(2008, 'Automne'  , socket.getfqdn() + ':%d', 8889)
 
 # Do not display 'debug' warning
 do_not_display = ('debug', 'auth', 'table', 'ldap', 'plugin', 'check')
