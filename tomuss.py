@@ -285,6 +285,7 @@ if __name__ == "__main__":
 
     plugins.plugins_tomuss()
     document.table(0, 'Dossiers', 'config_plugin', None, None)
+    plugins.generate_data_files()
 
     authentication.authentication_redirect = configuration.server_url
     utilities.StaticFile._url_ = authentication.authentication_redirect.replace('/=TICKET','')

@@ -284,7 +284,10 @@ function _%s()
     
     files.files['types.js'].append('plugins.py', all_js)
 
+    #####################################
     # Generate POT file from data.
+    #####################################
+
     f = open('xxx_tomuss.pot', 'w')
     f.write('''# Texts extracted from a un running TOMUSS instance
 # Copyright (C) 2011 Thierry Excoffier, LIRIS, Universite Claude Bernard Lyon 1
@@ -305,8 +308,31 @@ msgstr "%s"
 ''' % (column_type, types[column_type].full_title))
     f.close()
 
+    return reloadeds
 
+
+def generate_data_files():
+    #####################################
+    # Generate MO files
+    #####################################
+
+    os.system('make translations')
+
+    import gettext
+    js = utilities.js
+
+    for language in os.listdir('TRANSLATIONS'):
+        t = gettext.translation('tomuss', 'TRANSLATIONS', [language])
+        f = open(os.path.join('TMP', language + '.js'), 'w')
+        f.write('var ' + language + '= {')
+        for k, v in t._catalog.items():
+            f.write('%s:%s,\n' % (js(k.encode('utf8')), js(v.encode('utf8'))))
+        f.write('"_",""} ;\n')
+        f.close()
+
+    #####################################
     # Documentation automatic generation
+    #####################################
 
     if not os.path.exists('DOCUMENTATION'):
         return reloadeds
@@ -394,7 +420,6 @@ TABLE.types .defined { background: #FDD ; }
             
     f.write('</tbody></table>\n')
     f.close()
-    return reloadeds
 
 if __name__ == "__main__":
     load_types()

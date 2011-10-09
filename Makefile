@@ -76,6 +76,12 @@ tar:
 changelog:
 	-if [ -x git ] ; then SCRIPTS/changelog >DOCUMENTATION/changelog ; fi
 
+translations:
+	for I in TRANSLATIONS/*/LC_MESSAGES/*.po ; do make $$I ; done
+
+%.mo:%.po
+	msgfmt $*.po -o $*.mo
+
 full-tar:
 	@$(MAKE) clean 2>/dev/null >&2
 	@tar -cf - \
