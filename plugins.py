@@ -284,6 +284,30 @@ function _%s()
     
     files.files['types.js'].append('plugins.py', all_js)
 
+    # Generate POT file from data.
+    f = open('xxx_tomuss.pot', 'w')
+    f.write('''# Texts extracted from a un running TOMUSS instance
+# Copyright (C) 2011 Thierry Excoffier, LIRIS, Universite Claude Bernard Lyon 1
+# This file is distributed under the same license as TOMUSS
+# Thierry.Excoffier@univ-lyon1.fr, 2011
+
+msgid ""
+msgstr ""
+"Content-Type: text/plain; charset=utf-8"
+
+''')
+
+    for column_type in types:
+        f.write('''#. Columns types, button text in the menu
+msgid "B_%s"
+msgstr "%s"
+
+''' % (column_type, types[column_type].full_title))
+    f.close()
+
+
+    # Documentation automatic generation
+
     if not os.path.exists('DOCUMENTATION'):
         return reloadeds
 
