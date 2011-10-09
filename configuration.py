@@ -23,7 +23,7 @@ import socket
 import os
 import time
 
-version = '3.0.7'
+version = '3.0.8'
 
 
 ###############################################################################
@@ -37,24 +37,29 @@ version = '3.0.7'
 #     To use semesters with the university year number: use [0, 0] and
 #     define the semesters in the order of the university year
 #   * The first and last year month of the semester.
-#     From 1 to 23, 13 = January
+#     From 1 to 23, 13 = January the next year
 #   * The HTML color.
-# By the way, you can use 1 or more than 2 semesters...
+# By the way, you can use 1, 2 or more semesters...
 # You need to create TEMPLATES for each semester (See Automne.py)
 
-semesters, semesters_year, semesters_months, semesters_color = zip(
+def set_semesters(*x):
+    global semesters, semesters_year, semesters_months, semesters_color
+    global university_semesters
+    
+    semesters, semesters_year, semesters_months, semesters_color = zip(*x)
+
+    # construct the university semesters from previous information
+    university_semesters = (semesters[semesters_year.index(0):]
+                            + semesters[:semesters_year.index(0)])
+
+    # For old Python version
+    semesters_year = list(semesters_year)
+    semesters = list(semesters)
+
+set_semesters(
     ('Printemps', -1, [1, 8], '#EEFFEE' ),
     ('Automne'  ,  0, [8,13], '#FFE8D0' ),
     )
-
-# construct the university semesters from previous information
-university_semesters = (semesters[semesters_year.index(0):]
-                        + semesters[:semesters_year.index(0)])
-
-# For old Python version
-semesters_year = list(semesters_year)
-semesters = list(semesters)
-
 
 #REDEFINE
 # Time span of the given semester
@@ -288,7 +293,13 @@ ticket_directory = os.path.join('TMP', 'TICKETS')
 
 # A dictionnary of local configuration options
 # It is used by TEMPLATES/config_table.py
-# It is filled by LOCAL/....py
+# It is filled by LOCAL/....py scripts
+# For exemple, to define 'configuration.FOO' attribute :
+#   configuration.FOO = True
+#   configuration.local_options['FOO'] = 'Set to True to enable option FOO'
+# Once the default value for the option is defined, it can be modified
+# using the configuration table as the other options.
+
 local_options = {}
 
 ###############################################################################

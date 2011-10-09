@@ -8,6 +8,8 @@ Nouvelles fonctionnalités.
 Utilisateurs finaux.
 --------------------
 
+* Traduction
+
 * Passer l'arrondi dans les paramètres colonnes ?
 * Passer le nombre de notes min.max a enlever dans les paramètres colonnes ?
 
@@ -84,6 +86,15 @@ Utilisateurs finaux.
 Administrateur.
 ---------------
 
+* Droit d'accès : généraliser la notion de groupe, pouvoir en créer.
+  Un groupe peut contenir :
+	* un groupe LDAP        : 'ldap:'
+	* une personne          : login
+	* un autre groupe       : '@' nom du groupe
+	* les login d'une table : '#' nom de la table
+  Ne plus avoir de groupes indiqué en dur dans le code.
+  Faire disparaitre : is_referent, is_teacher, ...
+
 * Heures sur le graph livestatus
 
 * live_status : pong ne doit pas mettre la date courante si existe pas
@@ -91,15 +102,6 @@ Administrateur.
 * live_status : écarter les noeuds collés.
 
 * live_status : afficher navigateur
-
-* Droit d'accès : généraliser la notion de groupe, pouvoir en créer.
-  Un groupe peut contenir :
-	* un groupe LDAP,
-	* une personne,
-	* un autre groupe.
-	* les login d'une table
-  Ne plus avoir de groupes indiqué en dur dans le code.
-  Faire disparaitre : is_referent, is_teacher, ...
 
 * Interface pour détruire les tables facilement.
   Fusionner avec destruction de tables vides et bizarres.
@@ -123,8 +125,6 @@ Problèmes à résoudre.
 * Formule coté serveur : colonne inéfaçable.
 
 * Découpler referents_students pour avoir les bon referents par semestre.
-
-* Séparer rdv_ip en 2.
 
 * Passer les .css avant les .js
 
