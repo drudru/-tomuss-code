@@ -155,7 +155,16 @@ def table_head(year=None, semester=None, ticket=None,
 
     my_identity2 = utilities.login_to_module(user_name)
 
-    return (str(the_head) + background +
+    languages = []
+    for lang in prefs_table['language'].split(','):
+        languages.append(
+            '<script onload="this.onloadDone=true;" src="%s/%s.js"></script>'
+            % (utilities.StaticFile._url_, lang))
+
+
+    return (str(the_head) + background
+            + '<script>var translations = {} ; </script>\n'
+            + '\n'.join(languages) +
             '<script>' +
             'page_id = "%d" ;\n' % page_id +
             'my_identity = %s ;\n' % repr(user_name) +

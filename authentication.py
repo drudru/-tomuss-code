@@ -27,6 +27,7 @@ import socket
 import sender
 import configuration
 import urllib2
+import plugins
 
 warn = utilities.warn
 
@@ -122,10 +123,15 @@ def get_path(server, server_url):
 
         warn('username: %s' % user_name, what="auth")
         if user_name:
+            lang = server.headers.get('accept-language','').lower()
+            lang = lang.replace(';',',').replace('-','_')
+            lang = ','.join([x for x in lang.split(',')
+                             if x in plugins.languages])
+
             t = ticket.add_ticket(ticket_key, user_name,
                                   ticket.client_ip(server),
                                   server.headers["User-Agent"],
-                                  language=server.headers.get('accept-language',''))
+                                  language=lang)
 
             if path and path[0] == 'allow':
                 warn('allow request for ticket : ' + path[1], what="auth")

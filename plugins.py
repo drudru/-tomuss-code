@@ -311,6 +311,8 @@ msgstr "%s"
     return reloadeds
 
 
+languages = set()
+
 def generate_data_files():
     #####################################
     # Generate MO files
@@ -323,12 +325,17 @@ def generate_data_files():
 
     for language in os.listdir('TRANSLATIONS'):
         t = gettext.translation('tomuss', 'TRANSLATIONS', [language])
-        f = open(os.path.join('TMP', language + '.js'), 'w')
-        f.write('var ' + language + '= {')
+        language = language.lower()
+        languages.add(language)
+        filename = os.path.join('TMP', language + '.js')
+        f = open(filename, 'w')
+        f.write('translations["' + language + '"] = {')
         for k, v in t._catalog.items():
-            f.write('%s:%s,\n' % (js(k.encode('utf8')), js(v.encode('utf8'))))
-        f.write('"_",""} ;\n')
+            if k:
+                f.write('%s:%s,\n' % (js(k.encode('utf8')), js(v.encode('utf8'))))
+        f.write('"_":""} ;\n')
         f.close()
+        files.files[language + '.js'] = utilities.StaticFile(filename)
 
     #####################################
     # Documentation automatic generation
