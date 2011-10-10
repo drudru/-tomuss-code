@@ -115,14 +115,25 @@ class Page(object):
 def table_filename(year, semester, ue):
     return os.path.join(configuration.db, 'Y'+str(year), 'S'+semester, ue + '.py')
 
-def get_preferences(user_name, create_pref=True):
+def get_preferences(user_name, create_pref=True, the_ticket=None):
     my_identity2 = utilities.login_to_module(user_name)
     prefs_table = table(0, 'Preferences', my_identity2, None, None,
                         create=create_pref)
+
     if prefs_table is None:
-        return {}
+        p = {}
     else:
-        return prefs_table.template.preferences(prefs_table)
+        p = prefs_table.template.preferences(prefs_table)
+
+    if p.get('language', '') == '':
+        if the_ticket is None:
+            for the_ticket in ticket.tickets.values():
+                if the_ticket.user_name == user_name:
+                    break
+        p['language'] = the_ticket.language
+
+    return p
+
 
 #REDEFINE
 # This function returns javascript code to be included

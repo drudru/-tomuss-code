@@ -124,7 +124,8 @@ def get_path(server, server_url):
         if user_name:
             t = ticket.add_ticket(ticket_key, user_name,
                                   ticket.client_ip(server),
-                                  server.headers["User-Agent"])
+                                  server.headers["User-Agent"],
+                                  language=server.headers.get('accept-language',''))
 
             if path and path[0] == 'allow':
                 warn('allow request for ticket : ' + path[1], what="auth")

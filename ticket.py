@@ -40,7 +40,7 @@ def client_ip(server):
 class Ticket(object):
 
     def __init__(self, ticket, user_name=None, user_ip=None,
-                 user_browser=None, date=None):
+                 user_browser=None, date=None, language=''):
         self.ticket = ticket
         self.user_name = user_name
         self.user_ip = user_ip
@@ -49,6 +49,7 @@ class Ticket(object):
             self.date = time.time()
         else:
             self.date = date
+        self.language = language
             
     def is_fine(self, server):
         # print self.user_name, (time.time() - self.date) , configuration.ticket_time_to_live, self.user_ip, client_ip(server), self.user_browser, server.headers["User-Agent"]
@@ -121,14 +122,14 @@ class Ticket(object):
 
 tickets = {}
 
-def add(ticket, user_name, user_ip, user_browser, date=None):
-    t = Ticket(ticket, user_name, user_ip, user_browser, date)
+def add(ticket, user_name, user_ip, user_browser, date=None, language=''):
+    t = Ticket(ticket, user_name, user_ip, user_browser, date, language)
     tickets[ticket] = t
     return t
 
-def add_ticket(ticket, user_name, user_ip, user_browser):
+def add_ticket(ticket, user_name, user_ip, user_browser, language=''):
     get_ticket_objet.the_lock.acquire()
-    t = add(ticket, user_name, user_ip, user_browser)
+    t = add(ticket, user_name, user_ip, user_browser, language=language)
     get_ticket_objet.the_lock.release()
     utilities.write_file(os.path.join(configuration.ticket_directory, t.ticket), t.log())
     return t
