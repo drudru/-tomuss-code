@@ -29,7 +29,6 @@ def etapes_text(etapes):
 
 class Code_Etape(text.Text):
     human_priority = 12
-    full_title = 'Code Etape(ID)'
     cell_is_modifiable = 0
     tip_cell = ""
     set_columns = 'set_columns'

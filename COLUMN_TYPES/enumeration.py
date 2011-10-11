@@ -24,7 +24,6 @@ import text
 import bool
 
 class Enumeration(text.Text):
-    full_title = 'Énumération'
     tip_cell = "Une des valeurs autorisées"
     cell_test = 'test_enumeration'
     ondoubleclick = 'toggle_enumeration'

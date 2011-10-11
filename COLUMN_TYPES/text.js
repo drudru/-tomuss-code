@@ -309,7 +309,6 @@ function text_format(c)
 function ___NAME__()
 {
   types.push({title: '__NAME__',
-		 full_title: __FULL_TITLE__,
 		 default_filter: __DEFAULT_FILTER__,
 		 tip_column_title: __TIP_COLUMN_TITLE__,
 		 tip_filter: __TIP_FILTER__,

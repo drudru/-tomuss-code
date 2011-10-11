@@ -20,6 +20,28 @@
   Contact: Thierry.EXCOFFIER@bat710.univ-lyon1.fr
 */
 
+var languages ;
+
+function __(txt)
+{
+  var t ;
+  for(var i in languages)
+    {
+      t = translations[languages[i]][txt]
+    if ( t )
+      return t ;
+    }
+  return txt ;
+}
+
+function _(txt)
+{
+  languages = preferences.language.split(",") ;
+  _ = __ ;
+  return _(txt) ;
+}
+
+
 function a_float(txt)
 {
   if ( txt.replace )

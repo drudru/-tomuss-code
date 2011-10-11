@@ -494,7 +494,7 @@ function an_input_attribute(attr, options, prefix_id, prefix_)
       var opts = '' ;
       for(var i in options)
 	opts += '<OPTION VALUE="' + options[i][0] + '">'
-                                  + options[i][1] + '</OPTION>' ;
+	  + _(options[i][1]) + '</OPTION>' ;
       
       return hidden_txt('<select style="margin:0px" onfocus="take_focus(this);" id="'
 			+ the_id + '" onChange="this.blur();'
@@ -711,12 +711,7 @@ function new_new_interface()
 
   var options = [] ;
   for(var type_i in types)
-    {
-      if ( types[type_i].full_title )
-	options.push([types[type_i].title, types[type_i].full_title]) ;
-      else
-	options.push([types[type_i].title, types[type_i].title]) ;
-    }
+    options.push([types[type_i].title, 'B_' + types[type_i].title]) ;
   t.push('<div class="one_line">') ;
   t.push(column_input_attr('type', options)) ;
   t.push(column_input_attr('enumeration')) ;
@@ -992,175 +987,6 @@ function new_new_interface()
   return w.join('\n') ;
 }
 
-function new_interface()
-{
-var w ;
-
-/* The boxes title */
-
- w = '<table id="menutop"><tr>\n<td>' +
-   hidden_txt('Cellule &amp; ligne\n',
-	      "Informations concernant la cellule active dans le tableau",
-	      'title') +
-   '<td class="space"><td>' +
-   hidden_txt('Colonne\n',
-	      "Informations concernant la colonne contenant<br>" +
-	      "la cellule active dans le tableau",
-	      'title') +
-   '<td class="space"><td>' +
-   hidden_txt('Tableau\n',
-	      "Informations concernant le tableau complet",
-	      'title') +
-   '</tr><tr>' +
-
-/* The boxes top part */
-
-   '<td class="blocktop"><table class="cell"><tr><td>' +
-   hidden_txt('<a href="" target="_blank"><img id="t_student_picture" class="phot"></a>',
-	      'Cliquez sur la photo pour voir la fiche de suivi de l\'étudiant') +
-   '</td><td class="cell_values">' +
-   one_line('<span id="t_value"></span>', "Valeur de la cellule.") +
-   one_line('<span id="t_student_firstname"></span>',"Prénom de l'étudiant.")+
-   one_line('<span id="t_student_surname"></span>',"Nom de l'étudiant.")+
-   one_line('<span id="t_student_id"></span>', "Numéro d'étudiant.")+
-   one_line('<span id="t_date"></span>',
-	    "Date ou la cellule a été modifiée pour la dernière fois.")+
-   one_line('<span id="t_history"></span>',
-	    "Valeurs précédentes prises par la cellule.<br>"+
-	    "De la plus ancienne à la plus récente.") +
-   '</td></tr></table><td class="space"><td class="blocktop">' +
-   column_input_attr('title', 'one_line') +
-   '<div>' ;
-
-var options = [] ;
-for(var type_i in types)
-  {
-    if ( types[type_i].full_title )
-      options.push([types[type_i].title, types[type_i].full_title]) ;
-    else
-      options.push([types[type_i].title, types[type_i].title]) ;
-  }
- 
- w += column_input_attr('type', options) +
-   column_input_attr('red') +
-   column_input_attr('green') +
-   column_input_attr('weight') +
-   column_input_attr('minmax') +
-   column_input_attr('test_filter') +
-   '<div><div style="height: 1.5em">' +
-   column_input_attr('visibility_date') +
-   column_input_attr('empty_is', 'before=&#8709;=') +
-   column_input_attr('enumeration') +
-   column_input_attr('columns') + '&nbsp;</div>' +
-
-/* Use a TABLE because text-align: justify doesn't work */
-   '<div class="menu"><table><tr><td>' +
-   hidden_txt('<a href="javascript:do_move_column_left();">«</a>',
-	      "<b>Décale la colonne vers la gauche</b><br>" +
-	      "Ce changement n'est pas visible par les autres utilisateurs."
-	      ) +
-   column_input_attr('position') +
-   hidden_txt('<a href="javascript:do_move_column_right();">»</a>',
-	      "<b>Décale la colonne vers la droite</b><br>" +
-	      "Ce changement n'est pas visible par les autres utilisateurs."
-	      ) +
-   '</td><td>' +
-
-   hidden_txt('<a href="javascript:smaller_column();">-</a>',
-	      "<b>Amincir la colonne</b><br>" +
-	      "Ce changement n'est pas visible par les autres utilisateurs."
-	      ) + '&nbsp;' +
-   column_input_attr('width') +
-   hidden_txt('<a href="javascript:bigger_column();">+</a>',
-	      "<b>Élargir la colonne</b><br>" +
-	      "Ce changement n'est pas visible par les autres utilisateurs."
-	      ) + '</td><td>' +
-   column_input_attr('import') + '</td><td>' +
-   column_input_attr('fill') + '</td><td>' +
-   column_input_attr('export') + '</td><td>' +
-   column_input_attr('delete') + '</td><td>' +
-   column_input_attr('freezed') + '</td><td>' +
-   column_input_attr('hidden') +
-   '</td></tr></table></div>' +
-
-   column_input_attr('stats') +
- 
-   '<td class="space"><td class="blocktop">' +
-   hidden_txt('<span id="nr_filtered_lines"></span>/<span id="nr_not_empty_lines"></span> lignes',
-	      "Nombre de lignes filtrées et<br>" +
-	      "nombre de lignes dans le tableau total") + ', ' +
-
-   table_input_attr('nr_lines') +  '&times;' +
-   table_input_attr('nr_columns') +
-   '<div class="one_line">' +
-   table_input_attr('facebook') +
-   table_input_attr('print') +
-   table_input_attr('abj') +
-   table_input_attr('mail') +
-   table_input_attr('statistics') +
-   '</div>' +
-
-   '<div class="one_line">' +
-   '<div class="menu">' +
-   hidden_txt('<a href="javascript:change_popup_on_red_line()">&nbsp;</a>',
-	      "Cliquez-ici pour basculer entre le mode tenant compte<br>" +
-	      "des inscriptions pédagogiques et celui n'en tenant pas compte."
-	      ,'','popup_on_red_line') +
-
-   table_input_attr('bookmark') + ', ' +
-   table_input_attr('autosave') + ', ' +
-   table_input_attr('linear') + ', ' +
-   table_input_attr('t_import') + ', ' +
-   table_input_attr('t_export') + ', ' +
-   table_input_attr('update_content') +
-   '</div>' +
-   table_input_attr('private',    [[0,'Publique'],[1,'Privée']]) +
-   table_input_attr('modifiable', [[0,'Non Modifiable'],[1,'Modifiable']]) ;
-
- if ( myindex(semesters, semester) != -1 )
-   w += table_input_attr('official_ue', [[0,'Invisible'],[1,'Visible']]) ;
-
- w += table_input_attr('default_nr_columns') + '<br></div>' +
-   table_input_attr('dates','empty') +
-   '</tr><tr><td class="blockbottom">' +
-   one_line('<span id="t_author"></span>',
-	    "Personne qui a modifié la cellule pour la dernière fois :") +
-   hidden_txt(header_input('comment','',
-			   'empty onblur=comment_on_change(event)')
-	      + '<br>',
-	      "Tapez un commentaire pour cette cellule<br>" +
-	      "afin de ne pas oublier les choses importantes.<br>" +
-	      "<b>ATTENTION : les étudiants voient ce commentaire</b>") +
-   hidden_txt(header_input('linefilter','',
-			   'empty onkey=line_filter_change(this)'),
-	      "<span class=\"shortcut\">(Alt-8)</span>" +
-	      "<b>Filtre les lignes</b><br>" +
-	      "Seules les lignes contenant une valeur filtrée seront affichées.<br>" +
-	      "Tapez le début de ce que vous cherchez."
-	      ) +
-   '<td class="space"><td class="blockbottom">' +
-   one_line('<span id="t_column_author"></span>',
-	    "Personne qui a modifié la définition<br>" +
-	    "de la colonne pour la dernière fois :") +
-   column_input_attr('comment', 'empty one_line') +
-   hidden_txt(header_input("columns_filter",'',
-			   'empty onkey=columns_filter_change(this)'),
-	      "Seules les <b>colonnes</b> dont le nom est filtré seront affichées.<br>" +
-	      "Tapez le début de ce que vous cherchez.<br>" +
-	      "Pour plus d'information, regardez l'aide sur les filtres.") +
-   '<td class="space"><td class="blockbottom">' +
-   table_input_attr('masters','empty') +
-   table_input_attr("comment",'empty') + '<br>' +
-   hidden_txt(header_input('fullfilter', '',
-			   'empty onkey=full_filter_change(this)'),
-	      "Seule les <b>colonnes et lignes</b> contenant une valeur filtrée<br>seront affichées (c'est un filtre).<br>" +
-	      "Tapez le début de ce que vous cherchez.<br>"
-	     ) +
-   '</tr></table>' ;
-
- return w ;
-}
-
 var popup_old_values = {} ;
 
 function popup_close()
@@ -1300,10 +1126,8 @@ function insert_middle()
     }
   i_am_root = myindex(root, my_identity) != -1 ;
 
-  if ( true )
-      document.write(new_new_interface()) ;
-  else
-      document.write(new_interface()) ;
+  document.write(new_new_interface()) ;
+
 /* onmouseout is here because it must contains the tip
     If you change the content, read 'table_init' in 'lib.js'
 */

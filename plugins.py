@@ -158,8 +158,8 @@ def value_class(attr):
             html_class += ' verylong'
         else:
             html_class += ' long'
-    if attr == 'full_title':
-        html_class += ' title'
+    # if attr == 'full_title':
+    #    html_class += ' title'
     return html_class
 
 def make_td(f, html_class, k, m):
@@ -171,7 +171,7 @@ def make_td(f, html_class, k, m):
     value = the_value(t)
     if k == 'full_title':
         try:
-            value += '<br/><small>(' + superclass(m).full_title+')</small>'
+            value += '<br/><small>(' + superclass(m).title + ')</small>'
         except AttributeError:
             pass
     f.write('<td class="%s"><div>%s</div></td>' % (
@@ -272,8 +272,7 @@ function _%s()
 }
 ''' % (m.name, s.name, m.name, '\n'.join(v))
 
-    for m in sorted(types.keys(), key=lambda x: (types[x].human_priority,
-                                                 types[x].full_title)):
+    for m in sorted(types.keys(), key=lambda x: (types[x].human_priority,x)):
       all_js += '_%s() ;\n' % m
 
     # Here because Column type loading may change ATTRIBUTE definitions
@@ -305,7 +304,7 @@ msgstr ""
 msgid "B_%s"
 msgstr "%s"
 
-''' % (column_type, types[column_type].full_title))
+''' % (column_type, column_type))
     f.close()
 
     return reloadeds

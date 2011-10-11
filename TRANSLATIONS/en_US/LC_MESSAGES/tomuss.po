@@ -1,0 +1,107 @@
+# Texts extracted from a un running TOMUSS instance
+# Copyright (C) 2011 Thierry Excoffier, LIRIS, Universite Claude Bernard Lyon 1
+# This file is distributed under the same license as TOMUSS
+# Thierry.Excoffier@univ-lyon1.fr, 2011
+msgid ""
+msgstr ""
+"Content-Type: text/plain; charset=utf-8\n"
+"Project-Id-Version: \n"
+"POT-Creation-Date: \n"
+"PO-Revision-Date: \n"
+"Last-Translator: Thierry EXCOFFIER <Thierry.Excoffier@univ-lyon1.fr>\n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#. Columns types, button text in the menu
+msgid "B_Code_Etape"
+msgstr "Code Etape(ID)"
+
+#. Columns types, button text in the menu
+msgid "B_COW"
+msgstr "Copy On Write"
+
+#. Columns types, button text in the menu
+msgid "B_Enumeration"
+msgstr "Enumeration"
+
+#. Columns types, button text in the menu
+msgid "B_Note"
+msgstr "Note"
+
+#. Columns types, button text in the menu
+msgid "B_Nmbr"
+msgstr "Number of"
+
+#. Columns types, button text in the menu
+msgid "B_Bool"
+msgstr "Boolean"
+
+#. Columns types, button text in the menu
+msgid "B_Mail"
+msgstr "Mail(ID)"
+
+#. Columns types, button text in the menu
+msgid "B_Moy"
+msgstr "Average"
+
+#. Columns types, button text in the menu
+msgid "B_Nombre_Etudiants_Max"
+msgstr "B_Nombre_Etudiants_Max"
+
+#. Columns types, button text in the menu
+msgid "B_Firstname"
+msgstr "Prenom(ID)"
+
+#. Columns types, button text in the menu
+msgid "B_Max"
+msgstr "Maximum"
+
+#. Columns types, button text in the menu
+msgid "B_Phone"
+msgstr "Phone(ID)"
+
+#. Columns types, button text in the menu
+msgid "B_Date"
+msgstr "Date"
+
+#. Columns types, button text in the menu
+msgid "B_URL"
+msgstr "URL : web link"
+
+#. Columns types, button text in the menu
+msgid "B_Responsable_A"
+msgstr "Responsable Automne(UE(seq))"
+
+#. Columns types, button text in the menu
+msgid "B_Responsable_P"
+msgstr "Responsable Printemps(UE(seq))"
+
+#. Columns types, button text in the menu
+msgid "B_Login"
+msgstr "Login"
+
+#. Columns types, button text in the menu
+msgid "B_Nombre_Etudiants"
+msgstr "Nombre_Etudiants(UE,Seq)"
+
+#. Columns types, button text in the menu
+msgid "B_Surname"
+msgstr "Surname(ID)"
+
+#. Columns types, button text in the menu
+msgid "B_Get_Referent"
+msgstr "Referent(ID)"
+
+#. Columns types, button text in the menu
+msgid "B_Text"
+msgstr "Free Text"
+
+#. Columns types, button text in the menu
+msgid "B_Prst"
+msgstr "Present"
+
+#. Columns types, button text in the menu
+msgid "B_Intitule_Ue"
+msgstr "Title(UE)"
+
