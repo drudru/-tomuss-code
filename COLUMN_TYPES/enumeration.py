@@ -22,6 +22,7 @@
 import note
 import text
 import bool
+import collections
 
 class Enumeration(text.Text):
     full_title = 'Énumération'
@@ -33,8 +34,16 @@ class Enumeration(text.Text):
 
     def formatter(self, column, value, cell, lines, teacher, ticket, line_id):
         v = column.enumeration.split(' ')
+        if column.repetition:
+            nb = collections.defaultdict(int)
+            data_col = column.data_col
+            for line in column.table.lines.values():
+                nb[line[data_col].value] += 1
+            v = [x
+                 for x in v
+                 if nb[x] < column.repetition
+                 ]
         v.insert(0, '')
-
         return bool.option_list(column, value, cell, lines, teacher,
                                 ticket,line_id, v)
 
