@@ -1549,6 +1549,14 @@ cell_change(1,'0_2','ticket_time_to_live','%d',"")
         assert('GOOD_OR_BAD' in c)
 
         
+    if do('repetition'):
+        c = s.url('=' + abj +'/%s/UE-repetition' % ys)
+        c =s.url('='+abj+'/%s/UE-repetition/1/0/column_attr_repetition/A/1'%ys)
+        assert(c == ok_png)
+        c = s.url('='+abj+'/%s/UE-repetition/1/1/cell_change/A/L1/10' % ys)
+        assert(c == ok_png)
+        c = s.url('='+abj+'/%s/UE-repetition/1/2/cell_change/A/L2/10' % ys)
+        assert(c == bad_png)
         
         
 if '1' in sys.argv:
