@@ -419,7 +419,6 @@ function header_input_focus(e)
   var margin = 5 ;
   if ( x + e.offsetWidth > width + 1 )
     {
-      alert(x + e.offsetWidth + ' ' + width);
       e.style.width = '' + (width - x - margin) + 'px' ;
     }
 }
