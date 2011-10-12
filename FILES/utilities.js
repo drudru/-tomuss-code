@@ -2133,20 +2133,35 @@ function current_change()
 		return ;
 	      }
 	}
-      else
-	if ( this.data_col !== 0 && lines[this.line_id][0].is_empty()
-	     && value !== '' )
-	  {
-	    alert("Vous devez impérativement saisir un numéro d'étudiant") ;
-	  }
-      if ( value !== ''
-	   && ! modification_allowed_on_this_line(this.line_id,this.data_col))
-	{	    
+    }
+  if ( this.data_col !== 0 && lines[this.line_id][0].is_empty() && value !=='')
+    {
+      alert("Vous devez impérativement saisir une valeur dans la première colonne (le numéro d'étudiant)") ;
+    }
+  if ( value !== ''
+       && ! modification_allowed_on_this_line(this.line_id,this.data_col))
+    {	    
+      this.input.value = this.initial_value ;
+      current_change_running = false ;
+      return ;
+    }
+  if ( this.column.real_repetition && value !== '' )
+    {
+      var n = 0 ;
+      for(var line in lines)
+	if ( lines[line][this.data_col].value == value )
+	  n++ ;
+      if ( n > this.column.real_repetition )
+	{
+	  alert("Vous n'avez pas le droit de saisir cette valeur, elle a déjà été saisie "
+		+ n + " fois, le maximum autorisé est "
+		+ this.column.real_repetition) ;
 	  this.input.value = this.initial_value ;
 	  current_change_running = false ;
 	  return ;
 	}
     }
+
   this.input.blur() ; // If have focus : problem with page change
   this.input.value = cell_set_value(this.td, value,
 				    this.line_id, this.data_col) ;
