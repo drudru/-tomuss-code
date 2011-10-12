@@ -2151,7 +2151,7 @@ function current_change()
       for(var line in lines)
 	if ( lines[line][this.data_col].value == value )
 	  n++ ;
-      if ( n > this.column.real_repetition )
+      if ( n >= this.column.real_repetition )
 	{
 	  alert("Vous n'avez pas le droit de saisir cette valeur, elle a déjà été saisie "
 		+ n + " fois, le maximum autorisé est "

@@ -22,19 +22,16 @@
 from column import ColumnAttr
 
 class ColumnRepetition(ColumnAttr):
-    default_value = '0'
+    default_value = 0
     name = 'repetition'
     check_and_set = 'set_repetition'
     tip = """Nombre de fois qu'une valeur identique est autorisée<br>
     au maximum dans la colonne. Si c'est 0 il n'y a pas de limite.
     """
-    css = """
-#menutop #t_column_repetition {
-}
-
-#menutop DIV.tabs #t_column_repetition { width: 25% ; }
-
-"""
+    def encode(self, value):
+        return int(value)
+    def decode(self, value):
+        return str(value)
 
     def check(self, value):
         try:
@@ -42,4 +39,4 @@ class ColumnRepetition(ColumnAttr):
                 return
         except ValueError:
             pass
-        return "Le nombre de répétition doit être un nombre entier positif"
+        return "Le nombre de répétitions doit être un nombre entier positif"
