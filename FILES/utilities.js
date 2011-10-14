@@ -2010,7 +2010,7 @@ function current_keydown(event, in_input)
 	    }
 	}
       // completion
-      if ( selection && key >= 64 && event.ctrlKey === false
+      if ( selection && key >= 48 && event.ctrlKey === false
 	    && event.target.value.length == selection.end ) // No control code
 	{
 	  if ( do_completion_for_this_input == undefined )
