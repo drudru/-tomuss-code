@@ -61,7 +61,7 @@ function get_date(value)
   var v = value.split('/') ;
   var d ;
 
-  if ( v.length == 1 )
+  if ( v.length == 1 && isNaN(value.substr(value.length-1)) )
     {
       if ( value.length <= 1 )
 	return false ;
@@ -91,26 +91,21 @@ function get_date(value)
   for(var i in v)
     if ( isNaN(Number(v[i])) )
       return false ;
-  /*
-    if ( v.length == 1 )
-    {
-    d = new Date(v[0], 0,      1) ;
-    d.sup = new Date() ;
-    d.sup.setTime(d.getTime()) ;
-    d.sup.setMonth(11) ;
-    d.sup.setDate(31) ;
-    }
-    else */ if ( v.length == 2 )
+
+  if ( v.length == 1 )
       {
-	d = new Date(v[1], v[0]-1, 1) ;
-	d.sup = new Date() ;
-	d.sup.setTime(d.getTime()) ;
-	d.sup.setDate(31) ;
-	if ( d.sup.getDate() < 4 )
-	  d.sup.setDate(-d.sup.getDate()) ;
+	d = new Date() ;
+	v.push(d.getMonth()+1) ;
       }
-    else if ( v.length == 3 )
+  if ( v.length == 2 )
       {
+	d = new Date() ;
+	v.push(d.getFullYear()) ;
+      }
+  if ( v.length == 3 )
+      {
+	if ( v[2] < 100 )
+	  v[2] = Number(v[2]) + 2000 ;
 	d = new Date(v[2], v[1]-1, v[0]) ;
 	d.sup = new Date() ;
 	d.sup.setTime(d.getTime()) ;
