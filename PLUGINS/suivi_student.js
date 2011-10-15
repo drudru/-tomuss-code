@@ -21,7 +21,7 @@ function _cell(s, url, col_type)
   iframe.src = url + '/' + encode_uri(s.value) ;
 
   if ( unload )
-    unload.src = 'http://'+document.location.host+'/'+ticket+'/unload/'+ue;
+    unload.src = 'unload/' + ue;
 }
 
 function hide_empty()

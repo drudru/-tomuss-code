@@ -57,8 +57,7 @@ def cell_change(server):
         table.do_not_unload_add(-1)
 
 def cell(server):
-    """Modify an unique cell in a table.
-    For example, the boolean values can be changed in the 'suivi'"""
+    """Modify an unique cell in a table. It is used by the 'suivi' page"""
 
     r = cell_change(server)
 

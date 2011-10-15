@@ -43,6 +43,7 @@ class Enumeration(text.Text):
                 verify_lines = lines
             for line in verify_lines:
                 nb[line[data_col].value] += 1
+            nb[value] -= 1
             v = [x
                  for x in v
                  if nb[x] < abs(column.repetition)
