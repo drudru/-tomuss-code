@@ -23,7 +23,7 @@
 function set_repetition(value, column)
 {
   column.real_repetition = Math.floor(Number(value)) ;
-  if ( column.real_repetition < 0 || isNaN(column.real_repetition) )
+  if ( isNaN(column.real_repetition) )
     column.real_repetition = 0 ;
 
   return column.real_repetition ;

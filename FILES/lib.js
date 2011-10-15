@@ -3358,37 +3358,6 @@ function goto_resume()
   window_open(url + '/=' + ticket + '/' + year + '/' + semester + '/' + ue + '/resume');
 }
 
-
-function grp_and_seq()
-{
-  var g = {} ;
-  for(var i in filtered_lines)
-    {
-      line = filtered_lines[i] ;
-      if ( line[0].value !== '' )
-	g[line[4].value + '\001' + line[3].value] = true ;
-    }
-  tabl = [] ;
-  for(var gg in g)
-    tabl.push(gg) ;
-  tabl.sort() ;
-  return tabl ;
-}
-
-function values_in_a_column(column)
-{
-  var g = {} ;
-  var data_col = column.data_col ;
-  for(var i in filtered_lines)
-    {
-      g[filtered_lines[i][data_col].value] = true ;
-    }
-  var t = [] ;
-  for(var i in g)
-    t.push(i) ;
-  return t
-}
-
 // pb = page break
 function html_begin_head(hide_title, pb, more)
 {

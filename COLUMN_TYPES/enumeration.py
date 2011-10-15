@@ -37,11 +37,15 @@ class Enumeration(text.Text):
         if column.repetition:
             nb = collections.defaultdict(int)
             data_col = column.data_col
-            for line in column.table.lines.values():
+            if column.repetition > 0:
+                verify_lines = column.table.lines.values()
+            else:
+                verify_lines = lines
+            for line in verify_lines:
                 nb[line[data_col].value] += 1
             v = [x
                  for x in v
-                 if nb[x] < column.repetition
+                 if nb[x] < abs(column.repetition)
                  ]
         v.insert(0, '')
         return bool.option_list(column, value, cell, lines, teacher,

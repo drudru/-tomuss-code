@@ -8,6 +8,8 @@ Nouvelles fonctionnalités.
 Utilisateurs finaux.
 --------------------
 
+* Publi postage : mail à sois.
+
 * Traduction
 
 * Passer l'arrondi dans les paramètres colonnes ?
@@ -118,6 +120,13 @@ Administrateur.
 Problèmes à résoudre.
 =====================
 
+* Redémarrage TOMUSS et vieille pages : pas réglé, le client persiste à vouloir
+  se reconnecter.
+  Quand le client a perdu sa connexion longtemps, il la retrouve tout seul
+  alors qu'il n'y a pas de connexion réseau (IE)
+  Il faut attendre un certain temps (ticket expire coté serveur?)
+  pour que cela ne marche plus. Si on teste de suite cela marche
+
 * Nom(ID) si columns est vide : prendre la première
 
 * Sauve option : marche pas pour les lignes
@@ -127,11 +136,6 @@ Problèmes à résoudre.
 * Découpler referents_students pour avoir les bon referents par semestre.
 
 * Passer les .css avant les .js
-
-* Redémarrage TOMUSS et vieille pages : pas réglé, le client persiste à vouloir
-  se reconnecter.
-  Quand le client a perdu sa connexion longtemps, il la retrouve tout seul
-  alors qu'il n'y a pas de connexion réseau (IE)
 
 * Liste de la page d'accueil : ajouter les UE GASEL en plus de LDAP et SPIRAL
 
@@ -150,8 +154,6 @@ Problèmes à résoudre.
 =============================
 Améliorations de code source.
 =============================
-
-* Attribut 'clef unique' pour les numéros d'étudiant
 
 * Tester le nouveau utility.js()
 

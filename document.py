@@ -528,10 +528,16 @@ class Table(object):
         if not self.loading and a_column.repetition and value != '':
             n = 0
             data_col = a_column.data_col
-            for line in self.lines.values():
+            if a_column.repetition > 0:
+                verify_lines = self.lines.values()
+            else:
+                grp = line[self.columns.get_grp()].value
+                seq = line[self.columns.get_seq()].value
+                verify_lines = list(self.columns.table.lines_of_grp(grp, seq))
+            for line in verify_lines:
                 if line[data_col].value == value:
                     n += 1
-            if n >= a_column.repetition:
+            if n >= abs(a_column.repetition):
                 self.error(page, 'Cette valeur a déjà été saisie dans la colonne')
                 return 'bad.png'
 

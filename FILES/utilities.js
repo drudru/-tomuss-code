@@ -2143,14 +2143,31 @@ function current_change()
   if ( this.column.real_repetition && value !== '' )
     {
       var n = 0 ;
-      for(var line in lines)
-	if ( lines[line][this.data_col].value == value )
+      var verify_lines ;
+
+      if ( this.column.real_repetition > 0 )
+	verify_lines = lines ;
+      else
+	{
+	  verify_lines = [] ;
+	  var grp = this.line[3].value ; // XXX should seach column name
+	  var seq = this.line[4].value ;
+	  for(var line in lines)
+	    {
+	      line = lines[line] ;
+	      if ( line[3].value == grp && line[4].value == seq )
+		verify_lines.push(line) ;
+	    }
+	}
+
+      for(var line in verify_lines)
+	if ( verify_lines[line][this.data_col].value == value )
 	  n++ ;
-      if ( n >= this.column.real_repetition )
+      if ( n >= Math.abs(this.column.real_repetition) )
 	{
 	  alert("Vous n'avez pas le droit de saisir cette valeur, elle a déjà été saisie "
 		+ n + " fois, le maximum autorisé est "
-		+ this.column.real_repetition) ;
+		+ Math.abs(this.column.real_repetition)) ;
 	  this.input.value = this.initial_value ;
 	  current_change_running = false ;
 	  return ;

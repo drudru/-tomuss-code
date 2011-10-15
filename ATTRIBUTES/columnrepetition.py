@@ -35,8 +35,6 @@ class ColumnRepetition(ColumnAttr):
 
     def check(self, value):
         try:
-            if int(value) >= 0:            
-                return
+            int(value)
         except ValueError:
-            pass
-        return "Le nombre de répétitions doit être un nombre entier positif"
+            return "Le nombre de répétitions doit être un nombre entier"

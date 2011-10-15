@@ -1574,11 +1574,62 @@ cell_change(1,'0_2','ticket_time_to_live','%d',"")
         assert(c == ok_png)
         c = s.url('='+abj+'/%s/UE-repetition/1/10/column_attr_modifiable/B/2' % ys)
         assert(c == ok_png)
-        
+
+        # Test repetition within grp/seq
+
+        c =s.url('='+abj+'/%s/UE-repetition/1/11/column_attr_repetition/C/-1'%ys)
+        assert(c == ok_png)
+        c =s.url('='+abj+'/%s/UE-repetition/1/12/cell_change/0_3/L3/grpA'%ys)
+        assert(c == ok_png)
+        c =s.url('='+abj+'/%s/UE-repetition/1/13/cell_change/0_4/L3/seqA'%ys)
+        assert(c == ok_png)
+        c =s.url('='+abj+'/%s/UE-repetition/1/14/cell_change/0_3/L2/grpB'%ys)
+        assert(c == ok_png)
+        c =s.url('='+abj+'/%s/UE-repetition/1/15/cell_change/0_4/L2/seqA'%ys)
+        assert(c == ok_png)
+        c =s.url('='+abj+'/%s/UE-repetition/1/16/cell_change/0_3/L1/grpA'%ys)
+        assert(c == ok_png)
+        c =s.url('='+abj+'/%s/UE-repetition/1/17/cell_change/0_4/L1/seqB'%ys)
+        assert(c == ok_png)
+        c =s.url('='+abj+'/%s/UE-repetition/1/18/column_attr_type/C/Enumeration'%ys)
+        c =s.url('='+abj+'/%s/UE-repetition/1/19/column_attr_enumeration/C/EEEE%%20RRRR'%ys)
+        c =s.url('='+abj+'/%s/UE-repetition/1/20/cell_change/C/L1/EEEE'%ys)
+        assert(c == ok_png)
+        c =s.url('='+abj+'/%s/UE-repetition/1/21/cell_change/C/L2/EEEE'%ys)
+        assert(c == ok_png)
+        c =s.url('='+abj+'/%s/UE-repetition/1/22/column_attr_modifiable/C/2' % ys)
+        assert(c == ok_png)
+        c =s.url('='+abj+'/%s/UE-repetition/1/23/cell_change/0_3/L4/grpA'%ys)
+        assert(c == ok_png)
+        c =s.url('='+abj+'/%s/UE-repetition/1/24/cell_change/0_4/L4/seqA'%ys)
+        assert(c == ok_png)
+        c = s.url('='+abj+'/%s/UE-repetition/1/25/cell_change/0_0/L5/10800002' % ys)
+        assert(c == ok_png)
+        c =s.url('='+abj+'/%s/UE-repetition/1/26/cell_change/0_3/L5/grpA'%ys)
+        assert(c == ok_png)
+        c =s.url('='+abj+'/%s/UE-repetition/1/27/cell_change/0_4/L5/seqB'%ys)
+        assert(c == ok_png)
+
         ss.start()
         c = ss.url('=10800001/%s/' % ys)
         assert( 'value=\\"QQQQ\\"' not in c)
         assert( 'value=\\"WWWW\\"' in c)
+        assert( 'value=\\"RRRR\\"' in c)
+        assert( 'value=\\"EEEE\\"' in c)
+
+        c = ss.url('=10800002/%s/' % ys)
+        assert( 'value=\\"RRRR\\"' in c)
+        assert( 'value=\\"EEEE\\"' not in c)
+
+        c =s.url('=10800001/%s/UE-repetition/cell/C/L3/EEEE' % ys)
+        assert('green' in c)
+
+        c =s.url('=10800002/%s/UE-repetition/cell/C/L5/EEEE' % ys)
+        assert('red' in c)
+
+        c =s.url('='+abj+'/%s/UE-repetition/1/28/cell_change/C/L4/EEEE'%ys)
+        assert(c == bad_png)
+
         
 if '1' in sys.argv:
    sys.argv.remove('1')
