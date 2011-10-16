@@ -37,6 +37,8 @@ This function return 'true' to allow the line editing.
 */
 function modification_allowed_on_this_line(line_id, data_col)
 {
+  if ( myindex(semesters, semester) == -1 )
+    return true ;
   if ( tr_classname === undefined )
     return true ;
   if ( ! popup_on_red_line )
@@ -419,7 +421,6 @@ function header_input_focus(e)
   var margin = 5 ;
   if ( x + e.offsetWidth > width + 1 )
     {
-      alert(x + e.offsetWidth + ' ' + width);
       e.style.width = '' + (width - x - margin) + 'px' ;
     }
 }
@@ -751,6 +752,7 @@ function new_new_interface()
   t.push('</div>') ;
   t.push('<div class="one_line">') ;
   t.push(column_input_attr('weight', 'before=Poids beforeclass=widthleft')) ;
+  t.push(column_input_attr('repetition', 'before=Répétition&nbsp;')) ;
   t.push('</div>') ;
 
   o.push(['Formule', t.join('\n')]) ;

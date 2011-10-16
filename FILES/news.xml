@@ -558,6 +558,26 @@ Les améliorations les plus visibles sont :
       </description>
       <guid>40</guid>
     </item>
+    <item>
+      <title>15/10/2011 : Version 3.0.9</title>
+      <link>http://tomuss.univ-lyon1.fr/</link>
+      <description>
+          Il est maintenant possible d'indiquer pour chaque colonne
+          un nombre maximal de répétitions de valeurs identiques dans
+          la colonne. Exemple d'utilisation :
+&lt;ul&gt;
+&lt;li&gt; Vous faites une colonne de type énumération.
+&lt;li&gt; Vous mettez des créneaux horaires comme valeurs possibles
+           pour l'énumération.
+&lt;li&gt; Vous indiquez 2 dans le champ «Répétition» de la colonne.
+&lt;li&gt; Vous indiquez que la colonne est modifiable par les étudiants.
+&lt;/ul&gt;
+
+        Et voila, vos étudiants peuvent prendre rendez-vous avec vous.
+        Il y aura au maximum 2 étudiants par créneau horaire.
+      </description>
+      <guid>41</guid>
+    </item>
 
   </channel>
 </rss>

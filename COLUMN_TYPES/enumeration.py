@@ -22,6 +22,7 @@
 import note
 import text
 import bool
+import collections
 
 class Enumeration(text.Text):
     tip_cell = "Une des valeurs autorisées"
@@ -32,8 +33,21 @@ class Enumeration(text.Text):
 
     def formatter(self, column, value, cell, lines, teacher, ticket, line_id):
         v = column.enumeration.split(' ')
+        if column.repetition:
+            nb = collections.defaultdict(int)
+            data_col = column.data_col
+            if column.repetition > 0:
+                verify_lines = column.table.lines.values()
+            else:
+                verify_lines = lines
+            for line in verify_lines:
+                nb[line[data_col].value] += 1
+            nb[value] -= 1
+            v = [x
+                 for x in v
+                 if nb[x] < abs(column.repetition)
+                 ]
         v.insert(0, '')
-
         return bool.option_list(column, value, cell, lines, teacher,
                                 ticket,line_id, v)
 

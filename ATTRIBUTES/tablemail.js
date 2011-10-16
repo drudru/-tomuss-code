@@ -241,6 +241,13 @@ function personal_mailing_do()
 	  url_content = '' ;
 	}
     }
+  var self_mail = '<iframe src="_URL_/=' + ticket + '/send_mail/[POUR_ARCHIVAGE]%20'
+    + subject + '/' + encode_uri(message) + '/' + encode_uri(my_identity) ;
+  for(var col_name in column_used)
+     self_mail += '/' + encode_uri('['+col_name+']') ;
+  self_mail += '"></iframe>' ;
+  feedback_content += self_mail ;
+  
 
  create_popup('personal_mailing_fb', 'Publipostage', feedback_content, '',
 	      false) ;

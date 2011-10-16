@@ -536,7 +536,7 @@ class Table(object):
         old_value = str(cell.value)
         new_value = str(value)
         if old_value == new_value and cell.author == page.user_name:
-            return 'ok.png'            
+            return 'ok.png'
 
         # if isinstance(value, str) and value.find('.') != -1:
         if a_column.type.name == 'Note':
@@ -544,6 +544,23 @@ class Table(object):
                 value = float(value)
             except ValueError:
                 pass
+
+        if not self.loading and a_column.repetition and value != '':
+            n = 0
+            data_col = a_column.data_col
+            if a_column.repetition > 0:
+                verify_lines = self.lines.values()
+            else:
+                grp = line[self.columns.get_grp()].value
+                seq = line[self.columns.get_seq()].value
+                verify_lines = list(self.columns.table.lines_of_grp(grp, seq))
+            for line in verify_lines:
+                if line[data_col].value == value:
+                    n += 1
+            if n >= abs(a_column.repetition):
+                self.error(page, 'Cette valeur a déjà été saisie dans la colonne')
+                return 'bad.png'
+
 
         if (not self.loading and self.template
             and hasattr(self.template, 'cell_change')):
