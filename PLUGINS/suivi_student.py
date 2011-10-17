@@ -270,6 +270,7 @@ def student_statistics(login, server, is_a_student=False, expand=False,
                 codes[t.ue_code] = True
     if (configuration.suivi_display_more_ue
         and (year, semester) == configuration.year_semester
+        and (not is_a_student or configuration.suivi_check_student_lists(login))
         ):
         for t in inscrits.L_fast.ues_of_a_student_short(login):
             # import cgi

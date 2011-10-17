@@ -413,6 +413,11 @@ def more_on_suivi(student_login):
 def external_bilan(login):
     return "[]"
 
+#REDEFINE
+# Returns True to display the UE name if the student is registered for the UE
+# but is not in the TOMUSS table (because it is uncreated for example)
+def suivi_check_student_lists(login):
+    return True
 
 # And an error message if the password is trivial
 bad_password = """
