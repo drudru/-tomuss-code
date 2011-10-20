@@ -535,7 +535,7 @@ function window_open(url, replace)
     w = window.open(url, replace) ;
   else
     try {
-      w = window.open(undefined, replace) ;
+      w = window.open(url, replace) ;
     }
     catch(e) {
       // XXX IE
@@ -2140,7 +2140,7 @@ function current_change()
       current_change_running = false ;
       return ;
     }
-  if ( this.column.real_repetition && value !== '' )
+  if ( this.column && this.column.real_repetition && value !== '' )
     {
       var n = 0 ;
       var verify_lines ;
