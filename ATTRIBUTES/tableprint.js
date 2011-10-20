@@ -55,7 +55,7 @@ function printable_display_page(lines, title, page_break)
     th_class = '' ;
 
   s.push('<h2' + th_class + '>' + year + ' ' + semester + ' ' + ue
-	 + title + '</h2>') ;
+	 + ': ' + table_title + ' ' + title + '</h2>') ;
 
   nr_lines = 0 ;
   tt = [] ;
@@ -355,6 +355,7 @@ function print_selection(object, emargement, replace)
   p.push('var tr_classname = "' + tr_classname + '";') ;
   p.push('var popup_on_red_line = ' + popup_on_red_line + ';') ;
   p.push('var ue = ' + js(ue) + ';') ;
+  p.push('var table_title = ' + js(table_attr["table_title"]) + ';') ;
   p.push('var display_tips = true ;') ;
   p.push('var columns = ' + columns_in_javascript() + ';') ;
   p.push('var lines ;') ;
