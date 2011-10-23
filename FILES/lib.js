@@ -3273,7 +3273,7 @@ function columns_in_javascript()
 	p.push("color_red:" + js(column.red)) ;
       else
 	p.push("color_red:" + column.red) ;
-      if ( isNaN(column.green) || column.green === ''  )
+      if ( isNaN(column.green) || column.green=== ''  )
 	p.push("color_green:" + js(column.green)) ;
       else
 	p.push("color_green:" + column.green) ;

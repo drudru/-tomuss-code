@@ -10,6 +10,10 @@ Utilisateurs finaux.
 
 * Traduction
 
+* Non semestrialisation : seul le responsable
+
+* Tip : nouvelle version avec le +
+
 * Passer l'arrondi dans les paramètres colonnes ?
 * Passer le nombre de notes min.max a enlever dans les paramètres colonnes ?
 
@@ -73,8 +77,6 @@ Utilisateurs finaux.
 * Ajouter le téléphone de l'enseignant en plus du mail dans le suivi.
 
 * Détruire les lignes vides dans les tableaux ?
-
-* Temps d'apparition des tips.
 
 * En cas d'URL non reconnue, afficher un message d'erreur explicite.
 
