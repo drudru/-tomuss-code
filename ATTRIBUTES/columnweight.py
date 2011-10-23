@@ -36,13 +36,13 @@ class ColumnWeight(ColumnAttr):
     La valeur de la cellule multipliée par le poids est<br>
     ajoutée à la valeur finale de la moyenne."""
     css = """
-#menutop #t_column_weight { width: 2.5em ;
+#menutop #t_column_weight {
   background-image: url('weight.png');
   background-position: right ;
   background-repeat: no-repeat ;
 }
 
-#menutop DIV.tabs #t_column_weight { width: 25% ; }
+#menutop DIV.tabs #t_column_weight { width: 20% ; }
 
 """
 
