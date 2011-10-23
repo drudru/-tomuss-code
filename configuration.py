@@ -23,7 +23,7 @@ import socket
 import os
 import time
 
-version = '3.0.9'
+version = '3.0.10'
 
 
 ###############################################################################
@@ -48,13 +48,14 @@ def set_semesters(*x):
     
     semesters, semesters_year, semesters_months, semesters_color = zip(*x)
 
+    # For old Python version
+    semesters_year = list(semesters_year)
+    semesters = list(semesters)
+
     # construct the university semesters from previous information
     university_semesters = (semesters[semesters_year.index(0):]
                             + semesters[:semesters_year.index(0)])
 
-    # For old Python version
-    semesters_year = list(semesters_year)
-    semesters = list(semesters)
 
 set_semesters(
     ('Printemps', -1, [1, 8], '#EEFFEE' ),
@@ -280,8 +281,8 @@ if time.localtime()[1] < 9:
     suivi.add(time.localtime()[0]-1, semesters[1],socket.getfqdn()+':%d', 8889)
     suivi.add(time.localtime()[0]  , semesters[0],socket.getfqdn()+':%d', 8890)
 else:
-    suivi.add(time.localtime()[0]  , semesters[1],socket.getfqdn()+':%d', 8889)
-    suivi.add(time.localtime()[0]  , semesters[0],socket.getfqdn()+':%d', 8890)
+    suivi.add(time.localtime()[0]  , semesters[0],socket.getfqdn()+':%d', 8889)
+    suivi.add(time.localtime()[0]  , semesters[1],socket.getfqdn()+':%d', 8890)
 
 # Do not display 'debug' warning
 do_not_display = ('debug', 'auth', 'table', 'ldap', 'plugin', 'check')
