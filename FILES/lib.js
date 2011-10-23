@@ -3269,6 +3269,14 @@ function columns_in_javascript()
 
       p.push("green_filter:" + column.color_green_filter) ;
       p.push("red_filter:" + column.color_red_filter) ;
+      if ( isNaN(column.red) || column.red === '' )
+	p.push("color_red:" + js(column.red)) ;
+      else
+	p.push("color_red:" + column.red) ;
+      if ( isNaN(column.green) || column.green === ''  )
+	p.push("color_green:" + js(column.green)) ;
+      else
+	p.push("color_green:" + column.green) ;
       p.push("min:" + column.min) ;
       p.push("max:" + column.max) ;
       p.push("ordered_index:" + column.ordered_index) ;
