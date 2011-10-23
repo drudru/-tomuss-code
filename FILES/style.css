@@ -86,7 +86,7 @@ TABLE#thetable {
 TABLE#menutop SELECT:focus { right: 0px ;  }
 */
 
-TABLE#thetable TD, TABLE#thetable TH, TABLE#thetable INPUT, #current_input { 
+TABLE#thetable TD, TABLE#thetable TH, TABLE#thetable TH SPAN, TABLE#thetable INPUT, #current_input { 
   white-space: nowrap;
   overflow: hidden ;
   vertical-align: top ;
