@@ -2011,7 +2011,7 @@ function current_keydown(event, in_input)
 	  if ( do_completion_for_this_input == undefined )
 	    {
 	      do_completion_for_this_input = event.target ;
-	      setTimeout('the_current_cell.do_completion()', 100) ;
+	      setTimeout('the_current_cell.do_completion()', 1) ;
 	    }
 	}
       return true ;
