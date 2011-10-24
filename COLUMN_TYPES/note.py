@@ -22,6 +22,7 @@
 import text
 import cgi
 import configuration
+import math
 
 class Note(text.Text):
     human_priority = -10
@@ -69,6 +70,9 @@ Mais il est possible :
         try:
             value = float(value)
         except ValueError:
+            return '', None
+
+        if math.isnan(value):
             return '', None
 
         v_min, v_max = column.min_max()
