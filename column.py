@@ -77,7 +77,7 @@ class ColumnAttr(object):
         
     def encode(self, value):
         """Translate the value (string from browser or other) into
-        the Python iternal coding (not stored form)"""
+        the Python internal coding (not stored form)"""
         return value
 
     def decode(self, value):

@@ -120,6 +120,8 @@ Administrateur.
 Problèmes à résoudre.
 =====================
 
+* DEMO : commentaire numerique sur saisie d'ABJ sans commentaire !!!
+
 * Redémarrage TOMUSS et vieille pages : pas réglé, le client persiste à vouloir
   se reconnecter.
   Quand le client a perdu sa connexion longtemps, il la retrouve tout seul

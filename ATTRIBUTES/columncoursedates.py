@@ -24,13 +24,19 @@ import time
 
 class ColumnCourseDates(ColumnAttr):
     name = 'course_dates'
-    def check(self, dates):
+
+    def parse(self, dates):
         if dates == '':
-            return
+            return []
         dates = dates.split(' ')
+        t = []
         for date in dates:
-            date = date.strip('MA')
-            mktime = time.mktime(time.strptime(date, '%Y%m%d'))
+            t.append(time.strptime(date.rstrip('MA'), '%Y%m%d'))
+        return t
+
+    def check(self, dates):
+        """The error is raised by an exception"""
+        self.parse(dates)
 
     display_table = 1
     formatter = 'course_dates_formatter'
@@ -40,7 +46,4 @@ class ColumnCourseDates(ColumnAttr):
     suivi éventuellement de M ou A pour Matin ou Après-midi.<br>
     Les ABINJ concernant ces dates sont soulignés.
     """
-    css = """
-#menutop DIV.tabs #t_column_course_dates { width: 74% }
-
-"""
+    css = "#menutop DIV.tabs #t_column_course_dates { width: 74% }"

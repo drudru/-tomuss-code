@@ -113,6 +113,7 @@ def plugins_suivi():
     import PLUGINS.picture
     import PLUGINS.change_identity
     import PLUGINS.reload_plugins
+    import PLUGINS.count
     plugins_suivi_more()
     init_plugins()
 
