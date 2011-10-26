@@ -192,7 +192,7 @@ function full_import()
       new_lines.push(line) ;
     }
   if ( ! confirm("Confirmez l'importation de " + new_lines.length +
-		 ' lignes et de ' + nr_cols + ' colonnes ?\n\nAucun retour en arrière ne sera possible.\nAucun autre import CSV ne sera possible.\n\nCet importation peut prendre ' + (new_lines.length*nr_cols)/10 + ' secondes') )
+		 ' lignes et de ' + nr_cols + ' colonnes ?\n\nAucun retour en arrière ne sera possible.\nAucun autre import CSV ne sera possible.\n\nCette importation peut prendre ' + (new_lines.length*nr_cols)/10 + ' secondes') )
     return ;
 
   alert_append_start() ;
@@ -200,7 +200,7 @@ function full_import()
     {
       if ( columns[data_col] === undefined )
 	add_empty_column() ;
-      if ( columns[data_col].author !== '*' )
+      if ( columns[data_col].the_local_id !== undefined ) // Just created
 	{
 	  column_attr_set(columns[data_col], 'type', 'Text') ;
 	  column_attr_set(columns[data_col], 'title', 'csv_' + data_col) ;
