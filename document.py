@@ -895,13 +895,14 @@ la dernière saisie.
                     a[cell.author] = True
         return list(a.keys())
 
-    def update_columns(self, columns):
+    def update_columns(self, columns, ro_page=None):
         """Update the default columns of the table.
         This can be called by the TEMPLATE 'check' method
         """
         if not self.modifiable:
             return
-        ro_page = self.pages[0]
+        if ro_page is None:
+            ro_page = self.pages[0]
         locked = self.the_lock.locked()
         try:
             if not locked:
@@ -909,7 +910,8 @@ la dernière saisie.
             for col in sorted(columns):
                 for attr, value in columns[col].items():
                     value = str(value)
-                    if value != getattr(column, attr):
+                    a_column = self.columns.from_id(col)
+                    if a_column is None or value != getattr(a_column, attr):
                         self.column_attr(ro_page, col, attr, value)
         finally:
             if not locked:
