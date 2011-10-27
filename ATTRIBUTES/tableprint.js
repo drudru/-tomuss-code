@@ -159,11 +159,13 @@ function printable_display_page(lines, title, page_break)
       for(var line_id in lines)
 	{
 	  line = lines[line_id] ;
-	  if ( nr_lines == i || i % preferences.zebra_step === 0 )
-	    html_class = ' class="separatorvertical"' ;
-	  else
+	  if ( tr_classname === undefined )
 	    html_class = '' ;
-	  s.push('<tr' + html_class + '><td class="hidden_on_paper" onclick="delete lines[\'' + line_id + '\'];do_printable_display=true;">'
+	  else
+	    html_class = line[tr_classname].value ;
+	  if ( nr_lines == i || i % preferences.zebra_step === 0 )
+	    html_class += ' separatorvertical' ;
+	  s.push('<tr class="' + html_class + '"><td class="hidden_on_paper" onclick="delete lines[\'' + line_id + '\'];do_printable_display=true;">'
 		 + i + '</td>') ;
 	  i++ ;
 	  txt_line = [] ;
@@ -358,6 +360,7 @@ function print_selection(object, emargement, replace)
   p.push('var table_title = ' + js(table_attr["table_title"]) + ';') ;
   p.push('var display_tips = true ;') ;
   p.push('var columns = ' + columns_in_javascript() + ';') ;
+  p.push('var tr_classname = ' + tr_classname + ';') ;
   p.push('var lines ;') ;
   p.push('function initialize() {') ;
   p.push('if ( ! wait_scripts("initialize()") ) return ;') ;
