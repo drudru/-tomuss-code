@@ -26,4 +26,7 @@ class Surname(mail.Mail):
     full_title = 'Nom(ID)'
 
     def get_one_value(self, student_id, column, line_id):
-        return inscrits.L_slow.firstname_and_surname(student_id)[1].title().encode('utf8').replace('Inconnu','')
+        name = inscrits.L_slow.firstname_and_surname(student_id)[1].title().encode('utf8')
+        if name ==  'Inconnu':
+            return None
+        return name
