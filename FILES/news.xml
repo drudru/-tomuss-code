@@ -578,6 +578,19 @@ Les améliorations les plus visibles sont :
       </description>
       <guid>41</guid>
     </item>
+    <item>
+      <title>27/10/2011 : Version 3.0.11</title>
+      <link>http://tomuss.univ-lyon1.fr/</link>
+      <description>
+          La nouvelle fonctionnalité est pour les gestionnaires de formations.
+          Elle permet de compter de compter par exemple le nombre d'ABINJ
+          pour chaque semaine du semestre pour un ensemble d'UE.
+       &lt;p&gt;
+          Pour avoir plus d'information, cherchez «count»
+          dans la documentation.
+      </description>
+      <guid>42</guid>
+    </item>
 
   </channel>
 </rss>
