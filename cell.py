@@ -68,6 +68,9 @@ class CellEmpty(CellVirtual):
         """Returns True"""
         return True
 
+    def copy(self):
+        return self
+
 cellempty = CellEmpty()
 
 class Cell(CellVirtual):
@@ -79,7 +82,7 @@ class Cell(CellVirtual):
 
     __slots__ = ('value', 'author', 'date', 'comment', 'history', 'cache')
     
-    def __init__(self, value='', author='', date='', comment=''):
+    def __init__(self, value='', author='', date='', comment='', history=''):
         """Create a new cell with some attributes in the list:
         'value', 'author', 'date' and 'comment'.
         The date is formatted as YYYYMMDDHHMMSS.
@@ -88,7 +91,7 @@ class Cell(CellVirtual):
         self.author = author
         self.date = date
         self.comment = comment
-        self.history = ''
+        self.history = history
         self.cache = None
         
     def set_comment(self, comment):
@@ -96,6 +99,10 @@ class Cell(CellVirtual):
         self.comment = comment
         self.cache = None
         return self
+
+    def copy(self):
+        return Cell(self.value, self.author, self.date, self.comment,
+                    self.history)
 
     def set_value(self, value='', author='', date=None):
         """change the value of the cell."""
