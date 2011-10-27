@@ -88,9 +88,8 @@ class Code_Etape(text.Text):
             the_table.lock()
             try:
                 if value is None:
-                    if the_table.lines[line_id][column.data_col].author == data.ro_user:
-                        etape = ''
-                    else:
+                    if the_table.lines[line_id][column.data_col].author != data.ro_user:
+                        # Do not replace user defined input with nothing
                         continue
                 the_table.cell_change(the_table.pages[0], column.the_id,
                                       line_id, value)
