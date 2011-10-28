@@ -27,6 +27,6 @@ class Phone(mail.Mail):
 
     def get_one_value(self, student_id, column, line_id):
         phone = inscrits.L_slow.phone(student_id).encode('utf8')
-        if name ==  'Inconnu':
+        if phone ==  'Inconnu':
             return None
         return phone

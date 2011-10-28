@@ -122,6 +122,8 @@ Administrateur.
 Problèmes à résoudre.
 =====================
 
+* Histogramme pas bon sur Crédit !!!!
+
 * DEMO : commentaire numerique sur saisie d'ABJ sans commentaire !!!
 
 * Redémarrage TOMUSS et vieille pages : pas réglé, le client persiste à vouloir
@@ -158,6 +160,9 @@ Problèmes à résoudre.
 =============================
 Améliorations de code source.
 =============================
+
+* Visibilité d'un champs en fonction d'un type : le fils change le père
+  et non : le père liste les types possibles.
 
 * Tester le nouveau utility.js()
 
