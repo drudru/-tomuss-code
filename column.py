@@ -125,7 +125,7 @@ class ColumnAttr(object):
         # to create a column by sending an empty title.
         # Even is 'empty' is the default value for the title, it must be saved
         # in order to create the column.
-        if value == getattr(column, self.name) and value == '':
+        if value == getattr(column, self.name) and value != '':
             return 'ok.png' # Unchanged value
 
         setattr(column, self.name, value)
