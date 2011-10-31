@@ -1005,6 +1005,16 @@ Stats.prototype.nr_yes = function() { return this.all_values[yes] ; } ;
 Stats.prototype.nr_no  = function() { return this.all_values[no] ; } ;
 Stats.prototype.normalized_average = stats_normalized_average ;
 
+function compute_histogram(data_col)
+{
+  var stats = new Stats(columns[data_col].min, columns[data_col].max,
+			columns[data_col].empty_is) ;
+  for(var line in filtered_lines)
+    if ( filtered_lines[line][0].value || filtered_lines[line][1].value )
+      stats.add(filtered_lines[line][data_col].value) ;
+  return stats ;
+}
+
 
 /*
  * The selection functions came from :
