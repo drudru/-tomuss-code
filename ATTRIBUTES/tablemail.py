@@ -23,7 +23,6 @@ from column import TableAttr
 
 class TableMail(TableAttr):
     name = "mail"
-    tip = """Gestion des mails"""
     gui_display = "GUI_button"
     need_authorization = 0
     action = "mail_window"

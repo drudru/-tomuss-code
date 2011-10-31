@@ -41,9 +41,4 @@ class ColumnCourseDates(ColumnAttr):
     display_table = 1
     formatter = 'course_dates_formatter'
     check_and_set = 'set_course_dates'
-    tip = """<b>Dates des enseignements</b>.<br>
-    Les dates sont indiquées sous la forme JJ/MM/AAAA<br>
-    suivi éventuellement de M ou A pour Matin ou Après-midi.<br>
-    Les ABINJ concernant ces dates sont soulignés.
-    """
     css = "#menutop DIV.tabs #t_column_course_dates { width: 74% }"

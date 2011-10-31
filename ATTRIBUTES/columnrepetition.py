@@ -25,9 +25,6 @@ class ColumnRepetition(ColumnAttr):
     default_value = 0
     name = 'repetition'
     check_and_set = 'set_repetition'
-    tip = """Nombre de fois qu'une valeur identique est autorisée<br>
-    au maximum dans la colonne. Si c'est 0 il n'y a pas de limite.
-    """
     def encode(self, value):
         return int(value)
     def decode(self, value):

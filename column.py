@@ -50,7 +50,6 @@ class ColumnAttr(object):
     check_and_set = "undefined"
     default_value = ''              # XXX Must not be a mutable value
     computed = 0                    # Is a computed attribute (not modifiable)
-    tip = ''                        # Helpful message
     what = 'column'                 # It is a 'column' attribute
     strokable = 1                   # The <A> is strokable if false
     priority = 0
@@ -76,7 +75,7 @@ class ColumnAttr(object):
         
     def encode(self, value):
         """Translate the value (string from browser or other) into
-        the Python internal coding (not stored form)"""
+        the Python internal coding (not the stored form)"""
         return value
 
     def decode(self, value):
@@ -170,7 +169,6 @@ class ColumnAttr(object):
                 ',gui_display:' + js(self.gui_display) +
                 ',title:' + js(self.title) +
                 ',action:' + js(self.action) +
-                ',tip:' + js(self.tip) +
                 ',name:' + js(self.name) +
                 ',what:' + js(self.what) +
                 ',strokable:' + js(self.strokable) +

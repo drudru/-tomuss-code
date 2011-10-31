@@ -23,7 +23,6 @@ from column import TableAttr
 
 class TableFaceBook(TableAttr):
     name = "facebook"
-    tip = """Affiche le trombinoscope des étudiants filtrés"""
     gui_display = "GUI_button"
     need_authorization = 0
     action = "tablefacebook"

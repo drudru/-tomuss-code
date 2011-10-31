@@ -23,7 +23,6 @@ from column import TableAttr
 
 class TableStatistics(TableAttr):
     name = "statistics"
-    tip = """Calculs statistiques"""
     gui_display = "GUI_button"
     need_authorization = 0
     action = "display_statistics"

@@ -26,12 +26,6 @@ class ColumnMinMax(ColumnAttr):
     display_table = 1
     name = 'minmax'
     check_and_set = 'set_test_note'
-    tip = """<b>Intervalle possible pour les notes saisies ou calculées</b><br>
-    Par exemple <b>[0;20]</b> pour indiquer des notes<br>
-    entre 0 et 20 inclus.<br>
-    Les bornes peuvent être négatives.<br>
-    Ces valeurs n'influent pas sur les poids<br>
-    des notes dans une moyenne pondérée."""
     css = """
     #menutop #t_column_minmax { width: 3.5em ; }
     #menutop DIV.tabs #t_column_minmax { width: 65% ; }

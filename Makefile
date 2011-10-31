@@ -31,7 +31,7 @@ regtest:
 regtest1:
 	cd REGTEST_SERVER ; ./tests.py 1
 
-V := $(shell python -c 'import configuration;print configuration.version')
+V := $(shell python -c 'import configuration;print configuration.version' 2>/dev/null)
 
 release:
 	@echo "Check if we are in the 'stable' branch"
@@ -77,7 +77,7 @@ changelog:
 	-if [ -x git ] ; then SCRIPTS/changelog >DOCUMENTATION/changelog ; fi
 
 translations:
-	for I in TRANSLATIONS/*/LC_MESSAGES/*.po ; do make $$I ; done
+	for I in TRANSLATIONS/*/LC_MESSAGES ; do (cd $$I ; $(MAKE) -f ../../../Makefile tomuss.mo) ; done
 
 %.mo:%.po
 	msgfmt $*.po -o $*.mo

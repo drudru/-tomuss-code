@@ -25,11 +25,6 @@ class ColumnEmptyIs(ColumnAttr):
     name = 'empty_is'
     display_table = 1
     check_and_set = 'function(value, column){column.need_update = true ; return value ; }'
-    tip = """<b>Valeur par défaut des cellules vides</b>.<br>
-    Cette valeur sera utilisée dans les moyennes que<br>
-    cela soit dans le tableau ou le suivi des étudiants.<br>
-    La case restera vide dans le tableau.<br>
-    Par exemple : ABINJ, PRST, 0, 10..."""
     css = """
 #menutop #t_column_empty_is { width: 3em ; }
 #menutop DIV.tabs #t_column_empty_is { width: 50% ; }

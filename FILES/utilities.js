@@ -1490,14 +1490,20 @@ function update_attribute_value(e, attr, table, editable)
 	update_input(e, formatted, attr.empty(table, value)) ;
 
       // XXX In some case 'the_current_cell.column' is undefined
-      if ( the_current_cell.column && attr.tip[the_current_cell.column.type] )
+      if ( the_current_cell.column )
 	{
-	  try {
-	    tip_top(e).firstChild.firstChild.innerHTML = attr.tip[the_current_cell.column.type] ;
-	  }
-	  catch(e) {
-	    // XXX IE has an unknown exception here...
-	  }
+	  var t = 'TIP_column_attr_' + attr.name + '__'
+	    + the_current_cell.column.type ;
+	  var tt = _(t) ;
+	  if ( t != tt ) // The tip exists
+	    {
+	      try {
+		tip_top(e).firstChild.firstChild.innerHTML = tt ;
+	      }
+	      catch(e) {
+		// XXX IE has an unknown exception here...
+	      }
+	    }
 	}
       break ;
     case 'GUI_a':

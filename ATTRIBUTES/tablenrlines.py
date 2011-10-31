@@ -25,7 +25,6 @@ class TableNrLines(TableAttr):
     name = 'nr_lines'
     default_value = 0
     need_authorization = 0
-    tip = "Nombre de <b>lignes</b> affichées sur l'écran"
     gui_display = "GUI_select"
     action = "nr_lines_change"
     css = '#menutop SELECT#t_table_attr_nr_lines { width: 6em ; }'

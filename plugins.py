@@ -284,30 +284,6 @@ function _%s()
     
     files.files['types.js'].append('plugins.py', all_js)
 
-    #####################################
-    # Generate POT file from data.
-    #####################################
-
-    f = open('xxx_tomuss.pot', 'w')
-    f.write('''# Texts extracted from a un running TOMUSS instance
-# Copyright (C) 2011 Thierry Excoffier, LIRIS, Universite Claude Bernard Lyon 1
-# This file is distributed under the same license as TOMUSS
-# Thierry.Excoffier@univ-lyon1.fr, 2011
-
-msgid ""
-msgstr ""
-"Content-Type: text/plain; charset=utf-8"
-
-''')
-
-    for column_type in types:
-        f.write('''#. Columns types, button text in the menu
-msgid "B_%s"
-msgstr "%s"
-
-''' % (column_type, column_type))
-    f.close()
-
     return reloadeds
 
 
@@ -336,6 +312,41 @@ def generate_data_files():
         f.write('"_":""} ;\n')
         f.close()
         files.files[language + '.js'] = utilities.StaticFile(filename)
+
+    #####################################
+    # Generate POT file from data.
+    #####################################
+
+    f = open('xxx_tomuss.pot', 'w')
+
+    def w(comment, msgid, msgstr):
+        f.write('#. %s\nmsgid "%s"\nmsgstr "%s"\n\n' % (
+            comment,
+            msgid,
+            msgstr.replace('"', '\\n').replace('\n','\\n"\n "')
+            ))
+
+    f.write('''# Texts extracted from a un running TOMUSS instance
+# Copyright (C) 2011 Thierry Excoffier, LIRIS, Universite Claude Bernard Lyon 1
+# This file is distributed under the same license as TOMUSS
+# Thierry.Excoffier@univ-lyon1.fr, 2011
+
+''')
+    w('', '', "Content-Type: text/plain; charset=utf-8")
+
+    for column_type in types:
+        w('Columns types, button text in the menu',
+          'B_' + column_type, column_type)
+
+    import column
+    for attr_name, value in (column.ColumnAttr.attrs.items()
+                             + column.TableAttr.attrs.items()):
+        if isinstance(value, column.TableAttr):
+            t = 'TIP_table_attr_'
+        else:
+            t = 'TIP_column_attr_'
+        w('Attribute Tip', t + attr_name, '???')
+    f.close()
 
     #####################################
     # Documentation automatic generation

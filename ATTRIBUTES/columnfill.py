@@ -23,8 +23,6 @@ from column import ColumnAttr
 
 class ColumnFill(ColumnAttr):
     name = "fill"
-    tip = """<b>Remplir</b> cette colonne avec des valeurs.<br>
-    Plusieurs méthodes de remplissage sont possibles."""
     gui_display = "GUI_a"
     need_authorization = 0
     action = "fill_column"

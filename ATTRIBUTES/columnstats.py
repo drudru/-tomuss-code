@@ -23,7 +23,6 @@ from columnfill import ColumnFill
 
 class ColumnStats(ColumnFill):
     name = "stats"
-    tip = "?"
     action = "update_histogram"
     gui_display = "GUI_none"
     title = '''

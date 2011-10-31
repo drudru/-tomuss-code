@@ -45,10 +45,6 @@ else
     i_am_the_teacher = true ;
 return value ;
 }'''
-    tip = """Les LOGINS d'enseignants ayant tous les droits sur la table.<br>
-Les logins sont séparés par un espace.<br>
-<b>Ajoutez votre nom en premier !</b>"""
-
     css = """
 #menutop #t_table_attr_masters { font-size: 60% ; }
 #menutop #t_table_attr_masters.empty {

@@ -23,8 +23,6 @@ from columnexport import ColumnExport
 
 class ColumnImport(ColumnExport):
     name = "import"
-    tip = """<b>Importer</b> des valeurs dans cette colonne.<br>
-    Cliquez pour avoir plus d'information"""
     action = "import_column"
     title = 'Imp.'
     css = "DIV.import_div { border: 4px solid red ; }"

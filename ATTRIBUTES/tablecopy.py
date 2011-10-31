@@ -28,7 +28,6 @@ class TableCopy(TableExport):
     default_value = 1
     name = 't_copy'
     action = 'table_copy'
-    tip = "Copier la définition de la table, son contenu."
     gui_display = "GUI_a"
     title = 'Copie de table TOMUSS'
     css = """

@@ -26,10 +26,6 @@ class ColumnFreezed(ColumnAttr):
     display_table = 1
     check_and_set = 'function(value, column){ return value ; }'
     action = 'freeze_column'
-    tip = """<b>Fige ou défige cette colonne</b><br>
-    Une fois figée elle est toujours affichée,<br>
-    même quand il y a des filtres ou décalages.<br>
-    Les colonnes figées sont callées à gauche du tableau."""
     gui_display = "GUI_a"
     title = 'Figée'
     def check(self, value):

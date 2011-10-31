@@ -30,15 +30,6 @@ class ColumnTitle(ColumnAttr):
     #        return 'Espace interdit dans les titres de colonnes'
     empty = 'function(column, value) { return value.substr(0,default_title.length) == default_title && !isNaN(value.substr(default_title.length))  ; }'
     check_and_set = 'set_title'
-    tip = """<b>Titre de la colonne.</b><br>
-    Indiquez des noms compréhensibles pour les étudiants.<br>
-    Noms standards pour importer dans APOGÉE&nbsp;:
-    <ul>
-    <li> APO_CC : Contrôle Continu (seule note à saisir si l'UE est 100% contrôle continue).
-    <li> APO_CP : Partiel.
-    <li> APO_CT : Examen.
-    <li> APO_CT2 : Examen, session 2.
-    </ul>"""
     css = '''
 #t_column_title.empty {
   background-image: url("title.png");

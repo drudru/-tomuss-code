@@ -468,9 +468,9 @@ function header_input(the_id, the_header_name, options)
 
 function an_input_attribute(attr, options, prefix_id, prefix_)
 {
-  var tip = attr.tip ;
+  var tip = _('TIP_' + prefix_ + attr.name) ;
   if ( i_am_root )
-    tip += '<hr><b>' + prefix_id + attr.name + '</b>' ;
+    tip += '<hr><b>' + prefix_ + attr.name + '</b>' ;
   var the_id = prefix_id + attr.name ;
 
   switch(attr.gui_display)

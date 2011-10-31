@@ -24,8 +24,6 @@ from column import TableAttr
 class TableDefaultNrColumns(TableAttr):
     name = 'default_nr_columns'
     default_value = 0
-    tip = """Impose ce nombre de colonnes affichées à tous le monde<br>
-'0' indique que ce nombre dépend de la taille écran."""
     # Background image is indicated in 'style'css'
     css = "#menutop #t_table_attr_default_nr_columns { width: 3em ; }"
     

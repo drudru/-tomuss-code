@@ -25,6 +25,5 @@ class TableExport(TableAttr):
     default_value = 1
     name = 't_export'
     action = 'table_export'
-    tip = "Exporte les définitions des colonnes (pas le contenu de la table)"
     gui_display = "GUI_a"
     title = 'Exp.'
