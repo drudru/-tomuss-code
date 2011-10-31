@@ -24,6 +24,7 @@ import inscrits
 
 class Firstname(mail.Mail):
     full_title = 'Prénom(ID)'
+    attributes_visible = ('columns',)
 
     def get_one_value(self, student_id, column, line_id):
         name =  inscrits.L_slow.firstname_and_surname(student_id)[0].title().encode('utf8')

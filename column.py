@@ -48,7 +48,6 @@ class ColumnAttr(object):
     empty = 'function(column, value) { return value === "" ; }'
     # Verify, clean up the attribute and store special value
     check_and_set = "undefined"
-    visible_for = []                # The 'types' needing this attribute
     default_value = ''              # XXX Must not be a mutable value
     computed = 0                    # Is a computed attribute (not modifiable)
     tip = ''                        # Helpful message
@@ -63,13 +62,13 @@ class ColumnAttr(object):
     def __init__(self):
         self.__class__.attrs[self.name] = self
         try:
-            js = utilities.read_file(
+            jsf = utilities.read_file(
                 os.path.join('ATTRIBUTES',
                              self.__class__.__name__.lower() + '.js'))
-            js = '*/'.join(js.split('*/')[1:])
+            jsf = '*/'.join(jsf.split('*/')[1:]) # remove first comment
         except IOError:
-            js = ''
-        self.js_functions = js
+            jsf = ''
+        self.js_functions = jsf
 
     def check(self, value):
         """Additionnal value checks"""
@@ -145,6 +144,13 @@ class ColumnAttr(object):
 
         return 'ok.png'
 
+    def visible_for(self):
+        visible_for = []
+        for p in plugins.types.values():
+            if self.name in p.attributes_visible:
+                visible_for.append(p.name)
+        return visible_for
+
     def js(self):
         """Attribute JavaScript description"""
         return ('"' + self.name + '"' +
@@ -160,7 +166,7 @@ class ColumnAttr(object):
                 ',only_masters:' + str(self.only_masters) +
                 ',empty:' + self.empty +
                 ',check_and_set:' + self.check_and_set +
-                ',visible_for:' + js(self.visible_for) +
+                ',visible_for:' + js(self.visible_for()) +
                 ',gui_display:' + js(self.gui_display) +
                 ',title:' + js(self.title) +
                 ',action:' + js(self.action) +

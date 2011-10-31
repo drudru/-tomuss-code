@@ -26,7 +26,6 @@ class ColumnWeight(ColumnAttr):
     name = 'weight'
     display_table = 1
     check_and_set = 'set_weight'
-    visible_for = ['Note', 'Nmbr', 'Moy', 'URL', 'Enumeration']
     tip = """<b>Poids de cette colonne</b> dans les moyennes pondérées.<br>
     Des poids entiers sont préférables.<br>
     <br>

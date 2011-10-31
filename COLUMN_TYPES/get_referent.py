@@ -25,6 +25,7 @@ import configuration
 
 class Get_Referent(mail.Mail):
     full_title = 'Référent(ID)'
+    attributes_visible = ('columns',)
 
     def get_one_value(self, student_id, column, line_id):
         year, semester = configuration.year_semester

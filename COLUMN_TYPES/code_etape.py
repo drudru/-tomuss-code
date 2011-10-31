@@ -33,6 +33,7 @@ class Code_Etape(text.Text):
     cell_is_modifiable = 0
     tip_cell = ""
     set_columns = 'set_columns'
+    attributes_visible = ('columns',)
 
     def data_col(self, the_table, column):
         try:

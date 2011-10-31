@@ -25,3 +25,5 @@ class Max(moy.Moy):
     human_priority = -6
     full_title = 'Maximum'
     cell_compute = 'compute_max_real'
+    attributes_visible = ('columns', 'minmax')
+

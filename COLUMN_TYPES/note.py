@@ -25,6 +25,7 @@ import configuration
 import math
 
 class Note(text.Text):
+    attributes_visible = ('minmax', 'weight')
     human_priority = -10
     full_title = 'Note'
     tip_filter = "Exemples de filtre :<ul><li><b>&gt;5</b><li><b>&gt;5 &lt;15</b><li><b>ABINJ ou ABJUS ou PPNOT</b></ul>"

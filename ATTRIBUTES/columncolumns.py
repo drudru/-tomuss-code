@@ -25,8 +25,6 @@ class ColumnColumns(ColumnAttr):
     name = 'columns'
     display_table = 1
     check_and_set = 'set_columns'
-    visible_for = ['Moy', 'Nmbr', 'Mail', 'Code_Etape', 'Get_Referent',
-                   'COW', 'Firstname', 'Surname', 'Phone', 'Max']
     tip = {
         '': '<b>Colonnes utilisées pour faire le calcul',
         'Code_Etape':

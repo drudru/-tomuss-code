@@ -90,6 +90,8 @@ Utilisateurs finaux.
 Administrateur.
 ---------------
 
+* Cleanup d'un tableau sur place : config_table par exemple
+
 * Droit d'accès : généraliser la notion de groupe, pouvoir en créer.
   Un groupe peut contenir :
 	* un groupe LDAP        : 'ldap:'
@@ -160,9 +162,6 @@ Problèmes à résoudre.
 =============================
 Améliorations de code source.
 =============================
-
-* Visibilité d'un champs en fonction d'un type : le fils change le père
-  et non : le père liste les types possibles.
 
 * Tester le nouveau utility.js()
 
