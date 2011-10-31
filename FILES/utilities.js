@@ -1478,6 +1478,17 @@ function update_attribute_value(e, attr, table, editable)
   else
     formatted = attr.formatter(table, value) ;
 
+  var tip_id, tip_content, tip_exists ;
+  // XXX In some case 'the_current_cell.column' is undefined
+  if ( the_current_cell.column )
+      {
+	  var tip_id = 'TIP_' + attr.what + '_attr_' + attr.name ;
+	  tip_content = _(tip_id) ;
+	  tip_exists =  tip_id != tip_content ;
+	  if ( ! tip_exists && attr.what == 'column' )
+	      tip_id += '__' + the_current_cell.column.type ;
+      }
+
   switch(attr.gui_display)
     {
     case 'GUI_select':
@@ -1489,20 +1500,13 @@ function update_attribute_value(e, attr, table, editable)
       else
 	update_input(e, formatted, attr.empty(table, value)) ;
 
-      // XXX In some case 'the_current_cell.column' is undefined
-      if ( the_current_cell.column )
+      if ( tip_exists )
 	{
-	  var t = 'TIP_column_attr_' + attr.name + '__'
-	    + the_current_cell.column.type ;
-	  var tt = _(t) ;
-	  if ( t != tt ) // The tip exists
-	    {
-	      try {
-		tip_top(e).firstChild.firstChild.innerHTML = tt ;
-	      }
-	      catch(e) {
+	    try {
+		tip_top(e).firstChild.firstChild.innerHTML = tip_content ;
+	    }
+	    catch(e) {
 		// XXX IE has an unknown exception here...
-	      }
 	    }
 	}
       break ;
@@ -1523,16 +1527,16 @@ function update_attribute_value(e, attr, table, editable)
 	}
       e.className = x.replace(/^ */,'') ;
 
-      if ( attr.tip.toLowerCase === undefined )
+      if ( ! tip_exists )
 	{
-	  var tip ;
 	  if ( e.className.search('linkstroked') == -1 )
-	    tip = attr.tip[1] ;
+	      tip_id += '__1' ;
 	  else
-	    tip = attr.tip[0] ;
+	      tip_id += '__0' ;
+	  tip_content = _(tip_id) ;
 	  if ( i_am_root )
-	    tip += '<hr><b>' + e.id + '</b>' ;
-	  tip_top(e).firstChild.innerHTML = tip ;
+	    tip_content += '<hr><b>' + e.id + '</b>' ;
+	  tip_top(e).firstChild.innerHTML = tip_content ;
 	}
       return ;
     case 'GUI_button':
