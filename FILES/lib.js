@@ -613,9 +613,6 @@ function mouse_over(event)
     return ;
   mouse_over_old_td = td ;
 
-  if ( ! display_tips )
-    return ;
-
   show_the_tip(td) ;
 }
 
@@ -625,6 +622,7 @@ function show_the_tip(td, tip_content)
 {
   var bottom = false ;
   var data_col, line_id, column, type, s ;
+
   try {
     data_col = data_col_from_td(td) ;
     line_id = line_id_from_td(td) ;
@@ -668,6 +666,9 @@ function show_the_tip(td, tip_content)
     }
   else
     s = tip_content ;
+
+  if ( ! display_tips )
+    return ;
 
   tip.innerHTML = s ;
   tip.style.display = "block" ;
