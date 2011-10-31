@@ -613,9 +613,6 @@ function mouse_over(event)
     return ;
   mouse_over_old_td = td ;
 
-  if ( ! display_tips )
-    return ;
-
   show_the_tip(td) ;
 }
 
@@ -625,6 +622,7 @@ function show_the_tip(td, tip_content)
 {
   var bottom = false ;
   var data_col, line_id, column, type, s ;
+
   try {
     data_col = data_col_from_td(td) ;
     line_id = line_id_from_td(td) ;
@@ -668,6 +666,9 @@ function show_the_tip(td, tip_content)
     }
   else
     s = tip_content ;
+
+  if ( ! display_tips )
+    return ;
 
   tip.innerHTML = s ;
   tip.style.display = "block" ;
@@ -3269,6 +3270,14 @@ function columns_in_javascript()
 
       p.push("green_filter:" + column.color_green_filter) ;
       p.push("red_filter:" + column.color_red_filter) ;
+      if ( isNaN(column.red) || column.red === '' )
+	p.push("color_red:" + js(column.red)) ;
+      else
+	p.push("color_red:" + column.red) ;
+      if ( isNaN(column.green) || column.green=== ''  )
+	p.push("color_green:" + js(column.green)) ;
+      else
+	p.push("color_green:" + column.green) ;
       p.push("min:" + column.min) ;
       p.push("max:" + column.max) ;
       p.push("ordered_index:" + column.ordered_index) ;
@@ -3419,16 +3428,6 @@ function html_begin_head(hide_title, pb, more)
     }
 
   return s ;
-}
-
-function compute_histogram(data_col)
-{
-  var stats = new Stats(columns[data_col].min, columns[data_col].max,
-			columns[data_col].empty_is) ;
-  for(var line in filtered_lines)
-    if ( filtered_lines[line][0].value || filtered_lines[line][1].value )
-      stats.add(filtered_lines[line][data_col].value) ;
-  return stats ;
 }
 
 function notes_columns()

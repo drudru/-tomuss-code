@@ -30,6 +30,7 @@ class Enumeration(text.Text):
     ondoubleclick = 'toggle_enumeration'
     tip_test_filter = """<b>Valeurs autorisées</b><br>
     Vous séparez les valeurs autorisées par un espace."""
+    attributes_visible = ('enumeration', 'weight')
 
     def formatter(self, column, value, cell, lines, teacher, ticket, line_id):
         v = column.enumeration.split(' ')

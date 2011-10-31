@@ -557,7 +557,7 @@ function window_open(url, replace)
     w = window.open(url, replace) ;
   else
     try {
-      w = window.open(undefined, replace) ;
+      w = window.open(url, replace) ;
     }
     catch(e) {
       // XXX IE
@@ -1026,6 +1026,16 @@ Stats.prototype.nr_pre = function() { return this.all_values[pre] ; } ;
 Stats.prototype.nr_yes = function() { return this.all_values[yes] ; } ;
 Stats.prototype.nr_no  = function() { return this.all_values[no] ; } ;
 Stats.prototype.normalized_average = stats_normalized_average ;
+
+function compute_histogram(data_col)
+{
+  var stats = new Stats(columns[data_col].min, columns[data_col].max,
+			columns[data_col].empty_is) ;
+  for(var line in filtered_lines)
+    if ( filtered_lines[line][0].value || filtered_lines[line][1].value )
+      stats.add(filtered_lines[line][data_col].value) ;
+  return stats ;
+}
 
 
 /*
@@ -2033,7 +2043,7 @@ function current_keydown(event, in_input)
 	  if ( do_completion_for_this_input == undefined )
 	    {
 	      do_completion_for_this_input = event.target ;
-	      setTimeout('the_current_cell.do_completion()', 100) ;
+	      setTimeout('the_current_cell.do_completion()', 1) ;
 	    }
 	}
       return true ;
@@ -2162,7 +2172,7 @@ function current_change()
       current_change_running = false ;
       return ;
     }
-  if ( this.column.real_repetition && value !== '' )
+  if ( this.column && this.column.real_repetition && value !== '' )
     {
       var n = 0 ;
       var verify_lines ;

@@ -203,8 +203,7 @@ def student_statistics(login, server, is_a_student=False, expand=False,
     s.append('<br>')
 
     if not is_a_student:
-        x, member_of = member_of_list(login)
-        s.append(x)
+        s.append(member_of_list(login)[0])
 
     ################################################# FOR REFERENT
 
@@ -227,7 +226,7 @@ def student_statistics(login, server, is_a_student=False, expand=False,
                                  % ( unicode(col.title, 'utf8'),
                                      unicode(cgi.escape(str(line[i].value)), 'utf8') ))
             if first == False:
-                   s.append('</div>')
+                s.append('</div>')
             # table.unload() # XXX Memory leak
             tyear -= 1
 
@@ -270,6 +269,7 @@ def student_statistics(login, server, is_a_student=False, expand=False,
                 codes[t.ue_code] = True
     if (configuration.suivi_display_more_ue
         and (year, semester) == configuration.year_semester
+        and (not is_a_student or configuration.suivi_check_student_lists(login))
         ):
         for t in inscrits.L_fast.ues_of_a_student_short(login):
             # import cgi
@@ -482,7 +482,7 @@ def page_suivi(server):
                        ' ' + inscrits.L_fast.firstname_and_surname(login)[1]
                       for login in logins]).encode('utf8') +
             '</title>'
-                              ) ;
+                              )
         for login in logins:
             display_login(server, login, expand)
 
@@ -554,7 +554,7 @@ def page_rss(server):
         limit = time.strftime('%Y%m%d%H%M%S',time.localtime(time.time() - 3600))
     
     for t in the_ues(server.year, server.semester, login):
-        for line_id, line in t.get_items(login):
+        for line in t.get_lines(login):
             for cell,column in zip(line[6:], t.columns[6:]):
                 if cell.date > limit:
                     continue
@@ -645,7 +645,6 @@ def page_rss2(server):
              utilities.nice_date(p.date),
              p.request,
              )
-        h = int((time.time() - time.mktime(date))/3600 + 1)
         t1 = p.day().replace('/', '%2501')
 
         f = '/=full_filter=@%s%%2520%%2502%%3C%%3D%s%%2520%%2502%%3E%%3D%s' % (p.user_name, t1, t1)

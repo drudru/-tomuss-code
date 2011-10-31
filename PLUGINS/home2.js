@@ -642,8 +642,9 @@ function update_ues_master_of(txt, txt_upper)
 
   var s = ['<tr><th colspan="3">' +
 	   hidden_txt('Vos tables',
-		      'Ces tables TOMUSS ne correspondent pas ?es UE<br>Mais vous en ?s un des responsables')
+		      'Ces tables TOMUSS ne correspondent pas à des UE<br>Mais vous en êtes un des responsables')
 	   + '</th></tr>'] ;
+  master_of.sort();
   for(var i in master_of)
     {
       i = master_of[i] ;

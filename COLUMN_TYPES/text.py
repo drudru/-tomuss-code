@@ -150,6 +150,10 @@ pour la <b>trier</b> dans une direction ou l'autre.<br>
     # Cell is modifiable ? (a computed cell may be modifiable)
     cell_is_modifiable = 1
 
+    # The columns attributes that should be displayed for this type
+    # DO NOT INDICATES ATTRIBUTES VISIBLE BY ALL THE COLUMN TYPES
+    attributes_visible = ()
+
     def value_range(self, v_min, v_max):
         """Display the range of the possible values"""
         return ''

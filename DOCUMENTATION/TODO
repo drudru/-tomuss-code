@@ -10,6 +10,10 @@ Utilisateurs finaux.
 
 * Traduction
 
+* Non semestrialisation : seul le responsable
+
+* Tip : nouvelle version avec le +
+
 * Passer l'arrondi dans les paramètres colonnes ?
 * Passer le nombre de notes min.max a enlever dans les paramètres colonnes ?
 
@@ -19,6 +23,8 @@ Utilisateurs finaux.
 
 * Pourcentage d'ABJ pour le résultat d'un calcul en fonction du poids
   des colonnes moyennées.
+
+* Choix de la colonne triée par défaut
 
 * Dans le publipostage : mode HTML avec des vrais URL
 
@@ -74,8 +80,6 @@ Utilisateurs finaux.
 
 * Détruire les lignes vides dans les tableaux ?
 
-* Temps d'apparition des tips.
-
 * En cas d'URL non reconnue, afficher un message d'erreur explicite.
 
 * Le filtre "<x" trouve les cases vides ? Faut-il corriger ?
@@ -85,6 +89,8 @@ Utilisateurs finaux.
 ---------------
 Administrateur.
 ---------------
+
+* Cleanup d'un tableau sur place : config_table par exemple
 
 * Droit d'accès : généraliser la notion de groupe, pouvoir en créer.
   Un groupe peut contenir :
@@ -117,6 +123,8 @@ Administrateur.
 =====================
 Problèmes à résoudre.
 =====================
+
+* DEMO : commentaire numerique sur saisie d'ABJ sans commentaire !!!
 
 * Redémarrage TOMUSS et vieille pages : pas réglé, le client persiste à vouloir
   se reconnecter.

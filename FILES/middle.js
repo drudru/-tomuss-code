@@ -752,7 +752,7 @@ function new_new_interface()
   t.push('</div>') ;
   t.push('<div class="one_line">') ;
   t.push(column_input_attr('weight', 'before=Poids beforeclass=widthleft')) ;
-  t.push(column_input_attr('repetition', 'before=Répétition&nbsp;')) ;
+  t.push(column_input_attr('repetition','before=&nbsp;&nbsp;Répétition&nbsp;'));
   t.push('</div>') ;
 
   o.push(['Formule', t.join('\n')]) ;

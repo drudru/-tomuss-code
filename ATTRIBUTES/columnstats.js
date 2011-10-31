@@ -142,10 +142,7 @@ function update_histogram_real()
 
   for(i=0; i<20; i++)
     s += histogram_bar(i, (i+7)*dx, dx, dy, maxmax, stats.histogram[i],
-		       the_current_cell.column.real_type.should_be_a_float,
-		       the_current_cell.column.min,
-		       the_current_cell.column.max,
-		       svg_object
+		       true, stats.v_min, stats.v_max, svg_object
 		       ) ;
 
   i = stats.average() ;

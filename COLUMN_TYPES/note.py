@@ -22,8 +22,10 @@
 import text
 import cgi
 import configuration
+import math
 
 class Note(text.Text):
+    attributes_visible = ('minmax', 'weight')
     human_priority = -10
     tip_filter = "Exemples de filtre :<ul><li><b>&gt;5</b><li><b>&gt;5 &lt;15</b><li><b>ABINJ ou ABJUS ou PPNOT</b></ul>"
     tip_cell = "Une note ou bien I : ABI, J : ABJ, N : Peut pas noter"
@@ -68,6 +70,9 @@ Mais il est possible :
         try:
             value = float(value)
         except ValueError:
+            return '', None
+
+        if math.isnan(value):
             return '', None
 
         v_min, v_max = column.min_max()

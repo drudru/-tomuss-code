@@ -26,7 +26,6 @@ class ColumnMinMax(ColumnAttr):
     display_table = 1
     name = 'minmax'
     check_and_set = 'set_test_note'
-    visible_for = ['Note', 'Moy', 'Max']
     tip = """<b>Intervalle possible pour les notes saisies ou calculées</b><br>
     Par exemple <b>[0;20]</b> pour indiquer des notes<br>
     entre 0 et 20 inclus.<br>

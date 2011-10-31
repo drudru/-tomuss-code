@@ -25,7 +25,6 @@ class ColumnTestFilter(ColumnAttr):
     default_value = '!ABINJ'
     display_table = 1
     name = 'test_filter'
-    visible_for = ['Nmbr']
     check_and_set = '''
 function(value, column)
 {

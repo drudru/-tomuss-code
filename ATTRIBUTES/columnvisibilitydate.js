@@ -27,17 +27,17 @@ function set_visibility_date(value, column, interactive_modification)
   v = get_date(value) ;
   if ( v == false )
     {
-      alert_append("La date que vous donnez n'est pas valide : " + value) ;
+      alert("La date que vous donnez n'est pas valide : " + value) ;
       return column.visibility_date ;
     }
   if ( (v.getTime() - millisec())/(86400*1000) > 31 )
     {
-      alert_append("La date de visibilité doit être dans moins d'un mois") ;
+      alert("La date de visibilité doit être dans moins d'un mois") ;
       return column.visibility_date ;
     }
   if ( interactive_modification && v.getTime() - millisec() < 0 )
     {
-      alert_append("La date de visibilité ne doit pas être dans le passé") ;
+      alert("La date de visibilité ne doit pas être dans le passé") ;
       return column.visibility_date ;
     }
   v = ''+v.getFullYear()+two_digits(v.getMonth()+1)+two_digits(v.getDate()) ;

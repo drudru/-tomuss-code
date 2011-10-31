@@ -30,4 +30,6 @@ class COW(moy.Moy):
     formatte = 'text_format'
     cell_test = 'test_cow'
     ondoubleclick = 'toggle_cow'
+    attributes_visible = ('columns',)
+
 

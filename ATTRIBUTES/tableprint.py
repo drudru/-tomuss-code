@@ -46,7 +46,7 @@ TABLE.printable_table TH {
 }
 
 DIV.textual_table TEXTAREA {
-   white-space: nowrap;
+   /* white-space: nowrap; */
    overflow-x:scroll;
    }
 

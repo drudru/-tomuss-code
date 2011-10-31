@@ -32,6 +32,7 @@ class Prst(note.Note):
     tip_filter = "Exemples de filtre :<ul><li><b>P</b> pour voir les présents<li><b>A</b>, <b>ABI</b> ou <b>ABJ</b> pour voir les absences<li><b>=</b> pour voir les cases vides</ul>"
     tip_test = ''
     should_be_a_float = 0
+    attributes_visible = ()
 
     def formatter(self, column, value, cell, lines, teacher, ticket, line_id):
         classname = self.cell_indicator(column, value, cell, lines)[0]

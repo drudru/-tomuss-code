@@ -32,6 +32,7 @@ class Code_Etape(text.Text):
     cell_is_modifiable = 0
     tip_cell = ""
     set_columns = 'set_columns'
+    attributes_visible = ('columns',)
 
     def data_col(self, the_table, column):
         try:
@@ -87,10 +88,10 @@ class Code_Etape(text.Text):
             the_table.lock()
             try:
                 if value is None:
-                    if the_table.lines[line_id][column.data_col].author == data.ro_user:
-                        etape = ''
-                    else:
+                    if the_table.lines[line_id][column.data_col].author != data.ro_user:
+                        # Do not replace user defined input with nothing
                         continue
+                    value = ''
                 the_table.cell_change(the_table.pages[0], column.the_id,
                                       line_id, value)
             finally:

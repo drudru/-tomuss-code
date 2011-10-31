@@ -11,7 +11,7 @@
       
       <div>
 	<h1>Documentation TOMUSS</h1>
-	<h1><small>The Online Multi User SpreadSheet</small></h1>
+	<h1><small>The Online Multi User Simple Spreadsheet</small></h1>
 	<p>
 	  Cet outil permet de saisir des notes concernant
 	  une UE de manière collaborative sur le web.
@@ -611,7 +611,8 @@
     <p>
       Pour que les cases <b>restées vides</b> soient comptabilisées
       comme des ABI le responsable d'UE met <tt>ABINJ</tt>
-      dans le champ <tt>ø</tt> de la colonne représentant la séance.
+      dans le champ «<tt>Si vide</tt>» de la colonne représentant la séance.
+      Ce champ est dans l'onglet « Formule »
       </div>
 
     <div>
@@ -622,7 +623,7 @@
 	  du même groupe ont eu une note.
     <p>
 	  Si vous désirez que ces <tt>ABINJ???</tt> n'apparaissent pas
-	  il suffit d'indiquer dans le champs <tt>ø</tt> (vide) de
+	  il suffit d'indiquer dans le champs «<tt>Si vide</tt>» de
 	  la colonne qui vous intéresse un texte.
     <p>
           Par exemple : « Oral pas encore passé »
@@ -959,7 +960,20 @@
 	      Les cases vides ne contenant pas de notes ne sont
 	      pas indiquées.
 	<br>
-	<tt><b>http://tomusss.univ-lyon1.fr/2008/Automne/fusion/UE-MAT1001L:APO_CC:APO_CT/UE-INF1001L:APO_CC:APO_CT:APO_CT2</b></tt><br>
+	<tt><b>http://tomusss.univ-lyon1.fr/2008/Automne/fusion/UE-MAT1001L:APO_CC:APO_CT/UE-INF1001L:APO_CC:APO_CT:APO_CT2</b></tt>
+
+      <li> <b>Compter le nombre de valeurs de cellules dans plusieurs UE en classant par date d'enseignement.</b> :
+	Cela affiche l'ensemble des étudiants des UE en indiquant
+	le nombre de cellules dont la valeur est celle recherchée
+        en les classant par date d'enseignement.
+	<br>
+	<tt><b>http://tomusss.univ-lyon1.fr/2008/Automne/count/ABINJ/UE-MAT1001L/UE-MAT1002L/UE-INF1001L/UE-TVL1001L/UE-PHY1002L</b></tt>
+	    <br>
+	    L'URL précédente permet de compter le nombre d'ABINJ des
+	    étudiants par semaine.
+	    Il faut bien sûr que les dates des enseignements aient été
+	    saisie pour chacune des colonnes pouvant contenir un ABINJ.
+      </li>
 </ul>
 </div>
 

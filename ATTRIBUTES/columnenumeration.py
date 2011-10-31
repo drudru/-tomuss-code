@@ -24,7 +24,6 @@ from column import ColumnAttr
 class ColumnEnumeration(ColumnAttr):
     default_value = ''
     name = 'enumeration'
-    visible_for = ['Enumeration']
     check_and_set = 'set_test_enumeration'
     tip = """<b>Liste des valeurs autorisées dans la colonne</b><br>
     Les valeurs sont séparées par un espace"""

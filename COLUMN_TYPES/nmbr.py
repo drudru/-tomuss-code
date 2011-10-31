@@ -26,6 +26,7 @@ class Nmbr(moy.Moy):
     human_priority = -5
     cell_compute = 'compute_nmbr'
     formatte = text.Text.formatte
+    attributes_visible = ('test_filter', 'columns', 'weight')
 
     def test_ok(self, test):
         return True
