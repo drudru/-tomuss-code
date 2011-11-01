@@ -131,6 +131,8 @@ def get_preferences(user_name, create_pref=True, the_ticket=None):
                 if the_ticket.user_name == user_name:
                     break
         p['language'] = the_ticket.language
+    if 'fr_fr' not in p['language']:
+        p['language'] += ',fr_fr'
 
     return p
 
@@ -160,7 +162,6 @@ def table_head(year=None, semester=None, ticket=None,
         languages.append(
             '<script onload="this.onloadDone=true;" src="%s/%s.js"></script>'
             % (utilities.StaticFile._url_, lang))
-
 
     return (str(the_head) + background
             + '<script>var translations = {} ; </script>\n'
