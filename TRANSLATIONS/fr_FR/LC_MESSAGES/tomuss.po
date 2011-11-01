@@ -39,10 +39,6 @@ msgid "B_Moy"
 msgstr "Moyenne"
 
 #. Columns types, button text in the menu
-msgid "B_Nombre_Etudiants_Max"
-msgstr "Nombre_Etudiants_Max(UE,Seq)"
-
-#. Columns types, button text in the menu
 msgid "B_Firstname"
 msgstr "Prénom(ID)"
 
@@ -63,20 +59,8 @@ msgid "B_URL"
 msgstr "URL : lien web"
 
 #. Columns types, button text in the menu
-msgid "B_Responsable_A"
-msgstr "Responsable Automne(UE(seq))"
-
-#. Columns types, button text in the menu
-msgid "B_Responsable_P"
-msgstr "Responsable Printemps(UE(seq))"
-
-#. Columns types, button text in the menu
 msgid "B_Login"
 msgstr "Identificateur d'utilisateur"
-
-#. Columns types, button text in the menu
-msgid "B_Nombre_Etudiants"
-msgstr "Nombre_Etudiants(UE,Seq)"
 
 #. Columns types, button text in the menu
 msgid "B_Surname"
@@ -93,11 +77,6 @@ msgstr "Texte libre"
 #. Columns types, button text in the menu
 msgid "B_Prst"
 msgstr "Présence"
-
-#. Columns types, button text in the menu
-msgid "B_Intitule_Ue"
-msgstr "Intitulé(UE)"
-
 
 #. Attribute Tip
 msgid "TIP_column_attr_comment"
@@ -226,27 +205,15 @@ msgstr "<b>Nom de la colonne dont on veut copier le contenu.</b><br>\n"
  "        contenant des moyennes pour en modifier certaines."
 
 #. Attribute Tip
-msgid "TIP_column_attr_columns__Responsable_A"
-msgstr "Titre de la colonne contenant le code UE"
-
-#. Attribute Tip
 msgid "TIP_column_attr_columns__Nmbr"
 msgstr "<b>Noms des colonnes où il faut compter les cellules</b><br>\n"
  "        qui correspondent au filtre"
-
-#. Attribute Tip
-msgid "TIP_column_attr_columns__Responsable_P"
-msgstr "Titre de la colonne contenant le code UE"
 
 #. Attribute Tip
 msgid "TIP_column_attr_columns__Mail"
 msgstr "<b>Trouve l'adresse mail</b><br>\n"
  "        Indiquez la colonne de comptes (ID)<br>\n"
  "        pour lesquels on veut trouver l'adresse mail."
-
-#. Attribute Tip
-msgid "TIP_column_attr_columns__Nombre_Etudiants"
-msgstr "Titre de la colonne contenant le code UE"
 
 #. Attribute Tip
 msgid "TIP_column_attr_columns__Moy"
@@ -265,10 +232,6 @@ msgstr "<b>Trouve le nom de famille</b><br>\n"
  "        pour lesquels on veut trouver le nom de famille."
 
 #. Attribute Tip
-msgid "TIP_column_attr_columns__Nombre_Etudiants_Max"
-msgstr "Titre de la colonne contenant le code UE"
-
-#. Attribute Tip
 msgid "TIP_column_attr_columns__Firstname"
 msgstr "<b>Trouve le prénom</b><br>\n"
  "        Indiquez la colonne de comptes (ID)<br>\n"
@@ -285,10 +248,6 @@ msgid "TIP_column_attr_columns__Phone"
 msgstr "<b>Trouve le numéro de téléphone</b><br>\n"
  "        Indiquez la colonne de comptes (ID)<br>\n"
  "        pour lesquels on veut trouver le téléphone."
-
-#. Attribute Tip
-msgid "TIP_column_attr_columns__Intitule_Ue"
-msgstr "Titre de la colonne contenant le code UE"
 
 #. Attribute Tip
 msgid "TIP_column_attr_repetition"

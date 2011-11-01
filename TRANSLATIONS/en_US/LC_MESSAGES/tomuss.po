@@ -46,10 +46,6 @@ msgid "B_Moy"
 msgstr "Average"
 
 #. Columns types, button text in the menu
-msgid "B_Nombre_Etudiants_Max"
-msgstr "B_Nombre_Etudiants_Max"
-
-#. Columns types, button text in the menu
 msgid "B_Firstname"
 msgstr "Prenom(ID)"
 
@@ -70,20 +66,8 @@ msgid "B_URL"
 msgstr "URL : web link"
 
 #. Columns types, button text in the menu
-msgid "B_Responsable_A"
-msgstr "Responsable Automne(UE(seq))"
-
-#. Columns types, button text in the menu
-msgid "B_Responsable_P"
-msgstr "Responsable Printemps(UE(seq))"
-
-#. Columns types, button text in the menu
 msgid "B_Login"
 msgstr "Login"
-
-#. Columns types, button text in the menu
-msgid "B_Nombre_Etudiants"
-msgstr "Nombre_Etudiants(UE,Seq)"
 
 #. Columns types, button text in the menu
 msgid "B_Surname"
@@ -100,10 +84,6 @@ msgstr "Free Text"
 #. Columns types, button text in the menu
 msgid "B_Prst"
 msgstr "Present"
-
-#. Columns types, button text in the menu
-msgid "B_Intitule_Ue"
-msgstr "Title(UE)"
 
 #. Attribute Tip
 msgid "TIP_column_attr_comment"
@@ -231,28 +211,16 @@ msgstr ""
 "some values."
 
 #. Attribute Tip
-msgid "TIP_column_attr_columns__Responsable_A"
-msgstr "Titre de la colonne contenant le code UE"
-
-#. Attribute Tip
 msgid "TIP_column_attr_columns__Nmbr"
 msgstr ""
 "<b>Column names where cells must be counted</b><br>\n"
 "To not forget to indicate the counting filter."
 
 #. Attribute Tip
-msgid "TIP_column_attr_columns__Responsable_P"
-msgstr "Titre de la colonne contenant le code UE"
-
-#. Attribute Tip
 msgid "TIP_column_attr_columns__Mail"
 msgstr ""
 "<b>Extract the mail address</b><br>\n"
 "Indicates the ID column for which mails must be found."
-
-#. Attribute Tip
-msgid "TIP_column_attr_columns__Nombre_Etudiants"
-msgstr "Titre de la colonne contenant le code UE"
 
 #. Attribute Tip
 msgid "TIP_column_attr_columns__Moy"
@@ -269,10 +237,6 @@ msgid "TIP_column_attr_columns__Surname"
 msgstr ""
 "<b>Extract surname</b><br>\n"
 "ndicates the ID column for which surname must be found."
-
-#. Attribute Tip
-msgid "TIP_column_attr_columns__Nombre_Etudiants_Max"
-msgstr "Titre de la colonne contenant le code UE"
 
 #. Attribute Tip
 msgid "TIP_column_attr_columns__Firstname"
@@ -292,10 +256,6 @@ msgid "TIP_column_attr_columns__Phone"
 msgstr ""
 "<b>Extract the phone number</b><br>\n"
 "Indicates the ID column for which phone must be found."
-
-#. Attribute Tip
-msgid "TIP_column_attr_columns__Intitule_Ue"
-msgstr "Titre de la colonne contenant le code UE"
 
 #. Attribute Tip
 msgid "TIP_column_attr_repetition"

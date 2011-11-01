@@ -36,7 +36,7 @@ prefs = {
 'v_scrollbar_nr' :("Nombre de caractères affichés dans l'ascenseur vertical","1"  ),
 'interface'      :("Interface utilisateur : N:normal L:lineaire (pour malvoyant)"   ,"N"),
 'current_suivi'  :("Page d'accueil : on fait le suivi du semestre courant au lieu du semestre choisi","NON"),
-'language'       :("Langage de l'interface (fr_FR, en_US)", ""),
+'language'       :("Langage de l'interface (fr_fr, en_us)", ""),
 }
 
 def create(table):

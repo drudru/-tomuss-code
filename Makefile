@@ -77,7 +77,7 @@ changelog:
 	-if [ -x git ] ; then SCRIPTS/changelog >DOCUMENTATION/changelog ; fi
 
 translations:
-	for I in TRANSLATIONS/*/LC_MESSAGES ; do (cd $$I ; $(MAKE) -f ../../../Makefile tomuss.mo) ; done
+	@for I in TRANSLATIONS/*/LC_MESSAGES LOCAL/TRANSLATIONS/*/LC_MESSAGES ; do echo $$I ; (cd $$I ; $(MAKE) --no-print-directory -f $$(echo $$I | sed -r 's/[^\/]+/../g')/Makefile tomuss.mo) ; done
 
 %.mo:%.po
 	msgfmt $*.po -o $*.mo

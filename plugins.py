@@ -299,16 +299,30 @@ def generate_data_files():
     import gettext
     js = utilities.js
 
-    for language in os.listdir('TRANSLATIONS'):
-        t = gettext.translation('tomuss', 'TRANSLATIONS', [language])
+    def generate_js(directory):
+        try:
+            t = gettext.translation('tomuss', directory, [language])
+        except IOError:
+            return
+        
+        for k, v in t._catalog.items():
+            if k:
+                f.write('%s:%s,\n' % (js(k.encode('utf8')),
+                                      js(v.encode('utf8'))))
+
+    import itertools
+    local_translation = os.path.join('LOCAL', 'TRANSLATIONS')
+    if not os.path.exists(local_translation):
+        os.mkdir(local_translation)
+    for language in itertools.chain(os.listdir('TRANSLATIONS'),
+                                    os.listdir(local_translation)):
         language = language.lower()
         languages.add(language)
         filename = os.path.join('TMP', language + '.js')
         f = open(filename, 'w')
         f.write('translations["' + language + '"] = {')
-        for k, v in t._catalog.items():
-            if k:
-                f.write('%s:%s,\n' % (js(k.encode('utf8')), js(v.encode('utf8'))))
+        generate_js('TRANSLATIONS')
+        generate_js(local_translation)
         f.write('"_":""} ;\n')
         f.close()
         files.files[language + '.js'] = utilities.StaticFile(filename)
@@ -318,25 +332,33 @@ def generate_data_files():
     #####################################
 
     f = open('xxx_tomuss.pot', 'w')
+    g = open(os.path.join('LOCAL', 'xxx_tomuss.pot'), 'w')
 
-    def w(comment, msgid, msgstr):
-        f.write('#. %s\nmsgid "%s"\nmsgstr "%s"\n\n' % (
-            comment,
-            msgid,
-            msgstr.replace('"', '\\n').replace('\n','\\n"\n "')
-            ))
+    def w(o, comment, msgid, msgstr):
+        if isinstance(o, file):
+            ww = o
+        else:
+            if 'LOCAL' in o.__module__:
+                ww = g
+            else:
+                ww = f
+        ww.write('#. %s\nmsgid "%s"\nmsgstr "%s"\n\n' % (comment,  msgid,
+                  msgstr.replace('"', '\\n').replace('\n','\\n"\n "')))
 
-    f.write('''# Texts extracted from a un running TOMUSS instance
+    head = '''# Texts extracted from a un running TOMUSS instance
 # Copyright (C) 2011 Thierry Excoffier, LIRIS, Universite Claude Bernard Lyon 1
 # This file is distributed under the same license as TOMUSS
 # Thierry.Excoffier@univ-lyon1.fr, 2011
 
-''')
-    w('', '', "Content-Type: text/plain; charset=utf-8")
+'''
+    f.write(head)
+    g.write(head)
+    w(f, '', '', "Content-Type: text/plain; charset=utf-8")
+    w(g, '', '', "Content-Type: text/plain; charset=utf-8")
 
     for column_type in types:
-        w('Columns types, button text in the menu',
-          'B_' + column_type, column_type)
+        w(types[column_type], 'Columns types, button text in the menu',
+            'B_' + column_type, column_type)
 
     import column
     for attr_name, value in (column.ColumnAttr.attrs.items()
@@ -345,8 +367,9 @@ def generate_data_files():
             t = 'TIP_table_attr_'
         else:
             t = 'TIP_column_attr_'
-        w('Attribute Tip', t + attr_name, '???')
+        w(value, 'Attribute Tip', t + attr_name, '???')
     f.close()
+    g.close()
 
     #####################################
     # Documentation automatic generation
