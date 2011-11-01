@@ -131,9 +131,8 @@ def get_preferences(user_name, create_pref=True, the_ticket=None):
                 if the_ticket.user_name == user_name:
                     break
         p['language'] = the_ticket.language
-    if 'fr_fr' not in p['language']:
-        p['language'] += ',fr_fr'
-
+    if 'fr' not in p['language']:
+        p['language'] += ',fr'
     return p
 
 
