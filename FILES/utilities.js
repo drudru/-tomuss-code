@@ -1486,7 +1486,11 @@ function update_attribute_value(e, attr, table, editable)
 	  tip_content = _(tip_id) ;
 	  tip_exists =  tip_id != tip_content ;
 	  if ( ! tip_exists && attr.what == 'column' )
-	      tip_id += '__' + the_current_cell.column.type ;
+	      {
+		  tip_id += '__' + the_current_cell.column.type ;
+		  tip_content = _(tip_id) ;
+		  tip_exists =  tip_id != tip_content ;
+	      }
       }
 
   switch(attr.gui_display)

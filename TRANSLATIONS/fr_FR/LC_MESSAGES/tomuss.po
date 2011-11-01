@@ -213,10 +213,6 @@ msgstr "<b>Type de la colonne</b>, il indique le contenu des cellules :\n"
  "</ul>"
 
 #. Attribute Tip
-msgid "TIP_column_attr_columns__"
-msgstr "<b>Colonnes utilisées pour faire le calcul"
-
-#. Attribute Tip
 msgid "TIP_column_attr_columns__Code_Etape"
 msgstr "<b>Extrait le code étape</b><br>\n"
  "        Indiquez la colonne de numéro d'étudiants <b>ID</b><br>\n"
@@ -297,16 +293,14 @@ msgstr "Titre de la colonne contenant le code UE"
 #. Attribute Tip
 msgid "TIP_column_attr_repetition"
 msgstr "Nombre de fois qu'une valeur identique est autorisée<br>\n"
- "    au maximum dans la colonne. Si c'est 0 il n'y a pas de limite.\n"
- "    "
+ "    au maximum dans la colonne. Si c'est 0 il n'y a pas de limite."
 
 #. Attribute Tip
 msgid "TIP_column_attr_course_dates"
 msgstr "<b>Dates des enseignements</b>.<br>\n"
  "    Les dates sont indiquées sous la forme JJ/MM/AAAA<br>\n"
  "    suivi éventuellement de M ou A pour Matin ou Après-midi.<br>\n"
- "    Les ABINJ concernant ces dates sont soulignés.\n"
- "    "
+ "    Les ABINJ concernant ces dates sont soulignés."
 
 #. Attribute Tip
 msgid "TIP_column_attr_test_filter"

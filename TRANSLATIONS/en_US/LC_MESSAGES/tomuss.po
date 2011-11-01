@@ -216,10 +216,6 @@ msgstr ""
 "</ul>"
 
 #. Attribute Tip
-msgid "TIP_column_attr_columns__"
-msgstr "<b>Titles of the columns used in the formula</b>"
-
-#. Attribute Tip
 msgid "TIP_column_attr_columns__Code_Etape"
 msgstr ""
 "<b>Extract the student cursus</b><br>\n"
@@ -311,9 +307,9 @@ msgstr ""
 msgid "TIP_column_attr_course_dates"
 msgstr ""
 "<b>Dates of the courses for this columns</b>.<br>\n"
-"Date are in the form: DD/MM/YYYY follwed by a<br>\n"
+"Date are in the form: DD/MM/YYYY followed by a<br>\n"
 "M for Morning or A for Afternoon<br>\n"
-"The ABINJ for theses dates are displayed in red.    "
+"The ABINJ for theses dates are displayed in red."
 
 #. Attribute Tip
 msgid "TIP_column_attr_test_filter"
@@ -476,7 +472,7 @@ msgstr ""
 #. Attribute Tip
 msgid "TIP_table_attr_dates"
 msgstr ""
-"First course date and examination date<br>\n"
+"First course date and last examination date<br>\n"
 "The 2 dates are in the form DD/MM/YYYY<br>\n"
 "ABJ not in this range will not be displayed."
 
