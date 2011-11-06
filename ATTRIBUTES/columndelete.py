@@ -24,4 +24,3 @@ from columnfill import ColumnFill
 class ColumnDelete(ColumnFill):
     name = "delete"
     action = "column_delete"
-    title = 'Dét.'

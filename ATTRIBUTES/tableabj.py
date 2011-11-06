@@ -26,7 +26,6 @@ class TableAbj(TableAttr):
     gui_display = "GUI_button"
     need_authorization = 0
     action = "abj_per_day"
-    title = 'abj da tt'
     css = '''
 
 .abj_table A:hover { background: #BFB ; }

@@ -27,7 +27,6 @@ class ColumnFreezed(ColumnAttr):
     check_and_set = 'function(value, column){ return value ; }'
     action = 'freeze_column'
     gui_display = "GUI_a"
-    title = 'Figée'
     def check(self, value):
         if value in ('', 'C', 'F'):
             return ''

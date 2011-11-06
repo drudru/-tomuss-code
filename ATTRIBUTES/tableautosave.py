@@ -26,7 +26,6 @@ class TableAutosave(TableAttr):
     action = "table_autosave_toggle"
     default_value = 1
     gui_display = "GUI_a"
-    title = 'AutoSauve'
     css = """
 #autosavelog { color: red ; display: none; }
     """

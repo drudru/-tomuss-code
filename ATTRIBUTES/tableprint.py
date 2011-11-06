@@ -26,7 +26,6 @@ class TablePrint(TableAttr):
     gui_display = "GUI_button"
     need_authorization = 0
     action = "print_selection"
-    title = 'Imprime/Exporte'
     css = '''
 TABLE.printable_table {
    border-spacing: 0px ;

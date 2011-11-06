@@ -26,7 +26,6 @@ class TableFaceBook(TableAttr):
     gui_display = "GUI_button"
     need_authorization = 0
     action = "tablefacebook"
-    title = 'Trombino'
     css = '''
 DIV.facebook {
   border: 1px solid black ;

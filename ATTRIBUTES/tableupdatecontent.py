@@ -26,4 +26,3 @@ class TableUpdateContent(TableAttr):
     name = 'update_content'
     action = 'table_update_content'
     gui_display = "GUI_a"
-    title = 'MaJ'

@@ -26,7 +26,6 @@ class TableStatistics(TableAttr):
     gui_display = "GUI_button"
     need_authorization = 0
     action = "display_statistics"
-    title = 'Stats'
     css = '''
 
 TD { overflow: hidden ; }

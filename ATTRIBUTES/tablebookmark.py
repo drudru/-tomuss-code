@@ -26,4 +26,3 @@ class TableBookmark(TableAttr):
     default_value = 1
     action = 'table_bookmark'
     gui_display = "GUI_a"
-    title = 'Options'

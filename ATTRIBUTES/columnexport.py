@@ -24,7 +24,6 @@ from columnfill import ColumnFill
 class ColumnExport(ColumnFill):
     name = "export"
     action = "export_column"
-    title = 'Exp.'
     css = """
 
 DIV.export_div { 

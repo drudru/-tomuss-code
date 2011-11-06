@@ -26,4 +26,3 @@ class TableExport(TableAttr):
     name = 't_export'
     action = 'table_export'
     gui_display = "GUI_a"
-    title = 'Exp.'

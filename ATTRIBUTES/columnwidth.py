@@ -28,6 +28,5 @@ class ColumnWidth(ColumnAttr):
     def encode(self, value):
         return int(value)
     action = 'save_width_column'
-    title = 'L'
     gui_display = "GUI_a"
     strokable = 0

@@ -24,7 +24,6 @@ from columnexport import ColumnExport
 class ColumnImport(ColumnExport):
     name = "import"
     action = "import_column"
-    title = 'Imp.'
     css = "DIV.import_div { border: 4px solid red ; }"
 
 

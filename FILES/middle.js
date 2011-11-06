@@ -430,6 +430,7 @@ function an_input_attribute(attr, options, prefix_id, prefix_)
   if ( i_am_root )
     tip += '<hr><b>' + prefix_ + attr.name + '</b>' ;
   var the_id = prefix_id + attr.name ;
+  var title = _('TITLE_' + prefix_ + attr.name) ;
 
   switch(attr.gui_display)
     {
@@ -439,15 +440,15 @@ function an_input_attribute(attr, options, prefix_id, prefix_)
       return hidden_txt('<a href="javascript:'
 			+ attr.action + '(\'' + the_id + '\')"' +
 			' id="' + the_id + '">' +
-			attr.title + '</a>', tip) ;
+			title + '</a>', tip) ;
     case 'GUI_none':
-      return attr.title ;
+      return title ;
     case 'GUI_button':
       return hidden_txt('<span class="gui_button" id="'
 			+ the_id + '" '
 			+ 'onclick="' + attr.action + '(this);'
 			+ 'setTimeout(\'linefilter.focus()\',100)"'
-			+ '>' + attr.title + '</span>',
+			+ '>' + title + '</span>',
 			tip) ;
     case 'GUI_select':
       var opts = '' ;
@@ -522,21 +523,6 @@ function select_tab(name, tab)
 function new_new_interface()
 {
   var o, t ;
-
-  column_attributes['hidden'].title = 'Cacher la colonne' ;
-  column_attributes['import'].title = '<b>Importer</b> des valeurs dans la colonne' ;
-  column_attributes['fill'].title = '<b>Remplir</b> la colonne avec des valeurs' ;
-  column_attributes['export'].title = '<b>Exporter</b> la colonne pour APOGÉE' ;
-  column_attributes['delete'].title = '<b>Détruire</b> définitivement la colonne' ;
-  column_attributes['position'].title = "position" ;
-  column_attributes['width'].title = "largeur" ;
-
-  table_attributes['autosave'].title = 'Enregistrement automatique' ;
-  table_attributes['t_import'].title = '<b>Importer</b>' ;
-  table_attributes['t_export'].title = '<b>Exporter</b>' ;
-  table_attributes['bookmark'].title = "Créer un signet avec les <b>options d'affichage</b>" ;
-  table_attributes['linear'].title = "Linéaire" ;
-  table_attributes['update_content'].title = "Forcer la mise à jour" ;
 
   var doc_link = '<div class="one_line">' +
     hidden_txt('<a href="_URL_/doc_table.html" target="_blank">' +
@@ -817,7 +803,7 @@ function new_new_interface()
   t.push('<div class="one_line">') ;
 
   if ( myindex(semesters, semester) != -1 )
-    t.push('Affichage étudiant : ' +
+      t.push(_("BEFORE_table_official_ue") +
 	   table_input_attr('official_ue',
 			    [[0, _("SELECT_table_official_ue_false")],
 			     [1, _("SELECT_table_official_ue_true")]])) ;

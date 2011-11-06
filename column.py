@@ -55,7 +55,6 @@ class ColumnAttr(object):
     priority = 0
     gui_display = 'GUI_input'
     action = ''
-    title = ''
     css = ''
     
     def __init__(self):
@@ -167,7 +166,6 @@ class ColumnAttr(object):
                 ',check_and_set:' + self.check_and_set +
                 ',visible_for:' + js(self.visible_for()) +
                 ',gui_display:' + js(self.gui_display) +
-                ',title:' + js(self.title) +
                 ',action:' + js(self.action) +
                 ',name:' + js(self.name) +
                 ',what:' + js(self.what) +

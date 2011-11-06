@@ -26,7 +26,6 @@ class ColumnFill(ColumnAttr):
     gui_display = "GUI_a"
     need_authorization = 0
     action = "fill_column"
-    title = 'Remp.'
     default_value = 1
     check_and_set = 'function() { return 1; }'
     css = """

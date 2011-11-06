@@ -26,4 +26,3 @@ class TableImport(TableAttr):
     name = 't_import'
     action = 'table_import'
     gui_display = "GUI_a"
-    title = 'Imp.'

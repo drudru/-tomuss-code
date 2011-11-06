@@ -857,3 +857,104 @@ msgstr "Everybody can fill empty cells.\n"
 msgid "MESSAGE_data_begin_sent"
 msgstr "Data are being sent for storage to the server.<br>\n"
        "Please wait (or verify your network connection)"
+
+
+#. GUI 
+msgid "TITLE_column_attr_delete"
+msgstr "Definitively <b>delete</b> the column"
+
+#. GUI 
+msgid "TITLE_column_attr_export"
+msgstr "<b>Exports</b> columns values"
+
+#. GUI 
+msgid "TITLE_column_attr_fill"
+msgstr "<b>Fill</b> values in the column"
+
+#. GUI 
+msgid "TITLE_column_attr_freezed"
+msgstr "Freezed"
+
+#. GUI 
+msgid "TITLE_column_attr_hidden"
+msgstr "Hide the column"
+
+#. GUI 
+msgid "TITLE_column_attr_import"
+msgstr "<b>Import</b> values in the column"
+
+#. GUI 
+msgid "TITLE_column_attr_position"
+msgstr "position"
+
+#. GUI 
+msgid "TITLE_column_attr_stats"
+msgstr ""
+"<table id=\"t_column_stats\">\n"
+"<tr>\n"
+"<td>\n"
+"<script>\n"
+"hidden('<div id=\"t_column_histogram\"></div>',\n"
+"       'Histogram of the column values.<br>'\n"
+"       + \"Filtering is taken into account.<br>\"\n"
+"       )\n"
+"</script>\n"
+"</td><td class=\"m\">\n"
+"<script>\n"
+"hidden('<div id=\"t_column_average\"></div>',\n"
+"       \"Average of the filtered column values.\")\n"
+"</script>\n"
+"</td></tr></table>"
+
+#. GUI 
+msgid "TITLE_column_attr_width"
+msgstr "width"
+
+#. GUI 
+msgid "TITLE_table_attr_abj"
+msgstr "abj da tt"
+
+#. GUI 
+msgid "TITLE_table_attr_autosave"
+msgstr "Enregistrement automatique"
+
+#. GUI 
+msgid "TITLE_table_attr_bookmark"
+msgstr "Create a bookmark with the <b>display parameters</b>"
+
+#. GUI 
+msgid "TITLE_table_attr_t_copy"
+msgstr "Table copy"
+
+#. GUI 
+msgid "TITLE_table_attr_t_export"
+msgstr "<b>Export</b>"
+
+#. GUI 
+msgid "TITLE_table_attr_facebook"
+msgstr "Facebook"
+
+#. GUI 
+msgid "TITLE_table_attr_t_import"
+msgstr "<b>Import</b>"
+
+#. GUI 
+msgid "TITLE_table_attr_mail"
+msgstr "Mail"
+
+#. GUI 
+msgid "TITLE_table_attr_print"
+msgstr "Print/Export"
+
+#. GUI 
+msgid "TITLE_table_attr_statistics"
+msgstr "Stats"
+
+#. GUI 
+msgid "TITLE_table_attr_update_content"
+msgstr "Update table content NOW"
+
+#. GUI 
+msgid "TITLE_table_attr_linear"
+msgstr "Linear"
+

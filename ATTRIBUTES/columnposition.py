@@ -28,6 +28,5 @@ class ColumnPosition(ColumnAttr):
     def encode(self, value):
         return float(value)
     action = 'save_position_column'
-    title = 'P'
     gui_display = "GUI_a"
     strokable = 0

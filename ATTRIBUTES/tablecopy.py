@@ -29,7 +29,6 @@ class TableCopy(TableExport):
     name = 't_copy'
     action = 'table_copy'
     gui_display = "GUI_a"
-    title = 'Copie de table TOMUSS'
     css = """
 TABLE.table_copy_diagram { width: auto }
 TABLE.table_copy_diagram TD { width: 19% }

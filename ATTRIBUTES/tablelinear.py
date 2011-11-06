@@ -26,4 +26,3 @@ class TableLinear(TableAttr):
     default_value = 1
     action = "table_linear"
     gui_display = "GUI_a"
-    title = 'Lin.'

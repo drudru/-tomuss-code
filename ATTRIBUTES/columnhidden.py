@@ -40,6 +40,5 @@ class ColumnHidden(ColumnAttr):
     gui_display = "GUI_a"
     need_authorization = 0
     action = "hide_column"
-    title = '&times;'
     strokable = 0
 
