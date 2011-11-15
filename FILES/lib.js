@@ -1667,9 +1667,9 @@ function line_fill(line, write, cls, empty_column)
 
 function table_fill_try()
 {
-  var terminate ;
+    var terminate, width=window_width(), height=window_height() ;
 
-  if ( current_window_width != window_width() )
+  if ( current_window_width != width )
     {
       if ( table_attr.default_nr_columns == 0 )
 	{
@@ -1678,19 +1678,18 @@ function table_fill_try()
       update_column_menu() ;
       update_histogram(true) ;
     }
-  if ( current_window_height != window_height() )
+  if ( current_window_height != height )
     {
       if ( preferences.nr_lines == 0 )
 	compute_nr_lines() ;
       update_line_menu() ;
     }
-  if ( current_window_width != window_width()
-       || current_window_height != window_height() )
+  if ( current_window_width != width || current_window_height != height )
     {
       table_init() ;
       table_fill(false, true, true) ;
-      current_window_width = window_width() ;
-      current_window_height = window_height() ;
+      current_window_width = width ;
+      current_window_height = height ;
     }
 
   if ( table_fill_compute_filtered_lines )
@@ -2709,6 +2708,7 @@ function restore_unsaved()
     {
       for(var i in t_splited)
 	pending_requests.push(new Request(t_splited[i])) ;
+      auto_save_errors_interval_id = setInterval(auto_save_errors, 100) ;
       create_popup('restoring_data',
 		   'Sauvegarde en cours, veuillez patienter',
 		   '', '', message) ;
@@ -2783,6 +2783,8 @@ function click_to_revalidate_ticket()
 }
 
 // Restart image loading if the connection was not successul
+
+var auto_save_errors_interval_id ;
 
 function auto_save_errors()
 {
@@ -2891,6 +2893,12 @@ function auto_save_errors()
 
   _d('autosave)\n');
   auto_save_running = false ;
+
+  if ( pending_requests.length == 0 && auto_save_errors_interval_id )
+      {
+	  clearInterval(auto_save_errors_interval_id) ;
+	  auto_save_errors_interval_id = undefined ;
+      }
 }
 
 // Remove green images
@@ -2943,6 +2951,9 @@ function append_image(td, text, force)
     return ;
   var request = new Request(text) ;
   pending_requests.push(request) ;
+  //if ( server_log )
+  if ( ! auto_save_errors_interval_id )
+      auto_save_errors_interval_id = setInterval(auto_save_errors, 100) ;
 
   if ( td )
     {
@@ -3800,9 +3811,6 @@ function runlog(the_columns, the_lines)
       replace_window_content(tablefacebook('_self')) ;
       return ;
     }
-
-  if ( server_log )
-    setInterval(auto_save_errors, 100) ;
 
   if ( preferences.interface == 'L' )
     {
