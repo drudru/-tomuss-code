@@ -2634,8 +2634,6 @@ function server_answered(t)
   if ( t.request.saved )
     return ;
   saved(t.request.request_id) ;
-
-  //  auto_save_errors() ;
 }
 
 function revalidate_ticket()
@@ -2708,7 +2706,7 @@ function restore_unsaved()
     {
       for(var i in t_splited)
 	pending_requests.push(new Request(t_splited[i])) ;
-      auto_save_errors_interval_id = setInterval(auto_save_errors, 100) ;
+      periodic_work_add(auto_save_errors) ;
       create_popup('restoring_data',
 		   'Sauvegarde en cours, veuillez patienter',
 		   '', '', message) ;
@@ -2782,9 +2780,50 @@ function click_to_revalidate_ticket()
   connection_state = 'auth' ;
 }
 
-// Restart image loading if the connection was not successul
+/*
+ ****************************************************************************
+ * Management of periodic work.
+ * Once added, the function is called every 0.1 seconds until it returns false
+ * 'add' and 'remove' must not be called from a periodic function.
+ ****************************************************************************
+ */
 
-var auto_save_errors_interval_id ;
+var periodic_work_functions = [] ;
+var periodic_work_id ;
+
+function periodic_work_add(f)
+{
+    if ( myindex(periodic_work_functions, f) == -1 )
+	periodic_work_functions.push(f) ;
+    if ( periodic_work_id === undefined )
+	periodic_work_id = setInterval(periodic_work_do, 100) ;    
+}
+
+function periodic_work_remove(f)
+{
+    var i = myindex(periodic_work_functions, f) ;
+    if ( i != -1 )
+	periodic_work_functions.splice(i, 1) ;
+}
+
+function periodic_work_do()
+{
+    var to_continue = [] ;
+    for(var f in periodic_work_functions)
+	if ( periodic_work_functions[f]() )
+	    to_continue.push(periodic_work_functions[f]) ;
+    periodic_work_functions = to_continue ;
+    if ( to_continue.length == 0 )
+	{
+	    clearInterval(periodic_work_id) ;
+	    periodic_work_id = undefined ;
+	}
+}
+
+
+// **********************************************************
+// Restart image loading if the connection was not successul
+// **********************************************************
 
 function auto_save_errors()
 {
@@ -2800,7 +2839,7 @@ function auto_save_errors()
       reconnect() ;
 
   if ( auto_save_running || ! table_attr.autosave )
-    return ;
+    return true ;
 
   auto_save_running = true ;
 
@@ -2894,11 +2933,8 @@ function auto_save_errors()
   _d('autosave)\n');
   auto_save_running = false ;
 
-  if ( pending_requests.length == 0 && auto_save_errors_interval_id )
-      {
-	  clearInterval(auto_save_errors_interval_id) ;
-	  auto_save_errors_interval_id = undefined ;
-      }
+  if ( pending_requests.length != 0 )
+      return true ; // Continue
 }
 
 // Remove green images
@@ -2951,9 +2987,7 @@ function append_image(td, text, force)
     return ;
   var request = new Request(text) ;
   pending_requests.push(request) ;
-  //if ( server_log )
-  if ( ! auto_save_errors_interval_id )
-      auto_save_errors_interval_id = setInterval(auto_save_errors, 100) ;
+  periodic_work_add(auto_save_errors) ;
 
   if ( td )
     {
