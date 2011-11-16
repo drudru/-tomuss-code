@@ -65,9 +65,6 @@ var today ;
 var debug_window ;
 var delayed_list ;
 var mouse_over_old_td ; // To not recompute the tip on each mousemove.
-var do_update_vertical_scrollbar_cursor ;
-var do_update_vertical_scrollbar_position ;
-var do_update_vertical_scrollbar ;
 var filtered_lines ;
 var table_fill_queued = 0 ;
 var table_fill_do_not_focus ;
@@ -1207,7 +1204,7 @@ function update_vertical_scrollbar_cursor_real()
 
 function update_vertical_scrollbar_cursor()
 {
-  do_update_vertical_scrollbar_cursor = true ;
+    periodic_work_add(update_vertical_scrollbar_cursor_real) ;
 }
 
 
@@ -1233,7 +1230,8 @@ function update_vertical_scrollbar_position_real()
 
 function update_vertical_scrollbar_position()
 {
-  do_update_vertical_scrollbar_position = true ;
+    periodic_work_add(update_vertical_scrollbar_position_real) ;
+    periodic_work_add(update_vertical_scrollbar_cursor_real) ;
 }
 
 var body_on_mouse_up_doing ;
@@ -1342,7 +1340,9 @@ function update_vertical_scrollbar_real()
 
 function update_vertical_scrollbar()
 {
-  do_update_vertical_scrollbar = true ;
+    periodic_work_add(update_vertical_scrollbar_real) ;
+    periodic_work_remove(update_vertical_scrollbar_cursor_real) ;
+    periodic_work_remove(update_vertical_scrollbar_position_real) ;
 }
 
 function table_header_fill()
@@ -1731,26 +1731,6 @@ function table_fill_try()
   if ( the_current_cell.do_update_headers )
     {
       the_current_cell.update_headers_real() ;
-    }
-
-  if ( do_update_vertical_scrollbar )
-    {
-      update_vertical_scrollbar_real() ;
-      do_update_vertical_scrollbar = false ;
-      do_update_vertical_scrollbar_position = false ;
-      do_update_vertical_scrollbar_cursor = false ;
-    }
-  else if ( do_update_vertical_scrollbar_position )
-    {
-      update_vertical_scrollbar_position_real() ;
-      update_vertical_scrollbar_cursor_real() ;
-      do_update_vertical_scrollbar_position = false ;
-      do_update_vertical_scrollbar_cursor = false ;
-    }
-  else if ( do_update_vertical_scrollbar_cursor )
-    {
-      update_vertical_scrollbar_cursor_real() ;
-      do_update_vertical_scrollbar_cursor = false ;
     }
 
   if ( the_current_cell.column.type == 'Login'
@@ -2785,6 +2765,8 @@ function click_to_revalidate_ticket()
  * Management of periodic work.
  * Once added, the function is called every 0.1 seconds until it returns false
  * 'add' and 'remove' must not be called from a periodic function.
+ * When a function is added to the list, it goes to the end,
+ * so it is processed after the others.
  ****************************************************************************
  */
 
@@ -2793,8 +2775,14 @@ var periodic_work_id ;
 
 function periodic_work_add(f)
 {
-    if ( myindex(periodic_work_functions, f) == -1 )
+    var i = myindex(periodic_work_functions, f) ;
+    if ( i == -1 )
 	periodic_work_functions.push(f) ;
+    else
+	{
+	   periodic_work_functions.splice(i, 1) ;
+	   periodic_work_functions.push(f) ;
+	}
     if ( periodic_work_id === undefined )
 	periodic_work_id = setInterval(periodic_work_do, 100) ;    
 }
