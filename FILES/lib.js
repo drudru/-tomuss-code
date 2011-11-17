@@ -2773,16 +2773,21 @@ function click_to_revalidate_ticket()
 var periodic_work_functions = [] ;
 var periodic_work_id ;
 
-function periodic_work_add(f)
+function periodic_work_add_once(table, item) // Do not use this
 {
-    var i = myindex(periodic_work_functions, f) ;
+    var i = myindex(table, item) ;
     if ( i == -1 )
-	periodic_work_functions.push(f) ;
+	table.push(item) ;
     else
 	{
-	   periodic_work_functions.splice(i, 1) ;
-	   periodic_work_functions.push(f) ;
+	    table.splice(i, 1) ;
+	    table.push(item) ;
 	}
+}
+
+function periodic_work_add(f)
+{
+    periodic_work_add_once(periodic_work_functions, f) ;
     if ( periodic_work_id === undefined )
 	periodic_work_id = setInterval(periodic_work_do, 100) ;    
 }
@@ -2796,10 +2801,19 @@ function periodic_work_remove(f)
 
 function periodic_work_do()
 {
+    var f, to_do ;
     var to_continue = [] ;
-    for(var f in periodic_work_functions)
-	if ( periodic_work_functions[f]() )
-	    to_continue.push(periodic_work_functions[f]) ;
+    while(periodic_work_functions.length)
+	{
+	    to_do = periodic_work_functions ;
+	    periodic_work_functions = [] ;
+	    for(f in to_do)
+		{
+		    f = to_do[f] ;
+		    if ( f() )
+			periodic_work_add_once(to_continue, f) ;
+		}
+	}
     periodic_work_functions = to_continue ;
     if ( to_continue.length == 0 )
 	{
