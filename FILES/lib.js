@@ -1,4 +1,4 @@
-// -*- coding: utf-8; mode: Java; c-basic-offset: 2; tab-width: 2; -*-
+// -*- coding: utf-8; mode: Java; c-basic-offset: 2; tab-width: 8; -*-
 /*
     TOMUSS: The Online Multi User Simple Spreadsheet
     Copyright (C) 2008-2011 Thierry EXCOFFIER, Universite Claude Bernard
@@ -1682,23 +1682,23 @@ function table_fill_do()
 	}
 }
 
-function table_fill_try()
+function manage_window_resize_event()
 {
-    var width=window_width(), height=window_height() ;
-
+	var width=window_width(), height=window_height() ;
+		
   if ( current_window_width != width )
     {
       if ( table_attr.default_nr_columns == 0 )
-	{
-	  compute_nr_cols() ;
-	}
+				{
+					compute_nr_cols() ;
+				}
       update_column_menu() ;
       update_histogram(true) ;
     }
   if ( current_window_height != height )
     {
       if ( preferences.nr_lines == 0 )
-	compute_nr_lines() ;
+				compute_nr_lines() ;
       update_line_menu() ;
     }
   if ( current_window_width != width || current_window_height != height )
@@ -1708,7 +1708,6 @@ function table_fill_try()
       current_window_width = width ;
       current_window_height = height ;
     }
-
 }
 
 function login_list_ask()
@@ -2785,26 +2784,25 @@ function periodic_work_remove(f)
 
 function periodic_work_do()
 {
-    var f, to_do ;
-    var to_continue = [] ;
-    while(periodic_work_functions.length)
+  var f, to_do ;
+  var to_continue = [] ;
+  while(periodic_work_functions.length)
+    {
+      to_do = periodic_work_functions ;
+      periodic_work_functions = [] ;
+      for(f in to_do)
 	{
-	    to_do = periodic_work_functions ;
-	    periodic_work_functions = [] ;
-	    for(f in to_do)
-		{
-		    f = to_do[f] ;
-		    if ( f() )
-			periodic_work_add_once(to_continue, f) ;
-		}
+	  f = to_do[f] ;
+	  if ( f() )
+	    periodic_work_add_once(to_continue, f) ;
 	}
-    periodic_work_functions = to_continue ;
-    if ( to_continue.length == 0 )
-	{
-	    clearInterval(periodic_work_id) ;
-	    periodic_work_id = undefined ;
-	}
-    p_title_links.innerHTML = periodic_work_functions.length;
+    }
+  periodic_work_functions = to_continue ;
+  if ( to_continue.length == 0 )
+    {
+      clearInterval(periodic_work_id) ;
+      periodic_work_id = undefined ;
+    }
 }
 
 
@@ -3853,7 +3851,6 @@ function runlog(the_columns, the_lines)
 
   // Try to load image not yet loaded.
   setInterval(highlight_effect, 500) ;
-  setInterval(table_fill_try, 100) ;
 
   if (window.addEventListener)
     /** DOMMouseScroll is for mozilla. */
@@ -3861,6 +3858,8 @@ function runlog(the_columns, the_lines)
   /** IE/Opera. */
   window.onmousewheel = document.onmousewheel = wheel;
 
+	window.onresize = manage_window_resize_event ;
+	
   if ( ue != 'VIRTUALUE' && ue != '' && page_id > 0 )
     document.write('<img width="1" height="1" src="' + url + "/=" + ticket
 		   + '/' + year + '/' + semester + '/' + ue + '/' +
@@ -4022,6 +4021,10 @@ function display_suivi(cols) /* [value, class, comment] */
 
 function javascript_regtest_ue()
 {
+  function table_fill_try()
+  {
+    
+  }
   function set(i, v)
   {
     i.style.display = '' ;
@@ -4141,7 +4144,7 @@ function javascript_regtest_ue()
 
   table_init() ;
   update_columns() ;
-  table_fill(false, true,true) ; table_fill_try() ;
+  table_fill(false, true,true) ; periodic_work_do() ;
 
   table_autosave_toggle() ;
 
@@ -4219,23 +4222,24 @@ function javascript_regtest_ue()
 
   the_current_cell.cursor_left() ;
   do_move_column_left() ;
-  table_fill(false, true) ; table_fill_try() ;
+  table_fill(false, true) ; periodic_work_do() ;
   bigger_column() ;
   bigger_column() ;
   bigger_column() ;
   do_move_column_left() ;
-  table_fill(false, true) ; table_fill_try() ;
+  table_fill(false, true) ; periodic_work_do() ;
   smaller_column() ;
   smaller_column() ;
   smaller_column() ;
 
   cell_goto(table.childNodes[nr_headers].childNodes[3]) ;
+  periodic_work_do() ;
   export_column() ; // Moyenne
   export_column_id_value();
   v = popup_value() ;
   for(var i in inputs)
     if ( v[i] != inputs[i] + '\t' + expore[i] )
-      alert_real('Export BUG:' + v[i] + ' != ' + inputs[i] + '\t' + expore[i]);
+      alert_real('Export BUG: line=(' + v[i] + ') != expected=(' + inputs[i] + '\t' + expore[i] + ')');
   popup_close() ;
   expected('');
 
@@ -4246,7 +4250,7 @@ function javascript_regtest_ue()
   import_column_do() ;
   expected('');
   freeze_column() ;
-  table_fill(false, true) ; table_fill_try() ;
+  table_fill(false, true) ; periodic_work_do() ;
 
   cell_goto(table.childNodes[nr_headers+3].childNodes[0], true) ;
   if ( the_current_cell.td.innerHTML != 'PP' )

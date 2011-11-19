@@ -1824,7 +1824,7 @@ function current_cursor_down()
   if ( this.lin == table_attr.nr_lines + nr_headers - 1 )
     {
       next_page(true) ;
-      table_fill_try() ; // Want change NOW (bad input if fast typing)
+      // table_fill_try() ; // Want change NOW (bad input if fast typing)
     }
   else
     this.jump(this.lin + 1, this.col) ;
@@ -1838,7 +1838,7 @@ function current_cursor_up()
       if ( line_offset !== 0 )
 	{
 	  previous_page(true) ;
-	  table_fill_try() ; // Want change NOW (bad input if fast typing)
+	  // table_fill_try() ; // Want change NOW (bad input if fast typing)
 	}
     }
   else

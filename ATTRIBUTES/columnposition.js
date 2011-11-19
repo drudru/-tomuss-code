@@ -58,7 +58,8 @@ function right_column(column)
 
 function do_move_column_right()
 {
-  if ( table_fill_queued )
+    
+  if ( periodic_work_in_queue(table_fill_do) )
     return ; // XXX Hide a bug (moving column quickly lost it sometimes)
 
   var x ;
@@ -74,7 +75,7 @@ function do_move_column_right()
 
 function do_move_column_left()
 {
-  if ( table_fill_queued )
+  if ( periodic_work_in_queue(table_fill_do) )
     return ; // XXX Hide a bug (moving column quickly lost it sometimes)
 
   var col = the_current_cell.col ;
