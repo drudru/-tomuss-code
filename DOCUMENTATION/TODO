@@ -10,9 +10,11 @@ Utilisateurs finaux.
 
 * Traduction
 
+* Type Note non éditable dans le suivi.
+
 * Non semestrialisation : seul le responsable
 
-* Tip : nouvelle version avec le +
+* Tip : nouvelle version avec le + cliquable et survolable
 
 * Passer l'arrondi dans les paramètres colonnes ?
 * Passer le nombre de notes min.max a enlever dans les paramètres colonnes ?
@@ -90,6 +92,12 @@ Utilisateurs finaux.
 Administrateur.
 ---------------
 
+* Ticket expiré : fait une redirection du client (impossible dans frame)
+
+* Afficher les lock de tables
+
+* Afficher la tete de update_liste
+
 * Cleanup d'un tableau sur place : config_table par exemple
 
 * Droit d'accès : généraliser la notion de groupe, pouvoir en créer.
@@ -125,6 +133,10 @@ Problèmes à résoudre.
 =====================
 
 * DEMO : commentaire numerique sur saisie d'ABJ sans commentaire !!!
+
+* Utilise trop de CPU
+
+* Emargement : Salle apparait et la bulle d'aide s'imprime
 
 * Redémarrage TOMUSS et vieille pages : pas réglé, le client persiste à vouloir
   se reconnecter.

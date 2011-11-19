@@ -66,10 +66,7 @@ var debug_window ;
 var delayed_list ;
 var mouse_over_old_td ; // To not recompute the tip on each mousemove.
 var filtered_lines ;
-var table_fill_queued = 0 ;
 var table_fill_do_not_focus ;
-var table_fill_display_headers ;
-var table_fill_compute_filtered_lines ;
 var table_fill_hook ;
 var next_page_col ;
 var next_page_line ;
@@ -439,7 +436,7 @@ function filter_unfocus(event)
 /* The title is clicked */
 function sort_column(event, data_col)
 {
-  if ( table_fill_queued )
+  if ( periodic_work_in_queue(table_fill_do) )
     return ;
 
   if ( data_col === undefined )
@@ -1347,7 +1344,7 @@ function update_vertical_scrollbar()
 
 function table_header_fill()
 {
-  table_fill_display_headers |= true ;
+    periodic_work_add(table_header_fill_real) ;
 }
 
 function table_header_fill_real()
@@ -1356,7 +1353,6 @@ function table_header_fill_real()
   var cls = column_list() ;
   var w ;
 
-  table_fill_display_headers = false ;
   the_current_cell.update_column_headers() ;
   update_horizontal_scrollbar(cls) ;
 
@@ -1665,9 +1661,30 @@ function line_fill(line, write, cls, empty_column)
     }
 }
 
+function table_fill_do()
+{
+    table_fill_real() ;
+    
+    if ( table_fill_hook )
+	{
+	    table_fill_hook() ;
+	    table_fill_hook = undefined ;
+	}
+    // XXX_HS Do not update while the cell is being edited
+    if ( ! the_current_cell.focused )
+	{
+	    the_current_cell.update(table_fill_do_not_focus) ;
+	    // Timeout because the cell must be repositionned after
+	    // The table column resize in case of horizontal scroll with
+	    // variable size columns.
+	    setTimeout("the_current_cell.update("+table_fill_do_not_focus+");"
+		       ,100) ;
+	}
+}
+
 function table_fill_try()
 {
-    var terminate, width=window_width(), height=window_height() ;
+    var width=window_width(), height=window_height() ;
 
   if ( current_window_width != width )
     {
@@ -1690,47 +1707,6 @@ function table_fill_try()
       table_fill(false, true, true) ;
       current_window_width = width ;
       current_window_height = height ;
-    }
-
-  if ( table_fill_compute_filtered_lines )
-    {
-      table_fill_compute_filtered_lines = false ;
-      update_filtered_lines() ;
-    }
-  if ( table_fill_queued )
-    {
-      table_fill_queued = 0 ;
-      table_fill_real() ;
-      terminate = true ;
-    }
-  if ( terminate )
-    {
-      if ( table_fill_hook )
-	{
-	  table_fill_hook() ;
-	  table_fill_hook = undefined ;
-	}
-      // XXX_HS Do not update while the cell is being edited
-      if ( ! the_current_cell.focused )
-	{
-	  the_current_cell.update(table_fill_do_not_focus) ;
-	  // Timeout because the cell must be repositionned after
-	  // The table column resize in case of horizontal scroll with
-	  // variable size columns.
-	  setTimeout("the_current_cell.update("+table_fill_do_not_focus+");"
-		     ,100) ;
-	}
-    }
-
-  if ( table_fill_display_headers )
-    {
-      // update_vertical_scrollbar() ;
-      table_header_fill_real() ;
-    }
-
-  if ( the_current_cell.do_update_headers )
-    {
-      the_current_cell.update_headers_real() ;
     }
 
   if ( the_current_cell.column.type == 'Login'
@@ -1824,10 +1800,11 @@ function table_fill(do_not_focus, display_headers, compute_filtered_lines)
 {
   if ( table === undefined )
     return ;
-  table_fill_queued = 1 ;
   table_fill_do_not_focus = do_not_focus ;
-  table_fill_display_headers |= display_headers ;
-  table_fill_compute_filtered_lines = compute_filtered_lines ;
+  if ( compute_filtered_lines )
+      periodic_work_add(update_filtered_lines) ;
+  periodic_work_add(table_fill_do) ;
+  table_header_fill() ;
 }
 
 function table_fill_real()
@@ -2785,6 +2762,11 @@ function periodic_work_add_once(table, item) // Do not use this
 	}
 }
 
+function periodic_work_in_queue(f) // The function is the the queue
+{
+    return myindex(periodic_work_functions, f) != -1 ;
+}
+
 function periodic_work_add(f)
 {
     periodic_work_add_once(periodic_work_functions, f) ;
@@ -2820,6 +2802,7 @@ function periodic_work_do()
 	    clearInterval(periodic_work_id) ;
 	    periodic_work_id = undefined ;
 	}
+    p_title_links.innerHTML = periodic_work_functions.length;
 }
 
 

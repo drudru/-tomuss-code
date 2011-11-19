@@ -1639,7 +1639,6 @@ function current_update_headers_real()
 {
   var img ;
 
-  this.do_update_headers = false ;
   if ( author )
     author.innerHTML = this.cell.author ;
   if ( modification_date )
@@ -1678,9 +1677,14 @@ function current_update_headers_real()
     }
 }
 
+function current_update_headers_()
+{
+    the_current_cell.update_headers_real() ;
+}
+
 function current_update_headers()
 {
-  this.do_update_headers = true ;
+    periodic_work_add(current_update_headers_) ;
 }
 
 function current_jump(lin, col, do_not_focus, line_id, data_col)
