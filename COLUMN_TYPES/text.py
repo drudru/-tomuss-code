@@ -183,12 +183,12 @@ pour la <b>trier</b> dans une direction ou l'autre.<br>
             e = str(value).replace("%","&#37").replace("'", "&#39;"). \
                 replace('"', '&#34;')
 
-            v = '<input class="hidden" onkeypress="if ( the_event(event).keyCode == 13 ) _cell(this,\'%s/=%s/%d/%s/%s/cell/%s/%s\',\'%s\');" value="%s">' % (
+            v = '<input class="hidden" onkeypress="if ( the_event(event).keyCode == 13 ) _cell(this,\'%s/=%s/%d/%s/%s/cell/%s/%s\',\'%s\', \'%s\');" value="%s">' % (
                 configuration.server_url,
                 ticket,
                 column.table.year, column.table.semester,
                 column.table.ue, column.the_id, line_id,
-                column.type.name, e)
+                column.type.name, column.minmax, e)
             return (v, '', '')
 
         if value == '':

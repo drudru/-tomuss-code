@@ -1,6 +1,6 @@
 /* To send the cell change and feedback */
 
-function _cell(s, url, col_type)
+function _cell(s, url, col_type, minmax)
 {
   var ticket = document.location.pathname.split('/')[1] ;
   var url_s = url.split('/') ;
@@ -16,7 +16,24 @@ function _cell(s, url, col_type)
     }
 
   if ( col_type )
-    s.value = type_title_to_type(col_type).cell_test(s.value) ;
+      {
+	  var false_column = {'minmax': minmax}, new_s ;
+	  
+	  if ( minmax )
+	      {
+		  set_test_note(minmax, false_column) ;
+	      }
+	  new_s = type_title_to_type(col_type).cell_test(s.value,
+							 false_column) ;
+	  if ( new_s !== undefined )
+	      s.value = new_s ;
+	  else
+	      {
+		  if ( iframe )
+		      iframe.parentNode.removeChild(iframe) ;
+		  return ;
+	      }
+      }
 
   iframe.src = url + '/' + encode_uri(s.value) ;
 

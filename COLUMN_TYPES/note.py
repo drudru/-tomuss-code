@@ -101,6 +101,10 @@ Mais il est possible :
         return True
 
     def formatter(self,column, value, cell, lines, teacher, ticket, line_id):
+        if column.is_modifiable(teacher):
+            return super(Note, self).formatter(column, value, cell, lines,
+                                               teacher, ticket, line_id)
+
         classname = self.cell_indicator(column, value, cell, lines)[0]
         if classname == 'abinj2':
             return ('ABINJ???', classname, self.message)
