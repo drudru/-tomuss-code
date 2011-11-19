@@ -1735,7 +1735,6 @@ function login_list_hide()
 {
   the_current_cell.blur_disabled = false ;
   hide_the_tip_real() ;
-  display_tips = display_tips_saved ;
 }
 
 function login_list_select(t)
@@ -1745,8 +1744,6 @@ function login_list_select(t)
   login_list_hide() ;
   the_current_cell.change() ;
 }
-
-var display_tips_saved ;
 
 function login_list(name, x)
 {
@@ -1759,8 +1756,6 @@ function login_list(name, x)
       return ;
     }
   hide_the_tip_real();  
-  display_tips_saved = display_tips ;
-  display_tips = false ;
 
   var nr = Math.floor(table_attr.nr_lines / 2) ;
   if ( x.length < nr )
@@ -1791,8 +1786,11 @@ function login_list(name, x)
 	+ '&nbsp;' + i[1] + ' ' + i[2] + ' ' + cn + '</option>' ;
     }
   s += '</select>' ;
+  var display_tips_saved = display_tips ;
+  display_tips = true ;
   show_the_tip(the_current_cell.td, s) ;
-  tip.onmousemove = function() { } ;
+  display_tips = display_tips_saved ;
+  get_tip_element().onmousemove = function() { } ;
 
 }
 
