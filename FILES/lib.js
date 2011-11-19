@@ -2056,7 +2056,7 @@ function page_horizontal(direction, col)
   the_current_cell.focused = false ; // XXX Kludge for XXX_HS
   table_fill_hook = table_fill_hook_horizontal ;
   table_fill(false, true) ;
-  table_fill_try() ;
+  periodic_work_do() ;
 }
 
 function next_page_horizontal(delta)
@@ -2464,6 +2464,8 @@ function highlight_effect()
 	t.push(o) ;
     }
   highlight_list = t ;
+  if ( highlight_list.length )
+    return true ;
 }
 
 function highlight_add(element)
@@ -2475,7 +2477,10 @@ function highlight_add(element)
 
   element.className = 'highlight1' ;
   if ( myindex(highlight_list, element) == -1 )
-    highlight_list.push(element) ;
+    {
+      highlight_list.push(element) ;
+      periodic_work_add(highlight_effect) ;
+    }
 }
 
 
@@ -2803,6 +2808,7 @@ function periodic_work_do()
       clearInterval(periodic_work_id) ;
       periodic_work_id = undefined ;
     }
+  //  p_title_links.innerHTML = periodic_work_functions.length ;
 }
 
 
@@ -3848,9 +3854,6 @@ function runlog(the_columns, the_lines)
     {
       javascript_regtest_ue() ;
     }
-
-  // Try to load image not yet loaded.
-  setInterval(highlight_effect, 500) ;
 
   if (window.addEventListener)
     /** DOMMouseScroll is for mozilla. */
