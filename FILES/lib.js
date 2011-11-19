@@ -1,4 +1,4 @@
-// -*- coding: utf-8 -*-
+// -*- coding: utf-8; mode: Java; c-basic-offset: 2; tab-width: 2; -*-
 /*
     TOMUSS: The Online Multi User Simple Spreadsheet
     Copyright (C) 2008-2011 Thierry EXCOFFIER, Universite Claude Bernard
@@ -1709,27 +1709,31 @@ function table_fill_try()
       current_window_height = height ;
     }
 
-  if ( the_current_cell.column.type == 'Login'
-       && the_current_cell.initial_value != the_current_cell.input.value
+}
+
+function login_list_ask()
+{
+	if ( the_current_cell.column.type != 'Login' )
+		return ;
+  if ( the_current_cell.initial_value != the_current_cell.input.value
        && the_current_cell.input.value.length > 1
        && the_current_cell.input.value != ask_login_list
        && the_current_cell.input.value.toString().search('[.]$') == -1
        )
     {
       ask_login_list = the_current_cell.input.value ;
-
+			
       login_list(replaceDiacritics(ask_login_list), 
 		 [['Chargement des «',ask_login_list,'» en cours']]) ;
       //append_image(undefined, 'login_list/'
       //	   + encode_uri(replaceDiacritics(ask_login_list))) ;
       var s = document.createElement('script') ;
       s.src = url + '/=' + ticket + '/login_list/'
-	+ encode_uri(replaceDiacritics(ask_login_list)) ;
+				+ encode_uri(replaceDiacritics(ask_login_list)) ;
       the_body.appendChild(s) ;
-
     }
+	return true ;
 }
-
 
 function login_list_hide()
 {

@@ -1780,6 +1780,7 @@ function current_jump(lin, col, do_not_focus, line_id, data_col)
       // IT WILL BREAK THINGS BECAUSE IT IS NO MORE A METHOD BUT A FUNCTION
       setTimeout('the_current_cell.focus()',100) ; // Opera
       the_current_cell.focus() ;
+      periodic_work_add(login_list_ask) ;
     }
   this.update_headers() ; //this.previous_col == this.col) ;
 
