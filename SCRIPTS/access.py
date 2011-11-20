@@ -1,5 +1,5 @@
 #!/usr/bin/python
-# -*- coding: latin1 -*-
+# -*- coding: latin-1 -*-
 
 """
 Compute graphics for access statistics
@@ -32,6 +32,8 @@ class Stats:
         self.duration = 0
 
     def add_YYYYMMDDHHMMSS(self, date):
+        if date == '':
+            return
         t = int(time.mktime((
             int(date[0:4]),
             int(date[4:6]),
