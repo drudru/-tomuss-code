@@ -1805,7 +1805,8 @@ function table_fill(do_not_focus, display_headers, compute_filtered_lines)
   if ( compute_filtered_lines )
       periodic_work_add(update_filtered_lines) ;
   periodic_work_add(table_fill_do) ;
-  table_header_fill() ;
+  if ( display_headers )
+    table_header_fill() ;
 }
 
 function table_fill_real()
