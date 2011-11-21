@@ -1460,7 +1460,7 @@ function get_filtered_lines()
       empty = line_empty(line) ;
       if ( ! empty )
 	nr_not_empty_lines++ ;
-      if ( empty === true ) // empty on screen AND history
+      if ( empty ) // empty on screen
 	continue ;
       var ok = true ;
       for(var filter in filters)
