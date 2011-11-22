@@ -1684,7 +1684,7 @@ function table_fill_do()
 
 function manage_window_resize_event()
 {
-	var width=window_width(), height=window_height() ;
+  var width=window_width(), height=window_height() ;
 		
   if ( current_window_width != width )
     {
@@ -1708,6 +1708,7 @@ function manage_window_resize_event()
       current_window_width = width ;
       current_window_height = height ;
     }
+  return true ;
 }
 
 function login_list_ask()
@@ -3862,7 +3863,15 @@ function runlog(the_columns, the_lines)
   /** IE/Opera. */
   window.onmousewheel = document.onmousewheel = wheel;
 
-	window.onresize = manage_window_resize_event ;
+  if ( window.attachEvent )
+    {
+      // IE does not launch resize event if the window is loading
+      periodic_work_add(manage_window_resize_event) ;
+    }
+  else
+    window.onresize = manage_window_resize_event ;
+
+  
 	
   if ( ue != 'VIRTUALUE' && ue != '' && page_id > 0 )
     document.write('<img width="1" height="1" src="' + url + "/=" + ticket
