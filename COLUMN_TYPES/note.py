@@ -24,6 +24,9 @@ import cgi
 import configuration
 import math
 
+if not hasattr(math, 'isnan'):
+    math.isnan = lambda x: not x<0 and not x>=0
+
 class Note(text.Text):
     attributes_visible = ('minmax', 'weight')
     human_priority = -10

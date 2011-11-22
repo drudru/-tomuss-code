@@ -13,6 +13,8 @@ clean:
 	@echo 'CLEAN'
 	@-find . \( -name '*~' \
                  -o -name '*.pyc' \
+                 -o -name '*.mo' \
+		 -o -name '*flymake*' \
                  -o -name 'xxx[!_]*' \) \
                  -exec rm {} \; 2>/dev/null
 	@rm -rf DBregtest BACKUP_DBregtest
