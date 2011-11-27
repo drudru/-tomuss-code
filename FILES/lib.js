@@ -1,4 +1,4 @@
-// -*- coding: utf-8 -*-
+// -*- coding: utf-8; mode: Java; c-basic-offset: 2; tab-width: 8; -*-
 /*
     TOMUSS: The Online Multi User Simple Spreadsheet
     Copyright (C) 2008-2011 Thierry EXCOFFIER, Universite Claude Bernard
@@ -65,14 +65,8 @@ var today ;
 var debug_window ;
 var delayed_list ;
 var mouse_over_old_td ; // To not recompute the tip on each mousemove.
-var do_update_vertical_scrollbar_cursor ;
-var do_update_vertical_scrollbar_position ;
-var do_update_vertical_scrollbar ;
 var filtered_lines ;
-var table_fill_queued = 0 ;
 var table_fill_do_not_focus ;
-var table_fill_display_headers ;
-var table_fill_compute_filtered_lines ;
 var table_fill_hook ;
 var next_page_col ;
 var next_page_line ;
@@ -442,7 +436,7 @@ function filter_unfocus(event)
 /* The title is clicked */
 function sort_column(event, data_col)
 {
-  if ( table_fill_queued )
+  if ( periodic_work_in_queue(table_fill_do) )
     return ;
 
   if ( data_col === undefined )
@@ -1207,7 +1201,7 @@ function update_vertical_scrollbar_cursor_real()
 
 function update_vertical_scrollbar_cursor()
 {
-  do_update_vertical_scrollbar_cursor = true ;
+    periodic_work_add(update_vertical_scrollbar_cursor_real) ;
 }
 
 
@@ -1233,7 +1227,8 @@ function update_vertical_scrollbar_position_real()
 
 function update_vertical_scrollbar_position()
 {
-  do_update_vertical_scrollbar_position = true ;
+    periodic_work_add(update_vertical_scrollbar_position_real) ;
+    periodic_work_add(update_vertical_scrollbar_cursor_real) ;
 }
 
 var body_on_mouse_up_doing ;
@@ -1342,12 +1337,14 @@ function update_vertical_scrollbar_real()
 
 function update_vertical_scrollbar()
 {
-  do_update_vertical_scrollbar = true ;
+    periodic_work_add(update_vertical_scrollbar_real) ;
+    periodic_work_remove(update_vertical_scrollbar_cursor_real) ;
+    periodic_work_remove(update_vertical_scrollbar_position_real) ;
 }
 
 function table_header_fill()
 {
-  table_fill_display_headers |= true ;
+    periodic_work_add(table_header_fill_real) ;
 }
 
 function table_header_fill_real()
@@ -1356,7 +1353,6 @@ function table_header_fill_real()
   var cls = column_list() ;
   var w ;
 
-  table_fill_display_headers = false ;
   the_current_cell.update_column_headers() ;
   update_horizontal_scrollbar(cls) ;
 
@@ -1464,7 +1460,7 @@ function get_filtered_lines()
       empty = line_empty(line) ;
       if ( ! empty )
 	nr_not_empty_lines++ ;
-      if ( empty === true ) // empty on screen AND history
+      if ( empty ) // empty on screen
 	continue ;
       var ok = true ;
       for(var filter in filters)
@@ -1665,122 +1661,84 @@ function line_fill(line, write, cls, empty_column)
     }
 }
 
-function table_fill_try()
+function table_fill_do()
 {
-  var terminate ;
+    table_fill_real() ;
+    
+    if ( table_fill_hook )
+	{
+	    table_fill_hook() ;
+	    table_fill_hook = undefined ;
+	}
+    // XXX_HS Do not update while the cell is being edited
+    if ( ! the_current_cell.focused )
+	{
+	    the_current_cell.update(table_fill_do_not_focus) ;
+	    // Timeout because the cell must be repositionned after
+	    // The table column resize in case of horizontal scroll with
+	    // variable size columns.
+	    setTimeout("the_current_cell.update("+table_fill_do_not_focus+");"
+		       ,100) ;
+	}
+}
 
-  if ( current_window_width != window_width() )
+function manage_window_resize_event()
+{
+  var width=window_width(), height=window_height() ;
+		
+  if ( current_window_width != width )
     {
       if ( table_attr.default_nr_columns == 0 )
-	{
-	  compute_nr_cols() ;
-	}
+				{
+					compute_nr_cols() ;
+				}
       update_column_menu() ;
       update_histogram(true) ;
     }
-  if ( current_window_height != window_height() )
+  if ( current_window_height != height )
     {
       if ( preferences.nr_lines == 0 )
-	compute_nr_lines() ;
+				compute_nr_lines() ;
       update_line_menu() ;
     }
-  if ( current_window_width != window_width()
-       || current_window_height != window_height() )
+  if ( current_window_width != width || current_window_height != height )
     {
       table_init() ;
       table_fill(false, true, true) ;
-      current_window_width = window_width() ;
-      current_window_height = window_height() ;
+      current_window_width = width ;
+      current_window_height = height ;
     }
+  return true ;
+}
 
-  if ( table_fill_compute_filtered_lines )
-    {
-      table_fill_compute_filtered_lines = false ;
-      update_filtered_lines() ;
-    }
-  if ( table_fill_queued )
-    {
-      table_fill_queued = 0 ;
-      table_fill_real() ;
-      terminate = true ;
-    }
-  if ( terminate )
-    {
-      if ( table_fill_hook )
-	{
-	  table_fill_hook() ;
-	  table_fill_hook = undefined ;
-	}
-      // XXX_HS Do not update while the cell is being edited
-      if ( ! the_current_cell.focused )
-	{
-	  the_current_cell.update(table_fill_do_not_focus) ;
-	  // Timeout because the cell must be repositionned after
-	  // The table column resize in case of horizontal scroll with
-	  // variable size columns.
-	  setTimeout("the_current_cell.update("+table_fill_do_not_focus+");"
-		     ,100) ;
-	}
-    }
-
-  if ( table_fill_display_headers )
-    {
-      // update_vertical_scrollbar() ;
-      table_header_fill_real() ;
-    }
-
-  if ( the_current_cell.do_update_headers )
-    {
-      the_current_cell.update_headers_real() ;
-    }
-
-  if ( do_update_vertical_scrollbar )
-    {
-      update_vertical_scrollbar_real() ;
-      do_update_vertical_scrollbar = false ;
-      do_update_vertical_scrollbar_position = false ;
-      do_update_vertical_scrollbar_cursor = false ;
-    }
-  else if ( do_update_vertical_scrollbar_position )
-    {
-      update_vertical_scrollbar_position_real() ;
-      update_vertical_scrollbar_cursor_real() ;
-      do_update_vertical_scrollbar_position = false ;
-      do_update_vertical_scrollbar_cursor = false ;
-    }
-  else if ( do_update_vertical_scrollbar_cursor )
-    {
-      update_vertical_scrollbar_cursor_real() ;
-      do_update_vertical_scrollbar_cursor = false ;
-    }
-
-  if ( the_current_cell.column.type == 'Login'
-       && the_current_cell.initial_value != the_current_cell.input.value
+function login_list_ask()
+{
+	if ( the_current_cell.column.type != 'Login' )
+		return ;
+  if ( the_current_cell.initial_value != the_current_cell.input.value
        && the_current_cell.input.value.length > 1
        && the_current_cell.input.value != ask_login_list
        && the_current_cell.input.value.toString().search('[.]$') == -1
        )
     {
       ask_login_list = the_current_cell.input.value ;
-
+			
       login_list(replaceDiacritics(ask_login_list), 
 		 [['Chargement des «',ask_login_list,'» en cours']]) ;
       //append_image(undefined, 'login_list/'
       //	   + encode_uri(replaceDiacritics(ask_login_list))) ;
       var s = document.createElement('script') ;
       s.src = url + '/=' + ticket + '/login_list/'
-	+ encode_uri(replaceDiacritics(ask_login_list)) ;
+				+ encode_uri(replaceDiacritics(ask_login_list)) ;
       the_body.appendChild(s) ;
-
     }
+	return true ;
 }
-
 
 function login_list_hide()
 {
   the_current_cell.blur_disabled = false ;
   hide_the_tip_real() ;
-  display_tips = display_tips_saved ;
 }
 
 function login_list_select(t)
@@ -1790,8 +1748,6 @@ function login_list_select(t)
   login_list_hide() ;
   the_current_cell.change() ;
 }
-
-var display_tips_saved ;
 
 function login_list(name, x)
 {
@@ -1804,8 +1760,6 @@ function login_list(name, x)
       return ;
     }
   hide_the_tip_real();  
-  display_tips_saved = display_tips ;
-  display_tips = false ;
 
   var nr = Math.floor(table_attr.nr_lines / 2) ;
   if ( x.length < nr )
@@ -1836,8 +1790,11 @@ function login_list(name, x)
 	+ '&nbsp;' + i[1] + ' ' + i[2] + ' ' + cn + '</option>' ;
     }
   s += '</select>' ;
+  var display_tips_saved = display_tips ;
+  display_tips = true ;
   show_the_tip(the_current_cell.td, s) ;
-  tip.onmousemove = function() { } ;
+  display_tips = display_tips_saved ;
+  get_tip_element().onmousemove = function() { } ;
 
 }
 
@@ -1845,10 +1802,12 @@ function table_fill(do_not_focus, display_headers, compute_filtered_lines)
 {
   if ( table === undefined )
     return ;
-  table_fill_queued = 1 ;
   table_fill_do_not_focus = do_not_focus ;
-  table_fill_display_headers |= display_headers ;
-  table_fill_compute_filtered_lines = compute_filtered_lines ;
+  if ( compute_filtered_lines )
+      periodic_work_add(update_filtered_lines) ;
+  periodic_work_add(table_fill_do) ;
+  if ( display_headers )
+    table_header_fill() ;
 }
 
 function table_fill_real()
@@ -2099,7 +2058,7 @@ function page_horizontal(direction, col)
   the_current_cell.focused = false ; // XXX Kludge for XXX_HS
   table_fill_hook = table_fill_hook_horizontal ;
   table_fill(false, true) ;
-  table_fill_try() ;
+  periodic_work_do() ;
 }
 
 function next_page_horizontal(delta)
@@ -2507,6 +2466,8 @@ function highlight_effect()
 	t.push(o) ;
     }
   highlight_list = t ;
+  if ( highlight_list.length )
+    return true ;
 }
 
 function highlight_add(element)
@@ -2518,7 +2479,10 @@ function highlight_add(element)
 
   element.className = 'highlight1' ;
   if ( myindex(highlight_list, element) == -1 )
-    highlight_list.push(element) ;
+    {
+      highlight_list.push(element) ;
+      periodic_work_add(highlight_effect) ;
+    }
 }
 
 
@@ -2635,8 +2599,6 @@ function server_answered(t)
   if ( t.request.saved )
     return ;
   saved(t.request.request_id) ;
-
-  //  auto_save_errors() ;
 }
 
 function revalidate_ticket()
@@ -2709,6 +2671,7 @@ function restore_unsaved()
     {
       for(var i in t_splited)
 	pending_requests.push(new Request(t_splited[i])) ;
+      periodic_work_add(auto_save_errors) ;
       create_popup('restoring_data',
 		   'Sauvegarde en cours, veuillez patienter',
 		   '', '', message) ;
@@ -2782,7 +2745,78 @@ function click_to_revalidate_ticket()
   connection_state = 'auth' ;
 }
 
+/*
+ ****************************************************************************
+ * Management of periodic work.
+ * Once added, the function is called every 0.1 seconds until it returns false
+ * 'add' and 'remove' must not be called from a periodic function.
+ * When a function is added to the list, it goes to the end,
+ * so it is processed after the others.
+ ****************************************************************************
+ */
+
+var periodic_work_functions = [] ;
+var periodic_work_id ;
+
+function periodic_work_add_once(table, item) // Do not use this
+{
+    var i = myindex(table, item) ;
+    if ( i == -1 )
+	table.push(item) ;
+    else
+	{
+	    table.splice(i, 1) ;
+	    table.push(item) ;
+	}
+}
+
+function periodic_work_in_queue(f) // The function is the the queue
+{
+    return myindex(periodic_work_functions, f) != -1 ;
+}
+
+function periodic_work_add(f)
+{
+    periodic_work_add_once(periodic_work_functions, f) ;
+    if ( periodic_work_id === undefined )
+	periodic_work_id = setInterval(periodic_work_do, 100) ;    
+}
+
+function periodic_work_remove(f)
+{
+    var i = myindex(periodic_work_functions, f) ;
+    if ( i != -1 )
+	periodic_work_functions.splice(i, 1) ;
+}
+
+function periodic_work_do()
+{
+  var f, to_do ;
+  var to_continue = [] ;
+  while(periodic_work_functions.length)
+    {
+      to_do = periodic_work_functions ;
+      periodic_work_functions = [] ;
+      for(f in to_do)
+	{
+	  f = to_do[f] ;
+	  if ( f() )
+	    periodic_work_add_once(to_continue, f) ;
+	}
+    }
+  periodic_work_functions = to_continue ;
+  if ( to_continue.length == 0 )
+    {
+      clearInterval(periodic_work_id) ;
+      periodic_work_id = undefined ;
+    }
+  //  p_title_links.innerHTML = periodic_work_functions.length ;
+}
+
+
+// **********************************************************
 // Restart image loading if the connection was not successul
+// **********************************************************
 
 function auto_save_errors()
 {
@@ -2798,7 +2832,7 @@ function auto_save_errors()
       reconnect() ;
 
   if ( auto_save_running || ! table_attr.autosave )
-    return ;
+    return true ;
 
   auto_save_running = true ;
 
@@ -2891,6 +2925,9 @@ function auto_save_errors()
 
   _d('autosave)\n');
   auto_save_running = false ;
+
+  if ( pending_requests.length != 0 )
+      return true ; // Continue
 }
 
 // Remove green images
@@ -2943,6 +2980,7 @@ function append_image(td, text, force)
     return ;
   var request = new Request(text) ;
   pending_requests.push(request) ;
+  periodic_work_add(auto_save_errors) ;
 
   if ( td )
     {
@@ -3801,9 +3839,6 @@ function runlog(the_columns, the_lines)
       return ;
     }
 
-  if ( server_log )
-    setInterval(auto_save_errors, 100) ;
-
   if ( preferences.interface == 'L' )
     {
       dispatch('init') ;
@@ -3822,16 +3857,22 @@ function runlog(the_columns, the_lines)
       javascript_regtest_ue() ;
     }
 
-  // Try to load image not yet loaded.
-  setInterval(highlight_effect, 500) ;
-  setInterval(table_fill_try, 100) ;
-
   if (window.addEventListener)
     /** DOMMouseScroll is for mozilla. */
     window.addEventListener('DOMMouseScroll', wheel, false);
   /** IE/Opera. */
   window.onmousewheel = document.onmousewheel = wheel;
 
+  if ( window.attachEvent )
+    {
+      // IE does not launch resize event if the window is loading
+      periodic_work_add(manage_window_resize_event) ;
+    }
+  else
+    window.onresize = manage_window_resize_event ;
+
+  
+	
   if ( ue != 'VIRTUALUE' && ue != '' && page_id > 0 )
     document.write('<img width="1" height="1" src="' + url + "/=" + ticket
 		   + '/' + year + '/' + semester + '/' + ue + '/' +
@@ -3993,6 +4034,10 @@ function display_suivi(cols) /* [value, class, comment] */
 
 function javascript_regtest_ue()
 {
+  function table_fill_try()
+  {
+    
+  }
   function set(i, v)
   {
     i.style.display = '' ;
@@ -4112,7 +4157,7 @@ function javascript_regtest_ue()
 
   table_init() ;
   update_columns() ;
-  table_fill(false, true,true) ; table_fill_try() ;
+  table_fill(false, true,true) ; periodic_work_do() ;
 
   table_autosave_toggle() ;
 
@@ -4190,23 +4235,24 @@ function javascript_regtest_ue()
 
   the_current_cell.cursor_left() ;
   do_move_column_left() ;
-  table_fill(false, true) ; table_fill_try() ;
+  table_fill(false, true) ; periodic_work_do() ;
   bigger_column() ;
   bigger_column() ;
   bigger_column() ;
   do_move_column_left() ;
-  table_fill(false, true) ; table_fill_try() ;
+  table_fill(false, true) ; periodic_work_do() ;
   smaller_column() ;
   smaller_column() ;
   smaller_column() ;
 
   cell_goto(table.childNodes[nr_headers].childNodes[3]) ;
+  periodic_work_do() ;
   export_column() ; // Moyenne
   export_column_id_value();
   v = popup_value() ;
   for(var i in inputs)
     if ( v[i] != inputs[i] + '\t' + expore[i] )
-      alert_real('Export BUG:' + v[i] + ' != ' + inputs[i] + '\t' + expore[i]);
+      alert_real('Export BUG: line=(' + v[i] + ') != expected=(' + inputs[i] + '\t' + expore[i] + ')');
   popup_close() ;
   expected('');
 
@@ -4217,7 +4263,7 @@ function javascript_regtest_ue()
   import_column_do() ;
   expected('');
   freeze_column() ;
-  table_fill(false, true) ; table_fill_try() ;
+  table_fill(false, true) ; periodic_work_do() ;
 
   cell_goto(table.childNodes[nr_headers+3].childNodes[0], true) ;
   if ( the_current_cell.td.innerHTML != 'PP' )

@@ -24,6 +24,9 @@ import cgi
 import configuration
 import math
 
+if not hasattr(math, 'isnan'):
+    math.isnan = lambda x: not x<0 and not x>=0
+
 class Note(text.Text):
     attributes_visible = ('minmax', 'weight')
     human_priority = -10
@@ -100,6 +103,10 @@ Mais il est possible :
         return True
 
     def formatter(self,column, value, cell, lines, teacher, ticket, line_id):
+        if column.is_modifiable(teacher):
+            return super(Note, self).formatter(column, value, cell, lines,
+                                               teacher, ticket, line_id)
+
         classname = self.cell_indicator(column, value, cell, lines)[0]
         if classname == 'abinj2':
             return ('ABINJ???', classname, self.message)

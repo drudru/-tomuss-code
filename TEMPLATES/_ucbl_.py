@@ -298,9 +298,6 @@ def remove_students_from_table(table, students):
                     table.cell_change(table.pages[0], inscrit_column, line_id,
                                       'ok')
                 continue
-            if inscrit_column:
-                table.cell_change(table.pages[0], inscrit_column, line_id,
-                                  'non')
             if line_empty(line):
                 # Clear the line
                 for i, column in enumerate(table.columns):
@@ -308,6 +305,9 @@ def remove_students_from_table(table, students):
                         table.cell_change(table.pages[0],
                                           column.the_id, line_id, '')
             else:
+                if inscrit_column:
+                    table.cell_change(table.pages[0], inscrit_column, line_id,
+                                      'non')
                 for i, column in enumerate(table.columns):
                     if (line[i].value and line[i].author == data.ro_user
                         and i != inscrit_column):

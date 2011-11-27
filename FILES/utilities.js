@@ -1675,7 +1675,6 @@ function current_update_headers_real()
 {
   var img ;
 
-  this.do_update_headers = false ;
   if ( author )
     author.innerHTML = this.cell.author ;
   if ( modification_date )
@@ -1714,9 +1713,14 @@ function current_update_headers_real()
     }
 }
 
+function current_update_headers_()
+{
+    the_current_cell.update_headers_real() ;
+}
+
 function current_update_headers()
 {
-  this.do_update_headers = true ;
+    periodic_work_add(current_update_headers_) ;
 }
 
 function current_jump(lin, col, do_not_focus, line_id, data_col)
@@ -1812,6 +1816,7 @@ function current_jump(lin, col, do_not_focus, line_id, data_col)
       // IT WILL BREAK THINGS BECAUSE IT IS NO MORE A METHOD BUT A FUNCTION
       setTimeout('the_current_cell.focus()',100) ; // Opera
       the_current_cell.focus() ;
+      periodic_work_add(login_list_ask) ;
     }
   this.update_headers() ; //this.previous_col == this.col) ;
 
@@ -1855,7 +1860,7 @@ function current_cursor_down()
   if ( this.lin == table_attr.nr_lines + nr_headers - 1 )
     {
       next_page(true) ;
-      table_fill_try() ; // Want change NOW (bad input if fast typing)
+      // table_fill_try() ; // Want change NOW (bad input if fast typing)
     }
   else
     this.jump(this.lin + 1, this.col) ;
@@ -1869,7 +1874,7 @@ function current_cursor_up()
       if ( line_offset !== 0 )
 	{
 	  previous_page(true) ;
-	  table_fill_try() ; // Want change NOW (bad input if fast typing)
+	  // table_fill_try() ; // Want change NOW (bad input if fast typing)
 	}
     }
   else

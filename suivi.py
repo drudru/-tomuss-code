@@ -36,6 +36,7 @@ import time
 import plugin
 import ticket
 import inscrits
+import cgi
 
 warn = utilities.warn
 
@@ -50,6 +51,15 @@ class MyRequestBroker(utilities.FakeRequestHandler):
         time_logs.write('%f %g %s\n' % (self.start_time, time.time()
                                    - self.start_time, action))
         time_logs.flush()
+
+    def do_POST(self):
+        ctype, pdict = cgi.parse_header(self.headers.getheader('content-type'))
+        if ctype != 'multipart/form-data':
+            return
+        self.posted_data = cgi.parse_multipart(self.rfile, pdict)
+        self.do_GET()
+
+        
     def do_GET(self):
         # self.rfile.close()
         try:

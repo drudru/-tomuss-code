@@ -876,6 +876,8 @@ class FakeRequestHandler(BaseHTTPServer.BaseHTTPRequestHandler):
     And the initial TOMUSS version was not assuming this.
     A clean program must not store information in the request handler object
     """
+    posted_data = None
+    
     def __init__(self, *args, **keys):
         if len(args) != 1:
             BaseHTTPServer.BaseHTTPRequestHandler.__init__(self, *args)
@@ -892,9 +894,11 @@ class FakeRequestHandler(BaseHTTPServer.BaseHTTPRequestHandler):
         self.ticket = server.ticket
         self.the_file = server.the_file
         self.start_time = server.start_time
+        self.posted_data = server.posted_data
         if hasattr(server, 'start_time_old'):
             self.start_time_old = server.start_time_old
         self.server = server
+        
 
         try:
             self.year = server.year

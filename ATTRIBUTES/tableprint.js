@@ -81,7 +81,7 @@ function printable_display_page(lines, title, page_break)
 	     + '<tr style="vertical-align:top;"><td>'
 	     + '<p>Date/Heure/Durée de l\'examen :'
 	     + "<p>Surveillants :"
-	     + "<p>Salle : " + 'salle'
+	     + "<p>Salle : "
 	     + "<p>Nombre d'étudiants sur cette liste : <b>" + nr_lines + "</b>" + v
 	     + "</td>"
 	     + '<td><p>Nombre de présents :'
