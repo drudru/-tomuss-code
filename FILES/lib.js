@@ -555,8 +555,13 @@ function compute_rank(line_id, column)
 function line_resume(line_id)
 {
   var s, column ;
-  s = '<table class="colored" style="max-width:' + Math.floor(window_width()*0.75) + 'px">' ;
-  s += '<tr><th>Colonne</th><th>Valeur</th><th>Rang</th><th>Commentaire</th></tr>';
+  s = '<table class="colored" style="max-width:'
+    + Math.floor(window_width()*0.75) + 'px">'
+    + '<tr><th>' + _('TH_column')
+    + '</th><th>' + _('TH_value')
+    + '</th><th>' + _('TH_rank')
+    + '</th><th>' + _('TH_comment')
+    + '</th></tr>' ;
   for(var data_col in columns)
     {
       cell = lines[line_id][data_col] ;
@@ -2176,16 +2181,16 @@ function update_cell(td, cell, column, abj)
 function column_change_allowed_text(column)
 {
   if ( ! table_attr.modifiable )
-    return "Cette table a été passée en lecture seulement par son responsable";
+    return _("ERROR_table_read_only") ;
   if ( column.title === '' )
     return true ;
   if ( column.author == '*' )
-    return "Cette colonne est définie par le système et ne peut être changée.";
+    return _("ERROR_column_system_defined") ;
   if ( column.author == my_identity )
     return true ;
   if ( i_am_the_teacher )
     return true ;
-  return "Cette colonne a été définie par un autre enseignant et vous n'êtes pas le responsable de l'UE." ;
+  return _("ERROR_value_defined_by_another_user") ;
 }
 
 function column_change_allowed(column)
@@ -2251,7 +2256,7 @@ function cell_set_value_real(line_id, data_col, value, td)
 
   if ( column.is_empty && columns_filter_value !== '' )
     {
-      alert("Désolé, il n'est pas possible de créer de nouvelles colonnes quand il y a un filtre de colonne.\n\nCette fonctionnalité est très complexe à programmer et peu utile,\nElle ne sera donc pas ajoutée.") ;
+      alert(_("ERROR_column_creation_with_filter")) ;
       return;
     }
 
@@ -2354,8 +2359,10 @@ function student_abjs(login)
   if ( abjs.length )
     {
       s += '<TABLE class="display_abjs colored">' ;
-      s += '<TR><TH COLSPAN="4">Liste des ABJs</TH></TR>' ;
-      s += '<TR><TH>Début</TH><TH>Fin</TH><TH>Durée</TH><TH></TH></TR>' ;
+      s += '<TR><TH COLSPAN="4">' + _("TH_ABJ_list") + '</TH></TR>' ;
+      s += '<TR><TH>' + _('TH_begin')
+	+ '</TH><TH>' + _('TH_end')
+	+ '</TH><TH>' + _('TH_length') + '</TH><TH></TH></TR>' ;
       for(var abj in abjs)
         {
 	  s += '<TR>' ;
@@ -2390,7 +2397,8 @@ function student_abjs(login)
         }
     }
   if ( abjs_da[2] )
-    s += '<p class="tierstemps"><b>Actuellement avec un tiers temps</b> :<br>' + abjs_da[2].replace(/\n/g, '<br>') ;
+    s += '<p class="tierstemps"><b>' + _('MSG_TT')
+      + '</b> :<br>' + abjs_da[2].replace(/\n/g, '<br>') ;
 
   return s ;
 }
@@ -2621,7 +2629,7 @@ function store_unsaved()
     return ;
   if ( ! localStorage )
     {
-      alert("Désolé, la fenêtre a été fermée sans tout sauvegarder") ;
+      alert(_("ERROR_save_to_localstorage_failed")) ;
       return ;
     }
   var s = [] ;
@@ -2667,14 +2675,12 @@ function restore_unsaved()
       message += t_splited[i] + '\n' ;
     }
 
-  if ( confirm("Voulez-vous restaurer les actions suivantes :\n" + message) )
+  if ( confirm(_('ASK_restore') + "\n" + message) )
     {
       for(var i in t_splited)
 	pending_requests.push(new Request(t_splited[i])) ;
       periodic_work_add(auto_save_errors) ;
-      create_popup('restoring_data',
-		   'Sauvegarde en cours, veuillez patienter',
-		   '', '', message) ;
+      create_popup('restoring_data', _('MSG_currently_saving'),'','',message) ;
     }
   else
     t = '' ;
@@ -2715,7 +2721,7 @@ function request_send()
 	this.image_pending = this.image.cloneNode(true) ;
       else
 	this.image_pending = url_base().childNodes[0] ;
-      this.image_pending.alt = "Changement pas encore sauvegardé" ;
+      this.image_pending.alt = _("MSG_not_yet_saved") ;
       server_log.appendChild( this.image_pending) ;
       this.image_pending.request = this ;
     }
@@ -2739,7 +2745,7 @@ function click_to_revalidate_ticket()
   var m =  '<a onclick="javascript: t_authenticate.style.display = \'none\' ; window_open(\'' + cas_url + '/login?service='
     + encode_uri('http://' + document.location.host +
 		 '/allow/' + ticket + '/' + millisec()).replace(/%01/g, '%2F')
-    + '\')">CLIQUEZ ICI<br>POUR VOUS AUTHENTIFIER À NOUVEAU<br>votre session a expiré ou<br>votre machine a changé de réseau.</a>' ; 
+    + '\')">' + _("MSG_reauthenticate") + '</a>' ; 
   t_authenticate.style.display = 'block' ;
   t_authenticate.innerHTML = m ;
   connection_state = 'auth' ;
@@ -2913,7 +2919,7 @@ function auto_save_errors()
       else
 	{
 	  _d('STATE=NO_CONNECTION');
-	  alert("Cela fait 5 secondes que l'on n'arrive pas à sauvegarder votre travail sur le serveur.\nIl sera sauvegardé quand la connexion internet sera rétablie.\n\nVous perdrez votre travail si vous fermez la page web ou la rechargez...\n\nIl est préférable d'attendre que TOUS les carrés oranges deviennent verts\navant de continuer à travailler") ;
+	  alert(_("MSG_connection_staled")) ;
 	  if (  last_server_answer < d )
 	    {
 	      // Nothing was received while alert was displayed
@@ -3069,7 +3075,7 @@ function Xcolumn_delete(page, col)
   the_current_cell.update() ;
 
   if ( page != ' ')
-    alert("Désolé pour le dérangement, mais je dois tout réafficher car quelqu'un a détruit une colonne") ;
+    alert(_("MSG_refresh")) ;
   the_current_cell.do_update_column_headers = true ;
   the_current_cell.update_headers() ;
   table_fill(true, true,true) ;
@@ -3159,7 +3165,7 @@ function comment_on_change()
 
   if ( ! cell.modifiable() )
     {
-      alert("Vous n'avez pas l'autorisation de modifier ce commentaire");
+      alert(_("ERROR_value_not_modifiable")) ;
       return ;
     }
   
@@ -3230,9 +3236,8 @@ function the_filters()
     {
       column = columns[data_col] ;
       if ( column.filter !== '' )
-	s += 'Filtre sur la colonne <B>'
-	  + column.title + '</B> : <b>' + html(column.filter)
-	  + '</b><BR>\n' ;
+	s += _("MSG_filter_on") + ' <B>' + column.title + '</B> : <b>'
+	  + html(column.filter) + '</b><BR>\n' ;
     }
   return s ;
 }
@@ -3243,13 +3248,13 @@ function printable_introduction()
 
   if ( tr_classname !== undefined )
     if ( sort_columns[0].data_col != 2 )
-      name_sort = '<span style="background:#F00;color:white">La liste n\'est pas dans l\'ordre alpabétique des noms.</span>' ;
+      name_sort = '<span style="background:#F00;color:white">'
+	+ _("WARN_not_name_sorted") + '</span>' ;
 
   return '<p class="hidden_on_paper printable_introduction">'
-    + "Ce qui est sur fond jaune n'est pas imprimé.<br>"
-    + "Les lignes sont triées par «<b>" + sort_columns[0].title
-    + '</b>» puis «<b>' + sort_columns[1].title + '</b>»<br>'
-    + the_filters() + name_sort ;
+    + _("MSG_not_printed") + "<br>" + _("MSG_sorted_by") + " «<b>"
+    + sort_columns[0].title + '</b>» ' + _("MSG_sorted_by_more") + ' «<b>'
+    + sort_columns[1].title + '</b>»<br>' + the_filters() + name_sort ;
 }
 
 function display_on_signature_table(line)
@@ -3649,7 +3654,7 @@ function nice_scale_from(min, v, max, bigger)
 	t.push(j) ;
     }
   t.sort(function(x,y) { return x - y ; }) ;
-  t[ myindex(t,max) ] = max + ' (tout)' ;
+  t[ myindex(t,max) ] = max + ' (' + _('MSG_all') + ')' ;
   return t ;
 }
 
@@ -3672,7 +3677,7 @@ function update_a_menu(min, current, all, max, select)
 	  created = true ;
 	}
       i = t[ii] ;
-      i_striped = i.toString().replace(' (tout)','') ;
+      i_striped = i.toString().replace(' (' + _('MSG_all') + ')','') ;
       if ( i_striped == current )
 	sel = ii ;
       option.innerHTML = i ;
@@ -3756,7 +3761,7 @@ function runlog(the_columns, the_lines)
     }
   if ( tr_classname === undefined )
     {
-      default_title = 'Titre' ;
+      default_title = _("DEFAULT_title") ;
     }
   // Default : Name sort
 
@@ -3906,7 +3911,8 @@ function display_suivi(cols) /* [value, class, comment] */
   var tr_classname = get_tr_classname() ;
 
   if ( tr_classname && line[tr_classname].value == 'non' )
-    document.write('<div class="noninscrit">Étudiant non inscrit à l\'UE. Aucune note ne peut être saisie et cette UE ne pourra être validée.<br><br>') ;
+    document.write('<div class="noninscrit">' + _("WARN_unregistered_student")
+		   + '<br><br>') ;
 
   for(var data_col in c)
     c[data_col].data_col = data_col ;
@@ -3929,21 +3935,24 @@ function display_suivi(cols) /* [value, class, comment] */
 
       if ( cell.comment )
 	{
-	  comment += 'Commentaire : <b>' + html(cell.comment) + '</b><br>' ;
+	  comment += _("SUIVI_comment") + ' <b>' + html(cell.comment)
+	    + '</b><br>' ;
 	  visual_cell[1] += ' commented' ;
 	}
       if (cell.date)
-	comment += 'Date modification : <b>' + date(cell.date) + '</b><br>';
+	comment += _("SUIVI_modification_date") + ' <b>' + date(cell.date)
+	  + '</b><br>';
       if (cell.author)
-	comment += 'Par : <b>' + cell.author + '</b><br>' ;
+	comment += _("SUIVI_modification_author") + ' <b>' + cell.author
+	  + '</b><br>' ;
       if (column.real_type.should_be_a_float)
 	{
 	  if ( column.weight.substr(0,1) == '+'
 	       || column.weight.substr(0,1) == '-' )
-	    comment += 'Poids du bonus/malus : ' ;
+	    comment += _("SUIVI_weight_add") ;
 	  else
-	    comment += 'Poids dans la moyenne pondérée : ' ;
-	  comment += '<b>' + column.weight + '</B><br>' ;
+	    comment += _("SUIVI_weight_average") ;
+	  comment += ' <b>' + column.weight + '</B><br>' ;
 	}
       if (comment)
 	visual_cell[2] = comment + visual_cell[2] ;

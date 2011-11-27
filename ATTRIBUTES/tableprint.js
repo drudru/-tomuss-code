@@ -282,11 +282,12 @@ function display_button(data_col, title, selected, table_name, tip, not_escape,
 
 function first_line_of_tip(attr)
 {
-  var tip = column_attributes[attr].tip ;
-  if ( tip[''] ) // For 'columns' attribute
-    tip = tip[''] ;
-  if ( tip.split )
-    tip = tip.split('</b>')[0].substr(3) ;
+  var tip_name = 'TIP_column_attr_' + attr ;
+  var tip = _(tip_name) ;
+  if ( tip == tip_name )
+      tip = _(tip_name + '__') ; // Generic comment the the attribute
+  else
+      tip = tip.split('</b>')[0].substr(3) ;
   return tip ;
 }
 

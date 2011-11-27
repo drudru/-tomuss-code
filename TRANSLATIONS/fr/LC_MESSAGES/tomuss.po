@@ -192,6 +192,10 @@ msgstr "<b>Type de la colonne</b>, il indique le contenu des cellules :\n"
  "</ul>"
 
 #. Attribute Tip
+msgid "TIP_column_attr_columns__"
+msgstr "Les colonnes utilisées pour faire le calcul"
+
+#. Attribute Tip
 msgid "TIP_column_attr_columns__Code_Etape"
 msgstr "<b>Extrait le code étape</b><br>\n"
  "        Indiquez la colonne de numéro d'étudiants <b>ID</b><br>\n"
@@ -448,31 +452,49 @@ msgid "TIP_preferences"
 msgstr "Ce lien vous permet de régler les préférences.<br>\n"
        "Les préférences sont appliquées à <b>tous</b> les tableaux"
        
-#. Error message
 msgid "ERROR_value_not_modifiable"
 msgstr "Vous n'êtes pas autorisé à modifier cette valeur."
 
-#. Error message
 msgid "ERROR_value_system_defined"
 msgstr "Car elle a été définie par le système"
 
-#. Error message
 msgid "ERROR_value_defined_by_another_user"
-msgstr "Seule la personne qui a saisie la valeur peut le faire.\n"
+msgstr "Seule la personne qui a saisie la valeur peut la modifier.\n"
        "Ou bien l'un des responsables d'UE : "
 
-#. Error message
 msgid "ERROR_column_creation"
 msgstr "On a pas le droit de créer des colonnes quand\n"
        "il y a un filtre de colonne ou table.\n"
        "Désolé, vous devez enlever les filtres."
 
-#. Error message
 msgid "ERROR_column_left_to_right"
 msgstr "Il faut créer les colonnes de gauche à droite.\n\n"
        "Quand vous rechargerez la page, les colonnes ne\n"
        "seront pas dans le même ordre.\n"
        "C'est un bug compliqué à corriger, cela ne sera pas fait."
+
+msgid "ERROR_table_read_only"
+msgstr "Cette table a été passée en lecture par le responsable,\n"
+       "elle ne peut pas être modifiée."
+
+msgid "ERROR_column_system_defined"
+msgstr "Cette colonne est définie par le système et ne peut être changée."
+
+msgid "ERROR_column_creation_with_filter"
+msgstr "Désolé, il n'est pas possible de créer de nouvelles colonnes\n"
+       "quand il y a un filtre de colonne.\n\n"
+       "Cette fonctionnalité est très complexe à programmer et peu utile,\n"
+       "Elle ne sera donc pas ajoutée."
+
+msgid "ERROR_save_to_localstorage_failed"
+msgstr "Désolé, la fenêtre a été fermée sans tout sauvegarder"
+
+msgid "WARN_not_name_sorted"
+msgstr "La liste n'est pas dans l'ordre alpabétique des noms."
+
+msgid "WARN_unregistered_student"
+msgstr "Étudiant non inscrit à l'UE.\n"
+       "Aucune note ne peut être saisie et cette UE ne pourra être validée."
 
 #. GUI Label
 msgid "LABEL_documentation"
@@ -925,15 +947,15 @@ msgstr "<b>Exporter</b>"
 msgid "TITLE_table_attr_facebook"
 msgstr "Trombino"
 
-#. GUI 
+#. GUI
 msgid "TITLE_table_attr_t_import"
 msgstr "<b>Importer</b>"
 
-#. GUI 
+#. GUI
 msgid "TITLE_table_attr_mail"
 msgstr "Mail"
 
-#. GUI 
+#. GUI
 msgid "TITLE_table_attr_print"
 msgstr "Imprime/Exporte"
 
@@ -949,3 +971,114 @@ msgstr "Forcer la mise à jour"
 msgid "TITLE_table_attr_linear"
 msgstr "Linéaire"
 
+#. GUI
+msgid "TH_column"
+msgstr "Colonne"
+
+#. GUI
+msgid "TH_value"
+msgstr "Valeur"
+
+#. GUI
+msgid "TH_rank"
+msgstr "Rang"
+
+#. GUI
+msgid "TH_comment"
+msgstr "Commentaire"
+
+#. GUI
+msgid "TH_ABJ_list"
+msgstr "Liste des ABJs"
+
+#. GUI
+msgid "TH_begin"
+msgstr "Début"
+
+#. GUI
+msgid "TH_end"
+msgstr "Fin"
+
+#. GUI
+msgid "TH_length"
+msgstr "Durée"
+
+#. GUI
+msgid "MSG_TT"
+msgstr "Actuellement avec un tiers temps"
+
+#. GUI
+msgid "MSG_currently_saving"
+msgstr "Sauvegarde en cours, veuillez patienter"
+
+#. GUI
+msgid "MSG_not_yet_saved"
+msgstr "Changement pas encore sauvegardé"
+
+#. GUI
+msgid "MSG_reauthenticate"
+msgstr "CLIQUEZ ICI<br>POUR VOUS AUTHENTIFIER À NOUVEAU<br>\n"
+       "votre session a expiré ou<br>votre machine a changé de réseau."
+#. GUI
+msgid "MSG_connection_staled"
+msgstr "Cela fait 5 secondes que l'on n'arrive pas à sauvegarder\n"
+       "votre travail sur le serveur.\n"
+       "Il sera sauvegardé quand la connexion internet sera rétablie.\n\n"
+       "Vous perdrez votre travail si vous fermez/rechargez la page web.\n\n"
+       "Il est préférable d'attendre que TOUS les carrés oranges\n"
+       "deviennent verts avant de continuer à travailler."
+
+#. GUI
+msgid "MSG_refresh"
+msgstr "Désolé pour le dérangement, mais je dois tout réafficher\n"
+       "il y a une mise à jour importante dans la table."
+
+#. GUI
+msgid "MSG_filter_on"
+msgstr "Filtre sur la colonne"
+
+#. GUI
+msgid "MSG_not_printed"
+msgstr "Ce qui est sur fond jaune n'est pas imprimé."
+
+#. GUI
+msgid "MSG_sorted_by"
+msgstr "Les lignes sont triées par"
+
+#. GUI
+msgid "MSG_sorted_by_more"
+msgstr "puis"
+
+#. GUI all the lines or the columns
+msgid "MSG_all"
+msgstr "tout"
+
+
+
+#. GUI
+msgid "ASK_restore"
+msgstr "Voulez-vous restaurer les actions suivantes :"
+
+#. GUI
+msgid "DEFAULT_title"
+msgstr "Titre"
+
+#. GUI
+msgid "SUIVI_comment"
+msgstr "Commentaire :"
+
+#. GUI
+msgid "SUIVI_modification_date"
+msgstr "Date modification :"
+
+#. GUI
+msgid "SUIVI_modification_author"
+msgstr "Par :"
+
+#. GUI
+msgid "SUIVI_weight_add"
+msgstr "Poids du bonus/malus :"
+
+#. GUI
+msgid "SUIVI_weight_average"
+msgstr "Poids dans la moyenne pondérée :"

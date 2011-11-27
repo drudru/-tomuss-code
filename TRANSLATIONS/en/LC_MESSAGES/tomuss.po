@@ -153,7 +153,7 @@ msgstr ""
 #. Attribute Tip
 msgid "TIP_column_attr_enumeration"
 msgstr ""
-"<b>List of authorized value for oclumn cells</b><br>\n"
+"<b>List of authorized value for column cells</b><br>\n"
 "There is a space between each value."
 
 #. Attribute Tip
@@ -194,6 +194,10 @@ msgstr ""
 "<li> 'Boolean' : OUI or NON\n"
 "<li> 'Maximum' : Maximum value\n"
 "</ul>"
+
+#. Attribute Tip
+msgid "TIP_column_attr_columns__"
+msgstr "Columns used to compute the result"
 
 #. Attribute Tip
 msgid "TIP_column_attr_columns__Code_Etape"
@@ -465,30 +469,48 @@ msgid "TIP_preferences"
 msgstr "This link allow to manage your preferences<br>\n"
        "Preferences are applied to <b>all</b> the tables"
 
-#. Error message
 msgid "ERROR_value_not_modifiable"
 msgstr "You are not allowed to modifiy this value."
 
-#. Error message
 msgid "ERROR_value_system_defined"
 msgstr "Because it has been defined by the system"
 
-#. Error message
 msgid "ERROR_value_defined_by_another_user"
 msgstr "Only the user that set the value can change it.\n"
        "Or one of the table masters: "
 
-#. Error message
 msgid "ERROR_column_creation"
 msgstr "It is impossible to create columns when there is an active filter.\n"
        "Sorry, you must remove the filters."
 
-#. Error message
 msgid "ERROR_column_left_to_right"
 msgstr "Columns must be created from left to right\n\n"
        "When you will refresh the page,\n"
        "the column order will not be the same.\n"
        "It is a complicated bug, it will not be corrected"
+
+msgid "ERROR_table_read_only"
+msgstr "The table master set it to be not modifiable,\n"
+       "so modifications are forbidden."
+
+msgid "ERROR_column_system_defined"
+msgstr "This column is system defined and so, can not be modified."
+
+msgid "ERROR_column_creation_with_filter"
+msgstr "Sorry, it is forbiden to create new columns when there is\n"
+       "a filter on the column name.\n\n"
+       "This functionnality is too complex to program and not useful,\n"
+       "so this problem will not be corrected."
+
+msgid "ERROR_save_to_localstorage_failed"
+msgstr "Sorry, the window has been closed without saving the modifications."
+
+msgid "WARN_not_name_sorted"
+msgstr "The list is not sorted by name."
+
+msgid "WARN_unregistered_student"
+msgstr "Unregistered student in the table.\n"
+       "No data can be entered in the table."
 
 #. GUI Label
 msgid "LABEL_documentation"
@@ -958,3 +980,112 @@ msgstr "Update table content NOW"
 msgid "TITLE_table_attr_linear"
 msgstr "Linear"
 
+#. GUI
+msgid "TH_column"
+msgstr "Column"
+
+#. GUI
+msgid "TH_value"
+msgstr "Value"
+
+#. GUI
+msgid "TH_rank"
+msgstr "Rank"
+
+#. GUI
+msgid "TH_comment"
+msgstr "Comment"
+
+#. GUI
+msgid "TH_ABJ_list"
+msgstr "ABJs list"
+
+#. GUI
+msgid "TH_begin"
+msgstr "Begin"
+
+#. GUI
+msgid "TH_end"
+msgstr "End"
+
+#. GUI
+msgid "TH_length"
+msgstr "Length"
+
+#. GUI
+msgid "MSG_TT"
+msgstr "Currently with special examination condition (TT)"
+
+#. GUI
+msgid "MSG_currently_saving"
+msgstr "Restoring modifications, please wait."
+
+#. GUI
+msgid "MSG_not_yet_saved"
+msgstr "Modification not yet saved"
+
+#. GUI
+msgid "MSG_reauthenticate"
+msgstr "CLICK HERE<br>TO AUTHENTICATE AGAIN<br>\n"
+       "your session expired or your network address changed."
+
+#. GUI
+msgid "MSG_connection_staled"
+msgstr "No data save was possible the last 5 seconds.\n"
+       "The modifications will be saved when network connection will be up.\n"
+       "You will lost your work if you close or reload this page.\n"
+       "You should wait that all the orange square become green\n"
+       "before resuming your work."
+
+#. GUI
+msgid "MSG_refresh"
+msgstr "Sorry, I must redraw all the table because an important\n"
+       "modification has been done on the table."
+
+#. GUI
+msgid "MSG_filter_on"
+msgstr "Filter on column"
+
+#. GUI
+msgid "MSG_not_printed"
+msgstr "Items on yellow background are not printed."
+
+#. GUI
+msgid "MSG_sorted_by"
+msgstr "Lines are sorted by"
+
+#. GUI
+msgid "MSG_sorted_by_more"
+msgstr "and"
+
+#. GUI all the lines or the columns
+msgid "MSG_all"
+msgstr "all"
+
+#. GUI
+msgid "ASK_restore"
+msgstr "Do you want to restore the following actions:"
+
+#. GUI
+msgid "DEFAULT_title"
+msgstr "Title"
+
+#. GUI
+msgid "SUIVI_comment"
+msgstr "Comment:"
+
+#. GUI
+msgid "SUIVI_modification_date"
+msgstr "Modification date:"
+
+#. GUI
+msgid "SUIVI_modification_author"
+msgstr "By:"
+
+#. GUI
+msgid "SUIVI_weight_add"
+msgstr "Weight of bonus/malus:"
+
+#. GUI
+msgid "SUIVI_weight_average"
+msgstr "Weight in the average:"
