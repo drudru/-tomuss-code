@@ -1,7 +1,7 @@
 #!/usr/bin/env python
-# -*- coding: latin1 -*-
+# -*- coding: utf-8 -*-
 #    TOMUSS: The Online Multi User Simple Spreadsheetl)
-#    Copyright (C) 2008-2010 Thierry EXCOFFIER, Universite Claude Bernard
+#    Copyright (C) 2008-2011 Thierry EXCOFFIER, Universite Claude Bernard
 #
 #    This program is free software; you can redistribute it and/or modify
 #    it under the terms of the GNU General Public License as published by
@@ -114,9 +114,9 @@ class UE(object):
     """Contains all the information about the UE (Unity of Evaluation)."""
     def __init__(self, name, responsable=(), intitule=None, pparcours=(),
                  code=-1,responsable_login=[], nr_students_ue=0,
-                 nr_students_ec=0, mails=(), planning={}):
-        """Create the UE with all the needed information.
-        This object does not get information from elsewhere."""
+                 nr_students_ec=0, mails=(), planning={}, credit=-1,
+                 old_names=[]):
+        """This object may retrieve information from other data sources"""
 
         # The name is an human lisible code for the UE.
         self.name = name
@@ -133,6 +133,8 @@ class UE(object):
         self._mails = tuple(mails)
         self.len = len(pparcours)
         self.planning = planning
+        self.credit = credit
+        self.old_names = old_names
 
     def responsables(self):
         """Returns the NAME list of the manager of the UE."""
@@ -169,7 +171,7 @@ class UE(object):
 
     def __str__(self):
         """Returns the Python code creating this object."""
-        return 'UE(%s,%s,%s,%s,%d,%s,%d,%d,%s,%s)' % (
+        return 'UE(%s,%s,%s,%s,%d,%s,%d,%d,%s,%s,%d,%s)' % (
             repr(self.name),
             repr(self._responsables),
             repr(self._intitule),
@@ -179,6 +181,8 @@ class UE(object):
             self._nr_students_ue, self._nr_students_ec,
             repr(self._mails),
             self.planning,
+            self.credit,
+            self.old_names,
             )
 
     def js(self, read_tt=True):
@@ -213,7 +217,7 @@ class UE(object):
             tt = 0
         
 
-        return 'UE(%s,[%s],%s,[%s],%d,[%s],%d,%d,%s,%d)' % (
+        return 'UE(%s,[%s],%s,[%s],%d,[%s],%d,%d,%s,%d,%d,%s)' % (
             utilities.js(self.name),
             ','.join([utilities.js(r) for r in self._responsables]),
             utilities.js(self._intitule),
@@ -223,6 +227,8 @@ class UE(object):
             self._nr_students_ue, self._nr_students_ec, 
             self.planning,
             tt,
+            self.credit,
+            utilities.js(self.old_names),
             )
 
     def short_parcours(self):

@@ -113,6 +113,13 @@ DIV.ue_list_more DIV.more A:hover {
   text-decoration: underline ;
 }
 
+TR.ue_list_more TD SPAN.ue_more { display: inline }
+SPAN.ue_more {
+    font-weight: normal ;
+    display: none ;
+    color: black ;
+}
+
 
 #feedback .frame { 
   position: absolute ;
