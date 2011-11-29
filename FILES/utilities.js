@@ -1692,7 +1692,15 @@ function current_jump(lin, col, do_not_focus, line_id, data_col)
   if ( data_col === undefined )
     data_col = data_col_from_col(col) ;
   if ( line_id === undefined )
-    line_id = line_id_from_lin(lin) ;
+      {
+	  do
+	      {
+		  line_id = line_id_from_lin(lin) ;
+		  if ( line_id === undefined )
+		      add_a_new_line() ;
+	      }
+	  while( line_id === undefined ) ;
+      }
 
   var line = lines[line_id] ;
   if ( ! line )

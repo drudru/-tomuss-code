@@ -314,7 +314,7 @@ function line_id_from_lin(lin)
 {
   var line = line_offset + lin - nr_headers ;
   if ( line >= filtered_lines.length )
-    return add_a_new_line() ;
+    return ;
   if ( line < 0 )
     return ;
   return filtered_lines[line].line_id ;
@@ -634,19 +634,27 @@ function show_the_tip(td, tip_content)
 	{
 	  bottom = true ;
 	  while ( td.tagName != 'TH' )
-	    td = td.parentNode ;
+	    {
+	      td = td.parentNode ;
+	      if ( ! td )
+		return ;
+	    }
 	  s = type['tip_' + td.parentNode.className.split(' ')[0]] ;
 	  remove_highlight() ;
 	}
       else
 	{
 	  var line = lines[line_id] ;
+	  if ( line === undefined )
+	    return ;
 	  var cell = line[data_col] ;
 	  if ( cell.is_mine() && table_attr.modifiable
 	       && column.real_type.cell_is_modifiable)
 	    s = '<span class="title">' + type.tip_cell + '</span><br>' ;
 	  else
 	    s = '' ;
+	  if ( i_am_root )
+	    s += 'line_id=' + line_id + ', col_id=' + column.the_id ;
 	  // highlight line
 	  remove_highlight() ;
 	  the_current_line = td.parentNode ;
