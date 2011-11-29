@@ -158,8 +158,8 @@ def student_statistics(login, server, is_a_student=False, expand=False,
         if teachers:
             s[-1] = s[-1].replace('<br>','')
             s.append(', <script>hidden(\'<a href="mailto:?to='
-                     + ','.join([str(inscrits.L_fast.mail(k))
-                                 + ' <' + ','.join(v) + '>'
+                     + ','.join([','.join(v) +
+                                 ' <' + str(inscrits.L_fast.mail(k)) + '>'
                                  for k, v in teachers.items()])
                      + '&subject=' + (login + ' ' + firstname + ' ' + surname
                                       ).replace("'","\\'")
