@@ -2223,8 +2223,8 @@ function add_a_new_line(line_id)
   filtered_lines.push(line) ;
 
   /* Update screen table with the new id */
-  var lin = filtered_lines.length - line_offset ;
-  if ( lin > 0 && lin < table_attr.nr_lines - nr_headers )
+  var lin = filtered_lines.length - 1 - line_offset ;
+  if ( lin >= 0 && lin < table_attr.nr_lines )
     {
       line_fill(filtered_lines.length-1, lin + nr_headers) ;
     }
