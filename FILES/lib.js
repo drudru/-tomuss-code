@@ -2745,8 +2745,7 @@ Request.prototype.send = request_send ;
 function click_to_revalidate_ticket()
 {
   var m =  '<a onclick="javascript: t_authenticate.style.display = \'none\' ; window_open(\'' + cas_url + '/login?service='
-    + encode_uri('http://' + document.location.host +
-		 '/allow/' + ticket + '/' + millisec()).replace(/%01/g, '%2F')
+    + encode_uri('_URL_/allow/'+ticket+'/'+millisec()).replace(/%01/g, '%2F')
     + '\')">CLIQUEZ ICI<br>POUR VOUS AUTHENTIFIER À NOUVEAU<br>votre session a expiré ou<br>votre machine a changé de réseau.</a>' ; 
   t_authenticate.style.display = 'block' ;
   t_authenticate.innerHTML = m ;
@@ -2757,7 +2756,8 @@ function click_to_revalidate_ticket()
  ****************************************************************************
  * Management of periodic work.
  * Once added, the function is called every 0.1 seconds until it returns false
- * 'add' and 'remove' must not be called from a periodic function.
+ * 'add' can be called from a periodic function, in this case the function
+ * may be called more than one in a period.
  * When a function is added to the list, it goes to the end,
  * so it is processed after the others.
  ****************************************************************************
