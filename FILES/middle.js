@@ -603,6 +603,7 @@ function new_new_interface()
 		  "Valeur de la cellule.")) ;
   t.push(hidden_txt(header_input('comment', '',
 				 'empty one_line onblur=comment_on_change(event)'),
+		    "<span class=\"shortcut\">(Alt-/)</span>" +
 		    "Tapez un commentaire pour cette cellule<br>" +
 		    "afin de ne pas oublier les choses importantes.<br>" +
 		    "<b>ATTENTION : les étudiants voient ce commentaire</b>"));

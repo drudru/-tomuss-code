@@ -1895,9 +1895,15 @@ function alt_shortcut(event, td)
     case 16:
     case 0:
       break ;
+    case 191: /* Qwerty / */
+    case 59: /* Azerty : */
+	select_tab("cellule", "Cellule") ;
+	the_comment.focus() ;
+	break ;
     case 18: // ALT
       // Navigator must process the event
     default:
+	alert(event.charCode);
       return true ;
     }
   stop_event(event) ; // Else ALTs are navigator shortcut
