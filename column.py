@@ -99,7 +99,7 @@ class ColumnAttr(object):
         if column == None:
             return table.bad_column(page)
 
-        if not table.authorized_column(page, column):
+        if not table.authorized_column(page, column) and self.name != 'width':
             return table.bad_auth(page)
 
         if self.computed and self.name != 'hidden': # XXX Not nice test
@@ -139,7 +139,8 @@ class ColumnAttr(object):
                 js(column.the_id), js(page.user_name))
         table.send_update(page, t + '\n')
 
-        column.author = page.user_name
+        if column.author != data.ro_user:
+            column.author = page.user_name
         table.column_changed(column, self)
 
         return 'ok.png'
