@@ -90,8 +90,6 @@ Utilisateurs finaux.
 Administrateur.
 ---------------
 
-* Ticket expiré : fait une redirection du client (impossible dans frame)
-
 * Afficher les lock de tables
 
 * Afficher la tete de update_liste
@@ -129,6 +127,9 @@ Administrateur.
 =====================
 Problèmes à résoudre.
 =====================
+
+* Ticket expiré : fait une redirection du client (impossible dans frame)
+  le client ne peut pas reprendre le ticket et demande le redirige toujours
 
 * DEMO : commentaire numerique sur saisie d'ABJ sans commentaire !!!
 

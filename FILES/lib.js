@@ -333,7 +333,8 @@ function the_td(event)
     td = event ;
   else
     td = the_event(event).target ;
-  if ( td.tagName == 'INPUT' || td.tagName == 'SELECT' || td.tagName == 'IMG' )
+  if ( td.tagName == 'INPUT' || td.tagName == 'SELECT' || td.tagName == 'IMG'
+       || td.tagName == 'A' )
     return td.parentNode ;
   else
     {
