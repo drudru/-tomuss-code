@@ -536,8 +536,8 @@ class Table(object):
                 grp = line[self.columns.get_grp()].value
                 seq = line[self.columns.get_seq()].value
                 verify_lines = list(self.columns.table.lines_of_grp(grp, seq))
-            for line in verify_lines:
-                if line[data_col].value == value:
+            for a_line in verify_lines:
+                if a_line[data_col].value == value:
                     n += 1
             if n >= abs(a_column.repetition):
                 self.error(page, 'Cette valeur a déjà été saisie dans la colonne')
