@@ -128,6 +128,8 @@ Administrateur.
 Problèmes à résoudre.
 =====================
 
+* Non semestrialisé : rediregire vers 2008/Test si n'existe pas dans le futur
+
 * Ticket expiré : fait une redirection du client (impossible dans frame)
   le client ne peut pas reprendre le ticket et demande le redirige toujours
 

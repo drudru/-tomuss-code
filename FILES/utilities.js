@@ -1903,7 +1903,7 @@ function alt_shortcut(event, td)
     case 18: // ALT
       // Navigator must process the event
     default:
-	alert(event.charCode);
+	// alert(event.charCode);
       return true ;
     }
   stop_event(event) ; // Else ALTs are navigator shortcut
