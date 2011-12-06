@@ -1311,7 +1311,7 @@ function update_vertical_scrollbar_real()
   var v, vv, v_upper ;
   var height = filtered_lines.length ;
   var y, last_y = -100 ;
-  s = '<span class="position">&nbsp;</span><img src="' + url + '/up.gif" onclick="javascript:previous_page();"><img src="/down.gif" onclick="javascript:next_page();"><span class="cursor"></span>' ;
+  s = '<span class="position">&nbsp;</span><img src="' + url + '/up.gif" onclick="javascript:previous_page();"><img src="' + url + '/down.gif" onclick="javascript:next_page();"><span class="cursor"></span>' ;
 
 
   if ( preferences.v_scrollbar_nr )
