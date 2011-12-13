@@ -1912,10 +1912,7 @@ function alt_shortcut(event, td)
 
 function current_keydown(event, in_input)
 {
-  if ( element_focused
-       && element_focused.tagName == 'TEXTAREA'
-       && element_focused.id != "table_forms_keypress"
-       )
+  if ( element_focused && element_focused.tagName == 'TEXTAREA' )
     return ;
 
   event = the_event(event) ;
@@ -2020,8 +2017,13 @@ function current_keydown(event, in_input)
       break ;
     case 27: // Escape Key
 	// alert('' + this.input.value + '/' + this.initial_value) ;
-	if ( element_focused && element_focused.id == "table_forms_keypress" )
-	    element_focused.value = this.initial_value ;
+	if ( this.input.id == "table_forms_keypress" )
+	    {
+		this.input.value = this.initial_value ;
+		this.input.blur() ;
+		stop_event(event) ;
+		return false;
+	    }
       this.input.value = this.initial_value ;
       this.input.blur() ;
       this.input.focus() ;
