@@ -84,9 +84,16 @@ function table_forms_keypress(event)
     the_current_cell.keydown(event) ;
     element_focused = input ;
     the_current_cell.input = save ;
-    stop_event(the_event(event)) ;
 }
-			  
+
+function table_forms_drop(event)
+{
+    if ( element_focused )
+	element_focused.blur() ;
+    the_event(event).target.focus();
+    table_forms_goto(event) ;
+}
+
 function table_forms_jump(lin, col, do_not_focus, line_id, data_col)
 {
     var new_class = this.tr.className.replace(/ *currentformline/, '') ;
@@ -136,7 +143,7 @@ function table_forms()
     t = document.createElement('TABLE') ;
     table_forms_element.appendChild(t) ;
     var cls = column_list_all() ;
-    var e =' onclick="table_forms_goto(event)" onblur="table_forms_blur(event)" onkeyup="table_forms_keypress(event)"';
+    var e =' onfocus="table_forms_goto(event)" onblur="table_forms_blur(event)" onkeydown="table_forms_keypress(event)" ondrop="table_forms_drop(event)"';
     for(data_col in cls)
 	{
 	    data_col = cls[data_col] ;
