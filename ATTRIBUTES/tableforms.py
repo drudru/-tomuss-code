@@ -69,7 +69,7 @@ sous la forme d'une fiche.
    width: 100% ;
 }
 
-INPUT#current_input, TABLE#thetable TR.currentformline TD {
+TABLE#thetable TR.currentformline TD {
     background-color: #DDD ;
  }
 
