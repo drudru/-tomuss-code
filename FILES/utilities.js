@@ -1912,7 +1912,10 @@ function alt_shortcut(event, td)
 
 function current_keydown(event, in_input)
 {
-  if ( element_focused && element_focused.tagName == 'TEXTAREA' )
+  if ( element_focused
+       && element_focused.tagName == 'TEXTAREA'
+       && element_focused.id != "table_forms_keypress"
+       )
     return ;
 
   event = the_event(event) ;
@@ -1925,9 +1928,18 @@ function current_keydown(event, in_input)
       return ;
     }
 
-  if ( ! element_focused )
-    this.focused = true ; // this is in fact 'current_cell'
-
+  if ( element_focused && element_focused.id == "table_forms_keypress")
+      {
+	  return;
+	  if ( key < 32 && key != 27 )
+	      return ;
+      }
+  else
+      {
+	  if ( ! element_focused )
+	      this.focused = true ; // this is in fact 'current_cell'
+      }
+       
   if ( event.altKey && ! event.ctrlKey )
     {
       if ( event.charCode === undefined )
@@ -2007,7 +2019,9 @@ function current_keydown(event, in_input)
 	return true ;
       break ;
     case 27: // Escape Key
-      //alert('' + this.input.value + '/' + this.initial_value) ;
+	// alert('' + this.input.value + '/' + this.initial_value) ;
+	if ( element_focused && element_focused.id == "table_forms_keypress" )
+	    element_focused.value = this.initial_value ;
       this.input.value = this.initial_value ;
       this.input.blur() ;
       this.input.focus() ;
@@ -2059,7 +2073,7 @@ function current_do_completion()
   do_completion_for_this_input = undefined ;
 
   alert_merged = '' ;
-  if ( input == this.input )
+  if ( input == this.input || input.id == "table_forms_keypress" )
     {
       completion = this.column.real_type.cell_test(input.value, this.column) ;
     }

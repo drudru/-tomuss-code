@@ -1689,6 +1689,7 @@ function table_fill_do()
 	    setTimeout("the_current_cell.update("+table_fill_do_not_focus+");"
 		       ,100) ;
 	}
+    setTimeout(table_forms_resize, 1) ;
 }
 
 function manage_window_resize_event()
@@ -1811,6 +1812,8 @@ function table_fill(do_not_focus, display_headers, compute_filtered_lines)
 {
   if ( table === undefined )
     return ;
+  if ( table_forms_element )
+    display_headers = false ;
   table_fill_do_not_focus = do_not_focus ;
   if ( compute_filtered_lines )
       periodic_work_add(update_filtered_lines) ;
@@ -2023,23 +2026,24 @@ function table_fill_hook_horizontal()
   var tr = table.childNodes[next_page_line] ;
   var col = next_page_col - column_offset ;
   if ( col < 0 )
-    cell_goto(tr.childNodes[0]);
+    cell_goto(tr.childNodes[0], true);
   else if ( col < table_attr.nr_columns )
-    cell_goto(tr.childNodes[col]); 
+    cell_goto(tr.childNodes[col], true);
   else
-    cell_goto(tr.childNodes[table_attr.nr_columns-1]); 
+    cell_goto(tr.childNodes[table_attr.nr_columns-1], true);
 }
 
 /*
  * If 'col' is defined : then it is the required column (centered)
  * Else 'direction' is a delta
  */
-function page_horizontal(direction, col)
+function page_horizontal(direction, col, do_not_focus)
 {
   var cls = column_list_all() ;
 
-  the_current_cell.change() ;
-  
+  if ( ! do_not_focus )
+    the_current_cell.change() ;
+
   if ( col === undefined )
     {
       col = myindex(cls, the_current_cell.data_col) +
@@ -2066,7 +2070,9 @@ function page_horizontal(direction, col)
 
   the_current_cell.focused = false ; // XXX Kludge for XXX_HS
   table_fill_hook = table_fill_hook_horizontal ;
-  table_fill(false, true) ;
+  table_fill(do_not_focus, true) ;
+
+
   periodic_work_do() ;
 }
 
@@ -3847,6 +3853,11 @@ function runlog(the_columns, the_lines)
       replace_window_content(tablefacebook('_self')) ;
       return ;
     }
+  if ( table_forms_element || get_option('tableforms', 'a') !== 'a' )
+    {
+      setTimeout(table_forms, 1500) ;
+    }
+
 
   if ( preferences.interface == 'L' )
     {

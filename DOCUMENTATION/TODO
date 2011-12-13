@@ -128,7 +128,7 @@ Administrateur.
 Problèmes à résoudre.
 =====================
 
-* Non semestrialisé : rediregire vers 2008/Test si n'existe pas dans le futur
+* utf-8 pour le publi-postage
 
 * Ticket expiré : fait une redirection du client (impossible dans frame)
   le client ne peut pas reprendre le ticket et demande le redirige toujours
