@@ -101,10 +101,13 @@ function table_forms_jump(lin, col, do_not_focus, line_id, data_col)
     
     this.tr.className = new_class ;
     this.jump_old(lin, col, true, line_id, data_col) ;
-    var t = table_forms_element.firstChild.firstChild ;
+    var t = table_forms_element.getElementsByTagName('tbody')[0] ;
     var i, tr, cell ;
     if ( line_change )
 	{
+	    table_forms_element.getElementsByTagName('h1')[0].innerHTML =
+		html(this.line[0].value) + ' ' + html(this.line[1].value)
+		+ ' ' + html(this.line[2].value) ;
 	    for(var i in t.childNodes)
 		{
 		    tr = t.childNodes[i] ;
@@ -125,6 +128,16 @@ function table_forms_jump(lin, col, do_not_focus, line_id, data_col)
     this.input.className += ' currentformline' ;
 }
 
+function table_forms_close()
+{
+    if ( element_focused )
+	element_focused.blur() ;
+    Current.prototype.jump = Current.prototype.jump_old ;
+    table_forms_element.parentNode.removeChild(table_forms_element) ;
+    table_forms_element = undefined ;
+    table_fill() ;
+}
+
 function table_forms()
 {
     var data_col, column, line, t, tb, s, td_title, td_value ;
@@ -138,6 +151,7 @@ function table_forms()
     Current.prototype.jump = table_forms_jump ;
     
     table_forms_element = document.createElement('DIV') ;
+    table_forms_element.innerHTML = '<BUTTON class="close" OnClick="table_forms_close()">&times;</BUTTON><h1></h1>' ;
     the_body.appendChild(table_forms_element) ;
     table_forms_element.className = 'tableform' ;
     t = document.createElement('table') ;

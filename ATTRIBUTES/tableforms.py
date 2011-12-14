@@ -68,6 +68,9 @@ sous la forme d'une fiche.
    background: white ;
    width: 100% ;
 }
+BODY.tomuss .tableform H1 { text-align: center; font-size: 130%; }
+
+.tableform .close { float: right ; }
 
 TABLE#thetable TR.currentformline TD {
     background-color: #DDD ;
