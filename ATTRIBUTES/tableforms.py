@@ -74,7 +74,7 @@ sous la forme d'une fiche.
   margin: 1px ;
 }
 
-.tableform TD IMG { position:absolute; height: 1em; width: 1em; right: 0px  }
+.tableform TD IMG { float: right; height: 1em; width: 1em; right: 0px  }
 
 .tableform TEXTAREA, .tableform INPUT {
    background: white ;

@@ -179,7 +179,7 @@ function table_forms()
 	    td_title = document.createElement('td') ;
 	    line.appendChild(td_title) ;
 	    td_title.className = "ctitle" ;
-	    td_title.innerHTML = '<tt><b></b></tt><b>' + html(column.title)
+	    td_title.innerHTML = '<tt><span></span></tt><b>' + html(column.title)
 		+ '</b>. <small><em>' + html(column.comment) + '</em></small>';
 
 	    td_value = document.createElement('td') ;
