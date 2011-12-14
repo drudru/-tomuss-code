@@ -35,9 +35,14 @@ sous la forme d'une fiche.
 .tableform {
    position: absolute ;
    background: #DDD ;
-   overflow: auto ;
-   border: 1px solid black;
+   border: 2px solid black;
+   overflow: hidden ;
 }
+
+.tableform DIV.formtable {
+   overflow: auto ;
+}
+
 .tableform TABLE {
    width: 100% ;
    border-spacing: 0px ;

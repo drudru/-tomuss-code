@@ -39,6 +39,8 @@ function table_forms_resize()
 			- top_left[0]) + 'px' ;
     form.style.height = (bottom_right[1] + bottom_right_e.offsetHeight
 			 - top_left[1]) + 'px' ;
+    form.lastChild.style.height = (form.offsetHeight
+				   - form.firstChild.offsetHeight - 6) + 'px' ;
 }
 
 function table_forms_tr(e)
@@ -151,11 +153,11 @@ function table_forms()
     Current.prototype.jump = table_forms_jump ;
     
     table_forms_element = document.createElement('DIV') ;
-    table_forms_element.innerHTML = '<BUTTON class="close" OnClick="table_forms_close()">&times;</BUTTON><h1></h1>' ;
+    table_forms_element.innerHTML = '<BUTTON class="close" OnClick="table_forms_close()">&times;</BUTTON><h1></h1><div class="formtable"></div>' ;
     the_body.appendChild(table_forms_element) ;
     table_forms_element.className = 'tableform' ;
     t = document.createElement('table') ;
-    table_forms_element.appendChild(t) ;
+    table_forms_element.lastChild.appendChild(t) ;
     tb =  document.createElement('tbody') ;
     t.appendChild(tb) ;
     var cls = column_list_all() ;
