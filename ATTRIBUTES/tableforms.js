@@ -101,7 +101,7 @@ function table_forms_jump(lin, col, do_not_focus, line_id, data_col)
     
     this.tr.className = new_class ;
     this.jump_old(lin, col, true, line_id, data_col) ;
-    var t = table_forms_element.firstChild ;
+    var t = table_forms_element.firstChild.firstChild ;
     var i, tr, cell ;
     if ( line_change )
 	{
@@ -127,7 +127,7 @@ function table_forms_jump(lin, col, do_not_focus, line_id, data_col)
 
 function table_forms()
 {
-    var data_col, column, line, t, s ;
+    var data_col, column, line, t, tb, s, td_title, td_value ;
 
     if ( table_forms_element )
 	{
@@ -140,8 +140,10 @@ function table_forms()
     table_forms_element = document.createElement('DIV') ;
     the_body.appendChild(table_forms_element) ;
     table_forms_element.className = 'tableform' ;
-    t = document.createElement('TABLE') ;
+    t = document.createElement('table') ;
     table_forms_element.appendChild(t) ;
+    tb =  document.createElement('tbody') ;
+    t.appendChild(tb) ;
     var cls = column_list_all() ;
     var e =' onfocus="table_forms_goto(event)" onblur="table_forms_blur(event)" onkeydown="table_forms_keypress(event)" ondrop="table_forms_drop(event)"';
     for(data_col in cls)
@@ -154,20 +156,23 @@ function table_forms()
 		continue ;
 	    if ( column.hidden )
 		continue ;
-
-	    s = '<TD class="ctitle"><tt><b></b></tt><b>' + html(column.title)
-		+ '</b>. <small><em>' + html(column.comment)
-		+ '</em></small></TD><TD>' ;
-	    if ( column.type == 'Text' )
-		s += '<TEXTAREA' + e + '></TEXTAREA>' ;
-	    else
-		s += '<INPUT' + e + '>' ;
-	    s += '</TD>' ;
-
-	    line = document.createElement('TR') ;
+	    
+	    line = document.createElement('tr') ;
 	    line.data_col = data_col ;
-	    t.appendChild(line) ;
-	    line.innerHTML = s ;
+
+	    td_title = document.createElement('td') ;
+	    line.appendChild(td_title) ;
+	    td_title.className = "ctitle" ;
+	    td_title.innerHTML = '<tt><b></b></tt><b>' + html(column.title)
+		+ '</b>. <small><em>' + html(column.comment) + '</em></small>';
+
+	    td_value = document.createElement('td') ;
+	    line.appendChild(td_value) ;
+	    if ( column.type == 'Text' )
+		td_value.innerHTML = '<TEXTAREA' + e + '></TEXTAREA>' ;
+	    else
+		td_value.innerHTML = '<INPUT' + e + '>' ;
+	    tb.appendChild(line) ;
 	}
     table_forms_resize() ;
     the_current_cell.jump(3,0) ; // XXX To force form update
