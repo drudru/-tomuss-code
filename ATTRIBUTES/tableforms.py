@@ -47,7 +47,7 @@ sous la forme d'une fiche.
 }
 
 .tableform TABLE TD {
-  border-bottom: 1px solid black ;
+  border-top: 1px solid black ;
 }
 
 .tableform .ctitle {

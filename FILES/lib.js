@@ -707,6 +707,8 @@ function wheel(event)
     return ;
   if ( popup_is_open() )
     return ;
+  if ( element_focused && table_forms_element )
+    return ;
 
   if ( the_event(event).wheelDelta < 0 )
     next_page(undefined, zebra_step) ;
