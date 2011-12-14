@@ -493,6 +493,12 @@ function set_tip_position(td, bottom)
 {
   var tip = get_tip_element() ;
   tip.target = undefined ;
+  if ( table_forms_element && line_id_from_td(td) )
+    {
+      set_element_relative_position(td, tip) ;
+      tip.style.left = '0px' ;
+      return ;
+    }
   if ( tip_fixed )
     {
       tip.style.left = 'auto' ;
