@@ -63,8 +63,15 @@ sous la forme d'une fiche.
    background-color: #DDD ;
 }
 
-.tableform TEXTAREA:focus, .tableform INPUT:focus {
-  border: 2px solid #00F ;
+.tableform TEXTAREA:focus, BODY.tomuss .tableform INPUT:focus {
+  border: 3px solid #00F ;
+  padding: 0px ;
+}
+
+.tableform TEXTAREA, BODY.tomuss .tableform INPUT {
+  border: 1px solid black ;
+  padding: 2px ;
+  margin: 1px ;
 }
 
 .tableform TD IMG { position:absolute; height: 1em; width: 1em; right: 0px  }
