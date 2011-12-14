@@ -966,11 +966,8 @@ function new_new_interface()
   t.push('<div class="one_line">') ;
   t.push(table_input_attr('linear')) ;
   t.push('.') ;
-  if ( i_am_root )
-      {
-	  t.push(table_input_attr('forms')) ;
-	  t.push('.') ;
-      }
+  t.push(table_input_attr('forms')) ;
+  t.push('.') ;
 
   t.push(table_input_attr('update_content')) ;
   t.push(hidden_txt('<a href="javascript:change_popup_on_red_line()">.</a>',

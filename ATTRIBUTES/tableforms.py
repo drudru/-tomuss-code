@@ -74,13 +74,18 @@ sous la forme d'une fiche.
   margin: 1px ;
 }
 
-.tableform TD IMG { float: right; height: 1em; width: 1em; right: 0px  }
+.tableform TD IMG {
+   float: right;
+   height: 1em;
+   width: 1em;
+   right: 0px;
+ }
 
 .tableform TEXTAREA, .tableform INPUT {
    background: white ;
    width: 100% ;
 }
-BODY.tomuss .tableform H1 { text-align: center; font-size: 130%; }
+BODY.tomuss .tableform H1 { text-align: center; font-size: 140%; }
 
 .tableform .close { float: right ; }
 
