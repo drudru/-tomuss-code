@@ -2101,7 +2101,8 @@ Cursor movement
 
 function cell_get_value_real(line_id, data_col)
 {
-  return columns[data_col].real_type.formatte(lines[line_id][data_col].value);
+  return columns[data_col].real_type.formatte(lines[line_id][data_col].value,
+					      columns[data_col]);
 }
 
 function update_cell(td, cell, column, abj)
@@ -2126,7 +2127,7 @@ function update_cell(td, cell, column, abj)
   if ( v.toFixed )
     {
       className += ' number' ;
-      v = column.real_type.formatte(v) ;
+      v = column.real_type.formatte(v, column) ;
     }
   if ( full_filter && full_filter(cell) )
     className += ' filtered' ;
