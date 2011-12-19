@@ -42,7 +42,7 @@ else
 if ( teachers.length )
     i_am_the_teacher = myindex(teachers, my_identity) != -1 ;
 else
-    i_am_the_teacher = true ;
+    i_am_the_teacher = false ;
 return value ;
 }'''
     tip = """Les LOGINS d'enseignants ayant tous les droits sur la table.<br>
