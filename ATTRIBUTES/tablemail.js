@@ -22,17 +22,18 @@
 
 function students_mails(missing)
 {
-  var s = '', i ;
+    var s = '', i, student ;
 
   for(var i in filtered_lines)
     {
       line = filtered_lines[i] ;
       if ( line[0].value !== '' )
 	{
-	  if ( table_attr.mails[line[0].value]
-	       && table_attr.mails[line[0].value].indexOf('@') != -1)
+	    student = login_to_id(line[0].value) ;
+	    if ( table_attr.mails[student]
+	       && table_attr.mails[student].indexOf('@') != -1)
 	    // s += table_attr.mails[line[0].value].replace(/'/g,"\\'") + ',' ;
-	    s += table_attr.mails[line[0].value] + ',' ;
+	    s += table_attr.mails[student] + ',' ;
 	  else
 	    if ( missing )
 	      missing.push(line[0].value) ;
