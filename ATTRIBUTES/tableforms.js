@@ -137,7 +137,7 @@ function table_forms_close()
     Current.prototype.jump = Current.prototype.jump_old ;
     table_forms_element.parentNode.removeChild(table_forms_element) ;
     table_forms_element = undefined ;
-    table_fill() ;
+    table_fill(false, true) ;
 }
 
 function table_forms()
