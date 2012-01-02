@@ -10,11 +10,14 @@ Utilisateurs finaux.
 
 * Traduction
 
+* Copie de table : sans l'historique : garder le dernier author
+
 * Non semestrialisation : seul le responsable
 
 * Tip : nouvelle version avec le + cliquable et survolable
 
 * Passer l'arrondi dans les paramètres colonnes ?
+
 * Passer le nombre de notes min.max a enlever dans les paramètres colonnes ?
 
 * Insérer les lignes qui viennent du serveur aux bons endroits
@@ -32,15 +35,11 @@ Utilisateurs finaux.
 
 * Sauvegarde de l'état figé d'une colonne (à faire dans le nouvel interface).
 
-* Collé multiligne dans une cellule : message d'erreur indiquant
-  que c'est trop dangereux.
-  C'est dangereux car il faut transformer le INPUT en TEXTAREA
-
 * Dans le suivi : moyenne des notes en plus du rang.
 
 * Dans le suivi : rang pour les moyennes.
 
-* Redirection d'une table sur une autre (renommage).
+* GUI pour la redirection d'une table sur une autre (renommage lien symbolic).
 
 * IE : BILAN TOMUSS : probleme icone+note mal positionné
 
@@ -90,8 +89,6 @@ Utilisateurs finaux.
 Administrateur.
 ---------------
 
-* Ticket expiré : fait une redirection du client (impossible dans frame)
-
 * Afficher les lock de tables
 
 * Afficher la tete de update_liste
@@ -130,10 +127,20 @@ Administrateur.
 Problèmes à résoudre.
 =====================
 
-* Lignes vides créées avec coloriage en fin de tableau
+* tip non defini dans catalogue printemps
+
+* Form editor :
+  - nombre de colonnes ou position ?
+  - griser resultat de calcul
+
+* utf-8 pour le publi-postage
 
 * DEMO : commentaire numerique sur saisie d'ABJ sans commentaire !!!
 
+* Ticket expiré : fait une redirection du client (impossible dans frame)
+  le client ne peut pas reprendre le ticket et demande le redirige toujours.
+  Peut être lié au "vol" de ticket : cela invalide l'ancien.
+  
 * Redémarrage TOMUSS et vieille pages : pas réglé, le client persiste à vouloir
   se reconnecter.
   Quand le client a perdu sa connexion longtemps, il la retrouve tout seul
@@ -150,8 +157,6 @@ Problèmes à résoudre.
 * Découpler referents_students pour avoir les bon referents par semestre.
 
 * Passer les .css avant les .js
-
-* Liste de la page d'accueil : ajouter les UE GASEL en plus de LDAP et SPIRAL
 
 * Le suivi étudiant permet d'avoir des informations non autorisées.
 

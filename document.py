@@ -35,6 +35,7 @@ from cell import Cell, Lines, cellempty
 import sender
 import plugins
 import re
+import collections
 
 def check_table(t):
     cols = tuple(t.lines.lines.values())
@@ -243,7 +244,7 @@ class Table(object):
         self.the_lock = threading.Lock()
         self.ro = ro
         self.mtime = 0
-        self.the_key_dict = {}
+        self.the_key_dict = collections.defaultdict(list)
         self.unloaded = False
         self.do_not_unload = 0
         self.modifiable = int(not ro)
@@ -523,6 +524,7 @@ class Table(object):
         if a_column == None:
             raise ValueError("Bug in 'cell_change' can't find column %s" % col)
 
+        on_a_new_line = lin not in self.lines
         line = self.lines[lin]
         cell = line[a_column.data_col]
 
@@ -554,8 +556,8 @@ class Table(object):
                 grp = line[self.columns.get_grp()].value
                 seq = line[self.columns.get_seq()].value
                 verify_lines = list(self.columns.table.lines_of_grp(grp, seq))
-            for line in verify_lines:
-                if line[data_col].value == value:
+            for a_line in verify_lines:
+                if a_line[data_col].value == value:
                     n += 1
             if n >= abs(a_column.repetition):
                 self.error(page, 'Cette valeur a déjà été saisie dans la colonne')
@@ -577,12 +579,10 @@ class Table(object):
                                        + ' new_login=' + new_value
                                        + ' lin=' + lin
                                        + ' ' + repr(self.the_key_dict[login]))
-
-            login = utilities.the_login(new_value)
-            if login in self.the_key_dict:
-                self.the_key_dict[login].append(lin)
-            else:
-                self.the_key_dict[login] = [lin]
+            self.the_key_dict[utilities.the_login(new_value)].append(lin)
+        elif on_a_new_line:
+            self.the_key_dict[''].append(lin)
+            
 
         # The class may change on value change
         cell = line[a_column.data_col] = cell.set_value(value=value,
@@ -869,17 +869,6 @@ la dernière saisie.
     def the_keys(self):
         """Returns a dictionary for fast access by student login"""
         return self.the_key_dict
-        if self.the_key_dict:
-            return self.the_key_dict
-        d = {}
-        for k, v in self.lines.items():
-            login = utilities.the_login(v[0].value)
-            if login in d:
-                d[login].append(k)
-            else:
-                d[login] = [k]
-        self.the_key_dict = d
-        return d
 
     def get_lines(self, login):
         try:

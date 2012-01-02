@@ -82,13 +82,13 @@ function import_column_do()
 	  var m = multiline[i].split(/[\t ]+/) ;
 	  if ( m.length != 1 )
 	    {
-	      problems += "Indiquez seulement le numéro d'étudiant : "
-		+ multiline[i] + '\n' ;
+	      problems += "On ajoute «" + m[0] + '» au lieu de «'
+		+ multiline[i] + '»\n' ;
 	      continue ;
 	    }
 	  if ( login_to_line_id(m[0]) !== undefined )
 	    {
-	      problems += "L'étudiant est déja dans la table : " + m[0] + '\n';
+	      problems += "«"+ m[0] +"» n'est pas ajouté car déja présent\n";
 	      continue ;
 	    }
 	  replace += 'Ajoute ' + m[0] + ' ' ;
@@ -97,8 +97,8 @@ function import_column_do()
       if ( problems !== '' )
 	{
 	  element_focused = undefined ;
-	  alert(problems) ;
-	  return ;
+	  if ( ! confirm(problems + '\nVoulez-vous importer ?') )
+	      return ;
 	}
     }
   else

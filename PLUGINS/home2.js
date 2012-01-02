@@ -21,7 +21,7 @@
 */
 
 function _UE(name, responsable, intitule, parcours, code, login,
-	     nr_students_ue, nr_students_ec, planning, tt)
+	     nr_students_ue, nr_students_ec, planning, tt, credit, old_names)
 {
   this.name = name ;
   if ( parcours === undefined )
@@ -46,28 +46,30 @@ function _UE(name, responsable, intitule, parcours, code, login,
   if ( tt === undefined )
     tt = 0 ;
   this.tt = tt ;
-    
-  
-  this.line = this.name + '\003' + this.intitule.toLowerCase() + '\001'
-    + this.responsable.join(', ') + '\002' ;
-  this.line_upper = replaceDiacritics(name).toUpperCase()  + '\003'
-    + replaceDiacritics(intitule).toUpperCase() + '\001'
-    + replaceDiacritics(responsable.join(', ')).toUpperCase() ;
+  this.credit = credit ;
+  this.old_names = old_names ;
 
-  /*
-    var lm = this.name.substr(this.name.length-1) ;
-    if ( lm == 'M' || lm == 'L' )
-    this.code = '<!-- ' + lm + this.name + ' -->';
-    else
-  */
+  var more = '' ;
+  if ( credit >= 0 )
+      more += '<br>' + credit + ' crédits' ;
+  if ( old_names && old_names.length )
+      more += '<br>Anciens codes APOGÉE : ' + old_names.join(' ') ;
+  if ( more )
+      more = '<span class="ue_more">' + more ;
+  
+  this.line = this.name + '\003' + this.intitule.toLowerCase() + more + '\001'
+    + this.responsable.join(', ') + '\002' ;
+  this.line_upper = replaceDiacritics(this.line.toUpperCase())
+      .replace('\002', '') ;
   this.code = '<!-- ' + this.name + ' -->';
 }
 
 function UE(name, responsable, intitule, parcours, code, login,
-	    nr_students_ue, nr_students_ec, planning, tt)
+	    nr_students_ue, nr_students_ec, planning, tt, credit, old_names)
 {
   return new _UE(name, responsable, intitule, parcours,
-		 code, login, nr_students_ue, nr_students_ec, planning, tt) ;
+		 code, login, nr_students_ue, nr_students_ec, planning, tt,
+		 credit, old_names) ;
 }
 
 

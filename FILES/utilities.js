@@ -1728,7 +1728,15 @@ function current_jump(lin, col, do_not_focus, line_id, data_col)
   if ( data_col === undefined )
     data_col = data_col_from_col(col) ;
   if ( line_id === undefined )
-    line_id = line_id_from_lin(lin) ;
+      {
+	  do
+	      {
+		  line_id = line_id_from_lin(lin) ;
+		  if ( line_id === undefined )
+		      add_a_new_line() ;
+	      }
+	  while( line_id === undefined ) ;
+      }
 
   var line = lines[line_id] ;
   if ( ! line )
@@ -1793,7 +1801,8 @@ function current_jump(lin, col, do_not_focus, line_id, data_col)
   this.input_div.style.width = this.td.offsetWidth ;
   this.input_div.style.height = this.td.offsetHeight - border ;
   this.input.className = this.td.className + ' ' + this.tr.className ;
-  this.input.value =columns[this.data_col].real_type.formatte(this.cell.value);
+  this.input.value =columns[this.data_col].real_type.formatte(this.cell.value,
+							      this.column);
   this.initial_value = this.input.value ;
 
   // Update position in scrollbar
@@ -1923,9 +1932,15 @@ function alt_shortcut(event, td)
     case 16:
     case 0:
       break ;
+    case 191: /* Qwerty / */
+    case 59: /* Azerty : */
+	select_tab("cellule", "Cellule") ;
+	the_comment.focus() ;
+	break ;
     case 18: // ALT
       // Navigator must process the event
     default:
+	// alert(event.charCode);
       return true ;
     }
   stop_event(event) ; // Else ALTs are navigator shortcut
@@ -1947,9 +1962,18 @@ function current_keydown(event, in_input)
       return ;
     }
 
-  if ( ! element_focused )
-    this.focused = true ; // this is in fact 'current_cell'
-
+  if ( this.input.id == "table_forms_keypress" ||
+       (element_focused && element_focused.id == "table_forms_keypress"))
+      {
+	  if ( key < 41 && key != 27 )
+	      return ;
+      }
+  else
+      {
+	  if ( ! element_focused )
+	      this.focused = true ; // this is in fact 'current_cell'
+      }
+       
   if ( event.altKey && ! event.ctrlKey )
     {
       if ( event.charCode === undefined )
@@ -2029,7 +2053,14 @@ function current_keydown(event, in_input)
 	return true ;
       break ;
     case 27: // Escape Key
-      //alert('' + this.input.value + '/' + this.initial_value) ;
+	// alert('' + this.input.value + '/' + this.initial_value) ;
+	if ( this.input.id == "table_forms_keypress" )
+	    {
+		this.input.value = this.initial_value ;
+		this.input.blur() ;
+		stop_event(event) ;
+		return false;
+	    }
       this.input.value = this.initial_value ;
       this.input.blur() ;
       this.input.focus() ;
@@ -2081,7 +2112,7 @@ function current_do_completion()
   do_completion_for_this_input = undefined ;
 
   alert_merged = '' ;
-  if ( input == this.input )
+  if ( input == this.input || input.id == "table_forms_keypress" )
     {
       completion = this.column.real_type.cell_test(input.value, this.column) ;
     }

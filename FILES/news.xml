@@ -601,6 +601,19 @@ Les améliorations les plus visibles sont :
       </description>
       <guid>43</guid>
     </item>
+    <item>
+      <title>02/01/2012 : Version 3.1.2</title>
+      <link>http://tomuss.univ-lyon1.fr/</link>
+      <description>
+	Cette version permet d'éditer les tableaux sous forme de formulaires.
+	Il est alors possible de rentrer facilement de longues chaines
+	de caractères dans les cellules.
+	&lt;p&gt;
+	Si une colonne de notes est arrondie à l'entier près,
+	alors les décimales ne sont pas affichées.
+      </description>
+      <guid>44</guid>
+    </item>
 
   </channel>
 </rss>

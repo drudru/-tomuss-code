@@ -99,11 +99,10 @@ function test_note(value, column)
   return v ;
 }
 
-function note_format(c)
+function note_format(c, column)
 {
-  if ( c.toFixed )
-    return tofixed(c) ;
-  else
+    if ( c.toFixed && ( !column.round_by || column.round_by < 1 ) )
+	  return tofixed(c) ;
     return c ;
 }
 

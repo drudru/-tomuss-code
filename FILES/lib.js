@@ -314,7 +314,7 @@ function line_id_from_lin(lin)
 {
   var line = line_offset + lin - nr_headers ;
   if ( line >= filtered_lines.length )
-    return add_a_new_line() ;
+    return ;
   if ( line < 0 )
     return ;
   return filtered_lines[line].line_id ;
@@ -333,7 +333,8 @@ function the_td(event)
     td = event ;
   else
     td = the_event(event).target ;
-  if ( td.tagName == 'INPUT' || td.tagName == 'SELECT' || td.tagName == 'IMG' )
+  if ( td.tagName == 'INPUT' || td.tagName == 'SELECT' || td.tagName == 'IMG'
+       || td.tagName == 'A' )
     return td.parentNode ;
   else
     {
@@ -492,6 +493,12 @@ function set_tip_position(td, bottom)
 {
   var tip = get_tip_element() ;
   tip.target = undefined ;
+  if ( table_forms_element && line_id_from_td(td) )
+    {
+      set_element_relative_position(td, tip) ;
+      tip.style.left = '0px' ;
+      return ;
+    }
   if ( tip_fixed )
     {
       tip.style.left = 'auto' ;
@@ -639,19 +646,27 @@ function show_the_tip(td, tip_content)
 	{
 	  bottom = true ;
 	  while ( td.tagName != 'TH' )
-	    td = td.parentNode ;
+	    {
+	      td = td.parentNode ;
+	      if ( ! td )
+		return ;
+	    }
 	  s = type['tip_' + td.parentNode.className.split(' ')[0]] ;
 	  remove_highlight() ;
 	}
       else
 	{
 	  var line = lines[line_id] ;
+	  if ( line === undefined )
+	    return ;
 	  var cell = line[data_col] ;
 	  if ( cell.is_mine() && table_attr.modifiable
 	       && column.real_type.cell_is_modifiable)
 	    s = '<span class="title">' + type.tip_cell + '</span><br>' ;
 	  else
 	    s = '' ;
+	  if ( i_am_root )
+	    s += 'line_id=' + line_id + ', col_id=' + column.the_id ;
 	  // highlight line
 	  remove_highlight() ;
 	  the_current_line = td.parentNode ;
@@ -702,6 +717,8 @@ function wheel(event)
   if ( the_body.offsetHeight > window_height() )
     return ;
   if ( popup_is_open() )
+    return ;
+  if ( table_forms_element )
     return ;
 
   if ( the_event(event).wheelDelta < 0 )
@@ -1307,7 +1324,7 @@ function update_vertical_scrollbar_real()
   var v, vv, v_upper ;
   var height = filtered_lines.length ;
   var y, last_y = -100 ;
-  s = '<span class="position">&nbsp;</span><img src="' + url + '/up.gif" onclick="javascript:previous_page();"><img src="/down.gif" onclick="javascript:next_page();"><span class="cursor"></span>' ;
+  s = '<span class="position">&nbsp;</span><img src="' + url + '/up.gif" onclick="javascript:previous_page();"><img src="' + url + '/down.gif" onclick="javascript:next_page();"><span class="cursor"></span>' ;
 
 
   if ( preferences.v_scrollbar_nr )
@@ -1685,6 +1702,7 @@ function table_fill_do()
 	    setTimeout("the_current_cell.update("+table_fill_do_not_focus+");"
 		       ,100) ;
 	}
+    setTimeout(table_forms_resize, 1) ;
 }
 
 function manage_window_resize_event()
@@ -1807,6 +1825,8 @@ function table_fill(do_not_focus, display_headers, compute_filtered_lines)
 {
   if ( table === undefined )
     return ;
+  if ( table_forms_element )
+    display_headers = false ;
   table_fill_do_not_focus = do_not_focus ;
   if ( compute_filtered_lines )
       periodic_work_add(update_filtered_lines) ;
@@ -2019,23 +2039,24 @@ function table_fill_hook_horizontal()
   var tr = table.childNodes[next_page_line] ;
   var col = next_page_col - column_offset ;
   if ( col < 0 )
-    cell_goto(tr.childNodes[0]);
+    cell_goto(tr.childNodes[0], true);
   else if ( col < table_attr.nr_columns )
-    cell_goto(tr.childNodes[col]); 
+    cell_goto(tr.childNodes[col], true);
   else
-    cell_goto(tr.childNodes[table_attr.nr_columns-1]); 
+    cell_goto(tr.childNodes[table_attr.nr_columns-1], true);
 }
 
 /*
  * If 'col' is defined : then it is the required column (centered)
  * Else 'direction' is a delta
  */
-function page_horizontal(direction, col)
+function page_horizontal(direction, col, do_not_focus)
 {
   var cls = column_list_all() ;
 
-  the_current_cell.change() ;
-  
+  if ( ! do_not_focus )
+    the_current_cell.change() ;
+
   if ( col === undefined )
     {
       col = myindex(cls, the_current_cell.data_col) +
@@ -2062,7 +2083,9 @@ function page_horizontal(direction, col)
 
   the_current_cell.focused = false ; // XXX Kludge for XXX_HS
   table_fill_hook = table_fill_hook_horizontal ;
-  table_fill(false, true) ;
+  table_fill(do_not_focus, true) ;
+
+
   periodic_work_do() ;
 }
 
@@ -2083,7 +2106,8 @@ Cursor movement
 
 function cell_get_value_real(line_id, data_col)
 {
-  return columns[data_col].real_type.formatte(lines[line_id][data_col].value);
+  return columns[data_col].real_type.formatte(lines[line_id][data_col].value,
+					      columns[data_col]);
 }
 
 function update_cell(td, cell, column, abj)
@@ -2108,7 +2132,7 @@ function update_cell(td, cell, column, abj)
   if ( v.toFixed )
     {
       className += ' number' ;
-      v = column.real_type.formatte(v) ;
+      v = column.real_type.formatte(v, column) ;
     }
   if ( full_filter && full_filter(cell) )
     className += ' filtered' ;
@@ -2220,8 +2244,8 @@ function add_a_new_line(line_id)
   filtered_lines.push(line) ;
 
   /* Update screen table with the new id */
-  var lin = filtered_lines.length - line_offset ;
-  if ( lin > 0 && lin < table_attr.nr_lines - nr_headers )
+  var lin = filtered_lines.length - 1 - line_offset ;
+  if ( lin >= 0 && lin < table_attr.nr_lines )
     {
       line_fill(filtered_lines.length-1, lin + nr_headers) ;
     }
@@ -2743,8 +2767,7 @@ Request.prototype.send = request_send ;
 function click_to_revalidate_ticket()
 {
   var m =  '<a onclick="javascript: t_authenticate.style.display = \'none\' ; window_open(\'' + cas_url + '/login?service='
-    + encode_uri('http://' + document.location.host +
-		 '/allow/' + ticket + '/' + millisec()).replace(/%01/g, '%2F')
+    + encode_uri('_URL_/allow/'+ticket+'/'+millisec()).replace(/%01/g, '%2F')
     + '\')">' + _("MSG_reauthenticate") + '</a>' ; 
   t_authenticate.style.display = 'block' ;
   t_authenticate.innerHTML = m ;
@@ -2755,7 +2778,8 @@ function click_to_revalidate_ticket()
  ****************************************************************************
  * Management of periodic work.
  * Once added, the function is called every 0.1 seconds until it returns false
- * 'add' and 'remove' must not be called from a periodic function.
+ * 'add' can be called from a periodic function, in this case the function
+ * may be called more than one in a period.
  * When a function is added to the list, it goes to the end,
  * so it is processed after the others.
  ****************************************************************************
@@ -3843,6 +3867,11 @@ function runlog(the_columns, the_lines)
       replace_window_content(tablefacebook('_self')) ;
       return ;
     }
+  if ( table_forms_element || get_option('tableforms', 'a') !== 'a' )
+    {
+      setTimeout(table_forms, 1500) ;
+    }
+
 
   if ( preferences.interface == 'L' )
     {

@@ -439,6 +439,12 @@ msgstr "<b>Sauve les options d'affichage</b><br>\n"
 msgid "TIP_table_attr_nr_columns"
 msgstr "Nombre de <b>colonnes</b> affichées sur l'écran"
 
+#. Attribute Tip
+msgid "TIP_table_attr_forms"
+msgstr "<b>Interface utilisateur formulaire.</b><br>\n"
+  "Si vous suivez ce lien vous pourrez éditer chaque ligne du tableau<br>\n"
+  "sous la forme d'une fiche."
+
 #. GUI Label
 msgid "LABEL_logout"
 msgstr "Déconnexion"
@@ -970,6 +976,10 @@ msgstr "Forcer la mise à jour"
 #. GUI 
 msgid "TITLE_table_attr_linear"
 msgstr "Linéaire"
+
+#. GUI 
+msgid "TITLE_table_attr_forms"
+msgstr "Formulaire"
 
 #. GUI
 msgid "TH_column"

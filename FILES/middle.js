@@ -160,10 +160,13 @@ function column_attr_set(column, attr, value, td, force_save)
   var old_value = column[attr] ;
   var i_can_modify_column = column_change_allowed(column) ;
 
+  if ( !i_can_modify_column && i_am_the_teacher && attr == 'width' )
+      i_can_modify_column = true ;
+
   if ( old_value == value )
     {
-      if ( ! i_can_modify_column )
-	return ;
+	if ( !i_can_modify_column )
+	    return ;
       // Save the value even if the value is unmodified
       if ( attr != 'width' && attr != 'position' )
 	return ;
@@ -545,7 +548,8 @@ function new_new_interface()
   t.push(hidden_txt(header_input
 		    ('comment', '',
 		     'empty one_line onblur=comment_on_change(event)'),
-		    _("TIP_cell_comment"))) ;
+		    "<span class=\"shortcut\">(Alt-/)</span>"
+		    + _("TIP_cell_comment"))) ;
   t.push(hidden_txt(header_input('linefilter', '',
 				 'empty one_line onkey=line_filter_change(this)'),
 		    "<span class=\"shortcut\">(Alt-8)</span>" +
@@ -843,6 +847,9 @@ function new_new_interface()
   t.push('<div class="one_line">') ;
   t.push(table_input_attr('linear')) ;
   t.push('.') ;
+  t.push(table_input_attr('forms')) ;
+  t.push('.') ;
+
   t.push(table_input_attr('update_content')) ;
   t.push(hidden_txt('<a href="javascript:change_popup_on_red_line()">.</a>',
 		    _("TIP_popup_on_red_line")

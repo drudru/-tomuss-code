@@ -456,6 +456,11 @@ msgstr ""
 msgid "TIP_table_attr_nr_columns"
 msgstr "Number of <b>columns</b> on screen."
 
+#. Attribute Tip
+msgid "TIP_table_attr_forms"
+msgstr "<b>Forms editor.</b><br>\n"
+  "Follow this link to use a forms editor"
+
 #. GUI Label
 msgid "LABEL_logout"
 msgstr "Logout"
@@ -979,6 +984,10 @@ msgstr "Update table content NOW"
 #. GUI 
 msgid "TITLE_table_attr_linear"
 msgstr "Linear"
+
+#. GUI 
+msgid "TITLE_table_attr_forms"
+msgstr "Form"
 
 #. GUI
 msgid "TH_column"
