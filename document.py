@@ -495,7 +495,8 @@ class Table(object):
         return self.authorized(page, Cell(a_column.title, a_column.author))
 
     def cell_change(self, page, col, lin, value=None,
-                    date=None, force_update=False):
+                    date=None, force_update=False,
+                    change_author=True):
 
         if not self.loading and not self.modifiable:
             return self.bad_ro(page)
@@ -517,8 +518,11 @@ class Table(object):
 
         old_value = str(cell.value)
         new_value = str(value)
-        if old_value == new_value and cell.author == page.user_name:
-            return 'ok.png'
+        if old_value == new_value:
+            if cell.author == page.user_name:
+                return 'ok.png'
+            if not change_author:
+                return 'ok.png'
 
         # if isinstance(value, str) and value.find('.') != -1:
         if a_column.type.name == 'Note':
@@ -540,7 +544,7 @@ class Table(object):
                 if a_line[data_col].value == value:
                     n += 1
             if n >= abs(a_column.repetition):
-                self.error(page, 'Cette valeur a déjà été saisie dans la colonne')
+                self.error(page, 'Cette valeur «%s» a déjà été saisie dans la colonne «%s»' % (value, a_column.title))
                 return 'bad.png'
 
 

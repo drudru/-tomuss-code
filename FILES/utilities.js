@@ -349,8 +349,8 @@ function hidden_over(event)
 
   var value = compute_tip(event.target) ;
   var tip = show_the_tip(event.target, value) ;
-
-  tip.tip_target = event.target ;
+  if ( tip )
+      tip.tip_target = event.target ;
 }
 
 function hidden_out()

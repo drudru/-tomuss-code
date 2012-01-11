@@ -2680,7 +2680,7 @@ function restore_unsaved()
 	{
 	  var data_col = data_col_from_col_id(line[1]) ;
 	  var line_id = line[2] ;
-	  if ( data_col !== undefined )
+	  if ( data_col !== undefined && lines[line_id] !== undefined )
 	    {
 	      message += lines[line_id][0].value + ' ' +
 		lines[line_id][1].value + ' ' + lines[line_id][2].value 
