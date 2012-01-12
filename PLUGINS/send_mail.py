@@ -65,8 +65,8 @@ def send_mail(server):
             content = content.replace(old, new)
             the_subject = the_subject.replace(old, new)
 
-        the_subject = unicode(the_subject, 'utf8').encode('latin1')
-        content = unicode(content, 'utf8').encode('latin1')
+        the_subject = unicode(the_subject, 'utf-8').encode('utf-8')
+        content = unicode(content, 'utf-8')
         # print m, the_subject, content, frome
         utilities.send_mail_in_background(m, the_subject, content, frome)
         
