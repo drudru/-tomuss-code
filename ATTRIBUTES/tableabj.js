@@ -87,9 +87,15 @@ function abj_per_day()
 
   var s = '', t, end, names='' ;
   var days = [] ;
+  var bug = '' ;
   for(var i in the_student_abjs)
     {
       s += "the_abjs['" + i + "'] = [" ;
+      if ( lines[login_to_line_id(i)] === undefined )
+	  {
+	      bug += 'BUG : ' + login_to_line_id(i) + ' introuvable\n' ;
+	      continue ;
+	  }
       names += ',\"' + i + '\":\"' + lines[login_to_line_id(i)][2].value
 	+ ' ' + lines[login_to_line_id(i)][1].value+ '\"';
       i = the_student_abjs[i] ;
@@ -114,6 +120,8 @@ function abj_per_day()
 	}
       s += (t+' ').substr(1) + '] ;\n' ;
     }
+  if ( bug )
+      alert(bug) ;
   p += s + '\n' +
     'var names = {' + (names+' ').substr(1) + '};</script>' ;
   
