@@ -26,7 +26,7 @@ import configuration
 import utilities
 import data
 
-def les_ues(year, semester, true_file=False, all_files=False):
+def les_ues(year, semester, true_file=False, all_files=False, ro=True):
     """true_file is for UE that link to another UE"""
     dirname = os.path.join(configuration.db,'Y'+ str(year),'S' + str(semester))
     for ue in utilities.python_files(dirname):
@@ -34,8 +34,8 @@ def les_ues(year, semester, true_file=False, all_files=False):
             continue
         if true_file and os.path.islink(os.path.join(dirname, ue)):
             continue
-        table = document.table(str(year), str(semester), ue[:-3], ro=True)
-        if table.official_ue:
+        table = document.table(str(year), str(semester), ue[:-3], ro=ro)
+        if all_files or table.official_ue:
             yield table
 
 
