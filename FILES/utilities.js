@@ -528,14 +528,18 @@ function on_windows()
 
 var allow_popup_message = 'Vous devez autoriser les "popup" dans votre navigateur.\nTOMUSS ne fonctionnera pas correctement si vous les bloquez.\n\nPour les débloquer, il y a un petit icone vers la droite de l\'adresse de la page' ;
 
+var window_counter = 0 ;
 function window_open(url, replace)
 {
   var w ;
+  var title = window_counter++ ;
+  if ( replace )
+      title = replace ;
   if ( url )
-    w = window.open(url, replace) ;
+      w = window.open(url, title) ;
   else
     try {
-      w = window.open(url, replace) ;
+	w = window.open(url, title) ;
     }
     catch(e) {
       // XXX IE
