@@ -516,7 +516,7 @@ class Table(object):
             if not self.authorized(page, cell):
                 utilities.warn('cell value = (%s)' % cell.value)
                 return self.bad_auth(page)
-            if a_column.locked:
+            if a_column.locked and page.user_name != data.ro_user:
                 self.error(page, 'Locked column')
                 return 'bad.png'
 
