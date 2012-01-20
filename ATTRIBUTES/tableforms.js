@@ -120,7 +120,7 @@ function table_forms_jump(lin, col, do_not_focus, line_id, data_col)
 		    var img = tr.getElementsByTagName('IMG') ;
 		    if ( img.length )
 			    img[0].parentNode.removeChild(img[0]) ;
-		    if ( ! cell.modifiable() )
+		    if ( ! cell.modifiable(columns[tr.data_col]) )
 			tr.className = 'ro' ;
 		    else
 			tr.className = '' ;
@@ -180,14 +180,32 @@ function table_forms()
 	    line.appendChild(td_title) ;
 	    td_title.className = "ctitle" ;
 	    td_title.innerHTML = '<tt><span></span></tt><b>' + html(column.title)
-		+ '</b>. <small><em>' + html(column.comment) + '</em></small>';
+		+ '</b>. <small><em>'
+		+ html(column.comment.split('///')[0]) + '</em></small>';
 
 	    td_value = document.createElement('td') ;
 	    line.appendChild(td_value) ;
+	    var attribs = column.comment.split('///') ;
+	    var more, nr_line = 1 ;
 	    if ( column.type == 'Text' )
-		td_value.innerHTML = '<TEXTAREA' + e + '></TEXTAREA>' ;
+		nr_line = 2 ;
+	    if ( attribs.length > 1 )
+		{
+		    attribs = attribs[1].split(' ') ;
+		    nr_line = Number(attribs[0]) ;
+		    more = ' rows="' + nr_line + '"' ;
+		    if ( attribs[1] )
+			{
+			    more += ' style="background:#' +
+				attribs[1].replace(/[^0-9A-Z]/g,'') + ';"' ;
+			}
+		}
 	    else
-		td_value.innerHTML = '<INPUT' + e + '>' ;
+		more = ''
+	    if ( nr_line == 1 )
+		td_value.innerHTML = '<INPUT' + e + more + '>' ;
+	    else
+		td_value.innerHTML = '<TEXTAREA' + e + more + '></TEXTAREA>' ;
 	    tb.appendChild(line) ;
 	}
     table_forms_resize() ;

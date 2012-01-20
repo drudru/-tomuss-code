@@ -19,6 +19,20 @@
 #
 #    Contact: Thierry.EXCOFFIER@bat710.univ-lyon1.fr
 
+"""
+The forms may use column comments to compute number of lines and color.
+
+To do so, add to the column comment:
+
+     ///Number_Of_Line 3HexaDigitColor
+
+for exemple, 10 lines green :
+
+    my column comment ///10 8F8
+
+"""
+
+
 from column import TableAttr
 
 class TableForms(TableAttr):

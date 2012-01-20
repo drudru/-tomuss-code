@@ -133,6 +133,8 @@ Problèmes à résoudre.
 
 * Le changement taill fenetre ne change plus la position du curseur.
 
+* Saisie de date AVEC heure : bug
+
 * Form editor :
   - nombre de colonnes ou position ?
   - griser resultat de calcul
