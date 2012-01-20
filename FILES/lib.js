@@ -1721,6 +1721,7 @@ function manage_window_resize_event()
     }
   if ( current_window_width != width || current_window_height != height )
     {
+      the_current_cell.input.blur() ;
       table_init() ;
       table_fill(false, true, true) ;
       current_window_width = width ;
