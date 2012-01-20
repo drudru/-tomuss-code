@@ -1225,7 +1225,7 @@ function cell_comment_html()
   return html(this.comment) ;
 }
 
-function cell_changeable(cell)
+function cell_changeable(column)
 {
   if ( ! table_attr.modifiable )
     return "Cette table a été passée en lecture seulement par son responsable";
@@ -1236,12 +1236,14 @@ function cell_changeable(cell)
       if ( this.author === '*')
 	return "Cette valeur n'est pas modifiable car elle est officielle, si elle est fausse il faut prévenir un responsable" ;
     }
+  if ( column.locked )
+      return "Cette valeur n'est pas modifiable car les modications ont été interdites dans cette colonne." ;
   return true ;
 }
 
-function cell_modifiable(cell)
+function cell_modifiable(column)
 {
-  return this.changeable() === true ;
+  return this.changeable(column) === true ;
 }
 
 function cell_is_mine()
@@ -1576,7 +1578,7 @@ function current_update_cell_headers()
   if ( the_comment )
     {
       update_input(the_comment, cell.comment, cell.comment === '') ;
-      set_editable(the_comment, cell.modifiable()) ;
+      set_editable(the_comment, cell.modifiable(this.column)) ;
     }
 
   update_value_and_tip(t_value, cell.value) ;
@@ -1730,7 +1732,7 @@ function current_jump(lin, col, do_not_focus, line_id, data_col)
 	{
 	  save.onblur(save) ;
 	}
-      if ( ! cell.modifiable() )
+      if ( ! cell.modifiable(columns[data_col]) )
 	{
 	  save.focus() ;
 	  if ( element_focused === undefined )
@@ -1741,7 +1743,7 @@ function current_jump(lin, col, do_not_focus, line_id, data_col)
     }
 
   /* Removed the 19/1/2010 In order to select RO values
-     if (  ! cell.modifiable() )
+     if (  ! cell.modifiable(column) )
      do_not_focus = true ;
   */
 
@@ -1819,7 +1821,8 @@ function current_focus()
 
 function current_cell_modifiable()
 {
-  return this.cell.modifiable() && this.column.real_type.cell_is_modifiable ;
+  return this.cell.modifiable(this.column)
+      && this.column.real_type.cell_is_modifiable ;
 }
    
 // Update input from real table content (external change)

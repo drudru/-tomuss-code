@@ -512,9 +512,13 @@ class Table(object):
         if value is None:
             value = cell.value
 
-        if not self.authorized(page, cell):
-            utilities.warn('cell value = (%s)' % cell.value)
-            return self.bad_auth(page)
+        if not self.loading:
+            if not self.authorized(page, cell):
+                utilities.warn('cell value = (%s)' % cell.value)
+                return self.bad_auth(page)
+            if a_column.locked:
+                self.error(page, 'Locked column')
+                return 'bad.png'
 
         old_value = str(cell.value)
         new_value = str(value)

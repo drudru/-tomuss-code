@@ -811,6 +811,13 @@ function new_new_interface()
   t.push(column_input_attr('freezed')) ;
   t.push('.') ;
   t.push(column_input_attr('hidden')) ;
+  t.push('.') ;
+  t.push(column_input_attr('locked',
+			   [
+			    [0,'Les cellules sont modifiables'],
+			    [1,"Aucune cellule n'est modifiable"],
+			   ]
+			   )) ;
   t.push('</div>') ;
 
   o.push(['Affiche', t.join('\n')]) ;

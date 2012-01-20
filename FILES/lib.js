@@ -2270,7 +2270,7 @@ function cell_set_value_real(line_id, data_col, value, td)
   if ( value.toString() == lines[line_id][data_col].value.toString() )
     return ;
 
-  if ( ! cell.modifiable() )
+  if ( ! cell.modifiable(column) )
     return ;
 
   if ( column.is_empty && columns_filter_value !== '' )
@@ -3181,7 +3181,7 @@ function comment_on_change()
   if ( lines[the_current_cell.line_id][the_current_cell.data_col].comment == input.value )
     return ;
 
-  if ( ! cell.modifiable() )
+  if ( ! cell.modifiable(the_current_cell.columns) )
     {
       alert("Vous n'avez pas l'autorisation de modifier ce commentaire");
       return ;
