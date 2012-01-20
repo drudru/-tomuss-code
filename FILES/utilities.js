@@ -1382,6 +1382,12 @@ function cell_get_data()
   return 'C(' + v + ',' + js(this.author) + ',' + js(this.date) + ',' + js(this.comment) + ')' ;
 }
 
+function cell_date_DDMMYYYY()
+{
+   var x = this.date ;
+   return x.slice(6, 8) + '/' + x.slice(4, 6) + '/' + x.slice(0, 4) ;
+}
+
 Cell.prototype.save = cell_save ;
 Cell.prototype.get_data = cell_get_data ;
 Cell.prototype.restore = cell_restore ;
@@ -1400,6 +1406,7 @@ Cell.prototype.is_not_empty = cell_is_not_empty ;
 Cell.prototype.never_modified = cell_never_modified ;
 Cell.prototype.toString = cell_tostring ;
 Cell.prototype.get_author = cell_get_author ;
+Cell.prototype.date_DDMMYYYY = cell_date_DDMMYYYY ;
 
 
 
