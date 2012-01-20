@@ -614,6 +614,23 @@ Les améliorations les plus visibles sont :
       </description>
       <guid>44</guid>
     </item>
+    <item>
+      <title>20/01/2012 : Version 3.1.4</title>
+      <link>http://tomuss.univ-lyon1.fr/</link>
+      <description>
+	A part les nombreux bugs sans gravité corrigés.
+&lt;ul&gt;
+&lt;li&gt; Si un cellule est coloriée en vert et rouge : elle est violette !
+&lt;li&gt; Le publipostage est maintenant fait en UTF8 : vous pouvez
+	envoyer vos mail en chinois ou simplement utiliser
+	le caractère '…' par exemple.
+&lt;li&gt; Il est possible d'interdire les modifications des valeurs
+	des cellules dans une colonne. C'est dans l'onglet « Affiche »
+	de la colonne.
+&lt;/ul&gt;
+      </description>
+      <guid>45</guid>
+    </item>
 
   </channel>
 </rss>
