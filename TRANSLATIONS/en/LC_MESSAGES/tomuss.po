@@ -318,6 +318,12 @@ msgstr ""
 "THIS ACTION IS NOT REVERSIBLE."
 
 #. Attribute Tip
+msgid "TIP_column_attr_locked"
+msgstr "<b>Allow cell modification in the column</b><br>\n"
+ "If cells are protected they are not modifable even if they are empty."
+
+
+#. Attribute Tip
 msgid "TIP_table_attr_comment"
 msgstr ""
 "Indicate a table comment.<br>\n"
@@ -807,6 +813,16 @@ msgstr "Invisible"
 #. Select value
 msgid "SELECT_table_official_ue_true"
 msgstr "Visible"
+
+#. Select value
+msgid "SELECT_column_locked_no"
+msgstr "Cells are modifiable"
+
+#. Select value
+msgid "SELECT_column_locked_yes"
+msgstr "Cells are not modifiable"
+
+
 
 #. GUI Label
 msgid "LABEL_column_attr_author"

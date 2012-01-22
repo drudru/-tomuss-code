@@ -303,6 +303,12 @@ msgstr "<b>Détruit cette colonne</b> si elle est vide.<br>\n"
  "    CETTE ACTION N'EST PAS RÉVERSIBLE"
 
 #. Attribute Tip
+msgid "TIP_column_attr_locked"
+msgstr "<b>Autorisation de modification des cellules de la colonne</b><br>\n"
+ "Si les cellules sont protégées alors les modifications sont interdites<br>\n"
+ "même le remplissage de cellules vides."
+
+#. Attribute Tip
 msgid "TIP_table_attr_comment"
 msgstr "Tapez un commentaire pour cette table.<br>\n"
  "Ce commentaire sera visible par les étudiants<br>\n"
@@ -457,6 +463,8 @@ msgstr "Préférences"
 msgid "TIP_preferences"
 msgstr "Ce lien vous permet de régler les préférences.<br>\n"
        "Les préférences sont appliquées à <b>tous</b> les tableaux"
+
+
        
 msgid "ERROR_value_not_modifiable"
 msgstr "Vous n'êtes pas autorisé à modifier cette valeur."
@@ -794,6 +802,14 @@ msgstr "Invisible"
 #. Select value
 msgid "SELECT_table_official_ue_true"
 msgstr "Visible"
+
+#. Select value
+msgid "SELECT_column_locked_no"
+msgstr "Les cellules sont modifiables"
+
+#. Select value
+msgid "SELECT_column_locked_yes"
+msgstr "Aucune cellule n'est modifiable"
 
 
 #. GUI Label

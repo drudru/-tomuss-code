@@ -708,8 +708,8 @@ function new_new_interface()
   t.push('.') ;
   t.push(column_input_attr('locked',
 			   [
-			    [0,'Les cellules sont modifiables'],
-			    [1,"Aucune cellule n'est modifiable"],
+			    [0, _("SELECT_column_locked_no")],
+			    [1, _("SELECT_column_locked_yes")],
 			   ]
 			   )) ;
   t.push('</div>') ;
