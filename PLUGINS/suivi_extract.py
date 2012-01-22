@@ -37,6 +37,11 @@ def display(server):
              nr_cols,
              what[1:]))
         nr_cols += len(what)-1
+        if tables[-1][0] is None:
+            f.write('Table inconnue: ' + what[0])
+            f.close()
+            return
+            
         if not tables[-1][0].readable_by(server.ticket):
             f.write('Vous n\'avez pas le droit de lire ' + tables[-1][0].ue)
             f.close()

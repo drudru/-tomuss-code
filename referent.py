@@ -227,7 +227,7 @@ def remove_student_from_referent(referent, student):
         if cell.value == student:
             table.lock()
             try:
-                table.cell_change(table.pages[1], column.the_id, line_key, '')
+                table.cell_change(table.pages[0], column.the_id, line_key, '')
             finally:
                 table.unlock()
                 remove_student_from_referent_hook(referent, student)

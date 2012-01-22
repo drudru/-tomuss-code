@@ -129,11 +129,11 @@ Problèmes à résoudre.
 
 * tip non defini dans catalogue printemps
 
+* Saisie de date AVEC heure : bug
+
 * Form editor :
   - nombre de colonnes ou position ?
   - griser resultat de calcul
-
-* utf-8 pour le publi-postage
 
 * DEMO : commentaire numerique sur saisie d'ABJ sans commentaire !!!
 

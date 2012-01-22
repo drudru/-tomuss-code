@@ -371,8 +371,8 @@ function hidden_over(event)
 
   var value = compute_tip(event.target) ;
   var tip = show_the_tip(event.target, value) ;
-
-  tip.tip_target = event.target ;
+  if ( tip )
+      tip.tip_target = event.target ;
 }
 
 function hidden_out()
@@ -550,14 +550,18 @@ function on_windows()
 
 var allow_popup_message = 'Vous devez autoriser les "popup" dans votre navigateur.\nTOMUSS ne fonctionnera pas correctement si vous les bloquez.\n\nPour les débloquer, il y a un petit icone vers la droite de l\'adresse de la page' ;
 
+var window_counter = 0 ;
 function window_open(url, replace)
 {
   var w ;
+  var title = window_counter++ ;
+  if ( replace )
+      title = replace ;
   if ( url )
-    w = window.open(url, replace) ;
+      w = window.open(url, title) ;
   else
     try {
-      w = window.open(url, replace) ;
+	w = window.open(url, title) ;
     }
     catch(e) {
       // XXX IE
@@ -1243,7 +1247,7 @@ function cell_comment_html()
   return html(this.comment) ;
 }
 
-function cell_changeable(cell)
+function cell_changeable(column)
 {
   if ( ! table_attr.modifiable )
     return "Cette table a été passée en lecture seulement par son responsable";
@@ -1254,12 +1258,14 @@ function cell_changeable(cell)
       if ( this.author === '*')
 	return "Cette valeur n'est pas modifiable car elle est officielle, si elle est fausse il faut prévenir un responsable" ;
     }
+  if ( column.locked )
+      return "Cette valeur n'est pas modifiable car les modications ont été interdites dans cette colonne." ;
   return true ;
 }
 
-function cell_modifiable(cell)
+function cell_modifiable(column)
 {
-  return this.changeable() === true ;
+  return this.changeable(column) === true ;
 }
 
 function cell_is_mine()
@@ -1400,6 +1406,12 @@ function cell_get_data()
   return 'C(' + v + ',' + js(this.author) + ',' + js(this.date) + ',' + js(this.comment) + ')' ;
 }
 
+function cell_date_DDMMYYYY()
+{
+   var x = this.date ;
+   return x.slice(6, 8) + '/' + x.slice(4, 6) + '/' + x.slice(0, 4) ;
+}
+
 Cell.prototype.save = cell_save ;
 Cell.prototype.get_data = cell_get_data ;
 Cell.prototype.restore = cell_restore ;
@@ -1418,6 +1430,7 @@ Cell.prototype.is_not_empty = cell_is_not_empty ;
 Cell.prototype.never_modified = cell_never_modified ;
 Cell.prototype.toString = cell_tostring ;
 Cell.prototype.get_author = cell_get_author ;
+Cell.prototype.date_DDMMYYYY = cell_date_DDMMYYYY ;
 
 
 
@@ -1601,7 +1614,7 @@ function current_update_cell_headers()
   if ( the_comment )
     {
       update_input(the_comment, cell.comment, cell.comment === '') ;
-      set_editable(the_comment, cell.modifiable()) ;
+      set_editable(the_comment, cell.modifiable(this.column)) ;
     }
 
   update_value_and_tip(t_value, cell.value) ;
@@ -1755,7 +1768,7 @@ function current_jump(lin, col, do_not_focus, line_id, data_col)
 	{
 	  save.onblur(save) ;
 	}
-      if ( ! cell.modifiable() )
+      if ( ! cell.modifiable(columns[data_col]) )
 	{
 	  save.focus() ;
 	  if ( element_focused === undefined )
@@ -1766,7 +1779,7 @@ function current_jump(lin, col, do_not_focus, line_id, data_col)
     }
 
   /* Removed the 19/1/2010 In order to select RO values
-     if (  ! cell.modifiable() )
+     if (  ! cell.modifiable(column) )
      do_not_focus = true ;
   */
 
@@ -1844,7 +1857,8 @@ function current_focus()
 
 function current_cell_modifiable()
 {
-  return this.cell.modifiable() && this.column.real_type.cell_is_modifiable ;
+  return this.cell.modifiable(this.column)
+      && this.column.real_type.cell_is_modifiable ;
 }
    
 // Update input from real table content (external change)

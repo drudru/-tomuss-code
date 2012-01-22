@@ -1726,6 +1726,7 @@ function manage_window_resize_event()
     }
   if ( current_window_width != width || current_window_height != height )
     {
+      the_current_cell.input.blur() ;
       table_init() ;
       table_fill(false, true, true) ;
       current_window_width = width ;
@@ -2275,7 +2276,7 @@ function cell_set_value_real(line_id, data_col, value, td)
   if ( value.toString() == lines[line_id][data_col].value.toString() )
     return ;
 
-  if ( ! cell.modifiable() )
+  if ( ! cell.modifiable(column) )
     return ;
 
   if ( column.is_empty && columns_filter_value !== '' )
@@ -2688,7 +2689,7 @@ function restore_unsaved()
 	{
 	  var data_col = data_col_from_col_id(line[1]) ;
 	  var line_id = line[2] ;
-	  if ( data_col !== undefined )
+	  if ( data_col !== undefined && lines[line_id] !== undefined )
 	    {
 	      message += lines[line_id][0].value + ' ' +
 		lines[line_id][1].value + ' ' + lines[line_id][2].value 
@@ -3187,7 +3188,7 @@ function comment_on_change()
   if ( lines[the_current_cell.line_id][the_current_cell.data_col].comment == input.value )
     return ;
 
-  if ( ! cell.modifiable() )
+  if ( ! cell.modifiable(the_current_cell.columns) )
     {
       alert(_("ERROR_value_not_modifiable")) ;
       return ;
