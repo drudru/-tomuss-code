@@ -3182,7 +3182,7 @@ function comment_on_change()
   if ( lines[the_current_cell.line_id][the_current_cell.data_col].comment == input.value )
     return ;
 
-  if ( ! cell.modifiable(the_current_cell.columns) )
+  if ( ! cell.modifiable(the_current_cell.column) )
     {
       alert("Vous n'avez pas l'autorisation de modifier ce commentaire");
       return ;
