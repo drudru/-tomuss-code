@@ -171,7 +171,8 @@ class LDAP_Logic(object):
                                         configuration.attr_mail,
                                         ))
         return [x[0], x[1], x[2].encode('utf8')]
-        
+
+    get_student_info = firstname_and_surname_and_mail
 
     @utilities.add_a_method_cache
     def portail(self, login):

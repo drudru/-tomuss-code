@@ -393,16 +393,24 @@ def teacher_statistics(login, server):
     s.append(member_of_list(login)[0])
     s = (' '.join(s) + '<br>').encode('utf8')
 
-    if len(tables) == 0:
-        return s
+    if tables:
+        s += ("<p>Il a modifié %d notes dans %d UE" % (
+                sum([v.nr for v in tables.values()]),
+                len(tables)) +
+              '\n'.join(['<TABLE class="colored"><tr><th>Lien vers l\'UE</th><th>Nombre<br>de notes</th><th>Première<br>modification le</th><th>Dernière<br>modification le</th></tr>'] +
+                        [ str(t) for t in tables.values()] +
+                        ['</TABLE>']))
 
-    return (
-        s + "<p>Il a modifié %d notes dans %d UE" % (
-        sum([v.nr for v in tables.values()]),
-        len(tables)) +
-        '\n'.join(['<TABLE class="colored"><tr><th>Lien vers l\'UE</th><th>Nombre<br>de notes</th><th>Première<br>modification le</th><th>Dernière<br>modification le</th></tr>'] +
-                  [ str(t) for t in tables.values()] +
-                  ['</TABLE>']))
+    students = referent.students_of_a_teacher(login)
+    if students:
+        s += '<p>Contact/référent pédagogique pour les étudiants suivants :'
+        s += '<table class="colored">'
+        for student in students:
+            infos = inscrits.L_slow.get_student_info(student)
+            s += ('<tr><th>' + student + '<td>' + '<td>'.join(infos) + '</tr>'
+                  ).encode('utf-8')
+        s += '</table>'
+    return s
 
 
 def display_list(server, name):
