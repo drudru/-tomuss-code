@@ -1,5 +1,5 @@
 #!/usr/bin/python
-# -*- coding: latin1 -*-
+# -*- coding: latin-1 -*-
 
 """
 Extract from all the UE for all the years and semesters

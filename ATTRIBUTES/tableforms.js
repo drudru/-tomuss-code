@@ -66,10 +66,12 @@ function table_forms_goto(event)
 	    }
 }
 
+
 function table_forms_blur(event)
 {
     var input = the_event(event).target ;
     var tr = table_forms_tr(input) ;
+    
     cell_set_value_real(the_current_cell.line_id, tr.data_col,
 			input.value, tr.firstChild.firstChild) ;
     input.value = the_current_cell.cell.value ;
@@ -113,36 +115,50 @@ function table_forms_drop(event)
     table_forms_goto(event) ;
 }
 
+function table_forms_update(THIS)
+{
+    var t = table_forms_element.getElementsByTagName('tbody')[0] ;
+    var i, tr, cell ;
+
+    if ( THIS.line[0].value === '' )
+	{
+	    table_forms_element.getElementsByTagName('h1')[0].innerHTML =
+		"N'UTILISEZ PAS CE FORMULAIRE POUR CRÉER DES LIGNES<br>" +
+		"cliquez sur une ligne non vide à gauche." ;
+	}
+    else
+	{
+	    table_forms_element.getElementsByTagName('h1')[0].innerHTML =
+		html(THIS.line[0].value) + ' ' + html(THIS.line[1].value)
+		+ ' ' + html(THIS.line[2].value) ;
+	}
+    
+    for(i in t.childNodes)
+	{
+	    tr = t.childNodes[i] ;
+	    if ( ! tr.lastChild )
+		continue ;
+	    cell = THIS.line[tr.data_col] ;
+	    tr.lastChild.firstChild.value = cell.value ;
+	    var img = tr.getElementsByTagName('IMG') ;
+	    if ( img.length )
+		img[0].parentNode.removeChild(img[0]) ;
+	    if ( ! cell.modifiable(columns[tr.data_col]) )
+		tr.className = 'ro' ;
+	    else
+		tr.className = '' ;
+	}
+}
+
 function table_forms_jump(lin, col, do_not_focus, line_id, data_col)
 {
     var new_class = this.tr.className.replace(/ *currentformline/, '') ;
     var line_change = (this.lin != lin) ;
-    
+
     this.tr.className = new_class ;
     this.jump_old(lin, col, true, line_id, data_col) ;
-    var t = table_forms_element.getElementsByTagName('tbody')[0] ;
-    var i, tr, cell ;
     if ( line_change )
-	{
-	    table_forms_element.getElementsByTagName('h1')[0].innerHTML =
-		html(this.line[0].value) + ' ' + html(this.line[1].value)
-		+ ' ' + html(this.line[2].value) ;
-	    for(var i in t.childNodes)
-		{
-		    tr = t.childNodes[i] ;
-		    if ( ! tr.lastChild )
-			continue ;
-		    cell = this.line[tr.data_col] ;
-		    tr.lastChild.firstChild.value = cell.value ;
-		    var img = tr.getElementsByTagName('IMG') ;
-		    if ( img.length )
-			    img[0].parentNode.removeChild(img[0]) ;
-		    if ( ! cell.modifiable(columns[tr.data_col]) )
-			tr.className = 'ro' ;
-		    else
-			tr.className = '' ;
-		}
-	}
+	table_forms_update(this) ;
     this.tr.className += ' currentformline' ;
     this.input.className += ' currentformline' ;
 }
@@ -226,6 +242,5 @@ function table_forms()
 	    tb.appendChild(line) ;
 	}
     table_forms_resize() ;
-    the_current_cell.jump(3,0) ; // XXX To force form update
-    the_current_cell.jump(2,0) ;
+    table_forms_update(the_current_cell) ;
 }

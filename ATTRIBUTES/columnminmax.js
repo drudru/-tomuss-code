@@ -36,9 +36,9 @@ if ( value.length != 2 )
     return column.minmax ;
   }
 
-if ( Number(value[0]) > Number(value[value.length-1]) )
+if ( Number(value[0]) >= Number(value[value.length-1]) )
   {
-    alert_append('La note minimum doit être plus petite que la note maximum') ;
+    alert_append(column.title + ' : La note minimum doit être strictement plus petite que la note maximum') ;
     return column.minmax ;
   }
 
