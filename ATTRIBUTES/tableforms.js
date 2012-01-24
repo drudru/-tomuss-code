@@ -66,15 +66,19 @@ function table_forms_goto(event)
 	    }
 }
 
+function table_forms_save_input(input)
+{
+    var tr = table_forms_tr(input) ;
+    
+    cell_set_value_real(the_current_cell.line_id, tr.data_col,
+			input.value, tr.firstChild.firstChild) ;    
+}
 
 function table_forms_blur(event)
 {
     var input = the_event(event).target ;
-    var tr = table_forms_tr(input) ;
-    
-    cell_set_value_real(the_current_cell.line_id, tr.data_col,
-			input.value, tr.firstChild.firstChild) ;
-    input.value = the_current_cell.cell.value ;
+    table_forms_save_input(input) ;
+    input.value = the_current_cell.cell.value ; // Oui => OUI
     element_focused = undefined ;
 }
 
@@ -86,14 +90,8 @@ function table_forms_keypress(event)
     element_focused = undefined ;
     input.id = "table_forms_keypress" ;
     the_current_cell.keydown(event) ;
-    element_focused = input ;
-    the_current_cell.input = save ;
     if ( event.keyCode == 13 )
 	{
-	    var tr = table_forms_tr(input) ;
-	    cell_set_value_real(the_current_cell.line_id, tr.data_col,
-				input.value, tr.firstChild.firstChild) ;
-	    input.value = the_current_cell.cell.value ;
 	    if ( input.tagName == 'INPUT' )
 		{
 		    var tr = input.parentNode.parentNode.nextSibling ;
@@ -104,7 +102,12 @@ function table_forms_keypress(event)
 			    n_input.focus() ;
 			}
 		}
+	    else
+		setTimeout(function() { table_forms_save_input(input) ; },
+			   1) ;
 	}
+    element_focused = input ;
+    the_current_cell.input = save ;
 }
 
 function table_forms_drop(event)
