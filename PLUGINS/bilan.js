@@ -41,6 +41,14 @@ function update_ues_with_external_data(resume, external_info)
   return ues ;
 }
 
+/*REDEFINE
+Returns a string to insert after the title of the bilan page.
+ */
+  function bilan_external_header(login)
+{
+    return '' ;
+}
+
 function bilan(ticket, login, resume, firstname, surname, mail, suivi,
 	       i_can_refer, external_info)
 {
@@ -56,7 +64,7 @@ function bilan(ticket, login, resume, firstname, surname, mail, suivi,
     + '<h1>' + login + ' ' + firstname + ' ' + surname
     + ' <a class="mail" href="mailto:' + mail + '">' + mail + '</a></h1>'
     + '<div class="hidden_on_paper">'
-    + 'Les informations officielles sont dans le <a href="' + bilan_link(login) + '" target="_blank">Bilan APOGÉE</a> qui peut être plus à jour que les informations affichées ici.'
+      + bilan_external_header(login)
     + "<p>Le tableau représente les informations stockées par TOMUSS, des UE où l'étudiant a été inscrit peuvent manquer."
     + "<ul><li>Si la case est blanche et vide, l'étudiant est inscrit dans TOMUSS mais aucune information n'a été saisie"
     + '<li>Le carré de couleur contient : Vert : Présences ou Note., Bleu : Absence justifiée, Rouge : Absence injustifiée'

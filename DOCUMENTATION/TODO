@@ -20,6 +20,8 @@ Utilisateurs finaux.
 
 * Passer le nombre de notes min.max a enlever dans les paramètres colonnes ?
 
+* Type nombre_de : ajouter min/max ?
+
 * Insérer les lignes qui viennent du serveur aux bons endroits
 
 * Passer la source de donnée dans les paramètres colonnes ?
@@ -32,6 +34,8 @@ Utilisateurs finaux.
 * Dans le publipostage : mode HTML avec des vrais URL
 
 * IE : Suivi de l'étudiant plus joli.
+
+* Import dans colonne : autorise NUM ETUDIANT[,;]VALEUR
 
 * Sauvegarde de l'état figé d'une colonne (à faire dans le nouvel interface).
 
@@ -126,6 +130,10 @@ Administrateur.
 =====================
 Problèmes à résoudre.
 =====================
+
+* Lenteur moteur de recherche étudiant
+
+* Fuite mémoire
 
 * tip non defini dans catalogue printemps
 
