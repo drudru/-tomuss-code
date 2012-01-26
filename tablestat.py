@@ -34,6 +34,8 @@ def les_ues(year, semester, true_file=False, all_files=False, ro=True):
             continue
         if true_file and os.path.islink(os.path.join(dirname, ue)):
             continue
+        if ue == 'undefined.py':
+            continue
         table = document.table(str(year), str(semester), ue[:-3], ro=ro)
         if all_files or table.official_ue:
             yield table
