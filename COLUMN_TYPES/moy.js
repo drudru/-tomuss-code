@@ -80,7 +80,7 @@ function compute_average(data_col, line)
 	    }
 	  if ( from.real_weight_add )
 	    {
-	      values.push([(value - from.min) / from.max, from,
+		values.push([(value - from.min) / (from.max - from.min), from,
 			   line[c].weight]) ;
 	    }
 	  else
