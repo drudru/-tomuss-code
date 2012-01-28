@@ -3912,7 +3912,7 @@ function runlog(the_columns, the_lines)
   // Firefox bug : the page refresh reload the old iframe, not the new one
   setTimeout(reconnect, 10) ;
 
-  the_current_cell.jump(nr_headers, 0) ;
+  the_current_cell.jump(nr_headers, 0, true) ;
   the_current_cell.update_table_headers() ;
   change_title(table_attr.table_title, table_attr.code) ;
 
