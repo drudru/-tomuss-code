@@ -119,7 +119,8 @@ def referents(server):
     """Display statistics about referents."""
     stat_referent(server.the_file, server.year, server.semester)
 
-plugin.Plugin('referents', '/*3', function=referents, teacher=True,
+plugin.Plugin('referents', '/*3', function=referents,
+              root=True,
               launch_thread = True,
               link=plugin.Link(text='Statistiques référents pédagogiques',
                                url="javascript:go_suivi('*3')",

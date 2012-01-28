@@ -113,6 +113,7 @@ def page_one_groupe(server):
 plugin.Plugin('groupe', '/groupe', teacher=True, password_ok = None,
               mimetype = 'text/html',
               function = page_groupe,
+              abj_master=True,
               launch_thread=True,
               link=plugin.Link(text="Tous les groupes saisis dans TOMUSS",
                                where="<!--4-->Groupage",
