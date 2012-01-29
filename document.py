@@ -702,6 +702,8 @@ la dernière saisie.
             for c in self.columns:
                 if c.author != data.ro_user:
                     return False, 'A column title is set'
+        if sorted(self.masters) != sorted(self.teachers):
+            return False, 'A new master is defined'
         for line in self.lines.values():
             for j in line:
                 if not j.empty():

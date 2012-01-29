@@ -75,6 +75,8 @@ variables = {
 
     "ou_top": "LDAP: Racine de la hiérarchie",
     "ou_students": "LDAP: Endroit ou sont stockés les comptes étudiants",
+    "cn_students": "LDAP: Endroit ou sont stockés les comptes étudiants",
+    "cn_teachers": "LDAP: Endroit ou sont stockés les comptes enseignants",
     "ou_groups": "LDAP: Endroit ou sont stockés les groupes d'étudiants",
     "ou_ue_contains": "LDAP: Un objet est une UE avec les séquences/groupe s'il contient cette chaine de caractère",
     "ou_ue_starts": "LDAP: Un objet est une UE s'il commence par cette chaine de caractère",

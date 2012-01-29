@@ -25,21 +25,22 @@ import configuration
 import utilities
 import time
 
-def send(server, values, f=0):
+def send(server, values, what):
     server.the_file.write('the_full_login_list('
                           + utilities.js(server.the_path[0])
                           + ',[' + ','.join(values)
-                          + '], %d);' % f)
+                          + '], %s);' % utilities.js(what))
     
-def login_list(server):
+def login_list_of(text, base):
     """Retrieve information about any person, not only teachers"""
     a = inscrits.L_slow.firstname_or_surname_to_logins(
-        server.the_path[0],
+        text,
         attributes=[configuration.attr_login,
                     configuration.attr_surname,
                     configuration.attr_firstname,
                     configuration.attr_mail,
-                    ]
+                    ],
+        base = base
         )
 
     append = 0
@@ -55,7 +56,15 @@ def login_list(server):
                  + ',' + utilities.js(surname)
                  + ',' + utilities.js(mail)
                  + ']')
-    send(server, r)
+    return r
+
+def login_list(server):
+    send(server,
+         login_list_of(server.the_path[0], configuration.cn_students),
+         'student')
+    send(server,
+         login_list_of(server.the_path[0], configuration.cn_teachers),
+         'teacher')
     server.the_file.close()
 
 plugin.Plugin('login_list', '/login_list/{*}',

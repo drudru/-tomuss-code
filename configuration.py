@@ -23,7 +23,7 @@ import socket
 import os
 import time
 
-version = '3.1.5'
+version = '3.1.6'
 
 
 ###############################################################################
@@ -208,6 +208,10 @@ ou_top = "DC=univ-lyon1,DC=fr"
 
 # Where all the students belong.
 ou_students = 'OU=etudiants,DC=univ-lyon1,DC=fr'
+cn_students = 'CN=etudiants,OU=groupes,OU=etudiants,DC=univ-lyon1,DC=fr'
+
+# Where all the teacher belong.
+cn_teachers = 'CN=5 HARP-Groupe des groupes Personnels,OU=Groupes,DC=univ-lyon1,DC=fr'
 
 # Where all the groups of students belong.
 ou_groups = "OU=groupes,OU=etudiants,DC=univ-lyon1,DC=fr"

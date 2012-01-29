@@ -961,6 +961,19 @@ var the_last_login_list ;
 var the_last_login_asked ;
 var last_login_cache = {} ;
 
+function login_list_to_html(results)
+{
+  var s = [] ;
+  for(var infos in results)
+    s.push(student_line(results[infos], results.length > 20)) ;
+  if ( results.length === 0 )
+    s = ['<tr><td colspan="3" style="color:black">Recherche infructueuse</tr>'] ;
+  if ( s.length >= 99 )
+    s.push('<tr><td colspan="3" style="color:black">Liste tronquée...</tr>') ;
+
+  return s.join('\n') ;
+}
+
 // This function may be called by 'login_list' plugin.
 function full_login_list(login, results, add)
 {
@@ -970,36 +983,28 @@ function full_login_list(login, results, add)
       login_list(login, results) ;
       return ;
     }
-
-  var s = [], firstname, surname, icone ;
-
-  if ( add )
-    {
-      // Not used. And there is a bug
-      results = results.concat(results, last_login_cache[login]) ;
-      results.sort(cmp_students) ;
-      last_login_cache[login] = results ;
-    }
-  else
-    {
-      results.sort(cmp_students) ;
-      last_login_cache[login] = results ;
-    }
+  if ( last_login_cache[login] === undefined )
+      last_login_cache[login] = {'student':[],'teacher':[]} ;
+   
+  results.sort(cmp_students) ;
+  last_login_cache[login][add] = results ;
 
   if ( login != the_last_login_asked )
     return ;
 
-  the_last_login_list = results ;
-  for(var infos in results)
-    s.push(student_line(results[infos], results.length > 20)) ;
-  if ( results.length === 0 )
-    s = ['<tr><td colspan="3" style="color:black">Recherche infructueuse</tr>'] ;
-  if ( s.length >= 99 )
-    s.push('<tr><td colspan="3" style="color:black">Liste tronquée...</tr>') ;
+  if ( add == 'student' )
+      the_last_login_list = results ;
+
+  
   document.getElementById('students_list').innerHTML =
-    '<table class="student_list" style="margin-top:0">'
-    + '<colgroup><col class="student_icon"><col class="student_id"><col></colgroup>'
-    + s.join('\n') + '</table>' ;
+      'Les étudiants inscrits'
+      + '<table class="student_list" style="margin-top:0">'
+      + '<colgroup><col class="student_icon"><col class="student_id"><col></colgroup>'
+      + login_list_to_html(last_login_cache[login]['student']) + '</table>'
+      + 'Le personnel'
+      + '<table class="student_list" style="margin-top:0">'
+      + '<colgroup><col class="student_icon"><col class="student_id"><col></colgroup>'
+    + login_list_to_html(last_login_cache[login]['teacher']) + '</table>'
 }
 
 var update_students_timeout ;
