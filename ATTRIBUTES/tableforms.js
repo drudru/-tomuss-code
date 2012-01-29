@@ -25,7 +25,10 @@ function table_forms_resize()
 {
     if ( ! table_forms_element )
 	return ;
-    var top_left_e = table.childNodes[0].childNodes[3] ;
+
+    var tr = table_forms_element.getElementsByTagName('tbody')[0].firstChild ;
+    var data_col = tr.data_col ;
+    var top_left_e = table.childNodes[0].childNodes[data_col] ;
     var bottom_right_e = table.childNodes[nr_headers
 					  + table_attr.nr_lines - 1]
 	.childNodes[table_attr.nr_columns-1] ;
@@ -85,29 +88,28 @@ function table_forms_blur(event)
 function table_forms_keypress(event)
 {
     var input = the_event(event).target ;
-    var save = the_current_cell.input ;
-    the_current_cell.input = input ;
-    element_focused = undefined ;
-    input.id = "table_forms_keypress" ;
-    the_current_cell.keydown(event) ;
-    if ( event.keyCode == 13 )
+
+    if ( event.keyCode == 13 || event.keyCode == 9 )
 	{
-	    if ( input.tagName == 'INPUT' )
+	    if ( input.tagName == 'INPUT' || event.keyCode == 9  )
 		{
-		    var tr = input.parentNode.parentNode.nextSibling ;
+		    var tr ;
+		    if ( event.shiftKey )
+			tr = input.parentNode.parentNode.previousSibling ;
+		    else
+			tr = input.parentNode.parentNode.nextSibling ;
 		    if ( tr )
 			{
 			    var n_input = tr.firstChild.nextSibling.firstChild;
 			    n_input.id = "table_forms_keypress" ;
-			    n_input.focus() ;
+			    element_focused = n_input;
+			    setTimeout(function() { n_input.focus() ; }, 1);
 			}
 		}
 	    else
 		setTimeout(function() { table_forms_save_input(input) ; },
 			   1) ;
 	}
-    element_focused = input ;
-    the_current_cell.input = save ;
 }
 
 function table_forms_drop(event)
@@ -146,7 +148,8 @@ function table_forms_update(THIS)
 	    var img = tr.getElementsByTagName('IMG') ;
 	    if ( img.length )
 		img[0].parentNode.removeChild(img[0]) ;
-	    if ( ! cell.modifiable(columns[tr.data_col]) )
+	    if ( ! columns[tr.data_col].real_type.cell_is_modifiable
+		 || ! cell.modifiable(columns[tr.data_col]) )
 		tr.className = 'ro' ;
 	    else
 		tr.className = '' ;
@@ -201,9 +204,9 @@ function table_forms()
     for(data_col in cls)
 	{
 	    data_col = cls[data_col] ;
-	    if ( data_col < 3 )
-		continue ;
 	    column = columns[data_col] ;
+	    if ( column.freezed )
+		continue ;
 	    if ( column.is_empty )
 		continue ;
 	    if ( column.hidden )

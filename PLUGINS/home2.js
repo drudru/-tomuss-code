@@ -997,11 +997,11 @@ function full_login_list(login, results, add)
 
   
   document.getElementById('students_list').innerHTML =
-      'Les étudiants inscrits'
+      '<b>Les étudiants inscrits</b>'
       + '<table class="student_list" style="margin-top:0">'
       + '<colgroup><col class="student_icon"><col class="student_id"><col></colgroup>'
       + login_list_to_html(last_login_cache[login]['student']) + '</table>'
-      + 'Le personnel'
+      + '<b>Le personnel</b>'
       + '<table class="student_list" style="margin-top:0">'
       + '<colgroup><col class="student_icon"><col class="student_id"><col></colgroup>'
     + login_list_to_html(last_login_cache[login]['teacher']) + '</table>'

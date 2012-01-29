@@ -93,12 +93,6 @@ Utilisateurs finaux.
 Administrateur.
 ---------------
 
-* Afficher les lock de tables
-
-* Afficher la tete de update_liste
-
-* Cleanup d'un tableau sur place : config_table par exemple
-
 * Droit d'accès : généraliser la notion de groupe, pouvoir en créer.
   Un groupe peut contenir :
 	* un groupe LDAP        : 'ldap:'
@@ -107,6 +101,12 @@ Administrateur.
 	* les login d'une table : '#' nom de la table
   Ne plus avoir de groupes indiqué en dur dans le code.
   Faire disparaitre : is_referent, is_teacher, ...
+
+* Afficher les lock de tables
+
+* Afficher la tete de update_liste
+
+* Cleanup d'un tableau sur place : config_table par exemple
 
 * Heures sur le graph livestatus
 
@@ -131,17 +131,12 @@ Administrateur.
 Problèmes à résoudre.
 =====================
 
-* Lenteur moteur de recherche étudiant
+* httprequest ?
 
-* Fuite mémoire
-
-* tip non defini dans catalogue printemps
-
-* Saisie de date AVEC heure : bug
+* Fuite mémoire coté serveur ?
 
 * Form editor :
-  - nombre de colonnes ou position ?
-  - griser resultat de calcul
+  * Déplacement curseur
 
 * DEMO : commentaire numerique sur saisie d'ABJ sans commentaire !!!
 

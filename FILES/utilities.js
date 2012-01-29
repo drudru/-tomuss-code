@@ -1940,8 +1940,7 @@ function current_keydown(event, in_input)
       return ;
     }
 
-  if ( this.input.id == "table_forms_keypress" ||
-       (element_focused && element_focused.id == "table_forms_keypress"))
+  if ( element_focused && element_focused.id == "table_forms_keypress" )
       {
 	  if ( key < 41 && key != 27 )
 	      return ;
