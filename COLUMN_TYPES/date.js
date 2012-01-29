@@ -67,7 +67,7 @@ function test_date(value, column)
     h = '' ;
   else
     {
-      if ( h.search(/[0-9][h:]/) != -1 )
+      if ( h.search(/^[0-9][h:]/) != -1 )
 	h = '0' + h ;
       h = ' ' + h ;
     }
