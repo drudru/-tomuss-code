@@ -39,6 +39,8 @@ def les_ues(year, semester, true_file=False, all_files=False, ro=True):
         table = document.table(str(year), str(semester), ue[:-3], ro=ro)
         if all_files or table.official_ue:
             yield table
+        else:
+            table.unload()
 
 
 def all_the_tables(directory=None):
