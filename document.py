@@ -31,7 +31,7 @@ from files import files
 import socket
 import inscrits
 import column
-from cell import Cell, Lines, cellempty
+from cell import CellValue, Lines, cellempty
 import sender
 import plugins
 import re
@@ -492,7 +492,7 @@ class Table(object):
         return False
 
     def authorized_column(self, page, a_column):
-        return self.authorized(page, Cell(a_column.title, a_column.author))
+        return self.authorized(page, CellValue(a_column.title,a_column.author))
 
     def cell_change(self, page, col, lin, value=None,
                     date=None, force_update=False,

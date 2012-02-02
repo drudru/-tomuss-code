@@ -215,6 +215,7 @@ def tests():
     if do('preferences'):
         # First load : progressive display
         c = s.url('=' + abj + '/0/Preferences/'+utilities.login_to_module(abj))
+        print c
         lines_id = ['current_suivi', 'display_tips', 'favoris_sort',
                     'interface', 'invert_name', 'nr_cols',
                     'nr_favorites', 'nr_lines', 'page_step', 'scrollbar_right',
@@ -1022,7 +1023,7 @@ Col({the_id:"col_1",type:"Note",author:"%s",position:0,title:"TITLE1"})
         assert('10800001' not in c)
         assert('<td>1</td>' in c)
 
-        c = ss.url('=' + abj + '/%s/*3' % ys )
+        c = ss.url('=' + root + '/%s/*3' % ys )
         assert('rents pédagogiques : 3' in c)
         assert('suivis : 2' in c)
 

@@ -80,6 +80,7 @@ class CellValue(CellVirtual):
     
     __slots__ = ('value', 'author', 'date')
     comment = ''
+    history = ''
 
     def __init__(self, value='', author='', date=''):
         self.value = value
