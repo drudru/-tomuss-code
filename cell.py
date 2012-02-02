@@ -56,7 +56,7 @@ class CellEmpty(CellVirtual):
         """Create a non empty cell with the value and returns it."""
         if date == None:
             date = time.strftime('%Y%m%d%H%M%S')
-        return Cell(value=value, author=author, date=date)
+        return CellValue(value=value, author=author, date=date)
     
     def js(self):
         """Create the javascript code for an empty cell."""
@@ -73,7 +73,53 @@ class CellEmpty(CellVirtual):
 
 cellempty = CellEmpty()
 
-class Cell(CellVirtual):
+class CellValue(CellVirtual):
+    """Define a cell without history nor comment
+    It is the most used cell content
+    """
+    
+    __slots__ = ('value', 'author', 'date')
+    comment = ''
+
+    def __init__(self, value='', author='', date=''):
+        self.value = value
+        self.author = author
+        self.date = date
+
+    def empty(self):
+        """Returns True if the cell is empty"""
+        return (self.value == ''
+                or self.author == data.ro_user
+                or self.author == data.rw_user)
+    
+    def set_comment(self, comment):
+        """change the comment on the cell."""
+        return Cell(self.value, self.author, self.date, comment)
+
+    def copy(self):
+        return CellValue(self.value, self.author, self.date)
+
+    def set_value(self, value='', author='', date=None):
+        c = Cell(self.value, self.author, self.date)
+        c.set_value(value, author, date)
+        return c
+
+    def js(self):
+        """Generate the Cell JavaScript object with the minimal code,
+        in order to minimize file size."""
+        if self.date:
+            return 'C(%s,"%s","%s")' % (js(self.value),self.author,self.date)
+        elif self.author:
+            return 'C(%s,"%s")' % (js(self.value), self.author)
+        elif self.value:
+            return 'C(%s)' % js(self.value)
+        else:
+            return 'C()'
+
+    js_student = js
+
+
+class Cell(CellValue):
     """Define a cell with the given attributes.
     It also manage the cell history and a cache to minimize
     CPU time to generate the minimal JavaScript code for the cell.
@@ -153,11 +199,6 @@ class Cell(CellVirtual):
         return 'C(%s,"%s","%s",%s)' % (
             js(self.value), self.author, self.date, js(self.comment))
 
-    def empty(self):
-        """Returns True if the cell is empty"""
-        return (self.value == ''
-                or self.author == data.ro_user
-                or self.author == data.rw_user)
 
 
 
