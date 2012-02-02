@@ -52,6 +52,7 @@ def need_a_charte(login):
 def student_list(f, pportails, not_in_list):
     f.write('<h1>Get the student list for UEs</h1>\n')
     students = {}
+    print pportails
     for portail in pportails:
         f.write('<h2>' + portail + '</h2>')
         f.flush()
@@ -362,6 +363,8 @@ def update_referents(ticket, f, really_do_it = False, add_students=True):
 
     table.lock()
     try:
+        etapes_of_students = inscrits.L_batch.etapes_of_students(
+            table.logins())
         for line_key, line in table.lines.items():
             if line[0].value and line[0].value not in all_teachers:
                 tteacher = Teacher(line[0].value, line[1].value, line_key)
@@ -389,7 +392,7 @@ def update_referents(ticket, f, really_do_it = False, add_students=True):
                     if cell.value not in students:
                         f.write('%s not in the student list (%s) %s ' % (
                             cell.value, line[0].value,
-                            inscrits.L_batch.etapes_of_student(cell.value)
+                            etapes_of_students.get(cell.value, ())
                             ))
                         f.write('REMOVED')
                         the_student = utilities.the_login(cell.value)

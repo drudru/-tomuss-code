@@ -1038,6 +1038,7 @@ la dernière saisie.
             pass
         tables_manage("del", self.year, self.semester, self.ue)
         utilities.unload_module(self.module) # 2009-09-07 Add this
+        return True
 
     def delete(self):
         warn(str(self.ue), what="table")

@@ -180,6 +180,7 @@ class Abjs(object):
         abjs = self
         try:
             __import__(self.module)
+            utilities.unload_module(self.module)
         except ImportError:
             pass
         abjs = None
