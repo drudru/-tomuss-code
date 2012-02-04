@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 #    TOMUSS: The Online Multi User Simple Spreadsheet
-#    Copyright (C) 2008-2011 Thierry EXCOFFIER, Universite Claude Bernard
+#    Copyright (C) 2008-2012 Thierry EXCOFFIER, Universite Claude Bernard
 #
 #    This program is free software; you can redistribute it and/or modify
 #    it under the terms of the GNU General Public License as published by
@@ -340,7 +340,10 @@ class Column(object):
         s = []
         for attr in column_attributes():
             if hide and attr.name == 'comment':
-                value = re.sub(r'(TITLE|IMPORT|BASE)\([^)]*\)', '', self.comment)
+                value = re.sub(r'(TITLE|IMPORT|BASE)\([^)]*\)', '',
+                               self.comment)
+                # Remove the ]0,0[ indicator
+                value = re.sub(r'][0-9][0-9]*,[0-9][0-9]*\[', '', value)
             else:
                 value = getattr(self, attr.name)
             if hide is 1: # see line_compute_js
