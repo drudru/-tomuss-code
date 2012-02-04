@@ -131,6 +131,12 @@ Administrateur.
 Problèmes à résoudre.
 =====================
 
+* 1 -> p dans le moteur de recherhce
+
+* Import numéro détudiamt : affichage par remis a jour
+
+* Enleve ]1,1[ du commentaire
+
 * httprequest ?
 
 * Fuite mémoire coté serveur ?

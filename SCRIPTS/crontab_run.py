@@ -145,18 +145,27 @@ try:
     utilities.write_file(lock, time.ctime())
     run_only_if_not_properly_stopped = 'crontab' in sys.argv
 
-    for url, port, year, semester, host in configuration.suivi.urls.values():
-        run(url, 'suivi.py %d %s %d' % (year, semester, port),
-            run_only_if_not_properly_stopped, name="suivi%d" % port)
-
     run(configuration.server_url, 'tomuss.py',
         run_only_if_not_properly_stopped, strace="")
 
+    for url, port, year, semester, host in configuration.suivi.urls.values():
+        run(url, 'suivi.py %d %s %d' % (year, semester, port),
+            run_only_if_not_properly_stopped, name="suivi%d" % port)
     try:
         import LOCAL.crontab_run
         LOCAL.crontab_run.run()
     except ImportError:
         pass
+
+    # Collect Virtual Memory Usage for TOMUSS servers
+    os.system('''
+J=""
+for I in $(cat LOGS/*/pid)
+    do
+         J="$J $I:$(cat /proc/$I/status | grep VmPeak)"
+    done
+echo $(date) $J | sed -e 's/VmPeak: //g' -e 's/... kB//g' >>LOGS/VM_usage
+''')
 finally:
     os.unlink(lock)
     
