@@ -910,7 +910,7 @@ la dernière saisie.
                 for attr, value in columns[col].items():
                     value = str(value)
                     a_column = self.columns.from_id(col)
-                    if a_column is None or value != getattr(a_column, attr):
+                    if a_column is None or value!= str(getattr(a_column, attr)):
                         self.column_attr(ro_page, col, attr, value)
         finally:
             if not locked:
