@@ -59,6 +59,7 @@ function table_forms_goto(event)
     if ( element_focused === input )
 	return ;
     element_focused = input ;
+    element_focused.id = "table_forms_keypress" ;
     var e = table_forms_tr(input) ;
     var cls_all = column_list(0, columns.length) ;
     for(var col in cls_all)
@@ -162,7 +163,7 @@ function table_forms_jump(lin, col, do_not_focus, line_id, data_col)
     var line_change = (this.lin != lin) ;
 
     this.tr.className = new_class ;
-    this.jump_old(lin, col, true, line_id, data_col) ;
+    this.jump_old(lin, col, do_not_focus, line_id, data_col) ;
     if ( line_change )
 	table_forms_update(this) ;
     this.tr.className += ' currentformline' ;
@@ -249,4 +250,5 @@ function table_forms()
 	}
     table_forms_resize() ;
     table_forms_update(the_current_cell) ;
+    hide_the_tip(true) ;
 }

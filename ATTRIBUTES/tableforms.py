@@ -51,6 +51,7 @@ sous la forme d'une fiche.
    background: #DDD ;
    border: 2px solid black;
    overflow: hidden ;
+   z-index: 30 ; /* Above tips */
 }
 
 .tableform DIV.formtable {
@@ -104,7 +105,8 @@ BODY.tomuss .tableform H1 { text-align: center; font-size: 140%; }
 .tableform .close { float: right ; }
 
 TABLE#thetable TR.currentformline TD {
-    background-color: #DDD ;
+    background-color: #000 ;
+    color: #FFF ;
  }
 
 
