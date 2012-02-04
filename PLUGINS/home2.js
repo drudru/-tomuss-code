@@ -1014,6 +1014,11 @@ function update_students()
   var input = document.getElementById('search_name') ;
   var what = replaceDiacritics(input.value) ;
   what = what.replace(/ *$/,'') ;
+  // Normalise to logins
+  what = what.split(/  +/) ;
+  for(var i in what)
+      what[i] = the_login(what[i]) ;
+  what = what.join(' ') ;
 
   if ( what == input.old_value )
     return ;
@@ -1021,6 +1026,7 @@ function update_students()
   input.old_value = what ;
 
   ue_line_out() ;
+
   the_last_login_asked = what ;
   if ( what === '' )
     {
