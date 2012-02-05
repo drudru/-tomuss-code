@@ -127,7 +127,7 @@ class Cell(CellValue):
     Attributes of the cell should not be modified directly.
     """
 
-    __slots__ = ('value', 'author', 'date', 'comment', 'history', 'cache')
+    __slots__ = ('value', 'author', 'date', 'comment', 'history')
     
     def __init__(self, value='', author='', date='', comment='', history=''):
         """Create a new cell with some attributes in the list:
@@ -139,12 +139,10 @@ class Cell(CellValue):
         self.date = date
         self.comment = comment
         self.history = history
-        self.cache = None
         
     def set_comment(self, comment):
         """change the comment on the cell."""
         self.comment = comment
-        self.cache = None
         return self
 
     def copy(self):
@@ -160,38 +158,34 @@ class Cell(CellValue):
         self.value = value
         self.author = author
         self.date = date
-        self.cache = None
         return self
 
     def js(self):
         """Generate the Cell JavaScript object with the minimal code,
         in order to minimize file size."""
-        if not self.cache:
-            if self.history:
-                self.cache = 'C(%s,"%s","%s",%s,%s)' % (
-                    js(self.value),
-                    self.author,
-                    self.date,
-                    js(self.comment),
-                    js(self.history),
-                    )
-            elif self.comment:
-                self.cache = 'C(%s,"%s","%s",%s)' % (
-                    js(self.value), self.author, self.date, js(self.comment))
-            elif self.date:
-                self.cache = 'C(%s,"%s","%s")' % (
-                    js(self.value), self.author, self.date)
-            elif self.author:
-                self.cache = 'C(%s,"%s")' % (
-                    js(self.value), self.author)
-            elif self.value:
-                self.cache = 'C(%s)' % (
-                    js(self.value),
-                    )
-            else:
-                self.cache = 'C()'
-            
-        return self.cache
+        if self.history:
+            return 'C(%s,"%s","%s",%s,%s)' % (
+                js(self.value),
+                self.author,
+                self.date,
+                js(self.comment),
+                js(self.history),
+                )
+        elif self.comment:
+            return 'C(%s,"%s","%s",%s)' % (
+                js(self.value), self.author, self.date, js(self.comment))
+        elif self.date:
+            return 'C(%s,"%s","%s")' % (
+                js(self.value), self.author, self.date)
+        elif self.author:
+            return 'C(%s,"%s")' % (
+                js(self.value), self.author)
+        elif self.value:
+            return 'C(%s)' % (
+                js(self.value),
+                )
+        else:
+            return 'C()'
 
     def js_student(self):
         t = self.js()
