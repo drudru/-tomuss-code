@@ -20,6 +20,8 @@
 */
 
 var table_forms_element ;
+var table_forms_table_fill ;
+var table_forms_allow_next_table_fill ;
 
 function table_forms_resize()
 {
@@ -62,28 +64,68 @@ function table_forms_goto(event)
     element_focused.id = "table_forms_keypress" ;
     var e = table_forms_tr(input) ;
     var cls_all = column_list(0, columns.length) ;
+
+    /* XXX NOT WORKING : WHY ? */
+    
+    var col = columns[e.data_col].col ;
+    if ( col )
+	{
+	    // Yet on screen
+	    the_current_cell.jump_old(the_current_cell.lin,
+				      col,
+				      true,
+				      the_current_cell.line_id,
+				      e.data_col
+				      ) ;
+	    return ;
+	}
+    
     for(var col in cls_all)
-	if ( cls_all[col].data_col == e.data_col )
-	    {
-		page_horizontal(0, col, true) ;
-		break ;
-	    }
+	{
+	    if ( cls_all[col].data_col == e.data_col )
+		{
+		    table_forms_allow_next_table_fill = false ;
+		    page_horizontal(0, col, true) ;
+		    break ;
+		}
+	}
 }
 
+// Save the form cell content in the TOMUSS table
 function table_forms_save_input(input)
 {
     var tr = table_forms_tr(input) ;
     
     cell_set_value_real(the_current_cell.line_id, tr.data_col,
-			input.value, tr.firstChild.firstChild) ;    
+			input.value, tr.firstChild.firstChild) ;
+    update_line(the_current_cell.line_id, tr.data_col) ;
 }
 
 function table_forms_blur(event)
 {
     var input = the_event(event).target ;
     table_forms_save_input(input) ;
-    input.value = the_current_cell.cell.value ; // Oui => OUI
+    var tr = table_forms_tr(input) ;
+    if ( tr.data_col == the_current_cell.data_col )
+	input.value = the_current_cell.cell.value ; // Oui => OUI
     element_focused = undefined ;
+    table_forms_update_computed_values(the_current_cell) ;
+}
+
+function table_forms_update_computed_values(THIS)
+{
+    var t = table_forms_element.getElementsByTagName('tbody')[0] ;
+    for(i in t.childNodes)
+	{
+	    tr = t.childNodes[i] ;
+	    if ( ! tr.lastChild )
+		continue ;
+	    if ( columns[tr.data_col].real_type.cell_compute )
+		{
+		    cell = THIS.line[tr.data_col] ;
+		    tr.lastChild.firstChild.value = cell.value ;
+		}
+	}
 }
 
 function table_forms_keypress(event)
@@ -175,6 +217,8 @@ function table_forms_close()
     if ( element_focused )
 	element_focused.blur() ;
     Current.prototype.jump = Current.prototype.jump_old ;
+    table_fill_do = table_forms_table_fill ;
+
     table_forms_element.parentNode.removeChild(table_forms_element) ;
     table_forms_element = undefined ;
     table_fill(false, true) ;
@@ -192,6 +236,15 @@ function table_forms()
     Current.prototype.jump_old = Current.prototype.jump ;
     Current.prototype.jump = table_forms_jump ;
     
+    table_forms_allow_next_table_fill = true ;
+    table_forms_table_fill = table_fill_do ;
+
+    table_fill_do = function() {
+	if ( table_forms_allow_next_table_fill )
+	    table_forms_table_fill() ;
+	table_forms_allow_next_table_fill = true ;
+    } ;
+
     table_forms_element = document.createElement('DIV') ;
     table_forms_element.innerHTML = '<BUTTON class="close" OnClick="table_forms_close()">&times;</BUTTON><h1></h1><div class="formtable"></div>' ;
     the_body.appendChild(table_forms_element) ;
