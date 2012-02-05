@@ -191,7 +191,7 @@ function printable_display_page(lines, title, page_break)
 		}
 	      else
 		v = cell.value_html() ;
-	      txt_line.push(v) ;
+	      txt_line.push(v.replace(/\t/g, ' ')) ;
 	      if ( v === '' )
 		v = '&nbsp;' ;
 	      if ( columns[c].green_filter(cell, columns[c]) )
