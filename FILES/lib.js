@@ -1697,7 +1697,6 @@ function table_fill_do()
 	    setTimeout("the_current_cell.update("+table_fill_do_not_focus+");"
 		       ,100) ;
 	}
-    setTimeout(table_forms_resize, 1) ;
 }
 
 function manage_window_resize_event()

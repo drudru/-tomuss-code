@@ -215,7 +215,7 @@ function table_forms_close()
     if ( element_focused )
 	element_focused.blur() ;
     Current.prototype.jump = Current.prototype.jump_old ;
-    table_fill_do = table_forms_table_fill ;
+    table_fill_real = table_forms_table_fill ;
 
     table_forms_element.parentNode.removeChild(table_forms_element) ;
     table_forms_element = undefined ;
@@ -235,11 +235,15 @@ function table_forms()
     Current.prototype.jump = table_forms_jump ;
     
     table_forms_allow_next_table_fill = true ;
-    table_forms_table_fill = table_fill_do ;
+    table_forms_table_fill = table_fill_real ;
 
-    table_fill_do = function() {
+    table_fill_real = function() {
 	if ( table_forms_allow_next_table_fill )
-	    table_forms_table_fill() ;
+	    {
+		table_forms_table_fill() ;
+		setTimeout(table_forms_resize, 1) ;
+	    }
+
 	table_forms_allow_next_table_fill = true ;
     } ;
 
