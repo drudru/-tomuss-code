@@ -202,12 +202,10 @@ function table_forms_update(THIS)
 function table_forms_jump(lin, col, do_not_focus, line_id, data_col)
 {
     var new_class = this.tr.className.replace(/ *currentformline/, '') ;
-    var line_change = (this.lin != lin) ;
 
     this.tr.className = new_class ;
     this.jump_old(lin, col, do_not_focus, line_id, data_col) ;
-    if ( line_change )
-	table_forms_update(this) ;
+    table_forms_update(this) ;
     this.tr.className += ' currentformline' ;
     this.input.className += ' currentformline' ;
 }
