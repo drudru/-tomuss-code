@@ -260,10 +260,12 @@ function do_delete(ue_code)
       else
 	code = base + ue_code ;
 
-      document.getElementById('feedback').innerHTML =
-	'<div class="frame"><div onclick="close_frame()">Fermer</div><iframe src="'
-	+ code + '/delete_this_table"></iframe></div>' ;
-      
+      create_popup('import_popup',
+		   'Destruction de ' + ue_code,
+		   '<iframe src="'
+		   + code + '/delete_this_table"></iframe>',
+		   '', false) ;
+
       for(var j in master_of)
 	{
 	  var i = master_of[j] ;
