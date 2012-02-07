@@ -905,6 +905,21 @@ function update_line(line_id, data_col)
     }
 }
 
+function update_cell_at(line_id, data_col)
+{
+  if ( table === undefined )
+    return ;
+  var lin = lin_from_line_id(line_id) ;
+  if ( lin === undefined )
+    return ;
+  var col = columns[data_col].col ;
+  if ( col === undefined )
+    return ;
+  var tr = table.childNodes[lin + nr_headers] ;
+  update_cell(tr.childNodes[col], lines[line_id][data_col],
+	      columns[data_col]);
+}
+
 /******************************************************************************
 Update the header of the table
 ******************************************************************************/
