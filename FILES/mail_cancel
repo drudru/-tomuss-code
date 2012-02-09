@@ -5,11 +5,9 @@ TOMUSS a détecté que vous aviez des problèmes de chargement de tables.
 Ces problèmes viennent la plupart du temps de l'anti-virus installé
 sur votre ordinateur.
 
-Pour tester cette possibilité, il vous suffit de désactiver temporairement
-l'anti-virus et de recharger la table TOMUSS.
-Si cela a résolu le problème, alors ajoutez à la configuration
+Pour tester cette possibilité: ajoutez à la configuration
 de votre anti-virus une exception lui disant de ne pas filtrer
-l'adresse : http://tomuss.univ-lyon1.fr
+l'adresse : https://tomuss.univ-lyon1.fr
 
 Si cela n'a pas résolu le problème, essayez :
 	- D'enlever le filtre parental s'il est mis.

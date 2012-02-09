@@ -93,6 +93,8 @@ Utilisateurs finaux.
 Administrateur.
 ---------------
 
+* Cleanup d'un tableau sur place : config_table par exemple
+
 * Droit d'accès : généraliser la notion de groupe, pouvoir en créer.
   Un groupe peut contenir :
 	* un groupe LDAP        : 'ldap:'
@@ -105,8 +107,6 @@ Administrateur.
 * Afficher les lock de tables
 
 * Afficher la tete de update_liste
-
-* Cleanup d'un tableau sur place : config_table par exemple
 
 * Heures sur le graph livestatus
 
@@ -130,6 +130,8 @@ Administrateur.
 =====================
 Problèmes à résoudre.
 =====================
+
+* Espace dans empty_is
 
 * httprequest ?
 

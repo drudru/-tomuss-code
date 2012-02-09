@@ -66,7 +66,11 @@ def all_ues(compute=False):
         import TMP.xxx_toute_les_ues
         warn('import done', what='debug')
         if compute is False:
-            t = os.path.getmtime(os.path.join('TMP', 'xxx_toute_les_ues.py'))
+            filename = os.path.join('TMP', 'xxx_toute_les_ues.py')
+            if not os.path.exists(filename):
+                warn("The UE list does not exists")
+                return {}
+            t = os.path.getmtime(filename)
             if not hasattr(TMP.xxx_toute_les_ues,'t') \
                    or TMP.xxx_toute_les_ues.t != t:
                 warn('recharge toutes les ues')
