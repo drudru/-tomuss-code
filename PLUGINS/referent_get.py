@@ -53,7 +53,7 @@ def referent_get_a_student(server, login, students, student,
         referent.add_student_to_referent(login, student)
 
         server.the_file.write('%s : %s %s\n' % (
-            student, firstname, surname))
+            student, firstname.encode('utf8'), surname.encode('utf8')))
 
 def referent_get(server):
     """Add a student to its refered students"""

@@ -96,6 +96,20 @@ def create(table):
         table.column_change (p, '0_10', 'Remarques',
                              'Text', '[0;20]','1','',0, 8)
         table.column_comment(p, '0_10', "Commentaire de l'enseignant")
+
+    if table.ue.startswith('TS-'):
+        table.table_attr(p, 'default_nr_columns', 9)
+        table.column_change (p, '0_6', 'UE', 'Text', '', '', '', 0, 4)
+        table.column_comment(p, '0_6', "UE d'origine de l'étudiant")
+        table.column_change (p, '0_7', 'Horaire', 'Text', '', '', '', 0, 5)
+        table.column_comment(p, '0_7', "Horaire de l'enseignement")
+        table.column_change (p, '0_8', 'Note_Semestre_Avant_Jury',
+                             'Note', '[0;20]','1','',0, 3)
+        table.column_comment(p, '0_8', "Note de l'UE")
+        table.column_change (p, '0_9', 'Remarques',
+                             'Text', '[0;20]','1','',0, 8)
+        table.column_comment(p, '0_9', "Commentaire de l'enseignant")
+
         
     ts = configuration.semester_span(table.year, table.semester)
     if ts:
