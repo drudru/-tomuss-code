@@ -240,7 +240,7 @@ def warn(text, what='info'):
         except:
             live_log = None
 
-def send_mail(to, subject, message, frome=None):
+def send_mail(to, subject, message, frome=None, show_to=False):
     "Not safe with user given subject"
     import smtplib
 
@@ -267,6 +267,11 @@ def send_mail(to, subject, message, frome=None):
     header += "Subject: " + subject + '\n'
     if len(to) == 1:
         header += "To: " + to[0] + '\n'
+    elif show_to:
+        for tto in to:
+            header += "To: " + tto + '\n'
+            
+        
     if message.startswith('<html>'):
         header += 'Content-Type: text/html; charset=UTF-8\n'
     if isinstance(message, unicode):

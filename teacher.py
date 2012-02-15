@@ -99,6 +99,7 @@ def all_ues(compute=False):
         # In the reality LOCAL/generate_ues.py update the files
         t = []
         for ue, uev in ues.items():
+            print ue, uev
             t.append('%s:%s' % (
                 (utilities.js(ue).encode('utf-8'),
                  uev.js(read_tt=False).encode('utf-8'))))

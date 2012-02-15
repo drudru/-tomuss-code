@@ -1,7 +1,7 @@
 /* -*- coding: utf-8 -*- */
 /*
   TOMUSS: The Online Multi User Simple Spreadsheet
-  Copyright (C) 2008-2011 Thierry EXCOFFIER, Universite Claude Bernard
+  Copyright (C) 2008-2012 Thierry EXCOFFIER, Universite Claude Bernard
 
   This program is free software; you can redistribute it and/or modify
   it under the terms of the GNU General Public License as published by
@@ -56,7 +56,7 @@ function _UE(name, responsable, intitule, parcours, code, login,
       more += '<br>Anciens codes APOGÉE : ' + old_names.join(' ') ;
   if ( more )
       more = '<span class="ue_more">' + more ;
-  
+
   this.line = this.name + '\003' + this.intitule.toLowerCase() + more + '\001'
     + this.responsable.join(', ') + '\002' ;
   this.line_upper = replaceDiacritics(this.line.toUpperCase())
@@ -79,8 +79,15 @@ function check_and_replace(value, value_upper, search, search_upper)
   
   i = value_upper.indexOf(search_upper) ;
   if ( i != -1 )
-    return value.substr(0,i) + '<u>' + value.substr(i, search.length)
-      + '</u>' + value.substr(i+search.length) ;
+      {
+	  var v, left ;
+	  left =  value.substr(0, i) ;
+	  if ( left.match(/<[^>]*$/) )
+	      return ;
+	  v = left + '<u>' + value.substr(i, search.length)
+	      + '</u>' + value.substr(i+search.length) ;
+	  return v ;
+      }
 }
 
 /*
@@ -111,8 +118,6 @@ function display_ues(txt, students)
   for(var ue in all_ues_sorted)
     {
       ue = all_ues_sorted[ue] ;
-      if ( all_ues[ue] === undefined )
-	alert(ue);
       ue = all_ues[ue] ;
       if (students===false&&(ue.nr_students_ue !== 0 || ue.nr_students_ec !== 0))
 	continue ;
@@ -581,7 +586,6 @@ function student_click_more(t)
 function ue_line(ue, code, content)
 {
   var html_class = '' ;
-
   if ( ue )
     {
       if (code.match(/^UE-/) && ue.nr_students_ue)
@@ -618,6 +622,7 @@ function display_ue_list(s, txt, txt_upper, names)
   for(var ue_code in names)
     {
       ue_code = names[ue_code] ;
+
       var apogee = ue_code.replace(/-[0-9]$/,'').replace(/^(UE|EC)-/,'') ;
       ue = all_ues[apogee] ;
       if ( ue === undefined )
@@ -684,7 +689,6 @@ function update_ues_favorites(txt, txt_upper)
 		))
 	ues_favorites_sorted.push(i) ;
     }
-
   ues_favorites_sorted.sort(cmp_favorites) ;
   ues_favorites_sorted= ues_favorites_sorted.slice(0,preferences.nr_favorites);
 
@@ -716,7 +720,7 @@ function update_ues_spiral(txt, txt_upper)
 
 function update_ues_searched(txt, txt_upper)
 {
-  var s, t, t_upper, t_replaced ;
+    var s, t, t_upper, t_replaced, prefix ;
 
   s = [] ;
 
@@ -726,7 +730,6 @@ function update_ues_searched(txt, txt_upper)
       ue = all_ues[ue] ;
       t = ue.line ;
       t_upper = ue.line_upper ;
-
       if ( ue.etape )
 	{
 	  t_replaced = check_and_replace(t, t_upper, txt, txt_upper) ;
@@ -735,10 +738,14 @@ function update_ues_searched(txt, txt_upper)
 	}
       else
 	{
-	  t_replaced = check_and_replace('UE-' + t, 'UE-' + t_upper,
+	  if ( ue.name.substr(2, 1) == '-' )
+	      prefix = '' ;
+	  else
+	      prefix = 'UE-' ;
+	  t_replaced = check_and_replace(prefix+ t, prefix + t_upper,
 					 txt, txt_upper) ;
 	  if ( t_replaced !== undefined )
-	    s.push(ue_line(ue, 'UE-' + ue.name, t_replaced)) ;
+	    s.push(ue_line(ue, prefix + ue.name, t_replaced)) ;
 	  if (ue.nr_students_ec)
 	    {
 	      t_replaced = check_and_replace('EC-' + t, 'EC-' + t_upper,

@@ -11,6 +11,7 @@ Utilisateurs finaux.
 * Traduction
 
 * Copie de table : sans l'historique : garder le dernier author
+  Copie de 2 semestres dans le passé.
 
 * Non semestrialisation : seul le responsable
 
@@ -130,6 +131,10 @@ Administrateur.
 =====================
 Problèmes à résoudre.
 =====================
+
+* Copié à la souris dans une cellule
+
+* Affichage /20 pour 'nombre' de dans le suivi.
 
 * Espace dans empty_is
 

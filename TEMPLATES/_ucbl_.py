@@ -246,7 +246,8 @@ def update_student(table, page, the_ids, infos):
             else:
                 title = ''
             table.column_change (table.pages[0],
-                                 '0_%d'%i, title, 'Text', '', '', '', 0, 6)
+                                 table.columns[i].the_id,
+                                 title, 'Text', '', '', '', 0, 6)
         
         for key, x in table.get_items(the_id):
             # do not erase user provided information
@@ -262,7 +263,8 @@ def update_student(table, page, the_ids, infos):
                 if ((val != '' or x[col+6].author == data.ro_user)
                     and (configuration.allow_student_removal
                          or x[col+6].value == '')):
-                    table.cell_change(page, "0_%d" % (col+6), key, val)
+                    table.cell_change(page,
+                                      table.columns[col+6].the_id, key, val)
             if table.with_inscrits:
                 table.cell_change(page, "0_1", key, firstname)
                 table.cell_change(page, "0_2", key, surname)
@@ -278,7 +280,8 @@ def update_student(table, page, the_ids, infos):
                 table.cell_change(page, "0_4", lin, seq)
             for col, val in enumerate(infos[6:]):
                 if val != '':
-                    table.cell_change(page, "0_%d" % (col+6), lin, val)
+                    table.cell_change(page,
+                                      table.columns[col+6].the_id, lin, val)
                     
     finally:
         table.unlock()
