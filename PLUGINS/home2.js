@@ -658,6 +658,9 @@ function update_ues_master_of(txt, txt_upper)
     {
       i = master_of[i] ;
       var code = i[0] + '/' + i[1] + '/' + i[2] ;
+      var ue = all_ues[i[2].split('-', 2)[1]] ;
+      if ( ue && myindex(ue.login, username) != -1 )
+	  continue ; // Yet in Spiral table
       s.push('<tr onmouseover="ue_line_over(\''
 	     + code + '\',this,ue_line_click_more);" '
 	     + 'onclick="javascript:goto_url(\'' + base + code
@@ -778,7 +781,9 @@ function update_ues2(txt, clicked)
       for(var ue in all_ues)
 	{
 	  if ( myindex(all_ues[ue].login, username) != -1 )
-	    ues_spiral.push('UE-' + ue) ;
+	      {
+		  ues_spiral.push('UE-' + ue) ;
+	      }
 	  t.push( [all_ues[ue].code, all_ues[ue].name] ) ;
 	}
       t.sort() ;

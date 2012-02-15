@@ -42,7 +42,11 @@ def master_of(server):
             continue
         ue = ue[:-3]
         utilities.warn(str((year, semester, ue)))
-        table = document.table(year, semester, ue, None, None)
+        try:
+            table = document.table(year, semester, ue, None, None)
+        except:
+            print 'Problem with ', year, semester, ue
+            continue
         for user in table.masters:
             if user not in users:
                 users[user] = []
