@@ -61,13 +61,14 @@ class Abj(object):
             self.abjs.append((from_date, to_date, author, comment))
             return True
         return False
-
+    
     def add_da(self, ue_code, date, author, comment=''):
         """Add a new DA"""
-        if len(self.da) == 0 or ue_code not in zip(*self.da)[0]:
-            self.da.append((ue_code, date, author, comment))
-            return True
-        return False
+        for i in self.da:
+            if i[0] == ue_code and i[1] == date:
+                return False
+        self.da.append((ue_code, date, author, comment))
+        return True
 
     def rem(self, from_date, to_date):
         """Bugged function needed for compatibility, use rem2"""

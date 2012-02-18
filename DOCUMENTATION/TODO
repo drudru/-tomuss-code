@@ -132,7 +132,7 @@ Administrateur.
 Problèmes à résoudre.
 =====================
 
-* Copié à la souris dans une cellule
+* Copié à la souris dans une cellule : seulement si vide et seulement FF
 
 * Affichage /20 pour 'nombre' de dans le suivi.
 
@@ -174,6 +174,9 @@ Problèmes à résoudre.
 
 * Copier puis drag fait n'importe quoi sur les cases du tableau.
   Sous windows seulement
+
+* Dispense d'assiduité : la destruction d'une DA les détruit toutes.
+
 
 =============================
 Améliorations de code source.
