@@ -296,10 +296,16 @@ if __name__ == "__main__":
 
     utilities.start_new_thread_immortal(sender.live_status_send_thread, ())
 
-    import column
-    for t in sorted(column.ColumnAttr.attrs):
-        t = column.ColumnAttr.attrs[t]
-        print t.name, t.visible_for()
+    print '''
+
+******************************************************************************
+First time TOMUSS user, goto :   http://127.0.0.1:8888/=super.user
+Type 's' in the UE search box.
+Type 'a' in the student search box.
+******************************************************************************
+
+
+'''
 
     while running:
         server.handle_request()

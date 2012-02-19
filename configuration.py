@@ -314,7 +314,7 @@ local_options = {}
 ###############################################################################
 
 # The CAS server for authentication.
-cas = 'https://cas.domain.org/cas'
+cas = 'https://configure.cas.url.or.use.regtest.parameter/cas'
 
 
 # Link between the OU and the starts of the UE code.

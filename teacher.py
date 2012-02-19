@@ -51,11 +51,28 @@ def get_ue_dict():
             1000+i,             # SPIRAL key for the UE
             ['ue%d.master' % i],# Login of teachers
             1,                  # #students registered
-            1,                  # #students registered in EC
+            0,                  # #students registered in EC
             ['ue%d_test@test.org' % i], # Teachers mails
             0,                  # ADE key for the UE
             ) 
     return ues
+
+
+def create_all_ues_js(ues):
+    ff = utilities.AtomicWrite(os.path.join('TMP','all_ues.js'))
+    ff.write('all_ues = {\n')
+    ue_list = []
+    for ue, uev in ues.items():
+        print ue
+        ue_list.append('%s:%s' % (utilities.js(ue).encode('utf-8'),
+                                      uev.js().encode('utf-8')))
+    ff.write(',\n'.join(ue_list))
+    ff.write('} ;\n')
+    ff.close()
+
+    os.system('gzip -9 <TMP/all_ues.js >all_ues.js.gz')
+    os.rename('all_ues.js.gz',os.path.join('TMP','all_ues.js.gz'))
+
 
 def all_ues(compute=False):
     warn('start', what='debug')
@@ -66,11 +83,7 @@ def all_ues(compute=False):
         import TMP.xxx_toute_les_ues
         warn('import done', what='debug')
         if compute is False:
-            filename = os.path.join('TMP', 'xxx_toute_les_ues.py')
-            if not os.path.exists(filename):
-                warn("The UE list does not exists")
-                return {}
-            t = os.path.getmtime(filename)
+            t = os.path.getmtime(os.path.join('TMP', 'xxx_toute_les_ues.py'))
             if not hasattr(TMP.xxx_toute_les_ues,'t') \
                    or TMP.xxx_toute_les_ues.t != t:
                 warn('recharge toutes les ues')
@@ -81,7 +94,8 @@ def all_ues(compute=False):
 
             return TMP.xxx_toute_les_ues.all
     except ImportError:
-        pass
+        warn("The UE list does not exists, create first one")
+        compute = True
     warn('compute', what='debug')
 
     ues = get_ue_dict()
@@ -94,16 +108,9 @@ def all_ues(compute=False):
     f.write('}\n')
     f.close()
 
-    if compute is False:
-        # First creation DEMONSTRATION PURPOSE ONLY.
-        # In the reality LOCAL/generate_ues.py update the files
-        t = []
-        for ue, uev in ues.items():
-            print ue, uev
-            t.append('%s:%s' % (
-                (utilities.js(ue).encode('utf-8'),
-                 uev.js(read_tt=False).encode('utf-8'))))
-        
+    if compute:
+        create_all_ues_js(ues)
+
     return ues
 
 

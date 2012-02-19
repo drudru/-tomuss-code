@@ -81,7 +81,7 @@ def plugins_tomuss():
 
     for p in suivi_plugins:
         if p.link:
-            print 'Links added from suivi:', p.link
+            # print 'Links added from suivi:', p.link
             plugin.add_links(p.link)
 
 #REDEFINE
@@ -385,4 +385,13 @@ if __name__ == "__main__":
 
     plugin.plugins += t
     plugin.doc('DOCUMENTATION/xxx_doc_plugins.html')
+
+    f = open('DOCUMENTATION/xxx_visibility.txt', 'w')
+    import column
+    for t in sorted(column.ColumnAttr.attrs):
+        t = column.ColumnAttr.attrs[t]
+        f.write("s %s\n" %(t.name, t.visible_for()))
+    f.close()
+                
+
 
