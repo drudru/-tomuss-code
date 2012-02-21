@@ -75,7 +75,7 @@ function printable_display_page(lines, title, page_break)
       if ( tt.length )
 	v = ' dont <b>' + tt.length + ' tiers-temps</b>' ;
       else
-	v = ', il n\'y a pas de tiers-temps' ;
+	v = ', pas de tiers-temps' ;
       s.push(
 	     '<table width="100%" style="white-space: pre ;">'
 	     + '<tr style="vertical-align:top;"><td>'

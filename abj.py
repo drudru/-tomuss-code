@@ -127,11 +127,17 @@ class Abj(object):
         if self.da:
             content.append("""
 <TABLE class="display_da colored">
-<TR><TH>Dispense pour l'UE</TH>""")
-            content.append('<TH>À partir du</TH><TH>Commentaire</TH></TR>')
-            for a_da in self.da: 
-                content.append('<TR><TD>' + a_da[0] + '</TD><TD>' + a_da[1] +
-                               '</TD><TD>'+ cgi.escape(a_da[3]) + '</TD></TR>')
+<TR><TH>Dispense<br>pour l'UE</TH>""")
+            content.append('<TH>Commentaire</TH></TR>')
+            for a_da in self.da:
+                comment = cgi.escape(a_da[3].split('\n')[0])
+                if '\n' in a_da[3]:
+                    comment += '<br><b>Voir plus.</b>'
+                comment = ('<script>hidden(' + js(comment) + ','
+                           + js(cgi.escape(a_da[3]).replace('\n','<br>'))
+                           + ');</script>')
+                content.append('<TR><TD>' + a_da[0] + '<BR>' + a_da[1] +
+                               '</TD><TD>' + comment + '</TD></TR>')
             content.append('</TABLE>')
 
         return '\n'.join(content)

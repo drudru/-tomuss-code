@@ -378,7 +378,7 @@ def send_mail_in_background(to, subject, message, frome=None):
 def js(t):
     if isinstance(t, basestring):
         # return repr(unicode(t,'utf8').encode('latin1'))
-        return '"' + t.replace('\\','\\\\').replace('"','\\"').replace('>','\\x3E').replace('<','\\x3C').replace('&', '\\x26').replace('\r\n','\n').replace('\n','\\n') + '"'
+        return '"' + t.replace('\\','\\\\').replace('"','\\"').replace('>','\\x3E').replace('<','\\x3C').replace('&', '\\x26').replace('\r\n','\n').replace('\r','').replace('\n','\\n') + '"'
     elif isinstance(t, float):
         return '%g' % t
     elif isinstance(t, dict):

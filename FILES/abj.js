@@ -453,7 +453,7 @@ function display_da(das)
 	'</TD><TD><A href="#" onclick="rem_da(\'' + das[da][0] +
 	'\');return false;">Détruire</a>' +
 	'</TD><TD>' + das[da][2] +
-	'</TD><TD>' + das[da][3] +
+	  '</TD><TD>' + html(das[da][3]) +
 	'</TD></TR>' ;
     }
   s += '</TABLE>' ;
