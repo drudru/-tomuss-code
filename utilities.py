@@ -327,7 +327,7 @@ def start_new_thread(fct, args, send_mail=True, immortal=False):
                     break
                 except:
                     warn('strptime', what='error')
-                    time.sleep(0.01)
+                    time.sleep(0.1)
             while True:
                 warn('Call ' + self.fct.func_name)
                 try:
