@@ -84,6 +84,15 @@ function mail_div_box(mails)
     + mails.replace(/,/g, mail_separator) + '</textarea>' ;
 }
 
+function mail_quick_link(mails, link)
+{
+    return hidden_txt('<a href="javascript: window.location=\'mailto:?bcc=' +
+		      mails.replace(RegExp("'","g"),"\\'")
+		      + '\'">' + link + ' (Lien rapide)</a>',
+		      'Suivez le lien pour directement lancer ' +
+		      'votre logiciel de messagerie.') ;
+}
+
 function mail_window()
 {
   var missing = [] ;
@@ -98,19 +107,13 @@ function mail_window()
 
   var link_students = nr_student_mails + ' Étudiants' ;
   if ( mailto_url_usable(the_student_mails) )
-    link_students = hidden_txt('<a href="javascript: window.location=\'mailto:?bcc=' +
-			       the_student_mails.replace(/'/g,"\\'") + '\'">' + link_students + ' (Lien rapide)</a>',
-			       'Suivez le lien pour directement lancer ' +
-			       'votre logiciel de messagerie.') ;
-
+      link_students = mail_quick_link(the_student_mails, link_students) ;
+  
   var the_author_mails = authors_mails(missing) ;
   var nr_author_mails = the_author_mails.split(',').length - 1 ;
   var link_authors = nr_author_mails + ' Enseignants' ;
   if ( mailto_url_usable(the_author_mails) )
-    link_authors = hidden_txt('<a href="javascript: window.location=\'mailto:?bcc=' +
-			       the_author_mails.replace(/'/g,"\\'") + '\'">' + link_authors + ' (Lien rapide)</a>',
-			       'Suivez le lien pour directement lancer ' +
-			       'votre logiciel de messagerie.') ;
+      link_authors =mail_quick_link(the_author_mails, link_authors) ;
 
   var missing_text ;
   if ( missing.length )
@@ -161,6 +164,10 @@ function personal_mailing()
 		) ;
 }
 
+/*
+Returns 'text' with [column_title] replaced by [index in column_used]
+and update 'column_used' and 'column_data'
+*/
 function personal_mailing_parse_line(text, column_used, column_data_col)
 {
   var t = text.split('[') ;

@@ -33,14 +33,11 @@ def send_mail(server):
 
     subject = server.the_path[0]
     message = server.the_path[1]
-    i = 0
-    while True:
-        if ('[' + str(i) + ']') not in message:
-            n = i - 1
-            break
-        i += 1
+    n = 0
+    while ('[' + str(n) + ']') in message + subject:
+        n += 1
 
-    n += 2
+    n += 1 # For the student ID always here
     args = server.the_path[2:]
     if len(args) % n != 0:
         server.the_file.write('Il y a eu un bug...\n')
