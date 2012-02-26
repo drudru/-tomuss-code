@@ -95,15 +95,12 @@ for syear in os.listdir(configuration.db):
         for ue in tablestat.les_ues(year, semester,
                                     true_file=True, all_files=False):
             name = ue.ue
-            if not name.startswith('UE-'):
+            if not ue.official_ue:
+                ue.unload()
                 continue
             if ue.is_extended:
+                ue.unload()
                 continue
-            if name[-1].isdigit():
-                continue
-            if name[-1] != 'L' and name[-1] != 'M': # Licence and master
-                continue
-            name = name[3:]
 
             sys.stderr.write(name + ' ')
             sys.stderr.flush()

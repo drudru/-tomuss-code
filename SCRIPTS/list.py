@@ -7,6 +7,7 @@ Affiche annuaire
 import os
 import sys
 import re
+import collections
 
 sys.path.append(os.getcwd())
 sys.path.append(os.path.join(os.getcwd(), '..'))
@@ -25,47 +26,48 @@ if '=' not in v:
 else:
     s = v
 
-if len(sys.argv) > 2:
-    if sys.argv[2] == 'checkmail':
-        # Verify if mails are in the form : givenname.surname
-        # Make some statistics
-        q = L.query("(" + s + ")", attributes=('givenname','sn','mail'), base=configuration.ou_top)
-        bad = 0
-        bad2 = 0
-        nr = 0
-        dom = {}
+if sys.argv[1] == 'checkmail':
+    # SCRIPTS/list.py memberof=CN=139284 APO-UFR Sciences et Technologie,OU=groupes,OU=etudiants,DC=univ-lyon1,DC=fr checkmail | tee xxx
+    # Verify if mails are in the form : givenname.surname
+    # Make some statistics
+    bad = collections.defaultdict(int)
+    nr = 0
+    dom = collections.defaultdict(int)
+    for i in "abcdefghijklmnopqrstuvwxyz":
+        q = L.query("(mail=" + i + "*)", attributes=('givenName','sn','mail'),
+                    base=configuration.ou_top)
         for j in q:
             if j[0]:
-                givenname = unicode(j[1].get('givenName',[''])[0],'utf8')
+                givenname = unicode(j[1].get('givenName',[''])[0],'utf-8')
                 givenname = utilities.flat(givenname).replace(' ','-').upper()
                 sn = unicode(j[1].get('sn',[''])[0],'utf8')
                 sn = utilities.flat(sn).replace(' ','-').upper()
                 mail = unicode(j[1].get('mail',[''])[0],'utf8')
                 mail = mail.split(';')[0]
-                if '@' not in mail:
-                    continue
                 if sn == '' or givenname == '':
                     continue
+                if '@' not in mail:
+                    print '@\t' + mail
+                    bad['@'] += 1
+                    continue
+                try:
+                    name, domain = mail.upper().split('@')
+                except ValueError:
+                    print '@@\t', mail
+                    bad['@@'] += 1
+                    continue
 
-                name, domain = mail.upper().split('@')
-
-                if domain not in dom:
-                    dom[domain] = 0
                 dom[domain] += 1
-                    
-                if not domain.endswith('UNIV-LYON1.FR'):
-                    bad2 += 1
 
-                nr += 1
-                if givenname + '.' + sn != name:
-                    print givenname, sn, mail
-                    bad += 1
+                x = re.sub("[-a-zA-Z_.0-9@\']", "", mail)
+                if x:
+                    bad[x] += 1
+                    print repr(x) + '\t' + mail.encode('utf-8')
 
-        print nr, 'people'
-        print '%4.1f%% bad mail' % ((100.*bad)/nr)
-        print '%4.1f%% bad domain' % ((100.*bad2)/nr)
-        for d in sorted(dom.keys(), key=lambda x: dom[x]):
-            print d, dom[d]
+    for d in sorted(dom.keys(), key=lambda x: dom[x]):
+        print d, dom[d].encode('utf-8')
+    for k, v in bad.items():
+        print k.encode('utf-8'), v
                     
                 
     sys.exit(0)
