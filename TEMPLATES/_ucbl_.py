@@ -420,7 +420,7 @@ def check_get_info():
                 firstname, surname, mail = inscrits.L_batch.firstname_and_surname_and_mail(
                 value)
                 
-            firstname = firstname.encode('utf8')
+            firstname = firstname.encode('utf-8')
             line = table.lines[lin]
             # DO NOT USE the user page (use pages[0])
             # BECAUSE IT BREAKS THE NUMBER OF REQUESTS
@@ -432,7 +432,7 @@ def check_get_info():
                     table.cell_change(table.pages[0], '0_1', lin, firstname,
                                       force_update=True)
                 if value or line[2].author == data.ro_user:
-                    surname = surname.encode('utf8')
+                    surname = surname.encode('utf-8')
                     table.cell_change(table.pages[0], '0_2', lin, surname,
                                       force_update=True)
 
@@ -444,7 +444,10 @@ def check_get_info():
                                       force_update=True)
             finally:
                 table.unlock()
-            table.update_mail(line[0].value, mail.encode('utf8'))
+            try:
+                table.update_mail(line[0].value, mail.encode('utf-8'))
+            except UnicodeDecodeError:
+                pass
 
-            portails = [i.encode('latin1') for i in inscrits.L_batch.portail(value)]
+            portails = [i.encode('latin-1') for i in inscrits.L_batch.portail(value)]
             table.update_portail(line[0].value, portails)
