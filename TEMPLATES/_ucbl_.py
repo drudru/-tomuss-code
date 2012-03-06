@@ -28,6 +28,8 @@ import utilities
 import configuration
 import os
 
+removal_allowed = 0.15
+
 update_student_information = """
 
 function update_student_information(line)
@@ -134,7 +136,7 @@ def student_add_allowed(table, new_list=None):
             len(new_list) - nr_yet),what="table")
         if nr_to_delete == 0:
             return True
-        if nr_to_delete / float(len(table.the_keys())) > 0.15: # XXX : constant
+        if nr_to_delete / float(len(table.the_keys())) > removal_allowed:
             if configuration.year_semester == (table.year, table.semester):
                 utilities.manage_key('CLOSED', table.ue, separation=5,
                                      content='%d/%s' % (table.year,
@@ -338,17 +340,19 @@ def terminate_update(table, the_ids, page):
     if table.with_inscrits:
         allow_student_removal = configuration.allow_student_removal
         grp_col = table.columns.get_grp()
+        if grp_col is None:
+            grp_col = 0
         to_remove = [line_id
                      for line_id, line in table.lines.items()
                      if line[0].value not in the_ids
                          and line[grp_col].value != 'FERMEE'
                      ]
         # Do not remove if there is more than :
-        #     10% removal (>=20 lines)
+        #     15% removal (>=20 lines)
         #     50% removal (<20 lines)
         # Or if there is less than 12 students
         if len(table.lines) >= 20:
-            if len(to_remove) > 1+len(table.lines)/10:
+            if len(to_remove) > 1+len(table.lines)*removal_allowed:
                 allow_student_removal = False
         else:
             if len(to_remove) >= 1+len(table.lines)/2:
@@ -399,7 +403,8 @@ def init(table):
     global thread_started
     if not thread_started:
         thread_started = True
-        start_new_thread_immortal(check_get_info, ())
+        if not configuration.read_only:
+            start_new_thread_immortal(check_get_info, ())
         
     table.official_ue = configuration.is_an_official_ue(table.ue_code)
     table.update_inscrits = table.modifiable

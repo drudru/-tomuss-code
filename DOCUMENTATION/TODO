@@ -132,6 +132,8 @@ Administrateur.
 Problèmes à résoudre.
 =====================
 
+* Les nouvelles lignes apparaissent même si elles ne sont pas filtrées
+
 * Copié à la souris dans une cellule : seulement si vide et seulement FF
 
 * Affichage /20 pour 'nombre' de dans le suivi.

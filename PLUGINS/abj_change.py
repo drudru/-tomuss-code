@@ -178,7 +178,7 @@ def abj_action(server):
             abj.a_student(page.the_file, server.the_year, server.the_semester,
                           server.ticket, server.the_student, do_close=False)
         except IOError:
-            utilities.send_backtrace()
+            utilities.send_backtrace("IOError")
             
         
 

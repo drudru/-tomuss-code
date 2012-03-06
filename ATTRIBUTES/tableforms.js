@@ -94,6 +94,15 @@ function table_forms_goto(event)
 // Save the form cell content in the TOMUSS table
 function table_forms_save_input(input)
 {
+    if ( input.value != the_current_cell.cell.value )
+	{
+	    if ( ! modification_allowed_on_this_line(the_current_cell.line_id,
+						     the_current_cell.data_col) )
+		{
+		    return ;
+		}
+	}
+
     var tr = table_forms_tr(input) ;
     
     cell_set_value_real(the_current_cell.line_id, tr.data_col,

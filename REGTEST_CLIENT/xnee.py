@@ -50,7 +50,7 @@ class Xnee:
         print 'run xnee'
         self.process = subprocess.Popen([xnee,
                                          '--display',
-                                         '127.0.0.1:%d' % port,
+                                         ':%d' % port,
                                          '--replay'] + o,
                                         stdin = subprocess.PIPE,
                                         env = { 'DISPLAY': ':%d' % port },
