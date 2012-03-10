@@ -32,7 +32,7 @@ Utilisateurs finaux.
 * Pourcentage d'ABJ pour le résultat d'un calcul en fonction du poids
   des colonnes moyennées.
 
-* Choix de la colonne triée par défaut
+* Choix de la colonne triée par défaut modifiable interactivement
 
 * Dans le publipostage : mode HTML avec des vrais URL
 
@@ -147,6 +147,8 @@ Problèmes à résoudre.
 * Espace dans empty_is
 
 * httprequest ?
+
+* %01 %02 ne sont pas supporté par CAS : les enlever...
 
 * DEMO : commentaire numerique sur saisie d'ABJ sans commentaire !!!
 

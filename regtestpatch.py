@@ -26,6 +26,7 @@ Modify the application in order to support regression tests.
 import configuration
 import inscrits
 import referent
+import utilities
 
 def do_patch():
 
@@ -113,6 +114,7 @@ def do_patch():
 
 
         inscrits.LDAP = LDAP_regtest
+        utilities.warn('Inscrit patched')
 
     # AFTER : because it creates an LDAP connection
     configuration.terminate()
@@ -123,8 +125,7 @@ def do_patch():
     configuration.do_not_display = ()
     
     import authentication
-    import utilities
-    def ticket_login_name(ticket_key, service):
+    def ticket_login_name(ticket_key, service, server=None):
         """Redefined by local configuration"""
         utilities.warn(service, what='auth')
         return ticket_key

@@ -431,7 +431,7 @@ class LDAP_Logic(object):
                                       configuration.attr_mail,
                                       configuration.attr_login_alt))
         for i in alls:
-            utilities.warn(repr(i))
+            i = i[1]
             yield (login_to_student_id(i[configuration.attr_login][0]),
                    i[configuration.attr_firstname][0],
                    i[configuration.attr_surname][0],
