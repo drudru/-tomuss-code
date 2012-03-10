@@ -134,8 +134,6 @@ Administrateur.
 Problèmes à résoudre.
 =====================
 
-* Photo déformées
-
 * La destruction d'une table ne la fait pas disparaître du suivi.
 
 * L'importation ne met pas à jour l'affichage ? Chrome ? Notes ?
