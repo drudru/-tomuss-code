@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 #    TOMUSS: The Online Multi User Simple Spreadsheet
-#    Copyright (C) 2009-2011 Thierry EXCOFFIER, Universite Claude Bernard
+#    Copyright (C) 2009-2012 Thierry EXCOFFIER, Universite Claude Bernard
 #
 #    This program is free software; you can redistribute it and/or modify
 #    it under the terms of the GNU General Public License as published by
@@ -216,7 +216,7 @@ def tests():
         # First load : progressive display
         c = s.url('=' + abj + '/0/Preferences/'+utilities.login_to_module(abj))
         lines_id = ['current_suivi', 'display_tips', 'favoris_sort',
-                    'interface', 'invert_name', 'nr_cols',
+                    'interface', 'invert_name', 'language', 'nr_cols',
                     'nr_favorites', 'nr_lines', 'page_step', 'scrollbar_right',
                     'v_scrollbar', 'v_scrollbar_nr', 'zebra_step']
         nr_columns = 4
