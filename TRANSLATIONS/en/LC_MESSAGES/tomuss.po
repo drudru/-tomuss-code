@@ -1114,3 +1114,14 @@ msgstr "Weight of bonus/malus:"
 #. GUI
 msgid "SUIVI_weight_average"
 msgstr "Weight in the average:"
+
+#. GUI
+msgid "MSG_facebook_grp"
+msgstr "If you want a page per student group, click on "
+
+msgid "MSG_facebook_and"
+msgstr " and "
+
+msgid "MSG_facebook_paging"
+msgstr "If there is a column containing a room name, "
+       "select it to have a printer page per room."

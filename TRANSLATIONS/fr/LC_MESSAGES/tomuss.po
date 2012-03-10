@@ -1108,3 +1108,15 @@ msgstr "Poids du bonus/malus :"
 #. GUI
 msgid "SUIVI_weight_average"
 msgstr "Poids dans la moyenne pondérée :"
+
+#. GUI
+msgid "MSG_facebook_grp"
+msgstr "Si vous voulez une page par groupe d'étudiants, "
+       "il vous suffit de cliquer sur "
+
+msgid "MSG_facebook_and"
+msgstr " et "
+
+msgid "MSG_facebook_paging"
+msgstr "Si vous avez une colonne indiquant un nom de salle, "
+       "vous pouvez la sélectionner pour avoir une feuille par salle : "

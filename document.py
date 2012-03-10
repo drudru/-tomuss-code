@@ -165,8 +165,8 @@ def table_head(year=None, semester=None, ticket=None,
 
     return (str(the_head) + background
             + '<script>var translations = {} ; </script>\n'
-            + '\n'.join(languages) +
-            '<script>' +
+            + '\n'.join(languages) + '\n' +
+            '<script>\n' +
             'page_id = "%d" ;\n' % page_id +
             'my_identity = %s ;\n' % repr(user_name) +
             'my_identity2 = %s ;\n' % repr(my_identity2) +

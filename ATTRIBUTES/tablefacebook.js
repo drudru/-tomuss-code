@@ -1,7 +1,7 @@
 // -*- coding: utf-8 -*-
 /*
     TOMUSS: The Online Multi User Simple Spreadsheet
-    Copyright (C) 2008-2011 Thierry EXCOFFIER, Universite Claude Bernard
+    Copyright (C) 2008-2012 Thierry EXCOFFIER, Universite Claude Bernard
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -77,11 +77,9 @@ function tablefacebook(replace)
 
   p = [printable_introduction(),
        '<p class="hidden_on_paper">',
-       'Si vous voulez une page par groupe d\'étudiants, ',
-       'il vous suffit de cliquer sur ',
-       facebook_a_toggle(3), ' et ', facebook_a_toggle(4), '.<br>',
-       'Si vous avez une colonne indiquant un nom de salle, ',
-       'vous pouvez la sélectionner pour avoir une feuille par salle :</p>',
+       _("MSG_facebook_grp"), facebook_a_toggle(3), _("MSG_facebook_and"),
+       facebook_a_toggle(4), '.<br>',
+       _("MSG_facebook_paging"), '</p>',
        '<p class="hidden_on_paper toggles">'
        ] ;
   for(var data_col in columns)

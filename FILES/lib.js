@@ -3466,6 +3466,12 @@ function html_begin_head(hide_title, pb, more)
     a += i + ':' + js(table_attributes[i].formatter(table_attr[i])) + ',' ;
   a = a.substr(0,a.length-1) + '}' ;
 
+  var languages = '' ;
+  var all = preferences['language'].split(',') ;
+  for(var i in all)
+    languages += '<script onload="this.onloadDone=true;" src="_URL_/'
+      + all[i] + '.js"></script>' ;
+  
   if ( ! pb )
     s = '<html><head>\n' +
       '<link rel="stylesheet" href="'+url + '/style.css" type="text/css">\n' +
@@ -3475,6 +3481,8 @@ function html_begin_head(hide_title, pb, more)
       '<script src="' + url + '/types.js" onload="this.onloadDone=true;"></script>\n' +
       '<script src="' + url + '/abj.js" onload="this.onloadDone=true;"></script>\n' +
       '<style id="computed_style"></style>\n' +
+      '<script>var translations = {} ; </script>\n' +
+      languages +
       '<script>\n' +
       'page_id = "" ;\n' +
       'check_down_connections_interval = 0 ;\n' +
