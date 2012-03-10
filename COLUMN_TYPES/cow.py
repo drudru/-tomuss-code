@@ -23,7 +23,6 @@ import moy
 
 class COW(moy.Moy):
     human_priority = 11
-    full_title = 'Copy On Write'
     cell_compute = 'compute_cow'
     cell_is_modifiable = 1
     tip_cell = "Texte libre"

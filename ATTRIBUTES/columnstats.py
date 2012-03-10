@@ -23,28 +23,8 @@ from columnfill import ColumnFill
 
 class ColumnStats(ColumnFill):
     name = "stats"
-    tip = "?"
     action = "update_histogram"
     gui_display = "GUI_none"
-    title = '''
-<table id="t_column_stats">
-<tr>
-<td>
-<script>
-hidden('<div id="t_column_histogram"></div>',
-       'Histogramme des valeurs des cellules de la colonne<br>'
-       + "en tenant compte du filtrage.<br>"
-       + "Les colonnes de gauche indiquent le nombre de cases<br>"
-       + "contenant des valeurs particulières :<br>"
-       + "PPN, ABI, ABJ, PRE, OUI, NON et vide"
-       )
-</script>
-</td><td class="m">
-<script>
-hidden('<div id="t_column_average"></div>',
-       "Moyenne des nombres de la colonne.")
-</script>
-</td></tr></table>'''
 
     css = '''
 #menutop #t_column_stats {

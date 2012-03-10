@@ -24,7 +24,6 @@ import text
 
 class Nmbr(moy.Moy):
     human_priority = -5
-    full_title = 'Nombre de'
     cell_compute = 'compute_nmbr'
     formatte = text.Text.formatte
     attributes_visible = ('test_filter', 'columns', 'weight')

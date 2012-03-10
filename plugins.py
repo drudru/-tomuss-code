@@ -159,8 +159,8 @@ def value_class(attr):
             html_class += ' verylong'
         else:
             html_class += ' long'
-    if attr == 'full_title':
-        html_class += ' title'
+    # if attr == 'full_title':
+    #    html_class += ' title'
     return html_class
 
 def make_td(f, html_class, k, m):
@@ -172,7 +172,7 @@ def make_td(f, html_class, k, m):
     value = the_value(t)
     if k == 'full_title':
         try:
-            value += '<br/><small>(' + superclass(m).full_title+')</small>'
+            value += '<br/><small>(' + superclass(m).title + ')</small>'
         except AttributeError:
             pass
     f.write('<td class="%s"><div>%s</div></td>' % (
@@ -273,8 +273,7 @@ function _%s()
 }
 ''' % (m.name, s.name, m.name, '\n'.join(v))
 
-    for m in sorted(types.keys(), key=lambda x: (types[x].human_priority,
-                                                 types[x].full_title)):
+    for m in sorted(types.keys(), key=lambda x: (types[x].human_priority,x)):
       all_js += '_%s() ;\n' % m
 
     # Here because Column type loading may change ATTRIBUTE definitions
@@ -284,6 +283,97 @@ function _%s()
     init_plugins()
     
     files.files['types.js'].append('plugins.py', all_js)
+
+    return reloadeds
+
+
+languages = set()
+
+def generate_data_files():
+    #####################################
+    # Generate MO files
+    #####################################
+
+    os.system('make translations')
+
+    import gettext
+    js = utilities.js
+
+    def generate_js(directory):
+        try:
+            t = gettext.translation('tomuss', directory, [language])
+        except IOError:
+            return
+        
+        for k, v in t._catalog.items():
+            if k:
+                f.write('%s:%s,\n' % (js(k.encode('utf8')),
+                                      js(v.encode('utf8'))))
+
+    import itertools
+    local_translation = os.path.join('LOCAL', 'TRANSLATIONS')
+    if not os.path.exists(local_translation):
+        os.mkdir(local_translation)
+    for language in itertools.chain(os.listdir('TRANSLATIONS'),
+                                    os.listdir(local_translation)):
+        language = language.lower()
+        languages.add(language)
+        filename = os.path.join('TMP', language + '.js')
+        f = open(filename, 'w')
+        f.write('translations["' + language + '"] = {')
+        generate_js('TRANSLATIONS')
+        generate_js(local_translation)
+        f.write('"_":""} ;\n')
+        f.close()
+        files.files[language + '.js'] = utilities.StaticFile(filename)
+
+    #####################################
+    # Generate POT file from data.
+    #####################################
+
+    f = open('xxx_tomuss.pot', 'w')
+    g = open(os.path.join('LOCAL', 'xxx_tomuss.pot'), 'w')
+
+    def w(o, comment, msgid, msgstr):
+        if isinstance(o, file):
+            ww = o
+        else:
+            if 'LOCAL' in o.__module__:
+                ww = g
+            else:
+                ww = f
+        ww.write('#. %s\nmsgid "%s"\nmsgstr "%s"\n\n' % (comment,  msgid,
+                  msgstr.replace('"', '\\n').replace('\n','\\n"\n "')))
+
+    head = '''# Texts extracted from a un running TOMUSS instance
+# Copyright (C) 2011 Thierry Excoffier, LIRIS, Universite Claude Bernard Lyon 1
+# This file is distributed under the same license as TOMUSS
+# Thierry.Excoffier@univ-lyon1.fr, 2011
+
+'''
+    f.write(head)
+    g.write(head)
+    w(f, '', '', "Content-Type: text/plain; charset=utf-8")
+    w(g, '', '', "Content-Type: text/plain; charset=utf-8")
+
+    for column_type in types:
+        w(types[column_type], 'Columns types, button text in the menu',
+            'B_' + column_type, column_type)
+
+    import column
+    for attr_name, value in (column.ColumnAttr.attrs.items()
+                             + column.TableAttr.attrs.items()):
+        if isinstance(value, column.TableAttr):
+            t = 'TIP_table_attr_'
+        else:
+            t = 'TIP_column_attr_'
+        w(value, 'Attribute Tip', t + attr_name, '???')
+    f.close()
+    g.close()
+
+    #####################################
+    # Documentation automatic generation
+    #####################################
 
     if not os.path.exists('DOCUMENTATION'):
         return reloadeds
@@ -371,7 +461,6 @@ TABLE.types .defined { background: #FDD ; }
             
     f.write('</tbody></table>\n')
     f.close()
-    return reloadeds
 
 if __name__ == "__main__":
     load_types()

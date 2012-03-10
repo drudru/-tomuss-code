@@ -23,11 +23,9 @@ from column import TableAttr
 
 class TableAbj(TableAttr):
     name = "abj"
-    tip = """Affichage des justificatifs d'absence,<br>des dispenses d'assiduité et des tiers temps"""
     gui_display = "GUI_button"
     need_authorization = 0
     action = "abj_per_day"
-    title = 'abj da tt'
     css = '''
 
 .abj_table A:hover { background: #BFB ; }

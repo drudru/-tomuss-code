@@ -23,10 +23,8 @@ import code_etape
 import inscrits
 
 class Mail(code_etape.Code_Etape):
-    full_title = 'Mail(ID)'
     cell_is_modifiable = 1
     attributes_visible = ('columns',)
-
     def get_one_value(self, student_id, column, line_id):
         return inscrits.L_slow.mail(student_id)
 

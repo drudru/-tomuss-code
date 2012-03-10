@@ -25,7 +25,6 @@ import cgi
 
 class URL(text.Text):
     human_priority = 10
-    full_title = "URL : lien web"
     tip_cell = "L'URL sous la forme http://...."
     ondoubleclick = 'follow_url'
     attributes_visible = ('weight',)

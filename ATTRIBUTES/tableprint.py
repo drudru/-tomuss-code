@@ -23,11 +23,9 @@ from column import TableAttr
 
 class TablePrint(TableAttr):
     name = "print"
-    tip = """Permet d'exporter vers un tableur,<br>et aussi d'imprimer les feuilles d'émargement."""
     gui_display = "GUI_button"
     need_authorization = 0
     action = "print_selection"
-    title = 'Imprime/Exporte'
     css = '''
 TABLE.printable_table {
    border-spacing: 0px ;

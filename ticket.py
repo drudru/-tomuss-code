@@ -22,6 +22,7 @@ import time
 import utilities
 import cgi
 import configuration
+import plugins
 
 warn = utilities.warn
 
@@ -38,9 +39,8 @@ def client_ip(server):
         return utilities.safe(server.client_address[0])
 
 class Ticket(object):
-
     def __init__(self, ticket, user_name=None, user_ip=None,
-                 user_browser=None, date=None):
+                 user_browser=None, date=None, language=''):
         self.ticket = ticket
         self.user_name = user_name
         self.user_ip = user_ip
@@ -49,7 +49,13 @@ class Ticket(object):
             self.date = time.time()
         else:
             self.date = date
-            
+        self.set_language(language)
+
+    def set_language(self, lang):
+        lang = lang.lower().replace(';',',').replace('-','_')
+        lang = ','.join([x for x in lang.split(',') if x in plugins.languages])
+        self.language = lang
+
     def is_fine(self, server):
         # print self.user_name, (time.time() - self.date) , configuration.ticket_time_to_live, self.user_ip, client_ip(server), self.user_browser, server.headers["User-Agent"]
         if self.user_name == self.ticket:
@@ -121,14 +127,14 @@ class Ticket(object):
 
 tickets = {}
 
-def add(ticket, user_name, user_ip, user_browser, date=None):
-    t = Ticket(ticket, user_name, user_ip, user_browser, date)
+def add(ticket, user_name, user_ip, user_browser, date=None, language=''):
+    t = Ticket(ticket, user_name, user_ip, user_browser, date, language)
     tickets[ticket] = t
     return t
 
-def add_ticket(ticket, user_name, user_ip, user_browser):
+def add_ticket(ticket, user_name, user_ip, user_browser, language=''):
     get_ticket_objet.the_lock.acquire()
-    t = add(ticket, user_name, user_ip, user_browser)
+    t = add(ticket, user_name, user_ip, user_browser, language=language)
     get_ticket_objet.the_lock.release()
     utilities.write_file(os.path.join(configuration.ticket_directory, t.ticket), t.log())
     return t
@@ -224,5 +230,6 @@ def get_ticket_objet(ticket, server):
         ticket_object.remove_file()
         del tickets[ticket]
         return None
-
+    if ticket_object and ticket_object.language == '':
+        ticket_object.set_language(server.headers.get('accept-language',''))
     return ticket_object 

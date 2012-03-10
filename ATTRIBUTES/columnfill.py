@@ -23,12 +23,9 @@ from column import ColumnAttr
 
 class ColumnFill(ColumnAttr):
     name = "fill"
-    tip = """<b>Remplir</b> cette colonne avec des valeurs.<br>
-    Plusieurs méthodes de remplissage sont possibles."""
     gui_display = "GUI_a"
     need_authorization = 0
     action = "fill_column"
-    title = 'Remp.'
     default_value = 1
     check_and_set = 'function() { return 1; }'
     css = """

@@ -23,7 +23,6 @@ import mail
 import inscrits
 
 class Firstname(mail.Mail):
-    full_title = 'Prénom(ID)'
     attributes_visible = ('columns',)
 
     def get_one_value(self, student_id, column, line_id):

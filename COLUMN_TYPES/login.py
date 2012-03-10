@@ -23,6 +23,5 @@ import text
 
 class Login(text.Text):
     human_priority = 7
-    full_title = "Identificateur d'utilisateur"
     tip_cell = "Login d'utilisateur ou le début de son nom/prénom"
     

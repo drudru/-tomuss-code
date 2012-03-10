@@ -28,5 +28,3 @@ class TableOfficialUE(TableModifiable):
     default_value = 0
     formatter = "function(v){return v;}"
     gui_display = "GUI_select"
-    tip = """<b>Visible</b> : La table est affichée dans le suivi des étudiants<br>
-<b>Invisible</b> : La table est invisible dans le suivi des étudiants."""

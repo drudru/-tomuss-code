@@ -27,9 +27,6 @@ class ColumnWidth(ColumnAttr):
     check_and_set = 'test_float'
     def encode(self, value):
         return int(value)
-    tip = """<b>Sauve la largeur courante de cette colonne</b>.<br>
-    Le changement sera alors visible par les autres."""
     action = 'save_width_column'
-    title = 'L'
     gui_display = "GUI_a"
     strokable = 0

@@ -23,7 +23,4 @@ from columnfill import ColumnFill
 
 class ColumnDelete(ColumnFill):
     name = "delete"
-    tip = """<b>Détruit cette colonne</b> si elle est vide.<br>
-    CETTE ACTION N'EST PAS RÉVERSIBLE"""
     action = "column_delete"
-    title = 'Dét.'

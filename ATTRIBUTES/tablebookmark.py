@@ -25,15 +25,4 @@ class TableBookmark(TableAttr):
     name = 'bookmark'
     default_value = 1
     action = 'table_bookmark'
-    tip = """<b>Sauve les options d\'affichage</b><br>
-Une fois ce lien suivi vous arriverez sur une page (identique)<br>
-sur laquelle vous pourrez garder un signet (favori) vous<br>
-permettant de retrouver les paramètres d'affichage&nbsp;:<br>
-* Nombre de lignes/colonnes.<br>
-* Les colonnes cachées.<br>
-* Les colonnes figées.<br>
-* Les filtres.<br>
-* Les colonnes triées.<br>
-* ..."""
     gui_display = "GUI_a"
-    title = 'Options'

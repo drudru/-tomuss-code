@@ -118,9 +118,6 @@ class Text(object):
 
     human_priority = 0 # To define menu order
     
-    # Title displayed in the TYPE menu
-    full_title = 'Texte libre'
-
     # Default values
     default_filter = ''
 
@@ -259,5 +256,3 @@ pour la <b>trier</b> dans une direction ou l'autre.<br>
         update_column_content(column, url)
 
 Text.keys = sorted([i for i in Text.__dict__ if not i.startswith('_')])
-Text.keys.remove('full_title')
-Text.keys.insert(0, 'full_title')

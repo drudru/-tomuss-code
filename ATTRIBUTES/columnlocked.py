@@ -24,10 +24,6 @@ from column import ColumnAttr
 class ColumnLocked(ColumnAttr):
     name = 'locked'
     check_and_set = "function(value, column) { return Number(value) ;}"
-    tip = """<b>Autorisation de modification des cellules de la colonne</b><br>
-    Si les cellules sont protégées alors les modifications sont interdites<br>
-    même le remplissage de cellules vides."""
-    title = 'Cellules protégées'
     default_value = 0
     
     def encode(self, value):

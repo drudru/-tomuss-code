@@ -23,11 +23,7 @@ from columnfill import ColumnFill
 
 class ColumnExport(ColumnFill):
     name = "export"
-    tip = """<b>Exporter</b> les valeurs de cette colonne<br>
-    afin de les importer dans les fichiers pour APOGÉE<br>
-    Cliquez pour avoir plus d'information"""
     action = "export_column"
-    title = 'Exp.'
     css = """
 
 DIV.export_div { 

@@ -25,9 +25,4 @@ class TableLinear(TableAttr):
     name = 'linear'
     default_value = 1
     action = "table_linear"
-    tip = """<b>Interface utilisateur linéaire.</b><br>
-Si vous suivez ce lien l'interface utilisateur deviendra linéaire<br>
-Cette interface linéaire est adaptée aux petits écrans.<br>
-Elle permet de naviguer en utilisant de gros caractères."""
     gui_display = "GUI_a"
-    title = 'Lin.'

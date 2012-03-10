@@ -25,6 +25,4 @@ class TableImport(TableAttr):
     default_value = 1
     name = 't_import'
     action = 'table_import'
-    tip = "Importe les définitions des colonnes."
     gui_display = "GUI_a"
-    title = 'Imp.'

@@ -23,9 +23,7 @@ import mail
 import inscrits
 
 class Phone(mail.Mail):
-    full_title = 'Téléphone(ID)'
     attributes_visible = ('columns',)
-
     def get_one_value(self, student_id, column, line_id):
         phone = inscrits.L_slow.phone(student_id).encode('utf8')
         if phone ==  'Inconnu':

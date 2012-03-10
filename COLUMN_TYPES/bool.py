@@ -45,7 +45,6 @@ def option_list(column, value, cell, lines, teacher, ticket, line_id, values):
 
 class Bool(note.Note):
     human_priority = 1
-    full_title = 'Booléen'
     tip_cell = "Booléen, tapez O : oui, N : non"
     cell_test = 'test_bool'
     formatte = text.Text.formatte

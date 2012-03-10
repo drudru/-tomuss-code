@@ -39,10 +39,6 @@ class ColumnHidden(ColumnAttr):
 
     gui_display = "GUI_a"
     need_authorization = 0
-    tip = """<b>Cache cette colonne</b><br>
-    Ce changement n'est pas visible par les autres utilisateurs.<br>
-    Une fois cachée, il faut actualiser la page pour faire réapparaître la colonne."""
     action = "hide_column"
-    title = '&times;'
     strokable = 0
 

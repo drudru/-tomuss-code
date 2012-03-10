@@ -36,6 +36,7 @@ prefs = {
 'v_scrollbar_nr' :("Nombre de caractères affichés dans l'ascenseur vertical","1"  ),
 'interface'      :("Interface utilisateur : N:normal L:lineaire (pour malvoyant)"   ,"N"),
 'current_suivi'  :("Page d'accueil : on fait le suivi du semestre courant au lieu du semestre choisi","NON"),
+'language'       :("Langage de l'interface (fr_fr, en_us)", ""),
 }
 
 def create(table):
@@ -74,6 +75,7 @@ def check(table):
                 table.cell_change(p_rw, '0_3', lin, value[1])
             table.cell_change(p_ro, '0_0', lin, value[0])
             table.cell_change(p_ro, '0_1', lin, value[1])
+
     finally:
         table.unlock()
 

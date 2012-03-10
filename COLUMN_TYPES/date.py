@@ -23,7 +23,6 @@ import text
 
 class Date(text.Text):
     human_priority = 5
-    full_title = 'Date'
     tip_filter = "Exemples de filtre :<ul><li><b>&gt;=1/1/1980 &lt;=31/12/1999</b><li><b>&gt;1m &lt;1j</b> : plus d'une minute et moins d'un jour.</ul>"
     tip_cell = "Une date de la forme Jour/Mois/Année ou Jour/Mois ou Jour"
     cell_test = 'test_date'

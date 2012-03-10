@@ -25,17 +25,7 @@ class TableAutosave(TableAttr):
     name = 'autosave'
     action = "table_autosave_toggle"
     default_value = 1
-    tip = {1:"""<p><b>Désactive l'enregistrement automatique</b><br>
-Actuellement, chaque fois que vous modifiez une valeur,<br>
-elle est immédiatement sauvegardée.<br>
-En suivant ce lien, vous pourrez sauvegarder seulement<br>
-au moment où vous le désirez.""",
-           0:"""<p><b>Enregistre les modifications</b> qui n'ont pas encore été sauvegardées,<br>
-puis revient à l'enregistrement automatique.<br>
-Si vous ne VOULEZ PAS enregistrer, rechargez (réactualisez) la page."""}
-    
     gui_display = "GUI_a"
-    title = 'AutoSauve'
     css = """
 #autosavelog { color: red ; display: none; }
     """

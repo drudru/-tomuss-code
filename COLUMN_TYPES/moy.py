@@ -23,7 +23,6 @@ import note
 
 class Moy(note.Note):
     human_priority = -8
-    full_title = 'Moyenne'
     cell_test = 'test_read_only'
     cell_compute = 'compute_average'
     cell_is_modifiable = 0
@@ -46,7 +45,8 @@ class Moy(note.Note):
             # To not leak invisible columns
             more = ''
 
-        comment = ('Calcul effectué: <b>' + self.full_title + what + '</b>'
+        comment = ('Calcul effectué: <b><script>document.write(_("'
+                   + self.title + '"))</script>' + what + '</b>'
                    + more )
 
         return ('\001' + minmax, '', comment)

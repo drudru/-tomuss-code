@@ -26,14 +26,6 @@ class ColumnWeight(ColumnAttr):
     name = 'weight'
     display_table = 1
     check_and_set = 'set_weight'
-    tip = """<b>Poids de cette colonne</b> dans les moyennes pondérées.<br>
-    Des poids entiers sont préférables.<br>
-    <br>
-    Si le poids commence par le signe <b>+</b> ou <b>-</b><br>
-    alors il ne compte pas dans la somme des poids de<br>
-    la moyenne pondérée.<br>
-    La valeur de la cellule multipliée par le poids est<br>
-    ajoutée à la valeur finale de la moyenne."""
     css = """
 #menutop #t_column_weight {
   background-image: url('weight.png');

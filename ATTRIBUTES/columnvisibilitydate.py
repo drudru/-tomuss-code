@@ -43,9 +43,6 @@ function(column, value)
 	 column.visibility_date.substr(0,4) ;
 }'''
     check_and_set = 'set_visibility_date'
-    tip = """<b>Date où la colonne devient visible pour les étudiants</b>.<br>
-    La date est indiquée sous la forme JJ/MM/AAAA.<br>
-    <b><em>Si rien n'est indiqué : tout est visible par les étudiants.</em></b>"""
     css = """
 #menutop #t_column_visibility_date {
   background-image: url('eye.png');

@@ -39,12 +39,7 @@ class TableForms(TableAttr):
     name = 'forms'
     default_value = 1
     action = "table_forms"
-    tip = """<b>Interface utilisateur formulaire.</b><br>
-Si vous suivez ce lien vous pourrez éditer chaque ligne du tableau<br>
-sous la forme d'une fiche.
-"""
     gui_display = "GUI_a"
-    title = 'Formulaire'
     css = '''
 .tableform {
    position: absolute ;

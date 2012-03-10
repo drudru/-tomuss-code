@@ -1,0 +1,1116 @@
+# Texts extracted from a un running TOMUSS instance
+# Copyright (C) 2011 Thierry Excoffier, LIRIS, Universite Claude Bernard Lyon 1
+# This file is distributed under the same license as TOMUSS
+# Thierry.Excoffier@univ-lyon1.fr, 2011
+msgid ""
+msgstr ""
+"Project-Id-Version: \n"
+"POT-Creation-Date: \n"
+"PO-Revision-Date: \n"
+"Last-Translator: Thierry EXCOFFIER <Thierry.Excoffier@univ-lyon1.fr>\n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#. Columns types, button text in the menu
+msgid "B_Code_Etape"
+msgstr "Code Etape(ID)"
+
+#. Columns types, button text in the menu
+msgid "B_COW"
+msgstr "Copy On Write"
+
+#. Columns types, button text in the menu
+msgid "B_Enumeration"
+msgstr "Enumeration"
+
+#. Columns types, button text in the menu
+msgid "B_Note"
+msgstr "Grade"
+
+#. Columns types, button text in the menu
+msgid "B_Nmbr"
+msgstr "Number of"
+
+#. Columns types, button text in the menu
+msgid "B_Bool"
+msgstr "Boolean"
+
+#. Columns types, button text in the menu
+msgid "B_Mail"
+msgstr "Mail(ID)"
+
+#. Columns types, button text in the menu
+msgid "B_Moy"
+msgstr "Average"
+
+#. Columns types, button text in the menu
+msgid "B_Firstname"
+msgstr "Prenom(ID)"
+
+#. Columns types, button text in the menu
+msgid "B_Max"
+msgstr "Maximum"
+
+#. Columns types, button text in the menu
+msgid "B_Phone"
+msgstr "Phone(ID)"
+
+#. Columns types, button text in the menu
+msgid "B_Date"
+msgstr "Date"
+
+#. Columns types, button text in the menu
+msgid "B_URL"
+msgstr "URL : web link"
+
+#. Columns types, button text in the menu
+msgid "B_Login"
+msgstr "Login"
+
+#. Columns types, button text in the menu
+msgid "B_Surname"
+msgstr "Surname(ID)"
+
+#. Columns types, button text in the menu
+msgid "B_Get_Referent"
+msgstr "Referent(ID)"
+
+#. Columns types, button text in the menu
+msgid "B_Text"
+msgstr "Free Text"
+
+#. Columns types, button text in the menu
+msgid "B_Prst"
+msgstr "Present"
+
+#. Attribute Tip
+msgid "TIP_column_attr_comment"
+msgstr ""
+"<b>A comment for this column</b><br>\n"
+"This comment is visible by the students."
+
+#. Attribute Tip
+msgid "TIP_column_attr_weight"
+msgstr ""
+"<b>Weight of this column</b> in weighted average.<br>\n"
+"Integer weights are recommended.<br>\n"
+"<br>\n"
+"if the weight starts by the sign <b>+</b> or <b>-</b><br>\n"
+"then, the weight is not included in the weight sum of the weighted average.<br>\n"
+"The cell value is multiplied by the weight and is added to the final average."
+
+#. Attribute Tip
+msgid "TIP_column_attr_modifiable"
+msgstr "Column cells are modifiable from the student 'suivi' page by:"
+
+#. Attribute Tip
+msgid "TIP_column_attr_empty_is"
+msgstr ""
+"<b>Default value for empty cells</b>.<br>\n"
+"This value will be used to compute average in the<br>\n"
+"table or in the student 'suivi'<br>\n"
+"The cell will stay empty in the table.<br>\n"
+"Possible values: ABINJ, PRST, 0, 10..."
+
+#. Attribute Tip
+msgid "TIP_column_attr_export"
+msgstr "<b>Exports</b> column values"
+
+#. Attribute Tip
+msgid "TIP_column_attr_minmax"
+msgstr ""
+"<b>Value range for inputed or computed values</b><br>\n"
+"For example <b>[0;20]</b> to have values between 0 and 20 included.<br>\n"
+"Negative values are possibles.<br>\n"
+"The value range does not change the weights in a weighted average."
+
+#. Attribute Tip
+msgid "TIP_column_attr_fill"
+msgstr ""
+"<b>Fill</b> this column with values.<br>\n"
+"A couple of filling methods are possible."
+
+#. Attribute Tip
+msgid "TIP_column_attr_stats"
+msgstr "?"
+
+#. Attribute Tip
+msgid "TIP_column_attr_title"
+msgstr ""
+"<b>Column title</b><br>\n"
+"Give column names understandable by the students.<br>\n"
+"Spaces are forbidden."
+
+#. Attribute Tip
+msgid "TIP_column_attr_visibility_date"
+msgstr ""
+"<b>Date where this column become visible by the students</b>.<br>\n"
+"The date is indicated as DD/MM/YYYY (month and year are optionnal)<br>\n"
+" <b><em>Il nothing is indicated, all is student visible.</em></b>"
+
+#. Attribute Tip
+msgid "TIP_column_attr_enumeration"
+msgstr ""
+"<b>List of authorized value for column cells</b><br>\n"
+"There is a space between each value."
+
+#. Attribute Tip
+msgid "TIP_column_attr_width"
+msgstr ""
+"<b>Save the current column width</b>.<br>\n"
+"The change will be visible by other users."
+
+#. Attribute Tip
+msgid "TIP_column_attr_freezed"
+msgstr ""
+"<b>(Un)Freeze this column</b><br>\n"
+"A freezed column is always visible even if there are filter or scrolling.<br>\n"
+"Freezed columns are moved to the left part of the table."
+
+#. Attribute Tip
+msgid "TIP_column_attr_import"
+msgstr "<b>Import</b> values in this column"
+
+#. Attribute Tip
+msgid "TIP_column_attr_hidden"
+msgstr ""
+"<b>Hide this column</b><br>\n"
+"The column will not be hidden to other users<br>\n"
+"Once hidden, a page refresh is needed to make it visible."
+
+#. Attribute Tip
+msgid "TIP_column_attr_type"
+msgstr ""
+"<b>Column type</b>, it fixes the cell content:\n"
+"<ul>\n"
+"<li> 'Free Text': \n"
+"<li> 'Grade': a grade or a 'presence' indicator (ABINJ, ABJUS, PPNOT)\n"
+"<li> 'Average': weighted average of a column list\n"
+"<li> 'Present': a 'presence' indicator\n"
+"<li> 'Number of': count the number of cell verifying a condition\n"
+"<li> 'Date':  DD/MM/YYYY month and year optionnal\n"
+"<li> 'Boolean' : OUI or NON\n"
+"<li> 'Maximum' : Maximum value\n"
+"</ul>"
+
+#. Attribute Tip
+msgid "TIP_column_attr_columns__"
+msgstr "Columns used to compute the result"
+
+#. Attribute Tip
+msgid "TIP_column_attr_columns__Code_Etape"
+msgstr ""
+"<b>Extract the student cursus</b><br>\n"
+"Indicates the column containing student <b>ID</b><br>\n"
+"for which the cursus must be computed."
+
+#. Attribute Tip
+msgid "TIP_column_attr_columns__COW"
+msgstr ""
+"<b>Column name to be copied</b>.<br>\n"
+"The copy will be no more dynamic if the copied value is modified.<br>\n"
+"This can be useful to copy an average column and modify<br>\n"
+"some values."
+
+#. Attribute Tip
+msgid "TIP_column_attr_columns__Nmbr"
+msgstr ""
+"<b>Column names where cells must be counted</b><br>\n"
+"To not forget to indicate the counting filter."
+
+#. Attribute Tip
+msgid "TIP_column_attr_columns__Mail"
+msgstr ""
+"<b>Extract the mail address</b><br>\n"
+"Indicates the ID column for which mails must be found."
+
+#. Attribute Tip
+msgid "TIP_column_attr_columns__Moy"
+msgstr ""
+"<b>Column names to be averaged</b><br>\n"
+"For example : <b>td1 td2 td3</b>.<br>\n"
+"The computed value is the sum of: &nbsp;&nbsp;&nbsp;&nbsp;<em>td<sub>i</sub>.poids * (td<sub>i</sub>.note - td<sub>i</sub>.min) / (td<sub>i</sub>.max - td<sub>i</sub>.min)</em><br>\n"
+"divided by the sum of the weights that does not starts by <b>+</b> or <b>-</b><br>\n"
+"The final value is normalized in the given range ([0;20] for example)<br>\n"
+"ABINJ, ABJUS, PPNOT are taken into account."
+
+#. Attribute Tip
+msgid "TIP_column_attr_columns__Surname"
+msgstr ""
+"<b>Extract surname</b><br>\n"
+"ndicates the ID column for which surname must be found."
+
+#. Attribute Tip
+msgid "TIP_column_attr_columns__Firstname"
+msgstr ""
+"<b>Extract firstname</b><br>\n"
+"Indicates the ID column for which firstame must be found."
+
+#. Attribute Tip
+msgid "TIP_column_attr_columns__Max"
+msgstr ""
+"<b>Compute the maximum of the indicated columns</b><br>\n"
+"Column weights are not taken into account.<br>\n"
+"Beware, values are normalized using the range before the evaluation."
+
+#. Attribute Tip
+msgid "TIP_column_attr_columns__Phone"
+msgstr ""
+"<b>Extract the phone number</b><br>\n"
+"Indicates the ID column for which phone must be found."
+
+#. Attribute Tip
+msgid "TIP_column_attr_repetition"
+msgstr ""
+"Number of time the same value is allowed in the column<br>\n"
+"If it is 0, then an unlimited number of repetition is possible."
+
+#. Attribute Tip
+msgid "TIP_column_attr_course_dates"
+msgstr ""
+"<b>Dates of the courses for this columns</b>.<br>\n"
+"Date are in the form: DD/MM/YYYY followed by a<br>\n"
+"M for Morning or A for Afternoon<br>\n"
+"The ABINJ for theses dates are displayed in red."
+
+#. Attribute Tip
+msgid "TIP_column_attr_test_filter"
+msgstr ""
+"<b>Filter indication the values to count</b><br>\n"
+" Some examples of value test:<ul>\n"
+"<li> <b>ABI</b> : stats by ABI.\n"
+"<li> <b>!=ABINJ</b> : not equal to ABINJ.\n"
+"<li> <b>=</b> an empty cell.\n"
+"<li> <b>&lt;8</b> less than 8.\n"
+"</ul>\n"
+"For more information, look filter help in the documentation."
+
+#. Attribute Tip
+msgid "TIP_column_attr_author"
+msgstr "The last user to have modified the column definition."
+
+#. Attribute Tip
+msgid "TIP_column_attr_green"
+msgstr ""
+"<b>Green background</b> for cells with<br>\n"
+"a value greater than the one indicated here.<br>\n"
+"A generic filter can be used."
+
+#. Attribute Tip
+msgid "TIP_column_attr_red"
+msgstr ""
+"<b>Red background</b> for cells with<br>\n"
+"a value lesser than the one indicated here.<br>\n"
+"A generic filter can be used."
+
+#. Attribute Tip
+msgid "TIP_column_attr_position"
+msgstr ""
+"<b>Save the current column place</b>.<br>\n"
+"The position change will be visible by the other users."
+
+#. Attribute Tip
+msgid "TIP_column_attr_delete"
+msgstr ""
+"<b>Delete this column</b> if it is empty.<br>\n"
+"THIS ACTION IS NOT REVERSIBLE."
+
+#. Attribute Tip
+msgid "TIP_column_attr_locked"
+msgstr "<b>Allow cell modification in the column</b><br>\n"
+ "If cells are protected they are not modifable even if they are empty."
+
+
+#. Attribute Tip
+msgid "TIP_table_attr_comment"
+msgstr ""
+"Indicate a table comment.<br>\n"
+"This comment will be visible by students."
+
+#. Attribute Tip
+msgid "TIP_table_attr_mails"
+msgstr ""
+
+#. Attribute Tip
+msgid "TIP_table_attr_code"
+msgstr ""
+
+#. Attribute Tip
+msgid "TIP_table_attr_table_title"
+msgstr ""
+
+#. Attribute Tip
+msgid "TIP_table_attr_modifiable"
+msgstr "In an ``unmodifiable´´ table nobody can change the content."
+
+#. Attribute Tip
+msgid "TIP_table_attr_autosave__0"
+msgstr ""
+"<p><b>Save the modifications</b> that where not saved,<br>\n"
+"and them returns to automatic saving mode.<br>\n"
+"If you do NOT want to save: refresh the page."
+
+#. Attribute Tip
+msgid "TIP_table_attr_autosave__1"
+msgstr ""
+"<p><b>Disable automatic save</b><br>\n"
+"Currently, each time a modification is done, it is immediatly saved.<br>\n"
+"After clicking here, nothing is saved unless you ask it."
+
+#. Attribute Tip
+msgid "TIP_table_attr_t_import"
+msgstr "Import column definition"
+
+#. Attribute Tip
+msgid "TIP_table_attr_statistics"
+msgstr "Compute statistics"
+
+#. Attribute Tip
+msgid "TIP_table_attr_default_sort_column"
+msgstr ""
+
+#. Attribute Tip
+msgid "TIP_table_attr_abj"
+msgstr "Display justified leaves, DA and TT."
+
+#. Attribute Tip
+msgid "TIP_table_attr_official_ue"
+msgstr ""
+"<b>Visible</b> : The table is displayed in student 'suivi'<br>\n"
+"<b>Invisible</b> : The table is not visible in student 'suivi'."
+
+#. Attribute Tip
+msgid "TIP_table_attr_t_copy"
+msgstr "Table copy"
+
+#. Attribute Tip
+msgid "TIP_table_attr_print"
+msgstr "Allow to export to a spreadsheet or print signature page."
+
+#. Attribute Tip
+msgid "TIP_table_attr_mail"
+msgstr "Mail management"
+
+#. Attribute Tip
+msgid "TIP_table_attr_portails"
+msgstr ""
+
+#. Attribute Tip
+msgid "TIP_table_attr_linear"
+msgstr ""
+"<b>Linear user interface.</b><br>\n"
+"Once the link followed the user interface will change.<br>\n"
+"The linear interface allow to work with very big characters<br>\n"
+"or with audio feedback."
+
+#. Attribute Tip
+msgid "TIP_table_attr_masters"
+msgstr ""
+"User logins with all the right on the table<br>\n"
+"Logins are space separated.<br>\n"
+"<b>Add your name first!</b>"
+
+#. Attribute Tip
+msgid "TIP_table_attr_facebook"
+msgstr "Display the facebook of filtered students"
+
+#. Attribute Tip
+msgid "TIP_table_attr_private"
+msgstr ""
+"A public table is visible/modifiable by all the users<br>\n"
+"A private table is only visible/modifiable by the table masters,<br>\n"
+"students will nevertheles see their grades."
+
+#. Attribute Tip
+msgid "TIP_table_attr_default_nr_columns"
+msgstr ""
+"Fixes the number of displayed columns for everybody.<br>\n"
+"'0' indicates that the best number of columns is choosen for the screen size."
+
+#. Attribute Tip
+msgid "TIP_table_attr_nr_lines"
+msgstr "Number of <b>lines</b> on screen"
+
+#. Attribute Tip
+msgid "TIP_table_attr_update_content"
+msgstr ""
+"Update student list from external data sources<br>\n"
+"<b>Automatic update is done at least one per day</b>"
+
+#. Attribute Tip
+msgid "TIP_table_attr_dates"
+msgstr ""
+"First course date and last examination date<br>\n"
+"The 2 dates are in the form DD/MM/YYYY<br>\n"
+"ABJ not in this range will not be displayed."
+
+#. Attribute Tip
+msgid "TIP_table_attr_t_export"
+msgstr "Export column definition (not the table content)"
+
+#. Attribute Tip
+msgid "TIP_table_attr_bookmark"
+msgstr ""
+"<b>Save display options</b><br>\n"
+"Once the link followed, an identical page is displayed.<br>\n"
+"Save a bookmark on this page, it will store filters, sorted columns,<br>\n"
+"hidden columns and so on."
+
+#. Attribute Tip
+msgid "TIP_table_attr_nr_columns"
+msgstr "Number of <b>columns</b> on screen."
+
+#. Attribute Tip
+msgid "TIP_table_attr_forms"
+msgstr "<b>Forms editor.</b><br>\n"
+  "Follow this link to use a forms editor"
+
+#. GUI Label
+msgid "LABEL_logout"
+msgstr "Logout"
+
+#. GUI Label
+msgid "LABEL_preferences"
+msgstr "Preferences"
+
+#. Label Tip
+msgid "TIP_preferences"
+msgstr "This link allow to manage your preferences<br>\n"
+       "Preferences are applied to <b>all</b> the tables"
+
+msgid "ERROR_value_not_modifiable"
+msgstr "You are not allowed to modifiy this value."
+
+msgid "ERROR_value_system_defined"
+msgstr "Because it has been defined by the system"
+
+msgid "ERROR_value_defined_by_another_user"
+msgstr "Only the user that set the value can change it.\n"
+       "Or one of the table masters: "
+
+msgid "ERROR_column_creation"
+msgstr "It is impossible to create columns when there is an active filter.\n"
+       "Sorry, you must remove the filters."
+
+msgid "ERROR_column_left_to_right"
+msgstr "Columns must be created from left to right\n\n"
+       "When you will refresh the page,\n"
+       "the column order will not be the same.\n"
+       "It is a complicated bug, it will not be corrected"
+
+msgid "ERROR_table_read_only"
+msgstr "The table master set it to be not modifiable,\n"
+       "so modifications are forbidden."
+
+msgid "ERROR_column_system_defined"
+msgstr "This column is system defined and so, can not be modified."
+
+msgid "ERROR_column_creation_with_filter"
+msgstr "Sorry, it is forbiden to create new columns when there is\n"
+       "a filter on the column name.\n\n"
+       "This functionnality is too complex to program and not useful,\n"
+       "so this problem will not be corrected."
+
+msgid "ERROR_save_to_localstorage_failed"
+msgstr "Sorry, the window has been closed without saving the modifications."
+
+msgid "WARN_not_name_sorted"
+msgstr "The list is not sorted by name."
+
+msgid "WARN_unregistered_student"
+msgstr "Unregistered student in the table.\n"
+       "No data can be entered in the table."
+
+#. GUI Label
+msgid "LABEL_documentation"
+msgstr "Interactive full documentation"
+
+#. Tip
+msgid "TIP_documentation"
+msgstr "Follow this link to have all the details<br>\n"
+       "about this spreadsheet utilisation"
+
+#. Tip cell attribute
+msgid "TIP_cell_attr_student_picture"
+msgstr "Click on the picture to see the 'suivi' of the student"
+
+#. Tip cell attribute
+msgid "TIP_cell_attr_student_surname"
+msgstr "Student surname."
+
+#. Tip cell attribute
+msgid "TIP_cell_attr_student_firstname"
+msgstr "Student firstname."
+
+#. Tip cell attribute
+msgid "TIP_cell_value"
+msgstr "Cell value"
+
+#. Tip cell attribute
+msgid "TIP_cell_comment"
+msgstr "Enter a comment for the current cell<br>\n"
+       "to not forget important things.<br>\n"
+       "<b>BEWARE : students see this comment</b>"
+
+#. Tip cell attribute
+msgid "TIP_cell_filter"
+msgstr "<b>Line filter</b><br>\n"
+       "Only line containing a filtered value will be displayed.<br>\n"
+       "Types the start of what you search."
+
+#. Tip cell attribute
+msgid "TIP_cell_student_number"
+msgstr "Student number"
+
+#. Tip cell attribute
+msgid "TIP_cell_history"
+msgstr "Values contained by the cell in the past.<br>\n"
+       "From the current value to the older one."
+
+#. Tab label
+msgid "TAB_cell"
+msgstr "Cell"
+
+#. Tab label
+msgid "TAB_history"
+msgstr "History"
+
+#. Tab label
+msgid "TAB_?"
+msgstr "?"
+
+#. Tab label
+msgid "TAB_parametrage"
+msgstr "Parametrage"
+
+#. Tab label
+msgid "TAB_column"
+msgstr "Column"
+
+#. Tab label
+msgid "TAB_formula"
+msgstr "Formula"
+
+#. Tab label
+msgid "TAB_display"
+msgstr "Display"
+
+#. Tab label
+msgid "TAB_column_action"
+msgstr "Action"
+
+#. Tab label
+msgid "TAB_table"
+msgstr "Table"
+
+#. Tab label
+msgid "TAB_parameters"
+msgstr "Parameters"
+
+#. Tab label
+msgid "TAB_table_action"
+msgstr "Action"
+
+
+#. GUI Label
+msgid "LABEL_styles"
+msgstr "Display <span class=\"ro\">S</span>"
+       "<span class=\"comment\">t</span>"
+       "<span class=\"today\">y</span>"
+       "<span class=\"is_an_abj\">l</span>"
+       "<span class=\"non\">e</span>"
+       "<span class=\"tt\">s</span> used in the table"
+
+#. Tip cell attribute
+msgid "TIP_styles"
+msgstr "<span class=\"ro\">The text is grey is the cell\n"
+       "has been defined by another user.</span><br>\n"
+       "<span class=\"comment\">Triangle if there is a\n"
+       "comment.</span><br>\n"
+       "<span class=\"today\">Bold text is the cell\n"
+       "was modified today.</span><br>\n"
+       "<span class=\"is_an_abj\">If ABINJ is underlined,\n"
+       "check the 'leave' justifications.</span><br>\n"
+       "<span class=\"non\">Red background if the student\n"
+       "is not registered in the UE.</span><br>\n"
+       "<span class=\"tt\">Blue background if the student\n"
+       "has special examination conditions (TT).</span><br>\n"
+       "<span class=\"filtered\">Yellow backgroud if the\n"
+       "cell is selected by a filter</span>"
+
+#. Tip cell attribute
+msgid "TIP_square"
+msgstr "This small square appears when:<br>"
+
+#. Tip cell attribute
+msgid "TIP_orange_square"
+msgstr "the browser try to store the value in the server,<br>\n"
+       "if is take more than 5 seconds, there is a <b>problem</b> (network?).\n"
+       "Try to not work in these conditions."
+
+#. Tip cell attribute
+msgid "TIP_green_square"
+msgstr "The value has been <b>stored with success</b> on the server."
+
+#. Tip cell attribute
+msgid "TIP_red_square"
+msgstr "the server <b>rejected the value change</b>.<br>\n"
+       "May be you are not allowed to modify the value"
+
+#. Tip cell attribute
+msgid "TIP_violet_square"
+msgstr "The is a <b>bug</b> somewhere,<br>\n"
+       "the administrator must have received a mail pointing the problem."
+
+#. Label cell attribute
+msgid "LABEL_square"
+msgstr " green square = value saved!"
+
+#. Label cell attribute
+msgid "TIP_LABEL_square"
+msgstr "Put the pointer on the small squares to known what they mean."
+
+#. Label cell attribute
+msgid "LABEL_ALT8"
+msgstr "ALT-8 : line filter edition"
+
+#. Tip cell attribute
+msgid "TIP_ALT8"
+msgstr "The line filter allow to only display line beginning<br>\n"
+       "by the filter value.<br>\n"
+       "For example a firstname, surname or student number."
+
+#. Label cell attribute
+msgid "LABEL_ALT1"
+msgstr "ALT-1 : Hide/Show the tool tips"
+
+#. Tip cell attribute
+msgid "TIP_ALT1"
+msgstr "To use if the tool tips annoy you.<br>\n"
+       "You can also set this fact in your preferences"
+
+#. GUI Label
+msgid "LABEL_save"
+msgstr "Save the modifications"
+
+#. GUI Label
+msgid "LABEL_table_ro"
+msgstr "Read only table"
+
+#. Tip column attribute
+msgid "TIP_column_filter"
+msgstr "Only <b>columns</b> with a name matching the filter\n"
+       "will be displayed.<br>\n"
+       "Enter the start of the column name."
+
+#. Label before the attribute
+msgid "BEFORE_column_attr_red"
+msgstr "Red coloring"
+
+#. Label before the attribute
+msgid "BEFORE_column_attr_green"
+msgstr "Green coloring"
+
+#. Label before the attribute
+msgid "BEFORE_column_attr_empty_is"
+msgstr "If&nbsp;empty"
+
+#. Label before the attribute
+msgid "BEFORE_column_attr_columns"
+msgstr "Formula"
+
+#. Label before the attribute
+msgid "BEFORE_column_attr_weight"
+msgstr "Weight"
+
+#. Label before the attribute
+msgid "BEFORE_column_attr_repetition"
+msgstr "Repetition"
+
+#. Label before the attribute
+msgid "BEFORE_column_attr_visibility_date"
+msgstr "Visible&nbsp;the:&nbsp;"
+
+#. Label before the attribute
+msgid "BEFORE_column_attr_course_dates"
+msgstr "Courses dates:&nbsp;"
+
+#. Label before the attribute
+msgid "BEFORE_table_attr_default_nr_columns"
+msgstr "#displayed&nbsp;columns:&nbsp;"
+
+#. Label before the attribute
+msgid "BEFORE_table_attr_private"
+msgstr "Access rights: "
+
+#. Label before the attribute
+msgid "BEFORE_table_official_ue"
+msgstr "Student display: "
+
+#. Label before the attribute
+msgid "BEFORE_table_dates"
+msgstr "First/last:&nbsp;"
+
+#. Label before the attribute
+msgid "BEFORE_table_masters"
+msgstr "Administrators:&nbsp;"
+
+
+#. Tip common to some other tips
+msgid "TIP_not_visible_by_others"
+msgstr "The modification will not be visible to other users."
+
+#. Tip column action
+msgid "TIP_column_move_left"
+msgstr "Move the column one slot left."
+
+#. Tip column action
+msgid "TIP_column_move_right"
+msgstr "Move the column one slot right."
+
+#. Tip column action
+msgid "TIP_column_thinner"
+msgstr "Make the column thinner"
+
+#. Tip column action
+msgid "TIP_column_larger"
+msgstr "Make the column larger."
+
+#. Select value
+msgid "SELECT_column_modifiable_by_nobody"
+msgstr "Nobody can modify the cells from 'suivi'"
+
+#. Select value
+msgid "SELECT_column_modifiable_by_teachers"
+msgstr "Teachers can modify cells from 'suivi'"
+
+#. Select value
+msgid "SELECT_column_modifiable_by_students"
+msgstr "Students can modify their value from 'suivi'"
+
+#. Select value
+msgid "SELECT_table_private_public"
+msgstr "Public"
+
+#. Select value
+msgid "SELECT_table_private_private"
+msgstr "Private"
+
+#. Select value
+msgid "SELECT_table_modifiable_false"
+msgstr "Not Modifiable"
+
+#. Select value
+msgid "SELECT_table_modifiable_true"
+msgstr "Modifiable"
+
+#. Select value
+msgid "SELECT_table_official_ue_false"
+msgstr "Invisible"
+
+#. Select value
+msgid "SELECT_table_official_ue_true"
+msgstr "Visible"
+
+#. Select value
+msgid "SELECT_column_locked_no"
+msgstr "Cells are modifiable"
+
+#. Select value
+msgid "SELECT_column_locked_yes"
+msgstr "Cells are not modifiable"
+
+
+
+#. GUI Label
+msgid "LABEL_column_attr_author"
+msgstr "Defined by "
+
+#. Label column attribute
+msgid "LABEL_help_autosave"
+msgstr "All your actions are immediatly recorded."
+
+#. Label column attribute
+msgid "TIP_help_autosave"
+msgstr "When you modify a cell, a <img class=\"server\" src=\"_URL_/ok.png\">\n"
+       "appears to show you that the recording is done.\n"
+       "If there is no <img class=\"server\" src=\"_URL_/ok.png\">\n"
+       "the data is not saved."
+
+msgid "LABEL_help_visibility"
+msgstr "By default, nothing is hidden to students"
+
+msgid "TIP_help_visibility"
+msgstr "You can hide the table in ``Parametrage'' tab.<br>\n"
+       "You can indicate a visibility date for a column<br>\n"
+       "in the ``display'' tab."
+
+msgid "LABEL_help_average"
+msgstr "How to compute an average?"
+
+msgid "TIP_help_average"
+msgstr "It is recommended to read the documentation table of content"
+
+#. GUI Label
+msgid "LABEL_nr_filtered_lines"
+msgstr "filtered lines on"
+
+#. GUI Tip
+msgid "TIP_nr_filtered_lines"
+msgstr "It is the number of lines in the table after filtering."
+
+#. GUI Tip
+msgid "TIP_nr_not_empty_lines"
+msgstr "It is the number of lines in the full table<br>\n"
+       "<b>without counting empty lines</b>"
+
+#. GUI Label
+msgid "LABEL_select_nr_lines"
+msgstr "lines"
+
+#. GUI Label
+msgid "LABEL_select_nr_cols"
+msgstr "columns"
+
+#. Tip table attribute
+msgid "TIP_table_filter"
+msgstr "Only <b>columns and lines</b> containing a filtered value<br>\n"
+       "will be displayed.<br>\n"
+       "Tapez le début de ce que vous cherchez."
+       "Types the start of what you search."
+
+#. GUI Label
+msgid "LABEL_columns_definitions"
+msgstr "columns parameters"
+
+#. GUI TIP
+msgid "TIP_popup_on_red_line"
+msgstr "Toggle the authorization to rank unregistered students"
+
+#. GUI 
+msgid "LABEL_table_help"
+msgstr "Everybody can fill empty cells.\n"
+       "But only table admins can modify values\n"
+       "entered by the other users.\n"
+       "If the table has no admin, then everybody can become the first admin."
+
+#. GUI 
+msgid "MESSAGE_data_begin_sent"
+msgstr "Data are being sent for storage to the server.<br>\n"
+       "Please wait (or verify your network connection)"
+
+
+#. GUI 
+msgid "TITLE_column_attr_delete"
+msgstr "Definitively <b>delete</b> the column"
+
+#. GUI 
+msgid "TITLE_column_attr_export"
+msgstr "<b>Exports</b> columns values"
+
+#. GUI 
+msgid "TITLE_column_attr_fill"
+msgstr "<b>Fill</b> values in the column"
+
+#. GUI 
+msgid "TITLE_column_attr_freezed"
+msgstr "Freezed"
+
+#. GUI 
+msgid "TITLE_column_attr_hidden"
+msgstr "Hide the column"
+
+#. GUI 
+msgid "TITLE_column_attr_import"
+msgstr "<b>Import</b> values in the column"
+
+#. GUI 
+msgid "TITLE_column_attr_position"
+msgstr "position"
+
+#. GUI 
+msgid "TITLE_column_attr_stats"
+msgstr ""
+"<table id=\"t_column_stats\">\n"
+"<tr>\n"
+"<td>\n"
+"<script>\n"
+"hidden('<div id=\"t_column_histogram\"></div>',\n"
+"       'Histogram of the column values.<br>'\n"
+"       + \"Filtering is taken into account.<br>\"\n"
+"       )\n"
+"</script>\n"
+"</td><td class=\"m\">\n"
+"<script>\n"
+"hidden('<div id=\"t_column_average\"></div>',\n"
+"       \"Average of the filtered column values.\")\n"
+"</script>\n"
+"</td></tr></table>"
+
+#. GUI 
+msgid "TITLE_column_attr_width"
+msgstr "width"
+
+#. GUI 
+msgid "TITLE_table_attr_abj"
+msgstr "abj da tt"
+
+#. GUI 
+msgid "TITLE_table_attr_autosave"
+msgstr "Enregistrement automatique"
+
+#. GUI 
+msgid "TITLE_table_attr_bookmark"
+msgstr "Create a bookmark with the <b>display parameters</b>"
+
+#. GUI 
+msgid "TITLE_table_attr_t_copy"
+msgstr "Table copy"
+
+#. GUI 
+msgid "TITLE_table_attr_t_export"
+msgstr "<b>Export</b>"
+
+#. GUI 
+msgid "TITLE_table_attr_facebook"
+msgstr "Facebook"
+
+#. GUI 
+msgid "TITLE_table_attr_t_import"
+msgstr "<b>Import</b>"
+
+#. GUI 
+msgid "TITLE_table_attr_mail"
+msgstr "Mail"
+
+#. GUI 
+msgid "TITLE_table_attr_print"
+msgstr "Print/Export"
+
+#. GUI 
+msgid "TITLE_table_attr_statistics"
+msgstr "Stats"
+
+#. GUI 
+msgid "TITLE_table_attr_update_content"
+msgstr "Update table content NOW"
+
+#. GUI 
+msgid "TITLE_table_attr_linear"
+msgstr "Linear"
+
+#. GUI 
+msgid "TITLE_table_attr_forms"
+msgstr "Form"
+
+#. GUI
+msgid "TH_column"
+msgstr "Column"
+
+#. GUI
+msgid "TH_value"
+msgstr "Value"
+
+#. GUI
+msgid "TH_rank"
+msgstr "Rank"
+
+#. GUI
+msgid "TH_comment"
+msgstr "Comment"
+
+#. GUI
+msgid "TH_ABJ_list"
+msgstr "ABJs list"
+
+#. GUI
+msgid "TH_begin"
+msgstr "Begin"
+
+#. GUI
+msgid "TH_end"
+msgstr "End"
+
+#. GUI
+msgid "TH_length"
+msgstr "Length"
+
+#. GUI
+msgid "MSG_TT"
+msgstr "Currently with special examination condition (TT)"
+
+#. GUI
+msgid "MSG_currently_saving"
+msgstr "Restoring modifications, please wait."
+
+#. GUI
+msgid "MSG_not_yet_saved"
+msgstr "Modification not yet saved"
+
+#. GUI
+msgid "MSG_reauthenticate"
+msgstr "CLICK HERE<br>TO AUTHENTICATE AGAIN<br>\n"
+       "your session expired or your network address changed."
+
+#. GUI
+msgid "MSG_connection_staled"
+msgstr "No data save was possible the last 5 seconds.\n"
+       "The modifications will be saved when network connection will be up.\n"
+       "You will lost your work if you close or reload this page.\n"
+       "You should wait that all the orange square become green\n"
+       "before resuming your work."
+
+#. GUI
+msgid "MSG_refresh"
+msgstr "Sorry, I must redraw all the table because an important\n"
+       "modification has been done on the table."
+
+#. GUI
+msgid "MSG_filter_on"
+msgstr "Filter on column"
+
+#. GUI
+msgid "MSG_not_printed"
+msgstr "Items on yellow background are not printed."
+
+#. GUI
+msgid "MSG_sorted_by"
+msgstr "Lines are sorted by"
+
+#. GUI
+msgid "MSG_sorted_by_more"
+msgstr "and"
+
+#. GUI all the lines or the columns
+msgid "MSG_all"
+msgstr "all"
+
+#. GUI
+msgid "ASK_restore"
+msgstr "Do you want to restore the following actions:"
+
+#. GUI
+msgid "DEFAULT_title"
+msgstr "Title"
+
+#. GUI
+msgid "SUIVI_comment"
+msgstr "Comment:"
+
+#. GUI
+msgid "SUIVI_modification_date"
+msgstr "Modification date:"
+
+#. GUI
+msgid "SUIVI_modification_author"
+msgstr "By:"
+
+#. GUI
+msgid "SUIVI_weight_add"
+msgstr "Weight of bonus/malus:"
+
+#. GUI
+msgid "SUIVI_weight_average"
+msgstr "Weight in the average:"

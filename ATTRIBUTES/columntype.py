@@ -34,17 +34,6 @@ class ColumnType(ColumnAttr):
         return plugins.types[value]
     def decode(self, value):
         return value.name
-    tip = """<b>Type de la colonne</b>, il indique le contenu des cellules :
-<ul>
-<li> 'Text' : du texte libre
-<li> 'Note' : une note, ou un indicateur de présence
-<li> 'Moy' : calcul de la moyenne pondérée de plusieurs colonnes
-<li> 'Prst' : Cellules cliquables pour indiquer la présence
-<li> 'Nmbr' : Compte le nombre de cellules contenant une valeur
-<li> 'Date' : Des dates de la forme JJ/MM/AAAA
-<li> 'Bool' : Oui ou Non
-<li> 'Max' : Maximum sur plusieurs colonnes
-</ul>"""
     css = """
 #menutop SELECT#t_column_type {  margin: 3px ; }
 #t_column_type { width: auto; }

@@ -32,14 +32,6 @@ function(value, column)
   column.nmbr_filter = compile_filter_generic(value) ;
   return value ;
 }'''
-    tip = """<b>Filtre indiquant les cellules à compter</b><br>
-    Exemples pour compter les cellules :<ul>
-    <li> <b>ABI</b> : commençant par ABI.
-    <li> <b>!=ABINJ</b> : valeur différente de ABINJ.
-    <li> <b>=</b> compte les cellules vides.
-    <li> <b>&lt;8</b> compte les nombres plus petits que 8.
-    </ul>
-    Pour plus d'information, regardez l'aide sur les filtres."""
     css = """
     #menutop #t_column_test_filter { width: 4em ; }
     #menutop DIV.tabs #t_column_test_filter { width: 65% ; }
