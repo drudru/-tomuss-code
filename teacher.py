@@ -73,6 +73,7 @@ def create_all_ues_js(ues):
     os.system('gzip -9 <TMP/all_ues.js >all_ues.js.gz')
     os.rename('all_ues.js.gz',os.path.join('TMP','all_ues.js.gz'))
 
+all_ues_is_running = False
 
 def all_ues(compute=False):
     warn('start', what='debug')
@@ -108,8 +109,11 @@ def all_ues(compute=False):
     f.write('}\n')
     f.close()
 
-    if compute:
+    global all_ues_is_running
+    if compute and not all_ues_is_running:
+        all_ues_is_running = True
         create_all_ues_js(ues)
+        all_ues_is_running = False
 
     return ues
 

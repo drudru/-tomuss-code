@@ -21,12 +21,20 @@
 
 import plugin
 import utilities
-import PIL.Image
+try:
+    import PIL.Image
+    ok = True
+except ImportError:
+    utilities.warn("No Python module PIL")
+    ok = False
 import suivi_student
 
 def student_icone(server):
     """Generate an icon summarising the student information
     from all the tables."""
+    if not ok:
+        return
+    
     login = server.the_student
     
     prst = []

@@ -390,7 +390,7 @@ if __name__ == "__main__":
     import column
     for t in sorted(column.ColumnAttr.attrs):
         t = column.ColumnAttr.attrs[t]
-        f.write("s %s\n" %(t.name, t.visible_for()))
+        f.write("%s %s\n" %(t.name, t.visible_for()))
     f.close()
                 
 

@@ -134,6 +134,10 @@ Administrateur.
 Problèmes à résoudre.
 =====================
 
+* Photo déformées
+
+* La destruction d'une table ne la fait pas disparaître du suivi.
+
 * L'importation ne met pas à jour l'affichage ? Chrome ? Notes ?
 
 * Les nouvelles lignes apparaissent même si elles ne sont pas filtrées
@@ -147,6 +151,9 @@ Problèmes à résoudre.
 * httprequest ?
 
 * DEMO : commentaire numerique sur saisie d'ABJ sans commentaire !!!
+
+* La destruction de table quand elle est impossible la fait disparaître
+  de la page d'accueil
 
 * Ticket expiré : fait une redirection du client (impossible dans frame)
   le client ne peut pas reprendre le ticket et demande le redirige toujours.

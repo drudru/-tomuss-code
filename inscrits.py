@@ -286,7 +286,8 @@ class LDAP_Logic(object):
                  ]
             r[i] = r[i].lower() # login must be in lower case
             yield r
-        self.connexion.cancel(aa)
+        if self.connexion is not True:
+            self.connexion.cancel(aa)
 
     def query_logins(self, logins, attributes):
         logins = ''.join(['(%s=%s)' % (configuration.attr_login,
@@ -493,6 +494,11 @@ class LDAP(LDAP_Logic):
         self.time_last_mail = 0
 
     def connect(self):
+        if ( len(configuration.ldap_server) == 0
+             or configuration.ldap_server[0].endswith('.domain.org')):
+            # Fake LDAP server, do not use it
+            self.connexion = True
+            return
         while True:
             warn('Try connect to ' + configuration.ldap_server[self.server],
                  what="ldap")
@@ -537,6 +543,12 @@ class LDAP(LDAP_Logic):
         # warn('search=%s base=%s attr=%s' % (search, base, attributes) )
         if self.connexion == None:
             self.connect()
+        if self.connexion is True:
+            # Fake connexion
+            t = {}
+            for a in attributes:
+                t[a] = [a + '?']
+            return (('cn?',t),)
         while True:
             try:
                 start_time = time.time()

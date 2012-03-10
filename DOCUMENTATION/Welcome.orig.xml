@@ -692,6 +692,7 @@ It will create and update columns definitions.
       The URLs start by a ticket.
       If there is no ticket, the navigator is redirected to a service
       in order to get a ticket.
+      <em>If CAS is not used, then a random ticket number is generated.</em>
     </p>
     <p>
       The tickets are ``exchanged´´ between the TOMUSS processes
@@ -713,9 +714,13 @@ It will create and update columns definitions.
       'authentication.py' can be redefined by a local plugin
       in order to have the good code for the functions
       'ticket_login_name' and 'ticket_ask'.
+      <em>If CAS is not used, then these functions assume that
+	the authentication is done with Apache/.htaccess/.htpasswd
+	with the <tt>Basic</tt> authentication method
+	(the clear password is checked with <tt>su</tt>)</em>
     </p>
     <p>
-      Without redefinition, the URLs accept <tt>=username</tt>
+      In <tt>regtest</tt> mode, the URLs accept <tt>=username</tt>
       as a valid ticket for the user.
     </p>
 

@@ -1,5 +1,5 @@
 #    TOMUSS: The Online Multi User Simple Spreadsheet
-#    Copyright (C) 2008-2011 Thierry EXCOFFIER, Universite Claude Bernard
+#    Copyright (C) 2008-2012 Thierry EXCOFFIER, Universite Claude Bernard
 #
 #    This program is free software; you can redistribute it and/or modify
 #    it under the terms of the GNU General Public License as published by
@@ -38,9 +38,28 @@ def canonize(s):
 last_mail_sended = 0
 
 #REDEFINE
+# Return True if the user password is good
+def password_is_good(login, password):
+    import pexpect
+    p = pexpect.spawn('/bin/su -c "echo OK" %s' % utilities.safe(login))
+    p.expect(':')
+    p.sendline(password)
+    r = p.read()
+    p.close()
+    return 'OK' in r
+
+#REDEFINE
 # From the CAS ticket and the service required by client,
 # returns the login name of the user.
-def ticket_login_name(ticket_key, service):
+def ticket_login_name(ticket_key, service, server=None):
+    if not configuration.cas:
+        # Not CAS: assume Apache and .htaccess
+        auth = server.headers['authorization'].split(' ')[1].decode('base64')
+        login, password = auth.split(':', 1)
+        if password_is_good(login, password):
+            return login
+        else:
+            return False
 
     service = canonize(service)
     checkparams = "?service=" + service + "&ticket=" + ticket_key
@@ -82,10 +101,17 @@ def ticket_login_name(ticket_key, service):
 def ticket_ask(server, server_url, service):
     service = canonize(service)
     server.send_response(307)
-    server.send_header('Location',
-                       '%s/login?service=%s' % (
-                           configuration.cas,
-                           service))
+    if not configuration.cas:
+        # Assume you are using .htaccess and Apache
+        import random
+        server.send_header('Location', service + '?ticket='
+                           + str(random.randrange(1000000000000,
+                                                  10000000000000)) )
+    else:
+        server.send_header('Location',
+                           '%s/login?service=%s' % (
+                configuration.cas,
+                service))
     server.end_headers()
     return None, None
 
@@ -114,7 +140,7 @@ def get_path(server, server_url):
     if ticket_key != None:
         sender.send_live_status('<script>b("/CAS");</script>\n')
         s = time.time()
-        user_name = ticket_login_name(ticket_key, service)
+        user_name = ticket_login_name(ticket_key, service, server)
         s = time.time() - s
         sender.send_live_status(
             '<script>d("%s","/CAS","",%6.4f,"%6.4fs","","","");</script>\n' %
