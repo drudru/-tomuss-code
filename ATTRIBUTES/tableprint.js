@@ -1,7 +1,7 @@
 // -*- coding: utf-8 -*-
 /*
     TOMUSS: The Online Multi User Simple Spreadsheet
-    Copyright (C) 2008-2011 Thierry EXCOFFIER, Universite Claude Bernard
+    Copyright (C) 2008-2012 Thierry EXCOFFIER, Universite Claude Bernard
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -20,8 +20,7 @@
     Contact: Thierry.EXCOFFIER@bat710.univ-lyon1.fr
 */
 
-var free_print_headers = ['Présent', 'Signature copie rendue'] ;
-
+var free_print_headers ;
 var textual_table = '' ;
 
 function printable_display_page(lines, title, page_break)
@@ -73,24 +72,26 @@ function printable_display_page(lines, title, page_break)
   if ( do_emargement_header )
     {
       if ( tt.length )
-	v = ' dont <b>' + tt.length + ' tiers-temps</b>' ;
+	  v = ' ' + _("MSG_print_nr_tt_before") + ' <b>' + tt.length + ' '
+	      + _("MSG_print_nr_tt_after") + '</b>' ;
       else
-	v = ', pas de tiers-temps' ;
+	  v = _("B_print_no_tt") ;
       s.push(
 	     '<table width="100%" style="white-space: pre ;">'
 	     + '<tr style="vertical-align:top;"><td>'
-	     + '<p>Date/Heure/Durée de l\'examen :'
-	     + "<p>Surveillants :"
-	     + "<p>Salle : "
-	     + "<p>Nombre d'étudiants sur cette liste : <b>" + nr_lines + "</b>" + v
+	     + '<p>' + _("MSG_print_date")
+	     + "<p>" + _("MSG_print_supervisors")
+	     + "<p>" + _("MSG_print_room")
+	     + "<p>" + _("MSG_print_nr_students")
+	     + "<b>" + nr_lines + "</b>" + v
 	     + "</td>"
-	     + '<td><p>Nombre de présents :'
-	     + "<p>Nombre de signatures :"
-	     + "<p>Nombre de copies :"
+	     + '<td><p>' + _("MSG_print_nr_present")
+	     + "<p>" + _("MSG_print_nr_signature")
+	     + "<p>" + _("MSG_print_nr_paper")
 	     + "</td></tr></table>"
 	     ) ;
     }
-  if ( tierstemps != 'seulement' )
+  if ( tierstemps != _("B_print_only") )
     {
       var t = [], txt_line ;
       s.push('<table id="table_to_print" class="' + html_class + '"><thead>') ;
@@ -186,7 +187,7 @@ function printable_display_page(lines, title, page_break)
 		{
 		  html_class += ' number' ;
 		  v = tofixed(cell.value) ;
-		  if ( separator == 'la virgule' )
+		  if ( separator == _("B_print_comma") )
 		    v = v.replace('.', ',') ;
 		}
 	      else
@@ -208,7 +209,8 @@ function printable_display_page(lines, title, page_break)
       textual_table = t.join('\n') ;
     }
   if ( tierstemps != 'non' && tt.length )
-    s.push('<h2 style="page-break-before:always;">Tiers-temps</h2>' + tt.join('\n'));
+      s.push('<h2 style="page-break-before:always;">' + _("MSG_print_tt_title")
+	     + '</h2>' + tt.join('\n'));
 
   return s.join('\n') ;
 }
@@ -339,8 +341,8 @@ function print_choice_line(p, title, title_tip, choices, the_id)
 
 function popup_export_window(event)
 {
-  create_popup('textual_table', 'Copiez ceci dans votre tableur',
-	       'Pour cela tapez Ctrl-C ici, puis Ctrl-V dans le tableur',
+    create_popup('textual_table', _("MSG_print_popup_title"),
+		 _("MSG_print_popup_content"),
 	       '') ;
   popup_set_value(textual_table) ;
 }
@@ -348,6 +350,7 @@ function popup_export_window(event)
 
 function print_selection(object, emargement, replace)
 {
+  free_print_headers = [_("MSG_print_present"), _("MSG_print_given")] ;
   var p = [ printable_introduction() ] ;
   p.push('<script>') ;
   p.push('var do_printable_display = true ;') ;
@@ -358,6 +361,11 @@ function print_selection(object, emargement, replace)
   p.push('var tr_classname = "' + tr_classname + '";') ;
   p.push('var popup_on_red_line = ' + popup_on_red_line + ';') ;
   p.push('var ue = ' + js(ue) + ';') ;
+  var t = [] ;
+  for(var i in free_print_headers)
+      t.push(js(free_print_headers[i])) ;
+  p.push('var free_print_headers = [' + t.join(',') + '];') ;  
+	 
   p.push('var table_title = ' + js(table_attr["table_title"]) + ';') ;
   p.push('var display_tips = true ;') ;
   p.push('var columns = ' + columns_in_javascript() + ';') ;
@@ -371,26 +379,33 @@ function print_selection(object, emargement, replace)
   p.push('setInterval("printable_display()", 200);') ;
   p.push('}') ;
   p.push('</script>') ;
-  p.push('<p class="hidden_on_paper"><a href="javascript:do_emargement()">Je veux une feuille d\'émargement !</a>');
-  p.push('<p class="hidden_on_paper"><a href="javascript:do_page_per_group()">Je veux une feuille par groupe !</a>');
-  p.push('<p class="hidden_on_paper"><A href="javascript:popup_export_window()">Je veux exporter dans un tableur&nbsp;!</a>');
-  p.push('<p class="hidden_on_paper">Vous pouvez cacher des colonnes en cliquant sur le titre et les lignes en cliquant sur le numéro') ;
+  p.push('<p class="hidden_on_paper"><a href="javascript:do_emargement()">'
+	 + _("MSG_print_do_attendance_sheet") + '</a>');
+  p.push('<p class="hidden_on_paper"><a href="javascript:do_page_per_group()">'
+	 + _("MSG_print_do_one_sheet_per_group") + '</a>');
+  p.push('<p class="hidden_on_paper"><A href="javascript:popup_export_window()">'
+	 + _("MSG_print_do_spreadsheet_export") + '</a>');
+  p.push('<p class="hidden_on_paper">' + _("MSG_print_hide_title")) ;
   p.push('<table class="hidden_on_paper">') ;
-  print_choice_line(p, 'Affiche tiers-temps',
-		    'Si oui alors le détail sur les tiers-temps<br>'
-		    + 'est indiqué sur une feuille à part.',
-		    radio_buttons('tierstemps',['oui', 'non', 'seulement'], 'non')
+  print_choice_line(p, _("MSG_print_display_tt"),
+		    _("TIP_print_display_tt"),
+		    radio_buttons('tierstemps',
+				  [_("B_print_yes"),
+				   _("B_print_no"),
+				   _("B_print_only")],
+				  _("B_print_no"))
 		    ) ;
-  print_choice_line(p, 'Séparateur décimal',
-		    'Indiquez le séparateur décimal du tableur<br>'
-		    + ' dans lequel vous voulez copier le tableau',
-		    radio_buttons('separator',['la virgule', 'le point'],
-				  'la virgule')) ;
-  print_choice_line(p, 'Lignes uniformes',
-		    'Si les lignes sont toutes de même hauteur<br>'
-		    + ' alors le texte dans chaque cellule est<br>'
-		    + ' obligatoirement sur une seule ligne.',
-		    radio_buttons('uniform',['oui', 'non'], 'oui'));
+  print_choice_line(p, _("MSG_print_display_separator"),
+		    _("TIP_print_display_separator"),
+		    radio_buttons('separator',
+				  [_("B_print_comma"),
+				   _("B_print_dot")],
+				  _("B_print_comma"))) ;
+  print_choice_line(p, _("MSG_print_display_line"),
+		    _("TIP_print_display_line"),
+		    radio_buttons('uniform',[_("B_print_yes"),
+					     _("B_print_no")],
+				  _("B_print_yes")));
 
   var t = [], cols = column_list_all() ;
   for(var data_col in cols)
@@ -402,8 +417,8 @@ function print_selection(object, emargement, replace)
 			      'columns_to_display',
 			      html(columns[data_col].comment)));
     }
-  print_choice_line(p, 'Colonnes à afficher',
-		    'Choisissez les colonnes à afficher.',
+  print_choice_line(p, _("MSG_print_display_columns"),
+		    _("TIP_print_display_columns"),
 		    t.join(' '),
 		    'columns_to_display') ;
 
@@ -417,44 +432,32 @@ function print_selection(object, emargement, replace)
 			      'grouped_by',
 			      html(columns[data_col].comment)));
     }
-  print_choice_line(p, 'Paginer par',
-		    'Critère indiquant quand il faut changer de page lors de l\'impression.<br>On peut utiliser ceci pour faire une feuille d\'émargement par salle de TP ou enseignant.',
+  print_choice_line(p, _("MSG_print_display_paging"),
+		    _("TIP_print_display_paging"),
 		    t.join(' '),
 		    'grouped_by') ;
 
   t = [] ;
   for(var i in free_print_headers)
     t.push(hidden_txt('<input id="free' + i + '" style="width:15em" onkeypress="do_printable_display=true;">', 'Indiquez le titre de la colonne à ajouter')) ;
-  print_choice_line(p, 'Colonnes à ajouter',
-		    'Ceci vous permet d\'ajouter des colonnes vides<br>avec le titre de votre choix.',
+  print_choice_line(p, _("MSG_print_display_add_columns"),
+		    _("TIP_print_display_add_columns"),
 		    '<small>' + t.join(' '),
 		    'columns_to_display') ;
 
 		    
-  var attrs = [
-	       ['title', 'Titre'],
-	       ['type', 'Type'],
-	       ['red', 'Rouge'],
-	       ['green', 'Vert'],
-	       ['weight', 'Poids'],
-	       ['minmax', '[0;20]'],
-	       ['empty_is', 'ø'],
-	       ['comment', 'Commentaire'],
-	       ['columns', 'Colonnes utilisées'],
-	       ['enumeration', 'Énumération'],
-	       ['test_filter', 'Fitre comptage'],
-	       ['visibility_date', 'Date de visibilité']
-	       ] ;
+  var attrs = ['title','type','red','green','weight','minmax','empty_is','comment','columns','enumeration','test_filter','visibility_date'] ;
+  
   t = [] ;
   for(var attr in attrs)
     {
       attr = attrs[attr] ;
-      t.push(display_button("'"+attr[0]+"'", attr[1],
-			    attr[0] == 'title', 'headers_to_display',
-			    first_line_of_tip(attr[0]))) ;
+      t.push(display_button("'" + attr + "'", _('B_print_attr_' + attr),
+			    attr == 'title', 'headers_to_display',
+			    first_line_of_tip(attr))) ;
     }
-  print_choice_line(p, 'Entêtes à afficher',
-		    'Les informations que vous désirez afficher concernant les colonnes',
+  print_choice_line(p, _("MSG_print_display_headers"),
+		    _("TIP_print_display_headers"),
 		    t.join(' '),
 		    'headers_to_display') ;
 

@@ -2432,7 +2432,8 @@ function student_abjs(login)
         {
           if ( das[da][0] == ue )
 	    {
-	      s += '<p class="da">Dispense d\'assiduité pour l\'UE (à partir du ' + das[da][1] + ') <em>' + html(das[da][2]).replace(/\n/g,'<br>') + '</em></p>' ;
+	      s += '<p class="da">' + _("MSG_DA") + ' ' + das[da][1] + ' <em>'
+		+ html(das[da][2]).replace(/\n/g,'<br>') + '</em></p>' ;
 	      break ;
 	    }
         }

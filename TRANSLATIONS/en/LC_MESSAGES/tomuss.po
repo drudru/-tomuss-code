@@ -1038,6 +1038,10 @@ msgid "TH_length"
 msgstr "Length"
 
 #. GUI
+msgid "MSG_DA"
+msgstr "Assiduity exemption at UE, from the"
+
+#. GUI
 msgid "MSG_TT"
 msgstr "Currently with special examination condition (TT)"
 
@@ -1125,3 +1129,159 @@ msgstr " and "
 msgid "MSG_facebook_paging"
 msgstr "If there is a column containing a room name, "
        "select it to have a printer page per room."
+
+msgid "MSG_print_present"
+msgstr "Present"
+
+msgid "MSG_print_given"
+msgstr "Signature after work given"
+
+
+
+msgid "MSG_print_date"
+msgstr "Date/Hour/Duration of assesment:"
+
+msgid "MSG_print_supervisors"
+msgstr "Supervisors:"
+
+msgid "MSG_print_room"
+msgstr "Room:"
+
+msgid "MSG_print_nr_students"
+msgstr "Number of students in the list:"
+
+msgid "MSG_print_nr_tt_before"
+msgstr "with"
+
+msgid "MSG_print_nr_tt_after"
+msgstr "special examination condition"
+
+msgid "B_print_no_tt"
+msgstr ", no special examination condition"
+
+msgid "MSG_print_nr_present"
+msgstr "Number of present:"
+
+msgid "MSG_print_nr_signature"
+msgstr "Number of signatures:"
+
+msgid "MSG_print_nr_paper"
+msgstr "Number of sheets:"
+
+msgid "B_print_yes"
+msgstr "yes"
+
+msgid "B_print_no"
+msgstr "no"
+
+msgid "B_print_only"
+msgstr "only"
+
+msgid "B_print_comma"
+msgstr "the comma"
+
+msgid "B_print_dot"
+msgstr "the dot"
+
+msgid "MSG_print_tt_title"
+msgstr "Special assesment condition"
+
+msgid "MSG_print_popup_title"
+msgstr "Copy this in your spreadsheet"
+
+msgid "MSG_print_popup_content"
+msgstr "To do so, strike Ctrl-C here, and then Ctrl-V in the spreadsheet"
+
+msgid "MSG_print_do_attendance_sheet"
+msgstr "I want an attendance sheet!"
+
+msgid "MSG_print_do_one_sheet_per_group"
+msgstr "I want a sheet per student group!"
+
+msgid "MSG_print_do_spreadsheet_export"
+msgstr "I want to copy this in my spreadsheet!"
+
+msgid "MSG_print_hide_title"
+msgstr "You can hide columns by clicking on titles and lines by clicking on their number"
+
+msgid "MSG_print_display_tt"
+msgstr "Display special condition examination"
+
+msgid "TIP_print_display_tt"
+msgstr "If yes, display details about special examination condition<br>"
+       "on a separate sheet."
+
+msgid "MSG_print_display_separator"
+msgstr "Decimal separator"
+
+msgid "TIP_print_display_separator"
+msgstr "Indication the decimal separator to display"
+
+msgid "MSG_print_display_line"
+msgstr "Uniform line height"
+
+msgid "TIP_print_display_line"
+msgstr "If the line have all the same height<br>"
+       "then the text in each cell if on the same line."
+
+msgid "MSG_print_display_columns"
+msgstr "Columns to display"
+
+msgid "TIP_print_display_columns"
+msgstr "Choose the columns you want to display."
+
+msgid "MSG_print_display_paging"
+msgstr "One sheet per"
+
+msgid "TIP_print_display_paging"
+msgstr "There will be a new sheet on printer for each<br>"
+       "different value of the selected columns.<br>"
+       "It can be use to have one attendance sheet per teacher or room."
+
+msgid "MSG_print_display_add_columns"
+msgstr "Columns to add"
+
+msgid "TIP_print_display_add_columns"
+msgstr "Use this to add empty columns with the title of your choice."
+
+msgid "B_print_attr_title"
+msgstr "Title"
+
+msgid "B_print_attr_type"
+msgstr "Type"
+
+msgid "B_print_attr_red"
+msgstr "Red"
+
+msgid "B_print_attr_green"
+msgstr "Green"
+
+msgid "B_print_attr_weight"
+msgstr "Weight"
+
+msgid "B_print_attr_minmax"
+msgstr "[0;20]"
+
+msgid "B_print_attr_empty_is"
+msgstr "ø"
+
+msgid "B_print_attr_comment"
+msgstr "Comment"
+
+msgid "B_print_attr_columns"
+msgstr "Used columns"
+
+msgid "B_print_attr_enumeration"
+msgstr "Enumeration"
+
+msgid "B_print_attr_test_filter"
+msgstr "Counting filter"
+
+msgid "B_print_attr_visibility_date"
+msgstr "Visibility date"
+
+msgid "MSG_print_display_headers"
+msgstr "Headers to display"
+
+msgid "TIP_print_display_headers"
+msgstr "Informations you want to display about columns"

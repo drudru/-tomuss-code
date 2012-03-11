@@ -1030,6 +1030,10 @@ msgid "TH_length"
 msgstr "Durée"
 
 #. GUI
+msgid "MSG_DA"
+msgstr "Dispense d'assiduité pour l'UE, à partir du"
+
+#. GUI
 msgid "MSG_TT"
 msgstr "Actuellement avec un tiers temps"
 
@@ -1120,3 +1124,160 @@ msgstr " et "
 msgid "MSG_facebook_paging"
 msgstr "Si vous avez une colonne indiquant un nom de salle, "
        "vous pouvez la sélectionner pour avoir une feuille par salle : "
+
+msgid "MSG_print_present"
+msgstr "Présent"
+
+msgid "MSG_print_given"
+msgstr "Signature copie rendue"
+
+msgid "MSG_print_date"
+msgstr "Date/Heure/Durée de l'examen :"
+
+msgid "MSG_print_supervisors"
+msgstr "Surveillants :"
+
+msgid "MSG_print_room"
+msgstr "Salle :"
+
+msgid "MSG_print_nr_students"
+msgstr "Nombre d'étudiants sur cette liste :"
+
+msgid "MSG_print_nr_tt_before"
+msgstr "dont"
+
+msgid "MSG_print_nr_tt_after"
+msgstr "tiers-temps"
+
+msgid "B_print_no_tt"
+msgstr ", pas de tiers-temps"
+
+msgid "MSG_print_nr_present"
+msgstr "Nombre de présents :"
+
+msgid "MSG_print_nr_signature"
+msgstr "Nombre de signatures :"
+
+msgid "MSG_print_nr_paper"
+msgstr "Nombre de copies :"
+
+msgid "B_print_yes"
+msgstr "oui"
+
+msgid "B_print_no"
+msgstr "non"
+
+msgid "B_print_only"
+msgstr "seulement"
+
+msgid "B_print_comma"
+msgstr "la virgule"
+
+msgid "B_print_dot"
+msgstr "le point"
+
+msgid "MSG_print_tt_title"
+msgstr "Tiers-temps"
+
+msgid "MSG_print_popup_title"
+msgstr "Copiez ceci dans votre tableur"
+
+msgid "MSG_print_popup_content"
+msgstr "Pour cela tapez Ctrl-C ici, puis Ctrl-V dans le tableur"
+
+msgid "MSG_print_do_attendance_sheet"
+msgstr "Je veux une feuille d'émargement&nbsp;!"
+
+msgid "MSG_print_do_one_sheet_per_group"
+msgstr "Je veux une feuille par groupe&nbsp;!"
+
+msgid "MSG_print_do_spreadsheet_export"
+msgstr "Je veux exporter dans un tableur&nbsp;!"
+
+msgid "MSG_print_hide_title"
+msgstr "Vous pouvez cacher des colonnes en cliquant sur le titre et les lignes en cliquant sur le numéro"
+
+msgid "MSG_print_display_tt"
+msgstr "Affiche tiers-temps"
+
+msgid "TIP_print_display_tt"
+msgstr "Si oui alors le détail sur les tiers-temps<br>"
+       "est indiqué sur une feuille à part."
+
+msgid "MSG_print_display_separator"
+msgstr "Séparateur décimal"
+
+msgid "TIP_print_display_separator"
+msgstr "Indiquez le séparateur décimal du tableur<br>"
+       "dans lequel vous voulez copier le tableau"
+
+msgid "MSG_print_display_line"
+msgstr "Lignes uniformes"
+
+msgid "TIP_print_display_line"
+msgstr "Si les lignes sont toutes de même hauteur<br>"
+       "alors le texte dans chaque cellule est<br>"
+       "obligatoirement sur une seule ligne."
+
+msgid "MSG_print_display_columns"
+msgstr "Colonnes à afficher"
+
+msgid "TIP_print_display_columns"
+msgstr "Choisissez les colonnes à afficher."
+
+msgid "MSG_print_display_paging"
+msgstr "Paginer par"
+
+msgid "TIP_print_display_paging"
+msgstr "Critère indiquant quand il faut changer de page lors de l'impression.<br>"
+       "On peut utiliser ceci pour faire une feuille d'émargement<br>"
+       "par salle de TP ou enseignant."
+
+msgid "MSG_print_display_add_columns"
+msgstr "Colonnes à ajouter"
+
+msgid "TIP_print_display_add_columns"
+msgstr "Ceci vous permet d'ajouter des colonnes vides<br>"
+       "avec le titre de votre choix."
+
+msgid "B_print_attr_title"
+msgstr "Titre"
+
+msgid "B_print_attr_type"
+msgstr "Type"
+
+msgid "B_print_attr_red"
+msgstr "Rouge"
+
+msgid "B_print_attr_green"
+msgstr "Vert"
+
+msgid "B_print_attr_weight"
+msgstr "Poids"
+
+msgid "B_print_attr_minmax"
+msgstr "[0;20]"
+
+msgid "B_print_attr_empty_is"
+msgstr "ø"
+
+msgid "B_print_attr_comment"
+msgstr "Commentaire"
+
+msgid "B_print_attr_columns"
+msgstr "Colonnes utilisées"
+
+msgid "B_print_attr_enumeration"
+msgstr "Énumération"
+
+msgid "B_print_attr_test_filter"
+msgstr "Fitre comptage"
+
+msgid "B_print_attr_visibility_date"
+msgstr "Date de visibilité"
+
+msgid "MSG_print_display_headers"
+msgstr "Entêtes à afficher"
+
+msgid "TIP_print_display_headers"
+msgstr "Les informations que vous désirez afficher concernant les colonnes"
