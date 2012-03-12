@@ -453,7 +453,8 @@ def title(name, sort_fct):
             sort_fct +
             ')">Trier</a>)</span>')
 
-def alpha_html(browser, year, semester, ue_name_endswith=None, author=None):
+def alpha_html(browser, year, semester, ue_name_endswith=None,
+               ue_name_startswith=None, author=None):
     """Returns ABJ/DA information for all the students in HTML format"""
     aabjs = get_abjs(year, semester)
     browser.write('''<html>
@@ -477,10 +478,17 @@ def alpha_html(browser, year, semester, ue_name_endswith=None, author=None):
 
         if ue_name_endswith:
             for ue_code in inscrits.L_batch.ues_of_a_student_short(student.login):
-                if ue_code[-1] == ue_name_endswith:
+                if ue_code.endswith(ue_name_endswith):
                     break
             else:
                 # No UE ended by the required character
+                continue
+        if ue_name_startswith:
+            for ue_code in inscrits.L_batch.ues_of_a_student_short(student.login):
+                if ue_code.startswith(ue_name_startswith):
+                    break
+            else:
+                # No UE start by the required character
                 continue
 
         fn, sn = inscrits.L_slow.firstname_and_surname(student.login)

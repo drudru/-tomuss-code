@@ -119,6 +119,12 @@ def abj_alpha_master(server):
     for all the students"""
     abj.alpha_html(server.the_file, server.the_year, server.the_semester,
                    ue_name_endswith='M')
+
+def abj_alpha_epu(server):
+    """Send a CSV file containing all the ABJ and DA information
+    for all the students"""
+    abj.alpha_html(server.the_file, server.the_year, server.the_semester,
+                   ue_name_startswith='UE-EI')
     
 def abj_alpha_author(server):
     """Send a CSV file containing all the ABJ and DA information
@@ -228,6 +234,21 @@ plugin.Plugin('abjalphamaster', '/{Y}/{S}/abj/alpha_master.xls',
               link=plugin.Link(
                   text='Récapitulatif ABJ+DA des masters',
                   url="javascript:go('abj/alpha_master.xls')",
+                  help="""Liste les justificatifs d'absence ainsi que les
+                  dispenses d'assiduité qui ont été saisies pour tous
+                  les étudiants de master.""",
+                  where='abj_master',
+                  html_class="verysafe",
+                  ),
+              priority = -3,
+              )
+
+plugin.Plugin('abjalphaepu', '/{Y}/{S}/abj/alpha_epu.xls',
+              function=abj_alpha_epu, abj_master=True,
+              launch_thread = True,
+              link=plugin.Link(
+                  text='Récapitulatif ABJ+DA de l\'EPU',
+                  url="javascript:go('abj/alpha_epu.xls')",
                   help="""Liste les justificatifs d'absence ainsi que les
                   dispenses d'assiduité qui ont été saisies pour tous
                   les étudiants de master.""",
