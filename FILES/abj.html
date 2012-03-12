@@ -5,6 +5,7 @@
     <script src="_URL_/utilities.js"></script>
     <script src="_URL_/types.js"></script>    
     <script src="_URL_/lib.js"></script>
+    <script src="_URL_/middle.js"></script>
     <script src="_URL_/abj.js"></script>
     <link REL="icon" HREF="_URL_/favicon.ico">
     <link rel="stylesheet" href="_URL_/style.css" type="text/css">
@@ -44,7 +45,7 @@
     <td width="10%" style="white-space:nowrap;text-align:right">
     Indiquer un commentaire avant de créer l'ABJ ou la DA :
     <td width="80%">
-    <script>var display_tips = true ; hidden('<input id="abjcomment">',
+    <script>var display_tips = true ; hidden('<input id="abjcomment" onclick="abj_comment_list()">',
       'Ce commentaire est visible par les enseignants et étudiants')</script><br>
     </tr><tr><td style="text-align:right">
     Choisir la date de début pour la dispense d'assiduité :

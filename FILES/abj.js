@@ -521,3 +521,33 @@ function append_html(s)
 {
   student_display.innerHTML += s ;
 }
+
+function abj_choose_comment(event)
+{
+    event = the_event(event) ;
+    var a = event.target ;
+    comment.value = a.textContent ;
+    popup_close() ;
+    comment.focus() ;
+}
+    
+function abj_comment_list()
+{
+    function c(t)
+    {
+	return ' <a onclick="abj_choose_comment(event)">' + t + '</a> ' ;
+    }
+    
+    create_popup('abj_comments',
+		 "Cliquez sur la cause de l'absence justifiée",
+		 c('Certificat médical') + '/' + c('Hospitalisation') + '<br>' +
+		 c('Grève TCL') + '/' + c('Grève SNCF') + '<br>' +
+		 c('Convocation administrative officielle') + '/' +
+		 c('Convocation JCD (JAPD)') + '<br>' +
+		 c('Permis de conduire') + '/' +
+		 c('Convocation concours') + '<br>' +
+		 c('Compétition sportif haut niveau') + '/' +
+		 c('Décès d’un proche')
+		 ,"<br>Ou bien saisissez un commentaire personnalisé.",
+		 false) ;
+}

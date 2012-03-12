@@ -61,6 +61,10 @@ SPAN.arrow {
 BODY#BODY P, BODY#BODY H1 { margin: 0px ; }
 
 P.wait { background-color: #8F8 ; }
+
+.abj_comments { border: 3px solid black; line-height: 1.5em }
+.abj_comments A { border: 1px solid black ; }
+
 """
 
 class Page(object):
