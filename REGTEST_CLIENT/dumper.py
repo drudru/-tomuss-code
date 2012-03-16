@@ -25,6 +25,8 @@ class Rects:
     def filter(self, x_min=None, x_max=None, y_min=None, y_max=None,
                text=None, x_left_max=None, uniq=False, sentence=None):
         t = []
+        if isinstance(text, str):
+            text = (text,)
         for r in self.rects:
             if x_min != None and r[0] < x_min:
                 continue
@@ -36,7 +38,7 @@ class Rects:
                 continue
             if y_max != None and r[1] + r[3] > y_max:
                 continue
-            if text != None and r[4] != text:
+            if text and r[4] not in text:
                 continue
             if sentence != None:
                 if r[4] not in sentence:
@@ -85,6 +87,7 @@ class Display:
             self.last_dump = ''
             self.title = title
             self.start_dumper()
+            print 'Dumper created'
             return
         
         while True:
@@ -120,10 +123,12 @@ class Display:
     def start_dumper(self):
         print 'Start dumper'
         self.dumper = subprocess.Popen(
-                ('./dumper', ':%d' % self.port),
+                ('./dumper', '127.0.0.1:%d' % self.port),
                 stdin = subprocess.PIPE,
                 stdout = subprocess.PIPE,
                 )
+        self.dump()
+        self.dump()
         self.diff()
 
     def run(self, command, return_stdout=False, background=False, wait=False):
@@ -169,7 +174,7 @@ class Display:
         self.dumper.stdin.write('analyse\n')
         self.dumper.stdin.flush()
         line = self.dumper.stdout.readline()
-        if True:
+        if False:
             f = open('xxx.analyses', 'a')
             f.write(line)
             f.close()

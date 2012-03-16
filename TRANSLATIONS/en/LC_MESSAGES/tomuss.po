@@ -1285,3 +1285,82 @@ msgstr "Headers to display"
 
 msgid "TIP_print_display_headers"
 msgstr "Informations you want to display about columns"
+
+
+
+
+msgid "MSG_mail_quick_link"
+msgstr "(Quick link)"
+
+msgid "TIP_mail_quick_link"
+msgstr "Follow the link to launch your mailer."
+
+msgid "ALERT_mail_none"
+msgstr "Sorry, your browser had not yet received the mail addresses.\n"
+       "Retry in a few seconds."
+
+msgid "MSG_mail_students"
+msgstr "Students"
+
+msgid "MSG_mail_teachers"
+msgstr "Teachers"
+
+msgid "MSG_mail_unknow"
+msgstr "unknowns mail adresses"
+
+msgid "TITLE_mail_popup"
+msgstr "Mail managing of filtered lines"
+
+msgid "MSG_mail_popup"
+msgstr "<ul>"
+       "<li> <b>Click on one mail</b> to select all.\n"
+       "<li> Then <b>Ctrl-C</b> to copy.\n"
+       "<li> Then <b>Ctrl-V</b> in your mailer list of <b>Bcc</b>\n"
+       "     (Blind Copy Carbon)\n"
+       "     to keep secret the mail addresses.\n"
+       "</ul>\n"
+       "In case of problem, use the\n"
+       "<a href=\"javascript:mail_separator=';';mail_window()\">semicolon</a>\n"
+       "or the <a href=\"javascript:mail_separator=',';mail_window()\">coma</a>\n"
+       "as separator."
+
+msgid "MSG_mail_massmail"
+msgstr "TOMUSS can do <a href=\"javascript:personal_mailing()\">\n"
+       "mass mailing</a> in your place.<br>\n"
+       "This allow to send messages with customized informations\n"
+       "extracted from the table content."
+
+msgid "MSG_mail_massmail_title"
+msgstr "Send a customized mail to filtered students"
+
+msgid "MSG_mail_massmail_text"
+msgstr "The bracketed column titles are replaced by the good cell value.\n"
+       "You can use any column.\n"
+       "<p>&nbsp;<br>Message subject: "
+
+msgid "MSG_mail_massmail_subject"
+msgstr " : Information for [Prénom] [Nom]"
+
+msgid "MSG_mail_massmail_your_message"
+msgstr "Your message:"
+
+msgid "MSG_mail_massmail_to_send"
+msgstr "To send, click on:\n"
+       "<BUTTON OnClick=\"personal_mailing_do();\">Send the "
+
+msgid "MSG_mail_massmail_to_send_2"
+msgstr " messages</BUTTON>."
+
+msgid "MSG_mail_massmail_message"
+msgstr "Hello [Prénom] [Nom].\n\n"
+       "Your groupe is [Grp] and your sequence is [Seq]\n\n"
+       "Good bye."
+
+msgid "ALERT_mail_unknown_column"
+msgstr "Unknown column: "
+
+msgid "MSG_mail_archive"
+msgstr "[FOR_ARCHIVAGE]"
+
+msgid "MSG_mail_massmail_feedback"
+msgstr "Mass Mailing"

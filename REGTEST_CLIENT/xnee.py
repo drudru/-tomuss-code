@@ -50,10 +50,10 @@ class Xnee:
         print 'run xnee'
         self.process = subprocess.Popen([xnee,
                                          '--display',
-                                         ':%d' % port,
+                                         '127.0.0.1:%d' % port,
                                          '--replay'] + o,
                                         stdin = subprocess.PIPE,
-                                        env = { 'DISPLAY': ':%d' % port },
+         # env = { 'DISPLAY': '127.0.0.1:%d' % port },
                                         )
         self.counter = 1000
         self.x = 501
@@ -61,8 +61,8 @@ class Xnee:
 
         if xnee == 'xnee':
             self.key('a') # To turn around an old xnee bug (unbutu 6.10)
-        
-        print 'xnee is running'
+
+        print xnee, 'is running'
 
         # self.file.write("# Xnee version:           1.08\n")
         # os.system('export DISPLAY=:%d ; xmodmap -pk ; xmodmap -pm' % port)
@@ -73,7 +73,7 @@ class Xnee:
         self.process.stdin.flush()
         self.counter += 10
 
-    def goto(self, x, y):        
+    def goto(self, x, y):
         self.x = x
         self.y = y
         self.send("0,6,%d,%d,0,0" %(x+5,y+5))

@@ -1,7 +1,7 @@
 // -*- coding: utf-8 -*-
 /*
     TOMUSS: The Online Multi User Simple Spreadsheet
-    Copyright (C) 2008-2011 Thierry EXCOFFIER, Universite Claude Bernard
+    Copyright (C) 2008-2012 Thierry EXCOFFIER, Universite Claude Bernard
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -88,9 +88,8 @@ function mail_quick_link(mails, link)
 {
     return hidden_txt('<a href="javascript: window.location=\'mailto:?bcc=' +
 		      mails.replace(RegExp("'","g"),"\\'")
-		      + '\'">' + link + ' (Lien rapide)</a>',
-		      'Suivez le lien pour directement lancer ' +
-		      'votre logiciel de messagerie.') ;
+		      + '\'">' + link +' ' + _("MSG_mail_quick_link") + '</a>',
+			_("TIP_mail_quick_link")) ;
 }
 
 function mail_window()
@@ -101,17 +100,17 @@ function mail_window()
 
   if ( the_student_mails.search('@') == -1 )
     {
-      alert("Désolé, votre navigateur n'a pas encore reçu les adresses mails.\nRéessayez dans quelques secondes.") ;
-      return ;
+	alert(_("ALERT_mail_none")) ;
+        return ;
     }
 
-  var link_students = nr_student_mails + ' Étudiants' ;
+  var link_students = nr_student_mails + ' ' + _("MSG_mail_students") ;
   if ( mailto_url_usable(the_student_mails) )
       link_students = mail_quick_link(the_student_mails, link_students) ;
   
   var the_author_mails = authors_mails(missing) ;
   var nr_author_mails = the_author_mails.split(',').length - 1 ;
-  var link_authors = nr_author_mails + ' Enseignants' ;
+  var link_authors = nr_author_mails + ' ' + _("MSG_mail_teachers") ;
   if ( mailto_url_usable(the_author_mails) )
       link_authors =mail_quick_link(the_author_mails, link_authors) ;
 
@@ -119,7 +118,7 @@ function mail_window()
   if ( missing.length )
     {
 	missing_text = '<p class="unknown_mails">' + missing.length
-	  + ' adresses mail inconnues' ;
+	  + ' ' + _("MSG_mail_unknow") ;
        if ( missing.length > 20 )
 	 missing_text += '.' ;
        else
@@ -130,14 +129,8 @@ function mail_window()
     missing_text = '' ;
 
   create_popup('mails_div',
-	       'Gestion des mails (des étudiants filtrés) ',
-	       '<ul>' +
-	       '<li> <b>Cliquez sur une adresse</b> pour toutes les sélectionner.' +
-	       '<li> Puis faites <b>Ctrl-C</b> pour les copier' +
-	       '<li> Puis faites <b>Ctrl-V</b> dans la liste des destinataires en <b>Copie Carbone Invisible (CCI ou BCC)</b> si vous ne voulez pas que les étudiants connaissent les autres destinataires.' +
-	       '</ul>' +
-	       'En cas de problème, utilisez le <a href="javascript:mail_separator=\';\';mail_window()">point-virgule</a> ou la <a href="javascript:mail_separator=\',\';mail_window()">virgule</a>  comme séparateur.' +
-	       '<table class="colored"><tr>' +
+	       _("TITLE_mail_popup"),
+	       _("MSG_mail_popup") + '<table class="colored"><tr>' +
 	       '<th>' + link_students +
 	       '<th>' + link_authors +
 	       '</tr><tr><td>' +
@@ -146,7 +139,7 @@ function mail_window()
 	       mail_div_box(the_author_mails) +
 	       '</td></tr></table>' + missing_text
 	       ,
-	       'TOMUSS peut faire du <a href="javascript:personal_mailing()">publi-postage</a> en envoyant les mails pour vous.<br>Ceci permet d\'envoyer des informations personnalisées aux étudiants en fonction du contenu de la table.') ;
+		_("MSG_mail_massmail"));
 }
 
 function personal_mailing()
@@ -157,10 +150,15 @@ function personal_mailing()
      nb++ ;
 
    create_popup('personal_mailing_div',
-		'Envoyer un mail personnalisé aux étudiants filtrés',
-		'<p style="background-color:#F00;color:#FFF">N\'ENVOYEZ PAS DE NOTES PAR MAIL AUX ÉTUDIANTS.</p>Les titres de colonne entre crochets sont remplacés par la valeur de la case correspondant à l\'étudiant pour cette colonne. Vous pouvez utiliser toutes les colonnes existantes.<p>&nbsp;<br>Sujet du message : <input id="personal_mailing" style="width:100%" value="' + ue + ' ' + table_attr.table_title + ' : Info pour [Prénom] [Nom]"><br>Votre message&nbsp;:',
-		'Pour envoyer, cliquez sur : <BUTTON OnClick="personal_mailing_do();">Envoyer les ' + nb + ' messages</BUTTON>.',
-		'Bonjour [Prénom] [Nom].\n\nVotre groupe est [Grp] et votre séquence [Seq]\n\nAu revoir.'
+		_("MSG_mail_massmail_title"),
+		_("MSG_mail_massmail_text")
+		+ '<input id="personal_mailing" style="width:100%" value="'
+		+ ue + ' ' + table_attr.table_title
+		+ _("MSG_mail_massmail_subject")
+		+ '"><br>' + _("MSG_mail_massmail_your_message"),
+		_("MSG_mail_massmail_to_send") + nb
+		+ _("MSG_mail_massmail_to_send_2"),
+		_("MSG_mail_massmail_message")
 		) ;
 }
 
@@ -182,7 +180,7 @@ function personal_mailing_parse_line(text, column_used, column_data_col)
       data_col = column_title_to_data_col(col_name) ;
       if ( data_col == undefined )
 	{
-	  alert("La colonne «" + col_name + "» n'existe pas.");
+	    alert(_("ALERT_mail_unknown_column") + col_name) ;
 	  return ;
 	}
       column_used[col_name] = personal_mailing_do.nr_items++ ;
@@ -249,7 +247,8 @@ function personal_mailing_do()
 	  url_content = '' ;
 	}
     }
-  var self_mail = '<iframe src="_URL_/=' + ticket + '/send_mail/[POUR_ARCHIVAGE]%20'
+  var self_mail = '<iframe src="_URL_/=' + ticket + '/send_mail/' +
+      _("MSG_mail_archive") + '%20'
     + subject + '/' + encode_uri(message) + '/' + encode_uri(my_identity) ;
   for(var col_name in column_used)
      self_mail += '/' + encode_uri('['+col_name+']') ;
@@ -257,7 +256,7 @@ function personal_mailing_do()
   feedback_content += self_mail ;
   
 
- create_popup('personal_mailing_fb', 'Publipostage', feedback_content, '',
-	      false) ;
+  create_popup('personal_mailing_fb', _("MSG_mail_massmail_feedback"),
+	       feedback_content, '', false) ;
 }
 

@@ -1281,3 +1281,84 @@ msgstr "Entêtes à afficher"
 
 msgid "TIP_print_display_headers"
 msgstr "Les informations que vous désirez afficher concernant les colonnes"
+
+
+msgid "MSG_mail_quick_link"
+msgstr "(Lien rapide)"
+
+msgid "TIP_mail_quick_link"
+msgstr "Suivez le lien pour directement lancer votre logiciel de messagerie."
+
+msgid "ALERT_mail_none"
+msgstr "Désolé, votre navigateur n'a pas encore reçu les adresses mails.\n"
+       "Réessayez dans quelques secondes."
+
+msgid "MSG_mail_students"
+msgstr "Étudiants"
+
+msgid "MSG_mail_teachers"
+msgstr "Enseignants"
+
+msgid "MSG_mail_unknow"
+msgstr "adresses mail inconnues"
+
+msgid "TITLE_mail_popup"
+msgstr "Gestion des mails (des étudiants filtrés)"
+
+msgid "MSG_mail_popup"
+msgstr "<ul>"
+       "<li> <b>Cliquez sur une adresse</b> pour toutes les sélectionner.\n"
+       "<li> Puis faites <b>Ctrl-C</b> pour les copier.\n"
+       "<li> Puis faites <b>Ctrl-V</b> dans la liste des destinataires\n"
+       "     en <b>Copie Carbone Invisible (CCI ou BCC)</b>\n"
+       "si vous ne voulez pas que les étudiants connaissent\n"
+       "les autres destinataires.\n"
+       "</ul>\n"
+       "En cas de problème, utilisez le\n"
+       "<a href=\"javascript:mail_separator=';';mail_window()\">point-virgule</a>\n"
+       "ou la <a href=\"javascript:mail_separator=',';mail_window()\">virgule</a>\n"
+       "comme séparateur."
+
+msgid "MSG_mail_massmail"
+msgstr "TOMUSS peut faire du <a href=\"javascript:personal_mailing()\">\n"
+       "publi-postage</a> en envoyant les mails pour vous.<br>\n"
+       "Ceci permet d'envoyer des informations personnalisées\n"
+       "aux étudiants en fonction du contenu de la table."
+
+msgid "MSG_mail_massmail_title"
+msgstr "Envoyer un mail personnalisé aux étudiants filtrés"
+
+msgid "MSG_mail_massmail_text"
+msgstr "<p style=\"background-color:#F00;color:#FFF\">\n"
+       "N'ENVOYEZ PAS DE NOTES PAR MAIL AUX ÉTUDIANTS.</p>\n"
+       "Les titres de colonne entre crochets sont remplacés par la valeur\n"
+       "de la case correspondant à l'étudiant pour cette colonne.\n"
+       "Vous pouvez utiliser toutes les colonnes existantes.\n"
+       "<p>&nbsp;<br>Sujet du message : "
+
+msgid "MSG_mail_massmail_subject"
+msgstr " : Info pour [Prénom] [Nom]"
+
+msgid "MSG_mail_massmail_your_message"
+msgstr "Votre message&nbsp;:"
+
+msgid "MSG_mail_massmail_to_send"
+msgstr "Pour envoyer, cliquez sur : \n"
+       "<BUTTON OnClick=\"personal_mailing_do();\">Envoyer les "
+
+msgid "MSG_mail_massmail_to_send_2"
+msgstr " messages</BUTTON>."
+
+msgid "MSG_mail_massmail_message"
+msgstr "Bonjour [Prénom] [Nom].\n\n"
+       "Votre groupe est [Grp] et votre séquence [Seq]\n\n"
+       "Au revoir."
+
+msgid "ALERT_mail_unknown_column"
+msgstr "Cette colonne n'existe pas : "
+
+msgid "MSG_mail_archive"
+msgstr "[POUR_ARCHIVAGE]"
+
+msgid "MSG_mail_massmail_feedback"
+msgstr "Publipostage"

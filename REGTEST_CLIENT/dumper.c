@@ -219,9 +219,9 @@ Image *get_image(Image *old)
   for(y=0; y<image->height; y++)
     for(x=0; x<image->width; x++)
       {
-	image->image[y][x][0] = p[2] ;
+	image->image[y][x][0] = p[0] ;
 	image->image[y][x][1] = p[1] ;
-	image->image[y][x][2] = p[0] ;
+	image->image[y][x][2] = p[2] ;
 	p += 4 ;
       }
 
@@ -342,6 +342,27 @@ int merge(Rect *rect, int nr_rect, int *to_concat, int *line_start, int y)
   return nr_rect ;
 }
 
+int get_index2(Pixel p)
+{
+  return ((unsigned int)p[0] >> 5)
+    | 2*((unsigned int)p[1] >> 5)
+    | 4*((unsigned int)p[2] >> 5) ;
+}
+
+int image_hash(Image *image, int x, int y)
+{
+  return get_index(image->image[x][y])
+       ^ get_index(image->image[x+1][y+1])/7
+       ^ get_index(image->image[x+2][y+0])/3
+       ^ get_index(image->image[x+0][y+2])/5
+       ^ get_index(image->image[x+2][y+2])/4 ;
+
+  return get_index(image->image[x][y])
+       ^ get_index(image->image[x+1][y+1])/2
+       ^ get_index(image->image[x+2][y+2])/4 ;
+}
+
+
 Rect* ocr(Image *stack)
 {
   static Rect rect[10000] = {{0}} ;
@@ -362,7 +383,7 @@ Rect* ocr(Image *stack)
 	  found_one = 0 ;
 	  next_x = x + 1 ;
 
-	  index = get_index(stack->image[y][x]) ^ get_index(stack->image[y+1][x+1])/2 ^ get_index(stack->image[y+2][x+2])/4  ;
+	  index = image_hash(stack, y, x) ;
 	  
 	  for(needle = chars[index]; needle; needle = needle->next)
 	    {
@@ -414,7 +435,7 @@ int filter(const struct dirent *f)
 Image* read_chars()
 {
   struct dirent **namelist ;
-  int i, n, index ;
+  int i, n, index, m, j ;
   char name[999] ;
   Image *image, *first ;
   
@@ -428,7 +449,7 @@ Image* read_chars()
       image->charname = namelist[i]->d_name ;
       image->charname[strlen(image->charname)-4] = '\0' ;
 
-      index = get_index(image->image[0][0]) ^ get_index(image->image[1][1])/2 ^ get_index(image->image[2][2])/4 ;
+      index = image_hash(image, 0, 0) ;
 
       if ( chars[index] )
 	  image->next = chars[index] ;
@@ -437,6 +458,27 @@ Image* read_chars()
       image->all = first ;
       first = image ;
     }
+
+  if ( 1 )
+    {
+      m = 0 ;
+      j = 0 ;
+      for(i=0; i<256*256*256; i++)
+	if ( chars[i] )
+	  {
+	    n = 0;
+	    image = chars[i] ;
+	    while(image)
+	      {
+		n++ ;
+		image = image->next ;
+	      }
+	    m += n ;
+	    j++ ;
+	    fprintf(stderr, " %d", n) ;
+	  }
+      fprintf(stderr, " Hash buckets average = %g\n", m/(float)j) ;
+    }  
   return first ;
 }
 
@@ -470,6 +512,7 @@ int main(int argc, char **argv)
       if ( fgets(command, sizeof(command), stdin) != command )
 	break ;
       command[strlen(command)-1] = '\0' ;
+      // fprintf(stderr, "DUMPER: %s\n", command) ;
       parameter = command + strcspn(command, " ") + 1 ;
       if ( parameter[-1] == '\0' )
 	parameter = NULL ;

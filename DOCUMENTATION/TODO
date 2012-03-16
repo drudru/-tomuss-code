@@ -132,7 +132,16 @@ Administrateur.
 Problèmes à résoudre.
 =====================
 
+* Formules ==> Colonnes
+
+* UE Master : pas non modifiable le semestre d'avant
+
+* https://tomuss.univ-lyon1.fr/bilan/p0410074
+
 * La destruction d'une table ne la fait pas disparaître du suivi.
+
+* On charge une UE INEXISTANTE d'une vieux semestre, si on la rend modifiable,
+  il ne faut pas écrire le contenu du fichier à partir du milieu.
 
 * L'importation ne met pas à jour l'affichage ? Chrome ? Notes ?
 

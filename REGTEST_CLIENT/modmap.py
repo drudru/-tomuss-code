@@ -31,6 +31,7 @@ def init(port):
     keys['-'] = keys['minus']
     keys['*'] = keys['asterisk']
     keys['_'] = keys['underscore']
+    keys['+'] = keys['plus']
 
     # for k in list(keys):
     #    keys[k.lower()] = keys[k]
