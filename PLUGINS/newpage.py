@@ -106,7 +106,6 @@ def new_page(server):
                          os.path.sep.join(first_table.split(os.path.sep)[-3:])
                          ),
             filename)
-
     start_load = time.time()
     try:
         table, page = document.table(server.the_year, server.the_semester,
@@ -122,6 +121,12 @@ def new_page(server):
         server.the_file.write(files["unauthorized.html"])
         server.the_file.close()
         warn('No Table', what="error")
+        return
+
+    if not table.on_disc:
+        server.the_file.write("%s/%s/%s n'existe pas, et il n'est pas possible de créer des tables dans le passé." % (
+                server.the_year, server.the_semester, server.the_ue))
+        server.the_file.close()
         return
 
     if table.is_extended:

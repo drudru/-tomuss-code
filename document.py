@@ -272,6 +272,7 @@ class Table(object):
 
         warn('allow modification:' + str(self.modifiable),what='table')
         created = False
+        self.on_disc = True
         if self.modifiable:
             utilities.mkpath_safe(dirname)
             if not os.path.exists(self.filename):
@@ -281,6 +282,9 @@ class Table(object):
                 utilities.mkpath_safe(dirname)
                 utilities.append_file_safe(self.filename, s)
                 created = True
+        else:
+            if not os.path.exists(self.filename):
+                self.on_disc = False
 
         # Remove final .py
         self.module = self.filename[:-3].replace(os.path.sep,'.')
@@ -348,10 +352,15 @@ class Table(object):
         if not self.ro:
             return self
 
-        if time.time() - self.mtime < configuration.maximum_out_of_date:
-            return self
-
         if not os.path.exists(self.filename):
+            # Do not work (to to recreate it)
+            # tables_manage("del", self.year, self.semester, self.ue)
+            # Should return None, but as it is very intrusive
+            # Make a non dangerous kludge
+            self.official_ue = False
+            return self
+        
+        if time.time() - self.mtime < configuration.maximum_out_of_date:
             return self
 
         if os.path.getmtime(self.filename) <= self.mtime:

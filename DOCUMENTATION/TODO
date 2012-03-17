@@ -10,6 +10,8 @@ Utilisateurs finaux.
 
 * Traduction
 
+* Remonter le commentaire de table sur la page d'accueil
+
 * Copie de table : sans l'historique : garder le dernier author
   Copie de 2 semestres dans le passé.
 
@@ -131,13 +133,6 @@ Administrateur.
 =====================
 Problèmes à résoudre.
 =====================
-
-* https://tomuss.univ-lyon1.fr/bilan/p0410074
-
-* La destruction d'une table ne la fait pas disparaître du suivi.
-
-* On charge une UE INEXISTANTE d'une vieux semestre, si on la rend modifiable,
-  il ne faut pas écrire le contenu du fichier à partir du milieu.
 
 * L'importation ne met pas à jour l'affichage ? Chrome ? Notes ?
 
