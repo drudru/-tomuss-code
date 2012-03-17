@@ -63,6 +63,7 @@ function update_student_information_default(line)
 }
 
 /*REDEFINE
+  Template can redefine this function.
 */
 function update_student_information(line)
 {
@@ -147,6 +148,12 @@ function semester_change(t)
   t.blur() ;
   window.open(url + '/=' + ticket + '/'
 	      + t.childNodes[t.selectedIndex].innerHTML + '/' + ue) ;
+  for(var i=0;i<t.childNodes.length;i++)
+      if ( t.childNodes[i].innerHTML == year + '/' + semester )
+	  {
+	      t.selectedIndex = i ;
+	      break ;
+	  }
 }
 
 

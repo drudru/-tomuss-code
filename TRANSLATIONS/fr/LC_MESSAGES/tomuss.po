@@ -708,7 +708,7 @@ msgstr "Si&nbsp;vide"
 
 #. Label before the attribute
 msgid "BEFORE_column_attr_columns"
-msgstr "Formule"
+msgstr "Colonnes"
 
 #. Label before the attribute
 msgid "BEFORE_column_attr_weight"
