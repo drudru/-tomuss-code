@@ -19,10 +19,11 @@
 #
 #    Contact: Thierry.EXCOFFIER@bat710.univ-lyon1.fr
 
+import os
+import re
 import utilities
 import abj
 import configuration
-import os
 import document
 
 from _ucbl_ import check, update_student_information, create, the_abjs, update_student, terminate_update, cell_change
@@ -41,12 +42,18 @@ def init(table):
     elif table.semester == 'Test':
         table.modifiable = 1
     elif (table.year, table.semester) == configuration.year_semester_next:
-        # No more useful beacuse users can destroy table with bad students.
+        # No more useful because users can destroy table with bad students.
         #if utilities.manage_key('CLOSED', table.ue, separation=5
         #                        ) == '%s/%s' % configuration.year_semester:
         #    # Closed on the previous semester
         #    table.modifiable = 1
         table.modifiable = 1
+    elif (re.search(configuration.ue_not_per_semester, table.ue)
+          and table.semester == configuration.university_semesters[0]
+          and table.year == utilities.university_year()):
+        # Not an UE per semester : all the semesters points on the first
+        table.modifiable = 1
+        
     table.update_inscrits = table.modifiable
     table.abjs = abj.get_abjs(table.year, table.semester)
     table.abjs_mtime = 0

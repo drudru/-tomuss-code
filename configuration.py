@@ -132,6 +132,9 @@ special_semesters = '<option>2008/Test</option><option>2008/' + semesters[0] + '
 # Next semester (usable if UE is closed)
 year_semester_next = (time.localtime()[0], semesters[1])
 
+# UE not by semester, if its code match this regular expression
+ue_not_per_semester = "^UE-[A-Z]{3}[0-9]{4}M$"
+
 # Semester we don't want to be displayed as a 'master_of'
 master_of_exceptions = tuple(semesters) + ('Test', 'Referents', 'Preferences')
 

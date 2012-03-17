@@ -19,15 +19,17 @@
 #
 #    Contact: Thierry.EXCOFFIER@bat710.univ-lyon1.fr
 
+import os
+import re
+import time
+
 import plugin
 import document
 from files import files
 from utilities import warn
 import configuration
-import time
 import sender
 import utilities
-import os
 
 initial_content = '''
 <script>
@@ -47,6 +49,8 @@ var  login_list      = window.parent.login_list      ;
     '''
 
 class StringFile(object):
+    """This class allows to store content before the browser asks it.
+    """
     def __init__(self):
         self.closed = False
         self.real_file = None
@@ -84,6 +88,25 @@ class StringFile(object):
 
 def new_page(server):
     """Create a new page and send the table editor to the client."""
+
+    filename = document.table_filename(server.the_year, server.the_semester,
+                                       server.the_ue)
+    first_semester = configuration.university_semesters[0]
+    first_table = document.table_filename(utilities.university_year(),
+                                          first_semester,
+                                          server.the_ue)
+    if (server.the_semester != first_semester
+        and not os.path.exists(filename)
+        and os.path.exists(first_table)
+        and re.search(configuration.ue_not_per_semester, server.the_ue)
+        ):
+        # Create a symbolic link from current semester to first semester
+        utilities.symlink_safe(
+            os.path.join('..', '..',
+                         os.path.sep.join(first_table.split(os.path.sep)[-3:])
+                         ),
+            filename)
+
     start_load = time.time()
     try:
         table, page = document.table(server.the_year, server.the_semester,

@@ -49,6 +49,7 @@ variables = {
     
     "year_semester": "Semestre : le semestre courant, seul ouvert en écriture.",
     "year_semester_next": "Semestre : le suivant. Modifiable si une UE est fermée (étudiants disparus ou UE vide)",
+    "ue_not_per_semester": "UE non semestrialisée si le code correspond à cette expression régulière",
     "master_of_exceptions": "Semestre : ceux que l'on ne veut pas afficher dans la liste des tables dont est responsable",
     "allow_student_list_update": "Semestre : Si 'True' alors la liste des étudiants est mise à jour régulièrement. Il faut mettre à 'False' quand on s'approche de la remise à 0 de la base IP",
     "allow_student_removal": "Semestre : Si 'True' alors on enlève des tables les étudiants non inscrits.",
