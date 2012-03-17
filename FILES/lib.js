@@ -4189,7 +4189,9 @@ function javascript_regtest_ue()
   var start_test = millisec() ;
 
   var col_types=['Note','Moy' ,'Nmbr','Bool','Date'] ;
-  var col_types2=['Note','Moyenne' ,'Nombre de','Booléen','Date'] ;
+  var col_types2 = [] ;
+  for(var i in col_types)
+    col_types2.push(_("B_" + col_types[i])) ;
 
   var inputs=['0'   ,'1'   ,'2,2' ,'p'  ,'i','j','o'  ,'n','4/3/2008'  ,'3/4/8'     ,'12/12/99', '0.95', '0.9966'] ;
   var notes =['0.00','1.00','2.20',''   ,abi,abj,''   ,ppn,''          ,''          ,'', '0.95', '0.99'] ;
