@@ -1364,3 +1364,205 @@ msgstr "[FOR_ARCHIVAGE]"
 
 msgid "MSG_mail_massmail_feedback"
 msgstr "Mass Mailing"
+
+msgid "MSG_stat_flower_horizontal"
+msgstr "Horizontal axis: group average"
+
+msgid "MSG_stat_flower_vertical"
+msgstr "Vertical axis: group standard deviation"
+
+msgid "MSG_stat_flower_explanations"
+msgstr "The histogram of all values is in the center.<br>\n"
+     "The discs radius is the number of notes (without the ABI).<br>\n"
+     "All around the center, it is the same drawing per constrained group,\n"
+     "the distance to the center is the average of the group,\n"
+     "the red circle indicates 5/20, the green 15/20, the grey 10/20.<br>\n"
+     "The constrained groups are defined by:\n"
+     "<ul>\n"
+     "<li> The teacher who entered the value.\n"
+     "<li> The column name containing the value.\n"
+     "<li> The year/month of the value input.\n"
+     "<li> All the values of the students for which the column contains\n"
+     "the constrained value.\n"
+     "For example, <b>Seq 1</b> is the group of all the values for students\n"
+     "where column Seq contains 1.\n"
+     "</ul>"
+
+msgid "TH_stat_last_line"
+msgstr "Avg/S.D."
+
+msgid "TIP_stat_last_line"
+msgstr "Click on a picture to have explanations"
+
+msgid "B_s_average"
+msgstr "Average"
+
+msgid "B_s_average_"
+msgstr "Avg"
+
+msgid "B_s_stddev"
+msgstr "Standard deviation"
+
+msgid "B_s_stddev_"
+msgstr "S.D."
+
+msgid "B_s_sum"
+msgstr "Sum of the"
+
+msgid "B_s_sum_2"
+msgstr "values:"
+
+msgid "B_s_variance"
+msgstr "Variance"
+
+msgid "B_s_nr"
+msgstr "Number of values"
+
+msgid "B_s_nr_"
+msgstr "Nbr."
+
+msgid "B_s_minimum"
+msgstr "Minimum"
+
+msgid "B_s_minimum_"
+msgstr "min"
+
+msgid "B_s_maximum"
+msgstr "Maximum"
+
+msgid "B_s_maximum_"
+msgstr "max"
+
+msgid "B_s_mediane"
+msgstr "Mediane"
+
+msgid "B_s_mediane_"
+msgstr "med"
+
+msgid "B_s_histogram"
+msgstr "Histogram"
+
+msgid "B_s_histogram_"
+msgstr "histogram."
+
+msgid "B_stat_colorles"
+msgstr "colorles"
+
+msgid "B_stat_colored"
+msgstr "colored"
+
+msgid "B_stat_very_colored"
+msgstr "very colored"
+
+msgid "TIP_stat_colorles"
+msgstr "Do not display colors"
+
+msgid "TIP_stat_colored"
+msgstr "Colored cells: distance to average &gt; 1.5 * standard deviation"
+
+msgid "TIP_stat_very_colored"
+msgstr "Colored cells: distance to average &gt; standard deviation"
+
+msgid "MSG_stat_line_help"
+msgstr "Solid line: average for each column<br>\n"
+       "Dashed line: number of values"
+
+msgid "MSG_stat_TOTAL_col"
+msgstr "Total"
+
+msgid "MSG_stat_TOTAL_row"
+msgstr "Total"
+
+msgid "MSG_stat_column"
+msgstr "Column: "
+
+msgid "MSG_stat_author"
+msgstr ". Author: "
+
+msgid "MSG_stat_lines"
+msgstr ", for line: "
+
+msgid "MSG_stat_author_grouping"
+msgstr ". Grouping per author"
+
+msgid "MSG_stat_grouped_by"
+msgstr ". Grouping per:"
+
+msgid "TIP_stat_explanation"
+msgstr "The cells display statistics for a group.<br>"
+    "Click here to choose what you want to display:\n"
+    "<ul>\n"
+    "<li>Values average\n"
+    "<li>Values mediane\n"
+    "<li>Values histogram\n"
+    "<li>Values standard deviation\n"
+    "<li>Number of values used to evaluate\n"
+    "<li>Minimal value\n"
+    "<li>Maximal value\n"
+    "</ul>\n"
+    "Click on cells to display details"
+
+msgid "TIP_stat_th_column"
+msgstr "Click on title to hide the column<br>\n"
+       "Click on cells to display details"
+
+msgid "TIP_stat_th_column_total"
+msgstr "Average of all the line values normalized in 0-20"
+
+msgid "TH_stat_th_trend"
+msgstr "Trend"
+
+msgid "TIP_stat_th_trend"
+msgstr "Click on a picture to have explanations"
+
+msgid "MSG_stat_export_spreadsheet"
+msgstr "To export to a spreadsheet:\n"
+       "do a copy/paste of the full page with\n"
+       "Ctrl-A Ctrl-C here, and Ctrl-V in the spreadsheet."
+
+msgid "MSG_stat_columns_to_display"
+msgstr "Columns to display"
+
+msgid "TIP_stat_columns_to_display"
+msgstr "Click on the columns to display or hide."
+
+msgid "MSG_stat_uniq_values"
+msgstr "different values"
+
+msgid "MSG_stat_group_by"
+msgstr "Group by"
+
+msgid "TIP_stat_group_by"
+msgstr "Select the criterion to make groups of lines to compute statistics."
+
+msgid "MSG_stat_nr_digit"
+msgstr "Number of digits"
+
+msgid "TIP_stat_nr_digit"
+msgstr "Number of decimal digit"
+
+msgid "MSG_stat_coloring"
+msgstr "Coloration"
+
+msgid "TIP_stat_coloring"
+msgstr "Red: the values too small, green: the too big.<br>\n"
+       "Averages are colored er columns<br>\n"
+       "The number of students are colored per row."
+
+msgid "TIP_stat_group_value"
+msgstr "Grouping is done using the cell <b>value</b>"
+
+msgid "B_stat_group_author"
+msgstr "author"
+
+msgid "TIP_stat_group_author"
+msgstr "Grouping is done using the name of the user who entered the value"
+
+msgid "B_stat_group_month"
+msgstr "per month"
+
+msgid "TIP_stat_group_month"
+msgstr "Grouping is done using the date of the input of the value"
+
+msgid "B_stat_group_value"
+msgstr "value"

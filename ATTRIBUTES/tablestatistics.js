@@ -1,7 +1,7 @@
 // -*- coding: utf-8 -*-
 /*
   TOMUSS: The Online Multi User Simple Spreadsheet
-  Copyright (C) 2011 Thierry EXCOFFIER, Universite Claude Bernard
+  Copyright (C) 2011-2012 Thierry EXCOFFIER, Universite Claude Bernard
 
   This program is free software; you can redistribute it and/or modify
   it under the terms of the GNU General Public License as published by
@@ -142,8 +142,8 @@ function stat_flower_zoom(t, column)
   if ( ! w )
     return ;
   w.innerHTML = stat_zoom_header(column) + '<br>'
-    + 'Axe horizontal : moyenne du groupe<br>'
-    + 'Axe vertical : écart-type des notes du groupe</div>'
+      + _("MSG_stat_flower_horizontal") + '<br>'
+      + _("MSG_stat_flower_vertical") + '</div>'
     + stat_display_flower(stats_groups, all_stats, column, 12) ;
   set_element_relative_position(t, w) ;
   w.style.display = 'block' ;
@@ -223,7 +223,7 @@ function stat_display_flower(groups, all_stats, column, zoom)
     {
       group = groups[group] ;
       stat = all_stats[group + '\001' + column] ;
-      if ( stat && stat.nr != 0 && group != 'TOTAL' )
+      if ( stat && stat.nr != 0 && group != _("MSG_stat_TOTAL_row") )
 	stat_display_one_flower(s, v, p,
 				X(stat.normalized_average()),
 				Y(2*stat.standard_deviation()/stat.size),
@@ -258,7 +258,7 @@ function stat_display_fractal_flower(groups, sorted_cols, all_stats, zoom)
   if ( zoom > 2 )
     title = html(ue) + '\n' + html(semester) + '\n' + html(year) ;
 
-  stat = all_stats['TOTAL\001TOTAL'] ;
+  stat = all_stats[_("MSG_stat_TOTAL_row")+'\001TOTAL'] ;
   if ( stat === undefined )
     for(var i in groups)
       {
@@ -289,7 +289,7 @@ function stat_display_fractal_flower(groups, sorted_cols, all_stats, zoom)
       if ( column == 'TOTAL' )
 	continue ;
       
-      stat = all_stats['TOTAL\001' + column] ;
+      stat = all_stats[_("MSG_stat_TOTAL_row") + '\001' + column] ;
       if ( stat === undefined || stat.nr == 0 )
 	continue ;
       
@@ -340,7 +340,7 @@ function stat_display_fractal_flower(groups, sorted_cols, all_stats, zoom)
 	{
 	  group = _stats_groups[group] ;
 	  stat = _all_stats[group + '\001TOTAL'] ;
-	  if ( stat && stat.nr != 0 && group != 'TOTAL' )
+	  if ( stat && stat.nr != 0 && group != _("MSG_stat_TOTAL_row") )
 	    {
 	      s2 = [] ;
 	      v2 = [] ;
@@ -391,36 +391,20 @@ function stat_fractal_flower_zoom(t)
   var w = window_open() ;
   w.document.open('text/html;charset=utf-8') ;
   w.document.write
-    (
-     "Au centre c'est l'histogramme de toutes les notes saisies.<br>"
-     +"Le rayon des disques gris représente le nombre de notes (hors ABI).<br>"
-     +"Tout autour on retrouve la même représentation par ensemble de note, "
-     +"la distance au centre représente la moyenne de l'ensemble, "
-     +"le cercle rouge représente 5/20 et le vert 15/20 (le gris 10/20).<br>"
-     +"Les ensembles affichés sont définis par :"
-     +"<ul>"
-     +"<li> La personne qui a fait la saisie de la note."
-     +"<li> La colonne dans laquelle se trouve la note."
-     +"<li> L'année+mois de la saisie de la note."
-     +"<li> Toutes les notes des étudiants pour lesquels la colonne "
-     +"indiquée contient la valeur indiquées (par exemple <b>Seq 1</b>, "
-     +"représente toutes les notes des étudiants de séquence 1."
-     +"</ul>"
-     + stat_display_fractal_flower(stats_groups, sorted_cols, 
-				   all_stats,
-				   window_width()
-				   / stat_svg_height)
-     ) ;
+      (_("MSG_stat_flower_explanations")
+       + stat_display_fractal_flower(stats_groups, sorted_cols,
+				     all_stats,
+				     window_width()
+				     / stat_svg_height)
+       ) ;
   w.document.close() ;
 }
 
 
 function stat_display_flowers(s, groups, sorted_cols, all_stats)
 {
-  s.push('<tr><th>'
-	 + hidden_txt('Moy/E.T.',
- 		      'Cliquez sur un graphique pour avoir les explications'
-		      )) ;
+  s.push('<tr><th>' +
+	 hidden_txt(_("TH_stat_last_line"), _("TIP_stat_last_line")));
   for(var column in sorted_cols)
     {
       column = sorted_cols[column] ;
@@ -448,33 +432,17 @@ function compute_stats(lines, data_col)
   return s ;
 }
 
-var values_names = {
-  's_average': 'moyenne',
-  's_stddev': 'écart type',
-  's_nr': 'nombre de valeurs',
-  's_minimum': 'minimum',
-  's_maximum': 'maximum',
-  's_mediane': 'médiane',
-  's_histogram': 'histogramme'
-} ;
-
 var colorations = {
-  'incolore': 100,
-  'couleurs': 1.5,
-  'plein de couleurs': 1
-} ;
-
-var colorations_tip = {
-  'couleurs': "Les cases coloriées : écart à la moyenne &gt; 1.5 * écart-type",
-  'incolore': "Aucun coloriage",
-  'plein de couleurs': "Les cases coloriées : écart à la moyenne &gt; écart-type"
+    "B_stat_colorles": 100,
+    "B_stat_colored": 1.5,
+    "B_stat_very_colored": 1
 } ;
 
 function stat_span(s, value_type, value, html_class)
 {
-  if ( values_to_display[values_names[value_type]] )
-    s.push('<span class="' + value_type + ' ' + html_class + '">'
-	   + value + "</span>") ;
+    if ( values_to_display[_('B_' + value_type)] )
+	s.push('<span class="' + value_type + ' ' + html_class + '">'
+	       + value + "</span>") ;
 }
 
 function stat_graph_zoom(t, group)
@@ -499,9 +467,7 @@ function stat_graph_zoom(t, group)
     }
 
   w.innerHTML = '<div class="s_graph_zoomed"><small>'
-    + 'Ligne pleine : évolution des notes au cours des séances<br>'
-    + 'Ligne pointillée : évolution du nombre de notes<br>'
-    + a_graph([td], 4) + '</div>' ;
+      + _("MSG_stat_line_help") + '<br>' + a_graph([td], 4) + '</div>' ;
 
   set_element_relative_position(t, w) ;
   w.style.display = 'block' ;
@@ -511,18 +477,18 @@ function stat_zoom_header(data_col, group)
 {
   var s = '<div class="s_stat_tip">' ;
   if ( data_col == 'TOTAL' )
-    s += 'TOTAL' ;
+      s += _("MSG_stat_TOTAL_col") ;
   else
-    s += 'Colonne : <b>' + html(columns[data_col].title) + '</b>' ;
+      s += _("MSG_stat_column")+'<b>' + html(columns[data_col].title) + '</b>';
 
   if ( group !== undefined )
     {
-      if ( regrouping == 'auteur' )
-	s += '. Auteur : <b>' + group + '</b>' ;
+      if ( regrouping == _("B_stat_group_author") )
+	  s += _("MSG_stat_author") + '<b>' + group + '</b>' ;
       else
-	if ( group != 'TOTAL' )
+	if ( group != _("MSG_stat_TOTAL_row") )
 	  {
-	    s += ', pour les lignes : ' ;
+	    s += _("MSG_stat_lines") ;
 	    j = 0 ;
 	    for(var i in grouped_by)
 	      if ( grouped_by[i] )
@@ -532,11 +498,11 @@ function stat_zoom_header(data_col, group)
     }
   else
     {
-      if ( regrouping == 'auteur' )
-	s += '. Groupement par auteur' ;
+      if ( regrouping == _("B_stat_group_author") )
+	  s += _("MSG_stat_author_grouping") ;
       else
 	{
-	  s += '. Groupement par :<b>' ;
+	  s += _("MSG_stat_grouped_by") + '<b>' ;
 	  for(var i in grouped_by)
 	    if ( grouped_by[i] )
 	      s += ' ' + html(columns[i].title) ;
@@ -558,14 +524,15 @@ function stat_zoom(t, data_col, group)
   if ( stats.nr )
     {
       s += '<table><tr><td>' ;
-      s += 'Minimum : ' + stats.min.toFixed(3)
-	+ ', Maximum: ' + stats.max.toFixed(3)
-	+ '<br>Moyenne : '+ stats.average().toFixed(3)
-	+ ', Médiane : ' + stats.mediane().toFixed(3)
-	+ '<br>Variance : ' + stats.variance().toFixed(3)
-	+ ', Écart-Type : ' + stats.standard_deviation().toFixed(3)
-	+ '<br>Somme des ' + stats.nr + ' valeurs : ' + stats.sum.toFixed(3)
-	+ '<td class="s_enumeration">' ;
+      s += _("B_s_minimum") + ': ' + stats.min.toFixed(3)
+	  + ', ' + _("B_s_maximum") + ': ' + stats.max.toFixed(3)
+	  + '<br>' + _("B_s_average") + ': '+ stats.average().toFixed(3)
+	  + ', ' + _("B_s_mediane") + ': ' + stats.mediane().toFixed(3)
+	  + '<br>' + _("B_s_variance") + ': ' + stats.variance().toFixed(3)
+	  + ', ' +  _("B_s_stddev") +': '+stats.standard_deviation().toFixed(3)
+	  + '<br>' + _("B_s_sum") + ' ' + stats.nr + ' ' + _("B_s_sum_2")
+	  + stats.sum.toFixed(3)
+	  + '<td class="s_enumeration">' ;
   
       for(var i in stats.all_values)
 	if ( stats.all_values[i] )
@@ -632,7 +599,7 @@ function stat_zoom(t, data_col, group)
 function display_stats_td(s, stats, data_col, group)
 {
   var z = 2 ;
-  if ( group == 'TOTAL' )
+  if ( group == _("MSG_stat_TOTAL_row") )
     z /= stats_groups.length ;
   if ( data_col == 'TOTAL' )
     z /= sorted_cols.length ;
@@ -699,9 +666,9 @@ function stats_histogram(stats, z)
 
 function a_value_button(s, attr, title, tip, not_escape)
 {
-  s.push(display_button("'" + values_names[attr] + "'", title,
-			values_to_display[values_names[attr]] ,
-			'values_to_display', tip, not_escape, attr)) ;
+    s.push(display_button("'" + _('B_' + attr) + "'", title,
+			  values_to_display[_('B_'+attr)] ,
+			  'values_to_display', tip, not_escape, attr)) ;
 }
 
 function horizontal_coloring(all_stats, groups, sorted_cols)
@@ -751,7 +718,7 @@ function vertical_coloring(all_stats, sorted_groups, sorted_cols)
       stats = new Stats(0, 20, '') ;
       for(var group in sorted_groups)
 	{
-	  if ( sorted_groups[group] == 'TOTAL' )
+	  if ( sorted_groups[group] == _("MSG_stat_TOTAL_row") )
 	    continue ;
 	  s = all_stats[sorted_groups[group] + '\001' + column] ;
 	  if ( s )
@@ -760,7 +727,7 @@ function vertical_coloring(all_stats, sorted_groups, sorted_cols)
 
       for(var group in sorted_groups)
 	{
-	  if ( sorted_groups[group] == 'TOTAL' )
+	  if ( sorted_groups[group] == _("MSG_stat_TOTAL_row") )
 	    continue ;
 	  td = all_stats[sorted_groups[group] + '\001' + column] ;
 	  if ( ! td )
@@ -777,7 +744,7 @@ function vertical_coloring(all_stats, sorted_groups, sorted_cols)
       stats = new Stats(0, 20, '') ;
       for(var group in sorted_groups)
 	{
-	  if ( sorted_groups[group] == 'TOTAL' )
+	  if ( sorted_groups[group] == _("MSG_stat_TOTAL_row") )
 	    continue ;
 	  s = all_stats[sorted_groups[group] + '\001' + column] ;
 	  if ( s )
@@ -787,7 +754,7 @@ function vertical_coloring(all_stats, sorted_groups, sorted_cols)
 	  
       for(var group in sorted_groups)
 	{
-	  if ( sorted_groups[group] == 'TOTAL' )
+	  if ( sorted_groups[group] == _("MSG_stat_TOTAL_row") )
 	    continue ;
 	  td = all_stats[sorted_groups[group] + '\001' + column] ;
 	  if ( ! td )
@@ -839,7 +806,7 @@ function statistics_author(sorted_cols, all_stats, groups)
       line = lines[line] ;
       for(var column in sorted_cols)
 	{
-	  if ( sorted_cols[column] == 'TOTAL' )
+	  if ( sorted_cols[column] == "TOTAL" )
 	    continue ;
 	  column = sorted_cols[column] ;
 	  cell = line[column] ;
@@ -866,7 +833,7 @@ function statistics_date(sorted_cols, all_stats, groups)
       line = lines[line] ;
       for(var column in sorted_cols)
 	{
-	  if ( sorted_cols[column] == 'TOTAL' )
+	  if ( sorted_cols[column] == "TOTAL" )
 	    continue ;
 	  column = sorted_cols[column] ;
 	  cell = line[column] ;
@@ -950,7 +917,7 @@ function compute_column_totals(groups, sorted_cols, all_stats)
 	  if ( all_stats[key] )
 	    stats.merge(all_stats[key]) ;
 	}
-      all_stats['TOTAL\001' + column] = stats ;
+      all_stats[_("MSG_stat_TOTAL_row") + '\001' + column] = stats ;
     }
 }
 
@@ -993,9 +960,9 @@ function statistics_display()
   var s = ['<div style="text-align:center;font-weight:bold">' + ue + ' ' + semester + ' ' + year + '</div>'], td ;
   var td_width = 0 ;
   nr_decimals = Number(nr_decimals) ;
-  if ( values_to_display[values_names['s_average']] )
+  if ( values_to_display[_('B_s_average')] )
     td_width += 2 + nr_decimals ;
-  if ( values_to_display[values_names['s_mediane']] )
+  if ( values_to_display[_('B_s_mediane')] )
     td_width += (2 + nr_decimals)*0.7 ;
   if ( td_width < 3.5 )
     td_width = 3.5 ;
@@ -1009,31 +976,17 @@ function statistics_display()
 
   t.push('<div class="s_td">') ;
   t.push('<div class="s_center">') ;
-  a_value_button(t, 's_average', 'Moy') ;
-  a_value_button(t, 's_mediane', 'med') ;
+  a_value_button(t, 's_average', _('B_s_average_')) ;
+  a_value_button(t, 's_mediane', _("B_s_mediane_")) ;
   t.push('</div>') ;
-  a_value_button(t, 's_histogram', 'Histogram.') ;
-  a_value_button(t, 's_stddev', 'E.T.') ;
-  a_value_button(t, 's_nr', 'Nbr.') ;
-  a_value_button(t, 's_minimum', 'min') ;
-  a_value_button(t, 's_maximum', 'max') ;
+  a_value_button(t, 's_histogram', _("B_s_histogram_")) ;
+  a_value_button(t, 's_stddev', _("B_s_stddev_")) ;
+  a_value_button(t, 's_nr', _("B_s_nr_")) ;
+  a_value_button(t, 's_minimum', _("B_s_minimum_")) ;
+  a_value_button(t, 's_maximum', _("B_s_maximum_")) ;
   t.push('</div>') ;
 
-  var c ;
-  c = "Les cases du tableau représentent les statistiques pour un groupe.<br>"
-    + "Vous pouvez cliquez ici pour choisir ce que vous voulez afficher :"
-    + "<ul>"
-    + '<li>Moyenne des notes'
-    + '<li>Médiane des notes'
-    + '<li>Histogramme des notes'
-    + '<li>Écart-type des notes'
-    + '<li>Nombre de notes utilisées pour faire les calculs'
-    + '<li>La note la plus faible'
-    + '<li>La note la plus forte'
-    + '</ul>'
-    + "Cliquez sur les cases du tableau pour afficher les détails" ;
-
-  s.push(hidden_txt(t.join('\n'), c)) ;
+  s.push(hidden_txt(t.join('\n'), _("TIP_stat_explanation"))) ;
 
   for(var column in sorted_cols)
     s.push('<th onclick="button_toggle(columns_to_display,'
@@ -1043,18 +996,12 @@ function statistics_display()
 	   + ']); do_printable_display=true"><div style="min-width:'
 	   + td_width + 'em">'
 	   + hidden_txt(html(columns[sorted_cols[column]].title),
-			"Cliquez sur le titre pour cacher<br>"
-			+ "Cliquez sur les cases pour zoomer"
-			)
+			_("TIP_stat_th_column"))
 	   + '</div></th>') ;
   s.push('<th>'
-	 + hidden_txt('TOTAL',
-		      'Somme des notes de la ligne en normalisant en 0 et 20'
-		      )
+	 + hidden_txt(_("MSG_stat_TOTAL_col"), _("TIP_stat_th_column_total"))
 	 + '<th>'
-	 + hidden_txt('Évolution',
-		      'Cliquez sur un graphique pour avoir les explications'
-		      )
+	 + hidden_txt(_("TH_stat_th_trend"), _("TIP_stat_th_trend"))
 	 );
   s.push('</tr>') ;
 
@@ -1064,9 +1011,9 @@ function statistics_display()
 
   all_stats = {} ;
   stats_groups = [] ;
-  if ( regrouping == 'auteur' )
+  if ( regrouping == _("B_stat_group_author") )
     statistics_author(sorted_cols, all_stats, stats_groups) ;
-  else if ( regrouping == 'par mois' )
+  else if ( regrouping == _("B_stat_group_month") )
     statistics_date(sorted_cols, all_stats, stats_groups) ;
   else
     statistics_values(sorted_cols, all_stats, stats_groups) ;
@@ -1074,13 +1021,15 @@ function statistics_display()
   // Compute line/column totals
   compute_column_totals(stats_groups, sorted_cols, all_stats) ;
   if ( stats_groups.length != 1)
-    stats_groups.push('TOTAL') ;
+    stats_groups.push(_("MSG_stat_TOTAL_row")) ;
   compute_line_totals(stats_groups, sorted_cols, all_stats) ;
   sorted_cols.push('TOTAL') ;
 
   // Coloring
 
-  color_coef = colorations[coloration] ;
+  for(var i in colorations)
+      if ( _(i) == coloration )
+	  color_coef = colorations[i] ;
   vertical_coloring(all_stats, stats_groups, sorted_cols) ;
   horizontal_coloring(all_stats, stats_groups, sorted_cols) ;
 
@@ -1106,11 +1055,11 @@ function display_statistics(object)
   p.push('<script>') ;
   p.push('var do_printable_display = true ;') ;
   p.push('var columns_to_display = {};') ;
-  p.push('var values_to_display = {"moyenne":true};') ;
+  p.push('var values_to_display={};values_to_display[_("B_s_average")]=true;');
   p.push('var grouped_by = {};') ;
   p.push('var coloration = "";') ;
   p.push('var nr_decimals = "1";') ;
-  p.push('var regrouping = "valeur";') ;
+  p.push('var regrouping = _("B_stat_group_value");') ;
   p.push('var color_coef ;') ;
   p.push('var ue = ' + js(ue) + ';') ;
   p.push('var display_tips = true ;') ;
@@ -1122,7 +1071,7 @@ function display_statistics(object)
   p.push('setInterval("statistics_display()", 200);') ;
   p.push('}') ;
   p.push('</script>') ;
-  p.push('<p class="hidden_on_paper">Exporter dans un tableur : faites un copier/coller de toute la page dans votre tableur (Ctrl-A Ctrl-C Ctrl-V)');
+  p.push('<p class="hidden_on_paper">' + _("MSG_stat_export_spreadsheet"));
   p.push('<table class="hidden_on_paper">') ;
 
   var t = [], cols = column_list_all() ;
@@ -1136,8 +1085,8 @@ function display_statistics(object)
 			      'columns_to_display',
 			      html(columns[data_col].comment)));
     }
-  print_choice_line(p, 'Colonnes à afficher',
-		    'Choisissez les colonnes à afficher.',
+  print_choice_line(p, _("MSG_stat_columns_to_display"),
+		    _("TIP_stat_columns_to_display"),
 		    t.join(' '),
 		    'columns_to_display') ;
 
@@ -1155,41 +1104,37 @@ function display_statistics(object)
 	  var comment = html(column.comment) ;
 	  if ( comment )
 	    comment += '<br>' ;
-	  comment += stats.nr_uniques() + ' valeurs différentes'
+	  comment += stats.nr_uniques() + ' ' + _("MSG_stat_uniq_values")
 	  
 	  t.push(display_button(data_col, column.title,
 				column.title == 'Seq' || column.title == 'Grp',
 				'grouped_by', comment));
 	}
     }
-  print_choice_line(p, 'Regrouper par',
-		    'Indique le critère de regroupement de lignes pour calculer les statistiques.',
+  print_choice_line(p, _("MSG_stat_group_by"), _("TIP_stat_group_by"),
 		    t.join(' '),
 		    'grouped_by') ;
       
-  print_choice_line(p, 'Nombre de décimales',
-		    'Nombre de chiffres affichés après la virgule',
+  print_choice_line(p, _("MSG_stat_nr_digit"), _("TIP_stat_nr_digit"),
 		    radio_buttons('nr_decimals', ['0', '1', '2', '3'], '1'),
 		    'nr_decimals') ;
 
   t = [] ;
   for(var i in colorations)
-    t.push([i, colorations_tip[i]]) ;
-  print_choice_line(p, 'Coloration',
-		    'En rouge les valeurs trop petites et en vert les trop grandes.<br>Les moyennes sont coloriées par colonnes<br>Les nombres d\'étudiants sont colorié par ligne.',
+      t.push([_(i), _(i.replace('B','TIP'))]) ;
+  print_choice_line(p, _("MSG_stat_coloring"), _("TIP_stat_coloring"),
 		    radio_buttons('coloration', t, 'couleurs'),
 		    'coloration') ;
 
-  print_choice_line(p, 'Regrouper par',
-		    "Qu'est ce que l'on regroupe",
+  print_choice_line(p, _("MSG_stat_group_by"), _("TIP_stat_group_by"),
 		    radio_buttons('regrouping',
-				  [['valeur',
-				    'En fonction du contenu des cellules (la note)'],
-				   ['auteur',
-				    'En fonction de la personne qui a saisie la valeur (l\'enseignant)'],
-				   ['par mois',
-				    'En fonction de la date de saisie de la valeur']
-				   ],'valeur'),
+				  [[_("B_stat_group_value"),
+				    _("TIP_stat_group_value")],
+				   [_("B_stat_group_author"),
+				    _("TIP_stat_group_author")],
+				   [_("B_stat_group_month"),
+				    _("TIP_stat_group_month")],
+				   ],_("B_stat_group_value")),
 		    'regrouping') ;
 
   p.push('</table>') ;

@@ -1362,3 +1362,210 @@ msgstr "[POUR_ARCHIVAGE]"
 
 msgid "MSG_mail_massmail_feedback"
 msgstr "Publipostage"
+
+msgid "MSG_stat_flower_horizontal"
+msgstr "Axe horizontal : moyenne du groupe"
+
+msgid "MSG_stat_flower_vertical"
+msgstr "Axe vertical : écart-type des notes du groupe"
+
+msgid "MSG_stat_flower_explanations"
+msgstr "Au centre c'est l'histogramme de toutes les notes saisies.<br>\n"
+     "Le rayon des disques gris représente le nombre de notes (hors ABI).<br>\n"
+     "Tout autour on retrouve la même représentation par ensemble de note,\n"
+     "la distance au centre représente la moyenne de l'ensemble,\n"
+     "le cercle rouge représente 5/20 et le vert 15/20 (le gris 10/20).<br>\n"
+     "Les ensembles affichés sont définis par :\n"
+     "<ul>\n"
+     "<li> La personne qui a fait la saisie de la note.\n"
+     "<li> La colonne dans laquelle se trouve la note.\n"
+     "<li> L'année+mois de la saisie de la note.\n"
+     "<li> Toutes les notes des étudiants pour lesquels la colonne\n"
+     "indiquée contient la valeur indiquées (par exemple <b>Seq 1</b>,\n"
+     "représente toutes les notes des étudiants de séquence 1.\n"
+     "</ul>"
+
+msgid "TH_stat_last_line"
+msgstr "Moy/E.T."
+
+msgid "TIP_stat_last_line"
+msgstr "Cliquez sur un graphique pour avoir les explications"
+
+msgid "B_s_average"
+msgstr "Moyenne"
+
+msgid "B_s_average_"
+msgstr "Moy"
+
+msgid "B_s_stddev"
+msgstr "Écart type"
+
+msgid "B_s_stddev_"
+msgstr "E.T."
+
+msgid "B_s_sum"
+msgstr "Somme des"
+
+msgid "B_s_sum_2"
+msgstr "valeurs:"
+
+msgid "B_s_variance"
+msgstr "Variance"
+
+msgid "B_s_nr"
+msgstr "Nombre de valeurs"
+
+msgid "B_s_nr_"
+msgstr "Nbr."
+
+msgid "B_s_minimum"
+msgstr "Minimum"
+
+msgid "B_s_minimum_"
+msgstr "min"
+
+msgid "B_s_maximum"
+msgstr "Maximum"
+
+msgid "B_s_maximum_"
+msgstr "max"
+
+msgid "B_s_mediane"
+msgstr "Médiane"
+
+msgid "B_s_mediane_"
+msgstr "med"
+
+msgid "B_s_histogram"
+msgstr "Histogramme"
+
+msgid "B_s_histogram_"
+msgstr "histogram."
+
+msgid "B_stat_colorles"
+msgstr "incolore"
+
+msgid "B_stat_colored"
+msgstr "couleurs"
+
+msgid "B_stat_very_colored"
+msgstr "plein de couleurs"
+
+msgid "TIP_stat_colorles"
+msgstr "Aucun coloriage"
+
+msgid "TIP_stat_colored"
+msgstr "Les cases coloriées : écart à la moyenne &gt; 1.5 * écart-type"
+
+msgid "TIP_stat_very_colored"
+msgstr "Les cases coloriées : écart à la moyenne &gt; écart-type"
+
+msgid "MSG_stat_line_help"
+msgstr "Ligne pleine : évolution des notes au cours des séances<br>\n"
+       "Ligne pointillée : évolution du nombre de notes"
+
+msgid "MSG_stat_TOTAL_col"
+msgstr "TOTAL"
+
+msgid "MSG_stat_TOTAL_row"
+msgstr "TOTAL"
+
+msgid "MSG_stat_column"
+msgstr "Colonne : "
+
+msgid "MSG_stat_author"
+msgstr ". Auteur : "
+
+msgid "MSG_stat_lines"
+msgstr ", pour les lignes : "
+
+msgid "MSG_stat_author_grouping"
+msgstr ". Groupement par auteur"
+
+msgid "MSG_stat_grouped_by"
+msgstr ". Groupement par :"
+
+msgid "TIP_stat_explanation"
+msgstr "Les cases du tableau représentent les statistiques pour un groupe.<br>"
+    "Vous pouvez cliquez ici pour choisir ce que vous voulez afficher :\n"
+    "<ul>\n"
+    "<li>Moyenne des notes\n"
+    "<li>Médiane des notes\n"
+    "<li>Histogramme des notes\n"
+    "<li>Écart-type des notes\n"
+    "<li>Nombre de notes utilisées pour faire les calculs\n"
+    "<li>La note la plus faible\n"
+    "<li>La note la plus forte\n"
+    "</ul>\n"
+    "Cliquez sur les cases du tableau pour afficher les détails"
+
+msgid "TIP_stat_th_column"
+msgstr "Cliquez sur le titre pour cacher<br>\n"
+       "Cliquez sur les cases pour zoomer"
+
+msgid "TIP_stat_th_column_total"
+msgstr "Somme des notes de la ligne en normalisant en 0 et 20"
+
+msgid "TH_stat_th_trend"
+msgstr "Évolution"
+
+msgid "TIP_stat_th_trend"
+msgstr "Cliquez sur un graphique pour avoir les explications"
+
+msgid "MSG_stat_export_spreadsheet"
+msgstr "Exporter dans un tableur :\n"
+       "faites un copier/coller de toute la page\n"
+       "dans votre tableur (Ctrl-A Ctrl-C Ctrl-V)"
+
+msgid "MSG_stat_columns_to_display"
+msgstr "Colonnes à afficher"
+
+msgid "TIP_stat_columns_to_display"
+msgstr "Choisissez les colonnes à afficher."
+
+msgid "MSG_stat_uniq_values"
+msgstr "valeurs différentes"
+
+msgid "MSG_stat_group_by"
+msgstr "Regrouper par"
+
+msgid "TIP_stat_group_by"
+msgstr "Indique le critère de regroupement de lignes pour calculer les statistiques."
+
+msgid "MSG_stat_nr_digit"
+msgstr "Nombre de décimales"
+
+msgid "TIP_stat_nr_digit"
+msgstr "Nombre de chiffres affichés après la virgule"
+
+msgid "MSG_stat_coloring"
+msgstr "Coloration"
+
+msgid "TIP_stat_coloring"
+msgstr "En rouge les valeurs trop petites et en vert les trop grandes.<br>\n"
+       "Les moyennes sont coloriées par colonnes<br>\n"
+       "Les nombres d'étudiants sont coloriés par ligne."
+
+msgid "TIP_stat_group_value"
+msgstr "En fonction du contenu des cellules (la note)"
+
+msgid "B_stat_group_author"
+msgstr "auteur"
+
+msgid "TIP_stat_group_author"
+msgstr "En fonction de la personne qui a saisie la valeur (l'enseignant)"
+
+msgid "B_stat_group_month"
+msgstr "par mois"
+
+msgid "TIP_stat_group_month"
+msgstr "En fonction de la date de saisie de la valeur"
+
+msgid "B_stat_group_value"
+msgstr "valeur"
+
+
+
+
+
+
