@@ -29,6 +29,7 @@ class TableAbj(TableAttr):
     css = '''
 
 .abj_table A:hover { background: #BFB ; }
+TABLE.abj_table TR TD { cursor: pointer }
 TABLE.abj_table_tt TR TD { vertical-align: top ; }
 TABLE.abj_table_da TR TD { vertical-align: top ; }
 

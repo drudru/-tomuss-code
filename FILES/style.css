@@ -155,7 +155,7 @@ TD.rw, #current_input.rw, .rw {
   color: black ;
 }
 
-TR.column_title TH { color: #00F; }
+TR.column_title TH { color: #00F;  cursor: pointer; }
 TR.column_title TH.ro { color: #88F; }
 TR.column_title DIV { position: relative; width:100% }
 TR.column_title DIV SPAN { float: left; width:100% }
@@ -507,6 +507,7 @@ INPUT#comment { width: 100% ; clear: both; }
   background: #EEE ;
   border: 1px outset #AAA ;
   font-size: 70% ;
+  cursor: pointer;
 }
 
 /* #menutop .gui_button:hover { background: #EFE ; } */
