@@ -1566,3 +1566,57 @@ msgstr "Grouping is done using the date of the input of the value"
 
 msgid "B_stat_group_value"
 msgstr "value"
+
+msgid "MSG_abjtt_from_before"
+msgstr "ABJ of"
+
+msgid "MSG_abjtt_from_after"
+msgstr ":"
+
+msgid "MSG_abjtt_begin_end"
+msgstr "Date of begin and end included, M=Morning, A=Afternoon."
+
+msgid "MSG_abjtt_morning"
+msgstr "ABJ for the morning:"
+
+msgid "MSG_abjtt_afternoon"
+msgstr "ABJ for the afternoon:"
+
+msgid "TITLE_abjtt"
+msgstr "ABJ/TT/DA for"
+
+msgid "TITLE_abjtt_abj"
+msgstr "The ABJS"
+
+msgid "TITLE_abjtt_no_abj"
+msgstr "Non justified nonattendance"
+
+msgid "MSG_abjtt_choose_day"
+msgstr "Click to choose a day:"
+
+msgid "MSG_abjtt_explanation_before"
+msgstr "The previous table contains"
+
+msgid "MSG_abjtt_explanation_after"
+msgstr "justified nonattendance days"
+
+msgid "MSG_abjtt_more_before"
+msgstr "You can obtain the"
+
+msgid "MSG_abjtt_more_link"
+msgstr "ABJ/TT/DA list"
+
+msgid "MSG_abjtt_more_after"
+msgstr "on one page."
+
+msgid "TITLE_abjtt_tt"
+msgstr "Special examination condition"
+
+msgid "TITLE_abjtt_no_tt"
+msgstr "No special examination condition"
+
+msgid "TITLE_abjtt_da"
+msgstr "Assiduity exemptation"
+
+msgid "TITLE_abjtt_no_da"
+msgstr "No assiduity exemptation"

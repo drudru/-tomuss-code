@@ -1565,6 +1565,60 @@ msgid "B_stat_group_value"
 msgstr "valeur"
 
 
+msgid "MSG_abjtt_from_before"
+msgstr "ABJ du"
+
+msgid "MSG_abjtt_from_after"
+msgstr " :"
+
+msgid "MSG_abjtt_begin_end"
+msgstr "Date de début et fin (incluses), M=Matin, A=Après-midi."
+
+msgid "MSG_abjtt_morning"
+msgstr "ABJ pour le matin :"
+
+msgid "MSG_abjtt_afternoon"
+msgstr "ABJ pour l'après-midi :"
+
+msgid "TITLE_abjtt"
+msgstr "ABJ/TT/DA pour"
+
+msgid "TITLE_abjtt_abj"
+msgstr "Les ABJS"
+
+msgid "TITLE_abjtt_no_abj"
+msgstr "Pas d'absences justifiées"
+
+msgid "MSG_abjtt_choose_day"
+msgstr "Cliquez pour choisir votre jour :"
+
+msgid "MSG_abjtt_explanation_before"
+msgstr "Le tableau précédent contient"
+
+msgid "MSG_abjtt_explanation_after"
+msgstr "journées d'absence."
+
+msgid "MSG_abjtt_more_before"
+msgstr "Vous pouvez obtenir la"
+
+msgid "MSG_abjtt_more_link"
+msgstr "liste des ABJ/TT/DA"
+
+msgid "MSG_abjtt_more_after"
+msgstr "en une seule page."
+
+msgid "TITLE_abjtt_tt"
+msgstr "Tiers-temps"
+
+msgid "TITLE_abjtt_no_tt"
+msgstr "Pas de tiers-temps"
+
+msgid "TITLE_abjtt_da"
+msgstr "Dispenses d'assiduité"
+
+msgid "TITLE_abjtt_no_da"
+msgstr "Pas de dispenses d'assiduité"
+
 
 
 

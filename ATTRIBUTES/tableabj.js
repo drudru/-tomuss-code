@@ -55,14 +55,15 @@ function compute_abj_per_day(t)
     }
   ttam.sort() ;
   ttpm.sort() ;
-  s = '<h3>ABJ du ' + days_long[d.getDay()] + ' ' + d.getDate() + ' ' +
-    months[d.getMonth()] + ' ' + d.getFullYear() + ' :</h3>' ;
-  s += 'Date de début et fin (incluses), M=Matin, A=Après-midi.' ;
-  s += '<p>ABJ pour le matin :<table class="colored">' ;
+  s = '<h3>' + _("MSG_abjtt_from_before") + ' ' + days_long[d.getDay()] + ' '
+      + d.getDate() + ' ' + months[d.getMonth()] + ' ' + d.getFullYear()
+      + _("MSG_abjtt_from_after") + '</h3>' ;
+  s += _("MSG_abjtt_begin_end") ;
+  s += '<p>' + _("MSG_abjtt_morning") + '<table class="colored">' ;
   for(var i=0; i<ttam.length; i++)
     s += ttam[i] ;
   s += '</table>' ;
-  s += '<p>ABJ pour l\'après-midi :<table class="colored">' ;
+  s += '<p>' + _("MSG_abjtt_afternoon") + '<table class="colored">' ;
   for(var i=0; i<ttpm.length; i++)
     s += ttpm[i] ;
   s += '</table>' ;
@@ -77,7 +78,7 @@ function abj_per_day()
   var p = html_begin_head(true) ;
 
 
-  var title = 'ABJ/TT/DA pour ' + ue + ' ' + semester + ' ' + year ;
+  var title = _("TITLE_abjtt") + ' ' + ue + ' ' + semester + ' ' + year ;
 
   p += '<script src="_URL_/abj.js"></script>' +
     '<title>' + title + '</title>' +
@@ -93,7 +94,7 @@ function abj_per_day()
       s += "the_abjs['" + i + "'] = [" ;
       if ( lines[login_to_line_id(i)] === undefined )
 	  {
-	      bug += 'BUG : ' + login_to_line_id(i) + ' introuvable\n' ;
+	      bug += 'BUG : ' + login_to_line_id(i) + ' unfound\n' ;
 	      continue ;
 	  }
       names += ',\"' + i + '\":\"' + lines[login_to_line_id(i)][2].value
@@ -169,17 +170,17 @@ function abj_per_day()
     }
 
   if ( nr )
-    p += '<h2>Les ABJS</h2>\n'
-      + '<p>Cliquez pour choisir votre jour :'
-      + '<table class="colored abj_table">' + table_abjs + '</table>'
-      + 'Le tableau précédent contient <b>'
-      + nr + "</b> journées d'absence.<br>"
-      + 'Vous pouvez obtenir la '
-      + '<a href="_URL_/=' + ticket + '/' + year + '/' + semester
-      + '/' + ue + '/resume">liste des ABJ/TT/DA</a> '
-      + 'en une seule page.<br>' ;
+      p += '<h2>' + _("TITLE_abjtt_abj") + '</h2>\n'
+	  + '<p>' + _("MSG_abjtt_choose_day")
+	  + '<table class="colored abj_table">' + table_abjs + '</table>'
+	  + _("MSG_abjtt_explanation_before") + ' <b>'
+	  + nr + "</b> " + _("MSG_abjtt_explanation_after") + "<br>"
+	  + _("MSG_abjtt_more_before") + ' '
+	  + '<a href="_URL_/=' + ticket + '/' + year + '/' + semester
+	  + '/' + ue + '/resume">' + _("MSG_abjtt_more_link") + '</a> '
+	  + _("MSG_abjtt_more_after") + '<br>' ;
   else
-    p += "<h2>Pas d'absences justifiées</h2>" ;
+      p += "<h2>" + _("TITLE_abjtt_no_abj") + "</h2>" ;
 
 
   var tt = [], tt2 = [], data, line, student, da ;
@@ -210,16 +211,16 @@ function abj_per_day()
   tt2.sort() ;
 
   if ( tt.length == 0 )
-    tt = '<h2>Pas de tiers-temps</h2>' ;
+      tt = '<h2>' + _("TITLE_abjtt_no_tt") + '</h2>' ;
   else
-    tt = '<h2>Tiers-temps</h2><table class="colored abj_table_tt">'
-      +  tt.join('\n') + '</table>' ;
+      tt = '<h2>' + _("TITLE_abjtt_tt") + '</h2>'
+	  + '<table class="colored abj_table_tt">' + tt.join('\n') +'</table>';
 
   if ( tt2.length == 0 )
-    tt2 = '<h2>Pas de dispenses d\'assiduité</h2>' ;
+      tt2 = '<h2>' + _("TITLE_abjtt_no_da") + '</h2>' ;
   else
-    tt2 = '<h2>Dispenses d\'assiduité</h2><table class="colored abj_table_da">'
-      + tt2.join('\n') + '</table>' ;
+      tt2 = '<h2>' + _("TITLE_abjtt_da") + '</h2>'
+	  + '<table class="colored abj_table_da">'+tt2.join('\n') + '</table>';
 
 
   p += '<div id="div_abjs"></div>' + tt + tt2 + '</html></body>' ;
