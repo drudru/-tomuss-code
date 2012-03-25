@@ -50,24 +50,23 @@ function a_float(txt)
     return Number(txt) ;
 }
 
-/* Extract a number from 'txt' after the first string 'after'.
-   If it is not possible, return 'default_value'
-*/
-function get_number(txt, after, default_value)
+function left_justify(text, size)
 {
-  txt = (' ' + txt).split(after) ;
-
-  if ( txt.length != 2 )
-    return default_value ;
-
-  txt = txt[1].replace(',', '.') ;
-  var i = txt.search(/[^-0-9.]/) ;
-  if ( i != -1 )
-    txt = txt.slice(0, i) ;
-  if ( txt === '' )
-    return default_value ;
-  return Number(txt) ;
+  return (text + '                                       ').substr(0,size).replace(/ /g, '&nbsp;') ;
 }
+
+function two_digits(x)
+{
+  if ( x < 10 )
+    return '0' + x ;
+  return x.toString() ;
+}
+
+/*****************************************************************************/
+/*****************************************************************************/
+/* Date Time management */
+/*****************************************************************************/
+/*****************************************************************************/
 
 function millisec()
 {
@@ -181,55 +180,53 @@ function formatte_date(d)
   return d.getDate() + '/' + (d.getMonth() + 1) + '/' + d.getFullYear() ;
 }
 
-function left_justify(text, size)
+function get_date_tomuss(yyyymmddhhmmss)
 {
-  return (text + '                                       ').substr(0,size).replace(/ /g, '&nbsp;') ;
+  var year    = yyyymmddhhmmss.slice(0 , 4 ) ;
+  var month   = yyyymmddhhmmss.slice(4 , 6 ) ;
+  var day     = yyyymmddhhmmss.slice(6 , 8 ) ;
+  var hours   = yyyymmddhhmmss.slice(8 , 10) ;
+  var minutes = yyyymmddhhmmss.slice(10, 12) ;
+  var seconds = yyyymmddhhmmss.slice(12, 14) ;
+  return new Date(year, month-1, day, hours, minutes, seconds) ;    
 }
 
-function two_digits(x)
+// See strftime for documentation
+Date.prototype.formate = function(format)
 {
-  if ( x < 10 )
-    return '0' + x ;
-  return x.toString() ;
+    var ap = Number(this.getHours() >= 12 ) ;    
+    var ampm      = ampms     [ap] ;
+    var ampm_full = ampms_full[ap] ;
+    return format
+    .replace('%Y', this.getFullYear())
+    .replace('%m', two_digits(this.getMonth()+1))
+    .replace('%d', two_digits(this.getDate()))
+    .replace('%H', two_digits(this.getHours()))
+    .replace('%M', two_digits(this.getMinutes()))
+    .replace('%S', two_digits(this.getSeconds()))
+    .replace('%a', days[this.getDay()])
+    .replace('%A', days_full[this.getDay()])
+    .replace('%B', months_full[this.getMonth()])
+    .replace('%b', months[this.getMonth()])
+    .replace('%p', ampm)
+    .replace('%P', ampm_full)
+    ;
 }
 
-// var jours = ["Dimanche", "Lundi", "Mardi", "Mercredi", "Jeudi", "Vendredi", "Samedi"] ;
-var jours = ["Dim", "Lun", "Mar", "Mer", "Jeu", "Ven", "Sam"] ;
-var jours_full = ["Dimanche", "Lundi", "Mardi", "Mercredi", "Jeudi", "Vendredi", "Samedi"] ;
 
 function date(x)
 {
   if ( x === '' )
     return '' ;
-
-  var year = x.slice(0, 4) ;
-  var month = x.slice(4, 6) ;
-  var day = x.slice(6, 8) ;
-  var hours = x.slice(8, 10) ;
-  var minutes = x.slice(10, 12) ;
-  var seconds = x.slice(12, 14) ;
-
-  var d = new Date(year, month-1, day, hours, minutes, seconds).getDay() ;
-
-  return jours[d] + ' ' + day + '/' + month + '/' + year + ' ' + hours + "h" + minutes + '.' + seconds ;
+  return get_date_tomuss(x).formate('%a %d/%m/%Y %H:%M.%S') ;
 }
 
-var months_full = ['Janvier', 'Février', 'Mars', 'Avril', 'Mai', 'Juin', 'Juillet', 'Août', 'Septembre', 'Octobre', 'Novembre', 'Décembre' ] ;
 function date_full(x)
 {
   if ( x === '' )
     return '' ;
-
-  var year = x.slice(0, 4) ;
-  var month = x.slice(4, 6) ;
-  var day = x.slice(6, 8) ;
-  var hours = x.slice(8, 10) ;
-  var minutes = x.slice(10, 12) ;
-  var seconds = x.slice(12, 14) ;
-
-  var d = new Date(year, month-1, day, hours, minutes, seconds).getDay() ;
-
-  return jours_full[d] + ' ' + day + ' ' + months_full[month-1] + ' ' + year + ' à ' + hours + " heure " + minutes + ' minutes et ' + seconds + ' secondes' ;
+  return get_date_tomuss(x).formate
+      ('%A %d %B %Y à %H heures %M minutes et %S secondes') ;
 }
 
 // Code snippet from http://www.quirksmode.org/js/findpos.html

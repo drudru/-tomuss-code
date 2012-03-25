@@ -1620,3 +1620,22 @@ msgstr "Assiduity exemptation"
 
 msgid "TITLE_abjtt_no_da"
 msgstr "No assiduity exemptation"
+
+msgid "MSG_days"
+msgstr "['Sun','Mon','Tue','Wed','Thu','Fri','Sat']"
+
+msgid "MSG_days_full"
+msgstr "['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday']"
+
+msgid "MSG_months"
+msgstr "['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec']"
+
+msgid "MSG_months_full"
+msgstr "['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December' ]"
+
+msgid "MSG_ampms"
+msgstr "['M','A']"
+
+msgid "MSG_ampms_full"
+msgstr "['Morning','Afternoon']"
+

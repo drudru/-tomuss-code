@@ -146,7 +146,7 @@ def table_head_more(ue):
 def table_head(year=None, semester=None, ticket=None,
                user_name='', page_id=-1, ue='',
                create_pref=True,
-               attrs_from=0):
+               attrs_from=0, hide_more=False):
     s = configuration.suivi.url(year, semester, ticket)
     prefs_table = get_preferences(user_name, create_pref)
     try:
@@ -190,7 +190,7 @@ def table_head(year=None, semester=None, ticket=None,
                                                     attr.default_value))
                            for attr in column.TableAttr.attrs.values()
                            ) + '} ;\n' +
-            table_head_more(ue) +
+            (hide_more and '' or table_head_more(ue)) +
             '</script>\n')
 
 def import_template(names):

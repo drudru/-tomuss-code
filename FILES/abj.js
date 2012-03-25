@@ -1,7 +1,7 @@
 // -*- coding: utf-8 -*-
 /*
     TOMUSS: The Online Multi User Simple Spreadsheet
-    Copyright (C) 2008-2011 Thierry EXCOFFIER, Universite Claude Bernard
+    Copyright (C) 2008-2012 Thierry EXCOFFIER, Universite Claude Bernard
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -40,24 +40,13 @@ var moving_date ;
 var old_login ;
 
 // Constants
-var months = ["Jan","Fév","Mar","Avr","Mai","Jui","Jul",
-	     "Aoû", "Sep","Oct","Nov","Déc"] ;
 
-var months_long = ["Janvier","Février","Mars","Avril","Mai","Juin","Juillet",
-	     "Août", "Septembre","Octobre","Novembre","Décembre"] ;
-
-var days = ["Dim", "Lun", "Mar", "Mer", "Jeu", "Ven", "Sam"] ;
-
-var days_long = ["Dimanche", "Lundi", "Mardi", "Mercredi",
-		 "Jeudi", "Vendredi", "Samedi"] ;
-
-var am = 'M' ;
-var pm = 'A' ;
-var contains_pm = new RegExp('.*(' + pm + '|' + pm.toLowerCase() + ').*') ;
-
+var contains_pm ;
+var _today = new Date() ;
 
 function abj_init()
 {
+  lib_init() ;
   student         = document.getElementById('student'        ) ;
   student_display = document.getElementById('student_display') ;
   dates           = document.getElementById('dates'          ) ;
@@ -71,17 +60,16 @@ function abj_init()
   da_list         = document.getElementById('da'             ) ;
   comment         = document.getElementById('abjcomment'     ) ;
 
+  contains_pm = new RegExp('.*(' + ampms[1] + '|' + ampms[1].toLowerCase() + ').*') ;
+
   old_login = '' ;
 
-  _today = new Date() ;
    _today.setHours(0,0,0,0) ;
 
-
    // Initialize date bar
-   end.value = _today.getDate() + '/' + (_today.getMonth() + 1) + '/' +
-     _today.getFullYear() + ' ' + pm ;
+   end.value = _today.formate('%d/%m/%Y %p') ;
    
-   ampm.childNodes[ampm.childNodes.length-1].full_time = formatte_date(_today) + ' ' + pm ;
+   ampm.childNodes[ampm.childNodes.length-1].full_time = end.value ;
    ampm.childNodes[ampm.childNodes.length-1].start_time = _today.getTime() ;
    
    var i = dates.childNodes.length - 2 ;
@@ -91,27 +79,24 @@ function abj_init()
        var td = dates.childNodes[i] ;
        var week_day = _today.getDay() ;
        
-       td.innerHTML = days[week_day] + '<br>' + _today.getDate() + '<br>' +
-	 months[_today.getMonth()] ;
+       td.innerHTML = _today.formate('%a<br>%d<br>%b') ;
        if ( week_day === 0 || week_day == 6 )
 	 td.className = 'weekend' ;
        
        td = ampm.childNodes[i*2-1] ;
-       td.innerHTML = am ;
+       td.innerHTML = ampms[0] ;
        if ( week_day === 0 || week_day == 6 )
 	 td.className = 'weekend' ;
        td.start_time = _today.getTime() ;
-       td.full_time = _today.getDate() + '/' + (_today.getMonth() + 1) + '/' +
-	 _today.getFullYear() + ' ' + am ;
+       td.full_time = _today.formate('%d/%m/%Y %p') ;
        _today.setHours(12) ;
        
        td = ampm.childNodes[i*2+1-1] ;
-       td.innerHTML = pm ;
+       td.innerHTML = ampms[1] ;
        if ( week_day === 0 || week_day == 6 )
 	 td.className = 'weekend' ;
        td.start_time = _today.getTime() ;
-       td.full_time = _today.getDate() + '/' + (_today.getMonth() + 1) + '/' +
-	 _today.getFullYear() + ' ' + pm ;
+       td.full_time = _today.formate('%d/%m/%Y %p') ;
        
        _today.setHours(0) ;
        _today.setTime(_today.getTime() - 3600*1000) ;
@@ -120,8 +105,7 @@ function abj_init()
        i-- ;
      }
    
-   start.value = _today.getDate() + '/' + (_today.getMonth() + 1) + '/' +
-     _today.getFullYear() ;
+   start.value = _today.formate('%d/%m/%Y') ;
    
    enddate.style.position = "absolute" ;
    startdate.style.position = "absolute" ;
@@ -149,10 +133,12 @@ function abj_init()
 function parse_date(t, allow_far_future)
 {
   var h ;
+  _today = new Date() ;
 
   if ( t === undefined )
-    return new Date() ;
-  text = t.split(/[ \/AMPamp]/) ; /* \/ because of old netscape versions */
+    return _today ;
+  // text = t.split(/[ \/AMPamp]/) ; /* \/ because of old netscape versions */
+  text = t.toUpperCase().split(new RegExp('[ /' + ampms[0] + ampms[1] + ']')) ;
   if ( text[0] === '' )
     text[0] = _today.getDate() ;
   if ( text.length == 1 )
@@ -227,29 +213,17 @@ function update_cursor_start()
 
 function nice_date_short(d)
 {
-  var date = parse_date(d) ;
-  var s = days[date.getDay()] + ' ' ;
-  if ( date.getDate() < 10 )
-    s += '0' ;
-  s += date.getDate() + '/' ;
-  if ( date.getMonth() < 9 )
-    s += '0' ;
-  s += (date.getMonth()+1) + '/' + date.getFullYear()
-    + (date.getHours() < 8 ? 'M' : 'A') ;
-  return s ;
+    return parse_date(d).formate('%d/%m/%Y%p') ;
 }
 
 function nice_date(d)
 {
-  return nice_date_short(d).replace(/M$/, ' Matin')
-    .replace(/A$/, ' Après-midi') ;
+    return parse_date(d).formate('%d/%m/%Y %P') ;
 }
 
 function date_to_store(d, allow_far_future)
 {
-  d = parse_date(d, allow_far_future) ;
-  return d.getDate() + '/' + (d.getMonth() + 1) + '/' +
-    d.getFullYear() + '/' + (d.getHours() < 8 ? 'M' : 'A') ;
+    return parse_date(d).formate('%d/%m/%Y%p') ;
 }
 
 function update_button_real()

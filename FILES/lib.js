@@ -110,6 +110,9 @@ var t_menutop ;
 // Redefined if needed
 var root ;
 var my_identity ;
+var days, days_full, months, months_full, ampms, ampms_full ;
+
+
 
 function lib_init()
 {
@@ -191,6 +194,13 @@ function lib_init()
     first_day = 0 ;
   if ( isNaN(last_day) )
     last_day = 86400000 * 365 * 1000 ; // parse_date('31/12/2100').getTime() ;
+
+  days = eval(_("MSG_days")) ;
+  days_full = eval(_("MSG_days_full")) ;
+  months = eval(_("MSG_months")) ;
+  months_full = eval(_("MSG_months_full")) ;
+  ampms = eval(_("MSG_ampms")) ;
+  ampms_full = eval(_("MSG_ampms_full")) ;
 }
 
 
@@ -3502,7 +3512,7 @@ function html_begin_head(hide_title, pb, more)
       'adeweb = {};\n' + // XXX should not be here (LOCAL/spiral.py)
       'table_attr = ' + a + ';\n' +
       wait_scripts + // The function definition
-      '</script>\n' +
+      'lib_init();</script>\n' +
       '<title>' + ue + ' ' + year + ' ' + semester + '</title>' +
       '</head>' ;
 

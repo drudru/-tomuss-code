@@ -55,9 +55,8 @@ function compute_abj_per_day(t)
     }
   ttam.sort() ;
   ttpm.sort() ;
-  s = '<h3>' + _("MSG_abjtt_from_before") + ' ' + days_long[d.getDay()] + ' '
-      + d.getDate() + ' ' + months[d.getMonth()] + ' ' + d.getFullYear()
-      + _("MSG_abjtt_from_after") + '</h3>' ;
+  s = '<h3>' + _("MSG_abjtt_from_before") + ' ' +
+      d.formate('%A %d %B %Y') + _("MSG_abjtt_from_after") + '</h3>' ;
   s += _("MSG_abjtt_begin_end") ;
   s += '<p>' + _("MSG_abjtt_morning") + '<table class="colored">' ;
   for(var i=0; i<ttam.length; i++)
@@ -105,8 +104,8 @@ function abj_per_day()
 	{
 	  j = i[0][j] ;
 	  t += ',["' + j[0] + '","' + j[1] + '","' + j[2] + '"]' ;
-	  end = parse_date(j[1].replace(am,pm)).getTime() ;
-	  for(var d=parse_date(j[0].replace(pm,am));
+	  end = parse_date(j[1].replace(ampms[0],ampms[1])).getTime() ;
+	  for(var d=parse_date(j[0].replace(ampms[1],ampms[0]));
 	      d.getTime() < end;
 	      d.setTime(d.getTime() + 86400*1000)
 	      )

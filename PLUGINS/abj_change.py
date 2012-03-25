@@ -24,6 +24,7 @@ import utilities
 import abj
 import configuration
 from files import files
+import document
 
 css = """
 TR#dates TD {
@@ -50,6 +51,7 @@ DIV#student_display IMG {
 
 INPUT#sendabj { 
   width: 20em ;
+  background: #EEE; 
 /*  border: 3px outset #444 ; */
 }
 
@@ -64,6 +66,8 @@ P.wait { background-color: #8F8 ; }
 
 .abj_comments { border: 3px solid black; line-height: 1.5em }
 .abj_comments A { border: 1px solid black ; }
+
+#abjcomment, #dateda { background: white; }
 
 """
 
@@ -98,11 +102,11 @@ utilities.start_new_thread_immortal(keep_alive, ())
 def abj_home(server):
     """Display the home page for ABJ management"""
     utilities.warn('Start')
-    d = str(files['abj.html']) \
-        .replace('YEAR', utilities.js(str(server.the_year))) \
-        .replace('SEMESTER', utilities.js(server.the_semester)) \
-        .replace('PAGE', str(len(pages))) \
-        .replace('TICKET', utilities.js(server.ticket.ticket))
+    d = document.table_head(int(server.the_year), server.the_semester,
+                            ticket=server.ticket.ticket,
+                            user_name = server.ticket.user_name,
+                            page_id=len(pages), hide_more=True,
+                            ) + str(files['abj.html'])
     server.the_file.write(d)
     if configuration.regtest_sync:
         server.the_file.close()

@@ -1619,7 +1619,23 @@ msgstr "Dispenses d'assiduité"
 msgid "TITLE_abjtt_no_da"
 msgstr "Pas de dispenses d'assiduité"
 
+msgid "MSG_days"
+msgstr "['Dim','Lun','Mar','Mer','Jeu','Ven','Sam']"
 
+msgid "MSG_days_full"
+msgstr "['Dimanche','Lundi','Mardi','Mercredi','Jeudi','Vendredi','Samedi']"
+
+msgid "MSG_months"
+msgstr "['Jan','Fév','Mar','Avr','Mai','Jun','Jul','Aoû','Sep','Oct','Nov','Déc']"
+
+msgid "MSG_months_full"
+msgstr "['Janvier', 'Février', 'Mars', 'Avril', 'Mai', 'Juin', 'Juillet', 'Août', 'Septembre', 'Octobre', 'Novembre', 'Décembre' ]"
+
+msgid "MSG_ampms"
+msgstr "['M','A']"
+
+msgid "MSG_ampms_full"
+msgstr "['Matin','Après-midi']"
 
 
 

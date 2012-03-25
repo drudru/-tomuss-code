@@ -1,17 +1,4 @@
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
-<html>
-  <head>
-    <META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=UTF-8">
-    <script src="_URL_/utilities.js"></script>
-    <script src="_URL_/types.js"></script>    
-    <script src="_URL_/lib.js"></script>
-    <script src="_URL_/middle.js"></script>
-    <script src="_URL_/abj.js"></script>
-    <link REL="icon" HREF="_URL_/favicon.ico">
-    <link rel="stylesheet" href="_URL_/style.css" type="text/css">
     <title>Gestion des ABJ</title>
-    <!-- Do not move this line : firefox bug -->
-    <link rel="stylesheet" href="_URL_/style.css" type="text/css">
   </head>
   <body id="body" class="body" style="margin-left:0px;margin-right:0px">
 
@@ -58,10 +45,7 @@
     </tr></table>
 <div id="datasend"></div>
 <SCRIPT><!--
-year = YEAR ;
-semester = SEMESTER ;
-ticket = TICKET ;
-page = PAGE ;
+page = Number(page_id) ;
 baset = '_URL_/=' + ticket + '/' + year + '/' + semester + '/abj/' + page + '/' ;
 document.getElementById('h1').innerHTML += ' ' + semester + ' ' + year ;
 abj_init() ;
