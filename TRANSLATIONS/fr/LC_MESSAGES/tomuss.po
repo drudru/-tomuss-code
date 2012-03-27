@@ -1637,5 +1637,38 @@ msgstr "['M','A']"
 msgid "MSG_ampms_full"
 msgstr "['Matin','Après-midi']"
 
+msgid "TITLE_columnexport_before"
+msgstr "Exporte la colonne «"
+
+msgid "TITLE_columnexport_after"
+msgstr "»"
+
+msgid "MSG_columnexport"
+msgstr "Pour transférer de TOMUSS vers APOGÉE&nbsp;:\n"
+       "<ul><li> Collez dans la grande zone de saisie (blanche)\n"
+       "les numéros d'étudiants venant d'APOGÉE.\n"
+       "<li> Cochez <input type=\"checkbox\" id=\"abjvalue\">\n"
+       "pour transformer les ABJ et les PPN en 0.\n"
+       "<li> Cliquez sur <BUTTON OnClick=\"export_column_value();\">\n"
+       "récupérer les notes</BUTTON>\n"
+       "<li> Copiez les notes de la zone de saisie vers APOGÉE\n"
+       "(en utilisant Excel en Français).\n"
+       "</ul>"
+       "Sinon vous pouvez <BUTTON OnClick=\"export_column_id_value();\">\n"
+       "exporter les numéros d'étudiants et les valeurs</BUTTON>\n"
+       "ou <BUTTON OnClick=\"export_column_uniques_values();\">\n"
+       "les valeurs <b>uniques</b></BUTTON> de cette colonne\n"
+       "vers la zone de saisie pour les copier dans votre tableur favori."
+
+msgid "ALERT_columnexport_no_id"
+msgstr "Il y a une ligne sans numéro d'étudiant"
+
+msgid "ALERT_columnexport_unfound"
+msgstr "Au moins un numéro d'étudiant n'a pas été trouvé.\n"
+       "La valeur a été mise à ???."
+
+msgid "ALERT_columnexport_unexported"
+msgstr "Les étudiants suivants n'ont pas eu leur notes exportées :"
+
 
 

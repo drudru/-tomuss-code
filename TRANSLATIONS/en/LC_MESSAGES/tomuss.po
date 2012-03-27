@@ -959,7 +959,7 @@ msgstr "abj da tt"
 
 #. GUI 
 msgid "TITLE_table_attr_autosave"
-msgstr "Enregistrement automatique"
+msgstr "Automatic saving"
 
 #. GUI 
 msgid "TITLE_table_attr_bookmark"
@@ -1638,4 +1638,35 @@ msgstr "['M','A']"
 
 msgid "MSG_ampms_full"
 msgstr "['Morning','Afternoon']"
+
+msgid "TITLE_columnexport_before"
+msgstr "Export columns «"
+
+msgid "TITLE_columnexport_after"
+msgstr "»"
+
+msgid "MSG_columnexport"
+msgstr "To export values to external tables&nbsp;:\n"
+       "<ul><li> Paste the student IDs in the big input area.\n"
+       "<li> Check <input type=\"checkbox\" id=\"abjvalue\">\n"
+       "to translate ABJ and PPN to 0.\n"
+       "<li> Click on the <BUTTON OnClick=\"export_column_value();\">\n"
+       "retrieve values</BUTTON>\n"
+       "<li> Copy the value in the external table.\n"
+       "</ul>"
+       "Else, you can <BUTTON OnClick=\"export_column_id_value();\">\n"
+       "export the student IDs and values</BUTTON>\n"
+       "or <BUTTON OnClick=\"export_column_uniques_values();\">\n"
+       "the <b>unique</b> values</BUTTON> in the column\n"
+       "to the big input area."
+
+msgid "ALERT_columnexport_no_id"
+msgstr "There is a line without student ID"
+
+msgid "ALERT_columnexport_unfound"
+msgstr "There is at least one missing student in TOMUSS table.\n"
+       "The unknown values have been set to ???."
+
+msgid "ALERT_columnexport_unexported"
+msgstr "The following students values have not been exported:"
 

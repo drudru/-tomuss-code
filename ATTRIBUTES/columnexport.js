@@ -23,14 +23,8 @@
 function export_column()
 {
   create_popup('export_div',
-	       "Exporte la colonne «" + the_current_cell.column.title + '»',
-	       'Pour transférer de TOMUSS vers APOGÉE&nbsp;:' +
-	       "<ul><li>Collez dans la grande zone de saisie (blanche) les numéros d'étudiants venant d'APOGÉE" +
-	       '<li>Cochez <input type="checkbox" id="abjvalue"> pour transformer les ABJ et les PPN en 0.'+
-	       '<li>Cliquez sur <BUTTON OnClick="export_column_value();">récupérer les notes</BUTTON>' +
-	       '<li>Copiez les notes de la zone de saisie vers APOGÉE (en utilisant Excel en Français).</ul>' +
-	       'Sinon vous pouvez <BUTTON OnClick="export_column_id_value();">exporter les numéros d\'étudiants et les valeurs</BUTTON> ou <BUTTON OnClick="export_column_uniques_values();">les valeurs <b>uniques</b></BUTTON> de cette colonne vers la zone de saisie pour les copier dans votre tableur favori.',
-	       '') ;
+	       _("TITLE_columnexport_before") + the_current_cell.column.title
+	       + _("TITLE_columnexport_after"), _("MSG_columnexport"), '') ;
 }
 
 function export_column_uniques_values()
@@ -134,7 +128,7 @@ function export_column_value()
       if ( multiline[i] === '' )
 	{
 	  element_focused = undefined ;
-	  alert("Il y a une ligne sans numéro d'étudiant") ;
+	  alert(_("ALERT_columnexport_no_id")) ;
 	  return ;
 	}
       line_id = login_to_line_id(login_to_id(multiline[i].replace(/ */g,''))) ;
@@ -155,8 +149,6 @@ function export_column_value()
   popup_set_value(v) ;
 
   var m = '' ;
-  if ( error )
-    m = "Au moins un numéro d'étudiant n'a pas été trouvé.\nLa valeur a été mise à ???.\n\n" ;
 
   for(var line in filtered_lines)
     if ( exported[filtered_lines[line][0].value] != true )
@@ -165,5 +157,11 @@ function export_column_value()
 	  + filtered_lines[line][data_col].value + '\n' ;
 
   if ( m !== '' )
-    alert("Les étudiants suivants n'ont pas eu leur notes exportées :\n" + m) ;
+      m = _("ALERT_columnexport_unexported") + '\n' + m ;
+
+  if ( error )
+      m = _("ALERT_columnexport_unfound") + "\n\n" + m ;
+
+  if ( m )
+      alert(m) ;
 }

@@ -123,7 +123,7 @@ class Display:
     def start_dumper(self):
         print 'Start dumper'
         self.dumper = subprocess.Popen(
-                ('./dumper', '127.0.0.1:%d' % self.port),
+                ('nice', './dumper', '127.0.0.1:%d' % self.port),
                 stdin = subprocess.PIPE,
                 stdout = subprocess.PIPE,
                 )
@@ -181,6 +181,7 @@ class Display:
         try:
             return eval(line)
         except SyntaxError: # Le dumper a planter :-( XXX Pourquoi
+            print 'line=(%s)' % line
             self.start_dumper()
             self.dump()
             return self.rects()
