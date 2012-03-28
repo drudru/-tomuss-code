@@ -29,7 +29,7 @@ warn = utilities.warn
 def client_ip(server):
     try:
         # In cas of proxy
-        ip = server.headers["X-Forwarded-For"]
+        ip = server.headers["x-forwarded-for"]
         try:
             # Take the first IP
             return utilities.safe(ip.split(",")[0])
@@ -57,10 +57,10 @@ class Ticket(object):
         self.language = lang
 
     def is_fine(self, server):
-        # print self.user_name, (time.time() - self.date) , configuration.ticket_time_to_live, self.user_ip, client_ip(server), self.user_browser, server.headers["User-Agent"]
+        # print self.user_name, (time.time() - self.date) , configuration.ticket_time_to_live, self.user_ip, client_ip(server), self.user_browser, server.headers["user-agent"]
         if self.user_name == self.ticket:
             return True
-        user_browser = server.headers.get("User-Agent", '')
+        user_browser = server.headers.get("user-agent", '')
         if user_browser == '':
             utilities.send_mail_in_background(
                 configuration.maintainer,

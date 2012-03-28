@@ -321,10 +321,11 @@ def student(server, login=''):
                                     ) == False:
         server.the_file.write(str(charte).replace("_TICKET_", server.ticket.ticket))
         return
-        
+
     server.the_file.write((str(header2).replace("_USERNAME_",
-                                          server.ticket.user_name)
-                          .replace("_ADMIN_", configuration.maintainer) +
+                                                server.ticket.user_name)
+                           .replace("_LANG_", document.translations_init(server.ticket.language))
+                           .replace("_ADMIN_", configuration.maintainer) +
                           '<p id="x" style="background:yellow"><b>Chargement en cours, veuillez patienter s\'il vous plait. Cela ira encore plus lentement si vous réactualisez la page.</b></p>').replace('\n',''))
     server.the_file.flush()
     server.the_file.write(
@@ -351,11 +352,15 @@ plugin.Plugin('accept', '/accept', function=accept, teacher=False,
 
 def home(server, nothing_behind=True):
     """Display the home page for 'suivi', it asks the student id."""
-    the_header = str(header).replace("_TICKET_", server.ticket.ticket) \
-                 .replace("_MESSAGE_", '') \
-                 .replace("_SEMESTER_", server.semester) \
-                 .replace("_USERNAME_", server.ticket.user_name) \
-                 .replace("_YEAR_", str(server.year))
+    server.ticket.set_language(server.headers.get('accept-language',''))
+        
+    the_header = (str(header).replace("_TICKET_", server.ticket.ticket)
+                  .replace("_MESSAGE_", '')
+                  .replace("_LANG_", document.translations_init(server.ticket.language))
+                  .replace("_SEMESTER_", server.semester)
+                  .replace("_USERNAME_", server.ticket.user_name)
+                  .replace("_YEAR_", str(server.year))
+                  )
 
     server.the_file.write(the_header)
 
@@ -459,7 +464,6 @@ def display_login(server, login, expand=False):
 
 def page_suivi(server):
     """Display the informations about all the students indicated."""
-
     if len(server.the_path) == 0:
         server.the_path = [''] # XXX Not nice
 

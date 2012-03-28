@@ -9,10 +9,15 @@
     <script src="_URL_/types.js"></script>
     <script src="_URL_/lib.js"></script>
     <script src="_URL_/suivi_student.js"></script>
+    _LANG_
   </head>
   <body class="suivi _SEMESTER_">
     <div class="identity">
       <a href="_URL_/logout">Déconnexion</a> <b>_USERNAME_</b><br>
+    <script>
+      if ( "_USERNAME_" == 'thierry.excoffier' )
+          document.write('<a href="reload_plugins">Reload plugins</a>');
+    </script>
     <div id="allow_inline_block" class="notes"></div>
     </div>
     _MESSAGE_

@@ -289,7 +289,7 @@ function _%s()
 
 languages = set()
 
-def generate_data_files():
+def generate_data_files(suivi=False):
     #####################################
     # Generate MO files
     #####################################
@@ -319,12 +319,14 @@ def generate_data_files():
         language = language.lower()
         languages.add(language)
         filename = os.path.join('TMP', language + '.js')
-        f = open(filename, 'w')
-        f.write('translations["' + language + '"] = {')
-        generate_js('TRANSLATIONS')
-        generate_js(local_translation)
-        f.write('"_":""} ;\n')
-        f.close()
+
+        if not suivi:
+            f = open(filename, 'w')
+            f.write('translations["' + language + '"] = {')
+            generate_js('TRANSLATIONS')
+            generate_js(local_translation)
+            f.write('"_":""} ;\n')
+            f.close()
         files.files[language + '.js'] = utilities.StaticFile(filename)
 
     #####################################

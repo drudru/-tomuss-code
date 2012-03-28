@@ -46,7 +46,7 @@ class Moy(note.Note):
             more = ''
 
         comment = ('Calcul effectué: <b><script>document.write(_("'
-                   + self.title + '"))</script>' + what + '</b>'
+                   + self.__class__.__name__ + '"))</script>' + what + '</b>'
                    + more )
 
         return ('\001' + minmax, '', comment)

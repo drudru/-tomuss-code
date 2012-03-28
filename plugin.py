@@ -536,7 +536,7 @@ def get_menu_for(where, server, with_help=False):
 def bad_url(server):
     """As the URL is bad, the navigator is redirected to the home page"""
     warn('path: %s' % server.the_path, what="error")
-    warn('from: %s' % server.headers.get("Referer"), what="error")
+    warn('from: %s' % server.headers.get("referer"), what="error")
 
 def bad_url_message(server):
     server.the_file.write('bad_url')

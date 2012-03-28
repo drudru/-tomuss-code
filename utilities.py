@@ -899,7 +899,9 @@ class FakeRequestHandler(BaseHTTPServer.BaseHTTPRequestHandler):
             self.client_address = server.client_address
             
         self.the_path = server.the_path
-        self.headers = server.headers
+        self.headers = {} # Safest to make a copy in case of reuse.
+        for k,v in server.headers.items():
+            self.headers[k.lower()] = v
         self.ticket = server.ticket
         self.the_file = server.the_file
         self.start_time = server.start_time

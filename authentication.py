@@ -151,14 +151,14 @@ def get_path(server, server_url):
         if user_name:
             t = ticket.add_ticket(ticket_key, user_name,
                                   ticket.client_ip(server),
-                                  server.headers["User-Agent"],
+                                  server.headers["user-agent"],
                                   language=server.headers.get('accept-language',''))
 
             if path and path[0] == 'allow':
                 warn('allow request for ticket : ' + path[1], what="auth")
                 if path[1] not in ticket.tickets \
                        or ( ticket.tickets[path[1]].user_name == user_name
-                            and ticket.tickets[path[1]].user_browser == server.headers["User-Agent"]
+                            and ticket.tickets[path[1]].user_browser == server.headers["user-agent"]
                             ):
                     # Update the old ticket
                     ticket.tickets[path[1]] = ticket.clone(path[1], t)

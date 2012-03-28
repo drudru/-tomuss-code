@@ -28,16 +28,23 @@ function __(txt)
   for(var i in languages)
     {
       t = translations[languages[i]][txt]
-    if ( t )
-      return t ;
+	  if ( t )
+	      return t ;
     }
   return txt ;
 }
 
 function _(txt)
 {
-  languages = preferences.language.split(",") ;
-  _ = __ ;
+    try
+	{
+	    languages = preferences.language.split(",") ;
+	    _ = __ ;
+	}
+    catch(e)
+	{
+	    _ = function(x) { return x ; }
+	}
   return _(txt) ;
 }
 

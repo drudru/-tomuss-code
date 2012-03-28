@@ -173,7 +173,7 @@ def home_page(server):
     f.write('\n</td></tr></table>')
     # XXX Tester si accept gz dans les headers
     try:
-        encodings = server.headers['Accept-Encoding']
+        encodings = server.headers['accept-encoding']
     except KeyError:
         encodings = ''
     utilities.warn('Encodings: ' + encodings)

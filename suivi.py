@@ -195,6 +195,8 @@ if __name__ == "__main__":
     authentication.authentication_redirect = configuration.suivi.url(year, semester, ticket='TICKET')
     StaticFile._url_ = '/'.join(authentication.authentication_redirect.split('/')[0:-3])
 
+    plugins.generate_data_files(suivi=True)
+
     import tablestat
 
     # Load all the tables, in order to allow fast acces

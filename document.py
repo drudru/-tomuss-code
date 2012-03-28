@@ -143,6 +143,16 @@ def get_preferences(user_name, create_pref=True, the_ticket=None):
 def table_head_more(ue):
     return ''
 
+def translations_init(language):
+    languages = []
+    for lang in language.split(','):
+        languages.append(
+            '<script onload="this.onloadDone=true;" src="%s/%s.js"></script>'
+            % (utilities.StaticFile._url_, lang))
+    return ('<script>var translations = {},'
+            + 'preferences={"language":%s} ; </script>\n' % js(language)
+            + '\n'.join(languages) + '\n')
+
 def table_head(year=None, semester=None, ticket=None,
                user_name='', page_id=-1, ue='',
                create_pref=True,
@@ -157,15 +167,8 @@ def table_head(year=None, semester=None, ticket=None,
 
     my_identity2 = utilities.login_to_module(user_name)
 
-    languages = []
-    for lang in prefs_table['language'].split(','):
-        languages.append(
-            '<script onload="this.onloadDone=true;" src="%s/%s.js"></script>'
-            % (utilities.StaticFile._url_, lang))
-
-    return (str(the_head) + background
-            + '<script>var translations = {} ; </script>\n'
-            + '\n'.join(languages) + '\n' +
+    return (str(the_head) + background +
+            translations_init(prefs_table['language']) +
             '<script>\n' +
             'page_id = "%d" ;\n' % page_id +
             'my_identity = %s ;\n' % repr(user_name) +
