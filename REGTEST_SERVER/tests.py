@@ -1147,12 +1147,10 @@ Col({the_id:"col_1",type:"Note",author:"%s",position:0,title:"TITLE1"})
         # This history is visible
         assert('1.234' in c)
 
-        # The student the rank 7.77 is only once in the file (not visible)
+        # The student the rank 7.77 is not in the file (not visible)
         # And the rank 8.88 twice
         c = ss.url('=' + abj + '/%s/%%2010123456' % ys)
         assert('<h2 class="title">UE-INF20UE9 : </h2>' in c)
-        assert('7.77' in c)
-        c = c.replace('7.77','',1)
         assert('7.77' not in c)
         
         c = c.replace('8.88','',1)

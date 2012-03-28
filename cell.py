@@ -223,11 +223,13 @@ class Line(object):
         """The the number of cell in the line."""
         return len(self.cells)
 
-    def js(self, for_student=False):
+    def js(self, for_student=False, columns=None):
         """Translate the line in JavaScript"""
         if for_student:
             return '[' + ','.join([cell.js_student()
-                                   for cell in self.cells]) + ']'
+                                   for cell, col in zip(self.cells,
+                                                        columns)
+                                   if col.copy_on_browser()]) + ']'
         else:
             return '[' + ','.join([cell.js() for cell in self.cells]) + ']'
 
@@ -314,7 +316,7 @@ class Lines(object):
             s.append(self.columns.js(hide=1))
         else:
             s.append(self.columns.js(hide=True))
-        s.append('line = ' + line.js(for_student) + ';')
+        s.append('line = ' + line.js(for_student, columns=self.columns) + ';')
         s.append('for(var data_col in columns) { init_column(columns[data_col]); columns[data_col].data_col = data_col ; }')
         s.append('update_columns(line);')
         s.append('</script>\n')

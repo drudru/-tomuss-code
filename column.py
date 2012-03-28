@@ -423,6 +423,15 @@ class Column(object):
                 return False
         return True
 
+    def copy_on_browser(self):
+        """Returns True if the column is needed to compute a visible result"""
+        if self.visible():
+            return True
+        for use_me in self.table.columns.use(self):
+            if use_me.copy_on_browser():
+                return True
+        return False
+
     def is_modifiable(self, teacher):
         return (self.table.modifiable
                 and self.modifiable
@@ -519,15 +528,21 @@ class Columns(object):
         return len(self.columns)
 
     def js(self, hide):
-        """Returns the javaScript code describing all the columns."""
+        """Returns the javaScript code describing all NEEDED columns."""
         obfuscated = {}
         if hide is 1:
+            columns = []
             for c in self.columns:
+                if not c.copy_on_browser():
+                    continue
+                columns.append(c)
                 if not c.visible():
                     obfuscated[c.title] = hashlib.md5(c.title).hexdigest()
+        else:
+            columns = self.columns
             
         return 'columns = [\n'+',\n'.join([c.js(hide, obfuscated)
-                                           for c in self.columns]) + '\n];'
+                                           for c in columns]) + '\n];'
 
     def __iter__(self):
         """Iterate over the columns."""

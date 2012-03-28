@@ -719,7 +719,7 @@ msgstr "If&nbsp;empty"
 
 #. Label before the attribute
 msgid "BEFORE_column_attr_columns"
-msgstr "Formula"
+msgstr "Columns"
 
 #. Label before the attribute
 msgid "BEFORE_column_attr_weight"
