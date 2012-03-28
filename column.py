@@ -244,6 +244,8 @@ def table_attributes():
         if isinstance(attr, TableAttr):
             yield attr
 
+types_using_columns = ()
+
 def initialize():
     global attributes
 
@@ -276,6 +278,9 @@ def initialize():
 
     css = '\n'.join([attr.css for attr in attributes])
     files.files['style.css'].append('column.py', css)
+
+    global types_using_columns
+    types_using_columns = set(ColumnAttr.attrs['columns'].visible_for())
     
     return reloadeds
 
@@ -302,7 +307,7 @@ class Column(object):
 
     def depends_on(self):
         """Return the list of columns used to compute this one"""
-        if self.columns:
+        if self.columns and self.type.name in types_using_columns:
             return re.split(' +', self.columns.strip())
         return ()
 
