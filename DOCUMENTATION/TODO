@@ -140,12 +140,7 @@ Problèmes à résoudre.
 
 * Support du copier/collé dans les INPUT
 
-* On bascule la table en RO, on crée une colonne, on bascule en RW
-  on modifie une cellule : la colonne n'a pas été crée.
-
 * L'importation ne met pas à jour l'affichage ? Chrome ? Notes ?
-
-* Curseur du bouton « Importer dans TOMUSS » qui tourne
 
 * Les nouvelles lignes apparaissent même si elles ne sont pas filtrées
 
