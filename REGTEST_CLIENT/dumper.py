@@ -79,7 +79,9 @@ class Display:
                  port=0,
                  server=("/usr/bin/Xvfb", "", "/usr/bin/Xnest")[0],
                  title=None,
+                 catalogue="D",
                  ):
+        self.catalogue = catalogue
         if server == '': # Real display
             self.port = port
             self.width = resolution.split('x')[0]
@@ -121,9 +123,10 @@ class Display:
         self.start_dumper()
 
     def start_dumper(self):
-        print 'Start dumper'
+        print 'Start dumper', self.port, self.catalogue
         self.dumper = subprocess.Popen(
-                ('nice', './dumper', '127.0.0.1:%d' % self.port),
+                ('nice', './dumper', ':%d' % self.port,
+                 self.catalogue),
                 stdin = subprocess.PIPE,
                 stdout = subprocess.PIPE,
                 )

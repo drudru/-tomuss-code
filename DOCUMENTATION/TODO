@@ -140,6 +140,9 @@ Problèmes à résoudre.
 
 * Support du copier/collé dans les INPUT
 
+* On bascule la table en RO, on crée une colonne, on bascule en RW
+  on modifie une cellule : la colonne n'a pas été crée.
+
 * L'importation ne met pas à jour l'affichage ? Chrome ? Notes ?
 
 * Curseur du bouton « Importer dans TOMUSS » qui tourne
@@ -149,8 +152,6 @@ Problèmes à résoudre.
 * Copié à la souris dans une cellule : seulement si vide et seulement FF
 
 * Affichage /20 pour 'nombre' de dans le suivi.
-
-* Espace dans empty_is
 
 * httprequest ?
 

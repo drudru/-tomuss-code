@@ -51,7 +51,7 @@ static Image **chars ;
 
 #define MALLOC(X,N) do { X = calloc(sizeof(*X), N) ; assert(X) ; } while(0)
 #define LINE_SPACING 8
-#define CHAR_SPACING 5
+#define CHAR_SPACING 4 // 5 avant
 
 /******************************************************************************
  * Reading a PPM file
@@ -198,7 +198,9 @@ Image *get_image(Image *old)
 
   if ( dpy == NULL )
     {
+      fprintf(stderr, "Display %s\n", display_name) ;
       dpy = XOpenDisplay(display_name) ;
+      fprintf(stderr, "Dpy=%p\n", dpy) ;
       w = RootWindow(dpy, 0) ;
 
       XGetWindowAttributes(dpy, w, &win_info) ;
@@ -207,6 +209,8 @@ Image *get_image(Image *old)
       height = win_info.height;
 
       size = width * height * 4 ;
+      fprintf(stderr, "Screen %dx%d\n", width, height) ;
+
     }
 
   if ( old )
@@ -432,19 +436,20 @@ int filter(const struct dirent *f)
   return f->d_name[0] != '.' ;
 }
 
-Image* read_chars()
+Image* read_chars(char *dir)
 {
   struct dirent **namelist ;
   int i, n, index, m, j ;
   char name[999] ;
   Image *image, *first ;
   
-  n = scandir("D", &namelist, filter, NULL) ;
+  n = scandir(dir, &namelist, filter, NULL) ;
 
   first = NULL ;
   for(i=0;i<n;i++)
     {
-      sprintf(name, "D/%s", namelist[i]->d_name) ;
+      sprintf(name, "%s/%s", dir, namelist[i]->d_name) ;
+
       image = load_file(name) ;
       image->charname = namelist[i]->d_name ;
       image->charname[strlen(image->charname)-4] = '\0' ;
@@ -491,21 +496,29 @@ int main(int argc, char **argv)
 {
   char command[999], *parameter, filename[999] = "" ;
   Image *current, *previous, *first, *image = NULL, *diff_image = NULL ;
-
-  if ( argc != 2 )
+  char *dir ;
+  
+  if ( argc < 2 )
     {
       fprintf(stderr,
 	      "Give the X11 display as parameter (for example: ':1')\n") ;
       exit(1) ;
     }
+  if ( argc < 3 )
+    dir = "D" ;
+  else
+    dir = argv[2] ;
+      
   display_name = argv[1] ;
 
   MALLOC(chars, 256*256*256) ; // Images to search (hash table)
 
-  first = read_chars() ;
+  first = read_chars(dir) ;
+  fprintf(stderr, "Catalogue loaded\n") ;
   previous = get_image(NULL) ;
   current = get_image(NULL) ;
 
+  fprintf(stderr, "Ready\n") ;
   for(;;)
     {
       fflush(stdout) ;
