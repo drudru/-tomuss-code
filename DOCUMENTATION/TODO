@@ -27,8 +27,6 @@ Utilisateurs finaux.
 
 * Passer le nombre de notes min.max a enlever dans les paramètres colonnes ?
 
-* Type nombre_de : ajouter min/max ?
-
 * Insérer les lignes qui viennent du serveur aux bons endroits
 
 * Passer la source de donnée dans les paramètres colonnes ?
@@ -145,8 +143,6 @@ Problèmes à résoudre.
 * Les nouvelles lignes apparaissent même si elles ne sont pas filtrées
 
 * Copié à la souris dans une cellule : seulement si vide et seulement FF
-
-* Affichage /20 pour 'nombre' de dans le suivi.
 
 * httprequest ?
 

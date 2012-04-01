@@ -26,12 +26,6 @@ function compute_nmbr(data_col, line)
   var sum, tmp, cell ;
   var column = columns[data_col] ;
 
-  if ( column.average_columns.length === 0 )
-    {
-      line[data_col].set_value(0) ;
-      return;
-    }
-
   sum = 0 ;
   for(var c in column.average_columns)
     {
