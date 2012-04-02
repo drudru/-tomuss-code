@@ -132,6 +132,7 @@ def new_page(server):
     if table.is_extended:
         # Take the link destination (assuming ../..) and remove the .py
         link_to = os.readlink(table.filename)[:-3].split(os.path.sep)
+        table.do_not_unload_add(-1)
         if len(link_to) == 3:
             assert(link_to[0] == '..')
             assert(link_to[1][0] == 'S')
@@ -150,7 +151,6 @@ def new_page(server):
         
         server.the_file.write('<meta HTTP-EQUIV="REFRESH" content="0; url=%s">' % (link_to,))
         server.the_file.close()
-        table.do_not_unload_add(-1)
         return
     
     warn('New page, do_not_unload=%d' % table.do_not_unload, what="table")
