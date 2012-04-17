@@ -30,17 +30,6 @@ import os
 
 warn = utilities.warn
 
-class Useles(object):
-    closed = False
-    def close(self):
-        self.closed = True
-    def flush(self):
-        pass
-    def write(self, txt):
-        raise ValueError('write on Useles')
-
-Useles = Useles()
-
 class Link(object):
     def __init__(self,
                  text=None,
@@ -637,7 +626,7 @@ def dispatch_request(server, manage_error=True):
     server.plugin = p
     s.plugin = p
     if p.keep_open or p.launch_thread:
-        server.wfile = Useles
+        server.do_not_close_connection()
         warn('keep_open (closed=%s)' % server.the_file.closed, what='plugin')
 
     if p.launch_thread:

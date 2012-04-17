@@ -878,6 +878,24 @@ def print_lock_state_clean_cache():
             
         time.sleep(60)
 
+class Useles(object):
+    closed = False
+    def close(self):
+        self.closed = True
+    def flush(self):
+        pass
+    def write(self, txt):
+        raise ValueError('write on Useles')
+
+    # For socket replacement
+    def sendall(self, dummy=None):
+        pass
+    def shutdown(self,dummy=None):
+        pass
+
+Useles = Useles()
+
+
 import BaseHTTPServer
 
 class FakeRequestHandler(BaseHTTPServer.BaseHTTPRequestHandler):
@@ -909,7 +927,6 @@ class FakeRequestHandler(BaseHTTPServer.BaseHTTPRequestHandler):
         if hasattr(server, 'start_time_old'):
             self.start_time_old = server.start_time_old
         self.server = server
-        
 
         try:
             self.year = server.year
@@ -942,6 +959,17 @@ class FakeRequestHandler(BaseHTTPServer.BaseHTTPRequestHandler):
             self.server.__class__.log_time.im_func(self, action, **keys)
         except TypeError:
             self.server.__class__.log_time.__func__(self, action, **keys)
+
+    def do_not_close_connection(self):
+        self.wfile = Useles
+        self.rfile = Useles
+        try:
+            self.connection._sock = Useles
+            self.request._sock = Useles
+        except:
+            # Before Python 2.7
+            pass
+
 
 def start_threads():
     start_new_thread_immortal(print_lock_state_clean_cache, ())

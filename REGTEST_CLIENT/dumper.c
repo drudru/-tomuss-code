@@ -1,4 +1,6 @@
 /*
+  Syntax:
+  ./dumper X11adresse [CharDirectory]
 
 This program connects to the indicated X11 server
 and accept the following commands (ended by a \n) :

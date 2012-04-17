@@ -105,6 +105,7 @@ class MyRequestBroker(utilities.FakeRequestHandler):
             return
 
         if self.path[1:] in files and self.path[1:] != '':
+            # XXX Why not merge with tomuss.py send_file?
             warn('PATH=(%s)' % self.path[1:])
             self.send_response(200)
             f = files[self.path[1:]]
@@ -127,7 +128,7 @@ class MyRequestBroker(utilities.FakeRequestHandler):
             return
 
         self.the_file = self.wfile
-        self.wfile = plugin.Useles
+        self.do_not_close_connection()
         if plugin.dispatch_request(self, manage_error=False) == None:
             return # Unauthenticated dispatch is done
 

@@ -70,7 +70,7 @@ class MyRequestBroker(utilities.FakeRequestHandler):
             self.send_header('Content-Encoding', 'gzip')
         self.end_headers()
         sender.append(self.wfile, str(s), keep_open=False)
-        self.wfile = plugin.Useles
+        self.do_not_close_connection()
 
     def log_time(self, action, start_time=None):
         if start_time is None:
@@ -190,7 +190,7 @@ class MyRequestBroker(utilities.FakeRequestHandler):
                     warn('Ticket not fine for not an image', what="auth")
 
         self.the_file = self.wfile
-        self.wfile = plugin.Useles
+        self.do_not_close_connection()
 
         # Don't want to be blocked by 'is_an_abj_master' test
         if self.ticket is None or not hasattr(self.ticket, 'password_ok'):

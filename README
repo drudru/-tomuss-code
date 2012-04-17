@@ -28,7 +28,7 @@ Pour créer/editer une table :
     http://127.0.0.1:8888/=ue1.master/2009/Public/nomtable      (publique)
 
 Lancer un serveur de suivi d'étudiants.
-Il faut respecter les paramètre indiqués dans LOCAL/__init__.py
+Il faut respecter les paramètres indiqués dans LOCAL/__init__.py
 
     ./suivi.py 2010 Printemps 8892 regtest
 
