@@ -203,7 +203,7 @@ function full_import()
       if ( columns[data_col].the_local_id !== undefined ) // Just created
 	{
 	  column_attr_set(columns[data_col], 'type', 'Text') ;
-	  column_attr_set(columns[data_col], 'title', 'csv_' + data_col) ;
+	  // column_attr_set(columns[data_col], 'title', 'csv_' + data_col) ;
 	  create_column(columns[data_col]) ;
 	}
     }
