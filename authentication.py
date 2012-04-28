@@ -238,7 +238,7 @@ def authentication_thread():
             while not x.wfile.closed:
                 time.sleep(0.01)
             # now it is safe because the Handler has closed the file
-            x.wfile = x.the_file
+            x.restore_connection()
             tick = x.ticket
             try:
                 what = 'init'
@@ -247,7 +247,7 @@ def authentication_thread():
                     x.ticket, x.the_path = get_path(x, authentication_redirect)
                     tick = x.ticket
                     if tick == None:
-                        x.wfile.close()
+                        x.close_connection_now()
                         x.log_time('redirection')
                         continue # Redirection done
 

@@ -920,6 +920,7 @@ class FakeRequestHandler(BaseHTTPServer.BaseHTTPRequestHandler):
         self.headers = {} # Safest to make a copy in case of reuse.
         for k,v in server.headers.items():
             self.headers[k.lower()] = v
+
         self.ticket = server.ticket
         self.the_file = server.the_file
         self.start_time = server.start_time
@@ -962,14 +963,36 @@ class FakeRequestHandler(BaseHTTPServer.BaseHTTPRequestHandler):
 
     def do_not_close_connection(self):
         self.wfile = Useles
-        self.rfile = Useles
+        # self.rfile = Useles
         try:
+            # self.request is self.connection
+            # self.rfile is self.wfile
+            self.the_sock = self.request._sock
             self.connection._sock = Useles
             self.request._sock = Useles
-        except:
+            self.the_fp = self.headers.__dict__['fp']
+            self.headers.__dict__['fp'] = Useles
+        except AttributeError:
             # Before Python 2.7
             pass
 
+    def restore_connection(self):
+        self.wfile = self.the_file
+        try:
+            self.request._sock = self.the_sock
+            self.headers['fp'] = self.the_fp
+        except ValueError:
+            # Before Python 2.7
+            pass
+
+    def close_connection_now(self):
+        self.the_file.close()
+        try:
+            self.the_fp.close()
+            self.the_sock.close()
+        except AttributeError:
+            pass
+        
 
 def start_threads():
     start_new_thread_immortal(print_lock_state_clean_cache, ())

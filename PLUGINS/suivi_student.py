@@ -412,7 +412,7 @@ def teacher_statistics(login, server):
         s += '<table class="colored">'
         for student in students:
             infos = inscrits.L_slow.get_student_info(student)
-            infos = [str(i) for i in infos]
+            infos = [unicode(i) for i in infos]
             s += ('<tr><th>' + student + '<td>' + '<td>'.join(infos) + '</tr>'
                   ).encode('utf-8')
         s += '</table>'

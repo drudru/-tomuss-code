@@ -548,13 +548,13 @@ def execute(server, plugin):
                     server.the_file.write(files.files['bug.png'])
                 else:
                     server.the_file.write('*'*100+u"<br>\nLe serveur a rencontré un problème, l'administrateur a été prévenu.<br>\n".encode('utf8')+'*'*100)
-                server.the_file.close()
+                server.close_connection_now()
             except socket.error:
                 pass
             server.the_file = None
             return
         if not plugin.keep_open:
-            server.the_file.close()
+            server.close_connection_now()
         server.the_file = None
         
     else:
