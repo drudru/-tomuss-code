@@ -2250,7 +2250,7 @@ function column_change_allowed(column)
 }
 
 // Indicate that 'line_id' will be filled
-function add_a_new_line(line_id)
+function add_a_new_line(line_id, hide_if_created)
 {
   if ( line_id === undefined )
     {
@@ -2268,6 +2268,10 @@ function add_a_new_line(line_id)
     line[c] = C();
   line.line_id = line_id ;
   lines[line_id] = line ;
+
+  if ( hide_if_created && (filters.length !== 0 || full_filter || line_filter))
+    return ;
+  
   filtered_lines.push(line) ;
 
   /* Update screen table with the new id */
@@ -3074,7 +3078,7 @@ function login_to_line_id(login)
 function Xcell_change(col, line_id, value, date, identity, history)
 {
   var data_col = data_col_from_col_id(col) ;
-  add_a_new_line(line_id) ;
+  add_a_new_line(line_id, true) ;
 
   var cell = lines[line_id][data_col] ;
 

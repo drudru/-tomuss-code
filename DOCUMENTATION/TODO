@@ -138,14 +138,6 @@ Administrateur.
 Problèmes à résoudre.
 =====================
 
-* Support du copier/collé dans les INPUT
-
-* L'importation ne met pas à jour l'affichage ? Chrome ? Notes ?
-
-* Les nouvelles lignes apparaissent même si elles ne sont pas filtrées
-
-* Copié à la souris dans une cellule : seulement si vide et seulement FF
-
 * httprequest ?
 
 * %01 %02 ne sont pas supporté par CAS : les enlever...
@@ -189,6 +181,13 @@ Problèmes à résoudre.
   Sous windows seulement
 
 * Dispense d'assiduité : la destruction d'une DA les détruit toutes.
+
+* Copié à la souris dans une cellule : seulement si vide et seulement FF ??? semble fonctionner
+
+* Support du copier/collé dans les INPUT ??? semble fonctionner
+
+* L'importation ne met pas à jour l'affichage ??? semble fonctionner
+
 
 
 =============================
