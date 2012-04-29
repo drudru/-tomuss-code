@@ -1016,8 +1016,13 @@ function tail_html()
     '>' +
     '</div>' ;
   if ( ue != 'VIRTUALUE' )
-    a += '<iframe id="server_answer" style="width:1px;height:1px;border:0px;position:absolute;top:0px;left:0px" src="' + url + '/sort_up.png"></iframe>' +
-    '</body>' ;
+    {
+	if ( window.XMLHttpRequest )
+	    a += '<div id="server_answer" style="width:1px;height:1px;border:0px;position:absolute;top:0px;left:0px"></div>' ;
+	else
+	    a += '<iframe id="server_answer" style="width:1px;height:1px;border:0px;position:absolute;top:0px;left:0px" src="' + url + '/sort_up.png"></iframe>' ;
+	a += '</body>' ;
+    }
   return a ;
 }
 

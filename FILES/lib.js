@@ -2832,7 +2832,7 @@ function periodic_work_add_once(table, item) // Do not use this
 	}
 }
 
-function periodic_work_in_queue(f) // The function is the the queue
+function periodic_work_in_queue(f) // The function is in the queue
 {
     return myindex(periodic_work_functions, f) != -1 ;
 }
@@ -3755,6 +3755,7 @@ function update_a_menu(min, current, all, max, select)
 
 var last_reconnect = 0 ;
 var reconnect_giveup ;
+var xmlhttp ;
 
 function reconnect()
 {
@@ -3770,8 +3771,41 @@ function reconnect()
   if ( connection_state == 'auth' )
     return ;
 
-  server_answer.src = url + "/=" + ticket + '/' + year
+  var connection = url + "/=" + ticket + '/' + year
     + '/' + semester + '/' + ue + '/' + page_id ;
+
+  if ( window.XMLHttpRequest )
+    {
+      xmlhttp = new XMLHttpRequest();
+      xmlhttp.nb_read = 0 ;
+      xmlhttp.js_buffer = '' ;
+      // Remove things that are not JavaScript and 'var' definition
+      // used in the IFRAME case
+      xmlhttp.clean_js = new RegExp("(</script>[^<]*|[^>]*<script>|^var .*)",
+				    "g") ;
+      xmlhttp.onreadystatechange=function()
+	{
+	  if (xmlhttp.status == 200)
+	    {
+	      xmlhttp.js_buffer +=xmlhttp.responseText.substr(xmlhttp.nb_read);
+	      eval(xmlhttp.js_buffer.replace(xmlhttp.clean_js, ';')) ;
+	      xmlhttp.js_buffer = '' ;
+	      xmlhttp.nb_read = xmlhttp.responseText.length ;
+	      // If the buffer is really too big: create a new one
+	      if ( xmlhttp.nb_read > 100000000 )
+		{
+		  xmlhttp.abort() ;
+		  xmlhttp.nb_read = 0 ;
+		  xmlhttp.open("GET", connection, true) ;
+		  xmlhttp.send() ;
+		}
+	    }
+	} ;
+      xmlhttp.open("GET", connection, true) ;
+      xmlhttp.send() ;
+    }
+  else
+      server_answer.src = connection ;
   last_reconnect = millisec() ;
 }
 

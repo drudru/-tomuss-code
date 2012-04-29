@@ -23,8 +23,6 @@ BODY.tomuss H1 { font-size: 90% }
 
 IMG { cursor: default; }
 
-SELECT { cursor: pointer; }
-
 BODY.tomuss, BODY.tomuss TABLE INPUT, BODY.tomuss TABLE TD, BODY.tomuss TH, BODY.tomuss P, BODY.tomuss H1 { 
   padding: 0px ;
   margin: 0px;
@@ -155,7 +153,7 @@ TD.rw, #current_input.rw, .rw {
   color: black ;
 }
 
-TR.column_title TH { color: #00F;  cursor: pointer; }
+TR.column_title TH { color: #00F; }
 TR.column_title TH.ro { color: #88F; }
 TR.column_title DIV { position: relative; width:100% }
 TR.column_title DIV SPAN { float: left; width:100% }

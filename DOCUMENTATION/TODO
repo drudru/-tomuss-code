@@ -8,6 +8,8 @@ Nouvelles fonctionnalités.
 Utilisateurs finaux.
 --------------------
 
+* Feedback sur la connection sur le serveur
+
 * Traduction
 
 * Mettre à jour les tables régulièrement même sans visite.
@@ -58,7 +60,7 @@ Utilisateurs finaux.
 
 * Mettre UNE table en lecture seulement : Envoyer mail a l'administratif
 
-* Calcul du poids automatique avec '?' : problème de ]1,1[, max, meilleur
+ * Calcul du poids automatique avec '?' : problème de ]1,1[, max, meilleur
 
 * Mettre le ticket en fin d'URL.
 
@@ -95,6 +97,9 @@ Utilisateurs finaux.
 * Le filtre "<x" trouve les cases vides ? Faut-il corriger ?
 
 * Vue de la table telle qu'elle était à une date donnée.
+
+* En cas de déconnexion : resynchronisation de la table : il faut
+  que le serveur conserve toutes les modifications non envoyées.
 
 ---------------
 Administrateur.
@@ -138,7 +143,9 @@ Administrateur.
 Problèmes à résoudre.
 =====================
 
-* httprequest ?
+* Changement de position de colonne
+
+* Création de colonne avec un filtre de colonne
 
 * %01 %02 ne sont pas supporté par CAS : les enlever...
 
@@ -182,11 +189,15 @@ Problèmes à résoudre.
 
 * Dispense d'assiduité : la destruction d'une DA les détruit toutes.
 
-* Copié à la souris dans une cellule : seulement si vide et seulement FF ??? semble fonctionner
+============================
+Problèmes non reproductibles
+============================
 
-* Support du copier/collé dans les INPUT ??? semble fonctionner
+* Copié à la souris dans une cellule : seulement si vide et seulement FF
 
-* L'importation ne met pas à jour l'affichage ??? semble fonctionner
+* Support du copier/collé dans les INPUT
+
+* L'importation ne met pas à jour l'affichage
 
 
 
