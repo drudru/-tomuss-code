@@ -97,11 +97,8 @@ function head_html()
   else
     w = '' ;
 
-
-
   w += '<title>' + ue + ' ' + year + ' ' + semester + ' ' + my_identity
     + '</title></head>' ;
-
 
   w += '<body id="body" class="tomuss" onunload="the_current_cell.change();store_unsaved()" onkeydown="the_current_cell.keydown(event, false)">' +
     // This message is visible in FireFox (bug ?)
@@ -116,8 +113,9 @@ function head_html()
 
  w += hidden_txt('<a href="' + url + '/=' + ticket + '/0/Preferences/'
 		 + my_identity2 + '" target="_blank">' + _('LABEL_preferences')
-		 + '</a>', _('TIP_preferences')) ;
- 
+		 + '</a>', _('TIP_preferences')) + ', ' ;
+ w += hidden_txt(_('MSG_connected'), _('TIP_connection_state'), '',
+		 'connection_state') ;
  w += '</div><h1>'  ;
 
  var semester_color = semesters_color[myindex(semesters, semester)] ;

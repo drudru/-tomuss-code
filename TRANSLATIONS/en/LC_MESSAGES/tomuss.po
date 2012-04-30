@@ -480,6 +480,18 @@ msgid "TIP_preferences"
 msgstr "This link allow to manage your preferences<br>\n"
        "Preferences are applied to <b>all</b> the tables"
 
+#. GUI Label
+msgid "MSG_connected"
+msgstr "Live link to server"
+
+#. GUI Label
+msgid "MSG_unconnected"
+msgstr "<span style=\"background:#F88\">Connection lost: nothing is saved</span>"
+
+msgid "TIP_connection_state"
+msgstr "The message indicates the state of the server connection"
+
+
 msgid "ERROR_value_not_modifiable"
 msgstr "You are not allowed to modifiy this value."
 

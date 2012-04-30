@@ -2654,6 +2654,7 @@ function server_answered(t)
       t_authenticate.style.display = 'none' ;
       server_feedback.answered = true ;
       connection_state = 'ok' ;
+      document.getElementById('connection_state').innerHTML= _('MSG_connected');
       server_feedback.innerHTML = '' ; // Hide green image
     }
 
@@ -2673,6 +2674,9 @@ function revalidate_ticket()
   if ( connection_state == 'no_connection' )
     {
       connection_state = 'no_save' ;
+      document.getElementById('connection_state').innerHTML =
+	_('MSG_unconnected');
+
     }
 }
 
@@ -2804,6 +2808,7 @@ function click_to_revalidate_ticket()
   t_authenticate.style.display = 'block' ;
   t_authenticate.innerHTML = m ;
   connection_state = 'auth' ;
+  document.getElementById('connection_state').innerHTML= _('MSG_unconnected');
 }
 
 /*
@@ -2915,7 +2920,7 @@ function auto_save_errors()
       if ( nr_unsaved > 10 + nr_saved )
 	break ;
       // Retry to load the image each N seconds and the first time
-      if ( d > i.time + max_answer_time || ! i.requested )
+      if ( d > i.time + max_answer_time/10 || ! i.requested )
 	{
 	  if ( i.requested )
 	    errors++ ; // Because it is requested again
@@ -2946,10 +2951,12 @@ function auto_save_errors()
     pending_requests.splice(0,10) ;
 
   if ( connection_state == 'ok' && errors
-       && d > last_server_answer + max_answer_time ) // TO BE THREAD SAFE
+       && d > last_server_answer + max_answer_time/10 ) // TO BE THREAD SAFE
     {
       _d('\nSTATE=no_save ==> ');
       connection_state = 'no_save' ;
+      document.getElementById('connection_state').innerHTML=
+	_('MSG_unconnected');
 
       server_feedback.answered = false ;
       server_feedback.time = d ;
@@ -2981,6 +2988,7 @@ function auto_save_errors()
 	      // Nothing was received while alert was displayed
 	      the_body.className = 'tomuss autosavefailed' ;
 	      connection_state = 'no_connection' ;
+	      document.getElementById('connection_state').innerHTML= _('MSG_unconnected');
 	    }
 	}
     }
