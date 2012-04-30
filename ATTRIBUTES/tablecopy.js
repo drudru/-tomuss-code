@@ -1,7 +1,7 @@
 // -*- coding: utf-8 -*-
 /*
     TOMUSS: The Online Multi User Simple Spreadsheet
-    Copyright (C) 2011 Thierry EXCOFFIER, Universite Claude Bernard
+    Copyright (C) 2011-2012 Thierry EXCOFFIER, Universite Claude Bernard
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -126,6 +126,16 @@ function tablecopy_do(t)
 		     + '">' + '</iframe>',
 		     "", false) ;
 	break ;
+      case 'PY':
+	create_popup('export_div',
+		     'Copie de l"an passé dans la table courante.',
+		     'Déroulement de la copie :'
+		     + '<iframe width="100%" src="' + url + '/=' + ticket + '/'
+		     + (year-1) + '/' + semester + '/' + ue
+		     + '/tablecopy/' + year + '/' + semester + '/' + option
+		     + '">' + '</iframe>',
+		     "", false) ;
+	break ;
       }
   else
     {
@@ -155,7 +165,8 @@ function table_copy()
   var previous_ys = previous_year_semester(year, semester) ;
 
   current = year + '<br>' + semester + '<br>' + ue ;
-  previous = previous_ys[0] + '<br>' + previous_ys[1] + '<br>' + ue ;
+  previous_year = '<b>' + (year-1) + '</b><br>' + semester + '<br>' + ue ;
+  previous = previous_ys[0] + '<br><b>' + previous_ys[1] + '</b><br>' + ue ;
   next = next_ys[0] + '<br>' + next_ys[1] + '<br>' + ue ;
 
   future = table_copy_button('F', '&nbsp;--&gt;&nbsp;',
@@ -164,13 +175,22 @@ function table_copy()
 			     +"n'est pas vide.",
 			     false, false) ;
 
-  past = table_copy_button('P', '&nbsp;--&gt;&nbsp;',
-			   'Récupérer le passé.<br>'
+  past_year = table_copy_button('PY', '&nbsp;--&gt;&nbsp;',
+			   'Récupérer la table de l\'an passé.<br>'
 			   +'Action possible seulement si la table courante '
 			   +'est modifiable.<br>'
 			   +'CECI FERME LA TABLE COURANTE, il faudra la rouvrir.'
 			   ,
 			   false, false) ;
+
+  past = table_copy_button('P', '&nbsp;--&gt;&nbsp;',
+			   'Récupérer la table du semestre passé.<br>'
+			   +'Action possible seulement si la table courante '
+			   +'est modifiable.<br>'
+			   +'CECI FERME LA TABLE COURANTE, il faudra la rouvrir.'
+			   ,
+			   false, false) ;
+    
 
   st = table_copy_button('ST', '&darr;',
 			 "Copier le contenu d'un tableur dans TOMUSS",
@@ -192,13 +212,13 @@ function table_copy()
 	       + table_copy_button('H', "l'historique", 
 				   "L'historique de toutes les modifications")
 	       + '<br>&nbsp;<br>'
-	       + '<p>Cliquez sur une flèche pour copier&nbsp;:<br>'
-	       + '<table class="table_copy_diagram"><tr><td><td>'
+	       + '<table class="table_copy_diagram"><tr><td colspan="2">Cliquez sur une flèche pour copier la bonne table.'
 	       + '<th>Votre tableur préféré.<br>OpenOffice...<td><td></tr>'
-	       + '<tr><td colspan="5">' + st + '&nbsp;' + ts + '</tr>'
+	       + '<tr><td><td><td>' + st + '&nbsp;' + ts + '<td><td></tr>'
+	       + '<tr><th>' + previous_year + '<td>' + past_year
+	       + '<th rowspan="2"><b>' + current
+	       + '<td rowspan="2">' + future + '<th rowspan="2">' + next + '</tr>'
 	       + '<tr><th>' + previous + '<td>' + past
-	       + '<th><b>' + current
-	       + '<td>' + future + '<th>' + next + '</tr>'
 	       + '</table>'
 	       , '', false) ;
 }

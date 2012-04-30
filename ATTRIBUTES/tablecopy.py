@@ -30,10 +30,10 @@ class TableCopy(TableExport):
     action = 'table_copy'
     gui_display = "GUI_a"
     css = """
-TABLE.table_copy_diagram { width: auto }
-TABLE.table_copy_diagram TD { width: 19% }
-TABLE.table_copy_diagram TD { text-align: center; vertical-align: middle }
-TABLE.table_copy_diagram TH { background: white ; }
+DIV.import_export TABLE.table_copy_diagram {
+ width: 10%; border-spacing:0.4em; margin: auto; background: #CCC }
+TABLE.table_copy_diagram TD { text-align: center; vertical-align: middle; }
+TABLE.table_copy_diagram TH { background: white ; border: 1px solid #888; }
     """
 
 ##################################### PLUGIN ################################
