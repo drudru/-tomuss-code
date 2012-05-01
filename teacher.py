@@ -19,6 +19,9 @@
 #
 #    Contact: Thierry.EXCOFFIER@bat710.univ-lyon1.fr
 
+if __name__ == "__main__":
+    import SCRIPTS.tomuss_init
+    
 import inscrits
 import utilities
 import os
@@ -213,6 +216,7 @@ class UE(object):
                                 configuration.year_semester[1],
                                 'UE-' + self.name,
                                 create=False)
+            nr_students = 0
             if ue:
                 for student in ue.the_keys():
                     if len(student) < 3: # Garbage student id (bad user input)
@@ -221,9 +225,13 @@ class UE(object):
                         tt += 1
                         if isinstance(read_tt, list):
                             read_tt.append(utilities.the_login(student))
+                if (self._intitule) is None or len(self._intitule) <= 1:
+                    # Too small UE name : take the comment as title
+                    self._intitule = ue.comment
+                nr_students = len(ue.the_keys())
                 ue.unload()
 
-            if tt == 0:
+            if nr_students <= 10: # Problem ?
                 for student in inscrits.L_batch.students('UE-' + self.name):
                     if utilities.the_login(student[0]) in table.the_keys():
                         tt += 1
@@ -290,10 +298,8 @@ def ues_for_parcour(les_ues, p):
     return t
 
 if __name__ == "__main__":
-    import configuration
-    configuration.terminate()
     document.table(0, 'Dossiers', 'config_table', None, None)
-    print UE('TVL1002L').js()
+    print UE('BIO3082L').js()
 
 
 
