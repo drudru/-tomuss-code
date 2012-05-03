@@ -2160,18 +2160,27 @@ function current_do_completion()
        == input.value.toLowerCase())
     {
       completion = completion.substr(input.value.length) ;
-
       if (window.KeyEvent)
 	{
-	  // The following code reset horizontal scroll in the input field
-	  // It is not usable
-	  // input.value += completion
+	  var input_length = input.value.length ;
+	  // If it is a key event, the horizontal scroll must not be changed,
+	  // So, the simple code in the 'else' can not work
 	  for(var i=0; i<completion.length; i++)
 	    {
 	      var evt = document.createEvent("KeyboardEvent");
-	      evt.initKeyEvent("keypress", true, true, null, false, false,
-			       false, false, 0, completion.charCodeAt(i));
+	      if (false && evt.initKeyboardEvent)
+		  evt.initKeyboardEvent("keypress", true, true, null,
+					i, 0, "");
+		else
+		    evt.initKeyEvent("keypress", true, true, null, false, false,
+				     false, false, 0, completion.charCodeAt(i));
 	      input.dispatchEvent(evt);
+	      if (input.value.length == input_length)
+		{
+		    // Hit a FireFox 12 bug, fallback on a classic method
+		    input.value += completion ;
+		    break ;
+		}
 	    }
 	}
       else
