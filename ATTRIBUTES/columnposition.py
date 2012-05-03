@@ -30,3 +30,5 @@ class ColumnPosition(ColumnAttr):
     action = 'save_position_column'
     gui_display = "GUI_a"
     strokable = 0
+    update_table_headers = 1
+    display_table = 1
