@@ -14,6 +14,8 @@ Utilisateurs finaux.
 
 * Remplir la colonne par des nombres successifs
 
+* Déplacer les infos du titre dans un onlget Info du bloc table
+
 * Ajouter TNR (travail non rendu)
 
 * Copie de table : sans l'historique : garder le dernier author
@@ -137,6 +139,10 @@ Administrateur.
 =====================
 Problèmes à résoudre.
 =====================
+
+* Verifie suivi
+
+* Ancienne methode : marche plus avec Konqueror
 
 * Quand on prend le droit : il faut changer de colonne pour avoir accès
 

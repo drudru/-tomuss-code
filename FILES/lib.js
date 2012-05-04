@@ -2676,7 +2676,7 @@ function revalidate_ticket()
       connection_state = 'no_save' ;
       document.getElementById('connection_state').innerHTML =
 	_('MSG_unconnected');
-
+      reconnect() ; // To not wait the timeout
     }
 }
 
@@ -3793,7 +3793,7 @@ function reconnect()
 				    "g") ;
       xmlhttp.onreadystatechange=function()
 	{
-	  if (xmlhttp.status == 200)
+	  if (xmlhttp.readyState >= 3 && xmlhttp.status == 200)
 	    {
 	      xmlhttp.js_buffer +=xmlhttp.responseText.substr(xmlhttp.nb_read);
 	      eval(xmlhttp.js_buffer.replace(xmlhttp.clean_js, ';')) ;

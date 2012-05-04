@@ -470,7 +470,7 @@ msgstr "Connecté au serveur"
 
 #. GUI Label
 msgid "MSG_unconnected"
-msgstr "<span style=\"background:#F88\">Déconnecté : rien de sauvegardé</span>"
+msgstr "<span style=\"background:#F88\">Connexion perdue</span>"
 
 msgid "TIP_connection_state"
 msgstr "Ce message indique l'état de la connexion avec le serveur."
