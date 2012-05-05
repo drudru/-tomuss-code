@@ -65,7 +65,7 @@ def login_list(server):
     send(server,
          login_list_of(server.the_path[0], configuration.cn_teachers),
          'teacher')
-    server.the_file.close()
+    server.close_connection_now()
 
 plugin.Plugin('login_list', '/login_list/{*}',
               function=login_list,

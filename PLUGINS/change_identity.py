@@ -33,7 +33,7 @@ def change_identity(server):
                            server.ticket.date)
     authentication.update_ticket(server.ticket)
     server.the_file.write("Identity change done for this ticket, go 'back' to see the new page")
-    server.the_file.close()
+    server.close_connection_now()
     
 
 plugin.Plugin('change_identity', '/change_identity/{*}',

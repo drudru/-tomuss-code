@@ -109,7 +109,7 @@ def abj_home(server):
                             ) + str(files['abj.html'])
     server.the_file.write(d)
     if configuration.regtest_sync:
-        server.the_file.close()
+        server.close_connection_now()
     # XXX : memory leak, some work to remove (page = filedescriptor id)
     # pages = [page for page in pages if not page.the_file.closed]
     pages.append(Page(server.ticket, server.the_file))

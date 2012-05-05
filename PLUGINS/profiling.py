@@ -221,7 +221,7 @@ table_attr('default_nr_columns', 0, 11)
 
     server.the_file.write('<script>window.location="%s/=%s/%d/Stats/profile";</script>' % (
         configuration.server_url, server.ticket.ticket, server.the_year))
-    server.the_file.close()
+    server.close_connection_now()
 
 plugin.Plugin('profiling', '/profiling/{Y}',
               function=profiling,

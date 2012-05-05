@@ -117,7 +117,7 @@ def resume(server):
     runlog(columns, lines) ;
     </script>
     """ % (columns, lines, utilities.js(repr(server.the_path)) ))
-    server.the_file.close()
+    server.close_connection_now()
 
 
 plugin.Plugin('resume', '/resume/{*}',

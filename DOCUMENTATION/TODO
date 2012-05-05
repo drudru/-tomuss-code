@@ -140,9 +140,10 @@ Administrateur.
 Problèmes à résoudre.
 =====================
 
-* Arrêter propremement pour ne rien perdre
+* Tester ABJ
+* Browser file close : suffisant ? (page acton)
 
-* Accélérer premier demarrage : buffrisation marche pas
+* Arrêter propremement pour ne rien perdre
 
 * Quand on prend le droit : il faut changer de colonne pour avoir accès
 

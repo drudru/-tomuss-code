@@ -113,20 +113,20 @@ def new_page(server):
                                      do_not_unload=1)
     except IOError:
         server.the_file.write(files["error.html"])
-        server.the_file.close()
+        server.close_connection_now()
         utilities.send_backtrace(repr(server.the_path), 'Newpage IOError')
         return
 
     if table == None:
         server.the_file.write(files["unauthorized.html"])
-        server.the_file.close()
+        server.close_connection_now()
         warn('No Table', what="error")
         return
 
     if not table.on_disc:
         server.the_file.write("%s/%s/%s n'existe pas, et il n'est pas possible de créer des tables dans le passé." % (
                 server.the_year, server.the_semester, server.the_ue))
-        server.the_file.close()
+        server.close_connection_now()
         return
 
     if table.is_extended:
@@ -150,7 +150,7 @@ def new_page(server):
         link_to = os.path.join(*link_to)
         
         server.the_file.write('<meta HTTP-EQUIV="REFRESH" content="0; url=%s">' % (link_to,))
-        server.the_file.close()
+        server.close_connection_now()
         return
     
     warn('New page, do_not_unload=%d' % table.do_not_unload, what="table")
@@ -206,14 +206,14 @@ def new_page(server):
               sender.File.nr_active_thread or sender.File.to_send:
             time.sleep(0.01)
         if not configuration.regtest_bug1:
-            server.the_file.close()
+            server.close_connection_now()
     warn('Actives=%s do_not_unload=%s' % (
         table.active_pages, table.do_not_unload), what="table")
 
     page.start_load = start_load # For end_of_load computation
 
     if page.use_frame:
-        server.the_file.close()
+        server.close_connection_now()
     else:
         if page.use_linear:
             table.active_pages.remove(page) # Avoid 'Canceled load' message
@@ -247,14 +247,14 @@ if (window.parent.click_to_revalidate_ticket)
 else
       alert("Votre page est trop vieille, réactualisez la. Si votre navigateur est récent vous ne perdrez aucune donnée si 'AutoSauve' est bien activé.") ;
 </script>''')
-        server.the_file.close()
+        server.close_connection_now()
         return
     except:
         # Reconnection of an old non modifiable page on: a stopped server
         # or with an old ticket after a connection lost.
         # See REGTEST_SERVER/tests.py 'lostpage'
         server.the_file.write('<script>window.parent.location = "%s/%s/%s/%s"</script>' % (configuration.server_url, server.the_year, server.the_semester, server.the_ue))
-        server.the_file.close()
+        server.close_connection_now()
         utilities.send_backtrace('', 'Page not found')
         return
 
@@ -266,7 +266,7 @@ else
 
     if not page.use_frame:
         warn('Page not using frame (LINEAR?)', what="error")
-        server.the_file.close()
+        server.close_connection_now()
         return
 
     if isinstance(page.browser_file, StringFile):
