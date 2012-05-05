@@ -128,8 +128,9 @@ class MyRequestBroker(utilities.FakeRequestHandler):
             return
 
         self.the_file = self.wfile
-        self.do_not_close_connection()
+        # self.do_not_close_connection()
         if plugin.dispatch_request(self, manage_error=False) == None:
+            # XXX Assumes that a thread is not launched
             return # Unauthenticated dispatch is done
 
         the_ticket, self.the_path = ticket.get_ticket_string(self)
@@ -140,6 +141,7 @@ class MyRequestBroker(utilities.FakeRequestHandler):
         # Don't want to be blocked by 'is_an_abj_master' test
         if self.ticket is None or not hasattr(self.ticket, 'password_ok'):
             warn('Append to authentication queue', what="auth")
+            self.do_not_close_connection()
             authentication.authentication_requests.append(
                 utilities.FakeRequestHandler(self, full=True))
         else:

@@ -595,7 +595,7 @@ def tests():
                   '/1/0/column_attr_title/col_0/TITLE0')
         assert(c == ok_png)
         c = s.url('=' + root + '/9999/Test/badchars' +
-                  '/1/1/cell_change/col_0/line_0/~`!@#$%25^%26*()%2B[]{}|\\;:\'"%01%02.,%3F')
+                  '/1/1/cell_change/col_0/line_0/~`!@%23$%25^%26*()%2B[]{}|\\;:\'"%01%02.,%3F')
         assert(c == ok_png)
         lines_id = ['line_0']
         nr_columns = 7
