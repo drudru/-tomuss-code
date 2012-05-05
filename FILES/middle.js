@@ -1015,7 +1015,7 @@ function tail_html()
     '</div>' ;
   if ( ue != 'VIRTUALUE' )
     {
-	window.XMLHttpRequest = false ;
+	// window.XMLHttpRequest = false ;
 	if ( window.XMLHttpRequest )
 	    a += '<div id="server_answer" style="width:1px;height:1px;border:0px;position:absolute;top:0px;left:0px"></div>' ;
 	else
