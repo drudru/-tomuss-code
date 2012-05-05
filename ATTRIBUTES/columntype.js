@@ -20,7 +20,7 @@
     Contact: Thierry.EXCOFFIER@bat710.univ-lyon1.fr
 */
 
-function set_type(value, column)
+function set_type(value, column, xcolumn_attr)
 {
   var checked = type_title_to_type(value) ;
 
@@ -43,9 +43,16 @@ function set_type(value, column)
       for(var line in lines)
 	lines[line][column.data_col].save() ;
     }
-
   column.real_type = checked ;
   column.need_update = true ;
+
+  if ( xcolumn_attr === false && column.columns === '' )
+    {
+	// Only here on local user interaction
+	var use = _('B_' + column.real_type.title).split("(")[1] ;
+	if ( use == 'ID)' )
+	    column_attr_set(column, 'columns', 'ID') ;
+    }
 
   return value ;
 }

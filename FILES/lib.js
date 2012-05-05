@@ -770,7 +770,8 @@ function init_column(column)
     column_parse_attr(attr, 
 		      column_attributes[attr].formatter(column, column[attr]),
 		      column,
-		      ! column_modifiable_attr(attr, column)
+		      // XXX: 0, 1, false and true are all their meanings
+		      column_modifiable_attr(attr, column) ? 0 : true
 		      ) ;
 }
 
