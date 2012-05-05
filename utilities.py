@@ -904,6 +904,7 @@ class FakeRequestHandler(BaseHTTPServer.BaseHTTPRequestHandler):
     A clean program must not store information in the request handler object
     """
     posted_data = None
+    please_do_not_close = False
     
     def __init__(self, *args, **keys):
         if len(args) != 1:
@@ -963,7 +964,7 @@ class FakeRequestHandler(BaseHTTPServer.BaseHTTPRequestHandler):
 
     def do_not_close_connection(self):
         self.wfile = Useles
-        # self.rfile = Useles
+        self.please_do_not_close = True
         try:
             # self.request is self.connection
             # self.rfile is self.wfile
@@ -978,6 +979,7 @@ class FakeRequestHandler(BaseHTTPServer.BaseHTTPRequestHandler):
 
     def restore_connection(self):
         self.wfile = self.the_file
+        self.please_do_not_close = False
         try:
             self.request._sock = self.the_sock
             self.headers['fp'] = self.the_fp

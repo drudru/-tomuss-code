@@ -264,7 +264,8 @@ def authentication_thread():
                 except TypeError:
                     x.server.__class__.do_GET_real_real_safe.__func__(x)
                 what = 'close'
-                x.wfile.close()
+                if not x.please_do_not_close:
+                    x.close_connection_now()
             except (IOError, socket.error):
                 utilities.send_backtrace(
                     '', subject = 'AUTH '+ what + ' ' + str(tick)[:-1])

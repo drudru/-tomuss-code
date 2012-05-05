@@ -190,10 +190,10 @@ class MyRequestBroker(utilities.FakeRequestHandler):
                     warn('Ticket not fine for not an image', what="auth")
 
         self.the_file = self.wfile
-        self.do_not_close_connection()
 
         # Don't want to be blocked by 'is_an_abj_master' test
         if self.ticket is None or not hasattr(self.ticket, 'password_ok'):
+            self.do_not_close_connection()
             warn('Append to authentication queue', what="auth")
             authentication.authentication_requests.append(
                 utilities.FakeRequestHandler(self, full=True))

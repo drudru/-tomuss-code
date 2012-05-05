@@ -573,14 +573,8 @@ def search_plugin(server):
     return False
 
 def dispatch_request(server, manage_error=True):
-
-    if server.__class__ is utilities.FakeRequestHandler:
-        s = server
-    else:
-        s = utilities.FakeRequestHandler(server)
-    
     warn('dispatch %s' % server.the_path, what='debug')
-    p = search_plugin(s)
+    p = search_plugin(server)
     
     if p is False:
         if manage_error:
@@ -605,7 +599,7 @@ def dispatch_request(server, manage_error=True):
             return False
 
     try:
-        server.the_ue = s.the_ue
+        server.the_ue = server.the_ue
     except AttributeError:
         pass
         
@@ -613,27 +607,28 @@ def dispatch_request(server, manage_error=True):
          what='plugin')
 
     if p.mimetype:
-        server.wfile = server.the_file
         server.send_response(p.response)
         if not p.cached:
             server.send_header('Cache-Control', 'no-cache')
             server.send_header('Cache-Control', 'no-store')
-        for h in p.headers(s):    
+        for h in p.headers(server):    
             warn('send header: %s' % str(h), what='plugin')
             server.send_header(*h)
         server.send_header('Content-Type', p.mimetype)
         server.end_headers()
     server.plugin = p
-    s.plugin = p
+    
     if p.keep_open or p.launch_thread:
         server.do_not_close_connection()
+        if server.__class__ is not utilities.FakeRequestHandler:
+            server = utilities.FakeRequestHandler(server, full=True)
         warn('keep_open (closed=%s)' % server.the_file.closed, what='plugin')
 
     if p.launch_thread:
         warn('launch thread with %s' % server.the_file, what='plugin')
-        utilities.start_new_thread(execute, (s, p))
+        utilities.start_new_thread(execute, (server, p))
     else:
-        execute(s, p)
+        execute(server, p)
     warn('done', what='plugin')
 
 # To really be sure to never have concurrent request processing
