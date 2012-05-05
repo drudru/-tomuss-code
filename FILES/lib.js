@@ -2657,6 +2657,7 @@ function server_answered(t)
       connection_state = 'ok' ;
       document.getElementById('connection_state').innerHTML= _('MSG_connected');
       server_feedback.innerHTML = '' ; // Hide green image
+      reconnect() ;
     }
 
   if ( t === undefined )
@@ -2978,6 +2979,7 @@ function auto_save_errors()
   if ( connection_state == 'no_save'
        && d - server_feedback.time > max_answer_time )
     {
+      last_reconnect = 0 ;
       if ( server_feedback.answered )
 	click_to_revalidate_ticket() ;
       else
