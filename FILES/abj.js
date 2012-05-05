@@ -223,7 +223,7 @@ function nice_date(d)
 
 function date_to_store(d, allow_far_future)
 {
-    return parse_date(d).formate('%d/%m/%Y%p') ;
+    return parse_date(d).formate('%d/%m/%Y/%p') ;
 }
 
 function update_button_real()
@@ -291,6 +291,7 @@ function get_image(src)
 
 function send_abj()
 {
+  popup_close() ;
   if ( ! is_a_student_login() )
     return ;
 
