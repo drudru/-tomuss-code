@@ -631,6 +631,33 @@ Les améliorations les plus visibles sont :
       </description>
       <guid>45</guid>
     </item>
+    <item>
+      <title>04/05/2012 : Version 4.0.0</title>
+      <link>http://tomuss.univ-lyon1.fr/</link>
+      <description>
+	De gros changements internes dans TOMUSS,
+	s'il y a des problèmes, envoyez rapidement un mail
+	pour nous prévenir.
+	Principaux changements :
+&lt;ul&gt;
+&lt;li&gt; En allant sur le suivi de l'enseignant,
+           on peut voir la liste des étudiants qu'il réfère.
+&lt;li&gt; Affiche les numéros de lignes quand on met le curseur sur
+           une cellule de la première colonne.
+&lt;li&gt; Les UE de master ne sont plus semestrialisée.
+&lt;li&gt; L'indicateur de chargement de page s'arrête de tourner pour rien.
+           Le statut de la connection au serveur est maintenant
+	   explicitement indiquée.
+&lt;li&gt; On peut copier une table de l'année précédente (même semestre)
+&lt;li&gt; Il existe maintenant un type de colonne permettant pour
+           les étudiants de licence STS de savoir s'ils sont FFSU (sportif).
+&lt;li&gt; ATTENTION : Si jamais vous avez demandé à votre navigateur que
+           votre langue préférée soit l'anglais, TOMUSS affichera les
+	   messages en anglais.
+&lt;/ul&gt;
+      </description>
+      <guid>46</guid>
+    </item>
 
   </channel>
 </rss>
