@@ -140,7 +140,7 @@ Administrateur.
 Problèmes à résoudre.
 =====================
 
-* Browser file close : suffisant ? (page action)
+* Browser file close : suffisant pour Python 3 ? (page action)
 
 * Arrêter propremement pour ne rien perdre
 
@@ -158,13 +158,6 @@ Problèmes à résoudre.
 * Ticket expiré : fait une redirection du client (impossible dans frame)
   le client ne peut pas reprendre le ticket et demande le redirige toujours.
   Peut être lié au "vol" de ticket : cela invalide l'ancien.
-  
-* Redémarrage TOMUSS et vieille pages : pas réglé, le client persiste à vouloir
-  se reconnecter.
-  Quand le client a perdu sa connexion longtemps, il la retrouve tout seul
-  alors qu'il n'y a pas de connexion réseau (IE)
-  Il faut attendre un certain temps (ticket expire coté serveur?)
-  pour que cela ne marche plus. Si on teste de suite cela marche
 
 * Sauve option : marche pas pour les lignes
 

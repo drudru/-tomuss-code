@@ -2682,6 +2682,7 @@ function revalidate_ticket()
     }
 }
 
+// XXX Does not work if there is 2 browser page open in the table.
 function store_unsaved()
 {
   if ( ! table_attr.autosave )

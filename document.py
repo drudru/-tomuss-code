@@ -1357,9 +1357,22 @@ def check_requests():
             if (page.request < request     # Wait missing requests
                 or tabl.the_lock.locked()  # Do not wait on an locked table
                 ):
-                # do not decrement do_not_unload
-                t.append(r)
-                continue
+                if (len(t) > 1
+                    and t[-1][0] == r[0] and t[-1][1] == r[1]
+                    and t[-2][0] == r[0] and t[-2][1] == r[1]
+                    ):
+                    # We received 3 times the same request.
+                    # So, we hit a request-accounting bug.
+                    # For example: server restart and browser 'update_content'
+                    # request that is not stored in the table data file.
+                    utilities.send_backtrace('Bad Request Number (%s!=%s)' %
+                                             (page.request, request))
+                    page.request = request
+
+                else:
+                    # do not decrement do_not_unload
+                    t.append(r)
+                    continue
             page.request += 1
 
             try:
