@@ -52,9 +52,7 @@ class Ticket(object):
         self.set_language(language)
 
     def set_language(self, lang):
-        lang = lang.lower().replace(';',',').replace('-','_')
-        lang = ','.join([x for x in lang.split(',') if x in plugins.languages])
-        self.language = lang
+        self.language = lang.lower().replace(';',',').replace('-','_')
 
     def is_fine(self, server):
         # print self.user_name, (time.time() - self.date) , configuration.ticket_time_to_live, self.user_ip, client_ip(server), self.user_browser, server.headers["user-agent"]

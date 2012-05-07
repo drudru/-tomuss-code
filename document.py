@@ -135,6 +135,11 @@ def get_preferences(user_name, create_pref=True, the_ticket=None):
         p['language'] = the_ticket.language
     if 'fr' not in p['language']:
         p['language'] += ',fr'
+
+    # Remove not translated languages
+    p['language'] = ','.join([x
+                              for x in p['language'].split(',')
+                              if x in plugins.languages])
     return p
 
 
