@@ -3788,21 +3788,39 @@ function reconnect()
 
   if ( window.XMLHttpRequest )
     {
+      if ( xmlhttp )
+	xmlhttp.abort() ;
       xmlhttp = new XMLHttpRequest();
       xmlhttp.nb_read = 0 ;
       xmlhttp.js_buffer = '' ;
       // Remove things that are not JavaScript and 'var' definition
       // used in the IFRAME case
-      xmlhttp.clean_js = new RegExp("(</script>[^<]*|[^>]*<script>|^var .*)",
-				    "g") ;
+      xmlhttp.clean_js = new RegExp("^var ", "g") ;
+      xmlhttp.open("GET", connection, true) ;
+      xmlhttp.setRequestHeader("If-Modified-Since",
+			       "Thu, 1 Jan 1970 00:00:00 GMT") ; 
+      xmlhttp.setRequestHeader("Cache-Control", "no-cache") ;
+
+      // Must be defined last: resetted by .open()
       xmlhttp.onreadystatechange=function()
 	{
 	  if (xmlhttp.readyState >= 3 && xmlhttp.status == 200)
 	    {
-	      xmlhttp.js_buffer +=xmlhttp.responseText.substr(xmlhttp.nb_read);
-	      eval(xmlhttp.js_buffer.replace(xmlhttp.clean_js, ';')) ;
-	      xmlhttp.js_buffer = '' ;
-	      xmlhttp.nb_read = xmlhttp.responseText.length ;
+	      var t ;
+	      t = xmlhttp.responseText.substr(xmlhttp.nb_read) ;
+	      xmlhttp.js_buffer += t ;
+	      xmlhttp.nb_read += t.length ;
+	      // Evaluate only complete <script>....</script> sequence
+	      t = xmlhttp.js_buffer.split("</script>");
+	      var to_eval = '' ;
+	      for(var i in t)
+		{
+		  if ( i != t.length - 1 )
+		    to_eval += t[i].split('<script>')[1] + ';' ;
+		  else
+		    xmlhttp.js_buffer = t[i] ;
+		}
+	      eval(to_eval.replace(xmlhttp.clean_js, '//')) ;
 	      // If the buffer is really too big: create a new one
 	      if ( xmlhttp.nb_read > 100000000 )
 		{
@@ -3813,7 +3831,6 @@ function reconnect()
 		}
 	    }
 	} ;
-      xmlhttp.open("GET", connection, true) ;
       xmlhttp.send() ;
     }
   else

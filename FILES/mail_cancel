@@ -2,6 +2,12 @@ Bonjour.
 
 TOMUSS a détecté que vous aviez des problèmes de chargement de tables.
 
+Commencez par réactualiser la page de la table :
+	  - F5 sous Internet Explorer
+	  - Majuscule-Control-R sour FireFox
+
+Si cela ne fonctionne pas :
+
 Ces problèmes viennent la plupart du temps de l'anti-virus installé
 sur votre ordinateur.
 

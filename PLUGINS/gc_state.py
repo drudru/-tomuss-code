@@ -35,6 +35,7 @@ def gc_top(server):
         return
     
     server.the_file.write('<META NAME="ROBOTS" CONTENT="NOINDEX, NOFOLLOW">\n')
+    server.the_file.write('gc.garbage=%s\n' % gc.garbage)
     server.the_file.write('<pre>')
     gc.collect()
     for name, nr in objgraph.types_sorted():

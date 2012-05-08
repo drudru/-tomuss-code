@@ -8,6 +8,10 @@ Nouvelles fonctionnalités.
 Utilisateurs finaux.
 --------------------
 
+* Focus sur filtre ligne immédiat
+
+* Choix du type de colonne dans une popup
+
 * Traduction
 
 * Mettre à jour les tables régulièrement même sans visite.
@@ -140,6 +144,18 @@ Administrateur.
 Problèmes à résoudre.
 =====================
 
+Bug suivi pour :
+compatible; MSIE 9.0; Windows NT 6.1; WOW64; Trident/5.0
+compatible; MSIE 9.0; Windows NT 6.1; WOW64; Trident/5.0
+
+
+* Modification de la même ue sur le même navigateur avec perte de connexion
+  Une des pages écrase la sauvegarde de l'autre dans le localstore.
+
+* L'histogramme ne s'affiche plus dans la page des stats
+  
+* Ne pas démarrer si pas le package gettext
+
 * Browser file close : suffisant pour Python 3 ? (page action)
 
 * Arrêter propremement pour ne rien perdre
@@ -203,8 +219,6 @@ Améliorations de code source.
 
 * Regtest javascript : filtre et double clique
 
-* Pylint
-
 * Faire des plugins pour chaque fonctionnalité coté client, il reste :
 	  Les filtres ?
 	  Popup_on_red ?
@@ -241,6 +255,7 @@ Améliorations de code source.
 * Javascript : Préfixer les variables globales par _ ou les supprimer
 
 * Enlever les liens symboliques : trop de problèmes potentiels
+  Pas portable sur d'autres systèmes
 
 ===============================================
 Pourquoi certaines choses ne seront pas faites.
