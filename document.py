@@ -133,13 +133,6 @@ def get_preferences(user_name, create_pref=True, the_ticket=None):
                 if the_ticket.user_name == user_name:
                     break
         p['language'] = the_ticket.language
-    if 'fr' not in p['language']:
-        p['language'] += ',fr'
-
-    # Remove not translated languages
-    p['language'] = ','.join([x
-                              for x in p['language'].split(',')
-                              if x in plugins.languages])
     return p
 
 
@@ -150,13 +143,23 @@ def table_head_more(ue):
     return ''
 
 def translations_init(language):
+    if 'fr' not in language:
+        language += ',fr'
+    language = language.strip(",")
+
+    # Remove not translated languages
+    language = [x
+                for x in language.split(',')
+                if x in plugins.languages]
+    
     languages = []
-    for lang in language.split(','):
+    for lang in language:
         languages.append(
             '<script onload="this.onloadDone=true;" src="%s/%s.js"></script>'
             % (utilities.StaticFile._url_, lang))
     return ('<script>var translations = {},'
-            + 'preferences={"language":%s} ; </script>\n' % js(language)
+            + 'preferences={"language":%s} ; </script>\n'
+            % js(','.join(language))
             + '\n'.join(languages) + '\n')
 
 def table_head(year=None, semester=None, ticket=None,

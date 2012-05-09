@@ -144,11 +144,6 @@ Administrateur.
 Problèmes à résoudre.
 =====================
 
-Bug suivi pour :
-compatible; MSIE 9.0; Windows NT 6.1; WOW64; Trident/5.0
-compatible; MSIE 9.0; Windows NT 6.1; WOW64; Trident/5.0
-
-
 * Modification de la même ue sur le même navigateur avec perte de connexion
   Une des pages écrase la sauvegarde de l'autre dans le localstore.
 
