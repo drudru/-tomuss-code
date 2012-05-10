@@ -117,6 +117,16 @@ class Page(object):
 def table_filename(year, semester, ue):
     return os.path.join(configuration.db, 'Y'+str(year), 'S'+semester, ue + '.py')
 
+def filter_language(language):
+    if 'fr' not in language:
+        language += ',fr'
+
+    # Remove not translated languages
+    return ','.join([x
+                     for x in language.strip(",").split(',')
+                     if x in plugins.languages])
+
+
 def get_preferences(user_name, create_pref=True, the_ticket=None):
     my_identity2 = utilities.login_to_module(user_name)
     prefs_table = table(0, 'Preferences', my_identity2, None, None,
@@ -132,7 +142,7 @@ def get_preferences(user_name, create_pref=True, the_ticket=None):
             for the_ticket in ticket.tickets.values():
                 if the_ticket.user_name == user_name:
                     break
-        p['language'] = the_ticket.language
+        p['language'] = filter_language(the_ticket.language)
     return p
 
 
@@ -143,23 +153,15 @@ def table_head_more(ue):
     return ''
 
 def translations_init(language):
-    if 'fr' not in language:
-        language += ',fr'
-    language = language.strip(",")
-
-    # Remove not translated languages
-    language = [x
-                for x in language.split(',')
-                if x in plugins.languages]
-    
     languages = []
-    for lang in language:
+    language = filter_language(language)
+    for lang in language.split(','):
         languages.append(
             '<script onload="this.onloadDone=true;" src="%s/%s.js"></script>'
             % (utilities.StaticFile._url_, lang))
     return ('<script>var translations = {},'
             + 'preferences={"language":%s} ; </script>\n'
-            % js(','.join(language))
+            % js(language)
             + '\n'.join(languages) + '\n')
 
 def table_head(year=None, semester=None, ticket=None,

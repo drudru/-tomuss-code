@@ -10,6 +10,8 @@ Utilisateurs finaux.
 
 * Focus sur filtre ligne immédiat
 
+* + de colonnes dans l'émargement
+
 * Choix du type de colonne dans une popup
 
 * Traduction
@@ -143,6 +145,8 @@ Administrateur.
 =====================
 Problèmes à résoudre.
 =====================
+
+* Mise à jour des statistiques dans la bulle d'aide
 
 * Modification de la même ue sur le même navigateur avec perte de connexion
   Une des pages écrase la sauvegarde de l'autre dans le localstore.
