@@ -92,7 +92,7 @@ class Page(object):
         warn('current  ticket=%s user_name=%s user_browser=%s ip=%s' % (
             self.ticket, self.user_name, self.user_browser, self.user_ip),
              what="Info")
-        if not configuration.regtest:
+        if configuration.regtest_sync or not configuration.regtest:
             raise ValueError('Cheater')
 
     def add_request(self, request, action, path, output_file):
