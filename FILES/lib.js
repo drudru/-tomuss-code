@@ -1,7 +1,7 @@
 // -*- coding: utf-8; mode: Java; c-basic-offset: 2; tab-width: 8; -*-
 /*
     TOMUSS: The Online Multi User Simple Spreadsheet
-    Copyright (C) 2008-2011 Thierry EXCOFFIER, Universite Claude Bernard
+    Copyright (C) 2008-2012 Thierry EXCOFFIER, Universite Claude Bernard
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -2571,6 +2571,19 @@ function update_tip_from_value(o, value)
     e.innerHTML = html(value) ;
   else
     e.innerHTML = value ;
+
+  // XXX without these 3 lines then there is a bug.
+  // To trigger the bug:
+  //    * Put the mouse over the 'column average'
+  //    * Statistics are displayed in the tip window
+  //    * Change of column using cursor key
+  //    * The average is updated but not the statistics.
+  // This bug is only for THIS element and with all the navigators.
+  // So the bug is in TOMUSS tips
+
+  var tip = get_tip_element() ;
+  if ( tip && tip.tip_target === o )
+    show_the_tip(o, compute_tip(o)) ;
 }
 
 function update_value_and_tip(o, value)
