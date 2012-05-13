@@ -131,14 +131,24 @@ TR.filter TH INPUT.empty {
   background-repeat: no-repeat ;
 }
 
+TR.filter TH INPUT {
+  background: #FF0 ;
+}
+
+
+
 TR.filter TH INPUT.freezed { border-bottom: 1px solid black; }
 
 #linefilter, #columns_filter, #fullfilter {
-  background-color: #FFF ;
+  background: #FFF ;
   border: 1px solid black ;
 }
 
-#linefilter.empty, #columns_filter.empty, #fullfilter.empty {
+#menutop #linefilter, #menutop #columns_filter, #menutop #fullfilter {
+  background: #FF0 ;
+}
+
+#menutop #linefilter.empty, #menutop #columns_filter.empty, #menutop #fullfilter.empty {
   background: url("filtre2.png") white ;
   background-repeat: no-repeat ;
 }

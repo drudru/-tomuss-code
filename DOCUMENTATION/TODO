@@ -8,17 +8,15 @@ Nouvelles fonctionnalités.
 Utilisateurs finaux.
 --------------------
 
-* Focus sur filtre ligne immédiat
-
 * + de colonnes dans l'émargement
+
+* Remplir la colonne par des nombres successifs
 
 * Choix du type de colonne dans une popup
 
 * Traduction
 
 * Mettre à jour les tables régulièrement même sans visite.
-
-* Remplir la colonne par des nombres successifs
 
 * Déplacer les infos du titre dans un onlget Info du bloc table
 
@@ -108,8 +106,6 @@ Utilisateurs finaux.
 Administrateur.
 ---------------
 
-* Cleanup d'un tableau sur place : config_table par exemple
-
 * Droit d'accès : généraliser la notion de groupe, pouvoir en créer.
   Un groupe peut contenir :
 	* un groupe LDAP        : 'ldap:'
@@ -118,6 +114,8 @@ Administrateur.
 	* les login d'une table : '#' nom de la table
   Ne plus avoir de groupes indiqué en dur dans le code.
   Faire disparaitre : is_referent, is_teacher, ...
+
+* Cleanup d'un tableau sur place : config_table par exemple
 
 * Afficher les lock de tables
 
@@ -146,13 +144,13 @@ Administrateur.
 Problèmes à résoudre.
 =====================
 
-* Mise à jour des statistiques dans la bulle d'aide
+* L'histogramme ne s'affiche plus dans la page des stats
+
+* Formule coté serveur : colonne inéfaçable.
 
 * Modification de la même ue sur le même navigateur avec perte de connexion
   Une des pages écrase la sauvegarde de l'autre dans le localstore.
 
-* L'histogramme ne s'affiche plus dans la page des stats
-  
 * Ne pas démarrer si pas le package gettext
 
 * Browser file close : suffisant pour Python 3 ? (page action)
@@ -170,13 +168,7 @@ Problèmes à résoudre.
 * La destruction de table quand elle est impossible la fait disparaître
   de la page d'accueil
 
-* Ticket expiré : fait une redirection du client (impossible dans frame)
-  le client ne peut pas reprendre le ticket et demande le redirige toujours.
-  Peut être lié au "vol" de ticket : cela invalide l'ancien.
-
 * Sauve option : marche pas pour les lignes
-
-* Formule coté serveur : colonne inéfaçable.
 
 * Découpler referents_students pour avoir les bon referents par semestre.
 

@@ -4037,6 +4037,7 @@ function runlog(the_columns, the_lines)
   change_title(table_attr.table_title, table_attr.code) ;
 
   restore_unsaved() ;
+  document.getElementById("linefilter").focus() ;
 }
 
 
