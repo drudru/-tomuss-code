@@ -112,4 +112,5 @@ stat:
 	@echo "HTML       lines : " "$$($(S) '\.html$$')"
 	@echo "CSS        lines : " "$$($(S) '\.css$$')"
 	@echo "SVG        lines : " "$$($(S) '\.svg$$')"
+	@echo "PO         lines : " "$$($(S) '\.po$$')"
 	@echo "Images           : " "$$(git ls-files | grep -E '\.(png|jpg|gif)$$' | wc -l)"

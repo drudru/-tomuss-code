@@ -1,7 +1,7 @@
 // -*- coding: utf-8 -*-
 /*
   TOMUSS: The Online Multi User Simple Spreadsheet
-  Copyright (C) 2011 Thierry EXCOFFIER, Universite Claude Bernard
+  Copyright (C) 2011-2012 Thierry EXCOFFIER, Universite Claude Bernard
 
   This program is free software; you can redistribute it and/or modify
   it under the terms of the GNU General Public License as published by
@@ -105,7 +105,6 @@ function update_histogram_real()
   var stats = compute_histogram(the_current_cell.data_col) ;
   var i ;
   var maxmax = stats.maxmax() ;
-  var s = '' ;
 
   if ( ! svg_object )
     {
@@ -132,18 +131,18 @@ function update_histogram_real()
   while ( svg_object.firstChild )
     svg_object.removeChild(svg_object.firstChild) ;
 
-  s+= histogram_bar('ppn',0*dx,dx,dy,maxmax,stats.nr_ppn(),false,0,0,svg_object);
-  s+= histogram_bar('abi',1*dx,dx,dy,maxmax,stats.nr_abi(),false,0,0,svg_object);
-  s+= histogram_bar('abj',2*dx,dx,dy,maxmax,stats.nr_abj(),false,0,0,svg_object);
-  s+= histogram_bar('pre',3*dx,dx,dy,maxmax,stats.nr_pre(),false,0,0,svg_object);
-  s+= histogram_bar('oui',4*dx,dx,dy,maxmax,stats.nr_yes(),false,0,0,svg_object);
-  s+= histogram_bar('non',5*dx,dx,dy,maxmax,stats.nr_no (),false,0,0,svg_object);
-  s+= histogram_bar('nan',6*dx,dx,dy,maxmax,stats.nr_nan(),false,0,0,svg_object);
+  histogram_bar('ppn',0*dx,dx,dy,maxmax,stats.nr_ppn(),false,0,0,svg_object);
+  histogram_bar('abi',1*dx,dx,dy,maxmax,stats.nr_abi(),false,0,0,svg_object);
+  histogram_bar('abj',2*dx,dx,dy,maxmax,stats.nr_abj(),false,0,0,svg_object);
+  histogram_bar('pre',3*dx,dx,dy,maxmax,stats.nr_pre(),false,0,0,svg_object);
+  histogram_bar('oui',4*dx,dx,dy,maxmax,stats.nr_yes(),false,0,0,svg_object);
+  histogram_bar('non',5*dx,dx,dy,maxmax,stats.nr_no (),false,0,0,svg_object);
+  histogram_bar('nan',6*dx,dx,dy,maxmax,stats.nr_nan(),false,0,0,svg_object);
 
   for(i=0; i<20; i++)
-    s += histogram_bar(i, (i+7)*dx, dx, dy, maxmax, stats.histogram[i],
-		       true, stats.v_min, stats.v_max, svg_object
-		       ) ;
+    histogram_bar(i, (i+7)*dx, dx, dy, maxmax, stats.histogram[i],
+		  true, stats.v_min, stats.v_max, svg_object
+		 ) ;
 
   i = stats.average() ;
   if ( i > 1 )
@@ -171,7 +170,7 @@ function update_histogram(force)
 {
   t_column_histogram = document.getElementById('t_column_histogram') ;
   t_column_average = document.getElementById('t_column_average') ;
-  if ( t_column_histogram === undefined )
+  if ( ! t_column_histogram )
     return ;
   if ( force )
     update_histogram_data_col = -1 ;
