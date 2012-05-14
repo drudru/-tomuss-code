@@ -45,7 +45,7 @@ function printable_display_page(lines, title, page_break)
   var s = [] ;
   var html_class = 'printable_table', th_class ;
 
-  if ( uniform == 'oui' )
+  if ( uniform == _("B_print_yes") )
     html_class += ' tdnowrap' ;
 
   if ( page_break )
@@ -208,7 +208,7 @@ function printable_display_page(lines, title, page_break)
       s.push('</table>') ;
       textual_table = t.join('\n') ;
     }
-  if ( tierstemps != 'non' && tt.length )
+  if ( tierstemps != _("B_print_no") && tt.length )
       s.push('<h2 style="page-break-before:always;">' + _("MSG_print_tt_title")
 	     + '</h2>' + tt.join('\n'));
 
@@ -439,7 +439,7 @@ function print_selection(object, emargement, replace)
 
   t = [] ;
   for(var i in free_print_headers)
-    t.push(hidden_txt('<input id="free' + i + '" style="width:15em" onkeypress="do_printable_display=true;">', 'Indiquez le titre de la colonne à ajouter')) ;
+      t.push(hidden_txt('<input id="free' + i + '" style="width:15em" onkeypress="do_printable_display=true;">', _("TIP_print_column_name"))) ;
   print_choice_line(p, _("MSG_print_display_add_columns"),
 		    _("TIP_print_display_add_columns"),
 		    '<small>' + t.join(' '),
