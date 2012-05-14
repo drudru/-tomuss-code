@@ -111,6 +111,7 @@ var t_menutop ;
 var root ;
 var my_identity ;
 var days, days_full, months, months_full, ampms, ampms_full ;
+var contains_pm ;
 
 
 
@@ -201,6 +202,7 @@ function lib_init()
   months_full = eval(_("MSG_months_full")) ;
   ampms = eval(_("MSG_ampms")) ;
   ampms_full = eval(_("MSG_ampms_full")) ;
+  contains_pm = new RegExp('.*(' + ampms[1] + '|' + ampms[1].toLowerCase() + ').*') ;
 }
 
 
@@ -2424,10 +2426,11 @@ function student_abjs(login)
 	  s += '<TR>' ;
           var d = (0.5 + (parse_date(abjs[abj][1]).getTime()
 			  - parse_date(abjs[abj][0]).getTime())/(1000*86400)) ;
+	  var x = new RegExp('[' + ampms[0] + ampms[1] + ']') ;
 	  if ( d == 0.5 )
 	    s += '<TD COLSPAN="2">' + nice_date(abjs[abj][0]) ;
-	  else if ( abjs[abj][0].replace(/[AM]/,'')
-		    == abjs[abj][1].replace(/[AM]/,'') )
+	  else if ( abjs[abj][0].replace(x,'')
+		    == abjs[abj][1].replace(x,'') )
 	    s += '<TD COLSPAN="2">' + nice_date(abjs[abj][0]).replace(/ [^ ]*$/,'');
 	  else      
 	    s += '<TR><TD>' + nice_date(abjs[abj][0]) +

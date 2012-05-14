@@ -41,7 +41,6 @@ var old_login ;
 
 // Constants
 
-var contains_pm ;
 var _today = new Date() ;
 
 function abj_init()
@@ -59,8 +58,6 @@ function abj_init()
   datasend        = document.getElementById('datasend'       ) ;
   da_list         = document.getElementById('da'             ) ;
   comment         = document.getElementById('abjcomment'     ) ;
-
-  contains_pm = new RegExp('.*(' + ampms[1] + '|' + ampms[1].toLowerCase() + ').*') ;
 
   old_login = '' ;
 
