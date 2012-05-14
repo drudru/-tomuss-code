@@ -1259,6 +1259,9 @@ msgstr "Use this to add empty columns with the title of your choice."
 msgid "TIP_print_column_name"
 msgstr "Enter the column name to add."
 
+msgid "TIP_print_add_column"
+msgstr "Click here to add a new empty column with an editable title"
+
 msgid "B_print_attr_title"
 msgstr "Title"
 

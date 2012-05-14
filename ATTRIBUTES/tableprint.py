@@ -38,7 +38,9 @@ TABLE.printable_table TD {
 TABLE.printable_table TR.separatorvertical TD {
    border-bottom: 1px solid black ;
 }
-
+TABLE.print_options TR {
+  vertical-align: top ;
+}
 TABLE.printable_table TH {
    border: 1px solid black ;
 }

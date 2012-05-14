@@ -1254,6 +1254,10 @@ msgstr "Ceci vous permet d'ajouter des colonnes vides<br>"
 msgid "TIP_print_column_name"
 msgstr "Indiquez le titre de la colonne à ajouter."
 
+msgid "TIP_print_add_column"
+msgstr "Cliquez ici pour ajouter une nouvelle colonne vide<br>\n"
+       "avec un titre de votre choix"
+
 msgid "B_print_attr_title"
 msgstr "Titre"
 

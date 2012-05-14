@@ -293,6 +293,20 @@ function first_line_of_tip(attr)
   return tip ;
 }
 
+function print_add_free_column()
+{
+    var i = free_print_headers.length - 1 ;
+    var o = document.getElementById('free' + i) ;
+    var e = document.createElement("INPUT") ;
+    o.parentNode.insertBefore(e, o.nextSibling) ;
+    e.id = 'free' + (i+1) ;
+    e.style.width = "5em" ;
+    e.onkeyup = function() { do_printable_display=true; } ;
+    e.value = "--" + i + "--" ;
+    free_print_headers.push(e.value) ;
+    do_printable_display = true ;
+}
+
 function do_emargement()
 {
   for(var i in free_print_headers)
@@ -386,7 +400,7 @@ function print_selection(object, emargement, replace)
   p.push('<p class="hidden_on_paper"><A href="javascript:popup_export_window()">'
 	 + _("MSG_print_do_spreadsheet_export") + '</a>');
   p.push('<p class="hidden_on_paper">' + _("MSG_print_hide_title")) ;
-  p.push('<table class="hidden_on_paper">') ;
+  p.push('<table class="hidden_on_paper print_options">') ;
   print_choice_line(p, _("MSG_print_display_tt"),
 		    _("TIP_print_display_tt"),
 		    radio_buttons('tierstemps',
@@ -438,6 +452,8 @@ function print_selection(object, emargement, replace)
 		    'grouped_by') ;
 
   t = [] ;
+  t.push(hidden_txt('<a onclick="print_add_free_column()">+</a>',
+		    _("TIP_print_add_column"))) ;
   for(var i in free_print_headers)
       t.push(hidden_txt('<input id="free' + i + '" style="width:15em" onkeypress="do_printable_display=true;">', _("TIP_print_column_name"))) ;
   print_choice_line(p, _("MSG_print_display_add_columns"),
