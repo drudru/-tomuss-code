@@ -147,8 +147,6 @@ Problèmes à résoudre.
 * Modification de la même ue sur le même navigateur avec perte de connexion
   Une des pages écrase la sauvegarde de l'autre dans le localstore.
 
-* Ne pas démarrer si pas le package gettext
-
 * Browser file close : suffisant pour Python 3 ? (page action)
 
 * Arrêter propremement pour ne rien perdre
