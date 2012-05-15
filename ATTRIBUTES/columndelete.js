@@ -1,7 +1,7 @@
 // -*- coding: utf-8 -*-
 /*
   TOMUSS: The Online Multi User Simple Spreadsheet
-  Copyright (C) 2011 Thierry EXCOFFIER, Universite Claude Bernard
+  Copyright (C) 2011-2012 Thierry EXCOFFIER, Universite Claude Bernard
 
   This program is free software; you can redistribute it and/or modify
   it under the terms of the GNU General Public License as published by
@@ -23,12 +23,6 @@
 function column_delete()
 {
   var column = the_current_cell.column ;
-  var empty = column_empty_of_cells(column.data_col) ;
-  if ( column.real_type.cell_is_modifiable && ! empty )
-    {
-      alert('On peut seulement détruire des colonnes vides.\n\nVous devez donc d\'abord vider la colonne en cliquant sur "Remp."') ;
-      return ;
-    }
   if ( column.author == '*' && column.data_col < 6 )
     {
       alert("Il est interdit d'enlever cette colonne") ;
@@ -38,6 +32,13 @@ function column_delete()
     {
       alert("La colonne n'a pas été créée par vous mais par " + column.author +
 	    " et vous n'êtes pas responsable de l'UE : " + teachers) ;
+      return ;
+    }
+
+  var empty = column_empty_of_user_cells(column.data_col) ;
+  if ( column.real_type.cell_is_modifiable && ! empty )
+    {
+      alert('On peut seulement détruire des colonnes vides.\n\nVous devez donc d\'abord vider la colonne en cliquant sur "Remp."') ;
       return ;
     }
   var c = column_used_in_average(column.title) ;

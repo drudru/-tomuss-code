@@ -319,6 +319,17 @@ class Column(object):
                 return False
         return True
 
+    def empty_of_user_values(self):
+        """Returns True if all the cells in the column are empty."""
+        i = self.data_col
+        for line in self.table.lines.values():
+            if (line[i].value
+                and line[i].author != data.ro_user
+                and line[i].author != data.rw_user
+                ):
+                return False
+        return True
+
     def dump(self):
         """'print' all the column information for debugging"""
         print self.js()

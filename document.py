@@ -853,7 +853,8 @@ la dernière saisie.
         if page.user_name not in self.masters and a_column.data_col < 6 :
             if not self.authorized_column(page, a_column):
                 return self.bad_auth(page)
-        if a_column.type.cell_is_modifiable and not a_column.empty():
+        if (a_column.type.cell_is_modifiable
+            and not a_column.empty_of_user_values()):
             return self.error(page, "Destruction interdite (colonne pas vide)")
 
         if not self.loading:

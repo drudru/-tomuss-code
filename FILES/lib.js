@@ -1940,6 +1940,18 @@ function column_empty_of_cells(column)
   return true ;
 }
 
+function column_empty_of_user_cells(column)
+{
+  var c ;
+  for(var i in lines)
+    {
+      c = lines[i][column] ;
+      if ( c.is_not_empty() && c.author !== "*" && c.author !== "" )
+	return false ;
+    }
+  return true ;
+}
+
 function first_column_not_empty()
 {
   for(var i = columns.length - 1 ; i >=0 ; i--)
