@@ -118,13 +118,15 @@ def table_filename(year, semester, ue):
     return os.path.join(configuration.db, 'Y'+str(year), 'S'+semester, ue + '.py')
 
 def filter_language(language):
-    if 'fr' not in language:
-        language += ',fr'
-
     # Remove not translated languages
-    return ','.join([x
-                     for x in language.strip(",").split(',')
-                     if x in plugins.languages])
+    t = [x
+         for x in language.strip(",").split(',')
+         if x in plugins.languages
+         ]
+    if 'fr' not in t:
+        t.append('fr')
+    return ','.join(t)
+
 
 
 def get_preferences(user_name, create_pref=True, the_ticket=None):
