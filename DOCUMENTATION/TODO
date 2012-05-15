@@ -144,9 +144,6 @@ Problèmes à résoudre.
 
 * Formule coté serveur : colonne inéfaçable.
 
-* Modification de la même ue sur le même navigateur avec perte de connexion
-  Une des pages écrase la sauvegarde de l'autre dans le localstore.
-
 * Browser file close : suffisant pour Python 3 ? (page action)
 
 * Arrêter propremement pour ne rien perdre

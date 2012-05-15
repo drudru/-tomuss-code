@@ -2717,12 +2717,18 @@ function store_unsaved()
       i = pending_requests[i] ;
       s.push(i.content) ;
     }
-  localStorage['/' + year + '/' + semester + '/' + ue] = s.join('\n') ;
-  index = localStorage['index'] ;
-  if ( ! index )
-    index = '' ;
-  index += '\n' + '/' + year + '/' + semester + '/' + ue ;
-  localStorage['index'] = index ;
+  var key = '/' + year + '/' + semester + '/' + ue ;
+  if ( localStorage[key] )
+    localStorage[key] += '\n' + s.join('\n') ;
+  else
+    {
+      localStorage[key] = s.join('\n') ;
+      index = localStorage['index'] ;
+      if ( ! index )
+	index = '' ;
+      index += '\n' + key ;
+      localStorage['index'] = index ;
+    }
 }
 
 var do_reload_when_all_saved = false ;
