@@ -614,12 +614,11 @@ function display_stats_td(s, stats, data_col, group)
       s.push('</div></td>') ;
       return ;
     }
-
   s.push('<td><div class="s_td" onclick="stat_zoom(this,\''
 	 + data_col + "'," + js2(group) + ')">') ;
 
-  if ( values_to_display['histogramme'] )
-    s.push(stats_histogram(stats, z)) ;
+  if ( values_to_display[_('B_s_histogram')] )
+	s.push(stats_histogram(stats, z)) ;
 
   s.push('<div class="s_center">') ;
   stat_span(s, 's_average', stats.average().toFixed(nr_decimals),
@@ -650,9 +649,10 @@ function stats_histogram(stats, z)
 {
   var s = '<div class="s_histogram">' ;
   var color ;
+
   for(var i in stats.histogram)
     {
-      if ( values_to_display['histogramme'] )
+      if ( values_to_display[_('B_s_histogram')] )
 	color = s_colors[i] ;
       else
 	color = 'BBB' ;
