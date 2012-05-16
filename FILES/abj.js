@@ -498,7 +498,7 @@ function abj_choose_comment(event)
 {
     event = the_event(event) ;
     var a = event.target ;
-    comment.value = a.textContent ;
+    comment.value = a.innerHTML ;
     popup_close() ;
     comment.focus() ;
 }
