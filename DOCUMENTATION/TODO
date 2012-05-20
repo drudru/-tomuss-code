@@ -8,17 +8,19 @@ Nouvelles fonctionnalités.
 Utilisateurs finaux.
 --------------------
 
+* Notes en blanc si pas rouge ou vert
+
 * Remplir la colonne par des nombres successifs
 
 * Choix du type de colonne dans une popup
+
+* Ajouter TNR (travail non rendu)
 
 * Traduction
 
 * Mettre à jour les tables régulièrement même sans visite.
 
-* Déplacer les infos du titre dans un onlget Info du bloc table
-
-* Ajouter TNR (travail non rendu)
+* Déplacer les infos du titre dans un onglet Info du bloc table
 
 * Copie de table : sans l'historique : garder le dernier author
 

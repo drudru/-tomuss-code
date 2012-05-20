@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 #    TOMUSS: The Online Multi User Simple Spreadsheet
-#    Copyright (C) 2009 Thierry EXCOFFIER, Universite Claude Bernard
+#    Copyright (C) 2009,2012 Thierry EXCOFFIER, Universite Claude Bernard
 #
 #    This program is free software; you can redistribute it and/or modify
 #    it under the terms of the GNU General Public License as published by
@@ -35,7 +35,7 @@ def create(table):
                    'nathalie.piovesan', 'thierry.excoffier']
 
     table.table_attr(p, 'masters', masters)
-    table.column_change(p,'0_0','Numéro_étudiant'                 ,'Text','','' ,'',0,4 )
+    table.column_change(p,'0_0','Numéro_étudiant'                 ,'Login','','' ,'',0,4 )
     table.column_change(p,'0_1','Prénom'                          ,'Text','','' ,'',0,8 )
     table.column_change(p,'0_2','Nom'                             ,'Text','','' ,'',0,8 )
     table.column_change(p,'0_3','+Ecrit'                          ,'Text','','1','',0,3 )
