@@ -10,7 +10,7 @@ DIV.title {
 .novalue  { background-color: #DDD ;               }
 .verygood { background-color: #0F0 ;               }
 .good     { background-color: #BFB ;               }
-.mean     { background-color: #EEE ;               }
+.mean     { background-color: #FFF ;               }
 .bad      { background-color: #FAA ;               }
 .verybad  { background-color: #F44 ; color: white; }
 
