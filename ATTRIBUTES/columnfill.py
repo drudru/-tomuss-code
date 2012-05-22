@@ -33,4 +33,10 @@ class ColumnFill(ColumnAttr):
     #stop_the_auto_save { float:right; font-size:70%; border:1px solid red}
     DIV.fill_column_div BUTTON, DIV.fill_column_div SELECT { font-size: 100% }
     DIV.fill_column_div TEXTAREA { height: 5em }
+    #tablefill { font-size: 100%; }
+    #tablefill SPAN, #tablefill .content { padding: 3px }
+    #tablefill .contents { margin-top: 3px; height: 10.1em }
+    #tablefill DIV.titles SPAN:first-child { font-weight: normal }
+    #tablefill TEXTAREA { height: 5em }
+    #tablefill INPUT { width: 100% }
     """

@@ -1688,3 +1688,47 @@ msgstr "There is at least one missing student in TOMUSS table.\n"
 msgid "ALERT_columnexport_unexported"
 msgstr "The following students values have not been exported:"
 
+
+
+msgid "TITLE_fill_before"
+msgstr "Fill the column '"
+
+msgid "TITLE_fill_after"
+msgstr "'"
+
+msgid "MSG_fill_warning_left"
+msgstr "These action are not undoable.<br>"
+
+msgid "MSG_fill_warning_middle"
+msgstr "Suspend the auto saving.<br>"
+
+msgid "MSG_fill_warning_right"
+msgstr "If the result is fine, you will reactivate it."
+
+msgid "MSG_fill"
+msgstr "Choose your filling method for this column."
+
+msgid "TAB_fill_clear"
+msgstr "Clear"
+
+msgid "MSG_fill_clear"
+msgstr "All the cells you can modify will be blanked when\n"
+       "you click on the button"
+
+msgid "TAB_fill_one"
+msgstr "Fill"
+
+msgid "MSG_fill_one"
+msgstr "Set value to put in the cells.<br>\n"
+       "And then, click on the bottom button."
+
+msgid "MSG_fill_multiple"
+msgstr "If you enter the values A, B and C.<br>\n"
+       "The cells in their current order, will take the following values:"
+
+msgid "MSG_fill_equal"
+msgstr "If it is possible the numbers of A, B an C will be equal."
+
+msgid "B_fill"
+msgstr "Change the cell values of the filtered lines"
+

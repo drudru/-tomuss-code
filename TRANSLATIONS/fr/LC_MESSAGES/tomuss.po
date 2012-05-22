@@ -1689,4 +1689,49 @@ msgid "ALERT_columnexport_unexported"
 msgstr "Les étudiants suivants n'ont pas eu leur notes exportées :"
 
 
+msgid "TITLE_fill_before"
+msgstr "Remplir la colonne «"
+
+msgid "TITLE_fill_after"
+msgstr "»"
+
+msgid "MSG_fill_warning_left"
+msgstr "Ces opérations ne sont pas annulables.<br>"
+
+msgid "MSG_fill_warning_middle"
+msgstr "Désactivez la sauvegarde automatique.<br>"
+
+msgid "MSG_fill_warning_right"
+msgstr "Vous la réactiverez après avoir vérifié le résultat."
+
+msgid "MSG_fill"
+msgstr "Choisissez comment vous voulez remplir la colonne&nbsp;"
+
+
+  
+
+msgid "TAB_fill_clear"
+msgstr "Vider"
+
+msgid "MSG_fill_clear"
+msgstr "Toutes les cellules que vous pouvez modifier seront vidées\n"
+       "quand vous cliquerez sur le bouton en bas"
+
+msgid "TAB_fill_one"
+msgstr "Remplir"
+
+msgid "MSG_fill_one"
+msgstr "Choisissez la valeur que doivent prendre les cellules.<br>\n"
+       "Puis cliquez sur le bouton en bas."
+
+msgid "MSG_fill_multiple"
+msgstr "Si vous saisissez A sur la première ligne, B et C sur les deux suivantes.<br>\n"
+       "Les cellules vont prendre comme valeur dans l'ordre\n"
+       "dans lesquelles elles sont actuellement affichées :"
+
+msgid "MSG_fill_equal"
+msgstr "Le remplissage sera fait de la manière la plus équilibrée possible."
+
+msgid "B_fill"
+msgstr "Changer les cellules des lignes filtrées"
 

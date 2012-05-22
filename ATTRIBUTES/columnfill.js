@@ -1,7 +1,7 @@
 // -*- coding: utf-8 -*-
 /*
   TOMUSS: The Online Multi User Simple Spreadsheet
-  Copyright (C) 2011 Thierry EXCOFFIER, Universite Claude Bernard
+  Copyright (C) 2011-2012 Thierry EXCOFFIER, Universite Claude Bernard
 
   This program is free software; you can redistribute it and/or modify
   it under the terms of the GNU General Public License as published by
@@ -25,56 +25,71 @@ function fill_column()
   var m = '' ;
 
   if ( table_attr.autosave )
-    m = '<div id="stop_the_auto_save">' +
-      'Ces opérations ne sont pas annulable.<br>' +
-      'Désactivez la <a href="#" onclick="select_tab(\'table\', \'Action\');table_autosave_toggle();document.getElementById(\'stop_the_auto_save\').style.display=\'none\';">'+
-      'sauvegarde automatique</a> pour être tranquille,<br>' +
-      ' vous la réactiverez après avoir vérifié le résultat.</div>';
-
+    m = '<div id="stop_the_auto_save">' + _("MSG_fill_warning_left")
+	+ ' <a href="#" onclick="select_tab(\'table\', \'Action\');table_autosave_toggle();document.getElementById(\'stop_the_auto_save\').style.display=\'none\';">'
+	+ _("MSG_fill_warning_middle") + '</a> ' +_("MSG_fill_warning_right")
+	+ '</div>' ;
 
   create_popup('fill_column_div',
-	       'Remplir la colonne «'
-	       + the_current_cell.column.title + '»',m +
-	       '<b>Seules les lignes filtrées seront modifiées.</b><br>' +
-	       'Vous pouvez <BUTTON OnClick="fill_column_do_empty();">' +
-	       'effacer les valeurs</BUTTON><br>' +
-	       'Sinon, indiquez une valeur par ligne dans la zone de saisie, '+
-	       'ces valeurs rempliront la colonne quand vous cliquerez sur ' +
-	       '<BUTTON OnClick="fill_column_do_fill();">remplir</BUTTON>'
-	       ,
-	       'Si vous avez saisi plus d\'une valeur (A, B, C sur 3 lignes ' +
-	       'par exemple), le remplissage sera équilibré entre les ' +
-	       'valeurs et vous pouvez choisir l\'ordre de remplissage&nbsp;:'+
-	       '<select id="aaabbbccc">' +
-	       '<option>A A A A... B B B B... C C C C...</option>' +
-	       '<option>A B C A B C A B C A B C...</option>' +
-	       '</select>'
-	       ) ;
-  popup_text_area().rows = 4 ;
-}
+	       _("TITLE_fill_before")
+	       + the_current_cell.column.title + _("TITLE_fill_after"),
+	       m + _("MSG_fill") + '<br>&nbsp;<br>'
+	       + create_tabs('tablefill',
+			     [
+				 [_('TAB_fill_clear'),
+				  _('MSG_fill_clear')
+				 ],
+				 [_('TAB_fill_one'),
+				  _('MSG_fill_one') + '<br>'
+				  + '<INPUT id="column_fill_input"><br>'
+				 ],
+				 ["ABC ABC ABC...",
+				  _('MSG_fill_multiple')
+				  +' <tt>A B C A B C A B C...</tt>'
+				  +'<br>'
+				  +'<TEXTAREA id="column_fill_abab"></TEXTAREA>'
+				 ],
+				 ["AA... BB... CC...",
+				  _('MSG_fill_multiple')
+				  +' <tt>A A... B B... C C...</tt><br>'
+				  +_('MSG_fill_equal')
+				  +'<br>'
+				  +'<TEXTAREA id="column_fill_aabb"></TEXTAREA>'
+				  ],
 
-function fill_column_do_empty()
-{
-  popup_set_value('') ;
-  fill_column_do_fill() ;
+			     ])
+	       + '<BUTTON OnClick="fill_column_do_fill();">'
+	       + _('B_fill') + '</BUTTON>',
+	       '', false
+	       ) ;
+  select_tab("tablefill", _("TAB_fill_one")) ;
+  popup_text_area().rows = 4 ;
 }
 
 function fill_column_do_fill()
 {
-  var values = popup_value() ;
+    alert_append_start() ;
 
-  alert_append_start() ;
-
-  if ( document.getElementById('aaabbbccc').selectedIndex == 0 )
-    fill_column_do_aabb(values) ;
-  else
-    fill_column_do_abab(values) ;
-
-  alert_append_stop() ;
-  the_current_cell.column.need_update = true ;
-  update_columns() ;
-  popup_close() ;
-  table_fill() ;
+    var choice = selected_tab('tablefill') ;
+    if ( choice === _('TAB_fill_clear') )
+	fill_column_do_abab(['']) ;
+    else if ( choice === _('TAB_fill_one') )
+	fill_column_do_abab(parse_lines(
+	    document.getElementById('column_fill_input').value)) ;
+    else if ( choice === "AA... BB... CC..." )
+	fill_column_do_aabb(parse_lines(
+	    document.getElementById('column_fill_aabb').value)) ;
+    else if ( choice === "ABC ABC ABC..." )
+	fill_column_do_abab(parse_lines(
+	    document.getElementById('column_fill_abab').value)) ;
+    else
+	alert_real(choice);
+   
+    alert_append_stop() ;
+    the_current_cell.column.need_update = true ;
+    update_columns() ;
+    popup_close() ;
+    table_fill() ;
 }
 
 function fill_column_do_aabb(values)

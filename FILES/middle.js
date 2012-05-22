@@ -528,6 +528,16 @@ function select_tab(name, tab)
             child.className = 'tab_selected' ;
 }
 
+function selected_tab(name)
+{
+  var tabs = document.getElementById(name) ;
+  if ( ! tabs )
+    return ;
+  for(var child = tabs.childNodes[0].firstChild;child;child=child.nextSibling)
+        if ( child.className == 'tab_selected' )
+	    return child.id.substr(6) ;
+}
+
 function new_new_interface()
 {
   var o, t ;
