@@ -142,6 +142,8 @@ Administrateur.
 Problèmes à résoudre.
 =====================
 
+* Automatiser le buffering dans le request processing
+
 * Browser file close : suffisant pour Python 3 ? (page action)
 
 * Arrêter propremement pour ne rien perdre
