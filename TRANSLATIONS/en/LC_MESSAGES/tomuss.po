@@ -1726,6 +1726,16 @@ msgid "MSG_fill_multiple"
 msgstr "If you enter the values A, B and C.<br>\n"
        "The cells in their current order, will take the following values:"
 
+msgid "MSG_fill_numbers"
+msgstr "If you enter ' Place 8 room X ' cells will be filled with:\n"
+       "<div style=\"margin-left: 1em\">\n"
+       "'Place 8 room X'<br>\n"
+       "'Place 9 room X'<br>\n"
+       "'Place 10 room X'<br>\n"
+       "... until the last cell.</div>\n"
+       "If you enter '100' they will be set to 100, 101, 102..."
+       
+
 msgid "MSG_fill_equal"
 msgstr "If it is possible the numbers of A, B an C will be equal."
 

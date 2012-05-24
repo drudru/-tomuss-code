@@ -1729,6 +1729,15 @@ msgstr "Si vous saisissez A sur la première ligne, B et C sur les deux suivante
        "Les cellules vont prendre comme valeur dans l'ordre\n"
        "dans lesquelles elles sont actuellement affichées :"
 
+msgid "MSG_fill_numbers"
+msgstr "Si vous saisissez « Place 8, Amphi X » les cellules vont prendre\n"
+       "comme valeurs&nbsp;:<div style=\"margin-left: 1em\">\n"
+       "« Place 8, Amphi X »<br>\n"
+       "« Place 9, Amphi X »<br>\n"
+       "« Place 10, Amphi X »<br>\n"
+       "... jusqu'à la dernière cellule.</div>\n"
+       "Si vous saisissez « 100 » elles contiendront 100, 101, 102..."
+       
 msgid "MSG_fill_equal"
 msgstr "Le remplissage sera fait de la manière la plus équilibrée possible."
 

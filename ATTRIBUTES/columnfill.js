@@ -56,6 +56,11 @@ function fill_column()
 				  +'<br>'
 				  +'<TEXTAREA id="column_fill_aabb"></TEXTAREA>'
 				  ],
+				 ["42 43 44 45...",
+				  _('MSG_fill_numbers')
+				  +'<br>'
+				  +'<INPUT id="column_fill_numbers">'
+				  ]
 
 			     ])
 	       + '<BUTTON OnClick="fill_column_do_fill();">'
@@ -82,6 +87,17 @@ function fill_column_do_fill()
     else if ( choice === "ABC ABC ABC..." )
 	fill_column_do_abab(parse_lines(
 	    document.getElementById('column_fill_abab').value)) ;
+    else if ( choice === "42 43 44 45..." )
+    {
+	var t = document.getElementById('column_fill_numbers').value ;
+	var left = t.replace(/[0-9]+.*/, '') ;
+	var right = t.replace(/^[^0-9]*[0-9]+/, '') ;
+	var start = Number(t.replace(/^[^0-9]*([0-9]+).*$/, '$1')) ;
+	var v = [] ;
+	for(var i = start; i < start + filtered_lines.length; i++)
+	    v.push(left + i + right) ;
+	fill_column_do_abab(v) ;
+    }
     else
 	alert_real(choice);
    
