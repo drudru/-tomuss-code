@@ -1744,3 +1744,7 @@ msgstr "Le remplissage sera fait de la manière la plus équilibrée possible."
 msgid "B_fill"
 msgstr "Changer les cellules des lignes filtrées"
 
+msgid "MSG_fill_remove_empty"
+msgstr "Les lignes vides ont été filtrées car vous ne voulez certainement\n"
+       "pas les remplir.\n"
+       "Vous pouvez enlevez le filtre maintenant si vous désirez les remplir."

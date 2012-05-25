@@ -340,6 +340,14 @@ function an_user_update(event, input, column, attr)
   compute_tip(input);
 }
 
+function filter_change_column(value, column)
+{
+    column.filter = set_filter_generic(value, column) ;
+    update_filters() ;
+    update_histogram(true) ;
+    table_fill(true, false, true) ;
+}
+
 function header_change_on_update(event, input, what)
 {
   var column = the_current_cell.column ;
@@ -356,10 +364,7 @@ function header_change_on_update(event, input, what)
       switch(input.parentNode.parentNode.className)
 	{
 	case 'filter':
-	  column.filter = set_filter_generic(input.value, column) ;
-	  update_filters() ;
-	  update_histogram(true) ;
-	  table_fill(true, false, true) ;
+	    filter_change_column(input.value, column) 
 	  break ;
 	}
     }

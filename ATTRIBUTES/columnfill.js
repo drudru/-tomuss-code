@@ -24,6 +24,18 @@ function fill_column()
 {
   var m = '' ;
 
+  if ( tr_filter.childNodes[0].firstChild.value === '' )
+      for(var i in filtered_lines)
+	  if ( filtered_lines[i][0].is_empty() )
+              {
+		  var filter0 = tr_filter.childNodes[0].firstChild ;
+		  alert(_('MSG_fill_remove_empty'));
+		  filter0.value = '!=' ;
+		  filter0.className = filter0.className.replace('empty','') ;
+		  filter_change_column(filter0.value, columns[0]) ;
+		  break ;
+	      }
+
   if ( table_attr.autosave )
     m = '<div id="stop_the_auto_save">' + _("MSG_fill_warning_left")
 	+ ' <a href="#" onclick="select_tab(\'table\', \'Action\');table_autosave_toggle();document.getElementById(\'stop_the_auto_save\').style.display=\'none\';">'
