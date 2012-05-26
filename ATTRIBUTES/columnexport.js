@@ -128,7 +128,7 @@ function export_column_value()
       if ( multiline[i] === '' )
 	{
 	  element_focused = undefined ;
-	  alert(_("ALERT_columnexport_no_id")) ;
+	  Alert("ALERT_columnexport_no_id") ;
 	  return ;
 	}
       line_id = login_to_line_id(login_to_id(multiline[i].replace(/ */g,''))) ;

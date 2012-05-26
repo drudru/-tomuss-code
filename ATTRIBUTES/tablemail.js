@@ -100,7 +100,7 @@ function mail_window()
 
   if ( the_student_mails.search('@') == -1 )
     {
-	alert(_("ALERT_mail_none")) ;
+	Alert("ALERT_mail_none") ;
         return ;
     }
 
@@ -180,7 +180,7 @@ function personal_mailing_parse_line(text, column_used, column_data_col)
       data_col = column_title_to_data_col(col_name) ;
       if ( data_col == undefined )
 	{
-	    alert(_("ALERT_mail_unknown_column") + col_name) ;
+	  Alert("ALERT_mail_unknown_column", col_name) ;
 	  return ;
 	}
       column_used[col_name] = personal_mailing_do.nr_items++ ;

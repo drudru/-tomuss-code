@@ -2326,7 +2326,7 @@ function cell_set_value_real(line_id, data_col, value, td)
 
   if ( column.is_empty && columns_filter_value !== '' )
     {
-      alert(_("ERROR_column_creation_with_filter")) ;
+      Alert("ERROR_column_creation_with_filter") ;
       return;
     }
 
@@ -2720,7 +2720,7 @@ function store_unsaved()
     return ;
   if ( ! localStorage )
     {
-      alert(_("ERROR_save_to_localstorage_failed")) ;
+      Alert("ERROR_save_to_localstorage_failed") ;
       return ;
     }
   var s = [] ;
@@ -3020,7 +3020,7 @@ function auto_save_errors()
       else
 	{
 	  _d('STATE=NO_CONNECTION');
-	  alert(_("MSG_connection_staled")) ;
+	  Alert("MSG_connection_staled") ;
 	  if (  last_server_answer < d )
 	    {
 	      // Nothing was received while alert was displayed
@@ -3177,7 +3177,7 @@ function Xcolumn_delete(page, col)
   the_current_cell.update() ;
 
   if ( page != ' ')
-    alert(_("MSG_refresh")) ;
+    Alert("MSG_refresh") ;
   the_current_cell.do_update_column_headers = true ;
   the_current_cell.update_headers() ;
   table_fill(true, true,true) ;
@@ -3267,7 +3267,7 @@ function comment_on_change()
 
   if ( ! cell.modifiable(the_current_cell.column) )
     {
-      alert(_("ERROR_value_not_modifiable")) ;
+      Alert("ERROR_value_not_modifiable") ;
       return ;
     }
   

@@ -29,7 +29,7 @@ function fill_column()
 	  if ( filtered_lines[i][0].is_empty() )
               {
 		  var filter0 = tr_filter.childNodes[0].firstChild ;
-		  alert(_('MSG_fill_remove_empty'));
+		  Alert('MSG_fill_remove_empty');
 		  filter0.value = '!=' ;
 		  filter0.className = filter0.className.replace('empty','') ;
 		  filter_change_column(filter0.value, columns[0]) ;

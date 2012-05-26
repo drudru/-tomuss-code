@@ -143,27 +143,6 @@ Problèmes à résoudre.
 =====================
 
 * LOCAL Recupération incomplète perd les etapes ?
-ORA-01092: ORACLE instance terminated. Disconnection forced
-
-<p>Exception Stack:<table>
-<tr><td class="name"><A href="file://DATA/SERVEUR_NOTES/LOCAL/sydney.py">query</A><td class="line">98<td>
-
-
-Traceback (most recent call last):
-  File "./generate_ues_spiral.py", line 34, in <module>
-    uev.js(tt_list).encode('utf-8')))
-  File "/DATA/SERVEUR_NOTES/teacher.py", line 235, in js
-    for student in inscrits.L_batch.students('UE-' + self.name):
-  File "/DATA/SERVEUR_NOTES/LOCAL/students_of_ue.py", line 637, in students
-    for s in configuration.sydney.students(ue):
-  File "/DATA/SERVEUR_NOTES/LOCAL/sydney.py", line 134, in students
-    where COD_ELP = '%s'""" % ue[3:])
-  File "/DATA/SERVEUR_NOTES/utilities.py", line 58, in f
-    r = f.fct(*arg, **keys)
-  File "/DATA/SERVEUR_NOTES/LOCAL/sydney.py", line 99, in query
-    raise ValueError('ORACLE DatabaseError')
-ValueError: ORACLE DatabaseError
-
 
 * Automatiser le buffering dans le request processing
 

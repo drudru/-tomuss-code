@@ -1332,107 +1332,117 @@ def login_list(page, name):
 # Do the real job to answer to modification requests
 # It is complicated because we may receive request in bad order.
 # So we keep a list of requests and sort it.
+
+def it_is_a_bad_request(request, page, tabl, output_file):
+    if page.request > request:
+        # An old request was given. Assume same answer XXX
+        tabl.do_not_unload_add(-1)
+        try:
+            warn('Old request asked : %d in place of %d' % (
+                request, page.request))
+            output_file.write(files['ok.png'])
+            output_file.close()
+        except IOError:
+            pass
+        except:
+            utilities.send_backtrace('Exception request %d' % request)
+        return True
+    if tabl.unloaded:
+        # No sense to do the do_not_unload_add(-1)
+        utilities.send_backtrace('Request on unloaded table '+tabl.ue)
+        return True
+
+def should_be_delayed(request, page, tabl, r, t):
+    if tabl.the_lock.locked():
+        return True
+    if page.request < request:
+        # Wait missing requests
+        if (len(t) > 1
+            and t[-1][0] == r[0] and t[-1][1] == r[1]
+            and t[-2][0] == r[0] and t[-2][1] == r[1]
+            ):
+            # We received 3 times the same request.
+            # So, we hit a request-accounting bug.
+            # For example: server restart and browser 'update_content'
+            # request that is not stored in the table data file.
+            utilities.send_backtrace('Bad Request Number (%s!=%s)' %
+                                     (page.request, request))
+            # We fix the page request number
+            # So we no more delay this request handling
+            page.request = request
+        else:
+            return True
+
+def process_request(page, tabl, action, path):
+    page.request += 1
+    page.answer = 'bug.png'
+    tabl.lock()
+    try:
+        if action.startswith('column_attr_'):
+            page.answer = tabl.column_attr(page, path[0],
+                                           action[12:], path[1])
+        elif action.startswith('table_attr_'):
+            page.answer = tabl.table_attr(page,
+                                          action[11:], path[0])
+        elif action == 'cell_change':
+            col, lin, value  = path
+            page.answer = tabl.cell_change(page, col, lin, value)
+        elif action == 'comment_change':
+            col, lin, value = path
+            page.answer = tabl.comment_change(page, col, lin, value)
+        elif action == 'column_delete':
+            col = path[0]
+            page.answer = tabl.column_delete(page, col)
+        elif action == 'login_list':
+            login_list(page, utilities.safe(path[0]))
+            page.answer = 'ok.png'
+        elif action == 'update_content':
+            if tabl not in update_students:
+                update_students.append(tabl)
+            page.answer = 'ok.png'
+        else:
+            warn('BUG: %s' % str(path), what="error")
+    finally:
+        tabl.do_not_unload_add(-1)
+        tabl.unlock()
+    # We don't want asynchronous update when doing regtest
+    if configuration.regtest_sync:
+        update_students.append(tabl)
+        check_new_students_real()
+
 request_list = []
 def check_requests():
-    my_request_list = []
-
     while True:
         time.sleep(0.1)
-        
-        # This is thread safe
-        while request_list:
-            my_request_list.append( request_list.pop() )
-    
-        my_request_list.sort()
-        
-        # warn('Requests: ' + '\n'.join([','.join([str(y) for y in x])                                     for x in my_request_list]), what='debug')
-        t = []
+        my_request_list = list(request_list)
+        my_request_list.sort()        
+        valid_request = []
         for r in my_request_list:
             request, page, action, path, output_file = r
             tabl = page.table
-            warn('R=%d P=%d A=%s P=%s DNU=%d' % (request, page.page_id,
-                                                 action, path,
-                                                 tabl.do_not_unload),
+            warn('R=%d P=%d A=%s P=%s DNU=%d' % (
+                    request, page.page_id, action, path, tabl.do_not_unload),
                  what="DNU")
-            if page.request > request:
-                # An old request was given. Assume same answer XXX
-                tabl.do_not_unload_add(-1)
-                try:
-                    warn('Old request asked : %d in place of %d' % (
-                        request, page.request))
-                    output_file.write(files['ok.png'])
-                    output_file.close()
-                except IOError:
-                    pass
-                except:
-                    utilities.send_backtrace('Exception request %d' % request)
+            if it_is_a_bad_request(request, page, tabl, output_file):
+                request_list.remove(r)
                 continue
-            if tabl.unloaded:
-                utilities.send_backtrace('Request on unloaded table '+tabl.ue)
-                continue # Forget this bad request
-            if (page.request < request     # Wait missing requests
-                or tabl.the_lock.locked()  # Do not wait on an locked table
-                ):
-                if (len(t) > 1
-                    and t[-1][0] == r[0] and t[-1][1] == r[1]
-                    and t[-2][0] == r[0] and t[-2][1] == r[1]
-                    ):
-                    # We received 3 times the same request.
-                    # So, we hit a request-accounting bug.
-                    # For example: server restart and browser 'update_content'
-                    # request that is not stored in the table data file.
-                    utilities.send_backtrace('Bad Request Number (%s!=%s)' %
-                                             (page.request, request))
-                    page.request = request
-
-                else:
-                    # do not decrement do_not_unload
-                    t.append(r)
-                    continue
-            page.request += 1
-
+            # It is only useful to compare to previous requests
+            valid_request.append(r)
+            if should_be_delayed(request, page, tabl, r, valid_request):
+                # do not decrement do_not_unload
+                # Keep in request_list
+                continue
+            # Remove from request list.
+            # If there is an error, browser will send a new request
+            request_list.remove(r)
             try:
                 real_bug = True
-                page.answer = 'bug.png'
-                tabl.lock()
-                try:
-                    if action.startswith('column_attr_'):
-                        page.answer = tabl.column_attr(page, path[0],
-                                                       action[12:], path[1])
-                    elif action.startswith('table_attr_'):
-                        page.answer = tabl.table_attr(page,
-                                                      action[11:], path[0])
-                    elif action == 'cell_change':
-                        col, lin, value  = path
-                        page.answer = tabl.cell_change(page, col, lin, value)
-                    elif action == 'comment_change':
-                        col, lin, value = path
-                        page.answer = tabl.comment_change(page, col, lin, value)
-                    elif action == 'column_delete':
-                        col = path[0]
-                        page.answer = tabl.column_delete(page, col)
-                    elif action == 'login_list':
-                        login_list(page, utilities.safe(path[0]))
-                        page.answer = 'ok.png'
-                    elif action == 'update_content':
-                        if tabl not in update_students:
-                            update_students.append(tabl)
-                        page.answer = 'ok.png'
-                    else:
-                        warn('BUG: %s' % str(path), what="error")
-                finally:
-                    tabl.do_not_unload_add(-1)
-                    tabl.unlock()
-                # We don't want asynchronous update when doing regtest
-                if configuration.regtest_sync:
-                    update_students.append(tabl)
-                    check_new_students_real()
+                process_request(page, tabl, action, path)
             except:
                 warn('bug raised', what="error")
-                utilities.send_backtrace('check_requests : ' + action +repr(path))
+                utilities.send_backtrace('check_requests: '+action+repr(path))
                 page.answer = 'bug.png'
                 real_bug = False
-
             try:
                 warn('Send %s(%s) %s' % (output_file, output_file.closed,
                                          page.answer), what="table")
@@ -1442,14 +1452,9 @@ def check_requests():
                               '<script>saved(%d);</script>\n' % request)
                 if page.answer == 'bug.png' and real_bug:
                     sender.append(page.browser_file,
-                                  """<script>
-alert("Un bug c'est produit, l'administrateur a été prévenu. Vérifiez la valeur que vous avez saisie") ;
-</script>\n""")
-                    
+                                  '<script>Alert("ERROR_server_bug")</script>')
             except socket.error:
                 pass
-
-        my_request_list = t
                            
 
 # continuous send of packets to check connections

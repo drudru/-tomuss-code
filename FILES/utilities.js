@@ -444,6 +444,13 @@ function debug(e, only, eject, hide_empty)
   alert(s) ;
 }
 
+function Alert(m, more)
+{
+    if ( more === undefined )
+	more = ''
+    alert(_(m) + "\n" + more) ;
+}
+
 function clone_event(event)
 {
   var e = new Object() ;
