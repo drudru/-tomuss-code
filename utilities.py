@@ -91,10 +91,11 @@ filename_buffer = []
 
 def bufferize_this_file(filename):
     """Should be called with None to flush the buffered content"""
-    warn("Bufferize %s" % filename)
+    global filename_to_bufferize, filename_buffer
+    if filename == filename_to_bufferize:
+        return
     append_file.the_lock.acquire()
     try:
-        global filename_to_bufferize, filename_buffer
         if filename_to_bufferize:
             append_file_unlocked(filename_to_bufferize,
                                  ''.join(filename_buffer))

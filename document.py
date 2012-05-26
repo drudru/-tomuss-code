@@ -1415,7 +1415,12 @@ def check_requests():
     while True:
         time.sleep(0.1)
         my_request_list = list(request_list)
-        my_request_list.sort()        
+        if len(my_request_list) == 0:
+            # To not flush buffers of currently student list updates
+            # In fact the buffering only gain 10% in user time and is
+            # a little less secure. So it is disabled (see YYY comments)
+            continue
+        my_request_list.sort()
         valid_request = []
         for r in my_request_list:
             request, page, action, path, output_file = r
@@ -1426,6 +1431,7 @@ def check_requests():
             if it_is_a_bad_request(request, page, tabl, output_file):
                 request_list.remove(r)
                 continue
+            # utilities.bufferize_this_file(tabl.filename) # YYY
             # It is only useful to compare to previous requests
             valid_request.append(r)
             if should_be_delayed(request, page, tabl, r, valid_request):
@@ -1455,6 +1461,7 @@ def check_requests():
                                   '<script>Alert("ERROR_server_bug")</script>')
             except socket.error:
                 pass
+        # utilities.bufferize_this_file(None) # YYY Flush buffers
                            
 
 # continuous send of packets to check connections
