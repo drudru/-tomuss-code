@@ -25,7 +25,7 @@ class COW(moy.Moy):
     human_priority = 11
     cell_compute = 'compute_cow'
     cell_is_modifiable = 1
-    tip_cell = "Texte libre"
+    tip_cell = "TIP_cell_Text"
     cell_text = 'test_nothing'
     formatte = 'text_format'
     cell_test = 'test_cow'

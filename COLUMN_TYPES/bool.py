@@ -45,11 +45,11 @@ def option_list(column, value, cell, lines, teacher, ticket, line_id, values):
 
 class Bool(note.Note):
     human_priority = 1
-    tip_cell = "Booléen, tapez O : oui, N : non"
+    tip_cell = "TIP_cell_Bool"
     cell_test = 'test_bool'
     formatte = text.Text.formatte
     ondoubleclick = 'toggle_bool'
-    tip_filter = "Vous pouvez indiquer <b>O</b> ou <b>N</b> comme filtre."
+    tip_filter = "TIP_filter_Bool"
     should_be_a_float = 0
     attributes_visible = ()
 

@@ -25,7 +25,7 @@ import bool
 import collections
 
 class Enumeration(text.Text):
-    tip_cell = "Une des valeurs autorisées"
+    tip_cell = "TIP_cell_Enumeration"
     cell_test = 'test_enumeration'
     ondoubleclick = 'toggle_enumeration'
     tip_test_filter = """<b>Valeurs autorisées</b><br>

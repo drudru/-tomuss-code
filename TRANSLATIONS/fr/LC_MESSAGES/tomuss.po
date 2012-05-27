@@ -1756,3 +1756,66 @@ msgstr "Un bug c'est produit, l'administrateur a été prévenu.\n"
        "Pour ne rien perdre : fermez la page puis réouvrez la.\n"
        "Si vous réactualisez la page, des valeurs peuvent être perdues.\n"
        "Et bien sûr vérifiez vos dernières saisies."
+
+msgid "TIP_filter_Bool"
+msgstr "Vous pouvez indiquer <b>O</b> ou <b>N</b> comme filtre."
+
+msgid "TIP_filter_Date"
+msgstr "Exemples de filtre :\n"
+       "<ul><li><b>&gt;=1/1/1980 &lt;=31/12/1999</b>\n"
+       "<li><b>&gt;1m &lt;1j</b> : plus d'une minute et moins d'un jour.\n"
+       "</ul>"
+
+msgid "TIP_filter_Note"
+msgstr "Exemples de filtre :\n"
+       "<ul><li><b>&gt;5</b>\n"
+       "<li><b>&gt;5 &lt;15</b>\n"
+       "<li><b>ABINJ ou ABJUS ou PPNOT</b>\n"
+       "</ul>"
+
+msgid "TIP_filter_Prst"
+msgstr "Exemples de filtre :\n"
+       "<ul><li><b>P</b> pour voir les présents\n"
+       "<li><b>A</b>, <b>ABI</b> ou <b>ABJ</b> pour voir les absences\n"
+       "<li><b>=</b> pour voir les cases vides\n"
+       "</ul>"
+
+msgid "TIP_filter_Text"
+msgstr "Exemple de filtre :\n"
+       "<ul>\n"
+       "<li><b>abc</b> pour afficher seulement les valeurs\n"
+       "commençant par <b>abc</b>\n"
+       "<li><b>~ab</b> pour afficher les valeurs contenant <b>ab</b>\n"
+       "<li><b>!A</b> pour afficher seulement les valeurs\n"
+       "ne commençant pas par <b>A</b>\n"
+       "</ul>"
+
+msgid "TIP_column_title"
+msgstr "Titre de la colonne, cliquez dessus\n"
+       "pour la <b>trier</b> dans une direction ou l'autre.<br>\n"
+       "<b>Changez le titre</b> dans la zone au dessous de l'onglet «Colonne»"
+
+msgid "TIP_cell_Bool"
+msgstr "Booléen, tapez O : oui, N : non"
+
+msgid "TIP_cell_Text"
+msgstr "Texte libre"
+
+msgid "TIP_cell_Date"
+msgstr "Une date de la forme Jour/Mois/Année ou Jour/Mois ou Jour"
+
+msgid "TIP_cell_Enumeration"
+msgstr "Une des valeurs autorisées"
+
+msgid "TIP_cell_Login"
+msgstr "Login d'utilisateur ou le début de son nom/prénom"
+
+msgid "TIP_cell_Note"
+msgstr "Une note ou bien I : ABI, J : ABJ, N : Peut pas noter"
+
+msgid "TIP_cell_Prst"
+msgstr "Présence, tapez P : Présent, I : ABI, J : ABJ"
+
+msgid "TIP_cell_URL"
+msgstr "L'URL sous la forme http://...."
+

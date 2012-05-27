@@ -25,11 +25,11 @@ import cgi
 
 class Prst(note.Note):
     human_priority = -9
-    tip_cell = "Présence, tapez P : Présent, I : ABI, J : ABJ"
+    tip_cell = "TIP_cell_Prst"
     cell_test = 'test_prst'
     formatte = text.Text.formatte
     ondoubleclick = 'toggle_prst'
-    tip_filter = "Exemples de filtre :<ul><li><b>P</b> pour voir les présents<li><b>A</b>, <b>ABI</b> ou <b>ABJ</b> pour voir les absences<li><b>=</b> pour voir les cases vides</ul>"
+    tip_filter = "TIP_filter_Prst"
     tip_test = ''
     should_be_a_float = 0
     attributes_visible = ()

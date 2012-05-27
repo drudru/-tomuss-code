@@ -1753,3 +1753,62 @@ msgstr "There is a bug, the administrator has been mailed.\n"
        "To avoid lose of data : close the window and reopen the table.\n"
        "If you reload the page, values may be lost.\n"
        "By the way, check the last data you entered."
+
+msgid "TIP_filter_Bool"
+msgstr "You can indicate <b>O</b> or <b>N</b> as filter."
+
+msgid "TIP_filter_Date"
+msgstr "For example:\n"
+       "<ul><li><b>&gt;=1/1/1980 &lt;=31/12/1999</b>\n"
+       "<li><b>&gt;1m &lt;1j</b>: more than a minute and less than a day.\n"
+       "</ul>"
+
+msgid "TIP_filter_Note"
+msgstr "For example:\n"
+       "<ul><li><b>&gt;5</b>\n"
+       "<li><b>&gt;5 &lt;15</b>\n"
+       "<li><b>ABINJ ou ABJUS ou PPNOT</b>\n"
+       "</ul>"
+
+msgid "TIP_filter_Prst"
+msgstr "For example:\n"
+       "<ul><li><b>P</b> to see the present\n"
+       "<li><b>A</b>, <b>ABI</b> ou <b>ABJ</b> to see not present\n"
+       "<li><b>=</b> to see empty cells\n"
+       "</ul>"
+
+msgid "TIP_filter_Text"
+msgstr "For example:\n"
+       "<ul>\n"
+       "<li><b>abc</b> to see values starting by <b>abc</b>\n"
+       "<li><b>~ab</b> to see values containing <b>ab</b>\n"
+       "<li><b>!A</b> to see values not starting by <b>A</b>\n"
+       "</ul>"
+
+msgid "TIP_column_title"
+msgstr "Column title, click it to <b>sort</b> it or reverse the sort.<br>\n"
+       "to <b>change the title</b>: do it in the «Column» tab"
+
+msgid "TIP_cell_Bool"
+msgstr "Boolean, enter O : yes, N : no"
+
+msgid "TIP_cell_Text"
+msgstr "Free text"
+
+msgid "TIP_cell_Date"
+msgstr "A date as Day/Month/Year or Day/Month or Day"
+
+msgid "TIP_cell_Enumeration"
+msgstr "One of the authorised values"
+
+msgid "TIP_cell_Login"
+msgstr "User login or the begin of its name or surname"
+
+msgid "TIP_cell_Note"
+msgstr "A grade or: I: ABI, J: ABJ, N: can't grade it"
+
+msgid "TIP_cell_Prst"
+msgstr "P: Présent, I: not here, J: justified non attendance"
+
+msgid "TIP_cell_URL"
+msgstr "The URL as http://...."

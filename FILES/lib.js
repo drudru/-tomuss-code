@@ -656,6 +656,7 @@ function show_the_tip(td, tip_content)
     {
       if ( line_id === undefined )
 	{
+	  // Tips for the big table columns header: 'title' and 'filter'
 	  bottom = true ;
 	  while ( td.tagName != 'TH' )
 	    {
@@ -663,7 +664,7 @@ function show_the_tip(td, tip_content)
 	      if ( ! td )
 		return ;
 	    }
-	  s = type['tip_' + td.parentNode.className.split(' ')[0]] ;
+	  s = _(type['tip_' + td.parentNode.className.split(' ')[0]]) ;
 	  remove_highlight() ;
 	}
       else
@@ -672,9 +673,12 @@ function show_the_tip(td, tip_content)
 	  if ( line === undefined )
 	    return ;
 	  var cell = line[data_col] ;
-	  if ( cell.is_mine() && table_attr.modifiable
-	       && column.real_type.cell_is_modifiable)
-	    s = '<span class="title">' + type.tip_cell + '</span><br>' ;
+	  if ( cell.is_mine()
+	       && table_attr.modifiable
+	       && column.real_type.cell_is_modifiable
+	       && type.tip_cell
+	       )
+	    s = '<span class="title">' + _(type.tip_cell) + '</span><br>' ;
 	  else
 	    s = '' ;
 	  if ( data_col === 0 )

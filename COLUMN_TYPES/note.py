@@ -30,8 +30,8 @@ if not hasattr(math, 'isnan'):
 class Note(text.Text):
     attributes_visible = ('minmax', 'weight')
     human_priority = -10
-    tip_filter = "Exemples de filtre :<ul><li><b>&gt;5</b><li><b>&gt;5 &lt;15</b><li><b>ABINJ ou ABJUS ou PPNOT</b></ul>"
-    tip_cell = "Une note ou bien I : ABI, J : ABJ, N : Peut pas noter"
+    tip_filter = "TIP_filter_Note"
+    tip_cell = "TIP_cell_Note"
     cell_test = "test_note"
     formatte = 'note_format'
 

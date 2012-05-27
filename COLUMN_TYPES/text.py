@@ -122,17 +122,9 @@ class Text(object):
     default_filter = ''
 
     # Default tips
-    tip_column_title = """Titre de la colonne, cliquez dessus
-pour la <b>trier</b> dans une direction ou l'autre.<br>
-<b>Changez le titre</b> dans la zone au dessous de l'onglet «Colonne»
-"""
-    tip_filter = """Exemple de filtre :
-<ul>
-<li><b>abc</b> pour afficher seulement les valeurs commençant par <b>abc</b>
-<li><b>~ab</b> pour afficher les valeurs contenant <b>ab</b>
-<li><b>!A</b> pour afficher seulement les valeurs ne commençant pas par <b>A</b>
-</ul>"""
-    tip_cell = "Texte libre"
+    tip_column_title = "TIP_column_title"
+    tip_filter = "TIP_filter_Text"
+    tip_cell = "TIP_cell_Text"
 
     # The value is a float most of the time
     should_be_a_float = 0

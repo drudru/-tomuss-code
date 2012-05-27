@@ -23,5 +23,5 @@ import text
 
 class Login(text.Text):
     human_priority = 7
-    tip_cell = "Login d'utilisateur ou le début de son nom/prénom"
+    tip_cell = "TIP_cell_Login"
     
