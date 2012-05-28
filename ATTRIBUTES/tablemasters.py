@@ -21,6 +21,7 @@
 
 from column import TableAttr
 import re
+import utilities
 
 class TableMasters(TableAttr):
     name = 'masters'
@@ -67,7 +68,7 @@ return value ;
         import inscrits
         for login in value:
             if not inscrits.L_fast.is_a_teacher(login):
-                return "Ce n'est pas un enseignant : " + login
+                return '_("ALERT_bad_login")' + utilities.js(login)
     def update(self, table, old_value, new_value, page):
         import document
         for login in new_value:

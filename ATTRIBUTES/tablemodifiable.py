@@ -35,7 +35,7 @@ class TableModifiable(TableAttr):
         try:
             value = int(value)
         except ValueError:
-            return 'Cette valeur doit être entière'
+            return self.check_error(value)
         if value == 0 or value == 1:
             return
         return "Cet attribut '%s' peut être seulement 0 ou 1" % self.name

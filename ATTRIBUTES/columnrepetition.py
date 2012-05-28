@@ -34,6 +34,6 @@ class ColumnRepetition(ColumnAttr):
         try:
             int(value)
         except ValueError:
-            return "Le nombre de répétitions doit être un nombre entier"
+            return '_("ALERT_repetition_int")'
 
     css = "#menutop DIV.tabs #t_column_repetition { width: 20% ; }"

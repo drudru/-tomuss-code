@@ -35,7 +35,7 @@ class ColumnHidden(ColumnAttr):
     def check(self, value):
         if value in ('0', '1',0,1):
             return ''
-        return "Valeur invalide pour 'hidden':" + repr(value)
+        return self.check_error(value)
 
     gui_display = "GUI_a"
     need_authorization = 0

@@ -35,7 +35,7 @@ class ColumnModifiable(ColumnAttr):
     def check(self, value):
         if value in (0, 1, 2, '0', '1', '2'):
             return ''
-        return "Valeur invalide pour 'modifiable':" + repr(value)
+        return self.check_error(value)
 
     gui_display = "GUI_select"
     css = '#menutop DIV.tabs #t_column_modifiable { width: auto }'

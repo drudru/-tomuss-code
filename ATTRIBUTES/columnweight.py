@@ -42,4 +42,4 @@ class ColumnWeight(ColumnAttr):
         try:
             float(value)
         except ValueError:
-            return "Le poids doit être un nombre réel ou entier"
+            return '_("ALERT_bad_weight")'

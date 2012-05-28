@@ -31,11 +31,6 @@ class ColumnLocked(ColumnAttr):
     def decode(self, value):
         return str(value)
 
-    def check(self, value):
-        try:
-            int(value)
-        except ValueError:
-            return "Le nombre de répétitions doit être un nombre entier"
     def encode(self, value):
         try:
             return int(value)
@@ -44,7 +39,7 @@ class ColumnLocked(ColumnAttr):
     def check(self, value):
         if value in (0, 1, '0', '1'):
             return ''
-        return "Valeur invalide pour 'locked' :" + repr(value)
+        return self.check_error(value)
 
     gui_display = "GUI_select"
     css = '#menutop DIV.tabs #t_column_locked { width: auto }'

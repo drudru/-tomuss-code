@@ -674,20 +674,13 @@ class Table(object):
     def error(self, page, message):
         utilities.send_backtrace(
             'UE: %s, Page: %s' % (self.ue, page) , subject='###' + message)
-
-        message = message + '''
-
-Normalement vous ne devriez pas voir ce message.
-Le responsable du serveur a reçu un mail
-le prévenant du problème.
-
-Nous vous conseillons de réactualiser la page
-pour éviter tout problème et de refaire
-la dernière saisie.
-'''
-
+        if '_(' not in message:
+            # The message is not javascript program
+            message = js(message)
+        message = message + '+"\n\n"+_("ERROR_server_bug")'
+        print  '<script>alert(%s);</script>\n' % message
         sender.append(page.browser_file,
-                      '<script>alert(%s);</script>\n' % js(message))
+                      '<script>alert(%s);</script>\n' % message)
         return "bad.png"
 
     def bad_column(self, page):

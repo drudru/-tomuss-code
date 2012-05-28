@@ -30,7 +30,7 @@ function set_visibility_date(value, column, interactive_modification)
       alert("La date que vous donnez n'est pas valide : " + value) ;
       return column.visibility_date ;
     }
-  if ( (v.getTime() - millisec())/(86400*1000) > 31 )
+  if ( false && (v.getTime() - millisec())/(86400*1000) > 31 )
     {
       alert("La date de visibilité doit être dans moins d'un mois") ;
       return column.visibility_date ;

@@ -71,7 +71,11 @@ class ColumnAttr(object):
     def check(self, value):
         """Additionnal value checks"""
         return ''
-        
+
+    def check_error(self, value):
+        return '_("ALERT_invalid_value") + %s + "=" + %s' % (
+            utilities.js(self.name),  utilities.js(value))
+    
     def encode(self, value):
         """Translate the value (string from browser or other) into
         the Python internal coding (not the stored form)"""

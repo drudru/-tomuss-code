@@ -29,11 +29,11 @@ class ColumnVisibilityDate(ColumnAttr):
             return
         mktime = time.mktime(time.strptime(date, '%Y%m%d'))
         if mktime > time.time() + 86400*31:
-            return "Date invalide car dans plus d'un mois (%s jours)" % \
-                   int((time.mktime(time.strptime(date, '%Y%m%d'))
-                        - time.time())/86400)
+            return '''_("ALERT_date_in_future_1")+"%d"+
+_("ALERT_date_in_future_2")
+''' % int((time.mktime(time.strptime(date, '%Y%m%d')) - time.time())/86400)
         if mktime < time.time() - 86400*31:
-            return "Date invalide car dans le passé"
+            return '_("ALERT_date_in_past")'
     formatter = '''
 function(column, value)
 {

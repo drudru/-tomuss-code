@@ -42,4 +42,4 @@ class TableDates(TableAttr):
     def check(self, value):
         value = self.encode(value)
         if value[0] > value[1]:
-            return 'La première date doit être avant la deuxième'
+            return '_("ALERT_first_before_second")'

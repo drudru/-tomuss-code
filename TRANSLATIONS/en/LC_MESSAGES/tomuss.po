@@ -1750,7 +1750,7 @@ msgid "ERROR_server_bug"
 msgstr "There is a bug, the administrator has been mailed.\n"
        "Your last action was not saved.\n"
        "\n"
-       "To avoid lose of data : close the window and reopen the table.\n"
+       "To avoid lose of data: close the window and reopen the table.\n"
        "If you reload the page, values may be lost.\n"
        "By the way, check the last data you entered."
 
@@ -1849,4 +1849,27 @@ msgid "MSG_URL"
 msgstr "Click here."
 
 msgid "ALERT_invalid_value"
-msgstr "Invalid value: "
+msgstr "Invalid value:"
+
+msgid "ALERT_repetition_int"
+msgstr "The repetition number must be an integer"
+
+
+msgid "ALERT_date_in_future_1"
+msgstr "Bad date because it is in more than a month ("
+
+msgid "ALERT_date_in_future_2"
+msgstr " days)"
+
+msgid "ALERT_date_in_past"
+msgstr "Bad date because it is in the past"
+
+msgid "ALERT_bad_weight"
+msgstr "The weight must be an integer or a float number"
+
+msgid "ALERT_first_before_second"
+msgstr "The first date must be before the second one"
+
+msgid "ALERT_bad_login"
+msgstr "Unknown login: "
+
