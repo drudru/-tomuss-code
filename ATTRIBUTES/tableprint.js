@@ -279,7 +279,7 @@ function display_button(data_col, title, selected, table_name, tip, not_escape,
     + ' id="' + table_name + '_'
     + data_col.replace(/\'/g,'')+ '">'
     + title + '</span>' + '<script>'
-    + table_name + '[' + data_col + '] =' + !!selected + '</script>' ;
+    + table_name + '[' + data_col + '] =' + !!selected + ';</script>' ;
 }
 
 function first_line_of_tip(attr)

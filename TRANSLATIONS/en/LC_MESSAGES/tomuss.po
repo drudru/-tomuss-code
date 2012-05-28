@@ -1847,3 +1847,6 @@ msgstr " grade of the UE."
 
 msgid "MSG_URL"
 msgstr "Click here."
+
+msgid "ALERT_invalid_value"
+msgstr "Invalid value: "

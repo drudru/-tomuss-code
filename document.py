@@ -1458,7 +1458,7 @@ def check_requests():
                               '<script>saved(%d);</script>\n' % request)
                 if page.answer == 'bug.png' and real_bug:
                     sender.append(page.browser_file,
-                                  '<script>Alert("ERROR_server_bug")</script>')
+                                  '<script>Alert("ERROR_server_bug");</script>')
             except socket.error:
                 pass
         # utilities.bufferize_this_file(None) # YYY Flush buffers

@@ -46,7 +46,7 @@ class Moy(note.Note):
             more = ''
 
         comment = ('<script>Write("MSG_Moy_operation","<b>");Write("'
-                   + self.__class__.__name__ + '")</script>' + what + '</b>'
+                   + self.__class__.__name__ + '");</script>' + what + '</b>'
                    + more )
 
         return ('\001' + minmax, '', comment)

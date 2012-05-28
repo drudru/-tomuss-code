@@ -1851,3 +1851,6 @@ msgstr " notes dans l'UE."
 
 msgid "MSG_URL"
 msgstr "Cliquez ici"
+
+msgid "ALERT_invalid_value"
+msgstr "Valeur invalide : "

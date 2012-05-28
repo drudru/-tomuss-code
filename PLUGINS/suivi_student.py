@@ -163,7 +163,7 @@ def student_statistics(login, server, is_a_student=False, expand=False,
                                  for k, v in teachers.items()])
                      + '&subject=' + (login + ' ' + firstname + ' ' + surname
                                       ).replace("'","\\'")
-                     + u'">Mails responsables</a>\',"Liste les adresses mails du réferent ainsi que des<br>enseignants responsables des UE suivies par l\'étudiant.")</script><br>')
+                     + u'">Mails responsables</a>\',"Liste les adresses mails du réferent ainsi que des<br>enseignants responsables des UE suivies par l\'étudiant.");</script><br>')
 
     ################################################# LOOK
 
@@ -250,7 +250,7 @@ def student_statistics(login, server, is_a_student=False, expand=False,
             key = ''
 
         rss = '%s/rss/%s' % (utilities.StaticFile._url_, key)
-        s.append(u'<script>hidden(\'<a href="%s">Flux RSS : <img src="/feed.png" style="border:0px"></a>\',"Suivez ce lien pour recevoir les changements comme des actualités.<br>Dans votre navigateur, site web, lecteur de mail, portail étudiant...")</script>' % rss)
+        s.append(u'<script>hidden(\'<a href="%s">Flux RSS : <img src="/feed.png" style="border:0px"></a>\',"Suivez ce lien pour recevoir les changements comme des actualités.<br>Dans votre navigateur, site web, lecteur de mail, portail étudiant...");</script>' % rss)
         s.append('<link href="%s" rel="alternate" title="TOMUSS" type="application/rss+xml">' % rss)
  
     

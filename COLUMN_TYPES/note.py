@@ -37,7 +37,7 @@ class Note(text.Text):
 
     should_be_a_float = 1
 
-    message = """<script>Write("MSG_Note_ABINJ")</script>"""
+    message = """<script>Write("MSG_Note_ABINJ");</script>"""
 
     def cell_indicator_prst(self, column, value, cell, lines):
         if value == 'ABINJ' or value == 'ABI':

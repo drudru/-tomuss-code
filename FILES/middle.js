@@ -896,9 +896,9 @@ function new_new_interface()
   w.push( create_tabs('table', o) ) ;
 
   w.push('</td></tr></table>') ;
-  w.push('<script>select_tab("cellule", "' + _("TAB_cell") + '")</script>') ;
-  w.push('<script>select_tab("column", "' + _("TAB_column") + '")</script>') ;
-  w.push('<script>select_tab("table", "' + _("TAB_table") + '")</script>') ;
+  w.push('<script>select_tab("cellule", "' + _("TAB_cell") + '");</script>') ;
+  w.push('<script>select_tab("column", "' + _("TAB_column") + '");</script>') ;
+  w.push('<script>select_tab("table", "' + _("TAB_table") + '");</script>') ;
 
   return w.join('\n') ;
 }

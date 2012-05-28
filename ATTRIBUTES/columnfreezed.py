@@ -20,6 +20,7 @@
 #    Contact: Thierry.EXCOFFIER@bat710.univ-lyon1.fr
 
 from column import ColumnAttr
+import utilities
 
 class ColumnFreezed(ColumnAttr):
     name = 'freezed'
@@ -30,4 +31,5 @@ class ColumnFreezed(ColumnAttr):
     def check(self, value):
         if value in ('', 'C', 'F'):
             return ''
-        return "Valeur invalide pour 'freezed':" + value
+        return '<script>Write("ALERT_invalid_value", %s+"="+%s);</script>' % (
+            utilities.js(self.name),  utilities.js(value))

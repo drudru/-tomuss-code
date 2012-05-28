@@ -35,7 +35,8 @@ def get_referent(server):
     else:
         ref = u'Pas de référent pédagogique'
     ref = utilities.js(ref)
-    server.the_file.write('<script>window.parent.set_the_referent(%s)</script>' % ref.encode('utf8') )
+    server.the_file.write('<script>window.parent.set_the_referent(%s);</script>'
+                          % ref.encode('utf8') )
 
 plugin.Plugin('referent', '/referent/{?}', function=get_referent, teacher=True,
               )
