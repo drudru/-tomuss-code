@@ -40,13 +40,13 @@ class Moy(note.Note):
             minmax = self.value_range(*column.min_max())
 
         if teacher:
-            more = ' sur les colonnes : <em>' + column.columns + '</em>'
+            more = '<script>Write("MSG_Moy_on_columns")</script><em>' + column.columns + '</em>'
         else:
             # To not leak invisible columns
             more = ''
 
-        comment = ('Calcul effectué: <b><script>document.write(_("'
-                   + self.__class__.__name__ + '"))</script>' + what + '</b>'
+        comment = ('<script>Write("MSG_Moy_operation","<b>");Write("'
+                   + self.__class__.__name__ + '")</script>' + what + '</b>'
                    + more )
 
         return ('\001' + minmax, '', comment)

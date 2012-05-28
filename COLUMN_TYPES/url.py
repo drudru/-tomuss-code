@@ -40,7 +40,7 @@ class URL(text.Text):
                 title = re.sub(r'.*TITLE\(', '', column.comment)
                 title = re.sub(r'\).*', '', title)
             else:
-                title = 'Cliquez ici'
+                title = '<script>Write("MSG_URL")</script>'
 
         if 'BASE(' in column.comment:
             base = re.sub(r'.*BASE\(', '', column.comment)

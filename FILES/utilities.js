@@ -451,6 +451,15 @@ function Alert(m, more)
     alert(_(m) + "\n" + more) ;
 }
 
+function Write(m, more)
+{
+    if ( more === undefined )
+	more = ''
+    document.write(_(m) + more) ;
+}
+
+
+
 function clone_event(event)
 {
   var e = new Object() ;

@@ -37,16 +37,7 @@ class Note(text.Text):
 
     should_be_a_float = 1
 
-    message = """
-La note ou présence n'est pas indiquée par l'enseignant pour cet étudiant<br>
-mais elle l'était pour les autres étudiants de son groupe.<br>
-On suppose donc qu'il n'est pas venu.<br>
-Mais il est possible :
-<ul> <li> que l'étudiant ait changé de groupe
-<li> qu'il soit dans un groupe où les présences ne sont pas notées.
-<li> que sa copie ne soit pas encore corrigée
-<li> que son justificatif d'absence ne soit pas encore pris en compte.
-</ul>"""
+    message = """<script>Write("MSG_Note_ABINJ")</script>"""
 
     def cell_indicator_prst(self, column, value, cell, lines):
         if value == 'ABINJ' or value == 'ABI':
@@ -127,15 +118,22 @@ Mais il est possible :
         all_floats.sort()
         all_floats.reverse()
         rank = ''
+
+        def message(text, the_rank, nr):
+            return (u'''<script>
+Write("MSG_Note_rank_before","<b>%d</b>");
+Write("MSG_Note_rank_middle","<b>%d</b>");
+Write("%s");</script><br>''' % (the_rank, nr, text)).encode('utf8')
+        
         try:
-            rank += (u'Le rang de cette note est <b>%d</b> sur les <b>%d</b> notes dans le groupe.<br>' % (floats.index(value)+1,
-                              len(floats))).encode('utf8')
+            rank += message("MSG_Note_rank_after_1",
+                            floats.index(value)+1, len(floats))
         except ValueError:
             pass
         try:
             if len(floats) != len(all_floats) :
-                rank += (u'Le rang de cette note est <b>%d</b> sur les <b>%d</b> notes dans l\'UE.<br>' % (all_floats.index(value)+1,
-                                                                                                len(all_floats))).encode('utf8')
+                rank +=  message("MSG_Note_rank_after_2",
+                                 all_floats.index(value)+1, len(all_floats))
         except ValueError:
             pass
 

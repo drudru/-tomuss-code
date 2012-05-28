@@ -1,7 +1,5 @@
 Dans chaque partie, les choses à faire sont triées par priorité.
 
-tip_test_filter ???
-
 ==========================
 Nouvelles fonctionnalités.
 ==========================
@@ -9,6 +7,8 @@ Nouvelles fonctionnalités.
 --------------------
 Utilisateurs finaux.
 --------------------
+
+* ATTRIBUTES: check translation
 
 * Séparer la gestion des ABJ et la gestion des DA
 

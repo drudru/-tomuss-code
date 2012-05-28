@@ -1812,3 +1812,38 @@ msgstr "P: Présent, I: not here, J: justified non attendance"
 
 msgid "TIP_cell_URL"
 msgstr "The URL as http://...."
+
+
+msgid "MSG_Moy_on_columns"
+msgstr " on columns: "
+
+msgid "MSG_Moy_operation"
+msgstr " Compute: "
+
+msgid "MSG_Note_ABINJ"
+msgstr "The grade or attendance was not entered by the teacher<br>\n"
+       "for this student, but it was for the other students of its group.<br>\n"
+       "We assume that the student was not here.<br>\n"
+       "But it is possible that the student:\n"
+       "<ul>\n"
+       "<li> changed of group;\n"
+       "<li> is in a group where attendance are not registered;\n"
+       "<li> work has not yet be graded;\n"
+       "<li> justified leave has no been yet taken into account.\n"
+       "</ul>"
+
+
+msgid "MSG_Note_rank_before"
+msgstr "The rank of this grade is "
+
+msgid "MSG_Note_rank_middle"
+msgstr " on the "
+
+msgid "MSG_Note_rank_after_1"
+msgstr " grades of the group."
+
+msgid "MSG_Note_rank_after_2"
+msgstr " grade of the UE."
+
+msgid "MSG_URL"
+msgstr "Click here."

@@ -1,7 +1,7 @@
 #!/bin/env python
 # -*- coding: utf-8 -*-
 #    TOMUSS: The Online Multi User Simple Spreadsheet
-#    Copyright (C) 2011 Thierry EXCOFFIER, Universite Claude Bernard
+#    Copyright (C) 2011-2012 Thierry EXCOFFIER, Universite Claude Bernard
 #
 #    This program is free software; you can redistribute it and/or modify
 #    it under the terms of the GNU General Public License as published by
@@ -28,8 +28,6 @@ class Enumeration(text.Text):
     tip_cell = "TIP_cell_Enumeration"
     cell_test = 'test_enumeration'
     ondoubleclick = 'toggle_enumeration'
-    tip_test_filter = """<b>Valeurs autorisées</b><br>
-    Vous séparez les valeurs autorisées par un espace."""
     attributes_visible = ('enumeration', 'weight')
 
     def formatter(self, column, value, cell, lines, teacher, ticket, line_id):

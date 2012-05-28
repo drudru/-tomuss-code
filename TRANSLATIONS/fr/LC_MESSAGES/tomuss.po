@@ -1819,3 +1819,35 @@ msgstr "Présence, tapez P : Présent, I : ABI, J : ABJ"
 msgid "TIP_cell_URL"
 msgstr "L'URL sous la forme http://...."
 
+msgid "MSG_Moy_on_columns"
+msgstr " sur les colonnes : "
+
+msgid "MSG_Moy_operation"
+msgstr " Calcul effectué : "
+
+msgid "MSG_Note_ABINJ"
+msgstr "La note ou présence n'est pas indiquée par l'enseignant<br>\n"
+       "pour cet étudiant, mais elle l'était pour les autres étudiants<br>\n"
+       "de son groupe. On suppose donc qu'il n'est pas venu.<br>\n"
+       "Mais il est possible que :\n"
+       "<ul>\n"
+       "<li> l'étudiant ait changé de groupe ;\n"
+       "<li> il soit dans un groupe où les présences ne sont pas notées ;\n"
+       "<li> sa copie ne soit pas encore corrigée ;\n"
+       "<li> son justificatif d'absence ne soit pas encore pris en compte.\n"
+       "</ul>"
+
+msgid "MSG_Note_rank_before"
+msgstr "Le rang de cette note est "
+
+msgid "MSG_Note_rank_middle"
+msgstr " sur les "
+
+msgid "MSG_Note_rank_after_1"
+msgstr " notes dans le groupe."
+
+msgid "MSG_Note_rank_after_2"
+msgstr " notes dans l'UE."
+
+msgid "MSG_URL"
+msgstr "Cliquez ici"
