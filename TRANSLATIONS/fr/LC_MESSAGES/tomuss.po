@@ -1878,3 +1878,23 @@ msgstr "Ce login est inconnu : "
 
 msgid "ALERT_bug"
 msgstr "Ce login est inconnu : "
+
+msgid "ALERT_repetition"
+msgstr "Modification non sauvegardée car la valeur\n"
+       "a déjà été saisie dans la colonne : "
+
+msgid "ALERT_column_not_exist"
+msgstr "Vous utilisez une colonne inexistante !"
+
+msgid "ALERT_not_authorized"
+msgstr "Vous n'avez pas l'autorisation !"
+
+msgid "ALERT_value_ro"
+msgstr "Valeur seulement accessible en lecture !"
+
+msgid "ALERT_delete_not_empty"
+msgstr "Destruction interdite (colonne pas vide)"
+
+msgid "ALERT_message_for"
+msgstr "Message de TOMUSS pour : "
+

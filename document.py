@@ -495,6 +495,7 @@ class Table(object):
                         warn('Send mail to ' + inscrits.L_fast.mail(user))
                         utilities.send_mail_in_background(
                             inscrits.L_fast.mail(user),
+                            # XXX need translation
                             'Vous avez des ennuis avec TOMUSS ?',
                             unicode(utilities.read_file(os.path.join('FILES',
                                                              'mail_cancel')),
@@ -595,7 +596,10 @@ class Table(object):
                 if a_line[data_col].value == value:
                     n += 1
             if n >= abs(a_column.repetition):
-                self.error(page, 'Cette valeur «%s» a déjà été saisie dans la colonne «%s»' % (value, a_column.title))
+                sender.append(
+                    page.browser_file,
+                    '<script>alert(_("ALERT_repetition")+%s+"/"+%s);</script>\n'
+                    % (js(value), js(a_column.title)))
                 return 'bad.png'
 
 
@@ -677,20 +681,19 @@ class Table(object):
         if '_(' not in message:
             # The message is not javascript program
             message = js(message)
-        message = message + '+"\n\n"+_("ERROR_server_bug")'
-        print  '<script>alert(%s);</script>\n' % message
+        message = message + '+"\\n\\n"+_("ERROR_server_bug")'
         sender.append(page.browser_file,
                       '<script>alert(%s);</script>\n' % message)
         return "bad.png"
 
     def bad_column(self, page):
-        return self.error(page, "Vous utilisez une colonne inexistante !")
+        return self.error(page, '_("ALERT_column_not_exist")')
 
     def bad_auth(self, page):
-        return self.error(page, "Vous n'avez pas l'autorisation !")
+        return self.error(page, '_("ALERT_not_authorized")')
 
     def bad_ro(self, page):
-        return self.error(page, "Valeur seulement accessible en lecture !")
+        return self.error(page, '_("ALERT_value_ro")')
 
     def comment_change(self, page, col, lin, value):
         if not self.loading and not self.modifiable:
@@ -848,7 +851,7 @@ class Table(object):
                 return self.bad_auth(page)
         if (a_column.type.cell_is_modifiable
             and not a_column.empty_of_user_values()):
-            return self.error(page, "Destruction interdite (colonne pas vide)")
+            return self.error(page, '_("ALERT_delete_not_empty")')
 
         if not self.loading:
             self.log('column_delete(%s,%s)' % (page.page_id, repr(col)))
@@ -1095,9 +1098,8 @@ class Table(object):
 
 
     def send_alert(self, text):
-        self.send_update(None, '<script>alert(%s);</script>\n' %
-                         js('Message de TOMUSS pour : ' + self.ue + '\n\n'
-                            + text))
+        self.send_update(None, '<script>alert(_("ALERT_message_for")+%s);</script>\n' %
+                         js(self.ue + '\n\n' + text))
 
     def __str__(self):
         return '%d/%s/%s' % (self.year, self.semester, self.ue)

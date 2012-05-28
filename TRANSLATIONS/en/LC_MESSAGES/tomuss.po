@@ -1873,3 +1873,23 @@ msgstr "The first date must be before the second one"
 msgid "ALERT_bad_login"
 msgstr "Unknown login: "
 
+msgid "ALERT_repetition"
+msgstr "Modification not saved because the value\n"
+       "has yet been entered in the column: "
+
+msgid "ALERT_column_not_exist"
+msgstr "You use a not existing column!"
+
+msgid "ALERT_not_authorized"
+msgstr "you are not authorized to do this!"
+
+msgid "ALERT_value_ro"
+msgstr "This value is not modifiable!"
+
+msgid "ALERT_delete_not_empty"
+msgstr "Delete not allowed (not empty column)"
+
+msgid "ALERT_message_for"
+msgstr "TOMUSS message for: "
+
+
