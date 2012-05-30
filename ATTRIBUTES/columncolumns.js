@@ -60,11 +60,11 @@ function set_columns(value, column, xcolumn_attr)
 	  else
 	    {
 	      if ( column_modifiable_attr('columns', column) )
-		alert_append("Je ne connais pas le titre de colonne '"
-			     + column.average_from[i]
-			     + "'  utilisé dans la moyenne de la colonne "
-			     + column.title + "\n"
-			     + "LA LISTE DES COLONNES N'A PAS ÉTÉ SAUVEGARDÉE"
+		  alert_append(_("ALERT_columns_unknown_title")
+			       + column.average_from[i]
+			       + _("ALERT_columns_unknown_used_by")
+			       + column.title
+			       + _("ALERT_columns_unsaved")
 			     ) ;
 	      column.average_columns = [] ;
 	      return null ; // Do not save, but leaves user input unchanged

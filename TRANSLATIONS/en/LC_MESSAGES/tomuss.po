@@ -1893,3 +1893,11 @@ msgid "ALERT_message_for"
 msgstr "TOMUSS message for: "
 
 
+msgid "ALERT_columns_unknown_title"
+msgstr "I don't know the column title '"
+
+msgid "ALERT_columns_unknown_used_by"
+msgstr "' used to compute the column '"
+
+msgid "ALERT_columns_unsaved"
+msgstr "'\nTHE COLUMNS LIST HAS NOT BEEN SAVED."

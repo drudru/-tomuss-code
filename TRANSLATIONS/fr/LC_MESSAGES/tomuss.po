@@ -1898,3 +1898,13 @@ msgstr "Destruction interdite (colonne pas vide)"
 msgid "ALERT_message_for"
 msgstr "Message de TOMUSS pour : "
 
+msgid "ALERT_columns_unknown_title"
+msgstr "Je ne connais pas le titre de colonne «"
+
+msgid "ALERT_columns_unknown_used_by"
+msgstr "» utilisé dans la moyenne de la colonne «"
+
+msgid "ALERT_columns_unsaved"
+msgstr "»\nLA LISTE DES COLONNES N'A PAS ÉTÉ SAUVEGARDÉE."
+
+
