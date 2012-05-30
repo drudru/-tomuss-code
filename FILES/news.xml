@@ -658,6 +658,19 @@ Les améliorations les plus visibles sont :
       </description>
       <guid>46</guid>
     </item>
+    <item>
+      <title>30/05/2012 : Version 4.0.2</title>
+      <link>http://tomuss.univ-lyon1.fr/</link>
+      <description>
+	Nouveautés :
+&lt;ul&gt;
+&lt;li&gt; On peut remplir une colonne avec des nombre successifs,
+           pour placer les étudiants en examen par exemple.
+&lt;li&gt; On peut ajouter plein de colonnes sur la feuille d'émargement.
+&lt;/ul&gt;
+      </description>
+      <guid>47</guid>
+    </item>
 
   </channel>
 </rss>
