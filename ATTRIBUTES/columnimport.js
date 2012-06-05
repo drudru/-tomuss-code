@@ -181,7 +181,7 @@ function full_import()
       else
 	if ( line.length > nr_cols )
 	  {
-	    alert('Nombre de colonnes variable... La première ligne doit être la plus longue.') ;
+	    alert('Nombre de colonnes variable... La première ligne doit être la plus longue, or celle-ci est plus longue :\n' + line) ;
 	    return ;
 	  }
 	else
