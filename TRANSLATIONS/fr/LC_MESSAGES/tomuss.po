@@ -505,12 +505,6 @@ msgstr "Cette table a été passée en lecture par le responsable,\n"
 msgid "ERROR_column_system_defined"
 msgstr "Cette colonne est définie par le système et ne peut être changée."
 
-msgid "ERROR_column_creation_with_filter"
-msgstr "Désolé, il n'est pas possible de créer de nouvelles colonnes\n"
-       "quand il y a un filtre de colonne.\n\n"
-       "Cette fonctionnalité est très complexe à programmer et peu utile,\n"
-       "Elle ne sera donc pas ajoutée."
-
 msgid "ERROR_save_to_localstorage_failed"
 msgstr "Désolé, la fenêtre a été fermée sans tout sauvegarder"
 

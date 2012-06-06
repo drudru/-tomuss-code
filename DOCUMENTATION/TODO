@@ -8,6 +8,11 @@ Nouvelles fonctionnalités.
 Utilisateurs finaux.
 --------------------
 
+* Affichage histogramme tronqué
+
+* Afficher le champ 'Colonnes' en disant que pour l'activer il faut changer
+  le type si l'on est une note par example : Faire une solution générique
+
 * Séparer la gestion des ABJ et la gestion des DA
 
 * Choix du type de colonne dans une popup
@@ -59,7 +64,7 @@ Utilisateurs finaux.
 
 * Mettre UNE table en lecture seulement : Envoyer mail a l'administratif
 
- * Calcul du poids automatique avec '?' : problème de ]1,1[, max, meilleur
+* Calcul du poids automatique avec '?' : problème de ]1,1[, max, meilleur
 
 * Mettre le ticket en fin d'URL.
 
@@ -148,8 +153,6 @@ Problèmes à résoudre.
 
 * Quand on prend le droit : il faut changer de colonne pour avoir accès
 
-* Création de colonne avec un filtre de colonne
-
 * %01 %02 ne sont pas supporté par CAS : les enlever...
 
 * DEMO : commentaire numerique sur saisie d'ABJ sans commentaire !!!
@@ -177,6 +180,10 @@ Problèmes à résoudre.
 
 * Dispense d'assiduité : la destruction d'une DA les détruit toutes.
 
+* Le fichier de log reporte 2 connexion pour chaque connexion d'étudiant.
+  Une pour la page et une pour la photo. (voir 'logs' dans suivi.py)
+
+
 ============================
 Problèmes non reproductibles
 ============================
@@ -185,7 +192,9 @@ Problèmes non reproductibles
 
 * Support du copier/collé dans les INPUT
 
-* L'importation ne met pas à jour l'affichage
+* L'importation ne met pas à jour l'affichage de temps en temps (Chrome)
+  Mode sans sauvegarde ?
+  Rafraichissement bloqué si la colonne n'était pas créée ?
 
 
 

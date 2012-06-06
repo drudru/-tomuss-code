@@ -2330,7 +2330,7 @@ function cell_set_value_real(line_id, data_col, value, td)
 
   if ( column.is_empty && columns_filter_value !== '' )
     {
-      Alert("ERROR_column_creation_with_filter") ;
+      Alert("ERROR_column_creation") ;
       return;
     }
 

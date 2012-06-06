@@ -519,12 +519,6 @@ msgstr "The table master set it to be not modifiable,\n"
 msgid "ERROR_column_system_defined"
 msgstr "This column is system defined and so, can not be modified."
 
-msgid "ERROR_column_creation_with_filter"
-msgstr "Sorry, it is forbiden to create new columns when there is\n"
-       "a filter on the column name.\n\n"
-       "This functionnality is too complex to program and not useful,\n"
-       "so this problem will not be corrected."
-
 msgid "ERROR_save_to_localstorage_failed"
 msgstr "Sorry, the window has been closed without saving the modifications."
 
