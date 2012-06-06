@@ -213,7 +213,9 @@ class TableAttr(ColumnAttr):
 
         error = self.check(value)
         if error:
-            t = '<script>alert("%s\\nLa modification n\'a pas été enregistrée");</script>\n' % error
+            if '_(' not in error:
+                error = utilities.js(error)
+            t = '<script>alert(%s + "\\nLa modification n\'a pas été enregistrée");</script>\n' % error
             sender.append(page.browser_file, t)
             return 'bad.png'
 

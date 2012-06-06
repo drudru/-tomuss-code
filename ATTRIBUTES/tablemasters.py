@@ -27,6 +27,7 @@ class TableMasters(TableAttr):
     name = 'masters'
     priority = -1 # Must compute 'i_am_the_teacher' before other attributes
     default_value = []
+    update_headers = 1
     # Side effect to update 'i_am_the_teacher' global variable
     formatter = '''
 function(value)
@@ -68,7 +69,7 @@ return value ;
         import inscrits
         for login in value:
             if not inscrits.L_fast.is_a_teacher(login):
-                return '_("ALERT_bad_login")' + utilities.js(login)
+                return '_("ALERT_bad_login") + ' + utilities.js(login)
     def update(self, table, old_value, new_value, page):
         import document
         for login in new_value:
