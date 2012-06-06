@@ -1,5 +1,5 @@
 #!/usr/bin/python
-# Test is TOMUSS is running and starts it if not.
+# Tests if TOMUSS is running and starts it if it is not.
 # If called with argument 'crontab' it does not run
 # tomuss if it was stoped with 'make stop'
 # It runs it only if the host was rebooted or the processes killed
@@ -86,7 +86,16 @@ for I in * ; do echo "$I: wchan=$(cat $I/wchan) sleepavg=$(grep SleepAVG $I/stat
         if os.path.islink(loglink):
             os.unlink(loglink)
         os.symlink(logname, loglink)
-        os.system('. LOCAL/profile ; ulimit -s 1024 ; nohup %s ./%s >%s/%s 2>&1 & echo $! >%s/pid' %
+        os.system('''. LOCAL/profile
+ulimit -s 1024
+nohup %s ./%s >%s/%s 2>&1 &
+P=$!
+sleep 1 # Wait server start
+if [ -d /proc/$P ]
+then
+echo $P >%s/pid
+fi
+''' %
                   (strace, command, logdir, logname, logdir))
     else:
         print ', yet running'
