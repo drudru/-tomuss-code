@@ -2144,10 +2144,11 @@ function current_do_completion()
 
   do_completion_for_this_input = undefined ;
 
-  alert_merged = '' ;
   if ( input == this.input || input.id == "table_forms_keypress" )
     {
+      alert_merged = '' ;
       completion = this.column.real_type.cell_test(input.value, this.column) ;
+      alert_merged = false ;
     }
   else if ( input.id == 't_column_columns' )
     {
@@ -2170,7 +2171,6 @@ function current_do_completion()
   else
     return ; // No completion
 
-  alert_merged = false ;
   if ( completion && completion.substr
        && completion.substr(0, input.value.length).toLowerCase()
        == input.value.toLowerCase())
