@@ -151,16 +151,12 @@ Problèmes à résoudre.
 
 * Arrêter propremement pour ne rien perdre
 
-* Quand on prend le droit : il faut changer de colonne pour avoir accès
-
 * %01 %02 ne sont pas supporté par CAS : les enlever...
 
 * DEMO : commentaire numerique sur saisie d'ABJ sans commentaire !!!
 
 * La destruction de table quand elle est impossible la fait disparaître
   de la page d'accueil
-
-* Sauve option : marche pas pour les lignes
 
 * Découpler referents_students pour avoir les bon referents par semestre.
 
@@ -196,6 +192,8 @@ Problèmes non reproductibles
   Mode sans sauvegarde ?
   Rafraichissement bloqué si la colonne n'était pas créée ?
 
+* Quand on prend le droit : il faut changer de colonne pour avoir accès
+  Difficile à reproduire.
 
 
 =============================

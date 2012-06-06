@@ -220,14 +220,16 @@ function compute_nr_cols()
 
 var header_height ;
 
-function compute_nr_lines()
+function compute_nr_lines(first)
 {
   if ( ! header_height )
     {
-      setTimeout("header_height = findPosY(the_current_cell.input); compute_nr_lines();table_init();table_fill(true,true,true)", 1000) ;
+      setTimeout("header_height = findPosY(the_current_cell.input); compute_nr_lines(true);table_init();table_fill(true,true,true)", 1000) ;
       table_attr.nr_lines = 1 ;
       return ;
     }
+  if ( first && table_attr.nr_lines != 1 )
+    return ; // Value set by the préférence.
   if ( the_current_cell.input )
     {
       // Number of displayed lines on the screen
