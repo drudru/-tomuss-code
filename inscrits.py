@@ -342,27 +342,6 @@ class LDAP_Logic(object):
                     return True
         return False
 
-    def ufr_of_teacher_old(self, login):
-        """Returns the UFR of the teacher"""
-        r = self.member_of_list(login)
-        for key, value in configuration.ufr_short.items():
-            if key in r:
-                return key
-        return None
-
-    @utilities.add_a_method_cache
-    def ufr_of_teacher(self, login):
-        """Returns the UFR of the teacher"""
-        r = self.query_login(login, ('distinguishedName',))
-        r = r.get('distinguishedName',('',))
-        if len(r) == 0:
-            return ()
-        r = r[0]
-        for key, value in configuration.ufr_short.items():
-            if key in r:
-                return key
-        return None
-
     def is_a_teacher(self, login):
         """Returns true if the login is a teacher login"""
         if configuration.teacher_if_login_contains in login:

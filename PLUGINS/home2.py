@@ -70,8 +70,6 @@ def home_page(server):
     # if (user_name in configuration.root) and server.options:
     #    user_name = server.options[0].strip('=')
 
-    ufr = inscrits.L_fast.ufr_of_teacher(user_name)
-
     if inscrits.L_fast.password_ok(user_name):
         password_ok = ''
     else:
@@ -81,8 +79,6 @@ def home_page(server):
             .replace('_BASE_',
                      configuration.server_url+'/='+ticket.ticket+'/')
             .replace('_SUIVI_', configuration.suivi.all(ticket.ticket))
-            .replace('_UFR_',
-                     'UE-' + configuration.ufr_short.get(ufr,('',''))[0])
             .replace('_USERNAME2_',
                     utilities.login_to_module(user_name))
             .replace('_USERNAME_', user_name)

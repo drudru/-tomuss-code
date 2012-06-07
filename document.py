@@ -1312,10 +1312,10 @@ def login_list(page, name):
     if t:
         s = []
         for lo, surname, firstname, cn in t:
-            s.append('[' + utilities.js(lo.encode('ufr8'))
-                     + ',' + utilities.js(surname.upper().encode('ufr8'))
-                     + ',' + utilities.js(firstname.title().encode('ufr8'))
-                     + ',' + utilities.js(cn.encode('ufr8'))
+            s.append('[' + utilities.js(lo.encode('utf-8'))
+                     + ',' + utilities.js(surname.upper().encode('utf-8'))
+                     + ',' + utilities.js(firstname.title().encode('utf-8'))
+                     + ',' + utilities.js(cn.encode('utf-8'))
                      + ']')
     else:
         s = []

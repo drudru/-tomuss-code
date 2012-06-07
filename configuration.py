@@ -319,26 +319,6 @@ local_options = {}
 # The CAS server for authentication.
 cas = 'https://configure.cas.url.or.use.regtest.parameter/cas'
 
-
-# Link between the OU and the starts of the UE code.
-# This allow to display only the UE of interest for the user.
-# A teacher of 'CN=1692 UFR INFORMATIQU...' will see by default UE INF...
-
-ufr_short = {
-    'Département Informatique,OU=UFR Sciences et Technologies':('INF','IF'),
-    'Département Mathématiques,OU=UFR Sciences et Technologies':('MAT','MT'),
-    'Département Physique,OU=UFR Sciences et Technologies':('PHY',),
-    'Département Biologie,OU=UFR Sciences et Technologies' : ('BIO',),
-    'Département Chimie Biochimie,OU=UFR Sciences et Technologies':('BCH',),
-    'CN=1691 UFR GENIE ELECTRIQUE ET DES PROCEDES,OU=Groupes,DC=univ-lyon1,DC=ff': ('GEP',),
-    'Département Sciences de la Terre,OU=UFR Sciences et Technologies':('STU',),
-    'Département Mécanique,OU=UFR Sciences et Technologies':('MGC',),
-    'UFR S.T.A.P.S.': ('SP',),
-    'Inst. Sciences et Techniques de l\'Ingénieur de Lyon (ISTIL)':('IS',),
-    'OU=IUTB': ('IB',),
-    'OU=IUTA': ('IA',),
-}
-
 # OU containing student by year of inscription.
 the_portails = {
     'MATINFL1' :
