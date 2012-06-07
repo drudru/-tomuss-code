@@ -75,6 +75,7 @@ def home_page(server):
     else:
         password_ok = configuration.bad_password
 
+    f.write(str(document.the_head))
     f.write(str(top).replace('_MESSAGE_', password_ok)
             .replace('_BASE_',
                      configuration.server_url+'/='+ticket.ticket+'/')
