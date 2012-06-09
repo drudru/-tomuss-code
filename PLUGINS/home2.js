@@ -1066,3 +1066,82 @@ function update_students_real()
   document.getElementById('students_list').innerHTML = 'Recherche en cours' ;
   update_students_timeout = undefined ;
 }
+
+function generate_home_page_top()
+{
+   var t = '<TITLE>Accueil TOMUSS</TITLE>'
+	+ '<BODY'
+	+ ' onkeypress="if (the_event(event).keyCode==27) ue_line_close();">'
+        + '<div class="identity">'
+	+ '<p style="margin-top: 0">'
+	+ '<a href="' + url + '/' + '/=' + ticket + '/logout">'
+	+ 'Déconnexion</a> <b>' + username + '</b>'
+	+ '<a href="' + url
+	+ '/news.xml"><img style="border:0px;vertical-align:top" src="'
+	+ url + '/feed.png"></a><br>'
+	+ '<a href="mailto:' + admin + '">Contact</a>.'
+	+ '<a target="_blank" href="'+url+'/doc_table.html">Documentation</a>.'
+	+ '<a target="_blank" href="' + url + '/=' + ticket
+	+ '/0/Preferences/' + username2 + '">Préférences</a>'
+	+ '</p>'
+	+ '</div>'
+	+ information_message
+	+ bad_password_message
+    // Do not insert spaces in the next line
+	+ '<H1 style="margin-top: 0">TOMUSS <select id="s" onchange="change_icones()" style="font-size:70%">'
+	+ semester_list + '</select></H1>'
+	+ '<p class="testmessage">Pour essayer TOMUSS sans danger, choisissez <b>2008/Test</b> dans la liste ci-dessus, puis choisissez une UE.</p>' ;
+    document.write(t) ;
+}
+
+function generate_home_page_ue()
+{
+    var t = '<h2>UE et étapes</h2>'
+	+ '<table class="uelist searchresult">'
+	+ '<tr><th colspan="3">'
+	+ hidden_txt('Recherche',
+		     'Vous pouvez indiquer un code APOGÉE, un mot clef, un nom ou prénom de responsable.')
+	+ '</th></tr>'
+	+ '<tr class="search"><td colspan="3">'
+	+ hidden_txt('<input style="border: 1px outset grey;" type="button" value="Chercher" onclick="update_ues2(document.getElementById(\'ue_input_name\').value,true);">',
+		     'Ce bouton permet de lancer la recherche,<br>si vous n\'avez pas de clavier')
+	+ '<input class="search_field" id="ue_input_name" class="keyword" onkeyup="if ( this.value != this.old_value ) { update_ues2(this.value); this.old_value = this.value ; }" onchange="if ( this.value != this.old_value ) { update_ues2(this.value); this.old_value = this.value ; }" value="">'
+	+ '</td>'
+	+ '</tr>'
+	+ '</table>'
+	+ '<div id="ue_list" class="ue_list">'
+	+ 'Le chargement de la liste des UE est en cours, veuillez patienter.'
+	+ '</div>' ;
+    document.write(t) ;
+}
+
+function generate_home_page_students()
+{
+    var t = '<h2>Étudiants</h2>'
+	+ '<table class="uelist searchresult">'
+	+ '<tr><th class="student_id">'
+	+ hidden_txt('Recherche',
+		     'Indiquez des <b>débuts</b> de nom, prénom ou identifiant<br>Par exemple : <b>t ex</b>')
+	+ '</th></tr>'
+	+ '<tr class="search"><td>'
+	+ hidden_txt('<input style="border: 1px outset grey;" type="button" value="Chercher" onclick="update_students()">',
+		     'Ce bouton permet de lancer la recherche,<br>si vous n\'avez pas de clavier')
+	+ '<input class="search_field" id="search_name" class="keyword" onkeyup="update_students()" onchange="update_students()" value="">'
+	+ '</td></tr></table>'
+	+ '<div id="students_list"></div>'
+	+ '<div id="the_favorite_students"></div>'
+	+ '<div id="the_students"></div>' ;
+    document.write(t) ;
+}
+
+function generate_home_page()
+{
+    // To take a new ticket after 4 hours
+    setTimeout("window.location.reload()", 1000*3600*4) ;
+    generate_home_page_top() ;
+    document.write('<TABLE class="top2"><TR><TD width="40%">') ;
+    generate_home_page_ue() ;
+    document.write('</TD><TD width="20%">') ;
+    generate_home_page_students() ;
+    document.write('</TD><TD id="rightpart" width="20%">') ;
+}

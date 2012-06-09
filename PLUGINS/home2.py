@@ -35,18 +35,22 @@ top = utilities.StaticFile(os.path.join('PLUGINS','home2.html'))
 files.add('PLUGINS', 'home2.js')
 files.add('PLUGINS', 'home2.css')
 
-options = configuration.special_semesters
-for url, port, year, semester, host in configuration.suivi.urls_sorted():
-    if configuration.year_semester[1] == semester and configuration.year_semester[0] == year:
-        selected = ' selected'
-    else:
-        selected = ''
-    options += '<option%s>%s/%s</option>' % (selected, year, semester)
-top.replace('home.py', '</select>', options + '</select>')
+def semester_list():
+    options = configuration.special_semesters
+    for url, port, year, semester, host in configuration.suivi.urls_sorted():
+        if (configuration.year_semester[1] == semester
+            and configuration.year_semester[0] == year):
+            selected = ' selected'
+        else:
+            selected = ''
+        options += '<option%s>%s/%s</option>' % (selected, year, semester)
+    return options
 
+    
 import files
 files.files['middle.js'].replace('home',
-                                 '__OPTIONS__',options.replace('selected',''))
+                                 '__OPTIONS__',
+                                 semester_list().replace('selected',''))
 
 def home_box(server, where, title, html_class='with_margin'):
     links = plugin.get_menu_for(where, server, True)
@@ -76,7 +80,7 @@ def home_page(server):
         password_ok = configuration.bad_password
 
     f.write(str(document.the_head))
-    f.write(str(top).replace('_MESSAGE_', password_ok)
+    f.write(str(top).replace('_MESSAGE_', utilities.js(password_ok))
             .replace('_BASE_',
                      configuration.server_url+'/='+ticket.ticket+'/')
             .replace('_SUIVI_', configuration.suivi.all(ticket.ticket))
@@ -84,8 +88,9 @@ def home_page(server):
                     utilities.login_to_module(user_name))
             .replace('_USERNAME_', user_name)
             .replace('_TICKET_', ticket.ticket)
-            .replace('_MESSAGE2_', configuration.message)
+            .replace('_MESSAGE2_', utilities.js(configuration.message))
             .replace('_ADMIN_', configuration.maintainer)
+            .replace('_SEMESTER_LIST_', utilities.js(semester_list()))
             .replace('_ROOT_', utilities.js(list(configuration.root)))
             )
     f.write('''<h2>Autres</h2>''')
