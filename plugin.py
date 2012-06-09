@@ -54,7 +54,7 @@ class Link(object):
     def __str__(self):
         return 'Link(%s,%s)' % (self.text, self.url)
 
-    def html(self, server, plugin, with_help=False):
+    def get_url_and_target(self, plugin):
         if self.target:
             target = ' target="' + self.target + '"'
         else:
@@ -71,45 +71,7 @@ class Link(object):
             url = "javascript:do_action('%s','%s')" % (url[1:],
                                                        self.html_class)
             target = ''
-
-        text = self.text
-        if text is None:
-            text = plugin.name
-
-        if self.html_class:
-            html_class = ' class="' + self.html_class + '"'
-        else:
-            html_class = ''
-
-        if with_help:
-            if server.ticket.user_name in configuration.root:
-                if self.plugin:
-                    m = re.split('  *', str(self.plugin).strip())
-                    m = ("<hr><b>"
-                         + self.plugin.function.func_code.co_filename.replace(
-                             os.getcwd(), '') + '</b><br>'
-                         + 'Plugin name: ' + m[0] + '<br>'
-                         + 'Plugin URL: ' + m[1] + '<br>'
-                         + 'Attributes: ' + ' '.join(m[2:])
-                         )
-                else:
-                    m = "<hr>Link without plugin"
-            else:
-                m = ''
-            help = '<div class="help">' + self.help + m + '</div>'
-            icon = '<img class="safety" src="' + configuration.server_url + '/' + self.html_class + '.png">'
-        else:
-            help = ''
-            icon = ''
-
-        if url == '':
-            tag = 'span'
-        else:
-            tag = 'a'
-
-        return '%s<%s%s%s href="%s">%s%s</%s>' % (icon, tag, html_class, target,
-                                            url, text, help, tag)
-        
+        return url, target
 
 
 plugins = []
@@ -482,44 +444,15 @@ def add_links(*links):
         else:
             links_without_plugins.append(link)
 
-@utilities.add_a_cache0
-def get_box_list():
-    boxes_title = {}
+def get_links(server):
     for link in links_without_plugins:
-        boxes_title[link.where] = link.where
-    for p in plugins:
-        if p.link:
-            boxes_title[p.link.where] = p.link.where
-
-    boxes_title['abj_master'  ] = '<!--1-->Scolarité'
-    boxes_title['informations'] = '<!--2-->Informations'
-    boxes_title['root_rw'     ] = '<!--7-->Administration'
-    boxes_title['debug'       ] = '<!--8-->Debuggage'
-    boxes_title['deprecated'  ] = '<!--9-->Obsolete'
-
-    boxes_title = sorted(list(boxes_title.items()),
-                         key=lambda x: x[1])
-
-    return boxes_title
-
-def get_menu_for(where, server, with_help=False):
-    messages = []
-    if with_help:
-        for link in links_without_plugins:
-            if link.where == where and link.authorized(server):
-                if link.plugin and not link.plugin.is_allowed(server)[0]:
+        if link.authorized(server):
+            if link.plugin and not link.plugin.is_allowed(server)[0]:
                     continue # Not allowed by plugin
-                messages.append((link.priority,
-                                 link.html(server,None,with_help)))
+            yield link, None
     for p in plugins:
-        if p.link and p.link.where == where and p.is_allowed(server)[0]:
-                messages.append((p.link.priority,
-                                p.link.html(server,p,with_help)))
-
-    if messages:
-        return zip(*sorted(messages))[1]
-    else:
-        return []
+        if p.link and p.is_allowed(server)[0]:
+            yield p.link, p
 
 
 def bad_url(server):
@@ -572,6 +505,7 @@ def search_plugin(server):
                 return p
     return False
 
+@utilities.add_a_lock
 def dispatch_request(server, manage_error=True):
     warn('dispatch %s' % server.the_path, what='debug')
     p = search_plugin(server)
@@ -631,8 +565,5 @@ def dispatch_request(server, manage_error=True):
         execute(server, p)
     warn('done', what='plugin')
 
-# To really be sure to never have concurrent request processing
-dispatch_request = utilities.add_a_lock(dispatch_request)
-        
             
             

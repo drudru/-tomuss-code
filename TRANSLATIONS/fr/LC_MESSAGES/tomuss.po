@@ -1902,3 +1902,5 @@ msgid "ALERT_columns_unsaved"
 msgstr "»\nLA LISTE DES COLONNES N'A PAS ÉTÉ SAUVEGARDÉE."
 
 
+msgid "ALERT_no_double_clic"
+msgstr "Ne double-cliquez pas, un simple clique suffit !"

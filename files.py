@@ -31,7 +31,7 @@ def add(dirname, filename):
 
 for name in (
     'style.css',
-    'favicon.ico', 'top_tail2.js',
+    'favicon.ico',
     'header.png',
     'verysafe.png', 'safe.png', 'unsafe.png', 'veryunsafe.png',
     'tip.png', 'feed.png', 'news.xml', 'eye.png', 

@@ -1067,6 +1067,147 @@ function update_students_real()
   update_students_timeout = undefined ;
 }
 
+function year_semester()
+{
+  var s = document.getElementById("s") ;
+  return s.childNodes[s.selectedIndex].innerHTML ;
+}
+
+function is_the_current_semester()
+{
+  var s = document.getElementById("s") ;
+  return s.selectedIndex == s.childNodes.length - 1 ;
+}
+
+function is_the_last_semester()
+{
+  var s = document.getElementById("s") ;
+  return s.selectedIndex == s.childNodes.length - 2 ;
+}
+
+function current_year_semester()
+{
+  var s = document.getElementById("s") ;
+  return s.childNodes[s.childNodes.length - 1].innerHTML ; 
+}
+
+function first_university_year_semester()
+{
+  var ys = current_year_semester().split('/') ;
+  var the_year = ys[0] ;
+  var the_semester = ys[1] ;
+  // Search first semester
+  while ( semesters_year[myindex(semesters, the_semester)] != 0 )
+    {
+      ys = previous_year_semester(the_year, the_semester) ;
+      the_year = ys[0] ;
+      the_semester = ys[1] ;
+    }
+  return [the_year, the_semester] ;
+}
+
+var goto_url_last_url ;
+var goto_url_last_time ;
+
+function goto_url(url)
+{
+  if ( url === goto_url_last_url && (millisec() - goto_url_last_time) < 1000 )
+    {
+      Alert("ALERT_no_double_clic") ;
+      return ;
+    }
+  goto_url_last_url = url ;
+  goto_url_last_time = millisec() ;
+    
+  window.open(url) ;
+  // window.location = url ;
+}
+
+function go(x)
+{
+  goto_url(base + year_semester() + "/" + x) ;
+}
+
+function the_year()
+{
+  return Number(year_semester().split('/')[0]) ;
+}
+
+function do_action(action, html_class)
+{
+  if ( html_class == 'veryunsafe' )
+    if ( ! confirm('Cette action est irréversible, voulez-vous la faire ?') )
+      return ;
+  goto_url(base + action) ;
+}
+
+function university_year()
+{
+  var ys = year_semester().split('/') ;
+  var i = myindex(semesters, ys[1]) ;
+  if ( i == -1 )
+    return Number(ys[0]) ;
+  return Number(ys[0]) + semesters_year[i] ;
+}
+
+function semester()
+{
+  return year_semester().split('/')[1] ;
+}
+
+function go_referent()
+{
+  var ys = first_university_year_semester() ;
+  var s = base + university_year() + "/Referents/" + username2 ;
+  if ( semester() != ys[1] )
+      s += '/=column_offset=6' ;
+  goto_url(s) ;
+}
+
+function go_favoris()
+{
+  var s = base + university_year() + "/Favoris/" + username2 ;
+  goto_url(s) ;
+}
+
+function go_year(x)
+{
+  goto_url(base + university_year() + "/" + x) ;
+}
+
+function go_year_after(x)
+{
+  goto_url(base + x + '/' + the_year()) ;
+}
+
+function go_suivi(x)
+{
+    goto_url(suivi[year_semester()] + "/" + x) ;
+}
+
+function go_suivi_student(x)
+{
+  if ( preferences.current_suivi == 'NON' )
+    goto_url(suivi[year_semester()] + "/" + x) ;
+  else
+    goto_url(suivi[current_year_semester()] + "/" + x) ;
+}
+
+function change_icones()
+{
+var icones = document.getElementsByTagName("IMG") ;
+for(var img in icones)
+   {
+   img = icones[img] ;
+   if ( img.className == 'icone' || img.className == 'bigicone' )
+      {
+      img.src = suivi[year_semester()] + '/' +
+               img.src.replace(RegExp('.*/'), '') ;
+      }
+   }
+ document.getElementsByTagName('BODY')[0].className = semester() ;
+}
+
 function generate_home_page_top()
 {
    var t = '<TITLE>Accueil TOMUSS</TITLE>'
@@ -1137,12 +1278,76 @@ function generate_home_page_students()
 function generate_home_page_actions()
 {
     var t = '<h2>Autres</h2>' ;
+    var boxes = {} ;
+    for(var i in links)
+	if ( boxes[links[i][0]] )
+	    boxes[links[i][0]].push(links[i]) ;
+        else
+	    boxes[links[i][0]] = [ links[i] ] ;
+    var sorted_boxes = [] ;
+    for(var box_name in boxes)
+	sorted_boxes.push(box_name) ;
+    sorted_boxes.sort() ;
+    for(var box_name in sorted_boxes)
+    {
+	box_name = sorted_boxes[box_name] ;
+	box = boxes[box_name] ;
+	box.sort(
+	    function(x,y)
+	    {
+		if ( x[1] != y[1] )
+		    return x[1] - y[1] ;
+		if ( x[3] < y[3] )
+		    return -1 ;
+		else
+		    return 1 ;
+	    }) ;
+	t += '<table class="uelist"><tr><th>' + box_name +'</th></tr>\n' ;
+	for(var link in box)
+	{
+	    link = box[link] ;
+	    var el, help ;
+	    if ( link[4] === '' )
+		el = 'span' ;
+	    else
+		el = 'a' ;
+	    help = link[6] ;
+	    if ( i_am_root )
+		help += '<br>PLUGIN:' + link[7] ;
+		help += '<br>PRIORITY:' + link[1] ;
+	    t += '<tr onmouseover="ue_line_over(\'\',this)"><td>'
+                + '<img class="safety" src="' + url + '/' + link[2] + '.png">'
+		+ '<' + el +' class="' + link[2] + '" href="' + link[4]
+	        + '" target="' + link[5]
+		+ '">' + link[3] + '<div class="help">' + help
+		+ '</div></' + el +'></td></tr>' ;
+	}
+    }
 
+    /*
+    '''
+        boxes_title['abj_master'  ] = '<!--1-->Scolarité'
+    boxes_title['informations'] = '<!--2-->Informations'
+    boxes_title['root_rw'     ] = '<!--7-->Administration'
+    boxes_title['debug'       ] = '<!--8-->Debuggage'
+    boxes_title['deprecated'  ] = '<!--9-->Obsolete'
+    '''
+
+        
+    if user_name in configuration.root:
+        f.write("Les portails : " +
+                ',\n'.join(['<a href="javascript:go(%s)">%s</a>' %(
+            repr('portail-' + p),p)
+                            for p in configuration.the_portails])
+                )
+
+*/
     document.write(t) ;
 }
 
 function generate_home_page()
 {
+    lib_init() ;
     // To take a new ticket after 4 hours
     setTimeout("window.location.reload()", 1000*3600*4) ;
     generate_home_page_top() ;
@@ -1152,4 +1357,16 @@ function generate_home_page()
     generate_home_page_students() ;
     document.write('</TD><TD id="rightpart" width="20%">') ;
     generate_home_page_actions() ;
+    document.write('</TD></TR></TABLE>') ;
+    // update_ues2('') ;
+    update_referent_of() ;
+    update_favorite_student() ;
+    document.getElementById('ue_input_name').focus() ;
+    document.getElementById('ue_input_name').select() ;
+    change_icones() ;
+
+    document.write('<div id="feedback"></div>') ;
+    document.write('<p class="copyright">TOMUSS '
+		   + tomuss_version + '</p>') ;
+
 }
