@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 #    TOMUSS: The Online Multi User Simple Spreadsheet
-#    Copyright (C) 2008-2011 Thierry EXCOFFIER, Universite Claude Bernard
+#    Copyright (C) 2008-2012 Thierry EXCOFFIER, Universite Claude Bernard
 #
 #    This program is free software; you can redistribute it and/or modify
 #    it under the terms of the GNU General Public License as published by
@@ -29,8 +29,6 @@ import teacher
 import time
 import document
 import files
-
-top = utilities.StaticFile(os.path.join('PLUGINS','home2.html'))
 
 files.add('PLUGINS', 'home2.js')
 files.add('PLUGINS', 'home2.css')
@@ -80,20 +78,36 @@ def home_page(server):
         password_ok = configuration.bad_password
 
     f.write(str(document.the_head))
-    f.write(str(top).replace('_MESSAGE_', utilities.js(password_ok))
-            .replace('_BASE_',
-                     configuration.server_url+'/='+ticket.ticket+'/')
-            .replace('_SUIVI_', configuration.suivi.all(ticket.ticket))
-            .replace('_USERNAME2_',
-                    utilities.login_to_module(user_name))
-            .replace('_USERNAME_', user_name)
-            .replace('_TICKET_', ticket.ticket)
-            .replace('_MESSAGE2_', utilities.js(configuration.message))
-            .replace('_ADMIN_', configuration.maintainer)
-            .replace('_SEMESTER_LIST_', utilities.js(semester_list()))
-            .replace('_ROOT_', utilities.js(list(configuration.root)))
+    f.write('''
+<script src="%s/home2.js" onload="this.onloadDone=true;"></script>
+<link rel="stylesheet" href="%s/home2.css" type="text/css">
+<link href="%s/news.xml" rel="alternate" title="TOMUSS : nouveautés" type="application/rss+xml">
+</HEAD>
+<noscript><h1 style="font-size:400%%;background-color:red; color:white">
+    Cette application nécessite que JavaScript soit activé
+</h1></noscript>
+
+<script>
+''' % (utilities.StaticFile._url_,
+       utilities.StaticFile._url_,
+       utilities.StaticFile._url_,
+       )
+            + 'var base="%s/=%s/";\n' % (configuration.server_url,
+                                       ticket.ticket)
+            + 'var username2="%s";\n' % utilities.login_to_module(user_name)
+            + 'var username="%s";\n' % user_name
+            + 'var suivi=%s;\n' % configuration.suivi.all(ticket.ticket)
+            + 'var ticket="%s";\n' % ticket.ticket
+            + 'var root=%s;\n' % utilities.js(list(configuration.root))
+            + 'var my_identity = username ;\n'
+            + 'var information_message=%s;\n'%utilities.js(configuration.message)
+            + 'var bad_password_message=%s;\n' % utilities.js(password_ok)
+            + 'var url="%s";\n' % utilities.StaticFile._url_
+            + 'var admin="%s";\n' % configuration.maintainer
+            + 'var semester_list=%s;\n' % utilities.js(semester_list())
+            + 'generate_home_page() ;\n'
+            + '</script>\n'           
             )
-    f.write('''<h2>Autres</h2>''')
 
     #####################################################################
 

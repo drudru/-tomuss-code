@@ -1134,6 +1134,13 @@ function generate_home_page_students()
     document.write(t) ;
 }
 
+function generate_home_page_actions()
+{
+    var t = '<h2>Autres</h2>' ;
+
+    document.write(t) ;
+}
+
 function generate_home_page()
 {
     // To take a new ticket after 4 hours
@@ -1144,4 +1151,5 @@ function generate_home_page()
     document.write('</TD><TD width="20%">') ;
     generate_home_page_students() ;
     document.write('</TD><TD id="rightpart" width="20%">') ;
+    generate_home_page_actions() ;
 }
