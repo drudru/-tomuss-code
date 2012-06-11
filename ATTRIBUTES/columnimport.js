@@ -169,7 +169,6 @@ function import_column_do()
 
 function full_import()
 {
-  var cls = column_list_all() ;
   var import_lines = popup_value() ;
   var line, nr_cols, new_lines, new_lines_id ;
   new_lines = [] ;
@@ -207,6 +206,7 @@ function full_import()
 	  create_column(columns[data_col]) ;
 	}
     }
+  var cls = column_list(0) ;
   for(line in new_lines)
     {
       add_a_new_line(line.toString()) ;
@@ -216,7 +216,8 @@ function full_import()
       // If the race is lost, the user try to write a system computed data
       // and an error is displayed (one for each race lost)
       for(var data_col=nr_cols-1 ; data_col >= 0 ; data_col-- )
-	cell_set_value_real(line, data_col, new_lines[line][data_col]) ;
+	cell_set_value_real(line, cls[data_col].data_col,
+			    new_lines[line][data_col]) ;
     }
   alert_append_stop() ;
 
