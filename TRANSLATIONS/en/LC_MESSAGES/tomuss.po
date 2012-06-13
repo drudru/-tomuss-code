@@ -1895,3 +1895,254 @@ msgstr "' used to compute the column '"
 
 msgid "ALERT_columns_unsaved"
 msgstr "'\nTHE COLUMNS LIST HAS NOT BEEN SAVED."
+
+
+
+
+
+
+msgid "MSG_home_title"
+msgstr "TOMUSS home"
+
+msgid "MSG_home_welcome"
+msgstr "Select <b>2008/Test</b> to try TOMUSS safely\n"
+       "and click on an UE to edit it."
+
+
+msgid "MSG_home_contact"
+msgstr "Contact"
+
+msgid "MSG_home_documentation"
+msgstr "Documentation"
+
+msgid "ALERT_no_double_clic"
+msgstr "A simple-click, not a double one!"
+
+msgid "MSG_home_credit"
+msgstr "Credits"
+
+msgid "MSG_home_old_codes"
+msgstr "Old codes: "
+
+msgid "ALERT_home_extend_before"
+msgstr "Extension of "
+
+msgid "ALERT_home_extend_after"
+msgstr "The table content will be the same in the 2 semesters."
+
+msgid "ALERT_are_you_sure"
+msgstr "Irreversible action except for the administrator.\n"
+       "You really want to do it?"
+
+msgid "ALERT_are_you_sure2"
+msgstr "Irreversible action. Do you want to do it?"
+       
+
+msgid "ALERT_home_delete_before"
+msgstr "Deletion of "
+
+msgid "B_home_edit"
+msgstr "Edit the table"
+
+msgid "B_home_display"
+msgstr "Display the table (not editable)"
+
+msgid "B_home_export_print"
+msgstr "Export or Print the table"
+
+msgid "B_home_signature"
+msgstr "Attendance sheet"
+
+msgid "B_home_close_pages"
+msgstr "Close the page on all the browser"
+
+msgid "B_home_remove_bookmark"
+msgstr "Retirer de vos favoris"
+
+msgid "B_home_bookmark_first"
+msgstr "Put in bookmark first place"
+
+msgid "B_home_bookmark"
+msgstr "Add to the bookmarks"
+
+msgid "B_home_unsemestrialize"
+msgstr "Unsemestrialize this table"
+
+msgid "B_home_delete_table"
+msgstr "Delete"
+
+msgid "MSG_home_nr_view_before"
+msgstr "Table viewed "
+
+msgid "MSG_home_nr_view_after"
+msgstr " times."
+
+msgid "B_home_bilan_tomuss"
+msgstr "Student TOMUSS bilan"
+
+msgid "B_home_sendmail"
+msgstr "Send a mail"
+
+msgid "MSG_home_referent_is"
+msgstr "Its referent is..."
+
+msgid "MSG_home_become_referent"
+msgstr "I want to be the referent of this student"
+
+msgid "MSG_unknown_mail"
+msgstr "Unkonw mail address"
+
+
+msgid "MSG_home_suivi"
+msgstr "Student suivi."
+
+msgid "TIP_home_squares"
+msgstr "Left colored square: the attendances<br>\n"
+       "Right colored square: the grades"
+
+msgid "TIP_home_tt"
+msgstr "There is at least<br>one TT in<br>this table."
+
+msgid "TH_home_ue"
+msgstr "UE"
+
+msgid "TH_home_search"
+msgstr "Recherche"
+
+msgid "TIP_home_search_ue"
+msgstr "You can enter a code, a keyword, a name or surname of the UE manager."
+
+msgid "TH_home_do_search"
+msgstr "Search"
+
+msgid "TIP_home_do_search"
+msgstr "This button allow to start search,<br>\n"
+       "if you have no keyboard."
+
+msgid "TIP_home_ue_loading"
+msgstr "UE list is loading, please wait."
+       
+msgid "TH_home_students"
+msgstr "Students"
+
+msgid "TIP_home_search_student"
+msgstr "Enter <b>beginnings</b> of firstname, surname or ID<br>\n"
+       "For example: <b>t ex</b>"
+
+msgid "TH_home_right"
+msgstr "Other"
+
+msgid "TH_home_master_of"
+msgstr "Your tables"
+
+msgid "TIP_home_master_of"
+msgstr "The tables are not UE<br>\n"
+       "But your are one the manager"
+
+msgid "TH_home_ue_master"
+msgstr "Manager of UE"
+
+msgid "TIP_home_ue_master"
+msgstr "These are the UE for wich you are the offical manager"
+
+msgid "TIP_home_truncated"
+msgstr "Truncated list"
+
+msgid "TIP_home_no_ue"
+msgstr "No UE found with your keyword"
+
+msgid "TH_home_bookmark_ue"
+msgstr "Favorite UE"
+
+msgid "TIP_home_bookmark_ue_before"
+msgstr "To modify the list: click on "
+
+msgid "TIP_home_bookmark_ue_after"
+msgstr "The number of favorites and the sort order<br>\n"
+       "is modifiable in the preferences,"
+
+
+msgid "TH_home_unsaved_tables"
+msgstr "Tables with unsaved data"
+
+msgid "TIP_home_unsaved_tables"
+msgstr "EDIT THESE TABLES TO SAVE THEIR CONTENT.<br>\n"
+       "It is necessary because some data is only in your browser"
+
+msgid "TH_home_bookmark_student"
+msgstr "favorites students"
+
+msgid "TH_home_refered_student"
+msgstr "refered students"
+
+msgid "TH_home_import_refered"
+msgstr "Become referent of this list of students"
+
+msgid "TH_home_notepad"
+msgstr "Notepad"
+
+msgid "TIP_home_notepad"
+msgstr "To enter some personnal notes about the students"
+
+msgid "TH_home_mail"
+msgstr "Mail"
+
+msgid "TIP_home_mail"
+msgstr "Send a mail to these students"
+
+msgid "TH_home_suivi"
+msgstr "Suivi"
+
+msgid "TIP_home_suivi"
+msgstr "Display the 'suivi' of these students"
+
+msgid "TH_home_import"
+msgstr "Import"
+
+msgid "TIP_home_import"
+msgstr "Become referent of some students"
+
+msgid "MSG_home_nothing"
+msgstr "Nothing found"
+
+msgid "MSG_home_clipped"
+msgstr "Truncated list..."
+
+msgid "MSG_home_searching"
+msgstr "Searching"
+
+msgid "MSG_home_students"
+msgstr "The students"
+
+
+msgid "MSG_home_staff"
+msgstr "The staff"
+
+msgid "MSG_home_import_refered"
+msgstr "Enter the <b>student ID</b> for all the student\n"
+       "you want to become their referent."
+
+msgid "MSG_home_import_refered_after"
+msgstr "Then click on: "
+
+msgid "B_home_import_refered"
+msgstr "I want to be the referent!"
+
+msgid "MSG_home_reload"
+msgstr "Update the home page to see the new list."
+
+msgid "BOX_abj_master"
+msgstr "<!--1-->Schooling"
+
+msgid "BOX_informations"
+msgstr "<!--2-->Informations"
+
+msgid "BOX_root_rw"
+msgstr "<!--7-->Administration"
+
+msgid "BOX_debug"
+msgstr "<!--8-->Debug"
+
+msgid "BOX_deprecated"
+msgstr "<!--9-->Deprecated"
+

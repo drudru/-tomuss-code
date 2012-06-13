@@ -51,9 +51,9 @@ function _UE(name, responsable, intitule, parcours, code, login,
 
   var more = '' ;
   if ( credit >= 0 )
-      more += '<br>' + credit + ' crédits' ;
+      more += '<br>' + credit + ' ' + _("MSG_home_credit") ;
   if ( old_names && old_names.length )
-      more += '<br>Anciens codes APOGÉE : ' + old_names.join(' ') ;
+      more += '<br>' + _("MSG_home_old_codes") + old_names.join(' ') ;
   if ( more )
       more = '<span class="ue_more">' + more ;
 
@@ -90,98 +90,7 @@ function check_and_replace(value, value_upper, search, search_upper)
       }
 }
 
-/*
-  students = undefined : All the UE
-  students = true      : UE with students
-  students = false     : UE without students
-*/
-
 var all_ues_sorted ;
-
-function display_ues(txt, students)
-{
-  if ( txt === '' )
-    return '' ;
-  if ( all_ues_sorted === undefined )
-    {
-      var t = [] ;
-      for(var ue in all_ues)
-	t.push( [all_ues[ue].code, all_ues[ue].name] ) ;
-      t.sort() ;
-      all_ues_sorted = [] ;
-      for(var ue in t)
-	all_ues_sorted.push( t[ue][1] ) ;
-    }
-  txt_upper = replaceDiacritics(txt).toUpperCase() ;
-  var s = [], t, t_upper, t_replaced ;
-  var i = 0 ;
-  for(var ue in all_ues_sorted)
-    {
-      ue = all_ues_sorted[ue] ;
-      ue = all_ues[ue] ;
-      if (students===false&&(ue.nr_students_ue !== 0 || ue.nr_students_ec !== 0))
-	continue ;
-      if (students===true &&ue.nr_students_ue === 0 && ue.nr_students_ec === 0)
-	continue ;
-      t = ue.line ;
-      t_upper = ue.line_upper ;
-
-      if ( ue.etape )
-	{
-	  t_replaced = check_and_replace(t, t_upper, txt, txt_upper) ;
-	  if ( t_replaced !== undefined )
-	    {
-	      s.push(ue.code + '<a href="javascript:go(\'' + ue.name + '\')">' + t_replaced + '</a>') ;
-	      i++ ;
-	    }
-	}
-      else
-	{	 
-	  if (students !== true || ue.nr_students_ue )
-	    {
-	      t_replaced = check_and_replace('UE-' + t, 'UE-' + t_upper,
-					     txt, txt_upper) ;
-	      if ( t_replaced !== undefined )
-		{
-		  s.push(ue.code + '<a href="javascript:go(\'UE-' + ue.name + '\')">' + t_replaced + '</a>') ;
-		  i++ ;
-		}
-	    }
-	  if (ue.nr_students_ec)
-	    {
-	      t_replaced = check_and_replace('EC-' + t, 'EC-' + t_upper,
-					     txt, txt_upper) ;
-	      if ( t_replaced !== undefined )
-		{
-		  s.push(ue.code + '<a href="javascript:go(\'EC-' + ue.name + '\')">' + t_replaced + '</a>') ;
-		  i++ ;
-		}
-	    }
-	}
-      if ( i == 100 )
-	{
-	  s.push('[...]') ;
-	  break ;
-	}
-      
-    }
-  return '<p>' + s.join('</p><p>').replace(/\003/g,' : ').replace(/\001/g,', <small>').replace(/\002/g,'</small>') ;
-}
-
-function update_ues(txt)
-{
-  var with_students = display_ues(txt, true) ;
-  var without_students = display_ues(txt, false) ;
-
-  if ( without_students.length > 10 )
-    without_students = "<h3>Les UE suivantes n'ont pas d'étudiants inscrits</h3>"
-      + without_students ;
-
-
-  document.getElementById('ue_list').innerHTML = with_students +
-    without_students ;
-}
-
 var ue_line_over_last ;
 var ue_line_over_plus ;
 
@@ -236,21 +145,20 @@ function ue_set_favorite(t,code,nr)
   update_ues2(document.getElementById('ue_input_name').value) ;
 }
 
-function close_frame()
-{
-  document.getElementById('feedback').innerHTML = '' ;
-}
-
 function do_extension(code)
 {
   ue_line_close() ;
-  if ( confirm("Extension de " + code + ".\n\nCette opération est irréversible.\nLes étudiants seront les mêmes pour les 2 semestres.\nVous êtes sûr vouloir le faire ?") )
+  if ( confirm(_("ALERT_home_extend_before") + code + "\n" +
+	       _("ALERT_home_extend_after") + "\n\n" +
+	       _("ALERT_are_you_sure") ) )
     {
       var ys = first_university_year_semester() ;
-      document.getElementById('feedback').innerHTML =
-	'<div class="frame"><div onclick="close_frame()">Fermer</div><iframe src="'
-	+ base + ys[0] + '/' + ys[1] + '/' + code
-	+ '/extension"></iframe></div>' ;
+      create_popup('import_popup',
+		   _("ALERT_home_extend_before") + code,
+		   '<iframe width="100%" src="'
+		   + base + ys[0] + '/' + ys[1] + '/' + code
+		   + '/extension"></iframe>',
+		   '', false) ;
     }
 }
 
@@ -258,7 +166,8 @@ function do_delete(ue_code)
 {
   var code ;
   ue_line_close() ;
-  if ( confirm("Destruction de " + ue_code + ".\n\nCette DESTRUCTION est irréversible sauf pour l'administrateur TOMUSS.\nVous êtes sûr vouloir le faire ?") )
+    if (confirm(_("ALERT_home_delete_before") + ue_code + "\n\n"
+		+ _("ALERT_are_you_sure") ) )
     {
       if ( ue_code.search('/') == -1 )
 	code = base + year_semester() + '/' + ue_code ;
@@ -266,8 +175,8 @@ function do_delete(ue_code)
 	code = base + ue_code ;
 
       create_popup('import_popup',
-		   'Destruction de ' + ue_code,
-		   '<iframe src="'
+		    _("ALERT_home_delete_before") + ue_code,
+		   '<iframe width="100%" src="'
 		   + code + '/delete_this_table"></iframe>',
 		   '', false) ;
 
@@ -306,19 +215,21 @@ function ue_line_click_more()
 
       var t ;
       t = '<img class="safety" src="_URL_/safe.png"><a href="javascript:'+ href
-	+ '\')">Éditer la table</a>' ;
-
-      t += '<br><img class="safety" src="_URL_/verysafe.png"><a href="javascript:'+ href
-	+ '/=read-only=\')">Afficher la table sans la modifier</a>' ;
-
-      t += '<br><img class="safety" src="_URL_/verysafe.png"><a href="javascript:'+ href
-	+ '/=print-table=/=read-only=\')">Exporter ou imprimer la table</a>' ;
-
-      t += '<br><img class="safety" src="_URL_/verysafe.png"><a href="javascript:'+ href
-	+ '/=signatures-page=/=read-only=\')">Feuille d\'émargement</a>' ;
+	    + '\')">' + _("B_home_edit") + '</a>'
+	    + '<br><img class="safety" src="_URL_/verysafe.png">'
+	    + '<a href="javascript:'+ href
+	    + '/=read-only=\')">' + _("B_home_display") + '</a>'
+	    + '<br><img class="safety" src="_URL_/verysafe.png">'
+	    + '<a href="javascript:'+ href + '/=print-table=/=read-only=\')">'
+	    + _("B_home_export_print") + '</a>'
+	    + '<br><img class="safety" src="_URL_/verysafe.png">'
+	    + '<a href="javascript:'+ href
+	    + '/=signatures-page=/=read-only=\')">' + _("B_home_signature")
+	    + '</a>' ;
       if ( i_am_root )
-	t += '<br><img class="safety" src="_URL_/unsafe.png"><a href="javascript:'+ href
-	  + '/page_unload\')">Ferme les pages sur les navigateurs</a>' ;
+	t += '<br><img class="safety" src="_URL_/unsafe.png">'
+	    + '<a href="javascript:' + href
+	    + '/page_unload\')">' + _("B_home_close_pages") + '</a>' ;
 
       t += ue_line_more_links(code) ;
 
@@ -331,12 +242,12 @@ function ue_line_click_more()
 	    {
 	      t +=  '<br><img class="safety" src="_URL_/verysafe.png"><a href="javascript:ue_set_favorite(this,\''
 		+ code + '\',' + ( n%1000000 - 1000000 )
-		+ ');">Enlever de vos favoris</a>' ;
-	      txt = 'Passer en premier de vos favoris' ;
+		    + ');">' + _("B_home_remove_bookmark") + '</a>' ;
+	      txt = _("B_home_bookmark_first") ;
 	    }
 	  else
 	    {
-	      txt = 'Mettre dans la liste de vos favoris' ;
+	      txt = _("B_home_bookmark") ;
 	      if ( n === undefined )
 		n = 0 ;
 	    }
@@ -354,12 +265,14 @@ function ue_line_click_more()
 	}
       
       if ( ues_favorites[code] )
-	t += '<br><img class="safety" src="_URL_/verysafe.png">Vous avez consulté cette table ' + 
-	  ((1000000+ues_favorites[code])%1000000) + ' fois' ;
+	t += '<br><img class="safety" src="_URL_/verysafe.png">'
+            + _("MSG_home_nr_view_before")
+	    + ((1000000+ues_favorites[code])%1000000)
+	    +  _("MSG_home_nr_view_after") ;
 
       if ( code && ! code.match('.*/.*') )
 	{
-	  t +=  '<br><img class="safety" src="_URL_/unsafe.png"><a href="javascript:do_extension(\'' + code + '\');">Passer cette UE en NON-SEMESTRIALISÉ</a>' ;
+	  t +=  '<br><img class="safety" src="_URL_/unsafe.png"><a href="javascript:do_extension(\'' + code + '\');">' + _("B_home_unsemestrialize") + '</a>' ;
 	}
 
       if ( is_the_current_semester()
@@ -367,9 +280,15 @@ function ue_line_click_more()
 	   || (code && code.match('.*/.*'))
 	   )
 	if ( code )
-	  t +=  '<br><img class="safety" src="_URL_/unsafe.png"><a href="javascript:do_delete(\'' + code + '\');">Détruire '+ title + '</a>' ;
+	  t +=  '<br><img class="safety" src="_URL_/unsafe.png">'
+	    + '<a href="javascript:do_delete(\'' + code
+	    + '\');">' + _("B_home_delete_table") + ' ' + title + '</a>' ;
 	else
-	  t +=  '<br><img class="safety" src="_URL_/unsafe.png"><a href="javascript:do_delete(\'' + (ue_line_over_last.childNodes[1].textContent || ue_line_over_last.childNodes[1].innerText) + '\');">Détruire cette table</a>' ;
+	  t +=  '<br><img class="safety" src="_URL_/unsafe.png">'
+	    + '<a href="javascript:do_delete(\''
+	    + (ue_line_over_last.childNodes[1].textContent
+	       || ue_line_over_last.childNodes[1].innerText)
+	    + '\');">' + _("B_home_delete_table") + '</a>' ;
 
       ue_line_over_plus.childNodes[1].style.display = 'block' ;
       ue_line_over_plus.childNodes[1].innerHTML = t ;
@@ -536,50 +455,60 @@ function student_click_more(t)
     }
   var login = ue_line_over_last.childNodes[1].textContent || ue_line_over_last.childNodes[1].innerText ;
 
-  var message = '<img class="safety" src="_URL_/verysafe.png">Ajouter aux favoris' ;
+  var message = '<img class="safety" src="_URL_/verysafe.png">'
+	+ _("B_home_bookmark") ;
   for(var i in favstu)
     if ( login == favstu[i][0] )
       {
-	message = '<img class="safety" src="_URL_/safe.png">Retirer des favoris' ;
+	message = '<img class="safety" src="_URL_/safe.png">'
+	      + _("B_home_remove_bookmark") ;
 	break ;
       }
 
   var more_link1 = '' ;
   if ( i_am_a_referent )
-    more_link1 = '<img class="safety" src="_URL_/verysafe.png"><a href="javascript:goto_url(base+\'bilan/' + login + '\')">Bilan TOMUSS de l\'étudiant</a><br>' ;
+      more_link1 = '<img class="safety" src="_URL_/verysafe.png">'
+	+ '<a href="javascript:goto_url(base+\'bilan/' + login + '\')">'
+	+ _("B_home_bilan_tomuss") + '</a><br>' ;
 
-  var send_mail = 'Adresse mail inconnue.<br>' ;
+    var send_mail = _("MSG_unknown_mail") + '<br>' ;
   if ( the_student_mails[login] !== '' )
-    send_mail = '<img class="safety" src="_URL_/verysafe.png"><a href="mailto:' + the_student_mails[login]
-      + '">Envoyer un mail</a><br>' ;
+    send_mail = '<img class="safety" src="_URL_/verysafe.png">'
+	+ '<a href="mailto:' + the_student_mails[login]
+	+ '">' + _("B_home_sendmail") + '</a><br>' ;
 
-  var more_link = '<span id="student_referent">Son référent est...</span><br>';
+    var more_link = '<span id="student_referent">' + _("MSG_home_referent_is")
+	+ '</span><br>';
 
-  document.getElementById('feedback').innerHTML = '<iframe style="width:1;height:1;border:0px" src="' + base + 'referent/' + login + '"></iframe>' ;
+  document.getElementById('feedback').innerHTML =
+	'<iframe style="width:1;height:1;border:0px" src="' + base
+	+ 'referent/' + login + '"></iframe>' ;
 
   if ( i_am_a_referent )
     {
       if ( ! i_am_referent_of(login) )
 	{
-	  more_link += '<img class="safety" src="_URL_/veryunsafe.png"><a href="javascript:referent_get(\'' + login +
-	    '\')">Je veux être référent pédagogique de cet étudiant</a><br>' ;
+	  more_link += '<img class="safety" src="_URL_/veryunsafe.png">'
+		+ '<a href="javascript:referent_get(\'' + login
+		+ '\')">' + _("MSG_home_become_referent") + '</a><br>' ;
 	}
     }
 
   ue_line_over_plus.childNodes[0].innerHTML = '&times;' ;
   ue_line_over_plus.childNodes[1].style.display = 'block' ;
   ue_line_over_plus.childNodes[1].innerHTML = 
-    '<img class="safety" src="_URL_/verysafe.png"><a href="javascript:go_suivi_student(\'' + the_login(login) + '\')">Suivi de l\'étudiant.</a><br>'
-    + student_line_more_links(login)
-    + more_link1
-    + send_mail
-    + '<a href="javascript:toggle_favorite_student(\'' + login
-    + '\')">' + message + '</a><br>' + more_link
-    + '<img class="photo" src="' + student_picture_url(login) + '">'
-    + '<img class="bigicone" src="'+suivi[year_semester()] + '/_'+ login
-    + '"><br>'
-    + '<small>Carré de couleur de gauche : les présences<br>'
-    + 'Carré de couleur de droite : les notes</small>' ;
+	'<img class="safety" src="_URL_/verysafe.png">'
+	+ '<a href="javascript:go_suivi_student(\'' + the_login(login)
+	+ '\')">' + _("MSG_home_suivi") + '</a><br>'
+	+ student_line_more_links(login)
+	+ more_link1
+	+ send_mail
+	+ '<a href="javascript:toggle_favorite_student(\'' + login
+	+ '\')">' + message + '</a><br>' + more_link
+	+ '<img class="photo" src="' + student_picture_url(login) + '">'
+	+ '<img class="bigicone" src="'+suivi[year_semester()] + '/_' + login
+	+ '"><br>'
+	+ '<small>' + _("TIP_home_squares") + '</small>' ;
 }
 
 
@@ -597,10 +526,9 @@ function ue_line(ue, code, content)
   var tt ;
   var c = code.substr(3).split('-')[0] ;
   if ( all_ues[c] && all_ues[c].tt )
-    tt = hidden_txt('<img class="tt" src="tt.png">',
-		    'Il y a au moins<br>un tiers temps<br>qui suit l\'UE') ;
+      tt = hidden_txt('<img class="tt" src="tt.png">', _("TIP_home_tt")) ;
   else
-    tt = '' ;
+      tt = '' ;
 
   return '<tr class="' + html_class + '" onmouseover="ue_line_over(\'' + code + '\',this,ue_line_click_more);" onclick="javascript:go(\'' + code
     + '\')"><td>' + tt + content + '</td></tr>' ;
@@ -650,8 +578,7 @@ function update_ues_master_of(txt, txt_upper)
     return ;
 
   var s = ['<tr><th colspan="3">' +
-	   hidden_txt('Vos tables',
-		      'Ces tables TOMUSS ne correspondent pas à des UE<br>Mais vous en êtes un des responsables')
+	   hidden_txt(_("TH_home_master_of"), _("TIP_home_master_of"))
 	   + '</th></tr>'] ;
   master_of.sort();
   for(var i in master_of)
@@ -668,7 +595,12 @@ function update_ues_master_of(txt, txt_upper)
     }
   s = ue_line_join(s) ;
 
-  document.getElementById('ue_list').childNodes[3].innerHTML = '<table class="with_margin uelist"><colgroup><col class="code"><col class="title"><col class="responsable"></colgroup>' + s + '</table>' ;
+  document.getElementById('ue_list').childNodes[3].innerHTML =
+	'<table class="with_margin uelist">'
+	+ '<colgroup><col class="code">'
+	+ '<col class="title">'
+	+ '<col class="responsable">'
+	+ '</colgroup>' + s + '</table>' ;
 }
 
 function cmp_favorites(x,y)
@@ -699,8 +631,10 @@ function update_ues_favorites(txt, txt_upper)
     ues_favorites_sorted.sort() ;
   
   var s = ['<tr><th colspan="3">' +
-	   hidden_txt('UE Favorites',
-		      'Vous pouvez modifier cette liste en cliquant sur le <span class="ue_list_more_help">+</span>.<br>Le nombre de favoris est modifiable dans les préférences,<br>ainsi que l\'ordre du tri.')
+	   hidden_txt(_("TH_home_bookmark_ue"),
+		      _("TIP_home_bookmark_ue_before")
+		      + ' <span class="ue_list_more_help">+</span> '
+		      + _("TIP_home_bookmark_ue_after"))
 	   + '</th></tr>'] ;
   display_ue_list(s, txt, txt_upper, ues_favorites_sorted) ;
   s = ue_line_join(s) ;
@@ -713,8 +647,7 @@ function update_ues_spiral(txt, txt_upper)
     return ;
   ues_spiral_sorted = true ;
   var s = ['<tr><th colspan="3">' +
-	   hidden_txt('Responsable des UE',
-		      'Ce sont les UE pour lesquelles vous êtes<br>indiqué comme responsable dans GASEL')
+	   hidden_txt(_("TH_home_ue_master"), _("TIP_home_ue_master"))
 	   + '</th></tr>'] ;
   display_ue_list(s, txt, txt_upper, ues_spiral) ;
   s = ue_line_join(s) ;
@@ -759,13 +692,15 @@ function update_ues_searched(txt, txt_upper)
 	}
       if ( s.length == 100 )
 	{
-	  s.push('<tr><td colspan="3">La liste a été tronquée</td></tr>') ;
+	    s.push('<tr><td colspan="3">' + _("TIP_home_truncated")
+		   + '</td></tr>') ;
 	  break ;
 	}
       
     }
   if ( s.length == 0 && txt != 'UNFOUNDABLETEXT\001' )
-    s.push('<tr><th colspan="3" style="background-color:white">Aucune UE ne correspond à votre recherche</td></tr>');
+    s.push('<tr><th colspan="3" style="background-color:white">'
+	   + _("TIP_home_no_ue") + '</td></tr>');
 
   s = ue_line_join(s) ;
   document.getElementById('ue_list').childNodes[0].innerHTML = '<table class="with_margin uelist searchresult"><colgroup><col class="code"><col class="title"><col class="responsable"></colgroup>' + s + '</table>' ;
@@ -836,8 +771,7 @@ function update_ues_unsaved()
       return ;
     }
   var s = ['<tr><th colspan="3">' +
-	   hidden_txt('Table avec des donnée non sauvegardée',
-		      'VISITEZ CES TABLES POUR SAUVER LEUR CONTENU.<br>\nEn effet, le contenu de ces tables est en parti dans votre navigateur')
+	   hidden_txt(_("TH_home_unsaved_tables"),_("TIP_home_unsaved_tables"))
 	   + '</th></tr>'] ;
   var unsaved = index.substr(1).split('\n') ;
   for(var i in unsaved)
@@ -890,7 +824,8 @@ function student_line(i, hide_icon)
 function update_favorite_student()
 {
   update_a_student_list('the_favorite_students', favstu,
-			'étudiants favoris', 'javascript:go_favoris()') ;
+			_("TH_home_bookmark_student"),
+			'javascript:go_favoris()') ;
 }
 
 function update_referent_of()
@@ -899,16 +834,18 @@ function update_referent_of()
     return ;
   update_referent_of_done = true ;
   update_a_student_list('the_students', referent_of,
-			'étudiants liés', 'javascript:go_referent()') ;
+			_("TH_home_refered_student"),
+			'javascript:go_referent()') ;
 }
 
 function go_import_list()
 {
   create_popup('import_list',
-	       "Devenir référent d'une liste d'étudiants",
-	       "Indiquez les <b>numéros d'étudiants</b> dont "
-	       + "vous voulez devenir référent pédagogique",
-	       'Puis cliquez sur : <BUTTON OnClick="go_import_list_do();">Je veux être le référent pédagogique !</BUTTON>.',
+	       _("TH_home_import_refered"), _("MSG_home_import_refered"),
+	       _("MSG_home_import_refered_after")
+	       + '<BUTTON OnClick="go_import_list_do();">'
+	       + _("B_home_import_refered")
+	       + '</BUTTON>.',
 	       '') ;
 }
 
@@ -917,13 +854,12 @@ function go_import_list_do()
   var values = popup_text_area().value.split(/[ \t\n,;.:]+/) ;
 
   create_popup('import_list',
-	       "Résultat de l'opération :",
+	       _("TH_home_import_refered"),
 	       '<iframe width="100%" src="' + base + 'referent_get/'
 	       + values.join('/') + '">' + '</iframe>',
-	       "Actualisez la page d'accueil pour voir la nouvelle liste.",
+	       _("MSG_home_reload"),
 	       false) ;
 }
-
 
 function update_a_student_list(html_id, student_list, title, notes)
 {
@@ -945,22 +881,26 @@ function update_a_student_list(html_id, student_list, title, notes)
       logins.push(i[0]) ;
     }
 
-  var blocnote = hidden_txt('<a href="' + notes + '">Blocnote</a>',
-			    'Pour prendre des notes sur ces étudiants') ;
+  var blocnote = hidden_txt('<a href="' + notes + '">'
+			    + _("TH_home_notepad") + '</a>',
+			    _("TIP_home_notepad")) ;
 
-  var mails = hidden_txt('<a href="mailto:?bcc=' + m.join(',') + '">Mail</a>',
-			 "Envoi d'un message à ces étudiants") ;
+  var mails = hidden_txt('<a href="mailto:?bcc=' + m.join(',') + '">'
+			 + _("TH_home_mail") + '</a>',
+			 _("TIP_home_mail")) ;
 
   var suivis = hidden_txt('<a href="javascript:go_suivi_student(\''
-			  + logins.join(',') + '\')">Suivi</a>',
-			  "Afficher le suivi de ces étudiants") ;
+			  + logins.join(',') + '\')">'
+			  + _("TH_home_suivi") + '</a>',
+			  _("TIP_home_suivi")) ;
 
 
   var import_list = '';
   if ( html_id === 'the_students')
     import_list = hidden_txt('<a href="javascript:go_import_list(\''
-			     + logins.join(',') + '\')">Import</a>',
-			     "Devenir référent d'une liste d'étudiants") ;
+			     + logins.join(',') + '\')">'
+			     + _("TH_home_import") + '</a>',
+			     _("TIP_home_import")) ;
 
   the_students.innerHTML =
     '<table class="with_margin student_list">'
@@ -981,9 +921,11 @@ function login_list_to_html(results)
   for(var infos in results)
     s.push(student_line(results[infos], results.length > 20)) ;
   if ( results.length === 0 )
-    s = ['<tr><td colspan="3" style="color:black">Recherche infructueuse</tr>'] ;
+      s = ['<tr><td colspan="3" style="color:black">' + _("MSG_home_nothing")
+	   + '</tr>'] ;
   if ( s.length >= 99 )
-    s.push('<tr><td colspan="3" style="color:black">Liste tronquée...</tr>') ;
+      s.push('<tr><td colspan="3" style="color:black">' + _("MSG_home_clipped")
+	     + '</tr>') ;
 
   return s.join('\n') ;
 }
@@ -1011,14 +953,16 @@ function full_login_list(login, results, add)
 
   
   document.getElementById('students_list').innerHTML =
-      '<b>Les étudiants inscrits</b>'
-      + '<table class="student_list" style="margin-top:0">'
-      + '<colgroup><col class="student_icon"><col class="student_id"><col></colgroup>'
-      + login_list_to_html(last_login_cache[login]['student']) + '</table>'
-      + '<b>Le personnel</b>'
-      + '<table class="student_list" style="margin-top:0">'
-      + '<colgroup><col class="student_icon"><col class="student_id"><col></colgroup>'
-    + login_list_to_html(last_login_cache[login]['teacher']) + '</table>'
+	'<b>' + _("MSG_home_students") + '</b>'
+	+ '<table class="student_list" style="margin-top:0">'
+	+ '<colgroup><col class="student_icon"><col class="student_id">'
+	+ '<col></colgroup>'
+	+ login_list_to_html(last_login_cache[login]['student']) + '</table>'
+	+ '<b>' + _("MSG_home_staff") + '</b>'
+	+ '<table class="student_list" style="margin-top:0">'
+	+ '<colgroup><col class="student_icon"><col class="student_id">'
+	+ '<col></colgroup>'
+	+ login_list_to_html(last_login_cache[login]['teacher']) + '</table>'
 }
 
 var update_students_timeout ;
@@ -1063,7 +1007,7 @@ function update_students_real()
   var s = document.createElement('SCRIPT') ;
   s.src = base + 'login_list/' + encode_uri(the_last_login_asked) ;
   document.getElementsByTagName('BODY')[0].appendChild(s) ;
-  document.getElementById('students_list').innerHTML = 'Recherche en cours' ;
+  document.getElementById('students_list').innerHTML = _("MSG_home_searching");
   update_students_timeout = undefined ;
 }
 
@@ -1136,7 +1080,7 @@ function the_year()
 function do_action(action, html_class)
 {
   if ( html_class == 'veryunsafe' )
-    if ( ! confirm('Cette action est irréversible, voulez-vous la faire ?') )
+      if ( ! confirm(_("ALERT_are_you_sure2")) )
       return ;
   goto_url(base + action) ;
 }
@@ -1210,20 +1154,21 @@ for(var img in icones)
 
 function generate_home_page_top()
 {
-   var t = '<TITLE>Accueil TOMUSS</TITLE>'
+    var t = '<TITLE>' + _("MSG_home_title") + '</TITLE>'
 	+ '<BODY'
 	+ ' onkeypress="if (the_event(event).keyCode==27) ue_line_close();">'
         + '<div class="identity">'
 	+ '<p style="margin-top: 0">'
 	+ '<a href="' + url + '/' + '/=' + ticket + '/logout">'
-	+ 'Déconnexion</a> <b>' + username + '</b>'
+	+ _("LABEL_logout") + '</a> <b>' + username + '</b>'
 	+ '<a href="' + url
 	+ '/news.xml"><img style="border:0px;vertical-align:top" src="'
 	+ url + '/feed.png"></a><br>'
-	+ '<a href="mailto:' + admin + '">Contact</a>.'
-	+ '<a target="_blank" href="'+url+'/doc_table.html">Documentation</a>.'
+	+ '<a href="mailto:' + admin + '">' + _("MSG_home_contact") + '</a>.'
+	+ '<a target="_blank" href="'+url+'/doc_table.html">'
+	+ _("MSG_home_documentation") + '</a>.'
 	+ '<a target="_blank" href="' + url + '/=' + ticket
-	+ '/0/Preferences/' + username2 + '">Préférences</a>'
+	+ '/0/Preferences/' + username2 + '">' + _("LABEL_preferences") + '</a>'
 	+ '</p>'
 	+ '</div>'
 	+ information_message
@@ -1231,42 +1176,45 @@ function generate_home_page_top()
     // Do not insert spaces in the next line
 	+ '<H1 style="margin-top: 0">TOMUSS <select id="s" onchange="change_icones()" style="font-size:70%">'
 	+ semester_list + '</select></H1>'
-	+ '<p class="testmessage">Pour essayer TOMUSS sans danger, choisissez <b>2008/Test</b> dans la liste ci-dessus, puis choisissez une UE.</p>' ;
+	+ '<p class="testmessage">' + _("MSG_home_welcome") + '</p>' ;
     document.write(t) ;
 }
 
 function generate_home_page_ue()
 {
-    var t = '<h2>UE et étapes</h2>'
+    var t = '<h2>' + _("TH_home_ue") + '</h2>'
 	+ '<table class="uelist searchresult">'
 	+ '<tr><th colspan="3">'
-	+ hidden_txt('Recherche',
-		     'Vous pouvez indiquer un code APOGÉE, un mot clef, un nom ou prénom de responsable.')
+	+ hidden_txt(_("TH_home_search"), _("TIP_home_search_ue"))
 	+ '</th></tr>'
 	+ '<tr class="search"><td colspan="3">'
-	+ hidden_txt('<input style="border: 1px outset grey;" type="button" value="Chercher" onclick="update_ues2(document.getElementById(\'ue_input_name\').value,true);">',
-		     'Ce bouton permet de lancer la recherche,<br>si vous n\'avez pas de clavier')
+	+ hidden_txt('<input style="border: 1px outset grey;" '
+		     + 'type="button" value="'
+		     + _("TH_home_do_search")
+		     + '" onclick="update_ues2(document.getElementById(\'ue_input_name\').value,true);">',
+		     _("TIP_home_do_search"))
 	+ '<input class="search_field" id="ue_input_name" class="keyword" onkeyup="if ( this.value != this.old_value ) { update_ues2(this.value); this.old_value = this.value ; }" onchange="if ( this.value != this.old_value ) { update_ues2(this.value); this.old_value = this.value ; }" value="">'
 	+ '</td>'
 	+ '</tr>'
 	+ '</table>'
 	+ '<div id="ue_list" class="ue_list">'
-	+ 'Le chargement de la liste des UE est en cours, veuillez patienter.'
+	+ _("TIP_home_ue_loading")
 	+ '</div>' ;
     document.write(t) ;
 }
 
 function generate_home_page_students()
 {
-    var t = '<h2>Étudiants</h2>'
+    var t = '<h2>' + _("TH_home_students") + '</h2>'
 	+ '<table class="uelist searchresult">'
 	+ '<tr><th class="student_id">'
-	+ hidden_txt('Recherche',
-		     'Indiquez des <b>débuts</b> de nom, prénom ou identifiant<br>Par exemple : <b>t ex</b>')
+	+ hidden_txt(_("TH_home_search"), _("TIP_home_search_student"))
 	+ '</th></tr>'
 	+ '<tr class="search"><td>'
-	+ hidden_txt('<input style="border: 1px outset grey;" type="button" value="Chercher" onclick="update_students()">',
-		     'Ce bouton permet de lancer la recherche,<br>si vous n\'avez pas de clavier')
+	+ hidden_txt('<input style="border: 1px outset grey;" '
+		     + 'type="button" value="' + _("TH_home_do_search")
+		     + '" onclick="update_students()">',
+		     _("TIP_home_do_search"))
 	+ '<input class="search_field" id="search_name" class="keyword" onkeyup="update_students()" onchange="update_students()" value="">'
 	+ '</td></tr></table>'
 	+ '<div id="students_list"></div>'
@@ -1277,7 +1225,7 @@ function generate_home_page_students()
 
 function generate_home_page_actions()
 {
-    var t = '<h2>Autres</h2>' ;
+    var t = '<h2>' + _('TH_home_right') + '</h2>' ;
     var boxes = {} ;
     for(var i in links)
 	if ( boxes[links[i][0]] )
@@ -1286,12 +1234,17 @@ function generate_home_page_actions()
 	    boxes[links[i][0]] = [ links[i] ] ;
     var sorted_boxes = [] ;
     for(var box_name in boxes)
-	sorted_boxes.push(box_name) ;
+    {
+	var box_title = _('BOX_' + box_name) ;
+	if ( box_title === 'BOX_' + box_name )
+	    box_title = box_name ;
+	sorted_boxes.push([box_title, box_name]) ;
+    }
     sorted_boxes.sort() ;
     for(var box_name in sorted_boxes)
     {
 	box_name = sorted_boxes[box_name] ;
-	box = boxes[box_name] ;
+	box = boxes[box_name[1]] ;
 	box.sort(
 	    function(x,y)
 	    {
@@ -1302,7 +1255,8 @@ function generate_home_page_actions()
 		else
 		    return 1 ;
 	    }) ;
-	t += '<table class="uelist"><tr><th>' + box_name +'</th></tr>\n' ;
+	t += '<table class="uelist"><tr><th>' + box_name[0]
+	    +'</th></tr>\n' ;
 	for(var link in box)
 	{
 	    link = box[link] ;
@@ -1325,15 +1279,6 @@ function generate_home_page_actions()
     }
 
     /*
-    '''
-        boxes_title['abj_master'  ] = '<!--1-->Scolarité'
-    boxes_title['informations'] = '<!--2-->Informations'
-    boxes_title['root_rw'     ] = '<!--7-->Administration'
-    boxes_title['debug'       ] = '<!--8-->Debuggage'
-    boxes_title['deprecated'  ] = '<!--9-->Obsolete'
-    '''
-
-        
     if user_name in configuration.root:
         f.write("Les portails : " +
                 ',\n'.join(['<a href="javascript:go(%s)">%s</a>' %(

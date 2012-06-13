@@ -1902,5 +1902,252 @@ msgid "ALERT_columns_unsaved"
 msgstr "»\nLA LISTE DES COLONNES N'A PAS ÉTÉ SAUVEGARDÉE."
 
 
+
+
+
+
+msgid "MSG_home_title"
+msgstr "Accueil TOMUSS"
+
+msgid "MSG_home_welcome"
+msgstr "Pour essayer TOMUSS sans danger, choisissez <b>2008/Test</b>\n"
+       "dans la liste ci-dessus, puis choisissez une UE."
+
+
+msgid "MSG_home_contact"
+msgstr "Contact"
+
+msgid "MSG_home_documentation"
+msgstr "Documentation"
+
 msgid "ALERT_no_double_clic"
-msgstr "Ne double-cliquez pas, un simple clique suffit !"
+msgstr "Ne double-cliquez pas, un simple clic suffit !"
+
+msgid "MSG_home_credit"
+msgstr "Crédits"
+
+msgid "MSG_home_old_codes"
+msgstr "Anciens codes APOGÉE : "
+
+msgid "ALERT_home_extend_before"
+msgstr "Extension de "
+
+msgid "ALERT_home_extend_after"
+msgstr "Le contenu de la table sera les mêmes pour les 2 semestres."
+
+msgid "ALERT_are_you_sure"
+msgstr "Cette opération est irréversible sauf pour l'administrateur.\n"
+       "Êtes-vous sûr de vouloir la faire ?"
+
+msgid "ALERT_are_you_sure2"
+msgstr "Cette opération est irréversible, voulez-vous la faire ?"
+       
+
+msgid "ALERT_home_delete_before"
+msgstr "Destruction de "
+
+msgid "B_home_edit"
+msgstr "Éditer la table"
+
+msgid "B_home_display"
+msgstr "Afficher la table sans la modifier"
+
+msgid "B_home_export_print"
+msgstr "Exporter ou imprimer la table"
+
+msgid "B_home_signature"
+msgstr "Feuille d'émargement"
+
+msgid "B_home_close_pages"
+msgstr "Ferme les pages sur les navigateurs"
+
+msgid "B_home_remove_bookmark"
+msgstr "Retirer de vos favoris"
+
+msgid "B_home_bookmark_first"
+msgstr "Passer en premier de vos favoris"
+
+msgid "B_home_bookmark"
+msgstr "Ajouter à vos favoris"
+
+msgid "B_home_unsemestrialize"
+msgstr "Passer cette UE en NON-SEMESTRIALISÉ"
+
+msgid "B_home_delete_table"
+msgstr "Détruire"
+
+msgid "MSG_home_nr_view_before"
+msgstr "Vous avez consulté cette table "
+
+msgid "MSG_home_nr_view_after"
+msgstr " fois."
+
+msgid "B_home_bilan_tomuss"
+msgstr "Bilan TOMUSS de l'étudiant"
+
+msgid "B_home_sendmail"
+msgstr "Envoyer un mail"
+
+msgid "MSG_home_referent_is"
+msgstr "Son référent est..."
+
+msgid "MSG_home_become_referent"
+msgstr "Je veux être référent pédagogique de cet étudiant"
+
+msgid "MSG_unknown_mail"
+msgstr "Adresse mail inconnue."
+
+
+msgid "MSG_home_suivi"
+msgstr "Suivi de l'étudiant."
+
+msgid "TIP_home_squares"
+msgstr "Carré de couleur de gauche : les présences<br>\n"
+       "Carré de couleur de droite : les notes"
+
+msgid "TIP_home_tt"
+msgstr "Il y a au moins<br>un tiers temps<br>qui suit l'UE"
+
+msgid "TH_home_ue"
+msgstr "UE et étapes"
+
+msgid "TH_home_search"
+msgstr "Recherche"
+
+msgid "TIP_home_search_ue"
+msgstr "Vous pouvez indiquer un code APOGÉE, un mot clef, un nom ou prénom de responsable."
+
+msgid "TH_home_do_search"
+msgstr "Chercher"
+
+msgid "TIP_home_do_search"
+msgstr "Ce bouton permet de lancer la recherche,<br>\n"
+       "si vous n'avez pas de clavier"
+
+msgid "TIP_home_ue_loading"
+msgstr "Le chargement de la liste des UE est en cours, veuillez patienter."
+       
+msgid "TH_home_students"
+msgstr "Étudiants"
+
+msgid "TIP_home_search_student"
+msgstr "Indiquez des <b>débuts</b> de nom, prénom ou identifiant<br>\n"
+       "Par exemple : <b>t ex</b>"
+
+msgid "TH_home_right"
+msgstr "Autres"
+
+msgid "TH_home_master_of"
+msgstr "Vos tables"
+
+msgid "TIP_home_master_of"
+msgstr "Ces tables TOMUSS ne correspondent pas à des UE<br>\n"
+       "Mais vous en êtes un des responsables"
+
+msgid "TH_home_ue_master"
+msgstr "Responsable des UE"
+
+msgid "TIP_home_ue_master"
+msgstr "Ce sont les UE pour lesquelles vous êtes<br>\n"
+       "indiqué comme responsable dans GASEL"
+
+msgid "TIP_home_truncated"
+msgstr "La liste a été tronquée"
+
+msgid "TIP_home_no_ue"
+msgstr "Aucune UE ne correspond à votre recherche"
+
+msgid "TH_home_bookmark_ue"
+msgstr "UE Favorites"
+
+msgid "TIP_home_bookmark_ue_before"
+msgstr "Vous pouvez modifier cette liste en cliquant sur le "
+
+msgid "TIP_home_bookmark_ue_after"
+msgstr "Le nombre de favoris est modifiable dans les préférences,<br>\n"
+       "ainsi que l'ordre du tri."
+
+msgid "TH_home_unsaved_tables"
+msgstr "Table avec des données non sauvegardées"
+
+msgid "TIP_home_unsaved_tables"
+msgstr "VISITEZ CES TABLES POUR SAUVER LEUR CONTENU.<br>\n"
+       "En effet, le contenu de ces tables est en parti dans votre navigateur"
+
+msgid "TH_home_bookmark_student"
+msgstr "étudiants favoris"
+
+msgid "TH_home_refered_student"
+msgstr "étudiants liés"
+
+msgid "TH_home_import_refered"
+msgstr "Devenir référent d'une liste d'étudiants"
+
+msgid "TH_home_notepad"
+msgstr "Blocnote"
+
+msgid "TIP_home_notepad"
+msgstr "Pour prendre des notes sur ces étudiants"
+
+msgid "TH_home_mail"
+msgstr "Mail"
+
+msgid "TIP_home_mail"
+msgstr "Envoi d'un message à ces étudiants"
+
+msgid "TH_home_suivi"
+msgstr "Suivi"
+
+msgid "TIP_home_suivi"
+msgstr "Afficher le suivi de ces étudiants"
+
+msgid "TH_home_import"
+msgstr "Import"
+
+msgid "TIP_home_import"
+msgstr "Devenir référent d'une liste d'étudiants"
+
+msgid "MSG_home_nothing"
+msgstr "Recherche infructueuse"
+
+msgid "MSG_home_clipped"
+msgstr "Liste tronquée..."
+
+msgid "MSG_home_searching"
+msgstr "Recherche en cours"
+
+msgid "MSG_home_students"
+msgstr "Les étudiants inscrits"
+
+
+msgid "MSG_home_staff"
+msgstr "Le personnel"
+
+msgid "MSG_home_import_refered"
+msgstr "Indiquez les <b>numéros d'étudiants</b> dont\n"
+       "vous voulez devenir référent pédagogique"
+
+msgid "MSG_home_import_refered_after"
+msgstr "Puis cliquez sur : "
+
+msgid "B_home_import_refered"
+msgstr "Je veux être le référent pédagogique !"
+
+msgid "MSG_home_reload"
+msgstr "Actualisez la page d'accueil pour voir la nouvelle liste."
+
+msgid "BOX_abj_master"
+msgstr "<!--1-->Scolarité"
+
+msgid "BOX_informations"
+msgstr "<!--2-->Informations"
+
+msgid "BOX_root_rw"
+msgstr "<!--7-->Administration"
+
+msgid "BOX_debug"
+msgstr "<!--8-->Debuggage"
+
+msgid "BOX_deprecated"
+msgstr "<!--9-->Obsolete"
+
