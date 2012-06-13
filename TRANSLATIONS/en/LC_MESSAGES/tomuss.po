@@ -2173,3 +2173,43 @@ msgstr "This column doesn't exist yet.\n"
 
 msgid "ALERT_columndelete_confirm"
 msgstr "Do you really want to delete the column: "
+
+msgid "MSG_columnimport_empty"
+msgstr "Full table import works only with empty tables."
+
+msgid "MSG_columnimport_link"
+msgstr "Full table import: copy CSV file above and click here."
+
+msgid "MSG_columnimport_before"
+msgstr "To copy student IDs in TOMUSS&nbsp;:\n"
+       "<ul>\n"
+       "<li>Copy the student IDs from your spreadsheet.\n"
+       "<li>Paste the IDs in the input area.\n"
+       "    The content should look like:\n"
+       "    <pre><b>10188995\n"
+       "10356775\n"
+       "10356011</b></pre>\n"
+       "<li> Then click on "
+
+msgid "MSG_columnimport_button"
+msgstr "import the student IDs in TOMUSS"
+
+msgid "MSG_columnimport_after"
+msgstr "</ul>"
+
+msgid "MSG_columnimport_before2"
+msgstr "To copy values in TOMUSS:\n"
+       "<ul>\n"
+       "<li>Copy the student IDs and the value from your spreadsheet\n"
+       "<li>Paster them in the input area.\n"
+       "    The content should look like:\n"
+       "<pre><b>10188995 8\n"
+       "10356775 9.6\n"
+       "10356011 ABI</b></pre>\n"
+       "<li> Then click on "
+
+msgid "MSG_columnimport_button2"
+msgstr "import the values in TOMUSS"
+
+msgid "MSG_columnimport_title"
+msgstr "Import values in column: "

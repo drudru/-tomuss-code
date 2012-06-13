@@ -25,33 +25,25 @@ function import_column()
   var m = '' ;
 
   if ( nr_not_empty_lines !== 0 )
-    m = "<small>L'importation de table complète fonctionne seulement si la table est vide.</small>" ;
+    m = "<small>" + _("MSG_columnimport_empty") + "</small>" ;
   else
-    m = '<small><a href="javascript:full_import()">Import d\'une table complète : copier le fichier CSV au dessus et cliquez ici.</a></small>' ;
+      m = '<small><a href="javascript:full_import()">'
+	+ _("MSG_columnimport_link") + '</a></small>' ;
 
   var t ;
   if ( the_current_cell.data_col === 0 )
-    t = 'Pour transférer des numéros d\'étudiants dans TOMUSS&nbsp;:' +
-      '<ul><li>Copiez dans votre tableur favori les numéros d\'étudiant.' +
-      '  <li>Coller dans la zone de saisie (blanche) le résultat qui ressemble à&nbsp;:'+
-      '	<pre><b>10188995\n'+
-      '10356775\n'+
-      '10356011</b></pre>'+
-      '   <li> Puis cliquez sur <BUTTON OnClick="import_column_do();">importer les numéros d\'étudiants dans TOMUSS</BUTTON>.' +
-      '</ul>' ;
+      t = _("MSG_columnimport_before")
+	+ '<BUTTON OnClick="import_column_do();">'
+	+ _("MSG_columnimport_button")+ '</BUTTON>.'
+	+ _("MSG_columnimport_after") ;
   else
-    t = 'Pour transférer des valeurs dans TOMUSS&nbsp;:' +
-      '<ul><li>Copiez de votre tableur favori les colonnes numéro d\'étudiant' +
-      ' et la valeur que vous désirez transférer.'+
-      '  <li>Coller dans la grande zone de saisie (blanche) juste au dessous le résultat qui ressemble à&nbsp;:'+
-      '	<pre><b>10188995 8\n'+
-      '10356775 9.6\n'+
-      '10356011 ABI</b></pre>'+
-      '   <li> Puis cliquez sur <BUTTON OnClick="import_column_do();">importer les données dans TOMUSS</BUTTON>.' +
-      '</ul>' ;
+      t = _("MSG_columnimport_before2")
+	+ '<BUTTON OnClick="import_column_do();">'
+	+ _("MSG_columnimport_button2") + '</BUTTON>.'
+	+ _("MSG_columnimport_after") ;
 
   create_popup('import_div',
-	       "Importer dans la colonne «" + the_current_cell.column.title + '»',
+	       _("MSG_columnimport_title") + the_current_cell.column.title,
 	       t, m) ;
 }
 
