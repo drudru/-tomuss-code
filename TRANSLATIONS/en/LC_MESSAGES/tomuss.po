@@ -2146,3 +2146,30 @@ msgstr "<!--8-->Debug"
 msgid "BOX_deprecated"
 msgstr "<!--9-->Deprecated"
 
+msgid "ALERT_coursedates_invalid"
+msgstr " is not a valid date."
+
+msgid "ALERT_columndelete_forbiden"
+msgstr "It is not allowed to remove this column"
+
+msgid "ALERT_columndelete_not_master_before"
+msgstr "This column was created by "
+
+msgid "ALERT_columndelete_not_master_after"
+msgstr " you can't modify it because you are not a table manager: "
+
+msgid "ALERT_columndelete_not_empty"
+msgstr "Only empty columns can be deleted.\n\n"
+       "Use 'Fill' action to empty this column."
+
+msgid "ALERT_columndelete_used"
+msgstr "This column can't be deleted as it is in the formula of the column "
+
+msgid "ALERT_columndelete_void"
+msgstr "This column doesn't exist yet.\n"
+       "To display less column on the screen,\n"
+       "change the number of column to display in\n"
+       "the menu in the tab 'Table'."
+
+msgid "ALERT_columndelete_confirm"
+msgstr "Do you really want to delete the column: "

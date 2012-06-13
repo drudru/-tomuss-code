@@ -57,7 +57,7 @@ function set_course_dates(value, column, interactive_modification)
       v = get_date(date) ;
       if ( v == false )
 	{
-	  alert_append(date + " n'est pas une date valide.") ;
+          alert_append(date + _("ALERT_coursedates_invalid")) ;
 	  return column.course_dates ;
 	}
       if ( ma != 'A' )

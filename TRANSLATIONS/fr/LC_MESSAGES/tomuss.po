@@ -2151,3 +2151,39 @@ msgstr "<!--8-->Debuggage"
 msgid "BOX_deprecated"
 msgstr "<!--9-->Obsolete"
 
+msgid "ALERT_coursedates_invalid"
+msgstr " n'est pas une date valide."
+
+msgid "ALERT_columndelete_forbiden"
+msgstr "Il est interdit d'enlever cette colonne"
+
+msgid "ALERT_columndelete_not_master_before"
+msgstr "La colonne n'a pas été créée par vous mais par "
+
+msgid "ALERT_columndelete_not_master_after"
+msgstr " et vous n'êtes pas responsable de l'UE : "
+
+msgid "ALERT_columndelete_not_empty"
+msgstr "On peut seulement détruire des colonnes vides.\n\n"
+       "Vous devez donc d'abord vider la colonne en cliquant sur «Remp.»"
+
+msgid "ALERT_columndelete_used"
+msgstr "Cette colonne est utilisée par la colonne : "
+
+msgid "ALERT_columndelete_void"
+msgstr "Cette colonne n'existe pas encore.\n"
+       "Pour afficher moins de colonnes sur l'écran,\n"
+       "changez le nombre de colonnes à afficher dans\n"
+       "le menu en haut de la case «Tableau»."
+
+msgid "ALERT_columndelete_confirm"
+msgstr "Voulez-vous vraiment détruire la colonne : "
+
+
+
+
+
+
+
+
+

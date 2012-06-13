@@ -25,35 +25,35 @@ function column_delete()
   var column = the_current_cell.column ;
   if ( column.author == '*' && column.data_col < 6 )
     {
-      alert("Il est interdit d'enlever cette colonne") ;
+      Alert("ALERT_columndelete_forbiden") ;
       return ;
     }
   if ( ! column_change_allowed(column) )
     {
-      alert("La colonne n'a pas été créée par vous mais par " + column.author +
-	    " et vous n'êtes pas responsable de l'UE : " + teachers) ;
+	alert(_("ALERT_columndelete_not_master_before") + column.author +
+	      _("ALERT_columndelete_not_master_after") + teachers) ;
       return ;
     }
 
   var empty = column_empty_of_user_cells(column.data_col) ;
   if ( column.real_type.cell_is_modifiable && ! empty )
     {
-      alert('On peut seulement détruire des colonnes vides.\n\nVous devez donc d\'abord vider la colonne en cliquant sur "Remp."') ;
+      Alert("ALERT_columndelete_not_empty") ;
       return ;
     }
   var c = column_used_in_average(column.title) ;
   if ( c )
     {
-      alert("Cette colonne est utilisée par la colonne «" + c + '»') ;
+      Alert("ALERT_columndelete_used", c) ;
       return ;
     }
   if ( column.the_local_id !== undefined )
     {
-      alert("Cette colonne n'existe pas encore.\nPour afficher moins de colonnes sur l'écran, changez le nombre de colonnes à afficher dans le menu en haut de la case «Tableau».") ;
+      Alert("ALERT_columndelete_void") ;
       return ;
     }
   if ( ! empty )
-    if (!confirm("Voulez-vous vraiment détruire la colonne : " + column.title))
+    if (!confirm(_("ALERT_columndelete_confirm") + column.title))
       return ;
 
   append_image(undefined, 'column_delete/' + column.the_id) ;
