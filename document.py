@@ -1352,12 +1352,14 @@ def should_be_delayed(request, page, tabl, r, t):
         return True
     if page.request < request:
         # Wait missing requests
-        if (len(t) > 3
+        if (len(t) > 5
+            and t[-6][0] == r[0] and t[-6][1] == r[1]
+            and t[-5][0] == r[0] and t[-5][1] == r[1]
             and t[-4][0] == r[0] and t[-4][1] == r[1]
             and t[-3][0] == r[0] and t[-3][1] == r[1]
             and t[-2][0] == r[0] and t[-2][1] == r[1]
             ):
-            # We received 4 times the same request.
+            # We received 6 times the same request. (4 is too small)
             # So, we hit a request-accounting bug.
             # For example: server restart and browser 'update_content'
             # request that is not stored in the table data file.
