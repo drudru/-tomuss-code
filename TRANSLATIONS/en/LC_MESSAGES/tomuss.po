@@ -2221,3 +2221,30 @@ msgstr "You must the minimum and maximum grade as '[0;20]'\n"
 msgid "ALERT_columnminmax_order"
 msgstr "The minimum grade must bu smaller than the maximum grade\n"
        "for the column "
+
+msgid "MSG_columnstats_values"
+msgstr " values"
+
+msgid "MSG_columnstats_empty"
+msgstr "Empty (or unclassifiable): "
+
+msgid "MSG_columnstats_ppn"
+msgstr "Can't grade: "
+
+msgid "MSG_columnstats_abi"
+msgstr "ABI: "
+
+msgid "MSG_columnstats_abj"
+msgstr "ABJ: "
+
+msgid "MSG_columnstats_pre"
+msgstr "Present: "
+
+msgid "MSG_columnstats_yes"
+msgstr "Yes:"
+
+msgid "MSG_columnstats_no"
+msgstr "No:"
+
+msgid "MSG_columnstats_grade"
+msgstr "Grades:"

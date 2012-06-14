@@ -2228,3 +2228,36 @@ msgstr "Vous devez indiquer la note minimum et maximum\n"
 msgid "ALERT_columnminmax_order"
 msgstr "La note minimum doit être strictement plus petite que la note maximum\n"
        "pour la colonne "
+
+msgid "MSG_columnstats_values"
+msgstr " valeurs"
+
+msgid "MSG_columnstats_empty"
+msgstr "Vide (ou inclassable) : "
+
+msgid "MSG_columnstats_ppn"
+msgstr "Peut Pas Noter : "
+
+msgid "MSG_columnstats_abi"
+msgstr "ABI : "
+
+msgid "MSG_columnstats_abj"
+msgstr "ABJ : "
+
+msgid "MSG_columnstats_pre"
+msgstr "Présent : "
+
+msgid "MSG_columnstats_yes"
+msgstr "OUI :"
+
+msgid "MSG_columnstats_no"
+msgstr "NON :"
+
+msgid "MSG_columnstats_grade"
+msgstr "Notes :"
+
+
+
+
+
+

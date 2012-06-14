@@ -151,16 +151,17 @@ function update_histogram_real()
     i = i.toFixed(2) ;
   t_column_average.innerHTML = i ;
   update_tip_from_value(t_column_average,
-			stats.nr + ' valeurs<br>' + stats.html_resume()) ;
+			stats.nr + _("MSG_columnstats_values")
+			+ '<br>' + stats.html_resume()) ;
 
-  t = "Vide (ou inclassable) : " + stats.nr_nan() + '<br>' ;
-  if ( stats.nr_ppn() ) t += "Peut Pas Noter : " + stats.nr_ppn() + '<br>' ;
-  if ( stats.nr_abi() ) t += "ABI : " + stats.nr_abi() + '<br>' ;
-  if ( stats.nr_abj() ) t += "ABJ : " + stats.nr_abj() + '<br>' ;
-  if ( stats.nr_pre() ) t += "Présent : " + stats.nr_pre() + '<br>' ;
-  if ( stats.nr_yes() ) t += "OUI : " + stats.nr_yes() + '<br>' ;
-  if ( stats.nr_no()  ) t += "NON : " + stats.nr_no() + '<br>' ;
-  if ( stats.nr )       t += "Notes : " + stats.nr + '<br>' ;
+  t = _("MSG_columnstats_empty") + stats.nr_nan() + '<br>' ;
+  if ( stats.nr_ppn() ) t += _("MSG_columnstats_ppn")+stats.nr_ppn()+'<br>';
+  if ( stats.nr_abi() ) t += _("MSG_columnstats_abi")+stats.nr_abi() + '<br>' ;
+  if ( stats.nr_abj() ) t += _("MSG_columnstats_abj")+stats.nr_abj() + '<br>' ;
+  if ( stats.nr_pre() ) t += _("MSG_columnstats_pre")+stats.nr_pre() + '<br>' ;
+  if ( stats.nr_yes() ) t += _("MSG_columnstats_yes")+stats.nr_yes() + '<br>' ;
+  if ( stats.nr_no()  ) t += _("MSG_columnstats_no") +stats.nr_no() + '<br>' ;
+  if ( stats.nr )       t += _("MSG_columnstats_grade") + stats.nr + '<br>' ;
 
   // + '\n' : explanation in update_tip_from_value
   update_tip_from_value(t_column_histogram, t + '\n') ;
