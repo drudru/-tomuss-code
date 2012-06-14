@@ -2262,9 +2262,14 @@ msgstr "Cette colonne est utilisée dans une formule qui\n"
        "Le changement de ce titre est donc interdit.\n"
        "Seul le responsable de la table peut faire ce changement."
 
+msgid "ALERT_columnvisibility_date_invalid"
+msgstr "La date que vous donnez n'est pas valide : "
 
+msgid "ALERT_columnvisibility_date_far_futur"
+msgstr "La date de visibilité doit être dans moins d'un mois"
 
-
+msgid "ALERT_columnvisibility_date_past"
+msgstr "La date de visibilité ne doit pas être dans le passé"
 
 
 

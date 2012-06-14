@@ -2254,3 +2254,17 @@ msgstr "This column is used in a formula that can not be modified,\n"
        "because it is not a column you have created.\n"
        "So, this column title change is forbidden.\n"
        "Only a table master can do this change."
+
+msgid "ALERT_columnvisibility_date_invalid"
+msgstr "Invalid date: "
+
+msgid "ALERT_columnvisibility_date_far_futur"
+msgstr "Visibility date must be in less than a month"
+
+msgid "ALERT_columnvisibility_date_past"
+msgstr "Visibility date must not be in the past"
+
+
+
+
+
