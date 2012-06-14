@@ -59,7 +59,7 @@ function set_title(value, column, xcolumn_attr)
 	    continue ;
 	  if ( ! column_change_allowed(formula_column) )
 	    {
-	      alert_append("Cette colonne est utilisée dans une formule qui ne peut être mise à jour car vous n'avez pas le droit.\nLe changement de ce titre est donc interdit.\nSeul le responsable de la table peut faire ce changement.") ;
+	      alert_append(_("ALERT_columntitle_unchangeable")) ;
 	      return column.title ;
 	    }
 	  job_to_do.push([formula_column, 'columns', w]) ;

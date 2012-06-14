@@ -2256,6 +2256,14 @@ msgstr "NON :"
 msgid "MSG_columnstats_grade"
 msgstr "Notes :"
 
+msgid "ALERT_columntitle_unchangeable"
+msgstr "Cette colonne est utilisée dans une formule qui\n"
+       "ne peut être mise à jour car vous n'avez pas le droit.\n"
+       "Le changement de ce titre est donc interdit.\n"
+       "Seul le responsable de la table peut faire ce changement."
+
+
+
 
 
 

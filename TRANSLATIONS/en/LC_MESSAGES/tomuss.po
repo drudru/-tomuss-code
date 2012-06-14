@@ -2248,3 +2248,9 @@ msgstr "No:"
 
 msgid "MSG_columnstats_grade"
 msgstr "Grades:"
+
+msgid "ALERT_columntitle_unchangeable"
+msgstr "This column is used in a formula that can not be modified,\n"
+       "because it is not a column you have created.\n"
+       "So, this column title change is forbidden.\n"
+       "Only a table master can do this change."
