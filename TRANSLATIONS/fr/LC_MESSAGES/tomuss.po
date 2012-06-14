@@ -2221,4 +2221,10 @@ msgstr "importer les données dans TOMUSS"
 msgid "MSG_columnimport_title"
 msgstr "Importer dans la colonne : "
 
+msgid "ALERT_columnminmax_syntax"
+msgstr "Vous devez indiquer la note minimum et maximum\n"
+       "sous la forme '[0;20]' pour la colonne "
 
+msgid "ALERT_columnminmax_order"
+msgstr "La note minimum doit être strictement plus petite que la note maximum\n"
+       "pour la colonne "

@@ -38,7 +38,9 @@ function fill_column()
 
   if ( table_attr.autosave )
     m = '<div id="stop_the_auto_save">' + _("MSG_fill_warning_left")
-	+ ' <a href="#" onclick="select_tab(\'table\', \'Action\');table_autosave_toggle();document.getElementById(\'stop_the_auto_save\').style.display=\'none\';">'
+	+ ' <a href="#" onclick="select_tab(\'table\', \''
+	+ _("TAB_column_action")
+	+ '\');table_autosave_toggle();document.getElementById(\'stop_the_auto_save\').style.display=\'none\';">'
 	+ _("MSG_fill_warning_middle") + '</a> ' +_("MSG_fill_warning_right")
 	+ '</div>' ;
 

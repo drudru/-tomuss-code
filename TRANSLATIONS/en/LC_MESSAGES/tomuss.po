@@ -2213,3 +2213,11 @@ msgstr "import the values in TOMUSS"
 
 msgid "MSG_columnimport_title"
 msgstr "Import values in column: "
+
+msgid "ALERT_columnminmax_syntax"
+msgstr "You must the minimum and maximum grade as '[0;20]'\n"
+       "for the column "
+
+msgid "ALERT_columnminmax_order"
+msgstr "The minimum grade must bu smaller than the maximum grade\n"
+       "for the column "

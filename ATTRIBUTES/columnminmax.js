@@ -32,13 +32,15 @@ function set_test_note(v, column)
 
 if ( value.length != 2 )
   {
-    alert_append('Pour la colonne "' + column.title + '(' + column.type + ')".\nVous devez indiquer la note minimum et maximum\nsous la forme : [0;20]') ;
+    alert_append(_("ALERT_columnminmax_syntax")
+		 + column.title + '(' + column.type + ')"'
+		) ;
     return column.minmax ;
   }
 
 if ( Number(value[0]) >= Number(value[value.length-1]) )
   {
-    alert_append(column.title + ' : La note minimum doit être strictement plus petite que la note maximum') ;
+    alert_append(_("ALERT_columnminmax_order") + column.title) ;
     return column.minmax ;
   }
 
