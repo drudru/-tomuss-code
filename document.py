@@ -1348,6 +1348,10 @@ def it_is_a_bad_request(request, page, tabl, output_file):
         # No sense to do the do_not_unload_add(-1)
         utilities.send_backtrace('Request on unloaded table '+tabl.ue)
         return True
+    if output_file.closed:
+        # Nobody want the answer
+        tabl.do_not_unload_add(-1)
+        return True
 
 def should_be_delayed(request, page, tabl, r, t):
     if tabl.the_lock.locked():
