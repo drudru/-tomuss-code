@@ -481,6 +481,7 @@ class Table(object):
                 continue
             if p.browser_file.closed:
                 self.active_pages.remove(p)
+                p.browser_file = None # stop a memory leak
                 if not hasattr(p, 'end_of_load'):
                     global canceled_loads
                     # Update list of canceled page load
@@ -1368,6 +1369,8 @@ def should_be_delayed(request, page, tabl, r, t):
             # We fix the page request number
             # So we no more delay this request handling
             page.request = request
+            sender.append(page.browser_file,
+                          '<script>Alert("ERROR_server_bug");</script>')
         else:
             return True
 

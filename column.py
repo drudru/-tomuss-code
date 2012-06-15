@@ -56,7 +56,7 @@ class ColumnAttr(object):
     gui_display = 'GUI_input'
     action = ''
     css = ''
-    name = ''
+    # name = '' # BREAK ALL
     
     def __init__(self):
         self.__class__.attrs[self.name] = self
