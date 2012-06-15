@@ -96,7 +96,8 @@ class Page(object):
             raise ValueError('Cheater')
 
     def add_request(self, request, action, path, output_file):
-        request_list.append((request, self, action, path, output_file))
+        request_list.append((self.page_id, request, self, action, path,
+                             output_file))
 
     def __str__(self):
         return '%s[%s]:%s(%s)' % (self.table, self.page_id, self.user_name,
@@ -1424,10 +1425,10 @@ def check_requests():
         my_request_list.sort()
         valid_request = []
         for r in my_request_list:
-            request, page, action, path, output_file = r
+            page_id, request, page, action, path, output_file = r
             tabl = page.table
             warn('R=%d P=%d A=%s P=%s DNU=%d' % (
-                    request, page.page_id, action, path, tabl.do_not_unload),
+                    request, page_id, action, path, tabl.do_not_unload),
                  what="DNU")
             if it_is_a_bad_request(request, page, tabl, output_file):
                 request_list.remove(r)
