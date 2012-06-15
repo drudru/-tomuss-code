@@ -2264,6 +2264,93 @@ msgstr "Visibility date must be in less than a month"
 msgid "ALERT_columnvisibility_date_past"
 msgstr "Visibility date must not be in the past"
 
+msgid "TITLE_tablecopy_export"
+msgstr "Export to a spreadsheet"
+
+msgid "MSG_tablecopy_export"
+msgstr "To export value to a spreadsheet, you must click on 'Print/Export'\n"
+       "to open a window allowing you to choose:\n"
+       "<ul>\n"
+       "<li> the columns to send to the spreadsheet.\n"
+       "<li> the decimal separator.\n"
+       "</ul>"
+
+msgid "B_tablecopy_export"
+msgstr "Click here to go to the 'Print/Export' page."
+
+msgid "TITLE_tablecopy_import"
+msgstr "copy a spreadsheet content into TOMUSS"
+
+msgid "MSG_tablecopy_import"
+msgstr "If the TOMUSS table is not empty,\n"
+       "you must copy the content column by column:\n"
+       "<ul>\n"
+       "<li> you select the column into you want to import;\n"
+       "<li> you goto the tab named 'Columns/Actions';\n"
+       "<li> you click on 'Import...'.\n"
+       "</ul>\n"
+       "&nbsp;<br>\n"
+       "<p>If the table is empty; it is possible a full table in CSV format.\n"
+       "To do so, do as if you are importing a column but click\n"
+       "on the link at the window bottom."
+
+msgid "TITLE_tablecopy_to_future"
+msgstr "Copy the current table in the future."
+
+msgid "MSG_tablecopy_feedback"
+msgstr "Copy progression:"
+
+msgid "TITLE_tablecopy_from_past"
+msgstr "Copy the past semester table into the current table."
+
+msgid "TITLE_tablecopy_from_past_year"
+msgstr "Copy the past year table into the current table."
+
+msgid "ALERT_tablecopy_columns"
+msgstr "It is mandatory to copy column definition"
+
+msgid "ALERT_tablecopy_history_without_content"
+msgstr "It is not possible to copy the history without the current content"
+
+msgid "TIP_tablecopy_warning_from"
+msgstr "Action possible only if the current table is not empty."
+
+msgid "TIP_tablecopy_warning_to"
+msgstr "Action possible only if the current table is modifiable.<br>\n"
+       "THIS ACTION WILL CLOSE THE PAGE, you must reopen it."
+
+msgid "TITLE_tablecopy"
+msgstr "TOMUSS table copy"
+
+msgid "MSG_tablecopy"
+msgstr "Choose the things you want to copy:"
+
+msgid "B_tablecopy_columns"
+msgstr "the column definitions"
+
+msgid "TIP_tablecopy_columns"
+msgstr "The types, titles, comments..."
+
+msgid "TIP_tablecopy_and"
+msgstr "and"
+
+msgid "B_tablecopy_content"
+msgstr "the content"
+
+msgid "TIP_tablecopy_content"
+msgstr "The values in the table"
+
+msgid "B_tablecopy_history"
+msgstr "the history"
+
+msgid "TIP_tablecopy_history"
+msgstr "The modification history"
+
+msgid "MSG_tablecopy_arrow"
+msgstr "Click on an arrow to copy a table."
+
+msgid "MSG_tablecopy_spreadsheet"
+msgstr "Your favorite spreadsheet.<br>LibreOffice..."
 
 
 

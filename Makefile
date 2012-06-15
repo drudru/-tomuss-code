@@ -107,10 +107,11 @@ S=count() { git ls-files | grep -E "$$1" | xargs cat | wc -l ; echo '(' ; git ls
 
 stat:
 	@echo "Copyright and comment lines are counted"
-	@echo "JavaScript lines : " "$$($(S) '\.js$$')"
-	@echo "Python     lines : " "$$($(S) '\.py$$')"
-	@echo "HTML       lines : " "$$($(S) '\.html$$')"
-	@echo "CSS        lines : " "$$($(S) '\.css$$')"
-	@echo "SVG        lines : " "$$($(S) '\.svg$$')"
-	@echo "PO         lines : " "$$($(S) '\.po$$')"
+	@echo "JavaScript lines : $$($(S) '\.js$$')"
+	@echo "Python     lines : $$($(S) '\.py$$')"
+	@echo "HTML       lines : $$($(S) '\.html$$')"
+	@echo "CSS        lines : $$($(S) '\.css$$')"
+	@echo "SVG        lines : $$($(S) '\.svg$$')"
+	@echo "PO         lines : $$($(S) '\.po$$')"
+	@echo "PO               : $$(grep -c msgid TRANSLATIONS/fr/LC_MESSAGES/tomuss.po) messages"
 	@echo "Images           : " "$$(git ls-files | grep -E '\.(png|jpg|gif)$$' | wc -l)"

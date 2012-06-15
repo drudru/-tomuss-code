@@ -72,43 +72,21 @@ function tablecopy_do(t)
     switch(id)
       {
       case 'TS':
-	create_popup('export_div',
-		     "Exporter vers un tableur",
-		     "Pour exporter les données du tableau actuel "
-		     + "dans un tableur il faut passer "
-		     + "par la page «Imprime» de TOMUSS qui vous permettra : "
-		     + '<ul>'
-		     + "<li> de choisir les colonnes à envoyer au tableur."
-		     + "<li> de choisir le séparateur décimal."
-		     + '</ul>'
-		     + '<h3>Cliquez sur&nbsp;:&nbsp;<span class="gui_button" onmouseup="popup_close();print_selection()">Imprime</span></h3>'
-		     ,
-		     '', false) ;
+	create_popup('export_div', _("TITLE_tablecopy_export"),
+		     _("MSG_tablecopy_export") +
+		     '<h3><span class="gui_button" '
+		     + 'onmouseup="popup_close();print_selection()">'
+		     + _("B_tablecopy_export") + '</span></h3>'
+		     , '', false) ;
 	break ;
       case 'ST':
-	create_popup('export_div',
-		     "Recopier le contenu d'un tableur dans TOMUSS",
-		     "<p>Si votre table TOMUSS n'est pas vide, "
-		     + "il faut recopier le contenu du tableur colonne "
-		     + "par colonne&nbsp;:"
-		     + "<ul>"
-		     + "<li> En sélectionnant la bonne colonne ;"
-		     + "<li> en allant dans l'onglet «Colonne/Action» ;"
-		     + "<li> puis en cliquant sur «Importer...»."
-		     + "</ul>"
-		     + "&nbsp;<br>"
-		     + "<p>Si la table est vide, il est possible d'importer "
-		     + "le tableau complet dans le format CSV. "
-		     + "Pour cela faite comme si vous importiez une colonne, "
-		     + "mais cliquez sur le lien en bas de fenêtre."
-		     ,
-		     '', false) ;
+	create_popup('export_div', _("TITLE_tablecopy_import"),
+		     "<p>" + _("MSG_tablecopy_import"), '', false) ;
 	break ;
       case 'F':
 	var next_ys = next_year_semester(year, semester) ;
-	create_popup('export_div',
-		     'Copie de la table courante dans le futur.',
-		     'Déroulement de la copie :'
+	  create_popup('export_div', _("TITLE_tablecopy_to_future"),
+		       _("MSG_tablecopy_feedback")
 		     + '<iframe width="100%" src="' + url + '/=' + ticket + '/'
 		     + year + '/' + semester + '/' + ue + '/tablecopy/'
 		     + next_ys[0] + '/' + next_ys[1] + '/' + option
@@ -117,9 +95,8 @@ function tablecopy_do(t)
 	break ;
       case 'P':
 	var previous_ys = previous_year_semester(year, semester) ;
-	create_popup('export_div',
-		     'Copie du passé dans la table courante.',
-		     'Déroulement de la copie :'
+	  create_popup('export_div', _("TITLE_tablecopy_from_past"),
+		       _("MSG_tablecopy_feedback")
 		     + '<iframe width="100%" src="' + url + '/=' + ticket + '/'
 		     + previous_ys[0] + '/' + previous_ys[1] + '/' + ue
 		     + '/tablecopy/' + year + '/' + semester + '/' + option
@@ -127,9 +104,8 @@ function tablecopy_do(t)
 		     "", false) ;
 	break ;
       case 'PY':
-	create_popup('export_div',
-		     'Copie de l"an passé dans la table courante.',
-		     'Déroulement de la copie :'
+	  create_popup('export_div', _("TITLE_tablecopy_from_past_year"),
+		       _("MSG_tablecopy_feedback")
 		     + '<iframe width="100%" src="' + url + '/=' + ticket + '/'
 		     + (year-1) + '/' + semester + '/' + ue
 		     + '/tablecopy/' + year + '/' + semester + '/' + option
@@ -144,12 +120,12 @@ function tablecopy_do(t)
       if ( ! tablecopy_toggle('c') )
 	{
 	  tablecopy_toggle('c', true) ;
-	  alert("Il est obligatoire de copier les définitions des colonnes") ;
+	  Alert("ALERT_tablecopy_columns") ;
 	}
       if ( tablecopy_toggle('H') && ! tablecopy_toggle('C') )
 	{
 	  if ( id != 'H' )
-	    alert("On ne peut pas copier l'historique sans le contenu") ;
+	    Alert("ALERT_tablecopy_history_without_content") ;
 	  tablecopy_toggle('C', true) ;
 	}
     }
@@ -170,50 +146,36 @@ function table_copy()
   next = next_ys[0] + '<br>' + next_ys[1] + '<br>' + ue ;
 
   future = table_copy_button('F', '&nbsp;--&gt;&nbsp;',
-			     'Dans le futur.<br>'
-			     +'Action possible seulement si la table '
-			     +"n'est pas vide.",
-			     false, false) ;
+			     _("TITLE_tablecopy_to_future") + '<br>'
+			     +  _("TIP_tablecopy_warning_from"), false, false) ;
 
   past_year = table_copy_button('PY', '&nbsp;--&gt;&nbsp;',
-			   'Récupérer la table de l\'an passé.<br>'
-			   +'Action possible seulement si la table courante '
-			   +'est modifiable.<br>'
-			   +'CECI FERME LA TABLE COURANTE, il faudra la rouvrir.'
-			   ,
-			   false, false) ;
+				_("TITLE_tablecopy_from_past_year") + '<br>'
+				+ _("TIP_tablecopy_warning_to"),
+				false, false) ;
 
   past = table_copy_button('P', '&nbsp;--&gt;&nbsp;',
-			   'Récupérer la table du semestre passé.<br>'
-			   +'Action possible seulement si la table courante '
-			   +'est modifiable.<br>'
-			   +'CECI FERME LA TABLE COURANTE, il faudra la rouvrir.'
-			   ,
+			   _("TITLE_tablecopy_from_past") + '<br>'
+			   + _("TIP_tablecopy_warning_to"),
 			   false, false) ;
-    
 
-  st = table_copy_button('ST', '&darr;',
-			 "Copier le contenu d'un tableur dans TOMUSS",
-			 false, false) ;
+  st= table_copy_button('ST','&darr;',_("TITLE_tablecopy_import"),false,false);
+  ts= table_copy_button('TS','&uarr;',_("TITLE_tablecopy_export"),false,false);
 
-  ts = table_copy_button('TS', '&uarr;',
-			 'Copier le contenu du tableau dans un tableur',
-			 false, false) ;
-
-  create_popup('import_div',
-	       'Copie de table TOMUSS',
-	       'Choisissez ce que vous voulez copier :<br>'
-	       + table_copy_button('c', 'les définitions de colonne', 
-				   'Les types, titres, commentaire...', true)
-	       + 'et'
-	       + table_copy_button('C', 'le contenu', 
-				   'Les valeurs des cellules de la table.')
-	       + 'et'
-	       + table_copy_button('H', "l'historique", 
-				   "L'historique de toutes les modifications")
+  create_popup('import_div', _("TITLE_tablecopy"),
+	       _("MSG_tablecopy") + '<br>'
+	       + table_copy_button('c', _("B_tablecopy_columns"), 
+				   _("TIP_tablecopy_columns"), true)
+	       + _("TIP_tablecopy_and")
+	       + table_copy_button('C', _("B_tablecopy_content"), 
+				   _("TIP_tablecopy_content"))
+	       + _("TIP_tablecopy_and")
+	       + table_copy_button('H', _("TIP_tablecopy_history"), 
+				   _("TIP_tablecopy_history"))
 	       + '<br>&nbsp;<br>'
-	       + '<table class="table_copy_diagram"><tr><td colspan="2">Cliquez sur une flèche pour copier la bonne table.'
-	       + '<th>Votre tableur préféré.<br>OpenOffice...<td><td></tr>'
+	       + '<table class="table_copy_diagram"><tr><td colspan="2">'
+	       + _("MSG_tablecopy_arrow")
+	       + '<th>' + _("MSG_tablecopy_spreadsheet") + '<td><td></tr>'
 	       + '<tr><td><td><td>' + st + '&nbsp;' + ts + '<td><td></tr>'
 	       + '<tr><th>' + previous_year + '<td>' + past_year
 	       + '<th rowspan="2"><b>' + current

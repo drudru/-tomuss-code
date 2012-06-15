@@ -2271,6 +2271,96 @@ msgstr "La date de visibilité doit être dans moins d'un mois"
 msgid "ALERT_columnvisibility_date_past"
 msgstr "La date de visibilité ne doit pas être dans le passé"
 
+msgid "TITLE_tablecopy_export"
+msgstr "Exporter vers un tableur"
+
+msgid "MSG_tablecopy_export"
+msgstr "Pour exporter les données du tableau actuel\n"
+       "dans un tableur il faut passer\n"
+       "par la page «Imprime» de TOMUSS qui vous permettra :\n"
+       "<ul>\n"
+       "<li> de choisir les colonnes à envoyer au tableur.\n"
+       "<li> de choisir le séparateur décimal.\n"
+       "</ul>"
+
+msgid "B_tablecopy_export"
+msgstr "Cliquez ici pour aller sur la page «Imprime»"
+
+msgid "TITLE_tablecopy_import"
+msgstr "Recopier le contenu d'un tableur dans TOMUSS"
+
+msgid "MSG_tablecopy_import"
+msgstr "Si votre table TOMUSS n'est pas vide,\n"
+       "il faut recopier le contenu du tableur colonne par colonne&nbsp;:\n"
+       "<ul>\n"
+       "<li> En sélectionnant la bonne colonne ;\n"
+       "<li> en allant dans l'onglet «Colonne/Action» ;\n"
+       "<li> puis en cliquant sur «Importer...».\n"
+       "</ul>\n"
+       "&nbsp;<br>\n"
+       "<p>Si la table est vide, il est possible d'importer\n"
+       "le tableau complet dans le format CSV.\n"
+       "Pour cela faite comme si vous importiez une colonne,\n"
+       "mais vous cliquez sur le lien en bas de la fenêtre."
+
+msgid "TITLE_tablecopy_to_future"
+msgstr "Copie de la table courante dans le futur."
+
+msgid "MSG_tablecopy_feedback"
+msgstr "Déroulement de la copie :"
+
+msgid "TITLE_tablecopy_from_past"
+msgstr "Copie du passé dans la table courante."
+
+msgid "TITLE_tablecopy_from_past_year"
+msgstr "Copie de l'an passé dans la table courante."
+
+msgid "ALERT_tablecopy_columns"
+msgstr "Il est obligatoire de copier les définitions des colonnes"
+
+msgid "ALERT_tablecopy_history_without_content"
+msgstr "On ne peut pas copier l'historique sans le contenu"
+
+msgid "TIP_tablecopy_warning_from"
+msgstr "Action possible seulement si la table n'est pas vide."
+
+msgid "TIP_tablecopy_warning_to"
+msgstr "Action possible seulement si la table courante est modifiable.<br>\n"
+       "CECI FERME LA TABLE COURANTE, il faudra la réouvrir."
+
+msgid "TITLE_tablecopy"
+msgstr "Copie de table TOMUSS"
+
+msgid "MSG_tablecopy"
+msgstr "Choisissez ce que vous voulez copier :"
+
+msgid "B_tablecopy_columns"
+msgstr "les définitions de colonne"
+
+msgid "TIP_tablecopy_columns"
+msgstr "Les types, titres, commentaire..."
+
+msgid "TIP_tablecopy_and"
+msgstr "et"
+
+msgid "B_tablecopy_content"
+msgstr "le contenu"
+
+msgid "TIP_tablecopy_content"
+msgstr "Les valeurs des cellules de la table."
+
+msgid "B_tablecopy_history"
+msgstr "l'historique"
+
+msgid "TIP_tablecopy_history"
+msgstr "L'historique de toutes les modifications"
+
+msgid "MSG_tablecopy_arrow"
+msgstr "Cliquez sur une flèche pour copier la bonne table."
+
+msgid "MSG_tablecopy_spreadsheet"
+msgstr "Votre tableur préféré.<br>LibreOffice..."
+
 
 
 
