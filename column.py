@@ -56,6 +56,7 @@ class ColumnAttr(object):
     gui_display = 'GUI_input'
     action = ''
     css = ''
+    name = ''
     
     def __init__(self):
         self.__class__.attrs[self.name] = self
@@ -363,7 +364,7 @@ class Column(object):
                 value = re.sub(r'(TITLE|IMPORT|BASE)\([^)]*\)', '',
                                self.comment)
                 # Remove the ]0,0[ indicator
-                value = re.sub(r'][0-9][0-9]*,[0-9][0-9]*\[', '', value)
+                # value = re.sub(r'][0-9][0-9]*,[0-9][0-9]*\[', '', value)
             else:
                 value = getattr(self, attr.name)
             if hide is 1: # see line_compute_js
