@@ -180,8 +180,7 @@ function table_forms_update(THIS)
     if ( THIS.line[0].value === '' )
 	{
 	    table_forms_element.getElementsByTagName('h1')[0].innerHTML =
-		"N'UTILISEZ PAS CE FORMULAIRE POUR CRÉER DES LIGNES<br>" +
-		"cliquez sur une ligne non vide à gauche." ;
+		_("TITLE_tableforms") ;
 	}
     else
 	{

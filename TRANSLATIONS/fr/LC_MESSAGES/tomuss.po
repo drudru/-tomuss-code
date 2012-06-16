@@ -2370,4 +2370,35 @@ msgstr "Une des dates est mal écrite"
 msgid "ALERT_tabledates_invert"
 msgstr "La date de début doit être AVANT la date de fin"
 
+msgid "MSG_tableexport"
+msgstr "Faites un copié collé du tableau suivant dans l'import de table\n"
+       "pour recopier les colonnes dans une autre table."
+
+msgid "TITLE_tableforms"
+msgstr "N'UTILISEZ PAS CE FORMULAIRE POUR CRÉER DES LIGNES<br>\n"
+       "cliquez sur une ligne non vide à gauche."
+
+msgid "TITLE_tableimport"
+msgstr "Importer une liste de colonne"
+
+msgid "MSG_tableimport_before"
+msgstr "Copiez ici le tableau que vous avez obtenu en faisant\n"
+       "l'exportation des définitions de colonnes&nbsp;:"
+
+msgid "MSG_tableimport_after"
+msgstr "Puis cliquez sur "
+
+msgid "B_tableimport"
+msgstr "importer les colonnes dans TOMUSS"
+
+msgid "ALERT_tableimport"
+msgstr "Je ne trouve pas la description.\n"
+       "Les séparateurs qui sont des tabulations ont disparu"
+
+
+
+
+
+
+
 

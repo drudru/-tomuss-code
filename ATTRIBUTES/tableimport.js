@@ -22,10 +22,10 @@
 
 function table_import()
 {
-  create_popup('import_div',
-	       'Importer une liste de colonne',
-	       'Copiez ici le tableau que vous avez obtenu en faisant l\'exportation des définitions de colonnes&nbsp;:',
-	       'Puis cliquez sur <BUTTON OnClick="import_columns_do();">importer les colonnes dans TOMUSS</BUTTON>.') ;
+  create_popup('import_div', _("TITLE_tableimport"),
+	       _("MSG_tableimport_before"), _("MSG_tableimport_after")
+	       + '<BUTTON OnClick="import_columns_do();">'
+	       + _("B_tableimport") + '</BUTTON>.') ;
 }
 
 function import_columns_do()
@@ -43,7 +43,7 @@ function import_columns_do()
     }
   if ( lines.length == 0 )
     {
-      alert("Je ne trouve pas la description.\nLes séparateurs qui sont des tabulations ont disparu") ;
+      Alert("ALERT_tableimport") ;
       return ;
     }
   var cols = [] ;

@@ -22,7 +22,7 @@
 
 function table_export()
 {
-  var s = 'Faites un copié collé du tableau suivant dans l\'import de colonnes si vous voulez les mettre dans une autre table.<pre>\n' ;
+    var s = _("MSG_tableexport") + '<pre>\n' ;
 
   s += '<table border><tr>' ;
   for(var c in column_attributes)
