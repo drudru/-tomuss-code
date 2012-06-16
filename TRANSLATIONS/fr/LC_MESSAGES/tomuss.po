@@ -2361,6 +2361,13 @@ msgstr "Cliquez sur une flèche pour copier la bonne table."
 msgid "MSG_tablecopy_spreadsheet"
 msgstr "Votre tableur préféré.<br>LibreOffice..."
 
+msgid "ALERT_tabledates_2"
+msgstr "Saisir les 2 dates séparées par un espace"
 
+msgid "ALERT_tabledates_bad"
+msgstr "Une des dates est mal écrite"
+
+msgid "ALERT_tabledates_invert"
+msgstr "La date de début doit être AVANT la date de fin"
 
 

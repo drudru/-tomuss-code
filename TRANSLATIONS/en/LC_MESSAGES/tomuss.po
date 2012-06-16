@@ -2352,6 +2352,15 @@ msgstr "Click on an arrow to copy a table."
 msgid "MSG_tablecopy_spreadsheet"
 msgstr "Your favorite spreadsheet.<br>LibreOffice..."
 
+msgid "ALERT_tabledates_2"
+msgstr "Enter 2 dates separated by a space"
+
+msgid "ALERT_tabledates_bad"
+msgstr "One of the date is invalid"
+
+msgid "ALERT_tabledates_invert"
+msgstr "The beginning date must be BEFORE the ending date"
+
 
 
 

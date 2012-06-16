@@ -40,19 +40,19 @@ function date_formatter(value)
   var vs = v.split(' ') ;
   if ( vs.length != 2 )
     {
-      alert('Saisir les 2 dates séparées par un espace') ;
+      Alert("ALERT_tabledates_2") ;
       return ;
     }
   var d1 = parse_date(vs[0]).getTime() ;
   var d2 = parse_date(vs[1], true).getTime() ;
   if ( isNaN(d1) || isNaN(d2) )
     {
-      alert('Une des dates est mal écrite') ;
+      Alert("ALERT_tabledates_bad") ;
       return ;
     }
   if ( d1 > d2 )
     {
-      alert('La date de début doit être AVANT la date de fin') ;
+      Alert("ALERT_tabledates_invert") ;
       return ;
     }
   v = date_to_store(vs[0]).replace(/..$/,'') + ' '
