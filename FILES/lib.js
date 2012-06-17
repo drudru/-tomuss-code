@@ -1265,7 +1265,7 @@ function update_vertical_scrollbar_cursor()
 
 function update_vertical_scrollbar_position_real()
 {
-  if ( vertical_scrollbar === undefined )
+  if ( ! vertical_scrollbar )
     return ;
   var p = vertical_scrollbar.childNodes[0] ;
   var height = filtered_lines.length ;
@@ -1339,7 +1339,7 @@ function move_scrollbar(event)
 
 function update_vertical_scrollbar_real()
 {
-  if ( vertical_scrollbar === undefined )
+  if ( ! vertical_scrollbar )
     return ;
 
   vertical_scrollbar.onmousedown = move_vertical_scrollbar_begin ;

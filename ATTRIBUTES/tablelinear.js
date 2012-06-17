@@ -24,7 +24,7 @@ function table_linear()
    window.location = '_URL_/='+ticket+'/'+year+'/'+semester+'/'+ue+'/=linear=';
 }
 
-// Reconnexion marche pas, ne reçois pas les changements (pas de frame)
+// XXX: live connection does not work
 
 function Linear()
 {
@@ -37,12 +37,11 @@ function Linear()
      (this,
       function() {
        if ( this.L.column().real_type.cell_compute )
-	 return this.L.column().type +
-	   ' est un résultat de calcul non modifiable.' ;
+	 return this.L.column().type + _("MSG_tablelinear_not_modifiable") ;
        else
-	 return 'Valeur de la cellule.' ;
+	 return _("MSG_tablelinear_value") ;
      },
-      'Valeur',
+      _("LABEL_tablelinear_value"),
       function() {
 	var value = this.L.cell().value ;
 	if ( value.toFixed && value !== 0 )
@@ -55,67 +54,66 @@ function Linear()
       },
       function() {
 	if ( this.L.column().real_type.cell_compute )
-	  return 'La valeur est un résultat de calcul non modifiable.' ;
-	return this.L.cell().changeable() ;
+	    return _("ERROR_tablelinear_value_not_modifiable") ;
+	return this.L.cell().changeable(this.L.column()) ;
       },
       function() {
-	var h = this.L.column().real_type.tip_cell ;
+	var h = _(this.L.column().real_type.tip_cell) ;
 	if ( this.L.column().type == 'Note' )
-	  h = h.replace('note', "note entre " +
-			this.L.column().min + ' et ' + this.L.column().max )
-	    return h + '.' ;
+	    h = _("TIP_tablelinear_grade_between") + this.L.column().min
+	      + _("TIP_tablelinear_and") + this.L.column().max
+	      + '. ' + h ;
+        return h + '.' ;
       }
       ),
      new Information
      (this,
-      function() { return 'La dernière personne à avoir modifié la cellule.' },
-      'Auteur',
+      function() { return _("MSG_tablelinear_value_author") ; },
+      _("LABEL_tablelinear_value_author"),
       function() { return this.L.cell().author ; }
       ),
      new Information
      (this,
-      function () { return 'Date de la dernière modification de la cellule.' },
-      'Modifié',
+      function () { return _("MSG_tablelinear_value_date") },
+      _("LABEL_tablelinear_value_date"),
       function() { return date_full(this.L.cell().date) ; }
       ),
      new Information
      (this,
-      function() { return 'Un commentaire associé à la cellule, ' +
-	  'les étudiants peuvent voir ce commentaire.' ; },
-      'Commentaire',
+      function() { return _("MSG_tablelinear_value_comment") ; },
+      _("LABEL_tablelinear_value_comment"),
       function() { return this.L.cell().comment ; },
       function(value) { comment_change(this.L.line_id(),
 				       this.L.data_col(),
 				       value);
       },
       function() { return table_attr.modifiable ? true :
-	  "Table non modifiable" ; }
+		   _("MSG_tablelinear_table_not_modifiable") ; }
       ),
      new Information
      (this,
-      function() { return "Informations officielles sur l'étudiant."; },
+      function() { return _("MSG_tablelinear_registered"); },
       '',
       function() {
 	var w ;
 	if ( this.L.line()[5].value != 'ok' )
-	  w = "L'étudiant n'est pas inscrit à l'U.E.<br>" ;
+	    w = _("MSG_tablelinear_registered_no") ;
 	else
-	  w = "Il est inscrit.<br>" ;
-	w += student_abjs(this.L.line()[0].value) ;
+	    w = _("MSG_tablelinear_registered_yes") ;
+	w += '<br>' + student_abjs(this.L.line()[0].value) ;
 	return '\001' + w.replace(/[.]<br>$/,'') ; // \001 indicate HTML code
       }
       ),
      new Information
      (this,
-      function() { return "Rang de la note dans la colonne." ; },
-      'Rang',
-      function() { return compute_rank(this.L.line_id(), this.L.column()).replace('&nbsp;','').replace('/', ' sur ') ; }
+      function() { return _("MSG_tablelinear_rank") ; },
+      _("LABEL_tablelinear_rank"),
+      function() { return compute_rank(this.L.line_id(), this.L.column()).replace('&nbsp;','').replace('/', _("MSG_tablelinear_rank_on")) ; }
       ),
      new Information
      (this,
-      function() { return "L'historique indique les valeurs précédentes " +
-	  "prises par la cellule et qui a fait la modification." },
-      'Historique',
+      function() { return _("MSG_tablelinear_history") },
+      _("LABEL_tablelinear_history"),
       function() { return this.L.cell().history ; }
       )
      ] ;
@@ -126,32 +124,32 @@ function Linear()
     [
      new Information
      (this,
-      function() {return "Titre de la colonne." ; },
-      'Titre',
+      function() {return _("MSG_tablelinear_column_title") ; },
+      _("LABEL_tablelinear_column_title"),
       function() { return this.L.column().title ; },
       function(value) {
 	// this.L.column().real_type.set_title(value, this.L.column());
 	column_attr_set(this.L.column(), 'title', value) ;
       },
       function() { return column_change_allowed_text(this.L.column()) ; },
-      function() { return "Le titre ne doit pas contenir d'espace" ; }
+      function() { return _("TIP_tablelinear_column_title") ; }
       ),
      new Information
      (this,
-      function() {return this.L.column().real_type.tip_type ; },
-      'Type',
+      function() {return _("TIP_column_attr_type") ; },
+      _("LABEL_tablelinear_column_type"),
       function() { return this.L.column().type ; },
       function(value) {
 	column_attr_set(this.L.column(), 'type', value) ;
 	this.L.update_column() ;
       },
       function() { return column_change_allowed_text(this.L.column()) ; },
-      function() { return "Les types possibles sont : Note, Prst, Moy, Text, Nmbr, Bool, Max, Date." ; }
+      function() { return _("TIP_tablelinear_column_type") ; }
       ),
      new Information
      (this,
-      function() {return column_attributes['weight'].tip ; },
-      'Poids',
+      function() {return _("TIP_column_attr_weight") ; },
+      _("LABEL_tablelinear_column_weight"),
       function()
       {
 	var column = this.L.column() ;
@@ -165,12 +163,12 @@ function Linear()
 	this.L.update_column() ;
       },
       function() { return column_change_allowed_text(this.L.column()) ; },
-      function() { return "Un nombre flottant indiquant le poids de cette colonne pour les moyennes pondérées." ; }
+      function() { return _("MSG_tablelinear_column_weight") ; }
       ),
      new Information
      (this,
-      function() {return this.L.column().real_type.tip_test ; },
-      'Min Max',
+      function() {return _("TIP_column_attr_minmax") ; },
+      _("LABEL_tablelinear_column_minmax"),
       function()
       {
 	var column = this.L.column() ;
@@ -184,19 +182,19 @@ function Linear()
 	this.L.update_column() ;
       },
       function() { return column_change_allowed_text(this.L.column()) ; },
-      function() { return "La minimum et le maximum possible pour les notes.";}
+      function() { return _("MSG_tablelinear_column_minmax");}
       ),
      new Information
      (this,
-      function() { return "Liste des noms de colonnes sur lesquelles porte le calcul." ; },
-      'Formule',
+      function() { return _("MSG_tablelinear_column_columns") ; },
+      _("LABEL_tablelinear_column_columns"),
       function()
       {
 	var column = this.L.column() ;
 	if ( column.average_from !== undefined )
 	  return column.average_from.toString().replace(/,/g,' ') ;
 	else
-	  return "inutile" ;
+	    return _("ERROR_tablelinear_column_columns_na") ;
       },
       function(value) {
 	column_attr_set(this.L.column(), 'columns', value) ;
@@ -205,26 +203,25 @@ function Linear()
       function() {
 	var column = this.L.column() ;
 	if ( column.real_type.set_weight == unmodifiable )
-	  return "Cette valeur n'est pas modifiable pour une colonne de type "+
-	    column.type + ". C'est seulement pour les formules." ;
+	    return _("ERROR_tablelinear_column_columns_na2") + column.type ;
 	return column_change_allowed_text(column) ;
       },
-      function() { return "Noms des colonnes séparées par des espaces";}
+      function() { return _("TIP_tablelinear_column_columns") ;}
       ),
      new Information
      (this,
-      function() { return "Une explication plus détaillée du titre de la colonne, cette information est diffusée aux étudiants." ; },
-      'Commentaire',
+      function() { return _("MSG_tablelinear_column_comment") ; },
+      _("LABEL_tablelinear_column_comment"),
       function() { return this.L.column().comment ; },
       function(value) {
 	column_attr_set(this.L.column(), 'comment', value) ;
       },
       function() { return column_change_allowed_text(this.L.column()) ; },
-      function() { return "Texte libre.";}
+      function() { return _("TIP_tablelinear_column_comment");}
       ),
      new Information
      (this,
-      function() {return 'Valeur par défaut des cellules vides.' ; },
+      function() {return _("MSG_tablelinear_column_emptyis") ; },
       'ø',
       function() {return this.L.column().empty_is ; },
       function(value) {
@@ -235,45 +232,44 @@ function Linear()
       function() {
 	var column = this.L.column() ;
 	if ( column.type == 'Note' )
-	  return "Par exemple <b>0</b> ou <b>ABINJ</b>." ;
-	return "Un texte libre." ;
+	    return _("TIP_tablelinear_column_emptyis_note") ;
+        return _("TIP_tablelinear_column_emptyis") ;
       }
       ),
      new Information
      (this,
-      function() {return 'Statistiques concernant les notes de la colonne.'; },
+      function() {return _("MSG_tablelinear_column_stats"); },
       '',
       function() {
 	var stats = compute_histogram(this.L.data_col()) ;
 	var s ;
 	if ( stats.nr )
-	  s = stats.nr + ' notes. Moyenne ' + tofixed(stats.average()) +
-	    '. Médiane ' + tofixed(stats.mediane()) + '. Écart-type ' +
-	    tofixed(stats.standard_deviation()) + '. Minimum ' +
-	    tofixed(stats.min) + '. Maximum ' + tofixed(stats.max)+ '.' ;
+	    s = stats.nr + ' ' + _("grades") + '. '
+	      + _("Average") + ' ' + tofixed(stats.average()) + '. '
+	      + _("Mediane") + ' ' + tofixed(stats.mediane()) + '. '
+	      + _("Standard-deviation") + ' '
+	      + tofixed(stats.standard_deviation()) + '. '
+	      + _("Minimum") + ' ' + tofixed(stats.min) + '. '
+	      + _("Maximum") + ' ' + tofixed(stats.max)+ '.' ;
 	else
-	  s = 'Pas de notes.' ;
-	if ( stats.nr_ppn )
-	  s += ' ' + stats.nr_ppn + ' PPN.' ;
-	if ( stats.nr_abi )
-	  s += ' ' + stats.nr_abi + ' ABI.' ;
-	if ( stats.nr_abj )
-	  s += ' ' + stats.nr_abi + ' ABJ.' ;
-	if ( stats.nr_pre )
-	  s += ' ' + stats.nr_pre + ' Présents.' ;
-	if ( stats.nr_yes )
-	  s += ' ' + stats.nr_yes + ' Oui.' ;
-	if ( stats.nr_no )
-	  s += ' ' + stats.nr_yes + ' Non.' ;
-	if ( stats.nr_nan )
-	  s += ' ' + stats.nr_nan + ' valeurs qui ne sont pas des nombres.' ;
+	    s = _("MSG_tablelinear_no_grade") ;
+	if ( stats.nr_ppn)s+=' '+stats.nr_ppn()+' '+_("MSG_columnstats_ppn")+'.';
+	if ( stats.nr_abi)s+=' '+stats.nr_abi()+' '+_("MSG_columnstats_abi")+'.';
+	if ( stats.nr_abj)s+=' '+stats.nr_abj()+' '+_("MSG_columnstats_abj")+'.';
+	if ( stats.nr_pre)s+=' '+stats.nr_pre()+' '+_("MSG_columnstats_pre")+'.';
+	if ( stats.nr_yes)s+=' '+stats.nr_yes()+' '+_("MSG_columnstats_yes")+'.';
+	if ( stats.nr_no )s+=' '+stats.nr_no() +' '+_("MSG_columnstats_no") +'.';
+	if ( stats.nr_nan)
+	    s += ' ' + stats.nr_nan() + ' ' + _("MSG_columnstats_empty") ;
 	return s.substr(0, s.length-1) ;
 	}
       ),
      new Information
      (this,
-      function() { return "Expression imposant une condition sur les lignes du tableau que l'on veut afficher. <a href=\"" + url + '/doc_filtre.html" target="_new_">Documentation sur la syntaxe de l\'expression</a>.' ; },
-      'Filtre',
+      function() { return _("MSG_tablelinear_filter")
+		   + "<a href=\"" + url + '/doc_filtre.html" target="_new_">'
+		   + _("MSG_tablelinear_filter_doc") + '</a>.' ; },
+      _("LABEL_tablelinear_filter"),
       function() { return this.L.column().filter ; },
       function(value) {
 	var column = this.L.column() ;
@@ -284,9 +280,7 @@ function Linear()
 	this.L.lin = 0 ;
       },
       function() { return true ; },
-      function() {
-	return 'Par exemple <kbd>truc</kbd> pour avoir seulement ce qui commence par <b>truc</b>.';
-      }
+      function() { return _("TIP_tablelinear_filter"); }
       )
      ] ;
   /////////////////////////////////////////////////////////////////////////////
@@ -296,15 +290,15 @@ function Linear()
     [
      new Information
      (this,
-      function() {return "Statistiques." ; },
+      function() {return _("MSG_tablelinear_table_stats") ; },
       '',
-      function() { return filtered_lines.length + " lignes affichées sur " +
-	  nr_not_empty_lines ; }
+      function() { return filtered_lines.length
+		   + _("MSG_tablelinear_table_lines") + nr_not_empty_lines ; }
       ),
      new Information
      (this,
-      function() {return "Commentaire sur la table, il est diffusé aux étudiants.";},
-      'Commentaire',
+      function() {return _("MSG_tablelinear_table_comment");},
+      _("LABEL_tablelinear_table_comment"),
       function() { return table_attr.comment ; },
       function(value) {
 	table_attr_set('comment', value) ;
@@ -312,14 +306,14 @@ function Linear()
       function() {
 	if ( table_attr.modifiable && (i_am_the_teacher||teachers.length == 0))
 	  return true ;
-	return "Seul un responsable de l'U.E peut modifier ce commentaire";
+	  return _("ERROR_tablelinear_table_comment");
       },
-      function() { return "Un texte libre." ; }
+      function() { return _("TIP_tablelinear_table_comment") ; }
       ),
      new Information
      (this,
-      function() {return "Les responsables de l'U.E.";},
-      'Responsables',
+      function() {return _("MSG_tablelinear_table_masters");},
+      _("LABEL_tablelinear_table_masters"),
       function() { return teachers.toString().replace(/,/g,' ') ; },
       function(value) {
 	table_attr_set('masters', value) ;
@@ -327,9 +321,9 @@ function Linear()
       function() {
 	if ( table_attr.modifiable&&(i_am_the_teacher||teachers.length == 0) )
 	  return true ;
-	return "Seul un responsable de l'U.E peut modifier la liste des responsables.";
+        return _("ERROR_tablelinear_table_masters");
       },
-      function() { return "Les logins des responsables de l'U.E séparés par des espaces" ; }
+      function() { return _("TIP_tablelinear_table_masters") ; }
       )
      ] ;
   /////////////////////////////////////////////////////////////////////////////
@@ -342,9 +336,8 @@ function Linear()
   this.top = document.getElementById('top') ;
   this.input_edit = false ;
   this.w('<h1>' + ue + ' ' + semester + ' ' + year + '</h1>' +
-         '<h2>' + table_attr.table_title + '</h2>' +
-         "Appuyez sur <kbd>point d'interrogation</kbd> pour avoir l'aide. "
-	 ) ;
+         '<h2>' + table_attr.table_title + '</h2>'
+	 + _("MSG_tablelinear_welcome")) ;
 }
 
 
@@ -407,7 +400,7 @@ function linear_line()
   else
     {
       if ( this.lin != filtered_lines.length )
-	alert('Il y a un bug') ;
+	alert('There is a bug') ;
       add_a_new_line() ;
       return filtered_lines[this.lin] ;
     }
@@ -419,8 +412,9 @@ function linear_column_title()
     return '' ;
   var empty = '' ;
   if ( this.column().is_empty )
-    empty = ' qui est vide' ;
-  return 'Colonne <i>' + html(this.column().title) + '</i>' + empty + ', ' ;
+      empty = _("MSG_tablelinear_is_empty") ;
+    return _("TAB_column") + ' <i>' + html(this.column().title) + '</i>'
+	+ empty + ', ' ;
 }
 
 function linear_line_title()
@@ -437,7 +431,7 @@ function linear_line_title()
 	s += line[data_col].value + ', ' ;
     }
   if ( s.replace(/, /g, '') === '' )
-    s = "Ligne vide, indiquez le numéro d'étudiant, " ;
+      s = _("MSG_tablelinear_enter_id") ;
   return s ;
 }
 
@@ -457,7 +451,7 @@ function linear_go_right(quiet)
   if ( this.col >= cls.length )
     {
       this.col = cls.length - 1 ;
-      this.w('Plus rien à droite.') ;
+	this.w(_("MSG_tablelinear_nothing_right")) ;
     }
   this.hide_line_title = true ;
   this.display() ;
@@ -472,7 +466,7 @@ function linear_go_left(quiet)
   if ( this.col < 0  )
     {
       this.col = 0 ;
-      this.w('Plus rien à gauche.') ;
+	this.w(_("MSG_tablelinear_nothing_left")) ;
     }
   this.display() ;
   return true ;
@@ -487,7 +481,7 @@ function linear_go_down(quiet)
   if ( this.lin >= filtered_lines.length  )
     {
       this.lin = filtered_lines.length ;
-      this.w('Plus rien au dessous.') ;
+      this.w(_("MSG_tablelinear_nothing_under")) ;
     }
   this.display() ;
   return true ;
@@ -501,7 +495,7 @@ function linear_go_up(quiet)
   if ( this.lin < 0 )
     {
       this.lin = 0 ;
-      this.w('Plus rien au dessus.') ;
+      this.w(_("MSG_tablelinear_nothing_above")) ;
     }
   this.display() ;
   return true ;
@@ -650,7 +644,7 @@ function linear_tip()
 
   if ( this.information.is_changeable
        && this.information.is_changeable() == true )
-    r += ' Tapez sur la touche <kbd>entrée</kbd> pour l\'éditer.' ;
+      r += _("MSG_tablelinear_enter_to_edit") ;
 
   this.w(r) ;
   return true ;
@@ -674,11 +668,12 @@ function linear_sort(dir)
       sort_column(undefined, this.data_col()) ;
       sort_column(undefined, this.data_col()) ;
     }
-  var s = "Trie la colonne <i>" + this.column().title + "</i> dans l'ordre " ;
+    var s = _("MSG_tablelinear_sort_before") + "<i>"
+	+ this.column().title + "</i>" + _("MSG_tablelinear_sort_after") ;
   if ( dir == 1 )
-    s += "croissant." ;
+      s += _("MSG_tablelinear_sort_up") ;
   else
-    s += "décroissant." ;
+      s += _("MSG_tablelinear_sort_down") ;
   this.w(s) ;
   update_filtered_lines() ;
   this.display() ;
@@ -688,17 +683,17 @@ function linear_sort(dir)
 function linear_freeze()
 {
   if ( this.column().freezed )
-    this.w('La colonne est maintenant figée.') ;
+      this.w(_("MSG_tablelinear_freezed")) ;
   else
-    this.w('La colonne n\'est plus figée.') ;
+      this.w(_("MSG_tablelinear_unfreezed")) ;
   freeze_column(this.column()) ;
   return true ;
 }
 
 function linear_hide()
 {
-  this.w("La colonne <i>" + html(this.column().title)
-	 + "</i> est maintenant cachée.") ;
+    this.w(_("MSG_tablelinear_hide_before") + "<i>" + html(this.column().title)
+	   + "</i>" + _("MSG_tablelinear_hide_after")) ;
   this.column().hidden = 1 ;
   this.display() ;
   return true ;
@@ -718,29 +713,7 @@ function linear_suivi()
 
 function linear_help()
 {
-  this.w
-    ('<p>Chaque ligne du tableau contient les informations sur un étudiant. '+
-     '<ul><li>Les touches curseur permettent de se déplacer dans le tableau.'+
-     "<li><kbd>i</kbd> permet de naviguer parmi les informations affichables."+
-     "<li><kbd>a</kbd> affiche une explication sur la valeur affichée."+
-     "<li><kbd>entrée</kbd> permet d'éditer une valeur." +
-     " <kbd>escape</kbd> annule la saisie en cours."+
-     "<li>Si l'on utilise la touche majuscule en même temps qu'une des "+
-     "touches précédentes alors seulement le minimum d'information est "+
-     "affiché."+
-     "<li><kbd>1</kbd> permet de naviguer dans le tableau."+
-     "<li><kbd>2</kbd> permet d'avoir des informations sur les colonnes"+
-     "<li><kbd>3</kbd> permet d'avoir des informations sur le tableau"+
-     "<li><kbd>&gt;</kbd> et <kbd>&lt;</kbd> trient les lignes suivant le contenu de la colonne."+
-     "<li><kbd>.</kbd> fige ou défige la colonne courante. Le contenu des colonnes figées est indiqué quand on change de ligne."+
-     "<li><kbd>x</kbd> cache la colonne courante."+
-     "<li><kbd>f</kbd> édite le filtre de la colonne courante."+
-     "<li><kbd>n</kbd> édite le filtre sur les noms d'étudiant."+
-     "<li><kbd>p</kbd> édite le filtre sur les prénoms d'étudiant."+
-     "<li><kbd>t</kbd> affiche une page imprimable en tenant compte des filtres et des colonnes cachées."+
-     "<li><kbd>s</kbd> ouvre une fenêtre pour faire le suivi de l'étudiant."+
-     "</ul>"
-     ) ;
+  this.w(_("MSG_tablelinear_doc")) ;
   return true ;
 }
 
@@ -818,7 +791,7 @@ function information_change(value)
 function information_is_changeable()
 {
   if ( this.change_value === undefined )
-    return "Cette information n'est pas modifiable." ;
+      return _("MSG_tablelinear_unmodifiable") ;
   return this.changeable() ;
 }
 
@@ -935,7 +908,7 @@ function dispatch(x)
 function dispatch2(x)
 {
   if ( navigator.appName == 'Microsoft Internet Explorer'
-       || navigator.appName.toString().indexOf('Chrome') != -1)
+       || navigator.appVersion.toString().indexOf('Chrome') != -1)
     if ( x.keyCode == 39 || x.keyCode == 37 ||
 	 x.keyCode == 40 || x.keyCode == 38 )
       {

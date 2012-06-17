@@ -2236,25 +2236,25 @@ msgid "MSG_columnstats_empty"
 msgstr "Vide (ou inclassable) : "
 
 msgid "MSG_columnstats_ppn"
-msgstr "Peut Pas Noter : "
+msgstr "Peut Pas Noter"
 
 msgid "MSG_columnstats_abi"
-msgstr "ABI : "
+msgstr "ABI"
 
 msgid "MSG_columnstats_abj"
-msgstr "ABJ : "
+msgstr "ABJ"
 
 msgid "MSG_columnstats_pre"
-msgstr "Présent : "
+msgstr "Présent"
 
 msgid "MSG_columnstats_yes"
-msgstr "OUI :"
+msgstr "OUI"
 
 msgid "MSG_columnstats_no"
-msgstr "NON :"
+msgstr "NON"
 
 msgid "MSG_columnstats_grade"
-msgstr "Notes :"
+msgstr "Notes"
 
 msgid "ALERT_columntitle_unchangeable"
 msgstr "Cette colonne est utilisée dans une formule qui\n"
@@ -2395,10 +2395,276 @@ msgid "ALERT_tableimport"
 msgstr "Je ne trouve pas la description.\n"
        "Les séparateurs qui sont des tabulations ont disparu"
 
+msgid "MSG_tablelinear_not_modifiable"
+msgstr " est un résultat de calcul non modifiable."
 
+msgid "MSG_tablelinear_unmodifiable"
+msgstr "Cette information n'est pas modifiable."
 
+msgid "MSG_tablelinear_value"
+msgstr "Valeur de la cellule."
 
+msgid "LABEL_tablelinear_value"
+msgstr "Valeur"
 
+msgid "ERROR_tablelinear_value_not_modifiable"
+msgstr "La valeur est un résultat de calcul non modifiable."
 
+msgid "TIP_tablelinear_grade_between"
+msgstr "Un note entre "
 
+msgid "TIP_tablelinear_and"
+msgstr " et "
 
+msgid "MSG_tablelinear_value_author"
+msgstr "La dernière personne à avoir modifié la cellule."
+
+msgid "LABEL_tablelinear_value_author"
+msgstr "Auteur"
+
+msgid "LABEL_tablelinear_value_date"
+msgstr "Modifié"
+
+msgid "MSG_tablelinear_value_date"
+msgstr "Date de la dernière modification de la cellule."
+
+msgid "LABEL_tablelinear_value_comment"
+msgstr "Commentaire"
+
+msgid "MSG_tablelinear_value_comment"
+msgstr "Un commentaire associé à la cellule,\n"
+       "les étudiants peuvent voir ce commentaire."
+
+msgid "MSG_tablelinear_table_not_modifiable"
+msgstr "Table non modifiable"
+
+msgid "MSG_tablelinear_registered"
+msgstr "Informations officielles sur l'étudiant."
+
+msgid "MSG_tablelinear_registered_no"
+msgstr "L'étudiant n'est pas inscrit à l'U.E."
+
+msgid "MSG_tablelinear_registered_yes"
+msgstr "Il est inscrit"
+
+msgid "MSG_tablelinear_rank"
+msgstr "Rang de la note dans la colonne."
+
+msgid "LABEL_tablelinear_rank"
+msgstr "Rang"
+
+msgid "MSG_tablelinear_rank_on"
+msgstr " sur "
+
+msgid "LABEL_tablelinear_history"
+msgstr "Historique"
+
+msgid "MSG_tablelinear_history"
+msgstr "L'historique indique les valeurs précédentes\n"
+       "prises par la cellule et qui a fait la modification."
+
+msgid "MSG_tablelinear_column_title"
+msgstr "Titre de la colonne."
+
+msgid "LABEL_tablelinear_column_title"
+msgstr "Titre"
+
+msgid "TIP_tablelinear_column_title"
+msgstr "Le titre ne doit pas contenir d'espace"
+
+msgid "LABEL_tablelinear_column_type"
+msgstr "Type"
+
+msgid "ERROR_tablelinear_column_type"
+msgstr "Les types possibles sont : Note, Prst, Moy, Text, Nmbr, Bool, Max"
+
+msgid "LABEL_tablelinear_column_weight"
+msgstr "Poids"
+
+msgid "MSG_tablelinear_column_weight"
+msgstr "Un nombre flottant indiquant le poids de cette colonne\n"
+       "pour les moyennes pondérées."
+
+msgid "LABEL_tablelinear_column_minmax"
+msgstr "Min Max"
+
+msgid "MSG_tablelinear_column_minmax"
+msgstr "La minimum et le maximum possible pour les notes."
+
+msgid "MSG_tablelinear_column_columns"
+msgstr "Liste des noms de colonnes sur lesquelles porte le calcul."
+
+msgid "LABEL_tablelinear_column_columns"
+msgstr "Colonnes"
+
+msgid "ERROR_tablelinear_column_columns_na"
+msgstr "inutile"
+
+msgid "ERROR_tablelinear_column_columns_na2"
+msgstr "Cette liste est utilisée seulement pour les colonnes\n"
+       "utilisant une formule. Par pour les colonnes de type :"
+       
+msgid "TIP_tablelinear_column_columns"
+msgstr "Noms des colonnes séparées par des espaces"
+
+msgid "MSG_tablelinear_column_comment"
+msgstr "Une explication plus détaillée du titre de la colonne,\n"
+       "cette information est diffusée aux étudiants."
+
+msgid "LABEL_tablelinear_column_comment"
+msgstr "Commentaire"
+
+msgid "TIP_tablelinear_column_comment"
+msgstr "Texte libre."
+
+msgid "MSG_tablelinear_column_emptyis"
+msgstr "Valeur par défaut des cellules vides."
+
+msgid "TIP_tablelinear_column_emptyis"
+msgstr "Un texte libre."
+
+msgid "TIP_tablelinear_column_emptyis_note"
+msgstr "Par exemple <b>0</b> ou <b>ABINJ</b>."
+
+msgid "MSG_tablelinear_column_stats"
+msgstr "Statistiques concernant les notes de la colonne."
+
+msgid "grades"
+msgstr "notes"
+
+msgid "Average"
+msgstr "Moyenne"
+
+msgid "Mediane"
+msgstr "Médiane"
+
+msgid "Standard-deviation"
+msgstr "Écart-type"
+
+msgid "Minimum"
+msgstr "Minimum"
+
+msgid "Maximum"
+msgstr "Maximum"
+
+msgid "MSG_tablelinear_no_grade"
+msgstr "Pas de notes."
+
+msgid "MSG_tablelinear_filter"
+msgstr "Expression imposant une condition sur les lignes du tableau\n"
+       "que l'on veut afficher. "
+
+msgid "MSG_tablelinear_filter_doc"
+msgstr "Documentation sur la syntaxe de l'expression"
+
+msgid "LABEL_tablelinear_filter"
+msgstr "Filtre"
+
+msgid "TIP_tablelinear_filter"
+msgstr "Par exemple <kbd>truc</kbd> pour avoir seulement\n"
+       "ce qui commence par <b>truc</b>."
+
+msgid "MSG_tablelinear_table_stats"
+msgstr "Statistiques."
+
+msgid "MSG_tablelinear_table_lines"
+msgstr " lignes affichées sur "
+
+msgid "MSG_tablelinear_table_comment"
+msgstr "Commentaire sur la table, il est diffusé aux étudiants."
+
+msgid "LABEL_tablelinear_table_comment"
+msgstr "Commentaire"
+
+msgid "ERROR_tablelinear_table_comment"
+msgstr "Seul un responsable de l'U.E peut modifier ce commentaire"
+
+msgid "TIP_tablelinear_table_comment"
+msgstr "Un texte libre."
+
+msgid "MSG_tablelinear_table_masters"
+msgstr "Les responsables de l'U.E."
+
+msgid "LABEL_tablelinear_table_masters"
+msgstr "Responsables"
+
+msgid "ERROR_tablelinear_table_masters"
+msgstr "Seul un responsable de l'U.E peut modifier la liste des responsables."
+
+msgid "TIP_tablelinear_table_masters"
+msgstr "Les logins des responsables de l'U.E séparés par des espaces"
+
+msgid "MSG_tablelinear_welcome"
+msgstr "Appuyez sur <kbd>point d'interrogation</kbd> pour avoir l'aide. "
+
+msgid "MSG_tablelinear_is_empty"
+msgstr " qui est vide"
+
+msgid "MSG_tablelinear_enter_id"
+msgstr "Ligne vide, indiquez le numéro d'étudiant, "
+
+msgid "MSG_tablelinear_nothing_right"
+msgstr "Plus rien à droite."
+
+msgid "MSG_tablelinear_nothing_left"
+msgstr "Plus rien à gauche."
+
+msgid "MSG_tablelinear_nothing_above"
+msgstr "Plus rien au dessus."
+
+msgid "MSG_tablelinear_nothing_under"
+msgstr "Plus rien au dessous."
+
+msgid "MSG_tablelinear_enter_to_edit"
+msgstr " Tapez sur la touche <kbd>entrée</kbd> pour l'éditer."
+
+msgid "MSG_tablelinear_sort_before"
+msgstr "Trie la colonne "
+
+msgid "MSG_tablelinear_sort_after"
+msgstr " dans l'ordre "
+
+msgid "MSG_tablelinear_sort_up"
+msgstr "croissant."
+
+msgid "MSG_tablelinear_sort_down"
+msgstr "décroissant."
+
+msgid "MSG_tablelinear_freezed"
+msgstr "La colonne est maintenant figée."
+
+msgid "MSG_tablelinear_unfreezed"
+msgstr "La colonne n'est plus figée."
+
+msgid "MSG_tablelinear_hide_before"
+msgstr "La colonne "
+
+msgid "MSG_tablelinear_hide_after"
+msgstr " est maintenant cachée."
+
+msgid "MSG_tablelinear_doc"
+msgstr "<p>Chaque ligne du tableau contient les informations sur un étudiant.\n"
+     "<ul><li>Les touches curseur permettent de se déplacer dans le tableau.\n"
+     "<li><kbd>i</kbd> permet de naviguer parmi les informations affichables.\n"
+     "<li><kbd>a</kbd> affiche une explication sur la valeur affichée.\n"
+     "<li><kbd>entrée</kbd> permet d'éditer une valeur.\n" 
+     "    <kbd>escape</kbd> annule la saisie en cours.\n"
+     "<li>Si l'on utilise la touche majuscule en même temps qu'une des\n"
+     "touches précédentes alors seulement le minimum d'information est\n"
+     "affiché.\n"
+     "<li><kbd>1</kbd> permet de naviguer dans le tableau.\n"
+     "<li><kbd>2</kbd> permet d'avoir des informations sur les colonnes\n"
+     "<li><kbd>3</kbd> permet d'avoir des informations sur le tableau\n"
+     "<li><kbd>&gt;</kbd> et <kbd>&lt;</kbd> trient les lignes suivant\n"
+     "     le contenu de la colonne.\n"
+     "<li><kbd>.</kbd> fige ou défige la colonne courante.\n"
+     "    Le contenu des colonnes figées est indiqué\n"
+     "    quand on change de ligne.\n"
+     "<li><kbd>x</kbd> cache la colonne courante.\n"
+     "<li><kbd>f</kbd> édite le filtre de la colonne courante.\n"
+     "<li><kbd>n</kbd> édite le filtre sur les noms d'étudiant.\n"
+     "<li><kbd>p</kbd> édite le filtre sur les prénoms d'étudiant.\n"
+     "<li><kbd>t</kbd> affiche une page imprimable en tenant\n"
+     "    compte des filtres et des colonnes cachées.\n"
+     "<li><kbd>s</kbd> ouvre une fenêtre pour faire le suivi de l'étudiant.\n"
+     "</ul>"

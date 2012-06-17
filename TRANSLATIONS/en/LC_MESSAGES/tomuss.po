@@ -2385,4 +2385,272 @@ msgid "ALERT_tableimport"
 msgstr "I don't find the column parameters.\n"
        "The tabulations used has separator are not present in the text"
 
+msgid "MSG_tablelinear_not_modifiable"
+msgstr " is computed, so it can not be modified."
+
+msgid "MSG_tablelinear_unmodifiable"
+msgstr "This information is not modifiable."
+
+msgid "MSG_tablelinear_value"
+msgstr "Cell value."
+
+msgid "LABEL_tablelinear_value"
+msgstr "Value"
+
+msgid "ERROR_tablelinear_value_not_modifiable"
+msgstr "This value is computed, so it can not be modified."
+
+msgid "TIP_tablelinear_grade_between"
+msgstr "A grade between "
+
+msgid "TIP_tablelinear_and"
+msgstr " and "
+
+msgid "MSG_tablelinear_value_author"
+msgstr "The last user that have modified the cell."
+
+msgid "LABEL_tablelinear_value_author"
+msgstr "Author"
+
+msgid "LABEL_tablelinear_value_date"
+msgstr "Modified"
+
+msgid "MSG_tablelinear_value_date"
+msgstr "Last cell modification date."
+
+msgid "LABEL_tablelinear_value_comment"
+msgstr "Comment"
+
+msgid "MSG_tablelinear_value_comment"
+msgstr "A comment linked to the cell,\n"
+       "the students see this comment."
+
+msgid "MSG_tablelinear_table_not_modifiable"
+msgstr "Unmodifiable table"
+
+msgid "MSG_tablelinear_registered"
+msgstr "Official information about the student."
+
+msgid "MSG_tablelinear_registered_no"
+msgstr "The student is not registered for this UE."
+
+msgid "MSG_tablelinear_registered_yes"
+msgstr "This student is registered."
+
+msgid "MSG_tablelinear_rank"
+msgstr "Rank of the grade in the column."
+
+msgid "LABEL_tablelinear_rank"
+msgstr "Rank"
+
+msgid "MSG_tablelinear_rank_on"
+msgstr " on "
+
+msgid "LABEL_tablelinear_history"
+msgstr "History"
+
+msgid "MSG_tablelinear_history"
+msgstr "The history contains old values taken by the cell,\n"
+       "and who modified the cell and when."
+
+msgid "MSG_tablelinear_column_title"
+msgstr "Column title."
+
+msgid "LABEL_tablelinear_column_title"
+msgstr "Title"
+
+msgid "TIP_tablelinear_column_title"
+msgstr "The title must not contain space"
+
+msgid "LABEL_tablelinear_column_type"
+msgstr "Type"
+
+msgid "ERROR_tablelinear_column_type"
+msgstr "Possible types are: Note, Prst, Moy, Text, Nmbr, Bool, Max"
+
+msgid "LABEL_tablelinear_column_weight"
+msgstr "Weights"
+
+msgid "MSG_tablelinear_column_weight"
+msgstr "The number indicates the weight of this column in weighted average"
+
+msgid "LABEL_tablelinear_column_minmax"
+msgstr "Min Max"
+
+msgid "MSG_tablelinear_column_minmax"
+msgstr "Minimum and maximum grade value."
+
+msgid "MSG_tablelinear_column_columns"
+msgstr "Columns name used to evaluate the formula."
+
+msgid "LABEL_tablelinear_column_columns"
+msgstr "Columns"
+
+msgid "ERROR_tablelinear_column_columns_na"
+msgstr "not applicable"
+
+msgid "ERROR_tablelinear_column_columns_na2"
+msgstr "This column list is used only for column formula.\n"
+       "Not for the columns of type:"
+       
+msgid "TIP_tablelinear_column_columns"
+msgstr "Space separated columns names"
+
+msgid "MSG_tablelinear_column_comment"
+msgstr "A comment about the column,\n"
+       "this comment is visible by the students."
+
+msgid "LABEL_tablelinear_column_comment"
+msgstr "Commentaire"
+
+msgid "TIP_tablelinear_column_comment"
+msgstr "Free text."
+
+msgid "MSG_tablelinear_column_emptyis"
+msgstr "Default value for empty cells."
+
+msgid "TIP_tablelinear_column_emptyis"
+msgstr "A free text."
+
+msgid "TIP_tablelinear_column_emptyis_note"
+msgstr "For example <b>0</b> or <b>ABINJ</b>."
+
+msgid "MSG_tablelinear_column_stats"
+msgstr "Columns statistics."
+
+msgid "grades"
+msgstr "grades"
+
+msgid "Average"
+msgstr "Average"
+
+msgid "Mediane"
+msgstr "Mediane"
+
+msgid "Standard-deviation"
+msgstr "Standard deviation"
+
+msgid "Minimum"
+msgstr "Minimum"
+
+msgid "Maximum"
+msgstr "Maximum"
+
+msgid "MSG_tablelinear_no_grade"
+msgstr "Not a grade."
+
+msgid "MSG_tablelinear_filter"
+msgstr "Filter formula to choose the table lines to display. "
+
+msgid "MSG_tablelinear_filter_doc"
+msgstr "Documentation on filter syntax"
+
+msgid "LABEL_tablelinear_filter"
+msgstr "Filter"
+
+msgid "TIP_tablelinear_filter"
+msgstr "For example <kbd>foo</kbd> to display only\n"
+       "the lines with the cell value starting by <b>foo</b>."
+
+msgid "MSG_tablelinear_table_stats"
+msgstr "Statistics."
+
+msgid "MSG_tablelinear_table_lines"
+msgstr " line displayed on "
+
+msgid "MSG_tablelinear_table_comment"
+msgstr "Table comment, it is visible by the students."
+
+msgid "LABEL_tablelinear_table_comment"
+msgstr "Comment"
+
+msgid "ERROR_tablelinear_table_comment"
+msgstr "Only a table master can change this comment"
+
+msgid "TIP_tablelinear_table_comment"
+msgstr "A free text."
+
+msgid "MSG_tablelinear_table_masters"
+msgstr "The table masters."
+
+msgid "LABEL_tablelinear_table_masters"
+msgstr "Masters"
+
+msgid "ERROR_tablelinear_table_masters"
+msgstr "Only a table master can modify the list of masters."
+
+msgid "TIP_tablelinear_table_masters"
+msgstr "The master logins must be space separated"
+
+msgid "MSG_tablelinear_welcome"
+msgstr "Type an <kbd>interogation mark</kbd> to see the help. "
+
+msgid "MSG_tablelinear_is_empty"
+msgstr " it is empty"
+
+msgid "MSG_tablelinear_enter_id"
+msgstr "Empty line, enter a student number, "
+
+msgid "MSG_tablelinear_nothing_right"
+msgstr "Nothing right."
+
+msgid "MSG_tablelinear_nothing_left"
+msgstr "Nothing left."
+
+msgid "MSG_tablelinear_nothing_above"
+msgstr "Nothing above."
+
+msgid "MSG_tablelinear_nothing_under"
+msgstr "Nothing under."
+
+msgid "MSG_tablelinear_enter_to_edit"
+msgstr " Type <kbd>Enter</kbd> key to edit it."
+
+msgid "MSG_tablelinear_sort_before"
+msgstr "Sort column "
+
+msgid "MSG_tablelinear_sort_after"
+msgstr " in "
+
+msgid "MSG_tablelinear_sort_up"
+msgstr "ascending order."
+
+msgid "MSG_tablelinear_sort_down"
+msgstr "descending order."
+
+msgid "MSG_tablelinear_freezed"
+msgstr "The column is now freezed."
+
+msgid "MSG_tablelinear_unfreezed"
+msgstr "The column is no more freezed."
+
+msgid "MSG_tablelinear_hide_before"
+msgstr "The column "
+
+msgid "MSG_tablelinear_hide_after"
+msgstr " is now hidden."
+
+msgid "MSG_tablelinear_doc"
+msgstr "<p>Each table line contains information about a student.\n"
+     "<ul><li>Cursor keys allows to move in the table.\n"
+     "<li><kbd>i</kbd> allow to change the displayed information.\n"
+     "<li><kbd>a</kbd> display help about the displayed value.\n"
+     "<li><kbd>enter</kbd> to edit the value.\n"
+     "    <kbd>escape</kbd> to cancel the edition.\n"
+     "<li>If 'shift' key is used with these keys,\n"
+     "then only a minimal number of information is displayed.\n"
+     "<li><kbd>1</kbd> allow to see cell informations.\n"
+     "<li><kbd>2</kbd> allow to see column information.\n"
+     "<li><kbd>3</kbd> allow to see table information.\n"
+     "<li><kbd>&gt;</kbd> and <kbd>&lt;</kbd> sort the lines\n"
+     "     using the content of the current column.\n"
+     "<li><kbd>.</kbd> freeze or unfreeze the current column.\n"
+     "    The content of freezed columns is displayed on line change.\n"
+     "<li><kbd>x</kbd> hide the current column.\n"
+     "<li><kbd>f</kbd> edit the filter of current column.\n"
+     "<li><kbd>n</kbd> édit the filter of student surname.\n"
+     "<li><kbd>p</kbd> édit the filter of student firstname.\n"
+     "<li><kbd>t</kbd> display a printable page with filtered lines.\n"
+     "<li><kbd>s</kbd> open a window on the student 'suivi'.\n"
+     "</ul>"
 

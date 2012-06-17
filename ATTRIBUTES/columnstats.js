@@ -155,13 +155,13 @@ function update_histogram_real()
 			+ '<br>' + stats.html_resume()) ;
 
   t = _("MSG_columnstats_empty") + stats.nr_nan() + '<br>' ;
-  if ( stats.nr_ppn() ) t += _("MSG_columnstats_ppn")+stats.nr_ppn()+'<br>';
-  if ( stats.nr_abi() ) t += _("MSG_columnstats_abi")+stats.nr_abi() + '<br>' ;
-  if ( stats.nr_abj() ) t += _("MSG_columnstats_abj")+stats.nr_abj() + '<br>' ;
-  if ( stats.nr_pre() ) t += _("MSG_columnstats_pre")+stats.nr_pre() + '<br>' ;
-  if ( stats.nr_yes() ) t += _("MSG_columnstats_yes")+stats.nr_yes() + '<br>' ;
-  if ( stats.nr_no()  ) t += _("MSG_columnstats_no") +stats.nr_no() + '<br>' ;
-  if ( stats.nr )       t += _("MSG_columnstats_grade") + stats.nr + '<br>' ;
+  if(stats.nr_ppn()) t+=_("MSG_columnstats_ppn")+': '+stats.nr_ppn()+'<br>';
+  if(stats.nr_abi()) t+=_("MSG_columnstats_abi")+': '+stats.nr_abi()+'<br>' ;
+  if(stats.nr_abj()) t+=_("MSG_columnstats_abj")+': '+stats.nr_abj()+'<br>' ;
+  if(stats.nr_pre()) t+=_("MSG_columnstats_pre")+': '+stats.nr_pre()+'<br>' ;
+  if(stats.nr_yes()) t+=_("MSG_columnstats_yes")+': '+stats.nr_yes()+'<br>' ;
+  if(stats.nr_no() ) t+=_("MSG_columnstats_no") +': '+stats.nr_no() +'<br>' ;
+  if(stats.nr )      t+=_("MSG_columnstats_grade")+': '+ stats.nr   +'<br>' ;
 
   // + '\n' : explanation in update_tip_from_value
   update_tip_from_value(t_column_histogram, t + '\n') ;
