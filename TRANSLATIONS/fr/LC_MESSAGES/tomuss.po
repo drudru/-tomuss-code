@@ -2333,8 +2333,18 @@ msgstr "Je veux devenir le référent pédagogique de cet étudiant.\n"
 msgid "MSG_bilan_unknown"
 msgstr "Étudiant inconnu de TOMUSS"
 
+msgid "LINK_change_identity"
+msgstr "Prendre l'identité de : "
 
+msgid "HELP_change_identity"
+msgstr "Pour prendre réellement l'identité de quelqu'un d'autre"
 
+msgid "MSG_change_identity_start"
+msgstr "Début de l'usurpation d'identité"
+
+msgid "MSG_change_identity_done"
+msgstr "Changement d'identité réussi, retournez à la page précédente\n"
+       "pour voir les changements."
 
 
 

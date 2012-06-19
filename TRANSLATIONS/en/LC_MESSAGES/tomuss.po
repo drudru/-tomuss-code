@@ -2316,10 +2316,20 @@ msgid "MSG_bilan_take_student"
 msgstr "I want to become the referent of the student.\n"
        "You can't leave the student, except if another teacher take it."
 
-
 msgid "MSG_bilan_unknown"
 msgstr "This student is unknown of TOMUSS"
 
+msgid "LINK_change_identity"
+msgstr "Take the identity of:"
+
+msgid "HELP_change_identity"
+msgstr "Really take the identity of another user"
+
+msgid "MSG_change_identity_start"
+msgstr "Start identity stealing"
+
+msgid "MSG_change_identity_done"
+msgstr "Identity change done for this ticket, go 'back' to see the new page"
 
 
 

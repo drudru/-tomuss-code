@@ -25,14 +25,14 @@ import utilities
 
 def change_identity(server):
     "Change of identity for this ticket"
-    server.the_file.write("Start identity stealing<br>")
+    server.the_file.write(server._("MSG_change_identity_start") + "<br>")
     server.ticket.__init__(server.ticket.ticket,
                            server.the_path[0],
                            server.ticket.user_ip,
                            server.ticket.user_browser,
                            server.ticket.date)
     authentication.update_ticket(server.ticket)
-    server.the_file.write("Identity change done for this ticket, go 'back' to see the new page")
+    server.the_file.write(server._("MSG_change_identity_done"))
     server.close_connection_now()
     
 
@@ -40,10 +40,7 @@ plugin.Plugin('change_identity', '/change_identity/{*}',
               root=True, function=change_identity,
               keep_open = True,
               launch_thread = True,
-              link=plugin.Link(text='Prendre l\'identité de : <form style="margin:0" action="javascript:var m = document.getElementById(\'new_identity\').value ; window.location=\'/=\'+ticket+\'/change_identity/\' + m"><input id="new_identity" class="search_field" name="x" class="keyword" value="john.doe"></form>',
-                               help="Pour prendre réellement l'identité de quelqu'un d'autre",
-                               url='',
-                               where='debug',
-                               html_class='safe',
+              link=plugin.Link(text='<script>document.write(_("LINK_change_identity"));</script><form style="margin:0" action="javascript:var m = document.getElementById(\'new_identity\').value ; window.location=\'/=\'+ticket+\'/change_identity/\' + m"><input id="new_identity" class="search_field" name="x" class="keyword" value="john.doe"></form>',
+                               url='', where='debug', html_class='safe',
                           )
               )
