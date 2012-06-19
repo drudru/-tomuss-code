@@ -2250,3 +2250,8 @@ msgstr "This value is forbidden because it is yet present "
        
 msgid "ALERT_duplicate_after"
 msgstr " times, the maximum allowed repetition is "
+
+msgid "ALERT_colmunprivate"
+msgstr "If you make this table private, you will be unable to see it.\n"
+       "So, you must add yourself in the table master list."
+

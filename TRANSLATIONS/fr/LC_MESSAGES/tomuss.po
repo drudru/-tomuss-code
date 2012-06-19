@@ -2262,6 +2262,11 @@ msgstr "Vous n'avez pas le droit de saisir cette valeur,\n"
 msgid "ALERT_duplicate_after"
 msgstr " fois, le maximum autorisé est "
 
+msgid "ALERT_colmunprivate"
+msgstr "Vous ne pouvez pas rendre cette table privée car\n"
+       "vous ne pourriez plus la voir.\n"
+       "Commencez par vous ajouter comme étant\n"
+       "un des responsables de cette table"
 
 
 
