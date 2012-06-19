@@ -128,7 +128,7 @@ def home_page(server):
         +'''
 <script src="%s/home2.js" onload="this.onloadDone=true;"></script>
 <link rel="stylesheet" href="%s/home2.css" type="text/css">
-<link href="%s/news.xml" rel="alternate" title="TOMUSS : nouveautés" type="application/rss+xml">
+<link href="%s/news.xml" rel="alternate" title="TOMUSS : News" type="application/rss+xml">
 </HEAD>
 <noscript><h1 style="font-size:400%%;background-color:red; color:white">
     Cette application nécessite que JavaScript soit activé

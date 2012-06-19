@@ -996,7 +996,22 @@ class FakeRequestHandler(BaseHTTPServer.BaseHTTPRequestHandler):
             self.the_sock.close()
         except AttributeError:
             pass
-        
+
+    def _(self, msgid):
+        import document
+        import gettext
+        prefs = document.get_preferences(self.ticket.user_name,
+                                         create_pref=False,
+                                         the_ticket=self.ticket)
+        t = gettext.translation('tomuss', 'LOCAL/TRANSLATIONS',
+                                prefs['language'].split(','))
+        tr = t.gettext(msgid)
+        if tr != msgid:
+            return tr
+        t = gettext.translation('tomuss', 'TRANSLATIONS',
+                                prefs['language'].split(','))
+        return t.gettext(msgid)
+
 
 def start_threads():
     start_new_thread_immortal(print_lock_state_clean_cache, ())

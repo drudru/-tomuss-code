@@ -2300,6 +2300,26 @@ msgstr "Allow to send a message to all the masters of UE of licence.\n"
        "linked to the UE."
 
 
+msgid "MSG_bilan"
+msgstr "This table display informations stored in TOMUSS.\n"
+       "<ul>\n"
+       "<li>If a cell is white or empty,\n"
+       "    the student is in TOMUSS but there is no grades.\n"
+       "<li>Green indicates an attendance or a grade,\n"
+       "    Blue: a justified leave, Red: an injustified leave.\n"
+       "<li>The grade on 20 is the average of ALL the grades\n"
+       "    without taking into accoun the weights.\n"
+       "    <b>It is not the UE grade.</b>\n"
+       "</ul>"
+
+msgid "MSG_bilan_take_student"
+msgstr "I want to become the referent of the student.\n"
+       "You can't leave the student, except if another teacher take it."
+
+
+msgid "MSG_bilan_unknown"
+msgstr "This student is unknown of TOMUSS"
+
 
 
 

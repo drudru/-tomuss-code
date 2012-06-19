@@ -1871,9 +1871,6 @@ msgstr "La première date doit être avant la deuxième"
 msgid "ALERT_bad_login"
 msgstr "Ce login est inconnu : "
 
-msgid "ALERT_bug"
-msgstr "Ce login est inconnu : "
-
 msgid "ALERT_repetition"
 msgstr "Modification non sauvegardée car la valeur\n"
        "a déjà été saisie dans la colonne : "
@@ -2314,11 +2311,27 @@ msgstr "Ceci permettra d'envoyer un message à tous les\n"
        "la liste des étudiants avec des absences justifiées,\n"
        "des dispenses et les tiers temps."
 
+msgid "MSG_bilan"
+msgstr "Le tableau représente les informations stockées par TOMUSS,\n"
+       "des UE où l'étudiant a été inscrit peuvent manquer.\n"
+       "<ul>\n"
+       "<li>Si la case est blanche et vide,\n"
+       "    l'étudiant est inscrit dans TOMUSS mais aucune information\n"
+       "    n'a été saisie.\n"
+       "<li>Le carré de couleur contient : Vert : Présences ou Note.,\n"
+       "    Bleu : Absence justifiée, Rouge : Absence injustifiée\n"
+       "<li>La note sur 20 est une moyenne de TOUTES les notes saisies dans\n"
+       "    TOMUSS sans tenir compte des poids.\n"
+       "    <b>Ce n'est pas la note de l'UE</b>\n"
+       "</ul>"
+
+msgid "MSG_bilan_take_student"
+msgstr "Je veux devenir le référent pédagogique de cet étudiant.\n"
+       "Vous ne pourrez plus vous en séparer sauf si quelqu'un vous le prend."
 
 
-
-
-
+msgid "MSG_bilan_unknown"
+msgstr "Étudiant inconnu de TOMUSS"
 
 
 

@@ -26,6 +26,7 @@ import inscrits
 import configuration
 from referent import students_of_a_teacher
 import files
+import document
 
 files.add('PLUGINS', 'bilan.js')
 files.add('PLUGINS', 'bilan.css')
@@ -39,7 +40,7 @@ def bilan(server):
     v = utilities.manage_key('LOGINS',
                              os.path.join(server.the_student, 'resume'))
     if v is False:
-        server.the_file.write('Étudiant inconnu de TOMUSS')
+        server.the_file.write(server._("MSG_bilan_unknown"))
         return
 
     if server.ticket.is_a_referent \
@@ -49,16 +50,17 @@ def bilan(server):
         i_can_refer = '0'
 
     firstname,surname,mail = inscrits.L_fast.firstname_and_surname_and_mail(server.the_student)
-    server.the_file.write('''<META HTTP-EQUIV="Content-Type" CONTENT="text/html;charset=UTF-8">
+    prefs_table = document.get_preferences(server.ticket.user_name,
+                                           create_pref=False)
+    server.the_file.write(
+        str(document.the_head)
+        + document.translations_init(prefs_table['language'])
+        + '''
 <SCRIPT src="%s/bilan.js"></SCRIPT>
-<SCRIPT src="%s/lib.js"></SCRIPT>
-<SCRIPT src="%s/utilities.js"></SCRIPT>
 <SCRIPT><!--
 ticket = "%s" ;
 bilan("%s","%s",%s,%s,%s,%s,%s,%s,%s) ;
 --></SCRIPT>''' % (
-                              configuration.server_url,
-                              configuration.server_url,
                               configuration.server_url,
                               server.ticket.ticket,
                              server.ticket.ticket, server.the_student, v,
