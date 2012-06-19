@@ -2331,6 +2331,34 @@ msgstr "Start identity stealing"
 msgid "MSG_change_identity_done"
 msgstr "Identity change done for this ticket, go 'back' to see the new page"
 
+msgid "LINK_clean"
+msgstr "Delete empty UE"
+
+msgid "HELP_clean"
+msgstr "Deleted UE are moved in Trash directory.\n"
+       "Avoid this operation because it is slow and\n"
+       "it is important to keep the student registration history.\n"
+       "It is done only in the current chosen year/semester."
+
+msgid "LINK_clean_other"
+msgstr "Delete empty tables"
+
+msgid "HELP_clean_other"
+msgstr "Deleted tables are moved in Trash directory.\n"
+       "Avoid this operation because it is slow.\n"
+       "This operation does not delete UE."
+
+msgid "MSG_clean_other_in_use"
+msgstr "can not be delete because it is in use."
+
+msgid "MSG_clean_other_strange"
+msgstr "not deleted, look the content, it is a strange file."
+
+msgid "MSG_clean_other_done"
+msgstr "Cleaning done"
+
+msgid "MSG_clean_other_deleted"
+msgstr "DELETED"
 
 
 

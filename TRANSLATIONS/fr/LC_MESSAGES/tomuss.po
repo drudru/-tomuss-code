@@ -2346,5 +2346,35 @@ msgid "MSG_change_identity_done"
 msgstr "Changement d'identité réussi, retournez à la page précédente\n"
        "pour voir les changements."
 
+msgid "LINK_clean"
+msgstr "Détruit les UE vides"
+
+msgid "HELP_clean"
+msgstr "Les UE détruites sont mises dans le répertoire Trash.\n"
+       "C'est LENT : il ne faut pas le faire en charge.\n"
+       "Il est préférable de ne pas le faire pour garder\n"
+       "un historique des étudiants inscrits.\n"
+       "Ceci n'est fait que pour les UE du semestre choisi."
+
+msgid "LINK_clean_other"
+msgstr "Détruit les tables vides"
+
+msgid "HELP_clean_other"
+msgstr "Les tables détruites sont mises dans le répertoire Trash.\n"
+       "C'est LENT : il ne faut pas le faire en charge.\n"
+       "Seules les tables complètement vides sont détruites.\n"
+       "Ceci ne détruit pas les UE."
+
+msgid "MSG_clean_other_in_use"
+msgstr "ne peut être détruite car elle est utilisée."
+
+msgid "MSG_clean_other_strange"
+msgstr "pas détruite, regardez le contenu, il est étrange."
+
+msgid "MSG_clean_other_done"
+msgstr "Fin du ménage."
+
+msgid "MSG_clean_other_deleted"
+msgstr "DÉTRUITE"
 
 

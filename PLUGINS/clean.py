@@ -42,15 +42,8 @@ def clean(server):
 
 plugin.Plugin('clean', '/{Y}/{S}/clean', root=True, function=clean,
               link=plugin.Link(
-                  text='Détruit les UE vides',
                   url="javascript:go(\'clean\')",
-                  help="""Les UE détruites sont mises dans le répertoire Trash.
-                  C'est LENT : il ne faut pas le faire en charge.
-                  Il est préférable de ne pas le faire pour garder
-                  un historique des étudiants inscrits.
-                  Ceci n'est fait que pour les UE du semestre choisi.""",
-                  where='root_rw',
-                  html_class='veryunsafe',
+                  where='root_rw', html_class='veryunsafe',
                   )
               )
 
@@ -69,30 +62,22 @@ def clean_other(server):
         ue = '%s : %d col. ' % (table.filename, len(table.columns))
         if len(table.pages) != 0:
             if len(table.active_pages) == 0:
-                ue += 'DELETED'
+                ue += server._("MSG_clean_other_deleted")
                 table.delete()
             else:
-                ue += 'can not be delete because it is in use.'
+                ue += server._("MSG_clean_other_in_use")
         else:
-            ue += 'not deleted, look the content it is a strange file.'
+            ue += server._("MSG_clean_other_strange")
 
         server.the_file.write('<br>' + ue + '<br>\n')
         server.the_file.flush()
 
-    server.the_file.write('<br>Cleaning done\n')
+    server.the_file.write('<br>' + server._("MSG_clean_other_done"))
     server.the_file.flush()
 
 plugin.Plugin('clean_other', '/clean_other', root=True, function=clean_other,
               link=plugin.Link(
-                  text='Détruit les tables vides',
-                  help="""Les tables détruites sont mises dans
-                  le répertoire Trash.
-                  C'est LENT : il ne faut pas le faire en charge.
-                  Seul les tables complètement vides sont détruites.
-                  Ceci ne détruit pas les UE.
-                  """,
-                  where='root_rw',
-                  html_class='veryunsafe',
+                  where='root_rw', html_class='veryunsafe',
                   )
               )
 
