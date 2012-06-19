@@ -2268,6 +2268,59 @@ msgstr "Vous ne pouvez pas rendre cette table privée car\n"
        "Commencez par vous ajouter comme étant\n"
        "un des responsables de cette table"
 
+msgid "LINK_abj"
+msgstr "Modification des ABJ et DA"
+
+msgid "HELP_abj"
+msgstr "Permet d'aller sur la page d'édition des\n"
+       "justificatifs d'absence et des dispenses d'assiduité"
+       
+msgid "LINK_abjalpha"
+msgstr "Récapitulatif ABJ+DA des licences"
+
+msgid "HELP_abjalpha"
+msgstr "Liste les justificatifs d'absence ainsi que les\n"
+       "dispenses d'assiduité qui ont été saisies pour tous\n"
+       "les étudiants de licence."
+
+msgid "LINK_abjalphamaster"
+msgstr "Récapitulatif ABJ+DA des masters"
+
+msgid "HELP_abjalphamaster"
+msgstr "Liste les justificatifs d'absence ainsi que les\n"
+       "dispenses d'assiduité qui ont été saisies pour tous\n"
+       "les étudiants de master."
+
+msgid "LINK_abjalphaepu"
+msgstr "Récapitulatif ABJ+DA de l'EPU"
+
+msgid "HELP_abjalphaepu"
+msgstr "Liste les justificatifs d'absence ainsi que les\n"
+       "dispenses d'assiduité qui ont été saisies pour tous\n"
+       "les étudiants de l'EPU."
+
+msgid "LINK_abjalphaauthor"
+msgstr "Récapitulatif ABJ+DA que vous avez saisies"
+
+msgid "HELP_abjalphaauthor"
+msgstr " "
+
+msgid "LINK_abjlistmail"
+msgstr "Messages aux responsables d'UE de licence"
+
+msgid "HELP_abjlistmail"
+msgstr "Ceci permettra d'envoyer un message à tous les\n"
+       "responsables d'UE de licence en leur indiquant\n"
+       "la liste des étudiants avec des absences justifiées,\n"
+       "des dispenses et les tiers temps."
+
+
+
+
+
+
+
+
 
 
 

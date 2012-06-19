@@ -2255,3 +2255,52 @@ msgid "ALERT_colmunprivate"
 msgstr "If you make this table private, you will be unable to see it.\n"
        "So, you must add yourself in the table master list."
 
+
+msgid "LINK_abj"
+msgstr "ABJ and DA edition"
+
+msgid "HELP_abj"
+msgstr "Go to the page allowing to edit the justified leaves\n"
+       "and the non-attendance authorization."
+       
+msgid "LINK_abjalpha"
+msgstr "Licence: Full ABJ+DA report"
+
+msgid "HELP_abjalpha"
+msgstr "Display a table with all the justified leaves\n"
+       "and non-attendance authorization for the licence students"
+
+msgid "LINK_abjalphamaster"
+msgstr "Masters: Full ABJ+DA report"
+
+msgid "HELP_abjalphamaster"
+msgstr "Display a table with all the justified leaves\n"
+       "and non-attendance authorization for the masters students"
+
+msgid "LINK_abjalphaepu"
+msgstr "EPU: Full ABJ+DA report"
+
+msgid "HELP_abjalphaepu"
+msgstr "Display a table with all the justified leaves\n"
+       "and non-attendance authorization for the EPU students"
+
+msgid "LINK_abjalphaauthor"
+msgstr "ABJ+DA you entered"
+
+msgid "HELP_abjalphaauthor"
+msgstr " "
+
+msgid "LINK_abjlistmail"
+msgstr "Messages for the masters of UE licence"
+
+msgid "HELP_abjlistmail"
+msgstr "Allow to send a message to all the masters of UE of licence.\n"
+       "The message contains a report about justified leaves,\n"
+       "non-attendance authorization and special examination condition,\n"
+       "linked to the UE."
+
+
+
+
+
+

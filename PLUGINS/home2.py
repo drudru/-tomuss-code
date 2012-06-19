@@ -116,7 +116,7 @@ def home_page(server):
         links.append((link.where,
                       link.priority,
                       link.html_class,
-                      link.text or link.plugin.name,
+                      link.text or '',
                       url, target,
                       link.help,
                       p
