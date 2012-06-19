@@ -481,7 +481,8 @@ msgid "ERROR_value_not_modifiable"
 msgstr "Vous n'êtes pas autorisé à modifier cette valeur."
 
 msgid "ERROR_value_system_defined"
-msgstr "Car elle a été définie par le système"
+msgstr "Car elle a été définie par le système,\n"
+       "si elle est fausse il faut prévenir un responsable"
 
 msgid "ERROR_value_defined_by_another_user"
 msgstr "Seule la personne qui a saisie la valeur peut la modifier.\n"
@@ -2220,5 +2221,49 @@ msgstr "importer les données dans TOMUSS"
 
 msgid "MSG_columnimport_title"
 msgstr "Importer dans la colonne : "
+
+msgid "MSG_full_date"
+msgstr "%A %d %B %Y à %H heures %M minutes et %S secondes"
+
+msgid "ALERT_popup"
+msgstr "Vous devez autoriser les 'popup' dans votre navigateur.\n"
+       "TOMUSS ne fonctionnera pas correctement si vous les bloquez.\n"
+       "\n"
+       "Pour les débloquer,\n"
+       "il y a un petit icone vers la droite de l'adresse de la page"
+
+msgid "ALERT_no_mail"
+msgstr "Désolé, votre navigateur n'a pas encore reçu les adresses mails.\n"
+       "Réessayez dans quelques secondes."
+
+msgid "ALERT_copy_mail"
+msgstr "Copiez la liste suivante dans votre logiciel de messagerie :"
+
+msgid "ALERT_copy_mail_microsoft"
+msgstr "Microsoft Windows interdit de lancer automatiquement\n"
+       "le logiciel de messagerie quand il y a trop d'adresses.\n"
+       "Vous êtes donc obligé de recopier la liste en faisant un copié collé."
+
+msgid "ALERT_locked_column"
+msgstr "Cette valeur n'est pas modifiable car les modications\n"
+       "ont été interdites dans cette colonne."
+
+msgid "ALERT_duplicate_id"
+msgstr "Ce numéro d'étudiant existe déjà !"
+
+msgid "ALERT_missing_id"
+msgstr "Vous devez impérativement saisir une valeur dans la\n"
+       "première colonne (le numéro d'étudiant)"
+
+msgid "ALERT_duplicate_before"
+msgstr "Vous n'avez pas le droit de saisir cette valeur,\n"
+       "elle a déjà été saisie "
+       
+msgid "ALERT_duplicate_after"
+msgstr " fois, le maximum autorisé est "
+
+
+
+
 
 

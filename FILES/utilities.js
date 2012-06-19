@@ -232,8 +232,7 @@ function date_full(x)
 {
   if ( x === '' )
     return '' ;
-  return get_date_tomuss(x).formate
-      ('%A %d %B %Y à %H heures %M minutes et %S secondes') ;
+  return get_date_tomuss(x).formate(_("MSG_full_date")) ;
 }
 
 // Code snippet from http://www.quirksmode.org/js/findpos.html
@@ -589,7 +588,7 @@ function window_open(url, replace)
     }
   if ( ! w )
     {
-      alert(allow_popup_message) ;
+      Alert("ALERT_popup") ;
     }
   setTimeout(function() { if ( w.outerHeight === 0 ) popup_blocker = true ;},
 	     500) ;
@@ -636,7 +635,7 @@ function my_mailto(mails, display)
 {
   if ( mails.search('@') == -1 )
     {
-      alert("Désolé, votre navigateur n'a pas encore reçu les adresses mails.\nRéessayez dans quelques secondes.") ;
+      Alert("ALERT_no_mail") ;
       return ;
     }
 
@@ -649,25 +648,12 @@ function my_mailto(mails, display)
       window.location = 'mailto:?bcc=' + mails ;
       return ;
     }
-  var message = "Copiez la liste suivante dans votre logiciel de messagerie :\n\n" ;
+  var message = _("ALERT_copy_mail")  + "\n\n" ;
 
   if ( display === undefined )
-    {
-      message = "Microsoft Windows interdit de lancer automatiquement\nle logiciel de messagerie quand il y a trop d'adresses.\nVous êtes donc obligé de recopier la liste en faisant un copié collé.\n\n" + message ;
-    }
+      message = _("ALERT_copy_mail_microsoft") + "\n\n" + message ;
 
   return new_window(message + mails + '\n\n') ;
-}
-
-function my_csv(csv_content)
-{
-  if ( on_windows() )
-    {
-      new_window("Faites un copié/collé de cette page dans votre tableur\n\n" + csv_content, 'text/csv') ;
-      return ;
-    }
-
-  window.location = 'data:text/csv;utf-8,' + base64(csv_content) ;
 }
 
 /* From Olavi Ivask's Weblog */
@@ -1017,13 +1003,14 @@ function stats_maxmax()
 // The final \n is important : see update_tip_from_value
 function stats_html_resume()
 {
-  return 'Min:&nbsp;' + this.min                 .toFixed(3) + '<br>' +
-    'Max:&nbsp;'      + this.max                 .toFixed(3) + '<br>' +
-    'Moy:&nbsp;<b>'   + this.average()           .toFixed(3) + '</b><br>' +
-    'Méd:&nbsp;'      + this.mediane()           .toFixed(3) + '<br>' +
-    'Var:&nbsp;'      + this.variance()          .toFixed(3) + '<br>' +
-    'É-T:&nbsp;'      + this.standard_deviation().toFixed(3) + '<br>' +
-    'Sum:&nbsp;'      + this.sum                 .toFixed(3) + '\n' ;
+  return
+    _('B_s_minimum') +':&nbsp;'  +this.min                 .toFixed(3)+'<br>' +
+    _('B_s_maximum') +':&nbsp;'  +this.max                 .toFixed(3)+'<br>' +
+    _('B_s_average')+':&nbsp;<b>'+this.average()       .toFixed(3)+'</b><br>' +
+    _('B_s_mediane') +':&nbsp;'  +this.mediane()           .toFixed(3)+'<br>' +
+    _('B_s_variance')+':&nbsp;'  +this.variance()          .toFixed(3)+'<br>' +
+    _('B_s_stddev')  +':&nbsp;'  +this.standard_deviation().toFixed(3)+'<br>' +
+    _('B_s_sum')+' '+this.nr+_('B_s_sum_2')+':&nbsp;'+this.sum.toFixed(3)+'\n';
 }
 
 function stats_normalized_average()
@@ -1270,16 +1257,17 @@ function cell_comment_html()
 function cell_changeable(column)
 {
   if ( ! table_attr.modifiable )
-    return "Cette table a été passée en lecture seulement par son responsable";
+      return _("ERROR_table_read_only") ;
   if ( ! this.is_mine() )
     {
       if ( ! i_am_the_teacher )
-	return "Vous n'avez pas le droit de modifier une valeur saisie par quelqu'un d'autre à moins d'être un responsable de l'UE" ;
+	  return _("ERROR_value_defined_by_another_user") + table_attr.masters;
       if ( this.author === '*')
-	return "Cette valeur n'est pas modifiable car elle est officielle, si elle est fausse il faut prévenir un responsable" ;
+	  return _("ERROR_value_not_modifiable") + '\n'
+	    + _("ERROR_value_system_defined") ;
     }
   if ( column.locked )
-      return "Cette valeur n'est pas modifiable car les modications ont été interdites dans cette colonne." ;
+      return _("ALERT_locked_column") ;
   return true ;
 }
 
@@ -2246,7 +2234,7 @@ function current_change()
 	  if ( value !== '' )
 	    if ( login_to_line_id(value) !== undefined )
 	      {
-		alert("Ce numéro d'étudiant existe déjà !") ;
+		  Alert("ALERT_duplicate_id") ;
 		this.input.value = this.initial_value ;
 		current_change_running = false ;
 		return ;
@@ -2255,7 +2243,7 @@ function current_change()
     }
   if ( this.data_col !== 0 && lines[this.line_id][0].is_empty() && value !=='')
     {
-      alert("Vous devez impérativement saisir une valeur dans la première colonne (le numéro d'étudiant)") ;
+	Alert("ALERT_missing_id") ;
     }
   if ( value !== ''
        && ! modification_allowed_on_this_line(this.line_id,this.data_col))
@@ -2289,9 +2277,8 @@ function current_change()
 	  n++ ;
       if ( n >= Math.abs(this.column.real_repetition) )
 	{
-	  alert("Vous n'avez pas le droit de saisir cette valeur, elle a déjà été saisie "
-		+ n + " fois, le maximum autorisé est "
-		+ Math.abs(this.column.real_repetition)) ;
+	    alert(_("ALERT_duplicate_before") + n + _("ALERT_duplicate_after")
+		  + Math.abs(this.column.real_repetition)) ;
 	  this.input.value = this.initial_value ;
 	  current_change_running = false ;
 	  return ;

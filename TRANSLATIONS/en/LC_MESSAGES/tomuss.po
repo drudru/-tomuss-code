@@ -2213,3 +2213,40 @@ msgstr "import the values in TOMUSS"
 
 msgid "MSG_columnimport_title"
 msgstr "Import values in column: "
+
+msgid "MSG_full_date"
+msgstr "%A %d %B %Y à %H hours %M minutes et %S seconds"
+
+msgid "ALERT_popup"
+msgstr "You must allow popup in your browser.\n"
+       "TOMUSS will not be fully working if they are not allowed.\n"
+       "\n"
+       "To allow popups, there is a small icon near the page address."
+
+msgid "ALERT_no_mail"
+msgstr "sorry, the browser has not yet received the mail adresses.\n"
+       "Retry in a few seconds."
+
+msgid "ALERT_copy_mail"
+msgstr "Copy the following list in your mailer:"
+
+msgid "ALERT_copy_mail_microsoft"
+msgstr "Microsoft Windows forbid to launch automaticaly the mailer\n"
+       "when there is too many addresses.\n"
+       "So, you must do a copy/paste of the adresses."
+
+msgid "ALERT_locked_column"
+msgstr "The column is protected, so values are not modifiable."
+
+msgid "ALERT_duplicate_id"
+msgstr "Duplicate student number."
+
+msgid "ALERT_missing_id"
+msgstr "It is mandatory to indicate a value in the first column,\n"
+       "most of the time, the student ID."
+
+msgid "ALERT_duplicate_before"
+msgstr "This value is forbidden because it is yet present "
+       
+msgid "ALERT_duplicate_after"
+msgstr " times, the maximum allowed repetition is "

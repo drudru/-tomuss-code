@@ -3282,59 +3282,6 @@ function comment_on_change()
 		 input.value, the_current_cell.td) ;
 }
 
-/* CSV */
-
-function csv_cell_coma(x)
-{
-  if ( x.replace === undefined )
-    return x + ',' ; // Number
-  else
-    return '"' + x.replace(/"/g, '""') + '",' ;
-}
-
-function csv_cell_dot_coma(x)
-{
-  if ( x.replace === undefined )
-    return x.toString().replace('.',',') + ';' ; // Number
-  else
-    return '"' + x.replace(/"/g, '""') + '";' ;
-}
-
-function csv(csv_cell)
-{
-  var cols = columns.slice(0, add_empty_columns()) ;
-
-  var s = '' ;
-  for(var data_col in cols)
-    s += csv_cell(columns[data_col].title) ;
-  s += '\r\n' ;
-  for(var data_col in cols)
-    s += csv_cell(columns[data_col].type) ;
-  s += '\r\n' ;
-  for(var data_col in cols)
-    s += csv_cell(columns[data_col].test_filter) ;
-  s += '\r\n' ;
-  for(var data_col in cols)
-    s += csv_cell(columns[data_col].minmax) ;
-  s += '\r\n' ;
-  for(var data_col in cols)
-    s += csv_cell(columns[data_col].weight) ;
-  s += '\r\n' ;
-
-
-  for(var i in filtered_lines)
-    {
-      var line = filtered_lines[i] ;
-      for(var data_col in cols)
-	{
-	  s += csv_cell(line[data_col].value) ;
-	}
-      s += '\r\n' ;
-    }
-
-  my_csv(s) ;
-}
-
 function the_filters()
 {
   var s = "" ;
@@ -3992,7 +3939,7 @@ function runlog(the_columns, the_lines)
 	the_body.childNodes[i].style.display = 'none' ;
     
     if (w)
-      setTimeout(function() { if ( popup_blocker ) { alert(allow_popup_message);popup_blocker=false;}} , 10000) ;
+      setTimeout(function() { if ( popup_blocker ) { Alert("ALERT_popup");popup_blocker=false;}} , 10000) ;
   }
 
   if ( get_option('print-table', 'a') !== 'a' )
