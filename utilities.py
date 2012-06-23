@@ -24,6 +24,7 @@ import re
 import os
 import sys
 import traceback
+import gettext
 import configuration
 import cgi
 import threading
@@ -897,6 +898,27 @@ class Useles(object):
 
 Useles = Useles()
 
+@add_a_lock
+def _(msgid, language=None):
+    "Translate the message (local then global dictionary)"
+    if language is None:
+        language = (configuration.language, )
+    if _.language != language:
+        _.language = language
+        try:
+            _.loc_tr = gettext.translation('tomuss', 'LOCAL/TRANSLATIONS',
+                                           language)
+        except IOError:
+            _.loc_tr = None
+        _.glo_tr = gettext.translation('tomuss', 'TRANSLATIONS', language)
+
+    if _.loc_tr:
+        tr = _.loc_tr.gettext(msgid)
+        if tr != msgid:
+            return tr
+    return _.glo_tr.gettext(msgid)
+
+_.language = None
 
 import BaseHTTPServer
 
@@ -999,18 +1021,10 @@ class FakeRequestHandler(BaseHTTPServer.BaseHTTPRequestHandler):
 
     def _(self, msgid):
         import document
-        import gettext
-        prefs = document.get_preferences(self.ticket.user_name,
-                                         create_pref=False,
-                                         the_ticket=self.ticket)
-        t = gettext.translation('tomuss', 'LOCAL/TRANSLATIONS',
-                                prefs['language'].split(','))
-        tr = t.gettext(msgid)
-        if tr != msgid:
-            return tr
-        t = gettext.translation('tomuss', 'TRANSLATIONS',
-                                prefs['language'].split(','))
-        return t.gettext(msgid)
+        lang = document.get_preferences(self.ticket.user_name,
+                                        create_pref=False,
+                                        the_ticket=self.ticket)["language"]
+        return _(msgid, lang.split(','))
 
 
 def start_threads():

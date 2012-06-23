@@ -144,10 +144,14 @@ def new_page_stat(the_year):
 
 
 def clients(server):
-    """Display client statistics"""
+    """Display client statistics.
+    BUG: The table displayed is the old version, not the new one
+    because the redirect if too fast.
+    A virtual table must be generated: see PLUGIN/resume.py
+    """
     filename = document.table_filename(str(server.the_year),'Stats','clients')
     
-    f = open(filename, "w")
+    f = utilities.AtomicWrite(filename)
     f.write("""# -*- coding: utf8 -*-
 from data import *
 new_page('' ,'*', '', '')

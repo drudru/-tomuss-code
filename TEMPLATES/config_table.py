@@ -108,6 +108,7 @@ variables = {
     "not_teachers": "Accès : Refuse l'accès s'il appartient à l'un de ces groupes",
     "logo": "URL du logo de fond d'écran",
     "suivi_display_more_ue": "Suivi : Si vrai affiche les UE de l'annuaire qui ne sont pas des tables TOMUSS",
+    "language": "Langue utilisée lors de la création des tables pour les titres de colonnes et commentaires.",
     }
 
 def check(table):

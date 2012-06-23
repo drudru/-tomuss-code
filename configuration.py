@@ -91,6 +91,11 @@ def semester_span(year, semester):
 #           http://........./0/Dossiers/config_table
 ###############################################################################
 
+# The language used when creating new tables (for columns, comments...)
+# The users can set their preferred language for the interface,
+# the not the language used for table creation.
+language = 'en'
+
 # The student group is 'ranked' if there is less than 'abinj' (normalized)
 # students not present or noted.
 abinj = 0.25
