@@ -2392,3 +2392,37 @@ msgstr "Nombre de cellules saisies"
 msgid "COL_TITLE_TOTAL"
 msgstr "TOTAL"
 
+msgid "COL_TITLE_type"
+msgstr "Type"
+
+msgid "COL_TITLE_item"
+msgstr "Item"
+
+msgid "COL_COMMENT_IP"
+msgstr "Nombre d'adresses IPs utilisées"
+
+msgid "COL_COMMENT_ID"
+msgstr "Nombre de comptes utilisés"
+
+msgid "COL_TITLE_browser"
+msgstr "Navigateur"
+
+msgid "COL_COMMENT_browser"
+msgstr "Nombre de navigateurs utilisés"
+
+msgid "COL_TITLE_OS"
+msgstr "OS"
+
+msgid "COL_COMMENT_OS"
+msgstr "Nombre de système d'exploitation utilisés"
+
+msgid "COL_TITLE_page"
+msgstr "Page"
+
+msgid "COL_COMMENT_page"
+msgstr "Nombre de pages affichées"
+
+msgid "TABLE_COMMENT_client"
+msgstr "Statistiques sur les navigateurs web"
+
+

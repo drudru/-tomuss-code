@@ -2375,3 +2375,36 @@ msgstr "Number of entered cells"
 msgid "COL_TITLE_TOTAL"
 msgstr "TOTAL"
 
+msgid "COL_TITLE_type"
+msgstr "Type"
+
+msgid "COL_TITLE_item"
+msgstr "Item"
+
+msgid "COL_COMMENT_IP"
+msgstr "Number of IP address used"
+
+msgid "COL_COMMENT_ID"
+msgstr "Number of login ID used"
+
+msgid "COL_TITLE_browser"
+msgstr "Browser"
+
+msgid "COL_COMMENT_browser"
+msgstr "Number of browser used"
+
+msgid "COL_TITLE_OS"
+msgstr "OS"
+
+msgid "COL_COMMENT_OS"
+msgstr "Number of operating systems used"
+
+msgid "COL_TITLE_page"
+msgstr "Page"
+
+msgid "COL_COMMENT_page"
+msgstr "Number of displayed pages"
+
+msgid "TABLE_COMMENT_client"
+msgstr "Web browsers statistics"
+

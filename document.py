@@ -1514,11 +1514,23 @@ def virtual_table(server, the_columns, the_lines, table_attrs={}, js=""):
     """Send the table to the browser without storage.
     Do not use in a not threaded plugin.
     """
+    if not hasattr(server, "year"):
+        server.year = server.the_year
+    if not hasattr(server, "semester"):
+        if hasattr(server, 'the_semester'):
+            server.semester = server.the_semester
+        else:
+            server.semester = "?"
+    class TMP:
+        pass
+    tmp = TMP()
+    tmp.__dict__ = table_attrs
+    
     server.the_file.write(table_head(server.year,
                                      server.semester,
                                      server.ticket.ticket,
                                      create_pref = False,
-                                     attrs_from=table_attrs,
+                                     attrs_from=tmp,
                                      user_name=server.ticket.user_name
                                      )
                           )
