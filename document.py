@@ -1510,6 +1510,46 @@ def update_computed_values_slow():
             for col in the_table.columns.use(a_column):
                 col.type.update_all(the_table, col)
 
+def virtual_table(server, the_columns, the_lines, table_attrs={}, js=""):
+    """Send the table to the browser without storage.
+    Do not use in a not threaded plugin.
+    """
+    server.the_file.write(table_head(server.year,
+                                     server.semester,
+                                     server.ticket.ticket,
+                                     create_pref = False,
+                                     attrs_from=table_attrs,
+                                     user_name=server.ticket.user_name
+                                     )
+                          )
+    lines = []
+    for i, line in enumerate(the_lines):
+        lines.append('"%d": %s' % (i, line.js()))
+    lines = '{' + ',\n'.join(lines) + '}'
+    columns = '[' + ',\n'.join([column.js(hide=False)
+                                for column in the_columns]) + ']'
+    server.the_file.write("""
+    <script>
+    %s
+    %s
+    function initialize()
+    {
+    if ( ! wait_scripts("initialize()") )
+               return ;
+    document.write(head_html()) ;
+    insert_middle();
+    columns = %s ;
+    lines = %s ;
+    document.write(tail_html()) ;
+    table_attr.table_title = %s ;
+    runlog(columns, lines) ;
+    }
+    initialize() ;
+    </script>
+    """ % (utilities.wait_scripts(),
+           js, columns, lines, utilities.js(repr(server.the_path)) ))
+    server.close_connection_now()
+                
 def start_threads():
     utilities.start_new_thread_immortal(check_new_students, ())
     utilities.start_new_thread_immortal(check_students_in_tables, ())

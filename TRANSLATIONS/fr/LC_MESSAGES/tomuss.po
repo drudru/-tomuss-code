@@ -2377,4 +2377,18 @@ msgstr "Fin du ménage."
 msgid "MSG_clean_other_deleted"
 msgstr "DÉTRUITE"
 
+msgid "COL_TITLE_ID"
+msgstr "ID"
+
+msgid "COL_TITLE_firstname"
+msgstr "Prénom"
+
+msgid "COL_TITLE_surname"
+msgstr "Nom"
+
+msgid "COL_COMMENT_nb_cells_entered"
+msgstr "Nombre de cellules saisies"
+
+msgid "COL_TITLE_TOTAL"
+msgstr "TOTAL"
 

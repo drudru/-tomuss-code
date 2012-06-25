@@ -20,39 +20,27 @@
 #    Contact: Thierry.EXCOFFIER@bat710.univ-lyon1.fr
 
 import plugin
-import utilities
-import configuration
 import document
 import column
 import plugins
 import TEMPLATES._ucbl_
+from cell import CellEmpty, CellValue, Line
 
 class Stat(object):
     def __init__(self, login):
         self.login = login
         self.tables = {}
 
-class Resume():
-    default_sort_column = 2
-
 def resume(server):
     """Resume the number of cells used in the given tables"""
-    server.the_file.write(document.table_head(server.year,
-                                              server.semester,
-                                              server.ticket.ticket,
-                                              create_pref = False,
-                                              attrs_from=Resume(),
-                                              user_name=server.ticket.user_name
-                                              ) +
-                          '<script>' +
-                          TEMPLATES._ucbl_.update_student_information +
-         ";\ndocument.write(head_html()); insert_middle();</script>")
-                          
     logins = {}
     columns = [
-        column.Column('c0', '', freezed='F', position=0, title='ID'),
-        column.Column('c1', '', freezed='F', position=1, title='Prénom'),
-        column.Column('c2', '', freezed='F', position=2, title='Nom'),
+        column.Column('c0', '', freezed='F', position=0,
+                      title=server._('COL_TITLE_ID')),
+        column.Column('c1', '', freezed='F', position=1,
+                      title=server._('COL_TITLE_firstname')),
+        column.Column('c2', '', freezed='F', position=2,
+                      title=server._('COL_TITLE_surname')),
         ]
     i = 4
     for table in server.the_path:
@@ -60,15 +48,16 @@ def resume(server):
                            create=False, ro=True)
         if t == None:
             continue
-        columns.append(column.Column('c%d' % i, '',
-                                     position=i,
-                                     title=table,
-                                     weight='+1',
-                                     type="Note",
-                                     test='[0;NaN]',
-                                     empty_is=0,
-                                     comment='Nombre de cellules saisies',
-                                     ))
+        columns.append(
+            column.Column('c%d' % i, '',
+                          position=i,
+                          title=table,
+                          weight='+1',
+                          type="Note",
+                          test='[0;NaN]',
+                          empty_is="0",
+                          comment=server._('COL_COMMENT_nb_cells_entered'),
+                          ))
         i += 1
         for line in t.lines.values():
             login = line[0].value
@@ -83,7 +72,8 @@ def resume(server):
                      if cell.value != '' and cell.value != 'ABINJ']),
                 )
     columns.append(
-        column.Column('c3', '', position=2, title='TOTAL',
+        column.Column('c3', '', position=2,
+                      title=server._('COL_TITLE_TOTAL'),
                       type="Moy",                      
                       weight='1',
                       columns=' '.join([c.title for c in columns[3:]]),
@@ -94,32 +84,22 @@ def resume(server):
     # Why the 'type' attribute does not work like the others ?
     columns[-1].type = plugins.types['Moy']
 
-
     lines = []
-    for i, stat in enumerate(logins.values()):
-        lines.append('"%d": [C(' % i  + utilities.js(stat.login)
-                     + '),C(' + utilities.js(stat.surname)
-                     + '),C(' + utilities.js(stat.name)
-                     + '),' +
-                     ','.join(['C(%s)' % stat.tables.get(col.title,('',))[0]
-                      for col in columns[3:]])
-                     + ',C()]')
-    lines = '{' + ',\n'.join(lines) + '}'
-    columns = '[' + ',\n'.join([col.js(hide=False) for col in columns]) + ']'
+    for stat in logins.values():
+        line = [CellValue(stat.login),
+                CellValue(stat.surname),
+                CellValue(stat.name)]
+        for col in columns[3:]:
+            line.append(CellValue(stat.tables.get(col.title,('',))[0]))
+            
+        # line.append(CellEmpty())
+        lines.append(Line(line))
+
+    document.virtual_table(server, columns, lines,
+                           table_attrs={
+            'default_sort_column': 2,
+            }, js=TEMPLATES._ucbl_.update_student_information)
     
-    server.the_file.write("""
-    <script>
-    columns = %s ;
-    lines = %s ;
-    document.write(tail_html()) ;
-
-    table_attr.table_title = %s ;
-    runlog(columns, lines) ;
-    </script>
-    """ % (columns, lines, utilities.js(repr(server.the_path)) ))
-    server.close_connection_now()
-
-
 plugin.Plugin('resume', '/resume/{*}',
               function=resume, teacher=True,
               keep_open = True,
