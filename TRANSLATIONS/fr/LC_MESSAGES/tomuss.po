@@ -1284,7 +1284,7 @@ msgid "B_print_attr_enumeration"
 msgstr "Énumération"
 
 msgid "B_print_attr_test_filter"
-msgstr "Fitre comptage"
+msgstr "Filtre comptage"
 
 msgid "B_print_attr_visibility_date"
 msgstr "Date de visibilité"

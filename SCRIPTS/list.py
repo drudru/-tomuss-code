@@ -68,12 +68,7 @@ if sys.argv[1] == 'checkmail':
         print d, dom[d].encode('utf-8')
     for k, v in bad.items():
         print k.encode('utf-8'), v
-                    
-                
     sys.exit(0)
-    
-
-
 
 q = L.query("(" + s + ")", attributes=(), base=configuration.ou_top)
 
