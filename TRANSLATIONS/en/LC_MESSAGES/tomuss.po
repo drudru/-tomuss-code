@@ -2408,3 +2408,8 @@ msgstr "Number of displayed pages"
 msgid "TABLE_COMMENT_client"
 msgstr "Web browsers statistics"
 
+msgid "LINK_clients"
+msgstr "Browser statistics"
+
+msgid "HELP_clients"
+msgstr "About browser, OS, IP adresses. Really not fine for privacy"

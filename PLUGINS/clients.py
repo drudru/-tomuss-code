@@ -179,7 +179,7 @@ def clients(server):
         return repr(', '.join(['%s:%d' % (k,v) for k, v in d.items()]))
 
     lines = []
-    for i, t in enumerate(oss):
+    for t in oss:
         s = oss[t]
         lines.append(cell.Line((
                 cell.CellValue(s.what),
@@ -195,11 +195,7 @@ def clients(server):
 plugin.Plugin('clients', '/clients/{Y}',
               function=clients,
               root=True,
-              link=plugin.Link(text="Statistiques clients",
-                               help="""Sur les navigateurs,
-                               les systèmes d'exploitation et les adresses IP.
-                               C'est pas très bien pour la vie privée.""",
-                               html_class="verysafe",
+              link=plugin.Link(html_class="verysafe",
                                where="informations",
                                url="javascript:go_year_after('clients')"
                                ),

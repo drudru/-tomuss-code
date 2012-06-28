@@ -2425,4 +2425,9 @@ msgstr "Nombre de pages affichées"
 msgid "TABLE_COMMENT_client"
 msgstr "Statistiques sur les navigateurs web"
 
+msgid "LINK_clients"
+msgstr "Statistiques clients"
 
+msgid "HELP_clients"
+msgstr "Sur les navigateurs, les systèmes d'exploitation et adresses IP.\n"
+       "C'est pas très bien pour la vie privée."
