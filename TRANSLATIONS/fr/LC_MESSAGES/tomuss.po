@@ -2431,3 +2431,62 @@ msgstr "Statistiques clients"
 msgid "HELP_clients"
 msgstr "Sur les navigateurs, les systèmes d'exploitation et adresses IP.\n"
        "C'est pas très bien pour la vie privée."
+
+msgid "MSG_evaluate"
+msgstr "Action interdite dans le mode démonstration."
+
+msgid "LINK_gctop"
+msgstr "Affiche les objets python en mémoire"
+
+msgid "HELP_gctop"
+msgstr "Utile pour trouver les fuites mémoire"
+
+msgid "MSG_cache_title"
+msgstr "Cache TOMUSS"
+
+msgid "TH_cache_name"
+msgstr "Name"
+
+msgid "TH_cache_what"
+msgstr "What"
+
+msgid "TH_cache_type"
+msgstr "Type"
+
+msgid "TH_cache_age"
+msgstr "Age x:minutes y:log(nr_items)"
+
+msgid "TH_cache_maxage"
+msgstr "Max Age"
+
+msgid "TH_cache_content"
+msgstr "Contenu"
+
+msgid "MSG_cache_size"
+msgstr "of size %d"
+
+msgid "LINK_caches"
+msgstr "Affiche les caches"
+
+msgid "HELP_caches"
+msgstr "Utile pour trouver les fuites mémoire"
+
+msgid "MSG_locks_title"
+msgstr "Verrous TOMUSS"
+
+msgid "LINK_locks"
+msgstr "Affiche les verrous"
+
+msgid "HELP_locks"
+msgstr "Utile pour trouver ce qui bloque"
+
+msgid "MSG_threads_title"
+msgstr "Threads TOMUSS"
+
+msgid "LINK_threads"
+msgstr "Affiche les threads"
+
+msgid "HELP_threads"
+msgstr "Utile pour trouver ce qui charge"
+
+

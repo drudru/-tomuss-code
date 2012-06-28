@@ -25,7 +25,7 @@ import configuration
 def evaluate(server):
     """Evaluate a Python statement and display result"""
     if configuration.regtest:
-        server.the_file.write('Action not allowed in demo mode')
+        server.the_file.write(server._("MSG_evaluate"))
     else:
         server.the_file.write( repr(eval('/'.join(server.the_path))) )
 

@@ -2413,3 +2413,62 @@ msgstr "Browser statistics"
 
 msgid "HELP_clients"
 msgstr "About browser, OS, IP adresses. Really not fine for privacy"
+
+msgid "MSG_evaluate"
+msgstr "Action not allowed in demo mode."
+
+msgid "LINK_gctop"
+msgstr "Dislay Python object in memory"
+
+msgid "HELP_gctop"
+msgstr "Useful to find memory leaks"
+
+msgid "MSG_cache_title"
+msgstr "Cache TOMUSS"
+
+msgid "TH_cache_name"
+msgstr "Name"
+
+msgid "TH_cache_what"
+msgstr "What"
+
+msgid "TH_cache_type"
+msgstr "Type"
+
+msgid "TH_cache_age"
+msgstr "Age x:minutes y:log(nr_items)"
+
+msgid "TH_cache_maxage"
+msgstr "Max Age"
+
+msgid "TH_cache_content"
+msgstr "Content"
+
+msgid "MSG_cache_size"
+msgstr "of size %d"
+
+msgid "LINK_caches"
+msgstr "Display the caches"
+
+msgid "HELP_caches"
+msgstr "Useful to find memory leaks"
+
+msgid "MSG_locks_title"
+msgstr "TOMUSS locks"
+
+msgid "LINK_locks"
+msgstr "Display locks"
+
+msgid "HELP_locks"
+msgstr "Useful to find what is locked"
+
+msgid "MSG_threads_title"
+msgstr "TOMUSS threads"
+
+msgid "LINK_threads"
+msgstr "Display the threads"
+
+msgid "HELP_threads"
+msgstr "Useful to find is loading the CPU"
+
+
