@@ -2489,4 +2489,6 @@ msgstr "Affiche les threads"
 msgid "HELP_threads"
 msgstr "Utile pour trouver ce qui charge"
 
+msgid "MSG_need_javascript"
+msgstr "Cette application nécessite que JavaScript soit activé"
 

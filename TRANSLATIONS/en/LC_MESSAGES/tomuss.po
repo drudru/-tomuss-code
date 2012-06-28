@@ -2471,4 +2471,7 @@ msgstr "Display the threads"
 msgid "HELP_threads"
 msgstr "Useful to find is loading the CPU"
 
+msgid "MSG_need_javascript"
+msgstr "Javascript is needed for this application"
+
 
