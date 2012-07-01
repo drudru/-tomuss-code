@@ -2559,6 +2559,82 @@ msgstr "On ne peut pas détruire une table non modifiable."
 msgid "MSG_delete_this_table_done"
 msgstr "La destruction a été faite."
 
+msgid "COL_TITLE_service"
+msgstr "Service"
+
+msgid "COL_TITLE_plugin"
+msgstr "Plugin"
+
+msgid "COL_TITLE_avg"
+msgstr "Moy"
+
+msgid "COL_COMMENT_avg"
+msgstr "Temps de réponse moyen du plugin en millisecondes"
+
+msgid "COL_TITLE_avg/med"
+msgstr "Moy/Méd"
+
+msgid "COL_COMMENT_avg/med"
+msgstr "Moyenne divisée par la médiane"
+
+msgid "COL_TITLE_min"
+msgstr "Min"
+
+msgid "COL_COMMENT_min"
+msgstr "Temps de réponse minimal du plugin en millisecondes"
+
+msgid "COL_TITLE_max"
+msgstr "Max"
+
+msgid "COL_COMMENT_max"
+msgstr "Temps de réponse maximal du plugin en millisecondes"
+
+msgid "COL_TITLE_total"
+msgstr "Total"
+
+msgid "COL_COMMENT_total"
+msgstr "Temps de réponse cumulé pour le plugin en secondes"
+
+msgid "COL_TITLE_call"
+msgstr "#Appel"
+
+msgid "COL_COMMENT_call"
+msgstr "Nombre d'utilisations du plugin"
+
+msgid "COL_TITLE_batch"
+msgstr "Batch"
+
+msgid "COL_COMMENT_batch"
+msgstr "Lancé en arrière plan"
+
+msgid "COL_TITLE_slow"
+msgstr "Lenteurs"
+
+msgid "COL_COMMENT_slow"
+msgstr "Pourcentage de requêtes prenant plus de 4 fois le temps moyen"
+
+msgid "COL_TITLE_when"
+msgstr "Quand"
+
+msgid "COL_COMMENT_when"
+msgstr "Statistiques calculées sur la durée indiquée"
+
+msgid "TABLE_COMMENT_profiling"
+msgstr "Profiling des plugins"
+
+msgid "LINK_profiling"
+msgstr "Profiling des plugins"
+
+msgid "HELP_profiling"
+msgstr "Calcule des performances des différents plugins TOMUSS"
+
+
+
+
+
+
+
+
 
 
 

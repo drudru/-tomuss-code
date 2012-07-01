@@ -2536,3 +2536,73 @@ msgstr "Unmodifiable table are not deletable."
 
 msgid "MSG_delete_this_table_done"
 msgstr "Deletion done."
+
+msgid "COL_TITLE_service"
+msgstr "Service"
+
+msgid "COL_TITLE_plugin"
+msgstr "Plugin"
+
+msgid "COL_TITLE_avg"
+msgstr "Avg"
+
+msgid "COL_COMMENT_avg"
+msgstr "Average answer time in milliseconds"
+
+msgid "COL_TITLE_avg/med"
+msgstr "Avg/Med"
+
+msgid "COL_COMMENT_avg/med"
+msgstr "Average divided by mediane"
+
+msgid "COL_TITLE_min"
+msgstr "Min"
+
+msgid "COL_COMMENT_min"
+msgstr "Minimum response time in milliseconds"
+
+msgid "COL_TITLE_max"
+msgstr "Max"
+
+msgid "COL_COMMENT_max"
+msgstr "Maximum response time in milliseconds"
+
+msgid "COL_TITLE_total"
+msgstr "Total"
+
+msgid "COL_COMMENT_total"
+msgstr "Cumulated response time for the plugin in seconds"
+
+msgid "COL_TITLE_call"
+msgstr "#Call"
+
+msgid "COL_COMMENT_call"
+msgstr "Number of plugin call"
+
+msgid "COL_TITLE_batch"
+msgstr "Batch"
+
+msgid "COL_COMMENT_batch"
+msgstr "The plugin run in background"
+
+msgid "COL_TITLE_slow"
+msgstr "Slow"
+
+msgid "COL_COMMENT_slow"
+msgstr "Percent of request taking more than 4 time the average time"
+
+msgid "COL_TITLE_when"
+msgstr "When"
+
+msgid "COL_COMMENT_when"
+msgstr "The statistics are computed on the indicated duration"
+
+msgid "TABLE_COMMENT_profiling"
+msgstr "Plugins profiling"
+
+msgid "LINK_profiling"
+msgstr "Plugins profiling"
+
+msgid "HELP_profiling"
+msgstr "Compute the plugin response time"
+
