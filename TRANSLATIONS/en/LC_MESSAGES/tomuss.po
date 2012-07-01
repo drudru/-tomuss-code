@@ -2474,4 +2474,34 @@ msgstr "Useful to find is loading the CPU"
 msgid "MSG_need_javascript"
 msgstr "Javascript is needed for this application"
 
+msgid "LINK_live_log"
+msgstr "Live log"
 
+msgid "HELP_live_log"
+msgstr "Real time display of logs"
+
+msgid "LINK_live_status_svg"
+msgstr "Graphic state"
+
+msgid "HELP_live_status_svg"
+msgstr "Real time graphic display of logs"
+
+msgid "LINK_master_of"
+msgstr "Recompute masters index"
+
+msgid "HELP_master_of"
+msgstr "To use only in cas of.\n"
+       "It will compute for each user the list of table\n"
+       "for which he is a master."
+
+msgid "MSG_new_page_unauthorized"
+msgstr "<h1>You are not allowed to edit this table</h1>\n"
+       "<p>It contains confidential data that can not be displayed to anybody."
+
+msgid "MSG_new_page_in_past"
+msgstr " does not exist, and it is not possible to create table in the past."
+
+msgid "ALERT_new_page_too_old"
+msgstr "Too old page: reload it.\n"
+       "If your browser is modern; you will not loose data\n"
+       "if automatic saving is activated."

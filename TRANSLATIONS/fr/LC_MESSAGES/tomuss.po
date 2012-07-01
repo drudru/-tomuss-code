@@ -2492,3 +2492,37 @@ msgstr "Utile pour trouver ce qui charge"
 msgid "MSG_need_javascript"
 msgstr "Cette application nécessite que JavaScript soit activé"
 
+msgid "LINK_live_log"
+msgstr "Live log"
+
+msgid "HELP_live_log"
+msgstr "Affiche en temps réel le fichier de log"
+
+msgid "LINK_live_status_svg"
+msgstr "Live status"
+
+msgid "HELP_live_status_svg"
+msgstr "Affichage graphique temps réel de TOMUSS"
+
+msgid "LINK_master_of"
+msgstr "Réinitialise responsables"
+
+msgid "HELP_master_of"
+msgstr "À utiliser seulement en cas de bug.\n"
+       "Ceci recalcule pour chaque utilisateur la\n"
+       "liste des tables dont il est responsable.\n"
+       "Ceci est normalement inutile."
+
+msgid "MSG_new_page_unauthorized"
+msgstr "<h1>Vous n'êtes pas autorisé à éditer cette table</h1>\n"
+       "<p>Cette table contient des données confidentielles\n"
+       "ne pouvant être diffusées à tout le monde."
+
+msgid "MSG_new_page_in_past"
+msgstr " n'existe pas, et il n'est pas possible de créer\n"
+       "des tables dans le passé."
+
+msgid "ALERT_new_page_too_old"
+msgstr "Votre page est trop vieille, réactualisez la.\n"
+       "Si votre navigateur est récent, vous ne perdrez aucune donnée\n"
+       "si la sauvegarde automatique est bien activée."

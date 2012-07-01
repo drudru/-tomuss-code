@@ -35,7 +35,7 @@ def log(server):
     if server.the_path[0] not in ('help',):
         return
     text = '/'.join(server.the_path[1:]) + '\n'
-    # Not process safe
+    # XXX Not process safe
     f = open(os.path.join('LOGS','help'), 'a')
     f.write(text[:100])
     f.close()

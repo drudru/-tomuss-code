@@ -112,20 +112,21 @@ def new_page(server):
                                      server.the_ue, None, server.ticket,
                                      do_not_unload=1)
     except IOError:
-        server.the_file.write(files["error.html"])
+        server.the_file.write(server._("TIP_violet_square"))
         server.close_connection_now()
         utilities.send_backtrace(repr(server.the_path), 'Newpage IOError')
         return
 
     if table == None:
-        server.the_file.write(files["unauthorized.html"])
+        server.the_file.write(server._("MSG_new_page_unauthorized"))
         server.close_connection_now()
         warn('No Table', what="error")
         return
 
     if not table.on_disc:
-        server.the_file.write("%s/%s/%s n'existe pas, et il n'est pas possible de créer des tables dans le passé." % (
+        server.the_file.write("%s/%s/%s" % (
                 server.the_year, server.the_semester, server.the_ue))
+        server.the_file.write(server._("MSG_new_page_in_past"))
         server.close_connection_now()
         return
 
@@ -245,7 +246,7 @@ def answer_page(server):
 if (window.parent.click_to_revalidate_ticket)
       window.parent.click_to_revalidate_ticket() ;
 else
-      alert("Votre page est trop vieille, réactualisez la. Si votre navigateur est récent vous ne perdrez aucune donnée si 'AutoSauve' est bien activé.") ;
+      Alert("ALERT_new_page_too_old") ;
 </script>''')
         server.close_connection_now()
         return

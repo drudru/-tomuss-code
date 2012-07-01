@@ -60,25 +60,11 @@ def master_of(server):
                              content = repr(tables)
                              )
 
-def message(pplugin, server):
-    """Display the link to the master_of initialisation"""
-    return '<a target="_blank" href="=%s/%s"><b>NE PAS UTILISER</b> : réinitialise complètement la liste des UE dont on est responsable</a>. A utiliser seulement en cas de bugs.' % (
-        server.ticket.ticket, pplugin.url[0])
-
-
 plugin.Plugin('master_of', '/master_of',
               function=master_of,
               root=True,
               launch_thread = True,
-              link=plugin.Link(text='Réinitialise responsables',
-                               help="""À utiliser seulement en cas de bug.
-                               Ceci recalcule pour chaque utilisateur la
-                               liste des tables dont il est responsable.
-                               Ceci est normalement inutile.""",
-                               html_class="veryunsafe",
-                               priority=100,
-                               where='root_rw',
-                               ),
+              link=plugin.Link(html_class="veryunsafe", where='root_rw',
+                               priority=100),
               )
-
 
