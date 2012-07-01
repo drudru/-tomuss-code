@@ -4253,7 +4253,7 @@ function javascript_regtest_ue()
 
   var start_test = millisec() ;
 
-  var col_types=['Note','Moy' ,'Nmbr','Bool','Date'] ;
+  var col_types=['Note', 'Moy', 'Nmbr', 'Bool', 'Date'] ;
   var col_types2 = [] ;
   for(var i in col_types)
     col_types2.push(_("B_" + col_types[i])) ;
@@ -4298,7 +4298,7 @@ function javascript_regtest_ue()
   var t_column_type        = document.getElementById('t_column_type'       );
 
   set(t_column_title, 'Saisie') ;
-  set(t_column_type, 'Texte libre') ;
+  set(t_column_type, _('Text')) ;
   the_current_cell.cursor_right() ;
   expected('');
 
@@ -4306,31 +4306,10 @@ function javascript_regtest_ue()
     {
       var col_type = col_types[col_type2] ;
       set(t_column_title, col_type) ;
-      /*
-      if ( columns[col_type2].title != col_type )
-	{
-	  alert_real('Browser Bug: Title') ;
-	  return ;
-	}
-      */
       set(t_column_type, col_types2[col_type2]) ;
-      /*
-      if ( columns[col_type2].type != col_types2[col_type2] )
-	{
-	  alert_real('Browser Bug: Type') ;
-	  return ;
-	}
-      */
       if ( col_type == 'Moy' )
 	{
 	  set(t_column_columns, 'Note AttendueNote') ;
-	  /*
-	  if ( columns[col_type2].average_from != ['Note','AttendueNote'] )
-	    {
-	      alert_real('Browser Bug: average columns') ;
-	      return ;
-	    }
-	  */
 	}
       if ( col_type == 'Nmbr' )
 	{
@@ -4340,7 +4319,7 @@ function javascript_regtest_ue()
 
       the_current_cell.cursor_right() ;
       set(t_column_title, 'Attendue' + col_type) ;
-      set(t_column_type, 'Texte libre') ;
+      set(t_column_type, _('Text')) ;
       the_current_cell.cursor_right() ;
     }
   expected('');
@@ -4388,7 +4367,7 @@ function javascript_regtest_ue()
   expected('');
 
   cell_goto(table.childNodes[nr_headers].childNodes[11]) ;
-  set(t_column_type, 'Texte libre') ;
+  set(t_column_type, _('Text')) ;
   import_column() ;
   popup_set_value('p PP\ni II\nj JJ') ;
   import_column_do() ;
@@ -4404,7 +4383,7 @@ function javascript_regtest_ue()
   if ( the_current_cell.column.title != default_title + '12' )
     alert_real('Non empty column destroyed') ;
 
-  expected('On%20peut%20seulement%20d%E9truire%20des%20colonnes%20vides.%0A%0AVous%20devez%20donc%20d%27abord%20vider%20la%20colonne%20en%20cliquant%20sur%20%22Remp.%22<hr>');
+  expected(escape(_("ALERT_columndelete_not_empty")) + '%0A<hr>');
 
   if ( the_current_cell.column.the_local_id !== undefined )
     alert_real('Bug local_id') ;

@@ -27,6 +27,7 @@ import httplib
 sys.path.append(os.getcwd())
 sys.path.append(os.path.join(os.getcwd(), '..'))
 
+
 import configuration
 import utilities
 from server import Server, ServerSuivi, check
@@ -42,10 +43,13 @@ abj      = configuration.invited_abj_masters[1]
 invited  = configuration.invited_teachers[0]
 assert( root != abj )
 
+configuration.language = 'fr'
+
 ok_png = utilities.read_file('../FILES/ok.png')
 bad_png = utilities.read_file('../FILES/bad.png')
 bug_png = utilities.read_file('../FILES/bug.png')
-unauthorized_html = utilities.read_file('../FILES/unauthorized.html')
+unauthorized_html = utilities._("MSG_new_page_unauthorized")
+not_in_demo_mode = utilities._("MSG_evaluate")
 
 year = configuration.year_semester[0]
 semester = configuration.year_semester[1]
@@ -195,7 +199,7 @@ def tests():
         c = s.url('=' + root + '/BADURL')
         assert(c == 'bad_url')
         c = s.url('='+root+'/evaluate/5-2')
-        assert('Action not allowed in demo mode' in c)
+        assert(not_in_demo_mode in c)
     if do('homeroot'):
         c = s.url('=' + root)
         assert("javascript:go('clean')" in c)
@@ -210,7 +214,7 @@ def tests():
         assert("window.location=" in c)
     if do('gc'):
         c = s.url('=' + root + '/gc')
-        assert("Disabled" in c)
+        assert(not_in_demo_mode in c)
 
     if do('preferences'):
         # First load : progressive display
@@ -1072,7 +1076,7 @@ Col({the_id:"col_1",type:"Note",author:"%s",position:0,title:"TITLE1"})
         create_u2()
         ss.start()
         c = ss.url('=' + root + '/%s/resume/UE-INF20UE2/UE-INF20UE2' % ys)
-        assert('lines = {"0": [C("10800001"),C(""),C(""),C(1),C(1),C(),C()],\n"1": [C("10800000"),C("Jacques"),C("MARTIN"),C(1),C(1),C(),C()]}' in c)
+        assert('lines = {"0": [C("10800001"),C(),C(),C(1),C(1),C()],\n"1": [C("10800000"),C("Jacques"),C("MARTIN"),C(1),C(1),C()]}' in c)
 
     if do('delete_this_table'):
         create_u2()
@@ -1540,11 +1544,11 @@ cell_change(1,'0_2','ticket_time_to_live','%d',"")
 
         # Student look suivi
         c = ss.url('=10800001/%s/' % ys)
-        assert('GOOD_OR_BAD' not in c)
-
-        c = ss.url('=10800001/%s/unload/UE-modifcol' % ys)
-        c = ss.url('=10800001/%s/' % ys)
         assert('GOOD_OR_BAD' in c)
+
+        # c = ss.url('=10800001/%s/unload/UE-modifcol' % ys)
+        # c = ss.url('=10800001/%s/' % ys)
+        # assert('GOOD_OR_BAD' in c)
 
         
     if do('repetition'):
