@@ -81,11 +81,11 @@ def page_unload(server):
     table = document.table(server.the_year, server.the_semester,
                            server.the_ue, None, None)
     if table:
-        server.the_file.write('Unload try<br>\n')
+        server.the_file.write(server._("MSG_page_unload_before") + '<br>\n')
         table.unload(force=True)
-        server.the_file.write('Unload done<br>\n')
+        server.the_file.write(server._("MSG_page_unload_after") + '<br>\n')
     else:
-        server.the_file.write("Can't find table<br>\n")
+        server.the_file.write(server._("MSG_page_unload_no_table") + "<br>\n")
 
 plugin.Plugin('page_unload', '/{Y}/{S}/{U}/page_unload',
               function=page_unload, root=True)
@@ -98,9 +98,6 @@ def extension(server):
     A symbolic link is created and the current table is accessible
     in the 2 semesters but modifiable only in the 'next' semester.
     """
-    # if server.the_semester != "Printemps":
-    #    server.the_file.write("Vous n'êtes pas autorisé à faire ceci car l'extension d'UE ce fait de l'automne vers le printemps.")
-    #    return
 
     next_year, next_semester = utilities.next_year_semester(
         server.the_year, server.the_semester)
@@ -111,7 +108,8 @@ def extension(server):
                                  empty_even_if_created_today=True,
                                  empty_even_if_column_created=True)
     if not empty:
-        server.the_file.write("Vous n'êtes pas autorisé à faire ceci car la page %s n'est pas vide : " % table.location() + message)
+        server.the_file.write(server._("MSG_extension_not_empty")
+                              % table.location() + message)
         return
 
     old_filename = document.table_filename(server.the_year,
@@ -120,18 +118,19 @@ def extension(server):
     new_filename = table.filename
 
     if not os.path.exists(old_filename):
-        server.the_file.write("Vous n'êtes pas autorisé à faire ceci car l'UE n'existait pas en %d/%s" % (server.the_year, server.the_semester))
+        server.the_file.write(server._("MSG_extension_no_table")
+                              % (server.the_year, server.the_semester))
         return
 
     if os.path.islink(old_filename):
-        server.the_file.write("L'UE est déjà NON-semestrialisée")
+        server.the_file.write(server._("MSG_extension_yet_done"))
         return
 
     # The table in the previous semester should not be modified.
     t = document.table(server.the_year, server.the_semester, server.the_ue,
                        ro=True)
     if server.ticket.user_name not in t.masters and server.ticket.user_name not in t.teachers:
-        server.the_file.write("Vous n'êtes pas autorisé à faire ceci car vous n'êtes pas responsable de l'UE.")
+        server.the_file.write(server._("MSG_extension_not_master"))
         return
 
     t.modifiable = 0
@@ -151,7 +150,8 @@ def extension(server):
     table.unload(force=True)
     t.unload(force=True)
 
-    server.the_file.write("Extension de '%s' vers '%s' est réussie. L'UE n'est maintenant plus semestrialisée" % (server.the_semester, next_semester))
+    server.the_file.write(server._("MSG_extension_ok")
+                          % (server.the_semester, next_semester))
     return
         
 
@@ -179,10 +179,10 @@ def delete_this_table(server):
     table = document.table(server.the_year, server.the_semester,
                            server.the_ue, None, None)
     if not table.modifiable:
-        server.the_file.write('On ne peut pas détruire des tables non modifiable')
+        server.the_file.write(server._("MSG_delete_this_table_unmodifiable"))
         return
     if server.ticket.user_name not in (table.teachers + table.masters):
-        server.the_file.write('Seul un responsable de l\'UE peut détruire la table')
+        server.the_file.write(server._("MSG_extension_not_master"))
         return
 
 ## Uncomment these lines in order to remove deleted tables from favorites.
@@ -200,7 +200,7 @@ def delete_this_table(server):
 ##                                 )
     
     table.delete()
-    server.the_file.write('La destruction a été faite.')
+    server.the_file.write(server._("MSG_delete_this_table_done"))
     
 
 plugin.Plugin('delete_this_table', '/{Y}/{S}/{U}/delete_this_table',

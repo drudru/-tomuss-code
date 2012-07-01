@@ -2526,3 +2526,39 @@ msgid "ALERT_new_page_too_old"
 msgstr "Votre page est trop vieille, réactualisez la.\n"
        "Si votre navigateur est récent, vous ne perdrez aucune donnée\n"
        "si la sauvegarde automatique est bien activée."
+
+msgid "MSG_page_unload_before"
+msgstr "Début du déchargement de la page."
+
+msgid "MSG_page_unload_after"
+msgstr "Déchargement réussi."
+
+msgid "MSG_page_unload_no_table"
+msgstr "Cette table n'existe pas !"
+
+msgid "MSG_extension_not_empty"
+msgstr "Vous n'êtes pas autorisé à faire ceci car la table %s n'est pas vide : "
+
+msgid "MSG_extension_no_table"
+msgstr "Opération impossible car l'UE n'existait pas en %d/%s"
+
+msgid "MSG_extension_yet_done"
+msgstr "L'UE est déjà NON-semestrialisée"
+
+msgid "MSG_extension_not_master"
+msgstr "Vous n'êtes pas autorisé à faire ceci car\n"
+       "vous n'êtes pas responsable de l'UE."
+
+msgid "MSG_extension_ok"
+msgstr "Extension de '%s' vers '%s' est réussie.\n"
+       "L'UE n'est maintenant plus semestrialisée"
+
+msgid "MSG_delete_this_table_unmodifiable"
+msgstr "On ne peut pas détruire une table non modifiable."
+
+msgid "MSG_delete_this_table_done"
+msgstr "La destruction a été faite."
+
+
+
+

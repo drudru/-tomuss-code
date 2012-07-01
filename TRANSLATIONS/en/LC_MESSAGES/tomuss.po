@@ -2505,3 +2505,34 @@ msgid "ALERT_new_page_too_old"
 msgstr "Too old page: reload it.\n"
        "If your browser is modern; you will not loose data\n"
        "if automatic saving is activated."
+
+msgid "MSG_page_unload_before"
+msgstr "Unload try"
+
+msgid "MSG_page_unload_after"
+msgstr "Unload done"
+
+msgid "MSG_page_unload_no_table"
+msgstr "This table does not exist!"
+
+msgid "MSG_extension_not_empty"
+msgstr "You are not allowed to do this because the table %s is not empty: "
+
+msgid "MSG_extension_no_table"
+msgstr "Operation impossible because the table does not exist in %d/%s"
+
+msgid "MSG_extension_yet_done"
+msgstr "The table is yet unsemestrialised"
+
+msgid "MSG_extension_not_master"
+msgstr "You are not allowed to do this because you are not a table master."
+
+msgid "MSG_extension_ok"
+msgstr "Extension from '%s' to '%s' is done.\n"
+       "The table is now unsemestrialised."
+
+msgid "MSG_delete_this_table_unmodifiable"
+msgstr "Unmodifiable table are not deletable."
+
+msgid "MSG_delete_this_table_done"
+msgstr "Deletion done."
