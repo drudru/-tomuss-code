@@ -211,7 +211,7 @@ def tests():
         assert("<table border>" in c)
     if do('profiling'):
         c = s.url('=' + root + '/profiling/%d' % year )
-        assert("window.location=" in c)
+        assert("initialize()" in c)
     if do('gc'):
         c = s.url('=' + root + '/gc')
         assert(not_in_demo_mode in c)
@@ -1081,9 +1081,9 @@ Col({the_id:"col_1",type:"Note",author:"%s",position:0,title:"TITLE1"})
     if do('delete_this_table'):
         create_u2()
         c = s.url('=' + abj + '/%s/UE-INF20UE2/delete_this_table' % ys)
-        assert('Seul un responsable de l\'UE peut' in c)
+        assert(utilities._("MSG_extension_not_master") in c)
         c = s.url('=ue1.master/%s/UE-INF20UE2/delete_this_table' % ys)
-        assert('La destruction a' in c)
+        assert(utilities._("MSG_delete_this_table_done") in c)
         assert(check('%s/UE-INF20UE2.py', exists=False))
         assert(check('%s/UE-INF20UE2.pyc', exists=False))
 
@@ -1449,7 +1449,7 @@ cell_change(1,'0_2','ticket_time_to_live','%d',"")
        utilities.append_file(conf,
        'cell_change(1,"0_2","ticket_time_to_live","1000","")\n')
        c = s.url('=' + root + '/0/Dossiers/config_table/page_unload')
-       assert('Unload done' in c)
+       assert(utilities._("MSG_page_unload_after") in c)
        c = s.url('=' + root + '/0/Dossiers/config_table')
        assert( ok )
 
@@ -1543,12 +1543,13 @@ cell_change(1,'0_2','ticket_time_to_live','%d',"")
         assert('green' in c) # No check on cell values : good or bad ?
 
         # Student look suivi
+        # XXX PROBLEM: This test work randomly
+        # c = ss.url('=10800001/%s/' % ys)
+        # assert('GOOD_OR_BAD' not in c)
+
+        c = ss.url('=10800001/%s/unload/UE-modifcol' % ys)
         c = ss.url('=10800001/%s/' % ys)
         assert('GOOD_OR_BAD' in c)
-
-        # c = ss.url('=10800001/%s/unload/UE-modifcol' % ys)
-        # c = ss.url('=10800001/%s/' % ys)
-        # assert('GOOD_OR_BAD' in c)
 
         
     if do('repetition'):
