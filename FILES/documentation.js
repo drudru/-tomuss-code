@@ -292,9 +292,10 @@ for(var i_div in divs)
 text_divs.push(menu) ;
 content_divs.push(menu.innerHTML) ;
 
-if ( window.location.search !== '' )
+if ( window.location.hash !== ''
+     && ! window.location.hash.toString().match("^n[0-9]*$") )
   {
-    input.value = decodeURI(window.location.search.toString().substr(1)) ;
+    input.value = decodeURI(window.location.hash.toString().substr(1)) ;
   }
 display = true ;
 

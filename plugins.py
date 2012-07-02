@@ -19,12 +19,11 @@
 #
 #    Contact: Thierry.EXCOFFIER@bat710.univ-lyon1.fr
 
+import cgi
+import os
 import plugin
 import utilities
 import files
-import cgi
-import re
-import os
 import configuration
 
 suivi_plugins = []

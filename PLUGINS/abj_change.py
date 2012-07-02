@@ -209,12 +209,8 @@ def abj_display(server):
 
 plugin.Plugin('abj', '/{Y}/{S}/abj', function=abj_home, abj_master=True,
               link=plugin.Link(
-                  text='Modification des ABJ et DA',
                   url="javascript:go('abj')",
-                  help="""Permet d'aller sur la page d'édition
-                  des justificatifs d'absence et des tiers temps.""",
-                  where='abj_master',
-                  html_class="safe",
+                  where='abj_master', html_class="safe",
                   ),
               css=css,
               keep_open=True,
@@ -225,13 +221,8 @@ plugin.Plugin('abjalpha', '/{Y}/{S}/abj/alpha.xls',
               function=abj_alpha_licence, abj_master=True,
               launch_thread = True,
               link=plugin.Link(
-                  text='Récapitulatif ABJ+DA des licences',
                   url="javascript:go('abj/alpha.xls')",
-                  help="""Liste les justificatifs d'absence ainsi que les
-                  dispenses d'assiduité qui ont été saisies pour tous
-                  les étudiants de licences.""",
-                  where='abj_master',
-                  html_class="verysafe",
+                  where='abj_master', html_class="verysafe",
                   ),
               priority = -3,
               )
@@ -240,13 +231,8 @@ plugin.Plugin('abjalphamaster', '/{Y}/{S}/abj/alpha_master.xls',
               function=abj_alpha_master, abj_master=True,
               launch_thread = True,
               link=plugin.Link(
-                  text='Récapitulatif ABJ+DA des masters',
                   url="javascript:go('abj/alpha_master.xls')",
-                  help="""Liste les justificatifs d'absence ainsi que les
-                  dispenses d'assiduité qui ont été saisies pour tous
-                  les étudiants de master.""",
-                  where='abj_master',
-                  html_class="verysafe",
+                  where='abj_master', html_class="verysafe",
                   ),
               priority = -3,
               )
@@ -255,13 +241,8 @@ plugin.Plugin('abjalphaepu', '/{Y}/{S}/abj/alpha_epu.xls',
               function=abj_alpha_epu, abj_master=True,
               launch_thread = True,
               link=plugin.Link(
-                  text='Récapitulatif ABJ+DA de l\'EPU',
                   url="javascript:go('abj/alpha_epu.xls')",
-                  help="""Liste les justificatifs d'absence ainsi que les
-                  dispenses d'assiduité qui ont été saisies pour tous
-                  les étudiants de master.""",
-                  where='abj_master',
-                  html_class="verysafe",
+                  where='abj_master', html_class="verysafe",
                   ),
               priority = -3,
               )
@@ -270,10 +251,8 @@ plugin.Plugin('abjalphaauthor', '/{Y}/{S}/abj/alpha_author.xls',
               function=abj_alpha_author, abj_master=True,
               launch_thread = True,
               link=plugin.Link(
-                  text='Récapitulatif ABJ+DA que vous avez saisies',
                   url="javascript:go('abj/alpha_author.xls')",
-                  where='abj_master',
-                  html_class="verysafe",
+                  where='abj_master', html_class="verysafe",
                   ),
               priority = -3,
               )
@@ -282,14 +261,8 @@ plugin.Plugin('abjlistmail', '/{Y}/{S}/abj/list_mail',
               function=abj_list_mail, abj_master=True,
               launch_thread = True,
               link=plugin.Link(
-                  text="Messages aux responsables d'UE de licence",
                   url="javascript:go('abj/list_mail')",
-                  help="""Ceci permettra d'envoyer un message à tous les
-                  responsables d'UE de licence en leur indiquant
-                  la liste des étudiants avec des absences justifiées,
-                  des dispenses et les tiers temps.""",
-                  where='abj_master',
-                  html_class="safe",
+                  where='abj_master', html_class="safe",
                   ),
               priority = -3,
               )

@@ -116,7 +116,7 @@ def home_page(server):
         links.append((link.where,
                       link.priority,
                       link.html_class,
-                      link.text or link.plugin.name,
+                      link.text or '',
                       url, target,
                       link.help,
                       p
@@ -128,17 +128,14 @@ def home_page(server):
         +'''
 <script src="%s/home2.js" onload="this.onloadDone=true;"></script>
 <link rel="stylesheet" href="%s/home2.css" type="text/css">
-<link href="%s/news.xml" rel="alternate" title="TOMUSS : nouveautés" type="application/rss+xml">
+<link href="%s/news.xml" rel="alternate" title="TOMUSS : News" type="application/rss+xml">
 </HEAD>
-<noscript><h1 style="font-size:400%%;background-color:red; color:white">
-    Cette application nécessite que JavaScript soit activé
-</h1></noscript>
-
-<script>
-''' % (utilities.StaticFile._url_,
-       utilities.StaticFile._url_,
-       utilities.StaticFile._url_,
-       )
+<noscript><h1 style="font-size:400%%;background-color:red; color:white">'''
+        % (utilities.StaticFile._url_,
+           utilities.StaticFile._url_,
+           utilities.StaticFile._url_,
+           )
+        + server._('MSG_need_javascript') + '</h1></noscript><script>'
         + 'var tomuss_version="%s";\n' % configuration.version
         + 'var base="%s/=%s/";\n'      % (configuration.server_url,
                                           ticket.ticket)

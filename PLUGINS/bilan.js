@@ -64,16 +64,12 @@ function bilan(ticket, login, resume, firstname, surname, mail, suivi,
     + '<h1>' + login + ' ' + firstname + ' ' + surname
     + ' <a class="mail" href="mailto:' + mail + '">' + mail + '</a></h1>'
     + '<div class="hidden_on_paper">'
-      + bilan_external_header(login)
-    + "<p>Le tableau représente les informations stockées par TOMUSS, des UE où l'étudiant a été inscrit peuvent manquer."
-    + "<ul><li>Si la case est blanche et vide, l'étudiant est inscrit dans TOMUSS mais aucune information n'a été saisie"
-    + '<li>Le carré de couleur contient : Vert : Présences ou Note., Bleu : Absence justifiée, Rouge : Absence injustifiée'
-    + "<li>La note sur 20 est une moyenne de TOUTES les notes saisies dans TOMUSS sans tenir compte des poids. <b>Ce n'est pas la note de l'UE</b>"
-    + '</ul>' ;
+    + bilan_external_header(login)
+    + '<p>' + _("MSG_bilan") ;
 
   if ( false && i_can_refer )
     s += '<a href="_URL_/=' + ticket + '/referent_get/' + login +
-      '">Je veux devenir le référent pédagogique de cet étudiant</a> (vous ne pourrez plus vous en séparer sauf si quelqu\'un vous le prend)' ;
+	'">' + _("MSG_bilan_take_student") + '</a>' ;
 
   s += '</div>';
   document.write(s) ;

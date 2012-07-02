@@ -39,11 +39,6 @@ plugin.Plugin('live_status_svg', '/live_status.svg',
               function=live_status, root=True,
               mimetype = "image/svg+xml",
               keep_open = True,
-              link=plugin.Link(text='Live status',
-                               html_class='verysafe',
-                               where='debug',
-                               help='Affichage graphique temps réel de TOMUSS',
-                               priority=-1,
-                               )
+              link=plugin.Link(html_class='verysafe',where='debug',priority=-1)
               )
 

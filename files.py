@@ -46,7 +46,7 @@ for name in (
     'lib.js', 'abj.js','types.js','utilities.js',
     'middle.js',
     'abj.html',
-    'nat.html', 'nabjm.html', 'error.html', 'unauthorized.html',
+    'nat.html', 'nabjm.html',
     'robots.txt',
     'doc_table.html', 'documentation.js', 'documentation.css',
     'stats.html',

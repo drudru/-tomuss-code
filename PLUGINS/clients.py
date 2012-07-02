@@ -19,13 +19,13 @@
 #
 #    Contact: Thierry.EXCOFFIER@bat710.univ-lyon1.fr
 
+import os
 import plugin
 import ticket
-import time
-import utilities
 import configuration
 import document
-import os
+import column
+import cell
 
 def the_new_pages(the_year):
     d = configuration.db + '/Y%d/S*/*.py' % the_year
@@ -144,82 +144,62 @@ def new_page_stat(the_year):
 
 
 def clients(server):
-    """Display client statistics"""
-    filename = document.table_filename(str(server.the_year),'Stats','clients')
-    
-    f = open(filename, "w")
-    f.write("""# -*- coding: utf8 -*-
-from data import *
-new_page('' ,'*', '', '')
-column_change (0,'000','Type','Text','','','F',0,2)
-column_change (0,'0_0','Item','Text','','','F',0,2)
-column_change (0,'0_1','IP','Note','[0;NaN]','','',0,2)
-column_comment(0,'0_1','Nombre d\\'adresses IPs utilisées')
-column_change (0,'0_2','Login','Note','[0;NaN]','','',0,2)
-column_comment(0,'0_2','Nombre de comptes utilisés')
-column_change (0,'0_3','Browser','Note','[0;NaN]','','',0,2)
-column_comment(0,'0_3','Nombre de navigateurs utilisés')
-column_change (0,'0_4','OS','Note', '[0;NaN]','','',0,2)
-column_comment(0,'0_4','Nombre de système d\\'exploitation utilisé')
-column_change (0,'0_5','Pages','Note','[0;NaN]','','',0,2)
-column_comment(0,'0_5','Nombre de pages affichées')
-table_comment(0, 'Statistiques sur les utilisateurs')
-table_attr('private', 0, 1)
-add_master(%s,0)
-table_attr('default_nr_columns', 0, 7)
-""" % repr(server.ticket.user_name))
-    oss, ips, clients, logins = new_page_stat(server.the_year)
+    """Display client statistics.
+    """
+
+    columns = [
+        column.Column('0', '', freezed='F', width=2, type='Text',
+                      title=server._('COL_TITLE_type')),
+        column.Column('1', '', freezed='F', width=2, type='Text',
+                      title=server._('COL_TITLE_item')),
+        column.Column('2', '', width=2, type='Note', title='IP',
+                      comment=server._('COL_COMMENT_IP')),
+        column.Column('3', '', width=2, type='Note',
+                      title=server._("COL_TITLE_ID"),
+                      comment=server._('COL_COMMENT_ID')),
+        column.Column('4', '', width=2, type='Note',
+                      title=server._("COL_TITLE_browser"),
+                      comment=server._('COL_COMMENT_browser')),
+        column.Column('5', '', width=2, type='Note',
+                      title=server._("COL_TITLE_OS"),
+                      comment=server._('COL_COMMENT_OS')),
+        column.Column('6', '', width=2, type='Note',
+                      title=server._("COL_TITLE_page"),
+                      comment=server._('COL_COMMENT_page')),
+         ]
+    table_attrs = { 'comment': server._("TABLE_COMMENT_client"),
+                    'default_nr_columns': 7,
+                    }
+    oss, ips, browsers, logins = new_page_stat(server.the_year)
     oss.update(ips)
-    oss.update(clients)
+    oss.update(browsers)
     oss.update(logins)
 
     def txt(d):
         return repr(', '.join(['%s:%d' % (k,v) for k, v in d.items()]))
-    
-    for i, t in enumerate(oss):
+
+    lines = []
+    for t in oss:
         s = oss[t]
-        f.write("cell_change(0,'000','%d','%s','')\n" % (i, s.what))
-        f.write("cell_change(0,'0_0','%d','%s','')\n" % (i, t))
-        f.write("cell_change(0,'0_1','%d',%d,'')\n" % (i, len(s.ip)))
-        f.write("cell_change(0,'0_2','%d',%d,'')\n" % (i, len(s.login)))
-        f.write("cell_change(0,'0_3','%d',%d,'')\n" % (i, len(s.browser)))
-        f.write("cell_change(0,'0_4','%d',%d,'')\n" % (i, len(s.os)))
-        f.write("cell_change(0,'0_5','%d',%d,'')\n" % (i, s.nr_pages))
-
-        f.write("comment_change(0,'0_1','%d',%s)\n" % (i, txt(s.ip)))
-        f.write("comment_change(0,'0_2','%d',%s)\n" % (i, txt(s.login)))
-        f.write("comment_change(0,'0_3','%d',%s)\n" % (i, txt(s.browser)))
-        f.write("comment_change(0,'0_4','%d',%s)\n" % (i, txt(s.os)))
-
-    f.close()
-
-    # XXX: Create __init__.py ???
-    t = document.table(server.the_year, 'Stats', 'clients', create=False)
-    if t:
-        t.unload()
-
-
-def headers(server):    
-    return (
-        ('Location','%s/=%s/%d/Stats/clients' % (
-        configuration.server_url, server.ticket.ticket,
-            server.the_year)), )
-
+        lines.append(cell.Line((
+                cell.CellValue(s.what),
+                cell.CellValue(t),
+                cell.Cell(len(s.ip), '', '', txt(s.ip)),
+                cell.Cell(len(s.login), '', '', txt(s.login)),
+                cell.Cell(len(s.browser), '', '', txt(s.browser)),
+                cell.Cell(len(s.os), '', '', txt(s.os)),
+                cell.CellValue(s.nr_pages),
+                )))
+    document.virtual_table(server, columns, lines, table_attrs)
 
 plugin.Plugin('clients', '/clients/{Y}',
               function=clients,
               root=True,
-              link=plugin.Link(text="Statistiques clients",
-                               help="""Sur les navigateurs,
-                               les systèmes d'exploitation et les adresses IP.
-                               C'est pas très bien pour la vie privée.""",
-                               html_class="verysafe",
+              link=plugin.Link(html_class="verysafe",
                                where="informations",
                                url="javascript:go_year_after('clients')"
                                ),
               launch_thread = True,
-              response=307,
-              headers = headers,
               )
 
 if __name__ == "__main__":

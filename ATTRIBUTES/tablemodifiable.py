@@ -38,7 +38,7 @@ class TableModifiable(TableAttr):
             return self.check_error(value)
         if value == 0 or value == 1:
             return
-        return "Cet attribut '%s' peut être seulement 0 ou 1" % self.name
+        return self.check_error(value)
     def update(self, table, old_value, new_value, page):
         if not new_value:
             return # Not modifiable

@@ -1,3 +1,30 @@
+
+
+
+========= Actuellement ===  =========== Futur ==============             
+Formule                     Formule
+    rouge                       si vide                          
+    vert                        colonnes
+    si vide                     ENLÈVE X MEILLEURS, Y PLUS MAUVAISES     
+    colonnes                    ARRONDI                                  
+    poids, répétition           poids, répétition
+
+Affiche                     Affiche
+    visible le                  visible le                               
+    date des cours              rouge, vert                              
+    position, largeur           GRAS, ITALIQUE OU GRIS                   
+    changement dans le suivi    position, largeur                        
+    Figée, cache, modifiable    Figée, cache, NR LIGNES
+    
+                            Paramètres                                   
+                                date des cours                           
+                                URL DE BASE OU URL D'IMPORTATION         
+                                TITRE DU LIEN (cliquer ici par exemple) 
+                                changement dans le suivi
+                                modifiable
+	
+
+
 Dans chaque partie, les choses à faire sont triées par priorité.
 
 ==========================
@@ -8,20 +35,31 @@ Nouvelles fonctionnalités.
 Utilisateurs finaux.
 --------------------
 
+* https://services.renater.fr/federation/docs/fiches/shibbolisation
+  http://lasso.entrouvert.org/
+  http://support.onelogin.com/entries/20285277-saml-toolkit-for-python
+
+* Enlever bonus/malus du suivi
+  
+* Le suivi n'affiche pas la date du cours
+
+* Un onglet par année ou filtrage pour les tables dont on est responsable
+  
 * Affichage histogramme tronqué
 
 * Afficher le champ 'Colonnes' en disant que pour l'activer il faut changer
   le type si l'on est une note par example : Faire une solution générique
 
-* Séparer la gestion des ABJ et la gestion des DA
-
 * Choix du type de colonne dans une popup
 
 * Ajouter TNR (travail non rendu)
 
+* Type de colonne Switch (SI)
+
 * Traduction
 
 * Mettre à jour les tables régulièrement même sans visite.
+  Faire un plugin pour le faire avec auto_load mais sans créer de page inutiles.
 
 * Déplacer les infos du titre dans un onglet Info du bloc table
 
@@ -117,7 +155,8 @@ Administrateur.
 	* les login d'une table : '#' nom de la table
   Ne plus avoir de groupes indiqué en dur dans le code.
   Faire disparaitre : is_referent, is_teacher, ...
-
+  Ajouter les identifiants synonymes
+  
 * Cleanup d'un tableau sur place : config_table par exemple
 
 * Afficher les lock de tables
@@ -146,6 +185,14 @@ Administrateur.
 =====================
 Problèmes à résoudre.
 =====================
+
+* Perte photo quand déconnexion puis reconnexion réseau
+
+* Message JS dans 'print'
+
+* annéé/semestre dans le menu de table : 2008/Test si pas de suivi.
+
+* Dans stat, la fenetre graphique est cachée en bas de page.
 
 * Browser file close : suffisant pour Python 3 ? (page action)
 
@@ -199,6 +246,8 @@ Problèmes non reproductibles
 =============================
 Améliorations de code source.
 =============================
+
+* Faire une procédure de serveur feedback générique
 
 * Tester le nouveau utility.js()
 

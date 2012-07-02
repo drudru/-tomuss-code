@@ -28,7 +28,7 @@ function(value)
   if ( (table_attr.masters.length == 0 || ! i_am_the_teacher) && value == 1
        && ! i_am_root )
     {
-      alert('Vous ne pouvez pas rendre cette table privée car\nvous ne pourriez plus la voir.\nCommencez par vous ajouter comme étant\nun des responsable de cette table') ;
+      Alert("ALERT_colmunprivate") ;
       return ;
     }
   return value ;

@@ -2219,7 +2219,7 @@ msgstr "You must the minimum and maximum grade as '[0;20]'\n"
        "for the column "
 
 msgid "ALERT_columnminmax_order"
-msgstr "The minimum grade must bu smaller than the maximum grade\n"
+msgstr "The minimum grade must be smaller than the maximum grade\n"
        "for the column "
 
 msgid "MSG_columnstats_values"
@@ -2653,4 +2653,396 @@ msgstr "<p>Each table line contains information about a student.\n"
      "<li><kbd>t</kbd> display a printable page with filtered lines.\n"
      "<li><kbd>s</kbd> open a window on the student 'suivi'.\n"
      "</ul>"
+
+msgid "MSG_full_date"
+msgstr "%A %d %B %Y à %H hours %M minutes et %S seconds"
+
+msgid "ALERT_popup"
+msgstr "You must allow popup in your browser.\n"
+       "TOMUSS will not be fully working if they are not allowed.\n"
+       "\n"
+       "To allow popups, there is a small icon near the page address."
+
+msgid "ALERT_no_mail"
+msgstr "sorry, the browser has not yet received the mail adresses.\n"
+       "Retry in a few seconds."
+
+msgid "ALERT_copy_mail"
+msgstr "Copy the following list in your mailer:"
+
+msgid "ALERT_copy_mail_microsoft"
+msgstr "Microsoft Windows forbid to launch automaticaly the mailer\n"
+       "when there is too many addresses.\n"
+       "So, you must do a copy/paste of the adresses."
+
+msgid "ALERT_locked_column"
+msgstr "The column is protected, so values are not modifiable."
+
+msgid "ALERT_duplicate_id"
+msgstr "Duplicate student number."
+
+msgid "ALERT_missing_id"
+msgstr "It is mandatory to indicate a value in the first column,\n"
+       "most of the time, the student ID."
+
+msgid "ALERT_duplicate_before"
+msgstr "This value is forbidden because it is yet present "
+       
+msgid "ALERT_duplicate_after"
+msgstr " times, the maximum allowed repetition is "
+
+msgid "ALERT_colmunprivate"
+msgstr "If you make this table private, you will be unable to see it.\n"
+       "So, you must add yourself in the table master list."
+
+
+msgid "LINK_abj"
+msgstr "ABJ and DA edition"
+
+msgid "HELP_abj"
+msgstr "Go to the page allowing to edit the justified leaves\n"
+       "and the non-attendance authorization."
+       
+msgid "LINK_abjalpha"
+msgstr "Licence: Full ABJ+DA report"
+
+msgid "HELP_abjalpha"
+msgstr "Display a table with all the justified leaves\n"
+       "and non-attendance authorization for the licence students"
+
+msgid "LINK_abjalphamaster"
+msgstr "Masters: Full ABJ+DA report"
+
+msgid "HELP_abjalphamaster"
+msgstr "Display a table with all the justified leaves\n"
+       "and non-attendance authorization for the masters students"
+
+msgid "LINK_abjalphaepu"
+msgstr "EPU: Full ABJ+DA report"
+
+msgid "HELP_abjalphaepu"
+msgstr "Display a table with all the justified leaves\n"
+       "and non-attendance authorization for the EPU students"
+
+msgid "LINK_abjalphaauthor"
+msgstr "ABJ+DA you entered"
+
+msgid "HELP_abjalphaauthor"
+msgstr " "
+
+msgid "LINK_abjlistmail"
+msgstr "Messages for the masters of UE licence"
+
+msgid "HELP_abjlistmail"
+msgstr "Allow to send a message to all the masters of UE of licence.\n"
+       "The message contains a report about justified leaves,\n"
+       "non-attendance authorization and special examination condition,\n"
+       "linked to the UE."
+
+
+msgid "MSG_bilan"
+msgstr "This table display informations stored in TOMUSS.\n"
+       "<ul>\n"
+       "<li>If a cell is white or empty,\n"
+       "    the student is in TOMUSS but there is no grades.\n"
+       "<li>Green indicates an attendance or a grade,\n"
+       "    Blue: a justified leave, Red: an injustified leave.\n"
+       "<li>The grade on 20 is the average of ALL the grades\n"
+       "    without taking into accoun the weights.\n"
+       "    <b>It is not the UE grade.</b>\n"
+       "</ul>"
+
+msgid "MSG_bilan_take_student"
+msgstr "I want to become the referent of the student.\n"
+       "You can't leave the student, except if another teacher take it."
+
+msgid "MSG_bilan_unknown"
+msgstr "This student is unknown of TOMUSS"
+
+msgid "LINK_change_identity"
+msgstr "Take the identity of:"
+
+msgid "HELP_change_identity"
+msgstr "Really take the identity of another user"
+
+msgid "MSG_change_identity_start"
+msgstr "Start identity stealing"
+
+msgid "MSG_change_identity_done"
+msgstr "Identity change done for this ticket, go 'back' to see the new page"
+
+msgid "LINK_clean"
+msgstr "Delete empty UE"
+
+msgid "HELP_clean"
+msgstr "Deleted UE are moved in Trash directory.\n"
+       "Avoid this operation because it is slow and\n"
+       "it is important to keep the student registration history.\n"
+       "It is done only in the current chosen year/semester."
+
+msgid "LINK_clean_other"
+msgstr "Delete empty tables"
+
+msgid "HELP_clean_other"
+msgstr "Deleted tables are moved in Trash directory.\n"
+       "Avoid this operation because it is slow.\n"
+       "This operation does not delete UE."
+
+msgid "MSG_clean_other_in_use"
+msgstr "can not be delete because it is in use."
+
+msgid "MSG_clean_other_strange"
+msgstr "not deleted, look the content, it is a strange file."
+
+msgid "MSG_clean_other_done"
+msgstr "Cleaning done"
+
+msgid "MSG_clean_other_deleted"
+msgstr "DELETED"
+
+msgid "COL_TITLE_ID"
+msgstr "ID"
+
+msgid "COL_TITLE_firstname"
+msgstr "Firstname"
+
+msgid "COL_TITLE_surname"
+msgstr "Surname"
+
+msgid "COL_COMMENT_nb_cells_entered"
+msgstr "Number of entered cells"
+
+msgid "COL_TITLE_TOTAL"
+msgstr "TOTAL"
+
+msgid "COL_TITLE_type"
+msgstr "Type"
+
+msgid "COL_TITLE_item"
+msgstr "Item"
+
+msgid "COL_COMMENT_IP"
+msgstr "Number of IP address used"
+
+msgid "COL_COMMENT_ID"
+msgstr "Number of login ID used"
+
+msgid "COL_TITLE_browser"
+msgstr "Browser"
+
+msgid "COL_COMMENT_browser"
+msgstr "Number of browser used"
+
+msgid "COL_TITLE_OS"
+msgstr "OS"
+
+msgid "COL_COMMENT_OS"
+msgstr "Number of operating systems used"
+
+msgid "COL_TITLE_page"
+msgstr "Page"
+
+msgid "COL_COMMENT_page"
+msgstr "Number of displayed pages"
+
+msgid "TABLE_COMMENT_client"
+msgstr "Web browsers statistics"
+
+msgid "LINK_clients"
+msgstr "Browser statistics"
+
+msgid "HELP_clients"
+msgstr "About browser, OS, IP adresses. Really not fine for privacy"
+
+msgid "MSG_evaluate"
+msgstr "Action not allowed in demo mode."
+
+msgid "LINK_gctop"
+msgstr "Dislay Python object in memory"
+
+msgid "HELP_gctop"
+msgstr "Useful to find memory leaks"
+
+msgid "MSG_cache_title"
+msgstr "Cache TOMUSS"
+
+msgid "TH_cache_name"
+msgstr "Name"
+
+msgid "TH_cache_what"
+msgstr "What"
+
+msgid "TH_cache_type"
+msgstr "Type"
+
+msgid "TH_cache_age"
+msgstr "Age x:minutes y:log(nr_items)"
+
+msgid "TH_cache_maxage"
+msgstr "Max Age"
+
+msgid "TH_cache_content"
+msgstr "Content"
+
+msgid "MSG_cache_size"
+msgstr "of size %d"
+
+msgid "LINK_caches"
+msgstr "Display the caches"
+
+msgid "HELP_caches"
+msgstr "Useful to find memory leaks"
+
+msgid "MSG_locks_title"
+msgstr "TOMUSS locks"
+
+msgid "LINK_locks"
+msgstr "Display locks"
+
+msgid "HELP_locks"
+msgstr "Useful to find what is locked"
+
+msgid "MSG_threads_title"
+msgstr "TOMUSS threads"
+
+msgid "LINK_threads"
+msgstr "Display the threads"
+
+msgid "HELP_threads"
+msgstr "Useful to find is loading the CPU"
+
+msgid "MSG_need_javascript"
+msgstr "Javascript is needed for this application"
+
+msgid "LINK_live_log"
+msgstr "Live log"
+
+msgid "HELP_live_log"
+msgstr "Real time display of logs"
+
+msgid "LINK_live_status_svg"
+msgstr "Graphic state"
+
+msgid "HELP_live_status_svg"
+msgstr "Real time graphic display of logs"
+
+msgid "LINK_master_of"
+msgstr "Recompute masters index"
+
+msgid "HELP_master_of"
+msgstr "To use only in cas of.\n"
+       "It will compute for each user the list of table\n"
+       "for which he is a master."
+
+msgid "MSG_new_page_unauthorized"
+msgstr "<h1>You are not allowed to edit this table</h1>\n"
+       "<p>It contains confidential data that can not be displayed to anybody."
+
+msgid "MSG_new_page_in_past"
+msgstr " does not exist, and it is not possible to create table in the past."
+
+msgid "ALERT_new_page_too_old"
+msgstr "Too old page: reload it.\n"
+       "If your browser is modern; you will not loose data\n"
+       "if automatic saving is activated."
+
+msgid "MSG_page_unload_before"
+msgstr "Unload try"
+
+msgid "MSG_page_unload_after"
+msgstr "Unload done"
+
+msgid "MSG_page_unload_no_table"
+msgstr "This table does not exist!"
+
+msgid "MSG_extension_not_empty"
+msgstr "You are not allowed to do this because the table %s is not empty: "
+
+msgid "MSG_extension_no_table"
+msgstr "Operation impossible because the table does not exist in %d/%s"
+
+msgid "MSG_extension_yet_done"
+msgstr "The table is yet unsemestrialised"
+
+msgid "MSG_extension_not_master"
+msgstr "You are not allowed to do this because you are not a table master."
+
+msgid "MSG_extension_ok"
+msgstr "Extension from '%s' to '%s' is done.\n"
+       "The table is now unsemestrialised."
+
+msgid "MSG_delete_this_table_unmodifiable"
+msgstr "Unmodifiable table are not deletable."
+
+msgid "MSG_delete_this_table_done"
+msgstr "Deletion done."
+
+msgid "COL_TITLE_service"
+msgstr "Service"
+
+msgid "COL_TITLE_plugin"
+msgstr "Plugin"
+
+msgid "COL_TITLE_avg"
+msgstr "Avg"
+
+msgid "COL_COMMENT_avg"
+msgstr "Average answer time in milliseconds"
+
+msgid "COL_TITLE_avg/med"
+msgstr "Avg/Med"
+
+msgid "COL_COMMENT_avg/med"
+msgstr "Average divided by mediane"
+
+msgid "COL_TITLE_min"
+msgstr "Min"
+
+msgid "COL_COMMENT_min"
+msgstr "Minimum response time in milliseconds"
+
+msgid "COL_TITLE_max"
+msgstr "Max"
+
+msgid "COL_COMMENT_max"
+msgstr "Maximum response time in milliseconds"
+
+msgid "COL_TITLE_total"
+msgstr "Total"
+
+msgid "COL_COMMENT_total"
+msgstr "Cumulated response time for the plugin in seconds"
+
+msgid "COL_TITLE_call"
+msgstr "#Call"
+
+msgid "COL_COMMENT_call"
+msgstr "Number of plugin call"
+
+msgid "COL_TITLE_batch"
+msgstr "Batch"
+
+msgid "COL_COMMENT_batch"
+msgstr "The plugin run in background"
+
+msgid "COL_TITLE_slow"
+msgstr "Slow"
+
+msgid "COL_COMMENT_slow"
+msgstr "Percent of request taking more than 4 time the average time"
+
+msgid "COL_TITLE_when"
+msgstr "When"
+
+msgid "COL_COMMENT_when"
+msgstr "The statistics are computed on the indicated duration"
+
+msgid "TABLE_COMMENT_profiling"
+msgstr "Plugins profiling"
+
+msgid "LINK_profiling"
+msgstr "Plugins profiling"
+
+msgid "HELP_profiling"
+msgstr "Compute the plugin response time"
 

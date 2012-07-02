@@ -31,9 +31,5 @@ plugin.Plugin('live_log', '/live_log',
               mimetype = "text/plain",
               launch_thread = True,
               keep_open = True,
-              link=plugin.Link(text='Live log',
-                               help='Affiche en temps réel le fichier de log',
-                               html_class='verysafe',
-                               where='debug',
-                               )
+              link=plugin.Link(html_class='verysafe', where='debug')
               )

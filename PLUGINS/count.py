@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 #    TOMUSS: The Online Multi User Simple Spreadsheet
-#    Copyright (C) 2009-2011 Thierry EXCOFFIER, Universite Claude Bernard
+#    Copyright (C) 2009-2012 Thierry EXCOFFIER, Universite Claude Bernard
 #
 #    This program is free software; you can redistribute it and/or modify
 #    it under the terms of the GNU General Public License as published by
@@ -19,24 +19,19 @@
 #
 #    Contact: Thierry.EXCOFFIER@bat710.univ-lyon1.fr
 
-
+import collections
+import time
 import plugin
-import utilities
-import configuration
 import document
 import column
 import plugins
+import cell
 import TEMPLATES._ucbl_
-import collections
-import time
 
 class Stat(object):
     def __init__(self, login):
         self.login = login
         self.nb = collections.defaultdict(int)
-
-class Count():
-    default_sort_column = 2
 
 def count(server):
     """count the number of cells with the given value
@@ -47,17 +42,6 @@ def count(server):
     http://127.0.0.1:SUIVI_PORT_NUMBER/count/ABINJ/UE-INF1001L/UE-INF1002L
 
     """
-    server.the_file.write(document.table_head(server.year,
-                                              server.semester,
-                                              server.ticket.ticket,
-                                              create_pref = False,
-                                              attrs_from=Count(),
-                                              user_name=server.ticket.user_name
-                                              ) +
-                          '<script>' +
-                          TEMPLATES._ucbl_.update_student_information +
-         ";\ndocument.write(head_html()); insert_middle();</script>")
-                          
     logins = {}
     columns = [
         column.Column('c0', '', freezed='F', position=0, title='ID'),
@@ -112,12 +96,13 @@ def count(server):
                                      type="Note",
                                      minmax='[0;%d]' % weeks[title],
                                      empty_is='0',
-                                     comment="Nombre d'ABINJ",
+                                     comment=server._("B_Nmbr")
+                                     + ' ' + what,
                                      ))
         i += 1
         
     columns.append(
-        column.Column('c3', '', position=2, title='TOTAL',
+        column.Column('c3', '', position=2, title=server._("COL_TITLE_TOTAL"),
                       type="Moy",                      
                       weight='1',
                       columns=' '.join([c.title for c in columns[3:]]),
@@ -128,30 +113,20 @@ def count(server):
     # Why the 'type' attribute does not work like the others ?
     columns[-1].type = plugins.types['Moy']
 
-
     lines = []
-    for i, stat in enumerate(logins.values()):
-        lines.append('"%d": [C(' % i  + utilities.js(stat.login)
-                     + '),C(' + utilities.js(stat.surname)
-                     + '),C(' + utilities.js(stat.name)
-                     + '),' +
-                     ','.join(['C(%s)' % stat.nb[col.title]
-                      for col in columns[3:]])
-                     + ',C()]')
-    lines = '{' + ',\n'.join(lines) + '}'
-    columns = '[' + ',\n'.join([col.js(hide=False) for col in columns]) + ']'
-    
-    server.the_file.write("""
-    <script>
-    columns = %s ;
-    lines = %s ;
-    document.write(tail_html()) ;
-
-    table_attr.table_title = %s ;
-    runlog(columns, lines) ;
-    </script>
-    """ % (columns, lines, utilities.js(repr(server.the_path)) ))
-    server.close_connection_now()
+    for stat in logins.values():
+        lines.append(cell.Line(
+                [
+                    cell.CellValue(stat.login),
+                    cell.CellValue(stat.surname),
+                    cell.CellValue(stat.name)
+                    ] +
+                [cell.CellValue(stat.nb[col.title])
+                 for col in columns[3:]])
+                     )
+    document.virtual_table(server, columns, lines,
+                           { 'default_sort_column': 2 }
+                           )
 
 
 plugin.Plugin('count', '/count/{*}',

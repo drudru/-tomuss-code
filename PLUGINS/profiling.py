@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 #    TOMUSS: The Online Multi User Simple Spreadsheet)
-#    Copyright (C) 2008 Thierry EXCOFFIER, Universite Claude Bernard
+#    Copyright (C) 2008-2012 Thierry EXCOFFIER, Universite Claude Bernard
 #
 #    This program is free software; you can redistribute it and/or modify
 #    it under the terms of the GNU General Public License as published by
@@ -19,24 +19,28 @@
 #
 #    Contact: Thierry.EXCOFFIER@bat710.univ-lyon1.fr
 
-import plugin
 import os
 import time
+import plugin
 import document
 import utilities
 import configuration
+import column
+import cell
 
 class Stat:
+    sum = 0
+    nr = 0
+    min = 1e9
+    max = 0
+    sorted = False
+    values = None
+    
     def __init__(self):
-        self.sum = 0
-        self.nr = 0
-        self.min = 1e9
-        self.max = 0
-        self.list = []
-        self.sorted = False
+        self.values = []
 
     def add(self, duration):
-        self.list.append(duration)
+        self.values.append(duration)
         self.sum += duration
         self.nr += 1
         if duration < self.min:
@@ -52,17 +56,20 @@ class Stat:
     
     def mediane(self):
         if not self.sorted:
-            self.list.sort()
+            self.values.sort()
             self.sorted = True
         if self.nr:
-            return self.list[len(self.list)/2]
+            return self.values[len(self.values)/2]
         else:
             return 1
 
     def problems(self):
         if self.nr:
             avg = self.avg()
-            return len(list([i for i in self.list if i > 4*avg])) / float(self.nr)
+            return len(list([i
+                             for i in self.values
+                             if i > 4*avg])
+                       ) / float(self.nr)
         else:
             return 0
     
@@ -73,19 +80,18 @@ class Stat:
             avg, avg/mediane, self.min, self.max, self.sum, self.nr,
             int(100*self.problems()))
 
-def run(service_name, ft, index):
+def run(service_name, lines):
     try:
         f = open(os.path.join('LOGS', service_name), 'r')
     except IOError:
         utilities.warn(service_name + ' unreadable')
-        return index
+        return
     service_name = service_name.split('.')[0]
 
     d = {}
 
     begin_time = None
     start_time = 0
-    running = 0
     five_minute = time.time() - 5*60
     one_hour = time.time() - 60*60
     one_day = time.time() - 60*60*24
@@ -97,7 +103,6 @@ def run(service_name, ft, index):
             if begin_time == None:
                 begin_time = float(start_time)
             duration = float(duration)
-            running += duration
             start_time = float(start_time)
         except ValueError:
             continue
@@ -115,13 +120,6 @@ def run(service_name, ft, index):
         if start_time > one_month:
             d[name][5].add(duration)
         
-    end_time = float(start_time)
-
-    # output.write('%%time busy: %g, begin_time: %s\n' % (
-    #    100 * running/(end_time - begin_time),
-    #    time.ctime(begin_time)
-    #    ))
-
     keys = list(d.keys())
     keys.sort(lambda x, y: cmp(d[x][0].sum/(d[x][0].nr+1),
                                d[y][0].sum/(d[y][0].nr+1)) )
@@ -134,105 +132,93 @@ def run(service_name, ft, index):
                     launch_thread = '*' # XXX Miss many
                     break
 
-        for when, dd in zip(('All','5 minutes', 'hour', 'day', 'week', 'month'),d[k]):
+        for when, dd in zip(('All', '5 minutes', 'hour',
+                             'day', 'week', 'month'), d[k]):
             if dd.nr == 0:
                 continue
-            ft.write("cell_change(0,'0_0','%d','%s','')\n" % (
-                index, service_name))
-            ft.write("cell_change(0,'0_1','%d','%s','')\n" % (
-                index, k))
-            ft.write("cell_change(0,'0_2','%d',%g,'')\n" % (
-                index, dd.avg()*1000))
-            ft.write("cell_change(0,'0_3','%d',%g,'')\n" % (
-                index, dd.avg()/dd.mediane()))
-            ft.write("cell_change(0,'0_4','%d',%g,'')\n" % (
-                index, dd.min*1000))
-            ft.write("cell_change(0,'0_5','%d',%g,'')\n" % (
-                index, dd.max*1000))
-            ft.write("cell_change(0,'0_6','%d',%g,'')\n" % (
-                index, dd.sum))
-            ft.write("cell_change(0,'0_7','%d',%d,'')\n" % (
-                index, dd.nr))
-            if launch_thread == '*':
-                ft.write("cell_change(0,'0_8','%d','OUI','')\n" % (
-                    index,))
-            n = dd.problems()
-            if n:
-                ft.write("cell_change(0,'0_9','%d',%g,'')\n" % (
-                    index, n*100))
-            ft.write("cell_change(0,'0_a','%d','%s','')\n" % (
-                index,when))
-            index += 1
-    return index
+            lines.append(cell.Line((
+                        cell.CellValue(service_name),
+                        cell.CellValue(k),
+                        cell.CellValue(dd.avg()*1000),
+                        cell.CellValue(dd.avg()/dd.mediane()),
+                        cell.CellValue(dd.min*1000),
+                        cell.CellValue(dd.max*1000),
+                        cell.CellValue(dd.sum),
+                        cell.CellValue(dd.nr),
+                        cell.CellValue(launch_thread == '*'
+                                       and 'OUI' or ''),
+                        cell.CellValue(dd.problems()
+                                       and dd.problems()*100 or ''),
+                        cell.CellValue(when),
+                        )))
 
 
 @utilities.add_a_lock
 def profiling(server):
     """Display the statistics on the plugin usage, number of call and times."""
 
-    filename = document.table_filename(str(server.the_year),
-                                       'Stats', 'profile')
-    utilities.mkpath( os.path.sep.join(filename.split(os.path.sep)[0:-1]))
-    ft = open(filename, 'w')
-    ft.write("""# -*- coding: utf8 -*-
-from data import *
-new_page('' ,'*', '', '')
-column_change (0,'0_0','Service','Text','','','F',0,2)
-column_change (0,'0_0','Service','Text','','','F',0,2)
-column_change (0,'0_1','Plugin','Text','','','F',0,2)
-column_change (0,'0_2','Moy','Note','[0;1000]','','',0,2)
-column_comment(0,'0_2','Temps de réponse moyen du service en millisecondes')
-column_change (0,'0_3','Moy/Méd','Note','[0;10]','','',0,2)
-column_comment(0,'0_3','Moyenne divisée par la médiane')
-column_change (0,'0_4','Min','Note','[0;1000]','','',0,2)
-column_comment(0,'0_4','Temps de réponse minimal du service en millisecondes')
-column_change (0,'0_5','Max','Note', '[0;1000]','','',0,2)
-column_comment(0,'0_5','Temps de réponse maximal du service en millisecondes')
-column_change (0,'0_6','Total','Note','[0;NaN]','','',0,2)
-column_comment(0,'0_6','Temps de réponse cumulé pour le service en secondes')
-column_change (0,'0_7','#Appel','Note','[0;NaN]','','',0,2)
-column_comment(0,'0_7','Nombre d\\'utilisations du service')
-column_change (0,'0_8','Batch','Text','','','',0,1)
-column_comment(0,'0_8','Lancé en arrière plan.')
-column_change (0,'0_9','Lenteurs','Note','[0;5]','','',0,1)
-column_comment(0,'0_9','Pourcentage de requête prenant plus de 4 fois le temps moyen.')
-column_change (0,'0_a','Quand','Text','[0;5]','','',0,1)
-column_comment(0,'0_a','Statistiques calculées sur la durée indiquée')
-table_comment(0, 'Profiling des services')
-table_attr('default_nr_columns', 0, 11)
-""")
-
-    index = run(os.path.join('TOMUSS',
-                             str(server.the_year) + '.times'
-                             ), ft, 0)
-    import configuration
+    columns = (
+        column.Column('0', '', freezed='F', width=2, type='Text',
+                      title=server._('COL_TITLE_service')),
+        column.Column('1', '', freezed='F', width=2, type='Text',
+                      title=server._('COL_TITLE_plugin')),
+        column.Column('2', '', width=2, type='Note', minmax='[0;1000]',
+                      title=server._('COL_TITLE_avg'),
+                      comment=server._('COL_COMMENT_avg'),
+                      ),
+        column.Column('3', '', width=2, type='Note', minmax='[0;10]',
+                      title=server._('COL_TITLE_avg/med'),
+                      comment=server._('COL_COMMENT_avg/med'),
+                      ),
+        column.Column('4', '', width=2, type='Note', minmax='[0;1000]',
+                      title=server._('COL_TITLE_min'),
+                      comment=server._('COL_COMMENT_min'),
+                      ),
+        column.Column('5', '', width=2, type='Note', minmax='[0;1000]',
+                      title=server._('COL_TITLE_max'),
+                      comment=server._('COL_COMMENT_max'),
+                      ),
+        column.Column('6', '', width=2, type='Note', minmax='[0;NaN]',
+                      title=server._('COL_TITLE_total'),
+                      comment=server._('COL_COMMENT_total'),
+                      ),
+        column.Column('7', '', width=2, type='Note', minmax='[0;NaN]',
+                      title=server._('COL_TITLE_call'),
+                      comment=server._('COL_COMMENT_call'),
+                      ),
+        column.Column('8', '', width=2, type='Text',
+                      title=server._('COL_TITLE_batch'),
+                      comment=server._('COL_COMMENT_batch'),
+                      ),
+        column.Column('9', '', width=2, type='Note', minmax='[0;5]',
+                      title=server._('COL_TITLE_slow'),
+                      comment=server._('COL_COMMENT_slow'),
+                      ),
+        column.Column('10', '', width=2, type='Text',
+                      title=server._('COL_TITLE_when'),
+                      comment=server._('COL_COMMENT_when'),
+                      ),
+        )
+    lines = []                     
+    run(os.path.join('TOMUSS', str(server.the_year) + '.times'), lines)
 
     for url, port, year, semester, host in configuration.suivi.urls.values():
         server.the_file.write('\n')
-        index = run(os.path.join('SUIVI%d' % port,
-                                 str(server.the_year) + '.times'
-                                 ), ft, index)
+        run(os.path.join('SUIVI%d' % port, str(server.the_year) + '.times'
+                         ), lines)
 
-    ft.close()
-
-    t = document.table(server.the_year, 'Stats', 'profile', create=False)
-    if t:
-        t.unload()
-
-    server.the_file.write('<script>window.location="%s/=%s/%d/Stats/profile";</script>' % (
-        configuration.server_url, server.ticket.ticket, server.the_year))
-    server.close_connection_now()
+    document.virtual_table(server, columns, lines,
+                           {
+            'comment': server._("TABLE_COMMENT_profiling"),
+            'default_nr_columns': 11,
+            })
 
 plugin.Plugin('profiling', '/profiling/{Y}',
               function=profiling,
               root = True,
               launch_thread = True,
               keep_open = True,
-              link=plugin.Link(text='Profiling des plugins',
-                               help='''Calcule des performances des différents
-                               plugins TOMUSS''',
-                               html_class="verysafe",
-                               where='debug',
+              link=plugin.Link(html_class="verysafe", where='debug',
                                url="javascript:go_year_after('profiling')"
                                ),
               )

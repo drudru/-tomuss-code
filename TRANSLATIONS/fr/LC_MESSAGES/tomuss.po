@@ -481,7 +481,8 @@ msgid "ERROR_value_not_modifiable"
 msgstr "Vous n'êtes pas autorisé à modifier cette valeur."
 
 msgid "ERROR_value_system_defined"
-msgstr "Car elle a été définie par le système"
+msgstr "Car elle a été définie par le système,\n"
+       "si elle est fausse il faut prévenir un responsable"
 
 msgid "ERROR_value_defined_by_another_user"
 msgstr "Seule la personne qui a saisie la valeur peut la modifier.\n"
@@ -1283,7 +1284,7 @@ msgid "B_print_attr_enumeration"
 msgstr "Énumération"
 
 msgid "B_print_attr_test_filter"
-msgstr "Fitre comptage"
+msgstr "Filtre comptage"
 
 msgid "B_print_attr_visibility_date"
 msgstr "Date de visibilité"
@@ -1868,9 +1869,6 @@ msgid "ALERT_first_before_second"
 msgstr "La première date doit être avant la deuxième"
 
 msgid "ALERT_bad_login"
-msgstr "Ce login est inconnu : "
-
-msgid "ALERT_bug"
 msgstr "Ce login est inconnu : "
 
 msgid "ALERT_repetition"
@@ -2668,3 +2666,412 @@ msgstr "<p>Chaque ligne du tableau contient les informations sur un étudiant.\n
      "    compte des filtres et des colonnes cachées.\n"
      "<li><kbd>s</kbd> ouvre une fenêtre pour faire le suivi de l'étudiant.\n"
      "</ul>"
+
+msgid "MSG_full_date"
+msgstr "%A %d %B %Y à %H heures %M minutes et %S secondes"
+
+msgid "ALERT_popup"
+msgstr "Vous devez autoriser les 'popup' dans votre navigateur.\n"
+       "TOMUSS ne fonctionnera pas correctement si vous les bloquez.\n"
+       "\n"
+       "Pour les débloquer,\n"
+       "il y a un petit icone vers la droite de l'adresse de la page"
+
+msgid "ALERT_no_mail"
+msgstr "Désolé, votre navigateur n'a pas encore reçu les adresses mails.\n"
+       "Réessayez dans quelques secondes."
+
+msgid "ALERT_copy_mail"
+msgstr "Copiez la liste suivante dans votre logiciel de messagerie :"
+
+msgid "ALERT_copy_mail_microsoft"
+msgstr "Microsoft Windows interdit de lancer automatiquement\n"
+       "le logiciel de messagerie quand il y a trop d'adresses.\n"
+       "Vous êtes donc obligé de recopier la liste en faisant un copié collé."
+
+msgid "ALERT_locked_column"
+msgstr "Cette valeur n'est pas modifiable car les modications\n"
+       "ont été interdites dans cette colonne."
+
+msgid "ALERT_duplicate_id"
+msgstr "Ce numéro d'étudiant existe déjà !"
+
+msgid "ALERT_missing_id"
+msgstr "Vous devez impérativement saisir une valeur dans la\n"
+       "première colonne (le numéro d'étudiant)"
+
+msgid "ALERT_duplicate_before"
+msgstr "Vous n'avez pas le droit de saisir cette valeur,\n"
+       "elle a déjà été saisie "
+       
+msgid "ALERT_duplicate_after"
+msgstr " fois, le maximum autorisé est "
+
+msgid "ALERT_colmunprivate"
+msgstr "Vous ne pouvez pas rendre cette table privée car\n"
+       "vous ne pourriez plus la voir.\n"
+       "Commencez par vous ajouter comme étant\n"
+       "un des responsables de cette table"
+
+msgid "LINK_abj"
+msgstr "Modification des ABJ et DA"
+
+msgid "HELP_abj"
+msgstr "Permet d'aller sur la page d'édition des\n"
+       "justificatifs d'absence et des dispenses d'assiduité"
+       
+msgid "LINK_abjalpha"
+msgstr "Récapitulatif ABJ+DA des licences"
+
+msgid "HELP_abjalpha"
+msgstr "Liste les justificatifs d'absence ainsi que les\n"
+       "dispenses d'assiduité qui ont été saisies pour tous\n"
+       "les étudiants de licence."
+
+msgid "LINK_abjalphamaster"
+msgstr "Récapitulatif ABJ+DA des masters"
+
+msgid "HELP_abjalphamaster"
+msgstr "Liste les justificatifs d'absence ainsi que les\n"
+       "dispenses d'assiduité qui ont été saisies pour tous\n"
+       "les étudiants de master."
+
+msgid "LINK_abjalphaepu"
+msgstr "Récapitulatif ABJ+DA de l'EPU"
+
+msgid "HELP_abjalphaepu"
+msgstr "Liste les justificatifs d'absence ainsi que les\n"
+       "dispenses d'assiduité qui ont été saisies pour tous\n"
+       "les étudiants de l'EPU."
+
+msgid "LINK_abjalphaauthor"
+msgstr "Récapitulatif ABJ+DA que vous avez saisies"
+
+msgid "HELP_abjalphaauthor"
+msgstr " "
+
+msgid "LINK_abjlistmail"
+msgstr "Messages aux responsables d'UE de licence"
+
+msgid "HELP_abjlistmail"
+msgstr "Ceci permettra d'envoyer un message à tous les\n"
+       "responsables d'UE de licence en leur indiquant\n"
+       "la liste des étudiants avec des absences justifiées,\n"
+       "des dispenses et les tiers temps."
+
+msgid "MSG_bilan"
+msgstr "Le tableau représente les informations stockées par TOMUSS,\n"
+       "des UE où l'étudiant a été inscrit peuvent manquer.\n"
+       "<ul>\n"
+       "<li>Si la case est blanche et vide,\n"
+       "    l'étudiant est inscrit dans TOMUSS mais aucune information\n"
+       "    n'a été saisie.\n"
+       "<li>Le carré de couleur contient : Vert : Présences ou Note.,\n"
+       "    Bleu : Absence justifiée, Rouge : Absence injustifiée\n"
+       "<li>La note sur 20 est une moyenne de TOUTES les notes saisies dans\n"
+       "    TOMUSS sans tenir compte des poids.\n"
+       "    <b>Ce n'est pas la note de l'UE</b>\n"
+       "</ul>"
+
+msgid "MSG_bilan_take_student"
+msgstr "Je veux devenir le référent pédagogique de cet étudiant.\n"
+       "Vous ne pourrez plus vous en séparer sauf si quelqu'un vous le prend."
+
+
+msgid "MSG_bilan_unknown"
+msgstr "Étudiant inconnu de TOMUSS"
+
+msgid "LINK_change_identity"
+msgstr "Prendre l'identité de : "
+
+msgid "HELP_change_identity"
+msgstr "Pour prendre réellement l'identité de quelqu'un d'autre"
+
+msgid "MSG_change_identity_start"
+msgstr "Début de l'usurpation d'identité"
+
+msgid "MSG_change_identity_done"
+msgstr "Changement d'identité réussi, retournez à la page précédente\n"
+       "pour voir les changements."
+
+msgid "LINK_clean"
+msgstr "Détruit les UE vides"
+
+msgid "HELP_clean"
+msgstr "Les UE détruites sont mises dans le répertoire Trash.\n"
+       "C'est LENT : il ne faut pas le faire en charge.\n"
+       "Il est préférable de ne pas le faire pour garder\n"
+       "un historique des étudiants inscrits.\n"
+       "Ceci n'est fait que pour les UE du semestre choisi."
+
+msgid "LINK_clean_other"
+msgstr "Détruit les tables vides"
+
+msgid "HELP_clean_other"
+msgstr "Les tables détruites sont mises dans le répertoire Trash.\n"
+       "C'est LENT : il ne faut pas le faire en charge.\n"
+       "Seules les tables complètement vides sont détruites.\n"
+       "Ceci ne détruit pas les UE."
+
+msgid "MSG_clean_other_in_use"
+msgstr "ne peut être détruite car elle est utilisée."
+
+msgid "MSG_clean_other_strange"
+msgstr "pas détruite, regardez le contenu, il est étrange."
+
+msgid "MSG_clean_other_done"
+msgstr "Fin du ménage."
+
+msgid "MSG_clean_other_deleted"
+msgstr "DÉTRUITE"
+
+msgid "COL_TITLE_ID"
+msgstr "ID"
+
+msgid "COL_TITLE_firstname"
+msgstr "Prénom"
+
+msgid "COL_TITLE_surname"
+msgstr "Nom"
+
+msgid "COL_COMMENT_nb_cells_entered"
+msgstr "Nombre de cellules saisies"
+
+msgid "COL_TITLE_TOTAL"
+msgstr "TOTAL"
+
+msgid "COL_TITLE_type"
+msgstr "Type"
+
+msgid "COL_TITLE_item"
+msgstr "Item"
+
+msgid "COL_COMMENT_IP"
+msgstr "Nombre d'adresses IPs utilisées"
+
+msgid "COL_COMMENT_ID"
+msgstr "Nombre de comptes utilisés"
+
+msgid "COL_TITLE_browser"
+msgstr "Navigateur"
+
+msgid "COL_COMMENT_browser"
+msgstr "Nombre de navigateurs utilisés"
+
+msgid "COL_TITLE_OS"
+msgstr "OS"
+
+msgid "COL_COMMENT_OS"
+msgstr "Nombre de système d'exploitation utilisés"
+
+msgid "COL_TITLE_page"
+msgstr "Page"
+
+msgid "COL_COMMENT_page"
+msgstr "Nombre de pages affichées"
+
+msgid "TABLE_COMMENT_client"
+msgstr "Statistiques sur les navigateurs web"
+
+msgid "LINK_clients"
+msgstr "Statistiques clients"
+
+msgid "HELP_clients"
+msgstr "Sur les navigateurs, les systèmes d'exploitation et adresses IP.\n"
+       "C'est pas très bien pour la vie privée."
+
+msgid "MSG_evaluate"
+msgstr "Action interdite dans le mode démonstration."
+
+msgid "LINK_gctop"
+msgstr "Affiche les objets python en mémoire"
+
+msgid "HELP_gctop"
+msgstr "Utile pour trouver les fuites mémoire"
+
+msgid "MSG_cache_title"
+msgstr "Cache TOMUSS"
+
+msgid "TH_cache_name"
+msgstr "Name"
+
+msgid "TH_cache_what"
+msgstr "What"
+
+msgid "TH_cache_type"
+msgstr "Type"
+
+msgid "TH_cache_age"
+msgstr "Age x:minutes y:log(nr_items)"
+
+msgid "TH_cache_maxage"
+msgstr "Max Age"
+
+msgid "TH_cache_content"
+msgstr "Contenu"
+
+msgid "MSG_cache_size"
+msgstr "of size %d"
+
+msgid "LINK_caches"
+msgstr "Affiche les caches"
+
+msgid "HELP_caches"
+msgstr "Utile pour trouver les fuites mémoire"
+
+msgid "MSG_locks_title"
+msgstr "Verrous TOMUSS"
+
+msgid "LINK_locks"
+msgstr "Affiche les verrous"
+
+msgid "HELP_locks"
+msgstr "Utile pour trouver ce qui bloque"
+
+msgid "MSG_threads_title"
+msgstr "Threads TOMUSS"
+
+msgid "LINK_threads"
+msgstr "Affiche les threads"
+
+msgid "HELP_threads"
+msgstr "Utile pour trouver ce qui charge"
+
+msgid "MSG_need_javascript"
+msgstr "Cette application nécessite que JavaScript soit activé"
+
+msgid "LINK_live_log"
+msgstr "Live log"
+
+msgid "HELP_live_log"
+msgstr "Affiche en temps réel le fichier de log"
+
+msgid "LINK_live_status_svg"
+msgstr "Live status"
+
+msgid "HELP_live_status_svg"
+msgstr "Affichage graphique temps réel de TOMUSS"
+
+msgid "LINK_master_of"
+msgstr "Réinitialise responsables"
+
+msgid "HELP_master_of"
+msgstr "À utiliser seulement en cas de bug.\n"
+       "Ceci recalcule pour chaque utilisateur la\n"
+       "liste des tables dont il est responsable.\n"
+       "Ceci est normalement inutile."
+
+msgid "MSG_new_page_unauthorized"
+msgstr "<h1>Vous n'êtes pas autorisé à éditer cette table</h1>\n"
+       "<p>Cette table contient des données confidentielles\n"
+       "ne pouvant être diffusées à tout le monde."
+
+msgid "MSG_new_page_in_past"
+msgstr " n'existe pas, et il n'est pas possible de créer\n"
+       "des tables dans le passé."
+
+msgid "ALERT_new_page_too_old"
+msgstr "Votre page est trop vieille, réactualisez la.\n"
+       "Si votre navigateur est récent, vous ne perdrez aucune donnée\n"
+       "si la sauvegarde automatique est bien activée."
+
+msgid "MSG_page_unload_before"
+msgstr "Début du déchargement de la page."
+
+msgid "MSG_page_unload_after"
+msgstr "Déchargement réussi."
+
+msgid "MSG_page_unload_no_table"
+msgstr "Cette table n'existe pas !"
+
+msgid "MSG_extension_not_empty"
+msgstr "Vous n'êtes pas autorisé à faire ceci car la table %s n'est pas vide : "
+
+msgid "MSG_extension_no_table"
+msgstr "Opération impossible car l'UE n'existait pas en %d/%s"
+
+msgid "MSG_extension_yet_done"
+msgstr "L'UE est déjà NON-semestrialisée"
+
+msgid "MSG_extension_not_master"
+msgstr "Vous n'êtes pas autorisé à faire ceci car\n"
+       "vous n'êtes pas responsable de l'UE."
+
+msgid "MSG_extension_ok"
+msgstr "Extension de '%s' vers '%s' est réussie.\n"
+       "L'UE n'est maintenant plus semestrialisée"
+
+msgid "MSG_delete_this_table_unmodifiable"
+msgstr "On ne peut pas détruire une table non modifiable."
+
+msgid "MSG_delete_this_table_done"
+msgstr "La destruction a été faite."
+
+msgid "COL_TITLE_service"
+msgstr "Service"
+
+msgid "COL_TITLE_plugin"
+msgstr "Plugin"
+
+msgid "COL_TITLE_avg"
+msgstr "Moy"
+
+msgid "COL_COMMENT_avg"
+msgstr "Temps de réponse moyen du plugin en millisecondes"
+
+msgid "COL_TITLE_avg/med"
+msgstr "Moy/Méd"
+
+msgid "COL_COMMENT_avg/med"
+msgstr "Moyenne divisée par la médiane"
+
+msgid "COL_TITLE_min"
+msgstr "Min"
+
+msgid "COL_COMMENT_min"
+msgstr "Temps de réponse minimal du plugin en millisecondes"
+
+msgid "COL_TITLE_max"
+msgstr "Max"
+
+msgid "COL_COMMENT_max"
+msgstr "Temps de réponse maximal du plugin en millisecondes"
+
+msgid "COL_TITLE_total"
+msgstr "Total"
+
+msgid "COL_COMMENT_total"
+msgstr "Temps de réponse cumulé pour le plugin en secondes"
+
+msgid "COL_TITLE_call"
+msgstr "#Appel"
+
+msgid "COL_COMMENT_call"
+msgstr "Nombre d'utilisations du plugin"
+
+msgid "COL_TITLE_batch"
+msgstr "Batch"
+
+msgid "COL_COMMENT_batch"
+msgstr "Lancé en arrière plan"
+
+msgid "COL_TITLE_slow"
+msgstr "Lenteurs"
+
+msgid "COL_COMMENT_slow"
+msgstr "Pourcentage de requêtes prenant plus de 4 fois le temps moyen"
+
+msgid "COL_TITLE_when"
+msgstr "Quand"
+
+msgid "COL_COMMENT_when"
+msgstr "Statistiques calculées sur la durée indiquée"
+
+msgid "TABLE_COMMENT_profiling"
+msgstr "Profiling des plugins"
+
+msgid "LINK_profiling"
+msgstr "Profiling des plugins"
+
+msgid "HELP_profiling"
+msgstr "Calcule des performances des différents plugins TOMUSS"

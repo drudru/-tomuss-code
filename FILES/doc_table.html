@@ -343,7 +343,33 @@
       Si c'est <tt>0.5</tt> alors il y aura en plus 0.5, 1.5, 2.5...
     </div>
 
+    <div>
+    <h3>Faire un questionnaire</h3>
+    <p>
+      Le questionnaire s'adresse aux étudiants,
+      il s'intègre naturellement au suivi de l'étudiant,
+      au lieu d'avoir une note, l'étudiant dispose d'un champ de saisi.
+    <p>
+      Les enseignants peuvent répondre à la place de l'étudiants,
+      et bien sûr on ne peut pas modifier une valeur saisie par
+      quelqu'un d'autre.
+    <p>
+      Il faut donc une colonne par question :
+      <ul>
+	<li><p> Indiquez le type de la colonne afin de définir les réponses
+	  possibles pour l'étudiant.
+	  Si c'est une énumération ou un booléen,
+	  l'étudiant aura un menu déroulant avec les choix possibles.
+	<li><p> Dans l'onglet « Colonne / Affiche » indiquez que
+	  « Les étudiants peuvent modifier leur valeur à partir du suivi »
+      </ul>
+    <p>
+      Si la MÊME réponse à la question ne peut être données qu'un nombre
+      limité de fois (choix de projet, de créneau de rendez vous...)
+      alors vous indiquez le nombre limite dans le champs
+      « Répétition » de l'onglet « Colonne / Formule »
 
+    </div>
 
     <div>
     <h2>Calcul de moyenne</h2>
@@ -406,6 +432,10 @@
       Évidemment <tt>ABJ + 1</tt> n'a pas de sens et affichera <tt>NaN</tt>.
       Si vous voulez obtenir ABJ comme résultat alors faites
       <tt>ABJ + ABJ</tt></b>
+    <p>
+      De même  <tt>ABI + 0</tt> donne <tt>0</tt>,
+      si vous voulez obtenir <tt>ABI</tt> il faut ajouter <tt>ABI</tt>
+      au lieu de 0 point jury.
 
     <h4>Malus de 0.5 point par absence injustifiée</h4>
 	<p>
@@ -684,15 +714,24 @@
 	Ensuite plusieurs choix sont possibles :
 	<ul>
     <li>
-	  Pour vider la colonne : cliquez sur « effacer les valeurs »
-    <li>
 	  Pour remplir toute la colonne avec la même valeur :
 	  vous saisissez la valeur dans le champs de saisie
-	  et vous cliquez sur « remplir »
+	  et vous cliquez
+	  sur le bouton « Changer les cellules des lignes filtrées »
     <li>
-	  Pour remplir avec plusieurs valeurs :
-	  vous les saisissez puis choisissez l'un des deux modes
-	  de remplissage en bas à droite puis vous cliquez sur « remplir »
+	  Pour vider la colonne : choisissez l'onglet « Vider » puis
+	  sur le bouton « Changer les cellules des lignes filtrées »
+    <li>
+	  Pour remplir de manière équilibrée avec des valeurs différentes :
+	  choisissez l'onglet « ABC ABC ABC... » ou « AA... BB... CC... »
+	  Saisissez les valeurs en en mettant une par ligne,
+	  puis vous cliquez
+	  sur le bouton « Changer les cellules des lignes filtrées »
+    <li>
+          Pour remplir avec des nombres successifs, vous choisissez l'onglet
+	  « 42 43 44 45... », vous saisissez le nombre de départ
+	  puis vous cliquez
+	  sur le bouton « Changer les cellules des lignes filtrées »
     </ul>
     <p>
 	  Remarques :
@@ -708,9 +747,9 @@
 	  <li> Vous triez par note.
 	  <li> Vous remplissez avec les valeurs 'Soutien Salle 1'
 	    et 'Soutien Salle 2'
-	  <li> Vous choisissez le remplissage «ABABABAB» pour avoir
+	  <li> Vous choisissez le remplissage «ABC ABC ABC...» pour avoir
 	    deux salles avec le même niveau moyen.
-	    Ou bien le remplissage «AAAABBBB» pour avoir une
+	    Ou bien le remplissage «AA... BB... CC...» pour avoir une
 	    séparation par niveau dans les deux salles.
 	</ul>	    
 
@@ -1095,12 +1134,17 @@
 	  Pour cela, il suffit simplement d'indiquer l'adresse
 	  de la table dans votre navigateur web pour la créer.
 	  <tt>http://tomuss....../Annee/Semestre/Table</tt>
-	<p>L'année est indiquée avec 4 chiffres</p>
+    </p>
+    <p>L'année est indiquée avec 4 chiffres, le nom de la table ou du semestre
+      ne doit pas contenir d'espace ou d'accents.
     </p>
     <p>Voici quelques consignes concernant le semestre :
     <ul>
       <li><p> Si la table contient des étudiants, alors le semestre 
-	      est impérativement <tt>Automne</tt> ou <tt>Printemps</tt>
+	      est impérativement <tt>Automne</tt> ou <tt>Printemps</tt>.
+	      Les tables qui ne sont pas dans ces semestres
+	      ne contiennent aucune colonne prédéfinie.</p>
+
 	    <p></li>
       <li><p> Si vous voulez que la table ne soit visible que par
 	      les personnes indiquées comme responsable de la table
@@ -1112,19 +1156,34 @@
 	      le semestre.
 	    </p></li>
     </ul>
-    <p>Si le nom de la table commence par UE-, EC- ou SP- alors
-	  le contenu de la table sera automatiquement vu par les
-	  étudiants.<p>
-    <p>Les tables que vous créez ne sont pas trouvées par le moteur
-	  de recherche d'UE, vous devez conserver précieusement l'URL.
-	  Vous pouvez retrouver les tables dans lesquelles vous avez
-	  fait des saisies en allant sur votre page de suivi
-	  en tapant votre nom dans le moteur de recherche étudiant.
-	  (ceci sera amélioré dans le futur.)</p>
-    <p>Les tables de <tt>Dossiers</tt> et <tt>Public</tt> ne contiennent
-	  aucune colonne.</p>
-	  
-
+    <p>Une fois la table affichée, il faut :
+      <ul>
+	<li><p> Mettre un commentaire de table pour que les étudiants
+	    comprennent de quoi il s'agit.
+	<li><p> Vérifier si la table est visible ou non par les étudiants
+	  en allant dans l'onglet « Table / Paramétrage »
+	<li><p> Vous ajouter vous même dans la liste des responsables
+	  de la table.
+	  Cela la fera apparaître sur votre page d'accueil TOMUSS.
+	<li><p> Pour remplir la liste des étudiants :
+	  <ul>
+	    <li> vous allez sur une cellule de la première colonne ;
+	    <li> puis dans l'onglet « Colonne / Action » ;
+	    <li> vous cliquez sur « Importer des valeurs... » ;
+	    <li> vous copiez les numéros d'étudiants dans le champs de saisie
+	      (un par ligne) ;
+	    <li> vous cliquez sur « importer les données dans TOMUSS »
+	  </ul>
+	  <p>
+	    Vous attendez un moment pour que l'importation se termine,
+	    cela peut être long...
+	    Les noms et prénoms des étudiants apparaissent progressivement.
+      </ul>
+    <p>
+      Si c'est une table d'étudiants, vous pouvez ensuite créer
+      des colonnes de type « Référent », « Code etape », « Sportif »
+      pour avoir des informations les concernant.
+      
     </div>
 
 

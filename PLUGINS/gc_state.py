@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 #    TOMUSS: The Online Multi User Simple Spreadsheet
-#    Copyright (C) 2008-2010 Thierry EXCOFFIER, Universite Claude Bernard
+#    Copyright (C) 2008-2012 Thierry EXCOFFIER, Universite Claude Bernard
 #
 #    This program is free software; you can redistribute it and/or modify
 #    it under the terms of the GNU General Public License as published by
@@ -31,7 +31,7 @@ import time
 def gc_top(server):
     "Display a clickable list of Python classes and their number of instance."
     if configuration.regtest:
-        server.the_file.write('Disabled functionnality on demo server')
+        server.the_file.write(server._("MSG_evaluate"))
         return
     
     server.the_file.write('<META NAME="ROBOTS" CONTENT="NOINDEX, NOFOLLOW">\n')
@@ -47,7 +47,7 @@ def gc_top(server):
 def gc_type(server):
     """Display a clickable list of the instance of the classes specified"""
     if configuration.regtest:
-        server.the_file.write('Disabled functionnality on demo server')
+        server.the_file.write(server._("MSG_evaluate"))
         return
     server.the_file.write('<pre>')
     for i in objgraph.by_type(server.the_path[0]):
@@ -68,7 +68,7 @@ def gc_type(server):
 def gc_object(server):
     """Display the graph of instances using or used by the object"""
     if configuration.regtest:
-        server.the_file.write('Disabled functionnality on demo server')
+        server.the_file.write(server._("MSG_evaluate"))
         return
     o = int(server.the_path[0], 0)
     for i in gc.get_objects():
@@ -80,11 +80,7 @@ def gc_object(server):
             break
 
 plugin.Plugin('gctop'   , '/gc'        , root=True, function=gc_top,
-              link=plugin.Link(text='Affiche les objets python en mémoire',
-                               help="Utile pour trouver les fuites mémoire",
-                               where='debug',
-                               html_class='verysafe',
-                          )
+              link=plugin.Link(where='debug', html_class='verysafe')
               )
 plugin.Plugin('gctype'  , '/type/{*}'  , root=True, function=gc_type)
 plugin.Plugin('gcobject', '/object/{*}', root=True, function=gc_object,
@@ -124,12 +120,18 @@ def histogram(values):
 
 def caches(server):
     """Display the caches statistics"""
-    s = ['<title>Cache TOMUSS</title><table border="1"><tr><th>Name<th>What<th>Type<th>Age x:minutes y:log(nr_items)<th>Max Age<th>Content']
+    s = ['<title>' + server._("MSG_cache_title")
+         + '</title><table border="1"><tr><th>' + server._("TH_cache_name")
+         + '<th>' + server._("TH_cache_what")
+         + '<th>' + server._("TH_cache_type")
+         + '<th>' + server._("TH_cache_age")
+         + '<th>' + server._("TH_cache_maxage")
+         + '<th>' + server._("TH_cache_content")]
     now = int(time.time())
     for cache in utilities.caches:
         if  cache.the_type == 'add_a_cache0':
             nr_items = 1
-            size = 'of size %d' % len(cache.cache[0])
+            size = server._("MSG_cache_size") % len(cache.cache[0])
             since = now - int(cache.cache[1])
         else:
             nr_items = len(cache.cache)
@@ -149,38 +151,27 @@ def caches(server):
     server.the_file.write('\n'.join(s))
 
 plugin.Plugin('caches'   , '/caches'   , root=True, function=caches,
-              link=plugin.Link(text='Affiche les caches',
-                               help="Utile pour trouver les fuites mémoire",
-                               where='debug',
-                               html_class='verysafe',
-                          )
+              link=plugin.Link(where='debug', html_class='verysafe')
               )
 
 def locks(server):
     """Displays all the lock states"""
-    server.the_file.write('<title>Locks TOMUSS</title><pre>'
-                          + utilities.lock_state() + '</pre>')
+    server.the_file.write('<title>' + server._("MSG_locks_title")
+                          + '</title><pre>'+ utilities.lock_state() + '</pre>')
 
 plugin.Plugin('locks'   , '/locks'   , root=True, function=locks,
-              link=plugin.Link(text='Affiche les verrous',
-                               help="Utile pour trouver ce qui bloque",
-                               where='debug',
-                               html_class='verysafe',
-                          )
+              link=plugin.Link(where='debug', html_class='verysafe')
               )
 
 def threads(server):
     """Displays the running thread"""
-    server.the_file.write('<title>Threads TOMUSS</title><pre>' +
+    server.the_file.write('<title>' + server._("MSG_threads_title")
+                          + '</title><pre>' +
                           '\n'.join(cgi.escape(t.stack())
                                     for t in utilities.thread_list) +
                           '</pre>')
 
 plugin.Plugin('threads'   , '/threads'   , root=True, function=threads,
-              link=plugin.Link(text='Affiche les threads',
-                               help="Utile pour trouver ce qui charge",
-                               where='debug',
-                               html_class='verysafe',
-                          )
+              link=plugin.Link(where='debug', html_class='verysafe')
               )
 

@@ -1226,12 +1226,23 @@ function generate_home_page_students()
 function generate_home_page_actions()
 {
     var t = '<h2>' + _('TH_home_right') + '</h2>' ;
-    var boxes = {} ;
+    var boxes = {}, link_name, link_help ;
     for(var i in links)
-	if ( boxes[links[i][0]] )
-	    boxes[links[i][0]].push(links[i]) ;
+    {
+	if ( links[i][3] === '' )
+	    links[i][3] = _('LINK_' + links[i][7]) ;
+	if ( links[i][6] === '' )
+	{
+	    links[i][6] = _('HELP_' + links[i][7]) ;
+	    if ( links[i][6] == 'HELP_' + links[i][7] )
+		links[i][6] = '' ;
+	}
+	link_name = links[i][0] ;
+	if ( boxes[link_name] )
+	    boxes[link_name].push(links[i]) ;
         else
-	    boxes[links[i][0]] = [ links[i] ] ;
+	    boxes[link_name] = [ links[i] ] ;
+    }
     var sorted_boxes = [] ;
     for(var box_name in boxes)
     {
