@@ -2140,6 +2140,9 @@ msgstr "<!--1-->Scolarité"
 msgid "BOX_informations"
 msgstr "<!--2-->Informations"
 
+msgid "BOX_referents"
+msgstr "<!--3-->Contacts pédagogiques"
+
 msgid "BOX_root_rw"
 msgstr "<!--7-->Administration"
 
@@ -3075,3 +3078,55 @@ msgstr "Profiling des plugins"
 
 msgid "HELP_profiling"
 msgstr "Calcule des performances des différents plugins TOMUSS"
+
+msgid "TITLE_referent_get_set"
+msgstr "Indiquer le référent d'une liste d'étudiants"
+
+msgid "MSG_referent_get_set_before"
+msgstr "Indiquer les <b>numéros d'étudiants</b> pour qui "
+
+msgid "MSG_referent_get_set_after"
+msgstr " va devenir référent pédagogique :"
+
+msgid "MSG_referent_get_before_button"
+msgstr "Puis cliquez sur : "
+
+msgid "B_referent_get_set"
+msgstr "Affecter les étudiants"
+
+msgid "TITLE_referent_get_do"
+msgstr "Résultat de l'opération :"
+
+msgid "TITLE_referent_get_orphan"
+msgstr "Indiquer une liste d'étudiants qui vont quitter leur référent"
+
+msgid "B_referent_get_orphan"
+msgstr "Abandonner les étudiants"
+
+msgid "MSG_referent_get_not_a_student"
+msgstr " : N'est pas un étudiant"
+
+msgid "MSG_referent_get_yet_yours"
+msgstr " : Vous êtes déjà son référent"
+
+msgid "MSG_referent_get_yet_referent"
+msgstr " : A déjà un référent"
+
+msgid "MSG_referent_get_done"
+msgstr "Vous êtes maintenant référent pédagogique de :"
+
+msgid "MSG_referent_get_set_done"
+msgstr "%s est maintenant référent pédagogique de :"
+
+msgid "LINK_referent_set"
+msgstr "Affecter des étudiants à un enseignant"
+
+msgid "MSG_referent_get_orphan_none"
+msgstr "%s n'a pas de référent"
+
+msgid "MSG_referent_get_orphan_quit"
+msgstr " a quitté "
+
+msgid "LINK_orphan_students"
+msgstr "Enlever le référent d'étudiants"
+

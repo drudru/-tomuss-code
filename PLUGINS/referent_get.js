@@ -22,12 +22,13 @@
 
 function go_referent_set()
 {
-  create_popup('import_list',
-	       "Indiquer le référent d'une liste d'étudiants",
-	       "Indiquer les <b>numéros d'étudiants</b> pour qui "
+  create_popup('import_list', _("TITLE_referent_get_set"),
+	       _("MSG_referent_get_set_before")
 	       + '<input id="go_referent_set">'
-	       + " va devenir référent pédagogique",
-	       'Puis cliquez sur : <BUTTON OnClick="go_referent_set_do();">Affecter les étudiants</BUTTON>.',
+	       + _("MSG_referent_get_set_after"),
+	       _("MSG_referent_get_before_button")
+	       + '<BUTTON OnClick="go_referent_set_do();">'
+	       + _("B_referent_get_set") + '</BUTTON>.',
 	       '') ;
 }
 
@@ -36,21 +37,19 @@ function go_referent_set_do()
   var values = popup_text_area().value.split(/[ \t\n,;.:]+/) ;
   var teacher = document.getElementById('go_referent_set').value ;
 
-  create_popup('import_list',
-	       "Résultat de l'opération :",
+  create_popup('import_list', _("TITLE_referent_get_do"),
 	       '<iframe width="100%" src="' + base
 	       + 'referent_set/' + teacher + '/'
 	       + values.join('/') + '">' + '</iframe>',
-	       "",
-	       false) ;
+	       "", false) ;
 }
 
 function go_orphan_students()
 {
-  create_popup('import_list',
-	       "Indiquer une liste d'étudiants qui vont quitter leur référent",
-	       "",
-	       'Puis cliquez sur : <BUTTON OnClick="go_orphan_students_do();">Abandonner les étudiants</BUTTON>.',
+  create_popup('import_list', _("TITLE_referent_get_orphan"), "",
+	       _("MSG_referent_get_before_button")
+	       + '<BUTTON OnClick="go_orphan_students_do();">'
+	       + _("B_referent_get_orphan") + '</BUTTON>.',
 	       '') ;
 }
 
@@ -59,9 +58,8 @@ function go_orphan_students_do()
   var values = popup_text_area().value.split(/[ \t\n,;.:]+/) ;
 
   create_popup('import_list',
-	       "Résultat de l'opération :",
+	       _("TITLE_referent_get_do"),
 	       '<iframe width="100%" src="' + base
 	       + 'orphan_students/' + values.join('/') + '">' + '</iframe>',
-	       "",
-	       false) ;
+	       "", false) ;
 }

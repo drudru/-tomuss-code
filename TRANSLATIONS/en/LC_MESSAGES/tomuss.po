@@ -2137,6 +2137,9 @@ msgstr "<!--1-->Schooling"
 msgid "BOX_informations"
 msgstr "<!--2-->Informations"
 
+msgid "BOX_referents"
+msgstr "<!--4-->Referent teachers"
+
 msgid "BOX_root_rw"
 msgstr "<!--7-->Administration"
 
@@ -3045,4 +3048,55 @@ msgstr "Plugins profiling"
 
 msgid "HELP_profiling"
 msgstr "Compute the plugin response time"
+
+msgid "TITLE_referent_get_set"
+msgstr "Give a referent teacher to a student list"
+
+msgid "MSG_referent_get_set_before"
+msgstr "The <b>student IDs</b> for which "
+
+msgid "MSG_referent_get_set_after"
+msgstr " will become the referent teacher:"
+
+msgid "MSG_referent_get_before_button"
+msgstr "Then click on: "
+
+msgid "B_referent_get_set"
+msgstr "Link the students to the teacher"
+
+msgid "TITLE_referent_get_do"
+msgstr "Operation progression:"
+
+msgid "TITLE_referent_get_orphan"
+msgstr "The <b>student IDs</b> that will quit their referent teacher"
+
+msgid "B_referent_get_orphan"
+msgstr "Orphan these students"
+
+msgid "MSG_referent_get_not_a_student"
+msgstr ": is not a student"
+
+msgid "MSG_referent_get_yet_yours"
+msgstr ": you are yet its referent teachers"
+
+msgid "MSG_referent_get_yet_referent"
+msgstr ": has yet a referent teacher"
+
+msgid "MSG_referent_get_done"
+msgstr "You are now referent teacher of:"
+
+msgid "MSG_referent_get_set_done"
+msgstr "%s is now referent teacher of:"
+
+msgid "LINK_referent_set"
+msgstr "Give a referent to a student set"
+
+msgid "MSG_referent_get_orphan_none"
+msgstr "%s has no referent teacher"
+
+msgid "MSG_referent_get_orphan_quit"
+msgstr " quitted "
+
+msgid "LINK_orphan_students"
+msgstr "Remove the referent teacher of a set of student"
 

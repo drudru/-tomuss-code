@@ -103,7 +103,7 @@ plugin.Plugin('referents.xls', '/referents.xls',
               launch_thread=True,
               link=plugin.Link(text='Liste des étudiants référés XLS',
                                url="javascript:go_suivi('referents.xls')",
-                               where="<!--3-->Contacts pédagogique",
+                               where='referents',
                                html_class="verysafe",
                                help="""Tableau donnant pour chaque étudiant
                                référé le nom/mail de son enseignant référent
@@ -120,7 +120,7 @@ plugin.Plugin('referents.html', '/referents.html',
               launch_thread=True,
               link=plugin.Link(text='Liste des étudiants référés HTML',
                                url="javascript:go_suivi('referents.html')",
-                               where="<!--3-->Contacts pédagogique",
+                               where='referents',
                                html_class="verysafe",
                                help="""Tableau donnant pour chaque étudiant
                                référé le nom/mail de son enseignant référent
