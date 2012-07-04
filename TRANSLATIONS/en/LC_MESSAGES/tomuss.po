@@ -3100,3 +3100,23 @@ msgstr " quitted "
 msgid "LINK_orphan_students"
 msgstr "Remove the referent teacher of a set of student"
 
+msgid "LINK_referents_update"
+msgstr "Find referent teacher for students"
+
+msgid "HELP_referents_update"
+msgstr "It searches a referent teacher for students without one"
+
+msgid "LINK_referents_update_R"
+msgstr "Remove the referent teacher of old students"
+
+msgid "HELP_referents_update_R"
+msgstr "This does not link referent to new students."
+
+msgid "LINK_referents_update_safe"
+msgstr "Displays the new affectation a student/referent"
+
+msgid "HELP_referents_update_safe"
+msgstr "No changes are done."
+
+msgid "LINK_referents_update_safe_R"
+msgstr "Displays the students that will be removed to referents."

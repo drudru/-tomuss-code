@@ -30,10 +30,7 @@ def update_referents(server):
 plugin.Plugin('referents_update', '/referents',
               function=update_referents, referent_master=True,
               launch_thread=True,
-              link=plugin.Link(text="Faire l'affectation des référents pédagogiques",
-                               help="""Met à jour les affectations des
-                               enseignants référents pédagogiques.""",
-                               html_class='veryunsafe', where="referents",
+              link=plugin.Link(html_class='veryunsafe', where="referents",
                                priority=1000,
                                ),
               )
@@ -46,9 +43,7 @@ def update_referents_R(server):
 plugin.Plugin('referents_update_R', '/referents_R',
               function=update_referents_R, referent_master=True,
               launch_thread=True,
-              link=plugin.Link(text="Enlever les anciens étudiants aux référents pédagogiques",
-                               help="""N'ajoute pas les nouveaux""",
-                               html_class='veryunsafe', where="referents",
+              link=plugin.Link(html_class='veryunsafe', where="referents",
                                priority=1000,
                                ),
               )
@@ -61,9 +56,7 @@ def update_referents_safe(server):
 plugin.Plugin('referents_update_safe', '/referents_safe',
               function=update_referents_safe, referent_master=True,
               launch_thread=True,
-              link=plugin.Link(text="Afficher l'affectation des référents pédagogiques",
-                               help="Affiche ce que l'affectation va faire.",
-                               html_class='verysafe', where='referents',
+              link=plugin.Link(html_class='verysafe', where='referents',
                                priority=1000,
                                ),
               )
@@ -76,8 +69,7 @@ def update_referents_safe_R(server):
 plugin.Plugin('referents_update_safe_R', '/referents_safe_R',
               function=update_referents_safe_R, referent_master=True,
               launch_thread=True,
-              link=plugin.Link(text="Afficher les étudiants qui vont être enlevés aux référents pédagogiques",
-                               html_class='verysafe', where='referents',
+              link=plugin.Link(html_class='verysafe', where='referents',
                                priority=1000,
                                ),
               )

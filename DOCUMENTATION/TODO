@@ -186,6 +186,10 @@ Administrateur.
 Problèmes à résoudre.
 =====================
 
+* Catalogue : écriture non lockée
+
+* Primo entrant dans le bloc note de printemps
+
 * Perte photo quand déconnexion puis reconnexion réseau
 
 * Message JS dans 'print'

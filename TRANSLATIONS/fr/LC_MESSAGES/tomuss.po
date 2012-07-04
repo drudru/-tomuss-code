@@ -3130,3 +3130,25 @@ msgstr " a quitté "
 msgid "LINK_orphan_students"
 msgstr "Enlever le référent d'étudiants"
 
+msgid "LINK_referents_update"
+msgstr "Faire l'affectation des référents pédagogiques"
+
+msgid "HELP_referents_update"
+msgstr "Met à jour les affectations des enseignants référents pédagogiques."
+
+msgid "LINK_referents_update_R"
+msgstr "Enlever les anciens étudiants aux référents pédagogiques"
+
+msgid "HELP_referents_update_R"
+msgstr "N'ajoute pas les nouveaux"
+
+msgid "LINK_referents_update_safe"
+msgstr "Afficher l'affectation des référents pédagogiques"
+
+msgid "HELP_referents_update_safe"
+msgstr "Affiche ce que l'affectation va faire."
+
+msgid "LINK_referents_update_safe_R"
+msgstr "Afficher les étudiants qui vont être enlevés aux référents pédagogiques"
+
+
