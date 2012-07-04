@@ -37,27 +37,35 @@ def reload_plugins(server):
             continue
         plugin_files[plugin_file].append(i)
         
-    server.the_file.write('<title>Reload Plugins</title><table border>\n')
-    server.the_file.write('<tr><th>Module name<th>#Plugins in<br>the module<th>Reloaded?</tr>\n')
+    server.the_file.write('<title>' + server._("TITLE_reload_plugins")
+                          + '</title><table border>\n')
+    server.the_file.write('<tr><th>' + server._("TH_reload_plugins_module")
+                          + '<th>' + server._("TH_reload_plugins_number")
+                          + '<th>' + server._("TH_reload_plugins_reloaded")
+                          + '</tr>\n')
     for i in sorted(plugin_files.keys()):
         if __name__ == i:
             continue
         filename = i.replace('.', os.path.sep) + '.py'
         module, reimported = utilities.import_reload(filename)
-        reimported = ('', 'Reloaded')[reimported]
+        reimported = ('', server._("TH_reload_plugins_reloaded"))[reimported]
         server.the_file.write('<tr><td>%s<td>%d<td>%s</tr>\n' % (
             i, len(plugin_files[i]), reimported))
     server.the_file.write('</table>\n')
-    server.the_file.write('The attribute javascript is reloaded even if the Python module is not reloaded\n')
+    server.the_file.write(server._("MSG_reload_plugins_js_reloaded"))
     server.the_file.write('<table border>\n')
-    server.the_file.write('<tr><th>Attribute name<th>Reloaded?</tr>\n')
+    server.the_file.write('<tr><th>' + server._("TH_reload_plugins_attribute")
+                          + '<th>' + server._("TH_reload_plugins_reloaded")
+                          + '</tr>\n')
     server.the_file.write('\n'.join('<tr><td>%s<td>%s</tr>' % (
         name, reloaded) for name, reloaded in column.initialize()))
     server.the_file.write('</table>\n')
-    server.the_file.write('BEWARE: class tree is not updated.\n')
-    server.the_file.write('The column type javascript is reloaded even if the Python module is not reloaded\n')
+    server.the_file.write(server._("MSG_reload_plugins_class_tree") + '<br>')
+    server.the_file.write(server._("MSG_reload_plugins_js_reloaded"))
     server.the_file.write('<table border>\n')
-    server.the_file.write('<tr><th>Type name<th>Reloaded?</tr>\n')
+    server.the_file.write('<tr><th>' + server._("TH_reload_plugins_type")
+                          + '<th>' + server._("TH_reload_plugins_reloaded")
+                          + '</tr>\n')
     server.the_file.write('\n'.join('<tr><td>%s<td>%s</tr>' % (
         name, reloaded) for name, reloaded in plugins.load_types()))
     server.the_file.write('</table>\n')
@@ -68,16 +76,6 @@ def reload_plugins(server):
     document.table(0, 'Dossiers', 'config_plugin', None, None)
 
 plugin.Plugin('reload_plugins', '/reload_plugins',
-              function=reload_plugins,
-              root=True,
-              link=plugin.Link(
-                  text='Recharge les plugins',
-                  help="""Met à jours les plugins modifiés sur disque.
-                  C'est-à-dire : le contenu des répertoires PLUGINS,
-                  ATTRIBUTES et COLUMN_TYPES (y compris JavaScript).
-                  Les plugins modifiant l'état de l'application
-                  ou lançant des threads ne doivent pas être rechargés.""",
-                  where='debug',
-                  html_class='safe',
-                  )
+              function=reload_plugins, root=True,
+              link=plugin.Link(where='debug', html_class='safe')
               )

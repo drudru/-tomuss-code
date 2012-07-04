@@ -3151,4 +3151,38 @@ msgstr "Affiche ce que l'affectation va faire."
 msgid "LINK_referents_update_safe_R"
 msgstr "Afficher les étudiants qui vont être enlevés aux référents pédagogiques"
 
+msgid "TITLE_reload_plugins"
+msgstr "Rechargement des plugins"
+
+msgid "TH_reload_plugins_module"
+msgstr "Nom du module"
+
+msgid "TH_reload_plugins_number"
+msgstr "Nbr plugins dans<br>le module"
+
+msgid "TH_reload_plugins_reloaded"
+msgstr "Rechargé"
+
+msgid "MSG_reload_plugins_js_reloaded"
+msgstr "Le javascript est rechargé même si le module ne l'est pas."
+
+msgid "TH_reload_plugins_attribute"
+msgstr "Nom de l'attribut"
+
+msgid "MSG_reload_plugins_class_tree"
+msgstr "ATTENTION : l'abre des classes n'est pas recalculé (l'héritage)."
+
+msgid "TH_reload_plugins_type"
+msgstr "Nom du type"
+
+msgid "LINK_reload_plugins"
+msgstr "Recharge les plugins"
+
+msgid "HELP_reload_plugins"
+msgstr "Met à jours les plugins modifiés sur disque.\n"
+       "C'est-à-dire : le contenu des répertoires PLUGINS,\n"
+       "ATTRIBUTES et COLUMN_TYPES (y compris JavaScript).\n"
+       "Les plugins modifiant l'état de l'application\n"
+       "ou lançant des threads ne doivent pas être rechargés."
+
 

@@ -3120,3 +3120,37 @@ msgstr "No changes are done."
 
 msgid "LINK_referents_update_safe_R"
 msgstr "Displays the students that will be removed to referents."
+
+msgid "TITLE_reload_plugins"
+msgstr "Reload Plugins"
+
+msgid "TH_reload_plugins_module"
+msgstr "Module name"
+
+msgid "TH_reload_plugins_number"
+msgstr "#Plugins in<br>the module"
+
+msgid "TH_reload_plugins_reloaded"
+msgstr "Reloaded"
+
+msgid "MSG_reload_plugins_js_reloaded"
+msgstr "The attribute javascript is reloaded even if the Python module\n"
+       "is not reloaded"
+
+msgid "TH_reload_plugins_attribute"
+msgstr "Attribute name"
+
+msgid "MSG_reload_plugins_class_tree"
+msgstr "BEWARE: class tree is not updated."
+
+msgid "TH_reload_plugins_type"
+msgstr "Type name"
+
+msgid "LINK_reload_plugins"
+msgstr "Reload the plugins"
+
+msgid "HELP_reload_plugins"
+msgstr "Reload all the modified Python code on disk in the directories:\n"
+       "PLUGINS, ATTRIBUTES, COLUMN_TYPES and all the Javascript and CSS.\n"
+       "Module launching threads when loaded must not be reloaded..."
+       
