@@ -3230,3 +3230,13 @@ msgstr "Student not officially registered"
 msgid "HELP_bad_ip"
 msgstr "Display the list of students without official registration,\n"
        "but with grades entered in tables."
+
+msgid "MSG_wait_some_minutes"
+msgstr "WAIT SOME MINUTES"
+
+msgid "LINK_badname"
+msgstr "Bad names"
+
+msgid "HELP_badname"
+msgstr "Show the names not matching the student ID in the tables"
+

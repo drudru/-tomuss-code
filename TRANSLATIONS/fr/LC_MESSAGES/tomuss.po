@@ -3263,3 +3263,18 @@ msgstr "Étudiants sans IP"
 msgid "HELP_bad_ip"
 msgstr "Affiche la liste des étudiants sans inscription officielle\n"
        "mais pour lesquels des informations ont été saisies dans TOMUSS"
+
+msgid "MSG_wait_some_minutes"
+msgstr "ATTENDEZ QUELQUES MINUTES"
+
+msgid "LINK_badname"
+msgstr "Mauvais noms"
+
+msgid "HELP_badname"
+msgstr "Liste les noms d'étudiants qui sont dans TOMUSS avec un nom\n"
+       "qui ne correspond pas au numéro d'étudiant."
+
+
+
+
+

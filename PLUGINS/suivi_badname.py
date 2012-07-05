@@ -31,7 +31,7 @@ def normalize(txt):
 
 def the_badname(server):
     """Display the names not matching the student ID."""
-    server.the_file.write('<p>ATTENDEZ QUELQUES MINUTES</p>\n')
+    server.the_file.write('<p>' + server._("MSG_wait_some_minutes") + '</p>\n')
     server.the_file.flush()
     students = []
     for t in tablestat.les_ues(server.year, server.semester, true_file=True):
@@ -40,33 +40,30 @@ def the_badname(server):
             if login.strip() == '':
                 continue
             first_name, surname = inscrits.L_batch.firstname_and_surname(login)
-            if (normalize(first_name) != normalize(unicode(line[1].value,'utf8'))
-                or normalize(surname) != normalize(unicode(line[2].value, 'utf8'))):
+            if (normalize(first_name) != normalize(unicode(line[1].value,
+                                                           'utf-8'))
+                or normalize(surname) != normalize(unicode(line[2].value,
+                                                           'utf-8'))):
                 server.the_file.write('* ')
                 server.the_file.flush()
                 students.append((
                     login, t.ue,
-                    first_name.encode('utf8'),
-                    unicode(line[1].value, 'utf8').encode('utf8'),
-                    surname.encode('utf8'),
-                    unicode(line[2].value, 'utf8').encode('utf8')))
+                    first_name.encode('utf-8'),
+                    unicode(line[1].value, 'utf-8').encode('utf-8'),
+                    surname.encode('utf-8'),
+                    unicode(line[2].value, 'utf-8').encode('utf-8')))
     students.sort()
     server.the_file.write('<table>')
-    for student, lines in itertools.groupby(students, lambda x: x[0]):
+    for dummy_student, lines in itertools.groupby(students, lambda x: x[0]):
         for line in lines:
-            server.the_file.write('<tr><td>%s<td>%s<td>%s<td>%s<td>%s<td>%s</tr>\n' % line)
+            server.the_file.write(
+                '<tr><td>%s<td>%s<td>%s<td>%s<td>%s<td>%s</tr>\n' % line)
     server.the_file.write('</table>')
     
 
 
 plugin.Plugin('badname', '/badname', function=the_badname, root=True,
               launch_thread = True,
-              link=plugin.Link(text="Mauvais noms",
-                               where="deprecated",
-                               html_class="verysafe",
-                               url="javascript:go_suivi('badname')",
-                               help="""Liste les noms d'étudiants qui sont
-                               dans TOMUSS avec un nom qui ne correspond
-                               pas au numéro d'étudiant.""",
-                               ),
+              link=plugin.Link(where="deprecated", html_class="verysafe",
+                               url="javascript:go_suivi('badname')"),
               )
