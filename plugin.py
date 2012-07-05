@@ -449,7 +449,7 @@ def get_links(server):
         if link.authorized(server):
             if link.plugin and not link.plugin.is_allowed(server)[0]:
                     continue # Not allowed by plugin
-            yield link, None
+            yield link, link.plugin
     for p in plugins:
         if p.link and p.is_allowed(server)[0]:
             yield p.link, p

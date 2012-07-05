@@ -3218,3 +3218,15 @@ msgstr "Who's doing what?"
 msgid "HELP_statpage"
 msgstr "List tables currently used"
 
+msgid "TITLE_suivi_bad_student"
+msgstr "Students with grades but not officially registered."
+
+msgid "TH_suivi_bad_student_values"
+msgstr "Values"
+
+msgid "LINK_bad_ip"
+msgstr "Student not officially registered"
+
+msgid "HELP_bad_ip"
+msgstr "Display the list of students without official registration,\n"
+       "but with grades entered in tables."

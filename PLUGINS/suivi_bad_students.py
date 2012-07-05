@@ -23,10 +23,15 @@ import plugin
 from tablestat import les_ues
 import utilities
 
-def bad_student_with_notes(f, year, semester):
-    f.write('<title>Sans IP mais avec des notes</title>\n')
-    f.write('<h1>Étudiants sans IP avec des notes</h1>\n')
-    f.write('<table><tr><th>UE<th>Numéro<th>Prénom<th>Nom<th>Valeurs saisies</tr>\n')
+def bad_student_with_notes(f, year, semester, _):
+    f.write('<title>' + _("TITLE_suivi_bad_student") + '</title>\n')
+    f.write('<h1>' + _("TITLE_suivi_bad_student") + '</h1>\n')
+    f.write('<table><tr><th>'
+            + _("TH_table"           )         + '<th>'
+            + _("COL_TITLE_ID"       )         + '<th>'
+            + _("COL_TITLE_firstname")         + '<th>'
+            + _("COL_TITLE_surname"  )         + '<th>'
+            + _("TH_suivi_bad_student_values") + '</tr>\n')
     nr = 0
     for t in les_ues(year, semester, true_file=True):
         coli = t.column_inscrit()
@@ -52,21 +57,13 @@ def bad_student_with_notes(f, year, semester):
 def bad(server):
     """Display the list of student attending courses
     but not officialy registered"""
-    bad_student_with_notes(server.the_file, server.year, server.semester)
+    bad_student_with_notes(server.the_file, server.year, server.semester,
+                           server._)
 
 plugin.Plugin('bad_ip', '/*1', abj_master=True,
               function = bad,
               launch_thread = True,
-              link=plugin.Link(text='Étudiants sans IP',
-                               url="javascript:go_suivi('*1')",
-                               where="abj_master",
-                               html_class="verysafe",
-                               help="""Affiche la liste des étudiants sans IP
-                               mais pour lesquels des informations
-                               ont été saisies dans TOMUSS""",
-                               priority=100,
-                               ),
+              link=plugin.Link(url="javascript:go_suivi('*1')",
+                               where="abj_master", html_class="verysafe",
+                               priority=100),
               )
-
-
-

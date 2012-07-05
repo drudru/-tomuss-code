@@ -3251,4 +3251,15 @@ msgid "HELP_statpage"
 msgstr "Liste des tables actuellement utilisées"
 
 
+msgid "TITLE_suivi_bad_student"
+msgstr "Étudiants avec des notes, mais non-officiellement inscrits."
 
+msgid "TH_suivi_bad_student_values"
+msgstr "Valeurs saisies"
+
+msgid "LINK_bad_ip"
+msgstr "Étudiants sans IP"
+
+msgid "HELP_bad_ip"
+msgstr "Affiche la liste des étudiants sans inscription officielle\n"
+       "mais pour lesquels des informations ont été saisies dans TOMUSS"
