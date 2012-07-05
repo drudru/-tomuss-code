@@ -3185,4 +3185,23 @@ msgstr "Met à jours les plugins modifiés sur disque.\n"
        "Les plugins modifiant l'état de l'application\n"
        "ou lançant des threads ne doivent pas être rechargés."
 
+msgid "ALERT_send_alert"
+msgstr "Message de TOMUSS :"
 
+msgid "MSG_send_alert"
+msgstr "Message envoyé : "
+
+msgid "LINK_send_alert_before"
+msgstr "Envoyer le message suivant :"
+
+msgid "LINK_send_alert_default"
+msgstr "Le serveur va être redémarré dans quelques secondes,\n"
+       "il est conseillé (mais non obligatoire) de réactualiser\n"
+       "la page après le redémarrage."
+
+
+msgid "HELP_send_alert"
+msgstr "Vous pouvez éditer le champ texte afin d'envoyer un\n"
+       "message (fenêtre popup) à tous les utilisateurs actuellement\n"
+       "connectés à TOMUSS.\n"
+       "Taper 'return' pour envoyer le message."

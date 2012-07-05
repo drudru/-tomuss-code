@@ -3154,3 +3154,22 @@ msgstr "Reload all the modified Python code on disk in the directories:\n"
        "PLUGINS, ATTRIBUTES, COLUMN_TYPES and all the Javascript and CSS.\n"
        "Module launching threads when loaded must not be reloaded..."
        
+msgid "ALERT_send_alert"
+msgstr "Message from TOMUSS:"
+
+msgid "MSG_send_alert"
+msgstr "Message sent : "
+
+msgid "LINK_send_alert_before"
+msgstr "Send the following message:"
+
+msgid "LINK_send_alert_default"
+msgstr "The TOMUSS server will be restarted in a couple a seconds.\n"
+       "If it is possible, reload the page in a minute\n"
+       "to be on the safe side.\n"
+
+
+msgid "HELP_send_alert"
+msgstr "You can edit the text to be sent in an alert box to the users\n"
+       "of the table editor.\n"
+       "Stroke 'Enter' to send the message."

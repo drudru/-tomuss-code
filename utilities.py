@@ -912,6 +912,8 @@ def _(msgid, language=None):
     "Translate the message (local then global dictionary)"
     if language is None:
         language = (configuration.language, 'en', 'fr')
+    else:
+        language = tuple(configuration.language) + ('en', 'fr')
     if _.language != language:
         _.language = language
         try:

@@ -38,27 +38,24 @@ def send_alert(server):
         document.send_alert(message)
         for page in abj_change.pages:
             try:
-                page.the_file.write("<script>alert(%s);</script>\n" %
-                                    utilities.js("Message de TOMUSS :\n\n" +
-                                                 message))
+                page.the_file.write(
+                    '<script>Alert("ALERT_send_alert","\\n\\n"+%s);</script>\n'
+                    % utilities.js(message))
                 page.the_file.flush()
             except:
                 pass
 
-    server.the_file.write("Message envoyé : " + message)
+    server.the_file.write(server._("MSG_send_alert") + message)
 
 plugin.Plugin('send_alert', '/send_alert/{U}/{*}',
               function=send_alert,
               root=True,
-              link=plugin.Link(text="""Envoyer le message suivant :<br><form style="margin:0" action="javascript:var m = document.getElementById('message').value ; if(confirm('Vous allez envoyer le message :\\n\\n' + m)) window.location='/='+ticket+'/send_alert//' + m"><input id="message" class="search_field" name="x" class="keyword" value="Le serveur va être redémarré dans quelques secondes, il est conseillé (mais non obligatoire) de réactualiser la page après le redémarrage."></form>""",
-                   url='',
-                   where="root_rw",
-                   html_class="safe",         
-                   help="""Vous pouvez éditer le champ texte afin d'envoyer un
-                   message (fenêtre popup) à tous les utilisateurs actuellement
-                   connectés à TOMUSS.
-                   Taper 'return' pour envoyer le message.""",
-                   priority = -100,
+              link=plugin.Link(text=utilities._("LINK_send_alert_before")
+                               + '''<br><form style="margin:0" action="javascript:var m = document.getElementById('message').value ; if(confirm(_('LINK_send_alert_before') + '\\n\\n' + m)) window.location='/='+ticket+'/send_alert//' + m"><input id="message" class="search_field" name="x" class="keyword" value="'''
+                               + utilities._("LINK_send_alert_default")
+                               .replace('\n', ' ')
+                               + '"></form>',
+                   url='', where="root_rw", html_class="safe", priority = -100,
                    ),
               )
 
