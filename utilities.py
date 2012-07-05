@@ -773,6 +773,15 @@ def count(t):
     except StopIteration:
         yield (i, last)
 
+def get_tuples(an_iterable, size):
+    """
+    >>> for i in get_tuple([1,2,3,4,5,6,7], 3): print i
+    (1, 2, 3)
+    (4, 5, 6)
+    """
+    return zip( * ( [iter(an_iterable)]*size ) )
+
+    
 def manage_key_real(dirname, key, separation=3, content=None, reduce_ok=True):
     """
     Do not use this function
