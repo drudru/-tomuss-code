@@ -3166,10 +3166,19 @@ msgstr "Send the following message:"
 msgid "LINK_send_alert_default"
 msgstr "The TOMUSS server will be restarted in a couple a seconds.\n"
        "If it is possible, reload the page in a minute\n"
-       "to be on the safe side.\n"
-
+       "to be on the safe side."
 
 msgid "HELP_send_alert"
 msgstr "You can edit the text to be sent in an alert box to the users\n"
        "of the table editor.\n"
        "Stroke 'Enter' to send the message."
+
+msgid "MSG_send_mail_start"
+msgstr "Start to send %d messages: "
+
+msgid "MSG_send_mail_done"
+msgstr "Messages sent."
+
+msgid "MSG_send_mail_error"
+msgstr "Impossible to send a mail to: "
+

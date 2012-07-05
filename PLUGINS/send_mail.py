@@ -28,7 +28,7 @@ import configuration
 def send_mail(server):
     """Send personnalized mails"""
     if configuration.regtest:
-        server.the_file.write('Functionality disabled on demonstration server')
+        server.the_file.write(server._("MSG_evaluate"))
         return
 
     subject = server.the_path[0]
@@ -40,11 +40,11 @@ def send_mail(server):
     n += 1 # For the student ID always here
     args = server.the_path[2:]
     if len(args) % n != 0:
-        server.the_file.write('Il y a eu un bug...\n')
+        server.the_file.write(server._("TIP_violet_square"))
         utilities.send_backtrace('send_mail')
         return
 
-    server.the_file.write('Commence à envoyer %d messages : ' % (len(args)/n))
+    server.the_file.write(server._("MSG_send_mail_start") % (len(args)/n))
     server.the_file.flush()
 
     frome = inscrits.L_slow.mail(server.ticket.user_name)
@@ -68,9 +68,9 @@ def send_mail(server):
         utilities.send_mail_in_background(m, the_subject, content, frome)
         
     if len(bad_mails) == 0:
-        server.the_file.write('Les messages ont été envoyés\n')
+        server.the_file.write(server._("MSG_send_mail_done") + '\n')
     else:
-        server.the_file.write("Impossible d'envoyer le mail à : "
+        server.the_file.write(server._("MSG_send_mail_error")
                               + repr(bad_mails) + '\n')
     
 

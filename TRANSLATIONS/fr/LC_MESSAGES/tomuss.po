@@ -3199,9 +3199,21 @@ msgstr "Le serveur va être redémarré dans quelques secondes,\n"
        "il est conseillé (mais non obligatoire) de réactualiser\n"
        "la page après le redémarrage."
 
-
 msgid "HELP_send_alert"
 msgstr "Vous pouvez éditer le champ texte afin d'envoyer un\n"
        "message (fenêtre popup) à tous les utilisateurs actuellement\n"
        "connectés à TOMUSS.\n"
        "Taper 'return' pour envoyer le message."
+
+msgid "MSG_send_mail_start"
+msgstr "Commence à envoyer %d messages : "
+
+msgid "MSG_send_mail_done"
+msgstr "Les messages ont été envoyés"
+
+msgid "MSG_send_mail_error"
+msgstr "Impossible d'envoyer le mail à : "
+
+
+
+
