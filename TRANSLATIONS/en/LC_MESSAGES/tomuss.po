@@ -3240,3 +3240,14 @@ msgstr "Bad names"
 msgid "HELP_badname"
 msgstr "Show the names not matching the student ID in the tables"
 
+msgid "MSG_suivi_extract_unknown"
+msgstr "Unknown table: "
+
+msgid "MSG_suivi_extract_unreadable"
+msgstr "You are not allowed to read "
+
+msgid "MSG_suivi_extract_no_col"
+msgstr "I can't find the column "
+
+msgid "MSG_suivi_extract_in"
+msgstr " in the table "

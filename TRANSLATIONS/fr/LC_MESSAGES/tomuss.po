@@ -3274,7 +3274,16 @@ msgid "HELP_badname"
 msgstr "Liste les noms d'étudiants qui sont dans TOMUSS avec un nom\n"
        "qui ne correspond pas au numéro d'étudiant."
 
+msgid "MSG_suivi_extract_unknown"
+msgstr "Table inconnue : "
 
+msgid "MSG_suivi_extract_unreadable"
+msgstr "Vous n'avez pas le droit de lire "
 
+msgid "MSG_suivi_extract_no_col"
+msgstr "Je ne trouve pas la colonne "
+
+msgid "MSG_suivi_extract_in"
+msgstr " dans la table "
 
 

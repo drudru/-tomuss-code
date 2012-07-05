@@ -38,12 +38,12 @@ def display(server):
              what[1:]))
         nr_cols += len(what)-1
         if tables[-1][0] is None:
-            f.write('Table inconnue: ' + what[0])
+            f.write(server._("MSG_suivi_extract_unknown") + what[0])
             server.close_connection_now()
             return
             
         if not tables[-1][0].readable_by(server.ticket):
-            f.write('Vous n\'avez pas le droit de lire ' + tables[-1][0].ue)
+            f.write(server._("MSG_suivi_extract_unreadable")+ tables[-1][0].ue)
             server.close_connection_now()
             return
 
@@ -66,8 +66,8 @@ def display(server):
         for column_title in columns:
             column = table.columns.from_title(column_title)
             if column is None:
-                f.write('Je ne trouve pas la colonne ' + column_title
-                        + ' dans la table ' + table.ue + '\n')
+                f.write(server._("MSG_suivi_extract_no_col") + column_title
+                        + server._("MSG_suivi_extract_in") + table.ue + '\n')
                 server.close_connection_now()
                 return
             data_col = column.data_col
@@ -127,11 +127,11 @@ def display_fusion(server,
         what = what.split(':')
         table = document.table(year, semester, what[0], ro=True, create=False)
         if table is None:
-            f.write('Je ne trouve pas la table ' + what[0])
+            f.write(server._("MSG_suivi_extract_unknown") + what[0])
             server.close_connection_now()
             return
         if not table.readable_by(server.ticket):
-            f.write('Vous n\'avez pas le droit de lire ' + what[0])
+            f.write(server._("MSG_suivi_extract_unreadable") + what[0])
             server.close_connection_now()
             return
 
@@ -167,8 +167,8 @@ def display_fusion(server,
         for column_title in columns:
             column = table.columns.from_title(column_title)
             if column is None:
-                f.write('Je ne trouve pas la colonne ' + column_title
-                        + ' dans la table ' + table.ue + '\n')
+                f.write(server._("MSG_suivi_extract_no_col") + column_title
+                        + server._("MSG_suivi_extract_in") + table.ue + '\n')
                 server.close_connection_now()
                 return
             data_col = column.data_col
