@@ -35,8 +35,19 @@ def infos(server, page):
     return s
 
 def stat_page(server):
-    """Display the table in memory and the user on them."""
-    s = ['<title>Who\'s connected</title><table border><tbody><tr><th>Year</th><th>Semester</th><th>UE</th><th>#pages</th><th>#lines</th><th>#cols</th><th>#cells</th><th>Users on the page</th><th>Last User Interaction</th></tr>']
+    """Display the tables in memory and the user on them."""
+    s = ['<title>'
+         + server._("TITLE_statpage") + '</title><table border><tbody><tr><th>'
+         + server._("TH_year"             ) +'</th><th>'
+         + server._("TH_semester"         ) +'</th><th>'
+         + server._("TH_table"            ) +'</th><th>'
+         + server._("TH_statpage_nr_pages") +'</th><th>'
+         + server._("TH_statpage_nr_lines") +'</th><th>'
+         + server._("TH_statpage_nr_cols" ) +'</th><th>'
+         + server._("TH_statpage_nr_cells") +'</th><th>'
+         + server._("TH_statpage_who"     ) +'</th><th>'
+         + server._("TH_statpage_when"    ) +'</th></tr>'
+         ]
     tables = document.tables_values()
     tables.sort(key = lambda x: x.mtime)
     tables.reverse()
@@ -69,11 +80,7 @@ def stat_page(server):
 
 plugin.Plugin('statpage', '/stat',
               function=stat_page, root=True,
-              link=plugin.Link(text='Qui fait quoi',
-                               help='Liste les tables TOMUSS en mémoire',
-                               html_class="verysafe",
-                               where='informations',
-                               ),
+              link=plugin.Link(html_class="verysafe", where='informations'),
               )
 
 

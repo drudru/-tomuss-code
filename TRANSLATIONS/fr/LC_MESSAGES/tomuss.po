@@ -3214,6 +3214,41 @@ msgstr "Les messages ont été envoyés"
 msgid "MSG_send_mail_error"
 msgstr "Impossible d'envoyer le mail à : "
 
+msgid "TITLE_statpage"
+msgstr "Who's connected"
+
+msgid "TH_year"
+msgstr "Year"
+
+msgid "TH_semester"
+msgstr "Semester"
+
+msgid "TH_table"
+msgstr "Table"
+
+msgid "TH_statpage_nr_pages"
+msgstr "#pages"
+
+msgid "TH_statpage_nr_lines"
+msgstr "#lines"
+
+msgid "TH_statpage_nr_cols"
+msgstr "#cols"
+
+msgid "TH_statpage_nr_cells"
+msgstr "#cells"
+
+msgid "TH_statpage_who"
+msgstr "Utilisateurs sur cette table"
+
+msgid "TH_statpage_when"
+msgstr "Dernière modification de cette table"
+
+msgid "LINK_statpage"
+msgstr "Qui fait quoi ?"
+
+msgid "HELP_statpage"
+msgstr "Liste des tables actuellement utilisées"
 
 
 
