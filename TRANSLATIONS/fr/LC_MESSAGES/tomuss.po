@@ -3346,6 +3346,21 @@ msgstr "Référent pédagogique : "
 msgid "MSG_suivi_referent_none"
 msgstr "Pas de référent pédagogique"
 
+msgid "LINK_referents.xls"
+msgstr "Liste des étudiants référés XLS"
+
+msgid "HELP_referents.xls"
+msgstr "Tableau donnant pour chaque étudiant\n"
+       "référé le nom/mail de son enseignant référent pédagogique."
+
+msgid "LINK_referents.html"
+msgstr "Liste des étudiants référés HTML"
+
+msgid "HELP_referents.html"
+msgstr "Tableau donnant pour chaque étudiant\n"
+       "référé le nom/mail de son enseignant référent pédagogique."
+
+
 
 
 

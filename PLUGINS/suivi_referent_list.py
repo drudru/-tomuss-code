@@ -81,7 +81,7 @@ def referents_csv(server):
 def referents_html(server):
     """Generate the referent list in HTML"""
     f = server.the_file
-    f.write("Veuillez patienter, cette page met plusieurs minutes pour s'afficher\n")
+    f.write(server._("MSG_wait_some_minutes"))
     f.flush()
     f.write('<table>\n')
     for r in referents_table():
@@ -101,16 +101,11 @@ plugin.Plugin('referents.xls', '/referents.xls',
               authenticated=False,
               mimetype = 'application/excel; charset=latin1',
               launch_thread=True,
-              link=plugin.Link(text='Liste des étudiants référés XLS',
-                               url="javascript:go_suivi('referents.xls')",
-                               where='referents',
-                               html_class="verysafe",
-                               help="""Tableau donnant pour chaque étudiant
-                               référé le nom/mail de son enseignant référent
-                               pédagogique.""",
-                               priority=100,
-                               authorized = lambda s: s.ticket.user_name in configuration.root,
-                               ),
+              link=plugin.Link(
+        url="javascript:go_suivi('referents.xls')",
+        where='referents', html_class="verysafe", priority=100,
+        authorized = lambda s: s.ticket.user_name in configuration.root,
+        ),
               )
 
 plugin.Plugin('referents.html', '/referents.html',
@@ -118,14 +113,9 @@ plugin.Plugin('referents.html', '/referents.html',
               mimetype = 'text/html; charset=latin1',
               authenticated=False,
               launch_thread=True,
-              link=plugin.Link(text='Liste des étudiants référés HTML',
-                               url="javascript:go_suivi('referents.html')",
-                               where='referents',
-                               html_class="verysafe",
-                               help="""Tableau donnant pour chaque étudiant
-                               référé le nom/mail de son enseignant référent
-                               pédagogique.""",
-                               priority=100,
-                               authorized = lambda s: s.ticket.user_name in configuration.root,
-                               ),
+              link=plugin.Link(
+        url="javascript:go_suivi('referents.html')",
+        where='referents', html_class="verysafe", priority=100,
+        authorized = lambda s: s.ticket.user_name in configuration.root,
+        ),
               )

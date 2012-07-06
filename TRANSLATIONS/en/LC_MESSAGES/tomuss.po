@@ -3309,3 +3309,14 @@ msgstr "Its referent: "
 msgid "MSG_suivi_referent_none"
 msgstr "No referent teacher"
 
+msgid "LINK_referents.xls"
+msgstr "Refered student list in XLS"
+
+msgid "HELP_referents.xls"
+msgstr "Table giving for each student the informations about its referent"
+
+msgid "LINK_referents.html"
+msgstr "Refered student list in HTML"
+
+msgid "HELP_referents.html"
+msgstr "Table giving for each student the informations about its referent"
