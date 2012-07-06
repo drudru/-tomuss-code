@@ -31,12 +31,12 @@ def get_referent(server):
     year, semester = configuration.year_semester
     ref = referent.referent(year, semester, student)
     if ref:
-        ref = u'Référent pédagogique : ' + ref
+        ref = server._("MSG_suivi_referent_is") + ref
     else:
-        ref = u'Pas de référent pédagogique'
+        ref = server._("MSG_suivi_referent_none")
     ref = utilities.js(ref)
     server.the_file.write('<script>window.parent.set_the_referent(%s);</script>'
-                          % ref.encode('utf8') )
+                          % ref)
 
 plugin.Plugin('referent', '/referent/{?}', function=get_referent, teacher=True,
               )

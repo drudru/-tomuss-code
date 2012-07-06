@@ -3340,9 +3340,11 @@ msgstr "Attribut"
 msgid "COL_TITLE_VALUE"
 msgstr "Valeur"
 
+msgid "MSG_suivi_referent_is"
+msgstr "Référent pédagogique : "
 
-
-
+msgid "MSG_suivi_referent_none"
+msgstr "Pas de référent pédagogique"
 
 
 

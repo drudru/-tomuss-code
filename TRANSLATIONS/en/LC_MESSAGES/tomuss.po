@@ -3303,3 +3303,9 @@ msgstr "Attribute"
 msgid "COL_TITLE_VALUE"
 msgstr "Value"
 
+msgid "MSG_suivi_referent_is"
+msgstr "Its referent: "
+
+msgid "MSG_suivi_referent_none"
+msgstr "No referent teacher"
+
