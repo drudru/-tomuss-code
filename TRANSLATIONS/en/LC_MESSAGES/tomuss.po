@@ -3288,6 +3288,18 @@ msgstr "Get the group affectation done by teacher in all the tables"
 msgid "LINK_ip"
 msgstr "Deduce registration"
 
-msgid "HELP_groupe"
+msgid "HELP_ip"
 msgstr "Find students registration from table content"
+
+msgid "LINK_preferences"
+msgstr "User preference merging"
+
+msgid "HELP_preferences"
+msgstr "To see how users modify their preferences"
+
+msgid "COL_TITLE_ATTRIBUTE"
+msgstr "Attribute"
+
+msgid "COL_TITLE_VALUE"
+msgstr "Value"
 

@@ -22,57 +22,42 @@
 import plugin
 import utilities
 import tablestat
-import configuration
 import document
+import column
+import cell
 
 def preferences(server):
     """Join of all the preferences table"""
-    filename = document.table_filename('0', 'Stats', 'stat_preferences')
 
-    f = open(filename, "w")
-    f.write("""# -*- coding: utf8 -*-
-from data import *
-new_page('' ,'*', '', '')
-column_change (0,'0_0','Enseignant','Text','','','F',0,6)
-column_comment(0,'0_0','Identifiant (login) de l\\'enseignant')
-column_change (0,'0_1','Attribut','Text','','','F',0,2)
-column_change (0,'0_2','Valeur','Text','','','F',0,2)
-table_comment (0,'Toutes les préférences')
-table_attr('default_nr_columns', 0, 3)
-""")
-
-    i = 0
+    lines = []
     for t in tablestat.les_ues('0', 'Preferences', all_files=True):
         login = utilities.module_to_login(t.ue)
         for key, line in t.lines.items():
             if line[3].value.lower() != line[1].value.lower():
-                f.write("""cell_change(0,'0_0','%d',%s,'')
-cell_change(0,'0_1','%d',%s,'')
-cell_change(0,'0_2','%d',%s,'')
-""" % (i, repr(login), i, repr(key), i, repr(line[3].value)))
-                i += 1
+                lines.append(cell.Line((cell.CellValue(login),
+                                        cell.CellValue(key),
+                                        cell.CellValue(line[3].value))))
+    columns = [
+        column.Column('0', '', freezed='F', width=6,
+                      title=server._('COL_TITLE_ID')),
+        column.Column('0', '', freezed='F', width=2,
+                      title=server._('COL_TITLE_ATTRIBUTE')),
+        column.Column('0', '', freezed='F', width=2,
+                      title=server._('COL_TITLE_VALUE')),
+        ]
 
-    f.close()
-
-def headers(server):
-    return (
-        ('Location','%s/=%s/0/Stats/stat_preferences' % (
-        configuration.server_url, server.ticket.ticket), ),)
-
+    document.virtual_table(server, columns, lines,
+                           table_attrs={
+            'default_nr_columns': 3,
+            'comment': server._('COL_TITLE_VALUE'),
+            })
 
 plugin.Plugin('preferences', '/stat_preferences',
               function=preferences, root=True,
               launch_thread = True,
-              response=307,
-              headers = headers,
-              link=plugin.Link(text='Fusion des préférences',
-                               where="informations",
-                               html_class="verysafe",
+              link=plugin.Link(where="informations", html_class="verysafe",
                                # Should be the last semester
                                url="javascript:go_suivi('stat_preferences')",
-                               help="""Pour voir globalement ce que les
-                               utilisateurs modifient dans leurs
-                               préférences TOMUSS""",
                                priority = 1000,
                    ),
               )

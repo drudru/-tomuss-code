@@ -3323,11 +3323,22 @@ msgstr "Extrait pour toutes les UE la liste des affectations de groupes\n"
 msgid "LINK_ip"
 msgstr "Trouve IP"
 
-msgid "HELP_groupe"
+msgid "HELP_ip"
 msgstr "Pour chaque étudiant dans TOMUSS,\n"
        "à partir des informations saisies, essaye de deviner son IP."
 
+msgid "LINK_preferences"
+msgstr "Fusion des préférences"
 
+msgid "HELP_preferences"
+msgstr "Pour voir globalement ce que les utilisateurs modifient dans leurs\n"
+       "préférences TOMUSS."
+       
+msgid "COL_TITLE_ATTRIBUTE"
+msgstr "Attribut"
+
+msgid "COL_TITLE_VALUE"
+msgstr "Valeur"
 
 
 
