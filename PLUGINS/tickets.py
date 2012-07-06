@@ -19,69 +19,59 @@
 #
 #    Contact: Thierry.EXCOFFIER@bat710.univ-lyon1.fr
 
+import time
 import plugin
 import ticket
-import time
-import utilities
-import configuration
 import document
+import cell
+import column
 
 def tickets(server):
     """Display tickets"""
-    filename = document.table_filename('0', 'Stats', 'tickets')
-    
-    f = open(filename, "w")
-    f.write("""# -*- coding: utf8 -*-
-from data import *
-new_page('' ,'*', '', '')
-column_change (0,'0_0','Login','Login','','','F',0,2)
-column_change (0,'0_1','Date','Text','','','',0,2)
-column_comment(0,'0_1','Date de première connexion')
-column_change (0,'0_2','IP','Text','','','',0,2)
-column_comment(0,'0_2','Adresse IP de connexion')
-column_change (0,'0_3','ABJ','Bool','','','',0,1)
-column_comment(0,'0_3','Est un gestionnaire des ABJ')
-column_change (0,'0_4','Prof','Bool', '','','',0,1)
-column_comment(0,'0_4','Est un enseignant')
-column_change (0,'0_5','Navigateur','Text','[0;20]','','',0,6)
-column_comment(0,'0_5','Navigateur Web utilisé')
-table_comment(0, 'Les tickets actuellement valide')
-table_attr('default_nr_columns', 0, 6)
-table_attr('private', 0, 1)
-add_master(%s,0)
-""" % repr(server.ticket.user_name))
-    for i, t in enumerate(ticket.tickets.values()):
-        f.write("cell_change(0,'0_0','%d','%s','')\n" % (i, t.user_name))
-        f.write("cell_change(0,'0_1','%d','%s','')\n" % (
-            i, time.strftime('%Y-%m-%d %H:%M.%S', time.localtime(t.date))))
-        f.write("cell_change(0,'0_2','%d','%s','')\n" % (i, t.user_ip))
-        f.write("cell_change(0,'0_3','%d','%s','')\n" % (
-            i, t.__dict__.get('is_an_abj_master', False)))
-        f.write("cell_change(0,'0_4','%d','%s','')\n" % (i, t.__dict__.get('is_a_teacher','???')))
-        f.write("cell_change(0,'0_5','%d',%s,'')\n" % (i, repr(t.user_browser)))
-        
-    f.close()
+    lines = []
+    for t in ticket.tickets.values():
+        lines.append(cell.Line((
+                    cell.CellValue(t.user_name),
+                    cell.CellValue(time.strftime('%Y-%m-%d %H:%M.%S',
+                                                 time.localtime(t.date))),
+                    cell.CellValue(t.user_ip),
+                    cell.CellValue(str(t.__dict__.get('is_an_abj_master',
+                                                      False))),
+                    cell.CellValue(str(t.__dict__.get('is_a_teacher','???'))),
+                    cell.CellValue(repr(t.user_browser)))))
 
-    t = document.table(0, 'Stats', 'tickets', create=False)
-    if t:
-        t.unload()
+    columns = [
+        column.Column('0', '', freezed='F', width=2,
+                      title=server._('COL_TITLE_ID')),
+        column.Column('1', '', width=2,
+                      title=server._('COL_TITLE_ticket_date'),
+                      comment=server._('COL_COMMENT_ticket_date'),
+                      ),
+        column.Column('2', '', width=2,
+                      title=server._('COL_TITLE_ticket_IP'),
+                      comment=server._('COL_COMMENT_ticket_IP'),
+                      ),
+        column.Column('3', '', width=1, type="Bool",
+                      title=server._('COL_TITLE_ticket_abjm'),
+                      comment=server._('COL_COMMENT_ticket_abjm'),
+                      ),
+        column.Column('4', '', width=1, type="Bool",
+                      title=server._('COL_TITLE_ticket_teacher'),
+                      comment=server._('COL_COMMENT_ticket_teacher'),
+                      ),
+        column.Column('5', '', width=6,
+                      title=server._('COL_TITLE_ticket_browser'),
+                      comment=server._('COL_COMMENT_ticket_browser'),
+                      ),
+        ]
+    document.virtual_table(server, columns, lines,
+                           table_attrs={
+            'default_nr_columns': 6,
+            'comment': server._('LINK_tickets'),
+            })
 
-
-def headers(server):    
-    return (
-        ('Location','%s/=%s/0/Stats/tickets' % (
-        configuration.server_url, server.ticket.ticket)), )
-
-plugin.Plugin('tickets', '/tickets',
-              function=tickets,
-              root=True,
-              response=307,
-              headers = headers,
-              link=plugin.Link(text='Tickets actifs',
-                               help="Liste des tickets actuellement valides",
-                               where='informations',
-                               html_class="verysafe",
-                               )
+plugin.Plugin('tickets', '/tickets', function=tickets, root=True,
+              link=plugin.Link(where='informations', html_class="verysafe")
               )
 
 

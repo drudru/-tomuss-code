@@ -40,16 +40,16 @@ def preferences(server):
     columns = [
         column.Column('0', '', freezed='F', width=6,
                       title=server._('COL_TITLE_ID')),
-        column.Column('0', '', freezed='F', width=2,
+        column.Column('1', '', freezed='F', width=2,
                       title=server._('COL_TITLE_ATTRIBUTE')),
-        column.Column('0', '', freezed='F', width=2,
+        column.Column('2', '', freezed='F', width=2,
                       title=server._('COL_TITLE_VALUE')),
         ]
 
     document.virtual_table(server, columns, lines,
                            table_attrs={
             'default_nr_columns': 3,
-            'comment': server._('COL_TITLE_VALUE'),
+            'comment': server._('LINK_preferences'),
             })
 
 plugin.Plugin('preferences', '/stat_preferences',

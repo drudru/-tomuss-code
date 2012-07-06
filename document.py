@@ -1523,7 +1523,7 @@ def virtual_table(server, the_columns, the_lines, table_attrs={}, js=""):
     Do not use in a not threaded plugin.
     """
     if not hasattr(server, "year"):
-        server.year = server.the_year
+        server.year = server.__dict__.get("the_year", 0)
     if not hasattr(server, "semester"):
         if hasattr(server, 'the_semester'):
             server.semester = server.the_semester
