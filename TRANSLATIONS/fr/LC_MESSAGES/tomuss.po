@@ -2143,6 +2143,9 @@ msgstr "<!--2-->Informations"
 msgid "BOX_referents"
 msgstr "<!--3-->Contacts pédagogiques"
 
+msgid "BOX_grouping"
+msgstr "<!--4-->Groupage"
+
 msgid "BOX_root_rw"
 msgstr "<!--7-->Administration"
 
@@ -3285,5 +3288,44 @@ msgstr "Je ne trouve pas la colonne "
 
 msgid "MSG_suivi_extract_in"
 msgstr " dans la table "
+
+msgid "MSG_suivi_group_date"
+msgstr "DATE :"
+
+msgid "MSG_suivi_group_table"
+msgstr "CODE APOGEE DE L'UE :"
+
+msgid "MSG_suivi_group_title"
+msgstr "NOM DE L'UE :"
+
+msgid "MSG_suivi_group_sequence"
+msgstr "NUMERO DE SEQUENCE :"
+
+msgid "MSG_suivi_group_id"
+msgstr "n ETUDIANT"
+
+msgid "MSG_suivi_group_surname"
+msgstr "NOM"
+
+msgid "MSG_suivi_group_firstname"
+msgstr "PRENOM"
+
+msgid "MSG_suivi_group_group"
+msgstr "GROUPE"
+
+msgid "LINK_groupe"
+msgstr "Tous les groupes saisis dans TOMUSS"
+
+msgid "HELP_groupe"
+msgstr "Extrait pour toutes les UE la liste des affectations de groupes\n"
+       "faites par les enseignants."
+
+
+
+
+
+
+
+
 
 

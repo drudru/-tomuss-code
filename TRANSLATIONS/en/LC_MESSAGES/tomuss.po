@@ -2138,7 +2138,10 @@ msgid "BOX_informations"
 msgstr "<!--2-->Informations"
 
 msgid "BOX_referents"
-msgstr "<!--4-->Referent teachers"
+msgstr "<!--3-->Referent teachers"
+
+msgid "BOX_grouping"
+msgstr "<!--4-->Groupage"
 
 msgid "BOX_root_rw"
 msgstr "<!--7-->Administration"
@@ -3251,3 +3254,33 @@ msgstr "I can't find the column "
 
 msgid "MSG_suivi_extract_in"
 msgstr " in the table "
+
+msgid "MSG_suivi_group_date"
+msgstr "DATE:"
+
+msgid "MSG_suivi_group_table"
+msgstr "TABLE CODE:"
+
+msgid "MSG_suivi_group_title"
+msgstr "TABLE TITLE:"
+
+msgid "MSG_suivi_group_sequence"
+msgstr "SEQUENCE NUMBER:"
+
+msgid "MSG_suivi_group_id"
+msgstr "STUDENT ID"
+
+msgid "MSG_suivi_group_surname"
+msgstr "SURNAME"
+
+msgid "MSG_suivi_group_firstname"
+msgstr "FIRSTNAME"
+
+msgid "MSG_suivi_group_group"
+msgstr "GROUP"
+
+msgid "LINK_groupe"
+msgstr "All the groups defined by teachers"
+
+msgid "HELP_groupe"
+msgstr "Get the group affectation done by teacher in all the tables"

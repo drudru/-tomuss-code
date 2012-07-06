@@ -86,11 +86,14 @@ def page_one_groupe(server):
     w = csv.writer(server.the_file, delimiter=';')
     date = time.strftime('%d/%m/%Y', time.localtime())
 
-    w.writerow(('DATE :'                , '', date         , ''))
-    w.writerow(("CODE APOGEE DE L\'UE :", '', t.ue[3:]     , ''))
-    w.writerow(("NOM DE L\'UE :"        , '', t.table_title, ''))
-    w.writerow(("NUMERO DE SEQUENCE :"  , '', seq          , ''))
-    w.writerow(("n ETUDIANT"            ,"NOM","PRENOM","GROUPE"))
+    w.writerow((server._("MSG_suivi_group_date")    , '', date         , ''))
+    w.writerow((server._("MSG_suivi_group_table")   , '', t.ue[3:]     , ''))
+    w.writerow((server._("MSG_suivi_group_title")   , '', t.table_title, ''))
+    w.writerow((server._("MSG_suivi_group_sequence"), '', seq          , ''))
+    w.writerow((server._("MSG_suivi_group_id"),
+                server._("MSG_suivi_group_surname"),
+                server._("MSG_suivi_group_firstname"),
+                server._("MSG_suivi_group_group")))
           
     g = []
     for line in t.lines.values():
@@ -115,13 +118,8 @@ plugin.Plugin('groupe', '/groupe', teacher=True, password_ok = None,
               function = page_groupe,
               abj_master=True,
               launch_thread=True,
-              link=plugin.Link(text="Tous les groupes saisis dans TOMUSS",
-                               where="<!--4-->Groupage",
-                               html_class="verysafe",
+              link=plugin.Link(where="grouping", html_class="verysafe",
                                url="javascript:go_suivi('groupe')",
-                               help="""Extrait pour toutes les UE la liste
-                               des affectations de groupes faites par
-                               les enseignants.""",
                                ),
               )
 
