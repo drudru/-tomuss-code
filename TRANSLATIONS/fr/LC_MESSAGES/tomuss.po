@@ -3320,6 +3320,13 @@ msgid "HELP_groupe"
 msgstr "Extrait pour toutes les UE la liste des affectations de groupes\n"
        "faites par les enseignants."
 
+msgid "LINK_ip"
+msgstr "Trouve IP"
+
+msgid "HELP_groupe"
+msgstr "Pour chaque étudiant dans TOMUSS,\n"
+       "à partir des informations saisies, essaye de deviner son IP."
+
 
 
 

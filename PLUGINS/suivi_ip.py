@@ -57,15 +57,6 @@ def the_ip(server):
 plugin.Plugin('ip', '/ip', function=the_ip, root=True,
               launch_thread = True,
               mimetype = "text/plain",
-              link=plugin.Link(text="Trouve IP",
-                               where="deprecated",
-                               html_class="verysafe",
-                               url="javascript:go_suivi('ip')",
-                               help="""Pour chaque étudiants dans TOMUSS,
-                               à partir des informations saisies,
-                               essaye de deviner son IP.
-                               Ceci a été utilisé l'année ou les IP
-                               n'ont pas été faites.
-                               """,
-                               ),
+              link=plugin.Link(where="deprecated", html_class="verysafe",
+                               url="javascript:go_suivi('ip')"),
               )

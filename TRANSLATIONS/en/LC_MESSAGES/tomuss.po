@@ -3284,3 +3284,10 @@ msgstr "All the groups defined by teachers"
 
 msgid "HELP_groupe"
 msgstr "Get the group affectation done by teacher in all the tables"
+
+msgid "LINK_ip"
+msgstr "Deduce registration"
+
+msgid "HELP_groupe"
+msgstr "Find students registration from table content"
+
