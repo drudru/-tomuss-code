@@ -3477,3 +3477,27 @@ msgstr "Commentaire à destination du jury de second semestre"
 msgid "MSG_Referents_suivi"
 msgstr "Vous êtes le seul à voir ces informations car vous êtes\n"
        "le référent pédagogique de l'étudiant pour %d-%d&nbsp;:"
+
+msgid "MSG_suivi_referents_nr_students"
+msgstr "#étudiants suivis : "
+
+msgid "MSG_suivi_referents_nr_referents"
+msgstr "#référents pédagogiques : "
+
+msgid "MSG_suivi_referents_nr_notepads"
+msgstr "#référents pédagogiques avec blocnote : "
+
+msgid "MSG_suivi_referents_nr_students_in_notepads"
+msgstr "#Étudiants suivis dans les blocnotes : "
+
+msgid "LINK_referents"
+msgstr "Statistiques référents pédagogiques"
+
+msgid "HELP_referents"
+msgstr "Affiche des statistiques sur les enseignants référents pédagogiques"
+
+
+
+
+
+

@@ -3426,3 +3426,21 @@ msgstr "Comment to indicate to the second semester jury"
 msgid "MSG_Referents_suivi"
 msgstr "You are the only user seeing these informations because\n"
        "the referent teacher for the student in %d-%d&nbsp;:"
+
+msgid "MSG_suivi_referents_nr_students"
+msgstr "#of students with of referent: "
+
+msgid "MSG_suivi_referents_nr_referents"
+msgstr "#of referent teachers: "
+
+msgid "MSG_suivi_referents_nr_notepads"
+msgstr "#of referent teacher with a note pad: "
+
+msgid "MSG_suivi_referents_nr_students_in_notepads"
+msgstr "#of student in note pad: "
+
+msgid "LINK_referents"
+msgstr "Referent teacher statistics"
+
+msgid "HELP_referents"
+msgstr "display statistics about referent teachers"

@@ -32,11 +32,11 @@ class StatCol(object):
         self.data_col = None
 
     def get_data_col(self, table):
-        try:
-            self.data_col = table.columns[self.titles[0]]
+        col = table.columns.from_id(self.titles[0])
+        if col:
+            self.data_col = col.data_col
+            self.titles = (col.title,)
             return
-        except KeyError:
-            pass
         # It is an old file
         for title in self.titles:
             self.data_col = table.columns.data_col_from_title(title)
@@ -56,15 +56,15 @@ class StatCol(object):
         # if self.counter == 0:
         #    return ''
         if self.data_col is None:
-            return '[???NO TABLE WITH %s???]\n' % self.titles[0]
+            return ''
         else:
-            return '[' + str(self.data_col) + '] ' + self.titles[0] + ' : ' + str(self.counter) + '\n'
+            return self.titles[0] + ' : ' + str(self.counter) + '\n'
         
 
-def stat_referent(f, year, semester):
+def stat_referent(f, year, semester, server):
     import TEMPLATES.Referents
     us = configuration.university_semesters
-    c = TEMPLATES.Referents.columns
+    # Do not translate remaining french please. It's to read old files
     columns = (
         StatCol( ('RDV1', 'RDV_1',), increment=lambda x: x == 'PRST'),
         StatCol( ('RDV2', 'RDV_2',), increment=lambda x: x == 'PRST'),
@@ -108,15 +108,17 @@ def stat_referent(f, year, semester):
 
         nr_teachers += 1
 
-    f.write('<title>Statistiques Référents</title>\n')
-    f.write('<h1>Statistiques sur les référents pédagogiques</h1>\n')
+    f.write('<title>%s</title>\n' % server._("LINK_referents"))
+    f.write('<h1>%s</h1>\n' % server._("LINK_referents"))
     f.write('<pre>')
-    f.write('#étudiants suivis : %d\n' %
-            referent.nr_students(year, semester))
-    f.write('#référents pédagogiques : %d\n' %
-            len(referent.referents_login(year, semester)))
-    f.write('#référents pédagogiques avec blocnote : %d\n' % nr_teachers)
-    f.write("#Étudiants suivis dans les blocnotes : %d\n"% nr_students)
+    f.write('%s%d\n' % (server._("MSG_suivi_referents_nr_students"),
+                        referent.nr_students(year, semester)))
+    f.write('%s%d\n' % (server._("MSG_suivi_referents_nr_referents"),
+                        len(referent.referents_login(year, semester))))
+    f.write('%s%d\n' % (server._("MSG_suivi_referents_nr_notepads"),
+                        nr_teachers))
+    f.write("%s%d\n" % (server._("MSG_suivi_referents_nr_students_in_notepads"),
+                        nr_students))
     for statcol in columns:
         f.write(statcol.html())
     
@@ -124,17 +126,13 @@ def stat_referent(f, year, semester):
 
 def referents(server):
     """Display statistics about referents."""
-    stat_referent(server.the_file, server.year, server.semester)
+    stat_referent(server.the_file, server.year, server.semester, server)
 
 plugin.Plugin('referents', '/*3', function=referents,
               root=True,
               launch_thread = True,
-              link=plugin.Link(text='Statistiques référents pédagogiques',
-                               url="javascript:go_suivi('*3')",
-                               where='referents',
-                               html_class="verysafe",
-                               help="""Affiche des statistiques sur
-                               les enseignants référents pédagogiques""",
+              link=plugin.Link(url="javascript:go_suivi('*3')",
+                               where='referents', html_class="verysafe",
                                ),
               )
 
