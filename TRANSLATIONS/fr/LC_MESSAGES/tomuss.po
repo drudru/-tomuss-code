@@ -3360,6 +3360,18 @@ msgid "HELP_referents.html"
 msgstr "Tableau donnant pour chaque étudiant\n"
        "référé le nom/mail de son enseignant référent pédagogique."
 
+msgid "COL_TITLE_0_0"
+msgstr "ID"
+
+msgid "COL_COMMENT_0_0"
+msgstr "Identificateur de l'étudiant"
+
+msgid "COL_TITLE_0_1"
+msgstr "Prénom"
+
+msgid "COL_TITLE_0_2"
+msgstr "Nom"
+
 msgid "COL_TITLE_ticket_date"
 msgstr "Date"
 
@@ -3396,6 +3408,72 @@ msgstr "Tickets actifs"
 msgid "HELP_tickets"
 msgstr "Liste des tickets actuellement valides"
 
+msgid "COL_TITLE_FiRe"
+msgstr "Primo-entrant"
 
+msgid "COL_COMMENT_FiRe"
+msgstr "Première inscription en licence."
 
+msgid "COL_TITLE_CON1"
+msgstr "TOMUSS"
 
+msgid "COL_COMMENT_CON1"
+msgstr "L'étudiant s'est connecté sur TOMUSS au premier semestre"
+
+msgid "COL_TITLE_REM1"
+msgstr "Remarques"
+
+msgid "COL_COMMENT_REM1"
+msgstr "Remarques privées sur l'étudiant"
+
+msgid "COL_TITLE_RDV1"
+msgstr "RDV_1"
+
+msgid "COL_COMMENT_RDV1"
+msgstr "Présence au premier rendez-vous"
+
+msgid "COL_TITLE_RDV2"
+msgstr "RDV_2"
+
+msgid "COL_COMMENT_RDV2"
+msgstr "Présence au deuxième rendez-vous"
+
+msgid "COL_TITLE_JUR1"
+msgstr "Commentaire_Jury"
+
+msgid "COL_COMMENT_JUR1"
+msgstr "Commentaire à destination du jury de premier semestre"
+
+msgid "COL_TITLE_CON2"
+msgstr "TOMUSS2"
+
+msgid "COL_COMMENT_CON2"
+msgstr "L'étudiant s'est connecté sur TOMUSS au second semestre"
+
+msgid "COL_TITLE_REM2"
+msgstr "Remarques2"
+
+msgid "COL_COMMENT_REM2"
+msgstr "Remarques privées sur l'étudiant"
+
+msgid "COL_TITLE_RDV3"
+msgstr "RDV_3"
+
+msgid "COL_COMMENT_RDV3"
+msgstr "Présence au troisième rendez-vous"
+
+msgid "COL_TITLE_RDV4"
+msgstr "RDV_4"
+
+msgid "COL_COMMENT_RDV4"
+msgstr "Présence au quatrième rendez-vous"
+
+msgid "COL_TITLE_JUR2"
+msgstr "Commentaire_Jury_2"
+
+msgid "COL_COMMENT_JUR2"
+msgstr "Commentaire à destination du jury de second semestre"
+
+msgid "MSG_Referents_suivi"
+msgstr "Vous êtes le seul à voir ces informations car vous êtes\n"
+       "le référent pédagogique de l'étudiant pour %d-%d&nbsp;:"

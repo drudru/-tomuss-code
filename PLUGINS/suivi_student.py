@@ -215,18 +215,7 @@ def student_statistics(login, server, is_a_student=False, expand=False,
                                    create=False)
             if table is None:
                 break
-            first = True
-            for line in table.get_lines(login):
-                for i, col in enumerate(table.columns):
-                    if i >= 3 and line[i].value:
-                        if first:
-                            s.append(u'<div class="blocnote">Vous êtes le seul à voir ces informations car vous êtes le référent pédagogique de l\'étudiant en %d-%d&nbsp;:<br>' % (tyear, tyear+1))
-                            first = False
-                        s.append(u'%s&nbsp;:&nbsp;<b>%s</b>,'
-                                 % ( unicode(col.title, 'utf8'),
-                                     unicode(cgi.escape(str(line[i].value)), 'utf8') ))
-            if first == False:
-                s.append('</div>')
+            s.append(table.referent_resume(table, login))
             # table.unload() # XXX Memory leak
             tyear -= 1
 

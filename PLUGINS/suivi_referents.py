@@ -32,6 +32,12 @@ class StatCol(object):
         self.data_col = None
 
     def get_data_col(self, table):
+        try:
+            self.data_col = table.columns[self.titles[0]]
+            return
+        except KeyError:
+            pass
+        # It is an old file
         for title in self.titles:
             self.data_col = table.columns.data_col_from_title(title)
             if self.data_col:
@@ -56,27 +62,30 @@ class StatCol(object):
         
 
 def stat_referent(f, year, semester):
+    import TEMPLATES.Referents
     us = configuration.university_semesters
+    c = TEMPLATES.Referents.columns
     columns = (
-        StatCol( ('RDV_1',), increment=lambda x: x == 'PRST'),
-        StatCol( ('RDV_2',), increment=lambda x: x == 'PRST'),
-        StatCol( ('RDV_3',), increment=lambda x: x == 'PRST'),
-        StatCol( ('RDV_4',), increment=lambda x: x == 'PRST'),
-        StatCol( ('Remarques', 'Remarques IP ' + us[0])),
-        StatCol( ('Remarques_2', 'Remarques IP ' + us[1])),
+        StatCol( ('RDV1', 'RDV_1',), increment=lambda x: x == 'PRST'),
+        StatCol( ('RDV2', 'RDV_2',), increment=lambda x: x == 'PRST'),
+        StatCol( ('RDV3', 'RDV_3',), increment=lambda x: x == 'PRST'),
+        StatCol( ('RDV4', 'RDV_4',), increment=lambda x: x == 'PRST'),
+        StatCol( ('REM1', 'Remarques', 'Remarques IP ' + us[0])),
+        StatCol( ('REM2', 'Remarques_2', 'Remarques IP ' + us[1])),
+        StatCol( ('CON1', 'TOMUSS_'+us[0], us[0])),
+        StatCol( ('CON2', 'TOMUSS_'+us[1], us[1])),
+        StatCol( ('JUR1', 'Commentaire Jury ' + us[0],)),
+        StatCol( ('JUR2', 'Commentaire Jury ' + us[1],)),
+        StatCol( ('FiRe', 'Primo Entrant',)),
+        # For old files
+        StatCol( ('ContratSigné',)),
         StatCol( ('Contacté',)),
         StatCol( ('Contacté_2',)),
-        StatCol( ('ContratSigné',)),
-        StatCol( ('TOMUSS_'+us[0], us[0])),
-        StatCol( ('TOMUSS_'+us[1], us[1])),
         StatCol( ('ContratSigné 2',)),
         StatCol( ('ContratRespecté',), increment=lambda x: x == 'OUI'),
         StatCol( ('ContratNonRespecté',), increment=lambda x: x == 'NON'),
         StatCol( ('ContratRespecté_2',), increment=lambda x: x == 'OUI'),
         StatCol( ('ContratNonRespecté_2',), increment=lambda x: x == 'NON'),
-        StatCol( ('Commentaire Jury ' + us[0],)),
-        StatCol( ('Commentaire Jury ' + us[1],)),
-        StatCol( ('Primo Entrant',)),
     )
 
     nr_students = 0
@@ -85,8 +94,6 @@ def stat_referent(f, year, semester):
     year_blocnote = utilities.university_year(year, semester)
 
     for t in referent.les_blocsnotes(year_blocnote):
-        empty = True
-
         for statcol in columns:
             statcol.get_data_col(t)
 

@@ -203,17 +203,20 @@ def referents_login(year, semester):
     """Returns the referent list"""
     return [t for t in referents_students(year, semester).logins() if t != '']
 
-def nr_students(year, semester):
-    """Number of student of a 'referent'"""
-    n = 0
+def the_students(year, semester):
+    """The list of student WITH a 'referent'"""
+    students = []
     for line in referents_students(year, semester).lines.values():
         if line[0].value == '':
             continue
-        n -= 1
-        for cell in line:
+        for cell in line[2:]:
             if cell.value != '':
-                n += 1
-    return n
+                students.append(cell.value)
+    return students
+
+def nr_students(year, semester):
+    """Number of student with of 'referent'"""
+    return len(the_students(year, semester))
 
 #REDEFINE
 # Triggered when a student is removed from a teacher

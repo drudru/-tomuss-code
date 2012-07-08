@@ -19,37 +19,29 @@
 #
 #    Contact: Thierry.EXCOFFIER@bat710.univ-lyon1.fr
 
+import os
+import time
+import collections
 import plugin
 import document
 import utilities
 import referent
-import os
 import tablestat
 import inscrits
-import time
 import configuration
 
-def uninterested(f, year, semester, port):    
-    table = document.table(year, semester, 'referents_students')
+def uninterested(f, year, semester, port):
     students = {}
-    students_ue = {}
-    for line in table.lines.values():
-        if line[0].value == '':
-            continue
-        for cell in line[2:]:
-            if cell.value == '':
-                continue
-            students[utilities.the_login(cell.value)] = 0
-            students_ue[utilities.the_login(cell.value)] = {}
-    students_notes = dict(students)
-
+    for s in referent.the_students(year, semester):
+        students[s] = 0
+    students_ue = collections.defaultdict(dict)
+    students_notes = collections.defaultdict(int)
     students_in_blocnote = {}
     us = configuration.university_semesters
     for t in referent.les_blocsnotes(utilities.university_year(year,
                                                                semester)):
-        data_cols = [t.columns.data_col_from_title(title)
-                     for title in ('RDV_1','RDV_2', 'Commentaire Jury '+us[0],
-                               'RDV_3', 'RDV_4', 'Commentaire Jury '+us[1])
+        data_cols = [t.columns.from_id(title).data_col
+                     for title in ('RDV1','RDV2','JUR1', 'RDV3','RDV4','JUR2')
                      ]
         for line in t.lines.values():
             

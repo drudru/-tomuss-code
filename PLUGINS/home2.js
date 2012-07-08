@@ -1104,7 +1104,7 @@ function go_referent()
   var ys = first_university_year_semester() ;
   var s = base + university_year() + "/Referents/" + username2 ;
   if ( semester() != ys[1] )
-      s += '/=column_offset=6' ;
+      s += '/=column_offset=5' ;
   goto_url(s) ;
 }
 

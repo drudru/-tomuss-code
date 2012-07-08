@@ -3357,3 +3357,72 @@ msgstr "Active tickets"
 msgid "HELP_tickets"
 msgstr "List the tickets currently active"
 
+msgid "COL_TITLE_FiRe"
+msgstr "First_Registration"
+
+msgid "COL_COMMENT_FiRe"
+msgstr "It is the first student inscription"
+
+msgid "COL_TITLE_CON1"
+msgstr "TOMUSS"
+
+msgid "COL_COMMENT_CON1"
+msgstr "The student connected to TOMUSS the first semester"
+
+msgid "COL_TITLE_REM1"
+msgstr "Comments"
+
+msgid "COL_COMMENT_REM1"
+msgstr "Private comments about the student"
+
+msgid "COL_TITLE_RDV1"
+msgstr "RDV_1"
+
+msgid "COL_COMMENT_RDV1"
+msgstr "Attendance to first rendez-vous"
+
+msgid "COL_TITLE_RDV2"
+msgstr "RDV_2"
+
+msgid "COL_COMMENT_RDV2"
+msgstr "Attendance to second rendez-vous"
+
+msgid "COL_TITLE_JUR1"
+msgstr "Jury_Comment"
+
+msgid "COL_COMMENT_JUR1"
+msgstr "Comment to indicate to the jury"
+
+msgid "COL_TITLE_CON2"
+msgstr "TOMUSS2"
+
+msgid "COL_COMMENT_CON2"
+msgstr "The student connected to TOMUSS the second semester"
+
+msgid "COL_TITLE_REM2"
+msgstr "Comments2"
+
+msgid "COL_COMMENT_REM2"
+msgstr "Private comments about the student"
+
+msgid "COL_TITLE_RDV3"
+msgstr "RDV_3"
+
+msgid "COL_COMMENT_RDV3"
+msgstr "Attendance to third rendez-vous"
+
+msgid "COL_TITLE_RDV4"
+msgstr "RDV_4"
+
+msgid "COL_COMMENT_RDV4"
+msgstr "Attendance to fourth rendez-vous"
+
+msgid "COL_TITLE_JUR2"
+msgstr "Jury_Comment2"
+
+msgid "COL_COMMENT_JUR2"
+msgstr "Comment to indicate to the second semester jury"
+
+msgid "MSG_Referents_suivi"
+msgstr "You are the only user seeing these informations because\n"
+       "the referent teacher for the student in %d-%d&nbsp;:"

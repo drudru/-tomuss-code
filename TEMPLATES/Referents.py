@@ -19,13 +19,63 @@
 #
 #    Contact: Thierry.EXCOFFIER@bat710.univ-lyon1.fr
 
+
+"""This TEMPLATE can be modified and it will update table in usage
+to match the modification. For example, the columns order.
+"""
+
+import os
+import cgi
 import data
 import inscrits
 import utilities
 import configuration
 import _ucbl_
 import abj
-import os
+
+def referent_resume(table, login):
+    s = []
+    first = True
+    for line in table.get_lines(login):
+        for i, col in enumerate(table.columns):
+            if i >= 3 and line[i].value:
+                if first:
+                    s.append('<div class="blocnote">'
+                             + utilities._("MSG_Referents_suivi")
+                             % (table.year, table.year+1) + '<br>')
+                    first = False
+                s.append(u'%s&nbsp;:&nbsp;<b>%s</b>,'
+                         % ( unicode(col.title, 'utf8'),
+                             unicode(cgi.escape(str(line[i].value)), 'utf8') ))
+    if first == False:
+        s.append('</div>')
+    return '\n'.join(s)
+
+def g():
+    g()
+
+# The ID starting by 0_ are here for compatibility with _ucbl template
+referent_columns = {
+    '0_0' : {'position': 0,'type':'Text', "width":4, "freezed":'F',
+             'repetition': 1},
+    '0_1' : {'position': 1,'type':'Text', "width":6, "freezed":'F'},
+    '0_2' : {'position': 2,'type':'Text', "width":6, "freezed":'F'},
+    '0_3' : {'hidden':1},
+    '0_4' : {'hidden':1},
+    '0_5' : {'position': 3,'type':'Text', "width":1, "freezed":'F',
+             "hidden":1, 'title':'Inscrit'},
+    'FiRe': {'position': 4,'type':'Bool', "width":2, "freezed":'F'},
+    'CON1': {'position': 5,'type':'Bool', "width":2},
+    'REM1': {'position': 6,'type':'Text', "width":6},
+    'RDV1': {'position': 7,'type':'Prst', "width":2},
+    'RDV2': {'position': 8,'type':'Prst', "width":2},
+    'JUR1': {'position': 9,'type':'Text', "width":6},
+    'CON2': {'position':10,'type':'Bool', "width":2},
+    'REM2': {'position':11,'type':'Text', "width":6},
+    'RDV3': {'position':12,'type':'Prst', "width":2},
+    'RDV4': {'position':13,'type':'Prst', "width":2},
+    'JUR2': {'position':14,'type':'Text', "width":6},
+    }
 
 def init(table):
     _ucbl_.init(table)
@@ -34,65 +84,23 @@ def init(table):
     table.abjs_mtime = 0
     table.private = 1
     table.modifiable = int(utilities.university_year() == table.year)
+    table.referent_resume = referent_resume
+    table.referent_columns = referent_columns
 
 def check_columns(table):
-    page = table.pages[0]
-    us = configuration.university_semesters
-    # Don't change line order.
-    # The line content is used in other plugins and the order must be unchanged
-    # To change display order, use the number in the first column.
-    for pos,col_id, col_title, col_type, col_fixed, col_width, col_comment in (
-(0 ,'0_0' ,'ID'                      ,'Text','F',4 ,"Numéro étudiant"),
-(1 ,'0_1' ,'Prénom'                  ,'Text','F',8 ,""),
-(2 ,'0_2' ,'Nom'                     ,'Text','F',8 ,""),
-(90,'0_3' ,'Contacté'                ,'Bool','' ,4 ,""),
-(6 ,'0_4' ,'RDV_1'                   ,'Prst','' ,4 ,"Premier rendez-vous"),
-(4 ,'0_5' ,'TOMUSS_'+us[0]           ,'Bool','' ,4 ,us[0] + " : L'étudiant s'est connecté"),
-(7 ,'0_6' ,'RDV_2'                   ,'Prst','' ,4 ,"Deuxième rendez-vous"),
-(91,'0_7' ,'ContratRespecté'         ,'Bool','' ,4 ,""),
-(5 ,'0_8' ,'Remarques IP ' + us[0]   ,'Text','' ,16,'Remarques à usage privé'),
-(92,'0_9' ,'Contacté_2'              ,'Bool','' ,4 ,""),
-(11,'0_10','RDV_3'                   ,'Prst','' ,4 ,""),
-(9 ,'0_11','TOMUSS_'+us[1]           ,'Bool','' ,4 ,us[1] + " : L'étudiant s'est connecté"),
-(12,'0_12','RDV_4'                   ,'Prst','' ,4 ,""),
-(93,'0_13','ContratRespecté_2'       ,'Bool','' ,4 ,""),
-(10,'0_14','Remarques IP ' + us[1]   ,'Text','' ,16,'Remarques à usage privé'),
-(94,'0_15','.Réussite'               ,'Bool','' ,4 ,"Étudiant en situation de réussite"),
-(8 ,'0_16','Commentaire Jury ' +us[0],'Text','' ,16,"Transmis aux membres des jurys"),
-(95,'0_17','Inscrit'                 ,'Text','C',1 ,""),
-(3 ,'0_18','Primo Entrant'           ,'Bool','F',4 ,"Première inscription en licence."),
-(13,'0_19','Commentaire Jury ' +us[1],'Text','',16,"Transmis aux membres des jurys"),
-):
-        for col in table.columns:
-            # do not create the column if it exists.
-            if ( col.the_id == col_id
-                 and col.title == col_title
-                 # and col.comment == col_comment
-                 # and col.width == col_width
-                 # and col.position == pos
-                 ):
-                break
-        else:
-            if pos >= 90:
-                hidden = 1
-            else:
-                hidden = 0
-                
-            table.column_change(page, col_id, col_title, col_type, '', '',
-                                col_fixed , hidden, col_width)
-            if not hidden:
-                if col_comment:
-                    table.column_comment(page, col_id, col_comment)
-                if hasattr(table, 'column_attr'):
-                    table.column_attr(page, col_id, 'position', pos)
-                else:
-                    table.column_position(page, col_id, pos)
+    if len(table.columns) != 0 and table.columns.from_id('FiRe') is None:
+        table.modifiable = False
+        return # Old table : no more columns update
+    for k, v in referent_columns.items():
+        x = utilities._('COL_TITLE_' + k)
+        if x != 'COL_TITLE_' + k:
+            v['title'] = x
+        x = utilities._('COL_COMMENT_' + k)
+        if x != 'COL_COMMENT_' + k:
+            v['comment'] = x
+    table.update_columns(referent_columns)
 
-        if table.default_nr_columns != 9:
-            table.table_attr(page, 'default_nr_columns', 9)
-
-
-def content(table):
+def content(dummy_table):
     return _ucbl_.update_student_information
 
 def onload(table):
@@ -117,9 +125,9 @@ def update_inscrits_referents(the_ids, table, page):
     finally:
         table.unlock()
     if configuration.year_semester[1] == configuration.university_semesters[0]:
-        contrat = '0_5'
+        contrat = 'CON1'
     else:
-        contrat = '0_11'
+        contrat = 'CON2'
 
     done = {}
     current_year = str(utilities.university_year())[-2:]
@@ -149,12 +157,12 @@ def update_inscrits_referents(the_ids, table, page):
             if len(lines) == 0:
                 line = "0_" + str(len(table.lines))
             else:
-                line = lines[0][0]
-            table.cell_change(page, "0_0"  ,line, the_id)
-            table.cell_change(page, "0_1"  ,line, firstname.encode('utf-8'))
-            table.cell_change(page, "0_2"  ,line, surname.encode('utf-8'))
-            table.cell_change(page, "0_18" ,line, pe)
-            table.cell_change(page, contrat,line, s)
+                line = lines[0][0] # Never 2 lines with one student
+            table.cell_change(page, "0_0"   ,line, the_id)
+            table.cell_change(page, "0_1"   ,line, firstname.encode('utf-8'))
+            table.cell_change(page, "0_2"   ,line, surname.encode('utf-8'))
+            table.cell_change(page, "FiRe"  ,line, pe)
+            table.cell_change(page, contrat ,line, s)
 
         finally:
             table.unlock()
