@@ -22,53 +22,12 @@
     </div>
     _MESSAGE_
     <img id="unload" width="1" height="1">
-<script>
-var path = window.location.href.split('/') ;
-if ( path[path.length-1] == '' )
-document.write(
-'    <h1>Suivi des étudiants pour _SEMESTER_ _YEAR_ <img id="unload" width="1" height="1"></h1>'+
-'    <p class="noprint" style="text-align:center">'+
-'      Les informations sur cette page ne sont pas actualisées'+
-'      instantanément, il peut y avoir des différences'+
-'      entre les tableaux et le résumé.'+
-'      '+
-'<table class="colored noprint input" style="float:left">'+
-'	<tr>'+
-'	  <th>Numéro ou login d\'étudiant :</th>'+
-'	<tr>'+
-'	  <td>'+
-'    <FORM class="noprint" ACTION="_URL_/=_TICKET_/_YEAR_/_SEMESTER_/">'+
-'      <INPUT TYPE="TEXT"  NAME="X" size="16" id="input">'+
-'      <input class="button" type="submit" value="Afficher le suivi">'+
-'    </FORM>'+
-'	  </tr>'+
-'</table>'+
-'<table class="colored noprint input" style="float:right">'+
-'	<tr>'+
-'	  <th>Nom ou prénom d\'étudiant :</th>'+
-'	<tr>'+
-'	      <td>'+
-'    <FORM class="noprint" ACTION="_URL_/=_TICKET_/_YEAR_/_SEMESTER_/-">'+
-'      <INPUT TYPE="TEXT" NAME="X" size="16" id="input2">'+
-'      <input class="button" type="submit" value="Lister les possibilités">'+
-'    </FORM>'+
-'</tr>'+
-'</table>'+
-'<p style="clear:both;"></p>'
-) ;
-</script>
-
-<style id="computed_style">.notempty { display: none ; }</style>
+    <style id="computed_style">.notempty { display: none ; }</style>
       
     <script>
-lib_init() ;
-var input = document.getElementById('input') ;
-if ( input )
-    input.focus() ;
-
-is_a_teacher = true ;
-
-</script>
+      lib_init() ;
+      is_a_teacher = true ;
+    </script>
 
 <a href="javascript:hide_empty()" class="empty">Cacher les cases vides.</a>
 <a href="javascript:show_empty()" class="notempty">Montrer les cases vides.</a>

@@ -407,28 +407,6 @@ def teacher_statistics(login, server):
         s += '</table>'
     return s
 
-
-def display_list(server, name):
-    if name == '':
-        return
-    name = utilities.safe(name)
-    t = list(inscrits.L_slow.firstname_or_surname_to_logins(name.replace('_',' ')))
-    t.sort(key = lambda x: x[1] + x[2])
-    if t:
-        for lo, surname, name in t:
-            s = '<a href="/=%s/%s/%s/%s">%s %s</a> (%s)<br>\n' % (
-                server.ticket.ticket,
-                server.year,
-                server.semester,
-                lo,
-                surname,
-                name,
-                lo)
-            server.the_file.write(s.encode('utf-8'))
-    else:
-        server.the_file.write('Nom et prénom inconnus.')
-
-
 def display_login(server, login, expand=False):
     if login == '':
         return
@@ -473,20 +451,17 @@ def page_suivi(server):
 
     home(server, nothing_behind=False)
 
-    if server.the_path[0].startswith('-'):
-        display_list(server, server.the_path[0][1:].replace('+',' '))
-    else:
-        logins = server.the_path[0].replace('+',',').strip(',').split(',')
-        logins = [inscrits.safe(lo).lower() for lo in logins]
-        server.the_file.write(
-            '<title>' +
-            ', '.join([inscrits.L_fast.firstname_and_surname(login)[0].title() +
-                       ' ' + inscrits.L_fast.firstname_and_surname(login)[1]
-                      for login in logins]).encode('utf8') +
-            '</title>'
-                              )
-        for login in logins:
-            display_login(server, login, expand)
+    logins = server.the_path[0].replace('+',',').strip(',').split(',')
+    logins = [inscrits.safe(lo).lower() for lo in logins]
+    server.the_file.write(
+        '<title>' +
+        ', '.join([inscrits.L_fast.firstname_and_surname(login)[0].title() +
+                   ' ' + inscrits.L_fast.firstname_and_surname(login)[1]
+                  for login in logins]).encode('utf8') +
+        '</title>'
+                          )
+    for login in logins:
+        display_login(server, login, expand)
 
     server.the_file.write('&nbsp;<br>'*10 +
                           '<p class="copyright">TOMUSS ' +
