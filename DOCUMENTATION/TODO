@@ -147,6 +147,8 @@ Utilisateurs finaux.
 Administrateur.
 ---------------
 
+* Mise à jour d'une table sans créer de nouvelle page.
+
 * Droit d'accès : généraliser la notion de groupe, pouvoir en créer.
   Un groupe peut contenir :
 	* un groupe LDAP        : 'ldap:'
@@ -185,6 +187,10 @@ Administrateur.
 =====================
 Problèmes à résoudre.
 =====================
+
+* Emploi du temps : manque des UE (TVL)
+
+* Indique un master inexistant : pas de popup !
 
 * Catalogue : écriture non lockée
 

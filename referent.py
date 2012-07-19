@@ -75,7 +75,7 @@ def student_list(f, pportails, not_in_list):
                 students[sstudent[0]] = s
                 continue
             f.write('(L3) ')
-            
+
     return students
 
 def les_blocsnotes(year):

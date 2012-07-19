@@ -1055,11 +1055,11 @@ function display_statistics(object)
   p.push('<script>') ;
   p.push('var do_printable_display = true ;') ;
   p.push('var columns_to_display = {};') ;
-  p.push('var values_to_display={};values_to_display[_("B_s_average")]=true;');
+  p.push('var values_to_display={};');
   p.push('var grouped_by = {};') ;
   p.push('var coloration = "";') ;
   p.push('var nr_decimals = "1";') ;
-  p.push('var regrouping = _("B_stat_group_value");') ;
+  p.push('var regrouping;') ;
   p.push('var color_coef ;') ;
   p.push('var ue = ' + js(ue) + ';') ;
   p.push('var display_tips = true ;') ;
@@ -1067,6 +1067,9 @@ function display_statistics(object)
   p.push('var lines ;') ;
   p.push('function initialize() {') ;
   p.push('if ( ! wait_scripts("initialize()") ) return ;') ;
+  p.push('lib_init();') ;
+  p.push('values_to_display[_("B_s_average")]=true;')
+  p.push('regrouping = _("B_stat_group_value");') ;
   p.push('lines = ' + lines_in_javascript() + ';') ;
   p.push('setInterval("statistics_display()", 200);') ;
   p.push('}') ;
