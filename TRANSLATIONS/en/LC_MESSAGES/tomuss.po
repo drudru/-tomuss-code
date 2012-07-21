@@ -3552,7 +3552,7 @@ msgid "MSG_suivi_student_not_in_TOMUSS_before"
 msgstr "You are registered to "
 
 msgid "MSG_suivi_student_not_in_TOMUSS_after"
-msgstr "TOMUSS has not been used by a teacher to enter grades for this table.\n"
+msgstr "TOMUSS has not been used by a teacher to enter grades for this table."
 
 msgid "MSG_suivi_student_registered"
 msgstr "Student registered to "
@@ -3599,3 +3599,90 @@ msgstr "Value modified by "
 
 msgid "MSG_suivi_student_RSS_table"
 msgstr "Connection at %s,<br>%d changes done"
+
+msgid "COL_TITLE_table"
+msgstr "Table"
+
+msgid "COL_COMMENT_table"
+msgstr "Course ID"
+
+msgid "COL_TITLE_nb_cells_entered"
+msgstr "#cells"
+
+msgid "COL_TITLE_nb_teachers"
+msgstr "#teachers"
+
+msgid "COL_COMMENT_nb_teachers"
+msgstr "Number of teacher who entered at least one value"
+
+msgid "COL_TITLE_nb_lines"
+msgstr "#lines"
+
+msgid "COL_COMMENT_nb_lines"
+msgstr "Number of row, so it is the number of students."
+
+msgid "COL_TITLE_nb_columns"
+msgstr "#columns"
+
+msgid "COL_COMMENT_nb_columns"
+msgstr "Total number of columns"
+
+msgid "COL_TITLE_nb_pages"
+msgstr "#pages"
+
+msgid "COL_COMMENT_nb_pages"
+msgstr "Number of table display"
+
+msgid "COL_TITLE_nb_comments"
+msgstr "#comments"
+
+msgid "COL_COMMENT_nb_comments"
+msgstr "Number of commented cells"
+
+msgid "COL_TITLE_first_change"
+msgstr "First_modification"
+
+msgid "COL_TITLE_last_change"
+msgstr "Last_modification"
+
+msgid "COL_TITLE_nb_registered"
+msgstr "#registered"
+
+msgid "COL_COMMENT_nb_registered"
+msgstr "Number of students officialy registered"
+
+msgid "COL_TITLE_nb_unregistered"
+msgstr "#unregistered"
+
+msgid "COL_COMMENT_nb_unregistered"
+msgstr "Number of students not officialy registered"
+
+msgid "COL_TITLE_extended"
+msgstr "Extended"
+
+msgid "COL_COMMENT_extended"
+msgstr "The table is extended on 2 semesters"
+
+msgid "COL_TITLE_empty"
+msgstr "Empty"
+
+msgid "COL_COMMENT_empty"
+msgstr "If the number of lines is not 0, then the table is not empty"
+
+msgid "COL_TITLE_nb_grp"
+msgstr "#groups"
+
+msgid "COL_COMMENT_nb_grp"
+msgstr "Number of student groups"
+
+msgid "COL_TITLE_formula"
+msgstr "Formulas"
+
+msgid "COL_COMMENT_formula"
+msgstr "Formula problems detection"
+
+msgid "LINK_tables"
+msgstr "Table Statistics"
+
+msgid "HELP_tables"
+msgstr "Display statitics about each table."

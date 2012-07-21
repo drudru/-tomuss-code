@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 #    TOMUSS: The Online Multi User Simple Spreadsheet)
-#    Copyright (C) 2008 Thierry EXCOFFIER, Universite Claude Bernard
+#    Copyright (C) 2008-2012 Thierry EXCOFFIER, Universite Claude Bernard
 #
 #    This program is free software; you can redistribute it and/or modify
 #    it under the terms of the GNU General Public License as published by
@@ -20,16 +20,16 @@
 #    Contact: Thierry.EXCOFFIER@bat710.univ-lyon1.fr
 
 import plugin
-import configuration
+import column
 import document
-import utilities
 from tablestat import TableStat, les_ues
+from cell import CellEmpty, CellValue, Line
 
-def table_statistics_table(year, semester):
-    filename = document.table_filename(year, semester, 'tables')
-
+def table_statistics(server):
+    """Create a table of statistics about all the tables."""
+    
     tables = {'': TableStat('')}
-    for t in les_ues(year, semester):
+    for t in les_ues(server.year, server.semester):
         tables[t.ue] = table = TableStat(t.ue)
         table.nr_cols = len(t.columns)
         table.nr_pages = len(t.pages)
@@ -56,102 +56,108 @@ def table_statistics_table(year, semester):
     max_comment = max([t.nr_comments for t in tables.values()])
     max_teachers = max([len(t.teachers) for t in tables.values()])
 
-    f = open(filename, "w")
-    f.write("""# -*- coding: utf8 -*-
-from data import *
-new_page('' ,'*', '', '')
-column_change (0,'0_0','UE','Text','','','F',0,4)
-column_comment(0,'0_0','Code APOGÉE de l\\'UE')
-column_change (0,'0_1','#cellules','Note','[0;%s]','','',0,2)
-column_comment(0,'0_1','Nombre de cellules saisies')
-column_change (0,'0_2','#enseignants','Note','[0;%s]','','',0,2)
-column_comment(0,'0_2','Nombre d\\'enseignants ayant fait une saisie')
-column_change (0,'0_3','#lignes','Note','[0;%s]','','',0,2)
-column_comment(0,'0_3','Nombre de lignes (donc d\\'étudiants)')
-column_change (0,'0_4','#colonnes','Note','[0;%s]','','',0,2)
-column_comment(0,'0_4','Nombre total de colonnes')
-column_change (0,'0_5','#pages','Note','[0;%s]','','',0,2)
-column_comment(0,'0_5','Nombre d\\'affichage de la page')
-column_change (0,'0_6','#commentaires','Note','[0;%s]','','',0,2)
-column_comment(0,'0_6','Nombre de cellules avec un commentaire')
-column_change (0,'0_7','Première_modification','Date','','','',0,4)
-column_change (0,'0_8','Dernière_modification','Date','','','',0,4)
-column_change (0,'0_9','#inscrits','Note','[0;NaN]','','',0,2)
-column_comment(0,'0_9','Nombre d\\'étudiants inscrits officiellement')
-column_change (0,'0_a','#noninscrits','Note','[0;NaN]','','',0,2)
-column_comment(0,'0_a','Nombre d\\'étudiants illégaux')
-column_change (0,'0_b','Étendue','Bool','[0;20]','','',0,1)
-column_comment(0,'0_b','UE à cheval sur 2 semestres')
-column_change (0,'0_c','Vide','Text','[0;20]','','',0,4)
-column_comment(0,'0_c','S\\'il y a un nombre de lignes != 0, alors la table est vide')
-column_change (0,'0_d','Grp/Seq','Text','[0;20]','','',0,2)
-column_comment(0,'0_d','Nombre de groupes d\\'étudiants')
-column_comment(0,'0_e','Problème de formule')
-column_attr('title', 0,'0_e','Formules')
-table_comment(0, 'Statistiques par UE')
-table_attr('default_nr_columns', 0, 14)
-""" % (max_cels, max_teachers, max_lines, max_cols,  max_pages, max_comment))
+    columns = [
+        column.Column('c0', '', freezed='F', type='Text', width=4,
+                      title=server._('COL_TITLE_table'),
+                      comment=server._('COL_COMMENT_table'),
+                      ),
+        column.Column('c1', '', type='Note', width=2,
+                      title=server._('COL_TITLE_nb_cells_entered'),
+                      comment=server._('COL_COMMENT_nb_cells_entered'),
+                      minmax="[0;%s]" % max_cels,
+                      ),
+        column.Column('c2', '', type='Note', width=2,
+                      title=server._('COL_TITLE_nb_teachers'),
+                      comment=server._('COL_COMMENT_nb_teachers'),
+                      minmax="[0;%s]" % max_teachers,
+                      ),
+        column.Column('c3', '', type='Note', width=2,
+                      title=server._('COL_TITLE_nb_lines'),
+                      comment=server._('COL_COMMENT_nb_lines'),
+                      minmax="[0;%s]" % max_lines,
+                      ),
+        column.Column('c4', '', type='Note', width=2,
+                      title=server._('COL_TITLE_nb_columns'),
+                      comment=server._('COL_COMMENT_nb_columns'),
+                      minmax="[0;%s]" % max_cols,
+                      ),
+        column.Column('c5', '', type='Note', width=2,
+                      title=server._('COL_TITLE_nb_pages'),
+                      comment=server._('COL_COMMENT_nb_pages'),
+                      minmax="[0;%s]" % max_pages,
+                      ),
+        column.Column('c6', '', type='Note', width=2,
+                      title=server._('COL_TITLE_nb_comments'),
+                      comment=server._('COL_COMMENT_nb_comments'),
+                      minmax="[0;%s]" % max_comment,
+                      ),
+        column.Column('c7', '', type='Date', width=4,
+                      title=server._('COL_TITLE_first_change'),
+                      ),
+        column.Column('c8', '', type='Date', width=4,
+                      title=server._('COL_TITLE_last_change'),
+                      ),
+        column.Column('c9', '', type='Note', width=2,
+                      title=server._('COL_TITLE_nb_registered'),
+                      comment=server._('COL_COMMENT_nb_registered'),
+                      ),
+        column.Column('ca', '', type='Note', width=2,
+                      title=server._('COL_TITLE_nb_unregistered'),
+                      comment=server._('COL_COMMENT_nb_unregistered'),
+                      ),
+        column.Column('cb', '', type='Bool', width=1,
+                      title=server._('COL_TITLE_extended'),
+                      comment=server._('COL_COMMENT_extended'),
+                      ),
+        column.Column('cc', '', type='Text', width=4,
+                      title=server._('COL_TITLE_empty'),
+                      comment=server._('COL_COMMENT_empty'),
+                      ),
+        column.Column('cd', '', type='Bool', width=2,
+                      title=server._('COL_TITLE_nb_grp'),
+                      comment=server._('COL_COMMENT_nb_grp'),
+                      ),
+        column.Column('ce', '', type='Bool', width=2,
+                      title=server._('COL_TITLE_formula'),
+                      comment=server._('COL_COMMENT_formula'),
+                      ),
+        ]
+    table_attrs = {
+        'comment': server._('LINK_tables'),
+        'default_nr_columns': 14
+        }
 
-    for i, t in enumerate(tables.values()):
+    lines = []
+    for t in tables.values():
         if t.name == '':
             continue
         s = t.name.split('.')
         if len(s) == 1:
             s = ('', s[0])
-        f.write("""cell_change(0,'0_0','%d',%s,'')
-cell_change(0,'0_1','%d',%s,'')
-cell_change(0,'0_2','%d',%s,'')
-cell_change(0,'0_3','%d',%s,'')
-cell_change(0,'0_4','%d',%s,'')
-cell_change(0,'0_5','%d',%s,'')
-cell_change(0,'0_6','%d',%s,'')
-cell_change(0,'0_7','%d',%s,'')
-cell_change(0,'0_8','%d',%s,'')
-cell_change(0,'0_9','%d',%s,'')
-cell_change(0,'0_a','%d',%s,'')
-cell_change(0,'0_b','%d','%s','')
-cell_change(0,'0_c','%d',%s,'')
-cell_change(0,'0_d','%d',%s,'')
-cell_change(0,'0_e','%d',%s,'')
-""" % (i, repr(t.name), i, repr(str(t.nr)), i, repr(str(len(t.teachers))),
-       i, repr(t.nr_lines),i, repr(t.nr_cols), i, repr(str(t.nr_pages)),
-       i, repr(str(t.nr_comments)),
-       i, repr(t.date_min), i, repr(t.date_max),
-       i, repr(t.nr_inscrits), i, repr(t.nr_not_inscrits),
-       i, t.t.is_extended and 'OUI' or 'NON' ,
-       i, utilities.js(t.t.empty()[1]),
-       i, len([g for g in t.group_and_seq if g != '']),
-       i, utilities.js(t.t.problem_in_column_name())
-       ))
-    f.close()
+        lines.append(Line((
+                CellValue(t.name),
+                CellValue(t.nr),
+                CellValue(len(t.teachers)),
+                CellValue(t.nr_lines),
+                CellValue(t.nr_cols),
+                CellValue(t.nr_pages),
+                CellValue(t.nr_comments),
+                CellValue(t.date_min),
+                CellValue(t.date_max),
+                CellValue(t.nr_inscrits),
+                CellValue(t.nr_not_inscrits),
+                CellValue(t.t.is_extended and 'OUI' or 'NON'),
+                CellValue(t.t.empty()[1]),
+                CellValue(len([g for g in t.group_and_seq if g != ''])),
+                CellValue(t.t.problem_in_column_name()),
+                )))
 
+    document.virtual_table(server, columns, lines, table_attrs=table_attrs)
 
-# table_statistics_table = utilities.add_a_cache0(
-#     table_statistics_table, timeout=configuration.teacher_stat_interval)
-
-def table_stat(server):
-    """Create a table of statistics about all the tables,
-    redirect the browser on this table."""
-    table_statistics_table(server.year, server.semester)
-
-def headers(server):    
-    return (
-        ('Location','%s/=%s/%d/%s/tables' % (
-        configuration.server_url, server.ticket.ticket,
-        server.year, server.semester)), )
-
-plugin.Plugin('tables', '/*2',
-              function=table_stat,
-              teacher=True,
-              response=307,
-              headers = headers,
-              launch_thread = True,
-              link=plugin.Link(text='Statistiques UE',
-                               url="javascript:go_suivi('*2')",
-                               where="informations",
-                               html_class="verysafe",
-                               help="""Pour chaque UE,
-                               affiche les statistiques concernant l'UE""",
+plugin.Plugin('tables', '/*2', function=table_statistics,
+              teacher=True, launch_thread = True,
+              link=plugin.Link(url="javascript:go_suivi('*2')",
+                               where="informations", html_class="verysafe",
                                ),
               )
 

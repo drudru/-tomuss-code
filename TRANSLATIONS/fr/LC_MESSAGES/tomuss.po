@@ -3658,6 +3658,99 @@ msgstr "Valeur modifiée par "
 msgid "MSG_suivi_student_RSS_table"
 msgstr "Connexion à %s,<br>%d changements faits"
 
+msgid "COL_TITLE_table"
+msgstr "UE"
+
+msgid "COL_COMMENT_table"
+msgstr "Code APOGÉE de l'UE"
+
+msgid "COL_TITLE_nb_cells_entered"
+msgstr "#cellules"
+
+msgid "COL_TITLE_nb_teachers"
+msgstr "#enseignants"
+
+msgid "COL_COMMENT_nb_teachers"
+msgstr "Nombre d'enseignants ayant fait une saisie"
+
+msgid "COL_TITLE_nb_lines"
+msgstr "#lignes"
+
+msgid "COL_COMMENT_nb_lines"
+msgstr "Nombre de lignes (donc d'étudiants)"
+
+msgid "COL_TITLE_nb_columns"
+msgstr "#colonnes"
+
+msgid "COL_COMMENT_nb_columns"
+msgstr "Nombre total de colonnes"
+
+msgid "COL_TITLE_nb_pages"
+msgstr "#pages"
+
+msgid "COL_COMMENT_nb_pages"
+msgstr "Nombre d'affichage de la page"
+
+msgid "COL_TITLE_nb_comments"
+msgstr "#commentaires"
+
+msgid "COL_COMMENT_nb_comments"
+msgstr "Nombre de cellules avec un commentaire"
+
+msgid "COL_TITLE_first_change"
+msgstr "Première_modification"
+
+msgid "COL_TITLE_last_change"
+msgstr "Dernière_modification"
+
+msgid "COL_TITLE_nb_registered"
+msgstr "#inscrits"
+
+msgid "COL_COMMENT_nb_registered"
+msgstr "Nombre d'étudiants inscrits officiellement"
+
+msgid "COL_TITLE_nb_unregistered"
+msgstr "#noninscrits"
+
+msgid "COL_COMMENT_nb_unregistered"
+msgstr "Nombre d'étudiants illégaux"
+
+msgid "COL_TITLE_extended"
+msgstr "Étendue"
+
+msgid "COL_COMMENT_extended"
+msgstr "UE à cheval sur 2 semestres"
+
+msgid "COL_TITLE_empty"
+msgstr "Vide"
+
+msgid "COL_COMMENT_empty"
+msgstr "S'il y a un nombre de lignes != 0, alors la table est vide"
+
+msgid "COL_TITLE_nb_grp"
+msgstr "#groupes"
+
+msgid "COL_COMMENT_nb_grp"
+msgstr "Nombre de groupes d'étudiants"
+
+msgid "COL_TITLE_formula"
+msgstr "Formules"
+
+msgid "COL_COMMENT_formula"
+msgstr "Problème de formule"
+
+msgid "LINK_tables"
+msgstr "Statistiques UE"
+
+msgid "HELP_tables"
+msgstr "Pour chaque UE, affiche les statistiques concernant l'UE"
+
+
+
+
+
+
+
 
 
 

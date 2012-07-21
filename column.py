@@ -305,7 +305,11 @@ class Column(object):
         self.the_id = col
         self.author = username
         self.import_url = None
-        self.type = plugins.types[ColumnAttr.attrs['type'].default_value]
+        if 'type' in keys:
+            self.type = plugins.types[keys['type']]
+            del keys['type']
+        else:
+            self.type = plugins.types[ColumnAttr.attrs['type'].default_value]
 
         for attr in ColumnAttr.attrs.values():
             if attr.name in ('type', 'author'):
