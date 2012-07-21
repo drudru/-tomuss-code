@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 #    TOMUSS: The Online Multi User Simple Spreadsheet
-#    Copyright (C) 2008-2011 Thierry EXCOFFIER, Universite Claude Bernard
+#    Copyright (C) 2008-2012 Thierry EXCOFFIER, Universite Claude Bernard
 #
 #    This program is free software; you can redistribute it and/or modify
 #    it under the terms of the GNU General Public License as published by
@@ -24,24 +24,22 @@ If there is a ':' before the login name then the APOGEE link is
 translated as an IFRAME to include all the information.
 """
 
+import os
+import time
+import cgi
+import collections
 import plugin
 import configuration
 import inscrits
 import referent
 import utilities
-import os
 import tablestat
 import abj
 import document
 import authentication
-import cgi
-import time
 import teacher
-import collections
 import files
 
-header =utilities.StaticFile(os.path.join('PLUGINS','suivi_student.html'))
-header2=utilities.StaticFile(os.path.join('PLUGINS','suivi_student2.html'))
 charte =utilities.StaticFile(os.path.join('PLUGINS','suivi_student_charte.html'))
 
 files.add('PLUGINS', 'suivi_student.css')
@@ -73,10 +71,14 @@ def tomuss_links(login, ticket, server, is_a_student=False):
         t.append('<div%s><a href="%s/%s">%s %s %s</a></div>' % (
             highlight, url, login, icone, tsemester, tyear))
     t.sort(key=lambda x: x.split('href="')[1].replace('A','Z') )
-    return '<table class="tomuss_links colored"><tr><th><script>hidden(\'<span>Semestres</span>\',"Voir les notes dans TOMUSS pour un autre semestre");</script></tr><tr><td>' + ''.join(t) + '</tr></table>'
+    return '''<table class="tomuss_links colored">
+<tr><th><script>hidden('<span>' + _("MSG_suivi_student_semesters")
+                       + '</span>',
+                       _("TIP_suivi_student_semesters"));</script></tr>
+<tr><td>''' + ''.join(t) + '</tr></table>'
 
 def member_of_list(login):
-    x = '<script>hidden("Membre de...","<table class=\\"memberof\\">'
+    x = '<script>hidden(_("MSG_suivi_student_memberof"),"<table class=\\"memberof\\">'
     member_of = list(inscrits.L_fast.member_of_list(login))
     member_of.sort()
     for i in member_of:
@@ -114,7 +116,9 @@ def student_statistics(login, server, is_a_student=False, expand=False,
     semester = server.semester
     firstname, surname, mail = inscrits.L_fast.firstname_and_surname_and_mail(login)
 
-    s = ['<div class="student"><img class="photo" src="',
+    s = [
+        "<script>document.getElementById('x').style.display='none';</script>",
+        '<div class="student"><img class="photo" src="',
          configuration.picture(inscrits.login_to_student_id(login),
                                ticket=ticket),
          '">',
@@ -136,13 +140,15 @@ def student_statistics(login, server, is_a_student=False, expand=False,
         mail_ref = inscrits.L_fast.mail(ref)
         if mail_ref == None:
             mail_ref = 'mail_inconnu'
-        s.append(u'Référent pédagogique : <script>hidden(\'<a href="mailto:' + mail_ref + '">' +
-                 ref + u"</a>','Envoyez un message à l\\'enseignant référent pédagogique');</script><br>")
+        s.append('<script>Write("MSG_suivi_referent_is") ; hidden(\'<a href="mailto:' + mail_ref + '">' +
+                 ref + "</a>', _('MSG_suivi_student_send_to_referent'));</script><br>")
     else:
+        s.append("<script>hidden(_('MSG_suivi_student_no_referent'),_(")
         if referent.need_a_referent(login):
-            s.append(u"<script>hidden(\'Référent pédagogique : Aucun\','Seuls les étudiants inscrits pour la première fois à l\\'université ont un référent pédagogique.');</script><br>")
+            s.append("'TIP_suivi_student_no_referent_needed'")
         else:
-            s.append(u"<script>hidden(\'Référent pédagogique : Aucun\','Vous n\\'êtes pas dans la licence STS, vous n\\'avez donc pas d\\'enseignant référent');</script><br>")
+            s.append("'TIP_suivi_student_no_referent'")
+        s.append("));</script><br>")
 
     ################################################# TEACHERS MAILS
 
@@ -153,17 +159,18 @@ def student_statistics(login, server, is_a_student=False, expand=False,
                 for teacher_login in t.masters:
                     teachers[teacher_login].append(t.ue)
         if ref:
-            teachers[ref].append(u'Référent')
+            teachers[ref].append(server.__("MSG_suivi_student_referent"))
 
         if teachers:
             s[-1] = s[-1].replace('<br>','')
             s.append(', <script>hidden(\'<a href="mailto:?to='
-                     + ','.join([','.join(v) +
+                     + ','.join(['+'.join(v) +
                                  ' <' + str(inscrits.L_fast.mail(k)) + '>'
                                  for k, v in teachers.items()])
                      + '&subject=' + (login + ' ' + firstname + ' ' + surname
                                       ).replace("'","\\'")
-                     + u'">Mails responsables</a>\',"Liste les adresses mails du réferent ainsi que des<br>enseignants responsables des UE suivies par l\'étudiant.");</script><br>')
+                     + '">\' + _("MSG_suivi_student_mail_all") + \'</a>\','
+                     + '_("TIP_suivi_student_mail_all"));</script><br>')
 
     ################################################# LOOK
 
@@ -173,11 +180,17 @@ def student_statistics(login, server, is_a_student=False, expand=False,
     # BILAN
     
     if not expand:
-        s.append(u"""<script>hidden('<a href="%s" target="_blank">Bilan APOGÉE</a>','Affiche le récapitulatif des notes présentes dans APOGÉE<br>pour l\\'ensemble de la licence');""" %
+        s.append("""<script>
+hidden('<a href="%s" target="_blank">'
+       + _("MSG_suivi_student_official_bilan") + '</a>'
+       , _("TIP_suivi_student_official_bilan"));""" %
                  (configuration.bilan_des_notes + login) + '</script>, ')
 
     if is_a_referent:
-        s.append(u"""<script>hidden('<a href="%s/=%s/bilan/%s" target="_blank">Bilan TOMUSS</a>','Affiche le récapitulatif des notes présentes dans TOMUSS et APOGÉE.<br>Ceci permet de voir le nombre d\\'inscriptions à une UE.');""" %
+        s.append("""<script>
+hidden('<a href="%s/=%s/bilan/%s" target="_blank">'
+       + _("MSG_suivi_student_TOMUSS_bilan") + '</a>'
+       , _("TIP_suivi_student_TOMUSS_bilan"));""" %
                  (configuration.server_url, ticket.ticket, login) + '</script>, ')
     # CONTRACT
 
@@ -185,16 +198,24 @@ def student_statistics(login, server, is_a_student=False, expand=False,
         if referent.need_a_charte(login):
             if utilities.manage_key('LOGINS',
                                     utilities.charte_server(login,server)):
-                s.append(u'Contrat signé, ')
+                s.append('<script>Write("MSG_suivi_student_contract_checked");</script>')
             else:
-                s.append(u'<span style="background:red">Contrat non signé</span>, ')
-
-        s.append(u'<script>hidden(\'<a href="%s/=%s/%s/%s/ %s" target="_blank">Vue étudiant</a>\',"Afficher ce que voit réellement l\'étudiant dans son navigateur");</script>, ' % (
+                s.append('''<span style="background:red">'
+<script>Write("MSG_suivi_student_contract_unchecked");</script></span>''')
+            s.append(', ')
+        s.append('''<script>
+hidden('<a href="%s/=%s/%s/%s/ %s" target="_blank">'
+       + _("MSG_suivi_student_view") + '</a>',
+       _("TIP_suivi_student_view"));
+</script>, ''' % (
             utilities.StaticFile._url_, ticket.ticket,
             year, semester, login))
     else:
         if referent.need_a_charte(login):
-            s.append(u'<script>hidden(\'<a href="%s/suivi_student_charte.html" target="_blank">Contrat</a>\',"Le contrat pédagogique que vous avez signé.");</script>, ' %
+            s.append('''<script>
+hidden('<a href="%s/suivi_student_charte.html" target="_blank">'
+       + _("MSG_suivi_student_contract_view") + '</a>',
+       _("TIP_suivi_student_view"));</script>, ''' %
                      utilities.StaticFile._url_)
 
     # MORE
@@ -239,7 +260,10 @@ def student_statistics(login, server, is_a_student=False, expand=False,
             key = ''
 
         rss = '%s/rss/%s' % (utilities.StaticFile._url_, key)
-        s.append(u'<script>hidden(\'<a href="%s">Flux RSS : <img src="/feed.png" style="border:0px"></a>\',"Suivez ce lien pour recevoir les changements comme des actualités.<br>Dans votre navigateur, site web, lecteur de mail, portail étudiant...");</script>' % rss)
+        s.append('''<script>
+hidden('<a href="%s">' + _("MSG_suivi_student_RSS") +
+       '<img src="/feed.png" style="border:0px"></a>\',
+       _("TIP_suivi_student_RSS"));</script>''' % rss)
         s.append('<link href="%s" rel="alternate" title="TOMUSS" type="application/rss+xml">' % rss)
  
     
@@ -272,18 +296,23 @@ def student_statistics(login, server, is_a_student=False, expand=False,
                 title = ''
             if t not in codes:
                 if is_a_student:
-                    s.append(u"<h2 class=\"title\">Vous êtes inscrit à " + t
-                             + ' ' + title + u"</h2><p>TOMUSS n'a pas été utilisé par un enseignant pour saisir des informations dans cette UE")
+                    s.append('''
+<h2 class=\"title\"><script>
+Write("MSG_suivi_student_not_in_TOMUSS_before")'
+</script>''' + t + ' ' + title + '''</h2><p>
+<script>Write("MSG_suivi_student_not_in_TOMUSS_after")</script>
+''')
                 else:
-                    s.append(u"<p class=\"title\">Étudiant inscrit à "
-                             + t + ' ' + title + u"</p>")
+                    s.append('<p class="title"><script>'
+                             + 'Write("MSG_suivi_student_registered")'
+                             + '</script>' + t + ' ' + title + "</p>")
 
     if ss:
         ss.sort()
     s += ss
 
     if expand:
-        xx = u"""<iframe style="width:100%%;height:120em" src="%s&ticket=%s"></iframe>""" % (configuration.bilan_des_notes + login, server.ticket.ticket)
+        xx = """<iframe style="width:100%%;height:120em" src="%s&ticket=%s"></iframe>""" % (configuration.bilan_des_notes + login, server.ticket.ticket)
     else:
         xx = ''
 
@@ -291,7 +320,7 @@ def student_statistics(login, server, is_a_student=False, expand=False,
                            ro=True)
     tt = abj.tierstemps(login, aall=True, table_tt=table)
     if tt:
-        tt = '<h2>Informations concernant le tiers temps :</h2><pre>' + cgi.escape(tt) + '</pre>'
+        tt = '<h2><script>Write("MSG_suivi_student_tt");</script></h2><pre>' + cgi.escape(tt) + '</pre>'
 
     s.append(xx)
     s.append(tt)
@@ -311,14 +340,8 @@ def student(server, login=''):
         server.the_file.write(str(charte).replace("_TICKET_", server.ticket.ticket))
         return
 
-    server.the_file.write((str(header2).replace("_USERNAME_",
-                                                server.ticket.user_name)
-                           .replace("_LANG_", document.translations_init(server.ticket.language))
-                           .replace("_ADMIN_", configuration.maintainer) +
-                          '<p id="x" style="background:yellow"><b>Chargement en cours, veuillez patienter s\'il vous plait. Cela ira encore plus lentement si vous réactualisez la page.</b></p>').replace('\n',''))
-    server.the_file.flush()
+    suivi_headers(server, is_student=True)
     server.the_file.write(
-        "<script>document.getElementById('x').style.display='none';</script>" +
         student_statistics(login, server,True).replace('\n','').encode('utf8'))
 
 
@@ -338,20 +361,47 @@ plugin.Plugin('accept', '/accept', function=accept, teacher=False,
               launch_thread=True,
               password_ok = None)
 
+def suivi_headers(server, is_student=True):
+    server.ticket.set_language(server.headers.get('accept-language',''))
+    server.the_file.write(str(document.the_head)
+                          + document.translations_init(server.ticket.language)
+                          )
+    server.the_file.flush()
+    server.the_file.write(
+        '<link rel="stylesheet" href="%s/suivi_student.css" type="text/css">\n'
+        % utilities.StaticFile._url_
+        + '<script src="%s/suivi_student.js" onload="this.onloadDone=true;"></script>\n' % utilities.StaticFile._url_
+        + '<noscript><h1>'+server.__('MSG_need_javascript')+'</h1></noscript>\n'
+        "<script>"
+        + "var semester = %s;\n" % utilities.js(server.semester         )
+        + "var year     = %s;\n" % utilities.js(server.year             )
+        + "var ticket   = %s;\n" % utilities.js(server.ticket.ticket    )
+        + "var username = %s;\n" % utilities.js(server.ticket.user_name )
+        + "var admin    = %s;\n" % utilities.js(configuration.maintainer)
+        + "var is_a_teacher = %s;\n" % int(not is_student)
+        + "var root = %s ;\n" % utilities.js(list(configuration.root))
+        + "var maintainer = %s;\n" % utilities.js(configuration.maintainer)
+        + "var message = %s;\n" % utilities.js(
+            configuration.suivi_student_message)
+        + "</script>\n"
+        + "</head>\n"
+        + '<body class="%s">\n' % server.semester
+        + '<div id="top">'
+        + '<div id="allow_inline_block" class="notes"></div>\n'
+        + '<p id="x" style="background:yellow"></p>'
+        + '</div>'
+        + '<script>\n'
+        + utilities.wait_scripts()
+        + 'function initialize_suivi()'
+        + '{ if ( ! wait_scripts("initialize_suivi()") ) return ;'
+        + 'initialize_suivi_real() ; }'
+        + 'initialize_suivi();\n'
+        + '</script>\n'        
+        )
 
 def home(server, nothing_behind=True):
     """Display the home page for 'suivi', it asks the student id."""
-    server.ticket.set_language(server.headers.get('accept-language',''))
-        
-    the_header = (str(header).replace("_TICKET_", server.ticket.ticket)
-                  .replace("_MESSAGE_", '')
-                  .replace("_LANG_", document.translations_init(server.ticket.language))
-                  .replace("_SEMESTER_", server.semester)
-                  .replace("_USERNAME_", server.ticket.user_name)
-                  .replace("_YEAR_", str(server.year))
-                  )
-
-    server.the_file.write(the_header)
+    suivi_headers(server, is_student=nothing_behind)
 
     if nothing_behind:
         server.the_file.write(student_statistics(server.ticket.user_name, server, is_a_student=True).encode('utf8'))
@@ -379,7 +429,8 @@ def teacher_statistics(login, server):
                 if v.author == login:
                     tables[t].update(v)
 
-    s = []
+    s = ["<script>document.getElementById('x').style.display='none';</script>"]
+
     firstname, surname, mail = inscrits.L_fast.firstname_and_surname_and_mail(login)
     s.append('%s <a href="mailto:%s">%s %s</a></h1>' % (
         login, mail, firstname.title(), surname))
@@ -388,16 +439,22 @@ def teacher_statistics(login, server):
     s = (' '.join(s) + '<br>').encode('utf8')
 
     if tables:
-        s += ("<p>Il a modifié %d notes dans %d UE" % (
+        s += ("<p>" + server.__("MSG_suivi_student_ue_changes") % (
                 sum([v.nr for v in tables.values()]),
                 len(tables)) +
-              '\n'.join(['<TABLE class="colored"><tr><th>Lien vers l\'UE</th><th>Nombre<br>de notes</th><th>Première<br>modification le</th><th>Dernière<br>modification le</th></tr>'] +
+              '\n'.join(['''
+<TABLE class="colored"><tr>
+<th><script>Write("TH_suivi_student_ue");</script></th>
+<th><script>Write("TH_suivi_student_nr_grades");</script></th>
+<th><script>Write("TH_suivi_student_first_change");</script></th>
+<th><script>Write("TH_suivi_student_last_change");</script></th></tr>
+'''] +
                         [ str(t) for t in tables.values()] +
                         ['</TABLE>']))
 
     students = referent.students_of_a_teacher(login)
     if students:
-        s += '<p>Contact/référent pédagogique pour les étudiants suivants :'
+        s += '<p><script>Write("MSG_suivi_student_contact_for");</script>'
         s += '<table class="colored">'
         for student in students:
             infos = inscrits.L_slow.get_student_info(student)
@@ -474,7 +531,7 @@ plugin.Plugin('infos', '/{*}', teacher=True, password_ok = None,
               )
 
 def escape(t):
-    return unicode(t,'utf8').replace('>', u'\ufe65').replace('<', u'\ufe64').replace('&','&amp;').encode('utf-8')
+    return unicode(t,'utf-8').replace('>', u'\ufe65').replace('<', u'\ufe64').replace('&','&amp;').encode('utf-8')
 
 def rss_author(x):
     try:
@@ -501,16 +558,20 @@ def page_rss(server):
 <channel>
 <language>fr</language> 
 <title>TOMUSS</title>
-<description>Dernières modifications dans TOMUSS</description>
+<description>%s</description>
 <lastBuildDate>%s</lastBuildDate>
 <link></link>
-<item><title>Vous n\'avez pas le droit de regarder ce flux RSS</title>
-<description>Pour des raisons de sécurité, il faut que vous réabonniez.</description>
+<item><title>%s</title>
+<description>%s</description>
 <link>%s</link>
 </item>
 </channel>
 </rss>
-''' % ( time.asctime(), utilities.StaticFile._url_))
+''' % ( utilities._("MSG_suivi_student_RSS_title"),
+        time.asctime(),
+        utilities._("MSG_suivi_student_RSS_forbiden_title"),
+        utilities._("MSG_suivi_student_RSS_forbiden_description"),
+        utilities.StaticFile._url_))
         return
 
     server.the_file.write('''<?xml version="1.0" encoding="utf-8"?>
@@ -518,9 +579,11 @@ def page_rss(server):
 <channel>
 <language>fr</language>
 <title>TOMUSS %s</title>
-<description>Dernières modifications dans TOMUSS</description>
+<description>%s</description>
 <lastBuildDate>%s</lastBuildDate>
-<link>%s</link>''' % ( login, rss_date(), utilities.StaticFile._url_))
+<link>%s</link>''' % ( login,
+                       utilities._("MSG_suivi_student_RSS_title"),
+                       rss_date(), utilities.StaticFile._url_))
 
     s = []
 
@@ -544,11 +607,13 @@ def page_rss(server):
     s.sort()
     for date, cell, table, column in s[-10:]:
         if cell.comment:
-            comment=cgi.escape('Commentaire sur la valeur : <b>') + escape(cell.comment) + cgi.escape('</b>,<br>')
+            comment= cgi.escape(utilities._("MSG_suivi_student_RSS_value_comment")
+                                + '<b>') + escape(cell.comment) + cgi.escape('</b>,<br>')
         else:
             comment = ''
         if column.comment:
-            column_comment = 'Commentaire sur la colonne «' + \
+            column_comment = utilities._("MSG_suivi_student_RSS_column_comment"
+                                      ) + '«' + \
                              escape(column.title) + cgi.escape('» : <b>') + escape(
                 column.comment) + cgi.escape('</b>,<br>')
         else:
@@ -571,8 +636,9 @@ def page_rss(server):
                 table_title,
                 column_comment,
                 comment,
-                cgi.escape('Valeur modifiée par <b>' + cell.author
-                           + '</b>,<br>À ' + utilities.nice_date(cell.date)
+                cgi.escape(utilities._("MSG_suivi_student_RSS_value_modified")
+                           + '<b>' + cell.author
+                           + '</b>,<br>' + utilities.nice_date(cell.date)
                            + '<br>')
                 ) +
             '<link>%s</link>' % utilities.StaticFile._url_ +
@@ -605,10 +671,11 @@ def page_rss2(server):
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
 <channel>
 <title>TOMUSS : %s</title>
-<description>Dernières modifications dans TOMUSS</description>
+<description>%s</description>
 <lastBuildDate>%s</lastBuildDate>
 <link>%s</link>
-''' % (server.the_path[0], rss_date(), link))
+''' % (server.the_path[0], utilities._("MSG_suivi_student_RSS_value_modified"),
+       rss_date(), link))
 
     t = document.table(server.year, server.semester, server.the_path[0],
                        ro=True, create=False)
@@ -618,7 +685,7 @@ def page_rss2(server):
     for p in [i for i in t.pages[1:] if i.request > 0 and i.date][-10:]:
         date = p.date_time()
 
-        d = 'Connexion à %s,<br>%d changements faits' % (
+        d = utilities._("MSG_suivi_student_RSS_table") % (
              utilities.nice_date(p.date),
              p.request,
              )
@@ -642,11 +709,8 @@ def page_rss2(server):
 </rss>
 ''')
 
-
 plugin.Plugin('rss2', '/rss2/{*}', authenticated=False, password_ok = None,
               function = page_rss2,
               launch_thread=False,
               mimetype = 'application/rss+xml',
               )
-
-                       

@@ -3444,3 +3444,158 @@ msgstr "Referent teacher statistics"
 
 msgid "HELP_referents"
 msgstr "display statistics about referent teachers"
+
+msgid "MSG_hide_empty_cells"
+msgstr "Cacher les cases vides."
+
+msgid "MSG_show_empty_cells"
+msgstr "Montrer les cases vides."
+
+msgid "MSG_help"
+msgstr "Aides/Explications"
+
+msgid "MSG_suivi_student_mail_subject"
+msgstr "A bug in TOMUSS suivi"
+
+msgid "MSG_suivi_student_mail_body"
+msgstr "Hello.\n"
+       "\n"
+       "I know that your are NOT one of my teachers\n"
+       "but the TOMUSS administrator.\n"
+       "\n"
+       "I do not ask you to modify a grade or an ABI,\n"
+       "because to do this, I must ask the teacher that entered the grade.\n"
+       "The teacher name is indicated when the mouse is over the grade.\n"
+       "\n"
+       "There is my problem with TOMUSS :"
+
+msgid "MSG_suivi_student_mail_link"
+msgstr "Contact"
+
+msgid "MSG_suivi_student_important"
+msgstr "These informations are not the official ones,\n"
+       "they have no legal value and must be officialy validated</b>."
+
+msgid "MSG_suivi_student_wait"
+msgstr "Currently loading, please wait.\n"
+       "It will go more slowly if you reload the page."
+
+msgid "MSG_suivi_student_semesters"
+msgstr "Semesters"
+
+msgid "TIP_suivi_student_semesters"
+msgstr "To see the grade for another semester"
+
+msgid "MSG_suivi_student_memberof"
+msgstr "Member of..."
+
+msgid "MSG_suivi_student_send_to_referent"
+msgstr "Send a message to the referent teacher"
+
+msgid "MSG_suivi_student_no_referent"
+msgstr "no referent teacher"
+
+msgid "TIP_suivi_student_no_referent_needed"
+msgstr "You should have a referent teacher."
+       "à l'université ont un référent pédagogique."
+
+msgid "TIP_suivi_student_no_referent"
+msgstr "There is no referent teacher for the student of your department"
+
+msgid "MSG_suivi_student_referent"
+msgstr "Referent"
+
+msgid "MSG_suivi_student_mail_all"
+msgstr "Teacher mails"
+
+msgid "TIP_suivi_student_mail_all"
+msgstr "The mail of each of the teachers of this student and of its referent"
+
+msgid "MSG_suivi_student_official_bilan"
+msgstr "Official grades"
+
+msgid "TIP_suivi_student_official_bilan"
+msgstr "The offical grades"
+
+msgid "MSG_suivi_student_TOMUSS_bilan"
+msgstr "TOMUSS grades"
+
+msgid "TIP_suivi_student_TOMUSS_bilan"
+msgstr "Display a resume of all the grades for this student in TOMUSS"
+
+msgid "MSG_suivi_student_contract_checked"
+msgstr "Contract signed"
+
+msgid "MSG_suivi_student_contract_unchecked"
+msgstr "Contract not signed"
+
+msgid "MSG_suivi_student_contract_view"
+msgstr "Contract"
+
+msgid "TIP_suivi_student_contract_view"
+msgstr "The contract you signed."
+
+msgid "MSG_suivi_student_view"
+msgstr "Student view"
+
+msgid "TIP_suivi_student_view"
+msgstr "Afficher ce que voit réellement l'étudiant dans son navigateur"
+
+msgid "MSG_suivi_student_RSS"
+msgstr "Flux RSS : "
+
+msgid "TIP_suivi_student_RSS"
+msgstr "Follow this link to receive grades as news.<br>\n"
+       "They are readable in the browser, mailer, web site..."
+
+msgid "MSG_suivi_student_not_in_TOMUSS_before"
+msgstr "You are registered to "
+
+msgid "MSG_suivi_student_not_in_TOMUSS_after"
+msgstr "TOMUSS has not been used by a teacher to enter grades for this table.\n"
+
+msgid "MSG_suivi_student_registered"
+msgstr "Student registered to "
+
+msgid "MSG_suivi_student_tt"
+msgstr "special examination condition:"
+
+
+msgid "MSG_suivi_student_ue_changes"
+msgstr "%d modified values in %d UE"
+
+msgid "TH_suivi_student_ue"
+msgstr "Link to the table"
+
+msgid "TH_suivi_student_nr_grades"
+msgstr "Number<br>of grades"
+
+msgid "TH_suivi_student_first_change"
+msgstr "First change<br>the"
+
+msgid "TH_suivi_student_last_change"
+msgstr "Last change<br>the"
+
+msgid "MSG_suivi_student_contact_for"
+msgstr "Referent for the following students "
+
+msgid "MSG_suivi_student_RSS_title"
+msgstr "Last modifications in TOMUSS"
+
+msgid "MSG_suivi_student_RSS_forbiden_title"
+msgstr "You are not allowed to see this RSS stream"
+
+msgid "MSG_suivi_student_RSS_forbiden_description"
+msgstr "For security reason, you must renew the subscribtion."
+
+msgid "MSG_suivi_student_RSS_value_comment"
+msgstr "Value comment: "
+
+msgid "MSG_suivi_student_RSS_column_comment"
+msgstr "Comment on column "
+
+msgid "MSG_suivi_student_RSS_value_modified"
+msgstr "Value modified by "
+
+msgid "MSG_suivi_student_RSS_table"
+msgstr "Connection at %s,<br>%d changes done"

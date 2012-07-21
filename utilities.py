@@ -1037,6 +1037,8 @@ class FakeRequestHandler(BaseHTTPServer.BaseHTTPRequestHandler):
                                         the_ticket=self.ticket)["language"]
         return _(msgid, lang.split(','))
 
+    def __(self, msgid):
+        return unicode(self._(msgid), "utf-8")
 
 def start_threads():
     start_new_thread_immortal(print_lock_state_clean_cache, ())

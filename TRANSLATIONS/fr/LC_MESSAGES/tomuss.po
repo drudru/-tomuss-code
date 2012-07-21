@@ -3497,6 +3497,177 @@ msgid "HELP_referents"
 msgstr "Affiche des statistiques sur les enseignants référents pédagogiques"
 
 
+msgid "MSG_hide_empty_cells"
+msgstr "Cacher les cases vides."
+
+msgid "MSG_show_empty_cells"
+msgstr "Montrer les cases vides."
+
+msgid "MSG_help"
+msgstr "Aides/Explications"
+
+msgid "MSG_suivi_student_mail_subject"
+msgstr "Un bug dans le suivi de TOMUSS"
+
+msgid "MSG_suivi_student_mail_body"
+msgstr "Bonjour.\n"
+       "\n"
+       "Je sais que vous n'êtes pas un de mes enseignants\n"
+       "mais un administrateur de l'application TOMUSS.\n"
+       "\n"
+       "Je ne vous demande donc pas de modifier une note ou une ABI,\n"
+       "car pour cela je dois contacter l'enseignant qui a mis la note.\n"
+       "Cet enseignant est indiqué quand on met le curseur sur la note.\n"
+       "\n"
+       "Voici le problème que j'ai rencontré dans TOMUSS :"
+
+msgid "MSG_suivi_student_mail_link"
+msgstr "Contact"
+
+msgid "MSG_suivi_student_important"
+msgstr "Les informations indiquées ici ne sont pas officielles,\n"
+       "elles n'ont pas de valeur légale et\n"
+       "sont <b>soumises à validation par les jurys d'UE</b>."
+
+msgid "MSG_suivi_student_wait"
+msgstr "Chargement en cours, veuillez patienter s'il vous plaît.\n"
+       "Cela ira encore plus lentement si vous réactualisez la page."
+
+msgid "MSG_suivi_student_semesters"
+msgstr "Semestres"
+
+msgid "TIP_suivi_student_semesters"
+msgstr "Voir les notes dans TOMUSS pour un autre semestre"
+
+msgid "MSG_suivi_student_memberof"
+msgstr "Membre de..."
+
+msgid "MSG_suivi_student_send_to_referent"
+msgstr "Envoyez un message à l'enseignant référent pédagogique"
+
+msgid "MSG_suivi_student_no_referent"
+msgstr "Référent pédagogique : Aucun"
+
+msgid "TIP_suivi_student_no_referent_needed"
+msgstr "Seuls les étudiants inscrits pour la première fois\n"
+       "à l'université ont un référent pédagogique."
+
+msgid "TIP_suivi_student_no_referent"
+msgstr "Vous n'êtes pas dans la licence STS,\n"
+       "vous n'avez donc pas d'enseignant référent."
+
+msgid "MSG_suivi_student_referent"
+msgstr "Référent"
+
+msgid "MSG_suivi_student_mail_all"
+msgstr "Mails responsables"
+
+msgid "TIP_suivi_student_mail_all"
+msgstr "Liste les adresses mails du réferent ainsi que des<br>\n"
+       "enseignants responsables des UE suivies par l'étudiant."
+
+msgid "MSG_suivi_student_official_bilan"
+msgstr "Bilan APOGÉE"
+
+msgid "TIP_suivi_student_official_bilan"
+msgstr "Affiche le récapitulatif des notes présentes dans APOGÉE<br>\n"
+       "pour l'ensemble de la licence"
+
+msgid "MSG_suivi_student_TOMUSS_bilan"
+msgstr "Bilan TOMUSS"
+
+msgid "TIP_suivi_student_TOMUSS_bilan"
+msgstr "Affiche le récapitulatif des notes présentes dans TOMUSS.<br>\n"
+       "Ceci permet de voir le nombre d'inscriptions à une UE."
+
+msgid "MSG_suivi_student_contract_checked"
+msgstr "Contrat signé"
+
+msgid "MSG_suivi_student_contract_unchecked"
+msgstr "Contrat non signé"
+
+msgid "MSG_suivi_student_contract_view"
+msgstr "Contrat"
+
+msgid "TIP_suivi_student_contract_view"
+msgstr "Le contrat pédagogique que vous avez signé."
+
+msgid "MSG_suivi_student_view"
+msgstr "Vue étudiant"
+
+msgid "TIP_suivi_student_view"
+msgstr "Afficher ce que voit réellement l'étudiant dans son navigateur"
+
+msgid "MSG_suivi_student_RSS"
+msgstr "Flux RSS : "
+
+msgid "TIP_suivi_student_RSS"
+msgstr "Suivez ce lien pour recevoir les notes comme des actualités.<br>\n"
+       "Dans votre navigateur, site web, lecteur de mail, portail étudiant..."
+
+msgid "MSG_suivi_student_not_in_TOMUSS_before"
+msgstr "Vous êtes inscrit à "
+
+msgid "MSG_suivi_student_not_in_TOMUSS_after"
+msgstr "TOMUSS n'a pas été utilisé par un enseignant pour saisir\n"
+       "des informations dans cette UE"
+
+msgid "MSG_suivi_student_registered"
+msgstr "Étudiant inscrit à "
+
+msgid "MSG_suivi_student_tt"
+msgstr "Informations concernant le tiers temps :"
+
+
+msgid "MSG_suivi_student_ue_changes"
+msgstr "Il a modifié %d notes dans %d UE"
+
+msgid "TH_suivi_student_ue"
+msgstr "Lien vers l'UE"
+
+msgid "TH_suivi_student_nr_grades"
+msgstr "Nombre<br>de notes"
+
+msgid "TH_suivi_student_first_change"
+msgstr "Première<br>modification le"
+
+msgid "TH_suivi_student_last_change"
+msgstr "Dernière<br>modification le"
+
+msgid "MSG_suivi_student_contact_for"
+msgstr "Contact/référent pédagogique pour les étudiants suivants "
+
+msgid "MSG_suivi_student_RSS_title"
+msgstr "Dernières modifications dans TOMUSS"
+
+msgid "MSG_suivi_student_RSS_forbiden_title"
+msgstr "Vous n'avez pas le droit de regarder ce flux RSS"
+
+msgid "MSG_suivi_student_RSS_forbiden_description"
+msgstr "Pour des raisons de sécurité, il faut que vous vous réabonniez."
+
+msgid "MSG_suivi_student_RSS_value_comment"
+msgstr "Commentaire sur la valeur : "
+
+msgid "MSG_suivi_student_RSS_column_comment"
+msgstr "Commentaire sur la colonne "
+
+msgid "MSG_suivi_student_RSS_value_modified"
+msgstr "Valeur modifiée par "
+
+msgid "MSG_suivi_student_RSS_table"
+msgstr "Connexion à %s,<br>%d changements faits"
+
+
+
+
+
+
+
+
+
+
+
 
 
 

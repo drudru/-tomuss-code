@@ -109,6 +109,8 @@ variables = {
     "logo": "URL du logo de fond d'écran",
     "suivi_display_more_ue": "Suivi : Si vrai affiche les UE de l'annuaire qui ne sont pas des tables TOMUSS",
     "language": "Langue utilisée lors de la création des tables pour les titres de colonnes et commentaires.",
+
+    "suivi_student_message": "Message a afficher aux étudiants dans leur suivi",
     }
 
 def check(table):
@@ -213,7 +215,10 @@ def tell_reload_config():
     import urllib2
     utilities.warn('Tell "suivi" to reload config')
     for url, port, year, semester, host in configuration.suivi.urls.values():
-        f = urllib2.urlopen(url + '/load_config')
-        f.read()
-        f.close()
+        try:
+            f = urllib2.urlopen(url + '/load_config')
+            f.read()
+            f.close()
+        except urllib2.URLError:
+            pass # If one 'suivi' server is not running, continue
         

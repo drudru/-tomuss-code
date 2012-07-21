@@ -23,7 +23,7 @@ import socket
 import os
 import time
 
-version = '4.0.2'
+version = '4.1.0'
 
 
 ###############################################################################
@@ -233,6 +233,9 @@ banned_ip = ( '255.255.255.255', '0.0.0.0' )
 
 # LOGO URL
 logo = 'http://xxx.yyy.zzz/logo.png'
+
+# Message for students
+suivi_student_message = ""
 
 #--------------------------------------
 # Defines authorities using LDAP groups

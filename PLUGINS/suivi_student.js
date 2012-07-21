@@ -51,3 +51,43 @@ function show_empty()
   document.getElementById('computed_style').textContent = '.notempty { display: none ; }' ;
 }
 
+function initialize_suivi_real()
+{
+  lib_init() ;
+  document.getElementById('x').innerHTML = _("MSG_suivi_student_wait") ;
+  
+  var s ;
+  s = ''
+    + '<style id="computed_style">.notempty { display: none ; }</style>\n'
+    + '<img id="unload" width="1" height="1">\n'
+    + '<div class="identity">'
+    + '<a href="_URL_/suivi_student_doc.html">' + _("MSG_help") + '</a>, '
+    + '<a href="mailto:' + maintainer + '?subject='
+    + escape(_('MSG_suivi_student_mail_subject')) + '&body='
+    + escape(_('MSG_suivi_student_mail_body')).replace(/\n/g, '%0A')
+    + _('MSG_suivi_student_mail_link') + '</a>, '
+    + '<a href="_URL_/logout">' + _("LABEL_logout") +'</a> '
+    + '<b>' + username + '</b><br>' ;
+
+  if ( myindex(root, username) != -1 )
+    s += '<a href="reload_plugins">' + _("TITLE_reload_plugins") + '</a>' ;
+
+  s += '</div>' ;
+  
+  if ( is_a_teacher )
+    s += '<a href="javascript:hide_empty()" class="empty">'
+    + _("MSG_hide_empty_cells")
+    + '</a><a href="javascript:show_empty()" class="notempty">'
+    + _("MSG_show_empty_cells") + '</a>'
+    + '<br><br>' ;
+  else
+  {
+    s += '<style>DIV.empty P { display: none ; }</style>'
+    + '<p style="padding: 0.5em; border:3px solid black ; margin: 0.5em ;background-color: #FF8080; font-size: 150%">'
+      + _("MSG_suivi_student_important")
+      + '</p>'
+      + message ;
+  }
+  
+  document.getElementById('top').innerHTML += s ;
+}
