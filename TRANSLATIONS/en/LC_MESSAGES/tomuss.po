@@ -3625,7 +3625,7 @@ msgid "COL_TITLE_nb_columns"
 msgstr "#columns"
 
 msgid "COL_COMMENT_nb_columns"
-msgstr "Total number of columns"
+msgstr "Number of created columns"
 
 msgid "COL_TITLE_nb_pages"
 msgstr "#pages"
@@ -3686,3 +3686,27 @@ msgstr "Table Statistics"
 
 msgid "HELP_tables"
 msgstr "Display statitics about each table."
+
+msgid "COL_TITLE_teacher"
+msgstr "Teacher"
+
+msgid "COL_COMMENT_teacher"
+msgstr "Teacher ID (login)"
+
+msgid "COL_TITLE_nb_suivi_students"
+msgstr "#Refered_students"
+
+msgid "COL_COMMENT_nb_suivi_students"
+msgstr "Number of students refered by the teacher"
+
+msgid "COL_TITLE_nb_notepad_cells"
+msgstr "#notepad_cells"
+
+msgid "COL_COMMENT_nb_notepad_cells"
+msgstr "Number of cells entered into the notepad"
+
+msgid "LINK_teachers"
+msgstr "Teacher statistics"
+
+msgid "HELP_teachers"
+msgstr "For each teacher, display statistics about TOMUSS usage."

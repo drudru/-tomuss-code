@@ -3683,7 +3683,7 @@ msgid "COL_TITLE_nb_columns"
 msgstr "#colonnes"
 
 msgid "COL_COMMENT_nb_columns"
-msgstr "Nombre total de colonnes"
+msgstr "Nombre de colonnes créées"
 
 msgid "COL_TITLE_nb_pages"
 msgstr "#pages"
@@ -3695,7 +3695,7 @@ msgid "COL_TITLE_nb_comments"
 msgstr "#commentaires"
 
 msgid "COL_COMMENT_nb_comments"
-msgstr "Nombre de cellules avec un commentaire"
+msgstr "Nombre de commentaires affectés à des cellules"
 
 msgid "COL_TITLE_first_change"
 msgstr "Première_modification"
@@ -3745,8 +3745,30 @@ msgstr "Statistiques UE"
 msgid "HELP_tables"
 msgstr "Pour chaque UE, affiche les statistiques concernant l'UE"
 
+msgid "COL_TITLE_teacher"
+msgstr "Enseignant"
 
+msgid "COL_COMMENT_teacher"
+msgstr "Identifiant (login) de l'enseignant"
 
+msgid "COL_TITLE_nb_suivi_students"
+msgstr "#Étudiants_suivis"
+
+msgid "COL_COMMENT_nb_suivi_students"
+msgstr "Nombre d'étudiants suivis en tant que référent pédagogique"
+
+msgid "COL_TITLE_nb_notepad_cells"
+msgstr "#blocnote_saisie"
+
+msgid "COL_COMMENT_nb_notepad_cells"
+msgstr "Nombre de cellules saisies dans le blocnote du référent pédagogique"
+
+msgid "LINK_teachers"
+msgstr "Statistiques enseignants"
+
+msgid "HELP_teachers"
+msgstr "Pour chaque enseignant, affiche les statistiques sur\n"
+       "les informations saisies dans TOMUSS"
 
 
 
