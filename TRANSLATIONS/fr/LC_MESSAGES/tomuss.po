@@ -3770,6 +3770,23 @@ msgid "HELP_teachers"
 msgstr "Pour chaque enseignant, affiche les statistiques sur\n"
        "les informations saisies dans TOMUSS"
 
+msgid "MSG_uninterested"
+msgstr "Ceci ne comptabilise que les visites étudiantes depuis\n"
+       "le début de l'année civile"
+
+msgid "TH_student"
+msgstr "Étudiant"
+
+msgid "TH_nr_visits"
+msgstr "#Visites à TOMUSS"
+
+msgid "LINK_uninterested"
+msgstr "Étudiants suivis ne regardant pas TOMUSS"
+
+msgid "HELP_uninterested"
+msgstr "Pour chaque étudiants suivi par un référent pédagogique,\n"
+       "on regarde le nombre de présences/notes et\n"
+       "le nombre de visites à TOMUSS."
 
 
 

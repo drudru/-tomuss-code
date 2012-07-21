@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 #    TOMUSS: The Online Multi User Simple Spreadsheet)
-#    Copyright (C) 2008 Thierry EXCOFFIER, Universite Claude Bernard
+#    Copyright (C) 2008-2012 Thierry EXCOFFIER, Universite Claude Bernard
 #
 #    This program is free software; you can redistribute it and/or modify
 #    it under the terms of the GNU General Public License as published by
@@ -30,34 +30,41 @@ import tablestat
 import inscrits
 import configuration
 
-def uninterested(f, year, semester, port):
+def uninterested(server):
+    """Display information about student and their referents and
+    how student interact with TOMUSS and referents."""
+    f = server.the_file
     students = {}
-    for s in referent.the_students(year, semester):
+    for s in referent.the_students(server.year, server.semester):
         students[s] = 0
     students_ue = collections.defaultdict(dict)
     students_notes = collections.defaultdict(int)
     students_in_blocnote = {}
     us = configuration.university_semesters
-    for t in referent.les_blocsnotes(utilities.university_year(year,
-                                                               semester)):
-        data_cols = [t.columns.from_id(title).data_col
-                     for title in ('RDV1','RDV2','JUR1', 'RDV3','RDV4','JUR2')
-                     ]
-        for line in t.lines.values():
-            
+    for t in referent.les_blocsnotes(utilities.university_year(server.year,
+                                                               server.semester)
+                                     ):
+        try:
+            data_cols = [t.columns.from_id(title).data_col
+                         for title in ('RDV1','RDV2','JUR1',
+                                       'RDV3','RDV4','JUR2')
+                         ]
+        except AttributeError:
+            continue
+        for line in t.lines.values():            
             students_in_blocnote[utilities.the_login(line[0].value)] = [
                 line[data_col].value
                 for data_col in data_cols
                 ]
 
-    log = open(os.path.join('LOGS', 'SUIVI%s' % port,
+    log = open(os.path.join('LOGS', 'SUIVI%s' % server.the_port,
                             str(time.localtime()[0]) + '.connections'), 'r')
         
     for line in log:
         s = line.split(' ', 1)[-1].strip() # Not [1] because some garbage line
         if s in students:
             students[s] += 1
-    for t in tablestat.les_ues(year, semester):
+    for t in tablestat.les_ues(server.year, server.semester):
         coli = t.column_inscrit()
         if coli is None:
             continue
@@ -110,18 +117,25 @@ def uninterested(f, year, semester, port):
         
     k.sort(compare)
 
-    f.write('<html><title>Surveillance des étudiants</title><body>\n')
+    f.write('<html><title>%s</title><body>\n' % server._("LINK_uninterested"))
     f.write('<script src="/utilities.js"></script>\n')
     f.write('<script src="/types.js"></script>\n')
     f.write('<script src="/lib.js"></script>\n')
     f.write('<style>TABLE { border-spacing: 0px ;}</style>\n')
-    f.write("<p>%s %d" % (semester, year))
-    f.write("<p>Ceci ne comptabilise que les visites étudiantes depuis le début de l'année civile")
+    f.write("<p>%s %d" % (server.semester, server.year))
+    f.write("<p>%s" % server._("MSG_uninterested"))
     f.write('<table border>')
-    f.write('<tr><td>Mail<td>Étudiant<td>#de notes<td>#Visites à TOMUSS\n')
-    f.write('<td>RDV 1<td>RDV 2<td>Jury ' + us[0]
-            + '<td>RDV 3<td>RDV 4<td>Jury ' + us[1]
-            + '<td>Référent pédagogique<td>UE 1<td>UE 2<td>UE 3<td>UE 4<td>UE 5</tr>\n')
+    f.write('<tr><td>%s<td>%s<td>%s<td>%s\n'
+            % (server._("TITLE_table_attr_mail"),
+               server._("TH_student"),
+               server._("TH_suivi_student_nr_grades"),
+               server._("TH_nr_visits"),
+               ))
+    f.write('<td>RDV 1<td>RDV 2<td>%s ' % server._("COL_TITLE_JUR1") + us[0]
+            + '<td>RDV 3<td>RDV 4<td>%s ' % server._("COL_TITLE_JUR2") + us[1]
+            + '<td>%s<td>UE 1<td>UE 2<td>UE 3<td>UE 4<td>UE 5</tr>\n' %
+                server._("MSG_suivi_student_referent"),
+            )
     for s in k:
         student_mail = inscrits.L_batch.mail(s)
         if student_mail == None:
@@ -131,10 +145,12 @@ def uninterested(f, year, semester, port):
         # XXX And the second semester ?
         bn = students_in_blocnote.get(s, ('', '', '', '', '', ''))
         bn = [ i + '&nbsp;' for i in bn]
-        if utilities.manage_key('LOGINS', utilities.charte(s, year, semester)):
-            bn[2] += '(Charte Signée)'
+        if utilities.manage_key('LOGINS', utilities.charte(s, server.year,
+                                                           server.semester)):
+            bn[2] += server._("MSG_suivi_student_contract_checked")
 
-        referent_mail = inscrits.L_batch.mail(referent.referent(year, semester, s))
+        referent_mail = inscrits.L_batch.mail(
+            referent.referent(server.year, server.semester, s))
         if referent_mail == None:
             referent_mail = ''
         else:
@@ -146,22 +162,10 @@ def uninterested(f, year, semester, port):
         f.write(x)
     f.write('</table></body></html>')
 
-def page(server):
-    """Display information about student and their referents and
-    how student interact with TOMUSS and referents."""
-    uninterested(server.the_file, server.year, server.semester,
-                 server.the_port)
-
-plugin.Plugin('uninterested', '/uninterested', function=page, root=True,
+plugin.Plugin('uninterested', '/uninterested', function=uninterested,root=True,
               launch_thread = True,
-              link=plugin.Link(text='Étudiants suivis ne regardant pas TOMUSS',
-                               where="informations",
-                               html_class="verysafe",
+              link=plugin.Link(where="informations", html_class="verysafe",
                                url="javascript:go_suivi('uninterested')",
-                               help="""Pour chaque étudiants suivi
-                               par un référent pédagogique,
-                               on regarde le nombre de présences/notes et leur
-                               nombre de visites à TOMUSS.""",
                                priority = 1100,
                    ),
               )

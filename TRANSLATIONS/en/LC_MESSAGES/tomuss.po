@@ -3710,3 +3710,25 @@ msgstr "Teacher statistics"
 
 msgid "HELP_teachers"
 msgstr "For each teacher, display statistics about TOMUSS usage."
+
+msgid "MSG_uninterested"
+msgstr "The number of visits is since the first january"
+
+msgid "TH_student"
+msgstr "Student"
+
+msgid "TH_nr_visits"
+msgstr "#Visit to TOMUSS"
+
+msgid "LINK_uninterested"
+msgstr "Refered students statistics about TOMUSS usage"
+
+msgid "HELP_uninterested"
+msgstr "For each students with a refered teacher,\n"
+       "count the number of TOMUSS visit and grades."
+
+
+
+
+
+
