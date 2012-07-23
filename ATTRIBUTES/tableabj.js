@@ -79,11 +79,15 @@ function abj_per_day()
 
   var title = _("TITLE_abjtt") + ' ' + ue + ' ' + semester + ' ' + year ;
 
-  p += '<script src="_URL_/abj.js"></script>' +
+  p +='<script src="_URL_/abj.js" onload="this.onloadDone=true;"></script>'+
     '<title>' + title + '</title>' +
     '<body>' +
     '<h1>' + title + '</h1>' +
-    '<script>var the_abjs = {};\n' ;
+    '<script>var the_abjs = {};\n' +
+    'function virtual_init() {\n' +
+    'if ( ! wait_scripts("virtual_init()") ) return ;\n' +
+    'lib_init() ; }\n' +
+    'virtual_init() ;\n' ;
 
   var s = '', t, end, names='' ;
   var days = [] ;

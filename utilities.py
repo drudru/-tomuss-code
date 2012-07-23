@@ -689,8 +689,8 @@ def wait_scripts():
                    continue ;
                if ( e.onloadDone )
                    continue ;
-               if ( e.readyState === "loaded" )
-                   continue ;
+            /*   if ( e.readyState === "loaded" )
+                   continue ; */
                if ( e.readyState === "complete" )
                    continue ;
                setTimeout(recall, 1000) ;

@@ -130,6 +130,7 @@ def home_page(server):
 <link rel="stylesheet" href="%s/home2.css" type="text/css">
 <link href="%s/news.xml" rel="alternate" title="TOMUSS : News" type="application/rss+xml">
 </HEAD>
+<body>
 <noscript><h1 style="font-size:400%%;background-color:red; color:white">'''
         % (utilities.StaticFile._url_,
            utilities.StaticFile._url_,
@@ -168,7 +169,7 @@ def home_page(server):
         + 'generate_home_page() ;\n'
         + "}\n"
         + 'initialize_home();\n'
-        + '</script>\n'           
+        + '</script>\n'
         )
     
     #####################################################################
@@ -186,7 +187,7 @@ def home_page(server):
         gz = '.gz'
     else:
         gz = ''
-    f.write('<script onload="update_ues2(\'\')" src="'
+    f.write('<script id="uesjs" onload="update_ues2(\'\')" onreadystatechange="if ( document.getElementById(\'uesjs\').readyState === \'complete\') update_ues2(\'\')" src="'
             + configuration.server_url + '/all_ues.js%s"></script>' % gz)
 
 

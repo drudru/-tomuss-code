@@ -2007,7 +2007,7 @@ msgid "TH_home_ue"
 msgstr "UE"
 
 msgid "TH_home_search"
-msgstr "Recherche"
+msgstr "Search"
 
 msgid "TIP_home_search_ue"
 msgstr "You can enter a code, a keyword, a name or surname of the UE manager."

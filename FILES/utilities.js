@@ -345,7 +345,7 @@ function tip_top(tt)
   return tt ;
 }
 
-var display_tips = false ; // Overriden by lib.js
+// var display_tips = false ; // Overriden by lib.js
 
 function compute_tip(element)
 {
