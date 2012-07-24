@@ -197,7 +197,7 @@ ldap_reconnect = 60
 invited_administratives = ('tt.master',)
 invited_abj_masters = ('abj.master','tt.master')
 invited_teachers = tuple(['ue%d.master' % i for i in range(10)])
-
+tt_masters = ['abj.master','tt.master']
 
 # A login is assumed as a teacher one if it contains this stubstring
 teacher_if_login_contains = '#'

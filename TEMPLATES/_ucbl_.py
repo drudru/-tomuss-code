@@ -19,14 +19,13 @@
 #
 #    Contact: Thierry.EXCOFFIER@bat710.univ-lyon1.fr
 
+import time
 import abj
 import inscrits
 import data
-import time
 from utilities import js, warn, start_new_thread_immortal
 import utilities
 import configuration
-import os
 
 removal_allowed = 0.15
 
@@ -66,7 +65,6 @@ def get_mails(table, the_ids):
             if login not in the_ids:
                 mail = inscrits.L_batch.mail(login)
                 if mail:
-                    print login, mail
                     the_ids[login] = mail
                 else:
                     warn("No mail for " + login, what="check")
@@ -75,17 +73,19 @@ def get_mails(table, the_ids):
 
 def create(table):
     p = table.new_page('',data.ro_user,'','')
-    table.column_change (p, '0_0', 'ID'     , 'Text', '', '', 'F', 0, 4)
-    table.column_comment(p, '0_0', "Numéro d'étudiant")
-    table.column_change (p, '0_1', 'Prénom' , 'Text', '', '', 'F', 0, 8)
-    table.column_change (p, '0_2', 'Nom'    , 'Text', '', '', 'F', 0, 8)
-    table.column_change (p, '0_3', 'Grp'    , 'Text', '', '', '' , 0, 2)
-    table.column_comment(p, '0_3', "Groupe de TD")
-    table.column_change (p, '0_4', 'Seq'    , 'Text', '', '', '' , 0, 1)
-    table.column_comment(p, '0_4', "Séquence de l'enseignement")
+    _ = utilities._
+    table.column_change (p, '0_0', _("COL_TITLE_0_0"),'Text','', '', 'F', 0, 4)
+    table.column_comment(p, '0_0', _("COL_COMMENT_0_0"))
+    table.column_change (p, '0_1', _("COL_TITLE_0_1"),'Text','', '', 'F', 0, 8)
+    table.column_change (p, '0_2', _("COL_TITLE_0_2"),'Text','', '', 'F', 0, 8)
+    table.column_change (p, '0_3', _("COL_TITLE_0_3"),'Text','', '', '' , 0, 2)
+    table.column_comment(p, '0_3', _("COL_COMMENT_0_3"))
+    table.column_change (p, '0_4', _("COL_TITLE_0_4"),'Text','', '', '' , 0, 1)
+    table.column_comment(p, '0_4', _("COL_COMMENT_0_4"))
     table.column_change (p, '0_5', 'Inscrit', 'Text', '', '', 'C', 1, 1)
-    table.column_comment(p, '0_5', "IP valide ?")
+    table.column_comment(p, '0_5', "IP valid ?")
     if table.ue.startswith('SP-'):
+        # Should be defined the LOCAL directory
         table.column_change (p, '0_6', 'UE', 'Text', '', '', '', 0, 4)
         table.column_comment(p, '0_6', "UE d'origine de l'étudiant")
         table.column_change (p, '0_7', 'Horaire', 'Text', '', '', '', 0, 5)
@@ -100,6 +100,7 @@ def create(table):
         table.column_comment(p, '0_10', "Commentaire de l'enseignant")
 
     if table.ue.startswith('TS-'):
+        # Should be defined the LOCAL directory
         table.table_attr(p, 'default_nr_columns', 9)
         table.column_change (p, '0_6', 'UE', 'Text', '', '', '', 0, 4)
         table.column_comment(p, '0_6', "UE d'origine de l'étudiant")
@@ -241,6 +242,7 @@ def update_student(table, page, the_ids, infos):
     table.lock()
     try:
         for i in range(len(table.columns), len(infos)):
+            # Should be in LOCAL directory
             if i == 6:
                 title = 'Quoi'
             elif i == 7:

@@ -22,6 +22,7 @@
 import data
 import inscrits
 import configuration
+from utilities import _
 import _ucbl_
 
 def init(table):
@@ -35,12 +36,9 @@ def create(table):
 
     p = table.new_page('' , data.ro_user, '', '')
     table.table_attr(p, 'masters', default_master)
-    table.column_change(p,'a','Enseignant','Login','','','F',0,8)
-    table.column_change(p,'b','Orientation','Text','','','F',0,3)
-    table.column_comment(p, 'b',
-                         "{MAT|INF}[gerland][*] *:ne veut plus d'étudiants")
+    table.column_change(p,'a',_("COL_TITLE_teacher")    ,'Login','','','F',0,8)
+    table.column_change(p,'b',_("COL_TITLE_orientation"),'Text' ,'','','F',0,3)
     q = table.new_page('' , default_master, '', '')
-
 
 
 def update_referents(the_ids, table, page):
@@ -48,7 +46,7 @@ def update_referents(the_ids, table, page):
     
     table.with_inscrits = False
     for r in configuration.referents:
-        r = inscrits.L_batch.query(base="DC=univ-lyon1,DC=fr",
+        r = inscrits.L_batch.query(base=configuration.ou_top,
                                    search='(memberOf=%s)'% r,
                                    attributes=(configuration.attr_login,))
         try:

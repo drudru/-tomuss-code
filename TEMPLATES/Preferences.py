@@ -22,30 +22,31 @@
 import data
 import utilities
 
-prefs = {
-'display_tips'   :("Affiche les bulles d'aides"                       ,"OUI"),
-'nr_favorites'   :("Page d'accueil : nombre d'UE favorites affichées" ,"6"  ),
-'nr_lines'       :("Nombre de lignes affichées par défaut"            ,"0"  ),
-'nr_cols'        :("Nombre de colonnes affichées par défaut"          ,"0"  ),
-'zebra_step'     :("Nombre de lignes entre les traits épais"          ,"5"  ),
-'page_step'      :("Avec 0,5 «page suivante» décale d'½ page"         ,"1"  ),
-'invert_name'    :("Inverse les colonnes NOM et PRÉNOM"               ,"OUI"),
-'scrollbar_right':("Affiche l'ascenseur vertical à droite"            ,"OUI"),
-'favoris_sort'   :("Page d'accueil : trie les favoris par code"       ,"NON"),
-'v_scrollbar'    :("Affiche l'ascenseur vertical"                     ,"OUI"),
-'v_scrollbar_nr' :("Nombre de caractères affichés dans l'ascenseur vertical","1"  ),
-'interface'      :("Interface utilisateur : N:normal L:lineaire (pour malvoyant)"   ,"N"),
-'current_suivi'  :("Page d'accueil : on fait le suivi du semestre courant au lieu du semestre choisi","NON"),
-'language'       :("Langage de l'interface (fr_fr, en_us)", ""),
-}
+prefs = {'display_tips'   : "OUI",
+         'nr_favorites'   : "6"  ,
+         'nr_lines'       : "0"  ,
+         'nr_cols'        : "0"  ,
+         'zebra_step'     : "5"  ,
+         'page_step'      : "1"  ,
+         'invert_name'    : "OUI",
+         'scrollbar_right': "OUI",
+         'favoris_sort'   : "NON",
+         'v_scrollbar'    : "OUI",
+         'v_scrollbar_nr' : "1"  ,
+         'interface'      : "N"  ,
+         'current_suivi'  : "NON",
+         'language'       : ""   ,
+         }
 
 def create(table):
     p = table.new_page('' ,data.ro_user, '', '')
+    _ = utilities._
     table.table_attr(p, 'masters', [utilities.module_to_login(table.ue)])
-    table.column_change(p,'0_0','Explications'       ,'Text','','','F',0,20)
-    table.column_change(p,'0_1','Valeur recommandée' ,'Text','','','F',0,4 )
-    table.column_change(p,'0_2','Ordre'              ,'Text','','','F',1,2 )
-    table.column_change(p,'0_3','Votre choix'        ,'Text','','','F',0,4 )
+    table.column_change(p,'0_0',_("COL_TITLE_explanations"),'Text','','','F',0,20)
+    table.column_change(p,'0_1',_("COL_TITLE_recommended") ,'Text','','','F',0,4 )
+    # To read old files, now unused
+    table.column_change(p,'0_2',_("COL_TITLE_order")       ,'Text','','','F',1,2 )
+    table.column_change(p,'0_3',_("COL_TITLE_your_choice") ,'Text','','','F',0,4 )
     table.table_attr(p, 'default_nr_columns', 3)
     table.table_attr(p, 'default_sort_column', 0)
     table.new_page('' ,utilities.module_to_login(table.ue), '', '')
@@ -72,9 +73,9 @@ def check(table):
         # Add/update new attributes
         for lin, value in prefs.items():
             if lin not in table.lines:
-                table.cell_change(p_rw, '0_3', lin, value[1])
-            table.cell_change(p_ro, '0_0', lin, value[0])
-            table.cell_change(p_ro, '0_1', lin, value[1])
+                table.cell_change(p_rw, '0_3', lin, value)
+            table.cell_change(p_ro, '0_0', lin, utilities._('Preferences_' + lin))
+            table.cell_change(p_ro, '0_1', lin, value)
 
     finally:
         table.unlock()
@@ -85,6 +86,6 @@ def preferences(table):
         if lin in table.lines:
             p[lin] = table.lines[lin][3].value
         else:
-            p[lin] = prefs[lin][1]
+            p[lin] = prefs[lin]
     return p
         

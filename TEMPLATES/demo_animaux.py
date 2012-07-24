@@ -20,9 +20,7 @@
 #    Contact: Thierry.EXCOFFIER@bat710.univ-lyon1.fr
 
 import inscrits
-import utilities
 import abj
-import time
 import random
 import _ucbl_
 from _ucbl_ import the_abjs, update_student, terminate_update, cell_change

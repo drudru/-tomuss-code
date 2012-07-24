@@ -23,22 +23,23 @@ import data
 import inscrits
 import utilities
 import configuration
-import _ucbl_
 import abj
 import os
 import referent
+import _ucbl_
 
 from Referents import init, content
 
 def check_columns(table):
     page = table.pages[0]
+    _ = utilities._
     us = configuration.university_semesters
     for col_id, col_title, col_type, col_fixed, col_width, col_comment in (
-        ('0_0' ,'ID'               ,'Text','F', 4,"Numéro étudiant"),
-        ('0_1' ,'Prénom'           ,'Text','F', 8,""),
-        ('0_2' ,'Nom'              ,'Text','F', 8,""),
-        ('0_3' ,'TOMUSS_'+us[0]    ,'Bool','' , 4,us[0] + " : l'étudiant s'est connecté"),
-        ('0_4' ,'TOMUSS_'+us[1]    ,'Bool','' , 4,us[1] + " : l'étudiant s'est connecté"),
+        ('0_0' ,_('COL_TITLE_0_0') ,'Text','F', 4,_('COL_COMMENT_0_0')),
+        ('0_1' ,_('COL_TITLE_0_1') ,'Text','F', 8,""),
+        ('0_2' ,_('COL_TITLE_0_2') ,'Text','F', 8,""),
+        ('0_3' ,'TOMUSS_'+us[0]    ,'Bool','' , 4,_('COL_COMMENT_CON1')),
+        ('0_4' ,'TOMUSS_'+us[1]    ,'Bool','' , 4,_('COL_COMMENT_CON2')),
         ('0_5' ,'Inscrit'          ,'Text','C' ,1,""),
         ):
         for col in table.columns:

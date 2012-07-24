@@ -3372,6 +3372,18 @@ msgstr "Prénom"
 msgid "COL_TITLE_0_2"
 msgstr "Nom"
 
+msgid "COL_TITLE_0_3"
+msgstr "Grp"
+
+msgid "COL_COMMENT_0_3"
+msgstr "Groupe de TD"
+
+msgid "COL_TITLE_0_4"
+msgstr "Seq"
+
+msgid "COL_COMMENT_0_4"
+msgstr "Séquence de l'enseignement"
+
 msgid "COL_TITLE_ticket_date"
 msgstr "Date"
 
@@ -3788,19 +3800,302 @@ msgstr "Pour chaque étudiants suivi par un référent pédagogique,\n"
        "on regarde le nombre de présences/notes et\n"
        "le nombre de visites à TOMUSS."
 
+msgid "Preferences_display_tips"
+msgstr "Affiche les bulles d'aides"
 
+msgid "Preferences_nr_favorites"
+msgstr "Page d'accueil : nombre d'UE favorites affichées"
 
+msgid "Preferences_nr_lines"
+msgstr "Nombre de lignes affichées par défaut"
 
+msgid "Preferences_nr_cols"
+msgstr "Nombre de colonnes affichées par défaut"
 
+msgid "Preferences_zebra_step"
+msgstr "Nombre de lignes entre les traits épais"
 
+msgid "Preferences_page_step"
+msgstr "Avec 0,5 «page suivante» décale d'½ page"
 
+msgid "Preferences_invert_name"
+msgstr "Inverse les colonnes NOM et PRÉNOM"
 
+msgid "Preferences_scrollbar_right"
+msgstr "Affiche l'ascenseur vertical à droite"
 
+msgid "Preferences_favoris_sort"
+msgstr "Page d'accueil : trie les favoris par code"
 
+msgid "Preferences_v_scrollbar"
+msgstr "Affiche l'ascenseur vertical"
 
+msgid "Preferences_v_scrollbar_nr"
+msgstr "Nombre de caractères affichés dans l'ascenseur vertical"
 
+msgid "Preferences_interface"
+msgstr "Interface utilisateur : N:normal L:lineaire (pour malvoyant)"
 
+msgid "Preferences_current_suivi"
+msgstr "Page d'accueil : on fait le suivi du semestre courant au lieu du semestre choisi"
 
+msgid "Preferences_language"
+msgstr "Langage de l'interface (fr_fr, en_us)"
 
+msgid "COL_TITLE_explanations"
+msgstr "Explications"
 
+msgid "COL_TITLE_recommended"
+msgstr "Valeur recommandée"
 
+msgid "COL_TITLE_order"
+msgstr "Ordre"
+
+msgid "COL_TITLE_your_choice"
+msgstr "Votre choix"
+
+msgid "COL_TITLE_cp_plugin"
+msgstr "Nom du plugin"
+
+msgid "COL_TITLE_cp_info"
+msgstr "Description du plugin"
+
+msgid "COL_TITLE_cp_link"
+msgstr "Le plugin a un lien sur la page d'accueil"
+
+msgid "COL_TITLE_cp_suivi"
+msgstr "Le plugin est activé dans le serveur de suivi."
+
+msgid "COL_TITLE_cp_root"
+msgstr "Il faut être 'root' pour utiliser ce plugin"
+
+msgid "COL_TITLE_cp_abj"
+msgstr "Il faut être un gestionnaire d'absences justifiées pour l'utiliser"
+
+msgid "COL_TITLE_cp_referent"
+msgstr "Il faut être un gestionnaire des référents pour l'utiliser"
+
+msgid "COL_TITLE_cp_teacher"
+msgstr "Il faut être un enseignant pour l'utiliser"
+
+msgid "COL_TITLE_cp_administrative"
+msgstr "Il faut être un administratif pour l'utiliser"
+
+msgid "COL_TITLE_cp_invited"
+msgstr "Liste des logins à qui l'on veut donner le droit d'utilisation"
+
+msgid "COL_TITLE_ct_variable"
+msgstr "Variable"
+
+msgid "COL_TITLE_ct_what"
+msgstr "Explications"
+
+msgid "COL_TITLE_ct_value"
+msgstr "Valeur courant"
+
+msgid "config_table_abinj"
+msgstr "S'ils ont presque tous une note, ceux qui n'en ont pas ont 0/ABINJ. Si vous mettez 0.25 cela indique que si moins du quart du groupe n'a pas de note alors ils auront 0 ou ABINJ automatiquement."
+
+msgid "config_table_do_not_display"
+msgstr "Liste des TAG de message à ne pas afficher dans les logs, mettre à vide pour avoir tous les messages"
+
+msgid "config_table_message"
+msgstr "Le message à afficher sur la page d'accueil. On peut y mettre du HTML"
+
+msgid "config_table_year_semester"
+msgstr "Semestre : le semestre courant, seul ouvert en écriture par défaut."
+
+msgid "config_table_year_semester_next"
+msgstr "Semestre : le prochain. Modifiable si une UE est fermée (étudiants disparus ou UE vide)"
+
+msgid "config_table_ue_not_per_semester"
+msgstr "UE non semestrialisée (donc par année) si le code correspond à cette expression régulière"
+
+msgid "config_table_master_of_exceptions"
+msgstr "Semestre : ceux que l'on ne veut pas afficher dans la liste des tables dont est responsable"
+
+msgid "config_table_allow_student_list_update"
+msgstr "Semestre : Si 'True' alors la liste des étudiants est mise à jour régulièrement. Il faut mettre à 'False' quand on s'approche de la remise à 0 de la base IP"
+
+msgid "config_table_allow_student_removal"
+msgstr "Semestre : Si 'True' alors on enlève des tables les étudiants non inscrits."
+
+msgid "config_table_abj_per_semester"
+msgstr "Semestre : Si 'True' les ABJ sont par semestre et non par année"
+
+msgid "config_table_maintainer"
+msgstr "Mail : Adresse ou sont envoyés les messages d'erreur de TOMUSS"
+
+msgid "config_table_smtpserver"
+msgstr "Mail : Adresse du serveur SMTP pour envoyer des mails"
+
+msgid "config_table_abj_sender"
+msgstr "Mail : Nom de la personne 'envoyant' les mails via TOMUSS listant les ABJ pour toutes les UEs"
+
+msgid "config_table_ldap_server"
+msgstr "LDAP : Liste des serveurs à utiliser (un à la fois)"
+
+msgid "config_table_ldap_server_login"
+msgstr "LDAP : login permettant du compte en lecture seule"
+
+msgid "config_table_ldap_server_password"
+msgstr "LDAP : Mot de passe du compte lecture seule"
+
+msgid "config_table_ldap_server_port"
+msgstr "LDAP : Port utilisés par les serveurs"
+
+msgid "config_table_ldap_encoding"
+msgstr "LDAP : Codage des caractères dans les réponses"
+
+msgid "config_table_attr_login"
+msgstr "LDAP : nom du champ contenant le login"
+
+msgid "config_table_attr_login_alt"
+msgstr "LDAP : nom du champ contenant le login alternatif"
+
+msgid "config_table_attr_mail"
+msgstr "LDAP : nom du champ contenant l'adresse mail"
+
+msgid "config_table_attr_surname"
+msgstr "LDAP : nom du champ contenant le nom de famille"
+
+msgid "config_table_attr_firstname"
+msgstr "LDAP : nom du champ contenant le prénom"
+
+msgid "config_table_attr_default_password"
+msgstr "LDAP : nom du champ contenant le mot de passe par défaut"
+
+msgid "config_table_ou_top"
+msgstr "LDAP: Racine de la hiérarchie"
+
+msgid "config_table_ou_students"
+msgstr "LDAP: Endroit ou sont stockés les comptes étudiants"
+
+msgid "config_table_cn_students"
+msgstr "LDAP: Endroit ou sont stockés les comptes étudiants"
+
+msgid "config_table_cn_teachers"
+msgstr "LDAP: Endroit ou sont stockés les comptes enseignants"
+
+msgid "config_table_ou_groups"
+msgstr "LDAP: Endroit ou sont stockés les groupes d'étudiants"
+
+msgid "config_table_ou_ue_contains"
+msgstr "LDAP: Un objet est une UE avec les séquences/groupe s'il contient cette chaine de caractères"
+
+msgid "config_table_ou_ue_starts"
+msgstr "LDAP: Un objet est une UE s'il commence par cette chaine de caractères"
+
+msgid "config_table_ou_ue_starts2"
+msgstr "LDAP: Un objet est une UE s'il commence par cette chaine de caractères"
+
+msgid "config_table_ou_portail_contains"
+msgstr "LDAP: Un objet est un portail s'il contient cette chaine de caractères"
+
+msgid "config_table_banned_ip"
+msgstr "Accès : Liste des adresses IP interdites"
+
+msgid "config_table_root"
+msgstr "Accès : Liste des utilisateurs ayant tous les droits"
+
+msgid "config_table_teachers"
+msgstr "Accès : Les comptes enseignants sont dans ces groupes LDAP"
+
+msgid "config_table_teacher_if_login_contains"
+msgstr "Accès : C'est un enseignant si son login contient cette chaine de caractères"
+
+msgid "config_table_administratives"
+msgstr "Accès : Les comptes administratifs sont dans ces groupes LDAP"
+
+msgid "config_table_abj_masters"
+msgstr "Accès : Les comptes gestionnaires d'ABJ/TT sont dans ces groupes LDAP"
+
+msgid "config_table_referents"
+msgstr "Accès : Les groupes LDAP définissant les référents pédagogiques"
+
+msgid "config_table_invited_teachers"
+msgstr "Accès : Liste d'enseignants à ajouter au groupe LDAP"
+
+msgid "config_table_invited_administratives"
+msgstr "Accès : Liste des administratifs à ajouter au groupe LDAP"
+
+msgid "config_table_invited_abj_masters"
+msgstr "Accès : Liste des gestionnaires d'ABJ à ajouter au groupe LDAP"
+
+msgid "config_table_tt_masters"
+msgstr "Accès : Responsables par défaut du tableau des TT"
+
+msgid "config_table_students_check_interval"
+msgstr "Temps : Rechargement de la liste des étudiants : Période en seconde"
+
+msgid "config_table_maximum_out_of_date"
+msgstr "Temps : Pour le suivi : durée minimum en secondes entre 2 mise à jour de la même table"
+
+msgid "config_table_maxage"
+msgstr "Temps : Fichiers statiques : nombre de secondes ou ils restent dans le cache du navigateur"
+
+msgid "config_table_ldap_reconnect"
+msgstr "Temps : Ferme les connexions LDAP inutilisées pendant cette durée"
+
+msgid "config_table_ticket_time_to_live"
+msgstr "Temps : Durée de vie des tickets en secondes"
+
+msgid "config_table_unload_interval"
+msgstr "Temps : Interval entre deux déchargements des tables inutilisées"
+
+msgid "config_table_check_down_connections_interval"
+msgstr "Temps : Interval de temps pour l'envoi de paquets pour garder les connexions ouvertes"
+
+msgid "config_table_not_teachers"
+msgstr "Accès : Refuse l'accès s'il appartient à l'un de ces groupes LDAP"
+
+msgid "config_table_logo"
+msgstr "URL du logo de fond d'écran"
+
+msgid "config_table_suivi_display_more_ue"
+msgstr "Suivi: Si vrai affiche les UE de l'annuaire qui ne sont pas des tables TOMUSS"
+
+msgid "config_table_language"
+msgstr "Langue utilisée lors de la création des tables pour les titres de colonnes et commentaires."
+
+msgid "config_table_suivi_student_message"
+msgstr "Suivi: Message à afficher aux étudiants dans leur suivi"
+
+msgid "COL_TITLE_orientation"
+msgstr "Orientation"
+
+msgid "COL_TITLE_+write"
+msgstr "+Ecrit"
+
+msgid "COL_COMMENT_+write"
+msgstr "1 = +33% ou pourcentage de temps en plus pour les épreuves écrites"
+
+msgid "COL_TITLE_+speech"
+msgstr "+Oral"
+
+msgid "COL_COMMENT_+speech"
+msgstr "1 = +33% ou pourcentage de temps en plus pour les épreuves orales"
+
+msgid "COL_TITLE_+practical"
+msgstr "+TP"
+
+msgid "COL_COMMENT_+practical"
+msgstr "1 = +33% ou pourcentage de temps en plus pour les épreuves de TP"
+
+msgid "COL_TITLE_+assistant"
+msgstr "Secrétaire"
+
+msgid "COL_COMMENT_+assistant"
+msgstr "Il dispose d'un assistant pour l'aider"
+
+msgid "COL_TITLE_+room"
+msgstr "Salle_Particulière"
+
+msgid "COL_COMMENT_+room"
+msgstr "Il dispose d'une salle"
+
+msgid "COL_COMMENT_tt_duration"
+msgstr "A saisir si ce n'est pas pour toutes l'année"
+
+msgid "COL_TITLE_tt_remarks"
+msgstr "Remarques_Et_Autres_Dispositions"

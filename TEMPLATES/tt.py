@@ -22,6 +22,7 @@
 import data
 import configuration
 import utilities
+import _ucbl_
 
 def create(table):
     
@@ -31,32 +32,28 @@ def create(table):
     if configuration.regtest:
         masters = [configuration.invited_abj_masters[-1]]
     else:
-        masters = ['sandrine.gourdine', 'corinne.tourvieille',
-                   'nathalie.piovesan', 'thierry.excoffier']
-
-    table.table_attr(p, 'masters', masters)
-    table.column_change(p,'0_0','Numéro_étudiant'                 ,'Login','','' ,'',0,4 )
-    table.column_change(p,'0_1','Prénom'                          ,'Text','','' ,'',0,8 )
-    table.column_change(p,'0_2','Nom'                             ,'Text','','' ,'',0,8 )
-    table.column_change(p,'0_3','+Ecrit'                          ,'Text','','1','',0,3 )
-    table.column_comment(p,'0_3', '1 = +33% ou pourcentage de temps en plus')
-    table.column_change(p,'0_4','+Oral'                           ,'Text','','1','',0,3 )
-    table.column_comment(p,'0_4', '1 = +33% ou pourcentage de temps en plus')
-    table.column_change(p,'0_5','+TP'                             ,'Text','','1','',0,3 )
-    table.column_comment(p,'0_5', '1 = +33% ou pourcentage de temps en plus')
-    table.column_change(p,'0_6','Secrétaire'                      ,'Bool','','1','',0,2 )
-    table.column_comment(p,'0_6', "Il dispose d'un assistant")
-    table.column_change(p,'0_7','Salle_Particulière'              ,'Bool','','1','',0,2 )
-    table.column_comment(p,'0_7', "Il dispose d'une salle")
-    table.column_change(p,'0_8','Début'                           ,'Date','','' ,'',0,6 )
-    table.column_comment(p,'0_8', "Indiquer la durée si elle n'est pas indéfinie")
-    table.column_change(p,'0_9','Fin'                             ,'Date','','' ,'',0,6 )
-    table.column_comment(p,'0_9', "Indiquer la durée si elle n'est pas indéfinie")
-    table.column_change(p,'0_10','Remarques_Et_Autres_Dispositions','Text','','' ,'',0,13)
+        masters = configuration.tt_masters
+    _ = utilities._
+    table.table_attr(p, 'masters', list(masters))
+    table.column_change(p,'0_0',_("COL_TITLE_0_0")       ,'Login','','','',0,4)
+    table.column_change(p,'0_1',_("COL_TITLE_0_1")       ,'Text','','' ,'',0,8)
+    table.column_change(p,'0_2',_("COL_TITLE_0_2")       ,'Text','','' ,'',0,8)
+    table.column_change(p,'0_3',_("COL_TITLE_+write")    ,'Text','','1','',0,3)
+    table.column_comment(p,'0_3', _("COL_COMMENT_+write"))
+    table.column_change(p,'0_4',_("COL_TITLE_+speech")   ,'Text','','1','',0,3)
+    table.column_comment(p,'0_4',_("COL_COMMENT_+speech"))
+    table.column_change(p,'0_5',_("COL_TITLE_+practical"),'Text','','1','',0,3)
+    table.column_comment(p,'0_5',_("COL_COMMENT_+practical"))
+    table.column_change(p,'0_6',_("COL_TITLE_+assistant"),'Bool','','1','',0,2)
+    table.column_comment(p,'0_6',_("COL_COMMENT_+assistant"))
+    table.column_change(p,'0_7',_("COL_TITLE_+room")     ,'Bool','','1','',0,2)
+    table.column_comment(p,'0_7',_("COL_COMMENT_+room"))
+    table.column_change(p,'0_8',_("TH_begin")            ,'Date','','' ,'',0,6)
+    table.column_comment(p,'0_8', _("COL_COMMENT_tt_duration"))
+    table.column_change(p,'0_9',_("TH_end")              ,'Date','','' ,'',0,6)
+    table.column_comment(p,'0_9', _("COL_COMMENT_tt_duration"))
+    table.column_change(p,'0_10',_("COL_TITLE_tt_remarks"),'Text','','','',0,13)
     table.table_attr(p, 'default_sort_column', 2)
-
-
-import _ucbl_
 
 def init(table):
     _ucbl_.init(table)
@@ -66,7 +63,7 @@ def init(table):
                            and utilities.university_year() == table.year)
     table.update_inscrits = table.modifiable
 
-def content(table):
+def content(dummy_table):
     return _ucbl_.update_student_information
 
 cell_change = _ucbl_.cell_change

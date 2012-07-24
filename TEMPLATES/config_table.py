@@ -30,10 +30,11 @@ def create(table):
     if table.year != 0 or table.semester != 'Dossiers':
         raise ValueError('Not allowed')
     p = table.new_page('' ,data.ro_user, '', '')
+    _ = utilities._
     table.table_attr(p, 'masters', list(configuration.root))
-    table.column_change(p,'0_0','Variable'           ,'Text','','','F',0,2 )
-    table.column_change(p,'0_1','Explications'       ,'Text','','','F',0,10)
-    table.column_change(p,'0_2','Valeur courante'    ,'Text','','','F',0,10 )
+    table.column_change(p,'0_0',_("COL_TITLE_ct_variable"),'Text','','','F',0,2)
+    table.column_change(p,'0_1',_("COL_TITLE_ct_what")  ,'Text','','','F',0,10)
+    table.column_change(p,'0_2',_("COL_TITLE_ct_value") ,'Text','','','F',0,10 )
     table.table_attr(p, 'default_nr_columns', 3)
     table.table_attr(p, 'default_sort_column', 1)
     table.new_page('' ,configuration.root[0], '', '')
@@ -42,76 +43,66 @@ def init(table):
     table.default_sort_column = 1 # compatibility with old files
     table.private = 1
 
-variables = {
-    'abinj': "S'ils ont presque tous une note, ceux qui n'en ont pas ont 0/ABINJ. Si vous mettez 0.25 cela indique que si moins du quart du groupe n'a pas de note alors ils auront 0 ou ABINJ automatiquement.",
-    "do_not_display": "Liste des TAG de message à ne pas afficher dans les logs, mettre à vide pour avoir tous les messages",
-    'message': "Le message à afficher sur la page d'accueil. On peut y mettre du HTML",
-    
-    "year_semester": "Semestre : le semestre courant, seul ouvert en écriture.",
-    "year_semester_next": "Semestre : le suivant. Modifiable si une UE est fermée (étudiants disparus ou UE vide)",
-    "ue_not_per_semester": "UE non semestrialisée si le code correspond à cette expression régulière",
-    "master_of_exceptions": "Semestre : ceux que l'on ne veut pas afficher dans la liste des tables dont est responsable",
-    "allow_student_list_update": "Semestre : Si 'True' alors la liste des étudiants est mise à jour régulièrement. Il faut mettre à 'False' quand on s'approche de la remise à 0 de la base IP",
-    "allow_student_removal": "Semestre : Si 'True' alors on enlève des tables les étudiants non inscrits.",
-    'abj_per_semester': "Semestre : Si 'True' les ABJ sont par semestre et non par année",
+variable_list = [
+    'abinj',
+    "do_not_display",
+    'message',
+    "year_semester",
+    "year_semester_next",
+    "ue_not_per_semester",
+    "master_of_exceptions",
+    "allow_student_list_update",
+    "allow_student_removal",
+    'abj_per_semester',
+    'maintainer',
+    'smtpserver',
+    'abj_sender',
+    'ldap_server',
+    'ldap_server_login',
+    "ldap_server_password",
+    "ldap_server_port",
+    "ldap_encoding",
+    "attr_login",
+    "attr_login_alt",
+    "attr_mail",
+    "attr_surname",
+    "attr_firstname",
+    "attr_default_password",
+    "ou_top",
+    "ou_students",
+    "cn_students",
+    "cn_teachers",
+    "ou_groups",
+    "ou_ue_contains",
+    "ou_ue_starts",
+    "ou_ue_starts2",
+    "ou_portail_contains",
+    "banned_ip",
+    "root",
+    "teachers",
+    "teacher_if_login_contains" ,
+    "administratives",
+    "abj_masters",
+    "referents",
+    "invited_teachers",
+    "invited_administratives",
+    "invited_abj_masters",
+    'students_check_interval',
+    'maximum_out_of_date',
+    'maxage',
+    'ldap_reconnect',
+    "ticket_time_to_live",
+    "unload_interval",
+    "check_down_connections_interval",
+    "not_teachers",
+    "logo",
+    "suivi_display_more_ue",
+    "language",
+    "suivi_student_message",
+    "tt_masters",
+    ]
 
-
-    'maintainer': "Mail : Adresse ou sont envoyés les messages d'erreur de TOMUSS",
-    'smtpserver': 'Mail : Adresse du serveur SMTP pour envoyer des mails',
-    'abj_sender': 'Mail : Nom de la personne "envoyant" les mails via TOMUSS listant les ABJ pour toutes les UEs',
-
-    
-    'ldap_server': 'LDAP : Liste des serveurs à utiliser (un à la fois)',
-    'ldap_server_login': "LDAP : login permettant du compte en lecture seule",
-    "ldap_server_password": "LDAP : Mot de passe du compte lecture seule",
-    "ldap_server_port": "LDAP : Port utilisés par les serveurs",
-    "ldap_encoding": "LDAP : Codage des caractères dans les réponses",
-
-    "attr_login": "LDAP : nom du champ contenant le login",
-    "attr_login_alt": "LDAP : nom du champ contenant le login alternatif",
-    "attr_mail": "LDAP : nom du champ contenant l'adresse mail",
-    "attr_surname": "LDAP : nom du champ contenant le nom de famille",
-    "attr_firstname": "LDAP : nom du champ contenant le prénom",
-    "attr_default_password": "LDAP : nom du champ contenant le mot de passe par défaut",
-
-    "ou_top": "LDAP: Racine de la hiérarchie",
-    "ou_students": "LDAP: Endroit ou sont stockés les comptes étudiants",
-    "cn_students": "LDAP: Endroit ou sont stockés les comptes étudiants",
-    "cn_teachers": "LDAP: Endroit ou sont stockés les comptes enseignants",
-    "ou_groups": "LDAP: Endroit ou sont stockés les groupes d'étudiants",
-    "ou_ue_contains": "LDAP: Un objet est une UE avec les séquences/groupe s'il contient cette chaine de caractère",
-    "ou_ue_starts": "LDAP: Un objet est une UE s'il commence par cette chaine de caractère",
-    "ou_ue_starts2": "LDAP: Un objet est une UE s'il commence par cette chaine de caractère",
-    "ou_portail_contains": "LDAP: Un objet est un portail s'il contient cette chaine de caractères",
-
-    "banned_ip": "Accès : Liste des adresses IP interdites",
-    "root": "Accès : Liste des utilisateurs ayant tous les droits",
-    "teachers": "Accès : Les comptes enseignants sont dans ces groupes",
-    "teacher_if_login_contains" : "Accès : C'est un enseignant si son login contient cette chaine de caractères",
-    "administratives": "Accès : Les comptes administratifs sont dans ces groupes LDAP",
-    "abj_masters": "Accès : Les comptes gestionnaires d'ABJ/TT sont dans ces groupes LDAP",
-    "referents": "Accès : Les groupes LDAP définissant les référents pédagogiques",
-    "invited_teachers": "Accès : Liste d'enseignants à ajouter au groupe LDAP",
-    "invited_administratives": "Accès : Liste des administratifs à ajouter au groupe LDAP",
-    "invited_abj_masters": "Accès : Liste des gestionnaires d'ABJ à ajouter au groupe LDAP",
-
-
-    'students_check_interval': 'Temps : Rechargement de la liste des étudiants : Période en seconde',
-    'teacher_stat_interval': 'Temps : Statistiques concernant les enseignants : durée de vie du cache en secondes',
-    'maximum_out_of_date': 'Temps : Pour le suivi : durée minimum en secondes entre 2 mise à jour de la même table',
-    'maxage': 'Temps : Fichiers statiques : nombre de secondes ou ils restent dans le cache du navigateur',
-    'ldap_reconnect': 'Temps : Ferme les connexions LDAP inutilisées pendant cette durée',
-    "ticket_time_to_live": "Temps : Durée de vie des tickets en secondes",
-    "unload_interval": "Temps : Interval entre deux déchargements des tables inutilisées",
-    "check_down_connections_interval": "Temps : Interval de temps pour l'envoi de paquets pour garder les clients vivants",
-    "config_debug": "Débuggage en live : résultat de l'évaluation de fonction Python",
-    "not_teachers": "Accès : Refuse l'accès s'il appartient à l'un de ces groupes",
-    "logo": "URL du logo de fond d'écran",
-    "suivi_display_more_ue": "Suivi : Si vrai affiche les UE de l'annuaire qui ne sont pas des tables TOMUSS",
-    "language": "Langue utilisée lors de la création des tables pour les titres de colonnes et commentaires.",
-
-    "suivi_student_message": "Message a afficher aux étudiants dans leur suivi",
-    }
+variables = {}
 
 def check(table):
     utilities.warn('Check')
@@ -139,17 +130,6 @@ def check(table):
         table.unlock()
 
 def set_value(variable, value):
-    if variable == 'config_debug':
-        try:
-            if configuration.regtest:
-                return 'Action not allowed in demo mode'
-            else:
-                return repr(eval(value))
-        except:
-            import traceback
-            import sys
-            return '\n'.join(list(traceback.format_tb(sys.exc_info()[2])))
-    
     current = configuration.__dict__[variable]
 
     if isinstance(current, tuple) or isinstance(current, list) \
@@ -164,7 +144,10 @@ def set_value(variable, value):
             except TypeError:
                 pass
         value = eval(value)
-        assert(isinstance(value, type(current)))
+        if not isinstance(value, type(current)):
+            utilities.warn("VARIABLE=%s CURRENT=%s NEW=%s" %
+                 (variable, current, value), what="Error")
+            raise ValueError("Big issue")
     elif isinstance(current, float):
         value = float(value)
     elif isinstance(current, int):
@@ -172,6 +155,8 @@ def set_value(variable, value):
     configuration.__dict__[variable] = value
 
 def onload(table):
+    for v in variable_list:
+        variables[v] = utilities._("config_table_" + v)
     variables.update(configuration.local_options)
 
     if len(table.lines) == 0:

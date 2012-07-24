@@ -51,9 +51,6 @@ def referent_resume(table, login):
         s.append('</div>')
     return '\n'.join(s)
 
-def g():
-    g()
-
 # The ID starting by 0_ are here for compatibility with _ucbl template
 referent_columns = {
     '0_0' : {'position': 0,'type':'Text', "width":4, "freezed":'F',

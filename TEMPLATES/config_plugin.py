@@ -26,22 +26,23 @@ import data
 import utilities
 
 def update_column(table):
-    for name, help, typ, width in (
-        ('plugin'        , 'Plugin name'                  , 'Text', 4 ),
-        ('info'          , 'Plugin description'           , 'Text', 20),
-        ('link'          , 'Home page link'               , 'Text', 4 ),
-        ('suivi'         , 'Is a "suivi" only plugin'     , 'Text', 1 ),
-        ('root'          , 'Need Root rights'             , 'Bool', 1 ),
-        ('abj'           , 'Need abj master rights'       , 'Bool', 1 ),
-        ('referent'      , 'Need referent master rights'  , 'Bool', 1 ),
-        ('teacher'       , 'Need teacher rights'          , 'Bool', 1 ),
-        ('administrative', 'Need administrative rights'   , 'Bool', 1 ),
-        ('invited'       , 'Login list with plugin access', 'Text', 8 ),
+    for name, typ, width in (
+        ('plugin'        , 'Text', 4 ),
+        ('info'          , 'Text', 20),
+        ('link'          , 'Text', 4 ),
+        ('suivi'         , 'Text', 1 ),
+        ('root'          , 'Bool', 1 ),
+        ('abj'           , 'Bool', 1 ),
+        ('referent'      , 'Bool', 1 ),
+        ('teacher'       , 'Bool', 1 ),
+        ('administrative', 'Bool', 1 ),
+        ('invited'       , 'Text', 8 ),
         ):
         if table.columns.from_title(name):
             continue
         table.column_change(table.pages[0], name, name, typ,'','','',0,width)
-        table.column_comment(table.pages[0], name, help)
+        table.column_comment(table.pages[0], name,
+                             utilities._('COL_TITLE_cp_' + name))
     table.table_attr(table.pages[0], 'default_nr_columns', len(table.columns))
 
 def create(table):

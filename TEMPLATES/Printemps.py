@@ -19,7 +19,6 @@
 #
 #    Contact: Thierry.EXCOFFIER@bat710.univ-lyon1.fr
 
-import os
 import re
 import utilities
 import abj
