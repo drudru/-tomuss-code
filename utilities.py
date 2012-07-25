@@ -1062,6 +1062,7 @@ def init():
         k_short = k + '_short'
         if _(k_short) != k_short:
             s += "%s = %s, " % (k_short, js(_(k_short)))
+            configuration.__dict__[k_short] = _(k_short)
         k += "_char"
         configuration.__dict__[k] = _(k)
         s += "%s = %s;\n" % (k, js(_(k)))

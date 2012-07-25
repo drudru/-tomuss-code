@@ -77,7 +77,7 @@ function test_note(value, column)
   var vv = test_prst(v, column) ;
   if ( vv !== '' && vv !== pre )
     return vv ;
-  if ( v === 'N' || v == 'PP' || v === ppn )
+  if ( v === ppn_char || v === ppn )
     return ppn ;
   if ( v === '' )
     return v ;
@@ -88,11 +88,8 @@ function test_note(value, column)
     }
   if ( isNaN(v) || v < column.min || v > column.max )
     {
-      alert_append(value
-		   + " n'est pas une note valide car non dans l'intervalle "
-		   + column.minmax + "\n" +
-		   "Ni I(" + abi + "), J(" + abj + "), N(" + ppn
-		   + ": ne peut pas noter)") ;
+      alert_append(value + _("ALERT_bad_grade") + column.minmax + "\n" +
+		   "I(" + abi + "), J(" + abj + "), N(" + ppn + ')')
       return ;
     }
 

@@ -4257,10 +4257,29 @@ function javascript_regtest_ue()
   for(var i in col_types)
     col_types2.push(_("B_" + col_types[i])) ;
 
-  var inputs=['0'   ,'1'   ,'2,2' ,'p'  ,'i','j','o'  ,'n','4/3/2008'  ,'3/4/8'     ,'12/12/99', '0.95', '0.9966'] ;
+  languages = ["fr"] ;
+  pre = _('pre') ;
+  abi = _('abi') ;
+  abj = _('abj') ;
+  ppn = _('ppn') ;
+  yes = _('yes') ;
+  no = _('no') ;
+  pre_char = _('pre_char') ;
+  abi_char = _('abi_char') ;
+  abj_char = _('abj_char') ;
+  ppn_char = _('ppn_char') ;
+  yes_char = _('yes_char') ;
+  no_char = _('no_char') ;
+  pre_short = _('pre_short') ;
+  abi_short = _('abi_short') ;
+  abj_short = _('abj_short') ;
+  ppn_short = _('ppn_short') ;
+  
+
+  var inputs=['0'   ,'1'   ,'2,2' ,'p','i','j', 'o', 'n','4/3/2008'  ,'3/4/8'     ,'12/12/99', '0.95', '0.9966'] ;
   var notes =['0.00','1.00','2.20',''   ,abi,abj,''   ,ppn,''          ,''          ,'', '0.95', '0.99'] ;
   var moys  =['0.00','1.00','2.20','NaN',abi,abj,'NaN',ppn,'NaN'       ,'NaN'       ,'NaN', '0.95', '0.99'] ;
-  var expore=['0,000','1,000','2,200', '','ABI','ABJ','','PPN',''         ,''          ,'', '0,950', '0,993'] ;
+  var expore=['0,000','1,000','2,200', '',abi_short,abj_short,'',ppn_short,''         ,''          ,'', '0,950', '0,993'] ;
   var nmbr  =['0'   ,'0'   ,'5'   ,'0'  ,'1','4','0'  ,'0','0'         ,'0'         ,'0', '0', '0'] ;
   var boole =[no    ,yes   ,''    ,''   ,'' ,'' ,yes  ,no ,''          ,''          ,'', '', ''] ;
   var today = new Date() ;
@@ -4330,7 +4349,7 @@ function javascript_regtest_ue()
   the_current_cell.cursor_left() ;
 
   fill_col(inputs, undefined, '');
-  fill_col(inputs, notes, 'p%20n%27est%20pas%20une%20note%20valide%20car%20non%20dans%20l%27intervalle%20%5B0%3B20%5D%0ANi%20I%28ABINJ%29%2C%20J%28ABJUS%29%2C%20N%28PPNOT%3A%20ne%20peut%20pas%20noter%29<hr>o%20n%27est%20pas%20une%20note%20valide%20car%20non%20dans%20l%27intervalle%20%5B0%3B20%5D%0ANi%20I%28ABINJ%29%2C%20J%28ABJUS%29%2C%20N%28PPNOT%3A%20ne%20peut%20pas%20noter%29<hr>4/3/2008%20n%27est%20pas%20une%20note%20valide%20car%20non%20dans%20l%27intervalle%20%5B0%3B20%5D%0ANi%20I%28ABINJ%29%2C%20J%28ABJUS%29%2C%20N%28PPNOT%3A%20ne%20peut%20pas%20noter%29<hr>3/4/8%20n%27est%20pas%20une%20note%20valide%20car%20non%20dans%20l%27intervalle%20%5B0%3B20%5D%0ANi%20I%28ABINJ%29%2C%20J%28ABJUS%29%2C%20N%28PPNOT%3A%20ne%20peut%20pas%20noter%29<hr>12/12/99%20n%27est%20pas%20une%20note%20valide%20car%20non%20dans%20l%27intervalle%20%5B0%3B20%5D%0ANi%20I%28ABINJ%29%2C%20J%28ABJUS%29%2C%20N%28PPNOT%3A%20ne%20peut%20pas%20noter%29<hr>');
+  fill_col(inputs, notes, 'p%20n%27est%20pas%20une%20note%20valide%20car%20non%20dans%20l%27intervalle%20%5B0%3B20%5D%0AI%28ABINJ%29%2C%20J%28ABJUS%29%2C%20N%28PPNOT%29<hr>o%20n%27est%20pas%20une%20note%20valide%20car%20non%20dans%20l%27intervalle%20%5B0%3B20%5D%0AI%28ABINJ%29%2C%20J%28ABJUS%29%2C%20N%28PPNOT%29<hr>4/3/2008%20n%27est%20pas%20une%20note%20valide%20car%20non%20dans%20l%27intervalle%20%5B0%3B20%5D%0AI%28ABINJ%29%2C%20J%28ABJUS%29%2C%20N%28PPNOT%29<hr>3/4/8%20n%27est%20pas%20une%20note%20valide%20car%20non%20dans%20l%27intervalle%20%5B0%3B20%5D%0AI%28ABINJ%29%2C%20J%28ABJUS%29%2C%20N%28PPNOT%29<hr>12/12/99%20n%27est%20pas%20une%20note%20valide%20car%20non%20dans%20l%27intervalle%20%5B0%3B20%5D%0AI%28ABINJ%29%2C%20J%28ABJUS%29%2C%20N%28PPNOT%29<hr>');
   fill_col(notes, undefined, '');
   var non_modifiable = 'R%E9sultat%20de%20calcul%20non%20modifiable<hr>R%E9sultat%20de%20calcul%20non%20modifiable<hr>R%E9sultat%20de%20calcul%20non%20modifiable<hr>R%E9sultat%20de%20calcul%20non%20modifiable<hr>R%E9sultat%20de%20calcul%20non%20modifiable<hr>R%E9sultat%20de%20calcul%20non%20modifiable<hr>R%E9sultat%20de%20calcul%20non%20modifiable<hr>R%E9sultat%20de%20calcul%20non%20modifiable<hr>R%E9sultat%20de%20calcul%20non%20modifiable<hr>R%E9sultat%20de%20calcul%20non%20modifiable<hr>R%E9sultat%20de%20calcul%20non%20modifiable<hr>R%E9sultat%20de%20calcul%20non%20modifiable<hr>' ;
   fill_col(nmbr, moys, non_modifiable);

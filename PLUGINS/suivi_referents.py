@@ -65,11 +65,14 @@ def stat_referent(f, year, semester, server):
     import TEMPLATES.Referents
     us = configuration.university_semesters
     # Do not translate remaining french please. It's to read old files
+    prst = configuration.pre
+    yes = configuration.yes
+    no = configuration.no
     columns = (
-        StatCol( ('RDV1', 'RDV_1',), increment=lambda x: x == 'PRST'),
-        StatCol( ('RDV2', 'RDV_2',), increment=lambda x: x == 'PRST'),
-        StatCol( ('RDV3', 'RDV_3',), increment=lambda x: x == 'PRST'),
-        StatCol( ('RDV4', 'RDV_4',), increment=lambda x: x == 'PRST'),
+        StatCol( ('RDV1', 'RDV_1',), increment=lambda x: x == prst),
+        StatCol( ('RDV2', 'RDV_2',), increment=lambda x: x == prst),
+        StatCol( ('RDV3', 'RDV_3',), increment=lambda x: x == prst),
+        StatCol( ('RDV4', 'RDV_4',), increment=lambda x: x == prst),
         StatCol( ('REM1', 'Remarques', 'Remarques IP ' + us[0])),
         StatCol( ('REM2', 'Remarques_2', 'Remarques IP ' + us[1])),
         StatCol( ('CON1', 'TOMUSS_'+us[0], us[0])),
@@ -82,10 +85,10 @@ def stat_referent(f, year, semester, server):
         StatCol( ('Contacté',)),
         StatCol( ('Contacté_2',)),
         StatCol( ('ContratSigné 2',)),
-        StatCol( ('ContratRespecté',), increment=lambda x: x == configuration.yes),
-        StatCol( ('ContratNonRespecté',), increment=lambda x: x == configuration.no),
-        StatCol( ('ContratRespecté_2',), increment=lambda x: x == configuration.yes),
-        StatCol( ('ContratNonRespecté_2',), increment=lambda x: x == configuration.no),
+        StatCol( ('ContratRespecté',)     , increment=lambda x: x == yes),
+        StatCol( ('ContratNonRespecté',)  , increment=lambda x: x == no),
+        StatCol( ('ContratRespecté_2',)   , increment=lambda x: x == yes),
+        StatCol( ('ContratNonRespecté_2',), increment=lambda x: x == no),
     )
 
     nr_students = 0

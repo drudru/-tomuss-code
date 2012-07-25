@@ -19,11 +19,12 @@
 #
 #    Contact: Thierry.EXCOFFIER@bat710.univ-lyon1.fr
 
+import random
 import inscrits
 import abj
-import random
 import _ucbl_
 from _ucbl_ import the_abjs, update_student, terminate_update, cell_change
+import configuration
 
 # Do not edit this first line (see SCRIPTS/install_demo)
 update_student_information = _ucbl_.update_student_information + """
@@ -100,17 +101,21 @@ def create_column(table, title, content_type, average=10., delta=5.):
         if line[data_col].value != '':
             continue
         if content_type == 'Prst':
-            value = ('PRST','ABINJ','ABJUS')[random.randint(0,2)]
+            value = (configuration.pre,
+                     configuration.abi,
+                     configuration.abj)[random.randint(0,2)]
         elif content_type == 'Note':
             if random.randint(0,4) == 0:
-                value = ('ABINJ','ABJUS')[random.randint(0,1)]
+                value = (configuration.abi, configuration.abj
+                         )[random.randint(0,1)]
             else:
                 value = '%4.1f' % random.gauss(average, delta)
         else:
             value = ''
         table.cell_change(p, title, key, value, "20090509213856")
         if random.randint(0,10) == 0:
-            table.comment_change(p, title, key, "Commentaire sur la case")
+            table.comment_change(p, title, key,
+                                 "A cell comment / un commentaire sur la case")
 
 def check(table):
     _ucbl_.check(table, update_inscrits_ue)
@@ -124,9 +129,10 @@ def check(table):
         create_column(table, 'CM1', 'Prst')
         create_column(table, 'CM2', 'Prst')
         create_column(table, 'CM3', 'Prst')
-        table.column_attr(p, 'ABINJ', 'type', 'Nmbr')
-        table.column_attr(p, 'ABINJ', 'title', '#ABINJ')
-        table.column_attr(p, 'ABINJ', 'columns', "CM1 CM2 CM3")
+        table.column_attr(p, configuration.abi, 'type', 'Nmbr')
+        table.column_attr(p, configuration.abi, 'title',
+                          '#' + configuration.abi)
+        table.column_attr(p, configuration.abi, 'columns', "CM1 CM2 CM3")
         create_column(table, 'TP1', 'Note', 10, 3)
         create_column(table, 'TP2', 'Note', 8, 2)
         create_column(table, 'TP3', 'Note', 14, 1)

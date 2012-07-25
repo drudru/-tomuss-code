@@ -22,11 +22,11 @@
 function test_prst(value, column)
 {
   var v = value.toUpperCase() ;
-  if ( v == 'I' || v == 'ABI' || v == abi )
+  if ( v === abi_char || v === abi_short || v === abi )
     return abi ;
-  if ( v == 'J' || v == 'ABJ' || v == abj )
+  if ( v === abj_char || v === abj_short || v === abj )
     return abj ;
-  if ( v == 'P' || v == 'PRE' || v == pre )
+  if ( v === pre_char || v === pre_short || v === pre )
     return pre ;
   return '' ;
 }

@@ -40,11 +40,11 @@ class Note(text.Text):
     message = """<script>Write("MSG_Note_ABINJ");</script>"""
 
     def cell_indicator_prst(self, column, value, cell, lines):
-        if value == 'ABINJ' or value == 'ABI':
+        if value == configuration.abi or value == configuration.abi_short:
             return 'abinj', 0
-        if value == 'ABJUS' or value == 'ABJ':
+        if value == configuration.abj or value == configuration.abj_short:
             return 'abjus', None
-        if value == 'PRST':
+        if value == configuration.pre or value == configuration.pre_short:
             return 'prst', 1
         if value == '' and lines:
             nr_abinj = len([c for c in lines if c[column.data_col].value ==''])
@@ -100,7 +100,7 @@ class Note(text.Text):
 
         classname = self.cell_indicator(column, value, cell, lines)[0]
         if classname == 'abinj2':
-            return ('ABINJ???', classname, self.message)
+            return (configuration.abi + '???', classname, self.message)
         if classname in ('prst', 'abinj', 'abjus'):
             return (cgi.escape(str(value)), classname, '')
         if value == '':

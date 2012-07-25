@@ -4386,6 +4386,9 @@ msgid "MSG_utilities_smtp_error"
 msgstr "Can't send mail to: %s\n"
        "The server answered: "
 
+msgid "ALERT_bad_grade"
+msgstr " is not a valide grade because not in "
+
 msgid "TH_who"
 msgstr "Who"
 
@@ -4402,7 +4405,7 @@ msgid "no_char"
 msgstr "N"
 
 msgid "abi"
-msgstr "InjLeave"
+msgstr "INJLEAVE"
 
 msgid "abi_short"
 msgstr "ILV"
@@ -4411,7 +4414,7 @@ msgid "abi_char"
 msgstr "I"
 
 msgid "abj"
-msgstr "JusLeave"
+msgstr "JUSLEAVE"
 
 msgid "abj_short"
 msgstr "JLV"
@@ -4420,7 +4423,7 @@ msgid "abj_char"
 msgstr "J"
 
 msgid "ppn"
-msgstr "CantGrade"
+msgstr "CANTGRADE"
 
 msgid "ppn_short"
 msgstr "CG"
@@ -4430,6 +4433,9 @@ msgstr "C"
 
 msgid "pre"
 msgstr "PRST"
+
+msgid "pre_short"
+msgstr "PRE"
 
 msgid "pre_char"
 msgstr "P"

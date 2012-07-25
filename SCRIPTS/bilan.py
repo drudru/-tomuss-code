@@ -17,12 +17,12 @@ as a Python fragment.
 }
 """
 
+import os
+import sys
 import tomuss_init
 import configuration
-import os
 import tablestat
 import utilities
-import sys
 import inscrits
 
 class UE:
@@ -39,11 +39,11 @@ class UE:
             value = cell.value
             if value == '' and column.empty_is:
                 value = column.empty_is
-            if value == 'PRST':
+            if value == configuration.pre:
                 prst += 1
-            elif value == 'ABINJ':
+            elif value == configuration.abi:
                 abinj += 1
-            elif value == 'ABJUS':
+            elif value == configuration.abj:
                 abjus += 1
             elif column.type.name == 'Note':
                 try:

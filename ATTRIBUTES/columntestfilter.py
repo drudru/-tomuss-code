@@ -22,7 +22,7 @@
 from column import ColumnAttr
 
 class ColumnTestFilter(ColumnAttr):
-    default_value = '!ABINJ'
+    default_value = ''
     display_table = 1
     name = 'test_filter'
     check_and_set = '''

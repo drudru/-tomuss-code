@@ -21,6 +21,7 @@
 
 import data
 import re
+import configuration
 
 def best_worst_of(txt):
     values = re.sub(r".*]([0-9]*),([0-9]*)\[.*", r'][ \1 \2', txt).split(" ")
@@ -40,12 +41,12 @@ def compute_one(table, line, column):
     for title in column.depends_on():
         col = table.columns.from_title(title)
         value = line[col.data_col].value
-        if value == 'ABINJ':
+        if value == configuration.abi:
             abinj += 1
             values.append((0, float(col.weight)))
-        elif value == 'ABJUS':
+        elif value == configuration.abj:
             abjus += 1
-        elif value == 'PPNOT':
+        elif value == configuration.ppn:
             ppnot += 1
         else:
             v_min, v_max = min_max(col.minmax)
@@ -64,14 +65,14 @@ def compute_one(table, line, column):
 
     nr = abjus + ppnot + len(values)
     if abjus == nr:
-        return 'ABJUS', ''
+        return configuration.abj, ''
 
     if values:
         full_weight = sum(zip(*values)[1])
     else:
         full_weight = 0
     if abinj == nr:
-        return 'ABINJ', full_weight
+        return configuration.abi, full_weight
 
     values.sort()
     worst, best = best_worst_of(column.comment)
@@ -85,7 +86,7 @@ def compute_one(table, line, column):
         values = values[worst:]
 
     if len(values) == 0:
-        return 'PPNOT', full_weight
+        return configuration.ppn, full_weight
 
     s = 0
     w = 0
@@ -101,7 +102,7 @@ def compute_one(table, line, column):
 
 
 
-possible = (5, 'ABINJ', 'ABJUS', 'PPNOT')
+possible = (5, configuration.abi, configuration.abj, configuration.ppn)
 
 def values_next(i):
     if i == 0:

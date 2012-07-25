@@ -22,6 +22,7 @@
 import note
 import text
 import cgi
+import configuration
 
 class Prst(note.Note):
     human_priority = -9
@@ -39,7 +40,7 @@ class Prst(note.Note):
         if classname != 'abinj2':
             return (cgi.escape(str(value)), classname, '')
 
-        return ('ABINJ???', classname, note.Note.message)
+        return (configuration.abi + '???', classname, note.Note.message)
 
     cell_indicator = note.Note.cell_indicator_prst
     def test_ok(self, test):

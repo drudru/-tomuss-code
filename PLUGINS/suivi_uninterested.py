@@ -79,7 +79,7 @@ def uninterested(server):
             if s not in students:
                 continue
             for cell in line[coli+1:]:
-                if (cell.value and cell.value != 'ABINJ'
+                if (cell.value and cell.value != configuration.abi
                     and cell.value != '0' and cell.value != 0
                     and cell.value != configuration.yes
                     and cell.value != configuration.no):

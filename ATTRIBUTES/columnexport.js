@@ -83,8 +83,8 @@ function abj_ppn_value()
     }
   else
     {
-      abjvalue = 'ABJ' ;
-      ppnvalue = 'PPN' ;
+      abjvalue = abj_short ;
+      ppnvalue = ppn_short ;
     }
 }
 
@@ -97,7 +97,7 @@ function cell_value_export()
       switch(xx)
 	{
 	case 'NaN': return '' ;
-	case abi: return 'ABI' ;
+	case abi: return abi_short ;
 	case abj: return abjvalue ;
 	case ppn: return ppnvalue ;
 	default: return xx ;

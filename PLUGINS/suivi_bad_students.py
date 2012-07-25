@@ -45,7 +45,7 @@ def bad_student_with_notes(f, year, semester, _):
             s = []
             for cell in line[coli+1:]:
                 if (cell.value
-                    and cell.value != 'ABINJ'
+                    and cell.value != configuration.abi
                     and cell.value != '0'
                     and cell.value != 0
                     and cell.value != configuration.yes

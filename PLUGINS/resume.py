@@ -25,6 +25,7 @@ import column
 import plugins
 import TEMPLATES._ucbl_
 from cell import CellEmpty, CellValue, Line
+import configuration
 
 class Stat(object):
     def __init__(self, login):
@@ -69,7 +70,8 @@ def resume(server):
                 s.name = line[2].value
             logins[login].tables[table] = (
                 len([cell for cell in line[6:]
-                     if cell.value != '' and cell.value != 'ABINJ']),
+                     if cell.value != ''
+                     and cell.value != configuration.abi]),
                 )
     columns.append(
         column.Column('c3', '', position=2,

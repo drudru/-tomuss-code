@@ -63,13 +63,13 @@ function compute_average(data_col, line)
       switch(value)
 	{
         case '':  line[data_col].set_value(NaN) ; return ;
-	case 'ABJ':
+	case abj_short:
 	case abj: nr_abj++ ; continue ;
-	case 'PPN':
+	case ppn_short:
 	case ppn: nr_ppn++ ; continue ;
-	case 'PRE':
+	case pre_short:
 	case pre: values.push([1, from]) ; break ;
-	case 'ABI':
+	case abi_short:
 	case abi: values.push([0, from]) ; nr_abi++ ; break ;
 	default:  
 	  value = a_float(value) ;

@@ -4447,6 +4447,9 @@ msgid "MSG_utilities_smtp_error"
 msgstr "Ne peut pas envoyer le message a : %s\n"
        "Le serveur a répondu : "
 
+msgid "ALERT_bad_grade"
+msgstr " n'est pas une note valide car non dans l'intervalle "
+
 msgid "TH_who"
 msgstr "Qui"
 
@@ -4491,6 +4494,9 @@ msgstr "N"
 
 msgid "pre"
 msgstr "PRST"
+
+msgid "pre_short"
+msgstr "PRE"
 
 msgid "pre_char"
 msgstr "P"
