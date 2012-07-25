@@ -2864,7 +2864,7 @@ msgid "MSG_evaluate"
 msgstr "Action not allowed in demo mode."
 
 msgid "LINK_gctop"
-msgstr "Dislay Python object in memory"
+msgstr "Display Python object in memory"
 
 msgid "HELP_gctop"
 msgstr "Useful to find memory leaks"
@@ -4193,8 +4193,198 @@ msgstr "<b>THEN</b> indicate the UE with AE:"
 msgid "B_abj_set_ue"
 msgstr "Choose the UE"
 
+msgid "MSG_authentication_close"
+msgstr "You can now <a href=\"javascript:window.close()\">close</a> this page."
+
+msgid "MSG_cell_full_table"
+msgstr "Display full table"
+
+msgid "MSG_cell_one_line"
+msgstr "Display only the student line"
+
+msgid "MSG_cell_message"
+msgstr "Small message: "
+
+msgid "MSG_column_colattr_unmodifiable"
+msgstr "Unmodifiable column attribute:"
+
+msgid "ALERT_column_not_saved"
+msgstr "Modification not saved"
+
+msgid "MSG_document_problems"
+msgstr "Have you problems with TOMUSS?"
+
+msgid "MSG_document_canceled"
+msgstr "Canceled page load: "
+
+msgid "MSG_document_bug_column"
+msgstr "Bug in 'cell_change' can't find column %s"
+
+msgid "MSG_document_column_locked"
+msgstr "Try to modify a protected column"
+
+msgid "MSG_document_table_active"
+msgstr "There is active pages"
+
+msgid "MSG_document_table_today"
+msgstr "Created/Modified today"
+
+msgid "MSG_document_table_comment"
+msgstr "There is a table comment: %s"
+
+msgid "MSG_document_table_title"
+msgstr "A column title is set"
+
+msgid "MSG_document_table_master"
+msgstr "A new master is defined"
+
+msgid "MSG_document_table_cell"
+msgstr "A cell is not empty"
+
+msgid "MSG_document_table_cell_comment"
+msgstr "A cell is with a comment"
+
+msgid "MSG_document_table_lines"
+msgstr "%d lines"
+
+msgid "MSG_document_table_duplicate"
+msgstr "Duplicate name: "
+
+msgid "MSG_document_table_no_column"
+msgstr "'%s' use non-existent column '%s'"
 
 
+msgid "LINK_javascript:go_year('Dossiers/tt/=read-only=')"
+msgstr "Look special examination condition"
 
+msgid "LINK_javascript:go_year('Dossiers/tt')"
+msgstr "Modify special examination condition"
 
+msgid "LINK_stats.html"
+msgstr "TOMUSS Statistics"
 
+msgid "HELP_stats.html"
+msgstr "Display TOMUSS uage statistics"
+
+msgid "LINK_javascript:go('referents_students')"
+msgstr "Table of referent teachers"
+
+msgid "HELP_javascript:go('referents_students')"
+msgstr "This table is editable, but it is not a good idea."
+
+msgid "LINK_/0/Dossiers/config_table/=read-only="
+msgstr "Display TOMUSS configuration"
+
+msgid "HELP_/0/Dossiers/config_table/=read-only="
+msgstr "Use this link if you do not want do modify configuration"
+
+msgid "LINK_/0/Dossiers/config_table"
+msgstr "Modify TOMUSS configuration"
+
+msgid "HELP_/0/Dossiers/config_table"
+msgstr "Be carefull, a bad modification may lock down TOMUSS."
+
+msgid "LINK_/0/Dossiers/config_plugin"
+msgstr "Modify plugin configuration"
+
+msgid "HELP_/0/Dossiers/config_plugin"
+msgstr "llow to see the plugin list and modify the users allowed to use them."
+
+msgid "LINK_/2009/Dossiers/javascript_regtest_ue"
+msgstr "Regression tests in JavaScript"
+
+msgid "HELP_/2009/Dossiers/javascript_regtest_ue"
+msgstr "Run regression test in the browser."
+
+msgid "LINK_/2008/Test/average"
+msgstr "Average table"
+
+msgid "HELP_/2008/Test/average"
+msgstr "Table to verify all average cases"
+
+msgid "LINK_javascript:go('demo_animaux')"
+msgstr "Table with animals"
+
+msgid "HELP_javascript:go('demo_animaux')"
+msgstr "Used for the demonstration web site"
+
+msgid "LINK_/2008/Test/test_types"
+msgstr "All the column types"
+
+msgid "HELP_/2008/Test/test_types"
+msgstr "Use this to test type."
+
+msgid "TITLE_referent_student_list"
+msgstr "Get the student list for UEs"
+
+msgid "MSG_referent_unmodifiable"
+msgstr "Modification forbidden (date problem?)"
+
+msgid "TITLE_referent_nr_students"
+msgstr "%d students"
+
+msgid "TITLE_referent_remove_duplicates"
+msgstr "Remove multiple instances of students or teachers"
+
+msgid "MSG_referent_remove_teacher"
+msgstr "Remove teacher: "
+
+msgid "MSG_referent_orphan_student"
+msgstr "Student without teacher: "
+
+msgid "MSG_referent_student_not_in_list"
+msgstr "%s not in the student list (%s) %s "
+
+msgid "MSG_referent_student_removed"
+msgstr "REMOVED"
+
+msgid "MSG_referent_remove_student"
+msgstr "Remove student: "
+
+msgid "MSG_referent_remove_duplicate_student"
+msgstr "Remove duplicate student: "
+
+msgid "TITLE_referent_students_in_need"
+msgstr "Students in need of a teacher"
+
+msgid "TITLE_referent_teacher_list"
+msgstr "Teacher list sorted by number of students"
+
+msgid "TITLE_referent_affectations"
+msgstr "Affectations"
+
+msgid "MSG_referent_no_teacher"
+msgstr "NO POSSIBLE TEACHER for %s"
+
+msgid "MSG_referent_add_student"
+msgstr "Add student: %s"
+
+msgid "TITLE_referent_resume"
+msgstr "Resume"
+
+msgid "MSG_referent_mail_subject"
+msgstr "Refered student change"
+
+msgid "MSG_referent_mail_body"
+msgstr "Hello\n"
+       "\n"
+       "The list a refered students has been updated autmaticaly.\n"
+       "Their are the changes:\n"
+       "\n"
+       "%s\n"
+       "\n"
+       "The up to date list is on  %s\n"
+       "\n"
+       "Sincerely yours."
+
+msgid "MSG_tomuss_start"
+msgstr "First time TOMUSS user, goto :   http://127.0.0.1:8888/=super.user\n"
+       "Type 's' in the UE search box.\n"
+       "Type 'a' in the student search box."
+
+msgid "MSG_utilities_smtp_error"
+msgstr "Can't send mail to: %s\n"
+       "The server answered: "
+
+msgid "TH_who"
+msgstr "Who"

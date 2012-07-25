@@ -26,12 +26,12 @@
 if __name__ == "__main__":
     import SCRIPTS.tomuss_init
 
+import ldap
+import re
 import time
 import configuration
 import utilities
-import ldap
 import sender
-import re
 
 ldap.set_option(ldap.OPT_REFERRALS, 0)
 ldap.set_option(ldap.OPT_NETWORK_TIMEOUT, 1) # For connect

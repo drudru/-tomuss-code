@@ -1229,7 +1229,12 @@ function generate_home_page_actions()
     var boxes = {}, link_name, link_help ;
     for(var i in links)
     {
-	if ( links[i][3] === '' )
+        if ( links[i][7] === '' )
+	  links[i][7] = links[i][4] ; // Translation ID is the URL
+        if ( links[i][4].substr(0,1) == '/' )
+	  links[i][4] = "javascript:do_action('" + links[i][4].substr(1)
+        + "','" + links[i][2] + "')" ;
+ 	if ( links[i][3] === '' )
 	    links[i][3] = _('LINK_' + links[i][7]) ;
 	if ( links[i][6] === '' )
 	{

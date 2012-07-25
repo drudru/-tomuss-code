@@ -979,7 +979,7 @@ Col({the_id:"col_1",type:"Note",author:"%s",position:0,title:"TITLE1"})
         assert('Col({the_id:"col_0",type:"Note",author:"%s",position:6,title:"TITLE0"})' % root in c)
         assert('),C(11.11,"%s","' % root in c)
         assert(r"\"MSG_Note_rank_before\",\"\x3Cb\x3E1\x3C/b\x3E\");\nWrite(\"MSG_Note_rank_middle\",\"\x3Cb\x3E1\x3C/b\x3E\");\nWrite(\"MSG_Note_rank_after_1\");\x3C/script\x3E\x3Cbr\x3E\x3Cscript\x3E\nWrite(\"MSG_Note_rank_before\",\"\x3Cb\x3E2\x3C/b\x3E\");\nWrite(\"MSG_Note_rank_middle\",\"\x3Cb\x3E2\x3C/b\x3E\");\nWrite(\"MSG_Note_rank_after_2\"" in c)
-        assert("message : <em>_TABLE_COMMENT_</em>" in c)
+        assert(utilities._("MSG_cell_message")+"<em>_TABLE_COMMENT_</em>" in c)
 
         c = s.url('=' + root + '/%s/UE-XXX9999L' % ys)
         c = s.url('=' + root + '/%s/UE-XXX9999L' % ys +

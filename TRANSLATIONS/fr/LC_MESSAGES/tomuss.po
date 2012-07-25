@@ -1702,9 +1702,6 @@ msgstr "Vous la réactiverez après avoir vérifié le résultat."
 msgid "MSG_fill"
 msgstr "Choisissez comment vous voulez remplir la colonne&nbsp;"
 
-
-  
-
 msgid "TAB_fill_clear"
 msgstr "Vider"
 
@@ -4252,4 +4249,203 @@ msgstr "<b>PUIS</b> indiquer l'UE avec la dispense :"
 msgid "B_abj_set_ue"
 msgstr "Choisissez l'UE"
 
+msgid "MSG_authentication_close"
+msgstr "Vous pouvez <a href=\"javascript:window.close()\">fermer</a> cette page."
 
+msgid "MSG_cell_full_table"
+msgstr "Voir le tableau de note complet"
+
+msgid "MSG_cell_one_line"
+msgstr "Afficher seulement la ligne de cet étudiant"
+
+msgid "MSG_cell_message"
+msgstr "Petit message : "
+
+msgid "MSG_column_colattr_unmodifiable"
+msgstr "Attribut de colonne non modifiable :"
+
+msgid "ALERT_column_not_saved"
+msgstr "La modification n'a pas été enregistrée"
+
+msgid "MSG_document_problems"
+msgstr "Vous avez des ennuis avec TOMUSS ?"
+
+msgid "MSG_document_canceled"
+msgstr "Chargement de page annulé : "
+
+msgid "MSG_document_bug_column"
+msgstr "Bug dans 'cell_change' ne trouve pas la colonne %s"
+
+msgid "MSG_document_column_locked"
+msgstr "Vous essayez de modifier une cellule dans une colonne protégée"
+
+msgid "MSG_document_table_active"
+msgstr "Il y a des pages actives"
+
+msgid "MSG_document_table_today"
+msgstr "Créé/modifié aujourd'hui"
+
+msgid "MSG_document_table_comment"
+msgstr "Il y a un commentaire de table : %s"
+
+msgid "MSG_document_table_title"
+msgstr "Un titre de colonne a été saisi"
+
+msgid "MSG_document_table_master"
+msgstr "La liste des responsables a été changée"
+
+msgid "MSG_document_table_cell"
+msgstr "Une cellule n'est pas vide"
+
+msgid "MSG_document_table_cell_comment"
+msgstr "Une cellule possède un commentaire"
+
+msgid "MSG_document_table_lines"
+msgstr "%d lignes"
+
+msgid "MSG_document_table_duplicate"
+msgstr "Nom en double : "
+
+msgid "MSG_document_table_no_column"
+msgstr "'%s' utilise la colonne '%s' qui n'existe pas"
+
+msgid "LINK_javascript:go_year('Dossiers/tt/=read-only=')"
+msgstr "Consultation des TT"
+
+msgid "LINK_javascript:go_year('Dossiers/tt')"
+msgstr "Modification des TT"
+
+msgid "LINK_stats.html"
+msgstr "Statistiques TOMUSS"
+
+msgid "HELP_stats.html"
+msgstr "Affiche les statistiques sur l'utilisation de TOMUSS"
+
+msgid "LINK_javascript:go('referents_students')"
+msgstr "Table des référents pédagogiques"
+
+msgid "HELP_javascript:go('referents_students')"
+msgstr "Il est possible d'indiquer dans cette table TOMUSS\n"
+       "la liste des enseignants référents pédagogiques.\n"
+       "Cette méthode d'édition n'est pas recommendée."
+
+msgid "LINK_/0/Dossiers/config_table/=read-only="
+msgstr "Afficher la configuration de TOMUSS"
+
+msgid "HELP_/0/Dossiers/config_table/=read-only="
+msgstr "Utiliser ce lien si vous voulez seulement regarder\n"
+       "la configuration de TOMUSS."
+
+msgid "LINK_/0/Dossiers/config_table"
+msgstr "Éditer la configuration de TOMUSS"
+
+msgid "HELP_/0/Dossiers/config_table"
+msgstr "La moindre erreur d'édition dans cette table peut bloquer TOMUSS.\n"
+       "Si vous ne voulez pas modifier la configuration,\n"
+       "demandez seulement à l'afficher."
+
+msgid "LINK_/0/Dossiers/config_plugin"
+msgstr "Éditer la configuration des plugins de TOMUSS"
+
+msgid "HELP_/0/Dossiers/config_plugin"
+msgstr "Permet de voir la liste des plugins et d'ajouter\n"
+       "des utilisateurs autorisés"
+
+msgid "LINK_/2009/Dossiers/javascript_regtest_ue"
+msgstr "Tests de régression en JavaScript"
+
+msgid "HELP_/2009/Dossiers/javascript_regtest_ue"
+msgstr "Lance des tests de régression sur votre navigateur."
+
+msgid "LINK_/2008/Test/average"
+msgstr "Table de moyennes"
+
+msgid "HELP_/2008/Test/average"
+msgstr "Table pour vérifier les moyennes"
+
+msgid "LINK_javascript:go('demo_animaux')"
+msgstr "Démo animaux"
+
+msgid "HELP_javascript:go('demo_animaux')"
+msgstr "UE utilisée dans la démonstration de TOMUSS"
+
+msgid "LINK_/2008/Test/test_types"
+msgstr "Tous les types de colonne"
+
+msgid "HELP_/2008/Test/test_types"
+msgstr "Une table pour tester les types."
+
+msgid "TITLE_referent_student_list"
+msgstr "Récupère la liste des étudiants"
+
+msgid "MSG_referent_unmodifiable"
+msgstr "Modification interdite (problème de date ?)"
+
+msgid "TITLE_referent_nr_students"
+msgstr "%d étudiants"
+
+msgid "TITLE_referent_remove_duplicates"
+msgstr "Enlève les doublons d'enseignants ou d'étudiants"
+
+msgid "MSG_referent_remove_teacher"
+msgstr "Enlève l'enseignant : "
+
+msgid "MSG_referent_orphan_student"
+msgstr "Étudiant sans référent : "
+
+msgid "MSG_referent_student_not_in_list"
+msgstr "%s n'est pas dans la liste des étudiants (%s) %s "
+
+msgid "MSG_referent_student_removed"
+msgstr "ENLEVÉ"
+
+msgid "MSG_referent_remove_student"
+msgstr "Enlève l'étudiant : "
+
+msgid "MSG_referent_remove_duplicate_student"
+msgstr "Enlève l'étudiant en double : "
+
+msgid "TITLE_referent_students_in_need"
+msgstr "Étudiants qui ont besoin d'un référent"
+
+msgid "TITLE_referent_teacher_list"
+msgstr "Liste des enseignants triée par nombre d'étudiants"
+
+msgid "TITLE_referent_affectations"
+msgstr "Affectations"
+
+msgid "MSG_referent_no_teacher"
+msgstr "MANQUE ENSEIGNANT!!!!!!!!!! pour %s"
+
+msgid "MSG_referent_add_student"
+msgstr "Ajoute étudiant : %s"
+
+msgid "TITLE_referent_resume"
+msgstr "Résume"
+
+msgid "MSG_referent_mail_subject"
+msgstr "Changements d'étudiants référés"
+
+msgid "MSG_referent_mail_body"
+msgstr "Bonjour\n"
+       "\n"
+       "La liste de vos étudiants référés vient de changer automatiquement.\n"
+       "Voici la liste des changements :\n"
+       "\n"
+       "%s\n"
+       "\n"
+       "La liste à jour est celle indiquée sur %s\n"
+       "\n"
+       "Amicalement."
+
+msgid "MSG_tomuss_start"
+msgstr "Votre première fois ? Allez sur :  http://127.0.0.1:8888/=super.user\n"
+       "Tapez 's' dans le moteur de recherche d'UE\n"
+       "Type 'a' dans le moteur de recherche d'étudiant"
+
+msgid "MSG_utilities_smtp_error"
+msgstr "Ne peut pas envoyer le message a : %s\n"
+       "Le serveur a répondu : "
+
+msgid "TH_who"
+msgstr "Qui"

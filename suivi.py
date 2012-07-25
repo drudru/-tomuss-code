@@ -26,17 +26,17 @@ if False:
     import deadlock
     deadlock.start_check_deadlock()
 
-import configuration
-import utilities
-import BaseHTTPServer
 import os
-import authentication
 import sys
 import time
+import cgi
+import BaseHTTPServer
+import configuration
+import utilities
+import authentication
 import plugin
 import ticket
 import inscrits
-import cgi
 
 warn = utilities.warn
 

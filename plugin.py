@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 #    TOMUSS: The Online Multi User Simple Spreadsheet
-#    Copyright (C) 2008-2011 Thierry EXCOFFIER, Universite Claude Bernard
+#    Copyright (C) 2008-2012 Thierry EXCOFFIER, Universite Claude Bernard
 #
 #    This program is free software; you can redistribute it and/or modify
 #    it under the terms of the GNU General Public License as published by
@@ -19,14 +19,13 @@
 #
 #    Contact: Thierry.EXCOFFIER@bat710.univ-lyon1.fr
 
-import configuration
-import utilities
-import files
 import socket
 import re
 import cgi
-import time
 import os
+import configuration
+import utilities
+import files
 
 warn = utilities.warn
 
@@ -68,8 +67,6 @@ class Link(object):
         if url.startswith('javascript:'):
             target = ''
         elif url.startswith('/'):
-            url = "javascript:do_action('%s','%s')" % (url[1:],
-                                                       self.html_class)
             target = ''
         return url, target
 
@@ -346,91 +343,47 @@ def doc(filename):
     
 
 links_without_plugins = [
-    Link(text='Consultation des TT',
-         url="javascript:go_year('Dossiers/tt/=read-only=')",
-         where="abj_master",
-         html_class="verysafe",
+    Link(url="javascript:go_year('Dossiers/tt/=read-only=')",
+         where="abj_master", html_class="verysafe", priority = -100,
          authorized = lambda s: s.ticket.is_an_abj_master,
-         priority = -100,
          ),
-    Link(text='Modification des TT',
-         url="javascript:go_year('Dossiers/tt')",
-         where="abj_master",
-         html_class="unsafe",
+    Link(url="javascript:go_year('Dossiers/tt')",
+         where="abj_master", html_class="unsafe", priority = -99,
          authorized = lambda s: s.ticket.is_an_abj_master,
-         priority = -99,
          ),
-    Link(text='Statistiques TOMUSS',
-         url="stats.html",
-         where="informations",
-         html_class="verysafe",
-         help="""Affiche les statistiques sur l'utilisation de TOMUSS""",
+    Link(url="stats.html",
+         where="informations", html_class="verysafe",
          ),
-    Link(text='Table des référents pédagogiques',
-         url="javascript:go('referents_students')",
-         help="""Il faut indiquer dans cette table TOMUSS
-         la liste des enseignants référents pédagogiques.
-         Il est possible de modifier manuellement des affectations
-         d'étudiants.""",
-         html_class='safe',
-         where='referents',
-         priority=999,
+    Link(url="javascript:go('referents_students')",
+         where='referents', html_class='safe', priority=999,
          authorized = lambda s: s.ticket.user_name in configuration.root,
          ),                               
-    Link(text='Afficher la configuration de TOMUSS',
-         where="root_rw",
-         html_class="verysafe",
-         url="/0/Dossiers/config_table/=read-only=",
-         help="""Utiliser ce lien si vous voulez seulement regarder
-         la configuration de TOMUSS.""",
-         authorized = lambda s: s.ticket.user_name in configuration.root,
-         priority = -1000,
-         ),
-    Link(text='Éditer la configuration de TOMUSS',
-         where="root_rw",
-         html_class="unsafe",
-         url="/0/Dossiers/config_table",
-         help="""La moindre erreur d'édition dans cette table peut
-         bloquer TOMUSS. Si vous ne voulez pas modifier la configuration,
-         demandez à afficher la configuration.""",
-         authorized = lambda s: s.ticket.user_name in configuration.root,
-         priority = -999,
-         ),
-    Link(text='Éditer la configuration des plugins de TOMUSS',
-         where="root_rw",
-         html_class="safe",
-         url="/0/Dossiers/config_plugin",
-         help="""Permet de voir la liste des plugins et d'ajouter
-         des utilisateurs autorisés""",
-         authorized = lambda s: s.ticket.user_name in configuration.root,
-         priority = -998,
-         ),
-    Link(text="Tests de régression en JavaScript",
-         where="debug",
-         html_class="verysafe",
-         url="/2009/Dossiers/javascript_regtest_ue",
-         help="""Lance des tests de régression sur votre navigateur.""",
+    Link(url="/0/Dossiers/config_table/=read-only=",
+         where="root_rw", html_class="verysafe", priority = -1000,
          authorized = lambda s: s.ticket.user_name in configuration.root,
          ),
-    Link(text="Table de moyennes",
-         where="debug",
-         html_class="verysafe",
-         url="/2008/Test/average",
-         help="""Table pour vérifier les moyennes""",
+    Link(url="/0/Dossiers/config_table",
+         where="root_rw", html_class="unsafe", priority = -999,
          authorized = lambda s: s.ticket.user_name in configuration.root,
          ),
-    Link(text="Démo animaux",
-         where="debug",
-         html_class="verysafe",
-         url="javascript:go('demo_animaux')",
-         help="""UE utilisée dans la démonstration de TOMUSS""",
+    Link(url="/0/Dossiers/config_plugin",
+         where="root_rw", html_class="safe", priority = -998,         
          authorized = lambda s: s.ticket.user_name in configuration.root,
          ),
-    Link(text="Tous les types de colonne",
-         where="debug",
-         html_class="verysafe",
-         url="/2008/Test/test_types",
-         help="""Une table pour tester les types.""",
+    Link(url="/2009/Dossiers/javascript_regtest_ue",
+         where="debug", html_class="verysafe",
+         authorized = lambda s: s.ticket.user_name in configuration.root,
+         ),
+    Link(url="/2008/Test/average",
+         where="debug", html_class="verysafe",         
+         authorized = lambda s: s.ticket.user_name in configuration.root,
+         ),
+    Link(url="javascript:go('demo_animaux')",
+         where="debug", html_class="verysafe",
+         authorized = lambda s: s.ticket.user_name in configuration.root,
+         ),
+    Link(url="/2008/Test/test_types",
+         where="debug", html_class="verysafe",
          authorized = lambda s: s.ticket.user_name in configuration.root,
          ),
     ]
@@ -480,7 +433,9 @@ def execute(server, plugin):
                 if 'image' in plugin.mimetype:
                     server.the_file.write(files.files['bug.png'])
                 else:
-                    server.the_file.write('*'*100+u"<br>\nLe serveur a rencontré un problème, l'administrateur a été prévenu.<br>\n".encode('utf8')+'*'*100)
+                    server.the_file.write('*'*100 + "<br>\n"
+                                          + server._("ERROR_server_bug")
+                                          + "<br>\n" + '*'*100)
                 server.close_connection_now()
             except socket.error:
                 pass

@@ -19,8 +19,8 @@
 #
 #    Contact: Thierry.EXCOFFIER@bat710.univ-lyon1.fr
 
-import utilities
 import os
+import utilities
 import configuration
 
 files = {}
@@ -46,7 +46,6 @@ for name in (
     'lib.js', 'abj.js','types.js','utilities.js',
     'middle.js',
     'abj.html',
-    'nat.html', 'nabjm.html',
     'robots.txt',
     'doc_table.html', 'documentation.js', 'documentation.css',
     'stats.html',

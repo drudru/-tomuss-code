@@ -19,16 +19,15 @@
 #
 #    Contact: Thierry.EXCOFFIER@bat710.univ-lyon1.fr
 
+import os
+import re
+import time
+import hashlib
 from utilities import js, warn
 import utilities
 import configuration
-import cgi
-import re
-import time
 import plugins
-import hashlib
 import data
-import os
 import files
 import sender
 
@@ -107,7 +106,8 @@ class ColumnAttr(object):
 
         if self.computed and self.name != 'hidden': # XXX Not nice test
             return table.error(page,
-                               "Attribut de colonne non modifiable:"+self.name)
+                               utilities._("MSG_column_colattr_unmodifiable")
+                               + self.name)
         # The columns list is not modifiable for a Note
         # But the names in column list must be renamed on column rename.
         # It is so because columns_list value is not forgotten when
@@ -216,7 +216,9 @@ class TableAttr(ColumnAttr):
         if error:
             if '_(' not in error:
                 error = utilities.js(error)
-            t = '<script>alert(%s + "\\nLa modification n\'a pas été enregistrée");</script>\n' % error
+            t = '<script>alert(%s + "\\n" +%s);</script>\n' % (
+                error, utilities._("ALERT_column_not_saved"))
+                                                               
             sender.append(page.browser_file, t)
             return 'bad.png'
 

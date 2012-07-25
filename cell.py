@@ -21,10 +21,10 @@
 
 # WARNING : Assume the table is locked, all this is not thread safe
 
-import utilities
-import cgi
-import configuration
 import time
+import cgi
+import utilities
+import configuration
 import data
 import inscrits
 
@@ -338,9 +338,7 @@ class Lines(object):
                         (mail, firstname.title().encode('utf8'),
                          surname.upper().encode('utf8')))
         if more:
-            more = (" <small>(Responsables de l'UE : "
-                    + ', '.join(more)
-                    + ')</small>')
+            more = (" <small>(" + ', '.join(more) + ')</small>')
         else:
             more = ''
         if link:
@@ -348,7 +346,7 @@ class Lines(object):
             s.append(
                 utilities.tipped(table.ue + ' '
                                  + cgi.escape(table.table_title),
-                                 'Voir le tableau de note complet',
+                                 utilities._("MSG_cell_full_table"),
                                  url='%s/=%s/%d/%s/%s' %
                                  (configuration.server_url,
                                   ticket,
@@ -357,7 +355,7 @@ class Lines(object):
                                  , classname='title'))
             s.append(
                 utilities.tipped(' (*)',
-                                 'Afficher seulement la ligne de cet étudiant',
+                                 utilities._("MSG_cell_one_line"),
                                  url='%s/=%s/%d/%s/%s/=filters=0:%s=' %
                                  (configuration.server_url,
                                   ticket,
@@ -369,8 +367,9 @@ class Lines(object):
             s = ['<h2 class="title">' + table.ue + ' : ' +
                  cgi.escape(table.table_title) + more + '</h2>']
         if table.comment.strip():
-            s.append('<p style="margin-top:0">Petit message : <em>'
-                     + cgi.escape(table.comment) + '</em></p>')
+            s.append('<p style="margin-top:0">'
+                     + utilities._("MSG_cell_message")
+                     + '<em>' + cgi.escape(table.comment) + '</em></p>')
         s.append(self.line_compute_js(line,for_student=not link))
 
         grp = self.get_grp(line)

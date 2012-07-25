@@ -1,7 +1,7 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
 #    TOMUSS: The Online Multi User Simple Spreadsheet
-#    Copyright (C) 2008-2011 Thierry EXCOFFIER, Universite Claude Bernard
+#    Copyright (C) 2008-2012 Thierry EXCOFFIER, Universite Claude Bernard
 #
 #    This program is free software; you can redistribute it and/or modify
 #    it under the terms of the GNU General Public License as published by
@@ -296,9 +296,8 @@ def send_mail(to, subject, message, frome=None, show_to=False):
         if smtpresult:
             errstr = ""
             for recip in smtpresult.keys():
-                errstr += """Ne peut pas envoyer le message a: %s
-    Le serveur a répondu : %s
-    %s""" % (recip, smtpresult[recip][0], smtpresult[recip][1])
+                errstr += _("MSG_utilities_smtp_error") % recip \
+                    + smtpresult[recip][0] + ' ' + smtpresult[recip][1]
 
             send_mail.session = None
             return errstr

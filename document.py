@@ -19,23 +19,22 @@
 #
 #    Contact: Thierry.EXCOFFIER@bat710.univ-lyon1.fr
 
-
-import utilities
-import configuration
-import data
 import os
 import time
 import threading
+import socket
+import re
+import collections
+import utilities
+import configuration
+import data
 import teacher
 from files import files
-import socket
 import inscrits
 import column
 from cell import CellValue, Lines, cellempty
 import sender
 import plugins
-import re
-import collections
 
 def check_table(t):
     cols = tuple(t.lines.lines.values())
@@ -69,9 +68,9 @@ canceled_loads = []
 tables_of_student = {}
 
 class Page(object):
-    def __init__(self, ticket, user_name, page_id, ttable,
+    def __init__(self, the_ticket, user_name, page_id, ttable,
                  user_ip, user_browser, date=None):
-        self.ticket = ticket
+        self.ticket = the_ticket
         self.user_name = user_name
         self.page_id = page_id
         self.table = ttable
@@ -81,14 +80,14 @@ class Page(object):
         self.user_browser = user_browser
         self.date = date
 
-    def check_identity(self, ticket, user_name, user_ip, user_browser):
+    def check_identity(self, the_ticket, user_name, user_ip, user_browser):
         # Allow IP change with the same identity
-        if (ticket == self.ticket
+        if (the_ticket == self.ticket
             and user_name == self.user_name
             and user_browser == self.user_browser):
             return
         warn('received ticket=%s user_name=%s user_browser=%s ip=%s' % (
-            ticket, user_name, user_browser, user_ip), what="Info")
+            the_ticket, user_name, user_browser, user_ip), what="Info")
         warn('current  ticket=%s user_name=%s user_browser=%s ip=%s' % (
             self.ticket, self.user_name, self.user_browser, self.user_ip),
              what="Info")
@@ -498,16 +497,17 @@ class Table(object):
                         utilities.send_mail_in_background(
                             inscrits.L_fast.mail(user),
                             # XXX need translation
-                            'Vous avez des ennuis avec TOMUSS ?',
+                            utilities._("MSG_document_problems"),
                             unicode(utilities.read_file(os.path.join('FILES',
                                                              'mail_cancel')),
                                     'utf8').encode('latin1')
                             )
 
                     # Send a mail to the maintainer
-                    utilities.send_backtrace(repr(nr), 'Canceled page load: '
-                                             + user,
-                                             exception=False)
+                    utilities.send_backtrace(
+                        repr(nr),
+                        utilities._("MSG_document_canceled") + user,
+                        exception=False)
                         
                 continue
             if value is True:
@@ -553,7 +553,7 @@ class Table(object):
 
         a_column = self.columns.from_id(col)
         if a_column == None:
-            raise ValueError("Bug in 'cell_change' can't find column %s" % col)
+            raise ValueError(utilities._("MSG_document_bug_column") % col)
 
         on_a_new_line = lin not in self.lines
         line = self.lines[lin]
@@ -567,7 +567,7 @@ class Table(object):
                 utilities.warn('cell value = (%s)' % cell.value)
                 return self.bad_auth(page)
             if a_column.locked and page.user_name != data.ro_user:
-                self.error(page, 'Locked column')
+                self.error(page, utilities._("MSG_document_column_locked"))
                 return 'bad.png'
 
         old_value = str(cell.value)
@@ -738,36 +738,38 @@ class Table(object):
               empty_even_if_column_created=False,
               ):
         if not empty_even_if_used_page and self.active_pages:
-            return False, 'There is active pages'
+            return False, utilities._("MSG_document_table_active")
         if not empty_even_if_created_today and time.time()-self.mtime <24*3600:
-            return False, 'Created/Modified today'
+            return False, utilities._("MSG_document_table_today")
         if self.comment:
-            return False, 'There is a table comment: %s' % self.comment
+            return False, utilities._("MSG_document_table_comment"
+                                      ) % self.comment
         if not empty_even_if_column_created:
             for c in self.columns:
                 if c.author != data.ro_user:
-                    return False, 'A column title is set'
+                    return False, utilities._("MSG_document_table_title")
         if sorted(self.masters) != sorted(self.teachers):
-            return False, 'A new master is defined'
+            return False, utilities._("MSG_document_table_master")
         for line in self.lines.values():
             for j in line:
                 if not j.empty():
-                    return False, 'A cell is not empty'
+                    return False, utilities._("MSG_document_table_cell")
                 if j.comment:
-                    return False, 'A cell is with a comment'
+                    return False, utilities._("MSG_document_table_cell_comment")
 
-        return True, '%d lines' % len(self.lines)
+        return True, utilities._("MSG_document_table_lines") % len(self.lines)
 
     def problem_in_column_name(self):
         names = set()
         for c in self.columns:
             if c.title in names:
-                return 'Duplicate name: ' + c.title
+                return utilities._("MSG_document_table_duplicate") + c.title
             names.add(c.title)
         for c in self.columns:
             for name in c.depends_on():
                 if name not in names:
-                    return '"%s" use non-existent column "%s"' %(c.title, name)
+                    return utilities._("MSG_document_table_no_column") % (
+                        c.title, name)
         
 
     def table_comment(self, page, comment):

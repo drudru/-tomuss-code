@@ -165,12 +165,13 @@ def get_path(server, server_url):
                     server.send_response(200)
                     server.send_header('Content-Type', 'text/html')
                     server.end_headers()
-                    server.wfile.write('Vous pouvez <a href="javascript:window.close()">fermer</a> cette page.<script>window.close();</script>')
+                    server.wfile.write(server._("MSG_authentication_close")
+                                       + '<script>window.close();</script>')
                 else:
                     server.send_response(200)
                     server.send_header('Content-Type', 'text/html')
                     server.end_headers()
-                    server.wfile.write('There is a problem...')
+                    server.wfile.write(server._("TIP_violet_square"))
                     utilities.send_backtrace('bad allow request',
                                              exception=False)
                 return None, None

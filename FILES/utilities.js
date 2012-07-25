@@ -567,8 +567,6 @@ function on_windows()
   return navigator.platform.indexOf('Win') != -1 ;
 }
 
-var allow_popup_message = 'Vous devez autoriser les "popup" dans votre navigateur.\nTOMUSS ne fonctionnera pas correctement si vous les bloquez.\n\nPour les débloquer, il y a un petit icone vers la droite de l\'adresse de la page' ;
-
 var window_counter = 0 ;
 function window_open(url, replace)
 {
@@ -1639,7 +1637,8 @@ function current_update_cell_headers()
   else
     {
       var s = ['<table class="colored">'] ;
-      s.push('<tr><th>Date<th>Qui<th>Valeur</tr>') ;
+      s.push('<tr><th>' + _("B_Date") + '<th>' + _('TH_who') + '<th>'
+	     + _("TH_value") + '</tr>') ;
       s.push('<tr><td>' + date(cell.date) + '<td>'
 	     + cell.get_author() + '<td>'
 	     + html(cell.value) + '</tr>') ;

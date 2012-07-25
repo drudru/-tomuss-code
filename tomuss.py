@@ -19,13 +19,13 @@
 #
 #    Contact: Thierry.EXCOFFIER@bat710.univ-lyon1.fr
 
-import configuration
-import BaseHTTPServer
-import utilities
-import document
 import time
 import sys
 import os
+import BaseHTTPServer
+import configuration
+import utilities
+import document
 from files import files
 import ticket
 import sender
@@ -237,7 +237,7 @@ class MyRequestBroker(utilities.FakeRequestHandler):
                     if self.plugin.mimetype == 'image/png':
                         self.wfile.write(files['bug.png'])
                     else:
-                        self.wfile.write('Il y a un bug')
+                        self.wfile.write('There is a bug')
                 else:
                     self.send_file('bug.png')
             except:
@@ -297,16 +297,9 @@ if __name__ == "__main__":
 
     utilities.start_new_thread_immortal(sender.live_status_send_thread, ())
 
-    print '''
-
-******************************************************************************
-First time TOMUSS user, goto :   http://127.0.0.1:8888/=super.user
-Type 's' in the UE search box.
-Type 'a' in the student search box.
-******************************************************************************
-
-
-'''
+    print '\n\n\n' +'*'*78
+    print utilities._("MSG_tomuss_start")
+    print '*'*78 + '\n\n'
 
     while running:
         server.handle_request()
