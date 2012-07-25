@@ -1055,15 +1055,15 @@ def init():
     start_new_thread_immortal(sendmail_thread, (), send_mail=False)
     configuration.ampms_full = [
         unicode(ampm, 'utf-8') for ampm in eval(_("MSG_ampms_full"))]
-    configuration.yes = _("yes")
-    configuration.no = _("no")
+    s = ""
+    for k in ("yes", "no", "abi", "abj", "pre", "tnr", "ppn"):
+        configuration.__dict__[k] = _(k)
+        s += "var %s = %s, " % (k, js(_(k)))
+        k += "_char"
+        configuration.__dict__[k] = _(k)
+        s += "%s = %s;\n" % (k, js(_(k)))
     import files # Here to avoid circular import
-    files.files['types.js'].append(
-        "utilities.py",
-        "var yes=%s, no=%s, yes_char=%s, no_char=%s ;\n" % (
-            js(configuration.yes), js(configuration.no),
-            js(_("yes_char")), js(_("no_char")),
-            ))
+    files.files['types.js'].append("utilities.py", s)
 
 if __name__ == "__main__":
     def square(g):

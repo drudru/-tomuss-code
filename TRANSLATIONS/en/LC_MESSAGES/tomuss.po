@@ -4400,3 +4400,34 @@ msgstr "NO"
 
 msgid "no_char"
 msgstr "N"
+
+msgid "abi"
+msgstr "ILV"
+
+msgid "abi_char"
+msgstr "I"
+
+msgid "abj"
+msgstr "JLV"
+
+msgid "abj_char"
+msgstr "J"
+
+msgid "ppn"
+msgstr "CG"
+
+msgid "ppn_char"
+msgstr "C"
+
+msgid "pre"
+msgstr "PRST"
+
+msgid "pre_char"
+msgstr "P"
+
+msgid "tnr"
+msgstr "WNG"
+
+msgid "tnr_char"
+msgstr "W"
+

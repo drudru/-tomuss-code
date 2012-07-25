@@ -19,10 +19,6 @@
     Contact: Thierry.EXCOFFIER@bat710.univ-lyon1.fr
 */
 
-var abi = "ABINJ" ;
-var abj = "ABJUS" ;
-var ppn = "PPNOT" ;
-var pre = "PRST" ;
 var default_title = "Séance" ;
 
 function update_filters(unused_column)
