@@ -4465,17 +4465,26 @@ msgstr "N"
 msgid "abi"
 msgstr "ABINJ"
 
+msgid "abi_short"
+msgstr "ABI"
+
 msgid "abi_char"
 msgstr "I"
 
 msgid "abj"
 msgstr "ABJUS"
 
+msgid "abj_short"
+msgstr "ABJ"
+
 msgid "abj_char"
 msgstr "J"
 
 msgid "ppn"
 msgstr "PPNOT"
+
+msgid "ppn_short"
+msgstr "PPN"
 
 msgid "ppn_char"
 msgstr "N"

@@ -1059,6 +1059,9 @@ def init():
     for k in ("yes", "no", "abi", "abj", "pre", "tnr", "ppn"):
         configuration.__dict__[k] = _(k)
         s += "var %s = %s, " % (k, js(_(k)))
+        k_short = k + '_short'
+        if _(k_short) != k_short:
+            s += "%s = %s, " % (k_short, js(_(k_short)))
         k += "_char"
         configuration.__dict__[k] = _(k)
         s += "%s = %s;\n" % (k, js(_(k)))

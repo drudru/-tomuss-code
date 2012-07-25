@@ -4402,18 +4402,27 @@ msgid "no_char"
 msgstr "N"
 
 msgid "abi"
+msgstr "InjLeave"
+
+msgid "abi_short"
 msgstr "ILV"
 
 msgid "abi_char"
 msgstr "I"
 
 msgid "abj"
+msgstr "JusLeave"
+
+msgid "abj_short"
 msgstr "JLV"
 
 msgid "abj_char"
 msgstr "J"
 
 msgid "ppn"
+msgstr "CantGrade"
+
+msgid "ppn_short"
 msgstr "CG"
 
 msgid "ppn_char"
