@@ -24,6 +24,7 @@ import column
 import document
 from tablestat import TableStat, les_ues
 from cell import CellEmpty, CellValue, Line
+import configuration
 
 def table_statistics(server):
     """Create a table of statistics about all the tables."""
@@ -146,7 +147,7 @@ def table_statistics(server):
                 CellValue(t.date_max),
                 CellValue(t.nr_inscrits),
                 CellValue(t.nr_not_inscrits),
-                CellValue(t.t.is_extended and 'OUI' or 'NON'),
+                CellValue(t.t.is_extended and configuration.yes or configuration.no),
                 CellValue(t.t.empty()[1]),
                 CellValue(len([g for g in t.group_and_seq if g != ''])),
                 CellValue(t.t.problem_in_column_name()),

@@ -82,10 +82,10 @@ def stat_referent(f, year, semester, server):
         StatCol( ('Contacté',)),
         StatCol( ('Contacté_2',)),
         StatCol( ('ContratSigné 2',)),
-        StatCol( ('ContratRespecté',), increment=lambda x: x == 'OUI'),
-        StatCol( ('ContratNonRespecté',), increment=lambda x: x == 'NON'),
-        StatCol( ('ContratRespecté_2',), increment=lambda x: x == 'OUI'),
-        StatCol( ('ContratNonRespecté_2',), increment=lambda x: x == 'NON'),
+        StatCol( ('ContratRespecté',), increment=lambda x: x == configuration.yes),
+        StatCol( ('ContratNonRespecté',), increment=lambda x: x == configuration.no),
+        StatCol( ('ContratRespecté_2',), increment=lambda x: x == configuration.yes),
+        StatCol( ('ContratNonRespecté_2',), increment=lambda x: x == configuration.no),
     )
 
     nr_students = 0

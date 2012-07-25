@@ -136,18 +136,18 @@ def update_inscrits_referents(the_ids, table, page):
         # COpy/Paste with Favoris.py
         if referent.need_a_charte(login):
             if utilities.manage_key('LOGINS', utilities.charte(login)):
-                s = 'OUI'
+                s = configuration.yes
             else:
-                s = 'NON'
+                s = configuration.no
         else:
             if utilities.manage_key('LOGINS', os.path.join(login, 'rsskey')):
-                s = 'OUI'
+                s = configuration.yes
             else:
-                s = 'NON'
+                s = configuration.no
         if configuration.student_in_first_year(login):
-            pe = 'OUI'
+            pe = configuration.yes
         else:
-            pe = 'NON'
+            pe = configuration.no
         table.lock()
         try:
             lines = list(table.get_items(login))

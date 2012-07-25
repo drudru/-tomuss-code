@@ -90,14 +90,14 @@ def update_inscrits_favoris(the_ids, table, page):
         # COpy/Paste with Referents.py
         if referent.need_a_charte(login):
             if utilities.manage_key('LOGINS', utilities.charte(login)):
-                s = 'OUI'
+                s = utilities._("yes")
             else:
-                s = 'NON'
+                s = utilities._("no")
         else:
             if utilities.manage_key('LOGINS', os.path.join(login, 'rsskey')):
-                s = 'OUI'
+                s = utilities._("yes")
             else:
-                s = 'NON'
+                s = utilities._("no")
         table.lock()
         try:
             lines = list(table.get_items(login))

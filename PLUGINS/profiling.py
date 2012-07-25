@@ -146,7 +146,7 @@ def run(service_name, lines):
                         cell.CellValue(dd.sum),
                         cell.CellValue(dd.nr),
                         cell.CellValue(launch_thread == '*'
-                                       and 'OUI' or ''),
+                                       and configuration.yes or ''),
                         cell.CellValue(dd.problems()
                                        and dd.problems()*100 or ''),
                         cell.CellValue(when),

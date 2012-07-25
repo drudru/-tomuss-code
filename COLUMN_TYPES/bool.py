@@ -58,4 +58,4 @@ class Bool(note.Note):
 
     def formatter(self, column, value, cell, lines, teacher, ticket, line_id):
         return option_list(column, value, cell, lines, teacher, ticket,line_id,
-                           ('', 'OUI', 'NON'))
+                           ('', configuration.yes, configuration.no))

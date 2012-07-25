@@ -4449,3 +4449,16 @@ msgstr "Ne peut pas envoyer le message a : %s\n"
 
 msgid "TH_who"
 msgstr "Qui"
+
+msgid "yes"
+msgstr "OUI"
+
+msgid "yes_char"
+msgstr "O"
+
+msgid "no"
+msgstr "NON"
+
+msgid "no_char"
+msgstr "N"
+

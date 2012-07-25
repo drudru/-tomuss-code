@@ -20,21 +20,22 @@
 #    Contact: Thierry.EXCOFFIER@bat710.univ-lyon1.fr
 
 import data
+import configuration
 import utilities
 
-prefs = {'display_tips'   : "OUI",
+prefs = {'display_tips'   : configuration.yes,
          'nr_favorites'   : "6"  ,
          'nr_lines'       : "0"  ,
          'nr_cols'        : "0"  ,
          'zebra_step'     : "5"  ,
          'page_step'      : "1"  ,
-         'invert_name'    : "OUI",
-         'scrollbar_right': "OUI",
-         'favoris_sort'   : "NON",
-         'v_scrollbar'    : "OUI",
+         'invert_name'    : configuration.yes,
+         'scrollbar_right': configuration.yes,
+         'favoris_sort'   : configuration.no,
+         'v_scrollbar'    : configuration.yes,
          'v_scrollbar_nr' : "1"  ,
          'interface'      : "N"  ,
-         'current_suivi'  : "NON",
+         'current_suivi'  : configuration.no,
          'language'       : ""   ,
          }
 

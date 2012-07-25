@@ -627,7 +627,7 @@ function update_ues_favorites(txt, txt_upper)
   ues_favorites_sorted.sort(cmp_favorites) ;
   ues_favorites_sorted= ues_favorites_sorted.slice(0,preferences.nr_favorites);
 
-  if ( preferences.favoris_sort === "OUI" )
+  if ( preferences.favoris_sort === configuration.yes )
     ues_favorites_sorted.sort() ;
   
   var s = ['<tr><th colspan="3">' +
@@ -1131,7 +1131,7 @@ function go_suivi(x)
 
 function go_suivi_student(x)
 {
-  if ( preferences.current_suivi == 'NON' )
+  if ( preferences.current_suivi == configuration.no )
     goto_url(suivi[year_semester()] + "/" + x) ;
   else
     goto_url(suivi[current_year_semester()] + "/" + x) ;

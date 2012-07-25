@@ -423,9 +423,9 @@ def tierstemps(student_id, aall=False, table_tt=None):
         if line[5].value:
             html += _("COL_COMMENT_+practical") + " : %s\n" % (
                 translate_tt(line[5].value))
-        if line[6].value == 'OUI':
+        if line[6].value == configuration.yes:
             html += _("COL_COMMENT_+assistant") + "\n"
-        if line[7].value == 'OUI':
+        if line[7].value == configuration.yes:
             html += _("COL_COMMENT_+room") + "\n"
         if line[10].value:
             html += unicode(line[10].value, 'utf-8') + '\n'

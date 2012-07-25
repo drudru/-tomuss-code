@@ -22,6 +22,7 @@
 import plugin
 from tablestat import les_ues
 import utilities
+import configuration
 
 def bad_student_with_notes(f, year, semester, _):
     f.write('<title>' + _("TITLE_suivi_bad_student") + '</title>\n')
@@ -43,7 +44,12 @@ def bad_student_with_notes(f, year, semester, _):
                 continue
             s = []
             for cell in line[coli+1:]:
-                if cell.value and cell.value != 'ABINJ' and cell.value != '0' and cell.value != 0 and cell.value != 'OUI' and cell.value != 'NON':
+                if (cell.value
+                    and cell.value != 'ABINJ'
+                    and cell.value != '0'
+                    and cell.value != 0
+                    and cell.value != configuration.yes
+                    and cell.value != configuration.no):
                     s.append(cell.value)
             if len(s) == 0:
                 continue

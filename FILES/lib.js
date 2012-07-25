@@ -26,7 +26,6 @@ var horizontal_scrollbar_height = 10 ;
 var nr_headers = 2 ;
 var bs = '<td>' ;
 var maximum_url_length = 3000 ;
-
 var is_a_teacher = false ;
 
 // Work value

@@ -29,9 +29,9 @@ function test_bool(value, column)
   if ( value === undefined )
     return '' ;
   var v = value.toUpperCase() ;
-  if ( v == 'O' || v == '1' || v == 'Y' || v == 'OUI' || v == yes )
+  if ( v == yes_char || v == '1' || v == yes )
     return yes ;
-  if ( v == 'N' || v == '0' || v == 'NON' || v == no )
+  if ( v == no_char || v == '0' || v == no )
     return no ;
   return '' ;
 }

@@ -63,7 +63,7 @@ def check(table):
 
     table.lock()
 
-    d =  {None: '',True:'OUI',False:'NON'}
+    d =  {None: '',True: configuration.yes,False:configuration.no}
 
     try:
         for p in plugin.plugins + plugins.suivi_plugins:

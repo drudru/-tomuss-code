@@ -191,7 +191,7 @@ msgstr ""
 "<li> 'Present': a 'presence' indicator\n"
 "<li> 'Number of': count the number of cell verifying a condition\n"
 "<li> 'Date':  DD/MM/YYYY month and year optionnal\n"
-"<li> 'Boolean' : OUI or NON\n"
+"<li> 'Boolean' : YES or NO\n"
 "<li> 'Maximum' : Maximum value\n"
 "</ul>"
 
@@ -1784,7 +1784,7 @@ msgstr "Column title, click it to <b>sort</b> it or reverse the sort.<br>\n"
        "to <b>change the title</b>: do it in the «Column» tab"
 
 msgid "TIP_cell_Bool"
-msgstr "Boolean, enter O : yes, N : no"
+msgstr "Boolean, enter Y : yes, N : no"
 
 msgid "TIP_cell_Text"
 msgstr "Free text"
@@ -4388,3 +4388,15 @@ msgstr "Can't send mail to: %s\n"
 
 msgid "TH_who"
 msgstr "Who"
+
+msgid "yes"
+msgstr "YES"
+
+msgid "yes_char"
+msgstr "Y"
+
+msgid "no"
+msgstr "NO"
+
+msgid "no_char"
+msgstr "N"

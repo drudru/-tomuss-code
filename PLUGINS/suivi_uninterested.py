@@ -81,7 +81,8 @@ def uninterested(server):
             for cell in line[coli+1:]:
                 if (cell.value and cell.value != 'ABINJ'
                     and cell.value != '0' and cell.value != 0
-                    and cell.value != 'OUI' and cell.value != 'NON'):
+                    and cell.value != configuration.yes
+                    and cell.value != configuration.no):
                     students_notes[s] += 1
             try:
                 ue = t.ue.split('-')[1]

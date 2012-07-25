@@ -57,12 +57,15 @@ uyear = utilities.university_year()
 ys = '%d/%s' % (year, semester)
 ys_old = '%d/%s' % (year-1, semester)
 
-abj_date_old      = '1/1/%d' % (utilities.university_year()-2)
-abj_date_previous = '1/1/%d' % (utilities.university_year()-1)
-abj_date_current  = '1/1/%d' % (utilities.university_year())
-abj_date_next     = '31/12/%d' % (utilities.university_year()+1)
+abj_date_old      = '1/1/%d' % (uyear-2)
+abj_date_previous = '1/1/%d' % (uyear-1)
+abj_date_current  = '1/1/%d' % (uyear)
+abj_date_next     = '31/12/%d' % (uyear+1)
 
-print ys, utilities.university_year()
+print ys, uyear
+
+_ = utilities._
+
 
 names = open('xxx.names','w')
 
@@ -92,34 +95,34 @@ def create_tt():
     done['create_tt'] = True
 
     global c
-    c = s.url('=' + abj + '/%d/Dossiers/tt' % utilities.university_year())
-    assert('Col({the_id:"0_10",type:"Text",author:"*",position:10,title:"%s",width:13})' % utilities._("COL_TITLE_tt_remarks") in c)
+    c = s.url('=' + abj + '/%d/Dossiers/tt' % uyear)
+    assert('Col({the_id:"0_10",type:"Text",author:"*",position:10,title:"%s",width:13})' % _("COL_TITLE_tt_remarks") in c)
 
-    c = s.url('=' + abj + '/%d/Dossiers/tt' % utilities.university_year()
+    c = s.url('=' + abj + '/%d/Dossiers/tt' % uyear
               + '/1/0/cell_change/0_0/0_0/10800000')
     assert( c == ok_png)
-    c = s.url('=' + abj + '/%d/Dossiers/tt' % utilities.university_year()
+    c = s.url('=' + abj + '/%d/Dossiers/tt' % uyear
               + '/1/1/cell_change/0_1/0_0/P')
     assert( c == ok_png)
-    c = s.url('=' + abj + '/%d/Dossiers/tt' % utilities.university_year()
+    c = s.url('=' + abj + '/%d/Dossiers/tt' % uyear
               + '/1/2/cell_change/0_2/0_0/N')
     assert( c == ok_png)
-    c = s.url('=' + abj + '/%d/Dossiers/tt' % utilities.university_year()
+    c = s.url('=' + abj + '/%d/Dossiers/tt' % uyear
               + '/1/3/cell_change/0_3/0_0/1')
     assert( c == ok_png)
-    c = s.url('=' + abj + '/%d/Dossiers/tt' % utilities.university_year()
+    c = s.url('=' + abj + '/%d/Dossiers/tt' % uyear
               + '/1/4/cell_change/0_4/0_0/1')
     assert( c == ok_png)
-    c = s.url('=' + abj + '/%d/Dossiers/tt' % utilities.university_year()
+    c = s.url('=' + abj + '/%d/Dossiers/tt' % uyear
               + '/1/5/cell_change/0_5/0_0/1')
     assert( c == ok_png)
-    c = s.url('=' + abj + '/%d/Dossiers/tt' % utilities.university_year()
-              + '/1/6/cell_change/0_6/0_0/OUI')
+    c = s.url('=' + abj + '/%d/Dossiers/tt' % uyear
+              + '/1/6/cell_change/0_6/0_0/' + _("yes"))
     assert( c == ok_png)
-    c = s.url('=' + abj + '/%d/Dossiers/tt' % utilities.university_year()
-              + '/1/7/cell_change/0_7/0_0/OUI')
+    c = s.url('=' + abj + '/%d/Dossiers/tt' % uyear
+              + '/1/7/cell_change/0_7/0_0/' + _("yes"))
     assert( c == ok_png)
-    c = s.url('=' + abj + '/%d/Dossiers/tt' % utilities.university_year()
+    c = s.url('=' + abj + '/%d/Dossiers/tt' % uyear
               + '/1/8/cell_change/0_10/0_0/TTT')
     assert( c == ok_png)
 
@@ -183,7 +186,7 @@ def create_referents():
 
     # Create a column in referents table (a a line)
     c = s.url('=a_referent/referent_get/10900000')
-    assert(utilities._("MSG_referent_get_done") in c)
+    assert(_("MSG_referent_get_done") in c)
     assert('10900000' in c)
     
     c = s.url('=' + abj + '/%s/referents_students' % ys +
@@ -238,7 +241,7 @@ def tests():
         # Second load : full table is here
         c = s.url('=' + abj + '/0/Preferences/'+utilities.login_to_module(abj))
         assert('P("zebra_step",[' in c)
-        assert('Col({the_id:"0_2",type:"Text",author:"*",freezed:"F",hidden:1,position:2,title:"%s",width:2})' % utilities._("COL_TITLE_order") in c)
+        assert('Col({the_id:"0_2",type:"Text",author:"*",freezed:"F",hidden:1,position:2,title:"%s",width:2})' % _("COL_TITLE_order") in c)
         assert('Xcell_change(' not in c)
         assert("x.value=" not in c)
         nr_pages += 1
@@ -837,8 +840,8 @@ def tests():
         c = s.url('=' + abj + '/%s/abj/list_mail' % ys)
         assert('UE-INF20UE2L: ' in c)
         assert('UE-INF20UE2: ' not in c)
-        assert(utilities._("MSG_no_master") in c)
-        assert(utilities._("MSG_abj_send") % 0 in c)
+        assert(_("MSG_no_master") in c)
+        assert(_("MSG_abj_send") % 0 in c)
 
         create_u2()
 
@@ -853,7 +856,7 @@ def tests():
             abj_date_current, abj_date_next, year) in c)
 
         c = s.url('=' + root + '/%s/UE-INF20UE2/resume' % ys)
-        assert(utilities._("TH_ABJ_list") in c)
+        assert(_("TH_ABJ_list") in c)
         assert('10800000 10800000SURNAME 10800000Firstname' in c)
         # assert('Du %s matin au %s apr' % (
         #    abj_date_current, abj_date_next) in c)
@@ -875,7 +878,7 @@ def tests():
             abj_date_current, abj_date_next, year) in c)
 
         c = s.url('=' + root + '/%s/UE-INF20UE2/resume' % ys)
-        assert(utilities._("TH_ABJ_list") in c)
+        assert(_("TH_ABJ_list") in c)
         assert('10800000 10800000SURNAME 10800000Firstname' in c)
         # assert('Du %s matin au %s apr' % (
         #    abj_date_current, abj_date_next) in c)
@@ -890,35 +893,35 @@ def tests():
         c = s.url('=' + abj + '/%s/extension/1/0/table_attr_masters/' % ys + abj)
         assert( c == ok_png)
         c = s.url('=' + abj + '/%s/extension/extension' % ys)
-        assert( utilities._("MSG_extension_ok").split('\n')[1] in c)
+        assert( _("MSG_extension_ok").split('\n')[1] in c)
 
     if do('tt'):
         create_tt()
 
         c = s.url('=' + root + '/%s/UE-INF20UE2' % ys)
-        assert(utilities._("COL_COMMENT_+room") + '\\nTTT\\n' in c)
-        assert(utilities._("COL_COMMENT_+write") + ' : 1/3\\n' in c)
-        assert(utilities._("COL_COMMENT_+speech") + ' : 1/3\\n' in c)
-        assert(utilities._("COL_COMMENT_+practical") + ' : 1/3\\n' in c)
-        assert(utilities._("COL_COMMENT_+assistant") in c)
+        assert(_("COL_COMMENT_+room") + '\\nTTT\\n' in c)
+        assert(_("COL_COMMENT_+write") + ' : 1/3\\n' in c)
+        assert(_("COL_COMMENT_+speech") + ' : 1/3\\n' in c)
+        assert(_("COL_COMMENT_+practical") + ' : 1/3\\n' in c)
+        assert(_("COL_COMMENT_+assistant") in c)
 
         s.stop()
         s.restart()
 
         c = s.url('=' + root + '/%s/UE-INF20UE2' % ys)
-        assert(utilities._("COL_COMMENT_+room") + '\\nTTT\\n' in c)
-        assert(utilities._("COL_COMMENT_+write") + ' : 1/3\\n' in c)
-        assert(utilities._("COL_COMMENT_+speech") + ' : 1/3\\n' in c)
-        assert(utilities._("COL_COMMENT_+practical") + ' : 1/3\\n' in c)
-        assert(utilities._("COL_COMMENT_+assistant") in c)
+        assert(_("COL_COMMENT_+room") + '\\nTTT\\n' in c)
+        assert(_("COL_COMMENT_+write") + ' : 1/3\\n' in c)
+        assert(_("COL_COMMENT_+speech") + ' : 1/3\\n' in c)
+        assert(_("COL_COMMENT_+practical") + ' : 1/3\\n' in c)
+        assert(_("COL_COMMENT_+assistant") in c)
 
         c = s.url('=' + root + '/%s/UE-INF20UE2/resume' % ys)
         assert('- TTT' in c)
-        assert(utilities._("COL_COMMENT_+room")  in c)
-        assert(utilities._("COL_COMMENT_+assistant") in c)
-        assert(utilities._("COL_COMMENT_+practical") + ' : 1/3' in c)
-        assert(utilities._("COL_COMMENT_+write") + ' : 1/3' in c)
-        assert(utilities._("COL_COMMENT_+speech") + ' : 1/3' in c)
+        assert(_("COL_COMMENT_+room")  in c)
+        assert(_("COL_COMMENT_+assistant") in c)
+        assert(_("COL_COMMENT_+practical") + ' : 1/3' in c)
+        assert(_("COL_COMMENT_+write") + ' : 1/3' in c)
+        assert(_("COL_COMMENT_+speech") + ' : 1/3' in c)
 
     if do('delcol'):
         c = s.url('=' + abj + '/%d/Dossiers/delcol' % uyear)
@@ -956,7 +959,7 @@ Col({the_id:"col_1",type:"Note",author:"%s",position:0,title:"TITLE1"})
         create_u2()
         ss.start()
         c = ss.url('%s/rss/10800000' % ys)
-        assert(utilities._("MSG_suivi_student_RSS_forbiden_title") in c)
+        assert(_("MSG_suivi_student_RSS_forbiden_title") in c)
         key = utilities.manage_key('LOGINS', '10800001/rsskey')
         assert(key is False)
         c = ss.url('=%s/%s/%%2010800000' % (root, ys))
@@ -979,7 +982,7 @@ Col({the_id:"col_1",type:"Note",author:"%s",position:0,title:"TITLE1"})
         assert('Col({the_id:"col_0",type:"Note",author:"%s",position:6,title:"TITLE0"})' % root in c)
         assert('),C(11.11,"%s","' % root in c)
         assert(r"\"MSG_Note_rank_before\",\"\x3Cb\x3E1\x3C/b\x3E\");\nWrite(\"MSG_Note_rank_middle\",\"\x3Cb\x3E1\x3C/b\x3E\");\nWrite(\"MSG_Note_rank_after_1\");\x3C/script\x3E\x3Cbr\x3E\x3Cscript\x3E\nWrite(\"MSG_Note_rank_before\",\"\x3Cb\x3E2\x3C/b\x3E\");\nWrite(\"MSG_Note_rank_middle\",\"\x3Cb\x3E2\x3C/b\x3E\");\nWrite(\"MSG_Note_rank_after_2\"" in c)
-        assert(utilities._("MSG_cell_message")+"<em>_TABLE_COMMENT_</em>" in c)
+        assert(_("MSG_cell_message")+"<em>_TABLE_COMMENT_</em>" in c)
 
         c = s.url('=' + root + '/%s/UE-XXX9999L' % ys)
         c = s.url('=' + root + '/%s/UE-XXX9999L' % ys +
@@ -998,10 +1001,11 @@ Col({the_id:"col_1",type:"Note",author:"%s",position:0,title:"TITLE1"})
         assert('/=%s/%s/UE-XXX9999L\\">UE-XXX9999L </a>' % (abj,ys) in c)
 
         assert(r'''"TITLE0": ["\x3Cselect class=\"hidden\" onchange=\"_cell(this,'http://''' in c)
-        assert(r'''/=%s/%d/Printemps/UE-XXX9999L/cell/col_0/0_0');\"\x3E\x3Coption value=\"\"  selected=\"1\"\x3E\x3C/option\x3E\x3Coption value=\"OUI\" \x3EOUI\x3C/option\x3E\x3Coption value=\"NON\" \x3ENON\x3C/option\x3E\x3C/select\x3E","",""]''' % (abj, year) in c)
+        assert(r'''/=%s/%d/Printemps/UE-XXX9999L/cell/col_0/0_0');\"\x3E\x3Coption value=\"\"  selected=\"1\"\x3E\x3C/option\x3E\x3Coption value=\"%s\" \x3E%s\x3C/option\x3E\x3Coption value=\"%s\" \x3E%s\x3C/option\x3E\x3C/select\x3E","",""]''' % (abj, year, _("yes"), _("yes"), _("no"), _("no")) in c)
         assert('toto' in c)
 
-        c = s.url('=' + abj + '/%s/UE-XXX9999L/cell/col_0/0_0/OUI' % ys)
+        c = s.url('=' + abj + '/%s/UE-XXX9999L/cell/col_0/0_0/%s' % (
+                ys, _("yes")))
         assert('<body style="background:green">' == c)
 
         c = ss.url('=' + abj + '/%s/unload/UE-XXX9999L' % ys)
@@ -1011,9 +1015,10 @@ Col({the_id:"col_1",type:"Note",author:"%s",position:0,title:"TITLE1"})
         assert('/=%s/%s/UE-INF20UE2\\">UE-INF20UE2 </a>' % (abj,ys) in c)
         assert('/=%s/%s/UE-XXX9999L\\">UE-XXX9999L </a>' % (abj,ys) in c)
         assert(r'''"TITLE0": ["\x3Cselect class=\"hidden\" onchange=\"_cell(this,'http://''' in c)
-        assert(r'''/=%s/%s/Printemps/UE-XXX9999L/cell/col_0/0_0');\"\x3E\x3Coption value=\"\" \x3E\x3C/option\x3E\x3Coption value=\"OUI\"  selected=\"1\"\x3EOUI\x3C/option\x3E\x3Coption value=\"NON\" \x3ENON\x3C/option\x3E\x3C/select\x3E","",""]''' % (abj, year) in c)
+        assert(r'''/=%s/%s/Printemps/UE-XXX9999L/cell/col_0/0_0');\"\x3E\x3Coption value=\"\" \x3E\x3C/option\x3E\x3Coption value=\"%s\"  selected=\"1\"\x3E%s\x3C/option\x3E\x3Coption value=\"%s\" \x3E%s\x3C/option\x3E\x3C/select\x3E","",""]''' % (abj, year, _("yes"), _("yes"), _("no"), _("no")) in c)
 
-        c = s.url('=' + root + '/%s/UE-XXX9999L/cell/col_0/0_0/NON' % ys)
+        c = s.url('=' + root + '/%s/UE-XXX9999L/cell/col_0/0_0/%s' % (
+                ys, _("no")))
         assert('<body style="background:red">' == c)
         
 
@@ -1024,7 +1029,7 @@ Col({the_id:"col_1",type:"Note",author:"%s",position:0,title:"TITLE1"})
         ss.start()
         c = ss.url('=' + abj + '/%s/%s' % (ys, root) )
         assert('/=%s/%s/UE-INF20UE2/=full_filter=@%s" target="_blank">%s %s UE-INF20UE2<' % (abj, ys, root, year, semester) in c)
-        assert(utilities._("MSG_suivi_student_ue_changes") % (3,1) in c)
+        assert(_("MSG_suivi_student_ue_changes") % (3,1) in c)
 
         c = ss.url('=' + root + '/%s/uninterested' % ys )
         assert('10800000' in c)
@@ -1032,11 +1037,11 @@ Col({the_id:"col_1",type:"Note",author:"%s",position:0,title:"TITLE1"})
         assert('<td>1</td>' in c)
 
         c = ss.url('=' + root + '/%s/*3' % ys )
-        assert(utilities._("MSG_suivi_referents_nr_referents") + '3' in c)
-        assert(utilities._("MSG_suivi_referents_nr_students") + '2' in c)
+        assert(_("MSG_suivi_referents_nr_referents") + '3' in c)
+        assert(_("MSG_suivi_referents_nr_students") + '2' in c)
 
         c = ss.url('=' + abj + '/%s/*1' % ys )
-        assert(utilities._("TITLE_suivi_bad_student") in c)
+        assert(_("TITLE_suivi_bad_student") in c)
         assert('10800000' not in c)
         assert('10800001' in c)
         assert('22.2' in c)
@@ -1051,11 +1056,11 @@ Col({the_id:"col_1",type:"Note",author:"%s",position:0,title:"TITLE1"})
         ss.start()
 
         c = ss.url('=' + abj + '/%s/*' % ys )
-        assert(utilities._("COL_TITLE_nb_cells_entered") in c)
+        assert(_("COL_TITLE_nb_cells_entered") in c)
         assert('{"0": [C("%s"),' % abj in c)
 
         c = ss.url('=' + abj + '/%s/*2' % ys )
-        assert(utilities._("COL_TITLE_nb_teachers") in c)
+        assert(_("COL_TITLE_nb_teachers") in c)
         # assert('P([C("teachers","*"),' in c)
         assert('"1": [C("UE-INF20UE2"),' in c)
 
@@ -1066,13 +1071,13 @@ Col({the_id:"col_1",type:"Note",author:"%s",position:0,title:"TITLE1"})
         c = s.url('=' + root + '/%s/UE-INF11UE2/1/1/table_attr_private/1' % ys)
         assert( c == ok_png)
         c = s.url('=' + abj + '/%s/UE-INF11UE2' % ys)
-        assert(utilities._("MSG_new_page_unauthorized") in c)
+        assert(_("MSG_new_page_unauthorized") in c)
         c = s.url('=' + root + '/%s/UE-INF11UE2/1/2/cell_change/0_0/0_0/10800000' % ys)
         c = s.url('=' + root + '/%s/UE-INF11UE2/1/3/cell_change/0_3/0_0/X'% ys)
         assert( c == ok_png)
         ss.start()
         c = ss.url('%s/rss2/UE-INF11UE2' % ys)
-        assert(utilities._("MSG_suivi_student_RSS_table").split("<br>")[1] % 4
+        assert(_("MSG_suivi_student_RSS_table").split("<br>")[1] % 4
                in c)
         c = ss.url('=' + abj + '/%s/10800000' % ys)
         assert('"Grp": ["X","",""],' in c)
@@ -1087,9 +1092,9 @@ Col({the_id:"col_1",type:"Note",author:"%s",position:0,title:"TITLE1"})
     if do('delete_this_table'):
         create_u2()
         c = s.url('=' + abj + '/%s/UE-INF20UE2/delete_this_table' % ys)
-        assert(utilities._("MSG_extension_not_master") in c)
+        assert(_("MSG_extension_not_master") in c)
         c = s.url('=ue1.master/%s/UE-INF20UE2/delete_this_table' % ys)
-        assert(utilities._("MSG_delete_this_table_done") in c)
+        assert(_("MSG_delete_this_table_done") in c)
         assert(check('%s/UE-INF20UE2.py', exists=False))
         assert(check('%s/UE-INF20UE2.pyc', exists=False))
 
@@ -1455,7 +1460,7 @@ cell_change(1,'0_2','ticket_time_to_live','%d',"")
        utilities.append_file(conf,
        'cell_change(1,"0_2","ticket_time_to_live","1000","")\n')
        c = s.url('=' + root + '/0/Dossiers/config_table/page_unload')
-       assert(utilities._("MSG_page_unload_after") in c)
+       assert(_("MSG_page_unload_after") in c)
        c = s.url('=' + root + '/0/Dossiers/config_table')
        assert( ok )
 
@@ -1514,34 +1519,34 @@ cell_change(1,'0_2','ticket_time_to_live','%d',"")
         assert('UE-modifcol/cell/C/0_1' not in c)
 
         # Not modifiable by student
-        c = s.url('=10800001/%s/UE-modifcol' % ys + '/cell/C/0_1/NON')
+        c = s.url('=10800001/%s/UE-modifcol' % ys + '/cell/C/0_1/' + _("no"))
         assert('red' in c)
-        c = s.url('=10800001/%s/UE-modifcol' % ys + '/cell/A/0_1/NON')
+        c = s.url('=10800001/%s/UE-modifcol' % ys + '/cell/A/0_1/' + _("no"))
         assert('red' in c)
 
         # For the teacher
-        c = s.url('=' + abj + '/%s/UE-modifcol' % ys + '/cell/C/0_1/OUI')
+        c = s.url('=' + abj + '/%s/UE-modifcol' % ys + '/cell/C/0_1/'+_("yes"))
         assert('red' in c)
-        c = s.url('=' + abj + '/%s/UE-modifcol' % ys + '/cell/A/0_1/OUI')
+        c = s.url('=' + abj + '/%s/UE-modifcol' % ys + '/cell/A/0_1/'+_("yes"))
         assert('green' in c)
-        c = s.url('=' + abj + '/%s/UE-modifcol' % ys + '/cell/B/0_1/OUI')
+        c = s.url('=' + abj + '/%s/UE-modifcol' % ys + '/cell/B/0_1/'+_("yes"))
         assert('green' in c)
 
         # The student can't modify a teacher note
-        c = s.url('=10800001/%s/UE-modifcol' % ys + '/cell/B/0_1/NON')
+        c = s.url('=10800001/%s/UE-modifcol' % ys + '/cell/B/0_1/' + _("no"))
         assert('red' in c)
         # The student can't modify another student note
-        c = s.url('=10800001/%s/UE-modifcol' % ys + '/cell/B/0_0/NON')
+        c = s.url('=10800001/%s/UE-modifcol' % ys + '/cell/B/0_0/' + _("no"))
         assert('red' in c)
 
         # Teacher erase the note
         c = s.url('=' + abj + '/%s/UE-modifcol' % ys + '/cell/B/0_1/')
         assert('green' in c)
         # The student can now modify its note
-        c = s.url('=10800001/%s/UE-modifcol' % ys + '/cell/B/0_1/NON')
+        c = s.url('=10800001/%s/UE-modifcol' % ys + '/cell/B/0_1/' + _("no"))
         assert('green' in c)
         # The student can change its note
-        c = s.url('=10800001/%s/UE-modifcol' % ys + '/cell/B/0_1/OUI')
+        c = s.url('=10800001/%s/UE-modifcol' % ys + '/cell/B/0_1/' + _("yes"))
         assert('green' in c)
 
         # Try to send garbage

@@ -24,9 +24,6 @@ var abj = "ABJUS" ;
 var ppn = "PPNOT" ;
 var pre = "PRST" ;
 var default_title = "Séance" ;
-var yes = 'OUI' ;
-var no = 'NON' ;
-
 
 function update_filters(unused_column)
 {
