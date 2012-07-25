@@ -1,23 +1,24 @@
-    <title>Gestion des ABJ</title>
   </head>
   <body id="body" class="body" style="margin-left:0px;margin-right:0px">
 
-    <h1 id="h1">Gestion des ABJ (<small><a href="http://www710.univ-lyon1.fr/~exco/TOMUSS/tomuss-abj.htm">Démonstration</a></small>)</h1>
+    <h1 id="h1"><script>Write("TITLE_abj")</script></h1>
 
     <p>
-      Numéro ou login de l'étudiant :
+      <script>Write("MSG_abj_student_id")</script>
       <input id="student" type="text" maxlength="8" size="8" onkeyup="login_change();">
     </p>
     <!-- <object id="student_data" type="text/html" data=""></object> -->
     <div id="student_display"><IMG>
     </div>
     <p style="clear: both">
-      Déplacez les <span class="arrow">&uarr;</span> avec la souris ou/et éditez la date au clavier.
+      <script>Write("MSG_abj_move_before")</script>
+      <span class="arrow">&uarr;</span>
+      <script>Write("MSG_abj_move_after")</script>
     </p>
     <table class="colored" style="margin-bottom:0;margin-left:0px;margin-right:0px">
       <tbody>
 	<!-- Do not insert returns or spaces -->
-	<tr id="dates"><td width="50%">Il y a plus<br>de 2 semaines<br><small>Tapez la date</small></td><td colspan="2"></td><td colspan="2"></td><td colspan="2"></td><td colspan="2"></td><td colspan="2"></td><td colspan="2"></td><td colspan="2"></td><td colspan="2"></td><td colspan="2"></td><td colspan="2"></td><td colspan="2"></td><td colspan="2"></td><td colspan="2"></td><td colspan="2"></td><td colspan="2"></td><td width="50%">Futur<br><small>Tapez la date</small></td></tr>
+	<tr id="dates"><td width="50%"><script>Write("MSG_abj_older")</script></td><td colspan="2"></td><td colspan="2"></td><td colspan="2"></td><td colspan="2"></td><td colspan="2"></td><td colspan="2"></td><td colspan="2"></td><td colspan="2"></td><td colspan="2"></td><td colspan="2"></td><td colspan="2"></td><td colspan="2"></td><td colspan="2"></td><td colspan="2"></td><td colspan="2"></td><td width="50%"><script>Write("MSG_abj_future")</script></td></tr>
 	<tr id="ampm"><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
       </tbody>
     </table>
@@ -28,20 +29,21 @@
     &nbsp;<br>
     <table width="100%">
     <tr><td rowspan="3" width="10%">
-    <input style="width:15em;" id="sendabj" value="mémoriser l'ABJ du .... au ...." type="button" onClick='send_abj();'>
+    <input style="width:15em;" id="sendabj" value="" type="button" onClick='send_abj();'>
     <td width="10%" style="white-space:nowrap;text-align:right">
-    Indiquer un commentaire avant de créer l'ABJ ou la DA :
+    <script>Write("MSG_abj_set_comment")</script>
     <td width="80%">
-    <script>var display_tips = true ; hidden('<input id="abjcomment" onclick="abj_comment_list()">',
-      'Ce commentaire est visible par les enseignants et étudiants')</script><br>
+    <script>var display_tips = true ;
+      hidden('<input id="abjcomment" onclick="abj_comment_list()">',
+      _("MSG_abj_comment_visible"))</script><br>
     </tr><tr><td style="text-align:right">
-    Choisir la date de début pour la dispense d'assiduité :
+    <script>Write("MSG_abj_da_start_date")</script>
     <td>
     <input id="dateda"><br>
     </tr><tr><td style="text-align:right">
-    <b>PUIS</b> indiquer l'UE avec la dispense :
+    <script>Write("MSG_abj_set_ue")</script>
     <td>
-    <select onChange="add_an_da();this.blur()" id="da"><option>Choisissez l'UE</option></select>
+    <select onChange="add_an_da();this.blur()" id="da"><option><script>Write("B_abj_set_ue")</script></option></select>
     </tr></table>
 <div id="datasend"></div>
 <SCRIPT><!--

@@ -16,11 +16,11 @@ while ( firstline.tagName != 'TR' )
 firstline = firstline.nextSibling ; // Jump headers
 
 
-d.innerHTML = 'Cliquez sur l\'action que vous voulez faire :' +
+d.innerHTML = abj_messages[0] +
       '<ul>' +
-      '<li> <a href="javascript:hide(\'ABJ\')">Cacher les ABJ</a>.' +
-      '<li> <a href="javascript:hide(\'DAS\')">Cacher les dispenses d\'assiduité</a>.' +
-      '<li> <a href="javascript:hide(\'\')">Tout afficher</a>.' +
+      '<li> <a href="javascript:hide(\'ABJ\')">' + abj_messages[1] + '</a>.' +
+      '<li> <a href="javascript:hide(\'DAS\')">' + abj_messages[2] + '</a>.' +
+      '<li> <a href="javascript:hide(\'\')">' + abj_messages[3] + '</a>.' +
       '</ul>' ;
 
 function hide(x)

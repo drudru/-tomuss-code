@@ -155,7 +155,7 @@ function parse_date(t, allow_far_future)
       var _today = new Date() ;
       if ( y > _today.getFullYear() + 1 )
 	{
-	  alert("Je refuse la saisie de l'année : " + y) ;
+	  Alert("ALERT_abj_bad_year", y) ;
 	  y = _today.getFullYear() ;
 	}
     }
@@ -225,8 +225,9 @@ function date_to_store(d, allow_far_future)
 
 function update_button_real()
 {
-  sendabj.value = 'Sauvegarder l\'ABJ du\n' + nice_date(date_to_store(start.value))
-    + '\nau\n' + nice_date(date_to_store(end.value)) ;
+  sendabj.value = _("MSG_abj_save") + '\n'
+    + nice_date(date_to_store(start.value))
+    + '\n' + _("TH_until") + '\n' + nice_date(date_to_store(end.value)) ;
 }
 
 function update_button()
@@ -297,7 +298,7 @@ function send_abj()
       if ( date_to_store(current_abjs[abj][0]) == date_to_store(start.value)
 	   && date_to_store(current_abjs[abj][1]) == date_to_store(end.value) )
 	{
-	  alert("Cette ABJ existe déjà !") ;
+	  Alert("ALERT_abj_duplicate") ;
 	  return ;
 	}
     }
@@ -387,8 +388,10 @@ function display_abjs(abjs)
   if ( abjs.length == 0 )
     return ;
   s = '<TABLE class="display_abjs colored">' ;
-  s += '<TR><TH COLSPAN="6">ABJ saisies</TH></TR>' ;
-  s += '<TR><TH>Début</TH><TH>Fin</TH><TH>Durée</TH><TH>Actions</TH><TH>Saisie par</TH><TH>Commentaire</TH></TR>' ;
+  s += '<TR><TH COLSPAN="6">' + _("TH_abj_list") + '</TH></TR>' ;
+  s += '<TR><TH>' + _("TH_begin") + '</TH><TH>' + _("TH_end") + '</TH><TH>'
+    + _("TH_length") + '</TH><TH>' + _("TAB_column_action") + '</TH><TH>'
+    + _("TH_abj_author") + '</TH><TH>' + _("TH_comment") + '</TH></TR>' ;
   var abj_days = 0 ;
   for(var abj in abjs)
     {
@@ -400,13 +403,14 @@ function display_abjs(abjs)
 	'</TD><TD style="text-align:right">' + d.toFixed(1) +
 	'</TD><TD><A href="#" onclick="del_abj(\'' +
 	date_to_store(abjs[abj][0]) + '\',\'' +
-	date_to_store(abjs[abj][1]) + '\');return false;">Détruire</a>' +
+	date_to_store(abjs[abj][1]) + '\');return false;">'
+	+ _("B_home_delete_table") + '</a>' +
 	'</TD><TD>' + abjs[abj][2] +
 	'</TD><TD>' + html(abjs[abj][3]) +
 	'</TD></TR>' ;
     }
   s += '</TABLE>' ;
-  s += "Nombre de jours d'ABJ : " + abj_days.toFixed(1) ;
+  s += _("TH_abj_duration") + abj_days.toFixed(1) ;
   append_html(s) ;
 }
 
@@ -415,15 +419,17 @@ function display_da(das)
   current_da = das ;
   if ( das.length == 0 )
     return ;
-  s = '<TABLE class="display_da colored">' ;
-  s += '<TR><TH COLSPAN="5">Dispenses d\'assiduité saisies</TH></TR>' ;
-  s += '<TR><TH>UE</TH><TH>Début</TH><TH>Actions</TH><TH>Saisie par</TH><TH>Commentaire</TH></TR>' ;
+  s = '<TABLE class="display_da colored">'
+    + '<TR><TH COLSPAN="5">' + _("TH_da_list") + '</TH></TR>'
+    + '<TR><TH>UE</TH><TH>' + _("TH_begin") + '</TH><TH>'
+    +  _("TAB_column_action") + '</TH><TH>' + _("TH_abj_author") + '</TH><TH>'
+    + _("TH_commentaire") + '</TH></TR>' ;
   for(var da in das)
     {
       s += '<TR><TD>' + das[da][0] +
 	'</TD><TD>' + nice_date_short(das[da][1]) +
 	'</TD><TD><A href="#" onclick="rem_da(\'' + das[da][0] +
-	'\');return false;">Détruire</a>' +
+	'\');return false;">' + _("B_home_delete_table") + '</a>' +
 	'</TD><TD>' + das[da][2] +
 	  '</TD><TD>' + html(das[da][3]) +
 	'</TD></TR>' ;
@@ -471,7 +477,7 @@ function login_change_force()
   if ( ! is_a_student_login() )
     return ;
 
-  student_display.innerHTML = "<IMG><p class=\"wait\">Attendez le chargement des données s'il vous plait." ;
+  student_display.innerHTML = "<IMG><p class=\"wait\">" + _("MSG_abj_wait") ;
 
   get_image('/display') ;
 }
@@ -507,19 +513,9 @@ function abj_comment_list()
 {
     function c(t)
     {
-	return ' <a onclick="abj_choose_comment(event)">' + t + '</a> ' ;
+      return ' <a onclick="abj_choose_comment(event)">' + _(t) + '</a> ' ;
     }
     
-    create_popup('abj_comments',
-		 "Cliquez sur la cause de l'absence justifiée",
-		 c('Certificat médical') + '/' + c('Hospitalisation') + '<br>' +
-		 c('Grève TCL') + '/' + c('Grève SNCF') + '<br>' +
-		 c('Convocation administrative officielle') + '/' +
-		 c('Convocation JCD (JAPD)') + '<br>' +
-		 c('Permis de conduire') + '/' +
-		 c('Convocation concours') + '<br>' +
-		 c('Compétition sportif haut niveau') + '/' +
-		 c('Décès d’un proche')
-		 ,"<br>Ou bien saisissez un commentaire personnalisé.",
-		 false) ;
+  create_popup('abj_comments', _("MSG_abj_why"), eval(_("MSG_abj_predefined")),
+	       "<br>" + _("MSG_abj_comment"), false) ;
 }

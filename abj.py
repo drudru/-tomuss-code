@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 #    TOMUSS: The Online Multi User Simple Spreadsheet
-#    Copyright (C) 2008-2011 Thierry EXCOFFIER, Universite Claude Bernard
+#    Copyright (C) 2008-2012 Thierry EXCOFFIER, Universite Claude Bernard
 #
 #    This program is free software; you can redistribute it and/or modify
 #    it under the terms of the GNU General Public License as published by
@@ -21,14 +21,14 @@
 
 """Management of the justification for missing courses."""
 
-import utilities
 import os
+import time
+import cgi
+import utilities
 import configuration
 import inscrits
-import time
 import document
 import teacher
-import cgi
 
 js = utilities.js
 
@@ -112,13 +112,15 @@ class Abj(object):
 
     def html(self):
         """This function is here because it does not send
-        restricted information to_date students.
+        restricted information to students.
         """
         content = []
         if self.abjs:
             content.append('''
 <TABLE class="display_abjs colored">
-<TR><TH>ABJ du</TH><TH>Au</TH><TH>Commentaire</TH></TR>''')
+<TR><TH><script>Write("MSG_abjtt_from_before")</script></TH>
+    <TH><script>Write("TH_until")</script></TH>
+    <TH><script>Write("TH_comment")</script></TH></TR>''')
             for abj in self.abjs: 
                 content.append('<TR><TD>' + abj[0] + '</TD><TD>' + abj[1] +
                                '</TD><TD>' + cgi.escape(abj[3]) + '</TD></TR>')
@@ -127,12 +129,12 @@ class Abj(object):
         if self.da:
             content.append("""
 <TABLE class="display_da colored">
-<TR><TH>Dispense<br>pour l'UE</TH>""")
-            content.append('<TH>Commentaire</TH></TR>')
+<TR><TH><script>Write("TH_da_for_ue")</script></TH>""")
+            content.append('<TH><script>Write("TH_comment")</script></TH></TR>')
             for a_da in self.da:
                 comment = cgi.escape(a_da[3].split('\n')[0])
                 if '\n' in a_da[3]:
-                    comment += '<br><b>Voir plus.</b>'
+                    comment += '<br><b><script>Write("MSG_see_more")</script></b>'
                 comment = ('<script>hidden(' + js(comment) + ','
                            + js(cgi.escape(a_da[3]).replace('\n','<br>'))
                            + ');</script>')
@@ -383,7 +385,7 @@ def translate_tt(tt_value):
         return tt_value
 
 def date_to_time(date):
-    """Concert a french date to seconds"""
+    """XXX Convert a french date to seconds"""
     return time.mktime(time.strptime(date, "%d/%m/%Y"))
         
 def tierstemps(student_id, aall=False, table_tt=None):
@@ -393,6 +395,7 @@ def tierstemps(student_id, aall=False, table_tt=None):
         # Get TT for current year
         table_tt = document.table(utilities.university_year(),
                                   'Dossiers', 'tt')
+    _ = utilities.__
     for line in table_tt.get_lines(student_id):
         html = ""
         if aall is False:
@@ -407,23 +410,23 @@ def tierstemps(student_id, aall=False, table_tt=None):
                 utilities.send_backtrace(repr(line))
         else:
             if line[8].value:
-                html += u'À partir du ' + line[8].value + '\n'
+                html += _("MSG_abj_tt_from") + line[8].value + '\n'
             if line[9].value:
-                html += u'Jusqu\'au ' + line[9].value + '\n'
+                html += _('TH_until') + line[9].value + '\n'
             
         if line[3].value:
-            html += u"Temps supplémentaire pour les examens écrits : %s\n" % (
+            html += _("COL_COMMENT_+write") + " : %s\n" % (
                 translate_tt(line[3].value))
         if line[4].value:
-            html += u"Temps supplémentaire pour les examens oraux : %s\n" % (
+            html += _("COL_COMMENT_+speech") + " : %s\n" % (
                 translate_tt(line[4].value))
         if line[5].value:
-            html += u"Temps supplémentaire pour les examens de TP : %s\n" % (
+            html += _("COL_COMMENT_+practical") + " : %s\n" % (
                 translate_tt(line[5].value))
         if line[6].value == 'OUI':
-            html += u"Dispose d'une secrétaire particulière\n"
+            html += _("COL_COMMENT_+assistant") + "\n"
         if line[7].value == 'OUI':
-            html += u"Dispose d'une salle particulière\n"
+            html += _("COL_COMMENT_+room") + "\n"
         if line[10].value:
             html += unicode(line[10].value, 'utf-8') + '\n'
         return html
@@ -457,23 +460,24 @@ def alpha_html(browser, year, semester, ue_name_endswith=None,
                ue_name_startswith=None, author=None):
     """Returns ABJ/DA information for all the students in HTML format"""
     aabjs = get_abjs(year, semester)
+    _ = utilities._
     browser.write('''<html>
 <head>
 <META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=UTF-8">
 </head>
 <body>
-<div id="x">Veuillez patienter, la page se charge.</div>
+<div id="x">%s</div>
 <table style="table-layout: fixed" border><tbody id="t">
-''')
+''' % _("MSG_suivi_student_wait") )
     line = '<tr>'  +  '<td>%s</td>' * 7  +  '</tr>\n'
     browser.write(line % (
-        'Prénom',
-        title('Nom', 'cmp_name'),
-        title('N°',  'cmp_id'),
-        'Quoi',
-        title('Date', 'cmp_ue'),
-        title('Date fin ou UE', 'cmp_ue2'),
-        title('Commentaire', 'cmp_comment')))
+        _("COL_TITLE_0_1"),
+        title(_("COL_TITLE_0_2"), 'cmp_name'),
+        title(_("COL_TITLE_0_0"),  'cmp_id'),
+        _("TH_what"),
+        title(_("B_Date"), 'cmp_ue'),
+        title(_("TH_end_or_ue"), 'cmp_ue2'),
+        title(_("TH_comment"), 'cmp_comment')))
     for student in aabjs.students.values():
 
         if ue_name_endswith:
@@ -502,7 +506,13 @@ def alpha_html(browser, year, semester, ue_name_endswith=None,
             if author is None or author == author2:
                 browser.write( line % (fn, sn, student.login, 'DAS', date,
                                        ue_code, cgi.escape(comment)) )
-    browser.write('</tbody></table>')
+    browser.write('</tbody></table>'
+                  + '<script>abj_messages = [%s,%s,%s,%s] ; </script>' % (
+            utilities.js(utilities._("MSG_abj_choose_action")),
+            utilities.js(utilities._("MSG_abj_hide_abj")),
+            utilities.js(utilities._("MSG_abj_hide_da")),
+            utilities.js(utilities._("MSG_abj_display_all")))
+                  + '</script>')
     browser.write(utilities.read_file(os.path.join('FILES', 'abj_recap.html')))
     browser.close()
 
@@ -513,7 +523,8 @@ def underline(txt, char='='):
 
 def nice_date(date):
     """Returns a DD/MM/YYYY/[AM] nicely formatted"""
-    return date.replace('M',' matin').replace('A', u' après-midi')
+    return date.replace('M',' ' + configuration.ampms_full[0]
+                        ).replace('A', ' ' + configuration.ampms_full[1])
 
 def get_table_tt(year, semester):
     """Returns the current database for TT"""
@@ -569,11 +580,11 @@ def ue_mails_and_comments(ue_code):
             text.append("   * " + teacher_name + ' : ')
             teacher_login = teacher.responsable_pedagogique_ldap(teacher_name)
             if teacher_login is None:
-                text.append('ENSEIGNANT INCONNU !')
+                text.append(utilities._("MSG_unknown_teacher"))
             else:
                 mail = inscrits.L_slow.mail(teacher_login)
                 if mail == None:
-                    text.append('MAIL INCONNU !')
+                    text.append(utilities._("MSG_abj_unknown_mail"))
                 else:
                     mails.append(mail.lower())
                     text.append(mail)
@@ -588,7 +599,7 @@ def ue_mails_and_comments(ue_code):
             other_mails.append(an_other_mail)
 
     if other_mails:
-        text.append("   * Adresse venant du fichier des UE ouvertes : " +
+        text.append("   " + utilities._("MSG_other_mail") +
                  ', '.join(other_mails) + '\n')
         mails += other_mails
 
@@ -602,12 +613,12 @@ def ue_mails_and_comments(ue_code):
                 other_mails.append(unicode(an_other_mail, 'utf-8'))
 
         if other_mails:
-            text.append("   * Adresses venant de SPIRAL : " +
+            text.append("   " + utilities._("MSG_other_mail2") +
                      ', '.join(other_mails) + '\n')
             mails += other_mails
 
     if len(mails) == 0:
-        text.append('AUCUN RESPONSABLE CONNU\n')
+        text.append(utilities._("MSG_no_master") + '\n')
 
     return mails, text
 
@@ -626,39 +637,30 @@ def ue_resume(ue_code, year, semester, browser=None):
 
     if browser:
         text = []
-        browser.write('Génération de la page :\n')
+        browser.write(utilities._("MSG_suivi_student_wait") + '\n')
     else:
-        text = [u"""Mesdames, Messieurs,
-
-Voici la liste des étudiants en dispense d'assiduité, en tiers temps
-et ceux qui ont justifié leurs absences.
-Ces informations sont disponibles sur http://tomuss.univ-lyon1.fr/
-Sur ce site il est possible d'afficher les ABJ pour une date donnée.
-
-Cordialement.
-
-"""]
+        text = [utilities.__("MSG_abj_mail_header") % configuration.server_url
+                + '\n\n']
 
     if not the_ue:
-        text.append(underline(ue_code + u' : Titre non renseigné dans SPIRAL'))
+        text.append(underline(ue_code + utilities.__("MSG_abj_no_title")))
     else:
         text.append(underline(ue_code + ' : ' + the_ue.intitule()))
 
-    text.append(u'\nPour accéder à la version à jour de ces informations '
-             u'suivez le lien :\n\n')
+    text.append('\n' + utilities.__("MSG_abj_link") + '\n\n')
     text.append('    %s/%s/%s/%s/resume\n' % (
         configuration.server_url, year, semester, ue_code))
     #
     # The UE managers
     #
-    text.append(underline("Responsables de l'UE", char='-'))
+    text.append(underline(utilities.__("MSG_abj_master"), char='-'))
     mails, infos = ue_mails_and_comments(ue_code)
     text += infos
 
     the_students = []
     first_day = 0
     last_day = 8000000000
-    if current_year:
+    if False and current_year:
         for infos in inscrits.L_slow.students(ue_code):
             if infos[0] not in the_students:
                 the_students.append((infos[0], infos[4], infos[5]))
@@ -699,18 +701,21 @@ Cordialement.
         nr_letters = feedback(browser, 'A', nr_letters)
         if first:
             first = False
-            text.append(underline("Liste des ABJ", char='-'))
+            text.append(underline(utilities.__("TH_ABJ_list"), char='-'))
         fs = inscrits.L_slow.firstname_and_surname(student.login)
         the_abjs = ('   * ' + student.login + ' ' + fs[1].upper() + ' ' +
                     fs[0].title() + '\n')
         for abj in abjs_pruned:
             if abj[0] == abj[1]:
-                an_abj = '      - Le ' + nice_date(abj[0])
+                an_abj = '      - ' + utilities.__("MSG_abj_the") \
+                    + ' ' + nice_date(abj[0])
             elif abj[0][:-1] == abj[1][:-1]:
-                an_abj = '      - Le ' + abj[0][:-1]
+                an_abj = '      - ' + utilities.__("MSG_abj_the") \
+                    + ' ' + abj[0][:-1]
             else:
-                an_abj = "      - Du " + nice_date(abj[0]) + ' au ' \
-                  + nice_date(abj[1]) + ' inclus'
+                an_abj = "      - " + utilities.__("MSG_abjtt_from_before") \
+                    + " " + nice_date(abj[0]) + ' ' \
+                    + utilities.__("TH_until") + ' ' + nice_date(abj[1]) 
             if abj[3]:
                 an_abj += ' (' + unicode(abj[3],'utf8') + ')'
             
@@ -736,12 +741,12 @@ Cordialement.
             nr_letters = feedback(browser, 'D', nr_letters)
             if first:
                 first = False
-                text.append(underline(u"Liste des étudiants avec une DA",
+                text.append(underline(utilities.__("MSG_abj_da_list"),
                                    char='-'))
             fs = inscrits.L_slow.firstname_and_surname(student_login)
             an_abj = ('   * ' + student_login + ' '
                       + fs[1].upper() + ' ' + fs[0].title()
-                      + u' à partir du ' + dates[0][1])
+                      + ' ' + utilities.__("MSG_abj_tt_from") + dates[0][1])
             if dates[0][3]:
                 an_abj += ' (' + unicode(dates[0][3],'utf-8') + ')'
             an_abj += '\n'
@@ -766,7 +771,7 @@ Cordialement.
         nr_letters = feedback(browser, 'T', nr_letters)
         if first:
             first = False
-            text.append(underline(u"Liste des étudiants avec un tiers temps",
+            text.append(underline(utilities.__("MSG_abj_tt_list"),
                                char='-'))
         fs = inscrits.L_slow.firstname_and_surname(student_login)
         a_tt = ('   * ' + student_login + ' ' + fs[1].upper() + ' '
@@ -791,7 +796,7 @@ def list_mail(browser, year, semester, only_licence=True):
 
     to_send = []
     sender = configuration.abj_sender
-    browser.write("Les messages seront envoyés au nom de " + sender)
+    browser.write(utilities._("MSG_abj_sender") + sender)
     browser.write('<pre>')
 
     aabjs = get_abjs(year, semester)
@@ -818,16 +823,12 @@ def list_mail(browser, year, semester, only_licence=True):
         if mails:
             to_send.append( (mails,
                              'ABJ + DA + TT pour l\'UE ' + ue_code,
-                             ''.join(lines).encode('latin1') ) )
+                             ''.join(lines)) )
 
     global to_send_ok
     to_send_ok = to_send
     
-    browser.write('''</pre>
-<h1>SUIVEZ LE LIEN POUR ENVOYER LES %d MESSAGES AUX ENSEIGNANTS</a></h1>
-ATTENTION une fois que vous cliquez sur le lien à la fin de cette ligne,
-es messages seront envoyés : <a href="send_mail">Envoyer!</a>
-''' % len(to_send))
+    browser.write('</pre>' + utilities._("MSG_abj_send") % len(to_send))
     browser.close()
 
 
@@ -854,6 +855,7 @@ def send_mail(browser):
             if error:
                 browser.write("<pre>" + error + "</pre>")
             else:
-                browser.write("<p>" + repr(recipients) + ' : message envoyé')
+                browser.write("<p>" + repr(recipients)
+                              + utilities._("MSG_abj_sent"))
         except UnicodeEncodeError:
             browser.write("<pre>BUG dans abj.send_mail</pre>")

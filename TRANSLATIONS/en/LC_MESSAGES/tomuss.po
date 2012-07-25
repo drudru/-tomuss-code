@@ -1628,10 +1628,10 @@ msgid "TITLE_abjtt_no_tt"
 msgstr "No special examination condition"
 
 msgid "TITLE_abjtt_da"
-msgstr "Assiduity exemptation"
+msgstr "Assiduity exemption"
 
 msgid "TITLE_abjtt_no_da"
-msgstr "No assiduity exemptation"
+msgstr "No assiduity exemption"
 
 msgid "MSG_days"
 msgstr "['Sun','Mon','Tue','Wed','Thu','Fri','Sat']"
@@ -4013,19 +4013,19 @@ msgid "COL_TITLE_+write"
 msgstr "+Write"
 
 msgid "COL_COMMENT_+write"
-msgstr "For example '+20%' of time for the written assesments"
+msgstr "Extra time for written assesments"
 
 msgid "COL_TITLE_+speech"
 msgstr "+Speech"
 
 msgid "COL_COMMENT_+speech"
-msgstr "For example '+20%' of time for the oral assesments"
+msgstr "Extra time for oral assesments"
 
 msgid "COL_TITLE_+practical"
 msgstr "+Practical"
 
 msgid "COL_COMMENT_+practical"
-msgstr "For example '+20%' of time for practical work assesments"
+msgstr "Extra time for practical work assesments"
 
 msgid "COL_TITLE_+assistant"
 msgstr "Assistant"
@@ -4045,8 +4045,153 @@ msgstr "Enter the date if it is not for the full year"
 msgid "COL_TITLE_tt_remarks"
 msgstr "Remarks_and_other_constraints"
 
+msgid "TH_until"
+msgstr "until"
+
+msgid "TH_da_for_ue"
+msgstr "Dispense<br>for UE"
+
+msgid "MSG_see_more"
+msgstr "See more."
+
+msgid "TH_what"
+msgstr "What"
+
+msgid "TH_end_or_ue"
+msgstr "End date or UE"
+
+msgid "MSG_unknown_teacher"
+msgstr "UNKNOWN TEACHER!"
+
+msgid "MSG_abj_unknown_mail"
+msgstr "UNKNOWN MAIL !"
+
+msgid "MSG_other_mail"
+msgstr "* Addresses from open UE file: "
+
+msgid "MSG_other_mail2"
+msgstr "* Adresses from the UE catalog: "
+
+msgid "MSG_no_master"
+msgstr "NO MASTER KNOWN"
+
+msgid "MSG_abj_mail_header"
+msgstr "Hello,\n"
+       "\n"
+       "There is the list of students with DA, TT and justified leave.\n"
+       "Up to date information are here %s\n"
+       "It is possible to see justified leave for a specific date."
+
+msgid "MSG_abj_no_title"
+msgstr ": No title in the UE catalog"
+
+msgid "MSG_abj_link"
+msgstr "The up to date informations are here:"
+
+msgid "MSG_abj_master"
+msgstr "Masters of the UE"
+
+msgid "MSG_abj_the"
+msgstr "The"
+
+msgid "MSG_abj_da_list"
+msgstr "Liste des étudiants avec une DA"
+
+msgid "MSG_abj_tt_list"
+msgstr "Special examinination student list"
+
+msgid "MSG_abj_sender"
+msgstr "Mails will be sent with in the name of "
+
+msgid "MSG_abj_send"
+msgstr "<h1>FOLLOW THE LINK TO SEND %d MAILS TO TEACHERS</h1>\n"
+       "BEWARE, all the mails will be sent if you click on the link\n"
+       "at the end of the line: <a href=\"send_mail\">Send mails!</a>"
+
+msgid "MSG_abj_sent"
+msgstr ": mail sent"
+
+msgid "ALERT_abj_bad_year"
+msgstr "Invalid year: "
+
+msgid "MSG_abj_save"
+msgstr "Save JL from"
+
+msgid "ALERT_abj_duplicate"
+msgstr "This JL yet exists!"
+
+msgid "TH_abj_list"
+msgstr "JL entered"
+
+msgid "TH_abj_author"
+msgstr "Entered by"
+
+msgid "TH_abj_duration"
+msgstr "Number of day of JL: "
+
+msgid "TH_da_list"
+msgstr "Assiduity exemption entered"
+
+msgid "MSG_abj_wait"
+msgstr "Please wait data loading."
+
+msgid "MSG_abj_why"
+msgstr "Click on justified leave explanation."
+
+msgid "MSG_abj_predefined"
+msgstr "c('Médical certificate') + '/' + c('Hospitalisation') + '<br>'+\n"
+       "c('Transport strike') + '<br>' +\n"
+       "c('Official administrative convocation') + '/' +\n"
+       "c('Dead of relative')"
+
+msgid "MSG_abj_comment"
+msgstr "Or enter a special comment"
+
+msgid "MSG_abj_choose_action"
+msgstr "Choose an action:"
+
+msgid "MSG_abj_hide_abj"
+msgstr "Hide justified leave"
+
+msgid "MSG_abj_hide_da"
+msgstr "Hide assiduity exemption"
+
+msgid "MSG_abj_display_all"
+msgstr "Display all"
 
 
+msgid "TITLE_abj"
+msgstr "Justified leaves management (JL)"
+
+msgid "MSG_abj_student_id"
+msgstr "Student ID:"
+
+msgid "MSG_abj_move_before"
+msgstr "Move the"
+
+msgid "MSG_abj_move_after"
+msgstr "with the mouse or/and edit the date with the keyboard."
+
+msgid "MSG_abj_older"
+msgstr "More than<br>2 weeks<br><small>Type the date</small>"
+
+msgid "MSG_abj_future"
+msgstr "Future<br><small>Type the date</small>"
+
+msgid "MSG_abj_set_comment"
+msgstr "Give a comment before creating the JL or AE:"
+
+msgid "MSG_abj_comment_visible"
+msgstr "This comment is visible by teachers and students"
+
+msgid "MSG_abj_da_start_date"
+msgstr "Choose the start date for the AE:"
+
+msgid "MSG_abj_set_ue"
+msgstr "<b>THEN</b> indicate the UE with AE:"
+
+msgid "B_abj_set_ue"
+msgstr "Choose the UE"
 
 
 

@@ -25,10 +25,10 @@ import os
 import sys
 import traceback
 import gettext
-import configuration
 import cgi
 import threading
 import shutil
+import configuration
 
 def read_file(filename):
     f = open(filename, 'r')
@@ -303,7 +303,7 @@ def send_mail(to, subject, message, frome=None, show_to=False):
             send_mail.session = None
             return errstr
     except:
-        return 'BUG dans utilities.send_mail'
+        return 'BUG in utilities.send_mail'
 
 send_mail.session = None
 
@@ -577,7 +577,7 @@ def add_a_cache0(fct, timeout=None):
         timeout = 3600
     def f(fct=fct, timeout=timeout):
         cache = f.cache
-        if time.time() - cache[1] > f.timeout:
+        if time.time() - cache[1] > timeout:
             cache = (fct(), time.time())
             f.cache = cache
         return cache[0]
@@ -868,7 +868,7 @@ def lock_state():
         s += '%s [%s]\n' % (f.fct.func_name, f.fct.__module__)
     return s
 
-def on_kill(x, y):
+def on_kill(dummy_x, dummy_y):
     sys.stderr.write('=' * 79 + '\n' +
                      'KILLED\n' +
                      '=' * 79 + '\n' +
@@ -896,7 +896,7 @@ class Useles(object):
         self.closed = True
     def flush(self):
         pass
-    def write(self, txt):
+    def write(self, dummy_txt):
         raise ValueError('write on Useles')
 
     # For socket replacement
@@ -930,6 +930,9 @@ def _(msgid, language=None):
     return _.glo_tr.gettext(msgid)
 
 _.language = None
+
+def __(txt):
+    return unicode(_(txt), 'utf-8')
 
 import BaseHTTPServer
 
@@ -1045,13 +1048,14 @@ def start_threads():
 
 def display_stack_on_kill():
     import signal
-    import traceback
     signal.signal(signal.SIGTERM, on_kill)
 
 def init():
     start_threads()
     display_stack_on_kill()
     start_new_thread_immortal(sendmail_thread, (), send_mail=False)
+    configuration.ampms_full = [
+        unicode(ampm, 'utf-8') for ampm in eval(_("MSG_ampms_full"))]
 
 if __name__ == "__main__":
     def square(g):
@@ -1078,10 +1082,10 @@ if __name__ == "__main__":
         def square(self, g):
             print 'square', g
             return g*g
-    x = X()
-    x.square(10)
-    x.square(10)
-    x.square(20)
+    xx = X()
+    xx.square(10)
+    xx.square(10)
+    xx.square(20)
             
 
     def xxx(g):

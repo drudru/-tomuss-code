@@ -64,7 +64,7 @@ BODY#BODY P, BODY#BODY H1 { margin: 0px ; }
 
 P.wait { background-color: #8F8 ; }
 
-.abj_comments { border: 3px solid black; line-height: 1.5em }
+DIV.abj_comments { border: 3px solid black; line-height: 1.5em; top:6em }
 .abj_comments A { border: 1px solid black ; }
 
 #abjcomment, #dateda { background: white; }
@@ -102,11 +102,14 @@ utilities.start_new_thread_immortal(keep_alive, ())
 def abj_home(server):
     """Display the home page for ABJ management"""
     utilities.warn('Start')
-    d = document.table_head(int(server.the_year), server.the_semester,
-                            ticket=server.ticket.ticket,
-                            user_name = server.ticket.user_name,
-                            page_id=len(pages), hide_more=True,
-                            ) + str(files['abj.html'])
+    d = (document.table_head(int(server.the_year), server.the_semester,
+                             ticket=server.ticket.ticket,
+                             user_name = server.ticket.user_name,
+                             page_id=len(pages), hide_more=True,
+                             )
+         + '<title>%s</title>' % server._("TITLE_abj")
+         + str(files['abj.html'])
+         )
     server.the_file.write(d)
     if configuration.regtest_sync:
         server.close_connection_now()

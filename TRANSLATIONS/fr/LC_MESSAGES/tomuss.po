@@ -1899,11 +1899,6 @@ msgstr "» utilisé dans la moyenne de la colonne «"
 msgid "ALERT_columns_unsaved"
 msgstr "»\nLA LISTE DES COLONNES N'A PAS ÉTÉ SAUVEGARDÉE."
 
-
-
-
-
-
 msgid "MSG_home_title"
 msgstr "Accueil TOMUSS"
 
@@ -4068,34 +4063,193 @@ msgid "COL_TITLE_+write"
 msgstr "+Ecrit"
 
 msgid "COL_COMMENT_+write"
-msgstr "1 = +33% ou pourcentage de temps en plus pour les épreuves écrites"
+msgstr "Temps supplémentaire pour les épreuves écrites"
 
 msgid "COL_TITLE_+speech"
 msgstr "+Oral"
 
 msgid "COL_COMMENT_+speech"
-msgstr "1 = +33% ou pourcentage de temps en plus pour les épreuves orales"
+msgstr "Temps supplémentaire pour les épreuves orales"
 
 msgid "COL_TITLE_+practical"
 msgstr "+TP"
 
 msgid "COL_COMMENT_+practical"
-msgstr "1 = +33% ou pourcentage de temps en plus pour les épreuves de TP"
+msgstr "Temps supplémentaire pour les épreuves de TP"
 
 msgid "COL_TITLE_+assistant"
 msgstr "Secrétaire"
 
 msgid "COL_COMMENT_+assistant"
-msgstr "Il dispose d'un assistant pour l'aider"
+msgstr "Dispose d'un assistant pour l'aider"
 
 msgid "COL_TITLE_+room"
 msgstr "Salle_Particulière"
 
 msgid "COL_COMMENT_+room"
-msgstr "Il dispose d'une salle"
+msgstr "Dispose d'une salle particuliaire"
 
 msgid "COL_COMMENT_tt_duration"
 msgstr "A saisir si ce n'est pas pour toutes l'année"
 
 msgid "COL_TITLE_tt_remarks"
 msgstr "Remarques_Et_Autres_Dispositions"
+
+msgid "TH_until"
+msgstr "Jusqu'au "
+
+msgid "TH_da_for_ue"
+msgstr "Dispense<br>pour l'UE"
+
+msgid "MSG_see_more"
+msgstr "Voir plus."
+
+msgid "MSG_abj_tt_from"
+msgstr "À partir du "
+
+msgid "TH_what"
+msgstr "Quoi"
+
+msgid "TH_end_or_ue"
+msgstr "Date fin ou UE"
+
+msgid "MSG_unknown_teacher"
+msgstr "ENSEIGNANT INCONNU !"
+
+msgid "MSG_abj_unknown_mail"
+msgstr "MAIL INCONNU !"
+
+msgid "MSG_other_mail"
+msgstr "* Adresse venant du fichier des UE ouvertes : "
+
+msgid "MSG_other_mail2"
+msgstr "* Adresses venant du catalogue des UE : "
+
+msgid "MSG_no_master"
+msgstr "AUCUN RESPONSABLE CONNU"
+
+msgid "MSG_abj_mail_header"
+msgstr "Mesdames, Messieurs,\n"
+       "\n"
+       "Voici la liste des étudiants en dispense d'assiduité, en tiers temps\n"
+       "et ceux qui ont justifié leurs absences.\n"
+       "Ces informations sont disponibles sur %s\n"
+       "Sur ce site il est possible d'afficher les ABJ pour une date donnée.\n"
+       "Cordialement."
+
+msgid "MSG_abj_no_title"
+msgstr " : Titre non renseigné dans le catalogue des UE"
+
+msgid "MSG_abj_link"
+msgstr "Pour accéder à la version à jour de ces informations suivez le lien :"
+
+msgid "MSG_abj_master"
+msgstr "Responsables de l'UE"
+
+msgid "MSG_abj_the"
+msgstr "Le"
+
+msgid "MSG_abj_da_list"
+msgstr "Liste des étudiants avec une DA"
+
+msgid "MSG_abj_tt_list"
+msgstr "Liste des étudiants avec un tiers-temps"
+
+msgid "MSG_abj_sender"
+msgstr "Les messages seront envoyés au nom de "
+
+msgid "MSG_abj_send"
+msgstr "<h1>SUIVEZ LE LIEN POUR ENVOYER LES %d MESSAGES AUX ENSEIGNANTS</h1>\n"
+       "ATTENTION une fois que vous cliquez\n"
+       "sur le lien à la fin de cette ligne, les messages seront envoyés :\n"
+       "<a href=\"send_mail\">Envoyer!</a>"
+
+msgid "MSG_abj_sent"
+msgstr " : message envoyé"
+
+msgid "ALERT_abj_bad_year"
+msgstr "Je refuse la saisie de l'année : "
+
+msgid "MSG_abj_save"
+msgstr "Sauvegarder l'ABJ du"
+
+msgid "ALERT_abj_duplicate"
+msgstr "Cette ABJ existe déjà !"
+
+msgid "TH_abj_list"
+msgstr "ABJ saisies"
+
+msgid "TH_abj_author"
+msgstr "Saisie par"
+
+msgid "TH_abj_duration"
+msgstr "Nombre de jours d'ABJ : "
+
+msgid "TH_da_list"
+msgstr "Dispenses d'assiduité saisies"
+
+msgid "MSG_abj_wait"
+msgstr "Attendez le chargement des données s'il vous plait."
+
+msgid "MSG_abj_why"
+msgstr "Cliquez sur la cause de l'absence justifiée"
+
+msgid "MSG_abj_predefined"
+msgstr "c('Certificat médical') + '/' + c('Hospitalisation') + '<br>'+\n"
+       "c('Grève TCL') + '/' + c('Grève SNCF') + '<br>' +\n"
+       "c('Convocation administrative officielle') + '/' +\n"
+       "c('Convocation JCD (JAPD)') + '<br>' +\n"
+       "c('Permis de conduire') + '/' +\n"
+       "c('Convocation concours') + '<br>' +\n"
+       "c('Compétition sportif haut niveau') + '/' +\n"
+       "c('Décès d\\'un proche')"
+
+msgid "MSG_abj_comment"
+msgstr "Ou bien saisissez un commentaire personnalisé."
+
+msgid "MSG_abj_choose_action"
+msgstr "Cliquez sur l'action que vous voulez faire :"
+
+msgid "MSG_abj_hide_abj"
+msgstr "Cacher les ABJ"
+
+msgid "MSG_abj_hide_da"
+msgstr "Cacher les dispenses d'assiduité"
+
+msgid "MSG_abj_display_all"
+msgstr "Tout afficher"
+
+msgid "TITLE_abj"
+msgstr "Gestion des ABJ"
+
+msgid "MSG_abj_student_id"
+msgstr "Numéro ou login de l'étudiant :"
+
+msgid "MSG_abj_move_before"
+msgstr "Déplacez les"
+
+msgid "MSG_abj_move_after"
+msgstr "avec la souris ou/et éditez la date au clavier."
+
+msgid "MSG_abj_older"
+msgstr "Il y a plus<br>de 2 semaines<br><small>Tapez la date</small>"
+
+msgid "MSG_abj_future"
+msgstr "Futur<br><small>Tapez la date</small>"
+
+msgid "MSG_abj_set_comment"
+msgstr "Indiquer un commentaire avant de créer l'ABJ ou la DA :"
+
+msgid "MSG_abj_comment_visible"
+msgstr "Ce commentaire est visible par les enseignants et étudiants"
+
+msgid "MSG_abj_da_start_date"
+msgstr "Choisir la date de début pour la dispense d'assiduité :"
+
+msgid "MSG_abj_set_ue"
+msgstr "<b>PUIS</b> indiquer l'UE avec la dispense :"
+
+msgid "B_abj_set_ue"
+msgstr "Choisissez l'UE"
+
+
