@@ -654,14 +654,6 @@ function new_new_interface()
 
   t = [] ;
   t.push('<div class="one_line">') ;
-  t.push(column_input_attr('red', 'before=' + _("BEFORE_column_attr_red")
-			   + ' beforeclass=widthleft')) ;
-  t.push('</div>') ;
-  t.push('<div class="one_line">') ;
-  t.push(column_input_attr('green', 'before=' + _("BEFORE_column_attr_green")
-			   + ' beforeclass=widthleft')) ;
-  t.push('</div>') ;
-  t.push('<div class="one_line">') ;
   t.push(column_input_attr('empty_is',
 			   'before=' + _("BEFORE_column_attr_empty_is")
 			   + ' beforeclass=widthleft')) ;
@@ -691,8 +683,11 @@ function new_new_interface()
 			   + ' beforeclass=widthleft')) ;
   t.push('</div>') ;
   t.push('<div class="one_line">') ;
-  t.push(column_input_attr('course_dates',
-			   'before=' + _("BEFORE_column_attr_course_dates")
+  t.push(column_input_attr('red', 'before=' + _("BEFORE_column_attr_red")
+			   + ' beforeclass=widthleft')) ;
+  t.push('</div>') ;
+  t.push('<div class="one_line">') ;
+  t.push(column_input_attr('green', 'before=' + _("BEFORE_column_attr_green")
 			   + ' beforeclass=widthleft')) ;
   t.push('</div>') ;
   t.push('<div class="one_line" style="text-align:center">') ;
@@ -713,19 +708,29 @@ function new_new_interface()
 		    _("TIP_column_larger") + x)) ;
   t.push('</div>') ;
   t.push('<div class="one_line">') ;
+  t.push(column_input_attr('freezed')) ;
+  t.push('. ') ;
+  t.push(column_input_attr('hidden')) ;
+  t.push('</div>') ;
 
+  o.push([_("TAB_display"), t.join('\n')]) ;
+
+  // COLUMN / Parameters
+
+  t = [] ;
+  t.push('<div class="one_line">') ;
+  t.push(column_input_attr('course_dates',
+			   'before=' + _("BEFORE_column_attr_course_dates")
+			   + ' beforeclass=widthleft')) ;
+  t.push('</div>') ;
+  t.push('<div class="one_line">') ;
   t.push(column_input_attr('modifiable',
 			   [[0, _("SELECT_column_modifiable_by_nobody")],
 			    [1, _("SELECT_column_modifiable_by_teachers")],
 			    [2, _("SELECT_column_modifiable_by_students")],
 			   ])) ;
-
   t.push('</div>') ;
   t.push('<div class="one_line">') ;
-  t.push(column_input_attr('freezed')) ;
-  t.push('.') ;
-  t.push(column_input_attr('hidden')) ;
-  t.push('.') ;
   t.push(column_input_attr('locked',
 			   [
 			    [0, _("SELECT_column_locked_no")],
@@ -734,7 +739,8 @@ function new_new_interface()
 			   )) ;
   t.push('</div>') ;
 
-  o.push([_("TAB_display"), t.join('\n')]) ;
+
+  o.push([_("TAB_column_param"), t.join('\n')]) ;
 
   // COLUMN / Action
 

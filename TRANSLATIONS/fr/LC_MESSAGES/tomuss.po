@@ -591,6 +591,10 @@ msgid "TAB_display"
 msgstr "Affiche"
 
 #. Tab label
+msgid "TAB_column_param"
+msgstr "Config"
+
+#. Tab label
 msgid "TAB_column_action"
 msgstr "Action"
 
