@@ -198,6 +198,20 @@ function get_date_tomuss(yyyymmddhhmmss)
   return new Date(year, month-1, day, hours, minutes, seconds) ;    
 }
 
+function get_date_tomuss_short(yyyymmddMA)
+{
+  var year    = yyyymmddMA.slice(0 , 4 ) ;
+  var month   = yyyymmddMA.slice(4 , 6 ) ;
+  var day     = yyyymmddMA.slice(6 , 8 ) ;
+  var d = new Date(year, month-1, day) ;
+  d = d.formate('%d/%m/%Y') ;
+  if ( yyyymmddMA.substr(8) == ampms[0] )
+    d += ' ' + ampms_full[0] ;
+  else if ( yyyymmddMA.substr(8) == ampms[1] )
+    d += ' ' + ampms_full[1] ;
+  return d ;
+}
+
 // See strftime for documentation
 Date.prototype.formate = function(format)
 {

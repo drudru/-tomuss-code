@@ -4079,9 +4079,20 @@ function display_suivi(cols) /* [value, class, comment] */
       if (column.mean_of)
 	comment += _("SUIVI_mean_of_before") + -column.mean_of
 	  + _("SUIVI_mean_of_after") + '<br>' ;
+      if (column.course_dates)
+	{
+	  comment += _("SUIVI_course_dates") ;
+	  var d = column.course_dates.split(/  */) ;
+	  var x = '' ;
+	  for(var i in d)
+	    x += ' ' + get_date_tomuss_short(d[i])  ;
+	  comment += x + '<br>' ;
+	  if ( visual_cell[0] === '' )
+	    visual_cell[0] = x ; // force cell display if there is date
+	}
       if (comment)
 	visual_cell[2] = comment + visual_cell[2] ;
-      if ( visual_cell[0] === '' )
+      if ( visual_cell[0] === '')
 	visual_cell[1] += ' empty' ;
     }
 

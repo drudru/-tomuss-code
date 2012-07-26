@@ -1188,7 +1188,7 @@ msgstr "By:"
 
 #. GUI
 msgid "SUIVI_weight_add"
-msgstr "Weight of bonus/malus:"
+msgstr "+ or - the number *"
 
 #. GUI
 msgid "SUIVI_weight_average"
@@ -1206,6 +1206,9 @@ msgstr "The "
 
 msgid "SUIVI_mean_of_after"
 msgstr " worst grades are not used in the average"
+
+msgid "SUIVI_course_dates"
+msgstr "Date(s) of the courses:"
 
 
 #. GUI

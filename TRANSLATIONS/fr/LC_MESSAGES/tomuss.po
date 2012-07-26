@@ -1182,7 +1182,7 @@ msgstr "Par :"
 
 #. GUI
 msgid "SUIVI_weight_add"
-msgstr "Poids du bonus/malus :"
+msgstr "+ ou - la valeur * par"
 
 #. GUI
 msgid "SUIVI_weight_average"
@@ -1199,6 +1199,9 @@ msgstr "Les "
 
 msgid "SUIVI_mean_of_after"
 msgstr " plus mauvaises notes ne sont pas utilisées dans la moyenne"
+
+msgid "SUIVI_course_dates"
+msgstr "Date(s) de ce cours :"
 
 #. GUI
 msgid "MSG_facebook_grp"
@@ -4596,3 +4599,4 @@ msgstr "L'arrondi doit être un nombre entier ou à virgule différent de 0"
 
 msgid "ALERT_follow_url"
 msgstr "Vous voulez vraiment suivre cette URL ?"
+

@@ -12,24 +12,23 @@ Utilisateurs finaux.
   http://lasso.entrouvert.org/
   http://support.onelogin.com/entries/20285277-saml-toolkit-for-python
 
-* Enlever bonus/malus du suivi
+* Mettre à jour les tables régulièrement même sans visite.
+  Faire un plugin pour le faire avec auto_load mais sans créer de page inutiles.
   
-* Le suivi n'affiche pas la date du cours
-
-* Un onglet par année ou filtrage pour les tables dont on est responsable
-  
-* Affichage histogramme tronqué
+* Ajouter TNR (travail non rendu)
 
 * Choix du type de colonne dans une popup
 
-* Ajouter TNR (travail non rendu)
+* Un onglet par année ou filtrage pour les tables dont on est responsable
+
+* Trouve notes étranges :
+  Normalise les notes de l'étudiant par rapport à la promo
+  
+  
+* Affichage histogramme tronqué
 
 * Type de colonne Switch (SI)
 
-* Traduction
-
-* Mettre à jour les tables régulièrement même sans visite.
-  Faire un plugin pour le faire avec auto_load mais sans créer de page inutiles.
 
 * Déplacer les infos du titre dans un onglet Info du bloc table
 
