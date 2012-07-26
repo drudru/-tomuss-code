@@ -186,23 +186,19 @@
       </li>
        <li> Le type de colonne <tt>URL</tt> permet de diffuser
 	  un lien cliquable aux étudiants.
+	 Il est paramétrable dans l'onglet «Config» avec
 	  <ul>
 	    <li>
-	      Le texte du lien est <em>Cliquez ici</em> et peut être remplacé
-	      par autre chose en indiquant <tt>TITLE(votre texte)</tt>
-	      dans le commentaire de colonne.
-	    <li>
-	      Il est possible de choisir case par case le titre du lien
-	      en l'indiquant après l'url, par exemple :<br>
-	      <tt>http://tomuss.univ-lyon1.fr Page d'accueil TOMUSS</tt>
+	      Le titre du lien si vous ne voulez pas de <em>Cliquez ici</em>
 	    <li>
 	      Si <b>toutes</b> les URL de la colonne commencent
 	      par la même suite de caractères,
-	      on peut factoriser cette suite de caractères en indiquant
-	      quelque part dans le commentaire de la colonne&nbsp;:<br>
-	      <tt>BASE(http://un.site.fr/debut/url/)</tt><br>
-	      Les cellules de la colonne contiennent ce que l'on
-	      doit ajouter à cette base.
+	      on peut factoriser cette suite de caractères en l'indiquant
+	      dans le champs URL.
+	    <li>
+	      Il est possible de choisir case par case le titre du lien
+	      en l'indiquant après l'url dans la cellule, par exemple :<br>
+	      <tt>http://tomuss.univ-lyon1.fr Page d'accueil TOMUSS</tt>
 	  </ul>
 	</li>
     </ul>
@@ -329,18 +325,6 @@
 	que vous avez entré.
       </li>
     </ul>
-    </div>
-
-    <div>
-    <h3>Forcer l'arrondi des notes</h3>
-
-    <p>
-      Il suffit de mettre le texte «<b><tt>arrondi à X</tt></b>»
-      quelque part dans le commentaire de la colonne en remplaçant
-      <tt>X</tt> par la valeur qui vous intéresse.
-      Si <tt>X</tt> est <tt>1</tt> alors il y aura seulement
-      de notes entières.
-      Si c'est <tt>0.5</tt> alors il y aura en plus 0.5, 1.5, 2.5...
     </div>
 
     <div>
@@ -513,59 +497,28 @@
        
    </div>
     <div>
-    <h3>Moyenne des X meilleurs notes</h3>
-
+    <h3>Moyenne en enlevant des notes</h3>
     <p>
-      Il suffit de mettre le texte <tt>moyenne des X meilleurs</tt>
-      quelque part dans le commentaire de la colonne en remplaçant
-      <tt>X</tt> par la valeur qui vous intéresse.
+      TOMUSS trie les notes de la plus mauvaise à la meilleure
+      et peut enlever les plus mauvaises et les meilleures notes.
+      Vous indiquez dans l'onglet «formule» le nombre
+      de mauvaises et de bonnes notes à enlever.
     <p>
       Si on veut prendre seulement la meilleure note
       il faut choisir le type de colonne <b>Maximum</b>
       au lieu de moyenne.
     <p>
-      ATTENTION : le système refusera de calculer et affichera NaN
-      si l'une des cellules est invalide ou bien si le
-      nombre de notes est inférieurs à X.
-      Par exemple vous faites la moyenne des 2 meilleurs sur {5,ABJ,ABI}
+      ATTENTION : le système refusera de calculer
+      si l'une des cellules est invalide ou bien si l'étudiant
+      a trop de ABJ.
+      Par exemple vous enlevez 2 notes a {5,ABJ,ABI},
+      il ne reste que ABJ qui n'est pas calculable.
     <p>
       ATTENTION : Si les poids des colonnes ne sont pas égaux,
       le résultat du calcul n'est pas forcément égal
       à la moyenne maximum possible.
       Il est même possible que le résultat soit différent d'une
       évaluation sur l'autre.
-      Mais c'est 'normal' car le titre est bien 'moyenne des X meilleurs'
-      et non 'meilleur moyenne de X'
-
-    <h4>Éliminer les plus mauvaises et les meilleurs notes</h4>
-	<p>
-	  Pour enlever les <tt>x</tt> moins bonnes et les <tt>y</tt>
-	  meilleures notes
-	  il suffit de mettre <tt>]x,y[</tt> dans le commentaire
-	  de la colonne de moyenne.
-	<p>
-	  Par exemple, <tt>]2,1[</tt> enlève les deux plus mauvaises
-	  notes et la meilleur.
-	<p>
-	  Cela n'a pas beaucoup de sens de faire cette opération
-	  si les poids des colonnes moyennées sont différents.
-	  En effet, dans ce cas, si l'on enlève la plus mauvaise note
-	  il est possible que cela ne soit pas celle qui fait perdre
-	  le plus de points dans la moyenne.
-	<p>
-	  Les ABJ/PPN ne sont pas considérés comme des mauvaises notes&nbsp;:
-	  Si l'étudiant à comme notes <tt>ABJ, 8, 10, 12</tt>
-	  et que l'on indique dans le commentaire de colonne&nbsp;:
-	<ul>
-	  <li> <tt>]1,0[</tt> sa moyenne sera de 11.
-	  <li> <tt>]1,1[</tt> sa moyenne sera de 10.
-	  <li> <tt>]0,1[</tt> sa moyenne sera de 9.
-	  <li> <tt>]0,2[</tt> sa moyenne sera de 8.
-	  <li> <tt>]2,0[</tt> sa moyenne sera de 12.
-	  <li> <tt>]2,1[</tt> sa moyenne sera PPN.
-	</ul>
-      </div>
-
 
     <div>
     <h2>Gestion des absences justifiées (ABJ)</h2>
