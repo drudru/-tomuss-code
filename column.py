@@ -369,6 +369,8 @@ class Column(object):
         """Returns the JavaScript describing the column."""
         s = []
         for attr in column_attributes():
+            if attr == 'url_import':
+                continue # private
             if hide and attr.name == 'comment':
                 value = re.sub(r'(TITLE|IMPORT|BASE)\([^)]*\)', '',
                                self.comment)

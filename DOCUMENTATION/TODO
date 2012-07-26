@@ -8,14 +8,7 @@ Affiche                     Affiche
     position, largeur           GRAS, ITALIQUE OU GRIS                   
     changement dans le suivi    position, largeur                        
     Figée, cache, modifiable    Figée, cache, NR LIGNES
-    
-                            Paramètres                                   
-                                date des cours                           
-                                URL DE BASE OU URL D'IMPORTATION         
-                                TITRE DU LIEN (cliquer ici par exemple) 
-                                changement dans le suivi
-                                modifiable
-	
+!	
 
 
 Dans chaque partie, les choses à faire sont triées par priorité.
@@ -71,8 +64,6 @@ Utilisateurs finaux.
 * Dans le publipostage : mode HTML avec des vrais URL
 
 * IE : Suivi de l'étudiant plus joli.
-
-* Import dans colonne : autorise NUM ETUDIANT[,;]VALEUR
 
 * Sauvegarde de l'état figé d'une colonne (à faire dans le nouvel interface).
 

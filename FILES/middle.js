@@ -745,6 +745,11 @@ function new_new_interface()
 			   + ' beforeclass=widthleft')) ;
   t.push('</div>') ;
   t.push('<div class="one_line">') ;
+  t.push(column_input_attr('url_import',
+			   'before=' + _("BEFORE_column_attr_url_import")
+			   + ' beforeclass=widthleft')) ;
+  t.push('</div>') ;
+  t.push('<div class="one_line">') ;
   t.push(column_input_attr('locked',
 			   [
 			    [0, _("SELECT_column_locked_no")],

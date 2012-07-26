@@ -96,6 +96,7 @@ def update_column_content(column, url):
         delimiter = ';'
     else:
         delimiter = ','
+    utilities.warn('DELIMITER IS %s' % delimiter)
     for line in csv.reader(c, delimiter=delimiter):
         if len(line) <= col:
             continue
@@ -224,14 +225,18 @@ class Text(object):
            * when the 'attr' column attribute is changed.
            * when a column used by this one changed
         """
-        if attr is not None and attr.name != 'comment':
+        if (attr is not None
+            and attr.name != 'comment'
+            and attr.name != 'url_import'):
             return
 
-        if 'IMPORT(' not in column.comment:
+        if 'IMPORT(' in column.comment:
+            url = re.sub(r'.*IMPORT\(', '', column.comment)
+            url = re.sub(r'\).*', '', url)
+        elif column.url_import:
+            url = column.url_import
+        else:
             return
-        
-        url = re.sub(r'.*IMPORT\(', '', column.comment)
-        url = re.sub(r'\).*', '', url)
 
         if column.import_url == url:
             return

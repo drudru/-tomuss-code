@@ -305,6 +305,14 @@ msgid "TIP_column_attr_url_title"
 msgstr "The text of the clickable link in the student 'suivi'"
 
 #. Attribute Tip
+msgid "TIP_column_attr_url_import"
+msgstr "Dynamicaly insert a CSV file into the columns values.<br>\n"
+       "<b>The first column of the file MUST be the student ID</b>.<br>\n"
+       "for example: http://www.univ-lyon1.fr/MyGrades.csv#2<br>\n"
+       "indicates that the second column of the file must be<br>\n"
+       "inserted in the column cells."
+
+#. Attribute Tip
 msgid "TIP_column_attr_test_filter"
 msgstr ""
 "<b>Filter indication the values to count</b><br>\n"
@@ -799,6 +807,10 @@ msgstr "URL"
 #. Label before the attribute
 msgid "BEFORE_column_attr_url_title"
 msgstr "Link"
+
+#. Label before the attribute
+msgid "BEFORE_column_attr_url_import"
+msgstr "Dynamic import"
 
 #. Label before the attribute
 msgid "BEFORE_table_attr_default_nr_columns"
