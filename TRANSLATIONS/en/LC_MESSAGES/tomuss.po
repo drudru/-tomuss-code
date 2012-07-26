@@ -294,6 +294,17 @@ msgstr ""
 "The ABINJ for theses dates are displayed in red."
 
 #. Attribute Tip
+msgid "TIP_column_attr_url_base"
+msgstr "<b>The base URL of links</b><br>\n"
+ "If a cell contains 'foo'<br>\n"
+ "If the base URL is 'http://x.y.z/'<br>\n"
+ "The link will be 'http://x.y.z/foo'"
+
+#. Attribute Tip
+msgid "TIP_column_attr_url_title"
+msgstr "The text of the clickable link in the student 'suivi'"
+
+#. Attribute Tip
 msgid "TIP_column_attr_test_filter"
 msgstr ""
 "<b>Filter indication the values to count</b><br>\n"
@@ -780,6 +791,14 @@ msgstr "Visible&nbsp;the:&nbsp;"
 #. Label before the attribute
 msgid "BEFORE_column_attr_course_dates"
 msgstr "Courses dates:&nbsp;"
+
+#. Label before the attribute
+msgid "BEFORE_column_attr_url_base"
+msgstr "URL"
+
+#. Label before the attribute
+msgid "BEFORE_column_attr_url_title"
+msgstr "Link"
 
 #. Label before the attribute
 msgid "BEFORE_table_attr_default_nr_columns"
@@ -4503,3 +4522,6 @@ msgstr "An integer is required"
 
 msgid "ALERT_rounding"
 msgstr "The 'rounding' must be non nul number"
+
+msgid "ALERT_follow_url"
+msgstr "You really want to follow this URL?"

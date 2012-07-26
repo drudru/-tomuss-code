@@ -283,6 +283,17 @@ msgstr "<b>Dates des enseignements</b>.<br>\n"
  "    Les ABINJ concernant ces dates sont soulignés."
 
 #. Attribute Tip
+msgid "TIP_column_attr_url_base"
+msgstr "<b>Indiquez l'URL de base des liens</b><br>\n"
+ "Si une cellule contient 'toto'<br>\n"
+ "et que l'URL de base est 'http://x.y.z/'<br>\n"
+ "Le lien final sera 'http://x.y.z/toto'"
+
+#. Attribute Tip
+msgid "TIP_column_attr_url_title"
+msgstr "L'intitulé du lien cliquable dans le suivi de l'étudiant"
+ 
+#. Attribute Tip
 msgid "TIP_column_attr_test_filter"
 msgstr "<b>Filtre indiquant les cellules à compter</b><br>\n"
  "    Exemples pour compter les cellules :<ul>\n"
@@ -770,6 +781,14 @@ msgid "BEFORE_column_attr_course_dates"
 msgstr "Dates cours&nbsp;:&nbsp;"
 
 #. Label before the attribute
+msgid "BEFORE_column_attr_url_base"
+msgstr "URL"
+
+#. Label before the attribute
+msgid "BEFORE_column_attr_url_title"
+msgstr "Lien"
+
+#. Label before the attribute
 msgid "BEFORE_table_attr_default_nr_columns"
 msgstr "Nb&nbsp;colonnes&nbsp;affichées&nbsp;:&nbsp;"
 
@@ -848,11 +867,11 @@ msgstr "Visible"
 
 #. Select value
 msgid "SELECT_column_locked_no"
-msgstr "Les cellules sont modifiables"
+msgstr "Cellules modifiables"
 
 #. Select value
 msgid "SELECT_column_locked_yes"
-msgstr "Aucune cellule n'est modifiable"
+msgstr "Cellules non modifiables"
 
 
 #. GUI Label
@@ -4562,3 +4581,5 @@ msgstr "Vous devez saisir un nombre entier"
 msgid "ALERT_rounding"
 msgstr "L'arrondi doit être un nombre entier ou à virgule différent de 0"
 
+msgid "ALERT_follow_url"
+msgstr "Vous voulez vraiment suivre cette URL ?"

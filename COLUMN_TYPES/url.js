@@ -23,7 +23,7 @@ function follow_url(in_value)
 {
   var url_base = the_current_cell.column.comment.split('BASE(') ;
   if ( url_base.length == 1 )
-    url_base = '' ;
+    url_base = the_current_cell.column.url_base ;
   else
     {
       url_base = url_base[1].split(')')[0] ;
@@ -31,9 +31,10 @@ function follow_url(in_value)
 
   value = url_base + in_value.split(' ', 1)[0] ;
    var safe = value.replace(/[&%?]/,'') ;
-   if ( safe != value )
+  if ( safe != value || (
+    value.substr(0,5) != 'http:' && value.substr(0,5) != 'https:' ))
 	{
-	if ( ! confirm("Vous voulez vraiment suivre cette URL ?\n" + value) )
+	  if ( ! confirm(_("ALERT_follow_url") + "\n" + value) )
 		{
 		return value ;
 		}

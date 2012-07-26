@@ -735,11 +735,14 @@ function new_new_interface()
 			   + ' beforeclass=widthleft')) ;
   t.push('</div>') ;
   t.push('<div class="one_line">') ;
-  t.push(column_input_attr('modifiable',
-			   [[0, _("SELECT_column_modifiable_by_nobody")],
-			    [1, _("SELECT_column_modifiable_by_teachers")],
-			    [2, _("SELECT_column_modifiable_by_students")],
-			   ])) ;
+  t.push(column_input_attr('url_base',
+			   'before=' + _("BEFORE_column_attr_url_base")
+			   + ' beforeclass=widthleft')) ;
+  t.push('</div>') ;
+  t.push('<div class="one_line">') ;
+  t.push(column_input_attr('url_title',
+			   'before=' + _("BEFORE_column_attr_url_title")
+			   + ' beforeclass=widthleft')) ;
   t.push('</div>') ;
   t.push('<div class="one_line">') ;
   t.push(column_input_attr('locked',
@@ -748,6 +751,11 @@ function new_new_interface()
 			    [1, _("SELECT_column_locked_yes")],
 			   ]
 			   )) ;
+  t.push(column_input_attr('modifiable',
+			   [[0, _("SELECT_column_modifiable_by_nobody")],
+			    [1, _("SELECT_column_modifiable_by_teachers")],
+			    [2, _("SELECT_column_modifiable_by_students")],
+			   ])) ;
   t.push('</div>') ;
 
 
