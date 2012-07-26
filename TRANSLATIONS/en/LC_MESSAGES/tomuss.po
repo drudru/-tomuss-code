@@ -92,6 +92,17 @@ msgstr ""
 "This comment is visible by the students."
 
 #. Attribute Tip
+msgid "TIP_column_attr_best"
+msgstr "When computing the average,<br>\n"
+       "the X best grades will not be used."
+
+#. Attribute Tip
+msgid "TIP_column_attr_worst"
+msgstr "When computing the average,<br>\n"
+       "the X worst grades will not be used.<br>\n"
+       "BEWARE: a JustLeave is not taken as a bad grade"
+       
+#. Attribute Tip
 msgid "TIP_column_attr_weight"
 msgstr ""
 "<b>Weight of this column</b> in weighted average.<br>\n"
@@ -732,6 +743,18 @@ msgid "BEFORE_column_attr_columns"
 msgstr "Columns"
 
 #. Label before the attribute
+msgid "BEFORE_column_attr_remove"
+msgstr "Remove&nbsp;the&nbsp;"
+
+#. Label before the attribute
+msgid "BEFORE_column_attr_best"
+msgstr "&nbsp;best,&nbsp;"
+
+#. Label before the attribute
+msgid "BEFORE_column_attr_worst"
+msgstr "&nbsp;worst"
+
+#. Label before the attribute
 msgid "BEFORE_column_attr_weight"
 msgstr "Weight"
 
@@ -1128,6 +1151,20 @@ msgstr "Weight of bonus/malus:"
 #. GUI
 msgid "SUIVI_weight_average"
 msgstr "Weight in the average:"
+
+
+msgid "SUIVI_best_of_before"
+msgstr "The "
+
+msgid "SUIVI_best_of_after"
+msgstr " best grades are not used in the average"
+
+msgid "SUIVI_mean_of_before"
+msgstr "The "
+
+msgid "SUIVI_mean_of_after"
+msgstr " worst grades are not used in the average"
+
 
 #. GUI
 msgid "MSG_facebook_grp"
@@ -3474,13 +3511,13 @@ msgid "HELP_referents"
 msgstr "display statistics about referent teachers"
 
 msgid "MSG_hide_empty_cells"
-msgstr "Cacher les cases vides."
+msgstr "Hide empty cells."
 
 msgid "MSG_show_empty_cells"
-msgstr "Montrer les cases vides."
+msgstr "Show empty cells."
 
 msgid "MSG_help"
-msgstr "Aides/Explications"
+msgstr "Help/Explanations"
 
 msgid "MSG_suivi_student_mail_subject"
 msgstr "A bug in TOMUSS suivi"
@@ -4449,4 +4486,7 @@ msgstr "WNG"
 
 msgid "tnr_char"
 msgstr "W"
+
+msgid "ALERT_int_required"
+msgstr "An integer is required"
 

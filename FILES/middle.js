@@ -663,7 +663,13 @@ function new_new_interface()
 			   + ' beforeclass=widthleft')) ;
   t.push('</div>') ;
   t.push('<div class="one_line">') ;
-  t.push(column_input_attr('weight', 'before=' + _("BEFORE_column_attr_weight")
+  t.push(column_input_attr('best', 'before=' + _("BEFORE_column_attr_remove")
+			   + ' after=' + _("BEFORE_column_attr_best")
+			   + ' beforeclass=widthleft')) ;
+  t.push(column_input_attr('worst','after='+_("BEFORE_column_attr_worst") )) ;
+  t.push('</div>') ;
+  t.push('<div class="one_line">') ;
+  t.push(column_input_attr('weight', 'before=' +_("BEFORE_column_attr_weight")
 			   + ' beforeclass=widthleft')) ;
   t.push(column_input_attr('repetition','before=&nbsp;&nbsp;'
 			   + _("BEFORE_column_attr_repetition")

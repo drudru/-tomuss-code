@@ -26,7 +26,7 @@ class Moy(note.Note):
     cell_test = 'test_read_only'
     cell_compute = 'compute_average'
     cell_is_modifiable = 0
-    attributes_visible = ('minmax', 'columns', 'weight')
+    attributes_visible = ('minmax', 'columns', 'weight', 'best', 'worst')
 
     def cell_indicator(self, column, value, cell, lines):
         return '', None
@@ -45,7 +45,7 @@ class Moy(note.Note):
             # To not leak invisible columns
             more = ''
 
-        comment = ('<script>Write("MSG_Moy_operation","<b>");Write("'
+        comment = ('<script>Write("MSG_Moy_operation","<b>");Write("B_'
                    + self.__class__.__name__ + '");</script>' + what + '</b>'
                    + more )
 

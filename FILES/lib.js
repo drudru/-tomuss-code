@@ -4073,6 +4073,12 @@ function display_suivi(cols) /* [value, class, comment] */
 	    comment += _("SUIVI_weight_average") ;
 	  comment += ' <b>' + column.weight + '</B><br>' ;
 	}
+      if (column.best_of)
+	comment += _("SUIVI_best_of_before") + -column.best_of
+	  + _("SUIVI_best_of_after") + '<br>' ;
+      if (column.mean_of)
+	comment += _("SUIVI_mean_of_before") + -column.mean_of
+	  + _("SUIVI_mean_of_after") + '<br>' ;
       if (comment)
 	visual_cell[2] = comment + visual_cell[2] ;
       if ( visual_cell[0] === '' )

@@ -84,6 +84,17 @@ msgstr "<b>Commentaire pour cette colonne.</b><br>\n"
  "    Il est visible par les étudiants."
 
 #. Attribute Tip
+msgid "TIP_column_attr_best"
+msgstr "Lors du calcul de la moyenne,<br>\n"
+       "les X meilleurs notes ne seront pas prises en compte."
+
+#. Attribute Tip
+msgid "TIP_column_attr_worst"
+msgstr "Lors du calcul de la moyenne,<br>\n"
+       "les X plus mauvaises notes ne seront pas prises en compte.<br>\n"
+       "ATTENTION: une ABJ n'est pas considérée comme une mauvaise note"
+
+#. Attribute Tip
 msgid "TIP_column_attr_weight"
 msgstr "<b>Poids de cette colonne</b> dans les moyennes pondérées.<br>\n"
  "    Des poids entiers sont préférables.<br>\n"
@@ -721,6 +732,18 @@ msgid "BEFORE_column_attr_columns"
 msgstr "Colonnes"
 
 #. Label before the attribute
+msgid "BEFORE_column_attr_remove"
+msgstr "Enlève&nbsp;les&nbsp;"
+
+#. Label before the attribute
+msgid "BEFORE_column_attr_best"
+msgstr "&nbsp;meilleurs,&nbsp;"
+
+#. Label before the attribute
+msgid "BEFORE_column_attr_worst"
+msgstr "&nbsp;pires"
+
+#. Label before the attribute
 msgid "BEFORE_column_attr_weight"
 msgstr "Poids"
 
@@ -1122,6 +1145,18 @@ msgstr "Poids du bonus/malus :"
 #. GUI
 msgid "SUIVI_weight_average"
 msgstr "Poids dans la moyenne pondérée :"
+
+msgid "SUIVI_best_of_before"
+msgstr "Les "
+
+msgid "SUIVI_best_of_after"
+msgstr " meilleurs notes ne sont pas utilisées dans la moyenne"
+
+msgid "SUIVI_mean_of_before"
+msgstr "Les "
+
+msgid "SUIVI_mean_of_after"
+msgstr " plus mauvaises notes ne sont pas utilisées dans la moyenne"
 
 #. GUI
 msgid "MSG_facebook_grp"
@@ -4510,4 +4545,7 @@ msgstr "TNR"
 
 msgid "tnr_char"
 msgstr "T"
+
+msgid "ALERT_int_required"
+msgstr "Vous devez saisir un nombre entier"
 

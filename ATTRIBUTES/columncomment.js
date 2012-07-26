@@ -20,6 +20,9 @@
     Contact: Thierry.EXCOFFIER@bat710.univ-lyon1.fr
 */
 
+// DO NOT TRANSLATE THESE STRING
+// IT IS DEPRECATED and only here to read old data files
+
 function set_comment(value, column)
 {
   var round_by = value.replace(/.*arrondi[es]* *[aà] *([0-9.,]*).*/i,'$1') ;
@@ -37,7 +40,11 @@ function set_comment(value, column)
 	column.best_of = 1 ;
     }
   else
+  {
     column.best_of = a_float(best_of) ;
+    if ( isNaN(column.best_of) )
+      column.best_of = undefined ;
+  }
 
   var best_of = value.replace(/.*]([0-9]*),([0-9]*)\[.*/,'][ $1 $2').split(/ /) ;
 
