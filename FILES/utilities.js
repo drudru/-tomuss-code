@@ -1601,12 +1601,25 @@ function current_update_column_headers()
 	}
       if ( ! column_modifiable_attr(attr, column) )
 	{
-	  e.parentNode.style.display = 'none' ;
+	  if ( column_attributes[attr].always_visible )
+	  {
+	    e.parentNode.style.opacity = 0.3 ;
+	    e.value = '' ;
+	    set_editable(e, false) ;
+	  }
+	  else
+	    e.parentNode.style.display = 'none' ;
 	  continue ;
 	}
       if ( column_attributes[attr].gui_display == 'GUI_none' )
 	eval(column_attributes[attr].action + '()') ;
-      e.parentNode.style.display = '' ;
+      if ( column_attributes[attr].always_visible )
+      {
+	e.parentNode.style.opacity = '' ;
+	set_editable(e, true) ;
+      }
+      else
+	e.parentNode.style.display = '' ;
       update_attribute_value(e, column_attributes[attr], column,
 			     !column_attributes[attr].need_authorization
 			     || !disabled) ;

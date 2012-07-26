@@ -26,6 +26,7 @@ class ColumnWeight(ColumnAttr):
     name = 'weight'
     display_table = 1
     check_and_set = 'set_weight'
+    always_visible = 1
     css = """
 #menutop #t_column_weight {
   background-image: url('weight.png');

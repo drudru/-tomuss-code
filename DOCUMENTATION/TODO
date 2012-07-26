@@ -47,9 +47,6 @@ Utilisateurs finaux.
   
 * Affichage histogramme tronqué
 
-* Afficher le champ 'Colonnes' en disant que pour l'activer il faut changer
-  le type si l'on est une note par example : Faire une solution générique
-
 * Choix du type de colonne dans une popup
 
 * Ajouter TNR (travail non rendu)

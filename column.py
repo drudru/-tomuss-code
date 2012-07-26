@@ -51,6 +51,8 @@ class ColumnAttr(object):
     computed = 0                    # Is a computed attribute (not modifiable)
     what = 'column'                 # It is a 'column' attribute
     strokable = 1                   # The <A> is strokable if false
+    # If 1: the attribute is not removed from screen, it is only shaded
+    always_visible = 0
     priority = 0
     gui_display = 'GUI_input'
     action = ''
@@ -176,6 +178,7 @@ class ColumnAttr(object):
                 ',name:' + js(self.name) +
                 ',what:' + js(self.what) +
                 ',strokable:' + js(self.strokable) +
+                ',always_visible:' + js(self.always_visible) +
                 '}')
 
 class TableAttr(ColumnAttr):
