@@ -2,13 +2,6 @@
 
 
 ========= Actuellement ===  =========== Futur ==============             
-Formule                     Formule
-    rouge                       si vide                          
-    vert                        colonnes
-    si vide                     ENLÈVE X MEILLEURS, Y PLUS MAUVAISES     
-    colonnes                    ARRONDI                                  
-    poids, répétition           poids, répétition
-
 Affiche                     Affiche
     visible le                  visible le                               
     date des cours              rouge, vert                              
@@ -65,8 +58,6 @@ Utilisateurs finaux.
 * Non semestrialisation : seul le responsable
 
 * Tip : nouvelle version avec le + cliquable et survolable
-
-* Passer l'arrondi dans les paramètres colonnes ?
 
 * Insérer les lignes qui viennent du serveur aux bons endroits
 

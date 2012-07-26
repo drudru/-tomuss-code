@@ -1,7 +1,7 @@
 #!/bin/env python
 # -*- coding: utf-8 -*-
 #    TOMUSS: The Online Multi User Simple Spreadsheet
-#    Copyright (C) 2008,2010 Thierry EXCOFFIER, Universite Claude Bernard
+#    Copyright (C) 2012 Thierry EXCOFFIER, Universite Claude Bernard
 #
 #    This program is free software; you can redistribute it and/or modify
 #    it under the terms of the GNU General Public License as published by
@@ -19,11 +19,20 @@
 #
 #    Contact: Thierry.EXCOFFIER@bat710.univ-lyon1.fr
 
-import moy
+from column import ColumnAttr
 
-class Max(moy.Moy):
-    human_priority = -6
-    cell_compute = 'compute_max_real'
-    attributes_visible = tuple(set(moy.Moy.attributes_visible)
-                               - set(('best', 'worst', 'rounding')))
+class ColumnRounding(ColumnAttr):
+    default_value = ''
+    name = 'rounding'
+    display_table = 1
+    check_and_set = 'set_rounding'
+    always_visible = 1
+    priority = 1 # Must be computed AFTER 'comment' attribute (historical)
 
+    def check(self, value):
+        if value == '':
+            return
+        try:
+            float(value)
+        except ValueError:
+            return '_("ALERT_rounding")'

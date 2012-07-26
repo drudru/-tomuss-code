@@ -20,36 +20,23 @@
     Contact: Thierry.EXCOFFIER@bat710.univ-lyon1.fr
 */
 
-function set_best(value, column)
+function set_rounding(value, column)
 {
   if ( column.historical_comment )
     return '' ;
   
   column.need_update = true ;
+  if ( value === '' )
+  {
+    column.round_by = undefined ;
+    return '' ;
+  }
   value = Number(value) ;
   if ( value < 0 )
-    value = 0 ;
-  else
-    value = Math.floor(value) ;
-  if ( column.best_of === undefined // Do not erase value set by 'comment'
-       && value !== 0 ) 
-    column.best_of = -value ;
+    value = -value ;
+  if ( value < 0.001 )
+    value = 0.001 ;
+  column.round_by = value ;
   return value ;
 }
 
-function set_worst(value, column)
-{
-  if ( column.historical_comment )
-    return '' ;
-  
-  column.need_update = true ;
-  value = Number(value) ;
-  if ( value < 0 )
-    value = 0 ;
-  else
-    value = Math.floor(value) ;
-  if ( column.mean_of === undefined // Do not erase value set by 'comment'
-       && value !== 0 ) 
-    column.mean_of = -value ;
-  return value ;
-}

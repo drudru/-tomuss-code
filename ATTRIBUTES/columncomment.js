@@ -26,10 +26,11 @@
 function set_comment(value, column)
 {
   var round_by = value.replace(/.*arrondi[es]* *[aà] *([0-9.,]*).*/i,'$1') ;
-  if ( round_by === '' )
+  column.round_by = a_float(round_by) ;
+  if ( !isNaN(value) || isNaN(column.round_by) )
+  {
     column.round_by = undefined ;
-  else
-    column.round_by = a_float(round_by) ;
+  }
 
   var best_of = value.replace(/.*oyenne *des *([0-9]*) *meilleur.*/i,'$1') ;
   if ( best_of === '' )
@@ -62,6 +63,9 @@ function set_comment(value, column)
     column.mean_of = undefined ;
 
   column.need_update = true ;
+
+  column.historical_comment = column.best_of || column.mean_of
+    || column.round_by ;
 
   return value ;
 }

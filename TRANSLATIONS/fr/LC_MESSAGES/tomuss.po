@@ -95,6 +95,12 @@ msgstr "Lors du calcul de la moyenne,<br>\n"
        "ATTENTION: une ABJ n'est pas considérée comme une mauvaise note"
 
 #. Attribute Tip
+msgid "TIP_column_attr_rounding"
+msgstr "<b>Arrondi des nombres</b>.<br>\n"
+       "1 : seulement des notes entières<br>\n"
+       "0.5 : seulement des notes comme 10 10.5 11 11.5"
+
+#. Attribute Tip
 msgid "TIP_column_attr_weight"
 msgstr "<b>Poids de cette colonne</b> dans les moyennes pondérées.<br>\n"
  "    Des poids entiers sont préférables.<br>\n"
@@ -742,6 +748,10 @@ msgstr "&nbsp;meilleurs,&nbsp;"
 #. Label before the attribute
 msgid "BEFORE_column_attr_worst"
 msgstr "&nbsp;pires"
+
+#. Label before the attribute
+msgid "BEFORE_column_attr_rounding"
+msgstr "Arrondi"
 
 #. Label before the attribute
 msgid "BEFORE_column_attr_weight"
@@ -4548,4 +4558,7 @@ msgstr "T"
 
 msgid "ALERT_int_required"
 msgstr "Vous devez saisir un nombre entier"
+
+msgid "ALERT_rounding"
+msgstr "L'arrondi doit être un nombre entier ou à virgule différent de 0"
 

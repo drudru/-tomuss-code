@@ -26,7 +26,8 @@ class Moy(note.Note):
     cell_test = 'test_read_only'
     cell_compute = 'compute_average'
     cell_is_modifiable = 0
-    attributes_visible = ('minmax', 'columns', 'weight', 'best', 'worst')
+    attributes_visible = ('minmax', 'columns', 'weight', 'best', 'worst',
+                          'rounding')
 
     def cell_indicator(self, column, value, cell, lines):
         return '', None

@@ -669,6 +669,11 @@ function new_new_interface()
   t.push(column_input_attr('worst','after='+_("BEFORE_column_attr_worst") )) ;
   t.push('</div>') ;
   t.push('<div class="one_line">') ;
+  t.push(column_input_attr('rounding',
+			   'before=' + _("BEFORE_column_attr_rounding")
+			   + ' beforeclass=widthleft')) ;
+  t.push('</div>') ;
+  t.push('<div class="one_line">') ;
   t.push(column_input_attr('weight', 'before=' +_("BEFORE_column_attr_weight")
 			   + ' beforeclass=widthleft')) ;
   t.push(column_input_attr('repetition','before=&nbsp;&nbsp;'
