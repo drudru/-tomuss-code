@@ -4600,3 +4600,7 @@ msgstr "L'arrondi doit être un nombre entier ou à virgule différent de 0"
 msgid "ALERT_follow_url"
 msgstr "Vous voulez vraiment suivre cette URL ?"
 
+msgid "MSG_trivial_password"
+msgstr "Vous devez changer votre mot de passe car il est trop simple.<br>\n"
+       "N'importe quel étudiant peut changer ses notes ou faire<br>\n"
+       "une escroquerie en votre nom."

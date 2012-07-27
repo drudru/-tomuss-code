@@ -4540,3 +4540,7 @@ msgstr "The 'rounding' must be non nul number"
 
 msgid "ALERT_follow_url"
 msgstr "You really want to follow this URL?"
+
+msgid "MSG_trivial_password"
+msgstr "You must change your password, it is to simple.<br>\n"
+       "Any student can change the grades or abuse your name."

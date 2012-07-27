@@ -70,6 +70,14 @@ class Link(object):
             target = ''
         return url, target
 
+    def get_text(self):
+        if self.text:
+            return self.text
+        if self.plugin:
+            return utilities._('LINK_' + self.plugin.name)
+        else:
+            return utilities._('LINK_' + self.url)
+
 
 plugins = []
 
@@ -199,7 +207,7 @@ class Plugin(object):
         s += '</td><td>'
         if self.link:
             s += '<b>%s</b> in %s<br/><em>%s</em>' % (
-                cgi.escape(self.link.text),
+                cgi.escape(self.link.get_text()),
                 self.link.where,
                 cgi.escape(self.link.help),
                 )

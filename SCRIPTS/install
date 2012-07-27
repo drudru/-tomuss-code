@@ -53,6 +53,8 @@ then
   exit 1
 fi >&2
 
+make translations
+
 if [ "$(pwd)" = "$REAL/SERVEUR_NOTES" -o \( "$BACK" != "" -a "$(pwd)" = "$BACK/SERVEUR_NOTES" \) ]
 then
   echo "Can't install version to itself" >&2

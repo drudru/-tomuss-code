@@ -8,10 +8,6 @@ Nouvelles fonctionnalités.
 Utilisateurs finaux.
 --------------------
 
-* https://services.renater.fr/federation/docs/fiches/shibbolisation
-  http://lasso.entrouvert.org/
-  http://support.onelogin.com/entries/20285277-saml-toolkit-for-python
-
 * Mettre à jour les tables régulièrement même sans visite.
   Faire un plugin pour le faire avec auto_load mais sans créer de page inutiles.
   
@@ -19,16 +15,20 @@ Utilisateurs finaux.
 
 * Choix du type de colonne dans une popup
 
+* Tip : nouvelle version avec le + cliquable et survolable
+
 * Un onglet par année ou filtrage pour les tables dont on est responsable
 
 * Trouve notes étranges :
   Normalise les notes de l'étudiant par rapport à la promo
   
+* https://services.renater.fr/federation/docs/fiches/shibbolisation
+  http://lasso.entrouvert.org/
+  http://support.onelogin.com/entries/20285277-saml-toolkit-for-python
   
 * Affichage histogramme tronqué
 
 * Type de colonne Switch (SI)
-
 
 * Déplacer les infos du titre dans un onglet Info du bloc table
 
@@ -36,11 +36,7 @@ Utilisateurs finaux.
 
 * Non semestrialisation : seul le responsable
 
-* Tip : nouvelle version avec le + cliquable et survolable
-
 * Insérer les lignes qui viennent du serveur aux bons endroits
-
-* Passer la source de donnée dans les paramètres colonnes ?
 
 * Pourcentage d'ABJ pour le résultat d'un calcul en fonction du poids
   des colonnes moyennées.
@@ -110,8 +106,6 @@ Utilisateurs finaux.
 Administrateur.
 ---------------
 
-* Mise à jour d'une table sans créer de nouvelle page.
-
 * Droit d'accès : généraliser la notion de groupe, pouvoir en créer.
   Un groupe peut contenir :
 	* un groupe LDAP        : 'ldap:'
@@ -151,13 +145,7 @@ Administrateur.
 Problèmes à résoudre.
 =====================
 
-* doc translation
-
 * Emploi du temps : manque des UE (TVL)
-
-* Indique un master inexistant : pas de popup !
-
-* Catalogue : écriture non lockée
 
 * Primo entrant dans le bloc note de printemps
 

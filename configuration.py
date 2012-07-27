@@ -418,12 +418,10 @@ def suivi_check_student_lists(login):
     return True
 
 # And an error message if the password is trivial
-bad_password = """
+bad_password = lambda: """
 <div onclick="this.style.display='none';"
      style="border:5px solid black;padding:5px;position:absolute;left:10%;top:10%;right:10%;background:red;color:white;font-size:150%">
-     Vous devez changer votre mot de passe car il est trop simple.<br><br>
-     N'importe quel étudiant peut changer ses notes ou faire
-     une escroquerie en votre nom."""
+""" + __import__('utilities')._("MSG_trivial_password")
 
 ###############################################################################
 ###############################################################################

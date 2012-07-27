@@ -546,6 +546,49 @@ They can be&nbsp;:
       <li> Client side : See '<b>FILES/lib.js/statistics_per_group</b>' as a template.</li>
     </ul>
 
+    <h2><a name="translation">TOMUSS Translation</a></h2>
+
+    <p>
+      If the user has not defined its language in its preferences,
+      it is the browser languages that is taken.
+      The <b>server</b> default language is used to created table
+      for column names, comments, value of literals as YES, NO...
+    </p>
+    <p>
+      The translations are in TRANSLATIONS and LOCAL/TRANSLATIONS
+      directories.
+      The LOCAL translation override the default translation.
+    </p>
+    <p>
+      some message ID are not in the source code because they are computed.
+      for example for the column types and the attributes.
+    </p>
+    <p>
+      Message ID format is usualy in this form: TYPE_PLUGIN_ID where TYPE is</p>
+      <ul>
+	<li> ALERT : displayed in an alert box in the browser (no HTML)</li>
+	<li> ASK : displayed in a confirm box in the browser (no HTML)</li>
+	<li> TIP : displayed in a tip message</li>
+	<li> TH : an HTML TH header</li>
+	<li> B : a button text in the interface</li>
+	<li> BEFORE : a label before an input area</li>
+	<li> COL_TITLE : a template column title</li>
+	<li> COL_COMMENT : a template column comment</li>
+	<li> TABLE_COMMENT : a template table comment</li>
+	<li> ERROR : an error message</li>
+	<li> LINK : the text in the home page link for the plugin</li>
+	<li> HELP : the tip in the home page link for the plugin</li>
+	<li> MESSAGE :</li>
+	<li> TITLE : a page title (no HTML)</li>
+	<li> MSG : a text</li>
+	<li> SUIVI : a text on the 'suivi' page</li>
+	<li> TAB : a tab title</li>
+      </ul>
+	
+      
+     
+
+
     <h2><a name="administration">TOMUSS Administration</a></h2>
 
     <h3><a name="semester">Semesters</a></h3>

@@ -60,7 +60,7 @@ def home_page(server):
     if inscrits.L_fast.password_ok(user_name):
         password_ok = ''
     else:
-        password_ok = configuration.bad_password
+        password_ok = configuration.bad_password()
 
     favorites = utilities.manage_key('LOGINS',
                                      os.path.join(user_name, 'pages'))

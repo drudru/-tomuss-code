@@ -26,7 +26,7 @@ def execute(server):
     """Display an information page to indicate that the user
     password is not safe because it is too simple.
     So the user has not access to the software"""
-    server.the_file.write(configuration.bad_password)
+    server.the_file.write(configuration.bad_password())
 
 plugin.Plugin('badpassword', '/{*}', teacher=True, password_ok=False,
               function = execute,

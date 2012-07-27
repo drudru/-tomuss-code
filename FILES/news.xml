@@ -671,6 +671,28 @@ Les améliorations les plus visibles sont :
       </description>
       <guid>47</guid>
     </item>
+    <item>
+      <title>27/07/2012 : Version 4.1.0</title>
+      <link>http://tomuss.univ-lyon1.fr/</link>
+      <description>
+	Le code source de TOMUSS a été remis au propre et de nombreux
+	bugs ont été corrigé.
+	Mais il est certain que de nouveaux bugs sont apparus,
+	donc prévenez-moi rapidement.
+	&lt;p&gt;
+	Il y a eu un changement dans l'interface utilisateur,
+	il y a un onglet de plus dans le bloc colonne et un
+	peu de réorganisation.
+	On peut maintenant saisir facilement :
+&lt;ul&gt;
+&lt;li&gt; l'arrondi de la colonne,
+&lt;li&gt; le nombre de mauvaises et bonnes notes à enlever d'une moyenne,
+&lt;li&gt; l'URL de base et l'intitulé du lien pour les colonnes de type URL,
+&lt;li&gt; l'URL du document CSV à importer dynamiquement dans la colonne.
+&lt;/ul&gt;
+      </description>
+      <guid>48</guid>
+    </item>
 
   </channel>
 </rss>

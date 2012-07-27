@@ -1,5 +1,5 @@
 
-start:
+start:translations
 	SCRIPTS/crontab_run.py
 stop stopsuivi stoptomuss:
 	SCRIPTS/crontab_run.py $@
@@ -27,15 +27,15 @@ clean:
 tags:
 	etags $$(find . \( -name '*.js' -o -name '*.py' \) -print)
 
-regtest:
+regtest:translations
 	cd REGTEST_SERVER ; ./tests.py
 
-regtest1:
+regtest1:translations
 	cd REGTEST_SERVER ; ./tests.py 1
 
 V := $(shell python -c 'import configuration;print configuration.version' 2>/dev/null)
 
-release:
+release:translations
 	@echo "Check if we are in the 'stable' branch"
 	@git branch | grep -F '* stable' >/dev/null
 	@cd LOCAL ; git branch | grep -F '* stable' >/dev/null

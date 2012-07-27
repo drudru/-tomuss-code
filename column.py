@@ -220,7 +220,7 @@ class TableAttr(ColumnAttr):
             if '_(' not in error:
                 error = utilities.js(error)
             t = '<script>alert(%s + "\\n" +%s);</script>\n' % (
-                error, utilities._("ALERT_column_not_saved"))
+                error, utilities.js(utilities._("ALERT_column_not_saved")))
                                                                
             sender.append(page.browser_file, t)
             return 'bad.png'
