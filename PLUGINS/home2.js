@@ -993,7 +993,8 @@ function update_students()
     }
   if ( last_login_cache[what] )
     {
-      full_login_list(what, last_login_cache[what]) ;
+      full_login_list(what, last_login_cache[what]['teacher'], 'teacher') ;
+      full_login_list(what, last_login_cache[what]['student'], 'student') ;
       return ;
     }
   if ( update_students_timeout )
