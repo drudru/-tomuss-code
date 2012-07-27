@@ -124,6 +124,8 @@ function head_html()
  if ( semester_color )
    {
      options = "__OPTIONS__" ;
+     if ( options.indexOf( year + '/' + semester) === -1 )
+       options += '<option>' +  year + '/' + semester + '</option>' ;
      options = options.replace('>' + year + '/' + semester,
 			       ' selected>' + year + '/' + semester) ;
      options = '<select onchange="semester_change(this);" '

@@ -153,8 +153,6 @@ Problèmes à résoudre.
 
 * Message JS dans 'print'
 
-* annéé/semestre dans le menu de table : 2008/Test si pas de suivi.
-
 * Dans stat, la fenetre graphique est cachée en bas de page.
 
 * Browser file close : suffisant pour Python 3 ? (page action)
