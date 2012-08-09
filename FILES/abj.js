@@ -302,9 +302,10 @@ function send_abj()
 	  return ;
 	}
     }
+  // The    + ' '    is here to avoid // replacement by / with IE
   get_image('/addabj/' +
 	    date_to_store(start.value) + '/' + date_to_store(end.value)
-	    + '/' + encode_uri(comment.value)) ;
+	    + '/' + encode_uri(comment.value + ' ')) ;
   comment.value = '' ;
 }
 
@@ -423,7 +424,7 @@ function display_da(das)
     + '<TR><TH COLSPAN="5">' + _("TH_da_list") + '</TH></TR>'
     + '<TR><TH>UE</TH><TH>' + _("TH_begin") + '</TH><TH>'
     +  _("TAB_column_action") + '</TH><TH>' + _("TH_abj_author") + '</TH><TH>'
-    + _("TH_commentaire") + '</TH></TR>' ;
+    + _("TH_comment") + '</TH></TR>' ;
   for(var da in das)
     {
       s += '<TR><TD>' + das[da][0] +
@@ -463,7 +464,7 @@ function add_an_da()
   dateda = dateda.substr(0, dateda.length-2) ; // Remove /M /A
   document.getElementById('dateda').value = dateda ;
 
-  get_image('/add_da/' + v + '/' + dateda + '/' + encode_uri(comment.value)) ;
+  get_image('/add_da/' + v + '/'+dateda+'/' + encode_uri(comment.value+' ')) ;
   comment.value = '' ;
 }
 

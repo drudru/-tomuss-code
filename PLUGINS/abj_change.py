@@ -167,12 +167,12 @@ def abj_action(server):
         abj.add_abjs(server.the_year, server.the_semester, server.ticket,
                      server.the_student,
                      '/'.join(path[1:4]) + path[4],
-                     '/'.join(path[5:8]) + path[8], path[9])
+                     '/'.join(path[5:8]) + path[8], path[9].strip())
     elif path[0] == 'add_da':
         abj.add_abjs_da(server.the_year, server.the_semester,
                         server.ticket, server.the_student,
                         path[1], path[2] + '/' + path[3] + '/' + path[4],
-                        path[5])
+                        path[5].strip())
     elif path[0] == 'rem_da':
         abj.rem_abjs_da(server.the_year, server.the_semester,
                         server.ticket, server.the_student, path[1])
