@@ -86,7 +86,7 @@ msgstr "<b>Commentaire pour cette colonne.</b><br>\n"
 #. Attribute Tip
 msgid "TIP_column_attr_best"
 msgstr "Lors du calcul de la moyenne,<br>\n"
-       "les X meilleurs notes ne seront pas prises en compte."
+       "les X meilleures notes ne seront pas prises en compte."
 
 #. Attribute Tip
 msgid "TIP_column_attr_worst"
@@ -280,7 +280,7 @@ msgid "TIP_column_attr_course_dates"
 msgstr "<b>Dates des enseignements</b>.<br>\n"
  "    Les dates sont indiquées sous la forme JJ/MM/AAAA<br>\n"
  "    suivi éventuellement de M ou A pour Matin ou Après-midi.<br>\n"
- "    Les ABINJ concernant ces dates sont soulignés."
+ "    Les ABINJ avec un justificatif concernant ces dates sont en rouge."
 
 #. Attribute Tip
 msgid "TIP_column_attr_url_base"
@@ -763,7 +763,7 @@ msgstr "Enlève&nbsp;les&nbsp;"
 
 #. Label before the attribute
 msgid "BEFORE_column_attr_best"
-msgstr "&nbsp;meilleurs,&nbsp;"
+msgstr "&nbsp;meilleures,&nbsp;"
 
 #. Label before the attribute
 msgid "BEFORE_column_attr_worst"

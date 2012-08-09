@@ -291,7 +291,7 @@ msgstr ""
 "<b>Dates of the courses for this columns</b>.<br>\n"
 "Date are in the form: DD/MM/YYYY followed by a<br>\n"
 "M for Morning or A for Afternoon<br>\n"
-"The ABINJ for theses dates are displayed in red."
+"The ABINJ with a justification for theses dates are displayed in red."
 
 #. Attribute Tip
 msgid "TIP_column_attr_url_base"
