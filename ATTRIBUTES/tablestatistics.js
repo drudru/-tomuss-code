@@ -149,7 +149,7 @@ function stat_flower_zoom(t, column)
   w.style.display = 'block' ;
 }
 
-function stat_display_one_flower(s, v, p, x, y, stat, group, zoom)
+function stat_display_one_flower(s, v, p, x, y, stat, group, zoom, hide_histo)
 {
   if ( stat === undefined )
     return '' ;
@@ -179,11 +179,13 @@ function stat_display_one_flower(s, v, p, x, y, stat, group, zoom)
 	s.push('<tspan x="' + x + '" dy="' + (i==0 ? -fs*(t.length-1.5) :(fs+1)) + 'px"'
 	       + '>' + html(t[i]) + '</tspan>') ;
       s.push('</text>') ;
-      x = Number(x) ;
-      y = Number(y) ;
-      var rh = 20*r/stat.nr ;
-      var sw = (r/3.14).toFixed(2) ;
-      for(var i in stat.histogram)
+      if ( ! hide_histo )
+      {
+	x = Number(x) ;
+	y = Number(y) ;
+	var rh = 20*r/stat.nr ;
+	var sw = (r/3.14).toFixed(2) ;
+	for(var i in stat.histogram)
 	{
 	  a = i*3.14/10 + 3.14/2 ;
 	  p.push('<path style="opacity:0.6;stroke-width:'
@@ -194,6 +196,7 @@ function stat_display_one_flower(s, v, p, x, y, stat, group, zoom)
 		 + ' ' + (y+Math.sin(a)*stat.histogram[i]*rh)
 		 + '"/>') ;
 	}
+      }
     }
   return r ;
 }
@@ -282,6 +285,7 @@ function stat_display_fractal_flower(groups, sorted_cols, all_stats, zoom)
   var flowers_p = [] ;
   var flowers_nr = [] ;
   var s2, v2, p2 ;
+  var hide_histo = sorted_cols.length > 7 ;
 
   for(var column in sorted_cols)
     {
@@ -297,7 +301,8 @@ function stat_display_fractal_flower(groups, sorted_cols, all_stats, zoom)
       v2 = [] ;
       p2 = [] ;
       stat_display_one_flower(s2, v2, p2, 0., 0., stat,
-			      columns[column].title, zoom/4) ;
+			      columns[column].title, zoom/4,
+			      hide_histo) ;
       flowers_nr.push(stat.normalized_average()) ;
       flowers_s.push(s2.join('\n')) ;
       flowers_v.push(v2.join('\n')) ;
@@ -346,7 +351,8 @@ function stat_display_fractal_flower(groups, sorted_cols, all_stats, zoom)
 	      v2 = [] ;
 	      p2 = [] ;
 	      stat_display_one_flower(s2, v2, p2, 0., 0.,
-				      stat, title + group, zoom/4) ;
+				      stat, title + group, zoom/4,
+				     hide_histo) ;
 	      flowers_nr.push(stat.normalized_average()) ;
 	      flowers_s.push(s2.join('\n')) ;
 	      flowers_v.push(v2.join('\n')) ;
@@ -394,8 +400,8 @@ function stat_fractal_flower_zoom(t)
       (_("MSG_stat_flower_explanations")
        + stat_display_fractal_flower(stats_groups, sorted_cols,
 				     all_stats,
-				     window_width()
-				     / stat_svg_height)
+				     window_width() / stat_svg_height
+				    )
        ) ;
   w.document.close() ;
 }
@@ -411,7 +417,7 @@ function stat_display_flowers(s, groups, sorted_cols, all_stats)
       s.push('<td><div class="s_graph">'
 	     + stat_display_flower(groups, all_stats, column)
 	     + '<div class="s_clickable" onclick="stat_flower_zoom(this,'
-	     + js2(column) + ')"></div></div></td>') ;
+	     + js2(column) + ');setTimeout(\'document.body.scrollTop = 10000000\',100) ;"></div></div></td>') ;
     }
   s.push('<td><div class="s_graph">'
 	 + stat_display_fractal_flower(groups, sorted_cols, all_stats)

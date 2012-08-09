@@ -2500,8 +2500,8 @@ function set_element_relative_position(anchor, element)
 	}
       else
 	{
-	  element.style.left = 'auto' ;
-	  element.style.right = 0 ;
+	  element.style.left = pos[0]-element.offsetWidth + anchor.offsetWidth;
+	  element.style.right = 'auto' ;
 	}
       return ;
     }
