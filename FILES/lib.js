@@ -575,7 +575,10 @@ function compute_rank(line_id, column)
 function line_resume(line_id)
 {
   var s, column ;
-  s = '<table class="colored" style="max-width:'
+  s = '<div style="overflow:auto;max-height:'
+    + Math.floor(window_height() - header_height)
+    + 'px">'
+    + '<table class="colored" style="max-width:'
     + Math.floor(window_width()*0.75) + 'px">'
     + '<tr><th>' + _('TH_column')
     + '</th><th>' + _('TH_value')
@@ -616,6 +619,7 @@ function line_resume(line_id)
 	xx += x[i] + '<br>' ;
       x = '<small>' + xx.substr(0, xx.length-4) + '</small>' ;
     }
+  x += '</div>' ;
 
   return s + x + '\n' ; // + '\n' : explanation in update_tip_from_value
 }
@@ -3598,6 +3602,8 @@ function remove_highlight()
 function hide_the_tip_real()
 {
   var tip = get_tip_element() ;
+  if ( tip.innerHTML.indexOf('overflow:') != -1 )
+    return ; // To let the user scroll
   tip.onmousemove = function() {} ;
   tip.style.display = "none" ;
   tip.tip_target = undefined ;
