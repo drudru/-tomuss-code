@@ -19,14 +19,15 @@
 #
 #    Contact: Thierry.EXCOFFIER@bat710.univ-lyon1.fr
 
-import plugin
-import gc
-import objgraph
-import cgi
-import utilities
 import os
-import configuration
 import time
+import collections
+import gc
+import cgi
+import objgraph
+import plugin
+import utilities
+import configuration
 
 def gc_top(server):
     "Display a clickable list of Python classes and their number of instance."
@@ -44,25 +45,49 @@ def gc_top(server):
     server.the_file.write('</pre>')
 
 
+def check(path, o):
+    s = []
+    first = path[0]
+    rest = path[1:]
+    for child in gc.get_referents(o):
+        if type(child).__name__ == first:
+            if len(path) == 1:
+                s.append(child)
+            else:
+                s += check(rest, child)
+    return s
+
+    
 def gc_type(server):
     """Display a clickable list of the instance of the classes specified"""
     if configuration.regtest:
         server.the_file.write(server._("MSG_evaluate"))
         return
+    gc.collect()
+    objects = gc.get_objects()
+    server.the_file.write('<h1> ? → ' + '→'.join(server.the_path) + '</h1>')
     server.the_file.write('<pre>')
-    for i in objgraph.by_type(server.the_path[0]):
-        if hasattr(i, 'closed'):
-            closed = 'closed=%s' % i.closed
-        else:
-            closed = ''
-        if isinstance(i, utilities.StaticFile):
-            value = i.name
-        else:
-            value = str(i)
-        server.the_file.write('<a href="%s/=%s/object/%s">' % (
-            utilities.StaticFile._url_, server.ticket.ticket,
-                                               id(i)) +
-                cgi.escape(value) + '</a> %s\n' % closed)
+    what = collections.defaultdict(list)
+    for i in objects:
+        for j in check(server.the_path, i):
+            what[type(i).__name__].append(j)
+    s = sorted(what, key=lambda x: len(what[x]))
+    s.reverse()
+    for k in s:
+        server.the_file.write('%s(<a href="%s/=%s/type/%s">%s</a>)' % (
+                k,
+                utilities.StaticFile._url_,
+                server.ticket.ticket,
+                k + '/' + '/'.join(server.the_path),
+                len(what[k])))
+        for i in what[k][:10]:
+            server.the_file.write(' <a href="%s/=%s/object/%s">%x</a>' % (
+                utilities.StaticFile._url_,
+                server.ticket.ticket,
+                id(i),
+                id(i)))
+        server.the_file.write('\n')
+                    
     server.the_file.write('</pre>')
 
 def gc_object(server):
@@ -70,14 +95,11 @@ def gc_object(server):
     if configuration.regtest:
         server.the_file.write(server._("MSG_evaluate"))
         return
-    o = int(server.the_path[0], 0)
-    for i in gc.get_objects():
-        if id(i) == o:
-            gc.collect()
-            objgraph.show_backrefs(i, max_depth=5)
-            server.the_file.write(utilities.read_file(
-                os.path.join('TMP', 'objects.png')))
-            break
+    i = objgraph.at(int(server.the_path[0], 0))
+    gc.collect()
+    objgraph.show_backrefs(i, max_depth=5)
+    server.the_file.write(utilities.read_file(os.path.join('TMP',
+                                                           'objects.png')))
 
 plugin.Plugin('gctop'   , '/gc'        , root=True, function=gc_top,
               link=plugin.Link(where='debug', html_class='verysafe')
