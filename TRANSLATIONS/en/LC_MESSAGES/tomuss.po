@@ -2868,8 +2868,7 @@ msgstr "Delete empty UE"
 
 msgid "HELP_clean"
 msgstr "Deleted UE are moved in Trash directory.\n"
-       "Avoid this operation because it is slow and\n"
-       "it is important to keep the student registration history.\n"
+       "This operation because it is slow and\n"
        "It is done only in the current chosen year/semester."
 
 msgid "LINK_clean_other"

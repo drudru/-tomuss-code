@@ -25,6 +25,7 @@ import threading
 import socket
 import re
 import collections
+import cgi
 import utilities
 import configuration
 import data
@@ -743,7 +744,7 @@ class Table(object):
             return False, utilities._("MSG_document_table_today")
         if self.comment:
             return False, utilities._("MSG_document_table_comment"
-                                      ) % self.comment
+                                      ) % cgi.escape(self.comment)
         if not empty_even_if_column_created:
             for c in self.columns:
                 if c.author != data.ro_user:

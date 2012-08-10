@@ -25,12 +25,14 @@ import tablestat
 
 def clean(server):
     """Remove all the UE that where not modified and are not actives.
-    Display the list of the tables and why they are not deleted."""
+    Display the list of the tables and why they are not deleted.
+    Tables with lines are not deleted even if empty.
+    """
     
     for table in tablestat.les_ues(server.the_year, server.the_semester):
         empty, comment = table.empty()
         ue = '<a href="%s">%s</a> : %s' % (table.ue, table.ue, comment)
-        if empty:
+        if empty and len(table.lines) == 0:
             ue = '<b>' + table.ue + '</b>'
             table.delete()
         else:

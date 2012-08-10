@@ -2882,8 +2882,6 @@ msgstr "Détruit les UE vides"
 msgid "HELP_clean"
 msgstr "Les UE détruites sont mises dans le répertoire Trash.\n"
        "C'est LENT : il ne faut pas le faire en charge.\n"
-       "Il est préférable de ne pas le faire pour garder\n"
-       "un historique des étudiants inscrits.\n"
        "Ceci n'est fait que pour les UE du semestre choisi."
 
 msgid "LINK_clean_other"
