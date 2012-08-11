@@ -29,7 +29,9 @@ def auto_update(server):
     """Update the student list for each known table of the current semester"""
 
     to_unload = set()
-    for t in tablestat.les_ues(*configuration.year_semester, ro=False):
+    for t in tablestat.les_ues(configuration.year_semester[0],
+                               configuration.year_semester[1],
+                               ro=False):
         server.the_file.write("%s " % t.ue)
         server.the_file.flush()
         to_unload.add(t)

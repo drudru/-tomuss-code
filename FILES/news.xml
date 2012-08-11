@@ -672,7 +672,7 @@ Les améliorations les plus visibles sont :
       <guid>47</guid>
     </item>
     <item>
-      <title>27/07/2012 : Version 4.1.0</title>
+      <title>11/08/2012 : Version 4.1.1</title>
       <link>http://tomuss.univ-lyon1.fr/</link>
       <description>
 	Le code source de TOMUSS a été remis au propre et de nombreux
@@ -690,6 +690,8 @@ Les améliorations les plus visibles sont :
 &lt;li&gt; l'URL de base et l'intitulé du lien pour les colonnes de type URL,
 &lt;li&gt; l'URL du document CSV à importer dynamiquement dans la colonne.
 &lt;/ul&gt;
+        Il est maintenant possible d'indiquer TNR (Travail Non Rendu)
+	comme note à la place d'un 0 pour différencier les deux.
       </description>
       <guid>48</guid>
     </item>
