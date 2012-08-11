@@ -1887,7 +1887,7 @@ msgid "TIP_cell_Login"
 msgstr "Login d'utilisateur ou le début de son nom/prénom"
 
 msgid "TIP_cell_Note"
-msgstr "Une note ou bien I : ABI, J : ABJ, N : Peut pas noter"
+msgstr "Une note ou I: ABI, J: ABJ, N: Peut pas noter, T: Travail Non Rendu"
 
 msgid "TIP_cell_Prst"
 msgstr "Présence, tapez P : Présent, I : ABI, J : ABJ"
@@ -4584,6 +4584,9 @@ msgid "pre_char"
 msgstr "P"
 
 msgid "tnr"
+msgstr "TNR"
+
+msgid "tnr_short"
 msgstr "TNR"
 
 msgid "tnr_char"

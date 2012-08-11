@@ -79,6 +79,8 @@ function test_note(value, column)
     return vv ;
   if ( v === ppn_char || v === ppn )
     return ppn ;
+  if ( v === tnr_char || v === tnr )
+    return tnr ;
   if ( v === '' )
     return v ;
   v = a_float(v) ;
@@ -89,7 +91,11 @@ function test_note(value, column)
   if ( isNaN(v) || v < column.min || v > column.max )
     {
       alert_append(value + _("ALERT_bad_grade") + column.minmax + "\n" +
-		   "I(" + abi + "), J(" + abj + "), N(" + ppn + ')')
+		   abi_char + "(" + abi + "), " +
+		   abj_char + "(" + abj + "), " +
+		   ppn_char + "(" + ppn + '), ' +
+		   tnr_char + "(" + tnr + ')'
+		  )
       return ;
     }
 

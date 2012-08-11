@@ -646,6 +646,7 @@ for(i=0;i<20;i++)
   s_colors[i] = i<5 ? 'F44' : (i<10 ? 'DA0' : (i<15 ? '9C9' : '0F0')) ;
 s_colors[pre] = '8F8' ;
 s_colors[abi] = 'F88' ;
+s_colors[tnr] = 'FAA' ;
 s_colors[abj] = '88F' ;
 s_colors[ppn] = '0FF' ;
 

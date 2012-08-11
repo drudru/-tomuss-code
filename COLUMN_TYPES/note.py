@@ -42,6 +42,8 @@ class Note(text.Text):
     def cell_indicator_prst(self, column, value, cell, lines):
         if value == configuration.abi or value == configuration.abi_short:
             return 'abinj', 0
+        if value == configuration.tnr or value == configuration.tnr_short:
+            return 'tnr', 0
         if value == configuration.abj or value == configuration.abj_short:
             return 'abjus', None
         if value == configuration.pre or value == configuration.pre_short:
@@ -101,7 +103,7 @@ class Note(text.Text):
         classname = self.cell_indicator(column, value, cell, lines)[0]
         if classname == 'abinj2':
             return (configuration.abi + '???', classname, self.message)
-        if classname in ('prst', 'abinj', 'abjus'):
+        if classname in ('prst', 'abinj', 'abjus', 'tnr'):
             return (cgi.escape(str(value)), classname, '')
         if value == '':
             return '', '', ''

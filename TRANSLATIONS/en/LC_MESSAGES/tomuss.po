@@ -1885,7 +1885,7 @@ msgid "TIP_cell_Login"
 msgstr "User login or the begin of its name or surname"
 
 msgid "TIP_cell_Note"
-msgstr "A grade or: I: ABI, J: ABJ, N: can't grade it"
+msgstr "A grade or: I: Injustified Leave, J: Justified Leave, C: can't grade, W: Work Not Given"
 
 msgid "TIP_cell_Prst"
 msgstr "P: Présent, I: not here, J: justified non attendance"
@@ -4526,6 +4526,9 @@ msgid "pre_char"
 msgstr "P"
 
 msgid "tnr"
+msgstr "WNG"
+
+msgid "tnr_short"
 msgstr "WNG"
 
 msgid "tnr_char"

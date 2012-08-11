@@ -8,11 +8,6 @@ Nouvelles fonctionnalités.
 Utilisateurs finaux.
 --------------------
 
-* Mettre à jour les tables régulièrement même sans visite.
-  Faire un plugin pour le faire avec auto_load mais sans créer de page inutiles.
-  
-* Ajouter TNR (travail non rendu)
-
 * Choix du type de colonne dans une popup
 
 * Tip : nouvelle version avec le + cliquable et survolable
@@ -25,10 +20,12 @@ Utilisateurs finaux.
 * https://services.renater.fr/federation/docs/fiches/shibbolisation
   http://lasso.entrouvert.org/
   http://support.onelogin.com/entries/20285277-saml-toolkit-for-python
-  
-* Affichage histogramme tronqué
 
 * Type de colonne Switch (SI)
+
+* Affichage histogramme tronqué.
+  Les histogrammes sont à refaire pour simplifier le code et l'affichage
+  des cas particuliers (ABI ABJ PPN TNR...)
 
 * Déplacer les infos du titre dans un onglet Info du bloc table
 
@@ -151,17 +148,11 @@ Problèmes à résoudre.
 
 * Perte photo quand déconnexion puis reconnexion réseau
 
-* Message JS dans 'print'
-
-* Dans stat, la fenetre graphique est cachée en bas de page.
-
 * Browser file close : suffisant pour Python 3 ? (page action)
 
 * Arrêter propremement pour ne rien perdre
 
 * %01 %02 ne sont pas supporté par CAS : les enlever...
-
-* DEMO : commentaire numerique sur saisie d'ABJ sans commentaire !!!
 
 * La destruction de table quand elle est impossible la fait disparaître
   de la page d'accueil

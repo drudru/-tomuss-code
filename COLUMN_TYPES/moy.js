@@ -69,6 +69,8 @@ function compute_average(data_col, line)
 	case ppn: nr_ppn++ ; continue ;
 	case pre_short:
 	case pre: values.push([1, from]) ; break ;
+	case tnr_short:
+	case tnr:
 	case abi_short:
 	case abi: values.push([0, from]) ; nr_abi++ ; break ;
 	default:  

@@ -70,7 +70,7 @@ function export_column_id_value()
   popup_set_value(v) ;
 }
 
-var abjvalue, ppnvalue ;
+var abjvalue, ppnvalue, tnrvalue ;
 
 function abj_ppn_value()
 {
@@ -80,11 +80,13 @@ function abj_ppn_value()
     {
       abjvalue = '0' ;
       ppnvalue = '0' ;
+      tnrvalue = '0' ;
     }
   else
     {
       abjvalue = abj_short ;
       ppnvalue = ppn_short ;
+      tnrvalue = tnr_short ;
     }
 }
 
@@ -100,6 +102,7 @@ function cell_value_export()
 	case abi: return abi_short ;
 	case abj: return abjvalue ;
 	case ppn: return ppnvalue ;
+	case tnr: return tnrvalue ;
 	default: return xx ;
 	}
     }

@@ -156,8 +156,6 @@ class MyRequestBroker(utilities.FakeRequestHandler):
         plugin.dispatch_request(self)
 
 if __name__ == "__main__":
-    utilities.init()
-
     try:
         year = int(sys.argv[1])
         semester = sys.argv[2]
@@ -179,6 +177,8 @@ if __name__ == "__main__":
     document.table(0, 'Dossiers', 'config_table', None, None,
                    ro=True, create=False)
     warn("Configuration table loaded, do_not_display=%s" % repr(configuration.do_not_display))
+    utilities.init()
+
 
     utilities.mkpath(os.path.join("LOGS", "SUIVI%d" % server_port))
     logs = open(os.path.join("LOGS", "SUIVI%d" % server_port,
