@@ -64,6 +64,7 @@ def plugins_tomuss():
     import PLUGINS.reload_plugins
     import PLUGINS.picture
     import PLUGINS.change_identity
+    import PLUGINS.auto_update
     plugins_tomuss_more()
 
     # Get plugins links from suivi in order to create home page

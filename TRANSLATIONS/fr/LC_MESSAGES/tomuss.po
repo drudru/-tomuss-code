@@ -4602,3 +4602,10 @@ msgid "MSG_trivial_password"
 msgstr "Vous devez changer votre mot de passe car il est trop simple.<br>\n"
        "N'importe quel étudiant peut changer ses notes ou faire<br>\n"
        "une escroquerie en votre nom."
+
+msgid "LINK_auto_update"
+msgstr "Met à jour les listes d'étudiants"
+
+msgid "HELP_auto_update"
+msgstr "Visite chaque table qui a déjà été visitées,\n"
+       "pour mettre à jour la liste des étudiants."
