@@ -2,13 +2,13 @@
 # -*- python -*-
 
 import os
+import re
 
 def pairs(a):
     previous = a[0]
     for i in a[1:]:
         yield previous, i
         previous = i
-
 
 
 f = os.popen('git tag', 'r')
@@ -30,7 +30,10 @@ for a, b in pairs(versions):
         if line.startswith('Author'):
             continue
         if line.startswith('Date'):
-            first_date = line[5:].strip()
+            first_date = re.sub('[+][0-9][0-9][0-9][0-9]', '',
+                                line[5:].strip())
+            first_date = re.sub('[0-9][0-9]:[0-9][0-9]:[0-9][0-9] ', '',
+                                first_date)
             if last_date is None:
                 last_date = first_date
             state = 'date'
@@ -52,8 +55,7 @@ for a, b in pairs(versions):
             continue
         logs.append('  ' + line)
     print '\n' + '-'*79
-    print last_date, a
-    print first_date, b
+    print first_date, b, '  ===>  ', last_date, a
     print '-'*79
     print '\n'.join(logs)
     f.close()
