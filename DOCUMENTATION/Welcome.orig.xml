@@ -604,15 +604,6 @@ They can be&nbsp;:
 
     <table border="1">
       <tr><th>When</th><th>What</th></tr>
-      <tr>
-	<td>
-	  Before the first removal of students from any list.
-	</td>
-	<td>
-	  Set '<tt>allow_student_removal</tt>' to <tt>False</tt>
-	  in the TOMUSS configuration table.
-	</td>
-      </tr>
 
       <tr>
 	<td>
@@ -656,10 +647,6 @@ They can be&nbsp;:
 	<td>
 	  Set '<tt>year_semester</tt>' to the same value than
 	  '<tt>year_semester_next</tt>'.
-	  <p>
-	    Set '<tt>allow_student_removal</tt>' to <tt>True</tt>
-	    in the TOMUSS configuration table.
-	  </p>
 	</td>
       </tr>
     </table>
@@ -899,6 +886,7 @@ in memory.</p>
 The goal <tt>install</tt> of the <tt>Makefile</tt> runs
 the script <tt>install</tt> that do all the work to replace
 a running TOMUSS by the new release.
+<b>IT IS A VERY BAD IDEA TO RUN THIS SCRIPT WITHOUT UNDERSTANDING IT</b>.
 </p>
     <ul>
       <li> The script contains the two directories where TOMUSS programs

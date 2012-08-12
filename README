@@ -1,74 +1,63 @@
-Cette documentation est un guide de démarrage rapide.
-La documentation de référence est dans DOCUMENTATION/Welcome.xml
+This documentation is only for a quick start.
+The reference documentation is in DOCUMENTATION/Welcome.xml
 
-Faire tourner les tests de régression en boucle
-pour vérifier que TOMUSS fonctionne :
+To check if TOMUSS works, run the regression tests:
 
-	make regtest
-
-Cela ne doit normalement jamais s'arrêter.
+	make regtest1
 
 ==============================================================================
-                       Pour tester TOMUSS sans toucher aux sources
+                       To try TOMUSS with modifying anything
 ==============================================================================
 
-Pour lancer le server TOMUSS sans authentification :
+Launch TOMUSS without authentication:
 
     make translations
     ./tomuss.py regtest
 
-Pour se connecter au serveur :
+URL to use to connect to the server:
 
     http://127.0.0.1:8888/=super.user
     http://127.0.0.1:8888/=ue1.master
 
-Pour créer/editer une table :
+To create ou edit a table:
 
-    http://127.0.0.1:8888/=ue1.master/2010/Printemps/UE-INF1001L  (une UE)
-    http://127.0.0.1:8888/=ue1.master/2009/Dossiers/nomtable      (privée)
-    http://127.0.0.1:8888/=ue1.master/2009/Public/nomtable      (publique)
+    http://127.0.0.1:8888/=ue1.master/2010/Printemps/UE-INF1001L
+    http://127.0.0.1:8888/=ue1.master/2009/Dossiers/nomtable      (private)
+    http://127.0.0.1:8888/=ue1.master/2009/Public/nomtable         (public)
 
-Lancer un serveur de suivi d'étudiants.
-Il faut respecter les paramètres indiqués dans LOCAL/__init__.py
+To launch a 'suivi' server:
+    ./suivi.py 2012 Printemps 8890 regtest
+The parameters MUST be the ones defined in LOCAL/__init__.py
 
-    ./suivi.py 2010 Printemps 8892 regtest
-
-Pour configurer TOMUSS interactivement :
+To configure TOMUSS:
 
     http://127.0.0.1:8888/=super.user/0/Dossiers/config_table
 
 ==============================================================================
-                     Pour utiliser TOMUSS en vrai
+                     Using TOMUSS in production
 ==============================================================================
 
-Dans le fichier 'configuration.py' contient de nombreuses options.
-Vous ne devez pas les modifier dans ce fichier.
-Les modifications doivent être faites dans le fichier :
+Look at 'configuration.py' configuration file. DO NOT MODIFY IT.
+change the values in your LOCAL files:
 
 	LOCAL/__init__.py
 
-Suivez les indications données dans ce fichier.
 
-
-Pour gérer les serveurs TOMUSS :
-	- Tapez 'make' pour lancer.
-	- Tapez 'make stop' pour arrêter.
+To start/stop all the servers :
+	- 'make' to start them all.
+	- 'make stop' to stop them.
 
 
 ==============================================================================
-                     Pour changer de version de TOMUSS
+                     To change the TOMUSS version
 ==============================================================================
 
-Pour le moment c'est compliqué :
-	* Récupérer les nouveaux sources.
-	* Mettre votre version des sources dans LOCAL
-	* Lancer SCRIPTS/install en indiquant les 2 répertoires d'installation.
+Follow this procedure:
+	* Retrieve new sources.
+	* Put your modifications in LOCAL
+	* 'make stop' in the old version
+	* 'make start' in the new version
 
-Si jamais la nouvelle version ne fonctionne pas :
-	* Vous l'arrêtez avec un : "make stop"
-	* Vous allez dans l'ancienne (qui a été conservée)
-	* Vous la lancer avec "make"
-	* Vous modifier le 'crontab' pour lancer l'ancienne au lieu
-	  de la nouvelle.
+It is a good idea to make an install script (see SCRIPTS/install)
 
 
