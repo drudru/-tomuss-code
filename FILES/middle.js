@@ -681,7 +681,8 @@ function new_new_interface()
   t.push('<div class="one_line">') ;
   t.push(column_input_attr('weight', 'before=' +_("BEFORE_column_attr_weight")
 			   + ' beforeclass=widthleft')) ;
-  t.push(column_input_attr('repetition','before=&nbsp;&nbsp;'
+  t.push('&nbsp;&nbsp;') ;
+  t.push(column_input_attr('repetition','before='
 			   + _("BEFORE_column_attr_repetition")
 			   + '&nbsp;'));
   t.push('</div>') ;

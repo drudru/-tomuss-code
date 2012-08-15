@@ -4692,3 +4692,8 @@ msgstr "Les UE"
 msgid "ALERT_columntype"
 msgstr "Si vous confirmez que vous voulez ce type de colonne,\n"
        "alors le contenu actuel de la colonne sera immédiatement effacé."
+
+
+msgid "ALERT_unknown_user"
+msgstr "Nom et prénom inconnus"
+

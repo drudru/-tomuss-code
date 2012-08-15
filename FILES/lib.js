@@ -498,6 +498,10 @@ function get_tip_element()
       tip.display_number = 1 ;
       tip.id = 'tip' ;
       document.getElementsByTagName('BODY')[0].appendChild(tip) ;
+      tip_plus = document.createElement('div') ;
+      tip_plus.id = 'tip_plus' ;
+      tip_plus.innerHTML = '?' ;
+      document.getElementsByTagName('BODY')[0].appendChild(tip_plus) ;
     }
   return tip ;
 }
@@ -574,10 +578,11 @@ function compute_rank(line_id, column)
 
 function line_resume(line_id)
 {
-  var s, column ;
-  s = '<div style="overflow:auto;max-height:'
-    + Math.floor(window_height() - header_height)
-    + 'px">'
+  var s, column, h ;
+  h = Math.floor(window_height() - header_height) ;
+  if ( isNaN(h) )
+    h = window_height() ;
+  s = '<div style="overflow:auto;max-height:' + h + 'px">'
     + '<table class="colored" style="max-width:'
     + Math.floor(window_width()*0.75) + 'px">'
     + '<tr><th>' + _('TH_column')
@@ -707,14 +712,42 @@ function show_the_tip(td, tip_content)
   if ( ! display_tips )
     return ;
 
+  // Prepare the full tip window (not yet displayed)
   tip.innerHTML = s ;
-  tip.style.display = "block" ;
   tip.display_number++ ;
   var a = tip.display_number ;
   // Hide the tip if the mouse go inside
   tip.onmousemove = function() { hide_the_tip(a); } ;
-
   set_tip_position(td, bottom) ;
+
+  // Display the '?'
+  var tip_plus = document.getElementById('tip_plus') ;
+  tip_plus.style.display = 'block' ;
+  var td2 = td ;
+  while ( td2.tagName !== 'TD' && td2.tagName !== 'TH'
+	  && td2.className !== 'tipped' )
+    td2 = td2.parentNode ;
+  var pos = findPos(td2) ;
+  var x = pos[0] - tip_plus.offsetWidth + 1 ;
+  if ( x > 10 )
+    {
+      tip_plus.style.left = x + 'px' ;
+      tip_plus.style.top = pos[1] + 'px' ;
+    }
+  else
+    {
+      tip_plus.style.left = '0px' ;
+      tip_plus.style.top = pos[1]  + 'px' ;
+    }
+
+  tip_plus.onmouseover = function() { tip.do_not_hide = true ;
+				      if ( td2.tagName === 'DIV' )
+					tip.tip_target = td ;
+				      tip.style.display = "block" ; }
+  tip_plus.onmouseout = function() {tip.do_not_hide = false ;
+				      tip_plus.style.display = "none" ;
+				      hide_the_tip_real() ; }
+  
   return tip ;
 }
 
@@ -1413,7 +1446,7 @@ function table_header_fill_real()
   var empty_column = add_empty_columns() ;
   var cls = column_list() ;
   var w ;
-
+  
   the_current_cell.update_column_headers() ;
   update_horizontal_scrollbar(cls) ;
 
@@ -1489,6 +1522,7 @@ function table_header_fill_real()
 	    }
 	}
     }
+
   // XXX If updated, the value being edited may be erased
   if ( ! the_current_cell.focused )
     the_current_cell.update(true) ;
@@ -1818,7 +1852,7 @@ function login_list(name, x)
   if ( x.length == 0 )
     {
       login_list_hide() ;
-      show_the_tip(the_current_cell.td, "Nom et prénom inconnus") ;
+      show_the_tip(the_current_cell.td, _("ALERT_unknown_user")) ;
       return ;
     }
   hide_the_tip_real();  
@@ -2486,7 +2520,9 @@ function student_abjs(login)
 
 function set_element_relative_position(anchor, element)
 {
-  while ( anchor.offsetHeight === undefined ) // Firefox bug on SVG histogram
+  while ( anchor.offsetHeight === undefined  // Firefox bug on SVG histogram
+	  || anchor.tagName == 'B'
+	  )
     anchor = anchor.parentNode ;
 
   var pos = findPos(anchor) ;
@@ -2574,7 +2610,6 @@ function highlight_add(element)
     }
 }
 
-
 // In firefox a VAR object disapear from DOM tree !
 function update_tip_from_value(o, value)
 {
@@ -2596,18 +2631,11 @@ function update_tip_from_value(o, value)
   else
     e.innerHTML = value ;
 
-  // XXX without these 3 lines then there is a bug.
-  // To trigger the bug:
-  //    * Put the mouse over the 'column average'
-  //    * Statistics are displayed in the tip window
-  //    * Change of column using cursor key
-  //    * The average is updated but not the statistics.
-  // This bug is only for THIS element and with all the navigators.
-  // So the bug is in TOMUSS tips
-
   var tip = get_tip_element() ;
   if ( tip && tip.tip_target === o )
-    show_the_tip(o, compute_tip(o)) ;
+    {
+      show_the_tip(o, compute_tip(o)) ;
+    }
 }
 
 function update_value_and_tip(o, value)
@@ -2923,7 +2951,6 @@ function periodic_work_do()
       clearInterval(periodic_work_id) ;
       periodic_work_id = undefined ;
     }
-  //  p_title_links.innerHTML = periodic_work_functions.length ;
 }
 
 
@@ -3604,6 +3631,9 @@ function hide_the_tip_real()
   var tip = get_tip_element() ;
   if ( tip.innerHTML.indexOf('overflow:') != -1 )
     return ; // To let the user scroll
+  if ( tip.do_not_hide )
+    return ;
+
   tip.onmousemove = function() {} ;
   tip.style.display = "none" ;
   tip.tip_target = undefined ;

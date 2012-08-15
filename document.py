@@ -1549,8 +1549,8 @@ def virtual_table(server, the_columns, the_lines, table_attrs={}, js=""):
     for i, line in enumerate(the_lines):
         lines.append('"%d": %s' % (i, line.js()))
     lines = '{' + ',\n'.join(lines) + '}'
-    columns = '[' + ',\n'.join([column.js(hide=False)
-                                for column in the_columns]) + ']'
+    columns = '[' + ',\n'.join([the_column.js(hide=False)
+                                for the_column in the_columns]) + ']'
     server.the_file.write("""
     <script>
     %s

@@ -346,13 +346,15 @@ function tip_top(tt)
     }
 
   i = 0 ;
+  var debug = '' ;
   while( tt.tagName != 'DIV' || tt.className.indexOf('tipped') == -1 )
     {
+      debug = tt.tagName + '\n' + debug ;
       tt = tt.parentNode ;
       i++ ;
-      if ( i == 10 )
+      if ( i == 10 || !tt )
 	{
-	  debug(tt) ;
+	  alert('tip_top:\n' + debug) ;
 	  return undefined ;
 	}
     }
@@ -375,7 +377,6 @@ function compute_tip(element)
     value = '' ;
 
   var t = tip_top(element) ;
-
   return t.childNodes[0].innerHTML + value ;
 }
 
@@ -1015,8 +1016,7 @@ function stats_maxmax()
 // The final \n is important : see update_tip_from_value
 function stats_html_resume()
 {
-  return
-    _('B_s_minimum') +':&nbsp;'  +this.min                 .toFixed(3)+'<br>' +
+  return _('B_s_minimum') +':&nbsp;'  +this.min            .toFixed(3)+'<br>' +
     _('B_s_maximum') +':&nbsp;'  +this.max                 .toFixed(3)+'<br>' +
     _('B_s_average')+':&nbsp;<b>'+this.average()       .toFixed(3)+'</b><br>' +
     _('B_s_mediane') +':&nbsp;'  +this.mediane()           .toFixed(3)+'<br>' +
@@ -1525,7 +1525,6 @@ function update_attribute_value(e, attr, table, editable)
 		  tip_exists =  tip_id != tip_content ;
 	      }
       }
-
   switch(attr.gui_display)
     {
     case 'GUI_select':
@@ -1540,7 +1539,7 @@ function update_attribute_value(e, attr, table, editable)
       if ( tip_exists )
 	{
 	    try {
-		tip_top(e).firstChild.firstChild.innerHTML = tip_content ;
+		tip_top(e).firstChild.innerHTML = tip_content ;
 	    }
 	    catch(e) {
 		// XXX IE has an unknown exception here...
@@ -1637,6 +1636,7 @@ function current_update_column_headers()
       }
       else
 	e.parentNode.style.display = '' ;
+
       update_attribute_value(e, column_attributes[attr], column,
 			     !column_attributes[attr].need_authorization
 			     || !disabled) ;

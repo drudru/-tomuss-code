@@ -10,12 +10,12 @@ Utilisateurs finaux.
 
 * Afficher les commandes pour lacner les serveurs de suivi.
 
-* Tip : nouvelle version avec le + cliquable et survolable
-
 * Un onglet par année ou filtrage pour les tables dont on est responsable
 
 * Trouve notes étranges :
   Normalise les notes de l'étudiant par rapport à la promo
+
+* Onglet pour Impression pour ne pas submerger le lecteur d'options
   
 * https://services.renater.fr/federation/docs/fiches/shibbolisation
   http://lasso.entrouvert.org/

@@ -4631,3 +4631,7 @@ msgstr "Courses"
 msgid "ALERT_columntype"
 msgstr "If you confirm this type change, the column content will be\n"
        "immediatly fully erased."
+
+msgid "ALERT_unknown_user"
+msgstr "Firstname and surname unknown"
+

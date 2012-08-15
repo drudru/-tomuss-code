@@ -250,6 +250,14 @@ DIV#tip {
   font-size: 70%;
 }
 
+DIV#tip_plus {
+  position: absolute ;
+  border: 1px solid black ;
+  background: #FFF ;
+  z-index: 20;
+  opacity: 0.6;
+}
+
 DIV.help > * { font-size: 80%; }
 
 DIV#tip HR {
