@@ -17,73 +17,138 @@ msgstr ""
 msgid "B_Code_Etape"
 msgstr "Code Etape(ID)"
 
+msgid "H_Code_Etape"
+msgstr "The code of the cursus followed by the student"
+
 #. Columns types, button text in the menu
 msgid "B_COW"
 msgstr "Copy On Write"
+
+msgid "H_COW"
+msgstr "Allow to have a column with the same content than another,<br>\n"
+       "as an average of one value.<br>\n"
+       "But the cell content is modifiable.<br>\n"
+       "It allows to modify some note in an 'average' column."
 
 #. Columns types, button text in the menu
 msgid "B_Enumeration"
 msgstr "Enumeration"
 
+msgid "H_Enumeration"
+msgstr "Allow the user to enter a value in a fixed list of possible values."
+
 #. Columns types, button text in the menu
 msgid "B_Note"
 msgstr "Grade"
+
+msgid "H_Note"
+msgstr "A grade or an indicator as JustLeave, InjLeave, WorkNotGradable, WorkNotGiven"
 
 #. Columns types, button text in the menu
 msgid "B_Nmbr"
 msgstr "Number of"
 
+msgid "H_Nmbr"
+msgstr "Count the number of value fitting the filter test in<br>\n"
+       "in the indicated columns."
+
 #. Columns types, button text in the menu
 msgid "B_Bool"
 msgstr "Boolean"
+
+msgid "H_Bool"
+msgstr "Only YES and NO values are allowed.<br>\n"
+       "The doucle-click on the cell toggle the value."
 
 #. Columns types, button text in the menu
 msgid "B_Mail"
 msgstr "Mail(ID)"
 
+msgid "H_Mail"
+msgstr "Display the mail of the people whose ID is in the indicated column."
+
 #. Columns types, button text in the menu
 msgid "B_Moy"
 msgstr "Average"
+
+msgid "H_Moy"
+msgstr "Compute the average with InjLeave = WorkNotGiven = 0 and<br>\n"
+       "the JusLeave is not taken into account in the average."
 
 #. Columns types, button text in the menu
 msgid "B_Firstname"
 msgstr "Prenom(ID)"
 
+msgid "H_Firstname"
+msgstr "Display the firstname of the user ID"
+
 #. Columns types, button text in the menu
 msgid "B_Max"
 msgstr "Maximum"
+
+msgid "H_Max"
+msgstr "Compute the maximum of a list a values"
 
 #. Columns types, button text in the menu
 msgid "B_Phone"
 msgstr "Phone(ID)"
 
+msgid "H_Phone"
+msgstr "Display the phone number of the user ID."
+
 #. Columns types, button text in the menu
 msgid "B_Date"
 msgstr "Date"
 
+msgid "H_Date"
+msgstr "A date as DD/MM/YYYY HH:MM<br>\n"
+       "If only the day is entered, then it is in the current month."
+
 #. Columns types, button text in the menu
 msgid "B_URL"
-msgstr "URL : web link"
+msgstr "URL"
+
+msgid "H_URL"
+msgstr "The cell content is an URL.<br>\n"
+       "To follow the link: a simple click in the 'suivi' or<br>\n"
+       "a double click in the table."
 
 #. Columns types, button text in the menu
 msgid "B_Login"
 msgstr "Login"
 
+msgid "H_Login"
+msgstr "It is the login of an user.<br>\n"
+       "A selectable list of possible ID is displayed while typing."
+
 #. Columns types, button text in the menu
 msgid "B_Surname"
 msgstr "Surname(ID)"
+
+msgid "H_Surname"
+msgstr "The surname associated with the ID."
 
 #. Columns types, button text in the menu
 msgid "B_Get_Referent"
 msgstr "Referent(ID)"
 
+msgid "H_Get_Referent"
+msgstr "Display the student referent teacher."
+
 #. Columns types, button text in the menu
 msgid "B_Text"
 msgstr "Free Text"
 
+msgid "H_Text"
+msgstr "A free text.<br>\n"
+       "For multiline texts, use the forms editor."
+
 #. Columns types, button text in the menu
 msgid "B_Prst"
 msgstr "Present"
+
+msgid "H_Prst"
+msgstr "Possible values: PRST, InjLeave, JustLeave"
 
 #. Attribute Tip
 msgid "TIP_column_attr_comment"
@@ -201,17 +266,8 @@ msgstr ""
 #. Attribute Tip
 msgid "TIP_column_attr_type"
 msgstr ""
-"<b>Column type</b>, it fixes the cell content:\n"
-"<ul>\n"
-"<li> 'Free Text': \n"
-"<li> 'Grade': a grade or a 'presence' indicator (ABINJ, ABJUS, PPNOT)\n"
-"<li> 'Average': weighted average of a column list\n"
-"<li> 'Present': a 'presence' indicator\n"
-"<li> 'Number of': count the number of cell verifying a condition\n"
-"<li> 'Date':  DD/MM/YYYY month and year optionnal\n"
-"<li> 'Boolean' : YES or NO\n"
-"<li> 'Maximum' : Maximum value\n"
-"</ul>"
+"<b>Column type</b><br>\n"
+"Defines cell content: grade, average..."
 
 #. Attribute Tip
 msgid "TIP_column_attr_columns__"
@@ -4552,3 +4608,26 @@ msgstr "Update students in tables"
 
 msgid "HELP_auto_update"
 msgstr "Update the student list for each table of the current semester."
+
+msgid "TITLE_columntype"
+msgstr "Choose the column content type for: "
+
+msgid "MSG_columntype"
+msgstr "The columns cells values are restricted by the column type.<br>\n"
+       "The most common types are: Grade, Present, Average."
+       
+msgid "TH_type_type_data"
+msgstr "Values"
+
+msgid "TH_type_type_computed"
+msgstr "Formula"
+
+msgid "TH_type_type_people"
+msgstr "People"
+
+msgid "TH_type_type_ue"
+msgstr "Courses"
+
+msgid "ALERT_columntype"
+msgstr "If you confirm this type change, the column content will be\n"
+       "immediatly fully erased."

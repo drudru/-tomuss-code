@@ -510,11 +510,12 @@ INPUT#comment { width: 100% ; clear: both; }
 
 #menutop SELECT { width: 25% ; font-size: 80%; }
 
-.gui_button {
-  margin: 1px ;
+.gui_button {;
+  margin: 0px ;
   background: #EEE ;
   border: 1px outset #AAA ;
   font-size: 70% ;
+  padding: 0px ;
   cursor: pointer;
 }
 

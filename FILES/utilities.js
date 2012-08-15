@@ -1578,6 +1578,9 @@ function update_attribute_value(e, attr, table, editable)
       return ;
     case 'GUI_button':
       break ;
+    case 'GUI_type':
+      e.innerHTML = _('B_' + value) ;
+      break ;
     case 'GUI_none':
       if ( e.tagName == 'SPAN' )
 	{

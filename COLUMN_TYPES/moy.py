@@ -26,6 +26,7 @@ class Moy(note.Note):
     cell_test = 'test_read_only'
     cell_compute = 'compute_average'
     cell_is_modifiable = 0
+    type_type = 'computed'
     attributes_visible = ('minmax', 'columns', 'weight', 'best', 'worst',
                           'rounding')
 

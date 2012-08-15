@@ -134,7 +134,7 @@ They are automaticaly reloaded when they are modified.</li>
 <li><b>DOCUMENTATION</b>: You are seeing it :-)
 <ul>
 	  <li><b>Makefile</b> The default goal create documentation.</li>
-	  <li><b><a href="ChangeLog">ChangeLog</a></b> All the modifications done.</li>
+	  <li><b><a href="ChangeLog">changelog</a></b> All the modifications done.</li>
 	  <li><b><a href="TODO">TODO</a></b> The things that need to be done</li>
 	  <li><b>Welcome.orig.xml</b> The documentation source.</li>
 	</ul>

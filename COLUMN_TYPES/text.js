@@ -318,7 +318,9 @@ function ___NAME__()
 		 cell_is_modifiable: __CELL_IS_MODIFIABLE__,   
 		 onmousedown: __ONMOUSEDOWN__,
 		 formatte: __FORMATTE__,
-		 should_be_a_float: __SHOULD_BE_A_FLOAT__
+                 should_be_a_float: __SHOULD_BE_A_FLOAT__,
+	         type_type: __TYPE_TYPE__,
+	         human_priority: __HUMAN_PRIORITY__
 		 }) ;
   types[types.length-1].index = types.length - 1 ;
   return types[types.length-1] ;

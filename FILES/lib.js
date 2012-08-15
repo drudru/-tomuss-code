@@ -347,7 +347,7 @@ function the_td(event)
   else
     td = the_event(event).target ;
   if ( td.tagName == 'INPUT' || td.tagName == 'SELECT' || td.tagName == 'IMG'
-       || td.tagName == 'A' )
+       || td.tagName == 'A' || td.tagName == 'BUTTON' )
     return td.parentNode ;
   else
     {

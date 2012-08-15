@@ -10,73 +10,139 @@ msgstr "Content-Type: text/plain; charset=UTF-8\n"
 msgid "B_Code_Etape"
 msgstr "Code Etape(ID)"
 
+msgid "H_Code_Etape"
+msgstr "Le code étape APOGEE d'inscription de l'étudiant"
+
 #. Columns types, button text in the menu
 msgid "B_COW"
 msgstr "Copy On Write"
+
+msgid "H_COW"
+msgstr "Permet d'avoir une nouvelle colonne avec le même contenu<br>\n"
+       "qu'une autre (comme une moyenne d'une seule note).<br>\n"
+       "Mais le résultat du calcul est <b>modifiable</b>.<br>\n"
+       "Ceci permet de modifier certaine notes d'un colonne moyenne."
 
 #. Columns types, button text in the menu
 msgid "B_Enumeration"
 msgstr "Énumération"
 
+msgid "H_Enumeration"
+msgstr "Impose la saisie de valeur dans une liste prédéfinie."
+
 #. Columns types, button text in the menu
 msgid "B_Note"
 msgstr "Note"
+
+msgid "H_Note"
+msgstr "Une note ou un indicateur comme ABINJ, ABJUS, PPNOT, TNR"
 
 #. Columns types, button text in the menu
 msgid "B_Nmbr"
 msgstr "Nombre de"
 
+msgid "H_Nmbr"
+msgstr "Compte le nombre de valeurs respectant le filtre indiqué<br>\n"
+       "que l'on trouve dans les colonnes indiquées."
+
 #. Columns types, button text in the menu
 msgid "B_Bool"
 msgstr "Booléen"
+
+msgid "H_Bool"
+msgstr "On ne pourra saisir que OUI ou NON<br>\n"
+       "et double cliquer pour faire basculer la valeur."
 
 #. Columns types, button text in the menu
 msgid "B_Mail"
 msgstr "Mail(ID)"
 
+msgid "H_Mail"
+msgstr "Affiche l'adresse mail de la personne dont l'identifiant<br>\n"
+       "est dans la colonne indiquée"
+
 #. Columns types, button text in the menu
 msgid "B_Moy"
 msgstr "Moyenne"
+
+msgid "H_Moy"
+msgstr "Calcule la moyenne d'un ensemble de note en considérant que<br>\n"
+       "ABI = TNR = 0 et que ABJ est retiré du calcul."
 
 #. Columns types, button text in the menu
 msgid "B_Firstname"
 msgstr "Prénom(ID)"
 
+msgid "H_Firstname"
+msgstr "Affiche le prénom de la personne correspondant à l'identifiant."
+
 #. Columns types, button text in the menu
 msgid "B_Max"
 msgstr "Maximum"
+
+msgid "H_Max"
+msgstr "Calcul le maximum d'un ensemble de valeurs."
 
 #. Columns types, button text in the menu
 msgid "B_Phone"
 msgstr "Téléphone(ID)"
 
+msgid "H_Phone"
+msgstr "Affiche le numéro de téléphone de la personne."
+
 #. Columns types, button text in the menu
 msgid "B_Date"
 msgstr "Date"
 
+msgid "H_Date"
+msgstr "Une date de la forme JJ/MM/AAAA HH:MM<br>\n"
+       "Si seul le jour est saisi, on considère que c'est le mois en cours."
+
 #. Columns types, button text in the menu
 msgid "B_URL"
-msgstr "URL : lien web"
+msgstr "URL"
+
+msgid "H_URL"
+msgstr "Le contenu de la cellule est une URL.<br>\n"
+       "Pour suivre le lien, on clique dans le suivi ou<br>\n"
+       "on double clique dans le tableau."
 
 #. Columns types, button text in the menu
 msgid "B_Login"
-msgstr "Identificateur d'utilisateur"
+msgstr "Login"
+
+msgid "H_Login"
+msgstr "C'est un identifiant d'utilisateur.<br>\n"
+       "Une liste de possibilités est affichée lors de la saisie."
 
 #. Columns types, button text in the menu
 msgid "B_Surname"
 msgstr "Nom(ID)"
 
+msgid "H_Surname"
+msgstr "Le nom de la personne correspondant à l'identifiant."
+
 #. Columns types, button text in the menu
 msgid "B_Get_Referent"
 msgstr "Référent(ID)"
+
+msgid "H_Get_Referent"
+msgstr "Affiche le contact pédagogique de l'étudiant."
 
 #. Columns types, button text in the menu
 msgid "B_Text"
 msgstr "Texte libre"
 
+msgid "H_Text"
+msgstr "Un texte quelconque.<br>\n"
+       "Pour les textes longs, il faut utiliser l'éditeur de formulaire."
+
 #. Columns types, button text in the menu
 msgid "B_Prst"
 msgstr "Présence"
+
+msgid "H_Prst"
+msgstr "Valeurs possibles : PRST, ABINJ, ABJUS"
 
 #. Attribute Tip
 msgid "TIP_column_attr_comment"
@@ -196,17 +262,8 @@ msgstr "<b>Cache cette colonne</b><br>\n"
 
 #. Attribute Tip
 msgid "TIP_column_attr_type"
-msgstr "<b>Type de la colonne</b>, il indique le contenu des cellules :\n"
- "<ul>\n"
- "<li> 'Text' : du texte libre\n"
- "<li> 'Note' : une note, ou un indicateur de présence\n"
- "<li> 'Moy' : calcul de la moyenne pondérée de plusieurs colonnes\n"
- "<li> 'Prst' : Cellules cliquables pour indiquer la présence\n"
- "<li> 'Nmbr' : Compte le nombre de cellules contenant une valeur\n"
- "<li> 'Date' : Des dates de la forme JJ/MM/AAAA\n"
- "<li> 'Bool' : Oui ou Non\n"
- "<li> 'Max' : Maximum sur plusieurs colonnes\n"
- "</ul>"
+msgstr "<b>Contenu de la colonne</b><br>\n"
+       "Note, présence, moyenne..."
 
 #. Attribute Tip
 msgid "TIP_column_attr_columns__"
@@ -4612,3 +4669,26 @@ msgstr "Met à jour les listes d'étudiants"
 msgid "HELP_auto_update"
 msgstr "Visite chaque table qui a déjà été visitées,\n"
        "pour mettre à jour la liste des étudiants."
+
+msgid "TITLE_columntype"
+msgstr "Choisissez le contenu de la colonne : "
+
+msgid "MSG_columntype"
+msgstr "Le type de la colonne est imposé à toutes les cellules de celle-ci.<br>\n"
+       "Les types les plus courants sont : Note, Présence, Moyenne."
+       
+msgid "TH_type_type_data"
+msgstr "Valeurs"
+
+msgid "TH_type_type_computed"
+msgstr "Formule"
+
+msgid "TH_type_type_people"
+msgstr "Personnes"
+
+msgid "TH_type_type_ue"
+msgstr "Les UE"
+
+msgid "ALERT_columntype"
+msgstr "Si vous confirmez que vous voulez ce type de colonne,\n"
+       "alors le contenu actuel de la colonne sera immédiatement effacé."

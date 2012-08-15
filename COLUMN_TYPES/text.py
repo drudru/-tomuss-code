@@ -142,6 +142,8 @@ class Text(object):
     cell_compute = 'undefined'
     # Cell is modifiable ? (a computed cell may be modifiable)
     cell_is_modifiable = 1
+    # In which column display the type
+    type_type = 'data'
 
     # The columns attributes that should be displayed for this type
     # DO NOT INDICATES ATTRIBUTES VISIBLE BY ALL THE COLUMN TYPES

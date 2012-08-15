@@ -460,12 +460,13 @@ function an_input_attribute(attr, options, prefix_id, prefix_)
 			title + '</a>', tip) ;
     case 'GUI_none':
       return title ;
+    case 'GUI_type':
     case 'GUI_button':
-      return hidden_txt('<span class="gui_button" id="'
+      return hidden_txt('<button class="gui_button" id="'
 			+ the_id + '" '
 			+ 'onclick="' + attr.action + '(this);'
 			+ 'setTimeout(\'linefilter.focus()\',100)"'
-			+ '>' + title + '</span>',
+			+ '>' + title + '</button>',
 			tip) ;
     case 'GUI_select':
       var opts = '' ;

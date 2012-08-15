@@ -57,3 +57,70 @@ function set_type(value, column, xcolumn_attr)
   return value ;
 }
 
+function popup_type_choice(t)
+{
+  var type = t.title ;
+  var e = hidden_txt('<a href="javascript:popup_type_choosed(\''
+		     + type + '\')">'
+		     + _('B_'+type).replace(/(\(.*\))/,
+					    '<small><small>$1</small></small>')
+		     + '</a>',
+		     _('H_' + type)) ;
+  if ( type === 'Note' || type === 'Prst' || type == 'Moy' )
+    e = '<b>' + e + '</b>' ;
+  return e ;
+}
+
+function popup_type_chooser(button)
+{
+  if ( ! column_change_allowed(the_current_cell.column) )
+  {
+    Alert("ERROR_value_not_modifiable") ;
+    return ;
+  }
+
+  var cols = {} ;
+  for(var i in types)
+  {
+    t = types[i] ;
+    if ( ! cols[t.type_type] )
+      cols[t.type_type] = [] ;
+    cols[t.type_type].push(popup_type_choice(t)) ;
+  }
+  var t = '<table class="colored"><tr>' ;
+  for(var i in cols)
+    t += '<th>' + _('TH_type_type_' + i) ;
+  t += '</tr><tr>' ;
+  for(var i in cols)
+  {
+    cols[i].sort(function(a,b) { return a.human_priority
+				 - b.human_priority ; }) ;
+      if ( t.type_type != 'data' && t.type_type != 'computed' )
+    e = '<var style="background:#FCC">' + e + '</var>' ;
+
+    t += '<td>' + cols[i].join('<br>') ;
+  }
+  t += '</table>' ;
+  
+  create_popup('type_chooser_div',
+	       _('TITLE_columntype') + the_current_cell.column.title,
+	       _('MSG_columntype') + '<br>',
+	       t,
+	       false) ;
+}
+
+function popup_type_choosed(type)
+{
+  var t = type_title_to_type(type) ;
+  if ( t.type_type != 'data' && t.type_type != 'computed' )
+    if ( ! confirm(_('ALERT_columntype')) )
+      return ;
+  
+  var button = document.getElementById('t_column_type') ;
+  var td = the_td(button) ;
+  button.innerHTML = _('B_' + type) ;
+  column_attr_set(the_current_cell.column, 'type', type, td, true) ;
+  attr_update_user_interface(column_attributes['type'],
+			     the_current_cell.column) ;
+  popup_close() ;
+}
