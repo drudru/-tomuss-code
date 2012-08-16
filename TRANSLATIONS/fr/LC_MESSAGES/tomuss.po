@@ -4697,3 +4697,27 @@ msgstr "Si vous confirmez que vous voulez ce type de colonne,\n"
 msgid "ALERT_unknown_user"
 msgstr "Nom et prénom inconnus"
 
+msgid "COL_TITLE_acls_member"
+msgstr "Membre"
+
+msgid "COL_COMMENT_acls_member"
+msgstr "Login, ou groupe TOMUSS (grp:) ou groupe LDAP"
+
+msgid "COL_TITLE_acls_group"
+msgstr "Groupe"
+
+msgid "COL_COMMENT_acls_group"
+msgstr "Le nom du groupe qui contient le membre"
+
+msgid "COL_TITLE_acls_date"
+msgstr "Date"
+
+msgid "COL_COMMENT_acls_date"
+msgstr "Pour vous rappeler quand réétudier ce compte."
+
+msgid "COL_TITLE_acls_comment"
+msgstr "Commentaire"
+
+msgid "COL_COMMENT_acls_comment"
+msgstr "Vos remarques."
+

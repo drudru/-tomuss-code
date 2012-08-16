@@ -23,7 +23,52 @@ import socket
 import os
 import time
 
-version = '4.1.1'
+version = '4.2.0'
+
+###############################################################################
+# ACLS
+# Theses parameters are only used only on the first tomuss start.
+# They are used to create :
+#   http://127.0.0.1:8888/0/Dossiers/config_acls
+# This table must be used to change user groups or add ones.
+# Only change the 'root' name, the group tree will be editable in the table.
+
+# The TOMUSS super user
+root = ('super.user',)
+
+# Defines authorities by a login name list
+invited_teachers = tuple(['ue%d.master' % i for i in range(10)])
+invited_administratives = ('tt.master',)
+invited_abj_masters = ('abj.master','tt.master')
+tt_masters = ('abj.master','tt.master')
+
+#--------------------------------------
+# Defines authorities using LDAP groups
+#--------------------------------------
+
+teachers = (
+    'CN=Teachers,OU=Groupes,DC=univ-lyon1,DC=fr',
+    'CN=Professors,OU=Groupes,DC=univ-lyon1,DC=fr',
+    )
+
+administratives = (
+    'CN=Administratives,OU=Groupes,DC=univ-lyon1,DC=fr',
+    'CN=Administratives2,OU=Groupes,DC=univ-lyon1,DC=fr',
+    )
+
+abj_masters = (
+    'CN=Administratives3,OU=Groupes,DC=univ-lyon1,DC=fr',
+    'CN=Administratives4,OU=Groupes,DC=univ-lyon1,DC=fr',
+    )
+
+# It is not a teacher if it is in one of these groups
+not_teachers = (
+    'CN=NotTeachers,OU=Groupes,DC=univ-lyon1,DC=fr',
+    )
+
+referents = (
+    "CN=referents-fst,OU=Groupes,OU=UFR Sciences et Technologies,DC=univ-lyon1,DC=fr",
+    )
 
 
 ###############################################################################
@@ -81,14 +126,10 @@ def semester_span(year, semester):
 # loaded at the end of this file.
 # DO NOT EDIT THE VALUES IN THIS FILE.
 # ONLY DO THE IMPORT OF YOUR CONFIGURATION FILE IN THE terminate FUNCTION.
-# Or you can edit the configuration table :
+# Or you can edit the configuration table while TOMUSS is running :
 #           http://........./0/Dossiers/config_table
-
-###############################################################################
 # The following variables are used only on the _first_ TOMUSS start.
 # They define default values.
-# They are tunable while TOMUSS is running in the table :
-#           http://........./0/Dossiers/config_table
 ###############################################################################
 
 # The language used when creating new tables (for columns, comments...)
@@ -143,9 +184,6 @@ ue_not_per_semester = "^UE-[A-Z]{3}[0-9]{4}M$"
 # Semester we don't want to be displayed as a 'master_of'
 master_of_exceptions = tuple(semesters) + ('Test', 'Referents', 'Preferences')
 
-# The TOMUSS super user
-root = ('super.user',)
-
 # The mail address of TOMUSS manager (destination address of bug messages)
 maintainer = root[0] + '@' + socket.getfqdn()
 
@@ -193,12 +231,6 @@ ldap_server_port = 389
 ldap_encoding = 'utf8'
 ldap_reconnect = 60
 
-# Defines authorities by a login name list
-invited_administratives = ('tt.master',)
-invited_abj_masters = ('abj.master','tt.master')
-invited_teachers = tuple(['ue%d.master' % i for i in range(10)])
-tt_masters = ('abj.master','tt.master')
-
 # A login is assumed as a teacher one if it contains this stubstring
 teacher_if_login_contains = '#'
 
@@ -237,34 +269,6 @@ logo = 'http://xxx.yyy.zzz/logo.png'
 # Message for students
 suivi_student_message = ""
 
-#--------------------------------------
-# Defines authorities using LDAP groups
-#--------------------------------------
-
-teachers = (
-    'CN=Teachers,OU=Groupes,DC=univ-lyon1,DC=fr',
-    'CN=Professors,OU=Groupes,DC=univ-lyon1,DC=fr',
-    )
-
-# It is not a teacher if it is in one of these groups
-not_teachers = (
-    'CN=NotTeachers,OU=Groupes,DC=univ-lyon1,DC=fr',
-    )
-
-administratives = (
-    'CN=Administratives,OU=Groupes,DC=univ-lyon1,DC=fr',
-    'CN=Administratives2,OU=Groupes,DC=univ-lyon1,DC=fr',
-    )
-
-abj_masters = (
-    'CN=Administratives3,OU=Groupes,DC=univ-lyon1,DC=fr',
-    'CN=Administratives4,OU=Groupes,DC=univ-lyon1,DC=fr',
-    )
-
-referents = (
-    "CN=referents-fst,OU=Groupes,OU=UFR Sciences et Technologies,DC=univ-lyon1,DC=fr",
-    )
-
 ###############################################################################
 # The following variables should be fine for testing purpose (local server)
 # THEY MUST BE REDEFINED in LOCAL.__init__.py
@@ -278,7 +282,7 @@ regtest_sync = False
 
 # Name of the database directory (should not start by ., .. or /)
 db = 'DBtest'
-# The backup name if prepended to the 'db' name.
+# The backup name is prepended to the 'db' name.
 backup = 'BACKUP_' # Use None or False or '' if no backup
 
 # URL of the 'tomuss' server
@@ -287,8 +291,8 @@ server_base_url = 'http://' + socket.getfqdn()
 server_url = '%s:%d' % (server_base_url, server_port)
 
 # URLs of the 'suivi' servers
-# This example defines 2 servers for the current university year.
-# Changing these values may broke the regression tests.
+# This example defines 3 servers for the current university year.
+# Changing these values may break the regression tests.
 # You must redefine your semesters in LOCAL/__init__.py
 import servers
 suivi = servers.Suivi(https=False)
@@ -328,36 +332,6 @@ local_options = {}
 cas = 'https://configure.cas.url.or.use.regtest.parameter/cas'
 
 # OU containing student by year of inscription.
-the_portails = {
-    'MATINFL1' :
-    ("CN=DV0011 etape-DV0011,OU=groupes,OU=etudiants,DC=univ-lyon1,DC=fr",
-     "CN=DV011B etape-DV011B,OU=groupes,OU=etudiants,DC=univ-lyon1,DC=fr",
-     ),
-    'MATINFL2' :
-    ("CN=DV0012 etape-DV0012,OU=groupes,OU=etudiants,DC=univ-lyon1,DC=fr",
-     "CN=DV012B etape-DV012B,OU=groupes,OU=etudiants,DC=univ-lyon1,DC=fr",
-     ),
-    'INFL3' :
-    ('CN=IF5631 etape-IF5631,OU=groupes,OU=etudiants,DC=univ-lyon1,DC=fr',
-     "CN=IF531B etape-IF531B,OU=groupes,OU=etudiants,DC=univ-lyon1,DC=fr",
-     ),
-    'MATL3' :
-    ('CN=MT2731 etape-MT2731,OU=groupes,OU=etudiants,DC=univ-lyon1,DC=fr',
-     "CN=MT231B etape-MT231B,OU=groupes,OU=etudiants,DC=univ-lyon1,DC=fr",
-     ),
-    'MIVMATL3' :
-    ("CN=MT2734 etape-MT2734,OU=groupes,OU=etudiants,DC=univ-lyon1,DC=fr",
-     ),
-    'MIVINFL3' :
-    ('CN=IF5633 etape-IF5633,OU=groupes,OU=etudiants,DC=univ-lyon1,DC=fr',
-     ),
-    'UFRFST' :
-    (
-        'CN=148891 CGE-UFR Sciences et Technologie,OU=groupes,OU=etudiants,DC=univ-lyon1,DC=fr',
-        'CN=139284 APO-UFR Sciences et Technologie,OU=groupes,OU=etudiants,DC=univ-lyon1,DC=fr',
-#        'CN=OU=UFR Sciences et Technologies,DC=univ-lyon1,DC=fr',
-        ),
-    }
 
 the_portails = {
     'MATINFL1' :

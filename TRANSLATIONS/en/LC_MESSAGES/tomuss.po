@@ -4635,3 +4635,27 @@ msgstr "If you confirm this type change, the column content will be\n"
 msgid "ALERT_unknown_user"
 msgstr "Firstname and surname unknown"
 
+msgid "COL_TITLE_acls_member"
+msgstr "Member"
+
+msgid "COL_COMMENT_acls_member"
+msgstr "Login, or TOMUSS group (grp:) or LDAP group"
+
+msgid "COL_TITLE_acls_group"
+msgstr "Group"
+
+msgid "COL_COMMENT_acls_group"
+msgstr "Container of the member"
+
+msgid "COL_TITLE_acls_date"
+msgstr "Date"
+
+msgid "COL_COMMENT_acls_date"
+msgstr "To think again about this authorization."
+
+msgid "COL_TITLE_acls_comment"
+msgstr "Comment"
+
+msgid "COL_COMMENT_acls_comment"
+msgstr "Your remarks."
+
