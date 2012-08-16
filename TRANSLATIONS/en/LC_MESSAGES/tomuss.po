@@ -4081,35 +4081,8 @@ msgstr "LDAP: An entity is a portal, if it contains this string"
 msgid "config_table_banned_ip"
 msgstr "Access: Banned IP list"
 
-msgid "config_table_root"
-msgstr "Access: List of 'root' users"
-
-msgid "config_table_teachers"
-msgstr "Access: Is a teacher, if it is in one of these LDAP groups"
-
 msgid "config_table_teacher_if_login_contains"
 msgstr "Access: Is a teacher, if its login contains this string"
-
-msgid "config_table_administratives"
-msgstr "Access: Is an administrative, if it is in one of these LDAP groups"
-
-msgid "config_table_abj_masters"
-msgstr "Access: Is an ABJ/TT manager, if it is in one of these LDAP groups"
-
-msgid "config_table_tt_masters"
-msgstr "Access: Default master list for table TT"
-
-msgid "config_table_referents"
-msgstr "Access: Is an referent teacher, if it is in one of these LDAP groups"
-
-msgid "config_table_invited_teachers"
-msgstr "Access: Add to the teachers, this login list"
-
-msgid "config_table_invited_administratives"
-msgstr "Access: Add to the administratives, this login list"
-
-msgid "config_table_invited_abj_masters"
-msgstr "Access: Add to the ABJ manager, this login list"
 
 msgid "config_table_students_check_interval"
 msgstr "Time: Rechargement de la liste des étudiants : Période en seconde"
@@ -4131,9 +4104,6 @@ msgstr "Time: Table unload is unused for this duration"
 
 msgid "config_table_check_down_connections_interval"
 msgstr "Time: Period for sending packets to browers to keep the connection open."
-
-msgid "config_table_not_teachers"
-msgstr "Access: Forbiden if the user is in one of these LDAP groups"
 
 msgid "config_table_logo"
 msgstr "URL of background logo"
@@ -4425,6 +4395,12 @@ msgstr "Modify TOMUSS configuration"
 msgid "HELP_/0/Dossiers/config_table"
 msgstr "Be carefull, a bad modification may lock down TOMUSS."
 
+msgid "LINK_/0/Dossiers/config_acls"
+msgstr "Modify ACLS"
+
+msgid "HELP_/0/Dossiers/config_acls"
+msgstr "Allow to define user groups."
+
 msgid "LINK_/0/Dossiers/config_plugin"
 msgstr "Modify plugin configuration"
 
@@ -4659,3 +4635,5 @@ msgstr "Comment"
 msgid "COL_COMMENT_acls_comment"
 msgstr "Your remarks."
 
+msgid "COL_TITLE_ct_deprecated"
+msgstr "Use ACLS table to define user access groups"

@@ -102,6 +102,11 @@ variable_list = [
     "tt_masters",
     ]
 
+deprecated = set(('root', 'invited_teachers', 'invited_administratives',
+                  'invited_abj_masters', 'tt_masters', 'teachers',
+                  'administratives', 'abj_masters', 'not_teachers',
+                  'referents'))
+
 variables = {}
 
 def check(table):
@@ -113,19 +118,26 @@ def check(table):
     try:
         for variable, comment in variables.items():
             if variable not in table.lines:
-                # Do not change user entered value
-                # Do not change default value after the first time.
-                v = configuration.__dict__[variable]
-                if isinstance(v, list) or isinstance(v, tuple):
-                    if len(v) == 0:
-                        v = '()'
-                    else:
-                        v = '(' + ','.join([utilities.js(i) for i in v]) + ',)'
-                elif isinstance(v, bool):
-                    v = repr(v)
-                table.cell_change(p_ro,'0_0', variable,variable)
-                table.cell_change(p_rw, '0_2', variable, v)
-            table.cell_change(p_ro, '0_1', variable, comment)
+                if variable in deprecated:
+                    continue
+                else:
+                    # Do not change user entered value
+                    # Do not change default value after the first time.
+                    v = configuration.__dict__[variable]
+                    if isinstance(v, list) or isinstance(v, tuple):
+                        if len(v) == 0:
+                            v = '()'
+                        else:
+                            v = '('+','.join([utilities.js(i) for i in v])+',)'
+                    elif isinstance(v, bool):
+                        v = repr(v)
+                    table.cell_change(p_ro,'0_0', variable,variable)
+                    table.cell_change(p_rw, '0_2', variable, v)
+            if variable in deprecated and variable in table.lines:
+                table.cell_change(p_ro, '0_1', variable,
+                                  utilities._("COL_TITLE_ct_deprecated"))
+            else:
+                table.cell_change(p_ro, '0_1', variable, comment)
     finally:
         table.unlock()
 
@@ -154,10 +166,13 @@ def set_value(variable, value):
         value = int(value)
     configuration.__dict__[variable] = value
 
-def onload(table):
+def init(dummy_table):
     for v in variable_list:
         variables[v] = utilities._("config_table_" + v)
     variables.update(configuration.local_options)
+    
+def onload(table):
+    """Copy table content into configuration"""
 
     if len(table.lines) == 0:
         return
@@ -172,7 +187,7 @@ def onload(table):
                                           '_ADMIN_', configuration.maintainer)
 
 
-def cell_change(table, page, col, lin, value, date):
+def cell_change(dummy_table, page, col, lin, value, dummy_date):
     if page.page_id <= 1:
         return
     if col != '0_2':
@@ -184,7 +199,6 @@ def cell_change(table, page, col, lin, value, date):
                           '<script>alert("Eval:\\n"+%s);</script>' %
                           utilities.js(a))
     except:
-        import traceback
         import sys
         sender.append(page.browser_file,
                       '<script>alert(%s);</script>' %

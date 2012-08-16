@@ -4126,35 +4126,8 @@ msgstr "LDAP: Un objet est un portail s'il contient cette chaine de caractères"
 msgid "config_table_banned_ip"
 msgstr "Accès : Liste des adresses IP interdites"
 
-msgid "config_table_root"
-msgstr "Accès : Liste des utilisateurs ayant tous les droits"
-
-msgid "config_table_teachers"
-msgstr "Accès : Les comptes enseignants sont dans ces groupes LDAP"
-
 msgid "config_table_teacher_if_login_contains"
 msgstr "Accès : C'est un enseignant si son login contient cette chaine de caractères"
-
-msgid "config_table_administratives"
-msgstr "Accès : Les comptes administratifs sont dans ces groupes LDAP"
-
-msgid "config_table_abj_masters"
-msgstr "Accès : Les comptes gestionnaires d'ABJ/TT sont dans ces groupes LDAP"
-
-msgid "config_table_referents"
-msgstr "Accès : Les groupes LDAP définissant les référents pédagogiques"
-
-msgid "config_table_invited_teachers"
-msgstr "Accès : Liste d'enseignants à ajouter au groupe LDAP"
-
-msgid "config_table_invited_administratives"
-msgstr "Accès : Liste des administratifs à ajouter au groupe LDAP"
-
-msgid "config_table_invited_abj_masters"
-msgstr "Accès : Liste des gestionnaires d'ABJ à ajouter au groupe LDAP"
-
-msgid "config_table_tt_masters"
-msgstr "Accès : Responsables par défaut du tableau des TT"
 
 msgid "config_table_students_check_interval"
 msgstr "Temps : Rechargement de la liste des étudiants : Période en seconde"
@@ -4176,9 +4149,6 @@ msgstr "Temps : Interval entre deux déchargements des tables inutilisées"
 
 msgid "config_table_check_down_connections_interval"
 msgstr "Temps : Interval de temps pour l'envoi de paquets pour garder les connexions ouvertes"
-
-msgid "config_table_not_teachers"
-msgstr "Accès : Refuse l'accès s'il appartient à l'un de ces groupes LDAP"
 
 msgid "config_table_logo"
 msgstr "URL du logo de fond d'écran"
@@ -4483,6 +4453,12 @@ msgstr "La moindre erreur d'édition dans cette table peut bloquer TOMUSS.\n"
        "Si vous ne voulez pas modifier la configuration,\n"
        "demandez seulement à l'afficher."
 
+msgid "LINK_/0/Dossiers/config_acls"
+msgstr "Éditer les ACLS"
+
+msgid "HELP_/0/Dossiers/config_acls"
+msgstr "Permet de définir les groupes d'utilisateurs."
+
 msgid "LINK_/0/Dossiers/config_plugin"
 msgstr "Éditer la configuration des plugins de TOMUSS"
 
@@ -4721,3 +4697,5 @@ msgstr "Commentaire"
 msgid "COL_COMMENT_acls_comment"
 msgstr "Vos remarques."
 
+msgid "COL_TITLE_ct_deprecated"
+msgstr "Utilisez la table ACLS pour définir les groupes d'utilisateurs"
