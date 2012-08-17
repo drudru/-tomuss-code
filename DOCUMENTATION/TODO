@@ -103,15 +103,7 @@ Utilisateurs finaux.
 Administrateur.
 ---------------
 
-* Droit d'accès : généraliser la notion de groupe, pouvoir en créer.
-  Un groupe peut contenir :
-	* un groupe LDAP        : 'ldap:'
-	* une personne          : login
-	* un autre groupe       : '@' nom du groupe
-	* les login d'une table : '#' nom de la table
-  Ne plus avoir de groupes indiqué en dur dans le code.
-  Faire disparaitre : is_referent, is_teacher, ...
-  Ajouter les identifiants synonymes
+* Ajouter les identifiants synonymes
   
 * Cleanup d'un tableau sur place : config_table par exemple
 

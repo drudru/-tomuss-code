@@ -22,8 +22,13 @@
 import configuration
 import utilities
 import collections
+import inscrits
+
+acls = None
 
 def create(table):
+    """Retrieve informations from configuration.py and old table_config.py"""
+    
     if table.year != 0 or table.semester != 'Dossiers':
         raise ValueError('Not allowed')
     
@@ -99,3 +104,36 @@ function update_student_information(line)
 }
 """
 
+def init(table):
+    global acls
+    acls = table
+    configuration.is_member_of = is_member_of
+
+def members(group):
+    for line in acls.lines.values():
+        if line[1].value != group:
+            continue
+        member = line[0].value
+        if member.startswith('grp:'):
+            for m in members(member[4:]):
+                yield m
+            continue
+        yield member
+
+def is_member_of_(login, group):
+    member_of = inscrits.L_fast.member_of_list(login)
+    for member in members(group):
+        if member == login:
+            return True
+        if member.startswith('ldap:'):
+            member = member[5:]
+            for i in member_of:
+                print i, member
+                if member.endswith(i):
+                    return True
+    return False
+
+def is_member_of(login, group):
+    if is_member_of_(login, "REJECTED"):
+        return False
+    return is_member_of_(login, group)
