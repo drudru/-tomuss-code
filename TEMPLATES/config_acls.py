@@ -22,6 +22,7 @@
 import configuration
 import utilities
 import collections
+import referent
 import inscrits
 
 acls = None
@@ -81,12 +82,19 @@ def create(table):
         defaults['abj_masters'].append(abj_master)
     defaults['staff'].append('grp:abj_masters')
     
-    for referent in configuration.referents:
-        defaults['referents'].append('ldap:' + referent)
+    for a_referent in configuration.referents:
+        defaults['referents'].append('ldap:' + a_referent)
     if configuration.regtest:
         defaults['referents'].append('a_referent')
     defaults['staff'].append('grp:referents')
 
+    try:
+        for login in referent.referents_students().masters:
+            defaults['referent_masters'].append(login)
+    except ImportError:
+        pass
+    defaults['staff'].append('grp:referent_masters')
+    
     for teacher in configuration.not_teachers:
         defaults['REJECTED'].append('ldap:' + teacher)
 

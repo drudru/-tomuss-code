@@ -180,16 +180,6 @@ def portail_of_a_teacher(tteacher):
         return line[1].value
     return ''
 
-def is_a_referent_master(name):
-    # Get the referent table    
-    try:
-        table = referents_students()
-    except ImportError:
-        return False
-
-    return name in table.masters
-
-
 def referent(year, semester, login):
     """Returns the 'referent' of a student."""
     login = utilities.the_login(login)
@@ -327,11 +317,6 @@ def referents_students(year=None, semester=None):
                           do_not_unload=1, ro=configuration.read_only)
 
 def update_referents(ticket, f, really_do_it = False, add_students=True):
-
-    if not is_a_referent_master(ticket.user_name):
-        f.write("You are not allowed to do this")
-        f.close()
-        return
 
     # Get the referent table
     table = referents_students()
