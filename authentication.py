@@ -17,16 +17,15 @@
 #
 #    Contact: Thierry.EXCOFFIER@bat710.univ-lyon1.fr
 
-import cgi
+import sys
 import time
+import socket
+import urllib2
 import utilities
 import inscrits
-import sys
 import ticket
-import socket
 import sender
 import configuration
-import urllib2
 import plugins
 
 warn = utilities.warn
@@ -41,6 +40,7 @@ last_mail_sended = 0
 #REDEFINE
 # Return True if the user password is good
 def password_is_good(login, password):
+    """Check clear text password"""
     import pexpect
     p = pexpect.spawn('/bin/su -c "echo OK" %s' % utilities.safe(login))
     p.expect(':')
@@ -63,7 +63,6 @@ def ticket_login_name(ticket_key, service, server=None):
             return False
 
     service = canonize(service)
-    checkparams = "?service=" + service + "&ticket=" + ticket_key
     warn('Ask CAS: %s' % service, what="auth")
     i = 0
     while True:
@@ -99,7 +98,7 @@ def ticket_login_name(ticket_key, service, server=None):
 #REDEFINE
 # This function is called when the browser does not give a valid ticket.
 # The browser is redirected on the CAS authentification service.
-def ticket_ask(server, server_url, service):
+def ticket_ask(server, dummy_server_url, service):
     service = canonize(service)
     server.send_response(307)
     if not configuration.cas:
@@ -149,16 +148,17 @@ def get_path(server, server_url):
 
         warn('username: %s' % user_name, what="auth")
         if user_name:
-            t = ticket.add_ticket(ticket_key, user_name,
-                                  ticket.client_ip(server),
-                                  server.headers["user-agent"],
-                                  language=server.headers.get('accept-language',''))
+            t = ticket.add_ticket(
+                ticket_key, user_name, ticket.client_ip(server),
+                server.headers["user-agent"],
+                language=server.headers.get('accept-language',''))
 
             if path and path[0] == 'allow':
                 warn('allow request for ticket : ' + path[1], what="auth")
                 if path[1] not in ticket.tickets \
                        or ( ticket.tickets[path[1]].user_name == user_name
-                            and ticket.tickets[path[1]].user_browser == server.headers["user-agent"]
+                            and ticket.tickets[path[1]].user_browser
+                                == server.headers["user-agent"]
                             ):
                     # Update the old ticket
                     ticket.tickets[path[1]] = ticket.clone(path[1], t)
@@ -202,33 +202,15 @@ def get_path(server, server_url):
     ticket_ask(server, server_url, service)
     return None, None
 
-import referent
-import document
-
 authentication_requests = []
 
 authentication_redirect = None
 
 def update_ticket(tick):
-    tick.is_a_teacher = inscrits.L_fast.is_a_teacher(tick.user_name)
-
-    if tick.is_a_teacher:
-        tick.is_an_administrative = inscrits.L_fast.is_an_administrative(
-            tick.user_name)
-        tick.is_an_abj_master = inscrits.L_fast.is_an_abj_master(
-            tick.user_name)
-        tick.is_a_referent_master = referent.is_a_referent_master(
-            tick.user_name)
-        tick.is_a_referent = inscrits.L_fast.is_a_referent(tick.user_name)
-        # Must be the last attribute to be defined
+    if tick.is_member_of('staff'):
         tick.password_ok = inscrits.L_fast.password_ok(tick.user_name)
     else:
-        tick.is_an_abj_master     = False
-        tick.is_a_referent_master = False
-        tick.is_a_referent        = False
-        tick.is_an_administrative = False
-        # Must be the last attribute to be defined
-        tick.password_ok          = True
+        tick.password_ok = True
 
 def authentication_thread():
     ticket.remove_old_files()
@@ -270,7 +252,6 @@ def authentication_thread():
             except (IOError, socket.error):
                 utilities.send_backtrace(
                     '', subject = 'AUTH '+ what + ' ' + str(tick)[:-1])
-
 
 def run_authentication():
     utilities.start_new_thread_immortal(authentication_thread, ())

@@ -64,6 +64,9 @@ def create(table):
         defaults['teachers'].append('ldap:' + ldap_teacher)
     for teacher in configuration.invited_teachers:
         defaults['teachers'].append(teacher)
+    defaults['teachers'].append(
+        'python:configuration.teacher_if_login_contains in login')
+
     defaults['staff'].append('grp:teachers')
     
     for ldap_administrative in configuration.administratives:
@@ -80,6 +83,8 @@ def create(table):
     
     for referent in configuration.referents:
         defaults['referents'].append('ldap:' + referent)
+    if configuration.regtest:
+        defaults['referents'].append('a_referent')
     defaults['staff'].append('grp:referents')
 
     for teacher in configuration.not_teachers:
@@ -128,12 +133,23 @@ def is_member_of_(login, group):
         if member.startswith('ldap:'):
             member = member[5:]
             for i in member_of:
-                print i, member
                 if member.endswith(i):
                     return True
+            continue
+        if member.startswith('python:') and not configuration.regtest:
+            member = member[7:]
+            try:
+                if eval(member):
+                    return True
+            except:
+                pass
+            continue
     return False
 
 def is_member_of(login, group):
+    utilities.warn("%s %s" % (login, group))
     if is_member_of_(login, "REJECTED"):
         return False
+    if is_member_of_(login, "roots"):
+        return True
     return is_member_of_(login, group)

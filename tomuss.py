@@ -256,6 +256,7 @@ if __name__ == "__main__":
     import plugins
     plugins.load_types()
     document.table(0, 'Dossiers', 'config_table', None, None)
+    document.table(0, 'Dossiers', 'config_acls', None, None)
 
     if 'checker' in sys.argv:
         import tablestat
@@ -285,7 +286,6 @@ if __name__ == "__main__":
 
     plugins.plugins_tomuss()
     document.table(0, 'Dossiers', 'config_plugin', None, None)
-    document.table(0, 'Dossiers', 'config_acls', None, None)
     plugins.generate_data_files()
 
     authentication.authentication_redirect = configuration.server_url

@@ -176,6 +176,8 @@ if __name__ == "__main__":
     plugins.load_types()
     document.table(0, 'Dossiers', 'config_table', None, None,
                    ro=True, create=False)
+    document.table(0, 'Dossiers', 'config_acls', None, None,
+                   ro=True, create=False)
     warn("Configuration table loaded, do_not_display=%s" % repr(configuration.do_not_display))
     utilities.init()
 
@@ -188,8 +190,6 @@ if __name__ == "__main__":
 
     plugins.plugins_suivi()
     document.table(0, 'Dossiers', 'config_plugin', None, None,
-                   ro=True, create=False)
-    document.table(0, 'Dossiers', 'config_acls', None, None,
                    ro=True, create=False)
 
     authentication.run_authentication()

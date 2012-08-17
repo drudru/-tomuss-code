@@ -22,6 +22,7 @@
 from column import TableAttr
 import re
 import utilities
+import configuration
 
 class TableMasters(TableAttr):
     name = 'masters'
@@ -67,9 +68,10 @@ return value ;
     def check(self, value):
         value = self.encode(value)
         import inscrits
-        for login in value:
-            if not inscrits.L_fast.is_a_teacher(login):
-                return '_("ALERT_bad_login") + ' + utilities.js(login)
+        if hasattr(configuration, 'is_member_of'):
+            for login in value:
+                if not configuration.is_member_of(login, 'staff'):
+                    return '_("ALERT_bad_login") + ' + utilities.js(login)
     def update(self, table, old_value, new_value, page):
         import document
         for login in new_value:

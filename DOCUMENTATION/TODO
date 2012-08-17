@@ -103,8 +103,6 @@ Utilisateurs finaux.
 Administrateur.
 ---------------
 
-* Ajouter les identifiants synonymes
-  
 * Cleanup d'un tableau sur place : config_table par exemple
 
 * Afficher les lock de tables
@@ -118,6 +116,8 @@ Administrateur.
 * live_status : écarter les noeuds collés.
 
 * live_status : afficher navigateur
+
+* Ajouter les identifiants synonymes
 
 * Interface pour détruire les tables facilement.
   Fusionner avec destruction de tables vides et bizarres.

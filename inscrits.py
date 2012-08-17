@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 #    TOMUSS: The Online Multi User Simple Spreadsheet)
-#    Copyright (C) 2008-2010 Thierry EXCOFFIER, Universite Claude Bernard
+#    Copyright (C) 2008-2012 Thierry EXCOFFIER, Universite Claude Bernard
 #
 #    This program is free software; you can redistribute it and/or modify
 #    it under the terms of the GNU General Public License as published by
@@ -275,7 +275,6 @@ class LDAP_Logic(object):
                         attributes=attributes,
                         async=nr+1
                         )
-        t = []
         i = attributes.index(configuration.attr_login)
         for x in self.generator(aa, nr): # For all the answers
             if x.get(configuration.attr_login) == None:
@@ -332,52 +331,6 @@ class LDAP_Logic(object):
         for login in logins:
             d[login] = self.etapes_of_student(login)
         return d
-
-    def is_in_one_of_the_groups(self, login, groups):
-        """Returns true if the login is one of the groups or sub group"""
-        r = self.member_of_list(login)
-        for group in groups:
-            for rr in r:
-                if rr.endswith(group):
-                    return True
-        return False
-
-    def is_a_teacher(self, login):
-        """Returns true if the login is a teacher login"""
-        if configuration.teacher_if_login_contains in login:
-            return True
-        if login in configuration.invited_teachers:
-            return True
-        if login in configuration.root:
-            return True
-        return self.is_in_one_of_the_groups(login, configuration.teachers)and \
-               not self.is_in_one_of_the_groups(login,
-                                                configuration.not_teachers)
-
-    def is_an_abj_master(self, login):
-        """Returns true if the login is the login of a person
-        with the right to modify the ABI"""
-        if login in configuration.invited_abj_masters:
-            return True
-        if login in configuration.root:
-            return True
-        return self.is_in_one_of_the_groups(login, configuration.abj_masters)
-
-    def is_a_referent(self, login):
-        """Returns true if the login is the login of a referent"""
-        if login in configuration.root:
-            return True
-        return self.is_in_one_of_the_groups(login, configuration.referents)
-
-    def is_an_administrative(self, login):
-        """Returns true if the login is the login of a person
-        with the right to modify the ABI"""
-        if login in configuration.invited_administratives:
-            return True
-        if login in configuration.root:
-            return True
-        return self.is_in_one_of_the_groups(login,
-                                            configuration.administratives)
 
     def password_ok(self, login):
         """Create a list of stupid passwords and check them"""
@@ -650,11 +603,11 @@ if __name__ == "__main__":
     # init()
     import inscrits
     L = inscrits.L_fast
-    for i in L.students('UE-BIO2010L'):
-        print i
+    for ii in L.students('UE-BIO2010L'):
+        print ii
     print L.phone('thierry.excoffier')
     print L.ues_of_a_student('p0805711')
     print L.ues_of_a_student_short('p0805711')
-    for i in L.ues_of_a_student_with_groups('p0805711'):
-        print i
+    for ii in L.ues_of_a_student_with_groups('p0805711'):
+        print ii
 

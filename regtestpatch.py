@@ -34,7 +34,6 @@ def do_patch():
         configuration.db = 'DBregtest'
         configuration.allow_student_list_update = True
         
-    if configuration.regtest:
         class LDAP_regtest(inscrits.Empty):
             def students(self, ue):
                 if ue == 'UE-INF20UE2' or ue == 'UE-XXX9999L':
@@ -57,15 +56,6 @@ def do_patch():
                                      ).firstname_and_surname_and_mail(r)
                     else:
                         return r+'Firstname', r+'Surname', 'mail?'
-            def is_a_teacher(self, login):
-                if login in configuration.root:
-                    return True
-                if login in configuration.invited_abj_masters:
-                    return True
-                if login in configuration.invited_teachers:
-                    return True
-                if login == 'a_referent':
-                    return True
 
             def ues_of_a_student_short(self, login):
                 if login == '10800000':
@@ -78,11 +68,6 @@ def do_patch():
                     q = self.query_login(login, attributes)
                     r.append([login]+[q[i][0] for i in attributes[1:]])
                 return r
-
-            def is_a_referent(self, login):
-                if login == configuration.root or login == 'a_referent':
-                    return True
-                return False
 
             def firstname_or_surname_to_logins(self, name, base=None,
                                                attributes=None):

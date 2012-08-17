@@ -1,5 +1,5 @@
 #    TOMUSS: The Online Multi User Simple Spreadsheet
-#    Copyright (C) 2008,2009 Thierry EXCOFFIER, Universite Claude Bernard
+#    Copyright (C) 2008-2012 Thierry EXCOFFIER, Universite Claude Bernard
 #
 #    This program is free software; you can redistribute it and/or modify
 #    it under the terms of the GNU General Public License as published by
@@ -19,8 +19,8 @@
 
 import os
 import time
-import utilities
 import cgi
+import utilities
 import configuration
 import plugins
 
@@ -28,7 +28,7 @@ warn = utilities.warn
 
 def client_ip(server):
     try:
-        # In cas of proxy
+        # In case of proxy
         ip = server.headers["x-forwarded-for"]
         try:
             # Take the first IP
@@ -50,10 +50,24 @@ class Ticket(object):
         else:
             self.date = date
         self.set_language(language)
+        self.groups = {}
 
     def set_language(self, lang):
         self.language = lang.lower().replace(';',',').replace('-','_')
 
+    def is_member_of(self, group):
+        if group not in self.groups:
+            self.groups[group] = configuration.is_member_of(self.user_name,
+                                                            group)
+        return self.groups[group]
+
+    # Compatibility with old code
+    is_a_teacher         = property(lambda x:x.is_member_of('staff'))
+    is_an_abj_master     = property(lambda x:x.is_member_of('abj_masters'))
+    is_a_referent_master = property(lambda x:x.is_member_of('referent_masters'))
+    is_a_referent        = property(lambda x:x.is_member_of('referents'))
+    is_an_administrative = property(lambda x:x.is_member_of('administratives'))
+        
     def is_fine(self, server):
         # print self.user_name, (time.time() - self.date) , configuration.ticket_time_to_live, self.user_ip, client_ip(server), self.user_browser, server.headers["user-agent"]
         if self.user_name == self.ticket:
@@ -108,6 +122,8 @@ class Ticket(object):
             s += 'J'
         if self.is_a_referent_master:
             s += 'R'
+        if self.is_a_referent:
+            s += 'r'
         if self.is_an_administrative:
             s += 'A'
         if self.password_ok:
