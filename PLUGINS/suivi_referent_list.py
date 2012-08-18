@@ -104,7 +104,7 @@ plugin.Plugin('referents.xls', '/referents.xls',
               link=plugin.Link(
         url="javascript:go_suivi('referents.xls')",
         where='referents', html_class="verysafe", priority=100,
-        authorized = lambda s: s.ticket.user_name in configuration.root,
+        group='roots',
         ),
               )
 
@@ -116,6 +116,6 @@ plugin.Plugin('referents.html', '/referents.html',
               link=plugin.Link(
         url="javascript:go_suivi('referents.html')",
         where='referents', html_class="verysafe", priority=100,
-        authorized = lambda s: s.ticket.user_name in configuration.root,
+        group='roots',
         ),
               )

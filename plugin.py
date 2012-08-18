@@ -38,7 +38,9 @@ class Link(object):
                  html_class='leaves',
                  priority=0,
                  where = None,
-                 authorized = lambda server: True,
+                 group = "",
+                 # DEPRECATED, use 'group'
+                 authorized = None
                  ):
         self.text = text
         self.url = url
@@ -47,8 +49,14 @@ class Link(object):
         self.html_class = html_class
         self.priority = priority
         self.where = where
-        self.authorized = authorized
         self.plugin = None
+        self.group = group
+        if authorized:
+            warn("'authorized=' is DEPRECATED, use 'group=' in place for '%s'"%
+                 self.text, what='Warning')
+        else:
+            authorized = lambda server: True
+        self.authorized = authorized
 
     def __str__(self):
         return 'Link(%s,%s)' % (self.text, self.url)
@@ -112,7 +120,8 @@ class Plugin(object):
                     var2 = var + 's'
                 if value is False:
                     var2 = '!' + var2
-                warn("'%s=%s' is DEPRECATED, use 'group=%s'" %(var,value,var2))
+                warn("'%s=%s' is DEPRECATED, use 'group=%s'" %(var,value,var2),
+                     what='Warning')
                 group = var2
 
         self.name            = name
@@ -324,50 +333,50 @@ def doc(filename):
 links_without_plugins = [
     Link(url="javascript:go_year('Dossiers/tt/=read-only=')",
          where="abj_master", html_class="verysafe", priority = -100,
-         authorized = lambda s: s.ticket.is_an_abj_master,
+         group = 'abj_masters',
          ),
     Link(url="javascript:go_year('Dossiers/tt')",
          where="abj_master", html_class="unsafe", priority = -99,
-         authorized = lambda s: s.ticket.is_an_abj_master,
+         group = 'abj_masters',
          ),
     Link(url="stats.html",
          where="informations", html_class="verysafe",
          ),
     Link(url="javascript:go('referents_students')",
          where='referents', html_class='safe', priority=999,
-         authorized = lambda s: s.ticket.user_name in configuration.root,
+         group = 'roots',
          ),                               
     Link(url="/0/Dossiers/config_table/=read-only=",
          where="root_rw", html_class="verysafe", priority = -1000,
-         authorized = lambda s: s.ticket.user_name in configuration.root,
+         group = 'roots',
          ),
     Link(url="/0/Dossiers/config_table",
          where="root_rw", html_class="unsafe", priority = -999,
-         authorized = lambda s: s.ticket.user_name in configuration.root,
+         group = 'roots',
          ),
     Link(url="/0/Dossiers/config_acls",
          where="root_rw", html_class="unsafe", priority = -998,
-         authorized = lambda s: s.ticket.user_name in configuration.root,
+         group = 'roots',
          ),
     Link(url="/0/Dossiers/config_plugin",
          where="root_rw", html_class="safe", priority = -997,         
-         authorized = lambda s: s.ticket.user_name in configuration.root,
+         group = 'roots',
          ),
     Link(url="/2009/Dossiers/javascript_regtest_ue",
          where="debug", html_class="verysafe",
-         authorized = lambda s: s.ticket.user_name in configuration.root,
+         group = 'roots',
          ),
     Link(url="/2008/Test/average",
          where="debug", html_class="verysafe",         
-         authorized = lambda s: s.ticket.user_name in configuration.root,
+         group = 'roots',
          ),
     Link(url="javascript:go('demo_animaux')",
          where="debug", html_class="verysafe",
-         authorized = lambda s: s.ticket.user_name in configuration.root,
+         group = 'roots',
          ),
     Link(url="/2008/Test/test_types",
          where="debug", html_class="verysafe",
-         authorized = lambda s: s.ticket.user_name in configuration.root,
+         group = 'roots',
          ),
     ]
 
@@ -382,7 +391,8 @@ def add_links(*links):
 
 def get_links(server):
     for link in links_without_plugins:
-        if link.authorized(server):
+        if (configuration.is_member_of(server.ticket.user_name, link.group)
+           and link.authorized(server)):
             if link.plugin and not link.plugin.is_allowed(server)[0]:
                     continue # Not allowed by plugin
             yield link, link.plugin
