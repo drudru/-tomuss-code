@@ -69,6 +69,6 @@ def cell(server):
         server.the_file.write('<body style="background:#F0F">')
 
 
-plugin.Plugin('cell', '/{Y}/{S}/{U}/cell/{*}', function=cell, teacher=None,
+plugin.Plugin('cell', '/{Y}/{S}/{U}/cell/{*}', function=cell,
               priority = -10 # Before student_redirection
               )

@@ -194,7 +194,7 @@ def clients(server):
 
 plugin.Plugin('clients', '/clients/{Y}',
               function=clients,
-              root=True,
+              group='roots',
               link=plugin.Link(html_class="verysafe",
                                where="informations",
                                url="javascript:go_year_after('clients')"

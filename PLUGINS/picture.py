@@ -42,7 +42,7 @@ def picture(server):
 plugin.Plugin('picture', '/picture/{?}',
               function=picture,
               mimetype='image/jpeg',
-              teacher=True,
+              group='staff',
               )
 
 def my_picture(server):
@@ -53,7 +53,7 @@ def my_picture(server):
 plugin.Plugin('my_picture', '/picture/{?}',
               function=my_picture,
               mimetype='image/jpeg',
-              teacher=False,
+              group='!staff',
               )
 
 

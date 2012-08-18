@@ -103,7 +103,7 @@ def resume(server):
             }, js=TEMPLATES._ucbl_.update_student_information)
     
 plugin.Plugin('resume', '/resume/{*}',
-              function=resume, teacher=True,
+              function=resume, group='staff',
               keep_open = True,
               launch_thread = True)
 

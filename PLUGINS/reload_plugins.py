@@ -76,6 +76,6 @@ def reload_plugins(server):
     document.table(0, 'Dossiers', 'config_plugin', None, None)
 
 plugin.Plugin('reload_plugins', '/reload_plugins',
-              function=reload_plugins, root=True,
+              function=reload_plugins, group='roots',
               link=plugin.Link(where='debug', html_class='safe')
               )

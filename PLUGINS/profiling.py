@@ -215,7 +215,7 @@ def profiling(server):
 
 plugin.Plugin('profiling', '/profiling/{Y}',
               function=profiling,
-              root = True,
+              group='roots',
               launch_thread = True,
               keep_open = True,
               link=plugin.Link(html_class="verysafe", where='debug',

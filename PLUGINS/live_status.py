@@ -36,7 +36,7 @@ def live_status(server):
     sender.add_client(server.the_file)
 
 plugin.Plugin('live_status_svg', '/live_status.svg',
-              function=live_status, root=True,
+              function=live_status, group='roots',
               mimetype = "image/svg+xml",
               keep_open = True,
               link=plugin.Link(html_class='verysafe',where='debug',priority=-1)

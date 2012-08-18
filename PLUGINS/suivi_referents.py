@@ -132,7 +132,7 @@ def referents(server):
     stat_referent(server.the_file, server.year, server.semester, server)
 
 plugin.Plugin('referents', '/*3', function=referents,
-              root=True,
+              group='roots',
               launch_thread = True,
               link=plugin.Link(url="javascript:go_suivi('*3')",
                                where='referents', html_class="verysafe",

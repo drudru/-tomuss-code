@@ -42,7 +42,7 @@ def clean(server):
         server.the_file.write(ue + '<br>\n')
         server.the_file.flush()
 
-plugin.Plugin('clean', '/{Y}/{S}/clean', root=True, function=clean,
+plugin.Plugin('clean', '/{Y}/{S}/clean', group='roots', function=clean,
               link=plugin.Link(
                   url="javascript:go(\'clean\')",
                   where='root_rw', html_class='veryunsafe',
@@ -77,7 +77,8 @@ def clean_other(server):
     server.the_file.write('<br>' + server._("MSG_clean_other_done"))
     server.the_file.flush()
 
-plugin.Plugin('clean_other', '/clean_other', root=True, function=clean_other,
+plugin.Plugin('clean_other', '/clean_other', group='roots',
+              function=clean_other,
               link=plugin.Link(
                   where='root_rw', html_class='veryunsafe',
                   )

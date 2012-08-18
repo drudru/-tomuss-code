@@ -101,11 +101,11 @@ def gc_object(server):
     server.the_file.write(utilities.read_file(os.path.join('TMP',
                                                            'objects.png')))
 
-plugin.Plugin('gctop'   , '/gc'        , root=True, function=gc_top,
+plugin.Plugin('gctop'   , '/gc'        , group='roots', function=gc_top,
               link=plugin.Link(where='debug', html_class='verysafe')
               )
-plugin.Plugin('gctype'  , '/type/{*}'  , root=True, function=gc_type)
-plugin.Plugin('gcobject', '/object/{*}', root=True, function=gc_object,
+plugin.Plugin('gctype'  , '/type/{*}'  , group='roots', function=gc_type)
+plugin.Plugin('gcobject', '/object/{*}', group='roots', function=gc_object,
               mimetype = 'image/png')
 
 import math
@@ -172,7 +172,7 @@ def caches(server):
     s.append('</table>')
     server.the_file.write('\n'.join(s))
 
-plugin.Plugin('caches'   , '/caches'   , root=True, function=caches,
+plugin.Plugin('caches'   , '/caches'   , group='roots', function=caches,
               link=plugin.Link(where='debug', html_class='verysafe')
               )
 
@@ -181,7 +181,7 @@ def locks(server):
     server.the_file.write('<title>' + server._("MSG_locks_title")
                           + '</title><pre>'+ utilities.lock_state() + '</pre>')
 
-plugin.Plugin('locks'   , '/locks'   , root=True, function=locks,
+plugin.Plugin('locks'   , '/locks'   , group='roots', function=locks,
               link=plugin.Link(where='debug', html_class='verysafe')
               )
 
@@ -193,7 +193,7 @@ def threads(server):
                                     for t in utilities.thread_list) +
                           '</pre>')
 
-plugin.Plugin('threads'   , '/threads'   , root=True, function=threads,
+plugin.Plugin('threads'   , '/threads'   , group='roots', function=threads,
               link=plugin.Link(where='debug', html_class='verysafe')
               )
 

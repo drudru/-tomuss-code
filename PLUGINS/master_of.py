@@ -62,7 +62,7 @@ def master_of(server):
 
 plugin.Plugin('master_of', '/master_of',
               function=master_of,
-              root=True,
+              group='roots',
               launch_thread = True,
               link=plugin.Link(html_class="veryunsafe", where='root_rw',
                                priority=100),

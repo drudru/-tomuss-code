@@ -22,7 +22,7 @@
 import plugin
 import configuration
 
-plugin.Plugin('student_redirect', '/{*}', teacher=False, password_ok = None,
+plugin.Plugin('student_redirect', '/{*}', group='!staff', password_ok = None,
               response=307,
               headers = lambda x: (
     ('Location','%s/' % configuration.suivi.url(configuration.year_semester[0],

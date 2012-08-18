@@ -72,7 +72,7 @@ def referent_get(server):
 
 plugin.Plugin('referent_get', '/referent_get/{*}',
               mimetype = 'text/plain; charset=UTF-8',
-              function=referent_get, referent=True)
+              function=referent_get, group='referents')
 
 
 def referent_set(server):
@@ -97,7 +97,7 @@ plugin.Plugin('referent_set', '/referent_set/{*}',
               link=plugin.Link(html_class="verysafe", where="referents",
                                url="javascript:go_referent_set()",
                                ),
-              function=referent_set, root=True
+              function=referent_set, group='roots'
               )
 
 
@@ -123,7 +123,7 @@ plugin.Plugin('orphan_students', '/orphan_students/{*}',
               link=plugin.Link(html_class="safe", where="referents",
                                url="javascript:go_orphan_students()",
                                ),
-              function=orphan_students, root=True
+              function=orphan_students, group='root'
               )
 
 

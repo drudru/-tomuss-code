@@ -70,7 +70,7 @@ def tickets(server):
             'comment': server._('LINK_tickets'),
             })
 
-plugin.Plugin('tickets', '/tickets', function=tickets, root=True,
+plugin.Plugin('tickets', '/tickets', function=tickets, group='roots',
               link=plugin.Link(where='informations', html_class="verysafe")
               )
 

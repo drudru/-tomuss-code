@@ -90,6 +90,6 @@ page d'accueil.""")
     server.the_file.write("\nOK: Copie faite sans erreur.")
 
 plugin.Plugin('tablecopy', '/{Y}/{S}/{U}/tablecopy/{*}',
-              function=tablecopy, teacher=True,
+              function=tablecopy, group='staff',
               mimetype = "text/plain; charset=UTF-8",
               )

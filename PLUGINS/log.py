@@ -43,6 +43,6 @@ def log(server):
 
 plugin.Plugin('log', '/log/{*}',
               function = log,
-              teacher=True,
+              group='staff',
               )
 

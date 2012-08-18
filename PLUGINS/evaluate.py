@@ -30,6 +30,6 @@ def evaluate(server):
         server.the_file.write( repr(eval('/'.join(server.the_path))) )
 
 plugin.Plugin('evaluate', '/evaluate/{*}',
-              root=True,
+              group='roots',
               mimetype='text/plain',
               function=evaluate)

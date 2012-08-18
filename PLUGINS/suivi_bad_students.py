@@ -66,7 +66,7 @@ def bad(server):
     bad_student_with_notes(server.the_file, server.year, server.semester,
                            server._)
 
-plugin.Plugin('bad_ip', '/*1', abj_master=True,
+plugin.Plugin('bad_ip', '/*1', group='abj_masters',
               function = bad,
               launch_thread = True,
               link=plugin.Link(url="javascript:go_suivi('*1')",

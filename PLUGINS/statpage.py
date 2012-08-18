@@ -79,7 +79,7 @@ def stat_page(server):
     server.the_file.write('\n'.join(s))
 
 plugin.Plugin('statpage', '/stat',
-              function=stat_page, root=True,
+              function=stat_page, group='roots',
               link=plugin.Link(html_class="verysafe", where='informations'),
               )
 

@@ -49,7 +49,7 @@ def send_alert(server):
 
 plugin.Plugin('send_alert', '/send_alert/{U}/{*}',
               function=send_alert,
-              root=True,
+              group='roots',
               link=plugin.Link(text=utilities._("LINK_send_alert_before")
                                + '''<br><form style="margin:0" action="javascript:var m = document.getElementById('message').value ; if(confirm(_('LINK_send_alert_before') + '\\n\\n' + m)) window.location='/='+ticket+'/send_alert//' + m"><input id="message" class="search_field" name="x" class="keyword" value="'''
                                + utilities._("LINK_send_alert_default")

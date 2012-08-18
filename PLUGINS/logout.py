@@ -30,6 +30,7 @@ plugin.Plugin('logout', '/logout',
               function = logout,
               response=307,
               password_ok = None,
-              headers = lambda unused: (('Location','%s/logout'%configuration.cas),)
+              headers = lambda unused: (('Location','%s/logout'
+                                         % configuration.cas),)
               )
 

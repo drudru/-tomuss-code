@@ -285,15 +285,13 @@ else
 
 
 plugin.Plugin('answer_page', '/{Y}/{S}/{U}/{P}',
-              function=answer_page, teacher=True,
+              function=answer_page, group='staff',
               keep_open = True,
-              administrative = None,
               priority = -2, # Before other actions
               )
 
-plugin.Plugin('pagenew', '/{Y}/{S}/{U}/{=}', function=new_page, teacher=True,
+plugin.Plugin('pagenew', '/{Y}/{S}/{U}/{=}', function=new_page, group='staff',
               keep_open = True,
-              administrative = None,
               launch_thread = True)
 
 def set_page(server):
@@ -316,5 +314,6 @@ def set_page(server):
                          )
     return 'ok'
 
-plugin.Plugin('set_page', '/set_page/{U}/{P}', function=set_page, teacher=True)
+plugin.Plugin('set_page', '/set_page/{U}/{P}', function=set_page,
+              group='staff')
 

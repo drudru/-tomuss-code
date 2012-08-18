@@ -69,7 +69,7 @@ def login_list(server):
 
 plugin.Plugin('login_list', '/login_list/{*}',
               function=login_list,
-              teacher=True,
+              group='staff',
               mimetype = 'application/x-javascript',
               launch_thread=True,
               )

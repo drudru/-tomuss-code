@@ -54,7 +54,7 @@ def the_ip(server):
         
     server.the_file.write(repr(students).replace('],', '],\n'))
 
-plugin.Plugin('ip', '/ip', function=the_ip, root=True,
+plugin.Plugin('ip', '/ip', function=the_ip, group='roots',
               launch_thread = True,
               mimetype = "text/plain",
               link=plugin.Link(where="deprecated", html_class="verysafe",

@@ -28,7 +28,7 @@ def update_referents(server):
                               really_do_it=True)
 
 plugin.Plugin('referents_update', '/referents',
-              function=update_referents, referent_master=True,
+              function=update_referents, group='referent_masters',
               launch_thread=True,
               link=plugin.Link(html_class='veryunsafe', where="referents",
                                priority=1000,
@@ -41,7 +41,7 @@ def update_referents_R(server):
                               really_do_it=True, add_students=False)
 
 plugin.Plugin('referents_update_R', '/referents_R',
-              function=update_referents_R, referent_master=True,
+              function=update_referents_R, group='referent_masters',
               launch_thread=True,
               link=plugin.Link(html_class='veryunsafe', where="referents",
                                priority=1000,
@@ -54,7 +54,7 @@ def update_referents_safe(server):
                               really_do_it=False)
 
 plugin.Plugin('referents_update_safe', '/referents_safe',
-              function=update_referents_safe, referent_master=True,
+              function=update_referents_safe, group='referent_masters',
               launch_thread=True,
               link=plugin.Link(html_class='verysafe', where='referents',
                                priority=1000,
@@ -67,7 +67,7 @@ def update_referents_safe_R(server):
                               really_do_it=False, add_students=False)
 
 plugin.Plugin('referents_update_safe_R', '/referents_safe_R',
-              function=update_referents_safe_R, referent_master=True,
+              function=update_referents_safe_R, group='referent_masters',
               launch_thread=True,
               link=plugin.Link(html_class='verysafe', where='referents',
                                priority=1000,

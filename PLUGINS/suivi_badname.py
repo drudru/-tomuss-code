@@ -62,7 +62,7 @@ def the_badname(server):
     
 
 
-plugin.Plugin('badname', '/badname', function=the_badname, root=True,
+plugin.Plugin('badname', '/badname', function=the_badname, group='roots',
               launch_thread = True,
               link=plugin.Link(where="deprecated", html_class="verysafe",
                                url="javascript:go_suivi('badname')"),

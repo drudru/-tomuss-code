@@ -113,10 +113,9 @@ def page_one_groupe(server):
         w.writerow((line[0].value, '', '', line[3].value))
     w.writerow((line[0].value, '', '', line[3].value))
 
-plugin.Plugin('groupe', '/groupe', teacher=True, password_ok = None,
+plugin.Plugin('groupe', '/groupe', group='abj_masters',
               mimetype = 'text/html',
               function = page_groupe,
-              abj_master=True,
               launch_thread=True,
               link=plugin.Link(where="grouping", html_class="verysafe",
                                url="javascript:go_suivi('groupe')",
@@ -124,7 +123,7 @@ plugin.Plugin('groupe', '/groupe', teacher=True, password_ok = None,
               )
 
 plugin.Plugin('one_groupe', '/groupe/{*}',
-              teacher=True, password_ok = None,
+              group='staff',
               mimetype = 'text/csv',
               function = page_one_groupe,
               launch_thread=True

@@ -60,17 +60,17 @@ def page_resume(server):
 
 
 plugin.Plugin('pagerewrite', '/{Y}/{S}/{U}/rewrite',
-              function=page_rewrite, teacher=True,
+              function=page_rewrite, group='staff',
               mimetype = "text/plain; charset=UTF-8",
               launch_thread = True)
 
 plugin.Plugin('pageresume', '/{Y}/{S}/{U}/resume',
-              function=page_resume, teacher=True,
+              function=page_resume, group='staff',
               mimetype = "text/plain; charset=UTF-8",
               launch_thread = True)
 
 plugin.Plugin('pageaction', '/{Y}/{S}/{U}/{P}/{*}', function=page_action,
-              teacher=True, mimetype = "image/png",
+              group='staff', mimetype = "image/png",
               keep_open=True,
               cached = True, # We don't want browser reloading actions
               priority = -1, # The most frequent plugin call
@@ -88,7 +88,7 @@ def page_unload(server):
         server.the_file.write(server._("MSG_page_unload_no_table") + "<br>\n")
 
 plugin.Plugin('page_unload', '/{Y}/{S}/{U}/page_unload',
-              function=page_unload, root=True)
+              function=page_unload, group='roots')
 
 import os
 import configuration
@@ -155,7 +155,7 @@ def extension(server):
     return
         
 
-plugin.Plugin('extension', '/{Y}/{S}/{U}/extension', teacher=True,
+plugin.Plugin('extension', '/{Y}/{S}/{U}/extension', group='staff',
               function=extension,
               )
 
@@ -170,7 +170,7 @@ def key_history(server):
 
 plugin.Plugin('key_history', '/{Y}/{S}/{U}/{P}/key_history/{*}',
               function=key_history,
-              teacher=True, mimetype = None,
+              group='staff', mimetype = None,
               priority=-2
               )
 
@@ -204,7 +204,7 @@ def delete_this_table(server):
     
 
 plugin.Plugin('delete_this_table', '/{Y}/{S}/{U}/delete_this_table',
-              teacher=True,
+              group='staff',
               function=delete_this_table,
               )
 
@@ -224,7 +224,7 @@ def end_of_load(server):
 
 plugin.Plugin('end_of_load', '/{Y}/{S}/{U}/{P}/end_of_load',
               function=end_of_load,
-              teacher=True,
+              group='staff',
               mimetype='image/png',
               priority=-2
               )

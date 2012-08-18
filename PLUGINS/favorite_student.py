@@ -45,5 +45,5 @@ def favorite_student(server):
     return 'ok'
 
 plugin.Plugin('favorite_student', '/favorite_student/{?}',
-              function=favorite_student, teacher=True)
+              function=favorite_student, group='staff')
 

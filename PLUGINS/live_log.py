@@ -27,7 +27,7 @@ def live_log(server):
     utilities.live_log = server.the_file
 
 plugin.Plugin('live_log', '/live_log',
-              function=live_log, root=True,
+              function=live_log, group='roots',
               mimetype = "text/plain",
               launch_thread = True,
               keep_open = True,

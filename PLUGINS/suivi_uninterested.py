@@ -163,8 +163,8 @@ def uninterested(server):
         f.write(x)
     f.write('</table></body></html>')
 
-plugin.Plugin('uninterested', '/uninterested', function=uninterested,root=True,
-              launch_thread = True,
+plugin.Plugin('uninterested', '/uninterested', function=uninterested,
+              group='roots', launch_thread = True,
               link=plugin.Link(where="informations", html_class="verysafe",
                                url="javascript:go_suivi('uninterested')",
                                priority = 1100,

@@ -37,7 +37,7 @@ def change_identity(server):
     
 
 plugin.Plugin('change_identity', '/change_identity/{*}',
-              root=True, function=change_identity,
+              group='roots', function=change_identity,
               keep_open = True,
               launch_thread = True,
               link=plugin.Link(text='<script>document.write(_("LINK_change_identity"));</script><form style="margin:0" action="javascript:var m = document.getElementById(\'new_identity\').value ; window.location=\'/=\'+ticket+\'/change_identity/\' + m"><input id="new_identity" class="search_field" name="x" class="keyword" value="john.doe"></form>',

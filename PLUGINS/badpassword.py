@@ -28,7 +28,7 @@ def execute(server):
     So the user has not access to the software"""
     server.the_file.write(configuration.bad_password())
 
-plugin.Plugin('badpassword', '/{*}', teacher=True, password_ok=False,
+plugin.Plugin('badpassword', '/{*}', group='staff', password_ok=False,
               function = execute,
               )
 

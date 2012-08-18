@@ -210,7 +210,7 @@ def abj_display(server):
                   server.ticket, server.the_student, do_close=True)
 
 
-plugin.Plugin('abj', '/{Y}/{S}/abj', function=abj_home, abj_master=True,
+plugin.Plugin('abj', '/{Y}/{S}/abj', function=abj_home, group='abj_masters',
               link=plugin.Link(
                   url="javascript:go('abj')",
                   where='abj_master', html_class="safe",
@@ -221,7 +221,7 @@ plugin.Plugin('abj', '/{Y}/{S}/abj', function=abj_home, abj_master=True,
               )
 
 plugin.Plugin('abjalpha', '/{Y}/{S}/abj/alpha.xls',
-              function=abj_alpha_licence, abj_master=True,
+              function=abj_alpha_licence, group='abj_masters',
               launch_thread = True,
               link=plugin.Link(
                   url="javascript:go('abj/alpha.xls')",
@@ -231,7 +231,7 @@ plugin.Plugin('abjalpha', '/{Y}/{S}/abj/alpha.xls',
               )
 
 plugin.Plugin('abjalphamaster', '/{Y}/{S}/abj/alpha_master.xls',
-              function=abj_alpha_master, abj_master=True,
+              function=abj_alpha_master, group='abj_masters',
               launch_thread = True,
               link=plugin.Link(
                   url="javascript:go('abj/alpha_master.xls')",
@@ -241,7 +241,7 @@ plugin.Plugin('abjalphamaster', '/{Y}/{S}/abj/alpha_master.xls',
               )
 
 plugin.Plugin('abjalphaepu', '/{Y}/{S}/abj/alpha_epu.xls',
-              function=abj_alpha_epu, abj_master=True,
+              function=abj_alpha_epu, group='abj_masters',
               launch_thread = True,
               link=plugin.Link(
                   url="javascript:go('abj/alpha_epu.xls')",
@@ -251,7 +251,7 @@ plugin.Plugin('abjalphaepu', '/{Y}/{S}/abj/alpha_epu.xls',
               )
 
 plugin.Plugin('abjalphaauthor', '/{Y}/{S}/abj/alpha_author.xls',
-              function=abj_alpha_author, abj_master=True,
+              function=abj_alpha_author, group='abj_masters',
               launch_thread = True,
               link=plugin.Link(
                   url="javascript:go('abj/alpha_author.xls')",
@@ -261,7 +261,7 @@ plugin.Plugin('abjalphaauthor', '/{Y}/{S}/abj/alpha_author.xls',
               )
 
 plugin.Plugin('abjlistmail', '/{Y}/{S}/abj/list_mail',
-              function=abj_list_mail, abj_master=True,
+              function=abj_list_mail, group='abj_masters',
               launch_thread = True,
               link=plugin.Link(
                   url="javascript:go('abj/list_mail')",
@@ -276,15 +276,15 @@ plugin.Plugin('abjhacker', '/{Y}/{S}/abjs', function=abj_no,
 
 plugin.Plugin('abjaction', '/{Y}/{S}/abj/{P}/{I}/{*}',
               mimetype = 'image/png',
-              function=abj_action, abj_master=True,
+              function=abj_action, group='abj_masters',
               priority = -3,
               )
 plugin.Plugin('abjsendmail', '/{Y}/{S}/abj/send_mail',
-              function=abj_send_mail, abj_master=True,
+              function=abj_send_mail, group='abj_masters',
               launch_thread = True,
               priority = -3,
               )
 plugin.Plugin('abj_display', '/{Y}/{S}/abj/display/{I}',
-              function=abj_display, abj_master=True,
+              function=abj_display, group='abj_masters',
               priority = -3,
               )

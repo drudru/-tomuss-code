@@ -44,7 +44,7 @@ def auto_update(server):
             to_unload.remove(tt)
         
 
-plugin.Plugin('auto_update', '/auto_update', function=auto_update, root=True,
-              launch_thread = True,
+plugin.Plugin('auto_update', '/auto_update', function=auto_update,
+              group='roots', launch_thread = True,
               link=plugin.Link(where='root_rw', html_class='safe')
               )

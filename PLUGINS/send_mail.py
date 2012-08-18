@@ -75,5 +75,5 @@ def send_mail(server):
     
 
 plugin.Plugin('send_mail', '/send_mail/{*}', function=send_mail,
-              teacher=True, launch_thread=True,
+              group='staff', launch_thread=True,
               mimetype='text/plain;charset=utf-8')

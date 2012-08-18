@@ -113,7 +113,7 @@ def page(server):
     """
     display(server)
 
-plugin.Plugin('suivi_extract', '/extract/{*}', function=page, teacher=True,
+plugin.Plugin('suivi_extract', '/extract/{*}', function=page, group='staff',
               launch_thread = True,
               )
 
@@ -207,7 +207,7 @@ def fusion(server):
     display_fusion(server)
 
 plugin.Plugin('fusion', '/fusion/{*}',
-              function=fusion, teacher=True,
+              function=fusion, group='staff',
               launch_thread = True,
               )
 
@@ -219,7 +219,7 @@ def fusion_inscrit_author(server):
                    with_inscrit=True, with_author=True, with_column=False)
 
 plugin.Plugin('suivi_fusion_inscrit_author', '/fusion_inscrit_author/{*}',
-              function=fusion_inscrit_author, teacher=True,
+              function=fusion_inscrit_author, group='staff',
               launch_thread = True,
               )
 

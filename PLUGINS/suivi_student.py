@@ -345,7 +345,7 @@ def student(server, login=''):
         student_statistics(login, server,True).replace('\n','').encode('utf8'))
 
 
-plugin.Plugin('student', '/{*}', function=student, teacher=False,
+plugin.Plugin('student', '/{*}', function=student, group='!staff',
               launch_thread=True,
               password_ok = None)
 
@@ -357,7 +357,7 @@ def accept(server):
     student(server)
     
 
-plugin.Plugin('accept', '/accept', function=accept, teacher=False,
+plugin.Plugin('accept', '/accept', function=accept, group='!staff',
               launch_thread=True,
               password_ok = None)
 
@@ -406,7 +406,7 @@ def home(server, nothing_behind=True):
     if nothing_behind:
         server.the_file.write(student_statistics(server.ticket.user_name, server, is_a_student=True).encode('utf8'))
 
-plugin.Plugin('home', '/', teacher=True, function = home)
+plugin.Plugin('home', '/', group='staff', function = home)
 
 def teacher_statistics(login, server):
     ticket = server.ticket
@@ -525,7 +525,7 @@ def page_suivi(server):
                           configuration.version + '</p>'
                           )
 
-plugin.Plugin('infos', '/{*}', teacher=True, password_ok = None,
+plugin.Plugin('infos', '/{*}', group='staff', password_ok = None,
               function = page_suivi,
               launch_thread=True,
               )

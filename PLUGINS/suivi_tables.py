@@ -156,7 +156,7 @@ def table_statistics(server):
     document.virtual_table(server, columns, lines, table_attrs=table_attrs)
 
 plugin.Plugin('tables', '/*2', function=table_statistics,
-              teacher=True, launch_thread = True,
+              group='staff', launch_thread = True,
               link=plugin.Link(url="javascript:go_suivi('*2')",
                                where="informations", html_class="verysafe",
                                ),

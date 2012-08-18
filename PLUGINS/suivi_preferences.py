@@ -53,7 +53,7 @@ def preferences(server):
             })
 
 plugin.Plugin('preferences', '/stat_preferences',
-              function=preferences, root=True,
+              function=preferences, group='roots',
               launch_thread = True,
               link=plugin.Link(where="informations", html_class="verysafe",
                                # Should be the last semester
