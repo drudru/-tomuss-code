@@ -82,10 +82,8 @@ class Link(object):
 plugins = []
 
 class Plugin(object):
-    def __init__(self, name, url, function=lambda x: 0, teacher=None,
-                 abj_master=None, referent_master=None, root=None,
+    def __init__(self, name, url, function=lambda x: 0,
                  authenticated=True,
-                 administrative=None,
                  password_ok = True,
                  response = 200,
                  mimetype = "text/html; charset=UTF-8",
@@ -95,24 +93,34 @@ class Plugin(object):
                  cached = False,
                  link = None,
                  documentation = '',
-                 referent=None,
                  css='',
                  priority=0,
+                 group="",
+                 # Following parameters are deprecated, use group=groupname
+                 teacher=None, referent=None, administrative=None,
+                 abj_master=None, referent_master=None, root=None,
                  ):
         if url[0] != '/':
             raise ValueError('not an absolute URL')
+        for var in ('teacher', 'abj_master', 'referent_master', 'root',
+                    'administrative', 'referent'):
+            value = locals()[var]
+            if value is not None:
+                if var == 'teacher':
+                    var2 = 'staff'
+                else:
+                    var2 = var + 's'
+                if value is False:
+                    var2 = '!' + var2
+                warn("'%s=%s' is DEPRECATED, use 'group=%s'" %(var,value,var2))
+                group = var2
+
         self.name            = name
         self.url             = url[1:].split('/')
         if self.url == ['']:
             self.url = []
         self.function        = function
         self.authenticated   = authenticated
-        self.teacher         = teacher
-        self.administrative  = administrative
-        self.referent        = referent
-        self.referent_master = referent_master
-        self.abj_master      = abj_master
-        self.root            = root
         self.response        = response
         self.mimetype        = mimetype
         self.headers         = headers
@@ -124,6 +132,7 @@ class Plugin(object):
         self.link            = link
         self.css             = css
         self.priority        = priority
+        self.group           = group
         if link:
             link.plugin = self
         if documentation:
@@ -153,34 +162,18 @@ class Plugin(object):
         s = '%14s %-21s ' % (self.name, '/'.join(self.url))
         s += {None: '', True:'Auth', False:'!Auth'}\
              [self.authenticated].rjust(6)
-        s += {None: '', True:'Teacher', False:'!Teacher'}\
-             [self.teacher].rjust(9)
-        s += {None: '', True:'Adm', False:'!Adm'}\
-             [self.administrative].rjust(5)
-        s += {None: '', True:'Ref', False:'!Ref'}\
-             [self.referent].rjust(5)
-        s += {None: '', True:' ABJM', False:'!ABJM'}\
-             [self.abj_master].rjust(6)
-        s += {None: '', True:'RefM', False:'!RefM'}\
-             [self.referent_master].rjust(6)
-        s += {None: '', True:'root', False:'!root'}\
-             [self.root].rjust(6)
         s += {None: '', True:'PassOK', False:'!PassOK'}\
              [self.password_ok].rjust(8)
         s += {None: '', True:'LThrd', False:'!LThrd'}\
              [self.launch_thread].rjust(7)
+        s += ' ' + self.group
         return s
 
     def html(self):
         s = '<tr><td><a href="Welcome.xml#plugin_%s">%s</a></td><td>%s</td>'% (
             self.name, self.name, '/'.join(self.url))
         s += '<td>' + str(self.authenticated)[0] + '</td>'
-        s += '<td>' + str(self.teacher)[0] + '</td>'
-        s += '<td>' + str(self.referent)[0] + '</td>'
-        s += '<td>' + str(self.administrative)[0] + '</td>'
-        s += '<td>' + str(self.abj_master)[0] + '</td>'
-        s += '<td>' + str(self.referent_master)[0] + '</td>'
-        s += '<td>' + str(self.root)[0] + '</td>'
+        s += '<td>' + self.group + '</td>'
         s += '<td>' + str(self.password_ok)[0] + '</td>'
         s += '<td>' + str(self.launch_thread)[0] + '</td>'
         s += '<td>' + str(self.cached)[0] + '</td>'
@@ -193,7 +186,6 @@ class Plugin(object):
         return s
 
     def doc(self):
-        import os
         s = '<tr><td><b><a name="plugin_%s">%s</a></b><br/>' % (
             self.name, self.name)
         if self.function.__doc__:
@@ -225,28 +217,12 @@ class Plugin(object):
             return False, 'No ticket'
         if server.ticket.user_name in self.invited:
             return True, 'Because invited'
-        if self.teacher is True and not server.ticket.is_a_teacher:
-            return False, 'Teacher only'
-        if self.teacher is False and server.ticket.is_a_teacher:
-            return False, 'Teacher not allowed'
-        if self.referent is True and not server.ticket.is_a_referent:
-            return False, 'Referent only'
-        if self.administrative is True \
-           and not server.ticket.is_an_administrative:
-            return False, 'Administrative only'
-        if self.administrative is False and server.ticket.is_an_administrative:
-            return False, 'Administrative not allowed'
-        if self.root is True and server.ticket.user_name not in configuration.root:
-            return False, 'Only for root'
-        if self.abj_master and not server.ticket.is_an_abj_master:
-            return False, 'ABJ master only'
-        if self.referent_master and not server.ticket.is_a_referent_master:
-            return False, 'Referent master only'
         if self.password_ok is True and not server.ticket.password_ok:
             return False, 'Only with good password'
         if self.password_ok is False and server.ticket.password_ok:
             return False, 'Only with bad password'
-        return True, 'without condition'
+        return (configuration.is_member_of(server.ticket.user_name,self.group),
+                'group:' + self.group)
 
     def path_match(self, server):
         path = server.the_path
@@ -270,7 +246,7 @@ class Plugin(object):
                 if f == '{P}':
                     try:
                         server.the_page = int(path[i])
-                    except:
+                    except ValueError:
                         return False
                     continue
                 if f == '{?}':
@@ -318,12 +294,7 @@ def html(filename):
             "<th>Name</th>"
             "<th>URL template</th>"
             "<th>" + vertical_text('Authenticated') + "</th>"
-            "<th>" + vertical_text('Teacher') + "</th>"
-            "<th>" + vertical_text('Referent') + "</th>"
-            "<th>" + vertical_text('Administrator') + "</th>"
-            "<th>" + vertical_text('Abj master') + "</th>"
-            "<th>" + vertical_text('Referent master') + "</th>"
-            "<th>" + vertical_text('root') + "</th>"
+            "<th>" + vertical_text('Group allowed') + "</th>"
             "<th>" + vertical_text('Password OK') + "</th>"
             "<th>" + vertical_text('Backgrounded') + "</th>"
             "<th>" + vertical_text('Cached') + "</th>"

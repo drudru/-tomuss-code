@@ -57,9 +57,9 @@ def create(table):
     table.table_attr(p, 'private', 1)
 
     defaults = collections.defaultdict(list)
+    # 'roots' are in ALL the groups
     for root in configuration.root:
         defaults['roots'].append(root)
-    defaults['staff'].append('grp:roots')
 
     for ldap_teacher in configuration.teachers:
         defaults['teachers'].append('ldap:' + ldap_teacher)
@@ -123,41 +123,57 @@ def init(table):
     configuration.is_member_of = is_member_of
 
 def members(group):
-    for line in acls.lines.values():
-        if line[1].value != group:
-            continue
-        member = line[0].value
-        if member.startswith('grp:'):
-            for m in members(member[4:]):
-                yield m
-            continue
-        yield member
+    """First level members of a group.
+    LDAP members are put in first place for optimization
+    """
+    membs = [line[0].value
+             for line in acls.lines.values()
+             if line[1].value == group
+             ]
+    membs.sort(key=lambda x: x.startswith('ldap:') and 1 or 0)
+    return membs
 
-def is_member_of_(login, group):
-    member_of = inscrits.L_fast.member_of_list(login)
+def is_member_of_(login, group, member_of):
+    if group[0] == '!':
+        true = False
+        group = group[1:]
+    else:
+        true = True
     for member in members(group):
         if member == login:
-            return True
+            return true
         if member.startswith('ldap:'):
             member = member[5:]
             for i in member_of:
                 if member.endswith(i):
-                    return True
+                    return true
             continue
         if member.startswith('python:') and not configuration.regtest:
             member = member[7:]
             try:
                 if eval(member):
-                    return True
+                    return true
             except:
                 pass
             continue
-    return False
+        if member.startswith('grp:'):
+            if is_member_of_(login, member[4:], member_of):
+                return true
+            continue
+    return not true
 
 def is_member_of(login, group):
-    utilities.warn("%s %s" % (login, group))
-    if is_member_of_(login, "REJECTED"):
-        return False
-    if is_member_of_(login, "roots"):
+    # utilities.warn("%s %s" % (login, group))
+    member_of = inscrits.L_fast.member_of_list(login)
+    if group == '':
         return True
-    return is_member_of_(login, group)
+    if group[0] == '!':
+        # REJECTED are in no groups
+        if is_member_of_(login, "REJECTED", member_of):
+            return True
+    else:
+        if is_member_of_(login, "REJECTED", member_of):
+            return False
+        if is_member_of_(login, "roots", member_of):
+            return True
+    return is_member_of_(login, group, member_of)

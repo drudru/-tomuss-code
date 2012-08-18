@@ -26,24 +26,31 @@ import data
 import utilities
 
 def update_column(table):
-    for name, typ, width in (
-        ('plugin'        , 'Text', 4 ),
-        ('info'          , 'Text', 20),
-        ('link'          , 'Text', 4 ),
-        ('suivi'         , 'Text', 1 ),
-        ('root'          , 'Bool', 1 ),
-        ('abj'           , 'Bool', 1 ),
-        ('referent'      , 'Bool', 1 ),
-        ('teacher'       , 'Bool', 1 ),
-        ('administrative', 'Bool', 1 ),
-        ('invited'       , 'Text', 8 ),
+    for name, typ, width, deprecated in (
+        ('plugin'        , 'Text', 8 , False),
+        ('info'          , 'Text', 20, False),
+        ('link'          , 'Text', 6 , False),
+        ('suivi'         , 'Text', 1 , False),
+        ('root'          , 'Bool', 1 , True),
+        ('abj'           , 'Bool', 1 , True),
+        ('referent'      , 'Bool', 1 , True),
+        ('teacher'       , 'Bool', 1 , True),
+        ('administrative', 'Bool', 1 , True),
+        ('invited'       , 'Text', 20, False),
         ):
         if table.columns.from_title(name):
+            if deprecated:
+                table.column_attr(table.pages[0], name, 'hidden', 1)
+            else:
+                table.column_attr(table.pages[0], name, 'width', width)
+            continue
+        if deprecated:
             continue
         table.column_change(table.pages[0], name, name, typ,'','','',0,width)
         table.column_comment(table.pages[0], name,
                              utilities._('COL_TITLE_cp_' + name))
-    table.table_attr(table.pages[0], 'default_nr_columns', len(table.columns))
+    table.table_attr(table.pages[0], 'default_nr_columns', 5)
+
 
 def create(table):
     if table.year != 0 or table.semester != 'Dossiers':
@@ -74,12 +81,6 @@ def check(table):
             if p.link:
                 table.cell_change(table.pages[0], 'link', p.name, p.link.where)
             
-            table.cell_change(table.pages[0], 'root', p.name, d[p.root])
-            table.cell_change(table.pages[0], 'abj', p.name,  d[p.abj_master])
-            table.cell_change(table.pages[0], 'teacher', p.name, d[p.teacher])
-            table.cell_change(table.pages[0], 'referent', p.name,d[p.referent_master])
-            table.cell_change(table.pages[0], 'administrative', p.name,
-                              d[p.administrative])
         for p in plugins.suivi_plugins:
             table.cell_change(table.pages[0], 'suivi', p.name, 'S')
             
@@ -104,7 +105,7 @@ def onload(table):
 
 import config_table
 
-def cell_change(table, page, col, lin, value, date):
+def cell_change(table, page, col, lin, value, dummy_date):
     if configuration.regtest:
         return # Security Hole
     if col != 'invited':
