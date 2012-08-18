@@ -95,12 +95,9 @@ def create(table):
         pass
     defaults['staff'].append('grp:referent_masters')
     
-    for teacher in configuration.not_teachers:
-        defaults['REJECTED'].append('ldap:' + teacher)
-
     i = 0
-    for groupe, members in defaults.items():
-        for member in members:
+    for groupe, the_members in defaults.items():
+        for member in the_members:
             table.cell_change(p, 'a', str(i), member)
             table.cell_change(p, 'b', str(i), groupe)
             i += 1
@@ -133,47 +130,51 @@ def members(group):
     membs.sort(key=lambda x: x.startswith('ldap:') and 1 or 0)
     return membs
 
+def login_is_member(login, member, member_of):
+    if member == login:
+        return True
+    elif member.startswith('ldap:'):
+        member = member[5:]
+        # Remove if it is in a group of non teacher.
+        for i in configuration.not_teachers:
+            if member.endswith(i):
+                return
+        for i in member_of:
+            if member.endswith(i):
+                return True
+    elif member.startswith('python:') and not configuration.regtest:
+        member = member[7:]
+        try:
+            if eval(member):
+                return True
+        except:
+            pass
+    elif member.startswith('grp:'):
+        return is_member_of_(login, member[4:], member_of)
+    return False
+
 def is_member_of_(login, group, member_of):
     if group[0] == '!':
-        true = False
         group = group[1:]
+        for member in members(group):
+            if login_is_member(login, member, member_of):
+                return False
+        return True
     else:
-        true = True
-    for member in members(group):
-        if member == login:
-            return true
-        if member.startswith('ldap:'):
-            member = member[5:]
-            for i in member_of:
-                if member.endswith(i):
-                    return true
-            continue
-        if member.startswith('python:') and not configuration.regtest:
-            member = member[7:]
-            try:
-                if eval(member):
-                    return true
-            except:
-                pass
-            continue
-        if member.startswith('grp:'):
-            if is_member_of_(login, member[4:], member_of):
-                return true
-            continue
-    return not true
+        for member in members(group):
+            if login_is_member(login, member, member_of):
+                return True
+    return False
 
 def is_member_of(login, group):
-    # utilities.warn("%s %s" % (login, group))
+    utilities.warn("%s %s ?" % (login, group))
     member_of = inscrits.L_fast.member_of_list(login)
     if group == '':
-        return True
-    if group[0] == '!':
-        # REJECTED are in no groups
-        if is_member_of_(login, "REJECTED", member_of):
-            return True
-    else:
-        if is_member_of_(login, "REJECTED", member_of):
+        return 'anybody'
+    if is_member_of_(login, "roots", member_of):
+        if group[0] == '!':
             return False
-        if is_member_of_(login, "roots", member_of):
+        else:
             return True
+        
     return is_member_of_(login, group, member_of)
