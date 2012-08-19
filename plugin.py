@@ -227,14 +227,13 @@ class Plugin(object):
             return True, 'Not authenticated'
         if server.ticket == None:
             return False, 'No ticket'
-        if server.ticket.user_name in self.invited:
-            return True, 'Because invited'
         if self.password_ok is True and not server.ticket.password_ok:
             return False, 'Only with good password'
         if self.password_ok is False and server.ticket.password_ok:
             return False, 'Only with bad password'
-        return (configuration.is_member_of(server.ticket.user_name,self.group),
-                'group:' + self.group)
+        return (configuration.is_member_of(server.ticket.user_name,
+                                           self.invited),
+                'invited: ' + repr(self.invited))
 
     def path_match(self, server):
         path = server.the_path

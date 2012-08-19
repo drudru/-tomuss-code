@@ -154,27 +154,38 @@ def login_is_member(login, member, member_of):
     return False
 
 def is_member_of_(login, group, member_of):
+    if group == '':
+        return True
+    if isinstance(group, tuple):
+        to_check = group
+    else:
+        to_check = members(group)
+    
     if group[0] == '!':
         group = group[1:]
-        for member in members(group):
+        for member in to_check:
             if login_is_member(login, member, member_of):
                 return False
         return True
     else:
-        for member in members(group):
+        for member in to_check:
             if login_is_member(login, member, member_of):
                 return True
     return False
 
 def is_member_of(login, group):
+    """A group name or a tuple"""
     # utilities.warn("%s %s ?" % (login, group))
     member_of = inscrits.L_fast.member_of_list(login)
     if group == '':
         return 'anybody'
     if is_member_of_(login, "roots", member_of):
-        if group[0] == '!':
+        if '!' in group[0]:
+            # utilities.warn("==> FALSE ROOT")
             return False
         else:
+            # utilities.warn("==> TRUE ROOT")
             return True
         
+    # utilities.warn("==> %s" % is_member_of_(login, group, member_of))
     return is_member_of_(login, group, member_of)
