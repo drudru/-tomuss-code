@@ -21,6 +21,7 @@
 
 import cgi
 import os
+import sys
 import plugin
 import utilities
 import files
@@ -34,6 +35,30 @@ def plugins_tomuss_more():
     pass
 
 def plugins_tomuss():
+    # Get plugins links from suivi in order to create home page
+    plugins_suivi()
+    global suivi_plugins
+    suivi_plugins = plugin.plugins
+    for p in suivi_plugins:
+        if p.link:
+            # print 'Links added from suivi:', p.link
+            plugin.add_links(p.link)
+
+    # Restore normal plugins
+    plugin.plugins = []
+
+    # To allow module reloading
+    pwd = os.getcwd() + os.path.sep
+    for p in suivi_plugins:
+        try:
+            del sys.modules[p.module.replace(pwd, '')
+                            .replace(".py", "")
+                            .replace(os.path.sep, '.')]
+        except KeyError:
+            pass
+    
+
+    # TOMUSS plugins:
     import PLUGINS.abj_change
     import PLUGINS.badpassword
     import PLUGINS.cell_change
@@ -67,22 +92,7 @@ def plugins_tomuss():
     import PLUGINS.auto_update
     plugins_tomuss_more()
 
-    # Get plugins links from suivi in order to create home page
-    plugins = list(plugin.plugins)
-    plugins_suivi()
-    # Get the new plugins (from suivi)
-    global suivi_plugins
-    suivi_plugins = [p
-                     for p in plugin.plugins
-                     if p not in plugins]
-    # Restore normal plugins
-    plugin.plugins = plugins
     init_plugins()
-
-    for p in suivi_plugins:
-        if p.link:
-            # print 'Links added from suivi:', p.link
-            plugin.add_links(p.link)
 
 #REDEFINE
 # This function do the import of LOCAL Plugins for the 'suivi' server

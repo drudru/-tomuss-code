@@ -3958,7 +3958,7 @@ msgid "COL_TITLE_cp_link"
 msgstr "Home page link"
 
 msgid "COL_TITLE_cp_suivi"
-msgstr "Is a 'suivi' only plugin"
+msgstr "Activated in (T)OMUSS or (S)uivi server"
 
 msgid "COL_TITLE_cp_root"
 msgstr "Need Root rights"
@@ -3976,7 +3976,7 @@ msgid "COL_TITLE_cp_administrative"
 msgstr "Need administrative rights"
 
 msgid "COL_TITLE_cp_invited"
-msgstr "Login list with plugin access"
+msgstr "Groups (see ACLS) and logins list with plugin access"
 
 
 msgid "config_table_abinj"

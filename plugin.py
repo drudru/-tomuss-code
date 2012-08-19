@@ -23,6 +23,7 @@ import socket
 import re
 import cgi
 import os
+import sys
 import configuration
 import utilities
 import files
@@ -142,6 +143,8 @@ class Plugin(object):
         self.css             = css
         self.priority        = priority
         self.group           = group
+        # Where the plugin is defined
+        self.module = sys._getframe(1).f_code.co_filename
         if link:
             link.plugin = self
         if documentation:

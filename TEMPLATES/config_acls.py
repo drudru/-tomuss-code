@@ -167,7 +167,7 @@ def is_member_of_(login, group, member_of):
     return False
 
 def is_member_of(login, group):
-    utilities.warn("%s %s ?" % (login, group))
+    # utilities.warn("%s %s ?" % (login, group))
     member_of = inscrits.L_fast.member_of_list(login)
     if group == '':
         return 'anybody'

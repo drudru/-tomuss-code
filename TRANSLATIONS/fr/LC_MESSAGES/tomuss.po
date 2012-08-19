@@ -3995,7 +3995,7 @@ msgid "COL_TITLE_cp_link"
 msgstr "Le plugin a un lien sur la page d'accueil"
 
 msgid "COL_TITLE_cp_suivi"
-msgstr "Le plugin est activé dans le serveur de suivi."
+msgstr "Actif dans : (T)OMUSS ou/et (S)uivi"
 
 msgid "COL_TITLE_cp_root"
 msgstr "Il faut être 'root' pour utiliser ce plugin"
@@ -4013,7 +4013,7 @@ msgid "COL_TITLE_cp_administrative"
 msgstr "Il faut être un administratif pour l'utiliser"
 
 msgid "COL_TITLE_cp_invited"
-msgstr "Liste des logins à qui l'on veut donner le droit d'utilisation"
+msgstr "Liste de groupes (voir ACLS) et logins qui ont le droit de l'utiliser"
 
 msgid "COL_TITLE_ct_variable"
 msgstr "Variable"

@@ -26,10 +26,11 @@ import data
 import utilities
 
 def update_column(table):
+    do_migrate = False
     for name, typ, width, deprecated in (
-        ('plugin'        , 'Text', 8 , False),
-        ('info'          , 'Text', 20, False),
-        ('link'          , 'Text', 6 , False),
+        ('plugin'        , 'Text', 4 , False),
+        ('info'          , 'Text', 10, False),
+        ('link'          , 'Text', 3 , False),
         ('suivi'         , 'Text', 1 , False),
         ('root'          , 'Bool', 1 , True),
         ('abj'           , 'Bool', 1 , True),
@@ -38,19 +39,33 @@ def update_column(table):
         ('administrative', 'Bool', 1 , True),
         ('invited'       , 'Text', 20, False),
         ):
-        if table.columns.from_title(name):
-            if deprecated:
-                table.column_attr(table.pages[0], name, 'hidden', 1)
-            else:
-                table.column_attr(table.pages[0], name, 'width', width)
-            continue
         if deprecated:
+            if table.columns.from_title(name):
+                if not table.columns.from_title(name).hidden:
+                    table.column_attr(table.pages[0], name, 'hidden', 1)
+                    do_migrate = True
             continue
-        table.column_change(table.pages[0], name, name, typ,'','','',0,width)
+        table.column_attr(table.pages[0], name, 'type', typ)
+        table.column_attr(table.pages[0], name, 'width', width)
         table.column_comment(table.pages[0], name,
                              utilities._('COL_TITLE_cp_' + name))
     table.table_attr(table.pages[0], 'default_nr_columns', 5)
 
+    if do_migrate:
+        c = table.columns.from_id('invited').data_col
+        done = set()
+        for p in plugin.plugins + plugins.suivi_plugins:
+            if p.name in done:
+                continue
+            done.add(p.name)
+            if p.name not in table.lines:
+                continue
+            value = table.lines[p.name][c].value.strip()
+            if value:
+                new = '("grp:' + p.group + '",' + value.lstrip('(')
+            else:
+                new = '("grp:' + p.group + '",)'
+            table.cell_change(table.pages[1], 'invited', p.name, new)
 
 def create(table):
     if table.year != 0 or table.semester != 'Dossiers':
@@ -73,16 +88,26 @@ def check(table):
     d =  {None: '',True: configuration.yes,False:configuration.no}
 
     try:
+        tomuss = set(p.name for p in plugin.plugins)
+        suivi = set(p.name for p in plugins.suivi_plugins)
         for p in plugin.plugins + plugins.suivi_plugins:
+            if p.name not in table.lines:
+                table.cell_change(table.pages[1], 'invited', p.name,
+                                  '("grp:' + p.group + '",)')
             table.cell_change(table.pages[0], 'plugin', p.name, p.name)
             if p.documentation:
                 table.cell_change(table.pages[0], 'info'  , p.name,
                                   p.documentation)
             if p.link:
                 table.cell_change(table.pages[0], 'link', p.name, p.link.where)
-            
-        for p in plugins.suivi_plugins:
-            table.cell_change(table.pages[0], 'suivi', p.name, 'S')
+
+            is_in = ''
+            if p.name in tomuss:
+                is_in += 'T'
+            if p.name in suivi:
+                is_in += 'S'
+                        
+            table.cell_change(table.pages[0], 'suivi', p.name, is_in)
             
     finally:
         table.unlock()
