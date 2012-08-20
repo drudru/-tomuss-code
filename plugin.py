@@ -364,11 +364,11 @@ links_without_plugins = [
          where="root_rw", html_class="safe", priority = -997,         
          group = 'roots',
          ),
-    Link(url="/2009/Dossiers/javascript_regtest_ue",
+    Link(url="/0/Dossiers/javascript_regtest_ue",
          where="debug", html_class="verysafe",
          group = 'roots',
          ),
-    Link(url="/2008/Test/average",
+    Link(url="/0/Test/average",
          where="debug", html_class="verysafe",         
          group = 'roots',
          ),
@@ -376,7 +376,7 @@ links_without_plugins = [
          where="debug", html_class="verysafe",
          group = 'roots',
          ),
-    Link(url="/2008/Test/test_types",
+    Link(url="/0/Test/test_types",
          where="debug", html_class="verysafe",
          group = 'roots',
          ),
@@ -390,6 +390,14 @@ def add_links(*links):
                 break
         else:
             links_without_plugins.append(link)
+
+def remove_links(*links):
+    """Remove the link from the table"""
+    for link in links:
+        for t in links_without_plugins:
+            if t.url == link.url:
+                links_without_plugins.remove(t)
+                break
 
 def get_links(server):
     for link in links_without_plugins:

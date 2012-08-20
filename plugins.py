@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 #    TOMUSS: The Online Multi User Simple Spreadsheet
-#    Copyright (C) 2008-2010 Thierry EXCOFFIER, Universite Claude Bernard
+#    Copyright (C) 2008-2012 Thierry EXCOFFIER, Universite Claude Bernard
 #
 #    This program is free software; you can redistribute it and/or modify
 #    it under the terms of the GNU General Public License as published by
@@ -57,7 +57,6 @@ def plugins_tomuss():
         except KeyError:
             pass
     
-
     # TOMUSS plugins:
     import PLUGINS.abj_change
     import PLUGINS.badpassword
@@ -91,6 +90,11 @@ def plugins_tomuss():
     import PLUGINS.change_identity
     import PLUGINS.auto_update
     plugins_tomuss_more()
+
+    # Remove links yet added for suivi
+    for p in plugin.plugins:
+        if p.link:
+            plugin.remove_links(p.link)
 
     init_plugins()
 

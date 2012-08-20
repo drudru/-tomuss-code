@@ -4466,16 +4466,16 @@ msgid "HELP_/0/Dossiers/config_plugin"
 msgstr "Permet de voir la liste des plugins et d'ajouter\n"
        "des utilisateurs autorisés"
 
-msgid "LINK_/2009/Dossiers/javascript_regtest_ue"
+msgid "LINK_/0/Dossiers/javascript_regtest_ue"
 msgstr "Tests de régression en JavaScript"
 
-msgid "HELP_/2009/Dossiers/javascript_regtest_ue"
+msgid "HELP_/0/Dossiers/javascript_regtest_ue"
 msgstr "Lance des tests de régression sur votre navigateur."
 
-msgid "LINK_/2008/Test/average"
+msgid "LINK_/0/Test/average"
 msgstr "Table de moyennes"
 
-msgid "HELP_/2008/Test/average"
+msgid "HELP_/0/Test/average"
 msgstr "Table pour vérifier les moyennes"
 
 msgid "LINK_javascript:go('demo_animaux')"
@@ -4484,10 +4484,10 @@ msgstr "Démo animaux"
 msgid "HELP_javascript:go('demo_animaux')"
 msgstr "UE utilisée dans la démonstration de TOMUSS"
 
-msgid "LINK_/2008/Test/test_types"
+msgid "LINK_/0/Test/test_types"
 msgstr "Tous les types de colonne"
 
-msgid "HELP_/2008/Test/test_types"
+msgid "HELP_/0/Test/test_types"
 msgstr "Une table pour tester les types."
 
 msgid "TITLE_referent_student_list"

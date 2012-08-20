@@ -4407,16 +4407,16 @@ msgstr "Modify plugin configuration"
 msgid "HELP_/0/Dossiers/config_plugin"
 msgstr "llow to see the plugin list and modify the users allowed to use them."
 
-msgid "LINK_/2009/Dossiers/javascript_regtest_ue"
+msgid "LINK_/0/Dossiers/javascript_regtest_ue"
 msgstr "Regression tests in JavaScript"
 
-msgid "HELP_/2009/Dossiers/javascript_regtest_ue"
+msgid "HELP_/0/Dossiers/javascript_regtest_ue"
 msgstr "Run regression test in the browser."
 
-msgid "LINK_/2008/Test/average"
+msgid "LINK_/0/Test/average"
 msgstr "Average table"
 
-msgid "HELP_/2008/Test/average"
+msgid "HELP_/0/Test/average"
 msgstr "Table to verify all average cases"
 
 msgid "LINK_javascript:go('demo_animaux')"
@@ -4425,10 +4425,10 @@ msgstr "Table with animals"
 msgid "HELP_javascript:go('demo_animaux')"
 msgstr "Used for the demonstration web site"
 
-msgid "LINK_/2008/Test/test_types"
+msgid "LINK_/0/Test/test_types"
 msgstr "All the column types"
 
-msgid "HELP_/2008/Test/test_types"
+msgid "HELP_/0/Test/test_types"
 msgstr "Use this to test type."
 
 msgid "TITLE_referent_student_list"
