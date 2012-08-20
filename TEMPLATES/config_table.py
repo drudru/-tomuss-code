@@ -211,7 +211,11 @@ def tell_to_reload_config():
     utilities.start_new_thread(tell_reload_config, ())
 
 def tell_reload_config():
+    import ticket
     import urllib2
+
+    ticket.clear_groups()
+    
     utilities.warn('Tell "suivi" to reload config')
     for url, port, year, semester, host in configuration.suivi.urls.values():
         try:

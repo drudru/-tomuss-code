@@ -247,3 +247,7 @@ def get_ticket_objet(ticket, server):
     if ticket_object and ticket_object.language == '':
         ticket_object.set_language(server.headers.get('accept-language',''))
     return ticket_object 
+
+def clear_groups():
+    for t in tickets.values():
+        t.groups = {}

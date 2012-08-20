@@ -332,6 +332,15 @@ class LDAP_Logic(object):
             d[login] = self.etapes_of_student(login)
         return d
 
+    def is_in_one_of_the_groups(self, login, groups):
+        """Returns true if the login is one of the groups or sub group"""
+        r = self.member_of_list(login)
+        for group in groups:
+            for rr in r:
+                if rr.endswith(group):
+                    return True
+        return False
+
     def password_ok(self, login):
         """Create a list of stupid passwords and check them"""
         # if login in configuration.root:

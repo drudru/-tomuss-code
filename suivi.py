@@ -88,16 +88,12 @@ class MyRequestBroker(utilities.FakeRequestHandler):
 
         if self.path[1:] == 'load_config':
             import document
-            t = document.table(0, 'Dossiers', 'config_table',
-                           None, None, ro=True)
-            t.unload()
-            t = document.table(0, 'Dossiers', 'config_plugin',
-                           None, None, ro=True)
-            t.unload()
-            t = document.table(0, 'Dossiers', 'config_table',
-                           None, None, ro=True)
-            t = document.table(0, 'Dossiers', 'config_plugin',
-                           None, None, ro=True)
+            to_reload = ('config_table', 'config_plugin', 'config_acls')
+            for t in to_reload:
+                document.table(0, 'Dossiers', t, None, None, ro=True).unload()
+            for t in to_reload:
+                document.table(0, 'Dossiers', t, None, None, ro=True)
+            ticket.clear_groups()
             self.send_response(200)
             self.send_header('Content-Type', 'text/plain')
             self.end_headers()
