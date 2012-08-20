@@ -322,8 +322,6 @@ class Table(object):
             finally:
                 data.end()
 
-            if self.template and hasattr(self.template, 'onload'):
-                self.template.onload(self)
         else:
             # Remove this file because it is created the same second
             # than the .py file, So it is not recompiled in some case.
@@ -341,6 +339,9 @@ class Table(object):
             warn('Create end', what='table')
             self.pages[0].request = 1 # Not an empty page, it's for the stats
 
+        if self.template and hasattr(self.template, 'onload'):
+            self.template.onload(self)
+            
         if not ro:
             # Check mails or new students
             # Only mail if allow_modification is False

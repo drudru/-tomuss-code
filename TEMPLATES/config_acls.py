@@ -123,6 +123,8 @@ import config_table
 
 def cell_change(table, page, col, lin, value, dummy_date):
     """Only here to clear cache and update ACLS in 'suivi' servers"""
+    if page.page_id <= 1:
+        return
     config_table.tell_to_reload_config()
     
 def members(group):
@@ -165,7 +167,7 @@ def is_member_of_(login, group, member_of):
     if isinstance(group, tuple):
         to_check = group
     else:
-        to_check = members(group)
+        to_check = members(group.strip('!'))
     
     if group[0] == '!':
         group = group[1:]
@@ -181,17 +183,17 @@ def is_member_of_(login, group, member_of):
 
 def is_member_of(login, group):
     """A group name or a tuple"""
-    # utilities.warn("%s %s ?" % (login, group))
+    # print("%s %s ?" % (login, group))
     member_of = inscrits.L_fast.member_of_list(login)
     if group == '':
         return 'anybody'
     if is_member_of_(login, "roots", member_of):
         if '!' in group[0]:
-            # utilities.warn("==> FALSE ROOT")
+            # print("==> FALSE ROOT")
             return False
         else:
-            # utilities.warn("==> TRUE ROOT")
+            # print("==> TRUE ROOT")
             return True
         
-    # utilities.warn("==> %s" % is_member_of_(login, group, member_of))
+    # print("==> %s" % is_member_of_(login, group, member_of))
     return is_member_of_(login, group, member_of)

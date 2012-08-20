@@ -231,6 +231,9 @@ class Plugin(object):
             return False, 'Only with good password'
         if self.password_ok is False and server.ticket.password_ok:
             return False, 'Only with bad password'
+        if server.ticket.user_name == 'tt.master':
+            print configuration.is_member_of('tt.master', ('grp:staff',))
+            print configuration.is_member_of('tt.master', ('grp:!staff',))
         return (configuration.is_member_of(server.ticket.user_name,
                                            self.invited),
                 'invited: ' + repr(self.invited))
@@ -486,6 +489,7 @@ def dispatch_request(server, manage_error=True):
                                           x.ticket.ticket)),
                                         ),
                                     priority=1)
+                to_top.invited = ('grp:')
             p = to_top
         else:
             return False

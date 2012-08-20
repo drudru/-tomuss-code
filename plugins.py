@@ -36,6 +36,7 @@ def plugins_tomuss_more():
 
 def plugins_tomuss():
     # Get plugins links from suivi in order to create home page
+    do_not_unload = list(plugin.plugins)
     plugins_suivi()
     global suivi_plugins
     suivi_plugins = plugin.plugins
@@ -45,11 +46,13 @@ def plugins_tomuss():
             plugin.add_links(p.link)
 
     # Restore normal plugins
-    plugin.plugins = []
+    plugin.plugins = do_not_unload
 
     # To allow module reloading
     pwd = os.getcwd() + os.path.sep
     for p in suivi_plugins:
+        if p in do_not_unload:
+            continue
         try:
             del sys.modules[p.module.replace(pwd, '')
                             .replace(".py", "")

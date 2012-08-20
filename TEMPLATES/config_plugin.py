@@ -71,19 +71,19 @@ def create(table):
     if table.year != 0 or table.semester != 'Dossiers':
         raise ValueError('Not allowed')
     p = table.new_page('' ,data.ro_user, '', '')
+    p = table.new_page('' ,configuration.root[0], '', '')
     table.table_attr(p, 'masters', list(configuration.root))
     update_column(table)
+    check(table, True)
 
 def init(table):
     table.default_sort_column = 2
     table.private = 1
 
-def check(table):
-    table.lock()
-    update_column(table)
-    table.unlock()
-
-    table.lock()
+def check(table, from_create=False):
+    if not from_create:
+        table.lock()
+        update_column(table)
 
     d =  {None: '',True: configuration.yes,False:configuration.no}
 
@@ -110,11 +110,15 @@ def check(table):
             table.cell_change(table.pages[0], 'suivi', p.name, is_in)
             
     finally:
-        table.unlock()
+        if not from_create:
+            table.unlock()
 
 def onload(table):
     if configuration.regtest:
-        return # Security Hole
+         # To close a Security Hole
+        for p in plugin.plugins + plugins.suivi_plugins:
+            p.invited = ('grp:' + p.group,)
+        return
     c = table.columns.from_id('invited').data_col
     for p in plugin.plugins + plugins.suivi_plugins:
         try:
@@ -149,4 +153,6 @@ def cell_change(table, page, col, lin, value, dummy_date):
             sender.append(page.browser_file,
                           '<script>alert("Error!");</script>')
             utilities.send_backtrace('config_plugin')
-    config_table.tell_to_reload_config()
+
+    if page.page_id > 1:
+        config_table.tell_to_reload_config()

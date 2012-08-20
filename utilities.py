@@ -54,12 +54,10 @@ def add_a_lock(fct):
     def f(*arg, **keys):
         warn('[[[' + f.fct.func_name + ']]]', what='debug')
         f.the_lock.acquire()
-        warn('acquired', what='debug')
         try:
             r = f.fct(*arg, **keys)
         finally:
             f.the_lock.release()
-            warn('released', what='debug')
         return r
     f.fct = fct
     f.the_lock = threading.Lock()
