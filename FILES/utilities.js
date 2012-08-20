@@ -458,6 +458,18 @@ function debug(e, only, eject, hide_empty)
   alert(s) ;
 }
 
+function debug_tree(e)
+{
+  var s = "" ;
+  while(e)
+  {
+    s += e.tagName + '.(' + e.className + ')\n' ;
+    e = e.parentNode ;
+  }
+  alert(s) ;
+}
+    
+
 function Alert(m, more)
 {
     if ( more === undefined )
