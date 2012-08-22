@@ -50,16 +50,12 @@ class Ticket(object):
         else:
             self.date = date
         self.set_language(language)
-        self.groups = {}
 
     def set_language(self, lang):
         self.language = lang.lower().replace(';',',').replace('-','_')
 
     def is_member_of(self, group):
-        if group not in self.groups:
-            self.groups[group] = configuration.is_member_of(self.user_name,
-                                                            group)
-        return self.groups[group]
+        return configuration.is_member_of(self.user_name, group)
 
     # Compatibility with old code
     is_a_teacher         = property(lambda x:x.is_member_of('staff'))
@@ -247,7 +243,3 @@ def get_ticket_objet(ticket, server):
     if ticket_object and ticket_object.language == '':
         ticket_object.set_language(server.headers.get('accept-language',''))
     return ticket_object 
-
-def clear_groups():
-    for t in tickets.values():
-        t.groups = {}

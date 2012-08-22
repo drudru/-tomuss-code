@@ -95,7 +95,6 @@ class MyRequestBroker(utilities.FakeRequestHandler):
                 conf.unload()
             for t in to_reload:
                 document.table(0, 'Dossiers', t, None, None, ro=True)
-            ticket.clear_groups()
             self.send_response(200)
             self.send_header('Content-Type', 'text/plain')
             self.end_headers()

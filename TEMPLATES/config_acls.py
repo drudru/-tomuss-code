@@ -19,13 +19,52 @@
 #
 #    Contact: Thierry.EXCOFFIER@bat710.univ-lyon1.fr
 
+import time
 import configuration
 import utilities
-import collections
 import referent
 import inscrits
 
 acls = None
+
+def defaults():
+    # 'roots' are in ALL the groups
+    for root in configuration.root:
+        yield 'roots', root
+
+    for ldap_teacher in configuration.teachers:
+        yield 'teachers', 'ldap:' + ldap_teacher
+    for teacher in configuration.invited_teachers:
+        yield 'teachers', teacher
+    yield 'teachers', 'python:configuration.teacher_if_login_contains in login'
+
+    yield 'staff', 'grp:teachers'
+    
+    for ldap_administrative in configuration.administratives:
+        yield 'administratives', 'ldap:' + ldap_administrative
+    for administrative in configuration.invited_administratives:
+        yield 'administratives', administrative
+    yield 'staff', 'grp:administratives'
+
+    for ldap_abj_master in configuration.abj_masters:
+        yield 'abj_masters', 'ldap:' + ldap_abj_master
+    for abj_master in configuration.invited_abj_masters:
+        yield 'abj_masters', abj_master
+    yield 'staff', 'grp:abj_masters'
+    
+    for a_referent in configuration.referents:
+        yield 'referents', 'ldap:' + a_referent
+    if configuration.regtest:
+        yield 'referents', 'a_referent'
+    yield 'staff', 'grp:referents'
+
+    try:
+        for login in referent.referents_students().masters:
+            yield 'referent_masters', login
+    except ImportError:
+        pass
+    yield 'staff', 'grp:referent_masters'
+    
 
 def create(table):
     """Retrieve informations from configuration.py and old table_config.py"""
@@ -51,56 +90,16 @@ def create(table):
                    'type':'Text', "width":16 },
             })
             
+    i = 0
+    for group, member in defaults():
+        table.cell_change(p, 'a', str(i), member)
+        table.cell_change(p, 'b', str(i), group)
+        i += 1
+            
     table.table_attr(p, 'masters', list(configuration.root))
     table.table_attr(p, 'default_sort_column', [1,0])
     table.table_attr(p, 'default_nr_columns', 4)
     table.table_attr(p, 'private', 1)
-
-    defaults = collections.defaultdict(list)
-    # 'roots' are in ALL the groups
-    for root in configuration.root:
-        defaults['roots'].append(root)
-
-    for ldap_teacher in configuration.teachers:
-        defaults['teachers'].append('ldap:' + ldap_teacher)
-    for teacher in configuration.invited_teachers:
-        defaults['teachers'].append(teacher)
-    defaults['teachers'].append(
-        'python:configuration.teacher_if_login_contains in login')
-
-    defaults['staff'].append('grp:teachers')
-    
-    for ldap_administrative in configuration.administratives:
-        defaults['administratives'].append('ldap:' + ldap_administrative)
-    for administrative in configuration.invited_administratives:
-        defaults['administratives'].append(administrative)
-    defaults['staff'].append('grp:administratives')
-
-    for ldap_abj_master in configuration.abj_masters:
-        defaults['abj_masters'].append('ldap:' + ldap_abj_master)
-    for abj_master in configuration.invited_abj_masters:
-        defaults['abj_masters'].append(abj_master)
-    defaults['staff'].append('grp:abj_masters')
-    
-    for a_referent in configuration.referents:
-        defaults['referents'].append('ldap:' + a_referent)
-    if configuration.regtest:
-        defaults['referents'].append('a_referent')
-    defaults['staff'].append('grp:referents')
-
-    try:
-        for login in referent.referents_students().masters:
-            defaults['referent_masters'].append(login)
-    except ImportError:
-        pass
-    defaults['staff'].append('grp:referent_masters')
-    
-    i = 0
-    for groupe, the_members in defaults.items():
-        for member in the_members:
-            table.cell_change(p, 'a', str(i), member)
-            table.cell_change(p, 'b', str(i), groupe)
-            i += 1
 
 def content(dummy_table):
     return r"""
@@ -181,19 +180,34 @@ def is_member_of_(login, group, member_of):
                 return True
     return False
 
+cache = {}
+
 def is_member_of(login, group):
     """A group name or a tuple"""
-    # print("%s %s ?" % (login, group))
-    member_of = inscrits.L_fast.member_of_list(login)
-    if group == '':
-        return 'anybody'
-    if is_member_of_(login, "roots", member_of):
-        if '!' in group[0]:
-            # print("==> FALSE ROOT")
-            return False
+    if True or (login, group) not in cache:        
+        member_of = inscrits.L_fast.member_of_list(login)
+        if group == '':
+            result = True
+        elif is_member_of_(login, "roots", member_of):
+            if '!' in group[0]:
+                result = False
+            else:
+                result = True
         else:
-            # print("==> TRUE ROOT")
-            return True
-        
-    # print("==> %s" % is_member_of_(login, group, member_of))
-    return is_member_of_(login, group, member_of)
+            result = is_member_of_(login, group, member_of)
+
+        cache[login, group] = result
+
+        if time.time() - clear_cache.last_clear > 3600:
+            clear_cache()
+
+    return cache[login, group]
+
+def clear_cache():
+    utilities.warn("Clear Cache")
+    cache.clear()
+    clear_cache.last_clear = time.time()
+
+clear_cache()
+
+configuration.config_acls_clear_cache = clear_cache
