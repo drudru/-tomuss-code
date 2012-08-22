@@ -695,6 +695,20 @@ Les améliorations les plus visibles sont :
       </description>
       <guid>48</guid>
     </item>
+    <item>
+      <title>20/08/2012 : Version 4.1.2</title>
+      <link>http://tomuss.univ-lyon1.fr/</link>
+      <description>
+	Quand on clique pour choisir le type de la colonne,
+	cela fait apparaître une fenêtre permettant d'avoir
+	plus d'explications sur les types possibles.
+	&lt;p&gt;
+	Les bulles d'aide qui énervent tous le monde ont disparu.
+	Il y a à la place un simple '?', il suffit de mettre le
+	curseur dessus pour faire apparaître la bulle d'aide.
+      </description>
+      <guid>49</guid>
+    </item>
 
   </channel>
 </rss>

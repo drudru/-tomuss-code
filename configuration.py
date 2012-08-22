@@ -23,7 +23,7 @@ import socket
 import os
 import time
 
-version = '4.2.0'
+version = '5.0.0'
 
 ###############################################################################
 # ACLS
@@ -69,7 +69,6 @@ not_teachers = (
 referents = (
     "CN=referents-fst,OU=Groupes,OU=UFR Sciences et Technologies,DC=univ-lyon1,DC=fr",
     )
-
 
 ###############################################################################
 # The semester list must not change in the time.

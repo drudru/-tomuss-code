@@ -1644,6 +1644,13 @@ cell_change(1,'0_2','ticket_time_to_live','%d',"")
         c =s.url('='+abj+'/%s/UE-repetition/1/28/cell_change/C/L4/EEEE'%ys)
         assert(c == bad_png)
 
+    if do('acls'):
+        ss.start()
+        c = s.url('=user1/%s/UE-acls' % ys)
+        assert(c == ok_png)
+        c = s.url('='+abj+'/%s/UE-repetition/1/1/cell_change/A/L1/10' % ys)
+        assert(c == ok_png)
+        
         
 if '1' in sys.argv:
    sys.argv.remove('1')

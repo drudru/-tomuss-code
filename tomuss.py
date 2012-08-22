@@ -298,8 +298,18 @@ if __name__ == "__main__":
 
     utilities.start_new_thread_immortal(sender.live_status_send_thread, ())
 
+    # While there is an updating table, there is many messages
+    # Wait the end of the flow
+    while utilities.filename_to_bufferize is not None:
+        time.sleep(0.1)
     print '\n\n\n' +'*'*78
     print utilities._("MSG_tomuss_start")
+    if configuration.regtest:
+        regtest = 'regtest'
+    else:
+        regtest = ''
+    for url in configuration.suivi.urls_sorted():
+        print '\t./suivi.py %d %s %d' % (url[2], url[3], url[1]), regtest
     print '*'*78 + '\n\n'
 
     while running:

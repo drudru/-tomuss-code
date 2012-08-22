@@ -12,7 +12,7 @@ To check if TOMUSS works, run the regression tests:
 Launch TOMUSS without authentication:
 
     make translations
-    ./tomuss.py regtest
+    ./tomuss.py regtest                 # displays many messages the first time
 
 URL to use to connect to the server:
 

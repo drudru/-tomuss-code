@@ -4495,16 +4495,19 @@ msgstr "Hello\n"
        "Sincerely yours."
 
 msgid "MSG_tomuss_start"
-msgstr "First time TOMUSS user, goto :   http://127.0.0.1:8888/=super.user\n"
+msgstr "First time TOMUSS user, goto :\n"
+       "\thttp://127.0.0.1:8888/=super.user\n"
        "Type 's' in the UE search box.\n"
-       "Type 'a' in the student search box."
+       "Type 'a' in the student search box.\n"
+       "\n"
+       "You can start some 'suivi' servers :"
 
 msgid "MSG_utilities_smtp_error"
 msgstr "Can't send mail to: %s\n"
        "The server answered: "
 
 msgid "ALERT_bad_grade"
-msgstr " is not a valide grade because not in "
+msgstr " is not a valid grade because not in "
 
 msgid "TH_who"
 msgstr "Who"

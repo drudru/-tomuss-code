@@ -725,8 +725,12 @@ function show_the_tip(td, tip_content)
   tip_plus.style.display = 'block' ;
   var td2 = td ;
   while ( td2.tagName !== 'TD' && td2.tagName !== 'TH'
-	  && td2.className !== 'tipped' )
-    td2 = td2.parentNode ;
+	  && td2.className.toString().indexOf('tipped') != -1 )
+    {
+      if ( ! td2.parentNode )
+	debug_tree(td) ;
+      td2 = td2.parentNode ;
+    }
   var pos = findPos(td2) ;
   var x = pos[0] - tip_plus.offsetWidth + 1 ;
   if ( x > 10 )

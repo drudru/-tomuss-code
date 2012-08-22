@@ -93,10 +93,16 @@ function popup_type_chooser(button)
   t += '</tr><tr>' ;
   for(var i in cols)
   {
-    cols[i].sort(function(a,b) { return a.human_priority
-				 - b.human_priority ; }) ;
-      if ( t.type_type != 'data' && t.type_type != 'computed' )
-    e = '<var style="background:#FCC">' + e + '</var>' ;
+    // Use try/catch for an unknown IE error
+    try {
+      cols[i].sort(function(a,b) { return a.human_priority
+				   - b.human_priority ; }) ;
+    }
+    catch(error)
+    {
+    }
+    if ( t.type_type != 'data' && t.type_type != 'computed' )
+      e = '<var style="background:#FCC">' + e + '</var>' ;
 
     t += '<td>' + cols[i].join('<br>') ;
   }
