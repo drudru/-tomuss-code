@@ -97,6 +97,13 @@ def do_patch():
                         all.append(r)
                 return all
 
+            def member_of_list(self, login):
+                if login == 'user.2':
+                    return (configuration.teachers[0], )
+                if login == 'user.3':
+                    return (configuration.teachers[0],
+                            configuration.not_teachers[0])
+                return ()
 
         inscrits.LDAP = LDAP_regtest
         utilities.warn('Inscrit patched')

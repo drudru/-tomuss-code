@@ -1645,12 +1645,31 @@ cell_change(1,'0_2','ticket_time_to_live','%d',"")
         assert(c == bad_png)
 
     if do('acls'):
+        acls = '=' + root + '/0/Dossiers/config_acls/'
         ss.start()
-        c = s.url('=user1/%s/UE-acls' % ys)
+        # User not in LDAP
+        c = s.url('=user.1/%s/UE-acls' % ys)
+        assert('is_a_teacher = 0' in c and 'initialize_suivi()' in c)
+        c = s.url(acls)
+        assert('grp:referents' in c)
+        c = s.url(acls + '1/0/cell_change/a/L1/user.1')
         assert(c == ok_png)
-        c = s.url('='+abj+'/%s/UE-repetition/1/1/cell_change/A/L1/10' % ys)
+        c = s.url('=user.1/%s/UE-acls' % ys)
+        assert('initialize_suivi()' in c)
+        c = s.url(acls + '1/1/cell_change/b/L1/referents')
         assert(c == ok_png)
+        c = s.url('=user.1/%s/UE-acls' % ys)
+        assert('runlog(columns, lines)' in c)
+        c = ss.url('=user.1/%s/user.1' % ys)
+        assert('is_a_teacher = 1' in c and 'initialize_suivi()' in c)
         
+        # User in LDAP
+        c = s.url('=user.2/%s/UE-acls' % ys)
+        assert('runlog(columns, lines)' in c)
+
+        # User in LDAP but not teacher
+        c = s.url('=user.3/%s/UE-acls' % ys)
+        assert('is_a_teacher = 0' in c and 'initialize_suivi()' in c)
         
 if '1' in sys.argv:
    sys.argv.remove('1')

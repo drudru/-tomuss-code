@@ -119,13 +119,11 @@ def init(table):
     acls = table
     configuration.is_member_of = is_member_of
 
-import config_table
-
 def cell_change(table, page, col, lin, value, dummy_date):
     """Only here to clear cache and update ACLS in 'suivi' servers"""
-    if page.page_id <= 1:
+    if page.page_id == 0:
         return
-    config_table.tell_to_reload_config()
+    configuration.tell_to_reload_config()
     
 def members(group):
     """First level members of a group.
@@ -145,8 +143,9 @@ def login_is_member(login, member, member_of):
         member = member[5:]
         # Remove if it is in a group of non teacher.
         for i in configuration.not_teachers:
-            if member.endswith(i):
-                return
+            for j in member_of:
+                if j.endswith(i):
+                    return False
         for i in member_of:
             if member.endswith(i):
                 return True

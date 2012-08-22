@@ -208,13 +208,17 @@ def cell_change(dummy_table, page, col, lin, value, dummy_date):
     tell_to_reload_config()
 
 def tell_to_reload_config():
+    import ticket
+    ticket.clear_groups()
+    
     utilities.start_new_thread(tell_reload_config, ())
 
+configuration.tell_to_reload_config = tell_to_reload_config
+    
 def tell_reload_config():
-    import ticket
     import urllib2
 
-    ticket.clear_groups()
+    print configuration.is_member_of('user.1', 'staff')
     
     utilities.warn('Tell "suivi" to reload config')
     for url, port, year, semester, host in configuration.suivi.urls.values():

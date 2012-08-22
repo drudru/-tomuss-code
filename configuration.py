@@ -296,13 +296,11 @@ server_url = '%s:%d' % (server_base_url, server_port)
 import servers
 suivi = servers.Suivi(https=False)
 if time.localtime()[1] < 9:
-    suivi.add(time.localtime()[0]-1, semesters[1],socket.getfqdn()+':%d', 8889)
-    suivi.add(time.localtime()[0]  , semesters[0],socket.getfqdn()+':%d', 8890)
-    suivi.add(time.localtime()[0]  , semesters[1],socket.getfqdn()+':%d', 8891)
-else:
     suivi.add(time.localtime()[0]  , semesters[0],socket.getfqdn()+':%d', 8889)
     suivi.add(time.localtime()[0]  , semesters[1],socket.getfqdn()+':%d', 8890)
-    suivi.add(time.localtime()[0]+1, semesters[0],socket.getfqdn()+':%d', 8891)
+else:
+    suivi.add(time.localtime()[0]  , semesters[1],socket.getfqdn()+':%d', 8889)
+    suivi.add(time.localtime()[0]+1, semesters[0],socket.getfqdn()+':%d', 8890)
 
 # Do not display 'debug' warning
 do_not_display = ('debug', 'auth', 'table', 'ldap', 'plugin', 'check')

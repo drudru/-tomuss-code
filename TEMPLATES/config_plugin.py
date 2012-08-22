@@ -132,8 +132,6 @@ def onload(table):
             except:
                 utilities.send_backtrace('config_plugin')
 
-import config_table
-
 def cell_change(table, page, col, lin, value, dummy_date):
     if configuration.regtest:
         return # Security Hole
@@ -155,4 +153,4 @@ def cell_change(table, page, col, lin, value, dummy_date):
             utilities.send_backtrace('config_plugin')
 
     if page.page_id > 1:
-        config_table.tell_to_reload_config()
+        configuration.tell_to_reload_config()
