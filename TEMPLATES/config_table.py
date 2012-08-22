@@ -39,10 +39,6 @@ def create(table):
     table.table_attr(p, 'default_sort_column', 1)
     table.new_page('' ,configuration.root[0], '', '')
 
-def init(table):
-    table.default_sort_column = 1 # compatibility with old files
-    table.private = 1
-
 variable_list = [
     'abinj',
     "do_not_display",
@@ -166,7 +162,9 @@ def set_value(variable, value):
         value = int(value)
     configuration.__dict__[variable] = value
 
-def init(dummy_table):
+def init(table):
+    table.do_not_unload_add(1)
+
     for v in variable_list:
         variables[v] = utilities._("config_table_" + v)
     variables.update(configuration.local_options)

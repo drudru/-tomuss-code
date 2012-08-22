@@ -90,7 +90,9 @@ class MyRequestBroker(utilities.FakeRequestHandler):
             import document
             to_reload = ('config_table', 'config_plugin', 'config_acls')
             for t in to_reload:
-                document.table(0, 'Dossiers', t, None, None, ro=True).unload()
+                conf = document.table(0, 'Dossiers', t, None, None, ro=True)
+                conf.do_not_unload = 0
+                conf.unload()
             for t in to_reload:
                 document.table(0, 'Dossiers', t, None, None, ro=True)
             ticket.clear_groups()
