@@ -95,6 +95,8 @@ class MyRequestBroker(utilities.FakeRequestHandler):
                 conf.unload()
             for t in to_reload:
                 document.table(0, 'Dossiers', t, None, None, ro=True)
+            
+            configuration.config_acls_clear_cache()
             self.send_response(200)
             self.send_header('Content-Type', 'text/plain')
             self.end_headers()

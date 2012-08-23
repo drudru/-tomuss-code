@@ -184,7 +184,7 @@ cache = {}
 
 def is_member_of(login, group):
     """A group name or a tuple"""
-    if True or (login, group) not in cache:        
+    if (login, group) not in cache:        
         member_of = inscrits.L_fast.member_of_list(login)
         if group == '':
             result = True
