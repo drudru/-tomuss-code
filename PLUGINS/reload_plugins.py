@@ -72,8 +72,10 @@ def reload_plugins(server):
 
     for a_file in files.files.values():
         a_file.content = None
-    
-    document.table(0, 'Dossiers', 'config_plugin', None, None)
+
+    # Recompute 'invited'
+    t = document.table(0, 'Dossiers', 'config_plugin', None, None)
+    t.template.onload(t)
 
 plugin.Plugin('reload_plugins', '/reload_plugins',
               function=reload_plugins, group='roots',
