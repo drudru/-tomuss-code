@@ -36,14 +36,16 @@ def gc_top(server):
         return
     
     server.the_file.write('<META NAME="ROBOTS" CONTENT="NOINDEX, NOFOLLOW">\n')
-    server.the_file.write('gc.garbage=%s\n' % gc.garbage)
     server.the_file.write('<pre>')
+    server.the_file.write('gc.garbage=%s\n' % gc.garbage)
+    leaking = objgraph.get_leaking_objects()
+    server.the_file.write('leaking=%s\n' % len(leaking))
+    server.the_file.write('\n')
     gc.collect()
-    for name, nr in objgraph.types_sorted():
+    for name, nr in objgraph.most_common_types(limit=100):
         server.the_file.write('%6d <a href="%s/=%s/type/%s">%s</a>\n' % (
             nr, utilities.StaticFile._url_, server.ticket.ticket, name, name))
     server.the_file.write('</pre>')
-
 
 def check(path, o):
     s = []
@@ -57,9 +59,11 @@ def check(path, o):
                 s += check(rest, child)
     return s
 
+last = None
     
 def gc_type(server):
     """Display a clickable list of the instance of the classes specified"""
+    global last
     if configuration.regtest:
         server.the_file.write(server._("MSG_evaluate"))
         return
@@ -67,28 +71,41 @@ def gc_type(server):
     objects = gc.get_objects()
     server.the_file.write('<h1> ? → ' + '→'.join(server.the_path) + '</h1>')
     server.the_file.write('<pre>')
-    what = collections.defaultdict(list)
+    what = collections.defaultdict(dict)
     for i in objects:
         for j in check(server.the_path, i):
-            what[type(i).__name__].append(j)
+            what[type(i).__name__][id(j)] = j
     s = sorted(what, key=lambda x: len(what[x]))
     s.reverse()
     for k in s:
-        server.the_file.write('%s(<a href="%s/=%s/type/%s">%s</a>)' % (
+        server.the_file.write('%s(<a href="%s/=%s/type/%s">%s</a>)\n' % (
                 k,
                 utilities.StaticFile._url_,
                 server.ticket.ticket,
                 k + '/' + '/'.join(server.the_path),
                 len(what[k])))
-        for i in what[k][:10]:
-            server.the_file.write(' <a href="%s/=%s/object/%s">%x</a>' % (
+        if last:
+            for i in what[k]:
+                if i in last:
+                    continue
+                server.the_file.write('        <b><a href="%s/=%s/object/%s">%s</a></b>\n' % (
+                        utilities.StaticFile._url_,
+                        server.ticket.ticket,
+                        i,
+                        cgi.escape(repr(what[k][i])[:100])))
+
+        for n, i in enumerate(what[k]):
+            server.the_file.write('        <a href="%s/=%s/object/%s">%s</a>\n' % (
                 utilities.StaticFile._url_,
                 server.ticket.ticket,
-                id(i),
-                id(i)))
+                i,
+                cgi.escape(repr(what[k][i])[:100])))
+            if n == 50:
+                break
         server.the_file.write('\n')
                     
     server.the_file.write('</pre>')
+    last = set(id(i) for i in objects)
 
 def gc_object(server):
     """Display the graph of instances using or used by the object"""
@@ -97,7 +114,7 @@ def gc_object(server):
         return
     i = objgraph.at(int(server.the_path[0], 0))
     gc.collect()
-    objgraph.show_backrefs(i, max_depth=5)
+    objgraph.show_backrefs(i, max_depth=5, too_many=10)
     server.the_file.write(utilities.read_file(os.path.join('TMP',
                                                            'objects.png')))
 

@@ -165,10 +165,6 @@ Problèmes à résoudre.
 
 * Dispense d'assiduité : la destruction d'une DA les détruit toutes.
 
-* Le fichier de log reporte 2 connexion pour chaque connexion d'étudiant.
-  Une pour la page et une pour la photo. (voir 'logs' dans suivi.py)
-
-
 ============================
 Problèmes non reproductibles
 ============================

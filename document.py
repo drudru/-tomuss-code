@@ -911,12 +911,11 @@ class Table(object):
         return self.the_key_dict
 
     def get_lines(self, login):
-        try:
-            lines = self.the_keys()[utilities.the_login(login)]
-        except KeyError:
-            return
-        for lin in lines:
-            yield self.lines[lin]
+        login = utilities.the_login(login)
+        if login in self.the_key_dict:
+            for lin in self.the_key_dict[login]:
+                yield self.lines[lin]
+        return
 
     def lines_of_grp(self, grp, seq):
         if grp == '':
@@ -928,12 +927,11 @@ class Table(object):
                 yield line
 
     def get_items(self, login):
-        try:
-            lines = self.the_keys()[utilities.the_login(login)]
-        except KeyError:
-            return
-        for lin in lines:
-            yield lin, self.lines[lin]
+        login = utilities.the_login(login)
+        if login in self.the_key_dict:
+            for lin in self.the_key_dict[login]:
+                yield lin, self.lines[lin]
+        return
     
     def authors(self):
         """List of all the logins that have modified a cell value"""
