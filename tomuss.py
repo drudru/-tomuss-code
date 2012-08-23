@@ -312,7 +312,16 @@ if __name__ == "__main__":
         print '\t./suivi.py %d %s %d' % (url[2], url[3], url[1]), regtest
     print '*'*78 + '\n\n'
 
-    while running:
-        server.handle_request()
-
+    if 'profile' in sys.argv:
+        import cProfile
+        try:
+            cProfile.run("while running: server.handle_request()", "xxx.prof")
+        except KeyboardInterrupt:
+            import pstats
+            p = pstats.Stats('xxx.prof')
+            p.strip_dirs().sort_stats('cumulative').print_stats()
+    else:
+        while running:
+            server.handle_request()
+        
     utilities.stop_threads()
