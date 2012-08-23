@@ -87,6 +87,44 @@ class Link(object):
         else:
             return utilities._('LINK_' + self.url)
 
+# Helper functions for parsing URL
+        
+def _year(server, path, i): server.the_year = int(path[i])
+def _time(server, path, i): server.the_time = int(path[i])
+def _something(server, path, i): server.something = path[i]
+def _anything(server, path, i): return True, path[i:]
+def _semester(server, path, i): server.the_semester = utilities.safe(
+    path[i]).replace('.','_')
+def _ue(server, path, i): server.the_ue = utilities.safe(
+    path[i]).replace('.','_')
+def _page(server, path, i):
+    try:
+        server.the_page = int(path[i])
+    except ValueError:
+        return False
+def _int(server, path, i):
+    if not path[i][-1].isdigit():
+        return False
+    server.the_student = utilities.the_login(path[i])
+def __int(server, path, i):
+    if not path[i].startswith('_'):
+        return False
+    server.the_student = utilities.the_login(path[i][1:])
+def _options(server, path, i):
+    while len(path) != i and path[i].startswith('='):
+        server.options.append(path[i])
+        del path[i]
+    if len(path) == i or (len(path) == i+1 and path[i] == ''):
+        return True, ()
+    else:
+        return False
+        
+specials = {
+     '{Y}': _year, '{ }': _time, '{S}': _semester, '{U}': _ue, '{P}': _page,
+     '{?}': _something, '{I}': _int, '{_I}': __int, '{*}': _anything,
+     '{=}': _options
+     }
+
 
 plugins = []
 
@@ -234,7 +272,7 @@ class Plugin(object):
         return (configuration.is_member_of(server.ticket.user_name,
                                            self.invited),
                 'invited: ' + repr(self.invited))
-
+                    
     def path_match(self, server):
         path = server.the_path
         url = self.url
@@ -242,49 +280,13 @@ class Plugin(object):
         server.options = []
         try:
             for i, f in enumerate(url):
-                if f == '{Y}':
-                    server.the_year = int(path[i])
-                    continue
-                if f == '{ }':
-                    server.the_time = int(path[i])
-                    continue
-                if f == '{S}':
-                    server.the_semester = utilities.safe(path[i]).replace('.','_')
-                    continue
-                if f == '{U}':
-                    server.the_ue = utilities.safe(path[i]).replace('.','_')
-                    continue
-                if f == '{P}':
-                    try:
-                        server.the_page = int(path[i])
-                    except ValueError:
+                try:
+                    v = specials[f](server, path, i)
+                    if v is not None:
+                        return v
+                except KeyError:
+                    if f != path[i]:
                         return False
-                    continue
-                if f == '{?}':
-                    server.something = path[i]
-                    continue
-                if f == '{I}':
-                    if not path[i][-1].isdigit():
-                        return False
-                    server.the_student = utilities.the_login(path[i])
-                    continue
-                if f == '{_I}':
-                    if not path[i].startswith('_'):
-                        return False
-                    server.the_student = utilities.the_login(path[i][1:])
-                    continue
-                if f == '{*}':
-                    return True, path[i:]
-                if f == '{=}':
-                    while len(path) != i and path[i].startswith('='):
-                        server.options.append(path[i])
-                        del path[i]
-                    if len(path) == i or (len(path) == i+1 and path[i] == ''):
-                        return True, ()
-                    else:
-                        return False
-                if f != path[i]:
-                    return False
 
         except (ValueError, IndexError):
             return False
