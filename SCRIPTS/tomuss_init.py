@@ -48,5 +48,8 @@ sys.stderr.write('DB=%s\n' % configuration.db)
 import plugins
 plugins.load_types()
 
+import utilities
+utilities.init()
+
 import document
 document.table(0, 'Dossiers', 'config_table', None, None)
