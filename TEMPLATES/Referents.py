@@ -41,7 +41,8 @@ def referent_resume(table, login):
             if i >= 3 and line[i].value:
                 if first:
                     s.append('<div class="blocnote">'
-                             + utilities._("MSG_Referents_suivi")
+                             + unicode(utilities._("MSG_Referents_suivi"),
+                                       'utf8')
                              % (table.year, table.year+1) + '<br>')
                     first = False
                 s.append(u'%s&nbsp;:&nbsp;<b>%s</b>,'
