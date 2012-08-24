@@ -79,7 +79,7 @@ changelog:
 	-if [ $$(which git) != '' ] ; then SCRIPTS/changelog >DOCUMENTATION/changelog ; fi
 
 translations:
-	@for I in TRANSLATIONS/*/LC_MESSAGES LOCAL/TRANSLATIONS/*/LC_MESSAGES ; do if [ -d "$$I" ] ; then echo $$I ; (cd $$I ; $(MAKE) --no-print-directory -f $$(echo $$I | sed -r 's/[^\/]+/../g')/Makefile tomuss.mo) ; if [ $$? != 0 ] ; then exit 1 ; fi ; fi ; done
+	@for I in TRANSLATIONS/*/LC_MESSAGES LOCAL/LOCAL_TRANSLATIONS/*/LC_MESSAGES ; do if [ -d "$$I" ] ; then echo $$I ; (cd $$I ; $(MAKE) --no-print-directory -f $$(echo $$I | sed -r 's/[^\/]+/../g')/Makefile tomuss.mo) ; if [ $$? != 0 ] ; then exit 1 ; fi ; fi ; done
 
 %.mo:%.po
 	msgfmt $*.po -o $*.mo

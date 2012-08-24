@@ -916,7 +916,8 @@ def _(msgid, language=None):
     if _.language != language:
         _.language = language
         try:
-            _.loc_tr = gettext.translation('tomuss', 'LOCAL/TRANSLATIONS',
+            _.loc_tr = gettext.translation('tomuss',
+                                           os.path.join('LOCAL','TRANSLATIONS'),
                                            language)
         except IOError:
             _.loc_tr = None
