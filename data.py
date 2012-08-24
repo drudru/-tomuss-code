@@ -64,11 +64,13 @@ def comment_change(page_id, col, lin, value):
     _table.comment_change(_table.pages[page_id], col, lin, value)
 
 def table_attr(attr, page_id, value):
+    """Set a table attribute"""
     attr = column.TableAttr.attrs[attr]
     page = _table.pages[page_id]
     attr.set(_table, page, value)
 
 def column_attr(attr, page_id, col_id, value):
+    """Set a column attribute"""
     attr = column.ColumnAttr.attrs[attr]
     col = _table.columns.from_id(col_id)
     page = _table.pages[page_id]
@@ -82,46 +84,46 @@ def column_attr(attr, page_id, col_id, value):
 # with old TOMUSS version
 
 def column_empty_is(page_id, col, empty_is):
-    """Change the column empty_is value."""
+    """DEPRECATED: Change the column empty_is value."""
     column_attr('empty_is', page_id, col, empty_is)
 
 def column_visibility_date(page_id, col, date):
-    """Specify the date of visibility"""
+    """DEPRECATED: Specify the date of visibility"""
     column_attr('visibility_date', page_id, col, date)
 
 def column_comment(page_id, col, comment):
-    """Change the column comment."""
+    """DEPRECATED: Change the column comment."""
     column_attr('comment', page_id, col, comment)
 
 def column_position(page_id, col, position):
-    """Define the column position (the columns are sorted by position."""
+    """DEPRECATED: Define the column position (the columns are sorted by position."""
     column_attr('position', page_id, col, position)
 
 def column_change(page_id, col, title, ttype, test, weight, freezed,
                   hidden, width):
-    """Change some attributes of the column."""
+    """DEPRECATED: Change some attributes of the column."""
     _table.column_change(_table.pages[page_id],
                          col, title, ttype, test, weight, freezed,
                          hidden, width)
 
 def add_master(name, page_id=None):
-    """Add or remove a master on the page."""
+    """DEPRECATED: Add or remove a master on the page."""
     _table.add_master(name, page_id)
 
 def date_change(page_id, dates):
-    """Change the table dates."""
+    """DEPRECATED: Change the table dates."""
     _table.date_change(_table.pages[page_id], dates)
 
 def private_toggle(page_id):
-    """Change the privacy state of the table."""
+    """DEPRECATED: Change the privacy state of the table."""
     _table.private_toggle(_table.pages[page_id])
 
 def table_comment(page_id, comment):
-    """Change the table comment."""
+    """DEPRECATED: Change the table comment."""
     _table.table_comment(_table.pages[page_id], comment)
 
 def default_nr_columns(nr):
-    """Specify the default number of columns displayed on screen."""
+    """DEPRECATED: Specify the default number of columns displayed on screen."""
     _table.default_nr_columns_change(nr)
 
 

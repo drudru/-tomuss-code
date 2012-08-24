@@ -19,6 +19,14 @@
 #
 #    Contact: Thierry.EXCOFFIER@bat710.univ-lyon1.fr
 
+"""
+This file must not be edited. But you should read it.
+
+The modifications must be done in LOCAL/__init__.py
+
+Once running, configuration can be done interactively.
+"""
+
 import socket
 import os
 import time
@@ -82,7 +90,7 @@ referents = (
 #     define the semesters in the order of the university year
 #   * The first and last year month of the semester.
 #     From 1 to 23, 13 = January the next year
-#   * The HTML color.
+#   * The HTML page background color.
 # By the way, you can use 1, 2 or more semesters...
 # You need to create TEMPLATES for each semester (See Automne.py)
 
@@ -102,8 +110,8 @@ def set_semesters(*x):
 
 
 set_semesters(
-    ('Printemps', -1, [1, 8], '#EEFFEE' ),
-    ('Automne'  ,  0, [8,13], '#FFE8D0' ),
+    ('Printemps', -1, [1, 8], '#EEFFEE' ),  # Spring (Semester 2)
+    ('Automne'  ,  0, [8,13], '#FFE8D0' ),  # Autumn (Semester 1)
     )
 
 #REDEFINE
@@ -120,11 +128,6 @@ def semester_span(year, semester):
                            p(semesters_months[i][1]))
 
 ###############################################################################
-
-# The following information can be redefined by python modules
-# loaded at the end of this file.
-# DO NOT EDIT THE VALUES IN THIS FILE.
-# ONLY DO THE IMPORT OF YOUR CONFIGURATION FILE IN THE terminate FUNCTION.
 # Or you can edit the configuration table while TOMUSS is running :
 #           http://........./0/Dossiers/config_table
 # The following variables are used only on the _first_ TOMUSS start.
@@ -201,13 +204,12 @@ abj_per_semester_before = 2011
 # Display students UE list for which there is no TOMUSS table
 suivi_display_more_ue = True
 
+#REDEFINE
 # Return True if the name is the code of an official UE.
 # The official UE are displayed to the students in the suivi.
-
 def is_an_official_ue(code):
-    "Must be 0 or 1 (JavaScript compatible"
+    "Must be 0 or 1 (JavaScript compatible)"
     return 1
-
 
 #REDEFINE
 # Returns True if the student is in the first year.
@@ -270,7 +272,6 @@ suivi_student_message = ""
 
 ###############################################################################
 # The following variables should be fine for testing purpose (local server)
-# THEY MUST BE REDEFINED in LOCAL.__init__.py
 ###############################################################################
 
 # With True, this allow the URLs : http://....../=login.name/
@@ -306,7 +307,7 @@ else:
 do_not_display = ('debug', 'auth', 'table', 'ldap', 'plugin', 'check')
 
 # Message on the top page
-message = '<b>Envoyez tout de suite un mail à <a href="mailto:' + maintainer + '">l\'administrateur</a> quand il y a un problème.</b>'
+message = ''
 
 ticket_directory = os.path.join('TMP', 'TICKETS')
 

@@ -74,7 +74,7 @@ Table of content:
       server can be quickly started without data loss.
     </p>
     <p>
-      The installation script needs 2 directories, one for the server
+      The installation script may use 2 directories, one for the server
       and one for the backup server.
       They store exactly the same things (except temporary and log files).
       The database stay synchronized in the two directories.
@@ -117,6 +117,7 @@ Table of content:
 <li> <b>charte_9999_semester</b> Exists if the charte was accepted</li>
 <li> <b>rsskey</b> Key used to read RSS stream without login</li>
 <li> <b>old_referent</b> The last referent of the student</li>
+<li> <b>resume</b> an abstract of all the student grades in TOMUSS</li>
 </ul>
 
 
@@ -145,7 +146,8 @@ They are automaticaly reloaded when they are modified.</li>
 <li><b>LOCAL</b>: All the customization code and data must be inside.
 <ul>
 <li> <b>__init__.py</b>: Your real configuration</li>
-<li> <b>LOCAL.TEMPLATES</b>: Your local TEMPLATES directory</li>
+<li> <b>LOCAL_TEMPLATES</b>: Your local TEMPLATES directory</li>
+<li> <b>LOCAL_COLUMN_TYPES</b>: Your local COLUMN_TYPES directory</li>
 </ul>
 </li>
     </ul>
@@ -173,7 +175,8 @@ They are automaticaly reloaded when they are modified.</li>
 <ul>
 	  <li><b>regtest</b>: server in regtest mode, ticket are in the form '=invited.teacher' or '=super.user'</li>
 	  <li><b>xxx_toutes_les_ues</b>: Extract the UE list from database and store them in a Python module. Then the process stops.</li>
-	  <li><b>all_ues.js</b>: Translate the UE list in a JavaScript module. Then the process stops.</li>	  
+	  <li><b>all_ues.js</b>: Translate the UE list in a JavaScript module. Then the process stops.</li>
+          <li><b>profile</b>: compute the time and number of calls of functions.</li>	  
 	</ul>
 
 </li>
@@ -213,7 +216,7 @@ They are automaticaly reloaded when they are modified.</li>
     <p>Do not modify <tt>plugins.py</tt> source to add plugins,
        use a <a href="#local">redefine</a> to add plugins</p>
     <p>
-       Do modify global state with plugins because
+       Do not modify global state with plugins because
        it may cause problems if the plugin is reloaded while
        the server is running.</p>
 
@@ -225,7 +228,7 @@ They are automaticaly reloaded when they are modified.</li>
     </p>
     <p>
       Here are the components of the URLs and where
-      they are stored in the request objet in the server side.
+      they are stored in the request object in the server side.
     </p>
 
     <table border="1">
@@ -245,19 +248,23 @@ They are automaticaly reloaded when they are modified.</li>
     <h3><a name="plugin_attributes">Plugin attributes</a></h3>
 
     <p>
+      Plugin usage can be restricted to a list of user groups
+      using <tt>config_plugins</tt> table,
+      user groups are defined with the <tt>config_acls</tt> table.
+      The <b>default</b> authorized group list contains the value
+      of the <tt>group</tt> parameter.      
+    </p>
+
+    
+    <p>
       The possible values of the decision attributes are
       <tt>None</tt> to indicate that it is not important,
       <tt>True</tt> to indicate that session must match the attribute,
       <tt>False</tt> to indicate that session must <b>not</b> match the attribute.
     </p>
 
-
     <ul>
       <li> Authenticated: The client authenticated itself</li>
-      <li> Teacher: The user is a teacher</li>
-      <li> Administrative: The user is an administrative as a secretary.</li>
-      <li> Referent Master: The user manage the referent teachers </li>
-      <li> Root: The user is a super user</li>
       <li> Password OK: The user has a not stupid password</li>
     </ul>
     
@@ -595,7 +602,7 @@ They can be&nbsp;:
 
     <p>
       TOMUSS retrieves the <b>current student list</b> without
-      knowing to which semester it apply.
+      knowing to which semester it applies.
     </p>
 
     <p>
@@ -857,6 +864,28 @@ configuration source files
 </p>
 
 
+    <h3><a name="authorization">TOMUSS authorizations</a></h3>
+    <p>
+      The home page of root user contains a link on the
+      plugin configuration table.
+      For each plugin, you can indicate a list of allowed <b>item</b> :
+    </p>
+    <ul>
+      <li> An user: 'login'</li>
+      <li> An user group: 'grp:group_name' (defined in the ACLS table)</li>
+      <li> Allowed if not in a group: 'grp:!group_name'</li>
+      <li> An LDAP group: 'ldap:OU=...DC=...'</li>
+      <li> A Python expression: 'python: "teacher" in login'</li>
+    </ul>
+    <p>
+      It is recommended to use group name because most of the time,
+      a few plugins have the same users allowed.
+      The user groups are defined in the config ACLS table.
+      On the first column you enter an <b>item</b> as in the plugin table,
+      on the second column, you indicate to which group you add the item.
+    </p>
+
+
     <h3><a name="regtests">TOMUSS Regressions Tests</a></h3>
 
     <p>
@@ -957,7 +986,7 @@ TOMUSS server.</p>
 
     <table><tr><td><p>
 	In the following table the javascript functions must not be
-modified in the javascript source, they must be redefined
+modified in the javascript source, they can be redefined
 by <tt>LOCAL/__init__.py</tt> script using this procedure:
 </p>
 

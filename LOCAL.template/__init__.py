@@ -1,7 +1,7 @@
 """
 Your local configuration of TOMUSS goes here.
 
-You can redefine any method, function or variable in the other module.
+You can redefine any method, function or variable in the other modules.
 
 This file contains the most important configuration options
 that can't be modified interactively in the configuration table.

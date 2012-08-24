@@ -486,6 +486,9 @@ TABLE.types .defined { background: #FDD ; }
 
 if __name__ == "__main__":
     load_types()
+
+    generate_data_files()
+    configuration.language = 'en'
     
     plugins_tomuss()
     plugin.html('DOCUMENTATION/xxx_tomuss_plugins.html')

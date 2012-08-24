@@ -82,7 +82,7 @@ f.close()
 import data
 g = open('xxx_data.html', 'w')
 for key, value in data.__dict__.items():
-    if hasattr(value, 'func_name'):
+    if hasattr(value, 'func_name') and 'DEPRECATED' not in value.func_doc:
         g.write('<p><b>' + key + '</b>(' + ', '.join(value.func_code.co_varnames) +
                 '): ' + str(value.func_doc) + '</p>')
 g.close()
