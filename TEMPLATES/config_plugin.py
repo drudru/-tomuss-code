@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 #    TOMUSS: The Online Multi User Simple Spreadsheet
-#    Copyright (C) 2010 Thierry EXCOFFIER, Universite Claude Bernard
+#    Copyright (C) 2010-2012 Thierry EXCOFFIER, Universite Claude Bernard
 #
 #    This program is free software; you can redistribute it and/or modify
 #    it under the terms of the GNU General Public License as published by
@@ -155,3 +155,15 @@ def cell_change(table, page, col, lin, value, dummy_date):
 
     if page.page_id > 1:
         configuration.tell_to_reload_config()
+
+def content(dummy_table):
+    return r"""
+function update_student_information(line)
+{
+   if ( ! t_student_picture.parentNode )
+      return ;
+   t_student_picture.parentNode.innerHTML = '' ;
+
+   document.getElementById('horizontal_scrollbar').parentNode.style.display = 'none' ;
+}
+"""

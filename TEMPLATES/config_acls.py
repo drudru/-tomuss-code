@@ -184,7 +184,10 @@ cache = {}
 
 def is_member_of(login, group):
     """A group name or a tuple"""
-    if (login, group) not in cache:        
+    if (login, group) not in cache:
+        if time.time() - clear_cache.last_clear > 3600:
+            clear_cache()
+
         member_of = inscrits.L_fast.member_of_list(login)
         if group == '':
             result = True
@@ -197,9 +200,6 @@ def is_member_of(login, group):
             result = is_member_of_(login, group, member_of)
 
         cache[login, group] = result
-
-        if time.time() - clear_cache.last_clear > 3600:
-            clear_cache()
 
     return cache[login, group]
 

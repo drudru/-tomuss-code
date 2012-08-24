@@ -158,7 +158,7 @@ fi
 
 # Start new
 echo "Start new TOMUSS"
-(cd $REAL/SERVEUR_NOTES ; make)
+(cd $REAL/SERVEUR_NOTES ; make translations ; make)
 
 ###############################################################################
 # CRON

@@ -132,6 +132,10 @@ Administrateur.
 Problèmes à résoudre.
 =====================
 
+* Resize ne doit pas perdre le focus (tablette)
+
+* unbalanced tree
+
 * Emploi du temps : manque des UE (TVL)
 
 * Primo entrant dans le bloc note de printemps

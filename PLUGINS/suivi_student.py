@@ -439,7 +439,7 @@ def teacher_statistics(login, server):
     s = (' '.join(s) + '<br>').encode('utf8')
 
     if tables:
-        s += ("<p>" + server.__("MSG_suivi_student_ue_changes") % (
+        s += ("<p>" + server._("MSG_suivi_student_ue_changes") % (
                 sum([v.nr for v in tables.values()]),
                 len(tables)) +
               '\n'.join(['''

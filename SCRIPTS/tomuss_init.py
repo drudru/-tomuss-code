@@ -49,7 +49,7 @@ import plugins
 plugins.load_types()
 
 import utilities
-utilities.init()
+utilities.init(launch_threads=False)
 
 import document
 document.table(0, 'Dossiers', 'config_table', None, None)

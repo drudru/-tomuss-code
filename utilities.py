@@ -1050,8 +1050,9 @@ def display_stack_on_kill():
     import signal
     signal.signal(signal.SIGTERM, on_kill)
 
-def init():
-    start_threads()
+def init(launch_threads=True):
+    if launch_threads:
+        start_threads()
     display_stack_on_kill()
     start_new_thread_immortal(sendmail_thread, (), send_mail=False)
     configuration.ampms_full = [

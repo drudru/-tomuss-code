@@ -146,9 +146,6 @@ abinj = 0.25
 # Check the list of student each X seconds (for actives UE)
 students_check_interval = 3600
 
-# For 'suivi.py' compute teacher statistics each X seconds
-teacher_stat_interval = 3600
-
 # For 'suivi.py' reload the table if it is out of date of X seconds
 maximum_out_of_date = 60
 
