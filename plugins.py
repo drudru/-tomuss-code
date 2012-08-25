@@ -331,7 +331,7 @@ def generate_data_files(suivi=False):
                                       js(v.encode('utf8'))))
 
     import itertools
-    local_translation = os.path.join('LOCAL', 'TRANSLATIONS')
+    local_translation = os.path.join('LOCAL', 'LOCAL_TRANSLATIONS')
     if not os.path.exists(local_translation):
         os.mkdir(local_translation)
     for language in itertools.chain(os.listdir('TRANSLATIONS'),
