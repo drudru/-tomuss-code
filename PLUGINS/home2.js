@@ -572,15 +572,31 @@ function display_ue_list(s, txt, txt_upper, names)
 var ues_spiral ;
 var ues_favorites_sorted ;
 
+function toggle_year(year)
+{
+  var s = document.getElementById('computed_style') ;
+  var invisible = '.year' + year + '{display:none}' ;
+
+  if ( s.textContent.indexOf(invisible) != -1 )
+  {
+    s.textContent = s.textContent.replace(invisible, '') ;
+    document.getElementById('year' + year).style.background = '#8F8' ;
+  }
+  else
+  {
+    s.textContent += invisible ;
+    document.getElementById('year' + year).style.background = '' ;
+  }
+}
+
 function update_ues_master_of(txt, txt_upper)
 {
   if ( master_of.length === 0 )
     return ;
 
-  var s = ['<tr><th colspan="3">' +
-	   hidden_txt(_("TH_home_master_of"), _("TIP_home_master_of"))
-	   + '</th></tr>'] ;
+  var s = [] ;
   master_of.sort();
+  var years = {}, last_year ;
   for(var i in master_of)
     {
       i = master_of[i] ;
@@ -588,19 +604,37 @@ function update_ues_master_of(txt, txt_upper)
       var ue = all_ues[i[2].split('-', 2)[1]] ;
       if ( ue && myindex(ue.login, username) != -1 )
 	  continue ; // Yet in Spiral table
+      years[i[0]] = true ;
+      last_year = i[0] ;
       s.push('<tr onmouseover="ue_line_over(\''
 	     + code + '\',this,ue_line_click_more);" '
 	     + 'onclick="javascript:goto_url(\'' + base + code
-	     + '\')"><td></td><td colspan="2">' + code + '</td></tr>') ;
+	     + '\')" class="year' + i[0]
+	     + '"><td></td><td colspan="2">' + code + '</td></tr>') ;
     }
-  s = ue_line_join(s) ;
+  var style = '', buttons = '' ;
+  for(var i in years)
+  {
+    buttons += ' <a id="year' + i + '" href="javascript:toggle_year('
+      + i + ')">' + i + '</a>' ;
+    style += '.year' + i + '{display:none}' ;
+  }
+  document.getElementById('computed_style').textContent = style + '/**/' ;
 
+
+  s = ue_line_join(s) ;
   document.getElementById('ue_list').childNodes[3].innerHTML =
-	'<table class="with_margin uelist">'
-	+ '<colgroup><col class="code">'
-	+ '<col class="title">'
-	+ '<col class="responsable">'
-	+ '</colgroup>' + s + '</table>' ;
+    '<table class="with_margin uelist">'
+    + '<colgroup><col class="code">'
+    + '<col class="title">'
+    + '<col class="responsable">'
+    + '</colgroup>'
+    + '<tr><th colspan="3">'
+    + hidden_txt(_("TH_home_master_of"), _("TIP_home_master_of"))
+    + '</th></tr>'
+    + '<tr><th colspan="3">' + buttons + '</th></tr>'
+    + s + '</table>' ;
+  toggle_year(last_year) ;
 }
 
 function cmp_favorites(x,y)
@@ -1177,6 +1211,7 @@ function generate_home_page_top()
     // Do not insert spaces in the next line
 	+ '<H1 style="margin-top: 0">TOMUSS <select id="s" onchange="change_icones()" style="font-size:70%">'
 	+ semester_list + '</select></H1>'
+        + '<style id="computed_style"></style>'
 	+ '<p class="testmessage">' + _("MSG_home_welcome") + '</p>' ;
     document.write(t) ;
 }
@@ -1316,7 +1351,6 @@ function generate_home_page()
     document.write('</TD><TD id="rightpart" width="20%">') ;
     generate_home_page_actions() ;
     document.write('</TD></TR></TABLE>') ;
-  /*
     // update_ues2('') ;
     update_referent_of() ;
     update_favorite_student() ;
@@ -1327,6 +1361,4 @@ function generate_home_page()
     document.write('<div id="feedback"></div>') ;
     document.write('<p class="copyright">TOMUSS '
 		   + tomuss_version + '</p>') ;
-		   */
-
 }
