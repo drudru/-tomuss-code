@@ -54,8 +54,8 @@ TABLE.uelist INPUT { width: 5em ;  }
 
 TABLE.uelist TR.search TD { padding: 0.4em ; color: black; }
 
-TABLE.uelist DIV.help { display: none ; font-style: italic; font-size: small }
-TABLE.uelist TR.ue_list_more DIV.help { display: block }
+TABLE.uelist .help { display: none ; font-style: italic; font-size: small }
+TABLE.uelist TR.ue_list_more .help { display: block }
 
 IMG.safety { border:0 ;width: 0.7em ; vertical-align: middle  }
 

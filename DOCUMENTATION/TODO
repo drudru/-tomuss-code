@@ -134,8 +134,6 @@ Problèmes à résoudre.
 
 * Resize ne doit pas perdre le focus (tablette)
 
-* unbalanced tree
-
 * Emploi du temps : manque des UE (TVL)
 
 * Primo entrant dans le bloc note de printemps
@@ -168,6 +166,8 @@ Problèmes à résoudre.
   Sous windows seulement
 
 * Dispense d'assiduité : la destruction d'une DA les détruit toutes.
+
+* unbalanced tree : Tout à refaire, donc dans longtemps.
 
 ============================
 Problèmes non reproductibles

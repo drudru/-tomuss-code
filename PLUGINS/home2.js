@@ -1276,25 +1276,30 @@ function generate_home_page_actions()
 	    +'</th></tr>\n' ;
 	for(var link in box)
 	{
-	    link = box[link] ;
-	    var el, help ;
-	    if ( link[4] === '' )
-		el = 'span' ;
-	    else
-		el = 'a' ;
-	    help = link[6] ;
-	    if ( i_am_root )
-		help += '<br>PLUGIN:' + link[7] ;
-		help += '<br>PRIORITY:' + link[1] ;
-	    t += '<tr onmouseover="ue_line_over(\'\',this)"><td>'
-                + '<img class="safety" src="' + url + '/' + link[2] + '.png">'
-		+ '<' + el +' class="' + link[2] + '" href="' + link[4]
-	        + '" target="' + link[5]
-		+ '">' + link[3] + '<div class="help">' + help
-		+ '</div></' + el +'></td></tr>' ;
+	  link = box[link] ;
+	  var el, eld, help ;
+	  if ( link[4] === '' || link[3].toUpperCase().indexOf('INPUT') != -1 )
+	  {
+	    el = '' ;
+	    eld = '' ;
+	  }
+	  else
+	  {
+	    el = '<a class="' + link[2] + '" href="' + link[4]
+	      + '" target="' + link[5] + '">';
+	    eld = '</a>' ;
+	  }
+	  help = link[6] ;
+	  if ( i_am_root )
+	    help += '<br>PLUGIN:' + link[7] ;
+	  help += '<br>PRIORITY:' + link[1] ;
+	  t += '<tr onmouseover="ue_line_over(\'\',this)"><td>' + el
+            + '<img class="safety" src="' + url + '/' + link[2] + '.png">'
+	    + link[3] + '<var class="help">' + help
+	    + '</var>' + eld + '</td></tr>' ;
 	}
+      t += '</table>' ;
     }
-
     document.write(t) ;
 }
 
@@ -1311,6 +1316,7 @@ function generate_home_page()
     document.write('</TD><TD id="rightpart" width="20%">') ;
     generate_home_page_actions() ;
     document.write('</TD></TR></TABLE>') ;
+  /*
     // update_ues2('') ;
     update_referent_of() ;
     update_favorite_student() ;
@@ -1321,5 +1327,6 @@ function generate_home_page()
     document.write('<div id="feedback"></div>') ;
     document.write('<p class="copyright">TOMUSS '
 		   + tomuss_version + '</p>') ;
+		   */
 
 }
