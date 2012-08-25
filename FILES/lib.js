@@ -4032,10 +4032,19 @@ function runlog(the_columns, the_lines)
       periodic_work_add(manage_window_resize_event) ;
     }
   else
-    window.onresize = manage_window_resize_event ;
-
-  
-	
+    {
+      var agent = navigator.userAgent.toString() ;
+      if (  agent.indexOf('Android') == -1
+	 && agent.indexOf('iPhone') == -1
+	 && agent.indexOf('iPad') == -1
+	 )
+      {
+	// If not on a tablet, do the resize.
+	// On a tablet, the virtual keyboard make a resize
+	window.onresize = manage_window_resize_event ;
+      }
+    }
+ 	
   if ( ue != 'VIRTUALUE' && ue != '' && page_id > 0 )
     document.write('<img width="1" height="1" src="' + url + "/=" + ticket
 		   + '/' + year + '/' + semester + '/' + ue + '/' +
