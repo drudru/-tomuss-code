@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 #    TOMUSS: The Online Multi User Simple Spreadsheet)
-#    Copyright (C) 2009 Thierry EXCOFFIER, Universite Claude Bernard
+#    Copyright (C) 2009-2012 Thierry EXCOFFIER, Universite Claude Bernard
 #
 #    This program is free software; you can redistribute it and/or modify
 #    it under the terms of the GNU General Public License as published by
@@ -38,10 +38,11 @@ def master_of(server):
         year, semester, ue = filename[-3:]
         year = year[1:]
         semester = semester[1:]
+        ue = ue[:-3]
         if semester in configuration.master_of_exceptions:
             continue
-        ue = ue[:-3]
-        utilities.warn(str((year, semester, ue)))
+        if configuration.is_an_official_ue(ue):
+            continue
         try:
             table = document.table(year, semester, ue, None, None)
         except:

@@ -1116,7 +1116,7 @@ class Table(object):
         utilities.unlink_safe(self.filename + 'c', do_backup=False)
 
         for name in self.masters:
-            master_of_update('-', name, self.year, self.semester, self.ue)
+            self.master_of_update('-', name)
 
 
     def send_alert(self, text):
@@ -1129,15 +1129,38 @@ class Table(object):
     def backtrace_html(self):
         return "Table: " + str(self)
 
-    def readable_by(self, ticket):
+    def readable_by(self, the_ticket):
         if (self.private
-            and ticket.user_name not in self.masters 
-            and ticket.user_name not in configuration.root
+            and the_ticket.user_name not in self.masters 
+            and the_ticket.user_name not in configuration.root
             ):
             warn('Unauthorized access', what='table')
             return False
         return True
 
+    def master_of_update(self, what, name):
+        if self.official_ue:
+            return
+        if self.semester in configuration.master_of_exceptions:
+            return
+        d = utilities.manage_key('LOGINS', os.path.join(name, 'master_of'))
+        if d is False:
+            d = []
+        else:
+            d = eval(d)
+
+        t = (str(self.year), self.semester, self.ue)
+        if (t in d) and what == '-':
+            d.remove(t)
+        elif (t not in d) and what == '+':
+            d.append(t)
+        else:
+            return
+
+        utilities.manage_key('LOGINS', os.path.join(name, 'master_of'),
+                             content = repr(d))
+
+    
 def send_alert(text):    
     for atable in tables_values():
         atable.send_alert(text)
@@ -1297,28 +1320,6 @@ def check_new_students():
             time.sleep(1)
 
         check_new_students_real()
-
-def master_of_update(what, name, year, semester, ue):
-    if semester in configuration.master_of_exceptions:
-        return
-
-    d = utilities.manage_key('LOGINS', os.path.join(name, 'master_of'))
-    if d is False:
-        d = []
-    else:
-        d = eval(d)
-
-    t = (str(year), semester, ue)
-    if (t in d) and what == '-':
-        d.remove(t)
-    elif (t not in d) and what == '+':
-        d.append(t)
-    else:
-        return
-
-    d = utilities.manage_key('LOGINS', os.path.join(name, 'master_of'),
-                             content = repr(d))
-
 
 def login_list(page, name):
     # XXX Not very clean the : configuration.teachers[-1]

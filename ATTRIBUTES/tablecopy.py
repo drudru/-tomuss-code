@@ -78,8 +78,7 @@ def tablecopy(server):
                                 server.the_ue, create=False)
 
     for name in dest_table.masters:
-        document.master_of_update('+', name, dest_year, dest_semester,
-                                  server.the_ue)
+        dest_table.master_of_update('+', name)
 
     server.the_file.write("\n" + _("MSG_tablecopy_done"))
 

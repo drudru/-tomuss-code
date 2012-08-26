@@ -76,9 +76,7 @@ return value ;
         import document
         for login in new_value:
             if login not in old_value:
-                document.master_of_update('+', login,
-                                          table.year, table.semester, table.ue)
+                table.master_of_update('+', login)
         for login in old_value:
             if login not in new_value:
-                document.master_of_update('-', login,
-                                          table.year, table.semester, table.ue)
+                table.master_of_update('-', login)

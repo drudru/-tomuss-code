@@ -31,7 +31,7 @@ import socket
 import os
 import time
 
-version = '5.0.0'
+version = '5.0.1'
 
 ###############################################################################
 # ACLS
@@ -181,7 +181,7 @@ year_semester_next = (time.localtime()[0], semesters[1])
 ue_not_per_semester = "^UE-[A-Z]{3}[0-9]{4}M$"
 
 # Semester we don't want to be displayed as a 'master_of'
-master_of_exceptions = tuple(semesters) + ('Test', 'Referents', 'Preferences')
+master_of_exceptions = ('Test', 'Referents', 'Preferences')
 
 # The mail address of TOMUSS manager (destination address of bug messages)
 maintainer = root[0] + '@' + socket.getfqdn()

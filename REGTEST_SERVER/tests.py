@@ -649,7 +649,7 @@ def tests():
                   % ys)
         assert('OK' in c)
         c = s.url('=ue1.master')
-        assert("['0', 'Dossiers', 'UE-INF20UE2']" in c)
+        assert("['0', 'Dossiers', 'UE-INF20UE2']" not in c)
         c = s.url('=' + root + '/0/Dossiers/UE-INF20UE2')
         assert('TITLE0' in c)
         assert('_TABLE_COMMENT_' in c)
@@ -1677,7 +1677,8 @@ if '1' in sys.argv:
 else:
    only_once = False
 
-
+os.system("ps -fle | grep ./tomuss")
+   
 n = 0
 m = []
 while True:
