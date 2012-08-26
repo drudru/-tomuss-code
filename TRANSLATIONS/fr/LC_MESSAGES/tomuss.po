@@ -1095,7 +1095,7 @@ msgstr "Copie de table TOMUSS"
 
 #. GUI 
 msgid "TITLE_table_attr_t_export"
-msgstr "<b>Exporter</b>"
+msgstr "Exporter"
 
 #. GUI 
 msgid "TITLE_table_attr_facebook"
@@ -1103,7 +1103,7 @@ msgstr "Trombino"
 
 #. GUI
 msgid "TITLE_table_attr_t_import"
-msgstr "<b>Importer</b>"
+msgstr "Importer"
 
 #. GUI
 msgid "TITLE_table_attr_mail"
@@ -2497,6 +2497,25 @@ msgstr "Cliquez sur une flèche pour copier la bonne table."
 
 msgid "MSG_tablecopy_spreadsheet"
 msgstr "Votre tableur préféré.<br>LibreOffice..."
+
+msgid "MSG_tablecopy_start"
+msgstr "Début de la copie."
+
+msgid "MSG_tablecopy_read"
+msgstr "La table à copier a pu être lue."
+
+msgid "MSG_tablecopy_not_empty"
+msgstr "La table destination n'est pas vide :\n"
+       "Vous devez la détruire avant d'avoir le droit de faire la copie.\n"
+       "La destruction est possible à partir du menu de l'UE sur la\n"
+       "page d'accueil."
+
+msgid "MSG_tablecopy_check"
+msgstr "Copie terminée (%.1fKo), début de vérification."
+
+msgid "MSG_tablecopy_done"
+msgstr "OK: Copie faite sans erreur."
+
 
 msgid "ALERT_tabledates_2"
 msgstr "Saisir les 2 dates séparées par un espace"
@@ -4702,3 +4721,4 @@ msgstr "Vos remarques."
 
 msgid "COL_TITLE_ct_deprecated"
 msgstr "Utilisez la table ACLS pour définir les groupes d'utilisateurs"
+

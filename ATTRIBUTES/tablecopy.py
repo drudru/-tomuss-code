@@ -1,7 +1,7 @@
 #!/bin/env python
 # -*- coding: utf-8 -*-
 #    TOMUSS: The Online Multi User Simple Spreadsheet
-#    Copyright (C) 2011 Thierry EXCOFFIER, Universite Claude Bernard
+#    Copyright (C) 2011-2012 Thierry EXCOFFIER, Universite Claude Bernard
 #
 #    This program is free software; you can redistribute it and/or modify
 #    it under the terms of the GNU General Public License as published by
@@ -40,11 +40,12 @@ TABLE.table_copy_diagram TH { background: white ; border: 1px solid #888; }
 
 def tablecopy(server):
     """Copy the table in another EMPTY one"""
+    _ = utilities._
 
-    server.the_file.write("Début de la copie\n")
+    server.the_file.write(_("MSG_tablecopy_start") + "\n")
     table = document.table(server.the_year, server.the_semester,
                            server.the_ue, None, None)
-    server.the_file.write("La table à copier a pu être lue.\n")
+    server.the_file.write(_("MSG_tablecopy_read") + "\n")
 
     dest_year = int(server.the_path[0])
     dest_semester = utilities.safe(server.the_path[1]).replace('.','_')
@@ -56,38 +57,31 @@ def tablecopy(server):
         if not dest_table.empty(empty_even_if_used_page=True,
                                 empty_even_if_created_today=True,
                                 empty_even_if_column_created=True)[0]:
-            server.the_file.write("""\nLa table destination n'est pas vide :
-Vous devez la détruire avant d'avoir le droit de faire la copie.
-La destruction est possible à partir du menu de l'UE sur la
-page d'accueil.""")
+            server.the_file.write(_("MSG_tablecopy_not_empty") + "\n")
             return
-        server.the_file.write("La table destination est actuellement vide.\n")
         dest_table.delete()
-    else:
-        server.the_file.write("La table destination n'existe pas.\n")
 
     if option == 'history':
         c = utilities.read_file(table.filename)
     elif option == 'content':
-        c = table.rewrite(user_name=server.ticket.user_name)
+        c = table.rewrite()
     elif option == 'columns':
-        c = table.rewrite(only_columns=True, user_name=server.ticket.user_name)
+        c = table.rewrite(only_columns=True)
     else:
-        server.the_file.write("\nIl y a un bug: '%s'." % option)
+        server.the_file.write("\nBUG: '%s'." % option)
         return
 
     filename = document.table_filename(dest_year, dest_semester, server.the_ue)
     utilities.write_file_safe(filename, c)
-    server.the_file.write("Copie terminée (%.1fKo), début de vérification.\n" %
-                          (len(c)/1024.))
+    server.the_file.write(_("MSG_tablecopy_check") % (len(c)/1024.) + "\n")
     dest_table = document.table(dest_year, dest_semester,
                                 server.the_ue, create=False)
 
     for name in dest_table.masters:
-            document.master_of_update('+', name, dest_year, dest_semester,
-                                      server.the_ue)
+        document.master_of_update('+', name, dest_year, dest_semester,
+                                  server.the_ue)
 
-    server.the_file.write("\nOK: Copie faite sans erreur.")
+    server.the_file.write("\n" + _("MSG_tablecopy_done"))
 
 plugin.Plugin('tablecopy', '/{Y}/{S}/{U}/tablecopy/{*}',
               function=tablecopy, group='staff',

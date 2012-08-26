@@ -1102,7 +1102,7 @@ msgstr "Table copy"
 
 #. GUI 
 msgid "TITLE_table_attr_t_export"
-msgstr "<b>Export</b>"
+msgstr "Export"
 
 #. GUI 
 msgid "TITLE_table_attr_facebook"
@@ -1110,7 +1110,7 @@ msgstr "Facebook"
 
 #. GUI 
 msgid "TITLE_table_attr_t_import"
-msgstr "<b>Import</b>"
+msgstr "Import"
 
 #. GUI 
 msgid "TITLE_table_attr_mail"
@@ -2499,6 +2499,23 @@ msgstr "Click on an arrow to copy a table."
 
 msgid "MSG_tablecopy_spreadsheet"
 msgstr "Your favorite spreadsheet.<br>LibreOffice..."
+
+msgid "MSG_tablecopy_start"
+msgstr "Start of copy."
+
+msgid "MSG_tablecopy_read"
+msgstr "The table reading is done."
+
+msgid "MSG_tablecopy_not_empty"
+msgstr "The destination table is NOT EMPTY:\n"
+       "You must delete it before overwrite it with the copy.\n"
+       "To delete it, use the popup table menu on the home page"
+
+msgid "MSG_tablecopy_check"
+msgstr "Copy done (%.1fKo), checking if all is fine."
+
+msgid "MSG_tablecopy_done"
+msgstr "OK: Copy seems fine."
 
 msgid "ALERT_tabledates_2"
 msgstr "Enter 2 dates separated by a space"

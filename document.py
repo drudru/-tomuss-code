@@ -1003,18 +1003,34 @@ class Table(object):
     def rewrite(self, only_columns=False, user_name=''):
         s = ['# -*- coding: utf8 -*-']
         s.append('from data import *')
-        s.append("new_page('' ,'*', '', '')")
-        s.append("new_page('' ,'%s', '', '')" % user_name)
+        s.append("new_page('' ,'" + data.ro_user + "', '', '')")
+        pages = collections.defaultdict(lambda: 1)
+        pages[data.ro_user] = 0
+        if user_name:
+            s.append("new_page('' ,'%s', '', '')" % user_name)
+        else:
+            authors = set()
+            for c in self.columns:
+                authors.add(c.author)
+            for line in self.lines.values():
+                for cell in line:
+                    authors.add(cell.author)
+            authors.discard(data.ro_user)
+            for author in authors:
+                pages[author] = len(pages)
+                s.append("new_page('' ,'%s', '', '')" % author)
+            
         for c in self.columns:
             # if c.empty() and c.type.cell_compute == 'undefined':
             #    continue
             for attr in column.ColumnAttr.attrs.values():
+                if attr.name == 'author':
+                    continue
                 attr_value = attr.decode(getattr(c, attr.name))
-                if attr.name == 'author' and attr_value != data.ro_user:
-                    attr_value = user_name
                 if attr_value != attr.default_value:
-                    s.append('column_attr(%s,1,%s,%s)' % (
-                        repr(attr.name), repr(c.the_id), repr(attr_value)))
+                    s.append('column_attr(%s,%d,%s,%s)' % (
+                        repr(attr.name), pages[c.author],
+                        repr(c.the_id), repr(attr_value)))
                          
         for attr in column.TableAttr.attrs.values():
             if attr.computed:
@@ -1026,7 +1042,7 @@ class Table(object):
                 attr_value.append(user_name)
             attr_value = attr.decode(attr_value)
             if attr_value != attr.default_value:
-                s.append('table_attr(%s,1,%s)' % (
+                s.append('table_attr(%s,0,%s)' % (
                     repr(attr.name),
                     repr(attr_value)))
 
@@ -1036,18 +1052,20 @@ class Table(object):
         for line_key, line in self.lines.items():
             for col, cell in zip(self.columns, line):
                 if cell.value != '':
-                    s.append('cell_change(1,%s,%s,%s,%s)' % (
-                        repr(col.the_id),
-                        repr(line_key),
-                        repr(cell.value),
-                        repr(cell.date),
-                        ))
-                    if cell.comment:
-                        s.append('comment_change(1,%s,%s,%s)' % (
+                    s.append('cell_change(%d,%s,%s,%s,%s)' % (
+                            pages[cell.author],
                             repr(col.the_id),
                             repr(line_key),
-                            repr(cell.comment),
+                            repr(cell.value),
+                            repr(cell.date),
                             ))
+                    if cell.comment:
+                        s.append('comment_change(%d,%s,%s,%s)' % (
+                                pages[cell.author],
+                                repr(col.the_id),
+                                repr(line_key),
+                                repr(cell.comment),
+                                ))
                                                     
         return '\n'.join(s) + '\n'
 
