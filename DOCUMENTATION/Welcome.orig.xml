@@ -60,6 +60,30 @@ Table of content:
 
     <object data="global.svg" class="svg"></object>
 
+    <p>
+      Some glossary :
+    </p>
+    <ul>
+      <li> UE: a course (in french: <em>Unité d'Enseignement</em>)</li>
+      <li> Year: the administrative year (the real year not
+      the teaching start year)</li>
+      <li> Semester: A span of time in the year. They do not overlap.
+      Year+Semester+UE defines an instance of courses with its set of students.
+      </li>
+      <li> Etape: A code defining the registration of the student
+      to a diploma (or a year in a diploma).
+      </li>
+      <li> Referent: A teacher that is linked to a student as a tutor.
+      </li>
+      <li> ABJ: it is a justification of a non attendance for a span of time
+      given by a student to the administration.</li>
+      <li> TT or 'Tiers Temps': it is a student with 'special examination
+      condition'. For exemple for blind students or a student with
+      a broken arm.</li>
+      <li> DA or 'Dispense d'assiduité': If the student has one,
+      the he is allowed to not attend the courses.</li>
+    </ul>
+
     <h2><a name="organisation">TOMUSS file organisation</a></h2>
 
     <p>The first part describes the hierarchy created by the default
@@ -114,7 +138,8 @@ Table of content:
 <li> <b>favstu</b> Favorite student list</li>
 <li> <b>master_of</b> The user is the master of theses UEs</li>
 <li> <b>pages</b> Favorites UE</li>
-<li> <b>charte_9999_semester</b> Exists if the charte was accepted</li>
+<li> <b>charte_9999_semester</b> Exists if the charte (contract)
+was accepted</li>
 <li> <b>rsskey</b> Key used to read RSS stream without login</li>
 <li> <b>old_referent</b> The last referent of the student</li>
 <li> <b>resume</b> an abstract of all the student grades in TOMUSS</li>
@@ -562,7 +587,7 @@ They can be&nbsp;:
       for column names, comments, value of literals as YES, NO...
     </p>
     <p>
-      The translations are in TRANSLATIONS and LOCAL/TRANSLATIONS
+      The translations are in TRANSLATIONS and LOCAL/LOCAL_TRANSLATIONS
       directories.
       The LOCAL translation override the default translation.
     </p>

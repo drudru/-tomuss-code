@@ -22,8 +22,8 @@ URL to use to connect to the server:
 To create ou edit a table:
 
     http://127.0.0.1:8888/=ue1.master/2010/Printemps/UE-INF1001L
-    http://127.0.0.1:8888/=ue1.master/2009/Dossiers/nomtable      (private)
-    http://127.0.0.1:8888/=ue1.master/2009/Public/nomtable         (public)
+    http://127.0.0.1:8888/=ue1.master/2009/Dossiers/tablename      (private)
+    http://127.0.0.1:8888/=ue1.master/2009/Public/tablename        (public)
 
 To launch a 'suivi' server:
     ./suivi.py 2012 Printemps 8890 regtest

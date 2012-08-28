@@ -17,6 +17,8 @@ configuration.root = ("super.user",)
 # How to authenticate users
 configuration.cas = "https://cas.domain.org/cas"
 
+# To see how to modify the student lists and other values: see regtestpatch.py
+        
 
 # List of 'suivi' servers to launch.
 import servers

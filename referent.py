@@ -471,7 +471,7 @@ def update_referents(ticket, f, really_do_it = False, add_students=True):
                                 utilities.__("MSG_referent_mail_subject"),
                                 utilities.__("MSG_referent_mail_body") %
                                 ('\n'.join(tteacher.message),
-                                 configuration.configuration.server_url),
+                                 configuration.server_url),
                                 frome=my_mail)
 
         

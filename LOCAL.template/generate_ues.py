@@ -3,7 +3,7 @@
 
 """
 Input :
-!   * ??? (it depends on 'get_ue_dict' function
+   * ??? (it depends on 'get_ue_dict' function
 Output :
    * TMP/xxx_toute_les_ues.py
    * FILES/all_ues.js
