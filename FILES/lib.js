@@ -501,6 +501,7 @@ function get_tip_element()
       tip_plus = document.createElement('div') ;
       tip_plus.id = 'tip_plus' ;
       tip_plus.innerHTML = '?' ;
+      tip_plus.style.display = "none" ;
       document.getElementsByTagName('BODY')[0].appendChild(tip_plus) ;
     }
   return tip ;
@@ -719,6 +720,12 @@ function show_the_tip(td, tip_content)
   // Hide the tip if the mouse go inside
   tip.onmousemove = function() { hide_the_tip(a); } ;
   set_tip_position(td, bottom) ;
+
+  if ( instant_tip_display )
+    {
+      tip.style.display = "block" ;
+      return ;
+    }
 
   // Display the '?'
   var tip_plus = document.getElementById('tip_plus') ;
