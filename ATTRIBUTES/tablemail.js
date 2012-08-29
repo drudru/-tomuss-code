@@ -22,7 +22,7 @@
 
 function students_mails(missing)
 {
-    var s = '', i, student ;
+  var s = '', i, student, done = {} ;
 
   for(var i in filtered_lines)
     {
@@ -30,6 +30,9 @@ function students_mails(missing)
       if ( line[0].value !== '' )
 	{
 	    student = login_to_id(line[0].value) ;
+	    if ( done[student] )
+	       continue ;
+	    done[student] = true ;
 	    if ( table_attr.mails[student]
 	       && table_attr.mails[student].indexOf('@') != -1)
 	    // s += table_attr.mails[line[0].value].replace(/'/g,"\\'") + ',' ;
