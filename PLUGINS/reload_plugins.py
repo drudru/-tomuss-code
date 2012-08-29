@@ -79,5 +79,6 @@ def reload_plugins(server):
 
 plugin.Plugin('reload_plugins', '/reload_plugins',
               function=reload_plugins, group='roots',
-              link=plugin.Link(where='debug', html_class='safe')
+              link=plugin.Link(where='debug', html_class='safe',
+                               priority=-5)
               )
