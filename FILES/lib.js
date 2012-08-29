@@ -646,6 +646,7 @@ function mouse_over(event)
 }
 
 var the_current_line ;
+var instant_tip_display ;
 
 function show_the_tip(td, tip_content)
 {
