@@ -45,7 +45,9 @@ def update_column(table):
                     table.column_attr(table.pages[0], name, 'hidden', 1)
                     do_migrate = True
             continue
-        table.column_attr(table.pages[0], name, 'type', typ)
+        if not table.columns.from_title(name):
+            # XXX To not store type each time (bug elsewhere)
+            table.column_attr(table.pages[0], name, 'type', typ)
         table.column_attr(table.pages[0], name, 'width', width)
         table.column_comment(table.pages[0], name,
                              utilities._('COL_TITLE_cp_' + name))
@@ -74,7 +76,7 @@ def create(table):
     p = table.new_page('' ,configuration.root[0], '', '')
     table.table_attr(p, 'masters', list(configuration.root))
     update_column(table)
-    check(table, True)
+    check(table, from_create=True)
 
 def init(table):
     table.default_sort_column = 2
@@ -125,13 +127,16 @@ def onload(table):
         try:
             value = tuple(table.get_lines(p.name))[0][c].value
         except IndexError:
-            value = '()'
+            # Was not in the table
+            value = '("grp:' + p.group + '",)'
         p.invited = ()
         if value:
             try:
                 p.invited = eval(value)
+                if not p.invited:
+                    utilities.send_backtrace('config_plugin: ' + str(p))
             except:
-                utilities.send_backtrace('config_plugin')
+                utilities.send_backtrace('config_plugin: ' + str(p))
 
 def cell_change(table, page, col, lin, value, dummy_date):
     if configuration.regtest:

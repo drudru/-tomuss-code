@@ -192,10 +192,13 @@ def is_member_of(login, group):
         if group == '':
             result = True
         elif is_member_of_(login, "roots", member_of):
-            if '!' in group[0]:
-                result = False
+            if group:
+                if '!' in group[0]:
+                    result = False
+                else:
+                    result = True
             else:
-                result = True
+                result = False
         else:
             result = is_member_of_(login, group, member_of)
 
