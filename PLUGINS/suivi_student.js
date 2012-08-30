@@ -54,6 +54,7 @@ function show_empty()
 function initialize_suivi_real()
 {
   lib_init() ;
+  instant_tip_display = true ;
   document.getElementById('x').innerHTML = _("MSG_suivi_student_wait") ;
   
   var s ;
