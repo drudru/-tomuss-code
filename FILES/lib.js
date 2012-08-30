@@ -695,6 +695,8 @@ function show_the_tip(td, tip_content)
 	    s = '' ;
 	  if ( data_col === 0 )
 	    s += (1+myindex(filtered_lines, line)) + '<br>' ;
+	  if ( cell.value )
+	    s += '<b>' + html(cell.value) + '</b><br>' ;
 	  if ( i_am_root )
 	    s += 'line_id=' + line_id + ', col_id=' + column.the_id ;
 	  // highlight line
