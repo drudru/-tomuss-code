@@ -3385,7 +3385,8 @@ function lines_in_javascript()
 	{
 	  t = [] ;
 	  for(var data_col in columns)
-	    t.push(line[data_col].get_data()) ;
+	    if ( ! columns[data_col].is_empty )
+	      t.push(line[data_col].get_data()) ;
 
 	  x = the_student_abjs[line[0].value] ;
 	  if ( x && x[2] )
@@ -3407,6 +3408,8 @@ function columns_in_javascript()
   for(var data_col in columns)
     {
       column = columns[data_col] ;
+      if ( column.is_empty )
+	continue ;
       p = [] ;
 
       for(var attr in column_attributes)
