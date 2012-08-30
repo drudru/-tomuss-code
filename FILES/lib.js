@@ -1823,7 +1823,7 @@ function manage_window_resize_event()
 
 function login_list_ask()
 {
-	if ( the_current_cell.column.type != 'Login' )
+  if ( the_current_cell.column.type != 'Login' )
 		return ;
   if ( the_current_cell.initial_value != the_current_cell.input.value
        && the_current_cell.input.value.length > 1
@@ -1902,7 +1902,9 @@ function login_list(name, x)
   s += '</select>' ;
   var display_tips_saved = display_tips ;
   display_tips = true ;
+  instant_tip_display = true ;
   show_the_tip(the_current_cell.td, s) ;
+  instant_tip_display = false ;
   display_tips = display_tips_saved ;
   get_tip_element().onmousemove = function() { } ;
 
