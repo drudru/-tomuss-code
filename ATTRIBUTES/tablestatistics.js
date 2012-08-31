@@ -954,7 +954,7 @@ function statistics_display()
     return ;
   do_printable_display = false ;
 
-  document.getElementById('tip').style.display = 'none' ;
+  // document.getElementById('tip').style.display = 'none' ;
 
   sorted_cols = [] ;
   for(var c in columns)
@@ -1053,6 +1053,119 @@ function statistics_display()
 }
 
 //////////////////////////////////////////////////////////////////////////////
+
+function strange_grades()
+{
+  var stats = [], v ;
+  for(var c in columns)
+  {
+    if ( columns[c].type !== 'Note' )
+      continue ;
+    if ( columns[c].weight.substr(0,1) === '+'
+       || columns[c].weight.substr(0,1) === '-')
+      continue ;
+    var s=0, s2=0, n=0 ;
+    for(var line in lines)
+    {
+      v = lines[line][c].value ;
+      if ( v !== '' )
+      {
+	v = Number(v) ;
+	if ( ! isNaN(v) )
+	{
+	  s += v ;
+	  s2 += v*v ;
+	  n++ ;
+	}
+      }
+    }
+    if ( n > 2 )
+      stats.push([c, s/n, Math.pow((s*s - s2)/n, 0.5), 1000, -1000]) ;
+  }
+  if ( stats.length < 3 )
+  {
+    Alert("ALERT_stat_need_more_data") ;
+    return ;
+  }
+
+  var students = [] ;
+  for(var line in lines)
+  {
+    line = lines[line] ;
+    var norms = [] ;
+    var sum = 0, n = 0 ;
+    for(var s in stats)
+    {
+      s = stats[s] ;
+      v = line[s[0]].value ;
+      if ( v !== '' && ! isNaN(v) )
+      {
+	v = (v - s[1]) / s[2] ;
+	norms.push( v ) ;
+	sum += v ;
+	n++ ;
+      }
+      else
+	norms.push('') ;
+    }
+    if ( n > 2 )
+    {
+      sum /= n ;
+      var maxi = 0 ;
+      for(var i in norms)
+      {
+	if ( isNaN(norms[i]) ||  norms[i] === '')
+	  continue ;
+	norms[i] -= sum ;
+	maxi = Math.max(maxi, Math.abs(norms[i])) ;
+	if ( norms[i] < stats[i][3] )
+	  stats[i][3] = norms[i] ;
+	if ( norms[i] > stats[i][4] )
+	  stats[i][4] = norms[i] ;	  
+      }
+      students.push([maxi, line].concat(norms)) ;
+    }
+  }
+  students.sort(function(a,b) { return b[0] - a[0] ; }) ;
+    
+  v = _("MSG_stat_strange_grade_help")
+    + '<table class="colored" style="width:10%"><tr><th><th><th>' ;
+  for(var i in stats)
+    v += '<th>' + columns[stats[i][0]].title + '<br>'
+    + stats[i][1].toFixed(2) ;
+  var lin ;
+  for(var s in students)
+  {
+    s = students[s] ;
+    var lin = s[1], color ;
+    v += '<tr><td>'+lin[0].value + '<td>'+lin[1].value + '<td>'+lin[2].value ;
+    for(var c in s)
+    {
+      if ( c < 2 )
+	continue ;
+      if ( s[c] > 0 )
+      {	
+	color = "FEDCBA9876543210".substr(Math.floor(15.99*s[c]/stats[c-2][4]),1);
+	color = color + "F" + color ;
+      }
+      else if ( s[c] <= 0 )
+      {
+	color = "FEDCBA9876543210".substr(Math.floor(15.99*s[c]/stats[c-2][3]),1);
+	color = "F" + color + color ;
+      }
+      else
+	color = "#FFF" ;
+      v += '<td style="background:#' + color + '">' + lin[stats[c-2][0]].value;
+    }
+    v += '</tr>\n' ;
+  }
+  v += '</table>' ;
+
+  create_popup('strange_grades export_div', _("TITLE_stat_strange_grades"), v, '', false) ;
+
+}
+
+//////////////////////////////////////////////////////////////////////////////
 // Generate full statistic page
 //////////////////////////////////////////////////////////////////////////////
 
@@ -1082,6 +1195,9 @@ function display_statistics(object)
   p.push('}') ;
   p.push('</script>') ;
   p.push('<p class="hidden_on_paper">' + _("MSG_stat_export_spreadsheet"));
+  if ( i_am_root )
+    p.push('<br><a class="hidden_on_paper" href="javascript:strange_grades()">' + _("MSG_stat_strange_grades")
+	   + '</a>');
   p.push('<table class="hidden_on_paper">') ;
 
   var t = [], cols = column_list_all() ;
@@ -1149,7 +1265,6 @@ function display_statistics(object)
 
   p.push('</table>') ;
   p.push('<div style="clear:both" id="content"></div>') ;
-  p.push('<div id="tip"></div>') ;
   p.push('<script>') ;
   // The timeout is for IE
   p.push('setTimeout(initialize,100) ;') ;

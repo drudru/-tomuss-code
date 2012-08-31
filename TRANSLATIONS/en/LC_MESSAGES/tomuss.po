@@ -1721,6 +1721,23 @@ msgstr "Grouping is done using the date of the input of the value"
 msgid "B_stat_group_value"
 msgstr "value"
 
+msgid "MSG_stat_strange_grades"
+msgstr "I want to find strange grades"
+
+msgid "TITLE_stat_strange_grades"
+msgstr "The strange grades."
+
+msgid "MSG_stat_strange_grade_help"
+msgstr "Firstly are displayed the students with the most strange grade.\n"
+       "It's green if the grade is above the average, red if under.\n"
+       "The more flashy the color, the strangest is the grade."
+
+msgid "ALERT_stat_need_more_data"
+msgstr "More filled lines and columns are needed to find strange grades.\n"
+       "At least 3 columns and lines are needed."
+
+
+
 msgid "MSG_abjtt_from_before"
 msgstr "ABJ of"
 

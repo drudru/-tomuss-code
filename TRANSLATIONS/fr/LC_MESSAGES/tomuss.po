@@ -1718,6 +1718,23 @@ msgstr "En fonction de la date de saisie de la valeur"
 msgid "B_stat_group_value"
 msgstr "valeur"
 
+msgid "MSG_stat_strange_grades"
+msgstr "Je veux trouver les notes étranges."
+
+msgid "TITLE_stat_strange_grades"
+msgstr "Les notes étranges."
+
+msgid "MSG_stat_strange_grade_help"
+msgstr "En premier sont affichés les étudiants\n"
+       "qui ont la note la plus étrange.\n"
+       "En vert les notes au dessus de la moyenne de l'étudiant\n"
+       "et en rouge au dessous.\n"
+       "Plus la couleur est vive, plus la note s'écarte de la moyenne."
+       
+msgid "ALERT_stat_need_more_data"
+msgstr "Il n'y a pas assez de colonnes et lignes pleines pour trouver\n"
+       "les notes étranges. Il faut au minimum 3 colonnes et 3 lignes."
+
 
 msgid "MSG_abjtt_from_before"
 msgstr "ABJ du"

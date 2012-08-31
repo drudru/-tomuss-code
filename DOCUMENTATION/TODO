@@ -8,15 +8,8 @@ Nouvelles fonctionnalités.
 Utilisateurs finaux.
 --------------------
 
-* Trouve notes étranges :
-  Normalise les notes de l'étudiant par rapport à la promo
-
 * Onglet pour Impression pour ne pas submerger le lecteur d'options
   
-* https://services.renater.fr/federation/docs/fiches/shibbolisation
-  http://lasso.entrouvert.org/
-  http://support.onelogin.com/entries/20285277-saml-toolkit-for-python
-
 * Type de colonne Switch (SI)
 
 * Affichage histogramme tronqué.
@@ -24,6 +17,10 @@ Utilisateurs finaux.
   des cas particuliers (ABI ABJ PPN TNR...)
 
 * Déplacer les infos du titre dans un onglet Info du bloc table
+
+* https://services.renater.fr/federation/docs/fiches/shibbolisation
+  http://lasso.entrouvert.org/
+  http://support.onelogin.com/entries/20285277-saml-toolkit-for-python
 
 * Non semestrialisation : seul le responsable
 
