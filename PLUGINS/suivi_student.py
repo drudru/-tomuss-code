@@ -262,8 +262,8 @@ hidden('<a href="%s/suivi_student_charte.html" target="_blank">'
         rss = '%s/rss/%s' % (utilities.StaticFile._url_, key)
         s.append('''<script>
 hidden('<a href="%s">' + _("MSG_suivi_student_RSS") +
-       '<img src="/feed.png" style="border:0px"></a>\',
-       _("TIP_suivi_student_RSS"));</script>''' % rss)
+       '<img src="%s/feed.png" style="border:0px"></a>\',
+       _("TIP_suivi_student_RSS"));</script>''' % (rss, utilities.StaticFile._url_))
         s.append('<link href="%s" rel="alternate" title="TOMUSS" type="application/rss+xml">' % rss)
  
     
@@ -386,10 +386,9 @@ def suivi_headers(server, is_student=True):
         + "</script>\n"
         + "</head>\n"
         + '<body class="%s">\n' % server.semester
-        + '<div id="top">'
+        + '<div id="top"></div>'
         + '<div id="allow_inline_block" class="notes"></div>\n'
         + '<p id="x" style="background:yellow"></p>'
-        + '</div>'
         + '<script>\n'
         + utilities.wait_scripts()
         + 'function initialize_suivi()'

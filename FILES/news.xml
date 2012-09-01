@@ -709,6 +709,22 @@ Les améliorations les plus visibles sont :
       </description>
       <guid>49</guid>
     </item>
+    <item>
+      <title>1/09/2012 : Version 5.0.1</title>
+      <link>http://tomuss.univ-lyon1.fr/</link>
+      <description>
+	Cette version devrait mieux fonctionner sur les tablettes
+	pour la saisie de notes.
+	&lt;p&gt;
+	La bulle d'aide liée à une cellule de la table
+	permet de voir la valeur de la cellule non tronquée.
+	&lt;p&gt;
+	Dans les statistiques, un utilitaire permet de trouver les notes
+	étranges qui ne sont pas logiques avec les autres notes
+	de l'étudiant dans l'UE.
+      </description>
+      <guid>50</guid>
+    </item>
 
   </channel>
 </rss>
