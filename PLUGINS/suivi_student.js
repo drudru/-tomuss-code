@@ -66,7 +66,7 @@ function initialize_suivi_real()
     + '<a href="mailto:' + maintainer + '?subject='
     + escape(_('MSG_suivi_student_mail_subject')) + '&body='
     + escape(_('MSG_suivi_student_mail_body')).replace(/\n/g, '%0A')
-    + _('MSG_suivi_student_mail_link') + '</a>, '
+    + '">' +  _('MSG_suivi_student_mail_link') + '</a>, '
     + '<a href="_URL_/logout">' + _("LABEL_logout") +'</a> '
     + '<b>' + username + '</b><br>' ;
 
@@ -90,5 +90,5 @@ function initialize_suivi_real()
       + message ;
   }
   
-  document.getElementById('top').innerHTML += s ;
+  document.getElementById('top').innerHTML = s ;
 }
