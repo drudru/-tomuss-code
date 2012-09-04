@@ -20,6 +20,23 @@
   Contact: Thierry.EXCOFFIER@bat710.univ-lyon1.fr
 */
 
+/*REDEFINE
+  Add more link to the UE menu on home page
+*/
+function ue_line_more_links(code)
+{
+  return '' ;
+}
+
+/*REDEFINE
+  Add more link to the student menu on home page
+*/
+function student_line_more_links(login)
+{
+  return '' ;
+}
+
+
 function _UE(name, responsable, intitule, parcours, code, login,
 	     nr_students_ue, nr_students_ec, planning, tt, credit, old_names)
 {
@@ -299,12 +316,6 @@ function ue_line_click_more()
 var ue_line_over_plus_width ;
 var ue_line_over_code ;
 
-// To be redefined
-function ue_line_more_links(code)
-{
-  return '' ;
-}
-
 function ue_line_over(code, t, click_more)
 {
   ue_line_over_code = code ;
@@ -356,12 +367,6 @@ function ue_line_over(code, t, click_more)
 
   ue_line_over_plus.childNodes[0].onclick = click_more ;
   t.className += ' hover' ;
-}
-
-// To be redefined
-function student_line_more_links(login)
-{
-  return '' ;
 }
 
 function get_student_information(login)
