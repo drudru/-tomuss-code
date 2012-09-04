@@ -221,6 +221,8 @@ var header_height ;
 
 function compute_nr_lines(first)
 {
+  if ( ! table )
+    return ;
   if ( ! header_height )
     {
       setTimeout("header_height = findPosY(the_current_cell.input); compute_nr_lines(true);table_init();table_fill(true,true,true)", 1000) ;
@@ -3883,7 +3885,6 @@ function runlog(the_columns, the_lines)
 {
   columns = the_columns ;
   lines = the_lines ;
-
   lib_init() ;
 
   if ( test_bool(preferences.display_tips) == no )
@@ -3986,29 +3987,34 @@ function runlog(the_columns, the_lines)
   // This function is used when we want to replace the current window
   // content by the popup content.
   // It is NEEDED because some browser open popup UNDER the current window
-  function replace_window_content(w)
+  function replace_window_content(new_one)
   {
     for(var i in the_body.childNodes)
       if ( the_body.childNodes[i].style )
 	the_body.childNodes[i].style.display = 'none' ;
+    the_body.onunload = '' ;
+    the_body.onkeydown = '' ;
+    w = new_one() ;
     
     if (w)
       setTimeout(function() { if ( popup_blocker ) { Alert("ALERT_popup");popup_blocker=false;}} , 10000) ;
   }
-
   if ( get_option('print-table', 'a') !== 'a' )
     {
-      replace_window_content(print_selection(undefined, undefined, '_self'));
+      replace_window_content(function()
+			     { print_selection(undefined,undefined,'_self')});
       return ;
     }
   if ( get_option('signatures-page', 'a') !== 'a' )
     {
-      replace_window_content(print_selection(undefined, 1, '_self')) ;
+      replace_window_content(function()
+			     { print_selection(undefined, 1, '_self')}) ;
       return ;
     }
   if ( get_option('facebook', 'a') !== 'a' )
     {
-      replace_window_content(tablefacebook('_self')) ;
+      replace_window_content(function()
+			     { tablefacebook('_self')}) ;
       return ;
     }
   if ( table_forms_element || get_option('tableforms', 'a') !== 'a' )
