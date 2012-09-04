@@ -3893,7 +3893,8 @@ function runlog(the_columns, the_lines)
     
   if ( test_bool(preferences.invert_name) == yes
        && columns.length > 2
-       && columns[2].title == 'Nom'
+       // XXX the test is not working if the user language != server language
+       && columns[2].title == _("COL_TITLE_0_2")
        )
     {
       columns[2].position = columns[1].position - 0.1 ;

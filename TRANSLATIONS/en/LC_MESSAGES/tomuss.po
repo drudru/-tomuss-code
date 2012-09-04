@@ -764,7 +764,7 @@ msgstr "the server <b>rejected the value change</b>.<br>\n"
 
 #. Tip cell attribute
 msgid "TIP_violet_square"
-msgstr "The is a <b>bug</b> somewhere,<br>\n"
+msgstr "There is a <b>bug</b> somewhere,<br>\n"
        "the administrator must have received a mail pointing the problem."
 
 #. Label cell attribute
