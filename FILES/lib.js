@@ -221,11 +221,9 @@ var header_height ;
 
 function compute_nr_lines(first)
 {
-  if ( ! table )
-    return ;
   if ( ! header_height )
     {
-      setTimeout("header_height = findPosY(the_current_cell.input); compute_nr_lines(true);table_init();table_fill(true,true,true)", 1000) ;
+      setTimeout("if ( ! table ) return ; header_height = findPosY(the_current_cell.input); compute_nr_lines(true);table_init();table_fill(true,true,true)", 1000) ;
       table_attr.nr_lines = 1 ;
       return ;
     }
