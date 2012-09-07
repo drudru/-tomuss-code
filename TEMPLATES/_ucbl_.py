@@ -250,9 +250,8 @@ def update_student(table, page, the_ids, infos):
             else:
                 title = ''
             table.column_change (table.pages[0],
-                                 table.columns[i].the_id,
+                                 "0_%d" % i,
                                  title, 'Text', '', '', '', 0, 6)
-        
         for key, x in table.get_items(the_id):
             # do not erase user provided information
             if ((grp != '' or x[3].author == data.ro_user)
