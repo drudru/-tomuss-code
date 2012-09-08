@@ -707,6 +707,10 @@ If this function raise an exception, the value will not be stored in the table.
      Semester templates defined are:
 </p>
     <ul>
+      <li>  '<b>LOCAL/LOCAL_TEMPLATES/Example.py</b>'
+          is a commented template.
+	  Create your own templates from this simple one.
+      </li>
       <li> '<b>Printemps</b>', '<b>Automne</b>','<b>Test</b>' are
           standard table to enter data about students.</li>
       <li> '<b>Preferences</b>' is the standard table to enter user
