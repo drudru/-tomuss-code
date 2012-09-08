@@ -250,6 +250,8 @@ class Table(object):
             setattr(self, attr.name, d)
 
         x = teacher.all_ues().get(self.ue_code.split('-')[-1], None)
+        if not x:
+            x = teacher.all_ues().get(self.ue_code, None)
         if x:
             self.table_title = x.intitule().title().encode('utf-8')
             self.code = x.code()
