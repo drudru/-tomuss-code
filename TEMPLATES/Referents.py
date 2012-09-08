@@ -87,7 +87,7 @@ def init(table):
 
 def check_columns(table):
     if len(table.columns) != 0 and table.columns.from_id('FiRe') is None:
-        table.modifiable = False
+        table.modifiable = 0
         return # Old table : no more columns update
     for k, v in referent_columns.items():
         x = utilities._('COL_TITLE_' + k)
