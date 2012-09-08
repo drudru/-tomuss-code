@@ -100,7 +100,6 @@ def ticket_login_name(ticket_key, service, server=None):
 # The browser is redirected on the CAS authentification service.
 def ticket_ask(server, dummy_server_url, service):
     service = canonize(service)
-    server.send_response(307)
     if not configuration.cas:
         # Assume you are using .htaccess and Apache
         import random
@@ -113,6 +112,7 @@ def ticket_ask(server, dummy_server_url, service):
                 configuration.cas,
                 service))
     server.end_headers()
+    server.close_connection_now()
     return None, None
 
 #REDEFINE
@@ -162,30 +162,27 @@ def get_path(server, server_url):
                             ):
                     # Update the old ticket
                     ticket.tickets[path[1]] = ticket.clone(path[1], t)
-                    server.send_response(200)
-                    server.send_header('Content-Type', 'text/html')
+                    server.send_header('Location', utilities.StaticFile._url_
+                                       + '/auth_close.html'
+                                       )
                     server.end_headers()
-                    server.wfile.write(server._("MSG_authentication_close")
-                                       + '<script>window.close();</script>')
+                    server.close_connection_now()
                 else:
-                    server.send_response(200)
-                    server.send_header('Content-Type', 'text/html')
+                    server.send_header('Location', utilities.StaticFile._url_
+                                       + '/allow_error.html'
+                                       )
                     server.end_headers()
-                    server.wfile.write(server._("TIP_violet_square"))
+                    server.close_connection_now()
                     utilities.send_backtrace('bad allow request',
                                              exception=False)
                 return None, None
 
+            # XXX
             # If it is a student, no need to redirect it to the good URL
-            if len(user_name) > 2 and user_name[1].isdigit():
-                return t, path
+            # if len(user_name) > 2 and user_name[1].isdigit():
+            #     return t, path
 
             # We want the client to see the "good" url
-            try:
-                server.send_response(307)
-            except AttributeError:
-                warn("Can't redirect", what='error')
-                return None, None
             if '=TICKET' in server_url:
                 location = '%s/%s' % (
                     server_url.replace('=TICKET', '=' + ticket_key),
@@ -196,6 +193,7 @@ def get_path(server, server_url):
 
             server.send_header('Location', location.strip('/'))
             server.end_headers()
+            server.close_connection_now()
             return None, None
 
     warn("No or bad ticket: Redirect the browser", what="auth")
@@ -213,45 +211,31 @@ def update_ticket(tick):
         tick.password_ok = True
 
 def authentication_thread():
+    """The send_response 307 (redirection) is yet done"""
     ticket.remove_old_files()
     while True:
         time.sleep(0.1)
         while len(authentication_requests):
             x = authentication_requests.pop()
-            while not x.wfile.closed:
+            while not x.wfile.closed or not x.rfile.closed:
                 time.sleep(0.01)
             # now it is safe because the Handler has closed the file
             x.restore_connection()
-            tick = x.ticket
             try:
-                what = 'init'
-                if tick == None:
-                    what = 'no-ticket'
+                if x.ticket == None:
                     x.ticket, x.the_path = get_path(x, authentication_redirect)
-                    tick = x.ticket
-                    if tick == None:
-                        x.close_connection_now()
+                    if x.ticket == None:
                         x.log_time('redirection')
                         continue # Redirection done
 
-                what = 'update-ticket'
-                update_ticket(tick)
+                update_ticket(x.ticket)
+                x.send_header('Location', x.path)
+                x.end_headers()
+                x.close_connection_now()
 
-                x.log_time('authentication')
-                x.start_time_old = x.start_time
-                x.start_time = time.time()
-
-                what = 'send-answer'
-                try:
-                    x.server.__class__.do_GET_real_real_safe.im_func(x)
-                except TypeError:
-                    x.server.__class__.do_GET_real_real_safe.__func__(x)
-                what = 'close'
-                if not x.please_do_not_close:
-                    x.close_connection_now()
             except (IOError, socket.error):
                 utilities.send_backtrace(
-                    '', subject = 'AUTH '+ what + ' ' + str(tick)[:-1])
+                    '', subject = 'AUTH '+ str(x.ticket)[:-1])
 
 def run_authentication():
     utilities.start_new_thread_immortal(authentication_thread, ())

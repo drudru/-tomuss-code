@@ -8,6 +8,13 @@ Nouvelles fonctionnalités.
 Utilisateurs finaux.
 --------------------
 
+* traduction image fond
+
+* Pourcentage d'ABJ pour le résultat d'un calcul en fonction du poids
+  des colonnes moyennées. En faire un type de colonne
+
+* ticket.remove_old_files()
+
 * Onglet pour Impression pour ne pas submerger le lecteur d'options
   
 * Type de colonne Switch (SI)
@@ -25,9 +32,6 @@ Utilisateurs finaux.
 * Non semestrialisation : seul le responsable
 
 * Insérer les lignes qui viennent du serveur aux bons endroits
-
-* Pourcentage d'ABJ pour le résultat d'un calcul en fonction du poids
-  des colonnes moyennées.
 
 * Choix de la colonne triée par défaut modifiable interactivement
 
@@ -179,6 +183,11 @@ Problèmes non reproductibles
 =============================
 Améliorations de code source.
 =============================
+
+* Enlever _URL_ si c'est possible
+
+* Séparer les fichiers "static" ailleurs, se débarrasser de 'translation'
+  qui empêche cela
 
 * Faire une procédure de serveur feedback générique
 

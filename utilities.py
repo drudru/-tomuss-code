@@ -509,7 +509,7 @@ class StaticFile(object):
                 }
     _url_ = 'http://???/'
                 
-    def __init__(self, name, mimetype=None, translate=None):
+    def __init__(self, name, mimetype=None, translate=None, content=None):
         self.name = name
         if mimetype == None:
             if '.' in name:
@@ -518,8 +518,12 @@ class StaticFile(object):
                     n = name.split('.')[-2]
                 mimetype = self.mimetypes[n]
         self.mimetype = mimetype
-        self.content = None
-        self.time = 0
+        self.content = content
+        if self.content:
+            # Not a file, so NEVER reload it
+            self.time = 1e40
+        else:
+            self.time = 0
         self.append_text = {}
         self.replace_text = {}
         if translate is None:
@@ -937,44 +941,19 @@ def __(txt):
 
 import BaseHTTPServer
 
+
 class FakeRequestHandler(BaseHTTPServer.BaseHTTPRequestHandler):
-    """Used because there is only only one request handler for every request.
-    And the initial TOMUSS version was not assuming this.
-    A clean program must not store information in the request handler object
+    """
     """
     posted_data = None
     please_do_not_close = False
-    
-    def __init__(self, *args, **keys):
-        if len(args) != 1:
-            BaseHTTPServer.BaseHTTPRequestHandler.__init__(self, *args)
-            return
-        server = args[0]
-        if 'full' in keys:
-            self.__dict__.update(server.__dict__)
-        else:
-            self.path = server.path
-            self.client_address = server.client_address
+    timeout = 0.3 # For Opera that does not send GET on HTTP request
             
-        self.the_path = server.the_path
-        self.headers = {} # Safest to make a copy in case of reuse.
-        for k,v in server.headers.items():
-            self.headers[k.lower()] = v
-
-        self.ticket = server.ticket
-        self.the_file = server.the_file
-        self.start_time = server.start_time
-        self.posted_data = server.posted_data
-        if hasattr(server, 'start_time_old'):
-            self.start_time_old = server.start_time_old
-        self.server = server
-
-        try:
-            self.year = server.year
-            self.semester = server.semester
-            self.the_port = server.the_port
-        except AttributeError:
-            pass
+    def send_response(self, i):
+        BaseHTTPServer.BaseHTTPRequestHandler.send_response(self, i)
+        # Needed for HTTP/1.1 requests
+        self.send_header('Connection', 'close')
+        self.wfile.flush()
 
     def backtrace_html(self):
         s = repr(self) + '\nRequest started %f seconds before\n' % (
@@ -997,12 +976,14 @@ class FakeRequestHandler(BaseHTTPServer.BaseHTTPRequestHandler):
 
     def log_time(self, action, **keys):
         try:
-            self.server.__class__.log_time.im_func(self, action, **keys)
+            self.__class__.log_time.im_func(self, action, **keys)
         except TypeError:
-            self.server.__class__.log_time.__func__(self, action, **keys)
+            self.__class__.log_time.__func__(self, action, **keys)
 
     def do_not_close_connection(self):
         self.wfile = Useles
+        self.the_rfile = self.rfile
+        self.rfile = Useles
         self.please_do_not_close = True
         try:
             # self.request is self.connection
@@ -1018,16 +999,18 @@ class FakeRequestHandler(BaseHTTPServer.BaseHTTPRequestHandler):
 
     def restore_connection(self):
         self.wfile = self.the_file
+        self.rfile = self.the_rfile
         self.please_do_not_close = False
         try:
             self.request._sock = self.the_sock
-            self.headers['fp'] = self.the_fp
+            self.headers.__dict__['fp'] = self.the_fp
         except ValueError:
             # Before Python 2.7
             pass
 
     def close_connection_now(self):
         self.the_file.close()
+        self.the_rfile.close()
         try:
             self.the_fp.close()
             self.the_sock.close()
@@ -1071,6 +1054,12 @@ def init(launch_threads=True):
         s += "%s = %s;\n" % (k, js(_(k)))
     import files # Here to avoid circular import
     files.files['types.js'].append("utilities.py", s)
+    files.files['auth_close.html'] = StaticFile(
+        'auth_close.html',
+        content=_("MSG_authentication_close")
+        + '<script>window.close();</script>')
+    files.files['allow_error.html'] = StaticFile(
+        'allow_error.html', _("TIP_violet_square"))
 
 if __name__ == "__main__":
     def square(g):

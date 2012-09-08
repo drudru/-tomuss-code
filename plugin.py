@@ -515,8 +515,7 @@ def dispatch_request(server, manage_error=True):
     
     if p.keep_open or p.launch_thread:
         server.do_not_close_connection()
-        if server.__class__ is not utilities.FakeRequestHandler:
-            server = utilities.FakeRequestHandler(server, full=True)
+        server.please_do_not_close = True
         warn('keep_open (closed=%s)' % server.the_file.closed, what='plugin')
 
     if p.launch_thread:

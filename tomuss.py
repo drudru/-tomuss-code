@@ -126,6 +126,8 @@ class MyRequestBroker(utilities.FakeRequestHandler):
         self.path = self.path.replace('%01', '%2F').replace('%02', '%3F')
 
         if ticket.client_ip(self) in configuration.banned_ip:
+            self.send_file('bad.png')
+            self.log_time('static-file')
             return
 
         if self.path != '/' and self.path[1:] in files:
@@ -149,7 +151,7 @@ class MyRequestBroker(utilities.FakeRequestHandler):
             self.send_response(200)
             self.send_header('Cache-Control', 'no-cache')
             self.send_header('Cache-Control', 'no-store')
-            self.send_header('Content-Type', 'test/plain')
+            self.send_header('Content-Type', 'text/plain')
             self.end_headers()
             self.wfile.write('stopped')
             running = False
@@ -191,12 +193,13 @@ class MyRequestBroker(utilities.FakeRequestHandler):
 
         self.the_file = self.wfile
 
-        # Don't want to be blocked by 'is_an_abj_master' test
+        # Don't want to be blocked by authentication
         if self.ticket is None or not hasattr(self.ticket, 'password_ok'):
-            self.do_not_close_connection()
             warn('Append to authentication queue', what="auth")
-            authentication.authentication_requests.append(
-                utilities.FakeRequestHandler(self, full=True))
+            self.send_response(307)
+            # The Connection:close is sent by send_response to please HTTP/1.1
+            self.do_not_close_connection()
+            authentication.authentication_requests.append(self)
         else:
             plugin.dispatch_request(self)
         warn('the_file=%s(%s) wfile=%s' % (self.the_file,
@@ -209,9 +212,6 @@ class MyRequestBroker(utilities.FakeRequestHandler):
         plugin.dispatch_request(self)
 
     def do_GET(self):
-        # self.rfile.close()
-        # self.wfile = FileProxy(self.wfile)
-
         global current_time
         self.start_time = time.time()
         if self.start_time - current_time > configuration.unload_interval:
