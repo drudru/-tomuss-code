@@ -39,12 +39,10 @@ def display(server):
         nr_cols += len(what)-1
         if tables[-1][0] is None:
             f.write(server._("MSG_suivi_extract_unknown") + what[0])
-            server.close_connection_now()
             return
             
         if not tables[-1][0].readable_by(server.ticket):
             f.write(server._("MSG_suivi_extract_unreadable")+ tables[-1][0].ue)
-            server.close_connection_now()
             return
 
   
@@ -68,7 +66,6 @@ def display(server):
             if column is None:
                 f.write(server._("MSG_suivi_extract_no_col") + column_title
                         + server._("MSG_suivi_extract_in") + table.ue + '\n')
-                server.close_connection_now()
                 return
             data_col = column.data_col
             for line in table.lines.values():
@@ -105,7 +102,6 @@ def display(server):
                 '<td>'.join(values) + '</tr>\n')
     f.write('</tbody>')
     f.write('</table>')
-    server.close_connection_now()
 
 def page(server):
     """Extract named columns from tables, display as an HTML table
@@ -128,11 +124,9 @@ def display_fusion(server,
         table = document.table(year, semester, what[0], ro=True, create=False)
         if table is None:
             f.write(server._("MSG_suivi_extract_unknown") + what[0])
-            server.close_connection_now()
             return
         if not table.readable_by(server.ticket):
             f.write(server._("MSG_suivi_extract_unreadable") + what[0])
-            server.close_connection_now()
             return
 
         coli = table.column_inscrit()
@@ -169,7 +163,6 @@ def display_fusion(server,
             if column is None:
                 f.write(server._("MSG_suivi_extract_no_col") + column_title
                         + server._("MSG_suivi_extract_in") + table.ue + '\n')
-                server.close_connection_now()
                 return
             data_col = column.data_col
             for line in table.lines.values():
@@ -197,8 +190,6 @@ def display_fusion(server,
                 + ''.join(values) + '</tr>\n')
     f.write('</tbody>')
     f.write('</table>')
-    server.close_connection_now()
-
 
 def fusion(server):
     """Fusion of named columns from tables, display as an HTML table

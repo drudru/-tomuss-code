@@ -33,12 +33,9 @@ def change_identity(server):
                            server.ticket.date)
     authentication.update_ticket(server.ticket)
     server.the_file.write(server._("MSG_change_identity_done"))
-    server.close_connection_now()
-    
 
 plugin.Plugin('change_identity', '/change_identity/{*}',
               group='roots', function=change_identity,
-              keep_open = True,
               launch_thread = True,
               link=plugin.Link(text=utilities._("LINK_change_identity") +
                                '<form style="margin:0" action="javascript:var m = document.getElementById(\'new_identity\').value ; window.location=\'/=\'+ticket+\'/change_identity/\' + m"><input id="new_identity" class="search_field" name="x" class="keyword" value="john.doe"></form>',

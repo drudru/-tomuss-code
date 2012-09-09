@@ -104,6 +104,5 @@ def resume(server):
     
 plugin.Plugin('resume', '/resume/{*}',
               function=resume, group='staff',
-              keep_open = True,
               launch_thread = True)
 
