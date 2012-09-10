@@ -127,6 +127,7 @@ def update_inscrits_referents(the_ids, table, page):
     else:
         contrat = 'CON2'
 
+    fire = table.columns.from_id('FiRe').data_col
     done = {}
     current_year = str(utilities.university_year())[-2:]
     for the_id in referent.students_of_a_teacher(utilities.module_to_login(table.ue)):
@@ -159,7 +160,10 @@ def update_inscrits_referents(the_ids, table, page):
             table.cell_change(page, "0_0"   ,line, the_id)
             table.cell_change(page, "0_1"   ,line, firstname.encode('utf-8'))
             table.cell_change(page, "0_2"   ,line, surname.encode('utf-8'))
-            table.cell_change(page, "FiRe"  ,line, pe)
+
+            if lines and line[fire].value == '':
+                #  FiRe only setted if empty, it must never change
+                table.cell_change(page, "FiRe"  ,line, pe)
             table.cell_change(page, contrat ,line, s)
 
         finally:
