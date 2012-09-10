@@ -694,7 +694,7 @@ TABLE.colored TR TD {
 }
 
 /* 'display: none' does not work because JavaScript change it */
-DIV#tip * { display: none; margin: 0px ; }    
-DIV#tip   {border: 0px ; padding: 0px ; }
+DIV#tip *, DIV#tip_plus * { display: none; margin: 0px ; }    
+DIV#tip, DIV#tip_plus {border: 0px ; padding: 0px ; }
 
 }
