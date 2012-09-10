@@ -3297,6 +3297,9 @@ msgstr "%s n'a pas de référent"
 msgid "MSG_referent_get_orphan_quit"
 msgstr " a quitté "
 
+msgid "MSG_referent_get_problem"
+msgstr "Il y a eu un problème. Est-ce un étudiant ?"
+
 msgid "LINK_orphan_students"
 msgstr "Enlever le référent d'étudiants"
 

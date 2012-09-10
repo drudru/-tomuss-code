@@ -53,7 +53,14 @@ def referent_get_a_student(server, login, students, student,
                 server.the_file.write('%s%s\n' % (
                         student, server._("MSG_referent_get_yet_referent")))
                 return
-        referent.add_student_to_referent(login, student)
+        try:
+            referent.add_student_to_referent(login, student)
+        except:
+            utilities.send_backtrace('referent get %s' % student)
+            server.the_file.write('%s : %s %s %s\n' % (
+                    student, firstname.encode('utf8'), surname.encode('utf8'),
+                    server._("MSG_referent_get_problem")))
+            return
 
         server.the_file.write('%s : %s %s\n' % (
             student, firstname.encode('utf8'), surname.encode('utf8')))

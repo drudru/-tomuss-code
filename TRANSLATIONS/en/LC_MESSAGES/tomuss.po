@@ -3275,6 +3275,9 @@ msgstr "%s has no referent teacher"
 msgid "MSG_referent_get_orphan_quit"
 msgstr " quitted "
 
+msgid "MSG_referent_get_problem"
+msgstr "There is a problem. Is this a student ?"
+
 msgid "LINK_orphan_students"
 msgstr "Remove the referent teacher of a set of student"
 
