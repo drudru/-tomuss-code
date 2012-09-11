@@ -2534,6 +2534,9 @@ msgstr "Copy done (%.1fKo), checking if all is fine."
 msgid "MSG_tablecopy_done"
 msgstr "OK: Copy seems fine."
 
+msgid "MSG_tablecopy_cant"
+msgstr "Impossible to copy: the semester does not exist."
+
 msgid "ALERT_tabledates_2"
 msgstr "Enter 2 dates separated by a space"
 

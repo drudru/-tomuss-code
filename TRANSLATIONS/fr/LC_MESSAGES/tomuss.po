@@ -2533,6 +2533,8 @@ msgstr "Copie terminée (%.1fKo), début de vérification."
 msgid "MSG_tablecopy_done"
 msgstr "OK: Copie faite sans erreur."
 
+msgid "MSG_tablecopy_cant"
+msgstr "Copie impossible : le semestre n'existe pas."
 
 msgid "ALERT_tabledates_2"
 msgstr "Saisir les 2 dates séparées par un espace"

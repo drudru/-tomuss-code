@@ -72,7 +72,12 @@ def tablecopy(server):
         return
 
     filename = document.table_filename(dest_year, dest_semester, server.the_ue)
-    utilities.write_file_safe(filename, c)
+    try:
+        utilities.write_file_safe(filename, c)
+    except IOError:
+        server.the_file.write(_("MSG_tablecopy_cant") + "\n")
+        return
+        
     server.the_file.write(_("MSG_tablecopy_check") % (len(c)/1024.) + "\n")
     dest_table = document.table(dest_year, dest_semester,
                                 server.the_ue, create=False)
