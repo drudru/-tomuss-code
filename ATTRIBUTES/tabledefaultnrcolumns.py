@@ -28,4 +28,7 @@ class TableDefaultNrColumns(TableAttr):
     css = "#menutop #t_table_attr_default_nr_columns { width: 3em ; }"
     
     def encode(self, value):
-        return int(value)
+        try:
+            return int(value)
+        except ValueError:
+            return 0
