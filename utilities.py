@@ -521,7 +521,7 @@ class StaticFile(object):
         self.content = content
         if self.content:
             # Not a file, so NEVER reload it
-            self.time = 1e40
+            self.time = -1
         else:
             self.time = 0
         self.append_text = {}
@@ -537,7 +537,8 @@ class StaticFile(object):
         self.translate = translate
 
     def __str__(self):
-        if self.content == None or self.time != os.path.getmtime(self.name):
+        if self.time != -1 and (self.content == None
+                                or self.time != os.path.getmtime(self.name)):
             self.time = os.path.getmtime(self.name)
             content = read_file(self.name)
             for old, new in self.replace_text.values():
