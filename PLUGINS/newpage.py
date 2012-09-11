@@ -124,6 +124,7 @@ def new_page(server):
         return
 
     if not table.on_disc:
+        table.do_not_unload_add(-1)
         server.the_file.write("%s/%s/%s" % (
                 server.the_year, server.the_semester, server.the_ue))
         server.the_file.write(server._("MSG_new_page_in_past"))
