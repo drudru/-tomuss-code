@@ -68,6 +68,14 @@ msgid "H_Mail"
 msgstr "Display the mail of the people whose ID is in the indicated column."
 
 #. Columns types, button text in the menu
+msgid "B_First_Registration"
+msgstr "First Registration(ID)"
+
+msgid "H_First_Registration"
+msgstr "Display 0 if it is not the first student registration.\n"
+       "Else it displays the year of inscription"
+
+#. Columns types, button text in the menu
 msgid "B_Moy"
 msgstr "Average"
 

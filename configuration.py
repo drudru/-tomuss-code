@@ -209,15 +209,25 @@ def is_an_official_ue(code):
     return 1
 
 #REDEFINE
-# Returns True if the student is in the first year.
-# The information is displayed in the 'blocnote'
-def student_in_first_year(login):
+# Returns 0 if it is not the first registration of the student.
+# Else, returns the year of the first registration.
+def first_registration(login):
     import inscrits
     if login[1:3] == current_year:
         for group in inscrits.L_batch.member_of_list(login):
             if '1A,OU=' in group:
-                return True
-    return False
+                return 1
+            if '2A,OU=' in group:
+                return 2
+            if '3A,OU=' in group:
+                return 3
+    return 0
+
+#REDEFINE
+# Returns True if the student is in the first year.
+# The information is displayed in the 'blocnote'
+def student_in_first_year(login):
+    return first_registration(login) == 1
 
 
 # LDAP informations

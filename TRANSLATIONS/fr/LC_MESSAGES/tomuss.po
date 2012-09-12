@@ -62,6 +62,14 @@ msgstr "Affiche l'adresse mail de la personne dont l'identifiant<br>\n"
        "est dans la colonne indiquée"
 
 #. Columns types, button text in the menu
+msgid "B_First_Registration"
+msgstr "Première Inscription(ID)"
+
+msgid "H_First_Registration"
+msgstr "Affiche 0 si ce n'est pas la première inscription de l'étudiant,\n"
+       "sinon en quelle année il suit: 1, 2, 3"
+
+#. Columns types, button text in the menu
 msgid "B_Moy"
 msgstr "Moyenne"
 

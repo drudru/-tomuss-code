@@ -8,6 +8,14 @@ Nouvelles fonctionnalités.
 Utilisateurs finaux.
 --------------------
 
+* titre dans table etape
+
+* Faire doc d'installation pas par pas
+
+* Faire une table de configuration du template (les variables)
+
+* Corriger bugs reçus par mail (referent_get et autres)
+
 * traduction image fond
 
 * Pourcentage d'ABJ pour le résultat d'un calcul en fonction du poids
@@ -98,6 +106,8 @@ Utilisateurs finaux.
 Administrateur.
 ---------------
 
+* Reload plugins doit recharger les templates
+
 * Cleanup d'un tableau sur place : config_table par exemple
 
 * Afficher les lock de tables
@@ -130,8 +140,6 @@ Problèmes à résoudre.
 =====================
 
 * Emploi du temps : manque des UE (TVL)
-
-* Primo entrant dans le bloc note de printemps
 
 * Perte photo quand déconnexion puis reconnexion réseau
 
@@ -183,6 +191,8 @@ Problèmes non reproductibles
 =============================
 Améliorations de code source.
 =============================
+
+* Faire une fonction 'is_a_student(login)'
 
 * Enlever _URL_ si c'est possible
 
