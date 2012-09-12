@@ -500,7 +500,7 @@ function get_tip_element()
       document.getElementsByTagName('BODY')[0].appendChild(tip) ;
       tip_plus = document.createElement('div') ;
       tip_plus.id = 'tip_plus' ;
-      tip_plus.innerHTML = '<span>?</span>' ;
+      tip_plus.innerHTML = '?' ;
       tip_plus.style.display = "none" ;
       document.getElementsByTagName('BODY')[0].appendChild(tip_plus) ;
     }
