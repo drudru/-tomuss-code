@@ -41,7 +41,7 @@ function _UE(name, responsable, intitule, parcours, code, login,
 	     nr_students_ue, nr_students_ec, planning, tt, credit, old_names)
 {
   this.name = name ;
-  if ( parcours === undefined )
+  if ( parcours === undefined || name.indexOf('etape-') == 0 )
     {
       parcours = '' ;
       code = '' ;

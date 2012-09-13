@@ -62,16 +62,20 @@ def get_ue_dict():
 
 
 def create_all_ues_js(ues):
+    ff_tt_list = utilities.AtomicWrite(os.path.join('TMP','tt_list.txt'))
     ff = utilities.AtomicWrite(os.path.join('TMP','all_ues.js'))
     ff.write('all_ues = {\n')
     ue_list = []
     for ue, uev in ues.items():
         print ue
+        tt_list = []
         ue_list.append('%s:%s' % (utilities.js(ue).encode('utf-8'),
-                                      uev.js().encode('utf-8')))
+                                      uev.js(tt_list).encode('utf-8')))
+        ff_tt_list.write('%s : %s\n' % (ue, ', '.join(tt_list)))
     ff.write(',\n'.join(ue_list))
     ff.write('} ;\n')
     ff.close()
+    ff_tt_list.close()
 
     os.system('gzip -9 <TMP/all_ues.js >all_ues.js.gz')
     os.rename('all_ues.js.gz',os.path.join('TMP','all_ues.js.gz'))
@@ -97,7 +101,7 @@ def all_ues(compute=False):
                 warn('ok')
 
             return TMP.xxx_toute_les_ues.all
-    except ImportError:
+    except (ImportError, OSError):
         warn("The UE list does not exists, create first one")
         compute = True
     warn('compute', what='debug')

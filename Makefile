@@ -9,6 +9,10 @@ install:clean
 check:
 	SCRIPTS/mirror_check
 
+recompute_the_ue_list:
+	# Recompute the UE list. Take into account students in TT
+	python -c 'import SCRIPTS.tomuss_init,teacher ; print teacher.all_ues(compute=True)'
+
 clean:
 	@echo 'CLEAN'
 	@-find . \( -name '*~' \

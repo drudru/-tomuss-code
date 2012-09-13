@@ -186,6 +186,14 @@ They are automaticaly reloaded when they are modified.</li>
 	  <li><b>stopsuivi</b>: Stops TOMUSS 'suivi' server.</li>
 	  <li><b>stoptomuss</b>: Stops TOMUSS server.</li>
 	  <li><b>install</b>: Put development version in production.</li>
+	  <li><b>recompute_the_ue_list</b>: Extract the UE list from database
+	  and store them in a Python module <tt>TMP/xxx_toute_les_ues.py</tt>
+	  and <tt>TMP/all_ues.js[.gz]</tt>
+	  This goal can be launched when TOMUSS is running, it will
+	  automaticaly reread the informations.
+	  </li>
+	  <li><b>all_ues.js</b>: Translate the UE list in a JavaScript module. Then the process stops.</li>
+
 	  <li><b>stat</b>: Display some sources stats</li>
 	  <li><b>clean</b>: Delete garbages.</li>
 	  <li><b>diff</b>: Difference between development and production source version.</li>
@@ -199,8 +207,6 @@ They are automaticaly reloaded when they are modified.</li>
 <li><b>tomuss.py</b>: Server managing the tables. Possible parameters are:
 <ul>
 	  <li><b>regtest</b>: server in regtest mode, ticket are in the form '=invited.teacher' or '=super.user'</li>
-	  <li><b>xxx_toutes_les_ues</b>: Extract the UE list from database and store them in a Python module. Then the process stops.</li>
-	  <li><b>all_ues.js</b>: Translate the UE list in a JavaScript module. Then the process stops.</li>
           <li><b>profile</b>: compute the time and number of calls of functions.</li>	  
 	</ul>
 
