@@ -81,10 +81,12 @@ def home_page(server):
     refered = []
     for login in referent.students_of_a_teacher(user_name):
         a,b,c = inscrits.L_fast.firstname_and_surname_and_mail(login)
+        pe = int(configuration.student_in_first_year(login))
         refered.append(('[' + utilities.js(login) + ','
                         + utilities.js(a) + ','
                         + utilities.js(b) + ','
-                        + utilities.js(c) + ']').encode('utf-8'))
+                        + utilities.js(c) + ','
+                        + utilities.js(pe) + ']').encode('utf-8'))
 
     favstu = utilities.manage_key('LOGINS',
                              os.path.join(user_name, 'favstu')

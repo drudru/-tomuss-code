@@ -852,10 +852,16 @@ function student_line(i, hide_icon)
   else
     hide_icon = '<img class="icone" src="' + suivi[year_semester()] + '/_'
       + i[0] + '">' ;
+  var first_registration ;
+  if ( i[4] )
+    first_registration = ' class="first_registration"' ;
+  else
+    first_registration = '' ;
+    
   return '<tr onmouseover="ue_line_over(\'' + i[0] + '\',this,student_click_more);" '
     + 'onclick="javascript:go_suivi_student(\'' + i[0]
     + '\')"><td>' + hide_icon
-    + '<td class="student_id">' + i[0] + '<td>'
+    + '<td class="student_id">' + i[0] + '<td' + first_registration + '>'
     + i[2] + ' ' + title_case(i[1])
     + '</tr>' ;
 }
