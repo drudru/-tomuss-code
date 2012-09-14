@@ -3652,7 +3652,11 @@ function hide_the_tip_real()
     return ; // To let the user scroll
   if ( tip.do_not_hide )
     return ;
-
+  /* tip.do_not_hide take some time to be setted for tip_plus */
+  setTimeout('if ( ! tip.do_not_hide && tip.display_number === '
+	     + tip.display_number
+	     + ') tip_plus.style.display = "none" ;', 100) ;
+  
   tip.onmousemove = function() {} ;
   tip.style.display = "none" ;
   tip.tip_target = undefined ;
