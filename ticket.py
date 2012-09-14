@@ -66,7 +66,7 @@ class Ticket(object):
         
     def is_fine(self, server):
         # print self.user_name, (time.time() - self.date) , configuration.ticket_time_to_live, self.user_ip, client_ip(server), self.user_browser, server.headers["user-agent"]
-        if self.user_name == self.ticket:
+        if configuration.regtest and self.user_name == self.ticket:
             return True
         user_browser = server.headers.get("user-agent", '')
         if user_browser == '':
@@ -234,9 +234,11 @@ def get_ticket_objet(ticket, server):
     ticket_object = tickets.get(ticket, None)
 
     if ticket_object  and not ticket_object.is_fine(server):
-        warn('Remove ticket no more fine : %d secs' % (time.time() -
-                                                    ticket_object.date)
-                                                    , what='auth')
+        warn('TICKET NOT FINE : %.3f secs, %s %s %s' % (
+                time.time() - ticket_object.date,
+                str(ticket_object).strip(),
+                client_ip(server), server.headers.get("user-agent", ''))
+             )
         ticket_object.remove_file()
         del tickets[ticket]
         return None
