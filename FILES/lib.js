@@ -2543,20 +2543,22 @@ function set_element_relative_position(anchor, element)
 
   var pos = findPos(anchor) ;
 
+  var element_width = Math.max(element.offsetWidth, 200) ;
+
   tip_display_date = millisec() ;
 
   if ( element.tagName != 'TD' )
     {
       element.style.top = pos[1] + anchor.offsetHeight ;
       element.style.bottom = 'auto' ;
-      if ( pos[0] + element.offsetWidth < window_width() + scrollLeft() )
+      if ( pos[0] + element_width < window_width() + scrollLeft() )
 	{
 	  element.style.left = pos[0] ;
 	  element.style.right = 'auto' ;
 	}
       else
 	{
-	  element.style.left = pos[0]-element.offsetWidth + anchor.offsetWidth;
+	  element.style.left = pos[0] - element_width + anchor.offsetWidth;
 	  element.style.right = 'auto' ;
 	}
       return ;
@@ -2573,12 +2575,12 @@ function set_element_relative_position(anchor, element)
       element.style.bottom = 'auto' ;
     }
 
-  if ( element.offsetWidth < pos[0] - scrollLeft() )
+  if ( element_width < pos[0] - scrollLeft() )
     {
       element.style.right = window_width() - pos[0] ;
       element.style.left = 'auto' ;
     }
-  else if ( pos[0] + anchor.offsetWidth + element.offsetWidth
+  else if ( pos[0] + anchor.offsetWidth + element_width
 	    < window_width() + scrollLeft() )
     {
       element.style.left = pos[0] + anchor.offsetWidth ;
