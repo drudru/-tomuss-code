@@ -289,6 +289,8 @@ class Text(object):
         if ':' not in url:
             # Get from another TOMUSS table
             splited = url.split('/')
+            if len(splited) < 2:
+                return
             year, semester, table_name, column_name = ([
                 column.table.year, column.table.semester] + splited)[-4:]
             get_column_from_a_table(column,year,semester,table_name,column_name)

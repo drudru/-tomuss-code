@@ -102,28 +102,22 @@ def create_tt():
               + '/1/0/cell_change/0_0/0_0/10800000')
     assert( c == ok_png)
     c = s.url('=' + abj + '/%d/Dossiers/tt' % uyear
-              + '/1/1/cell_change/0_1/0_0/P')
+              + '/1/1/cell_change/0_3/0_0/1')
     assert( c == ok_png)
     c = s.url('=' + abj + '/%d/Dossiers/tt' % uyear
-              + '/1/2/cell_change/0_2/0_0/N')
+              + '/1/2/cell_change/0_4/0_0/1')
     assert( c == ok_png)
     c = s.url('=' + abj + '/%d/Dossiers/tt' % uyear
-              + '/1/3/cell_change/0_3/0_0/1')
+              + '/1/3/cell_change/0_5/0_0/1')
     assert( c == ok_png)
     c = s.url('=' + abj + '/%d/Dossiers/tt' % uyear
-              + '/1/4/cell_change/0_4/0_0/1')
+              + '/1/4/cell_change/0_6/0_0/' + _("yes"))
     assert( c == ok_png)
     c = s.url('=' + abj + '/%d/Dossiers/tt' % uyear
-              + '/1/5/cell_change/0_5/0_0/1')
+              + '/1/5/cell_change/0_7/0_0/' + _("yes"))
     assert( c == ok_png)
     c = s.url('=' + abj + '/%d/Dossiers/tt' % uyear
-              + '/1/6/cell_change/0_6/0_0/' + _("yes"))
-    assert( c == ok_png)
-    c = s.url('=' + abj + '/%d/Dossiers/tt' % uyear
-              + '/1/7/cell_change/0_7/0_0/' + _("yes"))
-    assert( c == ok_png)
-    c = s.url('=' + abj + '/%d/Dossiers/tt' % uyear
-              + '/1/8/cell_change/0_10/0_0/TTT')
+              + '/1/6/cell_change/0_10/0_0/TTT')
     assert( c == ok_png)
 
 def create_u2():

@@ -10,6 +10,10 @@ Utilisateurs finaux.
 
 * Faire doc d'installation pas par pas
 
+* traduction get_date
+
+* traduction 'ou' filtre
+
 * Faire une table de configuration du template (les variables)
 
 * traduction image fond
@@ -23,7 +27,7 @@ Utilisateurs finaux.
   
 * Type de colonne Switch (SI)
 
-* Affichage histogramme tronqué.
+* Affichage histogramme tronqué (FireFox)
   Les histogrammes sont à refaire pour simplifier le code et l'affichage
   des cas particuliers (ABI ABJ PPN TNR...)
 
@@ -66,11 +70,6 @@ Utilisateurs finaux.
 * Gestion des formations : liste des UE, fusion des UE.
   Le gestionnaire de formation doit pouvoir passer les UE en
   non-semestrialisée.
-
-* Importation de colonnes d'autres tableaux : nécessite calcul serveur
-
-* Interface intuitive pour faire les extractions/resumé ?
-  Ceci lié à la gestion des formations.
 
 * Lien sur l'envoi de mail aux étudiants d'une UE sur la page d'accueil.
 
@@ -137,7 +136,9 @@ Problèmes à résoudre.
 
 * Emploi du temps : manque des UE (TVL)
 
-* Perte photo quand déconnexion puis reconnexion réseau
+* Message de création gauche à droite quand on saisi une cellule.
+
+* Perte photo quand déconnexion puis reconnexion réseau : normal
 
 * Browser file close : suffisant pour Python 3 ? (page action)
 
@@ -182,6 +183,10 @@ Problèmes non reproductibles
 
 * Quand on prend le droit : il faut changer de colonne pour avoir accès
   Difficile à reproduire.
+
+* Espace dans la liste des masters_of à la fin
+
+* bug statistique UE : seulement en début d'année ?
 
 
 =============================

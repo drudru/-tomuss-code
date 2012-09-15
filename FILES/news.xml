@@ -725,6 +725,22 @@ Les améliorations les plus visibles sont :
       </description>
       <guid>50</guid>
     </item>
+    <item>
+      <title>15/09/2012 : Version 5.0.2</title>
+      <link>http://tomuss.univ-lyon1.fr/</link>
+      <description>
+	Le primo-entrant licence STS en première année sont affichés
+	en gras dans la liste des étudiants référés.
+	Un type de colonne permet de savoir en quelle année de licence STS
+	les primos entrant sont inscrits.
+	&lt;p&gt;
+	On peut maintenant dynamiquement extraire une colonne d'une table pour
+	la mettre dans une autre (onglet 'Config', ligne du bas).
+	Malheureusement pas pour les résultats de calcul.
+	&lt;p&gt;
+      </description>
+      <guid>51</guid>
+    </item>
 
   </channel>
 </rss>
