@@ -39,9 +39,6 @@ ldap.set_option(ldap.OPT_TIMEOUT, 600)       # For reading data
 
 warn = utilities.warn
 
-# To not have duplication error messages
-member_of_nothing = {}
-
 def safe(txt):
     """Values safe in an LDAP request"""
     return re.sub('[^0-9a-zA-Z-. _]', '', txt)
@@ -182,6 +179,29 @@ class LDAP_Logic(object):
                       configuration.ldap_encoding)
                 for aa in a if configuration.ou_portail_contains in aa]
 
+    def portails(self, logins):
+        """From the login of the person, retrieve the portails"""
+        logins = ''.join(['(%s=%s)'
+                          % (configuration.attr_login,
+                             utilities.the_login(login),
+                             )
+                          for login in logins
+                          ])
+        a = self.query(search='(|' + logins + ')',
+                       base=configuration.ou_top,
+                       attributes=('memberOf', configuration.attr_login)
+                       )
+        p = {}
+        for cn, attrs in a:
+            if len(attrs) != 2:
+                continue
+            p[attrs[configuration.attr_login][0]] = [
+                unicode(aa.split('APO-')[1].split(',')[0],
+                        configuration.ldap_encoding)
+                for aa in attrs['memberOf']
+                if configuration.ou_portail_contains in aa]
+        return p
+
     def firstname_and_surname_to_login(self, firstname, surname):
         firstname = safe(utilities.flat(firstname))
         surname = safe(utilities.flat(surname))
@@ -310,14 +330,11 @@ class LDAP_Logic(object):
         """List of the LDAP groups containing the login"""
         r = self.query_login(login, ('memberOf',))
         if len(r) == 0:
-            if login not in member_of_nothing:
-                member_of_nothing[login] = True
-                s = login + ' member of nothing'
-                # utilities.send_backtrace(s, subject=s, exception=False)
             return ()
         return r.get('memberOf', ())
     member_of_list = utilities.add_a_method_cache(member_of_list,
                                                   not_cached=())
+
 
     def etapes_of_student(self, login):
         """Assumes that LDAP contains OU with ' etape-XXXX' inside"""

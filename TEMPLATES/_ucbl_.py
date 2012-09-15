@@ -189,10 +189,18 @@ def check(table, update_inscrits=update_inscrits_ue):
 
     # PORTAILS
     warn("Update portail list", what="check")
-    portails = {}
-    for login in list(the_ids.keys()):
-        portails[login] = [i.encode('latin1')
-                           for i in inscrits.L_batch.portail(login)]
+    if False:
+        # The old slow method
+        portails = {}
+        for login in list(the_ids.keys()):
+            portails[login] = [i.encode('latin1')
+                               for i in inscrits.L_batch.portail(login)]
+    else:
+        portails = {}
+        for login, p in inscrits.L_batch.portails(the_ids.keys()).items():
+            portails[inscrits.login_to_student_id(login)] = [
+                i.encode("latin-1")
+                for i in p]
     warn("Change portails", what="check")
     table.change_portails(portails)
     warn("Update done", what="check")
