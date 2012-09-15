@@ -597,6 +597,13 @@ msgstr "<span style=\"background:#F88\">Connection lost</span>"
 msgid "TIP_connection_state"
 msgstr "The message indicates the state of the server connection"
 
+msgid "MSG_updating"
+msgstr " Updating"
+
+msgid "TIP_updating"
+msgstr "The table content is being updated:<br>\n"
+       "the student lists, mails, column importation..."
+
 
 msgid "ERROR_value_not_modifiable"
 msgstr "You are not allowed to modifiy this value."

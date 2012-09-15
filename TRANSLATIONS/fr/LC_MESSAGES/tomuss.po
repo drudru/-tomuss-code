@@ -582,6 +582,12 @@ msgstr "<span style=\"background:#F88\">Connexion perdue</span>"
 msgid "TIP_connection_state"
 msgstr "Ce message indique l'état de la connexion avec le serveur."
 
+msgid "MSG_updating"
+msgstr " MaJ"
+
+msgid "TIP_updating"
+msgstr "Le contenu de la table est en train d'être mis à jour :<br>\n"
+       "Listes d'étudiants, mails, importation dynamiques de colonnes..."
 
        
 msgid "ERROR_value_not_modifiable"

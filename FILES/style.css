@@ -38,6 +38,8 @@ BODY.autosavefailed, BODY.autosavefailed P, BODY.autosavefailed H1, BODY.autosav
   margin-left:2em;
 }
 
+#updating { display:none; background: orange }
+
 .table_ro { background-color: #F00; color: #FFF }
 
 .title_pointers {
