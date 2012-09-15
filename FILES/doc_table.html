@@ -877,7 +877,7 @@
     </div>
 
     <div>
-    <h3>Extraire une colonne du web</h3>
+    <h3>Extraire dynamiquement colonne</h3>
 
     <p>
       Vous disposez d'informations sur les étudiants
@@ -889,24 +889,24 @@
       <li> La première colonne de ce fichier contient des numéros d'étudiant.
       <li> Le séparateur de colonne est le premier trouvé parmi :
            la tabulation, le point-virgule, la virgule.
-      <li> L'encodage des caractères du fichier est soit UTF8,
+      <li> L'encodage des caractères du fichier est soit UTF-8,
            soit latin1 (ISO8859-1).
     </ul>
     <p>
       Vous pouvez dire à TOMUSS de prendre le contenu d'une colonne
       de ce tableau et de le mettre dans une de ses colonnes.
       Si par exemple vous voulez extraire la cinquième colonne
-      du fichier CSV, vous indiquez dans le commentaire de la colonne
-      dans TOMUSS&nbsp;:
-    <pre>IMPORT(http://www.univ-lyon1.fr/MesNotes/MonUE.csv#5)</pre>
+      du fichier CSV, vous indiquez dans le champs approprié
+      de l'onglet <tt>Config</tt>&nbsp;:
+    <pre>http://www.univ-lyon1.fr/MesNotes/MonUE.csv#5</pre>
     <p>
       L'URL ne sera pas visible par les étudiants,
       mais elle sera visible par les autres enseignants.
       Les étudiants verront le reste du commentaire.
     <p>
       TOMUSS relira le contenu du fichier pour l'importer,
-      chaque fois que vous irez sur la table (mais au maximum
-      une fois par jour).
+      chaque fois que vous irez sur la table ou bien que vous forcerez
+      sa mise à jour.
     <p>
       Attention, TOMUSS :
       <ul>
@@ -915,6 +915,27 @@
       <li> gardera l'historique des changements,
       <li> ne vous permettra pas de modifier les notes importées.
     </ul>
+
+
+      <h4>Extraire une colonne d'une autre table TOMUSS</h4>
+    <p>
+      Cela ce fait exactement de la même façon que pour extraire
+      une colonne d'un fichier CSV sur le web.
+      L'URL à indiquer aura une des formes suivantes&nbsp;:
+      <ul>
+	<li> nom_de_table/nom_de_colonne
+	<li> semestre/nom_de_table/nom_de_colonne
+	<li> année/semestre/nom_de_table/nom_de_colonne
+      </ul>
+      <p>
+	On peut donc facilement récupérer des notes d'un semestre
+	précédent pour les reporter dans le semestre courant.
+      <p>
+	<b>ATTENTION : TOMUSS ne peut pas récupérer des résultats
+	  de calcul comme la moyenne par exemple.</b>
+      
+      
+      
     </div>
 
     <div>

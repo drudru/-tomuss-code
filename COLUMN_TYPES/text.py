@@ -23,6 +23,7 @@ import cgi
 import utilities
 import re
 import configuration
+import document
 
 ###############################################################################
 # This part is for column import.
@@ -53,6 +54,33 @@ def read_url_not_cached(url):
         return
 read_url = utilities.add_a_cache(read_url_not_cached, timeout=5)    
 
+def get_column_from_a_table(column, year, semester, table_name, column_name):
+    year = int(year)
+    semester = utilities.safe(semester)
+    table_name = utilities.safe(table_name)
+    table = document.table(year, semester, table_name, create=False)
+    if not table:
+        return
+    col = table.columns.from_title(column_name)
+    if not col:
+        return
+    if table.private:
+        return
+    if col.type.cell_compute != 'undefined':
+        return
+    for line_id, line in column.table.lines.items():
+        other = tuple(table.get_lines(line[0].value))
+        if not other:
+            continue
+        new_val = other[0][col.data_col].value
+        if line[column.data_col].value != new_val:
+            column.table.lock()
+            try:
+                column.table.cell_change(column.table.pages[0],
+                                         column.the_id,
+                                         line_id, new_val)
+            finally:
+                column.table.unlock()
 
 @utilities.add_a_lock
 def update_column_content(column, url):
@@ -239,11 +267,19 @@ class Text(object):
             url = column.url_import
         else:
             return
+        
+        # Reload even if the value is the same
+        # if column.import_url == url:
+        #    return
+        # column.import_url = url
 
-        if column.import_url == url:
+        if ':' not in url:
+            # Get from another TOMUSS table
+            splited = url.split('/')
+            year, semester, table_name, column_name = ([
+                column.table.year, column.table.semester] + splited)[-4:]
+            get_column_from_a_table(column,year,semester,table_name,column_name)
             return
-
-        column.import_url = url
 
         if not (url.startswith('http:')
                 or url.startswith('https:')

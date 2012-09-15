@@ -361,11 +361,16 @@ msgstr "L'intitulé du lien cliquable dans le suivi de l'étudiant"
 #. Attribute Tip
 msgid "TIP_column_attr_url_import"
 msgstr "Indique à TOMUSS que le contenu de la colonne<br>\n"
-       "est extrait d'un fichier CSV disponible via une URL.<br>\n"
-       "<b>La première colonne du fichier est le numéro d'étudiant</b>.<br>\n"
-       "Par exemple : http://www.univ-lyon1.fr/MesNotes/MonUE.csv#5<br>\n"
-       "indique qu'il faut recopier la cinquième colonne du fichier<br>\n"
-       "dans les cellules de la colonne."
+ "est extrait d'un fichier CSV disponible via une URL.<br>\n"
+ "<b>La première colonne du fichier est le numéro d'étudiant</b>.<br>\n"
+ "Par exemple : http://www.univ-lyon1.fr/MesNotes/MonUE.csv#5<br>\n"
+ "indique qu'il faut recopier la cinquième colonne du fichier<br>\n"
+ "dans les cellules de la colonne.<br>\n"
+ "<br>\n"
+ "Pour extraire une colonne venant d'une autre table TOMUSS indiquez :<br>\n"
+ "table/colonne ou semestre/table/colonne ou année/semestre/table/colonne<br>\n"
+ "<b>ATTENTION : les résultats de calcul ne sont pas importés.</b>"
+       
 
 #. Attribute Tip
 msgid "TIP_column_attr_test_filter"

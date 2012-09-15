@@ -309,7 +309,8 @@ class Column(object):
         in the javascript side."""
         self.the_id = col
         self.author = username
-        self.import_url = None
+        # Disable optimization
+        # self.import_url = None
         if 'type' in keys:
             self.type = plugins.types[keys['type']]
             del keys['type']
