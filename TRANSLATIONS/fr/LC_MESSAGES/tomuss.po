@@ -589,6 +589,22 @@ msgid "TIP_updating"
 msgstr "Le contenu de la table est en train d'être mis à jour :<br>\n"
        "Listes d'étudiants, mails, importation dynamiques de colonnes..."
 
+msgid "ALERT_url_import_table"
+msgstr "La table que vous avez indiqué pour extraire la colonne n'existe pas"
+
+msgid "ALERT_url_import_column"
+msgstr "La colonne que vous avez indiqué n'existe pas"
+
+msgid "ALERT_url_import_private"
+msgstr "Il est interdit d'importer à partir d'une table privée"
+
+msgid "ALERT_url_import_computed"
+msgstr "Il n'est pas possible d'importer un résultat de calcul"
+
+msgid "ALERT_url_import_bad"
+msgstr "L'URL indiqué n'est pas/plus accessible."
+
+
        
 msgid "ERROR_value_not_modifiable"
 msgstr "Vous n'êtes pas autorisé à modifier cette valeur."

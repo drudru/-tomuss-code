@@ -604,6 +604,22 @@ msgid "TIP_updating"
 msgstr "The table content is being updated:<br>\n"
        "the student lists, mails, column importation..."
 
+msgid "ALERT_url_import_table"
+msgstr "Can't import the column because this table name does not exists"
+
+msgid "ALERT_url_import_column"
+msgstr "Can't import the column because this column does not exists"
+
+msgid "ALERT_url_import_private"
+msgstr "It is forbidden to import from a private table"
+
+msgid "ALERT_url_import_computed"
+msgstr "It is impossible to import a computed value as average"
+
+msgid "ALERT_url_import_bad"
+msgstr "The URL is inaccessible"
+
+       
 
 msgid "ERROR_value_not_modifiable"
 msgstr "You are not allowed to modifiy this value."

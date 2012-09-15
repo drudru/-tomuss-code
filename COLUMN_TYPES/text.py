@@ -54,19 +54,30 @@ def read_url_not_cached(url):
         return
 read_url = utilities.add_a_cache(read_url_not_cached, timeout=5)    
 
+def error(column, message):
+    if column.table.loading:
+        return
+    column.table.send_update(
+        None, "<script>Alert('%s', %s);</script>" %(message,
+        utilities.js("\n" + column.title + ' : ' + column.url_import)))
+
 def get_column_from_a_table(column, year, semester, table_name, column_name):
     year = int(year)
     semester = utilities.safe(semester)
     table_name = utilities.safe(table_name)
     table = document.table(year, semester, table_name, create=False)
     if not table:
+        error(column, 'ALERT_url_import_table')
         return
     col = table.columns.from_title(column_name)
     if not col:
+        error(column, 'ALERT_url_import_column')
         return
     if table.private:
+        error(column, 'ALERT_url_import_private')
         return
     if col.type.cell_compute != 'undefined':
+        error(column, 'ALERT_url_import_computed')
         return
     for line_id, line in column.table.lines.items():
         other = tuple(table.get_lines(line[0].value))
@@ -93,6 +104,7 @@ def update_column_content(column, url):
     else:
         c = read_url(url_base)
     if c is None:
+        error(column, 'ALERT_url_import_bad')
         return
     for encoding in ('utf8', 'latin1'):
         try:
@@ -112,6 +124,7 @@ def update_column_content(column, url):
     try:
         col = int(url.split('#')[1]) - 1
     except (IndexError, ValueError):
+        error(column, 'ALERT_url_import_column')
         return
 
     if col <= 0:
