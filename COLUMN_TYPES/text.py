@@ -20,8 +20,9 @@
 #    Contact: Thierry.EXCOFFIER@bat710.univ-lyon1.fr
 
 import cgi
-import utilities
+import collections
 import re
+import utilities
 import configuration
 import document
 
@@ -54,36 +55,54 @@ def read_url_not_cached(url):
         return
 read_url = utilities.add_a_cache(read_url_not_cached, timeout=5)    
 
-def error(column, message):
+def error(column, message, more=None):
     if column.table.loading:
         return
+    if more is None:
+        more = column.url_import
     column.table.send_update(
         None, "<script>Alert('%s', %s);</script>" %(message,
-        utilities.js("\n" + column.title + ' : ' + column.url_import)))
+        utilities.js("\n" + column.title + ' : ' + more)))
 
-def get_column_from_a_table(column, year, semester, table_name, column_name):
-    year = int(year)
-    semester = utilities.safe(semester)
-    table_name = utilities.safe(table_name)
-    table = document.table(year, semester, table_name, create=False)
-    if not table:
-        error(column, 'ALERT_url_import_table')
-        return
-    col = table.columns.from_title(column_name)
-    if not col:
-        error(column, 'ALERT_url_import_column')
-        return
-    if table.private:
-        error(column, 'ALERT_url_import_private')
-        return
-    if col.type.cell_compute != 'undefined':
-        error(column, 'ALERT_url_import_computed')
-        return
+def get_column_from_a_table(column, table_list):
+
+    columns = []
+    values = collections.defaultdict(list)
+    for url in re.split("  *", table_list):
+        splited = url.split('/')
+        if len(splited) < 2:
+            error(column, 'ALERT_url_import_table', url)
+            return
+        year, semester, table_name, column_name = ([
+                column.table.year, column.table.semester] + splited)[-4:]
+        year = int(year)
+        semester = utilities.safe(semester)
+        table_name = utilities.safe(table_name)
+        table = document.table(year, semester, table_name, create=False)
+        if not table:
+            error(column, 'ALERT_url_import_table', url)
+            return
+        col = table.columns.from_title(column_name)
+        if not col:
+            error(column, 'ALERT_url_import_column', url)
+            return
+        if table.private:
+            error(column, 'ALERT_url_import_private', url)
+            return
+        if col.type.cell_compute != 'undefined':
+            error(column, 'ALERT_url_import_computed', url)
+            return
+        for line in table.lines.values():
+            values[line[0].value].append((line[col.data_col].value, url))
+        
     for line_id, line in column.table.lines.items():
-        other = tuple(table.get_lines(line[0].value))
-        if not other:
-            continue
-        new_val = other[0][col.data_col].value
+        new_val = values[line[0].value]
+        if len(new_val) == 0:
+            new_val = ""
+        elif len(new_val) == 1:
+            new_val = new_val[0][0]
+        else:
+            new_val = ' '.join("%s(%s)" % (v, u) for v, u in new_val)
         if line[column.data_col].value != new_val:
             column.table.lock()
             try:
@@ -287,13 +306,7 @@ class Text(object):
         # column.import_url = url
 
         if ':' not in url:
-            # Get from another TOMUSS table
-            splited = url.split('/')
-            if len(splited) < 2:
-                return
-            year, semester, table_name, column_name = ([
-                column.table.year, column.table.semester] + splited)[-4:]
-            get_column_from_a_table(column,year,semester,table_name,column_name)
+            get_column_from_a_table(column, url)
             return
 
         if not (url.startswith('http:')
