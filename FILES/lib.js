@@ -755,7 +755,7 @@ function show_the_tip(td, tip_content)
     }
 
   tip_plus.onmouseover = function() { tip.do_not_hide = true ;
-				      if ( td2.tagName === 'DIV' )
+				      if ( tip_content !== undefined )
 					tip.tip_target = td ;
 				      tip.style.display = "block" ; }
   tip_plus.onmouseout = function() {tip.do_not_hide = false ;
