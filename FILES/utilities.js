@@ -347,7 +347,9 @@ function tip_top(tt)
 
   i = 0 ;
   var debug = '' ;
-  while( tt.tagName != 'DIV' || tt.className.indexOf('tipped') == -1 )
+  while( tt.tagName !== 'TD' && tt.tagName !== 'TH' &&
+	 (tt.className ? tt.className.toString().indexOf('tipped') == -1
+	  : true) )
     {
       debug = tt.tagName + '\n' + debug ;
       tt = tt.parentNode ;
@@ -383,14 +385,16 @@ function compute_tip(element)
 function hidden_over(event)
 {
   event = the_event(event) ;
+  var target = event.target ;
 
-  if ( event.target.tagName == 'OPTION' )
+  if ( target.tagName == 'OPTION' )
     return ;
 
-  var value = compute_tip(event.target) ;
-  var tip = show_the_tip(event.target, value) ;
-  if ( tip )
-      tip.tip_target = event.target ;
+  if ( target.tagName == 'svg' )
+    target = target.parentNode ;
+  
+  var value = compute_tip(target) ;
+  show_the_tip(target, value) ;
 }
 
 function hidden_out()
@@ -1034,7 +1038,8 @@ function stats_html_resume()
     _('B_s_mediane') +':&nbsp;'  +this.mediane()           .toFixed(3)+'<br>' +
     _('B_s_variance')+':&nbsp;'  +this.variance()          .toFixed(3)+'<br>' +
     _('B_s_stddev')  +':&nbsp;'  +this.standard_deviation().toFixed(3)+'<br>' +
-    _('B_s_sum')+' '+this.nr+_('B_s_sum_2')+':&nbsp;'+this.sum.toFixed(3)+'\n';
+    _('B_s_sum')+' '+this.nr+' '+_('B_s_sum_2')+':&nbsp;'
+    +this.sum.toFixed(3)+'\n';
 }
 
 function stats_normalized_average()

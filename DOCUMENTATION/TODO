@@ -134,6 +134,8 @@ Administrateur.
 Problèmes à résoudre.
 =====================
 
+* Escape ne fait pas disparaitre les popup
+
 * Emploi du temps : manque des UE (TVL)
 
 * Message de création gauche à droite quand on saisi une cellule.

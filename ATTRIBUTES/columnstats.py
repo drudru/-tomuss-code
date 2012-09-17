@@ -33,6 +33,7 @@ class ColumnStats(ColumnFill):
   border-top: 1px solid black;
   border-bottom: 1px solid black;
   border-spacing: 0px ;
+  height: 1em ;
 }
 
 #menutop #t_column_stats TR {
@@ -47,11 +48,11 @@ class ColumnStats(ColumnFill):
 }
 
 #menutop #t_column_histogram { 
-  height: 1.4em ;
+  height: 1.2em ;
 }
 
 #menutop #t_column_histogram SVG {
-  height: 1.3em ;
+/*  height: 1.3 em ; */
  }
 '''
 

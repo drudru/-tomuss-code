@@ -647,7 +647,7 @@ function new_new_interface()
   t.push(column_input_attr('test_filter')) ;
   t.push('</div>') ;
   t.push('<div class="one_line">') ;
-  t.push(column_input_attr('stats')) ;
+  t.push('<table id="t_column_stats"></table>') ;
   t.push('</div>') ;
   t.push(column_input_attr('comment', 'empty one_line')) ;
   t.push(hidden_txt(header_input

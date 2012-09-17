@@ -637,7 +637,6 @@ function mouse_over(event)
 
   var td = the_td(event) ;
 
-
   if ( td == mouse_over_old_td )
     return ;
   mouse_over_old_td = td ;
@@ -652,7 +651,6 @@ function show_the_tip(td, tip_content)
 {
   var bottom = false ;
   var data_col, line_id, column, type, s ;
-
   try {
     data_col = data_col_from_td(td) ;
     line_id = line_id_from_td(td) ;
@@ -722,7 +720,6 @@ function show_the_tip(td, tip_content)
   var a = tip.display_number ;
   // Hide the tip if the mouse go inside
   tip.onmousemove = function() { hide_the_tip(a); } ;
-  set_tip_position(td, bottom) ;
 
   if ( instant_tip_display )
     {
@@ -733,15 +730,9 @@ function show_the_tip(td, tip_content)
   // Display the '?'
   var tip_plus = document.getElementById('tip_plus') ;
   tip_plus.style.display = 'block' ;
-  var td2 = td ;
-  while ( td2.tagName !== 'TD' && td2.tagName !== 'TH'
-	  && td2.className.toString().indexOf('tipped') != -1 )
-    {
-      if ( ! td2.parentNode )
-	debug_tree(td) ;
-      td2 = td2.parentNode ;
-    }
+  var td2 = tip_top(td) ;
   var pos = findPos(td2) ;
+
   var x = pos[0] - tip_plus.offsetWidth + 1 ;
   if ( x > 10 )
     {
@@ -757,6 +748,7 @@ function show_the_tip(td, tip_content)
   tip_plus.onmouseover = function() { tip.do_not_hide = true ;
 				      if ( tip_content !== undefined )
 					tip.tip_target = td ;
+				      set_tip_position(td, bottom) ;
 				      tip.style.display = "block" ; }
   tip_plus.onmouseout = function() {tip.do_not_hide = false ;
 				      tip_plus.style.display = "none" ;
@@ -2646,6 +2638,7 @@ function update_tip_from_value(o, value)
 
   if ( value.substr(value.length-1) != '\n' ) // Tip with HTML inside
     e.innerHTML = html(value) ;
+
   else
     e.innerHTML = value ;
 
