@@ -131,6 +131,7 @@ THEAD TR TD {
 TR.filter TH INPUT.empty {
   background: url("filtre.png") #DFD ;
   background-repeat: no-repeat ;
+  background-position: 2px 2px;
 }
 
 TR.filter TH INPUT {
@@ -153,6 +154,7 @@ TR.filter TH INPUT.freezed { border-bottom: 1px solid black; }
 #menutop #linefilter.empty, #menutop #columns_filter.empty, #menutop #fullfilter.empty {
   background: url("filtre2.png") white ;
   background-repeat: no-repeat ;
+  background-position: 2px 1px;
 }
 
 TR.tablefilter INPUT { width: 10em ; }
@@ -541,6 +543,7 @@ INPUT#comment { width: 100% ; clear: both; }
 #comment.empty {
   background-image: url("comment.png");
   background-repeat: no-repeat;
+  background-position: 2px 2px;
 }
 
 #menutop A { text-decoration: none ; }

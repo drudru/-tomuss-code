@@ -974,7 +974,7 @@ restarted because all versions are kept.</li>
    on directory where the database is stored.
 </p>
 <p>
-   Required packages : python-ldap, python-imaging, gzip
+   Required packages : python-ldap, python-imaging, gzip, inkscape, gettext
 </p>
 <p>
    Recommended packages : gnuplot, graphviz, rsync (distant mirroring), catdoc (csv extract from xls)

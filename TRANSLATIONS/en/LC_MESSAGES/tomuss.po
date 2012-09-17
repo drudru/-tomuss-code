@@ -4705,3 +4705,20 @@ msgstr "Your remarks."
 
 msgid "COL_TITLE_ct_deprecated"
 msgstr "Use ACLS table to define user access groups"
+
+
+
+msgid "comment.png"
+msgstr "Enter a comment here"
+
+msgid "filtre.png"
+msgstr "filter"
+
+msgid "filtre2.png"
+msgstr "Enter a filter here"
+
+msgid "title.png"
+msgstr "Enter the column title"
+
+msgid "teacher.png"
+msgstr "Enter logins here"

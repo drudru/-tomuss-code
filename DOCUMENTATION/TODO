@@ -10,13 +10,9 @@ Utilisateurs finaux.
 
 * Faire doc d'installation pas par pas
 
-* traduction get_date
-
 * traduction 'ou' filtre
 
 * Faire une table de configuration du template (les variables)
-
-* traduction image fond
 
 * Pourcentage d'ABJ pour le résultat d'un calcul en fonction du poids
   des colonnes moyennées. En faire un type de colonne

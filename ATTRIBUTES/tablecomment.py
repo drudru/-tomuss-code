@@ -27,5 +27,6 @@ class TableComment(TableAttr):
 #t_table_attr_comment.empty {
   background-image: url("comment.png");
   background-repeat: no-repeat;
+  background-position: 2px 2px;
 }
 '''

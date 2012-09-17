@@ -4768,3 +4768,18 @@ msgstr "Vos remarques."
 msgid "COL_TITLE_ct_deprecated"
 msgstr "Utilisez la table ACLS pour définir les groupes d'utilisateurs"
 
+
+msgid "comment.png"
+msgstr "Saisissez un commentaire ici"
+
+msgid "filtre.png"
+msgstr "filtre"
+
+msgid "filtre2.png"
+msgstr "Indiquez un filtre"
+
+msgid "title.png"
+msgstr "Saisissez un titre de colonne ici"
+
+msgid "teacher.png"
+msgstr "Identifiants des responsables"

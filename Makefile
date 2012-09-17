@@ -84,6 +84,7 @@ changelog:
 
 translations:
 	@for I in TRANSLATIONS/*/LC_MESSAGES LOCAL/LOCAL_TRANSLATIONS/*/LC_MESSAGES ; do if [ -d "$$I" ] ; then echo $$I ; (cd $$I ; $(MAKE) --no-print-directory -f $$(echo $$I | sed -r 's/[^\/]+/../g')/Makefile tomuss.mo) ; if [ $$? != 0 ] ; then exit 1 ; fi ; fi ; done
+	SCRIPTS/create_backgrounds.py
 
 %.mo:%.po
 	msgfmt $*.po -o $*.mo
