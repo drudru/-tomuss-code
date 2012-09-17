@@ -1010,6 +1010,7 @@ function popup_column()
 function create_popup(html_class, title, before, after, default_answer)
 {
   popup_close() ;
+  hide_the_tip_real() ;
 
   var new_value ;
 

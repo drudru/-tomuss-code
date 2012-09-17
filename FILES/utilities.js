@@ -2017,18 +2017,17 @@ function alt_shortcut(event, td)
 
 function current_keydown(event, in_input)
 {
-  if ( element_focused && element_focused.tagName == 'TEXTAREA' )
-    return ;
-
   event = the_event(event) ;
   var key = event.keyCode ;
-
   if ( popup_is_open() )
     {
       if ( key == 27 )
 	popup_close() ;
       return ;
     }
+
+  if ( element_focused && element_focused.tagName == 'TEXTAREA' )
+    return ;
 
   if ( element_focused && element_focused.id == "table_forms_keypress" )
       {
