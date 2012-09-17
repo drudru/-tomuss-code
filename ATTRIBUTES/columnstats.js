@@ -89,6 +89,7 @@ function update_histogram_real()
   var dy = t_column_histogram.offsetHeight ;
   var font_size = Math.min( (dx/0.9).toFixed(0), (dy/2.4).toFixed(0) ) ;
   var the_style =
+    'g { pointer-events: none;}' +
     'rect { stroke: #000 ; stroke-opacity: 0.5 ; stroke-width:1 }' +
     '.a0, .a1, .a2, .a3, .a4 { fill: #F00 }' +
     '.a5, .a6, .a7, .a8, .a9 { fill: #FA0 }' +
@@ -112,6 +113,7 @@ function update_histogram_real()
       try
 	{
 	  d = document.createElementNS("http://www.w3.org/2000/svg", 'svg');
+	  d.setAttribute('width', 1000) ;
 	}
       catch(err)
 	{

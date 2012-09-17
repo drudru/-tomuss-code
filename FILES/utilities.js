@@ -389,9 +389,10 @@ function hidden_over(event)
 
   if ( target.tagName == 'OPTION' )
     return ;
-
   if ( target.tagName == 'svg' )
+  {
     target = target.parentNode ;
+  }
   
   var value = compute_tip(target) ;
   show_the_tip(target, value) ;

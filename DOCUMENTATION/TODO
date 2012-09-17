@@ -23,8 +23,7 @@ Utilisateurs finaux.
   
 * Type de colonne Switch (SI)
 
-* Affichage histogramme tronqué (FireFox)
-  Les histogrammes sont à refaire pour simplifier le code et l'affichage
+* Les histogrammes sont à refaire pour simplifier le code et l'affichage
   des cas particuliers (ABI ABJ PPN TNR...)
 
 * Déplacer les infos du titre dans un onglet Info du bloc table

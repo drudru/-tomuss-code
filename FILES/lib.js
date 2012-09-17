@@ -731,7 +731,7 @@ function show_the_tip(td, tip_content)
   var tip_plus = document.getElementById('tip_plus') ;
   tip_plus.style.display = 'block' ;
   var td2 = tip_top(td) ;
-  var pos = findPos(td2) ;
+  var pos = findPos(td) ;
 
   var x = pos[0] - tip_plus.offsetWidth + 1 ;
   if ( x > 10 )

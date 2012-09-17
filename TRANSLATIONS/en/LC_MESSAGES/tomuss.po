@@ -2419,25 +2419,25 @@ msgid "MSG_columnstats_empty"
 msgstr "Empty (or unclassifiable): "
 
 msgid "MSG_columnstats_ppn"
-msgstr "Can't grade: "
+msgstr "Can't grade"
 
 msgid "MSG_columnstats_abi"
-msgstr "ABI: "
+msgstr "ABI"
 
 msgid "MSG_columnstats_abj"
-msgstr "ABJ: "
+msgstr "ABJ"
 
 msgid "MSG_columnstats_pre"
-msgstr "Present: "
+msgstr "Present"
 
 msgid "MSG_columnstats_yes"
-msgstr "Yes:"
+msgstr "Yes"
 
 msgid "MSG_columnstats_no"
-msgstr "No:"
+msgstr "No"
 
 msgid "MSG_columnstats_grade"
-msgstr "Grades:"
+msgstr "Grades"
 
 msgid "ALERT_columntitle_unchangeable"
 msgstr "This column is used in a formula that can not be modified,\n"
