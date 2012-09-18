@@ -53,6 +53,7 @@ return value ;
 #menutop #t_table_attr_masters.empty {
   background-image: url('teacher.png');
   background-repeat: no-repeat ;
+  background-position: 2px 2px;
 }
 #menutop DIV.tabs #t_table_attr_masters { font-size: 100% ; }
 """

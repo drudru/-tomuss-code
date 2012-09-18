@@ -239,6 +239,8 @@ def get_ticket_objet(ticket, server):
                 str(ticket_object).strip(),
                 client_ip(server), server.headers.get("user-agent", ''))
              )
+        for k, v in server.headers.items():
+            warn('%s : %s' % (k, v))
         ticket_object.remove_file()
         del tickets[ticket]
         return None

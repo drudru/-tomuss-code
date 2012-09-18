@@ -129,7 +129,10 @@ Administrateur.
 Problèmes à résoudre.
 =====================
 
-* Emploi du temps : manque des UE (TVL)
+* import export de liste de colonnes.
+
+* Importation quand la sauvegarde est désactivée : rien s'affiche (chrome)
+  dans une colonne qu'existe pas
 
 * Message de création gauche à droite quand on saisi une cellule.
 
