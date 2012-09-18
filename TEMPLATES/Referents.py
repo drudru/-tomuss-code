@@ -161,7 +161,7 @@ def update_inscrits_referents(the_ids, table, page):
             table.cell_change(page, "0_1"   ,line, firstname.encode('utf-8'))
             table.cell_change(page, "0_2"   ,line, surname.encode('utf-8'))
 
-            if lines and line[fire].value == '':
+            if lines and lines[0][1][fire].value == '':
                 #  FiRe only setted if empty, it must never change
                 table.cell_change(page, "FiRe"  ,line, pe)
             table.cell_change(page, contrat ,line, s)

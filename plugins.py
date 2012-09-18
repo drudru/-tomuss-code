@@ -311,11 +311,6 @@ def generate_data_files(suivi=False):
     # Generate MO files
     #####################################
 
-    if os.system('make translations'):
-        import sys
-        sys.stderr.write("\n*** Please install 'gettext' package ***\n")
-        sys.exit(1)
-
     import gettext
     js = utilities.js
 
