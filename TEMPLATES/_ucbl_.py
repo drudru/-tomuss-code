@@ -333,7 +333,7 @@ def remove_students_from_table(table, students):
                         table.cell_change(table.pages[0],
                                           column.the_id, line_id, '')
             else:
-                if inscrit_column:
+                if inscrit_column and table.official_ue:
                     table.cell_change(table.pages[0], inscrit_column, line_id,
                                       'non')
                 for i, column in enumerate(table.columns):
@@ -375,7 +375,6 @@ def terminate_update(table, the_ids, page):
             students_to_remove = set()
             for line_id, line in table.lines.items():
                 if line[0].value in the_ids \
-                       or not table.official_ue \
                        or inscrits.login_to_student_id(line[0].value) in the_ids:
                     # Student is fine
                     continue
