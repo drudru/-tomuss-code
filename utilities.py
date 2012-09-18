@@ -275,8 +275,11 @@ def send_mail(to, subject, message, frome=None, show_to=False):
         
     if message.startswith('<html>'):
         header += 'Content-Type: text/html; charset=UTF-8\n'
-    if isinstance(message, unicode):
-        header += 'Content-Type: text/plain; charset=UTF-8\n'
+    else:
+        if isinstance(message, unicode):
+            header += 'Content-Type: text/plain; charset=UTF-8\n'
+
+    if isinstance(message, unicode):            
         message = message.encode('utf-8')
     
     while True:
