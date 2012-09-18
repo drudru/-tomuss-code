@@ -71,7 +71,7 @@ def reload_plugins(server):
     server.the_file.write('</table>\n')
 
     for a_file in files.files.values():
-        a_file.content = None
+        a_file.clear_cache()
 
     # Recompute 'invited'
     t = document.table(0, 'Dossiers', 'config_plugin', None, None)

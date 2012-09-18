@@ -548,6 +548,10 @@ class StaticFile(object):
 
         return self.translate(self.content)
 
+    def clear_cache(self):
+        if self.time != -1:
+            self.content = None
+    
     def __len__(self):            
         return len(str(self))
 
@@ -1060,7 +1064,8 @@ def init(launch_threads=True):
         content=_("MSG_authentication_close")
         + '<script>window.close();</script>')
     files.files['allow_error.html'] = StaticFile(
-        'allow_error.html', _("TIP_violet_square"))
+        'allow_error.html',
+        content=_("TIP_violet_square"))
 
 if __name__ == "__main__":
     def square(g):
