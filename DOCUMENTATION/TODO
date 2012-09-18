@@ -129,13 +129,6 @@ Administrateur.
 Problèmes à résoudre.
 =====================
 
-* import export de liste de colonnes.
-
-* Importation quand la sauvegarde est désactivée : rien s'affiche (chrome)
-  dans une colonne qu'existe pas
-
-* Message de création gauche à droite quand on saisi une cellule.
-
 * Perte photo quand déconnexion puis reconnexion réseau : normal
 
 * Browser file close : suffisant pour Python 3 ? (page action)
@@ -191,9 +184,9 @@ Problèmes non reproductibles
 Améliorations de code source.
 =============================
 
-* Faire une fonction 'is_a_student(login)'
-
 * Enlever _URL_ si c'est possible
+
+* Faire une fonction 'is_a_student(login)'
 
 * Séparer les fichiers "static" ailleurs, se débarrasser de 'translation'
   qui empêche cela

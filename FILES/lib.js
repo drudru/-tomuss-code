@@ -2380,6 +2380,9 @@ function cell_set_value_real(line_id, data_col, value, td)
       Alert("ERROR_column_creation") ;
       return;
     }
+  if ( column.is_empty && column.data_col > 0
+       && columns[column.data_col-1].is_empty )
+      alert_append(_("ERROR_column_left_to_right")) ;
 
   value = column.real_type.cell_test(value, column);
   if ( value === undefined )
