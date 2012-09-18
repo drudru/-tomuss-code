@@ -169,7 +169,7 @@ def update_inscrits_ue(the_ids, table, page):
             if (line[1].value == '' or line[2].value == '') and line[0].value.strip():
                 get_info.append( (table, line_id, table.pages[0],
                                   line[0].value) )
-    terminate_update(table, the_ids, page)
+    terminate_update(table, the_ids)
 
 def check(table, update_inscrits=update_inscrits_ue):
     the_ids = {}
@@ -345,7 +345,7 @@ def remove_students_from_table(table, students):
     finally:
         table.unlock()
 
-def terminate_update(table, the_ids, page):
+def terminate_update(table, the_ids):
     if table.with_inscrits:
         allow_student_removal = configuration.allow_student_removal
         grp_col = table.columns.get_grp()
@@ -367,10 +367,7 @@ def terminate_update(table, the_ids, page):
             if len(to_remove) >= 1+len(table.lines)/2:
                 allow_student_removal = False
         
-        p = None
-        warn("Lock", what="check")
         table.lock()
-        warn("Locked", what="check")
         try:
             students_to_remove = set()
             for line_id, line in table.lines.items():

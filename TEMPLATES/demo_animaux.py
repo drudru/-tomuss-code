@@ -88,7 +88,7 @@ def update_inscrits_ue(the_ids, table, page):
             t.append(i)
         
         update_student(table, page, the_ids, t)
-    terminate_update(table, the_ids, page)
+    terminate_update(table, the_ids)
 
 def create_column(table, title, content_type, average=10., delta=5.):
     p = table.pages[1]
