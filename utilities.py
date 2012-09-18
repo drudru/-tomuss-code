@@ -1069,6 +1069,9 @@ def init(launch_threads=True):
     files.files['allow_error.html'] = StaticFile(
         'allow_error.html',
         content=_("TIP_violet_square"))
+    files.files['ip_error.html'] = StaticFile(
+        'ip_error.html',
+        content=_("ip_error.html"))
 
 if __name__ == "__main__":
     def square(g):

@@ -4783,3 +4783,11 @@ msgstr "Saisissez un titre de colonne ici"
 
 msgid "teacher.png"
 msgstr "Identifiants des responsables"
+
+msgid "ip_error.html"
+msgstr "Votre mobile n'a pas la même adresse IP qu'il y a une seconde.\n"
+       "Dans ces conditions aucune sécurité ne peux être assurée sur le web.\n"
+       "En conséquence l'accès à TOMUSS est refusé.\n"
+       "<p>\n"
+       "Demandez à votre opérateur téléphonique de rectifier ce problème."
+

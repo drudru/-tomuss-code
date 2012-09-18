@@ -176,7 +176,7 @@ class MyRequestBroker(utilities.FakeRequestHandler):
                     break
             return
 
-        if self.ticket is None:
+        if not self.ticket:
             # XXX : If Answer is an image : no redirect
             if len(self.the_path) > 4:
                 try:
@@ -194,17 +194,8 @@ class MyRequestBroker(utilities.FakeRequestHandler):
         self.the_file = self.wfile
 
         # Don't want to be blocked by authentication
-        if self.ticket is None or not hasattr(self.ticket, 'password_ok'):
-            warn('Append to authentication queue', what="auth")
-            self.send_response(307)
-            # The Connection:close is sent by send_response to please HTTP/1.1
-            self.do_not_close_connection()
-            authentication.authentication_requests.append(self)
-        else:
+        if authentication.ok(self):
             plugin.dispatch_request(self)
-        warn('the_file=%s(%s) wfile=%s' % (self.the_file,
-                                           self.the_file.closed, self.wfile),
-             what="auth")
 
     def do_GET_real_real_safe(self):
         warn('ticket=%s' % str(self.ticket)[:-1], what='auth')
@@ -221,7 +212,7 @@ class MyRequestBroker(utilities.FakeRequestHandler):
             self.do_GET_real()
         except: # IOError
             user_name = self.__dict__.get('ticket', '')
-            if user_name == None:
+            if not user_name:
                 user_name = ''
             if not isinstance(user_name, str):
                 user_name = user_name.user_name

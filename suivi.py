@@ -135,18 +135,8 @@ class MyRequestBroker(utilities.FakeRequestHandler):
         warn('ticket=%s' % str(self.ticket)[:-1])
         warn('the_path=%s' % str(self.the_path))
 
-        # Don't want to be blocked by authentication
-        if self.ticket is None or not hasattr(self.ticket, 'password_ok'):
-            warn('Append to authentication queue', what="auth")
-            self.send_response(307)
-            # The Connection:close is sent by send_response to please HTTP/1.1
-            self.do_not_close_connection()
-            authentication.authentication_requests.append(self)
-        else:
+        if authentication.ok(self):
             self.do_GET_real_real_safe()
-        warn('the_file=%s(%s) wfile=%s' % (self.the_file,
-                                           self.the_file.closed, self.wfile),
-             what="debug")
 
     def do_GET_real_real_safe(self):
         tick = self.ticket

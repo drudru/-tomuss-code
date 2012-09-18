@@ -124,6 +124,7 @@ def get_path(server, server_url):
     
     ticket_key, path = ticket.get_ticket_string(server)
     ticket_object = ticket.get_ticket_objet(ticket_key, server)
+        
     # Ticket OK
     if ticket_object != None:
         warn('fast ticket:%s' % str(ticket_object)[:-1], what='auth')
@@ -209,7 +210,7 @@ def update_ticket(tick):
         tick.password_ok = inscrits.L_fast.password_ok(tick.user_name)
     else:
         tick.password_ok = True
-
+        
 def authentication_thread():
     """The send_response 307 (redirection) is yet done"""
     ticket.remove_old_files()
@@ -222,7 +223,7 @@ def authentication_thread():
             # now it is safe because the Handler has closed the file
             x.restore_connection()
             try:
-                if x.ticket == None:
+                if not x.ticket:
                     x.ticket, x.the_path = get_path(x, authentication_redirect)
                     if x.ticket == None:
                         x.log_time('redirection')
@@ -239,3 +240,25 @@ def authentication_thread():
 
 def run_authentication():
     utilities.start_new_thread_immortal(authentication_thread, ())
+
+def ok(server):
+    # Don't want to be blocked by authentication
+    if server.ticket and hasattr(server.ticket, 'password_ok'):
+        return True
+
+    # Redirect the client to not blobk the others
+    server.send_response(307)
+
+    # Problem with the request with an ever changing IP
+    if server.ticket is False:
+        server.send_header('Location', utilities.StaticFile._url_
+                           + '/ip_error.html'
+                           )
+        server.end_headers()
+        return
+    
+    warn('Append to authentication queue', what="auth")
+    # The Connection:close is sent by send_response to please HTTP/1.1
+    server.do_not_close_connection()
+    authentication_requests.append(server)
+

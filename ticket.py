@@ -243,6 +243,9 @@ def get_ticket_objet(ticket, server):
             warn('%s : %s' % (k, v))
         ticket_object.remove_file()
         del tickets[ticket]
+        
+        if time.time() - ticket_object.date < 1:
+            return False
         return None
     if ticket_object and ticket_object.language == '':
         ticket_object.set_language(server.headers.get('accept-language',''))
