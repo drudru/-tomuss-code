@@ -924,7 +924,7 @@ def _(msgid, language=None):
     if language is None:
         language = (configuration.language, 'en', 'fr')
     else:
-        language = tuple(configuration.language) + ('en', 'fr')
+        language = tuple(language) + (configuration.language, 'en', 'fr')
     if _.language != language:
         _.language = language
         try:

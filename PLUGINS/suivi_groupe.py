@@ -95,7 +95,6 @@ def page_one_groupe(server):
                 server._("MSG_suivi_group_firstname"),
                 server._("MSG_suivi_group_group")))
           
-    g = []
     for line in t.lines.values():
         if line[col_inscrit].value != 'ok' and not debug:
             continue

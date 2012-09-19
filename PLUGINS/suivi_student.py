@@ -371,7 +371,7 @@ def suivi_headers(server, is_student=True):
         '<link rel="stylesheet" href="%s/suivi_student.css" type="text/css">\n'
         % utilities.StaticFile._url_
         + '<script src="%s/suivi_student.js" onload="this.onloadDone=true;"></script>\n' % utilities.StaticFile._url_
-        + '<noscript><h1>'+server.__('MSG_need_javascript')+'</h1></noscript>\n'
+        + '<noscript><h1>'+server._('MSG_need_javascript')+'</h1></noscript>\n'
         "<script>"
         + "var semester = %s;\n" % utilities.js(server.semester         )
         + "var year     = %s;\n" % utilities.js(server.year             )
