@@ -45,6 +45,7 @@ var  connected       = window.parent.connected       ;
 var  update_mail     = window.parent.update_mail     ;
 var  update_portail  = window.parent.update_portail  ;
 var  login_list      = window.parent.login_list      ;
+var  set_updating    = window.parent.set_updating    ;
 </script>
     '''
 

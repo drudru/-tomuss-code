@@ -1294,7 +1294,7 @@ def check_new_students_real():
             t.do_not_unload_add(1)
             if t.unloaded:
                 continue
-            t.send_update(None, "<script>document.getElementById('updating').style.display = 'inline';</script>")
+            t.send_update(None, "<script>set_updating(1);</script>")
             utilities.bufferize_this_file(t.filename)
             try:
                 warn('start update students of %s' % t.ue, what="table")
@@ -1309,7 +1309,7 @@ def check_new_students_real():
             finally:
                 t.do_not_unload_add(-1)
                 utilities.bufferize_this_file(None)
-                t.send_update(None, "<script>document.getElementById('updating').style.display = 'none';</script>")
+                t.send_update(None, "<script>set_updating(0);</script>")
             
     except IndexError:
         if not configuration.regtest:

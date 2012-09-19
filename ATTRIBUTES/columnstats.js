@@ -171,21 +171,24 @@ function update_histogram_real()
 
 function update_histogram(force)
 {
-  t_column_stats = document.getElementById('t_column_stats') ;
+  var t_column_stats = document.getElementById('t_column_stats') ;
   t_column_histogram = document.getElementById('t_column_histogram') ;
   t_column_average = document.getElementById('t_column_average') ;
   if ( ! t_column_stats )
     return ;
   if ( !  t_column_histogram )
   {
-    t_column_stats.innerHTML =
-      '<tr><td>'
-      + hidden_txt('<div id="t_column_histogram"></div>',
-		 _("TITLE_column_attr_stats_histo"))
-      + '</td><td class="m">'
-      + hidden_txt('<div id="t_column_average"></div>',
-		   _("TITLE_column_attr_stats_average") + '\n')
-      + '</td></tr>' ;
+    var tr = document.createElement('TR') ;
+    var td1 = document.createElement('TD') ;
+    var td2 = document.createElement('TD') ;
+    td1.innerHTML = hidden_txt('<div id="t_column_histogram"></div>',
+			       _("TITLE_column_attr_stats_histo")) ;
+    td2.className = 'm' ;
+    td2.innerHTML = hidden_txt('<div id="t_column_average"></div>',
+			       _("TITLE_column_attr_stats_average") + '\n') ;
+    tr.appendChild(td1) ;
+    tr.appendChild(td2) ;
+    t_column_stats.appendChild(tr) ;
     update_histogram(force) ;
     return ;
   }

@@ -4554,6 +4554,13 @@ function the_full_login_list(login, results, add)
     full_login_list(login, results, add) ; // Defined in home2.js
 }
 
+function set_updating(bool)
+{
+  if ( bool )
+    document.getElementById('updating').style.display = 'inline';
+  else
+    document.getElementById('updating').style.display = 'none';
+}
 
 // XXX COPY/PASTE in the end of new_page.py
 window.Xcell_change    = Xcell_change ;
@@ -4569,3 +4576,4 @@ window.update_portail  = update_portail ;
 window.login_list      = login_list ;
 window.click_to_revalidate_ticket = click_to_revalidate_ticket ;
 window.server_answered = server_answered ;
+window.set_updating    = set_updating ;
