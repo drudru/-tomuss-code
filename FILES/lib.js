@@ -723,6 +723,7 @@ function show_the_tip(td, tip_content)
 
   if ( instant_tip_display )
     {
+      set_tip_position(td, bottom) ;
       tip.style.display = "block" ;
       return ;
     }
