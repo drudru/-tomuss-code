@@ -175,7 +175,7 @@ def get_ticket_string(server):
 def clone(ticket_key, ticket):
     return Ticket(ticket_key,
                   ticket.user_name, ticket.user_ip, ticket.user_browser,
-                  ticket.date)
+                  ticket.date, ticket.language)
 
 def remove_old_tickets():
     """Remove old tickets from memory"""

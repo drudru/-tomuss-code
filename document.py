@@ -124,8 +124,6 @@ def filter_language(language):
          for x in language.strip(",").split(',')
          if x in plugins.languages
          ]
-    if 'fr' not in t:
-        t.append('fr')
     return ','.join(t)
 
 
@@ -145,7 +143,7 @@ def get_preferences(user_name, create_pref=True, the_ticket=None):
             for the_ticket in ticket.tickets.values():
                 if the_ticket.user_name == user_name:
                     break
-        p['language'] = the_ticket.language
+        p['language'] = the_ticket.language + ',' + configuration.language
 
     p['language'] = filter_language(p['language'])
     return p
