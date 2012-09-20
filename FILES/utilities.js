@@ -363,8 +363,6 @@ function tip_top(tt)
   return tt ;
 }
 
-// var display_tips = false ; // Overriden by lib.js
-
 function compute_tip(element)
 {
   if ( element.offsetHeight === 0 )
@@ -1544,7 +1542,7 @@ function update_attribute_value(e, attr, table, editable)
 	      }
       }
   switch(attr.gui_display)
-    {
+  {
     case 'GUI_select':
       set_select_by_value(e, value) ;
       break ;
@@ -1556,6 +1554,8 @@ function update_attribute_value(e, attr, table, editable)
 
       if ( tip_exists )
 	{
+	    if ( i_am_root )
+	       tip_content += '<hr><b>' + e.id + '</b>' ;
 	    try {
 		tip_top(e).firstChild.innerHTML = tip_content ;
 	    }
@@ -1673,38 +1673,26 @@ function current_update_cell_headers()
 
   update_value_and_tip(t_value, cell.value) ;
 
-  if ( t_author )
-    {
-      update_value_and_tip(t_history, cell.history) ;
-      update_value_and_tip(t_date, date(cell.date)) ;
-      if ( cell.author )
-	update_value_and_tip(t_author, cell.author) ;
-      else
-	update_value_and_tip(t_author, '.') ;
-    }
-  else
-    {
-      var s = ['<table class="colored">'] ;
-      s.push('<tr><th>' + _("B_Date") + '<th>' + _('TH_who') + '<th>'
-	     + _("TH_value") + '</tr>') ;
-      s.push('<tr><td>' + date(cell.date) + '<td>'
-	     + cell.get_author() + '<td>'
-	     + html(cell.value) + '</tr>') ;
-      var h = cell.history.split('),·') ;
-      h.pop() ;
-      h.reverse() ;
-      for(var i in h)
-	{
-	  i = h[i].split('\n(') ;
-	  var date_author = i[1].split(' ') ;
-	  s.push('<tr><td>' + date(date_author[0]) + '<td>'
-		 + get_author(date_author[1])
-		 + '<td>' + html(i[0]) + '</tr>') ;
-	}
-      s.push('</table>') ;
-      t_history.innerHTML = s.join('\n') ;
+  var s = ['<table class="colored" style="pointer-events: none">'] ;
+  s.push('<tr><th>' + _("B_Date") + '<th>' + _('TH_who') + '<th>'
+	 + _("TH_value") + '</tr>') ;
+  s.push('<tr><td>' + date(cell.date) + '<td>'
+	 + cell.get_author() + '<td>'
+	 + html(cell.value) + '</tr>') ;
+  var h = cell.history.split('),·') ;
+  h.pop() ;
+  h.reverse() ;
+  for(var i in h)
+  {
+    i = h[i].split('\n(') ;
+    var date_author = i[1].split(' ') ;
+    s.push('<tr><td>' + date(date_author[0]) + '<td>'
+	   + get_author(date_author[1])
+	   + '<td>' + html(i[0]) + '</tr>') ;
+  }
+  s.push('</table>') ;
+  t_history.innerHTML = s.join('\n') ;
       
-    }
   update_tip_from_value(t_student_picture.parentNode,
 			line_resume(this.line_id), '') ;
 }
