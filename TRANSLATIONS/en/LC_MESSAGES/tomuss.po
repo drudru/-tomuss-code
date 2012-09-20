@@ -375,10 +375,12 @@ msgstr "Dynamicaly insert a CSV file into the columns values.<br>\n"
  "for example: http://www.univ-lyon1.fr/MyGrades.csv#2<br>\n"
  "indicates that the second column of the file must be<br>\n"
  "inserted in the column cells.\n"
- "<br>\n"
+ "<hr>\n"
  "To extract a column from another TOMUSS table, indicate:<br>\n"
  "table/column ou semester/table/column ou year/semester/table/column<br>\n"
- "<b>BEWARE: computed values are not imported.</b>"
+ "<b>BEWARE: computed values are not imported.</b>\n"
+ "<br>You can prefix the line with #@?: to indicate that you want\n"
+ "to import cell comment, author, date or history."
        
 
 #. Attribute Tip

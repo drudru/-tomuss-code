@@ -366,10 +366,12 @@ msgstr "Indique à TOMUSS que le contenu de la colonne<br>\n"
  "Par exemple : http://www.univ-lyon1.fr/MesNotes/MonUE.csv#5<br>\n"
  "indique qu'il faut recopier la cinquième colonne du fichier<br>\n"
  "dans les cellules de la colonne.<br>\n"
- "<br>\n"
+ "<hr>\n"
  "Pour extraire une colonne venant d'une autre table TOMUSS indiquez :<br>\n"
  "table/colonne ou semestre/table/colonne ou année/semestre/table/colonne<br>\n"
- "<b>ATTENTION : les résultats de calcul ne sont pas importés.</b>"
+ "<b>ATTENTION : les résultats de calcul ne sont pas importés.</b>\n"
+ "<br>Vous pouvez ajouter #@?: en début de ligne pour indiquer que\n"
+ "voulez importer les commentaires, auteur, date ou historique de la cellule"
        
 
 #. Attribute Tip

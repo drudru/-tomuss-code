@@ -64,10 +64,22 @@ def error(column, message, more=None):
         None, "<script>Alert('%s', %s);</script>" %(message,
         utilities.js("\n" + column.title + ' : ' + more)))
 
+getters = {
+    ':': lambda x: x.history,
+    '?': lambda x: x.date,
+    '@': lambda x: x.author,
+    '#': lambda x: x.comment,
+    }
+
 def get_column_from_a_table(column, table_list):
 
-    columns = []
     values = collections.defaultdict(list)
+    try:
+        getter = getters[table_list[0]]
+    except KeyError:
+        getter = lambda x: x.value
+    table_list = table_list.lstrip(''.join(getters)).strip()
+    
     for url in re.split("  *", table_list):
         splited = url.split('/')
         if len(splited) < 2:
@@ -93,7 +105,7 @@ def get_column_from_a_table(column, table_list):
             error(column, 'ALERT_url_import_computed', url)
             return
         for line in table.lines.values():
-            values[line[0].value].append((line[col.data_col].value, url))
+            values[line[0].value].append((getter(line[col.data_col]), url))
         
     for line_id, line in column.table.lines.items():
         new_val = values[line[0].value]
