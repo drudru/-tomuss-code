@@ -8,6 +8,8 @@ Nouvelles fonctionnalités.
 Utilisateurs finaux.
 --------------------
 
+* Reconnection de la page des ABJ quand le serveur redémarre ?
+
 * Faire doc d'installation pas par pas
 
 * traduction 'ou' filtre
@@ -196,6 +198,8 @@ Améliorations de code source.
 * Tester le nouveau utility.js()
 
 * Scrollbar de chargement jamais visible : l'enlever ?
+
+* Enlever fixed tips ?
 
 * Regtest javascript : filtre et double clique
 
