@@ -152,6 +152,19 @@ msgstr "Présence"
 msgid "H_Prst"
 msgstr "Valeurs possibles : PRST, ABINJ, ABJUS"
 
+#. Columns types, button text in the menu
+msgid "B_Weighted_Percent"
+msgstr "% pondéré de"
+
+msgid "H_Weighted_Percent"
+msgstr "Calcule le pourcentage d'ABJUS utilisé dans le calcul\n"
+       "de moyenne pondérée indiquée dans le champ 'Colonnes'.\n"
+       "<p>ATTENTION : par défaut, la valeur calculée\n"
+       "est dans l'interval [0;20]"
+
+
+
+
 #. Attribute Tip
 msgid "TIP_column_attr_comment"
 msgstr "<b>Commentaire pour cette colonne.</b><br>\n"
@@ -334,6 +347,12 @@ msgid "TIP_column_attr_columns__Phone"
 msgstr "<b>Trouve le numéro de téléphone</b><br>\n"
  "        Indiquez la colonne de comptes (ID)<br>\n"
  "        pour lesquels on veut trouver le téléphone."
+
+#. Attribute Tip
+msgid "TIP_column_attr_columns__Weighted_Percent"
+msgstr "<b>Calcule le percentage pondéré de valeurs\n"
+       "correspondant au filtre</b><br>\n"
+       "dans la colonne <b>unique</b> dont vous indiquez le titre ici."
 
 #. Attribute Tip
 msgid "TIP_column_attr_repetition"

@@ -1,7 +1,7 @@
 #!/bin/env python
 # -*- coding: utf-8 -*-
 #    TOMUSS: The Online Multi User Simple Spreadsheet
-#    Copyright (C) 2008-2011 Thierry EXCOFFIER, Universite Claude Bernard
+#    Copyright (C) 2012 Thierry EXCOFFIER, Universite Claude Bernard
 #
 #    This program is free software; you can redistribute it and/or modify
 #    it under the terms of the GNU General Public License as published by
@@ -19,21 +19,10 @@
 #
 #    Contact: Thierry.EXCOFFIER@bat710.univ-lyon1.fr
 
-from column import ColumnAttr
+import moy
 
-class ColumnTestFilter(ColumnAttr):
-    default_value = ''
-    display_table = 1
-    name = 'test_filter'
-    check_and_set = '''
-function(value, column)
-{
-  column.need_update = true ;
-  column.nmbr_filter = compile_filter_generic(value) ;
-  return value ;
-}'''
-    css = """
-    #menutop #t_column_test_filter { width: 4em ; }
-    #menutop DIV.tabs #t_column_test_filter { width: 40% ; }
-    """
-
+class Weighted_Percent(moy.Moy):
+    human_priority = 3
+    cell_compute = 'compute_weighted_percent'
+    attributes_visible = ('columns', 'weight', 'rounding', 'test_filter',
+                          'minmax')

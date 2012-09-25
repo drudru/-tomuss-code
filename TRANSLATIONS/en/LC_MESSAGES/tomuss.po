@@ -158,6 +158,16 @@ msgstr "Present"
 msgid "H_Prst"
 msgstr "Possible values: PRST, InjLeave, JustLeave"
 
+#. Columns types, button text in the menu
+msgid "B_Weighted_Percent"
+msgstr "Weighted % of"
+
+msgid "H_Weighted_Percent"
+msgstr "Compute the weighted percent of filtered values\n"
+       "in the weighted average in the column indicated in 'Columns'.\n"
+       "<p>BEWARE : the default value interval is [0;20]"
+
+
 #. Attribute Tip
 msgid "TIP_column_attr_comment"
 msgstr ""
@@ -342,6 +352,13 @@ msgid "TIP_column_attr_columns__Phone"
 msgstr ""
 "<b>Extract the phone number</b><br>\n"
 "Indicates the ID column for which phone must be found."
+
+#. Attribute Tip
+msgid "TIP_column_attr_columns__Weighted_Percent"
+msgstr "<b>Compute the weighted percent of filtered values</b><br>\n"
+       "used to compute the value of the UNIQUE column name indicated here.\n"
+       "<p>If the filter is '&gt;=10' it will compute the % of values\n"
+       "bigger than 10, but ponderated by the column weights."
 
 #. Attribute Tip
 msgid "TIP_column_attr_repetition"

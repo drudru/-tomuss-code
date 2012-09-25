@@ -598,7 +598,32 @@
       comme des ABI le responsable d'UE met <tt>ABINJ</tt>
       dans le champ «<tt>Si vide</tt>» de la colonne représentant la séance.
       Ce champ est dans l'onglet « Formule »
+
+    <h4>Calculer le pourcentage d'ABJUS</h4>
+
+    <p>
+      Vous voulez connaître le pourcentage d'absence justifiée
+      afin de savoir si une moyenne a toujours un sens.
+      Il est possible de le calculer en tenant compte du
+      poids des différentes notes. voici la procédure&nbsp;
+      <ul>
+	<li> Vous créez une colonne de type <b>% pondéré de</b>
+	<li> Puis vous indiquez <tt>ABJUS</tt> dans le champs juste à droite
+	  de <b>% pondéré de</b>
+	<li> A droite de celui-ci, vous mettez <tt>[0;100]</tt>
+	  pour obtenir un pourcentage entre 0 et 100.
+	<li> dans l'onglet « Formule »,
+	  vous mettez le nom de la colonne qui contient la moyenne
+	  dans le champs « Colonnes »
+      </ul>
+      <p>
+	ATTENTION : ce pourcentage ne tient pas compte des colonnes
+	qui ont un poids qui commence par + ou -.
+      <p>
+	ATTENTION : cette fonctionnalité est nouvelle,
+	vérifiez bien les résultats.
       </div>
+    
 
     <div>
     <h3>Les ABINJ???</h3>

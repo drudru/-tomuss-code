@@ -27,6 +27,5 @@ class ColumnMinMax(ColumnAttr):
     name = 'minmax'
     check_and_set = 'set_test_note'
     css = """
-    #menutop #t_column_minmax { width: 3.5em ; }
-    #menutop DIV.tabs #t_column_minmax { width: 65% ; }
+    #menutop #t_column_minmax { width: 4em ; }
     """

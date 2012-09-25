@@ -643,8 +643,8 @@ function new_new_interface()
   t.push('<div class="one_line">') ;
   t.push(column_input_attr('type', options)) ;
   t.push(column_input_attr('enumeration')) ;
-  t.push(column_input_attr('minmax')) ;
   t.push(column_input_attr('test_filter')) ;
+  t.push(column_input_attr('minmax')) ;
   t.push('</div>') ;
   t.push('<div class="one_line">') ;
   t.push('<table id="t_column_stats"></table>') ;
