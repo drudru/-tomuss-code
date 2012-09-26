@@ -143,9 +143,10 @@ def get_preferences(user_name, create_pref=True, the_ticket=None):
             for the_ticket in ticket.tickets.values():
                 if the_ticket.user_name == user_name:
                     break
-        p['language'] = the_ticket.language + ',' + configuration.language
+        p['language'] = the_ticket.language
+        if p['language'] == '':
+            p['language'] = configuration.language
 
-    p['language'] = filter_language(p['language'])
     return p
 
 
@@ -157,7 +158,7 @@ def table_head_more(ue):
 
 def translations_init(language):
     languages = []
-    language = filter_language(language)
+    language = filter_language(language + ',' + configuration.language)
     for lang in language.split(','):
         languages.append(
             '<script onload="this.onloadDone=true;" src="%s/%s.js"></script>'

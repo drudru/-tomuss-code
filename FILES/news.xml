@@ -741,6 +741,17 @@ Les améliorations les plus visibles sont :
       </description>
       <guid>51</guid>
     </item>
+    <item>
+      <title>26/09/2012 : Version 5.0.5</title>
+      <link>http://tomuss.univ-lyon1.fr/</link>
+      <description>
+	Il est maintenant possible de calculer le pourcentage d'absence
+	justifiées dans une moyenne en utilisant le type de colonne :
+	'% pondéré de' ABJUS et en indiquant que l'on veux une valeur
+	entre 0 et 100.
+      </description>
+      <guid>52</guid>
+    </item>
 
   </channel>
 </rss>
