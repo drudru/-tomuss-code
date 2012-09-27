@@ -333,13 +333,16 @@ local_options = {}
 cas = 'https://configure.cas.url.or.use.regtest.parameter/cas'
 
 # OU containing student by year of inscription.
-
+# It is only useful to do the automatic selection of referent-teacher students
 the_portails = {
     'MATINFL1' :
     ("CN=DV0041 etape-DV0041,OU=groupes,OU=etudiants,DC=univ-lyon1,DC=fr",
      ),
-    'MATINFL2' :
-    ("CN=DV0042 etape-DV0042,OU=groupes,OU=etudiants,DC=univ-lyon1,DC=fr",
+    'MATL2' :
+    ("CN=MT3522 etape-MT3522,OU=groupes,OU=etudiants,DC=univ-lyon1,DC=fr",
+     ),
+    'INFL2' :
+    ("CN=IF6720 etape-IF6720,OU=groupes,OU=etudiants,DC=univ-lyon1,DC=fr",
      ),
     'INFL3' :
     ('CN=IF6731 etape-IF6731,OU=groupes,OU=etudiants,DC=univ-lyon1,DC=fr',
@@ -352,7 +355,7 @@ the_portails = {
      'CN=MT3533 etape-MT3533,OU=groupes,OU=etudiants,DC=univ-lyon1,DC=fr',
      'CN=MT3534 etape-MT3534,OU=groupes,OU=etudiants,DC=univ-lyon1,DC=fr',
      ),
-    'UFRFST' :
+    'UFRFST' : # The groups of student that should have a referent teacher
     (
         'CN=148891 CGE-UFR Sciences et Technologie,OU=groupes,OU=etudiants,DC=univ-lyon1,DC=fr',
         'CN=139284 APO-UFR Sciences et Technologie,OU=groupes,OU=etudiants,DC=univ-lyon1,DC=fr',

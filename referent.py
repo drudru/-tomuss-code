@@ -310,6 +310,13 @@ def search_best_teacher(student, sorted_teachers, f, all_teachers):
 def student_need_a_referent(student, all_cells, debug_file):
     return True
 
+#REDEFINE
+# Returns True if teacher want to keep the student even if
+# the student must not have a referent teacher
+def teacher_keep_student(tteacher, student_id):
+    return False
+
+
 def referents_students(year=None, semester=None):
     if year is None:
         year, semester = configuration.year_semester
@@ -382,7 +389,8 @@ def update_referents(ticket, f, really_do_it = False, add_students=True):
                     continue
                 if cell.value not in all_cells:
                     all_cells[cell.value] = tteacher
-                    if cell.value not in students:
+                    if (not teacher_keep_student(tteacher, cell.value)
+                        and cell.value not in students):
                         f.write(utilities._("MSG_referent_student_not_in_list")
                                 % (cell.value, line[0].value,
                                    etapes_of_students.get(cell.value, ())
