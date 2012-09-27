@@ -655,12 +655,22 @@ def import_reload(filename):
     name = filename.split(os.path.sep)
     name[-1] = name[-1].replace('.py','')
     module_name = '.'.join(name)
-    module = __import__(module_name)
+    old_module = __import__(module_name) # force the .pyc creation
     mtime_pyc =  os.path.getmtime(filename + 'c')
     to_reload = mtime > mtime_pyc
     if to_reload:
         unload_module(module_name)
         module = __import__(module_name)
+        # replace the old by the new one
+        import gc
+        for o in gc.get_referrers(old_module):
+            if isinstance(o, dict):
+                for k, v in o.items():
+                    if v is old_module:
+                        o[k] = module
+                        break
+    else:
+        module = old_module
     for item in name[1:]:
         module = module.__dict__[item]
     return module, to_reload
