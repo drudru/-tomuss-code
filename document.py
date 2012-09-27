@@ -119,9 +119,9 @@ def table_filename(year, semester, ue):
     return os.path.join(configuration.db, 'Y'+str(year), 'S'+semester, ue + '.py')
 
 def filter_language(language):
-    # Remove not translated languages
+    # Remove not translated languages and duplicates
     t = [x
-         for x in language.strip(",").split(',')
+         for x in set(language.strip(",").split(','))
          if x in plugins.languages
          ]
     return ','.join(t)
@@ -143,7 +143,7 @@ def get_preferences(user_name, create_pref=True, the_ticket=None):
             for the_ticket in ticket.tickets.values():
                 if the_ticket.user_name == user_name:
                     break
-        p['language'] = the_ticket.language
+        p['language'] = filter_language(the_ticket.language)
         if p['language'] == '':
             p['language'] = configuration.language
 
