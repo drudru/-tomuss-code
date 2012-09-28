@@ -957,7 +957,11 @@ class FakeRequestHandler(BaseHTTPServer.BaseHTTPRequestHandler):
     please_do_not_close = False
     timeout = 0.3 # For Opera that does not send GET on HTTP request
             
-    def send_response(self, i):
+    def send_response(self, i, comment=None):
+        if comment:
+            # To answer HEAD request no handled
+            BaseHTTPServer.BaseHTTPRequestHandler.send_response(self,i,comment)
+            return
         BaseHTTPServer.BaseHTTPRequestHandler.send_response(self, i)
         # Needed for HTTP/1.1 requests
         self.send_header('Connection', 'close')
