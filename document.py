@@ -568,7 +568,8 @@ class Table(object):
         if not self.loading:
             if not self.authorized(page, cell):
                 utilities.warn('cell value = (%s)' % cell.value)
-                return self.bad_auth(page)
+                return self.bad_auth(page, "cell_change %s/%s/%s" % (
+                        col, lin, value))
             if a_column.locked and page.user_name != data.ro_user:
                 self.error(page, utilities._("MSG_document_column_locked"))
                 return 'bad.png'
@@ -680,9 +681,10 @@ class Table(object):
                                                       self.private))
         return 'ok.png'
 
-    def error(self, page, message):
+    def error(self, page, message, more_in_mail=""):
         utilities.send_backtrace(
-            'UE: %s, Page: %s' % (self.ue, page) , subject='###' + message)
+            'UE: %s, Page: %s' % (self.ue, page)
+            + '\n' + more_in_mail, subject='###' + message)
         if '_(' not in message:
             # The message is not javascript program
             message = js(message)
@@ -694,8 +696,8 @@ class Table(object):
     def bad_column(self, page):
         return self.error(page, '_("ALERT_column_not_exist")')
 
-    def bad_auth(self, page):
-        return self.error(page, '_("ALERT_not_authorized")')
+    def bad_auth(self, page, more_in_mail=""):
+        return self.error(page, '_("ALERT_not_authorized")', more_in_mail)
 
     def bad_ro(self, page):
         return self.error(page, '_("ALERT_value_ro")')
@@ -715,7 +717,8 @@ class Table(object):
 
         if not self.loading:
             if not self.authorized(page, line[a_column.data_col]):
-                return self.bad_auth(page)
+                return self.bad_auth(page, "comment_change %s/%s/%s" % (
+                        col, lin, value))
             self.log('comment_change(%s,%s,%s,%s)' % (
                 page.page_id,
                 repr(col),
@@ -845,7 +848,7 @@ class Table(object):
 
     def column_delete(self, page, col):
         if not self.loading and not self.modifiable:
-            return self.bad_auth(page)
+            return self.bad_ro(page)
         a_column = self.columns.from_id(col)
         if a_column == None:
             return self.bad_column(page)
@@ -855,7 +858,7 @@ class Table(object):
         # It was tested because bad columns were created.
         if page.user_name not in self.masters and a_column.data_col < 6 :
             if not self.authorized_column(page, a_column):
-                return self.bad_auth(page)
+                return self.bad_auth(page, "column_delete %s" % col)
         if (a_column.type.cell_is_modifiable
             and not a_column.empty_of_user_values()):
             return self.error(page, '_("ALERT_delete_not_empty")')
