@@ -4248,6 +4248,12 @@ msgstr "Langue utilisée lors de la création des tables pour les titres de colo
 msgid "config_table_suivi_student_message"
 msgstr "Suivi: Message à afficher aux étudiants dans leur suivi"
 
+msgid "config_table_not_teachers"
+msgstr "Accès: Refusé si le login est dans un des groupes LDAP"
+
+msgid "config_table_login_not_teacher"
+msgstr "Accès: Refusé si le login est dans la liste"
+
 msgid "COL_TITLE_orientation"
 msgstr "Orientation"
 

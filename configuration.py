@@ -73,6 +73,8 @@ abj_masters = (
 not_teachers = (
     'CN=NotTeachers,OU=Groupes,DC=univ-lyon1,DC=fr',
     )
+# It is not a teacher if it is one of these login
+login_not_teacher = ('banned_login1', 'banned_login2')
 
 referents = (
     "CN=referents-fst,OU=Groupes,OU=UFR Sciences et Technologies,DC=univ-lyon1,DC=fr",

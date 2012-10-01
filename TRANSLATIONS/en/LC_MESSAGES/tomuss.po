@@ -4201,6 +4201,12 @@ msgstr "Language used when creating tables, for column names and comments"
 msgid "config_table_suivi_student_message"
 msgstr "Suivi: Message to display to students in their 'suivi' page"
 
+msgid "config_table_not_teachers"
+msgstr "Access: Denied if the login is in one of these LDAP group"
+
+msgid "config_table_login_not_teacher"
+msgstr "Access: Denied for these logins"
+
 msgid "COL_TITLE_orientation"
 msgstr "Orientation"
 

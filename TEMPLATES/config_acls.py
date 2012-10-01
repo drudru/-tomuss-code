@@ -140,6 +140,8 @@ def login_is_member(login, member, member_of):
     if member == login:
         return True
     elif member.startswith('ldap:'):
+        if login in configuration.login_not_teacher:
+            return False
         member = member[5:]
         # Remove if it is in a group of non teacher.
         for i in configuration.not_teachers:

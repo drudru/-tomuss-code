@@ -91,6 +91,7 @@ variable_list = [
     "unload_interval",
     "check_down_connections_interval",
     "not_teachers",
+    "login_not_teacher",
     "logo",
     "suivi_display_more_ue",
     "language",
@@ -100,7 +101,7 @@ variable_list = [
 
 deprecated = set(('root', 'invited_teachers', 'invited_administratives',
                   'invited_abj_masters', 'tt_masters', 'teachers',
-                  'administratives', 'abj_masters', 'not_teachers',
+                  'administratives', 'abj_masters',
                   'referents'))
 
 variables = {}
