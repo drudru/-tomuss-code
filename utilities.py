@@ -265,7 +265,7 @@ def send_mail(to, subject, message, frome=None, show_to=False):
         return
     
     header = "From: " + frome + '\n'
-    header += "Subject: " + subject + '\n'
+    header += "Subject: " + subject.replace('\n',' ').replace('\r',' ') + '\n'
     if len(to) == 1:
         header += "To: " + to[0] + '\n'
     elif show_to:
