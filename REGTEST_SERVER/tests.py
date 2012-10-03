@@ -19,23 +19,20 @@
 #
 #    Contact: Thierry.EXCOFFIER@bat710.univ-lyon1.fr
 
+import tomuss_init
 import sys
 import os
 import shutil
 import httplib
-
-sys.path.append(os.getcwd())
-sys.path.append(os.path.join(os.getcwd(), '..'))
-
-
-import configuration
-import utilities
-from server import Server, ServerSuivi, check
 import time
+
+from .. import configuration
+from .. import utilities
+from .server import Server, ServerSuivi, check
+
 configuration.regtest = True
 
-
-import regtestpatch
+from .. import regtestpatch
 regtestpatch.do_patch()
 
 root     = configuration.root[0]
@@ -45,9 +42,9 @@ assert( root != abj )
 
 configuration.language = 'en'
 
-ok_png = utilities.read_file('../FILES/ok.png')
-bad_png = utilities.read_file('../FILES/bad.png')
-bug_png = utilities.read_file('../FILES/bug.png')
+ok_png = utilities.read_file('FILES/ok.png')
+bad_png = utilities.read_file('FILES/bad.png')
+bug_png = utilities.read_file('FILES/bug.png')
 unauthorized_html = utilities._("MSG_new_page_unauthorized")
 not_in_demo_mode = utilities._("MSG_evaluate")
 
@@ -668,8 +665,8 @@ def tests():
         c = s.url('=' + root + '/%s/UE-INF20UE2/tablecopy/0/Dossiers/history'
                   % ys)
         assert('OK' in c)
-        a = utilities.read_file('../DBregtest/Y0/SDossiers/UE-INF20UE2.py')
-        b = utilities.read_file('../DBregtest/Y%d/S%s/UE-INF20UE2.py' % (
+        a = utilities.read_file('DBregtest/Y0/SDossiers/UE-INF20UE2.py')
+        b = utilities.read_file('DBregtest/Y%d/S%s/UE-INF20UE2.py' % (
             year, semester))
         assert( a == b )
 
@@ -1313,7 +1310,7 @@ new_page('' ,'*', '', '', None)
         assert(c.startswith('<script>window.parent.location = "'))
         
     if do('template_reload'):
-        f = open('../TEMPLATES/xxx_regtest.py', 'w')
+        f = open('TEMPLATES/xxx_regtest.py', 'w')
         f.write('''
 from data import ro_user
 def content(table):
@@ -1326,13 +1323,13 @@ def create(table):
         assert("XXX_REGTEST1" in c)
         time.sleep(1)
 
-        f = open('../TEMPLATES/xxx_regtest.py', 'a')
+        f = open('TEMPLATES/xxx_regtest.py', 'a')
         f.write('def content(table): return "XXX_REGTEST2"\n')
         f.close()
         c = s.url('=' + abj +'/%s/xxx_regtest-3' % ys)
         assert("XXX_REGTEST2" in c)
-        os.unlink('../TEMPLATES/xxx_regtest.py')
-        os.unlink('../TEMPLATES/xxx_regtest.pyc')
+        os.unlink('TEMPLATES/xxx_regtest.py')
+        os.unlink('TEMPLATES/xxx_regtest.pyc')
 
     if do('code_etape'):
         c = s.url('=' + abj +'/%s/UE-etape' % ys)
@@ -1358,12 +1355,12 @@ def create(table):
         c = s.url('='+abj+'/%s/UE-etape/1/5/table_attr_masters/%s' % (ys,abj))
         assert(c == ok_png)
 
-        # os.mkdir('../DBregtest/Y%d' % (year-1))
-        # os.mkdir('../BACKUP_DBregtest/Y%d' % (year-1))
-        utilities.mkpath('../DBregtest/Y%d/S%s' % (year-1, semester))
-        utilities.mkpath('../BACKUP_DBregtest/Y%d/S%s' % (year-1, semester))
-        os.rename('../DBregtest/Y%d/S%s/UE-etape.py' % (year, semester),
-        '../DBregtest/Y%d/S%s/UE-etape.py' % (year-1, semester))
+        # os.mkdir('DBregtest/Y%d' % (year-1))
+        # os.mkdir('BACKUP_DBregtest/Y%d' % (year-1))
+        utilities.mkpath('DBregtest/Y%d/S%s' % (year-1, semester))
+        utilities.mkpath('BACKUP_DBregtest/Y%d/S%s' % (year-1, semester))
+        os.rename('DBregtest/Y%d/S%s/UE-etape.py' % (year, semester),
+        'DBregtest/Y%d/S%s/UE-etape.py' % (year-1, semester))
         
         c = s.url('=' + abj +'/%s/UE-etape' % ys_old)
         assert('modifiable:0' in c)
@@ -1392,7 +1389,7 @@ def create(table):
            if '"unload_interval' in c:
               break
 
-       conf = os.path.join('..', 'DBregtest','Y0','SDossiers', 'config_table.py')
+       conf = os.path.join('DBregtest','Y0','SDossiers', 'config_table.py')
        try:
           os.unlink(conf + 'c')
        except:
@@ -1406,7 +1403,7 @@ cell_change(1,'0_2','ticket_time_to_live','%d',"")
 ''' % ticket_ttl)
        s.stop()
        import glob
-       for t in glob.glob(os.path.join('..','TMP','TICKETS','*')):
+       for t in glob.glob(os.path.join('TMP','TICKETS','*')):
            os.unlink(t)
        s.restart(more=['regtest-bug1'])
 
@@ -1702,8 +1699,8 @@ while True:
         try:
             s.stop()
         except:
-            shutil.rmtree('../DBregtest', ignore_errors=True)
-            shutil.rmtree('../BACKUP_DBregtest', ignore_errors=True)
+            shutil.rmtree('DBregtest', ignore_errors=True)
+            shutil.rmtree('BACKUP_DBregtest', ignore_errors=True)
             
         m.append('Running time : %g seconds' % (time.time() - start))
         if ss and ss.started:

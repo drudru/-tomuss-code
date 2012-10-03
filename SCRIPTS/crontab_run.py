@@ -8,23 +8,15 @@ import sys
 import os
 import signal
 import time
-
-sys.path.append(os.getcwd())
-sys.path.append(os.path.join(os.getcwd(), '..'))
+import urllib2
+import tomuss_init
 
 for i in ('http_proxy', 'https_proxy'):
     if os.environ.has_key(i):
         del os.environ[i]
 
-import utilities
-import configuration
-configuration.terminate()
-import plugins
-plugins.load_types()
-import document
-document.table(0, 'Dossiers', 'config_table', None, None)
-
-import urllib2
+from .. import utilities
+from .. import configuration
 
 def run(url, command, run_only_if_not_properly_stopped, name=None,strace=""):
     if name == None:

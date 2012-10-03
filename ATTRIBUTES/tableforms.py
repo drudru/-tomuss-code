@@ -33,7 +33,7 @@ for exemple, 10 lines green :
 """
 
 
-from column import TableAttr
+from ..column import TableAttr
 
 class TableForms(TableAttr):
     name = 'forms'

@@ -22,10 +22,10 @@
 import cgi
 import os
 import sys
-import plugin
-import utilities
-import files
-import configuration
+from . import plugin
+from . import utilities
+from . import files
+from . import configuration
 
 suivi_plugins = []
 
@@ -54,44 +54,45 @@ def plugins_tomuss():
         if p in do_not_unload:
             continue
         try:
-            del sys.modules[p.module.replace(pwd, '')
+            del sys.modules[p.module.replace(pwd, 'TOMUSS.')
                             .replace(".py", "")
                             .replace(os.path.sep, '.')]
         except KeyError:
             pass
+    del sys.modules["TOMUSS.PLUGINS"] # If not done, modules are not unloaded
     
     # TOMUSS plugins:
-    import PLUGINS.abj_change
-    import PLUGINS.badpassword
-    import PLUGINS.cell_change
-    import PLUGINS.clean
-    import PLUGINS.gc_state
-    import PLUGINS.home2
-    import PLUGINS.logout
-    import PLUGINS.newpage
-    import PLUGINS.pageaction
-    import PLUGINS.referent_update
-    import PLUGINS.statpage
-    import PLUGINS.student
-    import PLUGINS.live_log
-    import PLUGINS.live_status
-    import PLUGINS.profiling
-    import PLUGINS.tickets
-    import PLUGINS.clients
-    import PLUGINS.send_alert
-    import PLUGINS.master_of
-    import PLUGINS.log
-    import PLUGINS.evaluate
-    import PLUGINS.login_list
-    import PLUGINS.favorite_student
-    import PLUGINS.referent_get
-    import PLUGINS.bilan
-    import PLUGINS.suivi_referent
-    import PLUGINS.send_mail
-    import PLUGINS.reload_plugins
-    import PLUGINS.picture
-    import PLUGINS.change_identity
-    import PLUGINS.auto_update
+    from .PLUGINS import abj_change
+    from .PLUGINS import badpassword
+    from .PLUGINS import cell_change
+    from .PLUGINS import clean
+    from .PLUGINS import gc_state
+    from .PLUGINS import home2
+    from .PLUGINS import logout
+    from .PLUGINS import newpage
+    from .PLUGINS import pageaction
+    from .PLUGINS import referent_update
+    from .PLUGINS import statpage
+    from .PLUGINS import student
+    from .PLUGINS import live_log
+    from .PLUGINS import live_status
+    from .PLUGINS import profiling
+    from .PLUGINS import tickets
+    from .PLUGINS import clients
+    from .PLUGINS import send_alert
+    from .PLUGINS import master_of
+    from .PLUGINS import log
+    from .PLUGINS import evaluate
+    from .PLUGINS import login_list
+    from .PLUGINS import favorite_student
+    from .PLUGINS import referent_get
+    from .PLUGINS import bilan
+    from .PLUGINS import suivi_referent
+    from .PLUGINS import send_mail
+    from .PLUGINS import reload_plugins
+    from .PLUGINS import picture
+    from .PLUGINS import change_identity
+    from .PLUGINS import auto_update
     plugins_tomuss_more()
 
     # Remove links yet added for suivi
@@ -107,30 +108,30 @@ def plugins_suivi_more():
     pass
 
 def plugins_suivi():
-    import PLUGINS.logout
-    import PLUGINS.suivi_teachers
-    import PLUGINS.suivi_tables
-    import PLUGINS.suivi_student
-    import PLUGINS.unload
-    import PLUGINS.suivi_referents
-    import PLUGINS.suivi_uninterested
-    import PLUGINS.suivi_referent_list
-    import PLUGINS.suivi_icone
-    import PLUGINS.suivi_bad_students
-    import PLUGINS.suivi_preferences
-    import PLUGINS.suivi_ip
-    import PLUGINS.suivi_badname
-    import PLUGINS.suivi_groupe
-    import PLUGINS.live_log
-    import PLUGINS.gc_state
-    import PLUGINS.resume
-    import PLUGINS.suivi_extract
-    import PLUGINS.log
-    import PLUGINS.evaluate
-    import PLUGINS.picture
-    import PLUGINS.change_identity
-    import PLUGINS.reload_plugins
-    import PLUGINS.count
+    from .PLUGINS import logout
+    from .PLUGINS import suivi_teachers
+    from .PLUGINS import suivi_tables
+    from .PLUGINS import suivi_student
+    from .PLUGINS import unload
+    from .PLUGINS import suivi_referents
+    from .PLUGINS import suivi_uninterested
+    from .PLUGINS import suivi_referent_list
+    from .PLUGINS import suivi_icone
+    from .PLUGINS import suivi_bad_students
+    from .PLUGINS import suivi_preferences
+    from .PLUGINS import suivi_ip
+    from .PLUGINS import suivi_badname
+    from .PLUGINS import suivi_groupe
+    from .PLUGINS import live_log
+    from .PLUGINS import gc_state
+    from .PLUGINS import resume
+    from .PLUGINS import suivi_extract
+    from .PLUGINS import log
+    from .PLUGINS import evaluate
+    from .PLUGINS import picture
+    from .PLUGINS import change_identity
+    from .PLUGINS import reload_plugins
+    from .PLUGINS import count
     plugins_suivi_more()
     init_plugins()
 
@@ -198,15 +199,15 @@ def make_td(f, html_class, k, m):
         ))
 
 def column_type_list():
-    import COLUMN_TYPES
+    from . import COLUMN_TYPES
     for filename in os.listdir(COLUMN_TYPES.__path__[0]):
         yield 'COLUMN_TYPES', filename
     if configuration.regtest:
         return
 
     try:
-        import LOCAL.LOCAL_COLUMN_TYPES
-        for filename in os.listdir(LOCAL.LOCAL_COLUMN_TYPES.__path__[0]):
+        from .LOCAL import LOCAL_COLUMN_TYPES
+        for filename in os.listdir(LOCAL_COLUMN_TYPES.__path__[0]):
             yield 'LOCAL', 'LOCAL_COLUMN_TYPES', filename
     except ImportError:
         pass
@@ -214,7 +215,6 @@ def column_type_list():
 def init_plugins():
     # Compute CSS for plugins
     all_css = []
-    import plugin
     for p in plugin.plugins:
         all_css.append(p.css)
     files.files['style.css'].append('plugins.py', '\n'.join(all_css))
@@ -222,8 +222,6 @@ def init_plugins():
 
 
 def load_types():
-    import csv
-
     types.clear()
 
     # Load TYPES modules
@@ -294,7 +292,7 @@ function _%s()
       all_js += '_%s() ;\n' % m
 
     # Here because Column type loading may change ATTRIBUTE definitions
-    import column
+    from . import column
     column.initialize()
 
     init_plugins()
@@ -377,7 +375,7 @@ def generate_data_files(suivi=False):
         w(types[column_type], 'Columns types, button text in the menu',
             'B_' + column_type, column_type)
 
-    import column
+    from . import column
     for attr_name, value in (column.ColumnAttr.attrs.items()
                              + column.TableAttr.attrs.items()):
         if isinstance(value, column.TableAttr):
@@ -446,7 +444,7 @@ TABLE.types .defined { background: #FDD ; }
     f.close()
 
     f = open('DOCUMENTATION/xxx_column_attr.html', 'w')
-    import column
+    from . import column
     f.write('''<table border="1">
 <tbody>
 ''')
@@ -496,7 +494,7 @@ if __name__ == "__main__":
     plugin.doc('DOCUMENTATION/xxx_doc_plugins.html')
 
     f = open('DOCUMENTATION/xxx_visibility.txt', 'w')
-    import column
+    from . import column
     for t in sorted(column.ColumnAttr.attrs):
         t = column.ColumnAttr.attrs[t]
         f.write("%s %s\n" %(t.name, t.visible_for()))

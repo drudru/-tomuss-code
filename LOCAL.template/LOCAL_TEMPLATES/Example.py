@@ -11,9 +11,9 @@ If you do not do this, the Mail and ABJ and TT functionnalities will not work.
 """
 
 
-import data
-import document
-import configuration
+from ... import data
+from ... import document
+from ... import configuration
 
 def create(table):
     """This function is called when the table is created on first visit.
@@ -121,8 +121,8 @@ def check(table):
         table.unlock()
 
     # If you want to have the mails workings :
-    import TEMPLATES._ucbl_
-    TEMPLATES._ucbl_.check(table, update_inscrits=lambda x,y,z: None)
+    from ...TEMPLATES import _ucbl_
+    _ucbl_.check(table, update_inscrits=lambda x,y,z: None)
 
 
 def content(table):

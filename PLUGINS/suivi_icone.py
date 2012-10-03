@@ -19,15 +19,16 @@
 #
 #    Contact: Thierry.EXCOFFIER@bat710.univ-lyon1.fr
 
-import plugin
-import utilities
 try:
     import PIL.Image
     ok = True
 except ImportError:
     utilities.warn("No Python module PIL")
     ok = False
-import suivi_student
+
+from .. import plugin
+from .. import utilities
+from . import suivi_student
 
 def student_icone(server):
     """Generate an icon summarising the student information

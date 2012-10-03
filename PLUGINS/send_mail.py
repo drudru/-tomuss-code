@@ -19,11 +19,11 @@
 #
 #    Contact: Thierry.EXCOFFIER@bat710.univ-lyon1.fr
 
-import plugin
-import inscrits
-from files import files
-import utilities
-import configuration
+from .. import plugin
+from .. import inscrits
+from ..files import files
+from .. import utilities
+from .. import configuration
 
 def send_mail(server):
     """Send personnalized mails"""

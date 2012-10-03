@@ -19,7 +19,7 @@
 #
 #    Contact: Thierry.EXCOFFIER@bat710.univ-lyon1.fr
 
-import note
+from . import note
 
 class Moy(note.Note):
     human_priority = -8

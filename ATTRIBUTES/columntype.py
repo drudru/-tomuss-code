@@ -19,8 +19,8 @@
 #
 #    Contact: Thierry.EXCOFFIER@bat710.univ-lyon1.fr
 
-from column import ColumnAttr
-import plugins
+from ..column import ColumnAttr
+from .. import plugins
 
 class ColumnType(ColumnAttr):
     name = 'type'

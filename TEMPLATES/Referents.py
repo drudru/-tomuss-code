@@ -26,12 +26,12 @@ to match the modification. For example, the columns order.
 
 import os
 import cgi
-import data
-import inscrits
-import utilities
-import configuration
-import _ucbl_
-import abj
+from .. import data
+from .. import inscrits
+from .. import utilities
+from .. import configuration
+from .. import abj
+from . import _ucbl_
 
 def referent_resume(table, login):
     s = []
@@ -116,7 +116,7 @@ def create(table):
     table.table_attr(p, 'default_sort_column', 2)
 
 def update_inscrits_referents(the_ids, table, page):
-    import referent
+    from .. import referent
     table.lock()
     try:
         check_columns(table)

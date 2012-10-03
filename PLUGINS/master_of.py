@@ -19,12 +19,12 @@
 #
 #    Contact: Thierry.EXCOFFIER@bat710.univ-lyon1.fr
 
-import plugin
-import document
 import glob
 import os
-import configuration
-import utilities
+from .. import plugin
+from .. import document
+from .. import configuration
+from .. import utilities
 
 def master_of(server):
     """Update the preferences to add the list of UE where the user is master.

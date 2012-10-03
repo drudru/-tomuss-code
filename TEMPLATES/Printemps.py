@@ -20,13 +20,11 @@
 #    Contact: Thierry.EXCOFFIER@bat710.univ-lyon1.fr
 
 import re
-import utilities
-import abj
-import configuration
-import document
-
-from _ucbl_ import check, update_student_information, create, the_abjs, update_student, cell_change
-import _ucbl_
+from .. import utilities
+from .. import abj
+from .. import configuration
+from ._ucbl_ import check, update_student_information, create, the_abjs, update_student, cell_change
+from . import _ucbl_
 
 def init(table):
     _ucbl_.init(table)

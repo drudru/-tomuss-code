@@ -5,14 +5,11 @@
 Compute graphics for access statistics
 """
 
+import tomuss_init
 import os
 import time
-import sys
-
-sys.path.append(os.getcwd())
-sys.path.append(os.path.join(os.getcwd(), '..'))
-import configuration
-configuration.terminate()
+import glob
+from .. import configuration
 
 def plot(filename, commands):
     print 'Plotting', filename
@@ -157,7 +154,6 @@ stats.plot_hours('xxx.change.hours.png')
 # Compute number of different students per day
 
 stats = Stats()
-import glob
 for filename in glob.glob(os.path.join("LOGS", "SUIVI*/*.connections")):
     try:
         f = open(filename, "r")

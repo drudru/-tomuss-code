@@ -19,11 +19,12 @@ as a Python fragment.
 
 import os
 import sys
+import re
 import tomuss_init
-import configuration
-import tablestat
-import utilities
-import inscrits
+from .. import configuration
+from .. import tablestat
+from .. import utilities
+from .. import inscrits
 
 class UE:
     def __init__(self):
@@ -116,7 +117,6 @@ for syear in os.listdir(configuration.db):
                 s[name].add(ue , lines[0])
 
             ue.unload()
-import re
 
 def safe(x):
     return re.sub('[^a-zA-Z]', '_', x).encode('latin1')

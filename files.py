@@ -20,8 +20,8 @@
 #    Contact: Thierry.EXCOFFIER@bat710.univ-lyon1.fr
 
 import os
-import utilities
-import configuration
+from . import utilities
+from . import configuration
 
 files = {}
 

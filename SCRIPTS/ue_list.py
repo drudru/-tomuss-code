@@ -1,5 +1,5 @@
 #!/usr/bin/python
-# -*- coding: latin1 -*-
+# -*- coding: latin-1 -*-
 
 """
 Input :
@@ -11,8 +11,8 @@ Output :
 
 import tomuss_init
 
-import TMP.xxx_toute_les_ues
-ues = TMP.xxx_toute_les_ues.all
+from ..TMP import xxx_toute_les_ues
+ues = xxx_toute_les_ues.all
 
 for i in range(6):
     print '='*80

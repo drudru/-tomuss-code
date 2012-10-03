@@ -212,7 +212,7 @@ def is_an_official_ue(code):
 # Returns 0 if it is not the first registration of the student.
 # Else, returns the year of the first registration.
 def first_registration(login):
-    import inscrits
+    from . import inscrits
     if login[1:3] == current_year:
         for group in inscrits.L_batch.member_of_list(login):
             if '1A,OU=' in group:
@@ -301,7 +301,7 @@ server_url = '%s:%d' % (server_base_url, server_port)
 # This example defines 3 servers for the current university year.
 # Changing these values may break the regression tests.
 # You must redefine your semesters in LOCAL/__init__.py
-import servers
+from . import servers
 suivi = servers.Suivi(https=False)
 suivi.add(time.localtime()[0]  , semesters[0],socket.getfqdn()+':%d', 8889)
 suivi.add(time.localtime()[0]  , semesters[1],socket.getfqdn()+':%d', 8890)
@@ -374,7 +374,7 @@ bilan_des_notes = "http://students.domain.org/history?student_id="
 # This function returns the URL of the student picture.
 # This example assumes that TOMUSS itself send pictures.
 def picture(student_id, ticket):
-    import utilities
+    from . import utilities
     return (utilities.StaticFile._url_ + '/=' + ticket.ticket
             + '/picture/' + student_id + '.JPG')
 
@@ -431,11 +431,11 @@ def terminate():
     """Apply local change to the modules, should be called once
     all the modules are loaded"""
 
-    import utilities
+    from . import utilities
     import sys
 
     if not regtest:
-        import LOCAL     # Your local configuration goes inside LOCAL
+        from . import LOCAL     # Your local configuration goes inside LOCAL
 
     global maxage, backup
 
@@ -468,6 +468,6 @@ def terminate():
             sys.stderr.write('Backup disabled : directory does not exists\n')
             backup = ''
 
-    import inscrits
+    from . import inscrits
     inscrits.init()
 

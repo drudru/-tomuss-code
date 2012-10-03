@@ -19,16 +19,16 @@
 #
 #    Contact: Thierry.EXCOFFIER@bat710.univ-lyon1.fr
 
-import plugin
-import utilities
 import os
-import inscrits
-import configuration
-import referent
-import teacher
 import time
-import document
-import files
+from .. import plugin
+from .. import utilities
+from .. import inscrits
+from .. import configuration
+from .. import referent
+from .. import teacher
+from .. import document
+from .. import files
 
 files.add('PLUGINS', 'home2.js')
 files.add('PLUGINS', 'home2.css')
@@ -45,7 +45,7 @@ def semester_list():
     return options
 
     
-import files
+from .. import files
 files.files['middle.js'].replace('home',
                                  '__OPTIONS__',
                                  semester_list().replace('selected',''))

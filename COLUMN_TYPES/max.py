@@ -19,7 +19,7 @@
 #
 #    Contact: Thierry.EXCOFFIER@bat710.univ-lyon1.fr
 
-import moy
+from . import moy
 
 class Max(moy.Moy):
     human_priority = -6

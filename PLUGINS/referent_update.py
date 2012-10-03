@@ -19,8 +19,8 @@
 #
 #    Contact: Thierry.EXCOFFIER@bat710.univ-lyon1.fr
 
-import plugin
-import referent
+from .. import plugin
+from .. import referent
 
 def update_referents(server):
     """Dispatch students without referents to a referent."""

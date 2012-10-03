@@ -19,13 +19,13 @@
 #
 #    Contact: Thierry.EXCOFFIER@bat710.univ-lyon1.fr
 
-import plugin
-import configuration
-import utilities
-import referent
 import sys
-import inscrits
 import time
+from .. import plugin
+from .. import configuration
+from .. import utilities
+from .. import referent
+from .. import inscrits
 
 def referents_table_real():
     done = {}

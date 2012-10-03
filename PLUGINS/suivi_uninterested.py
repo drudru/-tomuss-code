@@ -22,13 +22,13 @@
 import os
 import time
 import collections
-import plugin
-import document
-import utilities
-import referent
-import tablestat
-import inscrits
-import configuration
+from .. import plugin
+from .. import document
+from .. import utilities
+from .. import referent
+from .. import tablestat
+from .. import inscrits
+from .. import configuration
 
 def uninterested(server):
     """Display information about student and their referents and

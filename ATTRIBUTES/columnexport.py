@@ -19,7 +19,7 @@
 #
 #    Contact: Thierry.EXCOFFIER@bat710.univ-lyon1.fr
 
-from columnfill import ColumnFill
+from .columnfill import ColumnFill
 
 class ColumnExport(ColumnFill):
     name = "export"

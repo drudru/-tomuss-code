@@ -19,7 +19,7 @@
 #
 #    Contact: Thierry.EXCOFFIER@bat710.univ-lyon1.fr
 
-from tablemodifiable import TableModifiable
+from .tablemodifiable import TableModifiable
 
 class TableOfficialUE(TableModifiable):
     name = 'official_ue'

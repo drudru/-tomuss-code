@@ -19,9 +19,9 @@
 #
 #    Contact: Thierry.EXCOFFIER@bat710.univ-lyon1.fr
 
-import mail
-import referent
-import configuration
+from . import mail
+from .. import referent
+from .. import configuration
 
 class Get_Referent(mail.Mail):
     attributes_visible = ('columns',)

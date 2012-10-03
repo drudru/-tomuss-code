@@ -19,11 +19,11 @@
 #
 #    Contact: Thierry.EXCOFFIER@bat710.univ-lyon1.fr
 
-import configuration
-import plugin
-import plugins
-import data
-import utilities
+from .. import configuration
+from .. import plugin
+from .. import plugins
+from .. import data
+from .. import utilities
 
 def update_column(table):
     do_migrate = False

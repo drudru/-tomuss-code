@@ -19,10 +19,10 @@
 #
 #    Contact: Thierry.EXCOFFIER@bat710.univ-lyon1.fr
 
-import plugin
-import plugins
-import configuration
-import data
+from .. import plugin
+from .. import plugins
+from .. import configuration
+from .. import data
 
 def update_column(table):
     for t in plugins.types_ordered():

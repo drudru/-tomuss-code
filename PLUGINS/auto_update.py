@@ -19,10 +19,10 @@
 #
 #    Contact: Thierry.EXCOFFIER@bat710.univ-lyon1.fr
 
-import plugin
-import tablestat
-import configuration
-import document
+from .. import plugin
+from .. import tablestat
+from .. import configuration
+from .. import document
 import time
 
 def auto_update(server):

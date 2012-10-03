@@ -19,8 +19,8 @@
 #
 #    Contact: Thierry.EXCOFFIER@bat710.univ-lyon1.fr
 
-import code_etape
-import inscrits
+from . import code_etape
+from .. import inscrits
 
 class Mail(code_etape.Code_Etape):
     cell_is_modifiable = 1

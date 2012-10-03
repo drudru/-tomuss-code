@@ -19,10 +19,10 @@
 #
 #    Contact: Thierry.EXCOFFIER@bat710.univ-lyon1.fr
 
-import text
-import cgi
-import configuration
 import math
+import cgi
+from . import text
+from .. import configuration
 
 if not hasattr(math, 'isnan'):
     math.isnan = lambda x: not x<0 and not x>=0

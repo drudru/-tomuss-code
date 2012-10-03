@@ -19,12 +19,11 @@
 #
 #    Contact: Thierry.EXCOFFIER@bat710.univ-lyon1.fr
 
-import inscrits
-import document
-import utilities
 import os
-import teacher
-import configuration
+from . import inscrits
+from . import document
+from . import utilities
+from . import configuration
 
 #REDEFINE
 # List of LDAP OU of student to be affected to a 'referent'

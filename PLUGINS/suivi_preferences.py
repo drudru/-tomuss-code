@@ -19,12 +19,12 @@
 #
 #    Contact: Thierry.EXCOFFIER@bat710.univ-lyon1.fr
 
-import plugin
-import utilities
-import tablestat
-import document
-import column
-import cell
+from .. import plugin
+from .. import utilities
+from .. import tablestat
+from .. import document
+from .. import column
+from .. import cell
 
 def preferences(server):
     """Join of all the preferences table"""

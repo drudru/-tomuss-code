@@ -24,9 +24,9 @@ import re
 import cgi
 import os
 import sys
-import configuration
-import utilities
-import files
+from . import configuration
+from . import utilities
+from . import files
 
 warn = utilities.warn
 
@@ -92,7 +92,7 @@ class Link(object):
 def _year(server, path, i): server.the_year = int(path[i])
 def _time(server, path, i): server.the_time = int(path[i])
 def _something(server, path, i): server.something = path[i]
-def _anything(server, path, i): return True, path[i:]
+def _anything(dummy_server, path, i): return True, path[i:]
 def _semester(server, path, i): server.the_semester = utilities.safe(
     path[i]).replace('.','_')
 def _ue(server, path, i): server.the_ue = utilities.safe(

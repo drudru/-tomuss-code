@@ -19,7 +19,7 @@
 #
 #    Contact: Thierry.EXCOFFIER@bat710.univ-lyon1.fr
 
-import moy
+from . import moy
 
 class Weighted_Percent(moy.Moy):
     human_priority = 3

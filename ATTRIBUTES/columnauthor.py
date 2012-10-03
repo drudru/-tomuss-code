@@ -19,7 +19,7 @@
 #
 #    Contact: Thierry.EXCOFFIER@bat710.univ-lyon1.fr
 
-from column import ColumnAttr
+from ..column import ColumnAttr
 
 class ColumnAuthor(ColumnAttr):
     computed = 1

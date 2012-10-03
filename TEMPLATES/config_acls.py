@@ -20,10 +20,10 @@
 #    Contact: Thierry.EXCOFFIER@bat710.univ-lyon1.fr
 
 import time
-import configuration
-import utilities
-import referent
-import inscrits
+from .. import configuration
+from .. import utilities
+from .. import referent
+from .. import inscrits
 
 acls = None
 

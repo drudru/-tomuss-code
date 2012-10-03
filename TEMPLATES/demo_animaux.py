@@ -20,11 +20,11 @@
 #    Contact: Thierry.EXCOFFIER@bat710.univ-lyon1.fr
 
 import random
-import inscrits
-import abj
-import _ucbl_
-from _ucbl_ import the_abjs, update_student, terminate_update, cell_change
-import configuration
+from .. import inscrits
+from .. import abj
+from . import _ucbl_
+from ._ucbl_ import the_abjs, update_student, terminate_update, cell_change
+from .. import configuration
 
 # Do not edit this first line (see SCRIPTS/install_demo)
 update_student_information = _ucbl_.update_student_information + """

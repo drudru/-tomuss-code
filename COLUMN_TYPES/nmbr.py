@@ -19,8 +19,8 @@
 #
 #    Contact: Thierry.EXCOFFIER@bat710.univ-lyon1.fr
 
-import moy
-import text
+from . import moy
+from . import text
 
 class Nmbr(moy.Moy):
     human_priority = -5

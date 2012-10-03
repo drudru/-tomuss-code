@@ -19,10 +19,10 @@
 #
 #    Contact: Thierry.EXCOFFIER@bat710.univ-lyon1.fr
 
-import plugin
-import document
-import utilities
-import inscrits
+from .. import plugin
+from .. import document
+from .. import utilities
+from .. import inscrits
 
 def display(server):
     f, year, semester = server.the_file, server.year, server.semester

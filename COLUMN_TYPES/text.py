@@ -22,9 +22,9 @@
 import cgi
 import collections
 import re
-import utilities
-import configuration
-import document
+from .. import utilities
+from .. import configuration
+from .. import document
 
 ###############################################################################
 # This part is for column import.
@@ -43,11 +43,11 @@ def read_url_not_cached(url):
 
         if '<html>' in c.lower():
             try:
-                import LOCAL.fakeuser
+                from .LOCAL import fakeuser
                 global cookies
-                c, cookies = LOCAL.fakeuser.connection(url, cookies)[:2]
+                c, cookies = fakeuser.connection(url, cookies)[:2]
             except ImportError:
-                utilities.send_backtrace('Missing LOCAL.fakeuser.connection')
+                utilities.send_backtrace('Missing fakeuser.connection')
         
         return c
     except:

@@ -19,10 +19,8 @@
 #
 #    Contact: Thierry.EXCOFFIER@bat710.univ-lyon1.fr
 
-import plugin
-import document
-import sys
-import utilities
+from .. import plugin
+from .. import document
 
 def cell_change(server):
     col = server.the_path[0]

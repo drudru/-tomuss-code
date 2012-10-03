@@ -19,11 +19,11 @@
 #
 #    Contact: Thierry.EXCOFFIER@bat710.univ-lyon1.fr
 
-import plugin
-import document
-import abj
-import utilities
 import time
+from .. import plugin
+from .. import document
+from .. import abj
+from .. import utilities
 
 def page_rewrite(server):
     """Generate the minimal python module defining the current
@@ -91,7 +91,7 @@ plugin.Plugin('page_unload', '/{Y}/{S}/{U}/page_unload',
               function=page_unload, group='roots')
 
 import os
-import configuration
+from .. import configuration
 
 def extension(server):
     """Extend the current table to the next semester.

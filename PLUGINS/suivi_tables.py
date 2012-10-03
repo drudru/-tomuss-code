@@ -19,12 +19,12 @@
 #
 #    Contact: Thierry.EXCOFFIER@bat710.univ-lyon1.fr
 
-import plugin
-import column
-import document
-from tablestat import TableStat, les_ues
-from cell import CellEmpty, CellValue, Line
-import configuration
+from .. import plugin
+from .. import column
+from .. import document
+from ..tablestat import TableStat, les_ues
+from ..cell import CellValue, Line
+from .. import configuration
 
 def table_statistics(server):
     """Create a table of statistics about all the tables."""

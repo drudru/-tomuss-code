@@ -26,16 +26,16 @@ import socket
 import re
 import collections
 import cgi
-import utilities
-import configuration
-import data
-import teacher
-from files import files
-import inscrits
-import column
-from cell import CellValue, Lines, cellempty
-import sender
-import plugins
+from . import utilities
+from . import configuration
+from . import column
+from . import data
+from . import teacher
+from .files import files
+from . import inscrits
+from .cell import CellValue, Lines, cellempty
+from . import sender
+from . import plugins
 
 def check_table(t):
     cols = tuple(t.lines.lines.values())
@@ -297,7 +297,7 @@ class Table(object):
             utilities.mkpath_safe(dirname)
             if not os.path.exists(self.filename):
                 s = ['# -*- coding: utf8 -*- ']
-                s.append('from data import *')
+                s.append('from TOMUSS.data import *')
                 s = '\n'.join(s) + '\n'
                 utilities.mkpath_safe(dirname)
                 utilities.append_file_safe(self.filename, s)
@@ -307,7 +307,7 @@ class Table(object):
                 self.on_disc = False
 
         # Remove final .py
-        self.module = self.filename[:-3].replace(os.path.sep,'.')
+        self.module = 'TOMUSS.' + self.filename[:-3].replace(os.path.sep,'.')
 
         if not os.path.exists(self.filename):
             # Read only table and file does not exists
@@ -1495,8 +1495,8 @@ def check_requests():
                            
 
 # continuous send of packets to check connections
-import sender
-import ticket
+from . import sender
+from . import ticket
 def check_down_connections():
     while True:
         time.sleep(configuration.check_down_connections_interval)

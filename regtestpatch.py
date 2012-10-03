@@ -23,10 +23,10 @@
 Modify the application in order to support regression tests.
 """
 
-import configuration
-import inscrits
-import referent
-import utilities
+from . import configuration
+from . import inscrits
+from . import referent
+from . import utilities
 
 def do_patch():
 
@@ -116,7 +116,7 @@ def do_patch():
 
     configuration.do_not_display = ()
     
-    import authentication
+    from . import authentication
     def ticket_login_name(ticket_key, service, server=None):
         """Redefined by local configuration"""
         utilities.warn(service, what='auth')
@@ -146,8 +146,8 @@ def do_patch():
                 }
     referent.student_list = student_list
 
-    import TEMPLATES.Printemps
-    TEMPLATES.Printemps.cell_change = lambda table,page,col,lin,value,date:0
+    from .TEMPLATES import Printemps
+    Printemps.cell_change = lambda table,page,col,lin,value,date:0
 
     def is_an_official_ue(code):
         return int('-' in code)

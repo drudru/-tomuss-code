@@ -19,7 +19,7 @@
 #
 #    Contact: Thierry.EXCOFFIER@bat710.univ-lyon1.fr
 
-from columngreen import ColumnGreen
+from .columngreen import ColumnGreen
 
 class ColumnRed(ColumnGreen):
     name = 'red'

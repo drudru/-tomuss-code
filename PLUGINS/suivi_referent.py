@@ -19,11 +19,11 @@
 #
 #    Contact: Thierry.EXCOFFIER@bat710.univ-lyon1.fr
 
-import plugin
-import inscrits
-import utilities
-import referent
-import configuration
+from .. import plugin
+from .. import inscrits
+from .. import utilities
+from .. import referent
+from .. import configuration
 
 def get_referent(server):
     """Display the referent of the named student"""

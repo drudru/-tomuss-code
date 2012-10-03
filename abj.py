@@ -24,11 +24,11 @@
 import os
 import time
 import cgi
-import utilities
-import configuration
-import inscrits
-import document
-import teacher
+from . import utilities
+from . import configuration
+from . import inscrits
+from . import document
+from . import teacher
 
 js = utilities.js
 
@@ -163,7 +163,8 @@ class Abjs(object):
         self.module = self.filename.replace(os.path.sep,'.').replace('.py','')
         if not os.path.exists(self.filename):
             utilities.append_file_safe(
-                self.filename, "from abj import add,rem,rem2,add_da,rem_da\n")
+                self.filename,
+                "from TOMUSS.abj import add,rem,rem2,add_da,rem_da\n")
 
         self.load_module()
 

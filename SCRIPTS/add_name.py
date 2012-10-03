@@ -8,9 +8,9 @@ Output : the same file with a column inserted with the surname and firstname
 """
 
 import tomuss_init
-import inscrits
 import csv
 import sys
+from .. import inscrits
 
 w = csv.writer(sys.stdout)
 

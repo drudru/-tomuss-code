@@ -4,7 +4,7 @@
 
 import os
 import tomuss_init
-import utilities
+from .. import utilities
 
 for m in ('comment.png', 'filtre.png', 'filtre2.png',
           'title.png', 'teacher.png'):

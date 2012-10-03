@@ -7,7 +7,7 @@ This file contains the most important configuration options
 that can't be modified interactively in the configuration table.
 """
 
-import configuration
+from .. import configuration
 
 # Define a super user login list before activating the authentication
 # So you will be able to edit configuration table.
@@ -21,7 +21,7 @@ configuration.cas = "https://cas.domain.org/cas"
         
 
 # List of 'suivi' servers to launch.
-import servers
+from .. import servers
 import socket
 import time
 

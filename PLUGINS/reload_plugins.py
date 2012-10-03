@@ -21,12 +21,12 @@
 
 import collections
 import os
-import plugin
-import utilities
-import document
-import column
-import plugins
-import files
+from .. import plugin
+from .. import utilities
+from .. import document
+from .. import column
+from .. import plugins
+from .. import files
 
 def reload_plugins(server):
     """Reload all the plugins from PLUGINS, COLUMN_TYPES, ATTRIBUTES"""
@@ -46,8 +46,8 @@ def reload_plugins(server):
     for i in sorted(plugin_files.keys()):
         if __name__ == i:
             continue
-        filename = i.replace('.', os.path.sep) + '.py'
-        module, reimported = utilities.import_reload(filename)
+        filename = i.replace('TOMUSS.','',1).replace('.', os.path.sep) + '.py'
+        dummy_module, reimported = utilities.import_reload(filename)
         reimported = ('', server._("TH_reload_plugins_reloaded"))[reimported]
         server.the_file.write('<tr><td>%s<td>%d<td>%s</tr>\n' % (
             i, len(plugin_files[i]), reimported))

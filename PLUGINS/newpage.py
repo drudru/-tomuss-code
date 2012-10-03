@@ -23,13 +23,12 @@ import os
 import re
 import time
 
-import plugin
-import document
-from files import files
-from utilities import warn
-import configuration
-import sender
-import utilities
+from .. import plugin
+from .. import document
+from ..utilities import warn
+from .. import configuration
+from .. import sender
+from .. import utilities
 
 initial_content = '''
 <script>

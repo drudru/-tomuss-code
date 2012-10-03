@@ -24,10 +24,10 @@ import time
 import collections
 import gc
 import cgi
-import objgraph
-import plugin
-import utilities
-import configuration
+from .. import objgraph
+from .. import plugin
+from .. import utilities
+from .. import configuration
 
 def gc_top(server):
     "Display a clickable list of Python classes and their number of instance."

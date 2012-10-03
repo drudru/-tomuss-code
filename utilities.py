@@ -28,7 +28,7 @@ import gettext
 import cgi
 import threading
 import shutil
-import configuration
+from . import configuration
 
 def read_file(filename):
     f = open(filename, 'r')
@@ -329,7 +329,7 @@ def start_new_thread(fct, args, send_mail=True, immortal=False):
                     time.strptime('2010', '%Y')
                     break
                 except:
-                    warn('strptime', what='error')
+                    warn('strptime' + str(self), what='error')
                     time.sleep(0.1)
             while True:
                 warn('Call ' + self.fct.func_name)
@@ -654,6 +654,7 @@ def import_reload(filename):
     mtime = os.path.getmtime(filename)
     name = filename.split(os.path.sep)
     name[-1] = name[-1].replace('.py','')
+    name.insert(0, 'TOMUSS')
     module_name = '.'.join(name)
     old_module = __import__(module_name) # force the .pyc creation
     mtime_pyc =  os.path.getmtime(filename + 'c')
@@ -1036,7 +1037,7 @@ class FakeRequestHandler(BaseHTTPServer.BaseHTTPRequestHandler):
             pass
 
     def _(self, msgid):
-        import document
+        from . import document
         lang = document.get_preferences(self.ticket.user_name,
                                         create_pref=False,
                                         the_ticket=self.ticket)["language"]
@@ -1070,7 +1071,7 @@ def init(launch_threads=True):
         k += "_char"
         configuration.__dict__[k] = _(k)
         s += "%s = %s;\n" % (k, js(_(k)))
-    import files # Here to avoid circular import
+    from . import files # Here to avoid circular import
     files.files['types.js'].append("utilities.py", s)
     files.files['auth_close.html'] = StaticFile(
         'auth_close.html',

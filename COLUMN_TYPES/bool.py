@@ -19,9 +19,9 @@
 #
 #    Contact: Thierry.EXCOFFIER@bat710.univ-lyon1.fr
 
-import note
-import text
-import configuration
+from . import note
+from . import text
+from .. import configuration
 
 def option_list(column, value, cell, lines, teacher, ticket, line_id, values):
     if column.is_modifiable(teacher):

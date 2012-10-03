@@ -20,11 +20,11 @@
 #    Contact: Thierry.EXCOFFIER@bat710.univ-lyon1.fr
 
 import time
-import plugin
-import ticket
-import document
-import cell
-import column
+from .. import plugin
+from .. import ticket
+from .. import document
+from .. import cell
+from .. import column
 
 def tickets(server):
     """Display tickets"""

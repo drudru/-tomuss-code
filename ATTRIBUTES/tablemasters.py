@@ -19,10 +19,10 @@
 #
 #    Contact: Thierry.EXCOFFIER@bat710.univ-lyon1.fr
 
-from column import TableAttr
+from ..column import TableAttr
 import re
-import utilities
-import configuration
+from .. import utilities
+from .. import configuration
 
 class TableMasters(TableAttr):
     name = 'masters'
@@ -68,13 +68,13 @@ return value ;
             return value
     def check(self, value):
         value = self.encode(value)
-        import inscrits
+        from .. import inscrits
         if hasattr(configuration, 'is_member_of'):
             for login in value:
                 if not configuration.is_member_of(login, 'staff'):
                     return '_("ALERT_bad_login") + ' + utilities.js(login)
     def update(self, table, old_value, new_value, page):
-        import document
+        from .. import document
         for login in new_value:
             if login not in old_value:
                 table.master_of_update('+', login)

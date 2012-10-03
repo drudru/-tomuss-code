@@ -20,9 +20,9 @@
 import os
 import time
 import cgi
-import utilities
-import configuration
-import plugins
+from . import utilities
+from . import configuration
+from . import plugins
 
 warn = utilities.warn
 

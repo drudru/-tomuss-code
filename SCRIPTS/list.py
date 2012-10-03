@@ -4,18 +4,14 @@
 Affiche annuaire
 """
 
-import os
 import sys
 import re
 import collections
+import tomuss_init
 
-sys.path.append(os.getcwd())
-sys.path.append(os.path.join(os.getcwd(), '..'))
-
-import configuration
-configuration.terminate()
-import inscrits
-import utilities
+from .. import configuration
+from .. import inscrits
+from .. import utilities
 
 L = inscrits.LDAP()
 

@@ -19,10 +19,10 @@
 #
 #    Contact: Thierry.EXCOFFIER@bat710.univ-lyon1.fr
 
-from tableexport import TableExport
-import utilities
-import document
-import plugin
+from .tableexport import TableExport
+from .. import utilities
+from .. import document
+from .. import plugin
 
 class TableCopy(TableExport):
     default_value = 1

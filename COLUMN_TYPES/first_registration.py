@@ -19,8 +19,8 @@
 #
 #    Contact: Thierry.EXCOFFIER@bat710.univ-lyon1.fr
 
-import mail
-import configuration
+from . import mail
+from .. import configuration
 
 class First_Registration(mail.Mail):
     attributes_visible = ('columns',)

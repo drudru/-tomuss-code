@@ -21,12 +21,12 @@ import sys
 import time
 import socket
 import urllib2
-import utilities
-import inscrits
-import ticket
-import sender
-import configuration
-import plugins
+from . import utilities
+from . import inscrits
+from . import ticket
+from . import sender
+from . import configuration
+from . import plugins
 
 warn = utilities.warn
 

@@ -19,14 +19,10 @@
 #
 #    Contact: Thierry.EXCOFFIER@bat710.univ-lyon1.fr
 
-if __name__ == "__main__":
-    import SCRIPTS.tomuss_init
-    
-import inscrits
-import utilities
 import os
-import document
-import configuration
+from . import inscrits
+from . import utilities
+from . import configuration
 
 warn = utilities.warn
 
@@ -88,20 +84,19 @@ def all_ues(compute=False):
         # Load precalculated ues
         # If the file is modified, reload it
         warn('import', what='debug')
-        import TMP.xxx_toute_les_ues
+        from .TMP import xxx_toute_les_ues
         warn('import done', what='debug')
         if compute is False:
             t = os.path.getmtime(os.path.join('TMP', 'xxx_toute_les_ues.py'))
-            if not hasattr(TMP.xxx_toute_les_ues,'t') \
-                   or TMP.xxx_toute_les_ues.t != t:
+            if not hasattr(xxx_toute_les_ues,'t') or xxx_toute_les_ues.t != t:
                 warn('Reload all ues')
                 utilities.unload_module('TMP.xxx_toute_les_ues')
-                import TMP.xxx_toute_les_ues
-                TMP.xxx_toute_les_ues.t = t
+                from .TMP import xxx_toute_les_ues
+                xxx_toute_les_ues.t = t
                 warn('ok')
 
-            return TMP.xxx_toute_les_ues.all
-    except (ImportError, OSError):
+            return xxx_toute_les_ues.all
+    except (ImportError, OSError, ValueError):
         warn("The UE list does not exists, create first one")
         compute = True
     warn('compute', what='debug')
@@ -213,6 +208,7 @@ class UE(object):
         If read_tt is a list, then TT students are stored in the list.
         """
         if read_tt is not False:
+            from . import document
             table = document.table(utilities.university_year(),
                                    'Dossiers', 'tt')
             tt = 0
@@ -265,11 +261,11 @@ class UE(object):
 
 def other_mails(code):
     try:
-        import TMP.xxx_mails
+        from .TMP import xxx_mails
     except ImportError:
         return []
     try:
-        return TMP.xxx_mails.mails[code]
+        return xxx_mails.mails[code]
     except KeyError:
         return []
 
@@ -300,10 +296,6 @@ def ues_for_parcour(les_ues, p):
         if p in ue.parcours():
             t.append(ue)
     return t
-
-if __name__ == "__main__":
-    document.table(0, 'Dossiers', 'config_table', None, None)
-    print UE('BIO3082L').js()
 
 
 

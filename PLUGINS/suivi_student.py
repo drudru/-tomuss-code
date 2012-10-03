@@ -28,17 +28,17 @@ import os
 import time
 import cgi
 import collections
-import plugin
-import configuration
-import inscrits
-import referent
-import utilities
-import tablestat
-import abj
-import document
-import authentication
-import teacher
-import files
+from .. import plugin
+from .. import configuration
+from .. import inscrits
+from .. import referent
+from .. import utilities
+from .. import tablestat
+from .. import abj
+from .. import document
+from .. import authentication
+from .. import teacher
+from .. import files
 
 charte =utilities.StaticFile(os.path.join('PLUGINS','suivi_student_charte.html'))
 

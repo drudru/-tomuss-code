@@ -19,12 +19,12 @@
 #
 #    Contact: Thierry.EXCOFFIER@bat710.univ-lyon1.fr
 
-import plugin
-import utilities
-import abj
-import configuration
-from files import files
-import document
+from .. import plugin
+from .. import utilities
+from .. import abj
+from .. import configuration
+from ..files import files
+from .. import document
 
 css = """
 TR#dates TD {

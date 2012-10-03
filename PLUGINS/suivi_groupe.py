@@ -22,13 +22,13 @@
 """
 """
 
-import plugin
-import tablestat
-import data
 import itertools
-import document
 import time
 import csv
+from .. import plugin
+from .. import tablestat
+from .. import data
+from .. import document
 
 debug = False
 

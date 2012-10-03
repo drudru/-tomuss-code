@@ -11,12 +11,13 @@ check:
 
 recompute_the_ue_list:
 	# Recompute the UE list. Take into account students in TT
-	python -c 'import SCRIPTS.tomuss_init,teacher ; print teacher.all_ues(compute=True)'
+	./tomuss.py recompute_the_ue_list
 
 clean:
 	@echo 'CLEAN'
 	@-find . \( -name '*~' \
                  -o -name '*.pyc' \
+                 -o -name '*.bak' \
                  -o -name '*.mo' \
 		 -o -name '*flymake*' \
                  -o -name 'xxx[!_]*' \) \

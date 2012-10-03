@@ -21,12 +21,12 @@
 
 import os
 import time
-import plugin
-import document
-import utilities
-import configuration
-import column
-import cell
+from .. import plugin
+from .. import document
+from .. import utilities
+from .. import configuration
+from .. import column
+from .. import cell
 
 class Stat:
     sum = 0

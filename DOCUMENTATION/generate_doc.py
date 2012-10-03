@@ -7,7 +7,7 @@ import cgi
 
 sys.path.append(os.getcwd())
 sys.path.append(os.path.join(os.getcwd(), '..'))
-import configuration
+from .. import configuration
 
 ###############################################################################
 # Create 'xxx_redefined.html'
@@ -79,7 +79,7 @@ f.close()
 ###############################################################################
 # Create 'xxx_data.html'
 ###############################################################################
-import data
+from .. import data
 g = open('xxx_data.html', 'w')
 for key, value in data.__dict__.items():
     if hasattr(value, 'func_name') and 'DEPRECATED' not in value.func_doc:
@@ -91,9 +91,9 @@ g.close()
 # Create 'xxx_objects.html'
 ###############################################################################
 
-import cell
-import column
-import teacher
+from .. import cell
+from .. import column
+from .. import teacher
 g = open('xxx_objects.html', 'w')
 objects = list(cell.__dict__.items()) + list(column.__dict__.items()) + \
           list(teacher.__dict__.items())

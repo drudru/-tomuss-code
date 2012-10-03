@@ -19,10 +19,10 @@
 #
 #    Contact: Thierry.EXCOFFIER@bat710.univ-lyon1.fr
 
-import note
-import text
 import cgi
-import configuration
+from . import note
+from . import text
+from .. import configuration
 
 class Prst(note.Note):
     human_priority = -9

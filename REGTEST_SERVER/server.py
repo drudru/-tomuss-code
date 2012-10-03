@@ -20,20 +20,20 @@
 #    Contact: Thierry.EXCOFFIER@bat710.univ-lyon1.fr
 
 import os
-import utilities
+import sys
 import subprocess
 import shutil
 import glob
 import time
 import urllib2
 import socket
-import configuration
-import sys
+from .. import configuration
+from .. import utilities
 
 # To make casauth work we should not use a proxy
-for i in ('http_proxy', 'https_proxy'):
-    if os.environ.has_key(i):
-        del os.environ[i]
+for ii in ('http_proxy', 'https_proxy'):
+    if os.environ.has_key(ii):
+        del os.environ[ii]
 
 class Server(object):
     port = 8888
@@ -43,8 +43,8 @@ class Server(object):
     
     def start(self, cleaning=True):
         self.start_time = time.time()
-        for dirname in ['../DBregtest', '../BACKUP_DBregtest',
-                        ] + glob.glob('../TMP/xxx_tickets.py*'):
+        for dirname in ['DBregtest', 'BACKUP_DBregtest',
+                        ] + glob.glob('TMP/xxx_tickets.py*'):
             print 'delete:', dirname
             if os.path.isfile(dirname):
                 os.unlink(dirname)
@@ -77,7 +77,6 @@ class Server(object):
     def restart(self, mode='a', more=[]):
         stdout, stderr = self.log_files(mode)
         self.process = subprocess.Popen(['./tomuss.py', 'regtest'] + more,
-                                        cwd = '..',
                                         stdout = stdout.fileno(),
                                         stderr = stderr.fileno(),
                                         )
@@ -116,7 +115,7 @@ class Server(object):
             raise
         if not returns_file:
             f.close()
-        # os.system('diff -u -r ../*DBregtest/')
+        # os.system('diff -u -r *DBregtest/')
         return c
         
     def stop(self):
@@ -149,7 +148,6 @@ class ServerSuivi(Server):
                                          configuration.year_semester[1],
                                          str(self.port),
                                          'regtest'],
-                                        cwd = '..',
                                         stdout = stdout.fileno(),
                                         stderr = stderr.fileno(),
                                         )
@@ -169,8 +167,8 @@ def check(filename,
           exists=None):
 
     if exists is False:
-        return not os.path.exists('../DBregtest/' + filename) \
-               and not os.path.exists('../BACKUP_DBregtest/' + filename)
+        return not os.path.exists('DBregtest/' + filename) \
+               and not os.path.exists('BACKUP_DBregtest/' + filename)
 
     masters = []
     pages = []
@@ -201,11 +199,11 @@ def check(filename,
         elif attr == 'default_nr_columns':
             nr_columns_default.append(value)
 
-    c = utilities.read_file('../DBregtest/' + filename)
-    if utilities.read_file('../BACKUP_DBregtest/' + filename) != c:
+    c = utilities.read_file('DBregtest/' + filename)
+    if utilities.read_file('BACKUP_DBregtest/' + filename) != c:
         time.sleep(1)
-        if utilities.read_file('../BACKUP_DBregtest/' + filename) != c:
-            os.system('diff -u ' + '../DBregtest/' + filename + ' ../BACKUP_DBregtest/' + filename)
+        if utilities.read_file('BACKUP_DBregtest/' + filename) != c:
+            os.system('diff -u ' + 'DBregtest/' + filename + ' BACKUP_DBregtest/' + filename)
             raise ValueError(filename + '\nBad Backup')
     
     for line in c.split('\n')[2:]:

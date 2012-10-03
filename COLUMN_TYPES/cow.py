@@ -19,7 +19,7 @@
 #
 #    Contact: Thierry.EXCOFFIER@bat710.univ-lyon1.fr
 
-import max
+from . import max
 
 class COW(max.Max):
     human_priority = 11

@@ -19,8 +19,8 @@
 #
 #    Contact: Thierry.EXCOFFIER@bat710.univ-lyon1.fr
 
-import configuration
-import plugin
+from .. import configuration
+from .. import plugin
 
 def execute(server):
     """Display an information page to indicate that the user

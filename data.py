@@ -22,7 +22,6 @@
 # 'table' global variable is setted from 'document.Table'
 
 import threading
-import column
 
 lock = threading.Lock() # Don't allow 2 page loading at same time
 
@@ -65,12 +64,14 @@ def comment_change(page_id, col, lin, value):
 
 def table_attr(attr, page_id, value):
     """Set a table attribute"""
+    from . import column
     attr = column.TableAttr.attrs[attr]
     page = _table.pages[page_id]
     attr.set(_table, page, value)
 
 def column_attr(attr, page_id, col_id, value):
     """Set a column attribute"""
+    from . import column
     attr = column.ColumnAttr.attrs[attr]
     col = _table.columns.from_id(col_id)
     page = _table.pages[page_id]

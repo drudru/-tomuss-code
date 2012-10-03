@@ -19,14 +19,14 @@
 #
 #    Contact: Thierry.EXCOFFIER@bat710.univ-lyon1.fr
 
-import plugin
-import utilities
-import referent
-import configuration
-import inscrits
 import os
+from .. import plugin
+from .. import utilities
+from .. import referent
+from .. import configuration
+from .. import inscrits
+from .. import files
 
-import files
 files.files['types.js'].append(
     'referent_get',
     utilities.read_file(os.path.join('PLUGINS', 'referent_get.js')))

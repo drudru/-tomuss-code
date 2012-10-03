@@ -19,8 +19,8 @@
 #
 #    Contact: Thierry.EXCOFFIER@bat710.univ-lyon1.fr
 
-import mail
-import inscrits
+from . import mail
+from .. import inscrits
 
 class Surname(mail.Mail):
     attributes_visible = ('columns',)

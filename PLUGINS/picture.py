@@ -23,9 +23,9 @@
 Use this plugin in order to make TOMUSS send student pictures.
 """
 
-import plugin
-import utilities
-import inscrits
+from .. import plugin
+from .. import utilities
+from .. import inscrits
 import os
 
 def picture(server):

@@ -19,19 +19,20 @@
 #
 #    Contact: Thierry.EXCOFFIER@bat710.univ-lyon1.fr
 
+import tomuss_init
 import time
 import sys
 import os
 import BaseHTTPServer
-import configuration
-import utilities
-import document
-from files import files
-import ticket
-import sender
+from . import configuration
+from . import utilities
+from . import document
+from .files import files
+from . import ticket
+from . import sender
 
 if False:
-    import deadlock
+    from . import deadlock
     deadlock.start_check_deadlock()
 
 warn = utilities.warn
@@ -241,24 +242,29 @@ if __name__ == "__main__":
         configuration.regtest = True
         configuration.regtest_sync = True
     configuration.regtest_bug1 = 'regtest-bug1' in sys.argv
-    import regtestpatch
+    from . import regtestpatch
     regtestpatch.do_patch()
-    import plugin # AFTER import regtestpatch???
-    import plugins
+    from . import plugin # AFTER from . import regtestpatch???
+    from . import plugins
     plugins.load_types()
     document.table(0, 'Dossiers', 'config_table', None, None)
     document.table(0, 'Dossiers', 'config_acls', None, None)
 
     if 'checker' in sys.argv:
-        import tablestat
-        import TEMPLATES._ucbl_
+        from . import tablestat
+        from .TEMPLATES import _ucbl_
         configuration.do_not_display = ()
         for table in tablestat.les_ues(2009,'Automne', true_file=True):
             warn(table.ue)
-            TEMPLATES._ucbl_.student_add_allowed(table)
+            _ucbl_.student_add_allowed(table)
         sys.exit(0)
 
-    import authentication
+    if 'recompute_the_ue_list' in sys.argv:
+        from . import teacher
+        print teacher.all_ues(compute=True)
+        sys.exit(0)
+
+    from . import authentication
     authentication.run_authentication()
 
     server = BaseHTTPServer.HTTPServer(("0.0.0.0",
@@ -309,8 +315,8 @@ if __name__ == "__main__":
             cProfile.run("while running: server.handle_request()", "xxx.prof")
         except KeyboardInterrupt:
             import pstats
-            p = pstats.Stats('xxx.prof')
-            p.strip_dirs().sort_stats('cumulative').print_stats()
+            ps = pstats.Stats('xxx.prof')
+            ps.strip_dirs().sort_stats('cumulative').print_stats()
     else:
         while running:
             server.handle_request()

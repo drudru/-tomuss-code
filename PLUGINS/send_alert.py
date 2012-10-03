@@ -19,11 +19,11 @@
 #
 #    Contact: Thierry.EXCOFFIER@bat710.univ-lyon1.fr
 
-import plugin
-import document
-import configuration
-import abj_change
-import utilities
+from .. import plugin
+from .. import document
+from .. import configuration
+from .. import utilities
+from . import abj_change
 
 def send_alert(server):
     """Send an alert popup to the TABLE clients or all clients ."""

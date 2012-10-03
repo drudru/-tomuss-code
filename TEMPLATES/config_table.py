@@ -19,11 +19,11 @@
 #
 #    Contact: Thierry.EXCOFFIER@bat710.univ-lyon1.fr
 
-import document # Fix circular import problem
-import data
-import utilities
-import configuration
-import sender
+from .. import document # Fix circular import problem
+from .. import data
+from .. import utilities
+from .. import configuration
+from .. import sender
 
 def create(table):
     utilities.warn('Creation')
@@ -180,7 +180,7 @@ def onload(table):
             set_value(variable, table.lines[variable][2].value)
 
     # Can't be done before (not nice :-( )
-    import files
+    from .. import files
     files.files['doc_table.html'].replace('config_table',
                                           '_ADMIN_', configuration.maintainer)
 

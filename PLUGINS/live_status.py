@@ -19,12 +19,12 @@
 #
 #    Contact: Thierry.EXCOFFIER@bat710.univ-lyon1.fr
 
-import plugin
-import utilities
 import os
 import sys
-import sender
-import files
+from .. import plugin
+from .. import utilities
+from .. import sender
+from .. import files
 
 files.add('PLUGINS', 'live_status.js')
 

@@ -23,13 +23,13 @@ import os
 import re
 import time
 import hashlib
-from utilities import js, warn
-import utilities
-import configuration
-import plugins
-import data
-import files
-import sender
+from .utilities import js
+from . import utilities
+from . import configuration
+from . import plugins
+from . import data
+from . import files
+from . import sender
 
 class ColumnAttr(object):
     attrs = {}
@@ -295,8 +295,6 @@ def initialize():
     types_using_columns = set(ColumnAttr.attrs['columns'].visible_for())
     
     return reloadeds
-
-initialize()
 
 class Column(object):
     """The Column object contains all the informations about the column.
@@ -584,13 +582,3 @@ class Columns(object):
     def __iter__(self):
         """Iterate over the columns."""
         return self.columns.__iter__()
-
-        
-
-        
-
-
-        
-
-
-

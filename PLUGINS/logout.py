@@ -19,8 +19,8 @@
 #
 #    Contact: Thierry.EXCOFFIER@bat710.univ-lyon1.fr
 
-import plugin
-import configuration
+from .. import plugin
+from .. import configuration
 
 def logout(server):
     """User deconnexion from the server."""

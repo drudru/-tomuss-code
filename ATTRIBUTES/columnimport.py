@@ -19,7 +19,7 @@
 #
 #    Contact: Thierry.EXCOFFIER@bat710.univ-lyon1.fr
 
-from columnexport import ColumnExport
+from .columnexport import ColumnExport
 
 class ColumnImport(ColumnExport):
     name = "import"

@@ -19,10 +19,9 @@
 #
 #    Contact: Thierry.EXCOFFIER@bat710.univ-lyon1.fr
 
-import text
-import inscrits
-import utilities
-import data
+from . import text
+from .. import inscrits
+from .. import data
 
 def etapes_text(etapes):
     return ' '.join(sorted(etapes))

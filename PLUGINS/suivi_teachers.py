@@ -19,14 +19,14 @@
 #
 #    Contact: Thierry.EXCOFFIER@bat710.univ-lyon1.fr
 
-import plugin
-import document
-import utilities
-import referent
-import data
-from tablestat import TableStat, les_ues
-from cell import CellEmpty, CellValue, Line
-import column
+from .. import plugin
+from .. import document
+from .. import utilities
+from .. import referent
+from .. import data
+from ..tablestat import TableStat, les_ues
+from ..cell import CellValue, Line
+from .. import column
 
 def teachers_statistics(server):
     """Create a table of statistics about all the teachers"""

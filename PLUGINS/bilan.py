@@ -19,14 +19,14 @@
 #
 #    Contact: Thierry.EXCOFFIER@bat710.univ-lyon1.fr
 
-import plugin
-import utilities
 import os
-import inscrits
-import configuration
-from referent import students_of_a_teacher
-import files
-import document
+from .. import plugin
+from .. import utilities
+from .. import inscrits
+from .. import configuration
+from ..referent import students_of_a_teacher
+from .. import files
+from .. import document
 
 files.add('PLUGINS', 'bilan.js')
 files.add('PLUGINS', 'bilan.css')

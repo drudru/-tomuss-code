@@ -19,9 +19,9 @@
 #
 #    Contact: Thierry.EXCOFFIER@bat710.univ-lyon1.fr
 
-import data
-import configuration
-import utilities
+from .. import data
+from .. import configuration
+from .. import utilities
 
 prefs = {'display_tips'   : configuration.yes,
          'nr_favorites'   : "6"  ,

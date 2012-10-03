@@ -21,12 +21,11 @@
 
 import collections
 import time
-import plugin
-import document
-import column
-import plugins
-import cell
-import TEMPLATES._ucbl_
+from .. import plugin
+from .. import document
+from .. import column
+from .. import plugins
+from .. import cell
 
 class Stat(object):
     def __init__(self, login):

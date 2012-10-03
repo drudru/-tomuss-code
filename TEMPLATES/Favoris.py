@@ -19,16 +19,16 @@
 #
 #    Contact: Thierry.EXCOFFIER@bat710.univ-lyon1.fr
 
-import data
-import inscrits
-import utilities
-import configuration
-import abj
 import os
-import referent
-import _ucbl_
+from .. import data
+from .. import inscrits
+from .. import utilities
+from .. import configuration
+from .. import abj
+from .. import referent
+from . import _ucbl_
 
-from Referents import init, content
+from .Referents import init, content
 
 def check_columns(table):
     page = table.pages[0]

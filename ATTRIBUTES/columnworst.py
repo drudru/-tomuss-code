@@ -19,7 +19,7 @@
 #
 #    Contact: Thierry.EXCOFFIER@bat710.univ-lyon1.fr
 
-import columnbest
+from . import columnbest
 
 class ColumnWorst(columnbest.ColumnBest):
     name = 'worst'

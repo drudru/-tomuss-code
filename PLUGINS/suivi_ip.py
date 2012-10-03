@@ -19,9 +19,9 @@
 #
 #    Contact: Thierry.EXCOFFIER@bat710.univ-lyon1.fr
 
-import plugin
-import tablestat
-import inscrits
+from .. import plugin
+from .. import tablestat
+from .. import inscrits
 
 def the_ip(server):
     """For each student, display the tables where he's present"""

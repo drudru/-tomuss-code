@@ -22,8 +22,8 @@
 # All data structure are lock protected.
 
 import time
-import utilities
 import socket
+from . import utilities
 
 live_status = []
 
@@ -172,9 +172,9 @@ get_stats.last_network_usage = 0
 
 
 def live_status_send_thread():
-    import authentication
-    import ticket
-    import document
+    from . import authentication
+    from . import ticket
+    from . import document
     while True:
         time.sleep(2)
         send_live_status('<script>g(%s);</script>\n'% repr(get_stats()))

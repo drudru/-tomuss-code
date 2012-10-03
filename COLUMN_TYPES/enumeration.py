@@ -19,9 +19,8 @@
 #
 #    Contact: Thierry.EXCOFFIER@bat710.univ-lyon1.fr
 
-import note
-import text
-import bool
+from . import text
+from . import bool
 import collections
 
 class Enumeration(text.Text):

@@ -19,9 +19,9 @@
 #
 #    Contact: Thierry.EXCOFFIER@bat710.univ-lyon1.fr
 
-import plugin
-import authentication
-import utilities
+from .. import plugin
+from .. import authentication
+from .. import utilities
 
 def change_identity(server):
     "Change of identity for this ticket"

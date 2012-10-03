@@ -19,10 +19,10 @@
 #
 #    Contact: Thierry.EXCOFFIER@bat710.univ-lyon1.fr
 
-import plugin
-import referent
-import utilities
-import configuration
+from .. import plugin
+from .. import referent
+from .. import utilities
+from .. import configuration
 
 class StatCol(object):
     def __init__(self, titles, increment=lambda x: True):
@@ -62,7 +62,6 @@ class StatCol(object):
         
 
 def stat_referent(f, year, semester, server):
-    import TEMPLATES.Referents
     us = configuration.university_semesters
     # Do not translate remaining french please. It's to read old files
     prst = configuration.pre

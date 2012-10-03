@@ -20,12 +20,12 @@
 #    Contact: Thierry.EXCOFFIER@bat710.univ-lyon1.fr
 
 import time
-import abj
-import inscrits
-import data
-from utilities import js, warn, start_new_thread_immortal
-import utilities
-import configuration
+from .. import abj
+from .. import inscrits
+from .. import data
+from ..utilities import js, warn, start_new_thread_immortal
+from .. import utilities
+from .. import configuration
 
 removal_allowed = 0.15
 
@@ -418,7 +418,7 @@ def init(table):
 
 def check_get_info():
     """Update the name, surname, mail, portail from ID"""
-    import configuration
+    from .. import configuration
     if configuration.regtest:
         time.sleep(999999)
     while True:

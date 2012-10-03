@@ -19,7 +19,7 @@
 #
 #    Contact: Thierry.EXCOFFIER@bat710.univ-lyon1.fr
 
-from column import TableAttr
+from ..column import TableAttr
 
 class TableAutosave(TableAttr):
     name = 'autosave'

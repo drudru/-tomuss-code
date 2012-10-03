@@ -19,8 +19,8 @@
 #
 #    Contact: Thierry.EXCOFFIER@bat710.univ-lyon1.fr
 
-from column import ColumnAttr
 import time
+from ..column import ColumnAttr
 
 class ColumnCourseDates(ColumnAttr):
     name = 'course_dates'

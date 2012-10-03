@@ -19,9 +19,9 @@
 #
 #    Contact: Thierry.EXCOFFIER@bat710.univ-lyon1.fr
 
-import plugin
-import document
-import tablestat
+from .. import plugin
+from .. import document
+from .. import tablestat
 
 def clean(server):
     """Remove all the UE that where not modified and are not actives.

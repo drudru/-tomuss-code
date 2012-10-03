@@ -23,15 +23,13 @@
 # BUG : In many places, there is missing :
 #                 unicode(...., configuration.ldap_encoding)
 
-if __name__ == "__main__":
-    import SCRIPTS.tomuss_init
-
+import tomuss_init
 import ldap
 import re
 import time
-import configuration
-import utilities
-import sender
+from . import configuration
+from . import utilities
+from . import sender
 
 ldap.set_option(ldap.OPT_REFERRALS, 0)
 ldap.set_option(ldap.OPT_NETWORK_TIMEOUT, 1) # For connect
@@ -624,10 +622,10 @@ demo_animaux = {
     }
 
 if __name__ == "__main__":
-    # import document # If not here, this main can't execute ???
+    # from . import document # If not here, this main can't execute ???
     # configuration.terminate()
     # init()
-    import inscrits
+    from . import inscrits
     L = inscrits.L_fast
     for ii in L.students('UE-BIO2010L'):
         print ii

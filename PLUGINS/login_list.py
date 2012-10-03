@@ -19,11 +19,11 @@
 #
 #    Contact: Thierry.EXCOFFIER@bat710.univ-lyon1.fr
 
-import plugin
-import inscrits
-import configuration
-import utilities
 import time
+from .. import plugin
+from .. import inscrits
+from .. import configuration
+from .. import utilities
 
 def send(server, values, what):
     server.the_file.write('the_full_login_list('

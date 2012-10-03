@@ -19,11 +19,11 @@
 #
 #    Contact: Thierry.EXCOFFIER@bat710.univ-lyon1.fr
 
-import data
-import inscrits
-import configuration
-from utilities import _
-import _ucbl_
+from .. import data
+from .. import inscrits
+from .. import configuration
+from ..utilities import _
+from . import _ucbl_
 
 def init(table):
     _ucbl_.init(table)

@@ -19,7 +19,7 @@
 #
 #    Contact: Thierry.EXCOFFIER@bat710.univ-lyon1.fr
 
-import text
+from . import text
 
 class Date(text.Text):
     human_priority = 5

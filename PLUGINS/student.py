@@ -19,8 +19,8 @@
 #
 #    Contact: Thierry.EXCOFFIER@bat710.univ-lyon1.fr
 
-import plugin
-import configuration
+from .. import plugin
+from .. import configuration
 
 plugin.Plugin('student_redirect', '/{*}', group='!staff', password_ok = None,
               response=307,

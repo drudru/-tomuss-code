@@ -19,9 +19,6 @@
 #
 #    Contact: Thierry.EXCOFFIER@bat710.univ-lyon1.fr
 
-import configuration
-import utilities
-
 class Suivi(object):
     def __init__(self, https=False):
         self.urls = {}
@@ -30,6 +27,7 @@ class Suivi(object):
         else:
             self.http = 'http'
     def urls_sorted(self):
+        from . import utilities
         urls = self.urls.items()
         urls.sort(key=lambda x: utilities.semester_key(x[0][0], x[0][1]))
         if urls:
@@ -43,6 +41,7 @@ class Suivi(object):
             '%s://%s/%s/%s' % (self.http, host, year, semester),
             port, year, semester, host)
     def url(self, year=None, semester=None, ticket=None):
+        from . import configuration
         if year == None:
             year, semester = configuration.year_semester
         try:

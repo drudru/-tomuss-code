@@ -22,21 +22,21 @@
 # import locale
 # locale.setlocale(locale.LC_ALL, 'fr_FR.utf8')
 
-if False:
-    import deadlock
-    deadlock.start_check_deadlock()
-
+import tomuss_init
 import os
 import sys
 import time
 import cgi
 import BaseHTTPServer
-import configuration
-import utilities
-import authentication
-import plugin
-import ticket
-import inscrits
+from . import configuration
+from . import utilities
+from . import authentication
+from . import plugin
+from . import ticket
+
+if False:
+    from . import deadlock
+    deadlock.start_check_deadlock()
 
 warn = utilities.warn
 
@@ -44,7 +44,7 @@ StaticFile = utilities.StaticFile
 
 running = True
 
-from files import files
+from .files import files
 
 class MyRequestBroker(utilities.FakeRequestHandler):
     def log_time(self, action):
@@ -85,7 +85,7 @@ class MyRequestBroker(utilities.FakeRequestHandler):
         self.path = '/' + '/'.join(self.the_path)
 
         if self.path[1:] == 'load_config':
-            import document
+            from . import document
             to_reload = ('config_table', 'config_plugin', 'config_acls')
             for t in to_reload:
                 conf = document.table(0, 'Dossiers', t, None, None, ro=True)
@@ -156,11 +156,11 @@ if __name__ == "__main__":
     for i in sys.argv:
         if i == 'regtest':
             configuration.regtest = True
-    import regtestpatch
+    from . import regtestpatch
     regtestpatch.do_patch()
     configuration.read_only = True
-    import document
-    import plugins
+    from . import document
+    from . import plugins
     plugins.load_types()
     document.table(0, 'Dossiers', 'config_table', None, None,
                    ro=True, create=False)
@@ -190,7 +190,7 @@ if __name__ == "__main__":
 
     plugins.generate_data_files(suivi=True)
 
-    import tablestat
+    from . import tablestat
 
     # Load all the tables, in order to allow fast acces
     for t in tablestat.les_ues(year, semester):

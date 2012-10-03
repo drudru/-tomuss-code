@@ -11,6 +11,6 @@ Output :
 """
 
 import tomuss_init
-import teacher
+from .. import teacher
 
 teacher.all_ues(compute=True)

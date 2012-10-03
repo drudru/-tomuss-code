@@ -19,7 +19,7 @@
 #
 #    Contact: Thierry.EXCOFFIER@bat710.univ-lyon1.fr
 
-import data
+from .. import data
 
 def create(table):
     table.new_page('', data.ro_user, '', '')

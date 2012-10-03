@@ -20,12 +20,12 @@
 #    Contact: Thierry.EXCOFFIER@bat710.univ-lyon1.fr
 
 import os
-import plugin
-import ticket
-import configuration
-import document
-import column
-import cell
+from .. import plugin
+from .. import ticket
+from .. import configuration
+from .. import document
+from .. import column
+from .. import cell
 
 def the_new_pages(the_year):
     d = configuration.db + '/Y%d/S*/*.py' % the_year

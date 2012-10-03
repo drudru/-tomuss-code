@@ -19,8 +19,8 @@
 #
 #    Contact: Thierry.EXCOFFIER@bat710.univ-lyon1.fr
 
-import plugin
-import document
+from .. import plugin
+from .. import document
 
 def unload(server):
     """Unload the table from memory."""

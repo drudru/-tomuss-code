@@ -19,11 +19,11 @@
 #
 #    Contact: Thierry.EXCOFFIER@bat710.univ-lyon1.fr
 
-import plugin
-import document
 import time
-import utilities
-import configuration
+from .. import plugin
+from .. import document
+from .. import utilities
+from .. import configuration
 
 def infos(server, page):
     s = ('<a target="_blank" href="%s/%s">' % (

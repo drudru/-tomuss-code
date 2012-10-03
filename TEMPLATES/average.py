@@ -19,9 +19,9 @@
 #
 #    Contact: Thierry.EXCOFFIER@bat710.univ-lyon1.fr
 
-import data
 import re
-import configuration
+from .. import data
+from .. import configuration
 
 def best_worst_of(txt):
     values = re.sub(r".*]([0-9]*),([0-9]*)\[.*", r'][ \1 \2', txt).split(" ")

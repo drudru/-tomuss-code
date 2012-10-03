@@ -39,9 +39,9 @@ fi
 if [ '' != "$M" ]
 then
   python -c "
-import SCRIPTS.tomuss_init
-import utilities 
-import configuration
+import tomuss_init
+from .. import utilities 
+from .. import configuration
 
 utilities.send_mail(configuration.maintainer,
                     'BUG night job : $M', 'All in subject')"

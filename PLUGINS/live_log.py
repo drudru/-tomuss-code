@@ -19,8 +19,8 @@
 #
 #    Contact: Thierry.EXCOFFIER@bat710.univ-lyon1.fr
 
-import plugin
-import utilities
+from .. import plugin
+from .. import utilities
 
 def live_log(server):
     """This page continuously display logs of the server."""

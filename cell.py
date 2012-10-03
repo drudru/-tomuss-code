@@ -23,10 +23,10 @@
 
 import time
 import cgi
-import utilities
-import configuration
-import data
-import inscrits
+from . import utilities
+from . import configuration
+from . import data
+from . import inscrits
 
 js = utilities.js
 

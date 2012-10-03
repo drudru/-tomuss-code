@@ -11,10 +11,10 @@ import sys
 
 sys.path.append(os.getcwd())
 sys.path.append(os.path.join(os.getcwd(), '..'))
-import configuration
+from .. import configuration
 configuration.terminate()
 
-import document
+from .. import document
 
 t = document.table(2009,'Automne', 'UE-TVL1002L-3', ro=True, create=False)
 

@@ -19,13 +19,13 @@
 #
 #    Contact: Thierry.EXCOFFIER@bat710.univ-lyon1.fr
 
-import plugin
-import document
-import column
-import plugins
-import TEMPLATES._ucbl_
-from cell import CellEmpty, CellValue, Line
-import configuration
+from .. import plugin
+from .. import document
+from .. import column
+from .. import plugins
+from ..TEMPLATES import _ucbl_
+from ..cell import CellValue, Line
+from .. import configuration
 
 class Stat(object):
     def __init__(self, login):
@@ -100,7 +100,7 @@ def resume(server):
     document.virtual_table(server, columns, lines,
                            table_attrs={
             'default_sort_column': 2,
-            }, js=TEMPLATES._ucbl_.update_student_information)
+            }, js=_ucbl_.update_student_information)
     
 plugin.Plugin('resume', '/resume/{*}',
               function=resume, group='staff',

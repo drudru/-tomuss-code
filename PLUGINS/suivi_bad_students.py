@@ -19,10 +19,10 @@
 #
 #    Contact: Thierry.EXCOFFIER@bat710.univ-lyon1.fr
 
-import plugin
-from tablestat import les_ues
-import utilities
-import configuration
+from .. import plugin
+from ..tablestat import les_ues
+from .. import utilities
+from .. import configuration
 
 def bad_student_with_notes(f, year, semester, _):
     f.write('<title>' + _("TITLE_suivi_bad_student") + '</title>\n')
