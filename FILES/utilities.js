@@ -1980,7 +1980,7 @@ function alt_shortcut(event, td)
     case 109: /* AZERTY: 8/_ */
     case 95:  /* AZERTY: 8/_ */
     case 56:  /* QWERTY: 8/ * */
-      select_tab("cellule", "Cellule") ;
+      select_tab("cellule", _("TAB_cell")) ;
       linefilter.focus() ;
       if (linefilter.select)
 	linefilter.select();
@@ -1991,7 +1991,7 @@ function alt_shortcut(event, td)
       break ;
     case 191: /* Qwerty / */
     case 59: /* Azerty : */
-	select_tab("cellule", "Cellule") ;
+	select_tab("cellule", _("TAB_cell")) ;
 	the_comment.focus() ;
 	break ;
     case 18: // ALT
