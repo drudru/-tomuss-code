@@ -291,6 +291,9 @@ def send_mail(to, subject, message, frome=None, show_to=False):
             warn("Can't deliver mail to " + repr(recipients))
             break
         except:
+            if send_mail.session is not None:
+                send_backtrace('from=%s\nrecipients=%s\nheaders=%s' %
+                               (frome, recipients, header))
             send_mail.session = smtplib.SMTP(configuration.smtpserver)
 
     try:
