@@ -4299,8 +4299,18 @@ function javascript_regtest_ue()
 	if ( i.blur )
 	  i.blur() ;
 	break ;
+      case 'BUTTON':
+	i.innerHTML = v ;
+	if ( _("B_Text") == v )
+	  v = "Text" ;
+	else
+	  for(var j in col_types2)
+	    if ( col_types2[j] == v )
+	      v = col_types[j] ;
+	popup_type_choosed(v) ;
+	break ;
       default:
-	alert('BUG') ;
+	alert('BUG TN: ' + i.tagName) ;
       }
     highlight_list = [] ;
   } ;
@@ -4324,7 +4334,7 @@ function javascript_regtest_ue()
 	v = v.split('<')[0] ;
 	if ( v == '&nbsp;' || v == ' ' ) // WARNING : unsecable space (Opera)
 	  v = '' ;
-	if ( check && v != check[i] )
+	if ( check && (v != check[i] && v !== '') )
 	  {
 	    alert_real('Result: "' + v
 		       + '" Expected result: "' + check[i] + '"') ;
@@ -4414,6 +4424,7 @@ function javascript_regtest_ue()
       var col_type = col_types[col_type2] ;
       set(t_column_title, col_type) ;
       set(t_column_type, col_types2[col_type2]) ;
+      the_current_cell.update_headers_real() ;
       if ( col_type == 'Moy' )
 	{
 	  set(t_column_columns, 'Note AttendueNote') ;
@@ -4438,7 +4449,7 @@ function javascript_regtest_ue()
   the_current_cell.cursor_left() ;
 
   fill_col(inputs, undefined, '');
-  fill_col(inputs, notes, 'p%20n%27est%20pas%20une%20note%20valide%20car%20non%20dans%20l%27intervalle%20%5B0%3B20%5D%0AI%28ABINJ%29%2C%20J%28ABJUS%29%2C%20N%28PPNOT%29<hr>o%20n%27est%20pas%20une%20note%20valide%20car%20non%20dans%20l%27intervalle%20%5B0%3B20%5D%0AI%28ABINJ%29%2C%20J%28ABJUS%29%2C%20N%28PPNOT%29<hr>4/3/2008%20n%27est%20pas%20une%20note%20valide%20car%20non%20dans%20l%27intervalle%20%5B0%3B20%5D%0AI%28ABINJ%29%2C%20J%28ABJUS%29%2C%20N%28PPNOT%29<hr>3/4/8%20n%27est%20pas%20une%20note%20valide%20car%20non%20dans%20l%27intervalle%20%5B0%3B20%5D%0AI%28ABINJ%29%2C%20J%28ABJUS%29%2C%20N%28PPNOT%29<hr>12/12/99%20n%27est%20pas%20une%20note%20valide%20car%20non%20dans%20l%27intervalle%20%5B0%3B20%5D%0AI%28ABINJ%29%2C%20J%28ABJUS%29%2C%20N%28PPNOT%29<hr>');
+  fill_col(inputs, notes, 'p%20n%27est%20pas%20une%20note%20valide%20car%20non%20dans%20l%27intervalle%20%5B0%3B20%5D%0AI%28ABINJ%29%2C%20J%28ABJUS%29%2C%20N%28PPNOT%29%2C%20T%28TNR%29<hr>o%20n%27est%20pas%20une%20note%20valide%20car%20non%20dans%20l%27intervalle%20%5B0%3B20%5D%0AI%28ABINJ%29%2C%20J%28ABJUS%29%2C%20N%28PPNOT%29%2C%20T%28TNR%29<hr>4/3/2008%20n%27est%20pas%20une%20note%20valide%20car%20non%20dans%20l%27intervalle%20%5B0%3B20%5D%0AI%28ABINJ%29%2C%20J%28ABJUS%29%2C%20N%28PPNOT%29%2C%20T%28TNR%29<hr>3/4/8%20n%27est%20pas%20une%20note%20valide%20car%20non%20dans%20l%27intervalle%20%5B0%3B20%5D%0AI%28ABINJ%29%2C%20J%28ABJUS%29%2C%20N%28PPNOT%29%2C%20T%28TNR%29<hr>12/12/99%20n%27est%20pas%20une%20note%20valide%20car%20non%20dans%20l%27intervalle%20%5B0%3B20%5D%0AI%28ABINJ%29%2C%20J%28ABJUS%29%2C%20N%28PPNOT%29%2C%20T%28TNR%29<hr>');
   fill_col(notes, undefined, '');
   var non_modifiable = 'R%E9sultat%20de%20calcul%20non%20modifiable<hr>R%E9sultat%20de%20calcul%20non%20modifiable<hr>R%E9sultat%20de%20calcul%20non%20modifiable<hr>R%E9sultat%20de%20calcul%20non%20modifiable<hr>R%E9sultat%20de%20calcul%20non%20modifiable<hr>R%E9sultat%20de%20calcul%20non%20modifiable<hr>R%E9sultat%20de%20calcul%20non%20modifiable<hr>R%E9sultat%20de%20calcul%20non%20modifiable<hr>R%E9sultat%20de%20calcul%20non%20modifiable<hr>R%E9sultat%20de%20calcul%20non%20modifiable<hr>R%E9sultat%20de%20calcul%20non%20modifiable<hr>R%E9sultat%20de%20calcul%20non%20modifiable<hr>' ;
   fill_col(nmbr, moys, non_modifiable);
