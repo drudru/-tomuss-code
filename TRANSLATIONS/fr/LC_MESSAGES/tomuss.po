@@ -4141,7 +4141,7 @@ msgid "config_table_abj_per_semester"
 msgstr "Semestre : Si 'True' les ABJ sont par semestre et non par année"
 
 msgid "config_table_maintainer"
-msgstr "Mail : Adresse ou sont envoyés les messages d'erreur de TOMUSS"
+msgstr "Mail : Adresse où sont envoyés les messages d'erreur de TOMUSS"
 
 msgid "config_table_smtpserver"
 msgstr "Mail : Adresse du serveur SMTP pour envoyer des mails"
@@ -4186,16 +4186,16 @@ msgid "config_table_ou_top"
 msgstr "LDAP: Racine de la hiérarchie"
 
 msgid "config_table_ou_students"
-msgstr "LDAP: Endroit ou sont stockés les comptes étudiants"
+msgstr "LDAP: Endroit où sont stockés les comptes étudiants"
 
 msgid "config_table_cn_students"
-msgstr "LDAP: Endroit ou sont stockés les comptes étudiants"
+msgstr "LDAP: Endroit où sont stockés les comptes étudiants"
 
 msgid "config_table_cn_teachers"
-msgstr "LDAP: Endroit ou sont stockés les comptes enseignants"
+msgstr "LDAP: Endroit où sont stockés les comptes enseignants"
 
 msgid "config_table_ou_groups"
-msgstr "LDAP: Endroit ou sont stockés les groupes d'étudiants"
+msgstr "LDAP: Endroit où sont stockés les groupes d'étudiants"
 
 msgid "config_table_ou_ue_contains"
 msgstr "LDAP: Un objet est une UE avec les séquences/groupe s'il contient cette chaine de caractères"
@@ -4210,10 +4210,10 @@ msgid "config_table_ou_portail_contains"
 msgstr "LDAP: Un objet est un portail s'il contient cette chaine de caractères"
 
 msgid "config_table_banned_ip"
-msgstr "Accès : Liste des adresses IP interdites"
+msgstr "Accès: Liste des adresses IP interdites"
 
 msgid "config_table_teacher_if_login_contains"
-msgstr "Accès : C'est un enseignant si son login contient cette chaine de caractères"
+msgstr "Accès: C'est un enseignant si son login contient cette chaine de caractères"
 
 msgid "config_table_students_check_interval"
 msgstr "Temps : Rechargement de la liste des étudiants : Période en seconde"
@@ -4584,6 +4584,55 @@ msgstr "Une table pour tester les types."
 
 msgid "TITLE_referent_student_list"
 msgstr "Récupère la liste des étudiants"
+
+msgid "LINK_/0/Dossiers/config_home"
+msgstr "Éditer la page d'accueil"
+
+msgid "HELP_/0/Dossiers/config_home"
+msgstr "Permet d'ajouter des liens et des boites dans la colonne de droite\n"
+       "de la page d'accueil de TOMUSS"
+
+msgid "COL_TITLE_ch_box"
+msgstr "Boite"
+
+msgid "COL_COMMENT_ch_box"
+msgstr "Titre de la boite contenant le lien"
+
+msgid "COL_TITLE_ch_priority"
+msgstr "Priorité"
+
+msgid "COL_COMMENT_ch_priority"
+msgstr "Pour calculer l'ordre d'affichage des liens"
+
+msgid "COL_TITLE_ch_htmlclass"
+msgstr "Classe"
+
+msgid "COL_COMMENT_ch_htmlclass"
+msgstr "L'icone affiché devant le lien."
+
+msgid "COL_TITLE_ch_group"
+msgstr "Groupe"
+
+msgid "COL_COMMENT_ch_group"
+msgstr "Le groupe d'utilisateur pour lesquels le lien est affiché."
+
+msgid "COL_TITLE_ch_title"
+msgstr "Titre"
+
+msgid "COL_COMMENT_ch_title"
+msgstr "Le texte du lien"
+
+msgid "COL_TITLE_ch_url"
+msgstr "URL"
+
+msgid "COL_COMMENT_ch_url"
+msgstr "L'adresse où sera envoyé l'utilisateur"
+
+msgid "COL_TITLE_ch_help"
+msgstr "Aide"
+
+msgid "COL_COMMENT_ch_help"
+msgstr "Le message d'aide"
 
 msgid "MSG_referent_unmodifiable"
 msgstr "Modification interdite (problème de date ?)"

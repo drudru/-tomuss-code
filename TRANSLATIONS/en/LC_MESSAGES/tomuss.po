@@ -4524,6 +4524,54 @@ msgstr "Use this to test type."
 msgid "TITLE_referent_student_list"
 msgstr "Get the student list for UEs"
 
+msgid "LINK_/0/Dossiers/config_home"
+msgstr "Modify home page"
+
+msgid "HELP_/0/Dossiers/config_home"
+msgstr "You can add URL and box on the TOMUSS home page right column"
+
+msgid "COL_TITLE_ch_box"
+msgstr "Box"
+
+msgid "COL_COMMENT_ch_box"
+msgstr "Title of the box containing the link."
+
+msgid "COL_TITLE_ch_priority"
+msgstr "Priority"
+
+msgid "COL_COMMENT_ch_priority"
+msgstr "To compute link order insid the box"
+
+msgid "COL_TITLE_ch_htmlclass"
+msgstr "Class"
+
+msgid "COL_COMMENT_ch_htmlclass"
+msgstr "To choose the icone displayed before the link"
+
+msgid "COL_TITLE_ch_group"
+msgstr "Group"
+
+msgid "COL_COMMENT_ch_group"
+msgstr "The user group allowed to see the link"
+
+msgid "COL_TITLE_ch_title"
+msgstr "Title"
+
+msgid "COL_COMMENT_ch_title"
+msgstr "The link test"
+
+msgid "COL_TITLE_ch_url"
+msgstr "URL"
+
+msgid "COL_COMMENT_ch_url"
+msgstr "The address of the link"
+
+msgid "COL_TITLE_ch_help"
+msgstr "Help"
+
+msgid "COL_COMMENT_ch_help"
+msgstr "The help message about the link"
+
 msgid "MSG_referent_unmodifiable"
 msgstr "Modification forbidden (date problem?)"
 

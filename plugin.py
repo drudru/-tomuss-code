@@ -40,6 +40,7 @@ class Link(object):
                  priority=0,
                  where = None,
                  group = "",
+                 key = None, # See TEMPLATES/config_home.py
                  # DEPRECATED, use 'group'
                  authorized = None
                  ):
@@ -52,6 +53,7 @@ class Link(object):
         self.where = where
         self.plugin = None
         self.group = group
+        self.key = key
         if authorized:
             warn("'authorized=' is DEPRECATED, use 'group=' in place for '%s'"%
                  self.text, what='Warning')
@@ -336,56 +338,9 @@ def doc(filename):
     f.write('</table>')
     f.close()
     
-
-links_without_plugins = [
-    Link(url="javascript:go_year('Dossiers/tt/=read-only=')",
-         where="abj_master", html_class="verysafe", priority = -100,
-         group = 'abj_masters',
-         ),
-    Link(url="javascript:go_year('Dossiers/tt')",
-         where="abj_master", html_class="unsafe", priority = -99,
-         group = 'abj_masters',
-         ),
-    Link(url="stats.html",
-         where="informations", html_class="verysafe",
-         ),
-    Link(url="javascript:go('referents_students')",
-         where='referents', html_class='safe', priority=999,
-         group = 'roots',
-         ),                               
-    Link(url="/0/Dossiers/config_table/=read-only=",
-         where="root_rw", html_class="verysafe", priority = -1000,
-         group = 'roots',
-         ),
-    Link(url="/0/Dossiers/config_table",
-         where="root_rw", html_class="unsafe", priority = -999,
-         group = 'roots',
-         ),
-    Link(url="/0/Dossiers/config_acls",
-         where="root_rw", html_class="unsafe", priority = -998,
-         group = 'roots',
-         ),
-    Link(url="/0/Dossiers/config_plugin",
-         where="root_rw", html_class="safe", priority = -997,         
-         group = 'roots',
-         ),
-    Link(url="/0/Dossiers/javascript_regtest_ue",
-         where="debug", html_class="verysafe",
-         group = 'roots',
-         ),
-    Link(url="/0/Test/average",
-         where="debug", html_class="verysafe",         
-         group = 'roots',
-         ),
-    Link(url="javascript:go('demo_animaux')",
-         where="debug", html_class="verysafe",
-         group = 'roots',
-         ),
-    Link(url="/0/Test/test_types",
-         where="debug", html_class="verysafe",
-         group = 'roots',
-         ),
-    ]
+# To add links on the home page, use the home configuration page
+#  on the home page.
+links_without_plugins = []
 
 def add_links(*links):
     """Add the link if the url is not yet in the table"""
