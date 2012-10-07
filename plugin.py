@@ -296,6 +296,9 @@ class Plugin(object):
         else:
             return False
 
+    def backtrace_html(self):
+        return "Plugin: " + str(self)
+
 def vertical_text(text, size=12):
     height = str(int(size)*9)
     size = str(size)
