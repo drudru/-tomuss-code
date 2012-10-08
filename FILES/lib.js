@@ -1814,6 +1814,8 @@ function manage_window_resize_event()
   return true ;
 }
 
+var display_tips_saved ;
+
 function login_list_ask()
 {
   if ( the_current_cell.column.type != 'Login' )
@@ -1832,7 +1834,7 @@ function login_list_ask()
       //	   + encode_uri(replaceDiacritics(ask_login_list))) ;
       var s = document.createElement('script') ;
       s.src = url + '/=' + ticket + '/login_list/'
-				+ encode_uri(replaceDiacritics(ask_login_list)) ;
+	+ encode_uri(replaceDiacritics(ask_login_list)) ;
       the_body.appendChild(s) ;
     }
 	return true ;
@@ -1842,7 +1844,7 @@ function login_list_hide()
 {
   the_current_cell.blur_disabled = false ;
   hide_the_tip_real() ;
-}
+  }
 
 function login_list_select(t)
 {
@@ -1893,12 +1895,14 @@ function login_list(name, x)
 	+ '&nbsp;' + i[1] + ' ' + i[2] + ' ' + cn + '</option>' ;
     }
   s += '</select>' ;
-  var display_tips_saved = display_tips ;
+  if ( display_tips_saved === undefined )
+      display_tips_saved = display_tips ;
   display_tips = true ;
   instant_tip_display = true ;
+  document.getElementById('tip_plus').style.display = 'none' ;
   show_the_tip(the_current_cell.td, s) ;
   instant_tip_display = false ;
-  display_tips = display_tips_saved ;
+  display_tips = false ;
   get_tip_element().onmousemove = function() { } ;
 
 }
@@ -3660,6 +3664,11 @@ function hide_the_tip_real()
   tip.style.display = "none" ;
   tip.tip_target = undefined ;
   // remove_highlight() ;
+  if ( display_tips_saved !== undefined )
+    {
+      display_tips = display_tips_saved ;
+      display_tips_saved = undefined ;
+    }
 }
 
 function hide_the_tip(real)

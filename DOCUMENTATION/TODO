@@ -8,8 +8,6 @@ Nouvelles fonctionnalités.
 Utilisateurs finaux.
 --------------------
 
-* login_list : disparait de suite si le curseur est extérieur.
-
 * Reconnection de la page des ABJ quand le serveur redémarre ?
 
 * Faire doc d'installation pas par pas
