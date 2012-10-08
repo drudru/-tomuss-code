@@ -265,7 +265,11 @@ def send_mail(to, subject, message, frome=None, show_to=False):
         return
     
     header = "From: " + frome + '\n'
-    header += "Subject: " + subject.replace('\n',' ').replace('\r',' ') + '\n'
+    if isinstance(subject, unicode):
+        s = subject.encode("utf-8")
+    else:
+        s = subject
+    header += "Subject: " + s.replace('\n',' ').replace('\r',' ') + '\n'
     if len(to) == 1:
         header += "To: " + to[0] + '\n'
     elif show_to:
@@ -282,7 +286,7 @@ def send_mail(to, subject, message, frome=None, show_to=False):
     if isinstance(message, unicode):            
         message = message.encode('utf-8')
     
-    while True:
+    while True: # Stop only if the mail is sent
         try:
             smtpresult = send_mail.session.sendmail(frome, recipients,
                                                     header + '\n' + message)
@@ -290,10 +294,14 @@ def send_mail(to, subject, message, frome=None, show_to=False):
         except smtplib.SMTPRecipientsRefused:
             warn("Can't deliver mail to " + repr(recipients))
             break
+        except smtplib.SMTPServerDisconnected:
+            # It is normal: connection is closed by SMTP if unused
+            send_mail.session = smtplib.SMTP(configuration.smtpserver)
+            continue
         except:
             if send_mail.session is not None:
                 send_backtrace('from=%s\nrecipients=%s\nheaders=%s' %
-                               (frome, recipients, header))
+                               (repr(frome), repr(recipients), repr(header)))
             send_mail.session = smtplib.SMTP(configuration.smtpserver)
 
     try:
