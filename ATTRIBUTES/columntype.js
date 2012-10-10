@@ -1,7 +1,7 @@
 // -*- coding: utf-8 -*-
 /*
     TOMUSS: The Online Multi User Simple Spreadsheet
-    Copyright (C) 2008-2011 Thierry EXCOFFIER, Universite Claude Bernard
+    Copyright (C) 2008-2012 Thierry EXCOFFIER, Universite Claude Bernard
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -121,12 +121,15 @@ function popup_type_choosed(type)
   if ( t.type_type != 'data' && t.type_type != 'computed' )
     if ( ! confirm(_('ALERT_columntype')) )
       return ;
-  
-  var button = document.getElementById('t_column_type') ;
-  var td = the_td(button) ;
-  button.innerHTML = _('B_' + type) ;
-  column_attr_set(the_current_cell.column, 'type', type, td, true) ;
-  attr_update_user_interface(column_attributes['type'],
-			     the_current_cell.column) ;
+
+  column_attr_set(popup_column(), 'type', type, td, true) ;
+  if ( the_current_cell.column == popup_column() )
+  {
+    var button = document.getElementById('t_column_type') ;
+    var td = the_td(button) ;
+    button.innerHTML = _('B_' + type) ;
+    attr_update_user_interface(column_attributes['type'],
+			       the_current_cell.column) ;
+  }
   popup_close() ;
 }
