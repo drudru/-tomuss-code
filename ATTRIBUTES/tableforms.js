@@ -55,6 +55,13 @@ function table_forms_tr(e)
     return e;
 }
 
+function table_forms_empty_empty_is()
+{
+  element_focused.value = '' ;
+  var tr = table_forms_tr(element_focused) ;
+  tr.className = tr.className.toString().replace(/ *default */, '') ;
+}
+
 function table_forms_goto(event)
 {
     var input = the_event(event).target ;
@@ -64,6 +71,12 @@ function table_forms_goto(event)
     element_focused.id = "table_forms_keypress" ;
     var e = table_forms_tr(input) ;
     var cls_all = column_list(0, columns.length) ;
+    if ( e.className.indexOf('default') != -1 )
+      {
+	// Without timeout, this does not work on IE
+	// The default value come back
+        setTimeout(table_forms_empty_empty_is, 1) ;
+      }
 
     /* XXX NOT WORKING : WHY ? */
     
@@ -117,6 +130,11 @@ function table_forms_blur(event)
     var tr = table_forms_tr(input) ;
     if ( tr.data_col == the_current_cell.data_col )
 	input.value = the_current_cell.cell.value ; // Oui => OUI
+    if ( input.value === '' )
+      {
+        input.value = columns[tr.data_col].empty_is ;
+	tr.className += ' default' ;
+      }
     element_focused = undefined ;
     table_forms_update_computed_values(the_current_cell) ;
 }
@@ -176,7 +194,6 @@ function table_forms_update(THIS)
 {
     var t = table_forms_element.getElementsByTagName('tbody')[0] ;
     var i, tr, cell ;
-
     if ( THIS.line[0].value === '' )
 	{
 	    table_forms_element.getElementsByTagName('h1')[0].innerHTML =
@@ -195,20 +212,28 @@ function table_forms_update(THIS)
 	    if ( ! tr.lastChild )
 		continue ;
 	    cell = THIS.line[tr.data_col] ;
-	    tr.lastChild.firstChild.value = cell.value ;
+	    tr.className = '' ;
+	    if ( cell.value !== '' )
+	        tr.lastChild.firstChild.value = cell.value ;
+	    else
+	      {
+	        tr.lastChild.firstChild.value = columns[tr.data_col].empty_is;
+		tr.className += 'default ' ;
+	      }
 	    var img = tr.getElementsByTagName('IMG') ;
 	    if ( img.length )
 		img[0].parentNode.removeChild(img[0]) ;
 	    if ( ! columns[tr.data_col].real_type.cell_is_modifiable
 		 || ! cell.modifiable(columns[tr.data_col]) )
-		tr.className = 'ro' ;
-	    else
-		tr.className = '' ;
+		tr.className += 'ro' ;
 	}
 }
 
 function table_forms_jump(lin, col, do_not_focus, line_id, data_col)
 {
+    if ( lin == this.lin && col == this.col )
+      return ;
+  
     var new_class = this.tr.className.replace(/ *currentformline/, '') ;
 
     this.tr.className = new_class ;
