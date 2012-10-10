@@ -284,7 +284,7 @@ function dict_size(d)
 function html(t)
 {
   if ( t.replace === undefined )
-    return t ; // Number
+    return t.toString() ; // Number
   else
     return t.replace(/&/g, '&amp;').replace(/>/g, '&gt;').replace(/</g, '&lt;') ;
 }

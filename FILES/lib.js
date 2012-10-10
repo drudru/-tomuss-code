@@ -604,7 +604,7 @@ function line_resume(line_id)
 	    classe = '' ;
 	  s += '<tr class="' + classe + '"><td style="text-align:right">' +
 	    html(columns[data_col].title) + '</td><td>' +
-	    cell.value_fixed() + '</td><td>' +
+	    cell.value_fixed().replace(/\n/g,'<br>') + '</td><td>' +
 	    compute_rank(line_id, column) + '</td>' ;
 	  if (cell.comment)
 	    s += '<td>' + cell.comment_html() + '</td>' ;
@@ -694,7 +694,7 @@ function show_the_tip(td, tip_content)
 	  if ( data_col === 0 )
 	    s += (1+myindex(filtered_lines, line)) + '<br>' ;
 	  if ( cell.value )
-	    s += '<b>' + html(cell.value) + '</b><br>' ;
+	    s += '<b>' + html(cell.value).replace(/\n/g,"<br>") + '</b><br>' ;
 	  if ( i_am_root )
 	    s += 'line_id=' + line_id + ', col_id=' + column.the_id ;
 	  // highlight line
@@ -2645,7 +2645,7 @@ function update_tip_from_value(o, value)
   e.className = 'more' ;
 
   if ( value.substr(value.length-1) != '\n' ) // Tip with HTML inside
-    e.innerHTML = html(value) ;
+    e.innerHTML = html(value).replace(/\n/g, '<br>') ;
 
   else
     e.innerHTML = value ;
