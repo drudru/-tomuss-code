@@ -21,7 +21,6 @@
 
 import cgi
 import os
-import sys
 from . import plugin
 from . import utilities
 from . import files
@@ -35,32 +34,6 @@ def plugins_tomuss_more():
     pass
 
 def plugins_tomuss():
-    # Get plugins links from suivi in order to create home page
-    do_not_unload = list(plugin.plugins)
-    plugins_suivi()
-    global suivi_plugins
-    suivi_plugins = plugin.plugins
-    for p in suivi_plugins:
-        if p.link:
-            # print 'Links added from suivi:', p.link
-            plugin.add_links(p.link)
-
-    # Restore normal plugins
-    plugin.plugins = do_not_unload
-
-    # To allow module reloading
-    pwd = os.getcwd() + os.path.sep
-    for p in suivi_plugins:
-        if p in do_not_unload:
-            continue
-        try:
-            del sys.modules[p.module.replace(pwd, 'TOMUSS.')
-                            .replace(".py", "")
-                            .replace(os.path.sep, '.')]
-        except KeyError:
-            pass
-    del sys.modules["TOMUSS.PLUGINS"] # If not done, modules are not unloaded
-    
     # TOMUSS plugins:
     from .PLUGINS import abj_change
     from .PLUGINS import badpassword
@@ -95,11 +68,18 @@ def plugins_tomuss():
     from .PLUGINS import auto_update
     plugins_tomuss_more()
 
-    # Remove links yet added for suivi
+    tomuss_plugins = list(plugin.plugins)
+    # Get plugins links from suivi in order to create home page
+    plugins_suivi()
     for p in plugin.plugins:
-        if p.link:
-            plugin.remove_links(p.link)
+        if p not in tomuss_plugins:
+            suivi_plugins.append(p)
+            if p.link:
+                # print 'Links added from suivi:', p.link
+                plugin.add_links(p.link)
 
+    # Restore normal plugins
+    plugin.plugins = tomuss_plugins
     init_plugins()
 
 #REDEFINE
@@ -260,7 +240,6 @@ def load_types():
         except IOError:
             js = ''
         for k in m.keys:
-            value = getattr(m,k)
             js = js.replace('__' + k.upper() + '__',m.attribute_js_value(k))
         js = js.replace('__NAME__', m.name)
         js = js.split('\n')
@@ -391,7 +370,7 @@ def generate_data_files(suivi=False):
     #####################################
 
     if not os.path.exists('DOCUMENTATION'):
-        return reloadeds
+        return
 
     head = """
 <META HTTP-EQUIV="Content-Type" CONTENT="text/html;charset=UTF-8">
@@ -417,7 +396,11 @@ TABLE.types .defined { background: #FDD ; }
     first_line = True
     for m in types_ordered():
         if first_line:
-            f.write('<thead><tr><th>' + '</th><th>'.join(m.keys).replace('_',' ').replace('onmousedown','onmouse down').replace('ondoubleclick','ondouble click') + '</th></tr></thead><tbody>\n')
+            f.write('<thead><tr><th>' + '</th><th>'.join(m.keys)
+                    .replace('_',' ')
+                    .replace('onmousedown','onmouse down')
+                    .replace('ondoubleclick','ondouble click')
+                    + '</th></tr></thead><tbody>\n')
             first_line = False
         f.write('<tr>')
         for k, t in zip(m.keys, m._values()):
@@ -486,19 +469,19 @@ if __name__ == "__main__":
     plugins_tomuss()
     plugin.html('DOCUMENTATION/xxx_tomuss_plugins.html')
 
-    t = plugin.plugins
+    tt = plugin.plugins
     plugin.plugins = suivi_plugins
     plugin.html('DOCUMENTATION/xxx_suivi_plugins.html')
 
-    plugin.plugins += t
+    plugin.plugins += tt
     plugin.doc('DOCUMENTATION/xxx_doc_plugins.html')
 
-    f = open('DOCUMENTATION/xxx_visibility.txt', 'w')
+    ff = open('DOCUMENTATION/xxx_visibility.txt', 'w')
     from . import column
-    for t in sorted(column.ColumnAttr.attrs):
-        t = column.ColumnAttr.attrs[t]
-        f.write("%s %s\n" %(t.name, t.visible_for()))
-    f.close()
+    for tt in sorted(column.ColumnAttr.attrs):
+        tt = column.ColumnAttr.attrs[tt]
+        ff.write("%s %s\n" %(tt.name, tt.visible_for()))
+    ff.close()
                 
 
 
