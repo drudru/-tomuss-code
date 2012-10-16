@@ -120,10 +120,11 @@ def table_filename(year, semester, ue):
 
 def filter_language(language):
     # Remove not translated languages and duplicates
-    t = [x
-         for x in set(language.strip(",").split(','))
-         if x in plugins.languages
-         ]
+    t = []    
+    for x in language.strip(",").split(','):
+        if x in plugins.languages:
+            if x not in t:
+                t.append(x)
     return ','.join(t)
 
 
