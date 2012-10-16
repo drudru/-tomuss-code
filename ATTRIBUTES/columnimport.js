@@ -74,13 +74,13 @@ function import_column_do()
 	  var m = multiline[i].split(/[\t ]+/) ;
 	  if ( m.length != 1 )
 	    {
-	      problems += "On ajoute «" + m[0] + '» au lieu de «'
-		+ multiline[i] + '»\n' ;
+	      problems += _("MSG_columnimport_add") + m[0]
+		+ _("MSG_columnimport_instead_of") + multiline[i] + '\n' ;
 	      continue ;
 	    }
 	  if ( login_to_line_id(m[0]) !== undefined )
 	    {
-	      problems += "«"+ m[0] +"» n'est pas ajouté car déja présent\n";
+	      problems += _("MSG_columnimport_yet") + m[0] + "\n";
 	      continue ;
 	    }
 	  replace += 'Ajoute ' + m[0] + ' ' ;
@@ -89,7 +89,7 @@ function import_column_do()
       if ( problems !== '' )
 	{
 	  element_focused = undefined ;
-	  if ( ! confirm(problems + '\nVoulez-vous importer ?') )
+	  if ( ! confirm(problems + '\n' + _("MSG_columnimport_confirm")) )
 	      return ;
 	}
     }
@@ -107,9 +107,7 @@ function import_column_do()
 	  line_id = login_to_line_id(login_to_id(login)) ;
 	  if ( line_id === undefined )
 	    {
-	      replace += login + " n'est pas dans la table, sa note (" +
-		value + ") ne sera pas importée\n" ;
-	      // problems += login + '\n' ;
+	      replace += login + _("MSG_columnimport_not_found") + value+'\n';
 	      continue ;
 	    }
 
@@ -119,28 +117,18 @@ function import_column_do()
 	      + value + '\n' ;
 	  if ( twin[line_id] !== undefined )
 	    {
-	      replace += 'Vous donnez plusieurs notes à ' + login +
-		' seule la première sera importée\n' ;
+	      replace += login + _("MSG_columnimport_multiple") + '\n' ;
 	      continue ;
 	    }
 	  twin[line_id] = value ;
 	  todo.push([line_id, data_col, value]) ;
 	}
-      /*
-      if ( problems !== '' )
-	{
-	  element_focused = undefined ;
-	  alert("Les numéros d'étudiant suivants ne sont pas dans ce tableau. Aucun importation n'a été faite. Vous devez d'abord importer ces numéros d'étudiants dans la colonne numéro d'étudiant.\n"
-		+ problems);
-	  return ;
-	}
-      */
     }
 
   if ( replace !== '' )
     {
       element_focused = undefined ;
-      if ( ! confirm("Vous êtes sur de vouloir faire les changements suivants ?\n" + replace) )
+      if ( ! confirm(_("MSG_columnimport_confirm") + "\n" + replace) )
 	return ;
     }
   alert_append_start() ;
@@ -172,7 +160,7 @@ function full_import()
       else
 	if ( line.length > nr_cols )
 	  {
-	    alert('Nombre de colonnes variable... La première ligne doit être la plus longue, or celle-ci est plus longue :\n' + line) ;
+	    alert(_("MSG_columnimport_max_first") + '\n' + line) ;
 	    return ;
 	  }
 	else
@@ -182,8 +170,11 @@ function full_import()
 	  }
       new_lines.push(line) ;
     }
-  if ( ! confirm("Confirmez l'importation de " + new_lines.length +
-		 ' lignes et de ' + nr_cols + ' colonnes ?\n\nAucun retour en arrière ne sera possible.\nAucun autre import CSV ne sera possible.\n\nCette importation peut prendre ' + (new_lines.length*nr_cols)/10 + ' secondes') )
+  if ( ! confirm(_("MSG_columnimport_confirm") + "\n"
+		 + new_lines.length + _("MSG_columnimport_lines")
+		 + nr_cols + _("MSG_columnimport_columns")
+		 + (new_lines.length*nr_cols)/10+ _("MSG_columnimport_seconds")
+		) )
     return ;
 
   alert_append_start() ;

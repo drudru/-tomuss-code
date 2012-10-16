@@ -16,9 +16,6 @@ Utilisateurs finaux.
 
 * Faire une table de configuration du template (les variables)
 
-* Pourcentage d'ABJ pour le résultat d'un calcul en fonction du poids
-  des colonnes moyennées. En faire un type de colonne
-
 * ticket.remove_old_files()
 
 * Onglet pour Impression pour ne pas submerger le lecteur d'options
@@ -132,6 +129,7 @@ Problèmes à résoudre.
 =====================
 
 * Perte photo quand déconnexion puis reconnexion réseau : normal
+  Il faudrait que la page revalide le ticket
 
 * Browser file close : suffisant pour Python 3 ? (page action)
 

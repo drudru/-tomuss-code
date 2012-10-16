@@ -2420,6 +2420,43 @@ msgstr "importer les données dans TOMUSS"
 msgid "MSG_columnimport_title"
 msgstr "Importer dans la colonne : "
 
+msgid "MSG_columnimport_add"
+msgstr "On ajoute «"
+
+msgid "MSG_columnimport_instead_of"
+msgstr "» au lieu de : "
+
+msgid "MSG_columnimport_yet"
+msgstr "Il est déjà présent, on n'ajoute donc pas : "
+
+msgid "MSG_columnimport_confirm"
+msgstr "Vous voulez vraiment faire l'importation ?"
+
+msgid "MSG_columnimport_not_found"
+msgstr " n'est pas dans la table, sa note sera pas importée : "
+
+msgid "MSG_columnimport_multiple"
+msgstr " est indiqué plusieurs notes. Seule la première note sera importée."
+
+msgid "MSG_columnimport_max_first"
+msgstr "Nombre de colonnes variable...\n"
+       "La première ligne doit être la plus longue,\n"
+       "or celle-ci est plus longue : "
+
+msgid "MSG_columnimport_lines"
+msgstr " lignes et de "
+
+msgid "MSG_columnimport_columns"
+msgstr "  colonnes ?\n"
+       "\n"
+       "Aucun retour en arrière ne sera possible.\n"
+       "Aucun autre import CSV ne sera possible sans destruction préalable.\n"
+       "\n"
+       "Cette importation peut prendre "
+
+msgid "MSG_columnimport_seconds"
+msgstr " secondes."
+
 msgid "ALERT_columnminmax_syntax"
 msgstr "Vous devez indiquer la note minimum et maximum\n"
        "sous la forme '[0;20]' pour la colonne "
