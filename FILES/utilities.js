@@ -2275,16 +2275,16 @@ function current_change()
 	      }
 	}
     }
-  if ( this.data_col !== 0 && lines[this.line_id][0].is_empty() && value !=='')
-    {
-	Alert("ALERT_missing_id") ;
-    }
   if ( value !== ''
        && ! modification_allowed_on_this_line(this.line_id,this.data_col))
     {	    
       this.input.value = this.initial_value ;
       current_change_running = false ;
       return ;
+    }
+  if ( this.data_col !== 0 && lines[this.line_id][0].is_empty() && value !=='')
+    {
+	Alert("ALERT_missing_id") ;
     }
   if ( this.column && this.column.real_repetition && value !== '' )
     {
