@@ -618,6 +618,8 @@ class Table(object):
             if login in self.the_key_dict:
                 try:
                     self.the_key_dict[login].remove(lin)
+                    if len(self.the_key_dict[login]) == 0:
+                        del self.the_key_dict[login]
                 except:
                     if login:
                         utilities.warn(str(page) + ' old_login=' + login
