@@ -25,7 +25,7 @@ dumper:dumper.c
 	$(CC) $(CFLAGS) dumper.c $$(pkg-config --libs x11) -o $@
 
 clean:
-	rm *~ *.pyc Trash/*
+	-rm -f *~ *.pyc Trash/* 2>/dev/null
 
 EXECUTABLE = which $$1 >/dev/null
 
