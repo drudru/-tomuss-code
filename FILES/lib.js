@@ -2131,6 +2131,23 @@ function previous_page(previous_cell, dy)
   return true ;
 }
 
+function first_page(previous_cell, dy)
+{
+  the_current_cell.change() ;
+  line_offset = 0 ;
+  table_fill() ;
+  return true ;
+}
+
+function last_page(previous_cell, dy)
+{
+  the_current_cell.change() ;
+  line_offset =  filtered_lines.length - table_attr.nr_lines - 1 ;
+  if ( line_offset < 0 )
+    line_offset = 0 ;
+  table_fill() ;
+  return true ;
+}
 
 function table_fill_hook_horizontal()
 {

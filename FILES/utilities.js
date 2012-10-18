@@ -2057,13 +2057,14 @@ function current_keydown(event, in_input)
 	    return ;
 	}
     }
+  if ( (key == 35 || key == 36) && ! event.ctrlKey)
+    return ;
 
   // __d('alt=' + event.altKey + ' ctrl=' + event.ctrlKey + ' key=' + key + ' charcode=' + event.charCode + ' which=' + event.real_event.which + '\n') ;
 
   var selection ;
   if ( event.target.tagName === 'INPUT' )
     selection = get_selection(event.target) ;
-
   switch(key)
     {
     case 40: this.cursor_down() ; break ;
@@ -2071,6 +2072,8 @@ function current_keydown(event, in_input)
     case 38: this.cursor_up()   ; break ;
     case 34: next_page()        ; break ;
     case 33: previous_page()    ; break ;
+    case 36: first_page()       ; break ;
+    case 35: last_page()        ; break ;
     case 37:
       if ( event.shiftKey )
 	return true ;
