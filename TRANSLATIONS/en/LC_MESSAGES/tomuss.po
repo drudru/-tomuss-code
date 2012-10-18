@@ -2432,7 +2432,7 @@ msgstr "» in place of: "
 msgid "MSG_columnimport_yet"
 msgstr "It is yet in the table, so we don't add: "
 
-msgid "MSG_columnimport_add"
+msgid "MSG_columnimport_add2"
 msgstr "Add"
 
 msgid "MSG_columnimport_confirm"
