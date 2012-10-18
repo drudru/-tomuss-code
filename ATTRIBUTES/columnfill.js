@@ -24,7 +24,8 @@ function fill_column()
 {
   var m = '' ;
 
-  if ( tr_filter.childNodes[0].firstChild.value === '' )
+  if ( tr_filter.childNodes[0].firstChild.value === ''
+     || tr_filter.childNodes[0].firstChild.value === '!=')
       for(var i in filtered_lines)
 	  if ( filtered_lines[i][0].is_empty() )
               {
