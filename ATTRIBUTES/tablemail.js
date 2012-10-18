@@ -251,7 +251,7 @@ function personal_mailing_do()
 	}
     }
   var self_mail = '<iframe src="_URL_/=' + ticket + '/send_mail/' +
-    encode_uri(_("MSG_mail_archive") + ' ' + subject)
+    encode_uri(_("MSG_mail_archive")+ ' ') + subject
     + '/' + encode_uri(message) + '/' + encode_uri(my_identity) ;
   for(var col_name in column_used)
      self_mail += '/' + encode_uri('['+col_name+']') ;
