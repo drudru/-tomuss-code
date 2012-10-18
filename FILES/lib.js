@@ -4343,6 +4343,7 @@ function javascript_regtest_ue()
 	  for(var j in col_types2)
 	    if ( col_types2[j] == v )
 	      v = col_types[j] ;
+	popup_get_element().column = the_current_cell.column ;
 	popup_type_choosed(v) ;
 	break ;
       default:
