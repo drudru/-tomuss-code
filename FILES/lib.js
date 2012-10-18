@@ -2089,9 +2089,16 @@ function add_empty_columns()
 Cursor movement
 ******************************************************************************/
 
+function need_to_save_change()
+{
+  return ! element_focused || element_focused.id != 'linefilter' ;
+}
+
+
 function next_page(next_cell, dy)
 {
-  the_current_cell.change() ;
+  if ( need_to_save_change() )
+    the_current_cell.change() ;
 
   if ( filtered_lines !== undefined 
        && line_offset + table_attr.nr_lines > filtered_lines.length )
@@ -2110,13 +2117,14 @@ function next_page(next_cell, dy)
 
   line_offset += dy ;
   
-  table_fill() ;
+  table_fill(true) ;
   return true ;
 }
 
 function previous_page(previous_cell, dy)
 {
-  the_current_cell.change() ;
+  if ( need_to_save_change() )
+    the_current_cell.change() ;
   if ( dy === undefined )
     dy = Number((table_attr.nr_lines * preferences.page_step).toFixed(0)) ;
   if ( previous_cell )
@@ -2127,25 +2135,27 @@ function previous_page(previous_cell, dy)
   line_offset -= dy ;
   if ( line_offset < 0 )
     line_offset = 0 ;
-  table_fill() ;
+  table_fill(true) ;
   return true ;
 }
 
 function first_page(previous_cell, dy)
 {
-  the_current_cell.change() ;
+  if ( need_to_save_change() )
+    the_current_cell.change() ;
   line_offset = 0 ;
-  table_fill() ;
+  table_fill(true) ;
   return true ;
 }
 
 function last_page(previous_cell, dy)
 {
-  the_current_cell.change() ;
+  if ( need_to_save_change() )
+    the_current_cell.change() ;
   line_offset =  filtered_lines.length - table_attr.nr_lines - 1 ;
   if ( line_offset < 0 )
     line_offset = 0 ;
-  table_fill() ;
+  table_fill(true) ;
   return true ;
 }
 
