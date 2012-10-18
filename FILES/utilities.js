@@ -428,21 +428,26 @@ function hidden(html, help, classname, id)
 
 function encode_uri(t)
 {
-  // Use %01 to encode / because APACHE make a mess with it
-  // Use %02 to encode ? because APACHE make a mess with it
-  return encodeURI(t).replace(/\?/g, "%02").replace(/#/g, "%23")
-    .replace(/[.]/g, "%2E").replace(/&/g, "%26").replace(/\//g, "%01") ;
+  // We use $ in place of % because we don't want the proxies
+  // or Apache or Single Sign On services to mess with the data content.
+  return encodeURI(t)
+    .replace(/\$/g, "$24").replace(/\?/g, "$3F").replace(/#/g, "$23")
+    .replace(/[.]/g, "$2E").replace(/&/g, "$26").replace(/\//g, "$2F") ;
 }
 
 function encode_uri_option(t)
 {
-  return encode_uri(t).replace(/[=]/g,'%03').replace(/:/g, '%04') ;
+  return encode_uri(t).replace(/_/g, '__')
+    .replace(/[=]/g,'_E').replace(/:/g, '_C') ;
 }
 
 function decode_uri_option(t)
 {
-  return unescape(t.replace(/%01/g,'/').replace(/%02/g,'?')
-		  .replace(/%03/g,'=').replace(/%04/g,':')) ;
+  return unescape(t.replace(/\$2F/g,'/').replace(/\$3F/g,'?')
+		  .replace(/\$23/g,'#').replace(/\$2E/g,'.')
+		  .replace(/\$26/g,'&')
+		  .replace(/_E/g,'=').replace(/_C/g,':').replace(/__/g,'_')
+		  .replace(/\$24/g, '$')) ;
 }
 
 function debug(e, only, eject, hide_empty)

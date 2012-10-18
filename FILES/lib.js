@@ -2892,7 +2892,7 @@ Request.prototype.send = request_send ;
 function click_to_revalidate_ticket()
 {
   var m =  '<a onclick="javascript: t_authenticate.style.display = \'none\' ; window_open(\'' + cas_url + '/login?service='
-    + encode_uri('_URL_/allow/'+ticket+'/'+millisec()).replace(/%01/g, '%2F')
+    + encodeURI('_URL_/allow/' + ticket + '/' + millisec())
     + '\')">' + _("MSG_reauthenticate") + '</a>' ; 
   t_authenticate.style.display = 'block' ;
   t_authenticate.innerHTML = m ;
@@ -4405,7 +4405,7 @@ function javascript_regtest_ue()
   var t_column_type        = document.getElementById('t_column_type'       );
 
   set(t_column_title, 'Saisie') ;
-  set(t_column_type, _('Text')) ;
+  set(t_column_type, 'Text') ;
   the_current_cell.cursor_right() ;
   expected('');
 

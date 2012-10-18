@@ -31,9 +31,10 @@ from . import plugins
 warn = utilities.warn
 
 def canonize(s):
-    return s.replace('%','%25')
-    # ? is very special
-    return urllib2.quote(s)
+    return (s.replace("$", "$24").replace('?','$3F').replace('#','$23')
+            .replace("/", "$2F").replace("&", '$26').replace(".", '$2E')
+            .replace(" ", "$20")
+            )
 
 last_mail_sended = 0
 
@@ -62,7 +63,7 @@ def ticket_login_name(ticket_key, service, server=None):
         else:
             return False
 
-    service = canonize(service)
+#    service = canonize(service)
     warn('Ask CAS: %s' % service, what="auth")
     i = 0
     while True:
@@ -99,7 +100,7 @@ def ticket_login_name(ticket_key, service, server=None):
 # This function is called when the browser does not give a valid ticket.
 # The browser is redirected on the CAS authentification service.
 def ticket_ask(server, dummy_server_url, service):
-    service = canonize(service)
+#    service = canonize(service)
     if not configuration.cas:
         # Assume you are using .htaccess and Apache
         import random
@@ -123,6 +124,7 @@ def ticket_ask(server, dummy_server_url, service):
 def get_path(server, server_url):
     
     ticket_key, path = ticket.get_ticket_string(server)
+    escaped_path = '/'.join(canonize(i) for i in path)
     ticket_object = ticket.get_ticket_objet(ticket_key, server)
         
     # Ticket OK
@@ -132,10 +134,8 @@ def get_path(server, server_url):
         return ticket_object, path
 
     # 2.8.10
-    service = server_url.replace('/=TICKET','') + '/' + '/'.join(path)
+    service = server_url.replace('/=TICKET','') + '/' + escaped_path
     service = service.split('?ticket=')[0].split('&ticket')[0]
-    service = service.replace('?','%3F')
-    service = canonize(service)
     warn('SERVICE: %s TICKET: %s' % (service, ticket_key), what="auth")
 
     if ticket_key != None:
@@ -187,10 +187,9 @@ def get_path(server, server_url):
             if '=TICKET' in server_url:
                 location = '%s/%s' % (
                     server_url.replace('=TICKET', '=' + ticket_key),
-                    '/'.join(path))
+                    escaped_path)
             else:
-                location = '%s/=%s/%s' % (
-                    server_url, ticket_key, '/'.join(path))
+                location = '%s/=%s/%s' % (server_url, ticket_key, escaped_path)
 
             server.send_header('Location', location.strip('/'))
             server.end_headers()

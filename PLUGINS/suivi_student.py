@@ -688,10 +688,11 @@ def page_rss2(server):
              utilities.nice_date(p.date),
              p.request,
              )
-        t1 = p.day().replace('/', '%2501')
-
-        f = '/=full_filter=@%s%%2520%%2502%%3C%%3D%s%%2520%%2502%%3E%%3D%s' % (p.user_name, t1, t1)
-
+        t1 = p.day().replace('/', '$2F')
+        # %3C %3E to not broke XML syntax
+        # $20 $3F to not be tampered
+        f = '/=full_filter=@%s$20$3F%%3C_E%s$20$3F%%3E_E%s' % (
+            p.user_name, t1, t1)
         server.the_file.write(
             '<item>\n' +
             '<title>%d modifications par %s</title>\n' % (p.request, p.user_name) +

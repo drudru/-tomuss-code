@@ -30,7 +30,7 @@ clean:
          done || true
 
 tags:
-	etags $$(find . \( -name '*.js' -o -name '*.py' \) -print)
+	etags $$(git ls-files -- '*.js' '*.py')
 
 regtest:translations
 	cd REGTEST_SERVER ; ./tests.py

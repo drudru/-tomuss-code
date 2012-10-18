@@ -122,9 +122,9 @@ class MyRequestBroker(utilities.FakeRequestHandler):
                   utilities.js(ue)))
 
     def do_GET_real(self):
-        # APACHE make a mess with %2F so use %01 in place
-        # APACHE make a mess with %3F so use %02 in place
-        self.path = self.path.replace('%01', '%2F').replace('%02', '%3F')
+        # APACHE make a mess with %2F %3F and others
+        # so we encode them with $2F $3F...
+        self.path = self.path.replace("$", "%")
 
         if ticket.client_ip(self) in configuration.banned_ip:
             self.send_file('bad.png')

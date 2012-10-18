@@ -74,6 +74,9 @@ class MyRequestBroker(utilities.FakeRequestHandler):
         self.semester = semester
         self.the_port = server_port
         self.ticket = None
+        # APACHE make a mess with %2F %3F and others
+        # so we encode them with $2F $3F...
+        self.path = self.path.replace("$", "%")
         self.the_path = self.path.split('/')[1:]
 
         # Remove year/semester if present
