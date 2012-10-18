@@ -83,7 +83,7 @@ function import_column_do()
 	      problems += _("MSG_columnimport_yet") + m[0] + "\n";
 	      continue ;
 	    }
-	  replace += 'Ajoute ' + m[0] + ' ' ;
+	  replace += _("MSG_columnimport_add") + ' ' + m[0] + ' ' ;
 	  todo.push([-1, 0, m[0]]) ;
 	}
       if ( problems !== '' )

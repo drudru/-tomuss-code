@@ -2429,6 +2429,9 @@ msgstr "» au lieu de : "
 msgid "MSG_columnimport_yet"
 msgstr "Il est déjà présent, on n'ajoute donc pas : "
 
+msgid "MSG_columnimport_add"
+msgstr "Ajoute"
+
 msgid "MSG_columnimport_confirm"
 msgstr "Vous voulez vraiment faire l'importation ?"
 
