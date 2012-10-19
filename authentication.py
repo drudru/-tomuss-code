@@ -246,7 +246,7 @@ def ok(server):
     if server.ticket and hasattr(server.ticket, 'password_ok'):
         return True
 
-    # Redirect the client to not blobk the others
+    # Redirect the client to not block the others
     server.send_response(307)
 
     # Problem with the request with an ever changing IP

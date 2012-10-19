@@ -82,9 +82,9 @@ class MyRequestBroker(utilities.FakeRequestHandler):
             del self.the_path[0:2]
         elif '/'.join(self.the_path[1:3]) == year_semester:
             del self.the_path[1:3]
-        self.path = '/' + '/'.join(self.the_path)
+        path = '/' + '/'.join(self.the_path)
 
-        if self.path[1:] == 'load_config':
+        if path[1:] == 'load_config':
             import document
             to_reload = ('config_table', 'config_plugin', 'config_acls')
             for t in to_reload:
@@ -101,11 +101,11 @@ class MyRequestBroker(utilities.FakeRequestHandler):
             self.wfile.write('ok')
             return
 
-        if self.path[1:] in files and self.path[1:] != '':
+        if path[1:] in files and path[1:] != '':
             # XXX Why not merge with tomuss.py send_file?
-            warn('PATH=(%s)' % self.path[1:])
+            warn('PATH=(%s)' % path[1:])
             self.send_response(200)
-            f = files[self.path[1:]]
+            f = files[path[1:]]
             self.send_header('Content-Type', f.mimetype)
             self.send_header('Content-Length', len(f))
             self.end_headers()
@@ -113,7 +113,7 @@ class MyRequestBroker(utilities.FakeRequestHandler):
             self.log_time('static_file')
             return
 
-        if configuration.regtest and self.path == '/stop':
+        if configuration.regtest and path == '/stop':
             global running
             self.send_response(200)
             self.send_header('Cache-Control', 'no-cache')
@@ -130,7 +130,10 @@ class MyRequestBroker(utilities.FakeRequestHandler):
             # XXX Assumes that a thread is not launched
             return # Unauthenticated dispatch is done
 
+        orig_path = self.path
+        self.path = path
         the_ticket, self.the_path = ticket.get_ticket_string(self)
+        self.path = orig_path
         self.ticket = ticket.get_ticket_objet(the_ticket, self)
         warn('ticket=%s' % str(self.ticket)[:-1])
         warn('the_path=%s' % str(self.the_path))
@@ -192,7 +195,7 @@ if __name__ == "__main__":
 
     import tablestat
 
-    # Load all the tables, in order to allow fast acces
+    # Load all the tables, in order to allow fast access
     for t in tablestat.les_ues(year, semester):
         if False:
             warn("%s grpcol=%s seqcol=%s" % (t.ue, t.columns.get_grp(),

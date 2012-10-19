@@ -128,14 +128,14 @@ Administrateur.
 Problèmes à résoudre.
 =====================
 
+* Changement de semestre dans le suivi
+
 * Perte photo quand déconnexion puis reconnexion réseau : normal
   Il faudrait que la page revalide le ticket
 
 * Browser file close : suffisant pour Python 3 ? (page action)
 
 * Arrêter propremement pour ne rien perdre
-
-* %01 %02 ne sont pas supporté par CAS : les enlever...
 
 * La destruction de table quand elle est impossible la fait disparaître
   de la page d'accueil
@@ -156,19 +156,21 @@ Problèmes à résoudre.
 
 * Dispense d'assiduité : la destruction d'une DA les détruit toutes.
 
-* unbalanced tree : Tout à refaire, donc dans longtemps.
+* unbalanced tree error message : Tout à refaire, donc dans longtemps.
 
 ============================
 Problèmes non reproductibles
 ============================
 
+* L'importation (remplissage aussi) ne met pas à jour l'affichage de temps
+  en temps sous Chrome.
+  Mode sans sauvegarde ?
+  Il y a des filtres actifs ?
+  Rafraichissement bloqué si la colonne n'était pas créée ?
+
 * Copié à la souris dans une cellule : seulement si vide et seulement FF
 
 * Support du copier/collé dans les INPUT
-
-* L'importation ne met pas à jour l'affichage de temps en temps (Chrome)
-  Mode sans sauvegarde ?
-  Rafraichissement bloqué si la colonne n'était pas créée ?
 
 * Quand on prend le droit : il faut changer de colonne pour avoir accès
   Difficile à reproduire.
