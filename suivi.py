@@ -130,10 +130,8 @@ class MyRequestBroker(utilities.FakeRequestHandler):
             # XXX Assumes that a thread is not launched
             return # Unauthenticated dispatch is done
 
-        orig_path = self.path
         self.path = path
         the_ticket, self.the_path = ticket.get_ticket_string(self)
-        self.path = orig_path
         self.ticket = ticket.get_ticket_objet(the_ticket, self)
         warn('ticket=%s' % str(self.ticket)[:-1])
         warn('the_path=%s' % str(self.the_path))

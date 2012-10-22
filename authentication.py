@@ -228,11 +228,12 @@ def authentication_thread():
                     if x.ticket == None:
                         x.log_time('redirection')
                         continue # Redirection done
-
-                update_ticket(x.ticket)
-                x.send_header('Location', x.path)
+                x.send_header('Location',
+                              '/'.join(get_path(x,authentication_redirect)[1]))
                 x.end_headers()
                 x.close_connection_now()
+                # After redirection to not delay it
+                update_ticket(x.ticket)
 
             except (IOError, socket.error):
                 utilities.send_backtrace(
