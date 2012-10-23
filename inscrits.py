@@ -494,13 +494,11 @@ class LDAP(LDAP_Logic):
         A answer is a pair : (CN, dictionnary)
         """
         t = time.time()
-        if t - self.last_query > configuration.ldap_reconnect and self.connexion:
-            del self.connexion
-            self.connexion = None
+        if (t - self.last_query > configuration.ldap_reconnect
+            or self.connexion is None):
+            self.connect()
         self.last_query = t
         # warn('search=%s base=%s attr=%s' % (search, base, attributes) )
-        if self.connexion == None:
-            self.connect()
         if self.connexion is True:
             # Fake connexion
             t = {}
