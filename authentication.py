@@ -128,6 +128,13 @@ def get_path(server, server_url):
     # Ticket OK
     if ticket_object != None:
         warn('fast ticket:%s' % str(ticket_object)[:-1], what='auth')
+        if '/=TICKET' in server_url:
+            path = server_url.replace('TICKET',
+                                      ticket_object.ticket
+                                      ) + '/' + '/'.join(path)
+        else:
+            path = server_url + '/=' + ticket_object.ticket + '/' + '/'.join(
+                path)
         warn('fast path: %s' % str(path), what='auth')
         return ticket_object, path
 
@@ -229,7 +236,7 @@ def authentication_thread():
                         x.log_time('redirection')
                         continue # Redirection done
                 x.send_header('Location',
-                              '/'.join(get_path(x,authentication_redirect)[1]))
+                              get_path(x,authentication_redirect)[1])
                 x.end_headers()
                 x.close_connection_now()
                 # After redirection to not delay it
