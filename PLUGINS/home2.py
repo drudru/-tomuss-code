@@ -69,7 +69,7 @@ def home_page(server):
     else:
         favorites = eval(favorites)
 
-    prefs_table = document.get_preferences(user_name, True)
+    prefs_table = document.get_preferences(user_name, True, the_ticket=ticket)
 
     master_of = utilities.manage_key('LOGINS',
                                      os.path.join(user_name, 'master_of'))

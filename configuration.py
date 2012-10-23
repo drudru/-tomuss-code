@@ -309,7 +309,7 @@ suivi.add(time.localtime()[0]  , semesters[0],socket.getfqdn()+':%d', 8889)
 suivi.add(time.localtime()[0]  , semesters[1],socket.getfqdn()+':%d', 8890)
 
 # Do not display 'debug' warning
-do_not_display = ('debug', 'auth', 'table', 'ldap', 'plugin', 'check')
+do_not_display = ('debug', 'auth', 'table', 'ldap', 'plugin', 'check', 'lang')
 
 # Message on the top page
 message = ''

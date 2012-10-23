@@ -3018,7 +3018,7 @@ msgstr "This table display informations stored in TOMUSS.\n"
        "<li>Green indicates an attendance or a grade,\n"
        "    Blue: a justified leave, Red: an injustified leave.\n"
        "<li>The grade on 20 is the average of ALL the grades\n"
-       "    without taking into accoun the weights.\n"
+       "    without taking into account the weights.\n"
        "    <b>It is not the UE grade.</b>\n"
        "</ul>"
 

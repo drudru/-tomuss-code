@@ -138,15 +138,20 @@ def get_preferences(user_name, create_pref=True, the_ticket=None):
         p = {}
     else:
         p = prefs_table.template.preferences(prefs_table)
-
+    warn('Language in preferences: (%s)' % p.get('language', ''), what="lang")
     if p.get('language', '') == '':
         if the_ticket is None:
+            warn('Search old ticket to find language')
             for the_ticket in ticket.tickets.values():
                 if the_ticket.user_name == user_name:
                     break
+        warn('Language in ticket: (%s)' % the_ticket.language, what="lang")
         p['language'] = filter_language(the_ticket.language)
         if p['language'] == '':
+            warn('Language in server: (%s)' % configuration.language,
+                 what="lang")
             p['language'] = configuration.language
+    warn('Language after filtering: ' + p['language'])
 
     return p
 
@@ -169,12 +174,13 @@ def translations_init(language):
             % js(language)
             + '\n'.join(languages) + '\n')
 
-def table_head(year=None, semester=None, ticket=None,
+def table_head(year=None, semester=None, the_ticket=None,
                user_name='', page_id=-1, ue='',
                create_pref=True,
                attrs_from=0, hide_more=False):
-    s = configuration.suivi.url(year, semester, ticket)
-    prefs_table = get_preferences(user_name, create_pref)
+    s = configuration.suivi.url(year, semester, the_ticket)
+    t = ticket.tickets.get(the_ticket, None)
+    prefs_table = get_preferences(user_name, create_pref, the_ticket=t)
     try:
         background = configuration.semesters_color[configuration.semesters.index(semester)]
         background = '<style>BODY, TABLE INPUT, #current_input, BODY TABLE.colored TD { background-color: ' + background + '}</style>'
@@ -192,7 +198,7 @@ def table_head(year=None, semester=None, ticket=None,
             'url = %s ;\n' % js(utilities.StaticFile._url_) +
             'year = "%s" ;\n' % year +
             'semester = "%s" ;\n' % semester +
-            'ticket = "%s" ;\n' % ticket +
+            'ticket = "%s" ;\n' % the_ticket +
             'ue = "%s" ;\n' % ue +
             'suivi = %s ;\n' % js(s) +
             'version = "%s" ;\n' % configuration.version +
