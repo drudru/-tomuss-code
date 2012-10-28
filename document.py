@@ -682,6 +682,22 @@ class Table(object):
             # For old TEMPLATES files
             self.log('table_attr("masters",%d,%s)' % (page_id, repr(name))) 
 
+    def get_a_master_page(self):
+        """Returns a page modifiable by the masters.
+        Create one if there is none"""
+        rw = None
+        for p in self.pages:
+            if p.user_name in self.masters:
+                return p
+            if p.user_name == data.rw_user:
+                rw = p
+        if self.masters:
+            return self.new_page('', self.masters[0], '', '')
+        else:
+            if rw:
+                return rw
+            return self.new_page('', data.rw_user, '', '')
+
     def private_toggle(self, page):
         """Deprecated"""
         self.private = 1 - self.private
