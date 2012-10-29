@@ -446,7 +446,7 @@ def dispatch_request(server, manage_error=True):
                                           x.ticket.ticket)),
                                         ),
                                     priority=1)
-                to_top.invited = ('grp:')
+                to_top.invited = ('grp:',)
             p = to_top
         else:
             return False
