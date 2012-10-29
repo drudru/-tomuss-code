@@ -8,6 +8,8 @@ Nouvelles fonctionnalités.
 Utilisateurs finaux.
 --------------------
 
+* Publi postage : liste des receveurs.
+
 * Reconnection de la page des ABJ quand le serveur redémarre ?
 
 * Faire doc d'installation pas par pas
@@ -188,8 +190,8 @@ Améliorations de code source.
 
 * Faire une fonction 'is_a_student(login)'
 
-* Séparer les fichiers "static" ailleurs, se débarrasser de 'translation'
-  qui empêche cela
+* Séparer les fichiers "static" ailleurs, se débarrasser de
+  l'attribut 'translation' qui empêche cela
 
 * Faire une procédure de serveur feedback générique
 
