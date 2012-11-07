@@ -62,7 +62,7 @@ Pour gérer les serveurs TOMUSS :
 Pour le moment c'est compliqué :
 	* Récupérer les nouveaux sources.
 	* Mettre votre version des sources dans LOCAL
-	* Lancer SCRIPTS/install en indiquant les 2 répertoires d'installation.
+	* Lancer SCRIPTS/install en indiquant le répertoire d'installation.
 
 Si jamais la nouvelle version ne fonctionne pas :
 	* Vous l'arrêtez avec un : "make stop"

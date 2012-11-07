@@ -215,7 +215,7 @@ hidden('<a href="%s/=%s/%s/%s/ %s" target="_blank">'
             s.append('''<script>
 hidden('<a href="%s/suivi_student_charte.html" target="_blank">'
        + _("MSG_suivi_student_contract_view") + '</a>',
-       _("TIP_suivi_student_view"));</script>, ''' %
+       _("TIP_suivi_student_contract_view"));</script>, ''' %
                      utilities.StaticFile._url_)
 
     # MORE
