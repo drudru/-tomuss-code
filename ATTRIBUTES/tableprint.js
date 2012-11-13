@@ -44,8 +44,9 @@ function printable_display_page(lines, title, page_break)
 
   var s = [] ;
   var html_class = 'printable_table', th_class ;
-
-  if ( uniform == _("B_print_yes") )
+  var is_uniform = uniform == _("B_print_yes") ;
+  
+  if ( is_uniform )
     html_class += ' tdnowrap' ;
 
   if ( page_break )
@@ -191,7 +192,10 @@ function printable_display_page(lines, title, page_break)
 		    v = v.replace('.', ',') ;
 		}
 	      else
-		v = cell.value_html() ;
+		if ( is_uniform )
+		  v = cell.value_html() ;
+	        else
+		  v = cell.value_html().replace(/\n/g, "<br>") ;
 	      txt_line.push(v.replace(/\t/g, ' ')) ;
 	      if ( v === '' )
 		v = '&nbsp;' ;

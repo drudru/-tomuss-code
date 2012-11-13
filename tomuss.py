@@ -295,6 +295,9 @@ if __name__ == "__main__":
 
     utilities.start_new_thread_immortal(sender.live_status_send_thread, ())
 
+    document.table(0, 'Dossiers', 'config_home', None, None)
+    
+
     # While there is an updating table, there is many messages
     # Wait the end of the flow
     while utilities.filename_to_bufferize is not None:

@@ -30,7 +30,7 @@ function set_visibility_date(value, column, interactive_modification)
       Alert("ALERT_columnvisibility_date_invalid", value) ;
       return column.visibility_date ;
     }
-  if ( false && (v.getTime() - millisec())/(86400*1000) > 31 )
+  if ( (v.getTime() - millisec())/(86400*1000) > 31 )
     {
       Alert("ALERT_columnvisibility_date_far_futur") ;
       return column.visibility_date ;

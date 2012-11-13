@@ -130,6 +130,13 @@ def get_path(server, server_url):
     # Ticket OK
     if ticket_object != None:
         warn('fast ticket:%s' % str(ticket_object)[:-1], what='auth')
+        if '/=TICKET' in server_url:
+            path = server_url.replace('TICKET',
+                                      ticket_object.ticket
+                                      ) + '/' + '/'.join(path)
+        else:
+            path = server_url + '/=' + ticket_object.ticket + '/' + '/'.join(
+                path)
         warn('fast path: %s' % str(path), what='auth')
         return ticket_object, path
 
@@ -227,11 +234,12 @@ def authentication_thread():
                     if x.ticket == None:
                         x.log_time('redirection')
                         continue # Redirection done
-
-                update_ticket(x.ticket)
-                x.send_header('Location', x.path)
+                x.send_header('Location',
+                              get_path(x,authentication_redirect)[1])
                 x.end_headers()
                 x.close_connection_now()
+                # After redirection to not delay it
+                update_ticket(x.ticket)
 
             except (IOError, socket.error):
                 utilities.send_backtrace(
@@ -245,7 +253,7 @@ def ok(server):
     if server.ticket and hasattr(server.ticket, 'password_ok'):
         return True
 
-    # Redirect the client to not blobk the others
+    # Redirect the client to not block the others
     server.send_response(307)
 
     # Problem with the request with an ever changing IP

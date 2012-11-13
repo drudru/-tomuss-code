@@ -103,7 +103,7 @@ def abj_home(server):
     """Display the home page for ABJ management"""
     utilities.warn('Start')
     d = (document.table_head(int(server.the_year), server.the_semester,
-                             ticket=server.ticket.ticket,
+                             the_ticket=server.ticket.ticket,
                              user_name = server.ticket.user_name,
                              page_id=len(pages), hide_more=True,
                              )

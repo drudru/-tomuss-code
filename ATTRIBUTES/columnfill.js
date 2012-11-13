@@ -24,7 +24,8 @@ function fill_column()
 {
   var m = '' ;
 
-  if ( tr_filter.childNodes[0].firstChild.value === '' )
+  if ( tr_filter.childNodes[0].firstChild.value === ''
+     || tr_filter.childNodes[0].firstChild.value === '!=')
       for(var i in filtered_lines)
 	  if ( filtered_lines[i][0].is_empty() )
               {
@@ -132,8 +133,8 @@ function fill_column_do_aabb(values)
       if ( i >= values.length )
 	i = values.length ;
       value = values[i] ;
-      cell_set_value_real(filtered_lines[j].line_id, the_current_cell.data_col,
-			  value) ;
+      cell_set_value_real(filtered_lines[j].line_id,
+			  popup_column().data_col, value) ;
     }
 }
 
@@ -145,7 +146,7 @@ function fill_column_do_abab(values)
     {
       i = j % values.length ;
       value = values[i] ;
-      cell_set_value_real(filtered_lines[j].line_id, the_current_cell.data_col,
-			  value) ;
+      cell_set_value_real(filtered_lines[j].line_id,
+			  popup_column().data_col, value) ;
     }
 }

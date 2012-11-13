@@ -604,7 +604,7 @@ function line_resume(line_id)
 	    classe = '' ;
 	  s += '<tr class="' + classe + '"><td style="text-align:right">' +
 	    html(columns[data_col].title) + '</td><td>' +
-	    cell.value_fixed() + '</td><td>' +
+	    cell.value_fixed().replace(/\n/g,'<br>') + '</td><td>' +
 	    compute_rank(line_id, column) + '</td>' ;
 	  if (cell.comment)
 	    s += '<td>' + cell.comment_html() + '</td>' ;
@@ -694,7 +694,7 @@ function show_the_tip(td, tip_content)
 	  if ( data_col === 0 )
 	    s += (1+myindex(filtered_lines, line)) + '<br>' ;
 	  if ( cell.value )
-	    s += '<b>' + html(cell.value) + '</b><br>' ;
+	    s += '<b>' + html(cell.value).replace(/\n/g,"<br>") + '</b><br>' ;
 	  if ( i_am_root )
 	    s += 'line_id=' + line_id + ', col_id=' + column.the_id ;
 	  // highlight line
@@ -1814,6 +1814,8 @@ function manage_window_resize_event()
   return true ;
 }
 
+var display_tips_saved ;
+
 function login_list_ask()
 {
   if ( the_current_cell.column.type != 'Login' )
@@ -1832,7 +1834,7 @@ function login_list_ask()
       //	   + encode_uri(replaceDiacritics(ask_login_list))) ;
       var s = document.createElement('script') ;
       s.src = url + '/=' + ticket + '/login_list/'
-				+ encode_uri(replaceDiacritics(ask_login_list)) ;
+	+ encode_uri(replaceDiacritics(ask_login_list)) ;
       the_body.appendChild(s) ;
     }
 	return true ;
@@ -1842,7 +1844,7 @@ function login_list_hide()
 {
   the_current_cell.blur_disabled = false ;
   hide_the_tip_real() ;
-}
+  }
 
 function login_list_select(t)
 {
@@ -1893,12 +1895,14 @@ function login_list(name, x)
 	+ '&nbsp;' + i[1] + ' ' + i[2] + ' ' + cn + '</option>' ;
     }
   s += '</select>' ;
-  var display_tips_saved = display_tips ;
+  if ( display_tips_saved === undefined )
+      display_tips_saved = display_tips ;
   display_tips = true ;
   instant_tip_display = true ;
+  document.getElementById('tip_plus').style.display = 'none' ;
   show_the_tip(the_current_cell.td, s) ;
   instant_tip_display = false ;
-  display_tips = display_tips_saved ;
+  display_tips = false ;
   get_tip_element().onmousemove = function() { } ;
 
 }
@@ -2085,9 +2089,16 @@ function add_empty_columns()
 Cursor movement
 ******************************************************************************/
 
+function need_to_save_change()
+{
+  return ! element_focused || element_focused.id != 'linefilter' ;
+}
+
+
 function next_page(next_cell, dy)
 {
-  the_current_cell.change() ;
+  if ( need_to_save_change() )
+    the_current_cell.change() ;
 
   if ( filtered_lines !== undefined 
        && line_offset + table_attr.nr_lines > filtered_lines.length )
@@ -2106,13 +2117,14 @@ function next_page(next_cell, dy)
 
   line_offset += dy ;
   
-  table_fill() ;
+  table_fill(true) ;
   return true ;
 }
 
 function previous_page(previous_cell, dy)
 {
-  the_current_cell.change() ;
+  if ( need_to_save_change() )
+    the_current_cell.change() ;
   if ( dy === undefined )
     dy = Number((table_attr.nr_lines * preferences.page_step).toFixed(0)) ;
   if ( previous_cell )
@@ -2123,10 +2135,29 @@ function previous_page(previous_cell, dy)
   line_offset -= dy ;
   if ( line_offset < 0 )
     line_offset = 0 ;
-  table_fill() ;
+  table_fill(true) ;
   return true ;
 }
 
+function first_page(previous_cell, dy)
+{
+  if ( need_to_save_change() )
+    the_current_cell.change() ;
+  line_offset = 0 ;
+  table_fill(true) ;
+  return true ;
+}
+
+function last_page(previous_cell, dy)
+{
+  if ( need_to_save_change() )
+    the_current_cell.change() ;
+  line_offset =  filtered_lines.length - table_attr.nr_lines - 1 ;
+  if ( line_offset < 0 )
+    line_offset = 0 ;
+  table_fill(true) ;
+  return true ;
+}
 
 function table_fill_hook_horizontal()
 {
@@ -2641,7 +2672,7 @@ function update_tip_from_value(o, value)
   e.className = 'more' ;
 
   if ( value.substr(value.length-1) != '\n' ) // Tip with HTML inside
-    e.innerHTML = html(value) ;
+    e.innerHTML = html(value).replace(/\n/g, '<br>') ;
 
   else
     e.innerHTML = value ;
@@ -3660,6 +3691,11 @@ function hide_the_tip_real()
   tip.style.display = "none" ;
   tip.tip_target = undefined ;
   // remove_highlight() ;
+  if ( display_tips_saved !== undefined )
+    {
+      display_tips = display_tips_saved ;
+      display_tips_saved = undefined ;
+    }
 }
 
 function hide_the_tip(real)
@@ -4299,8 +4335,19 @@ function javascript_regtest_ue()
 	if ( i.blur )
 	  i.blur() ;
 	break ;
+      case 'BUTTON':
+	i.innerHTML = v ;
+	if ( _("B_Text") == v )
+	  v = "Text" ;
+	else
+	  for(var j in col_types2)
+	    if ( col_types2[j] == v )
+	      v = col_types[j] ;
+	popup_get_element().column = the_current_cell.column ;
+	popup_type_choosed(v) ;
+	break ;
       default:
-	alert('BUG') ;
+	alert('BUG TN: ' + i.tagName) ;
       }
     highlight_list = [] ;
   } ;
@@ -4324,7 +4371,7 @@ function javascript_regtest_ue()
 	v = v.split('<')[0] ;
 	if ( v == '&nbsp;' || v == ' ' ) // WARNING : unsecable space (Opera)
 	  v = '' ;
-	if ( check && v != check[i] )
+	if ( check && (v != check[i] && v !== '') )
 	  {
 	    alert_real('Result: "' + v
 		       + '" Expected result: "' + check[i] + '"') ;
@@ -4414,6 +4461,7 @@ function javascript_regtest_ue()
       var col_type = col_types[col_type2] ;
       set(t_column_title, col_type) ;
       set(t_column_type, col_types2[col_type2]) ;
+      the_current_cell.update_headers_real() ;
       if ( col_type == 'Moy' )
 	{
 	  set(t_column_columns, 'Note AttendueNote') ;
@@ -4438,7 +4486,7 @@ function javascript_regtest_ue()
   the_current_cell.cursor_left() ;
 
   fill_col(inputs, undefined, '');
-  fill_col(inputs, notes, 'p%20n%27est%20pas%20une%20note%20valide%20car%20non%20dans%20l%27intervalle%20%5B0%3B20%5D%0AI%28ABINJ%29%2C%20J%28ABJUS%29%2C%20N%28PPNOT%29<hr>o%20n%27est%20pas%20une%20note%20valide%20car%20non%20dans%20l%27intervalle%20%5B0%3B20%5D%0AI%28ABINJ%29%2C%20J%28ABJUS%29%2C%20N%28PPNOT%29<hr>4/3/2008%20n%27est%20pas%20une%20note%20valide%20car%20non%20dans%20l%27intervalle%20%5B0%3B20%5D%0AI%28ABINJ%29%2C%20J%28ABJUS%29%2C%20N%28PPNOT%29<hr>3/4/8%20n%27est%20pas%20une%20note%20valide%20car%20non%20dans%20l%27intervalle%20%5B0%3B20%5D%0AI%28ABINJ%29%2C%20J%28ABJUS%29%2C%20N%28PPNOT%29<hr>12/12/99%20n%27est%20pas%20une%20note%20valide%20car%20non%20dans%20l%27intervalle%20%5B0%3B20%5D%0AI%28ABINJ%29%2C%20J%28ABJUS%29%2C%20N%28PPNOT%29<hr>');
+  fill_col(inputs, notes, 'p%20n%27est%20pas%20une%20note%20valide%20car%20non%20dans%20l%27intervalle%20%5B0%3B20%5D%0AI%28ABINJ%29%2C%20J%28ABJUS%29%2C%20N%28PPNOT%29%2C%20T%28TNR%29<hr>o%20n%27est%20pas%20une%20note%20valide%20car%20non%20dans%20l%27intervalle%20%5B0%3B20%5D%0AI%28ABINJ%29%2C%20J%28ABJUS%29%2C%20N%28PPNOT%29%2C%20T%28TNR%29<hr>4/3/2008%20n%27est%20pas%20une%20note%20valide%20car%20non%20dans%20l%27intervalle%20%5B0%3B20%5D%0AI%28ABINJ%29%2C%20J%28ABJUS%29%2C%20N%28PPNOT%29%2C%20T%28TNR%29<hr>3/4/8%20n%27est%20pas%20une%20note%20valide%20car%20non%20dans%20l%27intervalle%20%5B0%3B20%5D%0AI%28ABINJ%29%2C%20J%28ABJUS%29%2C%20N%28PPNOT%29%2C%20T%28TNR%29<hr>12/12/99%20n%27est%20pas%20une%20note%20valide%20car%20non%20dans%20l%27intervalle%20%5B0%3B20%5D%0AI%28ABINJ%29%2C%20J%28ABJUS%29%2C%20N%28PPNOT%29%2C%20T%28TNR%29<hr>');
   fill_col(notes, undefined, '');
   var non_modifiable = 'R%E9sultat%20de%20calcul%20non%20modifiable<hr>R%E9sultat%20de%20calcul%20non%20modifiable<hr>R%E9sultat%20de%20calcul%20non%20modifiable<hr>R%E9sultat%20de%20calcul%20non%20modifiable<hr>R%E9sultat%20de%20calcul%20non%20modifiable<hr>R%E9sultat%20de%20calcul%20non%20modifiable<hr>R%E9sultat%20de%20calcul%20non%20modifiable<hr>R%E9sultat%20de%20calcul%20non%20modifiable<hr>R%E9sultat%20de%20calcul%20non%20modifiable<hr>R%E9sultat%20de%20calcul%20non%20modifiable<hr>R%E9sultat%20de%20calcul%20non%20modifiable<hr>R%E9sultat%20de%20calcul%20non%20modifiable<hr>' ;
   fill_col(nmbr, moys, non_modifiable);

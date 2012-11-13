@@ -531,7 +531,8 @@ function ue_line(ue, code, content)
   var tt ;
   var c = code.substr(3).split('-')[0] ;
   if ( all_ues[c] && all_ues[c].tt )
-      tt = hidden_txt('<img class="tt" src="tt.png">', _("TIP_home_tt")) ;
+      tt = hidden_txt('<img class="tt" src="'
+		      + url + '/tt.png">', _("TIP_home_tt")) ;
   else
       tt = '' ;
 

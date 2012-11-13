@@ -120,10 +120,11 @@ def table_filename(year, semester, ue):
 
 def filter_language(language):
     # Remove not translated languages and duplicates
-    t = [x
-         for x in set(language.strip(",").split(','))
-         if x in plugins.languages
-         ]
+    t = []    
+    for x in language.strip(",").split(','):
+        if x in plugins.languages:
+            if x not in t:
+                t.append(x)
     return ','.join(t)
 
 
@@ -137,15 +138,20 @@ def get_preferences(user_name, create_pref=True, the_ticket=None):
         p = {}
     else:
         p = prefs_table.template.preferences(prefs_table)
-
+    warn('Language in preferences: (%s)' % p.get('language', ''), what="lang")
     if p.get('language', '') == '':
         if the_ticket is None:
+            warn('Search old ticket to find language')
             for the_ticket in ticket.tickets.values():
                 if the_ticket.user_name == user_name:
                     break
+        warn('Language in ticket: (%s)' % the_ticket.language, what="lang")
         p['language'] = filter_language(the_ticket.language)
         if p['language'] == '':
+            warn('Language in server: (%s)' % configuration.language,
+                 what="lang")
             p['language'] = configuration.language
+    warn('Language after filtering: ' + p['language'])
 
     return p
 
@@ -168,12 +174,13 @@ def translations_init(language):
             % js(language)
             + '\n'.join(languages) + '\n')
 
-def table_head(year=None, semester=None, ticket=None,
+def table_head(year=None, semester=None, the_ticket=None,
                user_name='', page_id=-1, ue='',
                create_pref=True,
                attrs_from=0, hide_more=False):
-    s = configuration.suivi.url(year, semester, ticket)
-    prefs_table = get_preferences(user_name, create_pref)
+    s = configuration.suivi.url(year, semester, the_ticket)
+    t = ticket.tickets.get(the_ticket, None)
+    prefs_table = get_preferences(user_name, create_pref, the_ticket=t)
     try:
         background = configuration.semesters_color[configuration.semesters.index(semester)]
         background = '<style>BODY, TABLE INPUT, #current_input, BODY TABLE.colored TD { background-color: ' + background + '}</style>'
@@ -191,7 +198,7 @@ def table_head(year=None, semester=None, ticket=None,
             'url = %s ;\n' % js(utilities.StaticFile._url_) +
             'year = "%s" ;\n' % year +
             'semester = "%s" ;\n' % semester +
-            'ticket = "%s" ;\n' % ticket +
+            'ticket = "%s" ;\n' % the_ticket +
             'ue = "%s" ;\n' % ue +
             'suivi = %s ;\n' % js(s) +
             'version = "%s" ;\n' % configuration.version +
@@ -568,7 +575,8 @@ class Table(object):
         if not self.loading:
             if not self.authorized(page, cell):
                 utilities.warn('cell value = (%s)' % cell.value)
-                return self.bad_auth(page)
+                return self.bad_auth(page, "cell_change %s/%s/%s" % (
+                        col, lin, value))
             if a_column.locked and page.user_name != data.ro_user:
                 self.error(page, utilities._("MSG_document_column_locked"))
                 return 'bad.png'
@@ -617,6 +625,8 @@ class Table(object):
             if login in self.the_key_dict:
                 try:
                     self.the_key_dict[login].remove(lin)
+                    if len(self.the_key_dict[login]) == 0:
+                        del self.the_key_dict[login]
                 except:
                     if login:
                         utilities.warn(str(page) + ' old_login=' + login
@@ -672,6 +682,22 @@ class Table(object):
             # For old TEMPLATES files
             self.log('table_attr("masters",%d,%s)' % (page_id, repr(name))) 
 
+    def get_a_master_page(self):
+        """Returns a page modifiable by the masters.
+        Create one if there is none"""
+        rw = None
+        for p in self.pages:
+            if p.user_name in self.masters:
+                return p
+            if p.user_name == data.rw_user:
+                rw = p
+        if self.masters:
+            return self.new_page('', self.masters[0], '', '')
+        else:
+            if rw:
+                return rw
+            return self.new_page('', data.rw_user, '', '')
+
     def private_toggle(self, page):
         """Deprecated"""
         self.private = 1 - self.private
@@ -680,9 +706,10 @@ class Table(object):
                                                       self.private))
         return 'ok.png'
 
-    def error(self, page, message):
+    def error(self, page, message, more_in_mail=""):
         utilities.send_backtrace(
-            'UE: %s, Page: %s' % (self.ue, page) , subject='###' + message)
+            'UE: %s, Page: %s' % (self.ue, page)
+            + '\n' + more_in_mail, subject='###' + message)
         if '_(' not in message:
             # The message is not javascript program
             message = js(message)
@@ -694,8 +721,8 @@ class Table(object):
     def bad_column(self, page):
         return self.error(page, '_("ALERT_column_not_exist")')
 
-    def bad_auth(self, page):
-        return self.error(page, '_("ALERT_not_authorized")')
+    def bad_auth(self, page, more_in_mail=""):
+        return self.error(page, '_("ALERT_not_authorized")', more_in_mail)
 
     def bad_ro(self, page):
         return self.error(page, '_("ALERT_value_ro")')
@@ -715,7 +742,8 @@ class Table(object):
 
         if not self.loading:
             if not self.authorized(page, line[a_column.data_col]):
-                return self.bad_auth(page)
+                return self.bad_auth(page, "comment_change %s/%s/%s" % (
+                        col, lin, value))
             self.log('comment_change(%s,%s,%s,%s)' % (
                 page.page_id,
                 repr(col),
@@ -845,7 +873,7 @@ class Table(object):
 
     def column_delete(self, page, col):
         if not self.loading and not self.modifiable:
-            return self.bad_auth(page)
+            return self.bad_ro(page)
         a_column = self.columns.from_id(col)
         if a_column == None:
             return self.bad_column(page)
@@ -855,7 +883,7 @@ class Table(object):
         # It was tested because bad columns were created.
         if page.user_name not in self.masters and a_column.data_col < 6 :
             if not self.authorized_column(page, a_column):
-                return self.bad_auth(page)
+                return self.bad_auth(page, "column_delete %s" % col)
         if (a_column.type.cell_is_modifiable
             and not a_column.empty_of_user_values()):
             return self.error(page, '_("ALERT_delete_not_empty")')

@@ -56,35 +56,45 @@ release:translations
 	@$(MAKE) -s tar
 
 tar:
-	$(MAKE) clean changelog
-	rm -rf /tmp/TOMUSS-$(V)
-	cp -a $$(pwd)/ /tmp/TOMUSS-$(V)
-	rm -rf /tmp/TOMUSS-$(V)/LOCAL
-	rm -rf /tmp/TOMUSS-$(V)/BACKUP_DBtest
-	rm -rf /tmp/TOMUSS-$(V)/DBtest
-	rm -rf /tmp/TOMUSS-$(V)/BACKUP_DB
-	rm -rf /tmp/TOMUSS-$(V)/DB
-	ls /tmp/TOMUSS-$(V)
-	mv /tmp/TOMUSS-$(V)/LOCAL.template /tmp/TOMUSS-$(V)/LOCAL
-	cd /tmp ; \
-	tar -cvf - \
-		--exclude 'Trash' \
-		--exclude TOMUSS-$(V)/'LOGS' \
-		--exclude TOMUSS-$(V)/'TMP' \
-		--exclude '.git' \
-		--exclude 'services-ucbl.html' \
-		--exclude 'xxx*' \
-		TOMUSS-$(V) \
-	    | bzip2 -9 >~/public_html/TOMUSS/TOMUSS-$(V).tar.bz2 ; \
-	rm -rf TOMUSS-$(V)
-	rm -f ~/public_html/TOMUSS/tomuss.tar.bz2
-	ln -s TOMUSS-$(V).tar.bz2 ~/public_html/TOMUSS/tomuss.tar.bz2
+	@echo "Start cleanup"
+	@$(MAKE) clean changelog
+	@echo "Start copy"
+	@rm -rf /tmp/TOMUSS-$(V)
+	@mkdir /tmp/TOMUSS-$(V)
+	@cp -a $$(pwd)/?* /tmp/TOMUSS-$(V)
+	@echo "Remove what is not in GIT"
+	@git ls-files -o --directory | (cd /tmp/TOMUSS-$(V) && xargs rm -r)
+	@echo "Rename LOCAL.template to LOCAL"
+	@mv /tmp/TOMUSS-$(V)/LOCAL.template /tmp/TOMUSS-$(V)/LOCAL
+	@cd /tmp ; \
+	tar -cvf - TOMUSS-$(V) \
+	    | bzip2 -9 >~/public_html/TOMUSS/TOMUSS-$(V).tar.bz2 ;
+	@echo "Start tempory files cleanup"
+	@rm -rf /tmp/TOMUSS-$(V)
+	@rm -f ~/public_html/TOMUSS/tomuss.tar.bz2
+	@echo "Create link to last version"
+	@ln -s TOMUSS-$(V).tar.bz2 ~/public_html/TOMUSS/tomuss.tar.bz2
+	@ls -ls ~/public_html/TOMUSS/TOMUSS-$(V).tar.bz2
+	@ls -ls ~/public_html/TOMUSS/tomuss.tar.bz2
 
 changelog:
-	-if [ $$(which git) != '' ] ; then SCRIPTS/changelog >DOCUMENTATION/changelog ; fi
+	@-if [ $$(which git) != '' ] ; \
+	then \
+	echo "Create changelog" ; \
+	SCRIPTS/changelog >DOCUMENTATION/changelog ; \
+	fi
 
 translations:
-	@for I in TRANSLATIONS/*/LC_MESSAGES LOCAL/LOCAL_TRANSLATIONS/*/LC_MESSAGES ; do if [ -d "$$I" ] ; then echo $$I ; (cd $$I ; $(MAKE) --no-print-directory -f $$(echo $$I | sed -r 's/[^\/]+/../g')/Makefile tomuss.mo) ; if [ $$? != 0 ] ; then exit 1 ; fi ; fi ; done
+	@for I in TRANSLATIONS/*/LC_MESSAGES \
+                  LOCAL/LOCAL_TRANSLATIONS/*/LC_MESSAGES ; \
+         do if [ -d "$$I" ] ; \
+                 then \
+                 echo $$I ; \
+                 (cd $$I ; \
+                  $(MAKE) --no-print-directory -f $$(echo $$I | sed -r 's/[^\/]+/../g')/Makefile tomuss.mo) ; \
+                if [ $$? != 0 ] ; then exit 1 ; fi ; \
+           fi ; \
+         done
 	SCRIPTS/create_backgrounds.py
 
 %.mo:%.po
@@ -103,11 +113,14 @@ full-tar:
 		 .
 
 untar:
-	cd /tmp ; bzcat ~/public_html/TOMUSS/TOMUSS-$(V).tar.bz2 | tar -xf -
+	cd /tmp && bzcat ~/public_html/TOMUSS/TOMUSS-$(V).tar.bz2 | tar -xf -
 
 tar-check:untar
-	cd TOMUSS-$(V) ; $(MAKE) regtest1
+	cd /tmp/TOMUSS-$(V) && $(MAKE) regtest1
 
+untag:
+	git tag -d $(V)
+	cd LOCAL ; git tag -d $(V)
 
 S=count() { git ls-files | grep -E "$$1" | xargs cat | wc -l ; echo '(' ; git ls-files | grep -E "$$1" | wc -l; echo 'files)';} ; search() { A=$$(count "$$1") ; cd LOCAL ; B=$$(count "$$1") ; echo $$A '   LOCAL:' $$B; } ; search
 

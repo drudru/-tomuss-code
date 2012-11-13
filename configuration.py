@@ -31,7 +31,7 @@ import socket
 import os
 import time
 
-version = '5.0.6'
+version = '5.0.12'
 
 ###############################################################################
 # ACLS
@@ -73,6 +73,8 @@ abj_masters = (
 not_teachers = (
     'CN=NotTeachers,OU=Groupes,DC=univ-lyon1,DC=fr',
     )
+# It is not a teacher if it is one of these login
+login_not_teacher = ('banned_login1', 'banned_login2')
 
 referents = (
     "CN=referents-fst,OU=Groupes,OU=UFR Sciences et Technologies,DC=univ-lyon1,DC=fr",
@@ -307,7 +309,7 @@ suivi.add(time.localtime()[0]  , semesters[0],socket.getfqdn()+':%d', 8889)
 suivi.add(time.localtime()[0]  , semesters[1],socket.getfqdn()+':%d', 8890)
 
 # Do not display 'debug' warning
-do_not_display = ('debug', 'auth', 'table', 'ldap', 'plugin', 'check')
+do_not_display = ('debug', 'auth', 'table', 'ldap', 'plugin', 'check', 'lang')
 
 # Message on the top page
 message = ''

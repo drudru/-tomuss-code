@@ -474,7 +474,8 @@ def update_referents(ticket, f, really_do_it = False, add_students=True):
                 + '<br>\n'.join(tteacher.message).encode('utf8'))
 
         if really_do_it:
-            utilities.send_mail(inscrits.L_batch.mail(tteacher.name),
+            mail = inscrits.L_batch.mail(tteacher.name)
+            utilities.send_mail(mail,
                                 utilities.__("MSG_referent_mail_subject"),
                                 utilities.__("MSG_referent_mail_body") %
                                 ('\n'.join(tteacher.message),

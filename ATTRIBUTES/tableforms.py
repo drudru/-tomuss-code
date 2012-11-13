@@ -73,6 +73,10 @@ class TableForms(TableAttr):
    background-color: #DDD ;
 }
 
+.tableform TR.default TEXTAREA, .tableform TR.default INPUT {
+   color: #BBB ;
+}
+
 .tableform TEXTAREA:focus, BODY.tomuss .tableform INPUT:focus {
   border: 3px solid #00F ;
   padding: 0px ;

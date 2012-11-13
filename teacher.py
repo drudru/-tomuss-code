@@ -103,6 +103,14 @@ def all_ues(compute=False):
 
     ues = get_ue_dict()
         
+    global all_ues_is_running
+    if compute and not all_ues_is_running:
+        all_ues_is_running = True
+        create_all_ues_js(ues)
+        all_ues_is_running = False
+
+    # The JS creation updates the number of students per UE
+    # So we create the .py file after.
     f = utilities.AtomicWrite(os.path.join('TMP','xxx_toute_les_ues.py'),
                               reduce_ok=False)
     f.write('# -*- coding: utf8 -*-\nfrom teacher import UE\nall = {\n')
@@ -110,13 +118,7 @@ def all_ues(compute=False):
         f.write('%s:%s,\n' % (repr(ue), ues[ue]))
     f.write('}\n')
     f.close()
-
-    global all_ues_is_running
-    if compute and not all_ues_is_running:
-        all_ues_is_running = True
-        create_all_ues_js(ues)
-        all_ues_is_running = False
-
+        
     return ues
 
 
@@ -221,6 +223,7 @@ class UE(object):
                 for student in ue.the_keys():
                     if len(student) < 3: # Garbage student id (bad user input)
                         continue
+                    nr_students += 1
                     if utilities.the_login(student) in table.the_keys():
                         tt += 1
                         if isinstance(read_tt, list):
@@ -228,11 +231,13 @@ class UE(object):
                 if (self._intitule) is None or len(self._intitule) <= 1:
                     # Too small UE name : take the comment as title
                     self._intitule = ue.comment
-                nr_students = len(ue.the_keys())
                 ue.unload()
+                self._nr_students_ue = nr_students
 
             if nr_students <= 10: # Problem ?
+                self._nr_students_ue = 0
                 for student in inscrits.L_batch.students('UE-' + self.name):
+                    self._nr_students_ue += 1
                     if utilities.the_login(student[0]) in table.the_keys():
                         tt += 1
                         if isinstance(read_tt, list):

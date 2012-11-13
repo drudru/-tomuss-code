@@ -2423,6 +2423,47 @@ msgstr "import the values in TOMUSS"
 msgid "MSG_columnimport_title"
 msgstr "Import values in column: "
 
+msgid "MSG_columnimport_add"
+msgstr "We add «"
+
+msgid "MSG_columnimport_instead_of"
+msgstr "» in place of: "
+
+msgid "MSG_columnimport_yet"
+msgstr "It is yet in the table, so we don't add: "
+
+msgid "MSG_columnimport_add2"
+msgstr "Add"
+
+msgid "MSG_columnimport_confirm"
+msgstr "Do you want to do the importation?"
+
+msgid "MSG_columnimport_not_found"
+msgstr " is not in the table, its grade will not be imported: "
+
+msgid "MSG_columnimport_multiple"
+msgstr " is given multiple times. Only the first grade will be imported."
+
+msgid "MSG_columnimport_max_first"
+msgstr "Variable number of column in the imported table...\n"
+       "The first line must be the longuest,\n"
+       "but this one is longuer: "
+
+msgid "MSG_columnimport_lines"
+msgstr " lines and of "
+
+msgid "MSG_columnimport_columns"
+msgstr "  columns?\n"
+       "\n"
+       "No undo is possible.\n"
+       "No other CSV import will be possible without table destruction.\n"
+       "\n"
+       "This import can take "
+
+msgid "MSG_columnimport_seconds"
+msgstr " seconds to complete."
+
+
 msgid "ALERT_columnminmax_syntax"
 msgstr "You must the minimum and maximum grade as '[0;20]'\n"
        "for the column "
@@ -2977,7 +3018,7 @@ msgstr "This table display informations stored in TOMUSS.\n"
        "<li>Green indicates an attendance or a grade,\n"
        "    Blue: a justified leave, Red: an injustified leave.\n"
        "<li>The grade on 20 is the average of ALL the grades\n"
-       "    without taking into accoun the weights.\n"
+       "    without taking into account the weights.\n"
        "    <b>It is not the UE grade.</b>\n"
        "</ul>"
 
@@ -4201,6 +4242,12 @@ msgstr "Language used when creating tables, for column names and comments"
 msgid "config_table_suivi_student_message"
 msgstr "Suivi: Message to display to students in their 'suivi' page"
 
+msgid "config_table_not_teachers"
+msgstr "Access: Denied if the login is in one of these LDAP group"
+
+msgid "config_table_login_not_teacher"
+msgstr "Access: Denied for these logins"
+
 msgid "COL_TITLE_orientation"
 msgstr "Orientation"
 
@@ -4517,6 +4564,54 @@ msgstr "Use this to test type."
 
 msgid "TITLE_referent_student_list"
 msgstr "Get the student list for UEs"
+
+msgid "LINK_/0/Dossiers/config_home"
+msgstr "Modify home page"
+
+msgid "HELP_/0/Dossiers/config_home"
+msgstr "You can add URL and box on the TOMUSS home page right column"
+
+msgid "COL_TITLE_ch_box"
+msgstr "Box"
+
+msgid "COL_COMMENT_ch_box"
+msgstr "Title of the box containing the link."
+
+msgid "COL_TITLE_ch_priority"
+msgstr "Priority"
+
+msgid "COL_COMMENT_ch_priority"
+msgstr "To compute link order insid the box"
+
+msgid "COL_TITLE_ch_htmlclass"
+msgstr "Class"
+
+msgid "COL_COMMENT_ch_htmlclass"
+msgstr "To choose the icone displayed before the link"
+
+msgid "COL_TITLE_ch_group"
+msgstr "Group"
+
+msgid "COL_COMMENT_ch_group"
+msgstr "The user group allowed to see the link"
+
+msgid "COL_TITLE_ch_title"
+msgstr "Title"
+
+msgid "COL_COMMENT_ch_title"
+msgstr "The link test"
+
+msgid "COL_TITLE_ch_url"
+msgstr "URL"
+
+msgid "COL_COMMENT_ch_url"
+msgstr "The address of the link"
+
+msgid "COL_TITLE_ch_help"
+msgstr "Help"
+
+msgid "COL_COMMENT_ch_help"
+msgstr "The help message about the link"
 
 msgid "MSG_referent_unmodifiable"
 msgstr "Modification forbidden (date problem?)"

@@ -51,7 +51,8 @@ def bilan(server):
 
     firstname,surname,mail = inscrits.L_fast.firstname_and_surname_and_mail(server.the_student)
     prefs_table = document.get_preferences(server.ticket.user_name,
-                                           create_pref=False)
+                                           create_pref=False,
+                                           the_ticket=server.ticket)
     server.the_file.write(
         str(document.the_head)
         + document.translations_init(prefs_table['language'])

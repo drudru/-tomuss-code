@@ -80,7 +80,8 @@ def stat_page(server):
 
 plugin.Plugin('statpage', '/stat',
               function=stat_page, group='roots',
-              link=plugin.Link(html_class="verysafe", where='informations'),
+              link=plugin.Link(html_class="verysafe", where='informations',
+                               priority=-10),
               )
 
 
