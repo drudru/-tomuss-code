@@ -165,101 +165,59 @@ function personal_mailing()
 		) ;
 }
 
-/*
-Returns 'text' with [column_title] replaced by [index in column_used]
-and update 'column_used' and 'column_data'
-*/
-function personal_mailing_parse_line(text, column_used, column_data_col)
+
+function personal_mailing_do()
 {
-  var t = text.split('[') ;
-  var col_name, data_col ;
+  var mailing_mail = popup_value() ;
+  var subject = document.getElementById('personal_mailing').value ;
+  var data_cols = [], data_cols_titles = [] ;
+  var t, col_name, nr, message, line, data_col ;
+  var url_content, feedback_content ;
+  var nr_frame ;
+
+  nr = 0 ;
+  message = mailing_mail.join('\n') ;  
+
+  // Compute used data_cols
+  var t = (subject + message).split('[') ;
   for(var i in t)
     {
       if ( i == 0 )
 	continue ;
       col_name = t[i].split(']')[0] ;
-      if ( column_used[col_name] !== undefined )
-	continue ;
       data_col = column_title_to_data_col(col_name) ;
       if ( data_col == undefined )
 	{
 	  Alert("ALERT_mail_unknown_column", col_name) ;
 	  return ;
 	}
-      column_used[col_name] = personal_mailing_do.nr_items++ ;
-      column_data_col[data_col] = true ;
-    }
-  for(var i in column_used)
-    {
-      text = text.replace('[' + i + ']', '[' + column_used[i] + ']') ;
+      if ( myindex(data_cols, data_col) == -1 )
+      {
+	data_cols.push(data_col) ;
+	data_cols_titles.push(col_name) ;
+      }
     }
 
-  return text ;
-}
-
-function personal_mailing_do()
-{
-  var mailing_mail = popup_value() ;
-  var subject = document.getElementById('personal_mailing').value ;
-  var column_used = {}, column_data_col = {} ;
-  var t, col_name, nr, message, line, data_col ;
-  var url_content, feedback_content ;
-  var nr_frame ;
-
-  nr = 0 ;
-  message = '' ;
-  personal_mailing_do.nr_items = 0 ;
-  for(var line in mailing_mail)
-    {
-      t = personal_mailing_parse_line(mailing_mail[line],
-				      column_used, column_data_col) ;
-      if ( t === undefined )
-	return ;
-      message += t + '\n' ;
-    }
-  subject = personal_mailing_parse_line(subject, column_used, column_data_col);
-  if ( subject === undefined )
-    return ;
-  subject = encode_uri(subject) ;
-  url_content = '' ;
-  feedback_content = '' ;
-  nr_frame = 0 ;
+  // Compute recipients and their data
+  var recipents = [] ;
   for(var i in filtered_lines)
     {
       line = filtered_lines[i] ;
-
-      if ( url_content === '' )
-	{
-	  nr_frame++ ;
-	  url_content = '<iframe src="_URL_/=' + ticket + '/send_mail/'
-	    + subject + '/' + encode_uri(message) ;
-	}
-
       if ( line[0].value )
 	{
-	  url_content += '/' + encode_uri(line[0].value) ;
-          for(data_col in column_data_col)
-	     url_content += '/' + encode_uri(line[data_col].value) ;
-	}
-
-      if ( url_content.length > maximum_url_length
-	   || i == filtered_lines.length-1 )
-	{
-	  feedback_content += url_content
-	    + '"></iframe>' ;
-	  url_content = '' ;
+	  var v = line[0].value ;
+          for(data_col in data_cols)
+	     v += '\002' + line[data_cols[data_col]].value ;
+	  recipents.push(v) ;
 	}
     }
-  var self_mail = '<iframe src="_URL_/=' + ticket + '/send_mail/' +
-    encode_uri(_("MSG_mail_archive")+ ' ') + subject
-    + '/' + encode_uri(message) + '/' + encode_uri(my_identity) ;
-  for(var col_name in column_used)
-     self_mail += '/' + encode_uri('['+col_name+']') ;
-  self_mail += '"></iframe>' ;
-  feedback_content += self_mail ;
-  
-
-  create_popup('personal_mailing_fb', _("MSG_mail_massmail_feedback"),
-	       feedback_content, '', false) ;
+  do_post_data(
+    {'subject': subject,
+     'message': message,
+     'recipients': recipents.join("\001"),
+     'titles': data_cols_titles.join("\001")
+    },
+    '_URL_/=' + ticket + '/send_mail') ;
+  popup_close();
 }
 

@@ -384,8 +384,9 @@ def sendmail_thread():
         send_mail(*send_mail_in_background_list.pop(0))
 
 
-def send_mail_in_background(to, subject, message, frome=None):
-    send_mail_in_background_list.append((to, subject, message, frome))
+def send_mail_in_background(to, subject, message, frome=None, show_to=False):
+    send_mail_in_background_list.append((to, subject, message, frome,
+                                         show_to))
 
 
 

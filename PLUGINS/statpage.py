@@ -36,6 +36,11 @@ def infos(server, page):
 
 def stat_page(server):
     """Display the tables in memory and the user on them."""
+    if utilities.send_mail_in_background_list:
+        server.the_file.write(
+            '<b>' + server._("MSG_send_mail_error") + '</b>' +
+            ' '.join(zip(*utilities.send_mail_in_background_list)[0]))
+        
     s = ['<title>'
          + server._("TITLE_statpage") + '</title><table border><tbody><tr><th>'
          + server._("TH_year"             ) +'</th><th>'

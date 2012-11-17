@@ -3443,13 +3443,21 @@ msgstr "You can edit the text to be sent in an alert box to the users\n"
        "Stroke 'Enter' to send the message."
 
 msgid "MSG_send_mail_start"
-msgstr "Start to send %d messages: "
+msgstr "Preparing to send %d messages: "
 
 msgid "MSG_send_mail_done"
-msgstr "Messages sent."
+msgstr "Messages sent to:"
 
 msgid "MSG_send_mail_error"
-msgstr "Impossible to send a mail to: "
+msgstr "Messages not sent to:"
+
+msgid "MSG_send_mail_close"
+msgstr "You can now close this page,\n"
+       "the messages will be sent one by one.\n"
+       "You can left the page open to see when the mailing is done."
+
+msgid "MSG_send_mail_left"
+msgstr "%d messages left to sent."
 
 msgid "TITLE_statpage"
 msgstr "Who's connected"

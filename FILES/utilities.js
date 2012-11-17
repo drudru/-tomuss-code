@@ -445,6 +445,30 @@ function decode_uri_option(t)
 		  .replace(/%03/g,'=').replace(/%04/g,':')) ;
 }
 
+// Adapted from Andrea Azzola's Blog
+function do_post_data(dictionary, url)
+{
+  // Create the form object
+  var form = document.createElement("form") ;
+  form.setAttribute("method", "post") ;
+  form.setAttribute("action", url) ;
+  form.setAttribute("enctype", "multipart/form-data") ;
+  form.setAttribute("target", "_blank") ;
+
+  // For each key-value pair
+  for (key in dictionary)
+  {
+    var hiddenField = document.createElement("input") ;
+    // 'hidden' is the less annoying html data control
+    hiddenField.setAttribute("type", "hidden") ;
+    hiddenField.setAttribute("name", key) ;
+    hiddenField.setAttribute("value", dictionary[key]) ;
+    form.appendChild(hiddenField) ;    
+  }
+  document.body.appendChild(form) ;
+  form.submit() ;
+}
+
 function debug(e, only, eject, hide_empty)
 {
   var s = "" ;
