@@ -978,6 +978,7 @@ class FakeRequestHandler(BaseHTTPServer.BaseHTTPRequestHandler):
             return None
         ctype, pdict = cgi.parse_header(self.headers.getheader('content-type'))
         if ctype != 'multipart/form-data':
+            warn("ctype=%s" % ctype)
             return None
         return cgi.parse_multipart(self.the_rfile, pdict)
             

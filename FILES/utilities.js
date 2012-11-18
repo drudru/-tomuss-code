@@ -453,6 +453,7 @@ function do_post_data(dictionary, url)
   form.setAttribute("method", "post") ;
   form.setAttribute("action", url) ;
   form.setAttribute("enctype", "multipart/form-data") ;
+  form.setAttribute("encoding", "multipart/form-data") ; // For IE
   form.setAttribute("target", "_blank") ;
 
   // For each key-value pair

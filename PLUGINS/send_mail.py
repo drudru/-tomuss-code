@@ -1,7 +1,7 @@
 #!/bin/env python
 # -*- coding: utf-8 -*-
 #    TOMUSS: The Online Multi User Simple Spreadsheet
-#    Copyright (C) 2010 Thierry EXCOFFIER, Universite Claude Bernard
+#    Copyright (C) 2010-2012 Thierry EXCOFFIER, Universite Claude Bernard
 #
 #    This program is free software; you can redistribute it and/or modify
 #    it under the terms of the GNU General Public License as published by
@@ -34,6 +34,7 @@ def send_mail(server):
 
     data = server.get_posted_data()
     if data is None:
+        server.the_file.write("BUG")
         return
 
     subject = data['subject'][0]
@@ -68,10 +69,10 @@ def send_mail(server):
 
     archive = unicode(message, 'utf-8') + '\n' + '='*79 + '\n'
     if bad_mails:
-        archive += (server._("MSG_send_mail_error") + '\n'
+        archive += (server.__("MSG_send_mail_error") + '\n'
                     + '\n'.join(bad_mails) + '\n'
                     )
-    archive += (server._("MSG_send_mail_done") + '\n'
+    archive += (server.__("MSG_send_mail_done") + '\n'
                 + '\n'.join(good_mails) + '\n'
                 )
 
