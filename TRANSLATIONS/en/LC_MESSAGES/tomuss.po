@@ -85,7 +85,7 @@ msgstr "Compute the average with InjLeave = WorkNotGiven = 0 and<br>\n"
 
 #. Columns types, button text in the menu
 msgid "B_Firstname"
-msgstr "Prenom(ID)"
+msgstr "Firstname(ID)"
 
 msgid "H_Firstname"
 msgstr "Display the firstname of the user ID"

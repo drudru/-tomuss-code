@@ -171,6 +171,20 @@ class LDAP_Logic(object):
 
     get_student_info = firstname_and_surname_and_mail
 
+    def firstname_and_surname_and_mail_from_logins(self, logins):
+        d = {}
+        for l,f,s,m in self.query_logins(logins, (configuration.attr_login,
+                                                  configuration.attr_firstname,
+                                                  configuration.attr_surname,
+                                                  configuration.attr_mail,
+                                                  )):
+            d[l] = (f, s, m)
+        return d
+            
+    # To not remake the query for firstname, surname and mails
+    firstname_and_surname_and_mail_from_logins = utilities.add_a_method_cache(
+        firstname_and_surname_and_mail_from_logins, timeout=10)
+    
     @utilities.add_a_method_cache
     def portail(self, login):
         """From the login of the person, retrieve the portails"""
@@ -622,6 +636,8 @@ demo_animaux = {
     }
 
 if __name__ == "__main__":
+    init()
+    print L_fast.firstname_and_surname_and_mail_from_logins(('11210822','11209176'))
     # import document # If not here, this main can't execute ???
     # configuration.terminate()
     # init()

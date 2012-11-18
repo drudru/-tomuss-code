@@ -20,12 +20,23 @@
 #    Contact: Thierry.EXCOFFIER@bat710.univ-lyon1.fr
 
 import mail
+import utilities
 import inscrits
 
 class Surname(mail.Mail):
     attributes_visible = ('columns',)
     def get_one_value(self, student_id, column, line_id):
-        name = inscrits.L_slow.firstname_and_surname(student_id)[1].title().encode('utf8')
+        name = inscrits.L_fast.firstname_and_surname(student_id)[1].title().encode('utf8')
         if name ==  'Inconnu':
             return None
         return name
+
+    # copy/paste from Mail
+    def get_all_values(self, column):
+        students = tuple(self.values(column))
+        infos = inscrits.L_batch.firstname_and_surname_and_mail_from_logins(
+            tuple(utilities.the_login(i[1]) for i in students))
+        for line_id, student in students:
+            student = utilities.the_login(student)
+            if student in infos:
+                yield line_id, infos[student][1].encode('utf-8')
