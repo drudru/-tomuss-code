@@ -382,7 +382,7 @@ def picture(student_id, ticket):
 
 #REDEFINE
 # This function returns a string inserted into student suivi page
-def more_on_suivi(student_login):
+def more_on_suivi(student_login, server):
     return ''
 
 #REDEFINE

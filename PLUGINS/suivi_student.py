@@ -220,7 +220,7 @@ hidden('<a href="%s/suivi_student_charte.html" target="_blank">'
 
     # MORE
 
-    s.append(configuration.more_on_suivi(login))
+    s.append(configuration.more_on_suivi(login, server))
     s.append('<br>')
 
     if not is_a_student:
