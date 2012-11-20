@@ -1233,6 +1233,8 @@ def table(year, semester, ue, page=None, ticket=None, ro=False, create=True,
           do_not_unload=0):
     # utilities.warn('%s/%s/%s page=%s ticket=%s ro=%s create=%s' % (
     #    year, semester, ue, page, ticket, ro, create))
+    if configuration.read_only:
+        ro = True
     year = int(year)
     t = tables_manage('get', year, semester, ue, do_not_unload)
     if t is None:
