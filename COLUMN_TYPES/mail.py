@@ -30,6 +30,13 @@ class Mail(code_etape.Code_Etape):
         return inscrits.L_fast.mail(student_id)
 
     def get_all_values(self, column):
+        if self.__class__.__name__ != 'Mail':
+            # Subclass need this generic function.
+            # XXX It is not nice, a clean hierarchy must be done
+            for line_id, login in self.values(column):
+                yield line_id, self.get_one_value(login, column, line_id)
+            return
+        
         students = tuple(self.values(column))
         infos = inscrits.L_batch.firstname_and_surname_and_mail_from_logins(
             tuple(utilities.the_login(i[1]) for i in students))
