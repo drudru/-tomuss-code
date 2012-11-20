@@ -151,14 +151,12 @@ class Teacher(object):
 
     def append(self, student):
         self.students.append(student)
-        if student.startswith('111'): # XXX Primo entrant
+        # XXX Some students, need more work for teachers
+        if student.startswith('1%02d' % (utilities.university_year()%100)):
             self.nr_weight += 4
         else:
             self.nr_weight += 1
         self.nr += 1
-        if 'MATH' in self.discipline:
-            self.nr_weight += 0.1
-
 
     def __str__(self):
         return '%s %s (%f) %s' % (self.name, ' '.join(self.discipline),
