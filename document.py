@@ -1231,6 +1231,9 @@ def tables_values():
 
 def table(year, semester, ue, page=None, ticket=None, ro=False, create=True,
           do_not_unload=0):
+    """With a ticket : return table and page
+    Without ticket : return only the table
+    """
     # utilities.warn('%s/%s/%s page=%s ticket=%s ro=%s create=%s' % (
     #    year, semester, ue, page, ticket, ro, create))
     if configuration.read_only:
@@ -1257,8 +1260,14 @@ def table(year, semester, ue, page=None, ticket=None, ro=False, create=True,
                 t = Table(year, semester, ue, ro, user=ticket.user_name)
         except:
             # The table import failed, allow the new one to retry
-            tables[year, semester, ue] = False
-            raise
+            # tables[year, semester, ue] = False
+            # raise
+            utilities.send_backtrace("", "Can'load %s/%s/%s" % (
+                    year, semester, ue))
+            if ticket:
+                return None, None
+            else:
+                return None
         t.do_not_unload_add(do_not_unload) # Only on this case
         tables[year, semester, ue] = t
     else:

@@ -128,6 +128,9 @@ Administrateur.
 Problèmes à résoudre.
 =====================
 
+* L'étudiant qui cherche à changer une valeur saisie par le prof via le suivi
+  l'indiquer dès le départ
+
 * Perte photo quand déconnexion puis reconnexion réseau : normal
   Il faudrait que la page revalide le ticket
 
