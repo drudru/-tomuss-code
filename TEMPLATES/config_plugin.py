@@ -137,6 +137,8 @@ def onload(table):
                     utilities.send_backtrace('config_plugin: ' + str(p))
             except:
                 utilities.send_backtrace('config_plugin: ' + str(p))
+        else:
+            utilities.send_backtrace('config_plugin2: ' + str(p))
 
 def cell_change(table, page, col, lin, value, dummy_date):
     if configuration.regtest:

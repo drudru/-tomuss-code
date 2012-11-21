@@ -432,6 +432,7 @@ def dispatch_request(server, manage_error=True):
         if manage_error:
             global to_top
             if to_top is None:
+                # Here because the regtest value is now fine
                 if configuration.regtest:
                     to_top = Plugin('bad-url', '/{url_not_possible}',
                                     function = bad_url_message,
