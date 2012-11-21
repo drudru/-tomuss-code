@@ -39,4 +39,4 @@ class Surname(mail.Mail):
         for line_id, student in students:
             student = utilities.the_login(student)
             if student in infos:
-                yield line_id, infos[student][1].encode('utf-8')
+                yield line_id, infos[student][1].title().encode('utf-8')
