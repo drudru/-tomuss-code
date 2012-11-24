@@ -384,8 +384,9 @@ def sendmail_thread():
         send_mail(*send_mail_in_background_list.pop(0))
 
 
-def send_mail_in_background(to, subject, message, frome=None):
-    send_mail_in_background_list.append((to, subject, message, frome))
+def send_mail_in_background(to, subject, message, frome=None, show_to=False):
+    send_mail_in_background_list.append((to, subject, message, frome,
+                                         show_to))
 
 
 
@@ -975,9 +976,22 @@ import BaseHTTPServer
 class FakeRequestHandler(BaseHTTPServer.BaseHTTPRequestHandler):
     """
     """
-    posted_data = None
     please_do_not_close = False
     timeout = 0.5 # For Opera that does not send GET on HTTP request
+    it_is_a_post = False
+
+    def do_POST(self):
+        self.it_is_a_post = True
+        self.do_GET()
+
+    def get_posted_data(self):
+        if not self.it_is_a_post:
+            return None
+        ctype, pdict = cgi.parse_header(self.headers.getheader('content-type'))
+        if ctype != 'multipart/form-data':
+            warn("ctype=%s" % ctype)
+            return None
+        return cgi.parse_multipart(self.the_rfile, pdict)
             
     def send_response(self, i, comment=None):
         if comment:

@@ -20,14 +20,27 @@
 #    Contact: Thierry.EXCOFFIER@bat710.univ-lyon1.fr
 
 from . import code_etape
+from .. import utilities
 from .. import inscrits
 
 class Mail(code_etape.Code_Etape):
     cell_is_modifiable = 1
     attributes_visible = ('columns',)
     def get_one_value(self, student_id, column, line_id):
-        return inscrits.L_slow.mail(student_id)
+        return inscrits.L_fast.mail(student_id)
 
     def get_all_values(self, column):
-        for line_id, login in self.values(column):
-            yield line_id, self.get_one_value(login, column, line_id)
+        if self.__class__.__name__ != 'Mail':
+            # Subclass need this generic function.
+            # XXX It is not nice, a clean hierarchy must be done
+            for line_id, login in self.values(column):
+                yield line_id, self.get_one_value(login, column, line_id)
+            return
+        
+        students = tuple(self.values(column))
+        infos = inscrits.L_batch.firstname_and_surname_and_mail_from_logins(
+            tuple(utilities.the_login(i[1]) for i in students))
+        for line_id, student in students:
+            student = utilities.the_login(student)
+            if student in infos:
+                yield line_id, infos[student][2].encode('utf-8')

@@ -8,8 +8,6 @@ Nouvelles fonctionnalités.
 Utilisateurs finaux.
 --------------------
 
-* Publi postage : liste des receveurs.
-
 * Reconnection de la page des ABJ quand le serveur redémarre ?
 
 * Faire doc d'installation pas par pas
@@ -130,7 +128,8 @@ Administrateur.
 Problèmes à résoudre.
 =====================
 
-* Changement de semestre dans le suivi
+* L'étudiant qui cherche à changer une valeur saisie par le prof via le suivi
+  l'indiquer dès le départ
 
 * Perte photo quand déconnexion puis reconnexion réseau : normal
   Il faudrait que la page revalide le ticket

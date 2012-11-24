@@ -1,7 +1,7 @@
 #!/bin/env python
 # -*- coding: utf-8 -*-
 #    TOMUSS: The Online Multi User Simple Spreadsheet
-#    Copyright (C) 2010 Thierry EXCOFFIER, Universite Claude Bernard
+#    Copyright (C) 2010-2012 Thierry EXCOFFIER, Universite Claude Bernard
 #
 #    This program is free software; you can redistribute it and/or modify
 #    it under the terms of the GNU General Public License as published by
@@ -19,6 +19,7 @@
 #
 #    Contact: Thierry.EXCOFFIER@bat710.univ-lyon1.fr
 
+import time
 from .. import plugin
 from .. import inscrits
 from ..files import files
@@ -31,49 +32,65 @@ def send_mail(server):
         server.the_file.write(server._("MSG_evaluate"))
         return
 
-    subject = server.the_path[0]
-    message = server.the_path[1]
-    n = 0
-    while ('[' + str(n) + ']') in message + subject:
-        n += 1
-
-    n += 1 # For the student ID always here
-    args = server.the_path[2:]
-    if len(args) % n != 0:
-        server.the_file.write(server._("TIP_violet_square"))
-        utilities.send_backtrace('send_mail')
+    data = server.get_posted_data()
+    if data is None:
+        server.the_file.write("BUG")
         return
 
-    server.the_file.write(server._("MSG_send_mail_start") % (len(args)/n))
-    server.the_file.flush()
-
+    subject = data['subject'][0]
+    message = data['message'][0]
+    recipients = data['recipients'][0].split("\001")
+    titles = data['titles'][0].split("\001")
+    
+    server.the_file.write(server._("MSG_send_mail_start") % len(recipients))
+    server.the_file.write("<p>")
     frome = inscrits.L_slow.mail(server.ticket.user_name)
     bad_mails = []
-    for i in range(0, len(args), n):
-        m = inscrits.L_slow.mail(args[i])
+    good_mails = []
+    for recipient in recipients:
+        recipient = recipient.split("\002")
+        m = inscrits.L_slow.mail(recipient[0])
         if m is None:
-            bad_mails.append(args[i])
+            bad_mails.append(recipient[0])
             continue
         content = message
         the_subject = subject
-        for j in range(i+1, i+n):
-            old = '[' + str(j-i-1) + ']'
-            new = args[j]
-            content = content.replace(old, new)
-            the_subject = the_subject.replace(old, new)
+        for title, value in zip(titles, recipient[1:]):
+            title = '[' + title + ']'
+            content = content.replace(title, value)
+            the_subject = the_subject.replace(title, value)
 
         the_subject = unicode(the_subject, 'utf-8').encode('utf-8')
         content = unicode(content, 'utf-8')
         # print m, the_subject, content, frome
         utilities.send_mail_in_background(m, the_subject, content, frome)
-        
-    if len(bad_mails) == 0:
-        server.the_file.write(server._("MSG_send_mail_done") + '\n')
-    else:
+        good_mails.append(m)
+        server.the_file.write('%d ' % len(good_mails))
+
+    archive = unicode(message, 'utf-8') + '\n' + '='*79 + '\n'
+    if bad_mails:
+        archive += (server.__("MSG_send_mail_error") + '\n'
+                    + '\n'.join(bad_mails) + '\n'
+                    )
+    archive += (server.__("MSG_send_mail_done") + '\n'
+                + '\n'.join(good_mails) + '\n'
+                )
+
+    utilities.send_mail_in_background(frome,
+                                      server._("MSG_mail_archive")
+                                      + ' ' + subject,
+                                      archive, frome, show_to=True)
+    server.the_file.write('<p>')
+    if bad_mails:
         server.the_file.write(server._("MSG_send_mail_error")
                               + repr(bad_mails) + '\n')
-    
+    server.the_file.write('<p>' + server._("MSG_send_mail_close") + '<p>')
+    while utilities.send_mail_in_background_list:
+        server.the_file.write(server._("MSG_send_mail_left")
+                              % len(utilities.send_mail_in_background_list)
+                              + '\n')
+        time.sleep(1)
+    server.the_file.write(server._("MSG_send_mail_left") % 0)
 
-plugin.Plugin('send_mail', '/send_mail/{*}', function=send_mail,
-              group='staff', launch_thread=True,
-              mimetype='text/plain;charset=utf-8')
+plugin.Plugin('send_mail', '/send_mail', function=send_mail,
+              group='staff', launch_thread=True)

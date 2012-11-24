@@ -37,6 +37,8 @@ def les_ues(year, semester, true_file=False, all_files=False, ro=True):
         if ue == 'undefined.py':
             continue
         table = document.table(str(year), str(semester), ue[:-3], ro=ro)
+        if not table:
+            continue
         if all_files or table.official_ue:
             yield table
         else:
