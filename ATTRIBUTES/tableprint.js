@@ -196,7 +196,7 @@ function printable_display_page(lines, title, page_break)
 		  v = cell.value_html() ;
 	        else
 		  v = cell.value_html().replace(/\n/g, "<br>") ;
-	      txt_line.push(v.replace(/\t/g, ' ')) ;
+	      txt_line.push(v.replace(/\n/g, '⏎').replace(/\t/g, '⇥')) ;
 	      if ( v === '' )
 		v = '&nbsp;' ;
 	      if ( columns[c].green_filter(cell, columns[c]) )
@@ -391,7 +391,8 @@ function print_selection(object, emargement, replace)
   p.push('var lines ;') ;
   p.push('function initialize() {') ;
   p.push('if ( ! wait_scripts("initialize()") ) return ;') ;
-  p.push('lines = ' + lines_in_javascript() + ';') ;
+  var lines_js = lines_in_javascript() ;
+  p.push('lines = ' + lines_js + ';') ;
   if ( emargement )
     p.push('do_emargement();') ;
   p.push('setInterval("printable_display()", 200);') ;
@@ -423,7 +424,8 @@ function print_selection(object, emargement, replace)
 		    _("TIP_print_display_line"),
 		    radio_buttons('uniform',[_("B_print_yes"),
 					     _("B_print_no")],
-				  _("B_print_yes")));
+				  lines_js.indexOf('\\n') == -1
+				  ? _("B_print_yes") : _("B_print_no")));
 
   var t = [], cols = column_list_all() ;
   for(var data_col in cols)

@@ -185,6 +185,8 @@ Problèmes non reproductibles
 Améliorations de code source.
 =============================
 
+* Utiliser moins de place pour les abj
+
 * Enlever _URL_ si c'est possible
 
 * Faire une fonction 'is_a_student(login)'
