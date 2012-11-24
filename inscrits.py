@@ -154,6 +154,16 @@ class LDAP_Logic(object):
         else:
             return a
 
+    def mails(self, logins):
+        the_mails = {}
+        for x in self.query_logins(
+            logins,
+            (configuration.attr_login, configuration.attr_mail)):
+            if x[1]:
+                login = login_to_student_id(x[0].lower()).encode('utf-8')
+                the_mails[login] = x[1].encode('utf-8')
+        return the_mails
+
     def phone(self, login):
         "Retrieve the phone linked to the login"
         return self.get_attributes(login, (configuration.attr_phone,))[0]
