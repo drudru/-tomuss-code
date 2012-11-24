@@ -48,10 +48,6 @@ def line_empty(line):
             return False
     return True
 
-def get_mails(table, the_ids):
-    the_ids.update(inscrits.L_batch.mails(
-            list(table.logins()) + table.authors()))
-
 def create(table):
     p = table.new_page('',data.ro_user,'','')
     _ = utilities._
@@ -93,7 +89,6 @@ def create(table):
         table.column_change (p, '0_9', 'Remarques',
                              'Text', '[0;20]','1','',0, 8)
         table.column_comment(p, '0_9', "Commentaire de l'enseignant")
-
         
     ts = configuration.semester_span(table.year, table.semester)
     if ts:
@@ -163,11 +158,6 @@ def check(table, update_inscrits=update_inscrits_ue):
         warn("Update inscrits", what="check")
         update_inscrits(the_ids, table, page)
         
-    warn("Update mail list", what="check")
-    get_mails(table, the_ids)
-    warn("Change mail list", what="check")
-    table.change_mails(the_ids)
-
     # PORTAILS
     warn("Update portail list", what="check")
     if False:
@@ -398,7 +388,7 @@ def init(table):
     table.update_inscrits = table.modifiable
 
 def check_get_info():
-    """Update the name, surname, mail, portail from ID"""
+    """Update the name, surname, portail from ID"""
     from .. import configuration
     if configuration.regtest:
         time.sleep(999999)
@@ -408,10 +398,10 @@ def check_get_info():
             table, lin, page, value = get_info.pop()
             line = table.lines[lin]
             if value == '':
-                firstname, surname, mail = '', '', ''
+                firstname, surname = '', '', ''
             else:
-                firstname, surname, mail = inscrits.L_batch.firstname_and_surname_and_mail(
-                value)
+                firstname, surname = inscrits.L_batch.firstname_and_surname(
+                    value)
                 
             firstname = firstname.encode('utf-8')
             line = table.lines[lin]
@@ -437,10 +427,6 @@ def check_get_info():
                                       force_update=True)
             finally:
                 table.unlock()
-            try:
-                table.update_mail(line[0].value, mail.encode('utf-8'))
-            except UnicodeDecodeError:
-                pass
 
             portails = [i.encode('latin-1') for i in inscrits.L_batch.portail(value)]
             table.update_portail(line[0].value, portails)

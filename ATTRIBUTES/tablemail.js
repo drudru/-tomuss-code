@@ -100,8 +100,11 @@ function mail_window()
   var missing = [] ;
   var the_student_mails = students_mails(missing) ;
   var nr_student_mails = the_student_mails.split(',').length - 1 ;
+  var the_author_mails = authors_mails(missing) ;
+  var nr_author_mails = the_author_mails.split(',').length - 1 ;
 
-  if ( the_student_mails.search('@') == -1 )
+  if (   the_student_mails.search('@') == -1
+       && the_author_mails.search('@') == -1 )
     {
 	Alert("ALERT_mail_none") ;
         return ;
@@ -111,8 +114,6 @@ function mail_window()
   if ( mailto_url_usable(the_student_mails) )
       link_students = mail_quick_link(the_student_mails, link_students) ;
   
-  var the_author_mails = authors_mails(missing) ;
-  var nr_author_mails = the_author_mails.split(',').length - 1 ;
   var link_authors = nr_author_mails + ' ' + _("MSG_mail_teachers") ;
   if ( mailto_url_usable(the_author_mails) )
       link_authors =mail_quick_link(the_author_mails, link_authors) ;

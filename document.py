@@ -1340,7 +1340,8 @@ def check_new_students_real():
                 if t.template and hasattr(t.template, 'check'):
                     t.template.check(t)
                 warn('done %s' % t.ue, what="table")
-
+                t.change_mails(inscrits.L_batch.mails(
+                        list(t.logins()) + t.authors()))
                 if t.modifiable:
                     for a_column in t.columns:
                         a_column.type.update_all(t, a_column)
@@ -1569,6 +1570,16 @@ def update_computed_values_fast():
             the_table, lin, a_column = cell_changed_list_fast.pop()
             for col in the_table.columns.use(a_column):
                 col.type.update_one(the_table, lin, col)
+            # Update mail if new teacher
+            login = the_table.lines[lin][a_column.data_col].author
+            if login not in the_table.mails:
+                the_table.update_mail(
+                    login, inscrits.L_fast.mail(login).encode('utf-8'))
+            # Update mail if login changed
+            if a_column.data_col == 0:
+                login = the_table.lines[lin][0].value
+                the_table.update_mail(
+                    login, inscrits.L_fast.mail(login).encode('utf-8'))
 
 column_changed_list = []
 

@@ -57,6 +57,12 @@ def do_patch():
                     else:
                         return r+'Firstname', r+'Surname', 'mail?'
 
+            def mails(self, logins):
+                d = {}
+                for login in logins:
+                    d[login] = self.firstname_and_surname_and_mail(
+                        login)[2]
+
             def ues_of_a_student_short(self, login):
                 if login == '10800000':
                     return ['UE-INF20UE2L', 'UE-INF20UE2']
