@@ -641,7 +641,7 @@ msgstr "The URL is inaccessible"
        
 
 msgid "ERROR_value_not_modifiable"
-msgstr "You are not allowed to modifiy this value."
+msgstr "You are not allowed to modify this value."
 
 msgid "ERROR_value_system_defined"
 msgstr "Because it has been defined by the system"
@@ -4111,6 +4111,22 @@ msgstr "Need administrative rights"
 msgid "COL_TITLE_cp_invited"
 msgstr "Groups (see ACLS) and logins list with plugin access"
 
+msgid "COL_TITLE_ct_variable"
+msgstr "Variable"
+
+msgid "COL_TITLE_ct_what"
+msgstr "Comment"
+
+msgid "COL_TITLE_ct_value"
+msgstr "Current Value"
+
+msgid "COL_TITLE_ct_type"
+msgstr "Type"
+
+msgid "ALERT_unexpected_type"
+msgstr "The entered value was not of the good type,\n"
+       "so it was not stored.\n"
+       "Please fix it."
 
 msgid "config_table_abinj"
 msgstr "If nearly all the students have a grade, then the others have ABINJ???/0. If you enter 0.25 then if less than 1/4 of the student group has no grade, then they will have 0 or ABINJ??? automaticaly."

@@ -14,8 +14,6 @@ Utilisateurs finaux.
 
 * traduction 'ou' filtre
 
-* Faire une table de configuration du template (les variables)
-
 * ticket.remove_old_files()
 
 * Onglet pour Impression pour ne pas submerger le lecteur d'options

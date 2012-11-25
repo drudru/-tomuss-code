@@ -4157,7 +4157,15 @@ msgid "COL_TITLE_ct_what"
 msgstr "Explications"
 
 msgid "COL_TITLE_ct_value"
-msgstr "Valeur courant"
+msgstr "Valeur courante"
+
+msgid "COL_TITLE_ct_type"
+msgstr "Type"
+
+msgid "ALERT_unexpected_type"
+msgstr "La valeur saisie n'était pas du bon type,\n"
+       "elle n'a pas été sauvegardée.\n"
+       "Corrigez-la s'il vous plaît."
 
 msgid "config_table_abinj"
 msgstr "S'ils ont presque tous une note, ceux qui n'en ont pas ont 0/ABINJ. Si vous mettez 0.25 cela indique que si moins du quart du groupe n'a pas de note alors ils auront 0 ou ABINJ automatiquement."

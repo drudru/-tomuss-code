@@ -930,6 +930,63 @@ class Useles(object):
 
 Useles = Useles()
 
+
+class Variables(object):
+    """Map variables to a TOMUSS configuration table stored in 0/Variables/group
+
+    The default group is the name of the module using Variables.
+
+    Usage Example :
+
+    V = Variables({'foo': ('foo comment', 'default_value'),
+                   'bar': ('bar comment', 5),
+                   })
+    print V.foo
+
+    Beware :
+       * The V.foo access time is long.
+       * The V.foo value will change if the user modify
+         the table 0/Variables/group
+       * The user may only enter values of the same type.
+         With the example, only integer values are allowed
+       * The table is filled only when it is used (V.foo will do it)
+
+    """
+    def __init__(self, variables, group=None):
+        self.__dict__['_variables'] = variables
+        if group is None:
+            group = sys._getframe(1).f_code.co_filename
+            group = group.split(os.path.sep)[-1].replace('.py', '')
+        
+        self.__dict__['_group'] = group
+        # Can't create the table here: catch 22
+
+    def __getattr__(self, name):
+        import document
+        import ast
+        t = document.table(0, "Variables", self._group)
+        if t and t.modifiable:
+            ro = t.pages[0]
+            rw = t.pages[1]
+            for k, v in self._variables.items():
+                if k not in t.lines:
+                    t.lock()
+                    try:
+                        t.cell_change(ro, '0', k, v[0])
+                        t.cell_change(ro, '1', k, v[1].__class__.__name__)
+                        t.cell_change(rw, '2', k, str(v[1]))
+                    finally:
+                        t.unlock()
+        if t is None  or   name not in t.lines:
+            try:
+                return self._variables[name][2]
+            except KeyError:
+                raise AttributeError(name)
+        return ast.literal_eval(t.lines[name][2].value)
+
+    def __setattr__(self, name, value):
+        raise AttributeError("Edit the Variable table to change parameters")
+
 @add_a_lock
 def _(msgid, language=None):
     "Translate the message (local then global dictionary)"
