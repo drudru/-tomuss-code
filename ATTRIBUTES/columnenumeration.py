@@ -29,3 +29,11 @@ class ColumnEnumeration(ColumnAttr):
     #menutop #t_column_enumeration { width: 40% ; }
     #menutop DIV.tabs #t_column_enumeration { width: 65% ; }
     """
+    javascript = """
+function set_test_enumeration(value, column)
+{
+  value = value.replace(/  */g, ' ') ;
+  column.possible_values = value.split(' ') ;
+  return value ;
+}
+"""

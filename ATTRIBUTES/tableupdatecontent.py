@@ -26,3 +26,9 @@ class TableUpdateContent(TableAttr):
     name = 'update_content'
     action = 'table_update_content'
     gui_display = "GUI_a"
+    javascript = """
+function table_update_content(the_id)
+{
+  append_image(document.getElementById(the_id).parentNode, 'update_content') ;
+}
+"""

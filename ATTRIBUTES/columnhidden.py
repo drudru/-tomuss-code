@@ -41,4 +41,10 @@ class ColumnHidden(ColumnAttr):
     need_authorization = 0
     action = "hide_column"
     strokable = 0
-
+    javascript = """
+function hide_column()
+{
+  the_current_cell.column.hidden = 1 ;
+  table_fill(false,true) ;
+}
+"""
