@@ -122,11 +122,11 @@ function popup_type_choosed(type)
     if ( ! confirm(_('ALERT_columntype')) )
       return ;
 
+  var button = document.getElementById('t_column_type') ;
+  var td = the_td(button) ;
   column_attr_set(popup_column(), 'type', type, td, true) ;
   if ( the_current_cell.column == popup_column() )
   {
-    var button = document.getElementById('t_column_type') ;
-    var td = the_td(button) ;
     button.innerHTML = _('B_' + type) ;
     attr_update_user_interface(column_attributes['type'],
 			       the_current_cell.column) ;

@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 #    TOMUSS: The Online Multi User Simple Spreadsheet
-#    Copyright (C) 2009 Thierry EXCOFFIER, Universite Claude Bernard
+#    Copyright (C) 2009-2012 Thierry EXCOFFIER, Universite Claude Bernard
 #
 #    This program is free software; you can redistribute it and/or modify
 #    it under the terms of the GNU General Public License as published by
@@ -19,6 +19,7 @@
 #
 #    Contact: Thierry.EXCOFFIER@bat710.univ-lyon1.fr
 
+import ast
 from .. import document # Fix circular import problem
 from .. import data
 from .. import utilities
@@ -152,7 +153,7 @@ def set_value(variable, value):
                     return
             except TypeError:
                 pass
-        value = eval(value)
+        value = ast.literal_eval(value)
         if not isinstance(value, type(current)):
             utilities.warn("VARIABLE=%s CURRENT=%s NEW=%s" %
                  (variable, current, value), what="Error")

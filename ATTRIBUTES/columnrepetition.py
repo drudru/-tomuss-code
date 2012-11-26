@@ -37,3 +37,13 @@ class ColumnRepetition(ColumnAttr):
             return '_("ALERT_repetition_int")'
 
     css = "#menutop DIV.tabs #t_column_repetition { width: 20% ; }"
+    javascript = """
+function set_repetition(value, column)
+{
+  column.real_repetition = Math.floor(Number(value)) ;
+  if ( isNaN(column.real_repetition) )
+    column.real_repetition = 0 ;
+
+  return column.real_repetition ;
+}
+"""

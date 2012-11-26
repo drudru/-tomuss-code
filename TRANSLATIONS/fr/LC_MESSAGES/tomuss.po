@@ -493,6 +493,13 @@ msgid "TIP_table_attr_official_ue"
 msgstr "<b>Visible</b> : La table est affichée dans le suivi des étudiants<br>\n"
  "<b>Invisible</b> : La table est invisible dans le suivi des étudiants."
 
+msgid "TITLE_table_attr_group"
+msgstr "Configure template"
+
+msgid "TIP_table_attr_group"
+msgstr "Suivez ce lien pour éditer la configuration du template.\n"
+       "Cette configuration s'applique à toutes les tables l'utilisant."
+
 #. Attribute Tip
 msgid "TIP_table_attr_t_copy"
 msgstr "Copier la définition de la table, son contenu."
@@ -4157,7 +4164,15 @@ msgid "COL_TITLE_ct_what"
 msgstr "Explications"
 
 msgid "COL_TITLE_ct_value"
-msgstr "Valeur courant"
+msgstr "Valeur courante"
+
+msgid "COL_TITLE_ct_type"
+msgstr "Type"
+
+msgid "ALERT_unexpected_type"
+msgstr "La valeur saisie n'était pas du bon type,\n"
+       "elle n'a pas été sauvegardée.\n"
+       "Corrigez-la s'il vous plaît."
 
 msgid "config_table_abinj"
 msgstr "S'ils ont presque tous une note, ceux qui n'en ont pas ont 0/ABINJ. Si vous mettez 0.25 cela indique que si moins du quart du groupe n'a pas de note alors ils auront 0 ou ABINJ automatiquement."

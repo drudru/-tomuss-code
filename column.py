@@ -57,6 +57,7 @@ class ColumnAttr(object):
     gui_display = 'GUI_input'
     action = ''
     css = ''
+    javascript = ''
     # name = '' # BREAK ALL
     
     def __init__(self):
@@ -67,7 +68,7 @@ class ColumnAttr(object):
                              self.__class__.__name__.lower() + '.js'))
             jsf = '*/'.join(jsf.split('*/')[1:]) # remove first comment
         except IOError:
-            jsf = ''
+            jsf = self.javascript
         self.js_functions = jsf
 
     def check(self, value):

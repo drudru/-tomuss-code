@@ -14,8 +14,6 @@ Utilisateurs finaux.
 
 * traduction 'ou' filtre
 
-* Faire une table de configuration du template (les variables)
-
 * ticket.remove_old_files()
 
 * Onglet pour Impression pour ne pas submerger le lecteur d'options
@@ -184,6 +182,8 @@ Problèmes non reproductibles
 =============================
 Améliorations de code source.
 =============================
+
+* Utiliser moins de place pour les abj
 
 * Enlever _URL_ si c'est possible
 

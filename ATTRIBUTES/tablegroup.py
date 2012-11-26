@@ -1,7 +1,7 @@
 #!/bin/env python
 # -*- coding: utf-8 -*-
 #    TOMUSS: The Online Multi User Simple Spreadsheet
-#    Copyright (C) 2008-2011 Thierry EXCOFFIER, Universite Claude Bernard
+#    Copyright (C) 2012 Thierry EXCOFFIER, Universite Claude Bernard
 #
 #    This program is free software; you can redistribute it and/or modify
 #    it under the terms of the GNU General Public License as published by
@@ -19,32 +19,16 @@
 #
 #    Contact: Thierry.EXCOFFIER@bat710.univ-lyon1.fr
 
-from ..column import ColumnAttr
+from ..column import TableAttr
 
-class ColumnHidden(ColumnAttr):
-    computed = 1
-    default_value = 0
-    name = 'hidden'
-    check_and_set = "function(value, column) { return value ;}"
-
-    def encode(self, value):
-        try:
-            return int(value)
-        except ValueError:
-            return 0
-    def check(self, value):
-        if value in ('0', '1',0,1):
-            return ''
-        return self.check_error(value)
-
+class TableGroup(TableAttr):
+    "This value is set by document.py if the template use Variables"
+    name = 'group'
+    default_value = ''
     gui_display = "GUI_a"
-    need_authorization = 0
-    action = "hide_column"
-    strokable = 0
+    action = "configure_template"
     javascript = """
-function hide_column()
+function configure_template()
 {
-  the_current_cell.column.hidden = 1 ;
-  table_fill(false,true) ;
-}
-"""
+  window_open('../../0/Variables/_' + table_attr.group) ;
+}"""
