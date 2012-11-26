@@ -296,6 +296,9 @@ class Table(object):
 
         if hasattr(self.template, 'init'):
             self.template.init(self)
+            for v in self.template.__dict__.values():
+                if isinstance(v, utilities.Variables):
+                    self.group = v._group
 
         warn('allow modification:' + str(self.modifiable),what='table')
         created = False

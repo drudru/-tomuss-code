@@ -493,6 +493,13 @@ msgid "TIP_table_attr_official_ue"
 msgstr "<b>Visible</b> : La table est affichée dans le suivi des étudiants<br>\n"
  "<b>Invisible</b> : La table est invisible dans le suivi des étudiants."
 
+msgid "TITLE_table_attr_group"
+msgstr "Configure template"
+
+msgid "TIP_table_attr_group"
+msgstr "Suivez ce lien pour éditer la configuration du template.\n"
+       "Cette configuration s'applique à toutes les tables l'utilisant."
+
 #. Attribute Tip
 msgid "TIP_table_attr_t_copy"
 msgstr "Copier la définition de la table, son contenu."

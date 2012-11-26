@@ -506,6 +506,13 @@ msgstr ""
 "<b>Visible</b> : The table is displayed in student 'suivi'<br>\n"
 "<b>Invisible</b> : The table is not visible in student 'suivi'."
 
+msgid "TITLE_table_attr_group"
+msgstr "Template configuration"
+
+msgid "TIP_table_attr_group"
+msgstr "Click here to edit configurations values commons\n"
+       "to all the tables using this template."
+
 #. Attribute Tip
 msgid "TIP_table_attr_t_copy"
 msgstr "Table copy"

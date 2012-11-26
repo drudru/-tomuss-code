@@ -878,6 +878,9 @@ function new_new_interface()
   else
     t.push('&nbsp;') ;
 
+  if ( table_attr.group && myindex(table_attr.masters, my_identity) != -1 )
+      t.push(table_input_attr('group')) ;
+
   t.push('</div>') ;
   t.push('<div class="one_line">') ;
   t.push(table_input_attr('dates', 'empty before=' + _("BEFORE_table_dates"))) ;
