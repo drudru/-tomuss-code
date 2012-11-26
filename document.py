@@ -1577,13 +1577,15 @@ def update_computed_values_fast():
             # Update mail if new teacher
             login = the_table.lines[lin][a_column.data_col].author
             if login not in the_table.mails:
-                the_table.update_mail(
-                    login, inscrits.L_fast.mail(login).encode('utf-8'))
+                m = inscrits.L_fast.mail(login)
+                if m:
+                    the_table.update_mail(login, m.encode('utf-8'))
             # Update mail if login changed
             if a_column.data_col == 0:
                 login = the_table.lines[lin][0].value
-                the_table.update_mail(
-                    login, inscrits.L_fast.mail(login).encode('utf-8'))
+                m = inscrits.L_fast.mail(login)
+                if m:
+                    the_table.update_mail(login, m.encode('utf-8'))
 
 column_changed_list = []
 
