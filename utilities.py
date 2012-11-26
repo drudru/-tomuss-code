@@ -961,6 +961,13 @@ class Variables(object):
         self.__dict__['_group'] = group
         # Can't create the table here: catch 22
 
+    def __iter__(self):
+        return self._variables.keys()
+
+    def items(self):
+        for k in self._variables:
+            yield k, getattr(self, k)
+
     def __getattr__(self, name):
         import document
         import ast
