@@ -964,8 +964,10 @@ class Variables(object):
     def __getattr__(self, name):
         import document
         import ast
-        t = document.table(0, "Variables", self._group)
-        if t and t.modifiable:
+        # '_' to remove ambiguity between 'Variables' template
+        # and the table template.
+        t = document.table(0, "Variables", '_' + self._group)
+        if t and t.modifiable: # and not t.the_lock.locked:
             ro = t.pages[0]
             rw = t.pages[1]
             for k, v in self._variables.items():
@@ -974,12 +976,12 @@ class Variables(object):
                     try:
                         t.cell_change(ro, '0', k, v[0])
                         t.cell_change(ro, '1', k, v[1].__class__.__name__)
-                        t.cell_change(rw, '2', k, str(v[1]))
+                        t.cell_change(rw, '2', k, repr(v[1]))
                     finally:
                         t.unlock()
         if t is None  or   name not in t.lines:
             try:
-                return self._variables[name][2]
+                return self._variables[name][1]
             except KeyError:
                 raise AttributeError(name)
         return ast.literal_eval(t.lines[name][2].value)
