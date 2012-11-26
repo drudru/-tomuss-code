@@ -925,6 +925,19 @@ function new_new_interface()
 
   o.push([_("TAB_table_action"), t.join('\n')]) ;
 
+  // Table / Info
+
+  t = [] ;
+  table_info.sort() ; // A table of [Priority, Function generating the HTML]
+  for(var i in table_info)
+  {
+    var v = table_info[i][1]() ;
+    if (v)
+      t.push('<div class="one_line">' + v + '</div>') ;
+  }
+
+  o.push([_("TAB_table_info"), t.join('\n')]) ;
+
   // Table / Help
 
   o.push([_('TAB_?'),

@@ -82,6 +82,7 @@ var first_day ;
 var last_day ;
 var current_window_width ;
 var current_window_height ;
+var table_info = [] ; // see middle.js
 
 // HTML elements
 var divtable ;

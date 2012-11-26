@@ -778,6 +778,9 @@ msgstr "Parameters"
 msgid "TAB_table_action"
 msgstr "Action"
 
+#. Tab label
+msgid "TAB_table_info"
+msgstr "Info"
 
 #. GUI Label
 msgid "LABEL_styles"
