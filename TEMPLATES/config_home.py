@@ -23,11 +23,11 @@
 The title and help is translated if it is found in the translations files.
 """
 
-import data
-import utilities
-import configuration
-import plugin
-import cell
+from .. import data
+from .. import utilities
+from .. import configuration
+from .. import plugin
+from .. import cell
 
 default_links = (
     ("abj_master", -99, "unsafe", 'abj_masters',

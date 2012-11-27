@@ -90,7 +90,6 @@ var author ;
 var modification_date ;
 var server_log ;
 var the_body ;
-var p_title_links ;
 var nr_filtered_lines ;
 var the_comment ;
 var linefilter ;
@@ -124,7 +123,6 @@ function lib_init()
   the_body             = document.getElementById('body'                 );
   if ( the_body )
     the_body.style.overflowX = 'hidden' ;
-  p_title_links        = document.getElementById('title_links'          );
   nr_filtered_lines    = document.getElementById('nr_filtered_lines'    );
   the_comment          = document.getElementById('comment'              );
   linefilter           = document.getElementById('linefilter'           );
@@ -4116,7 +4114,6 @@ function runlog(the_columns, the_lines)
 
   the_current_cell.jump(nr_headers, 0, true) ;
   the_current_cell.update_table_headers() ;
-  change_title(table_attr.table_title, table_attr.code) ;
 
   restore_unsaved() ;
   document.getElementById("linefilter").focus() ;

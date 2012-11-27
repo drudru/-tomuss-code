@@ -20,18 +20,6 @@
 */
 
 /*REDEFINE
-This function is called to set the UE title links on the page.
-*/
-function change_title()
-{
-  var p_title_links = document.getElementById('title_links') ;
-  if ( p_title_links == undefined )
-     return ; // Linear interface
-  // Use table_attr.code for example
-  // p_title_links.innerHTML = '<a href="">xxx</a>' ;
-}
-
-/*REDEFINE
 Some table lines must not be modified.
 This function return 'true' to allow the line editing.
 */
@@ -138,8 +126,7 @@ function head_html()
      options = '<span>' + year + ' ' + semester + '</span>' ;
    }
 
- w += options + ' ' + ue + ' ' + table_attr.table_title ;
- w += '<span id="title_links"></span></h1><h1><span id="t_table_attr_table_title"></span></h1>' ;
+ w += options + ' ' + ue + ' ' + table_attr.table_title + '</h1>' ;
 
  return w ;
 }
