@@ -109,7 +109,6 @@ class Page(object):
         return self.date[6:8] + '/' + self.date[4:6] + '/' + self.date[:4]
 
     def backtrace_html(self):
-        import cgi
         return (cgi.escape(str(self)) + '<br>'
                + cgi.escape(self.user_browser) + '<br>'
                 + self.user_ip)

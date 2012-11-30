@@ -10,6 +10,8 @@ Utilisateurs finaux.
 
 * Reconnection de la page des ABJ quand le serveur redémarre ?
 
+* Arrondi : change le nombre de décimal affichée si pas vide
+
 * Faire doc d'installation pas par pas
 
 * traduction 'ou' filtre

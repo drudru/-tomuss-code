@@ -337,7 +337,7 @@ def remove_students_from_table(table, students):
             else:
                 if inscrit_column and table.official_ue:
                     table.cell_change(table.pages[0], inscrit_column, line_id,
-                                      'non')
+                                      'non', change_author=False)
                 for i, column in enumerate(table.columns):
                     if (line[i].value and line[i].author == data.ro_user
                         and i != inscrit_column):
