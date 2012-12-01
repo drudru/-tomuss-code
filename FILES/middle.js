@@ -1066,6 +1066,7 @@ function tail_html()
     '<input id="current_input" ' +
     'ondblclick="the_current_cell.toggle();" ' +
     'OnKeyDown="the_current_cell.keydown(event, true)" ' +
+    'OnFocus="the_current_cell.focused=true;the_current_cell.input_div_focus()" ' +
     'OnBlur="the_current_cell.focused=false;the_current_cell.change()" ' +
     '>' +
     '</div>' ;
