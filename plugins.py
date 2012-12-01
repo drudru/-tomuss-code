@@ -19,6 +19,7 @@
 #
 #    Contact: Thierry.EXCOFFIER@bat710.univ-lyon1.fr
 
+import tomuss_init
 import cgi
 import os
 from . import plugin

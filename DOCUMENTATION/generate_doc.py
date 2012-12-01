@@ -5,8 +5,7 @@ import re
 import os
 import cgi
 
-sys.path.append(os.getcwd())
-sys.path.append(os.path.join(os.getcwd(), '..'))
+import tomuss_init
 from .. import configuration
 
 ###############################################################################
@@ -64,7 +63,7 @@ def parse(filename):
 
 f = open('xxx_redefined.html','w')
 redefined = []
-for place in ('..', '../FILES'):
+for place in ('.', 'FILES', 'PLUGINS', 'TEMPLATES', 'COLUMN_TYPES', 'ATTRIBUTES'):
     for n in os.listdir(place):
         if n.endswith('.js') or n.endswith('.py'):
             redefined += parse(os.path.join(place,n))
@@ -134,7 +133,10 @@ for line in sys.stdin.readlines():
         new += g.readlines()            
         g.close()
     except IOError:
-        print line
+        g = open(os.path.join("DOCUMENTATION", line.strip().split(' ')[-1]), 'r')
+        new += g.readlines()            
+        g.close()
+
         
 toc = ''
 for line in new:
