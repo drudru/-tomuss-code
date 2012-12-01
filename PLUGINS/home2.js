@@ -1333,7 +1333,7 @@ function generate_home_page_actions()
 	  else
 	  {
 	    el = '<a class="' + link[2] + '" href="' + link[4]
-	      + '" target="' + link[5] + '">';
+	      + '" target="' + link[5] + '" style="width:100%;display:block">';
 	    eld = '</a>' ;
 	  }
 	  help = link[6] ;
