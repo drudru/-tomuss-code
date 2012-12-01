@@ -104,8 +104,6 @@ function test_note(value, column)
 
 function note_format(c, column)
 {
-    if ( c.toFixed && ( !column.round_by || column.round_by < 1 ) )
-	  return tofixed(c) ;
-    return c ;
+  return column.do_rounding(c) ;
 }
 

@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 #    TOMUSS: The Online Multi User Simple Spreadsheet
-#    Copyright (C) 2009-2011 Thierry EXCOFFIER, Universite Claude Bernard
+#    Copyright (C) 2009-2012 Thierry EXCOFFIER, Universite Claude Bernard
 #
 #    This program is free software; you can redistribute it and/or modify
 #    it under the terms of the GNU General Public License as published by
@@ -202,9 +202,9 @@ def the_abjs(table):
             t.append("%s:[[%s],[%s],%s]" % (
                 js(login),
                 ','.join(['[%s,%s,%s]'
-                          %(js(a),js(b),js(d)) for a,b,c,d in the_abjs]),
+                          %(js(a),js(b),js(d)) for a,b,dummy_c,d in the_abjs]),
                 ','.join(['[%s,%s,%s]'
-                          %(js(a),js(b),js(d)) for a,b,c,d in da]),
+                          %(js(a),js(b),js(d)) for a,b,dummy_c,d in da]),
                 js(tt.encode('utf-8'))))
 
     return 'change_abjs({%s});\n' % ',\n'.join(t)
@@ -308,7 +308,7 @@ def remove_students_from_table(table, students):
             else:
                 if inscrit_column and table.official_ue:
                     table.cell_change(table.pages[0], inscrit_column, line_id,
-                                      'non')
+                                      'non', change_author=False)
                 for i, column in enumerate(table.columns):
                     if (line[i].value and line[i].author == data.ro_user
                         and i != inscrit_column):
@@ -369,7 +369,7 @@ def terminate_update(table, the_ids):
 get_info = []
 thread_started = False
 
-def cell_change(table, page, col, lin, value, date):
+def cell_change(table, page, col, lin, value, dummy_date):
     if page.page_id == 0:
         return
     if col != '0_0':
@@ -389,13 +389,12 @@ def init(table):
 
 def check_get_info():
     """Update the name, surname, portail from ID"""
-    from .. import configuration
     if configuration.regtest:
         time.sleep(999999)
     while True:
         time.sleep(0.1)
         while len(get_info):
-            table, lin, page, value = get_info.pop()
+            table, lin, dummy_page, value = get_info.pop()
             line = table.lines[lin]
             if value == '':
                 firstname, surname = '', '', ''

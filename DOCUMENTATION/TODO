@@ -12,8 +12,6 @@ Utilisateurs finaux.
 
 * Faire doc d'installation pas par pas
 
-* traduction 'ou' filtre
-
 * ticket.remove_old_files()
 
 * Onglet pour Impression pour ne pas submerger le lecteur d'options
@@ -22,8 +20,6 @@ Utilisateurs finaux.
 
 * Les histogrammes sont à refaire pour simplifier le code et l'affichage
   des cas particuliers (ABI ABJ PPN TNR...)
-
-* Déplacer les infos du titre dans un onglet Info du bloc table
 
 * https://services.renater.fr/federation/docs/fiches/shibbolisation
   http://lasso.entrouvert.org/
@@ -183,7 +179,7 @@ Problèmes non reproductibles
 Améliorations de code source.
 =============================
 
-* Utiliser moins de place pour les abj
+* Utiliser moins de place pour les abj : manage_key
 
 * Enlever _URL_ si c'est possible
 
@@ -243,6 +239,8 @@ Améliorations de code source.
 ===============================================
 Pourquoi certaines choses ne seront pas faites.
 ===============================================
+
+* Document attaché au mail : cela consomme trop de ressources
 
 * Il faut toujours sauvegarder le new_page même si cela ne sert à rien.
 

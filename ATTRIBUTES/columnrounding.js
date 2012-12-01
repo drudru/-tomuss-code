@@ -22,6 +22,8 @@
 
 function set_rounding(value, column)
 {
+  column.do_rounding = function(v) { return v.toFixed ? tofixed(v) : v ; } ;
+  
   if ( column.historical_comment )
     return '' ;
   
@@ -37,6 +39,21 @@ function set_rounding(value, column)
   if ( value < 0.001 )
     value = 0.001 ;
   column.round_by = value ;
+
+  // Complex formulas because 9.999 must be displayed as 9.99 an not 10
+
+  if ( value >= 1 )
+    column.do_rounding = function(v) { return v ; } ;
+  else if ( (10*value) % 1 === 0 )
+    column.do_rounding = function(v) {
+      return v.toFixed ? (Math.floor(v*10+0.0000001)/10).toFixed(1) : v ;} ;
+  else if ( (100*value) % 1 === 0 )
+    column.do_rounding = function(v) {
+      return v.toFixed ? (Math.floor(v*100+0.0000001)/100).toFixed(2) : v ;} ;
+  else if ( (1000*value) % 1 === 0 )
+    column.do_rounding = function(v) {
+      return v.toFixed ? (Math.floor(v*1000+0.0000001)/1000).toFixed(3) : v ;} ;
+    
   return value ;
 }
 

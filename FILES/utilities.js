@@ -1882,6 +1882,7 @@ function current_jump(lin, col, do_not_focus, line_id, data_col)
 
   // Nicer display with this, but focus loss on horizontal scrolling
   //this.input_div.style.display = 'none' ;
+  // 3 is the border size (see input_div_focus())
   this.input_div.style.left = pos[0] - 3 ;
   this.input_div.style.top = pos[1] - 3 + border ;
   this.input_div.style.width = this.td.offsetWidth ;
@@ -1926,6 +1927,7 @@ function current_focus()
   this.input.focus() ;
   if ( this.input.select )
     this.input.select() ;
+  this.input_div_focus() ;
 }
 
 function current_cell_modifiable()
@@ -2053,11 +2055,6 @@ function current_keydown(event, in_input)
 	  if ( key < 41 && key != 27 )
 	      return ;
       }
-  else
-      {
-	  if ( ! element_focused )
-	      this.focused = true ; // this is in fact 'current_cell'
-      }
        
   if ( event.altKey && ! event.ctrlKey )
     {
@@ -2151,8 +2148,7 @@ function current_keydown(event, in_input)
 	    }
       this.input.value = this.initial_value ;
       this.input.blur() ;
-      this.input.focus() ;
-      this.input.select() ;
+      this.focus() ;
       break ;
     case 80: // P
       if (  event.ctrlKey === true )
@@ -2265,8 +2261,17 @@ function current_do_completion()
 
 var current_change_running = false ;
 
+function current_input_div_focus()
+{
+  if ( this.focused )
+    this.input_div.style.border = "3px solid blue" ;
+  else
+    this.input_div.style.border = "3px solid grey" ;  
+}
+
 function current_change()
 {
+  this.input_div_focus() ;
   if ( this.blur_disabled )
     return ;
 
@@ -2378,6 +2383,7 @@ function current_toggle()
 
 Current.prototype.jump                  = current_jump                  ;
 Current.prototype.change                = current_change                ;
+Current.prototype.input_div_focus       = current_input_div_focus       ;
 Current.prototype.keydown               = current_keydown               ;
 Current.prototype.update                = current_update                ;
 Current.prototype.cursor_down           = current_cursor_down           ;
