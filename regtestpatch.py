@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 #    TOMUSS: The Online Multi User Simple Spreadsheet)
-#    Copyright (C) 2008 Thierry EXCOFFIER, Universite Claude Bernard
+#    Copyright (C) 2008-2012 Thierry EXCOFFIER, Universite Claude Bernard
 #
 #    This program is free software; you can redistribute it and/or modify
 #    it under the terms of the GNU General Public License as published by
@@ -50,6 +50,8 @@ def do_patch():
             def firstname_and_surname_and_mail(self, r):
                 if r == 'toto':
                     return 'firstnametoto', 'surnametoto', 'mail@toto'
+                elif r == '10800000':
+                    return  ('Jacques', 'MARTIN', 'jacques@martin')
                 else:
                     if r.startswith('k'):
                         return super(type(self),self
@@ -62,6 +64,7 @@ def do_patch():
                 for login in logins:
                     d[login] = self.firstname_and_surname_and_mail(
                         login)[2]
+                return d
 
             def ues_of_a_student_short(self, login):
                 if login == '10800000':

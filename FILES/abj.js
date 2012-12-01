@@ -22,7 +22,6 @@
 
 // HTML elements
 var student ;
-var student_display ;
 var dates ;
 var ampm ;
 var startdate ;
@@ -47,7 +46,6 @@ function abj_init()
 {
   lib_init() ;
   student         = document.getElementById('student'        ) ;
-  student_display = document.getElementById('student_display') ;
   dates           = document.getElementById('dates'          ) ;
   ampm            = document.getElementById('ampm'           ) ;
   startdate       = document.getElementById('startdate'      ) ;
@@ -124,6 +122,12 @@ function abj_init()
   document.getElementById('body').onmouseup = stop_move ;
 
   update_cursor() ;
+  window.student_picture_url = student_picture_url ;
+  window.display_abjs = display_abjs ;
+  window.display_da = display_da ;
+  window.ues_without_da = ues_without_da ;
+  window.del_abj = del_abj ;
+  window.rem_da = rem_da ;
 }
 
 
@@ -275,16 +279,18 @@ function time_stamp()
   return t.getTime() ;
 }
 
+/*REDEFINE
+  Return true if it is a student login
+*/
 function is_a_student_login()
 {
-  return student.value.length == 8 ;
+  var v = student.value.replace(/[^a-zA-Z0-9-_.]/g, "");
+  return v.length == 8 ;
 }
 
 function get_image(src)
 {
-  var img = document.createElement('IMG') ;
-  img.src = baset + student.value + src + '/' + time_stamp() ;
-  datasend.appendChild(img) ;
+  datasend.contentWindow.location.replace(baset + student.value + src + '/' + time_stamp());
 }
 
 function send_abj()
@@ -385,9 +391,10 @@ function stop_move(event)
 
 function display_abjs(abjs)
 {
+  datasend.style.opacity = 1 ;
   current_abjs = abjs ;
   if ( abjs.length == 0 )
-    return ;
+    return '' ;
   s = '<TABLE class="display_abjs colored">' ;
   s += '<TR><TH COLSPAN="6">' + _("TH_abj_list") + '</TH></TR>' ;
   s += '<TR><TH>' + _("TH_begin") + '</TH><TH>' + _("TH_end") + '</TH><TH>'
@@ -402,7 +409,7 @@ function display_abjs(abjs)
       s += '<TR><TD style="text-align:right">' + nice_date_short(abjs[abj][0]) +
 	'</TD><TD style="text-align:right">' + nice_date_short(abjs[abj][1]) +
 	'</TD><TD style="text-align:right">' + d.toFixed(1) +
-	'</TD><TD><A href="#" onclick="del_abj(\'' +
+	'</TD><TD><A href="#" onclick="window.parent.del_abj(\'' +
 	date_to_store(abjs[abj][0]) + '\',\'' +
 	date_to_store(abjs[abj][1]) + '\');return false;">'
 	+ _("B_home_delete_table") + '</a>' +
@@ -412,14 +419,14 @@ function display_abjs(abjs)
     }
   s += '</TABLE>' ;
   s += _("TH_abj_duration") + abj_days.toFixed(1) ;
-  append_html(s) ;
+  return s ;
 }
 
 function display_da(das)
 {
   current_da = das ;
   if ( das.length == 0 )
-    return ;
+    return '' ;
   s = '<TABLE class="display_da colored">'
     + '<TR><TH COLSPAN="5">' + _("TH_da_list") + '</TH></TR>'
     + '<TR><TH>UE</TH><TH>' + _("TH_begin") + '</TH><TH>'
@@ -429,14 +436,14 @@ function display_da(das)
     {
       s += '<TR><TD>' + das[da][0] +
 	'</TD><TD>' + nice_date_short(das[da][1]) +
-	'</TD><TD><A href="#" onclick="rem_da(\'' + das[da][0] +
+	'</TD><TD><A href="#" onclick="window.parent.rem_da(\'' + das[da][0] +
 	'\');return false;">' + _("B_home_delete_table") + '</a>' +
 	'</TD><TD>' + das[da][2] +
 	  '</TD><TD>' + html(das[da][3]) +
 	'</TD></TR>' ;
     }
   s += '</TABLE>' ;
-  append_html(s) ;
+  return s ;
 }
 
 function ues_without_da(da)
@@ -453,6 +460,7 @@ function ues_without_da(da)
 
 function add_an_da()
 {
+  popup_close() ;
   if ( ! is_a_student_login() )
     return ;
 
@@ -478,8 +486,6 @@ function login_change_force()
   if ( ! is_a_student_login() )
     return ;
 
-  student_display.innerHTML = "<IMG><p class=\"wait\">" + _("MSG_abj_wait") ;
-
   get_image('/display') ;
 }
 
@@ -487,18 +493,9 @@ function login_change()
 {
   if ( student.value == old_login )
     return ;
+  datasend.style.opacity = 0.25 ;
   old_login = student.value ;
   login_change_force() ;
-}
-
-function set_html(s)
-{
-  student_display.innerHTML = s ;
-}
-
-function append_html(s)
-{
-  student_display.innerHTML += s ;
 }
 
 function abj_choose_comment(event)

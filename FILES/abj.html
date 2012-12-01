@@ -8,8 +8,8 @@
       <input id="student" type="text" maxlength="8" size="8" onkeyup="login_change();">
     </p>
     <!-- <object id="student_data" type="text/html" data=""></object> -->
-    <div id="student_display"><IMG>
-    </div>
+    <iframe id="datasend">
+    </iframe>
     <p style="clear: both">
       <script>Write("MSG_abj_move_before")</script>
       <span class="arrow">&uarr;</span>
@@ -45,7 +45,6 @@
     <td>
     <select onChange="add_an_da();this.blur()" id="da"><option><script>Write("B_abj_set_ue")</script></option></select>
     </tr></table>
-<div id="datasend"></div>
 <SCRIPT><!--
 page = Number(page_id) ;
 baset = '_URL_/=' + ticket + '/' + year + '/' + semester + '/abj/' + page + '/' ;

@@ -774,39 +774,26 @@ def tests():
         assert("ues_without_da(['UE-INF20UE2', 'UE-INF20UE2L'])" in c)
 
         c = s.url('=' + abj + '/%s/abj/0/10800000/add_da/UE-UE1/1/2/3/com1' % ys)
-        assert(c == ok_png)
-        c = s.url('=' + abj + '/%s/abj/display/10800000' % ys)
         assert("display_da([['UE-UE1','1/2/3','%s',\"com1\"]])" % abj in c)
 
         c = s.url('=' + abj + '/%s/abj/0/10800000/add_da/UE-UE1/1/2/3/com2' % ys)
-        assert(c == ok_png)
-        c = s.url('=' + abj + '/%s/abj/display/10800000' % ys)
         assert("display_da([['UE-UE1','1/2/3','%s',\"com1\"]])" % abj in c)
 
         c = s.url('=' + abj + '/%s/abj/0/10800000/add_da/UE-INF20UE2/%d/1/1/com2' % (ys,year))
-        assert(c == ok_png)
-        c = s.url('=' + abj + '/%s/abj/display/10800000' % ys)
-        
         assert("display_da([['UE-UE1','1/2/3','%s',\"com1\"],['UE-INF20UE2','%d/1/1','%s',\"com2\"]])" % (abj, year, abj) in c)
 
         c = s.url('=' + abj + '/%s/abj/0/10800000/rem_da/UE-UE1' % ys)
-        assert(c == ok_png)
-        c = s.url('=' + abj + '/%s/abj/display/10800000' % ys)
         assert("display_da([['UE-INF20UE2','%d/1/1','%s',\"com2\"]])" % (year, abj) in c)
 
 
         c = s.url('=' + abj + '/%s/abj/0/10800000/addabj/%s/M/%s/A/com4' % (
             ys, abj_date_old, abj_date_previous))
-        assert(c == ok_png)
-        c = s.url('=' + abj + '/%s/abj/display/10800000' % ys)
         assert("display_da([['UE-INF20UE2','%d/1/1','%s',\"com2\"]])" % (year, abj) in c)
         assert("display_abjs([['%sM','%sA','%s',\"com4\"]])" % (
             abj_date_old, abj_date_previous, abj) in c)
 
         c = s.url('=' + abj + '/%s/abj/0/10800000/addabj/%s/M/%s/A/com5' % (
             ys, abj_date_current, abj_date_next))
-        assert(c == ok_png)
-        c = s.url('=' + abj + '/%s/abj/display/10800000' % ys)
         assert("display_da([['UE-INF20UE2','%d/1/1','%s',\"com2\"]])" % (year, abj) in c)
         assert("display_abjs([['%sM','%sA','%s',\"com4\"],['%sM','%sA','%s',\"com5\"]])" % (
             abj_date_old, abj_date_previous, abj,
@@ -814,8 +801,6 @@ def tests():
 
         c = s.url('=' + abj + '/%s/abj/0/10800000/delabj/%s/M/%s/A' % (
             ys, abj_date_old, abj_date_previous))
-        assert(c == ok_png)
-        c = s.url('=' + abj + '/%s/abj/display/10800000' % ys)
         assert("display_da([['UE-INF20UE2','%d/1/1','%s',\"com2\"]])" % (year, abj) in c)
         assert("display_abjs([['%sM','%sA','%s',\"com5\"]])" % (
             abj_date_current, abj_date_next, abj) in c)
@@ -848,7 +833,7 @@ def tests():
 
         c = s.url('=' + root + '/%s/UE-INF20UE2/resume' % ys)
         assert(_("TH_ABJ_list") in c)
-        assert('10800000 10800000SURNAME 10800000Firstname' in c)
+        assert('10800000 MARTIN Jacques' in c)
         # assert('Du %s matin au %s apr' % (
         #    abj_date_current, abj_date_next) in c)
         assert(str(abj_date_current) in c)
@@ -870,7 +855,7 @@ def tests():
 
         c = s.url('=' + root + '/%s/UE-INF20UE2/resume' % ys)
         assert(_("TH_ABJ_list") in c)
-        assert('10800000 10800000SURNAME 10800000Firstname' in c)
+        assert('10800000 MARTIN Jacques' in c)
         # assert('Du %s matin au %s apr' % (
         #    abj_date_current, abj_date_next) in c)
         assert(str(abj_date_current) in c)

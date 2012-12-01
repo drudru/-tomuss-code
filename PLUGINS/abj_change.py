@@ -22,7 +22,6 @@
 from .. import plugin
 from .. import utilities
 from .. import abj
-from .. import configuration
 from ..files import files
 from .. import document
 
@@ -39,14 +38,14 @@ TABLE.display_abjs TH { text-align: center ; }
 TABLE.display_abjs TD, TABLE.display_da TD { background-color: #EEE ; }
 TABLE.display_abjs TH, TABLE.display_abjs TD, TABLE.display_da TD, TABLE.display_da TH { font-size:80%; padding: 1px }
 
-DIV#student_display {
-  min-height: 200px ;
+IFRAME#datasend {
+  height: 15em ;
+  width: 100% ;
 }
 
 DIV#student_display IMG {
-  height: 200px ;
-  text-align: left ;
-  float: left ;
+  width: 10% ;
+  float: right ;
 }
 
 INPUT#sendabj { 
@@ -71,53 +70,18 @@ DIV.abj_comments { border: 3px solid black; line-height: 1.5em; top:6em }
 
 """
 
-class Page(object):
-    closed = False
-    def __init__(self, ticket, the_file):
-        self.ticket = ticket
-        self.the_file = the_file
-
-pages = []
-
-def keep_alive():
-    """Keep connection open"""
-    import time
-    import socket
-    while True:
-        time.sleep(configuration.check_down_connections_interval)
-        for p in pages:
-            if not p.closed:
-                try:
-                    p.the_file.write(' ')
-                    p.the_file.flush()
-                except socket.error:
-                    p.closed = True
-                    p.the_file.close()
-                    del p.the_file  # Free file descriptor
-
-utilities.start_new_thread_immortal(keep_alive, ())
-
-
-
 def abj_home(server):
     """Display the home page for ABJ management"""
     utilities.warn('Start')
     d = (document.table_head(int(server.the_year), server.the_semester,
                              the_ticket=server.ticket.ticket,
                              user_name = server.ticket.user_name,
-                             page_id=len(pages), hide_more=True,
+                             hide_more=True,
                              )
          + '<title>%s</title>' % server._("TITLE_abj")
          + str(files['abj.html'])
          )
     server.the_file.write(d)
-    if configuration.regtest_sync:
-        server.close_connection_now()
-    # XXX : memory leak, some work to remove (page = filedescriptor id)
-    # pages = [page for page in pages if not page.the_file.closed]
-    pages.append(Page(server.ticket, server.the_file))
-    utilities.warn('Done')
-
     
 def abj_alpha_licence(server):
     """Send a CSV file containing all the ABJ and DA information
@@ -184,20 +148,10 @@ def abj_action(server):
     elif path[0] == 'display':
         pass
     else:
-        server.the_file.write(files['bad.png'])
+        server.the_file.write('bug')
         return
-    server.the_file.write(files['ok.png'])
-
-    utilities.warn('%s dans %s' % (server.the_page, repr(pages)))
-    page = pages[server.the_page]
-    if page.ticket.ticket == server.ticket.ticket and not page.the_file.closed:
-        try:
-            abj.a_student(page.the_file, server.the_year, server.the_semester,
-                          server.ticket, server.the_student, do_close=False)
-        except IOError:
-            utilities.send_backtrace("IOError")
-            
-        
+    abj.a_student(server.the_file, server.the_year, server.the_semester,
+                  server.ticket, server.the_student)
 
 def abj_no(server):
     """Display an error message becauses this action is unauthorized"""
@@ -216,7 +170,6 @@ plugin.Plugin('abj', '/{Y}/{S}/abj', function=abj_home, group='abj_masters',
                   where='abj_master', html_class="safe",
                   ),
               css=css,
-              keep_open=True,
               priority = -3,
               )
 
@@ -271,13 +224,12 @@ plugin.Plugin('abjlistmail', '/{Y}/{S}/abj/list_mail',
               )
 
 plugin.Plugin('abjhacker', '/{Y}/{S}/abjs', function=abj_no,
-              priority = -3,
+              priority = -20,
               )
 
 plugin.Plugin('abjaction', '/{Y}/{S}/abj/{P}/{I}/{*}',
-              mimetype = 'image/png',
               function=abj_action, group='abj_masters',
-              priority = -3,
+              priority = -20,
               )
 plugin.Plugin('abjsendmail', '/{Y}/{S}/abj/send_mail',
               function=abj_send_mail, group='abj_masters',

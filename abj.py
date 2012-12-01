@@ -345,12 +345,15 @@ def a_student(browser, year, semester, ticket, student, do_close=True):
     """Send student abj with the data to_date the navigator."""
     student = inscrits.login_to_student_id(student)
     aabjs = get_abjs(year, semester)
-    html = '<SCRIPT>'
-    html += """set_html(
-         '<IMG SRC="'+student_picture_url('%s')+'">');""" \
-    % student
+    html = """
+<link rel="stylesheet" href="%s/style.css" type="text/css">
+<div id="student_display"><IMG></div>
+<script>
+document.getElementById("student_display").src = window.parent.student_picture_url('%s');
+</script>
+""" % (configuration.server_url, student)
 
-    html += "append_html('<A HREF=\"%s/%s\">%s</A>, %s<br>');" % (
+    html += "<A HREF=\"%s/%s\">%s</A>, <small>%s</small><script>" % (
         configuration.suivi.url(year,semester,ticket.ticket),
         student.replace("'","\\'"),
         ' '.join(inscrits.L_fast.firstname_and_surname(student)).replace("'","\\'"),
@@ -358,18 +361,18 @@ def a_student(browser, year, semester, ticket, student, do_close=True):
         )
 
     if student in aabjs.students:
-        html += "display_abjs(%s);" % unicode(aabjs.students[student].js(),
+        html += "document.write(window.parent.display_abjs(%s));" % unicode(aabjs.students[student].js(),
                                            'utf8')
-        html += "display_da(%s);" % unicode(aabjs.students[student].js_da(),
+        html += "document.write(window.parent.display_da(%s));" % unicode(aabjs.students[student].js_da(),
                                          'utf8')
         ue_list = aabjs.students[student].ues_without_da()
     else:
-        html += "display_abjs([]);"
-        html += "display_da([]);"
+        html += "document.write(window.parent.display_abjs([]));"
+        html += "document.write(window.parent.display_da([]));"
         ue_list = inscrits.L_fast.ues_of_a_student_short(student)
 
     ue_list.sort()
-    html += "ues_without_da(%s);" % js(ue_list)
+    html += "window.parent.ues_without_da(%s);" % js(ue_list)
     html += '</SCRIPT>'
     browser.write(html.encode('utf8'))
     if do_close:
