@@ -816,7 +816,8 @@ def get_tuples(an_iterable, size):
     return zip( * ( [iter(an_iterable)]*size ) )
 
     
-def manage_key_real(dirname, key, separation=3, content=None, reduce_ok=True):
+def manage_key_real(dirname, key, separation=3, content=None, reduce_ok=True,
+                    append=False):
     """
     Do not use this function
     """
@@ -853,17 +854,21 @@ def manage_key_real(dirname, key, separation=3, content=None, reduce_ok=True):
         c = False
 
     if content is not None:
-        if not reduce_ok and c and len(content) < len(c)*0.5:
-            warn("Size not reduced for " + f1)
-            return c
-        
+        if c is False:
+            c = ''
+        if append:
+            content = c + content
+        else:
+            if not reduce_ok and len(content) < len(c)*0.5:
+                warn("Size not reduced for " + f1)
+                return c
         f = open(f1, 'w')
         f.write(content)
         f.close()
     return c
 
 @add_a_lock
-def manage_key(dirname, key, separation=3, content=None, reduce_ok=True):
+def manage_key(dirname, key, separation=3, content=None, reduce_ok=True, append=False):
     """
     Store the content in the key and return the old content or False
 
@@ -873,11 +878,11 @@ def manage_key(dirname, key, separation=3, content=None, reduce_ok=True):
     if key is '':
         return False
     c = manage_key_real(os.path.join(configuration.db, dirname),
-                        key, separation, content, reduce_ok)
+                        key, separation, content, reduce_ok, append)
     if configuration.backup:
         d = manage_key_real(os.path.join(configuration.backup
                                          + configuration.db, dirname),
-                            key, separation, content, reduce_ok)
+                            key, separation, content, reduce_ok, append)
         if c != d:
             send_backtrace('normal=%s\nbackup=%s\n' % (repr(c), repr(d)),
                            'manage key backup' + key)

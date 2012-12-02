@@ -194,12 +194,6 @@ smtpserver = '127.0.0.1'
 # Reply to for ABJ mail messages
 abj_sender = maintainer
 
-# ABJ per semester or per year
-abj_per_semester = True
-# If 'abj_per_semester' become False, then this is the switch year.
-# The years strictly before have abj per semester.
-abj_per_semester_before = 2011
-
 # Display students UE list for which there is no TOMUSS table
 suivi_display_more_ue = True
 

@@ -4205,9 +4205,6 @@ msgstr "Semestre : Si 'True' alors la liste des étudiants est mise à jour rég
 msgid "config_table_allow_student_removal"
 msgstr "Semestre : Si 'True' alors on enlève des tables les étudiants non inscrits."
 
-msgid "config_table_abj_per_semester"
-msgstr "Semestre : Si 'True' les ABJ sont par semestre et non par année"
-
 msgid "config_table_maintainer"
 msgstr "Mail : Adresse où sont envoyés les messages d'erreur de TOMUSS"
 

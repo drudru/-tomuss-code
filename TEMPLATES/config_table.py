@@ -20,7 +20,7 @@
 #    Contact: Thierry.EXCOFFIER@bat710.univ-lyon1.fr
 
 import ast
-from .. import document # Fix circular import problem
+# from .. import document # Fix circular import problem
 from .. import data
 from .. import utilities
 from .. import configuration
@@ -50,7 +50,6 @@ variable_list = [
     "master_of_exceptions",
     "allow_student_list_update",
     "allow_student_removal",
-    'abj_per_semester',
     'maintainer',
     'smtpserver',
     'abj_sender',

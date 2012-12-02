@@ -4165,9 +4165,6 @@ msgstr "Semester: If 'True' then the students list are updated automaticaly"
 msgid "config_table_allow_student_removal"
 msgstr "Semester: If 'True' then remove unregistered students from tables"
 
-msgid "config_table_abj_per_semester"
-msgstr "Semester: If 'True' the ABJ are managed by semester instead of year"
-
 msgid "config_table_maintainer"
 msgstr "Mail: address where TOMUSS error messages are sent"
 

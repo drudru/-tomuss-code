@@ -149,19 +149,12 @@ def abj_action(server):
         pass
     else:
         server.the_file.write('bug')
-        return
     abj.a_student(server.the_file, server.the_year, server.the_semester,
                   server.ticket, server.the_student)
 
 def abj_no(server):
     """Display an error message becauses this action is unauthorized"""
     server.the_file.write('BUG: abj_no')
-
-
-def abj_display(server):
-    """Only useful for regtests"""
-    abj.a_student(server.the_file, server.the_year, server.the_semester,
-                  server.ticket, server.the_student, do_close=True)
 
 
 plugin.Plugin('abj', '/{Y}/{S}/abj', function=abj_home, group='abj_masters',
@@ -234,9 +227,5 @@ plugin.Plugin('abjaction', '/{Y}/{S}/abj/{P}/{I}/{*}',
 plugin.Plugin('abjsendmail', '/{Y}/{S}/abj/send_mail',
               function=abj_send_mail, group='abj_masters',
               launch_thread = True,
-              priority = -3,
-              )
-plugin.Plugin('abj_display', '/{Y}/{S}/abj/display/{I}',
-              function=abj_display, group='abj_masters',
               priority = -3,
               )

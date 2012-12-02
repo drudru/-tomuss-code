@@ -21,9 +21,13 @@
 
 """Management of the justification for missing courses."""
 
+# get_abjs ====> dans table.abjs : ENLEVER completement
+# Idem pour abjs_mtime
+
 import os
 import time
 import cgi
+import glob
 from . import utilities
 from . import configuration
 from . import inscrits
@@ -31,8 +35,6 @@ from . import document
 from . import teacher
 
 js = utilities.js
-
-abjs = None
 
 def a_date(date):
     """Check if the date (DD/MM/YYYY/[MA]) seems fine"""
@@ -48,43 +50,99 @@ def a_date(date):
     raise ValueError("Bad date:" + date)
 
 class Abj(object):
-    """ABJ for a given student"""
+    """ABJ for a given student
 
-    def __init__(self, login):
-        self.login = inscrits.login_to_student_id(login)
+    Functions: add, rem, add_da, rem_da
+    are stored in the key file of the student (per year).
+    The parameters are yet validated.
+
+    The same functions beginning with 'store_' do the check and the storage.
+    """
+
+    def __init__(self, year, semester, login):
+        year, semester = utilities.university_year_semester(year, semester)
+        self.login = utilities.the_login(login)
+        self.filename = os.path.join(self.login, 'abj_%d' % year)
         self.abjs = []
         self.da = []
+        f = utilities.manage_key('LOGINS', self.filename)
+        if f:
+            locales = self.get_locales()
+            for line in f.strip().split('\n'):
+                eval(line.strip(), {}, locales)
 
-    def add(self, from_date, to_date, author, comment=''):
-        """Add a new ABJ"""
-        if (from_date, to_date) not in self.abjs:
-            self.abjs.append((from_date, to_date, author, comment))
-            return True
-        return False
-    
-    def add_da(self, ue_code, date, author, comment=''):
-        """Add a new DA"""
+    def get_locales(self):
+        return {'add'   : self.add,
+                'add_da': self.add_da,
+                'rem'   : self.rem,
+                'rem2'  : self.rem2,
+                'rem_da': self.rem_da,
+                }
+
+    def store(self, data):
+        utilities.manage_key('LOGINS',self.filename, content=data, append=True)
+        eval(data, {}, self.get_locales())
+
+    def add(self, from_date, to_date, author, dummy_date, comment):
+        self.abjs.append((from_date, to_date, author, comment))
+    def store_add(self, from_date, to_date, user_name, date, comment):
+        from_date = a_date(from_date)
+        to_date = a_date(to_date)
+        for abj in self.abjs:
+            if (from_date, to_date) == abj[:2]:
+                kqsdksdqsjkdqkjdsq
+                return
+        if not date:
+            date = time.strftime('%Y%m%d%H%M%S')
+        self.store('add(%s,%s,%s,%s,%s)\n' % (
+                repr(from_date), repr(to_date), repr(user_name),
+                repr(date), repr(comment)))
+        
+    def add_da(self, ue_code, date, author, dummy_fdate, comment):
+        self.da.append((ue_code, date, author, comment))
+    def store_add_da(self, ue_code, date, user_name, fdate, comment):
         for i in self.da:
             if i[0] == ue_code and i[1] == date:
-                return False
-        self.da.append((ue_code, date, author, comment))
-        return True
+                return
+        if not fdate:
+            fdate = time.strftime('%Y%m%d%H%M%S')
+        self.store('add_da(%s,%s,%s,%s,%s)\n' % (
+            repr(ue_code), repr(date), repr(user_name),
+            repr(fdate), repr(comment)))
 
-    def rem(self, from_date, to_date):
-        """Bugged function needed for compatibility, use rem2"""
+    def rem(self, from_date, to_date, dummy_username, dummy_date):
+        """BUGGED: Do not use. It is here to allow reading <2010 files"""
         self.abjs = [abj
                      for abj in self.abjs
                      if abj[0] != from_date and abj[1] != to_date]
+    def store_rem(self, from_date, to_date, user_name, date=''):
+        """BUGGED: Do not use. It is here to allow reading <2010 files"""
+        from_date = a_date(from_date)
+        to_date = a_date(to_date)
+        if not date:
+            date = time.strftime('%Y%m%d%H%M%S')
+        self.store('rem(%s,%s,%s,%s)\n' % (
+                repr(from_date), repr(to_date), repr(user_name), repr(date)))
 
-    def rem2(self, from_date, to_date):
-        """Remove an existing ABJ"""
+    def rem2(self, from_date, to_date, dummy_username, dummy_date):
         self.abjs = [abj
                      for abj in self.abjs
                      if abj[0] != from_date or abj[1] != to_date]
-
-    def rem_da(self, ue_code):
-        """Remove an existing DA"""
+    def store_rem2(self, from_date, to_date, user_name, date=''):
+        from_date = a_date(from_date)
+        to_date = a_date(to_date)
+        if not date:
+            date = time.strftime('%Y%m%d%H%M%S')
+        self.store('rem(%s,%s,%s,%s)\n' % (
+                repr(from_date), repr(to_date), repr(user_name), repr(date)))
+        
+    def rem_da(self, ue_code, dummy_username, dummy_date):
         self.da = [da for da in self.da if da[0] != ue_code]
+    def store_rem_da(self, ue_code, user_name, date):
+        if not date:
+            date = time.strftime('%Y%m%d%H%M%S')
+        self.store('rem_da(%s,%s,%s)\n' % (
+                repr(ue_code), repr(user_name), repr(date)))
 
     def js(self):
         """All the student ABJ data as a JavaScript fragment"""
@@ -143,208 +201,92 @@ class Abj(object):
             content.append('</TABLE>')
 
         return '\n'.join(content)
- 
 
 class Abjs(object):
     """ABJ for a set of students"""
 
-    abjs = {}
-
     def __init__(self, year, semester):
         self.year = year
         self.semester = semester
-        Abjs.abjs[(year, semester)] = self
 
-        self.filename = os.path.join(configuration.db,
-                                     'Y'+str(year), 'S'+semester)
-
-        utilities.mkpath_safe(self.filename)
-        self.filename = os.path.join(self.filename, 'abjs.py')
-        self.module = self.filename.replace(os.path.sep,'.').replace('.py','')
-        if not os.path.exists(self.filename):
-            utilities.append_file_safe(
-                self.filename,
-                "from TOMUSS.abj import add,rem,rem2,add_da,rem_da\n")
-
-        self.load_module()
-
-    def getmtime(self):
-        """Date of the database file modification"""
-        return os.path.getmtime(self.filename)
-    
-    def update(self):
-        """Reload the file if another process modified it"""
-        if self.getmtime() <= self.mtime:
-            return
-        if time.time() - self.last_update < configuration.maximum_out_of_date:
-            return
-        self.load_module()
+        # This code is here to translate old data format to the new one.
         
-    def load_module(self):
-        """Load all the ABJ and DA data"""
-        self.last_update = time.time()
-        self.students = {}
-        self.mtime = self.getmtime()
-        utilities.unload_module(self.module)
-        global abjs
-        abjs = self
-        try:
-            __import__(self.module)
-            utilities.unload_module(self.module)
-        except ImportError:
-            pass
-        abjs = None
+        if configuration.read_only:
+            return
+        filename = os.path.join(configuration.db, 'Y'+str(year), 'S'+semester)
+        utilities.mkpath_safe(filename)
+        filename = os.path.join(filename, 'abjs.py')
+        if not os.path.exists(filename):
+            return
+        utilities.warn('Start translation from old file format')
 
-    def add(self, login, from_date, to_date, user_name='',
-            date='', comment=''):
-        """Check the ABJ parameters and add the information to the database"""
-        login = inscrits.login_to_student_id(login)
-        if abjs == None:
-            from_date = a_date(from_date)
-            to_date = a_date(to_date)
-        if login not in self.students:
-            self.students[login] = Abj(login)
-        if self.students[login].add(from_date, to_date, user_name, comment) \
-               and abjs == None:
-            date = time.strftime('%Y%m%d%H%M%S')
-            to_append = 'add(%s,%s,%s,%s,%s,%s)\n' % (
-                repr(login), repr(from_date), repr(to_date),
-                repr(user_name), repr(date), repr(comment)
-                                            )
-            utilities.append_file_safe(self.filename, to_append)
+        locales = {'add'   : self.add   ,
+                   'add_da': self.add_da,
+                   'rem'   : self.rem   ,
+                   'rem2'  : self.rem   ,
+                   'rem_da': self.rem_da,
+                   }
+        f = open(filename, "r")            
+        for line in f:
+            if '(' not in line:
+                continue
+            eval(line, {}, locales)
+        f.close()
 
-            self.mtime = self.getmtime()
+        utilities.unlink_safe(filename)
+        utilities.warn('Done translation from old file format')
 
-        
+    def add(self, login, from_date, to_date, user_name='', date='',comment=''):
+        Abj(self.year, self.semester, login).store_add(
+            from_date, to_date, user_name, date, comment)
     def add_da(self, login, ue_code, date=None, user_name='', fdate='',
                comment=''):
-        """Check the DA parameters and add the information to the database"""
-        login = inscrits.login_to_student_id(login)
-        if login not in self.students:
-            self.students[login] = Abj(login)
-        if self.students[login].add_da(ue_code, date, user_name, comment):
-            if abjs == None:
-                # date = time.strftime('%d/%m/%Y')
-                fdate = time.strftime('%Y%m%d%H%M%S')
-                to_append = 'add_da(%s,%s,%s,%s,%s,%s)\n' % (
-                    repr(login), repr(ue_code), repr(date), repr(user_name),
-                    repr(fdate), repr(comment))
-                utilities.append_file_safe(self.filename, to_append)
-                self.mtime = self.getmtime()
-        
+        Abj(self.year, self.semester, login).store_add_da(
+                ue_code, date, user_name, fdate, comment)
     def rem(self, login, from_date, to_date, user_name='', date=''):
-        """Bugged function needed for compatibility, use rem2"""
-        login = inscrits.login_to_student_id(login)
-        if abjs == None:
-            from_date = a_date(from_date)
-            to_date = a_date(to_date)
-            date = time.strftime('%Y%m%d%H%M%S')
-            if login not in self.students:
-                return
-            to_append =  'rem(%s,%s,%s,%s,%s)\n' % (
-                repr(login), repr(from_date), repr(to_date),
-                repr(user_name), repr(date))
-            utilities.append_file_safe(self.filename, to_append)
-            self.mtime = self.getmtime()
-        self.students[login].rem(from_date, to_date)
-
+        """BUGGED: Do not use. It is here to allow reading <2010 files"""
+        Abj(self.year, self.semester, login).store_rem(
+            from_date, to_date, user_name, date)
     def rem2(self, login, from_date, to_date, user_name='', date=''):
-        """Remove the ABJ from the database"""
-        login = inscrits.login_to_student_id(login)
-        if abjs == None:
-            from_date = a_date(from_date)
-            to_date = a_date(to_date)
-            date = time.strftime('%Y%m%d%H%M%S')
-            if login not in self.students:
-                return
-            to_append = 'rem2(%s,%s,%s,%s,%s)\n' % (
-                repr(login), repr(from_date), repr(to_date),
-                repr(user_name), repr(date))
-            utilities.append_file_safe(self.filename, to_append)
-            self.mtime = self.getmtime()
-        self.students[login].rem2(from_date, to_date)
-
+        Abj(self.year, self.semester, login).store_rem2(
+            from_date, to_date, user_name, date)
     def rem_da(self, login, ue_code, user_name='', date=''):
-        """Remove the DA from the database"""
-        login = inscrits.login_to_student_id(login)
-        if abjs == None:
-            date = time.strftime('%Y%m%d%H%M%S')
-            to_append = 'rem_da(%s,%s,%s,%s)\n' % (repr(login), repr(ue_code),
-                                                   repr(user_name), repr(date))
-            utilities.append_file_safe(self.filename, to_append)
-            self.mtime = self.getmtime()
-        if login not in self.students:
-            self.students[login] = Abj(login)
-        self.students[login].rem_da(ue_code)
+        Abj(self.year, self.semester, login).store_rem_da(
+            ue_code, user_name, date)
 
- 
-def add(login, from_date, to_date, user_name='', date='', comment=''):
-    """Used when importing the database"""
-    abjs.add(login, from_date, to_date, user_name, date, comment)
-
-def rem(login, from_date, to_date, user_name='', date=''):
-    """Bugged function needed for compatibility, use rem2"""
-    abjs.rem(login, from_date, to_date, user_name, date)
-
-def rem2(login, from_date, to_date, user_name='', date=''):
-    """Used when importing the database"""
-    abjs.rem2(login, from_date, to_date, user_name, date)
-
-def add_da(login, ue_code, date, user_name='', fdate='', comment=''):
-    """Used when importing the database"""
-    abjs.add_da(login, ue_code, date, user_name, fdate, comment)
-
-def rem_da(login, ue_code, user_name='', date=''):
-    """Used when importing the database"""
-    abjs.rem_da(login, ue_code, user_name, date)
-
-@utilities.add_a_lock # Protect the global variable 'abjs'
-def get_abjs(year, semester):
-    """Get the ABJ/DA database for the indicated semester"""
-    if year >= configuration.abj_per_semester_before \
-           and not configuration.abj_per_semester:
-        # Take ABJ from first semester
-        year, semester = utilities.university_year_semester(year, semester)
-    year = str(year)
-    try:
-        return Abjs.abjs[(year, semester)]
-    except KeyError:
-        return Abjs(year, semester)
+    def students(self):
+        for filename in glob.glob(
+            os.path.join(configuration.db, 'LOGINS','*','*',
+                         'abj_%s_%s' % (self.year, self.semester)
+                         )):
+                yield filename.split(os.path.sep)[-2]
 
 def add_abjs(year, semester, ticket, student, from_date, to_date, comment):
     """Helper function"""
-    get_abjs(year, semester).add(student, from_date, to_date, ticket.user_name,
-                                 comment=comment)
+    Abjs(year, semester).add(student, from_date, to_date, ticket.user_name,
+                             comment=comment)
 
 def rem_abjs(year, semester, ticket, student, from_date, to_date):
-    """Do not use the bugged function"""
-    get_abjs(year, semester).rem2(student, from_date, to_date,
-                                  ticket.user_name)
+    """Helper function"""
+    Abjs(year, semester).rem(student, from_date, to_date,
+                             ticket.user_name)
 
 def add_abjs_da(year, semester, ticket, student, ue_code, date, comment):
     """Helper function"""
-    get_abjs(year, semester).add_da(student, ue_code, date, ticket.user_name,
-                                    comment=comment)
+    Abjs(year, semester).add_da(student, ue_code, date, ticket.user_name,
+                                comment=comment)
 
 def rem_abjs_da(year, semester, ticket, student, ue_code):
     """Helper function"""
-    get_abjs(year, semester).rem_da(student, ue_code, ticket.user_name)
+    Abjs(year, semester).rem_da(student, ue_code, ticket.user_name)
 
-def html_abjs(year, semester, student, read_only=False):
+def html_abjs(year, semester, student):
     """Get all the ABJS/DA informations has HTML"""
-    the_abjs = get_abjs(year, semester)
-    if read_only:
-        the_abjs.update()
-    try:
-        html = the_abjs.students[inscrits.login_to_student_id(student)].html()
-        return unicode(html, 'utf-8')
-    except KeyError:
-        return u''
+    return unicode(Abj(year, semester, student).html())
 
-def a_student(browser, year, semester, ticket, student, do_close=True):
+def a_student(browser, year, semester, ticket, student):
     """Send student abj with the data to_date the navigator."""
     student = inscrits.login_to_student_id(student)
-    aabjs = get_abjs(year, semester)
     html = """
 <link rel="stylesheet" href="%s/style.css" type="text/css">
 <div id="student_display"><IMG></div>
@@ -353,32 +295,21 @@ document.getElementById("student_display").src = window.parent.student_picture_u
 </script>
 """ % (configuration.server_url, student)
 
-    html += "<A HREF=\"%s/%s\">%s</A>, <small>%s</small><script>" % (
+    html += "<A HREF=\"%s/%s\">%s</A>, <small>%s</small><SCRIPT>" % (
         configuration.suivi.url(year,semester,ticket.ticket),
         student.replace("'","\\'"),
         ' '.join(inscrits.L_fast.firstname_and_surname(student)).replace("'","\\'"),
         ', '.join(inscrits.L_fast.portail(student)).replace("'","\\'")
         )
-
-    if student in aabjs.students:
-        html += "document.write(window.parent.display_abjs(%s));" % unicode(aabjs.students[student].js(),
-                                           'utf8')
-        html += "document.write(window.parent.display_da(%s));" % unicode(aabjs.students[student].js_da(),
-                                         'utf8')
-        ue_list = aabjs.students[student].ues_without_da()
-    else:
-        html += "document.write(window.parent.display_abjs([]));"
-        html += "document.write(window.parent.display_da([]));"
-        ue_list = inscrits.L_fast.ues_of_a_student_short(student)
-
+    abj = Abj(year, semester, student)
+    html += "document.write(window.parent.display_abjs(%s));" % unicode(
+        abj.js(), 'utf-8')
+    html += "document.write(window.parent.display_da(%s));" % unicode(
+        abj.js_da(), 'utf-8')
+    ue_list = abj.ues_without_da()
     ue_list.sort()
-    html += "window.parent.ues_without_da(%s);" % js(ue_list)
-    html += '</SCRIPT>'
+    html += "window.parent.ues_without_da(%s);" % js(ue_list) + '</SCRIPT>'
     browser.write(html.encode('utf8'))
-    if do_close:
-        browser.close()
-    else:
-        browser.flush()
 
 
 def translate_tt(tt_value):
@@ -436,22 +367,6 @@ def tierstemps(student_id, aall=False, table_tt=None):
         return html
     return ''
 
-def alpha(browser, year, semester):
-    """Returns ABJ/DA information for all the students in CSV format"""
-    import csv
-    aabjs = get_abjs(year, semester)
-    writer = csv.writer(browser, delimiter=';', quoting=csv.QUOTE_ALL)
-    for student in aabjs.students.values():
-        fn, sn = inscrits.L_slow.firstname_and_surname(student.login)
-        fn = fn.encode('latin1')
-        sn = sn.encode('latin1')
-        for from_date, to_date, author, comment in student.abjs:
-            writer.writerow( (fn, sn, student.login, 'ABJ',
-                              from_date, to_date, comment, author) )
-        for ue_code, date, author, comment in student.da:
-            writer.writerow( (fn, sn, student.login, 'DAS', ue_code, date,
-                              comment, author) )
-    browser.close()
 
 def title(name, sort_fct):
     """Columns title with the link to sort the HTML table"""
@@ -463,7 +378,6 @@ def title(name, sort_fct):
 def alpha_html(browser, year, semester, ue_name_endswith=None,
                ue_name_startswith=None, author=None):
     """Returns ABJ/DA information for all the students in HTML format"""
-    aabjs = get_abjs(year, semester)
     _ = utilities._
     browser.write('''<html>
 <head>
@@ -482,33 +396,34 @@ def alpha_html(browser, year, semester, ue_name_endswith=None,
         title(_("B_Date"), 'cmp_ue'),
         title(_("TH_end_or_ue"), 'cmp_ue2'),
         title(_("TH_comment"), 'cmp_comment')))
-    for student in aabjs.students.values():
+    for login in Abjs(year, semester).students():
 
         if ue_name_endswith:
-            for ue_code in inscrits.L_batch.ues_of_a_student_short(student.login):
+            for ue_code in inscrits.L_batch.ues_of_a_student_short(login):
                 if ue_code.endswith(ue_name_endswith):
                     break
             else:
                 # No UE ended by the required character
                 continue
         if ue_name_startswith:
-            for ue_code in inscrits.L_batch.ues_of_a_student_short(student.login):
+            for ue_code in inscrits.L_batch.ues_of_a_student_short(login):
                 if ue_code.startswith(ue_name_startswith):
                     break
             else:
                 # No UE start by the required character
                 continue
 
-        fn, sn = inscrits.L_slow.firstname_and_surname(student.login)
+        fn, sn = inscrits.L_slow.firstname_and_surname(login)
         fn = fn.encode('utf8')
         sn = sn.encode('utf8')
+        student = Abj(year, semester, login)
         for from_date, to_date, author2, comment in student.abjs:
             if author is None or author == author2:
-                browser.write( line % (fn, sn, student.login, 'ABJ',
+                browser.write( line % (fn, sn, login, 'ABJ',
                                  from_date, to_date, cgi.escape(comment)) )
         for ue_code, date, author2, comment in student.da:
             if author is None or author == author2:
-                browser.write( line % (fn, sn, student.login, 'DAS', date,
+                browser.write( line % (fn, sn, login, 'DAS', date,
                                        ue_code, cgi.escape(comment)) )
     browser.write('</tbody></table>'
                   + '<script>abj_messages = [%s,%s,%s,%s] ; </script>' % (
@@ -518,7 +433,6 @@ def alpha_html(browser, year, semester, ue_name_endswith=None,
             utilities.js(utilities._("MSG_abj_display_all")))
                   + '</script>')
     browser.write(utilities.read_file(os.path.join('FILES', 'abj_recap.html')))
-    browser.close()
 
 
 def underline(txt, char='='):
@@ -632,7 +546,6 @@ def ue_resume(ue_code, year, semester, browser=None):
 
     current_year =   (year, semester) == configuration.year_semester
     
-    aabjs = get_abjs(year, semester)
     table_tt = get_table_tt(year, semester)
     #
     # The UE title
@@ -693,9 +606,7 @@ def ue_resume(ue_code, year, semester, browser=None):
     infos = []
     for student_login, group, sequence in the_students:
         student_id = inscrits.login_to_student_id(student_login)
-        student = aabjs.students.get(student_id)
-        if not student:
-            continue
+        student = Abjs(year, semester, student_id)
         
         abjs_pruned = do_prune(student.abjs, first_day, last_day,
                                group, sequence, ue_code) 
@@ -737,9 +648,7 @@ def ue_resume(ue_code, year, semester, browser=None):
     infos = []
     for student_login, group, sequence in the_students:
         student_id = inscrits.login_to_student_id(student_login)
-        student = aabjs.students.get(student_id)
-        if not student:
-            continue
+        student = Abjs(year, semester, student_id)
         dates = [d for d in student.da if d[0] == ue_code]
         if dates:
             nr_letters = feedback(browser, 'D', nr_letters)
@@ -803,9 +712,9 @@ def list_mail(browser, year, semester, only_licence=True):
     browser.write(utilities._("MSG_abj_sender") + sender)
     browser.write('<pre>')
 
-    aabjs = get_abjs(year, semester)
     ues = {}
-    for student in aabjs.students.values():
+    for login in Abjs(year, semester).students():
+        student = Abj(year, semester, login)
         for a_da in student.da:
             ues[a_da[0]] = True
         if student.abjs:

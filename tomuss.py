@@ -23,6 +23,8 @@ import tomuss_init
 import time
 import sys
 import os
+import glob
+import abj
 import BaseHTTPServer
 from . import configuration
 from . import utilities
@@ -311,6 +313,13 @@ if __name__ == "__main__":
     for url in configuration.suivi.urls_sorted():
         print '\t./suivi.py %d %s %d' % (url[2], url[3], url[1]), regtest
     print '*'*78 + '\n\n'
+
+    # Translation of old files to new format
+    for filename in glob.glob(os.path.join(configuration.db,
+                                           'Y*', 'S*', 'abjs.py')):
+        conv_year, conv_semester = filename.split(os.path.sep)[-3:-1]
+        print 'Start translation of', filename
+        abj.Abjs(int(conv_year[1:]), conv_semester[1:])
 
     if 'profile' in sys.argv:
         import cProfile
