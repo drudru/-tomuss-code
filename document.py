@@ -1249,7 +1249,7 @@ def table(year, semester, ue, page=None, ticket=None, ro=False, create=True,
             time.sleep(0.1)
             t = tables_manage('get', year, semester, ue, do_not_unload)
 
-    elif t is False:
+    if t is False:
         # I must create the table
         # Only one thread can be here at the same time.
         try:
