@@ -19,6 +19,7 @@
 #
 #    Contact: Thierry.EXCOFFIER@bat710.univ-lyon1.fr
 
+import resource
 import time
 import re
 import os
@@ -232,7 +233,11 @@ def warn(text, what='info'):
         pass
     x.reverse()
     x = '/'.join(x).rjust(50)[-50:]
-    x = '%c %13.2f %s %s\n' % (what[0].upper(), time.time(), x, text)
+    x = '%c %13.2f %4d %s %s\n' % (
+        what[0].upper(),
+        time.time(),
+        resource.getrusage(resource.RUSAGE_SELF)[2]//1000,
+        x, text)
     sys.stderr.write(x)
     global live_log
     if live_log:
