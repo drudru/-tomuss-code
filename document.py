@@ -586,7 +586,15 @@ class Table(object):
 
         old_value = str(cell.value)
         new_value = str(value)
-        if old_value == new_value:
+        # If the old value is the float 10
+        # And the new one the string 10
+        # The string compare will be false because "10.0" != "10"
+        # So we also compare non string values.
+        try:
+            equal = float(cell.value) == float(value)
+        except ValueError:
+            equal = old_value == new_value
+        if equal:
             if cell.author == page.user_name:
                 return 'ok.png'
             if not change_author:
