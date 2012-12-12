@@ -1129,7 +1129,10 @@ function do_action(action, html_class)
   if ( html_class == 'veryunsafe' )
       if ( ! confirm(_("ALERT_are_you_sure2")) )
       return ;
-  goto_url(base + action) ;
+  if ( action.substr(0,1) == '/' )
+    goto_url(url + action) ;
+  else
+    goto_url(base + action) ;
 }
 
 function university_year()

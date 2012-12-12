@@ -4580,10 +4580,10 @@ msgstr "Consultation des TT"
 msgid "LINK_javascript:go_year('Dossiers/tt')"
 msgstr "Modification des TT"
 
-msgid "LINK_stats.html"
-msgstr "Statistiques TOMUSS"
+msgid "LINK_//stats.html"
+msgstr "TOMUSS statistics"
 
-msgid "HELP_stats.html"
+msgid "HELP_//stats.html"
 msgstr "Affiche les statistiques sur l'utilisation de TOMUSS"
 
 msgid "LINK_javascript:go('referents_students')"

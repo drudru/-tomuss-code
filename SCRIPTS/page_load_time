@@ -40,7 +40,7 @@ do_graph "xxx.page_load_time_1d" "\$1>$(expr $(date +'%s') - $DAY)" "Statistique
 do_graph "xxx.page_load_time_1w" "\$1>$(expr $(date +'%s') - $WEEK)" "Statistiques sur 7 jours"
 
 
-NR_DAYS=101
+NR_DAYS=140
 
 DATE=$(expr $(date +'%s') - \( $NR_DAYS '*' $DAY \))
 
@@ -48,6 +48,7 @@ DATE=$(expr $(date +'%s') - \( $NR_DAYS '*' $DAY \))
 grep page_load_time LOGS/TOMUSS/$(date '+%Y').times |
 python -c '
 import sys
+import itertools
 d = list([[] for i in range('$NR_DAYS')])
 for i in sys.stdin.readlines():
    i = i.split(" ")
@@ -56,14 +57,24 @@ for i in sys.stdin.readlines():
       continue
    d[int((t-'$DATE')/'$DAY')].append(float(i[1]))
 
+f = open("TMP/xxx.page_load_timeW", "w")
+for i in range(0, '$NR_DAYS', 7):
+      dd = sorted(itertools.chain(*d[i:i+7]))
+      nr = len(dd)
+      if nr:
+          f.write("%s %s %s %s\n" % (i, sum(dd)/nr, nr, dd[nr//2]))
+f.close()
+
+f = open("TMP/xxx.page_load_time", "w")
 for i in range('$NR_DAYS'):
    if d[i]:
       d[i].sort()
       nr = len(d[i])
       if nr:
-          print i, sum(d[i])/nr, nr, d[i][nr//2]
+          f.write("%s %s %s %s\n" % (i, sum(d[i])/nr, nr, d[i][nr//2]))
+f.close()
 
-' >TMP/xxx.page_load_time
+'
 
 
 echo "
@@ -74,6 +85,16 @@ set ylabel 'Temps de chargement complet de la table en secondes'
 set xlabel 'Jours'
 
 plot 'TMP/xxx.page_load_time' using 1:2 with lines title 'Temps moyen de chargement de page par jour', 'TMP/xxx.page_load_time' using 1:4 with lines title 'Temps median de chargement de page par jour', 'TMP/xxx.page_load_time' using 1:3 with lines title 'Nombre de chargements de page par jour'
+" | gnuplot
+
+echo "
+set terminal png large font arial
+set output 'TMP/xxx.page_load_time_evolutionW.png'
+set logscale y
+set ylabel 'Temps de chargement complet de la table en secondes'
+set xlabel 'Jours'
+
+plot 'TMP/xxx.page_load_timeW' using 1:2 with lines title 'Temps moyen de chargement de page par semaine', 'TMP/xxx.page_load_timeW' using 1:4 with lines title 'Temps median de chargement de page par semaine', 'TMP/xxx.page_load_timeW' using 1:3 with lines title 'Nombre de chargements de page par semaine'
 " | gnuplot
 
 

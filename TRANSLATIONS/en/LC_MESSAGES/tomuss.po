@@ -4533,10 +4533,10 @@ msgstr "Look special examination condition"
 msgid "LINK_javascript:go_year('Dossiers/tt')"
 msgstr "Modify special examination condition"
 
-msgid "LINK_stats.html"
+msgid "LINK_//stats.html"
 msgstr "TOMUSS Statistics"
 
-msgid "HELP_stats.html"
+msgid "HELP_//stats.html"
 msgstr "Display TOMUSS uage statistics"
 
 msgid "LINK_javascript:go('referents_students')"
