@@ -1000,7 +1000,7 @@ Col({the_id:"col_1",type:"Note",author:"%s",position:0,title:"TITLE1"})
 
         c = s.url('=' + abj + '/%s/UE-XXX9999L/cell/col_0/0_0/%s' % (
                 ys, _("yes")))
-        assert('<body style="background:green">' == c)
+        assert('<body style="background:green">' in c)
 
         c = ss.url('=' + abj + '/%s/unload/UE-XXX9999L' % ys)
         assert(c == '')
@@ -1013,7 +1013,7 @@ Col({the_id:"col_1",type:"Note",author:"%s",position:0,title:"TITLE1"})
 
         c = s.url('=' + root + '/%s/UE-XXX9999L/cell/col_0/0_0/%s' % (
                 ys, _("no")))
-        assert('<body style="background:red">' == c)
+        assert('<body style="background:red">' in c)
         
 
     if do('suivistat'):

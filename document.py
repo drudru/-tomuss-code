@@ -1420,7 +1420,8 @@ def it_is_a_bad_request(request, page, tabl, output_file):
         return True
     if tabl.unloaded:
         # No sense to do the do_not_unload_add(-1)
-        utilities.send_backtrace('Request on unloaded table '+tabl.ue)
+        utilities.send_backtrace('Request on unloaded table ' + tabl.ue,
+                                 exception=False)
         return True
     if output_file.closed:
         # Nobody want the answer
@@ -1431,20 +1432,20 @@ def should_be_delayed(request, page, tabl, r, t):
     if tabl.the_lock.locked():
         return True
     if page.request < request:
-        # Wait missing requests
-        if (len(t) > 5
-            and t[-6][0] == r[0] and t[-6][1] == r[1]
-            and t[-5][0] == r[0] and t[-5][1] == r[1]
-            and t[-4][0] == r[0] and t[-4][1] == r[1]
-            and t[-3][0] == r[0] and t[-3][1] == r[1]
-            and t[-2][0] == r[0] and t[-2][1] == r[1]
-            ):
-            # We received 6 times the same request. (4 is too small)
+        # Count the number of identical request
+        n = 0
+        for old in t[::-1]:
+            if old[0] == r[0] and old[1] == r[1]:
+                n += 1
+            else:
+                break
+        if n > 12:
+            # We received 12 times the same request. (6 is too small)
             # So, we hit a request-accounting bug.
             # For example: server restart and browser 'update_content'
             # request that is not stored in the table data file.
             utilities.send_backtrace('Bad Request Number (%s!=%s)' %
-                                     (page.request, request))
+                                     (page.request, request), exception=False)
             # We fix the page request number
             # So we no more delay this request handling
             page.request = request

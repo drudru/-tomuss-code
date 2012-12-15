@@ -352,7 +352,7 @@ def start_new_thread(fct, args, send_mail=True, immortal=False):
                 try:
                     self.fct(*self.args)
                 except:
-                    warn("Exception in " % self, what="Error")
+                    warn("Exception in %s" % self, what="Error")
                     if self.send_mail:
                         send_backtrace("Exception in %s" % self)
                 if not self.immortal:
