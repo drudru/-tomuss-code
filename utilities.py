@@ -412,13 +412,14 @@ def js(t):
 def js2(t):
     return '"' + t.replace('\\','\\\\').replace('"','\\"').replace('\n','\\n') + '"'
 
-def mkpath(path):
+def mkpath(path, create_init=True):
     s = ''
     for i in path.split(os.path.sep):
         s += i + os.path.sep
         try:
             os.mkdir(s)
-            write_file(os.path.join(s, '__init__.py'), '')
+            if create_init:
+                write_file(os.path.join(s, '__init__.py'), '')
         except OSError:
             pass
 
@@ -475,6 +476,7 @@ def frame_info(frame, displayed):
 
 import socket
 
+
 def send_backtrace(txt, subject='Backtrace', exception=True):
     s = configuration.version
     if exception and sys.exc_info()[0] != None \
@@ -510,11 +512,24 @@ def send_backtrace(txt, subject='Backtrace', exception=True):
     except ValueError:
         pass
     s += '</table>'
-    warn(subject + '\n' + s, what='error')
+    filename = os.path.join("LOGS", "BACKTRACES",
+                            time.strftime('%Y-%m-%d'
+                                          + os.path.sep + "%H:%M:%S")
+                            )
+    mkpath(os.path.join(*filename.split(os.path.sep)[:-1]), create_init=False)
 
-    send_mail_in_background(configuration.maintainer, subject,
-                            '<html><style>TABLE TD { border: 1px solid black;} .name { text-align:right } PRE { background: white ; border: 2px solid red ;}</style><body>' + s + '</body></html>')
+    s = '<html><style>TABLE TD { border: 1px solid black;} .name { text-align:right } PRE { background: white ; border: 2px solid red ;}</style><body>' + s + '</body></html>'
+    
+    f = open(filename, "a")
+    f.write(subject + '\n' + s)
+    f.close()
+    
+    if send_backtrace.last_subject != subject:
+        # Not send twice the same mail subject
+        send_mail_in_background(configuration.maintainer, subject, s)
+        send_backtrace.last_subject = subject
 
+send_backtrace.last_subject = ''
 
 class StaticFile(object):
     """Emulate a string, but it is a file content"""
