@@ -3016,6 +3016,12 @@ msgstr "Allow to send a message to all the masters of UE of licence.\n"
        "non-attendance authorization and special examination condition,\n"
        "linked to the UE."
 
+msgid "LINK_backtrace"
+msgstr "Backtraces display"
+
+msgid "HELP_backtrace"
+msgstr "Navigate in the error reports"
+
 
 msgid "MSG_bilan"
 msgstr "This table display informations stored in TOMUSS.\n"

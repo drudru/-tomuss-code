@@ -3028,6 +3028,12 @@ msgstr "Ceci permettra d'envoyer un message à tous les\n"
        "la liste des étudiants avec des absences justifiées,\n"
        "des dispenses et les tiers temps."
 
+msgid "LINK_backtrace"
+msgstr "Affiche les backtraces"
+
+msgid "HELP_backtrace"
+msgstr "Permet de naviguer dans les compte rendu d'erreur"
+
 msgid "MSG_bilan"
 msgstr "Le tableau représente les informations stockées par TOMUSS,\n"
        "des UE où l'étudiant a été inscrit peuvent manquer.\n"

@@ -92,6 +92,7 @@ def plugins_tomuss():
     import PLUGINS.picture
     import PLUGINS.change_identity
     import PLUGINS.auto_update
+    import PLUGINS.backtrace
     plugins_tomuss_more()
 
     # Remove links yet added for suivi
