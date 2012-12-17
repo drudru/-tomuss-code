@@ -58,7 +58,7 @@ msgstr "Boolean"
 
 msgid "H_Bool"
 msgstr "Only YES and NO values are allowed.<br>\n"
-       "The doucle-click on the cell toggle the value."
+       "The double-click on the cell toggle the value."
 
 #. Columns types, button text in the menu
 msgid "B_Mail"
@@ -248,8 +248,8 @@ msgstr ""
 msgid "TIP_column_attr_visibility_date"
 msgstr ""
 "<b>Date where this column become visible by the students</b>.<br>\n"
-"The date is indicated as DD/MM/YYYY (month and year are optionnal)<br>\n"
-" <b><em>Il nothing is indicated, all is student visible.</em></b>"
+"The date is indicated as DD/MM/YYYY (month and year are optional)<br>\n"
+" <b><em>If nothing is indicated, all is student visible.</em></b>"
 
 #. Attribute Tip
 msgid "TIP_column_attr_enumeration"
@@ -338,7 +338,7 @@ msgstr ""
 msgid "TIP_column_attr_columns__Firstname"
 msgstr ""
 "<b>Extract firstname</b><br>\n"
-"Indicates the ID column for which firstame must be found."
+"Indicates the ID column for which firstname must be found."
 
 #. Attribute Tip
 msgid "TIP_column_attr_columns__Max"
@@ -387,14 +387,14 @@ msgstr "The text of the clickable link in the student 'suivi'"
 
 #. Attribute Tip
 msgid "TIP_column_attr_url_import"
-msgstr "Dynamicaly insert a CSV file into the columns values.<br>\n"
+msgstr "Dynamically insert a CSV file into the columns values.<br>\n"
  "<b>The first column of the file MUST be the student ID</b>.<br>\n"
  "for example: http://www.univ-lyon1.fr/MyGrades.csv#2<br>\n"
  "indicates that the second column of the file must be<br>\n"
  "inserted in the column cells.\n"
  "<hr>\n"
  "To extract a column from another TOMUSS table, indicate:<br>\n"
- "table/column ou semester/table/column ou year/semester/table/column<br>\n"
+ "table/column or semester/table/column or year/semester/table/column<br>\n"
  "<b>BEWARE: computed values are not imported.</b>\n"
  "<br>You can prefix the line with #@?: to indicate that you want\n"
  "to import cell comment, author, date or history."
@@ -445,7 +445,7 @@ msgstr ""
 #. Attribute Tip
 msgid "TIP_column_attr_locked"
 msgstr "<b>Allow cell modification in the column</b><br>\n"
- "If cells are protected they are not modifable even if they are empty."
+ "If cells are protected they are not modifiable even if they are empty."
 
 
 #. Attribute Tip
@@ -481,7 +481,7 @@ msgstr ""
 msgid "TIP_table_attr_autosave__1"
 msgstr ""
 "<p><b>Disable automatic save</b><br>\n"
-"Currently, each time a modification is done, it is immediatly saved.<br>\n"
+"Currently, each time a modification is done, it is immediately saved.<br>\n"
 "After clicking here, nothing is saved unless you ask it."
 
 #. Attribute Tip
@@ -553,13 +553,13 @@ msgid "TIP_table_attr_private"
 msgstr ""
 "A public table is visible/modifiable by all the users<br>\n"
 "A private table is only visible/modifiable by the table masters,<br>\n"
-"students will nevertheles see their grades."
+"students will nevertheless see their grades."
 
 #. Attribute Tip
 msgid "TIP_table_attr_default_nr_columns"
 msgstr ""
 "Fixes the number of displayed columns for everybody.<br>\n"
-"'0' indicates that the best number of columns is choosen for the screen size."
+"'0' indicates that the best number of columns is chosen for the screen size."
 
 #. Attribute Tip
 msgid "TIP_table_attr_nr_lines"
@@ -802,7 +802,7 @@ msgstr "<span class=\"ro\">The text is grey is the cell\n"
        "is not registered in the UE.</span><br>\n"
        "<span class=\"tt\">Blue background if the student\n"
        "has special examination conditions (TT).</span><br>\n"
-       "<span class=\"filtered\">Yellow backgroud if the\n"
+       "<span class=\"filtered\">Yellow background if the\n"
        "cell is selected by a filter</span>"
 
 #. Tip cell attribute
@@ -1023,7 +1023,7 @@ msgstr "Defined by "
 
 #. Label column attribute
 msgid "LABEL_help_autosave"
-msgstr "All your actions are immediatly recorded."
+msgstr "All your actions are immediately recorded."
 
 #. Label column attribute
 msgid "TIP_help_autosave"
@@ -1071,7 +1071,6 @@ msgstr "columns"
 msgid "TIP_table_filter"
 msgstr "Only <b>columns and lines</b> containing a filtered value<br>\n"
        "will be displayed.<br>\n"
-       "Tapez le début de ce que vous cherchez."
        "Types the start of what you search."
 
 #. GUI Label
@@ -1338,7 +1337,7 @@ msgstr "Signature after work given"
 
 
 msgid "MSG_print_date"
-msgstr "Date/Hour/Duration of assesment:"
+msgstr "Date/Hour/Duration of assessment:"
 
 msgid "MSG_print_supervisors"
 msgstr "Supervisors:"
@@ -1383,7 +1382,7 @@ msgid "B_print_dot"
 msgstr "the dot"
 
 msgid "MSG_print_tt_title"
-msgstr "Special assesment condition"
+msgstr "Special assessment condition"
 
 msgid "MSG_print_popup_title"
 msgstr "Copy this in your spreadsheet"
@@ -1511,7 +1510,7 @@ msgid "MSG_mail_teachers"
 msgstr "Teachers"
 
 msgid "MSG_mail_unknow"
-msgstr "unknowns mail adresses"
+msgstr "unknowns mail addresses"
 
 msgid "TITLE_mail_popup"
 msgstr "Mail managing of filtered lines"
@@ -1544,7 +1543,7 @@ msgstr "The bracketed column titles are replaced by the good cell value.\n"
        "<p>&nbsp;<br>Message subject: "
 
 msgid "MSG_mail_massmail_subject"
-msgstr " : Information for [Prénom] [Nom]"
+msgstr " : Information for [Firstname] [Surname]"
 
 msgid "MSG_mail_massmail_your_message"
 msgstr "Your message:"
@@ -1557,7 +1556,7 @@ msgid "MSG_mail_massmail_to_send_2"
 msgstr " messages</BUTTON>."
 
 msgid "MSG_mail_massmail_message"
-msgstr "Hello [Prénom] [Nom].\n\n"
+msgstr "Hello [Firstname] [Surname].\n\n"
        "Your groupe is [Grp] and your sequence is [Seq]\n\n"
        "Good bye."
 
@@ -1615,7 +1614,7 @@ msgid "B_s_sum"
 msgstr "Sum of the"
 
 msgid "B_s_sum_2"
-msgstr "values:"
+msgstr "values"
 
 msgid "B_s_variance"
 msgstr "Variance"
@@ -1651,7 +1650,7 @@ msgid "B_s_histogram_"
 msgstr "histogram."
 
 msgid "B_stat_colorles"
-msgstr "colorles"
+msgstr "colorless"
 
 msgid "B_stat_colored"
 msgstr "colored"
@@ -1971,13 +1970,13 @@ msgid "TIP_filter_Note"
 msgstr "For example:\n"
        "<ul><li><b>&gt;5</b>\n"
        "<li><b>&gt;5 &lt;15</b>\n"
-       "<li><b>ABINJ ou ABJUS ou PPNOT</b>\n"
+       "<li><b>ABINJ | ABJUS | PPNOT</b>\n"
        "</ul>"
 
 msgid "TIP_filter_Prst"
 msgstr "For example:\n"
        "<ul><li><b>P</b> to see the present\n"
-       "<li><b>A</b>, <b>ABI</b> ou <b>ABJ</b> to see not present\n"
+       "<li><b>A</b>, <b>ABI</b> or <b>ABJ</b> to see not present\n"
        "<li><b>=</b> to see empty cells\n"
        "</ul>"
 
@@ -2012,7 +2011,7 @@ msgid "TIP_cell_Note"
 msgstr "A grade or: I: Injustified Leave, J: Justified Leave, C: can't grade, W: Work Not Given"
 
 msgid "TIP_cell_Prst"
-msgstr "P: Présent, I: not here, J: justified non attendance"
+msgstr "P: Present, I: not here, J: justified non attendance"
 
 msgid "TIP_cell_URL"
 msgstr "The URL as http://...."
@@ -2167,7 +2166,7 @@ msgid "B_home_close_pages"
 msgstr "Close the page on all the browser"
 
 msgid "B_home_remove_bookmark"
-msgstr "Retirer de vos favoris"
+msgstr "Remove from your favorites"
 
 msgid "B_home_bookmark_first"
 msgstr "Put in bookmark first place"
@@ -2200,7 +2199,7 @@ msgid "MSG_home_become_referent"
 msgstr "I want to be the referent of this student"
 
 msgid "MSG_unknown_mail"
-msgstr "Unkonw mail address"
+msgstr "Unknown mail address"
 
 
 msgid "MSG_home_suivi"
@@ -2253,7 +2252,7 @@ msgid "TH_home_ue_master"
 msgstr "Manager of UE"
 
 msgid "TIP_home_ue_master"
-msgstr "These are the UE for wich you are the offical manager"
+msgstr "These are the UE for which you are the official manager"
 
 msgid "TIP_home_truncated"
 msgstr "Truncated list"
@@ -2292,7 +2291,7 @@ msgid "TH_home_notepad"
 msgstr "Notepad"
 
 msgid "TIP_home_notepad"
-msgstr "To enter some personnal notes about the students"
+msgstr "To enter some personal notes about the students"
 
 msgid "TH_home_mail"
 msgstr "Mail"
@@ -2453,8 +2452,8 @@ msgstr " is given multiple times. Only the first grade will be imported."
 
 msgid "MSG_columnimport_max_first"
 msgstr "Variable number of column in the imported table...\n"
-       "The first line must be the longuest,\n"
-       "but this one is longuer: "
+       "The first line must be the longest,\n"
+       "but this one is longer: "
 
 msgid "MSG_columnimport_lines"
 msgstr " lines and of "
@@ -2778,7 +2777,7 @@ msgstr "A comment about the column,\n"
        "this comment is visible by the students."
 
 msgid "LABEL_tablelinear_column_comment"
-msgstr "Commentaire"
+msgstr "Comment"
 
 msgid "TIP_tablelinear_column_comment"
 msgstr "Free text."
@@ -2860,7 +2859,7 @@ msgid "TIP_tablelinear_table_masters"
 msgstr "The master logins must be space separated"
 
 msgid "MSG_tablelinear_welcome"
-msgstr "Type an <kbd>interogation mark</kbd> to see the help. "
+msgstr "Type an <kbd>interrogation mark</kbd> to see the help. "
 
 msgid "MSG_tablelinear_is_empty"
 msgstr " it is empty"
@@ -2882,6 +2881,9 @@ msgstr "Nothing under."
 
 msgid "MSG_tablelinear_enter_to_edit"
 msgstr " Type <kbd>Enter</kbd> key to edit it."
+
+msgid "MSG_tablelinear_cancel"
+msgstr "Modification cancelled."
 
 msgid "MSG_tablelinear_sort_before"
 msgstr "Sort column "
@@ -2925,14 +2927,14 @@ msgstr "<p>Each table line contains information about a student.\n"
      "    The content of freezed columns is displayed on line change.\n"
      "<li><kbd>x</kbd> hide the current column.\n"
      "<li><kbd>f</kbd> edit the filter of current column.\n"
-     "<li><kbd>n</kbd> édit the filter of student surname.\n"
-     "<li><kbd>p</kbd> édit the filter of student firstname.\n"
+     "<li><kbd>n</kbd> edit the filter of student surname.\n"
+     "<li><kbd>p</kbd> edit the filter of student firstname.\n"
      "<li><kbd>t</kbd> display a printable page with filtered lines.\n"
      "<li><kbd>s</kbd> open a window on the student 'suivi'.\n"
      "</ul>"
 
 msgid "MSG_full_date"
-msgstr "%A %d %B %Y à %H hours %M minutes et %S seconds"
+msgstr "%A %d %B %Y at %H hours %M minutes and %S seconds"
 
 msgid "ALERT_popup"
 msgstr "You must allow popup in your browser.\n"
@@ -2941,16 +2943,16 @@ msgstr "You must allow popup in your browser.\n"
        "To allow popups, there is a small icon near the page address."
 
 msgid "ALERT_no_mail"
-msgstr "sorry, the browser has not yet received the mail adresses.\n"
+msgstr "sorry, the browser has not yet received the mail addresses.\n"
        "Retry in a few seconds."
 
 msgid "ALERT_copy_mail"
 msgstr "Copy the following list in your mailer:"
 
 msgid "ALERT_copy_mail_microsoft"
-msgstr "Microsoft Windows forbid to launch automaticaly the mailer\n"
+msgstr "Microsoft Windows forbid to launch automatically the mailer\n"
        "when there is too many addresses.\n"
-       "So, you must do a copy/paste of the adresses."
+       "So, you must do a copy/paste of the addresses."
 
 msgid "ALERT_locked_column"
 msgstr "The column is protected, so values are not modifiable."
@@ -3134,7 +3136,7 @@ msgid "LINK_clients"
 msgstr "Browser statistics"
 
 msgid "HELP_clients"
-msgstr "About browser, OS, IP adresses. Really not fine for privacy"
+msgstr "About browser, OS, IP addresses. Really not fine for privacy"
 
 msgid "MSG_evaluate"
 msgstr "Action not allowed in demo mode."
@@ -3212,7 +3214,7 @@ msgid "LINK_master_of"
 msgstr "Recompute masters index"
 
 msgid "HELP_master_of"
-msgstr "To use only in cas of.\n"
+msgstr "To use only in case of.\n"
        "It will compute for each user the list of table\n"
        "for which he is a master."
 
@@ -3374,7 +3376,7 @@ msgid "MSG_referent_get_orphan_none"
 msgstr "%s has no referent teacher"
 
 msgid "MSG_referent_get_orphan_quit"
-msgstr " quitted "
+msgstr " quited "
 
 msgid "MSG_referent_get_problem"
 msgstr "There is a problem. Is this a student ?"
@@ -3785,7 +3787,7 @@ msgstr "Contact"
 
 msgid "MSG_suivi_student_important"
 msgstr "These informations are not the official ones,\n"
-       "they have no legal value and must be officialy validated</b>."
+       "they have no legal value and must be officially validated</b>."
 
 msgid "MSG_suivi_student_wait"
 msgstr "Currently loading, please wait.\n"
@@ -3807,8 +3809,7 @@ msgid "MSG_suivi_student_no_referent"
 msgstr "no referent teacher"
 
 msgid "TIP_suivi_student_no_referent_needed"
-msgstr "You should have a referent teacher."
-       "à l'université ont un référent pédagogique."
+msgstr "You should not have a referent teacher."
 
 msgid "TIP_suivi_student_no_referent"
 msgstr "There is no referent teacher for the student of your department"
@@ -3826,7 +3827,7 @@ msgid "MSG_suivi_student_official_bilan"
 msgstr "Official grades"
 
 msgid "TIP_suivi_student_official_bilan"
-msgstr "The offical grades"
+msgstr "The official grades"
 
 msgid "MSG_suivi_student_TOMUSS_bilan"
 msgstr "TOMUSS grades"
@@ -3850,7 +3851,7 @@ msgid "MSG_suivi_student_view"
 msgstr "Student view"
 
 msgid "TIP_suivi_student_view"
-msgstr "Afficher ce que voit réellement l'étudiant dans son navigateur"
+msgstr "Display what the student see in the browser"
 
 msgid "MSG_suivi_student_RSS"
 msgstr "Flux RSS : "
@@ -3897,7 +3898,7 @@ msgid "MSG_suivi_student_RSS_forbiden_title"
 msgstr "You are not allowed to see this RSS stream"
 
 msgid "MSG_suivi_student_RSS_forbiden_description"
-msgstr "For security reason, you must renew the subscribtion."
+msgstr "For security reason, you must renew the subscription."
 
 msgid "MSG_suivi_student_RSS_value_comment"
 msgstr "Value comment: "
@@ -3960,13 +3961,13 @@ msgid "COL_TITLE_nb_registered"
 msgstr "#registered"
 
 msgid "COL_COMMENT_nb_registered"
-msgstr "Number of students officialy registered"
+msgstr "Number of students officially registered"
 
 msgid "COL_TITLE_nb_unregistered"
 msgstr "#unregistered"
 
 msgid "COL_COMMENT_nb_unregistered"
-msgstr "Number of students not officialy registered"
+msgstr "Number of students not officially registered"
 
 msgid "COL_TITLE_extended"
 msgstr "Extended"
@@ -3996,7 +3997,7 @@ msgid "LINK_tables"
 msgstr "Table Statistics"
 
 msgid "HELP_tables"
-msgstr "Display statitics about each table."
+msgstr "Display statistics about each table."
 
 msgid "COL_TITLE_teacher"
 msgstr "Teacher"
@@ -4023,7 +4024,7 @@ msgid "HELP_teachers"
 msgstr "For each teacher, display statistics about TOMUSS usage."
 
 msgid "MSG_uninterested"
-msgstr "The number of visits is since the first january"
+msgstr "The number of visits is since the first January"
 
 msgid "TH_student"
 msgstr "Student"
@@ -4142,7 +4143,7 @@ msgstr "The entered value was not of the good type,\n"
        "Please fix it."
 
 msgid "config_table_abinj"
-msgstr "If nearly all the students have a grade, then the others have ABINJ???/0. If you enter 0.25 then if less than 1/4 of the student group has no grade, then they will have 0 or ABINJ??? automaticaly."
+msgstr "If nearly all the students have a grade, then the others have ABINJ???/0. If you enter 0.25 then if less than 1/4 of the student group has no grade, then they will have 0 or ABINJ??? automatically."
 
 msgid "config_table_do_not_display"
 msgstr "List of TAGS to not display in logs. Se to () to have all the messages"
@@ -4163,7 +4164,7 @@ msgid "config_table_master_of_exceptions"
 msgstr "Semester: list of semester to not display in the table you are 'master of' on the home page"
 
 msgid "config_table_allow_student_list_update"
-msgstr "Semester: If 'True' then the students list are updated automaticaly"
+msgstr "Semester: If 'True' then the students list are updated automatically"
 
 msgid "config_table_allow_student_removal"
 msgstr "Semester: If 'True' then remove unregistered students from tables"
@@ -4247,10 +4248,10 @@ msgid "config_table_teacher_if_login_contains"
 msgstr "Access: Is a teacher, if its login contains this string"
 
 msgid "config_table_students_check_interval"
-msgstr "Time: Rechargement de la liste des étudiants : Période en seconde"
+msgstr "Time: Between reload of the student list in seconds"
 
 msgid "config_table_maximum_out_of_date"
-msgstr "Time: Pour le suivi : durée minimum en secondes entre 2 mise à jour de la même table"
+msgstr "Time: For 'suivi' : minimum time between 2 update of the same table"
 
 msgid "config_table_maxage"
 msgstr "Time: Static files: number of seconds allowed in browser cache"
@@ -4265,7 +4266,7 @@ msgid "config_table_unload_interval"
 msgstr "Time: Table unload is unused for this duration"
 
 msgid "config_table_check_down_connections_interval"
-msgstr "Time: Period for sending packets to browers to keep the connection open."
+msgstr "Time: Period for sending packets to browser to keep the connection open."
 
 msgid "config_table_logo"
 msgstr "URL of background logo"
@@ -4292,19 +4293,19 @@ msgid "COL_TITLE_+write"
 msgstr "+Write"
 
 msgid "COL_COMMENT_+write"
-msgstr "Extra time for written assesments"
+msgstr "Extra time for written assessments"
 
 msgid "COL_TITLE_+speech"
 msgstr "+Speech"
 
 msgid "COL_COMMENT_+speech"
-msgstr "Extra time for oral assesments"
+msgstr "Extra time for oral assessments"
 
 msgid "COL_TITLE_+practical"
 msgstr "+Practical"
 
 msgid "COL_COMMENT_+practical"
-msgstr "Extra time for practical work assesments"
+msgstr "Extra time for practical work assessments"
 
 msgid "COL_TITLE_+assistant"
 msgstr "Assistant"
@@ -4349,7 +4350,7 @@ msgid "MSG_other_mail"
 msgstr "* Addresses from open UE file: "
 
 msgid "MSG_other_mail2"
-msgstr "* Adresses from the UE catalog: "
+msgstr "* Addresses from the UE catalog: "
 
 msgid "MSG_no_master"
 msgstr "NO MASTER KNOWN"
@@ -4374,10 +4375,10 @@ msgid "MSG_abj_the"
 msgstr "The"
 
 msgid "MSG_abj_da_list"
-msgstr "Liste des étudiants avec une DA"
+msgstr "Students with an assiduity exemption"
 
 msgid "MSG_abj_tt_list"
-msgstr "Special examinination student list"
+msgstr "Special examination student list"
 
 msgid "MSG_abj_sender"
 msgstr "Mails will be sent with in the name of "
@@ -4418,7 +4419,7 @@ msgid "MSG_abj_why"
 msgstr "Click on justified leave explanation."
 
 msgid "MSG_abj_predefined"
-msgstr "c('Médical certificate') + '/' + c('Hospitalisation') + '<br>'+\n"
+msgstr "c('Medical certificate') + '/' + c('Hospitalisation') + '<br>'+\n"
        "c('Transport strike') + '<br>' +\n"
        "c('Official administrative convocation') + '/' +\n"
        "c('Dead of relative')"
@@ -4543,7 +4544,7 @@ msgid "LINK_//stats.html"
 msgstr "TOMUSS Statistics"
 
 msgid "HELP_//stats.html"
-msgstr "Display TOMUSS uage statistics"
+msgstr "Display TOMUSS usage statistics"
 
 msgid "LINK_javascript:go('referents_students')"
 msgstr "Table of referent teachers"
@@ -4561,7 +4562,7 @@ msgid "LINK_/0/Dossiers/config_table"
 msgstr "Modify TOMUSS configuration"
 
 msgid "HELP_/0/Dossiers/config_table"
-msgstr "Be carefull, a bad modification may lock down TOMUSS."
+msgstr "Be careful, a bad modification may lock down TOMUSS."
 
 msgid "LINK_/0/Dossiers/config_acls"
 msgstr "Modify ACLS"
@@ -4573,7 +4574,7 @@ msgid "LINK_/0/Dossiers/config_plugin"
 msgstr "Modify plugin configuration"
 
 msgid "HELP_/0/Dossiers/config_plugin"
-msgstr "llow to see the plugin list and modify the users allowed to use them."
+msgstr "Allow to see the plugin list and modify the users allowed to use them."
 
 msgid "LINK_/0/Dossiers/javascript_regtest_ue"
 msgstr "Regression tests in JavaScript"
@@ -4618,13 +4619,13 @@ msgid "COL_TITLE_ch_priority"
 msgstr "Priority"
 
 msgid "COL_COMMENT_ch_priority"
-msgstr "To compute link order insid the box"
+msgstr "To compute link order inside the box"
 
 msgid "COL_TITLE_ch_htmlclass"
 msgstr "Class"
 
 msgid "COL_COMMENT_ch_htmlclass"
-msgstr "To choose the icone displayed before the link"
+msgstr "To choose the icon displayed before the link"
 
 msgid "COL_TITLE_ch_group"
 msgstr "Group"
@@ -4701,7 +4702,7 @@ msgstr "Refered student change"
 msgid "MSG_referent_mail_body"
 msgstr "Hello\n"
        "\n"
-       "The list a refered students has been updated autmaticaly.\n"
+       "The list a refered students has been updated automatically.\n"
        "Their are the changes:\n"
        "\n"
        "%s\n"
@@ -4825,7 +4826,7 @@ msgstr "Courses"
 
 msgid "ALERT_columntype"
 msgstr "If you confirm this type change, the column content will be\n"
-       "immediatly fully erased."
+       "immediately fully erased."
 
 msgid "ALERT_unknown_user"
 msgstr "Firstname and surname unknown"

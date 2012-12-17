@@ -2885,6 +2885,9 @@ msgstr "Plus rien au dessous."
 msgid "MSG_tablelinear_enter_to_edit"
 msgstr " Tapez sur la touche <kbd>entrée</kbd> pour l'éditer."
 
+msgid "MSG_tablelinear_cancel"
+msgstr "Modification annulée."
+
 msgid "MSG_tablelinear_sort_before"
 msgstr "Trie la colonne "
 
