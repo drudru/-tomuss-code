@@ -340,7 +340,7 @@ def remove_students_from_table(table, students):
                                       'non', change_author=False)
                 for i, column in enumerate(table.columns):
                     if (line[i].value and line[i].author == data.ro_user
-                        and i != inscrit_column):
+                        and i != data_col):
                         if p == None:
                             p = rw_page(table)
                         table.cell_change(p, column.the_id, line_id)
