@@ -994,18 +994,19 @@ class Variables(object):
         # '_' to remove ambiguity between 'Variables' template
         # and the table template.
         t = document.table(0, "Variables", '_' + self._group)
-        if t and t.modifiable: # and not t.the_lock.locked:
+        if t and t.modifiable and not hasattr(t, "variables_initialized"):
             ro = t.pages[0]
             rw = t.pages[1]
-            for k, v in self._variables.items():
-                if k not in t.lines:
-                    t.lock()
-                    try:
-                        t.cell_change(ro, '0', k, v[0])
-                        t.cell_change(ro, '1', k, v[1].__class__.__name__)
+            t.lock()
+            try:
+                for k, v in self._variables.items():
+                    t.cell_change(ro, '0', k, v[0])
+                    t.cell_change(ro, '1', k, v[1].__class__.__name__)
+                    if k not in t.lines:
                         t.cell_change(rw, '2', k, repr(v[1]))
-                    finally:
-                        t.unlock()
+            finally:
+                t.unlock()
+            t.variables_initialized = True
         if t is None  or   name not in t.lines:
             try:
                 return self._variables[name][1]
