@@ -607,7 +607,11 @@ class Table(object):
             except ValueError:
                 pass
 
-        if not self.loading and a_column.repetition and value != '':
+        if (not self.loading
+            and a_column.repetition
+            and value != ''
+            and not equal
+            ):
             n = 0
             data_col = a_column.data_col
             if a_column.repetition > 0:
@@ -628,6 +632,7 @@ class Table(object):
 
 
         if (not self.loading and self.template
+            and not equal
             and hasattr(self.template, 'cell_change')):
             self.template.cell_change(self, page, col, lin, value, date)
 
