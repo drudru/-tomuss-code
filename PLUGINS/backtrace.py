@@ -35,8 +35,8 @@ def date_range(from_date, to_date):
     They are include in the range.
     BEWARE: returns YYYY-MM-DD
     """
-    time_tuple = list(time.strptime(from_date, tf))
     while True:
+        time_tuple = list(time.strptime(from_date, tf))
         yield (from_date[:4] + '-' + from_date[4:6] + '-' + from_date[6:],
                time_tuple)
         if from_date == to_date:
@@ -56,10 +56,12 @@ def backtrace_list(server, from_date, to_date, what):
             w, content = classifier(filename=os.path.join(full_dirname,
                                                           filename))
             if what == 'any' or w == what:
-                server.the_file.write('<a target="backtrace" onfocus="dofocus(event)" href="%s">%s <small><small>%s</small></small></a><br>' %
-                                      (dirname + '/' + filename,
-                                       filename.replace(".html", ""),
-                                       cgi.escape(content)))
+                server.the_file.write('<a target="backtrace" onclick="dofocus(event)" class="%s" href="%s">%s <small><small>%s</small></small></a><br>' %
+                                      (
+                        w,
+                        dirname + '/' + filename,
+                        filename.replace(".html", ""),
+                        cgi.escape(content)))
 
 def classifier(filename=None, subject=None):
     if filename:
@@ -77,13 +79,14 @@ def classifier(filename=None, subject=None):
     
 def backtrace_day(server, from_date, to_date, dummy_what):
     s = []
-    weekday = -1
+    first_time = True
     for dirname, time_tuple in date_range(from_date, to_date):
-        if weekday <= 0:
+        weekday = time_tuple[6]
+        if weekday <= 0 or first_time:
             t = "<tr>"
-        if weekday == -1:
-            t += time_tuple[6] * "<td>&nbsp;"
-            weekday = time_tuple[6]
+            if first_time:
+                t += time_tuple[6] * "<td>&nbsp;"
+            first_time = False
         t += "<td>"
         full_dirname = os.path.join("LOGS", "BACKTRACES", dirname)
         if os.path.isdir(full_dirname):
@@ -93,16 +96,30 @@ def backtrace_day(server, from_date, to_date, dummy_what):
                 d[classifier(filename=os.path.join(full_dirname,
                                                    filename))[0]] += 1
             dn = dirname.replace("-", "")
-            for c in d.keys():
-                t += (' <a target="list" class="%s" onfocus="dofocus(event)" href="list/%s/%s/%s">%d</a>' % (
-                    c, c, dn, dn, d[c]))
+            if len(d):
+                any = sum(d.values())
+                t += (' <a target="list" class="any" onfocus="dofocus(event)" href="list/any/%s/%s">%d</a><br>' % (
+                            dn, dn, any))
+            else:
+                t += '&nbsp;<br>'
+            for c in ("important", "warning", "informative"):
+                if d[c]:
+                    t += (' <a target="list" class="%s" onfocus="dofocus(event)" href="list/%s/%s/%s">%d</a><br>' % (
+                            c, c, dn, dn, d[c]))
+                else:
+                    t += '&nbsp;<br>'
         if time_tuple[6] == 6:
             t += "</tr>"
             s.append(t)
     if time_tuple[6] != 6:
         t += "</tr>"
         s.append(t)
-        
+
+    days = eval(server._("MSG_days"))
+    days = days[1:] + days[0:1]
+    s.append("<tr>" +
+             ''.join("<td><small>%s</small>" % d for d in days) +
+             '</tr>')
 
     s.reverse()
     server.the_file.write('<table border>' + ''.join(s) + "</table>")
@@ -116,7 +133,7 @@ def backtrace_home(server):
 
     server.the_file.write("""<table width="100%%" height="100%%">
 <tr>
-<td width="10%%"><iframe width="100%%" height="100%%" src="day/any/%s/%s"></iframe>
+<td style="width:13em"><iframe width="100%%" height="100%%" src="day/any/%s/%s"></iframe>
 <td><iframe width="100%%" name="list" height="100%%" src="list/any/%s/%s"></iframe>
 <td><iframe width="100%%" name="backtrace" height="100%%" src="%s/%s"></iframe>
 </tr>
@@ -132,19 +149,29 @@ def backtrace(server):
 <head>
 <base href="%s/=%s/backtrace/">
 <style>
-BODY { white-space: nowrap; font-family: sans-serif }
-.important { color: red }
-.warning { color: orange }
+BODY { white-space: nowrap;
+       font-family: sans-serif;
+       text-decoration: none ;
+       margin: 0px ;
+     }
+TABLE { border-spacing: 0 }
+.important { color: #F00 }
+.warning { color: #A40 }
+.any { color: #000 }
+A { padding: 0px ; }
 </style>
 <script>
 var oldfocus ;
 function dofocus(event)
 {
   var e = event || window.event ;
-  e.target.style.background = "#FF0" ;
+  var t = e.target || e.srcElement ;
+  while ( t.tagName != 'A' )
+     t = t.parentNode ;
   if ( oldfocus )
      oldfocus.style.background = "" ;
-  oldfocus = e.target ;
+  t.style.background = "#FF0" ;
+  oldfocus = t ;
 }
 </script>
 </head>

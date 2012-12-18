@@ -3019,7 +3019,7 @@ msgstr "Allow to send a message to all the masters of UE of licence.\n"
        "linked to the UE."
 
 msgid "LINK_backtrace"
-msgstr "Backtraces display"
+msgstr "Display backtraces"
 
 msgid "HELP_backtrace"
 msgstr "Navigate in the error reports"
