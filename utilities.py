@@ -523,9 +523,11 @@ def send_backtrace(txt, subject='Backtrace', exception=True):
     f = open(filename, "a")
     f.write(subject + '\n' + s)
     f.close()
-    
-    if send_backtrace.last_subject != subject:
-        # Not send twice the same mail subject
+    warn(subject + '\n' + s, what="error")
+
+    if send_backtrace.last_subject != subject and '*./' not in subject:
+        # Not send twice the same mail subject.
+        # Do not send closed connection traceback.
         send_mail_in_background(configuration.maintainer, subject, s)
         send_backtrace.last_subject = subject
 

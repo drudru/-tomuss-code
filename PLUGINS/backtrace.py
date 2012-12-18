@@ -52,16 +52,34 @@ def backtrace_list(server, from_date, to_date, what):
             continue
         files = sorted(os.listdir(full_dirname), reverse=True)
         server.the_file.write('<h2>' + dirname + '</h2>')
+        t = []
+        d = collections.defaultdict(int)
         for filename in files:
             w, content = classifier(filename=os.path.join(full_dirname,
                                                           filename))
             if what == 'any' or w == what:
-                server.the_file.write('<a target="backtrace" onclick="dofocus(event)" class="%s" href="%s">%s <small><small>%s</small></small></a><br>' %
-                                      (
+                d[filename[:2]] += 1
+                t.append(
+                    '<a target="backtrace" onclick="dofocus(event)" class="%s" href="%s">%s %s</a>' %
+                         (
                         w,
                         dirname + '/' + filename,
                         filename.replace(".html", ""),
                         cgi.escape(content)))
+        maxi = float(max(d.values()))
+        def cell(hour):
+            v = d['%02d' % hour]
+            if v:
+                return '<div style="height:%.2fem">%d</div>' % (v/maxi, v)
+            else:
+                return '&nbsp;'
+            
+        server.the_file.write('<table class="hour"><tr>'
+                              + ''.join('<th>%02d' % i for i in range(24))
+                              + '</tr><tr>'
+                              + ''.join('<td>%s' % cell(i) for i in range(24))
+                              + '</tr></table><p>')
+        server.the_file.write('<br>\n'.join(t))
 
 def classifier(filename=None, subject=None):
     if filename:
@@ -80,6 +98,7 @@ def classifier(filename=None, subject=None):
 def backtrace_day(server, from_date, to_date, dummy_what):
     s = []
     first_time = True
+    a = ' <a target="list" class="%s" onfocus="dofocus(event)" href="list/%s/%s/%s">%d</a><br>'
     for dirname, time_tuple in date_range(from_date, to_date):
         weekday = time_tuple[6]
         if weekday <= 0 or first_time:
@@ -98,14 +117,12 @@ def backtrace_day(server, from_date, to_date, dummy_what):
             dn = dirname.replace("-", "")
             if len(d):
                 any = sum(d.values())
-                t += (' <a target="list" class="any" onfocus="dofocus(event)" href="list/any/%s/%s">%d</a><br>' % (
-                            dn, dn, any))
+                t += a % ('any', 'any', dn, dn, any)
             else:
                 t += '&nbsp;<br>'
             for c in ("important", "warning", "informative"):
                 if d[c]:
-                    t += (' <a target="list" class="%s" onfocus="dofocus(event)" href="list/%s/%s/%s">%d</a><br>' % (
-                            c, c, dn, dn, d[c]))
+                    t += a % (c, c, dn, dn, d[c])
                 else:
                     t += '&nbsp;<br>'
         if time_tuple[6] == 6:
@@ -118,11 +135,11 @@ def backtrace_day(server, from_date, to_date, dummy_what):
     days = eval(server._("MSG_days"))
     days = days[1:] + days[0:1]
     s.append("<tr>" +
-             ''.join("<td><small>%s</small>" % d for d in days) +
+             ''.join('<th>%s' % d for d in days) +
              '</tr>')
 
     s.reverse()
-    server.the_file.write('<table border>' + ''.join(s) + "</table>")
+    server.the_file.write('<table class="day">' + ''.join(s) + "</table>")
 
 def backtrace_home(server):
     dates = sorted(os.listdir(os.path.join("LOGS", "BACKTRACES")))
@@ -133,7 +150,7 @@ def backtrace_home(server):
 
     server.the_file.write("""<table width="100%%" height="100%%">
 <tr>
-<td style="width:13em"><iframe width="100%%" height="100%%" src="day/any/%s/%s"></iframe>
+<td style="width:15em"><iframe width="100%%" height="100%%" src="day/any/%s/%s"></iframe>
 <td><iframe width="100%%" name="list" height="100%%" src="list/any/%s/%s"></iframe>
 <td><iframe width="100%%" name="backtrace" height="100%%" src="%s/%s"></iframe>
 </tr>
@@ -157,8 +174,18 @@ BODY { white-space: nowrap;
 TABLE { border-spacing: 0 }
 .important { color: #F00 }
 .warning { color: #A40 }
-.any { color: #000 }
+.informative { color: #000 }
+.any { color: #000; font-size: 80%% ; font-weight: bold }
 A { padding: 0px ; }
+TABLE.day th { font-size: 70%%; width: 3em }
+TABLE.day td, TABLE.day th { border: 1px solid black }
+TABLE.day td { text-align: right }
+TABLE.hour td, TABLE.hour th { border: 1px solid black;
+                               text-align: right;
+                               vertical-align: top;
+                               padding: 0px ;
+                             }
+TABLE.hour TD DIV { background: #F88; }
 </style>
 <script>
 var oldfocus ;
