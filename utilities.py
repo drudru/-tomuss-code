@@ -1002,10 +1002,10 @@ class Variables(object):
             t.lock()
             try:
                 for k, v in self._variables.items():
-                    t.cell_change(ro, '0', k, v[0])
-                    t.cell_change(ro, '1', k, v[1].__class__.__name__)
                     if k not in t.lines:
                         t.cell_change(rw, '2', k, repr(v[1]))
+                    t.cell_change(ro, '0', k, v[0])
+                    t.cell_change(ro, '1', k, v[1].__class__.__name__)
             finally:
                 t.unlock()
             t.variables_initialized = True
