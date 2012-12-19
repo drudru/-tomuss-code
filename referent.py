@@ -132,9 +132,9 @@ class Student(object):
     def html(self):
         if self.mail is None:
             self.mail = inscrits.L_batch.mail(self.key)
-        return '%s %s %s %s %s %s' % (self.key,
+        return '%s %s %s %s ues=%s disciplines=%s' % (self.key,
                                    self.firstname, self.surname,self.mail, 
-                                   self.ues, self.discipline)
+                                   self.ues, list(self.discipline))
 
 class Teacher(object):
     def __init__(self, name, discipline, line_key):
@@ -477,7 +477,7 @@ def update_referents(ticket, f, really_do_it = False, add_students=True):
             utilities.send_mail(mail,
                                 utilities.__("MSG_referent_mail_subject"),
                                 utilities.__("MSG_referent_mail_body") %
-                                ('\n'.join(tteacher.message),
+                                ('<br>\n'.join(tteacher.message),
                                  configuration.server_url),
                                 frome=my_mail)
 
