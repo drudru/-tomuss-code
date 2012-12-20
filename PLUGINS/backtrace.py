@@ -93,6 +93,10 @@ def classifier(filename=None, subject=None):
         return 'informative', subject
     if 'Backtrace' in subject:
         return 'important', subject
+    if ' Plugin ' in subject:
+        return 'important', subject
+    if 'ALERT' in subject:
+        return 'important', subject
     return 'warning', subject
     
 def backtrace_day(server, from_date, to_date, dummy_what):
@@ -164,6 +168,7 @@ def backtrace(server):
     """
     server.the_file.write('''
 <head>
+<title>BackTraces</title>
 <base href="%s/=%s/backtrace/">
 <style>
 BODY { white-space: nowrap;
