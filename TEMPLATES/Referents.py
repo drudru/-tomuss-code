@@ -79,8 +79,6 @@ referent_columns = {
 def init(table):
     _ucbl_.init(table)
     table.default_sort_column = 2 # Compatibility with old files
-    table.abjs = abj.get_abjs(table.year, table.semester)
-    table.abjs_mtime = 0
     table.private = 1
     table.modifiable = int(utilities.university_year() == table.year)
     table.referent_resume = referent_resume
@@ -99,8 +97,8 @@ def check_columns(table):
             v['comment'] = x
     table.update_columns(referent_columns)
 
-def content(dummy_table):
-    return _ucbl_.update_student_information
+def content(table):
+    return table.the_abjs() + _ucbl_.update_student_information
 
 def onload(table):
     """This function is only here to correct a bug on old referent files"""

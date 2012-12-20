@@ -1205,7 +1205,43 @@ class Table(object):
         utilities.manage_key('LOGINS', os.path.join(name, 'master_of'),
                              content = repr(d))
 
-    
+    def the_abjs(self):
+        from . import abj
+
+        grp_col = self.columns.get_grp()
+        seq_col = self.columns.get_seq()
+        t = []
+        for login in self.logins():
+            tt = abj.tierstemps(login)
+            student = abj.Abj(self.year, self.semester, login)
+            line = list(self.get_lines(login))
+            if line:
+                line = line[0]
+                the_abjs= abj.do_prune(
+                    student.abjs,
+                    self.dates[0], self.dates[1]+86400,
+                    line[grp_col].value,line[seq_col].value,
+                    self.ue)
+            else:
+                the_abjs = ()
+            da = student.da
+            if tt or the_abjs or da:
+                t.append("%s:[[%s],[%s],%s]" % (
+                    js(login),
+                    ','.join(['[%s,%s,%s]' % (js(a),js(b),js(d))
+                              for a,b,dummy_c,d in the_abjs]),
+                    ','.join(['[%s,%s,%s]' % (js(a),js(b),js(d))
+                              for a,b,dummy_c,d in da]),
+                    js(tt.encode('utf-8'))))
+
+        self.new_abjs = 'change_abjs({%s});\n' % ',\n'.join(t)
+        return self.new_abjs
+
+    def update_the_abjs(self):
+        old_abjs = self.new_abjs
+        if self.the_abjs() != old_abjs:
+            self.send_update(None,'<script>' + self.new_abjs + '</script>')
+
 def send_alert(text):    
     for atable in tables_values():
         atable.send_alert(text)

@@ -177,6 +177,7 @@ def university_year(year=None, semester=None):
     return year + configuration.semesters_year[i]
 
 def university_year_semester(year=None, semester=None):
+    "Return the first year+semester of the university"
     if semester is None:
         semester = configuration.year_semester[1]
     if year is None:

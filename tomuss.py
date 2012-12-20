@@ -24,8 +24,8 @@ import time
 import sys
 import os
 import glob
-import abj
 import BaseHTTPServer
+from . import abj
 from . import configuration
 from . import utilities
 from . import document

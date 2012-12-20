@@ -176,38 +176,6 @@ def check(table, update_inscrits=update_inscrits_ue):
     table.change_portails(portails)
     warn("Update done", what="check")
     
-def the_abjs(table):
-    students = table.abjs.students
-    grp_col = table.columns.get_grp()
-    seq_col = table.columns.get_seq()
-    t = []
-    for login in table.logins():
-        tt = abj.tierstemps(login)
-        if login in students:
-            student = students[login]
-            line = list(table.get_lines(login))
-            if line:
-                line = line[0]
-                the_abjs= abj.do_prune(student.abjs,
-                                       table.dates[0], table.dates[1]+86400,
-                                       line[grp_col].value,line[seq_col].value,
-                                       table.ue)
-            else:
-                the_abjs = ()
-            da = student.da
-        else:
-            the_abjs = []
-            da = []
-        if tt or the_abjs or da:
-            t.append("%s:[[%s],[%s],%s]" % (
-                js(login),
-                ','.join(['[%s,%s,%s]'
-                          %(js(a),js(b),js(d)) for a,b,dummy_c,d in the_abjs]),
-                ','.join(['[%s,%s,%s]'
-                          %(js(a),js(b),js(d)) for a,b,dummy_c,d in da]),
-                js(tt.encode('utf-8'))))
-
-    return 'change_abjs({%s});\n' % ',\n'.join(t)
 
 def update_student(table, page, the_ids, infos):
     the_id, firstname, surname, mail, grp, seq = infos[:6]
@@ -357,9 +325,7 @@ def terminate_update(table, the_ids):
         if allow_student_removal:
             remove_students_from_table(table, students_to_remove)
 
-    if table.abjs.mtime != table.abjs_mtime:
-        table.abjs_mtime = table.abjs.mtime
-        table.send_update(None, '<script>' + the_abjs(table) + '</script>')
+    table.update_the_abjs()
 
     warn("Done", what="check")
 

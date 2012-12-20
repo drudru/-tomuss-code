@@ -23,7 +23,7 @@ import random
 from .. import inscrits
 from .. import abj
 from . import _ucbl_
-from ._ucbl_ import the_abjs, update_student, terminate_update, cell_change
+from ._ucbl_ import update_student, terminate_update, cell_change
 from .. import configuration
 
 # Do not edit this first line (see SCRIPTS/install_demo)
@@ -50,30 +50,17 @@ def init(table):
     _ucbl_.init(table)
     table.table_title = 'Techniques de base'
     table.modifiable = 1
-    table.abjs = abj.get_abjs(table.year, table.semester)
-    table.abjs_mtime = 0
     table.comment = "Pictures from wiki commons"
     table.default_sort_column = 2 # compatibility with old files
 
 def content(table):
-    if False: # Next lines are DANGEROUS (abj.abjs = ...)
-        abj.abjs = True # Do not save next change in database
-        abj.get_abjs(table.year, table.semester).add_da('k01','demo_animaux',
-                                                        date='01/01/2009') 
-        abj.get_abjs(table.year, table.semester).add('k01',
-                                                     '02/02/2009M', '03/03/2009A')
-        abj.abjs = None
-
     tt = abj.get_table_tt(table.year, table.semester)
     tt.loading = True # Do not save next change in database
     tt.cell_change(tt.pages[0], '0_0', 'x', 'k07')
     tt.cell_change(tt.pages[0], '0_3', 'x', '1')
     tt.loading = False
 
-    table.abjs_mtime = table.abjs.mtime
-    c = the_abjs(table)
-    c += update_student_information
-    return c
+    return  table.the_abjs() + update_student_information
 
 def update_inscrits_ue(the_ids, table, page):
     table.with_inscrits = table.columns[5].title == 'Inscrit'

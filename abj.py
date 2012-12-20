@@ -21,9 +21,6 @@
 
 """Management of the justification for missing courses."""
 
-# get_abjs ====> dans table.abjs : ENLEVER completement
-# Idem pour abjs_mtime
-
 import os
 import time
 import cgi
@@ -53,7 +50,7 @@ class Abj(object):
     """ABJ for a given student
 
     Functions: add, rem, add_da, rem_da
-    are stored in the key file of the student (per year).
+    are stored in the key file of the student (per university year).
     The parameters are yet validated.
 
     The same functions beginning with 'store_' do the check and the storage.
@@ -90,7 +87,10 @@ class Abj(object):
         to_date = a_date(to_date)
         for abj in self.abjs:
             if (from_date, to_date) == abj[:2]:
-                kqsdksdqsjkdqkjdsq
+                print 'Do no add twice the same ABJ for', self.login
+                print from_date, to_date, user_name, date, comment
+                for i in self.abjs:
+                    print '\t', i
                 return
         if not date:
             date = time.strftime('%Y%m%d%H%M%S')
@@ -133,7 +133,7 @@ class Abj(object):
         to_date = a_date(to_date)
         if not date:
             date = time.strftime('%Y%m%d%H%M%S')
-        self.store('rem(%s,%s,%s,%s)\n' % (
+        self.store('rem2(%s,%s,%s,%s)\n' % (
                 repr(from_date), repr(to_date), repr(user_name), repr(date)))
         
     def rem_da(self, ue_code, dummy_username, dummy_date):
@@ -206,8 +206,8 @@ class Abjs(object):
     """ABJ for a set of students"""
 
     def __init__(self, year, semester):
-        self.year = year
-        self.semester = semester
+        self.year, self.semester = utilities.university_year_semester(
+            year, semester)
 
         # This code is here to translate old data format to the new one.
         
@@ -257,9 +257,8 @@ class Abjs(object):
     def students(self):
         for filename in glob.glob(
             os.path.join(configuration.db, 'LOGINS','*','*',
-                         'abj_%s_%s' % (self.year, self.semester)
-                         )):
-                yield filename.split(os.path.sep)[-2]
+                         'abj_%s' % self.year)):
+            yield filename.split(os.path.sep)[-2]
 
 def add_abjs(year, semester, ticket, student, from_date, to_date, comment):
     """Helper function"""
@@ -282,7 +281,7 @@ def rem_abjs_da(year, semester, ticket, student, ue_code):
 
 def html_abjs(year, semester, student):
     """Get all the ABJS/DA informations has HTML"""
-    return unicode(Abj(year, semester, student).html())
+    return unicode(Abj(year, semester, student).html(), 'utf-8')
 
 def a_student(browser, year, semester, ticket, student):
     """Send student abj with the data to_date the navigator."""
@@ -397,7 +396,6 @@ def alpha_html(browser, year, semester, ue_name_endswith=None,
         title(_("TH_end_or_ue"), 'cmp_ue2'),
         title(_("TH_comment"), 'cmp_comment')))
     for login in Abjs(year, semester).students():
-
         if ue_name_endswith:
             for ue_code in inscrits.L_batch.ues_of_a_student_short(login):
                 if ue_code.endswith(ue_name_endswith):
@@ -413,18 +411,18 @@ def alpha_html(browser, year, semester, ue_name_endswith=None,
                 # No UE start by the required character
                 continue
 
-        fn, sn = inscrits.L_slow.firstname_and_surname(login)
-        fn = fn.encode('utf8')
-        sn = sn.encode('utf8')
+        def write(a, b, c, d):            
+            fn, sn = inscrits.L_slow.firstname_and_surname(login)
+            fn = fn.encode('utf8')
+            sn = sn.encode('utf8')
+            browser.write( line % (fn, sn, login, a, b, c ,d))
         student = Abj(year, semester, login)
         for from_date, to_date, author2, comment in student.abjs:
             if author is None or author == author2:
-                browser.write( line % (fn, sn, login, 'ABJ',
-                                 from_date, to_date, cgi.escape(comment)) )
+                write('ABJ', from_date, to_date, cgi.escape(comment))
         for ue_code, date, author2, comment in student.da:
             if author is None or author == author2:
-                browser.write( line % (fn, sn, login, 'DAS', date,
-                                       ue_code, cgi.escape(comment)) )
+                write('DAS', date, ue_code, cgi.escape(comment))
     browser.write('</tbody></table>'
                   + '<script>abj_messages = [%s,%s,%s,%s] ; </script>' % (
             utilities.js(utilities._("MSG_abj_choose_action")),

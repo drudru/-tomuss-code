@@ -53,7 +53,7 @@ if caller_globals["__name__"] == '__main__':
 
     # Some old table data file contains 'from data import *'
     # in place of 'from TOMUSS.data import *'
-    # This lien fixes the problem
+    # This link fixes the problem
     for i in ('data', 'abj', 'teacher'):
         __import__(package_name + '.' + i)
         sys.modules[i] = sys.modules[package_name + '.' + i]

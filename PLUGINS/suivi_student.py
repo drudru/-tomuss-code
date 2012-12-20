@@ -123,7 +123,7 @@ def student_statistics(login, server, is_a_student=False, expand=False,
                                ticket=ticket),
          '">',
          tomuss_links(login, ticket, server, is_a_student) +
-         abj.html_abjs(server.year, server.semester, login, read_only=True)
+         abj.html_abjs(server.year, server.semester, login)
          ,
          '<h1>'
          ]

@@ -23,7 +23,7 @@ import re
 from .. import utilities
 from .. import abj
 from .. import configuration
-from ._ucbl_ import check, update_student_information, create, the_abjs, update_student, cell_change
+from ._ucbl_ import check, update_student_information, create, update_student, cell_change
 from . import _ucbl_
 
 def init(table):
@@ -52,12 +52,9 @@ def init(table):
         table.modifiable = 1
         
     table.update_inscrits = table.modifiable
-    table.abjs = abj.get_abjs(table.year, table.semester)
-    table.abjs_mtime = 0
 
 def content(table):
-    table.abjs_mtime = table.abjs.mtime
-    c = the_abjs(table)
+    c = table.the_abjs()
     if table.ue == 'tables':
         c += """
 function update_student_information(line)
