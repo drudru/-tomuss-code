@@ -34,7 +34,7 @@ default_links = (
      "javascript:go_year('Dossiers/tt')"),
     ("abj_master", -100, "verysafe", "abj_masters",
      "javascript:go_year('Dossiers/tt/=read-only=')"),
-    ("informations",0,"verysafe", ""  ,"stats.html"),
+    ("informations",0,"verysafe", ""  ,"//stats.html"),
     ('referents',999,'safe'   ,'roots',"javascript:go('referents_students')"),
     ("root_rw",-900,"verysafe",'roots',"/0/Dossiers/config_table/=read-only="),
     ("root_rw",-809,"unsafe"  ,'roots',"/0/Dossiers/config_table"),

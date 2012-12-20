@@ -67,6 +67,8 @@ def plugins_tomuss():
     from .PLUGINS import picture
     from .PLUGINS import change_identity
     from .PLUGINS import auto_update
+    from .PLUGINS import backtrace
+
     plugins_tomuss_more()
 
     tomuss_plugins = list(plugin.plugins)

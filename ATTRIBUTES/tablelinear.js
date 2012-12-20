@@ -568,7 +568,7 @@ function linear_onkeypress(event)
     }
   if ( event.keyCode != 27 )
     return true ;
-  L.w("Modification annulée.") ;
+  L.w(_("MSG_tablelinear_cancel")) ;
   L.stop_edit(true) ;
   stop_event(event) ;
 }

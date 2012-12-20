@@ -586,7 +586,15 @@ class Table(object):
 
         old_value = str(cell.value)
         new_value = str(value)
-        if old_value == new_value:
+        # If the old value is the float 10
+        # And the new one the string 10
+        # The string compare will be false because "10.0" != "10"
+        # So we also compare non string values.
+        try:
+            equal = float(cell.value) == float(value)
+        except ValueError:
+            equal = old_value == new_value
+        if equal:
             if cell.author == page.user_name:
                 return 'ok.png'
             if not change_author:
@@ -599,7 +607,11 @@ class Table(object):
             except ValueError:
                 pass
 
-        if not self.loading and a_column.repetition and value != '':
+        if (not self.loading
+            and a_column.repetition
+            and value != ''
+            and not equal
+            ):
             n = 0
             data_col = a_column.data_col
             if a_column.repetition > 0:
@@ -620,6 +632,7 @@ class Table(object):
 
 
         if (not self.loading and self.template
+            and not equal
             and hasattr(self.template, 'cell_change')):
             self.template.cell_change(self, page, col, lin, value, date)
 
@@ -1249,7 +1262,7 @@ def table(year, semester, ue, page=None, ticket=None, ro=False, create=True,
             time.sleep(0.1)
             t = tables_manage('get', year, semester, ue, do_not_unload)
 
-    elif t is False:
+    if t is False:
         # I must create the table
         # Only one thread can be here at the same time.
         try:
@@ -1413,7 +1426,8 @@ def it_is_a_bad_request(request, page, tabl, output_file):
         return True
     if tabl.unloaded:
         # No sense to do the do_not_unload_add(-1)
-        utilities.send_backtrace('Request on unloaded table '+tabl.ue)
+        utilities.send_backtrace('Request on unloaded table ' + tabl.ue,
+                                 exception=False)
         return True
     if output_file.closed:
         # Nobody want the answer
@@ -1424,20 +1438,20 @@ def should_be_delayed(request, page, tabl, r, t):
     if tabl.the_lock.locked():
         return True
     if page.request < request:
-        # Wait missing requests
-        if (len(t) > 5
-            and t[-6][0] == r[0] and t[-6][1] == r[1]
-            and t[-5][0] == r[0] and t[-5][1] == r[1]
-            and t[-4][0] == r[0] and t[-4][1] == r[1]
-            and t[-3][0] == r[0] and t[-3][1] == r[1]
-            and t[-2][0] == r[0] and t[-2][1] == r[1]
-            ):
-            # We received 6 times the same request. (4 is too small)
+        # Count the number of identical request
+        n = 0
+        for old in t[::-1]:
+            if old[0] == r[0] and old[1] == r[1]:
+                n += 1
+            else:
+                break
+        if n > 12:
+            # We received 12 times the same request. (6 is too small)
             # So, we hit a request-accounting bug.
             # For example: server restart and browser 'update_content'
             # request that is not stored in the table data file.
             utilities.send_backtrace('Bad Request Number (%s!=%s)' %
-                                     (page.request, request))
+                                     (page.request, request), exception=False)
             # We fix the page request number
             # So we no more delay this request handling
             page.request = request

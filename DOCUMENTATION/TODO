@@ -8,8 +8,6 @@ Nouvelles fonctionnalités.
 Utilisateurs finaux.
 --------------------
 
-* Reconnection de la page des ABJ quand le serveur redémarre ?
-
 * Faire doc d'installation pas par pas
 
 * ticket.remove_old_files()
@@ -82,7 +80,7 @@ Utilisateurs finaux.
 
 * Vue de la table telle qu'elle était à une date donnée.
 
-* En cas de déconnexion : resynchronisation de la table : il faut
+* En cas de déconnexion Oracle : resynchronisation de la table : il faut
   que le serveur conserve toutes les modifications non envoyées.
 
 ---------------
@@ -121,6 +119,8 @@ Administrateur.
 =====================
 Problèmes à résoudre.
 =====================
+
+* Deprecated dans config_table
 
 * L'étudiant qui cherche à changer une valeur saisie par le prof via le suivi
   l'indiquer dès le départ

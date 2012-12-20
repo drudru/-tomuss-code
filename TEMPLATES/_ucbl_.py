@@ -285,7 +285,6 @@ def remove_students_from_table(table, students):
         inscrit_column = table.columns[data_col].the_id
     else:
         inscrit_column = None
-
     p = None
 
     table.lock()
@@ -306,12 +305,12 @@ def remove_students_from_table(table, students):
                         table.cell_change(table.pages[0],
                                           column.the_id, line_id, '')
             else:
-                if inscrit_column and table.official_ue:
+                if inscrit_column:
                     table.cell_change(table.pages[0], inscrit_column, line_id,
                                       'non', change_author=False)
                 for i, column in enumerate(table.columns):
                     if (line[i].value and line[i].author == data.ro_user
-                        and i != inscrit_column):
+                        and i != data_col):
                         if p == None:
                             p = rw_page(table)
                         table.cell_change(p, column.the_id, line_id)

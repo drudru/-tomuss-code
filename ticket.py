@@ -122,7 +122,7 @@ class Ticket(object):
             s += 'r'
         if self.is_an_administrative:
             s += 'A'
-        if self.password_ok:
+        if getattr(self, 'password_ok', False):
             s += 'P'
         return s
 

@@ -38,14 +38,20 @@ def gc_top(server):
     server.the_file.write('<META NAME="ROBOTS" CONTENT="NOINDEX, NOFOLLOW">\n')
     server.the_file.write('<pre>')
     server.the_file.write('gc.garbage=%s\n' % gc.garbage)
-    leaking = objgraph.get_leaking_objects()
-    server.the_file.write('leaking=%s\n' % len(leaking))
+    # leaking = objgraph.get_leaking_objects()
+    # server.the_file.write('leaking=%s\n' % len(leaking))
     server.the_file.write('\n')
     gc.collect()
     for name, nr in objgraph.most_common_types(limit=100):
         server.the_file.write('%6d <a href="%s/=%s/type/%s">%s</a>\n' % (
             nr, utilities.StaticFile._url_, server.ticket.ticket, name, name))
     server.the_file.write('</pre>')
+    # server.the_file.write('Leak :<pre>')
+    # t = ['%s\n' % cgi.escape(repr(o)[:80])
+    #      for o in leaking
+    #      ]
+    # t.sort()
+    # server.the_file.write(''.join(t) + '</pre>')
 
 def check(path, o):
     s = []

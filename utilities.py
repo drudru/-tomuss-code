@@ -19,6 +19,7 @@
 #
 #    Contact: Thierry.EXCOFFIER@bat710.univ-lyon1.fr
 
+import resource
 import time
 import re
 import os
@@ -232,7 +233,11 @@ def warn(text, what='info'):
         pass
     x.reverse()
     x = '/'.join(x).rjust(50)[-50:]
-    x = '%c %13.2f %s %s\n' % (what[0].upper(), time.time(), x, text)
+    x = '%c %13.2f %4d %s %s\n' % (
+        what[0].upper(),
+        time.time(),
+        resource.getrusage(resource.RUSAGE_SELF)[2]//1000,
+        x, text)
     sys.stderr.write(x)
     global live_log
     if live_log:
@@ -347,7 +352,7 @@ def start_new_thread(fct, args, send_mail=True, immortal=False):
                 try:
                     self.fct(*self.args)
                 except:
-                    warn("Exception in " % self, what="Error")
+                    warn("Exception in %s" % self, what="Error")
                     if self.send_mail:
                         send_backtrace("Exception in %s" % self)
                 if not self.immortal:
@@ -407,13 +412,14 @@ def js(t):
 def js2(t):
     return '"' + t.replace('\\','\\\\').replace('"','\\"').replace('\n','\\n') + '"'
 
-def mkpath(path):
+def mkpath(path, create_init=True):
     s = ''
     for i in path.split(os.path.sep):
         s += i + os.path.sep
         try:
             os.mkdir(s)
-            write_file(os.path.join(s, '__init__.py'), '')
+            if create_init:
+                write_file(os.path.join(s, '__init__.py'), '')
         except OSError:
             pass
 
@@ -470,6 +476,7 @@ def frame_info(frame, displayed):
 
 import socket
 
+
 def send_backtrace(txt, subject='Backtrace', exception=True):
     s = configuration.version
     if exception and sys.exc_info()[0] != None \
@@ -505,11 +512,26 @@ def send_backtrace(txt, subject='Backtrace', exception=True):
     except ValueError:
         pass
     s += '</table>'
-    warn(subject + '\n' + s, what='error')
+    filename = os.path.join("LOGS", "BACKTRACES",
+                            time.strftime('%Y-%m-%d'
+                                          + os.path.sep + "%H:%M:%S")
+                            )
+    mkpath(os.path.join(*filename.split(os.path.sep)[:-1]), create_init=False)
 
-    send_mail_in_background(configuration.maintainer, subject,
-                            '<html><style>TABLE TD { border: 1px solid black;} .name { text-align:right } PRE { background: white ; border: 2px solid red ;}</style><body>' + s + '</body></html>')
+    s = '<html><style>TABLE TD { border: 1px solid black;} .name { text-align:right } PRE { background: white ; border: 2px solid red ;}</style><body>' + s + '</body></html>'
+    
+    f = open(filename, "a")
+    f.write(subject + '\n' + s)
+    f.close()
+    warn(subject + '\n' + s, what="error")
 
+    if send_backtrace.last_subject != subject and '*./' not in subject:
+        # Not send twice the same mail subject.
+        # Do not send closed connection traceback.
+        send_mail_in_background(configuration.maintainer, subject, s)
+        send_backtrace.last_subject = subject
+
+send_backtrace.last_subject = ''
 
 class StaticFile(object):
     """Emulate a string, but it is a file content"""
@@ -990,18 +1012,19 @@ class Variables(object):
         # '_' to remove ambiguity between 'Variables' template
         # and the table template.
         t = document.table(0, "Variables", '_' + self._group)
-        if t and t.modifiable: # and not t.the_lock.locked:
+        if t and t.modifiable and not hasattr(t, "variables_initialized"):
             ro = t.pages[0]
             rw = t.pages[1]
-            for k, v in self._variables.items():
-                if k not in t.lines:
-                    t.lock()
-                    try:
-                        t.cell_change(ro, '0', k, v[0])
-                        t.cell_change(ro, '1', k, v[1].__class__.__name__)
+            t.lock()
+            try:
+                for k, v in self._variables.items():
+                    if k not in t.lines:
                         t.cell_change(rw, '2', k, repr(v[1]))
-                    finally:
-                        t.unlock()
+                    t.cell_change(ro, '0', k, v[0])
+                    t.cell_change(ro, '1', k, v[1].__class__.__name__)
+            finally:
+                t.unlock()
+            t.variables_initialized = True
         if t is None  or   name not in t.lines:
             try:
                 return self._variables[name][1]

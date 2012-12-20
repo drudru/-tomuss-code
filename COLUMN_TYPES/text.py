@@ -72,7 +72,6 @@ getters = {
     }
 
 def get_column_from_a_table(column, table_list):
-
     values = collections.defaultdict(list)
     try:
         getter = getters[table_list[0]]
@@ -106,7 +105,6 @@ def get_column_from_a_table(column, table_list):
             return
         for line in table.lines.values():
             values[line[0].value].append((getter(line[col.data_col]), url))
-        
     for line_id, line in column.table.lines.items():
         new_val = values[line[0].value]
         if len(new_val) == 0:

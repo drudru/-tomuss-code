@@ -31,7 +31,7 @@ import socket
 import os
 import time
 
-version = '5.0.13'
+version = '5.0.14'
 
 ###############################################################################
 # ACLS
@@ -353,6 +353,7 @@ the_portails = {
      ),
     'UFRFST' : # The groups of student that should have a referent teacher
     (
+        'CN=176511 CGE-UFR Sciences et Technologie,OU=groupes,OU=etudiants,DC=univ-lyon1,DC=fr',
         'CN=148891 CGE-UFR Sciences et Technologie,OU=groupes,OU=etudiants,DC=univ-lyon1,DC=fr',
         'CN=139284 APO-UFR Sciences et Technologie,OU=groupes,OU=etudiants,DC=univ-lyon1,DC=fr',
 #        'CN=OU=UFR Sciences et Technologies,DC=univ-lyon1,DC=fr',

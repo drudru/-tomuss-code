@@ -60,11 +60,15 @@ def cell(server):
     r = cell_change(server)
 
     if r == 'bad.png':
-        server.the_file.write('<body style="background:red">')
+        server.the_file.write(
+            '<body style="background:red"><script>alert(%s)</script>' %
+            utilities.js(server._("ERROR_value_not_modifiable")))
     elif r == 'ok.png':
         server.the_file.write('<body style="background:green">')
     else:
-        server.the_file.write('<body style="background:#F0F">')
+        server.the_file.write(
+            '<body style="background:#F0F"><script>alert(%s)</script>' %
+            utilities.js(server._("TIP_violet_square")))
 
 
 plugin.Plugin('cell', '/{Y}/{S}/{U}/cell/{*}', function=cell,

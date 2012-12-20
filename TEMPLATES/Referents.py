@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 #    TOMUSS: The Online Multi User Simple Spreadsheet
-#    Copyright (C) 2009-2011 Thierry EXCOFFIER, Universite Claude Bernard
+#    Copyright (C) 2009-2012 Thierry EXCOFFIER, Universite Claude Bernard
 #
 #    This program is free software; you can redistribute it and/or modify
 #    it under the terms of the GNU General Public License as published by
@@ -73,6 +73,7 @@ referent_columns = {
     'RDV3': {'position':12,'type':'Prst', "width":2},
     'RDV4': {'position':13,'type':'Prst', "width":2},
     'JUR2': {'position':14,'type':'Text', "width":6},
+    'Insc': {'type':'Text', "hidden":1, "freezed": 'C', 'title': 'Inscrit'},
     }
 
 def init(table):
