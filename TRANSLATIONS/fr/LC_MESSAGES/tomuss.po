@@ -4946,3 +4946,50 @@ msgstr "Votre mobile n'a pas la même adresse IP qu'il y a une seconde.\n"
        "<p>\n"
        "Demandez à votre opérateur téléphonique de rectifier ce problème."
 
+msgid "LABEL_hours_of_the_day"
+msgstr "Heures de la journée"
+
+msgid "LABEL_cell_change_per_hours_of_the_day"
+msgstr "Nombre de saisies de valeurs par heure de la journée"
+
+msgid "LABEL_cell_change_per_day_of_the_week"
+msgstr "Nombre de saisies de valeurs par jour de la semaine"
+
+msgid "LABEL_cell_change_per_week"
+msgstr "Nombre de saisies de valeurs par semaine"
+
+msgid "LABEL_page_load_time_time"
+msgstr "Temps de chargement complet de la table en secondes"
+
+msgid "LABEL_page_load_time_number"
+msgstr "Nombre de chargements ayant pris ce temps"
+
+msgid "LABEL_page_load_time_24"
+msgstr "Statistiques sur 24 heures"
+
+msgid "LABEL_page_load_time_7"
+msgstr "Statistiques sur 7 jours"
+
+msgid "LABEL_page_load_time_total"
+msgstr "Statistiques totales"
+
+msgid "LABEL_page_load_time_average_day"
+msgstr "Temps moyen de chargement de page par jour"
+
+msgid "LABEL_page_load_time_average_week"
+msgstr "Temps moyen de chargement de page par semaine"
+
+msgid "LABEL_page_load_time_median_day"
+msgstr "Temps médian de chargement de page par jour"
+
+msgid "LABEL_page_load_time_median_week"
+msgstr "Temps médian de chargement de page par semaine"
+
+msgid "LABEL_page_load_time_nr_day"
+msgstr "Nombre de chargements de page par jour"
+
+msgid "LABEL_page_load_time_nr_week"
+msgstr "Nombre de chargements de page par semaine"
+
+msgid "LABEL_page_load_time_days"
+msgstr "Jours"

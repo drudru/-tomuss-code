@@ -4882,3 +4882,50 @@ msgstr "Your cellular has not the same IP than one second ago.\n"
        "<p>\n"
        "Ask your cellular provider to fix this problem."
 
+msgid "LABEL_hours_of_the_day"
+msgstr "Hours of the day"
+
+msgid "LABEL_cell_change_per_hours_of_the_day"
+msgstr "Number of entered values per day hours"
+
+msgid "LABEL_cell_change_per_day_of_the_week"
+msgstr "Number of entered values per week days"
+
+msgid "LABEL_cell_change_per_week"
+msgstr "Number of entered values per week"
+
+msgid "LABEL_page_load_time_time"
+msgstr "Full load time in seconds"
+
+msgid "LABEL_page_load_time_number"
+msgstr "Number of page loaded within this time"
+
+msgid "LABEL_page_load_time_24"
+msgstr "24 hours statistics"
+
+msgid "LABEL_page_load_time_7"
+msgstr "7 days statistics"
+
+msgid "LABEL_page_load_time_total"
+msgstr "Full statistics"
+
+msgid "LABEL_page_load_time_average_day"
+msgstr "Average table load time per day"
+
+msgid "LABEL_page_load_time_average_week"
+msgstr "Average table load time per week"
+
+msgid "LABEL_page_load_time_median_day"
+msgstr "Median table load time per day"
+
+msgid "LABEL_page_load_time_median_week"
+msgstr "Median table load time per week"
+
+msgid "LABEL_page_load_time_nr_day"
+msgstr "Number of page load per day"
+
+msgid "LABEL_page_load_time_nr_week"
+msgstr "Number of page load per week"
+
+msgid "LABEL_page_load_time_days"
+msgstr "Days"

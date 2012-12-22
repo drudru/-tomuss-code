@@ -9,14 +9,18 @@ import tomuss_init
 import os
 import time
 import glob
+from .. import utilities
 from .. import configuration
+
+_ = utilities.__
 
 def plot(filename, commands):
     print 'Plotting', filename
     f = os.popen('gnuplot', 'w')
+    f.write('set encoding iso_8859_1\n')
     f.write('set terminal png large font arial tiny\n')
     f.write("set output 'TMP/%s'\n" % filename)
-    f.write(commands)
+    f.write(commands.encode('latin-1'))
     f.close()
 
 class Stats:
@@ -72,11 +76,16 @@ class Stats:
         a = sum(self.hours) / float(len(self.hours)) / d
         plot(name,
              """
-             set xlabel 'Heures de la journée'
+             set xlabel '%s'
              set xtics 1
              set grid ytics
-             plot [-0.5:23.5] 'xxx' with boxes fs solid 0.3 title "Par heure de la journée", %g with lines title "Moyenne"
-             """ % a)
+             plot [-0.5:23.5] 'xxx' with boxes fs solid 0.3 title "%s", %g with lines title "%s"
+             """ % (
+                _("LABEL_hours_of_the_day"),
+                _("LABEL_cell_change_per_hours_of_the_day"),
+                a,
+                _("B_Moy"),
+                ))
 
     def plot_days(self, name):
         d = self.duration / (7*86400.)
@@ -87,12 +96,19 @@ class Stats:
                            for v in enumerate(self.days)]))
         f.close()
         a = sum(self.days) / float(len(self.days)) / d
+        day_names = eval(_("MSG_days_full"))
         plot(name,
              """
              set grid ytics
-             set xtics ("Lundi" 0, "Mardi" 1, "Mercredi" 2, "Jeudi" 3, "Vendredi" 4, "Samedi" 5, "Dimanche" 6)
-             plot [-0.5:6.5] [0:] 'xxx' with boxes fs solid 0.3 title "Par jour de la semaine", %g with lines title "Moyenne"
-             """ % a)
+             set xtics (%s)
+             plot [-0.5:6.5] [0:] 'xxx' with boxes fs solid 0.3 title "%s", %g with lines title "%s"
+             """ % (
+                ','.join('"%s" %d' % (day_names[(i+1)%7], i)
+                         for i in range(7)),
+                _("LABEL_cell_change_per_day_of_the_week"),
+                a,
+                _("B_Moy"),
+                ))
 
     def plot_weeks(self, name):
         a = self.date_number()
@@ -128,8 +144,11 @@ class Stats:
              + """
              set grid ytics
              set grid xtics
-             plot %s, %g with lines title \"Moyenne\"
-             """ % (','.join(years), av))
+             set title '%s'
+             plot %s, %g with lines title \"%s\"
+             """ % (
+                _("LABEL_cell_change_per_week"),
+                ','.join(years), av, _("B_Moy")))
 
 
 d = configuration.db + '/Y*/S*/*.py'

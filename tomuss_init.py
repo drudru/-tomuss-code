@@ -29,7 +29,11 @@ caller_globals = sys._getframe(1).f_globals
 if caller_globals["__name__"] == '__main__':
     # Search package root: its container directory does not have an __init__.py
     current_dir = __file__.split(os.path.sep)
-    current_dir.pop()
+    if len(current_dir) == 1:
+        current_dir = os.getcwd().split(os.path.sep)
+    else:
+        # Remove filename
+        current_dir.pop()
     local_name = []
     while os.path.exists(os.path.sep.join(current_dir + ['__init__.py'])):
         local_name.insert(0, current_dir.pop())

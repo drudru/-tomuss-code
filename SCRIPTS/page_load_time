@@ -1,6 +1,30 @@
 #!/bin/sh
 # -*- ksh -*-
 
+_() {
+python -c '
+import tomuss_init
+import sys
+import utilities
+for i in sys.argv[1:]:
+   print utilities.__(i).encode("latin-1")
+' $1
+}
+
+PLTT=$(_ LABEL_page_load_time_time)
+PLTN=$(_ LABEL_page_load_time_number)
+PLT24=$(_ LABEL_page_load_time_24)
+PLT7=$(_ LABEL_page_load_time_7)
+PLTA=$(_ LABEL_page_load_time_total)
+PLTAD=$(_ LABEL_page_load_time_average_day)
+PLTAW=$(_ LABEL_page_load_time_average_week)
+PLTMD=$(_ LABEL_page_load_time_median_day)
+PLTMW=$(_ LABEL_page_load_time_median_week)
+PLTND=$(_ LABEL_page_load_time_nr_day)
+PLTNW=$(_ LABEL_page_load_time_nr_week)
+PLTD=$(_ LABEL_page_load_time_days)
+
+
 do_graph() {
 grep page_load_time LOGS/TOMUSS/$(date '+%Y').times |
 awk "$2 "'{ A[int(10 * $2)/10]++ ; }
@@ -20,8 +44,8 @@ sort -n > TMP/xxx.page_load_time
 echo "
 set terminal png large font arial
 set output 'TMP/$1.png'
-set xlabel 'Temps de chargement complet de la table en secondes'
-set ylabel 'Nombre de chargements ayant pris ce temps'
+set xlabel '$PLTT'
+set ylabel '$PLTN'
 set logscale x 2
 
 plot 'TMP/xxx.page_load_time' with histeps title '$3'
@@ -35,9 +59,9 @@ export WEEK=$(expr $DAY '*' 7)
 export MONTH=$(expr $DAY '*' 31)
 
 
-do_graph "xxx.page_load_time" "" "Statistiques totales"
-do_graph "xxx.page_load_time_1d" "\$1>$(expr $(date +'%s') - $DAY)" "Statistiques sur 24 heures"
-do_graph "xxx.page_load_time_1w" "\$1>$(expr $(date +'%s') - $WEEK)" "Statistiques sur 7 jours"
+do_graph "xxx.page_load_time" "" "$PLTA"
+do_graph "xxx.page_load_time_1d" "\$1>$(expr $(date +'%s') - $DAY)" "$PLT24"
+do_graph "xxx.page_load_time_1w" "\$1>$(expr $(date +'%s') - $WEEK)" "$PLT7"
 
 
 NR_DAYS=140
@@ -81,20 +105,20 @@ echo "
 set terminal png large font arial
 set output 'TMP/xxx.page_load_time_evolution.png'
 set logscale y
-set ylabel 'Temps de chargement complet de la table en secondes'
-set xlabel 'Jours'
+set ylabel '$PLTT'
+set xlabel '$PLTD'
 
-plot 'TMP/xxx.page_load_time' using 1:2 with lines title 'Temps moyen de chargement de page par jour', 'TMP/xxx.page_load_time' using 1:4 with lines title 'Temps median de chargement de page par jour', 'TMP/xxx.page_load_time' using 1:3 with lines title 'Nombre de chargements de page par jour'
+plot 'TMP/xxx.page_load_time' using 1:2 with lines title '$PLTAD', 'TMP/xxx.page_load_time' using 1:4 with lines title '$PLTMD', 'TMP/xxx.page_load_time' using 1:3 with lines title '$PLTND'
 " | gnuplot
 
 echo "
 set terminal png large font arial
 set output 'TMP/xxx.page_load_time_evolutionW.png'
 set logscale y
-set ylabel 'Temps de chargement complet de la table en secondes'
-set xlabel 'Jours'
+set ylabel '$PLTT'
+set xlabel '$PLTD'
 
-plot 'TMP/xxx.page_load_timeW' using 1:2 with lines title 'Temps moyen de chargement de page par semaine', 'TMP/xxx.page_load_timeW' using 1:4 with lines title 'Temps median de chargement de page par semaine', 'TMP/xxx.page_load_timeW' using 1:3 with lines title 'Nombre de chargements de page par semaine'
+plot 'TMP/xxx.page_load_timeW' using 1:2 with lines title '$PLTAW', 'TMP/xxx.page_load_timeW' using 1:4 with lines title '$PLTMW', 'TMP/xxx.page_load_timeW' using 1:3 with lines title '$PLTNW'
 " | gnuplot
 
 
