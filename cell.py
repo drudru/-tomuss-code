@@ -71,6 +71,9 @@ class CellEmpty(CellVirtual):
     def copy(self):
         return self
 
+    def date_seconds(self):
+        return 0
+
 cellempty = CellEmpty()
 
 class CellValue(CellVirtual):
@@ -118,6 +121,13 @@ class CellValue(CellVirtual):
             return 'C()'
 
     js_student = js
+
+    def date_seconds(self):
+        if self.date:
+            return time.mktime(time.strptime(self.date, '%Y%m%d%H%M%S'))
+        else:
+            return 0
+
 
 
 class Cell(CellValue):
