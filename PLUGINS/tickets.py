@@ -71,6 +71,7 @@ def tickets(server):
             })
 
 plugin.Plugin('tickets', '/tickets', function=tickets, group='roots',
+              launch_thread=True,
               link=plugin.Link(where='informations', html_class="verysafe")
               )
 
