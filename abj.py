@@ -604,7 +604,7 @@ def ue_resume(ue_code, year, semester, browser=None):
     infos = []
     for student_login, group, sequence in the_students:
         student_id = inscrits.login_to_student_id(student_login)
-        student = Abjs(year, semester, student_id)
+        student = Abj(year, semester, student_id)
         
         abjs_pruned = do_prune(student.abjs, first_day, last_day,
                                group, sequence, ue_code) 
@@ -646,7 +646,7 @@ def ue_resume(ue_code, year, semester, browser=None):
     infos = []
     for student_login, group, sequence in the_students:
         student_id = inscrits.login_to_student_id(student_login)
-        student = Abjs(year, semester, student_id)
+        student = Abj(year, semester, student_id)
         dates = [d for d in student.da if d[0] == ue_code]
         if dates:
             nr_letters = feedback(browser, 'D', nr_letters)

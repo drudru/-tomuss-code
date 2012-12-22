@@ -227,6 +227,8 @@ def import_template(names):
     return None
 
 class Table(object):
+    new_abjs = None
+    
     def __init__(self, year, semester, ue, ro=True, user=None):
 
         warn('%s/%s/%s ro=%s user=%s' % (year, semester, ue, ro, user),
@@ -1632,9 +1634,10 @@ def update_computed_values_fast():
             # Update mail if login changed
             if a_column.data_col == 0:
                 login = the_table.lines[lin][0].value
-                m = inscrits.L_fast.mail(login)
-                if m:
-                    the_table.update_mail(login, m.encode('utf-8'))
+                if isinstance(login, str):
+                    m = inscrits.L_fast.mail(login)
+                    if m:
+                        the_table.update_mail(login, m.encode('utf-8'))
 
 column_changed_list = []
 

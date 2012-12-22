@@ -769,7 +769,7 @@ def tests():
     if do('abj'):
         c = s.url('=' + abj + '/%s/abj' % ys)
         assert('abj.js' in c)
-        c = s.url('=' + abj + '/%s/abj/display/10800000' % ys)
+        c = s.url('=' + abj + '/%s/abj/0/10800000/display' % ys)
         # The student is not in any UE
         assert("ues_without_da(['UE-INF20UE2', 'UE-INF20UE2L'])" in c)
 

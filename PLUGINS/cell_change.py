@@ -19,6 +19,7 @@
 #
 #    Contact: Thierry.EXCOFFIER@bat710.univ-lyon1.fr
 
+from .. import utilities
 from .. import plugin
 from .. import document
 

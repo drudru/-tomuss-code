@@ -49,7 +49,9 @@ class Server(object):
             if os.path.isfile(dirname):
                 os.unlink(dirname)
             else:
-                shutil.rmtree(dirname, ignore_errors=True)          
+                shutil.rmtree(dirname, ignore_errors=True)
+        utilities.mkpath_safe('DBregtest/Y%d/SAutomne' %
+                              (configuration.year_semester[0]-1))
         self.restart('w')
 
     def log_files(self, mode):
