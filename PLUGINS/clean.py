@@ -20,7 +20,6 @@
 #    Contact: Thierry.EXCOFFIER@bat710.univ-lyon1.fr
 
 import plugin
-import document
 import tablestat
 
 def clean(server):
@@ -43,6 +42,7 @@ def clean(server):
         server.the_file.flush()
 
 plugin.Plugin('clean', '/{Y}/{S}/clean', group='roots', function=clean,
+              launch_thread=True,
               link=plugin.Link(
                   url="javascript:go(\'clean\')",
                   where='root_rw', html_class='veryunsafe',
@@ -78,7 +78,7 @@ def clean_other(server):
     server.the_file.flush()
 
 plugin.Plugin('clean_other', '/clean_other', group='roots',
-              function=clean_other,
+              function=clean_other, launch_thread=True,
               link=plugin.Link(
                   where='root_rw', html_class='veryunsafe',
                   )
