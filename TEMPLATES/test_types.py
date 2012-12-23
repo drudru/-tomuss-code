@@ -42,7 +42,7 @@ def update_column(table):
         
 
 def create(table):
-    if table.year < 2008 or table.year > 2030 or table.semester != 'Test':
+    if table.year != 0 or table.semester != 'Test':
         raise ValueError('Not allowed')
     p = table.new_page('' ,data.ro_user, '', '')
     table.table_attr(p, 'masters', list(configuration.root))

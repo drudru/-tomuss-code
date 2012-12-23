@@ -59,64 +59,35 @@ def new_page_stat(the_year):
     logins = {}
 
     def new_page(ticket, login, ip, client, date=None):
-        if 'MSIE 7' in client:
-            nav = 'IE7'
-        elif 'MSIE 6' in client:
-            nav = 'IE6'
-        elif 'MSIE' in client:
-            nav = 'IE'
-        elif 'Firefox/1' in client:
-            nav = 'Gecko Firefox1'
-        elif 'Firefox/2' in client:
-            nav = 'Gecko Firefox2'
-        elif 'Firefox/3' in client:
-            nav = 'Gecko Firefox3'
-        elif 'Firefox/4' in client:
-            nav = 'Gecko Firefox4'
-        elif 'Iceape' in client:
-            nav = 'Gecko Iceape'
-        elif 'Iceweasel' in client:
-            nav = 'Gecko Iceweasel'
-        elif 'SeaMonkey' in client:
-            nav = 'Gecko SeaMonkey'
-        elif 'Netscape/7' in client:
-            nav = 'Gecko Netscape'
-        elif 'Epiphany' in client:
-            nav = 'Gecko Epiphany'
-        elif 'Galeon' in client:
-            nav = 'Gecko Galeon'
-        elif 'Camino' in client:
-            nav = 'Gecko Camino'
+        if 'MSIE' in client:
+            nav = 'IE ' + client.split('MSIE')[1].split(";")[0]
+        elif 'Firefox' in client:
+            nav = 'FF ' + client.split('Firefox/')[1].split(".")[0]
         elif 'Chrome/' in client:
-            nav = 'Chrome'
+            nav = 'Chrome ' + client.split('Chrome/')[1].split(".")[0]
         elif 'Safari' in client:
-            nav = 'Safari (KHTML)'
-        elif 'KHTML' in client:
-            nav = 'KHTML'
+            nav = 'Safari ' + client.split('Safari/')[1].split(".")[0]
         elif 'Opera' in client:
-            nav = 'Opera'
+            nav = 'Opera '
+        elif 'KHTML' in client:
+            nav = 'KHTML '
         elif 'Gecko' in client:
-            nav = 'Gecko'
+            nav = 'Gecko ' + client.split('Gecko/')[1].split(" ")[0]
+        elif 'Python-urllib' in client:
+            nav = 'Python-urllib ' + client.split('Python-urllib/')[1]
         else:
             nav = client
 
-        if 'Windows NT 5' in client:
-            os = 'Windows 5'
-        elif 'WinNT4' in client:
-            os = 'Windows 4'
-        elif 'Windows NT 4' in client:
-            os = 'Windows 4'
-        elif 'Windows NT 6' in client:
-            os = 'Windows 6'
-        elif 'Windows 98' in client:
-            os = 'Windows 98'
-        elif 'Windows' in client:
-            print 'os', client
+        if 'Windows' in client:
             os = 'Windows'
         elif 'Linux' in client:
             os = 'Linux'
         elif 'Mac OS' in client:
             os = 'Macintosh'
+        elif 'Android' in client:
+            os = 'Android'
+        elif 'BlackBerry' in client:
+            os = 'BlackBerry'
         else:
             os = client
 
@@ -128,6 +99,11 @@ def new_page_stat(the_year):
             ips[ip] = Stat('IP')
         ips[ip].add(ip, nav, os, login)
 
+        if nav not in clients:
+            clients[nav] = Stat('Browser')
+        clients[nav].add(ip, nav, os, login)
+
+        nav = 'Σ' + nav.split(' ')[0]
         if nav not in clients:
             clients[nav] = Stat('Browser')
         clients[nav].add(ip, nav, os, login)
