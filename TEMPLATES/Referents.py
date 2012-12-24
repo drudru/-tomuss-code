@@ -30,7 +30,6 @@ from .. import data
 from .. import inscrits
 from .. import utilities
 from .. import configuration
-from .. import abj
 from . import _ucbl_
 
 def referent_resume(table, login):

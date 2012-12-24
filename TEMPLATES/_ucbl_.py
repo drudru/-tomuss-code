@@ -20,10 +20,9 @@
 #    Contact: Thierry.EXCOFFIER@bat710.univ-lyon1.fr
 
 import time
-from .. import abj
 from .. import inscrits
 from .. import data
-from ..utilities import js, warn, start_new_thread_immortal
+from ..utilities import warn, start_new_thread_immortal
 from .. import utilities
 from .. import configuration
 

@@ -20,13 +20,11 @@
 #    Contact: Thierry.EXCOFFIER@bat710.univ-lyon1.fr
 
 import os
-import time
 from .. import plugin
 from .. import utilities
 from .. import inscrits
 from .. import configuration
 from .. import referent
-from .. import teacher
 from .. import document
 from .. import files
 
@@ -35,7 +33,8 @@ files.add('PLUGINS', 'home2.css')
 
 def semester_list():
     options = configuration.special_semesters
-    for url, port, year, semester, host in configuration.suivi.urls_sorted():
+    for (dummy_url, dummy_port, year, semester, dummy_host
+         ) in configuration.suivi.urls_sorted():
         if (configuration.year_semester[1] == semester
             and configuration.year_semester[0] == year):
             selected = ' selected'
@@ -44,8 +43,6 @@ def semester_list():
         options += '<option%s>%s/%s</option>' % (selected, year, semester)
     return options
 
-    
-from .. import files
 files.files['middle.js'].replace('home',
                                  '__OPTIONS__',
                                  semester_list().replace('selected',''))

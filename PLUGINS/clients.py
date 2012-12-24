@@ -19,15 +19,14 @@
 #
 #    Contact: Thierry.EXCOFFIER@bat710.univ-lyon1.fr
 
-import os
 from .. import plugin
-from .. import ticket
 from .. import configuration
 from .. import document
 from .. import column
 from .. import cell
 
 def the_new_pages(the_year):
+    import os
     d = configuration.db + '/Y%d/S*/*.py' % the_year
 
     f = os.popen("grep -h '^new_page' " + d, "r")
@@ -58,7 +57,7 @@ def new_page_stat(the_year):
     ips = {}
     logins = {}
 
-    def new_page(ticket, login, ip, client, date=None):
+    def new_page(dummy_ticket, login, ip, client, dummy_date=None):
         if 'MSIE' in client:
             nav = 'IE ' + client.split('MSIE')[1].split(";")[0]
         elif 'Firefox' in client:
@@ -119,7 +118,7 @@ def new_page_stat(the_year):
     return oss, ips, clients, logins
 
 
-def clients(server):
+def display_clients(server):
     """Display client statistics.
     """
 
@@ -169,7 +168,7 @@ def clients(server):
     document.virtual_table(server, columns, lines, table_attrs)
 
 plugin.Plugin('clients', '/clients/{Y}',
-              function=clients,
+              function=display_clients,
               group='roots',
               link=plugin.Link(html_class="verysafe",
                                where="informations",
@@ -177,9 +176,6 @@ plugin.Plugin('clients', '/clients/{Y}',
                                ),
               launch_thread = True,
               )
-
-if __name__ == "__main__":
-    clients(None)
 
 
 

@@ -19,9 +19,9 @@
 #
 #    Contact: Thierry.EXCOFFIER@bat710.univ-lyon1.fr
 
-from .. import plugin
 import os
 import time
+from .. import plugin
 
 last = 0
 

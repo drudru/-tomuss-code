@@ -20,7 +20,6 @@
 #    Contact: Thierry.EXCOFFIER@bat710.univ-lyon1.fr
 
 import ast
-# from .. import document # Fix circular import problem
 from .. import data
 from .. import utilities
 from .. import configuration

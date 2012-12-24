@@ -24,7 +24,6 @@ from .. import data
 from .. import inscrits
 from .. import utilities
 from .. import configuration
-from .. import abj
 from .. import referent
 from . import _ucbl_
 

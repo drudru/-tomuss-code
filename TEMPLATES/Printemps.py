@@ -21,7 +21,6 @@
 
 import re
 from .. import utilities
-from .. import abj
 from .. import configuration
 from ._ucbl_ import check, update_student_information, create, update_student, cell_change
 from . import _ucbl_
@@ -52,7 +51,7 @@ def init(table):
         table.modifiable = 1
         
     table.update_inscrits = table.modifiable
-
+    
 def content(table):
     c = table.the_abjs()
     if table.ue == 'tables':

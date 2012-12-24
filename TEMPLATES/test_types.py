@@ -19,7 +19,6 @@
 #
 #    Contact: Thierry.EXCOFFIER@bat710.univ-lyon1.fr
 
-from .. import plugin
 from .. import plugins
 from .. import configuration
 from .. import data
@@ -40,7 +39,6 @@ def update_column(table):
             table.cell_change(table.pages[1], t.name, i,
                               v, '')
         
-
 def create(table):
     if table.year != 0 or table.semester != 'Test':
         raise ValueError('Not allowed')

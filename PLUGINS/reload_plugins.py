@@ -19,6 +19,7 @@
 #
 #    Contact: Thierry.EXCOFFIER@bat710.univ-lyon1.fr
 
+import sys
 import collections
 import os
 from .. import plugin
@@ -70,6 +71,31 @@ def reload_plugins(server):
         name, reloaded) for name, reloaded in plugins.load_types()))
     server.the_file.write('</table>\n')
 
+    if False:
+        # This does not work correctly because many templates contains :
+        # from other_template import *
+        # When the other template is reloaded, symbols are lost
+        # So this need more work
+        server.the_file.write(server._("MSG_reload_plugins_templates"))
+        server.the_file.write('<table border>\n')
+        for template in tuple(sys.modules.keys()):
+            if (not template.startswith('TOMUSS.TEMPLATES.')
+                and not template.startswith('TOMUSS.LOCAL.LOCAL_TEMPLATES.')
+                ):
+                continue
+            filename = template.split('.')[1:]
+            filename = os.path.sep.join(filename) + '.py'
+            try:
+                dummy_module, reimported = utilities.import_reload(filename)
+            except OSError:
+                continue # Could be a system plugin
+            reimported = ('', server._("TH_reload_plugins_reloaded")
+                          )[reimported]
+            server.the_file.write('<tr><td>%s<td>%s</tr>\n' % (
+                filename, reimported))
+        server.the_file.write('</table>\n')
+    
+    
     for a_file in files.files.values():
         a_file.clear_cache()
 

@@ -8,6 +8,9 @@ Nouvelles fonctionnalités.
 Utilisateurs finaux.
 --------------------
 
+* Autoriser n'importe qui à modifier les infos saisies par les autres.
+  Comme si tous le monde était responsable dans la colonne ?
+
 * Faire doc d'installation pas par pas
 
 * ticket.remove_old_files()
@@ -61,9 +64,6 @@ Utilisateurs finaux.
 
 * Chiffrer colonne avec une clef saisie par l'utilisateur.
 
-* Autoriser n'importe qui à modifier les infos saisies par les autres.
-  Comme si tous le monde était responsable ?
-
 * Tip/News de connexion ?	
 
 * Trombinoscope enseignant : voir boite a outil Intranet UCBL
@@ -87,13 +87,12 @@ Utilisateurs finaux.
 Administrateur.
 ---------------
 
-* Reload plugins doit recharger les templates
+* Reload plugins doit recharger les templates.
+  Il faut d'abord créer des surclasses
 
 * Cleanup d'un tableau sur place : config_table par exemple
 
 * Afficher les lock de tables
-
-* Afficher la tete de update_liste
 
 * Heures sur le graph livestatus
 
@@ -119,6 +118,9 @@ Administrateur.
 =====================
 Problèmes à résoudre.
 =====================
+
+* La liste des actions à faire : si trop vieille regarder si elles
+  ont été faites par ailleurs et si non, envoyer un mail ?
 
 * Deprecated dans config_table
 
@@ -181,7 +183,7 @@ Améliorations de code source.
 
 * Enlever _URL_ si c'est possible
 
-* Faire une fonction 'is_a_student(login)'
+* Faire une fonction 'is_a_student(login)' en Python
 
 * Séparer les fichiers "static" ailleurs, se débarrasser de
   l'attribut 'translation' qui empêche cela

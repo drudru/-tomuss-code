@@ -23,7 +23,6 @@ import os
 import time
 import collections
 from .. import plugin
-from .. import document
 from .. import utilities
 from .. import referent
 from .. import tablestat

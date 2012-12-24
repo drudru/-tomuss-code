@@ -134,7 +134,7 @@ def teachers_statistics(server):
 
     lines = []
 
-    for i, t in enumerate(teachers.values()):
+    for t in teachers.values():
         s = t.name.split('.')
         if len(s) == 1:
             s = ('', s[0])

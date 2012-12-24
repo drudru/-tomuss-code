@@ -36,7 +36,6 @@ from .. import utilities
 from .. import tablestat
 from .. import abj
 from .. import document
-from .. import authentication
 from .. import teacher
 from .. import files
 
@@ -54,7 +53,7 @@ def tomuss_links(login, ticket, server, is_a_student=False):
         year = 2000 + int(login[1:3])
     except ValueError:
         year = 0
-    for url, port, tyear, tsemester, thost \
+    for url, dummy_port, tyear, tsemester, dummy_thost \
             in configuration.suivi.url_with_ticket(ticket.ticket):
         if tyear == server.year and tsemester == server.semester:
             highlight = ' class="highlight"'

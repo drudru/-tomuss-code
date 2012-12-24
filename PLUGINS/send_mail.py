@@ -22,7 +22,6 @@
 import time
 from .. import plugin
 from .. import inscrits
-from ..files import files
 from .. import utilities
 from .. import configuration
 

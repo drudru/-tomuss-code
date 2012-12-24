@@ -29,6 +29,7 @@ import gettext
 import cgi
 import threading
 import shutil
+import gc
 from . import configuration
 
 def read_file(filename):
@@ -691,14 +692,15 @@ def import_reload(filename):
     name[-1] = name[-1].replace('.py','')
     name.insert(0, 'TOMUSS')
     module_name = '.'.join(name)
-    old_module = __import__(module_name) # force the .pyc creation
+    __import__(module_name) # force the .pyc creation
+    old_module = sys.modules[module_name]
     mtime_pyc =  os.path.getmtime(filename + 'c')
     to_reload = mtime > mtime_pyc
     if to_reload:
         unload_module(module_name)
-        module = __import__(module_name)
+        __import__(module_name)
+        module = sys.modules[module_name]
         # replace the old by the new one
-        import gc
         for o in gc.get_referrers(old_module):
             if isinstance(o, dict):
                 for k, v in o.items():
@@ -707,8 +709,6 @@ def import_reload(filename):
                         break
     else:
         module = old_module
-    for item in name[1:]:
-        module = module.__dict__[item]
     return module, to_reload
 
 def nice_date(x):
