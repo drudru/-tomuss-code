@@ -324,8 +324,6 @@ def terminate_update(table, the_ids):
         if allow_student_removal:
             remove_students_from_table(table, students_to_remove)
 
-    table.update_the_abjs()
-
     warn("Done", what="check")
 
 # Get Firstname and surname when id is given.

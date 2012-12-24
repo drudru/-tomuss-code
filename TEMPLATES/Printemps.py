@@ -53,7 +53,7 @@ def init(table):
     table.update_inscrits = table.modifiable
     
 def content(table):
-    c = table.the_abjs()
+    c = ''
     if table.ue == 'tables':
         c += """
 function update_student_information(line)

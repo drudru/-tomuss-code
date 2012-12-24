@@ -158,8 +158,9 @@ def new_page(server):
     warn('New page, do_not_unload=%d' % table.do_not_unload, what="table")
 
     if configuration.regtest_sync:
+        # We want immediate update of the table content (abjs for example)
+        document.update_students.append(table)
         document.check_new_students_real()
-        time.sleep(0.1) # XXX Wait student list update
 
     # Update the number of access for the user
     # No lock because it is not important (there is a lock in manage_key)
@@ -186,7 +187,6 @@ def new_page(server):
             page.use_frame = False
 
     warn('New page, use_frame=%d' % page.use_frame, what="table")
-
     # With this lock cell modification can't be lost
     # between page content creation and the page activation
     table.lock()
@@ -204,8 +204,7 @@ def new_page(server):
         table.unlock()
     if configuration.regtest_sync:
         # We want immediate update of navigator content
-        while document.update_students or \
-              sender.File.nr_active_thread or sender.File.to_send:
+        while sender.File.nr_active_thread or sender.File.to_send:
             time.sleep(0.01)
         if not configuration.regtest_bug1:
             server.close_connection_now()
@@ -240,7 +239,7 @@ def answer_page(server):
         table, page = document.table(server.the_year, server.the_semester,
                                      server.the_ue, server.the_page,
                                      server.ticket)
-    except ValueError, e:
+    except ValueError:
         server.the_file.write(
             '''
 <script>
@@ -279,7 +278,7 @@ else
         warn('Browser reconnection', what='Info')
         if page.browser_file is None:
              page.browser_file = StringFile()
-            
+
         page.browser_file.set_real_file(server.the_file)
         table.active_page(page, page.browser_file)
         server.the_file.flush()

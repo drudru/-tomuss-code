@@ -96,8 +96,8 @@ def check_columns(table):
             v['comment'] = x
     table.update_columns(referent_columns)
 
-def content(table):
-    return table.the_abjs() + _ucbl_.update_student_information
+def content(dummy_table):
+    return _ucbl_.update_student_information
 
 def onload(table):
     """This function is only here to correct a bug on old referent files"""

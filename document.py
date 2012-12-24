@@ -1035,6 +1035,8 @@ class Table(object):
             s.append('document.write(tail_html());')
             s.append('runlog(columns, lines) ;')
             s.append('}')
+            if self.new_abjs:
+                s.append(self.new_abjs)
             if self.template and hasattr(self.template, 'content'):
                 s.append(self.template.content(self))
             s.append('initialize();')
@@ -1222,7 +1224,8 @@ class Table(object):
                 the_abjs= abj.do_prune(
                     student.abjs,
                     self.dates[0], self.dates[1]+86400,
-                    line[grp_col].value,line[seq_col].value,
+                    grp_col and line[grp_col].value or '',
+                    seq_col and line[seq_col].value or '',
                     self.ue)
             else:
                 the_abjs = ()
@@ -1379,6 +1382,7 @@ def check_students_in_tables():
 # continuous update of students lists
 update_students = []
 
+@utilities.add_a_lock # The lock is here for regression tests
 def check_new_students_real():
     try:
         while update_students:
@@ -1399,6 +1403,7 @@ def check_new_students_real():
                 if t.modifiable:
                     for a_column in t.columns:
                         a_column.type.update_all(t, a_column)
+                t.update_the_abjs()
             finally:
                 t.do_not_unload_add(-1)
                 utilities.bufferize_this_file(None)

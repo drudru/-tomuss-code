@@ -60,7 +60,7 @@ def content(table):
     tt.cell_change(tt.pages[0], '0_3', 'x', '1')
     tt.loading = False
 
-    return  table.the_abjs() + update_student_information
+    return update_student_information
 
 def update_inscrits_ue(the_ids, table, page):
     table.with_inscrits = table.columns[5].title == 'Inscrit'
