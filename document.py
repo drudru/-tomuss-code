@@ -1321,6 +1321,7 @@ def table(year, semester, ue, page=None, ticket=None, ro=False, create=True,
             # raise
             utilities.send_backtrace("", "Can'load %s/%s/%s" % (
                     year, semester, ue))
+            tables_manage('del', year, semester, ue)
             if ticket:
                 return None, None
             else:
@@ -1642,7 +1643,7 @@ def update_computed_values_fast():
                 if isinstance(login, str):
                     m = inscrits.L_fast.mail(login)
                     if m:
-                        the_table.update_mail(login, m.encode('utf-8'))
+                        the_table.update_mail(login, m)
 
 column_changed_list = []
 

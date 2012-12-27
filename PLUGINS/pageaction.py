@@ -181,7 +181,8 @@ def delete_this_table(server):
     if not table.modifiable:
         server.the_file.write(server._("MSG_delete_this_table_unmodifiable"))
         return
-    if server.ticket.user_name not in (table.teachers + table.masters):
+    if (server.ticket.user_name not in table.teachers
+        and server.ticket.user_name not in table.masters):
         server.the_file.write(server._("MSG_extension_not_master"))
         return
 
