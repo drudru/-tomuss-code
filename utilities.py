@@ -1195,6 +1195,7 @@ def init(launch_threads=True):
         k += "_char"
         configuration.__dict__[k] = _(k)
         s += "%s = %s;\n" % (k, js(_(k)))
+    s += "var COL_TITLE_0_2 = %s;\n" % js(_("COL_TITLE_0_2"))
     from . import files # Here to avoid circular import
     files.files['types.js'].append("utilities.py", s)
     files.files['auth_close.html'] = StaticFile(

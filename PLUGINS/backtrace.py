@@ -97,6 +97,8 @@ def classifier(filename=None, subject=None):
         return 'important', subject
     if 'ALERT' in subject:
         return 'important', subject
+    if 'BUG TOMUSS' in subject:
+        return 'important', subject
     return 'warning', subject
     
 def backtrace_day(server, from_date, to_date, dummy_what):
