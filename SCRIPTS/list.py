@@ -26,42 +26,49 @@ if sys.argv[1] == 'checkmail':
     # SCRIPTS/list.py memberof=CN=139284 APO-UFR Sciences et Technologie,OU=groupes,OU=etudiants,DC=univ-lyon1,DC=fr checkmail | tee xxx
     # Verify if mails are in the form : givenname.surname
     # Make some statistics
-    bad = collections.defaultdict(int)
+    bad = collections.defaultdict(list)
     nr = 0
     dom = collections.defaultdict(int)
     for i in "abcdefghijklmnopqrstuvwxyz":
-        q = L.query("(mail=" + i + "*)", attributes=('givenName','sn','mail'),
+        q = L.query("(mail=" + i + "*)", attributes=(
+                configuration.attr_login,
+                configuration.attr_firstname,
+                configuration.attr_surname,
+                configuration.attr_mail),
                     base=configuration.ou_top)
         for j in q:
             if j[0]:
-                givenname = unicode(j[1].get('givenName',[''])[0],'utf-8')
+                login = j[1].get(configuration.attr_login,[''])[0]
+                givenname = unicode(j[1].get(
+                        configuration.attr_firstname,[''])[0],'utf-8')
                 givenname = utilities.flat(givenname).replace(' ','-').upper()
-                sn = unicode(j[1].get('sn',[''])[0],'utf8')
+                sn = unicode(j[1].get(
+                        configuration.attr_surname,[''])[0],'utf8')
                 sn = utilities.flat(sn).replace(' ','-').upper()
-                mail = unicode(j[1].get('mail',[''])[0],'utf8')
+                mail = unicode(j[1].get(configuration.attr_mail,[''])[0],'utf8')
                 mail = mail.split(';')[0]
                 if sn == '' or givenname == '':
                     continue
                 if '@' not in mail:
                     print '@\t' + mail
-                    bad['@'] += 1
+                    bad['@'].append(login)
                     continue
                 try:
                     name, domain = mail.upper().split('@')
                 except ValueError:
                     print '@@\t', mail
-                    bad['@@'] += 1
+                    bad['@@'].append(login)
                     continue
 
                 dom[domain] += 1
 
                 x = re.sub("[-a-zA-Z_.0-9@\']", "", mail)
                 if x:
-                    bad[x] += 1
+                    bad[x].append(login + ':' + mail)
                     print repr(x) + '\t' + mail.encode('utf-8')
 
     for d in sorted(dom.keys(), key=lambda x: dom[x]):
-        print d, dom[d].encode('utf-8')
+        print d.encode('utf-8'), dom[d]
     for k, v in bad.items():
         print k.encode('utf-8'), v
     sys.exit(0)
