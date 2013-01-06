@@ -26,7 +26,6 @@ from . import inscrits
 from . import ticket
 from . import sender
 from . import configuration
-from . import plugins
 
 warn = utilities.warn
 
@@ -241,7 +240,7 @@ def authentication_thread():
                 # After redirection to not delay it
                 update_ticket(x.ticket)
 
-            except (IOError, socket.error):
+            except (AttributeError, IOError, socket.error):
                 utilities.send_backtrace(
                     '', subject = 'AUTH '+ str(x.ticket)[:-1])
 
