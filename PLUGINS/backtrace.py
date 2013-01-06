@@ -20,7 +20,7 @@
 #    Contact: Thierry.EXCOFFIER@bat710.univ-lyon1.fr
 
 import cgi
-import time
+import datetime
 import os
 import collections
 from .. import plugin
@@ -35,15 +35,16 @@ def date_range(from_date, to_date):
     They are include in the range.
     BEWARE: returns YYYY-MM-DD
     """
+    day = datetime.datetime(int(from_date[:4]), int(from_date[4:6]),
+                            int(from_date[6:]))
+    last = datetime.datetime(int(to_date[:4]), int(to_date[4:6]),
+                             int(to_date[6:]))
+    one_day = datetime.timedelta(days=1)
     while True:
-        time_tuple = list(time.strptime(from_date, tf))
-        yield (from_date[:4] + '-' + from_date[4:6] + '-' + from_date[6:],
-               time_tuple)
-        if from_date == to_date:
+        yield (day.strftime("%Y-%m-%d"), day.timetuple())
+        if day == last:
             return
-        time_tuple[2] += 1
-        from_date = time.strftime(tf, time_tuple)
-
+        day += one_day
 
 def backtrace_list(server, from_date, to_date, what):
     for dirname, dummy_time in date_range(from_date, to_date):
