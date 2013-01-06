@@ -51,7 +51,6 @@ DIV#student_display IMG {
 INPUT#sendabj { 
   width: 20em ;
   background: #EEE; 
-/*  border: 3px outset #444 ; */
 }
 
 SPAN.arrow { 
@@ -60,6 +59,8 @@ SPAN.arrow {
 }
 
 BODY#BODY P, BODY#BODY H1 { margin: 0px ; }
+
+BODY.abj_body { background: #EEE }
 
 P.wait { background-color: #8F8 ; }
 

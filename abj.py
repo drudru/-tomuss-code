@@ -288,6 +288,7 @@ def a_student(browser, year, semester, ticket, student):
     student = inscrits.login_to_student_id(student)
     html = """
 <link rel="stylesheet" href="%s/style.css" type="text/css">
+<body class="abj_body">
 <div id="student_display"><IMG src="%s"></div>
 """ % (configuration.server_url, configuration.picture(student, ticket))
 
