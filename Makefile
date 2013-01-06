@@ -38,7 +38,7 @@ regtest:translations
 regtest1:translations
 	cd REGTEST_SERVER ; ./tests.py 1
 
-V := $(shell python -c 'import configuration;print configuration.version' 2>/dev/null)
+V := $(shell python -c 'import tomuss_init ; from . import configuration;print configuration.version' 2>/dev/null)
 
 release:translations
 	@echo "Check if we are in the 'stable' branch"

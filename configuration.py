@@ -31,7 +31,7 @@ import socket
 import os
 import time
 
-version = '5.1.0'
+version = '5.1.1'
 
 ###############################################################################
 # ACLS
@@ -303,7 +303,8 @@ suivi.add(time.localtime()[0]  , semesters[0],socket.getfqdn()+':%d', 8889)
 suivi.add(time.localtime()[0]  , semesters[1],socket.getfqdn()+':%d', 8890)
 
 # Do not display 'debug' warning
-do_not_display = ('debug', 'auth', 'table', 'ldap', 'plugin', 'check', 'lang')
+do_not_display = ('debug', 'auth', 'table', 'ldap', 'plugin',
+                  'check', 'lang', 'DNU')
 
 # Message on the top page
 message = ''
