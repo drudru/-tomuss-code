@@ -186,7 +186,7 @@ class LDAP_Logic(object):
                                                   configuration.attr_surname,
                                                   configuration.attr_mail,
                                                   )):
-            d[l] = (f, s, m)
+            d[l.lower()] = (f, s, m)
         return d
             
     # To not remake the query for firstname, surname and mails

@@ -41,6 +41,6 @@ class Mail(code_etape.Code_Etape):
         infos = inscrits.L_batch.firstname_and_surname_and_mail_from_logins(
             tuple(utilities.the_login(i[1]) for i in students))
         for line_id, student in students:
-            student = utilities.the_login(student)
+            student = utilities.the_login(student).lower()
             if student in infos:
                 yield line_id, infos[student][2].encode('utf-8')
