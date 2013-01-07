@@ -55,10 +55,12 @@ function compute_weighted_percent(data_col, line)
       line[data_col].set_value('') ;
       return;
     }
-
-  line[data_col].set_value(
-    column.min + (column.max - column.min) *
+  var v = column.min + (column.max - column.min) *
     compute_weighted_percent_(column.average_columns[0],
-			      line, column.nmbr_filter)
-  ) ;
+			      line, column.nmbr_filter) ;
+
+  if ( column.round_by )
+    v = Math.round(v / column.round_by) * column.round_by ;
+
+  line[data_col].set_value(v) ;
 }
