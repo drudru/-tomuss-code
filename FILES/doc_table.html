@@ -175,10 +175,13 @@
       </li>
       <li><p> Le contenu d'une cellule de type 'Note' peut être&nbsp;:
 	<ul>
-	  <li> <tt>ABINJ</tt> : ABsence INJustifiée.</li>
-	  <li> <tt>ABJUS</tt> : ABsence JUStifiée.</li>
-	  <li> <tt>PPN</tT> : ne Peux Pas Noter.
+	  <li> <tt>ABINJ</tt> : ABsence INJustifiée (donc 0).</li>
+	  <li> <tt>ABJUS</tt> : ABsence JUStifiée
+	    (ne compte pas dans les moyennes).</li>
+	  <li> <tt>PPN</tT> : ne Peux Pas Noter
+	    (ne compte pas dans les moyennes).
 	  Vous pouvez taper <tt>N</tt> au lieu de <tt>PPN</tt></li>
+	  <li> <tt>TNR</tT> : Travail Non Rendu (donc 0).
 	</li>
 	</ul>
       <li><p> Le contenu d'une cellule de type calcul peut
@@ -425,6 +428,8 @@
       De même  <tt>ABI + 0</tt> donne <tt>0</tt>,
       si vous voulez obtenir <tt>ABI</tt> il faut ajouter <tt>ABI</tt>
       au lieu de 0 point jury.
+    </div>
+    <div>
 
     <h4>Malus de 0.5 point par absence injustifiée</h4>
 	<p>
@@ -536,7 +541,13 @@
       Pour intégrer ces informations dans les tableaux de note
       il y a plusieurs méthode&nbsp;:
     <ul>
-      <li> La plus simple est la gestion ``au fil de l'eau´´&nbsp;:
+      <li> La plus simple est d'associer une liste de demi-journées
+	d'enseignement à une colonne dans le champs «Dates» de
+	l'onglet «Config»,
+	si vous saisissez un ABINJ alors que l'étudiant a un justificatif
+	pour l'une des demi-journée alors le ABINJ est affiché en rouge.
+      </li>
+      <li> Vous pouvez aussi faire une gestion ``au fil de l'eau´´&nbsp;:
 	Vous saisissez les présences et absences moins
 	d'une semaine après le TP/TD en question.
 	Si jamais un étudiant a un justificatif d'absence
@@ -549,11 +560,6 @@
 	avec la touche curseur vers le bas les étudiants avec ABINJ
 	pour voir s'ils ont un justificatif (une petite fenêtre apparaît).
       </li>
-      <li> Vous pouvez aussi associer une liste de demi-journée
-	    d'enseignement à une colonne,
-	    si vous saisissez un ABINJ alors que l'étudiant a un justificatif
-	    pour l'une des demi-journée alors le ABINJ est affiché en rouge.
-	    </li>
       <li>
 	Finalement, la méthode la plus longue est d'aller dans
 	le menu «ABJ par date» puis de sélectionner
@@ -604,6 +610,8 @@
       dans le champ «<tt>Si vide</tt>» de la colonne représentant la séance.
       Ce champ est dans l'onglet « Formule »
 
+    </div>
+    <div>
     <h4>Calculer le pourcentage d'ABJUS</h4>
 
     <p>
@@ -623,10 +631,8 @@
       </ul>
       <p>
 	ATTENTION : ce pourcentage ne tient pas compte des colonnes
-	qui ont un poids qui commence par + ou -.
-      <p>
-	ATTENTION : cette fonctionnalité est nouvelle,
-	vérifiez bien les résultats.
+	qui ont un poids qui commence par + ou - car
+	ce sont généralement des bonus ou malus.
       </div>
     
 
@@ -688,7 +694,7 @@
 	  <li> Vous vous mettez dans la bonne colonne en cliquant
 	       sur une case.
 	  <li> Dans l'onglet «Colonne/Action» cliquez sur
-	  sur  « Remplir la colonne avec des valeurs »
+	  sur  « Remplir la colonne avec des valeurs ».
 	    Ceci fera apparaitre une fenêtre.
 	  <li> 
 	    <b>Le remplissage n'est pas réversible,
@@ -794,8 +800,8 @@
       <li> Vous cliquez sur une cellule de la colonne que vous voulez exporter
 	vers APOGÉE.
       <li> Dans l'onglet « Colonne/Action »
-           cliquez sur le lien «Exporter la colonne pour APOGEE»
-	Une fenêtre apparaît.
+           cliquez sur le lien «Exporter la colonne pour APOGEE»&nbsp;:
+	une fenêtre apparaît.
       <li> Vous copiez la liste des numéros d'étudiants
 	du tableau fourni par l'administration.
       <li> Vous la collez dans la grande zone de saisie de la fenêtre.
@@ -805,12 +811,22 @@
       <li> Vous copiez les notes affichées
 	et les collez dans le tableau venant de l'administration.
 	Elles sont dans le bon ordre&nbsp;!
+      <li> Si des étudiants ont des notes dans TOMUSS mais pas
+	dans APOGÉE vous êtes prévenu.
+      <li> Si des étudiants sont dans APOGÉE mais que vous ne les notez pas,
+	vous êtes prévenu.
     </ul>
+    <p>
+      La seul erreur possible est de faire un décalage de ligne
+      lors du copier/coller. Vérifiez donc bien la première
+      et la dernière.
     <p>
       Si jamais votre tableur est configuré en anglais, il faut
       le basculer en français pour ne pas avoir de problèmes
 	  avec les virgules des nombres.
 
+    </div>
+    <div>
     <h4>La table APOGÉE contient déjà des notes et PrC</h4>
 
     <p>Voici une solution (elle prend moins de 2 minutes montre en main).
@@ -947,6 +963,8 @@
     </ul>
 
 
+    </div>
+    <div>
       <h4>Extraire une colonne d'une autre table TOMUSS</h4>
     <p>
       Cela se fait exactement de la même façon que pour extraire

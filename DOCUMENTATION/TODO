@@ -8,6 +8,10 @@ Nouvelles fonctionnalités.
 Utilisateurs finaux.
 --------------------
 
+* Drag pour scroller dans la table (pour les tablettes)
+
+* Clic long ==> menu des valeurs pour la cellule
+
 * Autoriser n'importe qui à modifier les infos saisies par les autres.
   Comme si tous le monde était responsable dans la colonne ?
 
@@ -122,6 +126,11 @@ Problèmes à résoudre.
 * La liste des actions à faire : si trop vieille regarder si elles
   ont été faites par ailleurs et si non, envoyer un mail ?
 
+* Largeur de colonne : le nombre de colonne doit tenir compte de la taille
+  des caractères.
+
+* Reloadplugins : more_on_suivi : ajout multiple et bugs
+  
 * Deprecated dans config_table
 
 * L'étudiant qui cherche à changer une valeur saisie par le prof via le suivi

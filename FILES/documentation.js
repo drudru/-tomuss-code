@@ -259,6 +259,7 @@ var class_divs = [] ;
 
 // Parse document content to create the Index of the menu
 
+var menu_index = 0 ;
 for(var i_div in divs)
   {
     if ( i_div == 0 )
@@ -276,8 +277,13 @@ for(var i_div in divs)
             div.toc_number = class_divs.length ;
             m.setAttribute('toc_number', class_divs.length) ;
             m.setAttribute('the_div', i_div) ;
-            if ( text_divs.length % 2 == 0)
-              m.className = 'highlight' ;
+	    if ( e.tagName == 'H2' || e.tagName == 'H3' )
+	    {
+              if ( menu_index++ % 2 == 0)
+		m.className = 'highlight' ;
+	    }
+	    else
+	      m.style.display = 'none' ;
             m.className += ' ' + e.tagName ;
             e.innerHTML = '<a name="n' + class_divs.length + '">'
 	      + '<a name="' + escape(e.textContent) + '">'
