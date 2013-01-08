@@ -131,7 +131,7 @@ Problèmes à résoudre.
 
 * Reloadplugins : more_on_suivi : ajout multiple et bugs
   
-* Deprecated dans config_table
+* Deprecated dans config_table et config_plugin
 
 * L'étudiant qui cherche à changer une valeur saisie par le prof via le suivi
   l'indiquer dès le départ

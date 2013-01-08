@@ -24,6 +24,7 @@ from .. import plugin
 from .. import plugins
 from .. import data
 from .. import utilities
+from .. import sender
 
 def update_column(table):
     do_migrate = False
