@@ -31,7 +31,7 @@ import socket
 import os
 import time
 
-version = '5.1.1'
+version = '5.1.2'
 
 ###############################################################################
 # ACLS
@@ -448,19 +448,10 @@ def terminate():
             utilities.mkpath(backup + dirname)
 
     if os.path.exists('tomuss.py'):
-        if not os.path.isdir(db):
-            utilities.mkpath(db)
-        if not os.path.isdir(backup + db):
-            utilities.mkpath(backup + db)
-        if not os.path.isdir('TMP'):
-            utilities.mkpath('TMP')
+        utilities.mkpath_safe(db)
+        utilities.mkpath('TMP')
         if not os.path.exists(ticket_directory):
             os.mkdir(ticket_directory)
-
-        if not os.path.exists(os.path.join(db, '__init__.py')):
-            utilities.write_file(os.path.join(db, '__init__.py'),'')
-        if not os.path.exists(os.path.join(backup + db, '__init__.py')):
-            utilities.write_file(os.path.join(backup + db, '__init__.py'),'')
 
         if not os.path.isdir(backup + db):
             sys.stderr.write('Backup disabled : directory does not exists\n')

@@ -39,8 +39,15 @@ if caller_globals["__name__"] == '__main__':
         local_name.insert(0, current_dir.pop())
     # Import the package root (else relative imports fails)
     sys.path.insert(0, os.path.sep.join(current_dir))
-    sys.modules[package_name] = __import__(local_name[0])
-
+    try:
+        sys.modules[package_name] = __import__(local_name[0])
+    except ImportError:
+        # Here if the directory name contains dots
+        import imp
+        open_file, file_name, description = imp.find_module(local_name[0])
+        sys.modules[package_name] = imp.load_module(local_name[0],
+                                                    open_file, file_name,
+                                                    description)
     # The python path can be reset to the initial value
     sys.path.pop(0)
 
