@@ -30,6 +30,7 @@ import cgi
 import threading
 import shutil
 import gc
+import ast
 from . import configuration
 
 def read_file(filename):
@@ -1008,8 +1009,7 @@ class Variables(object):
             yield k, getattr(self, k)
 
     def __getattr__(self, name):
-        import document
-        import ast
+        from . import document
         # '_' to remove ambiguity between 'Variables' template
         # and the table template.
         t = document.table(0, "Variables", '_' + self._group)
@@ -1019,10 +1019,11 @@ class Variables(object):
             t.lock()
             try:
                 for k, v in self._variables.items():
-                    if k not in t.lines:
-                        t.cell_change(rw, '2', k, repr(v[1]))
+                    new_line = k not in t.lines
                     t.cell_change(ro, '0', k, v[0])
                     t.cell_change(ro, '1', k, v[1].__class__.__name__)
+                    if new_line:
+                        t.cell_change(rw, '2', k, repr(v[1]))
             finally:
                 t.unlock()
             t.variables_initialized = True
