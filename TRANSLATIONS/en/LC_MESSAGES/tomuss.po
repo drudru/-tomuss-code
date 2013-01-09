@@ -2175,7 +2175,7 @@ msgid "B_home_bookmark_first"
 msgstr "Put in bookmark first place"
 
 msgid "B_home_bookmark"
-msgstr "Add to the bookmarks"
+msgstr "Add to the favorites"
 
 msgid "B_home_unsemestrialize"
 msgstr "Unsemestrialize this table"

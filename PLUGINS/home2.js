@@ -577,22 +577,13 @@ function display_ue_list(s, txt, txt_upper, names)
 
 var ues_spiral ;
 var ues_favorites_sorted ;
+var display_years = {} ;
 
 function toggle_year(year)
 {
-  var s = document.getElementById('computed_style') ;
-  var invisible = '.year' + year + '{display:none}' ;
-
-  if ( s.textContent.indexOf(invisible) != -1 )
-  {
-    s.textContent = s.textContent.replace(invisible, '') ;
-    document.getElementById('year' + year).style.background = '#8F8' ;
-  }
-  else
-  {
-    s.textContent += invisible ;
-    document.getElementById('year' + year).style.background = '' ;
-  }
+  ue_line_out() ;
+  display_years[year] = ! display_years[year] ;
+  update_ues_master_of() ;
 }
 
 function update_ues_master_of(txt, txt_upper)
@@ -612,21 +603,19 @@ function update_ues_master_of(txt, txt_upper)
 	  continue ; // Yet in Spiral table
       years[i[0]] = true ;
       last_year = i[0] ;
-      s.push('<tr onmouseover="ue_line_over(\''
-	     + code + '\',this,ue_line_click_more);" '
-	     + 'onclick="javascript:goto_url(\'' + base + code
-	     + '\')" class="year' + i[0]
-	     + '"><td></td><td colspan="2">' + code + '</td></tr>') ;
+      if ( display_years[i[0]] )
+	s.push('<tr onmouseover="ue_line_over(\''
+	       + code + '\',this,ue_line_click_more);" '
+	       + 'onclick="javascript:goto_url(\'' + base + code
+	       + '\')"><td></td><td colspan="2">' + code + '</td></tr>') ;
     }
-  var style = '', buttons = '' ;
+  var style, buttons = '' ;
   for(var i in years)
   {
+    style = display_years[i] ? 'background:#8F8' : '' ;
     buttons += ' <a id="year' + i + '" href="javascript:toggle_year('
-      + i + ')">' + i + '</a>' ;
-    style += '.year' + i + '{display:none}' ;
+      + i + ')" style="' + style + '">' + i + '</a>' ;
   }
-  document.getElementById('computed_style').textContent = style + '/**/' ;
-
 
   s = ue_line_join(s) ;
   document.getElementById('ue_list').childNodes[3].innerHTML =
@@ -640,7 +629,8 @@ function update_ues_master_of(txt, txt_upper)
     + '</th></tr>'
     + '<tr><th colspan="3">' + buttons + '</th></tr>'
     + s + '</table>' ;
-  toggle_year(last_year) ;
+  if ( display_years[last_year] === undefined )
+    toggle_year(last_year) ;
 }
 
 function cmp_favorites(x,y)
@@ -1226,7 +1216,6 @@ function generate_home_page_top()
     // Do not insert spaces in the next line
 	+ '<H1 style="margin-top: 0">TOMUSS <select id="s" onchange="change_icones()" style="font-size:70%">'
 	+ semester_list + '</select></H1>'
-        + '<style id="computed_style"></style>'
 	+ '<p class="testmessage">' + _("MSG_home_welcome") + '</p>' ;
     document.write(t) ;
 }
