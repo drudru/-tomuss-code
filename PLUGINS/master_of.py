@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 #    TOMUSS: The Online Multi User Simple Spreadsheet)
-#    Copyright (C) 2009-2012 Thierry EXCOFFIER, Universite Claude Bernard
+#    Copyright (C) 2009-2013 Thierry EXCOFFIER, Universite Claude Bernard
 #
 #    This program is free software; you can redistribute it and/or modify
 #    it under the terms of the GNU General Public License as published by
@@ -32,10 +32,12 @@ def master_of(server):
     the master list incrementaly"""
 
     users = {}
-    f = glob.glob(os.path.join(configuration.db,'Y[0-9]*','S*','[!_]*.py'))
+    f = glob.glob(os.path.join(configuration.db,'Y[0-9]*','S*','*.py'))
     for filename in f:
         filename = filename.split(os.path.sep)
         year, semester, ue = filename[-3:]
+        if ue == '__init__.py':
+            continue
         year = year[1:]
         semester = semester[1:]
         ue = ue[:-3]
@@ -46,7 +48,7 @@ def master_of(server):
         try:
             table = document.table(year, semester, ue, None, None)
         except:
-            print 'Problem with ', year, semester, ue
+            print 'Problem with: ', year, semester, ue
             continue
         for user in table.masters:
             if user not in users:

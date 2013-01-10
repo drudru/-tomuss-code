@@ -684,7 +684,9 @@ def add_a_method_cache(fct, timeout=None, not_cached='neverreturnedvalue'):
 def unload_module(m):
     if m not in sys.modules:
         return
+    # print "unload", m
     del(sys.modules[m])
+    # print "UNLOAD", '.'.join(m.split('.')[:-1]), '====', m.split('.')[-1]
     del(sys.modules['.'.join(m.split('.')[:-1])].__dict__[m.split('.')[-1]])
 
 def import_reload(filename):
