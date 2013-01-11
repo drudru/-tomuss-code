@@ -88,11 +88,11 @@ def all_ues(compute=False):
         warn('import done', what='debug')
         if compute is False:
             t = os.path.getmtime(os.path.join('TMP', 'xxx_toute_les_ues.py'))
-            if not hasattr(xxx_toute_les_ues,'t') or xxx_toute_les_ues.t != t:
+            if not hasattr(all_ues,'t') or all_ues.t != t:
                 warn('Reload all ues')
-                utilities.unload_module('TMP.xxx_toute_les_ues')
+                utilities.unload_module('TOMUSS.TMP.xxx_toute_les_ues')
                 from .TMP import xxx_toute_les_ues
-                xxx_toute_les_ues.t = t
+                all_ues.t = t
                 warn('ok')
 
             return xxx_toute_les_ues.all
