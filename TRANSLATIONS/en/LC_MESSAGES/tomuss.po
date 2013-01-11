@@ -1103,7 +1103,7 @@ msgstr "Definitively <b>delete</b> the column"
 
 #. GUI 
 msgid "TITLE_column_attr_export"
-msgstr "<b>Exports</b> columns values"
+msgstr "<b>Exports</b> column values"
 
 #. GUI 
 msgid "TITLE_column_attr_fill"

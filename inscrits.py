@@ -37,9 +37,10 @@ ldap.set_option(ldap.OPT_TIMEOUT, 600)       # For reading data
 
 warn = utilities.warn
 
+safe_re = re.compile('[^0-9a-zA-Z-. _]')
 def safe(txt):
     """Values safe in an LDAP request"""
-    return re.sub('[^0-9a-zA-Z-. _]', '', txt)
+    return safe_re.sub('', txt)
 
 class LDAP_Logic(object):
     def member_of(self, groupe, base=configuration.ou_students):
