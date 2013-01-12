@@ -170,10 +170,10 @@ function column_attr_set(column, attr, value, td, force_save)
   if ( column_attributes[attr].need_authorization && ! i_can_modify_column )
     {
       if ( column.author == '*' )
-	  alert_append(_("ERROR_value_not_modifiable")
+	  alert_append(_("ERROR_value_not_modifiable") + '\n'
 		       + _("ERROR_value_system_defined")) ;
       else
-	  alert_append(_("ERROR_value_not_modifiable")
+	  alert_append(_("ERROR_value_not_modifiable") + '\n'
 		       + _("ERROR_value_defined_by_another_user") + teachers) ;
       return ;
     }
@@ -235,7 +235,7 @@ function table_attr_set(attr, value, td)
   if ( ! table_attributes[attr].action && ! table_change_allowed()
        && ! i_am_root )
     {
-      alert_append(_("ERROR_value_not_modifiable")
+      alert_append(_("ERROR_value_not_modifiable") + '\n'
 		   + _("ERROR_value_defined_by_another_user") + teachers) ;
       return ;
     }
@@ -304,8 +304,12 @@ function an_user_update(event, input, column, attr)
 
   if ( new_value === undefined )
     {
+      // The value can't be modified, it must be resetted to old value
       if ( input.selectedIndex === undefined )
-	input.value = input.theoldvalue ;
+      {
+	if ( input.value != input.theoldvalue )
+	  input.value = input.theoldvalue ;
+      }
       else
 	input.selectedIndex = input.theoldvalue ;
       return ;
@@ -313,7 +317,6 @@ function an_user_update(event, input, column, attr)
 
   if ( new_value === null )
     return ; // Not stored, but leave user input unchanged
-  
   if ( input.selectedIndex === undefined )
     if ( attr.what == 'column' )
       input.value = attr.formatter(column, new_value) ;
