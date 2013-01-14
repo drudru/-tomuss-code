@@ -60,10 +60,11 @@ def create(table):
 def init(table):
     _ucbl_.init(table)
     table.default_sort_column = 2 # compatibility with old files
-    table.do_not_unload_add(1)
     table.modifiable = int(table.modifiable
                            and utilities.university_year() == table.year)
     table.update_inscrits = table.modifiable
+    if table.modifiable:
+        table.do_not_unload_add(1)
 
 def content(dummy_table):
     return _ucbl_.update_student_information
