@@ -937,7 +937,13 @@ def on_kill(dummy_x, dummy_y):
     sys.stderr.write('=' * 79 + '\n' +
                      'KILLED\n' +
                      '=' * 79 + '\n' +
+                     'LOCKS\n' +
+                     '-' * 79 + '\n' +
                      lock_state() +
+                     '=' * 79 + '\n'
+                     'THREADS\n' +
+                     '-' * 79 + '\n' +
+                     '\n'.join(t.stack() for t in thread_list) +
                      '=' * 79 + '\n'
                      )
     traceback.print_stack()
@@ -994,6 +1000,8 @@ class Variables(object):
        * The table is filled only when it is used (V.foo will do it)
 
     """
+    _initialized = False
+    
     def __init__(self, variables, group=None):
         self.__dict__['_variables'] = variables
         if group is None:
@@ -1015,7 +1023,7 @@ class Variables(object):
         # '_' to remove ambiguity between 'Variables' template
         # and the table template.
         t = document.table(0, "Variables", '_' + self._group)
-        if t and t.modifiable and not hasattr(t, "variables_initialized"):
+        if t and t.modifiable and not self._initialized:
             ro = t.pages[0]
             rw = t.pages[1]
             t.lock()
@@ -1028,7 +1036,7 @@ class Variables(object):
                         t.cell_change(rw, '2', k, repr(v[1]))
             finally:
                 t.unlock()
-            t.variables_initialized = True
+            self.__dict__["_initialized"] = True
         if t is None  or   name not in t.lines:
             try:
                 return self._variables[name][1]
