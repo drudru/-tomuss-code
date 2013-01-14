@@ -22,9 +22,21 @@
 from . import mail
 from .. import referent
 from .. import configuration
+from .. import inscrits
 
 class Get_Referent(mail.Mail):
     attributes_visible = ('columns',)
     def get_one_value(self, student_id, column, line_id):
+        if student_id == '':
+            return ''
         year, semester = configuration.year_semester
         return referent.referent(year, semester, student_id)
+
+    def get_all_values(self, column):
+        students = tuple(self.values(column))
+        year, semester = configuration.year_semester
+        infos = referent.referent_dict(year, semester)
+        for line_id, student in students:
+            student = inscrits.login_to_student_id(student)
+            if student in infos:
+                yield line_id, infos[student]
