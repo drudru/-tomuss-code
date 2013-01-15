@@ -233,7 +233,7 @@ function dofocus(event)
     
 
 plugin.Plugin('backtrace', '/backtrace/{*}', group='roots',
-              function=backtrace,
+              function=backtrace, launch_thread=True,
               link=plugin.Link(
                   where='debug', html_class='verysafe', url='/backtrace',
                   )
