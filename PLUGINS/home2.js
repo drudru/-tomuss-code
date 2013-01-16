@@ -826,8 +826,8 @@ function title_case(txt)
 
 function cmp_students(a,b)
 {
-  a = a[2]+a[1] ;
-  b = b[2]+b[1] ;
+  a = a[2]+' '+a[1] ;
+  b = b[2]+' '+b[1] ;
   if ( a < b ) return -1 ;
   if ( a > b ) return 1 ;
   return 0 ;
