@@ -8,6 +8,8 @@ Nouvelles fonctionnalités.
 Utilisateurs finaux.
 --------------------
 
+* Prévenir qu'il est préférable de remettre les table en non modifiable.
+
 * Drag pour scroller dans la table (pour les tablettes)
 
 * Clic long ==> menu des valeurs pour la cellule

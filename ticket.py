@@ -22,7 +22,6 @@ import time
 import cgi
 from . import utilities
 from . import configuration
-from . import plugins
 
 warn = utilities.warn
 

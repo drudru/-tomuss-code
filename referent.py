@@ -186,15 +186,10 @@ def referent(year, semester, login):
                 return line[0].value
     return None
     
-def referent(year, semester, login):
-    """Returns the 'referent' of a student."""
-    login = utilities.the_login(login)
-    for line in referents_students(year, semester).lines.values():
-        for cell in line[2:]:
-            if utilities.the_login(cell.value) == login:
-                return line[0].value
-    return None
-    
+def referents_login(year, semester):
+    """Returns the referent list"""
+    return [t for t in referents_students(year, semester).logins() if t != '']
+
 def referent_dict(year, semester):
     """For each student, its referent teacher"""
     d = {}
