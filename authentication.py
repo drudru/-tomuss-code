@@ -1,5 +1,5 @@
 #    TOMUSS: The Online Multi User Simple Spreadsheet
-#    Copyright (C) 2008-2012 Thierry EXCOFFIER, Universite Claude Bernard
+#    Copyright (C) 2008-2013 Thierry EXCOFFIER, Universite Claude Bernard
 #
 #    This program is free software; you can redistribute it and/or modify
 #    it under the terms of the GNU General Public License as published by
@@ -132,10 +132,9 @@ def get_path(server, server_url):
         if '/=TICKET' in server_url:
             path = server_url.replace('TICKET',
                                       ticket_object.ticket
-                                      ) + '/' + '/'.join(path)
+                                      ) + '/' + escaped_path
         else:
-            path = server_url + '/=' + ticket_object.ticket + '/' + '/'.join(
-                path)
+            path = server_url + '/=' + ticket_object.ticket +'/'+ escaped_path
         warn('fast path: %s' % str(path), what='auth')
         return ticket_object, path
 

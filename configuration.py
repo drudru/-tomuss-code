@@ -31,7 +31,7 @@ import socket
 import os
 import time
 
-version = '5.1.3'
+version = '5.1.4'
 
 ###############################################################################
 # ACLS
@@ -209,7 +209,7 @@ def is_an_official_ue(code):
 # Else, returns the year of the first registration.
 def first_registration(login):
     from . import inscrits
-    if login[1:3] == current_year:
+    if login[1:3] == str(year_semester[0])[2:4]:
         for group in inscrits.L_batch.member_of_list(login):
             if '1A,OU=' in group:
                 return 1
