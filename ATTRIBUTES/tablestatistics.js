@@ -1195,9 +1195,8 @@ function display_statistics(object)
   p.push('}') ;
   p.push('</script>') ;
   p.push('<p class="hidden_on_paper">' + _("MSG_stat_export_spreadsheet"));
-  if ( i_am_root )
-    p.push('<br><a class="hidden_on_paper" href="javascript:strange_grades()">' + _("MSG_stat_strange_grades")
-	   + '</a>');
+  p.push('<br><a class="hidden_on_paper" href="javascript:strange_grades()">' + _("MSG_stat_strange_grades")
+	 + '</a>');
   p.push('<table class="hidden_on_paper">') ;
 
   var t = [], cols = column_list_all() ;
