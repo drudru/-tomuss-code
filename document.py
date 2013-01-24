@@ -1146,12 +1146,11 @@ class Table(object):
         # In rare cases the table is unloaded while the student list
         # is being updated. So we finish with a table half updated
         # But it is not important.
-        self.unloaded = True # write access to the table will make an error.
+        tables_manage("del", self.year, self.semester, self.ue)
         try:
             update_students.remove(self) # No update student list.
         except ValueError:
             pass
-        tables_manage("del", self.year, self.semester, self.ue)
         utilities.unload_module(self.module) # 2009-09-07 Add this
         return True
 
@@ -1264,6 +1263,8 @@ def tables_manage(action, year, semester, ue, do_not_unload=0, new_table=None):
             return False
     elif action == 'del':
         try:
+            # write access to the table will make an error.
+            tables[year, semester, ue].unloaded = True
             del tables[year, semester, ue]
             return
         except KeyError:
