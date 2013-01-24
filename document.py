@@ -1145,7 +1145,7 @@ class Table(object):
         # XXX
         # In rare cases the table is unloaded while the student list
         # is being updated. So we finish with a table half updated
-        # But it not important.
+        # But it is not important.
         self.unloaded = True # write access to the table will make an error.
         try:
             update_students.remove(self) # No update student list.
@@ -1391,9 +1391,9 @@ def check_new_students_real():
             t.do_not_unload_add(1)
             if t.unloaded:
                 continue
-            t.send_update(None, "<script>set_updating(1);</script>")
-            utilities.bufferize_this_file(t.filename)
             try:
+                t.send_update(None, "<script>set_updating(1);</script>")
+                utilities.bufferize_this_file(t.filename)
                 warn('start update students of %s' % t.ue, what="table")
 
                 if t.template and hasattr(t.template, 'check'):

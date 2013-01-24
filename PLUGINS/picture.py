@@ -29,7 +29,7 @@ from .. import inscrits
 import os
 
 def picture(server):
-    """Display the connected user picture"""
+    """Display the picture of a student"""
     login = inscrits.login_to_student_id(server.something)
     if '/' in login:
         return
@@ -46,7 +46,7 @@ plugin.Plugin('picture', '/picture/{?}',
               )
 
 def my_picture(server):
-    """Display the picture of a student"""
+    """Display the connected user picture"""
     server.something = inscrits.login_to_student_id(server.ticket.user_name) + '.JPG'
     picture(server)
 
