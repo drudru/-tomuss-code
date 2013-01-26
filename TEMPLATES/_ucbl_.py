@@ -93,33 +93,26 @@ def create(table):
     if ts:
         table.date_change(p, ts)
 
-def student_add_allowed(table, new_list=None):
+def student_add_allowed(table):
+    """Returns the new student list or False if there is to many
+    students to remove"""
+    
     warn('%s allow_student_removal %s' % (
         table.ue, configuration.allow_student_removal), what="table")
-    if not configuration.allow_student_removal:
-        # We don't allow to add students if there is too many
-        # to remove.
-        if new_list is None:
-            new_list = list(inscrits.L_batch.students(table.ue_code))
-        
-        nr_yet = 0
-        for student in new_list:
-            if list(table.get_lines(student[0])):
-                nr_yet += 1
-        nr_to_delete = len(table.the_keys()) - nr_yet
-        warn("%s: %d delete on %d, %d new" % (
-            table.ue, nr_to_delete, len(table.the_keys()),
-            len(new_list) - nr_yet),what="table")
-        if nr_to_delete == 0:
-            return True
-        if nr_to_delete / float(len(table.the_keys())) > removal_allowed:
-            if configuration.year_semester == (table.year, table.semester):
-                utilities.manage_key('CLOSED', table.ue, separation=5,
-                                     content='%d/%s' % (table.year,
-                                                        table.semester)
-                                     )
-            return False
-    return True
+    new_list = list(inscrits.L_batch.students(table.ue_code))
+    old_list = set(table.logins_valid())
+    nr_to_delete = len( old_list
+                        - set(x[0] for x in new_list) )
+    if nr_to_delete == 0:
+        return new_list
+    if nr_to_delete / float(len(old_list)) > removal_allowed:
+        if configuration.year_semester == (table.year, table.semester):
+            utilities.manage_key('CLOSED', table.ue, separation=5,
+                                 content='%d/%s' % (table.year,
+                                                    table.semester)
+                                 )
+        return False
+    return new_list
 
 
 def update_inscrits_ue(the_ids, table, page):
@@ -130,11 +123,11 @@ def update_inscrits_ue(the_ids, table, page):
 
     warn("Update inscrit list of " + table.ue, what="check")
 
-    new_list = list(inscrits.L_batch.students(table.ue_code))
+    new_list = student_add_allowed(table)
 
     warn("Update inscrit list of " + table.ue + ' DONE', what="check")
 
-    if student_add_allowed(table, new_list):
+    if new_list:
         warn("Update inscrit students", what="check")
         for infos in new_list:
             update_student(table, page, the_ids, infos)
@@ -180,7 +173,6 @@ def update_student(table, page, the_ids, infos):
     the_id, firstname, surname, mail, grp, seq = infos[:6]
     if the_id in the_ids:
         return
-    # time.sleep(1) # XXX
     if mail:
         the_ids[the_id] = mail
     else:
