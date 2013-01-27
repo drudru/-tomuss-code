@@ -32,10 +32,11 @@ def init(table):
     if table.is_extended:
         # Never modify via a symbolic link
         pass
+    elif [table.year,table.semester] in configuration.year_semester_modifiable:
+        # Allow semesters indicated in the config table
+        table.modifiable = 1
     elif (table.year, table.semester) == configuration.year_semester:
         # Normal case : current semester modifications are allowed
-        table.modifiable = 1
-    elif table.semester == 'Test':
         table.modifiable = 1
     elif (table.year, table.semester) == configuration.year_semester_next:
         # No more useful because users can destroy table with bad students.
@@ -50,7 +51,8 @@ def init(table):
         # Not an UE per semester : all the semesters points on the first
         table.modifiable = 1
         
-    table.update_inscrits = table.modifiable
+    table.update_inscrits = table.update_inscrits and table.modifiable
+    # If the user make the table modifiable, update_inscrit will not change
     
 def content(table):
     c = ''

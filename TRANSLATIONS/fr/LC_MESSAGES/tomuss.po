@@ -4202,6 +4202,9 @@ msgstr "Semestre : le semestre courant, seul ouvert en écriture par défaut."
 msgid "config_table_year_semester_next"
 msgstr "Semestre : le prochain. Modifiable si une UE est fermée (étudiants disparus ou UE vide)"
 
+msgid "config_table_year_semester_modifiable"
+msgstr "Semestre : Liste des semestres autorisés par défaut en écriture"
+
 msgid "config_table_ue_not_per_semester"
 msgstr "UE non semestrialisée (donc par année) si le code correspond à cette expression régulière"
 

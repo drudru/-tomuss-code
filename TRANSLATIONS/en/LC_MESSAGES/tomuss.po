@@ -4158,7 +4158,10 @@ msgid "config_table_year_semester"
 msgstr "Semester: the current one, by default every table is writable"
 
 msgid "config_table_year_semester_next"
-msgstr "Semester: the next one. the tables are modifiable only if the table in the previous semester is assumed as closed"
+msgstr "Semester: the next one to be opened, student lists must be empty"
+
+msgid "config_table_year_semester_modifiable"
+msgstr "Semester: A list of semesters writable by default"
 
 msgid "config_table_ue_not_per_semester"
 msgstr "Table not semestrialised (one for all the semester year) if the table name match the regular expression"

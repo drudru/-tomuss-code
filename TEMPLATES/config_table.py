@@ -96,6 +96,7 @@ variable_list = [
     "language",
     "suivi_student_message",
     "tt_masters",
+    "year_semester_modifiable",
     ]
 
 deprecated = set(('root', 'invited_teachers', 'invited_administratives',

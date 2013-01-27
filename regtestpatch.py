@@ -33,6 +33,7 @@ def do_patch():
     if configuration.regtest:
         configuration.db = 'DBregtest'
         configuration.allow_student_list_update = True
+        configuration.year_semester_modifiable = ([9999, 'Test'],)
         
         class LDAP_regtest(inscrits.Empty):
             def students(self, ue):
@@ -161,5 +162,4 @@ def do_patch():
     def is_an_official_ue(code):
         return int('-' in code)
     configuration.is_an_official_ue = is_an_official_ue
-
 

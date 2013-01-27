@@ -688,6 +688,12 @@ They can be&nbsp;:
 	</td>
       </tr>
     </table>
+    <p>
+      If the table of the previous semester must be modifiable by default,
+      you can indicate it in the configuration table in the modifiable
+      semester list.
+      The current and next semester are modifiable by default.
+      
 
     <h3><a name="templates">Table templates</a></h3>
 

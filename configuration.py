@@ -174,10 +174,13 @@ year_semester = (time.localtime()[0], semesters[0])
 
 # Semester always in the menu on the first page.
 # Other are added for each 'suivi' server.
-special_semesters = '<option>2008/Test</option><option>2008/' + semesters[0] + '</option>'
+special_semesters = '<option>2008/Test</option>'
 
 # Next semester (usable if UE is closed)
 year_semester_next = (time.localtime()[0], semesters[1])
+
+# A list of pairs defining writable semesters
+year_semester_modifiable = ([2008, 'Test'],)
 
 # UE not by semester, if its code match this regular expression
 ue_not_per_semester = "^UE-[A-Z]{3}[0-9]{4}M$"
