@@ -24,6 +24,7 @@ import time
 import collections
 import gc
 import cgi
+import math
 from .. import objgraph
 from .. import plugin
 from .. import utilities
@@ -217,6 +218,42 @@ def threads(server):
                           '</pre>')
 
 plugin.Plugin('threads'   , '/threads'   , group='roots', function=threads,
+              link=plugin.Link(where='debug', html_class='verysafe')
+              )
+
+def gcbig(server):
+    "Display big Python objects"
+    if configuration.regtest:
+        server.the_file.write(server._("MSG_evaluate"))
+        return
+    
+    server.the_file.write('<META NAME="ROBOTS" CONTENT="NOINDEX, NOFOLLOW">\n')
+    server.the_file.write('<pre>')
+    gc.collect()
+    sizes = [[] for dummy in range(32)]
+    log2 = math.log(2)
+    for o in gc.get_objects():
+        try:
+            sizes[ int(math.log(len(o)+1)/log2) ].append(o)
+        except:
+            pass
+    for n, objects in enumerate(sizes):
+        server.the_file.write('%d-%d: %d objects (%d items)\n' % (
+                2**n, 2**(n+1)-1, len(objects),
+                sum(len(o) for o in objects))
+                )
+        if len(objects) < 10:
+            for o in objects:
+                server.the_file.write('   <a href="object/%d">%s</a>\n' % (
+                        id(o),
+                        cgi.escape(repr(o)[:200])))
+        
+        
+    server.the_file.write('</pre>')
+    
+
+
+plugin.Plugin('gcbig'   , '/gcbig'   , group='roots', function=gcbig,
               link=plugin.Link(where='debug', html_class='verysafe')
               )
 

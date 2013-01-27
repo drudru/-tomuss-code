@@ -3150,6 +3150,12 @@ msgstr "Display Python object in memory"
 msgid "HELP_gctop"
 msgstr "Useful to find memory leaks"
 
+msgid "LINK_gcbig"
+msgstr "Display big Python object in memory. Use len() to find them."
+
+msgid "HELP_gcbig"
+msgstr "Useful to find memory leaks"
+
 msgid "MSG_cache_title"
 msgstr "Cache TOMUSS"
 

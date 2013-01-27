@@ -3169,6 +3169,12 @@ msgstr "Affiche les objets python en mémoire"
 msgid "HELP_gctop"
 msgstr "Utile pour trouver les fuites mémoire"
 
+msgid "LINK_gcbig"
+msgstr "Affiche les GROS objets python en mémoire. Utilise len() pour les trouver"
+
+msgid "HELP_gcbig"
+msgstr "Utile pour trouver les fuites mémoire"
+
 msgid "MSG_cache_title"
 msgstr "Cache TOMUSS"
 
