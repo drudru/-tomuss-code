@@ -110,13 +110,36 @@ def stop(name):
         os.kill(pid, 15)
         utilities.write_file(os.path.join('LOGS', name.upper(), 'pid'), '')
         print name, 'stopped'
+        return pid
     except OSError:
         pass
 
 def stop_suivi():
-    for url, port, year, semester, host in configuration.suivi.urls.values():
-        stop("suivi%d" % port)
+    for infos in configuration.suivi.urls.values():
+        stop("suivi%d" % infos[1])
 
+def restart_suivi():
+    """Linux only function"""
+    for url,port,year,semester,dummy_host in configuration.suivi.urls.values():
+        pid = stop("suivi%d" % port)
+        # Wait death
+        if pid:
+            while os.path.exists("/proc/%d" % pid):
+                time.sleep(1)
+        run(url, 'suivi.py %d %s %d' % (year, semester, port),
+            run_only_if_not_properly_stopped=False, name="suivi%d" % port)
+        # Wait end of load
+        while True:
+            try:
+                print 'Wait start', url
+                f = urllib2.urlopen(url + '/style.css')
+                c = f.read()
+                f.close()
+            except urllib2.URLError:
+                c = ''
+            if 'autosavefailed' in c:
+                break
+            time.sleep(1)
 
 if 'stop' in sys.argv:
     stop_suivi()
@@ -129,6 +152,10 @@ if 'stoptomuss' in sys.argv:
 
 if 'stopsuivi' in sys.argv:
     stop_suivi()
+    sys.exit(0)
+
+if 'restartsuivi' in sys.argv:
+    restart_suivi()
     sys.exit(0)
 
 # Running suivi.
@@ -144,17 +171,17 @@ if os.path.exists(lock):
 
 try:
     utilities.write_file(lock, time.ctime())
-    run_only_if_not_properly_stopped = 'crontab' in sys.argv
+    only_if_not_properly_stopped = 'crontab' in sys.argv
 
     run(configuration.server_url, 'tomuss.py',
-        run_only_if_not_properly_stopped, strace="")
+        only_if_not_properly_stopped, strace="")
 
-    for url, port, year, semester, host in configuration.suivi.urls.values():
-        run(url, 'suivi.py %d %s %d' % (year, semester, port),
-            run_only_if_not_properly_stopped, name="suivi%d" % port)
+    for surl,sport,syear,ssemester,shost in configuration.suivi.urls.values():
+        run(surl, 'suivi.py %d %s %d' % (syear, ssemester, sport),
+            only_if_not_properly_stopped, name="suivi%d" % sport)
     try:
-        import LOCAL.crontab_run
-        LOCAL.crontab_run.run()
+        from ..LOCAL import crontab_run
+        crontab_run.run()
     except ImportError:
         pass
 
