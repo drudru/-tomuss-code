@@ -199,7 +199,7 @@ hidden('<a href="%s/=%s/bilan/%s" target="_blank">'
                                     utilities.charte_server(login,server)):
                 s.append('<script>Write("MSG_suivi_student_contract_checked");</script>')
             else:
-                s.append('''<span style="background:red">'
+                s.append('''<span style="background:red">
 <script>Write("MSG_suivi_student_contract_unchecked");</script></span>''')
             s.append(', ')
         s.append('''<script>

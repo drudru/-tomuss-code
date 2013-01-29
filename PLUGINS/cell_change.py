@@ -42,18 +42,18 @@ def cell_change(server):
 
     table, page = document.table(server.the_year, server.the_semester,
                                  server.the_ue, None, server.ticket,
-                                 do_not_unload=1)
+                                 do_not_unload='cell_change')
     try:
         table.lock()
         try:
-                try:
-                    return table.cell_change(page, col, lin, value)
-                except ValueError:
-                    return 'bad.png'
+            try:
+                return table.cell_change(page, col, lin, value)
+            except ValueError:
+                return 'bad.png'
         finally:
             table.unlock()
     finally:
-        table.do_not_unload_add(-1)
+        table.do_not_unload_remove('cell_change')
 
 def cell(server):
     """Modify an unique cell in a table. It is used by the 'suivi' page"""

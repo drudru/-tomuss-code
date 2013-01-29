@@ -38,14 +38,14 @@ def page_action(server):
     The client may not send the action in the good order."""
     table, page = document.table(server.the_year, server.the_semester,
                                  server.the_ue, server.the_page,
-                                 server.ticket, do_not_unload=1)
+                                 server.ticket, do_not_unload='page_action')
     # the time is after the '.' in order to fully disable caching
     try:
         request = int(server.the_path[0].split('.')[0])
         action = server.the_path[1]
         path = server.the_path[2:]
     except:
-        table.do_not_unload_add(-1)
+        table.do_not_unload_remove('page_action')
         utilities.send_backtrace(repr(server.the_path), 'Page Action')
         return
     page.add_request(request, action, path, server.the_file)

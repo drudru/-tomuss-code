@@ -64,7 +64,7 @@ def init(table):
                            and utilities.university_year() == table.year)
     table.update_inscrits = table.modifiable
     if table.modifiable:
-        table.do_not_unload_add(1)
+        table.do_not_unload_add('*tt')
 
 def content(dummy_table):
     return _ucbl_.update_student_information

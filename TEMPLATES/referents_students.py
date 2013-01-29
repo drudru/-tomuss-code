@@ -29,6 +29,9 @@ def init(table):
     _ucbl_.init(table)
     if (table.year, table.semester) != configuration.year_semester:
         table.modifiable = table.update_inscrits = 0
+    else:
+        table.do_not_unload_add('*referents_students')
+
 
 
 def create(table):

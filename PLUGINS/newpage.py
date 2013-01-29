@@ -110,7 +110,7 @@ def new_page(server):
     try:
         table, page = document.table(server.the_year, server.the_semester,
                                      server.the_ue, None, server.ticket,
-                                     do_not_unload=1)
+                                     do_not_unload='new_page')
     except IOError:
         server.the_file.write(server._("TIP_violet_square"))
         server.close_connection_now()
@@ -124,7 +124,7 @@ def new_page(server):
         return
 
     if not table.on_disc:
-        table.do_not_unload_add(-1)
+        table.do_not_unload_remove('new_page')
         server.the_file.write("%s/%s/%s" % (
                 server.the_year, server.the_semester, server.the_ue))
         server.the_file.write(server._("MSG_new_page_in_past"))
@@ -134,7 +134,7 @@ def new_page(server):
     if table.is_extended:
         # Take the link destination (assuming ../..) and remove the .py
         link_to = os.readlink(table.filename)[:-3].split(os.path.sep)
-        table.do_not_unload_add(-1)
+        table.do_not_unload_remove('new_page')
         if len(link_to) == 3:
             assert(link_to[0] == '..')
             assert(link_to[1][0] == 'S')
@@ -155,7 +155,7 @@ def new_page(server):
         server.close_connection_now()
         return
     
-    warn('New page, do_not_unload=%d' % table.do_not_unload, what="table")
+    warn('New page, do_not_unload=%s' % table.do_not_unload, what="table")
 
     if configuration.regtest_sync:
         # We want immediate update of the table content (abjs for example)
@@ -200,7 +200,7 @@ def new_page(server):
             table.active_page(page, server.the_file)
     finally:
         # Can't be unloaded because it is active.
-        table.do_not_unload_add(-1)
+        table.do_not_unload_remove('new_page')
         table.unlock()
     if configuration.regtest_sync:
         # We want immediate update of navigator content

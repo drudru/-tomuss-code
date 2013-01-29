@@ -66,7 +66,7 @@ def stat_page(server):
             for c in line:
                 if c[0] != '':
                     nr_cells += 1
-        s.append('<tr><td>%d</td><td>%s</td><td><a target="_blank" href="%s">%s</a></td><td>%d/%d[%d]</td><td>%d</td><td>%d</td><td>%d</td><td>%s</td><td>%s</td></tr>' % (
+        s.append('<tr><td>%d</td><td>%s</td><td><a target="_blank" href="%s">%s</a></td><td>%d/%d%s</td><td>%d</td><td>%d</td><td>%d</td><td>%s</td><td>%s</td></tr>' % (
             t.year,
             t.semester,
             "%s/=%s/%s/%s/%s" % (utilities.StaticFile._url_,

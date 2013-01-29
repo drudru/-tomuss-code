@@ -85,7 +85,7 @@ class MyRequestBroker(utilities.FakeRequestHandler):
             to_reload = ('config_table', 'config_plugin', 'config_acls')
             for t in to_reload:
                 conf = document.table(0, 'Dossiers', t, None, None, ro=True)
-                conf.do_not_unload = 0
+                conf.do_not_unload = []
                 conf.unload()
             for t in to_reload:
                 document.table(0, 'Dossiers', t, None, None, ro=True)

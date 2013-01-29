@@ -117,7 +117,7 @@ def init(table):
     global acls
     acls = table
     configuration.is_member_of = is_member_of
-    table.do_not_unload_add(1)
+    table.do_not_unload_add('*config_acls')
 
 def cell_change(table, page, col, lin, value, dummy_date):
     """Only here to clear cache and update ACLS in 'suivi' servers"""

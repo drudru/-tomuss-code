@@ -164,7 +164,7 @@ def set_value(variable, value):
     configuration.__dict__[variable] = value
 
 def init(table):
-    table.do_not_unload_add(1)
+    table.do_not_unload_add('*config_table')
 
     for v in variable_list:
         variables[v] = utilities._("config_table_" + v)

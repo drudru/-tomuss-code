@@ -327,7 +327,7 @@ def referents_students(year=None, semester=None):
     if year is None:
         year, semester = configuration.year_semester
     return document.table(year, semester, 'referents_students',
-                          do_not_unload=1, ro=configuration.read_only)
+                          ro=configuration.read_only)
 
 def update_referents(ticket, f, really_do_it = False, add_students=True):
 

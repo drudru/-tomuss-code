@@ -274,7 +274,7 @@ class Table(object):
         self.mtime = 0
         self.the_key_dict = collections.defaultdict(list)
         self.unloaded = False
-        self.do_not_unload = 0
+        self.do_not_unload = []
         self.modifiable = int(not ro)
         dirname = os.path.join(configuration.db,
                                'Y'+str(self.year), 'S'+self.semester)
@@ -1127,17 +1127,20 @@ class Table(object):
                 pass
         self.active_pages = []
 
-    @utilities.add_a_lock
     def do_not_unload_add(self, value):
-        self.do_not_unload += value
+        if value:
+            self.do_not_unload.append(value)
+    def do_not_unload_remove(self, value):
+        self.do_not_unload.remove(value)
 
     def unload(self, force=False):
         if force:
             self.close_active_pages()
         if self.active_pages:
             return
-        if self.do_not_unload:
-            warn('Unload of do_not_unload: ' + str(self.ue), what="warning")
+        if '*' in ''.join(self.do_not_unload):
+            warn('Unload of do_not_unload: '
+                 + str(self.ue) + repr(self.do_not_unload), what="warning")
             return
             
         warn(str(self.ue), what="table")
@@ -1255,7 +1258,7 @@ def tables_manage(action, year, semester, ue, do_not_unload=0, new_table=None):
     if action == 'get':
         try:
             t = tables[year, semester, ue]
-            if t:
+            if t and do_not_unload:
                 t.do_not_unload_add(do_not_unload)
             return t
         except KeyError:
@@ -1389,7 +1392,7 @@ def check_new_students_real():
     try:
         while update_students:
             t = update_students.pop()
-            t.do_not_unload_add(1)
+            t.do_not_unload_add('check_new_students_real')
             if t.unloaded:
                 continue
             try:
@@ -1407,7 +1410,7 @@ def check_new_students_real():
                         a_column.type.update_all(t, a_column)
                 t.update_the_abjs()
             finally:
-                t.do_not_unload_add(-1)
+                t.do_not_unload_remove('check_new_students_real')
                 utilities.bufferize_this_file(None)
                 t.send_update(None, "<script>set_updating(0);</script>")
             
@@ -1458,7 +1461,7 @@ def login_list(page, name):
 def it_is_a_bad_request(request, page, tabl, output_file):
     if page.request > request:
         # An old request was given. Assume same answer XXX
-        tabl.do_not_unload_add(-1)
+        tabl.do_not_unload_remove('page_action')
         try:
             warn('Old request asked : %d in place of %d' % (
                 request, page.request))
@@ -1476,7 +1479,7 @@ def it_is_a_bad_request(request, page, tabl, output_file):
         return True
     if output_file.closed:
         # Nobody want the answer
-        tabl.do_not_unload_add(-1)
+        tabl.do_not_unload_remove('page_action')
         return True
 
 def should_be_delayed(request, page, tabl, r, t):
@@ -1535,7 +1538,7 @@ def process_request(page, tabl, action, path):
         else:
             warn('BUG: %s' % str(path), what="error")
     finally:
-        tabl.do_not_unload_add(-1)
+        tabl.do_not_unload_remove('page_action')
         tabl.unlock()
     # We don't want asynchronous update when doing regtest
     if configuration.regtest_sync:
@@ -1557,7 +1560,7 @@ def check_requests():
         for r in my_request_list:
             page_id, request, page, action, path, output_file = r
             tabl = page.table
-            warn('R=%d P=%d A=%s P=%s DNU=%d' % (
+            warn('R=%d P=%d A=%s P=%s DNU=%s' % (
                     request, page_id, action, path, tabl.do_not_unload),
                  what="DNU")
             if it_is_a_bad_request(request, page, tabl, output_file):
