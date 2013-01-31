@@ -351,7 +351,7 @@ def check_get_info():
             table, lin, dummy_page, value = get_info.pop()
             line = table.lines[lin]
             if value == '':
-                firstname, surname = '', '', ''
+                firstname, surname = '', ''
             else:
                 firstname, surname = inscrits.L_batch.firstname_and_surname(
                     value)
