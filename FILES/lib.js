@@ -1,7 +1,7 @@
 // -*- coding: utf-8; mode: Java; c-basic-offset: 2; tab-width: 8; -*-
 /*
     TOMUSS: The Online Multi User Simple Spreadsheet
-    Copyright (C) 2008-2012 Thierry EXCOFFIER, Universite Claude Bernard
+    Copyright (C) 2008-2013 Thierry EXCOFFIER, Universite Claude Bernard
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -501,6 +501,7 @@ function get_tip_element()
       tip_plus.id = 'tip_plus' ;
       tip_plus.innerHTML = '?' ;
       tip_plus.style.display = "none" ;
+      tip_plus.onmousedown = function(event) { thetable.onmousedown(event);} ;
       document.getElementsByTagName('BODY')[0].appendChild(tip_plus) ;
     }
   return tip ;
@@ -648,6 +649,9 @@ var instant_tip_display ;
 
 function show_the_tip(td, tip_content)
 {
+  if ( body_on_mouse_up_doing )
+    return ;
+
   var bottom = false ;
   var data_col, line_id, column, type, s ;
   try {
@@ -765,7 +769,6 @@ function on_mouse_down(event)
     {
       return false ;
     }
-
   // alert ( the_event(event).button ) ;
   var td = the_td(event) ;
   column_from_td(td).real_type.onmousedown(event) ;
@@ -825,10 +828,49 @@ function init_column(column)
 		      ) ;
 }
 
+function start_table_drag(event)
+{
+  event = the_event(event) ;
+  if ( event.target.tagName != "TD" )
+    return ;
+  thetable.start_line_offset = line_offset ;
+  thetable.start_column_offset = column_offset ;
+  thetable.start_drag_y = event.y ;
+  thetable.start_drag_x = event.x ;
+
+  set_body_onmouseup(body_on_mouse_up) ; // ??? Why not working in HTML TAG
+  body_on_mouse_up_doing = "table_drag" ;
+  the_body.onmousemove = function(event) {
+    event = the_event(event) ;
+    var d = (thetable.start_drag_y - event.y)
+    / the_current_cell.input.offsetHeight ;
+    line_offset = thetable.start_line_offset + Math.floor(d) ;
+    if ( line_offset < 0 )
+      line_offset = 0 ;
+    
+    d = (thetable.start_drag_x - event.x) / the_current_cell.input.offsetWidth;
+    column_offset = thetable.start_column_offset + Math.floor(d) ;
+    if ( column_offset + table_attr.nr_columns
+	 > columns.length - nr_new_columns )
+      column_offset = columns.length - table_attr.nr_columns - nr_new_columns ;
+    if ( column_offset < 0 )
+      column_offset = 0 ;
+
+    if ( thetable.last_column_offset != column_offset
+	 || thetable.last_line_offset != line_offset )
+      table_fill(undefined, thetable.last_column_offset != column_offset);
+
+    thetable.last_column_offset = column_offset ;
+    thetable.last_line_offset = line_offset ;
+  } ;
+    stop_event(event) ;
+}
+
 
 // table innerHTML is not supported by anyone
 
 var colgroup ;
+
 
 function table_init()
 {
@@ -875,6 +917,7 @@ function table_init()
   table = document.createElement('tbody') ;
   table.id = 'table' ;
   thetable.appendChild(table) ;
+  thetable.onmousedown = start_table_drag ;
 
   // Header lines
 
@@ -1134,6 +1177,16 @@ function set_body_onmouseup(f)
   if ( the_body.onmouseupold === undefined )
     the_body.onmouseupold = the_body.onmouseup ;
   the_body.onmouseup = f ;
+
+  the_body.onmouseout = function(event) {
+    if ( event.target.tagName == 'TABLE' )
+      {
+	the_body.onmouseout = function() {} ;
+      	body_on_mouse_up(event) ;
+      }
+  } ;
+  display_tips_saved = display_tips ;
+  display_tips = false ;
 }
 
 function move_horizontal_scrollbar_begin(event)
@@ -1338,9 +1391,17 @@ function body_on_mouse_up(event)
 {
   if ( body_on_mouse_up_doing )
     {
+      var was_doing = body_on_mouse_up_doing ;
       the_body.onmouseup = the_body.onmouseupold ;
       the_body.onmousemove = function() { } ;
       body_on_mouse_up_doing = undefined ;
+      if (display_tips_saved !== undefined )
+	display_tips = display_tips_saved ;
+      if ( was_doing == 'table_drag' )
+	{
+	  if ( thetable.start_line_offset == line_offset )
+	    return false ; // jump of the cursor
+	}
       stop_event(the_event(event)) ;
       return true ;
     }

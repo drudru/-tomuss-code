@@ -1774,9 +1774,13 @@ function current_update_headers_real()
   var s_abjs = student_abjs(this.line[0].value) ;
   if ( s_abjs !== "")
     {
-      tip.innerHTML = student_abjs(this.line[0].value) ;     
-      tip.style.display = "block" ;
-      set_tip_position(this.td) ;
+      if ( ! body_on_mouse_up_doing )
+      {
+	// Only abjs if not scrolling
+	tip.innerHTML = student_abjs(this.line[0].value) ;     
+	tip.style.display = "block" ;
+	set_tip_position(this.td) ;
+      }
     }
   else
     {

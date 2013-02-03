@@ -217,6 +217,7 @@ def tests():
         # First load : progressive display
         c = s.url('=' + abj + '/0/Preferences/'+utilities.login_to_module(abj))
         lines_id = ['current_suivi', 'display_tips', 'favoris_sort',
+                    'home_3scrollbar', 
                     'interface', 'invert_name', 'language', 'nr_cols',
                     'nr_favorites', 'nr_lines', 'page_step', 'scrollbar_right',
                     'v_scrollbar', 'v_scrollbar_nr', 'zebra_step']
