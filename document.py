@@ -1393,6 +1393,7 @@ def check_new_students_real():
         while update_students:
             t = update_students.pop()
             t.do_not_unload_add('check_new_students_real')
+            # XXX Not a good test, but a lock is overkill
             if t.unloaded:
                 continue
             try:
@@ -1476,10 +1477,6 @@ def it_is_a_bad_request(request, page, tabl, output_file):
         # No sense to do the do_not_unload_add(-1)
         utilities.send_backtrace('Request on unloaded table ' + tabl.ue,
                                  exception=False)
-        return True
-    if output_file.closed:
-        # Nobody want the answer
-        tabl.do_not_unload_remove('page_action')
         return True
 
 def should_be_delayed(request, page, tabl, r, t):
@@ -1587,8 +1584,9 @@ def check_requests():
             try:
                 warn('Send %s(%s) %s' % (output_file, output_file.closed,
                                          page.answer), what="table")
-                output_file.write(files[page.answer])
-                output_file.close()
+                if not output_file.closed:
+                    output_file.write(files[page.answer])
+                    output_file.close()
                 sender.append(page.browser_file,
                               '<script>saved(%d);</script>\n' % request)
                 if page.answer == 'bug.png' and real_bug:
@@ -1600,7 +1598,6 @@ def check_requests():
                            
 
 # continuous send of packets to check connections
-from . import sender
 from . import ticket
 def check_down_connections():
     while True:
