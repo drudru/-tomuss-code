@@ -8,6 +8,14 @@ Nouvelles fonctionnalités.
 Utilisateurs finaux.
 --------------------
 
+* Orange au lieu de violet
+
+* Remplir/exporter/importer sur les commentaires
+|_| pour  transformer les ABJ et les PPN en 0
+|_| pour enlever les doublons (valeurs uniques)
+|_| pour récupérer AUSSI les n° d'étudiant
+<<Exporter les notes>> ou << Exporter les commentaires>>
+
 * Prévenir qu'il est préférable de remettre les table en non modifiable.
 
 * Drag pour scroller dans la table (pour les tablettes)

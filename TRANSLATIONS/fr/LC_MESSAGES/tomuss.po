@@ -4134,6 +4134,9 @@ msgstr "Page d'accueil : on fait le suivi du semestre courant au lieu du semestr
 msgid "Preferences_language"
 msgstr "Langage de l'interface (fr_fr, en_us)"
 
+msgid "Preferences_home_3scrollbar"
+msgstr "Si OUI alors il y a un ascenseur par zone au lieu d'un seul pour la page d'accueil"
+
 msgid "COL_TITLE_explanations"
 msgstr "Explications"
 

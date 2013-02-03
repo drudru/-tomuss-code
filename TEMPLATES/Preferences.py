@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 #    TOMUSS: The Online Multi User Simple Spreadsheet
-#    Copyright (C) 2009,2011 Thierry EXCOFFIER, Universite Claude Bernard
+#    Copyright (C) 2009-2013 Thierry EXCOFFIER, Universite Claude Bernard
 #
 #    This program is free software; you can redistribute it and/or modify
 #    it under the terms of the GNU General Public License as published by
@@ -37,6 +37,7 @@ prefs = {'display_tips'   : configuration.yes,
          'interface'      : "N"  ,
          'current_suivi'  : configuration.no,
          'language'       : ""   ,
+         'home_3scrollbar': configuration.yes,
          }
 
 def create(table):

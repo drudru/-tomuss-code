@@ -1,7 +1,7 @@
 /* -*- coding: utf-8 -*- */
 /*
   TOMUSS: The Online Multi User Simple Spreadsheet
-  Copyright (C) 2008-2012 Thierry EXCOFFIER, Universite Claude Bernard
+  Copyright (C) 2008-2013 Thierry EXCOFFIER, Universite Claude Bernard
 
   This program is free software; you can redistribute it and/or modify
   it under the terms of the GNU General Public License as published by
@@ -338,12 +338,20 @@ function ue_line_over(code, t, click_more)
 
   if ( t === ue_line_over_last )
     return ;
-
+  
+  var scrollable = t ;
+  while ( scrollable.scrollTop == 0 )
+    scrollable = scrollable.parentNode ;
+  var scrolltop = scrollable.scrollTop ;
+  if ( isNaN(scrolltop) )
+    scrolltop = 0 ;
+    
   ue_line_out() ;
 
   var pos = findPos(t) ;
   ue_line_over_plus.style.left = pos[0] + t.offsetWidth - ue_line_over_plus_width;
-  ue_line_over_plus.style.top = pos[1] ;
+//  alert(scrollable.tagName + '/' + scrollable.scrollTop);
+  ue_line_over_plus.style.top = pos[1] - scrolltop ;
   ue_line_over_last = t ;
   if ( click_more === undefined )
     ue_line_over_plus.childNodes[0].innerHTML = '?' ;
@@ -1205,10 +1213,11 @@ function generate_home_page_top()
 	+ '/news.xml"><img style="border:0px;vertical-align:top" src="'
 	+ url + '/feed.png"></a><br>'
 	+ '<a href="mailto:' + admin + '">' + _("MSG_home_contact") + '</a>.'
-	+ '<a target="_blank" href="'+url+'/doc_table.html">'
+	+ ' <a target="_blank" href="'+url+'/doc_table.html">'
 	+ _("MSG_home_documentation") + '</a>.'
-	+ '<a target="_blank" href="' + url + '/=' + ticket
+	+ ' <a target="_blank" href="' + url + '/=' + ticket
 	+ '/0/Preferences/' + username2 + '">' + _("LABEL_preferences") + '</a>'
+        + '. <span class="copyright">TOMUSS ' + tomuss_version + '</span>'
 	+ '</p>'
 	+ '</div>'
 	+ information_message
@@ -1236,10 +1245,10 @@ function generate_home_page_ue()
 	+ '<input class="search_field" id="ue_input_name" class="keyword" onkeyup="if ( this.value != this.old_value ) { update_ues2(this.value); this.old_value = this.value ; }" onchange="if ( this.value != this.old_value ) { update_ues2(this.value); this.old_value = this.value ; }" value="">'
 	+ '</td>'
 	+ '</tr>'
-	+ '</table>'
+	+ '</table><div class="scrollable" id="scrollable_left">'
 	+ '<div id="ue_list" class="ue_list">'
 	+ _("TIP_home_ue_loading")
-	+ '</div>' ;
+	+ '</div><br><br><br><br><br><br><br><br><br><br><br><br><br></div>' ;
     document.write(t) ;
 }
 
@@ -1256,16 +1265,16 @@ function generate_home_page_students()
 		     + '" onclick="update_students()">',
 		     _("TIP_home_do_search"))
 	+ '<input class="search_field" id="search_name" class="keyword" onkeyup="update_students()" onchange="update_students()" value="">'
-	+ '</td></tr></table>'
+	+ '</td></tr></table><div class="scrollable" id="scrollable_center">'
 	+ '<div id="students_list"></div>'
 	+ '<div id="the_favorite_students"></div>'
-	+ '<div id="the_students"></div>' ;
+	+ '<div id="the_students"></div><br><br><br><br><br><br><br><br><br><br><br><br><br><br></div>' ;
     document.write(t) ;
 }
 
 function generate_home_page_actions()
 {
-    var t = '<h2>' + _('TH_home_right') + '</h2>' ;
+    var t = '<h2>' + _('TH_home_right') + '</h2><div id="scrollable_right" class="scrollable">' ;
     var boxes = {}, link_name, link_help ;
     for(var i in links)
     {
@@ -1339,6 +1348,7 @@ function generate_home_page_actions()
 	}
       t += '</table>' ;
     }
+    t += '<br><br><br><br><br><br><br><br><br><br><br><br><br><br></div>' ;
     document.write(t) ;
 }
 
@@ -1348,11 +1358,11 @@ function generate_home_page()
     // To take a new ticket after 4 hours
     setTimeout("window.location.reload()", 1000*3600*4) ;
     generate_home_page_top() ;
-    document.write('<TABLE class="top2"><TR><TD width="40%">') ;
+    document.write('<TABLE id="top2" class="top2"><TR><TD class="top2" width="40%">') ;
     generate_home_page_ue() ;
-    document.write('</TD><TD width="20%">') ;
+    document.write('</TD><TD class="top2" width="20%">') ;
     generate_home_page_students() ;
-    document.write('</TD><TD id="rightpart" width="20%">') ;
+    document.write('</TD><TD class="top2" id="rightpart" width="20%">') ;
     generate_home_page_actions() ;
     document.write('</TD></TR></TABLE>') ;
     // update_ues2('') ;
@@ -1363,6 +1373,14 @@ function generate_home_page()
     change_icones() ;
 
     document.write('<div id="feedback"></div>') ;
-    document.write('<p class="copyright">TOMUSS '
-		   + tomuss_version + '</p>') ;
+
+  if ( test_bool(preferences.home_3scrollbar) == yes )
+  {
+    var e = document.getElementById("scrollable_right") ;
+    e.style.height = window_height() - findPosY(e) - 5 ;
+    e = document.getElementById("scrollable_left") ;
+    e.style.height = window_height() - findPosY(e) - 5 ;
+    e = document.getElementById("scrollable_center") ;
+    e.style.height = window_height() - findPosY(e) - 5 ;
+  }
 }

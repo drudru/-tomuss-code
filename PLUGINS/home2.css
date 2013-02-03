@@ -1,8 +1,18 @@
-TABLE.top2 { empty-cells: show; width:100%; table-layout: fixed ; }
+BODY { margin: 0 }
+
+TABLE.top2 {
+    empty-cells: show;
+    width: 100%;
+    table-layout: fixed ;
+}
 
 TABLE.top2 TR TD { 
   vertical-align: top ;
 }
+
+.scrollable {
+    overflow: auto;
+    }
 
 TABLE.top2 INPUT { background-color: #DDD ; }
 TABLE.top2 INPUT.search_field  {
