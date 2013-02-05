@@ -1136,26 +1136,22 @@ class Table(object):
     def unload(self, force=False):
         if force:
             self.close_active_pages()
-        if self.active_pages:
-            return
+            self.do_not_unload = []
         if '*' in ''.join(self.do_not_unload):
-            warn('Unload of do_not_unload: '
-                 + str(self.ue) + repr(self.do_not_unload), what="warning")
             return
-            
         warn(str(self.ue), what="table")
 
         # XXX
         # In rare cases the table is unloaded while the student list
         # is being updated. So we finish with a table half updated
         # But it is not important.
-        tables_manage("del", self.year, self.semester, self.ue)
+        deleted = tables_manage("del", self.year, self.semester, self.ue)
         try:
-            update_students.remove(self) # No update student list.
+            if deleted:
+                update_students.remove(self) # No update student list.
         except ValueError:
             pass
-        utilities.unload_module(self.module) # 2009-09-07 Add this
-        return True
+        return deleted
 
     def delete(self):
         warn(str(self.ue), what="table")
@@ -1265,11 +1261,20 @@ def tables_manage(action, year, semester, ue, do_not_unload=0, new_table=None):
             tables[year, semester, ue] = None
             return False
     elif action == 'del':
-        try:
+        try:            
+            t = tables[year, semester, ue]
+            if t.do_not_unload:
+                warn('Unload of do_not_unload: '
+                     + str(t.ue) + repr(t.do_not_unload), what="warning")
+                return False
+            if t.active_pages:
+                warn('Unload with active pages.', what="warning")
+                return False
             # write access to the table will make an error.
-            tables[year, semester, ue].unloaded = True
-            del tables[year, semester, ue]
-            return
+            t.unloaded = True
+            utilities.unload_module(t.module) # 2009-09-07 Add this
+            del tables[year, semester, ue]            
+            return True
         except KeyError:
             return # Yet destroyed
     elif action == 'replace':
