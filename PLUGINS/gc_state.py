@@ -121,18 +121,22 @@ def gc_object(server):
         return
     i = objgraph.at(int(server.the_path[0], 0))
     gc.collect()
-    objgraph.show_backrefs(i, max_depth=5, too_many=10)
-    server.the_file.write(utilities.read_file(os.path.join('TMP',
-                                                           'objects.png')))
+    filename = os.path.join('TMP', 'objects.png')
+    objgraph.show_backrefs(i, max_depth=5, too_many=10, filename=filename)
+    server.the_file.write(utilities.read_file(filename))
 
 plugin.Plugin('gctop'   , '/gc'        , group='roots', function=gc_top,
+              launch_thread=True,
               link=plugin.Link(where='debug', html_class='verysafe')
               )
-plugin.Plugin('gctype'  , '/type/{*}'  , group='roots', function=gc_type)
+plugin.Plugin('gctype'  , '/type/{*}'  , group='roots',
+              function=gc_type,
+              launch_thread=True,
+              )
 plugin.Plugin('gcobject', '/object/{*}', group='roots', function=gc_object,
+              launch_thread=True,
               mimetype = 'image/png')
 
-import math
 def histogram(values):
     if len(values) == 0:
         return ''
@@ -254,6 +258,7 @@ def gcbig(server):
 
 
 plugin.Plugin('gcbig'   , '/gcbig'   , group='roots', function=gcbig,
+              launch_thread=True,
               link=plugin.Link(where='debug', html_class='verysafe')
               )
 
