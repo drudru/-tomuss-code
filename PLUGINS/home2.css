@@ -1,4 +1,6 @@
-BODY { margin: 0 }
+BODY {
+    margin: 0;
+}
 
 TABLE.top2 {
     empty-cells: show;

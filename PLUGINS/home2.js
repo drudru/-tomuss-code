@@ -1352,6 +1352,25 @@ function generate_home_page_actions()
     document.write(t) ;
 }
 
+var home_page_height ;
+
+function home_resize_event()
+{
+  var height = window_height() ;
+  
+  if ( home_page_height != height )
+  {
+    home_page_height = height ;
+    var e = document.getElementById("scrollable_right") ;
+    e.style.height = height - findPosY(e) - 5 ;
+    e = document.getElementById("scrollable_left") ;
+    e.style.height = height - findPosY(e) - 5 ;
+    e = document.getElementById("scrollable_center") ;
+    e.style.height = height - findPosY(e) - 5 ;
+  }
+  return true ;
+}
+
 function generate_home_page()
 {
     lib_init() ;
@@ -1376,11 +1395,7 @@ function generate_home_page()
 
   if ( test_bool(preferences.home_3scrollbar) == yes )
   {
-    var e = document.getElementById("scrollable_right") ;
-    e.style.height = window_height() - findPosY(e) - 5 ;
-    e = document.getElementById("scrollable_left") ;
-    e.style.height = window_height() - findPosY(e) - 5 ;
-    e = document.getElementById("scrollable_center") ;
-    e.style.height = window_height() - findPosY(e) - 5 ;
-  }
+    periodic_work_add(home_resize_event) ;
+  }    
+
 }
