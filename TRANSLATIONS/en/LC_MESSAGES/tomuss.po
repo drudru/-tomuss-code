@@ -4002,6 +4002,12 @@ msgstr "Formulas"
 msgid "COL_COMMENT_formula"
 msgstr "Formula problems detection"
 
+msgid "COL_TITLE_modifiable"
+msgstr "RW"
+
+msgid "COL_COMMENT_modifiable"
+msgstr "The table is modifiable"
+
 msgid "LINK_tables"
 msgstr "Table Statistics"
 

@@ -4043,6 +4043,12 @@ msgstr "Formules"
 msgid "COL_COMMENT_formula"
 msgstr "Problème de formule"
 
+msgid "COL_TITLE_modifiable"
+msgstr "Modifiable"
+
+msgid "COL_COMMENT_modifiable"
+msgstr "La table est modifiable"
+
 msgid "LINK_tables"
 msgstr "Statistiques UE"
 

@@ -118,14 +118,18 @@ def table_statistics(server):
                       title=server._('COL_TITLE_nb_grp'),
                       comment=server._('COL_COMMENT_nb_grp'),
                       ),
-        column.Column('ce', '', type='Bool', width=2,
+        column.Column('ce', '', type='Text', width=1,
                       title=server._('COL_TITLE_formula'),
                       comment=server._('COL_COMMENT_formula'),
+                      ),
+        column.Column('cf', '', type='Bool', width=1,
+                      title=server._('COL_TITLE_modifiable'),
+                      comment=server._('COL_COMMENT_modifiable'),
                       ),
         ]
     table_attrs = {
         'comment': server._('LINK_tables'),
-        'default_nr_columns': 14
+        'default_nr_columns': 16
         }
 
     lines = []
@@ -151,6 +155,7 @@ def table_statistics(server):
                 CellValue(t.t.empty()[1]),
                 CellValue(len([g for g in t.group_and_seq if g != ''])),
                 CellValue(t.t.problem_in_column_name()),
+                CellValue(t.t.modifiable and configuration.yes or configuration.no),
                 )))
 
     document.virtual_table(server, columns, lines, table_attrs=table_attrs)

@@ -819,6 +819,7 @@ class Table(object):
                 if name not in names:
                     return utilities._("MSG_document_table_no_column") % (
                         c.title, name)
+        return ""
         
 
     def table_comment(self, page, comment):
