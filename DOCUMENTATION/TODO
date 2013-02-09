@@ -16,8 +16,6 @@ Utilisateurs finaux.
 |_| pour récupérer AUSSI les n° d'étudiant
 <<Exporter les notes>> ou << Exporter les commentaires>>
 
-* Prévenir qu'il est préférable de remettre les table en non modifiable.
-
 * Clic long ==> menu des valeurs pour la cellule
 
 * Autoriser n'importe qui à modifier les infos saisies par les autres.
@@ -136,9 +134,8 @@ Problèmes à résoudre.
 * La liste des actions à faire : si trop vieille regarder si elles
   ont été faites par ailleurs et si non, envoyer un mail ?
 
-* Largeur de colonne : le nombre de colonne doit tenir compte de la taille
-  des caractères.
-
+* Faire disparaitre UE- EC- car ce n'est pas portable.
+  
 * Reloadplugins : more_on_suivi : ajout multiple et bugs
   
 * Deprecated dans config_table et config_plugin
@@ -222,8 +219,6 @@ Améliorations de code source.
 	  Popup_on_red ?
 
 * Méthode javascript pour attr : editable (masters attributes)
-
-* Faire disparaitre UE- EC- car ce n'est pas portable.
 
 * Il faut enlever toute référence aux noms de types dans le JS
 

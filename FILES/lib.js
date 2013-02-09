@@ -210,7 +210,7 @@ function _d(txt)
 
 function compute_nr_cols()
 {
-  table_attr.nr_columns = Math.floor(16 * (window_width() / 1280)) ;
+  table_attr.nr_columns = Math.floor(window_width() / document.getElementById("charsize").offsetWidth / 8.5) ;
   if ( table_attr.nr_columns <= 0 )
     // Needed for 'statistics_per_group' virtual table
     table_attr.nr_columns = 1 ;
