@@ -2270,7 +2270,7 @@ function current_input_div_focus()
   if ( this.focused )
     this.input_div.style.border = "3px solid blue" ;
   else
-    this.input_div.style.border = "3px solid grey" ;  
+    this.input_div.style.border = "3px solid gray" ;  
 }
 
 function current_change()

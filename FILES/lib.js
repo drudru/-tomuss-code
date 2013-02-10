@@ -765,7 +765,7 @@ function show_the_tip(td, tip_content)
 function on_mouse_down(event)
 {
   // See 'move_scrollbar_begin', we must finish scrollbar dragging
-  if ( the_body.onmouseup && the_body.onmouseup(event) )
+  if ( body_on_mouse_up_doing && body_on_mouse_up(event) )
     {
       return false ;
     }
@@ -838,7 +838,7 @@ function start_table_drag(event)
   thetable.start_drag_y = event.y ;
   thetable.start_drag_x = event.x ;
 
-  set_body_onmouseup(body_on_mouse_up) ; // ??? Why not working in HTML TAG
+  set_body_onmouseup() ; // ??? Why not working in HTML TAG
   body_on_mouse_up_doing = "table_drag" ;
   the_body.onmousemove = function(event) {
     event = the_event(event) ;
@@ -1172,11 +1172,11 @@ function update_horizontal_scrollbar_cursor()
 }
 
 // IE bug for BODY, must use document for this event
-function set_body_onmouseup(f)
+function set_body_onmouseup()
 {
   if ( the_body.onmouseupold === undefined )
     the_body.onmouseupold = the_body.onmouseup ;
-  the_body.onmouseup = f ;
+  the_body.onmouseup = body_on_mouse_up ;
 
   /* // Does not work for Chrome to detect the cursor moving outside window
   the_body.onmouseout = function(event) {
@@ -1198,7 +1198,7 @@ function move_horizontal_scrollbar_begin(event)
   the_current_cell.focus() ; // Take focus to do the necessary 'blurs'
   var col = the_event(event).target.col ;
   page_horizontal(0, col) ;
-  set_body_onmouseup(body_on_mouse_up) ; // ??? Why not working in HTML TAG
+  set_body_onmouseup() ; // ??? Why not working in HTML TAG
   body_on_mouse_up_doing = "horizontal_scrollbar_drag" ;
   the_body.onmousemove = function(event) {
     var x = the_event(event).x ;
@@ -1412,7 +1412,7 @@ function body_on_mouse_up(event)
 
 function move_vertical_scrollbar_begin(event)
 {
-  set_body_onmouseup(body_on_mouse_up) ; // ??? Why not working in HTML TAG
+  set_body_onmouseup() ; // ??? Why not working in HTML TAG
   body_on_mouse_up_doing = "vertical_scrollbar_drag" ;
   the_body.onmousemove = move_scrollbar ;
   move_scrollbar(event) ;
@@ -2811,7 +2811,6 @@ function cell_goto(td, do_not_focus)
 
   if ( the_current_cell.td != td && do_not_focus !== true )
     the_current_cell.input.selectionEnd = 0 ; // For Opera
-
   the_current_cell.jump(lin, col, do_not_focus, line_id, data_col) ;
 }
 
