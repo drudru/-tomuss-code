@@ -1178,6 +1178,7 @@ function set_body_onmouseup(f)
     the_body.onmouseupold = the_body.onmouseup ;
   the_body.onmouseup = f ;
 
+  /* // Does not work for Chrome to detect the cursor moving outside window
   the_body.onmouseout = function(event) {
     if ( event.target.tagName == 'TABLE' )
       {
@@ -1185,6 +1186,7 @@ function set_body_onmouseup(f)
       	body_on_mouse_up(event) ;
       }
   } ;
+  */
   display_tips_saved = display_tips ;
   display_tips = false ;
 }
