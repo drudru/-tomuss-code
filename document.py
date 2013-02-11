@@ -371,6 +371,7 @@ class Table(object):
                     tables_of_student[login] = [self.ue]
 
         if self.is_extended:
+            self.destination_is_modifiable = self.modifiable
             # To forbid the edit of the same table with 2 names
             self.modifiable = 0
 
@@ -1246,7 +1247,26 @@ class Table(object):
         if self.the_abjs() != old_abjs:
             self.send_update(None,'<script>' + self.new_abjs + '</script>')
 
-def send_alert(text):    
+    def link_to(self):
+        ln = os.readlink(self.filename)[:-3].split(os.path.sep)
+        ue = ln[-1]
+        if len(ln) == 3:
+            assert(ln[0] == '..')
+            assert(ln[1][0] == 'S')
+            year = self.year
+            semestre = ln[1][1:]
+        elif len(ln) == 5:
+            assert(ln[0] == '..')
+            assert(ln[1] == '..')
+            assert(ln[2][0] == 'Y')
+            assert(ln[3][0] == 'S')
+            year = int(ln[2][1:])
+            semestre = ln[3][1:]
+        else:
+            assert(len(ln) == 1)
+        return year, semestre, ue
+
+def send_alert(text):
     for atable in tables_values():
         atable.send_alert(text)
 

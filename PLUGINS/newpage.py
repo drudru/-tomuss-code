@@ -133,25 +133,11 @@ def new_page(server):
 
     if table.is_extended:
         # Take the link destination (assuming ../..) and remove the .py
-        link_to = os.readlink(table.filename)[:-3].split(os.path.sep)
-        table.do_not_unload_remove('new_page')
-        if len(link_to) == 3:
-            assert(link_to[0] == '..')
-            assert(link_to[1][0] == 'S')
-            link_to[1] = link_to[1][1:]
-        elif len(link_to) == 5:
-            assert(link_to[0] == '..')
-            assert(link_to[1] == '..')
-            assert(link_to[2][0] == 'Y')
-            assert(link_to[3][0] == 'S')
-            link_to[2] = link_to[2][1:]
-            link_to[3] = link_to[3][1:]
-        else:
-            assert(len(link_to) == 1)
-
-        link_to = os.path.join(*link_to)
+        year, semester, ue = table.link_to()
+        link_to = '../../%s/%s/%s' % (year, semester, ue)
         
-        server.the_file.write('<meta HTTP-EQUIV="REFRESH" content="0; url=%s">' % (link_to,))
+        server.the_file.write(
+            '<meta HTTP-EQUIV="REFRESH" content="0; url=%s">' % (link_to,))
         server.close_connection_now()
         return
     

@@ -469,7 +469,10 @@ class Column(object):
         return False
 
     def is_modifiable(self, teacher):
-        return (self.table.modifiable
+        """From 'suivi' by student or teacher"""
+        return ((self.table.modifiable
+                 or self.table.is_extended
+                 and self.table.destination_is_modifiable)
                 and self.modifiable
                 and (teacher or self.modifiable == 2)
                 )
