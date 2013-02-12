@@ -136,7 +136,23 @@ def members(group):
     membs.sort(key=lambda x: x.startswith('ldap:') and 1 or 0)
     return membs
 
+def trace(fct):
+    def f(*args, **keys):
+        try:
+            a = fct(*args, **keys)
+        except:
+            print 'RAISE ERROR'
+            raise
+        print fct, args, keys, '====>', a
+        return a
+    return f
+
+# @trace
 def login_is_member(login, member, member_of):
+    """No negation (!) here.
+    'member' is ONE group name
+    'member_of' contains the LDAP groups of the login
+    """
     if member == login:
         return True
     elif member.startswith('ldap:'):
@@ -144,12 +160,13 @@ def login_is_member(login, member, member_of):
             return False
         member = member[5:]
         # Remove if it is in a group of non teacher.
+        # This is deprecated, do not use it.
         for i in configuration.not_teachers:
             for j in member_of:
                 if j.endswith(i):
                     return False
         for i in member_of:
-            if member.endswith(i):
+            if i.endswith(member):
                 return True
     elif member.startswith('python:') and not configuration.regtest:
         member = member[7:]
@@ -159,28 +176,40 @@ def login_is_member(login, member, member_of):
         except:
             pass
     elif member.startswith('grp:'):
-        return is_member_of_(login, member[4:], member_of)
+        if member == 'grp:':
+            return True
+        return is_member_of_(login, members(member[4:]), member_of)
     return False
 
+
 def is_member_of_(login, group, member_of):
+    """The negation ! has priority over the other AT THE SAME LEVEL
+    'group' is a list of group name
+    'member_of' contains the LDAP groups of the login
+    If the group list contains only a !group, then it mean ALL-group
+    """
     if group == '':
         return True
-    if isinstance(group, tuple):
-        to_check = group
-    else:
-        to_check = members(group.strip('!'))
-    
-    if group[0] == '!':
-        group = group[1:]
-        for member in to_check:
-            if login_is_member(login, member, member_of):
+    if isinstance(group, str):
+        group = (group, )
+
+    # To support deprecated syntax
+    group = [g.replace("grp:!", "!grp:") for g in group]
+
+    for member in group:
+        if member.startswith('!'):
+            if login_is_member(login, member[1:], member_of):
                 return False
+
+    if len(group) == 1 and group[0].startswith("!"):
         return True
-    else:
-        for member in to_check:
+    
+    for member in group:
+        if not member.startswith('!'):
             if login_is_member(login, member, member_of):
                 return True
     return False
+
 
 cache = {}
 
@@ -189,11 +218,10 @@ def is_member_of(login, group):
     if (login, group) not in cache:
         if time.time() - clear_cache.last_clear > 3600:
             clear_cache()
-
         member_of = inscrits.L_fast.member_of_list(login)
         if group == '':
             result = True
-        elif is_member_of_(login, "roots", member_of):
+        elif is_member_of_(login, members("roots"), member_of):
             if group:
                 if '!' in group[0]:
                     result = False
@@ -202,7 +230,11 @@ def is_member_of(login, group):
             else:
                 result = False
         else:
-            result = is_member_of_(login, group, member_of)
+            if isinstance(group, str):
+                grp = ("grp:" + group,)
+            else:
+                grp = group
+            result = is_member_of_(login, grp, member_of)
 
         cache[login, group] = result
 

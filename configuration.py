@@ -69,7 +69,8 @@ abj_masters = (
     'CN=Administratives4,OU=Groupes,DC=univ-lyon1,DC=fr',
     )
 
-# It is not a teacher if it is in one of these groups
+# DEPRECATED: It is not a teacher if it is in one of these groups
+# Use '!' in config_ACL table.
 not_teachers = (
     'CN=NotTeachers,OU=Groupes,DC=univ-lyon1,DC=fr',
     )
