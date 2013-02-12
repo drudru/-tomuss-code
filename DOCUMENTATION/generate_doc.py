@@ -6,7 +6,6 @@ import os
 import cgi
 
 import tomuss_init
-from .. import configuration
 
 ###############################################################################
 # Create 'xxx_redefined.html'
@@ -70,7 +69,7 @@ for place in ('.', 'FILES', 'PLUGINS', 'TEMPLATES', 'COLUMN_TYPES', 'ATTRIBUTES'
 
 f.write('<table border="1">\n')
 for i in redefined:
-    f.write('<tr><td>' + i[2][3:] + '</td><td><tt><small>' + i[1] + '</small></tt></td><td>' + i[0] + '</td></tr>\n')
+    f.write('<tr><td>' + i[2] + '</td><td><tt><small>' + i[1] + '</small></tt></td><td>' + i[0] + '</td></tr>\n')
 f.write('</table>\n')
 f.close()
     
