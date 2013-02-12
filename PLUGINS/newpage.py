@@ -132,6 +132,7 @@ def new_page(server):
         return
 
     if table.is_extended:
+        table.do_not_unload_remove('new_page')
         # Take the link destination (assuming ../..) and remove the .py
         year, semester, ue = table.link_to()
         link_to = '../../%s/%s/%s' % (year, semester, ue)
