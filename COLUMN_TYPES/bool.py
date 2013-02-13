@@ -24,10 +24,10 @@ from . import text
 from .. import configuration
 
 def option_list(column, value, cell, lines, teacher, ticket, line_id, values):
-    if column.is_modifiable(teacher):
+    if column.is_modifiable(teacher, ticket, cell):
         v = '<select class="hidden" onchange="_cell(this,\'%s/=%s/%d/%s/%s/cell/%s/%s\');">' % (
             configuration.server_url,
-            ticket,
+            ticket.ticket,
             column.table.year, column.table.semester,
             column.table.ue, column.the_id, line_id)
         for i in values:

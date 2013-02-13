@@ -531,7 +531,7 @@ class Table(object):
             else:
                 sender.append(p.browser_file, value)
 
-    def authorized(self, page, value):
+    def authorized(self, user_name, value):
         # Authorized because the test have yet be done in the past
         if self.loading:
             return True
@@ -542,23 +542,24 @@ class Table(object):
         if value.value == '':
             return True
         # The user can change its values
-        if value.author == page.user_name:
+        if value.author == user_name:
             return True
         # RO and RW users have all the rights
-        if page.user_name == data.ro_user or page.user_name == data.rw_user:
+        if user_name == data.ro_user or user_name == data.rw_user:
             return True
         # Values setted by user '*' are not modifiable
         if value.author == data.ro_user:
             return False
         # The teachers of the UE may change any value setted by another user
-        if page.user_name in self.teachers:
+        if user_name in self.teachers:
             return True
-        if page.user_name in self.masters:
+        if user_name in self.masters:
             return True
         return False
 
-    def authorized_column(self, page, a_column):
-        return self.authorized(page, CellValue(a_column.title,a_column.author))
+    def authorized_column(self, user_name, a_column):
+        return self.authorized(
+            user_name, CellValue(a_column.title, a_column.author))
 
     def cell_change(self, page, col, lin, value=None,
                     date=None, force_update=False,
@@ -579,7 +580,7 @@ class Table(object):
             value = cell.value
 
         if not self.loading:
-            if not self.authorized(page, cell):
+            if not self.authorized(page.user_name, cell):
                 utilities.warn('cell value = (%s)' % cell.value)
                 return self.bad_auth(page, "cell_change %s/%s/%s" % (
                         col, lin, value))
@@ -760,7 +761,8 @@ class Table(object):
             return 'ok.png'
 
         if not self.loading:
-            if not self.authorized(page, line[a_column.data_col]):
+            if not self.authorized(page.user_name,
+                                   line[a_column.data_col]):
                 return self.bad_auth(page, "comment_change %s/%s/%s" % (
                         col, lin, value))
             self.log('comment_change(%s,%s,%s,%s)' % (
@@ -902,7 +904,7 @@ class Table(object):
         # THIS SHOULD BE REMOVED, but not yet.
         # It was tested because bad columns were created.
         if page.user_name not in self.masters and a_column.data_col < 6 :
-            if not self.authorized_column(page, a_column):
+            if not self.authorized_column(page.user_name, a_column):
                 return self.bad_auth(page, "column_delete %s" % col)
         if (a_column.type.cell_is_modifiable
             and not a_column.empty_of_user_values()):

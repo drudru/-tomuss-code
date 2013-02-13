@@ -131,15 +131,15 @@ Administrateur.
 Problèmes à résoudre.
 =====================
 
+* L'étudiant qui cherche à changer une valeur saisie par le prof via le suivi
+  l'indiquer dès le départ
+
 * La liste des actions à faire : si trop vieille regarder si elles
   ont été faites par ailleurs et si non, envoyer un mail ?
 
 * Reloadplugins : more_on_suivi : ajout multiple et bugs
   
 * Deprecated dans config_table et config_plugin
-
-* L'étudiant qui cherche à changer une valeur saisie par le prof via le suivi
-  l'indiquer dès le départ
 
 * Perte photo quand déconnexion puis reconnexion réseau : normal
   Il faudrait que la page revalide le ticket

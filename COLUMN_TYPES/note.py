@@ -96,7 +96,7 @@ class Note(text.Text):
         return True
 
     def formatter(self,column, value, cell, lines, teacher, ticket, line_id):
-        if column.is_modifiable(teacher):
+        if column.is_modifiable(teacher, ticket, cell):
             return super(Note, self).formatter(column, value, cell, lines,
                                                teacher, ticket, line_id)
 

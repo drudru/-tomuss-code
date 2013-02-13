@@ -241,13 +241,13 @@ class Text(object):
              (text, classname, comment)
         'text' is None if the cell should not be displayed.
         """
-        if column.is_modifiable(teacher):
+        if column.is_modifiable(teacher, ticket, cell):
             e = str(value).replace("%","&#37").replace("'", "&#39;"). \
                 replace('"', '&#34;')
 
             v = '<input class="hidden" onkeypress="if ( the_event(event).keyCode == 13 ) _cell(this,\'%s/=%s/%d/%s/%s/cell/%s/%s\',\'%s\', \'%s\');" value="%s">' % (
                 configuration.server_url,
-                ticket,
+                ticket.ticket,
                 column.table.year, column.table.semester,
                 column.table.ue, column.the_id, line_id,
                 column.type.name, column.minmax, e)

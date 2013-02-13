@@ -359,7 +359,7 @@ class Lines(object):
                                  utilities._("MSG_cell_full_table"),
                                  url='%s/=%s/%d/%s/%s' %
                                  (configuration.server_url,
-                                  ticket,
+                                  ticket.ticket,
                                   table.year, table.semester,
                                   table.ue)
                                  , classname='title'))
@@ -368,7 +368,7 @@ class Lines(object):
                                  utilities._("MSG_cell_one_line"),
                                  url='%s/=%s/%d/%s/%s/=filters=0:%s=' %
                                  (configuration.server_url,
-                                  ticket,
+                                  ticket.ticket,
                                   table.year, table.semester,
                                   table.ue, line[0].value)
                                  , classname='title'))

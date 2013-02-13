@@ -273,7 +273,7 @@ hidden('<a href="%s">' + _("MSG_suivi_student_RSS") +
     for t in the_ues(year, semester, login):
         for line_id, line in t.get_items(login):
             ss.append(unicode(t.lines.line_html(
-                t, line, line_id, ticket.ticket,
+                t, line, line_id, ticket,
                 link=not is_a_student
                 ),'utf8'))
             if ss[-1]:

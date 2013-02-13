@@ -33,7 +33,9 @@ def cell_change(server):
     if lin not in table.lines or column is None:
         return 'bad.png'
     # Test if the column is modifiable in the 'suivi'
-    if not column.is_modifiable(server.ticket.is_a_teacher):
+    if not column.is_modifiable(server.ticket.is_a_teacher,
+                                server.ticket,
+                                table.lines[lin][column.data_col]):
         return 'bad.png'
     # The student can only modify its line
     if (not server.ticket.is_a_teacher

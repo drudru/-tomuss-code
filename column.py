@@ -104,7 +104,8 @@ class ColumnAttr(object):
         if column == None:
             return table.bad_column(page)
 
-        if not table.authorized_column(page, column) and self.name != 'width':
+        if not table.authorized_column(page.user_name, column
+                                       ) and self.name != 'width':
             return table.bad_auth(page)
 
         if self.computed and self.name != 'hidden': # XXX Not nice test
@@ -468,13 +469,14 @@ class Column(object):
                 return True
         return False
 
-    def is_modifiable(self, teacher):
+    def is_modifiable(self, teacher, ticket, cell):
         """From 'suivi' by student or teacher"""
         return ((self.table.modifiable
                  or self.table.is_extended
                  and self.table.destination_is_modifiable)
                 and self.modifiable
                 and (teacher or self.modifiable == 2)
+                and self.table.authorized(ticket.user_name, cell)
                 )
 
 class Columns(object):
