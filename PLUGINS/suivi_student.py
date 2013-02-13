@@ -118,14 +118,14 @@ def student_statistics(login, server, is_a_student=False, expand=False,
     s = [
         "<script>document.getElementById('x').style.display='none';</script>",
         '<div class="student"><img class="photo" src="',
-         configuration.picture(inscrits.login_to_student_id(login),
-                               ticket=ticket),
-         '">',
-         tomuss_links(login, ticket, server, is_a_student) +
-         abj.html_abjs(server.year, server.semester, login)
-         ,
-         '<h1>'
-         ]
+        configuration.picture(inscrits.login_to_student_id(login),
+                              ticket=ticket),
+        '">',
+        '<div class="suivi_message"><script>document.write(message)</script></div>',
+        tomuss_links(login, ticket, server, is_a_student),
+        abj.html_abjs(server.year, server.semester, login),
+        '<h1>'
+        ]
     s.append('%s <a href="mailto:%s">%s %s</a></h1>' % (
         login, mail, firstname.title(), surname))
 

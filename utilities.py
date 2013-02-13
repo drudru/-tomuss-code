@@ -542,6 +542,7 @@ class StaticFile(object):
                 'css': 'text/css;charset=utf8',
                 'png': 'image/png',
                 'ico': 'image/png',
+                'jpg': 'image/jpeg',
                 'gif': 'image/gif',
                 'js': 'application/x-javascript;charset=utf8',
                 'txt': 'text/plain',

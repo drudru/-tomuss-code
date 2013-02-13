@@ -86,8 +86,7 @@ function initialize_suivi_real()
     s += '<style>DIV.empty P { display: none ; }</style>'
     + '<p style="padding: 0.5em; border:3px solid black ; margin: 0.5em ;background-color: #FF8080; font-size: 150%">'
       + _("MSG_suivi_student_important")
-      + '</p>'
-      + message ;
+      + '</p>' ;
   }
   
   document.getElementById('top').innerHTML = s ;

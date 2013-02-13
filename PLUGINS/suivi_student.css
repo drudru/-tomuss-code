@@ -40,9 +40,15 @@ SELECT {
   font-size: 70% ;
  }
 
+.suivi_message {
+  float: right;
+  margin: 0px;
+}
+
 .tomuss_links {
   float: right;
   margin: 0px;
+  clear: right;
 }
 .tomuss_links DIV.highlight {
   border:2px solid black;
@@ -53,7 +59,7 @@ SELECT {
 }
 .tomuss_links TD { text-align: right; padding: 0px }
 .tomuss_links IMG { float: left }
-
+ 
 .display_abjs, .display_da { clear: right;float: right; width: 20em; }
 
 H1 { margin-top: 0px }
