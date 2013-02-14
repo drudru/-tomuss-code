@@ -131,8 +131,7 @@ Administrateur.
 Problèmes à résoudre.
 =====================
 
-* L'étudiant qui cherche à changer une valeur saisie par le prof via le suivi
-  l'indiquer dès le départ
+* Trie des chaines de caractères contenant des / : il croit que c'est des dates
 
 * La liste des actions à faire : si trop vieille regarder si elles
   ont été faites par ailleurs et si non, envoyer un mail ?

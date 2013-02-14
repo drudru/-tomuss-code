@@ -280,7 +280,33 @@ function compile_filter_generic(value)
   tmp_index_filter++ ;
 
   return eval('function f' + tmp_index_filter + '(value_){return '
-	      + compile_filter_generic_(value) + ';} ; f' + tmp_index_filter) ;
+	      + compile_filter_generic_(value
+					.replace(/\\\\/g, '\001')
+					.replace(/\\[ ]/g, '\002')
+					.replace(/\\[!]/g, '\003')
+					.replace(/\\[~]/g, '\004')
+					.replace(/\\[|]/g, '\005')
+					.replace(/\\[=]/g, '\006')
+					.replace(/\\[<]/g, '\007')
+					.replace(/\\[>]/g, '\010')
+					.replace(/\\[@]/g, '\011')
+					.replace(/\\[:]/g, '\013')
+					.replace(/\\[#]/g, '\014')
+					.replace(/\\[?]/g, '\016')
+				       )
+	      .replace(/\001/g, '\\\\')
+	      .replace(/\002/g, ' ')
+	      .replace(/\003/g, '!')
+	      .replace(/\004/g, '~')
+	      .replace(/\005/g, '|')
+	      .replace(/\006/g, '=')
+	      .replace(/\007/g, '<')
+	      .replace(/\010/g, '>')
+	      .replace(/\011/g, '@')
+	      .replace(/\013/g, ':')
+	      .replace(/\014/g, '#')
+	      .replace(/\016/g, '?')
+	      + ';} ; f' + tmp_index_filter) ;
 }
 
 function set_filter_generic(value, column)
