@@ -381,7 +381,9 @@ class Table(object):
                     self.masters.append(login.encode('utf8'))
 
     def update(self):
-        """Update the table if the file on disc changed."""
+        """Update the table if the file on disc changed.
+        It is used only by 'suivi' servers
+        """
         # warn('Start ro=%s dt=%f p=%s' % (self.ro, time.time() - self.mtime, os.path.exists(self.filename)), what="table")
         if not self.ro:
             return self
@@ -1301,6 +1303,11 @@ def tables_manage(action, year, semester, ue, do_not_unload=0, new_table=None):
         except KeyError:
             return # Yet destroyed
     elif action == 'replace':
+        old = tables.get((year, semester, ue), None)
+        if old:
+            # XXX The module is unloaded just after the import.
+            # Why is it necessary to do it again here?
+            utilities.unload_module(old.module)
         tables[year, semester, ue] = new_table
         return new_table
     else:

@@ -24,7 +24,6 @@ import os
 from . import document
 from . import configuration
 from . import utilities
-from . import data
 
 def les_ues(year, semester, true_file=False, all_files=False, ro=True):
     """true_file is for UE that link to another UE"""

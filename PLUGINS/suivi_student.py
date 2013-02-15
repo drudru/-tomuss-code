@@ -89,20 +89,17 @@ def member_of_list(login):
 
 last_full_read_time = 0
 
-
 def the_ues(year, semester, login):
     global last_full_read_time
     if configuration.regtest or time.time() - last_full_read_time > 60:
         last_full_read_time = time.time()
-        return tablestat.les_ues(year, semester, true_file=False)
-    else:
-        login = utilities.the_login(login)
-        tables = []
-        for ue in document.tables_of_student.get(login,[]):
-            the_table = document.table(year, semester, ue, ro=True)
-            if the_table.official_ue:
-                tables.append(the_table)
-        return tables
+        tablestat.les_ues(year, semester, true_file=False)
+
+    login = utilities.the_login(login)
+    tables = []
+    for ue in document.tables_of_student.get(login,[]):
+        tables.append(document.table(year, semester, ue, ro=True))
+    return tables
 
 # To not have duplicate error messages
 referent_missing = {}
