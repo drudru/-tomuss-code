@@ -366,9 +366,9 @@ class Table(object):
             for login in self.the_keys():
                 if login in tables_of_student:
                     if self.ue not in tables_of_student[login]:
-                        tables_of_student[login].append(self.ue)
+                        tables_of_student[login].add(self.ue)
                 else:
-                    tables_of_student[login] = [self.ue]
+                    tables_of_student[login] = set((self.ue,))
 
         if self.is_extended:
             self.destination_is_modifiable = self.modifiable
