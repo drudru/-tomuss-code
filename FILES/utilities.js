@@ -302,6 +302,12 @@ function the_event(e)
       event.x = event.pageX ;
       event.y = event.pageY ;
     }
+  if ( e.changedTouches )
+    {
+      var finger0 = e.changedTouches[0] ;
+      event.x = finger0.pageX ;
+      event.y = finger0.pageY ;
+    }
 
   if ( event.target === undefined )
     event.target = event.srcElement ;

@@ -828,6 +828,8 @@ function init_column(column)
 		      ) ;
 }
 
+var use_touch = true ;
+
 function start_table_drag(event)
 {
   event = the_event(event) ;
@@ -863,7 +865,10 @@ function start_table_drag(event)
     thetable.last_column_offset = column_offset ;
     thetable.last_line_offset = line_offset ;
   } ;
-    stop_event(event) ;
+  if ( use_touch )
+     table.addEventListener("touchmove", the_body.onmousemove, false);
+
+  stop_event(event) ;
 }
 
 
@@ -918,6 +923,9 @@ function table_init()
   table.id = 'table' ;
   thetable.appendChild(table) ;
   thetable.onmousedown = start_table_drag ;
+  if ( use_touch )
+    table.addEventListener("touchstart", start_table_drag, false);
+
 
   // Header lines
 
@@ -1177,6 +1185,10 @@ function set_body_onmouseup()
   if ( the_body.onmouseupold === undefined )
     the_body.onmouseupold = the_body.onmouseup ;
   the_body.onmouseup = body_on_mouse_up ;
+  if ( use_touch )
+    the_body.addEventListener("touchend", body_on_mouse_up, false);
+
+
 
   /* // Does not work for Chrome to detect the cursor moving outside window
   the_body.onmouseout = function(event) {
@@ -1396,6 +1408,11 @@ function body_on_mouse_up(event)
       var was_doing = body_on_mouse_up_doing ;
       the_body.onmouseup = the_body.onmouseupold ;
       the_body.onmousemove = function() { } ;
+      if ( use_touch )
+         try {
+         the_body.RemoveEventListener("touchend", body_on_mouse_up, false);
+        } catch(e) {}
+
       body_on_mouse_up_doing = undefined ;
       if (display_tips_saved !== undefined )
 	display_tips = display_tips_saved ;
