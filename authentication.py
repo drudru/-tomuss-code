@@ -29,10 +29,11 @@ from . import configuration
 
 warn = utilities.warn
 
+# To synchronize with JavaScript encode_uri and decode_uri_option
 def canonize(s):
     return (s.replace("$", "$24").replace('?','$3F').replace('#','$23')
             .replace("/", "$2F").replace("&", '$26').replace(".", '$2E')
-            .replace(" ", "$20")
+            .replace("+", '$2B').replace(" ", "$20")
             )
 
 last_mail_sended = 0

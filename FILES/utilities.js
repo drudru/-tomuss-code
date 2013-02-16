@@ -432,13 +432,15 @@ function hidden(html, help, classname, id)
   document.write(hidden_txt(html, help, classname, id)) ;
 }
 
+// To synchronize with Python canonize and JavaScript decode_uri_option
 function encode_uri(t)
 {
   // We use $ in place of % because we don't want the proxies
   // or Apache or Single Sign On services to mess with the data content.
   return encodeURI(t)
     .replace(/\$/g, "$24").replace(/\?/g, "$3F").replace(/#/g, "$23")
-    .replace(/[.]/g, "$2E").replace(/&/g, "$26").replace(/\//g, "$2F") ;
+    .replace(/[.]/g, "$2E").replace(/&/g, "$26").replace(/\//g, "$2F")
+    .replace(/[+]/g, "$2B") ;
 }
 
 function encode_uri_option(t)
@@ -451,7 +453,7 @@ function decode_uri_option(t)
 {
   return unescape(t.replace(/\$2F/g,'/').replace(/\$3F/g,'?')
 		  .replace(/\$23/g,'#').replace(/\$2E/g,'.')
-		  .replace(/\$26/g,'&')
+		  .replace(/\$26/g,'&').replace(/\$2B/g,'+')
 		  .replace(/_E/g,'=').replace(/_C/g,':').replace(/__/g,'_')
 		  .replace(/\$24/g, '$')) ;
 }
