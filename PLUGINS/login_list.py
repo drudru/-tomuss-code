@@ -43,8 +43,6 @@ def login_list_of(text, base):
         base = base
         )
 
-    append = 0
-    t = time.time()
     r = []
     for login, surname, firstname, mail  in a:
         login = login.lower().encode('utf8')

@@ -866,7 +866,9 @@ function start_table_drag(event)
     thetable.last_line_offset = line_offset ;
   } ;
   if ( use_touch )
+    try {
      table.addEventListener("touchmove", the_body.onmousemove, false);
+    } catch(e) {} ;
 
   stop_event(event) ;
 }
@@ -924,7 +926,9 @@ function table_init()
   thetable.appendChild(table) ;
   thetable.onmousedown = start_table_drag ;
   if ( use_touch )
-    table.addEventListener("touchstart", start_table_drag, false);
+    try {
+      table.addEventListener("touchstart", start_table_drag, false);
+    } catch(e) {} ;
 
 
   // Header lines
@@ -1186,7 +1190,9 @@ function set_body_onmouseup()
     the_body.onmouseupold = the_body.onmouseup ;
   the_body.onmouseup = body_on_mouse_up ;
   if ( use_touch )
+    try {
     the_body.addEventListener("touchend", body_on_mouse_up, false);
+    } catch(e) {} ;
 
 
 

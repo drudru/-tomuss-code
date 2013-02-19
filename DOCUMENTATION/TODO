@@ -131,6 +131,11 @@ Administrateur.
 Problèmes à résoudre.
 =====================
 
+* Revenir en haut quand on fait une recherche sur la page d'accueil
+
+* Faire disparaitre CLOSED : la récupération de liste d'étudiant
+  doit prendre le semestr et l'année en paramètre.
+
 * Trie des chaines de caractères contenant des / : il croit que c'est des dates
 
 * La liste des actions à faire : si trop vieille regarder si elles

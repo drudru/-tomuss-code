@@ -66,8 +66,11 @@ if caller_globals["__name__"] == '__main__':
     # in place of 'from TOMUSS.data import *'
     # This link fixes the problem
     for i in ('data', 'abj', 'teacher'):
-        __import__(package_name + '.' + i)
-        sys.modules[i] = sys.modules[package_name + '.' + i]
+        try:
+            __import__(package_name + '.' + i)
+            sys.modules[i] = sys.modules[package_name + '.' + i]
+        except ImportError:
+            pass
 
     if '.' in __package__:
         # Not in a TOMUSS server but in a script in a direct subdirectory
