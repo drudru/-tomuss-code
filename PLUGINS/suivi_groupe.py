@@ -29,8 +29,25 @@ from .. import plugin
 from .. import tablestat
 from .. import data
 from .. import document
+from .. import configuration
 
 debug = False
+
+def get_lines(table, col_inscrit, seq=None):
+    for line in table.lines.values():
+        if line[col_inscrit].value != 'ok' and not debug:
+            continue
+        if line[3].author == data.ro_user:
+            # This is an official group affectation
+            continue
+        if line[3].value == '':
+            continue
+        if line[4].value == '':
+            # Not an official : there is no sequence
+            continue
+        if seq is not None and line[4].value != seq:
+            continue
+        yield line
 
 def page_groupe(server):
     """List all the students groups defined by the teacher and not by TOMUSS"""
@@ -43,17 +60,7 @@ def page_groupe(server):
             continue
 
         g = []
-        for line in t.lines.values():
-            if line[col_inscrit].value != 'ok' and not debug:
-                continue
-            if line[3].author == data.ro_user:
-                # This is an official group affectation
-                continue
-            if line[3].value == '':
-                continue
-            if line[4].value == '':
-                # Not an official : there is no sequence
-                continue
+        for line in get_lines(t, col_inscrit):
             g.append((t.ue, line[4].value, line[0].value,
                       line[3].value, line[3].author))
 
@@ -64,7 +71,12 @@ def page_groupe(server):
             for j in i:
                 s += '\t%s %s %s<br>\n' % (j[2], j[3], j[4])
             server.the_file.write(
-                '%s(%s) ' % key
+                '<a href="%s/=%s/%s/%s/%s">%s</a>(%s) ' % (
+                    configuration.server_url,
+                    server.ticket.ticket,
+                    server.year, server.semester, t.ue,
+                    key[0], key[1]
+                    )
                 + '<a href="groupe/%s(%s).csv">CSV</a><br>\n' % (t.ue, j[1])
                 + s)
 
@@ -94,21 +106,8 @@ def page_one_groupe(server):
                 server._("MSG_suivi_group_surname"),
                 server._("MSG_suivi_group_firstname"),
                 server._("MSG_suivi_group_group")))
-          
-    for line in t.lines.values():
-        if line[col_inscrit].value != 'ok' and not debug:
-            continue
-        if line[3].author == data.ro_user:
-            # This is an official group affectation
-            continue
-        if line[3].value == '':
-            continue
-        if line[4].value == '':
-            # Not an official : there is no sequence
-            continue
-        if line[4].value != seq:
-            continue
 
+    for line in get_lines(t, col_inscrit, seq=seq):
         w.writerow((line[0].value, '', '', line[3].value))
     w.writerow((line[0].value, '', '', line[3].value))
 
