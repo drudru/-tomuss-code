@@ -119,11 +119,11 @@ def table_filename(year, semester, ue):
 
 def filter_language(language):
     # Remove not translated languages and duplicates
-    t = []    
+    t = set()    
     for x in language.strip(",").split(','):
         if x in plugins.languages:
             if x not in t:
-                t.append(x)
+                t.add(x)
     return ','.join(t)
 
 
@@ -145,12 +145,14 @@ def get_preferences(user_name, create_pref=True, the_ticket=None):
                 if the_ticket.user_name == user_name:
                     break
         warn('Language in ticket: (%s)' % the_ticket.language, what="lang")
-        p['language'] = filter_language(the_ticket.language)
-        if p['language'] == '':
-            warn('Language in server: (%s)' % configuration.language,
-                 what="lang")
-            p['language'] = configuration.language
+        p['language'] = the_ticket.language
+
+    p['language'] = filter_language(p['language'])
     warn('Language after filtering: ' + p['language'])
+    if p['language'] == '':
+        warn('Language in server: (%s)' % configuration.language,
+             what="lang")
+        p['language'] = configuration.language
 
     return p
 

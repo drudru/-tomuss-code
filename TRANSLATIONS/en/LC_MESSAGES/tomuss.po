@@ -4095,7 +4095,7 @@ msgid "Preferences_current_suivi"
 msgstr "Home page: use the current semester for the 'suivi' page"
 
 msgid "Preferences_language"
-msgstr "User interface language (fr_fr, en_us)"
+msgstr "User interface language (fr, en)"
 
 msgid "Preferences_home_3scrollbar"
 msgstr "If YES, there is one scrollbar per column instead of one for the home page"
