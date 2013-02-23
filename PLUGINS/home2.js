@@ -36,6 +36,22 @@ function student_line_more_links(login)
   return '' ;
 }
 
+function scrollTop(scrollable)
+{
+  while ( scrollable.scrollTop == 0 )
+    scrollable = scrollable.parentNode ;
+  var scrolltop = scrollable.scrollTop ;
+  if ( scrollable.scrollTop !== undefined )
+    return scrollable ;
+}
+
+function resetScroll(scrollable)
+{
+  var s = scrollTop(scrollable) ;
+  if (s)
+    s.scrollTop = 0 ;
+}
+
 
 function _UE(name, responsable, intitule, parcours, code, login,
 	     nr_students_ue, nr_students_ec, planning, tt, credit, old_names)
@@ -339,12 +355,8 @@ function ue_line_over(code, t, click_more)
   if ( t === ue_line_over_last )
     return ;
   
-  var scrollable = t ;
-  while ( scrollable.scrollTop == 0 )
-    scrollable = scrollable.parentNode ;
-  var scrolltop = scrollable.scrollTop ;
-  if ( isNaN(scrolltop) )
-    scrolltop = 0 ;
+  var scrollable = scrollTop(t) ;
+  var scrolltop = scrollable ? scrollable.scrollTop : 0 ;
     
   ue_line_out() ;
 
@@ -768,6 +780,8 @@ function update_ues2(txt, clicked)
 	'<div></div><div></div><div></div><div></div><div></div>' ;
     }
 
+  resetScroll(document.getElementById('scrollable_left')) ;
+
   ue_line_out() ;
 
   if ( txt === '' )
@@ -1026,7 +1040,8 @@ function update_students()
     return ;
 
   input.old_value = what ;
-
+  resetScroll(document.getElementById("scrollable_center")) ;
+  
   ue_line_out() ;
 
   the_last_login_asked = what ;
