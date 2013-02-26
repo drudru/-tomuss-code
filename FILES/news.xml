@@ -752,6 +752,23 @@ Les améliorations les plus visibles sont :
       </description>
       <guid>52</guid>
     </item>
+    <item>
+      <title>26/02/2013 : Version 5.1.7</title>
+      <link>http://tomuss.univ-lyon1.fr/</link>
+      <description>
+	Nouvelles fonctionnalités :
+&lt;ul&gt;
+&lt;li&gt; Ctrl-Début Ctrl-Fin permettent d'aller à
+           la première ou dernière page.
+&lt;li&gt; Le bloc 'Table' contient maintenant un onglet 'Info'
+&lt;li&gt; On peut se déplacer dans la table en faisant
+           un glisser/déposer comme sur les tablettes.
+&lt;li&gt; On peut indiquer des caractères spéciaux (!=@#...) dans les filtres
+           en les précédent du caractère \.	   
+&lt;/ul&gt;
+      </description>
+      <guid>53</guid>
+    </item>
 
   </channel>
 </rss>

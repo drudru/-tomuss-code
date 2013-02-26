@@ -93,7 +93,8 @@ def the_ues(year, semester, login):
     global last_full_read_time
     if configuration.regtest or time.time() - last_full_read_time > 60:
         last_full_read_time = time.time()
-        tablestat.les_ues(year, semester, true_file=False)
+        # Force the generator to do its job
+        tuple(tablestat.les_ues(year, semester, true_file=False))
 
     login = utilities.the_login(login)
     tables = []

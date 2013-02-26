@@ -54,6 +54,7 @@ release:translations
 	@echo "Documentation update"
 	@cd DOCUMENTATION ; $(MAKE)
 	@$(MAKE) -s tar
+	@[ -x LOCAL/release ] && LOCAL/release
 
 tar:
 	@echo "Start cleanup"
