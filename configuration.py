@@ -31,7 +31,7 @@ import socket
 import os
 import time
 
-version = '5.1.7'
+version = '5.1.8'
 
 ###############################################################################
 # ACLS
@@ -229,6 +229,11 @@ def first_registration(login):
 def student_in_first_year(login):
     return first_registration(login) == 1
 
+#REDEFINE
+# Returns True to hide the student suivi to every one.
+def hidden_from_suivi(dummy_server, dummy_login):
+    return True
+
 
 # LDAP informations
 # A list of LDAP server to query
@@ -276,6 +281,9 @@ logo = 'http://xxx.yyy.zzz/logo.png'
 
 # Message for students
 suivi_student_message = ""
+
+# Allow the students to make their 'suivi' page private
+suivi_student_allow_private = False
 
 ###############################################################################
 # The following variables should be fine for testing purpose (local server)

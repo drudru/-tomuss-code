@@ -1,3 +1,5 @@
+// -*- coding: utf-8; mode: Java; c-basic-offset: 2; tab-width: 8; -*-
+
 /* To send the cell change and feedback */
 
 function _cell(s, url, col_type, minmax)
@@ -90,4 +92,22 @@ function initialize_suivi_real()
   }
   
   document.getElementById('top').innerHTML = s ;
+}
+
+function private_toggle()
+{
+  window.location = url + '/=' + ticket + '/private/' + (1-private) ;
+}
+
+function popup_private()
+{
+  create_popup('private_div',
+	       _("LINK_suivi_student_private"),
+	       _("MSG_suivi_student_private_full")
+	       + '<p><button onclick="private_toggle()">'
+	       + (private ? _("MSG_suivi_student_private_public")
+		  : _("MSG_suivi_student_private_private"))
+		  + '</button>',
+	       '', false
+	      );
 }

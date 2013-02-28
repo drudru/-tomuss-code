@@ -3833,6 +3833,33 @@ msgstr "Les informations indiquées ici ne sont pas officielles,\n"
        "elles n'ont pas de valeur légale et\n"
        "sont <b>soumises à validation par les jurys d'UE</b>."
 
+msgid "MSG_suivi_student_private"
+msgstr "L'étudiant ou la composante a demandé à ce que son suivi soit visible\n"
+       " seulement par les personnes concernées.\n"
+       " S'il en a un, vous pouvez contacter son référent pédagogique."
+
+msgid "LINK_suivi_student_private"
+msgstr "Vie privée"
+
+msgid "TIP_suivi_student_private"
+msgstr "Gestion de la visibilité de votre page de suivi"
+
+msgid "MSG_suivi_student_private_full"
+msgstr "Si pour des raisons personnelles, vous désirez que votre page\n"
+       " de suivi ne soit visible que par un nombre restreint d'enseignant\n"
+       " vous pouvez l'indiquer ici en cliquant sur le bouton."
+
+msgid "MSG_suivi_student_private_public"
+msgstr "Je veux que ma page de suivi soit visible par tous les enseignants"
+
+msgid "MSG_suivi_student_private_private"
+msgstr "Je veux que ma page de suivi soit cachée"
+
+msgid "MSG_saved"
+msgstr "L'information a bien été enregistrée"
+
+
+
 msgid "MSG_suivi_student_wait"
 msgstr "Chargement en cours, veuillez patienter s'il vous plaît.\n"
        "Cela ira encore plus lentement si vous réactualisez la page."
@@ -4345,6 +4372,9 @@ msgstr "Accès: Refusé si le login est dans un des groupes LDAP"
 
 msgid "config_table_login_not_teacher"
 msgstr "Accès: Refusé si le login est dans la liste"
+
+msgid "config_table_suivi_student_allow_private"
+msgstr "Suivi: Les étudiants peuvent rendre leur suivi privé si True"
 
 msgid "COL_TITLE_orientation"
 msgstr "Orientation"

@@ -131,7 +131,7 @@ Administrateur.
 Problèmes à résoudre.
 =====================
 
-* Revenir en haut quand on fait une recherche sur la page d'accueil
+* Déplacement colonne si largeur différentes
 
 * Faire disparaitre CLOSED : la récupération de liste d'étudiant
   doit prendre le semestr et l'année en paramètre.

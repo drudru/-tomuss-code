@@ -102,6 +102,42 @@ def the_ues(year, semester, login):
         tables.append(document.table(year, semester, ue, ro=True))
     return tables
 
+def teacher_can_see_suivi(server, the_student):
+    priv =  utilities.manage_key('LOGINS', os.path.join(the_student,"private"))
+    if priv and priv.startswith('1'):
+        priv = True
+    else:
+        priv = False
+
+    if server.ticket.user_name == the_student:
+        return priv, True
+
+    if server.ticket.user_name in configuration.root:
+        return priv, True
+
+    if configuration.hidden_from_suivi(server, the_student):
+        return priv, False
+    
+    if not priv:
+        return priv, True
+    
+    for t in the_ues(server.year, server.semester, the_student):
+        if server.ticket.user_name in t.masters:
+            return priv, True
+        # Anybody who enter a grade
+        for line in t.get_lines(the_student):
+            for cell in line:
+                if cell.author == server.ticket.user_name:
+                    return priv, True
+    
+    # The current referent only, not the old ones
+    year, semester = configuration.year_semester
+    if referent.referent(year, semester, the_student)==server.ticket.user_name:
+        return priv, True
+
+    return priv, False
+        
+
 # To not have duplicate error messages
 referent_missing = {}
 
@@ -112,9 +148,30 @@ def student_statistics(login, server, is_a_student=False, expand=False,
     year = server.year
     semester = server.semester
     firstname, surname, mail = inscrits.L_fast.firstname_and_surname_and_mail(login)
+    ref = referent.referent(year, semester, login)
+    if ref:
+        mail_ref = inscrits.L_fast.mail(ref)
+        if mail_ref == None:
+            mail_ref = 'mail_inconnu'
+        
+    clr = "<script>document.getElementById('x').style.display='none';</script>"
+    private, visible = teacher_can_see_suivi(server, login)
+    if not visible:
+        if ref:
+            ref = ('<p>' +
+                   server.__("MSG_suivi_referent_is") +
+                   '<a href="mailto:' + mail_ref + '">' + ref + '</a>'
+                   )
+        else:
+            ref = ""
+                   
+        return(clr +
+               '<h1>' + login + ' ' + surname + ' ' + firstname + '</h1>' +
+               server.__("MSG_suivi_student_private") +
+               ref)
 
     s = [
-        "<script>document.getElementById('x').style.display='none';</script>",
+        clr,
         '<div class="student"><img class="photo" src="',
         configuration.picture(inscrits.login_to_student_id(login),
                               ticket=ticket),
@@ -131,12 +188,7 @@ def student_statistics(login, server, is_a_student=False, expand=False,
 
     ################################################# REFERENT
 
-    ref = referent.referent(year, semester, login)
-
     if ref:
-        mail_ref = inscrits.L_fast.mail(ref)
-        if mail_ref == None:
-            mail_ref = 'mail_inconnu'
         s.append('<script>Write("MSG_suivi_referent_is") ; hidden(\'<a href="mailto:' + mail_ref + '">' +
                  ref + "</a>', _('MSG_suivi_student_send_to_referent'));</script><br>")
     else:
@@ -262,7 +314,10 @@ hidden('<a href="%s">' + _("MSG_suivi_student_RSS") +
        '<img src="%s/feed.png" style="border:0px"></a>\',
        _("TIP_suivi_student_RSS"));</script>''' % (rss, utilities.StaticFile._url_))
         s.append('<link href="%s" rel="alternate" title="TOMUSS" type="application/rss+xml">' % rss)
- 
+
+    if is_a_student and configuration.suivi_student_allow_private:
+        s.append(', <script>var private=' + str(int(private)) +
+                 ';hidden((private ? \'<b class="bad">\' : \'\') + \'<a onclick="popup_private()">\' + _("LINK_suivi_student_private") + \'</a>\' + (private ? \'</b>\' : \'\') , _("TIP_suivi_student_private"))</script>')
     
     s.append('<p>')
 
@@ -376,6 +431,7 @@ def suivi_headers(server, is_student=True):
         + "var username = %s;\n" % utilities.js(server.ticket.user_name )
         + "var admin    = %s;\n" % utilities.js(configuration.maintainer)
         + "var is_a_teacher = %s;\n" % int(not is_student)
+        + "var url = %s;\n" % utilities.js(configuration.server_url)
         + "var root = %s ;\n" % utilities.js(list(configuration.root))
         + "var maintainer = %s;\n" % utilities.js(configuration.maintainer)
         + "var message = %s;\n" % utilities.js(
