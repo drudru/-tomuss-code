@@ -1042,6 +1042,7 @@ class Table(object):
 
             s.append('document.write(tail_html());')
             s.append('runlog(columns, lines) ;')
+            s.append('set_updating(%s) ;' % int(self in update_students))
             s.append('}')
             if self.new_abjs:
                 s.append(self.new_abjs)
