@@ -1,4 +1,4 @@
-// -*- coding: utf-8 -*-
+// -*- coding: utf-8; mode: Java; c-basic-offset: 2; tab-width: 8; -*-
 /*
   TOMUSS: The Online Multi User Simple Spreadsheet
   Copyright (C) 2011 Thierry EXCOFFIER, Universite Claude Bernard
@@ -58,19 +58,13 @@ function right_column(column)
 
 function do_move_column_right()
 {
-    
   if ( periodic_work_in_queue(table_fill_do) )
     return ; // XXX Hide a bug (moving column quickly lost it sometimes)
 
-  var x ;
-  if (the_current_cell.col == table_attr.nr_columns - 1 )
-    x = the_current_cell.data_col - 1 ;
-  var col = the_current_cell.col ;
   var column = the_current_cell.column ;
   the_current_cell.cursor_right() ;
   right_column(column) ;
-  if ( col == table_attr.nr_columns - 1 )
-    next_page_horizontal_data_col = x ;
+  setTimeout("the_current_cell.update()", 100);
 }
 
 function do_move_column_left()
@@ -78,12 +72,10 @@ function do_move_column_left()
   if ( periodic_work_in_queue(table_fill_do) )
     return ; // XXX Hide a bug (moving column quickly lost it sometimes)
 
-  var col = the_current_cell.col ;
   var column = the_current_cell.column ;
   the_current_cell.cursor_left() ;
   left_column(column) ;
-  if ( col === 0 )
-    next_page_horizontal_data_col = 0 ;
+  setTimeout("the_current_cell.update()", 100);
 }
 
 
