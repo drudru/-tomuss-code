@@ -1428,7 +1428,7 @@ function cell_key()
 	  for(i=0; i <3 ; i++)
 	    {
 	      x = Number(date[i].split(' ')[0]) ;
-	      if ( isNaN(i) )
+	      if ( isNaN(x) )
 		{
 		  break ;
 		}
@@ -1438,7 +1438,6 @@ function cell_key()
 	  if ( i == 3 )
 	    // Should format hours (date[2] end) to be perfect
 	    this._key = '\002' + s + date[2] ; // Dates
-	  
 	}
     }
   else

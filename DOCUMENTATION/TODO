@@ -134,8 +134,6 @@ Problèmes à résoudre.
 * Faire disparaitre CLOSED : la récupération de liste d'étudiant
   doit prendre le semestr et l'année en paramètre.
 
-* Trie des chaines de caractères contenant des / : il croit que c'est des dates
-
 * La liste des actions à faire : si trop vieille regarder si elles
   ont été faites par ailleurs et si non, envoyer un mail ?
 
