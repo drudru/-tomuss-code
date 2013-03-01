@@ -497,7 +497,7 @@ function get_tip_element()
       tip.display_number = 1 ;
       tip.id = 'tip' ;
       document.getElementsByTagName('BODY')[0].appendChild(tip) ;
-      tip_plus = document.createElement('div') ;
+      var tip_plus = document.createElement('div') ;
       tip_plus.id = 'tip_plus' ;
       tip_plus.innerHTML = '?' ;
       tip_plus.style.display = "none" ;

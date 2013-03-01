@@ -1797,7 +1797,10 @@ function current_update_headers_real()
 	  set_tip_position(tip.tip_target) ;
 	}
       else
+      {
+	tip.do_not_hide = false ;
 	hide_the_tip_real() ;
+      }
     }
 
   // Remove green square from top menu
