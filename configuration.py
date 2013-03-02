@@ -232,8 +232,7 @@ def student_in_first_year(login):
 #REDEFINE
 # Returns True to hide the student suivi to every one.
 def hidden_from_suivi(dummy_server, dummy_login):
-    return True
-
+    return False
 
 # LDAP informations
 # A list of LDAP server to query
