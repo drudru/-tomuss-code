@@ -89,11 +89,18 @@ def member_of_list(login):
 
 last_full_read_time = 0
 
+
 def the_ues(year, semester, login):
     global last_full_read_time
-    if configuration.regtest or time.time() - last_full_read_time > 60:
+    if (tuple(configuration.year_semester) == (year, semester)
+        or tuple(configuration.year_semester_next) == (year, semester)):
+        dt = 60
+    else:
+        dt = 3600
+    
+    if configuration.regtest or time.time() - last_full_read_time > dt:
         last_full_read_time = time.time()
-        # Force the generator to do its job
+        # Force the generator to do its job to check new students or tables
         tuple(tablestat.les_ues(year, semester, true_file=False))
 
     login = utilities.the_login(login)
