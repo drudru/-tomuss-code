@@ -120,11 +120,6 @@ def check(table):
     finally:
         table.unlock()
 
-    # If you want to have the mails workings :
-    from ...TEMPLATES import _ucbl_
-    _ucbl_.check(table, update_inscrits=lambda x,y,z: None)
-
-
 def content(table):
     """This javascript code allow to redefine functions in the libraries.
     This allows to change the GUI for the table editor.
@@ -148,6 +143,6 @@ def cell_change(table, page, col_id, lin_id, new_value, date):
     """This function is called each time the USER change a value.
     It is not called when loading the table.
     If an error is raised, the value will not be changed.
-    This function must be quick.
+    This function must be fast.
     """
     pass
