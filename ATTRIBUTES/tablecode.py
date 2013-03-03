@@ -19,8 +19,13 @@
 #
 #    Contact: Thierry.EXCOFFIER@bat710.univ-lyon1.fr
 
-from ..column import TableAttr
+from .tabletabletitle import TableTableTitle
 
-class TableCode(TableAttr):
-    default = 0
+class TableCode(TableTableTitle):
     name = 'code'
+
+    def default_value(self, table):
+        ue = self.get_ue(table)
+        if ue:
+            return ue.code()
+        return ''

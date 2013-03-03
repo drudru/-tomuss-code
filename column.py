@@ -58,7 +58,7 @@ class ColumnAttr(object):
     action = ''
     css = ''
     javascript = ''
-    # name = '' # BREAK ALL
+    # name = '' # BREAK ALL DO NOT SET THIS VALUE
     
     def __init__(self):
         self.__class__.attrs[self.name] = self
@@ -70,6 +70,12 @@ class ColumnAttr(object):
         except IOError:
             jsf = self.javascript
         self.js_functions = jsf
+
+    def get_default_value(self, table):
+        if hasattr(self.default_value, '__call__'):
+            return self.default_value(table)
+        else:
+            return self.default_value
 
     def check(self, value):
         """Additionnal value checks"""
@@ -168,7 +174,7 @@ class ColumnAttr(object):
                 ',update_headers:' + str(self.update_headers) +
                 ',update_table_headers:' + str(self.update_table_headers) +
                 ',need_authorization:' + str(self.need_authorization) +
-                ',default_value:' + js(self.default_value) +
+                ',default_value:' + js(self.get_default_value(None)) +
                 ',formatter:' + self.formatter +
                 ',computed:' + str(self.computed) +
                 ',only_masters:' + str(self.only_masters) +

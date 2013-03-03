@@ -20,6 +20,23 @@
 #    Contact: Thierry.EXCOFFIER@bat710.univ-lyon1.fr
 
 from ..column import TableAttr
+from .. import teacher
 
 class TableTableTitle(TableAttr):
     name = 'table_title'
+
+    def get_ue(self, table):
+        if table:
+            x = teacher.all_ues().get(table.ue_code.split('-')[-1], None)
+            if x:
+                return x
+            x = teacher.all_ues().get(table.ue_code, None)
+            if x:
+                return x
+        return None
+
+    def default_value(self, table):
+        ue = self.get_ue(table)
+        if ue:
+            return ue.intitule().title().encode('utf-8')
+        return ''

@@ -30,7 +30,6 @@ from . import utilities
 from . import configuration
 from . import column
 from . import data
-from . import teacher
 from .files import files
 from . import inscrits
 from .cell import CellValue, Lines, cellempty
@@ -178,7 +177,7 @@ def translations_init(language):
 def table_head(year=None, semester=None, the_ticket=None,
                user_name='', page_id=-1, ue='',
                create_pref=True,
-               attrs_from=0, hide_more=False):
+               attrs_from=0, hide_more=False, table=None):
     s = configuration.suivi.url(year, semester, the_ticket)
     t = ticket.tickets.get(the_ticket, None)
     prefs_table = get_preferences(user_name, create_pref, the_ticket=t)
@@ -212,10 +211,11 @@ def table_head(year=None, semester=None, the_ticket=None,
             'ticket_time_to_live = %d ;\n' % configuration.ticket_time_to_live+
             'check_down_connections_interval = %d ;\n' % configuration.check_down_connections_interval +
             'table_attr = {\n' +
-                ',\n'.join(attr.name+':'+js(getattr(attrs_from, attr.name,
-                                                    attr.default_value))
-                           for attr in column.TableAttr.attrs.values()
-                           ) + '} ;\n' +
+                ',\n'.join(attr.name+':'+js(
+                getattr(attrs_from, attr.name,
+                        attr.get_default_value(table)))
+                for attr in column.TableAttr.attrs.values()
+                ) + '} ;\n' +
             (hide_more and '' or table_head_more(ue)) +
             '</script>\n')
 
@@ -251,22 +251,13 @@ class Table(object):
             self.ue_code = ue
 
         for attr in column.TableAttr.attrs.values():
-            d = attr.default_value
+            d = attr.get_default_value(self)
             if isinstance(d, list):
                 d = list(d)
             elif isinstance(d, dict):
                 d = dict(d)
             setattr(self, attr.name, d)
 
-        x = teacher.all_ues().get(self.ue_code.split('-')[-1], None)
-        if not x:
-            x = teacher.all_ues().get(self.ue_code, None)
-        if x:
-            self.table_title = x.intitule().title().encode('utf-8')
-            self.code = x.code()
-            self.teachers = list(x.responsables_login())
-        else:
-            self.teachers = []
         self.pages = []
         self.active_pages = []
         self.columns = column.Columns(self)
@@ -376,11 +367,6 @@ class Table(object):
             self.destination_is_modifiable = self.modifiable
             # To forbid the edit of the same table with 2 names
             self.modifiable = 0
-
-        if len(self.masters) == 0:
-            for login in self.teachers:
-                if login not in self.masters:
-                    self.masters.append(login.encode('utf8'))
 
     def update(self):
         """Update the table if the file on disc changed.
@@ -554,9 +540,7 @@ class Table(object):
         # Values setted by user '*' are not modifiable
         if value.author == data.ro_user:
             return False
-        # The teachers of the UE may change any value setted by another user
-        if user_name in self.teachers:
-            return True
+        # The masters of the UE may change any value setted by another user
         if user_name in self.masters:
             return True
         return False
@@ -804,8 +788,6 @@ class Table(object):
             for c in self.columns:
                 if c.author != data.ro_user:
                     return False, utilities._("MSG_document_table_title")
-        if sorted(self.masters) != sorted(self.teachers):
-            return False, utilities._("MSG_document_table_master")
         for line in self.lines.values():
             for j in line:
                 if not j.empty():
@@ -938,7 +920,7 @@ class Table(object):
         return table_head(
             self.year, self.semester, page.ticket, page.user_name,
             page.page_id, self.ue,
-            attrs_from=self
+            attrs_from=self, table=self
             )
 
     def date_change(self, page, date):

@@ -1,4 +1,4 @@
-/* -*- coding: utf-8 -*- */
+// -*- coding: utf-8; mode: Java; c-basic-offset: 2; tab-width: 8; -*-
 /*
   TOMUSS: The Online Multi User Simple Spreadsheet
   Copyright (C) 2008-2011 Thierry EXCOFFIER, Universite Claude Bernard

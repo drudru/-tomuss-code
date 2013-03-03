@@ -19,15 +19,14 @@
 #
 #    Contact: Thierry.EXCOFFIER@bat710.univ-lyon1.fr
 
-from ..column import TableAttr
 import re
 from .. import utilities
 from .. import configuration
+from .tabletabletitle import TableTableTitle
 
-class TableMasters(TableAttr):
+class TableMasters(TableTableTitle):
     name = 'masters'
     priority = -1 # Must compute 'i_am_the_teacher' before other attributes
-    default_value = []
     update_headers = 1
     # Side effect to update 'i_am_the_teacher' global variable
     formatter = '''
@@ -81,3 +80,11 @@ return value ;
         for login in old_value:
             if login not in new_value:
                 table.master_of_update('-', login)
+
+    def default_value(self, table):
+        ue = self.get_ue(table)
+        if ue:
+            return [login.encode('utf8')
+                    for login in ue.responsables_login()
+                    ]
+        return []
