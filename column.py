@@ -266,11 +266,18 @@ def initialize():
     attributes = []
     reloadeds = []
     names = set()
-    for name in os.listdir('ATTRIBUTES'):
+    attr_files = [os.path.join('ATTRIBUTES', filename)
+                  for filename in os.listdir('ATTRIBUTES')
+                  ]
+    local_attr = os.path.join('LOCAL', 'LOCAL_ATTRIBUTES')
+    if os.path.isdir(local_attr):
+        attr_files += [os.path.join(local_attr, filename)
+                       for filename in os.listdir(local_attr)]
+    
+    for name in attr_files:
         if not name.endswith('.py'):
             continue
-        the_module, reloaded = utilities.import_reload(
-            os.path.join('ATTRIBUTES', name))
+        the_module, reloaded = utilities.import_reload(name)
         for key, item in the_module.__dict__.items():
             if hasattr(item, 'name'):
                 if key in names:
