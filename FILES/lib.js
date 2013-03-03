@@ -724,7 +724,7 @@ function show_the_tip(td, tip_content)
   // Hide the tip if the mouse go inside
   tip.onmousemove = function() { hide_the_tip(a); } ;
 
-  if ( instant_tip_display )
+  if ( instant_tip_display || s.indexOf("<!--INSTANTDISPLAY-->") != -1 )
     {
       set_tip_position(td, bottom) ;
       tip.style.display = "block" ;
