@@ -230,9 +230,14 @@ def student_in_first_year(login):
     return first_registration(login) == 1
 
 #REDEFINE
-# Returns True to hide the student suivi to every one.
-def hidden_from_suivi(dummy_server, dummy_login):
-    return False
+# Returns False to hide the student suivi to every one.
+# Returns True to display the student suivi
+# Returns None to allow 'suivi' acces to teachers grading the student
+# or to anybody if the student has not restricted the access
+def visible_from_suivi(dummy_server, dummy_login):
+    # You can check the teacher name in dummy_server.ticket.user_name
+    # and the student name in dummy_login
+    return None
 
 # LDAP informations
 # A list of LDAP server to query

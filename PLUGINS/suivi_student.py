@@ -122,8 +122,9 @@ def teacher_can_see_suivi(server, the_student):
     if server.ticket.user_name in configuration.root:
         return priv, True
 
-    if configuration.hidden_from_suivi(server, the_student):
-        return priv, False
+    local = configuration.visible_from_suivi(server, the_student)
+    if local is not None:
+        return priv, local
     
     if not priv:
         return priv, True
