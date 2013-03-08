@@ -1,8 +1,3 @@
-suivi_student.py
-	'rsskey'
-	charte accept
-
-
 Dans chaque partie, les choses à faire sont triées par priorité.
 
 ==========================
@@ -136,6 +131,9 @@ Administrateur.
 Problèmes à résoudre.
 =====================
 
+* Le point d'interrogation du tip s'affiche à l'impression de
+  la liste d'émargement.
+
 * Faire disparaitre CLOSED : la récupération de liste d'étudiant
   doit prendre le semestr et l'année en paramètre.
 
@@ -199,6 +197,10 @@ Problèmes non reproductibles
 =============================
 Améliorations de code source.
 =============================
+
+* suivi_student.py utilise manage_key pour écrire dans
+	'rsskey'
+	charte accept
 
 * Enlever _URL_ si c'est possible
 

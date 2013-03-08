@@ -3869,7 +3869,7 @@ function change_table_size(select)
   table_init() ;
   table_fill(false, true) ;
   update_vertical_scrollbar();
-  the_current_cell.update() ;
+  setTimeout("the_current_cell.update()", 100);
 }
 
 
