@@ -89,6 +89,7 @@ class Display:
             self.last_dump = ''
             self.title = title
             self.start_dumper()
+            self.server = None
             print 'Dumper created'
             return
         
@@ -230,7 +231,8 @@ class Display:
     def stop(self):
         self.dumper.stdin.write('quit\n')
         self.dumper.stdin.flush()
-        os.kill(self.server.pid, 15)
+        if self.server:
+            os.kill(self.server.pid, 15)
 
     def html(self, zoom=1):
         s = ''

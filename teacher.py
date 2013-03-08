@@ -286,7 +286,7 @@ def responsable_pedagogique_ldap(name):
                                                            ' '.join(surname))
 
 def responsables_pedagogiques_ldap(ue):
-    return all_ues()[ue].responsable_login()
+    return all_ues()[ue].responsables_login()
 
 def parcours_names(les_ues):
     names = {}
