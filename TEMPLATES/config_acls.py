@@ -64,7 +64,7 @@ def defaults():
     except ImportError:
         pass
     yield 'staff', 'grp:referent_masters'
-    
+    yield 'see_private_suivi', 'grp:roots'
 
 def create(table):
     """Retrieve informations from configuration.py and old table_config.py"""
@@ -143,7 +143,7 @@ def trace(fct):
         except:
             print 'RAISE ERROR'
             raise
-        print fct, args, keys, '====>', a
+        print fct, repr(args)[:50], keys, '====>', a
         return a
     return f
 

@@ -119,7 +119,8 @@ def teacher_can_see_suivi(server, the_student):
     if server.ticket.user_name == the_student:
         return priv, True
 
-    if server.ticket.user_name in configuration.root:
+    if configuration.is_member_of(server.ticket.user_name,
+                                  ('grp:see_private_suivi',)):
         return priv, True
 
     local = configuration.visible_from_suivi(server, the_student)
