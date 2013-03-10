@@ -47,6 +47,7 @@ bad_png = utilities.read_file('FILES/bad.png')
 bug_png = utilities.read_file('FILES/bug.png')
 unauthorized_html = utilities._("MSG_new_page_unauthorized")
 not_in_demo_mode = utilities._("MSG_evaluate")
+deletion_done = utilities._("MSG_delete_this_table_done")
 
 year = configuration.year_semester[0]
 semester = configuration.year_semester[1]
@@ -652,6 +653,7 @@ def tests():
                   % ys)
         assert('OK' not in c) # Overwrite not allowed
         c = s.url('=ue1.master/0/Dossiers/UE-INF20UE2/delete_this_table')
+        assert(deletion_done in c)
         c = s.url('=' + root + '/%s/UE-INF20UE2/tablecopy/0/Dossiers/content'
                   % ys)
         assert('OK' in c)

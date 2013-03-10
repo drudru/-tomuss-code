@@ -129,7 +129,7 @@ def extension(server):
     # The table in the previous semester should not be modified.
     t = document.table(server.the_year, server.the_semester, server.the_ue,
                        ro=True)
-    if server.ticket.user_name not in t.masters and server.ticket.user_name not in t.teachers:
+    if server.ticket.user_name not in t.masters:
         server.the_file.write(server._("MSG_extension_not_master"))
         return
 
@@ -181,8 +181,7 @@ def delete_this_table(server):
     if not table.modifiable:
         server.the_file.write(server._("MSG_delete_this_table_unmodifiable"))
         return
-    if (server.ticket.user_name not in table.teachers
-        and server.ticket.user_name not in table.masters):
+    if server.ticket.user_name not in table.masters:
         server.the_file.write(server._("MSG_extension_not_master"))
         return
 
