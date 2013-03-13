@@ -167,8 +167,7 @@ def check(table, update_inscrits=update_inscrits_ue):
     warn("Change portails", what="check")
     table.change_portails(portails)
     warn("Update done", what="check")
-    
-
+        
 def update_student(table, page, the_ids, infos):
     the_id, firstname, surname, mail, grp, seq = infos[:6]
     if the_id in the_ids:

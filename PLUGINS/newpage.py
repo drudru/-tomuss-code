@@ -29,6 +29,7 @@ from ..utilities import warn
 from .. import configuration
 from .. import sender
 from .. import utilities
+from .. import column
 
 initial_content = '''
 <script>
@@ -86,6 +87,31 @@ class StringFile(object):
             self.closed, len(self.content), self.real_file, rfc
             ) + ''.join(self.content)
 
+
+def extented(year, semester, ue):
+    table = document.table(year, semester, ue, create=False)
+    if not table.modifiable:
+        return
+    ts = configuration.semester_span(table.year, table.semester)
+    if not ts:
+        return
+    
+    if column.TableAttr.attrs['dates'].encode(ts) != table.dates:
+        # The user has changed table dates
+        # Do not change the user value
+        return
+    
+    # Need to indicate new dates
+    year2, semester2 = utilities.next_year_semester(table.year, table.semester)
+    # XXX Assume there only one semester extension
+    ts2 = configuration.semester_span(year2, semester2)
+    ts = ts.split(' ')[0] + ' ' + ts2.split(' ')[1]
+    table.lock()
+    try:
+        table.date_change(table.pages[0], ts)
+    finally:
+        table.unlock()
+
 def new_page(server):
     """Create a new page and send the table editor to the client."""
 
@@ -136,7 +162,9 @@ def new_page(server):
         # Take the link destination (assuming ../..) and remove the .py
         year, semester, ue = table.link_to()
         link_to = '../../%s/%s/%s' % (year, semester, ue)
-        
+        # Check table dates
+        # XXX It is done here in order to fix old files
+        extented(year, semester, ue)
         server.the_file.write(
             '<meta HTTP-EQUIV="REFRESH" content="0; url=%s">' % (link_to,))
         server.close_connection_now()

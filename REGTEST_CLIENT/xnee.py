@@ -93,7 +93,9 @@ class Xnee:
         if k[1]:
             self.keyrelease("Shift_L")
 
-    def key(self, key, control=False, alt=False):
+    def key(self, key, control=False, alt=False, shift=False):
+        if shift:
+            self.keypress("Shift_L")
         if control:
             self.keypress("Control_L")
         if alt:
@@ -104,6 +106,8 @@ class Xnee:
             self.keyrelease("Alt_L")
         if control:
             self.keyrelease("Control_L")
+        if shift:
+            self.keyrelease("Shift_L")
 
     def button_press(self, button=1):
         self.send("0,4,0,0,%d,0" % button)

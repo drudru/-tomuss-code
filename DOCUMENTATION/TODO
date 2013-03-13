@@ -134,6 +134,8 @@ Problèmes à résoudre.
 * Le point d'interrogation du tip s'affiche à l'impression de
   la liste d'émargement.
 
+* Hook more on suivi
+  
 * Faire disparaitre CLOSED : la récupération de liste d'étudiant
   doit prendre le semestr et l'année en paramètre.
 
