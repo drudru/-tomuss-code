@@ -1754,12 +1754,13 @@ function current_update_table_headers()
       if ( attr == 'modifiable' )
 	editable = table_change_allowed() ;
       else if ( attr == 'masters' )
+	// XXX i_am_the_teacher is not yet updated on first display
+	// It is clearly not a nice code.
 	editable = !disabled
-	  || i_am_root || i_am_the_teacher
+	  || i_am_root || myindex(table_attr.masters, my_identity) != -1
 	  || (table_attr.modifiable && !table_attr.masters[0]) ;
       else
 	editable = !attributes.need_authorization || !disabled  ;
-
       update_attribute_value(e, attributes, table_attr, editable) ;
     }
 }
