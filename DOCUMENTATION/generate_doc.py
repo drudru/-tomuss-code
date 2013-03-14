@@ -132,9 +132,13 @@ for line in sys.stdin.readlines():
         new += g.readlines()            
         g.close()
     except IOError:
-        g = open(os.path.join("DOCUMENTATION", line.strip().split(' ')[-1]), 'r')
-        new += g.readlines()            
-        g.close()
+        try:
+            g = open(os.path.join("DOCUMENTATION",
+                                  line.strip().split(' ')[-1]), 'r')
+            new += g.readlines()            
+            g.close()
+        except IOError:
+            pass
 
         
 toc = ''
