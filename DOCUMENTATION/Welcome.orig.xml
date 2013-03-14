@@ -167,12 +167,15 @@ They are automaticaly reloaded when they are modified.</li>
 </li>
 <li><b>PLUGINS</b>: They define how the servers react to an URL</li>
 <li><b>COLUMN_TYPES</b>: They define define the possible column types.</li>
-<li><b>ATTRIBUTES</b>: They define the possible column and table attributes.</li>
+<li><b>ATTRIBUTES</b>: They define the possible column and table attributes.</li
+<li><b>TRANSLATIONS</b>: The messages.</li>
 <li><b>LOCAL</b>: All the customization code and data must be inside.
 <ul>
-<li> <b>__init__.py</b>: Your real configuration</li>
+<li> <b>config.py</b>: Your real configuration</li>
 <li> <b>LOCAL_TEMPLATES</b>: Your local TEMPLATES directory</li>
 <li> <b>LOCAL_COLUMN_TYPES</b>: Your local COLUMN_TYPES directory</li>
+<li> <b>LOCAL_ATTRIBUTES</b>: Your local ATTRIBUTES directory</li>
+<li> <b>LOCAL_TRANSLATIONS</b>: Your local TRANSLATIONS directory (you can overide existing translations)</li>
 </ul>
 </li>
     </ul>
@@ -882,7 +885,7 @@ to setup a production or a development environment.
 <p>
 <b><tt>configuration.py</tt> must not be modified because
 it will be overwrited by each TOMUSS release.</b>
-The file <tt>LOCAL/__init__.py</tt> must be edited
+The file <tt>LOCAL/config.py</tt> must be edited
 to customize and configure TOMUSS.
 </p>
 <p>
@@ -1061,7 +1064,7 @@ TOMUSS server.</p>
     <table><tr><td><p>
 	In the following table the javascript functions must not be
 modified in the javascript source, they can be redefined
-by <tt>LOCAL/__init__.py</tt> script using this procedure:
+by <tt>LOCAL/config.py</tt> script using this procedure:
 </p>
 
 <pre>import files
@@ -1074,7 +1077,7 @@ function the_function_to_be_redefined()
 
     </td><td><p>
  The Python function must not be modified in the Python sources,
-they must be redefined in <tt>LOCAL/__init__.py</tt>
+they must be redefined in <tt>LOCAL/config.py</tt>
 script using this procedure:
 </p>
 <pre>import a_module

@@ -449,7 +449,7 @@ def terminate():
     import sys
 
     if not regtest:
-        from . import LOCAL     # Your local configuration goes inside LOCAL
+        from .LOCAL import config # Your local configuration goes inside LOCAL
 
     global maxage, backup
 
