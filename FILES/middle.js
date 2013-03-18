@@ -101,11 +101,12 @@ function head_html()
 
  w += hidden_txt('<a href="' + url + '/=' + ticket + '/0/Preferences/'
 		 + my_identity2 + '" target="_blank">' + _('LABEL_preferences')
-		 + '</a>', _('TIP_preferences')) + ', ' ;
- w += hidden_txt(_('MSG_connected'), _('TIP_connection_state'), '',
-		 'connection_state') ;
- w += hidden_txt(_('MSG_updating'), _('TIP_updating'), '', 'updating') ;
- w += '</div><div id="charsize" style="position:absolute;z-index: -100">8</div><h1>'  ;
+		 + '</a>', _('TIP_preferences')) + ', '
+    + hidden_txt(_('MSG_connected'), _('TIP_connection_state'), '',
+		 'connection_state')
+    + hidden_txt(_('MSG_updating'), _('TIP_updating'), '', 'updating')
+    + '</div><div id="charsize" style="position:absolute;top:-999px">8</div>'
+    + '<h1>' ;
 
  var semester_color = semesters_color[myindex(semesters, semester)] ;
 
