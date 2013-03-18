@@ -69,6 +69,7 @@ def plugins_tomuss():
     from .PLUGINS import auto_update
     from .PLUGINS import backtrace
     from .PLUGINS import private
+    from .PLUGINS import rsskey
 
     plugins_tomuss_more()
 

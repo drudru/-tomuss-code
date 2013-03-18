@@ -303,16 +303,18 @@ hidden('<a href="%s/suivi_student_charte.html" target="_blank">'
 
     if is_a_student:
         key = utilities.manage_key('LOGINS', os.path.join(login,'rsskey'))
-        if key is False:
-            import random
-            random.seed()
-            key = random.randint(0, 1000000000000000000)
-            random.seed(id(s))
-            key += random.randint(0, 1000000000000000000)
-            key = "%x" % key
-            utilities.manage_key('LOGINS', os.path.join(login, 'rsskey'),
-                                 content=key)
-            utilities.manage_key('RSSLOGINS', key, content=login, separation=2)
+        if key is False and ticket.user_name == login:
+            server.the_file.write('<iframe src="%s/=%s/rsskey"></iframe>' %
+                                  (configuration.server_url,
+                                  server.ticket.ticket))
+            for dummy in range(20): # Wait 2 seconds
+                key = utilities.manage_key('LOGINS',
+                                           os.path.join(login,'rsskey'))
+                if key:
+                    break
+                time.sleep(0.1)
+            else:
+                key = ''
 
         if ticket.user_name != login:
             key = ''

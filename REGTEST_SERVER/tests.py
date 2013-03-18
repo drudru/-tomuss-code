@@ -939,14 +939,21 @@ Col({the_id:"col_1",type:"Note",author:"%s",position:0,title:"TITLE1"})
         ss.start()
         c = ss.url('%s/rss/10800000' % ys)
         assert(_("MSG_suivi_student_RSS_forbiden_title") in c)
+
+        c = ss.url('=%s/%s/%%2010800000' % (root, ys))
+        assert('<iframe' not in c)
         key = utilities.manage_key('LOGINS', '10800001/rsskey')
         assert(key is False)
-        c = ss.url('=%s/%s/%%2010800000' % (root, ys))
+        
+        c = ss.url('=10800000/%s' % ys)
+        c = c.split('<iframe src="')[1].split('"')[0]
+        import urllib2
+        f = urllib2.urlopen(c)
+        c = f.read()
+        f.close()
         key = utilities.manage_key('LOGINS', '10800000/rsskey')
-        time.sleep(1)
-        print key
-        print os.getcwd()
         assert(key is not False)
+        
         c = ss.url('%s/rss/%s' % (ys, key))        
         # assert('UE-INF20UE2 : TITLE0 : 22.22/20' in c)
         assert('<title>UE-INF20UE2 : TITLE0 : 11.11/20</title>' in c)
