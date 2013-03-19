@@ -162,6 +162,7 @@ def home_page(server):
         + ',\n'.join('['+','.join(utilities.js(j) for j in i) + ']'
                      for i in links)
         + '];\n'
+        + configuration.home_page_js_hook(server)
         + utilities.wait_scripts()
         + 'function initialize_home()\n'
         + '{ if ( ! wait_scripts("initialize_home()") ) return ;\n'

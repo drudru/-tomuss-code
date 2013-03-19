@@ -409,6 +409,13 @@ def external_bilan(login):
 def suivi_check_student_lists(login):
     return True
 
+#REDEFINE
+# This function returns JavaScript data, for example 'var my_var = "Value";'.
+# The data is used by 'generate_home_page_hook' javascript function
+# that is called when the home page HTML is generated.
+def home_page_js_hook(dummy_server):
+    return ''
+
 # And an error message if the password is trivial
 bad_password = lambda: """
 <div onclick="this.style.display='none';"

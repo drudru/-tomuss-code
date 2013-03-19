@@ -61,10 +61,8 @@ function _UE(name, responsable, intitule, parcours, code, login,
     {
       parcours = '' ;
       code = '' ;
-      login = '' ;
       nr_students_ue = 1 ;
       nr_students_ec = 0 ;
-      responsable = [] ;
       this.etape = true ;
     }
   else
@@ -536,6 +534,15 @@ function student_click_more(t)
 	+ '<small>' + _("TIP_home_squares") + '</small>' ;
 }
 
+function get_ue(code)
+{
+  code = code.replace(/-[0-9]$/, '') ;
+  if ( all_ues[code] )
+    return all_ues[code] ;
+  code = code.split("-")[1] ;
+  if ( all_ues[code] )
+    return all_ues[code] ;
+}
 
 function ue_line(ue, code, content)
 {
@@ -548,9 +555,9 @@ function ue_line(ue, code, content)
 	html_class += ' with_students' ;
     }
 
+  var ue = get_ue(code) ;
   var tt ;
-  var c = code.substr(3).split('-')[0] ;
-  if ( all_ues[c] && all_ues[c].tt )
+  if ( ue && ue.tt )
       tt = hidden_txt('<img class="tt" src="'
 		      + url + '/tt.png">', _("TIP_home_tt")) ;
   else
@@ -577,8 +584,7 @@ function display_ue_list(s, txt, txt_upper, names)
     {
       ue_code = names[ue_code] ;
 
-      var apogee = ue_code.replace(/-[0-9]$/,'').replace(/^(UE|EC)-/,'') ;
-      ue = all_ues[apogee] ;
+      var ue = get_ue(ue_code) ;
       if ( ue === undefined )
 	{
 	  t = ue_code + '\003?\001\002' ;
@@ -618,7 +624,7 @@ function update_ues_master_of(txt, txt_upper)
     {
       i = master_of[i] ;
       var code = i[0] + '/' + i[1] + '/' + i[2] ;
-      var ue = all_ues[i[2].split('-', 2)[1]] ;
+      var ue = get_ue(i[2]) ;
       if ( ue && myindex(ue.login, username) != -1 )
 	  continue ; // Yet in Spiral table
       years[i[0]] = true ;
@@ -667,11 +673,7 @@ function update_ues_favorites(txt, txt_upper)
   var begin ;
   for(var i in ues_favorites)
     {
-      // XXX Find a better way to sort 'semester' tables from the others tables
-      if ( ues_favorites[i] > 0
-	   && ( i.substr(2 ,1) == '-'
-		|| i.substr(0,6) == 'etape-'
-		))
+      if ( get_ue(i) )
 	ues_favorites_sorted.push(i) ;
     }
   ues_favorites_sorted.sort(cmp_favorites) ;
@@ -767,6 +769,9 @@ function update_ues2(txt, clicked)
 	{
 	  if ( myindex(all_ues[ue].login, username) != -1 )
 	      {
+		if ( ue.substr(0, 6) == 'etape-' )
+		  ues_spiral.push(ue) ;
+		else
 		  ues_spiral.push('UE-' + ue) ;
 	      }
 	  t.push( [all_ues[ue].code, all_ues[ue].name] ) ;
@@ -1386,6 +1391,13 @@ function home_resize_event()
   return true ;
 }
 
+/*REDEFINE
+  Change whatever you want on the home page
+*/
+function generate_home_page_hook()
+{
+}
+
 function generate_home_page()
 {
     lib_init() ;
@@ -1405,6 +1417,7 @@ function generate_home_page()
     document.getElementById('ue_input_name').focus() ;
     document.getElementById('ue_input_name').select() ;
     change_icones() ;
+    generate_home_page_hook() ;
 
     document.write('<div id="feedback"></div>') ;
 
