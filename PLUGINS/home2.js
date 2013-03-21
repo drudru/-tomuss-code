@@ -36,18 +36,17 @@ function student_line_more_links(login)
   return '' ;
 }
 
-function scrollTop(scrollable)
+function scrollTopElement(scrollable)
 {
-  while ( scrollable.scrollTop == 0 )
+  while ( scrollable.scrollTop === 0 )
     scrollable = scrollable.parentNode ;
-  var scrolltop = scrollable.scrollTop ;
   if ( scrollable.scrollTop !== undefined )
     return scrollable ;
 }
 
 function resetScroll(scrollable)
 {
-  var s = scrollTop(scrollable) ;
+  var s = scrollTopElement(scrollable) ;
   if (s)
     s.scrollTop = 0 ;
 }
@@ -353,15 +352,11 @@ function ue_line_over(code, t, click_more)
   if ( t === ue_line_over_last )
     return ;
   
-  var scrollable = scrollTop(t) ;
-  var scrolltop = scrollable ? scrollable.scrollTop : 0 ;
-    
   ue_line_out() ;
 
   var pos = findPos(t) ;
   ue_line_over_plus.style.left = pos[0] + t.offsetWidth - ue_line_over_plus_width;
-//  alert(scrollable.tagName + '/' + scrollable.scrollTop);
-  ue_line_over_plus.style.top = pos[1] - scrolltop ;
+  ue_line_over_plus.style.top = pos[1] ;
   ue_line_over_last = t ;
   if ( click_more === undefined )
     ue_line_over_plus.childNodes[0].innerHTML = '?' ;

@@ -417,7 +417,7 @@ function stat_display_flowers(s, groups, sorted_cols, all_stats)
       s.push('<td><div class="s_graph">'
 	     + stat_display_flower(groups, all_stats, column)
 	     + '<div class="s_clickable" onclick="stat_flower_zoom(this,'
-	     + js2(column) + ');setTimeout(\'document.body.scrollTop = 10000000\',100) ;"></div></div></td>') ;
+	     + js2(column) + ');setTimeout(\'scrollTop(10000000);\',100) ;"></div></div></td>') ;
     }
   s.push('<td><div class="s_graph">'
 	 + stat_display_fractal_flower(groups, sorted_cols, all_stats)

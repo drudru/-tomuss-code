@@ -357,7 +357,7 @@ function linear_w_real()
       var e = document.createElement('div') ;
       e.innerHTML = c.substr(4) ; // Remove first <br>
       L.top.appendChild(e) ;
-      document.body.scrollTop = 10000000 ;
+      scrollTop(10000000) ;
     }
   if ( L.input_to_init !== undefined )
     {
@@ -368,7 +368,7 @@ function linear_w_real()
       L.input.style.display = '' ;
       L.input.select() ;
       L.input.focus() ;
-      document.body.scrollTop = 10000000 ;
+      scrollTop(10000000) ;
     }
 }
 

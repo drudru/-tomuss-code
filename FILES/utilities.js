@@ -250,16 +250,26 @@ function date_full(x)
 }
 
 // Code snippet from http://www.quirksmode.org/js/findpos.html
-function findPos(obj)
+function findPos(x)
 {
   var curleft = 0 ;
   var curtop = 0;
+  var obj = x ;
   if (obj.offsetParent)
     {
       do {
 	curleft += obj.offsetLeft;
 	curtop += obj.offsetTop;
       } while ((obj = obj.offsetParent));
+
+      // Search a scrollable area, but not the BODY one
+      while( x && x.scrollTop === 0 )
+	x = x.parentNode ;
+      if ( x && x.tagName != 'BODY' && x.scrollTop )
+	{
+	  curleft -= x.scrollLeft ;
+	  curtop -= x.scrollTop ;
+	}
     }
   return [curleft,curtop];
 }
@@ -557,11 +567,21 @@ function clone_event(event)
   return e ;
 }
 
-function scrollTop()
+function scrollTop(value)
 {
-  if ( document.body.scrollTop !== undefined )
-    return document.body.scrollTop ;
-  return window.screenY ;
+  if ( value === undefined )
+    {
+      if ( document.body.scrollTop !== undefined )
+	return document.body.scrollTop ;
+      return window.screenY ;
+    }
+  else
+    {
+      if ( document.body.scrollTop !== undefined )
+	document.body.scrollTop = value ;
+      else
+	window.screenY = value ;
+    }
 }
 
 function scrollLeft()
