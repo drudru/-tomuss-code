@@ -274,7 +274,7 @@ function Linear()
       function(value) {
 	var column = this.L.column() ;
 	column.filter = value ;
-        column.real_type.set_filter(value, column) ;
+        set_filter_generic(value, column) ;
 	update_filters() ;
 	update_filtered_lines() ;
 	this.L.lin = 0 ;
