@@ -43,6 +43,7 @@ def log(server):
 
 plugin.Plugin('log', '/log/{*}',
               function = log,
+              authenticated = False,
               group='staff',
               )
 

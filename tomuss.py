@@ -165,18 +165,10 @@ class MyRequestBroker(utilities.FakeRequestHandler):
         warn('ticket=%s' % str(self.ticket)[:-1])
         warn('the_path=%s' % str(self.the_path))
 
-        if self.path.startswith('/log/'):
-            # XXX quick hack to remove
-            # Need a generalized way to invoke plugins without authentication
-            # See suivi.py (manage_error=False?)
-            for p in plugin.plugins:
-                # Launch the log plugin that allow to log things
-                # For example the searched text in help.
-                # Syntax:  log/what/string_to_log
-                if p.name == 'log':
-                    self.the_path = self.the_path[1:]
-                    plugin.execute(self, p)
-                    break
+        self.the_file = self.wfile
+
+        if plugin.dispatch_request(self, manage_error=False) is None:
+            # An unauthenticated dispatch was done
             return
 
         if not self.ticket:
@@ -193,8 +185,6 @@ class MyRequestBroker(utilities.FakeRequestHandler):
                 except:
                     # Not an image, may be a page option
                     warn('Ticket not fine for not an image', what="auth")
-
-        self.the_file = self.wfile
 
         # Don't want to be blocked by authentication
         if authentication.ok(self):

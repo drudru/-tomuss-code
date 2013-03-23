@@ -168,7 +168,7 @@ function filter()
 	   && millisec() - last_key_time > 1000 )
 	{
 	  var i = document.createElement('IMG') ;
-	  i.src = '/log/help/' + encodeURI(input.value) ;
+	  i.src = 'log/help/' + encodeURI(input.value) ;
 	  log.appendChild(i) ;
 	  input.old_value = input.value ;
 	}

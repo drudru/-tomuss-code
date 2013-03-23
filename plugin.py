@@ -413,8 +413,11 @@ def execute(server, plugin):
 
     server.log_time(plugin.name)
 
-def search_plugin(server):
+def search_plugin(server, manage_error):
     for p in plugins:
+        if manage_error is False and p.authenticated:
+            # Only test plugin without authentication
+            continue
         # warn('%s %s' % (p, p.is_allowed(server)))
         if p.is_allowed(server)[0]:
             t = p.path_match(server)
@@ -426,7 +429,7 @@ def search_plugin(server):
 @utilities.add_a_lock
 def dispatch_request(server, manage_error=True):
     warn('dispatch %s' % server.the_path, what='debug')
-    p = search_plugin(server)
+    p = search_plugin(server, manage_error)
     
     if p is False:
         if manage_error:

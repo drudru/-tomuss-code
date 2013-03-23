@@ -66,7 +66,7 @@ def student_icone(server):
     im = PIL.Image.new("RGB", (2*n+1, n))
     im.putdata(s)
     im.save(server.the_file, 'PNG')
-
+    
 plugin.Plugin('icone', '/{_I}',
               function=student_icone,
               # launch_thread=True,
