@@ -167,7 +167,7 @@ They are automaticaly reloaded when they are modified.</li>
 </li>
 <li><b>PLUGINS</b>: They define how the servers react to an URL</li>
 <li><b>COLUMN_TYPES</b>: They define define the possible column types.</li>
-<li><b>ATTRIBUTES</b>: They define the possible column and table attributes.</li
+<li><b>ATTRIBUTES</b>: They define the possible column and table attributes.</li>
 <li><b>TRANSLATIONS</b>: The messages.</li>
 <li><b>LOCAL</b>: All the customization code and data must be inside.
 <ul>
