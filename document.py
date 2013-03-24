@@ -230,6 +230,7 @@ def import_template(names):
 
 class Table(object):
     new_abjs = None
+    force_update = 0
     
     def __init__(self, year, semester, ue, ro=True, user=None):
 
@@ -1427,8 +1428,10 @@ def check_new_students_real():
                 t.change_mails(inscrits.L_batch.mails(
                         list(t.logins()) + t.authors()))
                 if t.modifiable:
-                    for a_column in t.columns:
-                        a_column.type.update_all(t, a_column)
+                    if t.force_update or getattr(t, 'update_inscrits', True):
+                        for a_column in t.columns:
+                            a_column.type.update_all(t, a_column)
+                    t.force_update = 0
                 t.update_the_abjs()
             finally:
                 t.do_not_unload_remove('check_new_students_real')
@@ -1551,6 +1554,7 @@ def process_request(page, tabl, action, path):
         elif action == 'update_content':
             if tabl not in update_students:
                 update_students.append(tabl)
+            tabl.force_update = 1
             page.answer = 'ok.png'
         else:
             warn('BUG: %s' % str(path), what="error")

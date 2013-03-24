@@ -20,6 +20,7 @@
 #    Contact: Thierry.EXCOFFIER@bat710.univ-lyon1.fr
 
 import time
+import os
 from .. import plugin
 from .. import document
 from .. import abj
@@ -54,8 +55,8 @@ def page_action(server):
 def page_resume(server):
     """Display the list of ABJ, DA and TT for the students in the table.
     It is the same list being sended by mail."""
-    lines, mails = abj.ue_resume(server.the_ue, server.the_year,
-                                 server.the_semester, server.the_file)
+    lines, dummy_mails = abj.ue_resume(server.the_ue, server.the_year,
+                                       server.the_semester, server.the_file)
     server.the_file.write(''.join(lines).encode('utf-8'))
 
 
@@ -89,9 +90,6 @@ def page_unload(server):
 
 plugin.Plugin('page_unload', '/{Y}/{S}/{U}/page_unload',
               function=page_unload, group='roots')
-
-import os
-from .. import configuration
 
 def extension(server):
     """Extend the current table to the next semester.
@@ -139,6 +137,7 @@ def extension(server):
     utilities.rename_safe(old_filename, new_filename)
 
     # XXX: We hope that nobody will recreate the table at the instant.
+    # Must be moved into document.py/table_manage
 
     new_filename = os.path.join(*new_filename.split(os.path.sep)[1:])
 
@@ -213,8 +212,9 @@ def end_of_load(server):
     If the page takes too long to load, then 'newpage.py' assumes
     that something blocked TOMUSS because the page loading does not finish.
     """
-    table, page = document.table(server.the_year, server.the_semester,
-                                 server.the_ue, server.the_page, server.ticket)
+    dummy_table, page = document.table(server.the_year, server.the_semester,
+                                       server.the_ue, server.the_page,
+                                       server.ticket)
     page.end_of_load = time.time()
     try:
         server.log_time('page_load_time', start_time=page.start_load)

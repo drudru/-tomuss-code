@@ -81,8 +81,6 @@ class Code_Etape(text.Text):
     def update_all(self, the_table, column, attr=None):
         if attr is not None and attr.name != 'columns' and attr.name != 'type':
             return
-        if not getattr(the_table, 'update_inscrits', True):
-            return
         
         for line_id, value in self.get_all_values(column):
             the_table.lock()

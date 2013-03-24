@@ -43,7 +43,7 @@ def read_url_not_cached(url):
 
         if '<html>' in c.lower():
             try:
-                from .LOCAL import fakeuser
+                from ..LOCAL import fakeuser
                 global cookies
                 c, cookies = fakeuser.connection(url, cookies)[:2]
             except ImportError:

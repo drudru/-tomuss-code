@@ -36,7 +36,7 @@ def auto_update(server):
         server.the_file.flush()
         to_unload.add(t)
         while len(document.update_students) > 2:
-           time.sleep(0.1)
+            time.sleep(0.1)
         for tt in to_unload - set(document.update_students):
             if tt.do_not_unload:
                 continue
