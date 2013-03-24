@@ -1118,7 +1118,8 @@ class FakeRequestHandler(BaseHTTPServer.BaseHTTPRequestHandler):
             time.time() - self.start_time, )
         s += '<h2>SERVER HEADERS</h2>\n'
         for k,v in self.headers.items():
-            s += '<b>' + k + '</b>:' + cgi.escape(str(v)) + '<br>\n'
+            if k != 'authorization':
+                s += '<b>' + k + '</b>:' + cgi.escape(str(v)) + '<br>\n'
         s += '<h2>SERVER DICT</h2>\n'
         for k,v in self.__dict__.items():
             if k != 'headers':
