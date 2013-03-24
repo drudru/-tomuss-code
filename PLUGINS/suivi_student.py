@@ -528,12 +528,7 @@ def teacher_statistics(login, server):
     return s
 
 def display_login(server, login, expand=False):
-    if login == '':
-        return
-
-    # login = login.lower().replace('_', ' ')
-    if login[1].isdigit():
-        # Student
+    if configuration.is_a_student(login):
         try:
             login = utilities.the_login(login)
             server.the_file.write(

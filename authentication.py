@@ -186,7 +186,7 @@ def get_path(server, server_url):
 
             # XXX
             # If it is a student, no need to redirect it to the good URL
-            # if len(user_name) > 2 and user_name[1].isdigit():
+            # if configuration.is_a_student(user_name):
             #     return t, path
 
             # We want the client to see the "good" url

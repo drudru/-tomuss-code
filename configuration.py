@@ -1,3 +1,4 @@
+
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 #    TOMUSS: The Online Multi User Simple Spreadsheet
@@ -207,6 +208,11 @@ suivi_display_more_ue = True
 def is_an_official_ue(code):
     "Must be 0 or 1 (JavaScript compatible)"
     return 1
+
+#REDEFINE
+# Return True if is is a student login
+def is_a_student(login):
+    return login and len(login) >= 2 and login[1].isdigit()
 
 #REDEFINE
 # Returns 0 if it is not the first registration of the student.
