@@ -95,7 +95,7 @@ TABLE#thetable TD, TABLE#thetable TH, TABLE#thetable TH SPAN, TABLE#thetable INP
   margin: 0px;
 }
 
-TABLE#thetable TD { height: 1.1em; }
+TABLE#thetable TD { height: 1.28em; } /* 1.1 was not good for Chrome */
 
 DIV#current_input_div { 
   position: absolute ;
