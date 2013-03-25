@@ -52,6 +52,8 @@ function set_type(value, column, xcolumn_attr)
 	var use = _('B_' + column.real_type.title).split("(")[1] ;
 	if ( use == 'ID)' )
 	    column_attr_set(column, 'columns', 'ID') ;
+        if ( column.real_type.type_type !== 'data' && column.empty_is === '' )
+	    column_attr_set(column, 'empty_is', '???') ;
     }
 
   return value ;
