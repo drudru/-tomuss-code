@@ -42,7 +42,8 @@ class Server(object):
     start_time = 0
     
     def start(self, cleaning=True):
-        self.start_time = time.time()
+        if Server.start_time == 0:
+            Server.start_time = time.time()
         for dirname in ['DBregtest', 'BACKUP_DBregtest',
                         ] + glob.glob('TMP/xxx_tickets.py*'):
             print 'delete:', dirname
@@ -88,7 +89,7 @@ class Server(object):
             returns_file=False, timeout=0, silent=False):
         full_url = 'http://'+socket.getfqdn()+':'+str(self.port) + '/' + url
         if not silent:
-            print '%6.2f ' % (time.time() - self.start_time) + url,
+            print ' %6.2f ' % (time.time() - Server.start_time) + url,
         sys.stdout.flush()
         try:
             if timeout:

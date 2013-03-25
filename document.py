@@ -568,7 +568,7 @@ class Table(object):
         if value is None:
             value = cell.value
 
-        if not self.loading:
+        if not self.loading and not force_update:
             if not self.authorized(page.user_name, cell):
                 utilities.warn('cell value = (%s)' % cell.value)
                 return self.bad_auth(page, "cell_change %s/%s/%s" % (

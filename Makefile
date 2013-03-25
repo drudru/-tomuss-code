@@ -33,10 +33,10 @@ tags:
 	etags $$(git ls-files -- '*.js' '*.py')
 
 regtest:translations
-	cd REGTEST_SERVER ; ./tests.py
+	cd REGTEST_SERVER ; ./tests.py 2>/dev/null
 
 regtest1:translations
-	cd REGTEST_SERVER ; ./tests.py 1
+	cd REGTEST_SERVER ; ./tests.py 1 2>/dev/null
 
 V := $(shell python -c 'import tomuss_init ; from . import configuration;print configuration.version' 2>/dev/null)
 

@@ -40,6 +40,8 @@ abj      = configuration.invited_abj_masters[1]
 invited  = configuration.invited_teachers[0]
 assert( root != abj )
 
+
+
 configuration.language = 'en'
 
 ok_png = utilities.read_file('FILES/ok.png')
@@ -1430,7 +1432,9 @@ cell_change(1,'0_2','ticket_time_to_live','%d',"")
        while True:
           c = s.url('='+root+'/stat')
           if 'regtest-bug1' not in c:
-             break
+              # Wait more to be sure
+              time.sleep(1)
+              break
           time.sleep(1)
 
        # Create a column
@@ -1656,6 +1660,22 @@ cell_change(1,'0_2','ticket_time_to_live','%d',"")
         # User in LDAP but not teacher
         c = s.url('=user.3/%s/UE-acls' % ys)
         assert('is_a_teacher = 0' in c and 'initialize_suivi()' in c)
+
+    if do('owner'):
+        c = s.url('=' + abj +'/%s/UE-owner' % ys)
+        assert( 'runlog' in c )
+        c = s.url('='+abj+'/%s/UE-owner/1/0/column_attr_type/A/Surname' % ys)
+        assert( c == ok_png )
+        c = s.url('='+abj+'/%s/UE-owner/1/1/column_attr_columns/A/ID' % ys)
+        assert( c == ok_png )
+        c = s.url('='+abj+'/%s/UE-owner/1/2/cell_change/0_0/a/10800001' % ys)
+        assert( c == ok_png )
+        c = s.url('='+abj+'/%s/UE-owner/1/3/cell_change/A/a/FOO' % ys)
+        assert( c == bad_png )
+        c = s.url('='+abj+'/%s/UE-owner/1/4/column_attr_type/A/Text' % ys)
+        assert( c == ok_png )
+        c = s.url('='+abj+'/%s/UE-owner/1/5/cell_change/A/a/FOO' % ys)
+        assert( c == ok_png )
         
 if '1' in sys.argv:
    sys.argv.remove('1')
@@ -1668,7 +1688,7 @@ os.system("ps -fle | grep ./tomuss")
 n = 0
 m = []
 while True:
-    start = time.time()
+    start = Server.start_time = time.time()
     exit_status = 1
     try:
         tests()
@@ -1706,10 +1726,3 @@ while True:
             break
 
 sys.exit(exit_status)
-        
-
-
-
-
-    
-        

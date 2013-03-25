@@ -133,6 +133,16 @@ class ColumnAttr(object):
 
         value = self.encode(value)
 
+        if (self.name == 'type' and column.type.type_type != 'data'
+            and value.type_type == 'data' ):
+            # give the user the erase access
+            for line_id, line in table.lines.items():
+                cell = line[column.data_col]
+                if cell.value and cell.author == data.ro_user:
+                    table.cell_change(page, column.the_id, line_id,
+                                      cell.value, force_update=True)
+            
+
         # The "value == ''" is here because in some case Javascript want
         # to create a column by sending an empty title.
         # Even is 'empty' is the default value for the title, it must be saved
