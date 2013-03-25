@@ -29,6 +29,7 @@ from .. import objgraph
 from .. import plugin
 from .. import utilities
 from .. import configuration
+from .. import document
 
 def gc_top(server):
     "Display a clickable list of Python classes and their number of instance."
@@ -262,3 +263,39 @@ plugin.Plugin('gcbig'   , '/gcbig'   , group='roots', function=gcbig,
               link=plugin.Link(where='debug', html_class='verysafe')
               )
 
+
+def requests(server):
+    """Displays the requests queue"""
+
+    server.the_file.write('<table><tr><th>Request<th>Page<th>Action<th>Path<th>Current Cell Value</tr>')
+    for request in sorted(document.request_list,
+                          key = lambda x: (x[2], x[1])):
+        request = list(request[1:-1])
+        if request[2] == 'cell_change':
+            column = request[1].table.columns.from_id(request[3][0])
+            if column:
+                line_id = request[3][1]
+                line = request[1].table.lines[line_id]
+                v = line[column.data_col].value
+                t = cgi.escape(
+                    line[0].value + ' ' + line[1].value + ' ' + line[2].value
+                    + ' ' + column.title + '='
+                    + v
+                    )
+                
+            else:
+                t = '???????'
+            if str(v) != str(request[3][2]):
+                t = '<span style="background:#F88">' + t + '(!=' + cgi.escape(request[3][2]) + ')'
+        else:
+            t = ''
+        request[0] = '%s(%s)' % (request[0], request[1].request)
+        server.the_file.write('<tr>'
+                              + ''.join("<td>" + cgi.escape(str(v))
+                                        for v in request)
+                              + '<td>' + t + '</tr>')
+    server.the_file.write('</table>')
+
+plugin.Plugin('requests'   , '/requests'   , group='roots', function=requests,
+              link=plugin.Link(where='debug', html_class='verysafe')
+              )
