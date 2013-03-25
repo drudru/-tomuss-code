@@ -2082,14 +2082,36 @@ function current_keydown(event, in_input)
       return ;
     }
 
-  if ( element_focused && element_focused.tagName == 'TEXTAREA' )
-    return ;
-
-  if ( element_focused && element_focused.id == "table_forms_keypress" )
-      {
+  if ( element_focused )
+    {
+      if ( element_focused.tagName == 'TEXTAREA' )
+	return ;
+      else if ( element_focused.id == "table_forms_keypress" )
+	{
 	  if ( key < 41 && key != 27 )
-	      return ;
-      }
+	    return ;
+	}
+      else if ( element_focused.tagName == 'SELECT' )
+	{
+	  if ( key == 40 )
+	    {
+	      element_focused.selectedIndex++ ;
+	      stop_event(event) ;
+	    }
+	  else if ( key == 38 )
+	    {
+	      element_focused.selectedIndex-- ;
+	      stop_event(event) ;
+	    }
+	  else if ( key == 13 || key == 27 )
+	    {
+	      event.target = element_focused ;
+	      element_focused.onchange(event) ;
+	      stop_event(event) ;
+	    }
+	  return ;
+	}
+    }
        
   if ( event.altKey && ! event.ctrlKey )
     {

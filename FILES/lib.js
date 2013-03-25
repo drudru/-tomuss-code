@@ -1929,14 +1929,21 @@ function login_list_hide()
 {
   the_current_cell.blur_disabled = false ;
   hide_the_tip_real() ;
+  element_focused = undefined ;
   }
 
-function login_list_select(t)
+function login_list_select(event)
 {
-  var s = t.options[t.selectedIndex].innerHTML.split('&nbsp;')[0] ;
-  the_current_cell.input.value = s ;
-  login_list_hide() ;
-  the_current_cell.change() ;
+  event = the_event(event) ;
+  var t = event.target ;
+  if ( t.options[t.selectedIndex] )
+    {
+      var s = t.options[t.selectedIndex].innerHTML.split('&nbsp;')[0] ;
+      the_current_cell.input.value = s ;
+      setTimeout(login_list_hide, 500) ;
+    }
+  else
+    login_list_hide() ;
 }
 
 function login_list(name, x)
@@ -1957,7 +1964,7 @@ function login_list(name, x)
   if ( nr < 2 )
     nr = 2 ;
 
-  var s = '<select class="login_list" size="' + nr + '" onmouseover="the_current_cell.blur_disabled = true;" onmouseout="the_current_cell.blur_disabled = false" onchange="login_list_select(this)">' ;
+  var s = '<select class="login_list" size="' + nr + '" onmouseover="the_current_cell.blur_disabled = true;" onmouseout="the_current_cell.blur_disabled = false" onchange="login_list_select(event)">' ;
 
   var w = 0 ;
   for(var i in x)
@@ -1989,7 +1996,7 @@ function login_list(name, x)
   instant_tip_display = false ;
   display_tips = false ;
   get_tip_element().onmousemove = function() { } ;
-
+  element_focused = get_tip_element().firstChild ;
 }
 
 function table_fill(do_not_focus, display_headers, compute_filtered_lines)
