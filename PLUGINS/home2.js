@@ -639,7 +639,7 @@ function update_ues_master_of(txt, txt_upper)
   }
 
   s = ue_line_join(s) ;
-  document.getElementById('ue_list').childNodes[3].innerHTML =
+  document.getElementById('ue_list_masters').innerHTML =
     '<table class="with_margin uelist">'
     + '<colgroup><col class="code">'
     + '<col class="title">'
@@ -685,7 +685,7 @@ function update_ues_favorites(txt, txt_upper)
 	   + '</th></tr>'] ;
   display_ue_list(s, txt, txt_upper, ues_favorites_sorted) ;
   s = ue_line_join(s) ;
-  document.getElementById('ue_list').childNodes[1].innerHTML = '<table class="with_margin uelist"><colgroup><col class="code"><col class="title"><col class="responsable"></colgroup>' + s + '</table>' ;
+  document.getElementById('ue_list_favorites').innerHTML = '<table class="with_margin uelist"><colgroup><col class="code"><col class="title"><col class="responsable"></colgroup>' + s + '</table>' ;
 }
 
 function update_ues_spiral(txt, txt_upper)
@@ -698,7 +698,7 @@ function update_ues_spiral(txt, txt_upper)
 	   + '</th></tr>'] ;
   display_ue_list(s, txt, txt_upper, ues_spiral) ;
   s = ue_line_join(s) ;
-  document.getElementById('ue_list').childNodes[2].innerHTML = '<table class="with_margin uelist"><colgroup><col class="code"><col class="title"><col class="responsable"></colgroup>' + s + '</table>' ;
+  document.getElementById('ue_list_spiral').innerHTML = '<table class="with_margin uelist"><colgroup><col class="code"><col class="title"><col class="responsable"></colgroup>' + s + '</table>' ;
 }
 
 function update_ues_searched(txt, txt_upper)
@@ -750,7 +750,7 @@ function update_ues_searched(txt, txt_upper)
 	   + _("TIP_home_no_ue") + '</td></tr>');
 
   s = ue_line_join(s) ;
-  document.getElementById('ue_list').childNodes[0].innerHTML = '<table class="with_margin uelist searchresult"><colgroup><col class="code"><col class="title"><col class="responsable"></colgroup>' + s + '</table>' ;
+  document.getElementById('ue_list_search').innerHTML = '<table class="with_margin uelist searchresult"><colgroup><col class="code"><col class="title"><col class="responsable"></colgroup>' + s + '</table>' ;
 }
 
 function update_ues2(txt, clicked)
@@ -775,9 +775,6 @@ function update_ues2(txt, clicked)
       all_ues_sorted = [] ;
       for(var ue in t)
 	all_ues_sorted.push( t[ue][1] ) ;
-
-      document.getElementById('ue_list').innerHTML =
-	'<div></div><div></div><div></div><div></div><div></div>' ;
     }
 
   resetScroll(document.getElementById('scrollable_left')) ;
@@ -819,7 +816,7 @@ function update_ues_unsaved()
   var index = localStorage['index'] ;
   if ( ! index )
     {
-      document.getElementById('ue_list').childNodes[4].innerHTML = '' ;
+      document.getElementById('ue_list_unsaved').innerHTML = '' ;
       return ;
     }
   var s = ['<tr><th colspan="3">' +
@@ -835,7 +832,7 @@ function update_ues_unsaved()
 	     + '\')"><td></td><td colspan="2">' + i + '</td></tr>') ;
     }
   s = ue_line_join(s) ;
-  document.getElementById('ue_list').childNodes[4].innerHTML = '<table class="with_margin uelist"><colgroup><col class="code"><col class="title"><col class="responsable"></colgroup>' + s + '</table>' ;
+  document.getElementById('ue_list_unsaved').innerHTML = '<table class="with_margin uelist"><colgroup><col class="code"><col class="title"><col class="responsable"></colgroup>' + s + '</table>' ;
 }
 
 
@@ -1262,7 +1259,11 @@ function generate_home_page_ue()
 	+ '</tr>'
 	+ '</table><div class="scrollable" id="scrollable_left">'
 	+ '<div id="ue_list" class="ue_list">'
-	+ _("TIP_home_ue_loading")
+	+ '<div id="ue_list_search">' + _("TIP_home_ue_loading") + '</div>'
+	+ '<div id="ue_list_unsaved"></div>'
+	+ '<div id="ue_list_favorites"></div>'
+	+ '<div id="ue_list_spiral"></div>'
+	+ '<div id="ue_list_masters"></div>'
 	+ '</div><br><br><br><br><br><br><br><br><br><br><br><br><br></div>' ;
     document.write(t) ;
 }
