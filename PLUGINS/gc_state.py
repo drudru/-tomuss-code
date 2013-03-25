@@ -280,7 +280,7 @@ def requests(server):
                 t = cgi.escape(
                     line[0].value + ' ' + line[1].value + ' ' + line[2].value
                     + ' ' + column.title + '='
-                    + v
+                    + str(v)
                     )
                 
             else:
