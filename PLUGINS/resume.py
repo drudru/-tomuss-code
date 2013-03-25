@@ -57,6 +57,7 @@ def resume(server):
                           type="Note",
                           test='[0;NaN]',
                           empty_is="0",
+                          rounding='1',
                           comment=server._('COL_COMMENT_nb_cells_entered'),
                           ))
         i += 1
@@ -78,6 +79,7 @@ def resume(server):
                       title=server._('COL_TITLE_TOTAL'),
                       type="Moy",                      
                       weight='1',
+                      rounding='1',
                       columns=' '.join([c.title for c in columns[3:]]),
                       minmax='[0;NaN]',
                       )

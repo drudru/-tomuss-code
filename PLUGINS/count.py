@@ -95,6 +95,7 @@ def count(server):
                                      type="Note",
                                      minmax='[0;%d]' % weeks[title],
                                      empty_is='0',
+                                     rounding='1',
                                      comment=server._("B_Nmbr")
                                      + ' ' + what,
                                      ))
@@ -105,6 +106,7 @@ def count(server):
                       type="Moy",                      
                       weight='1',
                       columns=' '.join([c.title for c in columns[3:]]),
+                      rounding='1',
                       minmax='[0;NaN]',
                       )
         )
