@@ -59,16 +59,18 @@ def count(server):
             try:
                 dates = parse(a_column.course_dates)
             except AttributeError:
-                continue
-            if not dates:
-                continue
-            # XXX Assumes that all the dates are on the same week
-            date = dates[0]
+                dates = ()
 
-            # Monday date
-            date = time.localtime(time.mktime(date) - date[6] * 86400)
-            date = time.strftime('%Y-%m-%d_%B', date)
+            if dates:
+                # XXX Assumes that all the dates are on the same week
+                date = dates[0]
 
+                # Monday date
+                date = time.localtime(time.mktime(date) - date[6] * 86400)
+                date = time.strftime('%Y-%m-%d_%B', date)
+            else:
+                date = '??/??/????'
+                
             for line in t.lines.values():
                 login = line[0].value
                 if not login:
