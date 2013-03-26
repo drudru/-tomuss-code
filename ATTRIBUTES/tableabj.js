@@ -94,20 +94,21 @@ function abj_per_day()
   var bug = '' ;
   for(var i in the_student_abjs)
     {
-      s += "the_abjs['" + i + "'] = [" ;
+      s += "the_abjs[" + js(i) + "] = [" ;
       if ( lines[login_to_line_id(i)] === undefined )
 	  {
 	      bug += 'BUG : ' + login_to_line_id(i) + ' unfound\n' ;
 	      continue ;
 	  }
-      names += ',\"' + i + '\":\"' + lines[login_to_line_id(i)][2].value
-	+ ' ' + lines[login_to_line_id(i)][1].value+ '\"';
+      names += ',' + js(i) + ':'
+	+ js(lines[login_to_line_id(i)][2].value
+	     + ' ' + lines[login_to_line_id(i)][1].value) ;
       i = the_student_abjs[i] ;
       var t = '' ;
       for(var j in i[0])
 	{
 	  j = i[0][j] ;
-	  t += ',["' + j[0] + '","' + j[1] + '","' + j[2] + '"]' ;
+	  t += ',[' + js(j[0]) + ',' + js(j[1]) + ',' + js(j[2]) + ']' ;
 	  end = parse_date(j[1].replace(ampms[0],ampms[1])).getTime() ;
 	  for(var d=parse_date(j[0].replace(ampms[1],ampms[0]));
 	      d.getTime() < end;
