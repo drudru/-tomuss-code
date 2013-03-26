@@ -23,15 +23,30 @@ from .. import plugin
 from .. import tablestat
 from .. import configuration
 from .. import document
+from .. import utilities
 import time
 
 def auto_update(server):
-    """Update the student list for each known table of the current semester"""
+    """Update the student list for each known table of the current semester.
+    Or the tables in the path in the current semester.
+    """
+
+    server.the_file.write('<h1>' + server._("MSG_auto_update_start") + '</h1>')
+
+    if server.the_path:
+        tables = (
+            document.table(configuration.year_semester[0],
+                           configuration.year_semester[1],
+                           utilities.safe(ue).replace('.','_'))
+            for ue in server.the_path
+            )
+    else:
+        tables = tablestat.les_ues(configuration.year_semester[0],
+                               configuration.year_semester[1],
+                               ro=False)
 
     to_unload = set()
-    for t in tablestat.les_ues(configuration.year_semester[0],
-                               configuration.year_semester[1],
-                               ro=False):
+    for t in tables:
         server.the_file.write("%s " % t.ue)
         server.the_file.flush()
         to_unload.add(t)
@@ -43,8 +58,14 @@ def auto_update(server):
             tt.unload()
             to_unload.remove(tt)
         
+    server.the_file.write('<h1>' + server._("MSG_auto_update_done") + '</h1>')
 
-plugin.Plugin('auto_update', '/auto_update', function=auto_update,
+plugin.Plugin('auto_update_all', '/auto_update', function=auto_update,
               group='roots', launch_thread = True,
-              link=plugin.Link(where='root_rw', html_class='safe')
+              link=plugin.Link(where='root_rw', html_class='safe',
+                               url = '/auto_update')
+              )
+
+plugin.Plugin('auto_update', '/auto_update/{*}', function=auto_update,
+              group='staff', launch_thread = True,
               )

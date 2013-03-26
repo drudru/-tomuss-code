@@ -3175,6 +3175,12 @@ msgstr "Affiche les GROS objets python en mémoire. Utilise len() pour les trouv
 msgid "HELP_gcbig"
 msgstr "Utile pour trouver les fuites mémoire"
 
+msgid "HELP_requests"
+msgstr "Ceci permet de détecter des notes éventuellements perdues."
+
+msgid "LINK_requests"
+msgstr "Affiche les requêtes perdues"
+
 msgid "MSG_cache_title"
 msgstr "Cache TOMUSS"
 
@@ -4916,6 +4922,12 @@ msgstr "Met à jour les listes d'étudiants"
 msgid "HELP_auto_update"
 msgstr "Visite chaque table qui a déjà été visitées,\n"
        "pour mettre à jour la liste des étudiants."
+
+msgid "MSG_auto_update_start"
+msgstr "Patientez pendant la mise à jour des listes d'étudiants."
+
+msgid "MSG_auto_update_done"
+msgstr "Les listes d'étudiants ont été mise à jour."
 
 msgid "TITLE_columntype"
 msgstr "Choisissez le contenu de la colonne : "

@@ -3156,6 +3156,13 @@ msgstr "Display big Python object in memory. Use len() to find them."
 msgid "HELP_gcbig"
 msgstr "Useful to find memory leaks"
 
+msgid "HELP_requests"
+msgstr "This allow to find values that can be lost because the web browser\n"
+       "has not sent the requests in the good order before being closed."
+
+msgid "LINK_requests"
+msgstr "Display pending requests"
+
 msgid "MSG_cache_title"
 msgstr "Cache TOMUSS"
 
@@ -4848,6 +4855,12 @@ msgstr "Update students in tables"
 
 msgid "HELP_auto_update"
 msgstr "Update the student list for each table of the current semester."
+
+msgid "MSG_auto_update_start"
+msgstr "Wait a moment while student lists are updated."
+
+msgid "MSG_auto_update_done"
+msgstr "The student lists are now up to date."
 
 msgid "TITLE_columntype"
 msgstr "Choose the column content type for: "
