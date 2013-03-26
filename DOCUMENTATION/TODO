@@ -16,7 +16,11 @@ Utilisateurs finaux.
 |_| pour récupérer AUSSI les n° d'étudiant
 <<Exporter les notes>> ou << Exporter les commentaires>>
 
-* Clic long ==> menu des valeurs pour la cellule
+* Clic long ==> menu des valeurs pour la cellule (ou autres menus cachés)
+
+* Sauvegarde de l'état figé d'une colonne (à faire dans le nouvel interface).
+
+* Choix de la colonne triée par défaut modifiable interactivement
 
 * Autoriser n'importe qui à modifier les infos saisies par les autres.
   Comme si tous le monde était responsable dans la colonne ?
@@ -42,13 +46,9 @@ Utilisateurs finaux.
 
 * Insérer les lignes qui viennent du serveur aux bons endroits
 
-* Choix de la colonne triée par défaut modifiable interactivement
-
 * Dans le publipostage : mode HTML avec des vrais URL
 
 * IE : Suivi de l'étudiant plus joli.
-
-* Sauvegarde de l'état figé d'une colonne (à faire dans le nouvel interface).
 
 * Dans le suivi : moyenne des notes en plus du rang.
 
@@ -67,10 +67,6 @@ Utilisateurs finaux.
 * Mettre le ticket en fin d'URL.
 
 * Il n'y a pas de Flux RSS pour les tables ni printemps ni automne. Le faire ?
-
-* Gestion des formations : liste des UE, fusion des UE.
-  Le gestionnaire de formation doit pouvoir passer les UE en
-  non-semestrialisée.
 
 * Lien sur l'envoi de mail aux étudiants d'une UE sur la page d'accueil.
 
@@ -106,6 +102,8 @@ Administrateur.
 
 * Afficher les lock de tables
 
+* Meta log à distance : stream (voir journal.py)
+
 * Heures sur le graph livestatus
 
 * live_status : pong ne doit pas mettre la date courante si existe pas
@@ -123,27 +121,25 @@ Administrateur.
 
 * Histogramme : échelle log
 
-* Meta log à distance : stream
-
 * Version ligne de commande qui liste les personnes connectées.
 
 =====================
 Problèmes à résoudre.
 =====================
 
+* Navigateur web plante avant d'envoyer les actions dans le bon ordre
+  La liste des actions à faire : si trop vieille regarder si elles
+  ont été faites par ailleurs et si non, envoyer un mail ?
+
 * Le point d'interrogation du tip s'affiche à l'impression de
   la liste d'émargement.
 
 * Hook more on suivi
+  Reloadplugins : more_on_suivi : ajout multiple et bugs
   
 * Faire disparaitre CLOSED : la récupération de liste d'étudiant
   doit prendre le semestr et l'année en paramètre.
 
-* La liste des actions à faire : si trop vieille regarder si elles
-  ont été faites par ailleurs et si non, envoyer un mail ?
-
-* Reloadplugins : more_on_suivi : ajout multiple et bugs
-  
 * Deprecated dans config_table et config_plugin
 
 * Perte photo quand déconnexion puis reconnexion réseau : normal
@@ -200,13 +196,9 @@ Problèmes non reproductibles
 Améliorations de code source.
 =============================
 
-* suivi_student.py utilise manage_key pour écrire dans
-	'rsskey'
-	charte accept
+* suivi_student.py utilise manage_key pour écrire dans charte accept
 
 * Enlever _URL_ si c'est possible
-
-* Faire une fonction 'is_a_student(login)' en Python
 
 * Séparer les fichiers "static" ailleurs, se débarrasser de
   l'attribut 'translation' qui empêche cela

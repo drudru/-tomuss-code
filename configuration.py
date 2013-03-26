@@ -1,4 +1,3 @@
-
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 #    TOMUSS: The Online Multi User Simple Spreadsheet
@@ -23,7 +22,7 @@
 """
 This file must not be edited. But you should read it.
 
-The modifications must be done in LOCAL/__init__.py
+The modifications must be done in LOCAL/config.py
 
 Once running, configuration can be done interactively.
 """
@@ -32,7 +31,7 @@ import socket
 import os
 import time
 
-version = '5.1.8'
+version = '5.1.9'
 
 ###############################################################################
 # ACLS
@@ -318,7 +317,7 @@ server_url = '%s:%d' % (server_base_url, server_port)
 # URLs of the 'suivi' servers
 # This example defines 3 servers for the current university year.
 # Changing these values may break the regression tests.
-# You must redefine your semesters in LOCAL/__init__.py
+# You must redefine your semesters in LOCAL/config.py
 from . import servers
 suivi = servers.Suivi(https=False)
 suivi.add(time.localtime()[0]  , semesters[0],socket.getfqdn()+':%d', 8889)

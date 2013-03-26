@@ -769,6 +769,17 @@ Les améliorations les plus visibles sont :
       </description>
       <guid>53</guid>
     </item>
+    <item>
+      <title>26/03/2013 : Version 5.1.9</title>
+      <link>http://tomuss.univ-lyon1.fr/</link>
+      <description>
+	A part les nombreuses petites améliorations et bugs corrigés,
+	la principale nouveauté est que les étudiants
+	peuvent cacher leur page de suivi aux enseignants
+	qui ne sont pas directement concernés.
+      </description>
+      <guid>54</guid>
+    </item>
 
   </channel>
 </rss>
