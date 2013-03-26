@@ -83,13 +83,13 @@ function printable_display_page(lines, title, page_break)
 	     + '<p>' + _("MSG_print_date")
 	     + "<p>" + _("MSG_print_supervisors")
 	     + "<p>" + _("MSG_print_room")
-	     + "<p>" + _("MSG_print_nr_students")
-	     + "<b>" + nr_lines + "</b>" + v
 	     + "</td>"
 	     + '<td><p>' + _("MSG_print_nr_present")
 	     + "<p>" + _("MSG_print_nr_signature")
 	     + "<p>" + _("MSG_print_nr_paper")
 	     + "</td></tr></table>"
+	     + "<p>" + _("MSG_print_nr_students")
+	     + " <b>" + nr_lines + "</b>" + v
 	     ) ;
     }
   if ( tierstemps != _("B_print_only") )
