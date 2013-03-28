@@ -1380,8 +1380,10 @@ function home_resize_event()
     var e = document.getElementById("scrollable_right") ;
     e.style.height = height - findPosY(e) - 5 ;
     e = document.getElementById("scrollable_left") ;
+    e.onscroll = ue_line_out ;
     e.style.height = height - findPosY(e) - 5 ;
     e = document.getElementById("scrollable_center") ;
+    e.onscroll = ue_line_out ;
     e.style.height = height - findPosY(e) - 5 ;
   }
   return true ;
