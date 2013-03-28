@@ -169,6 +169,15 @@ class LDAP_Logic(object):
         "Retrieve the phone linked to the login"
         return self.get_attributes(login, (configuration.attr_phone,))[0]
 
+    def phone_from_logins(self, logins):
+        "Retrieve the phones linked to the logins"
+        d = {}
+        for login,phone in self.query_logins(logins,(configuration.attr_login,
+                                                     configuration.attr_phone,
+                                                     )):
+            d[login.lower()] = phone
+        return d
+
     @utilities.add_a_method_cache
     def firstname_and_surname_and_mail(self, login):
         """From the login of the person, retrieve the name and mail"""
@@ -355,8 +364,7 @@ class LDAP_Logic(object):
         if len(r) == 0:
             return ()
         return r.get('memberOf', ())
-    member_of_list = utilities.add_a_method_cache(member_of_list,
-                                                  not_cached=())
+    member_of_list = utilities.add_a_method_cache(member_of_list)
 
 
     def etapes_of_student(self, login):
@@ -580,23 +588,21 @@ class LDAP(LDAP_Logic):
     def query_login(self, login, attributes=(configuration.attr_login,),
                     star_is_safe=False):
         if ('*' in login) and not star_is_safe:
-            return ()
+            return {}
         if not star_is_safe:
             login = utilities.the_login(login)
         a = self.query(search='(%s=%s)' % (configuration.attr_login, login),
                     base=configuration.ou_top, attributes=attributes
                     )
-        a = a[0] # First answer
-        if a[0] == None:
+        if not a or a[0][0] == None:
             a = self.query(search='(%s=%s)'% (configuration.attr_login, login),
                         base=configuration.ou_top, attributes=attributes
                         )
-            a = a[0]
-            if a[0] != None:
+            if a and a[0][0] != None:
                 utilities.send_backtrace('THIS CODE IS USEFUL!')
-        if a[0] != None:
-            if len(a) >= 2:
-                return a[1]
+        if a and a[0][0] != None:
+            if len(a[0]) >= 2:
+                return a[0][1]
         return {}
 
 L_fast  = None # Fast interactive access
