@@ -60,12 +60,12 @@ def auto_update(server):
         
     server.the_file.write('<h1>' + server._("MSG_auto_update_done") + '</h1>')
 
-plugin.Plugin('auto_update_all', '/auto_update', function=auto_update,
+plugin.Plugin('auto_update', '/auto_update', function=auto_update,
               group='roots', launch_thread = True,
               link=plugin.Link(where='root_rw', html_class='safe',
                                url = '/auto_update')
               )
 
-plugin.Plugin('auto_update', '/auto_update/{*}', function=auto_update,
+plugin.Plugin('auto_update_one', '/auto_update/{*}', function=auto_update,
               group='staff', launch_thread = True,
               )
