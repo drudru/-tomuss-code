@@ -414,11 +414,13 @@ plugin.Plugin('student', '/{*}', function=student, group='!staff',
 
 def accept(server):
     """The student signs the contract"""
-    utilities.manage_key('LOGINS',
-                         utilities.charte(server.ticket.user_name),
-                         content="Accept")
-    student(server)
-    
+    suivi_headers(server, is_student=True)
+    server.the_file.write('<img src="%s/=%s/store_accept">' % (
+                          configuration.server_url, server.ticket.ticket)
+                          )
+    server.the_file.write(
+        student_statistics(server.ticket.user_name,
+                           server,True).replace('\n','').encode('utf8'))
 
 plugin.Plugin('accept', '/accept', function=accept, group='!staff',
               launch_thread=True,
