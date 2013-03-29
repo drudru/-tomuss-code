@@ -1,7 +1,7 @@
 #!/bin/env python
 # -*- coding: utf-8 -*-
 #    TOMUSS: The Online Multi User Simple Spreadsheet
-#    Copyright (C) 2008,2010 Thierry EXCOFFIER, Universite Claude Bernard
+#    Copyright (C) 2008-2011 Thierry EXCOFFIER, Universite Claude Bernard
 #
 #    This program is free software; you can redistribute it and/or modify
 #    it under the terms of the GNU General Public License as published by
@@ -19,15 +19,12 @@
 #
 #    Contact: Thierry.EXCOFFIER@bat710.univ-lyon1.fr
 
-from . import max
+from ..column import ColumnAttr
 
-class COW(max.Max):
-    human_priority = 11
-    cell_compute = 'compute_cow'
-    cell_is_modifiable = 1
-    tip_cell = "TIP_cell_Text"
-    formatte = 'text_format'
-    cell_test = 'test_cow'
-    ondoubleclick = 'toggle_cow'
- 
-
+class ColumnCompletion(ColumnAttr):
+    default = 0
+    need_authorization = 0
+    name = 'completion'
+    check_and_set = 'function(value, column){ return value ; }'
+    gui_display = "GUI_a"
+    action = 'toggle_completion'

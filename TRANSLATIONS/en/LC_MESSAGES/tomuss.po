@@ -270,6 +270,9 @@ msgstr ""
 "A freezed column is always visible even if there are filter or scrolling.<br>\n"
 "Freezed columns are moved to the left part of the table."
 
+msgid "TIP_column_attr_completion"
+msgstr "If activated, the column content is used to complete the user input"
+
 #. Attribute Tip
 msgid "TIP_column_attr_import"
 msgstr "<b>Import</b> values in this column"
@@ -1112,6 +1115,10 @@ msgstr "<b>Fill</b> values in the column"
 #. GUI 
 msgid "TITLE_column_attr_freezed"
 msgstr "Freezed"
+
+#. GUI 
+msgid "TITLE_column_attr_completion"
+msgstr "Auto Completion"
 
 #. GUI 
 msgid "TITLE_column_attr_hidden"

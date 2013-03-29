@@ -2257,6 +2257,20 @@ function current_do_completion()
       alert_merged = '' ;
       completion = this.column.real_type.cell_test(input.value, this.column) ;
       alert_merged = false ;
+
+      if ( completion == input.value && this.column.completion )
+	{
+	  var s = compute_histogram(this.column.data_col) ;
+	  var value_low = input.value.toLowerCase() ;
+	  var value_len = input.value.length ;
+	  for(var i in s.uniques())
+	    if ( value_low == i.toLowerCase().substr(0, value_len) )
+	      {
+		completion = i ;
+		break ;
+	      }
+	}
+
     }
   else if ( input.id == 't_column_columns' )
     {

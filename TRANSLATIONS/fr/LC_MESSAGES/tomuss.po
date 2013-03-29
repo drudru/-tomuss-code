@@ -270,6 +270,10 @@ msgstr "<b>Fige ou défige cette colonne</b><br>\n"
  "    même quand il y a des filtres ou décalages.<br>\n"
  "    Les colonnes figées sont callées à gauche du tableau."
 
+msgid "TIP_column_attr_completion"
+msgstr "Si activé, le texte saisi interactivement est automatiquement<br>\n"
+       "complété en fonction du contenu de la colonne"
+
 #. Attribute Tip
 msgid "TIP_column_attr_import"
 msgstr "<b>Importer</b> des valeurs dans cette colonne.<br>\n"
@@ -1105,6 +1109,10 @@ msgstr "<b>Remplir</b> la colonne avec des valeurs"
 #. GUI 
 msgid "TITLE_column_attr_freezed"
 msgstr "Figée"
+
+#. GUI 
+msgid "TITLE_column_attr_completion"
+msgstr "Auto Complétion"
 
 #. GUI 
 msgid "TITLE_column_attr_hidden"

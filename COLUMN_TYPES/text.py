@@ -217,7 +217,7 @@ class Text(object):
 
     # The columns attributes that should be displayed for this type
     # DO NOT INDICATES ATTRIBUTES VISIBLE BY ALL THE COLUMN TYPES
-    attributes_visible = ()
+    attributes_visible = ('completion', )
 
     def value_range(self, v_min, v_max):
         """Display the range of the possible values"""

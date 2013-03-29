@@ -633,6 +633,7 @@ function new_new_interface()
     options.push([types[type_i].title, 'B_' + types[type_i].title]) ;
   t.push('<div class="one_line">') ;
   t.push(column_input_attr('type', options)) ;
+  t.push(column_input_attr('completion')) ;
   t.push(column_input_attr('enumeration')) ;
   t.push(column_input_attr('test_filter')) ;
   t.push(column_input_attr('minmax')) ;

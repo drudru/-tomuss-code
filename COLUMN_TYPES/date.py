@@ -26,6 +26,7 @@ class Date(text.Text):
     tip_filter = "TIP_filter_Date"
     tip_cell = "TIP_cell_Date"
     cell_test = 'test_date'
+    attributes_visible = ()
     
     def cell_indicator(self, column, value, cell, lines):
         return '', None
