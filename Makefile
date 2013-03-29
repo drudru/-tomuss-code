@@ -120,8 +120,8 @@ tar-check:untar
 	cd /tmp/TOMUSS-$(V) && $(MAKE) regtest1
 
 push:
-	git push --tags ; git fetch
-	cd LOCAL ; git push --tags ; git fetch
+	git push ; git push --tags ; git fetch
+	cd LOCAL ; git push ; git push --tags ; git fetch
 
 untag:
 	git tag -d $(V)
