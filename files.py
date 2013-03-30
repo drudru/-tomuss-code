@@ -26,8 +26,21 @@ from . import configuration
 files = {}
 
 def add(dirname, filename):
+    old = files.get(filename, None)
     files[filename] = utilities.StaticFile(os.path.join(dirname, filename))
+    if old:
+        files[filename].append_text = old.append_text
+        files[filename].replace_text = old.replace_text
+        files[filename].clear_cache()
+        str(files[filename]) # XXX It does not work without this !
     return files[filename]
+
+def append(filename, key, content):
+    """'append' can by called before 'add'"""
+    if filename not in files:
+        files[filename] = utilities.StaticFile(os.path.join("FILES",
+                                                            "bad.png"))
+    files[filename].append(key, content)
 
 for name in (
     'style.css',
