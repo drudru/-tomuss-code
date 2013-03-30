@@ -78,6 +78,7 @@ function _UE(name, responsable, intitule, parcours, code, login,
   this.tt = tt ;
   this.credit = credit ;
   this.old_names = old_names ;
+  this.planning = planning ;
 
   var more = '' ;
   if ( credit >= 0 )
