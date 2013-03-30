@@ -881,6 +881,10 @@ def manage_key_real(dirname, key, separation=3, content=None, reduce_ok=True,
         c = False
 
     if content is not None:
+        if configuration.read_only:
+            send_backtrace("Manage key with content in 'suivi' server")
+            return
+
         if c is False:
             c = ''
         if append:
