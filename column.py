@@ -219,7 +219,10 @@ class TableAttr(ColumnAttr):
 
         if (page.user_name not in teachers
             and page.user_name not in configuration.root
-            and page.user_name != data.ro_user):
+            and page.user_name != data.ro_user
+            and self.name != 'masters'
+            and page.user_name not in table.managers
+            ):
 
             if not table.modifiable:
                 return table.bad_ro(page)

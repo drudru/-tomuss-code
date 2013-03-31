@@ -234,7 +234,9 @@ function table_attr_set(attr, value, td)
     return  ;
 
   if ( ! table_attributes[attr].action && ! table_change_allowed()
-       && ! i_am_root )
+       && ! i_am_root
+       && (myindex(table_attr.managers,my_identity) == -1 || attr != 'masters')
+     )
     {
       alert_append(_("ERROR_value_not_modifiable") + '\n'
 		   + _("ERROR_value_defined_by_another_user") + teachers) ;

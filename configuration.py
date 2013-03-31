@@ -209,6 +209,13 @@ def is_an_official_ue(code):
     return 1
 
 #REDEFINE
+# Return the list of table manager
+# Their only right is to modify the 'masters' table attribute
+def get_managers(ue_code):
+    "Return a list of managers logins"
+    return []
+
+#REDEFINE
 # Return True if is is a student login
 def is_a_student(login):
     return login and len(login) >= 2 and login[1].isdigit()
