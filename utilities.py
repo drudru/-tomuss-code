@@ -688,7 +688,10 @@ def unload_module(m):
     # print "unload", m
     del(sys.modules[m])
     # print "UNLOAD", '.'.join(m.split('.')[:-1]), '====', m.split('.')[-1]
-    del(sys.modules['.'.join(m.split('.')[:-1])].__dict__[m.split('.')[-1]])
+    try:
+        del(sys.modules['.'.join(m.split('.')[:-1])].__dict__[m.split('.')[-1]])
+    except KeyError:
+        pass
 
 def import_reload(filename):
     mtime = os.path.getmtime(filename)

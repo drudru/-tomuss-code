@@ -50,7 +50,6 @@ DIV.import_export, DIV#import_export P  {
 
 DIV.import_export H2 { margin: 0px ; }
 
-
 DIV.import_export BUTTON.close { 
   position:absolute;
   right:0px;
@@ -66,7 +65,30 @@ margin: 0px ;
 margin-left: 1em ;
  }
 
-DIV.import_export TD { width: 50% }
+/* DIV.import_export TD { width: 50% } */
 DIV.import_export TABLE { width: 100% ; }
+
+DIV.export_div TH { line-height: 1.5em }
+
+TABLE.columnexport {
+    table-layout: fixed ;
+}
+
+TABLE.columnexport TR.content DIV, TABLE.columnexport TR.content TEXTAREA {
+    height: 10em ;
+    border: 0px ;
+   font-size: 100% ;
+   font-family: monospace ;
+ overflow-x:  scroll;
+ overflow: scroll ;
+}
+
+TABLE.columnexport TR.content DIV {
+   overflow: auto ;
+}
+
+TEXTAREA#columnexport_output {
+ background: #DDD ;
+}
 
 """

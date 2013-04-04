@@ -10,12 +10,6 @@ Utilisateurs finaux.
 
 * Orange au lieu de violet
 
-* Remplir/exporter/importer sur les commentaires
-|_| pour  transformer les ABJ et les PPN en 0
-|_| pour enlever les doublons (valeurs uniques)
-|_| pour récupérer AUSSI les n° d'étudiant
-<<Exporter les notes>> ou << Exporter les commentaires>>
-
 * Clic long ==> menu des valeurs pour la cellule (ou autres menus cachés)
 
 * Sauvegarde de l'état figé d'une colonne (à faire dans le nouvel interface).
@@ -32,6 +26,8 @@ Utilisateurs finaux.
 * ticket.remove_old_files()
 
 * Onglet pour Impression pour ne pas submerger le lecteur d'options
+
+* Export de la table affichée en indiquant les numéros d'étudiant
   
 * Type de colonne Switch (SI)
 
@@ -127,6 +123,10 @@ Administrateur.
 Problèmes à résoudre.
 =====================
 
+* Affichage des DA doit tenir compte de la date
+
+* Affichage des TT doit tenir compte de la date
+
 * Navigateur web plante avant d'envoyer les actions dans le bon ordre
   La liste des actions à faire : si trop vieille regarder si elles
   ont été faites par ailleurs et si non, envoyer un mail ?
@@ -195,8 +195,6 @@ Problèmes non reproductibles
 =============================
 Améliorations de code source.
 =============================
-
-* suivi_student.py utilise manage_key pour écrire dans charte accept
 
 * Enlever _URL_ si c'est possible
 

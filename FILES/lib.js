@@ -740,7 +740,8 @@ function show_the_tip(td, tip_content)
   var x = pos[0] - tip_plus.offsetWidth + 1 ;
   if ( x > 10 )
     {
-      tip_plus.style.left = x + 'px' ;
+      // 3 to merge the borders (for columnexport)
+      tip_plus.style.left = 3 + x + 'px' ;
       tip_plus.style.top = pos[1] + 'px' ;
     }
   else
@@ -3566,6 +3567,16 @@ function button_toggle(dictionnary, data_col, tag)
       tag.className += ' toggled' ;
       dictionnary[data_col] = true ;
     }
+  do_printable_display = true ;
+}
+
+function toggle_button(text, dictionnary, name, help)
+{
+  if ( help )
+    text = hidden_txt(text, help) ;
+  var a = '<span class="button_toggle" onclick="button_toggle('
+    + dictionnary + ",'" + name + "',this)\">" +  text + '</span>' ;
+  return a ;
 }
 
 function radio_buttons(variable, values, selected)

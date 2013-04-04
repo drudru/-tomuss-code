@@ -1876,20 +1876,56 @@ msgstr "Export columns «"
 msgid "TITLE_columnexport_after"
 msgstr "»"
 
-msgid "MSG_columnexport"
-msgstr "To export values to external tables&nbsp;:\n"
-       "<ul><li> Paste the student IDs in the big input area.\n"
-       "<li> Check <input type=\"checkbox\" id=\"abjvalue\">\n"
-       "to translate ABJ and PPN to 0.\n"
-       "<li> Click on the <BUTTON OnClick=\"export_column_value();\">\n"
-       "retrieve values</BUTTON>\n"
-       "<li> Copy the value in the external table.\n"
+msgid "MSG_columnexport_before"
+msgstr "<ul><li> Paste the student IDs in the white input area.\n"
+       "<li> Options: "
+
+msgid "MSG_columnexport_after"
+msgstr "<li> Paste the center column in your spreadsheet.\n"
        "</ul>"
-       "Else, you can <BUTTON OnClick=\"export_column_id_value();\">\n"
-       "export the student IDs and values</BUTTON>\n"
-       "or <BUTTON OnClick=\"export_column_uniques_values();\">\n"
-       "the <b>unique</b> values</BUTTON> in the column\n"
-       "to the big input area."
+
+msgid "MSG_columnexport_students"
+msgstr "Student IDs"
+
+msgid "MSG_columnexport_filtered"
+msgstr "get filtered"
+
+msgid "TIP_columnexport_filtered"
+msgstr "Put in the input area the filtered student id"
+
+msgid "MSG_columnexport_errors"
+msgstr "Exports errors"
+
+msgid "B_columnexport_students"
+msgstr "Student IDs"
+
+msgid "TIP_columnexport_students"
+msgstr "Adding student numbers allows you to import the values<br>\n"
+       "in another column."
+
+msgid "B_columnexport_values"
+msgstr "Grade"
+
+msgid "TIP_columnexport_values"
+msgstr "To export the cell values"
+
+msgid "B_columnexport_comments"
+msgstr "Comment"
+
+msgid "TIP_columnexport_comments"
+msgstr "To export cell comments"
+
+msgid "B_columnexport_unique"
+msgstr "unique"
+
+msgid "TIP_columnexport_unique"
+msgstr "Remove duplicate values"
+
+msgid "B_columnexport_abjvalue"
+msgstr "ABJ/PPN → 0"
+
+msgid "TIP_columnexport_abjvalue"
+msgstr "Replace JLV (justified leave) and CG (can't grade) by 0"
 
 msgid "ALERT_columnexport_no_id"
 msgstr "There is a line without student ID"

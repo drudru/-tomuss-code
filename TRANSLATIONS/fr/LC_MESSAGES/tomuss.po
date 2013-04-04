@@ -1876,31 +1876,69 @@ msgid "TITLE_columnexport_before"
 msgstr "Exporte la colonne «"
 
 msgid "TITLE_columnexport_after"
-msgstr "»"
+msgstr "» vers APOGÉE"
 
-msgid "MSG_columnexport"
-msgstr "Pour transférer de TOMUSS vers APOGÉE&nbsp;:\n"
-       "<ul><li> Collez dans la grande zone de saisie (blanche)\n"
+msgid "MSG_columnexport_before"
+msgstr "<ul><li> Collez dans la zone blanche\n"
        "les numéros d'étudiants venant d'APOGÉE.\n"
-       "<li> Cochez <input type=\"checkbox\" id=\"abjvalue\">\n"
-       "pour transformer les ABJ et les PPN en 0.\n"
-       "<li> Cliquez sur <BUTTON OnClick=\"export_column_value();\">\n"
-       "récupérer les notes</BUTTON>\n"
-       "<li> Copiez les notes de la zone de saisie vers APOGÉE\n"
+       "<li> Options : "
+       
+msgid "MSG_columnexport_after"
+msgstr "<li> Copiez la zone du milieu vers APOGÉE\n"
        "(en utilisant Excel en Français).\n"
        "</ul>"
-       "Sinon vous pouvez <BUTTON OnClick=\"export_column_id_value();\">\n"
-       "exporter les numéros d'étudiants et les valeurs</BUTTON>\n"
-       "ou <BUTTON OnClick=\"export_column_uniques_values();\">\n"
-       "les valeurs <b>uniques</b></BUTTON> de cette colonne\n"
-       "vers la zone de saisie pour les copier dans votre tableur favori."
+
+msgid "MSG_columnexport_students"
+msgstr "N° d'étudiant"
+
+msgid "MSG_columnexport_filtered"
+msgstr "les filtrés"
+
+msgid "TIP_columnexport_filtered"
+msgstr "Met dans la zone la liste des étudiants actuellement filtrés"
+
+msgid "MSG_columnexport_errors"
+msgstr "Erreurs d'exportation"
+
+msgid "B_columnexport_students"
+msgstr "N° d'étudiant"
+
+msgid "TIP_columnexport_students"
+msgstr "En exportant avec les numéros d'étudiants,<br>\n"
+       "vous pouvez réimporter les valeurs dans une autre colonne"
+
+msgid "B_columnexport_values"
+msgstr "Notes"
+
+msgid "TIP_columnexport_values"
+msgstr "Pour exporter les notes"
+
+msgid "B_columnexport_comments"
+msgstr "Commentaire"
+
+msgid "TIP_columnexport_comments"
+msgstr "Pour exporter les commentaires de cellule"
+
+msgid "B_columnexport_unique"
+msgstr "unique"
+
+msgid "TIP_columnexport_unique"
+msgstr "Enlève les doublons de la liste exportée"
+
+msgid "B_columnexport_abjvalue"
+msgstr "ABJ/PPN → 0"
+
+msgid "TIP_columnexport_abjvalue"
+msgstr "Pour les UE APOGÉE, on doit transformer les ABJ et les PPN en 0"
 
 msgid "ALERT_columnexport_no_id"
-msgstr "Il y a une ligne sans numéro d'étudiant"
+msgstr "Il y a une ligne sans numéro d'étudiant.\n"
+       "Pensez à remplir la zone blanche avec\n"
+       "les numéros d'étudiants dont vous voulez les notes."
 
 msgid "ALERT_columnexport_unfound"
-msgstr "Au moins un numéro d'étudiant n'a pas été trouvé.\n"
-       "La valeur a été mise à ???."
+msgstr "Au moins un numéro d'étudiant n'a pas été trouvé. "
+       "La valeur exportée a été mise à ???."
 
 msgid "ALERT_columnexport_unexported"
 msgstr "Les étudiants suivants n'ont pas eu leur notes exportées :"
