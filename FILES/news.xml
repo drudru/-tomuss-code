@@ -780,6 +780,19 @@ Les améliorations les plus visibles sont :
       </description>
       <guid>54</guid>
     </item>
+    <item>
+      <title>04/04/2013 : Version 5.1.10</title>
+      <link>http://tomuss.univ-lyon1.fr/</link>
+      <description>
+	Les responsables de formation au sens GASEL
+	peuvent maintenant modifier la liste des responsables
+	des UE dont ils sont responsable au niveau de la formation.
+	&lt;p&gt;
+	L'exportation de colonne est plus simple à utiliser
+	est permet d'exporter les commentaires.
+      </description>
+      <guid>55</guid>
+    </item>
 
   </channel>
 </rss>
