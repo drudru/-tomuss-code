@@ -251,6 +251,8 @@ if __name__ == "__main__":
             _ucbl_.student_add_allowed(table)
         sys.exit(0)
 
+    utilities.init()
+        
     if 'recompute_the_ue_list' in sys.argv:
         from . import teacher
         print teacher.all_ues(compute=True)
@@ -271,7 +273,6 @@ if __name__ == "__main__":
                              str(time.localtime()[0]) +".times"), "a")
 
     document.start_threads()
-    utilities.init()
 
     plugins.plugins_tomuss()
     document.table(0, 'Dossiers', 'config_plugin', None, None)

@@ -308,59 +308,32 @@ def a_student(browser, year, semester, ticket, student):
     html += "window.parent.ues_without_da(%s);" % js(ue_list) + '</SCRIPT>'
     browser.write(html.encode('utf8'))
 
-
-def translate_tt(tt_value):
-    """Translate some TT values to more informative values"""
-    if tt_value.strip() == '1' or tt_value.lower() == 'o':
-        return '1/3'
-    else:
-        return tt_value
-
-def date_to_time(date):
-    """XXX Convert a french date to seconds"""
-    return time.mktime(time.strptime(date, "%d/%m/%Y"))
-        
-def tierstemps(student_id, aall=False, table_tt=None):
+def tierstemps(student_id, table_tt=None):
     """Returns a strings containing all tiers-temps informations about
     the student from the TT table given."""
     if table_tt == None:
         # Get TT for current year
-        table_tt = document.table(utilities.university_year(),
-                                  'Dossiers', 'tt')
+        table_tt = get_table_tt(*configuration.year_semester)
     _ = utilities.__
-    for line in table_tt.get_lines(student_id):
+    tt = table_tt.the_current_tt(table_tt).get(student_id, None)
+    if tt and tt.current():
         html = ""
-        if aall is False:
-            try:
-                if line[8].value:
-                    if time.time() < date_to_time(line[8].value):
-                        continue
-                if line[9].value:
-                    if time.time() > date_to_time(line[9].value):
-                        continue
-            except ValueError:
-                utilities.send_backtrace(repr(line))
-        else:
-            if line[8].value:
-                html += _("MSG_abj_tt_from") + line[8].value + '\n'
-            if line[9].value:
-                html += _('TH_until') + line[9].value + '\n'
-            
-        if line[3].value:
-            html += _("COL_COMMENT_+write") + " : %s\n" % (
-                translate_tt(line[3].value))
-        if line[4].value:
-            html += _("COL_COMMENT_+speech") + " : %s\n" % (
-                translate_tt(line[4].value))
-        if line[5].value:
-            html += _("COL_COMMENT_+practical") + " : %s\n" % (
-                translate_tt(line[5].value))
-        if line[6].value == configuration.yes:
+        if tt.begin:
+            html += _("MSG_abj_tt_from") + tt.begin + '\n'
+        if tt.end:
+            html += _('TH_until') + tt.end + '\n'            
+        if tt.written_exam:
+            html += _("COL_COMMENT_+write") + " : %s\n" % tt.written_exam
+        if tt.spoken_exam:
+            html += _("COL_COMMENT_+speech") + " : %s\n" % tt.spoken_exam
+        if tt.practical_exam:
+            html += _("COL_COMMENT_+practical") + " : %s\n" % tt.practical_exam
+        if tt.assistant:
             html += _("COL_COMMENT_+assistant") + "\n"
-        if line[7].value == configuration.yes:
+        if tt.room:
             html += _("COL_COMMENT_+room") + "\n"
-        if line[10].value:
-            html += unicode(line[10].value, 'utf-8') + '\n'
+        if tt.remarks:
+            html += tt.remarks + '\n'
         return html
     return ''
 
@@ -468,13 +441,13 @@ def do_prune(abj_list, first_day, last_day, group, sequence, ue_code):
     abjs_pruned = []
     for abjj in abj_list:
         try:
-            seconds = date_to_time(abjj[0][:-1])
+            seconds = configuration.date_to_time(abjj[0][:-1])
         except OverflowError:
             seconds = 0
         if seconds >= last_day:
             continue
         try:
-            seconds = date_to_time(abjj[1][:-1])
+            seconds = configuration.date_to_time(abjj[1][:-1])
         except OverflowError:
             seconds = 8000000000
         if seconds < first_day:
@@ -592,8 +565,8 @@ def ue_resume(ue_code, year, semester, browser=None):
         ss = configuration.semester_span(year, semester)
         if ss:
             fd, ld = ss.split(' ')
-            first_day = date_to_time(fd)
-            last_day  = date_to_time(ld)
+            first_day = configuration.date_to_time(fd)
+            last_day  = configuration.date_to_time(ld)
     utilities.warn('first_day=%s %s' % (first_day, last_day))
     #
     # The ABJ
@@ -674,9 +647,9 @@ def ue_resume(ue_code, year, semester, browser=None):
     infos = []
 
     for student_login, group, sequence in the_students:
-        if not student_login in tt_logins:
+        infos_tt = tierstemps(student_login, table_tt = table_tt)
+        if not infos_tt:
             continue
-        infos_tt = tierstemps(student_login, True, table_tt = table_tt)
         nr_letters = feedback(browser, 'T', nr_letters)
         if first:
             first = False

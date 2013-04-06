@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 #    TOMUSS: The Online Multi User Simple Spreadsheet
-#    Copyright (C) 2009,2012 Thierry EXCOFFIER, Universite Claude Bernard
+#    Copyright (C) 2009-2013 Thierry EXCOFFIER, Universite Claude Bernard
 #
 #    This program is free software; you can redistribute it and/or modify
 #    it under the terms of the GNU General Public License as published by
@@ -19,6 +19,7 @@
 #
 #    Contact: Thierry.EXCOFFIER@bat710.univ-lyon1.fr
 
+import time
 from .. import data
 from .. import configuration
 from .. import utilities
@@ -57,6 +58,54 @@ def create(table):
     table.column_change(p,'0_10',_("COL_TITLE_tt_remarks"),'Text','','','',0,13)
     table.table_attr(p, 'default_sort_column', 2)
 
+def translate_tt(tt_value):
+    """Translate some TT values to more informative values"""
+    if tt_value.strip() == '1' or tt_value.lower() == 'o':
+        return '1/3'
+    else:
+        return tt_value
+
+class SpecialExaminationCondition(object):
+    begin = ""
+    begin_seconds = 0
+    end = ""
+    end_seconds = 8000000000
+    assistant = False
+    room = False
+    remarks = False
+    
+    def __init__(self, line):
+        if line[8].value:
+            self.begin = line[8].value
+            self.begin_seconds = configuration.date_to_time(self.begin)
+        if line[9].value:
+            self.end = line[9].value
+            self.end_seconds = configuration.date_to_time(self.end)
+        self.written_exam = translate_tt(line[3].value)
+        self.spoken_exam = translate_tt(line[4].value)
+        self.practical_exam = translate_tt(line[5].value)
+        if line[6].value == configuration.yes:
+            self.assistant = True
+        if line[7].value == configuration.yes:
+            self.room = True
+        if line[10].value:
+            self.remarks = unicode(line[10].value, 'utf-8')
+
+    def current(self):
+        return self.begin_seconds < time.time() < self.end_seconds
+
+def the_current_tt(table):
+    if table.the_current_tt_time == table.mtime:
+        return table.the_current_tt_cache
+    table.the_current_tt_time = table.mtime
+    d = {}
+    for line in table.lines.values():
+        if len(line[0].value) < 2:
+            continue
+        d[line[0].value] = SpecialExaminationCondition(line)
+    table.the_current_tt_cache = d
+    return d
+    
 def init(table):
     _ucbl_.init(table)
     table.default_sort_column = 2 # compatibility with old files
@@ -65,11 +114,15 @@ def init(table):
     table.update_inscrits = table.modifiable
     if table.modifiable:
         table.do_not_unload_add('*tt')
+        table.the_current_tt_time = -1
+        table.the_current_tt = the_current_tt
 
 def content(dummy_table):
     return _ucbl_.update_student_information
 
-cell_change = _ucbl_.cell_change
+def cell_change(table, page, col, lin, value, dummy_date):
+    table.the_current_tt_time = -1
+    _ucbl_.cell_change(table, page, col, lin, value, dummy_date)
 
 def check(table):
     # Get mails and portails

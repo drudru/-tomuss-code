@@ -428,6 +428,18 @@ def suivi_check_student_lists(login):
 def home_page_js_hook(dummy_server):
     return ''
 
+#REDEFINE
+# These functions must NEVER be redefined once TOMUSS is in usage,
+# because the date are stored in plain text in files.
+# So changing this function will broke every existing files
+def date_to_time(date):
+    """XXX Convert a french date to seconds"""
+    return time.mktime(time.strptime(date, "%d/%m/%Y"))
+def tuple_to_date(time_tuple):
+    """XXX Convert time tuple to date"""
+    return time.strftime('%d/%m/%Y', time_tuple)
+        
+
 # And an error message if the password is trivial
 bad_password = lambda: """
 <div onclick="this.style.display='none';"

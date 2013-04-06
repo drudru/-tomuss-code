@@ -213,6 +213,7 @@ class UE(object):
             from . import document
             table = document.table(utilities.university_year(),
                                    'Dossiers', 'tt')
+            tts = table.the_current_tt(table)
             tt = 0
             ue = document.table(configuration.year_semester[0],
                                 configuration.year_semester[1],
@@ -224,11 +225,12 @@ class UE(object):
                     if len(student) < 3: # Garbage student id (bad user input)
                         continue
                     nr_students += 1
-                    if utilities.the_login(student) in table.the_keys():
+                    student_id = inscrits.login_to_student_id(student)
+                    if student_id in tts and tts[student_id].current():
                         tt += 1
                         if isinstance(read_tt, list):
                             read_tt.append(utilities.the_login(student))
-                if (self._intitule) is None or len(self._intitule) <= 1:
+                if self._intitule is None or len(self._intitule) <= 1:
                     # Too small UE name : take the comment as title
                     self._intitule = ue.comment
                 ue.unload()

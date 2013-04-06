@@ -19,8 +19,9 @@
 #
 #    Contact: Thierry.EXCOFFIER@bat710.univ-lyon1.fr
 
-from ..column import TableAttr
 import time
+from ..column import TableAttr
+from .. import configuration
 
 class TableDates(TableAttr):
     name = 'dates'
@@ -29,15 +30,15 @@ class TableDates(TableAttr):
     def encode(self, value):
         if isinstance(value, str):
             dates = value.split(' ')
-            first_day = time.mktime(time.strptime(dates[0], '%d/%m/%Y'))
-            last_day = time.mktime(time.strptime(dates[1], '%d/%m/%Y'))
+            first_day = configuration.date_to_time(dates[0])
+            last_day = configuration.date_to_time(dates[1])
             return [first_day, last_day]
         else:
             return value
-        
+
     def decode(self, value):
-        return time.strftime('%d/%m/%Y ',time.localtime(value[0])) + \
-               time.strftime('%d/%m/%Y',time.localtime(value[1]))
+        return configuration.tuple_to_date(time.localtime(value[0])) + \
+               configuration.tuple_to_date(time.localtime(value[1]))
 
     def check(self, value):
         value = self.encode(value)

@@ -381,7 +381,7 @@ Write("MSG_suivi_student_not_in_TOMUSS_before")'
 
     table = document.table(utilities.university_year(), 'Dossiers', 'tt',
                            ro=True)
-    tt = abj.tierstemps(login, aall=True, table_tt=table)
+    tt = abj.tierstemps(login, table_tt=table)
     if tt:
         tt = '<h2><script>Write("MSG_suivi_student_tt");</script></h2><pre>' + cgi.escape(tt) + '</pre>'
 

@@ -96,7 +96,7 @@ def page_one_groupe(server):
         return
 
     w = csv.writer(server.the_file, delimiter=';')
-    date = time.strftime('%d/%m/%Y', time.localtime())
+    date = configuration.tuple_to_date(time.localtime())
 
     w.writerow((server._("MSG_suivi_group_date")    , '', date         , ''))
     w.writerow((server._("MSG_suivi_group_table")   , '', t.ue[3:]     , ''))
