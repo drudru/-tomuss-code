@@ -2002,7 +2002,7 @@ msgstr "Les lignes vides ont été filtrées car vous ne voulez certainement\n"
        "Vous pouvez enlevez le filtre maintenant si vous désirez les remplir."
 
 msgid "ERROR_server_bug"
-msgstr "Un bug c'est produit, l'administrateur a été prévenu.\n"
+msgstr "Un bug s'est produit, l'administrateur a été prévenu.\n"
        "Il faut considérer que votre dernière action n'est pas enregistrée.\n"
        "\n"
        "Pour ne rien perdre : fermez la page puis réouvrez la.\n"

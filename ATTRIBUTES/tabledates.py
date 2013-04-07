@@ -38,7 +38,7 @@ class TableDates(TableAttr):
 
     def decode(self, value):
         return configuration.tuple_to_date(time.localtime(value[0])) + \
-               configuration.tuple_to_date(time.localtime(value[1]))
+               ' ' + configuration.tuple_to_date(time.localtime(value[1]))
 
     def check(self, value):
         value = self.encode(value)

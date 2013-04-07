@@ -112,8 +112,8 @@ def init(table):
     table.update_inscrits = table.modifiable
     if table.modifiable:
         table.do_not_unload_add('*tt')
-        table.the_current_tt_time = -1
-        table.the_current_tt = the_current_tt
+    table.the_current_tt_time = -1
+    table.the_current_tt = the_current_tt
 
 def content(dummy_table):
     return _ucbl_.update_student_information
