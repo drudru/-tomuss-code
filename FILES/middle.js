@@ -1,3 +1,4 @@
+// -*- coding: utf-8; mode: Java; c-basic-offset: 2; tab-width: 8; -*-
 /*
     TOMUSS: The Online Multi User Simple Spreadsheet
     Copyright (C) 2008-2012 Thierry EXCOFFIER, Universite Claude Bernard
@@ -366,6 +367,18 @@ function header_change_on_update(event, input, what)
     }
 }
 
+function header_paste_real(event)
+{
+  empty_header(event) ;
+  header_change_on_update(event, event.target, '') ;
+}
+
+function header_paste(event)
+{
+  event = the_event(event) ;
+  periodic_work_add(function() { header_paste_real(event) ; }) ;
+}
+
 /*
   The definition of an input that dispatch update correctly
   and return focus in the table on key up/down/return
@@ -430,7 +443,7 @@ function header_input(the_id, the_header_name, options)
 
   return before+'<input style="margin-top:0px" type="text" id="' + the_id + '" class="' + classe
     + '" onfocus="header_input_focus(this)" onblur="' + onblur
-    + '" onkeyup="' + onkey  +'">' + after ;
+    + '" onkeyup="' + onkey  +'" onpaste="' + onkey + '">' + after ;
 }
 
 function an_input_attribute(attr, options, prefix_id, prefix_)

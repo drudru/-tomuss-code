@@ -956,6 +956,7 @@ function table_init()
       var th2 = th.cloneNode(true) ;
       th2.onclick = empty_header ;
       th2.childNodes[0].onchange = function(event) { } ;
+      th2.onpaste = header_paste ;
       tr_filter.appendChild(th2) ;
       th2.type = tr_filter.className ;
     }
@@ -1694,9 +1695,15 @@ function full_filter_change(value)
   full_filter_value = value.value ;
 }
 
+var line_filter_change_value ;
 
-function line_filter_change(value)
+function line_filter_change_real()
 {
+  value = line_filter_change_value ;
+  if ( ! value )
+    return ;
+  line_filter_change_value = undefined ;
+  
   if ( line_filter_value == value.value )
     return ;
 
@@ -1715,6 +1722,12 @@ function line_filter_change(value)
   table_fill(true, true,true) ; 
   line_filter_value = value.value ;
   update_histogram(true) ;
+}
+
+function line_filter_change(value)
+{
+  line_filter_change_value = value ;
+  periodic_work_add(line_filter_change_real) ;
 }
 
 function sort_lines23(a,b)
