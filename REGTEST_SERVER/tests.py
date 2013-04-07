@@ -784,37 +784,37 @@ def tests():
         c = s.url('=' + abj + '/%s/abj/0/10800000/add_da/UE-UE1/1/2/3/com2' % ys)
         assert("display_da([['UE-UE1','1/2/3','%s',\"com1\"]])" % abj in c)
 
-        c = s.url('=' + abj + '/%s/abj/0/10800000/add_da/UE-INF20UE2/%d/1/1/com2' % (ys,year))
-        assert("display_da([['UE-UE1','1/2/3','%s',\"com1\"],['UE-INF20UE2','%d/1/1','%s',\"com2\"]])" % (abj, year, abj) in c)
+        c = s.url('=' + abj + '/%s/abj/0/10800000/add_da/UE-INF20UE2/1/1/%d/com2' % (ys,year))
+        assert("display_da([['UE-UE1','1/2/3','%s',\"com1\"],['UE-INF20UE2','1/1/%d','%s',\"com2\"]])" % (abj, year, abj) in c)
 
         c = s.url('=' + abj + '/%s/abj/0/10800000/rem_da/UE-UE1' % ys)
-        assert("display_da([['UE-INF20UE2','%d/1/1','%s',\"com2\"]])" % (year, abj) in c)
+        assert("display_da([['UE-INF20UE2','1/1/%d','%s',\"com2\"]])" % (year, abj) in c)
 
 
         c = s.url('=' + abj + '/%s/abj/0/10800000/addabj/%s/M/%s/A/com4' % (
             ys, abj_date_old, abj_date_previous))
-        assert("display_da([['UE-INF20UE2','%d/1/1','%s',\"com2\"]])" % (year, abj) in c)
+        assert("display_da([['UE-INF20UE2','1/1/%d','%s',\"com2\"]])" % (year, abj) in c)
         assert("display_abjs([['%sM','%sA','%s',\"com4\"]])" % (
             abj_date_old, abj_date_previous, abj) in c)
 
         c = s.url('=' + abj + '/%s/abj/0/10800000/addabj/%s/M/%s/A/com5' % (
             ys, abj_date_current, abj_date_next))
-        assert("display_da([['UE-INF20UE2','%d/1/1','%s',\"com2\"]])" % (year, abj) in c)
+        assert("display_da([['UE-INF20UE2','1/1/%d','%s',\"com2\"]])" % (year, abj) in c)
         assert("display_abjs([['%sM','%sA','%s',\"com4\"],['%sM','%sA','%s',\"com5\"]])" % (
             abj_date_old, abj_date_previous, abj,
             abj_date_current, abj_date_next, abj) in c)
 
         c = s.url('=' + abj + '/%s/abj/0/10800000/delabj/%s/M/%s/A' % (
             ys, abj_date_old, abj_date_previous))
-        assert("display_da([['UE-INF20UE2','%d/1/1','%s',\"com2\"]])" % (year, abj) in c)
+        assert("display_da([['UE-INF20UE2','1/1/%d','%s',\"com2\"]])" % (year, abj) in c)
         assert("display_abjs([['%sM','%sA','%s',\"com5\"]])" % (
             abj_date_current, abj_date_next, abj) in c)
 
         # Add a DA in licence
-        # c = s.url('=' + abj + '/%s/abj/0/10800000/add_da/UE-INF20UE2L/%d/1/1' % (ys,year))
+        # c = s.url('=' + abj + '/%s/abj/0/10800000/add_da/UE-INF20UE2L/1/1/%d' % (ys,year))
 
         c = s.url('=' + abj + '/%s/abj/alpha.xls' % ys)
-        assert('<tbody id="t"><tr><td>10800000firstname</td><td>10800000surname</td><td>10800000</td><td>ABJ</td><td>%sM</td><td>%sA</td></tr>\n<tr><td>10800000firstname</td><td>10800000surname</td><td>10800000</td><td>DAS</td><td>UE-INF20UE2</td><td>%d/1/1</td></tr>\n</tbody></table>' % (
+        assert('<tbody id="t"><tr><td>10800000firstname</td><td>10800000surname</td><td>10800000</td><td>ABJ</td><td>%sM</td><td>%sA</td></tr>\n<tr><td>10800000firstname</td><td>10800000surname</td><td>10800000</td><td>DAS</td><td>UE-INF20UE2</td><td>1/1/%d</td></tr>\n</tbody></table>' % (
             abj_date_current, abj_date_next, year))
 
         # No messages sent because there is no UE master mail
@@ -833,7 +833,7 @@ def tests():
         assert('),C("MARTIN","*","' in c)
         assert('),C(11.11,"%s","' % root in c)
         assert("'10800000':\"jacques@martin\"" in c)
-        assert('change_abjs({"10800000":[[["%sM","%sA","com5"]],[["UE-INF20UE2","%d/1/1","com2"]],""]});' % (
+        assert('change_abjs({"10800000":[[["%sM","%sA","com5"]],[["UE-INF20UE2","1/1/%d","com2"]],""]});' % (
             abj_date_current, abj_date_next, year) in c)
 
         c = s.url('=' + root + '/%s/UE-INF20UE2/resume' % ys)
@@ -855,7 +855,7 @@ def tests():
         assert('),C("MARTIN","*","' in c)
         assert('),C(11.11,"%s","' % root in c)
         assert("'10800000':\"jacques@martin\"" in c)
-        assert('change_abjs({"10800000":[[["%sM","%sA","com5"]],[["UE-INF20UE2","%d/1/1","com2"]],""]});' % (
+        assert('change_abjs({"10800000":[[["%sM","%sA","com5"]],[["UE-INF20UE2","1/1/%d","com2"]],""]});' % (
             abj_date_current, abj_date_next, year) in c)
 
         c = s.url('=' + root + '/%s/UE-INF20UE2/resume' % ys)
@@ -866,7 +866,7 @@ def tests():
         assert(str(abj_date_current) in c)
         assert(str(abj_date_next) in c)
         # assert('avec une DA' in c)
-        # assert('partir du %d/1/1' % year in c) # XXX
+        # assert('partir du 1/1/%d' % year in c) # XXX
 
 
     if do('extension'):

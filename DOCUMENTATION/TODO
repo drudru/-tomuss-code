@@ -123,10 +123,6 @@ Administrateur.
 Problèmes à résoudre.
 =====================
 
-* Affichage des DA doit tenir compte de la date
-
-* Affichage des TT doit tenir compte de la date
-
 * Navigateur web plante avant d'envoyer les actions dans le bon ordre
   La liste des actions à faire : si trop vieille regarder si elles
   ont été faites par ailleurs et si non, envoyer un mail ?

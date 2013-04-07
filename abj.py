@@ -168,30 +168,52 @@ class Abj(object):
         da = zip(*self.da)[0]
         return [ue_code for ue_code in ues if ue_code not in da]
 
-    def html(self):
+    def current_abjs(self, year, semester):
+        span = configuration.semester_span(year, semester).split(' ')
+        begin = configuration.date_to_time(span[0])
+        end = configuration.date_to_time(span[1])
+        for abj in self.abjs:
+            abj_begin = configuration.date_to_time(abj[0].rstrip('AM'))
+            abj_end = configuration.date_to_time(abj[1].rstrip('AM'))
+            if max(begin, abj_begin) <= min(end, abj_end):
+                yield abj
+
+    def current_das(self, year, semester):
+        span = configuration.semester_span(year, semester).split(' ')
+        begin = configuration.date_to_time(span[0])
+        end = configuration.date_to_time(span[1])
+        for da in self.da:
+            date = configuration.date_to_time(da[1])
+            if begin < date < end:
+                yield da
+
+    def html(self, year, semester):
         """This function is here because it does not send
         restricted information to students.
         """
+        
         content = []
-        if self.abjs:
+        the_abjs = tuple(self.current_abjs(year, semester))
+        if the_abjs:
             content.append('''
 <TABLE class="display_abjs colored">
 <TR><TH><script>Write("MSG_abjtt_from_before")</script></TH>
     <TH><script>Write("TH_until")</script></TH>
     <TH><script>Write("TH_comment")</script></TH></TR>''')
-            for abj in self.abjs: 
+            for abj in the_abjs:
                 content.append('<TR><TD>' + abj[0] + '</TD><TD>' + abj[1] +
                                '</TD><TD>' + cgi.escape(abj[3]) + '</TD></TR>')
             content.append('</TABLE>')
 
-        if self.da:
+        das = tuple(self.current_das(year, semester))
+        if das:
             content.append("""
 <TABLE class="display_da colored">
 <TR><TH><script>Write("TH_da_for_ue")</script></TH>""")
             content.append('<TH><script>Write("TH_comment")</script></TH></TR>')
-            for a_da in self.da:
+            for a_da in das:
                 comment = cgi.escape(a_da[3].split('\n')[0])
-                if '\n' in a_da[3]:
+                if '\n' in a_da[3].strip():
                     comment += '<br><b><script>Write("MSG_see_more")</script></b>'
                 comment = ('<script>hidden(' + js(comment) + ','
                            + js(cgi.escape(a_da[3]).replace('\n','<br>'))
@@ -281,7 +303,7 @@ def rem_abjs_da(year, semester, ticket, student, ue_code):
 
 def html_abjs(year, semester, student):
     """Get all the ABJS/DA informations has HTML"""
-    return unicode(Abj(year, semester, student).html(), 'utf-8')
+    return unicode(Abj(year, semester, student).html(year, semester), 'utf-8')
 
 def a_student(browser, year, semester, ticket, student):
     """Send student abj with the data to_date the navigator."""
