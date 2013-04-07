@@ -37,10 +37,8 @@ def create(table):
     _ = utilities._
     table.table_attr(p, 'masters', list(masters))
     table.column_change(p,'0_0',_("COL_TITLE_0_0")       ,'Login','','','',0,4)
-    table.column_change(p,'0_1',_("COL_TITLE_0_1")    ,'Firstname','','','',0,8)
-    table.column_attr(p, '0_1', 'columns', _("COL_TITLE_0_0"))
-    table.column_change(p,'0_2',_("COL_TITLE_0_2")    ,'Surname','','' ,'',0,8)
-    table.column_attr(p, '0_2', 'columns', _("COL_TITLE_0_0"))
+    table.column_change(p,'0_1',_("COL_TITLE_0_1")    ,'Text','','','',0,8)
+    table.column_change(p,'0_2',_("COL_TITLE_0_2")    ,'Text','','' ,'',0,8)
     table.column_change(p,'0_3',_("COL_TITLE_+write")    ,'Text','','1','',0,3)
     table.column_comment(p,'0_3', _("COL_COMMENT_+write"))
     table.column_change(p,'0_4',_("COL_TITLE_+speech")   ,'Text','','1','',0,3)
