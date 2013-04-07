@@ -361,7 +361,7 @@ hidden('<a href="%s">' + _("MSG_suivi_student_RSS") +
                 if is_a_student:
                     s.append('''
 <h2 class=\"title\"><script>
-Write("MSG_suivi_student_not_in_TOMUSS_before")'
+Write("MSG_suivi_student_not_in_TOMUSS_before")
 </script>''' + t + ' ' + title + '''</h2><p>
 <script>Write("MSG_suivi_student_not_in_TOMUSS_after")</script>
 ''')
