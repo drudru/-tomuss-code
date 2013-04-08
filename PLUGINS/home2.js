@@ -754,7 +754,7 @@ function update_ues_searched(txt, txt_upper)
   document.getElementById('ue_list_search').innerHTML = '<table class="with_margin uelist searchresult"><colgroup><col class="code"><col class="title"><col class="responsable"></colgroup>' + s + '</table>' ;
 }
 
-function update_ues2(txt, clicked)
+function update_ues2(txt)
 {
   if ( all_ues_sorted === undefined )
     {
@@ -1242,6 +1242,21 @@ function generate_home_page_top()
     document.write(t) ;
 }
 
+function generate_home_page_ue_change_real()
+{
+  var input = document.getElementById('ue_input_name') ;
+  if ( input.value != input.old_value )
+  {
+    update_ues2(input.value) ;
+    input.old_value = input.value ;
+  }
+}
+
+function generate_home_page_ue_change()
+{
+  setTimeout(generate_home_page_ue_change_real, 100) ;
+}
+
 function generate_home_page_ue()
 {
     var t = '<h2>' + _("TH_home_ue") + '</h2>'
@@ -1253,9 +1268,9 @@ function generate_home_page_ue()
 	+ hidden_txt('<input style="border: 1px outset grey;" '
 		     + 'type="button" value="'
 		     + _("TH_home_do_search")
-		     + '" onclick="update_ues2(document.getElementById(\'ue_input_name\').value,true);">',
+		     + '" onclick="generate_home_page_ue_change()">',
 		     _("TIP_home_do_search"))
-	+ '<input class="search_field" id="ue_input_name" class="keyword" onkeyup="if ( this.value != this.old_value ) { update_ues2(this.value); this.old_value = this.value ; }" onchange="if ( this.value != this.old_value ) { update_ues2(this.value); this.old_value = this.value ; }" value="">'
+	+ '<input class="search_field" id="ue_input_name" class="keyword" onkeyup="generate_home_page_ue_change()" onpaste="generate_home_page_ue_change()" value="">'
 	+ '</td>'
 	+ '</tr>'
 	+ '</table><div class="scrollable" id="scrollable_left">'
@@ -1267,6 +1282,11 @@ function generate_home_page_ue()
 	+ '<div id="ue_list_masters"></div>'
 	+ '</div><br><br><br><br><br><br><br><br><br><br><br><br><br></div>' ;
     document.write(t) ;
+}
+
+function generate_home_page_students_change()
+{
+  setTimeout(update_students, 100) ;
 }
 
 function generate_home_page_students()
@@ -1281,7 +1301,7 @@ function generate_home_page_students()
 		     + 'type="button" value="' + _("TH_home_do_search")
 		     + '" onclick="update_students()">',
 		     _("TIP_home_do_search"))
-	+ '<input class="search_field" id="search_name" class="keyword" onkeyup="update_students()" onchange="update_students()" value="">'
+	+ '<input class="search_field" id="search_name" class="keyword" onkeyup="update_students()" onpaste="generate_home_page_students_change()" value="">'
 	+ '</td></tr></table><div class="scrollable" id="scrollable_center">'
 	+ '<div id="students_list"></div>'
 	+ '<div id="the_favorite_students"></div>'
