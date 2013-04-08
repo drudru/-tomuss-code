@@ -1,7 +1,7 @@
 // -*- coding: utf-8 -*-
 /*
   TOMUSS: The Online Multi User Simple Spreadsheet
-  Copyright (C) 2011-2012 Thierry EXCOFFIER, Universite Claude Bernard
+  Copyright (C) 2011-2013 Thierry EXCOFFIER, Universite Claude Bernard
 
   This program is free software; you can redistribute it and/or modify
   it under the terms of the GNU General Public License as published by
@@ -78,30 +78,35 @@ function fill_column()
 				  ]
 
 			     ])
-	       + '<BUTTON OnClick="fill_column_do_fill();">'
-	       + _('B_fill') + '</BUTTON>',
+	       +  _('MSG_fill_before')
+	       + ' <BUTTON OnClick="fill_column_do_fill();">'
+	       + _('B_fill') + '</BUTTON>/'
+	       + '<BUTTON OnClick="fill_column_do_fill(true);">'
+	       + _('B_fill_comments') + '</BUTTON> '
+	       +  _('MSG_fill_after')
+	       ,
 	       '', false
 	       ) ;
   select_tab("tablefill", _("TAB_fill_one")) ;
   popup_text_area().rows = 4 ;
 }
 
-function fill_column_do_fill()
+function fill_column_do_fill(comments)
 {
     alert_append_start() ;
 
     var choice = selected_tab('tablefill') ;
     if ( choice === _('TAB_fill_clear') )
-	fill_column_do_abab(['']) ;
+      fill_column_do_abab([''], comments) ;
     else if ( choice === _('TAB_fill_one') )
 	fill_column_do_abab(parse_lines(
-	    document.getElementById('column_fill_input').value)) ;
+	    document.getElementById('column_fill_input').value), comments) ;
     else if ( choice === "AA... BB... CC..." )
 	fill_column_do_aabb(parse_lines(
-	    document.getElementById('column_fill_aabb').value)) ;
+	    document.getElementById('column_fill_aabb').value), comments) ;
     else if ( choice === "ABC ABC ABC..." )
 	fill_column_do_abab(parse_lines(
-	    document.getElementById('column_fill_abab').value)) ;
+	    document.getElementById('column_fill_abab').value), comments) ;
     else if ( choice === "42 43 44 45..." )
     {
 	var t = document.getElementById('column_fill_numbers').value ;
@@ -111,7 +116,7 @@ function fill_column_do_fill()
 	var v = [] ;
 	for(var i = start; i < start + filtered_lines.length; i++)
 	    v.push(left + i + right) ;
-	fill_column_do_abab(v) ;
+	fill_column_do_abab(v, comments) ;
     }
     else
 	alert_real(choice);
@@ -123,7 +128,7 @@ function fill_column_do_fill()
     table_fill() ;
 }
 
-function fill_column_do_aabb(values)
+function fill_column_do_aabb(values, comments)
 {
   var i, j, value ;
 
@@ -133,12 +138,16 @@ function fill_column_do_aabb(values)
       if ( i >= values.length )
 	i = values.length ;
       value = values[i] ;
-      cell_set_value_real(filtered_lines[j].line_id,
-			  popup_column().data_col, value) ;
+      if ( comments )
+	comment_change(filtered_lines[j].line_id, popup_column().data_col,
+		       value) ;
+      else
+	cell_set_value_real(filtered_lines[j].line_id,
+			    popup_column().data_col, value) ;
     }
 }
 
-function fill_column_do_abab(values)
+function fill_column_do_abab(values, comments)
 {
   var i, j, value ;
 
@@ -146,7 +155,11 @@ function fill_column_do_abab(values)
     {
       i = j % values.length ;
       value = values[i] ;
-      cell_set_value_real(filtered_lines[j].line_id,
-			  popup_column().data_col, value) ;
+      if ( comments )
+	comment_change(filtered_lines[j].line_id, popup_column().data_col,
+		       value) ;
+      else
+	cell_set_value_real(filtered_lines[j].line_id,
+			    popup_column().data_col, value) ;
     }
 }

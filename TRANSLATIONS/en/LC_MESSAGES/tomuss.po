@@ -1988,8 +1988,17 @@ msgstr "If you enter ' Place 8 room X ' cells will be filled with:\n"
 msgid "MSG_fill_equal"
 msgstr "If it is possible the numbers of A, B an C will be equal."
 
+msgid "MSG_fill_before"
+msgstr "Then click to change cells"
+
 msgid "B_fill"
-msgstr "Change the cell values of the filtered lines"
+msgstr "values"
+
+msgid "B_fill_comments"
+msgstr "comments"
+
+msgid "MSG_fill_after"
+msgstr "of filtered cells."
 
 msgid "MSG_fill_remove_empty"
 msgstr "Empty lines have been filtered because it seems the normal behavior.\n"

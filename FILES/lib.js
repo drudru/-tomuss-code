@@ -3436,6 +3436,13 @@ function comment_change(line_id, data_col, comment, td)
   create_column(columns[data_col]) ;
   add_a_new_line(line_id) ;
 
+  var ok = lines[line_id][data_col].changeable(column) ;
+  if ( ok !== true )
+    {
+      alert_append(ok) ;
+      return ;
+    }
+    
   lines[line_id][data_col].set_comment(comment);
   var col_id = columns[data_col].the_id ;
   append_image(td, 'comment_change/' + col_id + '/' +

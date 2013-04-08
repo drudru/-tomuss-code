@@ -1960,7 +1960,7 @@ msgid "MSG_fill_warning_right"
 msgstr "Vous la réactiverez après avoir vérifié le résultat."
 
 msgid "MSG_fill"
-msgstr "Choisissez comment vous voulez remplir la colonne&nbsp;"
+msgstr "Choisissez comment vous voulez remplir la colonne&nbsp;:"
 
 msgid "TAB_fill_clear"
 msgstr "Vider"
@@ -1993,8 +1993,18 @@ msgstr "Si vous saisissez « Place 8, Amphi X » les cellules vont prendre\n"
 msgid "MSG_fill_equal"
 msgstr "Le remplissage sera fait de la manière la plus équilibrée possible."
 
+msgid "MSG_fill_before"
+msgstr "Puis cliquez pour changer les "
+
 msgid "B_fill"
-msgstr "Changer les cellules des lignes filtrées"
+msgstr "valeurs"
+
+msgid "B_fill_comments"
+msgstr "commentaires"
+
+msgid "MSG_fill_after"
+msgstr "des cellules filtrées."
+
 
 msgid "MSG_fill_remove_empty"
 msgstr "Les lignes vides ont été filtrées car vous ne voulez certainement\n"
