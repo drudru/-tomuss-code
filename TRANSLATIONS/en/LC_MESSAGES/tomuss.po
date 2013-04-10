@@ -1398,7 +1398,9 @@ msgid "MSG_print_popup_title"
 msgstr "Copy this in your spreadsheet"
 
 msgid "MSG_print_popup_content"
-msgstr "To do so, strike Ctrl-C here, and then Ctrl-V in the spreadsheet"
+msgstr "To do so, strike Ctrl-C here, and then Ctrl-V in the spreadsheet.\n"
+       "BEWARE: the alphabetical order may change with the spreadsheet or\n"
+       "the computer, even if it is configured with the same language."
 
 msgid "MSG_print_do_attendance_sheet"
 msgstr "I want an attendance sheet!"
