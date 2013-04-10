@@ -917,6 +917,11 @@ function go_import_list_do()
 	       false) ;
 }
 
+function send_mails(e)
+{
+  my_mailto(document.getElementById(e).mails, true) ;
+}
+
 function update_a_student_list(html_id, student_list, title, notes)
 {
   var the_students = document.getElementById(html_id) ;
@@ -937,11 +942,14 @@ function update_a_student_list(html_id, student_list, title, notes)
       logins.push(i[0]) ;
     }
 
+  the_students.mails = m.join(',') ;
+
   var blocnote = hidden_txt('<a href="' + notes + '">'
 			    + _("TH_home_notepad") + '</a>',
 			    _("TIP_home_notepad")) ;
 
-  var mails = hidden_txt('<a href="mailto:?bcc=' + m.join(',') + '">'
+  var mails = hidden_txt('<a href="javascript:send_mails(' + js2(html_id)
+			 + ')">'
 			 + _("TH_home_mail") + '</a>',
 			 _("TIP_home_mail")) ;
 

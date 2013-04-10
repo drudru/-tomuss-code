@@ -655,6 +655,11 @@ function on_windows()
   return navigator.platform.indexOf('Win') != -1 ;
 }
 
+function on_mac()
+{
+  return navigator.platform.indexOf('Macintosh') != -1 ;
+}
+
 var window_counter = 0 ;
 function window_open(url, replace)
 {
@@ -712,9 +717,11 @@ function mail_sort(x, y)
 
 function mailto_url_usable(mails)
 {
-  if ( mails.length < max_url_length || ! on_windows() )
+  if ( mails.length < max_url_length )
     return true ;
-  return false ;
+  if ( on_windows() || on_mac() )
+    return false ;
+  return true ;
 }
 
 function my_mailto(mails, display)
