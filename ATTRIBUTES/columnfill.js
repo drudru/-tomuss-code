@@ -20,10 +20,20 @@
   Contact: Thierry.EXCOFFIER@bat710.univ-lyon1.fr
 */
 
+function caution_message()
+{
+  if ( table_attr.autosave )
+    return '<div id="stop_the_auto_save">' + _("MSG_fill_warning_left")
+	+ ' <a href="#" onclick="select_tab(\'table\', \''
+	+ _("TAB_column_action")
+	+ '\');table_autosave_toggle();document.getElementById(\'stop_the_auto_save\').style.display=\'none\';">'
+	+ _("MSG_fill_warning_middle") + '</a> ' +_("MSG_fill_warning_right")
+	+ '</div>' ;
+  return '' ;
+}
+
 function fill_column()
 {
-  var m = '' ;
-
   if ( tr_filter.childNodes[0].firstChild.value === ''
      || tr_filter.childNodes[0].firstChild.value === '!=')
       for(var i in filtered_lines)
@@ -39,18 +49,11 @@ function fill_column()
 		  break ;
 	      }
 
-  if ( table_attr.autosave )
-    m = '<div id="stop_the_auto_save">' + _("MSG_fill_warning_left")
-	+ ' <a href="#" onclick="select_tab(\'table\', \''
-	+ _("TAB_column_action")
-	+ '\');table_autosave_toggle();document.getElementById(\'stop_the_auto_save\').style.display=\'none\';">'
-	+ _("MSG_fill_warning_middle") + '</a> ' +_("MSG_fill_warning_right")
-	+ '</div>' ;
-
   create_popup('fill_column_div',
 	       _("TITLE_fill_before")
 	       + the_current_cell.column.title + _("TITLE_fill_after"),
-	       m + fill_column_problems(the_current_cell.data_col)
+	       caution_message()
+	       + fill_column_problems(the_current_cell.data_col)
 	       + _("MSG_fill") + '<br>&nbsp;<br>'
 	       + create_tabs('tablefill',
 			     [

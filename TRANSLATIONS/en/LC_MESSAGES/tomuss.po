@@ -2484,10 +2484,16 @@ msgstr "To copy values in TOMUSS:\n"
        "<pre><b>10188995 8\n"
        "10356775 9.6\n"
        "10356011 ABI</b></pre>\n"
-       "<li> Then click on "
+       "<li> Then click to copy cells"
 
 msgid "MSG_columnimport_button2"
-msgstr "import the values in TOMUSS"
+msgstr "values"
+
+msgid "MSG_columnimport_button_comments"
+msgstr "comments"
+
+msgid "MSG_columnimport_after2"
+msgstr "into TOMUSS.</ul>"
 
 msgid "MSG_columnimport_title"
 msgstr "Import values in column: "

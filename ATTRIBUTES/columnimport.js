@@ -30,24 +30,26 @@ function import_column()
       m = '<small><a href="javascript:full_import()">'
 	+ _("MSG_columnimport_link") + '</a></small>' ;
 
-  var t ;
+  var t = caution_message() ;
   if ( the_current_cell.data_col === 0 )
-      t = _("MSG_columnimport_before")
+      t += _("MSG_columnimport_before")
 	+ '<BUTTON OnClick="import_column_do();">'
 	+ _("MSG_columnimport_button")+ '</BUTTON>.'
 	+ _("MSG_columnimport_after") ;
   else
-      t = _("MSG_columnimport_before2")
+      t += _("MSG_columnimport_before2")
 	+ '<BUTTON OnClick="import_column_do();">'
-	+ _("MSG_columnimport_button2") + '</BUTTON>.'
-	+ _("MSG_columnimport_after") ;
-
+	+ _("MSG_columnimport_button2") + '</BUTTON>'
+	+ '/<BUTTON OnClick="import_column_do(true);">'
+	+ _("MSG_columnimport_button_comments") + '</BUTTON> '
+	+ _("MSG_columnimport_after2") ;
+  
   create_popup('import_div',
 	       _("MSG_columnimport_title") + the_current_cell.column.title,
 	       t, m) ;
 }
 
-function import_column_do()
+function import_column_do(comments)
 {
   var multiline = popup_value() ;
   var column = popup_column() ;
@@ -110,8 +112,10 @@ function import_column_do()
 	      replace += login + _("MSG_columnimport_not_found") + value+'\n';
 	      continue ;
 	    }
-
-	  val = lines[line_id][data_col].value ;
+	  if ( comments )
+	    val = lines[line_id][data_col].comment ;
+	  else
+	    val = lines[line_id][data_col].value ;
 	  if ( val !== '' && val != value )
 	    replace += lines[line_id][0].value + ' : ' + val + ' ==> '
 	      + value + '\n' ;
@@ -137,7 +141,10 @@ function import_column_do()
       i = todo[i] ;
       if ( i[0] == -1 )
 	i[0] = add_a_new_line() ;
-      cell_set_value_real(i[0], i[1], i[2]) ;
+      if ( comments )
+	comment_change(i[0], i[1], i[2]) ;
+      else
+	cell_set_value_real(i[0], i[1], i[2]) ;
     }
   alert_append_stop() ;
 

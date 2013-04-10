@@ -2487,10 +2487,16 @@ msgstr "Pour transférer des valeurs dans TOMUSS&nbsp;:\n"
        "<pre><b>10188995 8\n"
        "10356775 9.6\n"
        "10356011 ABI</b></pre>\n"
-       "<li> Puis cliquez sur "
+       "<li> Puis cliquez pour modifier les "
 
 msgid "MSG_columnimport_button2"
-msgstr "importer les données dans TOMUSS"
+msgstr "valeurs"
+
+msgid "MSG_columnimport_button_comments"
+msgstr "commentaires"
+
+msgid "MSG_columnimport_after2"
+msgstr "des cellules dans TOMUSS</ul>"
 
 msgid "MSG_columnimport_title"
 msgstr "Importer dans la colonne : "
