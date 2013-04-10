@@ -1956,6 +1956,12 @@ msgstr "Suspend the auto saving.<br>"
 msgid "MSG_fill_warning_right"
 msgstr "If the result is fine, you will reactivate it."
 
+msgid "MSG_modifiable_cells"
+msgstr "cells will be modified."
+
+msgid "MSG_unmodifiable_cells"
+msgstr "cells are not modifiable because you have not the access rights."
+
 msgid "MSG_fill"
 msgstr "Choose your filling method for this column."
 

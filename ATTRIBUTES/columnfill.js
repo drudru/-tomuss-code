@@ -34,6 +34,8 @@ function fill_column()
 		  filter0.value = '!=' ;
 		  filter0.className = filter0.className.replace('empty','') ;
 		  filter_change_column(filter0.value, columns[0]) ;
+		  periodic_work_remove(update_filtered_lines) ,
+		  update_filtered_lines() ;
 		  break ;
 	      }
 
@@ -48,7 +50,8 @@ function fill_column()
   create_popup('fill_column_div',
 	       _("TITLE_fill_before")
 	       + the_current_cell.column.title + _("TITLE_fill_after"),
-	       m + _("MSG_fill") + '<br>&nbsp;<br>'
+	       m + fill_column_problems(the_current_cell.data_col)
+	       + _("MSG_fill") + '<br>&nbsp;<br>'
 	       + create_tabs('tablefill',
 			     [
 				 [_('TAB_fill_clear'),
@@ -89,6 +92,24 @@ function fill_column()
 	       ) ;
   select_tab("tablefill", _("TAB_fill_one")) ;
   popup_text_area().rows = 4 ;
+}
+
+function fill_column_problems(data_col)
+{
+  var errors = 0, ok = 0 ;
+  for(var i in filtered_lines)
+    {
+      if ( filtered_lines[i][data_col].modifiable(columns[data_col]) )
+	ok++ ;
+      else
+	errors++ ;
+    }
+  var msg = '<p>' + ok + ' ' + _('MSG_modifiable_cells') + '</p>' ;
+  if ( errors )
+    msg += '<p><span  class="color_red">' + errors
+    + ' ' + _('MSG_unmodifiable_cells') + '</span></p>' ;
+
+  return msg ;
 }
 
 function fill_column_do_fill(comments)
