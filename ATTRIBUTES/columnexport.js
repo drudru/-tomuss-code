@@ -21,7 +21,6 @@
 */
 
 var columnexport_options ;
-var columnexport_what ;
 var abjvalue, ppnvalue, tnrvalue ;
 
 function cell_value_export()
@@ -80,8 +79,7 @@ function get_filtered_logins()
 
 function export_column()
 {
-  columnexport_what = _("B_columnexport_values") ;
-  columnexport_options = {} ;
+  columnexport_options = {"values": true} ;
   create_popup('export_div',
 	       _("TITLE_columnexport_before") + the_current_cell.column.title
 	       + _("TITLE_columnexport_after"),
@@ -94,10 +92,6 @@ function export_column()
 	       + toggle_button(_("B_columnexport_unique"),
 			       'columnexport_options', 'unique',
 			       _("TIP_columnexport_unique"))
-	       + ', '
-	       + toggle_button(_("B_columnexport_students"),
-			       'columnexport_options', 'students',
-			       _("TIP_columnexport_students"))
 	       + _("MSG_columnexport_after")
 	       + '<table class="printable_table columnexport">'
 	       + '<colgroup><col width="10*"><col width="12*"><col width="30*"></colgroup>'
@@ -106,16 +100,20 @@ function export_column()
 	       + hidden_txt(_("MSG_columnexport_filtered"),
 			    _("TIP_columnexport_filtered")) + '</a>'
 	       + '<th>'
-	       + radio_buttons('columnexport_what',
-			       [[_("B_columnexport_values"),
-				 _("TIP_columnexport_values")],
-				[_("B_columnexport_comments"),
-				 _("TIP_columnexport_comments")]
-			       ], columnexport_what
-			      )
+	       + toggle_button(_("B_columnexport_students"),
+			       'columnexport_options', 'students',
+			       _("TIP_columnexport_students"))
+	       + ' '
+	       + toggle_button(_("B_columnexport_values"),
+			       'columnexport_options', 'values',
+			       _("TIP_columnexport_values"))
+	       + ' '
+	       + toggle_button(_("B_columnexport_comments"),
+			       'columnexport_options', 'comments',
+			       _("TIP_columnexport_comments"))
 	       + '<th>' + _("MSG_columnexport_errors") + '</tr>'
 	       + '<tr class="content"><td><textarea rows="10" style="width:100%" onscroll="columnexport_scroll(event,0);" onchange="do_printable_display = true ;" onkeyup="do_printable_display = true" onpaste="do_printable_display = true ;"></textarea>'
-	       + '<td><textarea id="columnexport_output" wrap="off" onscroll="columnexport_scroll(event,1);" onmouseup="try { setTimeout(this.select.bind(this),100); } catch(e) { setTimeout(this.select,100); }"></textarea>'
+	       + '<td><textarea id="columnexport_output" wrap="off" onscroll="columnexport_scroll(event,1);"></textarea>'
 	       + '<td><div id="columnexport_errors"></div>'
 	       + '</tr></table>', '', false
 	       ) ;
@@ -178,13 +176,14 @@ function do_columnexport()
 	  continue ;
 	}
       line = lines[line_id] ;
-      if ( columnexport_what == _("B_columnexport_values") )
-	cell = line[data_col].value_export() ;
-      else
-	cell = line[data_col].comment ;
+      cell = [] ;
       if ( columnexport_options.students && !columnexport_options.unique )
-	cell = line[0].value + ' ' + cell ;
-      v.push(cell) ;
+	cell.push(line[0].value) ;
+      if ( columnexport_options.values )
+	cell.push(line[data_col].value_export()) ;
+      if ( columnexport_options.comments )
+	cell.push(line[data_col].comment) ;
+      v.push(cell.join('\t')) ;
 
       exported[line[0].value] = true ;
       if ( uniques[cell] === undefined )

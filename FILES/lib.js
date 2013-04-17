@@ -3594,7 +3594,8 @@ function toggle_button(text, dictionnary, name, help)
 {
   if ( help )
     text = hidden_txt(text, help) ;
-  var a = '<span class="button_toggle" onclick="button_toggle('
+  var toggled = eval(dictionnary + '.' + name) ? " toggled" : "" ;
+  var a = '<span class="button_toggle' + toggled + '" onclick="button_toggle('
     + dictionnary + ",'" + name + "',this)\">" +  text + '</span>' ;
   return a ;
 }
