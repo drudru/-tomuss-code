@@ -201,6 +201,9 @@ abj_sender = maintainer
 # Display students UE list for which there is no TOMUSS table
 suivi_display_more_ue = True
 
+# Number of days in the future allowed for the column visibility date
+max_visibility_date = 31
+
 #REDEFINE
 # Return True if the name is the code of an official UE.
 # The official UE are displayed to the students in the suivi.

@@ -797,6 +797,11 @@ function wheel(event)
 
 function column_parse_attr(attr, value, column, xcolumn_attr)
 {
+  // xcolumn_attr :
+  //    undefined : initialisation in a new column with default values
+  //    false     : user interaction
+  //    0         : initialisation of the attributes in an existing column 
+  //    true      : value received from another user
   return column_attributes[attr].check_and_set(value, column, xcolumn_attr) ;
 }
 

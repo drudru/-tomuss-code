@@ -98,6 +98,7 @@ variable_list = [
     "tt_masters",
     "year_semester_modifiable",
     "suivi_student_allow_private",
+    "max_visibility_date",
     ]
 
 deprecated = set(('root', 'invited_teachers', 'invited_administratives',

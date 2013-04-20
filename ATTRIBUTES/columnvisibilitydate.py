@@ -20,6 +20,7 @@
 #    Contact: Thierry.EXCOFFIER@bat710.univ-lyon1.fr
 
 from ..column import ColumnAttr
+from .. import configuration
 import time
 
 class ColumnVisibilityDate(ColumnAttr):
@@ -28,11 +29,11 @@ class ColumnVisibilityDate(ColumnAttr):
         if date == '':
             return
         mktime = time.mktime(time.strptime(date, '%Y%m%d'))
-        if mktime > time.time() + 86400*31:
+        if mktime > time.time() + 86400*configuration.max_visibility_date:
             return '''_("ALERT_date_in_future_1")+"%d"+
 _("ALERT_date_in_future_2")
 ''' % int((time.mktime(time.strptime(date, '%Y%m%d')) - time.time())/86400)
-        if mktime < time.time() - 86400*31:
+        if mktime < time.time() - 86400:
             return '_("ALERT_date_in_past")'
     formatter = '''
 function(column, value)

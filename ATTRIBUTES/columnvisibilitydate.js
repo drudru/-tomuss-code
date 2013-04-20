@@ -20,7 +20,7 @@
     Contact: Thierry.EXCOFFIER@bat710.univ-lyon1.fr
 */
 
-function set_visibility_date(value, column, interactive_modification)
+function set_visibility_date(value, column, xcolumn_attr)
 {
   if ( value === '')
     return value ;
@@ -28,17 +28,20 @@ function set_visibility_date(value, column, interactive_modification)
   if ( v == false )
     {
       Alert("ALERT_columnvisibility_date_invalid", value) ;
-      return column.visibility_date ;
+      return column.formatter(column.visibility_date) ;
     }
-  if ( (v.getTime() - millisec())/(86400*1000) > 31 )
+  if ( (v.getTime() - millisec())/(86400*1000) > max_visibility_date )
     {
-      Alert("ALERT_columnvisibility_date_far_futur") ;
-      return column.visibility_date ;
+      alert(_("ALERT_columnvisibility_date_far_futur") + ' '
+	    + max_visibility_date + ' '
+	    + _("ALERT_columnvisibility_date_far_futur2")
+	   ) ;
+      return column.formatter(column.visibility_date) ;
     }
-  if ( interactive_modification && v.getTime() - millisec() < 0 )
+  if ( xcolumn_attr === false && v.getTime() - millisec() < 0 )
     {
       Alert("ALERT_columnvisibility_date_past") ;
-      return column.visibility_date ;
+      return column.formatter(column.visibility_date) ;
     }
   v = ''+v.getFullYear()+two_digits(v.getMonth()+1)+two_digits(v.getDate()) ;
   return v ;

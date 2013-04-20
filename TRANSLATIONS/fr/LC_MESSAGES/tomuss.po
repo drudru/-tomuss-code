@@ -2586,7 +2586,10 @@ msgid "ALERT_columnvisibility_date_invalid"
 msgstr "La date que vous donnez n'est pas valide : "
 
 msgid "ALERT_columnvisibility_date_far_futur"
-msgstr "La date de visibilité doit être dans moins d'un mois"
+msgstr "La date de visibilité doit être dans moins de"
+
+msgid "ALERT_columnvisibility_date_far_futur2"
+msgstr "jours"
 
 msgid "ALERT_columnvisibility_date_past"
 msgstr "La date de visibilité ne doit pas être dans le passé"
@@ -4430,6 +4433,9 @@ msgstr "Temps : Interval entre deux déchargements des tables inutilisées"
 
 msgid "config_table_check_down_connections_interval"
 msgstr "Temps : Interval de temps pour l'envoi de paquets pour garder les connexions ouvertes"
+
+msgid "config_table_max_visibility_date"
+msgstr "Temps : nombre de jours autorisés dans le futur pour la date de visibilité"
 
 msgid "config_table_logo"
 msgstr "URL du logo de fond d'écran"
