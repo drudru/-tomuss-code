@@ -196,7 +196,7 @@ function full_import()
 	  create_column(columns[data_col]) ;
 	}
     }
-  var cls = column_list(0) ;
+  var cls = column_list(0, columns.length) ;
   for(line in new_lines)
     {
       add_a_new_line(line.toString()) ;
