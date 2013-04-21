@@ -94,6 +94,8 @@ def classifier(filename=None, subject=None):
         return 'informative', subject
     if 'Backtrace' in subject:
         return 'important', subject
+    if 'Plugin login_list' in subject:
+        return 'warning', subject
     if ' Plugin ' in subject:
         return 'important', subject
     if 'ALERT' in subject:

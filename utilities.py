@@ -461,8 +461,8 @@ def newline():
     return '<br>'
 
 def frame_info(frame, displayed):
-    s = '<tr><td class="name"><A href="file:/%s">%s</A><td class="line">%s<td>\n' % (
-        frame.f_code.co_filename,
+    s = '<tr><td class="name"><small><small>%s</small></small>/<b>%s</b><br><td class="line">%s<td>\n' % (
+        frame.f_code.co_filename.replace(os.getcwd(), '').strip('/'),
         frame.f_code.co_name,
         frame.f_lineno)
     for k, v in frame.f_locals.items():
