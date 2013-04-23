@@ -19,13 +19,11 @@
 #
 #    Contact: Thierry.EXCOFFIER@bat710.univ-lyon1.fr
 
-from ..column import ColumnAttr
+from .columngreen import ColumnGreen
 
-class ColumnGreen(ColumnAttr):
-    need_authorization = 0
-    name = 'green'
-    display_table = 1
-    check_and_set = 'set_green'
+class ColumnGreenText(ColumnGreen):
+    name = 'greentext'
+    check_and_set = 'set_greentext'
     css = """
-#menutop DIV.tabs #t_column_green { width: 25% ; }
+#menutop DIV.tabs #t_column_greentext { width: 25% ; }
     """

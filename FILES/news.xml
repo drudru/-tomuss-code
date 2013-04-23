@@ -793,6 +793,24 @@ Les améliorations les plus visibles sont :
       </description>
       <guid>55</guid>
     </item>
+    <item>
+      <title>23/04/2013 : Version 5.1.12</title>
+      <link>http://tomuss.univ-lyon1.fr/</link>
+      <description>
+	On peut maintenant importer ou remplir les commentaires
+	de cellules dans une colonne.
+	&lt;p&gt;
+	L'exportation de colonne est plus simple à utiliser
+	est permet d'exporter les valeurs et commentaires
+	en une seule fois.
+	&lt;p&gt;
+	On peut maintenant colorier en rouge ou vert
+	le texte des cellules indépendamment de la couleur du fond.
+	&lt;p&gt;
+	Et rouge+vert donne orange au lieu de violet.
+      </description>
+      <guid>56</guid>
+    </item>
 
   </channel>
 </rss>

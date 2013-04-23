@@ -200,8 +200,14 @@ BODY TABLE.colored TR TD.color_green, #current_input.color_green, .color_green {
 }
 
 BODY TABLE.colored TR TD.color_green.color_red, #current_input.color_green.color_red, .color_green.color_red { 
-  background-color: #F8F ;
+  background-color: #FC0 ;
 }
+
+.redtext   { color: #A00 ; }
+.greentext { color: #0A0 ; }
+.greentext.redtext { color: #D60 ; }
+
+
 
 
 BODY TABLE.colored TR TD.filtered, #current_input.filtered, BODY TABLE.colored TR.non TD.filtered, BODY TABLE.colored TR.tierstemps TD.filtered, SPAN.filtered { 

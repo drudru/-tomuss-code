@@ -431,7 +431,7 @@ function header_input(the_id, the_header_name, options)
   if ( options && options.search('before=') != -1 )
     before = options.split('before=')[1].split(' ')[0] ;
   if ( options && options.search('beforeclass=') != -1 )
-    before = '<span class="' + options.split('beforeclass=')[1].split(' ')[0]
+    before = '<span class="' + options.split('beforeclass=')[1].split(' ')[0].replace("%20", " ")
       + '">' + before + '</span>' ;
   if ( options && options.search('after=') != -1 )
     after = options.split('after=')[1].split(' ')[0] ;
@@ -709,11 +709,15 @@ function new_new_interface()
   t.push('</div>') ;
   t.push('<div class="one_line">') ;
   t.push(column_input_attr('red', 'before=' + _("BEFORE_column_attr_red")
-			   + ' beforeclass=widthleft')) ;
+			   + ' beforeclass=widthleft%20color_red')) ;
+  t.push(column_input_attr('green', 'before=' + _("BEFORE_column_attr_green")
+			   + ' beforeclass=color_green')) ;
   t.push('</div>') ;
   t.push('<div class="one_line">') ;
-  t.push(column_input_attr('green', 'before=' + _("BEFORE_column_attr_green")
-			   + ' beforeclass=widthleft')) ;
+  t.push(column_input_attr('redtext', 'before='+_("BEFORE_column_attr_red")
+			   + ' beforeclass=widthleft%20redtext')) ;
+  t.push(column_input_attr('greentext', 'before='+_("BEFORE_column_attr_green")
+			  + ' beforeclass=greentext')) ;
   t.push('</div>') ;
   t.push('<div class="one_line" style="text-align:center">') ;
   t.push(hidden_txt('<img src="' + url + '/prev.gif" style="height:1em" onclick="do_move_column_left();">',

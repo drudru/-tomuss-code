@@ -2351,11 +2351,20 @@ function update_cell(td, cell, column, abj)
   var v = cell.value ;
   var className = '' ;
 
-  if ( cell.is_mine() && column.real_type.cell_is_modifiable )
-    className += 'rw' ;
-  else
-    className += 'ro' ;
-
+  if ( column.color_green_filter(cell, column) )
+    className += ' color_green' ;
+  if ( column.color_red_filter(cell, column) )
+    className += ' color_red' ;  
+  if ( column.color_greentext_filter(cell, column) )
+    className += ' greentext' ;
+  if ( column.color_redtext_filter(cell, column) )
+    className += ' redtext' ;
+  
+  if ( className.indexOf('text') == -1 )
+    if ( cell.is_mine() && column.real_type.cell_is_modifiable )
+      className += ' rw' ;
+    else
+      className += ' ro' ;
   if ( cell.comment !== '' )
     className += ' comment' ;
   if ( cell.date >= today )
@@ -2374,14 +2383,7 @@ function update_cell(td, cell, column, abj)
     className += ' filtered' ;
   else if ( line_filter && line_filter(cell) )
     className += ' filtered' ;
-
-
-  if ( column.color_red_filter(cell, column) )
-    className += ' color_red' ;
-
-  if ( column.color_green_filter(cell, column) )
-    className += ' color_green' ;
-
+  
   if ( v === abi && abj && abj[0].length )
     {
       if ( column.parsed_course_dates )

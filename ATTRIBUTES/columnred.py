@@ -1,7 +1,7 @@
 #!/bin/env python
 # -*- coding: utf-8 -*-
 #    TOMUSS: The Online Multi User Simple Spreadsheet
-#    Copyright (C) 2008-2011 Thierry EXCOFFIER, Universite Claude Bernard
+#    Copyright (C) 2008-2013 Thierry EXCOFFIER, Universite Claude Bernard
 #
 #    This program is free software; you can redistribute it and/or modify
 #    it under the terms of the GNU General Public License as published by
@@ -25,6 +25,5 @@ class ColumnRed(ColumnGreen):
     name = 'red'
     check_and_set = 'set_red'
     css = """
-#menutop #t_column_red { width: 1.5em ; border: 1px solid #F88 ; }
-#menutop DIV.tabs #t_column_red { width: 73% ; }
+#menutop DIV.tabs #t_column_red { width: 25% ; }
     """
