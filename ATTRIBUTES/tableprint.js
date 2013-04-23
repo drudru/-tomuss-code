@@ -203,6 +203,10 @@ function printable_display_page(lines, title, page_break)
 		html_class += ' color_green' ;
 	      if ( columns[c].red_filter(cell, columns[c]) )
 		html_class += ' color_red' ;
+	      if ( columns[c].greentext_filter(cell, columns[c]) )
+		html_class += ' greentext' ;
+	      if ( columns[c].redtext_filter(cell, columns[c]) )
+		html_class += ' redtext' ;
 	    
 	      s.push('<td class="' + html_class + '">' + v + '</td>') ;
 	    }

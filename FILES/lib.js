@@ -3566,6 +3566,8 @@ function columns_in_javascript()
 
       p.push("green_filter:" + column.color_green_filter) ;
       p.push("red_filter:" + column.color_red_filter) ;
+      p.push("greentext_filter:" + column.color_greentext_filter) ;
+      p.push("redtext_filter:" + column.color_redtext_filter) ;
       if ( isNaN(column.red) || column.red === '' )
 	p.push("color_red:" + js(column.red)) ;
       else
@@ -3574,6 +3576,15 @@ function columns_in_javascript()
 	p.push("color_green:" + js(column.green)) ;
       else
 	p.push("color_green:" + column.green) ;
+      
+      if ( isNaN(column.redtext) || column.redtext === '' )
+	p.push("color_redtext:" + js(column.redtext)) ;
+      else
+	p.push("color_redtext:" + column.redtext) ;
+      if ( isNaN(column.greentext) || column.greentext=== ''  )
+	p.push("color_greentext:" + js(column.greentext)) ;
+      else
+	p.push("color_greentext:" + column.greentext) ;
       p.push("min:" + column.min) ;
       p.push("max:" + column.max) ;
       p.push("ordered_index:" + column.ordered_index) ;
