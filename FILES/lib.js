@@ -2686,24 +2686,7 @@ function set_element_relative_position(anchor, element)
 
   tip_display_date = millisec() ;
 
-  if ( element.tagName != 'TD' )
-    {
-      element.style.top = pos[1] + anchor.offsetHeight ;
-      element.style.bottom = 'auto' ;
-      if ( pos[0] + element_width < window_width() + scrollLeft() )
-	{
-	  element.style.left = pos[0] ;
-	  element.style.right = 'auto' ;
-	}
-      else
-	{
-	  element.style.left = pos[0] - element_width + anchor.offsetWidth;
-	  element.style.right = 'auto' ;
-	}
-      return ;
-    }
-
-  if ( pos[1] > scrollTop() + window_height()/2)
+  if ( pos[1] > scrollTop() + window_height()/2 )
     {
       element.style.bottom = window_height() - pos[1] ;
       element.style.top = 'auto' ;
@@ -2714,20 +2697,14 @@ function set_element_relative_position(anchor, element)
       element.style.bottom = 'auto' ;
     }
 
-  if ( element_width < pos[0] - scrollLeft() )
+  if ( pos[0] > scrollLeft() + window_width()/2 )
     {
-      element.style.right = window_width() - pos[0] ;
+      element.style.right = window_width() - (pos[0] + anchor.offsetWidth) ;
       element.style.left = 'auto' ;
-    }
-  else if ( pos[0] + anchor.offsetWidth + element_width
-	    < window_width() + scrollLeft() )
-    {
-      element.style.left = pos[0] + anchor.offsetWidth ;
-      element.style.right = 'auto' ;
     }
   else
     {
-      element.style.left = scrollLeft() ;
+      element.style.left = pos[0] ;
       element.style.right = 'auto' ;
     }
 }
