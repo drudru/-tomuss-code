@@ -2065,7 +2065,8 @@ function alt_shortcut(event, td)
     case 0:
       break ;
     case 191: /* Qwerty / */
-    case 59: /* Azerty : */
+    case 59: /* Azerty / */
+    case 58: /* Azerty : */
 	select_tab("cellule", _("TAB_cell")) ;
 	the_comment.focus() ;
 	break ;

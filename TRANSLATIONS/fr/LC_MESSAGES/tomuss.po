@@ -2434,7 +2434,7 @@ msgstr " et vous n'êtes pas responsable de l'UE : "
 
 msgid "ALERT_columndelete_not_empty"
 msgstr "On peut seulement détruire des colonnes vides.\n\n"
-       "Vous devez donc d'abord vider la colonne en cliquant sur «Remp.»"
+       "Vous devez donc d'abord vider la colonne en cliquant sur «Remplir...»"
 
 msgid "ALERT_columndelete_used"
 msgstr "Cette colonne est utilisée par la colonne : "
