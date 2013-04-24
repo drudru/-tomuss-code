@@ -447,6 +447,7 @@ def suivi_headers(server, is_student=True):
         + "var url = %s;\n" % utilities.js(configuration.server_url)
         + "var root = %s ;\n" % utilities.js(list(configuration.root))
         + "var maintainer = %s;\n" % utilities.js(configuration.maintainer)
+        + 'var max_visibility_date = %d;\n' % configuration.max_visibility_date
         + "var message = %s;\n" % utilities.js(
             configuration.suivi_student_message)
         + "</script>\n"

@@ -1,7 +1,7 @@
 // -*- coding: utf-8; mode: Java; c-basic-offset: 2; tab-width: 8; -*-
 /*
     TOMUSS: The Online Multi User Simple Spreadsheet
-    Copyright (C) 2008-2012 Thierry EXCOFFIER, Universite Claude Bernard
+    Copyright (C) 2008-2013 Thierry EXCOFFIER, Universite Claude Bernard
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -699,8 +699,6 @@ function new_new_interface()
 
   // COLUMN / Display
 
-  var x = "<br>" + _("TIP_not_visible_by_others") ;
-
   t = [] ;
   t.push('<div class="one_line">') ;
   t.push(column_input_attr('visibility_date',
@@ -721,20 +719,22 @@ function new_new_interface()
   t.push('</div>') ;
   t.push('<div class="one_line" style="text-align:center">') ;
   t.push(hidden_txt('<img src="' + url + '/prev.gif" style="height:1em" onclick="do_move_column_left();">',
-		    _("TIP_column_move_left") + x)) ;
-  t.push(column_input_attr('position')) ;
+		    _("TIP_column_move_left"))) ;
+  t.push(hidden_txt(_("TITLE_column_attr_position"),
+		    _("TIP_column_local_attr"),"","column_attr_position")) ;
   t.push(hidden_txt('<img src="' + url + '/next.gif" style="height:1em" onclick="do_move_column_right();">',
-		    _("TIP_column_move_right") + x)) ;
+		    _("TIP_column_move_right"))) ;
   t.push('&nbsp;') ;
   /*
   t.push('</div>') ;
   t.push('<div class="one_line" style="text-align:center">') ;
   */
   t.push(hidden_txt('<a href="javascript:smaller_column();"><img src="' + url + '/next.gif" style="height:1em;border:0"><img src="' + url + '/prev.gif" style="height:1em;border:0"></a>',
-		    _("TIP_column_thinner") + x)) ;
-  t.push(column_input_attr('width')) ;
+		    _("TIP_column_thinner"))) ;
+  t.push(hidden_txt(_("TITLE_column_attr_width"),
+		    _("TIP_column_local_attr"), "", "column_attr_width")) ;
   t.push(hidden_txt('<a href="javascript:bigger_column();"><img src="' + url + '/prev.gif" style="height:1em;border:0"><img src="' + url + '/next.gif" style="height:1em;border:0"></a>',
-		    _("TIP_column_larger") + x)) ;
+		    _("TIP_column_larger"))) ;
   t.push('</div>') ;
   t.push('<div class="one_line">') ;
   t.push(column_input_attr('freezed')) ;

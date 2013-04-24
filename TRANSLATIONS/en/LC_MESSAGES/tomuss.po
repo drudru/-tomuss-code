@@ -258,10 +258,9 @@ msgstr ""
 "There is a space between each value."
 
 #. Attribute Tip
-msgid "TIP_column_attr_width"
-msgstr ""
-"<b>Save the current column width</b>.<br>\n"
-"The change will be visible by other users."
+msgid "TIP_column_local_attr"
+msgstr "This change will be visible by other users\n"
+       "only if you have created this column."
 
 #. Attribute Tip
 msgid "TIP_column_attr_freezed"
@@ -432,12 +431,6 @@ msgstr ""
 "<b>Red background</b> for cells with<br>\n"
 "a value lesser than the one indicated here.<br>\n"
 "A generic filter can be used."
-
-#. Attribute Tip
-msgid "TIP_column_attr_position"
-msgstr ""
-"<b>Save the current column place</b>.<br>\n"
-"The position change will be visible by the other users."
 
 #. Attribute Tip
 msgid "TIP_column_attr_delete"

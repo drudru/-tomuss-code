@@ -259,9 +259,9 @@ msgstr "<b>Liste des valeurs autorisées dans la colonne</b><br>\n"
  "    Les valeurs sont séparées par un espace"
 
 #. Attribute Tip
-msgid "TIP_column_attr_width"
-msgstr "<b>Sauve la largeur courante de cette colonne</b>.<br>\n"
- "    Le changement sera alors visible par les autres."
+msgid "TIP_column_local_attr"
+msgstr "Ce changement sera visible par les autres\n"
+       "seulement si c'est vous qui avez créé la colonne."
 
 #. Attribute Tip
 msgid "TIP_column_attr_freezed"
@@ -423,11 +423,6 @@ msgid "TIP_column_attr_red"
 msgstr "<b>Colorie en rouge</b> les cellules contenant<br>\n"
  "    une valeur inférieure à celle indiquée.<br>\n"
  "    On peut utiliser un filtre quelconque !"
-
-#. Attribute Tip
-msgid "TIP_column_attr_position"
-msgstr "<b>Sauve la position courante de cette colonne</b>.<br>\n"
- "    Le changement sera alors visible par les autres."
 
 #. Attribute Tip
 msgid "TIP_column_attr_delete"

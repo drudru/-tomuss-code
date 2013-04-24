@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 #    TOMUSS: The Online Multi User Simple Spreadsheet
-#    Copyright (C) 2008-2012 Thierry EXCOFFIER, Universite Claude Bernard
+#    Copyright (C) 2008-2013 Thierry EXCOFFIER, Universite Claude Bernard
 #
 #    This program is free software; you can redistribute it and/or modify
 #    it under the terms of the GNU General Public License as published by
@@ -41,6 +41,7 @@ class ColumnAttr(object):
     need_authorization = 1          # Authorization needed to modify attribute
     update_content = False          # On change, update column content
     only_masters = 0                # Only the table masters see the attribute
+    propagate = 1                   # Change is sent to other browsers
     # String to display to the user
     formatter = 'function(column, value) { return value ; }'
     # Return true if empty
@@ -155,12 +156,14 @@ class ColumnAttr(object):
         table.log('column_attr(%s,%s,%s,%s)' % (
             repr(self.name), page.page_id, repr(column.the_id),
             repr(self.decode(value))))
-        t = '<script>Xcolumn_attr(%s,%s,%s);</script>' % (
-            repr(self.name), js(column.the_id), js(self.decode(value)))
-        if True: # XXX Should be only done if the column is a new one
-            t += '<script>Xcolumn_attr("author",%s,%s);</script>' % (
-                js(column.the_id), js(page.user_name))
-        table.send_update(page, t + '\n')
+
+        if self.propagate:
+            t = '<script>Xcolumn_attr(%s,%s,%s);</script>' % (
+                repr(self.name), js(column.the_id), js(self.decode(value)))
+            if True: # XXX Should be only done if the column is a new one
+                t += '<script>Xcolumn_attr("author",%s,%s);</script>' % (
+                    js(column.the_id), js(page.user_name))
+            table.send_update(page, t + '\n')
 
         if column.author != data.ro_user:
             column.author = page.user_name

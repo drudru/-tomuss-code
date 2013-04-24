@@ -1,7 +1,7 @@
 // -*- coding: utf-8; mode: Java; c-basic-offset: 2; tab-width: 8; -*-
 /*
   TOMUSS: The Online Multi User Simple Spreadsheet
-  Copyright (C) 2011 Thierry EXCOFFIER, Universite Claude Bernard
+  Copyright (C) 2011-2013 Thierry EXCOFFIER, Universite Claude Bernard
 
   This program is free software; you can redistribute it and/or modify
   it under the terms of the GNU General Public License as published by
@@ -20,14 +20,6 @@
   Contact: Thierry.EXCOFFIER@bat710.univ-lyon1.fr
 */
 
-function save_position_column(the_id)
-{
-  var column = the_current_cell.column ;
-  var td = the_td(document.getElementById(the_id)) ;
-
-  column_attr_set(column, 'position', column.position, td, true) ;
-}
-
 function left_column(column)
 {
   var cls = column_list(0, columns.length) ;
@@ -40,6 +32,8 @@ function left_column(column)
     column.position = (cls[i-1].position + cls[i-2].position) / 2 ;
 
   table_fill(false, true) ;
+  column_attr_set(column, 'position', column.position,
+		  document.getElementById("column_attr_position"), true) ;
 }
 
 function right_column(column)
@@ -54,6 +48,8 @@ function right_column(column)
     column.position = (cls[i+1].position + cls[i+2].position) / 2 ;
 
   table_fill(false, true) ;
+  column_attr_set(column, 'position', column.position,
+		  document.getElementById("column_attr_position"), true) ;
 }
 
 function do_move_column_right()
