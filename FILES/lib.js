@@ -740,8 +740,7 @@ function show_the_tip(td, tip_content)
   var x = pos[0] - tip_plus.offsetWidth + 1 ;
   if ( x > 10 )
     {
-      // 3 to merge the borders (for columnexport)
-      tip_plus.style.left = 3 + x + 'px' ;
+      tip_plus.style.left = x + 'px' ;
       tip_plus.style.top = pos[1] + 'px' ;
     }
   else
