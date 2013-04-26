@@ -2214,9 +2214,11 @@ function next_page(next_cell, dy)
        && line_offset + table_attr.nr_lines > filtered_lines.length )
     return true;
 
+  if ( line_empty(filtered_lines[line_offset + table_attr.nr_lines - 1]) )
+    return ;
+
   if ( dy === undefined )
     dy = Number((table_attr.nr_lines * preferences.page_step).toFixed(0)) ;
-
 
   if ( next_cell )
     {
