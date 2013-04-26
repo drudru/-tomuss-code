@@ -833,7 +833,7 @@ msgstr "Mettez le curseur sur les petits carrés pour savoir<br>\n"
 
 #. Label cell attribute
 msgid "LABEL_ALT8"
-msgstr "ALT-8 : édite le filtre de lignes"
+msgstr "Ctrl-f : édite le filtre de lignes"
 
 #. Tip cell attribute
 msgid "TIP_ALT8"

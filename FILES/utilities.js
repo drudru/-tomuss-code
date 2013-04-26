@@ -1,7 +1,7 @@
 // -*- coding: utf-8; mode: Java; c-basic-offset: 2; tab-width: 8; -*-
 /*
   TOMUSS: The Online Multi User Simple Spreadsheet
-  Copyright (C) 2008-2011 Thierry EXCOFFIER, Universite Claude Bernard
+  Copyright (C) 2008-2013 Thierry EXCOFFIER, Universite Claude Bernard
 
   This program is free software; you can redistribute it and/or modify
   it under the terms of the GNU General Public License as published by
@@ -2041,6 +2041,14 @@ function current_cursor_left()
     this.jump(this.lin, this.col - 1) ;  
 }
 
+function control_f()
+{
+  select_tab("cellule", _("TAB_cell")) ;
+  linefilter.focus() ;
+  if (linefilter.select)
+    linefilter.select();  
+}
+
 function alt_shortcut(event, td)
 {
   switch(event.charCode)
@@ -2055,12 +2063,8 @@ function alt_shortcut(event, td)
     case 109: /* AZERTY: 8/_ */
     case 95:  /* AZERTY: 8/_ */
     case 56:  /* QWERTY: 8/ * */
-      select_tab("cellule", _("TAB_cell")) ;
-      linefilter.focus() ;
-      if (linefilter.select)
-	linefilter.select();
+      control_f() ;
       break;
-
     case 16:
     case 0:
       break ;
@@ -2153,6 +2157,21 @@ function current_keydown(event, in_input)
   if ( (key == 35 || key == 36) && ! event.ctrlKey)
     return ;
 
+  if ( event.ctrlKey )
+    {
+      switch( key )
+	{
+	case 70: // F
+	  control_f() ;
+	  stop_event(event) ;
+	  return false ;
+	case 80: // P
+	  print_selection() ;
+	  stop_event(event) ;
+	  return false ;
+	}
+    }
+
   // __d('alt=' + event.altKey + ' ctrl=' + event.ctrlKey + ' key=' + key + ' charcode=' + event.charCode + ' which=' + event.real_event.which + '\n') ;
 
   var selection ;
@@ -2216,14 +2235,6 @@ function current_keydown(event, in_input)
       this.input.blur() ;
       this.focus() ;
       break ;
-    case 80: // P
-      if (  event.ctrlKey === true )
-	{
-	  print_selection() ;
-	  stop_event(event) ;
-	  return false ;
-	}
-      // Fall Thru
     default:
       if ( ! this.cell_modifiable() )
 	{

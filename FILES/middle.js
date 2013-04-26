@@ -584,7 +584,7 @@ function new_new_interface()
 		    + _("TIP_cell_comment"))) ;
   t.push(hidden_txt(header_input('linefilter', '',
 				 'empty one_line onkey=line_filter_change(this)'),
-		    "<span class=\"shortcut\">(Alt-8)</span>" +
+		    "<span class=\"shortcut\">(Ctrl-f)</span>" +
 		    _("TIP_cell_filter"))) ;
   t.push(hidden_txt('<span id="t_student_id" style="display:none"></span>',
 		    _("TIP_cell_student_number"))) ;

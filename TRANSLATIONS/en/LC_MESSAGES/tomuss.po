@@ -838,7 +838,7 @@ msgstr "Put the pointer on the small squares to known what they mean."
 
 #. Label cell attribute
 msgid "LABEL_ALT8"
-msgstr "ALT-8 : line filter edition"
+msgstr "Ctrl-f : line filter edition"
 
 #. Tip cell attribute
 msgid "TIP_ALT8"
