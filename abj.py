@@ -187,7 +187,7 @@ class Abj(object):
             if begin < date < end:
                 yield da
 
-    def html(self, year, semester):
+    def html(self, year, semester, full=False):
         """This function is here because it does not send
         restricted information to students.
         """
@@ -212,12 +212,15 @@ class Abj(object):
 <TR><TH><script>Write("TH_da_for_ue")</script></TH>""")
             content.append('<TH><script>Write("TH_comment")</script></TH></TR>')
             for a_da in das:
-                comment = cgi.escape(a_da[3].split('\n')[0])
-                if '\n' in a_da[3].strip():
-                    comment += '<br><b><script>Write("MSG_see_more")</script></b>'
-                comment = ('<script>hidden(' + js(comment) + ','
-                           + js(cgi.escape(a_da[3]).replace('\n','<br>'))
-                           + ');</script>')
+                if full:
+                    comment = cgi.escape(a_da[3]).replace('\n','<br>')
+                else:
+                    comment = cgi.escape(a_da[3].split('\n')[0])
+                    if '\n' in a_da[3].strip():
+                        comment += '<br><b><script>Write("MSG_see_more")</script></b>'
+                    comment = ('<script>hidden(' + js(comment) + ','
+                               + js(cgi.escape(a_da[3]).replace('\n','<br>'))
+                               + ');</script>')
                 content.append('<TR><TD>' + a_da[0] + '<BR>' + a_da[1] +
                                '</TD><TD>' + comment + '</TD></TR>')
             content.append('</TABLE>')
@@ -301,9 +304,10 @@ def rem_abjs_da(year, semester, ticket, student, ue_code):
     """Helper function"""
     Abjs(year, semester).rem_da(student, ue_code, ticket.user_name)
 
-def html_abjs(year, semester, student):
+def html_abjs(year, semester, student, full=False):
     """Get all the ABJS/DA informations has HTML"""
-    return unicode(Abj(year, semester, student).html(year, semester), 'utf-8')
+    return unicode(Abj(year, semester, student).html(year, semester, full),
+                   'utf-8')
 
 def a_student(browser, year, semester, ticket, student):
     """Send student abj with the data to_date the navigator."""
@@ -330,7 +334,7 @@ def a_student(browser, year, semester, ticket, student):
     html += "window.parent.ues_without_da(%s);" % js(ue_list) + '</SCRIPT>'
     browser.write(html.encode('utf8'))
 
-def tierstemps(student_id, table_tt=None):
+def tierstemps(student_id, table_tt=None, only_current=True):
     """Returns a strings containing all tiers-temps informations about
     the student from the TT table given."""
     if table_tt == None:
@@ -338,7 +342,7 @@ def tierstemps(student_id, table_tt=None):
         table_tt = get_table_tt(*configuration.year_semester)
     _ = utilities.__
     tt = table_tt.the_current_tt(table_tt).get(student_id, None)
-    if tt and tt.current():
+    if tt and (not only_current or tt.current()):
         html = ""
         if tt.begin:
             html += _("MSG_abj_tt_from") + tt.begin + '\n'
