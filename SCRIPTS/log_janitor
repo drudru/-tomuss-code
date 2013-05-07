@@ -1,0 +1,14 @@
+#!/bin/sh
+# -*- ksh -*-
+
+LOGS=LOGS/[ST]*/[0-9][0-9][0-9][0-9]-*[0-9]
+
+# Remove old logs.
+find $LOGS            -type f -mtime +200 -exec rm {} \;
+
+# Compress logs
+find $LOGS            -type f -mtime +2   -exec bzip2 -v -9 {} \;
+
+# Remove old backtraces.
+find LOGS/BACKTRACES/ -type d -mtime +60  -exec rm {} \;
+
