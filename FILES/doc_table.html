@@ -66,6 +66,8 @@
       puis de taper le numéro d'étudiant dans la case de gauche.
       Si on ne le connait pas, il faut alors taper son nom ou son
       prénom complet dans la case de droite.
+      Si vous êtes dans une table, il suffit de cliquer
+      sur la photo de l'étudiant.
     <p>
       Quelque soit l'adresse TOMUSS utilisée par les étudiants,
       ceux-ci ne verront que leurs notes personnelles.
@@ -92,6 +94,21 @@
      <p>
       Cette documentation contient
       <a href="javascript:go('Gestion des absences justifiées')">quelques conseils sur la manière de gérer les ABJ</a>.
+    </div>
+    
+    <div>
+    <h4>Divers</h4>
+     <p>
+       L'<b>emplois du temps</b> (planning ADEweb) d'une UE est disponible
+       sur la page d'accueil en cliquant sur le
+       <span style="background:#8F8">+</span> ou bien dans 
+       dans l'onglet «Infos» du bloc de droite de l'éditeur de table.
+     <p>
+       Pour <b>devenir référent d'un étudiant</b> : il faut le chercher
+       sur la page d'accueil puis cliquer sur le
+       <span style="background:#8F8">+</span>
+       et choisir dans le menu :
+       «Je veux être référent pédagogique de cet étudiant»
     </div>
 
     <div>
@@ -290,10 +307,9 @@
       <li><p>
 	Pour <b>inserrer une colonne entre deux colonnes</b>,
 	vous créez une nouvelle colonne à droite puis vous la décalez à gauche
-	en allant dans l'onglet « Colonne / Affiche »
-        puis en cliquant sur '«' jusqu'à la position désirée.
-        Ensuite vous cliquez sur « position » pour sauvegarder la position
-        de la colonne que vous avez déplacé.
+	en allant dans l'onglet «Colonne / Affiche»
+        puis en cliquant sur <img src="prev.gif">
+	jusqu'à la position désirée.
       <li><p>
 	Pour <b>trier les lignes</b> en fonction du contenu d'une colonne
 	il suffit de cliquer sur le titre de la colonne.
@@ -359,14 +375,14 @@
 	  possibles pour l'étudiant.
 	  Si c'est une énumération ou un booléen,
 	  l'étudiant aura un menu déroulant avec les choix possibles.
-	<li><p> Dans l'onglet « Colonne / Affiche » indiquez que
-	  « Les étudiants peuvent modifier leur valeur à partir du suivi »
+	<li><p> Dans l'onglet «Colonne / Affiche» indiquez que
+	  «Les étudiants peuvent modifier leur valeur à partir du suivi»
       </ul>
     <p>
       Si la MÊME réponse à la question ne peut être données qu'un nombre
       limité de fois (choix de projet, de créneau de rendez vous...)
       alors vous indiquez le nombre limite dans le champs
-      « Répétition » de l'onglet « Colonne / Formule »
+      «Répétition» de l'onglet «Colonne / Formule»
 
     </div>
 
@@ -376,9 +392,9 @@
       L'utilisation classique est très simple :
     </p>
     <ul>
-      <li> Vous cliquez sur l'onglet « Formule ».
+      <li> Vous cliquez sur l'onglet «Formule».
       <li> vous mettez des poids correctes aux colonnes
-      <li> vous créez une colonne de type <tt>Moy</tt> (ou lieu de « Note »)
+      <li> vous créez une colonne de type <tt>Moy</tt> (ou lieu de «Note»)
 	en indiquant dans le bon champ la liste
 	des noms des colonnes sur lesquelles calculer la moyenne pondérée.
     </ul>
@@ -443,17 +459,17 @@
 	  Vous faites une colonne pour compter le nombre d'absence
 	  injustifiées. C'est le type de colonne : «Nombre de»
 	<p>
-	  Il y a alors une nouvelle case contenant « !ABINJ »
+	  Il y a alors une nouvelle case contenant «!ABINJ»
 	  qui indique ce qu'il faut compter.
-	  Il faut mettre « ABINJ » car c'est ce que l'on veut compter.
+	  Il faut mettre «ABINJ» car c'est ce que l'on veut compter.
 	<p>
-	  Vous indiquez dans la zone au dessous de « ABINJ » la liste
+	  Vous indiquez dans la zone au dessous de «ABINJ» la liste
 	  des noms de colonnes dans lesquelles vous voulez compter
 	  le nombre d'absences.
 	  Comme pour la moyenne, vous séparez les noms de colonne
 	  par un espace.
 	<p>
-	  Vous mettez ensuite un poids de « -0.5 » à cette colonne qui
+	  Vous mettez ensuite un poids de «-0.5» à cette colonne qui
 	  compte le nombre d'absences injustifiées afin d'enlever
 	  0.5 point par absence.
 	<p>
@@ -489,13 +505,14 @@
       <tt>Moyenne(Moyenne(ABJ<sub>1</sub>,b<sub>1</sub>,c<sub>1</sub>)<sub>3</sub>,d<sub>1</sub>)</tt> donne
       <tt>Moyenne(Moyenne(b<sub>1</sub>,c<sub>1</sub>)<sub>3</sub>,d<sub>1</sub>)</tt>
       qui est égale à
-      <tt>Moyenne(b<sub>1,5</sub>,c<sub>1,5</sub>,d<sub>1</sub>)</tt>
+      <tt>Moyenne(b<sub>1.5</sub>,c<sub>1.5</sub>,d<sub>1</sub>)</tt>
     <p>
       Le choix de l'une ou de l'autre des méthodes de calcul
       dépend des modalités de contrôle de connaissance de l'UE.
       La méthode la plus juste est de faire une moyenne simple.
       
     </div>
+   <!--
    <div>   
     <h3>Calcul automatique du poids</h3>
     <p>
@@ -513,6 +530,7 @@
        de moyennes sont toujours égales à la moyenne simple équivalente.
        
    </div>
+   -->
     <div>
     <h3>Moyenne en enlevant des notes</h3>
     <p>
@@ -615,7 +633,7 @@
       Pour que les cases <b>restées vides</b> soient comptabilisées
       comme des ABI le responsable d'UE met <tt>ABINJ</tt>
       dans le champ «<tt>Si vide</tt>» de la colonne représentant la séance.
-      Ce champ est dans l'onglet « Formule »
+      Ce champ est dans l'onglet «Formule»
 
     </div>
     <div>
@@ -632,9 +650,9 @@
 	  de <b>% pondéré de</b>
 	<li> A droite de celui-ci, vous mettez <tt>[0;100]</tt>
 	  pour obtenir un pourcentage entre 0 et 100.
-	<li> dans l'onglet « Formule »,
+	<li> dans l'onglet «Formule»,
 	  vous mettez le nom de la colonne qui contient la moyenne
-	  dans le champs « Colonnes »
+	  dans le champs «Colonnes»
       </ul>
       <p>
 	ATTENTION : ce pourcentage ne tient pas compte des colonnes
@@ -654,7 +672,7 @@
 	  il suffit d'indiquer dans le champs «<tt>Si vide</tt>» de
 	  la colonne qui vous intéresse un texte.
     <p>
-          Par exemple : « Oral pas encore passé »
+          Par exemple : «Oral pas encore passé»
 	  
 
       </div>
@@ -701,7 +719,7 @@
 	  <li> Vous vous mettez dans la bonne colonne en cliquant
 	       sur une case.
 	  <li> Dans l'onglet «Colonne/Action» cliquez sur
-	  sur  « Remplir la colonne avec des valeurs ».
+	  sur  «Remplir la colonne avec des valeurs».
 	    Ceci fera apparaitre une fenêtre.
 	  <li> 
 	    <b>Le remplissage n'est pas réversible,
@@ -713,21 +731,21 @@
 	  Pour remplir toute la colonne avec la même valeur :
 	  vous saisissez la valeur dans le champs de saisie
 	  et vous cliquez
-	  sur le bouton « Changer les cellules des lignes filtrées »
+	  sur le bouton «Changer les cellules des lignes filtrées»
     <li>
-	  Pour vider la colonne : choisissez l'onglet « Vider » puis
-	  sur le bouton « Changer les cellules des lignes filtrées »
+	  Pour vider la colonne : choisissez l'onglet «Vider» puis
+	  sur le bouton «Changer les cellules des lignes filtrées»
     <li>
 	  Pour remplir de manière équilibrée avec des valeurs différentes :
-	  choisissez l'onglet « ABC ABC ABC... » ou « AA... BB... CC... »
+	  choisissez l'onglet «ABC ABC ABC...» ou «AA... BB... CC...»
 	  Saisissez les valeurs en en mettant une par ligne,
 	  puis vous cliquez
-	  sur le bouton « Changer les cellules des lignes filtrées »
+	  sur le bouton «Changer les cellules des lignes filtrées»
     <li>
           Pour remplir avec des nombres successifs, vous choisissez l'onglet
-	  « 42 43 44 45... », vous saisissez le nombre de départ
+	  «42 43 44 45...», vous saisissez le nombre de départ
 	  puis vous cliquez
-	  sur le bouton « Changer les cellules des lignes filtrées »
+	  sur le bouton «Changer les cellules des lignes filtrées»
     </ul>
     <p>
 	  Remarques :
@@ -770,7 +788,7 @@
 	<p>
 	  Il faut donc d'abord vider la colonne.
 	<p>
-	  Ensuite il faut aller dans l'onglet « Colonne/Action »
+	  Ensuite il faut aller dans l'onglet «Colonne/Action»
 	  et cliquer sur «<b>Détruire définitivement la colonne</b>»
 	<p>
 	  Aucune récupération n'est possible sans passer
@@ -806,7 +824,7 @@
     <ul>
       <li> Vous cliquez sur une cellule de la colonne que vous voulez exporter
 	vers APOGÉE.
-      <li> Dans l'onglet « Colonne/Action »
+      <li> Dans l'onglet «Colonne/Action»
            cliquez sur le lien «Exporter la colonne pour APOGEE»&nbsp;:
 	une fenêtre apparaît.
       <li> Vous copiez la liste des numéros d'étudiants
@@ -823,7 +841,7 @@
 	vous êtes prévenu.
     </ul>
     <p>
-      La seul erreur possible est de faire un décalage de ligne
+      La seule erreur possible est de faire un décalage de ligne
       lors du copier/coller. Vérifiez donc bien la première
       et la dernière.
     <p>
@@ -1000,11 +1018,17 @@
     </div>
 
     <div>
-    <h3>Copier TOMUSS dans Excel (exporter vers Excel)</h3>
+    <h3>Copier la table TOMUSS complète dans Excel (exporter vers Excel)</h3>
 	<p>
 	  Vous cliquez dans «Imprime»
 	  puis vous suivez les instructions (il suffit de faire
 	  un copier/coller).
+	<p>
+	  <span style="color:red">N'utilisez pas cette procédure
+	    pour copier une colonne</span>
+	  de notes dans en fichier Excel.
+	  Utilisez <a href="javascript:go('exporter')">
+	    l'exportation de colonne</a>
       </div>
 
     <div>
@@ -1074,7 +1098,7 @@
       Pour pouvoir continuer à la modifier au printemps :
       il vous suffit de cliquer sur le '+' sur la ligne de l'UE
       sur la page d'accueil de TOMUSS et de choisir
-	  « Passer cette UE en non-semestrialisé »
+	  «Passer cette UE en non-semestrialisé»
     <p>
       Votre tableau est alors sur les 2 semestres,
       quand vous modifiez la version du printemps,
@@ -1133,12 +1157,12 @@
 	  </p>
 <ul>
     <li><p>
-      Onglet «Table/Action», Cliquez sur le lien « Exporter »
+      Onglet «Table/Action», Cliquez sur le lien «Exporter»
     <li><p>
       Copiez la liste des colonnes.
     <li><p>
        Dans la table destination des colonnes,
-       Onglet «Table/Action», cliquez sur le lien « Importer »
+       Onglet «Table/Action», cliquez sur le lien «Importer»
       et copiez la liste des colonnes.
     <li><p>
       Vous pouvez modifier la liste des colonnes avant de
@@ -1196,18 +1220,18 @@
 	<li><p> Mettre un commentaire de table pour que les étudiants
 	    comprennent de quoi il s'agit.
 	<li><p> Vérifier si la table est visible ou non par les étudiants
-	  en allant dans l'onglet « Table / Paramétrage »
+	  en allant dans l'onglet «Table / Paramétrage»
 	<li><p> Vous ajouter vous même dans la liste des responsables
 	  de la table.
 	  Cela la fera apparaître sur votre page d'accueil TOMUSS.
 	<li><p> Pour remplir la liste des étudiants :
 	  <ul>
 	    <li> vous allez sur une cellule de la première colonne ;
-	    <li> puis dans l'onglet « Colonne / Action » ;
-	    <li> vous cliquez sur « Importer des valeurs... » ;
+	    <li> puis dans l'onglet «Colonne / Action» ;
+	    <li> vous cliquez sur «Importer des valeurs...» ;
 	    <li> vous copiez les numéros d'étudiants dans le champs de saisie
 	      (un par ligne) ;
-	    <li> vous cliquez sur « importer les données dans TOMUSS »
+	    <li> vous cliquez sur «importer les données dans TOMUSS»
 	  </ul>
 	  <p>
 	    Vous attendez un moment pour que l'importation se termine,
@@ -1216,7 +1240,7 @@
       </ul>
     <p>
       Si c'est une table d'étudiants, vous pouvez ensuite créer
-      des colonnes de type « Référent », « Code etape », « Sportif »
+      des colonnes de type «Référent», «Code etape», «Sportif»
       pour avoir des informations les concernant.
       
     </div>

@@ -48,6 +48,26 @@ function window_height()
   return height ;
 }
 
+
+function diacritics_regex(s)
+{
+  var diacritics = [
+		   "[aA\300-\306\340-\346]",
+		   "[eE\310-\313\350-\353]",
+		   "[iI\314-\317\354-\357]",
+		   "[oO\322-\330\362-\370]",
+		   "[uU\331-\334\371-\374]",
+		   "[nN\321\361]",
+		   "[cC\307\347]"
+		   ];
+
+  for (var i = 0; i < diacritics.length; i++)
+    {
+      s = s.replace(RegExp(diacritics[i], "g"), diacritics[i]);
+    }
+  return s ;
+}
+
 function key_pressed(event)
 {
   if ( event === undefined )
@@ -151,8 +171,8 @@ function update_scrollbar(forced)
     }
 }
 
-function insert_highlight(element, content, pattern)
-{ 
+function insert_highlight(element, content, pattern, pattern_safe)
+{
   element.innerHTML = content.replace(RegExp('(>[^<]*)(' +pattern+ ')', 'mgi'),
 	                              '$1<span class="filter">$2</span>') ;
 }
@@ -194,7 +214,7 @@ function filter()
       return ;
     }
   // Protect special chars
-  v = v.replace(/([*\\[.$+?])/g, '\\$1') ;
+  v = diacritics_regex(v.replace(/([*\\[.$+?()])/g, '\\$1')) ;
   var html ;
   var selected = [''] ;
   // Change the content
@@ -219,7 +239,7 @@ function filter()
 
       if ( div.id != 'menu' ) 
         {
-  	insert_highlight(div, html, v) ;
+  	  insert_highlight(div, html, v) ;
         }
       else
         // Does not work in firefox and chrome : WHY????
