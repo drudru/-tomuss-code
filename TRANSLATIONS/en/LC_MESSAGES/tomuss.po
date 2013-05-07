@@ -4997,6 +4997,9 @@ msgstr "Enter the column title"
 msgid "teacher.png"
 msgstr "Enter logins here"
 
+msgid "columns.png"
+msgstr "names to operate on (space separated)"
+
 msgid "ip_error.html"
 msgstr "Your cellular has not the same IP than one second ago.\n"
        "As this is bad for security,\n"

@@ -29,4 +29,9 @@ class ColumnColumns(ColumnAttr):
     css = """
     #menutop #t_column_columns { width: 40% ; }
     #menutop DIV.tabs #t_column_columns { width: 73% ; }
+#t_column_columns.empty {
+  background-image: url("columns.png");
+  background-repeat: no-repeat;
+  background-position: 2px 2px;
+}
     """

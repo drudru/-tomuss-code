@@ -5070,6 +5070,9 @@ msgstr "Saisissez un titre de colonne ici"
 msgid "teacher.png"
 msgstr "Identifiants des responsables"
 
+msgid "columns.png"
+msgstr "Noms des colonnes à combiner (séparés par un espace)"
+
 msgid "ip_error.html"
 msgstr "Votre mobile n'a pas la même adresse IP qu'il y a une seconde.\n"
        "Dans ces conditions aucune sécurité ne peux être assurée sur le web.\n"
