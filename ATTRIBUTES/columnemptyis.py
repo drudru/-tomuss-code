@@ -24,7 +24,7 @@ from ..column import ColumnAttr
 class ColumnEmptyIs(ColumnAttr):
     name = 'empty_is'
     display_table = 1
-    check_and_set = 'function(value, column){column.need_update = true ; return value.replace(/^ */,"").replace(/ *$/,"") ; }'
+    check_and_set = 'set_empty_is'
     css = """
 #menutop #t_column_empty_is { width: 3em ; }
 #menutop DIV.tabs #t_column_empty_is { width: 50% ; }

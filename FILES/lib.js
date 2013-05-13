@@ -1737,13 +1737,18 @@ function line_filter_change(value)
 function sort_lines23(a,b)
 {
   var c, cc, va, vb ;
-
+  var a_empty = line_empty(a) ;
+  var b_empty = line_empty(b) ;
+  if ( a_empty && ! b_empty )
+    return 1 ;
+  if ( b_empty && ! a_empty )
+    return -1 ;
   for(var c in sort_columns)
     {
       c = sort_columns[c] ;
       cc = c.data_col ;
-      va = a[cc].key() ;
-      vb = b[cc].key() ;
+      va = a[cc].key(c.empty_is) ;
+      vb = b[cc].key(c.empty_is) ;
       if ( va > vb )
 	return c.dir ;
       if ( va < vb )
@@ -2080,6 +2085,7 @@ function table_fill_real()
 Table utilities
 ******************************************************************************/
 
+// true : empty and no history, 1 : empty and an history
 function line_empty(line)
 {
   for(var i in columns)

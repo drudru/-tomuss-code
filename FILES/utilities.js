@@ -1427,14 +1427,16 @@ function cell_never_modified()
 }
 
 // Allow to sort correctly and intuitivly mixed data types
-function cell_key()
+function cell_key(empty_is)
 {
   if ( this._key !== undefined )
     return this._key ;
 
   var x, date, s, i ;
-
   var v = this.value ;
+  if ( v === '' )
+    v = empty_is ;
+
   var n = a_float(v) ;
   if ( isNaN(n) )
     {
