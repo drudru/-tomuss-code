@@ -2352,6 +2352,19 @@ function current_do_completion()
 
 var current_change_running = false ;
 
+/*REDEFINE
+  This function returns true if the ID is missing on the line.
+  It is called for each interactive cell change.
+  If 'true' is returned, an alert is displayed to the user.
+*/
+function current_missing_id(value)
+{
+  return (this.data_col !== 0
+	  && lines[this.line_id][0].is_empty()
+	  && value !=='') ;
+}
+
+
 function current_input_div_focus()
 {
   if ( this.focused )
@@ -2411,7 +2424,7 @@ function current_change()
       current_change_running = false ;
       return ;
     }
-  if ( this.data_col !== 0 && lines[this.line_id][0].is_empty() && value !=='')
+  if ( this.missing_id(value) )
     {
 	Alert("ALERT_missing_id") ;
     }
@@ -2484,6 +2497,7 @@ Current.prototype.cursor_right          = current_cursor_right          ;
 Current.prototype.focus                 = current_focus                 ;
 Current.prototype.toggle                = current_toggle                ;
 Current.prototype.cell_modifiable       = current_cell_modifiable       ;
+Current.prototype.missing_id            = current_missing_id            ;
 Current.prototype.do_completion         = current_do_completion         ;
 Current.prototype.update_headers        = current_update_headers        ;
 Current.prototype.update_headers_real   = current_update_headers_real   ;
