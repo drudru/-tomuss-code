@@ -1039,6 +1039,8 @@ class Table(object):
                 s.append(self.template.content(self))
             s.append('initialize();')
             s.append('--></script>  \n')
+            if self.template and hasattr(self.template, 'css'):
+                s.append('<style>' + self.template.css + '</style>')
         finally:
             pass
 

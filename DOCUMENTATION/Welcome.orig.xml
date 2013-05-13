@@ -710,13 +710,15 @@ Only one template can be applied.
       <li> '<b>create</b>': How the table is initialized on creation.</li>
       <li> '<b>init</b>': A hook called before table is loaded.</li>
       <li> '<b>onload</b>': A hook called after table is loaded.</li>
-      <li> '<b>content</b>': A function returning the content to be appended to web page.
-           It is mostly JavaScript redefinition and content update.</li>
+      <li> '<b>content</b>': A function returning the Javascript code
+      to be appended to web page.
+      </li>
       <li> '<b>check</b>': A function updating the student list in the table.</li>
       <li> '<b>cell_change</b>', <b>column_change</b>: A function called on cell content change or column_change.
  It must not use external services because it must return quickly.
 If this function raise an exception, the value will not be stored in the table.
 </li>
+     <li> '<b>css</b>': A string containing CSS for the table</li>
     </ul>
     <p>
      Semester templates defined are:
