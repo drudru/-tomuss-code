@@ -1693,6 +1693,9 @@ def virtual_table(server, the_columns, the_lines, table_attrs={}, js=""):
             server.semester = server.the_semester
         else:
             server.semester = "?"
+    for i, a_column in enumerate(the_columns):
+        if not a_column.position:
+            a_column.position = i
     class TMP:
         pass
     tmp = TMP()
