@@ -159,8 +159,15 @@ def get_preferences(user_name, create_pref=True, the_ticket=None):
 #REDEFINE
 # This function returns javascript code to be included
 # in the header of the 'ue' table
-def table_head_more(ue):
+def table_head_more(dummy_ue):
     return ''
+
+class TT:
+    def create(self, ttable):
+        ttable.new_page('', data.ro_user, '', '')
+        ttable.table_attr(ttable.pages[0],'masters',[ttable.user])
+
+empty_template = TT()
 
 def translations_init(language):
     languages = []
@@ -283,12 +290,7 @@ class Table(object):
             ('TEMPLATES', self.semester),
             ))
         if self.template is None:            
-            class TT:
-                def create(self, ttable):
-                    ttable.new_page('', data.ro_user, '', '')
-                    ttable.table_attr(ttable.pages[0],'masters',[ttable.user])
-
-            self.template = TT()
+            self.template = empty_template
 
         if hasattr(self.template, 'init'):
             self.template.init(self)
@@ -340,7 +342,10 @@ class Table(object):
             # But this lock does not protect anything
             self.lock()
             try:
-                self.template.create(self)
+                if hasattr(self.template, "create"):
+                    self.template.create(self)
+                else:
+                    empty_template.create(self)
             finally:
                 self.unlock()
                 warn('Unlock', what='table')
