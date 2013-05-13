@@ -191,6 +191,10 @@ TABLE#thetable TD.number, TD.number, #current_input.number {
   text-align: right ;
 }
 
+BODY TABLE.colored TR TD.color_green.color_red, #current_input.color_green.color_red, .color_green.color_red { 
+  background-color: #FC0 ;
+}
+
 BODY TABLE.colored TR TD.color_red, #current_input.color_red, .color_red { 
   background-color: #F88 ;
 }
@@ -199,13 +203,9 @@ BODY TABLE.colored TR TD.color_green, #current_input.color_green, .color_green {
   background-color: #8F8 ;
 }
 
-BODY TABLE.colored TR TD.color_green.color_red, #current_input.color_green.color_red, .color_green.color_red { 
-  background-color: #FC0 ;
-}
-
+.greentext.redtext { color: #D60 ; }
 .redtext   { color: #A00 ; }
 .greentext { color: #0A0 ; }
-.greentext.redtext { color: #D60 ; }
 
 
 
