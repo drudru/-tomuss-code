@@ -52,10 +52,12 @@ function import_columns_do()
     {
       line = lines[line] ;
       var column = columns[add_empty_columns()] ;
+      create_column(column) ;
 
       var i = -1 ;
       for(var c in column_attributes)
 	{
+
 	  if ( column_attributes[c].computed )
 	    continue ;
 	  if ( c == 'position' )
@@ -63,10 +65,9 @@ function import_columns_do()
 	  i++ ;
 	  if ( c != 'type' && ! column_modifiable_attr(c, column) )
 	    continue ;
-	  column_attr_set(column, c, line[i]) ;
+	  column_attr_set(column, c, line[i], undefined, true) ;
 	}
 
-      create_column(column) ;
       cols.push(column) ;
     }
   // 3 loops because of the formula (dependencies)
