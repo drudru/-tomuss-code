@@ -90,25 +90,29 @@ function key_pressed(event)
 		 }, 100) ;
     }
 }
+function go_hash(name, keep_filter)
+{
+  if ( ! keep_filter )
+  {
+    input.value = '' ;
+    filter() ;
+    display = true ;
+  }
+  
+  setTimeout(function() {
+		   window.location.hash = name ;
+		   set_current() ;
+		   input.focus() ;
+		 }, 1) ;
+}
 
 function go(name)
 {
   if ( name.substr(0,1) == '#' )
     {
       var m = menu.childNodes[Number(name.substr(2))] ;
-
-      if ( m.className.indexOf('unselected') != -1 )
-      	{
-	  display = true ;
-	  input.value = '' ;
-	  filter() ;
-      	}
-      // Must be called once the display is updated
-      setTimeout(function() {
-		   window.location.hash = name ;
-		   set_current() ;
-		   input.focus() ;
-		 }, 1) ;
+      var keep_filter = m.className.indexOf('unselected') == -1 ;
+      go_hash(name, keep_filter) ;
     }
   else
     {
@@ -319,7 +323,7 @@ text_divs.push(menu) ;
 content_divs.push(menu.innerHTML) ;
 
 if ( window.location.hash !== ''
-     && ! window.location.hash.toString().match("^n[0-9]*$") )
+     && ! window.location.hash.toString().match(/^#?n[0-9]*$/) )
   {
     input.value = decodeURI(window.location.hash.toString().substr(1)) ;
   }

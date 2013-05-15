@@ -123,6 +123,8 @@
 	  Pour mémoriser la valeur vous changez de cellule
 	  en utilisant une touche du clavier ou bien en cliquant
 	  ailleurs.
+	  Pour annuller une saisie en cours, appuyez sur
+	  la touche échappement.
     </div>
 
     <div>
@@ -137,13 +139,19 @@
 	  <li> «tab» ou «curseur droit» pour aller à droite.
 	  <li> «majuscule tab» ou «curseur gauche» pour aller à gauche.
 	</ul>
-	<p>
-	  Vous pouvez aussi utilisez les barres d'ascenseur
-	  ou la molette de la souris.
-	<p>
-	  Si les bulles d'aides vous gênent vous pouvez temporairement
-	  les cacher en tapant <tt>Alt-1</tt>
-     
+      <p>
+	Vous pouvez aussi utilisez les barres d'ascenseur
+	ou la molette de la souris.
+      <p>
+	Pour trouver rapidement un étudiant,
+	il faut taper le début de son nom, prénom ou identifiant dans le
+	<a href="javascript:go_hash('filtres')">filtre de ligne</a>.
+	Seule les lignes dans lesquelles l'une des cases contient
+	la valeur recherchée seront affichées.
+	Le filtre de ligne est la case affichée en jaune quand
+	vous arrivez sur la table.
+	Pour y retourner, vous pouvez cliquer dessus ou taper&nbsp;:
+	<tt>Ctrl-f</tt>
     </div>
     <div>
     <h3>Modification des cellules</h3>
@@ -250,7 +258,7 @@
 	<ul>
 	  <li> Les étudiants filtrées,
 	    il faut donc penser à enlever les filtres si l'on
-	    veut tous les étudiants.
+	    veut tout les étudiants.
 	  <li> Seulement les étudiants officiellement inscrits.
 	  <li> La dernière page liste l'ensemble des tiers-temps
 	    <b>si vous avez cliquez sur le bouton les demandant</b>
@@ -1246,19 +1254,39 @@
     </div>
 
 
-    <div>    
-    <h2>Les filtres de TOMUSS</h2>
+    <div>
+      <a href name="filtres"> </a>
+      <h2>Les filtres de TOMUSS</h2>
 
     <p>
       Ils sont utilisés en de nombreux endroits de la même manière :
-      <ul>
-      <li> Dans chaque colonne pour choisir les lignes à filtrer.
-      <li> Pour filtrer les colonnes à afficher en fonction de leur nom.
-      <li> Pour filtrer les lignes contenant une information.
-      <li> Pour filtrer la table complète.
-      <li> Pour compter les valeurs des cellules respectant le filtre.
-      <li> Pour colorier en rouge/vert les cellules d'une colonne.
-    </ul>
+      <table>
+	<tr><th>Pour faire quoi<th>Où sont les filtres</tr>
+      <tr>
+	<td> Filtrer les lignes dont l'une des cellules
+	  correspond au filtre.
+	<td> En bas du bloc de gauche «Cellule».
+	  Accès direct par <tt>Ctrl-f</tt>
+      </tr>
+      <tr>
+	<td> Filtrer les lignes dont la cellule de
+	  la colonne correspond au filtre de la colonne.
+	<td> En dessous des titres de colonnes.</tr>
+      <tr>
+	<td> Filtrer les colonnes à afficher en fonction de leur nom.
+	<td> En bas du bloc central «Colonne».</tr>
+      <tr>
+	<td> Filtrer la table complète pour éliminer
+	  les lignes et colonnes ne contenant pas l'information filtrée.
+	<td> En bas du bloc de droite «Table».</tr>
+      <tr>
+	<td> <b>Compter</b> le nombre de cellule correspondant au filtre.
+	<td> A droite du type de colonne quand celui-ci est
+	  <tt>Nombre de</tt></tr>
+      <tr>
+	<td> <b>Colorier</b> en rouge/vert les cellules d'une colonne.
+	<td> Dans l'onglet «Affiche» du bloc central «Colonne»</tr>
+    </table>
 	<p>
 	  N'oubliez pas que toutes les actions sur la table
 	  tiendront compte des filtres&nbsp;:
@@ -1294,7 +1322,7 @@
       <tr class="highlight"><td> <b>!#=</b><td> le commentaire n'est pas vide.</tr>
       <tr><td> <b>ab ou ba</b><td> La valeur commence par <tt>ab</tt> ou <tt>ba</tt></tr>
       <tr class="highlight"><td> <b>~abc ~cba</b><td> La valeur contient <tt>abc</tt> et aussi <tt>cba</tt></tr>
-      <tr><td> <b>&lt;=b &gt;=h</b><td> Les valeurs commençant par un caractère entre 'b' et 'h'.</tr>
+      <tr><td> <b>&gt;=b &lt;=h</b><td> Les valeurs commençant par un caractère entre 'b' et 'h'.</tr>
       <tr class="highlight"><td> <b>@ ?</b><td> Les valeurs que j'ai modifiées aujourd'hui.</tr>
       <tr><td> <b>!@ ?</b><td> Les valeurs modifiées par les autres aujourd'hui.</tr>
       <tr class="highlight"><td> <b>=0 ou =ABINJ ou =PPNOT</b><td> L'une des trois valeurs</tr>
@@ -1360,22 +1388,27 @@
 	<p>
       Un filtre complexe est une combinaison de filtres simples :
       <ul>
-      <li> Si on veut faire un <em>ou</em> on écrit simplement <b>&nbsp;ou&nbsp;</b>
+      <li> Si on veut faire un «ou» on écrit simplement <b>&nbsp;ou&nbsp;</b>
 	entre les tests simples,
-      <li> Si on veut faire un <em>et</em> on écrit simplement
+      <li> Si on veut faire un «et» on écrit simplement
 	les tests simples en les séparant par un espace.
     </ul>
 
-    <p>Attention à l'ordre d'évaluation
     <p>
-      Les opérateurs <em>ou</em> et <em>et</em> ont la même priorité.
-    <p>
-      Si vous mélangez des <em>ou</em> et des <em>et</em> il faut
+      Attention à l'ordre d'évaluation :
+      les opérateurs «ou» et «et» ont la même priorité.
+      Si vous mélangez des «ou» et des «et» il faut
       tenir compte de l'ordre d'évaluation qui se fait de droite
       à gauche.
     <ul>
-      <li> <b>&gt;5 &lt;15 ou =20</b> Les entiers entre 5 et 15 exclus, auxquels on ajoute le 20.
-      <li> <b>&gt;5 ou =20 &lt;15</b> Les entiers supérieur à 5, auxquels on ajoute les entiers égaux à 20 et inférieurs à 15, mais il n'en existe pas...
+      <li> <b>&gt;5 &lt;15 ou =20</b>
+	Les entiers entre 5 et 15 exclus, auxquels on ajoute le 20.
+      <li> <b>&lt;15 ou =20 &lt;16</b>
+	Les entiers inférieur à 15,
+	auxquels on ajoute les entiers qui sont
+	égaux à 20 <b>et</b> inférieurs à 16,
+	mais il n'en existe pas de tel entier.
+	Donc le «ou» et ce qui suit n'a ajouté aucune valeur.
     </ul>
     <p>
       Pour utiliser un caractère spécial dans le filtre,

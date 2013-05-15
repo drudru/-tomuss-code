@@ -82,6 +82,9 @@ DIV.menu A.filter { background-color: #FF8 ; }
 
 A { text-decoration: none ; }
 
+TABLE TD, TABLE TH, TABLE { border: 1px solid black; vertical-align: top }
+TABLE { border-spacing: 0px; }
+
 @media print {
   DIV.menu { display: none ; }
   DIV.top { margin-left: 0em ; }
