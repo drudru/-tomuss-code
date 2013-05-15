@@ -60,7 +60,7 @@ def get_ue_dict():
 def create_all_ues_js(ues):
     ff_tt_list = utilities.AtomicWrite(os.path.join('TMP','tt_list.txt'))
     ff = utilities.AtomicWrite(os.path.join('TMP','all_ues.js'))
-    ff.write('all_ues = {\n')
+    ff.write('var all_ues = {\n')
     ue_list = []
     for ue, uev in ues.items():
         print ue
