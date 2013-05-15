@@ -1742,6 +1742,14 @@ def virtual_table(server, the_columns, the_lines, table_attrs={}, js=""):
     </script>
     """ % (utilities.wait_scripts(),
            js, columns, lines, utilities.js(repr(server.the_path)) ))
+
+    logins = list(line[0].value
+                  for line in the_lines
+                  if line[0].value
+                  )
+    mails = inscrits.L_batch.mails(logins)
+    server.the_file.write("<script>Xtable_attr('mails',%s);</script>\n"
+                          % utilities.js(mails))
     server.close_connection_now()
                 
 def start_threads():
