@@ -202,7 +202,7 @@ def table_head(year=None, semester=None, the_ticket=None,
             'page_id = "%d" ;\n' % page_id +
             'my_identity = %s ;\n' % repr(user_name) +
             'my_identity2 = %s ;\n' % repr(my_identity2) +
-            'url = %s ;\n' % js(utilities.StaticFile._url_) +
+            'url = %s ;\n' % js(configuration.server_url) +
             'year = "%s" ;\n' % year +
             'semester = "%s" ;\n' % semester +
             'ticket = "%s" ;\n' % the_ticket +

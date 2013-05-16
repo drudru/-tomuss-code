@@ -218,7 +218,7 @@ function personal_mailing_do()
      'recipients': recipents.join("\001"),
      'titles': data_cols_titles.join("\001")
     },
-    '_URL_/=' + ticket + '/send_mail') ;
+    url + '/=' + ticket + '/send_mail') ;
   popup_close();
 }
 
