@@ -922,6 +922,14 @@ def manage_key(dirname, key, separation=3, content=None, reduce_ok=True, append=
                            'manage key backup' + key)
     return c
 
+def key_mtime(dirname, key, separation=3):
+    """Return the modification time of the key"""
+    try:
+        return os.path.getmtime(os.path.join(dirname, key[:separation], key))
+    except OSError:
+        return 0
+
+
 def charte(login, year=None, semester=None):
     if year == None:
         year, semester = configuration.year_semester
