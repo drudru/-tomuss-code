@@ -609,6 +609,14 @@ msgstr "This link allow to manage your preferences<br>\n"
        "Preferences are applied to <b>all</b> the tables"
 
 #. GUI Label
+msgid "LABEL_howto"
+msgstr "HowTo"
+
+#. Label Tip
+msgid "TIP_howto"
+msgstr "Explanatory videos"
+
+#. GUI Label
 msgid "MSG_connected"
 msgstr "Live link to server"
 

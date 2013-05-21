@@ -670,6 +670,24 @@ DIV.tipped { background:red;}
 .one_line { background:green  }
 */
 
+DIV.howto {
+    background: white ;
+    border: 2px solid black ;
+    }
+DIV.howto.import_export {
+    padding: 0px ;
+    bottom: 0px ;
+    right: 0px;
+    top: auto ;
+    left: auto ;
+}
+
+.howto IFRAME {
+    width: 1000px ;
+    height: 576px ;
+    border: 0px ;
+    }
+
 /*****************************************************************************/
 /* PRINT */
 /*****************************************************************************/

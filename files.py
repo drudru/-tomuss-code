@@ -62,6 +62,7 @@ for name in (
     'robots.txt',
     'doc_table.html', 'documentation.js', 'documentation.css',
     'stats.html',
+    'howto.html',
     ):
     add('FILES', name)
 

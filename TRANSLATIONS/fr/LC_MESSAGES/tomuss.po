@@ -599,6 +599,14 @@ msgstr "Ce lien vous permet de régler les préférences.<br>\n"
        "Les préférences sont appliquées à <b>tous</b> les tableaux"
 
 #. GUI Label
+msgid "LABEL_howto"
+msgstr "Aides"
+
+#. Label Tip
+msgid "TIP_howto"
+msgstr "Catalogue de video explicatives de TOMUSS"
+
+#. GUI Label
 msgid "MSG_connected"
 msgstr "Connecté au serveur"
 

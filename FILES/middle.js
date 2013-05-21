@@ -100,7 +100,9 @@ function head_html()
   if ( myindex(semesters, semester) != -1 )
       w += '<a href="' + suivi.split('/=')[0] + '/rss2/' + ue + '"><img style="border:0px" src="' + url + '/feed.png"></a>' ;
 
- w += hidden_txt('<a href="' + url + '/=' + ticket + '/0/Preferences/'
+  w += hidden_txt('<a href="javascript:howto()">'
+		  + _('LABEL_howto') + '</a>', _('TIP_howto')) + ', '
+    + hidden_txt('<a href="' + url + '/=' + ticket + '/0/Preferences/'
 		 + my_identity2 + '" target="_blank">' + _('LABEL_preferences')
 		 + '</a>', _('TIP_preferences')) + ', '
     + hidden_txt(_('MSG_connected'), _('TIP_connection_state'), '',
@@ -1107,6 +1109,13 @@ function tail_html()
   return a ;
 }
 
+function howto()
+{
+  create_popup('howto', '',
+	       '<iframe src="' + url + '/howto.html"></iframe>',
+	       '', false) ;
+}
+
 function insert_middle()
 {
   if ( preferences.interface == 'L' )
@@ -1144,5 +1153,6 @@ function insert_middle()
   w += '</div></div><div id="loading_bar"><div></div></div>' ;
   document.write(w) ;
 }
+
 
 
