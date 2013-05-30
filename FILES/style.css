@@ -680,6 +680,8 @@ DIV.howto.import_export {
     right: 0px;
     top: auto ;
     left: auto ;
+    max-height: 100% ;
+    max-width: 100% ;
 }
 
 .howto IFRAME {

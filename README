@@ -27,7 +27,7 @@ To create ou edit a table:
 
 To launch a 'suivi' server:
     ./suivi.py 2012 Printemps 8890 regtest
-The parameters MUST be the ones defined in LOCAL/__init__.py
+The parameters MUST be the ones defined in LOCAL/config.py
 
 To configure TOMUSS:
 
@@ -40,7 +40,7 @@ To configure TOMUSS:
 Look at 'configuration.py' configuration file. DO NOT MODIFY IT.
 change the values in your LOCAL files:
 
-	LOCAL/__init__.py
+	LOCAL/config.py
 
 
 To start/stop all the servers :
