@@ -25,6 +25,8 @@ from . import document
 from . import configuration
 from . import utilities
 
+table_mtimes = {}
+
 def les_ues(year, semester, true_file=False, all_files=False, ro=True):
     """true_file is for UE that link to another UE"""
     dirname = os.path.join(configuration.db,'Y'+ str(year),'S' + str(semester))
@@ -35,12 +37,20 @@ def les_ues(year, semester, true_file=False, all_files=False, ro=True):
             continue
         if ue == 'undefined.py':
             continue
+        filename = document.table_filename(str(year), str(semester), ue[:-3])
+        mtime = os.path.getmtime(filename)
+        last_mtime, official = table_mtimes.get(filename, (0, False))
+        if not official and last_mtime == mtime:
+            # The not official table has not be modified
+            continue
         table = document.table(str(year), str(semester), ue[:-3], ro=ro)
         if not table:
             continue
         if all_files or table.official_ue:
+            table_mtimes[filename] = (mtime, True)
             yield table
         else:
+            table_mtimes[filename] = (mtime, False)
             table.unload()
 
 

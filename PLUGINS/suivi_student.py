@@ -89,6 +89,9 @@ def member_of_list(login):
 
 last_full_read_time = 0
 
+def dir_mtime(year, semester):
+    name = os.path.join(configuration.db, "Y%s" % year, "S" + semester)
+    return os.path.getmtime(name)
 
 def the_ues(year, semester, login):
     global last_full_read_time
@@ -97,9 +100,9 @@ def the_ues(year, semester, login):
         dt = 60
     else:
         dt = 3600
-    
-    if configuration.regtest or time.time() - last_full_read_time > dt:
-        last_full_read_time = time.time()
+    mtime = dir_mtime(year, semester)
+    if configuration.regtest or mtime - last_full_read_time > dt:
+        last_full_read_time = mtime
         # Force the generator to do its job to check new students or tables
         tuple(tablestat.les_ues(year, semester, true_file=False))
 
