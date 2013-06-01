@@ -3306,7 +3306,10 @@ msgstr "To use only in case of.\n"
 
 msgid "MSG_new_page_unauthorized"
 msgstr "<h1>You are not allowed to edit this table</h1>\n"
-       "<p>It contains confidential data that can not be displayed to anybody."
+       "<p>It contains confidential data that can not be displayed to anybody.\n"
+       "<p>Maybe it has been switched to 'Private' by mistake in\n"
+       "the 'Parametrage' tab?"
+
 
 msgid "MSG_new_page_in_past"
 msgstr " does not exist, and it is not possible to create table in the past."

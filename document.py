@@ -1369,6 +1369,10 @@ def table(year, semester, ue, page=None, ticket=None, ro=False, create=True,
         if ticket == None:
             return t
         if not t.readable_by(ticket):
+            try:
+                t.do_not_unload_remove('new_page')
+            except ValueError:
+                pass
             return None, None
         # The new page may append work to check_students_in_tables
         # And the work is done without call to 'table'.

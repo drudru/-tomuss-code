@@ -144,6 +144,7 @@ def new_page(server):
         return
 
     if table == None:
+        utilities.send_backtrace(repr(server.the_path), 'Newpage Unauthorized')
         server.the_file.write(server._("MSG_new_page_unauthorized"))
         server.close_connection_now()
         warn('No Table', what="error")
