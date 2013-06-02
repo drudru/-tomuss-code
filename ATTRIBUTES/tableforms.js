@@ -231,9 +231,6 @@ function table_forms_update(THIS)
 
 function table_forms_jump(lin, col, do_not_focus, line_id, data_col)
 {
-    if ( lin == this.lin && col == this.col )
-      return ;
-  
     var new_class = this.tr.className.replace(/ *currentformline/, '') ;
 
     this.tr.className = new_class ;
