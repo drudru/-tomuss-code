@@ -277,7 +277,6 @@ class Table(object):
         self.the_key_dict = collections.defaultdict(list)
         self.unloaded = False
         self.do_not_unload = []
-        self.modifiable = int(not ro)
         dirname = os.path.join(configuration.db,
                                'Y'+str(self.year), 'S'+self.semester)
         self.filename = os.path.join(dirname, ue + '.py')
@@ -299,7 +298,6 @@ class Table(object):
             if isinstance(v, utilities.Variables):
                 self.group = v._group
 
-        warn('allow modification:' + str(self.modifiable),what='table')
         created = False
         self.on_disc = True
         if self.modifiable:
@@ -337,7 +335,7 @@ class Table(object):
             # than the .py file, So it is not recompiled in some case.
             # os.remove(self.filename + 'c')
             warn('Create start', what='table')
-            self.user = user
+            self.user = user # Usable by template.create()
             # We lock because table change methods expects to be locked.
             # But this lock does not protect anything
             self.lock()
