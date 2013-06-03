@@ -301,7 +301,8 @@ for(var i_div in divs)
             div.toc_number = class_divs.length ;
             m.setAttribute('toc_number', class_divs.length) ;
             m.setAttribute('the_div', i_div) ;
-	    if ( e.tagName == 'H2' || e.tagName == 'H3' )
+	    if ( e.tagName == 'H2' || e.tagName == 'H3'
+		 || (window.level4 && e.tagName == 'H4'))
 	    {
               if ( menu_index++ % 2 == 0)
 		m.className = 'highlight' ;

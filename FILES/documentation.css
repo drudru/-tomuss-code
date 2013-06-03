@@ -69,7 +69,8 @@ DIV.menu A.current {
 }
 DIV.menu A.h1 { font-weight: bold}
 DIV.menu A.h2 { font-weight: bold ; padding-left: 1em }
-DIV.menu A.h3 { padding-left: 3em }
+DIV.menu A.h3 { padding-left: 2em }
+DIV.menu A.h4 { padding-left: 4em ; font-size: 60% }
 .highlight { background-color: #DDF }
 
 H1, H2, H3 { background-color: #8F8 ; margin: 0px; }
