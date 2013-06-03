@@ -966,9 +966,10 @@ class Table(object):
             return # Do not auto compute ABINJ??? if there is no real groups
         grp_col = self.columns.get_grp()
         seq_col = self.columns.get_seq()
-        for line in self.lines.values():
-            if line[grp_col].value == grp and line[seq_col].value == seq:
-                yield line
+        if grp_col and seq_col:
+            for line in self.lines.values():
+                if line[grp_col].value == grp and line[seq_col].value == seq:
+                    yield line
 
     def get_items(self, login):
         login = utilities.the_login(login)
