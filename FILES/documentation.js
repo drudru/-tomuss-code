@@ -333,3 +333,4 @@ display = true ;
 input.focus() ;
 
 setInterval("filter()", 100) ;
+setTimeout("document.body.scrollTop = 0 ;", 200) ;

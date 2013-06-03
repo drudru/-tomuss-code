@@ -24,7 +24,7 @@ DIV.menu {
   width: 17em ;
 }
 
-#log IMG { width:1 ; height:1 }
+#log IMG { width:1px ; height:1px }
 
 DIV.menu P.search {
   background-color: #DDF ;
