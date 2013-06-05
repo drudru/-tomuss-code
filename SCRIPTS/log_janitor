@@ -16,6 +16,6 @@ find LOGS/BACKTRACES/ -type d -mtime +60  -exec rm {} \;
 mkdir Trash/$(date +"%Y%m%d")
 TRASH="Trash/$(date +"%Y%m%d")/2008TestLogJanitor"
 mkdir "$TRASH"
-find DB/Y2008/STest/ -type f -mtime +400  -exec mv {} "$TRASH" \;
+find DB/Y2008/STest/ -type f -mtime +400 ! -name '__init__.py' -exec mv {} "$TRASH" \;
 
 

@@ -50,13 +50,13 @@ if sys.argv[1] == 'checkmail':
                 if sn == '' or givenname == '':
                     continue
                 if '@' not in mail:
-                    print '@\t' + mail
+                    print '%-24s @\t' % login + mail
                     bad['@'].append(login)
                     continue
                 try:
                     name, domain = mail.upper().split('@')
                 except ValueError:
-                    print '@@\t', mail
+                    print '%-24s @@\t' % login + mail
                     bad['@@'].append(login)
                     continue
 
@@ -65,7 +65,7 @@ if sys.argv[1] == 'checkmail':
                 x = re.sub("[-a-zA-Z_.0-9@\']", "", mail)
                 if x:
                     bad[x].append(login + ':' + mail)
-                    print repr(x) + '\t' + mail.encode('utf-8')
+                    print '%-24s ' % login + repr(x) + '\t' + mail.encode('utf-8')
 
     for d in sorted(dom.keys(), key=lambda x: dom[x]):
         print d.encode('utf-8'), dom[d]
