@@ -73,8 +73,9 @@ def update_inscrits_ue(the_ids, table, page):
             if isinstance(i, unicode):
                 i = i.encode('utf8')
             t.append(i)
-        
+
         update_student(table, page, the_ids, t)
+    #update_student(table,page,the_ids,('k00',u'xxx',u'yyy','xxx@yyy','',''))
     terminate_update(table, the_ids)
 
 def create_column(table, title, content_type, average=10., delta=5.):

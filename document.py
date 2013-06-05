@@ -1436,8 +1436,9 @@ def check_new_students_real():
                 if t.template and hasattr(t.template, 'check'):
                     t.template.check(t)
                 warn('done %s' % t.ue, what="table")
-                t.change_mails(inscrits.L_batch.mails(
+                t.mails.update(inscrits.L_batch.mails(
                         list(t.logins()) + t.authors()))
+                t.change_mails(t.mails)
                 if t.modifiable:
                     if t.force_update or getattr(t, 'update_inscrits', True):
                         for a_column in t.columns:
