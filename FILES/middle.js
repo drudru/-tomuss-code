@@ -349,6 +349,7 @@ function filter_change_column(value, column)
 
 function header_change_on_update(event, input, what)
 {
+  last_user_interaction = millisec() ;
   var column = the_current_cell.column ;
 
   if ( what.match(/^column_attr_/) )
@@ -517,7 +518,7 @@ function create_tabs(name, tabs, more)
 
   var s = ['<div class="tabs" id="' + name + '"><div class="titles">'] ;
   for(var i in tabs)
-     s.push('<span id="title_' + tabs[i][0] + '" onclick="select_tab(\'' + name + "','" +
+     s.push('<span id="title_' + tabs[i][0] + '" onclick="last_user_interaction=millisec();select_tab(\'' + name + "','" +
             tabs[i][0] + '\');">' + tabs[i][0]
              + '</span>') ;
   s.push(more + '</div><div class="contents">') ;

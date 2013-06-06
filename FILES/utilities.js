@@ -2088,6 +2088,7 @@ function alt_shortcut(event, td)
 
 function current_keydown(event, in_input)
 {
+  last_user_interaction = millisec() ;
   event = the_event(event) ;
   var key = event.keyCode ;
   if ( popup_is_open() )

@@ -83,6 +83,7 @@ var last_day ;
 var current_window_width ;
 var current_window_height ;
 var table_info = [] ; // see middle.js
+var last_user_interaction = 0 ; // setted with millisec()
 
 // HTML elements
 var divtable ;
@@ -546,7 +547,8 @@ function header_focus(t)
 }
 
 function header_title_click(t)
-{  
+{
+  last_user_interaction = millisec() ;
   if ( element_focused && element_focused.onblur )
     element_focused.onblur() ;
   t = t.parentNode ;
@@ -764,6 +766,7 @@ function show_the_tip(td, tip_content)
 // XXX should be renamed on_mouse_up
 function on_mouse_down(event)
 {
+  last_user_interaction = millisec() ;
   // See 'move_scrollbar_begin', we must finish scrollbar dragging
   if ( body_on_mouse_up_doing && body_on_mouse_up(event) )
     {
@@ -2038,19 +2041,13 @@ function table_fill(do_not_focus, display_headers, compute_filtered_lines)
 
 function table_fill_real()
 {
-  var read = 0 ;
   var write = nr_headers ;
   var td ;
   var empty_column = add_empty_columns() ;
   var cls = column_list() ;
   var d1 = millisec() ;
-  for(var line in filtered_lines)
+  for(var line=line_offset; line<filtered_lines.length; line++)
     {
-      if ( read < line_offset ) // XXX slow :-(
-	{
-	  read++ ;
-	  continue ;
-	}
       line_fill(line, write, cls, empty_column) ;
       write++ ;
       if ( write == table_attr.nr_lines + nr_headers )
@@ -4698,6 +4695,13 @@ function javascript_regtest_ue()
   alert_real('Test duration:' + (end_test - start_test)/1000 + 'seconds') ;
 }
 
+function user_is_doing_nothing()
+{
+  if ( millisec() - last_user_interaction > 60000 ) // 60 seconds
+    return true ;
+  return false ;
+}
+
 /*REDEFINE
 */
 function do_change_abjs(m)
@@ -4709,6 +4713,8 @@ var the_student_abjs = {} ;
 function change_abjs(m)
 {
   do_change_abjs(m) ;
+  if ( user_is_doing_nothing() )
+    table_fill(true) ;
 }
 
 function the_full_login_list(login, results, add)
