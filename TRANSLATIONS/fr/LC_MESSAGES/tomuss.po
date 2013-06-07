@@ -2226,9 +2226,6 @@ msgid "ALERT_are_you_sure2"
 msgstr "Cette opération est irréversible, voulez-vous la faire ?"
        
 
-msgid "ALERT_home_delete_before"
-msgstr "Destruction de "
-
 msgid "B_home_edit"
 msgstr "Éditer la table"
 
@@ -2255,9 +2252,6 @@ msgstr "Ajouter à vos favoris"
 
 msgid "B_home_unsemestrialize"
 msgstr "Passer cette UE en NON-SEMESTRIALISÉ"
-
-msgid "B_home_delete_table"
-msgstr "Détruire"
 
 msgid "MSG_home_nr_view_before"
 msgstr "Vous avez consulté cette table "

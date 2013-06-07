@@ -193,34 +193,6 @@ function do_extension(code)
     }
 }
 
-function do_delete(ue_code)
-{
-  var code ;
-  ue_line_close() ;
-    if (confirm(_("ALERT_home_delete_before") + ue_code + "\n\n"
-		+ _("ALERT_are_you_sure") ) )
-    {
-      if ( ue_code.search('/') == -1 )
-	code = base + year_semester() + '/' + ue_code ;
-      else
-	code = base + ue_code ;
-
-      create_popup('import_popup',
-		    _("ALERT_home_delete_before") + ue_code,
-		   '<iframe width="100%" src="'
-		   + code + '/delete_this_table"></iframe>',
-		   '', false) ;
-
-      for(var j in master_of)
-	{
-	  var i = master_of[j] ;
-	  if ( i[0] + '/' + i[1] + '/' + i[2] == ue_code )
-	    delete master_of[j] ;
-	}
-      ue_set_favorite(undefined, ue_code, 0) ;    
-    }
-}
-
 function ue_line_click_more()
 {
   if ( ue_line_over_plus.childNodes[1].style.display != 'none' )
@@ -305,21 +277,6 @@ function ue_line_click_more()
 	{
 	  t +=  '<br><img class="safety" src="_URL_/unsafe.png"><a href="javascript:do_extension(\'' + code + '\');">' + _("B_home_unsemestrialize") + '</a>' ;
 	}
-
-      if ( is_the_current_semester()
-	   || semester() == 'Test'
-	   || (code && code.match('.*/.*'))
-	   )
-	if ( code )
-	  t +=  '<br><img class="safety" src="_URL_/unsafe.png">'
-	    + '<a href="javascript:do_delete(\'' + code
-	    + '\');">' + _("B_home_delete_table") + ' ' + title + '</a>' ;
-	else
-	  t +=  '<br><img class="safety" src="_URL_/unsafe.png">'
-	    + '<a href="javascript:do_delete(\''
-	    + (ue_line_over_last.childNodes[1].textContent
-	       || ue_line_over_last.childNodes[1].innerText)
-	    + '\');">' + _("B_home_delete_table") + '</a>' ;
 
       ue_line_over_plus.childNodes[1].style.display = 'block' ;
       ue_line_over_plus.childNodes[1].innerHTML = t ;

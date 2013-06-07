@@ -2223,9 +2223,6 @@ msgid "ALERT_are_you_sure2"
 msgstr "Irreversible action. Do you want to do it?"
        
 
-msgid "ALERT_home_delete_before"
-msgstr "Deletion of "
-
 msgid "B_home_edit"
 msgstr "Edit the table"
 
@@ -2252,9 +2249,6 @@ msgstr "Add to the favorites"
 
 msgid "B_home_unsemestrialize"
 msgstr "Unsemestrialize this table"
-
-msgid "B_home_delete_table"
-msgstr "Delete"
 
 msgid "MSG_home_nr_view_before"
 msgstr "Table viewed "
