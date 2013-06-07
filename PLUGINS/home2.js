@@ -1419,10 +1419,37 @@ function home_resize_event()
 }
 
 /*REDEFINE
-  Change whatever you want on the home page
+  Change whatever you want on the home page.
+  It is called when 'all_ues' load is done.
 */
+function generate_home_page_hook_with_ues()
+{
+}
+
+/*REDEFINE
+  Change whatever you want on the home page.
+  It is called as soon as possible.
+  The 'all_ues' variable is not usable.
+*/
+function generate_home_page_hook_without_ues()
+{
+}
+
+var generate_home_page_hook_not_called = true ;
 function generate_home_page_hook()
 {
+  if ( generate_home_page_hook_not_called )
+  {
+    generate_home_page_hook_without_ues() ;
+    generate_home_page_hook_not_called = false ;
+  }
+      
+  try {
+    all_ues[''] ;
+    generate_home_page_hook_with_ues() ;
+  } catch(e) { // Wait all_ues.js loading
+    setTimeout(generate_home_page_hook, 1000) ;
+  }
 }
 
 function generate_home_page()
