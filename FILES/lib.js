@@ -735,6 +735,7 @@ function show_the_tip(td, tip_content)
 
   // Display the '?'
   var tip_plus = document.getElementById('tip_plus') ;
+  tip.style.display = 'none' ;
   tip_plus.style.display = 'block' ;
   var td2 = tip_top(td) ;
   var pos = findPos(td) ;
