@@ -513,6 +513,14 @@ msgstr "Click here to edit configurations values commons\n"
 msgid "TIP_table_attr_t_copy"
 msgstr "Table copy"
 
+msgid "CONFIRM_table_delete"
+msgstr "Do you really want do fully delete the table:"
+
+#. Attribute Tip
+msgid "TIP_table_attr_table_delete"
+msgstr "Delete the table.<br>\n"
+       "Only TOMUSS administrator can restore it."
+
 #. Attribute Tip
 msgid "TIP_table_attr_print"
 msgstr "Allow to export to a spreadsheet or print signature page."
@@ -1160,6 +1168,10 @@ msgstr "Create a bookmark with the <b>display parameters</b>"
 #. GUI 
 msgid "TITLE_table_attr_t_copy"
 msgstr "Table copy"
+
+#. GUI 
+msgid "TITLE_table_attr_table_delete"
+msgstr "DELETE table"
 
 #. GUI 
 msgid "TITLE_table_attr_t_export"
@@ -3348,7 +3360,7 @@ msgid "MSG_delete_this_table_unmodifiable"
 msgstr "Unmodifiable table are not deletable."
 
 msgid "MSG_delete_this_table_done"
-msgstr "Deletion done."
+msgstr "Deletion done. You can close the window."
 
 msgid "COL_TITLE_service"
 msgstr "Service"

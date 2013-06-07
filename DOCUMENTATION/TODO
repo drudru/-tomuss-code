@@ -8,8 +8,6 @@ Nouvelles fonctionnalités.
 Utilisateurs finaux.
 --------------------
 
-* Le suivi doit lire les pages statiques sur le serveur principal ?
-
 * Lien destruction de table : DANS la table.
 
 * améliorer export ID
@@ -162,6 +160,10 @@ Problèmes à résoudre.
 
 * Version TOMUSS des fichiers statiques indiqué dans l'URL afin que les
   changements de version se passent bien.
+* Le suivi doit lire les pages statiques sur le serveur principal ?
+* Séparer les fichiers "static" ailleurs, se débarrasser de
+  l'attribut 'translation' qui empêche cela
+
 
 * Copier puis drag fait n'importe quoi sur les cases du tableau.
   Sous windows seulement
@@ -197,9 +199,6 @@ Améliorations de code source.
 =============================
 
 * Enlever _URL_ si c'est possible
-
-* Séparer les fichiers "static" ailleurs, se débarrasser de
-  l'attribut 'translation' qui empêche cela
 
 * Faire une procédure de serveur feedback générique
 

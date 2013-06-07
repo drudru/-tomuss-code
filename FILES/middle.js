@@ -921,6 +921,7 @@ function new_new_interface()
   t.push('</div>') ;
   t.push('<div class="one_line">') ;
   t.push(table_input_attr('autosave')) ;
+  t.push(', ' + table_input_attr('table_delete')) ;
   t.push('</div>') ;
   t.push('<div class="one_line">') ;
   t.push(table_input_attr('bookmark')) ;

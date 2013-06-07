@@ -503,6 +503,14 @@ msgstr "Suivez ce lien pour éditer la configuration du template.\n"
 msgid "TIP_table_attr_t_copy"
 msgstr "Copier la définition de la table, son contenu."
 
+msgid "CONFIRM_table_delete"
+msgstr "Voulez-vous vraiment détruire la table complète :"
+
+#. Attribute Tip
+msgid "TIP_table_attr_table_delete"
+msgstr "Détruit définitivement la table.<br>\n"
+       "Seul l'administrateur TOMUSS pourra la récupérer"
+
 #. Attribute Tip
 msgid "TIP_table_attr_print"
 msgstr "Permet d'exporter vers un tableur,<br>et aussi d'imprimer les feuilles d'émargement."
@@ -1159,6 +1167,10 @@ msgstr "Créer un signet avec les <b>options d'affichage</b>"
 #. GUI 
 msgid "TITLE_table_attr_t_copy"
 msgstr "Copie de table TOMUSS"
+
+#. GUI 
+msgid "TITLE_table_attr_table_delete"
+msgstr "DETRUIRE la table"
 
 #. GUI 
 msgid "TITLE_table_attr_t_export"
@@ -3375,7 +3387,7 @@ msgid "MSG_delete_this_table_unmodifiable"
 msgstr "On ne peut pas détruire une table non modifiable."
 
 msgid "MSG_delete_this_table_done"
-msgstr "La destruction a été faite."
+msgstr "La destruction a été faite, vous pouvez fermer la fenêtre."
 
 msgid "COL_TITLE_service"
 msgstr "Service"

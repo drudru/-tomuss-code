@@ -173,40 +173,6 @@ plugin.Plugin('key_history', '/{Y}/{S}/{U}/{P}/key_history/{*}',
               priority=-2
               )
 
-def delete_this_table(server):
-    """Delete the table."""
-    table = document.table(server.the_year, server.the_semester,
-                           server.the_ue, None, None)
-    if not table.modifiable:
-        server.the_file.write(server._("MSG_delete_this_table_unmodifiable"))
-        return
-    if server.ticket.user_name not in table.masters:
-        server.the_file.write(server._("MSG_extension_not_master"))
-        return
-
-## Uncomment these lines in order to remove deleted tables from favorites.
-##    d = utilities.manage_key('LOGINS',
-##                             os.path.join(server.ticket.user_name, 'pages')
-##                             )
-##    if d:
-##        d = eval(d)
-##        if server.the_ue in d:
-##            del d[server.the_ue]
-##            utilities.manage_key('LOGINS',
-##                                 os.path.join(server.ticket.user_name,
-##                                              'pages'),
-##                                 content = repr(d)
-##                                 )
-    
-    table.delete()
-    server.the_file.write(server._("MSG_delete_this_table_done"))
-    
-
-plugin.Plugin('delete_this_table', '/{Y}/{S}/{U}/delete_this_table',
-              group='staff',
-              function=delete_this_table,
-              )
-
 def end_of_load(server):
     """Keep track of the end of page loading to do stats.
     If the page takes too long to load, then 'newpage.py' assumes
