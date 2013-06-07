@@ -104,6 +104,8 @@ class MyRequestBroker(utilities.FakeRequestHandler):
             f = files[path[1:]]
             self.send_header('Content-Type', f.mimetype)
             self.send_header('Content-Length', len(f))
+            self.send_header('Cache-Control',
+                             'max-age=%d' % configuration.maxage)
             self.end_headers()
             self.wfile.write( f )
             self.log_time('static_file')
