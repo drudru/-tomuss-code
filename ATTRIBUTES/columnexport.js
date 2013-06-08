@@ -79,11 +79,18 @@ function get_filtered_logins()
 
 function export_column()
 {
-  columnexport_options = {"values": true} ;
+  if ( the_current_cell.data_col == 0 )
+    columnexport_options = {"students": true} ;
+  else
+    columnexport_options = {"values": true} ;
   create_popup('export_div',
 	       _("TITLE_columnexport_before") + the_current_cell.column.title
 	       + _("TITLE_columnexport_after"),
 	       _("MSG_columnexport_before")
+	       + '<a href="javascript:columnexport_filtered()">'
+	       + hidden_txt(_("MSG_columnexport_filtered"),
+			    _("TIP_columnexport_filtered")) + '</a>'
+	       + _("MSG_columnexport_middle")
 	       + toggle_button(_("B_columnexport_abjvalue"),
 			       'columnexport_options', 'abjvalue',
 			       _("TIP_columnexport_abjvalue")
@@ -119,6 +126,8 @@ function export_column()
 	       ) ;
   do_printable_display = false ;
   periodic_work_add(do_columnexport) ;
+  if ( popup_column().data_col == 0 )
+    columnexport_filtered() ;
 }
 
 function columnexport_filtered()

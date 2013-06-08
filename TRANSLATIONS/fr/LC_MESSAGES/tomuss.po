@@ -1111,7 +1111,7 @@ msgstr "<b>Détruire</b> définitivement la colonne"
 
 #. GUI 
 msgid "TITLE_column_attr_export"
-msgstr "<b>Exporter</b> la colonne pour APOGÉE"
+msgstr "<b>Exporter</b> la colonne pour APOGÉE ou un tableur"
 
 #. GUI 
 msgid "TITLE_column_attr_fill"
@@ -1897,7 +1897,10 @@ msgstr "» vers APOGÉE"
 
 msgid "MSG_columnexport_before"
 msgstr "<ul><li> Collez dans la zone blanche\n"
-       "les numéros d'étudiants venant d'APOGÉE.\n"
+       "les numéros d'étudiants venant d'APOGÉE (ou prendre "
+       
+msgid "MSG_columnexport_middle"
+msgstr ").\n"
        "<li> Options : "
        
 msgid "MSG_columnexport_after"

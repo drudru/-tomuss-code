@@ -1892,7 +1892,10 @@ msgid "TITLE_columnexport_after"
 msgstr "»"
 
 msgid "MSG_columnexport_before"
-msgstr "<ul><li> Paste the student IDs in the white input area.\n"
+msgstr "<ul><li> Paste the student IDs in the white input area (or "
+
+msgid "MSG_columnexport_middle"
+msgstr ").\n"
        "<li> Options: "
 
 msgid "MSG_columnexport_after"
