@@ -8,6 +8,8 @@ Nouvelles fonctionnalités.
 Utilisateurs finaux.
 --------------------
 
+* Ajouter .. pour cacher complètement. Faire un bouton ?
+
 * Clic long ==> menu des valeurs pour la cellule (ou autres menus cachés)
 
 * Sauvegarde de l'état figé d'une colonne (à faire dans le nouvel interface).
@@ -89,6 +91,8 @@ Utilisateurs finaux.
 Administrateur.
 ---------------
 
+* ticket not fine for image :ne s'arrête pas.
+
 * Reload plugins doit recharger les templates.
   Il faut d'abord créer des surclasses
 
@@ -121,6 +125,12 @@ Administrateur.
 Problèmes à résoudre.
 =====================
 
+* Version TOMUSS des fichiers statiques indiqué dans l'URL afin que les
+  changements de version se passent bien.
+* Le suivi doit lire les pages statiques sur le serveur principal ?
+* Séparer les fichiers "static" ailleurs, se débarrasser de
+  l'attribut 'translation' qui empêche cela
+
 * Navigateur web plante avant d'envoyer les actions dans le bon ordre
   La liste des actions à faire : si trop vieille regarder si elles
   ont été faites par ailleurs et si non, envoyer un mail ?
@@ -148,18 +158,9 @@ Problèmes à résoudre.
 
 * Découpler referents_students pour avoir les bon referents par semestre.
 
-* Passer les .css avant les .js
-
 * Rechargement page d'accueil si la recherche étudiant marche pas
 
 * Stats : Impression et sauvegarde sous Chrome
-
-* Version TOMUSS des fichiers statiques indiqué dans l'URL afin que les
-  changements de version se passent bien.
-* Le suivi doit lire les pages statiques sur le serveur principal ?
-* Séparer les fichiers "static" ailleurs, se débarrasser de
-  l'attribut 'translation' qui empêche cela
-
 
 * Copier puis drag fait n'importe quoi sur les cases du tableau.
   Sous windows seulement

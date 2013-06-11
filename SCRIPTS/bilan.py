@@ -24,7 +24,6 @@ import tomuss_init
 from .. import configuration
 from .. import tablestat
 from .. import utilities
-from .. import inscrits
 
 class UE:
     def __init__(self):
@@ -46,10 +45,13 @@ class UE:
                 abinj += 1
             elif value == configuration.abj:
                 abjus += 1
-            elif column.type.name == 'Note':
+            if column.type.name == 'Note':
                 try:
-                    value = float(value)
                     min, max = column.min_max()
+                    if value == configuration.abi:
+                        value = min
+                    else:
+                        value = float(value)
                     if value >= min and value <= max:
                         summation += (value - min) / (max - min)
                         nr += 1
@@ -60,10 +62,10 @@ class UE:
         if nr == 0:
             summation = "-1"
         else:
-            summation = '%4.2f' % (summation/float(nr))
+            summation = '%.3f' % (summation/float(nr))
         
         self.infos[table.year, table.semester] = (prst, abinj, abjus,
-                                                  summation)
+                                                  summation, nr)
 
     def __str__(self):
         keys = list(self.infos.keys())
@@ -74,7 +76,7 @@ class UE:
             s.append('[' + str(k[0]) + ',' +
                      repr(k[1]) + ',' +
                      str(v[0]) + ',' + str(v[1]) + ',' + str(v[2]) +
-                     ',%s' % v[3]
+                     ',%s' % v[3] + ',' + str(v[4]) 
                      + ']')
         return '[' + ',\n'.join(s) + ']'
 
@@ -122,6 +124,7 @@ def safe(x):
     return re.sub('[^a-zA-Z]', '_', x).encode('latin1')
 
 for i, ues in students.items():
+    # from .. import inscrits
     # a = inscrits.L_batch.firstname_and_surname(i)
     # print i, safe(a[1].upper()), safe(a[0].lower()),
     s = sorted(list(ues), key=lambda x: len(ues[x].infos))
