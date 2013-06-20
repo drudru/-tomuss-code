@@ -1,7 +1,7 @@
 // -*- coding: utf-8 -*-
 /*
     TOMUSS: The Online Multi User Simple Spreadsheet
-    Copyright (C) 2008-2011 Thierry EXCOFFIER, Universite Claude Bernard
+    Copyright (C) 2008-2013 Thierry EXCOFFIER, Universite Claude Bernard
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -38,7 +38,7 @@ function set_visibility_date(value, column, xcolumn_attr)
 	   ) ;
       return column.formatter(column.visibility_date) ;
     }
-  if ( xcolumn_attr === false && v.getTime() - millisec() < 0 )
+  if ( xcolumn_attr === false && v.getTime() + 86400*1000 - millisec() < 0 )
     {
       Alert("ALERT_columnvisibility_date_past") ;
       return column.formatter(column.visibility_date) ;
