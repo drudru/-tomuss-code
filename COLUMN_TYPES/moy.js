@@ -1,6 +1,6 @@
 /*
     TOMUSS: The Online Multi User Simple Spreadsheet
-    Copyright (C) 2008,2010 Thierry EXCOFFIER, Universite Claude Bernard
+    Copyright (C) 2008-2013 Thierry EXCOFFIER, Universite Claude Bernard
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -192,8 +192,15 @@ function compute_average(data_col, line)
     value = abi ;
   else if ( weight !== 0 )
     {
-      sum = column.min + sum * (column.max - column.min) / weight + sum2 ;
-      value = Number(sum.toPrecision(6)) ;
+      if ( sum2 <= 0 && nr_abi == values.length - nr_sum )
+      {
+	value = abi ;
+      }
+      else
+      {
+	sum = column.min + sum * (column.max - column.min) / weight + sum2 ;
+	value = Number(sum.toPrecision(6)) ;
+      }
       if ( column.round_by )
 	{
 	  value = Math.round(value / column.round_by) * column.round_by ;
