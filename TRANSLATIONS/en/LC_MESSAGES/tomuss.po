@@ -2253,6 +2253,9 @@ msgstr "Add to the favorites"
 msgid "B_home_unsemestrialize"
 msgstr "Unsemestrialize this table"
 
+msgid "B_home_delete_table"
+msgstr "Delete"
+
 msgid "MSG_home_nr_view_before"
 msgstr "Table viewed "
 
