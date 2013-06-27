@@ -112,7 +112,10 @@ class Stats:
 
     def plot_weeks(self, name):
         a = self.date_number()
-        av = sum([v[1] for v in a]) / float(len(a))
+        if a:
+            av = sum([v[1] for v in a]) / float(len(a))
+        else:
+            av = 0
         start_year, start_month = time.localtime(a[0][0])[0:2]
 
         year = start_year

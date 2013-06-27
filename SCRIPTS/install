@@ -176,7 +176,7 @@ echo "
 */5 * * * * (. $HOME/.profile ; cd $REAL/SERVEUR_NOTES ; SCRIPTS/crontab_run.py crontab) >$REAL/SERVEUR_NOTES/LOGS/xxx_crontab_5m 2>&1
 
 # Every hours : Make a backup
-30  * * * * (. $HOME/.profile ; cd $REAL/SERVEUR_NOTES ; rsync --archive --no-g --delete --exclude '*.pyc' DB/. exco@lirislib.univ-lyon1.fr:/home/exco/tmp/TOMUSS_DB/ ) >$REAL/SERVEUR_NOTES/LOGS/xxx_crontab_1h 2>&1
+30  * * * * (. $HOME/.profile ; cd $REAL/SERVEUR_NOTES ; rsync --archive --no-g --delete --exclude '*.pyc' DB/. exco@lirislib.univ-lyon1.fr:/vol/tmpliris/exco/TOMUSS_DB/ ) >$REAL/SERVEUR_NOTES/LOGS/xxx_crontab_1h 2>&1
 
 # Once per night
 5 5 * * * (. $HOME/.profile ; cd $REAL/SERVEUR_NOTES ; SCRIPTS/night_job ; ) >$REAL/SERVEUR_NOTES/LOGS/xxx_crontab_night_job 2>&1
