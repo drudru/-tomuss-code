@@ -284,6 +284,7 @@ var class_divs = [] ;
 // Parse document content to create the Index of the menu
 
 var menu_index = 0 ;
+var hash_found = false ;
 for(var i_div in divs)
   {
     if ( i_div == 0 )
@@ -310,9 +311,13 @@ for(var i_div in divs)
 	    else
 	      m.style.display = 'none' ;
             m.className += ' ' + e.tagName ;
+	    // XXX e.textContent & and " should be escaped
             e.innerHTML = '<a name="n' + class_divs.length + '">'
-	      + '<a name="' + escape(e.textContent) + '">'
+	      + '<a name="' + e.textContent + '">'
 	      + e.innerHTML + '</a></a>' ;
+	    if ( '#' + e.textContent == window.location.hash.toString()
+	       || "#n" + class_divs.length == window.location.hash.toString())
+	      hash_found = true ;
             class_divs.push(m.className) ;
             content_divs.push(div.innerHTML) ;
             menu.appendChild(m) ;
@@ -323,8 +328,7 @@ for(var i_div in divs)
 text_divs.push(menu) ;
 content_divs.push(menu.innerHTML) ;
 
-if ( window.location.hash !== ''
-     && ! window.location.hash.toString().match(/^#?n[0-9]*$/) )
+if ( window.location.hash !== '' && ! hash_found )
   {
     input.value = decodeURI(window.location.hash.toString().substr(1)) ;
   }
@@ -333,4 +337,8 @@ display = true ;
 input.focus() ;
 
 setInterval("filter()", 100) ;
-setTimeout("document.body.scrollTop = 0 ;", 200) ;
+
+if ( hash_found )
+  input.old_value = input.value ;
+else
+  setTimeout("document.body.scrollTop = 0 ;", 200) ;
