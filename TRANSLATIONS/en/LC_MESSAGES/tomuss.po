@@ -3470,6 +3470,13 @@ msgstr "You are now referent teacher of:"
 msgid "MSG_referent_get_set_done"
 msgstr "%s is now referent teacher of:"
 
+msgid "MSG_referent_get_subject"
+msgstr "Your are no more referent of %s %s %s"
+
+msgid "MSG_referent_get_message"
+msgstr "This is an automated message.\n"
+       "The %s %s %s referent is now %s."
+
 msgid "LINK_referent_set"
 msgstr "Give a referent to a student set"
 

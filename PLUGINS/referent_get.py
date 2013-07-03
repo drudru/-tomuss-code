@@ -49,6 +49,16 @@ def referent_get_a_student(server, login, students, student,
         if old_referent:
             if allow_referent_change:
                 referent.remove_student_from_referent(old_referent, student)
+                try:
+                    utilities.send_mail_in_background(
+                        inscrits.L_fast.mail(old_referent),
+                        server.__("MSG_referent_get_subject")
+                        % (student, firstname, surname),
+                        server.__("MSG_referent_get_message")
+                        % (student, firstname, surname, login),
+                        frome=configuration.maintainer, show_to=True)
+                except:
+                    utilities.send_backtrace("Sendmail failed")
             else:
                 server.the_file.write('%s%s\n' % (
                         student, server._("MSG_referent_get_yet_referent")))

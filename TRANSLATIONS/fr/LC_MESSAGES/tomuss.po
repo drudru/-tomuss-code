@@ -3497,6 +3497,13 @@ msgstr "Vous êtes maintenant référent pédagogique de :"
 msgid "MSG_referent_get_set_done"
 msgstr "%s est maintenant référent pédagogique de :"
 
+msgid "MSG_referent_get_subject"
+msgstr "Vous n'êtes plus référent de %s %s %s"
+
+msgid "MSG_referent_get_message"
+msgstr "Ceci est un message automatique.\n"
+       "Le référent de %s %s %s est maintenant %s."
+
 msgid "LINK_referent_set"
 msgstr "Affecter des étudiants à un enseignant"
 
