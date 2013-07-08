@@ -385,18 +385,15 @@ def stop_threads():
 
 send_mail_in_background_list = []
 def sendmail_thread():
-    while True:
+    """Send the mail in background, 4 mails per seconds"""
+    while send_mail_in_background_list:
         time.sleep(0.25)
-        if len(send_mail_in_background_list) == 0:
-            continue
         send_mail(*send_mail_in_background_list.pop(0))
-
 
 def send_mail_in_background(to, subject, message, frome=None, show_to=False):
     send_mail_in_background_list.append((to, subject, message, frome,
                                          show_to))
-
-
+    start_job(sendmail_thread, 1)
 
 def js(t):
     if isinstance(t, basestring):
@@ -1201,6 +1198,27 @@ class FakeRequestHandler(BaseHTTPServer.BaseHTTPRequestHandler):
 def start_threads():
     start_new_thread_immortal(print_lock_state_clean_cache, ())
 
+
+def start_job(fct, seconds):
+    """In a new thread 'fct' will be called in 'seconds'.
+    If the same 'fct' is started multiple times, only the first one
+    is taken into account.
+    """
+    if getattr(fct, 'job_in_file', False):
+        return
+
+    def wait():
+        time.sleep(seconds)
+        try:
+            fct()
+        finally:
+            fct.job_in_file = False
+    if fct.__doc__:
+        wait.__doc__ = ('Wait %d before running:\n\n' % seconds) + fct.__doc__
+    fct.job_in_file = True
+    start_new_thread(wait, ())
+
+    
 def display_stack_on_kill():
     import signal
     signal.signal(signal.SIGTERM, on_kill)
@@ -1209,7 +1227,6 @@ def init(launch_threads=True):
     if launch_threads:
         start_threads()
     display_stack_on_kill()
-    start_new_thread_immortal(sendmail_thread, (), send_mail=False)
     configuration.ampms_full = [
         unicode(ampm, 'utf-8') for ampm in eval(_("MSG_ampms_full"))]
     s = ""
