@@ -71,8 +71,7 @@ if caller_globals["__name__"] == '__main__':
             sys.modules[i] = sys.modules[package_name + '.' + i]
         except ImportError:
             pass
-
-    if '.' in __package__:
+    def terminate_init():
         # Not in a TOMUSS server but in a script in a direct subdirectory
         os.chdir(os.path.sep.join(current_dir))
         sys.stderr.write("*"*50 + '\n')
@@ -100,3 +99,6 @@ if caller_globals["__name__"] == '__main__':
 
         from TOMUSS import document
         document.table(0, 'Dossiers', 'config_table', None, None)
+
+    if '.' in __package__:
+        terminate_init()
