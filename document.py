@@ -753,11 +753,14 @@ class Table(object):
         if value == line[a_column.data_col].comment:
             return 'ok.png'
 
+        
         if not self.loading:
             if not self.authorized(page.user_name,
                                    line[a_column.data_col]):
                 return self.bad_auth(page, "comment_change %s/%s/%s" % (
                         col, lin, value))
+            if hasattr(self.template, 'comment_change'):
+                self.template.comment_change(self, page, col, lin, value)
             self.log('comment_change(%s,%s,%s,%s)' % (
                 page.page_id,
                 repr(col),
