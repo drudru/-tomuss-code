@@ -1,7 +1,7 @@
 // -*- coding: utf-8 -*-
 /*
   TOMUSS: The Online Multi User Simple Spreadsheet
-  Copyright (C) 2011 Thierry EXCOFFIER, Universite Claude Bernard
+  Copyright (C) 2011-2013 Thierry EXCOFFIER, Universite Claude Bernard
 
   This program is free software; you can redistribute it and/or modify
   it under the terms of the GNU General Public License as published by
@@ -34,7 +34,9 @@ function import_column()
   if ( the_current_cell.data_col === 0 )
       t += _("MSG_columnimport_before")
 	+ '<BUTTON OnClick="import_column_do();">'
-	+ _("MSG_columnimport_button")+ '</BUTTON>.'
+	+ _("MSG_columnimport_button")+ '</BUTTON>'
+	+ '/<BUTTON OnClick="import_column_do(true);">'
+	+ _("MSG_columnimport_button_comments") + '</BUTTON> '
 	+ _("MSG_columnimport_after") ;
   else
       t += _("MSG_columnimport_before2")
@@ -66,7 +68,7 @@ function import_column_do(comments)
   var i ;
   var problems = '' ;
 
-  if ( data_col === 0 )
+  if ( data_col === 0 && !comments )
     {
       // Import in ID column
       for(i in multiline)
