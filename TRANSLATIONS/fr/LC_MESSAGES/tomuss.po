@@ -3139,7 +3139,7 @@ msgstr "Le tableau représente les informations stockées par TOMUSS,\n"
        "<li>Le carré de couleur contient : Vert : Présences ou Note.,\n"
        "    Bleu : Absence justifiée, Rouge : Absence injustifiée\n"
        "<li>La note sur 20 est une moyenne de TOUTES les notes saisies dans\n"
-       "    TOMUSS sans tenir compte des poids.\n"
+       "    TOMUSS.\n"
        "    <b>Ce n'est pas la note de l'UE</b>\n"
        "</ul>"
 

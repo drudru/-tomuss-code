@@ -35,6 +35,7 @@ class UE:
         abjus = 0
         summation = 0
         nr = 0
+        weight = 0.
         for cell, column in zip(line, table.columns)[6:]:
             value = cell.value
             if column.type.cell_compute == 'undefined' and value == '' and column.empty_is:
@@ -47,22 +48,28 @@ class UE:
                 abjus += 1
             if column.type.name == 'Note':
                 try:
+                    if column.weight[0] in '+-':
+                        continue
+                    cell_weight = float(column.weight)
                     min, max = column.min_max()
                     if value == configuration.abi:
                         value = min
                     else:
                         value = float(value)
                     if value >= min and value <= max:
-                        summation += (value - min) / (max - min)
+                        summation += (value - min) / (max - min) * cell_weight
+                        weight += cell_weight
                         nr += 1
                         prst += 1
                 except ValueError:
                     pass
 
-        if nr == 0:
+        if nr == 0 or weight == 0.:
+            if weight == 0:
+                print 'Null column weight in', table
             summation = "-1"
         else:
-            summation = '%.3f' % (summation/float(nr))
+            summation = '%.3f' % (summation/weight)
         
         self.infos[table.year, table.semester] = (prst, abinj, abjus,
                                                   summation, nr)
