@@ -70,6 +70,7 @@ def plugins_tomuss():
     from .PLUGINS import backtrace
     from .PLUGINS import private
     from .PLUGINS import rsskey
+    from . import signature
 
     plugins_tomuss_more()
 
@@ -117,6 +118,7 @@ def plugins_suivi():
     from .PLUGINS import change_identity
     from .PLUGINS import reload_plugins
     from .PLUGINS import count
+    from . import signature
     plugins_suivi_more()
     init_plugins()
 

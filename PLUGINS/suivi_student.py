@@ -38,6 +38,7 @@ from .. import abj
 from .. import document
 from .. import teacher
 from .. import files
+from .. import signature
 
 charte =utilities.StaticFile(os.path.join('PLUGINS','suivi_student_charte.html'))
 
@@ -237,7 +238,7 @@ def student_statistics(login, server, is_a_student=False, expand=False,
 
 
     s.append('Regarder : ')
-    
+
     # BILAN
     
     if not expand:
@@ -279,6 +280,18 @@ hidden('<a href="%s/suivi_student_charte.html" target="_blank">'
        _("TIP_suivi_student_contract_view"));</script>, ''' %
                      utilities.StaticFile._url_)
 
+    # SIGNATURE
+
+    q = signature.get_state(login)
+    q_html = q.html()
+    if q_html:
+        return ''.join(s) + q_html
+    if q.html_answered():
+        s.append('<a href="signatures">'
+                 + server._("MSG_signatures")
+                 + '</a>, '
+                 )
+    
     # MORE
 
     s.append(configuration.more_on_suivi(login, server))

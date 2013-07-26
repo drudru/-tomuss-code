@@ -5156,3 +5156,15 @@ msgstr "Nombre de chargements de page par semaine"
 
 msgid "LABEL_page_load_time_days"
 msgstr "Jours"
+
+msgid "TITLE_signature"
+msgstr "Répondez aux questions suivantes. On ne peut pas modifier sa réponse"
+
+msgid "MSG_signature_done"
+msgstr "Cliquez ici pour accéder à TOMUSS"
+
+msgid "MSG_signatures"
+msgstr "Messages/Contrats"
+
+msgid "TITLE_signatures"
+msgstr "Les messages et contrats que vous avez validés"

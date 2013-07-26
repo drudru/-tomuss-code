@@ -5083,3 +5083,16 @@ msgstr "Number of page load per week"
 
 msgid "LABEL_page_load_time_days"
 msgstr "Days"
+
+msgid "TITLE_signature"
+msgstr "Answer next questions. Answer given are not modifiable"
+
+msgid "MSG_signature_done"
+msgstr "Click here to go to TOMUSS"
+
+msgid "MSG_signatures"
+msgstr "Messages/Contracts"
+
+msgid "TITLE_signatures"
+msgstr "Messages and agreements you have endorsed"
+
