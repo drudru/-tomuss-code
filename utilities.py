@@ -222,6 +222,16 @@ def semester_key(year, semester):
     except ValueError:
         return year, semester
 
+def year_semester_from_date(yyyymm):
+    """The time can be longer"""
+    month = int(yyyymm[4:6])
+    year = int(yyyymm[:4])
+
+    for s, m in zip(configuration.semesters,configuration.semesters_months): 
+        if m[0] <= month <= m[1]:
+            return year, s
+        if m[0] <= 12+month <= m[1]:
+            return year-1, s
 
 live_log = None
 
@@ -926,14 +936,31 @@ def key_mtime(dirname, key, separation=3):
     except OSError:
         return 0
 
-
+        
 def charte(login, year=None, semester=None):
     if year == None:
         year, semester = configuration.year_semester
     return os.path.join(login, 'charte_%s_%s' % (str(year), semester))
 
-def charte_server(login, server):
-    return charte(login, str(server.year), server.semester)
+def charte_signed(login, server=None, year=None, semester=None):
+    from . import signature
+    if server:
+        year = server.year
+        semester = server.semester
+    # For the old files
+    if manage_key('LOGINS', charte(login, str(year), semester)):
+        return True
+    year = int(year)
+    qs = signature.get_state(login)
+    for q in qs.get_by_content('suivi_student_charte'):
+        if year_semester_from_date(q.date) == (year, semester):
+            return q.answer
+    # Not found : add the question only for the current semester
+    if year_semester_from_date(time.strftime("%Y%m")) == (year, semester):
+        server.the_file.write('<img src="%s/=%s/signature/-1/x">'
+                              % (configuration.server_url,
+                                 server.ticket.ticket) )
+        time.sleep(1)
 
 def lock_state():
     import imp
@@ -1253,6 +1280,7 @@ def init(launch_threads=True):
     files.files['ip_error.html'] = StaticFile(
         'ip_error.html',
         content=_("ip_error.html"))
+    files.add('PLUGINS', 'suivi_student_charte.html')
 
 if __name__ == "__main__":
     def square(g):

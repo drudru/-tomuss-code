@@ -135,7 +135,8 @@ def update_inscrits_referents(the_ids, table, page):
         the_ids[the_id] = mail.encode('utf-8')
         # COpy/Paste with Favoris.py
         if referent.need_a_charte(login):
-            if utilities.manage_key('LOGINS', utilities.charte(login)):
+            if utilities.charte_signed(login, year=table.year,
+                                       semester=table.semester):
                 s = configuration.yes
             else:
                 s = configuration.no

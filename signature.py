@@ -96,7 +96,6 @@ class Question(object):
                        utilities.nice_date(self.answer_date),
                        t)
         return t
-        
 
     def a_timeout(self):
         now = time.time()
@@ -128,6 +127,11 @@ class Questions(object):
                     add_answer_unsafe(self.login, q.message_id, True)
                     a_timeout = True
         return a_timeout
+
+    def get_by_content(self, needle):
+        for q in self.questions:
+            if needle in q.message:
+                yield q
 
     def html_answered(self):
         t = []
@@ -188,15 +192,16 @@ def add_question(login, message, hook_name, hook_data, timeout=1):
     The hook_data will be in the hook parameter when the student answer
     After 'timeout' days, the hook is called with True answer
     """
+    now = time.strftime("%Y%m%d%H%M%S")
+    qs = get_state(login)
+    for q in qs.get_by_content(message):
+        if int(q.date) - int(now) < 1000:
+            # Do not ask twice the same question in less than 1000 seconds
+            return
     utilities.manage_key("LOGINS", os.path.join(login, "signatures"),
                          append = True,
-                         content="ask(%s,%s,%s,%f,'%s')\n" % (
-            repr(message),
-            repr(hook_name),
-            repr(hook_data),
-            timeout,
-            time.strftime("%Y%m%d%H%M%S"),
-            ))
+                         content="ask(%s,%s,%s,%g,'%s')\n" % (
+            repr(message), repr(hook_name), repr(hook_data), timeout, now))
 
 @utilities.add_a_lock
 def add_answer(login, message_id, value):
@@ -239,7 +244,13 @@ def get_state(login):
 
 
 def signature(server):
-    add_answer(server.ticket.user_name, int(server.the_year), server.something)
+    if server.the_year == -1:
+        # Because 'suivi' server can not write keys
+        add_question(server.ticket.user_name, "file:suivi_student_charte.html",
+                     "do_nothing", '', timeout=30)
+    else:
+        add_answer(server.ticket.user_name, int(server.the_year),
+                   server.something)
     server.the_file.write(files.files['ok.png'])
 
 plugin.Plugin('signature', '/signature/{Y}/{?}', function=signature,
@@ -265,7 +276,6 @@ def test_hook(login, value, data):
     test_hook.data = data
 configuration.test_hook = test_hook
 
-
 def test():
 
     def check(expected):
@@ -279,15 +289,15 @@ def test():
                          content="")
     check('')
     add_question("p0000000", "bla bla<b>l&gt;dqf", 'test_hook', 'YYY')
-    check("'bla bla<b>l 'test_hook'  'YYY'        1.0          0")
+    check("'bla bla<b>l 'test_hook'  'YYY'        1            0")
     add_question("p0000000", "question 2", 'test_hook', 'ZZZ', 0.)
     # Timeout on question 2
-    check("'bla bla<b>l 'test_hook'  'YYY'        1.0          0\n'question 2' 'test_hook'  'ZZZ'        0.0          True")
+    check("'bla bla<b>l 'test_hook'  'YYY'        1            0\n'question 2' 'test_hook'  'ZZZ'        0            True")
     assert(test_hook.login == "p0000000")
     assert(test_hook.value == True)
     assert(test_hook.data == "ZZZ")
     add_answer("p0000000", 0, "YES")
-    check("'bla bla<b>l 'test_hook'  'YYY'        1.0          'YES'\n'question 2' 'test_hook'  'ZZZ'        0.0          True")
+    check("'bla bla<b>l 'test_hook'  'YYY'        1            'YES'\n'question 2' 'test_hook'  'ZZZ'        0            True")
     assert(test_hook.login == "p0000000")
     assert(test_hook.value == "YES")
     assert(test_hook.data == "YYY")

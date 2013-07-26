@@ -47,21 +47,3 @@ def rsskey(server):
 
 plugin.Plugin('rsskey', '/rsskey', function=rsskey, mimetype='text/plain',
               priority=-10, password_ok = None)
-
-
-def store_accept(server):
-    """The student signs the contract"""
-    utilities.manage_key('LOGINS',
-                         utilities.charte(server.ticket.user_name),
-                         content="Accept")
-    server.the_file.write(str(files.files['ok.png']))
-
-plugin.Plugin('store_accept', '/store_accept', function=store_accept,
-              group='!staff', priority=-10, password_ok = None,
-              mimetype='image/png')
-
-
-
-
-
-

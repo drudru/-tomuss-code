@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 #    TOMUSS: The Online Multi User Simple Spreadsheet
-#    Copyright (C) 2008-2012 Thierry EXCOFFIER, Universite Claude Bernard
+#    Copyright (C) 2008-2013 Thierry EXCOFFIER, Universite Claude Bernard
 #
 #    This program is free software; you can redistribute it and/or modify
 #    it under the terms of the GNU General Public License as published by
@@ -40,13 +40,9 @@ from .. import teacher
 from .. import files
 from .. import signature
 
-charte =utilities.StaticFile(os.path.join('PLUGINS','suivi_student_charte.html'))
-
 files.add('PLUGINS', 'suivi_student.css')
 files.add('PLUGINS', 'suivi_student.js')
 files.add('PLUGINS', 'suivi_student_doc.html')
-files.add('PLUGINS', 'suivi_student_charte.html').replace('suivi_student',
-                                                          '<input', '<p')
 
 def tomuss_links(login, ticket, server, is_a_student=False):
     t = []
@@ -256,15 +252,19 @@ hidden('<a href="%s/=%s/bilan/%s" target="_blank">'
                  (configuration.server_url, ticket.ticket, login) + '</script>, ')
     # CONTRACT
 
-    if not is_a_student:
-        if referent.need_a_charte(login):
-            if utilities.manage_key('LOGINS',
-                                    utilities.charte_server(login,server)):
+    if referent.need_a_charte(login):
+        if is_a_student:
+            # To create the 'charte' question if it does not exists
+            utilities.charte_signed(login, server)
+        else:
+            if utilities.charte_signed(login, server):
                 s.append('<script>Write("MSG_suivi_student_contract_checked");</script>')
             else:
                 s.append('''<span style="background:red">
 <script>Write("MSG_suivi_student_contract_unchecked");</script></span>''')
             s.append(', ')
+
+    if not is_a_student:
         s.append('''<script>
 hidden('<a href="%s/=%s/%s/%s/ %s" target="_blank">'
        + _("MSG_suivi_student_view") + '</a>',
@@ -272,13 +272,6 @@ hidden('<a href="%s/=%s/%s/%s/ %s" target="_blank">'
 </script>, ''' % (
             utilities.StaticFile._url_, ticket.ticket,
             year, semester, login))
-    else:
-        if referent.need_a_charte(login):
-            s.append('''<script>
-hidden('<a href="%s/suivi_student_charte.html" target="_blank">'
-       + _("MSG_suivi_student_contract_view") + '</a>',
-       _("TIP_suivi_student_contract_view"));</script>, ''' %
-                     utilities.StaticFile._url_)
 
     # SIGNATURE
 
@@ -331,6 +324,7 @@ hidden('<a href="%s/suivi_student_charte.html" target="_blank">'
                 time.sleep(0.1)
             else:
                 key = ''
+            server.the_file.write("<script>document.getElementsByTagName('IFRAME')[0].style.display = 'none' ; </script>")
 
         if ticket.user_name != login:
             key = ''
@@ -412,13 +406,6 @@ def student(server, login=''):
     if not login:
         login = server.ticket.user_name
         
-    if referent.need_a_charte(server.ticket.user_name) \
-           and utilities.manage_key('LOGINS',
-                                    utilities.charte(server.ticket.user_name)
-                                    ) == False:
-        server.the_file.write(str(charte).replace("_TICKET_", server.ticket.ticket))
-        return
-
     suivi_headers(server, is_student=True)
     server.the_file.write(
         student_statistics(login, server,True).replace('\n','').encode('utf8'))

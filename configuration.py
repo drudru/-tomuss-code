@@ -113,7 +113,7 @@ def set_semesters(*x):
 
 
 set_semesters(
-    ('Printemps', -1, [1, 8], '#EEFFEE' ),  # Spring (Semester 2)
+    ('Printemps', -1, [2, 7], '#EEFFEE' ),  # Spring (Semester 2)
     ('Automne'  ,  0, [8,13], '#FFE8D0' ),  # Autumn (Semester 1)
     )
 
@@ -470,6 +470,9 @@ urllib.addinfourl.close = close_patched
 read_only = False
 
 config_debug = ''
+
+def do_nothing(*args):
+    pass
 
 ###############################################################################
 # Terminate configuration

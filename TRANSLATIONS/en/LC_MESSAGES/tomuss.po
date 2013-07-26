@@ -3972,12 +3972,6 @@ msgstr "Contract signed"
 msgid "MSG_suivi_student_contract_unchecked"
 msgstr "Contract not signed"
 
-msgid "MSG_suivi_student_contract_view"
-msgstr "Contract"
-
-msgid "TIP_suivi_student_contract_view"
-msgstr "The contract you signed."
-
 msgid "MSG_suivi_student_view"
 msgstr "Student view"
 

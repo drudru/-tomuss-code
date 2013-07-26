@@ -4020,12 +4020,6 @@ msgstr "Contrat signé"
 msgid "MSG_suivi_student_contract_unchecked"
 msgstr "Contrat non signé"
 
-msgid "MSG_suivi_student_contract_view"
-msgstr "Contrat"
-
-msgid "TIP_suivi_student_contract_view"
-msgstr "Le contrat pédagogique que vous avez signé."
-
 msgid "MSG_suivi_student_view"
 msgstr "Vue étudiant"
 
