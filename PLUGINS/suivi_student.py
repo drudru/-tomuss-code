@@ -280,7 +280,7 @@ hidden('<a href="%s/=%s/%s/%s/ %s" target="_blank">'
     if q_html:
         return ''.join(s) + q_html
     if q.html_answered():
-        s.append('<a href="signatures">'
+        s.append('<a href="signatures/%s">' % login
                  + server._("MSG_signatures")
                  + '</a>, '
                  )

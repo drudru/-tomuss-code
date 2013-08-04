@@ -59,6 +59,7 @@ from . import utilities
 from . import configuration
 from . import files
 from . import plugin
+from . import inscrits
 
 class Question(object):
     # If string : the student answer
@@ -263,13 +264,20 @@ plugin.Plugin('signature', '/signature/{Y}/{?}', function=signature,
               )
 
 def signatures(server):
-    qs = get_state(server.ticket.user_name)
+    if server.ticket.is_a_teacher:
+        login = server.the_student
+    else:
+        login = server.ticket.user_name
+    qs = get_state(login)
     server.the_file.write(
-        '<h1>' + server._("TITLE_signatures") + '</h1>'
+        '<h1>' + login + ' '
+        + ' '.join(inscrits.L_fast.firstname_and_surname(login)).encode('utf-8')
+        + '<br>'
+        + server._("TITLE_signatures") + '</h1>'
         + qs.html_answered()
         )
 
-plugin.Plugin('signatures', '/signatures', function=signatures)
+plugin.Plugin('signatures', '/signatures/{I}', function=signatures)
 
 
 def test_hook(login, value, data):
