@@ -32,10 +32,10 @@ clean:
 tags:
 	etags $$(git ls-files -- '*.js' '*.py')
 
-regtest:translations
+regtest:clean translations
 	cd REGTEST_SERVER ; ./tests.py 2>/dev/null
 
-regtest1:translations
+regtest1:clean translations
 	cd REGTEST_SERVER ; ./tests.py 1 2>/dev/null
 
 V := $(shell python -c 'import tomuss_init ; from . import configuration;print configuration.version' 2>/dev/null)
