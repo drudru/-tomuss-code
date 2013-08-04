@@ -81,7 +81,10 @@ class Question(object):
         else:
             button = 'onclick="javascript:sign(this,%d)"' % self.message_id
         if self.message.startswith("file:"):
-            message = str(files.files[self.message.split(':',1)[1]])
+            try:
+                message = str(files.files[self.message.split(':',1)[1]])
+            except KeyError:
+                message = self.message
         else:
             message = '<pre>' + cgi.escape(self.message) + '</pre>'
         t = (
@@ -185,17 +188,18 @@ function sign(t, message_id)
             s.append(str(q))
         return '\n'.join(s)
 
-def add_question(login, message, hook_name, hook_data, timeout=1):
+def add_question(login, message, hook_name, hook_data, timeout=1, now=None):
     """
     The message is only text : non HTML.
     The hook_name is the name of the function in 'configuration' module
     The hook_data will be in the hook parameter when the student answer
     After 'timeout' days, the hook is called with True answer
     """
-    now = time.strftime("%Y%m%d%H%M%S")
+    if now is None:
+        now = time.strftime("%Y%m%d%H%M%S")
     qs = get_state(login)
     for q in qs.get_by_content(message):
-        if int(q.date) - int(now) < 1000:
+        if  int(now) - int(q.date) < 1000:
             # Do not ask twice the same question in less than 1000 seconds
             return
     utilities.manage_key("LOGINS", os.path.join(login, "signatures"),
@@ -204,18 +208,17 @@ def add_question(login, message, hook_name, hook_data, timeout=1):
             repr(message), repr(hook_name), repr(hook_data), timeout, now))
 
 @utilities.add_a_lock
-def add_answer(login, message_id, value):
-    add_answer_unsafe(login, message_id, value)
+def add_answer(login, message_id, value, now=None):
+    add_answer_unsafe(login, message_id, value, now)
     
-def add_answer_unsafe(login, message_id, value):
+def add_answer_unsafe(login, message_id, value, now=None):
     """Answer is stored even if the hook does not work"""
+    if now is None:
+        now = time.strftime("%Y%m%d%H%M%S")
     utilities.manage_key("LOGINS", os.path.join(login, "signatures"),
                                    append = True,
                                    content="answer(%d,%s,'%s')\n" % (
-            message_id,
-            repr(value),
-            time.strftime("%Y%m%d%H%M%S"),
-            ))
+            message_id, repr(value), now))
     qs = get_state(login)
     hook = getattr(configuration, qs.questions[message_id].hook_name)
     hook(login, value, qs.questions[message_id].hook_data)
@@ -306,5 +309,36 @@ def test():
     assert(str(files.files['ok.png']) in get_state("p0000000").html_answered())
     print 'Tests are fine'
 
+def translate_chartes_to_signatures():
+    import glob
+    print "WAIT, IT'S LONG..."
+    message = "file:suivi_student_charte.html"
+    content = utilities.read_file(os.path.join('PLUGINS',
+                                               'suivi_student_charte.html'))
+    answer = content.split('{{{')[1].split("}}}")[0]
+    todo = []
+    for filename in sorted(glob.glob(
+            os.path.join(configuration.db, 'LOGINS', '*', '*', 'charte_*_*')
+            )):
+        parts = filename.split(os.path.sep)
+        login = parts[3]
+        now = os.path.getmtime(filename)
+        now = time.strftime("%Y%m%d%H%M%S", time.localtime(now))
+        print login,
+        todo.append((now, login, filename))
+
+    for now, login, filename in sorted(todo):
+        add_question(login, message, "do_nothing", '', timeout=99999, now=now)
+        q = tuple(get_state(login).get_by_content(message))[-1]
+        add_answer(login, q.message_id, answer, now)
+        utilities.unlink_safe(filename)
+        print login, now
+
+   
 if __name__ == "__main__":
-    test()
+    tomuss_init.terminate_init()
+    import sys
+    if len(sys.argv) == 1:
+        test()
+    elif sys.argv[1] == 'translate':
+        translate_chartes_to_signatures()
