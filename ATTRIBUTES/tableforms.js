@@ -133,7 +133,8 @@ function table_forms_blur(event)
     if ( input.value === '' )
       {
         input.value = columns[tr.data_col].empty_is ;
-	tr.className += ' default' ;
+	if ( input.value )
+	  tr.className += ' default' ;
       }
     element_focused = undefined ;
     table_forms_update_computed_values(the_current_cell) ;
@@ -218,7 +219,8 @@ function table_forms_update(THIS)
 	    else
 	      {
 	        tr.lastChild.firstChild.value = columns[tr.data_col].empty_is;
-		tr.className += 'default ' ;
+		if ( columns[tr.data_col].empty_is )
+		  tr.className += 'default ' ;
 	      }
 	    var img = tr.getElementsByTagName('IMG') ;
 	    if ( img.length )
