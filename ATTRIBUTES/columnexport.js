@@ -164,7 +164,7 @@ function do_columnexport()
   var exported = {} ;
   var uniques = {} ;
   var error1 = '', error2 = '' ;
-  var v = [], line, cell ;
+  var v = [], line, cell, login ;
 
   for(var i in multiline)
     {
@@ -174,18 +174,22 @@ function do_columnexport()
 	  error1 = _("ALERT_columnexport_no_id") + '<hr>' ;
 	  continue ;
 	}
-      line_id = login_to_line_id(login_to_id(multiline[i]
-					     .replace(/^ */,'')
-					     .replace(/ *$/,'')
-					    )) ;
+      cell = [] ;
+      login = login_to_id(multiline[i].replace(/^ */,'').replace(/ *$/,'')) ;
+      line_id = login_to_line_id(login) ;
       if ( line_id === undefined )
 	{
-	  v.push('???') ;
+	  if ( columnexport_options.students && !columnexport_options.unique )
+	    cell.push(login) ;
+	  if ( columnexport_options.values )
+	    cell.push('???') ;
+	  if ( columnexport_options.comments )
+	    cell.push('???') ;	  
+	  v.push(cell.join('\t')) ;
 	  error2 = _("ALERT_columnexport_unfound") + '<hr>' ;
 	  continue ;
 	}
       line = lines[line_id] ;
-      cell = [] ;
       if ( columnexport_options.students && !columnexport_options.unique )
 	cell.push(line[0].value) ;
       if ( columnexport_options.values )
