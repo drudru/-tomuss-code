@@ -407,9 +407,10 @@ def student(server, login=''):
         login = server.ticket.user_name
         
     suivi_headers(server, is_student=True)
-    server.the_file.write(
-        student_statistics(login, server,True).replace('\n','').encode('utf8'))
-
+    s = student_statistics(login, server,True)
+    if 'display_suivi' in s: # Do not obfuscate 'signature'
+        s = s.replace('\n','')
+    server.the_file.write(s.encode('utf8'))
 
 plugin.Plugin('student', '/{*}', function=student, group='!staff',
               launch_thread=True,

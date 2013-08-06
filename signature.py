@@ -240,7 +240,11 @@ def get_state(login):
     if content:
         for line in content.split('\n'):
             if line:
-                eval(line, fct)
+                try:
+                    eval(line, fct)
+                except:
+                    utilities.send_backtrace('signature: %s\n%s' % (
+                            login, repr(line)))
         if not configuration.read_only and qs.a_timeout():
             return get_state(login)
                 
