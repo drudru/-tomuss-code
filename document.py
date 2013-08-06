@@ -1089,8 +1089,11 @@ class Table(object):
             if attr.name in ('modifiable', 'dates'):
                 continue
             attr_value = getattr(self, attr.name)
-            if (attr.name == 'masters' and user_name not in attr_value):
-                attr_value.append(user_name)
+            if attr.name == 'masters':
+                if user_name not in attr_value:
+                    attr_value.append(user_name)
+                if '' in attr_value:
+                    attr_value.remove('')
             attr_value = attr.decode(attr_value)
             if attr_value != attr.default_value:
                 s.append('table_attr(%s,0,%s)' % (
