@@ -20,10 +20,13 @@ as a Python fragment.
 import os
 import sys
 import re
+import collections
 import tomuss_init
 from .. import configuration
 from .. import tablestat
 from .. import utilities
+from .. import document
+print configuration.suivi
 
 class UE:
     def __init__(self):
@@ -65,7 +68,7 @@ class UE:
                     pass
 
         if nr == 0 or weight == 0.:
-            if weight == 0:
+            if nr != 0 and weight == 0:
                 print 'Null column weight in', table
             summation = "-1"
         else:
@@ -88,7 +91,7 @@ class UE:
         return '[' + ',\n'.join(s) + ']'
 
 students = {}
-
+students_index = collections.defaultdict(list)
 
 for syear in os.listdir(configuration.db):
     try:
@@ -103,7 +106,9 @@ for syear in os.listdir(configuration.db):
             continue
         semester = semester[1:]
         for ue in tablestat.les_ues(year, semester,
-                                    true_file=True, all_files=False):
+                                    true_file=False, all_files=True):
+            for i in ue.the_keys():
+                students_index[i].append((ue.year, ue.semester, ue.ue))
             name = ue.ue
             if not ue.official_ue:
                 ue.unload()
@@ -126,6 +131,16 @@ for syear in os.listdir(configuration.db):
                 s[name].add(ue , lines[0])
 
             ue.unload()
+
+# Update all the student indexes
+# It is done only to be sure there is no bad index file (initialisation or bug)
+# But if a student list is modified while this script run
+# then the index will be bad for one day.
+# The index are computed on 'suivi' semesters, not the others
+for login, value in students_index.items():
+    document.update_index(login, lambda x: value)
+utilities.write_file(os.path.join('TMP', 'index_are_computed'),
+                     'done')
 
 def safe(x):
     return re.sub('[^a-zA-Z]', '_', x).encode('latin1')

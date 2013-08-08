@@ -51,6 +51,9 @@ def the_badname(server):
                     unicode(line[1].value, 'utf-8').encode('utf-8'),
                     surname.encode('utf-8'),
                     unicode(line[2].value, 'utf-8').encode('utf-8')))
+        if not hasattr(t, "rtime"):
+            t.unload()
+
     students.sort()
     server.the_file.write('<table>')
     for dummy_student, lines in itertools.groupby(students, lambda x: x[0]):

@@ -28,6 +28,8 @@ def the_ip(server):
     students = {}
     for t in tablestat.les_ues(server.year, server.semester, true_file=True):
         if not t.ue.startswith('UE-') and not t.ue.startswith('EC-'):
+            if not hasattr(t, "rtime"):
+                t.unload()
             continue
         ue = t.ue[3:]
         column_inscrit = t.column_inscrit()
@@ -45,6 +47,8 @@ def the_ip(server):
             
             nr = len([x for x in line[6:] if x.value != ''])
             students[login].append((nr+i,ue))
+        if not hasattr(t, "rtime"):
+            t.unload()
 
     for student in students:
         students[student].sort()

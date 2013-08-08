@@ -55,6 +55,7 @@ def uninterested(server):
                 line[data_col].value
                 for data_col in data_cols
                 ]
+        t.unload()
 
     log = open(os.path.join('LOGS', 'SUIVI%s' % server.the_port,
                             str(time.localtime()[0]) + '.connections'), 'r')
@@ -66,6 +67,8 @@ def uninterested(server):
     for t in tablestat.les_ues(server.year, server.semester):
         coli = t.column_inscrit()
         if coli is None:
+            if not hasattr(t, "rtime"):
+                t.unload()
             continue
         
         final = []
@@ -96,6 +99,8 @@ def uninterested(server):
                     students_ue[s][ue] = '?'
             except IndexError:
                 pass
+        if not hasattr(t, "rtime"):
+            t.unload()
 
     log.close()
 

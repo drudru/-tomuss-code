@@ -90,7 +90,8 @@ def dir_mtime(year, semester):
     name = os.path.join(configuration.db, "Y%s" % year, "S" + semester)
     return os.path.getmtime(name)
 
-def the_ues(year, semester, login):
+def update_the_ues(year, semester):
+    """Reread all thes ues"""
     global last_full_read_time
     if (tuple(configuration.year_semester) == (year, semester)
         or tuple(configuration.year_semester_next) == (year, semester)):
@@ -103,9 +104,26 @@ def the_ues(year, semester, login):
         # Force the generator to do its job to check new students or tables
         tuple(tablestat.les_ues(year, semester, true_file=False))
 
+def the_ues(year, semester, login):
+    if not configuration.index_are_computed:
+        update_the_ues(year, semester)
     login = utilities.the_login(login)
     tables = []
-    for ue in document.tables_of_student.get(login,[]):
+    if document.tables_of_student:
+        student_tables = document.tables_of_student.get(login,[])
+    else:
+        student_tables = [document.table(*t, ro=True)
+                          for t in document.update_index(login)
+                          if t[0] == year and t[1] == semester
+                          ]
+        now = time.time()
+        for t in student_tables:
+            t.rtime = now
+        return [t
+                for t in student_tables
+                if t.official_ue
+                ]
+    for ue in student_tables:
         tables.append(document.table(year, semester, ue, ro=True))
     return tables
 
@@ -482,24 +500,29 @@ plugin.Plugin('home', '/', group='staff', function = home)
 def teacher_statistics(login, server):
     ticket = server.ticket
     tables = {}
-    for t in tablestat.les_ues(server.year, server.semester, true_file=True):
-        for line in t.lines.values():
-            if t not in tables:
+    # Computing this will need to load all the table.
+    # An index must be created for author.
+    if not configuration.index_are_computed:
+        for t in tablestat.les_ues(server.year, server.semester, true_file=True):
+            for line in t.lines.values():
+                if t not in tables:
+                    for v in line:
+                        if v.author == login:
+                            url = ('<a href="%s/=' % configuration.server_url +
+                                   ticket.ticket + '/' +
+                                   str(t.year) + '/' + str(t.semester) + '/' +
+                                   t.ue + '/=full_filter=@' + login +
+                                   '" target="_blank">' +
+                                   t.location() + '</a>'
+                                   )
+                            tables[t] = tablestat.TableStat(url)
+                            break
+        for t in tables:
+            for line in t.lines.values():
                 for v in line:
                     if v.author == login:
-                        url = '<a href="%s/=' % configuration.server_url + \
-                              ticket.ticket + '/' + \
-                              str(t.year) + '/' + str(t.semester) + '/' + \
-                              t.ue + '/=full_filter=@' + login + '" target="_blank">' + \
-                              t.location() + '</a>'
-                        tables[t] = tablestat.TableStat(url)
-                        break
-    for t in tables:
-        for line in t.lines.values():
-            for v in line:
-                if v.author == login:
-                    tables[t].update(v)
-
+                        tables[t].update(v)
+    
     s = ["<script>document.getElementById('x').style.display='none';</script>"]
 
     firstname, surname, mail = inscrits.L_fast.firstname_and_surname_and_mail(login)

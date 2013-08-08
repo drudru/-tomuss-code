@@ -37,6 +37,7 @@ def preferences(server):
                 lines.append(cell.Line((cell.CellValue(login),
                                         cell.CellValue(key),
                                         cell.CellValue(line[3].value))))
+        t.unload()
     columns = [
         column.Column('0', '', freezed='F', width=6,
                       title=server._('COL_TITLE_ID')),

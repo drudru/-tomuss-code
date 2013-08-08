@@ -35,7 +35,10 @@ def table_statistics(server):
         table.nr_cols = len(t.columns)
         table.nr_pages = len(t.pages)
         table.nr_lines = len(t.lines)
-        table.t = t
+        table.is_extended = t.is_extended
+        table.empty = t.empty()
+        table.problem_in_column_name = t.problem_in_column_name()
+        table.modifiable = t.modifiable
         col_inscrit = t.column_inscrit()
         for line in t.lines.values():
             if col_inscrit != None:
@@ -48,6 +51,8 @@ def table_statistics(server):
                 
             for v in line:
                 table.update(v)
+        if not hasattr(t, "rtime"):
+            t.unload()
 
     max_cels = max([t.nr for t in tables.values()])
     max_cols = max([t.nr_cols for t in tables.values()])
@@ -151,11 +156,11 @@ def table_statistics(server):
                 CellValue(t.date_max),
                 CellValue(t.nr_inscrits),
                 CellValue(t.nr_not_inscrits),
-                CellValue(t.t.is_extended and configuration.yes or configuration.no),
-                CellValue(t.t.empty()[1]),
+                CellValue(t.is_extended and configuration.yes or configuration.no),
+                CellValue(t.empty[1]),
                 CellValue(len([g for g in t.group_and_seq if g != ''])),
-                CellValue(t.t.problem_in_column_name()),
-                CellValue(t.t.modifiable and configuration.yes or configuration.no),
+                CellValue(t.problem_in_column_name),
+                CellValue(t.modifiable and configuration.yes or configuration.no),
                 )))
 
     document.virtual_table(server, columns, lines, table_attrs=table_attrs)

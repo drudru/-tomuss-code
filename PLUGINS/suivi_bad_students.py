@@ -37,6 +37,8 @@ def bad_student_with_notes(f, year, semester, _):
     for t in les_ues(year, semester, true_file=True):
         coli = t.column_inscrit()
         if coli is None:
+            if not hasattr(t, "rtime"):
+                t.unload()            
             continue
         for line in t.lines.values():
             nr += 1
@@ -58,6 +60,8 @@ def bad_student_with_notes(f, year, semester, _):
                     + utilities.the_login(line[0].value) + '<td>'
                     + line[1].value + '<td>' + line[2].value + '<td>'
                     + repr(s) + '</tr>\n')
+        if not hasattr(t, "rtime"):
+            t.unload()            
     f.write('</table>')
 
 def bad(server):

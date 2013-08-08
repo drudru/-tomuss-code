@@ -47,7 +47,9 @@ def teachers_statistics(server):
                 teachers[p.user_name].pages_per_table[t.ue] = 1
         for line in t.lines.values():
             for v in line[6:]:
-                teachers[v.author].update(v, table=t)
+                teachers[v.author].update(v)
+        if not hasattr(t, "rtime"):
+            t.unload()
 
     year = utilities.university_year(server.year, server.semester)
     for t in referent.les_blocsnotes(year):
@@ -64,6 +66,7 @@ def teachers_statistics(server):
         for line in t.lines.values():
             for v in line[3:]:
                 teachers[v.author].update(v, blocnote=True)
+        t.unload()
 
     del teachers[data.ro_user]
     del teachers[data.rw_user]

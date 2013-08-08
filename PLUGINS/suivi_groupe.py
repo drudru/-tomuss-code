@@ -73,8 +73,12 @@ document.getElementById('x').innerHTML = s ;
     for t in tablestat.les_ues(server.year, server.semester):
         col_inscrit = t.column_inscrit()
         if col_inscrit is None:
+            if not hasattr(t, "rtime"):
+                t.unload()
             continue
         if t.ue_code != t.ue or not t.official_ue:
+            if not hasattr(t, "rtime"):
+                t.unload()
             continue
 
         g = []
@@ -108,6 +112,8 @@ document.getElementById('x').innerHTML = s ;
                     t.ue, j[1], utilities.js(s).replace('"',"'"),
                     ' '.join(groups)
                     ))
+        if not hasattr(t, "rtime"):
+            t.unload()
     server.the_file.write('\n'.join(sorted(lines, reverse=True)) + '</table>')
 
 

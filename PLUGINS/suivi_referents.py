@@ -109,6 +109,7 @@ def stat_referent(f, year, semester, server):
                 statcol.count(line)
 
         nr_teachers += 1
+        t.unload()
 
     f.write('<title>%s</title>\n' % server._("LINK_referents"))
     f.write('<h1>%s</h1>\n' % server._("LINK_referents"))

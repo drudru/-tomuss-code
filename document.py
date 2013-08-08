@@ -359,7 +359,7 @@ class Table(object):
             warn('Update student list', what='table')
             update_students.append(self)
 
-        if ro and self.official_ue:
+        if ro and self.official_ue and not configuration.index_are_computed:
             # Student are never removed, but it is not important
             for login in self.the_keys():
                 if login in tables_of_student:
@@ -646,7 +646,10 @@ class Table(object):
                                        + ' new_login=' + new_value
                                        + ' lin=' + lin
                                        + ' ' + repr(self.the_key_dict[login]))
-            self.the_key_dict[utilities.the_login(new_value)].append(lin)
+            new_login = utilities.the_login(new_value)
+            self.the_key_dict[new_login].append(lin)
+            if not self.loading:
+                indexes_to_update.append((self, login, new_login))
         elif on_a_new_line:
             self.the_key_dict[''].append(lin)
             
@@ -1169,6 +1172,8 @@ class Table(object):
 
         for name in self.masters:
             self.master_of_update('-', name)
+        for login in self.the_keys():
+            indexes_to_update.append((self, login, ''))
 
 
     def send_alert(self, text):
@@ -1317,7 +1322,7 @@ def tables_values():
     # Do not use a tuple because it must be sortable
     # XXX Need a lock ?
     return [t
-            for t in list(tables.values())
+            for t in tuple(tables.values())
             if t not in (None, False, True)
             ]
 
@@ -1461,6 +1466,40 @@ def check_new_students_real():
             raise # Real problem
         # XXX The regtest raise a bug, why ?
 
+indexes_to_update = []
+
+def update_index(login, action=None):
+    if not login:
+        return
+    if utilities.safe(login) != login:
+        return
+    c = utilities.manage_key('LOGINS', os.path.join(login, 'index'))
+    if c:
+        c = eval(c)
+    else:
+        c = []
+    if action is None:
+        return c
+    c = action(c) # Update index content
+    utilities.manage_key('LOGINS', os.path.join(login, 'index'),
+                         content = repr(c))
+    
+
+def check_indexes_to_update():
+    while indexes_to_update:
+        tabl, old, new = indexes_to_update.pop(0)
+        def remove(x):
+            try:
+                x.remove((tabl.year, tabl.semester, tabl.ue))
+            except ValueError:
+                pass
+            return x
+        def append(x):
+            x.append((tabl.year, tabl.semester, tabl.ue))
+            return x
+        update_index(old, remove)
+        update_index(new, append)
+                
 def check_new_students():
     while True:
         if configuration.regtest_sync:
@@ -1468,6 +1507,7 @@ def check_new_students():
         else:
             time.sleep(1)
 
+        check_indexes_to_update()
         check_new_students_real()
 
 def login_list(page, name):

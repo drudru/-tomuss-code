@@ -137,6 +137,20 @@ class MyRequestBroker(utilities.FakeRequestHandler):
         if authentication.ok(self):
             self.do_GET_real_real_safe()
 
+        # Free some memory
+        now = time.time()
+        if now - server.last_unload > 60:
+            from . import document
+            nb = 0
+            nb_unloaded = 0
+            for t in document.tables_values():
+                nb += 1
+                if now - getattr(t,"rtime",0) > configuration.unload_interval:
+                    t.unload()
+                    nb_unloaded += 1
+            server.last_unload = now
+            warn("%d table unloaded on %d" % (nb_unloaded, nb), what="info")
+
     def do_GET_real_real_safe(self):
         tick = self.ticket
         logs.write(time.strftime('%Y%m%d%H%M%S ') + tick.user_name + '\n')
@@ -183,19 +197,24 @@ if __name__ == "__main__":
 
     server = BaseHTTPServer.HTTPServer(("0.0.0.0", server_port),
                                        MyRequestBroker)
+    server.last_unload = 0
     
     authentication.authentication_redirect = configuration.suivi.url(year, semester, ticket='TICKET')
     StaticFile._url_ = '/'.join(authentication.authentication_redirect.split('/')[0:-3])
 
     plugins.generate_data_files(suivi=True)
 
-    from . import tablestat
+    configuration.index_are_computed = os.path.exists(
+        os.path.join('TMP', 'index_are_computed'))
 
-    # Load all the tables, in order to allow fast access
-    for t in tablestat.les_ues(year, semester):
-        if False:
-            warn("%s grpcol=%s seqcol=%s" % (t.ue, t.columns.get_grp(),
-                                             t.columns.get_seq()))
+    if not configuration.index_are_computed:
+        from . import tablestat
+
+        # Load all the tables, in order to allow fast access
+        for t in tablestat.les_ues(year, semester):
+            if False:
+                warn("%s grpcol=%s seqcol=%s" % (t.ue, t.columns.get_grp(),
+                                                 t.columns.get_seq()))
 
     warn("Server Ready on: " + authentication.authentication_redirect)
     while running:

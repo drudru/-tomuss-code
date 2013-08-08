@@ -95,19 +95,19 @@ def plugins_suivi_more():
 
 def plugins_suivi():
     from .PLUGINS import logout
-    from .PLUGINS import suivi_teachers
-    from .PLUGINS import suivi_tables
-    from .PLUGINS import suivi_student
+    from .PLUGINS import suivi_teachers #
+    from .PLUGINS import suivi_tables #
+    from .PLUGINS import suivi_student #
     from .PLUGINS import unload
     from .PLUGINS import suivi_referents
-    from .PLUGINS import suivi_uninterested
+    from .PLUGINS import suivi_uninterested #
     from .PLUGINS import suivi_referent_list
     from .PLUGINS import suivi_icone
-    from .PLUGINS import suivi_bad_students
-    from .PLUGINS import suivi_preferences
-    from .PLUGINS import suivi_ip
-    from .PLUGINS import suivi_badname
-    from .PLUGINS import suivi_groupe
+    from .PLUGINS import suivi_bad_students #
+    from .PLUGINS import suivi_preferences #
+    from .PLUGINS import suivi_ip #
+    from .PLUGINS import suivi_badname #
+    from .PLUGINS import suivi_groupe #
     from .PLUGINS import live_log
     from .PLUGINS import gc_state
     from .PLUGINS import resume
