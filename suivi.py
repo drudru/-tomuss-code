@@ -205,6 +205,10 @@ if __name__ == "__main__":
 
     configuration.index_are_computed = os.path.exists(
         os.path.join('TMP', 'index_are_computed'))
+    if configuration.regtest:
+        # 'Suivi' regtest fail because list of modified UE
+        # is not displayed for teachers
+        configuration.index_are_computed = False
 
     if not configuration.index_are_computed:
         from . import tablestat
