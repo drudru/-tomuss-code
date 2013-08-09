@@ -107,12 +107,12 @@ for syear in os.listdir(configuration.db):
         semester = semester[1:]
         for ue in tablestat.les_ues(year, semester,
                                     true_file=False, all_files=True):
-            for i in ue.the_keys():
-                students_index[i].append((ue.year, ue.semester, ue.ue))
-            name = ue.ue
             if not ue.official_ue:
                 ue.unload()
                 continue
+            name = ue.ue
+            for i in ue.the_keys():
+                students_index[i].append((ue.year, ue.semester, ue.ue))
             if ue.is_extended:
                 ue.unload()
                 continue

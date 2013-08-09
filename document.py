@@ -648,7 +648,7 @@ class Table(object):
                                        + ' ' + repr(self.the_key_dict[login]))
             new_login = utilities.the_login(new_value)
             self.the_key_dict[new_login].append(lin)
-            if not self.loading:
+            if not self.loading and self.official_ue:
                 indexes_to_update.append((self, login, new_login))
         elif on_a_new_line:
             self.the_key_dict[''].append(lin)

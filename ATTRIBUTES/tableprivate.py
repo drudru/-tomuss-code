@@ -37,3 +37,6 @@ function(value)
     name = 'private'
     default_value = 0
     gui_display = "GUI_select"
+
+    def update(self, table, old_value, new_value, page):
+        pass

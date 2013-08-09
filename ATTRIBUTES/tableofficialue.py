@@ -1,7 +1,7 @@
 #!/bin/env python
 # -*- coding: utf-8 -*-
 #    TOMUSS: The Online Multi User Simple Spreadsheet
-#    Copyright (C) 2011 Thierry EXCOFFIER, Universite Claude Bernard
+#    Copyright (C) 2011-2013 Thierry EXCOFFIER, Universite Claude Bernard
 #
 #    This program is free software; you can redistribute it and/or modify
 #    it under the terms of the GNU General Public License as published by
@@ -20,6 +20,7 @@
 #    Contact: Thierry.EXCOFFIER@bat710.univ-lyon1.fr
 
 from .tablemodifiable import TableModifiable
+from .. import document
 
 class TableOfficialUE(TableModifiable):
     name = 'official_ue'
@@ -28,3 +29,11 @@ class TableOfficialUE(TableModifiable):
     default_value = 0
     formatter = "function(v){return v;}"
     gui_display = "GUI_select"
+
+    def update(self, table, old_value, new_value, page):
+        """Change student table indexes."""
+        for login in table.the_keys():
+            if new_value:
+                document.indexes_to_update.append((table, '', login))
+            else:
+                document.indexes_to_update.append((table, login, ''))

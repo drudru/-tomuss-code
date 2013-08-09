@@ -67,13 +67,11 @@ return value ;
             return value
     def check(self, value):
         value = self.encode(value)
-        from .. import inscrits
         if hasattr(configuration, 'is_member_of'):
             for login in value:
                 if not configuration.is_member_of(login, 'staff'):
                     return '_("ALERT_bad_login") + ' + utilities.js(login)
     def update(self, table, old_value, new_value, page):
-        from .. import document
         for login in new_value:
             if login not in old_value:
                 table.master_of_update('+', login)
