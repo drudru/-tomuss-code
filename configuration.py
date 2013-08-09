@@ -468,6 +468,7 @@ urllib.addinfourl.close = close_patched
 # DO NOT MODIFY
 ###############################################################################
 read_only = False
+index_are_computed = os.path.exists(os.path.join('TMP', 'index_are_computed'))
 
 config_debug = ''
 

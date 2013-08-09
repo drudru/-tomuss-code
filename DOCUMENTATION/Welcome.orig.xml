@@ -654,6 +654,9 @@ They can be&nbsp;:
 	  In your local configuration
 	  file, add the new semester with a new port number :<br/>
 	  <tt>suivi.add(2009, 'Automne'  , socket.getfqdn() + ':%d', 8891)</tt>
+	  <br/>
+	  You can indicate the same port number for multiple semesters,
+	  in this case, only one process is launched for these semesters.
 	</td>
       </tr>
       <tr>
@@ -819,6 +822,11 @@ You can give access rights to this table to non-root users.
     </p>
 
     <h3><a name="apache">Apache/NGINX configuration</a></h3>
+    <p>
+      If you have multiple suivi servers, then the configuration
+      must be updated when there is a new suivi server.
+      If you have only one suivi server, then no change is needed.
+    </p>
 
     <p>
       TOMUSS urls are for example:
@@ -987,6 +995,13 @@ There is one database modification service and one 'suivi' service
 per semester in order to not have huge processes.
 The 'suivi' processes are huge because they load the full semester
 in memory.</p>
+<p>
+  UPDATE SINCE Version 5.2.0:
+  once students are indexed by <tt>SCRIPTS/bilan.py</tt>
+  the 'suivi' process do not load complete semester but only needed tables.
+  In this case only one 'suivi' process is needed.
+  To use only one process, use the same <tt>port</tt> for all the semesters.
+</p>
 
     <h3><a name="install">TOMUSS install on production server</a></h3>
 

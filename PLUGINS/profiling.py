@@ -202,7 +202,7 @@ def profiling(server):
     lines = []                     
     run(os.path.join('TOMUSS', str(server.the_year) + '.times'), lines)
 
-    for url, port, year, semester, host in configuration.suivi.urls.values():
+    for url, port, year, semester, host in configuration.suivi.servers():
         server.the_file.write('\n')
         run(os.path.join('SUIVI%d' % port, str(server.the_year) + '.times'
                          ), lines)

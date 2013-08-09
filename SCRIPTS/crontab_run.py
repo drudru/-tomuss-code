@@ -115,12 +115,12 @@ def stop(name):
         pass
 
 def stop_suivi():
-    for infos in configuration.suivi.urls.values():
+    for infos in configuration.suivi.servers():
         stop("suivi%d" % infos[1])
 
 def restart_suivi():
     """Linux only function"""
-    for url,port,year,semester,dummy_host in configuration.suivi.urls.values():
+    for url,port,year,semester,dummy_host in configuration.suivi.servers():
         pid = stop("suivi%d" % port)
         # Wait death
         if pid:
@@ -176,7 +176,7 @@ try:
     run(configuration.server_url, 'tomuss.py',
         only_if_not_properly_stopped, strace="")
 
-    for surl,sport,syear,ssemester,shost in configuration.suivi.urls.values():
+    for surl,sport,syear,ssemester,shost in configuration.suivi.servers():
         run(surl, 'suivi.py %d %s %d' % (syear, ssemester, sport),
             only_if_not_properly_stopped, name="suivi%d" % sport)
     try:

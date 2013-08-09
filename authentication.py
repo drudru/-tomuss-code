@@ -227,14 +227,21 @@ def authentication_thread():
                 time.sleep(0.01)
             # now it is safe because the Handler has closed the file
             x.restore_connection()
+            if '\001YEAR' in authentication_redirect:
+                redirect = (authentication_redirect
+                            .replace('\001YEAR', str(x.year))
+                            .replace('\001SEMESTER', str(x.semester))
+                            )
+            else:
+                redirect = authentication_redirect
+                    
             try:
                 if not x.ticket:
-                    x.ticket, x.the_path = get_path(x, authentication_redirect)
+                    x.ticket, x.the_path = get_path(x, redirect)
                     if x.ticket == None:
                         x.log_time('redirection')
                         continue # Redirection done
-                x.send_header('Location',
-                              get_path(x,authentication_redirect)[1])
+                x.send_header('Location', get_path(x, redirect)[1])
                 x.end_headers()
                 x.close_connection_now()
                 # After redirection to not delay it

@@ -218,7 +218,7 @@ def tell_reload_config():
     import urllib2
 
     utilities.warn('Tell "suivi" to reload config')
-    for url, port, year, semester, host in configuration.suivi.urls.values():
+    for url, port, year, semester, host in configuration.suivi.servers():
         try:
             f = urllib2.urlopen(url + '/load_config')
             f.read()

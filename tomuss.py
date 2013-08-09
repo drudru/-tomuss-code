@@ -301,8 +301,8 @@ if __name__ == "__main__":
         regtest = 'regtest'
     else:
         regtest = ''
-    for url in configuration.suivi.urls_sorted():
-        print '\t./suivi.py %d %s %d' % (url[2], url[3], url[1]), regtest
+    for url, port, year, semester, host in configuration.suivi.servers():
+        print '\t./suivi.py %d %s %d' % (year, semester, port), regtest
     print '*'*78 + '\n\n'
 
     # Translation of old files to new format

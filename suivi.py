@@ -62,8 +62,6 @@ class MyRequestBroker(utilities.FakeRequestHandler):
         if ticket.client_ip(self) in configuration.banned_ip:
             return
         self.start_time = time.time()
-        self.year = year
-        self.semester = semester
         self.the_port = server_port
         self.ticket = None
         # APACHE make a mess with %2F %3F and others
@@ -73,21 +71,27 @@ class MyRequestBroker(utilities.FakeRequestHandler):
 
         # Remove year/semester if present
         # They are only useful to use an Apache dispatch on the good port
-        if '/'.join(self.the_path[0:2]) == year_semester:
-            del self.the_path[0:2]
-        elif '/'.join(self.the_path[1:3]) == year_semester:
-            del self.the_path[1:3]
+        ip = 0
+        if self.the_path[0].startswith('='):
+            ip += 1
+        try:
+            self.year = int(self.the_path[ip])
+            self.semester = self.the_path[ip+1]
+            if self.semester not in configuration.semesters:
+                raise ValueError('')
+            del self.the_path[ip:ip+2]
+        except (ValueError, IndexError):
+            self.year, self.semester = configuration.year_semester
         path = '/' + '/'.join(self.the_path)
 
         if path[1:] == 'load_config':
-            from . import document
             to_reload = ('config_table', 'config_plugin', 'config_acls')
-            for t in to_reload:
-                conf = document.table(0, 'Dossiers', t, None, None, ro=True)
+            for tt in to_reload:
+                conf = document.table(0, 'Dossiers', tt, None, None, ro=True)
                 conf.do_not_unload = []
                 conf.unload()
-            for t in to_reload:
-                document.table(0, 'Dossiers', t, None, None, ro=True)
+            for tt in to_reload:
+                document.table(0, 'Dossiers', tt, None, None, ro=True)
             
             configuration.config_acls_clear_cache()
             self.send_response(200)
@@ -139,7 +143,6 @@ class MyRequestBroker(utilities.FakeRequestHandler):
         # Free some memory
         now = time.time()
         if now - server.last_unload > 60:
-            from . import document
             nb = 0
             nb_unloaded = 0
             for t in document.tables_values():
@@ -157,12 +160,15 @@ class MyRequestBroker(utilities.FakeRequestHandler):
 
 if __name__ == "__main__":
     try:
-        year = int(sys.argv[1])
-        semester = sys.argv[2]
-        year_semester = "%d/%s" % (year, semester)
+        if sys.argv[1] == 'any' and sys.argv[2] == 'any':
+            year = semester = year_semester = None
+        else:
+            year = int(sys.argv[1])
+            semester = sys.argv[2]
+            year_semester = "%d/%s" % (year, semester)
         server_port = int(sys.argv[3])
     except:
-        sys.stderr.write("""%s AnneeYYYY semestre TCPport\n""" % sys.argv[0])
+        sys.stderr.write("%s yearYYYY|any semester|any TCPport\n"% sys.argv[0])
         sys.exit(1)
 
     for i in sys.argv:
@@ -197,14 +203,15 @@ if __name__ == "__main__":
     server = BaseHTTPServer.HTTPServer(("0.0.0.0", server_port),
                                        MyRequestBroker)
     server.last_unload = 0
-    
-    authentication.authentication_redirect = configuration.suivi.url(year, semester, ticket='TICKET')
+    authentication.authentication_redirect = configuration.suivi.url(
+        year, semester, ticket='TICKET')
     StaticFile._url_ = '/'.join(authentication.authentication_redirect.split('/')[0:-3])
+    if year is None:
+        authentication.authentication_redirect = (StaticFile._url_
+                                                  + '/=TICKET/\001YEAR/\001SEMESTER')
 
     plugins.generate_data_files(suivi=True)
 
-    configuration.index_are_computed = os.path.exists(
-        os.path.join('TMP', 'index_are_computed'))
     if configuration.regtest:
         # 'Suivi' regtest fail because list of modified UE
         # is not displayed for teachers

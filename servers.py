@@ -34,6 +34,13 @@ class Suivi(object):
             return zip(*urls)[1]
         else:
             return ()
+    def servers(self):
+        done = set()
+        for url, port, year, semester, host in self.urls.values():
+            if port in done:
+                continue
+            done.add(port)
+            yield url, port, year, semester, host
     def add(self, year, semester, host, port):
         if '%' in host:
             host = host % port
