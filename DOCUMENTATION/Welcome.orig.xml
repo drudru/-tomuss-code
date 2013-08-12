@@ -825,7 +825,8 @@ You can give access rights to this table to non-root users.
     <p>
       If you have multiple suivi servers, then the configuration
       must be updated when there is a new suivi server.
-      If you have only one suivi server, then no change is needed.
+      If you have only one suivi server for all the semesters,
+      then no change is needed.
     </p>
 
     <p>
@@ -842,6 +843,8 @@ You can give access rights to this table to non-root users.
       <pre>&lt;VirtualHost tomuss.fr:80&gt;
 ServerName tomuss.univ-lyon1.fr
 RewriteEngine On
+# It is the web server (not TOMUSS) that send the static files (UNTESTED)
+RewriteRule ^/files/([0-9.]+)/(.*)  /home/tomuss/TMP/$1/$2 [L]
 RewriteRule ^(.*) http://tomuss1.fr:8888$1 [P]
 &lt;/VirtualHost&gt;
 
@@ -863,6 +866,8 @@ proxy_read_timeout 1000000;  # To keep connection open
 server {
     listen   80;
     server_name  tomuss.fr;
+    # It is the web server (not TOMUSS) that send the static files (UNTESTED)
+    location ~ ^/files/ { rewrite  ^/files/([0-9.]+)/(.*)  /home/tomuss/TMP/$1/$2 ; } 
     location    /                       { proxy_pass http://tomuss1.fr:8888; }
 }
 
@@ -903,22 +908,22 @@ This customization is done by replacing default functions by yours.
 For the UCBL university there is:</p>
 <pre># The login and the student ID are not the same at the UCBL
 # login_to_student_id, the_login, login_to_id (JavaScript)
-import LOCAL.student_id
+from . import student_id
 
 # get_ue_dict: Retrieve all the informations about all the UE
-import LOCAL.spiral
+from . import spiral
 
 if not regtest:
     # ticket_login_name: Get login name from ticket
     # ticket_ask: redirect the browser to ask a ticket
-    import LOCAL.auth
+    from . import auth
 
     # stupid_password: Returns True if the password is stupid
-    import LOCAL.checkpassword
+    from . import checkpassword
 
     # students: Iterator on all the students of an UE, returns :
     # (student_id, firstname, surname, mail, group, sequence)
-    import LOCAL.students_of_ue
+    from . import students_of_ue
 </pre>
     <p>
 Most of the configuration values are modifiable while TOMUSS

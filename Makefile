@@ -65,7 +65,7 @@ tar:
 	@mkdir /tmp/TOMUSS-$(V)
 	@cp -a $$(pwd)/?* /tmp/TOMUSS-$(V)
 	@echo "Remove what is not in GIT"
-	@git ls-files -o --directory | (cd /tmp/TOMUSS-$(V) && xargs rm -r)
+	@git ls-files -o --directory | (cd /tmp/TOMUSS-$(V) && xargs rm -r || true)
 	@echo "Rename LOCAL.template to LOCAL"
 	@mv /tmp/TOMUSS-$(V)/LOCAL.template /tmp/TOMUSS-$(V)/LOCAL
 	@cd /tmp ; \

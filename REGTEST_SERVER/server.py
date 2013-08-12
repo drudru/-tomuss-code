@@ -66,7 +66,7 @@ class Server(object):
         i = 0
         while True:
             try:
-                self.url('lib.js', stop_if_error=False,
+                self.url('/=super.user/evaluate/1', stop_if_error=False,
                          display_log_if_error=False, silent=i)
                 self.started = True
                 break

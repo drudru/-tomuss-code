@@ -156,7 +156,7 @@ Problèmes à résoudre.
 
 * Rechargement page d'accueil si la recherche étudiant marche pas
 
-* Stats : Impression et sauvegarde sous Chrome
+* Stats : Impression et sauvegarde sous Chrome (document.close ?)
 
 * Copier puis drag fait n'importe quoi sur les cases du tableau.
   Sous windows seulement
@@ -224,9 +224,6 @@ Améliorations de code source.
   Ou passer sur Python3
 
 * Passage à Python 3
-
-* La gestion de _url_ dans StaticFile et de BASE est NULLE........
-  Faire proprement StaticFile. Générer des fichier externes.
 
 * Dans bookmark (save options): utiliser des ID plutot que le numéro de colonne
 

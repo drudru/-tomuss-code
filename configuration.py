@@ -24,14 +24,14 @@ This file must not be edited. But you should read it.
 
 The modifications must be done in LOCAL/config.py
 
-Once running, configuration can be done interactively.
+Once TOMUSS server is running, the configuration can be done interactively.
 """
 
 import socket
 import os
 import time
 
-version = '5.2.0'
+version = '5.2.1'
 
 ###############################################################################
 # ACLS
