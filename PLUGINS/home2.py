@@ -131,9 +131,9 @@ def home_page(server):
 </HEAD>
 <body>
 <noscript><h1 style="font-size:400%%;background-color:red; color:white">'''
-        % (utilities.StaticFile._url_,
-           utilities.StaticFile._url_,
-           utilities.StaticFile._url_,
+        % (configuration.url_files,
+           configuration.url_files,
+           configuration.url_files,
            )
         + server._('MSG_need_javascript') + '</h1></noscript><script>'
         + 'var tomuss_version="%s";\n' % configuration.version
@@ -188,7 +188,7 @@ def home_page(server):
     else:
         gz = ''
     f.write('<script id="uesjs" onload="update_ues2(\'\')" onreadystatechange="if ( document.getElementById(\'uesjs\').readyState === \'complete\') update_ues2(\'\')" src="'
-            + configuration.server_url + '/all_ues.js%s"></script>' % gz)
+            + configuration.url_files + '/all_ues.js%s"></script>' % gz)
 
 
 plugin.Plugin('homepage2', '/{=}', function=home_page, group='staff',

@@ -175,7 +175,7 @@ def translations_init(language):
     for lang in language.split(','):
         languages.append(
             '<script onload="this.onloadDone=true;" src="%s/%s.js"></script>'
-            % (configuration.server_url, lang))
+            % (configuration.url_files, lang))
     return ('<script>var translations = {},'
             + 'preferences={"language":%s} ; </script>\n'
             % js(language)

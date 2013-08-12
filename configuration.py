@@ -490,8 +490,10 @@ def terminate():
     if not regtest:
         from .LOCAL import config # Your local configuration goes inside LOCAL
 
-    global maxage, backup
-
+    global url_files, maxage, backup
+    
+    url_files = server_url + '/files/' + version
+    
     if db == 'DBtest' or db == 'DBregtest':
         utilities.do_not_display = ()
         maxage = 1

@@ -100,20 +100,6 @@ class MyRequestBroker(utilities.FakeRequestHandler):
             self.wfile.write('ok')
             return
 
-        if path[1:] in files and path[1:] != '':
-            # XXX Why not merge with tomuss.py send_file?
-            warn('PATH=(%s)' % path[1:])
-            self.send_response(200)
-            f = files[path[1:]]
-            self.send_header('Content-Type', f.mimetype)
-            self.send_header('Content-Length', len(f))
-            self.send_header('Cache-Control',
-                             'max-age=%d' % configuration.maxage)
-            self.end_headers()
-            self.wfile.write( f )
-            self.log_time('static_file')
-            return
-
         if configuration.regtest and path == '/stop':
             global running
             self.send_response(200)

@@ -555,7 +555,7 @@ class StaticFile(object):
                 'txt': 'text/plain',
                 'xml': 'application/rss+xml;charset=utf8',
                 }
-    _url_ = 'http://???/'
+    _url_ = 'http://???/' # The current server (TOMUSS or 'suivi')
                 
     def __init__(self, name, mimetype=None, content=None):
         self.name = name
@@ -584,7 +584,7 @@ class StaticFile(object):
                 content = content.replace(old, new)
             content += ''.join(self.append_text.values())
             if self.name.endswith('.js') or self.name.endswith('.html'):
-                content = content.replace('_FILES_', configuration.server_url)
+                content = content.replace('_FILES_', configuration.url_files)
             self.content = content
 
         return self.content

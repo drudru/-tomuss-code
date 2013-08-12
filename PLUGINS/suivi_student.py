@@ -451,16 +451,16 @@ plugin.Plugin('accept', '/accept', function=accept, group='!staff',
 def suivi_headers(server, is_student=True):
     server.ticket.set_language(server.headers.get('accept-language',''))
     server.the_file.write(
-        str(document.the_head) +
-        '<link rel="stylesheet" href="%s/suivi_student.css" type="text/css">\n'
-        % utilities.StaticFile._url_
+        str(document.the_head)
+        + '''<link rel="stylesheet" href="%s/suivi_student.css" type="text/css">
+<script src="%s/suivi_student.js" onload="this.onloadDone=true;"></script>
+''' % (configuration.url_files, configuration.url_files)        
         + document.translations_init(server.ticket.language)
         )
     server.the_file.flush()
     server.the_file.write(
-        '<script src="%s/suivi_student.js" onload="this.onloadDone=true;"></script>\n' % utilities.StaticFile._url_
-        + '<noscript><h1>'+server._('MSG_need_javascript')+'</h1></noscript>\n'
-        "<script>"
+        '<noscript><h1>'+server._('MSG_need_javascript')+'</h1></noscript>\n'
+        + "<script>"
         + "var semester = %s;\n" % utilities.js(server.semester         )
         + "var year     = %s;\n" % utilities.js(server.year             )
         + "var ticket   = %s;\n" % utilities.js(server.ticket.ticket    )

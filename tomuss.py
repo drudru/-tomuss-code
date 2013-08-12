@@ -133,9 +133,11 @@ class MyRequestBroker(utilities.FakeRequestHandler):
             self.log_time('static-file')
             return
 
-        if self.path != '/' and self.path[1:] in files:
-            self.send_file(self.path[1:])
-            self.log_time('static-file')
+        if self.path.startswith('/files/' + configuration.version):
+            name = self.path.split("/")[3]
+            if name in files:
+                self.send_file(name)
+                self.log_time('static-file')
             return
 
         if self.path.startswith('/status/'):
