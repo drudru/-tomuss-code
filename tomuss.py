@@ -133,8 +133,10 @@ class MyRequestBroker(utilities.FakeRequestHandler):
             self.log_time('static-file')
             return
 
-        if self.path.startswith('/files/' + configuration.version):
-            name = self.path.split("/")[3]
+        if (self.path.startswith('/files/' + configuration.version)
+            or self.path != '/' and self.path[1:] in files
+            ):
+            name = self.path.split("/")[-1]
             if name in files:
                 self.send_file(name)
                 self.log_time('static-file')
@@ -274,11 +276,10 @@ if __name__ == "__main__":
     logs = open(os.path.join("LOGS", "TOMUSS",
                              str(time.localtime()[0]) +".times"), "a")
 
-    document.start_threads()
-
     plugins.plugins_tomuss()
     document.table(0, 'Dossiers', 'config_plugin', None, None)
     plugins.generate_data_files()
+    document.start_threads()
 
     authentication.authentication_redirect = configuration.server_url
     utilities.StaticFile._url_ = authentication.authentication_redirect.replace('/=TICKET','')

@@ -25,9 +25,10 @@ from . import configuration
 
 files = {}
 
-def add(dirname, filename):
+def add(*args):
+    filename = args[-1]
     old = files.get(filename, None)
-    files[filename] = utilities.StaticFile(os.path.join(dirname, filename))
+    files[filename] = utilities.StaticFile(os.path.join(*args))
     if old:
         files[filename].append_text = old.append_text
         files[filename].replace_text = old.replace_text
@@ -49,7 +50,7 @@ for name in (
     'verysafe.png', 'safe.png', 'unsafe.png', 'veryunsafe.png',
     'tip.png', 'feed.png', 'news.xml', 'eye.png', 
     'ok.png', 'bad.png', 'bug.png', 'feedback.png', 'abjus.png',
-    'cross.png', 'leaves.png', 'weight.png', 'teacher.png',
+    'weight.png', 'teacher.png',
     'close.png', 'cell_comment.png',
     'filtre.png','filtre2.png', 'comment.png', 'title.png', 'columns.png',
     'up.gif', 'down.gif', 'next.gif', 'prev.gif',

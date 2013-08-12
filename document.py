@@ -30,7 +30,7 @@ from . import utilities
 from . import configuration
 from . import column
 from . import data
-from .files import files
+from . import files
 from . import inscrits
 from .cell import CellValue, Lines, cellempty
 from . import sender
@@ -57,7 +57,7 @@ warn = utilities.warn
 
 tables = {}
 
-the_head   = utilities.StaticFile(os.path.join('FILES','head.html'))
+the_head = files.add('FILES','head.html')
 
 js = utilities.js
 
@@ -1547,7 +1547,7 @@ def it_is_a_bad_request(request, page, tabl, output_file):
         try:
             warn('Old request asked : %d in place of %d' % (
                 request, page.request))
-            output_file.write(files['ok.png'])
+            output_file.write(files.files['ok.png'])
             output_file.close()
         except IOError:
             pass
@@ -1667,7 +1667,7 @@ def check_requests():
                 warn('Send %s(%s) %s' % (output_file, output_file.closed,
                                          page.answer), what="table")
                 if not output_file.closed:
-                    output_file.write(files[page.answer])
+                    output_file.write(files.files[page.answer])
                     output_file.close()
                 sender.append(page.browser_file,
                               '<script>saved(%d);</script>\n' % request)
@@ -1683,6 +1683,15 @@ def check_requests():
 from . import ticket
 def check_down_connections():
     while True:
+        # This is done here, because testing this once per minute is fine.
+        # Force rewrite of modified files in TMP/version/file
+        # These files can be used by a static file server
+        for f in files.files.values():
+            try:
+                str(f)
+            except OSError:
+                pass
+
         time.sleep(configuration.check_down_connections_interval)
         for ttable in tables_values():
             ttable.send_update(None, '<script>connected();</script>')
@@ -1703,6 +1712,7 @@ def check_down_connections():
                         ttable.year, utilities.js(ttable.semester),
                         utilities.js(ttable.ue)))
 
+                    
 # Update computed values
 
 cell_changed_list_fast = []
@@ -1801,7 +1811,7 @@ def virtual_table(server, the_columns, the_lines, table_attrs={}, js=""):
     server.the_file.write("<script>Xtable_attr('mails',%s);</script>\n"
                           % utilities.js(mails))
     server.close_connection_now()
-                
+       
 def start_threads():
     utilities.start_new_thread_immortal(check_new_students, ())
     utilities.start_new_thread_immortal(check_students_in_tables, ())

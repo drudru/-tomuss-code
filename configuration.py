@@ -153,7 +153,7 @@ students_check_interval = 3600
 maximum_out_of_date = 60
 
 # The static files stay in navigator cache this time
-maxage = 3600
+maxage = 3600*24*100
 
 # Unload every table not used every X seconds :
 unload_interval = 600

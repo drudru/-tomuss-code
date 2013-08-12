@@ -586,14 +586,18 @@ class StaticFile(object):
             if self.name.endswith('.js') or self.name.endswith('.html'):
                 content = content.replace('_FILES_', configuration.url_files)
             self.content = content
+            dirname = os.path.join("TMP", configuration.version)
+            mkpath(dirname)
+            filename = os.path.join(dirname, self.name.split(os.path.sep)[-1])
+            write_file(filename, content)
 
         return self.content
 
     def clear_cache(self):
         if self.time != -1:
             self.content = None
-    
-    def __len__(self):            
+
+    def __len__(self):
         return len(str(self))
 
     def replace(self, key, old, new):
