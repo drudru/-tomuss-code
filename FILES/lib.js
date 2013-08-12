@@ -947,7 +947,7 @@ function table_init()
   tr_title = document.createElement('tr') ;
   tr_title.className = 'column_title' ;
   var th = document.createElement('th') ;
-  th.innerHTML = '<div onmousedown="header_title_click(this);sort_column(event) ;"><span></span><img src="' + url + '/sort_down.png" width="12"><img src="' + url + '/sort_down2.png" width="12"></div>' ;
+  th.innerHTML = '<div onmousedown="header_title_click(this);sort_column(event) ;"><span></span><img src="_FILES_/sort_down.png" width="12"><img src="_FILES_/sort_down2.png" width="12"></div>' ;
   for(var i = 0 ; i < table_attr.nr_columns ; i++ )
     {
       var th2 = th.cloneNode(true) ;
@@ -1498,7 +1498,7 @@ function update_vertical_scrollbar_real()
   var v, vv, v_upper ;
   var height = filtered_lines.length ;
   var y, last_y = -100 ;
-  s = '<span class="position">&nbsp;</span><img src="' + url + '/up.gif" onclick="javascript:previous_page();"><img src="' + url + '/down.gif" onclick="javascript:next_page();"><span class="cursor"></span>' ;
+  s = '<span class="position">&nbsp;</span><img src="_FILES_/up.gif" onclick="javascript:previous_page();"><img src="_FILES_/down.gif" onclick="javascript:next_page();"><span class="cursor"></span>' ;
 
 
   if ( preferences.v_scrollbar_nr )

@@ -98,7 +98,7 @@ function head_html()
       + _('LABEL_logout') + '</a> <b>' + my_identity + '</b>' ;
 
   if ( myindex(semesters, semester) != -1 )
-      w += '<a href="' + suivi.split('/=')[0] + '/rss2/' + ue + '"><img style="border:0px" src="' + url + '/feed.png"></a>' ;
+      w += '<a href="' + suivi.split('/=')[0] + '/rss2/' + ue + '"><img style="border:0px" src="_FILES_/feed.png"></a>' ;
 
   w += hidden_txt('<a href="javascript:howto()">'
 		  + _('LABEL_howto') + '</a>', _('TIP_howto')) + ', '
@@ -721,22 +721,22 @@ function new_new_interface()
 			  + ' beforeclass=greentext')) ;
   t.push('</div>') ;
   t.push('<div class="one_line" style="text-align:center">') ;
-  t.push(hidden_txt('<img src="' + url + '/prev.gif" style="height:1em" onclick="do_move_column_left();">',
+  t.push(hidden_txt('<img src="_FILES_/prev.gif" style="height:1em" onclick="do_move_column_left();">',
 		    _("TIP_column_move_left"))) ;
   t.push(hidden_txt(_("TITLE_column_attr_position"),
 		    _("TIP_column_local_attr"),"","column_attr_position")) ;
-  t.push(hidden_txt('<img src="' + url + '/next.gif" style="height:1em" onclick="do_move_column_right();">',
+  t.push(hidden_txt('<img src="_FILES_/next.gif" style="height:1em" onclick="do_move_column_right();">',
 		    _("TIP_column_move_right"))) ;
   t.push('&nbsp;') ;
   /*
   t.push('</div>') ;
   t.push('<div class="one_line" style="text-align:center">') ;
   */
-  t.push(hidden_txt('<a href="javascript:smaller_column();"><img src="' + url + '/next.gif" style="height:1em;border:0"><img src="' + url + '/prev.gif" style="height:1em;border:0"></a>',
+  t.push(hidden_txt('<a href="javascript:smaller_column();"><img src="_FILES_/next.gif" style="height:1em;border:0"><img src="_FILES_/prev.gif" style="height:1em;border:0"></a>',
 		    _("TIP_column_thinner"))) ;
   t.push(hidden_txt(_("TITLE_column_attr_width"),
 		    _("TIP_column_local_attr"), "", "column_attr_width")) ;
-  t.push(hidden_txt('<a href="javascript:bigger_column();"><img src="' + url + '/prev.gif" style="height:1em;border:0"><img src="' + url + '/next.gif" style="height:1em;border:0"></a>',
+  t.push(hidden_txt('<a href="javascript:bigger_column();"><img src="_FILES_/prev.gif" style="height:1em;border:0"><img src="_FILES_/next.gif" style="height:1em;border:0"></a>',
 		    _("TIP_column_larger"))) ;
   t.push('</div>') ;
   t.push('<div class="one_line">') ;
@@ -1105,7 +1105,7 @@ function tail_html()
 	if ( window.XMLHttpRequest )
 	    a += '<div id="server_answer" style="width:1px;height:1px;border:0px;position:absolute;top:0px;left:0px"></div>' ;
 	else
-	    a += '<iframe id="server_answer" style="width:1px;height:1px;border:0px;position:absolute;top:0px;left:0px" src="' + url + '/sort_up.png"></iframe>' ;
+	    a += '<iframe id="server_answer" style="width:1px;height:1px;border:0px;position:absolute;top:0px;left:0px" src="_FILES_/sort_up.png"></iframe>' ;
 	a += '</body>' ;
     }
   return a ;
@@ -1132,10 +1132,10 @@ function insert_middle()
     If you change the content, read 'table_init' in 'lib.js'
 */
   
-  var hs = '<div class="horizontal_scrollbar"><img src="' + url
-    + '/prev.gif" onclick="javascript:previous_page_horizontal();">'
-    + '<div id="horizontal_scrollbar"></div><img src="' + url
-    + '/next.gif" onclick="javascript:next_page_horizontal();"></div>' +
+  var hs = '<div class="horizontal_scrollbar"><img src="'
+    + '_FILES_/prev.gif" onclick="javascript:previous_page_horizontal();">'
+    + '<div id="horizontal_scrollbar"></div><img src="'
+    + '_FILES_/next.gif" onclick="javascript:next_page_horizontal();"></div>' +
     '<div>' ;
   var w ;
 

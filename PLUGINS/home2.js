@@ -1189,7 +1189,7 @@ function generate_home_page_top()
 	+ _("LABEL_logout") + '</a> <b>' + username + '</b>'
 	+ '<a href="' + url
 	+ '/news.xml"><img style="border:0px;vertical-align:top" src="'
-	+ url + '/feed.png"></a><br>'
+	+ '_FILES_/feed.png"></a><br>'
 	+ '<a href="mailto:' + admin + '">' + _("MSG_home_contact") + '</a>.'
 	+ ' <a target="_blank" href="'+url+'/doc_table.html">'
 	+ _("MSG_home_documentation") + '</a>.'
@@ -1344,7 +1344,7 @@ function generate_home_page_actions()
 	    help += '<br>PLUGIN:' + link[7] ;
 	  help += '<br>PRIORITY:' + link[1] ;
 	  t += '<tr onmouseover="ue_line_over(\'\',this)"><td>' + el
-            + '<img class="safety" src="' + url + '/' + link[2] + '.png">'
+            + '<img class="safety" src="_FILES_/' + link[2] + '.png">'
 	    + link[3] + '<var class="help">' + help
 	    + '</var>' + eld + '</td></tr>' ;
 	}

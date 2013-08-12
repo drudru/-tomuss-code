@@ -351,7 +351,7 @@ hidden('<a href="%s/=%s/%s/%s/ %s" target="_blank">'
         s.append('''<script>
 hidden('<a href="%s">' + _("MSG_suivi_student_RSS") +
        '<img src="%s/feed.png" style="border:0px"></a>\',
-       _("TIP_suivi_student_RSS"));</script>''' % (rss, utilities.StaticFile._url_))
+       _("TIP_suivi_student_RSS"));</script>''' % (rss,configuration.url_files))
         s.append('<link href="%s" rel="alternate" title="TOMUSS" type="application/rss+xml">' % rss)
 
     if is_a_student and configuration.suivi_student_allow_private:
