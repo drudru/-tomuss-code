@@ -79,7 +79,6 @@ for name in (
     ):
     add('TMP', name)
 
-files['style.css'].translate = lambda x:x.replace('_LOGO_', configuration.logo)
 files['lib.js'].append('files.py',
                        utilities.wait_scripts()
                        + '\nvar semesters = '

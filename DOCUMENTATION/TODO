@@ -130,8 +130,6 @@ Problèmes à résoudre.
 * Version TOMUSS des fichiers statiques indiqué dans l'URL afin que les
   changements de version se passent bien.
 * Le suivi doit lire les pages statiques sur le serveur principal ?
-* Séparer les fichiers "static" ailleurs, se débarrasser de
-  l'attribut 'translation' qui empêche cela
 
 * Navigateur web plante avant d'envoyer les actions dans le bon ordre
   La liste des actions à faire : si trop vieille regarder si elles

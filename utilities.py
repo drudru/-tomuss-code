@@ -557,7 +557,7 @@ class StaticFile(object):
                 }
     _url_ = 'http://???/'
                 
-    def __init__(self, name, mimetype=None, translate=None, content=None):
+    def __init__(self, name, mimetype=None, content=None):
         self.name = name
         if mimetype == None:
             if '.' in name:
@@ -574,16 +574,6 @@ class StaticFile(object):
             self.time = 0
         self.append_text = {}
         self.replace_text = {}
-        if translate is None:
-            if name.endswith('.js') or name.endswith('.html'):
-                # It is stupid to replace every time
-                # But configuration order is tricky.
-                translate = lambda x: x.replace('_FILES_',
-                                                configuration.server_url)
-            else:
-                translate = lambda x: x
-
-        self.translate = translate
 
     def __str__(self):
         if self.time != -1 and (self.content == None
@@ -593,9 +583,11 @@ class StaticFile(object):
             for old, new in self.replace_text.values():
                 content = content.replace(old, new)
             content += ''.join(self.append_text.values())
+            if self.name.endswith('.js') or self.name.endswith('.html'):
+                content = content.replace('_FILES_', configuration.server_url)
             self.content = content
 
-        return self.translate(self.content)
+        return self.content
 
     def clear_cache(self):
         if self.time != -1:
@@ -607,10 +599,12 @@ class StaticFile(object):
     def replace(self, key, old, new):
         """The replacement is done each time the file is reloaded"""
         self.replace_text[key] = (old, new)
+        self.clear_cache()
 
     def append(self, key, content):
         """The append is done each time the file is reloaded"""
         self.append_text[key] = content
+        self.clear_cache()
 
 caches = []
 

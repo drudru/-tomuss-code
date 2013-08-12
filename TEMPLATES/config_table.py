@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 #    TOMUSS: The Online Multi User Simple Spreadsheet
-#    Copyright (C) 2009-2012 Thierry EXCOFFIER, Universite Claude Bernard
+#    Copyright (C) 2009-2013 Thierry EXCOFFIER, Universite Claude Bernard
 #
 #    This program is free software; you can redistribute it and/or modify
 #    it under the terms of the GNU General Public License as published by
@@ -24,6 +24,7 @@ from .. import data
 from .. import utilities
 from .. import configuration
 from .. import sender
+from .. import files
 
 def create(table):
     utilities.warn('Creation')
@@ -164,6 +165,10 @@ def set_value(variable, value):
     elif isinstance(current, int):
         value = int(value)
     configuration.__dict__[variable] = value
+    if variable == 'logo':
+        files.files['style.css'].replace("config_table", '_LOGO_', value)
+    if variable == 'maintainer':
+        files.files['doc_table.html'].replace('config_table', '_ADMIN_', value)
 
 def init(table):
     table.do_not_unload_add('*config_table')
@@ -181,11 +186,6 @@ def onload(table):
     for variable in variables:
         if variable in table.lines: # do not create it by reading it
             set_value(variable, table.lines[variable][2].value)
-
-    # Can't be done before (not nice :-( )
-    from .. import files
-    files.files['doc_table.html'].replace('config_table',
-                                          '_ADMIN_', configuration.maintainer)
 
 
 def cell_change(dummy_table, page, col, lin, value, dummy_date):
