@@ -1035,10 +1035,10 @@ msgstr "Ce que vous faites est sauvegardé automatiquement"
 
 msgid "TIP_help_autosave"
 msgstr "Quand vous saisissez une note dans une cellule<br>\n"
-       "un <img class=\"server\" src=\"_URL_/ok.png\">\n"
+       "un <img class=\"server\" src=\"_FILES_/ok.png\">\n"
        "apparaît pour indiquer que la sauvegarde est OK.<br>\n"
        "S'il n'y a pas eu de <img class=\"server\"\n"
-       "src=\"_URL_/ok.png\"> la sauvegarde n'est pas garantie."
+       "src=\"_FILES_/ok.png\"> la sauvegarde n'est pas garantie."
 
 msgid "LABEL_help_visibility"
 msgstr "Rien n'est caché aux étudiants par défaut"

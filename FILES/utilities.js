@@ -780,7 +780,7 @@ function replaceDiacritics(s)
 function student_picture_url(login)
 {
   if ( login )
-    return  '_URL_/=' + ticket + '/picture/' + login_to_id(login) + '.JPG' ;
+    return url + '/=' + ticket + '/picture/' + login_to_id(login) + '.JPG' ;
   return '' ;
 }
 

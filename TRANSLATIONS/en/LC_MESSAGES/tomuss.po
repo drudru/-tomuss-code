@@ -1042,9 +1042,9 @@ msgstr "All your actions are immediately recorded."
 
 #. Label column attribute
 msgid "TIP_help_autosave"
-msgstr "When you modify a cell, a <img class=\"server\" src=\"_URL_/ok.png\">\n"
+msgstr "When you modify a cell, a <img class=\"server\" src=\"_FILES_/ok.png\">\n"
        "appears to show you that the recording is done.\n"
-       "If there is no <img class=\"server\" src=\"_URL_/ok.png\">\n"
+       "If there is no <img class=\"server\" src=\"_FILES_/ok.png\">\n"
        "the data is not saved."
 
 msgid "LABEL_help_visibility"

@@ -468,6 +468,7 @@ def suivi_headers(server, is_student=True):
         + "var admin    = %s;\n" % utilities.js(configuration.maintainer)
         + "var is_a_teacher = %s;\n" % int(not is_student)
         + "var url = %s;\n" % utilities.js(configuration.server_url)
+        + "var url_suivi = %s;\n" % utilities.js(utilities.StaticFile._url_)
         + "var root = %s ;\n" % utilities.js(list(configuration.root))
         + "var maintainer = %s;\n" % utilities.js(configuration.maintainer)
         + 'var max_visibility_date = %d;\n' % configuration.max_visibility_date

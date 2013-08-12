@@ -578,7 +578,8 @@ class StaticFile(object):
             if name.endswith('.js') or name.endswith('.html'):
                 # It is stupid to replace every time
                 # But configuration order is tricky.
-                translate = lambda x: x.replace('_URL_', StaticFile._url_)
+                translate = lambda x: x.replace('_FILES_',
+                                                configuration.server_url)
             else:
                 translate = lambda x: x
 

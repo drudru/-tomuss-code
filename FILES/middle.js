@@ -44,7 +44,7 @@ function update_student_information_default(line)
   var src = student_picture_url(line[0].value) ;
   if ( src != t_student_picture.src )
     {
-      t_student_picture.src = '_URL_/tip.png' ;
+      t_student_picture.src = '_FILES_/tip.png' ;
       if ( line[0].value )
 	t_student_picture.src = student_picture_url(line[0].value) ;
     }
@@ -563,7 +563,7 @@ function new_new_interface()
   var o, t ;
 
   var doc_link = '<div class="one_line">' +
-    hidden_txt('<a href="_URL_/doc_table.html" target="_blank">' +
+    hidden_txt('<a href="_FILES_/doc_table.html" target="_blank">' +
 	       _("LABEL_documentation") + '</a>',  _("TIP_documentation"))
       + '</div>' ;
 
@@ -610,11 +610,11 @@ function new_new_interface()
   t.push('<div class="one_line">') ;
   t.push(hidden_txt('&nbsp;<img class="server"> ',
 		    _("TIP_square") + _("TIP_orange_square"))) ;
-  t.push(hidden_txt('&nbsp;<img class="server" src="_URL_/ok.png"> ',
+  t.push(hidden_txt('&nbsp;<img class="server" src="_FILES_/ok.png"> ',
 		    _("TIP_square") + _("TIP_green_square"))) ;
-  t.push(hidden_txt('&nbsp;<img class="server" src="_URL_/bad.png"> ',
+  t.push(hidden_txt('&nbsp;<img class="server" src="_FILES_/bad.png"> ',
 		    _("TIP_square") + _("TIP_red_square"))) ;
-  t.push(hidden_txt('&nbsp;<img class="server" src="_URL_/bug.png">',
+  t.push(hidden_txt('&nbsp;<img class="server" src="_FILES_/bug.png">',
 		    _("TIP_square") + _("TIP_violet_square"))) ;
   t.push(hidden_txt(_("LABEL_square"), _("TIP_LABEL_square"))) ;
   t.push('</div>') ;
@@ -819,7 +819,7 @@ function new_new_interface()
   t.push(hidden_txt(_("LABEL_help_visibility"), _("TIP_help_visibility"))) ;
   t.push('</div>') ;
   t.push('<div class="one_line">') ;
-  t.push(hidden_txt('<a target="_blank" href="_URL_/doc_table.html#Calcul de moyenne">' +
+  t.push(hidden_txt('<a target="_blank" href="_FILES_/doc_table.html#Calcul de moyenne">' +
 		    _("LABEL_help_average"), _("TIP_help_average"))) ;
   t.push('</div>') ;
 

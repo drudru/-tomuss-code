@@ -21,7 +21,7 @@
 
 function table_linear()
 {
-   window.location = '_URL_/='+ticket+'/'+year+'/'+semester+'/'+ue+'/=linear=';
+   window.location = url +'/='+ticket+'/'+year+'/'+semester+'/'+ue+'/=linear=';
 }
 
 // XXX: live connection does not work

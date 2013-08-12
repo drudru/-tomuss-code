@@ -217,20 +217,20 @@ function ue_line_click_more()
 	}
 
       var t ;
-      t = '<img class="safety" src="_URL_/safe.png"><a href="javascript:'+ href
+      t = '<img class="safety" src="_FILES_/safe.png"><a href="javascript:'+href
 	    + '\')">' + _("B_home_edit") + '</a>'
-	    + '<br><img class="safety" src="_URL_/verysafe.png">'
+	    + '<br><img class="safety" src="_FILES_/verysafe.png">'
 	    + '<a href="javascript:'+ href
 	    + '/=read-only=\')">' + _("B_home_display") + '</a>'
-	    + '<br><img class="safety" src="_URL_/verysafe.png">'
+	    + '<br><img class="safety" src="_FILES_/verysafe.png">'
 	    + '<a href="javascript:'+ href + '/=print-table=/=read-only=\')">'
 	    + _("B_home_export_print") + '</a>'
-	    + '<br><img class="safety" src="_URL_/verysafe.png">'
+	    + '<br><img class="safety" src="_FILES_/verysafe.png">'
 	    + '<a href="javascript:'+ href
 	    + '/=signatures-page=/=read-only=\')">' + _("B_home_signature")
 	    + '</a>' ;
       if ( i_am_root )
-	t += '<br><img class="safety" src="_URL_/unsafe.png">'
+	t += '<br><img class="safety" src="_FILES_/unsafe.png">'
 	    + '<a href="javascript:' + href
 	    + '/page_unload\')">' + _("B_home_close_pages") + '</a>' ;
 
@@ -243,7 +243,7 @@ function ue_line_click_more()
 	  n = ues_favorites[code] ;	  
 	  if (n !== undefined && n > 0 )
 	    {
-	      t +=  '<br><img class="safety" src="_URL_/verysafe.png"><a href="javascript:ue_set_favorite(this,\''
+	      t +=  '<br><img class="safety" src="_FILES_/verysafe.png"><a href="javascript:ue_set_favorite(this,\''
 		+ code + '\',' + ( n%1000000 - 1000000 )
 		    + ');">' + _("B_home_remove_bookmark") + '</a>' ;
 	      txt = _("B_home_bookmark_first") ;
@@ -263,19 +263,19 @@ function ue_line_click_more()
 	    nr = 1000000 + n ;
 	  
 	  
-	  t +=  '<br><img class="safety" src="_URL_/verysafe.png"><a href="javascript:ue_set_favorite(this,\'' + code
+	  t +=  '<br><img class="safety" src="_FILES_/verysafe.png"><a href="javascript:ue_set_favorite(this,\'' + code
 	    + '\',' + nr + ');">' + txt + '</a>' ;
 	}
       
       if ( ues_favorites[code] )
-	t += '<br><img class="safety" src="_URL_/verysafe.png">'
+	t += '<br><img class="safety" src="_FILES_/verysafe.png">'
             + _("MSG_home_nr_view_before")
 	    + ((1000000+ues_favorites[code])%1000000)
 	    +  _("MSG_home_nr_view_after") ;
 
       if ( code && ! code.match('.*/.*') )
 	{
-	  t +=  '<br><img class="safety" src="_URL_/unsafe.png"><a href="javascript:do_extension(\'' + code + '\');">' + _("B_home_unsemestrialize") + '</a>' ;
+	  t +=  '<br><img class="safety" src="_FILES_/unsafe.png"><a href="javascript:do_extension(\'' + code + '\');">' + _("B_home_unsemestrialize") + '</a>' ;
 	}
 
       ue_line_over_plus.childNodes[1].style.display = 'block' ;
@@ -431,25 +431,25 @@ function student_click_more(t)
     }
   var login = ue_line_over_last.childNodes[1].textContent || ue_line_over_last.childNodes[1].innerText ;
 
-  var message = '<img class="safety" src="_URL_/verysafe.png">'
+  var message = '<img class="safety" src="_FILES_/verysafe.png">'
 	+ _("B_home_bookmark") ;
   for(var i in favstu)
     if ( login == favstu[i][0] )
       {
-	message = '<img class="safety" src="_URL_/safe.png">'
+	message = '<img class="safety" src="_FILES_/safe.png">'
 	      + _("B_home_remove_bookmark") ;
 	break ;
       }
 
   var more_link1 = '' ;
   if ( i_am_a_referent )
-      more_link1 = '<img class="safety" src="_URL_/verysafe.png">'
+      more_link1 = '<img class="safety" src="_FILES_/verysafe.png">'
 	+ '<a href="javascript:goto_url(base+\'bilan/' + login + '\')">'
 	+ _("B_home_bilan_tomuss") + '</a><br>' ;
 
     var send_mail = _("MSG_unknown_mail") + '<br>' ;
   if ( the_student_mails[login] !== '' )
-    send_mail = '<img class="safety" src="_URL_/verysafe.png">'
+    send_mail = '<img class="safety" src="_FILES_/verysafe.png">'
 	+ '<a href="mailto:' + the_student_mails[login]
 	+ '">' + _("B_home_sendmail") + '</a><br>' ;
 
@@ -464,7 +464,7 @@ function student_click_more(t)
     {
       if ( ! i_am_referent_of(login) )
 	{
-	  more_link += '<img class="safety" src="_URL_/veryunsafe.png">'
+	  more_link += '<img class="safety" src="_FILES_/veryunsafe.png">'
 		+ '<a href="javascript:referent_get(\'' + login
 		+ '\')">' + _("MSG_home_become_referent") + '</a><br>' ;
 	}
@@ -473,7 +473,7 @@ function student_click_more(t)
   ue_line_over_plus.childNodes[0].innerHTML = '&times;' ;
   ue_line_over_plus.childNodes[1].style.display = 'block' ;
   ue_line_over_plus.childNodes[1].innerHTML = 
-	'<img class="safety" src="_URL_/verysafe.png">'
+	'<img class="safety" src="_FILES_/verysafe.png">'
 	+ '<a href="javascript:go_suivi_student(\'' + the_login(login)
 	+ '\')">' + _("MSG_home_suivi") + '</a><br>'
 	+ student_line_more_links(login)

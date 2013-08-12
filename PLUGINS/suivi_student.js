@@ -64,12 +64,12 @@ function initialize_suivi_real()
     + '<style id="computed_style">.notempty { display: none ; }</style>\n'
     + '<img id="unload" width="1" height="1">\n'
     + '<div class="identity">'
-    + '<a href="_URL_/suivi_student_doc.html">' + _("MSG_help") + '</a>, '
+    + '<a href="_FILES_/suivi_student_doc.html">' + _("MSG_help") + '</a>, '
     + '<a href="mailto:' + maintainer + '?subject='
     + encodeURI(_('MSG_suivi_student_mail_subject')) + '&body='
     + encodeURI(_('MSG_suivi_student_mail_body')).replace(/\n/g, '%0A')
     + '">' +  _('MSG_suivi_student_mail_link') + '</a>, '
-    + '<a href="_URL_/logout">' + _("LABEL_logout") +'</a> '
+    + '<a href="' + url_suivi + '/logout">' + _("LABEL_logout") +'</a> '
     + '<b>' + username + '</b><br>' ;
 
   if ( myindex(root, username) != -1 )

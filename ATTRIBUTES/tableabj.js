@@ -79,7 +79,7 @@ function abj_per_day()
 
   var title = _("TITLE_abjtt") + ' ' + ue + ' ' + semester + ' ' + year ;
 
-  p +='<script src="_URL_/abj.js" onload="this.onloadDone=true;"></script>'+
+  p +='<script src="_FILES_/abj.js" onload="this.onloadDone=true;"></script>'+
     '<title>' + title + '</title>' +
     '<body>' +
     '<h1>' + title + '</h1>' +
@@ -180,7 +180,7 @@ function abj_per_day()
 	  + _("MSG_abjtt_explanation_before") + ' <b>'
 	  + nr + "</b> " + _("MSG_abjtt_explanation_after") + "<br>"
 	  + _("MSG_abjtt_more_before") + ' '
-	  + '<a href="_URL_/=' + ticket + '/' + year + '/' + semester
+	  + '<a href="' + url + '/=' + ticket + '/' + year + '/' + semester
 	  + '/' + ue + '/resume">' + _("MSG_abjtt_more_link") + '</a> '
 	  + _("MSG_abjtt_more_after") + '<br>' ;
   else

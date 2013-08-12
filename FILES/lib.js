@@ -3017,7 +3017,7 @@ Request.prototype.send = request_send ;
 function click_to_revalidate_ticket()
 {
   var m =  '<a onclick="javascript: t_authenticate.style.display = \'none\' ; window_open(\'' + cas_url + '/login?service='
-    + encodeURI('_URL_/allow/' + ticket + '/' + millisec())
+    + encodeURI(url + '/allow/' + ticket + '/' + millisec())
     + '\')">' + _("MSG_reauthenticate") + '</a>' ; 
   t_authenticate.style.display = 'block' ;
   t_authenticate.innerHTML = m ;
@@ -3173,7 +3173,7 @@ function auto_save_errors()
 
       server_feedback.answered = false ;
       server_feedback.time = d ;
-      server_feedback.innerHTML = '<img src="_URL_/status/' + d +
+      server_feedback.innerHTML = '<img src="' + url + '/status/' + d +
 	'" width="8" height="8" onload="revalidate_ticket();">' ;
       _d(server_feedback.innerHTML + '\n');      
     }
@@ -3181,7 +3181,7 @@ function auto_save_errors()
   if ( connection_state == 'no_connection'
        && d - server_feedback.time > 2*max_answer_time)
     {
-      server_feedback.innerHTML = '<img src="_URL_/status/' + d +
+      server_feedback.innerHTML = '<img src="' + url + '/status/' + d +
 	'" width="8" height="8" onload="revalidate_ticket();">' ;
       server_feedback.time = d ;
     }
@@ -3685,7 +3685,7 @@ function html_begin_head(hide_title, pb, more)
   var languages = '' ;
   var all = preferences['language'].split(',') ;
   for(var i in all)
-    languages += '<script onload="this.onloadDone=true;" src="_URL_/'
+    languages += '<script onload="this.onloadDone=true;" src="_FILES_/'
       + all[i] + '.js"></script>' ;
   
   if ( ! pb )

@@ -68,7 +68,7 @@ function bilan(ticket, login, resume, firstname, surname, mail, suivi,
     + '<p>' + _("MSG_bilan") ;
 
   if ( false && i_can_refer )
-    s += '<a href="_URL_/=' + ticket + '/referent_get/' + login +
+    s += '<a href="' + url_suivi + '/=' + ticket + '/referent_get/' + login +
 	'">' + _("MSG_bilan_take_student") + '</a>' ;
 
   s += '</div>';
@@ -144,11 +144,11 @@ function bilan(ticket, login, resume, firstname, surname, mail, suivi,
 		    s += '<span style="float:right">' + (v[5]*20).toFixed(1)
 		      + '</span>' ;
 
-		  s += '<img class="info prst" src="_URL_/ok.png" style="height:'
+		  s += '<img class="info prst" src="_FILES_/ok.png" style="height:'
 		    + (size*v[2]/n).toFixed(2) + 'em"><br>\n' ;
-		  s += '<img class="info abjus" src="_URL_/abjus.png" style="height:'
+		  s += '<img class="info abjus" src="_FILES_/abjus.png" style="height:'
 		    + (size*v[4]/n).toFixed(2) + 'em"><br>\n' ;
-		  s += '<img class="info abinj" src="_URL_/bad.png" style="height:'
+		  s += '<img class="info abinj" src="_FILES_/bad.png" style="height:'
 		    + (size*v[3]/n).toFixed(2) + 'em"><br>\n' ;
 		}
 	      s += '</a></td>' ;

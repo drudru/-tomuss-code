@@ -328,6 +328,7 @@ server_url = '%s:%d' % (server_base_url, server_port)
 # This example defines 3 servers for the current university year.
 # Changing these values may break the regression tests.
 # You must redefine your semesters in LOCAL/config.py
+# To launch only one process: use the same port number
 from . import servers
 suivi = servers.Suivi(https=False)
 suivi.add(time.localtime()[0]  , semesters[0],socket.getfqdn()+':%d', 8889)
