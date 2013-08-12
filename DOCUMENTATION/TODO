@@ -127,8 +127,6 @@ Administrateur.
 Problèmes à résoudre.
 =====================
 
-* Date de visiblité mal testée dans le suivi
-
 * Version TOMUSS des fichiers statiques indiqué dans l'URL afin que les
   changements de version se passent bien.
 * Le suivi doit lire les pages statiques sur le serveur principal ?

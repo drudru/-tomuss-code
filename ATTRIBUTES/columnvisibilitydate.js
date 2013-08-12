@@ -30,7 +30,10 @@ function set_visibility_date(value, column, xcolumn_attr)
       Alert("ALERT_columnvisibility_date_invalid", value) ;
       return column.formatter(column.visibility_date) ;
     }
-  if ( (v.getTime() - millisec())/(86400*1000) > max_visibility_date )
+  if ( xcolumn_attr === false )
+  {
+    // Interactive
+    if ( (v.getTime() - millisec())/(86400*1000) > max_visibility_date )
     {
       alert(_("ALERT_columnvisibility_date_far_futur") + ' '
 	    + max_visibility_date + ' '
@@ -38,11 +41,12 @@ function set_visibility_date(value, column, xcolumn_attr)
 	   ) ;
       return column.formatter(column.visibility_date) ;
     }
-  if ( xcolumn_attr === false && v.getTime() + 86400*1000 - millisec() < 0 )
+    if ( v.getTime() + 86400*1000 - millisec() < 0 )
     {
       Alert("ALERT_columnvisibility_date_past") ;
       return column.formatter(column.visibility_date) ;
     }
+  }
   v = ''+v.getFullYear()+two_digits(v.getMonth()+1)+two_digits(v.getDate()) ;
   return v ;
 }
