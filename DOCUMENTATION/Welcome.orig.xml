@@ -867,7 +867,10 @@ server {
     listen   80;
     server_name  tomuss.fr;
     # It is the web server (not TOMUSS) that send the static files (UNTESTED)
-    location ~ ^/files/ { rewrite  ^/files/([0-9.]+)/(.*)  /home/tomuss/TMP/$1/$2 ; } 
+    location ~ ^/files/ {
+      root /home/tomuss/TMP ; # Must be readable by NGINX
+      rewrite  ^/files/([0-9.]+)/([^/]*) /$1/$2 break ;
+    } 
     location    /                       { proxy_pass http://tomuss1.fr:8888; }
 }
 

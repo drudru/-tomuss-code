@@ -153,7 +153,8 @@ students_check_interval = 3600
 maximum_out_of_date = 60
 
 # The static files stay in navigator cache this time
-maxage = 3600*24*100
+# Beware, the UE list will not be reloaded for this time.
+maxage = 3600*24
 
 # Unload every table not used every X seconds :
 unload_interval = 600
@@ -498,17 +499,15 @@ def terminate():
         utilities.do_not_display = ()
         maxage = 1
 
-    for dirname in (db, os.path.join(db, 'Y0', 'Stats')):
-        if not os.path.isdir(dirname):
-            utilities.mkpath(dirname)
-        if backup and not os.path.isdir(backup + dirname):
-            utilities.mkpath(backup + dirname)
+    if not os.path.exists(db):
+        os.mkdir(db, 0700)
+    if backup and not os.path.isdir(backup + db):
+        os.mkdir(backup + db, 0700)
 
     if os.path.exists('tomuss.py'):
-        utilities.mkpath_safe(db)
         utilities.mkpath('TMP')
         if not os.path.exists(ticket_directory):
-            os.mkdir(ticket_directory)
+            os.mkdir(ticket_directory, 0700)
 
         if not os.path.isdir(backup + db):
             sys.stderr.write('Backup disabled : directory does not exists\n')
