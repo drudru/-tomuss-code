@@ -72,6 +72,7 @@ plugin.Plugin('icone', '/{_I}',
               # launch_thread=True,
               authenticated=False,
               mimetype = 'image/png',
+              cached = True,
               )
 
 plugin.Plugin('icone_withticket', '/{?}/{_I}',
@@ -79,5 +80,6 @@ plugin.Plugin('icone_withticket', '/{?}/{_I}',
               authenticated=False,
               # launch_thread=True,
               mimetype = 'image/png',
+              cached = True,
               )
 

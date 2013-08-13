@@ -68,7 +68,11 @@ class MyRequestBroker(utilities.FakeRequestHandler):
         if s.name and len(s) != 0:
             self.send_header('Content-Length', len(s))
         self.send_header('Content-Type', s.mimetype)
-        self.send_header('Cache-Control', 'max-age=%d' % configuration.maxage)
+        if 'UNCACHED' in name:
+            self.send_header('Cache-Control', 'no-cache')
+        else:
+            self.send_header('Cache-Control',
+                             'max-age=%d' % configuration.maxage)
         if name.endswith('.gz'):
             self.send_header('Content-Encoding', 'gzip')
         self.end_headers()

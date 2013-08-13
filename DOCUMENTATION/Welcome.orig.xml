@@ -866,10 +866,14 @@ proxy_read_timeout 1000000;  # To keep connection open
 server {
     listen   80;
     server_name  tomuss.fr;
-    # It is the web server (not TOMUSS) that send the static files (UNTESTED)
+    # It is the web server (not TOMUSS) that send the static files
     location ~ ^/files/ {
       root /home/tomuss/TMP ; # Must be readable by NGINX
-      if ( $request_uri ~* "\.gz$" ) { add_header  Content-Encoding  gzip; }
+      add_header Cache-Control "max-age=86400";
+      if ( $request_uri ~* "\.gz$" ) {
+               add_header Content-Encoding gzip;
+               add_header Cache-Control "max-age=86400";
+      }
       rewrite  ^/files/([0-9.]+)/([^/]*) /$1/$2 break ;
     } 
     location    /                       { proxy_pass http://tomuss1.fr:8888; }

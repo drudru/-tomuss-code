@@ -468,6 +468,10 @@ def dispatch_request(server, manage_error=True):
         if not p.cached:
             server.send_header('Cache-Control', 'no-cache')
             server.send_header('Cache-Control', 'no-store')
+        else:
+            server.send_header('Cache-Control',
+                               'max-age=%d' % configuration.maxage)
+
         for h in p.headers(server):    
             warn('send header: %s' % str(h), what='plugin')
             server.send_header(*h)
