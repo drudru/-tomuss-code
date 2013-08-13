@@ -168,6 +168,12 @@ class MyRequestBroker(utilities.FakeRequestHandler):
             running = False
             return
 
+        if self.path.startswith('/PROFILE_THIS_URL/'):
+            self.path = self.path.replace('/PROFILE_THIS_URL/', '')            
+            self.do_profile = True
+        else:
+            self.do_profile = False
+
         the_ticket, self.the_path = ticket.get_ticket_string(self)
         self.ticket = ticket.get_ticket_objet(the_ticket, self)
         warn('ticket=%s' % str(self.ticket)[:-1])
@@ -320,6 +326,9 @@ if __name__ == "__main__":
         abj.Abjs(int(conv_year[1:]), conv_semester[1:])
 
     if 'profile' in sys.argv:
+        # To profile a single URL and not the full server.
+        # Put PROFILE_THIS_URL just before the ticket:
+        #    http://192.168.0.1:8888/PROFILE_THIS_URL/=ticket/stats
         import cProfile
         try:
             cProfile.run("while running: server.handle_request()", "xxx.prof")

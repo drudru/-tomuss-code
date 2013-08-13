@@ -384,6 +384,11 @@ to_top = None
 
 
 def execute(server, plugin):
+    if server.do_profile:
+        import cProfile
+        import time
+        pr = cProfile.Profile(time.time)
+        pr.enable()
     if plugin.launch_thread:
         try:
             plugin.function(server)
@@ -410,6 +415,12 @@ def execute(server, plugin):
         
     else:
         plugin.function(server)
+    if server.do_profile:
+        pr.disable()
+        pr.dump_stats("xxx.prof")
+        import pstats
+        ps = pstats.Stats('xxx.prof')
+        ps.strip_dirs().sort_stats('cumulative').print_stats()
 
     server.log_time(plugin.name)
 
