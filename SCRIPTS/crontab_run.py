@@ -38,13 +38,13 @@ def run(url, command, run_only_if_not_properly_stopped, name=None,strace=""):
             return
     try:
         start_time = time.time()
-        f = urllib2.urlopen(url + '/style.css')
+        f = urllib2.urlopen(url + '/robots.txt')
         c = f.read()
         f.close()
     except IOError:
         c = ''
 
-    if 'thetable' not in c:
+    if 'User-agent:' not in c:
         if pid != '':
             try:
                 os.system('''(
@@ -132,12 +132,12 @@ def restart_suivi():
         while True:
             try:
                 print 'Wait start', url
-                f = urllib2.urlopen(url + '/style.css')
+                f = urllib2.urlopen(url + '/robots.txt')
                 c = f.read()
                 f.close()
             except urllib2.URLError:
                 c = ''
-            if 'autosavefailed' in c:
+            if 'User-agent:' in c:
                 break
             time.sleep(1)
 

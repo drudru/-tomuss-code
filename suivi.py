@@ -43,8 +43,6 @@ StaticFile = utilities.StaticFile
 
 running = True
 
-from .files import files
-
 class MyRequestBroker(utilities.FakeRequestHandler):
     def log_time(self, action):
         time_logs.write('%f %g %s\n' % (self.start_time, time.time()
@@ -98,6 +96,14 @@ class MyRequestBroker(utilities.FakeRequestHandler):
             self.send_header('Content-Type', 'text/plain')
             self.end_headers()
             self.wfile.write('ok')
+            return
+
+        if path[1:] == 'robots.txt':
+            self.send_response(200)
+            self.send_header('Content-Type', 'text/plain')
+            self.end_headers()
+            self.wfile.write(utilities.read_file(os.path.join("FILES",
+                                                              "robots.txt")))
             return
 
         if configuration.regtest and path == '/stop':

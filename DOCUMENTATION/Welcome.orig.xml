@@ -869,6 +869,7 @@ server {
     # It is the web server (not TOMUSS) that send the static files (UNTESTED)
     location ~ ^/files/ {
       root /home/tomuss/TMP ; # Must be readable by NGINX
+      if ( $request_uri ~* "\.gz$" ) { add_header  Content-Encoding  gzip; }
       rewrite  ^/files/([0-9.]+)/([^/]*) /$1/$2 break ;
     } 
     location    /                       { proxy_pass http://tomuss1.fr:8888; }
