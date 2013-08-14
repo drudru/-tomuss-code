@@ -59,19 +59,21 @@ def bilan(server):
         + '''
 <SCRIPT src="%s/bilan.js"></SCRIPT>
 <SCRIPT><!--
-ticket = "%s" ;
+var ticket = "%s" ;
+var url = "%s" ;
 bilan("%s","%s",%s,%s,%s,%s,%s,%s,%s) ;
 --></SCRIPT>''' % (
-                              configuration.server_url,
-                              server.ticket.ticket,
-                             server.ticket.ticket, server.the_student, v,
-                   utilities.js(firstname.encode('utf8')),
-                   utilities.js(surname.title().encode('utf8')),
-                   utilities.js(mail.encode('utf8')),
-                   configuration.suivi.all(server.ticket.ticket),
-                   i_can_refer,
-                   configuration.external_bilan(server.the_student)
-                   ))
+               configuration.url_files,
+               configuration.server_url,
+               server.ticket.ticket,
+               server.ticket.ticket, server.the_student, v,
+               utilities.js(firstname.encode('utf8')),
+               utilities.js(surname.title().encode('utf8')),
+               utilities.js(mail.encode('utf8')),
+               configuration.suivi.all(server.ticket.ticket),
+               i_can_refer,
+               configuration.external_bilan(server.the_student)
+               ))
 
 
 plugin.Plugin('bilan', '/bilan/{I}',
