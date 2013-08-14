@@ -116,6 +116,12 @@ class MyRequestBroker(utilities.FakeRequestHandler):
             self.wfile.write('stopped')
             running = False
             return
+        
+        if path.startswith('/PROFILE_THIS_URL/'):
+            path = path.replace('/PROFILE_THIS_URL/', '')            
+            self.do_profile = True
+        else:
+            self.do_profile = False
 
         self.the_file = self.wfile
         # self.do_not_close_connection()

@@ -1125,6 +1125,7 @@ class FakeRequestHandler(BaseHTTPServer.BaseHTTPRequestHandler):
     please_do_not_close = False
     timeout = 0.1 # For Opera that does not send GET on HTTP request
     it_is_a_post = False
+    do_profile = False
 
     def do_POST(self):
         self.it_is_a_post = True
