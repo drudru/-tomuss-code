@@ -1374,7 +1374,9 @@ def table(year, semester, ue, page=None, ticket=None, ro=False, create=True,
     else:
         # Table yet loaded
         t = t.update()
-        
+
+    t.atime = time.time()
+    
     if page == None:
         if ticket == None:
             return t
@@ -1413,9 +1415,14 @@ def table(year, semester, ue, page=None, ticket=None, ro=False, create=True,
 def remove_unused_tables():
     """Do not call from a thread"""
     warn('start', what="table")
+    now = time.time()
     for atable in tables_values():
-        if not atable.active_pages:
-            atable.unload()
+        if atable.active_pages:
+            continue
+        if now - atable.atime < configuration.unload_interval:
+            continue
+        atable.unload()
+            
     warn('stop', what="table")
 
 # continuous update of students lists for all tables
