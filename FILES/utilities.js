@@ -450,7 +450,7 @@ function encode_uri(t)
   return encodeURI(t)
     .replace(/\$/g, "$24").replace(/\?/g, "$3F").replace(/#/g, "$23")
     .replace(/[.]/g, "$2E").replace(/&/g, "$26").replace(/\//g, "$2F")
-    .replace(/[+]/g, "$2B") ;
+    .replace(/[+]/g, "$2B").replace(/%0A/g, "$0A").replace(/%0D/g, "$0D")  ;
 }
 
 function encode_uri_option(t)
