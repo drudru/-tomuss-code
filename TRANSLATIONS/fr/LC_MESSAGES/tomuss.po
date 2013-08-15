@@ -5162,3 +5162,48 @@ msgstr "Messages/Contrats"
 
 msgid "TITLE_signatures"
 msgstr "Les messages et contrats que vous avez validés"
+
+msgid "LABEL_signature_new"
+msgstr "Poser une question"
+
+msgid "TIP_signature_new"
+msgstr "Ceci vous permet de poser un question à l'étudiant<br>\n"
+       "ou bien de lui indiquer une information importante."
+
+msgid "MSG_signature_new"
+msgstr "Indiquez ici le texte du message qui apparaîtra\n"
+       "sur la page de l'étudiant (aucun mail n'est envoyé).\n"
+       "Les <b>{{{</b>réponse<b>}}}</b> possibles de l'étudiant\n"
+       "sont indiquées entre triples acolades.<br>\n"
+       "L'étudiant ne pourra plus voir ses notes tant qu'il<br>\n"
+       "n'aura pas répondu à la question ou validé la lecture<br>\n"
+       "de votre message."
+       
+msgid "MSG_signature_create"
+msgstr "Poser la question (elle ne sera pas modifiable)"
+
+msgid "MSG_signature_send_mail"
+msgstr "Je veux recevoir un mail quand l'étudiant répond dans TOMUSS"
+
+msgid "MSG_signature_example"
+msgstr "Bonjour.\n"
+       "\n"
+       "Vous devez venir me voir Jeudi 10/10/2010 dans mon bureau\n"
+       "au deuxième étage du bâtiment Nautibus.\n"
+       "\n"
+       "Cliquez sur {{{Je viendrais}}} ou {{{Je ne peux pas venir}}}\n"
+       "\n"
+       "Amicalement."
+
+msgid "MSG_signature_miss_button"
+msgstr "Il faut au moins laisser un bouton {{{OK}}}"
+
+msgid "SUBJECT_signature_done"
+msgstr "Réponse de l'étudiant :"
+
+msgid "MSG_signature_answer"
+msgstr "Message automatique de TOMUSS car l'étudiant a répondu."
+
+msgid "MSG_signature_from"
+msgstr "Message de "
+

@@ -177,9 +177,9 @@ function sign(t, message_id)
   document.getElementById("signature_done").style.display = 'block' ; 
 }
 </script>
-<h2><script>document.write(_('TITLE_signature'))</script></h2>
+<h2><script>Write('TITLE_signature')</script></h2>
 ''' + ''.join(t) + '''<hr>
-<button id="signature_done" style="display:none" onclick="location.reload()"><script>document.write(_('MSG_signature_done'))</script></button>
+<button id="signature_done" style="display:none" onclick="location.reload()"><script>Write('MSG_signature_done')</script></button>
 ''', 'utf-8')
     
         

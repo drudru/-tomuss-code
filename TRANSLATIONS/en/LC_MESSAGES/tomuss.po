@@ -5090,3 +5090,44 @@ msgstr "Messages/Contracts"
 msgid "TITLE_signatures"
 msgstr "Messages and agreements you have endorsed"
 
+msgid "LABEL_signature_new"
+msgstr "Ask a question"
+
+msgid "TIP_signature_new"
+msgstr "Allow you to ask a question to the student<br>\n"
+       "or give an important information."
+
+msgid "MSG_signature_new"
+msgstr "Enter here your message to display on the 'suivi' page,\n"
+       "this does not send mail.\n"
+       "The possible <b>{{{</b>answer<b>}}}</b> for the message\n"
+       "are between triple curled braces.<br>\n"
+       "The student will no more be able to see its grades until<br>\n"
+       "the question is answered or the message reading validated."
+       
+msgid "MSG_signature_create"
+msgstr "Ask the question (it will not be modifiable)"
+
+msgid "MSG_signature_send_mail"
+msgstr "I want to receive a mail when the student answers on TOMUSS"
+
+msgid "MSG_signature_example"
+msgstr "Hello.\n"
+       "\n"
+       "You must come to see me on Friday 12, room 112 Nautibus building.\n"
+       "\n"
+       "Click on {{{I will come}}} or {{{I can't come}}}\n"
+       "\n"
+       "Sincerely yours."
+
+msgid "MSG_signature_miss_button"
+msgstr "You must at least put an {{{OK}}} button at the end."
+
+msgid "SUBJECT_signature_done"
+msgstr "Student answer:"
+
+msgid "MSG_signature_answer"
+msgstr "Automatic mail from TOMUSS because the student answered."
+
+msgid "MSG_signature_from"
+msgstr "Message from "

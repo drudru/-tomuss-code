@@ -295,7 +295,7 @@ hidden('<a href="%s/=%s/%s/%s/ %s" target="_blank">'
 
     q = signature.get_state(login)
     q_html = q.html()
-    if q_html:
+    if is_a_student and q_html:
         return ''.join(s) + q_html
     if q.html_answered():
         s.append('<a href="signatures/%s">' % login
