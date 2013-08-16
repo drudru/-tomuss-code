@@ -1676,6 +1676,29 @@ cell_change(1,'0_2','ticket_time_to_live','%d',"")
         assert( c == ok_png )
         c = s.url('='+abj+'/%s/UE-owner/1/5/cell_change/A/a/FOO' % ys)
         assert( c == ok_png )
+
+    if do('signature'):
+        ss.start()
+        c = ss.url('=' + abj +'/%s/10800001' % ys)
+        assert( 'LABEL_signature_new' in c )
+        c = ss.url('=p0800001/%s' % ys)
+        assert( 'LABEL_signature_new' not in c )
+        c = s.url('=' + abj
+                  + '/signature_new/p0800001/1/sig_message{{{sig_button}}}')
+        assert(utilities._("MSG_saved") in c)
+        c = ss.url('=p0800001/%s' % ys)
+        assert('TITLE_signature' in c)
+        assert(utilities._('MSG_signature_from') in c)
+        assert('tt.masterSurname' in c)
+        assert('sig_message' in c)
+        assert('>sig_button<' in c)
+        c = s.url('=p0800001/signature/0/sig_button')
+        assert( c == ok_png )
+        c = ss.url('=p0800001/%s/signatures/p0800002' % ys)
+        assert(utilities._('TITLE_signatures') in c)
+        assert('sig_message' in c)
+        assert(')sig_button<' in c)
+
         
 if '1' in sys.argv:
    sys.argv.remove('1')
