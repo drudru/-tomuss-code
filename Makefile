@@ -53,7 +53,6 @@ release:translations
 	@cd LOCAL ; git tag $(V)
 	@echo "Documentation update"
 	@cd DOCUMENTATION ; $(MAKE)
-	@cp FILES/howto.html ~/public_html/TOMUSS/TUTORIALS
 	@$(MAKE) -s tar
 	@[ -x LOCAL/release ] && LOCAL/release
 

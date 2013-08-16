@@ -811,6 +811,35 @@ Les améliorations les plus visibles sont :
       </description>
       <guid>56</guid>
     </item>
+    <item>
+      <title>16/08/2013 : Version 5.2.2</title>
+      <link>http://tomuss.univ-lyon1.fr/</link>
+      <description>
+	Les enseignants et administratifs peuvent afficher un message
+	ou une question sur la page de suivi d'un étudiant en particulier.
+	On utilise pour faire cela le lien 'Poser une question' sur la page
+	de suivi de l'étudiant.
+	L'étudiant ne pourra plus voir ses notes tant qu'il n'aura
+	pas lu le message ou répondu à la question.
+	Pour poser une question à un ensemble d'étudiants,
+	cherchez 'Questionnaire' dans la documentation TOMUSS.
+	&lt;p&gt;
+	Changement dans les calculs : ABI-3 ou ABI+0 donne ABI au lieu de
+	-3 et 0.
+	&lt;p&gt;
+	Il y a un type de colonne permettant d'extraire le contenu d'APOGEE.
+	Le titre de la colonne (pouvant commencer par .) peut-être
+	un code UE ou bien S1, S2...
+	Ceci ne fonctionne que pour la licence STS.
+	&lt;p&gt;
+        TOMUSS n'affiche plus les emplois du temps des étudiants,
+	il les redirige vers le site de officiel.
+	&lt;p&gt;
+	Les enseignants référents peuvent voir les réponses de leurs
+	étudiants au questionnaire primo-entrant.
+      </description>
+      <guid>57</guid>
+    </item>
 
   </channel>
 </rss>
