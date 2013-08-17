@@ -79,7 +79,7 @@ class Server(object):
 
     def restart(self, mode='a', more=[]):
         stdout, stderr = self.log_files(mode)
-        self.process = subprocess.Popen(['./tomuss.py', 'regtest'] + more,
+        self.process = subprocess.Popen(['./tomuss.py', 'regtest', 'regtest_sync'] + more,
                                         stdout = stdout.fileno(),
                                         stderr = stderr.fileno(),
                                         )

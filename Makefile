@@ -106,8 +106,6 @@ full-tar:
 	@tar -cf - \
 		--exclude 'Trash' \
 		--exclude 'LOGS' \
-		--exclude 'DBtest' \
-		--exclude 'BACKUP_DBtest' \
 		--exclude 'DBregtest' \
 		--exclude 'BACKUP_DBregtest' \
 		--exclude '.git' \

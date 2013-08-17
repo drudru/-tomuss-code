@@ -246,6 +246,7 @@ if __name__ == "__main__":
     
     if 'regtest' in sys.argv:
         configuration.regtest = True
+    if 'regtest_sync' in sys.argv:
         configuration.regtest_sync = True
     configuration.regtest_bug1 = 'regtest-bug1' in sys.argv
     from . import regtestpatch

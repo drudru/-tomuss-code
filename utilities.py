@@ -422,12 +422,12 @@ def js(t):
 def js2(t):
     return '"' + t.replace('\\','\\\\').replace('"','\\"').replace('\n','\\n') + '"'
 
-def mkpath(path, create_init=True):
+def mkpath(path, create_init=True, mode=0777):
     s = ''
     for i in path.split(os.path.sep):
         s += i + os.path.sep
         try:
-            os.mkdir(s)
+            os.mkdir(s, mode)
             if create_init:
                 write_file(os.path.join(s, '__init__.py'), '')
         except OSError:

@@ -1,0 +1,610 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>TOMUSS Install</title>
+    <META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=UTF-8">
+    <link rel="stylesheet" href="documentation.css" type="text/css">
+    <style>
+      PRE { border: 1px solid black;}
+      PRE, TT { background: #EEE; }
+      DIV.top { max-width: 45em ; }
+    </style>
+    <script>
+      window.level4 = true ;
+    </script>
+  </head>
+  
+  <body>
+    <div class="top">
+      
+      <div>
+	<h2>TOMUSS install</h2>
+	<p>
+	  This page provide step to step explanations
+	  to install and cutomize TOMUSS version 5.2.3.
+	  It does not replace the
+	  <a target="_blank"
+	     href="http://perso.univ-lyon1.fr/thierry.excoffier/TOMUSS/DOCUMENTATION/Welcome.xml">reference documentation</a>.
+	<p>
+	  It is a bit complicated because TOMUSS is not
+	  an integrated application.
+	  You must integrate it in your own information system.
+	<p>
+	  Beware: TOMUSS does not support copy past of multiple
+	  cells because it is a source of errors.
+	  Read the documentation to see how to import data.
+      </div>
+
+      <div>
+	<h3>Requirements</h3>
+	<p>
+	  To run, you needs:
+	  <ul>
+	    <li> An Unix server.
+	    <li> The package <tt>inkscape</tt> to compute some images.
+	    <li> A Python 2 interpreter.
+	    <li> <tt>ldap</tt> and <tt>imaging</tt> Python package.
+	    <li> The package <tt>gettext</tt> to make localization.
+	    <li> The package <tt>git</tt> to make backup.
+	    <li> A way to authenticate your users.
+	  </ul>
+	  On Debian and derivatives, you can install theses requirements
+	  with the following command:
+	  <pre>sudo apt-get install inkscape gettext python python-ldap python-imaging git</pre>
+	  <p>
+	    A web server is not required.	    
+	    
+      </div>
+      <div>
+	<h3>Getting the sources</h3>
+	<p>
+	  To get the last version, run these shell commands:
+	  <PRE>wget http://perso.univ-lyon1.fr/thierry.excoffier/TOMUSS/tomuss.tar.bz2
+bzcat tomuss.tar.bz2 | tar -xvf -
+cd TOMUSS-*</pre>
+	<p>
+	  TOMUSS is now installed!
+	<p>
+	  All the following commands and file names assumes
+	  your current directory is TOMUSS one.
+      </div>
+      <div>
+	<h3>Verify installation</h3>
+	<p>
+	  Run the regression test once to verify if TOMUSS is working.
+	  <PRE>make regest1</pre>
+	<p>
+	  It should display after one minute or two: <tt>Test fine</tt>
+	<p>
+	  If the test fails, run it once more, it may happen.
+      </div>
+
+      <div>
+	<h3>Starting TOMUSS for testing</h3>
+	<p>
+	  You needs to initialize localization:
+	  <PRE>make translations</pre>
+	<p>
+	  And launch TOMUSS server:
+	  <pre>./tomuss.py regtest</pre>
+	<p>
+	  Many messages are displayed because TOMUSS is in debug mode.
+	  The prompt does not come back until the server is killed.
+	  To verify if it is working correctly, follow the following URL:
+	  <a target="_blank"
+	     href="http://127.0.0.1:8888/=super.user">http://127.0.0.1:8888/=super.user</a>
+	<p>
+	  On the web interface, enter the letter 'a' in UE search box,
+	  and click on a UE title.
+	  The table are all empty, because TOMUSS is not yet customized.
+	  You can play with it, but it is preferable to
+	  customize basic things.
+	<p>
+	  <b>BEWARE: with 'regtest' parameter, there is no authentication.
+	    So everybody may see and modify TOMUSS content.
+	  </b>
+      </div>
+
+      <div>
+	<h2>TOMUSS customization</h2>
+	<p>
+	  Configurations explanations are from the most critical
+	  to the less important.
+	  
+      </div>
+
+      <div>
+	<h3>User information</h3>
+	<p>
+	  User information is critical because it is needed to
+	  sort teachers and students.
+      </div>
+      
+      <div>
+	<h4>Getting information</h4>
+	<p>
+	  The information are retrieved via LDAP protocol,
+	  but it is easily modifiable.
+	<p>
+	  Edit the config table :
+	  <a target="_blank"
+	     href="http://127.0.0.1:8888/=super.user/0/Dossiers/config_table">
+	    http://127.0.0.1:8888/=super.user/0/Dossiers/config_table
+	    </a>
+	  <p>
+	    Modify the most important lines:
+	    <ul>
+	      <li> <tt>language</tt> defines the default language
+		when creating new tables.
+		It should not be modified once TOMUSS is in production.
+	      <li> <tt>ldap_server</tt> must contain at least
+		one server name.
+		Beware of single item list in Python,
+		a final coma is required: <tt>('ldap.my.org',)</tt>
+	      <li> <tt>ldap_server_login</tt> and <tt>ldap_server_password</tt>
+	      <li> <tt>ou_top</tt> defines your top level
+	      <li> <tt>cn_teachers</tt> and <tt>cn_students</tt>
+		defines the groups in which students search box works.
+	      <li> Verify other <tt>attr_</tt> attribute of your LDAP schema.
+	    </ul>
+
+	  <p>
+	    To avoid any problem, restart TOMUSS and reload web pages.
+	    To test if it is working, you can:
+	    <ul>
+	      <li> Enter a login in the ID column in a table.
+		The firstname and surname should appear automaticaly.
+	      <li> Search a firstname or surname in the student search box
+		on home page.
+		The list a matching users must appear.
+	    </ul>
+	  <p><b>The information you entered in tables
+	      are stored in <tt>DBregtest</tt>
+	      and <tt>BACKUP_DBregtest</tt> the two directories
+	      contain exactly the same thing (mirroring can be disabled).
+	      </b>
+      </div>
+      <div>
+	<h4>Sorting users roles</h4>
+	<p>
+	  Edit the ACLS table :
+	  <a target="_blank"
+	     href="http://127.0.0.1:8888/=super.user/0/Dossiers/config_acls">
+	    http://127.0.0.1:8888/=super.user/0/Dossiers/config_acls
+	    </a>
+	  <p>
+	  This table define a tree of user groups.
+	  You should add the new lines to define more leaves:
+	  <table>
+	    <tr><th>Member<th>Group</tr>
+	    <tr><td>your-own-login<td>roots</tr>
+	    <tr><td>ldap:CN=all-the-teachers...DC=...<td>teachers</tr>
+	    <tr><td>ldap:CN=all-the-students...DC=...<td>students</tr>
+	    <tr><td>python:lambda x: x[-1].isdigit()<td>students</tr>
+	    <tr><td>python:lambda x: not x[-1].isdigit()<td>teachers</tr>
+	  </table>
+	  <p>
+	    The 2 last lines sort the teachers and students from
+	    the last character of the login.
+      </div>
+	    
+      <div>
+	<h3>Authentication</h3>
+	<p>
+	  TOMUSS currently support only 2 methods of authentication,
+	  the best is to use a CAS (<em>Centralized Authentication Service</em>)
+      </div>
+
+      <div>
+	<h4>CAS</h4>
+	<p>
+	  Edit the file <tt>LOCAL/config.py</tt>.
+	  You will find in it: <tt>configuration.cas = 'https://cas.domain.org/cas'</tt>
+	<p>
+	  Set <tt>configuration.cas</tt> to the URL of your CAS server.	  
+      </div>
+
+      <div>
+	<h4>Unix passwords</h4>
+	<p>
+	  In this case, a web server is required as a frontend
+	  to do the authentication.
+	<p>
+	  Edit the file <tt>LOCAL/config.py</tt>.
+	  You will find in it: <tt>configuration.cas = 'https://cas.domain.org/cas'</tt>
+	<p>
+	  Replace it with <tt>configuration.cas = ""</tt>
+	<p>
+	  You must use <tt>https</tt> because passwords are not crypted
+	  by the basic authentication method.
+	<p>
+	  Here an example of <tt>.htaccess</tt> you must use
+	  to force users to authenticate with the web server.
+	  The web server redirect request on port 80 on
+	  the TOMUSS server port 8888 on the local host.
+	  <pre><small>AuthBasicProvider file
+AuthType Basic
+AuthName "Your Identifiants"
+AuthUserFile /etc/apache/passwd
+ 
+# Set the allow/deny order
+Order Deny,Allow
+
+# Indicate that any of the following will satisfy the Deny/Allow
+Satisfy any
+
+# First off, deny from all
+Deny from all
+
+# or require a valid user
+Require valid-user
+ 
+RewriteEngine on
+RewriteRule ^(.*) http://127.0.0.1:8888/$1 [P]</small></pre>
+	  
+      </div>
+
+      <div>
+	<h3>Switch to authenticated</h3>
+      	<p>
+	  Once an authentication method is defined,
+	  you kill the TOMUSS server and relaunch it
+	  without the 'regtest' parameter.
+	  to prevent any problems between server running
+	  without or with authentication	  
+	  the data is not stored at the same place.
+	  So a copy must be done.
+	  <pre>killall tomuss.py
+if [ ! -d DB ]
+    then
+    cp -a DBregtest/. DB
+    cp -a BACKUP_DBregtest/. BACKUP_DB
+    fi
+./tomuss.py</pre>
+      </div>
+
+      <div>
+	<h3>Mails</h3>
+	<p>
+	  TOMUSS send mails to contacts when there is a problem.
+	  It also manages students mass mailing.
+	  These configurations are indicated in
+	  <a target="_blank"
+	     href="http://127.0.0.1:8888/=super.user/0/Dossiers/config_table">
+	    http://127.0.0.1:8888/0/Dossiers/config_table
+	    </a>
+	  
+      </div>
+	  
+      <div>
+	<h4>Sending mails</h4>
+	<p>
+	  The default <tt>smtpserver</tt> host is <tt>127.0.0.1</tt>
+	  If there is no SMTP server on your computer,
+	  replace this value by the name of an SMTP server.	  
+      </div>
+	  
+      <div>
+	<h4>Contacts mail</h4>
+	<p>
+	  The <tt>maintainer</tt> define both the contact mail displayed
+	  to the users and the address receiving the alerts
+	  when the server has a problem.	  
+      </div>
+	  
+      <div>
+	<h3>Courses</h3>
+	<p>
+	  It is possible to let teachers define the courses list
+	  and the student list.
+	  But these information are yet defined in your information system,
+	  so let TOMUSS take it.	  
+      </div>
+
+      <div>
+	<h4>Students list</h4>
+	<p>
+	  If the students list are in LDAP.
+	  You indicate in the configuration table the values
+	  for <tt>ou_ue_starts</tt>.
+	  The students found in the LDAP group will be added
+	  in the good table.
+	  
+	<p>
+	  You can also redefine your own access method for student lists.
+	  In <tt>LOCAL/config.py</tt> you
+	  can add this:
+	  <pre>from .. import inscrits
+
+class MyLDAP(inscrits.LDAP):
+    def students(self, ue):
+        # The following code must use 'ue' to find students
+        for i in range(5):
+            yield ('login%d' % i,     # The login (as in LDAP)
+                   'firstname%d' % i,
+                   'surname%d' % i,
+                   'mail%d' % i,
+                   'g%d' % i,         # A group information
+                   's%d' % i)         # A sequence information
+	# For this student, search names and mail in LDAP:
+	yield ("k10", "", "", "", "gX", "SY")
+
+inscrits.LDAP = MyLDAP</pre>
+
+	<p>
+	  After restarting TOMUSS server, you can visit any table
+	  an you will find 5 students:
+	  <a target="_blank"
+	     href="http://127.0.0.1:8888/2008/Test/UE-foobar">
+	    http://127.0.0.1:8888/2008/Test/UE-foobar
+	  </a>
+
+	<p>
+	  The <tt>firstname</tt>, <tt>surname</tt>, <tt>mail</tt>
+	  are indicated in this function in case they are
+	  not found in the LDAP.
+	  
+	    
+      </div>
+      
+      <div>
+	<h4>Courses list</h4>
+	<p>
+	  In <tt>LOCAL/config.py</tt> you
+	  can add this to create your own list or courses with their
+	  title and managers:
+	  <pre>from .. import teacher
+
+def get_ue_dict():
+  ues = {}
+  for i in range(1,10):
+    ue_code = "My-UE-%d" % i
+    ues[ue_code] = teacher.UE(
+        ue_code,                   # UE Name
+        ['MFirstname MSurname',],  # The names of the UE managers
+        u'UE%d Title' % i,         # UE title
+        [],                        # DEPRECATED: Departments of UE
+        1000+i,                    # A key for an external Database
+        ['ue%d.master' % i,],      # Login of teachers
+        1,                         # DEPRECATED: #students registered
+        0,                         # DEPRECATED: #students EC registered
+        ['ue%d_test@test.org' % i],# Teachers mails
+        2000+i,                    # Another key for an external Database
+        )
+  return ues
+
+teacher.get_ue_dict = get_ue_dict</pre>
+	<p>
+	  Once it is done, you must run the following command to
+	  create the TOMUSS database of UE.
+	  <pre>(cd LOCAL ; make)</pre>
+	<p>
+	  After TOMUSS server restart, you will find your UE
+	  on the home page.
+	<p>
+	  The names and mails of manager are not required if they
+	  can be found into LDAP using their logins.
+	  
+      </div>
+
+      <div>
+	<h3>Student pictures</h3>
+	<p>
+	  Two possibles way to display pictures.	  
+      </div>
+      
+      <div>
+	<h4>By an external service</h4>
+	<p>
+	  If you have a service sending the picture of a student
+	  from its login,
+	  then make TOMUSS use this service by adding to
+	  <tt>LOCAL/config.py</tt>
+	  <pre>def picture(student_id, ticket):
+    return 'http://webservice.my.org/picture?id=' + student_id + '.png'
+configuration.picture = picture</pre>
+      </div>
+      <div>
+	<h4>By TOMUSS itself</h4>
+	<p>
+	  Just copy all the pictures in the <tt>PICTURES</tt> directory
+	  with the names: <tt>login.JPG</tt>
+	<p>
+	  If it is not possible to change picture encoding or name,
+	  make your own version of <tt>PLUGINS/picture.py</tt>
+      </div>
+
+      <div>
+	<h3>Year and semester</h3>
+	<p>
+	  Most of the TOMUSS URL start by <tt>Year/Semester</tt>
+	  and by default, only one semester allows modifications.
+	  This semester is defined by the variable <tt>year_semester</tt>
+	  of the configuration table.
+	<p>
+	  Beware: the year is the <b>real</b> calendar year,
+	  it is not the university year.
+	<p>
+	  The default TOMUSS configuration assume that each university
+	  year is splitted into 2 semesters, the first one starts
+	  in august (Automn), the second one starts in february (Spring).
+	  In <tt>LOCAL/config.py</tt> it is defined
+	  as:
+	<pre>set_semesters(
+    ('Printemps', -1, [2, 7], '#EEFFEE' ),  # Spring (Semester 2)
+    ('Automne'  ,  0, [8,13], '#FFE8D0' ),  # Autumn (Semester 1)
+    )</pre>
+	<p>
+	  So the university semesters for the year 2012-2013 are:
+	  <ul>
+	    <li> <tt>2012/Automne</tt>, february to july, brown background.
+	    <li> <tt>2013/Printemps</tt>, august to january, green background.
+	      The -1 indicate that 1 should be removed from the
+	      calendar year to obtain the university year (2012).
+	  </ul>
+	<p>
+	  If you want to create your own semesters:
+	  <pre>for SEMESTER_NAME in Automn Spring Grades
+do
+  echo 'from ...TEMPLATES.Printemps import *' \
+       >LOCAL/LOCAL_TEMPLATES/$SEMESTER_NAME.py
+done</pre>
+	<p>
+	  Beware:
+	  indicate a new <tt>set_semesters</tt> in <tt>LOCAL/config.py</tt>
+	  and modify <tt>year_semester</tt> in the configuration table.
+	<p>
+	  Il you have no semesters in your university,
+	  you can indicate (if <tt>Grades.py</tt> was created):
+	  <pre>configuration.set_semesters(
+    ('Grades', 0, [8, 20], '#EEEEEE' ),
+    )</pre>
+	  
+      </div>
+
+      <div>
+	<h4>Semesters history</h4>
+	<p>
+	  The content of semesters in history is displayed
+	  to students using 'suivi' servers.
+	<p>
+	  A list of manager year/semester to display must be defined,
+	  by default, the semester of the calendar year are defined
+	  in <tt>LOCAL/config.py</tt>:
+	  <pre># Add a server for each semester of the current year.
+# You must redefine this to enumerate the semester in use.
+for i, semester in enumerate(configuration.semesters):
+  configuration.suivi.add(
+    time.localtime()[0],      # The current Year
+    semester,                 # A semester
+    socket.getfqdn() + ':%d', # The user visible URL for the 'suivi' server
+    8889 + i)                 # The socket port number of the server</pre>
+      <p>
+	It is easier to manage a simple enumeration:
+	<pre>configuration.suivi.add(2013,"Autumn","https:tomusss.my.org",8889)
+configuration.suivi.add(2013,"Spring","https:tomusss.my.org",8890)</pre>
+	<p>
+	  If CPU power is not a problem, it is possible to indicate
+	  the same socket port number for all the 'suivi' servers.
+	  It will use less memory.
+      </div>
+
+      <div>
+	<h4>Using 'suivi' servers</h4>
+	<p>
+	  Enter some grades into a couple of TOMUSS table.
+	<p>
+	  Start all the 'suivi' servers (and TOMUSS server):
+	  <pre>make</pre>
+	<p>
+	  See the 'suivi' of a student by one of the following methods:
+	  <ul>
+	    <li> On TOMUSS home page, search a student and click
+	      on its line.
+	    <li> On a table, click on the student picture on the
+	      left of the <tt>Cell</tt> tab.
+	  </ul>
+	<p>
+	  Other makefile goal are useful : <tt>stoptomuss</tt>,
+	  <tt>stopsuivi</tt>, <tt>restartsuivi</tt>,
+      </div>
+
+      <div>
+	<h2>TOMUSS administration</h2>
+	<p>
+	  Once installed, it runs alone.
+	  Some administrative actions are displayed
+	  to the <tt>roots</tt> users on the right column on the home page.
+	  
+      </div>
+
+      <div>
+	<h3>Recurrent job</h3>
+	<p>
+	  Use <tt>crontab</tt> to planify some tasks.
+      </div>
+      
+      <div>
+	<h4>5 minutes job</h4>
+	<p>
+	  It is a good idea to run <tt>SCRIPTS/crontab_run.py crontab</tt>
+	  every five minutes.
+	  This script relaunch stalled servers,
+	  or launch TOMUSS servers if the computer has rebooted.
+      </div>
+
+      <div>
+	<h4>Hourly backup</h4>
+	<p>
+	  Just to be on the paranoiac side, an hourly backup of the data
+	  is a good idea:
+	  <pre>rsync --archive --no-g --delete --exclude '*.pyc' DB/. Distant_Location</pre>
+      </div>
+
+      <div>
+	<h4>Night job</h4>
+	<p>
+	  It is a good idea to run <tt>SCRIPTS/night_job</tt> every night.
+	  The log of the work is stored in <tt>LOGS</tt> directory.
+	  The script does the following things:
+	  <ul>
+	    <li> Make a backup with full history.
+	      To initialise backup database, run the command:
+	      <pre>(cd DB ; git init)</pre>	      
+	    <li> Compute access statistics from logs.
+	    <li> Compute student 'bilan' and indexes
+	    <li> If mirroring is enabled, verify if it is fine.
+	    <li> Run <tt>make</tt> in <tt>LOCAL</tt> directory.
+	      By default, the only work is to update UE list.
+	  </ul>
+      </div>
+
+      <div>
+	<h3>Upgrade</h3>
+	<p>
+	  for a simple and secure upgrade:
+	  <ul>
+	    <li> Get the new version.
+	      Verify if there is important release note
+	      on the <a href="http://perso.univ-lyon1.fr/thierry.excoffier/TOMUSS/home.html">TOMUSS home page</a>
+	      and take a look at the <a href="http://perso.univ-lyon1.fr/thierry.excoffier/TOMUSS/DOCUMENTATION/changelog">changelog</a>
+	    <li> Copy <tt>DB</tt>, <tt>BACKUP_DB</tt>, <tt>LOCAL</tt>,
+	      <tt>TMP</tt> in the new sources tree.
+	    <li> Test it, and fix problems until it is fine.
+	    <li> Stop the new servers.
+	    <li> Remove the copy of:
+	      <tt>DB</tt>, <tt>BACKUP_DB</tt>, <tt>LOCAL</tt>, <tt>TMP</tt>
+	    <li> Create symbolic link pointing from new sources to
+	      old sources for directories:
+	      <tt>DB</tt>, <tt>BACKUP_DB</tt>, <tt>LOCAL</tt>, <tt>TMP</tt>,
+	      <tt>LOGS</tt>, <tt>Trash</tt>
+	    <li> Stop the old servers
+	    <li> Start the new servers
+	  </ul>
+	<p>
+	  If there is a problem found after that, you can stop
+	  the new servers and restart the old ones.
+	  They are working on the same files.
+      </div>
+
+      <div>
+	<h3>Lost data</h3>
+	<p>
+	  It is really hard to lose data with TOMUSS:
+	  <ul>
+	    <li> The table content is modified only by <b>appending</b>	data.
+	      So if an user fill a table with garbage it is always
+	      possible to edit the table file to remove the garbage
+	      and restore old data.
+	      The database content is easely editable by an human.
+	    <li> The destroyed table are moved into the <tt>Trash</tt>
+	      directory.
+	      So tables can be easely restored except in the case
+	      of a table destroyed multiple time in the day.
+	  </ul>
+	  These 2 restorations are only manual, not automatic.
+      </div>
+    <script src="documentation.js"></script>
+  </body>
+</html>

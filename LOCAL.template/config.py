@@ -27,7 +27,12 @@ import time
 
 configuration.suivi = servers.Suivi(https=False)
 
-# Add a server for each semester.
+# Add a server for each semester of the current year.
+# You must redefine this to enumerate the semester in use.
 for i, semester in enumerate(configuration.semesters):
-    configuration.suivi.add(time.localtime()[0], semester,
-                            socket.getfqdn() + ':%d', 8889 + i)
+    configuration.suivi.add(
+        time.localtime()[0],      # The current Year
+        semester,                 # A semester
+        socket.getfqdn() + ':%d', # The user visible URL for the 'suivi' server
+        8889 + i)                 # The socket port number of the server
+

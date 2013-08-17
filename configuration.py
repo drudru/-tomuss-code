@@ -31,7 +31,7 @@ import socket
 import os
 import time
 
-version = '5.2.2'
+version = '5.2.3'
 
 ###############################################################################
 # ACLS
@@ -316,7 +316,7 @@ regtest = False
 regtest_sync = False
 
 # Name of the database directory (should not start by ., .. or /)
-db = 'DBtest'
+db = 'DB'
 # The backup name is prepended to the 'db' name.
 backup = 'BACKUP_' # Use None or False or '' if no backup
 
@@ -495,14 +495,14 @@ def terminate():
     
     url_files = server_url + '/files/' + version
     
-    if db == 'DBtest' or db == 'DBregtest':
+    if db == 'DBregtest':
         utilities.do_not_display = ()
         maxage = 1
 
     if not os.path.exists(db):
-        os.mkdir(db, 0700)
+        utilities.mkpath(db, mode=0700)
     if backup and not os.path.isdir(backup + db):
-        os.mkdir(backup + db, 0700)
+        utilities.mkpath(backup + db, mode=0700)
 
     if os.path.exists('tomuss.py'):
         utilities.mkpath('TMP')

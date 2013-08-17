@@ -236,10 +236,8 @@ def new_page(server):
             table.active_pages.remove(page) # Avoid 'Canceled load' message
             page.browser_file.close()
         else:
-            if configuration.db == 'DBtest':
-                time.sleep(2) # To not lose time when debugging
-            else:
-                time.sleep(8) # 5 seconds is too short
+            # XXX: I can't remember why it is here
+            time.sleep(8) # 5 seconds is too short
 
 
 plugin.Plugin('emptyname', '/{Y}/{S}/', response=307,

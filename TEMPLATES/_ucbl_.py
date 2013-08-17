@@ -206,14 +206,18 @@ def update_student(table, page, the_ids, infos):
                     table.cell_change(page,
                                       table.columns[col+6].the_id, key, val)
             if table.with_inscrits:
-                table.cell_change(page, "0_1", key, firstname)
-                table.cell_change(page, "0_2", key, surname)
+                if firstname:
+                    table.cell_change(page, "0_1", key, firstname)
+                if surname:
+                    table.cell_change(page, "0_2", key, surname)
             break
         else: # The FOR does not found the student
             lin = '0_' + str(len(table.lines))
             table.cell_change(page, "0_0", lin, the_id)
-            table.cell_change(page, "0_1", lin, firstname)
-            table.cell_change(page, "0_2", lin, surname)
+            if firstname:
+                table.cell_change(page, "0_1", lin, firstname)
+            if surname:
+                table.cell_change(page, "0_2", lin, surname)
             if grp != '':
                 table.cell_change(page, "0_3", lin, grp)
             if seq != '':
