@@ -1,7 +1,7 @@
 // -*- coding: utf-8 -*-
 /*
     TOMUSS: The Online Multi User Simple Spreadsheet
-    Copyright (C) 2011 Thierry EXCOFFIER, Universite Claude Bernard
+    Copyright (C) 2011-2013 Thierry EXCOFFIER, Universite Claude Bernard
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -22,14 +22,9 @@
 
 function table_export()
 {
-    var s = _("MSG_tableexport") + '<pre>\n' ;
-
-  s += '<table border><tr>' ;
-  for(var c in column_attributes)
-    if ( ! column_attributes[c].computed && c != 'position' )
-      s += bs + '<small>' + c ;
-  var cls = column_list_all();
-
+  // Compute columns list to exports
+  var cols = [] ;
+  var cls = column_list_all() ;
   for(var column in cls)
     {
       column = columns[cls[column]] ;
@@ -37,10 +32,37 @@ function table_export()
 	continue ;
       if ( column.author == '*' ) // ro_user
 	continue ;
+      cols.push(column) ;
+    }
+  // Compute attributes having at least one value != default
+  var attrs = [] ;
+  for(var c in column_attributes)
+  {
+    if ( column_attributes[c].computed || c == 'position' )
+      continue ;
+    for(var column in cols)
+    {
+      column = cols[column] ;
+      if ( column[c] != column_attributes[c].default_value )
+      {
+	attrs.push(column_attributes[c]) ;
+	break ;
+      }
+    }
+  }
+
+  var s = _("MSG_tableexport") + '<pre>\n' ;
+
+  s += '<table border><tr>' ;
+  for(var c in attrs)
+    s += bs + '<small>' + attrs[c].name ;
+
+  for(var column in cols)
+    {
+      column = cols[column] ;
       s += '<tr>' ;
-      for(var c in column_attributes)
-	if ( ! column_attributes[c].computed && c != 'position'  )
-	  s += bs + column_attributes[c].formatter(column, column[c]) ;
+      for(var c in attrs)
+	  s += bs + attrs[c].formatter(column, column[attrs[c].name]) ;
       s += '\n</tr>' ;
     }
   s += '\n</table>\n' ;

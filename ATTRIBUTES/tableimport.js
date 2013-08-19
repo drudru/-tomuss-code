@@ -1,7 +1,7 @@
 // -*- coding: utf-8 -*-
 /*
     TOMUSS: The Online Multi User Simple Spreadsheet
-    Copyright (C) 2011 Thierry EXCOFFIER, Universite Claude Bernard
+    Copyright (C) 2011-2013 Thierry EXCOFFIER, Universite Claude Bernard
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -34,12 +34,28 @@ function import_columns_do()
   var import_lines = popup_value() ;
   var lines = [] ;
   var item ;
+  var attr, attrs ;
   for(var line in import_lines)
     {
       line = import_lines[line] ;
       item = line.split('\t') ;
-      if ( item.length > 5 && type_title_to_type(item[0]) )
-	lines.push(item) ;
+      if ( attrs )
+      {
+	if ( item.length == attrs.length && type_title_to_type(item[0]) )
+	  lines.push(item) ;
+      }
+      else
+      {
+	attrs = [] ;
+	for(var i in item)
+	{
+	  attr = column_attributes[item[i]] ;
+	  if ( attr )
+	    attrs.push(attr) ;
+	}
+	if ( attrs.length != item.length )
+	  attrs = undefined ;
+      }
     }
   if ( lines.length == 0 )
     {
@@ -54,18 +70,12 @@ function import_columns_do()
       var column = columns[add_empty_columns()] ;
       create_column(column) ;
 
-      var i = -1 ;
-      for(var c in column_attributes)
+      for(var i in attrs)
 	{
-
-	  if ( column_attributes[c].computed )
+	  attr = attrs[i].name ;
+	  if ( attr != 'type' && ! column_modifiable_attr(attr, column) )
 	    continue ;
-	  if ( c == 'position' )
-	    continue ;
-	  i++ ;
-	  if ( c != 'type' && ! column_modifiable_attr(c, column) )
-	    continue ;
-	  column_attr_set(column, c, line[i], undefined, true) ;
+	  column_attr_set(column, attr, line[i], undefined, true) ;
 	}
 
       cols.push(column) ;

@@ -2723,8 +2723,9 @@ msgid "ALERT_tabledates_invert"
 msgstr "The beginning date must be BEFORE the ending date"
 
 msgid "MSG_tableexport"
-msgstr "Do a copy/paste of the following table in the table import\n"
-       "to copy the column parameters in another table."
+msgstr "To copy the column parameters in another table."
+       "Do a copy/paste of the following table with the headers line\n"
+       "in the column definition import utility of the other table."
 
 msgid "TITLE_tableforms"
 msgstr "DO NOT USE THIS FORM TO CREATE LINES<br>\n"
