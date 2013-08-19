@@ -64,8 +64,6 @@ function table_bookmark()
   if ( p !== '' )
     s += '/=positions=' + p ;
 
-  if ( tip_fixed )
-    s += '/=tipfixed=' ;
   if ( ! display_tips)
     s += '/=display_tips=' ;
   if ( columns_filter_value !== '' )

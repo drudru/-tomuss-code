@@ -45,7 +45,6 @@ var tr_type ;
 var tr_weight ;
 var tr_filter ;
 var tip_display_date ;
-var tip_fixed ;
 var i_am_the_teacher ;
 var i_am_root ;
 var teachers ;
@@ -153,7 +152,6 @@ function lib_init()
   nr_new_columns    = 0    ;// Number of created columns
   sort_columns      = []   ;// Define the sort columns
   tip_display_date  = 0    ;
-  tip_fixed         = 0    ;
   i_am_the_teacher  = false;
   teachers          = []   ;
   display_tips      = true ;
@@ -518,23 +516,7 @@ function set_tip_position(td, bottom)
       tip.style.left = '0px' ;
       return ;
     }
-  if ( tip_fixed )
-    {
-      tip.style.left = 'auto' ;
-      tip.style.right = '0px' ;
-      if ( bottom )
-	{
-	  tip.style.bottom = '0px' ;
-	  tip.style.top = 'auto' ;
-	}
-      else
-	{
-	  tip.style.top = '0px' ;
-	  tip.style.bottom = 'auto' ;
-	}
-    }
-  else
-    set_element_relative_position(td, tip) ;
+  set_element_relative_position(td, tip) ;
 }
 
 function header_focus(t)
@@ -3834,11 +3816,6 @@ function hide_the_tip(real)
     }
 }
 
-function tip_bottom_right()
-{
-  tip_fixed = 1 - tip_fixed ;
-}
-
 function update_popup_on_red_line()
 {
   var e = document.getElementById('popup_on_red_line') ;
@@ -4049,8 +4026,6 @@ function runlog(the_columns, the_lines)
 
   if ( test_bool(preferences.display_tips) == no )
     display_tips = false ;
-  if ( test_bool(preferences.tipfixed) == yes )
-    tip_fixed = true ;
   scrollbar_right = test_bool(preferences.scrollbar_right) == yes ;
   if ( test_bool(preferences.invert_name) == yes
        && columns.length > 2 && columns[2].title == COL_TITLE_0_2)
