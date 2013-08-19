@@ -1248,7 +1248,7 @@ function display_statistics(object)
   for(var i in colorations)
       t.push([_(i), _(i.replace('B','TIP'))]) ;
   print_choice_line(p, _("MSG_stat_coloring"), _("TIP_stat_coloring"),
-		    radio_buttons('coloration', t, 'couleurs'),
+		    radio_buttons('coloration', t, _("B_stat_colored")),
 		    'coloration') ;
 
   print_choice_line(p, _("MSG_stat_group_by"), _("TIP_stat_group_by"),
