@@ -213,7 +213,7 @@ msgstr ""
 "This value will be used to compute average in the<br>\n"
 "table or in the student 'suivi'<br>\n"
 "The cell will stay empty in the table.<br>\n"
-"Possible values: ABINJ, PRST, 0, 10..."
+"Possible values: ILV, PRST, 0, 10..."
 
 #. Attribute Tip
 msgid "TIP_column_attr_export"
@@ -328,7 +328,7 @@ msgstr ""
 "The computed value is the sum of: &nbsp;&nbsp;&nbsp;&nbsp;<em>td<sub>i</sub>.poids * (td<sub>i</sub>.note - td<sub>i</sub>.min) / (td<sub>i</sub>.max - td<sub>i</sub>.min)</em><br>\n"
 "divided by the sum of the weights that does not starts by <b>+</b> or <b>-</b><br>\n"
 "The final value is normalized in the given range ([0;20] for example)<br>\n"
-"ABINJ, ABJUS, PPNOT are taken into account."
+"ILV (Injustified Leave), JLV (Justified Leave), CG (Can't Grade) are taken into account."
 
 #. Attribute Tip
 msgid "TIP_column_attr_columns__Surname"
@@ -374,7 +374,7 @@ msgstr ""
 "<b>Dates of the courses for this columns</b>.<br>\n"
 "Date are in the form: DD/MM/YYYY followed by a<br>\n"
 "M for Morning or A for Afternoon<br>\n"
-"The ABINJ with a justification for theses dates are displayed in red."
+"The ILV (Injustified Leave) with a justification for theses dates are displayed in red."
 
 #. Attribute Tip
 msgid "TIP_column_attr_url_base"
@@ -407,8 +407,8 @@ msgid "TIP_column_attr_test_filter"
 msgstr ""
 "<b>Filter indication the values to count</b><br>\n"
 " Some examples of value test:<ul>\n"
-"<li> <b>ABI</b> : stats by ABI.\n"
-"<li> <b>!=ABINJ</b> : not equal to ABINJ.\n"
+"<li> <b>ILV</b> : starts by ILV.\n"
+"<li> <b>!=ILV</b> : not equal to ILV.\n"
 "<li> <b>=</b> an empty cell.\n"
 "<li> <b>&lt;8</b> less than 8.\n"
 "</ul>\n"
@@ -580,7 +580,7 @@ msgid "TIP_table_attr_dates"
 msgstr ""
 "First course date and last examination date<br>\n"
 "The 2 dates are in the form DD/MM/YYYY<br>\n"
-"ABJ not in this range will not be displayed."
+"JLV (Justified Leave) not in this range will not be displayed."
 
 #. Attribute Tip
 msgid "TIP_table_attr_t_export"
@@ -811,7 +811,7 @@ msgstr "<span class=\"ro\">The text is grey is the cell\n"
        "comment.</span><br>\n"
        "<span class=\"today\">Bold text is the cell\n"
        "was modified today.</span><br>\n"
-       "<span class=\"is_an_abj\">If ABINJ is underlined,\n"
+       "<span class=\"is_an_abj\">If ILV (Injustified Leave) is underlined,\n"
        "check the 'leave' justifications.</span><br>\n"
        "<span class=\"non\">Red background if the student\n"
        "is not registered in the UE.</span><br>\n"
@@ -1227,7 +1227,7 @@ msgstr "Comment"
 
 #. GUI
 msgid "TH_ABJ_list"
-msgstr "ABJs list"
+msgstr "JLVs list"
 
 #. GUI
 msgid "TH_begin"
@@ -1602,7 +1602,7 @@ msgstr "Vertical axis: group standard deviation"
 
 msgid "MSG_stat_flower_explanations"
 msgstr "The histogram of all values is in the center.<br>\n"
-     "The discs radius is the number of notes (without the ABI).<br>\n"
+     "The discs radius is the number of notes (without the ILV).<br>\n"
      "All around the center, it is the same drawing per constrained group,\n"
      "the distance to the center is the average of the group,\n"
      "the red circle indicates 5/20, the green 15/20, the grey 10/20.<br>\n"
@@ -1814,7 +1814,7 @@ msgstr "More filled lines and columns are needed to find strange grades.\n"
 
 
 msgid "MSG_abjtt_from_before"
-msgstr "ABJ of"
+msgstr "JLV of"
 
 msgid "MSG_abjtt_from_after"
 msgstr ":"
@@ -1823,16 +1823,16 @@ msgid "MSG_abjtt_begin_end"
 msgstr "Date of begin and end included, M=Morning, A=Afternoon."
 
 msgid "MSG_abjtt_morning"
-msgstr "ABJ for the morning:"
+msgstr "JLV for the morning:"
 
 msgid "MSG_abjtt_afternoon"
-msgstr "ABJ for the afternoon:"
+msgstr "JLV for the afternoon:"
 
 msgid "TITLE_abjtt"
-msgstr "ABJ/TT/DA for"
+msgstr "JLV/TT/DA for"
 
 msgid "TITLE_abjtt_abj"
-msgstr "The ABJS"
+msgstr "The JLVs"
 
 msgid "TITLE_abjtt_no_abj"
 msgstr "Non justified nonattendance"
@@ -1850,7 +1850,7 @@ msgid "MSG_abjtt_more_before"
 msgstr "You can obtain the"
 
 msgid "MSG_abjtt_more_link"
-msgstr "ABJ/TT/DA list"
+msgstr "JLV/TT/DA list"
 
 msgid "MSG_abjtt_more_after"
 msgstr "on one page."
@@ -1940,7 +1940,7 @@ msgid "TIP_columnexport_unique"
 msgstr "Remove duplicate values"
 
 msgid "B_columnexport_abjvalue"
-msgstr "ABJ/PPN → 0"
+msgstr "JLV/CG → 0"
 
 msgid "TIP_columnexport_abjvalue"
 msgstr "Replace JLV (justified leave) and CG (can't grade) by 0"
@@ -2049,13 +2049,13 @@ msgid "TIP_filter_Note"
 msgstr "For example:\n"
        "<ul><li><b>&gt;5</b>\n"
        "<li><b>&gt;5 &lt;15</b>\n"
-       "<li><b>ABINJ | ABJUS | PPNOT</b>\n"
+       "<li><b>ILV | JLV | CG</b>\n"
        "</ul>"
 
 msgid "TIP_filter_Prst"
 msgstr "For example:\n"
        "<ul><li><b>P</b> to see the present\n"
-       "<li><b>A</b>, <b>ABI</b> or <b>ABJ</b> to see not present\n"
+       "<li><b>ILV</b>, <b>JLV</b> to see not present\n"
        "<li><b>=</b> to see empty cells\n"
        "</ul>"
 
@@ -2496,7 +2496,7 @@ msgstr "To copy values in TOMUSS:\n"
        "    The content should look like:\n"
        "<pre><b>10188995 8\n"
        "10356775 9.6\n"
-       "10356011 ABI</b></pre>\n"
+       "10356011 ILV</b></pre>\n"
        "<li> Then click to copy cells"
 
 msgid "MSG_columnimport_button2"
@@ -2570,10 +2570,10 @@ msgid "MSG_columnstats_ppn"
 msgstr "Can't grade"
 
 msgid "MSG_columnstats_abi"
-msgstr "ABI"
+msgstr "ILV"
 
 msgid "MSG_columnstats_abj"
-msgstr "ABJ"
+msgstr "JLV"
 
 msgid "MSG_columnstats_pre"
 msgstr "Present"
@@ -2874,7 +2874,7 @@ msgid "TIP_tablelinear_column_emptyis"
 msgstr "A free text."
 
 msgid "TIP_tablelinear_column_emptyis_note"
-msgstr "For example <b>0</b> or <b>ABINJ</b>."
+msgstr "For example <b>0</b> or <b>ILV</b>."
 
 msgid "MSG_tablelinear_column_stats"
 msgstr "Columns statistics."
@@ -3061,35 +3061,35 @@ msgstr "If you make this table private, you will be unable to see it.\n"
 
 
 msgid "LINK_abj"
-msgstr "ABJ and DA edition"
+msgstr "JLV and DA edition"
 
 msgid "HELP_abj"
 msgstr "Go to the page allowing to edit the justified leaves\n"
        "and the non-attendance authorization."
        
 msgid "LINK_abjalpha"
-msgstr "Licence: Full ABJ+DA report"
+msgstr "Licence: Full JLV+DA report"
 
 msgid "HELP_abjalpha"
 msgstr "Display a table with all the justified leaves\n"
        "and non-attendance authorization for the licence students"
 
 msgid "LINK_abjalphamaster"
-msgstr "Masters: Full ABJ+DA report"
+msgstr "Masters: Full JLV+DA report"
 
 msgid "HELP_abjalphamaster"
 msgstr "Display a table with all the justified leaves\n"
        "and non-attendance authorization for the masters students"
 
 msgid "LINK_abjalphaepu"
-msgstr "EPU: Full ABJ+DA report"
+msgstr "EPU: Full JLV+DA report"
 
 msgid "HELP_abjalphaepu"
 msgstr "Display a table with all the justified leaves\n"
        "and non-attendance authorization for the EPU students"
 
 msgid "LINK_abjalphaauthor"
-msgstr "ABJ+DA you entered"
+msgstr "JLV+DA you entered"
 
 msgid "HELP_abjalphaauthor"
 msgstr " "
@@ -3754,10 +3754,10 @@ msgid "COL_COMMENT_ticket_IP"
 msgstr "IP address of connection"
 
 msgid "COL_TITLE_ticket_abjm"
-msgstr "ABJM"
+msgstr "JLVM"
 
 msgid "COL_COMMENT_ticket_abjm"
-msgstr "Is an ABJ manager"
+msgstr "Is an JLV manager"
 
 msgid "COL_TITLE_ticket_teacher"
 msgstr "Teacher"
@@ -3883,7 +3883,7 @@ msgstr "Hello.\n"
        "I know that your are NOT one of my teachers\n"
        "but the TOMUSS administrator.\n"
        "\n"
-       "I do not ask you to modify a grade or an ABI,\n"
+       "I do not ask you to modify a grade or an ILV (Injustified Leave),\n"
        "because to do this, I must ask the teacher that entered the grade.\n"
        "The teacher name is indicated when the mouse is over the grade.\n"
        "\n"
@@ -4244,7 +4244,7 @@ msgid "COL_TITLE_cp_root"
 msgstr "Need Root rights"
 
 msgid "COL_TITLE_cp_abj"
-msgstr "Need abj master rights"
+msgstr "Need JLV master rights"
 
 msgid "COL_TITLE_cp_referent"
 msgstr "Need referent master rights"
@@ -4276,7 +4276,7 @@ msgstr "The entered value was not of the good type,\n"
        "Please fix it."
 
 msgid "config_table_abinj"
-msgstr "If nearly all the students have a grade, then the others have ABINJ???/0. If you enter 0.25 then if less than 1/4 of the student group has no grade, then they will have 0 or ABINJ??? automatically."
+msgstr "If nearly all the students have a grade, then the others have ILV???/0. If you enter 0.25 then if less than 1/4 of the student group has no grade, then they will have 0 or ILV??? automatically."
 
 msgid "config_table_do_not_display"
 msgstr "List of TAGS to not display in logs. Se to () to have all the messages"
@@ -4312,7 +4312,7 @@ msgid "config_table_smtpserver"
 msgstr "Mail: address of the SMTP server for sending mails"
 
 msgid "config_table_abj_sender"
-msgstr "Mail: Name of the user sending mail for the plugin reporting ABJ to all teachers"
+msgstr "Mail: Name of the user sending mail for the plugin reporting JLV to all teachers"
 
 msgid "config_table_ldap_server"
 msgstr "LDAP: list of servers to use, one at a time"
@@ -4917,7 +4917,7 @@ msgid "pre_char"
 msgstr "P"
 
 msgid "tnr"
-msgstr "WNG"
+msgstr "WNGIVEN"
 
 msgid "tnr_short"
 msgstr "WNG"
