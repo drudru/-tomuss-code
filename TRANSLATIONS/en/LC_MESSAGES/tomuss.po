@@ -1964,7 +1964,7 @@ msgid "TITLE_fill_after"
 msgstr "'"
 
 msgid "MSG_fill_warning_left"
-msgstr "These action are not undoable.<br>"
+msgstr "These actions are not undoable.<br>"
 
 msgid "MSG_fill_warning_middle"
 msgstr "Suspend the auto saving.<br>"
