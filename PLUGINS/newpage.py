@@ -234,7 +234,8 @@ def new_page(server):
     else:
         if page.use_linear:
             table.active_pages.remove(page) # Avoid 'Canceled load' message
-            page.browser_file.close()
+            server.close_connection_now()
+            # page.browser_file.close()
         else:
             # XXX: I can't remember why it is here
             time.sleep(8) # 5 seconds is too short

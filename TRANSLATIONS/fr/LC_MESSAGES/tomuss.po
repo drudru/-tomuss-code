@@ -361,7 +361,8 @@ msgstr "<b>Calcule le percentage pondéré de valeurs\n"
 #. Attribute Tip
 msgid "TIP_column_attr_repetition"
 msgstr "Nombre de fois qu'une valeur identique est autorisée<br>\n"
- "    au maximum dans la colonne. Si c'est 0 il n'y a pas de limite."
+ "au maximum dans la colonne. Si c'est 0 il n'y a pas de limite.\n"
+ "Si la valeur est négative la répétition s'applique par groupe d'étudiant."
 
 #. Attribute Tip
 msgid "TIP_column_attr_course_dates"

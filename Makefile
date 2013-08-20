@@ -137,3 +137,8 @@ stat:
 	@echo "PO         lines : $$($(S) '\.po$$')"
 	@echo "PO               : $$(grep -c msgid TRANSLATIONS/fr/LC_MESSAGES/tomuss.po) messages"
 	@echo "Images           : " "$$(git ls-files | grep -E '\.(png|jpg|gif)$$' | wc -l)"
+
+
+version:
+	@echo $(V)
+

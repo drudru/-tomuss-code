@@ -71,9 +71,9 @@ function head_html()
       return '</head><body id="body" onunload="send_key_history()" class="tomuss"  onkeydown="dispatch2(the_event(event))" onkeypress="dispatch(the_event(event))">' +
 	'<style>' +
 	'ul { margin-top: 0px ; margin-bottom: 0px; }\n' +
-	'@media speech { u { pause-after: 1s; } }\n' +
-	'@media aural { u { pause-after: 1s; } }\n' +
-	'u { pause-after: 1s; }\n' +
+	'@media speech { u { /* pause-after: 1s; */ } }\n' +
+	'@media aural { u { /* pause-after: 1s; */ } }\n' +
+	'u { /* pause-after: 1s; */ }\n' +
 	'</style>' +
 	'<div id="loading_bar"><div></div></div>' +
 	'<div id="top"></div><input onkeydown="dispatch2(the_event(event))" onkeypress="dispatch(the_event(event))" style="width:1em"><div id="log"></div>' ;

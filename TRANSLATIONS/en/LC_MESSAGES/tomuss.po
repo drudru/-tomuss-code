@@ -366,7 +366,8 @@ msgstr "<b>Compute the weighted percent of filtered values</b><br>\n"
 msgid "TIP_column_attr_repetition"
 msgstr ""
 "Number of time the same value is allowed in the column<br>\n"
-"If it is 0, then an unlimited number of repetition is possible."
+"If it is 0, then an unlimited number of repetition is possible.\n"
+"If negative, the limit is per student groups."
 
 #. Attribute Tip
 msgid "TIP_column_attr_course_dates"

@@ -4706,10 +4706,12 @@ function the_full_login_list(login, results, add)
 
 function set_updating(bool)
 {
-  if ( bool )
-    document.getElementById('updating').style.display = 'inline';
-  else
-    document.getElementById('updating').style.display = 'none';
+  var u = document.getElementById('updating') ;
+  if ( u )
+    if ( bool )
+      u.style.display = 'inline';
+    else
+      u.style.display = 'none';
 }
 
 // XXX COPY/PASTE in the end of new_page.py
