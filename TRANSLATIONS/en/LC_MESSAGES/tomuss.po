@@ -4025,7 +4025,8 @@ msgid "MSG_suivi_student_RSS_forbiden_title"
 msgstr "You are not allowed to see this RSS stream"
 
 msgid "MSG_suivi_student_RSS_forbiden_description"
-msgstr "For security reason, you must renew the subscription."
+msgstr "For security reason, you must renew the subscription.\n"
+       "Have you fully copied the URL?"
 
 msgid "MSG_suivi_student_RSS_value_comment"
 msgstr "Value comment: "

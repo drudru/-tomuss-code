@@ -4074,7 +4074,8 @@ msgid "MSG_suivi_student_RSS_forbiden_title"
 msgstr "Vous n'avez pas le droit de regarder ce flux RSS"
 
 msgid "MSG_suivi_student_RSS_forbiden_description"
-msgstr "Pour des raisons de sécurité, il faut que vous vous réabonniez."
+msgstr "Pour des raisons de sécurité, il faut que vous vous réabonniez.\n"
+       "Avez-vous bien recopié le lien ?"
 
 msgid "MSG_suivi_student_RSS_value_comment"
 msgstr "Commentaire sur la valeur : "

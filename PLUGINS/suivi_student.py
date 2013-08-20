@@ -641,7 +641,11 @@ def rss_date(date=None):
 
 def page_rss(server):
     """RSS for the student."""
-    login = utilities.manage_key('RSSLOGINS', server.the_path[0], separation=2)
+    if len(server.the_path) != 1:
+        login = False
+    else:
+        login = utilities.manage_key('RSSLOGINS', server.the_path[0],
+                                     separation=2)
     if login is False:
         server.the_file.write('''<?xml version="1.0" encoding="utf-8"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
