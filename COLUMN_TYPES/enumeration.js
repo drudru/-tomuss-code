@@ -1,6 +1,6 @@
 /*
     TOMUSS: The Online Multi User Simple Spreadsheet
-    Copyright (C) 2011 Thierry EXCOFFIER, Universite Claude Bernard
+    Copyright (C) 2011-2013 Thierry EXCOFFIER, Universite Claude Bernard
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -18,6 +18,16 @@
 
     Contact: Thierry.EXCOFFIER@bat710.univ-lyon1.fr
 */
+
+function completions_enumeration(value, column)
+{
+  var c = [] ;
+  for(var v in column.possible_values)
+    if ( column.possible_values[v].substr(0,value.length).toUpperCase()
+	 == value.toUpperCase() )
+      c.push(column.possible_values[v]) ;
+  return c ;
+}
 
 // Search the best approximation
 function test_enumeration(value, column)

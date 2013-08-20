@@ -2185,10 +2185,11 @@ msgstr "' used to compute the column '"
 msgid "ALERT_columns_unsaved"
 msgstr "'\nTHE COLUMNS LIST HAS NOT BEEN SAVED."
 
+msgid "MSG_columns_completion_before"
+msgstr "No title starting by:"
 
-
-
-
+msgid "MSG_columns_completion_after"
+msgstr "Remove the last character"
 
 msgid "MSG_home_title"
 msgstr "TOMUSS home"

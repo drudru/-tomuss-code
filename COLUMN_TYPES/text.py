@@ -1,7 +1,7 @@
 #!/bin/env python
 # -*- coding: utf-8 -*-
 #    TOMUSS: The Online Multi User Simple Spreadsheet
-#    Copyright (C) 2008-2011 Thierry EXCOFFIER, Universite Claude Bernard
+#    Copyright (C) 2008-2013 Thierry EXCOFFIER, Universite Claude Bernard
 #
 #    This program is free software; you can redistribute it and/or modify
 #    it under the terms of the GNU General Public License as published by
@@ -202,6 +202,8 @@ class Text(object):
 
     # check value to be stored in the cell
     cell_test = 'test_nothing'
+    # possible completions
+    cell_completions = 'test_nothing'
     # What to do on mouse click
     onmousedown = 'cell_select'
     # How to display the cell value
@@ -277,8 +279,8 @@ class Text(object):
     
     def attribute_js_value(self, k):
         if k.startswith('set_') or k in (
-            'cell_test', 'onmousedown', 'formatte', 'ondoubleclick',
-            'cell_compute'):
+            'cell_test', 'cell_completions','onmousedown', 'formatte',
+            'ondoubleclick', 'cell_compute'):
             return getattr(self, k)
         else:
             return utilities.js(getattr(self, k))

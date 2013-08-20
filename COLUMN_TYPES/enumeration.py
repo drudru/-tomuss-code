@@ -1,7 +1,7 @@
 #!/bin/env python
 # -*- coding: utf-8 -*-
 #    TOMUSS: The Online Multi User Simple Spreadsheet
-#    Copyright (C) 2011-2012 Thierry EXCOFFIER, Universite Claude Bernard
+#    Copyright (C) 2011-2013 Thierry EXCOFFIER, Universite Claude Bernard
 #
 #    This program is free software; you can redistribute it and/or modify
 #    it under the terms of the GNU General Public License as published by
@@ -26,6 +26,7 @@ import collections
 class Enumeration(text.Text):
     tip_cell = "TIP_cell_Enumeration"
     cell_test = 'test_enumeration'
+    cell_completions = 'completions_enumeration'
     ondoubleclick = 'toggle_enumeration'
     attributes_visible = ('enumeration', 'weight')
 

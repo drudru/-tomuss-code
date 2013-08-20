@@ -2097,7 +2097,6 @@ function current_keydown(event, in_input)
 	popup_close() ;
       return ;
     }
-
   if ( element_focused )
     {
       if ( element_focused.tagName == 'TEXTAREA' )
@@ -2109,23 +2108,36 @@ function current_keydown(event, in_input)
 	}
       else if ( element_focused.tagName == 'SELECT' )
 	{
-	  if ( key == 40 )
+	  // Autocompletion menu
+	  var nb_item = element_focused.childNodes.length ;
+	  if ( key == 38 || key == 40 )
 	    {
-	      element_focused.selectedIndex++ ;
+	      if ( element_focused.my_selected_index
+		   != element_focused.selectedIndex )
+		{
+		  // The SELECT object change itself the line when using keys.
+		  // So do not change it ourself.
+		  element_focused.my_selected_index = -1 ;
+		  // XXX The first keystroke when SELECT is active
+		  // move twice on FireFox
+		  return ;
+		}
+
+	      element_focused.selectedIndex = (element_focused.selectedIndex
+					       + key - 39) % nb_item ;
+	      element_focused.my_selected_index =element_focused.selectedIndex;
 	      stop_event(event) ;
-	    }
-	  else if ( key == 38 )
-	    {
-	      element_focused.selectedIndex-- ;
-	      stop_event(event) ;
+	      return ;
 	    }
 	  else if ( key == 13 || key == 27 )
 	    {
 	      event.target = element_focused ;
 	      element_focused.onchange(event) ;
 	      stop_event(event) ;
+	      return ;
 	    }
-	  return ;
+	  if ( key < 40 && key != 8 )
+	    return ;
 	}
     }
        
@@ -2251,13 +2263,16 @@ function current_keydown(event, in_input)
 	    }
 	}
       // completion
-      if ( selection && key >= 48 && event.ctrlKey === false
-	    && event.target.value.length == selection.end ) // No control code
+      
+      if ( selection
+	   && (key >= 48 || key == 8)
+	   && event.ctrlKey === false
+	   && event.target.value.length == selection.end ) // No control code
 	{
 	  if ( do_completion_for_this_input == undefined )
 	    {
 	      do_completion_for_this_input = event.target ;
-	      setTimeout('the_current_cell.do_completion()', 1) ;
+	      setTimeout('the_current_cell.do_completion(' + (key==8) +')', 1);
 	    }
 	}
       return true ;
@@ -2268,87 +2283,114 @@ function current_keydown(event, in_input)
 
 var do_completion_for_this_input ;
 
-function current_do_completion()
+function current_do_completion(backspace)
 {
-  var completion ;
+  var completion, completions = [] ;
   var input = do_completion_for_this_input ;
 
   do_completion_for_this_input = undefined ;
 
   if ( input == this.input || input.id == "table_forms_keypress" )
     {
-      alert_merged = '' ;
-      completion = this.column.real_type.cell_test(input.value, this.column) ;
-      alert_merged = false ;
-
-      if ( completion == input.value && this.column.completion )
+      var c = this.column.real_type.cell_completions(input.value,this.column) ;
+      if ( c != input.value )
 	{
-	  var s = compute_histogram(this.column.data_col) ;
+	  // It is an enumeration
+	  for(var i in c)
+	    completions.push([c[i], "", "", "", c[i]]) ;
+	  completions.sort() ;
+	}
+      else if ( this.column.completion )
+	{
+	  // Auto completion from content
+	  var uniques = compute_histogram(this.column.data_col).uniques() ;
 	  var value_low = input.value.toLowerCase() ;
 	  var value_len = input.value.length ;
-	  for(var i in s.uniques())
-	    if ( value_low == i.toLowerCase().substr(0, value_len) )
-	      {
-		completion = i ;
-		break ;
-	      }
+	  
+	  for(var i in uniques)
+	    if ( uniques[i] && i != "" )
+	      if ( value_low == i.toLowerCase().substr(0, value_len) )
+		completions.push([i, "", "", "", i]) ;
+	  completions.sort() ;
+	  if ( completions.length != 1 )
+	    completions.splice(0,0,[input.value, "", "", "", input.value]) ;
 	}
-
+      else
+	{
+	  // Replace value by it normal completion
+	  alert_merged = '' ;
+	  completion =this.column.real_type.cell_test(input.value,this.column);
+	  alert_merged = false ;
+	  if ( completions.length != 1 )
+	    completions.push([completion, "", "", "", completion]) ;
+	}
     }
   else if ( input.id == 't_column_columns' )
     {
       var names = input.value.split(' ') ;
-      if ( names[0] === '' )
-	return ;
-      var last = names[names.length-1] ;
-      completion = '' ;
+      var last = names[names.length-1].toLowerCase() ;
       for(var column in columns)
 	{
 	  column = columns[column] ;
-	  if ( column.title.substr(0, last.length) == last )
+	  if ( column.title.substr(0, last.length).toLowerCase() == last )
 	    {
 	      names[names.length-1] = column.title ;
-	      completion = names.join(' ') ;
-	      break ;
+	      completions.push([column.title, "", "", "", names.join(' ')]) ;
 	    }
 	}
+      completions.sort() ;
+      names[names.length-1] = '' ;
+      if ( completions.length == 0)
+	{
+	  completions.push([_("MSG_columns_completion_before"),
+			    "", last, "", names.join(' ')]) ;
+	  completions.push([_("MSG_columns_completion_after"),
+			    "", "", "", names.join(' ')]) ;
+	}
+      if ( completions.length > 1 )
+	completions.splice(0,0,["", "", "", "", names.join(' ')]) ;
     }
-  else
-    return ; // No completion
+
+  if ( completions.length > 1 )
+    {
+      ask_login_list = "" ;
+      login_list("", completions) ;
+      return;
+    }
+  login_list_hide() ;
+  
+  if ( completions.length == 0 || backspace )
+    return ;
+
+  completion = completions[0][4] ;
 
   if ( completion && completion.substr
        && completion.substr(0, input.value.length).toLowerCase()
        == input.value.toLowerCase())
     {
-      completion = completion.substr(input.value.length) ;
+      var length = input.value.length ;
       if (window.KeyEvent)
 	{
-	  var input_length = input.value.length ;
-	  // If it is a key event, the horizontal scroll must not be changed,
-	  // So, the simple code in the 'else' can not work
+	  input.value = "" ;
 	  for(var i=0; i<completion.length; i++)
 	    {
 	      var evt = document.createEvent("KeyboardEvent");
-	      if (false && evt.initKeyboardEvent)
-		  evt.initKeyboardEvent("keypress", true, true, null,
-					i, 0, "");
-		else
-		    evt.initKeyEvent("keypress", true, true, null, false, false,
-				     false, false, 0, completion.charCodeAt(i));
+	      evt.initKeyEvent("keypress", true, true, null, false, false,
+			       false, false, 0, completion.charCodeAt(i));
 	      input.dispatchEvent(evt);
-	      if (input.value.length == input_length)
+	      if (input.value.length == 0)
 		{
-		    // Hit a FireFox 12 bug, fallback on a classic method
-		    input.value += completion ;
+		    // Hit a bug, fallback on a classic method
+		    input.value = completion ;
 		    break ;
 		}
 	    }
 	}
       else
-	input.value += completion ;
-
+	input.value = completion ;
+      
       set_selection(input,
-		    input.value.length - completion.length,
+		    length,
 		    input.value.length) ;
     }
 }

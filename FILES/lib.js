@@ -30,7 +30,7 @@ var is_a_teacher = false ;
 
 // Work value
 var popup_blocker = false ;
-var element_focused ;
+var element_focused ;           // If undefined: it is the current_cell
 var server_feedback ;
 var line_offset ;		// The page being displayed
 var column_offset ;
@@ -770,6 +770,8 @@ function wheel(event)
   if ( popup_is_open() )
     return ;
   if ( table_forms_element )
+    return ;
+  if ( element_focused && element_focused.tagName == 'TEXTAREA' )
     return ;
 
   if ( the_event(event).wheelDelta < 0 )
@@ -1934,31 +1936,78 @@ function login_list_ask()
 	return true ;
 }
 
+var element_focused_saved = false ;
+
 function login_list_hide()
 {
+  get_tip_element().do_not_hide = false ;
   the_current_cell.blur_disabled = false ;
   hide_the_tip_real() ;
-  element_focused = undefined ;
-  }
+  if ( element_focused_saved != false )
+    {
+      element_focused = element_focused_saved ;
+      if ( element_focused )
+	{
+	  if (element_focused.saved_blur)
+	    element_focused.onblur = element_focused.saved_blur ;
+	  element_focused.focus() ;
+	}
+      else
+	the_current_cell.input.focus() ;
+    }
+  element_focused_saved = false ;
+}
 
 function login_list_select(event)
 {
   event = the_event(event) ;
   var t = event.target ;
+  if ( t.selectedIndex === undefined )
+    return ;    
+  if ( t.disable_onchange )
+    {
+      // To ne terminate on change done by a cursor key
+      t.disable_onchange = false ;
+      return ;
+    }
+  
   if ( t.options[t.selectedIndex] )
     {
-      var s = t.options[t.selectedIndex].innerHTML.split('&nbsp;')[0] ;
-      the_current_cell.input.value = s ;
-      setTimeout(login_list_hide, 500) ;
+      var s = t.options[t.selectedIndex].value ;
+      if ( element_focused_saved )
+	element_focused_saved.value = s ;
+      else
+	the_current_cell.input.value = s ;
+      setTimeout(login_list_hide, 100) ;
     }
   else
     login_list_hide() ;
 }
 
+function login_list_select_keydown(event)
+{
+  var event = the_event(event) ;
+  if ( event.keyCode == 13 )
+    login_list_select(event.real_event);
+
+  event.target.disable_onchange = true ;
+  stop_event(event) ;
+  return true;
+}
+
+
 function login_list(name, x)
 {
+  // x contains:
+  //   [ ["id (value)", "firstname", "surname", "grp", "real_value"], ...]
   if ( name != replaceDiacritics(ask_login_list) )
     return ;
+
+  if ( element_focused == get_tip_element().firstChild )
+    {
+      element_focused = element_focused_saved ;
+    }
+  
   if ( x.length == 0 )
     {
       login_list_hide() ;
@@ -1973,16 +2022,16 @@ function login_list(name, x)
   if ( nr < 2 )
     nr = 2 ;
 
-  var s = '<select class="login_list" size="' + nr + '" onmouseover="the_current_cell.blur_disabled = true;" onmouseout="the_current_cell.blur_disabled = false" onchange="login_list_select(event)">' ;
+  var s = '<select class="login_list" size="' + nr + '" onmouseover="the_current_cell.blur_disabled = true;" onmouseout="the_current_cell.blur_disabled = false" onchange="login_list_select(event)" onkeypress="login_list_select_keydown(event)" onclick="login_list_select(event)" onblur="login_list_hide()" style="width:100%">' ;
 
   var w = 0 ;
   for(var i in x)
     if ( x[i][0].length > w )
       w = x[i][0].length ;
   
-  for(var i in x)
+  for(var ii in x)
     {
-      i = x[i] ;
+      var i = x[ii] ;
       var cn = '' ;
       if ( i[3] )
 	{
@@ -1991,7 +2040,8 @@ function login_list(name, x)
 	  cn = cn.slice(1, cn.length-2) ;
 	  cn = '<i><small>' + cn.toString() + '</small></i>' ;
 	}
-      s += '<option>'
+      s += '<option value="' + (i[4] ? i[4] : i[0]) + '"'
+	+ (ii == 0 ? ' selected' : '') + '>'
 	+ left_justify(i[0],w).replace('&nbsp;',' ')
 	+ '&nbsp;' + i[1] + ' ' + i[2] + ' ' + cn + '</option>' ;
     }
@@ -2001,11 +2051,24 @@ function login_list(name, x)
   display_tips = true ;
   instant_tip_display = true ;
   document.getElementById('tip_plus').style.display = 'none' ;
-  show_the_tip(the_current_cell.td, s) ;
+
+  if ( element_focused )
+    show_the_tip(element_focused, s) ;
+  else
+    show_the_tip(the_current_cell.input, s) ;
   instant_tip_display = false ;
   display_tips = false ;
   get_tip_element().onmousemove = function() { } ;
+  element_focused_saved = element_focused ;
+  if ( element_focused )
+    {
+      if ( element_focused.onblur )
+	element_focused.saved_blur = element_focused.onblur ;
+      element_focused.onblur = undefined ;
+    }
   element_focused = get_tip_element().firstChild ;
+  element_focused.my_selected_index = 0 ;
+  get_tip_element().do_not_hide = true ;
 }
 
 function table_fill(do_not_focus, display_headers, compute_filtered_lines)

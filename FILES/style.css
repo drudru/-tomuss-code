@@ -529,6 +529,7 @@ INPUT#comment { width: 100% ; clear: both; }
   background-color: white ; 
   border: 1px solid black;
 }
+#menutop INPUT:focus { border: 1px solid #00F }
 
 #menutop SELECT { width: 25% ; font-size: 80%; }
 

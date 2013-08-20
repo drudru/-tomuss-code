@@ -1,7 +1,7 @@
 // -*- coding: utf-8 -*-
 /*
     TOMUSS: The Online Multi User Simple Spreadsheet
-    Copyright (C) 2008-2011 Thierry EXCOFFIER, Universite Claude Bernard
+    Copyright (C) 2008-2013 Thierry EXCOFFIER, Universite Claude Bernard
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -339,7 +339,8 @@ function ___NAME__()
 		 tip_column_title: __TIP_COLUMN_TITLE__,
 		 tip_filter: __TIP_FILTER__,
 		 tip_cell: __TIP_CELL__,
-		 cell_test: __CELL_TEST__,   
+		 cell_test: __CELL_TEST__,
+		 cell_completions: __CELL_COMPLETIONS__,
 		 cell_compute: __CELL_COMPUTE__,   
 		 cell_is_modifiable: __CELL_IS_MODIFIABLE__,   
 		 onmousedown: __ONMOUSEDOWN__,

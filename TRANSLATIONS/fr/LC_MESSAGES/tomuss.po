@@ -2193,6 +2193,12 @@ msgstr "» utilisé dans la moyenne de la colonne «"
 msgid "ALERT_columns_unsaved"
 msgstr "»\nLA LISTE DES COLONNES N'A PAS ÉTÉ SAUVEGARDÉE."
 
+msgid "MSG_columns_completion_before"
+msgstr "Pas de titre commençant par :"
+
+msgid "MSG_columns_completion_after"
+msgstr "Enlevez un caractère"
+
 msgid "MSG_home_title"
 msgstr "Accueil TOMUSS"
 
