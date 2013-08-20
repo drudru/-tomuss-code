@@ -85,8 +85,8 @@ function update_histogram_real()
     return ;
   update_histogram_data_col = the_current_cell.data_col ;
 
-  var dx = (t_column_histogram.offsetWidth-1) / 27 ;
-  var dy = t_column_histogram.offsetHeight ;
+  var dx = (t_column_histogram.the_width-1) / 27 ;
+  var dy = t_column_histogram.the_height ;
   var font_size = Math.min( (dx/0.9).toFixed(0), (dy/2.4).toFixed(0) ) ;
   var the_style =
     'g { pointer-events: none;}' +
@@ -194,6 +194,12 @@ function update_histogram(force)
   }
   if ( force )
     update_histogram_data_col = -1 ;
+
+  if ( t_column_histogram && t_column_histogram.offsetWidth )
+  {
+    t_column_histogram.the_height = t_column_histogram.offsetHeight ;
+    t_column_histogram.the_width = t_column_histogram.offsetWidth ;
+  }
 
   if ( update_histogram_id )
     clearTimeout(update_histogram_id) ;
