@@ -1948,7 +1948,7 @@ function login_list_hide()
       element_focused = element_focused_saved ;
       if ( element_focused )
 	{
-	  if (element_focused.saved_blur)
+	  if (element_focused.saved_blur != noblur)
 	    element_focused.onblur = element_focused.saved_blur ;
 	  element_focused.focus() ;
 	}
@@ -1995,6 +1995,9 @@ function login_list_select_keydown(event)
   return true;
 }
 
+function noblur(event)
+{
+}
 
 function login_list(name, x)
 {
@@ -2021,8 +2024,7 @@ function login_list(name, x)
     nr = x.length ;
   if ( nr < 2 )
     nr = 2 ;
-
-  var s = '<select class="login_list" size="' + nr + '" onmouseover="the_current_cell.blur_disabled = true;" onmouseout="the_current_cell.blur_disabled = false" onchange="login_list_select(event)" onkeypress="login_list_select_keydown(event)" onclick="login_list_select(event)" onblur="login_list_hide()" style="width:100%">' ;
+  var s = '<select class="login_list" size="' + nr + '" onmouseover="the_current_cell.blur_disabled = true;" onmouseout="the_current_cell.blur_disabled = false"  onkeydown="login_list_select_keydown(event)" onclick="login_list_select(event)" onblur="login_list_hide()" style="width:100%">' ;
 
   var w = 0 ;
   for(var i in x)
@@ -2053,22 +2055,22 @@ function login_list(name, x)
   document.getElementById('tip_plus').style.display = 'none' ;
 
   if ( element_focused )
-    show_the_tip(element_focused, s) ;
+    {
+      if ( element_focused.onblur )
+	element_focused.saved_blur = element_focused.onblur ;
+      element_focused.onblur = noblur ;
+      show_the_tip(element_focused, s) ;
+    }
   else
     show_the_tip(the_current_cell.input, s) ;
   instant_tip_display = false ;
   display_tips = false ;
   get_tip_element().onmousemove = function() { } ;
   element_focused_saved = element_focused ;
-  if ( element_focused )
-    {
-      if ( element_focused.onblur )
-	element_focused.saved_blur = element_focused.onblur ;
-      element_focused.onblur = undefined ;
-    }
   element_focused = get_tip_element().firstChild ;
   element_focused.my_selected_index = 0 ;
   get_tip_element().do_not_hide = true ;
+  element_focused.onchange = login_list_select ; // Here for IE
 }
 
 function table_fill(do_not_focus, display_headers, compute_filtered_lines)
