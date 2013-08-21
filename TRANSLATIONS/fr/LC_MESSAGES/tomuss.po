@@ -2184,6 +2184,9 @@ msgstr "Destruction interdite (colonne pas vide)"
 msgid "ALERT_message_for"
 msgstr "Message de TOMUSS pour : "
 
+msgid "ALERT_columns_recursive"
+msgstr "Il y a une moyenne qui depend d'elle même «"
+
 msgid "ALERT_columns_unknown_title"
 msgstr "Je ne connais pas le titre de colonne «"
 

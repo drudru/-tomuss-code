@@ -2244,6 +2244,22 @@ function add_empty_columns()
   return not_empty + 1 ;
 }
 
+function search_column_in_columns(column, title)
+{
+  if ( column.title == title )
+    return column ;
+  if ( ! column_modifiable_attr('columns', column) )
+    return ;
+  for(var i in column.average_columns)
+    {
+      var c = search_column_in_columns(columns[column.average_columns[i]],
+				       title) ;
+      if ( c )
+	return c ;
+    }
+}
+
+
 /******************************************************************************
 Cursor movement
 ******************************************************************************/

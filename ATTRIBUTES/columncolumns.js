@@ -1,7 +1,7 @@
 // -*- coding: utf-8 -*-
 /*
     TOMUSS: The Online Multi User Simple Spreadsheet
-    Copyright (C) 2008-2011 Thierry EXCOFFIER, Universite Claude Bernard
+    Copyright (C) 2008-2013 Thierry EXCOFFIER, Universite Claude Bernard
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -47,6 +47,11 @@ function set_columns(value, column, xcolumn_attr)
 	  {
 	    cols.push(c) ;
 	    weight += columns[c].real_weight ;
+	    if ( search_column_in_columns(columns[c], column.title) )
+	    {
+	      ok = undefined ;
+	      break ;
+	    }
 	    ok = true ;
 	    break ;
 	  }
@@ -54,12 +59,20 @@ function set_columns(value, column, xcolumn_attr)
 	{
 	  if ( xcolumn_attr === true )
 	    // Wait the good value
-	    // Nezt time 'xcolumn_attr' will be '1' in place of 'true'
+	    // Next time 'xcolumn_attr' will be '1' in place of 'true'
 	    setTimeout(function() {set_columns(value, column, 1)},
 		       1000) ;
 	  else
 	    {
 	      if ( column_modifiable_attr('columns', column) )
+		if ( ok === undefined )
+		  alert_append(_("ALERT_columns_recursive")
+			       + column.title
+			       + _("ALERT_columns_unknown_used_by")
+			       + column.average_from[i]
+			       + _("ALERT_columns_unsaved")
+			     ) ;
+	      else
 		  alert_append(_("ALERT_columns_unknown_title")
 			       + column.average_from[i]
 			       + _("ALERT_columns_unknown_used_by")
