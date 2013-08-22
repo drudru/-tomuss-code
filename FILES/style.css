@@ -60,7 +60,15 @@ BODY.autosavefailed, BODY.autosavefailed P, BODY.autosavefailed H1, BODY.autosav
 
 TABLE.colored { 
   background-color: #999 ;
-  border-spacing: 1px ;
+  border-spacing: 0px ;
+  empty-cells:show;
+  border-left: 1px solid #999 ;
+  border-top: 1px solid #999 ;
+}
+
+TABLE.colored TD, TABLE.colored TH {
+    border-bottom: 1px solid #999 ;
+    border-right: 1px solid #999 ;
 }
 
 /* To find if the cursor is inside the table */
@@ -703,22 +711,6 @@ BODY {
 
 BODY, TABLE TD, TH, P, H1 {
     background-color: white ;
-}
-
-TABLE.colored {
-  border-spacing: 0px ;
-}
-
-TABLE.colored TD, TABLE.colored TH { 
-    border: 0.5px solid black ;
-}
-
-TABLE.colored TR.separator TD { 
-    border-top: 2px solid black ;
-}
-
-TABLE.colored TR TD { 
-    border-top: 0px ;
 }
 
 .title_pointers {

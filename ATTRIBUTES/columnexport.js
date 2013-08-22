@@ -100,7 +100,7 @@ function export_column()
 			       'columnexport_options', 'unique',
 			       _("TIP_columnexport_unique"))
 	       + _("MSG_columnexport_after")
-	       + '<table class="printable_table columnexport">'
+	       + '<table class="colored columnexport">'
 	       + '<colgroup><col width="10*"><col width="12*"><col width="30*"></colgroup>'
 	       + '<tr><th>' + _("MSG_columnexport_students") + '<br>'
 	       + '<a href="javascript:columnexport_filtered()">'

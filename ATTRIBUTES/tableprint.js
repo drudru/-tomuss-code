@@ -43,7 +43,7 @@ function printable_display_page(lines, title, page_break)
     }
 
   var s = [] ;
-  var html_class = 'printable_table', th_class ;
+  var html_class = 'colored', th_class ;
   var is_uniform = uniform == _("B_print_yes") ;
   
   if ( is_uniform )
@@ -165,8 +165,8 @@ function printable_display_page(lines, title, page_break)
 	    html_class = '' ;
 	  else
 	    html_class = line[tr_classname].value ;
-	  if ( nr_lines == i || i % preferences.zebra_step === 0 )
-	    html_class += ' separatorvertical' ;
+	  if ( nr_lines == i || i % preferences.zebra_step === 1 )
+	    html_class += ' separator' ;
 	  s.push('<tr class="' + html_class + '"><td class="hidden_on_paper" onclick="delete lines[\'' + line_id + '\'];do_printable_display=true;">'
 		 + i + '</td>') ;
 	  i++ ;

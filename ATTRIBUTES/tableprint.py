@@ -27,24 +27,6 @@ class TablePrint(TableAttr):
     need_authorization = 0
     action = "print_selection"
     css = '''
-TABLE.printable_table {
-   border-spacing: 0px ;
-}
-TABLE.printable_table TD {
-   border-left: 1px solid black ;
-   border-right: 1px solid black ;
-   border-top: 1px solid black ;
-}
-TABLE.printable_table TR.separatorvertical TD {
-   border-bottom: 1px solid black ;
-}
-TABLE.print_options TR {
-  vertical-align: top ;
-}
-TABLE.printable_table TH {
-   border: 1px solid black ;
-}
-
 DIV.textual_table TEXTAREA {
    /* white-space: nowrap; */
    overflow-x:scroll;
