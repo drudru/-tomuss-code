@@ -207,7 +207,14 @@ def new_page(server):
     # between page content creation and the page activation
     table.lock()
     try:
-        server.the_file.write(table.content(page))
+        if True:
+            server.the_file.write(table.content(page))
+        else:
+            # simulation slow connection
+            for i in table.content(page).split('\n'):
+                server.the_file.write(i + '\n')
+                if 'P(' in i:
+                    time.sleep(0.01)
         server.the_file.flush()
 
         if page.use_frame:

@@ -75,7 +75,6 @@ function head_html()
 	'@media aural { u { /* pause-after: 1s; */ } }\n' +
 	'u { /* pause-after: 1s; */ }\n' +
 	'</style>' +
-	'<div id="loading_bar"><div></div></div>' +
 	'<div id="top"></div><input onkeydown="dispatch2(the_event(event))" onkeypress="dispatch(the_event(event))" style="width:1em"><div id="log"></div>' ;
     }
 

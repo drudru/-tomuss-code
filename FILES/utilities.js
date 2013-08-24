@@ -910,30 +910,9 @@ function parseLineCSV(lineCSV)
 
 /* Helper function to load data */
 
-var loading_bar ;
-var loading_bar_2 ;
-
 function P(k,t)
 {
-  if ( lines.length === 0 )
-    {
-      loading_bar = document.getElementById('loading_bar') ;
-      if ( loading_bar )
-	{
-	  loading_bar_2 = loading_bar.childNodes[0] ;
-	  loading_bar.style.display = 'block' ;
-	}
-    }
   lines[k] = t ;
-  if ( loading_bar )
-    {
-      loading_bar_2.style.width = (100*lines.length/lines_to_load) + '%' ;
-
-      if ( lines.length == lines_to_load )
-	{
-	  loading_bar.style.display = 'none' ;
-	}
-    }
 }
 
 

@@ -1021,17 +1021,32 @@ class Table(object):
         s.append(self.content_head(page))
 
         try:
+            s.append('  <script><!--')
+            s.append(utilities.wait_scripts())
+            s.append('--></script> ')
+            lines = self.lines.js()
+            i = 0
+            nb = 100
+            to_load = len(lines)
+            while lines:
+                s.append('<script><!--')
+                s.append('\n'.join(lines[:nb]))
+                del lines[:nb]
+                i += nb
+                s.append('--></script><div class="loading_bar"><div style="width:%d%%">&nbsp;</div></div>'
+                         % int(i*100./to_load) )
+            s.append('  <style>DIV.loading_bar { display: none;}</style>')
             s.append('''  <script><!--
-            lines_to_load = %d ;
-            %s
             function initialize()
             {
             if ( ! wait_scripts("initialize()") )
                return ;
+            var t = document.getElementsByClassName("loading_bar");
+            for(var i=0; i<t.length; i++)
+                t[i].parentNode.removeChild(t[i]) ;
             document.write(head_html()) ;
             insert_middle();
-            ''' % (len(self.lines), utilities.wait_scripts()))
-            s.append(self.lines.js())
+            ''')
             s.append(self.columns.js(hide=False))
 
             s.append('document.write(tail_html());')

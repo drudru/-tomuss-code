@@ -442,18 +442,17 @@ P.tierstemps { background-color: #BBF ; }
 BODY TABLE.colored TR.tierstemps TD, #current_input.tierstemps, SPAN.tt { background-color: #BBF ; }
 
 
-#loading_bar { 
+DIV.loading_bar {
   position: absolute ;
   left: 10% ;
   right: 10% ;
-  top: 70% ;
-  bottom: 27% ;
+  top: 45% ;
+  bottom: 45% ;
   background-color: white ;
   border: 2px solid black ;
-  display: none ;
 }
 
-#loading_bar DIV { 
+DIV.loading_bar DIV {
   background-color: #4F4 ;
   height: 100% ;
 }
