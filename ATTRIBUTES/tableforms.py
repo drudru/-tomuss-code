@@ -46,7 +46,7 @@ class TableForms(TableAttr):
    background: #DDD ;
    border: 2px solid black;
    overflow: hidden ;
-   z-index: 30 ; /* Above tips */
+   z-index: 30 ; /* Above tips, but under completion list */
 }
 
 .tableform DIV.formtable {

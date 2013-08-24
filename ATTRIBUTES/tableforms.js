@@ -163,6 +163,8 @@ function table_forms_keypress(event)
 
     if ( event.keyCode == 13 || event.keyCode == 9 )
 	{
+	    if ( element_focused.tagName == 'SELECT' )
+	         return ; // Completion menu
 	    if ( input.tagName == 'INPUT' || event.keyCode == 9  )
 		{
 		    var tr ;

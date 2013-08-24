@@ -503,6 +503,8 @@ function get_tip_element()
       tip_plus.onmousedown = function(event) { thetable.onmousedown(event);} ;
       document.getElementsByTagName('BODY')[0].appendChild(tip_plus) ;
     }
+  tip.style.zIndex = 30 ; // Under tableforms
+
   return tip ;
 }
 
@@ -2006,7 +2008,7 @@ function login_list(name, x)
   if ( name != replaceDiacritics(ask_login_list) )
     return ;
 
-  if ( element_focused == get_tip_element().firstChild )
+  if ( element_focused === get_tip_element().firstChild )
     {
       element_focused = element_focused_saved ;
     }
@@ -2056,7 +2058,7 @@ function login_list(name, x)
 
   if ( element_focused )
     {
-      if ( element_focused.onblur )
+      if ( element_focused.onblur != noblur )
 	element_focused.saved_blur = element_focused.onblur ;
       element_focused.onblur = noblur ;
       show_the_tip(element_focused, s) ;
@@ -2070,6 +2072,7 @@ function login_list(name, x)
   element_focused = get_tip_element().firstChild ;
   element_focused.my_selected_index = 0 ;
   get_tip_element().do_not_hide = true ;
+  get_tip_element().style.zIndex = 40 ; // Above tableforms
   element_focused.onchange = login_list_select ; // Here for IE
 }
 
