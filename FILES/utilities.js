@@ -2086,6 +2086,25 @@ function alt_shortcut(event, td)
   return false ;
 }
 
+function triggerKeyboardEvent(el, keyCode)
+{
+    var eventObj = document.createEventObject
+      ? document.createEventObject()
+      : document.createEvent("Events") ;
+  
+    if(eventObj.initEvent){
+      eventObj.initEvent("keydown", true, true) ;
+    }
+  
+    eventObj.keyCode = keyCode ;
+    eventObj.which = keyCode ;
+    
+    if ( el.dispatchEvent )
+      el.dispatchEvent(eventObj) ;
+    else
+      el.fireEvent("onkeydown", eventObj) ;
+}
+
 function current_keydown(event, in_input)
 {
   last_user_interaction = millisec() ;
@@ -2165,7 +2184,7 @@ function current_keydown(event, in_input)
       // Do not manage left and right cursor if an <input> is focused
       if ( element_focused )
 	{
-	  if (key == 37  || key == 39)
+	  if (key == 37 || key == 39)
 	    return ;
 	}
     }
@@ -2238,17 +2257,22 @@ function current_keydown(event, in_input)
 	return true ;
       break ;
     case 27: // Escape Key
-	// alert('' + this.input.value + '/' + this.initial_value) ;
-	if ( this.input.id == "table_forms_keypress" )
-	    {
-		this.input.value = this.initial_value ;
-		this.input.blur() ;
-		stop_event(event) ;
-		return false;
-	    }
-      this.input.value = this.initial_value ;
-      this.input.blur() ;
-      this.focus() ;
+      // alert('' + this.input.value + '/' + this.initial_value) ;
+      if ( element_focused )
+	{
+	  element_focused.value = element_focused.initial_value ;
+	  var a = element_focused ;
+	  this.focus() ; // XXX The input value is unchanged without this
+	  a.focus() ;
+	  // Launch filter updating
+	  triggerKeyboardEvent(a, -1) ;
+	}
+      else
+	{
+	  this.input.value = this.initial_value ;
+	  this.input.blur() ;
+	  this.focus() ;
+	}
       break ;
     default:
       if ( ! this.cell_modifiable() )
@@ -2374,10 +2398,7 @@ function current_do_completion(backspace)
 	  input.value = "" ;
 	  for(var i=0; i<completion.length; i++)
 	    {
-	      var evt = document.createEvent("KeyboardEvent");
-	      evt.initKeyEvent("keypress", true, true, null, false, false,
-			       false, false, 0, completion.charCodeAt(i));
-	      input.dispatchEvent(evt);
+	      triggerKeyboardEvent(input, completion.charCodeAt(i)) ;
 	      if (input.value.length == 0)
 		{
 		    // Hit a bug, fallback on a classic method

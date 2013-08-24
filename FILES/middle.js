@@ -396,6 +396,7 @@ function header_input_focus(e)
     }
   e.className = '' ; // Remove 'empty' class
   element_focused = e ;
+  e.initial_value = e.value ;
 
   // To resize the INPUT tag if it is larger than the tab.
   // For example: the Table Dates

@@ -1,6 +1,6 @@
 /*
     TOMUSS: The Online Multi User Simple Spreadsheet
-    Copyright (C) 2011-2012 Thierry EXCOFFIER, Universite Claude Bernard
+    Copyright (C) 2011-2013 Thierry EXCOFFIER, Universite Claude Bernard
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -69,6 +69,7 @@ function table_forms_goto(event)
 	return ;
     element_focused = input ;
     element_focused.id = "table_forms_keypress" ;
+    element_focused.initial_value = element_focused.value ;
     var e = table_forms_tr(input) ;
     var cls_all = column_list(0, columns.length) ;
     if ( e.className.indexOf('default') != -1 )
