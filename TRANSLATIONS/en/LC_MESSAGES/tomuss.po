@@ -5137,3 +5137,7 @@ msgstr "Automatic mail from TOMUSS because the student answered."
 
 msgid "MSG_signature_from"
 msgstr "Message from "
+
+msgid "ERROR_bad_url"
+msgstr "This URL is not understandable by TOMUSS or your are not authorized\n"
+       "to see it. Goto the home page: "

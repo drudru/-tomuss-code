@@ -372,9 +372,16 @@ def get_links(server):
 
 
 def bad_url(server):
-    """As the URL is bad, the navigator is redirected to the home page"""
-    warn('path: %s' % server.the_path, what="error")
-    warn('from: %s' % server.headers.get("referer"), what="error")
+    """The URL is bad"""
+    server.the_file.write(server._('ERROR_bad_url')
+                          + '<a href="%s/=%s">%s</a>' % (
+            configuration.server_url, server.ticket.ticket,
+            configuration.server_url
+                          ))
+    utilities.send_backtrace("PATH: %s\nREFERER: %s" % (
+            server.the_path,
+            server.headers.get("referer")),
+                             "Bad URL", exception=False)
 
 def bad_url_message(server):
     server.the_file.write('bad_url')
@@ -453,13 +460,7 @@ def dispatch_request(server, manage_error=True):
                                     priority=1)
                 else:
                     to_top = Plugin('bad-url', '/{url_not_possible}',
-                                    response=307,
                                     function = bad_url, 
-                                    headers = lambda x: (
-                                        ('Location', '%s/=%s' %
-                                         (configuration.server_url,
-                                          x.ticket.ticket)),
-                                        ),
                                     priority=1)
                 to_top.invited = ('grp:',)
             p = to_top

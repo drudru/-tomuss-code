@@ -5219,3 +5219,7 @@ msgstr "Message automatique de TOMUSS car l'étudiant a répondu."
 msgid "MSG_signature_from"
 msgstr "Message de "
 
+msgid "ERROR_bad_url"
+msgstr "Cette adresse web n'est pas compréhensible par TOMUSS ou bien\n"
+       "vous n'avez pas le droit d'y accéder.\n"
+       "Repartez de la page d'accueil :"
