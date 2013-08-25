@@ -891,7 +891,8 @@ def manage_key_real(dirname, key, separation=3, content=None, reduce_ok=True,
 
     if content is not None:
         if configuration.read_only:
-            send_backtrace("Manage key with content in 'suivi' server")
+            send_backtrace("Manage key with content in 'suivi' server",
+                           exception=False)
             return
 
         if c is False:
@@ -925,7 +926,7 @@ def manage_key(dirname, key, separation=3, content=None, reduce_ok=True, append=
                             key, separation, content, reduce_ok, append)
         if c != d:
             send_backtrace('normal=%s\nbackup=%s\n' % (repr(c), repr(d)),
-                           'manage key backup' + key)
+                           'manage key backup' + key, exception=False)
     return c
 
 def key_mtime(dirname, key, separation=3):

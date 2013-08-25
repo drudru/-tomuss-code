@@ -599,7 +599,8 @@ class LDAP(LDAP_Logic):
                         base=configuration.ou_top, attributes=attributes
                         )
             if a and a[0][0] != None:
-                utilities.send_backtrace('THIS CODE IS USEFUL!')
+                utilities.send_backtrace('THIS CODE IS USEFUL!',
+                                         exception=False)
         if a and a[0][0] != None:
             if len(a[0]) >= 2:
                 return a[0][1]

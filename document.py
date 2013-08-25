@@ -725,7 +725,8 @@ class Table(object):
     def error(self, page, message, more_in_mail=""):
         utilities.send_backtrace(
             'UE: %s, Page: %s' % (self.ue, page)
-            + '\n' + more_in_mail, subject='###' + message)
+            + '\n' + more_in_mail, subject='###' + message,
+            exception=False)
         if '_(' not in message:
             # The message is not javascript program
             message = js(message)

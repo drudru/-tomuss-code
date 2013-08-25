@@ -135,11 +135,14 @@ def onload(table):
             try:
                 p.invited = eval(value)
                 if not p.invited:
-                    utilities.send_backtrace('config_plugin: ' + str(p))
+                    utilities.send_backtrace('config_plugin: ' + str(p),
+                                             exception=False)
             except:
-                utilities.send_backtrace('config_plugin: ' + str(p))
+                utilities.send_backtrace('config_plugin: ' + str(p),
+                                         exception=False)
         else:
-            utilities.send_backtrace('config_plugin2: ' + str(p))
+            utilities.send_backtrace('config_plugin2: ' + str(p),
+                                     exception=False)
 
 def cell_change(table, page, col, lin, value, dummy_date):
     if configuration.regtest:
