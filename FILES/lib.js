@@ -4569,7 +4569,11 @@ function javascript_regtest_ue()
   var col_types2 = [] ;
   for(var i in col_types)
     col_types2.push(_("B_" + col_types[i])) ;
-
+  if ( preferences.language != "fr" )
+    {
+      alert("The user & server language must be french to run the regtests") ;
+      return ;
+    }
   languages = ["fr"] ;
   pre = _('pre') ;
   abi = _('abi') ;
@@ -4690,8 +4694,10 @@ function javascript_regtest_ue()
   cell_goto(table.childNodes[nr_headers].childNodes[3]) ;
   periodic_work_do() ;
   export_column() ; // Moyenne
-  export_column_id_value();
-  v = popup_value() ;
+  columnexport_filtered() ;
+  columnexport_options["students"] = true ;
+  do_columnexport() ;
+  v = document.getElementById('columnexport_output').value.split('\n') ;
   for(var i in inputs)
     if ( v[i] != inputs[i] + '\t' + expore[i] )
       alert_real('Export BUG: line=(' + v[i] + ') != expected=(' + inputs[i] + '\t' + expore[i] + ')');
