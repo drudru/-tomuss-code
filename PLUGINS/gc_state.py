@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 #    TOMUSS: The Online Multi User Simple Spreadsheet
-#    Copyright (C) 2008-2012 Thierry EXCOFFIER, Universite Claude Bernard
+#    Copyright (C) 2008-2013 Thierry EXCOFFIER, Universite Claude Bernard
 #
 #    This program is free software; you can redistribute it and/or modify
 #    it under the terms of the GNU General Public License as published by
@@ -209,6 +209,9 @@ def locks(server):
     """Displays all the lock states"""
     server.the_file.write('<title>' + server._("MSG_locks_title")
                           + '</title><pre>'+ utilities.lock_state() + '</pre>')
+    for t in document.tables_values():
+        if t.the_lock.locked():
+            server.the_file.write('<br>LOCKED: ' + str(t) + '<br>')
 
 plugin.Plugin('locks'   , '/locks'   , group='roots', function=locks,
               link=plugin.Link(where='debug', html_class='verysafe')
