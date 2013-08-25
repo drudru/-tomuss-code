@@ -383,7 +383,7 @@ def alpha_html(browser, year, semester, ue_name_endswith=None,
 <div id="x">%s</div>
 <table style="table-layout: fixed" border><tbody id="t">
 ''' % _("MSG_suivi_student_wait") )
-    line = '<tr>'  +  '<td>%s</td>' * 7  +  '</tr>\n'
+    line = '<tr>'  +  '<td>%s</td>' * 8  +  '</tr>\n'
     browser.write(line % (
         _("COL_TITLE_0_1"),
         title(_("COL_TITLE_0_2"), 'cmp_name'),
@@ -391,7 +391,9 @@ def alpha_html(browser, year, semester, ue_name_endswith=None,
         _("TH_what"),
         title(_("B_Date"), 'cmp_ue'),
         title(_("TH_end_or_ue"), 'cmp_ue2'),
-        title(_("TH_comment"), 'cmp_comment')))
+        title(_("TH_comment"), 'cmp_comment'),
+        title(_("TH_abj_author"), 'cmp_comment'),
+        ))
     for login in Abjs(year, semester).students():
         if ue_name_endswith:
             for ue_code in inscrits.L_batch.ues_of_a_student_short(login):
@@ -408,18 +410,18 @@ def alpha_html(browser, year, semester, ue_name_endswith=None,
                 # No UE start by the required character
                 continue
 
-        def write(a, b, c, d):            
+        def write(a, b, c, d, e):            
             fn, sn = inscrits.L_slow.firstname_and_surname(login)
             fn = fn.encode('utf8')
             sn = sn.encode('utf8')
-            browser.write( line % (fn, sn, login, a, b, c ,d))
+            browser.write( line % (fn, sn, login, a, b, c ,d, e))
         student = Abj(year, semester, login)
         for from_date, to_date, author2, comment in student.abjs:
             if author is None or author == author2:
-                write('ABJ', from_date, to_date, cgi.escape(comment))
+                write('ABJ', from_date, to_date, cgi.escape(comment), author2)
         for ue_code, date, author2, comment in student.da:
             if author is None or author == author2:
-                write('DAS', date, ue_code, cgi.escape(comment))
+                write('DAS', date, ue_code, cgi.escape(comment), author2)
     browser.write('</tbody></table>'
                   + '<script>abj_messages = [%s,%s,%s,%s] ; </script>' % (
             utilities.js(utilities._("MSG_abj_choose_action")),
