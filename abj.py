@@ -541,8 +541,6 @@ def ue_resume(ue_code, year, semester, browser=None):
     """Returns all the ABJ/DA/TT informations about the all the UE students"""
     nr_letters = 0
 
-    current_year =   (year, semester) == configuration.year_semester
-    
     table_tt = get_table_tt(year, semester)
     #
     # The UE title
@@ -574,10 +572,6 @@ def ue_resume(ue_code, year, semester, browser=None):
     the_students = []
     first_day = 0
     last_day = 8000000000
-    if False and current_year:
-        for infos in inscrits.L_slow.students(ue_code):
-            if infos[0] not in the_students:
-                the_students.append((infos[0], infos[4], infos[5]))
 
     if len(the_students) == 0:
         # Fast process but may be incomplete

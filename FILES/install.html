@@ -320,8 +320,9 @@ if [ ! -d DB ]
 	  <pre>from .. import inscrits
 
 class MyLDAP(inscrits.LDAP):
-    def students(self, ue):
+    def students(self, ue, year=None, semester=None):
         # The following code must use 'ue' to find students
+	# Year and Semester are the ones of the table to fill or update
         for i in range(5):
             yield ('login%d' % i,     # The login (as in LDAP)
                    'firstname%d' % i,

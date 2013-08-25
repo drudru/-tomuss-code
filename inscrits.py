@@ -410,7 +410,7 @@ class LDAP_Logic(object):
     password_ok = utilities.add_a_method_cache(password_ok, not_cached=False)
 
     @utilities.add_a_method_cache
-    def students(self, ue):
+    def students(self, ue, year=None, semester=None):
         """Iterator giving the student list for an UE"""
         alls = self.query(base=configuration.ou_students,
                           search='(memberOf=*%s*)' % ue,

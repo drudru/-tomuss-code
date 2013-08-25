@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 #    TOMUSS: The Online Multi User Simple Spreadsheet
-#    Copyright (C) 2009-2012 Thierry EXCOFFIER, Universite Claude Bernard
+#    Copyright (C) 2009-2013 Thierry EXCOFFIER, Universite Claude Bernard
 #
 #    This program is free software; you can redistribute it and/or modify
 #    it under the terms of the GNU General Public License as published by
@@ -19,6 +19,7 @@
 #
 #    Contact: Thierry.EXCOFFIER@bat710.univ-lyon1.fr
 
+import inspect
 from .. import inscrits
 from .. import data
 from ..utilities import warn
@@ -98,7 +99,17 @@ def student_add_allowed(table):
     
     warn('%s allow_student_removal %s' % (
         table.ue, configuration.allow_student_removal), what="table")
-    new_list = list(inscrits.L_batch.students(table.ue_code))
+
+    # Check if it is an old 'students' method
+    args = inspect.getargspec(inscrits.L_batch.students).args    
+    if 'year' in args and 'semester' in args:
+        new_list = inscrits.L_batch.students(table.ue_code,
+                                             year=table.year,
+                                             semester=table.semester)
+    else:
+        new_list = inscrits.L_batch.students(table.ue_code)
+    
+    new_list = list(new_list)
     old_list = set(table.logins_valid())
     nr_to_delete = len( old_list
                         - set(x[0] for x in new_list) )
