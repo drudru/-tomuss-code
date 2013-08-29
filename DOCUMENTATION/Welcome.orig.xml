@@ -49,7 +49,7 @@ body { margin-left: 5mm ; margin-right: 5mm ; }
   </style>
 
   <body>
-    <h1>TOMUSS Technical Reference</h1>
+    <h1><a href="http://perso.univ-lyon1.fr/thierry.excoffier/TOMUSS/home.html">TOMUSS</a> Technical Reference</h1>
 
     <p>
 Table of content:

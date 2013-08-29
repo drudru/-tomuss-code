@@ -25,6 +25,7 @@ import collections
 import gc
 import cgi
 import math
+import sys
 from .. import objgraph
 from .. import plugin
 from .. import utilities
@@ -242,14 +243,15 @@ def gcbig(server):
     log2 = math.log(2)
     for o in gc.get_objects():
         try:
-            sizes[ int(math.log(len(o)+1)/log2) ].append(o)
+            sizes[ int(math.log(sys.getsizeof(o)+1)/log2) ].append(o)
         except:
             pass
+    total = 0
     for n, objects in enumerate(sizes):
-        server.the_file.write('%d-%d: %d objects (%d items)\n' % (
-                2**n, 2**(n+1)-1, len(objects),
-                sum(len(o) for o in objects))
-                )
+        size = sum(sys.getsizeof(o) for o in objects)
+        total += size
+        server.the_file.write('%d-%d: %d objects (%d bytes)\n' % (
+                2**n, 2**(n+1)-1, len(objects), size))
         if len(objects) < 10:
             for o in objects:
                 server.the_file.write('   <a href="object/%d">%s</a>\n' % (
@@ -258,6 +260,7 @@ def gcbig(server):
         
         
     server.the_file.write('</pre>')
+    server.the_file.write('Total: %d bytes\n' % total)
     
 
 
