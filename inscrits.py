@@ -312,9 +312,14 @@ class LDAP_Logic(object):
         if ' ' in name and len(name) >= 3:
             q = '(|' + q + '(%s=%s*)' % (configuration.attr_surname,
                                          utilities.safe_space_quote(name))+ ')'
-        if base:
-            q = '(&(memberof=' + base + ')' + q + ')'
 
+        if base:
+            if base.startswith("CN="):
+                q = '(&(memberof=' + base + ')' + q + ')'
+                base = configuration.ou_top
+        else:
+            base = configuration.ou_top
+                
         q = '(&(objectClass=person)' + q + ')' # To accelerate query
 
         if attributes == None:
@@ -322,8 +327,9 @@ class LDAP_Logic(object):
                           configuration.attr_surname,
                           configuration.attr_firstname]
         nr = 100 # Maximum number of answer
+        print base
         aa = self.query(q,
-                        base=configuration.ou_top,
+                        base=base,
                         attributes=attributes,
                         async=nr+1
                         )
