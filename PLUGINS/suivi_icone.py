@@ -40,7 +40,10 @@ def student_icone(server):
     
     prst = []
     note = []
-    for t in suivi_student.the_ues(server.year, server.semester, login):
+    ues = suivi_student.the_ues(server.year, server.semester, login)
+    if not ues:
+        return
+    for t in ues:
         for line in t.get_lines(login):
             prst += t.lines.line_indicator(line, what='Prst')
             note += t.lines.line_indicator(line, what='Note')
