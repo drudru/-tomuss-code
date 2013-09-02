@@ -64,8 +64,8 @@ var url = "%s" ;
 bilan("%s","%s",%s,%s,%s,%s,%s,%s,%s) ;
 --></SCRIPT>''' % (
                configuration.url_files,
-               configuration.server_url,
                server.ticket.ticket,
+               configuration.server_url,
                server.ticket.ticket, server.the_student, v,
                utilities.js(firstname.encode('utf8')),
                utilities.js(surname.title().encode('utf8')),
