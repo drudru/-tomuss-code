@@ -141,6 +141,11 @@ def teacher_can_see_suivi(server, the_student):
                                   ('grp:see_private_suivi',)):
         return priv, True
 
+    # The current referent only, not the old ones
+    year, semester = configuration.year_semester
+    if referent.referent(year, semester, the_student)==server.ticket.user_name:
+        return priv, True
+    
     local = configuration.visible_from_suivi(server, the_student)
     if local is not None:
         return priv, local
@@ -157,11 +162,6 @@ def teacher_can_see_suivi(server, the_student):
                 if cell.author == server.ticket.user_name:
                     return priv, True
     
-    # The current referent only, not the old ones
-    year, semester = configuration.year_semester
-    if referent.referent(year, semester, the_student)==server.ticket.user_name:
-        return priv, True
-
     return priv, False
         
 
