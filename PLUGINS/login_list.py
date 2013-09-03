@@ -69,4 +69,5 @@ plugin.Plugin('login_list', '/login_list/{*}',
               group='staff',
               mimetype = 'application/x-javascript',
               launch_thread=True,
+              priority = -10 # Before student_redirection
               )
