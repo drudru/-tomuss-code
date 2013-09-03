@@ -1042,9 +1042,10 @@ class Table(object):
             {
             if ( ! wait_scripts("initialize()") )
                return ;
-            var t = document.getElementsByClassName("loading_bar");
+            var t = document.getElementsByTagName("DIV");
             for(var i=0; i<t.length; i++)
-                t[i].parentNode.removeChild(t[i]) ;
+                if ( t[i].className == "loading_bar" )
+                    t[i].parentNode.removeChild(t[i]) ;
             document.write(head_html()) ;
             insert_middle();
             ''')
