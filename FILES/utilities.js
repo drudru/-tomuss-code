@@ -409,7 +409,7 @@ function hidden_over(event)
   }
   
   var value = compute_tip(target) ;
-  show_the_tip(target, value) ;
+  show_the_tip(target, value, target.id ? target.id : target.textContent) ;
 }
 
 function hidden_out()
@@ -1513,6 +1513,47 @@ Cell.prototype.toString = cell_tostring ;
 Cell.prototype.get_author = cell_get_author ;
 Cell.prototype.date_DDMMYYYY = cell_date_DDMMYYYY ;
 
+/*
+ * GUI recording
+ */
+
+function GUI_record()
+{
+  if ( true )
+    {
+      this.debug = document.createElement('PRE') ;
+      this.debug.style = 'position:fixed;bottom:0;right:0;width:40em;height:50%;overflow:auto;background:white' ;
+    }
+  this.start = millisec() ;
+  this.events = [] ;
+}
+
+GUI_record.prototype.add = function(attr_name, event, value) {
+  if ( event )
+    {
+      event = the_event(event) ;
+      if ( event.target.tagName == 'INPUT' )
+	value = event.target.value ;
+      else if ( /^t_column_/.test(attr_name)  )
+	value = the_current_cell.column[attr_name.replace("t_column_","")] ;
+      else if ( /^t_table_attr_/.test(attr_name)  )
+	value = table_attr[attr_name.replace("t_table_attr_","")] ;
+      else
+	value = '?' ;
+    }
+  
+  this.events.push([millisec()-this.start, attr_name, value]) ;
+  if ( this.debug !== undefined )
+    {
+      if ( the_body )
+	the_body.appendChild(this.debug) ;
+
+      this.debug.innerHTML += this.events[this.events.length-1] + '\n' ;
+      this.debug.scrollTop = 100000000 ;
+    }
+} ;
+  
+GUI = new GUI_record() ;
 
 
 /******************************************************************************

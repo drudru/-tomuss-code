@@ -412,7 +412,7 @@ function header_input(the_id, the_header_name, options)
 {
   var classe='', onkey='', before='', after='' ;
   // Don't call onblur twice (IE bug) : so no blur if not focused
-  var onblur='if(element_focused===undefined)return;element_focused=undefined;';
+  var onblur='if(element_focused===undefined)return;element_focused=undefined;GUI.add(\'' + the_id + '\', event) ;';
 
   if ( options && (!options.search || options.search('"') != -1) )
     alert('BUG : header_input parameter: ' + the_id + ' ' + options) ;
@@ -465,8 +465,9 @@ function an_input_attribute(attr, options, prefix_id, prefix_)
       return hidden_txt(header_input(the_id, prefix_ + attr.name,options),tip);
     case 'GUI_a':
       return hidden_txt('<a href="javascript:'
-			+ attr.action + '(\'' + the_id + '\')"' +
-			' id="' + the_id + '">' +
+			+ attr.action + '(\'' + the_id + '\');'
+			+ 'GUI.add(\'' + the_id + '\');"'
+			+ ' id="' + the_id + '">' +
 			title + '</a>', tip) ;
     case 'GUI_none':
       return title ;
@@ -475,6 +476,7 @@ function an_input_attribute(attr, options, prefix_id, prefix_)
       return hidden_txt('<button class="gui_button" id="'
 			+ the_id + '" '
 			+ 'onclick="' + attr.action + '(this);'
+			+ 'GUI.add(\'' + the_id + '\',event);'
 			+ 'setTimeout(\'linefilter.focus()\',100)"'
 			+ '>' + title + '</button>',
 			tip) ;
@@ -488,7 +490,8 @@ function an_input_attribute(attr, options, prefix_id, prefix_)
 			+ the_id + '" onChange="this.blur();'
                         + "header_change_on_update(event,this,'" +
 			prefix_ + attr.name + "');"
-			+ attr.action + '(this)"'
+			+ attr.action + '(this);'
+			+ 'GUI.add(\'' + the_id + '\',event);"'
                         + ' onblur="if(element_focused===undefined)return;element_focused=undefined;">'
                         + opts + '</select>',
 			tip) ;
@@ -519,7 +522,7 @@ function create_tabs(name, tabs, more)
   var s = ['<div class="tabs" id="' + name + '"><div class="titles">'] ;
   for(var i in tabs)
      s.push('<span id="title_' + tabs[i][0] + '" onclick="last_user_interaction=millisec();select_tab(\'' + name + "','" +
-            tabs[i][0] + '\');">' + tabs[i][0]
+            tabs[i][0] + '\',1);">' + tabs[i][0]
              + '</span>') ;
   s.push(more + '</div><div class="contents">') ;
   for(var i in tabs)
@@ -530,7 +533,7 @@ function create_tabs(name, tabs, more)
   return s.join('') ;
 }
 
-function select_tab(name, tab)
+function select_tab(name, tab, gui)
 {
   var tabs = document.getElementById(name) ;
   if ( ! tabs )
@@ -546,6 +549,8 @@ function select_tab(name, tab)
             child.className = '' ;
         else
             child.className = 'tab_selected' ;
+  if ( gui && GUI )
+    GUI.add('tab_' + name, '', tab) ;
 }
 
 function selected_tab(name)
@@ -721,22 +726,22 @@ function new_new_interface()
 			  + ' beforeclass=greentext')) ;
   t.push('</div>') ;
   t.push('<div class="one_line" style="text-align:center">') ;
-  t.push(hidden_txt('<img src="_FILES_/prev.gif" style="height:1em" onclick="do_move_column_left();">',
+  t.push(hidden_txt('<img src="_FILES_/prev.gif" style="height:1em" onclick="do_move_column_left();GUI.add(\'column_position\',\'\',\'left\')">',
 		    _("TIP_column_move_left"))) ;
   t.push(hidden_txt(_("TITLE_column_attr_position"),
 		    _("TIP_column_local_attr"),"","column_attr_position")) ;
-  t.push(hidden_txt('<img src="_FILES_/next.gif" style="height:1em" onclick="do_move_column_right();">',
+  t.push(hidden_txt('<img src="_FILES_/next.gif" style="height:1em" onclick="do_move_column_right();GUI.add(\'column_position\',\'\',\'right\')">',
 		    _("TIP_column_move_right"))) ;
   t.push('&nbsp;') ;
   /*
   t.push('</div>') ;
   t.push('<div class="one_line" style="text-align:center">') ;
   */
-  t.push(hidden_txt('<a href="javascript:smaller_column();"><img src="_FILES_/next.gif" style="height:1em;border:0"><img src="_FILES_/prev.gif" style="height:1em;border:0"></a>',
+  t.push(hidden_txt('<a href="javascript:smaller_column();GUI.add(\'column_width\',\'\',\'smaller\')"><img src="_FILES_/next.gif" style="height:1em;border:0"><img src="_FILES_/prev.gif" style="height:1em;border:0"></a>',
 		    _("TIP_column_thinner"))) ;
   t.push(hidden_txt(_("TITLE_column_attr_width"),
 		    _("TIP_column_local_attr"), "", "column_attr_width")) ;
-  t.push(hidden_txt('<a href="javascript:bigger_column();"><img src="_FILES_/prev.gif" style="height:1em;border:0"><img src="_FILES_/next.gif" style="height:1em;border:0"></a>',
+  t.push(hidden_txt('<a href="javascript:bigger_column();GUI.add(\'column_width\',\'\',\'bigger\')"><img src="_FILES_/prev.gif" style="height:1em;border:0"><img src="_FILES_/next.gif" style="height:1em;border:0"></a>',
 		    _("TIP_column_larger"))) ;
   t.push('</div>') ;
   t.push('<div class="one_line">') ;

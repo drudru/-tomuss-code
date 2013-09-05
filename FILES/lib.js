@@ -420,6 +420,7 @@ function filter_keyup(event)
   var e = the_event(event) ;
   if ( e.keyCode > 40 || e.keyCode == 8 )
     header_change_on_update(e, e.target, '') ;
+  GUI.add("column_filter", event);
 }
 
 function empty_header(event)
@@ -633,7 +634,7 @@ function mouse_over(event)
 var the_current_line ;
 var instant_tip_display ;
 
-function show_the_tip(td, tip_content)
+function show_the_tip(td, tip_content, what)
 {
   if ( body_on_mouse_up_doing )
     return ;
@@ -664,6 +665,7 @@ function show_the_tip(td, tip_content)
 		return ;
 	    }
 	  s = _(type['tip_' + td.parentNode.className.split(' ')[0]]) ;
+	  what = td.parentNode.className.split(' ')[0] ;
 	  remove_highlight() ;
 	}
       else
@@ -690,6 +692,7 @@ function show_the_tip(td, tip_content)
 	  remove_highlight() ;
 	  the_current_line = td.parentNode ;
 	  td.parentNode.className += ' highlight_current' ;
+	  what = 'cell' ;
 	}
       if ( s === '' )
 	{
@@ -740,10 +743,14 @@ function show_the_tip(td, tip_content)
 				      if ( tip_content !== undefined )
 					tip.tip_target = td ;
 				      set_tip_position(td, bottom) ;
-				      tip.style.display = "block" ; }
+				      tip.style.display = "block" ;
+				      GUI.add('tip', '', what) ;
+  }
   tip_plus.onmouseout = function() {tip.do_not_hide = false ;
-				      tip_plus.style.display = "none" ;
-				      hide_the_tip_real() ; }
+				    tip_plus.style.display = "none" ;
+				    hide_the_tip_real() ;
+				    GUI.add('tip', '', '') ;
+  }
   
   return tip ;
 }
@@ -835,8 +842,8 @@ function start_table_drag(event)
   thetable.start_drag_y = event.y ;
   thetable.start_drag_x = event.x ;
 
-  set_body_onmouseup() ; // ??? Why not working in HTML TAG
   body_on_mouse_up_doing = "table_drag" ;
+  set_body_onmouseup() ; // ??? Why not working in HTML TAG
   the_body.onmousemove = function(event) {
     event = the_event(event) ;
     var d = (thetable.start_drag_y - event.y)
@@ -872,7 +879,6 @@ function start_table_drag(event)
 // table innerHTML is not supported by anyone
 
 var colgroup ;
-
 
 function table_init()
 {
@@ -928,12 +934,10 @@ function table_init()
 
   // Header lines
 
-  var input_line = '<INPUT TYPE="TEXT" onfocus="header_focus(this)" onChange="header_change_on_update(event,this,\'\');" onblur="element_focused=undefined">' ;
-
   tr_title = document.createElement('tr') ;
   tr_title.className = 'column_title' ;
   var th = document.createElement('th') ;
-  th.innerHTML = '<div onmousedown="header_title_click(this);sort_column(event) ;"><span></span><img src="_FILES_/sort_down.png" width="12"><img src="_FILES_/sort_down2.png" width="12"></div>' ;
+  th.innerHTML = '<div onmousedown="header_title_click(this);sort_column(event);GUI.add(\'column_sort\',\'\',the_current_cell.column.title)"><span></span><img src="_FILES_/sort_down.png" width="12"><img src="_FILES_/sort_down2.png" width="12"></div>' ;
   for(var i = 0 ; i < table_attr.nr_columns ; i++ )
     {
       var th2 = th.cloneNode(true) ;
@@ -942,14 +946,13 @@ function table_init()
     }
   table.appendChild(tr_title) ;
 
-  th.innerHTML = input_line ;
+  th.innerHTML = '<INPUT TYPE="TEXT" onfocus="header_focus(this)" onblur="element_focused=undefined">' ;
   tr_filter = document.createElement('tr') ;
   tr_filter.className = 'filter' ;
   for(var i = 0 ; i < table_attr.nr_columns ; i++ )
     {
       var th2 = th.cloneNode(true) ;
       th2.onclick = empty_header ;
-      th2.childNodes[0].onchange = function(event) { } ;
       th2.onpaste = header_paste ;
       tr_filter.appendChild(th2) ;
       th2.type = tr_filter.className ;
@@ -1182,6 +1185,8 @@ function update_horizontal_scrollbar_cursor()
 // IE bug for BODY, must use document for this event
 function set_body_onmouseup()
 {
+  GUI.add(body_on_mouse_up_doing, '', 'start') ;
+
   if ( the_body.onmouseupold === undefined )
     the_body.onmouseupold = the_body.onmouseup ;
   the_body.onmouseup = body_on_mouse_up ;
@@ -1212,8 +1217,8 @@ function move_horizontal_scrollbar_begin(event)
   the_current_cell.focus() ; // Take focus to do the necessary 'blurs'
   var col = the_event(event).target.col ;
   page_horizontal(0, col) ;
-  set_body_onmouseup() ; // ??? Why not working in HTML TAG
   body_on_mouse_up_doing = "horizontal_scrollbar_drag" ;
+  set_body_onmouseup() ; // ??? Why not working in HTML TAG
   the_body.onmousemove = function(event) {
     var x = the_event(event).x ;
     var b ;
@@ -1407,6 +1412,7 @@ function body_on_mouse_up(event)
 {
   if ( body_on_mouse_up_doing )
     {
+      GUI.add(body_on_mouse_up_doing, '', 'stop') ;
       var was_doing = body_on_mouse_up_doing ;
       the_body.onmouseup = the_body.onmouseupold ;
       the_body.onmousemove = function() { } ;
@@ -1431,8 +1437,8 @@ function body_on_mouse_up(event)
 
 function move_vertical_scrollbar_begin(event)
 {
-  set_body_onmouseup() ; // ??? Why not working in HTML TAG
   body_on_mouse_up_doing = "vertical_scrollbar_drag" ;
+  set_body_onmouseup() ; // ??? Why not working in HTML TAG
   the_body.onmousemove = move_scrollbar ;
   move_scrollbar(event) ;
   stop_event(the_event(event));
