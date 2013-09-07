@@ -1586,7 +1586,24 @@ GUI_record.prototype.add = function(attr_name, event, value) {
       this.debug.scrollTop = 100000000 ;
     }
 } ;
-  
+
+GUI_record.prototype.add_key = function(event, value) {
+  var id = (
+	    (event.metaKey ? 'M' : '') +
+	    (event.shiftKey ? 'S' : '') +
+	    (event.ctrlKey ? '^' : '') +
+	    event.keyCode
+	    ) ;
+  if ( value === undefined )
+    {
+      if ( element_focused )
+	value = "input" ;
+      else
+	value = "cell" ;
+    }
+  this.add(id, "", value) ;
+}
+
 GUI = new GUI_record() ;
 
 
@@ -2167,7 +2184,10 @@ function current_keydown(event, in_input)
   if ( popup_is_open() )
     {
       if ( key == 27 )
-	popup_close() ;
+	{
+	  GUI.add_key(event, "popup-close") ;
+	  popup_close() ;
+	}
       return ;
     }
   if ( element_focused )
@@ -2185,6 +2205,7 @@ function current_keydown(event, in_input)
 	  var nb_item = element_focused.childNodes.length ;
 	  if ( key == 38 || key == 40 )
 	    {
+	      GUI.add_key(event, "select") ;
 	      if ( element_focused.my_selected_index
 		   != element_focused.selectedIndex )
 		{
@@ -2204,6 +2225,7 @@ function current_keydown(event, in_input)
 	    }
 	  else if ( key == 13 || key == 27 )
 	    {
+	      GUI.add_key(event, "select") ;
 	      event.target = element_focused ;
 	      element_focused.onchange(event) ;
 	      stop_event(event) ;
@@ -2250,10 +2272,12 @@ function current_keydown(event, in_input)
       switch( key )
 	{
 	case 70: // F
+	  GUI.add_key(event, "find") ;
 	  control_f() ;
 	  stop_event(event) ;
 	  return false ;
 	case 80: // P
+	  GUI.add_key(event, "print") ;
 	  print_selection() ;
 	  stop_event(event) ;
 	  return false ;
@@ -2267,13 +2291,13 @@ function current_keydown(event, in_input)
     selection = get_selection(event.target) ;
   switch(key)
     {
-    case 40: this.cursor_down() ; break ;
-    case 13: this.cursor_down() ; break ;
-    case 38: this.cursor_up()   ; break ;
-    case 34: next_page()        ; break ;
-    case 33: previous_page()    ; break ;
-    case 36: first_page()       ; break ;
-    case 35: last_page()        ; break ;
+    case 40: this.cursor_down() ; GUI.add_key(event) ; break ;
+    case 13: this.cursor_down() ; GUI.add_key(event) ; break ;
+    case 38: this.cursor_up()   ; GUI.add_key(event) ; break ;
+    case 34: next_page()        ; GUI.add_key(event) ; break ;
+    case 33: previous_page()    ; GUI.add_key(event) ; break ;
+    case 36: first_page()       ; GUI.add_key(event) ; break ;
+    case 35: last_page()        ; GUI.add_key(event) ; break ;
     case 37:
       if ( event.shiftKey )
 	return true ;
@@ -2286,15 +2310,19 @@ function current_keydown(event, in_input)
 		   selection.end === 0)
 	       )
 	   )
-	this.cursor_left() ;
+	{
+	  GUI.add_key(event) ;
+	  this.cursor_left() ;
+	}
       else
 	return true ;
       break ;
     case 9:
+      GUI.add_key(event) ;
       if ( event.shiftKey )
-	this.cursor_left() ;
+	  this.cursor_left() ;
       else
-	this.cursor_right() ;
+	  this.cursor_right() ;
       break ;
     case 39:
       if ( event.shiftKey )
@@ -2306,12 +2334,16 @@ function current_keydown(event, in_input)
 			  || this.input.value.length == selection.end
 			  )
 	   )
-	this.cursor_right() ;
+	{
+	  GUI.add_key(event) ;
+	  this.cursor_right() ;
+	}
       else
 	return true ;
       break ;
     case 27: // Escape Key
       // alert('' + this.input.value + '/' + this.initial_value) ;
+      GUI.add_key(event) ;
       if ( element_focused )
 	{
 	  element_focused.value = element_focused.initial_value ;
