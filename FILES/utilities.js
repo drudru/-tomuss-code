@@ -1554,9 +1554,11 @@ GUI_record.prototype.save = function()
 GUI_record.prototype.initialize = function()
 {
   this.events = [] ;
-  var bod = document.getElementsByTagName('BODY')[0] ;
-  this.onbeforeunload = bod.onbeforeunload  
-  bod.onbeforeunload = this.save.bind(this) ;
+
+  this.body = document.getElementsByTagName('BODY')[0] ;
+  this.body.appendChild(this.debug) ;
+  this.onbeforeunload = this.body.onbeforeunload  
+  this.body.onbeforeunload = this.save.bind(this) ;
   this.initialized = true ;
 }
 
@@ -1575,13 +1577,21 @@ GUI_record.prototype.add = function(attr_name, event, value) {
       else
 	value = '?' ;
     }
-  
+  if ( attr_name == 'tip' && ! value )
+    {
+      var last = this.events[this.events.length-1] ;
+      // If the tip is visible less than 0.1s do not record it
+      if ( millisec() - this.start - last[0] < 100 && last[1] == 'tip' )
+	{
+	  this.events.splice(this.events.length-1, 1) ;
+	  if ( this.debug !== undefined )
+	    this.debug.innerHTML += 'Remove previous event\n' ;
+	  return ;
+	}	  
+    }
   this.events.push([millisec()-this.start, attr_name, value]) ;
   if ( this.debug !== undefined )
     {
-      if ( the_body )
-	the_body.appendChild(this.debug) ;
-
       this.debug.innerHTML += this.events[this.events.length-1] + '\n' ;
       this.debug.scrollTop = 100000000 ;
     }

@@ -100,6 +100,7 @@ variable_list = [
     "year_semester_modifiable",
     "suivi_student_allow_private",
     "max_visibility_date",
+    "gui_record",
     ]
 
 deprecated = set(('root', 'invited_teachers', 'invited_administratives',

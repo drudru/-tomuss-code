@@ -305,6 +305,10 @@ suivi_student_message = ""
 # Allow the students to make their 'suivi' page private
 suivi_student_allow_private = False
 
+# Allow the recording of user interaction with the table editor
+gui_record = False
+
+
 ###############################################################################
 # The following variables should be fine for testing purpose (local server)
 ###############################################################################
