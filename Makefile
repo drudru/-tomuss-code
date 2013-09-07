@@ -30,7 +30,7 @@ clean:
          done || true
 
 tags:
-	etags $$(git ls-files -- '*.js' '*.py')
+	etags $$(git ls-files -- '*.js' '*.py') $$(cd LOCAL ; git ls-files -- '*.js' '*.py' | sed 's,^,LOCAL/,') 
 
 regtest:clean translations
 	cd REGTEST_SERVER ; ./tests.py 2>/dev/null
