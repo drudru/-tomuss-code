@@ -1515,20 +1515,52 @@ Cell.prototype.date_DDMMYYYY = cell_date_DDMMYYYY ;
 
 /*
  * GUI recording
+ * Debug mode if =gui-record= in the URL
  */
 
 function GUI_record()
 {
-  if ( true )
+  if ( /=gui-record=/.test(window.location.pathname) )
     {
       this.debug = document.createElement('PRE') ;
       this.debug.style = 'position:fixed;bottom:0;right:0;width:40em;height:50%;overflow:auto;background:white' ;
     }
   this.start = millisec() ;
+  this.start_o = new Date() ;
+}
+
+GUI_record.prototype.save = function()
+{
+  if ( this.onbeforeunload )
+    this.onbeforeunload() ;
+  if ( connection_state != 'ok' )
+    return ;
+  var s = [] ;
+  for(var i in this.events)
+    s.push('[' + this.events[i][0]
+	   + ',"' + this.events[i][1] + '"'
+	   + (this.events[i][2] ? ',' + js(this.events[i][2]) : '')
+	   + ']') ;
+
+  // Python/JS compatible
+  do_post_data({'table': year + '/' + semester + '/' + ue,
+	'start': this.start_o.formate("%Y%m%d%H%M%S"),
+	'data': '[' + s.join(',') + ']'},
+    url + '/=' + ticket + '/gui_record') ;  
+}
+
+GUI_record.prototype.initialize = function()
+{
   this.events = [] ;
+  var bod = document.getElementsByTagName('BODY')[0] ;
+  this.onbeforeunload = bod.onbeforeunload  
+  bod.onbeforeunload = this.save.bind(this) ;
+  this.initialized = true ;
 }
 
 GUI_record.prototype.add = function(attr_name, event, value) {
+  if ( ! this.initialized )
+    this.initialize() ;
   if ( event )
     {
       event = the_event(event) ;

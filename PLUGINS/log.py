@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 #    TOMUSS: The Online Multi User Simple Spreadsheet
-#    Copyright (C) 2010 Thierry EXCOFFIER, Universite Claude Bernard
+#    Copyright (C) 2010-2013 Thierry EXCOFFIER, Universite Claude Bernard
 #
 #    This program is free software; you can redistribute it and/or modify
 #    it under the terms of the GNU General Public License as published by
@@ -21,7 +21,9 @@
 
 import os
 import time
+import ast
 from .. import plugin
+from .. import utilities
 
 last = 0
 
@@ -45,5 +47,34 @@ plugin.Plugin('log', '/log/{*}',
               function = log,
               authenticated = False,
               group='staff',
+              )
+
+
+def gui_record(server):
+    """Store a text in a log file"""
+    posted_data = server.get_posted_data()
+    server.the_file.write("<script>window.close()</script>")
+    if posted_data is None:
+        return
+
+    table = posted_data['table'][0]
+    start = posted_data['start'][0]
+    data = posted_data['data'][0]
+    try:
+        ast.literal_eval(data)
+        ast.literal_eval(start)
+    except:
+        utilities.send_backtrace(data, "GUI record")
+        return
+    
+    utilities.manage_key('LOGINS', os.path.join(server.ticket.user_name, 'GUI_record'),
+                         content='R(' + utilities.js(table) + ','
+                         + utilities.js(start) + ','
+                         + data + ')\n', append=True)
+
+plugin.Plugin('gui_record', '/gui_record',
+              function = gui_record,
+              group='staff',
+              launch_thread=True,
               )
 
