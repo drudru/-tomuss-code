@@ -4467,6 +4467,9 @@ msgstr "Temps : Interval de temps pour l'envoi de paquets pour garder les connex
 msgid "config_table_max_visibility_date"
 msgstr "Temps : nombre de jours autorisés dans le futur pour la date de visibilité"
 
+msgid "config_table_gui_record"
+msgstr "Si True, alors on enregistre toutes les actions utilisateur dans l'éditeur de table"
+
 msgid "config_table_logo"
 msgstr "URL du logo de fond d'écran"
 

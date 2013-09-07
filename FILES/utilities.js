@@ -1531,6 +1531,8 @@ function GUI_record()
 
 GUI_record.prototype.save = function()
 {
+  if ( ! gui_record )
+    return ;
   if ( this.onbeforeunload )
     this.onbeforeunload() ;
   if ( connection_state != 'ok' )

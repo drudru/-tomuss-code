@@ -4410,6 +4410,9 @@ msgstr "Time: Period for sending packets to browser to keep the connection open.
 msgid "config_table_max_visibility_date"
 msgstr "Time : Number of days in the future allowed for column visibility date"
 
+msgid "config_table_gui_record"
+msgstr "If True, then record all user interaction in the table editor"
+
 msgid "config_table_logo"
 msgstr "URL of background logo"
 

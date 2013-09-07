@@ -215,8 +215,9 @@ def table_head(year=None, semester=None, the_ticket=None,
             'lines = {};\n' +
             'columns = [];\n' +
             'lines_to_load = 0 ;\n' +
-            'ticket_time_to_live = %d ;\n' % configuration.ticket_time_to_live+
-            'max_visibility_date = %d ;\n' % configuration.max_visibility_date+
+            'ticket_time_to_live = %d ;\n' % configuration.ticket_time_to_live +
+            'max_visibility_date = %d ;\n' % configuration.max_visibility_date +
+            'gui_record = %d ;\n' % int(configuration.gui_record) +
             'check_down_connections_interval = %d ;\n' % configuration.check_down_connections_interval +
             'table_attr = {\n' +
                 ',\n'.join(attr.name+':'+js(
