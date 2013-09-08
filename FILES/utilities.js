@@ -1558,9 +1558,9 @@ GUI_record.prototype.initialize = function()
   this.body = document.getElementsByTagName('BODY')[0] ;
   if ( this.debug )
       this.body.appendChild(this.debug) ;
+  this.initialized = true ;
   this.onbeforeunload = this.body.onbeforeunload  
   this.body.onbeforeunload = this.save.bind(this) ;
-  this.initialized = true ;
 }
 
 GUI_record.prototype.add = function(attr_name, event, value) {
