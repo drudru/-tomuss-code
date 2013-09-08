@@ -274,6 +274,8 @@ class Table(object):
         self.lines = Lines(self.columns)
         self.the_lock = threading.Lock()
         self.ro = ro
+        if ro:
+            self.modifiable = False
         self.mtime = 0
         self.the_key_dict = collections.defaultdict(list)
         self.unloaded = False
@@ -332,6 +334,8 @@ class Table(object):
                 data.end()
 
         else:
+            if ro:
+                return # Do not create the table
             # Remove this file because it is created the same second
             # than the .py file, So it is not recompiled in some case.
             # os.remove(self.filename + 'c')
