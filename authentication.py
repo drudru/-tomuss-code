@@ -90,6 +90,8 @@ def ticket_login_name(ticket_key, service, server=None):
 
     if test == 'yes':
         login_name = casdata.readlines()[0].strip().lower()
+        if login_name[0].isdigit():
+            login_name = "an_hacker_is_here"
     else:
         casdata.read()
         login_name = False
