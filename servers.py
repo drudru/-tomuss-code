@@ -36,7 +36,9 @@ class Suivi(object):
             return ()
     def servers(self):
         done = set()
-        for url, port, year, semester, host in self.urls.values():
+        servers = list(self.urls_sorted())
+        servers.reverse() # most recent servers first
+        for url, port, year, semester, host in servers:
             if port in done:
                 continue
             done.add(port)
