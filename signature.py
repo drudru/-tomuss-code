@@ -87,7 +87,14 @@ class Question(object):
             except KeyError:
                 message = self.message
         else:
-            message = '<pre>' + cgi.escape(self.message) + '</pre>'
+            biggest_line = max(len(line)
+                               for line in self.message.split('\n'))
+            if biggest_line < 80:
+                message = '<pre>' + cgi.escape(self.message) + '</pre>'
+            else:
+                message = '<tt>' + cgi.escape(self.message).replace('\n',
+                                                                    '<br>'
+                                                                    ) + '</tt>'
         t = (
             '<div id="message%s">' % self.message_id
             + re.sub("{{{([^}]*)}}}", '<button ' + button + '>\\1</button>',
