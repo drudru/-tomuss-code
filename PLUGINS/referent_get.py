@@ -52,9 +52,9 @@ def referent_get_a_student(server, login, students, student,
                 try:
                     utilities.send_mail_in_background(
                         inscrits.L_fast.mail(old_referent),
-                        server.__("MSG_referent_get_subject")
+                        utilities.__("MSG_referent_get_subject")
                         % (student, firstname, surname),
-                        server.__("MSG_referent_get_message")
+                        utilities.__("MSG_referent_get_message")
                         % (student, firstname, surname, login),
                         frome=configuration.maintainer, show_to=True)
                 except:
