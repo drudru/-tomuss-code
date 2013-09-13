@@ -259,6 +259,7 @@ def warn(text, what='info'):
         except:
             live_log = None
 
+@add_a_lock
 def send_mail(to, subject, message, frome=None, show_to=False):
     "Not safe with user given subject"
     import smtplib

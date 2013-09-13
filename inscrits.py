@@ -327,7 +327,6 @@ class LDAP_Logic(object):
                           configuration.attr_surname,
                           configuration.attr_firstname]
         nr = 100 # Maximum number of answer
-        print base
         aa = self.query(q,
                         base=base,
                         attributes=attributes,
