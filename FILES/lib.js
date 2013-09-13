@@ -3105,6 +3105,7 @@ function click_to_revalidate_ticket()
  * may be called more than one in a period.
  * When a function is added to the list, it goes to the end,
  * so it is processed after the others.
+ * The same function can not be added twice
  ****************************************************************************
  */
 

@@ -53,7 +53,6 @@ plugin.Plugin('log', '/log/{*}',
 def gui_record(server):
     """Store a text in a log file"""
     posted_data = server.get_posted_data()
-    server.the_file.write("<script>window.close()</script>")
     if posted_data is None:
         return
 

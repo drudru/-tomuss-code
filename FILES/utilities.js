@@ -1533,9 +1533,11 @@ GUI_record.prototype.save = function()
 {
   if ( ! gui_record )
     return ;
-  if ( this.onbeforeunload )
-    this.onbeforeunload() ;
   if ( connection_state != 'ok' )
+    return ;
+  if ( this.events.length == 0 )
+    return ;
+  if ( ! FormData )
     return ;
   var s = [] ;
   for(var i in this.events)
@@ -1544,11 +1546,18 @@ GUI_record.prototype.save = function()
 	   + (this.events[i][2] ? ',' + js(this.events[i][2]) : '')
 	   + ']') ;
 
-  // Python/JS compatible
-  do_post_data({'table': year + '/' + semester + '/' + ue,
-	'start': this.start_o.formate("%Y%m%d%H%M%S"),
-	'data': '[' + s.join(',') + ']'},
-    url + '/=' + ticket + '/gui_record') ;  
+  var fd = new FormData();
+  fd.append("table", year + '/' + semester + '/' + ue) ;
+  fd.append("start", this.start_o.formate("%Y%m%d%H%M%S")) ;
+  fd.append("data", '[' + s.join(',') + ']') ;
+  
+  if ( window.XMLHttpRequest )
+    {
+      this.mxmlhttp = new XMLHttpRequest();
+      this.mxmlhttp.open("POST", url + '/=' + ticket + '/gui_record', true) ;
+      this.mxmlhttp.send(fd) ;
+    }
+  this.events = [] ;
 }
 
 GUI_record.prototype.initialize = function()
@@ -1559,8 +1568,6 @@ GUI_record.prototype.initialize = function()
   if ( this.debug )
       this.body.appendChild(this.debug) ;
   this.initialized = true ;
-  this.onbeforeunload = this.body.onbeforeunload  
-  this.body.onbeforeunload = this.save.bind(this) ;
 }
 
 GUI_record.prototype.add = function(attr_name, event, value) {
@@ -1582,7 +1589,7 @@ GUI_record.prototype.add = function(attr_name, event, value) {
     {
       var last = this.events[this.events.length-1] ;
       // If the tip is visible less than 0.1s do not record it
-      if ( millisec() - this.start - last[0] < 100 && last[1] == 'tip' )
+      if (last && millisec() - this.start - last[0] < 100 && last[1] == 'tip')
 	{
 	  this.events.splice(this.events.length-1, 1) ;
 	  if ( this.debug !== undefined )
@@ -1596,6 +1603,9 @@ GUI_record.prototype.add = function(attr_name, event, value) {
       this.debug.innerHTML += this.events[this.events.length-1] + '\n' ;
       this.debug.scrollTop = 100000000 ;
     }
+  // Save once per minute
+  // XXX Beware : it does not apply to 'this'
+  setTimeout("periodic_work_add(GUI_save)", 60000) ;
 } ;
 
 GUI_record.prototype.add_key = function(event, value) {
@@ -1615,7 +1625,11 @@ GUI_record.prototype.add_key = function(event, value) {
   this.add(id, "", value) ;
 }
 
-GUI = new GUI_record() ;
+var GUI = new GUI_record() ;
+function GUI_save()
+{
+  GUI.save() ;
+}
 
 
 /******************************************************************************
