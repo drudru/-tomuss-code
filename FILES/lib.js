@@ -65,6 +65,7 @@ var delayed_list ;
 var mouse_over_old_td ; // To not recompute the tip on each mousemove.
 var filtered_lines ;
 var table_fill_do_not_focus ;
+var table_fill_force_current_cell_update ;
 var table_fill_hook ;
 var next_page_col ;
 var next_page_line ;
@@ -851,7 +852,8 @@ function table_move(event)
   
   if ( thetable.last_column_offset != column_offset
        || thetable.last_line_offset != line_offset )
-    table_fill(undefined, thetable.last_column_offset != column_offset);
+    table_fill(undefined, thetable.last_column_offset != column_offset,
+	       false, true);
   
   thetable.last_column_offset = column_offset ;
   thetable.last_line_offset = line_offset ;
@@ -1885,7 +1887,7 @@ function table_fill_do()
 	    table_fill_hook = undefined ;
 	}
     // XXX_HS Do not update while the cell is being edited
-    if ( ! the_current_cell.focused )
+    if ( ! the_current_cell.focused || table_fill_force_current_cell_update )
 	{
 	    the_current_cell.update(table_fill_do_not_focus) ;
 	    // Timeout because the cell must be repositionned after
@@ -1919,7 +1921,7 @@ function manage_window_resize_event()
     {
       the_current_cell.input.blur() ;
       table_init() ;
-      table_fill(false, true, true) ;
+      table_fill(false, true, true, true) ;
       current_window_width = width ;
       current_window_height = height ;
     }
@@ -2090,13 +2092,15 @@ function login_list(name, x)
   element_focused.onchange = login_list_select ; // Here for IE
 }
 
-function table_fill(do_not_focus, display_headers, compute_filtered_lines)
+function table_fill(do_not_focus, display_headers, compute_filtered_lines,
+		    force_current_cell_update)
 {
   if ( table === undefined )
     return ;
   if ( table_forms_element )
     display_headers = false ;
   table_fill_do_not_focus = do_not_focus ;
+  table_fill_force_current_cell_update = force_current_cell_update ;
   if ( compute_filtered_lines )
       periodic_work_add(update_filtered_lines) ;
   periodic_work_add(table_fill_do) ;
@@ -2404,7 +2408,7 @@ function page_horizontal(direction, col, do_not_focus)
 
   the_current_cell.focused = false ; // XXX Kludge for XXX_HS
   table_fill_hook = table_fill_hook_horizontal ;
-  table_fill(do_not_focus, true) ;
+  table_fill(do_not_focus, true, false, true) ;
 
 
   periodic_work_do() ;
@@ -3437,7 +3441,7 @@ function Xcolumn_delete(page, col)
     Alert("MSG_refresh") ;
   the_current_cell.do_update_column_headers = true ;
   the_current_cell.update_headers() ;
-  table_fill(true, true,true) ;
+  table_fill(true, true,true,true) ;
 }
 
 function Xcolumn_attr(attr, col, value)
@@ -3948,7 +3952,7 @@ function change_size(dx, dy)
   table_attr.nr_columns += dx ;
   table_attr.nr_lines += dy ;
   table_init() ;
-  table_fill(false, true) ;
+  table_fill(false, true, false, true) ;
 }
 
 function ljust(txt, len)
@@ -3982,7 +3986,7 @@ function change_table_size(select)
       line_offset = 0 ;
     }
   table_init() ;
-  table_fill(false, true) ;
+  table_fill(false, true, false, true) ;
   update_vertical_scrollbar();
   setTimeout("the_current_cell.update()", 100);
 }
