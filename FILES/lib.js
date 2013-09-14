@@ -832,6 +832,31 @@ function init_column(column)
 
 var use_touch = true ;
 
+function table_move(event)
+{
+  event = the_event(event) ;
+  var d = (thetable.start_drag_y - event.y)
+    / the_current_cell.input.offsetHeight ;
+  line_offset = thetable.start_line_offset + Math.floor(d) ;
+  if ( line_offset < 0 )
+    line_offset = 0 ;
+  
+  d = (thetable.start_drag_x - event.x) / the_current_cell.input.offsetWidth;
+  column_offset = thetable.start_column_offset + Math.floor(d) ;
+  if ( column_offset + table_attr.nr_columns
+       > columns.length - nr_new_columns )
+    column_offset = columns.length - table_attr.nr_columns - nr_new_columns ;
+  if ( column_offset < 0 )
+    column_offset = 0 ;
+  
+  if ( thetable.last_column_offset != column_offset
+       || thetable.last_line_offset != line_offset )
+    table_fill(undefined, thetable.last_column_offset != column_offset);
+  
+  thetable.last_column_offset = column_offset ;
+  thetable.last_line_offset = line_offset ;
+}
+
 function start_table_drag(event)
 {
   event = the_event(event) ;
@@ -844,36 +869,29 @@ function start_table_drag(event)
 
   body_on_mouse_up_doing = "table_drag" ;
   set_body_onmouseup() ; // ??? Why not working in HTML TAG
-  the_body.onmousemove = function(event) {
-    event = the_event(event) ;
-    var d = (thetable.start_drag_y - event.y)
-    / the_current_cell.input.offsetHeight ;
-    line_offset = thetable.start_line_offset + Math.floor(d) ;
-    if ( line_offset < 0 )
-      line_offset = 0 ;
-    
-    d = (thetable.start_drag_x - event.x) / the_current_cell.input.offsetWidth;
-    column_offset = thetable.start_column_offset + Math.floor(d) ;
-    if ( column_offset + table_attr.nr_columns
-	 > columns.length - nr_new_columns )
-      column_offset = columns.length - table_attr.nr_columns - nr_new_columns ;
-    if ( column_offset < 0 )
-      column_offset = 0 ;
-
-    if ( thetable.last_column_offset != column_offset
-	 || thetable.last_line_offset != line_offset )
-      table_fill(undefined, thetable.last_column_offset != column_offset);
-
-    thetable.last_column_offset = column_offset ;
-    thetable.last_line_offset = line_offset ;
-  } ;
-  if ( use_touch )
-    try {
-     table.addEventListener("touchmove", the_body.onmousemove, false);
-    } catch(e) {} ;
-
+  the_body.onmousemove = table_move ;
   stop_event(event) ;
 }
+
+function do_touchstart(event)
+{
+  event = the_event(event) ;
+  thetable.start_line_offset = line_offset ;
+  thetable.start_column_offset = column_offset ;
+  thetable.start_drag_y = event.y ;
+  thetable.start_drag_x = event.x ;
+}
+
+function do_touchmove(event)
+{
+  var e = the_event(event) ;
+  if ( e.one_finger )
+    {
+      table_move(event) ;
+      stop_event(event) ;
+    }
+}
+
 
 
 // table innerHTML is not supported by anyone
@@ -928,9 +946,9 @@ function table_init()
   thetable.onmousedown = start_table_drag ;
   if ( use_touch )
     try {
-      table.addEventListener("touchstart", start_table_drag, false);
+      table.addEventListener("touchstart", do_touchstart, false);
+      table.addEventListener("touchmove", do_touchmove, false);
     } catch(e) {} ;
-
 
   // Header lines
 
@@ -1190,12 +1208,6 @@ function set_body_onmouseup()
   if ( the_body.onmouseupold === undefined )
     the_body.onmouseupold = the_body.onmouseup ;
   the_body.onmouseup = body_on_mouse_up ;
-  if ( use_touch )
-    try {
-    the_body.addEventListener("touchend", body_on_mouse_up, false);
-    } catch(e) {} ;
-
-
 
   /* // Does not work for Chrome to detect the cursor moving outside window
   the_body.onmouseout = function(event) {
@@ -1416,10 +1428,6 @@ function body_on_mouse_up(event)
       var was_doing = body_on_mouse_up_doing ;
       the_body.onmouseup = the_body.onmouseupold ;
       the_body.onmousemove = function() { } ;
-      if ( use_touch )
-         try {
-         the_body.RemoveEventListener("touchend", body_on_mouse_up, false);
-        } catch(e) {}
 
       body_on_mouse_up_doing = undefined ;
       if (display_tips_saved !== undefined )

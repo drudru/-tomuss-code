@@ -312,11 +312,15 @@ function the_event(e)
       event.x = event.pageX ;
       event.y = event.pageY ;
     }
-  if ( e.changedTouches )
+  if ( e.touches )
     {
-      var finger0 = e.changedTouches[0] ;
-      event.x = finger0.pageX ;
-      event.y = finger0.pageY ;
+      if ( e.touches.length == 1 )
+	{
+	  var finger0 = e.touches[0] ;
+	  event.x = finger0.pageX ;
+	  event.y = finger0.pageY ;
+	  event.one_finger = true ;
+	}
     }
 
   if ( event.target === undefined )
