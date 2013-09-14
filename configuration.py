@@ -30,6 +30,7 @@ Once TOMUSS server is running, the configuration can be done interactively.
 import socket
 import os
 import time
+import sys
 
 version = '5.2.9'
 
@@ -171,15 +172,18 @@ allow_student_removal = True
 # The ticket have a TTL...
 ticket_time_to_live = 10 * 3600 # in seconds
 
-# Current semester/year
-year_semester = (time.localtime()[0], semesters[0])
-
 # Semester always in the menu on the first page.
 # Other are added for each 'suivi' server.
 special_semesters = '<option>2008/Test</option>'
 
-# Next semester (usable if UE is closed)
-year_semester_next = (time.localtime()[0], semesters[1])
+# The current semester/year
+# and the next semester (usable if an UE is closed in the current one)
+if time.localtime()[1] < semesters_months[1][0] or 'real_regtest' in sys.argv:
+    year_semester = (time.localtime()[0], semesters[0])
+    year_semester_next = (time.localtime()[0], semesters[1])
+else:
+    year_semester = (time.localtime()[0], semesters[1])
+    year_semester_next = (time.localtime()[0]+1, semesters[0])
 
 # A list of pairs defining writable semesters
 year_semester_modifiable = ([2008, 'Test'],)

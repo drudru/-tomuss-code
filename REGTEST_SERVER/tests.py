@@ -19,16 +19,19 @@
 #
 #    Contact: Thierry.EXCOFFIER@bat710.univ-lyon1.fr
 
-import tomuss_init
 import sys
 import os
 import shutil
 import httplib
 import time
 
+sys.argv.append("real_regtest")
+import tomuss_init
 from .. import configuration
 from .. import utilities
 from .server import Server, ServerSuivi, check
+sys.argv.remove("real_regtest")
+
 
 configuration.regtest = True
 

@@ -79,7 +79,7 @@ class Server(object):
 
     def restart(self, mode='a', more=[]):
         stdout, stderr = self.log_files(mode)
-        self.process = subprocess.Popen(['./tomuss.py', 'regtest', 'regtest_sync'] + more,
+        self.process = subprocess.Popen(['./tomuss.py', 'regtest', 'regtest_sync', 'real_regtest'] + more,
                                         stdout = stdout.fileno(),
                                         stderr = stderr.fileno(),
                                         )
@@ -150,7 +150,7 @@ class ServerSuivi(Server):
                                          str(configuration.year_semester[0]),
                                          configuration.year_semester[1],
                                          str(self.port),
-                                         'regtest'],
+                                         'regtest', 'real_regtest'],
                                         stdout = stdout.fileno(),
                                         stderr = stderr.fileno(),
                                         )
