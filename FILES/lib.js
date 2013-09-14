@@ -1886,7 +1886,7 @@ function table_fill_do()
 	    table_fill_hook() ;
 	    table_fill_hook = undefined ;
 	}
-    // XXX_HS Do not update while the cell is being edited
+    // Do not update while the cell is being edited
     if ( ! the_current_cell.focused || table_fill_force_current_cell_update )
 	{
 	    the_current_cell.update(table_fill_do_not_focus) ;
@@ -2406,10 +2406,8 @@ function page_horizontal(direction, col, do_not_focus)
   if ( column_offset < 0 )
     column_offset = 0 ;
 
-  the_current_cell.focused = false ; // XXX Kludge for XXX_HS
   table_fill_hook = table_fill_hook_horizontal ;
   table_fill(do_not_focus, true, false, true) ;
-
 
   periodic_work_do() ;
 }
