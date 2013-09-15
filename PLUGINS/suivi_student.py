@@ -112,8 +112,11 @@ def the_ues(year, semester, login):
     if document.tables_of_student:
         student_tables = document.tables_of_student.get(login,[])
     else:
+        table_list = document.update_index(login)
+        if table_list is None:
+            return ()
         student_tables = [document.table(*t, ro=True)
-                          for t in document.update_index(login)
+                          for t in table_list
                           if t[0] == year and t[1] == semester
                           ]
         now = time.time()
