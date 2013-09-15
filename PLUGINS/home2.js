@@ -1152,13 +1152,18 @@ function go_year_after(x)
 
 function go_suivi(x)
 {
-    goto_url(suivi[year_semester()] + "/" + x) ;
+  var s = suivi[year_semester()] ;
+  if ( s === undefined )
+    s = suivi[current_year_semester()] ;
+  goto_url(s + "/" + x) ;
 }
 
 function go_suivi_student(x)
 {
-  if ( preferences.current_suivi == no )
-    goto_url(suivi[year_semester()] + "/" + x) ;
+  var s = suivi[year_semester()] ;
+  
+  if ( s && preferences.current_suivi == no )
+    goto_url(s + "/" + x) ;
   else
     goto_url(suivi[current_year_semester()] + "/" + x) ;
 }
