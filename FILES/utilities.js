@@ -2103,7 +2103,7 @@ function current_cursor_down()
   this.change() ;
   if ( this.lin == table_attr.nr_lines + nr_headers - 1 )
     {
-      next_page(true) ;
+      next_page(true, 1) ;
       // table_fill_try() ; // Want change NOW (bad input if fast typing)
     }
   else
@@ -2117,7 +2117,7 @@ function current_cursor_up()
     {
       if ( line_offset !== 0 )
 	{
-	  previous_page(true) ;
+	  previous_page(true, 1) ;
 	  // table_fill_try() ; // Want change NOW (bad input if fast typing)
 	}
     }
