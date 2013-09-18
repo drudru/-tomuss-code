@@ -482,9 +482,11 @@ function student_click_more(t)
 	+ '<a href="javascript:toggle_favorite_student(\'' + login
 	+ '\')">' + message + '</a><br>' + more_link
 	+ '<img class="photo" src="' + student_picture_url(login) + '">'
-	+ '<img class="bigicone" src="'+suivi[year_semester()] + '/_' + login
-	+ '"><br>'
-	+ '<small>' + _("TIP_home_squares") + '</small>' ;
+        + (suivi[year_semester()] !== undefined ?
+	   '<img class="bigicone" src="'+suivi[year_semester()] + '/_' + login
+	   + '"><br>'
+	   + '<small>' + _("TIP_home_squares") + '</small>'
+	   : '') ;
 }
 
 function get_ue(code)
