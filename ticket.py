@@ -150,26 +150,17 @@ def add_ticket(ticket, user_name, user_ip, user_browser, language=''):
 
 def get_ticket_string(server):
     """Extract from the path the ticket as a string (or None) and the path"""
-    # Get the CAS ticket
     warn('PATH: %s' % server.path, what='auth')
-    if '?ticket=' in server.path:
-        warn("?ticket=", what='auth')
-        # The user just come redirected from the CAS server
-        path = server.path.split('?ticket=')
-        ticket = path[1].split('/')[0]
-        path = path[0].lstrip('/').split('/')
+    if server.path.startswith("/="):
+        path = server.path.split("/")
+        ticket = path[1][1:]
+        path = path[2:]
     else:
-        # The first item of the path should be the ticket
-        path = server.path.lstrip('/').split('/')
-        warn('=TICKET', what='auth')
-        if path[0] and path[0][0] == '=':
-            ticket = path[0][1:]
-            path = path[1:]
-        else:
-            ticket = None
+        ticket = configuration.authenticator.ticket_from_url(server)
+        path = server.path.split("?")[0].lstrip('/').split('/')
 
-    warn('RETURNS: %s %s' % (ticket, path), what='auth')
-    return ticket, [cgi.urllib.unquote(x) for x in path]
+    return ticket, [cgi.urllib.unquote(x)
+                    for x in path]
 
 def clone(ticket_key, ticket):
     return Ticket(ticket_key,
@@ -217,7 +208,7 @@ def get_ticket_objet(ticket, server):
         warn('No ticket', what='auth')
         return None
     if ticket not in tickets:
-        warn('Unknown ticket', what='auth')
+        warn('Unknown ticket: ' + ticket, what='auth')
         ticket_file = os.path.join(configuration.ticket_directory, ticket)
         try:
             # Update 'tickets' table with 'add' function

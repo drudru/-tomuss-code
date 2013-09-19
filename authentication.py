@@ -17,10 +17,8 @@
 #
 #    Contact: Thierry.EXCOFFIER@bat710.univ-lyon1.fr
 
-import sys
 import time
 import socket
-import urllib2
 from . import utilities
 from . import inscrits
 from . import ticket
@@ -37,95 +35,26 @@ def canonize(s):
             .replace("\r", "$0D")
             )
 
-last_mail_sended = 0
 
-#REDEFINE
-# Return True if the user password is good
-def password_is_good(login, password):
-    """Check clear text password"""
-    import pexpect
-    p = pexpect.spawn('/bin/su -c "echo OK" %s' % utilities.safe(login))
-    p.expect(':')
-    p.sendline(password)
-    r = p.read()
-    p.close()
-    return 'OK' in r
-
-#REDEFINE
-# From the CAS ticket and the service required by client,
-# returns the login name of the user.
 def ticket_login_name(ticket_key, service, server=None):
-    if not configuration.cas:
-        # Not CAS: assume Apache and .htaccess
-        auth = server.headers['authorization'].split(' ')[1].decode('base64')
-        login, password = auth.split(':', 1)
-        if password_is_good(login, password):
-            return login
-        else:
-            return False
+    return configuration.authenticator.login_from_ticket(ticket_key,
+                                                         service, server)
 
-#    service = canonize(service)
-    warn('Ask CAS: %s' % service, what="auth")
-    i = 0
-    while True:
-        try:
-            casdata = urllib2.urlopen("%s/validate?service=%s&ticket=%s" % (
-                configuration.cas, service, ticket_key))
-            break
-        except urllib2.URLError:
-            warn('CAS : %s' % sys.exc_info()[0], what="auth")
-            if i == 1: # Retry only once
-                global last_mail_sended
-                # No more than one mail per minute.
-                if time.time() - last_mail_sended > 60:
-                    utilities.send_backtrace('CAS Error', exception=False)
-                    last_mail_sended = time.time()
-                return False
-            time.sleep(i)
-            i += 1
-
-    warn('CAS opened', what="auth")
-    test = casdata.readline().strip()
-    warn('CAS answer: %s' % test, what="auth")
-
-    if test == 'yes':
-        login_name = casdata.readlines()[0].strip().lower()
-        if login_name[0].isdigit():
-            login_name = "an_hacker_is_here"
-    else:
-        casdata.read()
-        login_name = False
-        
-    casdata.close()
-    return login_name
-
-#REDEFINE
-# This function is called when the browser does not give a valid ticket.
-# The browser is redirected on the CAS authentification service.
 def ticket_ask(server, dummy_server_url, service):
-#    service = canonize(service)
-    if not configuration.cas:
-        # Assume you are using .htaccess and Apache
-        import random
-        server.send_header('Location', service + '?ticket='
-                           + str(random.randrange(1000000000000,
-                                                  10000000000000)) )
-    else:
-        server.send_header('Location',
-                           '%s/login?service=%s' % (
-                configuration.cas,
-                service))
+    server.send_header('Location',
+                       configuration.authenticator.redirection(service, server)
+                       )
     server.end_headers()
     server.close_connection_now()
     return None, None
 
-#REDEFINE
-# If the user is connected, the function returns the ticket object
-# and a clean path.
-# If the user is not connected, it is redirected to the
-# authentication service.
 def get_path(server, server_url):
-    
+    """
+    If the user is connected, the function returns the ticket object
+    and a clean path.
+    If the user is not connected, it is redirected to the
+    authentication service.
+    """
     ticket_key, path = ticket.get_ticket_string(server)
     escaped_path = '/'.join(canonize(i) for i in path)
     ticket_object = ticket.get_ticket_objet(ticket_key, server)

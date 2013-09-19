@@ -369,6 +369,16 @@ local_options = {}
 
 # The CAS server for authentication.
 cas = 'https://configure.cas.url.or.use.regtest.parameter/cas'
+import authenticators
+
+# You can define you own Authenticator. default one is CAS.
+# DO NOT MODIFY THIS HERE. Use  LOCAL/config.py to change the value
+# The creation parameter will be the configuration.cas
+Authenticator = authenticators.CAS
+
+# The instance will be created from Authenticator after LOCAL/config.py import
+# Do not create it yourself.
+authenticator = None
 
 # OU containing student by year of inscription.
 # It is only useful to do the automatic selection of referent-teacher students
@@ -524,3 +534,8 @@ def terminate():
     from . import inscrits
     inscrits.init()
 
+    global authenticator
+    if cas:
+        authenticator = Authenticator(cas, server_url)
+    else:
+        authenticator = authenticators.Password(cas, server_url)

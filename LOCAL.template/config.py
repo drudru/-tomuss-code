@@ -14,8 +14,20 @@ from .. import configuration
 configuration.root = ("super.user",)
 
 
-# How to authenticate users
+# How to authenticate users with a CAS provider
 configuration.cas = "https://cas.domain.org/cas"
+
+# True to use OpenID
+if False:
+    # The identity is the mail address
+    # Modify the ACLS table to give the right to connect to users
+    # (for roots users, do it before switching to OpenID)
+
+    # Google
+    configuration.cas = 'https://www.google.com/accounts/o8/id'
+    # Yahoo
+    configuration.cas = 'https://me.yahoo.com'
+    configuration.Authenticator = configuration.authenticators.OpenID
 
 # To see how to modify the student lists and other values: see regtestpatch.py
         

@@ -127,7 +127,6 @@ def update_inscrits_referents(the_ids, table, page):
 
     fire = table.columns.from_id('FiRe').data_col
     done = {}
-    current_year = str(utilities.university_year())[-2:]
     for the_id in referent.students_of_a_teacher(utilities.module_to_login(table.ue)):
         login = utilities.the_login(the_id)
         done[login] = True

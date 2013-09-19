@@ -1,0 +1,166 @@
+#    TOMUSS: The Online Multi User Simple Spreadsheet
+#    Copyright (C) 2008-2013 Thierry EXCOFFIER, Universite Claude Bernard
+#
+#    This program is free software; you can redistribute it and/or modify
+#    it under the terms of the GNU General Public License as published by
+#    the Free Software Foundation; either version 2 of the License, or
+#    (at your option) any later version.
+#
+#    This program is distributed in the hope that it will be useful,
+#    but WITHOUT ANY WARRANTY; without even the implied warranty of
+#    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#    GNU General Public License for more details.
+#
+#    You should have received a copy of the GNU General Public License
+#    along with this program; if not, write to the Free Software
+#    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+#
+#    Contact: Thierry.EXCOFFIER@univ-lyon1.fr
+
+"""
+Defines the authentication methods. One per class
+Currently :
+   * CAS authenticator
+   * Unix password authenticator (With Apache and BasicAuth in .htaccess
+   * OpenID authenticator
+
+Beware, ticket_from_url method must be fast and never freeze.
+
+login_from_ticket can call other web services and lag a couple of seconds.
+"""
+
+import urllib2
+import time
+import cgi
+
+last_mail_sended = 0
+
+class Authenticator(object):
+    def __init__(self, provider, realm):
+        self.provider = provider
+        self.realm = realm
+
+class CAS(Authenticator):
+    def login_from_ticket(self, ticket_key, service, dummy_server):
+        """Return False on bad ticket.
+        The login if it is ok
+        """
+        i = 0
+        while True:
+            try:
+                casdata = urllib2.urlopen("%s/validate?service=%s&ticket=%s" %(
+                    self.provider, service, ticket_key))
+                break
+            except urllib2.URLError:
+                from . import utilities
+                if i == 1: # Retry only once
+                    global last_mail_sended
+                    # No more than one mail per minute.
+                    if time.time() - last_mail_sended > 60:
+                        utilities.send_backtrace('CAS Error', exception=False)
+                        last_mail_sended = time.time()
+                    return False
+                time.sleep(i)
+                i += 1
+
+        test = casdata.readline().strip()
+
+        if test == 'yes':
+            login_name = casdata.readlines()[0].strip().lower()
+            if login_name[0].isdigit():
+                login_name = "an_hacker_is_here"
+        else:
+            casdata.read()
+            login_name = False
+
+        casdata.close()
+        return login_name
+
+    def redirection(self, service, dummy_server):
+        return '%s/login?service=%s' % (self.provider, service)
+
+    def ticket_from_url(self, server):
+        """The ticket or None"""
+        try:
+            return server.path.split('?ticket=')[1].split('/')[0]
+        except IndexError:
+            return
+
+class OpenID(Authenticator):
+    """For example:
+    configuration.cas = 'https://www.google.com/accounts/o8/id'
+    """
+    connector = None
+
+    def init(self):
+        if self.connector:
+            return
+        from openid.consumer import consumer
+        from openid.extensions import ax
+        # from openid.store import memstore
+        self.cons = consumer.Consumer({}, None) # memstore.MemoryStore())
+        self.connector = self.cons.begin(self.provider)
+        ax_request = ax.FetchRequest()
+        # 'http://axschema.org/contact/email',
+        ax_request.add(ax.AttrInfo('http://axschema.org/contact/email',
+                                   required = True))
+        self.connector.addExtension(ax_request)
+    
+    def login_from_ticket(self, dummy_ticket_key, service, server):
+        self.init()
+        from openid.consumer import consumer
+        # path = configuration.server_url + server.path.split('?')[0]
+        d = {}
+        for k, v in cgi.parse_qs(server.path.split('?')[-1]).items():
+            d[k] = v[0]
+        s = self.cons.complete(d, service)
+        if s.status == consumer.SUCCESS:
+            try:
+                return d['openid.ext1.value.ext0']
+            except KeyError:
+                return d['openid.ax.value.email']
+        else:
+            return False
+        
+    def redirection(self, service, dummy_server):
+        self.init()
+        return self.connector.redirectURL(self.realm, service)
+
+    def ticket_from_url(self, server):
+        try:
+            form = cgi.parse_qs(server.path.split('?')[-1])
+            handle = form['openid.assoc_handle'][0]
+            return '%x' % (hash(handle)*hash(handle[::-1]))
+        except KeyError:
+            return
+    
+
+#REDEFINE
+# Return True if the user password is good
+def password_is_good(login, password):
+    """Check clear text password"""
+    import pexpect
+    from . import utilities
+    p = pexpect.spawn('/bin/su -c "echo OK" %s' % utilities.safe(login))
+    p.expect(':')
+    p.sendline(password)
+    r = p.read()
+    p.close()
+    return 'OK' in r
+
+class Password(Authenticator):
+    """
+    Assume Apache and .htaccess
+    Check the access right using a password.
+    """
+    def login_from_ticket(self, dummy_ticket_key, dummy_service, server):
+        auth = server.headers['authorization'].split(' ')[1].decode('base64')
+        login, password = auth.split(':', 1)
+        if password_is_good(login, password):
+            return login
+        else:
+            return False
+
+    def redirection(self, service, server):
+        return service + '?ticket=%x' % random.randrange(10000000000000,
+                                                         100000000000000)
