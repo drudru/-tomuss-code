@@ -1542,16 +1542,21 @@ GUI_record.prototype.save = function()
     return ;
   if ( this.events.length == 0 )
     return ;
-  if ( ! FormData )
-    return ;
   var s = [] ;
   for(var i in this.events)
     s.push('[' + this.events[i][0]
 	   + ',"' + this.events[i][1] + '"'
 	   + (this.events[i][2] ? ',' + js(this.events[i][2]) : '')
 	   + ']') ;
+  var fd ;
+  try {
+    fd = new FormData() ;
+  }
+  catch(e)
+    {
+      return ;
+    }
 
-  var fd = new FormData();
   fd.append("table", year + '/' + semester + '/' + ue) ;
   fd.append("start", this.start_o.formate("%Y%m%d%H%M%S")) ;
   fd.append("data", '[' + s.join(',') + ']') ;
