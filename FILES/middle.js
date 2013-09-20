@@ -24,8 +24,10 @@
 Some table lines must not be modified.
 This function return 'true' to allow the line editing.
 */
-function modification_allowed_on_this_line(line_id, data_col)
+function modification_allowed_on_this_line(line_id, data_col, value)
 {
+  if ( value === '' )
+    return true ; // allowed to erase cell value on any line
   if ( myindex(semesters, semester) == -1 )
     return true ;
   if ( tr_classname === undefined )

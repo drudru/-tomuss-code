@@ -2604,8 +2604,7 @@ function current_change()
 	      }
 	}
     }
-  if ( value !== ''
-       && ! modification_allowed_on_this_line(this.line_id,this.data_col))
+  if ( ! modification_allowed_on_this_line(this.line_id,this.data_col, value) )
     {	    
       this.input.value = this.initial_value ;
       current_change_running = false ;

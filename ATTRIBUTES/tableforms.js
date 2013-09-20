@@ -110,8 +110,9 @@ function table_forms_save_input(input)
 {
     if ( input.value != the_current_cell.cell.value )
 	{
-	    if ( ! modification_allowed_on_this_line(the_current_cell.line_id,
-						     the_current_cell.data_col) )
+	  if ( ! modification_allowed_on_this_line(the_current_cell.line_id,
+						   the_current_cell.data_col,
+						   input.value) )
 		{
 		    return ;
 		}
