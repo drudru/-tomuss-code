@@ -2499,7 +2499,7 @@ function current_do_completion(backspace)
   if ( completions.length > 1 )
     {
       ask_login_list = "" ;
-      login_list("", completions) ;
+      login_list("", completions, input.value) ;
       return;
     }
   login_list_hide() ;

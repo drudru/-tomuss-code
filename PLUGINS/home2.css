@@ -74,7 +74,7 @@ IMG.safety { border:0 ;width: 0.7em ; vertical-align: middle  }
 
 
 TABLE.student_list TR.hover TD, TABLE.uelist TR.hover TD, TABLE.uelist TR.ue_list_more TD, TABLE.student_list TR.ue_list_more TD { 
-  background-color: #CCF ;
+  background-color: #EEF ;
 }
 
 TABLE.uelist TR.unsaved_data TD { color: #F00; }

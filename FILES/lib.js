@@ -2017,7 +2017,7 @@ function noblur(event)
 {
 }
 
-function login_list(name, x)
+function login_list(name, x, current_value)
 {
   // x contains:
   //   [ ["id (value)", "firstname", "surname", "grp", "real_value"], ...]
@@ -2048,7 +2048,24 @@ function login_list(name, x)
   for(var i in x)
     if ( x[i][0].length > w )
       w = x[i][0].length ;
-  
+
+  var autoselect ;
+  for(var ii in x)
+    if ( x[ii][0] == current_value )
+      {
+	autoselect = ii ;
+	break ;
+      }
+  if ( autoselect === undefined )
+    for(var ii in x)
+      if ( x[ii][0].toLowerCase() == current_value.toLowerCase() )
+	{
+	  autoselect = ii ;
+	  break ;
+	}
+  if ( autoselect === undefined )
+    autoselect = 0 ;
+    
   for(var ii in x)
     {
       var i = x[ii] ;
@@ -2061,7 +2078,7 @@ function login_list(name, x)
 	  cn = '<i><small>' + cn.toString() + '</small></i>' ;
 	}
       s += '<option value="' + (i[4] ? i[4] : i[0]) + '"'
-	+ (ii == 0 ? ' selected' : '') + '>'
+	+ (ii == autoselect ? ' selected' : '') + '>'
 	+ left_justify(i[0],w).replace('&nbsp;',' ')
 	+ '&nbsp;' + i[1] + ' ' + i[2] + ' ' + cn + '</option>' ;
     }
