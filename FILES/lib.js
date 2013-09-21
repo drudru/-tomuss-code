@@ -861,6 +861,7 @@ function table_move(event)
 
 function start_table_drag(event)
 {
+  the_current_cell.change() ;
   event = the_event(event) ;
   if ( event.target.tagName != "TD" )
     return ;
@@ -877,6 +878,7 @@ function start_table_drag(event)
 
 function do_touchstart(event)
 {
+  the_current_cell.change() ;
   event = the_event(event) ;
   thetable.start_line_offset = line_offset ;
   thetable.start_column_offset = column_offset ;
@@ -1447,6 +1449,7 @@ function body_on_mouse_up(event)
 
 function move_vertical_scrollbar_begin(event)
 {
+  the_current_cell.change() ;
   body_on_mouse_up_doing = "vertical_scrollbar_drag" ;
   set_body_onmouseup() ; // ??? Why not working in HTML TAG
   the_body.onmousemove = move_scrollbar ;
