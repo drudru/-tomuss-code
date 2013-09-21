@@ -118,6 +118,9 @@ def do_patch():
         inscrits.LDAP = LDAP_regtest
         utilities.warn('Inscrit patched')
 
+    from . import authenticators
+    configuration.Authenticator = authenticators.RegTest
+
     # AFTER : because it creates an LDAP connection
     configuration.terminate()
 
@@ -125,26 +128,6 @@ def do_patch():
         return
 
     configuration.do_not_display = ()
-    
-    from . import authentication
-    def ticket_login_name(ticket_key, service, server=None):
-        """Redefined by local configuration"""
-        utilities.warn(service, what='auth')
-        return ticket_key
-    authentication.ticket_login_name = ticket_login_name
-
-    def ticket_ask(server, server_url, service):
-        """Redefined by local configuration"""
-        utilities.warn(service, what='auth')
-        try:
-            server.send_response(307)
-            server.send_header('Location', '%s/=user.name' % server_url)
-            server.end_headers()
-        except socket.error:
-            utilities.warn('Do not wait redirection', what="error")
-    authentication.ticket_ask = ticket_ask
-
-
 
     def student_list(f, portails, not_in):
         return {'10800000': referent.Student(('10800000', 'JacqueS',

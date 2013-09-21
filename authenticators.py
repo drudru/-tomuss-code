@@ -40,6 +40,14 @@ class Authenticator(object):
         self.provider = provider
         self.realm = realm
 
+    def ticket_from_url(self, server):
+        """The ticket or None"""
+        try:
+            return server.path.split('?ticket=')[1].split('/')[0]
+        except IndexError:
+            return
+
+
 class CAS(Authenticator):
     def login_from_ticket(self, ticket_key, service, dummy_server):
         """Return False on bad ticket.
@@ -78,13 +86,6 @@ class CAS(Authenticator):
 
     def redirection(self, service, dummy_server):
         return '%s/login?service=%s' % (self.provider, service)
-
-    def ticket_from_url(self, server):
-        """The ticket or None"""
-        try:
-            return server.path.split('?ticket=')[1].split('/')[0]
-        except IndexError:
-            return
 
 class OpenID(Authenticator):
     """For example:
@@ -164,3 +165,15 @@ class Password(Authenticator):
     def redirection(self, service, server):
         return service + '?ticket=%x' % random.randrange(10000000000000,
                                                          100000000000000)
+
+class RegTest(Authenticator):
+    """
+    to allow /=user.name/ tickets without any testing
+    """
+    def login_from_ticket(self, ticket_key, service, dummy_server):
+        return ticket_key
+
+    def redirection(self, service, server):
+        return '%s?ticket=user.name' % service
+
+
