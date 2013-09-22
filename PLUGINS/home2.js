@@ -1192,7 +1192,7 @@ function generate_home_page_top()
 	+ ' onkeypress="if (the_event(event).keyCode==27) ue_line_close();">'
         + '<div class="identity">'
 	+ '<p style="margin-top: 0">'
-	+ '<a href="' + url + '/' + '/=' + ticket + '/logout">'
+	+ '<a href="' + url + '/=' + ticket + '/logout">'
 	+ _("LABEL_logout") + '</a> <b>' + username + '</b>'
 	+ '<a href="' + url
 	+ '/news.xml"><img style="border:0px;vertical-align:top" src="'
