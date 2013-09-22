@@ -118,8 +118,8 @@ def do_patch():
         inscrits.LDAP = LDAP_regtest
         utilities.warn('Inscrit patched')
 
-    from . import authenticators
-    configuration.Authenticator = authenticators.RegTest
+        from . import authenticators
+        configuration.Authenticator = authenticators.RegTest
 
     # AFTER : because it creates an LDAP connection
     configuration.terminate()
