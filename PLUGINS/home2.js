@@ -628,7 +628,7 @@ function update_ues_favorites(txt, txt_upper)
   var begin ;
   for(var i in ues_favorites)
     {
-      if ( get_ue(i) )
+      if ( get_ue(i) && ues_favorites[i] >= 0 )
 	ues_favorites_sorted.push(i) ;
     }
   ues_favorites_sorted.sort(cmp_favorites) ;
