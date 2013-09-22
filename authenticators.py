@@ -31,6 +31,7 @@ login_from_ticket can call other web services and lag a couple of seconds.
 
 import urllib2
 import time
+import random
 import cgi
 
 last_mail_sended = 0
