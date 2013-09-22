@@ -43,6 +43,8 @@ V := $(shell python -c 'import tomuss_init ; from . import configuration;print c
 release:translations
 	@echo "Check if we are in the 'stable' branch"
 	@git branch | grep -F '* stable' >/dev/null
+	@echo "Check if there are changes not commited"
+	@[ "" != "$(git diff)" ]
 	@cd LOCAL ; git branch | grep -F '* stable' >/dev/null
 	@echo "This release will be tagged $(V)"
 	@echo "Running regression tests (about a minute)"
@@ -107,6 +109,7 @@ full-tar:
 		--exclude 'Trash' \
 		--exclude 'LOGS' \
 		--exclude 'DBregtest' \
+		--exclude 'DBtest' \
 		--exclude 'BACKUP_DBregtest' \
 		--exclude '.git' \
 		 .
