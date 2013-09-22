@@ -169,7 +169,7 @@ class Password(Authenticator):
         else:
             return False
 
-    def redirection(self, service, server):
+    def redirection(self, service, dummy_server):
         return service + '?ticket=%x' % random.randrange(10000000000000,
                                                          100000000000000)
 
@@ -177,9 +177,53 @@ class RegTest(Authenticator):
     """
     to allow /=user.name/ tickets without any testing
     """
-    def login_from_ticket(self, ticket_key, service, dummy_server):
+    def login_from_ticket(self, ticket_key, dummy_service, dummy_server):
         return ticket_key
 
-    def redirection(self, service, server):
+    def redirection(self, service, dummy_server):
         return '%s?ticket=user.name' % service
 
+
+class FaceBook(Authenticator):
+    """
+    A new app is needed with its API public and private number :
+    
+    configuration.cas = ('public key', 'private key')
+
+    THERE IS NO xss PROTECTION
+
+    """
+    def login_from_ticket(self, dummy_ticket_key, service, server):
+        form = cgi.parse_qs(server.path.split('?')[-1])
+        try:
+            code = form['code'][0]
+        except KeyError:
+            return
+        f = urllib2.urlopen(
+            "https://graph.facebook.com/oauth/access_token?"
+            "client_id=%s&redirect_uri=%s&client_secret=%s&code=%s" %
+            (self.provider[0], service, self.provider[1], code,
+            ))
+        access_token = f.read()
+        f.close()
+        if not access_token.startswith("access_token="):
+            return
+        
+        f = urllib2.urlopen("https://graph.facebook.com/me?" + access_token)
+        user_data = f.read()
+        f.close()
+        return user_data.split('"username":"')[1].split('"')[0]
+
+    def redirection(self, service, dummy_server):
+        return (
+            'https://www.facebook.com/dialog/oauth?client_id=%s&redirect_uri=%s&state=%x'%
+            (self.provider[0], service, random.randrange(2**64))
+            )
+
+    def ticket_from_url(self, server):
+        """The ticket or None"""
+        try:
+            form = cgi.parse_qs(server.path.split('?')[-1])
+            return form['state'][0]
+        except (KeyError, IndexError):
+            return
