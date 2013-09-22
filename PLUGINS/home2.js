@@ -1172,17 +1172,19 @@ function go_suivi_student(x)
 
 function change_icones()
 {
-var icones = document.getElementsByTagName("IMG") ;
-for(var img in icones)
-   {
-   img = icones[img] ;
-   if ( img.className == 'icone' || img.className == 'bigicone' )
-      {
-      img.src = suivi[year_semester()] + '/' +
-               img.src.replace(RegExp('.*/'), '') ;
-      }
-   }
- document.getElementsByTagName('BODY')[0].className = semester() ;
+  document.getElementsByTagName('BODY')[0].className = semester() ;
+
+  var icones = document.getElementsByTagName("IMG") ;
+  var i_base = suivi[year_semester()] ;
+  if ( i_base === undefined )
+    return ;
+
+  for(var img in icones)
+  {
+    img = icones[img] ;
+    if ( img.className == 'icone' || img.className == 'bigicone' )
+      img.src = i_base + '/' + img.src.replace(RegExp('.*/'), '') ;
+  }
 }
 
 function generate_home_page_top()
