@@ -21,8 +21,8 @@
 Defines the authentication methods. One per class
 Currently :
    * CAS authenticator
-   * Unix password authenticator (With Apache and BasicAuth in .htaccess
    * OpenID authenticator
+   * Unix password authenticator (With Apache and BasicAuth in .htaccess
 
 Beware, ticket_from_url method must be fast and never freeze.
 
@@ -48,6 +48,9 @@ class Authenticator(object):
         except IndexError:
             return
 
+    def logout(self, dummy_server):
+        """Logout only from TOMUSS, not other services"""
+        return
 
 class CAS(Authenticator):
     def login_from_ticket(self, ticket_key, service, dummy_server):
@@ -87,6 +90,9 @@ class CAS(Authenticator):
 
     def redirection(self, service, dummy_server):
         return '%s/login?service=%s' % (self.provider, service)
+
+    def logout(self, dummy_server):
+        return self.provider + '/logout'
 
 class OpenID(Authenticator):
     """For example:
@@ -176,5 +182,4 @@ class RegTest(Authenticator):
 
     def redirection(self, service, server):
         return '%s?ticket=user.name' % service
-
 

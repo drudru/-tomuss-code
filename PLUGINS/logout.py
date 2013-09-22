@@ -25,12 +25,20 @@ from .. import configuration
 def logout(server):
     """User deconnexion from the server."""
     server.ticket.remove()
+    server.the_file.write(server._("LABEL_logout")
+                          + ' OK'
+                          )
+
+def logout_headers(server):
+    redirect = configuration.authenticator.logout(server)
+    if redirect:
+        return (   ('Location', redirect),   )
+    return ()
 
 plugin.Plugin('logout', '/logout',
               function = logout,
               response=307,
               password_ok = None,
-              headers = lambda unused: (('Location','%s/logout'
-                                         % configuration.cas),)
+              headers = logout_headers,
               )
 
