@@ -23,12 +23,14 @@ Currently :
    * CAS authenticator
    * OpenID authenticator
    * Unix password authenticator (With Apache and BasicAuth in .htaccess
+   * FaceBook Connect
 
 Beware, ticket_from_url method must be fast and never freeze.
 
 login_from_ticket can call other web services and lag a couple of seconds.
 """
 
+import httplib 
 import urllib2
 import time
 import random
@@ -190,8 +192,6 @@ class FaceBook(Authenticator):
     
     configuration.cas = ('public key', 'private key')
 
-    THERE IS NO xss PROTECTION
-
     """
     def login_from_ticket(self, dummy_ticket_key, service, server):
         form = cgi.parse_qs(server.path.split('?')[-1])
@@ -212,6 +212,12 @@ class FaceBook(Authenticator):
         f = urllib2.urlopen("https://graph.facebook.com/me?" + access_token)
         user_data = f.read()
         f.close()
+
+        conn = httplib.HTTPSConnection('graph.facebook.com')
+        conn.request('DELETE', '/me/permissions?' + access_token) 
+        conn.getresponse()
+        conn.close()
+        
         return user_data.split('"username":"')[1].split('"')[0]
 
     def redirection(self, service, dummy_server):
