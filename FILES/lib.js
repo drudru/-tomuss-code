@@ -84,6 +84,7 @@ var current_window_width ;
 var current_window_height ;
 var table_info = [] ; // see middle.js
 var last_user_interaction = 0 ; // setted with millisec()
+var zebra_step ;
 
 // HTML elements
 var divtable ;
@@ -218,26 +219,51 @@ function compute_nr_cols()
 
 var header_height ;
 
-function compute_nr_lines(first)
+function compute_header_height()
+{
+  if ( table )
+    {
+      document.body.style.overflow = 'hidden';
+      header_height = findPosY(table.childNodes[0].childNodes[0]) ;
+      compute_nr_lines() ;
+      table_init() ;
+      table_fill(true,true,true) ;
+    }
+}
+
+function compute_nr_lines()
 {
   if ( ! header_height )
     {
-      setTimeout("if ( table ) { header_height = findPosY(the_current_cell.input); compute_nr_lines(true);table_init();table_fill(true,true,true) ;}", 1000) ;
-      table_attr.nr_lines = 1 ;
+      setTimeout(compute_header_height, 1000) ;
+      table_attr.nr_lines = zebra_step + 1 ;
+      compute_nr_lines.do_compute_nr_lines = true ;
       return ;
     }
-  if ( first && table_attr.nr_lines != 1 )
-    return ; // Value set by the préférence.
+  if ( ! compute_nr_lines.do_compute_nr_lines)
+    return ; // Value set by the preference.
   if ( the_current_cell.input )
     {
       // Number of displayed lines on the screen
+      var line_height ;
+      try {
+	line_height = (table.childNodes[nr_headers+zebra_step].offsetTop
+		       - table.childNodes[nr_headers].offsetTop) /zebra_step;
+	} catch(e)
+	{
+	  // The table is too small
+	  line_height = (table.childNodes[nr_headers+1].offsetTop
+			- table.childNodes[nr_headers].offsetTop)  ;
+	} ;
       table_attr.nr_lines = (window_height() - header_height
-			     - 1.5*the_current_cell.input.offsetHeight)
-        / (1+table.childNodes[nr_headers].firstChild.offsetHeight) ;
-      table_attr.nr_lines = Math.floor(table_attr.nr_lines) ;
+			     - horizontal_scrollbar.offsetHeight
+			     /* XXX Magic number for Chrome/Opera */
+			     - 12 // horizontal_scrollbar.offsetHeight ???
+			     ) / line_height ;
+      table_attr.nr_lines = Math.floor(table_attr.nr_lines) - nr_headers ;
+      compute_nr_lines.do_compute_nr_lines = false ;
     }
 
-  // table_attr.nr_lines = Math.floor( (window_height() - 350) / 22) ;
   if ( table_attr.nr_lines < 3 )
     table_attr.nr_lines = 3 ;
 }
@@ -959,7 +985,7 @@ function table_init()
   tr_title = document.createElement('tr') ;
   tr_title.className = 'column_title' ;
   var th = document.createElement('th') ;
-  th.innerHTML = '<div onmousedown="header_title_click(this);sort_column(event);GUI.add(\'column_sort\',\'\',the_current_cell.column.title)"><span></span><img src="_FILES_/sort_down.png" width="12"><img src="_FILES_/sort_down2.png" width="12"></div>' ;
+  th.innerHTML = '<div onmousedown="header_title_click(this);sort_column(event);GUI.add(\'column_sort\',\'\',the_current_cell.column.title)"><span>&nbsp;</span><img src="_FILES_/sort_down.png" width="12"><img src="_FILES_/sort_down2.png" width="12"></div>' ;
   for(var i = 0 ; i < table_attr.nr_columns ; i++ )
     {
       var th2 = th.cloneNode(true) ;
@@ -1908,16 +1934,19 @@ function manage_window_resize_event()
   if ( current_window_width != width )
     {
       if ( table_attr.default_nr_columns == 0 )
-				{
-					compute_nr_cols() ;
-				}
+	{
+	  compute_nr_cols() ;
+	}
       update_column_menu() ;
       update_histogram(true) ;
     }
   if ( current_window_height != height )
     {
       if ( preferences.nr_lines == 0 )
-				compute_nr_lines() ;
+	{
+	  compute_nr_lines.do_compute_nr_lines = true ;
+	  compute_nr_lines() ;
+	}
       update_line_menu() ;
     }
   if ( current_window_width != width || current_window_height != height )
@@ -4143,6 +4172,12 @@ function runlog(the_columns, the_lines)
 {
   columns = the_columns ;
   lines = the_lines ;
+
+  if ( Number(preferences.zebra_step) > 0 )
+    zebra_step = Number(preferences.zebra_step) ;
+  else
+    zebra_step = 3 ;
+
   lib_init() ;
 
   if ( test_bool(preferences.display_tips) == no )
@@ -4155,10 +4190,6 @@ function runlog(the_columns, the_lines)
     }
   if ( preferences.nr_lines > 0 && preferences.nr_lines < 1000 )
     table_attr.nr_lines = preferences.nr_lines ;
-  if ( Number(preferences.zebra_step) > 0 )
-    zebra_step = Number(preferences.zebra_step) ;
-  else
-    zebra_step = 3 ;
   if ( preferences.nr_cols > 0 && preferences.nr_cols < 100 )
     table_attr.nr_columns = preferences.nr_cols ;
 
