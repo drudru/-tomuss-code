@@ -275,7 +275,7 @@ class Table(object):
         self.the_lock = threading.Lock()
         self.ro = ro
         if ro:
-            self.modifiable = False
+            self.modifiable = 0 # JavaScript compatible
         self.mtime = 0
         self.the_key_dict = collections.defaultdict(list)
         self.unloaded = False
