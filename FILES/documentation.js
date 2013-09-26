@@ -136,7 +136,6 @@ function set_current()
 }
 
 var last_scrolltop = -1 ;
-var fixed_bug = false ;
 
 function update_scrollbar(forced)
 {
@@ -146,17 +145,6 @@ function update_scrollbar(forced)
     return ;
   last_scrolltop = document.body.scrollTop ;
 
-  if ( !fixed_bug && menu.parentNode.offsetTop != 0 )
-    {
-      fixed_bug = true ;
-      document.body.scrollTop = 0 ;
-    }
-
-  if ( fixed_bug )
-    {
-      menu.parentNode.style.position = 'absolute' ;
-      menu.parentNode.style.top = last_scrolltop ;
-    }
   for(var i in menu.childNodes)
     {
       var child = menu.childNodes[i] ;
@@ -298,7 +286,7 @@ for(var i_div in divs)
             text_divs.push(div) ;
             var m = document.createElement('A') ;
             m.href = 'javascript:go("#n' + class_divs.length + '");' ;
-            m.innerHTML = e.innerHTML ;
+            m.innerHTML = e.innerHTML.replace(/.*>.*<.*/,'$1') ;
             div.toc_number = class_divs.length ;
             m.setAttribute('toc_number', class_divs.length) ;
             m.setAttribute('the_div', i_div) ;
