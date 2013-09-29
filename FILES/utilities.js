@@ -468,7 +468,7 @@ function decode_uri_option(t)
 {
   return unescape(t.replace(/\$2F/g,'/').replace(/\$3F/g,'?')
 		  .replace(/\$23/g,'#').replace(/\$2E/g,'.')
-		  .replace(/\$26/g,'&').replace(/\$2B/g,'+')
+		  .replace(/\$26/g,'&').replace(/\$2B/g,'+').replace(/\$20/g,' ')
 		  .replace(/_E/g,'=').replace(/_C/g,':').replace(/__/g,'_')
 		  .replace(/\$24/g, '$')) ;
 }
