@@ -79,29 +79,19 @@ function head_html()
 	'</style>' +
 	'<div id="top"></div><input onkeydown="dispatch2(the_event(event))" onkeypress="dispatch(the_event(event))" style="width:1em"><div id="log"></div>' ;
     }
+  var rss2 = suivi.split('/=')[0] + '/' + year + '/' + semester + '/rss2/' + ue ;
 
-  var w ;
-
-  if ( myindex(semesters, semester) != -1 )
-    w = '<link href="' + suivi.split('/=')[0] + '/rss2/' + ue + '" rel="alternate" title="TOMUSS" type="application/rss+xml">' ;
-  else
-    w = '' ;
-
-  w += '<title>' + ue + ' ' + year + ' ' + semester + ' ' + my_identity
-    + '</title></head>' ;
-
-  w += '<body id="body" class="tomuss" onunload="the_current_cell.change();store_unsaved()" onkeydown="the_current_cell.keydown(event, false)">' +
+  var w = '<link href="'+rss2+'" rel="alternate" title="TOMUSS" type="application/rss+xml">'
+    + '<title>' + ue + ' ' + year + ' ' + semester + ' ' + my_identity + '</title></head>'
+    + '<body id="body" class="tomuss" onunload="the_current_cell.change();store_unsaved()" '
+    + 'onkeydown="the_current_cell.keydown(event, false)">'
     // This message is visible in FireFox (bug ?)
     //   '<noscript>Activez JavaScript et réactualisez la page</noscript>'+
-   '<div class="identity">' +
-   '<p>' +
-      '<a href="' + url + '/=' + ticket + '/logout">'
-      + _('LABEL_logout') + '</a> <b>' + my_identity + '</b>' ;
-
-  if ( myindex(semesters, semester) != -1 )
-      w += '<a href="' + suivi.split('/=')[0] + '/rss2/' + ue + '"><img style="border:0px" src="_FILES_/feed.png"></a>' ;
-
-  w += hidden_txt('<a href="javascript:howto()">'
+    + '<div class="identity">'
+    + '<p><a href="' + url + '/=' + ticket + '/logout">'
+    + _('LABEL_logout') + '</a> <b>' + my_identity + '</b>'
+    + '<a href="' + rss2 + '"><img style="border:0px" src="_FILES_/feed.png"></a>'
+    + hidden_txt('<a href="javascript:howto()">'
 		  + _('LABEL_howto') + '</a>', _('TIP_howto')) + ', '
     + hidden_txt('<a href="' + url + '/=' + ticket + '/0/Preferences/'
 		 + my_identity2 + '" target="_blank">' + _('LABEL_preferences')

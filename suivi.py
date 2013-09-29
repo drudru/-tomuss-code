@@ -75,8 +75,9 @@ class MyRequestBroker(utilities.FakeRequestHandler):
         try:
             self.year = int(self.the_path[ip])
             self.semester = self.the_path[ip+1]
-            if self.semester not in configuration.semesters:
-                raise ValueError('')
+            # The 'rss2' plugin need year/semesters not in configuration.semesters
+            # if self.semester not in configuration.semesters:
+            #    raise ValueError('')
             del self.the_path[ip:ip+2]
         except (ValueError, IndexError):
             self.year, self.semester = configuration.year_semester
