@@ -2585,7 +2585,6 @@ function current_change()
   if ( value == this.initial_value )
     return ;
 
-
   current_change_running = true ;
 
   // XXX This test should in the template.
@@ -2600,6 +2599,7 @@ function current_change()
 		  Alert("ALERT_duplicate_id") ;
 		this.input.value = this.initial_value ;
 		current_change_running = false ;
+		GUI.add("cell_change_error", undefined, "duplicate_id") ;
 		return ;
 	      }
 	}
@@ -2608,6 +2608,7 @@ function current_change()
     {	    
       this.input.value = this.initial_value ;
       current_change_running = false ;
+      GUI.add("cell_change_error", undefined, "not_allowed") ;
       return ;
     }
   if ( this.missing_id(value) )
@@ -2643,6 +2644,7 @@ function current_change()
 		  + Math.abs(this.column.real_repetition)) ;
 	  this.input.value = this.initial_value ;
 	  current_change_running = false ;
+	  GUI.add("cell_change_error", undefined, "repetition_not_allowed") ;
 	  return ;
 	}
     }
@@ -2654,6 +2656,7 @@ function current_change()
 
   update_line(this.line_id, this.data_col) ;
   current_change_running = false ;
+  GUI.add("cell_change", undefined, this.input.value) ;
 }
 
 function current_toggle()
