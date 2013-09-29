@@ -35,17 +35,18 @@ def canonize(s):
             .replace("\r", "$0D")
             )
 
+def redirect(server, url):
+    server.send_response(307)
+    server.send_header('Location', url)
+    server.end_headers()
+    server.close_connection_now()
 
 def ticket_login_name(ticket_key, service, server=None):
     return configuration.authenticator.login_from_ticket(ticket_key,
                                                          service, server)
 
 def ticket_ask(server, dummy_server_url, service):
-    server.send_header('Location',
-                       configuration.authenticator.redirection(service, server)
-                       )
-    server.end_headers()
-    server.close_connection_now()
+    redirect(server, configuration.authenticator.redirection(service, server))
     return None, None
 
 def get_path(server, server_url):
@@ -73,7 +74,7 @@ def get_path(server, server_url):
 
     # 2.8.10
     service = server_url.replace('/=TICKET','') + '/' + escaped_path
-    service = service.split('?ticket=')[0].split('&ticket')[0]
+    service = service.split('?')[0]
     warn('SERVICE: %s TICKET: %s' % (service, ticket_key), what="auth")
 
     if ticket_key != None:
@@ -101,38 +102,16 @@ def get_path(server, server_url):
                             ):
                     # Update the old ticket
                     ticket.tickets[path[1]] = ticket.clone(path[1], t)
-                    server.send_header('Location', utilities.StaticFile._url_
-                                       + '/auth_close.html'
-                                       )
-                    server.end_headers()
-                    server.close_connection_now()
+                    redirect(server, utilities.StaticFile._url_
+                             + '/auth_close.html')
                 else:
-                    server.send_header('Location', utilities.StaticFile._url_
-                                       + '/allow_error.html'
-                                       )
-                    server.end_headers()
-                    server.close_connection_now()
+                    redirect(server, utilities.StaticFile._url_
+                             + '/allow_error.html')
                     utilities.send_backtrace('bad allow request',
                                              exception=False)
                 return None, None
 
-            # XXX
-            # If it is a student, no need to redirect it to the good URL
-            # if configuration.is_a_student(user_name):
-            #     return t, path
-
-            # We want the client to see the "good" url
-            if '=TICKET' in server_url:
-                location = '%s/%s' % (
-                    server_url.replace('=TICKET', '=' + ticket_key),
-                    escaped_path)
-            else:
-                location = '%s/=%s/%s' % (server_url, ticket_key, escaped_path)
-
-            server.send_header('Location', location.strip('/'))
-            server.end_headers()
-            server.close_connection_now()
-            return None, None
+            return t, path
 
     warn("No or bad ticket: Redirect the browser", what="auth")
     ticket_ask(server, server_url, service)
@@ -160,24 +139,27 @@ def authentication_thread():
             # now it is safe because the Handler has closed the file
             x.restore_connection()
             if '\001YEAR' in authentication_redirect:
-                redirect = (authentication_redirect
-                            .replace('\001YEAR', str(x.year))
-                            .replace('\001SEMESTER', str(x.semester))
-                            )
+                redirect_loc = (authentication_redirect
+                                .replace('\001YEAR', str(x.year))
+                                .replace('\001SEMESTER', str(x.semester))
+                                )
             else:
-                redirect = authentication_redirect
+                redirect_loc = authentication_redirect
                     
             try:
                 if not x.ticket:
-                    x.ticket, x.the_path = get_path(x, redirect)
+                    x.ticket, x.the_path = get_path(x, redirect_loc)
                     if x.ticket == None:
                         x.log_time('redirection')
                         continue # Redirection done
-                x.send_header('Location', get_path(x, redirect)[1])
-                x.end_headers()
-                x.close_connection_now()
-                # After redirection to not delay it
+
+                # Must be done before redirect:
+                # The redirect may be to fast and come back
+                # before the ticket update.
                 update_ticket(x.ticket)
+                # To not send data here. It may stale this thread
+                # and plugin dispatch may not be thread safe...
+                redirect(x, get_path(x, redirect_loc)[1])
 
             except (AttributeError, IOError, socket.error):
                 utilities.send_backtrace(
@@ -191,15 +173,9 @@ def ok(server):
     if server.ticket and hasattr(server.ticket, 'password_ok'):
         return True
 
-    # Redirect the client to not block the others
-    server.send_response(307)
-
     # Problem with the request with an ever changing IP
     if server.ticket is False:
-        server.send_header('Location', utilities.StaticFile._url_
-                           + '/ip_error.html'
-                           )
-        server.end_headers()
+        redirect(server, utilities.StaticFile._url_ + '/ip_error.html')
         return
     
     warn('Append to authentication queue', what="auth")
