@@ -2081,6 +2081,9 @@ function login_list(name, x, current_value)
     if ( x[i][0].length > w )
       w = x[i][0].length ;
 
+  if ( current_value === undefined )
+    current_value = x[0][0] ;
+
   var autoselect ;
   for(var ii in x)
     if ( x[ii][0] == current_value )
