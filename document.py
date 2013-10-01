@@ -509,15 +509,16 @@ class Table(object):
                     user = p.user_name
                     nr = list([i for i in canceled_loads if i[1] == user])
                     if len(nr) == 4: # 4 cancels in less than one hour
-                        warn('Send mail to ' + inscrits.L_fast.mail(user))
-                        utilities.send_mail_in_background(
-                            inscrits.L_fast.mail(user),
-                            # XXX need translation
-                            utilities._("MSG_document_problems"),
-                            unicode(utilities.read_file(os.path.join('FILES',
-                                                             'mail_cancel')),
-                                    'utf8').encode('latin1')
-                            )
+                        user_mail = inscrits.L_fast.mail(user)
+                        if user_mail:
+                            utilities.send_mail_in_background(
+                                user_mail,
+                                # XXX need translation
+                                utilities._("MSG_document_problems"),
+                                unicode(utilities.read_file(
+                                        os.path.join('FILES', 'mail_cancel')),
+                                        'utf8').encode('latin1')
+                                )
 
                     # Send a mail to the maintainer
                     utilities.send_backtrace(
