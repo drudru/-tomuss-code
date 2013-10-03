@@ -51,6 +51,7 @@ function set_green(value, column)
       column.color_green_filter = the_green_filter ;
       column.color_green = value ;
     }
+  column_update_option('green', value) ;
 
   return value ;
 }

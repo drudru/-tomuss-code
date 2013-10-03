@@ -49,6 +49,7 @@ function set_greentext(value, column)
       column.color_greentext_filter = the_greentext_filter ;
       column.color_greentext = value ;
     }
+  column_update_option('greentext', value) ;
 
   return value ;
 }

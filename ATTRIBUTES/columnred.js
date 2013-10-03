@@ -49,6 +49,6 @@ function set_red(value, column)
       column.color_red_filter = the_red_filter ;
       column.color_red = value ;
     }
-
+  column_update_option('red', value) ;
   return value ;
 }

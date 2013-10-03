@@ -869,6 +869,9 @@ function new_new_interface()
   t.push('<div class="one_line">') ;
   t.push(table_input_attr('default_nr_columns',
 			  'before='+_("BEFORE_table_attr_default_nr_columns")));
+  t.push(table_input_attr('bookmark',
+			  [[0,_("SELECT_table_bookmark_false")],
+			   [1,_("SELECT_table_bookmark_true")]])) ;
   t.push('</div>') ;
   t.push('<div class="one_line">') ;
   t.push(_("BEFORE_table_attr_private") +
@@ -918,16 +921,13 @@ function new_new_interface()
   t.push('</div>') ;
   t.push('<div class="one_line">') ;
   t.push(table_input_attr('autosave')) ;
-  t.push(', ' + table_input_attr('table_delete')) ;
   t.push('</div>') ;
   t.push('<div class="one_line">') ;
-  t.push(table_input_attr('bookmark')) ;
+  t.push(table_input_attr('table_delete')) ;
   t.push('</div>') ;
   t.push('<div class="one_line">') ;
-  t.push(table_input_attr('linear')) ;
-  t.push('.') ;
-  t.push(table_input_attr('forms')) ;
-  t.push('.') ;
+  t.push(table_input_attr('linear') + '.') ;
+  t.push('<b>' + table_input_attr('forms') + '</b>.') ;
 
   t.push(table_input_attr('update_content')) ;
   t.push(hidden_txt('<a href="javascript:change_popup_on_red_line()">.</a>',

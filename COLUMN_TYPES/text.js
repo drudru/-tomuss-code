@@ -312,11 +312,9 @@ function compile_filter_generic(value)
 function set_filter_generic(value, column)
 {
   column.real_filter = compile_filter_generic(value) ;
+  column_update_option('filter', value) ;
   return value ;
 }
-
-
-
 
 function cell_select(event)
 {

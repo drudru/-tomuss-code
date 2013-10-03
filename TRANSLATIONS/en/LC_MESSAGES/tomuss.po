@@ -590,10 +590,15 @@ msgstr "Export column definition (not the table content)"
 #. Attribute Tip
 msgid "TIP_table_attr_bookmark"
 msgstr ""
-"<b>Save display options</b><br>\n"
-"Once the link followed, an identical page is displayed.<br>\n"
-"Save a bookmark on this page, it will store filters, sorted columns,<br>\n"
-"hidden columns and so on."
+"<b>Display options</b> can be displayed dynamicaly<br>\n"
+"into the web page address.\n"
+"So filters, sorted columns and so on can be bookmarked."
+
+msgid "SELECT_table_bookmark_true"
+msgstr "Options are in the URL"
+
+msgid "SELECT_table_bookmark_false"
+msgstr "The URL is static"
 
 #. Attribute Tip
 msgid "TIP_table_attr_nr_columns"

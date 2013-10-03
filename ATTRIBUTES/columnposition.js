@@ -61,6 +61,8 @@ function do_move_column_right()
   the_current_cell.cursor_right() ;
   right_column(column) ;
   setTimeout("the_current_cell.update()", 100);
+
+  column_update_option('position') ;
 }
 
 function do_move_column_left()
@@ -72,6 +74,8 @@ function do_move_column_left()
   the_current_cell.cursor_left() ;
   left_column(column) ;
   setTimeout("the_current_cell.update()", 100);
+
+  column_update_option('position') ;
 }
 
 

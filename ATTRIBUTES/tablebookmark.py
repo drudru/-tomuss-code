@@ -19,10 +19,10 @@
 #
 #    Contact: Thierry.EXCOFFIER@bat710.univ-lyon1.fr
 
-from ..column import TableAttr
+from .tablemodifiable import TableModifiable
 
-class TableBookmark(TableAttr):
+class TableBookmark(TableModifiable):
     name = 'bookmark'
     default_value = 1
-    action = 'table_bookmark'
-    gui_display = "GUI_a"
+    formatter = "table_bookmark"
+    gui_display = "GUI_select"

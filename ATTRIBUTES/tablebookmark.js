@@ -1,7 +1,7 @@
 // -*- coding: utf-8 -*-
 /*
     TOMUSS: The Online Multi User Simple Spreadsheet
-    Copyright (C) 2008-2011 Thierry EXCOFFIER, Universite Claude Bernard
+    Copyright (C) 2008-2013 Thierry EXCOFFIER, Universite Claude Bernard
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -20,62 +20,68 @@
     Contact: Thierry.EXCOFFIER@bat710.univ-lyon1.fr
 */
 
-function table_bookmark()
+var column_get_option_running = false ;
+
+// The value is the value that will saved in the current column attribute
+// because it is not yet fully stored.
+function column_update_option(attr, value)
 {
-  var p ;
-
-  var s = url + '/=' + ticket + '/' + year + '/' + semester + '/' + ue +
-    '/=nr_cols=' + table_attr.nr_columns +
-    '/=nr_lines=' + table_attr.nr_lines
-    ;
- 
-  p = '' ;
-  for(var c in columns)
-    if ( columns[c].hidden && columns[c].freezed != 'C' )
-      p += c + '=' ;
-  if ( p !== '' )
-    s += '/=hidden=' + p ;
-
-  p = '' ;
-  for(var c in columns)
-    if ( columns[c].filter )
-      p += c + ':' + encode_uri_option(columns[c].filter) + '=' ;
-  if ( p !== '' )
-    s += '/=filters=' + p ;
-
-  p = '' ;
-  for(var c in columns)
-    if ( columns[c].freezed == 'F' )
-      p += c + '=' ;
-  if ( p !== '' )
-    s += '/=frozen=' + p ;
-
-  s += '/=sort=' ;
-  for(var c in sort_columns)
-    if ( sort_columns[c].dir > 0 )
-      s += sort_columns[c].data_col + '=' ;
-    else
-      s += (-sort_columns[c].data_col - 1) + '=' ;
-
-  p = '' ;
+  if ( column_get_option_running )
+    return ;
+  var column, attr_value, save, p = '' ;
   for(var data_col in columns)
-    if (!columns[data_col].is_empty && columns[data_col].position != data_col )
-      p += columns[data_col].the_id + ':' + columns[data_col].position + '=' ;
-  if ( p !== '' )
-    s += '/=positions=' + p ;
+    {
+      column = columns[data_col] ;
+      if ( value === undefined || data_col != the_current_cell.data_col )
+	attr_value = column[attr] ;
+      else
+	attr_value = value ; // Not yet saved
 
-  if ( ! display_tips)
-    s += '/=display_tips=' ;
-  if ( columns_filter_value !== '' )
-    s += '/=columns_filter=' + encode_uri_option(columns_filter_value) ;
-  if ( line_filter_value !== '' )
-    s += '/=line_filter=' + encode_uri_option(line_filter_value) ;
-  if ( full_filter_value !== '' )
-    s += '/=full_filter=' + encode_uri_option(full_filter_value) ;
-  if ( column_offset !== 0 )
-    s += '/=column_offset=' + column_offset ;
+      if ( column_attributes[attr] === undefined )
+	{
+	  // For column filters
+	  save = attr_value !== '' ;
+	}
+      else
+	{
+	  save = (! column_change_allowed(column)
+		  && attr_value != column_attributes[attr].default_value
+		  ) ;
+	}
+      if ( save )
+	p += column.the_id + ':' + encode_uri_option(attr_value) + '=' ;
+    }
+  change_option(attr + 's', p) ;
+}
 
-  window.location = s ;
+function column_get_option(attr, hook, alternate_option_name)
+{
+  column_get_option_running = true ;
+  if ( hook === undefined )
+    hook = function(value, column) { return value ; } ;
+  
+  var h = get_option(attr + 's', '') ;
+  if ( h === '' )
+    h = get_option(alternate_option_name + 's', '') ; // Compatibility
+  h = h.split('=') ;
+  for(var i in h)
+    {
+      var j = h[i].split(':') ;
+      var data_col = data_col_from_col_id(j[0]) ;
+      if ( ! data_col )
+	if ( columns[Number(j[0])] )
+	  data_col = Number(j[0]) ;  // For compatibility with old bookmarks
+      if ( data_col )
+	columns[data_col][attr] = hook(decode_uri_option(j[1]),
+				       columns[data_col]) ;
+    }
+  column_get_option_running = false ;
+}
+
+function table_bookmark(value)
+{
+  change_option('foobar', '') ;
+  return Number(value) ;
 }
 
 function __d(txt)
@@ -88,7 +94,6 @@ function __d(txt)
 function get_all_options()
 {
   var h ;
-
   if ( window.location.pathname.search('=debug=') != -1 )
     {
       _d = __d ;
@@ -113,15 +118,11 @@ function get_all_options()
   table_attr.nr_lines = Number(get_option('nr_lines', table_attr.nr_lines)) ;
   table_attr.nr_columns = Number(get_option('nr_cols', table_attr.nr_columns));
   column_offset = Number(get_option('column_offset', column_offset)) ;
+  
   h = get_option('hidden', '').split('=') ;
   for(var i in h)
     if ( columns[h[i]] )
       columns[h[i]].hidden = 1 ;
-
-  h = get_option('frozen', '').split('=') ;
-  for(var i in h)
-    if ( columns[h[i]] && ! columns[h[i]].freezed )
-      columns[h[i]].freezed = 'F' ;
 
   h = get_option('sort', '') ;
   if ( h !== '' )
@@ -141,12 +142,10 @@ function get_all_options()
 	      sort_columns.push(columns[-x-1]) ;
 	      columns[-x-1].dir = -1 ;
 	    }
-	  
 	}
     }
   
   h = get_option('columns_filter', '', true) ;
-
   if ( h !== '' )
     set_columns_filter(decode_uri_option(h)) ;
 
@@ -172,26 +171,25 @@ function get_all_options()
       full_filter = compile_filter_generic(h) ;
     }
 
-  h = get_option('positions', '').split('=') ;
-  for(var i in h)
-    {
-      var j = h[i].split(':') ;
-      var data_col = data_col_from_col_id(j[0]) ;
-      if ( data_col )
-	columns[data_col].position = Number(j[1]) ;
-    }
+  column_get_option('red') ;
+  column_get_option('green') ;
+  column_get_option('redtext') ;
+  column_get_option('greentext') ;
+  column_get_option('position') ;
+  column_get_option('freezed',
+		    function(value, column)
+		    {
+		      return column.freezed || 'F' ;
+		    },
+		    'frozen' // old option name
+		   ) ;
+  column_get_option('filter',
+		    function(value, column)
+		    {
+		      init_column(column) ;
+		      return set_filter_generic(value, column) ;
+		    }) ;
 
-  h = get_option('filters', '', true).split('=') ;
-  for(var i in h)
-    {
-      var j = h[i].split(':') ;
-      var column = columns[decode_uri_option(j[0])] ;
-      if ( column )
-	{
-	  init_column(column) ;
-	  column.filter = set_filter_generic(decode_uri_option(j[1]), column) ;
-	}
-    }
   update_filters() ;
 
   _d('end get_all_options\n') ;

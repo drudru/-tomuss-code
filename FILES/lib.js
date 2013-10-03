@@ -473,6 +473,18 @@ function filter_unfocus(event)
     }
 }
 
+function sort_column_update_option()
+{
+  var s = '' ;
+  for(var c in sort_columns)
+    if ( sort_columns[c].dir > 0 )
+      s += sort_columns[c].data_col + '=' ;
+    else
+      s += (-sort_columns[c].data_col - 1) + '=' ;
+  change_option('sort', s) ;
+}
+
+
 /* The title is clicked */
 function sort_column(event, data_col)
 {
@@ -493,6 +505,7 @@ function sort_column(event, data_col)
 	{
 	  sort_columns[0].dir = -sort_columns[0].dir ;
 	  table_fill(true,true,true) ;
+	  sort_column_update_option() ;
 	  return ;
 	}
     }
@@ -512,7 +525,8 @@ function sort_column(event, data_col)
 
   sort_columns = t ;  
   table_fill(true, true,true) ;
-}
+  sort_column_update_option() ;
+  }
 
 function get_tip_element()
 {
@@ -875,6 +889,8 @@ function table_move(event)
     column_offset = columns.length - table_attr.nr_columns - nr_new_columns ;
   if ( column_offset < 0 )
     column_offset = 0 ;
+  change_option('column_offset', column_offset ? column_offset : '') ;
+
   
   if ( thetable.last_column_offset != column_offset
        || thetable.last_line_offset != line_offset )
@@ -1121,6 +1137,9 @@ function columns_filter_change(v)
   column_offset = 0 ;
   table_fill(true, true,true) ;
   columns_filter_value = v.value ;
+
+  change_option('columns_filter', encode_uri_option(columns_filter_value)) ;
+  change_option('column_offset') ;
 }
 
 function column_list(col_offset, number_of_cols)
@@ -1732,7 +1751,24 @@ function full_filter_change(value)
   line_offset = 0 ;
   table_fill(true, true,true) ; 
   full_filter_value = value.value ;
+
+  change_option('full_filter', encode_uri_option(full_filter_value))
+  change_option('column_offset') ;
 }
+
+
+function change_option(option, value)
+{
+  if ( ! window.history.replaceState )
+    return ;
+  /* Replace state because Undo this way has yet to be done */
+  var loc = window.location.toString().replace(RegExp('/=' + option + '=[^/]*'), '') ;
+  if ( value )
+    loc += '/=' + option + '=' + value ;
+  if ( table_attr.bookmark )
+    window.history.replaceState('_a_', '_t_', loc) ;
+}
+
 
 var line_filter_change_value ;
 
@@ -1761,6 +1797,8 @@ function line_filter_change_real()
   table_fill(true, true,true) ; 
   line_filter_value = value.value ;
   update_histogram(true) ;
+
+  change_option('line_filter', encode_uri_option(value.value)) ;
 }
 
 function line_filter_change(value)
@@ -2462,6 +2500,8 @@ function page_horizontal(direction, col, do_not_focus)
   table_fill(do_not_focus, true, false, true) ;
 
   periodic_work_do() ;
+
+  change_option('column_offset', column_offset ? column_offset : '') ;
 }
 
 function next_page_horizontal(delta)
@@ -3550,7 +3590,8 @@ function toggle_display_tips()
 {
   display_tips = ! display_tips ;
   if ( ! display_tips )
-    hide_the_tip_real() ;
+      hide_the_tip_real() ;
+  change_option('display_tips', display_tips ? '' : 'n') ;
 }
 
 // Set comment
@@ -4027,6 +4068,7 @@ function change_table_size(select)
     {
       table_attr.nr_columns = i ;
       column_offset = 0 ;
+      change_option('column_offset') ;
       if ( the_current_cell.col >= table_attr.nr_columns )
 	the_current_cell.col = table_attr.nr_columns - 1 ;
     }
@@ -4173,6 +4215,7 @@ function reconnect()
 
 function runlog(the_columns, the_lines)
 {
+  column_get_option_running = true ;
   columns = the_columns ;
   lines = the_lines ;
 

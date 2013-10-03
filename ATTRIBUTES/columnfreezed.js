@@ -29,5 +29,11 @@ function freeze_column(the_id)
     column.freezed = 'F' ;
   table_fill(false, true) ;
   the_current_cell.do_update_column_headers = true ;
+
+  var p = '' ;
+  for(var c in columns)
+    if ( columns[c].freezed == 'F' )
+      p += columns[c].the_id + '=' ;
+  change_option('freeze', p) ;
 }
 

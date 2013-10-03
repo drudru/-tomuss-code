@@ -49,6 +49,7 @@ function set_redtext(value, column)
       column.color_redtext_filter = the_redtext_filter ;
       column.color_redtext = value ;
     }
+  column_update_option('redtext', value) ;
 
   return value ;
 }

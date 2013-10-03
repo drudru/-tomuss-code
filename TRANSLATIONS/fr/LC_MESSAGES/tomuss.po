@@ -573,16 +573,21 @@ msgstr "Exporte les définitions des colonnes (pas le contenu de la table)"
 
 #. Attribute Tip
 msgid "TIP_table_attr_bookmark"
-msgstr "<b>Sauve les options d'affichage</b><br>\n"
- "Une fois ce lien suivi vous arriverez sur une page (identique)<br>\n"
- "sur laquelle vous pourrez garder un signet (favori) vous<br>\n"
- "permettant de retrouver les paramètres d'affichage&nbsp;:<br>\n"
+msgstr "Les <b>options d'affichage</b><br>\n"
  "* Nombre de lignes/colonnes.<br>\n"
- "* Les colonnes cachées.<br>\n"
  "* Les colonnes figées.<br>\n"
  "* Les filtres.<br>\n"
  "* Les colonnes triées.<br>\n"
- "* ..."
+ "* ...<br>\n"
+ "peuvent être indiquées dynamiquement dans l'adresse de la page<br>\n"
+ "pour pouvoir être mémorisées dans les favoris"
+
+msgid "SELECT_table_bookmark_true"
+msgstr "Les options vont dans l'URL"
+
+msgid "SELECT_table_bookmark_false"
+msgstr "L'URL ne change pas"
+
 
 #. Attribute Tip
 msgid "TIP_table_attr_nr_columns"

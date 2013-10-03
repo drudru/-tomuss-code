@@ -38,4 +38,5 @@ function nr_lines_change(t)
 {
   change_table_size(t);
   update_line_menu() ;
+  change_option('nr_lines', table_attr.nr_lines) ;
 }

@@ -32,4 +32,5 @@ function nr_columns_change(t)
 {
   change_table_size(t);
   update_column_menu() ;
+  change_option('nr_cols', table_attr.nr_columns) ;
 }
