@@ -337,6 +337,7 @@ def a_student(browser, year, semester, ticket, student):
 def tierstemps(student_id, table_tt=None, only_current=True):
     """Returns a strings containing all tiers-temps informations about
     the student from the TT table given."""
+    student_id = inscrits.login_to_student_id(student_id)
     if table_tt == None:
         # Get TT for current year
         table_tt = get_table_tt(*configuration.year_semester)
