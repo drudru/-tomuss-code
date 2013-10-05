@@ -20,9 +20,9 @@
     Contact: Thierry.EXCOFFIER@bat710.univ-lyon1.fr
 */
 
-var column_get_option_running = false ;
+var column_get_option_running ; // true on table loading
 
-// The value is the value that will saved in the current column attribute
+// The value is the value that will be saved in the current column attribute
 // because it is not yet fully stored.
 function column_update_option(attr, value)
 {
@@ -56,7 +56,6 @@ function column_update_option(attr, value)
 
 function column_get_option(attr, hook, alternate_option_name)
 {
-  column_get_option_running = true ;
   if ( hook === undefined )
     hook = function(value, column) { return value ; } ;
   
@@ -75,7 +74,6 @@ function column_get_option(attr, hook, alternate_option_name)
 	columns[data_col][attr] = hook(decode_uri_option(j[1]),
 				       columns[data_col]) ;
     }
-  column_get_option_running = false ;
 }
 
 function table_bookmark(value)

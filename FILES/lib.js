@@ -4410,6 +4410,7 @@ function runlog(the_columns, the_lines)
 
   restore_unsaved() ;
   document.getElementById("linefilter").focus() ;
+  column_get_option_running = false ;
 }
 
 
