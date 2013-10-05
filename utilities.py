@@ -1216,6 +1216,12 @@ class FakeRequestHandler(BaseHTTPServer.BaseHTTPRequestHandler):
         except AttributeError:
             pass
 
+    def unsafe(self):
+        if 'unsafe=1' in self.path:
+            return True
+        else:
+            return False
+
     def _(self, msgid):
         from . import document
         lang = document.get_preferences(self.ticket.user_name,

@@ -192,4 +192,4 @@ def home_page(server):
 
 
 plugin.Plugin('homepage2', '/{=}', function=home_page, group='staff',
-              launch_thread=True)
+              launch_thread=True, unsafe=False)

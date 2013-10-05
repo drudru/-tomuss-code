@@ -145,6 +145,7 @@ class Plugin(object):
                  css='',
                  priority=0,
                  group="",
+                 unsafe=True,
                  # Following parameters are deprecated, use group=groupname
                  teacher=None, referent=None, administrative=None,
                  abj_master=None, referent_master=None, root=None,
@@ -171,6 +172,8 @@ class Plugin(object):
             self.url = []
         self.function        = function
         self.authenticated   = authenticated
+        if not authenticated:
+            unsafe = False
         self.response        = response
         self.mimetype        = mimetype
         self.headers         = headers
@@ -183,6 +186,7 @@ class Plugin(object):
         self.css             = css
         self.priority        = priority
         self.group           = group
+        self.unsafe          = unsafe
         # Where the plugin is defined
         self.module = sys._getframe(1).f_code.co_filename
         if link:
@@ -447,6 +451,7 @@ def search_plugin(server, manage_error):
 @utilities.add_a_lock
 def dispatch_request(server, manage_error=True):
     warn('dispatch %s' % server.the_path, what='debug')
+    unsafe = server.unsafe()
     p = search_plugin(server, manage_error)
     
     if p is False:
@@ -466,6 +471,19 @@ def dispatch_request(server, manage_error=True):
             p = to_top
         else:
             return False
+
+    if p.unsafe and unsafe:
+        server.send_response(p.response)
+        server.send_header('Content-Type', 'text/html')
+        server.end_headers()
+        from . import authentication
+        url = (authentication.authentication_redirect
+               + server.path.replace("unsafe=1", "unsafe=0"))
+        server.the_file.write(server._('MSG_beware_XSS')
+                              + '<br><a href="' + url + '">'
+                              + url.split("?")[0] + '</a>')
+        server.close_connection_now()
+        return
 
     try:
         server.the_ue = server.the_ue

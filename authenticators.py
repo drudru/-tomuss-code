@@ -39,6 +39,8 @@ import cgi
 last_mail_sended = 0
 
 class Authenticator(object):
+    ticket_name = 'ticket'
+    
     def __init__(self, provider, realm):
         self.provider = provider
         self.realm = realm
@@ -46,8 +48,9 @@ class Authenticator(object):
     def ticket_from_url(self, server):
         """The ticket or None"""
         try:
-            return server.path.split('?ticket=')[1].split('/')[0]
-        except IndexError:
+            form = cgi.parse_qs(server.path.split('?')[-1])
+            return form[self.ticket_name][0]
+        except (KeyError, IndexError):
             return
 
     def logout(self, dummy_server):
@@ -193,6 +196,8 @@ class FaceBook(Authenticator):
     configuration.cas = ('public key', 'private key')
 
     """
+    ticket_name = 'state'
+
     def login_from_ticket(self, dummy_ticket_key, service, server):
         form = cgi.parse_qs(server.path.split('?')[-1])
         try:
@@ -225,11 +230,3 @@ class FaceBook(Authenticator):
             'https://www.facebook.com/dialog/oauth?client_id=%s&redirect_uri=%s&state=%x'%
             (self.provider[0], service, random.randrange(2**64))
             )
-
-    def ticket_from_url(self, server):
-        """The ticket or None"""
-        try:
-            form = cgi.parse_qs(server.path.split('?')[-1])
-            return form['state'][0]
-        except (KeyError, IndexError):
-            return

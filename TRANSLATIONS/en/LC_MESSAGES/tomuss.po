@@ -5149,3 +5149,8 @@ msgstr "Message from "
 msgid "ERROR_bad_url"
 msgstr "This URL is not understandable by TOMUSS or your are not authorized\n"
        "to see it. Goto the home page: "
+
+msgid "MSG_beware_XSS"
+msgstr "You are here because you followed a direct link inside TOMUSS.\n"
+       "To protect you from hackers, to have the real page,\n"
+       "you must click on the link:"

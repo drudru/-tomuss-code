@@ -23,6 +23,7 @@ from . import utilities
 from . import inscrits
 from . import ticket
 from . import sender
+from . import plugin
 from . import configuration
 
 warn = utilities.warn
@@ -74,7 +75,7 @@ def get_path(server, server_url):
 
     # 2.8.10
     service = server_url.replace('/=TICKET','') + '/' + escaped_path
-    service = service.split('?')[0]
+    service = service.split('?')[0] + '?unsafe=1'
     warn('SERVICE: %s TICKET: %s' % (service, ticket_key), what="auth")
 
     if ticket_key != None:
@@ -153,13 +154,9 @@ def authentication_thread():
                         x.log_time('redirection')
                         continue # Redirection done
 
-                # Must be done before redirect:
-                # The redirect may be to fast and come back
-                # before the ticket update.
                 update_ticket(x.ticket)
-                # To not send data here. It may stale this thread
-                # and plugin dispatch may not be thread safe...
-                redirect(x, get_path(x, redirect_loc)[1])
+                # The request can be executed
+                plugin.dispatch_request(x)
 
             except (AttributeError, IOError, socket.error):
                 utilities.send_backtrace(

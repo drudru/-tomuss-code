@@ -315,7 +315,7 @@ plugin.Plugin('answer_page', '/{Y}/{S}/{U}/{P}',
 
 plugin.Plugin('pagenew', '/{Y}/{S}/{U}/{=}', function=new_page, group='staff',
               keep_open = True,
-              launch_thread = True)
+              launch_thread = True, unsafe=False)
 
 def set_page(server):
     """Set the number of page load (for favorites management by users)"""

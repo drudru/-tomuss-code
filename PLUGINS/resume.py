@@ -106,5 +106,7 @@ def resume(server):
     
 plugin.Plugin('resume', '/resume/{*}',
               function=resume, group='staff',
-              launch_thread = True)
+              launch_thread = True,
+              unsafe=False # URL sent by mail
+              )
 

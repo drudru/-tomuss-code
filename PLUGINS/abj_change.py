@@ -164,7 +164,7 @@ plugin.Plugin('abj', '/{Y}/{S}/abj', function=abj_home, group='abj_masters',
                   where='abj_master', html_class="safe",
                   ),
               css=css,
-              priority = -3,
+              priority = -3, unsafe=False,
               )
 
 plugin.Plugin('abjalpha', '/{Y}/{S}/abj/alpha.xls',
