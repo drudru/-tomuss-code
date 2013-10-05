@@ -157,7 +157,9 @@ def authentication_thread():
                 update_ticket(x.ticket)
                 # The request can be executed
                 plugin.dispatch_request(x)
-
+                if not x.please_do_not_close:
+                    x.close_connection_now()
+                    
             except (AttributeError, IOError, socket.error):
                 utilities.send_backtrace(
                     '', subject = 'AUTH '+ str(x.ticket)[:-1])
