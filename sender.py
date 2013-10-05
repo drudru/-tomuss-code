@@ -142,27 +142,32 @@ def append(f, txt, keep_open=True):
         File(f, txt, keep_open)
 
 import re
+import os
 
 def get_stats():
-    f = open('/proc/loadavg', 'r')
-    a = 100*float(f.read().split(' ')[0])
-    f.close()
+    a = 100 * os.getloadavg()[0]
 
-    f = open('/proc/diskstats', 'r')
-    b = [ re.split('  *',' ' + i) for i in f.readlines() ]
-    f.close()
-    c = sum([ int(i[14]) for i in b if not i[3][-1].isdigit() ])
-    b = c - get_stats.last_disk_usage
-    get_stats.last_disk_usage = c
+    try:
+        f = open('/proc/diskstats', 'r')
+        b = [ re.split('  *',' ' + i) for i in f.readlines() ]
+        f.close()
+        c = sum([ int(i[14]) for i in b if not i[3][-1].isdigit() ])
+        b = c - get_stats.last_disk_usage
+        get_stats.last_disk_usage = c
+    except IOError:
+        b = 0
 
-    f = open('/proc/net/dev', 'r')
-    j = [i.replace(':',' ') for i in f.readlines() if 'eth0' in i][0]
-    f.close()
-    j = re.split('  *',' ' + j)
-    j = int(j[-16]) + int(j[-8])
-    c = j - get_stats.last_network_usage
-    get_stats.last_network_usage = j
-    if c < 0:
+    try:
+        f = open('/proc/net/dev', 'r')
+        j = [i.replace(':',' ') for i in f.readlines() if 'eth0' in i][0]
+        f.close()
+        j = re.split('  *',' ' + j)
+        j = int(j[-16]) + int(j[-8])
+        c = j - get_stats.last_network_usage
+        get_stats.last_network_usage = j
+        if c < 0:
+            c = 0
+    except IOError:
         c = 0
        
     return [a,b/10.,c/100000.]
