@@ -120,7 +120,7 @@ untar:
 tar-check:untar
 	cd /tmp/TOMUSS-$(V) && $(MAKE) regtest1
 
-push:
+push:regtest1
 	LOCAL/push
 
 untag:
