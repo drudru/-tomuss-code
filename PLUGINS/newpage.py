@@ -293,18 +293,29 @@ else
         server.close_connection_now()
         return
 
+    if page.browser_file:
+        table.lock()
+        try:
+            if page.browser_file.closed:
+                # The page was not closed by the document thread
+                table.remove_active_page(page)
+        finally:
+            table.unlock()
+    
     if isinstance(page.browser_file, StringFile):
         warn('ok', what="info")
         page.browser_file.set_real_file(server.the_file)
         sender.append(page.browser_file, str(page.page_id) ) # Flush data
     else:
-        warn('Browser reconnection', what='Info')
+        warn('Browser reconnection index=%s' % page.index, what='Info')
         if page.browser_file is None:
              page.browser_file = StringFile()
-
+        if page.index is not None:
+            page.browser_file.write(
+                ''.join(table.sent_to_browsers[page.index:]))
         page.browser_file.set_real_file(server.the_file)
+        page.browser_file.flush()
         table.active_page(page, page.browser_file)
-        server.the_file.flush()
 
 
 plugin.Plugin('answer_page', '/{Y}/{S}/{U}/{P}',

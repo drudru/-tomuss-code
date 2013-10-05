@@ -1742,6 +1742,9 @@ while True:
         except:
             shutil.rmtree('DBregtest', ignore_errors=True)
             shutil.rmtree('BACKUP_DBregtest', ignore_errors=True)
+
+        if do('sync'):
+            assert(os.system("cd REGTEST_SERVER ; ./sync.py") == 0)
             
         m.append('Running time : %g seconds' % (time.time() - start))
         if ss and ss.started:

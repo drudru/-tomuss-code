@@ -41,7 +41,7 @@ class Server(object):
     started = False
     start_time = 0
     
-    def start(self, cleaning=True):
+    def start(self, cleaning=True, sync=True):
         if Server.start_time == 0:
             Server.start_time = time.time()
         for dirname in ['DBregtest', 'BACKUP_DBregtest',
@@ -53,7 +53,7 @@ class Server(object):
                 shutil.rmtree(dirname, ignore_errors=True)
         utilities.mkpath_safe('DBregtest/Y%d/SAutomne' %
                               (configuration.year_semester[0]-1))
-        self.restart('w')
+        self.restart('w', sync=sync)
 
     def log_files(self, mode):
         if True:
@@ -77,17 +77,23 @@ class Server(object):
                 time.sleep(0.1)
 
 
-    def restart(self, mode='a', more=[]):
+    def restart(self, mode='a', more=[], sync=True):
         stdout, stderr = self.log_files(mode)
-        self.process = subprocess.Popen(['./tomuss.py', 'regtest', 'regtest_sync', 'real_regtest'] + more,
+        args = ['./tomuss.py', 'regtest', 'real_regtest']
+        if sync:
+            args.append('regtest_sync')
+        self.process = subprocess.Popen(args + more,
                                         stdout = stdout.fileno(),
                                         stderr = stderr.fileno(),
                                         )
         self.wait_start()
 
+    def get_url(self, url):
+        return 'http://' + socket.getfqdn() + ':' + str(self.port) + '/' + url
+
     def url(self, url, stop_if_error=True, display_log_if_error=True,
             returns_file=False, timeout=0, silent=False):
-        full_url = 'http://'+socket.getfqdn()+':'+str(self.port) + '/' + url
+        full_url = self.get_url(url)
         if not silent:
             print ' %6.2f ' % (time.time() - Server.start_time) + url,
         sys.stdout.flush()

@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 #    TOMUSS: The Online Multi User Simple Spreadsheet
-#    Copyright (C) 2009-2011 Thierry EXCOFFIER, Universite Claude Bernard
+#    Copyright (C) 2009-2013 Thierry EXCOFFIER, Universite Claude Bernard
 #
 #    This program is free software; you can redistribute it and/or modify
 #    it under the terms of the GNU General Public License as published by
@@ -33,19 +33,22 @@ class File(object):
     nr_active_thread = 0
     to_send = {}
 
-    def __init__(self, f, txt, keep_open):
+    def __init__(self, f, txt, keep_open, index):
         assert(append.the_lock.locked())
         self.file = f
         File.to_send[f] = self
         self.send = [txt]
         self.keep_open = keep_open
         self.in_processing = False
+        self.index = index
         
-    def append(self, txt, keep_open):
+    def append(self, txt, keep_open, index):
         assert(append.the_lock.locked())
         if self.keep_open is False:
             raise ValueError('Append to a closed file')
         self.send.append(txt)
+        if index is not None:
+            self.index = index
         self.keep_open = keep_open
 
     def delete(self):
@@ -61,6 +64,7 @@ class File(object):
             txt = ''.join(self.send).replace('</script>\n<script>','')
             self.send = []
             keep_open = self.keep_open
+            index = self.index
             if txt == '':
                 # Remove this sender object, no more useful
                 self.delete()
@@ -76,6 +80,9 @@ class File(object):
                 self.file.flush()
             else:
                 self.file.close()
+
+            if index is not None:
+                self.file.index = index # Successfuly wrote
         except:
             # Close on error
             try:
@@ -130,16 +137,16 @@ def send_thread(verbose=False):
                     f.file, f.file.closed))
 
 @utilities.add_a_lock
-def append(f, txt, keep_open=True):
+def append(f, txt, keep_open=True, index=None):
     # if not txt.startswith('GIF'): utilities.warn('%s %s %s' % (f, txt[0:20], keep_open), what='sender')
     if f is None:
         utilities.warn('f is None: ' + txt)
         return
     # xxx.write('*' + txt + '\n')
     try:
-        File.to_send[f].append(txt, keep_open)
+        File.to_send[f].append(txt, keep_open, index)
     except KeyError:
-        File(f, txt, keep_open)
+        File(f, txt, keep_open, index)
 
 import re
 import os

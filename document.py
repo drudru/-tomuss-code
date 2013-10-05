@@ -249,6 +249,7 @@ class Table(object):
         self.semester = semester
         self.ue = ue
         self.loading = False # The table is not being loaded
+        self.sent_to_browsers = [] # Nothing has been sent
 
         if self.ue == 'abj' or self.ue == 'data':
             # Break the import in the file
@@ -481,6 +482,7 @@ class Table(object):
         p = Page(ticket, user_name, len(self.pages), self,
                  user_ip, user_browser, date)
         p.logged = self.loading or self.modifiable
+        p.index = len(self.sent_to_browsers) - 1
         self.pages.append(p)
         return p
 
@@ -490,14 +492,19 @@ class Table(object):
         if page not in self.active_pages:
             self.active_pages.append(page)
 
+    def remove_active_page(self, page):
+        self.active_pages.remove(page)
+        page.index = getattr(page.browser_file, 'index', page.index)
+        page.browser_file = None # stop a memory leak
+            
     def send_update(self, page, value):
         warn('actives: %s' % str(self.active_pages), what='table')
+        self.sent_to_browsers.append(value)
         for p in tuple(self.active_pages):
             if p == page:
                 continue
             if p.browser_file.closed:
-                self.active_pages.remove(p)
-                p.browser_file = None # stop a memory leak
+                self.remove_active_page(p)
                 if not hasattr(p, 'end_of_load'):
                     global canceled_loads
                     # Update list of canceled page load
@@ -528,9 +535,11 @@ class Table(object):
                         
                 continue
             if value is True:
-                sender.append(p.browser_file, self.content(p))
+                sender.append(p.browser_file, self.content(p),
+                              index=len(self.sent_to_browsers))
             else:
-                sender.append(p.browser_file, value)
+                sender.append(p.browser_file, value,
+                              index=len(self.sent_to_browsers))
 
     def authorized(self, user_name, value):
         # Authorized because the test have yet be done in the past
