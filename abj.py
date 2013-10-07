@@ -215,7 +215,7 @@ class Abj(object):
                 if full:
                     comment = cgi.escape(a_da[3]).replace('\n','<br>')
                 else:
-                    comment = cgi.escape(a_da[3].split('\n')[0])
+                    comment = cgi.escape(a_da[3].strip().split('\n')[0])
                     if '\n' in a_da[3].strip():
                         comment += '<br><b><script>Write("MSG_see_more")</script></b>'
                     comment = ('<script>hidden(' + js(comment) + ','
