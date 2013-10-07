@@ -23,7 +23,6 @@ from .. import plugin
 from .. import document
 from .. import configuration
 from .. import utilities
-from . import abj_change
 
 def send_alert(server):
     """Send an alert popup to the TABLE clients or all clients ."""
@@ -36,14 +35,6 @@ def send_alert(server):
                        server.the_ue).send_alert(message)
     else:
         document.send_alert(message)
-        for page in abj_change.pages:
-            try:
-                page.the_file.write(
-                    '<script>Alert("ALERT_send_alert","\\n\\n"+%s);</script>\n'
-                    % utilities.js(message))
-                page.the_file.flush()
-            except:
-                pass
 
     server.the_file.write(server._("MSG_send_alert") + message)
 
