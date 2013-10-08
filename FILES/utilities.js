@@ -862,11 +862,11 @@ function hls2rgb(hue, l, s)
 
 function parseLineCSV(lineCSV)
 {
-  lineCSV = lineCSV.replace(/[\n\r]*$/, '').replace(/[\t;]/g,',') ;
+  lineCSV = lineCSV.replace(/[\n\r]*$/, '') ;
   // Work around IE bug
-  lineCSV = lineCSV.replace(/,/g,"\001,").split(',');
+  lineCSV = lineCSV.replace(/\t/g,"\001\t").split('\t');
   for (var i in lineCSV)
-    lineCSV[i] = lineCSV[i].replace(/\001$/g,"") ;
+    lineCSV[i] = lineCSV[i].replace(/\001$/g, "") ;
   
   var inside = false;
   var CSV = [] ;  
