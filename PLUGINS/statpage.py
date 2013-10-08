@@ -66,13 +66,14 @@ def stat_page(server):
             for c in line:
                 if c[0] != '':
                     nr_cells += 1
-        s.append('<tr><td>%d</td><td>%s</td><td><a target="_blank" href="%s">%s</a></td><td>%d/%d%s</td><td>%d</td><td>%d</td><td>%d</td><td>%s</td><td>%s</td></tr>' % (
+        s.append('<tr><td>%d</td><td>%s</td><td><a target="_blank" href="%s">%s</a></td><td>%d/%d<small>%s%s</td><td>%d</td><td>%d</td><td>%d</td><td>%s</td><td>%s</td></tr>' % (
             t.year,
             t.semester,
             "%s/=%s/%s/%s/%s" % (utilities.StaticFile._url_,
                                server.ticket.ticket, t.year, t.semester, t.ue),
             t.ue,
             len(t.pages)-nr_empty, len(t.pages), t.do_not_unload,
+            sum(len(i) for i in t.sent_to_browsers),
             len(t.lines),
             len(t.columns),
             nr_cells,

@@ -1532,13 +1532,12 @@ function GUI_record()
     }
   this.start = millisec() ;
   this.start_o = new Date() ;
+  this.last_interaction = this.start ;
 }
 
 GUI_record.prototype.save = function()
 {
   if ( ! gui_record )
-    return ;
-  if ( connection_state != 'ok' )
     return ;
   if ( this.events.length == 0 )
     return ;
@@ -1578,6 +1577,8 @@ GUI_record.prototype.initialize = function()
   if ( this.debug )
       this.body.appendChild(this.debug) ;
   this.initialized = true ;
+  // Save once per minute
+  setInterval(GUI_save, 60000) ;
 }
 
 GUI_record.prototype.add = function(attr_name, event, value) {
@@ -1607,15 +1608,17 @@ GUI_record.prototype.add = function(attr_name, event, value) {
 	  return ;
 	}	  
     }
-  this.events.push([millisec()-this.start, attr_name, value]) ;
+  this.last_interaction = millisec() ;
+  this.events.push([this.last_interaction - this.start, attr_name, value]) ;
   if ( this.debug !== undefined )
     {
       this.debug.innerHTML += this.events[this.events.length-1] + '\n' ;
       this.debug.scrollTop = 100000000 ;
     }
-  // Save once per minute
-  // XXX Beware : it does not apply to 'this'
-  setTimeout("periodic_work_add(GUI_save)", 60000) ;
+  
+  if ( connection_state == 'no_connection' )
+    reconnect(true) ;
+
 } ;
 
 GUI_record.prototype.add_key = function(event, value) {
@@ -1633,12 +1636,23 @@ GUI_record.prototype.add_key = function(event, value) {
 	value = "cell" ;
     }
   this.add(id, "", value) ;
-}
+} ;
 
 var GUI = new GUI_record() ;
 function GUI_save()
 {
   GUI.save() ;
+  if ( millisec() - GUI.last_interaction > 60000 )
+    {
+      /* Close connection in order to free open socket */
+      if ( xmlhttp )
+	{
+	  xmlhttp.abort() ;
+	  xmlhttp = undefined ;
+	  connection_state = 'no_connection' ;
+	  document.getElementById('connection_state').innerHTML += '...' ;
+	}
+    }
 }
 
 

@@ -312,7 +312,7 @@ else
              page.browser_file = StringFile()
         if page.index is not None:
             page.browser_file.write(
-                ''.join(table.sent_to_browsers[page.index:]))
+                ''.join(table.sent_to_browsers[page.index-1:]))
         page.browser_file.set_real_file(server.the_file)
         page.browser_file.flush()
         table.active_page(page, page.browser_file)

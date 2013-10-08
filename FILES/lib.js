@@ -4144,13 +4144,13 @@ var last_reconnect = 0 ;
 var reconnect_giveup ;
 var xmlhttp ;
 
-function reconnect()
+function reconnect(force)
 {
   if ( ue == 'VIRTUALUE' || ue == '' )
     return ;
   if ( check_down_connections_interval == 0 )
     return ;
-  if ( millisec() - last_reconnect < 1000*check_down_connections_interval )
+  if ( !force && millisec() - last_reconnect < 1000*check_down_connections_interval )
     return ;
   var server_answer = document.getElementById('server_answer') ;
   if ( ! server_answer )
