@@ -62,7 +62,7 @@ def get_path(server, server_url):
     ticket_object = ticket.get_ticket_objet(ticket_key, server)
         
     # Ticket OK
-    if ticket_object != None:
+    if ticket_object:
         warn('fast ticket:%s' % str(ticket_object)[:-1], what='auth')
         if '/=TICKET' in server_url:
             path = server_url.replace('TICKET',
@@ -73,6 +73,9 @@ def get_path(server, server_url):
         warn('fast path: %s' % str(path), what='auth')
         return ticket_object, path
 
+    if ticket_object is not None:
+        ticket_key = None # Because this ticket is not fine
+    
     # 2.8.10
     service = server_url.replace('/=TICKET','') + '/' + escaped_path
     service = service.split('?')[0] + '?unsafe=1'

@@ -175,7 +175,7 @@ class Password(Authenticator):
             return False
 
     def redirection(self, service, dummy_server):
-        return service + '?ticket=%x' % random.randrange(10000000000000,
+        return service + '&ticket=%x' % random.randrange(10000000000000,
                                                          100000000000000)
 
 class RegTest(Authenticator):

@@ -202,7 +202,11 @@ def remove_old_files():
 
 @utilities.add_a_lock
 def get_ticket_objet(ticket, server):
-    """Get the ticket object from the ticket string"""
+    """Get the ticket object from the ticket string
+       * None if no ticket
+       * False if ticket invalid to quickly
+       * 0 if ticket not fine
+    """
     
     if ticket == None:
         warn('No ticket', what='auth')
@@ -231,12 +235,10 @@ def get_ticket_objet(ticket, server):
              )
         for k, v in server.headers.items():
             warn('%s : %s' % (k, v))
-        ticket_object.remove_file()
-        del tickets[ticket]
         
         if time.time() - ticket_object.date < 2:
             return False
-        return None
+        return 0
     if ticket_object and ticket_object.language == '':
         ticket_object.set_language(server.headers.get('accept-language',''))
     return ticket_object 
