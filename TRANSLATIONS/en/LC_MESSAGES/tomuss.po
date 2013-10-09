@@ -5154,3 +5154,16 @@ msgid "MSG_beware_XSS"
 msgstr "You are here because you followed a direct link inside TOMUSS.\n"
        "To protect you from hackers, to have the real page,\n"
        "you must click on the link:"
+
+
+msgid "SELECT_table_hide_empty_false"
+msgstr "Display empty lines"
+
+msgid "SELECT_table_hide_empty_true"
+msgstr "Hide empty lines"
+
+msgid "TIP_table_attr_hide_empty"
+msgstr "You can choose to not display the empty lines that have an history.\n"
+       "This allow to have only really clean empty lines."
+
+       

@@ -884,6 +884,10 @@ function new_new_interface()
   t.push('</div>') ;
   t.push('<div class="one_line">') ;
 
+    t.push(table_input_attr('hide_empty',
+			    [[0, _("SELECT_table_hide_empty_false")],
+			     [1, _("SELECT_table_hide_empty_true")]])) ;
+
   if ( myindex(semesters, semester) != -1 )
       t.push(_("BEFORE_table_official_ue") +
 	   table_input_attr('official_ue',

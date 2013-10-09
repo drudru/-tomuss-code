@@ -1695,6 +1695,8 @@ function get_filtered_lines()
 	  empty = line_empty(lines[line]) ;
 	  if ( ! empty )           // Not empty on screen
 	    nr_not_empty_lines++ ;
+	  if ( table_attr.hide_empty && empty )
+	    continue ;	    
 	  if ( empty !== true )
 	    f.push(lines[line]) ;  // Not empty on screen AND history
 	}

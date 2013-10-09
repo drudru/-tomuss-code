@@ -5237,3 +5237,15 @@ msgstr "Vous êtes ici parce que vous avez suivi un lien direct\n"
        "sur une fonctionnalité particulière de TOMUSS.\n"
        "Pour des raisons de sécurité, nous vous demandons de cliquer\n"
        "sur le lien suivant pour accéder à la fonctionnalité :"
+
+msgid "SELECT_table_hide_empty_false"
+msgstr "Afficher lignes vides"
+
+msgid "SELECT_table_hide_empty_true"
+msgstr "Cacher lignes vides"
+
+msgid "TIP_table_attr_hide_empty"
+msgstr "Cela permet de faire disparaître les lignes vides\n"
+       "mais qui contiennent un historique car elles ont\n"
+       "été remplies puis effacées."
+

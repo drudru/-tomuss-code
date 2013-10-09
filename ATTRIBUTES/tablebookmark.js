@@ -114,7 +114,8 @@ function get_all_options()
     display_tips = false ;
 
   table_attr.nr_lines = Number(get_option('nr_lines', table_attr.nr_lines)) ;
-  table_attr.nr_columns = Number(get_option('nr_cols', table_attr.nr_columns));
+  table_attr.nr_columns=Number(get_option('nr_cols', table_attr.nr_columns));
+  table_attr.hide_empty=Number(get_option('hide_empty',table_attr.hide_empty));
   column_offset = Number(get_option('column_offset', column_offset)) ;
   
   h = get_option('hidden', '').split('=') ;
