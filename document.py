@@ -258,6 +258,9 @@ class Table(object):
         # Remove -1 -2 -3 at the end of the UE name
         if len(ue) > 4 and ue[-1].isdigit() and ue[-2] == '-':
             self.ue_code = ue[:-2]
+        elif (len(ue) > 5
+              and ue[-1].isdigit() and ue[-2].isdigit() and ue[-3] == '-'):
+            self.ue_code = ue[:-3]
         else:
             self.ue_code = ue
 
