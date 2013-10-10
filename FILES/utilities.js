@@ -1528,7 +1528,12 @@ function GUI_record()
   if ( /=gui-record=/.test(window.location.pathname) )
     {
       this.debug = document.createElement('PRE') ;
-      this.debug.style = 'position:fixed;bottom:0;right:0;width:40em;height:50%;overflow:auto;background:white' ;
+      this.debug.style.position = 'fixed' ;
+      this.debug.style.right = this.debug.style.bottom = '40px' ;
+      this.debug.style.width = '40em' ;
+      this.debug.style.height = '50%' ;
+      this.debug.style.background = 'white' ;
+      this.debug.style.overflow = 'auto' ;
     }
   this.start = millisec() ;
   this.start_o = new Date() ;
@@ -1573,9 +1578,9 @@ GUI_record.prototype.initialize = function()
 {
   this.events = [] ;
 
-  this.body = document.getElementsByTagName('BODY')[0] ;
+  this.body = document.getElementsByTagName('H1')[0] ;
   if ( this.debug )
-      this.body.appendChild(this.debug) ;
+    this.body.appendChild(this.debug) ;
   this.initialized = true ;
   // Save once per minute
   setInterval(GUI_save, 60000) ;
