@@ -128,14 +128,20 @@ function fill_column_parse(t)
       max = Number(max) ;
     
     // Current number, maximum number, value
-    t[i] = [0, max, t[i].split('{{{')[0]] ;
+    t[i] = [0, max, t[i].split('{{{')[0].replace(/[ \t]*$/,'')] ;
   }
   // The dispatch is slow, but the algorithm is simple.
   var to_dispatch = filtered_lines.length ;
   var not_full = t.slice(0, t.length) ;
+  function sort_values(a, b)
+  {
+    if ( a[0] != b[0] )
+      return a[0] - b[0] ;
+    return b[1] - a[1] ;
+  }
   while( to_dispatch )
   {
-    not_full.sort() ;
+    not_full.sort(sort_values) ;
     if ( not_full[0][0] >= not_full[0][1] )
     {
       not_full.shift() ;
@@ -161,7 +167,7 @@ function fill_column_do_fill(comments)
 	    document.getElementById('column_fill_input').value), comments) ;
     else if ( choice === "AA... BB... CC..." )
 	fill_column_do_aabb(fill_column_parse(
-	    document.getElementById('column_fill_aabb').value), comments) ;
+	  document.getElementById('column_fill_aabb').value), comments, true) ;
     else if ( choice === "ABC ABC ABC..." )
 	fill_column_do_abab(fill_column_parse(
 	    document.getElementById('column_fill_abab').value), comments) ;
@@ -186,14 +192,22 @@ function fill_column_do_fill(comments)
     table_fill() ;
 }
 
-function fill_column_do_aabb(values, comments)
+function fill_column_do_aabb(values, comments, display_report)
 {
-  var j, value ;
+  var j, value, last_sorted_value, current_sorted_value ;
+  var sorted = sort_columns[0].data_col ;
+  var message = values[0][2] + ': ' + filtered_lines[0][sorted].value ;
 
   for(j in filtered_lines)
     {
+      current_sorted_value = filtered_lines[j][sorted].value ;
       while( values[0][0] == 0 )
+      {
 	values.shift() ; // remove full value
+	message += '→' + last_sorted_value + '\n'
+	  + values[0][2] + ': ' + current_sorted_value ;
+      }
+      last_sorted_value = current_sorted_value ;
       value = values[0] ;
       value[0]-- ;
       
@@ -203,7 +217,11 @@ function fill_column_do_aabb(values, comments)
       else
 	cell_set_value_real(filtered_lines[j].line_id,
 			    popup_column().data_col, value[2]) ;
+
     }
+  message += '→' + last_sorted_value + '\n' ;
+  if ( display_report )
+    alert(message) ;
 }
 
 function fill_column_do_abab(values, comments)
