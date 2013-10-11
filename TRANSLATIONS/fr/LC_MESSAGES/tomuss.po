@@ -2023,7 +2023,11 @@ msgstr "Si vous saisissez « Place 8, Amphi X » les cellules vont prendre\n"
        "Si vous saisissez « 100 » elles contiendront 100, 101, 102..."
        
 msgid "MSG_fill_equal"
-msgstr "Le remplissage sera fait de la manière la plus équilibrée possible."
+msgstr "Le remplissage est le plus équilibré possible.<br>\n"
+       "<small>Pour avoir 5 B au maximum, saisissez <b>B {{{5}}}</b></small>"
+
+msgid "ALERT_column_fill_max"
+msgstr "Les nombres maximums indiqués ne permettent pas le remplissage."
 
 msgid "MSG_fill_before"
 msgstr "Puis cliquez pour changer les "

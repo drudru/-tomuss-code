@@ -115,21 +115,55 @@ function fill_column_problems(data_col)
   return msg ;
 }
 
+function fill_column_parse(t)
+{
+  var t = parse_lines(t) ;
+  var max ;
+  for(var i in t)
+  {
+    max = t[i].replace(/.*{{{(.*)}}}.*/, "$1") ;
+    if ( max == t[i] || isNaN(max) )
+      max = 999999999 ;
+    else
+      max = Number(max) ;
+    
+    // Current number, maximum number, value
+    t[i] = [0, max, t[i].split('{{{')[0]] ;
+  }
+  // The dispatch is slow, but the algorithm is simple.
+  var to_dispatch = filtered_lines.length ;
+  var not_full = t.slice(0, t.length) ;
+  while( to_dispatch )
+  {
+    not_full.sort() ;
+    if ( not_full[0][0] >= not_full[0][1] )
+    {
+      not_full.shift() ;
+      if ( not_full.length == 0 )
+	Alert('ALERT_column_fill_max') ;
+      continue ;
+    }
+    not_full[0][0]++ ;
+    to_dispatch-- ;
+  }
+  return t ;
+}
+
 function fill_column_do_fill(comments)
 {
     alert_append_start() ;
 
     var choice = selected_tab('tablefill') ;
     if ( choice === _('TAB_fill_clear') )
-      fill_column_do_abab([''], comments) ;
+      fill_column_do_aabb([[999999999, 999999999, '']], comments) ;
     else if ( choice === _('TAB_fill_one') )
-	fill_column_do_abab(parse_lines(
+	fill_column_do_abab(fill_column_parse(
 	    document.getElementById('column_fill_input').value), comments) ;
     else if ( choice === "AA... BB... CC..." )
-	fill_column_do_aabb(parse_lines(
+	fill_column_do_aabb(fill_column_parse(
 	    document.getElementById('column_fill_aabb').value), comments) ;
     else if ( choice === "ABC ABC ABC..." )
-	fill_column_do_abab(parse_lines(
+	fill_column_do_abab(fill_column_parse(
 	    document.getElementById('column_fill_abab').value), comments) ;
     else if ( choice === "42 43 44 45..." )
     {
@@ -139,7 +173,7 @@ function fill_column_do_fill(comments)
 	var start = Number(t.replace(/^[^0-9]*([0-9]+).*$/, '$1')) ;
 	var v = [] ;
 	for(var i = start; i < start + filtered_lines.length; i++)
-	    v.push(left + i + right) ;
+	  v.push([1, 1, left + i + right]) ;
 	fill_column_do_abab(v, comments) ;
     }
     else
@@ -154,20 +188,21 @@ function fill_column_do_fill(comments)
 
 function fill_column_do_aabb(values, comments)
 {
-  var i, j, value ;
+  var j, value ;
 
   for(j in filtered_lines)
     {
-      i = Math.floor((values.length * j) / filtered_lines.length) ;
-      if ( i >= values.length )
-	i = values.length ;
-      value = values[i] ;
+      while( values[0][0] == 0 )
+	values.shift() ; // remove full value
+      value = values[0] ;
+      value[0]-- ;
+      
       if ( comments )
 	comment_change(filtered_lines[j].line_id, popup_column().data_col,
-		       value) ;
+		       value[2]) ;
       else
 	cell_set_value_real(filtered_lines[j].line_id,
-			    popup_column().data_col, value) ;
+			    popup_column().data_col, value[2]) ;
     }
 }
 
@@ -175,15 +210,20 @@ function fill_column_do_abab(values, comments)
 {
   var i, j, value ;
 
+  i = 0 ;
   for(j in filtered_lines)
     {
-      i = j % values.length ;
-      value = values[i] ;
+      while( values[i%values.length][0] == 0 )
+	i++ ;
+      value = values[i%values.length] ;
+      value[0]-- ;
+      
       if ( comments )
 	comment_change(filtered_lines[j].line_id, popup_column().data_col,
-		       value) ;
+		       value[2]) ;
       else
 	cell_set_value_real(filtered_lines[j].line_id,
-			    popup_column().data_col, value) ;
+			    popup_column().data_col, value[2]) ;
+      i++ ;
     }
 }

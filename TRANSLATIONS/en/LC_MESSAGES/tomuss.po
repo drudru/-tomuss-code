@@ -2016,8 +2016,12 @@ msgstr "If you enter ' Place 8 room X ' cells will be filled with:\n"
        
 
 msgid "MSG_fill_equal"
-msgstr "If it is possible the numbers of A, B an C will be equal."
+msgstr "If it is possible the numbers of A, B an C will be equal.<br>\n"
+       "<small>If the maximum number of B is 5, enter <b>B {{{5}}}</b></small>"
 
+msgid "ALERT_column_fill_max"
+msgstr "Enlarge your constraint on maximum, filling is impossible"
+       
 msgid "MSG_fill_before"
 msgstr "Then click to change cells"
 
