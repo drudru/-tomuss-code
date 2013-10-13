@@ -69,7 +69,8 @@ function initialize_suivi_real()
     + encodeURI(_('MSG_suivi_student_mail_subject')) + '&body='
     + encodeURI(_('MSG_suivi_student_mail_body')).replace(/\n/g, '%0A')
     + '">' +  _('MSG_suivi_student_mail_link') + '</a>, '
-    + '<a href="' + url_suivi + '/logout">' + _("LABEL_logout") +'</a> '
+    + '<a href="' + url_suivi + '/=' + ticket + '/logout">'
+    + _("LABEL_logout") +'</a> '
     + '<b>' + username + '</b><br>' ;
 
   if ( myindex(root, username) != -1 )
