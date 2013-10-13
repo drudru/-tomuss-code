@@ -29,5 +29,7 @@ class COW(max.Max):
     formatte = 'text_format'
     cell_test = 'test_cow'
     ondoubleclick = 'toggle_cow'
- 
+    attributes_visible = ('minmax', 'columns', 'weight', 'rounding',
+                          'repetition')
+
 

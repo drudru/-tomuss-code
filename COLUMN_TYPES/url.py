@@ -27,7 +27,7 @@ class URL(text.Text):
     human_priority = 10
     tip_cell = "TIP_cell_URL"
     ondoubleclick = 'follow_url'
-    attributes_visible = ('url_base', 'url_title')
+    attributes_visible = ('url_base', 'url_title', 'repetition')
 
     def formatter(self, column, value, cell, lines, teacher, ticket, line_id):
         if value == '':
