@@ -141,6 +141,15 @@ def restart_suivi():
                 break
             time.sleep(1)
 
+def restart_tomuss():
+    """Linux only function"""
+    pid = stop("tomuss")
+    if pid:
+        while os.path.exists("/proc/%d" % pid):
+            time.sleep(1)
+    run(configuration.server_url, 'tomuss.py',
+        run_only_if_not_properly_stopped=False, strace="")
+
 if 'stop' in sys.argv:
     stop_suivi()
     stop('tomuss')
@@ -156,6 +165,10 @@ if 'stopsuivi' in sys.argv:
 
 if 'restartsuivi' in sys.argv:
     restart_suivi()
+    sys.exit(0)
+
+if 'restarttomuss' in sys.argv:
+    restart_tomuss()
     sys.exit(0)
 
 # Running suivi.
