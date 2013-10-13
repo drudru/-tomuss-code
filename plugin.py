@@ -482,7 +482,8 @@ def dispatch_request(server, manage_error=True):
         server.the_file.write(server._('MSG_beware_XSS')
                               + '<br><a href="' + url + '">'
                               + url.split("?")[0] + '</a>')
-        server.close_connection_now()
+        server.the_file.close()
+        utilities.send_backtrace("XSS attack ?: %s" % url)
         return
 
     try:
