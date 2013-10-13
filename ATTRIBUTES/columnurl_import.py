@@ -25,3 +25,4 @@ class ColumnURL_import(ColumnAttr):
     default_value = ''
     name = 'url_import'
     check_and_set = 'function(value, column){ return value; }'
+    always_visible = 1

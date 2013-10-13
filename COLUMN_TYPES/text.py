@@ -219,7 +219,7 @@ class Text(object):
 
     # The columns attributes that should be displayed for this type
     # DO NOT INDICATES ATTRIBUTES VISIBLE BY ALL THE COLUMN TYPES
-    attributes_visible = ('completion', 'repetition')
+    attributes_visible = ('completion', 'repetition', 'url_import')
 
     def value_range(self, v_min, v_max):
         """Display the range of the possible values"""

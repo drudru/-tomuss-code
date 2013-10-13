@@ -33,7 +33,8 @@ class Prst(note.Note):
     tip_filter = "TIP_filter_Prst"
     tip_test = ''
     should_be_a_float = 0
-    attributes_visible = ()
+    attributes_visible = ('url_import',)
+
 
     def formatter(self, column, value, cell, lines, teacher, ticket, line_id):
         classname = self.cell_indicator(column, value, cell, lines)[0]

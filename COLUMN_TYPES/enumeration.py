@@ -28,7 +28,7 @@ class Enumeration(text.Text):
     cell_test = 'test_enumeration'
     cell_completions = 'completions_enumeration'
     ondoubleclick = 'toggle_enumeration'
-    attributes_visible = ('enumeration', 'weight', 'repetition')
+    attributes_visible = ('enumeration', 'weight', 'repetition', 'url_import')
 
     def formatter(self, column, value, cell, lines, teacher, ticket, line_id):
         v = column.enumeration.split(' ')

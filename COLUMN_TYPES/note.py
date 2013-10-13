@@ -28,7 +28,8 @@ if not hasattr(math, 'isnan'):
     math.isnan = lambda x: not x<0 and not x>=0
 
 class Note(text.Text):
-    attributes_visible = ('minmax', 'weight', 'rounding', 'repetition')
+    attributes_visible = ('minmax', 'weight', 'rounding', 'repetition',
+                          'url_import')
     human_priority = -10
     tip_filter = "TIP_filter_Note"
     tip_cell = "TIP_cell_Note"
