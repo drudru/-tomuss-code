@@ -30,6 +30,7 @@ plugin.Plugin('student_redirect', '/{*}', group='!staff', password_ok = None,
                                                 ticket=x.ticket.ticket)),),
               documentation = "Redirect the student on the 'suivi'.",
               priority = -5,
+              unsafe=False,
               )
 
 
