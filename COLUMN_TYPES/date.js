@@ -1,7 +1,7 @@
 // -*- coding: utf-8 -*-
 /*
     TOMUSS: The Online Multi User Simple Spreadsheet
-    Copyright (C) 2008-2010 Thierry EXCOFFIER, Universite Claude Bernard
+    Copyright (C) 2008-2013 Thierry EXCOFFIER, Universite Claude Bernard
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -28,7 +28,7 @@ function test_date(value, column)
   var v = value.split(' ',1)[0].split('/') ;
   if ( v.length < 1 || v.length > 3 )
     {
-      alert_append('Saisissez la date sous la forme Jour/Mois/Année\nOu bien Jour/Mois ou bien simplement le Jour') ;
+      alert_append(_('ALERT_date_format')) ;
       return ;
     }
 
@@ -56,7 +56,7 @@ function test_date(value, column)
   var d = new Date(year, month-1, day) ;
   if ( d.getDate()!= day || d.getMonth() != month-1 || d.getFullYear() != year)
     {
-      alert_append("Cette date n'existe pas : " + value) ;
+      alert_append(_('ALERT_date_invalid') + value) ;
       return ;
     }
   day = two_digits(day) ;
@@ -69,7 +69,7 @@ function test_date(value, column)
     {
       if ( h.search(/^[0-9][h:]/) != -1 )
 	h = '0' + h ;
-      h = ' ' + h ;
+      h = ' ' + h.replace(/h/g, ':') ;
     }
 
   return day + '/' + month + '/' + year + h ;

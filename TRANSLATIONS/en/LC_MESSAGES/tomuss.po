@@ -5170,4 +5170,11 @@ msgid "TIP_table_attr_hide_empty"
 msgstr "You can choose to not display the empty lines that have an history.\n"
        "This allow to have only really clean empty lines."
 
+msgid "ALERT_date_format"
+msgstr "Enter a date as Day/Month/Year"
+       "Or Day/Month or only the Day (of the current month).\n"
+       "It is possible to add the time after the date."
+
+msgid "ALERT_date_invalid"
+msgstr "Cette date n'existe pas : "
        

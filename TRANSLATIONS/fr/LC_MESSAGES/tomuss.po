@@ -5253,3 +5253,10 @@ msgstr "Cela permet de faire disparaître les lignes vides\n"
        "mais qui contiennent un historique car elles ont\n"
        "été remplies puis effacées."
 
+msgid "ALERT_date_format"
+msgstr "Saisissez la date sous la forme Jour/Mois/Année\n"
+       "Ou bien Jour/Mois ou bien simplement le Jour.\n"
+       "Vous pouvez ajouter l'heure après la date"
+
+msgid "ALERT_date_invalid"
+msgstr "Cette date n'existe pas : "
