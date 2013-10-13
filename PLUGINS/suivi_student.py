@@ -434,7 +434,7 @@ def student(server, login=''):
     server.the_file.write(s.encode('utf8'))
 
 plugin.Plugin('student', '/{*}', function=student, group='!staff',
-              launch_thread=True,
+              launch_thread=True, unsafe=False,
               password_ok = None)
 
 def accept(server):
@@ -499,7 +499,7 @@ def home(server, nothing_behind=True):
     if nothing_behind:
         server.the_file.write(student_statistics(server.ticket.user_name, server, is_a_student=True).encode('utf8'))
 
-plugin.Plugin('home', '/', group='staff', function = home)
+plugin.Plugin('home', '/', group='staff', function = home, unsafe=False)
 
 def teacher_statistics(login, server):
     ticket = server.ticket
