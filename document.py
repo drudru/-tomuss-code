@@ -500,9 +500,10 @@ class Table(object):
         page.index = getattr(page.browser_file, 'index', page.index)
         page.browser_file = None # stop a memory leak
             
-    def send_update(self, page, value):
+    def send_update(self, page, value, store=True):
         warn('actives: %s' % str(self.active_pages), what='table')
-        self.sent_to_browsers.append(value)
+        if store:
+            self.sent_to_browsers.append(value)
         for p in tuple(self.active_pages):
             if p == page:
                 continue
@@ -1736,7 +1737,8 @@ def check_down_connections():
 
         time.sleep(configuration.check_down_connections_interval)
         for ttable in tables_values():
-            ttable.send_update(None, '<script>connected();</script>')
+            ttable.send_update(None, '<script>connected();</script>',
+                               store=False)
             for page in ttable.active_pages:
                 if page.ticket not in ticket.tickets:
                     warn('%s ticked expired page=%s ticket=%s' % (
