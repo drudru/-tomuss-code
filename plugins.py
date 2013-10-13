@@ -147,7 +147,7 @@ def types_ordered(root='Text'):
 
 def the_value(t):
     try:
-        return t.im_func.__module__.split('.')[1]
+        return t.im_func.__module__.split('.')[2]
     except AttributeError:
         return str(t)
 
@@ -421,17 +421,16 @@ TABLE.types .defined { background: #FDD ; }
 
     f = open('DOCUMENTATION/xxx_type2.html', 'w')
     f.write(head)
-    first_line = True
+    f.write('<thead>')
+    f.write('<tr><td>')
+    for m in types_ordered():
+        f.write('<th>%s</th>' % m.__class__.__name__)
+    f.write('</thead>')
     for k in types['Text'].keys:
-        if first_line:
-            f.write('<thead>')
         f.write('<tr><th>%s</th>' % k)
         for m in types_ordered():
             make_td(f, '', k, m)
         f.write('</tr>\n')
-        if first_line:
-            f.write('</thead>')
-            first_line = False
     f.write('</tbody></table>\n')
     f.close()
 

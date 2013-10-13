@@ -25,6 +25,7 @@ class ColumnRepetition(ColumnAttr):
     default_value = 0
     name = 'repetition'
     check_and_set = 'set_repetition'
+    always_visible = 1
     def encode(self, value):
         return int(value)
     def decode(self, value):
