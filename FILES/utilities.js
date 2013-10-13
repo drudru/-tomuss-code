@@ -87,7 +87,7 @@ function get_date(value)
 {
   value = value.toString() ;
   var v = value.split('/') ;
-  var d ;
+  var d, time ;
 
   if ( v.length == 1 && isNaN(value.substr(value.length-1)) )
     {
@@ -116,6 +116,18 @@ function get_date(value)
       return d ;
     }
 
+  if ( v[2] !== undefined )
+    {
+      var x = v[2].split(/[ _]/) ;
+      if ( x.length == 2 )
+	{
+	  v[2] = x[0] ;
+	  x = x[1].split(/[:h]/) ;
+	  if ( x.length == 2 && !isNaN(x[0]) && !isNaN(x[1]) )
+	    time = [Number(x[0]), Number(x[1])] ;
+	}
+    }
+
   for(var i in v)
     if ( isNaN(Number(v[i])) )
       return false ;
@@ -140,7 +152,14 @@ function get_date(value)
       }
     else
       return false ;
-  d.sup.setHours(23, 59, 59) ;
+
+  if ( time === undefined )
+      d.sup.setHours(23, 59, 59) ;
+  else
+    {
+      d.setHours(time[0], time[1], 0) ;
+      d.sup.setHours(time[0], time[1], 59) ;
+    }
   return d ;
 }
 
