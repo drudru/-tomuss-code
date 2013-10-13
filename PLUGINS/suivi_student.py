@@ -464,6 +464,7 @@ def suivi_headers(server, is_student=True):
     server.the_file.write(
         '<noscript><h1>'+server._('MSG_need_javascript')+'</h1></noscript>\n'
         + "<script>"
+        + 'var table_attr = {} ;'
         + "var semester = %s;\n" % utilities.js(server.semester         )
         + "var year     = %s;\n" % utilities.js(server.year             )
         + "var ticket   = %s;\n" % utilities.js(server.ticket.ticket    )
