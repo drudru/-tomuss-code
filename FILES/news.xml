@@ -840,6 +840,32 @@ Les améliorations les plus visibles sont :
       </description>
       <guid>57</guid>
     </item>
+    <item>
+      <title>13/10/2013 : Version 5.2.12</title>
+      <link>http://tomuss.univ-lyon1.fr/</link>
+      <description>
+	Vous l'avez peut-être déjà vu, mais il y a maintenant
+	des menus pour choisir la complétion des valeurs.
+	&lt;p&gt;
+	On peut avoir un flux RSS contenant les modifications
+	sur les tables qui ne sont ni dans Printemps ni dans Automne.
+	&lt;p&gt;
+	Si les lignes vides contenant un historique vous gênent,
+	vous pouvez les faire disparaître grâce à un attribut de table.
+	Elles ne sont pas effacées, on peut les faire réapparaître.
+	&lt;p&gt;
+	Les options d'affichage des tables
+	(colonnes triées, filtres, coloriage...)
+	sont maintenant stockées dynamiquement dans l'adresse de la page.
+	Il vous suffit d'enregistrer un favori
+	pour retrouver le même affichage.	
+	&lt;p&gt;
+	Le remplissage de colonne AAABBBCCC permet maintenant d'indiquer
+	un nombre maximum de répétitions de la valeur.
+	Par exemple pour des effectifs maximum d'amphithéâtre.
+      </description>
+      <guid>58</guid>
+    </item>
 
   </channel>
 </rss>

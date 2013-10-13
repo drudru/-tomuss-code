@@ -44,8 +44,11 @@ release:translations
 	@echo "Check if we are in the 'stable' branch"
 	@git branch | grep -F '* stable' >/dev/null
 	@echo "Check if there are changes not commited"
-	@[ "" != "$(git diff)" ]
+	@[ "" = "$$(git diff)" ]
+	@echo "Check if LOCAL is on the 'stable' branch"
 	@cd LOCAL ; git branch | grep -F '* stable' >/dev/null
+	@echo "Check if LOCAL contains uncommited changes"
+	@cd LOCAL ; [ "" = "$$(git diff)" ]
 	@echo "This release will be tagged $(V)"
 	@echo "Running regression tests (about a minute)"
 	@cd REGTEST_SERVER ; ./tests.py 1 >/dev/null 2>&1
