@@ -619,7 +619,7 @@ def page_suivi(server):
                           )
 
 plugin.Plugin('infos', '/{*}', group='staff', password_ok = None,
-              function = page_suivi,
+              function = page_suivi, unsafe=False,
               launch_thread=True,
               )
 
