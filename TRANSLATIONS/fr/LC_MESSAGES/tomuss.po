@@ -162,7 +162,14 @@ msgstr "Calcule le pourcentage d'ABJUS utilisé dans le calcul\n"
        "<p>ATTENTION : par défaut, la valeur calculée\n"
        "est dans l'interval [0;20]"
 
+#. Columns types, button text in the menu
+msgid "B_Diff_Date"
+msgstr "Différence de dates"
 
+msgid "H_Diff_Date"
+msgstr "Calcule la différence en 2 dates en jours.<br>\n"
+       "Pour la calculer en semaines, mettez /7 dans le commentaire<br>\n"
+       "de la colonne (ou / par autre chose)"
 
 
 #. Attribute Tip

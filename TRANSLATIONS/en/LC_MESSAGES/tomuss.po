@@ -163,9 +163,17 @@ msgid "B_Weighted_Percent"
 msgstr "Weighted % of"
 
 msgid "H_Weighted_Percent"
-msgstr "Compute the weighted percent of filtered values\n"
-       "in the weighted average in the column indicated in 'Columns'.\n"
+msgstr "Compute the weighted percent of filtered values<br>\n"
+       "in the weighted average in the column indicated in 'Columns'.<br>\n"
        "<p>BEWARE : the default value interval is [0;20]"
+
+#. Columns types, button text in the menu
+msgid "B_Diff_Date"
+msgstr "Date subtraction"
+
+msgid "H_Diff_Date"
+msgstr "Compute time in day between 2 dates.\n"
+       "To have weeks, put /7 in the column comment."
 
 
 #. Attribute Tip
