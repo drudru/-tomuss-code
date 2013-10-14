@@ -4531,10 +4531,10 @@ msgid "COL_TITLE_+room"
 msgstr "Salle_Particulière"
 
 msgid "COL_COMMENT_+room"
-msgstr "Dispose d'une salle particuliaire"
+msgstr "Dispose d'une salle particulière"
 
 msgid "COL_COMMENT_tt_duration"
-msgstr "A saisir si ce n'est pas pour toutes l'année"
+msgstr "A saisir si ce n'est pas pour toute l'année"
 
 msgid "COL_TITLE_tt_remarks"
 msgstr "Remarques_Et_Autres_Dispositions"

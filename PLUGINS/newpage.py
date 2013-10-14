@@ -315,6 +315,7 @@ else
                 ''.join(table.sent_to_browsers[page.index-1:]))
         page.browser_file.set_real_file(server.the_file)
         page.browser_file.flush()
+        page.end_of_load = 0 # end_of_load will not be called
         table.active_page(page, page.browser_file)
 
 
