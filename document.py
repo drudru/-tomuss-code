@@ -1467,7 +1467,10 @@ def check_students_in_tables():
         time.sleep(configuration.students_check_interval)
         for t in tables_values():
             update_students.append(t)
-            time.sleep(10) # Avoid overload
+            if configuration.regtest_sync:
+                time.sleep(0.1)
+            else:
+                time.sleep(10) # Avoid overload
 
 
 # continuous update of students lists

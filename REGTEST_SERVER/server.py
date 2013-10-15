@@ -125,6 +125,19 @@ class Server(object):
         if not returns_file:
             f.close()
         # os.system('diff -u -r *DBregtest/')
+        url = url.split('/')
+        if (self.name == 'tomuss'
+            and len(url) == 4
+            and url[-2] in ('Automne', 'Printemps', 'Test')
+            and url[-1] not in ('abj', 'UE-pastue')
+            ):
+            name = os.path.join('DBregtest',
+                                'Y'+url[-3], 'S'+url[-2], url[-1]+'.py')
+            if os.path.exists(name):
+                f = open(name, "r")
+                x = f.read()
+                f.close()
+                assert("# 0" in x)
         return c
         
     def stop(self):

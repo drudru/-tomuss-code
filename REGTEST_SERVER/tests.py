@@ -976,6 +976,8 @@ Col({the_id:"col_1",type:"Note",author:"%s",position:0,title:"TITLE1"})
         assert(_("MSG_cell_message")+"<em>_TABLE_COMMENT_</em>" in c)
 
         c = s.url('=' + root + '/%s/UE-XXX9999L' % ys)
+        time.sleep(3)
+        # XXX DBregtest/Y2013/SPrintemps/UE-XXX9999L.py sometime broken
         c = s.url('=' + root + '/%s/UE-XXX9999L' % ys +
                   '/1/0/column_attr_type/col_0/Bool')
         assert(c == ok_png)
@@ -1743,7 +1745,7 @@ while True:
             shutil.rmtree('DBregtest', ignore_errors=True)
             shutil.rmtree('BACKUP_DBregtest', ignore_errors=True)
 
-        if do('sync'):
+        if exit_status == 0 and do('sync'):
             assert(os.system("cd REGTEST_SERVER ; ./sync.py") == 0)
             
         m.append('Running time : %g seconds' % (time.time() - start))

@@ -40,7 +40,10 @@ def redirect(server, url):
     server.send_response(307)
     server.send_header('Location', url)
     server.end_headers()
-    server.close_connection_now()
+    if server.please_do_not_close:
+        server.the_file.close()
+    else:
+        server.close_connection_now()
 
 def ticket_login_name(ticket_key, service, server=None):
     return configuration.authenticator.login_from_ticket(ticket_key,
@@ -147,7 +150,11 @@ def authentication_thread():
 
                 update_ticket(x.ticket)
                 # The request can be executed
-                plugin.dispatch_request(x)
+                try:
+                    plugin.dispatch_request(x)
+                except AttributeError:
+                    utilities.send_backtrace(str(x.ticket)[:-1],
+                                             subject = 'Authentication aborted:' + x.path)
                 if not x.please_do_not_close:
                     x.close_connection_now()
                     

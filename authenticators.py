@@ -185,8 +185,14 @@ class RegTest(Authenticator):
     def login_from_ticket(self, ticket_key, dummy_service, dummy_server):
         return ticket_key
 
-    def redirection(self, service, dummy_server):
-        return '%s?ticket=user.name' % service
+    def redirection(self, service, server):
+        path = server.path.split('/')
+        if len(path) >= 4 and path[3].startswith('='):
+            ticket = path[3][1:]
+        else:
+            ticket = 'user.name'
+            
+        return '%s?ticket=%s' % (service, ticket)
 
 
 class FaceBook(Authenticator):
