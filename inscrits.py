@@ -346,6 +346,16 @@ class LDAP_Logic(object):
             self.connexion.cancel(aa)
 
     def query_logins(self, logins, attributes):
+        chunk_size = 1000
+        if len(logins) > chunk_size:
+            r = []
+            chunk = logins[:]
+            n = 1 + len(logins) // int(1 + len(logins)//chunk_size)
+            while chunk:
+                r += self.query_logins(chunk[:n], attributes)
+                chunk = chunk[n:]
+            return r
+        
         logins = ''.join(['(%s=%s)' % (configuration.attr_login,
                                       utilities.the_login(login))
                                         for login in logins
@@ -584,8 +594,9 @@ class LDAP(LDAP_Logic):
                         + 'BASE=' + base + '\n'
                         , 'LDAP Error')
 
-                if isinstance(e, ldap.SIZELIMIT_EXCEEDED) or \
-                   isinstance(e, ldap.NO_SUCH_OBJECT):
+                if isinstance(e, (ldap.SIZELIMIT_EXCEEDED,
+                                  ldap.NO_SUCH_OBJECT,
+                                  ldap.TIMELIMIT_EXCEEDED)):
                     return ()
                 time.sleep(1)
                 self.connect() # Assume temporary network problem
