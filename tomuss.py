@@ -293,7 +293,7 @@ if __name__ == "__main__":
     document.start_threads()
 
     authentication.authentication_redirect = configuration.server_url
-    utilities.StaticFile._url_ = authentication.authentication_redirect.replace('/=TICKET','')
+    utilities.StaticFile._url_ = authentication.authentication_redirect
 
     utilities.start_new_thread_immortal(sender.send_thread, (True,))
 

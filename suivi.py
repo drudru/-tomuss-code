@@ -136,6 +136,8 @@ class MyRequestBroker(utilities.FakeRequestHandler):
         warn('ticket=%s' % str(self.ticket)[:-1])
         warn('the_path=%s' % str(self.the_path))
 
+        # Restore year/semester in order to have a good redirection
+        self.path = '/%d/%s' % (self.year, self.semester) + path
         if authentication.ok(self):
             self.do_GET_real_real_safe()
 
@@ -206,8 +208,7 @@ if __name__ == "__main__":
         year, semester, ticket='TICKET')
     StaticFile._url_ = '/'.join(authentication.authentication_redirect.split('/')[0:-3])
     if year is None:
-        authentication.authentication_redirect = (StaticFile._url_
-                                                  + '/=TICKET/\001YEAR/\001SEMESTER')
+        authentication.authentication_redirect = StaticFile._url_
 
     plugins.generate_data_files(suivi=True)
 

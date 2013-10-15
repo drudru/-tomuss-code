@@ -64,12 +64,7 @@ def get_path(server, server_url):
     # Ticket OK
     if ticket_object:
         warn('fast ticket:%s' % str(ticket_object)[:-1], what='auth')
-        if '/=TICKET' in server_url:
-            path = server_url.replace('TICKET',
-                                      ticket_object.ticket
-                                      ) + '/' + escaped_path
-        else:
-            path = server_url + '/=' + ticket_object.ticket +'/'+ escaped_path
+        path = server_url + '/=' + ticket_object.ticket +'/'+ escaped_path
         warn('fast path: %s' % str(path), what='auth')
         return ticket_object, path
 
@@ -77,8 +72,7 @@ def get_path(server, server_url):
         ticket_key = None # Because this ticket is not fine
     
     # 2.8.10
-    service = server_url.replace('/=TICKET','') + '/' + escaped_path
-    service = service.split('?')[0] + '?unsafe=1'
+    service = server_url + '/' + escaped_path.split('?')[0] + '?unsafe=1'
     warn('SERVICE: %s TICKET: %s' % (service, ticket_key), what="auth")
 
     if ticket_key != None:
@@ -142,17 +136,11 @@ def authentication_thread():
                 time.sleep(0.01)
             # now it is safe because the Handler has closed the file
             x.restore_connection()
-            if '\001YEAR' in authentication_redirect:
-                redirect_loc = (authentication_redirect
-                                .replace('\001YEAR', str(x.year))
-                                .replace('\001SEMESTER', str(x.semester))
-                                )
-            else:
-                redirect_loc = authentication_redirect
+            redirect_loc = authentication_redirect
                     
             try:
                 if not x.ticket:
-                    x.ticket, x.the_path = get_path(x, redirect_loc)
+                    x.ticket, dummy_the_path = get_path(x, redirect_loc)
                     if x.ticket == None:
                         x.log_time('redirection')
                         continue # Redirection done

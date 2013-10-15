@@ -474,7 +474,7 @@ def dispatch_request(server, manage_error=True):
 
     if p.unsafe and unsafe:
         server.send_response(p.response)
-        server.send_header('Content-Type', 'text/html')
+        server.send_header('Content-Type', 'text/html; charset=UTF-8')
         server.end_headers()
         from . import authentication
         url = (authentication.authentication_redirect
