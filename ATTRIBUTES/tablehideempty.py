@@ -28,7 +28,7 @@ class HideEmpty(TableModifiable):
     need_authorization = 0
     formatter = '''function(value)
 {
-  if ( ! table_change_allowed() || ! table_attr.modifiable )
+  if ( ! table_change_allowed() && ! table_attr.modifiable )
     {
       if ( value )
         change_option('hide_empty', '1') ;

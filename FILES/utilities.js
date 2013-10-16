@@ -691,16 +691,13 @@ function window_open(url, replace)
   var title = window_counter++ ;
   if ( replace )
       title = replace ;
-  if ( url )
-      w = window.open(url, title) ;
-  else
-    try {
-	w = window.open(url, title) ;
-    }
-    catch(e) {
-      // XXX IE
-      w = window.open() ;
-    }
+  try {
+    w = window.open(url, title) ;
+  }
+  catch(e) {
+    // XXX IE
+    w = window.open() ;
+  }
   if ( ! w )
     {
       Alert("ALERT_popup") ;
