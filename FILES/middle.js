@@ -314,13 +314,16 @@ function an_user_update(event, input, column, attr)
 
   if ( new_value === null )
     return ; // Not stored, but leave user input unchanged
-  if ( input.selectedIndex === undefined )
-    if ( attr.what == 'column' )
-      input.value = attr.formatter(column, new_value) ;
-    else
-      input.value = attr.formatter(new_value) ;
+
+  var formated ;
+  if ( attr.what == 'column' )
+    formated = attr.formatter(column, new_value) ;
   else
-    attr.formatter(column, new_value) ;
+    formated = attr.formatter(new_value) ;
+
+  if ( input.selectedIndex === undefined )
+    input.value = formated ;
+
   input.theoldvalue = new_value ;
 
   if ( attr == 'type' )

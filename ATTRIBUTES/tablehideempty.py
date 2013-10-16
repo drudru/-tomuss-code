@@ -28,9 +28,12 @@ class HideEmpty(TableModifiable):
     need_authorization = 0
     formatter = '''function(value)
 {
-  if ( ! table_change_allowed() && ! table_attr.modifiable )
+  if ( value == table_attr.hide_empty )
+     return Number(value) ;
+
+  if ( ! table_change_allowed() || ! table_attr.modifiable )
     {
-      if ( value )
+      if ( value != 0 )
         change_option('hide_empty', '1') ;
       else
         change_option('hide_empty', '0') ;
@@ -40,6 +43,8 @@ class HideEmpty(TableModifiable):
   table_fill(true) ;
   return Number(value) ;
 }'''
-
+    
     def update(self, table, old_value, new_value, page):
         pass
+
+
