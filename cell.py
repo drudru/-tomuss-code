@@ -366,7 +366,7 @@ class Lines(object):
             s.append(
                 utilities.tipped(' (*)',
                                  utilities._("MSG_cell_one_line"),
-                                 url='%s/=%s/%d/%s/%s/=filters=0:%s=' %
+                                 url='%s/=%s/%d/%s/%s/=filters=0_0:%s=' %
                                  (configuration.server_url,
                                   ticket.ticket,
                                   table.year, table.semester,

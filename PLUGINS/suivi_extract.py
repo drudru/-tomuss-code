@@ -181,7 +181,7 @@ def display_fusion(server,
     for table, columns in tables:
         f.write(table.ue + ' ' + repr(columns) + '<br>')
     f.write('<table class="colored">')
-    f.write('<tbody>')
+    f.write('<tbody>\n')
     for student, values in students.items():
         firstname, surname = inscrits.L_batch.firstname_and_surname(student)
         f.write('<tr><td>' + inscrits.login_to_student_id(student)

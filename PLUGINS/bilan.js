@@ -134,7 +134,7 @@ function bilan(ticket, login, resume, firstname, surname, mail, suivi,
 	      var n = v[2] + v[3] + v[4] ;
 	      s += '<td class="inscrit"><a href="/=' + ticket + '/'
 		+ j[0] + '/' + semester +'/' + ues[i]
-		+ '/=read-only=/=filters=0:' + login_to_id(login)
+		+ '/=read-only=/=filters=0_0:' + login_to_id(login)
 		+ '=" target="_blank">' ;
 	      if ( n == 0 )
 		s += '&nbsp;' ;

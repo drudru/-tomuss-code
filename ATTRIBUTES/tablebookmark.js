@@ -66,11 +66,13 @@ function column_get_option(attr, hook, alternate_option_name)
   for(var i in h)
     {
       var j = h[i].split(':') ;
+      if ( j.length != 2 )
+	break ;
       var data_col = data_col_from_col_id(j[0]) ;
-      if ( ! data_col )
+      if ( data_col === undefined )
 	if ( columns[Number(j[0])] )
 	  data_col = Number(j[0]) ;  // For compatibility with old bookmarks
-      if ( data_col )
+      if ( data_col !== undefined )
 	columns[data_col][attr] = hook(decode_uri_option(j[1]),
 				       columns[data_col]) ;
     }
