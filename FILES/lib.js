@@ -4468,12 +4468,13 @@ function display_suivi(cols) /* [value, class, comment] */
 	  + '</b><br>' ;
       if (column.real_type.should_be_a_float)
 	{
+	  comment += '<!--㎏-->' ;
 	  if ( column.weight.substr(0,1) == '+'
 	       || column.weight.substr(0,1) == '-' )
 	    comment += _("SUIVI_weight_add") ;
 	  else
 	    comment += _("SUIVI_weight_average") ;
-	  comment += ' <b>' + column.weight + '</B><br>' ;
+	  comment += ' <b>' + column.weight + '</B><br><!--㎏-->' ;
 	}
       if (column.best_of)
 	comment += _("SUIVI_best_of_before") + -column.best_of
@@ -4568,7 +4569,7 @@ function display_suivi(cols) /* [value, class, comment] */
 	    {
 	      if ( visual_cell[0] !== '' || is_a_teacher )
 		{
-		  cell = visual_cell[4].replace(/Poids[^B]*B><br>/, '') ;
+		  cell = visual_cell[4].replace(/<!--㎏-->[^㎏]*㎏-->/, '') ;
 		  document.write(cell) ;
 		}
 	    }
