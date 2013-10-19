@@ -204,12 +204,10 @@ if __name__ == "__main__":
     server = BaseHTTPServer.HTTPServer(("0.0.0.0", server_port),
                                        MyRequestBroker)
     server.last_unload = 0
-    authentication.authentication_redirect = configuration.suivi.url(
-        year, semester, ticket='TICKET')
-    StaticFile._url_ = '/'.join(authentication.authentication_redirect.split('/')[0:-3])
-    if year is None:
-        authentication.authentication_redirect = StaticFile._url_
 
+    StaticFile._url_ = configuration.suivi.url(year, semester, ticket='')
+    authentication.authentication_redirect = '/'.join(StaticFile._url_.split('/')[:-2])
+    
     plugins.generate_data_files(suivi=True)
 
     if configuration.regtest:
