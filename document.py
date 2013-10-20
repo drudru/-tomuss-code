@@ -413,11 +413,13 @@ class Table(object):
 
 
     def change_mails(self, mails):
-        return self.table_attr_computed('mails', mails)
+        self.table_attr_computed('mails', mails)
     def change_portails(self, portails):
-        return self.table_attr_computed('portails', portails)
+        self.table_attr_computed('portails', portails)
 
     def table_attr_computed(self, attr, value):
+        if getattr(self, attr) == value:
+            return
         setattr(self, attr, value)
         t = '<script>Xtable_attr(%s,%s);</script>\n' % (repr(attr), js(value))
         self.send_update(None, t)
@@ -1493,9 +1495,9 @@ def check_new_students_real():
                 if t.template and hasattr(t.template, 'check'):
                     t.template.check(t)
                 warn('done %s' % t.ue, what="table")
-                t.mails.update(inscrits.L_batch.mails(
-                        list(t.logins()) + t.authors()))
-                t.change_mails(t.mails)
+                mails = inscrits.L_batch.mails(list(t.logins()) + t.authors())
+                mails.update(t.mails)
+                t.change_mails(mails)
                 if t.modifiable:
                     if t.force_update or getattr(t, 'update_inscrits', True):
                         for a_column in t.columns:
