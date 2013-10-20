@@ -20,6 +20,7 @@
 #    Contact: Thierry.EXCOFFIER@bat710.univ-lyon1.fr
 
 import time
+import cgi
 from .. import plugin
 from .. import document
 from .. import utilities
@@ -66,13 +67,15 @@ def stat_page(server):
             for c in line:
                 if c[0] != '':
                     nr_cells += 1
-        s.append('<tr><td>%d</td><td>%s</td><td><a target="_blank" href="%s">%s</a></td><td>%d/%d<small>%s%s</td><td>%d</td><td>%d</td><td>%d</td><td>%s</td><td>%s</td></tr>' % (
+        s.append('<tr><td>%d</td><td>%s</td><td><a target="_blank" href="%s">%s</a></td><td>%d/%d<small>%s<a href="%s">%s</a></td><td>%d</td><td>%d</td><td>%d</td><td>%s</td><td>%s</td></tr>' % (
             t.year,
             t.semester,
             "%s/=%s/%s/%s/%s" % (utilities.StaticFile._url_,
                                server.ticket.ticket, t.year, t.semester, t.ue),
             t.ue,
             len(t.pages)-nr_empty, len(t.pages), t.do_not_unload,
+            "%s/=%s/tablebuffer/%s/%s/%s"%(utilities.StaticFile._url_,
+                               server.ticket.ticket, t.year, t.semester, t.ue),
             sum(len(i) for i in t.sent_to_browsers),
             len(t.lines),
             len(t.columns),
@@ -88,6 +91,26 @@ plugin.Plugin('statpage', '/stat',
               function=stat_page, group='roots',
               link=plugin.Link(html_class="verysafe", where='informations',
                                priority=-10),
+              )
+
+def tablebuffer(server):
+    """Display the tables in memory and the user on them."""
+    table = document.table(server.the_year, server.the_semester,
+                           server.the_ue, create=False)
+    if table:
+        server.the_file.write("""
+<style>
+TR { vertical-align:top ; }
+TH, TD { border: 1px solid black ; }
+</style>
+<table>""")
+        for i, v in enumerate(table.sent_to_browsers):
+            server.the_file.write("<tr><th>%s<td>%s</tr>" % (
+                    i, cgi.escape(v)))
+        server.the_file.write("</table>")
+
+plugin.Plugin('tablebuffer', '/tablebuffer/{Y}/{S}/{U}',
+              function=tablebuffer, group='roots',
               )
 
 
