@@ -39,6 +39,7 @@ from .. import document
 from .. import teacher
 from .. import files
 from .. import signature
+from .. import authentication
 
 files.add('PLUGINS', 'suivi_student.css')
 files.add('PLUGINS', 'suivi_student.js')
@@ -291,7 +292,7 @@ hidden('<a href="%s/=%s/%s/%s/ %s" target="_blank">'
        + _("MSG_suivi_student_view") + '</a>',
        _("TIP_suivi_student_view"));
 </script>, ''' % (
-            utilities.StaticFile._url_, ticket.ticket,
+            authentication.authentication_redirect, ticket.ticket,
             year, semester, login))
 
     # SIGNATURE
