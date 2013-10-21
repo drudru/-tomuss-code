@@ -904,9 +904,10 @@ def manage_key_real(dirname, key, separation=3, content=None, reduce_ok=True,
             if not reduce_ok and len(content) < len(c)*0.5:
                 warn("Size not reduced for " + f1)
                 return c
-        f = open(f1, 'w')
-        f.write(content)
-        f.close()
+        if content != c: # Write if modified (non-existant files are empty)
+            f = open(f1, 'w')
+            f.write(content)
+            f.close()
     return c
 
 @add_a_lock
