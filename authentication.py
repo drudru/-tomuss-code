@@ -40,10 +40,7 @@ def redirect(server, url):
     server.send_response(307)
     server.send_header('Location', url)
     server.end_headers()
-    if server.please_do_not_close:
-        server.the_file.close()
-    else:
-        server.close_connection_now()
+    server.close_connection_now()
 
 def ticket_login_name(ticket_key, service, server=None):
     return configuration.authenticator.login_from_ticket(ticket_key,
@@ -63,7 +60,7 @@ def get_path(server, server_url):
     ticket_key, path = ticket.get_ticket_string(server)
     escaped_path = '/'.join(canonize(i) for i in path)
     ticket_object = ticket.get_ticket_objet(ticket_key, server)
-        
+
     # Ticket OK
     if ticket_object:
         warn('fast ticket:%s' % str(ticket_object)[:-1], what='auth')

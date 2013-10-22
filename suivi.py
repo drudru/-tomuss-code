@@ -125,6 +125,7 @@ class MyRequestBroker(utilities.FakeRequestHandler):
             self.do_profile = False
 
         self.the_file = self.wfile
+        self.the_rfile = self.rfile
         # self.do_not_close_connection()
         if plugin.dispatch_request(self, manage_error=False) is None:
             # XXX Assumes that a thread is not launched

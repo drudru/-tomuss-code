@@ -25,7 +25,6 @@ RSSKEY creation
 
 from .. import plugin
 from .. import utilities
-from .. import files
 import random
 import os
 
@@ -46,4 +45,4 @@ def rsskey(server):
     server.the_file.write(key)
 
 plugin.Plugin('rsskey', '/rsskey', function=rsskey, mimetype='text/plain',
-              priority=-10, password_ok = None)
+              priority=-10, password_ok = None, unsafe=False)
