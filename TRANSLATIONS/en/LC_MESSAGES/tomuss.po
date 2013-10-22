@@ -4878,7 +4878,7 @@ msgstr "Hello\n"
 
 msgid "MSG_tomuss_start"
 msgstr "First time TOMUSS user, goto :\n"
-       "\thttp://127.0.0.1:8888/=super.user\n"
+       "\t%s\n"
        "Type 's' in the UE search box.\n"
        "Type 'a' in the student search box.\n"
        "\n"

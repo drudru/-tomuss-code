@@ -305,7 +305,8 @@ if __name__ == "__main__":
     while utilities.filename_to_bufferize is not None:
         time.sleep(0.1)
     print '\n\n\n' +'*'*78
-    print utilities._("MSG_tomuss_start")
+    print utilities._("MSG_tomuss_start"
+                      ) % (configuration.server_url + '/=super.user')
     if configuration.regtest:
         regtest = 'regtest'
     else:

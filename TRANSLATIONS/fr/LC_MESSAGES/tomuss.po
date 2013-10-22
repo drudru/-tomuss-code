@@ -4954,7 +4954,7 @@ msgstr "Bonjour\n"
 
 msgid "MSG_tomuss_start"
 msgstr "Votre première fois ? Allez sur :\n"
-       "\thttp://127.0.0.1:8888/=super.user\n"
+       "\t%s\n"
        "Tapez 's' dans le moteur de recherche d'UE\n"
        "Taper 'a' dans le moteur de recherche d'étudiant\n"
        "\n"
