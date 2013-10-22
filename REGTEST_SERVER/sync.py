@@ -19,10 +19,13 @@
 #
 #    Contact: Thierry.EXCOFFIER@univ-lyon1.fr
 
+# If the test fails, try to take a longer timeout
+timeout = 0.1
+
 import sys
-import urllib2
-import threading
 import time
+import urllib2
+import socket
 
 sys.argv.append("real_regtest")
 import tomuss_init
@@ -38,85 +41,84 @@ abj      = configuration.invited_abj_masters[1]
 invited  = configuration.invited_teachers[0]
 ok_png   = utilities.read_file('FILES/ok.png')
 
-running = True
-
-class Reader(threading.Thread):
-    def __init__(self, f):
-        self.file = f
+class Reader:
+    
+    def __init__(self, url):
+        self.url = url
         self.buffer = ''
-        threading.Thread.__init__(self)
-    def run(self):
-        try:
-            while running:
-                self.buffer += self.file.read(1)
-        except TypeError:
-            pass
-        except AttributeError: # connection closed
-            pass
-    def wait_content(self, content):
-        t = time.time()
-        while time.time() - t < 5: # Wait 2 seconds
-            if content in self.buffer:
-                return True
-        print self.buffer
-        print 'TIMEOUT'
-        return
+        hostname = socket.getfqdn() + ':' + str(server.Server.port)
+        self.file = urllib2.urlopen('http://' + hostname + '/' + url)
 
-def what(s):
-    print s.url("=" + root + '/threads')
-    print s.url("=" + root + '/locks')
-    
-    
+    def want_content(self, content):
+        self.file.fp._sock.fp._sock.settimeout(timeout)
+        try:
+            while True:
+                self.buffer += self.file.read(1)
+        except socket.timeout:
+            self.must_contain(content)
+    def must_contain(self, content):
+        if content in self.buffer:
+            return
+        raise ValueError("%s Expected content not found: %s in\n%s" %
+                         (self.url, content, self.buffer))    
+    def must_not_contain(self, content):
+        if content not in self.buffer:
+            return
+        raise ValueError("%s unexpected content found: %s in\n%s" %
+                         (self.url, content, self.buffer))    
+    def close(self):
+        print "Broke the link", self.url
+        try:
+            # empty the socket input buffer
+            self.file.read(10000)
+        except socket.timeout:
+            pass
+        # BEWARE the close do not really close the socket
+        # Even the del does not make it.
+        # So the 'send_alert' in the 'wait_nr_file' loop
+        # Allow to wait the real close
+        self.file.fp._sock.fp._sock.close()
+        self.file.close()
+        del self.file
+
 def wait_nr_file(s, nb):
-    print "Wait close"
-    for dummy_i in range(10):
-        while 'check_new_students_real' in s.url("=" + root + '/threads'):
-            time.sleep(1)
-        
+    print "Want %d files open on the server" % nb
+    while True:
+        s.url("=" + root  + '/send_alert//a_message_to_close_connection')
         x = s.url("=" + root + '/stat')
-        if x.count("<b><a") == nb:
+        actives = x.count("<b><a")
+        if actives == nb:
             break
-        time.sleep(0.1)
-    else:
-        print "Connection not closed: WHY!!!!!!!!!!!!!!!!!!!!!!!!!!"
-        print "Continue the regression tests"
-        what(s)
+        time.sleep(1)
 
 def tests(s):
     print "Start first browser: A"
     a = s.url("=" + root + '/0/Public/sync')
     assert('page_id = "1"' in a)
-    a_link = Reader(urllib2.urlopen(s.get_url("=" +root+ '/0/Public/sync/1')))
-    a_link.setDaemon(True)
-    a_link.start()
+    a_link = Reader("=" +root+ '/0/Public/sync/1')
 
     print "Start second browser: B"
     b = s.url("=" + root + '/0/Public/sync')
     assert('page_id = "2"' in b)
-    b_link = Reader(urllib2.urlopen(s.get_url("=" +root+ '/0/Public/sync/2')))
-    b_link.setDaemon(True)
-    b_link.start()
-
+    b_link = Reader("=" +root+ '/0/Public/sync/2')
+    time.sleep(1)
+    wait_nr_file(s, 2)
+    
     print "A create a column"
     assert(s.url("=" + root
                  + '/0/Public/sync/1/0/column_attr_title/col_0/SyncTitle')
            == ok_png)
-                
-    assert( b_link.wait_content('SyncTitle') == True )
+
+    a_link.want_content('saved(0)')
+    b_link.want_content('SyncTitle')
 
     print "B change a cell"
     assert(s.url("=" + root
                  + '/0/Public/sync/2/0/cell_change/col_0/line_0/SyncValue')
            == ok_png)
                 
-    assert( a_link.wait_content('SyncValue') == True )
-    # Needed because there is some data sent after SyncValue
-    # these data are in the same packet.
-    # If the connection is close too quickly, the data
-    # packet will be resent and the regtest will fail on line YYY_HERE_YYY
-    time.sleep(1)
-    print "B broke the link 1"
-    b_link.file.close()
+    a_link.want_content('SyncValue')
+    b_link.close()
     
     print "A change a cell 1"
     assert(s.url("=" + root
@@ -124,46 +126,35 @@ def tests(s):
            == ok_png)
 
     print "B restore the link"
-    b_link = Reader(urllib2.urlopen(s.get_url("=" +root+ '/0/Public/sync/2')))
-    b_link.setDaemon(True)
-    b_link.start()
+    b_link = Reader("=" +root+ '/0/Public/sync/2')
 
-    assert( b_link.wait_content('Xcell_change("col_0","line_1","SyncBroken"') == True )
-    assert('SyncValue' not in b_link.buffer) # YYY_HERE_YYY
-    assert('SyncTitle' not in b_link.buffer)
-
-    print "B broke the link 2"
-    b_link.file.close()
+    b_link.want_content('Xcell_change("col_0","line_1","SyncBroken"')
+    b_link.must_not_contain('SyncValue')
+    b_link.must_not_contain('SyncTitle')
+    b_link.close()
+    wait_nr_file(s, 1)
 
     print "A change a cell 2"
     assert(s.url("=" + root
                  + '/0/Public/sync/1/2/cell_change/col_0/line_1/SyncLongBroke')
            == ok_png)
 
-    wait_nr_file(s, 1)
 
     print "B restore the link 2"
-    b_link = Reader(urllib2.urlopen(s.get_url("=" +root+ '/0/Public/sync/2')))
-    b_link.setDaemon(True)
-    b_link.start()
+    b_link = Reader("=" +root+ '/0/Public/sync/2')
+    b_link.want_content('SyncLongBroke')
+    b_link.must_not_contain('Xcell_change("col_0","line_0","SyncValue"')
+    b_link.must_not_contain('Xcolumn_attr(\'title\',"col_0","SyncTitle"')
+    b_link.must_not_contain('Xcell_change("col_0","line_1","SyncBroken"')
+    wait_nr_file(s, 2)
 
-    assert( b_link.wait_content('SyncLongBroke') == True )
-    assert('Xcell_change("col_0","line_0","SyncValue"' not in b_link.buffer)
-    assert('Xcolumn_attr(\'title\',"col_0","SyncTitle"' not in b_link.buffer)
-    assert('Xcell_change("col_0","line_1","SyncBroken"' not in b_link.buffer)
-
-    print "B broke the link 3"
-    b_link.file.close()
-    s.url("=" + root  + '/send_alert//a_message_to_close_connection')
-    # wait_nr_file(s, 1)
+    b_link.close()
+    wait_nr_file(s, 1)
     
     print "B restore the link 3"
-    b_link = Reader(urllib2.urlopen(s.get_url("=" +root+ '/0/Public/sync/2')))
-    b_link.setDaemon(True)
-    b_link.start()
-
-    assert( b_link.wait_content("</script>") == True )
-    assert('Xcell_change("col_0","line_1","SyncLongBroke' not in b_link.buffer)
+    b_link = Reader("=" +root+ '/0/Public/sync/2')
+    b_link.want_content("</script>")
+    b_link.must_not_contain('Xcell_change("col_0","line_1","SyncLongBroke')
     
     print "done"
 
@@ -171,7 +162,6 @@ try:
     s = server.Server()
     s.start(sync=False)
     tests(s)
-    running = False
     print 'Sync tests are fine'
 finally:
     time.sleep(0.1)

@@ -1718,7 +1718,8 @@ def check_requests():
                     output_file.write(files.files[page.answer])
                     output_file.close()
                 sender.append(page.browser_file,
-                              '<script>saved(%d);</script>\n' % request)
+                              '<script>saved(%d);</script>\n' % request,
+                              index=len(tabl.sent_to_browsers)+1)
                 if page.answer == 'bug.png' and real_bug:
                     sender.append(page.browser_file,
                                   '<script>Alert("ERROR_server_bug");</script>')

@@ -204,11 +204,6 @@ class MyRequestBroker(utilities.FakeRequestHandler):
         if authentication.ok(self):
             plugin.dispatch_request(self)
 
-    def do_GET_real_real_safe(self):
-        warn('ticket=%s' % str(self.ticket)[:-1], what='auth')
-        warn('the_path=%s' % str(self.the_path), what='auth')
-        plugin.dispatch_request(self)
-
     def do_GET(self):
         global current_time
         self.start_time = time.time()
