@@ -105,12 +105,12 @@ def display(server):
 
 def page(server):
     """Extract named columns from tables, display as an HTML table
-             /extract/UE-XXXXX:Column1:Column2/UE-YYYY:ColumnX:ColumnY...
+             /extract/UE-YYYYYYY:Column1:Column2/UE-ZZZZZZZ:ColumnX:ColumnY...
     """
     display(server)
 
 plugin.Plugin('suivi_extract', '/extract/{*}', function=page, group='staff',
-              launch_thread = True,
+              launch_thread = True, unsafe=False,
               )
 
 def display_fusion(server,
@@ -118,7 +118,6 @@ def display_fusion(server,
     f, year, semester = server.the_file, server.year, server.semester
     tables = []
     students = {}
-    nr_cols = 0
     for what in server.the_path:
         what = what.split(':')
         table = document.table(year, semester, what[0], ro=True, create=False)
@@ -199,7 +198,7 @@ def fusion(server):
 
 plugin.Plugin('fusion', '/fusion/{*}',
               function=fusion, group='staff',
-              launch_thread = True,
+              launch_thread = True, unsafe=False,
               )
 
 def fusion_inscrit_author(server):
@@ -211,7 +210,7 @@ def fusion_inscrit_author(server):
 
 plugin.Plugin('suivi_fusion_inscrit_author', '/fusion_inscrit_author/{*}',
               function=fusion_inscrit_author, group='staff',
-              launch_thread = True,
+              launch_thread = True, unsafe=False,
               )
 
 

@@ -484,7 +484,8 @@ def dispatch_request(server, manage_error=True):
                               + url.split("?")[0] + '</a>')
         server.the_file.close()
         utilities.send_backtrace("XSS attack on " + server.ticket.user_name,
-                                 "URL: %s\nTICKET: %s" % (url, server.ticket))
+                                 "URL: %s\nTICKET: %s" % (url, server.ticket),
+                                 exception=False)
         return
 
     try:
