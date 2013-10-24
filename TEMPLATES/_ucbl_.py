@@ -268,8 +268,11 @@ def remove_students_from_table(table, students):
                 and line[0].value != ''
                 ):
                 if inscrit_column:
+                    v = configuration.student_inscrit_value(table, line)
+                    if v:
+                        v = ' ' + v
                     table.cell_change(table.pages[0], inscrit_column, line_id,
-                                      'ok')
+                                      'ok' + v)
                 continue
             if line_empty(line):
                 # Clear the line

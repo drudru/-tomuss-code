@@ -259,6 +259,16 @@ def visible_from_suivi(dummy_server, dummy_login):
     # and the student name in dummy_login
     return None
 
+#REDEFINE
+# Returns HTML class names for table lines class in the table editor.
+# So the line style can be computed from any information about the student.
+# Line style 'ok', 'non' (unregistered), 'tierstemps' are computed
+# in a static way in server or client side.
+# If this function returns 'italic_student', you can add to 'style.css' :
+# .italic_student { font-style: italic }
+def student_inscrit_value(table, line):
+    return ''
+
 # LDAP informations
 # A list of LDAP server to query
 ldap_server = ('ldap1.domain.org', 'ldap2.domain.org', 'ldap3.domain.org')
