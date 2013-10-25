@@ -19,7 +19,6 @@
 #
 #    Contact: Thierry.EXCOFFIER@bat710.univ-lyon1.fr
 
-import time
 from .. import plugin
 from .. import inscrits
 from .. import configuration

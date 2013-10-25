@@ -30,5 +30,5 @@ class TableGroup(TableAttr):
     javascript = """
 function configure_template()
 {
-  window_open('../../0/Variables/_' + table_attr.group) ;
+  window_open(url + '/=' + ticket + '/0/Variables/_' + table_attr.group) ;
 }"""
