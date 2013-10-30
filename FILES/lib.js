@@ -828,6 +828,8 @@ function wheel(event)
     next_page(undefined, zebra_step) ;
   else
     previous_page(undefined, zebra_step) ;
+
+  stop_event(event) ;
 }
 
 // Helper functions
