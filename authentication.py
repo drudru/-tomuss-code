@@ -139,7 +139,7 @@ def authentication_thread():
             redirect_loc = authentication_redirect
                     
             try:
-                if not x.ticket:
+                if not x.ticket or not x.ticket.is_fine(x):
                     x.ticket, dummy_the_path = get_path(x, redirect_loc)
                     if x.ticket == None:
                         x.log_time('redirection')

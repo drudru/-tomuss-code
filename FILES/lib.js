@@ -1765,10 +1765,13 @@ function change_option(option, value)
 {
   if ( ! window.history.replaceState )
     return ;
-  /* Replace state because Undo this way has yet to be done */
-  var loc = window.location.toString().replace(RegExp('/=' + option + '=[^/]*'), '') ;
+  // Remove ticket
+  var loc =  window.location.toString().split("?")[0] ;
+  // Remove old option value
+  loc = loc.replace(RegExp('/=' + option + '=[^/]*'), '') ;
   if ( value )
     loc += '/=' + option + '=' + value ;
+  // Replace state because Undo this way has yet to be done
   if ( table_attr.bookmark )
     window.history.replaceState('_a_', '_t_', loc) ;
 }
