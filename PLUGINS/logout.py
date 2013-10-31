@@ -39,6 +39,7 @@ plugin.Plugin('logout', '/logout',
               function = logout,
               response=307,
               password_ok = None,
+              unsafe=False,
               headers = logout_headers,
               )
 
