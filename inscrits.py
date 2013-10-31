@@ -207,31 +207,24 @@ class LDAP_Logic(object):
     def portail(self, login):
         """From the login of the person, retrieve the portails"""
         a = self.member_of_list(login)
-        return [unicode(aa.split('APO-')[1].split(',')[0],
-                      configuration.ldap_encoding)
-                for aa in a if configuration.ou_portail_contains in aa]
+        return [unicode(configuration.is_a_portail(aa),
+                        configuration.ldap_encoding)
+                for aa in a
+                if configuration.is_a_portail(aa)]
 
     def portails(self, logins):
         """From the login of the person, retrieve the portails"""
-        logins = ''.join(['(%s=%s)'
-                          % (configuration.attr_login,
-                             utilities.the_login(login),
-                             )
-                          for login in logins
-                          ])
-        a = self.query(search='(|' + logins + ')',
-                       base=configuration.ou_top,
-                       attributes=('memberOf', configuration.attr_login)
-                       )
+        a = self.query_logins(logins,
+                              attributes=('memberOf', configuration.attr_login),
+                              only_first_value = False
+                              )
         p = {}
-        for cn, attrs in a:
-            if len(attrs) != 2:
-                continue
+        for attrs in a:
             p[attrs[configuration.attr_login][0]] = [
-                unicode(aa.split('APO-')[1].split(',')[0],
+                unicode(configuration.is_a_portail(aa),
                         configuration.ldap_encoding)
                 for aa in attrs['memberOf']
-                if configuration.ou_portail_contains in aa]
+                if configuration.is_a_portail(aa)]
         return p
 
     def firstname_and_surname_to_login(self, firstname, surname):
@@ -345,7 +338,7 @@ class LDAP_Logic(object):
         if self.connexion is not True:
             self.connexion.cancel(aa)
 
-    def query_logins(self, logins, attributes):
+    def query_logins(self, logins, attributes, only_first_value=True):
         chunk_size = 1000
         if len(logins) > chunk_size:
             r = []
@@ -368,9 +361,12 @@ class LDAP_Logic(object):
         for i in a:
             if i[0] != None:
                 i = i[1]
-                r.append([unicode(i.get(attr,('',))[0],
-                                 configuration.ldap_encoding)
-                         for attr in attributes])
+                if only_first_value:
+                    r.append([unicode(i.get(attr,('',))[0],
+                                      configuration.ldap_encoding)
+                              for attr in attributes])
+                else:
+                    r.append(i)
         return r
 
     def member_of_list(self, login):

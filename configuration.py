@@ -217,6 +217,13 @@ def is_an_official_ue(code):
     return 1
 
 #REDEFINE
+# If the LDAP group is a portail, the returns the portail name.
+# Else return None
+def is_a_portail(ldap_group):
+    if ou_portail_contains in ldap_group:
+        return ldap_group
+
+#REDEFINE
 # Return the list of table manager
 # Their only right is to modify the 'masters' table attribute
 def get_managers(ue_code):
