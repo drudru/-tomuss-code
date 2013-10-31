@@ -1152,11 +1152,7 @@ msgstr "position"
 
 #. GUI 
 msgid "TITLE_column_attr_stats_histo"
-msgstr "Histogramme des valeurs des cellules de la colonne<br>\n"
-       "en tenant compte du filtrage.<br>\n"
-       "Les colonnes de gauche indiquent le nombre de cases<br>\n"
-       "contenant des valeurs particulières :<br>\n"
-       "PPN, ABI, ABJ, PRE, OUI, NON et vide"
+msgstr "Histogramme des valeurs filtrées de la colonne."
 
 msgid "TITLE_column_attr_stats_average"
 msgstr "Moyenne des nombres de la colonne."
@@ -2594,7 +2590,7 @@ msgid "MSG_columnstats_values"
 msgstr " valeurs"
 
 msgid "MSG_columnstats_empty"
-msgstr "Vide (ou inclassable) : "
+msgstr "Vide (ou inclassable)"
 
 msgid "MSG_columnstats_ppn"
 msgstr "Peut Pas Noter"

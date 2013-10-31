@@ -1157,8 +1157,7 @@ msgstr "position"
 
 #. GUI 
 msgid "TITLE_column_attr_stats_histo"
-msgstr "Histogram of the column values.<br>\n"
-       "Filtering is taken into account."
+msgstr "Histogram of the column filtered values."
 
 msgid "TITLE_column_attr_stats_average"
 msgstr "Average of the filtered column values"

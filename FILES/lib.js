@@ -753,6 +753,7 @@ function show_the_tip(td, tip_content, what)
   var a = tip.display_number ;
   // Hide the tip if the mouse go inside
   tip.onmousemove = function() { hide_the_tip(a); } ;
+  tip.tip_target = td ;
 
   if ( instant_tip_display || s.indexOf("<!--INSTANTDISPLAY-->") != -1 )
     {
@@ -2949,7 +2950,6 @@ function update_tip_from_value(o, value)
 
   if ( value.substr(value.length-1) != '\n' ) // Tip with HTML inside
     e.innerHTML = html(value).replace(/\n/g, '<br>') ;
-
   else
     e.innerHTML = value ;
 
@@ -3992,7 +3992,8 @@ function hide_the_tip_real()
   setTimeout('if ( ! tip.do_not_hide && tip.display_number === '
 	     + tip.display_number
 	     + ') tip_plus.style.display = "none" ;', 100) ;
-  
+  if ( tip.innerHTML.match(/INSTANTDISPLAY/) )
+    return ;
   tip.onmousemove = function() {} ;
   tip.style.display = "none" ;
   tip.tip_target = undefined ;

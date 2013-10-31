@@ -1901,7 +1901,7 @@ function current_update_cell_headers()
   t_history.innerHTML = s.join('\n') ;
       
   update_tip_from_value(t_student_picture.parentNode,
-			line_resume(this.line_id), '') ;
+			'<!--INSTANTDISPLAY-->' + line_resume(this.line_id), '') ;
 }
 
 function current_update_table_headers()
