@@ -72,11 +72,14 @@ def do_patch():
                     return ['UE-INF20UE2L', 'UE-INF20UE2']
                 return []
 
-            def query_logins(self, logins, attributes):
+            def query_logins(self, logins, attributes, only_first_value=True):
                 r = []
                 for login in logins:
                     q = self.query_login(login, attributes)
-                    r.append([login]+[q[i][0] for i in attributes[1:]])
+                    if only_first_value:
+                        r.append([login]+[q[i][0] for i in attributes[1:]])
+                    else:
+                        r.append(q)
                 return r
 
             def firstname_or_surname_to_logins(self, name, base=None,
