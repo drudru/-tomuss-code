@@ -26,6 +26,7 @@ import tomuss_init
 import os
 import sys
 import time
+import re
 import BaseHTTPServer
 from . import configuration
 from . import utilities
@@ -138,7 +139,9 @@ class MyRequestBroker(utilities.FakeRequestHandler):
         warn('the_path=%s' % str(self.the_path))
 
         # Restore year/semester in order to have a good redirection
-        self.path = '/%d/%s' % (self.year, self.semester) + path
+        # and remove old ticket.
+        self.path = '/%d/%s' % (
+            self.year, self.semester) + re.sub("^/=[^/]*", "", path)
         if authentication.ok(self):
             self.do_GET_real_real_safe()
 
