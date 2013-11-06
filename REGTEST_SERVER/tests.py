@@ -198,6 +198,7 @@ def tests():
     ss = ServerSuivi()
     s = Server()
     s.start()
+
     if do('badurl'):
         c = s.url('=' + root + '/BADURL')
         assert(c == 'bad_url')
@@ -949,7 +950,7 @@ Col({the_id:"col_1",type:"Note",author:"%s",position:0,title:"TITLE1"})
         assert('<iframe' not in c)
         key = utilities.manage_key('LOGINS', '10800001/rsskey')
         assert(key is False)
-        
+
         c = ss.url('=10800000/%s' % ys)
         c = c.split('<iframe src="')[1].split('"')[0]
         import urllib2

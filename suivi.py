@@ -139,9 +139,12 @@ class MyRequestBroker(utilities.FakeRequestHandler):
         warn('the_path=%s' % str(self.the_path))
 
         # Restore year/semester in order to have a good redirection
-        # and remove old ticket.
-        self.path = '/%d/%s' % (
-            self.year, self.semester) + re.sub("^/=[^/]*", "", path)
+        if configuration.regtest:
+            self.path = '/%d/%s' % (self.year, self.semester) + path
+        else:
+            # Remove old ticket.
+            self.path = '/%d/%s' % (
+                self.year, self.semester) + re.sub("^/=[^/]*", "", path)
         if authentication.ok(self):
             self.do_GET_real_real_safe()
 

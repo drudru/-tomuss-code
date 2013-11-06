@@ -45,7 +45,7 @@ class Server(object):
         if Server.start_time == 0:
             Server.start_time = time.time()
         for dirname in ['DBregtest', 'BACKUP_DBregtest',
-                        ] + glob.glob('TMP/xxx_tickets.py*'):
+                        ] + glob.glob('TMP/TICKETS/*'):
             print 'delete:', dirname
             if os.path.isfile(dirname):
                 os.unlink(dirname)
@@ -174,7 +174,6 @@ class ServerSuivi(Server):
                                         stderr = stderr.fileno(),
                                         )
         self.wait_start()
-
 
 def check(filename,
           masters_expected=None,
