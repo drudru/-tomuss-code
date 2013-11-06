@@ -146,11 +146,13 @@ class OpenID(Authenticator):
             return '%x' % (hash(handle)*hash(handle[::-1]))
         except KeyError:
             return
-    
 
-#REDEFINE
-# Return True if the user password is good
-def password_is_good(login, password):
+try:
+    import PAM
+except ImportError:
+    PAM = None
+
+def password_is_good_su(login, password):
     """Check clear text password"""
     import pexpect
     from . import utilities
@@ -160,6 +162,31 @@ def password_is_good(login, password):
     r = p.read()
     p.close()
     return 'OK' in r
+
+def password_is_good_PAM(login, password):
+    def pam_conv(dummy_auth, dummy_query_list, dummy_userData):
+        return [(password,0)]
+
+    auth = PAM.pam()
+    auth.start('passwd')
+    auth.set_item(PAM.PAM_USER, login)
+    auth.set_item(PAM.PAM_CONV, pam_conv)
+    try:
+        auth.authenticate()
+        auth.acct_mgmt()
+    except:
+        return False
+    return True
+
+#REDEFINE
+# Return True if the user password is good
+def password_is_good(login, password):
+    """Check clear text password"""
+    if PAM:
+        return password_is_good_PAM(login, password)
+    else:
+        return password_is_good_su(login, password)
+
 
 class Password(Authenticator):
     """
