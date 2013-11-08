@@ -96,8 +96,9 @@ translations:
          do if [ -d "$$I" ] ; \
                  then \
                  echo $$I ; \
-                 (cd $$I ; \
-                  $(MAKE) --no-print-directory -f $$(echo $$I | sed -r 's/[^\/]+/../g')/Makefile tomuss.mo) ; \
+                 (J=$$(pwd) ; \
+                  cd $$I ; \
+                  $(MAKE) --no-print-directory -f $$J/Makefile tomuss.mo) ; \
                 if [ $$? != 0 ] ; then exit 1 ; fi ; \
            fi ; \
          done
