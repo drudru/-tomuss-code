@@ -138,7 +138,8 @@ for syear in os.listdir(configuration.db):
 # then the index will be bad for one day.
 # The index are computed on 'suivi' semesters, not the others
 for login, value in students_index.items():
-    document.update_index(login, lambda x: value)
+    if len(login) >= 3:
+        document.update_index(login, lambda x: value)
 utilities.write_file(os.path.join('TMP', 'index_are_computed'),
                      'done')
 
