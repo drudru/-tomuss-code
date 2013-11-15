@@ -664,13 +664,12 @@ demo_animaux = {
     }
 
 if __name__ == "__main__":
-    init()
-    print L_fast.firstname_and_surname_and_mail_from_logins(('11210822','11209176'))
-    # import document # If not here, this main can't execute ???
-    # configuration.terminate()
-    # init()
+    tomuss_init.terminate_init()
     from . import inscrits
+    inscrits.init()
     L = inscrits.L_fast
+    print L.ues_of_a_student_short('p1312574')
+    print L.firstname_and_surname_and_mail_from_logins(('11210822','11209176'))
     for ii in L.students('UE-BIO2010L'):
         print ii
     print L.phone('thierry.excoffier')

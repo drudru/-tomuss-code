@@ -290,6 +290,7 @@ def requests(server):
                     )
                 
             else:
+                v = '???' + request[3][0] + '???'
                 t = '???????'
             if str(v) != str(request[3][2]):
                 t = '<span style="background:#F88">' + t + '(!=' + cgi.escape(request[3][2]) + ')'

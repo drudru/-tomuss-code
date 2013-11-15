@@ -1966,7 +1966,13 @@ function current_update_headers_real()
       if ( tip.tip_target )
 	{
 	  tip.innerHTML = compute_tip(tip.tip_target) ;
-	  set_tip_position(tip.tip_target) ;
+	  if ( tip.innerHTML == 'undefined' )
+	    {
+	      tip.do_not_hide = false ;
+	      hide_the_tip_real() ;
+	    }
+	  else
+	    set_tip_position(tip.tip_target) ;
 	}
       else
       {
