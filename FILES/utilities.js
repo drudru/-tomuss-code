@@ -2357,6 +2357,10 @@ function current_keydown(event, in_input)
 	  print_selection() ;
 	  stop_event(event) ;
 	  return false ;
+	case 33:
+	case 34:
+	  // Let the browser change the tab
+	  return true ;
 	}
     }
 
