@@ -492,6 +492,17 @@ function decode_uri_option(t)
 		  .replace(/\$24/g, '$')) ;
 }
 
+
+function encode_lf_tab(txt)
+{
+  return txt.replace(/\n/g, '⏎').replace(/\t/g, '⇥') ;
+}
+
+function decode_lf_tab(txt)
+{
+  return txt.replace(/⏎/g, '\n').replace(/⇥/g, '\t') ;
+}
+
 // Adapted from Andrea Azzola's Blog
 function do_post_data(dictionary, url)
 {
@@ -1344,7 +1355,7 @@ function cell_value_fixed()
 
 function cell_comment_html()
 {
-  return html(this.comment) ;
+  return html(this.comment).replace(/\n/g, '<br>') ;
 }
 
 function cell_changeable(column)

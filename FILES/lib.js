@@ -4462,7 +4462,7 @@ function display_suivi(cols) /* [value, class, comment] */
 
       if ( cell.comment )
 	{
-	  comment += _("SUIVI_comment") + ' <b>' + html(cell.comment)
+	  comment += _("SUIVI_comment") + ' <b>' + cell.comment_html()
 	    + '</b><br>' ;
 	  visual_cell[1] += ' commented' ;
 	}

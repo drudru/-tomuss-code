@@ -773,7 +773,6 @@ class Table(object):
         if a_column == None:
             return self.bad_column(page)
 
-        value = value.replace('\n','')
         line = self.lines[lin]
         if value == line[a_column.data_col].comment:
             return 'ok.png'

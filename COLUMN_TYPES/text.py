@@ -258,7 +258,7 @@ class Text(object):
         if value == '':
             return ('', '', '')
 
-        return (cgi.escape(str(value)),
+        return (cgi.escape(str(value)).replace('\n','<br>'),
                 self.cell_indicator(column, value, cell, lines)[0],
                 '')
 

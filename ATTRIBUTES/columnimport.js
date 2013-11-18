@@ -143,6 +143,7 @@ function import_column_do(comments)
       i = todo[i] ;
       if ( i[0] == -1 )
 	i[0] = add_a_new_line() ;
+      i[2] = decode_lf_tab(i[2]) ;
       if ( comments )
 	comment_change(i[0], i[1], i[2]) ;
       else
@@ -209,7 +210,7 @@ function full_import()
       // and an error is displayed (one for each race lost)
       for(var data_col=nr_cols-1 ; data_col >= 0 ; data_col-- )
 	cell_set_value_real(line, cls[data_col].data_col,
-			    new_lines[line][data_col]) ;
+			    decode_lf_tab(new_lines[line][data_col])) ;
     }
   alert_append_stop() ;
 

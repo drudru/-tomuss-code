@@ -192,11 +192,12 @@ function printable_display_page(lines, title, page_break)
 		    v = v.replace('.', ',') ;
 		}
 	      else
-		if ( is_uniform )
-		  v = cell.value_html() ;
-	        else
-		  v = cell.value_html().replace(/\n/g, "<br>") ;
-	      txt_line.push(v.replace(/\n/g, '⏎').replace(/\t/g, '⇥')) ;
+	      {
+		v = html(encode_lf_tab(cell.value)) ;
+		if ( ! is_uniform )
+		  v = v.replace(/⏎/g, "<br>") ;
+	      }
+	      txt_line.push(v) ;
 	      if ( v === '' )
 		v = '&nbsp;' ;
 	      if ( columns[c].green_filter(cell, columns[c]) )

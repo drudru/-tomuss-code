@@ -191,11 +191,11 @@ function do_columnexport()
 	}
       line = lines[line_id] ;
       if ( columnexport_options.students && !columnexport_options.unique )
-	cell.push(line[0].value) ;
+	cell.push(encode_lf_tab(line[0].value.toString())) ;
       if ( columnexport_options.values )
 	cell.push(line[data_col].value_export()) ;
       if ( columnexport_options.comments )
-	cell.push(line[data_col].comment) ;
+	cell.push(encode_lf_tab(line[data_col].comment)) ;
       v.push(cell.join('\t')) ;
 
       exported[line[0].value] = true ;
