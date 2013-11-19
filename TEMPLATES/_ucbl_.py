@@ -176,9 +176,12 @@ def check(table, update_inscrits=update_inscrits_ue):
                 for i in p]
     warn("Change portails", what="check")
     table.change_portails(portails)
-    table.mails.update(the_ids)
+    # Take mails from student list and not the user database
+    mails = dict(table.mails)
+    mails.update(the_ids)
+    table.change_mails(mails)
     warn("Update done", what="check")
-        
+
 def update_student(table, page, the_ids, infos):
     the_id, firstname, surname, mail, grp, seq = infos[:6]
     if the_id in the_ids:
