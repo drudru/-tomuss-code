@@ -345,7 +345,7 @@ class LDAP_Logic(object):
             chunk = logins[:]
             n = 1 + len(logins) // int(1 + len(logins)//chunk_size)
             while chunk:
-                r += self.query_logins(chunk[:n], attributes)
+                r += self.query_logins(chunk[:n], attributes, only_first_value)
                 chunk = chunk[n:]
             return r
         
