@@ -866,6 +866,25 @@ Les améliorations les plus visibles sont :
       </description>
       <guid>58</guid>
     </item>
+    <item>
+      <title>19/11/2013 : Version 5.2.16</title>
+      <link>http://tomuss.univ-lyon1.fr/</link>
+      <description>
+	Le flux RSS fonctionne maintenant sur toutes les tables,
+	pas seulement dans Automne et Printemps.
+	&lt;p&gt;
+        On peut importer des retours à la ligne dans les valeurs
+        et les commentaires des cellules grâce au symbole ⏎.	
+	&lt;p&gt;
+	Dans les paramètres de table, il y a une option
+	pour cacher les lignes vides qui ont un historique
+	(les lignes vidées).
+	&lt;p&gt;
+        Les options d'affichage de la table sont maintenant
+        directement insérées dans l'adresse de la page.
+      </description>
+      <guid>59</guid>
+    </item>
 
   </channel>
 </rss>
