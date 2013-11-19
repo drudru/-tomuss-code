@@ -31,6 +31,9 @@ def send_mail(server):
         server.the_file.write(server._("MSG_evaluate"))
         return
 
+    server.the_file.write(server._("MSG_abj_wait") + '<br>')
+    server.the_file.flush()
+    
     data = server.get_posted_data()
     if data is None:
         server.the_file.write("BUG")
