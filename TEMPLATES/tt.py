@@ -92,6 +92,7 @@ class SpecialExaminationCondition(object):
     def current(self):
         return self.begin_seconds < time.time() < self.end_seconds
 
+@utilities.add_a_lock
 def the_current_tt(table):
     if table.the_current_tt_time == table.mtime:
         return table.the_current_tt_cache
