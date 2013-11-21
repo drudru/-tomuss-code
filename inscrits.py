@@ -223,7 +223,7 @@ class LDAP_Logic(object):
             p[attrs[configuration.attr_login][0]] = [
                 unicode(configuration.is_a_portail(aa),
                         configuration.ldap_encoding)
-                for aa in attrs['memberOf']
+                for aa in attrs.get('memberOf', ())
                 if configuration.is_a_portail(aa)]
         return p
 
