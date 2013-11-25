@@ -3598,6 +3598,8 @@ msgid "MSG_send_mail_close"
 msgstr "You can now close this page,\n"
        "the messages will be sent one by one.\n"
        "You can left the page open to see when the mailing is done."
+       "When all the messages are sent, a full report is sent to your mail addresse."
+
 
 msgid "MSG_send_mail_left"
 msgstr "%d messages left to sent."

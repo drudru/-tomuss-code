@@ -3630,7 +3630,8 @@ msgid "MSG_send_mail_close"
 msgstr "Vous pouvez maintenant fermer cette page,\n"
        "les messages vont être envoyés progressivement.\n"
        "Vous pouvez la laisser ouverte pour savoir quand\n"
-       "l'envoit sera terminé."
+       "l'envoit sera terminé.\n"
+       "Vous recevrez un compte-rendu de publipostage sur votre messagerie."
 
 msgid "MSG_send_mail_left"
 msgstr "Il reste %d messages à envoyer."
@@ -4636,7 +4637,7 @@ msgid "TH_da_list"
 msgstr "Dispenses d'assiduité saisies"
 
 msgid "MSG_abj_wait"
-msgstr "Attendez le chargement des données s'il vous plait."
+msgstr "Attendez le chargement des données s'il vous plait. SANS FERMER CETTE FENÊTRE."
 
 msgid "MSG_abj_why"
 msgstr "Cliquez sur la cause de l'absence justifiée"
