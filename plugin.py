@@ -371,7 +371,11 @@ def get_links(server):
                     continue # Not allowed by plugin
             yield link, link.plugin
     for p in plugins:
-        if p.link and p.is_allowed(server)[0]:
+        if (p.link
+            and p.is_allowed(server)[0]
+            and configuration.is_member_of(server.ticket.user_name,
+                                           p.link.group)
+            ):
             yield p.link, p
 
 
