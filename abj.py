@@ -492,18 +492,15 @@ def ue_mails_and_comments(ue_code):
     text = []
     the_ue = teacher.all_ues().get(ue_code[3:], None)
     if the_ue:
-        for teacher_name in the_ue.responsables():
-            text.append("   * " + teacher_name + ' : ')
-            teacher_login = teacher.responsable_pedagogique_ldap(teacher_name)
-            if teacher_login is None:
-                text.append(utilities._("MSG_unknown_teacher"))
+        for teacher_login in the_ue.responsables_login():
+            fn, sn, mail = inscrits.L_slow.firstname_and_surname_and_mail(
+                teacher_login)
+            text.append("   * " + fn.title() + ' ' + sn.upper() + ' : ')
+            if mail == None:
+                text.append(utilities._("MSG_abj_unknown_mail"))
             else:
-                mail = inscrits.L_slow.mail(teacher_login)
-                if mail == None:
-                    text.append(utilities._("MSG_abj_unknown_mail"))
-                else:
-                    mails.append(mail.lower())
-                    text.append(mail)
+                mails.append(mail.lower())
+                text.append(mail)
             text.append('\n')
 
     # Add other mails
