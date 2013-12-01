@@ -177,7 +177,8 @@ function personal_mailing_do()
   var nr_frame ;
 
   nr = 0 ;
-  message = mailing_mail.join('\n') ;  
+  message = mailing_mail.join('\n') ;
+  var unknown_titles = [] ;
 
   // Compute used data_cols
   var t = (subject + message).split('[') ;
@@ -189,8 +190,8 @@ function personal_mailing_do()
       data_col = column_title_to_data_col(col_name) ;
       if ( data_col == undefined )
 	{
-	  Alert("ALERT_mail_unknown_column", col_name) ;
-	  return ;
+	  unknown_titles.push(col_name) ;
+	  continue ;
 	}
       if ( myindex(data_cols, data_col) == -1 )
       {
@@ -198,6 +199,9 @@ function personal_mailing_do()
 	data_cols_titles.push(col_name) ;
       }
     }
+  if ( unknown_titles.length != 0 )
+    if ( ! confirm(_("ALERT_mail_unknown_column") + unknown_titles.join(', ')))
+      return ;
 
   // Compute recipients and their data
   var recipents = [] ;

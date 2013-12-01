@@ -1599,7 +1599,10 @@ msgstr "Bonjour [Prénom] [Nom].\n\n"
        "Au revoir."
 
 msgid "ALERT_mail_unknown_column"
-msgstr "Cette colonne n'existe pas : "
+msgstr "Dans votre message, vous faites référence à des noms de colonnes "
+       "qui n'existent pas.\n"
+       "Voulez-vous quand même envoyer les messages sans faire "
+       "les remplacements pour les champs suivants : "
 
 msgid "MSG_mail_archive"
 msgstr "[POUR_ARCHIVAGE]"

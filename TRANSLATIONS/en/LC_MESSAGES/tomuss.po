@@ -1599,7 +1599,8 @@ msgstr "Hello [Firstname] [Surname].\n\n"
        "Good bye."
 
 msgid "ALERT_mail_unknown_column"
-msgstr "Unknown column: "
+msgstr "In your message you use non existent column title between [ ].\n"
+       "Do you want to send the messages without the replacements for: "
 
 msgid "MSG_mail_archive"
 msgstr "[FOR_ARCHIVAGE]"
