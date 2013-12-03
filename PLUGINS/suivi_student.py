@@ -309,6 +309,7 @@ hidden('<a href="%s/=%s/%s/%s/ %s" target="_blank">'
     
     # MORE
 
+    server.is_a_student = is_a_student
     s.append(configuration.more_on_suivi(login, server))
     s.append('<br>')
 

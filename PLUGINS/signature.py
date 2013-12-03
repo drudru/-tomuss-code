@@ -70,7 +70,7 @@ more_on_suivi_old = configuration.more_on_suivi
 
 def more_on_suivi(login, server):
     s = ''
-    if server.ticket.is_a_teacher:
+    if not server.is_a_student: # Not the student view
         s = '<script>hidden(\'<a href="javascript:signature_new(\\\'%s\\\')">\' + _("LABEL_signature_new") + \'</a>\', _("TIP_signature_new"))</script>, ' % login
     return s + more_on_suivi_old(login, server)
 
