@@ -194,7 +194,8 @@ def update_link(lin_id, line):
     for attr_name, value in link_values(lin_id, line).items():
         if isinstance(getattr(link, attr_name), (tuple, list) ):
             value = ast.literal_eval(value)
-        setattr(link, attr_name, value)
+        if value:
+            setattr(link, attr_name, value)
 
 def onload(table):
     add_new_links_in_the_table(table)
