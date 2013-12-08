@@ -183,7 +183,7 @@ def caches(server):
     for cache in utilities.caches:
         if  cache.the_type == 'add_a_cache0':
             nr_items = 1
-            size = server._("MSG_cache_size") % len(cache.cache[0])
+            size = server._("MSG_cache_size") % sys.getsizeof(cache.cache[0])
             since = now - int(cache.cache[1])
         else:
             nr_items = len(cache.cache)
@@ -195,8 +195,10 @@ def caches(server):
         else:
             doc = cache.__doc__
         
-        s.append('<tr><td>%s<td>%s<td>%s<td width="50%%">%s<td>%s<td>%s items %s' % (
-            cache.fct.func_name.replace('_',' '), cgi.escape(doc),
+        s.append('<tr><td>%s<br><span style="font-size:60%%">%s</span><td>%s<td>%s<td width="50%%">%s<td>%s<td>%s items %s' % (
+            cache.fct.func_name.replace('_',' '),
+            cache.fct.__module__.replace('.', ' '),
+            cgi.escape(doc),
             cache.the_type.replace('_',' '),
             since, cache.timeout, nr_items, size))
     s.append('</table>')

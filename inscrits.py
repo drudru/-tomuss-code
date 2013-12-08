@@ -190,6 +190,7 @@ class LDAP_Logic(object):
     get_student_info = firstname_and_surname_and_mail
 
     def firstname_and_surname_and_mail_from_logins(self, logins):
+        """From a set of logins, retrieve the name and the mail"""
         d = {}
         for l,f,s,m in self.query_logins(logins, (configuration.attr_login,
                                                   configuration.attr_firstname,
