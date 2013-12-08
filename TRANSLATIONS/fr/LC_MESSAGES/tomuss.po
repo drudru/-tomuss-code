@@ -4845,6 +4845,13 @@ msgid "HELP_/0/Dossiers/config_home"
 msgstr "Permet d'ajouter des liens et des boites dans la colonne de droite\n"
        "de la page d'accueil de TOMUSS"
 
+msgid "HELP_config_home"
+msgstr "Le texte et l'aide sur les liens sont d'abord cherchés\n"
+       "dans les fichiers de localisation,\n"
+       "ils sont inchangés s'ils ne sont pas trouvés.\n"
+       "Le // indique que l'URL est sans le ticket.\n"
+       "Pour voir un lien, il faut avoir les droits ici et pour le plugin."
+
 msgid "COL_TITLE_ch_box"
 msgstr "Boite"
 

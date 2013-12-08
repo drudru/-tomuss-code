@@ -4776,6 +4776,12 @@ msgstr "Modify home page"
 msgid "HELP_/0/Dossiers/config_home"
 msgstr "You can add URL and box on the TOMUSS home page right column"
 
+msgid "HELP_config_home"
+msgstr "Values and tips are first searched in localisation files,\n"
+       "they are unmodified if not found.\n"
+       "// indicates that the ticket must be removed from the URL.\n"
+       "To see a link, the access must be authorized here, and for the plugin."
+
 msgid "COL_TITLE_ch_box"
 msgstr "Box"
 

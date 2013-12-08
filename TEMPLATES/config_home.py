@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 #    TOMUSS: The Online Multi User Simple Spreadsheet
-#    Copyright (C) 2012 Thierry EXCOFFIER, Universite Claude Bernard
+#    Copyright (C) 2012-2013 Thierry EXCOFFIER, Universite Claude Bernard
 #
 #    This program is free software; you can redistribute it and/or modify
 #    it under the terms of the GNU General Public License as published by
@@ -23,6 +23,7 @@
 The title and help is translated if it is found in the translations files.
 """
 
+import ast
 from .. import data
 from .. import utilities
 from .. import configuration
@@ -47,73 +48,104 @@ default_links = (
     ("debug"  ,   0,"verysafe",'roots',"/0/Test/test_types"),
     )
 
+columns = {
+    '0': {'type': 'Text', 'freezed': 'F',
+          'title': utilities._("COL_TITLE_ch_box"),
+          'comment': utilities._("COL_COMMENT_ch_box"),
+          },
+    '1': {'type': 'Note', 'freezed': 'F',
+          'title': utilities._("COL_TITLE_ch_priority"),
+          'comment': utilities._("COL_COMMENT_ch_priority"),
+          'width': 2, 'minmax': '[-100;100]',
+          },
+    '2': {'type': 'Enumeration', 'freezed': 'F',
+          'enumeration': 'veryunsafe unsafe safe verysafe',
+          'red': 'veryunsafe', 'green': 'verysafe', 'width': 2,
+          'title': utilities._("COL_TITLE_ch_htmlclass"),
+          'comment': utilities._("COL_COMMENT_ch_htmlclass"),
+          },
+    '3': {'type': 'Text', 'freezed': 'F',
+          'title': utilities._("COL_TITLE_ch_group"),
+          'comment': utilities._("COL_COMMENT_ch_group"),
+          'width': 6,
+          },
+    '4': {'type': 'Text',
+          'title': utilities._("COL_TITLE_ch_title"),
+          'comment': utilities._("COL_COMMENT_ch_title"),
+          'width': 12,
+          },
+    '5': {'type': 'URL',
+          'title': utilities._("COL_TITLE_ch_url"),
+          'comment': utilities._("COL_COMMENT_ch_url"),
+          'width': 12,
+          },
+    '6': {'type': 'Text',
+          'title': utilities._("COL_TITLE_ch_help"),
+          'comment': utilities._("COL_COMMENT_ch_help"),
+          'width': 12,
+          },
+    }
+
 def create(table):
     utilities.warn('Creation')
     if table.year != 0 or table.semester != 'Dossiers':
         raise ValueError('Not allowed')
-    ro = table.new_page('' ,data.ro_user, '', '')
-    rw = table.new_page('' ,configuration.root[0], '', '')
+    ro = table.new_page('', data.ro_user, '', '')
+    table.new_page('', configuration.root[0], '', '')
     table.table_attr(ro, 'masters', list(configuration.root))
     table.table_attr(ro, 'default_nr_columns', 7)
     table.table_attr(ro, 'default_sort_column', [0,1])
-    table.update_columns(
-        {
-            '0': {'type': 'Text',
-                  'freezed': 'F',
-                  'title': utilities._("COL_TITLE_ch_box"),
-                  'comment': utilities._("COL_COMMENT_ch_box"),
-                  },
-            '1': {'type': 'Note',
-                  'freezed': 'F',
-                  'title': utilities._("COL_TITLE_ch_priority"),
-                  'comment': utilities._("COL_COMMENT_ch_priority"),
-                  'width': 2,
-                  'minmax': '[-100;100]',
-                  },
-            '2': {'type': 'Enumeration',
-                  'freezed': 'F',
-                  'enumeration': 'veryunsafe unsafe safe verysafe',
-                  'red': 'veryunsafe',
-                  'green': 'verysafe',
-                  'title': utilities._("COL_TITLE_ch_htmlclass"),
-                  'comment': utilities._("COL_COMMENT_ch_htmlclass"),
-                  'width': 2,
-                  },
-            '3': {'type': 'Text',
-                  'freezed': 'F',
-                  'title': utilities._("COL_TITLE_ch_group"),
-                  'comment': utilities._("COL_COMMENT_ch_group"),
-                  'width': 6,
-                  },
-            '4': {'type': 'Text',
-                  'title': utilities._("COL_TITLE_ch_title"),
-                  'comment': utilities._("COL_COMMENT_ch_title"),
-                  'width': 12,
-                  },
-            '5': {'type': 'URL',
-                  'title': utilities._("COL_TITLE_ch_url"),
-                  'comment': utilities._("COL_COMMENT_ch_url"),
-                  'width': 12,
-                  },
-            '6': {'type': 'Text',
-                  'title': utilities._("COL_TITLE_ch_help"),
-                  'comment': utilities._("COL_COMMENT_ch_help"),
-                  'width': 12,
-                  },
-            }, ro)
-    i = 0
-    for where, priority, html_class, group, url in  default_links:
-        table.cell_change(rw, '0', str(i), where)
-        table.cell_change(rw, '1', str(i), priority)
-        table.cell_change(rw, '2', str(i), html_class)
-        table.cell_change(rw, '3', str(i), group)
-        table.cell_change(rw, '4', str(i), 'LINK_' + url)
-        table.cell_change(rw, '5', str(i), url)
-        table.cell_change(rw, '6', str(i), 'HELP_' + url)
-        i += 1
+    table.update_columns(columns, ro)
 
+def add_new_links_in_the_table(table):
+    """Create missing lines in the table"""
+    rw = table.pages[1]
+    table.lock()
+    try:
+        i = 0
+        for where, priority, html_class, group, url in  default_links:
+            lin_id = str(i)
+            if lin_id in table.lines:
+                continue
+            table.cell_change(rw, '0', lin_id, where)
+            table.cell_change(rw, '1', lin_id, priority)
+            table.cell_change(rw, '2', lin_id, html_class)
+            table.cell_change(rw, '3', lin_id, group)
+            table.cell_change(rw, '4', lin_id, 'LINK_' + url)
+            table.cell_change(rw, '5', lin_id, url)
+            table.cell_change(rw, '6', lin_id, 'HELP_' + url)
+            i += 1
+        for p in plugin.plugins:
+            link = p.link
+            if not link:
+                continue
+            lin_id = p.name
+            if lin_id in table.lines:
+                continue
+            if link.text:
+                text = link.text
+            elif link.plugin:
+                text = 'LINK_' + link.plugin.name
+            else:
+                text = ''
+            if link.help:
+                help = link.help
+            elif link.plugin:
+                help = 'HELP_' + link.plugin.name
+            else:
+                help = ''
+            table.cell_change(rw, '0', lin_id, link.where)
+            table.cell_change(rw, '1', lin_id, link.priority)
+            table.cell_change(rw, '2', lin_id, link.html_class)
+            table.cell_change(rw, '3', lin_id, str(link.group))
+            table.cell_change(rw, '4', lin_id, text)
+            table.cell_change(rw, '5', lin_id, link.url)
+            table.cell_change(rw, '6', lin_id, help)
+    finally:
+        table.unlock()
 
-def add_link(line_id, line):
+def link_values(lin_id, line):
+    """Return attributes of a link from the table"""
     if line[1].value:
         priority = float(line[1].value)
     else:
@@ -122,34 +154,76 @@ def add_link(line_id, line):
         html_class = line[2].value
     else:
         html_class = "safe"
-    plugin.add_links(
-        plugin.Link(
-            where      = line[0].value,
-            priority   = priority,
-            html_class = html_class,
-            group      = line[3].value,
-            text       = utilities._(line[4].value),
-            url        = line[5].value,
-            help       = utilities._(line[6].value),
-            key        = line_id,
-            ))
-    
+    if line[4].value:
+        text = utilities._(line[4].value)
+    else:
+        text = ''
+    if line[6].value:
+        tip = utilities._(line[6].value)
+    else:
+        tip = ''
+
+    return {
+        "where"      : line[0].value,
+        "priority"   : priority,
+        "html_class" : html_class,
+        "group"      : line[3].value,
+        "text"       : text,
+        "url"        : line[5].value,
+        "help"       : tip,
+        "key"        : lin_id,
+        }
+
+def update_link(lin_id, line):
+    """Update the attribute of the link from the table content"""
+    if lin_id[0].isdigit():
+        for link in plugin.links_without_plugins:
+            if link.key == lin_id:
+                break
+        else:
+            plugin.add_links(plugin.Link(**link_values(lin_id, line)))
+            return
+    else:
+        p = plugin.get(lin_id)
+        if not p:
+            return
+        link = p.link
+        if not link:
+            return
+
+    for attr_name, value in link_values(lin_id, line).items():
+        if isinstance(getattr(link, attr_name), (tuple, list) ):
+            value = ast.literal_eval(value)
+        setattr(link, attr_name, value)
+
 def onload(table):
-    """Add URLs to the home page"""
-    for line_id, line in table.lines.items():
-        add_link(line_id, line)
-        
-def cell_change(table, page, col, lin, value, dummy_date):
+    add_new_links_in_the_table(table)
+    for lin_id, line in table.lines.items():
+        update_link(lin_id, line)
+
+def cell_change(table, page, col, lin_id, value, dummy_date):
+    """Update all the link attributes"""
     if page.page_id < 2:
         return
-    for link in plugin.links_without_plugins:
-        if link.key == lin:
-            plugin.links_without_plugins.remove(link)
+    line = table.lines[lin_id]
     data_col = table.columns.from_id(col).data_col
-    line = table.lines[lin]
+    # Temporary modify the line to update the link with the new value
     tmp = line[data_col]
-    line[data_col] = cell.CellValue(value)
-    add_link(lin, line)
-    line[data_col] = tmp
+    try:
+        line[data_col] = cell.CellValue(value)
+        update_link(lin_id, line)
+    finally:
+        line[data_col] = tmp
 
-        
+def content(dummy_table):
+    return r"""
+function update_student_information(line)
+{
+   if ( ! t_student_picture.parentNode )
+      return ;
+   t_student_picture.parentNode.innerHTML = '<div style="font-size:60%;width:20em">' + _("HELP_config_home") + '</div>' ;
+
+   document.getElementById('horizontal_scrollbar').parentNode.style.display = 'none' ;
+}
+
+"""

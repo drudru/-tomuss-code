@@ -452,6 +452,12 @@ def search_plugin(server, manage_error):
                 return p
     return False
 
+def get(name):
+    """Get plugin from name"""
+    for p in plugins:
+        if p.name == name:
+            return p
+
 @utilities.add_a_lock
 def dispatch_request(server, manage_error=True):
     warn('dispatch %s' % server.the_path, what='debug')
