@@ -65,6 +65,8 @@ def add_a_lock(fct):
     f.fct = fct
     f.the_lock = threading.Lock()
     f.__doc__ = fct.__doc__
+    f.func_name = fct.func_name
+    f.__module__ = fct.__module__
     lock_list.append(f)
     return f
 

@@ -4856,6 +4856,17 @@ msgstr "Le texte et l'aide sur les liens sont d'abord cherchés\n"
        "Le // indique que l'URL est sans le ticket.\n"
        "Pour voir un lien, il faut avoir les droits ici et pour le plugin."
 
+msgid "LINK_/0/Dossiers/config_cache"
+msgstr "Éditer la durée des caches"
+
+msgid "HELP_/0/Dossiers/config_cache"
+msgstr "On indique pour chaque cache sa durée de vie."
+
+msgid "HELP_config_cache"
+msgstr "Indiquer la durée des caches en secondes.\n"
+       "La mémoire est libérée toutes les 60 secondes\n"
+       "mais une donnée peut devenir invalide en 1 seconde"
+
 msgid "COL_TITLE_ch_box"
 msgstr "Boite"
 

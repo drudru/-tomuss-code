@@ -85,7 +85,8 @@ class MyRequestBroker(utilities.FakeRequestHandler):
         path = '/' + '/'.join(self.the_path)
 
         if path[1:] == 'load_config':
-            to_reload = ('config_table', 'config_plugin', 'config_acls')
+            to_reload = ('config_table', 'config_plugin', 'config_acls',
+                         'config_cache')
             for tt in to_reload:
                 conf = document.table(0, 'Dossiers', tt, None, None, ro=True)
                 conf.do_not_unload = []
@@ -204,6 +205,8 @@ if __name__ == "__main__":
 
     plugins.plugins_suivi()
     document.table(0, 'Dossiers', 'config_plugin', None, None,
+                   ro=True, create=False)
+    document.table(0, 'Dossiers', 'config_cache', None, None,
                    ro=True, create=False)
 
     authentication.run_authentication()

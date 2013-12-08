@@ -163,6 +163,7 @@ def cell_change(table, page, col, lin, value, dummy_date):
             sender.append(page.browser_file,
                           '<script>alert("Error!");</script>')
             utilities.send_backtrace('config_plugin')
+            raise
 
     if page.page_id > 1:
         configuration.tell_to_reload_config()

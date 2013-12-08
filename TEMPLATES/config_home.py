@@ -31,6 +31,10 @@ from .. import plugin
 from .. import cell
 
 default_links = (
+    ################################################################
+    # XXX ALWAYS ADD ITEMS TO THE END: because lin_id is the index
+    # The order on screen is the priority
+    ################################################################
     ("abj_master", -99, "unsafe", 'abj_masters',
      "javascript:go_year('Dossiers/tt')"),
     ("abj_master", -100, "verysafe", "abj_masters",
@@ -46,6 +50,7 @@ default_links = (
     ("debug"  ,   0,"verysafe",'roots',"/0/Test/average"),
     ("debug"  ,   0,"verysafe",'roots',"javascript:go('demo_animaux')"),
     ("debug"  ,   0,"verysafe",'roots',"/0/Test/test_types"),
+    ("root_rw",-805,"safe"    ,'roots',"/0/Dossiers/config_cache"),
     )
 
 columns = {

@@ -4786,6 +4786,17 @@ msgstr "Values and tips are first searched in localisation files,\n"
        "// indicates that the ticket must be removed from the URL.\n"
        "To see a link, the access must be authorized here, and for the plugin."
 
+msgid "LINK_/0/Dossiers/config_cache"
+msgstr "Modify the cache duration"
+
+msgid "HELP_/0/Dossiers/config_cache"
+msgstr "Change the time to live for each cache."
+
+msgid "HELP_config_cache"
+msgstr "Give the cache lifetime in seconds.\n"
+       "Memory is freed every 60 seconds\n"
+       "but a cache can be invalidated before that time."
+
 msgid "COL_TITLE_ch_box"
 msgstr "Box"
 

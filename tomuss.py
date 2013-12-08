@@ -298,6 +298,7 @@ if __name__ == "__main__":
     utilities.start_new_thread_immortal(sender.live_status_send_thread, ())
 
     document.table(0, 'Dossiers', 'config_home', None, None)
+    document.table(0, 'Dossiers', 'config_cache', None, None)
     
 
     # While there is an updating table, there is many messages
