@@ -2755,9 +2755,13 @@ msgid "ALERT_tabledates_invert"
 msgstr "La date de début doit être AVANT la date de fin"
 
 msgid "MSG_tableexport"
-msgstr "Pour recopier les définitions de colonnes dans une autre table.\n"
-       "Faites un copié collé du tableau suivant avec la ligne de titre\n"
-       "Dans la fenêtre d'import de définition de colonnes de l'autre table"
+msgstr "Pour recopier les définitions de colonnes dans une autre table :<br>\n"
+       "faites un copié collé du tableau suivant avec la ligne de titre\n"
+       "(sans oublier aucun caractères au début ou à la fin)\n"
+       "dans la fenêtre d'import de définition de colonnes de l'autre table"
+
+msgid "MSG_tableexport_after"
+msgstr "Vous pouvez passer par un tableur intermédiaire pour l'éditer"
 
 msgid "TITLE_tableforms"
 msgstr "N'UTILISEZ PAS CE FORMULAIRE POUR CRÉER DES LIGNES<br>\n"

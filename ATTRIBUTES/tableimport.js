@@ -49,12 +49,12 @@ function import_columns_do()
 	attrs = [] ;
 	for(var i in item)
 	{
-	  attr = column_attributes[item[i]] ;
+	  attr = column_attributes[item[i].split(' ')[0]] ;
 	  if ( attr )
 	    attrs.push(attr) ;
 	}
 	if ( attrs.length != item.length )
-	  attrs = undefined ;
+	  attrs = undefined ; // Did not found the line with column attributes
       }
     }
   if ( lines.length == 0 )

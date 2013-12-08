@@ -20,6 +20,17 @@
     Contact: Thierry.EXCOFFIER@bat710.univ-lyon1.fr
 */
 
+function get_attr_localized(name)
+{
+  var x = 'LABEL_tablelinear_column_' + name ;
+  if ( x != _(x) )
+    return _(x) ;
+  x = 'BEFORE_column_attr_' + name ;
+  if ( x != _(x) )
+    return _(x) ;
+  return '' ;
+}
+
 function table_export()
 {
   // Compute columns list to exports
@@ -34,12 +45,23 @@ function table_export()
 	continue ;
       cols.push(column) ;
     }
-  // Compute attributes having at least one value != default
-  var attrs = [] ;
+  // In order to put the title first
+  var attr_order = ['type', 'title', 'weight', 'columns', 'minmax'] ;
   for(var c in column_attributes)
   {
     if ( column_attributes[c].computed || c == 'position' )
       continue ;
+    if ( myindex(attr_order, c) != -1 )
+      continue ;
+    attr_order.push(c) ;
+  }
+  
+  // Compute attributes having at least one value != default
+  var attrs = [] ;
+
+  for(var c in attr_order)
+  {
+    c = attr_order[c] ;
     for(var column in cols)
     {
       column = cols[column] ;
@@ -51,11 +73,10 @@ function table_export()
     }
   }
 
-  var s = _("MSG_tableexport") + '<pre>\n' ;
-
-  s += '<table border><tr>' ;
+  var s = '<div style="height:15em;width:100%;overflow:auto"><table class="colored"><tr>' ;
   for(var c in attrs)
-    s += bs + '<small>' + attrs[c].name ;
+    s += '<th><span style="font-size:50%">' + attrs[c].name + ' </span>'
+    + get_attr_localized(attrs[c].name).replace(/ /g, ' ') ;
 
   for(var column in cols)
     {
@@ -65,6 +86,11 @@ function table_export()
 	  s += bs + attrs[c].formatter(column, column[attrs[c].name]) ;
       s += '\n</tr>' ;
     }
-  s += '\n</table>\n' ;
-  new_window(s, 'text/html') ;
+  s += '\n</table></div>\n' + _("MSG_tableexport_after") ;
+
+  create_popup('export_div', _('TIP_table_attr_t_export'),
+	       _("MSG_tableexport"), s, false) ;
+  var t = popup_get_element().getElementsByTagName('TABLE')[0] ;
+  if ( window.getSelection )
+    window.getSelection().selectAllChildren(t);  
 }
