@@ -1,7 +1,7 @@
 #!/bin/env python
 # -*- coding: utf-8 -*-
 #    TOMUSS: The Online Multi User Simple Spreadsheet
-#    Copyright (C) 2011-2012 Thierry EXCOFFIER, Universite Claude Bernard
+#    Copyright (C) 2011-2013 Thierry EXCOFFIER, Universite Claude Bernard
 #
 #    This program is free software; you can redistribute it and/or modify
 #    it under the terms of the GNU General Public License as published by
@@ -17,12 +17,13 @@
 #    along with this program; if not, write to the Free Software
 #    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 #
-#    Contact: Thierry.EXCOFFIER@bat710.univ-lyon1.fr
+#    Contact: Thierry.EXCOFFIER@univ-lyon1.fr
 
 from .tableexport import TableExport
 from .. import utilities
 from .. import document
 from .. import plugin
+from .. import configuration
 
 class TableCopy(TableExport):
     default_value = 1
@@ -50,9 +51,15 @@ def tablecopy(server):
     dest_year = int(server.the_path[0])
     dest_semester = utilities.safe(server.the_path[1]).replace('.','_')
     option = server.the_path[2]
+    if len(server.the_path) == 4 and len(server.the_path[3]):
+        newname = utilities.safe(server.the_path[3])
+    else:
+        newname = server.the_ue
+        if dest_year == server.the_year and dest_semester==server.the_semester:
+            server.the_file.write(_("MSG_tablecopy_cant") + "\n")
+            return
 
-    dest_table = document.table(dest_year, dest_semester,
-                                server.the_ue, create=False)
+    dest_table = document.table(dest_year,dest_semester, newname, create=False)
     if dest_table:
         if not dest_table.empty(empty_even_if_used_page=True,
                                 empty_even_if_created_today=True,
@@ -71,7 +78,7 @@ def tablecopy(server):
         server.the_file.write("\nBUG: '%s'." % option)
         return
 
-    filename = document.table_filename(dest_year, dest_semester, server.the_ue)
+    filename = document.table_filename(dest_year, dest_semester, newname)
     try:
         utilities.write_file_safe(filename, c)
     except IOError:
@@ -79,13 +86,15 @@ def tablecopy(server):
         return
         
     server.the_file.write(_("MSG_tablecopy_check") % (len(c)/1024.) + "\n")
-    dest_table = document.table(dest_year, dest_semester,
-                                server.the_ue, create=False)
+    dest_table = document.table(dest_year,dest_semester, newname, create=False)
 
     for name in dest_table.masters:
         dest_table.master_of_update('+', name)
 
-    server.the_file.write("\n" + _("MSG_tablecopy_done"))
+    server.the_file.write("\n" + _("MSG_tablecopy_done") + "\n")
+    url = "%s/%s/%s/%s" % (configuration.server_url,
+                             dest_year, dest_semester, newname)
+    server.the_file.write(url + '\n')
 
 plugin.Plugin('tablecopy', '/{Y}/{S}/{U}/tablecopy/{*}',
               function=tablecopy, group='staff',

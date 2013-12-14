@@ -2684,6 +2684,12 @@ msgstr "Action possible only if the current table is modifiable.<br>\n"
 msgid "TITLE_tablecopy"
 msgstr "TOMUSS table copy"
 
+msgid "TITLE_tablecopy_copy"
+msgstr "Copy the table under another name"
+
+msgid "ALERT_tablecopy_copy_same"
+msgstr "Give a new name to the table before copying!"
+
 msgid "MSG_tablecopy"
 msgstr "Choose the things you want to copy:"
 
@@ -2723,7 +2729,7 @@ msgstr "The table reading is done."
 msgid "MSG_tablecopy_not_empty"
 msgstr "The destination table is NOT EMPTY:\n"
        "You must delete it before overwrite it with the copy.\n"
-       "To delete it, use the popup table menu on the home page"
+       "The deletion is possible from the 'Action' tab of 'Table'."
 
 msgid "MSG_tablecopy_check"
 msgstr "Copy done (%.1fKo), checking if all is fine."

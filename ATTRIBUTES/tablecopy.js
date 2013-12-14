@@ -1,7 +1,7 @@
 // -*- coding: utf-8 -*-
 /*
     TOMUSS: The Online Multi User Simple Spreadsheet
-    Copyright (C) 2011-2012 Thierry EXCOFFIER, Universite Claude Bernard
+    Copyright (C) 2011-2013 Thierry EXCOFFIER, Universite Claude Bernard
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -17,7 +17,7 @@
     along with this program; if not, write to the Free Software
     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
-    Contact: Thierry.EXCOFFIER@bat710.univ-lyon1.fr
+    Contact: Thierry.EXCOFFIER@univ-lyon1.fr
 */
 
 function table_copy_button(id, text, help, toggled, unsensitive)
@@ -68,6 +68,8 @@ function tablecopy_do(t)
   else if ( tablecopy_toggle('C') )
     option = 'content' ;
 
+  var iframe = '<iframe width="100%" style="height:10em" src="'
+    + url + '/=' + ticket + '/' ;
   if ( t.type == 'button' )
     switch(id)
       {
@@ -87,7 +89,7 @@ function tablecopy_do(t)
 	var next_ys = next_year_semester(year, semester) ;
 	  create_popup('export_div', _("TITLE_tablecopy_to_future"),
 		       _("MSG_tablecopy_feedback")
-		     + '<iframe width="100%" src="' + url + '/=' + ticket + '/'
+		     + iframe
 		     + year + '/' + semester + '/' + ue + '/tablecopy/'
 		     + next_ys[0] + '/' + next_ys[1] + '/' + option
 		     + '">' + '</iframe>',
@@ -97,7 +99,7 @@ function tablecopy_do(t)
 	var previous_ys = previous_year_semester(year, semester) ;
 	  create_popup('export_div', _("TITLE_tablecopy_from_past"),
 		       _("MSG_tablecopy_feedback")
-		     + '<iframe width="100%" src="' + url + '/=' + ticket + '/'
+		     + iframe
 		     + previous_ys[0] + '/' + previous_ys[1] + '/' + ue
 		     + '/tablecopy/' + year + '/' + semester + '/' + option
 		     + '">' + '</iframe>',
@@ -106,9 +108,22 @@ function tablecopy_do(t)
       case 'PY':
 	  create_popup('export_div', _("TITLE_tablecopy_from_past_year"),
 		       _("MSG_tablecopy_feedback")
-		     + '<iframe width="100%" src="' + url + '/=' + ticket + '/'
+		     + iframe
 		     + (year-1) + '/' + semester + '/' + ue
 		     + '/tablecopy/' + year + '/' + semester + '/' + option
+		     + '">' + '</iframe>',
+		     "", false) ;
+	break ;
+      case 'R':
+	var newname = document.getElementById('newname').value ;
+	if ( newname == ue )
+	  Alert("ALERT_tablecopy_copy_same") ;
+	else
+	  create_popup('export_div', _("TITLE_tablecopy_copy"),
+		       _("MSG_tablecopy_feedback")
+		     + iframe
+		     + year + '/' + semester + '/' + ue + '/tablecopy/'
+		     + year + '/' + semester + '/' + option + '/' + newname
 		     + '">' + '</iframe>',
 		     "", false) ;
 	break ;
@@ -135,7 +150,7 @@ function tablecopy_do(t)
 
 function table_copy()
 {
-  var future, past, ts, st, current, previous, next ;
+  var future, past, ts, st, current, previous, next, rename ;
 
   var next_ys = next_year_semester(year, semester) ;
   var previous_ys = previous_year_semester(year, semester) ;
@@ -145,18 +160,23 @@ function table_copy()
   previous = previous_ys[0] + '<br><b>' + previous_ys[1] + '</b><br>' + ue ;
   next = next_ys[0] + '<br>' + next_ys[1] + '<br>' + ue ;
 
-  future = table_copy_button('F', '&nbsp;--&gt;&nbsp;',
+  future = table_copy_button('F', '&nbsp;→&nbsp;',
 			     _("TITLE_tablecopy_to_future") + '<br>'
 			     +  _("TIP_tablecopy_warning_from"), false, false) ;
 
-  past_year = table_copy_button('PY', '&nbsp;--&gt;&nbsp;',
+  past_year = table_copy_button('PY', '&nbsp;→&nbsp;',
 				_("TITLE_tablecopy_from_past_year") + '<br>'
 				+ _("TIP_tablecopy_warning_to"),
 				false, false) ;
 
-  past = table_copy_button('P', '&nbsp;--&gt;&nbsp;',
+  past = table_copy_button('P', '&nbsp;→&nbsp;',
 			   _("TITLE_tablecopy_from_past") + '<br>'
 			   + _("TIP_tablecopy_warning_to"),
+			   false, false) ;
+
+  rename = table_copy_button('R', '&darr;',
+			   _("TITLE_tablecopy_copy") + '<br>'
+			   + _("TIP_tablecopy_warning_from"),
 			   false, false) ;
 
   st= table_copy_button('ST','&darr;',_("TITLE_tablecopy_import"),false,false);
@@ -179,8 +199,13 @@ function table_copy()
 	       + '<tr><td><td><td>' + st + '&nbsp;' + ts + '<td><td></tr>'
 	       + '<tr><th>' + previous_year + '<td>' + past_year
 	       + '<th rowspan="2"><b>' + current
-	       + '<td rowspan="2">' + future + '<th rowspan="2">' + next + '</tr>'
+	       + '<td rowspan="2">' +future+ '<th rowspan="2">' +next+ '</tr>'
 	       + '<tr><th>' + previous + '<td>' + past
+	       + '<tr><td><td><td>' + rename
+	       + '<tr><td><td><th>'
+	       + year + '<br>' + semester + '<br>'
+	       + '<input id="newname" style="font-weight:bold" value="'
+	       + ue + '">'
 	       + '</table>'
 	       , '', false) ;
 }

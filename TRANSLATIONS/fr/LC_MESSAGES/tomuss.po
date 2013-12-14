@@ -2685,7 +2685,7 @@ msgid "ALERT_tablecopy_history_without_content"
 msgstr "On ne peut pas copier l'historique sans le contenu"
 
 msgid "TIP_tablecopy_warning_from"
-msgstr "Action possible seulement si la table n'est pas vide."
+msgstr "Action possible seulement si la table actuelle n'est pas vide."
 
 msgid "TIP_tablecopy_warning_to"
 msgstr "Action possible seulement si la table courante est modifiable.<br>\n"
@@ -2693,6 +2693,12 @@ msgstr "Action possible seulement si la table courante est modifiable.<br>\n"
 
 msgid "TITLE_tablecopy"
 msgstr "Copie de table TOMUSS"
+
+msgid "TITLE_tablecopy_copy"
+msgstr "Copier la table avec un autre nom"
+
+msgid "ALERT_tablecopy_copy_same"
+msgstr "Changez le nom de la table avant de la copier !"
 
 msgid "MSG_tablecopy"
 msgstr "Choisissez ce que vous voulez copier :"
@@ -2733,8 +2739,7 @@ msgstr "La table à copier a pu être lue."
 msgid "MSG_tablecopy_not_empty"
 msgstr "La table destination n'est pas vide :\n"
        "Vous devez la détruire avant d'avoir le droit de faire la copie.\n"
-       "La destruction est possible à partir du menu de l'UE sur la\n"
-       "page d'accueil."
+       "La destruction est possible dans l'onglet «Action» de «Table»"
 
 msgid "MSG_tablecopy_check"
 msgstr "Copie terminée (%.1fKo), début de vérification."
