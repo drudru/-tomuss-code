@@ -44,6 +44,7 @@ plugin.Plugin('picture', '/picture/{?}',
               mimetype='image/jpeg',
               group='staff',
               cached = True,
+              unsafe=False,
               )
 
 def my_picture(server):
@@ -56,6 +57,7 @@ plugin.Plugin('my_picture', '/picture/{?}',
               mimetype='image/jpeg',
               group='!staff',
               cached = True,
+              unsafe=False,
               )
 
 
