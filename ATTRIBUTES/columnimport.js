@@ -82,6 +82,7 @@ function import_column_do(comments)
 		+ _("MSG_columnimport_instead_of") + multiline[i] + '\n' ;
 	      continue ;
 	    }
+	  m[0] = login_to_id(m[0]) ;
 	  if ( login_to_line_id(m[0]) !== undefined )
 	    {
 	      problems += _("MSG_columnimport_yet") + m[0] + "\n";
