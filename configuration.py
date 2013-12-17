@@ -380,6 +380,37 @@ ticket_directory = os.path.join('TMP', 'TICKETS')
 
 local_options = {}
 
+
+#REDEFINE
+# Returns a dictionary of column definition to add to the
+# standard student tables.
+def local_columns(table):
+    # Must be starting with 0_6 key
+    # Column order is the alphabetical sorting of keys
+    some_columns = {
+        '0_6': {'title':'UE', 'comment': "UE d'origine de l'étudiant",
+                'type':'Text', 'width':4},
+        '0_7': {'title': 'Horaire', 'comment': "Horaire de l'enseignement",
+                'type':'Text', 'width': 5},
+        '0_8': {'title':'Information','comment':"Informations complémentaires",
+                'type':'Text', 'width': 6},
+        '0_9': {'title': 'Note_Semestre_Avant_Jury', 'comment': "Note de l'UE",
+                'type': 'Note', 'width': 3},
+        '0_a': {'title': 'Remarques', 'comment': "Commentaire de l'enseignant",
+                'type': 'Text', 'width': 8},
+        }
+    
+    if table.ue.startswith('SP-'):
+        return some_columns
+
+    if table.ue.startswith('TS-'):
+        # Should be defined the LOCAL directory
+        table.table_attr(table.pages[0], 'default_nr_columns', 9)
+        del some_columns['0_8']
+        return some_columns
+
+    return {}
+
 ###############################################################################
 # The following variables are not expected to be useful without modification
 ###############################################################################

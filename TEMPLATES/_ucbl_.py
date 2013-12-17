@@ -47,48 +47,35 @@ def line_empty(line):
             return False
     return True
 
+columns = {
+    '0_0': {'type': 'Text', 'freezed': 'F', 'width': 4, 'repetition': 1}, # ID
+    '0_1': {'type': 'Text', 'freezed': 'F', 'width': 8}, # Firstname
+    '0_2': {'type': 'Text', 'freezed': 'F', 'width': 8}, # Surname
+    '0_3': {'type': 'Text', 'width': 2},                 # Group
+    '0_4': {'type': 'Text', 'width': 1},                 # Sequence
+    '0_5': {'type': 'Text', 'freezed': 'C', 'hidden': 1, 'title': 'Inscrit',
+            'comment': "IP valid ?"}, # Invisible column : line HTML class
+    }
+
 def create(table):
     p = table.new_page('',data.ro_user,'','')
-    _ = utilities._
-    table.column_change (p, '0_0', _("COL_TITLE_0_0"),'Text','', '', 'F', 0, 4)
-    table.column_comment(p, '0_0', _("COL_COMMENT_0_0"))
-    table.column_change (p, '0_1', _("COL_TITLE_0_1"),'Text','', '', 'F', 0, 8)
-    table.column_change (p, '0_2', _("COL_TITLE_0_2"),'Text','', '', 'F', 0, 8)
-    table.column_change (p, '0_3', _("COL_TITLE_0_3"),'Text','', '', '' , 0, 2)
-    table.column_comment(p, '0_3', _("COL_COMMENT_0_3"))
-    table.column_change (p, '0_4', _("COL_TITLE_0_4"),'Text','', '', '' , 0, 1)
-    table.column_comment(p, '0_4', _("COL_COMMENT_0_4"))
-    table.column_change (p, '0_5', 'Inscrit', 'Text', '', '', 'C', 1, 1)
-    table.column_comment(p, '0_5', "IP valid ?")
-    if table.ue.startswith('SP-'):
-        # Should be defined the LOCAL directory
-        table.column_change (p, '0_6', 'UE', 'Text', '', '', '', 0, 4)
-        table.column_comment(p, '0_6', "UE d'origine de l'étudiant")
-        table.column_change (p, '0_7', 'Horaire', 'Text', '', '', '', 0, 5)
-        table.column_comment(p, '0_7', "Horaire de l'enseignement")
-        table.column_change (p, '0_8', 'Information', 'Text', '', '', '', 0, 6)
-        table.column_comment(p, '0_8', "Informations complémentaires")
-        table.column_change (p, '0_9', 'Note_Semestre_Avant_Jury',
-                             'Note', '[0;20]','1','',0, 3)
-        table.column_comment(p, '0_9', "Note de l'UE")
-        table.column_change (p, '0_10', 'Remarques',
-                             'Text', '[0;20]','1','',0, 8)
-        table.column_comment(p, '0_10', "Commentaire de l'enseignant")
+    cols = dict(columns) # Copy the standard columns
+    cols.update(configuration.local_columns(table)) # Append your local columns
 
-    if table.ue.startswith('TS-'):
-        # Should be defined the LOCAL directory
-        table.table_attr(p, 'default_nr_columns', 9)
-        table.column_change (p, '0_6', 'UE', 'Text', '', '', '', 0, 4)
-        table.column_comment(p, '0_6', "UE d'origine de l'étudiant")
-        table.column_change (p, '0_7', 'Horaire', 'Text', '', '', '', 0, 5)
-        table.column_comment(p, '0_7', "Horaire de l'enseignement")
-        table.column_change (p, '0_8', 'Note_Semestre_Avant_Jury',
-                             'Note', '[0;20]','1','',0, 3)
-        table.column_comment(p, '0_8', "Note de l'UE")
-        table.column_change (p, '0_9', 'Remarques',
-                             'Text', '[0;20]','1','',0, 8)
-        table.column_comment(p, '0_9', "Commentaire de l'enseignant")
-        
+    # Translate titles and comments using columns keys and prefixes COL_TITLE…
+    _ = utilities._
+    for k, v in cols.items():
+        if 'title' not in v:
+            key = "COL_TITLE_" + k
+            title = _(key)
+            if key != title:
+                v['title'] = title
+        if 'comment' not in v:
+            key = "COL_COMMENT_" + k
+            comment = _(key)
+            if key != comment:
+                v['comment'] = comment
+    table.update_columns(cols)
     ts = configuration.semester_span(table.year, table.semester)
     if ts:
         table.date_change(p, ts)
