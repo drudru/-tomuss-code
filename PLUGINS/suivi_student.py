@@ -219,17 +219,24 @@ def student_statistics(login, server, is_a_student=False, expand=False,
 
     ################################################# REFERENT
 
+    s.append('<script>var student_login = %s;' % utilities.js(login))
     if ref:
-        s.append('<script>Write("MSG_suivi_referent_is") ; hidden(\'<a href="mailto:' + mail_ref + '">' +
-                 ref + "</a>', _('MSG_suivi_student_send_to_referent'));</script><br>")
+        s.append('Write("MSG_suivi_referent_is") ;'
+                 + 'hidden(\'<a href="mailto:' + mail_ref + '">'
+                 + ref + "</a>', _('MSG_suivi_student_send_to_referent'));")
     else:
-        s.append("<script>hidden(_('MSG_suivi_student_no_referent'),_(")
+        s.append("hidden(_('MSG_suivi_student_no_referent'),_(")
         if referent.need_a_referent(login):
             s.append("'TIP_suivi_student_no_referent_needed'")
         else:
             s.append("'TIP_suivi_student_no_referent'")
-        s.append("));</script><br>")
+        s.append("));")
 
+    if not is_a_student and is_a_referent and ref != server.ticket.user_name:
+        s.append("hidden(' (<span style=\"font-size:60%\" onclick=\"catch_this_student(event)\">' + _('MSG_suivi_student_get') + '</span>)',_('TIP_suivi_student_get'));")
+
+    s.append('</script><br>')
+    
     ################################################# TEACHERS MAILS
 
     if not is_a_student:

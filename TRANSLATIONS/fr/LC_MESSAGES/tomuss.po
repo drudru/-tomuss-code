@@ -4018,6 +4018,12 @@ msgstr "Envoyez un message à l'enseignant référent pédagogique"
 msgid "MSG_suivi_student_no_referent"
 msgstr "Référent pédagogique : Aucun"
 
+msgid "MSG_suivi_student_get"
+msgstr "le prendre"
+
+msgid "TIP_suivi_student_get"
+msgstr "Je veux devenir son enseignant référent"
+
 msgid "TIP_suivi_student_no_referent_needed"
 msgstr "Seuls les étudiants inscrits pour la première fois\n"
        "à l'université ont un référent pédagogique."

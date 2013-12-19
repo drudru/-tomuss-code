@@ -112,3 +112,15 @@ function popup_private()
 	       '', false
 	      );
 }
+
+function catch_this_student(event, login)
+{
+  event = the_event(event) ;
+  if ( confirm(_('TIP_suivi_student_get')) )
+    {
+      create_popup('import_div',_('TIP_suivi_student_get'),
+		   '<iframe src="' + url + '/=' + ticket + '/referent_get/'
+		   + student_login + '" style="width:100%;height:5em">iframe</iframe>',
+		   '', false) ;
+    }
+}
