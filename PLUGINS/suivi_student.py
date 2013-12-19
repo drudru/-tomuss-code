@@ -255,7 +255,7 @@ def student_statistics(login, server, is_a_student=False, expand=False,
     ################################################# LOOK
 
 
-    s.append('Regarder : ')
+    s.append(server.__('MSG_suivi_student_look') + ' ')
 
     # BILAN
     

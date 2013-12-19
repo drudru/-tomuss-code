@@ -4036,6 +4036,9 @@ msgid "TIP_suivi_student_mail_all"
 msgstr "Liste les adresses mails du réferent ainsi que des<br>\n"
        "enseignants responsables des UE suivies par l'étudiant."
 
+msgid "MSG_suivi_student_look"
+msgstr "Regarder :"
+
 msgid "MSG_suivi_student_official_bilan"
 msgstr "Bilan APOGÉE"
 

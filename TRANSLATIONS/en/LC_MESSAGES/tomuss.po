@@ -3988,6 +3988,9 @@ msgstr "Teacher mails"
 msgid "TIP_suivi_student_mail_all"
 msgstr "The mail of each of the teachers of this student and of its referent"
 
+msgid "MSG_suivi_student_look"
+msgstr "Look:"
+
 msgid "MSG_suivi_student_official_bilan"
 msgstr "Official grades"
 
