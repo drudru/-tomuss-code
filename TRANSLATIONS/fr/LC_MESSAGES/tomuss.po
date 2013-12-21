@@ -3180,8 +3180,7 @@ msgstr "Le tableau représente les informations stockées par TOMUSS,\n"
 
 msgid "MSG_bilan_take_student"
 msgstr "Je veux devenir le référent pédagogique de cet étudiant.\n"
-       "Vous ne pourrez plus vous en séparer sauf si quelqu'un vous le prend."
-
+       "Je ne pourrais m'en séparer sauf si quelqu'un me le prend."
 
 msgid "MSG_bilan_unknown"
 msgstr "Étudiant inconnu de TOMUSS"
@@ -4017,12 +4016,6 @@ msgstr "Envoyez un message à l'enseignant référent pédagogique"
 
 msgid "MSG_suivi_student_no_referent"
 msgstr "Référent pédagogique : Aucun"
-
-msgid "MSG_suivi_student_get"
-msgstr "le prendre"
-
-msgid "TIP_suivi_student_get"
-msgstr "Je veux devenir son enseignant référent"
 
 msgid "TIP_suivi_student_no_referent_needed"
 msgstr "Seuls les étudiants inscrits pour la première fois\n"

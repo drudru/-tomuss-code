@@ -3155,7 +3155,7 @@ msgstr "This table display informations stored in TOMUSS.\n"
 
 msgid "MSG_bilan_take_student"
 msgstr "I want to become the referent of the student.\n"
-       "You can't leave the student, except if another teacher take it."
+       "Once done, I can't leave the student, except if another teacher take it."
 
 msgid "MSG_bilan_unknown"
 msgstr "This student is unknown of TOMUSS"
@@ -3972,12 +3972,6 @@ msgstr "Send a message to the referent teacher"
 
 msgid "MSG_suivi_student_no_referent"
 msgstr "no referent teacher"
-
-msgid "MSG_suivi_student_get"
-msgstr "take it"
-
-msgid "TIP_suivi_student_get"
-msgstr "I want to become its referent teacher"
 
 msgid "TIP_suivi_student_no_referent_needed"
 msgstr "You should not have a referent teacher."

@@ -48,7 +48,7 @@ for name in (
     'favicon.ico',
     'header.png',
     'verysafe.png', 'safe.png', 'unsafe.png', 'veryunsafe.png',
-    'tip.png', 'feed.png', 'news.xml', 'eye.png', 
+    'tip.png', 'feed.png', 'news.xml', 'eye.png', 'butterflynet.png',
     'ok.png', 'bad.png', 'bug.png', 'feedback.png', 'abjus.png',
     'weight.png', 'teacher.png',
     'close.png', 'cell_comment.png',

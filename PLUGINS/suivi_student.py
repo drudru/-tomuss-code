@@ -172,6 +172,8 @@ def teacher_can_see_suivi(server, the_student):
 # To not have duplicate error messages
 referent_missing = {}
 
+
+
 def student_statistics(login, server, is_a_student=False, expand=False,
                        is_a_referent=False):
     utilities.warn('Start', what='table')
@@ -184,9 +186,22 @@ def student_statistics(login, server, is_a_student=False, expand=False,
         mail_ref = inscrits.L_fast.mail(ref)
         if mail_ref == None:
             mail_ref = 'mail_inconnu'
-        
+
     clr = "<script>document.getElementById('x').style.display='none';</script>"
     private, visible = teacher_can_see_suivi(server, login)
+
+    def get_the_student():
+        if (not is_a_student
+            and is_a_referent
+            and ref != server.ticket.user_name):
+            return """
+<script>
+hidden(' <img style="height:1em" onclick="catch_this_student(event)" src="%s/butterflynet.png">',_('MSG_bilan_take_student'));
+</script>
+""" % configuration.url_files
+        else:
+            return ''
+    
     if not visible:
         if ref:
             ref = ('<p>' +
@@ -197,7 +212,8 @@ def student_statistics(login, server, is_a_student=False, expand=False,
             ref = ""
                    
         return(clr +
-               '<h1>' + login + ' ' + surname + ' ' + firstname + '</h1>' +
+               '<h1>' + login + ' ' + surname + ' ' + firstname +
+               get_the_student() + '</h1>' +
                server.__("MSG_suivi_student_private") +
                ref)
 
@@ -212,10 +228,9 @@ def student_statistics(login, server, is_a_student=False, expand=False,
         abj.html_abjs(server.year, server.semester, login),
         '<h1>'
         ]
-    s.append('%s <a href="mailto:%s">%s %s</a></h1>' % (
-        login, mail, firstname.title(), surname))
-
-        
+    s.append('%s <a href="mailto:%s">%s %s</a>%s</h1>' % (
+        login, mail, firstname.title(), surname, get_the_student()))
+  
 
     ################################################# REFERENT
 
@@ -231,9 +246,6 @@ def student_statistics(login, server, is_a_student=False, expand=False,
         else:
             s.append("'TIP_suivi_student_no_referent'")
         s.append("));")
-
-    if not is_a_student and is_a_referent and ref != server.ticket.user_name:
-        s.append("hidden(' (<span style=\"font-size:60%\" onclick=\"catch_this_student(event)\">' + _('MSG_suivi_student_get') + '</span>)',_('TIP_suivi_student_get'));")
 
     s.append('</script><br>')
     

@@ -103,6 +103,7 @@ translations:
            fi ; \
          done
 	SCRIPTS/create_backgrounds.py
+	cd FILES ; $(MAKE)
 
 %.mo:%.po
 	msgfmt $*.po -o $*.mo
