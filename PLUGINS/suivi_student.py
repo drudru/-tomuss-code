@@ -82,7 +82,15 @@ def member_of_list(login):
         x += '<tr><th>' + cgi.escape(unicode(i,configuration.ldap_encoding)).replace('"','\\"') \
                                  .replace(',DC=univ-lyon1,DC=fr','') \
                                  .replace(',','<td>') + '</tr>'
-    x += '</table>");</script>'
+    x += '</table>");</script> '
+    for etape in inscrits.L_fast.etapes_of_student(login):
+        e = teacher.all_ues().get('etape-' + etape)
+        if e:
+            title = e.intitule().encode('utf-8')
+        else:
+            title = "???"            
+        x += '<script>hidden(%s,%s);</script>' % (
+            utilities.js(etape), utilities.js(title))
     return x, member_of
 
 last_full_read_time = 0
