@@ -47,18 +47,15 @@ files.add('PLUGINS', 'suivi_student_doc.html')
 
 def tomuss_links(login, ticket, server, is_a_student=False):
     t = []
-    try:
-        year = 2000 + int(login[1:3])
-    except ValueError:
-        year = 0
     for url, dummy_port, tyear, tsemester, dummy_thost \
             in configuration.suivi.url_with_ticket(ticket.ticket):
+        if not configuration.display_this_semester_to_the_student(
+            tyear, tsemester, login):
+            continue
         if tyear == server.year and tsemester == server.semester:
             highlight = ' class="highlight"'
         else:
             highlight = ''
-        if tyear < year:
-            continue
 
         if is_a_student:
             icone = ''

@@ -131,6 +131,11 @@ def semester_span(year, semester):
     return '1/%s 31/%s' % (p(semesters_months[i][0]),
                            p(semesters_months[i][1]))
 
+#REDEFINE
+# Does the student may see this semester on its 'suivi' page?
+def display_this_semester_to_the_student(year, semester, login):
+    return True
+
 ###############################################################################
 # Or you can edit the configuration table while TOMUSS is running :
 #           http://........./0/Dossiers/config_table
