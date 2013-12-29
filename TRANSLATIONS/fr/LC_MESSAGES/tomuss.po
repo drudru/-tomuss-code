@@ -2557,10 +2557,10 @@ msgid "MSG_columnimport_confirm"
 msgstr "Vous voulez vraiment faire l'importation ?"
 
 msgid "MSG_columnimport_not_found"
-msgstr " n'est pas dans la table, sa note sera pas importée : "
+msgstr " n'est pas dans la table, cette valeur ne sera pas importée : "
 
 msgid "MSG_columnimport_multiple"
-msgstr " est indiqué plusieurs notes. Seule la première note sera importée."
+msgstr " est indiqué plusieurs valeurs. Seule la première valeur sera importée."
 
 msgid "MSG_columnimport_max_first"
 msgstr "Nombre de colonnes variable...\n"

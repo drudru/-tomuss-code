@@ -2548,10 +2548,10 @@ msgid "MSG_columnimport_confirm"
 msgstr "Do you want to do the importation?"
 
 msgid "MSG_columnimport_not_found"
-msgstr " is not in the table, its grade will not be imported: "
+msgstr " is not in the table, the value will not be imported: "
 
 msgid "MSG_columnimport_multiple"
-msgstr " is given multiple times. Only the first grade will be imported."
+msgstr " is given multiple times. Only the first value will be imported."
 
 msgid "MSG_columnimport_max_first"
 msgstr "Variable number of column in the imported table...\n"
