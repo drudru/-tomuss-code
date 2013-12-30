@@ -26,7 +26,7 @@ class TableTeachers(TableMasters):
     formatter = '''
 function(value)
 {
-if ( value.join )
+if ( value instanceof Array )
     return value.join(' ') ;
 return value ;
 }

@@ -690,10 +690,10 @@ display.display('MoreOnSuivi', 'BodyRight', 9, data=display_more_on_suivi)
 	<li> SUIVI : a text on the 'suivi' page</li>
 	<li> TAB : a tab title</li>
       </ul>
-	
-      
-     
-
+      <p>
+	BEWARE: if you change the language of the server,
+	you need to restart it because it is complex to change it live.
+      </p>
 
     <h2><a name="administration">TOMUSS Administration</a></h2>
 

@@ -5069,6 +5069,10 @@ msgstr "WNG"
 msgid "tnr_char"
 msgstr "W"
 
+#. Filter 'or' keyword
+msgid "or"
+msgstr "or"
+
 msgid "ALERT_int_required"
 msgstr "An integer is required"
 

@@ -5146,6 +5146,10 @@ msgstr "TNR"
 msgid "tnr_char"
 msgstr "T"
 
+#. Filter 'or' keyword
+msgid "or"
+msgstr "ou"
+
 msgid "ALERT_int_required"
 msgstr "Vous devez saisir un nombre entier"
 

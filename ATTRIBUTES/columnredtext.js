@@ -41,7 +41,7 @@ function set_redtext(value, column)
     }
   else if ( isNaN(value) )
     {
-      column.color_redtext_filter = compile_filter_generic(value) ;
+      column.color_redtext_filter = compile_filter_generic(value, column) ;
     }
   else
     {

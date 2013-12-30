@@ -96,3 +96,11 @@ files['lib.js'].append('files.py',
                        + utilities.js(configuration.semesters_color) + ';\n'
                        )
 
+# Array.prototype.jsify
+# Array Remove en double
+# _setup_array_prototype();
+
+# Array.prototype.issubset
+
+add('PYTHON_JS', 'tomuss_python_O.js')
+files['utilities.js'].append('files.py', files['tomuss_python_O.js'])

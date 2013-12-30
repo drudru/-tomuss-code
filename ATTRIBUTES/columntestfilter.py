@@ -29,7 +29,7 @@ class ColumnTestFilter(ColumnAttr):
 function(value, column)
 {
   column.need_update = true ;
-  column.nmbr_filter = compile_filter_generic(value) ;
+  column.nmbr_filter = compile_filter_generic(value, column) ;
   return value ;
 }'''
     css = """

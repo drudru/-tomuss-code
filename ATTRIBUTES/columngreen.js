@@ -43,7 +43,7 @@ function set_green(value, column)
     }
   else if ( isNaN(value) )
     {
-      column.color_green_filter = compile_filter_generic(value) ;
+      column.color_green_filter = compile_filter_generic(value, column) ;
     }
   else
     {

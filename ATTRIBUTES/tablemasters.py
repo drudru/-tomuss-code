@@ -32,7 +32,7 @@ class TableMasters(TableTableTitle):
     formatter = '''
 function(value)
 {
-if ( value.join )
+if ( value instanceof Array )
   {
    teachers = value ;
    value = value.join(' ') ;

@@ -22,7 +22,7 @@
 
 function date_formatter(value)
 {
-  if ( value.join )
+  if ( value instanceof Array )
     {
        first_day = new Date() ;
        first_day.setTime(value[0]*1000) ;
