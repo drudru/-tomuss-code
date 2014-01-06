@@ -697,6 +697,9 @@ msgstr "Désolé, la fenêtre a été fermée sans tout sauvegarder"
 msgid "WARN_not_name_sorted"
 msgstr "La liste n'est pas dans l'ordre alpabétique des noms."
 
+msgid "WARN_students_not_registered"
+msgstr "étudiants ne sont pas affichés car non officiellement inscrits."
+
 msgid "WARN_unregistered_student"
 msgstr "Étudiant non inscrit à l'UE.\n"
        "Aucune note ne peut être saisie et cette UE ne pourra être validée."

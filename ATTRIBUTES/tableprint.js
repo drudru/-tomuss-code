@@ -370,7 +370,6 @@ function popup_export_window(event)
   popup_set_value(textual_table) ;
 }
 
-
 function print_selection(object, emargement, replace)
 {
   free_print_headers = [_("MSG_print_present"), _("MSG_print_given")] ;

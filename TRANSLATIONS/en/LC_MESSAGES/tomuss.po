@@ -706,6 +706,9 @@ msgstr "Sorry, the window has been closed without saving the modifications."
 msgid "WARN_not_name_sorted"
 msgstr "The list is not sorted by name."
 
+msgid "WARN_students_not_registered"
+msgstr "students are not displayed because they are not officially registered."
+
 msgid "WARN_unregistered_student"
 msgstr "Unregistered student in the table.\n"
        "No data can be entered in the table."

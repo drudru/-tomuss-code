@@ -3659,17 +3659,33 @@ function the_filters()
 
 function printable_introduction()
 {
-  var name_sort = '' ;
+  var problems = [] ;
 
   if ( tr_classname !== undefined )
     if ( sort_columns[0].data_col != 2 )
-      name_sort = '<span style="background:#F00;color:white">'
-	+ _("WARN_not_name_sorted") + '</span>' ;
+      problems.push(_("WARN_not_name_sorted")) ;
+
+  if ( tr_classname !== undefined  &&  popup_on_red_line )
+    {
+      var nb = 0 ;
+      for(i in filtered_lines)
+	{
+	  line = filtered_lines[i] ;
+	  if ( line[0].value == '' && line[1].value == '' )
+	    continue ;
+	  if ( line[tr_classname].value === 'non' )
+	    nb++ ;
+	}
+      if ( nb )
+	problems.push(nb + ' ' + _("WARN_students_not_registered")) ;
+    }
 
   return '<p class="hidden_on_paper printable_introduction">'
     + _("MSG_not_printed") + "<br>" + _("MSG_sorted_by") + " «<b>"
     + sort_columns[0].title + '</b>» ' + _("MSG_sorted_by_more") + ' «<b>'
-    + sort_columns[1].title + '</b>»<br>' + the_filters() + name_sort ;
+    + sort_columns[1].title + '</b>»<br>' + the_filters()
+    + '<span style="background:#F00;color:white">'
+    + problems.join('<br>') + '</span>' ;
 }
 
 function display_on_signature_table(line)
