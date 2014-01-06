@@ -1413,6 +1413,14 @@ def table(year, semester, ue, page=None, ticket=None, ro=False, create=True,
         t = t.update()
 
     t.atime = time.time()
+
+    if page is not None and not t.modifiable and page >= len(t.pages):
+        # Bug raised by TOMUSS restart (page list is lost)
+        # XXX : if 2 users are on the same unmodifiable table,
+        # then there is 50% chance that the second one is
+        # with the bad page and so the bad ticket.
+        # It will be accused of hacking.
+        page = None
     
     if page == None:
         if ticket == None:
@@ -1437,13 +1445,7 @@ def table(year, semester, ue, page=None, ticket=None, ro=False, create=True,
             t.unlock()
         return t, page
 
-    try:
-        page = t.pages[page]
-    except IndexError:
-        if t.modifiable:
-            raise IndexError("REAL BUG: Page unknow in %s" % t)
-        else:
-            raise IndexError("Bug raised by TOMUSS restart on %s" % t)
+    page = t.pages[page]
     page.check_identity(ticket.ticket, ticket.user_name,
                         ticket.user_ip, ticket.user_browser)
     return t, page

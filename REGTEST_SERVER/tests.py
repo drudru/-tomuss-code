@@ -1309,8 +1309,10 @@ new_page('' ,'*', '', '', None)
         s.stop()
         s.restart()
         check('Y%d/S%s/UE-lost.py' % (year, semester), nr_pages = 2)
+        c = s.url('=' + abj +'/%s/UE-lost/0' % ys)
+        assert('click_to_revalidate_ticket' in c)
         c = s.url('=' + abj +'/%s/UE-lost/2' % ys)
-        assert(c.startswith('<script>window.parent.location = "'))
+        assert('server_answered' in c)
         
     if do('template_reload'):
         f = open('TEMPLATES/xxx_regtest.py', 'w')
@@ -1462,9 +1464,9 @@ cell_change(1,'0_2','ticket_time_to_live','%d',"")
 
        # The browser attempt to reconnect
        c = s.url('='+abj+'/%d/Dossiers/regtest-bug1/1' % uyear,
-                 display_log_if_error=False, timeout=2)
+                 display_log_if_error=False)
        # Because page load does not end
-       assert('***TIMEOUT***' in c)
+       # assert('***TIMEOUT***' in c)
        assert('window.parent.server_answered()' in c)
 
        # The ticket is now valid

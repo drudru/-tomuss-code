@@ -285,8 +285,6 @@ else
     if not hasattr(page, 'use_frame'):
         warn('Browser reconnection', what="error")
         page.use_frame = True
-        # server.the_file.close()
-        # return
 
     if not page.use_frame:
         warn('Page not using frame (LINEAR?)', what="error")
@@ -316,8 +314,10 @@ else
         page.browser_file.set_real_file(server.the_file)
         page.browser_file.flush()
         page.end_of_load = 0 # end_of_load will not be called
-        table.active_page(page, page.browser_file)
-
+        if configuration.regtest_sync:
+            server.close_connection_now()
+        else:
+            table.active_page(page, page.browser_file)
 
 plugin.Plugin('answer_page', '/{Y}/{S}/{U}/{P}',
               function=answer_page, group='staff',
