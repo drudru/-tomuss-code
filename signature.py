@@ -288,8 +288,8 @@ def signatures(server):
         + qs.html_answered()
         )
 
-plugin.Plugin('signatures', '/signatures/{I}', function=signatures)
-
+plugin.Plugin('signatures', '/signatures/{I}', function=signatures,
+              unsafe=False)
 
 def test_hook(login, value, data):
     print '*'*99, login, value, data
