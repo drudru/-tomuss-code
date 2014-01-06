@@ -145,6 +145,8 @@ function column_used_in_average(name)
   for(var column in columns)
     {
       column = columns[column] ;
+      if ( ! column_modifiable_attr('columns', column) )
+	continue ; // Not used
       for(var use in column.average_from)
 	if ( column.average_from[use] == name )
 	  return column.title ;

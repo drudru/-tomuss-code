@@ -56,6 +56,21 @@ function column_delete()
     if (!confirm(_("ALERT_columndelete_confirm") + column.title))
       return ;
 
+  // The column name can be used in disabled formulas
+  // Remove the column name to avoid any future problem
+  for(var data_col in columns)
+  {
+    for(var use in columns[data_col].average_from)
+    {
+      if ( columns[data_col].average_from[use] == column.title)
+      {
+  	column_attr_set(columns[data_col], 'columns',
+			(' '+columns[data_col].columns+' ').replace(
+			  ' '+column.title+' ', ' ').trim()
+		       ) ;
+      }
+    }
+  }
   append_image(undefined, 'column_delete/' + column.the_id) ;
   Xcolumn_delete(' ', column.the_id) ;
   the_current_cell.update_headers() ;
