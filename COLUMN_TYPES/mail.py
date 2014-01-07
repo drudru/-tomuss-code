@@ -44,3 +44,5 @@ class Mail(code_etape.Code_Etape):
             student = utilities.the_login(student).lower()
             if student in infos:
                 yield line_id, infos[student][2].encode('utf-8')
+            else:
+                yield line_id, None

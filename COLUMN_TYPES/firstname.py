@@ -41,3 +41,5 @@ class Firstname(mail.Mail):
             student = utilities.the_login(student).lower()
             if student in infos:
                 yield line_id, infos[student][0].title().encode('utf-8')
+            else:
+                yield line_id, None
