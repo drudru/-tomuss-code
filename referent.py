@@ -185,7 +185,12 @@ def referent(year, semester, login):
             if utilities.the_login(cell.value) == login:
                 return line[0].value
     return None
-    
+
+def get(login):
+    """Return the student's referent for the current semester"""
+    year, semester = configuration.year_semester
+    return referent(year, semester, login)
+
 def referents_login(year, semester):
     """Returns the referent list"""
     return [t for t in referents_students(year, semester).logins() if t != '']
