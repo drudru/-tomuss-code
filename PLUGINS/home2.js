@@ -1102,10 +1102,10 @@ function the_year()
   return Number(year_semester().split('/')[0]) ;
 }
 
-function do_action(action, html_class)
+function do_action(action, html_class, help)
 {
   if ( html_class == 'veryunsafe' )
-      if ( ! confirm(_("ALERT_are_you_sure2")) )
+    if (! confirm(help + '\n\n' + _("ALERT_are_you_sure2")) )
       return ;
   if ( action.substr(0,1) == '/' )
     goto_url(url + action) ;
@@ -1291,9 +1291,6 @@ function generate_home_page_actions()
     {
         if ( links[i][7] === '' )
 	  links[i][7] = links[i][4] ; // Translation ID is the URL
-        if ( links[i][4].substr(0,1) == '/' )
-	  links[i][4] = "javascript:do_action('" + links[i][4].substr(1)
-        + "','" + links[i][2] + "')" ;
  	if ( links[i][3] === '' )
 	    links[i][3] = _('LINK_' + links[i][7]) ;
 	if ( links[i][6] === '' )
@@ -1302,6 +1299,9 @@ function generate_home_page_actions()
 	    if ( links[i][6] == 'HELP_' + links[i][7] )
 		links[i][6] = '' ;
 	}
+        if ( links[i][4].substr(0,1) == '/' )
+	  links[i][4] = "javascript:do_action('" + links[i][4].substr(1)
+        + "','" + links[i][2] + "'," + js2(links[i][6]) +  ")" ;
 	link_name = links[i][0] ;
 	if ( boxes[link_name] )
 	    boxes[link_name].push(links[i]) ;

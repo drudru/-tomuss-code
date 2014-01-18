@@ -1912,15 +1912,14 @@ msgstr "» vers APOGÉE"
 
 msgid "MSG_columnexport_before"
 msgstr "<ul><li> Collez dans la zone blanche\n"
-       "les numéros d'étudiants venant d'APOGÉE (ou prendre "
+       "les numéros d'étudiants venant d'APOGÉE (ou cliquez sur "
        
 msgid "MSG_columnexport_middle"
 msgstr ").\n"
        "<li> Options : "
        
 msgid "MSG_columnexport_after"
-msgstr "<li> Copiez la zone du milieu vers APOGÉE\n"
-       "(en utilisant Excel en Français).\n"
+msgstr "<li> Copiez la zone du milieu vers le tableau Excel pour APOGÉE.\n"
        "</ul>"
 
 msgid "MSG_columnexport_students"
