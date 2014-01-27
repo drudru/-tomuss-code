@@ -4385,6 +4385,9 @@ msgstr "Semestre : le prochain. Modifiable si une UE est fermée (étudiants dis
 msgid "config_table_year_semester_modifiable"
 msgstr "Semestre : Liste des semestres autorisés par défaut en écriture"
 
+msgid "config_table_year_semester_update_student_list"
+msgstr "Semestre : Liste des semestres pour lesquels les listes d'étudiants sont mises à jour"
+
 msgid "config_table_ue_not_per_semester"
 msgstr "UE non semestrialisée (donc par année) si le code correspond à cette expression régulière"
 

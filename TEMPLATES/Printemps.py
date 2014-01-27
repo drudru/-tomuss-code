@@ -52,6 +52,14 @@ def init(table):
         table.modifiable = 1
         
     table.update_inscrits = table.update_inscrits and table.modifiable
+
+    if (table.update_inscrits
+        and (table.year, table.semester) != configuration.year_semester
+        ):
+        if [table.year, table.semester
+            ] not in configuration.year_semester_update_student_list:
+            table.update_inscrits = False
+
     # If the user make the table modifiable, update_inscrit will not change
     
 def content(table):

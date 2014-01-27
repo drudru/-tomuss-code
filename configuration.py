@@ -193,6 +193,9 @@ else:
 # A list of pairs defining writable semesters
 year_semester_modifiable = ([2008, 'Test'],)
 
+# A list of pairs defining semesters for which student lists are updated
+year_semester_update_student_list = ([2008, 'Test'],)
+
 # UE not by semester, if its code match this regular expression
 ue_not_per_semester = "^UE-[A-Z]{3}[0-9]{4}M$"
 

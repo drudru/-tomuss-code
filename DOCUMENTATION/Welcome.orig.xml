@@ -645,7 +645,7 @@ They can be&nbsp;:
 
       <tr>
 	<td>
-	  New lists of students are accessible.
+	  You want to use the next semester
 	</td>
 	<td>
 	  In your local configuration
@@ -654,40 +654,45 @@ They can be&nbsp;:
 	  <br/>
 	  You can indicate the same port number for multiple semesters,
 	  in this case, only one process is launched for these semesters.
-	</td>
-      </tr>
-      <tr>
-	<td>
-	  When it is possible
-	</td>
-	<td>
-          Copy the 'referents_students' table in the new semester.<br/>
-	    <p>
-	  Restart TOMUSS: <tt>make stop ; make</tt>
-</p>
-	</td>
-      </tr>
-      <tr>
-	<td>
-	  When the users are allowed to use the new semester.
-	</td>
-	<td>
+	  <br/>
 	  Set the next semester name in '<tt>year_semester_next</tt>'
 	  in the TOMUSS configuration table.
 	  <p>
-	    The tables with more than 15% student removal are editable
-	    in both semesters.
-	    In the next semester the student list is fully synchronized.
+	    The tables are editable in both semesters.
+            But current student	lists do not appear in the next semester.
+	  </p>
+	  <p>
+	    Il you want to update student lists for the next semester,
+	    add it to <tt>year_semester_update_student_list</tt>
+	    in the configuration table.
 	  </p>
 	</td>
       </tr>
       <tr>
 	<td>
-	  When nobody need to modify old semester table.
+	  New lists of students are accessible.
 	</td>
 	<td>
-	  Set '<tt>year_semester</tt>' to the same value than
-	  '<tt>year_semester_next</tt>'.
+	  <p>	  
+	    Set '<tt>year_semester</tt>' to the same value than
+	    '<tt>year_semester_next</tt>'.
+	  </p>
+	  <p>
+	    Copy the 'referents_students' table in the new semester.
+	  </p>
+	  <p>
+	    Restart TOMUSS: <tt>make stop ; make</tt>
+	  </p>
+	  <p>
+	    Il you want to continue update student lists for in the old
+	    semester, add it to <tt>year_semester_update_student_list</tt>
+	    in the configuration table.
+	  </p>
+	  <p>
+	    Il you want to allow the previous semester tables to be editable,
+	    add it to <tt>year_semester_modifiable</tt>
+	    in the configuration table.
+	  </p>
 	</td>
       </tr>
     </table>

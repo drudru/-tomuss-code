@@ -4334,6 +4334,9 @@ msgstr "Semester: the next one to be opened, student lists must be empty"
 msgid "config_table_year_semester_modifiable"
 msgstr "Semester: A list of semesters writable by default"
 
+msgid "config_table_year_semester_update_student_list"
+msgstr "Semestre: A list of semesters for which student lists are updated"
+
 msgid "config_table_ue_not_per_semester"
 msgstr "Table not semestrialised (one for all the semester year) if the table name match the regular expression"
 

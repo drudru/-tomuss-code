@@ -98,6 +98,7 @@ variable_list = [
     "suivi_student_message",
     "tt_masters",
     "year_semester_modifiable",
+    "year_semester_update_student_list",
     "suivi_student_allow_private",
     "max_visibility_date",
     "gui_record",
