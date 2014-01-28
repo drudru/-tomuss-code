@@ -262,7 +262,8 @@ def warn(text, what='info'):
             live_log = None
 
 @add_a_lock
-def send_mail(to, subject, message, frome=None, show_to=False):
+def send_mail(to, subject, message, frome=None, show_to=False, reply_to=None,
+              error_to=None):
     "Not safe with user given subject"
     import smtplib
 
@@ -296,7 +297,10 @@ def send_mail(to, subject, message, frome=None, show_to=False):
     elif show_to:
         for tto in to:
             header += "To: " + tto + '\n'
-            
+    if reply_to:
+        header += 'Reply-To: ' + reply_to + '\n'
+    if error_to:
+        header += 'Error-To: ' + error_to + '\n'
         
     if message.startswith('<html>'):
         header += 'Content-Type: text/html; charset=UTF-8\n'
@@ -398,14 +402,15 @@ def stop_threads():
 
 send_mail_in_background_list = []
 def sendmail_thread():
-    """Send the mail in background, 4 mails per seconds"""
+    """Send the mail in background with a minimal time between mails"""
     while send_mail_in_background_list:
-        time.sleep(0.25)
+        time.sleep(configuration.time_between_mails)
         send_mail(*send_mail_in_background_list.pop(0))
 
-def send_mail_in_background(to, subject, message, frome=None, show_to=False):
+def send_mail_in_background(to, subject, message, frome=None, show_to=False,
+                            reply_to=None, error_to=None):
     send_mail_in_background_list.append((to, subject, message, frome,
-                                         show_to))
+                                         show_to, reply_to, error_to))
     start_job(sendmail_thread, 1)
 
 def js(t):

@@ -208,6 +208,9 @@ maintainer = root[0] + '@' + socket.getfqdn()
 # SMTP that send messages
 smtpserver = '127.0.0.1'
 
+# Time in seconds between 2 mails sent
+time_between_mails = 0.05
+
 # Reply to for ABJ mail messages
 abj_sender = maintainer
 

@@ -4406,6 +4406,9 @@ msgstr "Mail : Adresse où sont envoyés les messages d'erreur de TOMUSS"
 msgid "config_table_smtpserver"
 msgstr "Mail : Adresse du serveur SMTP pour envoyer des mails"
 
+msgid "config_table_time_between_mails"
+msgstr "Mail : Temps d'attente entre 2 envois de mail (pour ne pas être banni)"
+
 msgid "config_table_abj_sender"
 msgstr "Mail : Nom de la personne 'envoyant' les mails via TOMUSS listant les ABJ pour toutes les UEs"
 

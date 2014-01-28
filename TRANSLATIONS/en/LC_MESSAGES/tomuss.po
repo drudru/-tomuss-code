@@ -4355,6 +4355,9 @@ msgstr "Mail: address where TOMUSS error messages are sent"
 msgid "config_table_smtpserver"
 msgstr "Mail: address of the SMTP server for sending mails"
 
+msgid "config_table_time_between_mails"
+msgstr "Mail : Time to wait between two mails send (to not be banned)"
+
 msgid "config_table_abj_sender"
 msgstr "Mail: Name of the user sending mail for the plugin reporting JLV to all teachers"
 

@@ -102,6 +102,7 @@ variable_list = [
     "suivi_student_allow_private",
     "max_visibility_date",
     "gui_record",
+    "time_between_mails",
     ]
 
 deprecated = set(('root', 'invited_teachers', 'invited_administratives',
