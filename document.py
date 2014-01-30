@@ -1233,8 +1233,6 @@ class Table(object):
         return True
 
     def master_of_update(self, what, name):
-        if self.official_ue:
-            return
         if self.semester in configuration.master_of_exceptions:
             return
         d = utilities.manage_key('LOGINS', os.path.join(name, 'master_of'))

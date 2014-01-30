@@ -43,8 +43,6 @@ def master_of(server):
         ue = ue[:-3]
         if semester in configuration.master_of_exceptions:
             continue
-        if configuration.is_an_official_ue(ue):
-            continue
         try:
             table = document.table(year, semester, ue, None, None)
         except:
