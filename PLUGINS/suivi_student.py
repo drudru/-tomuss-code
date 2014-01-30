@@ -121,9 +121,14 @@ def the_ues(year, semester, login):
         table_list = document.update_index(login)
         if table_list is None:
             return ()
-        student_tables = [document.table(*t, ro=True)
+        student_tables = [document.table(*t, ro=True, create=False)
                           for t in table_list
                           if t[0] == year and t[1] == semester
+                          ]
+        # Remove UE indexed but no more on disc
+        student_tables = [t
+                          for t in student_tables
+                          if t
                           ]
         now = time.time()
         for t in student_tables:
