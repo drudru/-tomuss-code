@@ -420,7 +420,7 @@ def execute(server, plugin):
                                           + server._("ERROR_server_bug")
                                           + "<br>\n" + '*'*100)
                 server.close_connection_now()
-            except socket.error:
+            except:
                 pass
             server.the_file = None
             return
