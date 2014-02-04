@@ -41,4 +41,10 @@ class ColumnCourseDates(ColumnAttr):
     display_table = 1
     formatter = 'course_dates_formatter'
     check_and_set = 'set_course_dates'
-    css = "#menutop DIV.tabs #t_column_course_dates { width: 74% }"
+    css = """#menutop DIV.tabs #t_column_course_dates { width: 73% }
+#t_column_course_dates.empty {
+  background-image: url('course_dates.png');
+  background-repeat: no-repeat;
+  background-position: 2px 2px;
+}
+"""

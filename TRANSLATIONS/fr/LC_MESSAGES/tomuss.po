@@ -368,7 +368,8 @@ msgstr "<b>Calcule le percentage pondéré de valeurs\n"
 #. Attribute Tip
 msgid "TIP_column_attr_repetition"
 msgstr "Nombre de fois qu'une valeur identique est autorisée<br>\n"
- "au maximum dans la colonne. Si c'est 0 il n'y a pas de limite.\n"
+ "au maximum dans la colonne.<br>\n"
+ "Si c'est 0 il n'y a pas de limite.<br>\n"
  "Si la valeur est négative la répétition s'applique par groupe d'étudiant."
 
 #. Attribute Tip
@@ -5147,22 +5148,37 @@ msgstr "Utilisez la table ACLS pour définir les groupes d'utilisateurs"
 
 
 msgid "comment.png"
-msgstr "Saisissez un commentaire ici"
+msgstr "Saisir un commentaire ici"
 
 msgid "filtre.png"
 msgstr "filtre"
 
 msgid "filtre2.png"
-msgstr "Indiquez un filtre"
+msgstr "Saisir un filtre"
 
 msgid "title.png"
-msgstr "Saisissez un titre de colonne ici"
+msgstr "Saisir un titre de colonne ici"
 
 msgid "teacher.png"
 msgstr "Identifiants des responsables"
 
 msgid "columns.png"
 msgstr "Saisir les noms des colonnes à combiner (séparés par un espace)"
+
+msgid "empty.png"
+msgstr "Saisir la valeur par défaut des cellules"
+
+msgid "visible.png"
+msgstr "DD/MM/YYYY pour les étudiants"
+
+msgid "rounding.png"
+msgstr "Saisir 0.1 pour avoir une seule décimale"
+
+msgid "course_dates.png"
+msgstr "des enseignements de cette colonne"
+
+msgid "import.png"
+msgstr "Année/Semestre/Table/Colonne-a-importer-dynamiquement"
 
 msgid "ip_error.html"
 msgstr "Votre mobile n'a pas la même adresse IP qu'il y a une seconde.\n"

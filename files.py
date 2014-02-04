@@ -53,6 +53,8 @@ for name in (
     'weight.png', 'teacher.png',
     'close.png', 'cell_comment.png',
     'filtre.png','filtre2.png', 'comment.png', 'title.png', 'columns.png',
+    'visible.png', 'empty.png', 'rounding.png', 'course_dates.png',
+    "import.png",
     'up.gif', 'down.gif', 'next.gif', 'prev.gif',
     'sort_down.png', 'sort_up.png',
     'sort_down2.png', 'sort_up2.png',

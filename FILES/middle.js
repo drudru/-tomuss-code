@@ -644,7 +644,7 @@ function new_new_interface()
   // COLUMN / Column
 
   t = [] ;
-  t.push(column_input_attr('title', 'one_line')) ;
+  t.push(column_input_attr('title', 'one_line empty')) ;
 
   var options = [] ;
   for(var type_i in types)
@@ -671,11 +671,12 @@ function new_new_interface()
   t = [] ;
   t.push('<div class="one_line">') ;
   t.push(column_input_attr('empty_is',
-			   'before=' + _("BEFORE_column_attr_empty_is")
+			   'empty before=' + _("BEFORE_column_attr_empty_is")
 			   + ' beforeclass=widthleft')) ;
   t.push('</div>') ;
   t.push('<div class="one_line">') ;
-  t.push(column_input_attr('columns', 'before='+_("BEFORE_column_attr_columns")
+  t.push(column_input_attr('columns',
+			   'empty before='+_("BEFORE_column_attr_columns")
 			   + ' beforeclass=widthleft')) ;
   t.push('</div>') ;
   t.push('<div class="one_line">') ;
@@ -705,7 +706,7 @@ function new_new_interface()
   t = [] ;
   t.push('<div class="one_line">') ;
   t.push(column_input_attr('visibility_date',
-			   'before=' + _("BEFORE_column_attr_visibility_date")
+			   'empty before=' + _("BEFORE_column_attr_visibility_date")
 			   + ' beforeclass=widthleft')) ;
   t.push('</div>') ;
   t.push('<div class="one_line">') ;
@@ -752,7 +753,7 @@ function new_new_interface()
   t = [] ;
   t.push('<div class="one_line">') ;
   t.push(column_input_attr('course_dates',
-			   'before=' + _("BEFORE_column_attr_course_dates")
+			   'empty before=' + _("BEFORE_column_attr_course_dates")
 			   + ' beforeclass=widthleft')) ;
   t.push('</div>') ;
   t.push('<div class="one_line">') ;
@@ -767,7 +768,7 @@ function new_new_interface()
   t.push('</div>') ;
   t.push('<div class="one_line">') ;
   t.push(column_input_attr('url_import',
-			   'before=' + _("BEFORE_column_attr_url_import")
+			   'empty before=' + _("BEFORE_column_attr_url_import")
 			   + ' beforeclass=widthleft')) ;
   t.push('</div>') ;
   t.push('<div class="one_line">') ;

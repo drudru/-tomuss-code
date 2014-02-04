@@ -27,7 +27,6 @@ class ColumnColumns(ColumnAttr):
     check_and_set = 'set_columns'
     always_visible = 1
     css = """
-    #menutop #t_column_columns { width: 40% ; }
     #menutop DIV.tabs #t_column_columns { width: 73% ; }
 #t_column_columns.empty {
   background-image: url("columns.png");

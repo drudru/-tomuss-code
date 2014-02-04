@@ -45,13 +45,12 @@ function(column, value)
 }'''
     check_and_set = 'set_visibility_date'
     css = """
-#menutop #t_column_visibility_date {
-  background-image: url('eye.png');
-  background-position: right ;
-  background-repeat: no-repeat ;
-  width: 5.5em ;
+#t_column_visibility_date.empty {
+  background-image: url('visible.png');
+  background-repeat: no-repeat;
+  background-position: 2px 2px;
 }
 
-#menutop DIV.tabs #t_column_visibility_date { width: 74% }
+#menutop DIV.tabs #t_column_visibility_date { width: 73% }
 
 """

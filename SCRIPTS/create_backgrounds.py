@@ -7,7 +7,9 @@ import tomuss_init
 from .. import utilities
 
 for m in ('comment.png', 'filtre.png', 'filtre2.png',
-          'title.png', 'teacher.png', 'columns.png'):
+          'title.png', 'teacher.png', 'columns.png',
+          'visible.png' ,'empty.png', 'rounding.png',
+	  'course_dates.png', "import.png"):
     f = open("xxx.svg", "w")
     f.write('''<?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <svg>

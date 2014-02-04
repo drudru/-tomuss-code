@@ -26,3 +26,15 @@ class ColumnURL_import(ColumnAttr):
     name = 'url_import'
     check_and_set = 'function(value, column){ return value; }'
     always_visible = 1
+    css = """
+#menutop DIV.tabs #t_column_url_import
+{
+ width: 73% ;
+}
+#t_column_url_import.empty
+{
+  background-image: url('import.png');
+  background-repeat: no-repeat;
+  background-position: 2px 2px;
+}
+    """

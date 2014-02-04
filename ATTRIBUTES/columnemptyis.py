@@ -26,7 +26,10 @@ class ColumnEmptyIs(ColumnAttr):
     display_table = 1
     check_and_set = 'set_empty_is'
     css = """
-#menutop #t_column_empty_is { width: 3em ; }
-#menutop DIV.tabs #t_column_empty_is { width: 50% ; }
-
+#menutop DIV.tabs INPUT#t_column_empty_is { width: 73% ; }
+#t_column_empty_is.empty {
+  background-image: url('empty.png');
+  background-repeat: no-repeat;
+  background-position: 2px 2px;
+}
 """

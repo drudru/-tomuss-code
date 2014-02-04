@@ -25,5 +25,16 @@ class ColumnRed(ColumnGreen):
     name = 'red'
     check_and_set = 'set_red'
     css = """
-#menutop DIV.tabs #t_column_red { width: 25% ; }
+#menutop DIV.tabs #t_column_red, #menutop DIV.tabs #t_column_green,
+#menutop DIV.tabs #t_column_redtext, #menutop DIV.tabs #t_column_greentext
+{
+ width: 25% ;
+}
+#t_column_red.empty, #t_column_green.empty,
+#t_column_redtext.empty, #t_column_greentext.empty
+{
+  background-image: url('filtre2.png');
+  background-repeat: no-repeat;
+  background-position: 2px 2px;
+}
     """

@@ -24,6 +24,3 @@ from .columngreen import ColumnGreen
 class ColumnGreenText(ColumnGreen):
     name = 'greentext'
     check_and_set = 'set_greentext'
-    css = """
-#menutop DIV.tabs #t_column_greentext { width: 25% ; }
-    """

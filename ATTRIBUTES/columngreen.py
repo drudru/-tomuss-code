@@ -26,6 +26,3 @@ class ColumnGreen(ColumnAttr):
     name = 'green'
     display_table = 1
     check_and_set = 'set_green'
-    css = """
-#menutop DIV.tabs #t_column_green { width: 25% ; }
-    """

@@ -374,7 +374,7 @@ msgstr "<b>Compute the weighted percent of filtered values</b><br>\n"
 msgid "TIP_column_attr_repetition"
 msgstr ""
 "Number of time the same value is allowed in the column<br>\n"
-"If it is 0, then an unlimited number of repetition is possible.\n"
+"If it is 0, then an unlimited number of repetition is possible.<br>\n"
 "If negative, the limit is per student groups."
 
 #. Attribute Tip
@@ -948,7 +948,7 @@ msgstr "Visible&nbsp;the:&nbsp;"
 
 #. Label before the attribute
 msgid "BEFORE_column_attr_course_dates"
-msgstr "Courses dates:&nbsp;"
+msgstr "Courses&nbsp;dates:&nbsp;"
 
 #. Label before the attribute
 msgid "BEFORE_column_attr_url_base"
@@ -5089,6 +5089,21 @@ msgstr "Enter logins here"
 
 msgid "columns.png"
 msgstr "Enter the names to operate on (space separated)"
+
+msgid "visible.png"
+msgstr "DD/MM/YYYY for students"
+
+msgid "empty.png"
+msgstr "Enter the cell default value"
+
+msgid "rounding.png"
+msgstr "Enter 0.1 to have only one decimal"
+
+msgid "course_dates.png"
+msgstr "of sessions for this column"
+
+msgid "import.png"
+msgstr "Year/Semester/Table/Column-to-dynamicaly-import"
 
 msgid "ip_error.html"
 msgstr "Your cellular has not the same IP than one second ago.\n"
