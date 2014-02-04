@@ -1350,7 +1350,7 @@ function generate_home_page_actions()
 	  }
 	  help = link[6] ;
 	  if ( i_am_root )
-	    help += '<br>PLUGIN:' + link[7] ;
+	    help += '<br>PLUGIN:' + link[7] + '<br>FILE:' + link[8] ;
 	  help += '<br>PRIORITY:' + link[1] ;
 	  t += '<tr onmouseover="ue_line_over(\'\',this)"><td>' + el
             + '<img class="safety" src="_FILES_/' + link[2] + '.png">'

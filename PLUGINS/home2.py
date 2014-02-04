@@ -112,14 +112,16 @@ def home_page(server):
             p = the_plugin.name
         else:
             p = ''
-        links.append((link.where,
-                      link.priority,
-                      link.html_class,
-                      link.text or '',
-                      url, target,
-                      link.help,
-                      p
-                      ))
+        links.append(
+            (link.where,
+             link.priority,
+             link.html_class,
+             link.text or '',
+             url, target,
+             link.help,
+             p,
+             '/'.join((the_plugin and the_plugin.module or link.module)
+                      .split('/')[-2:])))
 
     f.write(
         str(document.the_head)

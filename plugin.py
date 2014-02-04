@@ -60,6 +60,8 @@ class Link(object):
         else:
             authorized = lambda server: True
         self.authorized = authorized
+        # Where the plugin is defined
+        self.module = sys._getframe(1).f_code.co_filename
 
     def __str__(self):
         return 'Link(%s,%s)' % (self.text, self.url)
