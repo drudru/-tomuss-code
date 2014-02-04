@@ -526,9 +526,13 @@ INPUT#comment { width: 100% ; clear: both; }
 #t_date, #t_author { font-size: 80%; }
 
 #menutop INPUT.highlight1, .highlight1 { background-color: #FF0 ; }
-#menutop INPUT.highlight2, .highlight2 { background-color: #FF4 ; }
-#menutop INPUT.highlight3, .highlight3 { background-color: #FF8 ; }
-#menutop INPUT.highlight4, .highlight4 { background-color: #FFB ; }
+#menutop INPUT.highlight2, .highlight2 { background-color: #FF2 ; }
+#menutop INPUT.highlight3, .highlight3 { background-color: #FF4 ; }
+#menutop INPUT.highlight4, .highlight4 { background-color: #FF6 ; }
+#menutop INPUT.highlight5, .highlight5 { background-color: #FF8 ; }
+#menutop INPUT.highlight6, .highlight6 { background-color: #FFA ; }
+#menutop INPUT.highlight7, .highlight7 { background-color: #FFB ; }
+#menutop INPUT.highlight8, .highlight8 { background-color: #FFC ; }
 
 #menutop INPUT {
   width: 96% ;

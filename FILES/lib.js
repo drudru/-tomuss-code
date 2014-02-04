@@ -2904,7 +2904,11 @@ function highlight_effect()
     {
       o = highlight_list[o] ;
       o.className = o.className
-	.replace(/ *highlight4/, '')
+	.replace(/ *highlight8/, '')
+	.replace(/ *highlight7/, ' highlight8')
+	.replace(/ *highlight6/, ' highlight7')
+	.replace(/ *highlight5/, ' highlight6')
+	.replace(/ *highlight4/, ' highlight5')
 	.replace(/ *highlight3/, ' highlight4')
 	.replace(/ *highlight2/, ' highlight3')
 	.replace(/ *highlight1/, ' highlight2')
@@ -3242,7 +3246,7 @@ function periodic_work_add(f)
 {
     periodic_work_add_once(periodic_work_functions, f) ;
     if ( periodic_work_id === undefined )
-	periodic_work_id = setInterval(periodic_work_do, 100) ;    
+	periodic_work_id = setInterval(periodic_work_do, 200) ;    
 }
 
 function periodic_work_remove(f)
