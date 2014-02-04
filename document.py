@@ -1327,6 +1327,8 @@ def tables_manage(action, year, semester, ue, do_not_unload=0, new_table=None):
     elif action == 'del':
         try:            
             t = tables[year, semester, ue]
+            if not t:
+                return # Yet destroyed
             if t.do_not_unload:
                 warn('Unload of do_not_unload: '
                      + str(t.ue) + repr(t.do_not_unload), what="warning")
@@ -1397,9 +1399,11 @@ def table(year, semester, ue, page=None, ticket=None, ro=False, create=True,
             # The table import failed, allow the new one to retry
             # tables[year, semester, ue] = False
             # raise
-            utilities.send_backtrace("", "Can'load %s/%s/%s" % (
+            utilities.send_backtrace("", "Can't load %s/%s/%s" % (
                     year, semester, ue))
-            tables_manage('del', year, semester, ue)
+            # tables[year, semester, ue] contains None
+            # So no need to call table_manage
+            del tables[year, semester, ue]
             if ticket:
                 return None, None
             else:
