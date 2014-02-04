@@ -5162,7 +5162,7 @@ msgid "teacher.png"
 msgstr "Identifiants des responsables"
 
 msgid "columns.png"
-msgstr "Noms des colonnes à combiner (séparés par un espace)"
+msgstr "Saisir les noms des colonnes à combiner (séparés par un espace)"
 
 msgid "ip_error.html"
 msgstr "Votre mobile n'a pas la même adresse IP qu'il y a une seconde.\n"

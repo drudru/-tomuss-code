@@ -5088,7 +5088,7 @@ msgid "teacher.png"
 msgstr "Enter logins here"
 
 msgid "columns.png"
-msgstr "names to operate on (space separated)"
+msgstr "Enter the names to operate on (space separated)"
 
 msgid "ip_error.html"
 msgstr "Your cellular has not the same IP than one second ago.\n"

@@ -134,4 +134,12 @@ function popup_type_choosed(type)
 			       the_current_cell.column) ;
   }
   popup_close() ;
+  if ( myindex(column_attributes['columns'].visible_for, type) >= 0 )
+  {
+    if ( the_current_cell.column.columns === '' )
+      alert(_("columns.png")) ;
+    select_tab("column", _("TAB_formula")) ;
+    document.getElementById('t_column_columns').focus() ;
+    highlight_add(document.getElementById('t_column_columns')) ;
+  }
 }
