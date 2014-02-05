@@ -33,7 +33,7 @@ function freeze_column(the_id)
   var p = '' ;
   for(var c in columns)
     if ( columns[c].freezed == 'F' )
-      p += columns[c].the_id + '=' ;
-  change_option('freeze', p) ;
+      p += columns[c].the_id + ':F=' ;
+  change_option('freezeds', p) ;
 }
 

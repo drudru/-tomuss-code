@@ -64,7 +64,7 @@ function column_get_option(attr, hook, alternate_option_name)
     h = get_option(alternate_option_name + 's', '') ; // Compatibility
   h = h.split('=') ;
   for(var i in h)
-    {
+  {
       var j = h[i].split(':') ;
       if ( j.length != 2 )
 	break ;
@@ -177,11 +177,7 @@ function get_all_options()
   column_get_option('redtext') ;
   column_get_option('greentext') ;
   column_get_option('position') ;
-  column_get_option('freezed',
-		    function(value, column)
-		    {
-		      return column.freezed || 'F' ;
-		    },
+  column_get_option('freezed',undefined,
 		    'frozen' // old option name
 		   ) ;
   column_get_option('filter',
