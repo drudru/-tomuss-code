@@ -86,7 +86,9 @@ def create_column(table, title, content_type, average=10., delta=5.):
                       'Column auto generated for demo purpose')
     data_col = table.columns.data_col_from_title(title)
     for key, line in table.lines.items():
-        if line[data_col].value != '':
+        if len(line[data_col].value) != 3:
+            continue
+        if line[data_col].value[0] not in '01':
             continue
         if content_type == 'Prst':
             value = (configuration.pre,
