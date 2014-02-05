@@ -28,7 +28,13 @@ function freeze_column(the_id)
     freezed = '' ;
   else
     freezed = 'F' ;
+  var line_id = the_current_cell.line_id ;
+  var data_col = the_current_cell.data_col ;
+  setTimeout(function() {
+    the_current_cell.jump_if_possible(line_id, data_col, true) ;
+  }, periodic_work_period+10) ; // XXX look at table_fill_do
   table_fill(true, true) ;
+
   column_attr_set(column, 'freezed', freezed,
 		  document.getElementById("t_column_freezed"),
 		  true) ;

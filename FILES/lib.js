@@ -27,7 +27,7 @@ var nr_headers = 2 ;
 var bs = '<td>' ;
 var maximum_url_length = 3000 ;
 var is_a_teacher = false ;
-
+var periodic_work_period = 100 ; // In millisecs
 // Work value
 var popup_blocker = false ;
 var element_focused ;           // If undefined: it is the current_cell
@@ -1968,8 +1968,8 @@ function table_fill_do()
 	    // Timeout because the cell must be repositionned after
 	    // The table column resize in case of horizontal scroll with
 	    // variable size columns.
-	    setTimeout("the_current_cell.update("+table_fill_do_not_focus+");"
-		       ,100) ;
+	    setTimeout("the_current_cell.update("+table_fill_do_not_focus+");",
+		       periodic_work_period+1) ;
 	}
 }
 
@@ -3247,7 +3247,8 @@ function periodic_work_add(f)
 {
     periodic_work_add_once(periodic_work_functions, f) ;
     if ( periodic_work_id === undefined )
-	periodic_work_id = setInterval(periodic_work_do, 200) ;    
+	periodic_work_id = setInterval(periodic_work_do,
+				       periodic_work_period) ;
 }
 
 function periodic_work_remove(f)

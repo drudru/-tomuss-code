@@ -1,7 +1,7 @@
 // -*- coding: utf-8; mode: Java; c-basic-offset: 2; tab-width: 8; -*-
 /*
   TOMUSS: The Online Multi User Simple Spreadsheet
-  Copyright (C) 2008-2013 Thierry EXCOFFIER, Universite Claude Bernard
+  Copyright (C) 2008-2014 Thierry EXCOFFIER, Universite Claude Bernard
 
   This program is free software; you can redistribute it and/or modify
   it under the terms of the GNU General Public License as published by
@@ -2124,6 +2124,13 @@ function current_jump(lin, col, do_not_focus, line_id, data_col)
     this.input_div.removeChild(this.input_div.firstChild) ;
 }
 
+function current_jump_if_possible(line_id, data_col, do_not_focus)
+{
+  var td = td_from_line_id_data_col(line_id, data_col) ;
+  if ( td )
+    this.jump(lin_from_td(td), col_from_td(td), do_not_focus) ;
+}
+
 function current_focus()
 {
   //this.input.contentEditable = this.cell.modifiable() ;
@@ -2731,6 +2738,7 @@ function current_toggle()
 }
 
 Current.prototype.jump                  = current_jump                  ;
+Current.prototype.jump_if_possible      = current_jump_if_possible      ;
 Current.prototype.change                = current_change                ;
 Current.prototype.input_div_focus       = current_input_div_focus       ;
 Current.prototype.keydown               = current_keydown               ;
