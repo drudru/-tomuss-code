@@ -1,7 +1,7 @@
 #!/bin/env python
 # -*- coding: utf-8 -*-
 #    TOMUSS: The Online Multi User Simple Spreadsheet
-#    Copyright (C) 2008-2011 Thierry EXCOFFIER, Universite Claude Bernard
+#    Copyright (C) 2008-2014 Thierry EXCOFFIER, Universite Claude Bernard
 #
 #    This program is free software; you can redistribute it and/or modify
 #    it under the terms of the GNU General Public License as published by
@@ -27,6 +27,9 @@ class ColumnFreezed(ColumnAttr):
     check_and_set = 'function(value, column){ return value ; }'
     action = 'freeze_column'
     gui_display = "GUI_a"
+    propagate = 0
+    update_table_headers = 1
+    need_authorization = 0
     def check(self, value):
         if value in ('', 'C', 'F'):
             return ''

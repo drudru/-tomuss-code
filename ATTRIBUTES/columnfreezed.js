@@ -1,7 +1,7 @@
 // -*- coding: utf-8 -*-
 /*
     TOMUSS: The Online Multi User Simple Spreadsheet
-    Copyright (C) 2011 Thierry EXCOFFIER, Universite Claude Bernard
+    Copyright (C) 2011-2014 Thierry EXCOFFIER, Universite Claude Bernard
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -23,13 +23,16 @@
 function freeze_column(the_id)
 {
   var column = the_current_cell.column ;
+  var freezed ;
   if ( column.freezed == 'F' )
-    column.freezed = '' ;
+    freezed = '' ;
   else
-    column.freezed = 'F' ;
-  table_fill(false, true) ;
+    freezed = 'F' ;
+  table_fill(true, true) ;
+  column_attr_set(column, 'freezed', freezed,
+		  document.getElementById("t_column_freezed"),
+		  true) ;
   the_current_cell.do_update_column_headers = true ;
-
   var p = '' ;
   for(var c in columns)
     if ( columns[c].freezed == 'F' )
