@@ -2534,9 +2534,8 @@ function cell_get_value_real(line_id, data_col)
 					      columns[data_col]);
 }
 
-function update_cell(td, cell, column, abj)
+function cell_class(cell, column)
 {
-  var v = cell.value ;
   var className = '' ;
 
   if ( column.color_green_filter(cell, column) )
@@ -2547,7 +2546,13 @@ function update_cell(td, cell, column, abj)
     className += ' greentext' ;
   if ( column.color_redtext_filter(cell, column) )
     className += ' redtext' ;
-  
+  return className ;
+}
+
+function update_cell(td, cell, column, abj)
+{
+  var v = cell.value ;
+  var className = cell_class(cell, column) ;
   if ( className.indexOf('text') == -1 )
     if ( cell.is_mine() && column.real_type.cell_is_modifiable )
       className += ' rw' ;
@@ -4481,6 +4486,10 @@ function display_suivi(cols) /* [value, class, comment] */
       // For evaluated columns
       visual_cell[0] = visual_cell[0].replace('\001',cell.value_fixed())
 	.replace('\002','/' + column.max);
+
+      /* Visual style from table */
+      if ( column.red + column.green + column.redtext + column.greentext != '' )
+	visual_cell[1] = cell_class(cell, column) ;
 
       if ( cell.comment )
 	{
