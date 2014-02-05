@@ -1,7 +1,7 @@
 // -*- coding: utf-8; mode: Java; c-basic-offset: 2; tab-width: 8; -*-
 /*
     TOMUSS: The Online Multi User Simple Spreadsheet
-    Copyright (C) 2008-2013 Thierry EXCOFFIER, Universite Claude Bernard
+    Copyright (C) 2008-2014 Thierry EXCOFFIER, Universite Claude Bernard
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -932,6 +932,7 @@ function new_new_interface()
   t.push('</div>') ;
   t.push('<div class="one_line">') ;
   t.push(table_input_attr('table_delete')) ;
+  t.push(table_input_attr('hiddens')) ;
   t.push('</div>') ;
   t.push('<div class="one_line">') ;
   t.push(table_input_attr('linear') + '.') ;

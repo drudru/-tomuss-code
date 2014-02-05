@@ -2000,6 +2000,8 @@ function current_update_headers_real()
       if ( img && img.request && img.request.saved )
 	img.parentNode.removeChild(img) ;
     }
+  // Update hidden columns menu
+  update_hiddens_menu() ;
 }
 
 function current_update_headers_()

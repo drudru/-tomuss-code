@@ -1042,6 +1042,13 @@ msgstr "Cellules modifiables"
 msgid "SELECT_column_locked_yes"
 msgstr "Cellules non modifiables"
 
+#. Select value
+msgid "SELECT_hiddens"
+msgstr "Rendre visible"
+
+msgid "TIP_table_attr_hiddens"
+msgstr "Rendre des colonnes visibles"
+
 
 #. GUI Label
 msgid "LABEL_column_attr_author"
