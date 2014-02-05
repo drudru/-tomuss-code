@@ -885,6 +885,36 @@ Les améliorations les plus visibles sont :
       </description>
       <guid>59</guid>
     </item>
+    <item>
+      <title>05/02/2014 : Version 5.2.25</title>
+      <link>http://tomuss.univ-lyon1.fr/</link>
+      <description>
+	On peut copier une table sous un autre nom
+	dans le même semestre.
+	&lt;p&gt;
+	On peut devenir le référent pédagogique d'un étudiant
+	en cliquant sur le filet à papillon dans le suivi
+	de l'étudiant.
+	&lt;p&gt;
+	L'étape d'appartenance de l'étudiant est affichée dans le suivi.
+	Pour voir l'intitulé, il suffit de mettre le curseur dessus.
+	&lt;p&gt;
+	L'état figé des colonnes est maintenant sauvegardé
+	pour les colonnes que vous avez créées.
+	Donc malheureusement pas pour 'Seq' et 'Grp'.
+	&lt;p&gt;
+        On peut rendre visible des colonnes cachées, via l'onglet Table/Action.
+	La colonne nommée «Inscrit» contient 'ok' si l'étudiant
+	est officiellement inscrit, 'sportif' s'il est FFSU niveau 2.
+	On peut donc les trier et filtrer suivant ces critères.
+	&lt;p&gt;
+	&lt;b&gt;
+	Si une colonne est coloriée, alors le même coloriage
+	est appliquée sur la page de suivi de l'étudiant.	
+	&lt;/b&gt;
+      </description>
+      <guid>60</guid>
+    </item>
 
   </channel>
 </rss>
