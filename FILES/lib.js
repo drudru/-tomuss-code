@@ -2146,7 +2146,8 @@ function login_list(name, x, current_value)
 	}
   if ( autoselect === undefined )
     autoselect = 0 ;
-    
+
+  x.sort() ;
   for(var ii in x)
     {
       var i = x[ii] ;
