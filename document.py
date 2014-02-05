@@ -118,14 +118,12 @@ def table_filename(year, semester, ue):
 
 def filter_language(language):
     # Remove not translated languages and duplicates
-    t = set()    
+    t = []
     for x in language.strip(",").split(','):
         if x in plugins.languages:
             if x not in t:
-                t.add(x)
+                t.append(x)
     return ','.join(t)
-
-
 
 def get_preferences(user_name, create_pref=True, the_ticket=None):
     my_identity2 = utilities.login_to_module(user_name)
