@@ -122,7 +122,7 @@ def the_ues(year, semester, login):
         if table_list is None:
             return ()
         student_tables = [document.table(*t, ro=True, create=False)
-                          for t in table_list
+                          for t in set(table_list) # Remove duplicates
                           if t[0] == year and t[1] == semester
                           ]
         # Remove UE indexed but no more on disc
