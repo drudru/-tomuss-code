@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 #    TOMUSS: The Online Multi User Simple Spreadsheet
-#    Copyright (C) 2008-2013 Thierry EXCOFFIER, Universite Claude Bernard
+#    Copyright (C) 2008-2014 Thierry EXCOFFIER, Universite Claude Bernard
 #
 #    This program is free software; you can redistribute it and/or modify
 #    it under the terms of the GNU General Public License as published by
@@ -613,8 +613,12 @@ def display_login(server, login, expand=False):
 
 def page_suivi(server):
     """Display the informations about all the students indicated."""
-    if len(server.the_path) == 0:
-        server.the_path = [''] # XXX Not nice
+    if (len(server.the_path) == 0
+        or server.the_path[0] == ''
+        or server.the_path[0] == server.ticket.user_name):
+        server.teacher_as_a_student = True
+        student(server)
+        return
 
     server.the_path[0] = server.the_path[0].replace('?X=', '').replace('?=','')
 
