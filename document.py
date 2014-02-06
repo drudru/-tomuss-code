@@ -1,7 +1,7 @@
 #!/bin/env python
 # -*- coding: utf-8 -*-
 #    TOMUSS: The Online Multi User Simple Spreadsheet
-#    Copyright (C) 2008-2012 Thierry EXCOFFIER, Universite Claude Bernard
+#    Copyright (C) 2008-2014 Thierry EXCOFFIER, Universite Claude Bernard
 #
 #    This program is free software; you can redistribute it and/or modify
 #    it under the terms of the GNU General Public License as published by
@@ -276,8 +276,6 @@ class Table(object):
         self.lines = Lines(self.columns)
         self.the_lock = threading.Lock()
         self.ro = ro
-        if ro:
-            self.modifiable = 0 # JavaScript compatible
         self.mtime = 0
         self.the_key_dict = collections.defaultdict(list)
         self.unloaded = False
