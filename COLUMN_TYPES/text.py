@@ -1,7 +1,7 @@
 #!/bin/env python
 # -*- coding: utf-8 -*-
 #    TOMUSS: The Online Multi User Simple Spreadsheet
-#    Copyright (C) 2008-2013 Thierry EXCOFFIER, Universite Claude Bernard
+#    Copyright (C) 2008-2014 Thierry EXCOFFIER, Universite Claude Bernard
 #
 #    This program is free software; you can redistribute it and/or modify
 #    it under the terms of the GNU General Public License as published by
@@ -247,12 +247,13 @@ class Text(object):
             e = str(value).replace("%","&#37").replace("'", "&#39;"). \
                 replace('"', '&#34;')
 
-            v = '<input class="hidden" onkeypress="if ( the_event(event).keyCode == 13 ) _cell(this,\'%s/=%s/%d/%s/%s/cell/%s/%s\',\'%s\', \'%s\');" value="%s">' % (
+            v = '<input class="hidden" onkeypress="if ( the_event(event).keyCode == 13 ) _cell(this,\'%s/=%s/%d/%s/%s/cell/%s/%s\',\'%s\', \'%s\');" value="%s"><br><small>%s</small>' % (
                 configuration.server_url,
                 ticket.ticket,
                 column.table.year, column.table.semester,
                 column.table.ue, column.the_id, line_id,
-                column.type.name, column.minmax, e)
+                column.type.name, column.minmax, e,
+                utilities._("MSG_enter"))
             return (v, '', '')
 
         if value == '':

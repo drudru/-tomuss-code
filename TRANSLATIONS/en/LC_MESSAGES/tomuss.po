@@ -3962,6 +3962,9 @@ msgstr "I want my page to be visible to a minimum number of teacher."
 
 msgid "MSG_saved"
 msgstr "The information has been saved."
+
+msgid "MSG_enter"
+msgstr "Hit «<kbd>Enter</kbd>» to save"
        
 msgid "MSG_suivi_student_wait"
 msgstr "Currently loading, please wait.\n"
