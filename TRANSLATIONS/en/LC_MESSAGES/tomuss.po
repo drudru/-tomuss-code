@@ -3605,6 +3605,10 @@ msgstr "You can edit the text to be sent in an alert box to the users\n"
        "of the table editor.\n"
        "Stroke 'Enter' to send the message."
 
+msgid "MSG_send_mail_impossible"
+msgstr "Sorry, you can not use mass-mailing because\n"
+       "your mail address is unknown."
+
 msgid "MSG_send_mail_start"
 msgstr "Preparing to send %d messages: "
 

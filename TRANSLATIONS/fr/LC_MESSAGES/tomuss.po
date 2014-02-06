@@ -3638,6 +3638,11 @@ msgstr "Vous pouvez éditer le champ texte afin d'envoyer un\n"
        "connectés à TOMUSS.\n"
        "Taper 'return' pour envoyer le message."
 
+       
+msgid "MSG_send_mail_impossible"
+msgstr "Désolé, vous ne pouvez pas utiliser le publi-postage\n"
+       "car votre adresse mail ne figure pas dans l'annuaire."
+       
 msgid "MSG_send_mail_start"
 msgstr "Se prépare à envoyer %d messages : "
 

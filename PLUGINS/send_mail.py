@@ -20,6 +20,7 @@
 #    Contact: Thierry.EXCOFFIER@bat710.univ-lyon1.fr
 
 import time
+import cgi
 from .. import plugin
 from .. import inscrits
 from .. import utilities
@@ -44,9 +45,22 @@ def send_mail(server):
     recipients = data['recipients'][0].split("\001")
     titles = data['titles'][0].split("\001")
     
+    frome = inscrits.L_slow.mail(server.ticket.user_name)
+    if frome is None:
+        server.the_file.write('<b style="color:#F00">'
+                              + server._("MSG_send_mail_impossible")
+                              + '</b>'
+                              + '<pre><hr><b>' + cgi.escape(subject)
+                              + '</b><hr>\n'
+                              + cgi.escape(message) + '<hr>'
+                              + '\n'.join(
+                inscrits.L_slow.mail(recipient.split("\002")[0])
+                for recipient in recipients)
+                              + '</pre>')
+        return
+        
     server.the_file.write(server._("MSG_send_mail_start") % len(recipients))
     server.the_file.write("<p>")
-    frome = inscrits.L_slow.mail(server.ticket.user_name)
     bad_mails = []
     good_mails = []
     for recipient in recipients:
