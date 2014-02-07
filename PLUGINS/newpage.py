@@ -90,6 +90,8 @@ class StringFile(object):
 
 def extented(year, semester, ue):
     table = document.table(year, semester, ue, create=False)
+    if not table:
+        return
     if not table.modifiable:
         return
     ts = configuration.semester_span(table.year, table.semester)

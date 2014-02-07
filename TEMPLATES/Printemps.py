@@ -29,6 +29,7 @@ def init(table):
     _ucbl_.init(table)
     table.default_sort_column = 2
     table.modifiable = 0
+    have_an_extension = False
     if table.is_extended:
         # Never modify via a symbolic link
         pass
@@ -50,11 +51,12 @@ def init(table):
           and table.year == utilities.university_year()):
         # Not an UE per semester : all the semesters points on the first
         table.modifiable = 1
-        
+        have_an_extension = True
     table.update_inscrits = table.update_inscrits and table.modifiable
 
     if (table.update_inscrits
         and (table.year, table.semester) != configuration.year_semester
+        and not have_an_extension
         ):
         if [table.year, table.semester
             ] not in configuration.year_semester_update_student_list:
