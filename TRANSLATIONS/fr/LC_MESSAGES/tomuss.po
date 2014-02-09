@@ -2163,6 +2163,9 @@ msgstr " notes dans le groupe."
 msgid "MSG_Note_rank_after_2"
 msgstr " notes dans l'UE."
 
+msgid "MSG_Note_full_average"
+msgstr "Moyenne et médiane des notes :"
+
 msgid "MSG_URL"
 msgstr "Cliquez ici"
 

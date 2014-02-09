@@ -131,12 +131,18 @@ Write("%s");</script><br>''' % (the_rank, nr, text)).encode('utf8')
         try:
             rank += message("MSG_Note_rank_after_1",
                             floats.index(value)+1, len(floats))
+            # if len(floats) > 10:
+            #    rank += '<script>Write("MSG_Note_grp_average"," <b>%.2f</b><br>")</script>' % (sum(floats) / len(floats))
         except ValueError:
             pass
         try:
             if len(floats) != len(all_floats) :
                 rank +=  message("MSG_Note_rank_after_2",
                                  all_floats.index(value)+1, len(all_floats))
+                if len(all_floats) > 10:
+                    rank += '<script>Write("MSG_Note_full_average"," <b>%.2f</b>, <b>%.2f</b><br>")</script>' % (
+                        sum(all_floats) / len(all_floats),
+                        all_floats[len(all_floats)//2])
         except ValueError:
             pass
 

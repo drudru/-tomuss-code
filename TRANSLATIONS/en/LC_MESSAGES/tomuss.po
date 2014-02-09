@@ -2152,7 +2152,10 @@ msgid "MSG_Note_rank_after_1"
 msgstr " grades of the group."
 
 msgid "MSG_Note_rank_after_2"
-msgstr " grade of the UE."
+msgstr " grades of the UE."
+
+msgid "MSG_Note_full_average"
+msgstr "Grade average and mediane :"
 
 msgid "MSG_URL"
 msgstr "Click here."
