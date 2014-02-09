@@ -1,7 +1,7 @@
 // -*- coding: utf-8; mode: Java; c-basic-offset: 2; tab-width: 8; -*-
 /*
     TOMUSS: The Online Multi User Simple Spreadsheet
-    Copyright (C) 2008-2013 Thierry EXCOFFIER, Universite Claude Bernard
+    Copyright (C) 2008-2014 Thierry EXCOFFIER, Universite Claude Bernard
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -3054,6 +3054,7 @@ function server_answered(t)
       document.getElementById('connection_state').innerHTML= _('MSG_connected');
       server_feedback.innerHTML = '' ; // Hide green image
       reconnect() ;
+      time_before_reasking = 1000 ;
     }
 
   if ( t === undefined )
@@ -3286,6 +3287,7 @@ function periodic_work_do()
     }
 }
 
+var time_before_reasking = 1000 ;
 
 // **********************************************************
 // Restart image loading if the connection was not successul
@@ -3326,11 +3328,13 @@ function auto_save_errors()
       if ( nr_unsaved > 10 + nr_saved )
 	break ;
       // Retry to load the image each N seconds and the first time
-      if ( d > i.time + max_answer_time/10 || ! i.requested )
+      if ( d > i.time + time_before_reasking || ! i.requested )
 	{
 	  if ( i.requested )
 	    errors++ ; // Because it is requested again
 	  i.send() ;
+	  time_before_reasking *= 1.1 ;
+	  time_before_reasking = Math.min(30000, time_before_reasking) ;
 	}
     }
 
@@ -3415,6 +3419,7 @@ function auto_save_errors()
 function saved(r)
 {
   nr_saved++ ;
+  time_before_reasking = 1000 ;
   for(var i in pending_requests)
     {
       if ( pending_requests[i].request_id == r )
