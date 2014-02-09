@@ -25,6 +25,7 @@ from . import ticket
 from . import sender
 from . import plugin
 from . import configuration
+from . import document
 
 warn = utilities.warn
 
@@ -122,9 +123,13 @@ authentication_redirect = None
 def update_ticket(tick):
     if tick.is_member_of('staff'):
         tick.password_ok = inscrits.L_fast.password_ok(tick.user_name)
+        tick.set_language(document.get_preferences(tick.user_name,
+                                                   create_pref=False,
+                                                   the_ticket=tick)["language"]
+                          )
     else:
         tick.password_ok = True
-        
+
 def authentication_thread():
     """The send_response 307 (redirection) is yet done"""
     ticket.remove_old_files()

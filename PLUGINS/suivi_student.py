@@ -483,7 +483,6 @@ plugin.Plugin('accept', '/accept', function=accept, group='!staff',
               password_ok = None)
 
 def suivi_headers(server, is_student=True):
-    server.ticket.set_language(server.headers.get('accept-language',''))
     server.the_file.write(
         str(document.the_head)
         + '''<link rel="stylesheet" href="%s/suivi_student.css" type="text/css">

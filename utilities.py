@@ -1231,11 +1231,7 @@ class FakeRequestHandler(BaseHTTPServer.BaseHTTPRequestHandler):
             return False
 
     def _(self, msgid):
-        from . import document
-        lang = document.get_preferences(self.ticket.user_name,
-                                        create_pref=False,
-                                        the_ticket=self.ticket)["language"]
-        return _(msgid, lang.split(','))
+        return _(msgid, self.ticket.language.split(','))
 
     def __(self, msgid):
         return unicode(self._(msgid), "utf-8")
