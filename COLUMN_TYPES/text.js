@@ -330,6 +330,29 @@ function text_format(c)
   return c ;
 }
 
+function student_input(column)
+{
+  return '_cell(this,\'' + url + '/=' + ticket + '/' + year + '/' + semester
+    + '/' + DisplayGrades.ue.ue + '/cell/' + column.the_id
+    + '/' + DisplayGrades.ue.line_id + "','" + column.type
+    + "','" + column.minmax + '\');' ;
+}
+
+function text_format_suivi()
+{
+  if ( cell_modifiable_on_suivi() )
+  {
+    return '<input class="hidden" onkeypress="if ( the_event(event).keyCode == 13 ) '
+      + student_input(DisplayGrades.column)
+      + '" value="'
+      + (DisplayGrades.value.toString().replace("%","&#37").replace("'", "&#39;")
+	 .replace('"', '&#34;'))
+      + '"></input> <small style="font-size:80%">' + _("MSG_enter") + '</small>' ;
+  }
+  else
+    return html(DisplayGrades.value.toString()).replace(/\n/g,'<br>') ;
+}
+
 function ___NAME__()
 {
   types.push({title: '__NAME__',
@@ -343,6 +366,7 @@ function ___NAME__()
 		 cell_is_modifiable: __CELL_IS_MODIFIABLE__,   
 		 onmousedown: __ONMOUSEDOWN__,
 		 formatte: __FORMATTE__,
+		 formatte_suivi: __FORMATTE_SUIVI__,
                  should_be_a_float: __SHOULD_BE_A_FLOAT__,
 	         type_type: __TYPE_TYPE__,
 	         human_priority: __HUMAN_PRIORITY__

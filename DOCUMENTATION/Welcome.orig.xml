@@ -403,8 +403,8 @@ The functions to modify the table are:
 
     <h3><a name="abj_storage">ABJ + DA storage</a></h3>
 
-    <p>As table data, informations about ABJ and DA are stored
-in a Python module. The parameters are:</p>
+    <p>Informations about ABJ and DA are stored in one key file per student.
+    The parameters are:</p>
 <ul>
      <li> '<b>login</b>' The student identifier</li>
       <li> '<b>from</b>', '<b>to</b>' Start and end date
@@ -521,17 +521,6 @@ and append the current ticket.
 <p>
 The page template is stored in '<tt>top2.html</tt>' file.</p>
 
-    <h3><a name="clientabj">The ABJ/DA editing page</a></h3>
-
-    <p>
-The page stay open in order to receive server information.
-The client load image to ask things to the server.
-the server answer is a JavaScript program updating the screen data.
-</p>
-<p>
-The clients files are <tt>abj.html</tt> and <tt>abj.js</tt>
-</p>
-
     <h3><a name="clienttable">The table editing page</a></h3>
 
     <p>
@@ -539,7 +528,7 @@ The client load the page that stay open in order to receive updates
 as JavaScript codes.
 The client actions are done by inserting image,
 the image is inserted where the user interaction took place
-and under the table.
+and at the right of the 'cell' tab.
 It is done so because, an image must stay visible when the user
 change of page or filter the table.
 The image is at the same time the server feedback indicating
@@ -549,8 +538,8 @@ if the action performed well.
 The server, indicate that the action was performed with
 a javascript code.
 When the client receive this code, it removes the matching
-images from under the table.
-In the normal case, there is no image under the table.
+images at the right of the 'cell' tab.
+In the normal case, there is no image at this place.
 </p>
 <p>
 If an image is not loaded after some time, the image URL
@@ -592,6 +581,70 @@ They can be&nbsp;:
       <li> Server side : See '<b>PLUGIN/resume.py</b>' as a template.</li>
       <li> Client side : See '<b>FILES/lib.js/statistics_per_group</b>' as a template.</li>
     </ul>
+
+    <h3><a name="suivipage">'Suivi' page composition</a></h3>
+    <p>
+      The 'Display' framework is currently only used by the 'suivi' page.
+      It allows to add new informations on the 'suivi' page without
+      modifying code source code.
+      Display trees are defined in <tt>PLUGINS/suivi_student.py</tt>,
+      for example, the information about the 'more_on_suivi'
+      plugin is defined as:
+    </p>
+    <pre>def display_more_on_suivi(server):
+    return configuration.more_on_suivi(server.suivi_login, server)
+D('MoreOnSuivi' , 'BodyRight' ,9, data=display_more_on_suivi)
+</pre>
+    <ul>
+      <li> <tt>MoreOnSuivi</tt>: The box identifier.</li>
+      <li> <tt>BodyRight</tt>: The container box identifier.
+      It is possible to have multiple containers, eg.
+      <tt>['Top','Private','Question']</tt>
+      So the same display tree can be used in multiple places in the page
+      or in different pages.
+      </li>
+      <li> <tt>9</tt>: The priority used to sort the item in the container.
+      It can be a float number.
+      </li>
+      <li> <tt>data=display_more_on_suivi</tt>: the data returned by this
+      function is sent to the browser.
+      These functions are profiled in order to send fast-computed
+      values first.
+      <b>So the call order is random</b>.
+      </li>      
+      <li> It is possible to add the parameter <tt>js='Vertical'</tt>
+      to call 'DisplayVertical' javascript function to compute the HTML.</li>
+    </ul>
+    <p>
+      On the javascript side <tt>PLUGINS/suivi_student.js</tt>:
+    </p>
+    <pre>function DisplayMoreOnSuivi(node)
+{
+  // To use the data from Login display plugin : display_data['Login']
+  // If 'is_a_teacher' is true, it is the teacher view.
+  // To hide the block: return ''
+  return node.data ; // Display the server computed content without change
+}
+// Defines data needed from other display plugin.
+// The plugin will be called once data is retrieved from server.
+// The default value for this function is ['MoreOnSuivi']
+// It is possible to wait data from multiple plugins:
+//      <b>DisplayMoreOnSuivi.need_node = ['MoreOnSuivi', 'Login'] ;</b>
+// If no data is needed, use an empty required list: []</pre>
+<p>
+      On the CSS side <tt>PLUGINS/suivi_student.css</tt>:
+    </p>
+    <pre>.MoreOnSuivi { background: white }</pre>
+    <p>
+      The <tt>node</tt> object has following attributes:
+      name, children, containers, priority.
+    </p>
+    <p>
+      On the javascript side, a display function can call other
+      display function multiple times.
+      For example <tt>DisplayUEGrades</tt> call <tt>CellBox</tt>
+      to display each grade.
+    </p>
 
     <h2><a name="translation">TOMUSS Translation</a></h2>
 

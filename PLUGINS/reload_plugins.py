@@ -28,6 +28,7 @@ from .. import document
 from .. import column
 from .. import plugins
 from .. import files
+from .. import display
 
 def reload_plugins(server):
     """Reload all the plugins from PLUGINS, COLUMN_TYPES, ATTRIBUTES"""
@@ -102,6 +103,9 @@ def reload_plugins(server):
     # Recompute 'invited'
     t = document.table(0, 'Dossiers', 'config_plugin', None, None)
     t.template.onload(t)
+
+    # Recompute display plugins
+    display.init()
 
 plugin.Plugin('reload_plugins', '/reload_plugins',
               function=reload_plugins, group='roots',

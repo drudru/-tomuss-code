@@ -190,6 +190,7 @@ class Abj(object):
     def html(self, year, semester, full=False):
         """This function is here because it does not send
         restricted information to students.
+        XXX : NO MORE USED BY THE 'SUIVI' SERVER, to remove ?
         """
         
         content = []

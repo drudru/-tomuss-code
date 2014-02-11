@@ -20,7 +20,6 @@
 #    Contact: Thierry.EXCOFFIER@bat710.univ-lyon1.fr
 
 from . import text
-from . import bool
 import collections
 
 class Enumeration(text.Text):
@@ -29,8 +28,9 @@ class Enumeration(text.Text):
     cell_completions = 'completions_enumeration'
     ondoubleclick = 'toggle_enumeration'
     attributes_visible = ('enumeration', 'weight', 'repetition', 'url_import')
+    formatte_suivi = "enumeration_format_suivi"
 
-    def formatter(self, column, value, cell, lines, teacher, ticket, line_id):
+    def stat(self, column, value, cell, lines):
         v = column.enumeration.split(' ')
         if column.repetition:
             nb = collections.defaultdict(int)
@@ -47,6 +47,5 @@ class Enumeration(text.Text):
                  if nb[x] < abs(column.repetition)
                  ]
         v.insert(0, '')
-        return bool.option_list(column, value, cell, lines, teacher,
-                                ticket,line_id, v)
+        return {'enumeration': v}
 

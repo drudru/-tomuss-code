@@ -23,6 +23,7 @@ import os
 import re
 import time
 import hashlib
+import json
 from .utilities import js
 from . import utilities
 from . import configuration
@@ -396,9 +397,9 @@ class Column(object):
         except ValueError:
             return 0, 20
 
-    def js(self, hide, obfuscated={}):
+    def js(self, hide, obfuscated={}, python=False):
         """Returns the JavaScript describing the column."""
-        s = []
+        d = {}
         for attr in column_attributes():
             if attr == 'url_import':
                 continue # private
@@ -423,13 +424,20 @@ class Column(object):
                     for old, new in obfuscated.items():
                         value = (' ' + value + ' ').replace(
                             ' ' + old + ' ', ' ' + new + ' ')[1:-1]
-                
-            if value != attr.default_value:
-                s.append( attr.name + ':' + js(value) )
-                                 
-        return 'Col({the_id:%s,%s})' % (js(self.the_id), ','.join(s))
 
-    def cell(self, cell, lines, teacher, ticket, line_id):
+            if value != attr.default_value:
+                if attr.name == 'type':
+                    value = value.name
+                d[attr.name] = value
+        d['the_id'] = self.the_id
+        if self.title in obfuscated:
+            d['obfuscated'] = 1
+        if python:
+            return d
+        else:
+            return 'Col(' + json.dumps(d) + ')'
+
+    def stat(self, cell, lines):
         """Format a cell value in order to display it.
         It uses the formatter defined by the column type."""
         if cell.value != '':
@@ -437,8 +445,7 @@ class Column(object):
         else:
             value = self.empty_is
             
-        return self.type.formatter(self, value, cell, lines, teacher,
-                                   ticket, line_id)
+        return self.type.stat(self, value, cell, lines)
 
     def cell_indicator(self, cell, lines):
         """Compute if the cell value is a good or bad one.
@@ -598,7 +605,7 @@ class Columns(object):
         """Returns the number of columns."""
         return len(self.columns)
 
-    def js(self, hide):
+    def js(self, hide, python=False):
         """Returns the javaScript code describing all NEEDED columns."""
         obfuscated = {}
         if hide is 1:
@@ -611,9 +618,13 @@ class Columns(object):
                     obfuscated[c.title] = hashlib.md5(c.title).hexdigest()
         else:
             columns = self.columns
-            
-        return 'columns = [\n'+',\n'.join([c.js(hide, obfuscated)
-                                           for c in columns]) + '\n];'
+
+        if python:
+            return [c.js(hide, obfuscated, python=True)
+                    for c in columns]
+        else:
+            return 'columns = [\n'+',\n'.join([c.js(hide, obfuscated)
+                                               for c in columns]) + '\n];'
 
     def __iter__(self):
         """Iterate over the columns."""

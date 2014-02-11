@@ -486,9 +486,9 @@ def picture(student_id, ticket):
     return (utilities.StaticFile._url_ + '/=' + ticket.ticket
             + '/picture/' + student_id + '.JPG')
 
-#REDEFINE
 # This function returns a string inserted into student suivi page
 def more_on_suivi(student_login, server):
+    """DEPRECATED : See the documentation to customize the 'suivi' page"""
     return ''
 
 #REDEFINE

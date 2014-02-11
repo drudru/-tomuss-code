@@ -1357,7 +1357,7 @@ msgid "SUIVI_mean_of_after"
 msgstr " plus mauvaises notes ne sont pas utilisées dans la moyenne"
 
 msgid "SUIVI_course_dates"
-msgstr "Date(s) de ce cours :"
+msgstr "Date(s) du cours :"
 
 #. GUI
 msgid "MSG_facebook_grp"
@@ -5337,3 +5337,22 @@ msgstr "Saisissez la date sous la forme Jour/Mois/Année\n"
 
 msgid "ALERT_date_invalid"
 msgstr "Cette date n'existe pas : "
+
+
+msgid "DisplayCellAuthorBefore"
+msgstr "Saisi par"
+
+msgid "DisplayCellMTimeBefore"
+msgstr "le"
+
+msgid "LABEL_Day0"
+msgstr "Aujourd'hui"
+
+msgid "LABEL_Day1"
+msgstr "Hier"
+
+msgid "LABEL_Day2"
+msgstr "Avant-hier"
+
+msgid "LABEL_ThisWeek"
+msgstr "Cette semaine"

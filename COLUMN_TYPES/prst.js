@@ -48,3 +48,8 @@ function toggle_prst(value)
 {
   return toggle_PA(test_prst, value, [pre, abi, abj]) ;
 }
+
+function prst_format_suivi()
+{
+  return enumeration_suivi(['', pre, abi, abj]) ;
+}

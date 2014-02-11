@@ -5256,5 +5256,22 @@ msgstr "Enter a date as Day/Month/Year"
        "It is possible to add the time after the date."
 
 msgid "ALERT_date_invalid"
-msgstr "Cette date n'existe pas : "
-       
+msgstr "Invalid date: "
+
+msgid "DisplayCellAuthorBefore"
+msgstr "Entered by"
+
+msgid "DisplayCellMTimeBefore"
+msgstr "the"
+
+msgid "LABEL_Day0"
+msgstr "Today"
+
+msgid "LABEL_Day1"
+msgstr "Yesterday"
+
+msgid "LABEL_Day2"
+msgstr "Before Yesterday"
+
+msgid "LABEL_ThisWeek"
+msgstr "This week"

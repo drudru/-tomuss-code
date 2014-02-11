@@ -208,6 +208,8 @@ class Text(object):
     onmousedown = 'cell_select'
     # How to display the cell value
     formatte = 'text_format'
+    # How to display the cell value in the suivi
+    formatte_suivi = 'text_format_suivi'
     # What to do on cell double click
     ondoubleclick = 'undefined'
     # How to compute the cell value
@@ -238,30 +240,11 @@ class Text(object):
                 'D': ('verybad', 0)
                }.get(value, ('',None))
 
-    def formatter(self, column, value, cell, lines, teacher, ticket, line_id):
-        """HTML Formatter returns a tuple :
-             (text, classname, comment)
-        'text' is None if the cell should not be displayed.
+    def stat(self, column, value, cell, lines):
+        """Returns a dict of various values, currently:
+        'rank', 'rank_grp', 'average'
         """
-        if column.is_modifiable(teacher, ticket, cell):
-            e = str(value).replace("%","&#37").replace("'", "&#39;"). \
-                replace('"', '&#34;')
-
-            v = '<input class="hidden" onkeypress="if ( the_event(event).keyCode == 13 ) _cell(this,\'%s/=%s/%d/%s/%s/cell/%s/%s\',\'%s\', \'%s\');" value="%s"><br><small>%s</small>' % (
-                configuration.server_url,
-                ticket.ticket,
-                column.table.year, column.table.semester,
-                column.table.ue, column.the_id, line_id,
-                column.type.name, column.minmax, e,
-                utilities._("MSG_enter"))
-            return (v, '', '')
-
-        if value == '':
-            return ('', '', '')
-
-        return (cgi.escape(str(value)).replace('\n','<br>'),
-                self.cell_indicator(column, value, cell, lines)[0],
-                '')
+        return {}
 
     def _values(self): # _ to hide it a little
         t = []
@@ -281,7 +264,7 @@ class Text(object):
     def attribute_js_value(self, k):
         if k.startswith('set_') or k in (
             'cell_test', 'cell_completions','onmousedown', 'formatte',
-            'ondoubleclick', 'cell_compute'):
+            'formatte_suivi', 'ondoubleclick', 'cell_compute'):
             return getattr(self, k)
         else:
             return utilities.js(getattr(self, k))

@@ -21,6 +21,7 @@
 
 from .. import plugin
 from .. import utilities
+from .. import files
 from . import suivi_student
 
 try:
@@ -42,6 +43,7 @@ def student_icone(server):
     note = []
     ues = suivi_student.the_ues(server.year, server.semester, login)
     if not ues:
+        server.the_file.write(str(files.files['tip.png']))
         return
     for t in ues:
         for line in t.get_lines(login):

@@ -158,37 +158,7 @@ class Questions(object):
         for q in self.questions:
             if q.askable():
                 t.append('<hr>' + q.html())
-        if len(t) == 0:
-            return ''
-        return unicode('''
-<script>
-function sign(t, message_id)
-{
-  if ( ! confirm(unescape(t.textContent)) )
-     return ;
-  t.parentNode.style.opacity = 0.5 ;
-  var img = document.createElement('IMG') ;
-  img.src = url + '/=' + ticket + '/signature/' + message_id
-            + '/' + encode_uri(t.textContent) ;
-  img.style.width = '20px' ;
-  img.style.height = '20px' ;
-  t.parentNode.insertBefore(img, t) ;
-  var b = t.parentNode.getElementsByTagName('BUTTON') ;
-  for(var i=0; i<b.length; i++)
-     b[i].disabled = true ;
-
-  var b = document.getElementsByTagName('BUTTON') ;
-  for(var i=0; i<b.length; i++)
-     if ( b[i].id != "signature_done" && ! b[i].disabled )
-        return ;
-  document.getElementById("signature_done").style.display = 'block' ; 
-}
-</script>
-<h2><script>Write('TITLE_signature')</script></h2>
-''' + ''.join(t) + '''<hr>
-<button id="signature_done" style="display:none" onclick="location.reload()"><script>Write('MSG_signature_done')</script></button>
-''', 'utf-8')
-    
+        return t
         
     def __str__(self):
         s = []

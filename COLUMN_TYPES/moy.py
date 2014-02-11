@@ -32,23 +32,3 @@ class Moy(note.Note):
 
     def cell_indicator(self, column, value, cell, lines):
         return '', None
-
-    def formatter(self, column, value, cell, lines, teacher, ticket, line_id):
-        if column.type == 'Nmbr':
-            what = '(' + column.test_filter + ')'
-            minmax = '\002'
-        else:
-            what = ''
-            minmax = self.value_range(*column.min_max())
-
-        if teacher:
-            more = '<script>Write("MSG_Moy_on_columns")</script><em>' + column.columns + '</em>'
-        else:
-            # To not leak invisible columns
-            more = ''
-
-        comment = ('<script>Write("MSG_Moy_operation","<b>");Write("B_'
-                   + self.__class__.__name__ + '");</script>' + what + '</b>'
-                   + more )
-
-        return ('\001' + minmax, '', comment)

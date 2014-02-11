@@ -22,11 +22,8 @@
 # WARNING : Assume the table is locked, all this is not thread safe
 
 import time
-import cgi
 from . import utilities
-from . import configuration
 from . import data
-from . import inscrits
 
 js = utilities.js
 
@@ -63,6 +60,9 @@ class CellEmpty(CellVirtual):
         return 'C()'
 
     js_student = js
+
+    def json(self):
+        return ()
 
     def empty(self):
         """Returns True"""
@@ -119,6 +119,18 @@ class CellValue(CellVirtual):
             return 'C(%s)' % js(self.value)
         else:
             return 'C()'
+
+    def json(self):
+        """Generate the Cell JavaScript object with the minimal code,
+        in order to minimize file size."""
+        if self.date:
+            return (self.value, self.author, self.date)
+        elif self.author:
+            return (self.value, self.author)
+        elif self.value:
+            return (self.value,)
+        else:
+            return ()
 
     js_student = js
 
@@ -197,6 +209,23 @@ class Cell(CellValue):
         else:
             return 'C()'
 
+    def json(self):
+        """Generate the Cell JavaScript object with the minimal code,
+        in order to minimize file size."""
+        if self.history:
+            return (self.value, self.author, self.date, self.comment,
+                    self.history)
+        elif self.comment:
+            return (self.value, self.author, self.date, self.comment)
+        elif self.date:
+            return (self.value, self.author, self.date)
+        elif self.author:
+            return (self.value, self.author)
+        elif self.value:
+            return (self.value)
+        else:
+            return ()
+
     def js_student(self):
         t = self.js()
         if not self.history:
@@ -242,6 +271,18 @@ class Line(object):
                                    if col.copy_on_browser()]) + ']'
         else:
             return '[' + ','.join([cell.js() for cell in self.cells]) + ']'
+
+    def json(self, for_student=False, columns=None):
+        """Translate the line in JavaScript"""
+        if for_student:
+            return [cell.json()[:4]
+                    for cell, col in zip(self.cells,
+                                         columns)
+                    if col.copy_on_browser()
+                    ]
+        else:
+            return [cell.json()
+                    for cell in self.cells]
 
 class Lines(object):
     """The Lines object is usable as a Python list of Line.
@@ -316,23 +357,7 @@ class Lines(object):
                     s.append((value.date, c))                        
         return s
 
-    def line_compute_js(self, line, for_student=False):
-        """Create the JavaScript program that initalizes 'line' with
-        all the informations for the student.
-        The value computing is done in javascript."""
-        s = []
-        s.append('<script>')
-        if for_student:
-            s.append(self.columns.js(hide=1))
-        else:
-            s.append(self.columns.js(hide=True))
-        s.append('line = ' + line.js(for_student, columns=self.columns) + ';')
-        s.append('for(var data_col in columns) { init_column(columns[data_col]); columns[data_col].data_col = data_col ; }')
-        s.append('update_columns(line);')
-        s.append('</script>\n')
-        return '\n'.join(s)
-
-    def line_html(self, table, line, line_id, ticket, link=True):
+    def line_stat(self, table, line, link):
         """Returns an HTML string displaying all the information in the line.
         This function is used to display the 'suivi'.
         The content is not the same for teacher and students because
@@ -341,76 +366,29 @@ class Lines(object):
         This function is expensive because the student rank is computed
         for all 'Note' columns.
         """
-        more = []
-        for login in table.masters:
-            firstname, surname, mail = inscrits.L_fast.firstname_and_surname_and_mail(login)
-            more.append('<a href="mailto:%s">%s %s</a>' %
-                        (mail, firstname.title().encode('utf8'),
-                         surname.upper().encode('utf8')))
-        if more:
-            more = (" <small>(" + ', '.join(more) + ')</small>')
-        else:
-            more = ''
-        if link:
-            s = ['<p class="title">']
-            s.append(
-                utilities.tipped(table.ue + ' '
-                                 + cgi.escape(table.table_title),
-                                 utilities._("MSG_cell_full_table"),
-                                 url='%s/=%s/%d/%s/%s' %
-                                 (configuration.server_url,
-                                  ticket.ticket,
-                                  table.year, table.semester,
-                                  table.ue)
-                                 , classname='title'))
-            s.append(
-                utilities.tipped(' (*)',
-                                 utilities._("MSG_cell_one_line"),
-                                 url='%s/=%s/%d/%s/%s/=filters=0_0:%s=' %
-                                 (configuration.server_url,
-                                  ticket.ticket,
-                                  table.year, table.semester,
-                                  table.ue, line[0].value)
-                                 , classname='title'))
-            s.append(more)
-        else:
-            s = ['<h2 class="title">' + table.ue + ' : ' +
-                 cgi.escape(table.table_title) + more + '</h2>']
-        if table.comment.strip():
-            s.append('<p style="margin-top:0">'
-                     + utilities._("MSG_cell_message")
-                     + '<em>' + cgi.escape(table.comment) + '</em></p>')
-        s.append(self.line_compute_js(line,for_student=not link))
-
         grp = self.get_grp(line)
         seq = self.get_seq(line)
         lines = list(table.lines_of_grp(grp, seq))
         
         # Put cells in column order
         val_col = zip(line.cells, self.columns.columns)
-        s.append('<script>display_suivi({')
-        ss = []
-        empty_line = True
+        d = {}
         for cell, column in val_col[3:]:
             if not link:
                 # Student display : so the column must be visible
                 if not column.visible():
                     continue
-            v, classname, comment = column.cell(cell,lines,link,ticket,line_id)
-            if empty_line and v and column.title not in('Grp','Seq','Inscrit'):
-                empty_line = False
-            ss.append('%s: [%s,"%s",%s]' % (js(column.title),
-                                    js(v), classname, js(comment)))
-        s.append(',\n'.join(ss))
-        s.append('});</script>\n')
+            s = column.stat(cell, lines)
+            if s:
+                d[column.data_col] = column.stat(cell, lines)
 
-        if empty_line and table.ue_code != table.ue:
-            # If the table name ends with -1 -2 -3...
-            # we don't display empty lines
-            return ''
+        # XXX
+        # if empty_line and table.ue_code != table.ue:
+        #     # If the table name ends with -1 -2 -3...
+        #     # we don't display empty lines
+        #     return {}
 
-        return '\n'.join(s) # + 'empty=%s' % empty_line
-
+        return d
 
     def js(self, for_student=False):
         """Create JavaScript generating all the lines data."""

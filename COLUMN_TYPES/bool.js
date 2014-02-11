@@ -35,3 +35,30 @@ function test_bool(value, column)
     return no ;
   return '' ;
 }
+
+function enumeration_suivi(choices)
+{
+  if ( ! cell_modifiable_on_suivi() )
+    return DisplayGrades.value ;
+  
+  var v = '<select class="hidden" onchange="'
+    + student_input(DisplayGrades.column) + '">' ;
+  var sel ;
+  for(var i in choices)
+  {
+    i = choices[i] ;
+    if (i == DisplayGrades.value)
+      sel = ' selected="1"' ;
+    else
+      sel = "" ;
+    v += '<option value="' + i + '"' + sel +'>' + i + '</option>' ;
+  }
+  v += '</select>' ;
+
+  return v ;
+}
+
+function bool_format_suivi()
+{
+  return enumeration_suivi(['', yes, no]) ;
+}

@@ -19,29 +19,20 @@
 #
 #    Contact: Thierry.EXCOFFIER@bat710.univ-lyon1.fr
 
-import cgi
 from . import note
 from . import text
-from .. import configuration
 
 class Prst(note.Note):
     human_priority = -9
     tip_cell = "TIP_cell_Prst"
     cell_test = 'test_prst'
     formatte = text.Text.formatte
+    formatte_suivi = "prst_format_suivi"
     ondoubleclick = 'toggle_prst'
     tip_filter = "TIP_filter_Prst"
     tip_test = ''
     should_be_a_float = 0
     attributes_visible = ('url_import',)
-
-
-    def formatter(self, column, value, cell, lines, teacher, ticket, line_id):
-        classname = self.cell_indicator(column, value, cell, lines)[0]
-        if classname != 'abinj2':
-            return (cgi.escape(str(value)), classname, '')
-
-        return (configuration.abi + '???', classname, note.Note.message)
 
     cell_indicator = note.Note.cell_indicator_prst
     def test_ok(self, test):

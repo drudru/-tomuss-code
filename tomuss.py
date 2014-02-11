@@ -300,6 +300,8 @@ if __name__ == "__main__":
     document.table(0, 'Dossiers', 'config_home', None, None)
     document.table(0, 'Dossiers', 'config_cache', None, None)
     
+    from . import display
+    display.init()
 
     # While there is an updating table, there is many messages
     # Wait the end of the flow

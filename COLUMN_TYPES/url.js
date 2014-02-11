@@ -43,3 +43,28 @@ function follow_url(in_value)
    window.open(value) ;
    return in_value ;
 }
+
+function url_format_suivi()
+{
+  if ( DisplayGrades.value === '' )
+    return ' ' ;
+
+  var value = DisplayGrades.value.toString().split(' ', 1) ;
+  var title ;
+  if (value.length > 1)
+    title = value[1] ;
+  else
+  {
+    if (DisplayGrades.column.url_title)
+      title = DisplayGrades.column.url_title ;
+    else
+      title = _("MSG_URL") ;
+  }
+
+  if (title.substr(0,7) !== '<script')
+    title = html(title) ;
+
+  return '<a target="_blank" href="' + DisplayGrades.column.url_base
+    + value[0] + '">' + title + '</a>' ;
+}
+

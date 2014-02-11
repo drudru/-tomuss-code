@@ -21,33 +21,13 @@
 
 from . import note
 from . import text
-from .. import configuration
-
-def option_list(column, value, cell, lines, teacher, ticket, line_id, values):
-    if column.is_modifiable(teacher, ticket, cell):
-        v = '<select class="hidden" onchange="_cell(this,\'%s/=%s/%d/%s/%s/cell/%s/%s\');">' % (
-            configuration.server_url,
-            ticket.ticket,
-            column.table.year, column.table.semester,
-            column.table.ue, column.the_id, line_id)
-        for i in values:
-            if i == value:
-                sel = ' selected="1"'
-            else:
-                sel = ""
-            v += '<option value="%s" %s>%s</option>' % (i, sel, i)
-        v += '</select>'
-    else:
-        v = value
-
-    return (v, '', '')
-    
 
 class Bool(note.Note):
     human_priority = 1
     tip_cell = "TIP_cell_Bool"
     cell_test = 'test_bool'
     formatte = text.Text.formatte
+    formatte_suivi = 'bool_format_suivi'
     ondoubleclick = 'toggle_bool'
     tip_filter = "TIP_filter_Bool"
     should_be_a_float = 0
@@ -56,6 +36,5 @@ class Bool(note.Note):
     def cell_indicator(self, column, value, cell, lines):
         return '', None
 
-    def formatter(self, column, value, cell, lines, teacher, ticket, line_id):
-        return option_list(column, value, cell, lines, teacher, ticket,line_id,
-                           ('', configuration.yes, configuration.no))
+    def stat(self, column, value, cell, lines):
+        return {}

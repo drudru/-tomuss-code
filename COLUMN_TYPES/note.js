@@ -107,3 +107,18 @@ function note_format(c, column)
   return column.do_rounding(c) ;
 }
 
+function note_format_suivi()
+{
+  if ( cell_modifiable_on_suivi() )
+    return text_format_suivi() ;
+  if ( DisplayGrades.value === '' )
+    return '' ;
+  var s = DisplayGrades.column.min === 0
+    ? '/' + DisplayGrades.column.max
+    : '[' + DisplayGrades.column.min + ';' + DisplayGrades.column.max + ']' ;
+  if ( DisplayGrades.column.min == 0 && DisplayGrades.column.max == 20 )
+    s = '<span class="displaygrey">' + s + '</span>' ;
+  
+  return DisplayGrades.column.do_rounding(DisplayGrades.value)
+    + '<small style="font-size:60%">' + s + '</span></small>' ;
+}

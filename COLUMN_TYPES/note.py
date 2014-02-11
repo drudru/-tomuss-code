@@ -20,7 +20,6 @@
 #    Contact: Thierry.EXCOFFIER@bat710.univ-lyon1.fr
 
 import math
-import cgi
 from . import text
 from .. import configuration
 
@@ -35,7 +34,8 @@ class Note(text.Text):
     tip_cell = "TIP_cell_Note"
     cell_test = "test_note"
     formatte = 'note_format'
-
+    formatte_suivi = 'note_format_suivi'
+ 
     should_be_a_float = 1
 
     message = """<script>Write("MSG_Note_ABINJ");</script>"""
@@ -96,57 +96,32 @@ class Note(text.Text):
                     return False
         return True
 
-    def formatter(self,column, value, cell, lines, teacher, ticket, line_id):
-        if column.is_modifiable(teacher, ticket, cell):
-            return super(Note, self).formatter(column, value, cell, lines,
-                                               teacher, ticket, line_id)
-
-        classname = self.cell_indicator(column, value, cell, lines)[0]
-        if classname == 'abinj2':
-            return (configuration.abi + '???', classname, self.message)
-        if classname in ('prst', 'abinj', 'abjus', 'tnr'):
-            return (cgi.escape(str(value)), classname, '')
-        if value == '':
-            return '', '', ''
-
-        v_min, v_max = column.min_max()
-        v = '%s%s' % (value, self.value_range(v_min, v_max))
-
-        if column.weight.startswith('+') or column.weight.startswith('-'):
-            return (v, '', '')
+    def stat(self, column, value, cell, lines):
+        """Returns a dict of various values, currently:
+        'rank', 'rank_grp', 'average'
+        """
 
         all_floats, floats = column.cell_values(lines)
         floats.sort()
         floats.reverse()
         all_floats.sort()
         all_floats.reverse()
-        rank = ''
 
-        def message(text, the_rank, nr):
-            return (u'''<script>
-Write("MSG_Note_rank_before","<b>%d</b>");
-Write("MSG_Note_rank_middle","<b>%d</b>");
-Write("%s");</script><br>''' % (the_rank, nr, text)).encode('utf8')
-        
+        d = {"nr": len(all_floats),
+             "nr_in_grp": len(floats),
+             }
         try:
-            rank += message("MSG_Note_rank_after_1",
-                            floats.index(value)+1, len(floats))
-            # if len(floats) > 10:
-            #    rank += '<script>Write("MSG_Note_grp_average"," <b>%.2f</b><br>")</script>' % (sum(floats) / len(floats))
+            d["rank"] = all_floats.index(value)
         except ValueError:
             pass
         try:
-            if len(floats) != len(all_floats) :
-                rank +=  message("MSG_Note_rank_after_2",
-                                 all_floats.index(value)+1, len(all_floats))
-                if len(all_floats) > 10:
-                    rank += '<script>Write("MSG_Note_full_average"," <b>%.2f</b>, <b>%.2f</b><br>")</script>' % (
-                        sum(all_floats) / len(all_floats),
-                        all_floats[len(all_floats)//2])
+            d["rank_grp"] = floats.index(value)
         except ValueError:
             pass
-
-        return (v, classname, rank)
+        if all_floats:
+            d["average"] = sum(all_floats) / len(all_floats)
+            d["mediane"] = all_floats[len(all_floats)//2]
+        return d
 
     def value_range(self, v_min, v_max):
         if v_min == 0:

@@ -36,59 +36,15 @@ from .. import utilities
 from .. import tablestat
 from .. import abj
 from .. import document
+from .. import column
 from .. import teacher
 from .. import files
 from .. import signature
-from .. import authentication
 
 files.add('PLUGINS', 'suivi_student.css')
 files.add('PLUGINS', 'suivi_student.js')
 files.add('PLUGINS', 'suivi_student_doc.html')
 
-def tomuss_links(login, ticket, server, is_a_student=False):
-    t = []
-    for url, dummy_port, tyear, tsemester, dummy_thost \
-            in configuration.suivi.url_with_ticket(ticket.ticket):
-        if not configuration.display_this_semester_to_the_student(
-            tyear, tsemester, login):
-            continue
-        if tyear == server.year and tsemester == server.semester:
-            highlight = ' class="highlight"'
-        else:
-            highlight = ''
-
-        if is_a_student:
-            icone = ''
-        else:
-            icone = '<img class="icone" src="%s/_%s">' % (url, login)
-
-        t.append('<div%s><a href="%s/%s">%s %s %s</a></div>' % (
-            highlight, url, login, icone, tsemester, tyear))
-    t.sort(key=lambda x: x.split('href="')[1].replace('A','Z') )
-    return '''<table class="tomuss_links colored">
-<tr><th><script>hidden('<span>' + _("MSG_suivi_student_semesters")
-                       + '</span>',
-                       _("TIP_suivi_student_semesters"));</script></tr>
-<tr><td>''' + ''.join(t) + '</tr></table>'
-
-def member_of_list(login):
-    x = '<script>hidden(_("MSG_suivi_student_memberof"),"<table class=\\"memberof\\">'
-    member_of = list(inscrits.L_fast.member_of_list(login))
-    member_of.sort()
-    for i in member_of:
-        x += '<tr><th>' + cgi.escape(unicode(i,configuration.ldap_encoding)).replace('"','\\"') \
-                                 .replace(',DC=univ-lyon1,DC=fr','') \
-                                 .replace(',','<td>') + '</tr>'
-    x += '</table>");</script> '
-    for etape in inscrits.L_fast.etapes_of_student(login):
-        e = teacher.all_ues().get('etape-' + etape)
-        if e:
-            title = e.intitule().encode('utf-8')
-        else:
-            title = "???"            
-        x += '<script>hidden(%s,%s);</script>' % (
-            utilities.js(etape), utilities.js(title))
-    return x, member_of
 
 last_full_read_time = 0
 
@@ -177,241 +133,195 @@ def teacher_can_see_suivi(server, the_student):
                     return priv, True
     
     return priv, False
-        
 
-# To not have duplicate error messages
-referent_missing = {}
-
-
-
-def student_statistics(login, server, is_a_student=False, expand=False,
-                       is_a_referent=False):
-    utilities.warn('Start', what='table')
-    ticket = server.ticket
-    year = server.year
-    semester = server.semester
-    firstname, surname, mail = inscrits.L_fast.firstname_and_surname_and_mail(login)
-    ref = referent.referent(year, semester, login)
+def display_referent(server):
+    ref = referent.referent(server.year, server.semester, server.suivi_login)
     if ref:
-        mail_ref = inscrits.L_fast.mail(ref)
-        if mail_ref == None:
-            mail_ref = 'mail_inconnu'
+        return list(inscrits.L_fast.firstname_and_surname_and_mail(ref))+[0,ref]
+    return [0, 0, 0, referent.need_a_referent(server.suivi_login), ref]
 
-    clr = "<script>document.getElementById('x').style.display='none';</script>"
-    private, visible = teacher_can_see_suivi(server, login)
+def display_copyright(server):
+    return configuration.version
 
-    def get_the_student():
-        if (not is_a_student
-            and is_a_referent
-            and ref != server.ticket.user_name):
-            return """
-<script>
-hidden(' <img style="height:1em" onclick="catch_this_student(event)" src="%s/butterflynet.png">',_('MSG_bilan_take_student'));
-</script>
-""" % configuration.url_files
-        else:
-            return ''
+def display_mails(server):
+    if server.is_a_student:
+        return '' # Student can't see all teacher mail addresses
+    teachers = collections.defaultdict(list)
+    for t in the_ues(server.year, server.semester, server.suivi_login):
+        if tuple(t.get_items(server.suivi_login)):
+            for teacher_login in t.masters:
+                teachers[teacher_login].append(t.ue)
+
+    if not teachers:
+        return '' # No teachers
+    return [' '.join(v) + ' <' + str(inscrits.L_fast.mail(k)) + '>'
+            for k, v in teachers.items()
+            ]
+
+def display_names(server):
+    return inscrits.L_fast.firstname_and_surname_and_mail(server.suivi_login)
+
+def display_login(server):
+    return server.suivi_login
+
+def display_charte(server):
+    if not referent.need_a_charte(server.suivi_login):
+        return ''
+    return utilities.charte_signed(server.suivi_login, server)
+
+def display_signature(server):
+    if not server.suivi_question.html_answered():
+        return '' # No message/contract link
+
+def display_logo(server):
+    return configuration.logo
+
+def display_semesters(server):
+    t = {}
+    for (url, dummy_port, year, semester, dummy_host
+         ) in configuration.suivi.urls.values():
+        if configuration.display_this_semester_to_the_student(
+            year, semester, server.suivi_login):
+            t['%d/%s' % (year, semester)] = url
+    return t
+
+def display_get_student(server):
+    if server.ticket.is_a_referent:
+        return True
+    return ''
+
+def display_referent_notepad(server):
+    if not server.suivi_ref:
+        return ''
+    if server.suivi_ref != server.ticket.user_name:
+        return ''
+    if server.is_a_student:
+        return '' # Student view
     
-    if not visible:
-        if ref:
-            ref = ('<p>' +
-                   server.__("MSG_suivi_referent_is") +
-                   '<a href="mailto:' + mail_ref + '">' + ref + '</a>'
-                   )
-        else:
-            ref = ""
-                   
-        return(clr +
-               '<h1>' + login + ' ' + surname + ' ' + firstname +
-               get_the_student() + '</h1>' +
-               server.__("MSG_suivi_student_private") +
-               ref)
+    tyear = utilities.university_year()
+    s = []
+    while True:
+        table = document.table(tyear, 'Referents',
+                               utilities.login_to_module(server.suivi_ref),
+                               ro=True, create=False)
+        if table is None:
+            break
+        s.append(table.referent_resume(table, server.suivi_login))
+        tyear -= 1
+    return '\n'.join(s)
 
-    s = [
-        clr,
-        '<div class="student"><img class="photo" src="',
-        configuration.picture(inscrits.login_to_student_id(login),
-                              ticket=ticket),
-        '">',
-        '<div class="suivi_message"><script>document.write(message)</script></div>',
-        tomuss_links(login, ticket, server, is_a_student),
-        abj.html_abjs(server.year, server.semester, login),
-        '<h1>'
+def display_question(server):
+    return getattr(server, 'suivi_question_html', '')
+
+def display_message(dummy_server):
+    return configuration.suivi_student_message
+
+def display_abjs(server):
+    return [
+        (from_date, to_date, comment)
+        for from_date, to_date, dummy_author, comment in server.suivi_abj.abjs
         ]
-    s.append('%s <a href="mailto:%s">%s %s</a>%s</h1>' % (
-        login, mail, firstname.title(), surname, get_the_student()))
-  
 
-    ################################################# REFERENT
+def display_da(server):
+    return [
+        (from_date, to_date, comment)
+        for from_date, to_date, dummy_author, comment in server.suivi_abj.da
+        ]
 
-    s.append('<script>var student_login = %s;' % utilities.js(login))
-    if ref:
-        s.append('Write("MSG_suivi_referent_is") ;'
-                 + 'hidden(\'<a href="mailto:' + mail_ref + '">'
-                 + ref + "</a>', _('MSG_suivi_student_send_to_referent'));")
+def display_rss(server):
+    if server.is_a_student:
+        if server.ticket.user_name == server.suivi_login:
+            return utilities.manage_key('LOGINS', os.path.join(
+                    server.suivi_login,'rsskey'))
+        else:
+            return "fake_RSS_key"
+    return ''
+
+def display_private_life(server):
+    if not server.is_a_student:
+        return ''
+    if not configuration.suivi_student_allow_private:
+        return ''    
+    return int(server.suivi_private_life)
+
+def display_tt(server):
+    table = document.table(utilities.university_year(), 'Dossiers', 'tt',
+                           ro=True)
+    tt = abj.tierstemps(server.suivi_login, table_tt=table)
+    if tt:
+        return tt
     else:
-        s.append("hidden(_('MSG_suivi_student_no_referent'),_(")
-        if referent.need_a_referent(login):
-            s.append("'TIP_suivi_student_no_referent_needed'")
+        return ''
+
+def display_more_on_suivi(server):
+    return configuration.more_on_suivi(server.suivi_login, server)
+
+def display_member_of(server):
+    if server.is_a_student:
+        return ''
+
+    member_of = list(inscrits.L_fast.member_of_list(server.suivi_login))
+    member_of.sort()
+    member_of = [
+        unicode(i, configuration.ldap_encoding)
+        .replace(',DC=univ-lyon1,DC=fr','')
+        for i in member_of
+        ]
+    etapes = []
+    for etape in inscrits.L_fast.etapes_of_student(server.suivi_login):
+        e = teacher.all_ues().get('etape-' + etape)
+        if e:
+            title = e.intitule().encode('utf-8')
         else:
-            s.append("'TIP_suivi_student_no_referent'")
-        s.append("));")
+            title = "???"
+        etapes.append([etape, title])
 
-    s.append('</script><br>')
-    
-    ################################################# TEACHERS MAILS
+    return member_of, etapes
 
-    if not is_a_student:
-        teachers = collections.defaultdict(list)
-        for t in the_ues(year, semester, login):
-            if tuple(t.get_items(login)):
-                for teacher_login in t.masters:
-                    teachers[teacher_login].append(t.ue)
-        if ref:
-            teachers[ref].append(server.__("MSG_suivi_student_referent"))
+def json(server, table, line, line_id):
+    table_attrs = {}
+    for attr in column.TableAttr.attrs.values():
+        if attr.name == 'formation': # XXX
+            continue
+        if attr.computed:
+            continue
+        if attr.gui_display == 'GUI_a':
+            continue
+        value = getattr(table, attr.name, attr.get_default_value(table))
+        if value == '' or value == 0 or value == () or value == []:
+            continue
+        table_attrs[attr.name] = value
+    table_attrs['masters'] = [
+        inscrits.L_fast.firstname_and_surname_and_mail(login)
+        for login in table.masters]
+    table_attrs['ue'] = table.ue
+    table_attrs['year'] = table.year
+    table_attrs['semester'] = table.semester
+    table_attrs['columns'] = table.columns.js(
+        hide = server.is_a_student and 1 or True,
+        python = True)
+    table_attrs['line_id'] = line_id
+    table_attrs['line'] = line.json(for_student=server.is_a_student,
+                                    columns = table.columns)
+    table_attrs['stats'] = table.lines.line_stat(
+        table, line, link=not server.is_a_student)
+    return table_attrs
 
-        if teachers:
-            s[-1] = s[-1].replace('<br>','')
-            s.append(', <script>hidden(\'<a href="mailto:?to='
-                     + ','.join(['+'.join(v) +
-                                 ' <' + str(inscrits.L_fast.mail(k)) + '>'
-                                 for k, v in teachers.items()])
-                     + '&subject=' + (login + ' ' + firstname + ' ' + surname
-                                      ).replace("'","\\'")
-                     + '">\' + _("MSG_suivi_student_mail_all") + \'</a>\','
-                     + '_("TIP_suivi_student_mail_all"));</script><br>')
-
-    ################################################# LOOK
-
-
-    s.append(server.__('MSG_suivi_student_look') + ' ')
-
-    # BILAN
-    
-    if not expand:
-        s.append("""<script>
-hidden('<a href="%s" target="_blank">'
-       + _("MSG_suivi_student_official_bilan") + '</a>'
-       , _("TIP_suivi_student_official_bilan"));""" %
-                 (configuration.bilan_des_notes + login) + '</script>, ')
-
-    if is_a_referent:
-        s.append("""<script>
-hidden('<a href="%s/=%s/bilan/%s" target="_blank">'
-       + _("MSG_suivi_student_TOMUSS_bilan") + '</a>'
-       , _("TIP_suivi_student_TOMUSS_bilan"));""" %
-                 (configuration.server_url, ticket.ticket, login) + '</script>, ')
-    # CONTRACT
-
-    if referent.need_a_charte(login):
-        if is_a_student:
-            # To create the 'charte' question if it does not exists
-            utilities.charte_signed(login, server)
-        else:
-            if utilities.charte_signed(login, server):
-                s.append('<script>Write("MSG_suivi_student_contract_checked");</script>')
-            else:
-                s.append('''<span style="background:red">
-<script>Write("MSG_suivi_student_contract_unchecked");</script></span>''')
-            s.append(', ')
-
-    if not is_a_student:
-        s.append('''<script>
-hidden('<a href="%s/=%s/%s/%s/ %s" target="_blank">'
-       + _("MSG_suivi_student_view") + '</a>',
-       _("TIP_suivi_student_view"));
-</script>, ''' % (
-            authentication.authentication_redirect, ticket.ticket,
-            year, semester, login))
-
-    # SIGNATURE
-
-    q = signature.get_state(login)
-    q_html = q.html()
-    if is_a_student and q_html:
-        return ''.join(s) + q_html
-    if q.html_answered():
-        s.append('<a href="signatures/%s">' % login
-                 + server._("MSG_signatures")
-                 + '</a>, '
-                 )
-    
-    # MORE
-
-    server.is_a_student = is_a_student
-    s.append(configuration.more_on_suivi(login, server))
-    s.append('<br>')
-
-    if not is_a_student:
-        s.append(member_of_list(login)[0])
-
-    ################################################# FOR REFERENT
-
-    if ref and ref == ticket.user_name and not is_a_student:
-        tyear = utilities.university_year(year, semester)
-        while True:
-            table = document.table(tyear, 'Referents',
-                                   utilities.login_to_module(ref), ro=True,
-                                   create=False)
-            if table is None:
-                break
-            s.append(table.referent_resume(table, login))
-            # table.unload() # XXX Memory leak
-            tyear -= 1
-
-    ################################################# FOR STUDENT
-
-
-    if is_a_student:
-        key = utilities.manage_key('LOGINS', os.path.join(login,'rsskey'))
-        if key is False and ticket.user_name == login:
-            server.the_file.write('<iframe src="%s/=%s/rsskey"></iframe>' %
-                                  (configuration.server_url,
-                                  server.ticket.ticket))
-            for dummy in range(20): # Wait 2 seconds
-                key = utilities.manage_key('LOGINS',
-                                           os.path.join(login,'rsskey'))
-                if key:
-                    break
-                time.sleep(0.1)
-            else:
-                key = ''
-            server.the_file.write("<script>document.getElementsByTagName('IFRAME')[0].style.display = 'none' ; </script>")
-
-        if ticket.user_name != login:
-            key = ''
-
-        rss = '%s/rss/%s' % (utilities.StaticFile._url_, key)
-        s.append('''<script>
-hidden('<a href="%s">' + _("MSG_suivi_student_RSS") +
-       '<img src="%s/feed.png" style="border:0px"></a>\',
-       _("TIP_suivi_student_RSS"));</script>''' % (rss,configuration.url_files))
-        s.append('<link href="%s" rel="alternate" title="TOMUSS" type="application/rss+xml">' % rss)
-
-    if is_a_student and configuration.suivi_student_allow_private:
-        s.append(', <script>var private=' + str(int(private)) +
-                 ';hidden((private ? \'<b class="bad">\' : \'\') + \'<a onclick="popup_private()">\' + _("LINK_suivi_student_private") + \'</a>\' + (private ? \'</b>\' : \'\') , _("TIP_suivi_student_private"))</script>')
-    
-    s.append('<p>')
-
+def display_grades(server):
     ss = []
+    s = []
     codes = {}
-    for t in the_ues(year, semester, login):
-        for line_id, line in t.get_items(login):
-            ss.append(unicode(t.lines.line_html(
-                t, line, line_id, ticket,
-                link=not is_a_student
-                ),'utf8'))
+    for t in the_ues(server.year, server.semester, server.suivi_login):
+        for line_id, line in t.get_items(server.suivi_login):
+            ss.append(json(server, t, line, line_id))
             if ss[-1]:
                 # A line has been displayed
                 codes[t.ue_code] = True
     if (configuration.suivi_display_more_ue
-        and (year, semester) == configuration.year_semester
-        and (not is_a_student or configuration.suivi_check_student_lists(login))
+        and (server.year, server.semester) == configuration.year_semester
+        and (not server.is_a_student or configuration.suivi_check_student_lists(server.suivi_login))
         ):
-        for t in inscrits.L_fast.ues_of_a_student_short(login):
-            # import cgi
-            # ss.append(cgi.escape(repr(t)))
+        for t in inscrits.L_fast.ues_of_a_student_short(server.suivi_login):
             if '-' not in t:
                 continue
             title = teacher.all_ues().get(t.split('-')[1])
@@ -420,38 +330,143 @@ hidden('<a href="%s">' + _("MSG_suivi_student_RSS") +
             else:
                 title = ''
             if t not in codes:
-                if is_a_student:
-                    s.append('''
-<h2 class=\"title\"><script>
-Write("MSG_suivi_student_not_in_TOMUSS_before")
-</script>''' + t + ' ' + title + '''</h2><p>
-<script>Write("MSG_suivi_student_not_in_TOMUSS_after")</script>
-''')
-                else:
-                    s.append('<p class="title"><script>'
-                             + 'Write("MSG_suivi_student_registered")'
-                             + '</script>' + t + ' ' + title + "</p>")
+                s.append((t, title))
 
-    if ss:
-        ss.sort()
-    s += ss
+    ss.sort()
+    return [ss, s]
 
-    if expand:
-        xx = """<iframe style="width:100%%;height:120em" src="%s&ticket=%s"></iframe>""" % (configuration.bilan_des_notes + login, server.ticket.ticket)
-    else:
-        xx = ''
+def display_students(server):
+    students = referent.students_of_a_teacher(server.suivi_login)
+    if not students:
+        return ''
 
-    table = document.table(utilities.university_year(), 'Dossiers', 'tt',
-                           ro=True)
-    tt = abj.tierstemps(login, table_tt=table)
-    if tt:
-        tt = '<h2><script>Write("MSG_suivi_student_tt");</script></h2><pre>' + cgi.escape(tt) + '</pre>'
+    return [[student] + inscrits.L_slow.get_student_info(student)
+            for student in students
+            ]
 
-    s.append(xx)
-    s.append(tt)
-    s.append('</div>')
+from .. import display
+D = display.Display
 
-    return '\n'.join(s)
+# Standard suivi page
+
+D('Top'         , []          ,0, js='Vertical')
+D('Private'     , []          ,0, js='Vertical')# Minimal suivi page if private
+D('Question'    , []          ,0, js='Vertical')# Minimal suivi page if ask
+
+D('User'        ,['Top','Private','Question'],-3, js='Horizontal')
+D('Preamble'    ,['Top','Private','Question'],-2)
+D('Message'     ,'Top'        ,-1, js="Horizontal", data=display_message)
+D('Body'        ,'Top'        ,1, js='Horizontal')
+
+D('BodyLeft'    , 'Body'      ,0, js='Vertical')
+D('BodyRight'   , 'Body'      ,1, js='Vertical')
+
+D('Lines'       , 'BodyLeft'  ,0, js='Vertical')
+D('ReferentNP'  , 'BodyLeft'  ,1, js='Horizontal',data=display_referent_notepad)
+D('LastGrades'  , 'BodyLeft'  ,2)
+D('Grades'      , 'BodyLeft'  ,3, data=display_grades)
+D('Students'    , 'BodyLeft'  ,4, data=display_students)
+
+D('Logo'        , 'BodyRight' ,0, data=display_logo)
+D('Semesters'   , 'BodyRight' ,1, data=display_semesters)
+D('Abjs'        , 'BodyRight' ,2, data=display_abjs)
+D('DA'          , 'BodyRight' ,3, data=display_da)
+D('TT'          , 'BodyRight' ,4, data=display_tt)
+D('MoreOnSuivi' , 'BodyRight' ,9, data=display_more_on_suivi)
+
+D('EmptyCell'   , 'User'      ,1)
+D('Reload'      , 'User'      ,2)
+D('Profiling'   , 'User'      ,3)
+D('IdentityR'   , 'User'      ,4, js='List')
+
+D('Explanation' , 'IdentityR',0, data=display_copyright)
+D('Contact'     , 'IdentityR',1)
+D('Logout'      , 'IdentityR',2)
+
+D('TopLine'     ,['Lines', 'Private','Question'],0, js="Horizontal")
+D('Student'     ,['Lines', 'Private','Question'],1, js='Horizontal')
+D('Teachers'    ,['Lines', 'Private','Question'],2, js='List')
+D('Look'        , 'Lines'            ,3, js='List')
+D('Actions'     , 'Lines'            ,4, js='List')
+D('IsPrivate'   , 'Private'          ,5)
+D('AskQuestion' , 'Question'         ,6, data=display_question)
+
+D('Picture'     , 'TopLine'  ,0)
+D('Login'       , 'TopLine'   ,1, js='Vertical', data=display_login)
+D('Names'       , 'TopLine'   ,2, data=display_names)
+D('GetStudent'  , 'TopLine'   ,3, data=display_get_student)
+
+D('Referent'    , 'Teachers'  ,0, data=display_referent)
+D('Mails'       , 'Teachers'  ,1, data=display_mails)
+
+D('Official'    , 'Look'      ,0)
+D('Bilan'       , 'Look'      ,1, data=display_get_student)
+D('StudentView' , 'Look'      ,2)
+D('Charte'      , 'Look'      ,3, display_charte)
+D('Signature'   , 'Look'      ,4, display_signature)
+D('NewSignature', 'Look'      ,5)
+
+D('RSS'         , 'Actions'   ,0, data=display_rss)
+D('PrivateLife' , 'Actions'   ,1, data=display_private_life)
+D('MemberOf'    , 'Actions'   ,2, data=display_member_of)
+
+# Template of an UE
+
+D('UE'          , []          ,0)
+
+D('UEHeader'    , 'UE'        ,0, js='Horizontal')
+D('UEComment'   , 'UE'        ,1)
+D('UEGrades'    , 'UE'        ,2)
+
+D('UETitle'     , 'UEHeader'  ,0)
+D('UEMasters'   , 'UEHeader'  ,1)
+
+# Template of a Cell
+
+D('Cell'        , []          ,0, js='Vertical')
+D('CellTop'     , 'Cell'      ,0, js='Vertical')
+D('CellBox'     , 'Cell'      ,1)
+D('CellBottom'  , 'Cell'      ,2, js='Vertical')
+
+D('CellAuthorLine', 'CellBottom',0, js='Horizontal')
+D('CellColumn'  , 'CellBottom',2)
+D('CellComment' , 'CellBottom',1)
+
+D('CellAuthor' , 'CellAuthorLine',0)
+D('CellMTime'  , 'CellAuthorLine',1)
+
+D('CellTitle'   , 'CellBox'   ,0)
+D('CellValue'   , 'CellBox'   ,1)
+
+D('CellTypeLine', 'CellTop'   ,0, js='Horizontal')
+D('CellDate'    , 'CellTop'   ,1)
+D('CellStatLine', 'CellTop'   ,2, js='Horizontal')
+
+D('CellRank'    , 'CellStatLine',0)
+D('CellAvg'     , 'CellStatLine',1)
+
+D('CellType'    , 'CellTypeLine'      ,0)
+D('CellFormula' , 'CellTypeLine'      ,1)
+
+def student_statistics(login, server, is_a_student=False, expand=False,
+                       is_a_referent=False):
+    utilities.warn('Start', what='table')
+    server.is_a_student = is_a_student
+    server.suivi_login = login
+    server.suivi_question = signature.get_state(login)
+    server.suivi_ref = referent.referent(server.year, server.semester, login)
+    server.suivi_abj = abj.Abj(server.year,server.semester, server.suivi_login)
+    server.suivi_private_life, visible = teacher_can_see_suivi(server, login)
+
+    if not visible:
+        return display.data_to_display(server, 'Private')
+
+    if is_a_student:
+        server.suivi_question_html = server.suivi_question.html()
+        if server.suivi_question_html:
+            return display.data_to_display(server, 'Question')
+
+    return display.data_to_display(server, 'Top')
 
 def student(server, login=''):
     """Display all the informations about a student."""
@@ -459,10 +474,8 @@ def student(server, login=''):
         login = server.ticket.user_name
         
     suivi_headers(server, is_student=True)
-    s = student_statistics(login, server,True)
-    if 'display_suivi' in s: # Do not obfuscate 'signature'
-        s = s.replace('\n','')
-    server.the_file.write(s.encode('utf8'))
+    student_statistics(login, server, True)
+    server.the_file.write('<br>'*10) # for popups
 
 plugin.Plugin('student', '/{*}', function=student, group='!staff',
               launch_thread=True, unsafe=False,
@@ -474,9 +487,8 @@ def accept(server):
     server.the_file.write('<img src="%s/=%s/store_accept">' % (
                           configuration.server_url, server.ticket.ticket)
                           )
-    server.the_file.write(
-        student_statistics(server.ticket.user_name,
-                           server,True).replace('\n','').encode('utf8'))
+    student_statistics(server.ticket.user_name, server, True)
+    server.the_file.write('<br>'*10) # for popups
 
 plugin.Plugin('accept', '/accept', function=accept, group='!staff',
               launch_thread=True,
@@ -503,17 +515,16 @@ def suivi_headers(server, is_student=True):
         + "var is_a_teacher = %s;\n" % int(not is_student)
         + "var url = %s;\n" % utilities.js(configuration.server_url)
         + "var url_suivi = %s;\n" % utilities.js(utilities.StaticFile._url_)
+        + "var url_files = %s ;\n" % utilities.js(configuration.url_files)
         + "var root = %s ;\n" % utilities.js(list(configuration.root))
         + "var maintainer = %s;\n" % utilities.js(configuration.maintainer)
         + 'var max_visibility_date = %d;\n' % configuration.max_visibility_date
-        + "var message = %s;\n" % utilities.js(
-            configuration.suivi_student_message)
+        + 'var bilan_des_notes = %s ; \n' % utilities.js(
+            configuration.bilan_des_notes)
         + "</script>\n"
         + "</head>\n"
         + '<body class="%s">\n' % server.semester
         + '<div id="top"></div>'
-        + '<div id="allow_inline_block" class="notes"></div>\n'
-        + '<p id="x" style="background:yellow"></p>'
         + '<script>\n'
         + utilities.wait_scripts()
         + 'function initialize_suivi()'
@@ -526,47 +537,38 @@ def suivi_headers(server, is_student=True):
 def home(server, nothing_behind=True):
     """Display the home page for 'suivi', it asks the student id."""
     suivi_headers(server, is_student=nothing_behind)
+    server.teacher_as_a_student = True
 
     if nothing_behind:
-        server.the_file.write(student_statistics(server.ticket.user_name, server, is_a_student=True).encode('utf8'))
+        student_statistics(server.ticket.user_name, server, is_a_student=True)
+        server.the_file.write('<br>'*10) # for popups
 
 plugin.Plugin('home', '/', group='staff', function = home, unsafe=False)
 
-def teacher_statistics(login, server):
-    ticket = server.ticket
-    tables = {}
-    # Computing this will need to load all the table.
-    # An index must be created for author.
-    if not configuration.index_are_computed:
-        for t in tablestat.les_ues(server.year, server.semester, true_file=True):
-            for line in t.lines.values():
-                if t not in tables:
-                    for v in line:
-                        if v.author == login:
-                            url = ('<a href="%s/=' % configuration.server_url +
-                                   ticket.ticket + '/' +
-                                   str(t.year) + '/' + str(t.semester) + '/' +
-                                   t.ue + '/=full_filter=@' + login +
-                                   '" target="_blank">' +
-                                   t.location() + '</a>'
-                                   )
-                            tables[t] = tablestat.TableStat(url)
-                            break
-        for t in tables:
-            for line in t.lines.values():
+def modified_tables(server, login):
+    """This function is currently unused
+    It search all the modified tables
+    """
+    for t in tablestat.les_ues(server.year, server.semester, true_file=True):
+        for line in t.lines.values():
+            if t not in tables:
                 for v in line:
                     if v.author == login:
-                        tables[t].update(v)
+                        url = ('<a href="%s/=' % configuration.server_url +
+                               ticket.ticket + '/' +
+                               str(t.year) + '/' + str(t.semester) + '/' +
+                               t.ue + '/=full_filter=@' + login +
+                               '" target="_blank">' +
+                               t.location() + '</a>'
+                               )
+                        tables[t] = tablestat.TableStat(url)
+                        break
+    for t in tables:
+        for line in t.lines.values():
+            for v in line:
+                if v.author == login:
+                    tables[t].update(v)
     
-    s = ["<script>document.getElementById('x').style.display='none';</script>"]
-
-    firstname, surname, mail = inscrits.L_fast.firstname_and_surname_and_mail(login)
-    s.append('%s <a href="mailto:%s">%s %s</a></h1>' % (
-        login, mail, firstname.title(), surname))
-    s.append(tomuss_links(login, ticket, server))
-    s.append(member_of_list(login)[0])
-    s = (' '.join(s) + '<br>').encode('utf8')
-
     if tables:
         s += ("<p>" + server._("MSG_suivi_student_ue_changes") % (
                 sum([v.nr for v in tables.values()]),
@@ -580,35 +582,6 @@ def teacher_statistics(login, server):
 '''] +
                         [ str(t) for t in tables.values()] +
                         ['</TABLE>']))
-
-    students = referent.students_of_a_teacher(login)
-    if students:
-        s += '<p><script>Write("MSG_suivi_student_contact_for");</script>'
-        s += '<table class="colored">'
-        for student in students:
-            infos = inscrits.L_slow.get_student_info(student)
-            infos = [unicode(i) for i in infos]
-            s += ('<tr><th>' + student + '<td>' + '<td>'.join(infos) + '</tr>'
-                  ).encode('utf-8')
-        s += '</table>'
-    return s
-
-def display_login(server, login, expand=False):
-    if configuration.is_a_student(login):
-        try:
-            login = utilities.the_login(login)
-            server.the_file.write(
-                student_statistics(login, server,
-                                   is_a_student=False,
-                                   is_a_referent=server.ticket.is_a_referent,
-                                   expand=expand)
-                .encode('utf8'))
-        except ValueError:
-            raise
-    else:
-        server.the_file.write(teacher_statistics(login, server))
-    server.the_file.flush()
-    
 
 def page_suivi(server):
     """Display the informations about all the students indicated."""
@@ -646,12 +619,13 @@ def page_suivi(server):
         '</title>'
                           )
     for login in logins:
-        display_login(server, login, expand)
-
-    server.the_file.write('&nbsp;<br>'*10 +
-                          '<p class="copyright">TOMUSS ' +
-                          configuration.version + '</p>'
-                          )
+        try:
+            login = utilities.the_login(login)
+            student_statistics(login, server, is_a_student=False,expand=expand)
+        except ValueError:
+            raise
+        server.the_file.flush()
+    server.the_file.write('<br>'*10) # for popups
 
 plugin.Plugin('infos', '/{*}', group='staff', password_ok = None,
               function = page_suivi, unsafe=False,

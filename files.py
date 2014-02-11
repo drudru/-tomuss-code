@@ -66,6 +66,7 @@ for name in (
     'doc_table.html', 'documentation.js', 'documentation.css',
     'stats.html',
     'howto.html',
+    'printemps.png', 'automne.png'
     ):
     add('FILES', name)
 

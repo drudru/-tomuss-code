@@ -1,7 +1,180 @@
-DIV.title {
-  margin-top: 1em;
-  font-weight: bold ;
+/* CSS for Display framework */
+
+BODY { margin: 0px ;
+       background-position: top right ;
+       background-image: none ;
+       background-repeat: repeat-y;
+     }
+
+BODY.Printemps,
+BODY.Printemps TABLE.colored TD,
+BODY.Printemps .BodyRight
+{ background-color: #f9fff6 }
+BODY.Automne,
+BODY.Automne TABLE.colored TD,
+BODY.Automne .BodyRight
+{ background-color: #fff5e0 }
+
+BODY.smallscreen.Printemps { background-image: url(printemps.png) ; }
+BODY.smallscreen.Automne { background-image: url(automne.png) ; }
+
+BODY.bad_inline_block .Display {
+    display: inline ;
 }
+
+BODY.bad_inline_block .Logout { text-decoration: underline }
+
+.Display {
+    display: inline-block ;
+    vertical-align: top ;
+}
+
+.Top, .User, .Body, .Grades, .Private, .Preamble, .Message { width: 100% ; }
+.User { font-size: 70% ; }
+.TopLine { font-size: 200% ; }
+.Picture IMG.small { height: 1.5em ;}
+.IdentityR { float: right ; }
+.RSS IFRAME { position: absolute; left: -100px ; }
+.BodyLeft {
+    left: 0px;
+    width: 100% ;
+}
+.BodyRight {
+    width: 20em ;
+}
+.BodyRight TABLE, .BodyRight .Display { width: 100% ; }
+.BodyRight TD, .BodyRight TH, .BodyRight > DIV, .BodyRight CAPTION {
+    font-size: 70% ; padding: 0px ;}
+.BodyRight TABLE.DisplayDA TD, .BodyRight TABLE.display_abjs TD { font-size: 70% ; }
+.Logo { text-align: center }
+.GetStudent IMG { height: 1em ; }
+.Semesters IMG { height: 1.3em ;}
+.Preamble {
+    padding: 0.2em;
+    background-color: #FF8080;
+    text-align: center ;
+}
+.Message {
+    padding: 0.2em;
+    background-color: .80FF80;
+    text-align: center ;
+}
+.Grades H3 { margin-bottom: 0px; }
+.UE { display: block; margin-top: 1em ; }
+.DisplayUETitle { font-weight: bold ; }
+
+/* On small screen, grades take all the space */
+BODY.smallscreen .BodyRight,
+BODY.smallscreen .BodyRight TD,
+BODY.smallscreen .BodyRight TH,
+BODY.smallscreen .BodyRight CAPTION
+{ font-size: 20% ; }
+BODY.smallscreen .BodyRight:hover,
+BODY.smallscreen .BodyRight:hover TD,
+BODY.smallscreen .BodyRight:hover TH,
+BODY.smallscreen .BodyRight:hover CAPTION
+{ font-size: 100% ; }
+
+BODY.smallscreen .BodyRight {
+    position: absolute ;
+    right: 0px ;
+    float: none ;
+    opacity: 0.7 ;
+}
+BODY.smallscreen .BodyRight:hover {
+    opacity: 1 ;
+    z-index: 2 ;
+    width: 30em ;
+}
+BODY.smallscreen .copyright { display: none ; }
+
+.MoreOnSuivi { background: white }
+
+.Cell {
+    max-width: 20em ;
+}
+
+.CellTop, .CellBottom {
+    font-size: 60% ;
+}
+SPAN.displaygrey { color: #888 }
+
+#cellbox_tip {
+    left: -10000 ;
+    position: absolute ;
+    z-index: 1 ;
+    background: #EEF ;
+    opacity: 0.85 ;
+}
+#cellbox_tip .CellBox {
+    white-space: normal ;
+    width: auto ;
+    }
+.CellBox INPUT {
+    width: 20em;
+    opacity: 1 ; /* Do not work */
+    font-size: 60% ;
+    margin: 0px ;
+}
+.CellBox SELECT {
+    font-size: 70% ;
+}
+.CellBox {
+    border: 1px solid black ;
+    min-width: 3.8em;
+    width: 3.8em;
+    overflow: hidden ;
+    margin-top: 0.2em ;
+    margin-bottom: 0.2em ;
+    margin-right: 0.4em ;
+    margin-left: 0px ;
+    white-space: nowrap ;
+    opacity: 0.3 ;
+}
+.DisplayTypeNote { opacity:1 ; }
+.DisplayTypeMoy { font-style: italic }
+.tip_displayed .CellBox, #cellbox_tip .CellBox { opacity:1 ; }
+
+.DisplayUEMasters { opacity: 0.3 ; }
+.DisplayHorizontal:hover > .DisplayUEMasters { opacity: 1 ; }
+
+#cellbox_tip .CellBox {
+    margin-top: 0px ;
+    margin-bottom: 0px ;
+    width: auto ;
+    overflow: visible ;
+}
+
+.CellTitle {
+    font-size: 60% ;
+}
+
+.Grades {
+    margin-left: 0.2em ;
+}
+
+.CellAuthorLine       .CellMTime { display: none }
+.CellAuthorLine:hover .CellMTime { display: inline }
+
+.CellStatLine         .CellAvg { display: none }
+.CellStatLine:hover   .CellAvg { display: inline }
+
+.CellTypeLine         .CellFormula { display: none }
+.CellTypeLine:hover   .CellFormula { display: inline }
+
+.CellDate SPAN { display: none }
+.CellDate:hover SPAN { display: inline }
+
+.LastGrades .Display SPAN { font-size: 160% }
+.LastGrades .a_grade {
+    font-size: 60% ;
+    border: 1px solid black ;
+    margin: 0.2em ;
+}
+.LastGrades { width: 100% }
+.LastGrades .day { width: 6em }
+
+/* Old CSS */
 
 .prst     { background-color: #8F8 ;               }
 .abinj    { background-color: #F88 ;               }
@@ -15,14 +188,6 @@ DIV.title {
 .bad      { background-color: #FAA ;               }
 .verybad  { background-color: #F44 ; color: white; }
 
-DIV.notes I:hover {
-  background-color: black ;
-  color: white ;
-}
-DIV.notes:hover A { color: #AAF  }
-
-DIV.notes I { display: inline-block; width: 100% }
-
 TABLE.memberof { background-color: black; border-spacing: 1px }
 TABLE.memberof TH, TABLE.memberof TD { padding: 0px }
 TABLE.memberof TH { text-align: left; font-size: 80% }
@@ -34,55 +199,9 @@ height: 1em ;
 border: 0px ;
  }
 
-SELECT {
-  padding: 0px ;
-  border: 1px solid black ;
-  font-size: 70% ;
- }
-
-.suivi_message {
-  float: right;
-  margin: 0px;
-}
-
-.tomuss_links {
-  float: right;
-  margin: 0px;
-  clear: right;
-}
-.tomuss_links DIV.highlight {
-  border:2px solid black;
-  padding:0px;
-}
-.tomuss_links DIV {
-  padding:2px;
-}
-.tomuss_links TD { text-align: right; padding: 0px }
-.tomuss_links IMG { float: left }
- 
-.display_abjs, .display_da { clear: right;float: right; width: 20em; }
-
-H1 { margin-top: 0px }
-
-div.title a.title{ margin-bottom: 0.2em ; padding-top: 0em; }
-
-.column_title {
-  display: block ;
-  font-size: 120% ;
-  font-weight: bold ;
-  text-align: center ;
-  padding: 0px ;
-  margin: 0.1em ;
-}
-
-.column_title EM {
-  font-size: 60%;
-  font-weight: normal;
-}
-
 .noninscrit {
   border: 1px solid black ;
-  background-color: #FF8080 ;
+  background-color: #FFC0C0 ;
   margin: 1em ;
   padding: 1em ;
 }
@@ -93,68 +212,14 @@ div.title a.title{ margin-bottom: 0.2em ; padding-top: 0em; }
   clear: both; 
 }
 
-DIV.notes {
-  border: 1px solid black ;
-  vertical-align: text-top ;
-  text-align: center;
-  display: inline-block ;
-  margin: 1px ;
-  padding: 0px ;
-  white-space: nowrap;
+IFRAME.feedback { width: 0.5em ; height: 0.5em ; }
+
+@media (min-resolution: 200dpi){
+  BODY { font-size: 200% }
 }
-
-
-DIV.notes I {
-  border-bottom: 1px solid black;
-  margin: 0px ;
-  padding: 0px ;
+@media (min-resolution: 300dpi){
+  BODY { font-size: 300% }
 }
-
-DIV.notes DIV.notes {
-  margin: 0px ;
-  border: 0px ;
-  border-left: 1px solid black;
-}
-
-DIV.fine I {
-  border-bottom: 1px solid #AAA;
-}
-
-DIV.notes DIV.first_child {
-  border-left: 0px;
-}
-
-
-DIV.notes DIV.tipped { width: 100%; }
-
-IFRAME.feedback { width: 8px ; height: 8px ; }
-
-.photo {
-	width: 50px ;
-	float: left ;
-	margin-right: 10px ;
-}
-
-DIV.student {
-	clear: both ;
-}
-
-H2.title {
-  margin-bottom: 0px ;
-}
-
-H2.title, P.title {
-  clear: left ;
-}
-DIV.tipped { margin-top: 0px ; }
-
-.commented { font-weight: bold ; }
-
-TABLE.input FORM  {margin:0px;  }
-TABLE.input INPUT { border:1px solid black;background-color:white }
-TABLE.input INPUT.button { border:2px outset #DDD;background-color:#DDD }
-TABLE.input TD INPUT { margin: 2px; margin-right: 2px; }
-TABLE.input TD { padding: 4px; }
 
 /*****************************************************************************/
 /* PRINT */
@@ -164,5 +229,16 @@ TABLE.input TD { padding: 4px; }
 
 .noprint { display: none ; }
 
+BODY, BODY.Printemps, BODY.Automne {
+    background-color: white ;
+    background: white ;
+}
 
+.BodyRight { display: none ; }
+
+.CellBox {
+    width: auto;
+    }
+
+#cellbox_tip * { display: none }
 }

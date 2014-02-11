@@ -57,3 +57,7 @@ function toggle_enumeration(value, column)
   return toggle_PA(test_enumeration, value, column.possible_values, column) ;
 }
 
+function enumeration_format_suivi()
+{
+  return enumeration_suivi(DisplayGrades.cellstats.enumeration) ;
+}
