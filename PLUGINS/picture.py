@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 #    TOMUSS: The Online Multi User Simple Spreadsheet
-#    Copyright (C) 2011 Thierry EXCOFFIER, Universite Claude Bernard
+#    Copyright (C) 2011-2014 Thierry EXCOFFIER, Universite Claude Bernard
 #
 #    This program is free software; you can redistribute it and/or modify
 #    it under the terms of the GNU General Public License as published by
@@ -30,12 +30,16 @@ import os
 
 def picture(server):
     """Display the picture of a student"""
-    login = inscrits.login_to_student_id(server.something)
-    if '/' in login:
+    # Remove .JPG and get the student number
+    if '/' in server.something:
         return
+    login = server.something.split('.')
+    student_id = inscrits.login_to_student_id('.'.join(login[:-1]))
+    extension = login[-1]
     try:
-        server.the_file.write(utilities.read_file(os.path.join('PICTURES',
-                                                               login)))
+        server.the_file.write(
+            utilities.read_file(os.path.join('PICTURES',
+                                             student_id + '.' + extension)))
     except IOError:
         pass
 

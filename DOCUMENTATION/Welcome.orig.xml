@@ -327,6 +327,15 @@ The position specify the name of the box where to insert the code.
 
     _INCLUDE_ xxx_doc_plugins.html
 
+
+    <h3><a name="plugin_replacement">Plugin replacement</a></h3>
+    <p>
+      If you want to replace a builtin TOMUSS plugin by yours,
+      you must remove the standard one before defining your replacement.
+      To delete the 'picture' plugin:
+    </p>
+    <pre>plugin.plugins.remove(plugin.get("picture"))</pre>
+
     <h2><a name="protocols">TOMUSS protocols</a></h2>
 
     <p>
