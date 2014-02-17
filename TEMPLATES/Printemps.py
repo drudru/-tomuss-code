@@ -33,6 +33,13 @@ def init(table):
     if table.is_extended:
         # Never modify via a symbolic link
         pass
+    elif (re.search(configuration.ue_not_per_semester, table.ue)
+          and table.semester == configuration.university_semesters[0]
+          and table.year == utilities.university_year()):
+        # Not an UE per semester : all the semesters points on the first
+        table.modifiable = 1
+        table.update_inscrits = True
+        have_an_extension = True
     elif [table.year,table.semester] in configuration.year_semester_modifiable:
         # Allow semesters indicated in the config table
         table.modifiable = 1
@@ -46,12 +53,6 @@ def init(table):
         #    # Closed on the previous semester
         #    table.modifiable = 1
         table.modifiable = 1
-    elif (re.search(configuration.ue_not_per_semester, table.ue)
-          and table.semester == configuration.university_semesters[0]
-          and table.year == utilities.university_year()):
-        # Not an UE per semester : all the semesters points on the first
-        table.modifiable = 1
-        have_an_extension = True
     table.update_inscrits = table.update_inscrits and table.modifiable
 
     if (table.update_inscrits
