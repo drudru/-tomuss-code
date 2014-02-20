@@ -36,7 +36,7 @@ debug = False
 
 def get_lines(table, col_inscrit, seq=None):
     for line in table.lines.values():
-        if line[col_inscrit].value != 'ok' and not debug:
+        if not line[col_inscrit].value.startswith('ok') and not debug:
             continue
         if line[3].author == data.ro_user:
             # This is an official group affectation

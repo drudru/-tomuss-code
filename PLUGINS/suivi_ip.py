@@ -42,7 +42,7 @@ def the_ip(server):
             # Number of non empty cell
             i = 0
             if column_inscrit != None:
-                if line[column_inscrit].value == 'ok':
+                if line[column_inscrit].value.startswith('ok'):
                     i = -1000
             
             nr = len([x for x in line[6:] if x.value != ''])

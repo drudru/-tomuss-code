@@ -42,7 +42,7 @@ def table_statistics(server):
         col_inscrit = t.column_inscrit()
         for line in t.lines.values():
             if col_inscrit != None:
-                if line[col_inscrit].value == 'ok':
+                if line[col_inscrit].value.startswith('ok'):
                     table.nr_inscrits += 1
                 elif line[col_inscrit].value == 'non':
                     table.nr_not_inscrits += 1
