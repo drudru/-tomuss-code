@@ -2564,7 +2564,7 @@ function current_do_completion(backspace)
   if ( completions.length > 1 )
     {
       ask_login_list = "" ;
-      login_list("", completions, input.value) ;
+      login_list("", completions, last) ;
       return;
     }
   login_list_hide() ;
