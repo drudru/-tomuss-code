@@ -140,7 +140,9 @@ function abj_per_day()
     { start = 1 ; stop = 12 ; }
 
   nr = 0 ;
-  for(var m=start; m<stop; m++)
+  start-- ;
+  stop-- ;
+  for(var m=start; m<=stop; m++)
     {
       first = true ;
       mm = m % 12 ;
