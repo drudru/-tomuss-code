@@ -46,7 +46,8 @@ BODY.bad_inline_block .Logout { text-decoration: underline }
 .BodyRight TD, .BodyRight TH, .BodyRight > DIV, .BodyRight CAPTION {
     font-size: 70% ; padding: 0px ;}
 .BodyRight TABLE.DisplayDA TD, .BodyRight TABLE.display_abjs TD { font-size: 70% ; }
-.Logo { text-align: center }
+.Logo { text-align: center ; }
+.Logo IMG { width: 100% }
 .GetStudent IMG { height: 1em ; }
 .Semesters IMG { height: 1.3em ;}
 .Preamble {
@@ -214,6 +215,12 @@ border: 0px ;
 
 IFRAME.feedback { width: 0.5em ; height: 0.5em ; }
 
+@media (min-resolution: 120dpi){
+  BODY { font-size: 120% }
+}
+@media (min-resolution: 150dpi){
+  BODY { font-size: 150% }
+}
 @media (min-resolution: 200dpi){
   BODY { font-size: 200% }
 }
