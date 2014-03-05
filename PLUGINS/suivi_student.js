@@ -990,7 +990,7 @@ function DisplayAskQuestion(node)
   return '<h2>' + hidden_txt(_('TITLE_signature')) + '</h2>'
     + node.data.join('') + '<hr>'
     + '<button id="signature_done" style="display:none" onclick="location.reload()">'
-    + hidden_txt(_('MSG_signature_done')) + '</button>' ;
+    + _('MSG_signature_done') + '</button>' ;
 }
 
 function DisplayAbjs(node)
