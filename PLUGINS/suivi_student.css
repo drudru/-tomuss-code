@@ -70,12 +70,22 @@ BODY.smallscreen .BodyRight,
 BODY.smallscreen .BodyRight TD,
 BODY.smallscreen .BodyRight TH,
 BODY.smallscreen .BodyRight CAPTION
-{ font-size: 20% ; }
+{ font-size: 20% ;  animation-duration: 0.5s;  animation-name: fontsmaller; }
 BODY.smallscreen .BodyRight:hover,
 BODY.smallscreen .BodyRight:hover TD,
 BODY.smallscreen .BodyRight:hover TH,
 BODY.smallscreen .BodyRight:hover CAPTION
-{ font-size: 100% ; }
+{ font-size: 100% ; animation-duration: 0.5s;  animation-name: fontbigger; }
+
+@keyframes fontbigger {
+  from { font-size: 20%; }
+  to { font-size: 100%; }
+}
+@keyframes fontsmaller {
+  from { font-size: 100%; }
+  to { font-size: 20%; }
+}
+
 
 BODY.smallscreen .BodyRight {
     position: absolute ;
@@ -175,6 +185,12 @@ SPAN.displaygrey { color: #888 }
 }
 .LastGrades { width: 100% }
 .LastGrades .day { width: 6em }
+
+
+h1 {
+  animation-duration: 3s;
+  animation-name: slidein;
+}
 
 /* Old CSS */
 
