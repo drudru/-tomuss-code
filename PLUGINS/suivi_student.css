@@ -21,8 +21,9 @@ BODY.smallscreen.Automne { background-image: url(automne.png) ; }
 BODY.bad_inline_block .Display {
     display: inline ;
 }
-
 BODY.bad_inline_block .Logout { text-decoration: underline }
+BODY.bad_inline_block .is_empty { display: none ; }
+BODY.bad_inline_block .is_notempty { display: none ; }
 
 .Display {
     display: inline-block ;

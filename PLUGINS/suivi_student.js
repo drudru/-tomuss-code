@@ -37,22 +37,33 @@ function _cell(s, url)
 
 function hide_empty()
 {
-  return '.is_empty { display: none ; }' ;
+  set_style_content('.is_empty { display: none ; }') ;
 }
 
 function show_empty()
 {
-  return '.is_notempty { display: none ; }' ;
+  set_style_content('.is_notempty { display: none ; }') ;
+}
+
+function set_style_content(content)
+{
+  hide_cellbox_tip() ;
+  var s = document.getElementById('computed_style') ;
+  if ( ! s )
+    return ;
+  while(s.firstChild)
+    s.removeChild(s.firstChild) ;
+  s.appendChild(document.createTextNode(content)) ;
 }
 
 function initialize_suivi_real()
 {
   lib_init() ;
   instant_tip_display = true ;
-  var s = '<div id="cellbox_tip"></div>'
-    + '<style id="computed_style">' + hide_empty() + '</style>' ;
   
-  document.getElementById('top').innerHTML = s ;
+  document.getElementById('top').innerHTML = '<div id="cellbox_tip"></div>'
+    + '<style id="computed_style"></style>' ;
+  setTimeout(hide_empty, 10) ;
   i_am_root = myindex(root, username) != -1 ;
   my_identity = username ;
   column_get_option_running = true ; // Do not set option in URL
@@ -190,7 +201,7 @@ function DisplayHorizontal(node, separator)
 {
    var children = [] ;
    if ( separator === undefined )
-     separator = '\n' ;
+     separator = '&nbsp;' ;
    if ( node.data !== undefined )
      children.push(node.data) ;
    var c ;
@@ -330,9 +341,8 @@ function DisplayEmptyCell(node)
 {
   if ( ! is_a_teacher )
     return '' ;
-  return '<a href="javascript:document.getElementById(\'computed_style\').textContent = hide_empty();undefined;" class="is_empty">'
-    + _("MSG_hide_empty_cells")
-    + '</a><a href="javascript:document.getElementById(\'computed_style\').textContent = show_empty();undefined;" class="is_notempty">'
+  return '<a href="javascript:hide_empty()" class="is_empty">' + _("MSG_hide_empty_cells")
+    + '</a><a href="javascript:show_empty()" class="is_notempty">'
     + _("MSG_show_empty_cells") + '</a>' ;
 }
 DisplayEmptyCell.need_node = [] ;
@@ -730,7 +740,7 @@ function DisplayUEGrades(node)
       DisplayGrades.value = line[data_col].value ;
       if ( DisplayGrades.value === '' )
 	DisplayGrades.value = DisplayGrades.column.empty_is ;
-      DisplayGrades.cellstats = DisplayGrades.ue.stats[data_col];
+      DisplayGrades.cellstats = DisplayGrades.ue.stats[data_col] || {} ;
       var ss = display_display(display_definition['CellBox']);
       ss = ss.replace('class="', 'class="DisplayType'
 		      + DisplayGrades.column.type + ' ') ;
@@ -955,7 +965,7 @@ DisplayNewSignature.need_node = ['Login'] ;
 
 function sign(t, message_id)
 {
-  if ( ! confirm(unescape(t.textContent)) )
+  if ( ! confirm(unescape(t.textContent || t.innerHTML)) )
      return ;
   t.parentNode.style.opacity = 0.5 ;
   var img = document.createElement('IMG') ;
