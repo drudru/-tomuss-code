@@ -160,10 +160,27 @@ SPAN.displaygrey { color: #888 }
     margin-left: 0px ;
     white-space: nowrap ;
     opacity: 0.3 ;
+    animation-duration: 0.5s;
+    animation-name: fadeout2;
 }
-.DisplayTypeNote { opacity:1 ; }
+.DisplayTypeNote, #cellbox_tip .CellBox { opacity:1 ;}
 .DisplayTypeMoy { font-style: italic }
-.tip_displayed .CellBox, #cellbox_tip .CellBox { opacity:1 ; }
+.tip_displayed .CellBox {
+    opacity:1 ;
+    animation-duration: 0.5s;
+    animation-name: fadein2;
+}
+.CellBox.DisplayTypeNote,  #cellbox_tip .CellBox
+{ animation-name: none }
+
+@keyframes fadeout2 {
+  from { opacity: 1 ; }
+  to { opacity: 0.3; }
+}
+@keyframes fadein2 {
+  from { opacity: 0.3 ; }
+  to { opacity: 1; }
+}
 
 .DisplayUEMasters { opacity: 0.3 ; }
 .DisplayHorizontal:hover > .DisplayUEMasters { opacity: 1 ; }
