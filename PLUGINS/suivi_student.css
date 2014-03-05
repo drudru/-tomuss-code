@@ -112,12 +112,30 @@ BODY.smallscreen .copyright { display: none ; }
 SPAN.displaygrey { color: #888 }
 
 #cellbox_tip {
-    left: -10000 ;
     position: absolute ;
     z-index: 1 ;
     background: #EEF ;
     opacity: 0.85 ;
+    animation-duration: 0.5s;
+    animation-name: fadein;
 }
+#cellbox_tip.hidden {
+    animation-duration: 0.5s;
+    animation-name: fadeout;
+    font-size: 0% ; /* left, z-index, display are not usable :-( */
+    opacity: 0; /* Hide the remaining border pixels */
+}
+@keyframes fadeout {
+  from { opacity: 0.85 ; font-size:100% }
+  to { opacity: 0; font-size:100% ; }
+}
+@keyframes fadein {
+  from { opacity: 0 ; }
+  to { opacity: 0.85; }
+}
+
+
+
 #cellbox_tip .CellBox {
     white-space: normal ;
     width: auto ;

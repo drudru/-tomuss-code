@@ -566,7 +566,7 @@ function enter_in_ue(event)
 function hide_cellbox_tip()
 {
   var t = document.getElementById("cellbox_tip") ;
-  t.style.left = -10000 ;
+  t.className = "hidden" ;
   if ( t.grade )
     t.grades.className = t.grades.className.toString()
       .replace(/ tip_displayed/g, "") ;
@@ -584,7 +584,7 @@ function display_cellbox_tip(event, nr)
       t.do_not_display = false ;
       return ;
     }
-  t.style.display = 'block' ;
+  t.className = "" ;
   DisplayGrades.column = display_saved[nr][0] ;
   DisplayGrades.cell = display_saved[nr][1] ;
   DisplayGrades.html_object = c.getElementsByTagName('INPUT')[0]
