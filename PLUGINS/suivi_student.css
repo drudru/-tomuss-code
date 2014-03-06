@@ -48,7 +48,7 @@ BODY.bad_inline_block .is_notempty { display: none ; }
     font-size: 70% ; padding: 0px ;}
 .BodyRight TABLE.DisplayDA TD, .BodyRight TABLE.display_abjs TD { font-size: 70% ; }
 .Logo { text-align: center ; }
-.Logo IMG { width: 100% }
+.Logo IMG { max-width: 100% }
 .GetStudent IMG { height: 1em ; }
 .Semesters IMG { height: 1.3em ;}
 .Preamble {
