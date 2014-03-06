@@ -615,7 +615,7 @@ class Columns(object):
                     continue
                 columns.append(c)
                 if not c.visible():
-                    obfuscated[c.title] = hashlib.md5(c.title).hexdigest()
+                    obfuscated[c.title] = '.'+hashlib.md5(c.title).hexdigest()
         else:
             columns = self.columns
 

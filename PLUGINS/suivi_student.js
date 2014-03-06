@@ -662,7 +662,10 @@ function grade_to_class(column, grade)
 
 function DisplayCellBox(node)
 {
+  if ( ! is_a_teacher &&  DisplayGrades.column.title.substr(0,1) == '.' )
+    return '' ;
   var s = DisplayVertical(node) ;
+  
   if ( ! DisplayGrades.no_hover ) // Stop recursion
     {
       display_saved[display_saved_nr] = [DisplayGrades.column,
