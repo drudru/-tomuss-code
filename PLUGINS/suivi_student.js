@@ -131,7 +131,7 @@ function detect_small_screen(force)
   detect_small_screen.window_width = window_width() ;
       
   var top = document.getElementsByTagName('BODY')[0] ;
-  var smallscreen, not_working=false, width, lefts = [], div ;
+  var smallscreen, not_working=0, width, lefts = [], div ;
   var divs = document.getElementsByTagName('DIV') ;
   var top_class = semester ;
   for(i = 0 ; i < divs.length ; i++)
@@ -139,11 +139,11 @@ function detect_small_screen(force)
       div = divs[i] ;
       if ( div === undefined || div.className === undefined )
 	continue ;
-      if ( div.className.toString().indexOf('DisplayLogout') != -1
+      if ( div.className.toString().match(/(DisplayExplanation|DisplayContact|DisplayLogout)/)
 	   && ( div.offsetLeft < 10
 		|| top.className.toString().indexOf("bad_inline_block") != -1 )
 	   )
-	not_working = true ;
+	not_working++ ;
       if ( div.className.toString().indexOf('BodyLeft') != -1 )
 	{
 	  lefts.push(div) ;
@@ -158,7 +158,7 @@ function detect_small_screen(force)
 	}
       smallscreen = detect_small_screen.initial_width / window_width() > 0.35 ;
     }
-  if ( not_working )
+  if ( not_working == 3 && window_width() > 300 )
     {
       top_class += ' bad_inline_block' ;
       smallscreen = false ;
@@ -168,13 +168,13 @@ function detect_small_screen(force)
   if ( smallscreen )
     top_class += ' smallscreen' ;
   top.className = top_class ;
-  for(var i in lefts)
-    {
-      if ( smallscreen )
-	lefts[i].style.width = window_width() - 100 ;
-      else
-	lefts[i].style.width = window_width() - detect_small_screen.initial_width - 30 ; // -30 for FireFox
-    }
+  var twidth = window_width() - (smallscreen
+				? 100
+				 : (detect_small_screen.initial_width + 30)
+				) ; // +30 for FireFox
+  if ( twidth > 100 )
+    for(var i in lefts)
+      lefts[i].style.width = twidth + 'px' ;
   hide_cellbox_tip() ;
 }
 

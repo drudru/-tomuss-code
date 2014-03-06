@@ -264,16 +264,16 @@ border: 0px ;
 
 IFRAME.feedback { width: 0.5em ; height: 0.5em ; }
 
-@media (min-resolution: 120dpi){
+@media (min-resolution: 120dppx){
   BODY { font-size: 120% }
 }
-@media (min-resolution: 150dpi){
+@media (min-resolution: 150dppx){
   BODY { font-size: 150% }
 }
-@media (min-resolution: 200dpi){
+@media (min-resolution: 200dppx){
   BODY { font-size: 200% }
 }
-@media (min-resolution: 300dpi){
+@media (min-resolution: 300dppx){
   BODY { font-size: 300% }
 }
 
