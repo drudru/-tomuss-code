@@ -968,7 +968,7 @@ function DisplayPreamble(node)
 {
   if ( is_a_teacher )
     return '' ;
-  return _("MSG_suivi_student_important") ;
+  return '<title>TOMUSS</title>' + _("MSG_suivi_student_important") ;
 }
 DisplayPreamble.need_node = [] ;
 
