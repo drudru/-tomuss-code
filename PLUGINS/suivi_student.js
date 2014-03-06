@@ -1087,11 +1087,16 @@ function popup_private()
 
 function DisplayPrivateLife(node)
 {
-  return hidden_txt('<a onclick="popup_private()"'
-		    + (node.data ? ' class="bad"' : '') + '>'
-		    + _("LINK_suivi_student_private") + '</a>',
-		    _("TIP_suivi_student_private")
-		    ) ;
+  if ( ! is_a_teacher )
+    return hidden_txt('<a href="javascript:popup_private();undefined"'
+		      + (node.data ? ' class="bad"' : '') + '>'
+		      + _("LINK_suivi_student_private") + '</a>',
+		      _("TIP_suivi_student_private")
+		      ) ;
+  if ( node.data )
+    return hidden_txt(_("LINK_suivi_student_private"),
+		      _("MSG_suivi_student_private"), 'bad') ;
+  return '' ;
 }
 
 function DisplayTT(node)

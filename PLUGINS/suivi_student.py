@@ -238,8 +238,6 @@ def display_rss(server):
     return ''
 
 def display_private_life(server):
-    if not server.is_a_student:
-        return ''
     if not configuration.suivi_student_allow_private:
         return ''    
     return int(server.suivi_private_life)
