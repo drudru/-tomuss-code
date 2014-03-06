@@ -686,6 +686,12 @@ function DisplayCellBox(node)
 	      + DisplayGrades.column.worst +  _("SUIVI_mean_of_after")
 	      + '<br>' ;
 	}
+      else if ( DisplayGrades.column.type == 'Weighted_Percent'
+		|| DisplayGrades.column.type == 'Nmbr' )
+	{
+	  display_saved[display_saved_nr][5] = display_saved[display_saved_nr][5]
+	    .replace("<ul", html(DisplayGrades.column.test_filter) + '<ul') ;
+	}
       s = '<div onmousemove="display_cellbox_tip(event,'
 	+ display_saved_nr + ');" onmouseenter="display_cellbox_tip(event,'
 	+ display_saved_nr + ');">' + s + '</div>' ;
