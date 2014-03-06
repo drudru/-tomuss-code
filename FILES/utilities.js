@@ -284,8 +284,10 @@ function findPos(x)
       // Search a scrollable area, but not the BODY one
       while( x && x.scrollTop === 0 )
 	x = x.parentNode ;
-      if ( x && x.tagName != 'BODY' && x.scrollTop )
+      if ( x && x.tagName != 'HTML' && x.tagName != 'BODY' && x.scrollTop )
 	{
+	  if ( x.scrollTop )
+	    alert(x.tagName) ;
 	  curleft -= x.scrollLeft ;
 	  curtop -= x.scrollTop ;
 	}
