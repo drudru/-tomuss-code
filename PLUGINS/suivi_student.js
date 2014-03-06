@@ -71,8 +71,10 @@ function initialize_suivi_real()
 
 function cell_modifiable_on_suivi()
 {
-  if ( ! DisplayGrades.cell.modifiable(DisplayGrades.column)
-       || ! DisplayGrades.column.modifiable )
+  table_attr = DisplayGrades.table_attr ;
+  if ( ! DisplayGrades.cell.modifiable(DisplayGrades.column) )
+    return ;
+  if ( ! DisplayGrades.column.modifiable )
     return ;
   if ( DisplayGrades.column.modifiable == 2 )
     return true ;
@@ -596,6 +598,7 @@ function display_cellbox_tip(event, nr)
   DisplayGrades.cellstats = display_saved[nr][3] ;
   DisplayGrades.ue = display_saved[nr][4] ;
   DisplayGrades.formula = display_saved[nr][5] ;
+  DisplayGrades.table_attr = display_saved[nr][6] ;
   DisplayGrades.no_hover = true ;
   t.innerHTML = display_display(display_definition['Cell']);
   t.style.top = findPosY(c) - t.childNodes[0].childNodes[0].offsetHeight+'px';
@@ -673,7 +676,8 @@ function DisplayCellBox(node)
 					 DisplayGrades.value,
 					 DisplayGrades.cellstats,
 					 DisplayGrades.ue,
-					 display_tree(DisplayGrades.column)
+					 display_tree(DisplayGrades.column),
+					 DisplayGrades.table_attr
 					 ] ;
       if ( DisplayGrades.column.type == 'Moy' )
 	{
@@ -747,7 +751,7 @@ function DisplayUEGrades(node)
     }
   update_columns(line);
 
-  table_attr = ue ;
+  DisplayGrades.table_attr = ue ;
   var s = '' ;
   for(var data_col in columns)
     {
@@ -762,11 +766,8 @@ function DisplayUEGrades(node)
 	DisplayGrades.value = DisplayGrades.column.empty_is ;
       DisplayGrades.cellstats = DisplayGrades.ue.stats[data_col] || {} ;
       var ss = display_display(display_definition['CellBox']);
-      ss = ss.replace('class="', 'class="DisplayType'
-		      + DisplayGrades.column.type + ' ') ;
-      if ( DisplayGrades.value === ''
-	   && ! cell_modifiable_on_suivi(DisplayGrades.cell,
-					 DisplayGrades.column))
+      ss = ss.replace('class="', 'class="DisplayType' + DisplayGrades.column.type + ' ') ;
+      if ( DisplayGrades.value === '' && ! cell_modifiable_on_suivi())
 	ss = ss.replace('class="', 'class="is_empty ') ;
       s += ss ;
     }
