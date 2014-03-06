@@ -1348,7 +1348,7 @@ msgid "SUIVI_best_of_before"
 msgstr "Les "
 
 msgid "SUIVI_best_of_after"
-msgstr " meilleurs notes ne sont pas utilisées dans la moyenne"
+msgstr " meilleures notes ne sont pas utilisées dans la moyenne"
 
 msgid "SUIVI_mean_of_before"
 msgstr "Les "

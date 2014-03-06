@@ -672,6 +672,17 @@ function DisplayCellBox(node)
 					 DisplayGrades.ue,
 					 display_tree(DisplayGrades.column)
 					 ] ;
+      if ( DisplayGrades.column.type == 'Moy' )
+	{
+	  if ( DisplayGrades.column.best != 0 )
+	    display_saved[display_saved_nr][5] += _("SUIVI_best_of_before")
+	      + DisplayGrades.column.best +  _("SUIVI_best_of_after")
+	      + '<br>' ;
+	  if ( DisplayGrades.column.worst != 0 )
+	    display_saved[display_saved_nr][5] += _("SUIVI_mean_of_before")
+	      + DisplayGrades.column.worst +  _("SUIVI_mean_of_after")
+	      + '<br>' ;
+	}
       s = '<div onmousemove="display_cellbox_tip(event,'
 	+ display_saved_nr + ');" onmouseenter="display_cellbox_tip(event,'
 	+ display_saved_nr + ');">' + s + '</div>' ;
