@@ -155,7 +155,7 @@ function ue_line_out(t)
     ue_line_over_last.className = ue_line_over_last.className.replace(/ *hover/g, '') ;
   ue_line_over_last = undefined ;
   if ( ue_line_over_plus )
-    ue_line_over_plus.style.left = -1000 ;
+    ue_line_over_plus.style.left = '-1000px' ;
 }
 
 function ue_set_favorite(t,code,nr)
@@ -313,8 +313,8 @@ function ue_line_over(code, t, click_more)
   ue_line_out() ;
 
   var pos = findPos(t) ;
-  ue_line_over_plus.style.left = pos[0] + t.offsetWidth - ue_line_over_plus_width;
-  ue_line_over_plus.style.top = pos[1] ;
+  ue_line_over_plus.style.left = pos[0] + t.offsetWidth - ue_line_over_plus_width + 'px';
+  ue_line_over_plus.style.top = pos[1] + 'px' ;
   ue_line_over_last = t ;
   if ( click_more === undefined )
     ue_line_over_plus.childNodes[0].innerHTML = '?' ;
@@ -1373,13 +1373,13 @@ function home_resize_event()
   {
     home_page_height = height ;
     var e = document.getElementById("scrollable_right") ;
-    e.style.height = height - findPosY(e) - 5 ;
+    e.style.height = height - findPosY(e) - 5 + 'px' ;
     e = document.getElementById("scrollable_left") ;
     e.onscroll = ue_line_out ;
-    e.style.height = height - findPosY(e) - 5 ;
+    e.style.height = height - findPosY(e) - 5 + 'px' ;
     e = document.getElementById("scrollable_center") ;
     e.onscroll = ue_line_out ;
-    e.style.height = height - findPosY(e) - 5 ;
+    e.style.height = height - findPosY(e) - 5 + 'px' ;
   }
   return true ;
 }

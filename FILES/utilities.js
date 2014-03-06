@@ -2088,10 +2088,10 @@ function current_jump(lin, col, do_not_focus, line_id, data_col)
   // Nicer display with this, but focus loss on horizontal scrolling
   //this.input_div.style.display = 'none' ;
   // 3 is the border size (see input_div_focus())
-  this.input_div.style.left = pos[0] - 3 ;
-  this.input_div.style.top = pos[1] - 3 + border ;
-  this.input_div.style.width = this.td.offsetWidth ;
-  this.input_div.style.height = this.td.offsetHeight - border ;
+  this.input_div.style.left = pos[0] - 3 + 'px' ;
+  this.input_div.style.top = pos[1] - 3 + border + 'px' ;
+  this.input_div.style.width = this.td.offsetWidth + 'px' ;
+  this.input_div.style.height = this.td.offsetHeight - border + 'px' ;
   this.input.className = this.td.className + ' ' + this.tr.className ;
   this.input.value =columns[this.data_col].real_type.formatte(this.cell.value,
 							      this.column);

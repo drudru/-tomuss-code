@@ -126,7 +126,7 @@ function stat_tip_window(t, x)
       stat_current_zoom = undefined ;
       // Not display='none' : bad first positionning because the width
       // is not computed.
-      w.style.left = -10000 ;
+      w.style.left = '-10000px' ;
       w.style.right = 'auto' ;
       return ;
     }

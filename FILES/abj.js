@@ -186,7 +186,7 @@ function update_cursor_end()
       if ( e <= td.start_time )
 	{
 	  enddate.td_index = i ;
-	  enddate.style.left = td.offsetLeft + td.offsetWidth - enddate.childNodes[0].offsetWidth/2  ;
+	  enddate.style.left = td.offsetLeft + td.offsetWidth - enddate.childNodes[0].offsetWidth/2 + 'px' ;
 	  break ;
 	}
     }
@@ -206,7 +206,7 @@ function update_cursor_start()
 	  if ( i == 1 )
 	    startdate.style.left = 0 ;
 	  else
-	    startdate.style.left = td.offsetLeft - start.offsetWidth - td.offsetWidth - startdate.childNodes[1].offsetWidth/2 ;
+	    startdate.style.left = td.offsetLeft - start.offsetWidth - td.offsetWidth - startdate.childNodes[1].offsetWidth/2 + 'px' ;
 	  break ;
 	}
     }
@@ -334,13 +334,13 @@ function moving(event)
       input = moving_date.childNodes[0] ;
       arrow = moving_date.childNodes[1] ;
       moving_date.style.left = event.x - input.offsetWidth -
-	arrow.offsetWidth/2  ;
+	arrow.offsetWidth/2 + 'px' ;
     }
   else
     {
       input = moving_date.childNodes[1] ;
       arrow = moving_date.childNodes[0] ;
-      moving_date.style.left = event.x - arrow.offsetWidth/2  ;
+      moving_date.style.left = event.x - arrow.offsetWidth/2 + 'px' ;
     }
 
   for(var i = 1; ; i++)

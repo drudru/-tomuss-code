@@ -967,15 +967,15 @@ function table_init()
       var m, sb_width = vertical_scrollbar_width + 3 ;
       var table_width = (divtable.offsetWidth - sb_width).toFixed(0) ;
       var pos = findPos(divtable) ;
-      vertical_scrollbar.style.top = pos[1] + vertical_scrollbar_width ;
+      vertical_scrollbar.style.top = pos[1] + vertical_scrollbar_width + 'px' ;
       if ( scrollbar_right )
 	m = "0px " + sb_width + "px 0em 1px";
       else
 	m = "0px 0px 0px " + sb_width + 'px';
       thetable.style.margin = m ;
-      thetable.style.width = table_width ;
+      thetable.style.width = table_width + 'px' ;
       // Use timeout because of a firefox3 bug...
-      setTimeout(function() {thetable.style.width = table_width ;}, 100) ;
+      setTimeout(function() {thetable.style.width = table_width+'px' ;}, 100) ;
     }
 
   divtable.appendChild(thetable) ;
@@ -1346,11 +1346,11 @@ function update_horizontal_scrollbar(cls)
   var left = horizontal_scrollbar.parentNode.childNodes[0] ;
   var right = horizontal_scrollbar.parentNode.childNodes[2] ;
 
-  left.style.height = horizontal_scrollbar_height + 2 ;
-  right.style.height = horizontal_scrollbar_height + 2 ;
+  left.style.height = horizontal_scrollbar_height + 2 + 'px' ;
+  right.style.height = horizontal_scrollbar_height + 2 + 'px' ;
 
-  left.style.left = dx - horizontal_scrollbar_height ;
-  right.style.left = dx + hwidth ;
+  left.style.left = dx - horizontal_scrollbar_height + 'px' ;
+  right.style.left = dx + hwidth + 'px' ;
 
   var nr_col_freezed = nr_freezed() ;
 
@@ -1371,8 +1371,8 @@ function update_horizontal_scrollbar(cls)
 	    break;
 	  }
       a.xcoord = (dx + ((hwidth * pos) / width)).toFixed(0) ;
-      a.style.left = a.xcoord ;
-      a.style.width = (hwidth * cls_all[col].width / width).toFixed(0) ;
+      a.style.left = a.xcoord + 'px' ;
+      a.style.width = (hwidth * cls_all[col].width / width).toFixed(0) + 'px' ;
       a.innerHTML = cls_all[col].title ;
       a.data_col = cls_all[col].data_col ;
       a.col = col ;
@@ -1428,11 +1428,11 @@ function update_vertical_scrollbar_cursor_real()
       var p1 = sb_line_to_pixel(line);
       var p2 = sb_line_to_pixel(line+1);
       
-      vertical_scrollbar.childNodes[3].style.top = p1.toFixed(0) ;      
+      vertical_scrollbar.childNodes[3].style.top = p1.toFixed(0) + 'px' ;
       height = p2 - p1 ;
       if ( height <= 2 )
 	height = 2 ;
-      vertical_scrollbar.childNodes[3].style.height = height.toFixed(0) ;
+      vertical_scrollbar.childNodes[3].style.height = height.toFixed(0) + 'px';
       //debug(vertical_scrollbar.childNodes[3].style,undefined,undefined,true);
     }
 }
@@ -1451,14 +1451,14 @@ function update_vertical_scrollbar_position_real()
   var height = filtered_lines.length ;
   if ( height === 0 )
     {
-      p.style.top = sb_line_to_pixel(0) ;
-      p.style.height = sb_height() ;
+      p.style.top = sb_line_to_pixel(0) + 'px' ;
+      p.style.height = sb_height() + 'px' ;
     }
   else
     {
-      p.style.top = sb_line_to_pixel(line_offset) ;
+      p.style.top = sb_line_to_pixel(line_offset) + 'px' ;
       p.style.height = sb_line_to_pixel(line_offset + table_attr.nr_lines)
-	- sb_line_to_pixel(line_offset) ;
+	- sb_line_to_pixel(line_offset) + 'px' ;
     }
   update_vertical_scrollbar_cursor_real() ;
 }
@@ -1534,14 +1534,14 @@ function update_vertical_scrollbar_real()
     return ;
 
   vertical_scrollbar.onmousedown = move_vertical_scrollbar_begin ;
-  vertical_scrollbar.style.height = divtable.offsetHeight ;
-  vertical_scrollbar.style.width = vertical_scrollbar_width ;
+  vertical_scrollbar.style.height = divtable.offsetHeight + 'px' ;
+  vertical_scrollbar.style.width = vertical_scrollbar_width + 'px' ;
   if ( scrollbar_right )
     vertical_scrollbar.style.right = 0 ;
   else
     vertical_scrollbar.style.left = 0 ;
 
-  vertical_scrollbar.style.top = divtable.offsetTop ;
+  vertical_scrollbar.style.top = divtable.offsetTop + 'px' ;
 
   if ( sort_columns.length === 0 )
     return ;
@@ -1576,11 +1576,11 @@ function update_vertical_scrollbar_real()
       }
 
   vertical_scrollbar.innerHTML = s + '' ;
-  vertical_scrollbar.childNodes[1].style.width = vertical_scrollbar_width;
-  vertical_scrollbar.childNodes[2].style.width = vertical_scrollbar_width;
-  vertical_scrollbar.childNodes[2].style.top = divtable.offsetHeight - vertical_scrollbar_width ;
+  vertical_scrollbar.childNodes[1].style.width = vertical_scrollbar_width+"px";
+  vertical_scrollbar.childNodes[2].style.width = vertical_scrollbar_width+"px";
+  vertical_scrollbar.childNodes[2].style.top = divtable.offsetHeight - vertical_scrollbar_width + 'px' ;
 
-  vertical_scrollbar.childNodes[3].style.width = vertical_scrollbar_width;
+  vertical_scrollbar.childNodes[3].style.width = vertical_scrollbar_width+'px';
   update_vertical_scrollbar_position_real() ;
 }
 
@@ -2882,23 +2882,23 @@ function set_element_relative_position(anchor, element)
 
   if ( pos[1] > scrollTop() + window_height()/2 )
     {
-      element.style.bottom = window_height() - pos[1] ;
+      element.style.bottom = window_height() - pos[1] + 'px' ;
       element.style.top = 'auto' ;
     } 
   else
     {
-      element.style.top = pos[1] + anchor.offsetHeight ;
+      element.style.top = pos[1] + anchor.offsetHeight + 'px' ;
       element.style.bottom = 'auto' ;
     }
 
   if ( pos[0] > scrollLeft() + window_width()/2 )
     {
-      element.style.right = window_width() - (pos[0] + anchor.offsetWidth) ;
+      element.style.right = window_width() - (pos[0] + anchor.offsetWidth) + 'px' ;
       element.style.left = 'auto' ;
     }
   else
     {
-      element.style.left = pos[0] ;
+      element.style.left = pos[0] + 'px' ;
       element.style.right = 'auto' ;
     }
 }
@@ -3476,7 +3476,7 @@ function append_image(td, text, force)
 	  else
 	    width = child.offsetWidth - 0 ;
 	  if ( width > 0 )
-	    child.style.width = width ;
+	    child.style.width = width + 'px' ;
 	}
 
       s = url_base() ;

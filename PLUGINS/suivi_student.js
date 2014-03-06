@@ -598,8 +598,8 @@ function display_cellbox_tip(event, nr)
   DisplayGrades.formula = display_saved[nr][5] ;
   DisplayGrades.no_hover = true ;
   t.innerHTML = display_display(display_definition['Cell']);
-  t.style.top = findPosY(c) - t.childNodes[0].childNodes[0].offsetHeight ;
-  t.style.left = c.offsetLeft ;
+  t.style.top = findPosY(c) - t.childNodes[0].childNodes[0].offsetHeight+'px';
+  t.style.left = findPosX(c) + 'px' ;
   t.display_date = millisec() ;
 
   if ( t.grades )
