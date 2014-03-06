@@ -22,6 +22,7 @@
 import json
 import time
 from . import files
+from . import configuration
 
 display_dict = {}
 
@@ -60,7 +61,11 @@ def init():
 def do_update(server, s, top):
     server.the_file.write(
         '<script><!--\ndisplay_update(%s,"%s");\n--></script>' %
-        (json.dumps(s), top))
+        (json.dumps(s,
+                    indent=server.ticket.user_name in configuration.root
+                    and 1
+                    or None
+                    ), top))
     server.the_file.flush()
     
     
