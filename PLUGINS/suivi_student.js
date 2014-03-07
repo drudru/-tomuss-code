@@ -412,7 +412,7 @@ DisplayLogout.need_node = [] ;
 function DisplayUETitle(node)
 {
   var ue = DisplayGrades.ue ;
-  var title = html(ue.ue + ' : ' + ue.table_title) ;
+  var title = html(ue.ue + ' ' + (ue.table_title || '')) ;
   if ( is_a_teacher )
     {
       var url_table = url + '/=' + ticket + '/' + ue.year
