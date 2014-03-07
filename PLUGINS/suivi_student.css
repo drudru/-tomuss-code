@@ -163,15 +163,20 @@ SPAN.displaygrey { color: #888 }
     animation-duration: 0.5s;
     animation-name: fadeout2;
 }
-.DisplayTypeNote, #cellbox_tip .CellBox { opacity:1 ;}
 .DisplayTypeMoy { font-style: italic }
+.displayUE:hover .CellBox,
 .tip_displayed .CellBox {
     opacity:1 ;
     animation-duration: 0.5s;
     animation-name: fadein2;
 }
-.CellBox.DisplayTypeNote,  #cellbox_tip .CellBox
-{ animation-name: none }
+.displayUE:hover .DisplayTypeNote,
+.tip_displayed .DisplayTypeNote,
+.DisplayTypeNote,
+#cellbox_tip .CellBox {
+    opacity:1 ;
+    animation-name: none ;
+}
 
 @keyframes fadeout2 {
   from { opacity: 1 ; }
@@ -182,8 +187,16 @@ SPAN.displaygrey { color: #888 }
   to { opacity: 1; }
 }
 
-.DisplayUEMasters { opacity: 0.3 ; }
-.DisplayHorizontal:hover > .DisplayUEMasters { opacity: 1 ; }
+.DisplayUEMasters {
+    opacity: 0.3 ;
+    animation-duration: 0.5s;
+    animation-name: fadeout2;
+}
+.tip_displayed .DisplayUEMasters, .DisplayUE:hover .DisplayUEMasters {
+    opacity: 1 ;
+    animation-duration: 0.5s;
+    animation-name: fadein2;
+}
 
 #cellbox_tip .CellBox {
     margin-top: 0px ;

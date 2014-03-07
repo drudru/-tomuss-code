@@ -578,7 +578,7 @@ function enter_in_ue(event)
   var t = document.getElementById("cellbox_tip") ;
   if ( ! t || ! t.grades )
     return ;
-  if ( the_event(event).target === t.grades.parentNode )
+  if ( the_event(event).target === t.grades )
     return ;
   hide_cellbox_tip() ;
 }
@@ -587,7 +587,7 @@ function hide_cellbox_tip()
 {
   var t = document.getElementById("cellbox_tip") ;
   t.className = "hidden" ;
-  if ( t.grade )
+  if ( t.grades )
     t.grades.className = t.grades.className.toString()
       .replace(/ tip_displayed/g, "") ;
 }
@@ -623,10 +623,8 @@ function display_cellbox_tip(event, nr)
   t.style.left = findPosX(c) + 'px' ;
   t.display_date = millisec() ;
 
-  if ( t.grades )
-    t.grades.className = t.grades.className.toString().replace(/ tip_displayed/g, "") ;
   t.grades = c ;
-  while( t.grades.className.toString().indexOf('DisplayUEGrades') == -1 )
+  while( t.grades.className.toString().indexOf('DisplayUE ') == -1 )
     t.grades = t.grades.parentNode ;
   t.grades.className += " tip_displayed" ;
 }
