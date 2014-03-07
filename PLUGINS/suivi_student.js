@@ -1,9 +1,9 @@
 // -*- coding: utf-8; mode: Java; c-basic-offset: 2; tab-width: 8; -*-
 
-/* To send the cell change and feedback */
-
 var i_am_root ;
 var unload_element ;
+
+/* To send the cell change and feedback */
 
 function _cell(s, url)
 {
@@ -213,6 +213,7 @@ function display_update(key_values, top)
 
   display_update_nb++ ;
   detect_small_screen.window_width = 0 ; // Force update
+  detect_small_screen() ;
 }
 
 function DisplayHorizontal(node, separator)
