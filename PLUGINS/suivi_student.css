@@ -121,7 +121,7 @@ SPAN.displaygrey { color: #888 }
     animation-name: fadein;
 }
 #cellbox_tip.hidden {
-    animation-duration: 0.5s;
+    animation-duration: 0.2s;
     animation-name: fadeout;
     font-size: 0% ; /* left, z-index, display are not usable :-( */
     opacity: 0; /* Hide the remaining border pixels */
