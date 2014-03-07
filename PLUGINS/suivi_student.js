@@ -169,7 +169,8 @@ function detect_small_screen(force)
     return ;
   if ( smallscreen )
     top_class += ' smallscreen' ;
-  top.className = top_class ;
+  if ( top.className != top_class ) // To not relaunch CSS animation
+    top.className = top_class ;
   var twidth = window_width() - (smallscreen
 				? 100
 				 : (detect_small_screen.initial_width + 30)
