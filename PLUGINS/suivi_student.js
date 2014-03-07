@@ -435,7 +435,8 @@ function DisplayUEMasters(node)
   for(var j in ue.masters)
     mails.push(displaynames(ue.masters[j])) ;
   if ( mails.length )
-    return '<small>' + mails.join(', ') + '</small>' ;
+    return hidden_txt('<small>' + mails.join(', ') + '</small>',
+		      _("MSG_abj_master")) ;
   return '' ;
 }
 DisplayUEMasters.need_node = [] ;

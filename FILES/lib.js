@@ -759,6 +759,7 @@ function show_the_tip(td, tip_content, what)
     {
       set_tip_position(td, bottom) ;
       tip.style.display = "block" ;
+      tip.className = "tip_fade_in" ;
       return ;
     }
 
@@ -4028,6 +4029,7 @@ function hide_the_tip_real()
     return ;
   tip.onmousemove = function() {} ;
   tip.style.display = "none" ;
+  tip.className = "tip_fade_out" ;
   tip.tip_target = undefined ;
   // remove_highlight() ;
   if ( display_tips_saved !== undefined )

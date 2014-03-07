@@ -188,6 +188,28 @@ SPAN.displaygrey { color: #888 }
   to { opacity: 1; }
 }
 
+DIV#tip.tip_fade_in {
+    animation-duration: 1s;
+    animation-name: full_fade_in;
+}
+
+@keyframes full_fade_in {
+  from { opacity: 0 ; }
+  to { opacity: 1; }
+}
+
+/*
+DIV#tip.tip_fade_out {
+    animation-duration: 1s;
+    animation-name: full_fade_out;
+}
+
+@keyframes full_fade_out {
+  from { opacity: 1 ; }
+  to { opacity: 0; }
+}
+*/
+
 .DisplayUEMasters {
     opacity: 0.3 ;
     animation-duration: 0.5s;
