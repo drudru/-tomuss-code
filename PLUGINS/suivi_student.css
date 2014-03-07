@@ -288,7 +288,10 @@ IFRAME.feedback { width: 0.5em ; height: 0.5em ; }
 BODY, BODY.Printemps, BODY.Automne {
     background-color: white ;
     background: white ;
+    background-image: none ;
 }
+BODY.smallscreen.Printemps { background-image: none ; }
+BODY.smallscreen.Automne { background-image: none ; }
 
 .BodyRight { display: none ; }
 

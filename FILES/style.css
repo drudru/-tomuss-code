@@ -728,6 +728,8 @@ DIV#tip, DIV#tip_plus {
     display: none ; /* Do not work for all */
     border: 0px ;
     font-size: 0px ; /* Can't hide under background when printing */
+    z-index: -1 ;
+    opacity: 0 ;
     }    
 
 }
