@@ -286,8 +286,6 @@ function findPos(x)
 	x = x.parentNode ;
       if ( x && x.tagName != 'HTML' && x.tagName != 'BODY' && x.scrollTop )
 	{
-	  if ( x.scrollTop )
-	    alert(x.tagName) ;
 	  curleft -= x.scrollLeft ;
 	  curtop -= x.scrollTop ;
 	}

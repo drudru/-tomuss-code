@@ -120,9 +120,24 @@ function display_display(node)
     if ( display_data[need_node[i]] === undefined )
       return '' ;
   var content = node.fct(node) ;
+  var classes = ['Display', node.js, node.name] ;
+  var styles = [] ;
+  var more = '' ;
+  if ( content instanceof Array)
+    {
+      classes = classes.concat(content[1]) ;
+      styles = styles.concat(content[2]) ;
+      more = ' ' + content[3] ;
+      content = content[0] ;
+    }
   if ( content === '' )
     return '' ;
-  return '<div class="Display ' + node.js + ' ' + node.name + '">'
+  if ( styles.length )
+    styles = ' style="' + styles.join(';') + '"' ;
+  else
+    styles = '' ;
+  
+  return '<div class="' + classes.join(' ') + '"' + styles + more + '>'
     + content + '</div>' ;
 }
 
@@ -445,7 +460,8 @@ function DisplayUE(node)
 	  + _("WARN_unregistered_student") + '<br><br>' + s + '</div>' ;
 	break ;
       }
-  return s ;
+
+  return [s, [], [], 'onmouseenter="enter_in_ue(event)"'] ;
 }
 DisplayUE.need_node = [] ;
 
@@ -676,6 +692,7 @@ function DisplayCellBox(node)
   if ( ! is_a_teacher &&  DisplayGrades.column.title.substr(0,1) == '.' )
     return '' ;
   var s = DisplayVertical(node) ;
+  var more = '' ;
   
   if ( ! DisplayGrades.no_hover ) // Stop recursion
     {
@@ -704,35 +721,35 @@ function DisplayCellBox(node)
 	  display_saved[display_saved_nr][5] = display_saved[display_saved_nr][5]
 	    .replace("<ul", html(DisplayGrades.column.test_filter) + '<ul') ;
 	}
-      s = '<div onmousemove="display_cellbox_tip(event,'
+      more = 'onmousemove="display_cellbox_tip(event,'
 	+ display_saved_nr + ');" onmouseenter="display_cellbox_tip(event,'
-	+ display_saved_nr + ');">' + s + '</div>' ;
+	+ display_saved_nr + ');"' ;
       display_saved_nr++ ;
     }
+  var classes = ['DisplayType' + DisplayGrades.column.type] ;
+  var styles = [] ;
   if ( DisplayGrades.column.red + DisplayGrades.column.green
        + DisplayGrades.column.redtext + DisplayGrades.column.greentext != '' )
-    s = '<div class="' + cell_class(DisplayGrades.cell, DisplayGrades.column)
-      + '">' + s + '</div>' ;
+    classes.push(cell_class(DisplayGrades.cell, DisplayGrades.column)) ;
   else if ( DisplayGrades.column.real_weight_add )
     {
       if ( DisplayGrades.cellstats
 	   && DisplayGrades.cellstats.rank !== undefined )
-	s = '<div style="'
-	  + rank_to_color(DisplayGrades.cellstats.rank,
-			  DisplayGrades.cellstats.nr) + '">' + s + '</div>' ;
+	styles.push(rank_to_color(DisplayGrades.cellstats.rank,
+				  DisplayGrades.cellstats.nr)) ;
       else if ( (DisplayGrades.column.type == 'Moy'
 		 || DisplayGrades.column.type == 'Note'
 		 || DisplayGrades.column.type == 'Prst'
 		 )
 		&& DisplayGrades.cell.value !== '')
-	s = '<div class="'
-	  + grade_to_class(DisplayGrades.column,
-			   DisplayGrades.value) + '">' + s + '</div>' ;
+	classes.push(grade_to_class(DisplayGrades.column,
+				    DisplayGrades.value)) ;
     }
     
   if ( DisplayGrades.cell.comment )
-    s = '<b>' + s + '</b>' ;
-  return s ;
+    styles.push('font-weight: bold') ;
+  
+  return [s, classes, styles, more] ;
 }
 DisplayCellBox.need_node = [] ;
 
@@ -774,7 +791,6 @@ function DisplayUEGrades(node)
 	DisplayGrades.value = DisplayGrades.column.empty_is ;
       DisplayGrades.cellstats = DisplayGrades.ue.stats[data_col] || {} ;
       var ss = display_display(display_definition['CellBox']);
-      ss = ss.replace('class="', 'class="DisplayType' + DisplayGrades.column.type + ' ') ;
       if ( DisplayGrades.value === '' && ! cell_modifiable_on_suivi())
 	ss = ss.replace('class="', 'class="is_empty ') ;
       s += ss ;
@@ -794,8 +810,7 @@ function DisplayGrades(node)
   for(var i in node.data[0])
     {
       DisplayGrades.ue = node.data[0][i] ;
-      s += display_display(display_definition['UE'])
-	.replace('<div', '<div onmouseenter="enter_in_ue(event)"') ;
+      s += display_display(display_definition['UE']) ;
     }
   for(var i in node.data[1])
     {

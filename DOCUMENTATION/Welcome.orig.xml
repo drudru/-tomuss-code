@@ -624,6 +624,10 @@ D('MoreOnSuivi' , 'BodyRight' ,9, data=display_more_on_suivi)
   // If 'is_a_teacher' is true, it is the teacher view.
   // To hide the block: return ''
   return node.data ; // Display the server computed content without change
+
+  // It is possible to return values to insert in the container-DIV attributes
+  //   return ["HTML to display", [classes...], [styles...], "other attrs"]
+  // see DisplayCellBox for an usage example
 }
 // Defines data needed from other display plugin.
 // The plugin will be called once data is retrieved from server.
