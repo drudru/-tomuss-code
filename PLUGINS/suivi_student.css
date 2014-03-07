@@ -44,6 +44,9 @@ BODY.bad_inline_block .is_notempty { display: none ; }
     width: 20em ;
 }
 .BodyRight TABLE, .BodyRight .Display { width: 100% ; }
+.BodyRight TABLE { margin-top: 1em }
+.BodyRight .Semesters TABLE { margin-top: 0em }
+.BodyRight .LinksTable TD, .BodyRight .Semesters TD { font-size: 100% }
 .BodyRight TD, .BodyRight TH, .BodyRight > DIV, .BodyRight CAPTION {
     font-size: 70% ; padding: 0px ;}
 .BodyRight TABLE.DisplayDA TD, .BodyRight TABLE.display_abjs TD { font-size: 70% ; }
@@ -99,6 +102,11 @@ BODY.smallscreen .BodyRight:hover {
     width: 30em ;
 }
 BODY.smallscreen .copyright { display: none ; }
+
+/* XXX Problem with the BodyRight animation if the cursor go in the tip.
+   So the tip is not displayed
+ */
+BODY.smallscreen DIV#tip { font-size:0%; border: 0 }
 
 .MoreOnSuivi { background: white }
 

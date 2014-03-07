@@ -301,9 +301,8 @@ function DisplayReferent(node)
       return hidden_txt(_('MSG_suivi_student_no_referent'),
 			_('TIP_suivi_student_no_referent')) ;
     default:
-      return _('MSG_suivi_referent_is')
-	+ hidden_txt(DisplayNames(node),
-		     _('MSG_suivi_student_send_to_referent')) ;
+      return hidden_txt(DisplayNames(node),
+			_('MSG_suivi_student_send_to_referent')) ;
     }
 }
 
@@ -1095,6 +1094,44 @@ function DisplayRSS(node)
     + '<link href="' + node.data
     + '" rel="alternate" title="TOMUSS" type="application/rss+xml">' ;
 }
+
+function DisplayLinksTable(node)
+{
+  if ( node.children.length == 0 )
+    return '' ;
+  var t = ['<table class="colored"><tr><th colspan="2">'
+	   + _('SUIVI_linkstable') + '</tr>'] ;
+  var i = 0 ;
+  for(var ii in node.children)
+    {
+      if ( i % 2 == 0 )
+	{
+	  if ( i != 0 )
+	    t.push('</tr>') ;
+	  t.push('<tr>') ;
+	}
+      var c = display_display(node.children[ii]) ;
+      if ( i_am_root )
+	{
+	  t.push('<td>' + (c || ('<span class="displaygrey">'
+				 + node.children[ii].name))) ;
+	  i++ ;
+	}
+      else
+	{
+	  if ( c !== '' )
+	    {
+	      t.push('<td>' + c) ;
+	      i++ ;
+	    }
+	}
+    }
+  if ( i % 2 == 1 )
+    t.push('<td>&nbsp;') ;
+  t.push('</tr></table>') ;
+  return t.join('') ;
+}
+DisplayLinksTable.need_node = [] ;
 
 function private_toggle()
 {

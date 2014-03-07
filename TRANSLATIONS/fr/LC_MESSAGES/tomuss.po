@@ -1359,6 +1359,9 @@ msgstr " plus mauvaises notes ne sont pas utilisées dans la moyenne"
 msgid "SUIVI_course_dates"
 msgstr "Date(s) du cours :"
 
+msgid "SUIVI_linkstable"
+msgstr "Liens et autres informations"
+
 #. GUI
 msgid "MSG_facebook_grp"
 msgstr "Si vous voulez une page par groupe d'étudiants, "
@@ -4029,7 +4032,7 @@ msgid "TIP_suivi_student_semesters"
 msgstr "Voir les notes dans TOMUSS pour un autre semestre"
 
 msgid "MSG_suivi_student_memberof"
-msgstr "Membre de..."
+msgstr "Membre de"
 
 msgid "MSG_suivi_student_send_to_referent"
 msgstr "Envoyez un message à l'enseignant référent pédagogique"

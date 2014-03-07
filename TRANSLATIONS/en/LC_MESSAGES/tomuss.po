@@ -1361,6 +1361,9 @@ msgstr " worst grades are not used in the average"
 msgid "SUIVI_course_dates"
 msgstr "Date(s) of the courses:"
 
+msgid "SUIVI_linkstable"
+msgstr "Links and other informations"
+
 
 #. GUI
 msgid "MSG_facebook_grp"
@@ -3984,7 +3987,7 @@ msgid "TIP_suivi_student_semesters"
 msgstr "To see the grade for another semester"
 
 msgid "MSG_suivi_student_memberof"
-msgstr "Member of..."
+msgstr "Member of"
 
 msgid "MSG_suivi_student_send_to_referent"
 msgstr "Send a message to the referent teacher"

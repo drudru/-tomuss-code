@@ -359,17 +359,19 @@ D('Body'        ,'Top'        ,1, js='Horizontal')
 D('BodyLeft'    , 'Body'      ,0, js='Vertical')
 D('BodyRight'   , 'Body'      ,1, js='Vertical')
 
-D('Lines'       , 'BodyLeft'  ,0, js='Vertical')
-D('ReferentNP'  , 'BodyLeft'  ,1, js='Horizontal',data=display_referent_notepad)
-D('LastGrades'  , 'BodyLeft'  ,2)
-D('Grades'      , 'BodyLeft'  ,3, data=display_grades)
-D('Students'    , 'BodyLeft'  ,4, data=display_students)
+D('TopLine'     ,['BodyLeft', 'Private','Question'],0, js="Horizontal")
+D('Student'     ,['BodyLeft', 'Private','Question'],1, js='Horizontal')
+D('ReferentNP'  , 'BodyLeft'  ,2, js='Horizontal',data=display_referent_notepad)
+D('LastGrades'  , 'BodyLeft'  ,3)
+D('Grades'      , 'BodyLeft'  ,4, data=display_grades)
+D('Students'    , 'BodyLeft'  ,5, data=display_students)
 
 D('Logo'        , 'BodyRight' ,0, data=display_logo)
 D('Semesters'   , 'BodyRight' ,1, data=display_semesters)
-D('Abjs'        , 'BodyRight' ,2, data=display_abjs)
-D('DA'          , 'BodyRight' ,3, data=display_da)
-D('TT'          , 'BodyRight' ,4, data=display_tt)
+D('LinksTable'  , 'BodyRight' ,2)
+D('Abjs'        , 'BodyRight' ,3, data=display_abjs)
+D('DA'          , 'BodyRight' ,4, data=display_da)
+D('TT'          , 'BodyRight' ,5, data=display_tt)
 D('MoreOnSuivi' , 'BodyRight' ,9, data=display_more_on_suivi)
 
 D('EmptyCell'   , 'User'      ,1)
@@ -381,11 +383,6 @@ D('Explanation' , 'IdentityR',0, data=display_copyright)
 D('Contact'     , 'IdentityR',1)
 D('Logout'      , 'IdentityR',2)
 
-D('TopLine'     ,['Lines', 'Private','Question'],0, js="Horizontal")
-D('Student'     ,['Lines', 'Private','Question'],1, js='Horizontal')
-D('Teachers'    ,['Lines', 'Private','Question'],2, js='List')
-D('Look'        , 'Lines'            ,3, js='List')
-D('Actions'     , 'Lines'            ,4, js='List')
 D('IsPrivate'   , 'Private'          ,5)
 D('AskQuestion' , 'Question'         ,6, data=display_question)
 
@@ -394,19 +391,21 @@ D('Login'       , 'TopLine'   ,1, js='Vertical', data=display_login)
 D('Names'       , 'TopLine'   ,2, data=display_names)
 D('GetStudent'  , 'TopLine'   ,3, data=display_get_student)
 
-D('Referent'    , 'Teachers'  ,0, data=display_referent)
-D('Mails'       , 'Teachers'  ,1, data=display_mails)
+# Line 1 for students and 1&2 fr teachers :
+D('Referent'    , 'LinksTable',0, data=display_referent)
+D('Mails'       , 'LinksTable',1, data=display_mails)
+D('Official'    , 'LinksTable',2)
+D('Bilan'       , 'LinksTable',3, data=display_get_student)
+# Line 3 for teachers
+D('StudentView' , 'LinksTable',4)
+D('NewSignature', 'LinksTable',5)
+# Line 4
+D('Charte'      , 'LinksTable',6, display_charte)
+D('Signature'   , 'LinksTable',7, display_signature)
 
-D('Official'    , 'Look'      ,0)
-D('Bilan'       , 'Look'      ,1, data=display_get_student)
-D('StudentView' , 'Look'      ,2)
-D('Charte'      , 'Look'      ,3, display_charte)
-D('Signature'   , 'Look'      ,4, display_signature)
-D('NewSignature', 'Look'      ,5)
-
-D('RSS'         , 'Actions'   ,0, data=display_rss)
-D('PrivateLife' , 'Actions'   ,1, data=display_private_life)
-D('MemberOf'    , 'Actions'   ,2, data=display_member_of)
+D('RSS'         , 'LinksTable',8, data=display_rss)
+D('PrivateLife' , 'LinksTable',9, data=display_private_life)
+D('MemberOf'    , 'LinksTable',10, data=display_member_of)
 
 # Template of an UE
 
