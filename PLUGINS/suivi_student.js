@@ -641,10 +641,17 @@ function display_tree(column)
 function rank_to_color(rank, nr)
 {
   var x = Math.floor(511*rank/nr) ;
+  var b, c = '' ;
   if ( rank > nr / 2 )
-    return '255,' + (511-x) + ',' + (511-x) ;
+    {
+      b = '255,' + (511-x) + ',' + (511-x) ;
+      if ( rank > 3*nr / 4 )
+	c = ';color:#FFF' ;
+    }
   else
-    return x + ',255,' + x ;
+    b = x + ',255,' + x ;
+
+  return 'background: rgb(' + b + ')' + c
 }
 
 function grade_to_class(column, grade)
@@ -709,9 +716,9 @@ function DisplayCellBox(node)
     {
       if ( DisplayGrades.cellstats
 	   && DisplayGrades.cellstats.rank !== undefined )
-	s = '<div style="background: rgb('
+	s = '<div style="'
 	  + rank_to_color(DisplayGrades.cellstats.rank,
-			  DisplayGrades.cellstats.nr) + ')">' + s + '</div>' ;
+			  DisplayGrades.cellstats.nr) + '">' + s + '</div>' ;
       else if ( (DisplayGrades.column.type == 'Moy'
 		 || DisplayGrades.column.type == 'Note'
 		 || DisplayGrades.column.type == 'Prst'
