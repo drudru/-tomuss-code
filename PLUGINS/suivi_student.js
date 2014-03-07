@@ -560,7 +560,7 @@ DisplayCellFormula.need_node = [] ;
 
 function DisplayCellTitle(node)
 {
-  return html(DisplayGrades.column.title) ;
+  return html(DisplayGrades.column.title.replace(/_/g, ' ')) ;
 }
 DisplayCellTitle.need_node = [] ;
 
