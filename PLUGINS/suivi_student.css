@@ -81,6 +81,7 @@ BODY.smallscreen .BodyRight {
     animation-name: make_small_bodyright;
 }
 BODY.smallscreen .BodyRight:hover {
+    z-index: 2 ; /* Hide cellbox tip */
     opacity: 1 ;
     right: 0px ;
     -webkit-animation-duration: 0.5s;
@@ -88,6 +89,9 @@ BODY.smallscreen .BodyRight:hover {
     animation-duration: 0.5s;
     animation-name: make_large_bodyright;
 }
+
+BODY.smallscreen DIV#tip { margin-top: 1em }
+DIV.tipped DIV.text:hover { background: url(tip.png) }
 
 @-webkit-keyframes make_large_bodyright {
   from { right: -15em ; opacity: 0.3 }
@@ -114,8 +118,8 @@ BODY.smallscreen .copyright { display: none ; }
 
 /* XXX Problem with the BodyRight animation if the cursor go in the tip.
    So the tip is not displayed
- */
 BODY.smallscreen DIV#tip { font-size:0%; border: 0 }
+ */
 
 .MoreOnSuivi { background: white }
 
