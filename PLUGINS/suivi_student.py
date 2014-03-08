@@ -357,7 +357,9 @@ D('Message'     ,'Top'        ,-1, js="Horizontal", data=display_message)
 D('Body'        ,'Top'        ,1, js='Horizontal')
 
 D('BodyLeft'    , 'Body'      ,0, js='Vertical')
-D('BodyRight'   , 'Body'      ,1, js='Vertical')
+D('RightClip'   , 'Body'      ,1)
+
+D('BodyRight'   , 'RightClip' ,0, js='Vertical')
 
 D('TopLine'     ,['BodyLeft', 'Private','Question'],0, js="Horizontal")
 D('Student'     ,['BodyLeft', 'Private','Question'],1, js='Horizontal')

@@ -2,6 +2,7 @@
 
 var i_am_root ;
 var unload_element ;
+var the_body ;
 
 /* To send the cell change and feedback */
 
@@ -29,7 +30,7 @@ function _cell(s, url)
   unload = document.createElement('IMG') ;
   unload.src = 'unload/' + ue ;
   unload.width = unload.height = 1 ;
-  document.getElementsByTagName('BODY')[0].appendChild(unload) ;
+  the_body.appendChild(unload) ;
 
   hide_cellbox_tip() ;
   s.blur() ;
@@ -62,12 +63,16 @@ function initialize_suivi_real()
   instant_tip_display = true ;
   
   document.getElementById('top').innerHTML = '<div id="cellbox_tip"></div>'
-    + '<style id="computed_style"></style>' ;
+    + '<style id="computed_style"></style>'
+    + ( window.devicePixelRatio !== undefined
+	? '<meta name="viewport" content="width=device-width,height=device-height,initial-scale=1">'
+	: '' ) ;
   setTimeout(hide_empty, 10) ;
   i_am_root = myindex(root, username) != -1 ;
   my_identity = username ;
   column_get_option_running = true ; // Do not set option in URL
-  }
+  the_body = document.getElementsByTagName('BODY')[0] ;
+}
 
 function cell_modifiable_on_suivi()
 {
@@ -147,7 +152,6 @@ function detect_small_screen(force)
     return ;
   detect_small_screen.window_width = window_width() ;
       
-  var top = document.getElementsByTagName('BODY')[0] ;
   var smallscreen, not_working=0, width, lefts = [], div ;
   var divs = document.getElementsByTagName('DIV') ;
   var top_class = semester ;
@@ -158,7 +162,7 @@ function detect_small_screen(force)
 	continue ;
       if ( div.className.toString().match(/(DisplayExplanation|DisplayContact|DisplayLogout)/)
 	   && ( div.offsetLeft < 10
-		|| top.className.toString().indexOf("bad_inline_block") != -1 )
+		|| the_body.className.toString().indexOf("bad_inline_block") != -1 )
 	   )
 	not_working++ ;
       if ( div.className.toString().indexOf('BodyLeft') != -1 )
@@ -184,8 +188,12 @@ function detect_small_screen(force)
     return ;
   if ( smallscreen )
     top_class += ' smallscreen' ;
-  if ( top.className != top_class ) // To not relaunch CSS animation
-    top.className = top_class ;
+  if ( the_body.className != top_class ) // To not relaunch CSS animation
+    {
+      the_body.className = top_class ;
+      hide_rightclip() ;
+    }
+  detect_small_screen.small_screen = smallscreen ;
   var twidth = window_width() - (smallscreen
 				? 100
 				 : (detect_small_screen.initial_width + 30)
@@ -245,6 +253,44 @@ function DisplayList(node)
   return DisplayHorizontal(node, ', ') ;
 }
 DisplayList.need_node = [] ;
+
+function set_rightclip(classe, event)
+{
+  var e = document.getElementById("rightclip") ;
+
+  if ( event && event.button !== undefined
+       && e.className.toString().match('hide_rightclip') )
+    {
+      // to not follow links when clicking on hidden bodyright
+      stop_event(event) ;
+    }
+
+  e.className = e.className.toString()
+    .replace(/ [^ ]*_rightclip/g, '') + ' ' + classe ;
+
+  // XXX Kludge : Hide Bodyright if bodyleft is clicked on touch screen
+  e.parentNode.firstChild.onmousedown = hide_rightclip ;
+  return 
+}
+
+function show_rightclip(event)
+{
+  set_rightclip('show_rightclip', event) ;
+}
+
+function hide_rightclip(event)
+{
+  set_rightclip('hide_rightclip', event) ;
+}
+
+function DisplayRightClip(node)
+{
+  return [DisplayHorizontal(node),
+	  ['hide_rightclip'],
+	  [],
+	  'id="rightclip" onclick="show_rightclip(event)" onmouseenter="show_rightclip(event)" onmouseleave="hide_rightclip(event)"'] ;
+}
+DisplayRightClip.need_node = [] ;
 
 function DisplayPicture(node)
 {
@@ -592,6 +638,7 @@ function hide_cellbox_tip()
 
 function display_cellbox_tip(event, nr)
 {
+  hide_rightclip() ;
   var c = the_event(event).target ;
   while( c.className.toString().indexOf('CellBox') == -1 )
     c = c.parentNode ;

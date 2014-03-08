@@ -33,16 +33,16 @@ BODY.Automne .BodyRight
     left: 0px;
     width: 100% ;
 }
+.RightClip {
+    width: 21em ;
+    overflow: hidden ;
+    right: 0px ;
+    position: absolute ;
+}
 .BodyRight { width: 21em ; }
 .BodyRight TABLE, .BodyRight .Display { width: 100% ; }
 .BodyRight TABLE { margin-top: 1em }
 .BodyRight .Semesters TABLE { margin-top: 0em }
-.DisplayDA TD, TABLE.display_abjs TD, .DisplayTT TD {
-    font-size: 70% ; padding: 0px ;
-}
-.DisplayLinksTable TD {
-    font-size: 80% ; padding: 0px ;
-}
 .Logo { text-align: center ; }
 .Logo IMG { max-width: 100% }
 .GetStudent IMG { height: 1em ; }
@@ -151,41 +151,39 @@ BODY.bad_inline_block .is_notempty { display: none ; }
 BODY.smallscreen.Printemps { background-image: url(printemps.png) ; }
 BODY.smallscreen.Automne { background-image: url(automne.png) ; }
 
-BODY.smallscreen .BodyRight {
-    position: absolute ;
+BODY.smallscreen .hide_rightclip {
     opacity: 0.3 ;
-    right: -16em ;
+    width: 5em ;
     -webkit-animation-duration: 0.5s;
     -webkit-animation-name: make_small_bodyright;
     animation-duration: 0.5s;
     animation-name: make_small_bodyright;
 }
-BODY.smallscreen .BodyRight:hover {
+BODY.smallscreen .show_rightclip {
     z-index: 2 ; /* Hide cellbox tip */
     opacity: 1 ;
-    right: 0px ;
+    width: 21em ;
     -webkit-animation-duration: 0.5s;
     -webkit-animation-name: make_large_bodyright;
     animation-duration: 0.5s;
     animation-name: make_large_bodyright;
 }
-
 @-webkit-keyframes make_large_bodyright {
-  from { right: -16em ; opacity: 0.3 }
-  to   { right:   0em ; opacity: 1 }
+  from { width: 5em ; opacity: 0.3 }
+  to   { width: 21em; opacity: 1 }
 }
 @-webkit-keyframes make_small_bodyright {
-  from { right:   0em; opacity: 1   }
-  to   { right: -16em; opacity: 0.3 }
+  from { width: 21em; opacity: 1   }
+  to   { width: 5em ; opacity: 0.3 }
 }
 
 @keyframes make_large_bodyright {
-  from { right: -16em ; opacity: 0.3 }
-  to   { right:   0em ; opacity: 1 }
+  from { width: 5em ; opacity: 0.3 }
+  to   { width: 21em; opacity: 1 }
 }
 @keyframes make_small_bodyright {
-  from { right:   0em; opacity: 1   }
-  to   { right: -16em; opacity: 0.3 }
+  from { width: 21em; opacity: 1   }
+  to   { width: 5em ; opacity: 0.3 }
 }
 
 BODY.smallscreen .copyright { display: none ; }
@@ -294,11 +292,6 @@ DIV#tip.tip_fade_in {
 .bad      { background-color: #FAA ;               }
 .verybad  { background-color: #F44 ; color: white; }
 
-TABLE.memberof { background-color: black; border-spacing: 1px }
-TABLE.memberof TH, TABLE.memberof TD { padding: 0px }
-TABLE.memberof TH { text-align: left; font-size: 80% }
-TABLE.memberof TD { font-size: 60%; background-color: #DDD; }
-
 IFRAME {
 width: 1em ;
 height: 1em ;
@@ -317,17 +310,37 @@ border: 0px ;
 
 IFRAME.feedback { width: 0.5em ; height: 0.5em ; }
 
-@media (min-resolution: 120dppx){
-  BODY { font-size: 120% }
+
+TABLE.memberof { background-color: black; border-spacing: 1px }
+TABLE.memberof TH, TABLE.memberof TD { padding: 0px }
+TABLE.memberof TH { text-align: left; font-size: 80% }
+TABLE.memberof TD { font-size: 60%; background-color: #DDD; }
+
+.DisplayDA TD, TABLE.display_abjs TD, .DisplayTT TD {
+    font-size: 70% ; padding: 0px ;
 }
-@media (min-resolution: 150dppx){
+.DisplayLinksTable TD { font-size: 80% ; padding: 0px ; }
+
+@media (min-resolution: 1.5dppx){
   BODY { font-size: 150% }
+  TABLE.memberof TH { font-size: 120% }
+  TABLE.memberof TD { font-size: 90% }
+  .DisplayDA TD, TABLE.display_abjs TD, .DisplayTT TD { font-size: 105% ; }
+  .DisplayLinksTable TD { font-size: 120% ; }
 }
-@media (min-resolution: 200dppx){
+@media (min-resolution: 2dppx){
   BODY { font-size: 200% }
+  TABLE.memberof TH { font-size: 160% }
+  TABLE.memberof TD { font-size: 120% }
+  .DisplayDA TD, TABLE.display_abjs TD, .DisplayTT TD { font-size: 140% ; }
+  .DisplayLinksTable TD { font-size: 160% ; }
 }
-@media (min-resolution: 300dppx){
+@media (min-resolution: 3dppx){
   BODY { font-size: 300% }
+  TABLE.memberof TH { font-size: 240% }
+  TABLE.memberof TD { font-size: 180% }
+  .DisplayDA TD, TABLE.display_abjs TD, .DisplayTT TD { font-size: 210% ; }
+  .DisplayLinksTable TD { font-size: 240% ; }
 }
 
 /*****************************************************************************/
