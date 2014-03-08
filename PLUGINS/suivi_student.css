@@ -36,20 +36,20 @@ BODY.bad_inline_block .is_notempty { display: none ; }
 .Picture IMG.small { height: 1.5em ;}
 .IdentityR { float: right ; }
 .RSS IFRAME { position: absolute; left: -100px ; }
+.displayRSS IMG { height: 1em }
 .BodyLeft {
     left: 0px;
     width: 100% ;
 }
-.BodyRight {
-    width: 20em ;
-}
 .BodyRight TABLE, .BodyRight .Display { width: 100% ; }
 .BodyRight TABLE { margin-top: 1em }
 .BodyRight .Semesters TABLE { margin-top: 0em }
-.BodyRight .LinksTable TD, .BodyRight .Semesters TD { font-size: 100% }
-.BodyRight TD, .BodyRight TH, .BodyRight > DIV, .BodyRight CAPTION {
-    font-size: 70% ; padding: 0px ;}
-.BodyRight TABLE.DisplayDA TD, .BodyRight TABLE.display_abjs TD { font-size: 70% ; }
+.DisplayDA TD, TABLE.display_abjs TD, .DisplayTT TD {
+    font-size: 70% ; padding: 0px ;
+}
+.DisplayLinksTable TD {
+    font-size: 80% ; padding: 0px ;
+}
 .Logo { text-align: center ; }
 .Logo IMG { max-width: 100% }
 .GetStudent IMG { height: 1em ; }
@@ -67,40 +67,49 @@ BODY.bad_inline_block .is_notempty { display: none ; }
 .Grades H3 { margin-bottom: 0px; }
 .UE { display: block; margin-top: 1em ; }
 .DisplayUETitle { font-weight: bold ; }
-
-/* On small screen, grades take all the space */
-BODY.smallscreen .BodyRight,
-BODY.smallscreen .BodyRight TD,
-BODY.smallscreen .BodyRight TH,
-BODY.smallscreen .BodyRight CAPTION
-{ font-size: 20% ;  animation-duration: 0.5s;  animation-name: fontsmaller; }
-BODY.smallscreen .BodyRight:hover,
-BODY.smallscreen .BodyRight:hover TD,
-BODY.smallscreen .BodyRight:hover TH,
-BODY.smallscreen .BodyRight:hover CAPTION
-{ font-size: 100% ; animation-duration: 0.5s;  animation-name: fontbigger; }
-
-@keyframes fontbigger {
-  from { font-size: 20%; }
-  to { font-size: 100%; }
-}
-@keyframes fontsmaller {
-  from { font-size: 100%; }
-  to { font-size: 20%; }
-}
-
+.BodyRight {
+    width: 21em ;
+    }
 
 BODY.smallscreen .BodyRight {
     position: absolute ;
-    right: 0px ;
-    float: none ;
-    opacity: 0.7 ;
+    opacity: 0.3 ;
+    right: -15em ;
+    -webkit-animation-duration: 0.5s;
+    -webkit-animation-name: make_small_bodyright;
+    animation-duration: 0.5s;
+    animation-name: make_small_bodyright;
 }
 BODY.smallscreen .BodyRight:hover {
     opacity: 1 ;
-    z-index: 2 ;
-    width: 30em ;
+    right: 0px ;
+    -webkit-animation-duration: 0.5s;
+    -webkit-animation-name: make_large_bodyright;
+    animation-duration: 0.5s;
+    animation-name: make_large_bodyright;
 }
+
+@-webkit-keyframes make_large_bodyright {
+  from { right: -15em ; opacity: 0.3 }
+  to   { right:   0em ; opacity: 1 }
+}
+@-webkit-keyframes make_small_bodyright {
+  from { right:   0em; opacity: 1   }
+  to   { right: -15em; opacity: 0.3 }
+}
+
+@keyframes make_large_bodyright {
+  from { right: -15em ; opacity: 0.3 }
+  to   { right:   0em ; opacity: 1 }
+}
+@keyframes make_small_bodyright {
+  from { right:   0em; opacity: 1   }
+  to   { right: -15em; opacity: 0.3 }
+}
+
+
+
+
 BODY.smallscreen .copyright { display: none ; }
 
 /* XXX Problem with the BodyRight animation if the cursor go in the tip.
@@ -205,18 +214,6 @@ DIV#tip.tip_fade_in {
   from { opacity: 0 ; }
   to { opacity: 1; }
 }
-
-/*
-DIV#tip.tip_fade_out {
-    animation-duration: 1s;
-    animation-name: full_fade_out;
-}
-
-@keyframes full_fade_out {
-  from { opacity: 1 ; }
-  to { opacity: 0; }
-}
-*/
 
 .DisplayUEMasters {
     opacity: 0.3 ;

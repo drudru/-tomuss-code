@@ -4105,7 +4105,7 @@ msgid "MSG_suivi_student_registered"
 msgstr "Étudiant inscrit à "
 
 msgid "MSG_suivi_student_tt"
-msgstr "Informations concernant le tiers temps :"
+msgstr "Conditions spéciales d'examen"
 
 
 msgid "MSG_suivi_student_ue_changes"
