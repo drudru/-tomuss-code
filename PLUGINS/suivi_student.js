@@ -621,6 +621,10 @@ function display_cellbox_tip(event, nr)
   t.style.left = findPosX(c) + 'px' ;
   t.display_date = millisec() ;
 
+  if ( t.grades )
+    t.grades.className = t.grades.className.toString()
+      .replace(/ tip_displayed/g, "") ;
+
   t.grades = c ;
   while( t.grades.className.toString().indexOf('DisplayUE ') == -1 )
     t.grades = t.grades.parentNode ;

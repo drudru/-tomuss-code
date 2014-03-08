@@ -1,5 +1,7 @@
 /* CSS for Display framework */
 
+/*********************** Normal CSS ***********************/
+
 BODY { margin: 0px ;
        background-position: top right ;
        background-image: none ;
@@ -14,16 +16,6 @@ BODY.Automne,
 BODY.Automne TABLE.colored TD,
 BODY.Automne .BodyRight
 { background-color: #fff5e0 }
-
-BODY.smallscreen.Printemps { background-image: url(printemps.png) ; }
-BODY.smallscreen.Automne { background-image: url(automne.png) ; }
-
-BODY.bad_inline_block .Display {
-    display: inline ;
-}
-BODY.bad_inline_block .Logout { text-decoration: underline }
-BODY.bad_inline_block .is_empty { display: none ; }
-BODY.bad_inline_block .is_notempty { display: none ; }
 
 .Display {
     display: inline-block ;
@@ -41,6 +33,7 @@ BODY.bad_inline_block .is_notempty { display: none ; }
     left: 0px;
     width: 100% ;
 }
+.BodyRight { width: 21em ; }
 .BodyRight TABLE, .BodyRight .Display { width: 100% ; }
 .BodyRight TABLE { margin-top: 1em }
 .BodyRight .Semesters TABLE { margin-top: 0em }
@@ -67,101 +60,15 @@ BODY.bad_inline_block .is_notempty { display: none ; }
 .Grades H3 { margin-bottom: 0px; }
 .UE { display: block; margin-top: 1em ; }
 .DisplayUETitle { font-weight: bold ; }
-.BodyRight {
-    width: 21em ;
-    }
-
-BODY.smallscreen .BodyRight {
-    position: absolute ;
-    opacity: 0.3 ;
-    right: -15em ;
-    -webkit-animation-duration: 0.5s;
-    -webkit-animation-name: make_small_bodyright;
-    animation-duration: 0.5s;
-    animation-name: make_small_bodyright;
-}
-BODY.smallscreen .BodyRight:hover {
-    z-index: 2 ; /* Hide cellbox tip */
-    opacity: 1 ;
-    right: 0px ;
-    -webkit-animation-duration: 0.5s;
-    -webkit-animation-name: make_large_bodyright;
-    animation-duration: 0.5s;
-    animation-name: make_large_bodyright;
-}
-
-BODY.smallscreen DIV#tip { margin-top: 1em }
-DIV.tipped DIV.text:hover { background: url(tip.png) }
-
-@-webkit-keyframes make_large_bodyright {
-  from { right: -15em ; opacity: 0.3 }
-  to   { right:   0em ; opacity: 1 }
-}
-@-webkit-keyframes make_small_bodyright {
-  from { right:   0em; opacity: 1   }
-  to   { right: -15em; opacity: 0.3 }
-}
-
-@keyframes make_large_bodyright {
-  from { right: -15em ; opacity: 0.3 }
-  to   { right:   0em ; opacity: 1 }
-}
-@keyframes make_small_bodyright {
-  from { right:   0em; opacity: 1   }
-  to   { right: -15em; opacity: 0.3 }
-}
-
-
-
-
-BODY.smallscreen .copyright { display: none ; }
-
-/* XXX Problem with the BodyRight animation if the cursor go in the tip.
-   So the tip is not displayed
-BODY.smallscreen DIV#tip { font-size:0%; border: 0 }
- */
-
 .MoreOnSuivi { background: white }
-
 .Cell {
     max-width: 20em ;
     overflow: auto ;
 }
-
 .CellTop, .CellBottom {
     font-size: 60% ;
 }
 SPAN.displaygrey { color: #888 }
-
-#cellbox_tip {
-    position: absolute ;
-    z-index: 1 ;
-    background: #EEF ;
-    opacity: 0.85 ;
-    animation-duration: 0.5s;
-    animation-name: fadein;
-}
-#cellbox_tip.hidden {
-    animation-duration: 0.2s;
-    animation-name: fadeout;
-    font-size: 0% ; /* left, z-index, display are not usable :-( */
-    opacity: 0; /* Hide the remaining border pixels */
-}
-@keyframes fadeout {
-  from { opacity: 0.85 ; font-size:100% }
-  to { opacity: 0; font-size:100% ; }
-}
-@keyframes fadein {
-  from { opacity: 0 ; }
-  to { opacity: 0.85; }
-}
-
-
-
-#cellbox_tip .CellBox {
-    white-space: normal ;
-    width: auto ;
-    }
 .CellBox INPUT {
     width: 20em;
     opacity: 1 ; /* Do not work */
@@ -182,68 +89,31 @@ SPAN.displaygrey { color: #888 }
     margin-left: 0px ;
     white-space: nowrap ;
     opacity: 0.3 ;
+    -webkit-animation-duration: 0.5s;
+    -webkit-animation-name: fadeout2;
     animation-duration: 0.5s;
     animation-name: fadeout2;
 }
-.DisplayTypeMoy { font-style: italic }
-.displayUE:hover .CellBox,
-.tip_displayed .CellBox {
-    opacity:1 ;
-    animation-duration: 0.5s;
-    animation-name: fadein2;
-}
-.displayUE:hover .DisplayTypeNote,
-.tip_displayed .DisplayTypeNote,
-.DisplayTypeNote,
-#cellbox_tip .CellBox {
-    opacity:1 ;
-    animation-name: none ;
-}
-
-@keyframes fadeout2 {
-  from { opacity: 1 ; }
-  to { opacity: 0.3; }
-}
-@keyframes fadein2 {
-  from { opacity: 0.3 ; }
-  to { opacity: 1; }
-}
-
-DIV#tip.tip_fade_in {
-    animation-duration: 1s;
-    animation-name: full_fade_in;
-}
-
-@keyframes full_fade_in {
-  from { opacity: 0 ; }
-  to { opacity: 1; }
-}
-
 .DisplayUEMasters {
     opacity: 0.3 ;
+    -webkit-animation-duration: 0.5s;
+    -webkit-animation-name: fadeout2;
     animation-duration: 0.5s;
     animation-name: fadeout2;
 }
 .tip_displayed .DisplayUEMasters, .DisplayUE:hover .DisplayUEMasters {
     opacity: 1 ;
+    -webkit-animation-duration: 0.5s;
+    -webkit-animation-name: fadein2;
     animation-duration: 0.5s;
     animation-name: fadein2;
 }
 
-#cellbox_tip .CellBox {
-    margin-top: 0px ;
-    margin-bottom: 0px ;
-    width: auto ;
-    overflow: visible ;
-}
+.CellTitle { font-size: 60% ; }
 
-.CellTitle {
-    font-size: 60% ;
-}
+.Grades { margin-left: 0.2em ; }
 
-.Grades {
-    margin-left: 0.2em ;
-}
+.DisplayTypeMoy { font-style: italic }
 
 .CellAuthorLine       .CellMTime { display: none }
 .CellAuthorLine:hover .CellMTime { display: inline }
@@ -267,12 +137,150 @@ DIV#tip.tip_fade_in {
 .LastGrades .day { width: 6em }
 
 
-h1 {
-  animation-duration: 3s;
-  animation-name: slidein;
+/*********************** Not working inline_block (IE) *******************/
+
+BODY.bad_inline_block .Display {
+    display: inline ;
+}
+BODY.bad_inline_block .Logout { text-decoration: underline }
+BODY.bad_inline_block .is_empty { display: none ; }
+BODY.bad_inline_block .is_notempty { display: none ; }
+
+/*********************** Small screen *******************/
+
+BODY.smallscreen.Printemps { background-image: url(printemps.png) ; }
+BODY.smallscreen.Automne { background-image: url(automne.png) ; }
+
+BODY.smallscreen .BodyRight {
+    position: absolute ;
+    opacity: 0.3 ;
+    right: -16em ;
+    -webkit-animation-duration: 0.5s;
+    -webkit-animation-name: make_small_bodyright;
+    animation-duration: 0.5s;
+    animation-name: make_small_bodyright;
+}
+BODY.smallscreen .BodyRight:hover {
+    z-index: 2 ; /* Hide cellbox tip */
+    opacity: 1 ;
+    right: 0px ;
+    -webkit-animation-duration: 0.5s;
+    -webkit-animation-name: make_large_bodyright;
+    animation-duration: 0.5s;
+    animation-name: make_large_bodyright;
 }
 
-/* Old CSS */
+@-webkit-keyframes make_large_bodyright {
+  from { right: -16em ; opacity: 0.3 }
+  to   { right:   0em ; opacity: 1 }
+}
+@-webkit-keyframes make_small_bodyright {
+  from { right:   0em; opacity: 1   }
+  to   { right: -16em; opacity: 0.3 }
+}
+
+@keyframes make_large_bodyright {
+  from { right: -16em ; opacity: 0.3 }
+  to   { right:   0em ; opacity: 1 }
+}
+@keyframes make_small_bodyright {
+  from { right:   0em; opacity: 1   }
+  to   { right: -16em; opacity: 0.3 }
+}
+
+BODY.smallscreen .copyright { display: none ; }
+
+/*********************** Tip management *******************/
+
+DIV#tip { margin-top: 1em }
+DIV.tipped DIV.text:hover { background: url(tip.png) }
+
+#cellbox_tip {
+    position: absolute ;
+    z-index: 1 ;
+    background: #EEF ;
+    opacity: 0.85 ;
+    -webkit-animation-duration: 0.5s;
+    -webkit-animation-name: fadein;
+    animation-duration: 0.5s;
+    animation-name: fadein;
+}
+#cellbox_tip.hidden {
+    font-size: 0% ; /* left, z-index, display are not usable :-( */
+    opacity: 0; /* Hide the remaining border pixels */
+    /* fadeout raise bug in Chrome : the font size is not 100% */
+    animation-duration: 0.2s;
+    animation-name: fadeout;
+}
+@-webkit-keyframes fadein {
+  from { opacity: 0 ; }
+  to { opacity: 0.85; }
+}
+@keyframes fadeout {
+  from { opacity: 0.85 ; font-size:100% }
+  to { opacity: 0; font-size:100% ; }
+}
+@keyframes fadein {
+  from { opacity: 0 ; }
+  to { opacity: 0.85; }
+}
+.displayUE:hover .CellBox,
+.tip_displayed .CellBox {
+    opacity:1 ;
+    -webkit-animation-duration: 0.5s;
+    -webkit-animation-name: fadein2;
+    animation-duration: 0.5s;
+    animation-name: fadein2;
+}
+.displayUE:hover .DisplayTypeNote,
+.tip_displayed .DisplayTypeNote,
+.DisplayTypeNote,
+#cellbox_tip .CellBox {
+    opacity:1 ;
+    -webkit-animation-name: none ;
+    animation-name: none ;
+}
+#cellbox_tip .CellBox {
+    margin-top: 0px ;
+    margin-bottom: 0px ;
+    width: auto ;
+    overflow: visible ;
+    white-space: normal ;
+}
+@-webkit-keyframes fadeout2 {
+  from { opacity: 1 ; }
+  to { opacity: 0.3; }
+}
+@-webkit-keyframes fadein2 {
+  from { opacity: 0.3 ; }
+  to { opacity: 1; }
+}
+@keyframes fadeout2 {
+  from { opacity: 1 ; }
+  to { opacity: 0.3; }
+}
+@keyframes fadein2 {
+  from { opacity: 0.3 ; }
+  to { opacity: 1; }
+}
+
+DIV#tip.tip_fade_in {
+    -webkit-animation-duration: 1s;
+    -webkit-animation-name: full_fade_in;
+    animation-duration: 1s;
+    animation-name: full_fade_in;
+}
+
+@-webkit-keyframes full_fade_in {
+  from { opacity: 0 ; }
+  to { opacity: 1; }
+}
+@keyframes full_fade_in {
+  from { opacity: 0 ; }
+  to { opacity: 1; }
+}
+
+/************************ Old CSS *****************************/
 
 .prst     { background-color: #8F8 ;               }
 .abinj    { background-color: #F88 ;               }
