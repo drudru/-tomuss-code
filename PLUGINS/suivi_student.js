@@ -292,12 +292,32 @@ function hide_rightclip(event)
   set_rightclip('hide_rightclip', event) ;
 }
 
+function rightclip_touch_start(event)
+{
+  rightclip_touch_start.x = the_event(event).x ;
+  console.log("rightclip_touch_start " + rightclip_touch_start.x) ;
+}
+
+function rightclip_touch_end(event)
+{
+  console.log("rightclip_touch_stop " + the_event(event).x) ;
+  if ( the_event(event).x > rightclip_touch_start.x + 8 )
+    hide_rightclip(event) ;
+  if ( the_event(event).x < rightclip_touch_start.x - 8 )
+    show_rightclip(event) ;
+}
+
 function DisplayRightClip(node)
 {
   return [DisplayHorizontal(node),
 	  ['hide_rightclip'],
 	  [],
-	  'id="rightclip" onclick="show_rightclip(event)" onmouseenter="show_rightclip(event)" onmouseleave="hide_rightclip(event)"'] ;
+	  'id="rightclip" '
+	  + 'ontouchstart="rightclip_touch_start(event)" '
+	  + 'ontouchmove="rightclip_touch_end(event)" '
+	  + 'onclick="show_rightclip(event)" '
+	  + 'onmouseenter="show_rightclip(event)" '
+	  + 'onmouseleave="hide_rightclip(event)"'] ;
 }
 DisplayRightClip.need_node = [] ;
 
