@@ -321,28 +321,6 @@ TABLE.memberof TD { font-size: 60%; background-color: #DDD; }
 }
 .DisplayLinksTable TD { font-size: 80% ; padding: 0px ; }
 
-@media (min-resolution: 1.5dppx){
-  BODY { font-size: 150% }
-  TABLE.memberof TH { font-size: 120% }
-  TABLE.memberof TD { font-size: 90% }
-  .DisplayDA TD, TABLE.display_abjs TD, .DisplayTT TD { font-size: 105% ; }
-  .DisplayLinksTable TD { font-size: 120% ; }
-}
-@media (min-resolution: 2dppx){
-  BODY { font-size: 200% }
-  TABLE.memberof TH { font-size: 160% }
-  TABLE.memberof TD { font-size: 120% }
-  .DisplayDA TD, TABLE.display_abjs TD, .DisplayTT TD { font-size: 140% ; }
-  .DisplayLinksTable TD { font-size: 160% ; }
-}
-@media (min-resolution: 3dppx){
-  BODY { font-size: 300% }
-  TABLE.memberof TH { font-size: 240% }
-  TABLE.memberof TD { font-size: 180% }
-  .DisplayDA TD, TABLE.display_abjs TD, .DisplayTT TD { font-size: 210% ; }
-  .DisplayLinksTable TD { font-size: 240% ; }
-}
-
 /*****************************************************************************/
 /* PRINT */
 /*****************************************************************************/

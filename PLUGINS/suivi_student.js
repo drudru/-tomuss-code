@@ -269,7 +269,16 @@ function set_rightclip(classe, event)
     .replace(/ [^ ]*_rightclip/g, '') + ' ' + classe ;
 
   // XXX Kludge : Hide Bodyright if bodyleft is clicked on touch screen
-  e.parentNode.firstChild.onmousedown = hide_rightclip ;
+  e.parentNode.parentNode.onmousedown = function(event) {
+    var o = the_event(event).target ;
+    while( o )
+      {
+	if ( o.id == 'rightclip' )
+	  return ;
+	o = o.parentNode ;
+      }
+    hide_rightclip(event) ;
+  } ;
   return 
 }
 
