@@ -498,7 +498,7 @@ function DisplayUETitle(node)
 			  + '=" target="_blank">*</a>)',
 			  _("MSG_cell_one_line")) ;
     }
-  return title ;
+  return '<a name="' + ue.ue + '">' + title + '</a>' ;
 }
 DisplayUETitle.need_node = [] ;
 
@@ -903,6 +903,11 @@ function DisplayGrades(node)
 }
 DisplayGrades.need_node = ['Login'] ;
 
+function goto_cellbox(o)
+{
+  window.location.hash = o.innerHTML.split('<')[0] ;
+}
+
 function DisplayLastGrades(node)
 {
   if ( is_a_teacher )
@@ -963,7 +968,8 @@ function DisplayLastGrades(node)
 	  lastday = day ;
 	}
       
-      t.push('<div class="Display a_grade">' + ue.ue
+      t.push('<div onclick="goto_cellbox(this)" class="Display a_grade">'
+	     + ue.ue
 	     + '<br>' + html(column.title)
 	     + '<br><span>' + html(cell[0]) + "</span></div>") ;
     }
