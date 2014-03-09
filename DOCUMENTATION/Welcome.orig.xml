@@ -591,9 +591,10 @@ They can be&nbsp;:
       for example, the information about the 'more_on_suivi'
       plugin is defined as:
     </p>
-    <pre>def display_more_on_suivi(server):
+    <pre>from .. import display # The display framework
+def display_more_on_suivi(server):
     return configuration.more_on_suivi(server.suivi_login, server)
-D('MoreOnSuivi' , 'BodyRight' ,9, data=display_more_on_suivi)
+display.display('MoreOnSuivi', 'BodyRight', 9, data=display_more_on_suivi)
 </pre>
     <ul>
       <li> <tt>MoreOnSuivi</tt>: The box identifier.</li>
@@ -613,7 +614,8 @@ D('MoreOnSuivi' , 'BodyRight' ,9, data=display_more_on_suivi)
       <b>So the call order is random</b>.
       </li>      
       <li> It is possible to add the parameter <tt>js='Vertical'</tt>
-      to call 'DisplayVertical' javascript function to compute the HTML.</li>
+      to call 'DisplayVertical' javascript function to compute the HTML.
+      Or horizontal by the way.</li>
     </ul>
     <p>
       On the javascript side <tt>PLUGINS/suivi_student.js</tt>:
@@ -622,16 +624,16 @@ D('MoreOnSuivi' , 'BodyRight' ,9, data=display_more_on_suivi)
 {
   // To use the data from Login display plugin : display_data['Login']
   // If 'is_a_teacher' is true, it is the teacher view.
-  // To hide the block: return ''
+  // To hide the block from screen: return ''
   return node.data ; // Display the server computed content without change
 
   // It is possible to return values to insert in the container-DIV attributes
   //   return ["HTML to display", [classes...], [styles...], "other attrs"]
   // see DisplayCellBox for an usage example
 }
-// Defines data needed from other display plugin.
+// Defines the data needed from other display plugin.
 // The plugin will be called once data is retrieved from server.
-// The default value for this function is ['MoreOnSuivi']
+// The default value for this function is itself: ['MoreOnSuivi']
 // It is possible to wait data from multiple plugins:
 //      <b>DisplayMoreOnSuivi.need_node = ['MoreOnSuivi', 'Login'] ;</b>
 // If no data is needed, use an empty required list: []</pre>
