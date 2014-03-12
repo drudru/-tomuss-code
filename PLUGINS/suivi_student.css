@@ -6,6 +6,7 @@ BODY { margin: 0px ;
        background-position: top right ;
        background-image: none ;
        background-repeat: repeat-y;
+       margin-left: 0.2em ;
      }
 
 BODY.Printemps,
@@ -30,7 +31,6 @@ BODY.Automne .BodyRight
 .RSS IFRAME { position: absolute; left: -100px ; }
 .displayRSS IMG { height: 1em }
 .BodyLeft {
-    left: 0px;
     width: 100% ;
 }
 .RightClip {
@@ -111,7 +111,7 @@ SPAN.displaygrey { color: #888 }
 
 .CellTitle { font-size: 60% ; }
 
-.Grades { margin-left: 0.2em ; }
+.Grades { margin-left: 0.4em ; }
 
 .DisplayTypeMoy { font-style: italic }
 
