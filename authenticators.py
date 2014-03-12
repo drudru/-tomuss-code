@@ -1,5 +1,5 @@
 #    TOMUSS: The Online Multi User Simple Spreadsheet
-#    Copyright (C) 2008-2013 Thierry EXCOFFIER, Universite Claude Bernard
+#    Copyright (C) 2008-2014 Thierry EXCOFFIER, Universite Claude Bernard
 #
 #    This program is free software; you can redistribute it and/or modify
 #    it under the terms of the GNU General Public License as published by
@@ -22,7 +22,7 @@ Defines the authentication methods. One per class
 Currently :
    * CAS authenticator
    * OpenID authenticator
-   * Unix password authenticator (With Apache and BasicAuth in .htaccess
+   * Unix password authenticator (With Apache and BasicAuth in .htaccess)
    * FaceBook Connect
 
 Beware, ticket_from_url method must be fast and never freeze.
@@ -35,11 +35,14 @@ import urllib2
 import time
 import random
 import cgi
+import sys
+
+real_regtest = 'real_regtest' in sys.argv
 
 last_mail_sended = 0
 
 class Authenticator(object):
-    ticket_name = 'ticket'
+    ticket_name = 'ticket' # Parameter name in the come back URL
     
     def __init__(self, provider, realm):
         self.provider = provider
@@ -207,19 +210,35 @@ class Password(Authenticator):
 
 class RegTest(Authenticator):
     """
-    to allow /=user.name/ tickets without any testing
+    To allow /=user.name/ tickets without any testing.
+    For the demo server, create a fake ticket for each IP address,
+    so the interface user language is associated to the IP.
     """
-    def login_from_ticket(self, ticket_key, dummy_service, dummy_server):
-        return ticket_key
+    def an_id(self, server):
+        from . import ticket
+        return str(abs(hash(ticket.client_ip(server))))
+    
+    def login_from_ticket(self, ticket_key, dummy_service, server):
+        code = ticket_key.split('-')
+        if real_regtest:
+            return code[0]
+        if len(code) == 1:
+            return False
+        if self.an_id(server) != code[1]:
+            return False
+        return code[0]
 
     def redirection(self, service, server):
-        path = server.path.split('/')
-        if len(path) >= 4 and path[3].startswith('='):
-            ticket = path[3][1:]
+        for item in server.path.split('/'):
+            if item.startswith('='):
+                ticket = item[1:] + '-' + self.an_id(server)
+                break
         else:
             ticket = 'user.name'
-            
-        return '%s?ticket=%s' % (service, ticket)
+        if '?' in service:
+            return '%s&ticket=%s' % (service, ticket)
+        else:
+            return '%s?ticket=%s' % (service, ticket)
 
 
 class FaceBook(Authenticator):

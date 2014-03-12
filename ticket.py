@@ -1,5 +1,5 @@
 #    TOMUSS: The Online Multi User Simple Spreadsheet
-#    Copyright (C) 2008-2012 Thierry EXCOFFIER, Universite Claude Bernard
+#    Copyright (C) 2008-2014 Thierry EXCOFFIER, Universite Claude Bernard
 #
 #    This program is free software; you can redistribute it and/or modify
 #    it under the terms of the GNU General Public License as published by
@@ -15,7 +15,7 @@
 #    along with this program; if not, write to the Free Software
 #    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 #
-#    Contact: Thierry.EXCOFFIER@bat710.univ-lyon1.fr
+#    Contact: Thierry.EXCOFFIER@univ-lyon1.fr
 
 import os
 import time
@@ -65,7 +65,10 @@ class Ticket(object):
         
     def is_fine(self, server):
         # print self.user_name, (time.time() - self.date) , configuration.ticket_time_to_live, self.user_ip, client_ip(server), self.user_browser, server.headers["user-agent"]
-        if configuration.regtest and self.user_name == self.ticket:
+        if (configuration.regtest
+            and self.user_name == self.ticket
+            and self.user_ip == client_ip(server)
+            ):
             return True
         user_browser = server.headers.get("user-agent", '')
         if user_browser == '':
