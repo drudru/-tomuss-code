@@ -197,7 +197,7 @@ DIV.tipped DIV.text:hover { background: url(tip.png) }
     position: absolute ;
     z-index: 1 ;
     background: #EEF ;
-    opacity: 0.85 ;
+    opacity: 0.9 ;
     -webkit-animation-duration: 0.5s;
     -webkit-animation-name: fadein;
     animation-duration: 0.5s;
@@ -212,15 +212,15 @@ DIV.tipped DIV.text:hover { background: url(tip.png) }
 }
 @-webkit-keyframes fadein {
   from { opacity: 0 ; }
-  to { opacity: 0.85; }
+  to { opacity: 0.9; }
 }
 @keyframes fadeout {
-  from { opacity: 0.85 ; font-size:100% }
+  from { opacity: 0.9 ; font-size:100% }
   to { opacity: 0; font-size:100% ; }
 }
 @keyframes fadein {
   from { opacity: 0 ; }
-  to { opacity: 0.85; }
+  to { opacity: 0.9; }
 }
 .displayUE:hover .CellBox,
 .tip_displayed .CellBox {
