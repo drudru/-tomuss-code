@@ -1172,12 +1172,12 @@ function DisplayRSS(node)
   if ( node.data === false )
     return '<iframe src="' + url + '/=' + ticket + '/rsskey"></iframe>' ;
   
-  return hidden_txt('<a href="' + node.data + '">'
+  return hidden_txt('<a href="' + url_suivi + '/rss/' + node.data + '">'
 		    + _("MSG_suivi_student_RSS")
 		    + '<img src="' + url_files
 		    + '/feed.png" style="border:0px"></a>',
 		    _("TIP_suivi_student_RSS"))
-    + '<link href="' + node.data
+    + '<link href="' + url_suivi + '/rss/' + node.data
     + '" rel="alternate" title="TOMUSS" type="application/rss+xml">' ;
 }
 
