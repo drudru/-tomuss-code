@@ -8,14 +8,18 @@ var the_body ;
 
 function _cell(s, url)
 {
-  var ticket = document.location.pathname.split('/')[1] ;
   var url_s = url.split('/') ;
   var ue = url_s[url_s.length-4] ;
 
   iframe = document.createElement('iframe') ;
   iframe.className = 'feedback' ;
   if ( DisplayGrades.html_object )
-    DisplayGrades.html_object.parentNode.parentNode.parentNode.appendChild(iframe) ;
+    {
+      var cell = DisplayGrades.html_object.parentNode.parentNode ;
+      if ( cell.lastChild.tagName != 'IFRAME' )
+	cell.appendChild(document.createElement('br')) ;
+      cell.appendChild(iframe) ;
+    }
   else
     s.parentNode.appendChild(iframe) ;
 
@@ -28,7 +32,7 @@ function _cell(s, url)
   iframe.src = url + '/' + encode_uri(s.value) ;
 
   unload = document.createElement('IMG') ;
-  unload.src = 'unload/' + ue ;
+  unload.src = url_suivi + '/=' + ticket + '/unload/' + ue ;
   unload.width = unload.height = 1 ;
   the_body.appendChild(unload) ;
 
