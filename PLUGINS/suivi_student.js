@@ -450,7 +450,7 @@ DisplayEmptyCell.need_node = [] ;
 
 function DisplayReload(node)
 {
-  if ( ! is_a_teacher || myindex(root, username) == -1 )
+  if ( ! is_a_teacher || ! i_am_root )
     return '' ;
   return '<a href="reload_plugins">' + _("TITLE_reload_plugins") + '</a>' ;
 }
@@ -458,7 +458,7 @@ DisplayReload.need_node = [] ;
 
 function DisplayProfiling(node)
 {
-  if ( ! is_a_teacher || myindex(root, username) == -1 )
+  if ( ! is_a_teacher || ! i_am_root )
     return '' ;
   var t = [] ;
   for(var i in node.data)
