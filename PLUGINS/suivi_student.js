@@ -258,29 +258,33 @@ function DisplayList(node)
 }
 DisplayList.need_node = [] ;
 
+function is_inside_rightclip(element)
+{
+  while(element)
+    {
+      if ( element.id == 'rightclip' )
+	return true ;
+      element = element.parentNode ;
+    }
+}
+
 function set_rightclip(classe, event)
 {
   var e = document.getElementById("rightclip") ;
 
-  if ( event && event.button !== undefined
-       && e.className.toString().match('hide_rightclip') )
-    {
-      // to not follow links when clicking on hidden bodyright
-      stop_event(event) ;
-    }
+  if ( event
+       && event.button !== undefined
+       && e.className.toString().match('hide_rightclip')
+       && is_inside_rightclip(the_event(event).target) )
+    stop_event(event) ; // Not follow links when clicking on hidden bodyright
 
   e.className = e.className.toString()
     .replace(/ [^ ]*_rightclip/g, '') + ' ' + classe ;
 
   // XXX Kludge : Hide Bodyright if bodyleft is clicked on touch screen
   e.parentNode.parentNode.onmousedown = function(event) {
-    var o = the_event(event).target ;
-    while( o )
-      {
-	if ( o.id == 'rightclip' )
-	  return ;
-	o = o.parentNode ;
-      }
+    if ( is_inside_rightclip(the_event(event).target) )
+      return ;
     hide_rightclip(event) ;
   } ;
   return 
