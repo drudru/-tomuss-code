@@ -101,10 +101,10 @@ def get_path(server, server_url):
                             ):
                     # Update the old ticket
                     ticket.tickets[path[1]] = ticket.clone(path[1], t)
-                    redirect(server, utilities.StaticFile._url_
+                    redirect(server, configuration.url_files
                              + '/auth_close.html')
                 else:
-                    redirect(server, utilities.StaticFile._url_
+                    redirect(server, configuration.url_files
                              + '/allow_error.html')
                     utilities.send_backtrace('bad allow request',
                                              exception=False)
@@ -174,7 +174,7 @@ def ok(server):
 
     # Problem with the request with an ever changing IP
     if server.ticket is False:
-        redirect(server, utilities.StaticFile._url_ + '/ip_error.html')
+        redirect(server, configuration.url_files + '/ip_error.html')
         return
     
     warn('Append to authentication queue', what="auth")
