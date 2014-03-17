@@ -62,7 +62,6 @@ BODY.Automne .BodyRight
 .DisplayUETitle { font-weight: bold ; }
 .MoreOnSuivi { background: white }
 .Cell {
-    max-width: 20em ;
     overflow: auto ;
 }
 .CellTop, .CellBottom {
@@ -79,9 +78,8 @@ SPAN.displaygrey { color: #888 }
     font-size: 70% ;
 }
 .CellBox {
+    max-width: 22em ;
     border: 1px solid black ;
-    min-width: 3.8em;
-    width: 3.8em;
     overflow: hidden ;
     margin-top: 0.2em ;
     margin-bottom: 0.2em ;
@@ -150,6 +148,11 @@ BODY.bad_inline_block .is_notempty { display: none ; }
 
 BODY.smallscreen.Printemps { background-image: url(printemps.png) ; }
 BODY.smallscreen.Automne { background-image: url(automne.png) ; }
+
+BODY.smallscreen .CellBox {
+    min-width: 3.8em;
+    width: 3.8em;
+    }
 
 BODY.smallscreen .hide_rightclip {
     opacity: 0.3 ;
@@ -244,6 +247,7 @@ DIV.tipped DIV.text:hover { background: url(tip.png) }
     width: auto ;
     overflow: visible ;
     white-space: normal ;
+    max-width: none ;
 }
 @-webkit-keyframes fadeout2 {
   from { opacity: 1 ; }
