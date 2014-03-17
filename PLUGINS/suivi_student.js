@@ -1029,7 +1029,7 @@ function DisplaySemesters(node)
       y = ys[0] ;
       s = ys[1] ;
     }
-  while(node.data[y + '/' + s]) ;
+  while(node.data[y + '/' + s] || s != semesters[0]) ;
   return '<table class="tomuss_links colored">'
     + '<tr><th colspan="3">'
     + hidden_txt(_("MSG_suivi_student_semesters"),
