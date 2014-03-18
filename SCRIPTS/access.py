@@ -154,7 +154,7 @@ class Stats:
                 ','.join(years), av, _("B_Moy")))
 
 
-d = configuration.db + '/Y*/S*/*.py'
+d = configuration.db + '/Y*/S[!T]*/*.py'
 
 print 'Analyse:', d
 

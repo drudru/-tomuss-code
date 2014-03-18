@@ -23,7 +23,8 @@ BODY.Automne .BodyRight
     vertical-align: top ;
 }
 
-.Top, .User, .Body, .Grades, .Private, .Preamble, .Message { width: 100% ; }
+.Top, .User, .Body, .Grades, .Private, .Preamble, .Message, .UEHeader {
+    width: 100% ; }
 .User { font-size: 70% ; }
 .TopLine { font-size: 200% ; }
 .Picture IMG.small { height: 1.5em ;}
@@ -143,6 +144,8 @@ BODY.bad_inline_block .Display {
 BODY.bad_inline_block .Logout { text-decoration: underline }
 BODY.bad_inline_block .is_empty { display: none ; }
 BODY.bad_inline_block .is_notempty { display: none ; }
+
+BODY.bad_inline_block #cellbox_tip.hidden { display: none }
 
 /*********************** Small screen *******************/
 
