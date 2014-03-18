@@ -1217,8 +1217,8 @@ class FakeRequestHandler(BaseHTTPServer.BaseHTTPRequestHandler):
 
     def close_connection_now(self):
         self.the_file.close()
-        self.the_rfile.close()
         try:
+            self.the_rfile.close()
             self.the_fp.close()
             self.the_sock.close()
         except AttributeError:
