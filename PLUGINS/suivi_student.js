@@ -649,7 +649,17 @@ DisplayCellTitle.need_node = [] ;
 
 function DisplayCellValue(node)
 {
-  return DisplayGrades.column.real_type.formatte_suivi() || '&nbsp;' ;
+  var t = DisplayGrades.column.real_type.formatte_suivi() ;
+  if ( ! t )
+    return '&nbsp;' ;
+  var len ;
+  if ( t.match('>') )
+    len = t.split('>')[1].split('<')[0].length ;
+  else
+    len = t.length ;
+  if ( len < 50 )
+    return t ;
+  return [t, 'long_text', '', ''] ;
 }
 DisplayCellValue.need_node = [] ;
 
@@ -819,7 +829,9 @@ function DisplayCellBox(node)
   else if ( DisplayGrades.column.real_weight_add )
     {
       if ( DisplayGrades.cellstats
-	   && DisplayGrades.cellstats.rank !== undefined )
+	   && DisplayGrades.cellstats.rank !== undefined
+	   && DisplayGrades.cellstats.nr >= 10
+	   )
 	styles.push(rank_to_color(DisplayGrades.cellstats.rank,
 				  DisplayGrades.cellstats.nr)) ;
       else if ( (DisplayGrades.column.type == 'Moy'

@@ -194,6 +194,13 @@ BODY.smallscreen .show_rightclip {
 
 BODY.smallscreen .copyright { display: none ; }
 
+/*********************** Long text *******************/
+
+.long_text { font-size: 49% ; white-space: normal ; min-height: 2.6em ;}
+#cellbox_tip .long_text { font-size: 100% ; height: auto; min-height: initial; }
+BODY.smallscreen .long_text { height: 2.6em ; }
+
+
 /*********************** Tip management *******************/
 
 DIV#tip { margin-top: 1em }
@@ -250,7 +257,7 @@ DIV.tipped DIV.text:hover { background: url(tip.png) }
     width: auto ;
     overflow: visible ;
     white-space: normal ;
-    max-width: none ;
+    max-width: initial ;
 }
 @-webkit-keyframes fadeout2 {
   from { opacity: 1 ; }
