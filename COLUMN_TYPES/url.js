@@ -1,6 +1,6 @@
 /*
     TOMUSS: The Online Multi User Simple Spreadsheet
-    Copyright (C) 2008,2010 Thierry EXCOFFIER, Universite Claude Bernard
+    Copyright (C) 2008-2014 Thierry EXCOFFIER, Universite Claude Bernard
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -49,10 +49,10 @@ function url_format_suivi()
   if ( DisplayGrades.value === '' )
     return ' ' ;
 
-  var value = DisplayGrades.value.toString().split(' ', 1) ;
+  var value = DisplayGrades.value.toString().split(' ') ;
   var title ;
   if (value.length > 1)
-    title = value[1] ;
+    title = value.slice(1).join(' ') ;
   else
   {
     if (DisplayGrades.column.url_title)
