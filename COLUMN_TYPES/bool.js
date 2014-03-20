@@ -39,7 +39,7 @@ function test_bool(value, column)
 function enumeration_suivi(choices)
 {
   if ( ! cell_modifiable_on_suivi() )
-    return DisplayGrades.value.replace(/_/g, " ") ;
+    return html(DisplayGrades.value.replace(/_/g, " ")) ;
   
   var v = '<select class="hidden" onchange="'
     + student_input(DisplayGrades.column) + '">' ;
@@ -51,7 +51,7 @@ function enumeration_suivi(choices)
       sel = ' selected="1"' ;
     else
       sel = "" ;
-    v += '<option value="' + i + '"' + sel +'>' + i + '</option>' ;
+    v += '<option value="' + i + '"' + sel +'>' + html(i) + '</option>' ;
   }
   v += '</select>' ;
 
