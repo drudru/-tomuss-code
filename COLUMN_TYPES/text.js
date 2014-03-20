@@ -341,16 +341,18 @@ function student_input(column)
 function text_format_suivi()
 {
   if ( cell_modifiable_on_suivi() )
-  {
     return '<input class="hidden" onkeypress="if ( the_event(event).keyCode == 13 ) '
-      + student_input(DisplayGrades.column)
-      + '" value="'
-      + (DisplayGrades.value.toString().replace("%","&#37").replace("'", "&#39;")
-	 .replace('"', '&#34;'))
-      + '"></input> <small style="font-size:80%">' + _("MSG_enter") + '</small>' ;
-  }
-  else
-    return html(DisplayGrades.value.toString()).replace(/\n/g,'<br>') ;
+    + student_input(DisplayGrades.column)
+    + '" value="'
+    + (DisplayGrades.value.toString().replace("%","&#37").replace("'", "&#39;")
+       .replace('"', '&#34;'))
+    + '"></input> <small style="font-size:80%">' + _("MSG_enter") + '</small>';
+
+  var v = html(DisplayGrades.value.toString()).replace(/\n/g,'<br>') ;
+  // To avoid non breaking long strings, replace _ by spaces
+  if ( v.indexOf(' ') == -1 && v.replace(/[^_]/g, '').length > 5 )
+    v = v.replace(/_/g, ' ') ;
+  return v ;
 }
 
 function ___NAME__()
