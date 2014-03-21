@@ -36,28 +36,36 @@ for line in times:
         stats.append([])
     stats[t].append(duration)
 
-def histogram(v, minimum=0.001, maximum=5000):
-    h = [0]*int(math.log(maximum) - math.log(minimum))
-    for ii in v:
-        h[int(math.log(ii) - math.log(minimum))] += 1
-    return ' '.join('%4d' % i
+def histogram(v=[], minimum=0.001, maximum=5000, header=False):
+    if header:
+        return '         #Call MIN    MOY    MAX   ' + ''.join(
+            '%6.0e' % (math.exp(ii) * minimum)
+            for ii in range(int(math.log(maximum) - math.log(minimum)))
+            )
+    else:
+        h = [0]*int(math.log(maximum) - math.log(minimum))
+        for ii in v:
+            h[int(math.log(ii) - math.log(minimum))] += 1
+    return "%5d %6.3f %6.3f %6.3f" % (
+        len(v), min(v), sum(v)/len(v), max(v)) + ''.join('%6d' % i
                     for i in h)
 
+
+print histogram(header=True)
 for t, i in enumerate(stats):
     if not i:
         continue
     i.sort()
     print time.strftime('%Y%m%d',time.localtime((start+t)*interval)
-                        ), "%5d %6.3f %6.3f %6.3f " % (
-        len(i), min(i), sum(i)/len(i), max(i)), histogram(i)
+                        ), histogram(i)
         
         
+print histogram(header=True)
 for t, i in enumerate(hours):
     if not i:
         continue
     i.sort()
-    print "%02d:00 %5d %6.3f %6.3f %6.3f " % (t,
-        len(i), min(i), sum(i)/len(i), max(i)), histogram(i)
+    print "%02d:00   " % t, histogram(i)
         
         
     
