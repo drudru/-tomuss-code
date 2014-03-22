@@ -179,12 +179,9 @@ def portail_of_a_teacher(tteacher):
 
 def referent(year, semester, login):
     """Returns the 'referent' of a student."""
-    login = utilities.the_login(login)
-    for line in referents_students(year, semester).lines.values():
-        for cell in line[2:]:
-            if utilities.the_login(cell.value) == login:
-                return line[0].value
-    return None
+    return referents_students(
+        year, semester
+        ).id_to_referent.get(inscrits.login_to_student_id(login))
 
 def get(login):
     """Return the student's referent for the current semester"""

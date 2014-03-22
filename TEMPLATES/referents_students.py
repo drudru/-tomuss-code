@@ -19,6 +19,8 @@
 #
 #    Contact: Thierry.EXCOFFIER@bat710.univ-lyon1.fr
 
+"""The table contains student ID, not login"""
+
 from .. import data
 from .. import inscrits
 from .. import configuration
@@ -32,7 +34,16 @@ def init(table):
     else:
         table.do_not_unload_add('*referents_students')
 
-
+def onload(table):
+    table.id_to_referent = {}
+    for line in table.lines.values():
+        if not line[0].value:
+            continue
+        for cell in line[2:]:
+            if not cell.value:
+                continue
+            table.id_to_referent[cell.value] = inscrits.login_to_student_id(
+                line[0].value)
 
 def create(table):
     default_master = configuration.root[0]
@@ -63,10 +74,17 @@ def update_referents(dummy_the_ids, table, page):
                     table.cell_change(page, "a", str(len(table.lines)), login)
         finally:
             table.unlock()
+
+def cell_change(table, dummy_page, col, lin, value, dummy_date):
+    column = table.columns.from_id(col)
+    if not column:
+        return
+    old = inscrits.login_to_student_id(table.lines[lin][column.data_col].value)
+    if old in table.id_to_referent:
+        del table.id_to_referent[old]
+    if value:
+        table.id_to_referent[inscrits.login_to_student_id(value)
+                             ] = table.lines[lin][0].value
     
-
-
-
-# Get the mails
 def check(table):
     _ucbl_.check(table, update_inscrits=update_referents)
