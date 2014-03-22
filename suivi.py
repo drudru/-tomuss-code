@@ -63,6 +63,13 @@ class MyRequestBroker(utilities.FakeRequestHandler):
         self.start_time = time.time()
         self.the_port = server_port
         self.ticket = None
+
+        if self.path.startswith('/PROFILE_THIS_URL/'):
+            self.path = self.path.replace('/PROFILE_THIS_URL/', '/')
+            self.do_profile = True
+        else:
+            self.do_profile = False
+
         # APACHE make a mess with %2F %3F and others
         # so we encode them with $2F $3F...
         self.path = self.path.replace("$", "%")
@@ -120,12 +127,6 @@ class MyRequestBroker(utilities.FakeRequestHandler):
             running = False
             return
         
-        if path.startswith('/PROFILE_THIS_URL/'):
-            path = path.replace('/PROFILE_THIS_URL/', '')            
-            self.do_profile = True
-        else:
-            self.do_profile = False
-
         self.the_file = self.wfile
         self.the_rfile = self.rfile
         # self.do_not_close_connection()

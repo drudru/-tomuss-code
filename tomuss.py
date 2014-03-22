@@ -128,6 +128,12 @@ class MyRequestBroker(utilities.FakeRequestHandler):
                   utilities.js(ue)))
 
     def do_GET_real(self):
+        if self.path.startswith('/PROFILE_THIS_URL/'):
+            self.path = self.path.replace('/PROFILE_THIS_URL/', '/')
+            self.do_profile = True
+        else:
+            self.do_profile = False
+
         # APACHE make a mess with %2F %3F and others
         # so we encode them with $2F $3F...
         self.path = self.path.replace("$", "%")
@@ -167,12 +173,6 @@ class MyRequestBroker(utilities.FakeRequestHandler):
             self.wfile.write('stopped')
             running = False
             return
-
-        if self.path.startswith('/PROFILE_THIS_URL/'):
-            self.path = self.path.replace('/PROFILE_THIS_URL/', '')            
-            self.do_profile = True
-        else:
-            self.do_profile = False
 
         the_ticket, self.the_path = ticket.get_ticket_string(self)
         self.ticket = ticket.get_ticket_objet(the_ticket, self)
