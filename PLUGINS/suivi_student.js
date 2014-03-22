@@ -593,9 +593,11 @@ function DisplayCellRank(node)
     
   var s = ' ' ;
   if ( DisplayGrades.cellstats.rank !== undefined)
-    s += ' ' + DisplayGrades.cellstats.rank +'/'+  DisplayGrades.cellstats.nr ;
+    s += DisplayGrades.cellstats.rank +'/'+  DisplayGrades.cellstats.nr + ' ' ;
   if ( DisplayGrades.cellstats.rank_grp !== undefined)
-    s += ' ' + DisplayGrades.cellstats.rank_grp +'/'+  DisplayGrades.cellstats.nr_in_grp ;
+    s +=DisplayGrades.cellstats.rank_grp+'/'+DisplayGrades.cellstats.nr_in_grp;
+  if ( s != ' ' )
+    s = '<span class="displaygrey">' + _("TH_rank") + '</span>' + s ;
   return s ;
 }
 DisplayCellRank.need_node = [] ;
