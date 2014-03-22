@@ -502,7 +502,8 @@ function DisplayUETitle(node)
       title = '<a href="' + url_table + '" target="_blank">' + title + '</a>' ;
       title = hidden_txt(title, _("MSG_cell_full_table"));
       title += hidden_txt(' (<a href="' + url_table
-			  + '/=filters=0_0:' + display_data['Login']
+			  + '/=filters=0_0:'
+			  + login_to_id(display_data['Login'])
 			  + '=" target="_blank">*</a>)',
 			  _("MSG_cell_one_line")) ;
     }
