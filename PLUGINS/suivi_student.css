@@ -135,7 +135,6 @@ SPAN.displaygrey { color: #888 }
 .LastGrades { width: 100% }
 .LastGrades .day { width: 6em }
 
-
 /*********************** Not working inline_block (IE) *******************/
 
 BODY.bad_inline_block .Display {

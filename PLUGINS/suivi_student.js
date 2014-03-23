@@ -1282,15 +1282,56 @@ function DisplayTT(node)
     + '<tr><td>' + html(node.data).replace(/\n/g,'<br>') + '</tr></table>' ;
 }
 
+function memberof_tree(lines, line, column, max, need_tr)
+{
+  var i ;
+  for(i = line+1; i<max; i++)
+    {
+      if ( lines[i][column] !== lines[i-1][column] )
+	break ;
+    }
+  var nb = i - line ;
+  var s = '' ;
+  if ( need_tr )
+    s += '<tr>' ;
+  s += '<td rowspan="' + nb + '">' + lines[line][column] ;
+  if ( lines[line][column+1] === undefined )
+    return {'html': s + '</tr>', 'nb': 1} ;
+  i = line ;
+  need_tr = false ;
+  while(i < line+nb)
+    {
+      var r = memberof_tree(lines, i, column+1, line+nb, need_tr) ;
+      s += r['html'] ;
+      i += r['nb'] ;
+      need_tr = true ;
+    }
+  return {'html': s, 'nb': nb} ;
+}
+
 function DisplayMemberOf(node)
 {
   if ( ! is_a_teacher )
     return '' ;
-  
-  var mo = '<table class="memberof">' ;
+  var grp, reversed = [] ;
   for(var i in node.data[0])
-    mo += '<tr><td>' + node.data[0][i].replace(/,/g, '<td>') + '</tr>' ;
-  mo += '</table>' ;
+    {
+      grp = node.data[0][i].split(',') ;
+      grp.reverse() ;
+      reversed.push(grp) ;
+    }
+  reversed.sort() ;
+
+  // The 'overflow' indicates to the tip framework to not hide the tip
+  var mo = '<div style="overflow:scroll; height:20em;overflow-x: hidden">'
+     + '<table class="memberof">' ;
+  for(var i=0; i<reversed.length; )
+    {
+      var r = memberof_tree(reversed, i, 0, reversed.length, true) ;
+      mo += r['html'] ;
+      i += r['nb'] ;
+    }
+  mo += '</table></div>' ;
 
   var etapes = '' ;
   for(var i in node.data[1])
