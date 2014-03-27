@@ -33,9 +33,9 @@ def init(table):
         table.modifiable = table.update_inscrits = 0
     else:
         table.do_not_unload_add('*referents_students')
+    table.id_to_referent = {}
 
 def onload(table):
-    table.id_to_referent = {}
     for line in table.lines.values():
         if not line[0].value:
             continue
