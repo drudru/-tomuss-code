@@ -359,6 +359,14 @@ def check_get_info():
 
         firstname = firstname.encode('utf-8')
         line = table.lines[lin]
+
+        if table.unloaded:
+            # The information took so long to get that the table
+            # was unloaded, so it can't be stored.
+            # To not pollute the backtrace logs, we do not
+            # try to store the value.
+            continue
+
         # DO NOT USE the user page (use pages[0])
         # BECAUSE IT BREAKS THE NUMBER OF REQUESTS
         # It loose value on tomuss reboot.
