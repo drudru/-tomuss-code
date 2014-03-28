@@ -1,7 +1,7 @@
 // -*- coding: utf-8 -*-
 /*
     TOMUSS: The Online Multi User Simple Spreadsheet
-    Copyright (C) 2008-2012 Thierry EXCOFFIER, Universite Claude Bernard
+    Copyright (C) 2008-2014 Thierry EXCOFFIER, Universite Claude Bernard
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -29,6 +29,7 @@ var enddate ;
 var start ;
 var end ;
 var sendabj ;
+var sendmessage ;
 var datasend ;
 var da_list ;
 var comment ;
@@ -53,6 +54,7 @@ function abj_init()
   start           = document.getElementById('start'          ) ;
   end             = document.getElementById('end'            ) ;
   sendabj         = document.getElementById('sendabj'        ) ;
+  sendmessage     = document.getElementById('sendmessage'    ) ;
   datasend        = document.getElementById('datasend'       ) ;
   da_list         = document.getElementById('da'             ) ;
   comment         = document.getElementById('abjcomment'     ) ;
@@ -232,6 +234,7 @@ function update_button_real()
   sendabj.value = _("MSG_abj_save") + '\n'
     + nice_date(date_to_store(start.value))
     + '\n' + _("TH_until") + '\n' + nice_date(date_to_store(end.value)) ;
+  sendmessage.value = _("MSG_message_save") + ' ' + comment.value ;
 }
 
 function update_button()
@@ -313,6 +316,13 @@ function send_abj()
 	    date_to_store(start.value) + '/' + date_to_store(end.value)
 	    + '/' + encode_uri(comment.value + ' ')) ;
   comment.value = '' ;
+}
+
+function send_message()
+{
+  comment.value = '{{{MESSAGE}}}' + comment.value ;
+  start.value = end.value = _today.formate('%d/%m/%Y %p') ;
+  send_abj() ;
 }
 
 function del_abj(fro, to)
@@ -405,17 +415,29 @@ function display_abjs(abjs)
     {
       var d = (0.5 + (parse_date(abjs[abj][1]).getTime()
 		      - parse_date(abjs[abj][0]).getTime())/(1000*86400)) ;
-      abj_days += d ;
-      s += '<TR><TD style="text-align:right">' + nice_date_short(abjs[abj][0]) +
-	'</TD><TD style="text-align:right">' + nice_date_short(abjs[abj][1]) +
-	'</TD><TD style="text-align:right">' + d.toFixed(1) +
-	'</TD><TD><A href="#" onclick="window.parent.del_abj(\'' +
-	date_to_store(abjs[abj][0]) + '\',\'' +
-	date_to_store(abjs[abj][1]) + '\');return false;">'
-	+ _("B_home_delete_table") + '</a>' +
-	'</TD><TD>' + abjs[abj][2] +
-	'</TD><TD>' + html(abjs[abj][3]) +
-	'</TD></TR>' ;
+      var before, message = html(abjs[abj][3]) ;
+      if ( message.substr(0,13) == '{{{MESSAGE}}}')
+      {
+	before = '<TD colspan="3">' + nice_date_short(abjs[abj][0]) ;
+	message = '<span style="background:#F00;color:#FFF">'
+	+ message.replace('{{{MESSAGE}}}', '') + '</span>' ;
+      }
+      else
+      {
+	before = '<TD>'+ nice_date_short(abjs[abj][0])
+	  + '<TD>' + nice_date_short(abjs[abj][1])
+	  + '<TD style="text-align:right">' + d.toFixed(1) ;
+	abj_days += d ;
+      }
+
+      s += '<TR>' + before
+	+ '<TD><A href="#" onclick="window.parent.del_abj(\''
+	+ date_to_store(abjs[abj][0]) + '\',\''
+	+ date_to_store(abjs[abj][1]) + '\');return false;">'
+	+ _("B_home_delete_table") + '</a>'
+	+ '<TD>' + abjs[abj][2]
+	+ '<TD>' + message
+	+ '</TR>' ;
     }
   s += '</TABLE>' ;
   s += _("TH_abj_duration") + abj_days.toFixed(1) ;

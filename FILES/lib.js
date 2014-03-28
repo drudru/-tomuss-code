@@ -2828,6 +2828,15 @@ function student_abjs(login)
 	+ '</TH><TH>' + _('TH_length') + '</TH><TH></TH></TR>' ;
       for(var abj in abjs)
         {
+	  if ( abjs[abj][2].substr(0,13) == '{{{MESSAGE}}}' )
+	    {
+	      s += '<TD COLSPAN="4">' + nice_date(abjs[abj][0])
+		+ ' <span style="background: #F00; color: #FFF">'
+		+ html(abjs[abj][2].replace('{{{MESSAGE}}}', ''))
+		+ '</span>'
+		;
+	      continue ;
+	    }
 	  s += '<TR>' ;
           var d = (0.5 + (parse_date(abjs[abj][1]).getTime()
 			  - parse_date(abjs[abj][0]).getTime())/(1000*86400)) ;

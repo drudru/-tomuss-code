@@ -23,7 +23,7 @@ BODY.Automne .BodyRight
     vertical-align: top ;
 }
 
-.Top, .User, .Body, .Grades, .Private, .Preamble, .Message, .UEHeader {
+.Top, .User, .Body, .Grades, .Private, .Preamble, .Message, .Messages, .UEHeader {
     width: 100% ; }
 .User { font-size: 70% ; }
 .TopLine { font-size: 200% ; }
@@ -55,8 +55,13 @@ BODY.Automne .BodyRight
 }
 .Message {
     padding: 0.2em;
-    background-color: .80FF80;
+    background-color: #80FF80;
     text-align: center ;
+}
+.Messages {
+    padding: 0.2em;
+    color: white ;
+    background-color: #FF0000;
 }
 .Grades H3 { margin-bottom: 0px; }
 .UE { display: block; margin-top: 1em ; }

@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 #    TOMUSS: The Online Multi User Simple Spreadsheet
-#    Copyright (C) 2008-2012 Thierry EXCOFFIER, Universite Claude Bernard
+#    Copyright (C) 2008-2014 Thierry EXCOFFIER, Universite Claude Bernard
 #
 #    This program is free software; you can redistribute it and/or modify
 #    it under the terms of the GNU General Public License as published by
@@ -186,47 +186,6 @@ class Abj(object):
             date = configuration.date_to_time(da[1])
             if begin < date < end:
                 yield da
-
-    def html(self, year, semester, full=False):
-        """This function is here because it does not send
-        restricted information to students.
-        XXX : NO MORE USED BY THE 'SUIVI' SERVER, to remove ?
-        """
-        
-        content = []
-        the_abjs = tuple(self.current_abjs(year, semester))
-        if the_abjs:
-            content.append('''
-<TABLE class="display_abjs colored">
-<TR><TH><script>Write("MSG_abjtt_from_before")</script></TH>
-    <TH><script>Write("TH_until")</script></TH>
-    <TH><script>Write("TH_comment")</script></TH></TR>''')
-            for abj in the_abjs:
-                content.append('<TR><TD>' + abj[0] + '</TD><TD>' + abj[1] +
-                               '</TD><TD>' + cgi.escape(abj[3]) + '</TD></TR>')
-            content.append('</TABLE>')
-
-        das = tuple(self.current_das(year, semester))
-        if das:
-            content.append("""
-<TABLE class="display_da colored">
-<TR><TH><script>Write("TH_da_for_ue")</script></TH>""")
-            content.append('<TH><script>Write("TH_comment")</script></TH></TR>')
-            for a_da in das:
-                if full:
-                    comment = cgi.escape(a_da[3]).replace('\n','<br>')
-                else:
-                    comment = cgi.escape(a_da[3].strip().split('\n')[0])
-                    if '\n' in a_da[3].strip():
-                        comment += '<br><b><script>Write("MSG_see_more")</script></b>'
-                    comment = ('<script>hidden(' + js(comment) + ','
-                               + js(cgi.escape(a_da[3]).replace('\n','<br>'))
-                               + ');</script>')
-                content.append('<TR><TD>' + a_da[0] + '<BR>' + a_da[1] +
-                               '</TD><TD>' + comment + '</TD></TR>')
-            content.append('</TABLE>')
-
-        return '\n'.join(content)
 
 class Abjs(object):
     """ABJ for a set of students"""

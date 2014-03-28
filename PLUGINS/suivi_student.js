@@ -1102,6 +1102,17 @@ function DisplayPreamble(node)
 }
 DisplayPreamble.need_node = [] ;
 
+function DisplayMessages(node)
+{
+  var m = [] ;
+  var abjs = display_data['Abjs'] ;
+  for(var i in abjs)
+    if ( abjs[i][2].substr(0, 13) == '{{{MESSAGE}}}' )
+      m.push(abjs[i][0] + ' : ' + abjs[i][2].replace('{{{MESSAGE}}}', '')) ;
+  return m.join('<br>') ;
+}
+DisplayMessages.need_node = ['Abjs'] ;
+
 function DisplayNewSignature(node)
 {
   if ( ! is_a_teacher )
@@ -1149,9 +1160,10 @@ function DisplayAbjs(node)
     return '' ;
   var t = [] ;
   for(var i in node.data)
-    t.push('<TR><TD>' + node.data[i][0] + '</TD><TD>' + node.data[i][1]
-	   + '</TD><TD>' +  html(node.data[i][2])
-	   + '</TD></TR>') ;
+    if ( node.data[i][2].substr(0, 13) != '{{{MESSAGE}}}' )
+      t.push('<TR><TD>' + node.data[i][0] + '</TD><TD>' + node.data[i][1]
+	     + '</TD><TD>' +  html(node.data[i][2])
+	     + '</TD></TR>') ;
   
   return '<TABLE class="display_abjs colored"><tr>'
     + '<th>' + _("MSG_abjtt_from_before")

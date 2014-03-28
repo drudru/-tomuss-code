@@ -4605,6 +4605,9 @@ msgstr "Invalid year: "
 msgid "MSG_abj_save"
 msgstr "Save JL from"
 
+msgid "MSG_message_save"
+msgstr "Save the message:"
+
 msgid "ALERT_abj_duplicate"
 msgstr "This JL yet exists!"
 
@@ -4624,7 +4627,7 @@ msgid "MSG_abj_wait"
 msgstr "Please wait data loading."
 
 msgid "MSG_abj_why"
-msgstr "Click on justified leave explanation."
+msgstr "Click on one of the messages:"
 
 msgid "MSG_abj_predefined"
 msgstr "c('Medical certificate') + '/' + c('Hospitalisation') + '<br>'+\n"

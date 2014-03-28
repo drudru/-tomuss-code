@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 #    TOMUSS: The Online Multi User Simple Spreadsheet
-#    Copyright (C) 2008,2009 Thierry EXCOFFIER, Universite Claude Bernard
+#    Copyright (C) 2008-2014 Thierry EXCOFFIER, Universite Claude Bernard
 #
 #    This program is free software; you can redistribute it and/or modify
 #    it under the terms of the GNU General Public License as published by
@@ -48,8 +48,10 @@ DIV#student_display IMG {
   float: right ;
 }
 
-INPUT#sendabj { 
-  width: 20em ;
+INPUT#sendabj { width: 15em ; }
+INPUT#sendmessage { width: auto ; text-align: left }
+
+INPUT#sendabj, INPUT#sendmessage { 
   background: #EEE; 
 }
 

@@ -4664,6 +4664,9 @@ msgstr "Je refuse la saisie de l'année : "
 msgid "MSG_abj_save"
 msgstr "Sauvegarder l'ABJ du"
 
+msgid "MSG_message_save"
+msgstr "Sauvegarder le message :"
+
 msgid "ALERT_abj_duplicate"
 msgstr "Cette ABJ existe déjà !"
 
@@ -4683,7 +4686,7 @@ msgid "MSG_abj_wait"
 msgstr "Attendez le chargement des données s'il vous plait. SANS FERMER CETTE FENÊTRE."
 
 msgid "MSG_abj_why"
-msgstr "Cliquez sur la cause de l'absence justifiée"
+msgstr "Cliquez sur un des messages :"
 
 msgid "MSG_abj_predefined"
 msgstr "c('Certificat médical') + '/' + c('Hospitalisation') + '<br>'+\n"
@@ -4693,7 +4696,9 @@ msgstr "c('Certificat médical') + '/' + c('Hospitalisation') + '<br>'+\n"
        "c('Permis de conduire') + '/' +\n"
        "c('Convocation concours') + '<br>' +\n"
        "c('Compétition sportif haut niveau') + '/' +\n"
-       "c('Décès d\\'un proche')"
+       "c('Décès d\\'un proche') + '<br>' +\n"
+       "c('Vous devez aller à la scolarité pour régulariser votre situation administrative')"
+       
 
 msgid "MSG_abj_comment"
 msgstr "Ou bien saisissez un commentaire personnalisé."

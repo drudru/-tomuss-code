@@ -354,6 +354,7 @@ D('Question'    , []          ,0, js='Vertical')# Minimal suivi page if ask
 D('User'        ,['Top','Private','Question'],-3, js='Horizontal')
 D('Preamble'    ,['Top','Private','Question'],-2)
 D('Message'     ,'Top'        ,-1, js="Horizontal", data=display_message)
+D('Messages'    ,'Top'        ,-0.5) # To one student only
 D('Body'        ,'Top'        ,1, js='Horizontal')
 
 D('BodyLeft'    , 'Body'      ,0, js='Vertical')
