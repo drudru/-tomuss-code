@@ -3142,6 +3142,8 @@ function restore_unsaved()
 	  var line_id = line[2] ;
 	  if ( data_col !== undefined && lines[line_id] !== undefined )
 	    {
+	      if ( lines[line_id][data_col].value == line[3] )
+		continue ; // Unchanged value
 	      message += lines[line_id][0].value + ' ' +
 		lines[line_id][1].value + ' ' + lines[line_id][2].value 
 		+ ', ' + columns[data_col].title + ' = ' + line[3] + '\n' ;
