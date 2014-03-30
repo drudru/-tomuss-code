@@ -119,9 +119,12 @@ function import_column_do(comments)
 	    val = lines[line_id][data_col].comment ;
 	  else
 	    val = lines[line_id][data_col].value ;
-	  if ( val !== '' && val != value )
-	    replace += lines[line_id][0].value + ' : ' + val + ' ==> '
-	      + value + '\n' ;
+	  if ( val !== '' && value !== '' && a_float(val) == a_float(value) )
+	    continue ; // Import same float value
+	  if ( val === value )
+	    continue ; // Import same string value
+	  if ( val !== '' )
+	    replace += lines[line_id][0].value+' : '+ val +' ==> '+value+'\n';
 	  if ( twin[line_id] !== undefined )
 	    {
 	      replace += login + _("MSG_columnimport_multiple") + '\n' ;
