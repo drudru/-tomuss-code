@@ -4691,6 +4691,8 @@ function javascript_regtest_ue()
       var col_type = col_types[col_type2] ;
       set(t_column_title, col_type) ;
       set(t_column_type, col_types2[col_type2]) ;
+      if ( col_type == 'Moy' || col_type == 'Nmbr' )
+	expected("Saisir%20les%20noms%20des%20colonnes%20%E0%20combiner%20%28s%E9par%E9s%20par%20un%20espace%29<hr>") ;
       the_current_cell.update_headers_real() ;
       if ( col_type == 'Moy' )
 	{
