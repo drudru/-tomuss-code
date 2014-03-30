@@ -3124,6 +3124,24 @@ function store_unsaved()
 
 var do_reload_when_all_saved = false ;
 
+function restore_unsaved_forgot()
+{
+  localStorage['/' + year + '/' + semester + '/' + ue] = '' ;
+  index = localStorage['index'] ;
+  localStorage['index'] = index.replace(RegExp('\n/'+year+'/'+semester+'/'+ue,
+					       'g'), '') ;
+  popup_close() ;
+}
+
+function restore_unsaved_do_save()
+{
+  for(var i in restore_unsaved.t_splited)
+    pending_requests.push(new Request(restore_unsaved.t_splited[i])) ;
+  periodic_work_add(auto_save_errors) ;
+  do_reload_when_all_saved = true ;
+  create_popup('import_div', _('MSG_currently_saving'), '', '', false) ;
+}
+
 function restore_unsaved()
 {
   if ( ! localStorage )
@@ -3144,30 +3162,40 @@ function restore_unsaved()
 	    {
 	      if ( lines[line_id][data_col].value == line[3] )
 		continue ; // Unchanged value
-	      message += lines[line_id][0].value + ' ' +
-		lines[line_id][1].value + ' ' + lines[line_id][2].value 
-		+ ', ' + columns[data_col].title + ' = ' + line[3] + '\n' ;
+	      message += '<tr><td>' + html(lines[line_id][0].value)
+		+ '<td>' + html(lines[line_id][1].value
+				+ ' ' + lines[line_id][2].value) 
+		+ '<td>' + html(columns[data_col].title)
+		+ '<td>' + html(line[3]) + '</tr>' ;
 	      continue ;
 	    }
 	}
-      message += t_splited[i] + '\n' ;
+      message += '<tr><td colspan="4">' + html(decodeURI(t_splited[i]))
+	+ '</tr>' ;
     }
-
-  if ( confirm(_('ASK_restore') + "\n" + message) )
+  if ( message == '' )
     {
-      for(var i in t_splited)
-	pending_requests.push(new Request(t_splited[i])) ;
-      periodic_work_add(auto_save_errors) ;
-      create_popup('restoring_data', _('MSG_currently_saving'),'','',message) ;
+      return ;
     }
-  else
-    t = '' ;
-  localStorage['/' + year + '/' + semester + '/' + ue] = '' ;
-  index = localStorage['index'] ;
-  localStorage['index'] = index.replace(RegExp('\n/'+year+'/'+semester+'/'+ue,
-					       'g'), '') ;
-  if ( t )
-    do_reload_when_all_saved = true ;
+  restore_unsaved.t_splited = t_splited ;
+  create_popup('restoring_data', _('ASK_restore'),
+	       '',
+	       '<div style="height:10.5em;overflow:auto;">'
+	       + '<table class="colored"><tr><th>'
+	       + _('COL_TITLE_ID')
+	       + '<th>' + _('COL_TITLE_firstname')
+	       + ' ' +  _('COL_TITLE_surname')
+	       + '<th>' + _('TH_column')
+	       + '<th>' + _('TH_unsaved_value')
+	       + '</tr>'
+	       + message + '</table></div>'
+	       + '<button onclick="restore_unsaved_forgot()">'
+	       + _('B_unsaved_forgot') + '</button> '
+	       + '<button onclick="restore_unsaved_do_save()">'
+	       + _('B_unsaved_save') + '</button> '
+	       + '<button onclick="popup_close()">'
+	       + _('B_unsaved_cancel') + '</button>',
+	       false) ;
 }
 
 function Request(content)
@@ -3361,6 +3389,7 @@ function auto_save_errors()
 
   if ( do_reload_when_all_saved && nr_unsaved == 0 )
     {
+      restore_unsaved_forgot() ;
       window.location = window.location ;
       do_reload_when_all_saved = false ;
     }

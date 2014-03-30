@@ -1319,7 +1319,23 @@ msgstr "all"
 
 #. GUI
 msgid "ASK_restore"
-msgstr "Do you want to restore the following actions:"
+msgstr "These modifications had not been saved:"
+
+#. GUI
+msgid "B_unsaved_forgot"
+msgstr "Forgot these"
+
+#. GUI
+msgid "B_unsaved_save"
+msgstr "Save these"
+
+#. GUI
+msgid "B_unsaved_cancel"
+msgstr "Ask later"
+
+#. GUI
+msgid "TH_unsaved_value"
+msgstr "Unsaved value"
 
 #. GUI
 msgid "DEFAULT_title"
