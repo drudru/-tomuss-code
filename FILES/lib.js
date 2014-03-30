@@ -3139,11 +3139,18 @@ function restore_unsaved_do_save()
     pending_requests.push(new Request(restore_unsaved.t_splited[i])) ;
   periodic_work_add(auto_save_errors) ;
   do_reload_when_all_saved = true ;
+  if ( GUI )
+    {
+      GUI.add('restore_unsaved', '', 'save') ;
+      GUI.save() ;
+    }
   create_popup('import_div', _('MSG_currently_saving'), '', '', false) ;
 }
 
 function restore_unsaved()
 {
+  if ( GUI )
+    GUI.add('restore_unsaved', '', 'localStorage=' + !!localStorage) ;
   if ( ! localStorage )
     return ;
   var t = localStorage['/' + year + '/' + semester + '/' + ue] ;
