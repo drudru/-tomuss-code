@@ -880,8 +880,10 @@ function DisplayUEGrades(node)
 
   DisplayGrades.table_attr = ue ;
   var s = '' ;
-  for(var data_col in columns)
+  var ordered_columns = column_list_all() ;
+  for(var data_col in ordered_columns)
     {
+      data_col = ordered_columns[data_col] ;
       if ( data_col < 3 )
 	continue ;
       if ( columns[data_col].freezed == "C" )
