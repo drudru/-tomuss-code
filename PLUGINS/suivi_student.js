@@ -958,6 +958,8 @@ function DisplayLastGrades(node)
 	    continue ;
 	  if ( cell[1].length < 2 )
 	    continue ; // System value
+	  if ( ue.columns[data_col].title.substr(0,1) == '.' )
+	    continue ;
 	  s.push([ue, data_col]) ;
 	}
     }
