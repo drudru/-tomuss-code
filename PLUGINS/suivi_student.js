@@ -188,8 +188,10 @@ function detect_small_screen(force)
       top_class += ' bad_inline_block' ;
       smallscreen = false ;
     }
-  if ( smallscreen === undefined )
-    return ;
+  if ( is_a_teacher )
+    top_class += ' teacher_view' ;
+  else
+    top_class += ' student_view' ;
   if ( smallscreen )
     top_class += ' smallscreen' ;
   if ( the_body.className != top_class ) // To not relaunch CSS animation

@@ -92,25 +92,6 @@ SPAN.displaygrey { color: #888 }
     margin-right: 0.4em ;
     margin-left: 0px ;
     white-space: nowrap ;
-    opacity: 0.511 ;
-    -webkit-animation-duration: 0.5s;
-    -webkit-animation-name: fadeout2;
-    animation-duration: 0.5s;
-    animation-name: fadeout2;
-}
-.DisplayUEMasters {
-    opacity: 0.511 ;
-    -webkit-animation-duration: 0.5s;
-    -webkit-animation-name: fadeout2;
-    animation-duration: 0.5s;
-    animation-name: fadeout2;
-}
-.tip_displayed .DisplayUEMasters, .DisplayUE:hover .DisplayUEMasters {
-    opacity: 1 ;
-    -webkit-animation-duration: 0.5s;
-    -webkit-animation-name: fadein2;
-    animation-duration: 0.5s;
-    animation-name: fadein2;
 }
 
 .CellTitle { font-size: 60% ; }
@@ -139,6 +120,69 @@ SPAN.displaygrey { color: #888 }
 }
 .LastGrades { width: 100% }
 .LastGrades .day { width: 6em }
+
+
+/********** not grade Cells are transparent for teachers  *************/
+
+.teacher_view .CellBox {
+    opacity: 0.511 ;
+    -webkit-animation-duration: 0.5s;
+    -webkit-animation-name: fadeout2;
+    animation-duration: 0.5s;
+    animation-name: fadeout2;
+}
+
+.teacher_view .displayUE:hover .DisplayTypeNote,
+.teacher_view .tip_displayed .DisplayTypeNote,
+.teacher_view .DisplayTypeNote,
+.teacher_view #cellbox_tip .CellBox {
+    opacity:1 ;
+    -webkit-animation-name: none ;
+    animation-name: none ;
+}
+
+.teacher_view .DisplayUEMasters {
+    opacity: 0.511 ;
+    -webkit-animation-duration: 0.5s;
+    -webkit-animation-name: fadeout2;
+    animation-duration: 0.5s;
+    animation-name: fadeout2;
+}
+
+.teacher_view .displayUE:hover .CellBox,
+.teacher_view .tip_displayed .CellBox {
+    opacity:1 ;
+    -webkit-animation-duration: 0.5s;
+    -webkit-animation-name: fadein2;
+    animation-duration: 0.5s;
+    animation-name: fadein2;
+}
+
+.teacher_view .tip_displayed .DisplayUEMasters,
+.teacher_view .DisplayUE:hover .DisplayUEMasters {
+    opacity: 1 ;
+    -webkit-animation-duration: 0.5s;
+    -webkit-animation-name: fadein2;
+    animation-duration: 0.5s;
+    animation-name: fadein2;
+}
+
+@-webkit-keyframes fadeout2 {
+  from { opacity: 1 ; }
+  to { opacity: 0.511; }
+}
+@-webkit-keyframes fadein2 {
+  from { opacity: 0.511 ; }
+  to { opacity: 1; }
+}
+@keyframes fadeout2 {
+  from { opacity: 1 ; }
+  to { opacity: 0.511; }
+}
+@keyframes fadein2 {
+  from { opacity: 0.511 ; }
+  to { opacity: 1; }
+}
 
 /*********************** Not working inline_block (IE) *******************/
 
@@ -239,22 +283,6 @@ DIV.tipped DIV.text:hover { background: url(tip.png) }
   from { opacity: 0 ; }
   to { opacity: 0.9; }
 }
-.displayUE:hover .CellBox,
-.tip_displayed .CellBox {
-    opacity:1 ;
-    -webkit-animation-duration: 0.5s;
-    -webkit-animation-name: fadein2;
-    animation-duration: 0.5s;
-    animation-name: fadein2;
-}
-.displayUE:hover .DisplayTypeNote,
-.tip_displayed .DisplayTypeNote,
-.DisplayTypeNote,
-#cellbox_tip .CellBox {
-    opacity:1 ;
-    -webkit-animation-name: none ;
-    animation-name: none ;
-}
 #cellbox_tip .CellBox {
     margin-top: 0px ;
     margin-bottom: 0px ;
@@ -263,22 +291,7 @@ DIV.tipped DIV.text:hover { background: url(tip.png) }
     white-space: normal ;
     max-width: initial ;
 }
-@-webkit-keyframes fadeout2 {
-  from { opacity: 1 ; }
-  to { opacity: 0.511; }
-}
-@-webkit-keyframes fadein2 {
-  from { opacity: 0.511 ; }
-  to { opacity: 1; }
-}
-@keyframes fadeout2 {
-  from { opacity: 1 ; }
-  to { opacity: 0.511; }
-}
-@keyframes fadein2 {
-  from { opacity: 0.511 ; }
-  to { opacity: 1; }
-}
+
 
 DIV#tip.tip_fade_in {
     -webkit-animation-duration: 1s;
