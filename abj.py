@@ -310,17 +310,17 @@ def tierstemps(student_id, table_tt=None, only_current=True):
         if tt.end:
             html += _('TH_until') + tt.end + '\n'            
         if tt.written_exam:
-            html += _("COL_COMMENT_+write") + " : %s\n" % tt.written_exam
+            html += _("COL_COMMENT_+write") + " : %s.\n" % tt.written_exam
         if tt.spoken_exam:
-            html += _("COL_COMMENT_+speech") + " : %s\n" % tt.spoken_exam
+            html += _("COL_COMMENT_+speech") + " : %s.\n" % tt.spoken_exam
         if tt.practical_exam:
-            html += _("COL_COMMENT_+practical") + " : %s\n" % tt.practical_exam
+            html += _("COL_COMMENT_+practical") + " : %s.\n" % tt.practical_exam
         if tt.assistant:
-            html += _("COL_COMMENT_+assistant") + "\n"
+            html += _("COL_COMMENT_+assistant") + ".\n"
         if tt.room:
-            html += _("COL_COMMENT_+room") + "\n"
+            html += _("COL_COMMENT_+room") + ".\n"
         if tt.remarks:
-            html += tt.remarks + '\n'
+            html += tt.remarks + '.\n'
         return html
     return ''
 
