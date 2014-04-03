@@ -206,7 +206,7 @@ function detect_small_screen(force)
 				) ; // +30 for FireFox
   if ( twidth > 100 )
     for(var i in lefts)
-      lefts[i].style.width = twidth + 'px' ;
+      lefts[i].style.maxWidth = twidth + 'px' ;
   hide_cellbox_tip() ;
 }
 

@@ -468,6 +468,10 @@ def student_statistics(login, server, is_a_student=False, expand=False,
 
     return display.data_to_display(server, 'Top')
 
+def page_tail(server):
+    # Not in JS in case of multiple students on the same page
+    server.the_file.write('<br class="noprint">'*10) # for popups
+
 def student(server, login=''):
     """Display all the informations about a student."""
     if not login:
@@ -475,7 +479,7 @@ def student(server, login=''):
         
     suivi_headers(server, is_student=True)
     student_statistics(login, server, True)
-    server.the_file.write('<br>'*10) # for popups
+    page_tail(server)
 
 plugin.Plugin('student', '/{*}', function=student, group='!staff',
               launch_thread=True, unsafe=False,
@@ -488,7 +492,7 @@ def accept(server):
                           configuration.server_url, server.ticket.ticket)
                           )
     student_statistics(server.ticket.user_name, server, True)
-    server.the_file.write('<br>'*10) # for popups
+    page_tail(server)
 
 plugin.Plugin('accept', '/accept', function=accept, group='!staff',
               launch_thread=True,
@@ -541,7 +545,7 @@ def home(server, nothing_behind=True):
 
     if nothing_behind:
         student_statistics(server.ticket.user_name, server, is_a_student=True)
-        server.the_file.write('<br>'*10) # for popups
+        page_tail(server)
 
 plugin.Plugin('home', '/', group='staff', function = home, unsafe=False)
 
@@ -625,7 +629,7 @@ def page_suivi(server):
         except ValueError:
             raise
         server.the_file.flush()
-    server.the_file.write('<br>'*10) # for popups
+    page_tail(server)
 
 plugin.Plugin('infos', '/{*}', group='staff', password_ok = None,
               function = page_suivi, unsafe=False,

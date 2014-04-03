@@ -184,6 +184,11 @@ SPAN.displaygrey { color: #888 }
   to { opacity: 1; }
 }
 
+@media print {
+.teacher_view .CellBox { opacity: 1; }
+.teacher_view .DisplayUEMasters {opacity: 1; }
+}
+
 /*********************** Not working inline_block (IE) *******************/
 
 BODY.bad_inline_block .Display {
@@ -368,11 +373,13 @@ BODY, BODY.Printemps, BODY.Automne {
 BODY.smallscreen.Printemps { background-image: none ; }
 BODY.smallscreen.Automne { background-image: none ; }
 
-.BodyRight { display: none ; }
+.BodyRight, .RightClip, .GetStudent { display: none ; }
 
 .CellBox {
     width: auto;
     }
+
+.BodyLeft, .Body, .Top, .Grades { display: inline }
 
 #cellbox_tip * { display: none }
 }
