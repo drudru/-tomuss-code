@@ -963,7 +963,7 @@ function new_new_interface()
 
   o.push([_('TAB_?'),
 	  '<div class="scroll_auto">'
-	  + doc_link + _("LABEL_table_help")
+	  + doc_link + _("LABEL_table_help") + '</div>'
 	  ]) ;
 
   w.push('</td><td class="tabbed_headers">') ;
