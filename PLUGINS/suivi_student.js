@@ -895,7 +895,7 @@ function DisplayUEGrades(node)
       DisplayGrades.value = line[data_col].value ;
       if ( DisplayGrades.value === '' )
 	DisplayGrades.value = DisplayGrades.column.empty_is ;
-      DisplayGrades.cellstats = DisplayGrades.ue.stats[data_col] || {} ;
+      DisplayGrades.cellstats = DisplayGrades.ue.stats[DisplayGrades.column.the_id] || {} ;
       var ss = display_display(display_definition['CellBox']);
       if ( DisplayGrades.value === '' && ! cell_modifiable_on_suivi())
 	ss = ss.replace('class="', 'class="is_empty ') ;

@@ -380,7 +380,7 @@ class Lines(object):
                     continue
             s = column.stat(cell, lines)
             if s:
-                d[column.data_col] = column.stat(cell, lines)
+                d[column.the_id] = column.stat(cell, lines)
 
         # XXX
         # if empty_line and table.ue_code != table.ue:
