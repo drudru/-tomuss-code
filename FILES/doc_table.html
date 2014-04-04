@@ -451,6 +451,18 @@
 	comme facteur multiplicatif.
       <li> Si le poids est nul, la colonne ne compte pas.
     </ul>
+    <p>Par exemple pour calculer la moyenne de 2 notes et ajouter un bonus :
+      </p>
+    <ul>
+      <li> TP1 : poids 1 </li>
+      <li> TP2 : poids 1 </li>
+      <li> Bonus : poids <b>+</b>1 </li>
+      <li> Moyenne de <b>TP1 TP2 Bonus</b> :
+	la moyenne de TP1 et TP2 est calculée et les valeurs de la colonne
+	Bonus sont ajoutés avec une simple addition.
+	</li>
+    </ul>
+	    
     <p><b>
       Évidemment <tt>ABJ + 1</tt> n'a pas de sens et affichera <tt>NaN</tt>.
       Si vous voulez obtenir ABJ comme résultat alors faites
@@ -459,6 +471,11 @@
       De même  <tt>ABI + 0</tt> donne <tt>0</tt>,
       si vous voulez obtenir <tt>ABI</tt> il faut ajouter <tt>ABI</tt>
       au lieu de 0 point jury.
+      </p>
+    <p>
+      Le rang et la moyenne ne sont pas affichées dans la page étudiant
+      pour ces colonnes bonus/malus.
+      </p>
     </div>
     <div>
 
