@@ -1,7 +1,7 @@
 #!/bin/env python
 # -*- coding: utf-8 -*-
 #    TOMUSS: The Online Multi User Simple Spreadsheet
-#    Copyright (C) 2008-2011 Thierry EXCOFFIER, Universite Claude Bernard
+#    Copyright (C) 2008-2014 Thierry EXCOFFIER, Universite Claude Bernard
 #
 #    This program is free software; you can redistribute it and/or modify
 #    it under the terms of the GNU General Public License as published by
@@ -25,6 +25,7 @@ class TableAutosave(TableAttr):
     name = 'autosave'
     action = "table_autosave_toggle"
     default_value = 1
+    strokable = 0
     gui_display = "GUI_a"
     css = """
 #autosavelog { color: red ; display: none; }

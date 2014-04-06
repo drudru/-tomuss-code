@@ -1801,7 +1801,7 @@ function update_attribute_value(e, attr, table, editable)
 
       if ( ! tip_exists )
 	{
-	  if ( e.className.search('linkstroked') == -1 )
+	  if ( value )
 	      tip_id += '__1' ;
 	  else
 	      tip_id += '__0' ;
