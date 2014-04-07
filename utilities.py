@@ -590,7 +590,7 @@ class StaticFile(object):
             content = read_file(self.name)
             for old, new in self.replace_text.values():
                 content = content.replace(old, new)
-            content += ''.join(self.append_text.values())
+            content += ''.join(str(i) for i in self.append_text.values())
             if self.name.endswith('.js') or self.name.endswith('.html'):
                 content = content.replace('_FILES_', configuration.url_files)
             self.content = content
