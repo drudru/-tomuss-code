@@ -1116,7 +1116,8 @@ function DisplayMessages(node)
   var abjs = display_data['Abjs'] ;
   for(var i in abjs)
     if ( abjs[i][2].substr(0, 13) == '{{{MESSAGE}}}' )
-      m.push(abjs[i][0] + ' : ' + abjs[i][2].replace('{{{MESSAGE}}}', '')) ;
+      m.push(parse_date(abjs[i][0]).formate('%d/%m/%Y')
+	     + ' : ' + abjs[i][2].replace('{{{MESSAGE}}}', '')) ;
   return m.join('<br>') ;
 }
 DisplayMessages.need_node = ['Abjs'] ;
@@ -1172,6 +1173,8 @@ function DisplayAbjs(node)
       t.push('<TR><TD>' + node.data[i][0] + '</TD><TD>' + node.data[i][1]
 	     + '</TD><TD>' +  html(node.data[i][2])
 	     + '</TD></TR>') ;
+  if ( t.length == 0 )
+    return '' ; // Only message and no ABJ
   
   return '<TABLE class="display_abjs colored"><tr>'
     + '<th>' + _("MSG_abjtt_from_before")

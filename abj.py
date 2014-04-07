@@ -428,6 +428,7 @@ def prune_abjs(abj_list, group, sequence, ue_code):
 def do_prune(abj_list, first_day, last_day, group, sequence, ue_code):
     """Trim unecessary ABJS using first and last day of the course."""
     abjs_pruned = []
+    messages = []
     for abjj in abj_list:
         try:
             seconds = configuration.date_to_time(abjj[0][:-1])
@@ -441,9 +442,12 @@ def do_prune(abj_list, first_day, last_day, group, sequence, ue_code):
             seconds = 8000000000
         if seconds < first_day:
             continue
+        if abjj[3].startswith('{{{MESSAGE}}}'):
+            messages.append(abjj)
+            continue
         abjs_pruned.append(abjj)
 
-    return prune_abjs(abjs_pruned, group, sequence, ue_code)
+    return prune_abjs(abjs_pruned, group, sequence, ue_code) + messages
 
 def ue_mails_and_comments(ue_code):
     """Returns the mails of the master of the UE and a comment
