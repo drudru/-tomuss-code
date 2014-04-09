@@ -1980,7 +1980,8 @@ function manage_window_resize_event()
 		
   if ( current_window_width != width )
     {
-      if ( table_attr.default_nr_columns == 0 )
+      if ( table_attr.default_nr_columns == 0
+	   && get_option('nr_cols', '0') == '0')
 	{
 	  compute_nr_cols() ;
 	}
