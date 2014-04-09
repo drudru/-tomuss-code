@@ -492,6 +492,11 @@ function decode_uri_option(t)
 		  .replace(/\$24/g, '$')) ;
 }
 
+function encode_value(txt)
+{
+  return txt.replace("&", "&#38;").replace('"', '&#34;').replace("?", "&#63;");
+}
+
 
 function encode_lf_tab(txt)
 {

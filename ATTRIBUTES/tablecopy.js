@@ -41,7 +41,7 @@ function table_copy_button(id, text, help, toggled, unsensitive)
     return hidden_txt('<input type="button" onclick="tablecopy_do(this)" '
 		      + 'id="' + id + '" ' + unsensitive
 		      + 'style="width:auto" '
-		      + 'value="' + text + '">', help) ;
+		      + 'value="' + encode_value(text) + '">', help) ;
     }
 }
 
@@ -205,7 +205,7 @@ function table_copy()
 	       + '<tr><td><td><th>'
 	       + year + '<br>' + semester + '<br>'
 	       + '<input id="newname" style="font-weight:bold" value="'
-	       + ue + '">'
+	       + encode_value(ue) + '">'
 	       + '</table>'
 	       , '', false) ;
 }

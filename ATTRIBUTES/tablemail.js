@@ -1,7 +1,7 @@
 // -*- coding: utf-8 -*-
 /*
     TOMUSS: The Online Multi User Simple Spreadsheet
-    Copyright (C) 2008-2012 Thierry EXCOFFIER, Universite Claude Bernard
+    Copyright (C) 2008-2014 Thierry EXCOFFIER, Universite Claude Bernard
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -148,22 +148,24 @@ function mail_window()
 
 function personal_mailing()
 {
- var nb = 0;
- for(var i in filtered_lines)
-   if ( filtered_lines[i][0].value )
-     nb++ ;
+  var nb = 0;
+  for(var i in filtered_lines)
+    if ( filtered_lines[i][0].value )
+      nb++ ;
 
-   create_popup('personal_mailing_div',
-		_("MSG_mail_massmail_title"),
-		_("MSG_mail_massmail_text")
-		+ '<input id="personal_mailing" style="width:100%" value="'
-		+ ue + ' ' + table_attr.table_title
-		+ _("MSG_mail_massmail_subject")
-		+ '"><br>' + _("MSG_mail_massmail_your_message"),
-		_("MSG_mail_massmail_to_send") + nb
-		+ _("MSG_mail_massmail_to_send_2"),
-		_("MSG_mail_massmail_message")
-		) ;
+  var subject = personal_mailing.old_subject
+    || (ue + ' ' + table_attr.table_title + _("MSG_mail_massmail_subject")) ;
+  
+  create_popup('personal_mailing_div',
+	       _("MSG_mail_massmail_title"),
+	       _("MSG_mail_massmail_text")
+	       + '<input id="personal_mailing" style="width:100%" value="'
+	       + encode_value(subject) + '"><br>'
+	       + _("MSG_mail_massmail_your_message"),
+	       _("MSG_mail_massmail_to_send") + nb
+	       + _("MSG_mail_massmail_to_send_2"),
+	       _("MSG_mail_massmail_message")
+	      ) ;
 }
 
 
@@ -171,6 +173,7 @@ function personal_mailing_do()
 {
   var mailing_mail = popup_value() ;
   var subject = document.getElementById('personal_mailing').value ;
+  personal_mailing.old_subject = subject ;
   var data_cols = [], data_cols_titles = [] ;
   var t, col_name, nr, message, line, data_col ;
   var url_content, feedback_content ;

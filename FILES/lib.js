@@ -2160,7 +2160,7 @@ function login_list(name, x, current_value)
 	  cn = cn.slice(1, cn.length-2) ;
 	  cn = '<i><small>' + cn.toString() + '</small></i>' ;
 	}
-      s += '<option value="' + (i[4] ? i[4] : i[0]) + '"'
+      s += '<option value="' + encode_value(i[4] ? i[4] : i[0]) + '"'
 	+ (ii == autoselect ? ' selected' : '') + '>'
 	+ left_justify(i[0],w).replace('&nbsp;',' ')
 	+ '&nbsp;' + i[1] + ' ' + i[2] + ' ' + cn + '</option>' ;

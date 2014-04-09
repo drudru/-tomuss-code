@@ -343,9 +343,7 @@ function text_format_suivi()
   if ( cell_modifiable_on_suivi() )
     return '<input class="hidden" onkeypress="if ( the_event(event).keyCode == 13 ) '
     + student_input(DisplayGrades.column)
-    + '" value="'
-    + (DisplayGrades.value.toString().replace("%","&#37").replace("'", "&#39;")
-       .replace('"', '&#34;'))
+    + '" value="' + encode_value(DisplayGrades.value.toString())
     + '"></input> <small style="font-size:80%">' + _("MSG_enter") + '</small>';
 
   var v = html(DisplayGrades.value.toString()).replace(/\n/g,'<br>') ;

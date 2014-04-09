@@ -51,7 +51,8 @@ function enumeration_suivi(choices)
       sel = ' selected="1"' ;
     else
       sel = "" ;
-    v += '<option value="' + i + '"' + sel +'>' + html(i) + '</option>' ;
+    v += '<option value="' + encode_value(i) + '"' + sel + '>'
+      + html(i) + '</option>' ;
   }
   v += '</select>' ;
 

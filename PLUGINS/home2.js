@@ -1241,7 +1241,7 @@ function generate_home_page_ue()
 	+ '<tr class="search"><td colspan="3">'
 	+ hidden_txt('<input style="border: 1px outset grey;" '
 		     + 'type="button" value="'
-		     + _("TH_home_do_search")
+		     + encode_value(_("TH_home_do_search"))
 		     + '" onclick="generate_home_page_ue_change()">',
 		     _("TIP_home_do_search"))
 	+ '<input class="search_field" id="ue_input_name" class="keyword" onkeyup="generate_home_page_ue_change()" onpaste="generate_home_page_ue_change()" value="">'
@@ -1272,7 +1272,7 @@ function generate_home_page_students()
 	+ '</th></tr>'
 	+ '<tr class="search"><td>'
 	+ hidden_txt('<input style="border: 1px outset grey;" '
-		     + 'type="button" value="' + _("TH_home_do_search")
+		     + 'type="button" value="' + encode_value(_("TH_home_do_search"))
 		     + '" onclick="update_students()">',
 		     _("TIP_home_do_search"))
 	+ '<input class="search_field" id="search_name" class="keyword" onkeyup="update_students()" onpaste="generate_home_page_students_change()" value="">'
