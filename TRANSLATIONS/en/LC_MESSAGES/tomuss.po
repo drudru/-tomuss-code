@@ -4060,8 +4060,9 @@ msgid "TIP_suivi_student_RSS"
 msgstr "Follow this link to receive grades as news.<br>\n"
        "They are readable in the browser, mailer, web site..."
 
+#. Message displayed before the UE title
 msgid "MSG_suivi_student_not_in_TOMUSS_before"
-msgstr "You are registered to "
+msgstr ""
 
 msgid "MSG_suivi_student_not_in_TOMUSS_after"
 msgstr "TOMUSS has not been used by a teacher to enter grades for this table."

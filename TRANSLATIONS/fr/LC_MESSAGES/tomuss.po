@@ -4110,8 +4110,9 @@ msgid "TIP_suivi_student_RSS"
 msgstr "Suivez ce lien pour recevoir les notes comme des actualités.<br>\n"
        "Dans votre navigateur, site web, lecteur de mail, portail étudiant..."
 
+#. Message displayed before the UE title
 msgid "MSG_suivi_student_not_in_TOMUSS_before"
-msgstr "Vous êtes inscrit à "
+msgstr ""
 
 msgid "MSG_suivi_student_not_in_TOMUSS_after"
 msgstr "TOMUSS n'a pas été utilisé par un enseignant pour saisir\n"

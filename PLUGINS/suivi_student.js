@@ -918,14 +918,22 @@ function DisplayGrades(node)
       DisplayGrades.ue = node.data[0][i] ;
       s += display_display(display_definition['UE']) ;
     }
+  var before = _("MSG_suivi_student_not_in_TOMUSS_before") ;
+  if ( before == "MSG_suivi_student_not_in_TOMUSS_before" )
+    before = '' ;
+  else
+    before += ' ' ;
   for(var i in node.data[1])
     {
       var t = node.data[1][i][0] + ' ' + node.data[1][i][1] ;
       if ( is_a_teacher )
 	s += '<p class="title">' + _("MSG_suivi_student_registered")+t+'</p>';
       else
-	s += '<h2 class="title">' + _("MSG_suivi_student_not_in_TOMUSS_before")
-	  + t + '</h2><p>' + _("MSG_suivi_student_not_in_TOMUSS_after") ;
+	s += '<div class="UE UETitle">'
+	  + before
+	  + t + '</div><div class="UEComment">'
+	  + _("MSG_suivi_student_not_in_TOMUSS_after")
+	  + '</div>' ;
     }
 
   return '<hr>' + s ;

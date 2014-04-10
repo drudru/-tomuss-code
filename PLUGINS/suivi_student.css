@@ -65,7 +65,7 @@ BODY.Automne .BodyRight
 }
 .Grades H3 { margin-bottom: 0px; }
 .UE { display: block; margin-top: 1em ; }
-.DisplayUETitle { font-weight: bold ; }
+.UETitle { font-weight: bold ; }
 .MoreOnSuivi { background: white }
 .Cell {
     overflow: auto ;
@@ -141,7 +141,7 @@ SPAN.displaygrey { color: #888 }
     animation-name: none ;
 }
 
-.teacher_view .DisplayUEMasters {
+.teacher_view .UEMasters {
     opacity: 0.511 ;
     -webkit-animation-duration: 0.5s;
     -webkit-animation-name: fadeout2;
@@ -158,8 +158,8 @@ SPAN.displaygrey { color: #888 }
     animation-name: fadein2;
 }
 
-.teacher_view .tip_displayed .DisplayUEMasters,
-.teacher_view .DisplayUE:hover .DisplayUEMasters {
+.teacher_view .tip_displayed .UEMasters,
+.teacher_view .UE:hover .UEMasters {
     opacity: 1 ;
     -webkit-animation-duration: 0.5s;
     -webkit-animation-name: fadein2;
@@ -186,7 +186,7 @@ SPAN.displaygrey { color: #888 }
 
 @media print {
 .teacher_view .CellBox { opacity: 1; }
-.teacher_view .DisplayUEMasters {opacity: 1; }
+.teacher_view .UEMasters {opacity: 1; }
 }
 
 /*********************** Not working inline_block (IE) *******************/
@@ -352,10 +352,10 @@ TABLE.memberof TH, TABLE.memberof TD { padding: 0px }
 TABLE.memberof TH { text-align: left; font-size: 80% }
 TABLE.memberof TD { font-size: 60%; background-color: #DDD; }
 
-.DisplayDA TD, TABLE.display_abjs TD, .DisplayTT TD {
+.DA TD, TABLE.display_abjs TD, .TT TD {
     font-size: 70% ; padding: 0px ;
 }
-.DisplayLinksTable TD { font-size: 80% ; padding: 0px ; }
+.LinksTable TD { font-size: 80% ; padding: 0px ; }
 
 /*****************************************************************************/
 /* PRINT */
