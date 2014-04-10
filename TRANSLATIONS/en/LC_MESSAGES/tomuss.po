@@ -3959,7 +3959,7 @@ msgstr "Hello.\n"
        "There is my problem with TOMUSS :"
 
 msgid "MSG_suivi_student_mail_link"
-msgstr "Contact"
+msgstr "Contact the administrator"
 
 msgid "MSG_suivi_student_important"
 msgstr "These informations are not the official ones,\n"
@@ -5298,3 +5298,19 @@ msgstr "Before Yesterday"
 
 msgid "LABEL_ThisWeek"
 msgstr "This week"
+
+msgid "MSG_suivi_help"
+msgstr "<p>\n"
+"If there is a problem with a grade, contact the teacher.\n"
+"To find the teacher name, put the cursor on the grade.\n"
+"<p>\n"
+"Some tips:\n"
+"<ul>\n"
+"<li> CANTGRADE: the teacher can not grade the work.\n"
+"<li> NaN: a value cannot be computed because a grade is missing.\n"
+"<li> INJLEAVE: Not justified non attendance.\n"
+"<li> JUSLEAVE: Justified non attendance.\n"
+"<li> PRST: attendance.\n"
+"<li> WNGIVEN: work not given.\n"
+"</ul>"
+

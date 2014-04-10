@@ -25,10 +25,24 @@ BODY.Automne .BodyRight
 
 .Top, .User, .Body, .Grades, .Private, .Preamble, .Message, .Messages, .UEHeader {
     width: 100% ; }
-.User { font-size: 70% ; }
 .TopLine { font-size: 200% ; }
 .Picture IMG.small { height: 1.5em ;}
 .IdentityR { float: right ; }
+.Explanation {
+    font-size: 200% ;
+    font-weight: bold ;
+    border: 2px outset #888 ;
+    background: white ;
+    width: 1em ;
+    text-align: center ;
+}
+.explanations A {
+    float: right ;
+    font-size: 60% ;
+    margin-right: 4em ;
+    font-weight: normal ;
+}
+.Logo IMG { height: 2.5em }
 .RSS IFRAME { position: absolute; left: -100px ; }
 .displayRSS IMG { height: 1em }
 .BodyLeft {
@@ -44,8 +58,6 @@ BODY.Automne .BodyRight
 .BodyRight TABLE, .BodyRight .Display { width: 100% ; }
 .BodyRight TABLE { margin-top: 1em }
 .BodyRight .Semesters TABLE { margin-top: 0em }
-.Logo { text-align: center ; }
-.Logo IMG { max-width: 100% }
 .GetStudent IMG { height: 1em ; }
 .Semesters IMG { height: 1.3em ;}
 .Preamble {
@@ -244,8 +256,6 @@ BODY.smallscreen .show_rightclip {
   from { width: 21em; opacity: 1   }
   to   { width: 5em ; opacity: 0.3 }
 }
-
-BODY.smallscreen .copyright { display: none ; }
 
 /*********************** Long text *******************/
 

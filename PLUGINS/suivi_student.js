@@ -469,27 +469,34 @@ function DisplayProfiling(node)
   return hidden_txt(_('LINK_profiling'), t.join('<br>')) ;
 }
 
+
+function DisplayExplanationPopup()
+{
+  create_popup('export_div explanations',
+	       'TOMUSS <span class="copyright">'
+	       + display_data['Explanation']
+	       + '</span>'
+	       + '<a style="" href="mailto:'
+	       + maintainer + '?subject='
+	       + encodeURI(_('MSG_suivi_student_mail_subject')) + '&body='
+	       + encodeURI(_('MSG_suivi_student_mail_body')).replace(/\n/g,
+								     '%0A')
+	       + '">' + _('MSG_suivi_student_mail_link') + '</a>',
+	       _("MSG_suivi_help"),
+	       '', false) ;
+}
+
 function DisplayExplanation(node)
 {
-  return '<span class="copyright">TOMUSS ' + node.data + '</span> '
-    + '<a href="_FILES_/suivi_student_doc.html">' + _("MSG_help") + '</a>' ;
+  return ['?', '', '', 'onclick="DisplayExplanationPopup()"'] ;
 }
 DisplayExplanation.need_node = [] ;
-
-function DisplayContact(node)
-{
-  return '<a href="mailto:' + maintainer + '?subject='
-    + encodeURI(_('MSG_suivi_student_mail_subject')) + '&body='
-    + encodeURI(_('MSG_suivi_student_mail_body')).replace(/\n/g, '%0A')
-    + '">' +  _('MSG_suivi_student_mail_link') + '</a>' ;
-}
-DisplayContact.need_node = [] ;
 
 function DisplayLogout(node)
 {
   return '<a href="' + url_suivi + '/=' + ticket + '/logout">'
     + _("LABEL_logout") +'</a> '
-    + '<b>' + username + '</b>' ;
+    + '<br><b>' + username + '</b>' ;
 }
 DisplayLogout.need_node = [] ;
 

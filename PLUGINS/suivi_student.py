@@ -43,8 +43,6 @@ from .. import signature
 
 files.add('PLUGINS', 'suivi_student.css')
 files.add('PLUGINS', 'suivi_student.js')
-files.add('PLUGINS', 'suivi_student_doc.html')
-
 
 last_full_read_time = 0
 
@@ -369,7 +367,6 @@ D('LastGrades'  , 'BodyLeft'  ,3)
 D('Grades'      , 'BodyLeft'  ,4, data=display_grades)
 D('Students'    , 'BodyLeft'  ,5, data=display_students)
 
-D('Logo'        , 'BodyRight' ,0, data=display_logo)
 D('Semesters'   , 'BodyRight' ,1, data=display_semesters)
 D('LinksTable'  , 'BodyRight' ,2)
 D('Abjs'        , 'BodyRight' ,3, data=display_abjs)
@@ -377,14 +374,14 @@ D('DA'          , 'BodyRight' ,4, data=display_da)
 D('TT'          , 'BodyRight' ,5, data=display_tt)
 D('MoreOnSuivi' , 'BodyRight' ,9, data=display_more_on_suivi)
 
+D('Logo'        , 'User'      ,0, data=display_logo)
 D('EmptyCell'   , 'User'      ,1)
 D('Reload'      , 'User'      ,2)
 D('Profiling'   , 'User'      ,3)
-D('IdentityR'   , 'User'      ,4, js='List')
+D('IdentityR'   , 'User'      ,-1, js='Horizontal') # Yes : -1
 
+D('Logout'      , 'IdentityR',-1)
 D('Explanation' , 'IdentityR',0, data=display_copyright)
-D('Contact'     , 'IdentityR',1)
-D('Logout'      , 'IdentityR',2)
 
 D('IsPrivate'   , 'Private'          ,5)
 D('AskQuestion' , 'Question'         ,6, data=display_question)
