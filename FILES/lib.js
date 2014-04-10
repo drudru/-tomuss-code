@@ -798,20 +798,11 @@ function show_the_tip(td, tip_content, what)
   return tip ;
 }
 
-// XXX should be renamed on_mouse_up
 function on_mouse_down(event)
 {
   last_user_interaction = millisec() ;
-  // See 'move_scrollbar_begin', we must finish scrollbar dragging
-  if ( body_on_mouse_up_doing && body_on_mouse_up(event) )
-    {
-      return false ;
-    }
-  // alert ( the_event(event).button ) ;
   var td = the_td(event) ;
   column_from_td(td).real_type.onmousedown(event) ;
-  // stop_event(event) ;
-
   return false;
 }
 
@@ -1054,7 +1045,7 @@ function table_init()
 	{
 	  td = tr.childNodes[col] ;
 	  if ( lin >= nr_headers )
-	    td.onmouseup = on_mouse_down ;
+	    td.onmousedown = on_mouse_down ;
 	  td.onmousemove = mouse_over ;
 	}
     }
