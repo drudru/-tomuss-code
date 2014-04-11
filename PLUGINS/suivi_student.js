@@ -70,7 +70,9 @@ function initialize_suivi_real()
     + '<style id="computed_style"></style>'
     + ( window.devicePixelRatio !== undefined
 	? '<meta name="viewport" content="width=device-width,height=device-height,initial-scale=1">'
-	: '' ) ;
+	: '' )
+    + '<div id="display_suivi"></div>'
+    ;
   setTimeout(hide_empty, 10) ;
   i_am_root = myindex(root, username) != -1 ;
   my_identity = username ;
@@ -214,20 +216,20 @@ var display_update_nb = 0 ;
 
 function display_update(key_values, top)
 {
+  if ( top === undefined )
+    top = display_update.top ;
   if ( display_update_nb == 1 )
     setInterval(detect_small_screen, 100) ;
-  for(var i in key_values)
-    display_data[key_values[i][0]] = key_values[i][1] ;
-  document.write('<div id="display' + display_update_nb + '">'
-		 + display_display(display_definition[top]) + '</div>') ;
-
-  var old = document.getElementById('display' + (display_update_nb-1)) ;
-  if ( old )
-    old.parentNode.removeChild(old) ;
+  if ( key_values )
+    for(var i in key_values)
+      display_data[key_values[i][0]] = key_values[i][1] ;
+  console.log(display_display(display_definition[top]));
+  document.getElementById('display_suivi').innerHTML = display_display(display_definition[top]) ;
 
   display_update_nb++ ;
   detect_small_screen.window_width = 0 ; // Force update
   detect_small_screen() ;
+  display_update.top = top ;
 }
 
 function DisplayHorizontal(node, separator)
@@ -401,9 +403,9 @@ function DisplayMails(node)
     ref = '' ;
 
   return '<a href="mailto:?to='
-    + node.data.join(',') + ref
-    + '&subject=' + display_data['Login'] + ' '
-    + display_data['Names'][0] + ' ' + display_data['Names'][1]
+    + encode_uri(node.data.join(',') + ref
+		 + '&subject=' + display_data['Login'] + ' '
+		 + display_data['Names'][0] + ' ' + display_data['Names'][1])
     + '">'
     + hidden_txt(_("MSG_suivi_student_mail_all"),
 		 _("TIP_suivi_student_mail_all")) + '</a>' ;
@@ -1261,7 +1263,7 @@ function DisplayLinksTable(node)
       if ( i_am_root )
 	{
 	  t.push('<td>' + (c || ('<span class="displaygrey">'
-				 + node.children[ii].name))) ;
+				 + node.children[ii].name + '</span>'))) ;
 	  i++ ;
 	}
       else

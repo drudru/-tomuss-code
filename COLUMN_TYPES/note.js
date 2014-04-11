@@ -120,5 +120,5 @@ function note_format_suivi()
     s = '<span class="displaygrey">' + s + '</span>' ;
   
   return DisplayGrades.column.do_rounding(DisplayGrades.value)
-    + '<small style="font-size:60%">' + s + '</span></small>' ;
+    + '<small style="font-size:60%">' + s + '</small>' ;
 }
