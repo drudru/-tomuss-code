@@ -648,19 +648,32 @@ def add_a_cache0(fct, timeout=None):
     return f
 
 def clean_cache(f):
+    if f.last_value_on_exception:
+        return # Do not erase in order to reuse if there is an exception
     for key, value in f.cache.items():
         if time.time() - value[1] > f.timeout:
             del f.cache[key]
 
-def add_a_cache(fct, timeout=None, not_cached='neverreturnedvalue'):
+def add_a_cache(fct, timeout=1, not_cached='neverreturnedvalue',
+                last_value_on_exception=False):
     """Add a cache to a function with one parameter.
-    If the returned value is 'not_cached' then it is not cached."""
-    if timeout is None:
-        timeout = 3600
+    If the returned value is 'not_cached' then it is not cached.
+    If the cached function may sometime raise an exception,
+    it may be interesting to set last_value_on_exception=True in order
+    to return the previously cached value and hide the exception.
+    """
     def f(x):
         cache = f.cache.get(x, ('',0))
         if time.time() - cache[1] > f.timeout:
-            cache = (f.fct(x), time.time())
+            try:
+                cache = (f.fct(x), time.time())
+            except:
+                if f.last_value_on_exception and cache[1] != 0:
+                    cache = (cache[0], time.time())
+                    send_backtrace(str(f.fct), "Cache update failed",
+                                   exception=False)
+                else:
+                    raise
             
         if cache[0] == f.not_cached:
             return f.not_cached
@@ -671,6 +684,7 @@ def add_a_cache(fct, timeout=None, not_cached='neverreturnedvalue'):
     register_cache(f, fct, timeout, 'add_a_cache')
     f.clean = clean_cache
     f.not_cached = not_cached
+    f.last_value_on_exception = last_value_on_exception
     return f
 
 def add_a_method_cache(fct, timeout=None, not_cached='neverreturnedvalue'):
