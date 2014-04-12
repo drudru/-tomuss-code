@@ -340,6 +340,9 @@ def display_students(server):
             for student in students
             ]
 
+def display_preferences(server):
+    return {'show_empty': 0, 'color_value': 0}
+
 from .. import display
 D = display.Display
 
@@ -375,18 +378,18 @@ D('TT'          , 'BodyRight' ,5, data=display_tt)
 D('MoreOnSuivi' , 'BodyRight' ,9, data=display_more_on_suivi)
 
 D('Logo'        , 'User'      ,0, data=display_logo)
-D('EmptyCell'   , 'User'      ,1)
 D('Reload'      , 'User'      ,2)
 D('Profiling'   , 'User'      ,3)
 D('IdentityR'   , 'User'      ,-1, js='Horizontal') # Yes : -1
 
-D('Logout'      , 'IdentityR',-1)
-D('Explanation' , 'IdentityR',0, data=display_copyright)
+D('Logout'      , 'IdentityR' ,-1)
+D('Explanation' , 'IdentityR' ,0, data=display_copyright)
+D('Preferences' , 'IdentityR' ,1, data=display_preferences)
 
 D('IsPrivate'   , 'Private'          ,5)
 D('AskQuestion' , 'Question'         ,6, data=display_question)
 
-D('Picture'     , 'TopLine'  ,0)
+D('Picture'     , 'TopLine'   ,0)
 D('Login'       , 'TopLine'   ,1, js='Vertical', data=display_login)
 D('Names'       , 'TopLine'   ,2, data=display_names)
 D('GetStudent'  , 'TopLine'   ,3, data=display_get_student)

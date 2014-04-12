@@ -42,6 +42,19 @@ BODY.Automne .BodyRight
     margin-right: 4em ;
     font-weight: normal ;
 }
+
+.Preferences .menu {
+   position: absolute;
+   width: 10em ;
+   right: -10em;
+   opacity: 0.9 ;
+   background: #FFF ;
+}
+
+.Preferences:hover .menu {
+   right: 0px;
+}
+
 .Logo IMG { height: 2.5em }
 .RSS IFRAME { position: absolute; left: -100px ; }
 .displayRSS IMG { height: 1em }

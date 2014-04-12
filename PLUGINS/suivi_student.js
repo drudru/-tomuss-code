@@ -40,16 +40,6 @@ function _cell(s, url)
   s.blur() ;
 }
 
-function hide_empty()
-{
-  set_style_content('.is_empty { display: none ; }') ;
-}
-
-function show_empty()
-{
-  set_style_content('.is_notempty { display: none ; }') ;
-}
-
 function set_style_content(content)
 {
   hide_cellbox_tip() ;
@@ -442,16 +432,6 @@ function DisplaySignature(node)
 }
 DisplaySignature.need_node = ['Login'] ;
 
-function DisplayEmptyCell(node)
-{
-  if ( ! is_a_teacher )
-    return '' ;
-  return '<a href="javascript:hide_empty()" class="is_empty">' + _("MSG_hide_empty_cells")
-    + '</a><a href="javascript:show_empty()" class="is_notempty">'
-    + _("MSG_show_empty_cells") + '</a>' ;
-}
-DisplayEmptyCell.need_node = [] ;
-
 function DisplayReload(node)
 {
   if ( ! is_a_teacher || ! i_am_root )
@@ -492,7 +472,23 @@ function DisplayExplanation(node)
 {
   return ['?', '', '', 'onclick="DisplayExplanationPopup()"'] ;
 }
-DisplayExplanation.need_node = [] ;
+// DisplayExplanation.need_node = [] ;
+
+function preference_toggle(item)
+{
+   display_data['Preferences'][item] = ! display_data['Preferences'][item] ;
+   display_update() ;
+}
+
+function DisplayPreferences(node)
+{
+  vat s = [] ;
+  for(var item in node.data)
+      s.push('<span onclick="preference_toggle(\'' + item + '\')">'
+              + (node.data[item] ? '☑' : '☐') + _('Preference_' + item)
+              + '</span>') ;
+  return '⚙<div class="menu">' + s.join('<br>') + '</div>' ;
+}
 
 function DisplayLogout(node)
 {
@@ -847,6 +843,7 @@ function DisplayCellBox(node)
       if ( DisplayGrades.cellstats
 	   && DisplayGrades.cellstats.rank !== undefined
 	   && DisplayGrades.cellstats.nr >= 10
+           && ! display_data['Preferences']['color_value']
 	   )
 	styles.push(rank_to_color(DisplayGrades.cellstats.rank,
 				  DisplayGrades.cellstats.nr)) ;
@@ -947,7 +944,7 @@ function DisplayGrades(node)
 
   return '<hr>' + s ;
 }
-DisplayGrades.need_node = ['Login'] ;
+DisplayGrades.need_node = ['Login', 'Grades', 'Preferences'] ;
 
 function goto_cellbox(o)
 {
@@ -1397,3 +1394,4 @@ function DisplayMoreOnSuivi(node)
 {
   return node.data ;
 }
+

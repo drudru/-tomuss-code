@@ -648,7 +648,7 @@ def add_a_cache0(fct, timeout=None):
     return f
 
 def clean_cache(f):
-    if f.last_value_on_exception:
+    if getattr(f, 'last_value_on_exception', 0):
         return # Do not erase in order to reuse if there is an exception
     for key, value in f.cache.items():
         if time.time() - value[1] > f.timeout:
