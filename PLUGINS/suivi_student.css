@@ -149,6 +149,8 @@ SPAN.displaygrey { color: #888 }
 .LastGrades .day { width: 6em }
 
 
+BODY.big_text_1 { font-size: 200% }
+
 .selection_0:hover { background: #EEE }
 .selection_1:hover { background: #FFD }
 .selection_0 { list-style-type: circle }
@@ -234,15 +236,15 @@ BODY.bad_inline_block #cellbox_tip.hidden { display: none }
 
 /*********************** Small screen *******************/
 
-BODY.smallscreen.Printemps { background-image: url(printemps.png) ; }
-BODY.smallscreen.Automne { background-image: url(automne.png) ; }
+BODY.hide_right_column_1.hide_picture_0.Printemps { background-image: url(printemps.png) ; }
+BODY.hide_right_column_1.hide_picture_0.Automne { background-image: url(automne.png) ; }
 
-BODY.smallscreen .CellBox {
+BODY.hide_right_column_1 .CellBox {
     min-width: 3.8em;
     width: 3.8em;
     }
 
-BODY.smallscreen .hide_rightclip {
+BODY.hide_right_column_1 .hide_rightclip {
     opacity: 0.3 ;
     width: 5em ;
     -webkit-animation-duration: 0.5s;
@@ -250,7 +252,7 @@ BODY.smallscreen .hide_rightclip {
     animation-duration: 0.5s;
     animation-name: make_small_bodyright;
 }
-BODY.smallscreen .show_rightclip {
+BODY.hide_right_column_1 .show_rightclip {
     z-index: 2 ; /* Hide cellbox tip */
     opacity: 1 ;
     width: 21em ;
@@ -281,7 +283,7 @@ BODY.smallscreen .show_rightclip {
 
 .long_text { font-size: 49% ; white-space: normal ; min-height: 2.6em ;}
 #cellbox_tip .long_text { font-size: 100% ; height: auto; min-height: initial; }
-BODY.smallscreen .long_text { height: 2.6em ; }
+BODY.hide_right_column_1 .long_text { height: 2.6em ; }
 
 
 /*********************** Tip management *******************/
@@ -400,8 +402,8 @@ BODY, BODY.Printemps, BODY.Automne {
     background: white ;
     background-image: none ;
 }
-BODY.smallscreen.Printemps { background-image: none ; }
-BODY.smallscreen.Automne { background-image: none ; }
+BODY.hide_right_column_1.Printemps { background-image: none ; }
+BODY.hide_right_column_1.Automne { background-image: none ; }
 
 .BodyRight, .RightClip, .GetStudent { display: none ; }
 

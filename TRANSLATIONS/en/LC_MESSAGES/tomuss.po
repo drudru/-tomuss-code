@@ -5306,8 +5306,19 @@ msgid "Preference_highlight_grade"
 msgstr "Hightlight grades."
 
 msgid "Preference_show_empty"
-msgstr "Show empty cells"
+msgstr "Show empty cells."
 
 msgid "Preference_private_suivi"
-msgstr "Hide this page from most teachers"
+msgstr "Hide this page from most teachers."
 
+msgid "Preference_hide_right_column"
+msgstr "Hide right menu column."
+
+msgid "Preference_big_text"
+msgstr "Very big text."
+
+msgid "Preference_hide_picture"
+msgstr "Hide background pictures."
+
+msgid "Preference_no_teacher_color"
+msgstr "Color do not take into account the teacher coloring."

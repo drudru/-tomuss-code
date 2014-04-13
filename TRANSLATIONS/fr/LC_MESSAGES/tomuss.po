@@ -5416,7 +5416,7 @@ msgstr "<p>\n"
 "</p>"
 
 msgid "Preference_color_value"
-msgstr "Coloriage en fonction de la note au lieu du rang."
+msgstr "Colorier en fonction de la note au lieu du rang."
 
 msgid "Preference_highlight_grade"
 msgstr "Mettre en évidence les notes."
@@ -5427,3 +5427,14 @@ msgstr "Montrer les cases vides."
 msgid "Preference_private_suivi"
 msgstr "Cacher cette page aux enseignants non directement concernés."
 
+msgid "Preference_hide_right_column"
+msgstr "Cacher le menu de droite."
+
+msgid "Preference_big_text"
+msgstr "Ecrire en très gros."
+
+msgid "Preference_hide_picture"
+msgstr "Cacher l'image de fond d'écran."
+
+msgid "Preference_no_teacher_color"
+msgstr "Colorier sans tenir compte du coloriage de l'enseignant"

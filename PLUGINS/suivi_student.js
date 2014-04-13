@@ -184,7 +184,7 @@ function detect_small_screen(force)
   else
     top_class += ' student_view' ;
   if ( smallscreen )
-    top_class += ' smallscreen' ;
+    top_class += ' hide_right_column_1' ;
   for(var item in display_data['Preferences'])
     top_class += ' ' + item + '_' + display_data['Preferences'][item] ;
 
@@ -482,7 +482,7 @@ function DisplayExplanation(node)
 
 function preference_toggle(item)
 {
-   if ( username != display_data['Login'] )
+   if ( !is_a_teacher && username != display_data['Login'] )
      {
        Alert("ERROR_value_not_modifiable") ;
        return ; // Can't change student preferences
@@ -873,7 +873,8 @@ function DisplayCellBox(node)
   var classes = ['DisplayType' + DisplayGrades.column.type] ;
   var styles = [] ;
   if ( DisplayGrades.column.red + DisplayGrades.column.green
-       + DisplayGrades.column.redtext + DisplayGrades.column.greentext != '' )
+       + DisplayGrades.column.redtext + DisplayGrades.column.greentext != ''
+       && ! display_data['Preferences']['no_teacher_color'])
     classes.push(cell_class(DisplayGrades.cell, DisplayGrades.column)) ;
   else if ( DisplayGrades.column.real_weight_add )
     {

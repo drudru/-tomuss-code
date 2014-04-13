@@ -351,7 +351,9 @@ def display_preferences(server):
         else:
             prefs = {'highlight_grade': 1}
 
-    for k in ('show_empty', 'color_value', 'highlight_grade', 'private_suivi'):
+    for k in ('show_empty', 'color_value', 'highlight_grade', 'private_suivi',
+              'hide_right_column', 'big_text', 'hide_picture',
+              'no_teacher_color'):
         if k not in prefs:
             prefs[k] = 0
 
