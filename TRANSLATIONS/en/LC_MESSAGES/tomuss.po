@@ -5314,3 +5314,12 @@ msgstr "<p>\n"
 "<li> WNGIVEN: work not given.\n"
 "</ul>"
 
+msgid "Preference_color_value"
+msgstr "Color is function of grade (not rank)."
+
+msgid "Preference_highlight_grade"
+msgstr "Hightlight grades."
+
+msgid "Preference_show_empty"
+msgstr "Show empty cells"
+

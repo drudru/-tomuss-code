@@ -341,7 +341,7 @@ def display_students(server):
             ]
 
 def display_preferences(server):
-    return {'show_empty': 0, 'color_value': 0}
+    return {'show_empty': 0, 'color_value': 0, 'highlight_grade': 0}
 
 from .. import display
 D = display.Display

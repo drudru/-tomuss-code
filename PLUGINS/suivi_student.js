@@ -63,7 +63,6 @@ function initialize_suivi_real()
 	: '' )
     + '<div id="display_suivi"></div>'
     ;
-  setTimeout(hide_empty, 10) ;
   i_am_root = myindex(root, username) != -1 ;
   my_identity = username ;
   column_get_option_running = true ; // Do not set option in URL
@@ -186,6 +185,9 @@ function detect_small_screen(force)
     top_class += ' student_view' ;
   if ( smallscreen )
     top_class += ' smallscreen' ;
+  for(var item in display_data['Preferences'])
+    top_class += ' ' + item + '_' + display_data['Preferences'][item] ;
+
   if ( the_body.className != top_class ) // To not relaunch CSS animation
     {
       the_body.className = top_class ;
@@ -454,7 +456,7 @@ function DisplayProfiling(node)
 
 function DisplayExplanationPopup()
 {
-  create_popup('export_div explanations',
+  create_popup('explanations_popup',
 	       'TOMUSS <span class="copyright">'
 	       + display_data['Explanation']
 	       + '</span>'
@@ -476,18 +478,29 @@ function DisplayExplanation(node)
 
 function preference_toggle(item)
 {
-   display_data['Preferences'][item] = ! display_data['Preferences'][item] ;
+   display_data['Preferences'][item] = 1 - display_data['Preferences'][item] ;
+   DisplayPreferencesPopup() ;
    display_update() ;
+}
+
+function DisplayPreferencesPopup()
+{
+  var data = display_data['Preferences'] ;
+  var s = [] ;
+  for(var item in data)	
+      s.push('<li onclick="preference_toggle(\'' + item + '\')"'
+	     + ' class="selection_' + data[item] + '">'
+	     + _('Preference_' + item)  + '</li>') ;
+  create_popup('preferences_popup', _('LABEL_preferences'),
+	       '<ul>' + s.join('') + '</ul>', '', false) ;
 }
 
 function DisplayPreferences(node)
 {
-  vat s = [] ;
   for(var item in node.data)
-      s.push('<span onclick="preference_toggle(\'' + item + '\')">'
-              + (node.data[item] ? '☑' : '☐') + _('Preference_' + item)
-              + '</span>') ;
-  return '⚙<div class="menu">' + s.join('<br>') + '</div>' ;
+    if ( node.data[item] === undefined )
+      node.data[item] = 0 ;
+  return ['⚙', '', '', 'onclick="DisplayPreferencesPopup()"'] ;
 }
 
 function DisplayLogout(node)

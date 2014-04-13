@@ -5427,3 +5427,13 @@ msgstr "<p>\n"
 "consultation des copies est prévue.\n"
 "Pas la peine de prendre un rendez-vous avec l'enseignant.\n"
 "</p>"
+
+msgid "Preference_color_value"
+msgstr "Coloriage en fonction de la note au lieu du rang."
+
+msgid "Preference_highlight_grade"
+msgstr "Mettre en évidence les notes."
+
+msgid "Preference_show_empty"
+msgstr "Montrer les cases vides."
+

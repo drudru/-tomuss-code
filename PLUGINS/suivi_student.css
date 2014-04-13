@@ -28,31 +28,34 @@ BODY.Automne .BodyRight
 .TopLine { font-size: 200% ; }
 .Picture IMG.small { height: 1.5em ;}
 .IdentityR { float: right ; }
-.Explanation {
+.Logout { text-align: right }
+.Explanation, .Preferences {
     font-size: 200% ;
     font-weight: bold ;
     border: 2px outset #888 ;
     background: white ;
     width: 1em ;
     text-align: center ;
+    margin-left: 0.2em ;
 }
-.explanations A {
+.explanations_popup A {
     float: right ;
     font-size: 60% ;
     margin-right: 4em ;
     font-weight: normal ;
 }
 
-.Preferences .menu {
-   position: absolute;
-   width: 10em ;
-   right: -10em;
-   opacity: 0.9 ;
-   background: #FFF ;
+BODY DIV.preferences_popup, BODY DIV.explanations_popup {
+    right: 0 ;
+    top: 2.3em ;
+    left: auto ;
+    width: 20em ;
+    opacity: 0.9 ;
 }
 
-.Preferences:hover .menu {
-   right: 0px;
+BODY DIV.explanations_popup {
+    width: 40em ;
+    text-align: justify ;
 }
 
 .Logo IMG { height: 2.5em }
@@ -147,9 +150,16 @@ SPAN.displaygrey { color: #888 }
 .LastGrades .day { width: 6em }
 
 
+.selection_0:hover { background: #EEE }
+.selection_1:hover { background: #FFD }
+.selection_0 { list-style-type: circle }
+.selection_1 { list-style-type: disc ; background: #FF8 }
+
+.show_empty_0 .is_empty { display: none }
+
 /********** not grade Cells are transparent for teachers  *************/
 
-.teacher_view .CellBox {
+.highlight_grade_1 .CellBox {
     opacity: 0.511 ;
     -webkit-animation-duration: 0.5s;
     -webkit-animation-name: fadeout2;
@@ -157,16 +167,16 @@ SPAN.displaygrey { color: #888 }
     animation-name: fadeout2;
 }
 
-.teacher_view .displayUE:hover .DisplayTypeNote,
-.teacher_view .tip_displayed .DisplayTypeNote,
-.teacher_view .DisplayTypeNote,
-.teacher_view #cellbox_tip .CellBox {
+.highlight_grade_1 .displayUE:hover .DisplayTypeNote,
+.highlight_grade_1 .tip_displayed .DisplayTypeNote,
+.highlight_grade_1 .DisplayTypeNote,
+.highlight_grade_1 #cellbox_tip .CellBox {
     opacity:1 ;
     -webkit-animation-name: none ;
     animation-name: none ;
 }
 
-.teacher_view .UEMasters {
+.highlight_grade_1 .UEMasters {
     opacity: 0.511 ;
     -webkit-animation-duration: 0.5s;
     -webkit-animation-name: fadeout2;
@@ -174,8 +184,8 @@ SPAN.displaygrey { color: #888 }
     animation-name: fadeout2;
 }
 
-.teacher_view .displayUE:hover .CellBox,
-.teacher_view .tip_displayed .CellBox {
+.highlight_grade_1 .displayUE:hover .CellBox,
+.highlight_grade_1 .tip_displayed .CellBox {
     opacity:1 ;
     -webkit-animation-duration: 0.5s;
     -webkit-animation-name: fadein2;
@@ -183,8 +193,8 @@ SPAN.displaygrey { color: #888 }
     animation-name: fadein2;
 }
 
-.teacher_view .tip_displayed .UEMasters,
-.teacher_view .UE:hover .UEMasters {
+.highlight_grade_1 .tip_displayed .UEMasters,
+.highlight_grade_1 .UE:hover .UEMasters {
     opacity: 1 ;
     -webkit-animation-duration: 0.5s;
     -webkit-animation-name: fadein2;
@@ -210,8 +220,8 @@ SPAN.displaygrey { color: #888 }
 }
 
 @media print {
-.teacher_view .CellBox { opacity: 1; }
-.teacher_view .UEMasters {opacity: 1; }
+.highlight_grade_1 .CellBox { opacity: 1; }
+.highlight_grade_1 .UEMasters {opacity: 1; }
 }
 
 /*********************** Not working inline_block (IE) *******************/
@@ -220,8 +230,6 @@ BODY.bad_inline_block .Display {
     display: inline ;
 }
 BODY.bad_inline_block .Logout { text-decoration: underline }
-BODY.bad_inline_block .is_empty { display: none ; }
-BODY.bad_inline_block .is_notempty { display: none ; }
 
 BODY.bad_inline_block #cellbox_tip.hidden { display: none }
 
