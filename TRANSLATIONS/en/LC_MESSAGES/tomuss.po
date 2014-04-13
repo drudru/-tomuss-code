@@ -3966,8 +3966,10 @@ msgstr "These informations are not the official ones,\n"
        "they have no legal value and must be officially validated</b>."
 
 msgid "MSG_suivi_student_private"
-msgstr "This student 'suivi' is visible only by a restricted set of people.\n"
-       " If there is one, you can contact its referent teacher."
+msgstr "This student 'suivi' is visible only by a restricted set of people."
+
+msgid "MSG_suivi_student_private_referent"
+msgstr "Contact its referent teacher to have more information:"
 
 msgid "MSG_saved"
 msgstr "The information has been saved."

@@ -1138,9 +1138,12 @@ DisplayGetStudent.need_node = ['Referent'] ;
 
 function DisplayIsPrivate(node)
 {
-  return _("MSG_suivi_student_private") ;
+  var s = _("MSG_suivi_student_private") ;
+  if ( node.data )
+    s += '<p>' + _("MSG_suivi_student_private_referent")
+      + ' ' + DisplayNames(node) ;
+  return s ;
 }
-DisplayIsPrivate.need_node = [] ;
 
 function DisplayPreamble(node)
 {

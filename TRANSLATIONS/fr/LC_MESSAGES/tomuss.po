@@ -4009,9 +4009,13 @@ msgstr "Les informations indiquées ici ne sont pas officielles,\n"
        "sont <b>soumises à validation par les jurys d'UE</b>."
 
 msgid "MSG_suivi_student_private"
-msgstr "L'étudiant ou la composante a demandé à ce que son suivi soit visible\n"
-       " seulement par les personnes concernées.\n"
-       " S'il en a un, vous pouvez contacter son référent pédagogique."
+msgstr "L'étudiant n'est pas actuellement inscrit à l'université ou bien\n"
+       "il a demandé (ou sa composante) à ce que cette page ne soit\n"
+       "affichée qu'aux personnes concernées."
+
+msgid "MSG_suivi_student_private_referent"
+msgstr "Vous pouvez contacter son référent pédagogique pour avoir plus\n"
+      "d'informations :"
 
 msgid "MSG_saved"
 msgstr "L'information a bien été enregistrée"

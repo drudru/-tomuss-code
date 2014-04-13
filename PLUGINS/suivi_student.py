@@ -408,8 +408,8 @@ D('Logout'      , 'IdentityR' ,-1)
 D('Explanation' , 'IdentityR' ,0, data=display_copyright)
 D('Preferences' , 'IdentityR' ,1, data=display_preferences)
 
-D('IsPrivate'   , 'Private'          ,5)
-D('AskQuestion' , 'Question'         ,6, data=display_question)
+D('IsPrivate'   , 'Private'   ,5, data=display_referent)
+D('AskQuestion' , 'Question'  ,6, data=display_question)
 
 D('Picture'     , 'TopLine'   ,0)
 D('Login'       , 'TopLine'   ,1, js='Vertical', data=display_login)

@@ -55,6 +55,8 @@ BODY DIV.explanations_popup {
     text-align: justify ;
 }
 
+.preferences_popup LI { margin-top: 0.2em }
+
 .Logo IMG { height: 2.4em }
 .RSS IFRAME { position: absolute; left: -100px ; }
 .displayRSS IMG { height: 1em }
