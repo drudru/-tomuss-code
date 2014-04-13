@@ -1044,6 +1044,13 @@ function popup_column()
   return popup_get_element().column ;
 }
 
+function popup_classname()
+{
+  var popup = document.getElementById('popup') ;
+  if ( popup && popup.firstChild )
+    return popup.firstChild.className.toString().replace('import_export ','') ;
+}
+
 function create_popup(html_class, title, before, after, default_answer)
 {
   popup_close() ;

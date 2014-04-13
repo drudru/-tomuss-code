@@ -215,7 +215,6 @@ function display_update(key_values, top)
   if ( key_values )
     for(var i in key_values)
       display_data[key_values[i][0]] = key_values[i][1] ;
-  console.log(display_display(display_definition[top]));
   document.getElementById('display_suivi').innerHTML = display_display(display_definition[top]) ;
 
   display_update_nb++ ;
@@ -456,6 +455,11 @@ function DisplayProfiling(node)
 
 function DisplayExplanationPopup()
 {
+  if ( popup_classname() == 'explanations_popup' )
+    {
+      popup_close() ;
+      return ;
+    }
   create_popup('explanations_popup',
 	       'TOMUSS <span class="copyright">'
 	       + display_data['Explanation']
@@ -485,20 +489,24 @@ function preference_toggle(item)
      }
    
    display_data['Preferences'][item] = 1 - display_data['Preferences'][item] ;
-   DisplayPreferencesPopup() ;
+   DisplayPreferencesPopup(true) ;
    display_update() ;
    var data = display_data['Preferences'] ;
    var t = []
    for(var item in data)
      t.push(item + '=' + data[item]) ;
-
    var img = document.createElement('IMG') ;
    img.src = url + '/=' + ticket + '/save_preferences/' + t.join('/') ;
    popup_get_element().appendChild(img) ;
 }
 
-function DisplayPreferencesPopup()
+function DisplayPreferencesPopup(do_no_hide)
 {
+  if ( !do_no_hide && popup_classname() == 'preferences_popup' )
+    {
+      popup_close() ;
+      return ;
+      }
   var data = display_data['Preferences'] ;
   var s = [] ;
   for(var item in data)
