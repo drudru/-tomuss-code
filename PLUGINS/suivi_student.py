@@ -351,14 +351,14 @@ def display_preferences(server):
         else:
             prefs = {'highlight_grade': 1}
 
+    for k in ('show_empty', 'color_value', 'highlight_grade', 'private_suivi'):
+        if k not in prefs:
+            prefs[k] = 0
+
     # XXX For old files from TOMUSS before 5.3.2
     priv = utilities.manage_key('LOGINS', os.path.join(login, 'private'))
     if priv and priv.startswith('1'):
         prefs['private_suivi'] = 1
-
-    for k in ('show_empty', 'color_value', 'highlight_grade', 'private_suivi'):
-        if k not in prefs:
-            prefs[k] = 0
 
     if not configuration.suivi_student_allow_private or not server.is_a_student:
         del prefs['private_suivi']

@@ -875,7 +875,7 @@ def get_tuples(an_iterable, size):
 
     
 def manage_key_real(dirname, key, separation=3, content=None, reduce_ok=True,
-                    append=False):
+                    append=False, delete=False):
     """
     Do not use this function
     """
@@ -905,6 +905,9 @@ def manage_key_real(dirname, key, separation=3, content=None, reduce_ok=True,
 
     f1 = os.path.join(f1, key)
     if os.path.exists(f1):
+        if delete:
+            os.unlink(f1)
+            return
         f = open(f1, 'r')
         c = f.read()
         f.close()
@@ -932,7 +935,8 @@ def manage_key_real(dirname, key, separation=3, content=None, reduce_ok=True,
     return c
 
 @add_a_lock
-def manage_key(dirname, key, separation=3, content=None, reduce_ok=True, append=False):
+def manage_key(dirname, key, separation=3, content=None, reduce_ok=True,
+               append=False, delete=False):
     """
     Store the content in the key and return the old content or False
 
@@ -942,7 +946,7 @@ def manage_key(dirname, key, separation=3, content=None, reduce_ok=True, append=
     if key is '':
         return False
     c = manage_key_real(os.path.join(configuration.db, dirname),
-                        key, separation, content, reduce_ok, append)
+                        key, separation, content, reduce_ok, append, delete)
     if configuration.backup:
         d = manage_key_real(os.path.join(configuration.backup
                                          + configuration.db, dirname),

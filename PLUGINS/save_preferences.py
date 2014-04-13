@@ -45,6 +45,11 @@ def save_preferences(server):
                          content = repr(d))
     server.the_file.write(files.files['ok.png'])
 
+    # XXX For old files from TOMUSS before 5.3.2
+    utilities.manage_key('LOGINS', os.path.join(login, 'private'),
+                         delete=True)
+
+
 plugin.Plugin('save_preferences', '/save_preferences/{*}', priority=-11,
               mimetype="image/png", group="",
               function=save_preferences)
