@@ -4013,23 +4013,6 @@ msgstr "L'étudiant ou la composante a demandé à ce que son suivi soit visible
        " seulement par les personnes concernées.\n"
        " S'il en a un, vous pouvez contacter son référent pédagogique."
 
-msgid "LINK_suivi_student_private"
-msgstr "Vie privée"
-
-msgid "TIP_suivi_student_private"
-msgstr "Gestion de la visibilité de votre page de suivi"
-
-msgid "MSG_suivi_student_private_full"
-msgstr "Si pour des raisons personnelles, vous désirez que votre page\n"
-       " de suivi ne soit visible que par un nombre restreint d'enseignant\n"
-       " vous pouvez l'indiquer ici en cliquant sur le bouton."
-
-msgid "MSG_suivi_student_private_public"
-msgstr "Je veux que ma page de suivi soit visible par tous les enseignants"
-
-msgid "MSG_suivi_student_private_private"
-msgstr "Je veux que ma page de suivi soit cachée"
-
 msgid "MSG_saved"
 msgstr "L'information a bien été enregistrée"
 
@@ -5436,4 +5419,7 @@ msgstr "Mettre en évidence les notes."
 
 msgid "Preference_show_empty"
 msgstr "Montrer les cases vides."
+
+msgid "Preference_private_suivi"
+msgstr "Cacher cette page aux enseignants non directement concernés."
 

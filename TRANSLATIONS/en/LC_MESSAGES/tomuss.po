@@ -3969,23 +3969,6 @@ msgid "MSG_suivi_student_private"
 msgstr "This student 'suivi' is visible only by a restricted set of people.\n"
        " If there is one, you can contact its referent teacher."
 
-msgid "LINK_suivi_student_private"
-msgstr "Private live"
-
-msgid "TIP_suivi_student_private"
-msgstr "Manage the visiblity of your 'suivi'"
-
-msgid "MSG_suivi_student_private_full"
-msgstr "If for personnal reason you want to (un)restrict the access to your\n"
-       " page to a minimum of teachers,\n"
-       " you can indicate this here by click on the button."
-
-msgid "MSG_suivi_student_private_public"
-msgstr "I want my page to be visible to any teacher"
-
-msgid "MSG_suivi_student_private_private"
-msgstr "I want my page to be visible to a minimum number of teacher."
-
 msgid "MSG_saved"
 msgstr "The information has been saved."
 
@@ -5322,4 +5305,7 @@ msgstr "Hightlight grades."
 
 msgid "Preference_show_empty"
 msgstr "Show empty cells"
+
+msgid "Preference_private_suivi"
+msgstr "Hide this page from most teachers"
 

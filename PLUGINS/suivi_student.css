@@ -32,11 +32,8 @@ BODY.Automne .BodyRight
 .Explanation, .Preferences {
     font-size: 200% ;
     font-weight: bold ;
-    border: 2px outset #888 ;
-    background: white ;
-    width: 1em ;
     text-align: center ;
-    margin-left: 0.2em ;
+    margin-left: 0.4em ;
 }
 .explanations_popup A {
     float: right ;
@@ -58,7 +55,7 @@ BODY DIV.explanations_popup {
     text-align: justify ;
 }
 
-.Logo IMG { height: 2.5em }
+.Logo IMG { height: 2.4em }
 .RSS IFRAME { position: absolute; left: -100px ; }
 .displayRSS IMG { height: 1em }
 .BodyLeft {

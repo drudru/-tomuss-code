@@ -96,11 +96,8 @@ def the_ues(year, semester, login):
     return tables
 
 def teacher_can_see_suivi(server, the_student):
-    priv =  utilities.manage_key('LOGINS', os.path.join(the_student,"private"))
-    if priv and priv.startswith('1'):
-        priv = True
-    else:
-        priv = False
+    prefs = display_preferences_get(the_student)
+    priv = bool(prefs.get('private_suivi', False))
 
     if server.ticket.user_name == the_student:
         return priv, True
@@ -235,11 +232,6 @@ def display_rss(server):
             return "fake_RSS_key"
     return ''
 
-def display_private_life(server):
-    if not configuration.suivi_student_allow_private:
-        return ''    
-    return int(server.suivi_private_life)
-
 def display_tt(server):
     table = document.table(utilities.university_year(), 'Dossiers', 'tt',
                            ro=True)
@@ -340,8 +332,38 @@ def display_students(server):
             for student in students
             ]
 
+def display_preferences_get(login):
+    prefs = utilities.manage_key('LOGINS', os.path.join(login, 'preferences'))
+    if prefs:
+        return eval(prefs)
+    else:
+        return {}
+
 def display_preferences(server):
-    return {'show_empty': 0, 'color_value': 0, 'highlight_grade': 0}
+    if server.is_a_student:
+        login = server.suivi_login
+    else:
+        login = server.ticket.user_name
+    prefs = display_preferences_get(login)
+    if not prefs:
+        if server.is_a_student:
+            prefs = {}
+        else:
+            prefs = {'highlight_grade': 1}
+
+    # XXX For old files from TOMUSS before 5.3.2
+    priv = utilities.manage_key('LOGINS', os.path.join(login, 'private'))
+    if priv and priv.startswith('1'):
+        prefs['private_suivi'] = 1
+
+    for k in ('show_empty', 'color_value', 'highlight_grade', 'private_suivi'):
+        if k not in prefs:
+            prefs[k] = 0
+
+    if not configuration.suivi_student_allow_private or not server.is_a_student:
+        del prefs['private_suivi']
+
+    return prefs
 
 from .. import display
 D = display.Display
@@ -407,7 +429,6 @@ D('Charte'      , 'LinksTable',6, display_charte)
 D('Signature'   , 'LinksTable',7, display_signature)
 
 D('RSS'         , 'LinksTable',8, data=display_rss)
-D('PrivateLife' , 'LinksTable',9, data=display_private_life)
 D('MemberOf'    , 'LinksTable',10, data=display_member_of)
 
 # Template of an UE

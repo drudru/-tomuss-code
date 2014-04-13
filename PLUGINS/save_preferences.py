@@ -19,19 +19,33 @@
 #
 #    Contact: Thierry.EXCOFFIER@bat710.univ-lyon1.fr
 
+"""
+Save user preferences for suivi
+"""
+
+import os
 from .. import plugin
 from .. import utilities
 from .. import configuration
-import os
+from .. import files
 
-def private(server):
+def save_preferences(server):
     """Set the private state of the student"""
     if not configuration.suivi_student_allow_private:
         return
     login = utilities.the_login(server.ticket.user_name)
-    utilities.manage_key('LOGINS', os.path.join(login, 'private'),
-                         content=str(int(server.the_path[0])))
-    server.the_file.write(login + ' : ' + server._("MSG_saved"))
+    d = {}
+    for item in server.the_path:
+        item = item.split('=')
+        assert(len(item) == 2)
+        assert(utilities.safe(item[0]) == item[0])
+        d[item[0]] = int(item[1])
+        assert(d[item[0]] in (0,1))
+    utilities.manage_key('LOGINS', os.path.join(login, 'preferences'),
+                         content = repr(d))
+    server.the_file.write(files.files['ok.png'])
 
-plugin.Plugin('private', '/private/{*}', priority=-11, function=private)
+plugin.Plugin('save_preferences', '/save_preferences/{*}', priority=-11,
+              mimetype="image/png", group="",
+              function=save_preferences)
 

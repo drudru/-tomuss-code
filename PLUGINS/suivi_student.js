@@ -481,17 +481,29 @@ function preference_toggle(item)
    display_data['Preferences'][item] = 1 - display_data['Preferences'][item] ;
    DisplayPreferencesPopup() ;
    display_update() ;
+   if ( username != display_data['Login'] )
+     return ; // Can't change student preferences
+   
+   var data = display_data['Preferences'] ;
+   var t = []
+   for(var item in data)
+     t.push(item + '=' + data[item]) ;
+
+   var img = document.createElement('IMG') ;
+   img.src = url + '/=' + ticket + '/save_preferences/' + t.join('/') ;
+   popup_get_element().appendChild(img) ;
 }
 
 function DisplayPreferencesPopup()
 {
   var data = display_data['Preferences'] ;
   var s = [] ;
-  for(var item in data)	
+  for(var item in data)
       s.push('<li onclick="preference_toggle(\'' + item + '\')"'
 	     + ' class="selection_' + data[item] + '">'
 	     + _('Preference_' + item)  + '</li>') ;
-  create_popup('preferences_popup', _('LABEL_preferences'),
+  create_popup('preferences_popup', _('LABEL_preferences') + '<br>'
+	       + (is_a_teacher ? username : display_data['Login']),
 	       '<ul>' + s.join('') + '</ul>', '', false) ;
 }
 
@@ -502,6 +514,7 @@ function DisplayPreferences(node)
       node.data[item] = 0 ;
   return ['⚙', '', '', 'onclick="DisplayPreferencesPopup()"'] ;
 }
+DisplayPreferences.need_node = ['Preferences', 'Login'] ;
 
 function DisplayLogout(node)
 {
@@ -1291,40 +1304,6 @@ function DisplayLinksTable(node)
   return t.join('') ;
 }
 DisplayLinksTable.need_node = [] ;
-
-function private_toggle()
-{
-  window.location = url + '/=' + ticket + '/private/'
-    + (1-display_data['PrivateLife']) ;
-}
-
-function popup_private()
-{
-  create_popup('private_div',
-	       _("LINK_suivi_student_private"),
-	       _("MSG_suivi_student_private_full")
-	       + '<p><button onclick="private_toggle()">'
-	       + (display_data['PrivateLife']
-		  ? _("MSG_suivi_student_private_public")
-		  : _("MSG_suivi_student_private_private"))
-		  + '</button>',
-	       '', false
-	      );
-}
-
-function DisplayPrivateLife(node)
-{
-  if ( ! is_a_teacher )
-    return hidden_txt('<a href="javascript:popup_private();undefined"'
-		      + (node.data ? ' class="bad"' : '') + '>'
-		      + _("LINK_suivi_student_private") + '</a>',
-		      _("TIP_suivi_student_private")
-		      ) ;
-  if ( node.data )
-    return hidden_txt(_("LINK_suivi_student_private"),
-		      _("MSG_suivi_student_private"), 'bad') ;
-  return '' ;
-}
 
 function DisplayTT(node)
 {

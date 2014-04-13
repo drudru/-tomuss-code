@@ -68,7 +68,7 @@ def plugins_tomuss():
     from .PLUGINS import change_identity
     from .PLUGINS import auto_update
     from .PLUGINS import backtrace
-    from .PLUGINS import private
+    from .PLUGINS import save_preferences
     from .PLUGINS import rsskey
     from .PLUGINS import signature
     from . import signature
