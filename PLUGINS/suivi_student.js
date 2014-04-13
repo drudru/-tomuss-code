@@ -478,12 +478,15 @@ function DisplayExplanation(node)
 
 function preference_toggle(item)
 {
+   if ( username != display_data['Login'] )
+     {
+       Alert("ERROR_value_not_modifiable") ;
+       return ; // Can't change student preferences
+     }
+   
    display_data['Preferences'][item] = 1 - display_data['Preferences'][item] ;
    DisplayPreferencesPopup() ;
    display_update() ;
-   if ( username != display_data['Login'] )
-     return ; // Can't change student preferences
-   
    var data = display_data['Preferences'] ;
    var t = []
    for(var item in data)
