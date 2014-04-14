@@ -64,6 +64,7 @@ TABLE.colored {
   empty-cells:show;
   border-left: 1px solid #999 ;
   border-top: 1px solid #999 ;
+  font-weight: normal ;
 }
 
 TABLE.colored TD, TABLE.colored TH {
@@ -118,7 +119,6 @@ DIV#current_input_div INPUT#current_input {
 
 TH, TH INPUT, TH P {
   font-weight: 500 ;
-  font-size: 80% ;
   background-color: #DFD ;
 /*  background: url(header.png) #DFD ; */
 }
@@ -127,7 +127,7 @@ TH, TH INPUT, TH P {
 TH SELECT { 
   background-color: #CDC ;
 }
-TD, TH, TABLE INPUT, #current_input {
+TABLE INPUT, #current_input {
   font-size: 100% ;
 }
 
@@ -554,13 +554,6 @@ INPUT#comment { width: 100% ; clear: both; }
 
 /* #menutop .gui_button:hover { background: #EFE ; } */
 
-#menutop DIV.menu, #menutop #t_history { font-size: 80% ; }
-#menutop DIV.menu TABLE {  width: 100% ; }
-#menutop DIV.menu TABLE TD {
-  width: 16% ;
-  text-align: center;
-}
-
 #comment.empty {
   background-image: url("comment.png");
   background-repeat: no-repeat;
@@ -637,8 +630,8 @@ DIV.tabs DIV.contents {
 }
 
 #menutop DIV.tabs IMG.phot {
-max-height: 6em;
-width: 4.8em;
+height: auto;
+width: 5.5em;
 }
 
 DIV.tabs DIV.contents DIV.content { height: 100% }
@@ -654,7 +647,7 @@ TABLE.tabbed_headers { width: 100%; }
 TD.tabbed_headers { width: 20%; }
 
 TABLE.cell { border-spacing: 0px ; width: 100% }
-TABLE.cell TD.cell_values { width: 100%; font-size: 80% ; }
+TABLE.cell TD.cell_values { width: 100%; }
 
 
 #menutop DIV.tabs .one_line {

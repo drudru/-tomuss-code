@@ -36,7 +36,7 @@ TD.weekend { background-color: #FBB; }
 
 TABLE.display_abjs TH { text-align: center ; }
 TABLE.display_abjs TD, TABLE.display_da TD { background-color: #EEE ; }
-TABLE.display_abjs TH, TABLE.display_abjs TD, TABLE.display_da TD, TABLE.display_da TH { font-size:80%; padding: 1px }
+TABLE.display_abjs TH, TABLE.display_abjs TD, TABLE.display_da TD, TABLE.display_da TH { padding: 1px }
 
 IFRAME#datasend {
   height: 15em ;
