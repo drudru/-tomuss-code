@@ -726,7 +726,12 @@ function enter_in_ue(event)
   var t = document.getElementById("cellbox_tip") ;
   if ( ! t || ! t.grades )
     return ;
-  hide_cellbox_tip() ;
+  event = the_event(event) ;
+  if ( enter_in_ue.ue != event.target )
+    {
+      hide_cellbox_tip() ;
+      enter_in_ue.ue = event.target ;
+    }
 }
 
 function hide_cellbox_tip()
