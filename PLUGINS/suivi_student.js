@@ -661,9 +661,9 @@ function DisplayCellAvg(node)
     return '' ;
   if ( DisplayGrades.cellstats.average === undefined)
     return '' ;
-  return ' <span class="displaygrey">' + _('Average') + '</span>&nbsp;'
+  return ' <span class="displaygrey">' + _('Average') + '</span>'
     + DisplayGrades.column.do_rounding(DisplayGrades.cellstats.average)
-    +  ' <span class="displaygrey">' + _('Mediane') + '</span>&nbsp;'
+    +  ' <span class="displaygrey">' + _('Mediane') + '</span>'
     + DisplayGrades.cellstats.mediane ;
 }
 DisplayCellAvg.need_node = [] ;
@@ -679,7 +679,7 @@ function DisplayCellDate(node)
     x += get_date_tomuss_short(d[i]) + ' ' ;
   
   return '<span class="displaygrey">' + _("SUIVI_course_dates")
-    + '&nbsp;</span>' + x ;
+    + '</span>' + x ;
 }
 DisplayCellDate.need_node = [] ;
 
@@ -804,7 +804,9 @@ function display_tree(column)
 	     + column.average_from[i]
 	     + ' <span class="displaygrey">' + _("BEFORE_column_attr_weight")
 	     + '</span>&nbsp;' + col.weight
-	     + display_tree(col) + '</li>'
+	     + (display_data['Preferences'].recursive_formula
+		? display_tree(col)
+		: '') + '</li>'
 	     ) ;
     }
   s.push("</ul>") ;

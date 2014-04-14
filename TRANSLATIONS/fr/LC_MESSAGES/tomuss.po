@@ -5441,3 +5441,6 @@ msgstr "Colorier sans tenir compte du coloriage de l'enseignant."
 
 msgid "Preference_big_box"
 msgstr "Ne tronque pas le texte dans les cases."
+
+msgid "Preference_recursive_formula"
+msgstr "Affichage détaillé des moyennes"

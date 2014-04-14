@@ -5325,3 +5325,6 @@ msgstr "Color do not take into account the teacher coloring."
 
 msgid "Preference_big_box"
 msgstr "Do not truncate cell content."
+
+msgid "Preference_recursive_formula"
+msgstr "Detailed average formula display"
