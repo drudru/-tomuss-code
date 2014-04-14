@@ -54,6 +54,7 @@ DIV.import_export BUTTON.close {
   position:absolute;
   right:0px;
   top: 0px;
+  font-size: 150% ;
 }
 DIV.import_export UL { 
 margin-top: 0px ;
