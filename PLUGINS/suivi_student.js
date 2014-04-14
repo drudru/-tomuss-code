@@ -40,24 +40,12 @@ function _cell(s, url)
   s.blur() ;
 }
 
-function set_style_content(content)
-{
-  hide_cellbox_tip() ;
-  var s = document.getElementById('computed_style') ;
-  if ( ! s )
-    return ;
-  while(s.firstChild)
-    s.removeChild(s.firstChild) ;
-  s.appendChild(document.createTextNode(content)) ;
-}
-
 function initialize_suivi_real()
 {
   lib_init() ;
   instant_tip_display = true ;
   
   document.getElementById('top').innerHTML = '<div id="cellbox_tip"></div>'
-    + '<style id="computed_style"></style>'
     + ( window.devicePixelRatio !== undefined
 	? '<meta name="viewport" content="width=device-width,height=device-height,initial-scale=1">'
 	: '' )
