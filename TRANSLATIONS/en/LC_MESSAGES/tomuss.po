@@ -5322,3 +5322,6 @@ msgstr "Hide background pictures."
 
 msgid "Preference_no_teacher_color"
 msgstr "Color do not take into account the teacher coloring."
+
+msgid "Preference_big_box"
+msgstr "Do not truncate cell content."

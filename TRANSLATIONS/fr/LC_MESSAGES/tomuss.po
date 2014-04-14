@@ -5437,4 +5437,7 @@ msgid "Preference_hide_picture"
 msgstr "Cacher l'image de fond d'écran."
 
 msgid "Preference_no_teacher_color"
-msgstr "Colorier sans tenir compte du coloriage de l'enseignant"
+msgstr "Colorier sans tenir compte du coloriage de l'enseignant."
+
+msgid "Preference_big_box"
+msgstr "Ne tronque pas le texte dans les cases."

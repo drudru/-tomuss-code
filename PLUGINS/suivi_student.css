@@ -243,7 +243,7 @@ BODY.bad_inline_block .BodyLeft { width: 75% }
 BODY.hide_right_column_1.hide_picture_0.Printemps { background-image: url(printemps.png) ; }
 BODY.hide_right_column_1.hide_picture_0.Automne { background-image: url(automne.png) ; }
 
-BODY.hide_right_column_1 .CellBox {
+BODY.hide_right_column_1.big_box_0 .CellBox {
     min-width: 3.8em;
     width: 3.8em;
     }
