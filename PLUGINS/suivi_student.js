@@ -155,9 +155,9 @@ function detect_small_screen(force)
       div = divs[i] ;
       if ( div === undefined || div.className === undefined )
 	continue ;
-      if ( div.className.toString().match(/(DisplayExplanation|DisplayContact|DisplayLogout)/)
-	   && ( div.offsetLeft < 10
-		|| the_body.className.toString().indexOf("bad_inline_block") != -1 )
+      if ( div.className.toString().match(/DisplayPreferences/)
+	   && (div.offsetLeft < 20
+	      || the_body.className.toString().indexOf("bad_inline_block") != -1 )
 	   )
 	not_working++ ;
       if ( div.className.toString().indexOf('BodyLeft') != -1 )
@@ -174,7 +174,7 @@ function detect_small_screen(force)
 	}
       smallscreen = detect_small_screen.initial_width / window_width() > 0.35 ;
     }
-  if ( not_working == 3 && window_width() > 300 )
+  if ( not_working )
     {
       top_class += ' bad_inline_block' ;
       smallscreen = false ;
@@ -493,11 +493,11 @@ function preference_toggle(item)
    display_update() ;
    var data = display_data['Preferences'] ;
    var t = []
-   for(var item in data)
-     t.push(item + '=' + data[item]) ;
+   for(var i in data)
+     t.push(i + '=' + data[i]) ;
    var img = document.createElement('IMG') ;
    img.src = url + '/=' + ticket + '/save_preferences/' + t.join('/') ;
-   popup_get_element().appendChild(img) ;
+   document.getElementById('preference_' + item).appendChild(img) ;
 }
 
 function DisplayPreferencesPopup(do_no_hide)
@@ -527,6 +527,7 @@ function DisplayPreferencesPopup(do_no_hide)
     {
       item = items[item] ;
       s.push('<li onclick="preference_toggle(\'' + item + '\')"'
+	     + ' id="preference_' + item + '"'
 	     + ' class="selection_' + data[item] + '">'
 	     + _('Preference_' + item)  + '</li>') ;
     }

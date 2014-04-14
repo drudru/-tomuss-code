@@ -49,6 +49,8 @@ BODY DIV.preferences_popup, BODY DIV.explanations_popup {
     width: 20em ;
     opacity: 0.9 ;
 }
+DIV.preferences_popup IMG { width: 1em }
+
 
 BODY DIV.explanations_popup {
     width: 40em ;
@@ -233,6 +235,8 @@ BODY.bad_inline_block .Display {
 BODY.bad_inline_block .Logout { text-decoration: underline }
 
 BODY.bad_inline_block #cellbox_tip.hidden { display: none }
+
+BODY.bad_inline_block .BodyLeft { width: 75% }
 
 /*********************** Small screen *******************/
 
