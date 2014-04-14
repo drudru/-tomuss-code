@@ -4666,7 +4666,7 @@ function javascript_regtest_ue()
   update_columns() ;
   table_fill(false, true,true) ; periodic_work_do() ;
 
-  table_autosave_toggle() ;
+  table_autosave_toggle('t_table_attr_autosave') ;
 
   var t_column_title       = document.getElementById('t_column_title'      );
   var t_column_test_filter = document.getElementById('t_column_test_filter');

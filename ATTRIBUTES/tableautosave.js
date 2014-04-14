@@ -30,7 +30,7 @@ function table_autosave_toggle(id)
       if ( e )
 	e.style.display = 'inline' ;
       link.innerHTML = '<span style="color:red">'
-        + _('LABEL_save') + '</span>' ;
+	+ _('LABEL_save') + '</span>' ;
     }
   else
     {
