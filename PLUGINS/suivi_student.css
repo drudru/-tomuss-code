@@ -23,6 +23,10 @@ BODY.Automne .BodyRight
     vertical-align: top ;
 }
 
+.CellBox > .Display, .DisplayVertical > .Display {
+    display: block ;
+}
+
 .Top, .User, .Body, .Grades, .Private, .Preamble, .Message, .Messages, .UEHeader {
     width: 100% ; }
 .TopLine { font-size: 200% ; }
@@ -60,7 +64,7 @@ BODY DIV.explanations_popup {
 
 .preferences_popup LI { margin-top: 0.2em }
 
-.Logo IMG { height: 2.4em }
+.Logo IMG { height: 2.4em ; border: 0px }
 .RSS IFRAME { position: absolute; left: -100px ; }
 .displayRSS IMG { height: 1em }
 .BodyLeft {

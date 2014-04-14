@@ -243,7 +243,7 @@ DisplayHorizontal.need_node = [] ;
 
 function DisplayVertical(node)
 {
-  return DisplayHorizontal(node, '<br>\n') ;
+  return DisplayHorizontal(node, '') ;
 }
 DisplayVertical.need_node = [] ;
 
