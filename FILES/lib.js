@@ -4053,10 +4053,10 @@ function remove_highlight()
     }
 }
 
-function hide_the_tip_real()
+function hide_the_tip_real(force)
 {
   var tip = get_tip_element() ;
-  if ( tip.innerHTML.indexOf('overflow:') != -1 )
+  if ( !force && tip.innerHTML.indexOf('overflow:') != -1 )
     return ; // To let the user scroll
   if ( tip.do_not_hide )
     return ;

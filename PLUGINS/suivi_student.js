@@ -752,6 +752,7 @@ function hide_cellbox_tip()
 
 function display_cellbox_tip(event, nr)
 {
+  hide_the_tip_real(true) ;
   hide_rightclip() ;
   var c = the_event(event).target ;
   while( c.className.toString().indexOf('CellBox') == -1 )
