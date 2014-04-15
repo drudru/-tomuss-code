@@ -151,6 +151,7 @@ function ue_line_close()
 
 function ue_line_out(t)
 {
+  hide_the_tip_real(true) ;
   if ( ue_line_over_last )
     ue_line_over_last.className = ue_line_over_last.className.replace(/ *hover/g, '') ;
   ue_line_over_last = undefined ;

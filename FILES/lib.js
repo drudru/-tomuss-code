@@ -4058,13 +4058,13 @@ function hide_the_tip_real(force)
   var tip = get_tip_element() ;
   if ( !force && tip.innerHTML.indexOf('overflow:') != -1 )
     return ; // To let the user scroll
-  if ( tip.do_not_hide )
+  if ( !force && tip.do_not_hide )
     return ;
   /* tip.do_not_hide take some time to be setted for tip_plus */
   setTimeout('if ( ! tip.do_not_hide && tip.display_number === '
 	     + tip.display_number
 	     + ') tip_plus.style.display = "none" ;', 100) ;
-  if ( tip.innerHTML.match(/INSTANTDISPLAY/) )
+  if ( !force && tip.innerHTML.match(/INSTANTDISPLAY/) )
     return ;
   tip.onmousemove = function() {} ;
   tip.style.display = "none" ;
