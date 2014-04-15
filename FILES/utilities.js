@@ -399,6 +399,14 @@ function tip_top(tt)
 	  return undefined ;
 	}
     }
+  if ( tt.tagName === 'TD' || tt.tagName === 'TH' )
+    {
+      var t = tt ;
+      while( t.tagName != 'TABLE' )
+	t = t.parentNode ;
+      if ( t.className.toString().indexOf('not_tip_top') != -1 )
+	return tip_top(t) ;
+    }
   return tt ;
 }
 
@@ -1896,7 +1904,7 @@ function current_update_cell_headers()
 
   update_value_and_tip(t_value, cell.value) ;
 
-  var s = ['<table class="colored" style="pointer-events: none">'] ;
+  var s = ['<table class="colored not_tip_top">'] ;
   s.push('<tr><th>' + _("B_Date") + '<th>' + _('TH_who') + '<th>'
 	 + _("TH_value") + '</tr>') ;
   s.push('<tr><td>' + date(cell.date) + '<td>'
@@ -1917,7 +1925,7 @@ function current_update_cell_headers()
   t_history.innerHTML = s.join('\n') ;
       
   update_tip_from_value(t_student_picture.parentNode,
-			'<!--INSTANTDISPLAY-->' + line_resume(this.line_id), '') ;
+			'<!--INSTANTDISPLAY-->' + line_resume(this.line_id),'');
 }
 
 function current_update_table_headers()
