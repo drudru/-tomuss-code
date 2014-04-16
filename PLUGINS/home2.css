@@ -132,6 +132,7 @@ SPAN.ue_more {
     color: black ;
 }
 
+TABLE.collapsed TR.action { display: none }
 
 #feedback .frame { 
   position: absolute ;

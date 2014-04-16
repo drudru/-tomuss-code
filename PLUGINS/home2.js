@@ -1284,10 +1284,23 @@ function generate_home_page_students()
     document.write(t) ;
 }
 
+function collapse(event)
+{
+  var e = the_event(event).target ;
+  while( e.tagName != 'TABLE' )
+    e = e.parentNode ;
+  if ( e.className.toString().match(' collapsed') )
+    e.className = e.className.toString().replace(' collapsed', "")
+  else
+    e.className += ' collapsed' ;
+  ue_line_out() ;
+}
+
 function generate_home_page_actions()
 {
     var t = '<h2>' + _('TH_home_right') + '</h2><div id="scrollable_right" class="scrollable">' ;
     var boxes = {}, link_name, link_help ;
+    var nb_actions = 0 ;
     for(var i in links)
     {
         if ( links[i][7] === '' )
@@ -1304,6 +1317,7 @@ function generate_home_page_actions()
 	  links[i][4] = "javascript:do_action('" + links[i][4].substr(1)
         + "','" + links[i][2] + "'," + js2(links[i][6]) +  ")" ;
 	link_name = links[i][0] ;
+        nb_actions++ ;
 	if ( boxes[link_name] )
 	    boxes[link_name].push(links[i]) ;
         else
@@ -1318,6 +1332,7 @@ function generate_home_page_actions()
 	sorted_boxes.push([box_title, box_name]) ;
     }
     sorted_boxes.sort() ;
+    var collapse = nb_actions > 50 ? ' collapsed' : '' ;
     for(var box_name in sorted_boxes)
     {
 	box_name = sorted_boxes[box_name] ;
@@ -1332,7 +1347,8 @@ function generate_home_page_actions()
 		else
 		    return 1 ;
 	    }) ;
-	t += '<table class="uelist"><tr><th>' + box_name[0]
+	t += '<table class="uelist' + collapse
+	+ '"><tr><th onclick="collapse(event)">' + box_name[0]
 	    +'</th></tr>\n' ;
 	for(var link in box)
 	{
@@ -1353,7 +1369,8 @@ function generate_home_page_actions()
 	  if ( i_am_root )
 	    help += '<br>PLUGIN:' + link[7] + '<br>FILE:' + link[8] ;
 	  help += '<br>PRIORITY:' + link[1] ;
-	  t += '<tr onmouseover="ue_line_over(\'\',this)"><td>' + el
+	  t += '<tr class="action" onmouseover="ue_line_over(\'\',this)"><td>'
+	    + el
             + '<img class="safety" src="_FILES_/' + link[2] + '.png">'
 	    + link[3] + '<var class="help">' + help
 	    + '</var>' + eld + '</td></tr>' ;
