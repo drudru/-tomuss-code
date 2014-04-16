@@ -1707,7 +1707,6 @@ cell_change(1,'0_2','ticket_time_to_live','%d',"")
         c = ss.url('=' + abj +'/%s/10800001' % ys)
         assert( '["Signature", ""]' in c )
         c = ss.url('=p0800001/%s' % ys)
-        print c
         assert( 'LABEL_signature_new' not in c )
         c = s.url('=' + abj
                   + '/signature_new/p0800001/1/sig_message{{{sig_button}}}')

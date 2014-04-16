@@ -62,7 +62,7 @@ function authors_mails(missing)
 	  cell = line[cols[data_col]] ;
 	  if ( cell.author !== '' && cell.author != '*' && cell.value !== '' )
 	    {
-	      a[cell.author] = cell.author ;
+	      a[cell.author] = login_to_id(cell.author) ;
 	    }
 	}      
     }
