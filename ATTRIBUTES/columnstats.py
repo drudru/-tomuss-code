@@ -34,6 +34,7 @@ class ColumnStats(ColumnFill):
   border-bottom: 1px solid black;
   border-spacing: 0px ;
   height: 1em ;
+  font-size: 125% ; /* Revert the 80% */
 }
 
 #menutop #t_column_stats TR {
