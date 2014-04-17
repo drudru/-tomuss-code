@@ -502,7 +502,8 @@ function decode_uri_option(t)
 
 function encode_value(txt)
 {
-  return txt.replace("&", "&#38;").replace('"', '&#34;').replace("?", "&#63;");
+  return txt.replace(/&/g, "&#38;").replace(/"/g, '&#34;')
+            .replace(/\?/g, "&#63;");
 }
 
 
