@@ -41,7 +41,7 @@ function table_copy_button(id, text, help, toggled, unsensitive)
     return hidden_txt('<input type="button" onclick="tablecopy_do(this)" '
 		      + 'id="' + id + '" ' + unsensitive
 		      + 'style="width:auto" '
-		      + 'value="' + encode_value(text) + '">', help) ;
+		      + 'value="' + text + '">', help) ;
     }
 }
 
