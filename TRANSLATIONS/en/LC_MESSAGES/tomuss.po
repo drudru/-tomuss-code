@@ -5154,6 +5154,15 @@ msgstr "Full load time in seconds"
 msgid "LABEL_page_load_time_number"
 msgstr "Number of page loaded within this time"
 
+msgid "LABEL_visits_per_hours_of_the_day"
+msgstr "Number of visits per day hours"
+
+msgid "LABEL_visits_per_day_of_the_week"
+msgstr "Number of visits per week days"
+
+msgid "LABEL_visits_per_week"
+msgstr "Number of visits per week"
+
 msgid "LABEL_page_load_time_24"
 msgstr "24 hours statistics"
 

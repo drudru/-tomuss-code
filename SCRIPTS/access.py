@@ -65,7 +65,7 @@ class Stats:
         a.sort()
         return a
 
-    def plot_hours(self, name):
+    def plot_hours(self, name, visits='cell_change'):
         d = self.duration / 86400.
         if d < 1:
             d = 1
@@ -82,12 +82,13 @@ class Stats:
              plot [-0.5:23.5] 'xxx' with boxes fs solid 0.3 title "%s", %g with lines title "%s"
              """ % (
                 _("LABEL_hours_of_the_day"),
-                _("LABEL_cell_change_per_hours_of_the_day"),
+                _("LABEL_cell_change_per_hours_of_the_day".replace(
+                        'cell_change', visits)),
                 a,
                 _("B_Moy"),
                 ))
 
-    def plot_days(self, name):
+    def plot_days(self, name, visits='cell_change'):
         d = self.duration / (7*86400.)
         if d < 1:
             d = 1
@@ -105,12 +106,13 @@ class Stats:
              """ % (
                 ','.join('"%s" %d' % (day_names[(i+1)%7], i)
                          for i in range(7)),
-                _("LABEL_cell_change_per_day_of_the_week"),
+                _("LABEL_cell_change_per_day_of_the_week".replace(
+                        'cell_change', visits)),
                 a,
                 _("B_Moy"),
                 ))
 
-    def plot_weeks(self, name):
+    def plot_weeks(self, name, visits='cell_change'):
         a = self.date_number()
         if a:
             av = sum([v[1] for v in a]) / float(len(a))
@@ -150,7 +152,8 @@ class Stats:
              set title '%s'
              plot %s, %g with lines title \"%s\"
              """ % (
-                _("LABEL_cell_change_per_week"),
+                _("LABEL_cell_change_per_week".replace(
+                        'cell_change', visits)),
                 ','.join(years), av, _("B_Moy")))
 
 
@@ -199,8 +202,8 @@ for filename in glob.glob(os.path.join("LOGS", "SUIVI*/*.connections")):
         stats.add_YYYYMMDDHHMMSS(line[0])
     f.close()
 
-stats.plot_hours('xxx.suivi.hours.png')
-stats.plot_days('xxx.suivi.days.png')
-stats.plot_weeks('xxx.suivi.weeks.png')
+stats.plot_hours('xxx.suivi.hours.png', 'visits')
+stats.plot_days('xxx.suivi.days.png', 'visits')
+stats.plot_weeks('xxx.suivi.weeks.png', 'visits')
 
 os.system('SCRIPTS/page_load_time')       
