@@ -7,6 +7,9 @@ SCRIPTS/sauvegarde >LOGS/xxx_crontab_night_job.sauvegarde 2>&1
 echo "Start compute access statistics the $(date)"
 SCRIPTS/access.py  >LOGS/xxx_crontab_night_job.access 2>&1
 
+echo "Start compute preferences statistics the $(date)"
+SCRIPTS/preferences_stats.py  >LOGS/xxx_crontab_night_job.preferences 2>&1
+
 echo "Start compute student bilan the $(date)"
 SCRIPTS/bilan.py >LOGS/xxx_crontab_night_job.bilan 2>&1
 

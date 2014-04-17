@@ -78,6 +78,7 @@ for name in (
     'xxx.page_load_time_1w.png',
     'xxx.page_load_time_evolution.png',
     'xxx.page_load_time_evolutionW.png',
+    'xxx.preferences.png',
     'all_ues.js.gz','all_ues.js',
     'premier_cours.html',
     ):

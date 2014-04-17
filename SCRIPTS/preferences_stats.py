@@ -7,6 +7,7 @@ Suivi Preference statistics
 
 import glob
 import collections
+import os
 import tomuss_init
 from .. import utilities
 
@@ -60,8 +61,8 @@ for d in data:
     print ','.join(
         '1' if d.get(i,0) else '0'
         for i in nb_on)
-print 'Dot file: fdp -Tpdf xxx.dot -o xxx.pdf'
-f = open("xxx.dot", "w")
+print 'Dot file'
+f = open("xxx.preferences.dot", "w")
 f.write('''
 graph "fichiers" {
 node[shape=circle,style="filled",fillcolor="white",fixedsize=true];
@@ -76,3 +77,5 @@ for k, v in pairs.items():
                                             v*v*v*v, v))
 f.write('}\n')
 f.close()
+
+os.system("fdp -Tpng xxx.preferences.dot -o TMP/xxx.preferences.png")
