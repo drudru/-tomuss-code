@@ -654,7 +654,7 @@ def clean_cache(f):
         if time.time() - value[1] > f.timeout:
             del f.cache[key]
 
-def add_a_cache(fct, timeout=1, not_cached='neverreturnedvalue',
+def add_a_cache(fct, timeout=3600, not_cached='neverreturnedvalue',
                 last_value_on_exception=False):
     """Add a cache to a function with one parameter.
     If the returned value is 'not_cached' then it is not cached.
