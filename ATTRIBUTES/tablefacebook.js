@@ -23,9 +23,7 @@
 function facebook_picture(line)
 {
   var url = '<A HREF="' + suivi + '/' + line[0].value + '">' ;
-  var firstname = line[1].value ;
-  if ( firstname.length >= 2 )
-    firstname = firstname.substr(0,1)+ firstname.substr(1).toLowerCase() ;
+  var firstname = title_case(line[1].value) ;
     
   return '<DIV CLASS="facebook">' + url +
     '<IMG SRC="' + student_picture_url(line[0].value) + '"><BR>' +

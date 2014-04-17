@@ -69,6 +69,13 @@ function two_digits(x)
   return x.toString() ;
 }
 
+function title_case(txt)
+{
+  if ( txt.length >= 2 )
+    return txt.substr(0,1) + txt.substr(1).toLowerCase() ;
+  return txt ;
+}
+
 /*****************************************************************************/
 /*****************************************************************************/
 /* Date Time management */

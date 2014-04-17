@@ -799,11 +799,6 @@ function update_ues_unsaved()
 
 var update_referent_of_done ;
 
-function title_case(txt)
-{
-  return txt.substr(0,1) + txt.substr(1).toLowerCase() ;
-}
-
 function cmp_students(a,b)
 {
   a = a[2]+' '+a[1] ;

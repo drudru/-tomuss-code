@@ -346,9 +346,7 @@ DisplayBilan.need_node = ['Login'] ;
 function displaynames(data)
 {
   return '<a href="mailto:' + data[2] + '">'
-    + data[0].substr(0,1)
-    + data[0].substr(1).toLowerCase() + ' '
-    + data[1] + '</a>' ;
+    + title_case(data[0]) + ' ' + data[1] + '</a>' ;
 }
 
 function DisplayNames(node)

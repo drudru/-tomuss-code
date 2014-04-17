@@ -35,8 +35,7 @@ function update_student_information(line)
 update_student_information_default(line) ;
 update_value_and_tip(t_student_id, line[0].value) ;
 var n = line[1].value.toString() ;
-update_value_and_tip(t_student_firstname,
-                     n.substr(0,1) + n.substr(1).toLowerCase()) ;
+update_value_and_tip(t_student_firstname, title_case(n)) ;
 update_value_and_tip(t_student_surname, line[2].value) ;
 }
 """
