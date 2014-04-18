@@ -8,6 +8,7 @@ Suivi Preference statistics
 import glob
 import collections
 import os
+import math
 import tomuss_init
 from .. import utilities
 
@@ -69,12 +70,16 @@ node[shape=circle,style="filled",fillcolor="white",fixedsize=true];
 edge[splines="false",fontname="courier"];
 graph[charset="Latin1", orientation="P"];
 ''')
+nb_on_max = float(max(nb_on.values()))
 for k, v in nb_on.items():
-    f.write('%s [width="%s", label="%s"] ;\n' % (k, float(v)**0.5/3, k))
+    f.write('%s [width="%s", label="%s"] ;\n' % (k, 2*(v/nb_on_max)**0.5, k))
 
 for k, v in pairs.items():
+    # Between 0 and 10
+    normed = (10.*v) / min(nb_on[k[0]], nb_on[k[1]])
     f.write('%s -- %s [weight="%d",penwidth="%d"] ;\n' % (k[0], k[1],
-                                            v*v*v*v, v))
+                                                          1000*int(normed**4),
+                                                          math.ceil(normed)))
 f.write('}\n')
 f.close()
 
