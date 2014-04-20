@@ -461,7 +461,7 @@ D('CellMTime'  , 'CellAuthorLine',1)
 D('CellTitle'   , 'CellBox'   ,0)
 D('CellValue'   , 'CellBox'   ,1)
 
-D('CellTypeLine', 'CellTop'   ,0, js='Horizontal')
+D('CellTypeLine', 'CellTop'   ,0, js='Vertical')
 D('CellDate'    , 'CellTop'   ,1)
 D('CellStatLine', 'CellTop'   ,2, js='Horizontal')
 

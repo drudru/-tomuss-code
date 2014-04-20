@@ -140,6 +140,7 @@ SPAN.displaygrey { color: #888 }
 .CellStatLine         .CellAvg { display: none }
 .CellStatLine:hover   .CellAvg { display: inline }
 
+.CellFormula UL { margin: 0px }
 /*
 .CellTypeLine         .CellFormula { display: none }
 .CellTypeLine:hover   .CellFormula { display: inline }
