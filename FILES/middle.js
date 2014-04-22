@@ -920,7 +920,8 @@ function new_new_interface()
   t.push('</div>') ;
 
   t.push('<div class="one_line">') ;
-  t.push('&nbsp;') ;
+  t.push(table_input_attr('teachers','empty before='
+			  + _("BEFORE_table_teachers"))) ;
   t.push('</div>') ;
   
   t.push('<div class="one_line">') ;

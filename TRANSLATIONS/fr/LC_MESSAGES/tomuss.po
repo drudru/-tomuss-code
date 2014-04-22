@@ -540,6 +540,13 @@ msgstr "<b>Interface utilisateur linéaire.</b><br>\n"
  "Elle permet de naviguer en utilisant de gros caractères."
 
 #. Attribute Tip
+msgid "TIP_table_attr_teachers"
+msgstr "Les LOGINS des enseignants qui ont<br>\n"
+       "le droit d'accéder à cette table.<br>\n"
+       "Les logins sont séparés par un espace.<br>\n"
+       "Si c'est vide, tous les enseignants ont accès à la table."
+
+#. Attribute Tip
 msgid "TIP_table_attr_masters"
 msgstr "Les LOGINS d'enseignants ayant tous les droits sur la table.<br>\n"
  "Les logins sont séparés par un espace.<br>\n"
@@ -984,6 +991,10 @@ msgstr "Début/fin&nbsp;:&nbsp;"
 #. Label before the attribute
 msgid "BEFORE_table_masters"
 msgstr "Responsables&nbsp;:&nbsp;"
+
+#. Label before the attribute
+msgid "BEFORE_table_teachers"
+msgstr "Intervenants&nbsp;:&nbsp;"
 
 
 #. Tip common to some other tips
@@ -3416,11 +3427,13 @@ msgstr "À utiliser seulement en cas de bug.\n"
        "Ceci est normalement inutile."
 
 msgid "MSG_new_page_unauthorized"
-msgstr "<h1>Vous n'êtes pas autorisé à éditer cette table</h1>\n"
-       "<p>Cette table contient des données confidentielles\n"
-       "ne pouvant être diffusées à tout le monde.\n"
-       "<p>Peut-être a-t-elle été basculée en 'Privé' par erreur dans\n"
-       "l'onglet 'Paramétrage'."
+msgstr "<h1>Vous n'êtes pas autorisé à accéder à cette table</h1>\n"
+       "<p>Les droits sont définis dans l'onglet 'Accès',\n"
+       "le responsable de l'UE doit les modifier si nécessaire&nbsp;:\n"
+       "<ul>\n"
+       "<li> La table a été basculée en 'Privé'.\n"
+       "<li> Une liste d'intervenant à été définie et vous n'en faites pas parti.\n"
+       "</ul>"
 
 msgid "MSG_new_page_in_past"
 msgstr " n'existe pas, et il n'est pas possible de créer\n"

@@ -1220,11 +1220,19 @@ class Table(object):
         return "Table: " + str(self)
 
     def readable_by(self, the_ticket):
-        if (self.private
-            and the_ticket.user_name not in self.masters 
-            and the_ticket.user_name not in configuration.root
-            ):
-            warn('Unauthorized access', what='table')
+        if the_ticket.user_name in self.masters:
+            return True
+        if the_ticket.user_name in self.teachers:
+            return True
+        if the_ticket.user_name in self.managers:
+            return True
+        if the_ticket.user_name in configuration.root:
+            return True
+        if self.private:
+            warn('Unauthorized access (private)', what='table')
+            return False
+        if self.teachers:
+            warn('Unauthorized access (not teacher)', what='table')
             return False
         return True
 

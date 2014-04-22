@@ -558,6 +558,13 @@ msgstr ""
 "<b>Add your name first!</b>"
 
 #. Attribute Tip
+msgid "TIP_table_attr_teachers"
+msgstr ""
+"Logins of the user allowed to access this table.<br>\n"
+"Logins are space separated.<br>\n"
+"If empty, every teacher can access this table."
+
+#. Attribute Tip
 msgid "TIP_table_attr_facebook"
 msgstr "Display the facebook of filtered students"
 
@@ -985,6 +992,10 @@ msgstr "Student display: "
 #. Label before the attribute
 msgid "BEFORE_table_dates"
 msgstr "First/last:&nbsp;"
+
+#. Label before the attribute
+msgid "BEFORE_table_teachers"
+msgstr "Teachers:&nbsp;"
 
 #. Label before the attribute
 msgid "BEFORE_table_masters"
@@ -3387,10 +3398,13 @@ msgstr "To use only in case of.\n"
        "for which he is a master."
 
 msgid "MSG_new_page_unauthorized"
-msgstr "<h1>You are not allowed to edit this table</h1>\n"
-       "<p>It contains confidential data that can not be displayed to anybody.\n"
-       "<p>Maybe it has been switched to 'Private' by mistake in\n"
-       "the 'Parametrage' tab?"
+msgstr "<h1>You are not allowed to access this table</h1>\n"
+       "<p>Access rights are defined in the 'Access' tab,\n"
+       "the UE master must change them if necessary:\n"
+       "<ul>\n"
+       "<li> The table is in 'Private' mode.\n"
+       "<li> A teacher list is defined, and you are not inside.\n"
+       "</ul>"
 
 
 msgid "MSG_new_page_in_past"
