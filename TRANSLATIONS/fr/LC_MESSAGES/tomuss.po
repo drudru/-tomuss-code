@@ -499,7 +499,7 @@ msgstr "Affichage des justificatifs d'absence,<br>des dispenses d'assiduité et 
 #. Attribute Tip
 msgid "TIP_table_attr_official_ue"
 msgstr "<b>Visible</b> : La table est affichée dans le suivi des étudiants<br>\n"
- "<b>Invisible</b> : La table est invisible dans le suivi des étudiants."
+ "<b>Cachée</b> : La table n'est pas affichée dans le suivi des étudiants."
 
 msgid "TITLE_table_attr_group"
 msgstr "Configure template"
@@ -796,6 +796,10 @@ msgid "TAB_parameters"
 msgstr "Paramétrage"
 
 #. Tab label
+msgid "TAB_access"
+msgstr "Accès"
+
+#. Tab label
 msgid "TAB_table_action"
 msgstr "Action"
 
@@ -966,6 +970,10 @@ msgid "BEFORE_table_attr_private"
 msgstr "Droits d'accès : "
 
 #. Label before the attribute
+msgid "BEFORE_table_attr_modifiable"
+msgstr "Cette table est : "
+
+#. Label before the attribute
 msgid "BEFORE_table_official_ue"
 msgstr "Affichage étudiant : "
 
@@ -1028,7 +1036,7 @@ msgstr "Modifiable"
 
 #. Select value
 msgid "SELECT_table_official_ue_false"
-msgstr "Invisible"
+msgstr "Cachée"
 
 #. Select value
 msgid "SELECT_table_official_ue_true"
@@ -1210,7 +1218,7 @@ msgstr "Mail"
 
 #. GUI
 msgid "TITLE_table_attr_print"
-msgstr "Imprime/Exporte"
+msgstr "Imprime"
 
 #. GUI 
 msgid "TITLE_table_attr_statistics"

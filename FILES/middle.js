@@ -873,32 +873,16 @@ function new_new_interface()
   t.push('<div class="one_line">') ;
   t.push(table_input_attr('default_nr_columns',
 			  'before='+_("BEFORE_table_attr_default_nr_columns")));
+  t.push('</div>') ;
+  t.push('<div class="one_line">') ;
   t.push(table_input_attr('bookmark',
 			  [[0,_("SELECT_table_bookmark_false")],
 			   [1,_("SELECT_table_bookmark_true")]])) ;
   t.push('</div>') ;
   t.push('<div class="one_line">') ;
-  t.push(_("BEFORE_table_attr_private") +
-	 table_input_attr('private', [[0,_("SELECT_table_private_public")],
-				      [1,_("SELECT_table_private_private")]]));
-  t.push(" " +
-	 table_input_attr('modifiable',
-			  [[0,_("SELECT_table_modifiable_false")],
-			   [1,_("SELECT_table_modifiable_true")]])) ;
-  t.push('</div>') ;
-  t.push('<div class="one_line">') ;
-
-    t.push(table_input_attr('hide_empty',
-			    [[0, _("SELECT_table_hide_empty_false")],
-			     [1, _("SELECT_table_hide_empty_true")]])) ;
-
-  if ( myindex(semesters, semester) != -1 )
-      t.push(_("BEFORE_table_official_ue") +
-	   table_input_attr('official_ue',
-			    [[0, _("SELECT_table_official_ue_false")],
-			     [1, _("SELECT_table_official_ue_true")]])) ;
-  else
-    t.push('&nbsp;') ;
+  t.push(table_input_attr('hide_empty',
+			  [[0, _("SELECT_table_hide_empty_false")],
+			   [1, _("SELECT_table_hide_empty_true")]])) ;
 
   if ( table_attr.group && myindex(table_attr.masters, my_identity) != -1 )
       t.push(table_input_attr('group')) ;
@@ -907,12 +891,44 @@ function new_new_interface()
   t.push('<div class="one_line">') ;
   t.push(table_input_attr('dates', 'empty before=' + _("BEFORE_table_dates"))) ;
   t.push('</div>') ;
+
+  o.push([_("TAB_parameters"), t.join('\n')]) ;
+
+  // Table / Access
+
+  t = [] ;
+
+  t.push('<div class="one_line">') ;
+  t.push(_("BEFORE_table_attr_private") +
+	 table_input_attr('private', [[0,_("SELECT_table_private_public")],
+				      [1,_("SELECT_table_private_private")]]));
+  t.push('</div>') ;
+  t.push('<div class="one_line">') ;
+  t.push(_("BEFORE_table_attr_modifiable") +
+	 table_input_attr('modifiable',
+			  [[0,_("SELECT_table_modifiable_false")],
+			   [1,_("SELECT_table_modifiable_true")]])) ;
+  t.push('</div>') ;
+  t.push('<div class="one_line">') ;
+  if ( myindex(semesters, semester) != -1 )
+    t.push(_("BEFORE_table_official_ue") +
+	   table_input_attr('official_ue',
+			    [[0, _("SELECT_table_official_ue_false")],
+			     [1, _("SELECT_table_official_ue_true")]])) ;
+  else
+    t.push('&nbsp;') ;
+  t.push('</div>') ;
+
+  t.push('<div class="one_line">') ;
+  t.push('&nbsp;') ;
+  t.push('</div>') ;
+  
   t.push('<div class="one_line">') ;
   t.push(table_input_attr('masters','empty before='
 			  + _("BEFORE_table_masters"))) ;
   t.push('</div>') ;
-
-  o.push([_("TAB_parameters"), t.join('\n')]) ;
+  
+  o.push([_("TAB_access"), t.join('\n')]) ;
 
   // Table / Action
 

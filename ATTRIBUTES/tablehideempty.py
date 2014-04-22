@@ -47,4 +47,6 @@ class HideEmpty(TableModifiable):
     def update(self, table, old_value, new_value, page):
         pass
 
+    css = "#menutop #t_table_attr_hide_empty { width: 100% }"
+
 

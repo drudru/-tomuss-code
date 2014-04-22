@@ -509,7 +509,7 @@ msgstr "Display justified leaves, DA and TT."
 msgid "TIP_table_attr_official_ue"
 msgstr ""
 "<b>Visible</b> : The table is displayed in student 'suivi'<br>\n"
-"<b>Invisible</b> : The table is not visible in student 'suivi'."
+"<b>Hidden</b> : The table is not visible in student 'suivi'."
 
 msgid "TITLE_table_attr_group"
 msgstr "Template configuration"
@@ -804,6 +804,10 @@ msgid "TAB_parameters"
 msgstr "Parameters"
 
 #. Tab label
+msgid "TAB_access"
+msgstr "Access"
+
+#. Tab label
 msgid "TAB_table_action"
 msgstr "Action"
 
@@ -971,6 +975,10 @@ msgid "BEFORE_table_attr_private"
 msgstr "Access rights: "
 
 #. Label before the attribute
+msgid "BEFORE_table_attr_modifiable"
+msgstr "This table is:"
+
+#. Label before the attribute
 msgid "BEFORE_table_official_ue"
 msgstr "Student display: "
 
@@ -1033,7 +1041,7 @@ msgstr "Modifiable"
 
 #. Select value
 msgid "SELECT_table_official_ue_false"
-msgstr "Invisible"
+msgstr "Hidden"
 
 #. Select value
 msgid "SELECT_table_official_ue_true"
@@ -1213,7 +1221,7 @@ msgstr "Mail"
 
 #. GUI 
 msgid "TITLE_table_attr_print"
-msgstr "Print/Export"
+msgstr "Print"
 
 #. GUI 
 msgid "TITLE_table_attr_statistics"
