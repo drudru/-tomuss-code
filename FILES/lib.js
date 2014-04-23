@@ -2895,7 +2895,8 @@ function set_element_relative_position(anchor, element)
 
   if ( pos[0] > scrollLeft() + window_width()/2 )
     {
-      element.style.right = window_width() - (pos[0] + anchor.offsetWidth) + 'px' ;
+      element.style.right = Math.max(window_width()-(pos[0]+anchor.offsetWidth),
+				     0) + 'px' ;
       element.style.left = 'auto' ;
     }
   else
