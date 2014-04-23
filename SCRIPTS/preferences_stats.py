@@ -72,7 +72,8 @@ graph[charset="Latin1", orientation="P"];
 ''')
 nb_on_max = float(max(nb_on.values()))
 for k, v in nb_on.items():
-    f.write('%s [width="%s", label="%s"] ;\n' % (k, 2*(v/nb_on_max)**0.5, k))
+    f.write('%s [width="%s", label="%s\\n%s%%"] ;\n' % (
+            k, 2*(v/nb_on_max)**0.5, k, (100*v)//nb))
 
 for k, v in pairs.items():
     # Between 0 and 10
