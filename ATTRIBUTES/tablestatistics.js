@@ -110,7 +110,7 @@ var stat_current_zoom_t ;
 
 function stat_tip_window(t, x)
 {
-  var w = document.getElementById('tip') ;
+  var w = get_tip_element() ;
   if ( stat_current_zoom_t )
     {
       if ( stat_current_zoom_t.parentNode )
@@ -472,7 +472,7 @@ function stat_graph_zoom(t, group)
 			       ? stats.all_values[pre]:0)]);
     }
 
-  w.innerHTML = '<div class="s_graph_zoomed"><small>'
+  w.innerHTML = '<div class="s_graph_zoomed">'
       + _("MSG_stat_line_help") + '<br>' + a_graph([td], 4) + '</div>' ;
 
   set_element_relative_position(t, w) ;
@@ -537,7 +537,7 @@ function stat_zoom(t, data_col, group)
 	  + '<br>' + _("B_s_variance") + ': ' + stats.variance().toFixed(3)
 	  + ', ' +  _("B_s_stddev") +': '+stats.standard_deviation().toFixed(3)
 	  + '<br>' + _("B_s_sum") + ' ' + stats.nr + ' ' + _("B_s_sum_2")
-	  + stats.sum.toFixed(3)
+	  + ': ' + stats.sum.toFixed(3)
 	  + '<td class="s_enumeration">' ;
   
       for(var i in stats.all_values)

@@ -64,7 +64,7 @@ vertical-align: middle ;
 .s_nr      {position: absolute;right:0 ;top: 0   ;font-size:60%;z-index:1;}
 
 
-TH DIV.s_td { min-width: 7em ; min-height: 1.7em ; font-size: 80% }
+TH DIV.s_td { min-width: 7em ; min-height: 1.7em ; }
 
 TD DIV.s_td:hover { background: #FFA ; }
 
@@ -109,7 +109,7 @@ bottom:0;
 }
 
 
-DIV.s_stat_tip, DIV.s_stat_tip TABLE TD { font-size: 70% }
+DIV.s_stat_tip TABLE TD { font-size: 70% }
 
 DIV.s_stat_tip TABLE TR { vertical-align: top ; }
 
