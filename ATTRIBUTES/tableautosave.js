@@ -20,10 +20,10 @@
     Contact: Thierry.EXCOFFIER@bat710.univ-lyon1.fr
 */
 
-function table_autosave_toggle(id)
+function table_autosave_toggle()
 {
   var e = document.getElementById('autosavelog') ;
-  var link = document.getElementById(id) ;
+  var link = document.getElementById('t_table_attr_autosave') ;
   if ( table_attr.autosave )
     {
       table_attr.autosave = false ;
