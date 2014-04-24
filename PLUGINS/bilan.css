@@ -43,6 +43,7 @@ IMG.picture {
 IMG.info { 
   border: 0;
   width: 0.5em ;
+  display: block ;
 }
 
 .mail { font-size: 50% }

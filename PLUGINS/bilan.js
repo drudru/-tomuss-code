@@ -145,11 +145,11 @@ function bilan(ticket, login, resume, firstname, surname, mail, suivi,
 		      + '</span>' ;
 
 		  s += '<img class="info prst" src="_FILES_/ok.png" style="height:'
-		    + (size*v[2]/n).toFixed(2) + 'em"><br>\n' ;
+		    + (size*v[2]/n).toFixed(2) + 'em">\n' ;
 		  s += '<img class="info abjus" src="_FILES_/abjus.png" style="height:'
-		    + (size*v[4]/n).toFixed(2) + 'em"><br>\n' ;
+		    + (size*v[4]/n).toFixed(2) + 'em">\n' ;
 		  s += '<img class="info abinj" src="_FILES_/bad.png" style="height:'
-		    + (size*v[3]/n).toFixed(2) + 'em"><br>\n' ;
+		    + (size*v[3]/n).toFixed(2) + 'em">\n' ;
 		}
 	      s += '</a></td>' ;
 	      t.shift() ;
