@@ -1141,7 +1141,7 @@ msgstr "Tout le monde peut remplir des cases vides.\n"
        "Mais seul les responsables de la table peuvent modifier\n"
        "les notes et commentaires saisis par les autres enseignants.\n"
        "Si personne n'est responsable de la table, n'importe qui\n"
-       "à le droit d'en prendre la responsabilité."
+       "a le droit d'en prendre la responsabilité."
 
 #. GUI 
 msgid "MESSAGE_data_begin_sent"

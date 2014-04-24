@@ -884,9 +884,12 @@ function new_new_interface()
 			  [[0, _("SELECT_table_hide_empty_false")],
 			   [1, _("SELECT_table_hide_empty_true")]])) ;
 
+  t.push('</div>') ;
+  t.push('<div class="one_line">') ;
   if ( table_attr.group && myindex(table_attr.masters, my_identity) != -1 )
       t.push(table_input_attr('group')) ;
-
+  else
+    t.push("&nbsp;") ;
   t.push('</div>') ;
   t.push('<div class="one_line">') ;
   t.push(table_input_attr('dates', 'empty before=' + _("BEFORE_table_dates"))) ;
