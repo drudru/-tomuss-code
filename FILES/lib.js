@@ -3665,7 +3665,7 @@ function comment_change(line_id, data_col, comment, td)
   create_column(columns[data_col]) ;
   add_a_new_line(line_id) ;
 
-  var ok = lines[line_id][data_col].changeable(column) ;
+  var ok = lines[line_id][data_col].changeable(columns[data_col]) ;
   if ( ok !== true )
     {
       alert_append(ok) ;
@@ -4062,9 +4062,13 @@ function hide_the_tip_real(force)
   if ( !force && tip.do_not_hide )
     return ;
   /* tip.do_not_hide take some time to be setted for tip_plus */
-  setTimeout('if ( ! tip.do_not_hide && tip.display_number === '
-	     + tip.display_number
-	     + ') tip_plus.style.display = "none" ;', 100) ;
+  var tip_display_number = tip.display_number ;
+  var tip_plus = document.getElementById('tip_plus') ;
+  setTimeout(function() {
+      if ( ! tip.do_not_hide && tip.display_number === tip_display_number )
+	tip_plus.style.display = "none" ;
+    }, 100) ;
+
   if ( !force && tip.innerHTML.match(/INSTANTDISPLAY/) )
     return ;
   tip.onmousemove = function() {} ;
