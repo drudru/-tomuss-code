@@ -135,7 +135,7 @@ function get_date(value)
 	}
     }
 
-  for(var i in v)
+  for(var i=0; i<v.length; i++)
     if ( isNaN(Number(v[i])) )
       return false ;
 
