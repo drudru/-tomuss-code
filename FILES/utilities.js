@@ -649,20 +649,22 @@ function scrollLeft()
 
 function window_width()
 {
-  var ww = window.innerWidth ;
-  if ( ww === undefined )
-    return document.body.clientWidth ;
-  else
-    return ww ;
+  if ( window.innerWidth !== undefined )
+      return window.innerWidth ;
+  if ( document.documentElement
+       && document.documentElement.clientWidth !== undefined )
+      return document.documentElement.clientWidth ;
+  return document.body.clientWidth ;
 }
 
 function window_height()
 {
-  var height = window.innerHeight ;
-  if ( height === undefined )
-    return document.body.clientHeight ;
-  return height ;
-
+  if ( window.innerHeight !== undefined )
+      return window.innerHeight ;
+  if ( document.documentElement
+       && document.documentElement.clientHeight !== undefined )
+      return document.documentElement.clientHeight ;
+  return document.body.clientHeight ;
 }
 
 var base64_replace = "%\r\n!#$&'()*+/[\\]^`\"<>" ;
