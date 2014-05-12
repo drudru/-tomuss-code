@@ -238,7 +238,7 @@ class UE(object):
 
             if nr_students <= 10: # Problem ?
                 self._nr_students_ue = 0
-                for student in inscrits.L_batch.students('UE-' + self.name):
+                for student in ue.retrieve_student_list():
                     self._nr_students_ue += 1
                     if utilities.the_login(student[0]) in table.the_keys():
                         tt += 1

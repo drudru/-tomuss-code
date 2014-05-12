@@ -422,7 +422,7 @@ class LDAP_Logic(object):
     password_ok = utilities.add_a_method_cache(password_ok, not_cached=False)
 
     @utilities.add_a_method_cache
-    def students(self, ue, year=None, semester=None):
+    def students(self, ue, year=None, semester=None, table=None):
         """Iterator giving the student list for an UE"""
         alls = self.query(base=configuration.ou_students,
                           search='(memberOf=*%s*)' % ue,
@@ -440,7 +440,6 @@ class LDAP_Logic(object):
                    '', # Group
                    '', # Sequence
                    )
-
 
 class Empty(LDAP_Logic):
     """Fake LDAP handler"""

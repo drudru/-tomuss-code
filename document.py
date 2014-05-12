@@ -26,6 +26,7 @@ import socket
 import re
 import collections
 import cgi
+import inspect
 from . import utilities
 from . import configuration
 from . import column
@@ -1313,6 +1314,19 @@ class Table(object):
             assert(len(ln) == 1)
         return year, semestre, ue
 
+    def retrieve_student_list(self):
+        """This function allows to call old code in order
+        to upgrade TOMUSS without having to update customized code.
+        """
+        args = inspect.getargspec(inscrits.L_batch.students).args
+        options = {}
+        if 'year' in args and 'semester' in args:
+            options['year'] = self.year
+            options['semester'] = self.semester
+        if 'table' in args:
+            options['table'] = self
+        return inscrits.L_batch.students(self.ue_code, **options)
+    
 def send_alert(text):
     for atable in tables_values():
         atable.send_alert(text)

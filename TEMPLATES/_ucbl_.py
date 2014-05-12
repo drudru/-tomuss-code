@@ -87,15 +87,8 @@ def student_add_allowed(table):
         table.ue, configuration.allow_student_removal), what="table")
 
     # Check if it is an old 'students' method
-    args = inspect.getargspec(inscrits.L_batch.students).args    
-    if 'year' in args and 'semester' in args:
-        new_list = inscrits.L_batch.students(table.ue_code,
-                                             year=table.year,
-                                             semester=table.semester)
-    else:
-        new_list = inscrits.L_batch.students(table.ue_code)
+    new_list = list(table.retrieve_student_list())
     
-    new_list = list(new_list)
     old_list = set(table.logins_valid())
     nr_to_delete = len( old_list
                         - set(x[0] for x in new_list) )
