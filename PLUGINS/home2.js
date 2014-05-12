@@ -1386,13 +1386,14 @@ function home_resize_event()
   {
     home_page_height = height ;
     var e = document.getElementById("scrollable_right") ;
-    e.style.height = height - findPosY(e) - 5 + 'px' ;
+    e.style.height = height - findPosY(e) - e.scrollTop - 8 + 'px' ;
     e = document.getElementById("scrollable_left") ;
     e.onscroll = ue_line_out ;
-    e.style.height = height - findPosY(e) - 5 + 'px' ;
+    e.style.height = height - findPosY(e) - e.scrollTop - 8 + 'px' ;
     e = document.getElementById("scrollable_center") ;
     e.onscroll = ue_line_out ;
-    e.style.height = height - findPosY(e) - 5 + 'px' ;
+    e.style.height = height - findPosY(e) - e.scrollTop - 8 + 'px' ;
+    ue_line_out() ;
   }
   return true ;
 }
