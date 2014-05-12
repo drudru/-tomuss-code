@@ -4975,6 +4975,15 @@ msgstr "Aide"
 msgid "COL_COMMENT_ch_help"
 msgstr "Le message d'aide"
 
+msgid "MSG_referent_change_subject"
+msgstr "Votre référent/contact pédagogique"
+
+msgid "MSG_referent_change_message"
+msgstr "Bonjour %s %s.\n"
+       "Votre référent/contact pédagogique est maintenant :\n"
+       "   %s %s (%s)\n"
+       "Ceci est est un message envoyé par un programme"
+
 msgid "MSG_referent_unmodifiable"
 msgstr "Modification interdite (problème de date ?)"
 

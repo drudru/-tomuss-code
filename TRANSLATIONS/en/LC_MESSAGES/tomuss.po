@@ -4903,6 +4903,15 @@ msgstr "Help"
 msgid "COL_COMMENT_ch_help"
 msgstr "The help message about the link"
 
+msgid "MSG_referent_change_subject"
+msgstr "Your referent teacher"
+
+msgid "MSG_referent_change_message"
+msgstr "Hello %s %s.\n"
+       "Your referent/contact teacher is now:\n"
+       "   %s %s (%s)\n"
+       "This message has been sent by a robot."
+
 msgid "MSG_referent_unmodifiable"
 msgstr "Modification forbidden (date problem?)"
 

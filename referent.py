@@ -260,6 +260,20 @@ def add_student_to_this_line(table, line_key, line, student):
             finally:
                 table.unlock()
                 add_student_to_referent_hook(line[0].value, student)
+                ref = inscrits.L_fast.firstname_and_surname_and_mail(
+                    line[0].value)
+                stu = inscrits.L_fast.firstname_and_surname_and_mail(
+                    student)
+                utilities.send_mail_in_background(
+                    inscrits.L_fast.mail(student),
+                    utilities.__("MSG_referent_change_subject"),
+                    utilities.__("MSG_referent_change_message") % (
+                        stu[0].title(), stu[1],
+                        ref[0].title(), ref[1], ref[2],
+                        ),
+                    show_to=True,
+                    reply_to=ref[2],
+                    error_to=ref[2])
             break
     else:
         add_column(table)
