@@ -104,7 +104,7 @@ function bilan(ticket, login, resume, firstname, surname, mail, suivi,
   for(var i = older ; i <= newer ; i = next_year_semester_number(i[0], i[1]) )
     {
       semester = semesters[i[1]] ;
-      s += '<td><a href="' + suivi[i[0] + '/' + semester] + '/'
+      s += '<td class="semester"><a href="' + suivi[i[0] + '/' + semester] + '/'
 	+ login + '">' + i[0] + '<br>' + semester.substr(0,4) + '</a></td>';
     }
   s += '</tr>' ;

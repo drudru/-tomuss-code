@@ -46,6 +46,8 @@ IMG.info {
   display: block ;
 }
 
+TD.semester { width: 2.5em }
+
 .mail { font-size: 50% }
 
 A { text-decoration: none ; }
