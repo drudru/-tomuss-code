@@ -210,6 +210,10 @@ class UE(object):
         If read_tt is a list, then TT students are stored in the list.
         """
         if read_tt is not False:
+            if '-' in self.name:
+                name = self.name
+            else:
+                name = 'UE-' + self.name
             from . import document
             table = document.table(utilities.university_year(),
                                    'Dossiers', 'tt')
@@ -217,8 +221,7 @@ class UE(object):
             tt = 0
             ue = document.table(configuration.year_semester[0],
                                 configuration.year_semester[1],
-                                'UE-' + self.name,
-                                create=False)
+                                name, create=False)
             nr_students = 0
             if ue:
                 for student in ue.the_keys():
@@ -238,7 +241,7 @@ class UE(object):
 
             if nr_students <= 10: # Problem ?
                 self._nr_students_ue = 0
-                for student in ue.retrieve_student_list():
+                for student in document.retrieve_student_list(name):
                     self._nr_students_ue += 1
                     if utilities.the_login(student[0]) in table.the_keys():
                         tt += 1

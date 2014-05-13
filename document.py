@@ -1318,14 +1318,25 @@ class Table(object):
         """This function allows to call old code in order
         to upgrade TOMUSS without having to update customized code.
         """
-        args = inspect.getargspec(inscrits.L_batch.students).args
-        options = {}
-        if 'year' in args and 'semester' in args:
-            options['year'] = self.year
-            options['semester'] = self.semester
-        if 'table' in args:
-            options['table'] = self
-        return inscrits.L_batch.students(self.ue_code, **options)
+        return retrieve_student_list(self.ue_code,
+                                     self.year, self.semester, self)
+
+def retrieve_student_list(ue, year=None, semester=None, table=None):
+    args = inspect.getargspec(inscrits.L_batch.students).args
+    options = {}
+    if year is None:
+        year, semester = configuration.year_semester
+    if 'year' in args and 'semester' in args:
+        options['year'] = year
+        options['semester'] = semester
+    if table and 'table' in args:
+        options['table'] = table
+    try:
+        return inscrits.L_batch.students(ue, **options)
+    except:
+        utilities.send_backtrace("", "Can't get student list for %s %s %s"
+                                 % (year, semester, ue))
+        return ()
     
 def send_alert(text):
     for atable in tables_values():

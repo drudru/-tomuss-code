@@ -56,16 +56,16 @@ function _UE(name, responsable, intitule, parcours, code, login,
 	     nr_students_ue, nr_students_ec, planning, tt, credit, old_names)
 {
   this.name = name ;
-  if ( parcours === undefined || name.indexOf('etape-') == 0 )
+  if ( parcours === undefined ) // || name.indexOf('etape-') == 0 )
     {
       parcours = '' ;
       code = '' ;
       nr_students_ue = 1 ;
       nr_students_ec = 0 ;
-      this.etape = true ;
+//      this.etape = true ;
     }
-  else
-    this.etape = false ;
+//  else
+//    this.etape = false ;
   this.responsable = responsable ;
   this.intitule = intitule ;
   this.parcours = parcours ;
@@ -674,7 +674,7 @@ function update_ues_searched(txt, txt_upper)
       ue = all_ues[ue] ;
       t = ue.line ;
       t_upper = ue.line_upper ;
-      if ( ue.etape )
+      if ( false && ue.etape )
 	{
 	  t_replaced = check_and_replace(t, t_upper, txt, txt_upper) ;
 	  if ( t_replaced !== undefined )
@@ -682,7 +682,7 @@ function update_ues_searched(txt, txt_upper)
 	}
       else
 	{
-	  if ( ue.name.substr(2, 1) == '-' )
+	  if ( ue.name.match('-') )
 	      prefix = '' ;
 	  else
 	      prefix = 'UE-' ;
@@ -725,7 +725,7 @@ function update_ues2(txt)
 	{
 	  if ( myindex(all_ues[ue].login, username) != -1 )
 	      {
-		if ( ue.substr(0, 6) == 'etape-' )
+		if ( ue.match(/-/) ) // ue.substr(0, 6) == 'etape-' )
 		  ues_spiral.push(ue) ;
 		else
 		  ues_spiral.push('UE-' + ue) ;
