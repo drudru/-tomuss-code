@@ -40,6 +40,10 @@ function test_enumeration(value, column)
       return column.possible_values[v] ;
 
   for(var v in column.possible_values)
+    if ( column.possible_values[v].toUpperCase() == value.toUpperCase() )
+      return column.possible_values[v] ;
+
+  for(var v in column.possible_values)
     if ( column.possible_values[v].substr(0,value.length) == value )
       return column.possible_values[v] ;
 

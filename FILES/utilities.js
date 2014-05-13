@@ -2628,7 +2628,7 @@ function current_do_completion(backspace)
 var current_change_running = false ;
 
 /*REDEFINE
-  This function returns true if the ID is missing on the line.
+  This function returns true if the student ID is missing on the line.
   It is called for each interactive cell change.
   If 'true' is returned, an alert is displayed to the user.
 */
@@ -2650,7 +2650,9 @@ function current_input_div_focus()
 
 function current_change()
 {
+  hide_the_tip_real(true) ; // To hide the enumeration menu
   this.input_div_focus() ;
+  
   if ( this.blur_disabled )
     return ;
 
