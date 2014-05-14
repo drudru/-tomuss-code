@@ -1,7 +1,7 @@
 // -*- coding: utf-8 -*-
 /*
     TOMUSS: The Online Multi User Simple Spreadsheet
-    Copyright (C) 2011-2013 Thierry EXCOFFIER, Universite Claude Bernard
+    Copyright (C) 2011-2014 Thierry EXCOFFIER, Universite Claude Bernard
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -114,6 +114,15 @@ function tablecopy_do(t)
 		     + '">' + '</iframe>',
 		     "", false) ;
 	break ;
+      case 'NY':
+	  create_popup('export_div', _("TITLE_tablecopy_to_future"),
+		       _("MSG_tablecopy_feedback")
+		     + iframe
+		     + year + '/' + semester + '/' + ue + '/tablecopy/'
+		       + (Number(year)+1) + '/' + semester + '/' + option
+		     + '">' + '</iframe>',
+		     "", false) ;
+	break ;
       case 'R':
 	var newname = document.getElementById('newname').value ;
 	if ( newname == ue )
@@ -151,18 +160,24 @@ function tablecopy_do(t)
 function table_copy()
 {
   var future, past, ts, st, current, previous, next, rename ;
-
+  var future_year, past_year, next_year ;
   var next_ys = next_year_semester(year, semester) ;
   var previous_ys = previous_year_semester(year, semester) ;
 
   current = year + '<br>' + semester + '<br>' + ue ;
   previous_year = '<b>' + (year-1) + '</b><br>' + semester + '<br>' + ue ;
   previous = previous_ys[0] + '<br><b>' + previous_ys[1] + '</b><br>' + ue ;
-  next = next_ys[0] + '<br>' + next_ys[1] + '<br>' + ue ;
+  next = next_ys[0] + '<br><b>' + next_ys[1] + '</b><br>' + ue ;
 
   future = table_copy_button('F', '&nbsp;→&nbsp;',
 			     _("TITLE_tablecopy_to_future") + '<br>'
-			     +  _("TIP_tablecopy_warning_from"), false, false) ;
+			     +  _("TIP_tablecopy_warning_from"), false,false) ;
+
+  next_year = '<b>' + (Number(year)+1) + '</b><br>' + semester + '<br>' + ue ;
+  future_year = table_copy_button('NY', '&nbsp;→&nbsp;',
+				  _("TITLE_tablecopy_to_future") + '<br>'
+				  + _("TIP_tablecopy_warning_from"),
+				  false,false) ;
 
   past_year = table_copy_button('PY', '&nbsp;→&nbsp;',
 				_("TITLE_tablecopy_from_past_year") + '<br>'
@@ -193,19 +208,23 @@ function table_copy()
 	       + table_copy_button('H', _("TIP_tablecopy_history"), 
 				   _("TIP_tablecopy_history"))
 	       + '<br>&nbsp;<br>'
-	       + '<table class="table_copy_diagram"><tr><td colspan="2">'
+	       + '<table border class="table_copy_diagram"><tr><td colspan="2">'
 	       + _("MSG_tablecopy_arrow")
 	       + '<th>' + _("MSG_tablecopy_spreadsheet") + '<td><td></tr>'
 	       + '<tr><td><td><td>' + st + '&nbsp;' + ts + '<td><td></tr>'
+	       
 	       + '<tr><th>' + previous_year + '<td>' + past_year
-	       + '<th rowspan="2"><b>' + current
-	       + '<td rowspan="2">' +future+ '<th rowspan="2">' +next+ '</tr>'
+	       + '<th rowspan="2" style="background:#FF0"><b>' + current
+	       + '<td>' +future+ '<th>' +next+ '</tr>'
+	       
 	       + '<tr><th>' + previous + '<td>' + past
-	       + '<tr><td><td><td>' + rename
+	       + '<td>' +future_year+ '<th>' +next_year+ '</tr>'
+	       
+	       + '<tr><td><td><td>' + rename + '</tr>'
 	       + '<tr><td><td><th>'
 	       + year + '<br>' + semester + '<br>'
 	       + '<input id="newname" style="font-weight:bold" value="'
-	       + encode_value(ue) + '">'
+	       + encode_value(ue) + '"></tr>'
 	       + '</table>'
 	       , '', false) ;
 }
