@@ -265,9 +265,12 @@ def rem_abjs_da(year, semester, ticket, student, ue_code):
     Abjs(year, semester).rem_da(student, ue_code, ticket.user_name)
 
 def html_abjs(year, semester, student, full=False):
-    """Get all the ABJS/DA informations has HTML"""
-    return unicode(Abj(year, semester, student).html(year, semester, full),
-                   'utf-8')
+    """Get all the ABJS/DA informations has HTML
+    It is required to include suivi_student.js
+    """
+    return ('<script>node = {} ; node.data = '
+            + unicode(Abj(year, semester, student).js(), 'utf-8')
+            + '; document.write(DisplayAbjs(node)) ;</script>')
 
 def a_student(browser, year, semester, ticket, student):
     """Send student abj with the data to_date the navigator."""
