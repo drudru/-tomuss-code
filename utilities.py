@@ -583,9 +583,19 @@ class StaticFile(object):
         self.append_text = {}
         self.replace_text = {}
 
-    def __str__(self):
+    def need_update(self):
         if self.time != -1 and (self.content == None
                                 or self.time != os.path.getmtime(self.name)):
+            return True
+
+        for i in self.append_text.values():
+            if isinstance(i, StaticFile):
+                if i.need_update():
+                    return True
+        
+    def __str__(self):
+
+        if self.need_update():
             self.time = os.path.getmtime(self.name)
             content = read_file(self.name)
             for old, new in self.replace_text.values():
