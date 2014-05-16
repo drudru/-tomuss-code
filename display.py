@@ -71,7 +71,7 @@ def do_update(server, s, top):
     
 def data_to_display(server, top):
     """Create the page by updating it every 0.2 seconds or more"""
-    server.the_file.write('<script>var display_data = {} ; display_update_nb++;</script>')
+    server.the_file.write('<script>start_display();</script>')
     start = t = time.time()
     s = []
     profiling = {}

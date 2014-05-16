@@ -155,8 +155,9 @@ function detect_small_screen(force)
 	}
       if ( div.className.toString().indexOf('BodyRight') == -1 )
 	continue ;
-      
-      lefts[lefts.length-1].style.minHeight = (div.offsetHeight+50) + 'px' ;
+
+      if ( lefts.length != 0 )
+	lefts[lefts.length-1].style.minHeight = (div.offsetHeight+50) + 'px' ;
       if ( detect_small_screen.initial_width === undefined
 	   || detect_small_screen.initial_width < div.offsetWidth )
 	{
@@ -196,26 +197,29 @@ function detect_small_screen(force)
 
 var display_update_nb = 0 ;
 var older_students = '' ;
-var last_student ;
+var display_data ;
+
+function start_display()
+{
+  display_data = {} ;
+
+  // Protect the last DVI.display_suivi in case of multiple student display
+  var p = document.getElementById('display_suivi').parentNode ;
+  document.getElementById('display_suivi').id = '' ;
+  var e = document.createElement('DIV') ;
+  e.id = 'display_suivi' ;
+  p.appendChild(e) ;
+}
 
 function display_update(key_values, top)
 {
   if ( top === undefined )
     top = display_update.top ;
-  if ( display_update_nb == 1 )
+  if ( display_update_nb == 0 )
     setInterval(detect_small_screen, 100) ;
   if ( key_values )
     for(var i in key_values)
       display_data[key_values[i][0]] = key_values[i][1] ;
-  if ( last_student != display_data['Login'] )
-    {
-      last_student = display_data['Login'] ;
-      var p = document.getElementById('display_suivi').parentNode ;
-      document.getElementById('display_suivi').id = '' ;
-      var e = document.createElement('DIV') ;
-      e.id = 'display_suivi' ;
-      p.appendChild(e) ;
-    }
   document.getElementById('display_suivi').innerHTML = display_display(display_definition[top]) ;
 
   display_update_nb++ ;
