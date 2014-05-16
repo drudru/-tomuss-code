@@ -168,6 +168,10 @@ BODY.big_text_1 { font-size: 150% }
 
 .show_empty_0 .is_empty { display: none }
 
+.nonInscrit {
+  background-color: #FFC0C0 ;
+}
+
 /********** not grade Cells are transparent for teachers  *************/
 
 .highlight_grade_1 .CellBox {
@@ -377,10 +381,6 @@ width: 1em ;
 height: 1em ;
 border: 0px ;
  }
-
-.noninscrit {
-  background-color: #FFC0C0 ;
-}
 
 .blocnote {
   background-color: white ;
