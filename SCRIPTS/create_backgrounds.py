@@ -3,14 +3,17 @@
 """Create the translated image background for empty INPUT"""
 
 import os
+import subprocess
 import tomuss_init
 from .. import utilities
 
+wait = []
 for m in ('comment.png', 'filtre.png', 'filtre2.png',
           'title.png', 'teacher.png', 'columns.png',
           'visible.png' ,'empty.png', 'rounding.png',
 	  'course_dates.png', "import.png"):
-    f = open("xxx.svg", "w")
+    name = "xxx.%s.svg" % m.split('.')[0]
+    f = open(name, "w")
     f.write('''<?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <svg>
 <text
@@ -21,6 +24,12 @@ for m in ('comment.png', 'filtre.png', 'filtre2.png',
 </svg>
 ''')
     f.close()
-    os.system("inkscape --export-area-drawing --export-png=FILES/%s xxx.svg"
-              % m)
+    
+    p = subprocess.Popen(
+        ['inkscape','--export-area-drawing','--export-png=FILES/%s' % m, name],
+        )
+    wait.append(p)
+
+while wait:
+    wait.pop().wait()
     
