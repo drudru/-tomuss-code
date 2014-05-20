@@ -215,7 +215,9 @@ function personal_mailing_do()
 	{
 	  var v = line[0].value ;
           for(data_col in data_cols)
-	     v += '\002' + line[data_cols[data_col]].value ;
+	    v += '\002' + (line[data_cols[data_col]].value === ''
+			   ? columns[data_cols[data_col]].empty_is
+			   : line[data_cols[data_col]].value) ;
 	  recipents.push(v) ;
 	}
     }
