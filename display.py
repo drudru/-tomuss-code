@@ -22,6 +22,7 @@
 import json
 import time
 from . import files
+from . import utilities
 from . import configuration
 
 display_dict = {}
@@ -78,7 +79,11 @@ def data_to_display(server, top):
     for display in sorted(display_dict.values(), key=lambda x: x.time):
         if display.data:
             if display.is_in(top):
-                s.append((display.name, display.data(server)))
+                try:
+                    s.append((display.name, display.data(server)))
+                except:
+                    utilities.send_backtrace('', 'Display: ' + display.name)
+                    continue
                 tt = time.time()
                 display.time = (4*display.time + (tt - t)) / 5
                 profiling[display.name] = int(display.time*1000000)
