@@ -1181,7 +1181,7 @@ DisplayGetStudent.need_node = ['Referent'] ;
 function DisplayIsPrivate(node)
 {
   var s = _("MSG_suivi_student_private") ;
-  if ( node.data )
+  if ( node.data[0] )
     s += '<p>' + _("MSG_suivi_student_private_referent")
       + ' ' + DisplayNames(node) ;
   return s ;
