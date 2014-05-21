@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 #    TOMUSS: The Online Multi User Simple Spreadsheet
-#    Copyright (C) 2009-2012 Thierry EXCOFFIER, Universite Claude Bernard
+#    Copyright (C) 2009-2014 Thierry EXCOFFIER, Universite Claude Bernard
 #
 #    This program is free software; you can redistribute it and/or modify
 #    it under the terms of the GNU General Public License as published by
@@ -98,6 +98,8 @@ def count(server):
                                      minmax='[0;%d]' % weeks[title],
                                      empty_is='0',
                                      rounding='1',
+                                     red='>0',
+                                     green='=1',
                                      comment=server._("B_Nmbr")
                                      + ' ' + what,
                                      ))

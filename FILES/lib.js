@@ -2636,6 +2636,8 @@ function column_change_allowed_text(column)
     return _("ERROR_column_system_defined") ;
   if ( column.author == my_identity )
     return true ;
+  if ( column.author == '' )
+    return true ;
   if ( i_am_the_teacher )
     return true ;
   return _("ERROR_value_defined_by_another_user") ;
