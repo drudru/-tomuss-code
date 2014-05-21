@@ -134,5 +134,5 @@ def count(server):
 
 plugin.Plugin('count', '/count/{*}',
               function=count, group='staff',
-              launch_thread = True)
+              launch_thread = True, unsafe=False)
 
