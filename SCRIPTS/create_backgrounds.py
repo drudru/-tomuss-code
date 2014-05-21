@@ -2,7 +2,6 @@
 
 """Create the translated image background for empty INPUT"""
 
-import os
 import subprocess
 import tomuss_init
 from .. import utilities
@@ -24,11 +23,14 @@ for m in ('comment.png', 'filtre.png', 'filtre2.png',
 </svg>
 ''')
     f.close()
-    
-    p = subprocess.Popen(
-        ['inkscape','--export-area-drawing','--export-png=FILES/%s' % m, name],
-        )
-    wait.append(p)
+
+    try:
+        p = subprocess.Popen(
+            ['inkscape','--export-area-drawing','--export-png=FILES/%s' % m, name],
+            )
+        wait.append(p)
+    except:
+        pass
 
 while wait:
     wait.pop().wait()

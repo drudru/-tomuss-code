@@ -19,6 +19,7 @@
 #
 #    Contact: Thierry.EXCOFFIER@bat710.univ-lyon1.fr
 
+import re
 from .. import inscrits
 from .. import data
 from ..utilities import warn
@@ -76,7 +77,18 @@ def create(table):
     table.update_columns(cols)
     ts = configuration.semester_span(table.year, table.semester)
     if ts:
-        table.date_change(p, ts)
+        if re.search(configuration.ue_not_per_semester, table.ue_code):
+            # XXX Assume there only one semester extension
+            # So we take the start of the first semester and the end of the
+            # second one
+            year, semester = utilities.university_year_semester(
+                year=table.year, semester=table.semester)
+            ts = configuration.semester_span(year, semester)
+            year2, semester2 = utilities.next_year_semester(year, semester)
+            ts2 = configuration.semester_span(year2, semester2)
+            table.date_change(p, ts.split(' ')[0] + ' ' + ts2.split(' ')[1])
+        else:
+            table.date_change(p, ts)
 
 def student_add_allowed(table):
     """Returns the new student list or False if there is to many

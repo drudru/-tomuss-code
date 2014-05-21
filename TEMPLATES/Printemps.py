@@ -33,7 +33,7 @@ def init(table):
     if table.is_extended:
         # Never modify via a symbolic link
         pass
-    elif (re.search(configuration.ue_not_per_semester, table.ue)
+    elif (re.search(configuration.ue_not_per_semester, table.ue_code)
           and table.semester == configuration.university_semesters[0]
           and table.year == utilities.university_year()):
         # Not an UE per semester : all the semesters points on the first

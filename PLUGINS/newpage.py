@@ -123,6 +123,7 @@ def new_page(server):
     first_table = document.table_filename(utilities.university_year(),
                                           first_semester,
                                           server.the_ue)
+    # XXX Not working if UE ends with -1 -2...
     if (server.the_semester != first_semester
         and not os.path.exists(filename)
         and os.path.exists(first_table)
