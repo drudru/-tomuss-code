@@ -32,7 +32,7 @@ TR#dates TD {
 }
 TR#ampm TD { text-align: center ; }
 
-TD.weekend { background-color: #FBB; }
+TABLE.colored TD.weekend { background-color: #FBB; }
 
 TABLE.display_abjs TH { text-align: center ; }
 TABLE.display_abjs TD, TABLE.display_da TD { background-color: #EEE ; }
