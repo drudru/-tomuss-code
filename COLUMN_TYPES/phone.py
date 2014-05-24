@@ -25,20 +25,13 @@ from .. import utilities
 
 class Phone(mail.Mail):
     attributes_visible = ('columns',)
-    def get_one_value(self, student_id, column, line_id):
-        phone = inscrits.L_slow.phone(student_id).encode('utf8')
-        if phone ==  'Inconnu':
-            return None
-        return phone
 
     # copy/paste from Mail
-    def get_all_values(self, column):
-        students = tuple(self.values(column))
+    def get_all_values(self, column, line_ids):
+        students = tuple(self.values(column, line_ids))
         infos = inscrits.L_batch.phone_from_logins(
             tuple(utilities.the_login(i[1]) for i in students))
         for line_id, student in students:
             student = utilities.the_login(student).lower()
             if student in infos:
                 yield line_id, infos[student].encode('utf-8')
-            else:
-                yield line_id, None

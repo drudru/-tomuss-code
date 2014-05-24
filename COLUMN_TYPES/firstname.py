@@ -26,20 +26,12 @@ from .. import inscrits
 class Firstname(mail.Mail):
     attributes_visible = ('columns',)
 
-    def get_one_value(self, student_id, dummy_column, dummy_line_id):
-        name =  inscrits.L_slow.firstname_and_surname(student_id)[0].title().encode('utf-8')
-        if name ==  'Inconnu':
-            return None
-        return name
-
     # copy/paste from Mail
-    def get_all_values(self, column):
-        students = tuple(self.values(column))
+    def get_all_values(self, column, line_ids):
+        students = tuple(self.values(column, line_ids))
         infos = inscrits.L_batch.firstname_and_surname_and_mail_from_logins(
             tuple(utilities.the_login(i[1]) for i in students))
         for line_id, student in students:
             student = utilities.the_login(student).lower()
             if student in infos:
                 yield line_id, infos[student][0].title().encode('utf-8')
-            else:
-                yield line_id, None

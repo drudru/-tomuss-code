@@ -275,7 +275,7 @@ class Text(object):
         """
         pass
 
-    def update_all(self, the_table, column, attr=None):
+    def update_all(self, the_table, column, attr=None, line_ids=None):
         """Do some server side compute on the cell.
         This function update the full column content for every line.
         It is called :

@@ -19,12 +19,10 @@
 #
 #    Contact: Thierry.EXCOFFIER@bat710.univ-lyon1.fr
 
+import inspect
 from . import text
 from .. import inscrits
 from .. import data
-
-def etapes_text(etapes):
-    return ' '.join(sorted(etapes))
 
 class Code_Etape(text.Text):
     human_priority = 12
@@ -35,54 +33,72 @@ class Code_Etape(text.Text):
     type_type = 'people'
 
     def data_col(self, the_table, column):
+        """Returns the data_col of the first column in columns"""
         try:
             id_column_title = column.depends_on()[0]
         except IndexError:
             return None
         return the_table.columns.data_col_from_title(id_column_title)
 
-    def get_one_value(self, student_id, column, line_id):
-        student_id = inscrits.login_to_student_id(student_id)
-        return etapes_text(inscrits.L_slow.etapes_of_student(student_id))
-
-    def update_one(self, the_table, line_id, column):
-        data_col = self.data_col(the_table, column)
-        if data_col is None:
-            return
-        student_id = the_table.lines[line_id][data_col].value
-        etape = self.get_one_value(student_id, column, line_id)
-        the_table.lock()
-        try:
-            if etape is None:
-                if the_table.lines[line_id][column.data_col].author == data.ro_user:
-                    etape = ''
-                else:
-                    return
-            the_table.cell_change(the_table.pages[0], column.the_id, line_id,
-                                  etape)
-        finally:
-            the_table.unlock()
-
-    def values(self, column):
+    def values(self, column, line_ids=None):
         data_col = self.data_col(column.table, column)
         if data_col is None:
             return
-        for line_id, line in column.table.lines.items():
-            yield line_id, line[data_col].value
+        if line_ids is None:
+            line_ids = column.table.lines.keys()
+        return [(line_id, column.table.lines[line_id][data_col].value)
+                for line_id in line_ids
+                ]
 
-    def get_all_values(self, column):
-        students = self.values(column)
+    def get_all_values(self, column, line_ids=None):
+        """Redefine this method to get the [line_id, values] list"""
+        # Get the line_id + input value
+        students = self.values(column, line_ids)
+        # Get the data from all the input values
         students_etapes = inscrits.L_batch.etapes_of_students(tuple(
             inscrits.login_to_student_id(i[1]) for i in students))
-        for line_id, student in self.values(column):
+        # Merge line_id and returned value
+        for line_id, student in students:
             student = inscrits.login_to_student_id(student)
-            yield line_id, etapes_text(students_etapes.get(student,[]))
+            yield line_id, ' '.join(sorted(students_etapes.get(student,[])))
 
-    def update_all(self, the_table, column, attr=None):
+    def get_one_value(self, student_id, column, line_id):
+        """Deprecated, Define get_all_values"""
+        pass
+
+    def update_one(self, the_table, line_id, column):
+        self.update_all(the_table, column, line_ids=(line_id,))
+
+    def simulate_get_all_values(self, the_table, column, line_ids):
+        data_col = self.data_col(the_table, column)
+        return [
+            (line_id, self.get_one_value(
+                    the_table.lines[line_id][data_col].value,
+                    column, line_id)
+             )
+            for line_id in (line_ids or the_table.lines)
+            ]
+        
+    def update_all(self, the_table, column, attr=None, line_ids=None):
         if attr is not None and attr.name != 'columns' and attr.name != 'type':
             return
-        
-        for line_id, value in self.get_all_values(column):
+
+        if 'get_all_values' in self.__class__.__dict__:
+            if 'line_ids' in inspect.getargspec(self.get_all_values).args:
+                values = self.get_all_values(column, line_ids)
+            else:
+                if (line_ids is None
+                    or 'get_one_value' not in self.__class__.__dict__):
+                    values = self.get_all_values(column)
+                else:
+                    values = self.simulate_get_all_values(the_table, column,
+                                                          line_ids)
+        elif 'get_one_value' in self.__class__.__dict__:
+            values = self.simulate_get_all_values(the_table, column, line_ids)
+        else:
+            raise ValueError("Missing method: get_all_values or get_one_value")
+            
+        for line_id, value in values:
             the_table.lock()
             try:
                 if value is None:
