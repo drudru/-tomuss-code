@@ -3693,17 +3693,14 @@ msgid "MSG_send_mail_done"
 msgstr "Les messages ont bien été envoyés à : "
 
 msgid "MSG_send_mail_error"
-msgstr "Les messages n'ont pas été envoyés à : "
+msgstr "Les messages ne seront pas envoyés à : "
 
 msgid "MSG_send_mail_close"
 msgstr "Vous pouvez maintenant fermer cette page,\n"
        "les messages vont être envoyés progressivement.\n"
        "Vous pouvez la laisser ouverte pour savoir quand\n"
-       "l'envoit sera terminé.\n"
+       "l'envoi sera terminé.\n"
        "Vous recevrez un compte-rendu de publipostage sur votre messagerie."
-
-msgid "MSG_send_mail_left"
-msgstr "Il reste %d messages à envoyer."
 
 msgid "TITLE_statpage"
 msgstr "Who's connected"

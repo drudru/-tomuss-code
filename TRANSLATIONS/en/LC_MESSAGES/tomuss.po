@@ -3669,9 +3669,6 @@ msgstr "You can now close this page,\n"
        "When all the messages are sent, a full report is sent to your mail addresse."
 
 
-msgid "MSG_send_mail_left"
-msgstr "%d messages left to sent."
-
 msgid "TITLE_statpage"
 msgstr "Who's connected"
 

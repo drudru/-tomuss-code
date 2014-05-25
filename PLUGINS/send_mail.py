@@ -26,13 +26,26 @@ from .. import inscrits
 from .. import utilities
 from .. import configuration
 
+def progress_bar(server):
+    server.the_file.write('''
+<div style="border:2px solid black;">
+<div id="loading_bar" style="background:green">&nbsp;</div>
+</div>''')
+
+def progress_bar_update(server, nb, nb_max):
+    server.the_file.write("""<script>
+document.getElementById('loading_bar').style.width = '%f%%' ;
+</script>""" % ((100.*nb)/nb_max))
+    server.the_file.flush()
+
 def send_mail(server):
     """Send personnalized mails"""
     if configuration.regtest:
         server.the_file.write(server._("MSG_evaluate"))
         return
 
-    server.the_file.write(server._("MSG_abj_wait") + '<br>')
+    server.the_file.write('<div id="prepare"><h1>'
+                          + server._("MSG_abj_wait") + '</h1>')
     server.the_file.flush()
     
     data = server.get_posted_data()
@@ -60,10 +73,12 @@ def send_mail(server):
         return
         
     server.the_file.write(server._("MSG_send_mail_start") % len(recipients))
-    server.the_file.write("<p>")
+    progress_bar(server)
+    server.the_file.write('</div>') # end prepare
+
     bad_mails = []
     good_mails = []
-    for recipient in recipients:
+    for nb, recipient in enumerate(recipients):
         recipient = recipient.split("\002")
         m = inscrits.L_slow.mail(recipient[0])
         if m is None:
@@ -81,8 +96,15 @@ def send_mail(server):
         # print m, the_subject, content, frome
         utilities.send_mail_in_background(m, the_subject, content, frome)
         good_mails.append(m)
-        server.the_file.write('%d ' % len(good_mails))
+        progress_bar_update(server, nb, len(recipients))
 
+    server.the_file.write("""<script>
+var e = document.getElementById('prepare');
+e.parentNode.removeChild(e) ;
+</script>""")
+        
+    last = utilities.send_mail_in_background_list[-1]
+    nb_mails = len(utilities.send_mail_in_background_list)
     archive = unicode(message, 'utf-8') + '\n' + '='*79 + '\n'
     if bad_mails:
         archive += (server.__("MSG_send_mail_error") + '\n'
@@ -99,14 +121,21 @@ def send_mail(server):
     server.the_file.write('<p>')
     if bad_mails:
         server.the_file.write(server._("MSG_send_mail_error")
-                              + repr(bad_mails) + '\n')
-    server.the_file.write('<p>' + server._("MSG_send_mail_close") + '<p>')
-    while utilities.send_mail_in_background_list:
-        server.the_file.write(server._("MSG_send_mail_left")
-                              % len(utilities.send_mail_in_background_list)
-                              + '\n')
+                              + ', '.join(bad_mails) + '\n')
+    server.the_file.write('<p>' + server._("MSG_send_mail_close"))
+    progress_bar(server)
+    while True:
+        try:
+            pos = utilities.send_mail_in_background_list.index(last)
+        except ValueError:
+            pos = 0
+        try:
+            progress_bar_update(server, nb_mails - pos, nb_mails)
+        except:
+            break
+        if pos == 0:
+            break
         time.sleep(1)
-    server.the_file.write(server._("MSG_send_mail_left") % 0)
 
 plugin.Plugin('send_mail', '/send_mail', function=send_mail,
               group='staff', launch_thread=True)
