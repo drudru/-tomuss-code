@@ -2652,11 +2652,12 @@ function current_input_div_focus()
 
 function current_change()
 {
-  hide_the_tip_real(true) ; // To hide the enumeration menu
   this.input_div_focus() ;
   
   if ( this.blur_disabled )
     return ;
+
+  hide_the_tip_real(true) ; // To hide the enumeration menu
 
   // Save modification in header before moving.
   if ( element_focused !== undefined )
