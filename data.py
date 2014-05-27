@@ -27,6 +27,7 @@ lock = threading.Lock() # Don't allow 2 page loading at same time
 
 ro_user = '*' # The data entered by this user are unmodifiable
 rw_user = ''  # The data entered by this user are modifiable by anybody
+no_user = '?' # A non existent user (data modifiable only by the table master)
 
 _table = None
 

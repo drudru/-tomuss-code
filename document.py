@@ -163,7 +163,7 @@ def table_head_more(dummy_ue):
 
 class TT:
     def create(self, ttable):
-        ttable.new_page('', data.ro_user, '', '')
+        ttable.get_ro_page()
         ttable.table_attr(ttable.pages[0],'masters',[ttable.user])
 
 empty_template = TT()
@@ -716,21 +716,43 @@ class Table(object):
             # For old TEMPLATES files
             self.log('table_attr("masters",%d,%s)' % (page_id, repr(name))) 
 
-    def get_a_master_page(self):
-        """Returns a page modifiable by the masters.
-        Create one if there is none"""
+    def get_a_page_for(self, user_list):
+        """Returns a page for one of the users in the list.
+        If not exists, create one with the first user.
+        If the user list is empty, create a page for the rw_user
+        """
         rw = None
         for p in self.pages:
-            if p.user_name in self.masters:
+            if p.user_name in user_list:
                 return p
             if p.user_name == data.rw_user:
                 rw = p
-        if self.masters:
-            return self.new_page('', self.masters[0], '', '')
-        else:
-            if rw:
-                return rw
-            return self.new_page('', data.rw_user, '', '')
+        if user_list:
+            return self.new_page('', user_list[0], '', '')
+        if rw:
+            return rw
+        return self.new_page('', data.rw_user, '', '')
+
+    def get_a_master_page(self):
+        """Returns a page modifiable by the masters.
+        Create one if there is none"""
+        return self.get_a_page_for(self.masters)
+
+    def get_ro_page(self):
+        """Returns a page modifiable by nobody."""
+        return self.get_a_page_for((data.ro_user,))
+
+    def get_a_root_page(self):
+        """Returns a page for root."""
+        return self.get_a_page_for((configuration.root[0],))
+
+    def get_rw_page(self):
+        """Returns a page modifiable by anybody."""
+        return self.get_a_page_for(())
+
+    def get_nobody_page(self):
+        """Returns a page for the nobody user."""
+        return self.get_a_page_for((data.no_user,))
 
     def private_toggle(self, page):
         """Deprecated"""
@@ -815,7 +837,7 @@ class Table(object):
                                       ) % cgi.escape(self.comment)
         if not empty_even_if_column_created:
             for c in self.columns:
-                if c.author != data.ro_user:
+                if c.author != data.ro_user and c.author != data.no_user:
                     return False, utilities._("MSG_document_table_title")
         for line in self.lines.values():
             for j in line:
@@ -1005,7 +1027,7 @@ class Table(object):
         a = {}
         for v in self.lines.values():
             for cell in v:
-                if cell.author not in ('', data.ro_user):
+                if cell.author not in ('', data.ro_user, data.no_user):
                     a[cell.author] = True
         return list(a.keys())
 

@@ -72,7 +72,7 @@ def create(table):
     if table.year != 0 or table.semester != 'Dossiers':
         raise ValueError('Not allowed')
     
-    p = table.new_page('' , configuration.root[0], '', '')
+    p = table.get_a_root_page()
 
     _ = utilities._
     table.update_columns({

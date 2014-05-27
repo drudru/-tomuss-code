@@ -371,10 +371,7 @@ class Column(object):
         """Returns True if all the cells in the column are empty."""
         i = self.data_col
         for line in self.table.lines.values():
-            if (line[i].value
-                and line[i].author != data.ro_user
-                and line[i].author != data.rw_user
-                ):
+            if not line[i].empty():
                 return False
         return True
 

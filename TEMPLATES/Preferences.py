@@ -41,7 +41,7 @@ prefs = {'display_tips'   : configuration.yes,
          }
 
 def create(table):
-    p = table.new_page('' ,data.ro_user, '', '')
+    p = table.get_ro_page()
     _ = utilities._
     table.table_attr(p, 'masters', [utilities.module_to_login(table.ue)])
     table.column_change(p,'0_0',_("COL_TITLE_explanations"),'Text','','','F',0,20)

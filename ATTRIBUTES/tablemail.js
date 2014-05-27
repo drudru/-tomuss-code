@@ -60,7 +60,8 @@ function authors_mails(missing)
       for (data_col in cols)
 	{
 	  cell = line[cols[data_col]] ;
-	  if ( cell.author !== '' && cell.author != '*' && cell.value !== '' )
+	  if ( cell.author !== '' && cell.author != '*'
+	       && cell.author != '?' && cell.value !== '' )
 	    {
 	      a[cell.author] = login_to_id(cell.author) ;
 	    }

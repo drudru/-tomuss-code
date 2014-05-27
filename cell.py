@@ -91,10 +91,11 @@ class CellValue(CellVirtual):
         self.date = date
 
     def empty(self):
-        """Returns True if the cell is empty"""
+        """Returns True if the cell is empty of user value"""
         return (self.value == ''
                 or self.author == data.ro_user
-                or self.author == data.rw_user)
+                or self.author == data.rw_user
+                or self.author == data.no_user)
     
     def set_comment(self, comment):
         """change the comment on the cell."""

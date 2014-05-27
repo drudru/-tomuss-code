@@ -105,7 +105,7 @@ class Code_Etape(text.Text):
             value = values.get(line_id)
             if value is None:
                 if (the_table.lines[line_id][column.data_col].author
-                    not in (data.ro_user, data.rw_user)):
+                    not in (data.ro_user, data.rw_user, data.no_user)):
                     # Do not replace user defined input with nothing
                     continue
                 value = ''

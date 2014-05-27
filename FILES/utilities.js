@@ -1440,6 +1440,8 @@ function get_author(author)
     return '' ;
   if ( author === '*' )
     return 'tomuss' ;
+  if ( author === '?' )
+    return '?' ;
 
   return author ;
 }

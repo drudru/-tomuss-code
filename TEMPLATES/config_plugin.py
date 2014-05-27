@@ -73,8 +73,8 @@ def update_column(table):
 def create(table):
     if table.year != 0 or table.semester != 'Dossiers':
         raise ValueError('Not allowed')
-    p = table.new_page('' ,data.ro_user, '', '')
-    p = table.new_page('' ,configuration.root[0], '', '')
+    p = table.get_ro_page()
+    p = table.get_a_root_page()
     table.table_attr(p, 'masters', list(configuration.root))
     update_column(table)
     check(table, from_create=True)

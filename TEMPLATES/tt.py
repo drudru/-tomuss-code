@@ -27,7 +27,7 @@ from . import _ucbl_
 
 def create(table):
     
-    p = table.new_page('' ,data.ro_user, '', '')
+    p = table.get_ro_page()
     table.table_attr(p, 'default_nr_columns', 11)
 
     if configuration.regtest:

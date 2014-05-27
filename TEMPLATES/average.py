@@ -115,7 +115,7 @@ def values_next(i):
             yield k
 
 def create(table):
-    p = table.new_page('' ,data.rw_user, '', '')
+    p = table.get_rw_page()
 
     attrs = (
         {'title': 'A', 'type': 'Note', 'minmax': '[0;10]'},

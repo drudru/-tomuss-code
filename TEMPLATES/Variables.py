@@ -27,8 +27,8 @@ from .. import utilities
 from .. import sender
 
 def create(table):
-    p = table.new_page('' ,data.ro_user, '', '')
-    table.new_page('' ,configuration.root[0], '', '')
+    p = table.get_ro_page()
+    table.get_a_root_page()
     _ = utilities._
     table.table_attr(p, 'masters', list(configuration.root))
 

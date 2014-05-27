@@ -20,11 +20,16 @@ def create(table):
     It will never be called once the file exists.
     """
     # Use ro_page to set UNMODIFIABLE values, even by root.
-    ro_page = table.new_page('' ,data.ro_user, '', '')
+    ro_page = table.get_ro_page()
     # Use rw_page to set values modifiables only by root.
-    rw_page = table.new_page('' , configuration.root[0], '', '')
+    rw_page = table.get_a_root_page()
     # Use everybody to set values modifiables by anybody
-    everybody_page = table.new_page('' , data.rw_user, '', '')
+    everybody_page = table.get_rw_page()
+    # Use nobody to set values modifiables by the table masters (unknown user)
+    nobody_page = table.get_nobody_page()
+    # A page with the identity of one of the table master (empty here)
+    # everybody_page = table.get_a_master_page()
+
     # Create the columns.
     # You can use this function to modify existing columns.
     # You can use it more than once.

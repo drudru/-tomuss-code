@@ -48,7 +48,7 @@ def onload(table):
 def create(table):
     default_master = configuration.root[0]
 
-    p = table.new_page('' , data.ro_user, '', '')
+    p = table.get_ro_page()
     table.table_attr(p, 'masters', default_master)
     table.column_change(p,'a',_("COL_TITLE_teacher")    ,'Login','','','F',0,8)
     table.column_change(p,'b',_("COL_TITLE_orientation"),'Text' ,'','','F',0,3)

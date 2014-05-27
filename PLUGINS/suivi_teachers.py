@@ -68,8 +68,9 @@ def teachers_statistics(server):
                 teachers[v.author].update(v, blocnote=True)
         t.unload()
 
-    del teachers[data.ro_user]
-    del teachers[data.rw_user]
+    teachers.pop(data.ro_user, None)
+    teachers.pop(data.rw_user, None)
+    teachers.pop(data.no_user, None)
 
     if len(teachers):
         max_cels = max([t.nr for t in teachers.values()])

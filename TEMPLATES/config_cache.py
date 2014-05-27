@@ -44,8 +44,8 @@ def create(table):
     utilities.warn('Creation')
     if table.year != 0 or table.semester != 'Dossiers':
         raise ValueError('Not allowed')
-    ro = table.new_page('', data.ro_user, '', '')
-    table.new_page('', configuration.root[0], '', '')
+    ro = table.get_ro_page()
+    table.get_a_root_page()
     table.table_attr(ro, 'masters', list(configuration.root))
     table.table_attr(ro, 'default_nr_columns', 3)
     table.table_attr(ro, 'default_sort_column', [0,1])

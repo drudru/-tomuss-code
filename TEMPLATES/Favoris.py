@@ -57,7 +57,7 @@ def check_columns(table):
                 table.column_comment(page, col_id, col_comment)
 
 def create(table):
-    table.new_page('' ,data.ro_user, '', '')
+    table.get_ro_page()
     table.table_attr(table.pages[0], 'masters',
                      [utilities.module_to_login(table.ue)])
     check_columns(table)

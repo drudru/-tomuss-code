@@ -30,7 +30,7 @@ def create(table):
     utilities.warn('Creation')
     if table.year != 0 or table.semester != 'Dossiers':
         raise ValueError('Not allowed')
-    p = table.new_page('' ,data.ro_user, '', '')
+    p = table.get_ro_page()
     _ = utilities._
     table.table_attr(p, 'masters', list(configuration.root))
     table.column_change(p,'0_0',_("COL_TITLE_ct_variable"),'Text','','','F',0,2)
@@ -38,7 +38,7 @@ def create(table):
     table.column_change(p,'0_2',_("COL_TITLE_ct_value") ,'Text','','','F',0,10 )
     table.table_attr(p, 'default_nr_columns', 3)
     table.table_attr(p, 'default_sort_column', 1)
-    table.new_page('' ,configuration.root[0], '', '')
+    table.get_a_root_page()
 
 variable_list = [
     'abinj',

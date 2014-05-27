@@ -57,7 +57,7 @@ columns = {
     }
 
 def create(table):
-    p = table.new_page('',data.ro_user,'','')
+    p = table.get_ro_page()
     cols = dict(columns) # Copy the standard columns
     cols.update(configuration.local_columns(table)) # Append your local columns
 
@@ -234,13 +234,6 @@ def update_student(table, page, the_ids, infos):
     finally:
         table.unlock()
 
-def rw_page(table):
-    """Not thread safe"""
-    for page in table.pages:
-        if page.user_name == data.rw_user:
-            return page        
-    return table.new_page('',data.rw_user,'','')
-
 def remove_students_from_table(table, students):
     """If the line is 'empty' then it is erased.
     If it contains user information, ro_user cells are given to rw_user
@@ -281,7 +274,7 @@ def remove_students_from_table(table, students):
                     if (line[i].value and line[i].author == data.ro_user
                         and i != data_col):
                         if p == None:
-                            p = rw_page(table)
+                            p = table.get_rw_page()
                         table.cell_change(p, column.the_id, line_id)
     finally:
         table.unlock()

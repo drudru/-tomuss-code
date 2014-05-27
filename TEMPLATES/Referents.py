@@ -107,7 +107,7 @@ def onload(table):
         table.masters.append(user)
 
 def create(table):
-    p = table.new_page('' ,data.ro_user, '', '')
+    p = table.get_ro_page()
     table.table_attr(p, 'masters', [utilities.module_to_login(table.ue)])
     check_columns(table)
     table.table_attr(p, 'default_nr_columns', 9)

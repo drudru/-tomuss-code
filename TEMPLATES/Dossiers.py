@@ -22,7 +22,7 @@
 from .. import data
 
 def create(table):
-    table.new_page('', data.ro_user, '', '')
+    table.get_ro_page()
     table.table_attr(table.pages[0], 'masters', [table.user])
     table.private = 1
     table.modifiable = 1
