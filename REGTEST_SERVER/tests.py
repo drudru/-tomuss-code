@@ -1395,7 +1395,7 @@ def create(table):
 
         c = s.url('=' + abj +'/%s/UE-etape' % ys_old)
         assert('10800003' in c)
-        assert('etape-10800003' not in c)
+        assert('etape-10800003' in c)
 
     if do('enumeration'):
         c = s.url('=' + abj +'/%s/UE-enum' % ys)

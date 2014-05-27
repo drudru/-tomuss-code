@@ -1,7 +1,7 @@
 #!/bin/env python
 # -*- coding: utf-8 -*-
 #    TOMUSS: The Online Multi User Simple Spreadsheet
-#    Copyright (C) 2011 Thierry EXCOFFIER, Universite Claude Bernard
+#    Copyright (C) 2011-2014 Thierry EXCOFFIER, Universite Claude Bernard
 #
 #    This program is free software; you can redistribute it and/or modify
 #    it under the terms of the GNU General Public License as published by
@@ -43,7 +43,7 @@ class Code_Etape(text.Text):
     def values(self, column, line_ids=None):
         data_col = self.data_col(column.table, column)
         if data_col is None:
-            return
+            return []
         if line_ids is None:
             line_ids = column.table.lines.keys()
         return [(line_id, column.table.lines[line_id][data_col].value)
@@ -55,7 +55,7 @@ class Code_Etape(text.Text):
         # Get the line_id + input value
         students = self.values(column, line_ids)
         # Get the data from all the input values
-        students_etapes = inscrits.L_batch.etapes_of_students(tuple(
+        students_etapes = inscrits.L_slow.etapes_of_students(tuple(
             inscrits.login_to_student_id(i[1]) for i in students))
         # Merge line_id and returned value
         for line_id, student in students:
@@ -82,6 +82,8 @@ class Code_Etape(text.Text):
     def update_all(self, the_table, column, attr=None, line_ids=None):
         if attr is not None and attr.name != 'columns' and attr.name != 'type':
             return
+        if line_ids is None:
+            line_ids = column.table.lines.keys()
 
         if 'get_all_values' in self.__class__.__dict__:
             if 'line_ids' in inspect.getargspec(self.get_all_values).args:
@@ -97,15 +99,18 @@ class Code_Etape(text.Text):
             values = self.simulate_get_all_values(the_table, column, line_ids)
         else:
             raise ValueError("Missing method: get_all_values or get_one_value")
-            
-        for line_id, value in values:
+
+        values = dict(values) # line_id → value
+        for line_id in line_ids:
+            value = values.get(line_id)
+            if value is None:
+                if (the_table.lines[line_id][column.data_col].author
+                    not in (data.ro_user, data.rw_user)):
+                    # Do not replace user defined input with nothing
+                    continue
+                value = ''
             the_table.lock()
             try:
-                if value is None:
-                    if the_table.lines[line_id][column.data_col].author != data.ro_user:
-                        # Do not replace user defined input with nothing
-                        continue
-                    value = ''
                 the_table.cell_change(the_table.pages[0], column.the_id,
                                       line_id, value)
             finally:
