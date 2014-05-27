@@ -5483,3 +5483,23 @@ msgstr "Ne tronque pas le texte dans les cases."
 
 msgid "Preference_recursive_formula"
 msgstr "Affichage détaillé des moyennes"
+
+
+msgid "LINK_restart_tomuss"
+msgstr "Relance TOMUSS"
+
+msgid "HELP_restart_tomuss"
+msgstr "Attend le bon moment pour redémarrer TOMUSS"
+
+msgid "MSG_restart_mailqueue"
+msgstr "Il y a %d mails en cours d'envoi"
+
+msgid "MSG_restart_request_list"
+msgstr "Il y a %d requêtes de navigateurs à traiter"
+
+msgid "MSG_restart_sender"
+msgstr "Il y a %d connexions en train de recevoir des données"
+
+msgid "MSG_restart_access"
+msgstr "Des tables ont été accédées il y a moins de %d minutes"
+

@@ -5368,3 +5368,22 @@ msgstr "Do not truncate cell content."
 
 msgid "Preference_recursive_formula"
 msgstr "Detailed average formula display"
+
+
+msgid "LINK_restart_tomuss"
+msgstr "Restart TOMUSS"
+
+msgid "HELP_restart_tomuss"
+msgstr "Wait to be in an unused state before restarting TOMUSS"
+
+msgid "MSG_restart_mailqueue"
+msgstr "There are %d mails to send"
+
+msgid "MSG_restart_request_list"
+msgstr "There are %d browser request to analyse"
+
+msgid "MSG_restart_sender"
+msgstr "There are %d connection with data to send"
+
+msgid "MSG_restart_access"
+msgstr "Some tables have been used in the last %d minutes"

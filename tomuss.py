@@ -271,9 +271,18 @@ if __name__ == "__main__":
     from . import authentication
     authentication.run_authentication()
 
-    server = BaseHTTPServer.HTTPServer(("0.0.0.0",
-                                        configuration.server_port),
-                                       MyRequestBroker)
+    import socket
+    for i in range(5):
+        try:
+            server = BaseHTTPServer.HTTPServer(("0.0.0.0",
+                                                configuration.server_port),
+                                               MyRequestBroker)
+            break
+        except socket.error:
+            warn('Socket port used: %s' % configuration.server_port)
+            time.sleep(1)
+    else:
+        raise IOError("Can not start TOMUSS")
     warn('Database:' + configuration.db)
     warn('Backup Database:' + configuration.backup + configuration.db)
     warn("Server Ready on:" + configuration.server_url)
