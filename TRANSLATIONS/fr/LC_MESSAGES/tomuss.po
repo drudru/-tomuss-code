@@ -4548,6 +4548,9 @@ msgstr "Temps : nombre de jours autorisés dans le futur pour la date de visibil
 msgid "config_table_gui_record"
 msgstr "Si True, alors on enregistre toutes les actions utilisateur dans l'éditeur de table"
 
+msgid "config_table_grp_modifiable"
+msgstr "Si True, le contenu de la colonne 'Grp' peut être modifié par les responsables de la table"
+
 msgid "config_table_logo"
 msgstr "URL du logo de fond d'écran"
 

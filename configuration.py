@@ -340,6 +340,8 @@ suivi_student_allow_private = False
 # Allow the recording of user interaction with the table editor
 gui_record = False
 
+# Allow the table master to modify the official values in Grp column
+grp_modifiable = False
 
 ###############################################################################
 # The following variables should be fine for testing purpose (local server)

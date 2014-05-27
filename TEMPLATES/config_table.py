@@ -20,7 +20,6 @@
 #    Contact: Thierry.EXCOFFIER@bat710.univ-lyon1.fr
 
 import ast
-from .. import data
 from .. import utilities
 from .. import configuration
 from .. import sender
@@ -103,6 +102,7 @@ variable_list = [
     "max_visibility_date",
     "gui_record",
     "time_between_mails",
+    "grp_modifiable",
     ]
 
 deprecated = set(('root', 'invited_teachers', 'invited_administratives',

@@ -223,7 +223,11 @@ def update_student(table, page, the_ids, infos):
             if surname:
                 table.cell_change(page, "0_2", lin, surname)
             if grp != '':
-                table.cell_change(page, "0_3", lin, grp)
+                if configuration.grp_modifiable:
+                    p = table.get_nobody_page()
+                else:
+                    p = page
+                table.cell_change(p, "0_3", lin, grp)
             if seq != '':
                 table.cell_change(page, "0_4", lin, seq)
             for col, val in enumerate(infos[6:]):

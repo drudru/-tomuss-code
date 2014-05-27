@@ -4494,6 +4494,9 @@ msgstr "Time : Number of days in the future allowed for column visibility date"
 msgid "config_table_gui_record"
 msgstr "If True, then record all user interaction in the table editor"
 
+msgid "config_table_grp_modifiable"
+msgstr "If True, the 'Grp' column content can be modified by the table masters"
+
 msgid "config_table_logo"
 msgstr "URL of background logo"
 
