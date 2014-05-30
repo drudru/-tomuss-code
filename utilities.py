@@ -403,9 +403,12 @@ def stop_threads():
 send_mail_in_background_list = []
 def sendmail_thread():
     """Send the mail in background with a minimal time between mails"""
+    sendmail_thread.safe_to_check = False
     while send_mail_in_background_list:
+        sendmail_thread.safe_to_check = True
         time.sleep(configuration.time_between_mails)
         send_mail(*send_mail_in_background_list.pop(0))
+        sendmail_thread.safe_to_check = False
 
 def send_mail_in_background(to, subject, message, frome=None, show_to=False,
                             reply_to=None, error_to=None):
@@ -1272,8 +1275,22 @@ def start_job(fct, seconds):
     """In a new thread 'fct' will be called in 'seconds'.
     If the same 'fct' is started multiple times, only the first one
     is taken into account.
+    
+    This function is NOT SAFE, because if a job is started while the function
+    is on its way out, it will not be restarted.
+    To be safe, protect the test ending the function as in:
+    
+        my_fct.safe_to_check = False
+        while list_of_thing_to_do:
+             my_fct.safe_to_check = True
+             work
+             my_fct.safe_to_check = False
     """
     if getattr(fct, 'job_in_file', False):
+        for dummy_i in range(100):
+            if fct.safe_to_check:
+                return
+        send_backtrace(repr(fct), "start job never safe_to_check")
         return
 
     def wait():
@@ -1282,8 +1299,10 @@ def start_job(fct, seconds):
             fct()
         finally:
             fct.job_in_file = False
+            fct.safe_to_check = True
     if fct.__doc__:
         wait.__doc__ = ('Wait %d before running:\n\n' % seconds) + fct.__doc__
+    fct.safe_to_check = True
     fct.job_in_file = True
     start_new_thread(wait, ())
 
