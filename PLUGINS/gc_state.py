@@ -308,3 +308,38 @@ def requests(server):
 plugin.Plugin('requests'   , '/requests'   , group='roots', function=requests,
               link=plugin.Link(where='debug', html_class='verysafe')
               )
+
+
+
+def memory_size_checker(server):
+    import resource
+    mem = resource.getrusage(resource.RUSAGE_SELF)[2]
+    server.the_file.write('<pre>')
+    i = 0
+    while True:
+        i += 1
+        if i % 100 == 0:
+            # Keep browser connection open
+            server.the_file.write(' ')
+            server.the_file.flush()
+        time.sleep(0.01)
+        current = resource.getrusage(resource.RUSAGE_SELF)[2]
+        if current == mem:
+            continue
+        try:
+            server.the_file.write(
+                '\n'*2 + '<hr>' + '%d → %d' % (mem, current) + '<hr>'+'\n'*2+
+                '\n'.join(t.stack()
+                          for t in utilities.thread_list
+                          ))
+            server.the_file.flush()
+        except:
+            break
+        mem = current
+
+plugin.Plugin('memory_size_checker', '/memory_size_checker',
+              group='roots', function=memory_size_checker, launch_thread=True,
+              link=plugin.Link(where='debug', html_class='verysafe')
+              )
+
+

@@ -5387,3 +5387,10 @@ msgstr "There are %d connection with data to send"
 
 msgid "MSG_restart_access"
 msgstr "Some tables have been used in the last %d minutes"
+
+msgid "LINK_memory_size_checker"
+msgstr "Search memory leaks"
+
+msgid "HELP_memory_size_checker"
+msgstr "Each time the memory usage increase, display thread stacks"
+

@@ -5503,3 +5503,8 @@ msgstr "Il y a %d connexions en train de recevoir des données"
 msgid "MSG_restart_access"
 msgstr "Des tables ont été accédées il y a moins de %d minutes"
 
+msgid "LINK_memory_size_checker"
+msgstr "Chercher les fuites mémoires"
+
+msgid "HELP_memory_size_checker"
+msgstr "Chaque fois que la taille mémoire augmente, affiche les threads."
