@@ -1392,7 +1392,7 @@ def create(table):
         assert(c == ok_png)
         c = s.url('='+abj+'/%s/UE-etape/1/7/cell_change/0_0/L4/10800003' % ys_old)
         assert(c == ok_png)
-
+        time.sleep(0.1)
         c = s.url('=' + abj +'/%s/UE-etape' % ys_old)
         assert('10800003' in c)
         assert('etape-10800003' in c)
