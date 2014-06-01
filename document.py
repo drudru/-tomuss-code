@@ -317,9 +317,6 @@ class Table(object):
             if not os.path.exists(self.filename):
                 self.on_disc = False
 
-        # Remove final .py
-        self.module = 'TOMUSS.' + self.filename[:-3].replace(os.path.sep,'.')
-
         if not os.path.exists(self.filename):
             # Read only table and file does not exists
             return
@@ -329,8 +326,9 @@ class Table(object):
         if not created:
             data.begin(self)
             try:
-                __import__(self.module)
-                utilities.unload_module(self.module)
+                c = compile(utilities.read_file(self.filename), self.filename,
+                            'exec')
+                eval(c)
             finally:
                 data.end()
 
@@ -1224,7 +1222,6 @@ class Table(object):
             return
         # XXX Not locked, so the table may be reloaded before deletion....
         utilities.unlink_safe(self.filename)
-        utilities.unlink_safe(self.filename + 'c', do_backup=False)
 
         for name in self.masters:
             self.master_of_update('-', name)
@@ -1389,17 +1386,12 @@ def tables_manage(action, year, semester, ue, do_not_unload=0, new_table=None):
                 return False
             # write access to the table will make an error.
             t.unloaded = True
-            utilities.unload_module(t.module) # 2009-09-07 Add this
             del tables[year, semester, ue]            
             return True
         except KeyError:
             return # Yet destroyed
     elif action == 'replace':
         old = tables.get((year, semester, ue), None)
-        if old:
-            # XXX The module is unloaded just after the import.
-            # Why is it necessary to do it again here?
-            utilities.unload_module(old.module)
         tables[year, semester, ue] = new_table
         return new_table
     else:
