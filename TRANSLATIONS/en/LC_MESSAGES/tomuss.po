@@ -5394,3 +5394,8 @@ msgstr "Search memory leaks"
 msgid "HELP_memory_size_checker"
 msgstr "Each time the memory usage increase, display thread stacks"
 
+msgid "LINK_atomic_checker"
+msgstr "Size of all str, int..."
+
+msgid "HELP_atomic_checker"
+msgstr "Compute the memory size of untracked by the GC atomic objects"

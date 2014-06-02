@@ -329,6 +329,7 @@ class Table(object):
                 c = compile(utilities.read_file(self.filename), self.filename,
                             'exec')
                 eval(c)
+                del c
             finally:
                 data.end()
 

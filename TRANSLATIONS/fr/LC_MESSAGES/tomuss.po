@@ -5508,3 +5508,9 @@ msgstr "Chercher les fuites mémoires"
 
 msgid "HELP_memory_size_checker"
 msgstr "Chaque fois que la taille mémoire augmente, affiche les threads."
+
+msgid "LINK_atomic_checker"
+msgstr "Place occupée par str, int..."
+
+msgid "HELP_atomic_checker"
+msgstr "Calcule la place prise par les objets non traqués par le GC"

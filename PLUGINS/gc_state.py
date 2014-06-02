@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 #    TOMUSS: The Online Multi User Simple Spreadsheet
-#    Copyright (C) 2008-2013 Thierry EXCOFFIER, Universite Claude Bernard
+#    Copyright (C) 2008-2014 Thierry EXCOFFIER, Universite Claude Bernard
 #
 #    This program is free software; you can redistribute it and/or modify
 #    it under the terms of the GNU General Public License as published by
@@ -309,8 +309,6 @@ plugin.Plugin('requests'   , '/requests'   , group='roots', function=requests,
               link=plugin.Link(where='debug', html_class='verysafe')
               )
 
-
-
 def memory_size_checker(server):
     import resource
     mem = resource.getrusage(resource.RUSAGE_SELF)[2]
@@ -342,4 +340,35 @@ plugin.Plugin('memory_size_checker', '/memory_size_checker',
               link=plugin.Link(where='debug', html_class='verysafe')
               )
 
+def atomic_checker(server):
+    atomic_types = (basestring, int, long, float)
+    gc.collect()
+    objs = gc.get_objects()
+    atomics = set()
+    for o in objs:
+        # Do not iterate over files...
+        if isinstance(o, (dict, list, tuple, set)):
+            for a in o:
+                if isinstance(a, atomic_types):
+                    atomics.add(a)
+        if isinstance(o, dict):
+            for a in o.values():
+                if isinstance(a, atomic_types):
+                    atomics.add(a)
+    t = collections.defaultdict(lambda: [0,0])
+    for a in atomics:
+        stat = t[type(a)]
+        stat[0] += 1
+        stat[1] += sys.getsizeof(a)
+
+    for a_type, stat in t.items():
+        server.the_file.write("%d %s %d bytes<br>\n" %(stat[0],
+                                                       cgi.escape(str(a_type)),
+                                                       stat[1]))
+            
+
+plugin.Plugin('atomic_checker', '/atomic_checker',
+              group='roots', function=atomic_checker, launch_thread=True,
+              link=plugin.Link(where='debug', html_class='verysafe')
+              )
 
