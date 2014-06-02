@@ -3067,6 +3067,12 @@ function server_answered(t)
 
   if ( t.request.saved )
     return ;
+
+  if ( t.complete !== undefined && ! t.complete )
+    return ; // Error loading image
+  if ( t.naturalWidth === 0 )
+    return ; // Not an image
+
   saved(t.request.request_id) ;
 }
 
