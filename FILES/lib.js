@@ -3250,7 +3250,7 @@ Request.prototype.send = request_send ;
 
 function click_to_revalidate_ticket()
 {
-  var m =  '<a onclick="javascript: t_authenticate.style.display = \'none\' ; window_open(\'' + cas_url + '/login?service='
+  var m =  '<a onclick="javascript: t_authenticate.style.display = \'none\' ; window_open(\''
     + encodeURI(url + '/allow/' + ticket + '/' + millisec())
     + '\')">' + _("MSG_reauthenticate") + '</a>' ; 
   t_authenticate.style.display = 'block' ;
