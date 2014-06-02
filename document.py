@@ -1549,7 +1549,8 @@ def check_new_students_real():
                 if t.modifiable:
                     if t.force_update or getattr(t, 'update_inscrits', True):
                         for a_column in t.columns:
-                            a_column.type.update_all(t, a_column)
+                            if not a_column.locked:
+                                a_column.type.update_all(t, a_column)
                     t.force_update = 0
                 t.update_the_abjs()
             finally:
