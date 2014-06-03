@@ -746,7 +746,7 @@ function new_window(data, mimetype)
   if ( mimetype === undefined )
     mimetype = 'text/plain' ;
 
-  var w = window_open() ;
+  var w = window_open('untitled') ;
   w.document.open(mimetype) ;
   w.document.write(data) ;
   w.document.close() ;

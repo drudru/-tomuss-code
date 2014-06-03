@@ -71,7 +71,7 @@ function compute_abj_per_day(t)
 
 function abj_per_day()
 {
-  var w = window_open() ;
+  var w = window_open(ue + '_abj') ;
   w.document.open('text/html') ;
 
   var p = html_begin_head(true) ;

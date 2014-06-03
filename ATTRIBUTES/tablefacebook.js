@@ -107,7 +107,7 @@ function tablefacebook(replace)
   p.push('setTimeout(initialize,100) ;') ; // Timeout for IE
   p.push('</script>') ;
 
-  var w = window_open('', replace) ;
+  var w = window_open(replace === true ? '' : ue + '_facebook', replace) ;
   w.document.open('text/html') ;
   w.document.write(html_begin_head(true) + p.join('\n')) ;
   w.document.close() ;

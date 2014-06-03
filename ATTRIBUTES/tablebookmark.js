@@ -97,7 +97,7 @@ function get_all_options()
   if ( window.location.pathname.search('=debug=') != -1 )
     {
       _d = __d ;
-      debug_window = window_open() ;
+      debug_window = window_open('debug') ;
       debug_window.document.open('text/plain') ;
     }
 

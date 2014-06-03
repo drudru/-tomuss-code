@@ -394,7 +394,7 @@ function stat_display_fractal_flower(groups, sorted_cols, all_stats, zoom)
 
 function stat_fractal_flower_zoom(t)
 {
-  var w = window_open() ;
+  var w = window_open(ue + '_flower') ;
   w.document.open('text/html;charset=utf-8') ;
   w.document.write
       (_("MSG_stat_flower_explanations")
@@ -1269,7 +1269,7 @@ function display_statistics(object)
   p.push('setTimeout(initialize,100) ;') ;
   p.push('</script>') ;
 
-  var w = window_open() ;
+  var w = window_open(ue + '_stats') ;
   w.document.open('text/html') ;
   w.document.write(html_begin_head(true) + p.join('\n')) ;
   w.document.close() ;
