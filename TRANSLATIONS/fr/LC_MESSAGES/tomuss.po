@@ -2401,7 +2401,8 @@ msgstr "Vos tables"
 
 msgid "TIP_home_master_of"
 msgstr "Ces tables TOMUSS ne correspondent pas à des UE<br>\n"
-       "Mais vous en êtes un des responsables"
+       "Mais vous en êtes un des responsables ou bien vous\n"
+       "avez cliquez sur ☆ en éditant la table."
 
 msgid "TH_home_ue_master"
 msgstr "Responsable des UE"
@@ -5514,3 +5515,7 @@ msgstr "Place occupée par str, int..."
 
 msgid "HELP_atomic_checker"
 msgstr "Calcule la place prise par les objets non traqués par le GC"
+
+msgid "TIP_bookmark"
+msgstr "Cliquer pour ajouter ou enlever cette UE de «Vos tables»\n"
+       "sur la page d'accueil de TOMUSS."

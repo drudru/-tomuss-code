@@ -25,6 +25,7 @@ from .. import plugin
 from .. import document
 from .. import abj
 from .. import utilities
+from .. import files
 
 def page_rewrite(server):
     """Generate the minimal python module defining the current
@@ -156,6 +157,26 @@ def extension(server):
 
 plugin.Plugin('extension', '/{Y}/{S}/{U}/extension', group='staff',
               function=extension,
+              )
+
+def bookmark(server):
+    key = os.path.join(server.ticket.user_name, 'bookmarked')
+    bookmarked = utilities.manage_key('LOGINS', key)
+    if bookmarked is False:
+        bookmarked = []
+    else:
+        bookmarked = eval(bookmarked)
+
+    bookmark = (server.the_year, server.the_semester, server.the_ue)
+    if bookmark in bookmarked:
+        bookmarked.remove(bookmark)
+    else:
+        bookmarked.append(bookmark)
+    utilities.manage_key('LOGINS', key, content = repr(bookmarked))
+    server.the_file.write(str(files.files['ok.png']))
+
+plugin.Plugin('bookmark', '/{Y}/{S}/{U}/bookmark', group='staff',
+              function=bookmark, mimetype = 'image/png'
               )
 
 

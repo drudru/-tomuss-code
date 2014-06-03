@@ -61,6 +61,14 @@ function update_student_information(line)
   update_student_information_default(line) ;
 }
 
+function toggle_bookmarked(t)
+{
+  bookmarked = ! bookmarked ;
+  t.innerHTML = (bookmarked ? '★' : '☆') +
+    '<img src="' + url + "/=" + ticket + '/' + year + '/' + semester + '/'
+    + ue + '/bookmark" width="8" height="8">' ;
+}
+
 function head_html()
 {
   if ( window.location.pathname.search('=read-only=') != -1 )
@@ -100,7 +108,11 @@ function head_html()
 		 'connection_state')
     + hidden_txt(_('MSG_updating'), _('TIP_updating'), '', 'updating')
     + '</div><div id="charsize" style="position:absolute;top:-999px">8</div>'
-    + '<h1>' ;
+    + '<h1>'
+    + hidden_txt('<a onclick="toggle_bookmarked(this)">'
+		 + (bookmarked ? '★' : '☆')+'</a>',
+		 '<!--INSTANTDISPLAY-->' + _('TIP_bookmark'))
+    ;
 
  var semester_color = semesters_color[myindex(semesters, semester)] ;
 

@@ -195,6 +195,11 @@ def table_head(year=None, semester=None, the_ticket=None,
 
     my_identity2 = utilities.login_to_module(user_name)
 
+    bookmarked = utilities.manage_key('LOGINS',
+                                      os.path.join(user_name, 'bookmarked'))
+    if bookmarked:
+        bookmarked = (year, semester, ue) in eval(bookmarked)
+
     return (str(the_head) + background +
             translations_init(prefs_table['language']) +
             '<script>\n' +
@@ -211,6 +216,7 @@ def table_head(year=None, semester=None, the_ticket=None,
             'root = %s ;\n' % js(list(configuration.root)) +
             'cas_url = %s ;\n' % repr(configuration.cas) +
             'preferences = %s ;\n' % prefs_table +
+            'bookmarked = %d ;\n' % int(bookmarked)  +
             'lines = {};\n' +
             'columns = [];\n' +
             'lines_to_load = 0 ;\n' +

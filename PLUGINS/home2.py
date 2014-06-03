@@ -75,6 +75,11 @@ def home_page(server):
     else:
         master_of = eval(master_of)
 
+    bookmarked = utilities.manage_key('LOGINS',
+                                      os.path.join(user_name, 'bookmarked'))
+    if bookmarked:
+        master_of += eval(bookmarked)
+
     refered = []
     for login in referent.students_of_a_teacher(user_name):
         a,b,c = inscrits.L_fast.firstname_and_surname_and_mail(login)

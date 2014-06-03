@@ -2393,7 +2393,8 @@ msgstr "Your tables"
 
 msgid "TIP_home_master_of"
 msgstr "The tables are not UE<br>\n"
-       "But your are one the manager"
+       "Your are one the manager or you have clicked on ☆\n"
+       "in the table editor."
 
 msgid "TH_home_ue_master"
 msgstr "Manager of UE"
@@ -5399,3 +5400,6 @@ msgstr "Size of all str, int..."
 
 msgid "HELP_atomic_checker"
 msgstr "Compute the memory size of untracked by the GC atomic objects"
+
+msgid "TIP_bookmark"
+msgstr "Click to add or remove this table from 'Your tables' on TOMUSS home page"
