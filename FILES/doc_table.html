@@ -465,15 +465,10 @@
 	</li>
     </ul>
 	    
-    <p><b>
-      Évidemment <tt>ABJ + 1</tt> n'a pas de sens et affichera <tt>NaN</tt>.
-      Si vous voulez obtenir ABJ comme résultat alors faites
-      <tt>ABJ + ABJ</tt></b>
     <p>
-      De même  <tt>ABI + 0</tt> donne <tt>0</tt>,
-      si vous voulez obtenir <tt>ABI</tt> il faut ajouter <tt>ABI</tt>
-      au lieu de 0 point jury.
-      </p>
+      Évidemment <tt>ABJ + 1</tt> affichera <tt>ABJ</tt>.
+      De même  <tt>ABI + 1</tt> donne <tt>ABI</tt>.
+    </p>
     <p>
       Le rang et la moyenne ne sont pas affichées dans la page étudiant
       pour ces colonnes bonus/malus.
@@ -539,25 +534,6 @@
       La méthode la plus juste est de faire une moyenne simple.
       
     </div>
-   <!--
-   <div>   
-    <h3>Calcul automatique du poids</h3>
-    <p>
-       <b>Ceci n'est pas fonctionnel pour l'instant</b>
-    <p>
-       Il est possible de mettre '<b>?</b>' comme poids d'une colonne
-       calculant une moyenne.
-    <p>
-       Dans ce cas, le poids de la colonne est la somme des poids
-       des colonnes utilisées dans la moyenne.
-       Sauf pour les ABJ/PPN, en effet dans ce cas le poids de la colonne
-       contenant l'ABJ/PNN sera annulé pour le calcul de la ligne.
-    <p>
-       Si l'on utilise ces poids automatiques, alors les moyennes
-       de moyennes sont toujours égales à la moyenne simple équivalente.
-       
-   </div>
-   -->
     <div>
     <h3>Moyenne en enlevant des notes</h3>
     <p>
@@ -573,7 +549,7 @@
       ATTENTION : le système refusera de calculer
       si l'une des cellules est invalide ou bien si l'étudiant
       a trop de ABJ.
-      Par exemple vous enlevez 2 notes a {5,ABJ,ABI},
+      Par exemple vous enlevez 2 notes à {5,ABJ,ABI},
       il ne reste que ABJ qui n'est pas calculable.
     <p>
       ATTENTION : Si les poids des colonnes ne sont pas égaux,

@@ -1417,6 +1417,7 @@ function cell_set_value2(v)
 {
   this.value = v ;
   this._key = undefined ;
+  return this ; // To be compatible with Python set_value method
 }
 
 function cell_set_comment(v)

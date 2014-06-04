@@ -25,27 +25,14 @@
 """
 """
 
-debug = False # It is set to True by filter_regtest.py
-
 # Set to True if 'B' filter must not found 'b' value.
 # This value must never be changed once table have been created by users
 contextual_case_sensitive = False
-
-try:
-    #WITHJAVASCRIPT#
-    pythonjs.configure(javascript=True)
-    #WITHJAVASCRIPT#
-    pythonjs.configure(runtime_exceptions=False)
-    pass
-except:
-    pass
 
 flat_map = u'\x00\x01\x02\x03\x04\x05\x06\x07\x08\x09\x0a\x0b\x0c\x0d\x0e\x0f\x10\x11\x12\x13\x14\x15\x16\x17\x18\x19\x1a\x1b\x1c\x1d\x1e\x1f !"#$%&\'()*+,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\\]^_`abcdefghijklmnopqrstuvwxyz{|}~\x7f\x80\x81\x82\x83\x84\x85\x86\x87\x88\x89\x8a\x8b\x8c\x8d\x8e\x8f\x90\x91\x92\x93\x94\x95\x96\x97\x98\x99\x9a\x9b\x9c\x9d\x9e\x9f\xa0¡¢£¤¥¦§¨©ª«¬­®¯°±²³´µ¶·¸¹º»¼½¾¿AAAAAAACEEEEIIIIDNOOOOOOOUUUUYÞßaaaaaaaceeeeiiiiðnooooooouuuuyþy'
 
 
 # print "".join("\\x%02x" % i for i in range(256))
-
-python_mode = hasattr("", 'translate')
 
 if python_mode:
     # Python
@@ -73,7 +60,7 @@ if python_mode:
         current_seconds = time.time()
 else:
     def update_today():
-        JS("""year_month_day = new Date() ; year_month_day = [year_month_day.getFullYear(), year_month_day.getMonth() + 1, year_month_day.getDate()] ; current_seconds = new Date() ; current_seconds = current_seconds.getTime()/1000 ;""")
+        JS("""year_month_day =new Date() ; year_month_day = [year_month_day.getFullYear(), year_month_day.getMonth() + 1, year_month_day.getDate()] ; current_seconds =new Date() ; current_seconds = current_seconds.getTime()/1000 ;""")
 
 update_today()
 
@@ -105,15 +92,14 @@ def to_float(txt):
     except: # Because txt is a float or not a number in a string
         return float(txt)
 
+nan = float('NaN')
+
 def to_float_or_nan(txt):
     try:
         return to_float(txt)
     except:
-        if python_mode:
-            return float('NaN')
-        else:
-            return JS("NaN")
-    
+        return nan
+
 # Dates are defined as string : YYYYMMDDHHMMSS
 # We assume that date are all valid.
 # YYYYMM = YYYYMM00000000
@@ -121,9 +107,9 @@ def to_float_or_nan(txt):
 #    * Day (current month)
 #    * Day/Month (current year)
 #    * Day/Month/Year
-#    * Date[-_ ]Hour
-#    * Date[-_ ]Hour:Minute
-#    * Date[-_ ]Hour:Minute:Seconds
+#    * Date[-_ ] Hour
+#    * Date[-_ ] Hour:Minute
+#    * Date[-_ ] Hour:Minute:Seconds
 
 def two_digits(value):
     if value >= 10:

@@ -103,6 +103,8 @@ class ColumnAttr(object):
             setattr(column, self.name, self.encode(value))
             if self.name != 'comment': # Historical remnent
                 column.author = page.user_name
+            if self.name == 'columns': # XXX Copy past and not the right place
+                column.column_ordered_cache = None
             page.request += 1
             return 'ok.png'
         
@@ -168,6 +170,10 @@ class ColumnAttr(object):
 
         if column.author != data.ro_user:
             column.author = page.user_name
+
+        if self.name == 'columns':
+            column.column_ordered_cache = None
+
         table.column_changed(column, self)
 
         return 'ok.png'
@@ -521,6 +527,7 @@ class Columns(object):
     """
     grp_cache = False
     seq_cache = False
+    column_ordered_cache = None
     
     def __init__(self, table):
         """Create an empty set associated to the table."""
@@ -626,3 +633,22 @@ class Columns(object):
     def __iter__(self):
         """Iterate over the columns."""
         return self.columns.__iter__()
+
+    def columns_ordered(self):
+        """Returns columns with the good computing order for dependencies"""
+        if self.column_ordered_cache:
+            return self.column_ordered_cache
+        done = []
+        while len(done) != len(self.columns):
+            for c in self.columns:
+                if c in done:
+                    continue
+                for title in c.depends_on():
+                    column = self.table.columns.from_title(title)
+                    if column and column not in done:
+                        break
+                else:
+                    done.append(c)
+        self.column_ordered_cache = done
+        return done
+        

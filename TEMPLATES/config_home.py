@@ -47,7 +47,6 @@ default_links = (
     ("root_rw",-807,"safe"    ,'roots',"/0/Dossiers/config_plugin"),
     ("root_rw",-806,"safe"    ,'roots',"/0/Dossiers/config_home"),
     ("debug"  ,   0,"verysafe",'roots',"/0/Dossiers/javascript_regtest_ue"),
-    ("debug"  ,   0,"verysafe",'roots',"/0/Test/average"),
     ("debug"  ,   0,"verysafe",'roots',"javascript:go('demo_animaux')"),
     ("debug"  ,   0,"verysafe",'roots',"/0/Test/test_types"),
     ("root_rw",-805,"safe"    ,'roots',"/0/Dossiers/config_cache"),

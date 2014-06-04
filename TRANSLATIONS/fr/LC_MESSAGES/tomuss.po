@@ -4909,12 +4909,6 @@ msgstr "Tests de régression en JavaScript"
 msgid "HELP_/0/Dossiers/javascript_regtest_ue"
 msgstr "Lance des tests de régression sur votre navigateur."
 
-msgid "LINK_/0/Test/average"
-msgstr "Table de moyennes"
-
-msgid "HELP_/0/Test/average"
-msgstr "Table pour vérifier les moyennes"
-
 msgid "LINK_javascript:go('demo_animaux')"
 msgstr "Démo animaux"
 
