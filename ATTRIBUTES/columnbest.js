@@ -31,9 +31,7 @@ function set_best(value, column)
     value = 0 ;
   else
     value = Math.floor(value) ;
-  if ( column.best_of === undefined // Do not erase value set by 'comment'
-       && value !== 0 ) 
-    column.best_of = -value ;
+  column.best_of = -value ;
   return value ;
 }
 
@@ -48,8 +46,6 @@ function set_worst(value, column)
     value = 0 ;
   else
     value = Math.floor(value) ;
-  if ( column.mean_of === undefined // Do not erase value set by 'comment'
-       && value !== 0 ) 
-    column.mean_of = -value ;
+  column.mean_of = -value ;
   return value ;
 }
