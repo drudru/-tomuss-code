@@ -51,11 +51,7 @@ def compute_one(table, line, column):
         else:
             v_min, v_max = min_max(col.minmax)
             try:
-                if col.weight == '?':
-                    # For a future functionnality?
-                    weight = float(line[col.data_col].comment)
-                else:
-                    weight = float(col.weight)
+                weight = float(col.weight)
                 if col.weight[0] in "+-":
                     bonus += weight * float(value)
                 else:

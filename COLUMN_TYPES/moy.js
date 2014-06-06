@@ -82,8 +82,7 @@ function compute_average(data_col, line)
 	    }
 	  if ( from.real_weight_add )
 	    {
-		values.push([(value - from.min) / (from.max - from.min), from,
-			   line[c].weight]) ;
+	      values.push([(value - from.min) / (from.max - from.min), from]);
 	    }
 	  else
 	    {
@@ -171,11 +170,7 @@ function compute_average(data_col, line)
       value = c[0] ;
       if ( from.real_weight_add )
 	{
-	  if ( from.real_weight === '?' )
-	    w = c[2] ;
-	  else
-	    w = from.real_weight ;
-
+	  w = from.real_weight ;
 	  sum += w * value ;
 	  weight += w ;
 	}
@@ -212,5 +207,4 @@ function compute_average(data_col, line)
     value = ppn ;
 
   line[data_col].set_value(value) ;
-  line[data_col].set_weight(weight) ;
 }

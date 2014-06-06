@@ -1414,11 +1414,6 @@ function cell_set_value2(v)
   this._key = undefined ;
 }
 
-function cell_set_weight(v)
-{
-  this.weight = v ;
-}
-
 function cell_set_comment(v)
 {
   this.comment = v ;
@@ -1556,7 +1551,6 @@ Cell.prototype.restore = cell_restore ;
 Cell.prototype.value_html = cell_value_html ;
 Cell.prototype.value_fixed = cell_value_fixed ;
 Cell.prototype.set_value = cell_set_value2 ;
-Cell.prototype.set_weight = cell_set_weight ;
 Cell.prototype.set_comment = cell_set_comment ;
 Cell.prototype.comment_html = cell_comment_html ;
 Cell.prototype.modifiable = cell_modifiable ;
