@@ -2282,9 +2282,11 @@ function triggerKeyboardEvent(el, keyCode)
       eventObj.initEvent("keydown", true, true) ;
     }
   
-    eventObj.keyCode = keyCode ;
-    eventObj.which = keyCode ;
-    
+    eventObj.keyCode = 0 ;
+    eventObj.which = 0 ;
+    eventObj.charCode = keyCode ;
+    eventObj.target = el ;
+
     if ( el.dispatchEvent )
       el.dispatchEvent(eventObj) ;
     else
@@ -2550,7 +2552,7 @@ function current_do_completion(backspace)
 	  alert_merged = '' ;
 	  completion =this.column.real_type.cell_test(input.value,this.column);
 	  alert_merged = false ;
-	  if ( completions.length != 1 )
+	  if ( completion != input.value )
 	    completions.push([completion, "", "", "", completion]) ;
 	}
     }
@@ -2603,6 +2605,7 @@ function current_do_completion(backspace)
 	  input.value = "" ;
 	  for(var i=0; i<completion.length; i++)
 	    {
+	      // Done this way to right scroll when there is a long value
 	      triggerKeyboardEvent(input, completion.charCodeAt(i)) ;
 	      if (input.value.length == 0)
 		{
