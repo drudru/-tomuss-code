@@ -109,6 +109,8 @@ function import_column_do(comments)
 	    continue ;
 	  var login = multiline[i].replace(/[\t ].*/, '') ;
 	  var value = multiline[i].replace(RegExp(login + '[\t ]*'), '') ;
+	  if ( value.replace )
+	    value = value.replace(/⏎/g, '\n') ;
 	  line_id = login_to_line_id(login_to_id(login)) ;
 	  if ( line_id === undefined )
 	    {

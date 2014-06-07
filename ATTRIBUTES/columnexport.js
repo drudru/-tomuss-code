@@ -36,7 +36,7 @@ function cell_value_export()
 	case abj: return abjvalue ;
 	case ppn: return ppnvalue ;
 	case tnr: return tnrvalue ;
-	default: return xx ;
+	default: return xx.replace(/\n/g, '⏎') ;
 	}
     }
   else
