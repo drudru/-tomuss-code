@@ -30,7 +30,13 @@ function table_forms_resize()
 
     var tr = table_forms_element.getElementsByTagName('tbody')[0].firstChild ;
     var data_col = tr.data_col ;
-    var top_left_e = table.childNodes[0].childNodes[data_col] ;
+    var top_left_e ;
+    for(var col=0; table.childNodes[0].childNodes[col]; col++)
+       if ( columns[data_col].col >= col )
+          {
+            top_left_e = table.childNodes[0].childNodes[col] ;
+	    break ;
+	  }
     var bottom_right_e = table.childNodes[nr_headers
 					  + table_attr.nr_lines - 1]
 	.childNodes[table_attr.nr_columns-1] ;
