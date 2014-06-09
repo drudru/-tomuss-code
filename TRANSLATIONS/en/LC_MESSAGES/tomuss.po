@@ -5375,7 +5375,13 @@ msgid "LINK_restart_tomuss"
 msgstr "Restart TOMUSS"
 
 msgid "HELP_restart_tomuss"
-msgstr "Wait to be in an unused state before restarting TOMUSS"
+msgstr "Wait to be in an unused state before restarting or stopping TOMUSS"
+
+msgid "LINK_stop_tomuss"
+msgstr "Stop TOMUSS"
+
+msgid "HELP_stop_tomuss"
+msgstr "Wait to be in an unused state before stopping TOMUSS"
 
 msgid "MSG_restart_mailqueue"
 msgstr "There are %d mails to send"

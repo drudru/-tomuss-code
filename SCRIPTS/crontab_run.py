@@ -18,6 +18,16 @@ for i in ('http_proxy', 'https_proxy'):
 from .. import utilities
 from .. import configuration
 
+def is_running(url):
+    print 'Check if running:', url
+    try:
+        f = urllib2.urlopen(url + '/robots.txt')
+        c = f.read()
+        f.close()
+        return 'User-agent:' in c
+    except IOError:
+        return False
+
 def run(url, command, run_only_if_not_properly_stopped, name=None,strace=""):
     if name == None:
         name = command.split('.')[0]
@@ -36,15 +46,8 @@ def run(url, command, run_only_if_not_properly_stopped, name=None,strace=""):
             # The pid file does not exists, so it was properly stopped.
             # Do not start it, the stop is intended.
             return
-    try:
-        start_time = time.time()
-        f = urllib2.urlopen(url + '/robots.txt')
-        c = f.read()
-        f.close()
-    except IOError:
-        c = ''
-
-    if 'User-agent:' not in c:
+    start_time = time.time()
+    if not is_running(url):
         if pid != '':
             try:
                 os.system('''(
@@ -118,6 +121,16 @@ def stop_suivi():
     for infos in configuration.suivi.servers():
         stop("suivi%d" % infos[1])
 
+def stop_safe():
+    if not is_running(configuration.server_url):
+        return
+    print '\a'
+    print "Goto on TOMUSS home page, and choose 'stop tomuss'"
+    print "The new version will be started automaticaly"
+    print "DO NOT STOP THIS INSTALL PROCESS"
+    while is_running(configuration.server_url):
+        time.sleep(1)
+
 def restart_suivi():
     """Linux only function"""
     for url,port,year,semester,dummy_host in configuration.suivi.servers():
@@ -129,16 +142,7 @@ def restart_suivi():
         run(url, 'suivi.py %d %s %d' % (year, semester, port),
             run_only_if_not_properly_stopped=False, name="suivi%d" % port)
         # Wait end of load
-        while True:
-            try:
-                print 'Wait start', url
-                f = urllib2.urlopen(url + '/robots.txt')
-                c = f.read()
-                f.close()
-            except urllib2.URLError:
-                c = ''
-            if 'User-agent:' in c:
-                break
+        while not is_running(url):
             time.sleep(1)
 
 def restart_tomuss():
@@ -155,8 +159,18 @@ if 'stop' in sys.argv:
     stop('tomuss')
     sys.exit(0)
 
-if 'stoptomuss' in sys.argv:
+if 'stop' in sys.argv:
+    stop_suivi()
     stop('tomuss')
+    sys.exit(0)
+
+if 'stopsafe' in sys.argv:
+    stop_suivi()
+    stop_safe()
+    sys.exit(0)
+
+if 'stoptomusssafe' in sys.argv:
+    stop_safe()
     sys.exit(0)
 
 if 'stopsuivi' in sys.argv:

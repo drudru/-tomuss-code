@@ -134,7 +134,7 @@ done
 if [ -d $REAL/$HIST ]
 then
   echo "Stop current TOMUSS"
-  (cd $REAL/$HIST ; make stop)
+  (cd $REAL/$HIST ; make stopsafe || make stop)
 fi
 
 # Let some time to stop, just in case...

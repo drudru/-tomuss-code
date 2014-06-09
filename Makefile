@@ -1,7 +1,7 @@
 
 start:translations
 	SCRIPTS/crontab_run.py
-stop stopsuivi stoptomuss restartsuivi restarttomuss:
+stop stopsafe stopsuivi stoptomuss stoptomusssafe restartsuivi restarttomuss:
 	SCRIPTS/crontab_run.py $@
 
 install:clean

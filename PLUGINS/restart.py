@@ -31,7 +31,7 @@ from .. import sender
 
 wait = 10 # In minutes
 
-def restart_tomuss(server):
+def restart_tomuss(server, start=True):
     "Restart TOMUSS when it is unused"
     _ = server._
     def w(txt):
@@ -58,12 +58,24 @@ def restart_tomuss(server):
             else:
                 # Restart TOMUSS
                 w('GO '*10)
-                subprocess.Popen(sys.argv, close_fds=True)
+                utilities.warn(repr(sys.argv))
+                if start:
+                    subprocess.Popen(sys.argv, close_fds=True)
                 os.kill(os.getpid(), signal.SIGINT)
+                time.sleep(1)
+                os.kill(os.getpid(), signal.SIGTERM)
+                time.sleep(1)
+                os.kill(os.getpid(), signal.SIGKILL)                
                 return # Never here
         time.sleep(60)
 
 plugin.Plugin('restart_tomuss', '/restart_tomuss', group='roots',
               function=restart_tomuss, launch_thread=True,
               link=plugin.Link(where='debug', html_class='unsafe')
+              )
+
+plugin.Plugin('stop_tomuss', '/stop_tomuss', group='roots',
+              function=lambda server: restart_tomuss(server, start=False),
+              launch_thread=True,
+              link=plugin.Link(where='debug', html_class='veryunsafe')
               )

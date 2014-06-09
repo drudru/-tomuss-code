@@ -5490,7 +5490,13 @@ msgid "LINK_restart_tomuss"
 msgstr "Relance TOMUSS"
 
 msgid "HELP_restart_tomuss"
-msgstr "Attend le bon moment pour redémarrer TOMUSS"
+msgstr "Attend le bon moment pour redémarrer ou arrêter TOMUSS"
+
+msgid "LINK_stop_tomuss"
+msgstr "Arrête TOMUSS"
+
+msgid "HELP_stop_tomuss"
+msgstr "Attend le bon moment pour arrêter TOMUSS"
 
 msgid "MSG_restart_mailqueue"
 msgstr "Il y a %d mails en cours d'envoi"
