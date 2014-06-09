@@ -40,6 +40,8 @@ warn = utilities.warn
 safe_re = re.compile('[^0-9a-zA-Z-. _]')
 def safe(txt):
     """Values safe in an LDAP request"""
+    if not isinstance(txt, basestring):
+        return ''
     return safe_re.sub('', txt)
 
 class LDAP_Logic(object):
