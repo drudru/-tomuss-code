@@ -29,7 +29,7 @@ vous pouvez néanmoins le faire en lançant une "Connexion bureau à distance"
 sur l'une des machines suivantes :
 
 	sa1cs.univ-lyon1.fr
-	tsedoua.univ-lyon1.fr
+	tse.univ-lyon1.fr
 
 Une fois connecté sur le windows distant vous pourrez alors utiliser
 Internet Explorer sans problème avec TOMUSS.
@@ -40,7 +40,7 @@ Pour lancer une "Connexion bureau à distance" :
 	Accessoires / Communication / Connexion bureau à distance
 
 	Sous Unix vous tapez par exemple la commande :
-		rdesktop sa1cs.univ-lyon1.fr
+		rdesktop tse.univ-lyon1.fr
 
 
 Amicalement.

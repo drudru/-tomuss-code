@@ -104,10 +104,13 @@ function tablefacebook(replace)
   p.push('lines = ' + lines_in_javascript() + ';') ;
   p.push('facebook_display();') ;
   p.push('}') ;
-  p.push('setTimeout(initialize,100) ;') ; // Timeout for IE
+  p.push('setTimeout(initialize,200) ;') ; // Timeout for IE
   p.push('</script>') ;
 
-  var w = window_open(replace === true ? '' : ue + '_facebook', replace) ;
+  var w = window_open(replace===true
+		      ? ''
+		      : url + '/files/' + version + '/ok.png',
+		      replace) ;
   w.document.open('text/html') ;
   w.document.write(html_begin_head(true) + p.join('\n')) ;
   w.document.close() ;

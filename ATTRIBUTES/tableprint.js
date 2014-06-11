@@ -491,10 +491,13 @@ function print_selection(object, emargement, replace)
   p.push('<div style="clear:both" id="content"></div>') ;
   p.push('</div>') ;
   p.push('<script>') ;
-  p.push('setTimeout(initialize, 100) ;') ; // Timeout for IE
+  p.push('setTimeout(initialize, 200) ;') ; // Timeout for IE
   p.push('</script>') ;
 
-  var w = window_open(replace ? '' : ue + '_print', replace) ;
+  var w = window_open(replace===true
+		      ? ''
+		      : url + '/files/' + version + '/ok.png',
+		      replace) ;
   w.document.open('text/html') ;
   w.document.write(html_begin_head(true) + p.join('\n')) ;
   w.document.close() ;

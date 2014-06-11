@@ -71,7 +71,7 @@ function compute_abj_per_day(t)
 
 function abj_per_day()
 {
-  var w = window_open(ue + '_abj') ;
+  var w = window_open(url + '/files/' + version + '/ok.png') ;
   w.document.open('text/html') ;
 
   var p = html_begin_head(true) ;
@@ -87,7 +87,9 @@ function abj_per_day()
     'function virtual_init() {\n' +
     'if ( ! wait_scripts("virtual_init()") ) return ;\n' +
     'lib_init() ; }\n' +
-    'virtual_init() ;\n' ;
+    // The timeout is for IE (100 is not enough)
+    'setTimeout(virtual_init, 200) ;\n' ;
+
 
   var s = '', t, end, names='' ;
   var days = [] ;

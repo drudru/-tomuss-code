@@ -1265,11 +1265,11 @@ function display_statistics(object)
   p.push('</table>') ;
   p.push('<div style="clear:both" id="content"></div>') ;
   p.push('<script>') ;
-  // The timeout is for IE
-  p.push('setTimeout(initialize,100) ;') ;
+  // The timeout is for IE (100 is not enough)
+  p.push('setTimeout(initialize, 200) ;') ;
   p.push('</script>') ;
 
-  var w = window_open(ue + '_stats') ;
+  var w = window_open(url + '/files/' + version + '/ok.png') ;
   w.document.open('text/html') ;
   w.document.write(html_begin_head(true) + p.join('\n')) ;
   w.document.close() ;
