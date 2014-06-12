@@ -29,14 +29,20 @@ function table_forms_resize()
 	return ;
 
     var tr = table_forms_element.getElementsByTagName('tbody')[0].firstChild ;
-    var data_col = tr.data_col ;
-    var top_left_e ;
-    for(var col=0; table.childNodes[0].childNodes[col]; col++)
-       if ( columns[data_col].col >= col )
-          {
-            top_left_e = table.childNodes[0].childNodes[col] ;
-	    break ;
-	  }
+    var top_left_e, col=0 ;
+    var cls = column_list_all() ;
+    for(var data_col in cls)
+  {
+    data_col = cls[data_col] ;
+    column = columns[data_col] ;
+    if ( ! column.freezed && ! column.hidden && ! column.is_empty )
+    {
+      top_left_e = table.childNodes[0].childNodes[Number(col)+1] ;
+      break ;
+    }
+    if ( column.col )
+      col = column.col ;
+  }
     var bottom_right_e = table.childNodes[nr_headers
 					  + table_attr.nr_lines - 1]
 	.childNodes[table_attr.nr_columns-1] ;
