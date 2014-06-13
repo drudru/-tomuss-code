@@ -329,7 +329,8 @@ function the_event(e)
 {
   if ( e === undefined )
     e = window.event ;
-
+  if ( e === undefined )
+    return ;
   var event = clone_event(e) ; 
   event.real_event = e ;
 
@@ -596,10 +597,6 @@ function Write(m, more)
 function clone_event(event)
 {
   var e = new Object() ;
-  if ( e === undefined )
-    alert_real('BIG1');
-  if ( event === undefined )
-    alert_real('BIG2');
   e.type = event.type ;
   e.button = event.button ;
   e.keyCode = event.keyCode ;

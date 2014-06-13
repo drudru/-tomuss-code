@@ -370,7 +370,12 @@ function the_td(event)
   if ( event && event.tagName )
     td = event ;
   else
-    td = the_event(event).target ;
+    {
+      event = the_event(event) ;
+      if ( event === undefined )
+	return ;
+      td = event.target ;
+    }
   if ( td.tagName == 'INPUT' || td.tagName == 'SELECT' || td.tagName == 'IMG'
        || td.tagName == 'A' || td.tagName == 'BUTTON' )
     return td.parentNode ;
