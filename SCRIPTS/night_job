@@ -43,6 +43,7 @@ if [ '' != "$M" ]
 then
   python -c "
 import tomuss_init
+tomuss_init.terminate_init()
 from . import utilities 
 from . import configuration
 
