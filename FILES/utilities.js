@@ -721,7 +721,10 @@ function window_open(url, replace)
   var w ;
   var title = window_counter++ ;
   if ( replace )
+      {
+      url = '' ;
       title = replace ;
+      }
   try {
     w = window.open(url, title) ;
   }
