@@ -1352,15 +1352,16 @@ function tofixed(n)
 {
   return (Math.floor(n*100+0.0000001)/100).toFixed(2) ;
 }
-
-function tofixedlocal(n)
+/*REDEFINE
+  This function translates a english formatted number into the local format.
+  Currently only used by column export.
+*/
+function local_number(n)
 {
-  return tofixed(n).replace('.',',') ;
-}
-
-function tofixedapogee(n)
-{
-  return n.toFixed(3).replace('.',',') ;
+  if ( server_language == 'fr' )
+    return n.replace('.',',') ;
+  else
+    return n ;
 }
 
 

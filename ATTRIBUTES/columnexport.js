@@ -23,7 +23,7 @@
 var columnexport_options ;
 var abjvalue, ppnvalue, tnrvalue ;
 
-function cell_value_export()
+function cell_value_export(column)
 {
   var xx = a_float(this.value) ;
   if ( isNaN(xx) )
@@ -41,9 +41,11 @@ function cell_value_export()
     }
   else
     {
-      if ( xx < 0 )
-	xx = 0 ;
-      return tofixedapogee(xx) ;
+      if ( xx < column.min )
+	xx = column.min ;
+      else if ( xx > column.max )
+	xx = column.max ;
+      return local_number(column.do_rounding(xx)) ;
     }
 }
 
@@ -159,7 +161,8 @@ function do_columnexport()
   do_printable_display = false ;
 
   abj_ppn_value() ;
-  var data_col = popup_column().data_col ;
+  var column = popup_column() ;
+  var data_col = column.data_col ;
   var multiline = popup_value() ;
   var exported = {} ;
   var uniques = {} ;
@@ -193,7 +196,7 @@ function do_columnexport()
       if ( columnexport_options.students && !columnexport_options.unique )
 	cell.push(encode_lf_tab(line[0].value.toString())) ;
       if ( columnexport_options.values )
-	cell.push(line[data_col].value_export()) ;
+	cell.push(line[data_col].value_export(column)) ;
       if ( columnexport_options.comments )
 	cell.push(encode_lf_tab(line[data_col].comment)) ;
       v.push(cell.join('\t')) ;
