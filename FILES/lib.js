@@ -3839,6 +3839,7 @@ function columns_in_javascript()
       p.push("min:" + column.min) ;
       p.push("max:" + column.max) ;
       p.push("ordered_index:" + column.ordered_index) ;
+      p.push("rounding:" + js(column.rounding)) ;
       s.push('{' + p.join(',\n') + '}') ;
     }
   return '[\n' + s.join(',\n') + ']' ;
@@ -4312,6 +4313,29 @@ function reconnect(force)
   last_reconnect = millisec() ;
 }
 
+function initialise_columns()
+{
+  for(var data_col in columns)
+    {
+      columns[data_col].filter = '' ;
+      columns[data_col].data_col = Number(data_col) ;
+      if ( columns[data_col].freezed == 'C' )
+	{
+	  tr_classname = data_col ;
+	}
+    }
+  if ( tr_classname === undefined )
+    {
+      default_title = _("DEFAULT_title") ;
+    }
+  for(var data_col in columns)
+    {
+      init_column(columns[data_col]) ;
+      columns[data_col].need_update = true ;
+    }
+  update_columns() ;
+}
+
 function runlog(the_columns, the_lines)
 {
   column_get_option_running = true ;
@@ -4348,19 +4372,7 @@ function runlog(the_columns, the_lines)
       lines[line_id].line_id = line_id ;
     }
 
-  for(var data_col in columns)
-    {
-      columns[data_col].filter = '' ;
-      columns[data_col].data_col = Number(data_col) ;
-      if ( columns[data_col].freezed == 'C' )
-	{
-	  tr_classname = data_col ;
-	}
-    }
-  if ( tr_classname === undefined )
-    {
-      default_title = _("DEFAULT_title") ;
-    }
+  initialise_columns() ;
   // Default : Name sort
 
   add_empty_columns() ;
@@ -4404,14 +4416,7 @@ function runlog(the_columns, the_lines)
   update_line_menu() ;
   update_column_menu() ;
   update_popup_on_red_line() ;
-
-  update_filtered_lines(); // Before init_columns to compute RED/GREEN
-  for(var data_col in columns)
-    {
-      init_column(columns[data_col]) ;
-      columns[data_col].need_update = true ;
-    }
-  update_columns() ;
+  update_filtered_lines();
 
   // This function is used when we want to replace the current window
   // content by the popup content.

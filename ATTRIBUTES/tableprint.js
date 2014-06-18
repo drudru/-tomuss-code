@@ -1,7 +1,7 @@
 // -*- coding: utf-8 -*-
 /*
     TOMUSS: The Online Multi User Simple Spreadsheet
-    Copyright (C) 2008-2012 Thierry EXCOFFIER, Universite Claude Bernard
+    Copyright (C) 2008-2014 Thierry EXCOFFIER, Universite Claude Bernard
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -187,7 +187,10 @@ function printable_display_page(lines, title, page_break)
 	      if ( cell.value.toFixed )
 		{
 		  html_class += ' number' ;
-		  v = tofixed(cell.value) ;
+		  if ( columns[c].do_rounding )
+		    v = columns[c].do_rounding(cell.value) ;
+		  else
+		    v = tofixed(cell.value) ;
 		  if ( separator == _("B_print_comma") )
 		    v = v.replace('.', ',') ;
 		}
@@ -399,6 +402,7 @@ function print_selection(object, emargement, replace)
   p.push('lines = ' + lines_js + ';') ;
   if ( emargement )
     p.push('do_emargement();') ;
+  p.push('initialise_columns() ;') ;
   p.push('setInterval("printable_display()", 200);') ;
   p.push('}') ;
   p.push('</script>') ;
@@ -472,7 +476,7 @@ function print_selection(object, emargement, replace)
 		    'columns_to_display') ;
 
 		    
-  var attrs = ['title','type','red','green','weight','minmax','empty_is','comment','columns','enumeration','test_filter','visibility_date'] ;
+  var attrs = ['title','type','red','green','weight','minmax','empty_is','comment','columns','enumeration','test_filter','visibility_date', 'rounding'] ;
   
   t = [] ;
   for(var attr in attrs)

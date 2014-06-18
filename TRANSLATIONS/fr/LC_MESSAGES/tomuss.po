@@ -1569,6 +1569,9 @@ msgstr "Filtre comptage"
 msgid "B_print_attr_visibility_date"
 msgstr "Date de visibilité"
 
+msgid "B_print_attr_rounding"
+msgstr "Arrondi à"
+
 msgid "MSG_print_display_headers"
 msgstr "Entêtes à afficher"
 

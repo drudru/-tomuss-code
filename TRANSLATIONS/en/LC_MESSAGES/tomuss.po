@@ -1569,6 +1569,9 @@ msgstr "Counting filter"
 msgid "B_print_attr_visibility_date"
 msgstr "Visibility date"
 
+msgid "B_print_attr_rounding"
+msgstr "Rounded to"
+
 msgid "MSG_print_display_headers"
 msgstr "Headers to display"
 

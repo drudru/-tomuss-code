@@ -28,6 +28,8 @@ function column_update_option(attr, value)
 {
   if ( column_get_option_running )
     return ;
+  if ( the_current_cell === undefined )
+    return ; // Not in the table editor
   var column, attr_value, save, p = '' ;
   for(var data_col in columns)
     {
