@@ -19,7 +19,12 @@ from .. import utilities
 from .. import configuration
 
 def is_running(url):
-    print 'Check if running:', url
+    if url != is_running.last_url:
+        print 'Check if running:', url
+        is_running.last_url = url
+    else:
+        print '*',
+    sys.stdout.flush()
     try:
         f = urllib2.urlopen(url + '/robots.txt')
         c = f.read()
@@ -27,6 +32,7 @@ def is_running(url):
         return 'User-agent:' in c
     except IOError:
         return False
+is_running.last_url = ''
 
 def run(url, command, run_only_if_not_properly_stopped, name=None,strace=""):
     if name == None:
@@ -109,6 +115,7 @@ def stop(name):
             return
     finally:
         f.close()
+    print '%s : PID = %d' % (name, pid)
     try:
         os.kill(pid, 15)
         utilities.write_file(os.path.join('LOGS', name.upper(), 'pid'), '')
@@ -127,10 +134,14 @@ def stop_safe():
     print '\a'
     print "Goto on TOMUSS home page, and choose 'stop tomuss'"
     print "The new version will be started automaticaly"
-    print "DO NOT STOP THIS INSTALL PROCESS"
-    while is_running(configuration.server_url):
-        time.sleep(1)
-
+    print "If you want to stop TOMUSS right NOW, type '^C' once"
+    try:
+        while is_running(configuration.server_url):
+            time.sleep(1)
+    except KeyboardInterrupt:
+        print "\nStopping TOMUSS not nicely"
+        stop('tomuss')
+            
 def restart_suivi():
     """Linux only function"""
     for url,port,year,semester,dummy_host in configuration.suivi.servers():

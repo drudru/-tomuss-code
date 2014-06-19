@@ -29,7 +29,7 @@ from .. import utilities
 from .. import document
 from .. import sender
 
-wait = 10 # In minutes
+wait = 10 # Tables must be unused for this time in minutes
 
 def restart_tomuss(server, start=True):
     "Restart TOMUSS when it is unused"
@@ -51,9 +51,13 @@ def restart_tomuss(server, start=True):
             w(_("MSG_restart_sender") % len(sender.File.to_send))
         else:
             for t in document.tables_values():
-                if (time.time() - t.mtime < wait*60
-                    or time.time() - t.atime < wait*60):
-                    w(_("MSG_restart_access") % wait)
+                atime = time.time() - t.atime
+                mtime = time.time() - t.mtime
+                if (atime < wait*60 or mtime < wait*60):
+                    w(_("MSG_restart_access") % wait
+                      + ' <small>(%s atime=%.2f mtime=%.2f)</small>' % (
+                            t, atime/60, mtime/60)
+                      )
                     break
             else:
                 # Restart TOMUSS
@@ -67,7 +71,7 @@ def restart_tomuss(server, start=True):
                 time.sleep(1)
                 os.kill(os.getpid(), signal.SIGKILL)                
                 return # Never here
-        time.sleep(60)
+        time.sleep(wait*6)
 
 plugin.Plugin('restart_tomuss', '/restart_tomuss', group='roots',
               function=restart_tomuss, launch_thread=True,
