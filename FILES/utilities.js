@@ -648,20 +648,24 @@ function window_width()
 {
   if ( window.innerWidth !== undefined )
       return window.innerWidth ;
+  if ( document.body.clientWidth )
+     return document.body.clientWidth ;
   if ( document.documentElement
        && document.documentElement.clientWidth !== undefined )
       return document.documentElement.clientWidth ;
-  return document.body.clientWidth ;
+  return 1024 ;
 }
 
 function window_height()
 {
   if ( window.innerHeight !== undefined )
       return window.innerHeight ;
+  if ( document.body.clientHeight )
+     return document.body.clientHeight ;
   if ( document.documentElement
        && document.documentElement.clientHeight !== undefined )
       return document.documentElement.clientHeight ;
-  return document.body.clientHeight ;
+  return 768 ;
 }
 
 var base64_replace = "%\r\n!#$&'()*+/[\\]^`\"<>" ;
