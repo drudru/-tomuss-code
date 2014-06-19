@@ -45,7 +45,7 @@ function set_rounding(value, column)
   column.round_by = value ;
 
   // 'floor' because 9.999 must be displayed as 9.99 an not 10
-  var digit = Math.max(0, -Math.floor(Math.log10(value))) ;
+  var digit = Math.max(0, -Math.floor(Math.log(value)/Math.log(10))) ;
   column.do_rounding = function(v) {
       return v.toFixed ? (Math.floor(v/value+0.0000001)*value).toFixed(digit)
       : v ; } ;
