@@ -648,11 +648,11 @@ function window_width()
 {
   if ( window.innerWidth !== undefined )
       return window.innerWidth ;
+  if ( document.documentElement
+       && document.documentElement.clientWidth )
+      return document.documentElement.clientWidth ;
   if ( document.body.clientWidth )
      return document.body.clientWidth ;
-  if ( document.documentElement
-       && document.documentElement.clientWidth !== undefined )
-      return document.documentElement.clientWidth ;
   return 1024 ;
 }
 
@@ -660,11 +660,11 @@ function window_height()
 {
   if ( window.innerHeight !== undefined )
       return window.innerHeight ;
+  if ( document.documentElement
+       && document.documentElement.clientHeight )
+      return document.documentElement.clientHeight ;
   if ( document.body.clientHeight )
      return document.body.clientHeight ;
-  if ( document.documentElement
-       && document.documentElement.clientHeight !== undefined )
-      return document.documentElement.clientHeight ;
   return 768 ;
 }
 
