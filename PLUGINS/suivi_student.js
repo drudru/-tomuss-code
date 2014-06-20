@@ -271,6 +271,8 @@ function is_inside_rightclip(element)
 function set_rightclip(classe, event)
 {
   var e = document.getElementById("rightclip") ;
+  if ( ! e )
+    return ;
 
   if ( event
        && event.button !== undefined
@@ -813,7 +815,7 @@ function display_tree(column)
   for(var i in column.average_from)
     {
       col = columns[data_col_from_col_title(column.average_from[i])] ;
-      if ( col.obfuscated )
+      if ( !col || col.obfuscated )
 	return '' ;
       s.push('<li>'
 	     // + '<span class="displaygrey">' + _("B_"+col.type) + '</span> '
@@ -990,7 +992,14 @@ function DisplayGrades(node)
   for(var i in node.data[0])
     {
       DisplayGrades.ue = node.data[0][i] ;
-      s += display_display(display_definition['UE']) ;
+      try
+	{
+	  s += display_display(display_definition['UE']) ;
+	}
+      catch(e) // Add 'if 0' to search the problem in the debugger
+	{
+	  s += '<h1>' + DisplayGrades.ue.ue + ' : BUG</h1>' + e ;
+	}
     }
   var before = _("MSG_suivi_student_not_in_TOMUSS_before") ;
   if ( before == "MSG_suivi_student_not_in_TOMUSS_before" )
