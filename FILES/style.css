@@ -560,10 +560,6 @@ INPUT#comment { width: 100% ; clear: both; }
   background-position: 2px 2px;
 }
 
-#menutop A { text-decoration: none ; }
-
-
-
 H1 {  margin: 0px  }
 .testmessage { margin: 0px }
 
@@ -602,6 +598,8 @@ span.toggled { background: #080 ; color: white }
 
 .small { font-size: 80% }
 .smaller { font-size: 60% }
+
+A:hover { text-decoration: underline }
 
 /*****************************************************************************/
 /* New new interface */
