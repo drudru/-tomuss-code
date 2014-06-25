@@ -1761,6 +1761,8 @@ function full_filter_change(value)
 
 function change_option(option, value)
 {
+  if ( column_get_option_running )
+    return ;
   if ( ! window.history.replaceState )
     return ;
   // Remove ticket
