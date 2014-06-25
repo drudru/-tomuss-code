@@ -612,6 +612,13 @@ function new_new_interface()
   t.push(hidden_txt('<div id="t_history"></div>', _("TIP_cell_history"))) ;
   o.push([_('TAB_history'), t.join('\n')]) ;
 		 
+  // CELLULE / Editor
+
+  t = [] ;
+  t.push(hidden_txt('<textarea id="t_editor" onclick="element_focused = the_event(event).target" onblur="if (element_focused) { the_current_cell.change(the_event(event).target.value) ;element_focused = undefined;  } "></textarea>',
+		    _("TIP_cell_editor"))) ;
+  o.push(['*' /* _('TAB_editor') */ , t.join('\n')]) ;
+		 
   // CELLULE / ?
 
   t = [] ;

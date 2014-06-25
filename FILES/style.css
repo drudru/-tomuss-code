@@ -664,6 +664,14 @@ TABLE.cell TD.cell_values { width: 100%; }
 
 DIV.tabs #t_history,  DIV.tabs .scroll_auto { overflow: auto; height: 100% }
 
+#t_editor {
+    position: absolute ;
+    width: 99% ;
+    height: 5.5em ;
+    opacity: 0.9 ;
+    z-index: 1 ;
+}
+
 /*
 DIV.tipped { background:red;}
 .one_line { background:green  }

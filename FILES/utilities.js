@@ -1928,9 +1928,11 @@ function current_update_cell_headers()
   }
   s.push('</table>') ;
   t_history.innerHTML = s.join('\n') ;
-      
+
   update_tip_from_value(t_student_picture.parentNode,
 			'<!--INSTANTDISPLAY-->' + line_resume(this.line_id),'');
+  t_editor.value = cell.value ;
+  t_editor.disabled = !cell.modifiable(this.column) ;
 }
 
 function current_update_table_headers()
@@ -2646,7 +2648,7 @@ function current_input_div_focus()
     this.input_div.style.border = "3px solid gray" ;  
 }
 
-function current_change()
+function current_change(value)
 {
   this.input_div_focus() ;
   
@@ -2661,8 +2663,10 @@ function current_change()
       if ( element_focused.blur )
 	element_focused.blur() ;
     }
-
-  if ( this.input.value == this.initial_value )
+  if ( value === undefined )
+    value = this.input.value ;
+  
+  if ( value == this.initial_value )
     return ;
 
   // Because the function can popup an alert that remove focus from cell
@@ -2670,7 +2674,7 @@ function current_change()
   if ( current_change_running )
     return ;
 
-  var value = this.input.value.replace(/^[ \t]*/,'').replace(/[ \t]*$/,'') ;
+  value = value.replace(/^[ \t]*/,'').replace(/[ \t]*$/,'') ;
   if ( value == this.initial_value )
     return ;
 

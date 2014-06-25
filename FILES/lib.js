@@ -104,6 +104,7 @@ var t_student_surname ;
 var t_student_id ;
 var t_value ;
 var t_history ;
+var t_editor ;
 var t_date ;
 var t_author ;
 var t_menutop ;
@@ -137,6 +138,7 @@ function lib_init()
   t_student_id         = document.getElementById('t_student_id'         );
   t_value              = document.getElementById('t_value'              );
   t_history            = document.getElementById('t_history'            );
+  t_editor             = document.getElementById('t_editor'             );
   t_date               = document.getElementById('t_date'               );
   t_author             = document.getElementById('t_author'             );
   t_menutop            = document.getElementById('menutop'              );
