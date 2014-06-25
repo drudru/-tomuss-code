@@ -1457,11 +1457,6 @@ function cell_get_author()
   return get_author(this.author) ;
 }
 
-function cell_never_modified()
-{
-  return this.author === '' ;
-}
-
 // Allow to sort correctly and intuitivly mixed data types
 function cell_key(empty_is)
 {
@@ -1564,7 +1559,6 @@ Cell.prototype.is_mine = cell_is_mine ;
 Cell.prototype.key = cell_key ;
 Cell.prototype.is_empty = cell_is_empty ;
 Cell.prototype.is_not_empty = cell_is_not_empty ;
-Cell.prototype.never_modified = cell_never_modified ;
 Cell.prototype.toString = cell_tostring ;
 Cell.prototype.get_author = cell_get_author ;
 Cell.prototype.date_DDMMYYYY = cell_date_DDMMYYYY ;

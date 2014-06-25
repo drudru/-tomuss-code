@@ -2730,8 +2730,7 @@ function cell_set_value_real(line_id, data_col, value, td)
   add_a_new_line(line_id) ;
 
   // Does history should be modified in set_value ?
-  if ( ! cell.never_modified() )
-    cell.history += cell.value + '\n('+ cell.date + ' ' + cell.author + '),·' ;
+  cell.history += cell.value + '\n('+ cell.date + ' ' + cell.author + '),·' ;
   cell.set_value(value) ;
   cell.author = my_identity ;
   var d = new Date() ;
