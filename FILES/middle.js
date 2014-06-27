@@ -615,7 +615,7 @@ function new_new_interface()
   // CELLULE / Editor
 
   t = [] ;
-  t.push(hidden_txt('<textarea id="t_editor" onclick="element_focused = the_event(event).target" onblur="if (element_focused) { the_current_cell.change(the_event(event).target.value) ;element_focused = undefined;  } "></textarea>',
+  t.push(hidden_txt('<textarea id="t_editor" onfocus="element_focused = the_event(event).target ; element_focused.style.height = element_focused.parentNode.parentNode.parentNode.offsetHeight + \'px\'" onblur="if (element_focused) { the_current_cell.change(the_event(event).target.value) ;element_focused = undefined;  } "></textarea>',
 		    _("TIP_cell_editor"))) ;
   o.push(['*' /* _('TAB_editor') */ , t.join('\n')]) ;
 		 
