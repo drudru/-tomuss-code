@@ -1441,3 +1441,30 @@ function DisplayMoreOnSuivi(node)
   return node.data ;
 }
 
+
+function tomuss_plusone()
+{
+  gapi.plusone.render('tomuss_plusone',
+		      {'href': "http://perso.univ-lyon1.fr/thierry.excoffier/TOMUSS/home.html"
+			  }
+		      ) ;
+}
+
+function DisplayAdvertising(node)
+{
+  if ( node.data == false )
+    return '' ;
+  setTimeout(tomuss_plusone, 1000) ;
+  if ( ! tomuss_plusone.done )
+    {
+      tomuss_plusone.done = true ;
+      var po = document.createElement('script');
+      po.type = 'text/javascript';
+      po.async = true;
+      po.src = 'https://apis.google.com/js/plusone.js?onload=onLoadCallback';
+      the_body.appendChild(po);     
+    }
+
+  return '<p><small>' + _("DisplayAdvertising") + '&nbsp;: <span id="tomuss_plusone"></span></small>' ;
+}
+DisplayAdvertising.need_node = [] ;

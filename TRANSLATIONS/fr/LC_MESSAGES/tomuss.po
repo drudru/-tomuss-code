@@ -4582,6 +4582,9 @@ msgstr "Accès: Refusé si le login est dans la liste"
 msgid "config_table_suivi_student_allow_private"
 msgstr "Suivi: Les étudiants peuvent rendre leur suivi privé si True"
 
+msgid "config_table_advertising"
+msgstr "Suivi: Affiche de la publicité pour TOMUSS"
+
 msgid "COL_TITLE_orientation"
 msgstr "Orientation"
 
@@ -5534,3 +5537,6 @@ msgstr "Calcule la place prise par les objets non traqués par le GC"
 msgid "TIP_bookmark"
 msgstr "Cliquer pour ajouter ou enlever cette UE de «Vos tables»\n"
        "sur la page d'accueil de TOMUSS."
+
+msgid "DisplayAdvertising"
+msgstr "Vous aimez TOMUSS&nbsp;? Faites le savoir"

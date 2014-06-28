@@ -103,6 +103,7 @@ variable_list = [
     "gui_record",
     "time_between_mails",
     "grp_modifiable",
+    "advertising",
     ]
 
 deprecated = set(('root', 'invited_teachers', 'invited_administratives',

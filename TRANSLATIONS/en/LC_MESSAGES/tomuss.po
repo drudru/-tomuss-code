@@ -4528,6 +4528,9 @@ msgstr "Access: Denied for these logins"
 msgid "config_table_suivi_student_allow_private"
 msgstr "Suivi: Allow the student restrict their 'suivi' access if True"
 
+msgid "config_table_advertising"
+msgstr "Suivi: display advertising for TOMUSS"
+
 msgid "COL_TITLE_orientation"
 msgstr "Orientation"
 
@@ -5418,3 +5421,6 @@ msgstr "Compute the memory size of untracked by the GC atomic objects"
 
 msgid "TIP_bookmark"
 msgstr "Click to add or remove this table from 'Your tables' on TOMUSS home page"
+
+msgid "DisplayAdvertising"
+msgstr "You like TOMUSS? Tell everybody"

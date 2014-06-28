@@ -343,6 +343,9 @@ gui_record = False
 # Allow the table master to modify the official values in Grp column
 grp_modifiable = False
 
+# Display advertising for TOMUSS
+advertising = False
+
 ###############################################################################
 # The following variables should be fine for testing purpose (local server)
 ###############################################################################

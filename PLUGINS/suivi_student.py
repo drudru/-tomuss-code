@@ -400,6 +400,7 @@ D('Abjs'        , 'BodyRight' ,3, data=display_abjs)
 D('DA'          , 'BodyRight' ,4, data=display_da)
 D('TT'          , 'BodyRight' ,5, data=display_tt)
 D('MoreOnSuivi' , 'BodyRight' ,9, data=display_more_on_suivi)
+D('Advertising' , 'BodyRight',10, data=lambda server: configuration.advertising)
 
 D('Logo'        , 'User'      ,0, data=display_logo)
 D('Reload'      , 'User'      ,2)
