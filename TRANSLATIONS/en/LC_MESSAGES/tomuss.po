@@ -766,6 +766,12 @@ msgid "TIP_cell_history"
 msgstr "Values contained by the cell in the past.<br>\n"
        "From the current value to the older one."
 
+#. Tip cell attribute
+msgid "TIP_cell_editor"
+msgstr "To modify cell with line breaks.<br>\n"
+       "Another way is to use the form editor<br>\n"
+       "in the 'Table'/'Action' tab."
+
 #. Tab label
 msgid "TAB_cell"
 msgstr "Cell"

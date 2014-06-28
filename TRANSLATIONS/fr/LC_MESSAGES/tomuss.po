@@ -758,6 +758,12 @@ msgid "TIP_cell_history"
 msgstr "Valeurs précédentes prises par la cellule.<br>\n"
        "De la plus récente à la plus ancienne."
 
+#. Tip cell attribute
+msgid "TIP_cell_editor"
+msgstr "Pour modifier les cellules contenant des retours à la ligne.<br>\n"
+       "Une autre possibilité est d'utiliser l'éditeur de formulaire<br>\n"
+       "qui est dans l'onglet 'Table'/'Action'"
+
 #. Tab label
 msgid "TAB_cell"
 msgstr "Cellule"

@@ -668,9 +668,12 @@ DIV.tabs #t_history,  DIV.tabs .scroll_auto { overflow: auto; height: 100% }
     position: absolute ;
     width: 99% ;
     height: 3.5em ;
-    opacity: 0.9 ;
+    opacity: 0.8 ;
     z-index: 1 ;
 }
+
+#t_editor:hover { opacity: 0.95 ; }
+
 
 /*
 DIV.tipped { background:red;}
