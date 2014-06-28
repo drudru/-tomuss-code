@@ -3539,7 +3539,7 @@ function append_image(td, text, force)
       s = url_base() ;
       request.image = s.childNodes[0] ;
       request.image.request = request ;
-      td.appendChild(s) ;
+      td.insertBefore(s, td.lastChild) ;
     }
 }
 
