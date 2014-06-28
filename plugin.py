@@ -250,7 +250,7 @@ class Plugin(object):
             filename_full = self.function.func_code.co_filename
             filename = filename_full.split(os.path.sep)[-1]
             s += ('<a href="' +
-                  '..' + filename_full.replace(os.getcwd(), '') + '">' +
+                  'src' + filename_full.replace(os.getcwd(), '') + '">' +
                   filename + ':' +
                   str(self.function.func_code.co_firstlineno) + '</a>')
 
