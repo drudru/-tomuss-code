@@ -2144,6 +2144,8 @@ function current_jump(lin, col, do_not_focus, line_id, data_col)
   // Remove a copy bug of Firefox that insert tag when copying
   while( this.input_div.firstChild.tagName != 'INPUT' )
     this.input_div.removeChild(this.input_div.firstChild) ;
+
+  table_highlight_column() ;
 }
 
 function current_jump_if_possible(line_id, data_col, do_not_focus)

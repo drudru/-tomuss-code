@@ -388,6 +388,27 @@ function header_paste(event)
   periodic_work_add(function() { header_paste_real(event) ; }) ;
 }
 
+// If column is undefined: unhighlight
+function table_highlight_column(column)
+{
+  if ( column === undefined
+       && ! table_highlight_column.highlighted )
+    return ; // It was not highlighted
+  
+  table_highlight_column.highlighted = column !== undefined ;
+    
+  for(var line=0; line < table_attr.nr_lines + nr_headers; line++)
+    for(var col=0; col< table_attr.nr_columns; col++ )
+      if ( column !== undefined && col != column )
+	table.childNodes[line].childNodes[col].style.opacity = 0.7 ;
+      else
+	table.childNodes[line].childNodes[col].style.opacity = 1 ;
+}
+
+function table_highlight_current_column()
+{
+    table_highlight_column(the_current_cell.col) ;
+}
 /*
   The definition of an input that dispatch update correctly
   and return focus in the table on key up/down/return
@@ -413,6 +434,9 @@ function header_input_focus(e)
     {
       e.style.width = '' + (width - x - margin) + 'px' ;
     }
+
+  if ( e.id.substr(0,8) == 't_column' )
+    table_highlight_current_column() ;
 }
 
 function header_input(the_id, the_header_name, options)
@@ -474,6 +498,9 @@ function an_input_attribute(attr, options, prefix_id, prefix_)
       return hidden_txt('<a href="javascript:'
 			+ attr.action + '(\'' + the_id + '\');'
 			+ 'GUI.add(\'' + the_id + '\');"'
+			+ (prefix_ === 'column_attr_'
+			   ? ' onclick="table_highlight_current_column()"'
+			   : '')
 			+ ' id="' + the_id + '">' +
 			title + '</a>', tip) ;
     case 'GUI_none':
@@ -484,6 +511,9 @@ function an_input_attribute(attr, options, prefix_id, prefix_)
 			+ the_id + '" '
 			+ 'onclick="' + attr.action + '(this);'
 			+ 'GUI.add(\'' + the_id + '\',event);'
+			+ (prefix_ === 'column_attr_'
+			   ? 'table_highlight_current_column();'
+			   : '')
 			+ 'setTimeout(\'linefilter.focus()\',100)"'
 			+ '>' + title + '</button>',
 			tip) ;
@@ -493,7 +523,11 @@ function an_input_attribute(attr, options, prefix_id, prefix_)
 	opts += '<OPTION VALUE="' + options[i][0] + '">'
 	  + _(options[i][1]) + '</OPTION>' ;
       
-      return hidden_txt('<select style="margin:0px" onfocus="take_focus(this);" id="'
+      return hidden_txt('<select style="margin:0px" onfocus="take_focus(this);'
+			+ (prefix_ === 'column_attr_'
+			   ? 'table_highlight_current_column();'
+			   : '')
+			+ '" id="'
 			+ the_id + '" onChange="this.blur();'
                         + "header_change_on_update(event,this,'" +
 			prefix_ + attr.name + "');"
