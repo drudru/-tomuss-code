@@ -2625,12 +2625,12 @@ function update_cell(td, cell, column, abj)
 	}
     }
   td.className = className ;
+  while( td.childNodes[1] )
+    td.removeChild(td.childNodes[0]) ; // Remove feedback square
   if ( v === '' )
     td.childNodes[0].nodeValue = ' ' ; // If empty : zebra are not displayed
   else
     td.childNodes[0].nodeValue = v.toString() ;
-  while( td.childNodes[1] )
-    td.removeChild(td.childNodes[1]) ;
 
   return v ;
 }
