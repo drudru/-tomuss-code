@@ -235,6 +235,25 @@ def year_semester_from_date(yyyymm):
         if m[0] <= 12+month <= m[1]:
             return year-1, s
 
+def semester_span(year, semester):
+    """Semester span in seconds"""
+    sem_span = configuration.semester_span(year, semester)
+    if sem_span:
+        first_day, last_day = sem_span.split(' ')
+        return (configuration.date_to_time(first_day),
+                configuration.date_to_time(last_day))
+    else:
+        return (0, 8000000000)
+
+def date_to_time(date, if_exception=None):
+    try:
+        return configuration.date_to_time(date)
+    except:
+        if if_exception is None:
+            raise
+        else:
+            return if_exception
+        
 live_log = None
 
 def warn(text, what='info'):

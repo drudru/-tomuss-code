@@ -57,6 +57,7 @@ class Abj(object):
     """
 
     def __init__(self, year, semester, login):
+        self.first_day, self.last_day = utilities.semester_span(year, semester)
         year, semester = utilities.university_year_semester(year, semester)
         self.login = utilities.the_login(login)
         self.filename = os.path.join(self.login, 'abj_%d' % year)
@@ -144,18 +145,32 @@ class Abj(object):
         self.store('rem_da(%s,%s,%s)\n' % (
                 repr(ue_code), repr(user_name), repr(date)))
 
-    def js(self):
+    def js(self, full=True, current=False):
         """All the student ABJ data as a JavaScript fragment"""
         abj_list = []
-        for from_date, to_date, author, comment in self.abjs:
-            abj_list.append('[%s,%s,%s,%s]' % (repr(from_date), repr(to_date),
-                                               repr(author), js(comment)))
+        if current:
+            list_in = self.current_abjs()
+        else:
+            list_in = self.abjs
+        for from_date, to_date, author, comment in list_in:
+            if full:
+                abj_list.append('[%s,%s,%s,%s]' % (repr(from_date),
+                                                   repr(to_date),
+                                                   repr(author), js(comment)))
+            else:
+                abj_list.append('[%s,%s,%s]' % (repr(from_date),
+                                                repr(to_date),
+                                                js(comment)))
         return '[' + ','.join(abj_list) + ']'
 
-    def js_da(self):
+    def js_da(self, current=False):
         """All the student DA data as a JavaScript fragment"""
         da_list = []
-        for ue_code, date, author, comment in self.da:
+        if current:
+            list_in = self.current_das()
+        else:
+            list_in = self.da
+        for ue_code, date, author, comment in list_in:
             da_list.append('[%s,%s,%s,%s]' % (repr(ue_code), repr(date),
                                               repr(author), js(comment)))
         return '[' + ','.join(da_list) + ']'
@@ -168,23 +183,17 @@ class Abj(object):
         da = zip(*self.da)[0]
         return [ue_code for ue_code in ues if ue_code not in da]
 
-    def current_abjs(self, year, semester):
-        span = configuration.semester_span(year, semester).split(' ')
-        begin = configuration.date_to_time(span[0])
-        end = configuration.date_to_time(span[1])
+    def current_abjs(self):
         for abj in self.abjs:
-            abj_begin = configuration.date_to_time(abj[0].rstrip('AM'))
-            abj_end = configuration.date_to_time(abj[1].rstrip('AM'))
-            if max(begin, abj_begin) <= min(end, abj_end):
+            abj_begin = utilities.date_to_time(abj[0].rstrip('AM'), 0)
+            abj_end = utilities.date_to_time(abj[1].rstrip('AM'), 8000000000)
+            if max(self.first_day, abj_begin) <= min(self.last_day, abj_end):
                 yield abj
 
-    def current_das(self, year, semester):
-        span = configuration.semester_span(year, semester).split(' ')
-        begin = configuration.date_to_time(span[0])
-        end = configuration.date_to_time(span[1])
+    def current_das(self):
         for da in self.da:
             date = configuration.date_to_time(da[1])
-            if begin < date < end:
+            if self.first_day < date < self.last_day:
                 yield da
 
 class Abjs(object):
@@ -268,9 +277,19 @@ def html_abjs(year, semester, student, full=False):
     """Get all the ABJS/DA informations has HTML
     It is required to include suivi_student.js
     """
-    return ('<script>node = {} ; node.data = '
-            + unicode(Abj(year, semester, student).js(), 'utf-8')
-            + '; document.write(DisplayAbjs(node)) ;</script>')
+    s = ''
+    a = Abj(year, semester, student)
+    a_abj = a.js(full=full)
+    if len(a_abj) > 2:
+        s += ('node.data = ' + unicode(a.js(full=full, current=True), 'utf-8')
+              + '; document.write(DisplayAbjs(node)) ;')
+    a_da = a.js_da()
+    if len(a_da) > 2:
+        s += ('node.data = ' + unicode(a.js_da(current=True), 'utf-8')
+              + '; document.write(DisplayDA(node)) ;')
+    if s:
+        return '<script>node = {} ;' + s + '</script>'
+    return ''
 
 def a_student(browser, year, semester, ticket, student):
     """Send student abj with the data to_date the navigator."""
@@ -433,17 +452,9 @@ def do_prune(abj_list, first_day, last_day, group, sequence, ue_code):
     abjs_pruned = []
     messages = []
     for abjj in abj_list:
-        try:
-            seconds = configuration.date_to_time(abjj[0][:-1])
-        except OverflowError:
-            seconds = 0
-        if seconds >= last_day:
+        if utilities.date_to_time(abjj[0][:-1], 0) >= last_day:
             continue
-        try:
-            seconds = configuration.date_to_time(abjj[1][:-1])
-        except OverflowError:
-            seconds = 8000000000
-        if seconds < first_day:
+        if utilities.date_to_time(abjj[1][:-1], 8000000000) < first_day:
             continue
         if abjj[3].startswith('{{{MESSAGE}}}'):
             messages.append(abjj)
@@ -549,11 +560,7 @@ def ue_resume(ue_code, year, semester, browser=None):
             last_day = table_ue.dates[1] + 86400 # End of last day
             table_ue.unload()
     if first_day == 0:
-        ss = configuration.semester_span(year, semester)
-        if ss:
-            fd, ld = ss.split(' ')
-            first_day = configuration.date_to_time(fd)
-            last_day  = configuration.date_to_time(ld)
+        first_day, last_day = utilities.semester_span(year, semester)
     utilities.warn('first_day=%s %s' % (first_day, last_day))
     #
     # The ABJ
@@ -605,7 +612,7 @@ def ue_resume(ue_code, year, semester, browser=None):
     for student_login, group, sequence in the_students:
         student_id = inscrits.login_to_student_id(student_login)
         student = Abj(year, semester, student_id)
-        dates = [d for d in student.da if d[0] == ue_code]
+        dates = [d for d in student.current_das() if d[0] == ue_code]
         if dates:
             nr_letters = feedback(browser, 'D', nr_letters)
             if first:

@@ -3442,7 +3442,7 @@ msgstr "<h1>Vous n'êtes pas autorisé à accéder à cette table</h1>\n"
        "le responsable de l'UE doit les modifier si nécessaire&nbsp;:\n"
        "<ul>\n"
        "<li> La table a été basculée en 'Privé'.\n"
-       "<li> Une liste d'intervenant à été définie et vous n'en faites pas parti.\n"
+       "<li> Une liste d'intervenant à été définie et vous n'en faites pas partie.\n"
        "</ul>"
 
 msgid "MSG_new_page_in_past"

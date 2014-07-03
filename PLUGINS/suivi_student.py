@@ -214,13 +214,15 @@ def display_message(dummy_server):
 def display_abjs(server):
     return [
         (from_date, to_date, comment)
-        for from_date, to_date, dummy_author, comment in server.suivi_abj.abjs
+        for from_date, to_date, dummy_author, comment
+        in server.suivi_abj.current_abjs()
         ]
 
 def display_da(server):
     return [
         (from_date, to_date, comment)
-        for from_date, to_date, dummy_author, comment in server.suivi_abj.da
+        for from_date, to_date, dummy_author, comment
+        in server.suivi_abj.current_das()
         ]
 
 def display_rss(server):
