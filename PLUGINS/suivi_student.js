@@ -1049,7 +1049,8 @@ function DisplayLastGrades(node)
 	    continue ;
 	  if ( cell[1].length < 2 )
 	    continue ; // System value
-	  if ( ue.columns[data_col].title.substr(0,1) == '.' )
+	  if ( ue.columns[data_col].title
+	       && ue.columns[data_col].title.substr(0,1) == '.' )
 	    continue ;
 	  s.push([ue, data_col]) ;
 	}
@@ -1092,7 +1093,7 @@ function DisplayLastGrades(node)
       
       t.push('<div onclick="goto_cellbox(this)" class="Display a_grade">'
 	     + ue.ue
-	     + '<br>' + html(column.title)
+	     + '<br>' + html(column.title || '???')
 	     + '<br><span>' + html(cell[0]) + "</span></div>") ;
     }
   return '<hr>' + t.join('') ;
