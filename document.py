@@ -1224,6 +1224,10 @@ class Table(object):
 
     def delete(self):
         warn(str(self.ue), what="table")
+        utilities.manage_key('CLOSED', self.ue, separation=5,
+                             content='%d/deleted_table_%s' % (self.year,
+                                                              self.semester)
+                             )
         self.unload(force=True)
         if not self.unloaded:
             return
@@ -1235,6 +1239,20 @@ class Table(object):
         for login in self.the_keys():
             indexes_to_update.append((self, login, ''))
 
+        def remove_bookmarks():
+            import glob
+            bookmark = (self.year, self.semester, self.ue)
+            for filename in glob.glob(os.path.join(configuration.db, 'LOGINS',
+                                                   '*', '*', 'bookmarked')):
+                login = filename.split(os.path.sep)[-2]
+                key = os.path.join(login, 'bookmarked')
+                bookmarked = eval(utilities.manage_key('LOGINS', key))
+                if bookmark in bookmarked:
+                    bookmarked.remove(bookmark)
+                    utilities.manage_key('LOGINS', key, content = repr(bookmarked))
+                    warn('Remove %s bookmark for %s' % (bookmark, login))
+            warn("Remove bookmarks done")
+        utilities.start_new_thread(remove_bookmarks, ())            
 
     def send_alert(self, text):
         self.send_update(None, '<script>alert(_("ALERT_message_for")+%s);</script>\n' %

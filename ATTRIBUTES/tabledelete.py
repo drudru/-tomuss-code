@@ -21,7 +21,6 @@
 
 from .. import plugin
 from .. import document
-from .. import utilities
 from .tabletabletitle import TableTableTitle
 
 class TableDelete(TableTableTitle):
@@ -53,10 +52,6 @@ def delete_this_table(server):
 ##                                              'pages'),
 ##                                 content = repr(d)
 ##                                 )
-    utilities.manage_key('CLOSED', table.ue, separation=5,
-                         content='%d/deleted_table_%s' % (table.year,
-                                                          table.semester)
-                         )
     table.delete()
     server.the_file.write(server._("MSG_delete_this_table_done"))
     
