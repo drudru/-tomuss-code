@@ -287,6 +287,13 @@ def visible_from_suivi(dummy_server, dummy_login):
 def student_inscrit_value(table, line):
     return ''
 
+#REDEFINE
+# Function called on user cell change by TEMPLATES/_ucbl_.py:cell_change
+# and so in Printemps and Automne template.
+def cell_change(table, page, col, lin, value, date):
+    return
+
+
 # LDAP informations
 # A list of LDAP server to query
 ldap_server = ('ldap1.domain.org', 'ldap2.domain.org', 'ldap3.domain.org')

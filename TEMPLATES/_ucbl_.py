@@ -329,9 +329,11 @@ def terminate_update(table, the_ids):
 
 get_info = []
 
-def cell_change(table, page, col, lin, value, dummy_date):
+def cell_change(table, page, col, lin, value, date):
     if page.page_id == 0:
         return
+    # Call a locally defined cell update hook.
+    configuration.cell_change(table, page, col, lin, value, date)
     if col != '0_0':
         return
     get_info.append((table, lin, page, value))
