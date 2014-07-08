@@ -247,9 +247,6 @@ def display_more_on_suivi(server):
     return configuration.more_on_suivi(server.suivi_login, server)
 
 def display_member_of(server):
-    if server.is_a_student:
-        return ''
-
     member_of = list(inscrits.L_fast.member_of_list(server.suivi_login))
     member_of.sort()
     member_of = [
