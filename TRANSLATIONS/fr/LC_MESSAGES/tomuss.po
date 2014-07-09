@@ -5162,7 +5162,7 @@ msgid "MSG_auto_update_start"
 msgstr "Patientez pendant la mise à jour des listes d'étudiants."
 
 msgid "MSG_auto_update_done"
-msgstr "Les listes d'étudiants ont été mise à jour."
+msgstr "Les listes d'étudiants ont été mises à jour."
 
 msgid "TITLE_columntype"
 msgstr "Choisissez le contenu de la colonne : "
@@ -5332,7 +5332,7 @@ msgid "LABEL_signature_new"
 msgstr "Poser une question"
 
 msgid "TIP_signature_new"
-msgstr "Ceci vous permet de poser un question à l'étudiant<br>\n"
+msgstr "Ceci vous permet de poser une question à l'étudiant<br>\n"
        "ou bien de lui indiquer une information importante."
 
 msgid "MSG_signature_new"
@@ -5540,3 +5540,6 @@ msgstr "Cliquer pour ajouter ou enlever cette UE de «Vos tables»\n"
 
 msgid "DisplayAdvertising"
 msgstr "Vous aimez TOMUSS&nbsp;? Faites le savoir"
+
+msgid "mail_on_new_student"
+msgstr "Voici des nouveaux étudiants qui sont arrivés dans vos UE :"

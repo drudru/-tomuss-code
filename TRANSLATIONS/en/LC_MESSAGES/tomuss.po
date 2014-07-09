@@ -5424,3 +5424,6 @@ msgstr "Click to add or remove this table from 'Your tables' on TOMUSS home page
 
 msgid "DisplayAdvertising"
 msgstr "You like TOMUSS? Tell everybody"
+
+msgid "mail_on_new_student"
+msgstr "There are the new registered students in your tables:"
