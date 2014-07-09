@@ -77,7 +77,7 @@ bilan("%s","%s",%s,%s,%s,%s,%s,%s,%s) ;
 
 
 plugin.Plugin('bilan', '/bilan/{I}',
-              function=bilan,
+              function=bilan, unsafe=False,
               group='referents',
               )
 
