@@ -93,7 +93,8 @@ def home_page(server):
                         + utilities.js(c) + ','
                         + utilities.js(pe) + ','
                         + utilities.js(int(login in tt
-                                           and tt[login].current()))
+                                           and tt[login].current())) + ','
+                        + utilities.js(configuration.student_class(login))
                         + ']').encode('utf-8'))
 
     favstu = utilities.manage_key('LOGINS',

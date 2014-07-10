@@ -1,7 +1,7 @@
 /* -*- coding: utf-8 -*- */
 /*
   TOMUSS: The Online Multi User Simple Spreadsheet
-  Copyright (C) 2008-2013 Thierry EXCOFFIER, Universite Claude Bernard
+  Copyright (C) 2008-2014 Thierry EXCOFFIER, Universite Claude Bernard
 
   This program is free software; you can redistribute it and/or modify
   it under the terms of the GNU General Public License as published by
@@ -818,11 +818,9 @@ function student_line(i, hide_icon)
   else
     hide_icon = '<img class="icone" src="' + suivi[year_semester()] + '/_'
       + i[0] + '">' ;
-  var classes ;
+  var classes = i[6] ;
   if ( i[4] )
-    classes = 'first_registration ' ;
-  else
-    classes = '' ;
+    classes += ' first_registration' ;
     
   return '<tr onmouseover="ue_line_over(\'' + i[0] + '\',this,student_click_more);" '
     + 'onclick="javascript:go_suivi_student(\'' + i[0]

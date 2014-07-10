@@ -288,6 +288,11 @@ def student_inscrit_value(table, line):
     return ''
 
 #REDEFINE
+# Returns HTML class name for the refered student line on the home page
+def student_class(login):
+    return ''
+
+#REDEFINE
 # Function called on user cell change by TEMPLATES/_ucbl_.py:cell_change
 # and so in Printemps and Automne template.
 def cell_change(table, page, col, lin, value, date):
