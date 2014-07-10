@@ -81,6 +81,9 @@ def home_page(server):
         master_of += eval(bookmarked)
 
     refered = []
+    tt = document.table(utilities.university_year(), 'Dossiers', 'tt')
+    tt = tt.the_current_tt(tt)
+
     for login in referent.students_of_a_teacher(user_name):
         a,b,c = inscrits.L_fast.firstname_and_surname_and_mail(login)
         pe = int(configuration.student_in_first_year(login))
@@ -88,7 +91,10 @@ def home_page(server):
                         + utilities.js(a) + ','
                         + utilities.js(b) + ','
                         + utilities.js(c) + ','
-                        + utilities.js(pe) + ']').encode('utf-8'))
+                        + utilities.js(pe) + ','
+                        + utilities.js(int(login in tt
+                                           and tt[login].current()))
+                        + ']').encode('utf-8'))
 
     favstu = utilities.manage_key('LOGINS',
                              os.path.join(user_name, 'favstu')
