@@ -134,7 +134,9 @@ done
 if [ -d $REAL/$HIST ]
 then
   echo "Stop current TOMUSS"
+  trap 'sleep 1 ; echo Keyboard interrupt' 2
   (cd $REAL/$HIST ; make stopsafe || make stop)
+  trap - 2
 fi
 
 # Let some time to stop, just in case...
