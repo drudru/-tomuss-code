@@ -1944,9 +1944,7 @@ function line_fill(line, write, cls, empty_column)
       if ( data_col >= empty_column )
 	{
 	  td.className = 'empty' ;
-	  td.childNodes[0].nodeValue = ' ' ;
-	  while( td.childNodes[1] )
-	    td.removeChild(td.childNodes[1]) ;
+	  td.innerHTML = ' ' ;
 	}
       else
 	update_cell(td, the_line[data_col], cls[col], abj) ;
