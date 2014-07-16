@@ -201,9 +201,12 @@ class MyRequestBroker(utilities.FakeRequestHandler):
                     warn('Ticket not fine for not an image', what="auth")
 
         # Don't want to be blocked by authentication
-        if authentication.ok(self):
-            plugin.dispatch_request(self)
+        authentication.ok(self)
 
+    def do_GET_real_real_safe(self):
+        """Called by  authentication.ok"""
+        plugin.dispatch_request(self)
+            
     def do_GET(self):
         global current_time
         self.start_time = time.time()

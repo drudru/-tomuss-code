@@ -147,8 +147,8 @@ class MyRequestBroker(utilities.FakeRequestHandler):
             # Remove old ticket.
             self.path = '/%d/%s' % (
                 self.year, self.semester) + re.sub("^/=[^/]*", "", path)
-        if authentication.ok(self):
-            self.do_GET_real_real_safe()
+        # Don't want to be blocked by authentication
+        authentication.ok(self)
 
         # Free some memory
         now = time.time()
@@ -164,8 +164,8 @@ class MyRequestBroker(utilities.FakeRequestHandler):
             warn("%d table unloaded on %d" % (nb_unloaded, nb), what="info")
 
     def do_GET_real_real_safe(self):
-        tick = self.ticket
-        logs.write(time.strftime('%Y%m%d%H%M%S ') + tick.user_name + '\n')
+        """Called by  authentication.ok"""
+        logs.write(time.strftime('%Y%m%d%H%M%S ')+self.ticket.user_name + '\n')
         plugin.dispatch_request(self)
 
 if __name__ == "__main__":

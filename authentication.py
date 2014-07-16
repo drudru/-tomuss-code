@@ -153,7 +153,7 @@ def authentication_thread():
                 update_ticket(x.ticket)
                 # The request can be executed
                 try:
-                    plugin.dispatch_request(x)
+                    x.do_GET_real_real_safe()
                 except AttributeError:
                     utilities.send_backtrace(str(x.ticket)[:-1],
                                              subject = 'Authentication aborted:' + x.path)
@@ -170,6 +170,7 @@ def run_authentication():
 def ok(server):
     # Don't want to be blocked by authentication
     if server.ticket and hasattr(server.ticket, 'password_ok'):
+        server.do_GET_real_real_safe()
         return True
 
     # Problem with the request with an ever changing IP
