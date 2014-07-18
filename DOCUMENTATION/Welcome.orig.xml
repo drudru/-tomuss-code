@@ -1031,13 +1031,14 @@ configuration source files
       on the second column, you indicate to which group you add the item.
     </p>
     <p>
-      If a group contains items prefixed by '!', then they evaluated first,
+      If a group contains items prefixed by '!', then they are evaluated first,
       and if the user is contained in the group, it will be rejected.
       There is an exception: if the group or list contains only one
       '!' item, then it returns True if the user is not in the group.
     </p>
     <p>
-      Example displayed as a tree:<pre>
+      Example displayed as a tree, the '!' is not part of the group name:
+      <pre>
 staff
   * ldap:GROUP_X          # Evaluated after !, so some user may be rejected
   * !FORBIDEN             # Define the list of forbidden users
@@ -1049,7 +1050,7 @@ staff
      * USER_B
   * administratives       # FORBIDEN is tested before administrative
      * ldap:GROUP_A       # If users are in GROUP_Y they will not
-     * USER_C             # be in 'administrative' group (even USER_C)
+     * USER_C             # be in 'staff' group (even USER_C)
 </pre>     
     </p>
 

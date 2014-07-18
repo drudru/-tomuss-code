@@ -66,7 +66,7 @@ def do_update(server, s, top):
                     indent=server.ticket.user_name in configuration.root
                     and 1
                     or None
-                    ), top))
+                    ).replace('>','\\x3E'), top))
     server.the_file.flush()
     
     
