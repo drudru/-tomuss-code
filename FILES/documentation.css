@@ -22,6 +22,8 @@ DIV.menu {
   top: 0 ;
   left: 0 ;
   width: 17em ;
+  height: 100% ;
+  overflow: auto ;
   /* Internet Explorer does not support fixed */
   _position:absolute;
   _top:expression(eval(document.body.scrollTop));
