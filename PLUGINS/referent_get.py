@@ -114,7 +114,7 @@ plugin.Plugin('referent_set', '/referent_set/{*}',
               link=plugin.Link(html_class="verysafe", where="referents",
                                url="javascript:go_referent_set()",
                                ),
-              function=referent_set, group='roots'
+              function=referent_set, group='referent_masters'
               )
 
 
@@ -140,7 +140,7 @@ plugin.Plugin('orphan_students', '/orphan_students/{*}',
               link=plugin.Link(html_class="safe", where="referents",
                                url="javascript:go_orphan_students()",
                                ),
-              function=orphan_students, group='root'
+              function=orphan_students, group='referent_masters'
               )
 
 
