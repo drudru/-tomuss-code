@@ -1484,3 +1484,24 @@ function DisplayAdvertising(node)
     + '<div class="fb-like" data-href="http://perso.univ-lyon1.fr/thierry.excoffier/TOMUSS/home.html" data-layout="button_count" data-action="like" data-show-faces="false" data-share="false"></div></div>' ;
 }
 DisplayAdvertising.need_node = [] ;
+
+
+function DisplaySetReferentDo()
+{
+  var answer = prompt(_("MSG_suivi_student_set_referent_name")) ;
+  if ( answer !== null && answer !== '' )
+    {
+      document.getElementById('DisplaySetReferent').innerHTML +=
+	'<br><IFRAME style="width:100%;height:5em" src="'
+	+ url + '/=' + ticket + '/referent_set_force/' + answer
+	+ '/' + display_data['Login'] + '"></IFRAME>' ;
+    }
+}
+
+
+function DisplaySetReferent(node)
+{
+  return '<div id="DisplaySetReferent"><a onclick="DisplaySetReferentDo()">'
+    + _("MSG_suivi_student_set_referent") + '</a></div>' ;
+}
+DisplayAdvertising.need_node = ['SetReferent', 'Login'] ;

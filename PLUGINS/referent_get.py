@@ -92,7 +92,7 @@ plugin.Plugin('referent_get', '/referent_get/{*}',
               function=referent_get, group='referents')
 
 
-def referent_set(server):
+def referent_set(server, force=False):
     """Add a student to a referent :
             ...../referent_set/user.name/student1/student2/...
     """
@@ -106,7 +106,7 @@ def referent_set(server):
         if student == '':
             continue
         referent_get_a_student(server, login, students, student,
-                               allow_referent_change=False)
+                               allow_referent_change=force)
 
 
 plugin.Plugin('referent_set', '/referent_set/{*}',
@@ -115,6 +115,12 @@ plugin.Plugin('referent_set', '/referent_set/{*}',
                                url="javascript:go_referent_set()",
                                ),
               function=referent_set, group='referent_masters'
+              )
+
+plugin.Plugin('referent_set_force', '/referent_set_force/{*}',
+              mimetype = 'text/plain; charset=UTF-8',
+              function=lambda s: referent_set(s, force=True),
+              group='referent_masters'
               )
 
 

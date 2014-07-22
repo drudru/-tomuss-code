@@ -185,6 +185,12 @@ def display_get_student(server):
         return True
     return ''
 
+def display_set_referent(server):
+    if configuration.is_member_of(server.ticket.user_name,
+                                  ('grp:referent_masters',)):
+        return True
+    return ''
+
 def display_referent_notepad(server):
     if not server.suivi_ref:
         return ''
@@ -420,6 +426,7 @@ D('GetStudent'  , 'TopLine'   ,3, data=display_get_student)
 
 # Line 1 for students and 1&2 fr teachers :
 D('Referent'    , 'LinksTable',0, data=display_referent)
+D('SetReferent' , 'LinksTable',0.5, data=display_set_referent)
 D('Mails'       , 'LinksTable',1, data=display_mails)
 D('Official'    , 'LinksTable',2)
 D('Bilan'       , 'LinksTable',3, data=display_get_student)

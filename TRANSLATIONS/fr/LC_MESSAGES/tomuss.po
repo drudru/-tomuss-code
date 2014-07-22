@@ -4180,6 +4180,12 @@ msgstr "Valeur modifiée par "
 msgid "MSG_suivi_student_RSS_table"
 msgstr "Connexion à %s,<br>%d changements faits"
 
+msgid "MSG_suivi_student_set_referent"
+msgstr "Changer son référent"
+
+msgid "MSG_suivi_student_set_referent_name"
+msgstr "Login du nouveau référent :"
+
 msgid "COL_TITLE_table"
 msgstr "UE"
 
