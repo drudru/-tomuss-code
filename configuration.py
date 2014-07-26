@@ -17,7 +17,7 @@
 #    along with this program; if not, write to the Free Software
 #    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 #
-#    Contact: Thierry.EXCOFFIER@bat710.univ-lyon1.fr
+#    Contact: Thierry.EXCOFFIER@univ-lyon1.fr
 
 """
 This file must not be edited. But you should read it.
@@ -32,7 +32,7 @@ import os
 import time
 import sys
 
-version = '5.3.15'
+version = '5.3.16'
 
 ###############################################################################
 # ACLS
