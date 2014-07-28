@@ -350,7 +350,7 @@ function filter_change_column(value, column)
     column.filter = set_filter_generic(value, column) ;
     update_filters() ;
     update_histogram(true) ;
-    table_fill(true, true, true) ;
+    table_fill(true, false, true) ;
 }
 
 function header_change_on_update(event, input, what)

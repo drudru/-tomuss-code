@@ -2230,9 +2230,7 @@ function table_fill_real()
 	{
 	  var data_col = cls[col].data_col ;
 	  td = tr.childNodes[col] ;
-	  td.childNodes[0].nodeValue = " " ; // Unsecable space
-	  while( td.childNodes[1] )
-	    td.removeChild(td.childNodes[1]) ;
+	  td.innerHTML = " " ; // Unsecable space
 	  if ( data_col >= columns.length )
 	    td.className = 'empty' ;
 	  else
