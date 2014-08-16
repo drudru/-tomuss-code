@@ -104,6 +104,7 @@ translations:
          done
 	SCRIPTS/create_backgrounds.py
 	cd FILES ; $(MAKE)
+	cd PYTHON_JS ; $(MAKE) tomuss_python_O.js
 
 %.mo:%.po
 	msgfmt $*.po -o $*.mo

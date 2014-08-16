@@ -10,8 +10,8 @@ export PYTHONJS = $(HOME)/PythonJS
 
 all:regtest_python tomuss_python.js tomuss_python_O.js regtest_js regtest_js_O stats
 
-OBJS = preamble.py filter.py average.py
-REGTEST = filter_regtest.py average_regtest.py
+OBJS = preamble.py filter.py average.py maximum.py
+REGTEST = regtest.py filter_regtest.py average_regtest.py maximum_regtest.py
 PYJS = PythonJS/pythonjs/translator.py --no-wrapper
 
 TRANSLATE = f() { echo "Python translation to JavaScript:" $(OBJS) $$2 $$1 ; \
@@ -74,25 +74,17 @@ stats:
 clean:
 	-rm tomuss_python.js tomuss_python_O.js xxx*
 
-xxx_tomuss.js:Makefile
+xxx_tomuss.js:Makefile ../FILES/lib.js ../FILES/utilities.js ../COLUMN_TYPES/text.js deprecated.js
 	@echo 'window = { location:""} ; ' >$@
 	@echo 'navigator = { } ; ' >>$@
 	@echo 'var today = "20140101" ;' >>$@
 	@cat ../FILES/lib.js ../FILES/utilities.js ../COLUMN_TYPES/text.js deprecated.js >>$@
 
-# check TOMUSS database to search for problems
-
-xxx_compatibility_check.js:compatibility.py
-	./compatibility.py >$@
-
-compatibility_check:regtest_js_O xxx_compatibility_check.js xxx_tomuss.js
-	@echo "Check compatibility with existing filters in TOMUSS DB"
-	@cat xxx_tomuss tomuss_python_regtest_O.js xxx_compatibility_check.js >>xxx.js
-	@A="$$($(NODE) xxx.js | grep BUG)" ; \
-	if [ "" = "$$A" ] ; \
-            then echo "$@ OK" ; \
-            else echo "$@ **** FAILED ****" ; echo "$$A" ; exit 1 ; \
-        fi
+difference.js:difference.py xxx_tomuss.js Makefile
+	@$(TRANSLATE) '#WITHOUTJAVASCRIPT#' "regtest.py difference.py"
+	@cat xxx_tomuss.js difference.js >xxx.js
+	@$(NODE) xxx.js
+	@echo
 
 # Only for personnal testing
 
