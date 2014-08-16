@@ -245,7 +245,7 @@ class Cell(CellValue):
         return 'C(%s,"%s","%s",%s)' % (
             js(self.value), self.author, self.date, js(self.comment))
 
-
+C = Cell # To be compatible with PythonJS translated javascript
 
 
 class Line(object):

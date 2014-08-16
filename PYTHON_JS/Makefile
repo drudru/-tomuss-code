@@ -10,8 +10,8 @@ export PYTHONJS = $(HOME)/PythonJS
 
 all:regtest_python tomuss_python.js tomuss_python_O.js regtest_js regtest_js_O stats
 
-OBJS = preamble.py filter.py average.py maximum.py
-REGTEST = regtest.py filter_regtest.py average_regtest.py maximum_regtest.py
+OBJS = preamble.py filter.py average.py maximum.py nmbr.py
+REGTEST = regtest.py filter_regtest.py average_regtest.py maximum_regtest.py nmbr_regtest.py
 PYJS = PythonJS/pythonjs/translator.py --no-wrapper
 
 TRANSLATE = f() { echo "Python translation to JavaScript:" $(OBJS) $$2 $$1 ; \
@@ -62,7 +62,7 @@ regtest_js:tomuss_python_regtest.js xxx_tomuss.js
 	@$(NODE) tomuss_python_regtest.js
 	@echo
 
-regtest_js_O:tomuss_python_regtest_O.js
+regtest_js_O:tomuss_python_regtest_O.js xxx_tomuss.js
 	@echo "Running regression tests for optimized JavaScript with 'node'"
 	@cat xxx_tomuss.js tomuss_python_regtest_O.js >xxx.js
 	@$(NODE) xxx.js

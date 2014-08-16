@@ -47,6 +47,7 @@ def average_regtest():
                Column(average_columns = [5, 8]),
                ]
     g = Cell(-30)
+    C = CE
     for line in [
 [Cell(1  ),Cell(2  ),Cell(6  ),C(3  ),C(1.5),C(4  ),g,C(8.5  ),g,C(7  )],
 [Cell(1  ),Cell(2  ),Cell(abi),C(1  ),C(0.5),C(1.5),g,C(7.875),g,C(4.5)],

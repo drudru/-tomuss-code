@@ -41,6 +41,7 @@ class Column:
                  best_of = 0,
                  round_by = 0,
                  empty_is = '',
+                 test_filter='',
                  ):
         # self.__dict__ is not translated into javascript
         # ** is not translated into javascript
@@ -53,11 +54,20 @@ class Column:
         self.best_of = best_of
         self.round_by = round_by
         self.empty_is = empty_is
+        self.test_filter = test_filter
+
+    def nmbr_filter(self, cell):
+        return Filter(self.test_filter, "","").eval(cell)
 
 class Cell:
-    def __init__(self, x, expected=0):
+    def __init__(self, x, author="", date="", comment="", history="",
+                 expected=0):
         self.value = x
         self.expected = expected
+        self.author = author
+        self.comment = comment
+        self.history = history
+        self.date = date
     def set_value(self, x):
         self.value = x
         return self
@@ -74,6 +84,6 @@ def strip0(txt):
         txt = txt[:-1]
     return txt
 
-def C(expected):
-    return Cell(-1, expected)
+def CE(expected):
+    return Cell(-1, expected=expected)
     

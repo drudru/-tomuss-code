@@ -146,7 +146,7 @@ def maximum_regtest():
             ((nan, nan,  12), nan),
             ((nan, nan, nan), nan),
         ):
-        line = [Cell(cells[0]), Cell(cells[1]), Cell(cells[2]), C(value)]
+        line = [Cell(cells[0]), Cell(cells[1]), Cell(cells[2]), CE(value)]
         check(line, 3)
         
     print 'Maximum regtest are fine'
