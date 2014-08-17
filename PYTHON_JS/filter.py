@@ -68,12 +68,17 @@ if python_mode:
     def seconds_to_date(seconds):
         time = __import__('time')
         return time.strftime('%Y%m%d%H%M%S', time.localtime(seconds))
+    def date_to_seconds(date):
+        time = __import__('time')
+        return time.mktime(time.strptime(date.ljust(14, '0'), '%Y%m%d%H%M%S'))
 else:
     def seconds_to_date(seconds):
         d = JS("new Date(seconds * 1000)")
         return (d.getFullYear() + two_digits(d.getMonth()+1)
                 + two_digits(d.getDate()) + two_digits(d.getHours())
                 + two_digits(d.getMinutes()) + two_digits(d.getSeconds()) )
+    def date_to_seconds(date):
+        return get_date_tomuss(date).getTime() / 1000
 
 if python_mode:
     def REsplit(expreg, txt):

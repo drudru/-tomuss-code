@@ -42,6 +42,7 @@ class Column:
                  round_by = 0,
                  empty_is = '',
                  test_filter='',
+                 comment='',
                  ):
         # self.__dict__ is not translated into javascript
         # ** is not translated into javascript
@@ -55,6 +56,7 @@ class Column:
         self.round_by = round_by
         self.empty_is = empty_is
         self.test_filter = test_filter
+        self.comment = comment
 
     def nmbr_filter(self, cell):
         return Filter(self.test_filter, "","").eval(cell)
