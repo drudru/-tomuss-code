@@ -19,25 +19,6 @@
     Contact: Thierry.EXCOFFIER@bat710.univ-lyon1.fr
 */
 
-function compute_cow(data_col, line)
-{
-  var column = columns[data_col] ;
-
-  if ( column.average_columns.length != 1 )
-    return ;
-  if ( line[data_col].author !== '' )
-    return ;
-
-  c = column.average_columns[0] ;
-
-  var value = line[c].value ;
-
-  if ( value === '' )
-    value = columns[c].empty_is ;
-
-  line[data_col].set_value(value) ;
-}
-
 function get_original_cow_column()
 {
   var column = the_current_cell.column ;

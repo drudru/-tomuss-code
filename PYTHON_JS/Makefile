@@ -10,7 +10,7 @@ export PYTHONJS = $(HOME)/PythonJS
 
 all:regtest_python tomuss_python.js tomuss_python_O.js regtest_js regtest_js_O stats
 
-OBJS = preamble.py filter.py average.py maximum.py nmbr.py
+OBJS = preamble.py filter.py average.py maximum.py nmbr.py cow.py
 REGTEST = regtest.py filter_regtest.py average_regtest.py maximum_regtest.py nmbr_regtest.py
 PYJS = PythonJS/pythonjs/translator.py --no-wrapper
 
