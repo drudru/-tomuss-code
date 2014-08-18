@@ -384,6 +384,49 @@ class Table(object):
             # To forbid the edit of the same table with 2 names
             self.modifiable = 0
 
+        if ro:
+            self.compute_columns()
+
+    @utilities.add_a_lock
+    def compute_columns(self):
+        """"""
+        from .PYTHON_JS import tomuss_python
+        from . import cell
+        tomuss_python.columns = self.columns.columns
+        tomuss_python.C = cell.Cell
+        for i in ('abi', 'abj', 'ppn', 'tnr', 'pre'):
+            setattr(tomuss_python, i, getattr(configuration, i, ''))
+            setattr(tomuss_python, i+'_short',
+                        getattr(configuration, i+'_short', ''))
+        for column in self.columns.columns_ordered():
+            column.real_weight = tomuss_python.to_float(column.weight)
+            column.real_weight_add = not column.weight.startswith(('+','-'))
+            column.min, column.max = column.min_max()
+            column.best_of = tomuss_python.to_float(column.best)
+            column.mean_of = tomuss_python.to_float(column.worst)
+            if column.rounding == '':
+                column.round_by = 0
+            else:
+                column.round_by = float(column.rounding)
+            column.nmbr_filter = tomuss_python.Filter(column.test_filter,
+                                                      '',
+                                                      column.type.name).eval
+            if column.is_computed():
+                try:
+                    column.average_columns = [
+                        self.columns.from_title(title).data_col
+                        for title in column.depends_on()
+                    ]
+                except:
+                    column.average_columns = []
+                if column.type.name == 'Nmbr':
+                    column.max = len(column.average_columns)
+                cell_compute = eval(column.type.cell_compute,
+                                    tomuss_python.__dict__
+                                )
+                for line in self.lines.values():
+                    cell_compute(column.data_col, line)
+
     def update(self):
         """Update the table if the file on disc changed.
         It is used only by 'suivi' servers

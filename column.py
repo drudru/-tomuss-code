@@ -24,6 +24,7 @@ import re
 import time
 import hashlib
 import json
+import math
 from .utilities import js
 from . import utilities
 from . import configuration
@@ -474,21 +475,19 @@ class Column(object):
     def cell_values(self, lines):
         """Compute the list of cells FLOAT values with the given Grp and Seq"""
         data_col = self.data_col
-        cells = []
-        for line in lines:
-            try:
-                cells.append(float(line[data_col].value))
-            except ValueError:
-                continue
-
-        all_cells = []
-        for line in self.table.lines.values():
-            try:
-                all_cells.append(float(line[data_col].value))
-            except ValueError:
-                continue
+        def get_floats(the_lines):
+            cells = []
+            for line in the_lines:
+                try:
+                    if line[0].value:
+                        value = float(line[data_col].value)
+                        if not math.isnan(value):
+                            cells.append(value)
+                except ValueError:
+                    continue
+            return cells
             
-        return all_cells, cells
+        return get_floats(self.table.lines.values()), get_floats(lines)
 
     def visible(self):
         """Returns true if the column is visible for the student"""
@@ -520,7 +519,7 @@ class Column(object):
                 )
 
     def is_computed(self):
-        return self.type.computed
+        return self.type.cell_compute != 'undefined'
 
 class Columns(object):
     """A set of Column associated to a table.
