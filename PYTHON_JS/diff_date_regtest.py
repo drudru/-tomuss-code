@@ -21,21 +21,6 @@
 columns = []
 
 def diff_date_regtest():
-    def check(line, col):
-        compute_diff_date(col, line)
-        if strip0(line[col].value) != strip0(line[col].expected):
-            try:
-                if abs(float(line[col].value) - float(line[col].expected)
-                       ) < 1e-5:
-                    return
-            except ValueError:
-                pass
-            print '='*77
-            print "Column:", col
-            print line
-            print 'Expected:', line[col].expected
-            print 'Computed:', line[col].value
-            regression_test_failed
     global columns
     columns = [Column(), Column(), Column(average_columns = [0, 1])]
     for values in (
@@ -47,7 +32,7 @@ def diff_date_regtest():
             ('', '', 0),
             ):
         line = [Cell(values[0]), Cell(values[1]), CE(values[2])]
-        check(line, 2)
+        check_result(line, 2, compute_diff_date)
         
     print 'Diff_date regtest are fine'
 

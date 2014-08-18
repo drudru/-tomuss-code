@@ -24,21 +24,6 @@ if python_mode:
     C = Cell
 
 def nmbr_regtest():
-    def check(line, col):
-        compute_nmbr(col, line)
-        if strip0(line[col].value) != strip0(line[col].expected):
-            try:
-                if abs(float(line[col].value) - float(line[col].expected)
-                       ) < 1e-5:
-                    return
-            except ValueError:
-                pass
-            print '='*77
-            print "Column:", col
-            print line
-            print 'Expected:', line[col].expected
-            print 'Computed:', line[col].value
-            regression_test_failed
     global columns
     line = [Cell(5, author="john"), Cell('foo', comment="C1"),
             Cell('', date="20140101121212"), CE(0)]
@@ -58,7 +43,7 @@ def nmbr_regtest():
                       ),
                ]
         line[3].expected = result
-        check(line, 3)
+        check_result(line, 3, compute_nmbr)
         
     print 'Nmbr regtest are fine'
 

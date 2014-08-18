@@ -14,11 +14,14 @@ OBJS = preamble.py filter.py average.py maximum.py nmbr.py cow.py diff_date.py w
 REGTEST = regtest.py filter_regtest.py average_regtest.py maximum_regtest.py nmbr_regtest.py diff_date_regtest.py weighted_percent_regtest.py
 PYJS = PythonJS/pythonjs/translator.py --no-wrapper
 
+LOCAL=$(shell if [ -d ../LOCAL/LOCAL_PYTHON_JS ] ; then ls ../LOCAL/LOCAL_PYTHON_JS/*.py | grep -v regtest ; fi)
+LOCAL_REGTEST=$(shell if [ -d ../LOCAL/LOCAL_PYTHON_JS ] ; then echo ../LOCAL/LOCAL_PYTHON_JS/*_regtest.py ; fi)
+
 TRANSLATE = f() { echo "Python translation to JavaScript:" $(OBJS) $$2 $$1 ; \
                   (  \
 		  cat patch.js ; \
                   sed -e "s/__OR__/$$(cat xxx_or)/g" \
-                      -e "s/$$1/'''/" $(OBJS) $$2 | tee xxx.debug | \
+                      -e "s/$$1/'''/" $(OBJS) $(LOCAL) $$2 | tee xxx.debug | \
                   $(PYJS) \
                   ) >$@ ; } ; \
             f
@@ -44,17 +47,17 @@ tomuss_python.js:xxx_or $(OBJS) Makefile
 tomuss_python_O.js:xxx_or $(OBJS) Makefile
 	@$(TRANSLATE) '#WITHOUTJAVASCRIPT#'
 
-tomuss_python_regtest.js:xxx_or $(OBJS) $(REGTEST) Makefile
-	@$(TRANSLATE) '#WITHJAVASCRIPT#' "$(REGTEST)"
+tomuss_python_regtest.js:xxx_or $(OBJS) $(REGTEST) $(LOCAL_REGTEST) Makefile
+	@$(TRANSLATE) '#WITHJAVASCRIPT#' "$(REGTEST) $(LOCAL_REGTEST)"
 
-tomuss_python_regtest_O.js:xxx_or $(OBJS) $(REGTEST) Makefile
-	@$(TRANSLATE) '#WITHOUTJAVASCRIPT#' "$(REGTEST)"
+tomuss_python_regtest_O.js:xxx_or $(OBJS) $(REGTEST) $(LOCAL_REGTEST) Makefile
+	@$(TRANSLATE) '#WITHOUTJAVASCRIPT#' "$(REGTEST) $(LOCAL_REGTEST)"
 
 regtest: PythonJS regtest_python regtest_js regtest_js_O
 
 regtest_python:
 	@echo "Running regression tests in Python"
-	@cat $(OBJS) $(REGTEST) >xxx.py ; python xxx.py
+	@cat $(OBJS) $(LOCAL) $(REGTEST) $(LOCAL_REGTEST) >xxx.py;python xxx.py
 	@echo
 
 regtest_js:tomuss_python_regtest.js xxx_tomuss.js

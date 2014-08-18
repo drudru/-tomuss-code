@@ -20,22 +20,6 @@
 
 def average_regtest():
 
-    def check(line, col):
-        compute_average(col, line)
-        if strip0(line[col].value) != strip0(line[col].expected):
-            try:
-                if abs(float(line[col].value) - float(line[col].expected)
-                       ) < 1e-5:
-                    return
-            except ValueError:
-                pass
-            print '='*77
-            print "Column:", col
-            print line
-            print 'Expected:', line[col].expected
-            print 'Computed:', line[col].value
-            regression_test_failed
-
     global columns
     columns = [Column(), Column(), Column(),
                Column(average_columns = [0, 1, 2]),
@@ -62,11 +46,11 @@ def average_regtest():
 # ABI + 0 = ABI
 [Cell(abi),Cell(abi),Cell(abi),C(abi),C(abi),C(abi),g,C(7.5  ),Cell(0),C(abi)],
 ]:
-        check(line, 3)
-        check(line, 4)
-        check(line, 5)
-        check(line, 7)
-        check(line, 9)
+        check_result(line, 3, compute_average)
+        check_result(line, 4, compute_average)
+        check_result(line, 5, compute_average)
+        check_result(line, 7, compute_average)
+        check_result(line, 9, compute_average)
 
     for value, expect in (
         (1.22, (2, 1, 1.2, 1.2)),
@@ -81,7 +65,7 @@ def average_regtest():
             columns = [Column(),
                        Column(average_columns = [0], round_by = round_by)
                        ]
-            check([Cell(value), C(exp)], 1)
+            check_result([Cell(value), C(exp)], 1, compute_average)
     
     columns = [Column(real_weight_add = False, empty_is=abi),
                Column(real_weight_add = False),
@@ -99,7 +83,7 @@ def average_regtest():
         (abi, tnr, abi),
         (1  , abi, 1  ),
         ):
-        check([Cell(v1), Cell(v2), C(expect)], 2)
+        check_result([Cell(v1), Cell(v2), C(expect)], 2, compute_average)
 
     columns = [Column(), Column(), Column(),
                Column(average_columns = [0,1,2]),
@@ -225,12 +209,12 @@ def average_regtest():
                 C(value), C(v_best), C(v_mean), C(v_best_mean),
                 Cell(1), C(v_p1), Cell(-1), C(v_m1),
                 Cell(cells[0]), Cell(cells[1]), Cell(cells[2]), C(v_sum) ]
-        check(line, 3)
-        check(line, 4)
-        check(line, 5)
-        check(line, 6)
-        check(line, 8)
-        check(line, 10)
+        check_result(line, 3, compute_average)
+        check_result(line, 4, compute_average)
+        check_result(line, 5, compute_average)
+        check_result(line, 6, compute_average)
+        check_result(line, 8, compute_average)
+        check_result(line, 10, compute_average)
 
     def combinations(values):
         if len(values) == 1:

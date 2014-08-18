@@ -19,21 +19,6 @@
 # Contact: Thierry.EXCOFFIER@univ-lyon1.fr
 
 def weighted_percent_regtest():
-    def check(line, col):
-        compute_weighted_percent(col, line)
-        if strip0(line[col].value) != strip0(line[col].expected):
-            try:
-                if abs(float(line[col].value) - float(line[col].expected)
-                       ) < 1e-5:
-                    return
-            except ValueError:
-                pass
-            print '='*77
-            print "Column:", col
-            print line
-            print 'Expected:', line[col].expected
-            print 'Computed:', line[col].value
-            regression_test_failed
     global columns
     columns = [Column(real_weight=3), Column(),
                Column(average_columns = [0, 1], computed=1),
@@ -55,7 +40,7 @@ def weighted_percent_regtest():
             [Cell(abj),Cell(abj),Cell(0),Cell(abj),Cell(abj),Cell(0),Cell(0),CE(100)],
             [Cell(abj),Cell(abj),Cell(abj),Cell(abj),Cell(abj),Cell(abj),Cell(abj),CE(100)],
     ):
-        check(line, 7)
+        check_result(line, 7, compute_weighted_percent)
         
     print 'Weight_percent regtest are fine'
 

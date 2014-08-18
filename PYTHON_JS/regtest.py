@@ -92,4 +92,20 @@ def strip0(txt):
 
 def CE(expected):
     return Cell(-1, expected=expected)
+
+def check_result(line, col, fct):
+    fct(col, line)
+    if strip0(line[col].value) != strip0(line[col].expected):
+        try:
+            if abs(float(line[col].value) - float(line[col].expected)
+                   ) < 1e-5:
+                return
+        except ValueError:
+            pass
+        print '='*77
+        print "Column:", col
+        print line
+        print 'Expected:', line[col].expected
+        print 'Computed:', line[col].value
+        regression_test_failed
     

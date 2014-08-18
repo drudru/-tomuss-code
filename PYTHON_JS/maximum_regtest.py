@@ -21,22 +21,6 @@
 columns = []
 
 def maximum_regtest():
-    def check(line, col):
-        compute_max_real(col, line)
-        if strip0(line[col].value) != strip0(line[col].expected):
-            try:
-                if abs(float(line[col].value) - float(line[col].expected)
-                       ) < 1e-5:
-                    return
-            except ValueError:
-                pass
-            print '='*77
-            print "Column:", col
-            print line
-            print 'Expected:', line[col].expected
-            print 'Computed:', line[col].value
-            regression_test_failed
-    
     global columns
     columns = [Column(), Column(), Column(),
                Column(average_columns = [0, 1, 2]),
@@ -147,7 +131,7 @@ def maximum_regtest():
             ((nan, nan, nan), nan),
         ):
         line = [Cell(cells[0]), Cell(cells[1]), Cell(cells[2]), CE(value)]
-        check(line, 3)
+        check_result(line, 3, compute_max_real)
         
     print 'Maximum regtest are fine'
 
