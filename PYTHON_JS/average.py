@@ -24,8 +24,10 @@
 if python_mode:
     rint = round
     isNaN = __import__("math").isnan
+    ceil = __import__("math").ceil
 else:
     rint = Math.round
+    ceil = Math.ceil
 
 def compute_average(data_col, line):
     column = columns[data_col]
