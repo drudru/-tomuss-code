@@ -745,7 +745,7 @@ def page_rss(server):
                     continue
                 if not column.visible():
                     continue # Hidden column
-                if column.type.cell_compute == 'undefined':
+                if not column.is_computed():
                     s.append((cell.date, cell, t, column))
     s.sort()
     for date, cell, table, column in s[-10:]:

@@ -519,6 +519,9 @@ class Column(object):
                 and self.table.authorized(ticket.user_name, cell)
                 )
 
+    def is_computed(self):
+        return self.type.computed
+
 class Columns(object):
     """A set of Column associated to a table.
     The columns are stored in a list, so they have an index.

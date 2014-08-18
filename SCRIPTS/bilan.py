@@ -41,7 +41,7 @@ class UE:
         weight = 0.
         for cell, column in zip(line, table.columns)[6:]:
             value = cell.value
-            if column.type.cell_compute == 'undefined' and value == '' and column.empty_is:
+            if not column.is_computed() and value == '' and column.empty_is:
                 value = column.empty_is
             if value == configuration.pre:
                 prst += 1

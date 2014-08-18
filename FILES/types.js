@@ -71,7 +71,7 @@ function update_column_recursive(column, line)
     return ;
   column.update_done = true ;
 
-  if ( type.cell_compute === undefined )
+  if ( ! column.is_computed() )
     return ;
 
   for(var c in column.average_columns)

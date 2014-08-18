@@ -2322,12 +2322,12 @@ function add_empty_column(keep_data)
   else
     d = -1 ;
 
-  var column = {the_id:page_id + '_' + nr_new_columns,
+  var column = Col({the_id:page_id + '_' + nr_new_columns,
 		the_local_id:  nr_new_columns.toString(),
 		data_col: columns.length,
 		is_empty: keep_data === undefined,
 		filter: ""
-  } ;
+    }) ;
 
   column.real_type = type_title_to_type(column_attributes['type'].default_value) ;
   var value ;
@@ -2346,15 +2346,28 @@ function add_empty_column(keep_data)
   nr_new_columns++ ;
 }
 
+/*****************************************************************************/
+
+function Column(attrs)
+{
+  for(var attr in attrs)
+    this[attr] = attrs[attr] ;
+  for(var attr in column_attributes)
+    if ( this[attr] === undefined )
+      this[attr] = column_attributes[attr].default_value ;
+}
+
 function Col(attrs)
 {
-  for(var attr in column_attributes)
-    {
-      if ( attrs[attr] === undefined )
-	attrs[attr] = column_attributes[attr].default_value ;
-    }
-  return attrs ;
+  return new Column(attrs) ;
 }
+
+Column.prototype.is_computed = function() {
+  return this.real_type.cell_compute !== undefined ;
+} ;
+
+/*****************************************************************************/
+
 
 function add_empty_columns()
 {

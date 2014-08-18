@@ -1142,8 +1142,6 @@ class Table(object):
                 s.append("new_page('' ,'%s', '', '')" % author)
             
         for c in self.columns:
-            # if c.empty() and c.type.cell_compute == 'undefined':
-            #    continue
             for attr in column.ColumnAttr.attrs.values():
                 if attr.name == 'author':
                     continue

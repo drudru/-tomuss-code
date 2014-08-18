@@ -43,6 +43,7 @@ class Column:
                  empty_is = '',
                  test_filter='',
                  comment='',
+                 computed=0,
                  ):
         # self.__dict__ is not translated into javascript
         # ** is not translated into javascript
@@ -57,9 +58,12 @@ class Column:
         self.empty_is = empty_is
         self.test_filter = test_filter
         self.comment = comment
+        self.computed = computed
 
     def nmbr_filter(self, cell):
         return Filter(self.test_filter, "","").eval(cell)
+    def is_computed(self):
+        return self.computed
 
 class Cell:
     def __init__(self, x, author="", date="", comment="", history="",
