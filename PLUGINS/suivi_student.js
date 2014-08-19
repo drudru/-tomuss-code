@@ -935,7 +935,7 @@ function DisplayUEGrades(node)
       init_column(columns[data_col]) ;
       columns[data_col].data_col = data_col ;
     }
-  update_columns(line);
+  // update_columns(line);
 
   DisplayGrades.table_attr = ue ;
   var s = '' ;

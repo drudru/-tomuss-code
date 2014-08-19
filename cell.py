@@ -280,7 +280,7 @@ class Line(object):
             return '[' + ','.join([cell.js_student()
                                    for cell, col in zip(self.cells,
                                                         columns)
-                                   if col.copy_on_browser()]) + ']'
+                                   if col.visible()]) + ']'
         else:
             return '[' + ','.join([cell.js() for cell in self.cells]) + ']'
 
@@ -290,7 +290,7 @@ class Line(object):
             return [cell.json()[:4]
                     for cell, col in zip(self.cells,
                                          columns)
-                    if col.copy_on_browser()
+                    if col.visible()
                     ]
         else:
             return [cell.json()

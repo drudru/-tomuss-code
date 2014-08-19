@@ -401,41 +401,33 @@ class Column(object):
         except ValueError:
             return 0, 20
 
-    def js(self, hide, obfuscated={}, python=False):
-        """Returns the JavaScript describing the column."""
+    def js(self, hide, python=False):
+        """Returns the JavaScript describing the column.
+        hide=False : For the table editor
+        hide=1 for a teacher on the suivi 
+        hide=True for a student on the suivi 
+        """
         d = {}
         for attr in column_attributes():
-            if attr == 'url_import':
+            value = getattr(self, attr.name)
+            if attr.name == 'url_import':
                 continue # private
-            if hide and attr.name == 'comment':
-                value = re.sub(r'(TITLE|IMPORT|BASE)\([^)]*\)', '',
-                               self.comment)
-                # Remove the ]0,0[ indicator
-                # value = re.sub(r'][0-9][0-9]*,[0-9][0-9]*\[', '', value)
-            else:
-                value = getattr(self, attr.name)
-            if hide is 1: # see line_compute_js
-                if not self.visible():
-                    if attr.name == 'comment':
-                        value = ''
-                    elif attr.name == 'title':
-                        value = obfuscated[value]
-                    # Type obfuscation is not possible because the
-                    # averages can't be computed on javascript side :
-                    # elif attr.name == 'type' and value.name == 'Note':
-                    #    value = 'Prst'
-                if value and attr.name == 'columns':
-                    for old, new in obfuscated.items():
-                        value = (' ' + value + ' ').replace(
-                            ' ' + old + ' ', ' ' + new + ' ')[1:-1]
-
+            elif attr.name == 'comment':
+                if hide:
+                    value = re.sub(r'(TITLE|IMPORT|BASE)\([^)]*\)', '', value)
+            elif attr.name == 'columns':
+                if hide is 1:
+                    titles = []
+                    for title in self.depends_on():
+                        col = self.table.columns.from_title(title)
+                        if col and col.visible():
+                            titles.append(title)
+                    value = ' '.join(titles)
             if value != attr.default_value:
                 if attr.name == 'type':
                     value = value.name
                 d[attr.name] = value
         d['the_id'] = self.the_id
-        if self.title in obfuscated:
-            d['obfuscated'] = 1
         if python:
             return d
         else:
@@ -498,15 +490,6 @@ class Column(object):
             if self.visibility_date > date:
                 return False
         return True
-
-    def copy_on_browser(self):
-        """Returns True if the column is needed to compute a visible result"""
-        if self.visible():
-            return True
-        for use_me in self.table.columns.use(self):
-            if use_me.copy_on_browser():
-                return True
-        return False
 
     def is_modifiable(self, teacher, ticket, cell):
         """From 'suivi' by student or teacher"""
@@ -613,23 +596,20 @@ class Columns(object):
 
     def js(self, hide, python=False):
         """Returns the javaScript code describing all NEEDED columns."""
-        obfuscated = {}
         if hide is 1:
             columns = []
             for c in self.columns:
-                if not c.copy_on_browser():
+                if not c.visible():
                     continue
                 columns.append(c)
-                if not c.visible():
-                    obfuscated[c.title] = '.'+hashlib.md5(c.title).hexdigest()
         else:
             columns = self.columns
 
         if python:
-            return [c.js(hide, obfuscated, python=True)
+            return [c.js(hide, python=True)
                     for c in columns]
         else:
-            return 'columns = [\n'+',\n'.join([c.js(hide, obfuscated)
+            return 'columns = [\n'+',\n'.join([c.js(hide)
                                                for c in columns]) + '\n];'
 
     def __iter__(self):
