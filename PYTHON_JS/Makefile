@@ -17,21 +17,27 @@ PYJS = PythonJS/pythonjs/translator.py --no-wrapper
 LOCAL=$(shell if [ -d ../LOCAL/LOCAL_PYTHON_JS ] ; then ls ../LOCAL/LOCAL_PYTHON_JS/*.py | grep -v regtest ; fi)
 LOCAL_REGTEST=$(shell if [ -d ../LOCAL/LOCAL_PYTHON_JS ] ; then echo ../LOCAL/LOCAL_PYTHON_JS/*_regtest.py ; fi)
 
-TRANSLATE = f() { echo "Python translation to JavaScript:" $(OBJS) $$2 $$1 ; \
-                  (  \
-		  cat patch.js ; \
-                  sed -e "s/__OR__/$$(cat xxx_or)/g" \
-                      -e "s/$$1/'''/" $(OBJS) $(LOCAL) $$2 | tee xxx.debug | \
-                  $(PYJS) \
-                  ) >$@ ; } ; \
-            f
+TRANSLATE = f() { \
+if [ -f PythonJS/pythonjs/translator.py ] ; \
+then \
+echo "Python translation to JavaScript:" $(OBJS) $$2 $$1 ; \
+(  \
+sed -e "s/$$1/'''/" $(OBJS) $(LOCAL) $$2 | tee xxx.debug | \
+$(PYJS) \
+) >$@ ; \
+else \
+$(MAKE) warning ; \
+fi ; } ; f
 
 NODE = export NODE_MODULE_CONTEXTS=1 ; node
 
-xxx_or:../TRANSLATIONS/*/*/tomuss.po PythonJS
-	@python -c 'import tomuss_init ; from .. import utilities ; print utilities._("or")' >$@ 2>/dev/null
-	@echo "The 'or' keyword in filters is '$$(cat xxx_or)'"
-	@echo "Do not modify this once this keyword has been stored in tables"
+warning:
+	@echo "==============================================================="
+	@echo "PythonJS not installed: no Python to JavaScript translation"
+	@echo "You are using the staticaly translated JS from the tarball"
+	@echo "To install the translator, run:  cd PYTHON_JS ; make PythonJS"
+	@echo "You need to install node.js in order to make regression tests"
+	@echo "==============================================================="
 
 PythonJS:
 	@echo "Cloning PythonJS repository, checkout a working version"
@@ -44,16 +50,16 @@ update:
 tomuss_python.py:$(OBJS)
 	@cat $(OBJS) >$@
 
-tomuss_python.js:xxx_or $(OBJS) Makefile
+tomuss_python.js:$(OBJS) Makefile
 	@$(TRANSLATE) '#WITHJAVASCRIPT#'
 
-tomuss_python_O.js:xxx_or $(OBJS) Makefile
+tomuss_python_O.js:$(OBJS) Makefile
 	@$(TRANSLATE) '#WITHOUTJAVASCRIPT#'
 
-tomuss_python_regtest.js:xxx_or $(OBJS) $(REGTEST) $(LOCAL_REGTEST) Makefile
+tomuss_python_regtest.js:$(OBJS) $(REGTEST) $(LOCAL_REGTEST) Makefile
 	@$(TRANSLATE) '#WITHJAVASCRIPT#' "$(REGTEST) $(LOCAL_REGTEST)"
 
-tomuss_python_regtest_O.js:xxx_or $(OBJS) $(REGTEST) $(LOCAL_REGTEST) Makefile
+tomuss_python_regtest_O.js:$(OBJS) $(REGTEST) $(LOCAL_REGTEST) Makefile
 	@$(TRANSLATE) '#WITHOUTJAVASCRIPT#' "$(REGTEST) $(LOCAL_REGTEST)"
 
 regtest: PythonJS regtest_python regtest_js regtest_js_O
@@ -78,7 +84,8 @@ stats:
 	@wc $(OBJS) tomuss_python*.js
 
 clean:
-	-rm tomuss_python.js tomuss_python_O.js xxx*
+	# Do not delete tomuss_python_O.js, it may be not buildable
+	-rm tomuss_python.js tomuss_python_regtest.js tomuss_python_regtest_O.js xxx*
 
 xxx_tomuss.js:Makefile ../FILES/lib.js ../FILES/utilities.js ../COLUMN_TYPES/text.js deprecated.js
 	@echo 'window = { location:""} ; ' >$@

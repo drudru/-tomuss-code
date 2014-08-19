@@ -32,11 +32,17 @@ clean:
 tags:
 	etags $$(git ls-files -- '*.js' '*.py') $$(cd LOCAL ; git ls-files -- '*.js' '*.py' | sed 's,^,LOCAL/,') 
 
-regtest:clean translations
-	cd REGTEST_SERVER ; ./tests.py 2>/dev/null
-
 regtest1:clean translations
+	@cd PYTHON_JS ; $(MAKE) regtest_python
+	@cd PYTHON_JS ; \
+        if [ -d PythonJS -a -x node ] ; \
+        then $(MAKE) regtest_js_O ; \
+	else $(MAKE) warning ; \
+	fi
 	cd REGTEST_SERVER ; ./tests.py 1 2>/dev/null
+
+regtest:regtest1
+	cd REGTEST_SERVER ; ./tests.py 2>/dev/null
 
 V := $(shell python -c 'import tomuss_init ; from . import configuration;print configuration.version' 2>/dev/null)
 
@@ -70,6 +76,9 @@ tar:
 	@cp -a $$(pwd)/?* /tmp/TOMUSS-$(V)
 	@echo "Remove what is not in GIT"
 	@git ls-files -o --directory | (cd /tmp/TOMUSS-$(V) && xargs rm -r || true)
+	@echo "Copy tomuss_python_O.js"
+	@make translations
+	@cp PYTHON_JS/tomuss_python_O.js /tmp/TOMUSS-$(V)/PYTHON_JS
 	@echo "Rename LOCAL.template to LOCAL"
 	@mv /tmp/TOMUSS-$(V)/LOCAL.template /tmp/TOMUSS-$(V)/LOCAL
 	@cd /tmp ; \

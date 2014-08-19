@@ -111,9 +111,10 @@ def filterRegtest():
     # Complex filter that should return True.
     for tst in ("@j&:14", "@j &:14", "@j & :14", "@j& :14", "@j :14",
                 "@j & :14 & =4", "@j :14 =4", "@j   :14   =4",
-                "=4|=5", "=4 | =5", "=5 | =4", "=5 __OR__ =4", "=5 __OR__ !=6",
+                "=4|=5", "=4 | =5", "=5 | =4", "=5 OR =4", "=5 OR !=6",
                 "@~&=4",
                 ):
+        tst = tst.replace('OR', or_keyword())
         if not Filter(tst, "", "").eval(c):
             bug("BUG5", tst)
 

@@ -38,7 +38,18 @@ if python_mode:
     # Python
     def flat(txt):
         return txt.translate(flat_map)
+    def or_keyword():
+        try:
+            return __import__('sys').modules['TOMUSS.utilities']._('or')
+        except KeyError:
+            try:
+                return __import__('utilities')._('or')
+            except ImportError:
+                return 'or'
+        
 else:
+    def or_keyword():
+        return _('or')
     @javascript
     def char_flat(c):
         return flat_map.substr(c.charCodeAt(0),1)
@@ -340,8 +351,8 @@ class Filter(object):
             self.filters = [('', FilterTrue())]
             return
         self.filters = []
-        # __OR__ is replaced by its translation
-        string = string.replace(" __OR__ ", " | ").strip()
+        # OR is replaced by its translation
+        string = string.replace(" " + or_keyword() + " ", " | ").strip()
         mode = ''
         while string:
             string = string.strip()
