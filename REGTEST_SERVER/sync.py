@@ -124,6 +124,7 @@ def tests(s):
     assert(s.url("=" + root
                  + '/0/Public/sync/1/1/cell_change/col_0/line_1/SyncBroken')
            == ok_png)
+    time.sleep(1)
 
     print "B restore the link"
     b_link = Reader("=" +root+ '/0/Public/sync/2')

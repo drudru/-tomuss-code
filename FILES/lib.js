@@ -4673,7 +4673,7 @@ function javascript_regtest_ue()
   var inputs=['0'   ,'1'   ,'2,2' ,'p','i','j', 'o', 'n','4/3/2008'  ,'3/4/8'     ,'12/12/99', '0.95', '0.9966'] ;
   var notes =['0.00','1.00','2.20',''   ,abi,abj,''   ,ppn,''          ,''          ,'', '0.95', '0.99'] ;
   var moys  =['0.00','1.00','2.20','NaN',abi,abj,'NaN',ppn,'NaN'       ,'NaN'       ,'NaN', '0.95', '0.99'] ;
-  var expore=['0,000','1,000','2,200', '',abi_short,abj_short,'',ppn_short,''         ,''          ,'', '0,950', '0,993'] ;
+  var expore=['0,00','1,00','2,20', '',abi_short,abj_short,'',ppn_short,''         ,''          ,'', '0,95', '0,99'] ;
   var nmbr  =['0'   ,'0'   ,'5'   ,'0'  ,'1','4','0'  ,'0','0'         ,'0'         ,'0', '0', '0'] ;
   var boole =[no    ,yes   ,''    ,''   ,'' ,'' ,yes  ,no ,''          ,''          ,'', '', ''] ;
   var today = new Date() ;
