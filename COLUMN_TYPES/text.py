@@ -100,9 +100,7 @@ def get_column_from_a_table(column, table_list):
         if table.private:
             error(column, 'ALERT_url_import_private', url)
             return
-        if col.type.cell_compute != 'undefined':
-            error(column, 'ALERT_url_import_computed', url)
-            return
+        table.compute_columns()
         for line in table.lines.values():
             if line[0].value != '':
                 values[line[0].value].append((getter(line[col.data_col]), url))

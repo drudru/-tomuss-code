@@ -406,7 +406,6 @@ msgstr "Dynamically insert a CSV file into the columns values.<br>\n"
  "<hr>\n"
  "To extract a column from another TOMUSS table, indicate:<br>\n"
  "table/column or semester/table/column or year/semester/table/column<br>\n"
- "<b>BEWARE: computed values are not imported.</b>\n"
  "<br>You can prefix the line with #@?: to indicate that you want\n"
  "to import cell comment, author, date or history."
        
