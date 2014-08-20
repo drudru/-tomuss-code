@@ -19,6 +19,7 @@
 #
 #    Contact: Thierry.EXCOFFIER@bat710.univ-lyon1.fr
 
+import cgi
 from .. import plugin
 from .. import document
 from .. import utilities
@@ -72,15 +73,11 @@ def display(server):
                 s = utilities.the_login(line[0].value)
                 if s == '':
                     continue
-                students[s][i] = (
-                    table.lines.line_compute_js(line) +
-                    '<script>document.write(line[' +
-                    str(data_col) + '].value_fixed());</script>')
+                students[s][i] = cgi.escape(str(line[data_col].value))
             i += 1
 
     # display
-    f.write(document.the_head)
-    f.write('<body><table class="colored"><thead>')
+    f.write('<body><table border><thead>')
 
     f.write('<tr><th rowspan="2">ID')
     for table, position, columns in tables:
@@ -168,18 +165,16 @@ def display_fusion(server,
                 if line[0].value == '':
                     continue
                 s = utilities.the_login(line[0].value)
-                v = '<td>' + str(line[data_col].value)
+                v = '<td>' + cgi.escape(str(line[data_col].value))
                 if with_column:
                     v += '<td>' + column_title
                 if with_author:
                     v += '<td>' + line[data_col].author
                 students[s].append(v)
     # display
-    f.write(document.the_head)
-    f.write('<body>')
     for table, columns in tables:
         f.write(table.ue + ' ' + repr(columns) + '<br>')
-    f.write('<table class="colored">')
+    f.write('<table border>')
     f.write('<tbody>\n')
     for student, values in students.items():
         firstname, surname = inscrits.L_batch.firstname_and_surname(student)

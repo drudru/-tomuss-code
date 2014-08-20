@@ -1723,6 +1723,39 @@ cell_change(1,'0_2','ticket_time_to_live','%d',"")
         assert('sig_message' in c)
         assert(')sig_button<' in c)
 
+    if do('extract'):
+        c = s.url('=' + root + '/%s/UE-extract' % ys)
+        time.sleep(1)
+        c = s.url('=' + root + '/%s/UE-extract' % ys +
+                  '/1/0/column_attr_title/col_0/a')
+        assert(c == ok_png)
+        c = s.url('=' + root + '/%s/UE-extract' % ys +
+                  '/1/1/column_attr_title/col_1/b')
+        assert(c == ok_png)
+        c = s.url('=' + root + '/%s/UE-extract' % ys +
+                  '/1/2/cell_change/0_0/L1/10800099')
+        assert(c == ok_png)
+        c = s.url('=' + root + '/%s/UE-extract' % ys +
+                  '/1/3/cell_change/col_0/L1/1')
+        assert(c == ok_png)
+        c = s.url('=' + root + '/%s/UE-extract' % ys +
+                  '/1/4/cell_change/col_1/L1/2')
+        assert(c == ok_png)
+        c = s.url('=' + root + '/%s/UE-extract' % ys +
+                  '/1/5/column_attr_title/col_2/Moy')
+        assert(c == ok_png)
+        c = s.url('=' + root + '/%s/UE-extract' % ys +
+                  '/1/6/column_attr_type/col_2/Moy')
+        assert(c == ok_png)
+        c = s.url('=' + root + '/%s/UE-extract' % ys +
+                  '/1/7/column_attr_columns/col_2/a$20b')
+        assert(c == ok_png)
+        ss.start()
+        c = ss.url('=' + root +'/%s/extract/UE-extract:Moy' % ys)
+        assert('<td>10800099<td>1.5</tr>' in c)
+        
+        c = ss.url('=' + root +'/%s/fusion/UE-extract:Moy' % ys)
+        assert('<tr><td>10800099<td>10800099Firstname<td>10800099Surname<td>UE-extract<td>1.5<td>Moy</tr>' in c)        
         
 if '1' in sys.argv:
    sys.argv.remove('1')
