@@ -86,8 +86,10 @@ tar:
 	    | bzip2 -9 >~/public_html/TOMUSS/TOMUSS-$(V).tar.bz2 ;
 	@echo "Start tempory files cleanup"
 	@rm -rf /tmp/TOMUSS-$(V)
-	@rm -f ~/public_html/TOMUSS/tomuss.tar.bz2
+	@echo "Run regression tests on tarball"
+	@$(MAKE) tar-check >xxx.tarcheck 2>&1
 	@echo "Create link to last version"
+	@rm -f ~/public_html/TOMUSS/tomuss.tar.bz2
 	@ln -s TOMUSS-$(V).tar.bz2 ~/public_html/TOMUSS/tomuss.tar.bz2
 	@ls -ls ~/public_html/TOMUSS/TOMUSS-$(V).tar.bz2
 	@ls -ls ~/public_html/TOMUSS/tomuss.tar.bz2
