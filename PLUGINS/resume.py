@@ -71,8 +71,10 @@ def resume(server):
                 s.name = line[2].value
             logins[login].tables[table] = (
                 len([cell for cell in line[6:]
-                     if cell.value != ''
-                     and cell.value != configuration.abi]),
+                     if cell.value not in ('',
+                                           configuration.abi,
+                                           configuration.tnr)
+                 ]),
                 )
     columns.append(
         column.Column('c3', '', position=2,
