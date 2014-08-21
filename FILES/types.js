@@ -86,11 +86,12 @@ function update_column_recursive(column, line)
 	{
 	  for(var line_id in lines)
 	    if ( ! line_empty(lines[line_id]) )
-	      type.cell_compute(column.data_col, lines[line_id]) ;
+	      compute_cell_safe(column.data_col, lines[line_id],
+				type.cell_compute) ;
 	}
       else
 	{
-	  type.cell_compute(column.data_col, line) ;
+	  compute_cell_safe(column.data_col, line, type.cell_compute) ;
 	}
     }
 

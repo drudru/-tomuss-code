@@ -1401,7 +1401,11 @@ function cell_changeable(column)
   if ( column.locked )
       return _("ALERT_locked_column") ;
   if ( ! column.real_type.cell_is_modifiable )
-      return _("ERROR_tablelinear_value_not_modifiable") ;
+    {
+       // Computed numbers are not modifiable
+      if ( ! isNaN(this.value) && this.author.substr(0,2) == '*\003' )
+	return _("ERROR_tablelinear_value_not_modifiable") ;
+    }
   return true ;
 }
 

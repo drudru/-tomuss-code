@@ -147,3 +147,31 @@ def compute_average(data_col, line):
     else:
         value = nan
     line[data_col] = line[data_col].set_value(value)
+
+
+def get_most_recent_date(data_col, line, not_root=False):
+    if not not_root:
+        if not columns[data_col].is_computed():
+            return line[data_col].date
+    date = "0"
+    for data_column in columns[data_col].average_columns:
+        d = get_most_recent_date(data_column, line)
+        if d > date:
+            date = d
+    return date
+
+def compute_cell_safe(data_col, line, compute_function):
+    """
+    If the computed value is not a number and the cell was containing
+    a newer value, then the old cell value is restored.
+    """
+    old_value = line[data_col].value
+    compute_function(data_col, line)
+    if columns[data_col].cell_is_modifiable():
+        return # For COW column type
+
+    line[data_col].author = '*\003'+ line[data_col].author
+    if isNaN(to_float_or_nan(line[data_col].value)):
+        if get_most_recent_date(data_col, line, True) < line[data_col].date:
+            line[data_col].value = old_value
+            line[data_col].author = line[data_col].author.replace('*\003','')

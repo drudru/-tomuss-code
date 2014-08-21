@@ -504,6 +504,9 @@ class Column(object):
     def is_computed(self):
         return self.type.cell_compute != 'undefined'
 
+    def cell_is_modifiable(self):
+        return self.type.cell_is_modifiable
+
 class Columns(object):
     """A set of Column associated to a table.
     The columns are stored in a list, so they have an index.

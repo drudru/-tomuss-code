@@ -2362,6 +2362,10 @@ Column.prototype.is_computed = function() {
   return this.real_type.cell_compute !== undefined ;
 } ;
 
+Column.prototype.cell_is_modifiable = function() {
+  return this.real_type.cell_is_modifiable !== undefined ;
+} ;
+
 /*****************************************************************************/
 
 

@@ -425,7 +425,8 @@ class Table(object):
                                     tomuss_python.__dict__
                                 )
                 for line in self.lines.values():
-                    cell_compute(column.data_col, line)
+                    tomuss_python.compute_cell_safe(column.data_col, line,
+                                                    cell_compute)
 
     def update(self):
         """Update the table if the file on disc changed.
