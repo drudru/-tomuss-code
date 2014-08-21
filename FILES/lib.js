@@ -721,11 +721,7 @@ function show_the_tip(td, tip_content, what)
 	  if ( line === undefined )
 	    return ;
 	  var cell = line[data_col] ;
-	  if ( cell.is_mine()
-	       && table_attr.modifiable
-	       && column.real_type.cell_is_modifiable
-	       && type.tip_cell
-	       )
+	  if ( cell.modifiable(column) && type.tip_cell )
 	    s = '<span class="title">' + _(type.tip_cell) + '</span><br>' ;
 	  else
 	    s = '' ;

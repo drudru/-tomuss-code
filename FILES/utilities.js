@@ -1400,6 +1400,8 @@ function cell_changeable(column)
     }
   if ( column.locked )
       return _("ALERT_locked_column") ;
+  if ( ! column.real_type.cell_is_modifiable )
+      return _("ERROR_tablelinear_value_not_modifiable") ;
   return true ;
 }
 
@@ -2169,8 +2171,7 @@ function current_focus()
 
 function current_cell_modifiable()
 {
-  return this.cell.modifiable(this.column)
-      && this.column.real_type.cell_is_modifiable ;
+  return this.cell.modifiable(this.column) ;
 }
    
 // Update input from real table content (external change)
