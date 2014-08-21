@@ -31,7 +31,6 @@ function get_original_cow_column()
   return column ;
 }
 
-
 function toggle_cow(value)
 {
   var column = get_original_cow_column() ;
@@ -45,9 +44,6 @@ function test_cow(value, column)
 {
   var column = get_original_cow_column() ;
   if ( column )
-    {
-      if ( column.real_type.cell_test != test_read_only )
-	return column.real_type.cell_test(value, column) ;
-    }
+    return column.real_type.cell_test(value, column) ;
   return value ;
 }

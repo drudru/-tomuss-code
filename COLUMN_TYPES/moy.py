@@ -23,7 +23,6 @@ from . import note
 
 class Moy(note.Note):
     human_priority = -8
-    cell_test = 'test_read_only'
     cell_compute = 'compute_average'
     cell_is_modifiable = 0
     type_type = 'computed'
