@@ -593,18 +593,14 @@ class Table(object):
                 sender.append(p.browser_file, value,
                               index=len(self.sent_to_browsers))
 
-    def authorized(self, user_name, value):
+    @utilities.add_a_method_cache
+    def cell_writable_filter(self, filter_user_type):
+        from .PYTHON_JS import tomuss_python
+        return tomuss_python.Filter(*filter_user_type).eval
+
+    def authorized(self, user_name, value, column=None):
         # Authorized because the test have yet be done in the past
         if self.loading:
-            return True
-        # Values setted by user '' are modifiable
-        if value.author == data.rw_user:
-            return True
-        # Empty values are modifiable by anyone
-        if value.value == '':
-            return True
-        # The user can change its values
-        if value.author == user_name:
             return True
         # RO and RW users have all the rights
         if user_name == data.ro_user or user_name == data.rw_user:
@@ -615,6 +611,19 @@ class Table(object):
         # The masters of the UE may change any value setted by another user
         if user_name in self.masters:
             return True
+        # Values setted by user '' are modifiable
+        if value.author == data.rw_user:
+            return True
+        if column and column.cell_writable:
+            return self.cell_writable_filter(
+                (column.cell_writable, user_name, column.type.name)
+            )(value)
+        # Empty values are modifiable by anyone
+        if value.value == '':
+            return True
+        # The user can change its values
+        if value.author == user_name:
+            return True
         return False
 
     def authorized_column(self, user_name, a_column):
@@ -624,7 +633,6 @@ class Table(object):
     def cell_change(self, page, col, lin, value=None,
                     date=None, force_update=False,
                     change_author=True):
-
         if not self.loading and not self.modifiable:
             return self.bad_ro(page)
 
@@ -640,7 +648,7 @@ class Table(object):
             value = cell.value
 
         if not self.loading and not force_update:
-            if not self.authorized(page.user_name, cell):
+            if not self.authorized(page.user_name, cell, a_column):
                 utilities.warn('cell value = (%s)' % cell.value)
                 return self.bad_auth(page, "cell_change %s/%s/%s" % (
                         col, lin, value))

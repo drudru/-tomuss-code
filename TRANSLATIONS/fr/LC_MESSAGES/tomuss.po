@@ -206,6 +206,18 @@ msgstr "<b>Poids de cette colonne</b> dans les moyennes pondérées.<br>\n"
  "    ajoutée à la valeur finale de la moyenne."
 
 #. Attribute Tip
+msgid "TIP_column_attr_cell_writable"
+msgstr "Les cellules correspondant à ce filtre sont modifiables.<br>\n"
+ "Quelques exemples courants d'utilisation :\n"
+ "<table class=\"colored\">\n"
+ "<tr><td class=\"nowrap\">= | @<td> filtre par défaut : cellule vide ou saisie par l'utilisateur</tr>\n"
+ "<tr><td class=\"nowrap\">= | @ | =ABINJ<td> en plus les valeurs ABINJ</tr>\n"
+ "<tr><td class=\"nowrap\">=<td> seulement les cellules vides (les modifications sont impossibles)</tr>\n"
+ "<tr><td class=\"nowrap\">@=thierry<td> les cellules saisies par 'thierry'. Une fois modifiée par quelqu'un d'autre, elles ne sont plus modifiables.</tr>\n"
+ "<tr><td class=\"nowrap\">@=thierry | @<td> les cellules saisies par 'thierry' et par l'utilisateur</tr>\n"
+ "</table>\nLes responsables de la table ne sont pas contraints par ce filtre."
+
+#. Attribute Tip
 msgid "TIP_column_attr_modifiable"
 msgstr "Les cellules de la colonne sont modifiables à partir<br>\n"
  "    de la page de suivi de l'étudiant par :"
@@ -1060,7 +1072,7 @@ msgstr "Visible"
 
 #. Select value
 msgid "SELECT_column_locked_no"
-msgstr "Cellules modifiables"
+msgstr "Cellules modifiables si:"
 
 #. Select value
 msgid "SELECT_column_locked_yes"

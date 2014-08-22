@@ -1390,14 +1390,6 @@ function cell_changeable(column)
 {
   if ( ! table_attr.modifiable )
       return _("ERROR_table_read_only") ;
-  if ( ! this.is_mine() )
-    {
-      if ( ! i_am_the_teacher )
-	  return _("ERROR_value_defined_by_another_user") + table_attr.masters;
-      if ( this.author === '*')
-	  return _("ERROR_value_not_modifiable") + '\n'
-	    + _("ERROR_value_system_defined") ;
-    }
   if ( column.locked )
       return _("ALERT_locked_column") ;
   if ( ! column.real_type.cell_is_modifiable )
@@ -1406,7 +1398,22 @@ function cell_changeable(column)
       if ( ! isNaN(this.value) && this.author.substr(0,2) == '*\003' )
 	return _("ERROR_tablelinear_value_not_modifiable") ;
     }
-  return true ;
+  if ( this.author === '*')
+    return _("ERROR_value_not_modifiable") + '\n'
+      + _("ERROR_value_system_defined") ;
+  if ( i_am_the_teacher )
+    return true ;
+
+  var r ;
+  if ( column.cell_writable === '' )
+    r = this.is_mine() ;
+  else
+    r = column.cell_writable_filter(this) ;
+
+  if ( r )
+    return true ;
+  else
+    return _("ERROR_value_defined_by_another_user") + table_attr.masters;
 }
 
 function cell_modifiable(column)

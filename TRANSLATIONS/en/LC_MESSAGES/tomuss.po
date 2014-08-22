@@ -211,6 +211,19 @@ msgstr ""
 "The cell value is multiplied by the weight and is added to the final average."
 
 #. Attribute Tip
+msgid "TIP_column_attr_cell_writable"
+msgstr "The modifiable cells must match this filter.<br>\n"
+ "Common usage examples:\n"
+ "<table class=\"colored\">\n"
+ "<tr><td class=\"nowrap\"> = | @<td> default filter: empty cells or user defined cells</tr>\n"
+ "<tr><td class=\"nowrap\"> = | @ | =INJLEAVE<td> add the INJLEAVE cells.</tr>\n"
+ "<tr><td class=\"nowrap\"> =<td> empty cells are modifiable. Once changed, the modification is no more possible</tr>\n"
+ "<tr><td class=\"nowrap\"> @=john<td> john's cells. Once modified by somebody else, they are no more modifiable.</tr>\n"
+ "<tr><td class=\"nowrap\"> @=john | @<td> john's cells and user defined cells</tr>\n"
+ "</table>The table masters are not restricted by this filter."
+
+
+#. Attribute Tip
 msgid "TIP_column_attr_modifiable"
 msgstr "Column cells are modifiable from the student 'suivi' page by:"
 
@@ -1065,7 +1078,7 @@ msgstr "Visible"
 
 #. Select value
 msgid "SELECT_column_locked_no"
-msgstr "Cells are modifiable"
+msgstr "Cells are modifiable if:"
 
 #. Select value
 msgid "SELECT_column_locked_yes"

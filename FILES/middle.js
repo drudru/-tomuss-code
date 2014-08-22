@@ -832,6 +832,8 @@ function new_new_interface()
 			    [1, _("SELECT_column_locked_yes")],
 			   ]
 			   )) ;
+  t.push(column_input_attr('cell_writable'
+			   )) ;
   t.push(column_input_attr('modifiable',
 			   [[0, _("SELECT_column_modifiable_by_nobody")],
 			    [1, _("SELECT_column_modifiable_by_teachers")],

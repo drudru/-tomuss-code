@@ -1756,7 +1756,42 @@ cell_change(1,'0_2','ticket_time_to_live','%d',"")
         
         c = ss.url('=' + root +'/%s/fusion/UE-extract:Moy' % ys)
         assert('<tr><td>10800099<td>10800099Firstname<td>10800099Surname<td>UE-extract<td>1.5<td>Moy</tr>' in c)        
+
+    if do('cell_writable'):
+        c = s.url('=' + root + '/%s/UE-cell_writable' % ys)
+        time.sleep(1)
+        c = s.url('=' + root + '/%s/UE-cell_writable' % ys +
+                  '/1/0/column_attr_title/col_0/a')
+        assert(c == ok_png)
+        c = s.url('=' + root + '/%s/UE-cell_writable' % ys +
+                  '/1/1/cell_change/0_0/L1/10800099')
+        assert(c == ok_png)
+        c = s.url('=' + root + '/%s/UE-cell_writable' % ys +
+                  '/1/2/cell_change/col_0/L1/1')
+        assert(c == ok_png)
         
+        c = s.url('=' + abj + '/%s/UE-cell_writable' % ys)
+        c = s.url('=' + abj + '/%s/UE-cell_writable' % ys +
+                  '/2/0/cell_change/col_0/L1/2')
+        assert(c == bad_png)
+
+        c = s.url('=' + root + '/%s/UE-cell_writable' % ys +
+                  '/1/3/column_attr_cell_writable/col_0/=1')
+        assert(c == ok_png)
+        c = s.url('=' + abj + '/%s/UE-cell_writable' % ys +
+                  '/2/1/cell_change/col_0/L1/2')
+        assert(c == ok_png)
+        c = s.url('=' + abj + '/%s/UE-cell_writable' % ys +
+                  '/2/2/cell_change/col_0/L1/3')
+        assert(c == bad_png)
+
+        c = s.url('=' + root + '/%s/UE-cell_writable' % ys +
+                  '/1/4/column_attr_cell_writable/col_0/@' + abj)
+        assert(c == ok_png)
+        c = s.url('=' + abj + '/%s/UE-cell_writable' % ys +
+                  '/2/3/cell_change/col_0/L1/4')
+        assert(c == ok_png)
+
 if '1' in sys.argv:
    sys.argv.remove('1')
    only_once = True
