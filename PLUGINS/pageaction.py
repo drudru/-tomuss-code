@@ -160,6 +160,7 @@ plugin.Plugin('extension', '/{Y}/{S}/{U}/extension', group='staff',
               )
 
 def bookmark(server):
+    """Toggle the bookmarked state of a table"""
     key = os.path.join(server.ticket.user_name, 'bookmarked')
     bookmarked = utilities.manage_key('LOGINS', key)
     if bookmarked is False:

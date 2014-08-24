@@ -310,6 +310,7 @@ plugin.Plugin('requests'   , '/requests'   , group='roots', function=requests,
               )
 
 def memory_size_checker(server):
+    """Display thread list each time the memory footprint change"""
     import resource
     mem = resource.getrusage(resource.RUSAGE_SELF)[2]
     server.the_file.write('<pre>')
@@ -341,6 +342,7 @@ plugin.Plugin('memory_size_checker', '/memory_size_checker',
               )
 
 def atomic_checker(server):
+    """Compute the size of atomic Python type : integer, string"""
     atomic_types = (basestring, int, long, float)
     gc.collect()
     objs = gc.get_objects()
@@ -365,7 +367,6 @@ def atomic_checker(server):
         server.the_file.write("%d %s %d bytes<br>\n" %(stat[0],
                                                        cgi.escape(str(a_type)),
                                                        stat[1]))
-            
 
 plugin.Plugin('atomic_checker', '/atomic_checker',
               group='roots', function=atomic_checker, launch_thread=True,

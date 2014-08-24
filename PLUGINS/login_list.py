@@ -56,6 +56,7 @@ def login_list_of(text, base):
     return r
 
 def login_list(server):
+    """Return the list of teacher and students matching the search query"""
     send(server,
          login_list_of(server.the_path[0], configuration.cn_students),
          'student')

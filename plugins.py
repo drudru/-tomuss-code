@@ -440,11 +440,16 @@ TABLE.types .defined { background: #FDD ; }
     f.write('''<table border="1">
 <tbody>
 ''')
+    exceptions = ('name', 'formatter', 'empty')
     a =  ('name', 'display_table','update_horizontal_scrollbar',
               'update_headers', 'update_table_headers', 'need_authorization',
               'formatter', 'empty', 'default_value',
               'computed')
-    f.write('<tr><th>' + '</th><th>'.join([plugin.vertical_text(t)+'&nbsp;&nbsp;' for t in a]) + '</th></tr>')
+    f.write('<tr><th>'
+            + '</th><th>'.join([plugin.vertical_text(t, exceptions=exceptions)
+                                +'&nbsp;&nbsp;'
+                                for t in a])
+            + '</th></tr>')
     for attr in column.column_attributes():
         f.write('<tr>')
         for i in a:
@@ -459,7 +464,10 @@ TABLE.types .defined { background: #FDD ; }
 <tbody>
 ''')
     a += ('only_masters',)
-    f.write('<tr><th>' + '</th><th>'.join([plugin.vertical_text(t)+'&nbsp;&nbsp;' for t in a]) + '</th></tr>')
+    f.write('<tr><th>'
+            + '</th><th>'.join([plugin.vertical_text(t, exceptions=exceptions)
+                                +'&nbsp;&nbsp;'
+                                for t in a]) + '</th></tr>')
     for attr in column.table_attributes():
         f.write('<tr>')
         for i in a:

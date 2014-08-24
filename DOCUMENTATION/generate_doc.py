@@ -48,9 +48,10 @@ def parse(filename):
             if striped.strip() == '}':
                 state = 'finish'
         elif state == 'get-body-python':
-            body += code(line)
             if striped.strip() == '':
                 state = 'finish'
+            else:
+                body += code(line)
 
         if state == 'finish':
             t.append([comment, body, filename])

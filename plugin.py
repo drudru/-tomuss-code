@@ -91,6 +91,14 @@ class Link(object):
         else:
             return utilities._('LINK_' + self.url)
 
+    def get_help(self):
+        if self.help:
+            return self.help
+        if self.plugin:
+            return utilities._('HELP_' + self.plugin.name)
+        else:
+            return utilities._('HELP_' + self.url)
+
 # Helper functions for parsing URL
         
 def _year(server, path, i): server.the_year = int(path[i])
@@ -261,7 +269,7 @@ class Plugin(object):
             s += '<b>%s</b> in %s<br/><em>%s</em>' % (
                 cgi.escape(self.link.get_text()),
                 self.link.where,
-                cgi.escape(self.link.help),
+                cgi.escape(self.link.get_help()),
                 )
         s += '</td><td>'
         if self.documentation:
@@ -309,7 +317,9 @@ class Plugin(object):
     def backtrace_html(self):
         return "Plugin: " + str(self)
 
-def vertical_text(text, size=12):
+def vertical_text(text, size=12, exceptions=()):
+    if text in exceptions:
+        return text
     height = str(int(size)*9)
     size = str(size)
     return '<svg xmlns="http://www.w3.org/2000/svg"><text transform="matrix(0,-1,1,0,' + size + ',' + str(height) + ')">' + text + '</text></svg>\n'

@@ -6,7 +6,6 @@
 
   <head>
     <title>TOMUSS Technical Reference</title>
-  </head>
 
   <style>
 object.svg {
@@ -26,9 +25,8 @@ div.toc h2 { font-size: 80% ; margin-left: 2em ; }
 div.toc h3 { font-size: 80% ; margin-left: 4em ; }
 
 table { border-spacing: 0px ; }
-table.plugin td { white-space: nowrap ; }
-table.plugin svg { width: 16px ; height: 110px}
-table.plugin svg text {
+table svg { width: 16px ; height: 110px}
+table svg text {
    font-size: 12px;
    font-family:sans ;
    font-weight: normal;
@@ -47,6 +45,7 @@ table.plugin svg:hover text {
 body { margin-left: 5mm ; margin-right: 5mm ; }
 }
   </style>
+  </head>
 
   <body>
     <h1><a href="http://perso.univ-lyon1.fr/thierry.excoffier/TOMUSS/home.html">TOMUSS</a> Technical Reference</h1>
@@ -319,8 +318,8 @@ The action attributes are:
 Some of the plugins are used both in TOMUSS and 'suivi' servers.
 </p>
     <p>
-The ``link and position´´ defines the function generating the <tt>HTML</tt>
-content to insert in an home page.
+The ``link and position´´ defines the data for the function generating
+the <tt>HTML</tt> content to insert in an home page.
 The position specify the name of the box where to insert the code.
 </p>
 
@@ -459,6 +458,96 @@ Types are defined by a class tree.
     for each types how to manage the column and the cell.
     More explanations are in the <tt>text.py</tt> file.
    </p>
+
+   <p>
+     The attributes of a type are:
+   </p>
+     <table border="1">
+<tr><th>attribute_js_value</th><td>Python function</td><td>
+Translate the Python value of the following attributes
+into a JavaScript value. <b>No need to modify it</b>
+</td></tr>
+<tr><th>attributes_visible</th><td>Python list</td><td>
+Column attributes visible for the type.
+Do not indicate attributes visibles by all the column types,
+they will be automaticaly visible.
+</td></tr>
+<tr><th>cell_completions</th><td>JavaScript function name</td><td>
+Function returning a list of possible completion.
+It is only used by the <tt>Enumeration</tt> column type.
+The completion of the other column type is done using <tt>cell_test</tt>
+because there is only one possible completion.
+</td></tr>
+<tr><th>cell_compute</th><td>function name</td><td>
+Function computing the cell value.
+The function is defined in Python and translated into JavaScript.
+You add your own computing function in <tt>LOCAL/LOCAL_PYTHON_JS</tt>.
+You compile and check them by running <tt>make</tt>.
+You must have regression tests because the translated code is fast
+but not 100% compatible.
+</td></tr>
+<tr><th>cell_indicator</th><td>Python function</td><td>
+Function returning the HTML class of the cell in 'suivi' and
+a value between 0 (bad) and 1 (good).
+This function is only used to compute student icons.
+</td></tr>
+<tr><th>cell_is_modifiable</th><td>{0|1}</td><td>
+Set to 0 to forbid user modification if the cell contains a number.
+</td></tr>
+<tr><th>cell_test</th><td>JavaScript function name</td><td>
+The function returns the user input cleaned and completed.
+It may display alerts with <tt>alert_append</tt>.
+</td></tr>
+<tr><th>formatte</th><td>JavaScript function name</td><td>
+Translate the value in order to display it, for example to round the grades.
+</td></tr>
+<tr><th>formatte_suivi</th><td>JavaScript function name</td><td>
+Same as <tt>formatte</tt> but the generated HTML may
+allow to edit the value on the 'suivi' page.
+</td></tr>
+<tr><th>human_priority</th><td>int</td><td>
+To define the order in the column type chooser.
+</td></tr>
+<tr><th>ondoubleclick</th><td>JavaScript function name</td><td>
+Called on cell double click.
+</td></tr>
+<tr><th>onmousedown</th><td>JavaScript function name</td><td>
+Called on cell selection. <b>No need to modify it</b>
+</td></tr>
+<tr><th>should_be_a_float</th><td>{0|1}</td><td>
+If 1 then the column is displayed by default in the table stat page.
+</td></tr>
+<tr><th>stat</th><td>Python function</td><td>
+Returns a dictionnary of statistics about the column.
+They are used to display stats in the cells of the 'suivi' page
+or data needed (the possible values in an enumeration).
+</td></tr>
+<tr><th>tip_cell</th><td>msgid</td><td>
+For the cell tip.
+</td></tr>
+<tr><th>tip_column_title</th><td>msgid</td><td>
+For the column title <b>No need to modify it</b>
+</td></tr>
+<tr><th>tip_filter</th><td>msgid</td><td>
+Indicate an appropriate filter help for the column content
+</td></tr>
+<tr><th>type_type</th><td></td><td>
+To define the table column in the column type chooser:
+data, people, ue...
+</td></tr>
+<tr><th>update_all</th><td>Python function</td><td>
+Compute the full column content or of a subset of lines.
+It is recommended to use the <tt>update_all</tt> method of 'code_etape.py'
+and to redefine <tt>get_all_values</tt> method
+</td></tr>
+<tr><th>update_one</th><td>Python function</td><td>
+Do not use this one because it is too slow to update line per line.
+</td></tr>
+<tr><th>value_range</th><td>Python function</td><td>
+Returns the range of notation <b>No need to modify it</b>
+</td></tr>
+</table>
+
 
     <h2><a name="column_attributes">Attributes of table columns</a></h2>
 
@@ -1036,6 +1125,7 @@ configuration source files
     </p>
     <p>
       Example displayed as a tree, the '!' is not part of the group name:
+    </p>
       <pre>
 staff
   * ldap:GROUP_X          # Evaluated after !, so some user may be rejected
@@ -1050,7 +1140,6 @@ staff
      * ldap:GROUP_A       # If users are in GROUP_Y they will not
      * USER_C             # be in 'staff' group (even USER_C)
 </pre>     
-    </p>
 
     <h3><a name="regtests">TOMUSS Regressions Tests</a></h3>
 

@@ -85,6 +85,7 @@ configuration.signature_hook = signature_hook
 
 
 def signature_new(server):
+    """Add a question to ask to the student"""
     send_mail, message = server.the_time, unicode(server.something, 'utf-8')
     fn, sn, mail = inscrits.L_fast.firstname_and_surname_and_mail(
         server.ticket.user_name)

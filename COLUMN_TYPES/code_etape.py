@@ -50,7 +50,7 @@ class Code_Etape(text.Text):
                 ]
 
     def get_all_values(self, column, line_ids=None):
-        """Redefine this method to get the [line_id, values] list"""
+        """Redefine this method to get the [line_id, value] list"""
         # Get the line_id + input value
         students = self.values(column, line_ids)
         # Get the data from all the input values

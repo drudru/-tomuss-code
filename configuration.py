@@ -431,16 +431,13 @@ def local_columns(table):
         '0_a': {'title': 'Remarques', 'comment': "Commentaire de l'enseignant",
                 'type': 'Text', 'width': 8},
         }
-    
     if table.ue.startswith('SP-'):
         return some_columns
-
     if table.ue.startswith('TS-'):
         # Should be defined the LOCAL directory
         table.table_attr(table.pages[0], 'default_nr_columns', 9)
         del some_columns['0_8']
         return some_columns
-
     return {}
 
 ###############################################################################

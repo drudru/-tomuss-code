@@ -229,6 +229,7 @@ def get_state(login):
 
 
 def signature(server):
+    """Store the fact that the student has signed the question"""
     if server.the_year == -1:
         # Because 'suivi' server can not write keys
         add_question(server.ticket.user_name, "file:suivi_student_charte.html",
@@ -245,6 +246,7 @@ plugin.Plugin('signature', '/signature/{Y}/{?}', function=signature,
               )
 
 def signatures(server):
+    """Display all the signatures done by the student"""
     if server.ticket.is_a_teacher:
         login = server.the_student
     else:
