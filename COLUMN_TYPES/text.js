@@ -88,7 +88,6 @@ function text_format_suivi()
 function ___NAME__()
 {
   types.push({title: '__NAME__',
-		 default_filter: __DEFAULT_FILTER__,
 		 tip_column_title: __TIP_COLUMN_TITLE__,
 		 tip_filter: __TIP_FILTER__,
 		 tip_cell: __TIP_CELL__,

@@ -188,9 +188,6 @@ class Text(object):
 
     human_priority = 0 # To define menu order
     
-    # Default values
-    default_filter = ''
-
     # Default tips
     tip_column_title = "TIP_column_title"
     tip_filter = "TIP_filter_Text"
