@@ -33,7 +33,4 @@ class Prst(note.Note):
     tip_test = ''
     should_be_a_float = 0
     attributes_visible = ('url_import',)
-
     cell_indicator = note.Note.cell_indicator_prst
-    def test_ok(self, test):
-        return True

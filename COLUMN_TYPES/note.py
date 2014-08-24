@@ -80,22 +80,6 @@ class Note(text.Text):
         elif ci > 0.2: return 'bad', ci
         else: return 'verybad', ci
 
-    def test_ok(self, test):
-        if not test.startswith('['):
-            return False
-        if not test.endswith(']'):
-            return False
-        test = test[1:-1].split(';')
-        if len(test) != 2:
-            return False
-        for t in test:
-            try:
-                float(t)
-            except ValueError:
-                if t != '?':
-                    return False
-        return True
-
     def stat(self, column, value, cell, lines):
         """Returns a dict of various values, currently:
         'rank', 'rank_grp', 'average'

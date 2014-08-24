@@ -254,9 +254,6 @@ class Text(object):
     def __str__(self):
         return '"' + self.name + '"'
 
-    def test_ok(self, test):
-        return True
-    
     def attribute_js_value(self, k):
         if k.startswith('set_') or k in (
             'cell_test', 'cell_completions','onmousedown', 'formatte',
