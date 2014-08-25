@@ -38,5 +38,6 @@ def get_referent(server):
     server.the_file.write('<script>window.parent.set_the_referent(%s);</script>'
                           % ref)
 
-plugin.Plugin('referent', '/referent/{?}', function=get_referent, group='staff',
+plugin.Plugin('referent', '/referent/{?}', function=get_referent,
+              group='staff', unsafe=False
               )
