@@ -20,6 +20,7 @@
 import os
 import time
 import cgi
+import urllib
 from . import utilities
 from . import configuration
 
@@ -162,7 +163,7 @@ def get_ticket_string(server):
         ticket = configuration.authenticator.ticket_from_url(server)
         path = server.path.split("?")[0].lstrip('/').split('/')
 
-    return ticket, [cgi.urllib.unquote(x)
+    return ticket, [urllib.unquote(x)
                     for x in path]
 
 def clone(ticket_key, ticket):
