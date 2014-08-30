@@ -2296,11 +2296,22 @@ function triggerKeyboardEvent(el, keyCode)
       el.fireEvent("onkeydown", eventObj) ;
 }
 
+var last_input_key_time ;
+
 function current_keydown(event, in_input)
 {
   last_user_interaction = millisec() ;
   event = the_event(event) ;
   var key = event.keyCode ;
+  if ( last_user_interaction - last_input_key_time < 10 )
+    {
+      // Not a real key but a virtual one, forget it
+      if ( key == 229 ) // End of input in Chrome and safari
+	return
+      // XXX The repetition case is not tested :
+      // http://stackoverflow.com/questions/25043934/is-it-ok-to-ignore-keydown-events-with-keycode-229
+    }
+  last_input_key_time = last_user_interaction ;
   if ( popup_is_open() )
     {
       if ( key == 27 )
