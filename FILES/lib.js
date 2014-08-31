@@ -3688,6 +3688,7 @@ function comment_change(line_id, data_col, comment, td)
   var col_id = columns[data_col].the_id ;
   append_image(td, 'comment_change/' + col_id + '/' +
 	       line_id + '/' + encode_uri(comment)) ;
+  update_cell(td, lines[line_id][data_col], columns[data_col]) ;
 }
 
 function comment_on_change()
