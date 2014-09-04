@@ -214,8 +214,11 @@ def display_referent_notepad(server):
 def display_question(server):
     return getattr(server, 'suivi_question_html', '')
 
-def display_message(dummy_server):
-    return configuration.suivi_student_message
+def display_message(server):
+    if server.is_a_student:
+        return configuration.suivi_student_message
+    else:
+        return ''
 
 def display_abjs(server):
     return [

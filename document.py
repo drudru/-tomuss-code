@@ -1110,7 +1110,13 @@ class Table(object):
         finally:
             pass
 
-        return '\n'.join(s)
+        try:
+            return '\n'.join(s)
+        except UnicodeDecodeError:
+            utilities.send_backtrace('\n'.join(repr(i)
+                                               for i in s),
+                                     "UNICODE PROBLEM")
+            raise
 
     def location(self):
         return '%d %s %s' % (self.year, self.semester, self.ue)
