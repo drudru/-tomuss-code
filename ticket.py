@@ -163,6 +163,8 @@ def get_ticket_string(server):
         ticket = configuration.authenticator.ticket_from_url(server)
         path = server.path.split("?")[0].lstrip('/').split('/')
 
+    if ticket:
+        ticket = ticket.replace("/", "_").replace("&", "_").replace("?", "_").replace("%", "_")
     return ticket, [urllib.unquote(x)
                     for x in path]
 
