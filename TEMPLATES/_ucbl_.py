@@ -193,12 +193,20 @@ def update_student(table, page, the_ids, infos):
             table.column_change (table.pages[0],
                                  "0_%d" % i,
                                  title, 'Text', '', '', '', 0, 6)
+        if configuration.grp_modifiable:
+            grp_page = table.get_nobody_page()
+        else:
+            grp_page = page
+
         for key, x in table.get_items(the_id):
             # do not erase user provided information
             if ((grp != '' or x[3].author == data.ro_user)
                 and configuration.allow_student_removal
                 and (x[3].value == '' or x[3].author == data.ro_user)):
-                table.cell_change(page, "0_3", key, grp)
+                if x[3].value == '':
+                    table.cell_change(grp_page, "0_3", key, grp)
+                else:
+                    table.cell_change(page, "0_3", key, grp)
             if ((seq != '' or x[4].author == data.ro_user)
                 and configuration.allow_student_removal
                 and (x[4].value == '' or x[4].author == data.ro_user)):
@@ -223,11 +231,7 @@ def update_student(table, page, the_ids, infos):
             if surname:
                 table.cell_change(page, "0_2", lin, surname)
             if grp != '':
-                if configuration.grp_modifiable:
-                    p = table.get_nobody_page()
-                else:
-                    p = page
-                table.cell_change(p, "0_3", lin, grp)
+                table.cell_change(grp_page, "0_3", lin, grp)
             if seq != '':
                 table.cell_change(page, "0_4", lin, seq)
             for col, val in enumerate(infos[6:]):
