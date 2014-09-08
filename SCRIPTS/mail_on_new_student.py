@@ -82,17 +82,19 @@ for table in tablestat.les_ues(configuration.year_semester[0],
             continue
         if line[0].date_seconds() < last_run:
             continue
+        if line[0].value == '':
+            continue
         students.append(formate % (
                 line[0].value,
                 unicode(line[2].value, "utf-8")
                 + ' ' + unicode(line[1].value.title(), 'utf-8'),
                 unicode(line[3].value, "utf-8"),
                 unicode(line[4].value, "utf-8")))
-    if not students or len(students) > no_mail_if_more_than * len(table.lines):
-        table.unload()
-        continue
-    for teach in table.masters:
-        teachers[teach][ue] = students
+    if (len(students) != 0
+        and len(students) < no_mail_if_more_than * len(table.lines)
+    ):
+        for teach in table.masters:
+            teachers[teach][ue] = students
     table.unload()
 
 for teach, ues in teachers.items():
@@ -110,7 +112,7 @@ for teach, ues in teachers.items():
                        + header + '\n'
                        + '-'*79 + '\n'
                        + ''.join('%s\n' % student
-                                 for student in students)
+                                 for student in student_list)
                        + '\n\n'
                        )
     print ''.join(message).encode('utf-8')
