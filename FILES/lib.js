@@ -2185,7 +2185,7 @@ function login_list(name, x, current_value)
   get_tip_element().onmousemove = function() { } ;
   element_focused_saved = element_focused ;
   element_focused = get_tip_element().firstChild ;
-  element_focused.my_selected_index = 0 ;
+  element_focused.my_selected_index = autoselect ;
   get_tip_element().do_not_hide = true ;
   get_tip_element().style.zIndex = 40 ; // Above tableforms
   element_focused.onchange = login_list_select ; // Here for IE
