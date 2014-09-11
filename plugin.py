@@ -154,6 +154,8 @@ class Plugin(object):
                  ):
         if url[0] != '/':
             raise ValueError('not an absolute URL')
+        if '/' in name:
+            raise ValueError('/ is not allowed in plugin name')
         for var in ('teacher', 'abj_master', 'referent_master', 'root',
                     'administrative', 'referent'):
             value = locals()[var]
