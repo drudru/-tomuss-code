@@ -295,6 +295,8 @@ def send_mail(to, subject, message, frome=None, show_to=False, reply_to=None,
 
     new_to = []
     for addr in recipients:
+        if not addr:
+            continue
         if '@' not in addr or '.' not in addr:
             continue
         try:
