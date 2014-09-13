@@ -34,12 +34,12 @@ def log(server):
         return
     last = time.time()
     
-    if server.the_path[0] not in ('help',):
+    if server.the_path[0] not in ('help', 'javascript_errors'):
         return
     text = '/'.join(server.the_path[1:]) + '\n'
     # XXX Not process safe
-    f = open(os.path.join('LOGS','help'), 'a')
-    f.write(text[:100])
+    f = open(os.path.join('LOGS', server.the_path[0]), 'a')
+    f.write(text[:1000].strip() + '\n')
     f.close()
     
 

@@ -4870,6 +4870,19 @@ function set_updating(bool)
       u.style.display = 'none';
 }
 
+window.onerror = function(message, url_error, lineNumber) {
+  var i = document.createElement('IMG') ;
+  var now = new Date() ;
+  i.width = i.height = 1 ;
+  i.src = url + '/log/javascript_errors/'
+        + encode_uri('[' + js(now) + ',' + js(message) + ',' + js(url_error)
+		     + ',' + js(lineNumber) + ']') ;
+  if ( ! window.server_log )
+    server_log = document.getElementsByTagName('BODY')[0] ;
+  server_log.appendChild(i) ;
+  return false ;
+} ;
+
 // XXX COPY/PASTE in the end of new_page.py
 window.Xcell_change    = Xcell_change ;
 window.Xcomment_change = Xcomment_change ;
