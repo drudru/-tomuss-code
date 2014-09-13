@@ -53,13 +53,15 @@ teachers = collections.defaultdict(lambda: collections.defaultdict(list))
 
 all_ues = teacher.all_ues()
 
-formate = '%10s %-50s %8s %-8s'
+formate = '%10s %-40s %8s %-8s %s'
 
 header = formate % (utilities.__("COL_TITLE_0_0"),
                     utilities.__("COL_TITLE_0_2")
                     + ' ' + utilities.__("COL_TITLE_0_1"),
                     utilities.__("COL_TITLE_0_3"),
-                    utilities.__("COL_TITLE_0_4"))
+                    utilities.__("COL_TITLE_0_4"),
+                    ''
+                   )
 
 for table in tablestat.les_ues(configuration.year_semester[0],
                                configuration.year_semester[1],
@@ -84,12 +86,15 @@ for table in tablestat.les_ues(configuration.year_semester[0],
             continue
         if line[0].value == '':
             continue
+        etapes = inscrits.L_batch.etapes_of_student(line[0].value)
         students.append(formate % (
-                line[0].value,
-                unicode(line[2].value, "utf-8")
-                + ' ' + unicode(line[1].value.title(), 'utf-8'),
-                unicode(line[3].value, "utf-8"),
-                unicode(line[4].value, "utf-8")))
+            line[0].value,
+            unicode(line[2].value, "utf-8")
+            + ' ' + unicode(line[1].value.title(), 'utf-8'),
+            unicode(line[3].value, "utf-8"),
+            unicode(line[4].value, "utf-8"),
+            ' '.join(etapes)
+        ))
     if (len(students) != 0
         and len(students) < no_mail_if_more_than * len(table.lines)
     ):
