@@ -4876,7 +4876,8 @@ window.onerror = function(message, url_error, lineNumber) {
   i.width = i.height = 1 ;
   i.src = url + '/log/javascript_errors/'
         + encode_uri('[' + js(now) + ',' + js(message) + ',' + js(url_error)
-		     + ',' + js(lineNumber) + ']') ;
+		     + ',' + js(lineNumber) + ',' + js(window.location)
+		     + ',' + js(window.username) + ']') ;
   if ( ! window.server_log )
     server_log = document.getElementsByTagName('BODY')[0] ;
   server_log.appendChild(i) ;

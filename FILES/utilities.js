@@ -1587,7 +1587,7 @@ function GUI_record()
 
 GUI_record.prototype.save = function()
 {
-  if ( ! gui_record )
+  if ( ! window.gui_record )
     return ;
   if ( this.events.length == 0 )
     return ;
