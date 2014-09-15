@@ -611,6 +611,7 @@ class StaticFile(object):
         if self.content:
             # Not a file, so NEVER reload it
             self.time = -1
+            self.copy_on_disc()
         else:
             self.time = 0
         self.append_text = {}
@@ -626,6 +627,12 @@ class StaticFile(object):
                 if i.need_update():
                     return True
 
+    def copy_on_disc(self):
+        dirname = os.path.join("TMP", configuration.version)
+        mkpath(dirname)
+        filename = os.path.join(dirname, self.name.split(os.path.sep)[-1])
+        write_file(filename, self.content)
+
     def __str__(self):
         if self.need_update():
             self.time = os.path.getmtime(self.name)
@@ -637,10 +644,7 @@ class StaticFile(object):
                 content = content.replace('_FILES_', configuration.url_files)
             self.content = content
             self.gzipped = compressBuf(self.content)
-            dirname = os.path.join("TMP", configuration.version)
-            mkpath(dirname)
-            filename = os.path.join(dirname, self.name.split(os.path.sep)[-1])
-            write_file(filename, content)
+            self.copy_on_disc()
 
         return self.content
 
