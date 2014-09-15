@@ -64,19 +64,21 @@ class MyRequestBroker(utilities.FakeRequestHandler):
         if name not in files:
             return
         s = files[name]
+        content = str(s)
         self.send_response(200)
-        if s.name and len(s) != 0:
-            self.send_header('Content-Length', len(s))
+        if len(content) > 1000:
+            content = s.gzipped
+            self.send_header('Content-Encoding', 'gzip')
+        if s.name and len(content) != 0:
+            self.send_header('Content-Length', len(content))
         self.send_header('Content-Type', s.mimetype)
         if 'UNCACHED' in name:
             self.send_header('Cache-Control', 'no-cache')
         else:
             self.send_header('Cache-Control',
                              'max-age=%d' % configuration.maxage)
-        if name.endswith('.gz'):
-            self.send_header('Content-Encoding', 'gzip')
         self.end_headers()
-        sender.append(self.wfile, str(s), keep_open=False)
+        sender.append(self.wfile, content, keep_open=False)
         self.do_not_close_connection()
 
     def log_time(self, action, start_time=None):

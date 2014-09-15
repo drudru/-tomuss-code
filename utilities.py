@@ -577,6 +577,15 @@ def send_backtrace(txt, subject='Backtrace', exception=True):
 
 send_backtrace.last_subject = ''
 
+def compressBuf(buf):
+    import gzip
+    import StringIO
+    zbuf = StringIO.StringIO()
+    zfile = gzip.GzipFile(None, 'wb', 9, zbuf)
+    zfile.write(buf)
+    zfile.close()
+    return zbuf.getvalue()
+
 class StaticFile(object):
     """Emulate a string, but it is a file content"""
     mimetypes = {'html': 'text/html;charset=utf8',
@@ -596,8 +605,6 @@ class StaticFile(object):
         if mimetype == None:
             if '.' in name:
                 n = name.split('.')[-1]
-                if n == 'gz':
-                    n = name.split('.')[-2]
                 mimetype = self.mimetypes[n]
         self.mimetype = mimetype
         self.content = content
@@ -618,9 +625,8 @@ class StaticFile(object):
             if isinstance(i, StaticFile):
                 if i.need_update():
                     return True
-        
-    def __str__(self):
 
+    def __str__(self):
         if self.need_update():
             self.time = os.path.getmtime(self.name)
             content = read_file(self.name)
@@ -630,6 +636,7 @@ class StaticFile(object):
             if self.name.endswith('.js') or self.name.endswith('.html'):
                 content = content.replace('_FILES_', configuration.url_files)
             self.content = content
+            self.gzipped = compressBuf(self.content)
             dirname = os.path.join("TMP", configuration.version)
             mkpath(dirname)
             filename = os.path.join(dirname, self.name.split(os.path.sep)[-1])

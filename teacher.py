@@ -73,9 +73,6 @@ def create_all_ues_js(ues):
     ff.close()
     ff_tt_list.close()
 
-    os.system('gzip -9 <TMP/all_ues.js >all_ues.js.gz')
-    os.rename('all_ues.js.gz',os.path.join('TMP','all_ues.js.gz'))
-
 all_ues_is_running = False
 
 def all_ues(compute=False):

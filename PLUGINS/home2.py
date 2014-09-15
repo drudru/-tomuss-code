@@ -184,26 +184,9 @@ def home_page(server):
         + "}\n"
         + 'initialize_home();\n'
         + '</script>\n'
+        + '<script id="uesjs" onload="update_ues2(\'\')" onreadystatechange="if ( document.getElementById(\'uesjs\').readyState === \'complete\') update_ues2(\'\')" src="'
+        + configuration.url_files + '/all_ues.js"></script>'
         )
-    
-    #####################################################################
-
-    # XXX Tester si accept gz dans les headers
-    try:
-        encodings = server.headers['accept-encoding']
-    except KeyError:
-        encodings = ''
-    utilities.warn('Encodings: ' + encodings)
-    if 'Safari' not in ticket.user_browser \
-       and 'Konqueror' not in ticket.user_browser \
-       and 'Python-urllib' not in ticket.user_browser \
-       and 'gzip' in encodings:
-        gz = '.gz'
-    else:
-        gz = ''
-    f.write('<script id="uesjs" onload="update_ues2(\'\')" onreadystatechange="if ( document.getElementById(\'uesjs\').readyState === \'complete\') update_ues2(\'\')" src="'
-            + configuration.url_files + '/all_ues.js%s"></script>' % gz)
-
 
 plugin.Plugin('homepage2', '/{=}', function=home_page, group='staff',
               launch_thread=True, unsafe=False)
