@@ -38,9 +38,9 @@ function student_line_more_links(login)
 
 function scrollTopElement(scrollable)
 {
-  while ( scrollable.scrollTop === 0 )
+  while ( scrollable && scrollable.scrollTop === 0 )
     scrollable = scrollable.parentNode ;
-  if ( scrollable.scrollTop !== undefined )
+  if ( scrollable && scrollable.scrollTop !== undefined )
     return scrollable ;
 }
 
@@ -772,8 +772,14 @@ function storageEventHandler(e)
 
 function update_ues_unsaved()
 {
-  if ( ! window.localStorage )
-    return ;
+  try {
+    if ( window.localStorage === undefined )
+      return ;
+    }
+  catch(e)
+    {
+      return ;
+    }
   var index = localStorage['index'] ;
   if ( ! index )
     {
