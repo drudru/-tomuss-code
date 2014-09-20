@@ -200,6 +200,11 @@ function printable_display_page(lines, title, page_break)
 		if ( ! is_uniform )
 		  v = v.replace(/⏎/g, "<br>") ;
 	      }
+	      if ( v === '' )
+		{
+		  v = html(columns[c].empty_is) ;
+		  html_class += ' default' ;
+		}
 	      txt_line.push(v) ;
 	      if ( v === '' )
 		v = '&nbsp;' ;
