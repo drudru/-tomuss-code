@@ -26,7 +26,7 @@ var abjvalue, ppnvalue, tnrvalue ;
 function cell_value_export(column)
 {
   var xx = a_float(this.value) ;
-  if ( isNaN(xx) )
+  if ( column.type == 'Text' || isNaN(xx) )
     {
       xx = this.value.toString() ;
       switch(xx)
