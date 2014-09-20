@@ -687,12 +687,13 @@ function new_new_interface()
   w.push('<table id="menutop" class="tabbed_headers"><tr><td class="tabbed_headers">') ;
   w.push(create_tabs('cellule', o,
 		     '<a id="autosavelog" href="#" onclick="table_autosave_toggle()">'
-		     + _("LABEL_save") +'</a>' +
-		     '<a id="tablemodifiableFB" href="#" onclick="select_tab(\'table\', \''
-		     + _("TAB_parametrage") + '\')">'
-		     + _("LABEL_table_ro") + '</a>' +
-		     '<span style="border:0px" id="server_feedback"></span>' +
-		     '<var style="border:0px;white-space:nowrap" id="log"></var>')) ;
+		     + _("LABEL_save") +'</a>'
+		     + '<a id="tablemodifiableFB" onclick="select_tab(\'table\', \''
+		     + _("TAB_access")
+		     + '\'); highlight_add(document.getElementById(\'t_table_attr_modifiable\'))">'
+		     + _("LABEL_table_ro") + '</a>'
+		     + '<span style="border:0px" id="server_feedback"></span>'
+		     + '<var style="border:0px;white-space:nowrap" id="log"></var>')) ;
 
   // COLUMN / Column
 
