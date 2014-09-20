@@ -110,7 +110,9 @@ def student_add_allowed(table):
     if nr_to_delete == 0:
         return new_list
     if nr_to_delete / float(len(old_list)) > removal_allowed:
-        if configuration.year_semester == (table.year, table.semester):
+        if (configuration.year_semester == (table.year, table.semester)
+            and configuration.year_semester != configuration.year_semester_next
+            ):
             utilities.manage_key('CLOSED', table.ue, separation=5,
                                  content='%d/%s' % (table.year,
                                                     table.semester)
