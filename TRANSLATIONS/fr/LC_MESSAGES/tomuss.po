@@ -5549,3 +5549,10 @@ msgstr "Vous aimez TOMUSS&nbsp;? Faites le savoir"
 
 msgid "mail_on_new_student"
 msgstr "Voici des nouveaux étudiants qui sont arrivés dans vos UE :"
+
+msgid "loading_logins_before"
+msgstr "Chargement des «"
+
+msgid "loading_logins_after"
+msgstr "» en cours"
+

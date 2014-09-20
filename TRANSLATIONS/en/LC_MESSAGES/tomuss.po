@@ -5433,3 +5433,10 @@ msgstr "You like TOMUSS? Tell everybody"
 
 msgid "mail_on_new_student"
 msgstr "There are the new registered students in your tables:"
+
+msgid "loading_logins_before"
+msgstr "Currently searching '"
+
+msgid "loading_logins_after"
+msgstr "'"
+

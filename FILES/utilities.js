@@ -2137,7 +2137,6 @@ function current_jump(lin, col, do_not_focus, line_id, data_col)
       // IT WILL BREAK THINGS BECAUSE IT IS NO MORE A METHOD BUT A FUNCTION
       setTimeout('the_current_cell.focus()',100) ; // Opera
       the_current_cell.focus() ;
-      periodic_work_add(login_list_ask) ;
     }
   this.update_headers() ; //this.previous_col == this.col) ;
 
@@ -2537,6 +2536,12 @@ function current_do_completion(backspace)
 
   if ( input == this.input || input.id == "table_forms_keypress" )
     {
+      if ( this.column.type == 'Login' )
+	{
+	  login_list_ask() ;
+	  return ;
+	}
+
       var c = this.column.real_type.cell_completions(input.value,this.column) ;
       if ( c != input.value )
 	{

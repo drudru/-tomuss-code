@@ -2010,8 +2010,6 @@ var display_tips_saved ;
 
 function login_list_ask()
 {
-  if ( the_current_cell.column.type != 'Login' )
-		return ;
   if ( the_current_cell.initial_value != the_current_cell.input.value
        && the_current_cell.input.value.length > 1
        && the_current_cell.input.value != ask_login_list
@@ -2019,17 +2017,15 @@ function login_list_ask()
        )
     {
       ask_login_list = the_current_cell.input.value ;
-			
-      login_list(replaceDiacritics(ask_login_list), 
-		 [['Chargement des «',ask_login_list,'» en cours']]) ;
-      //append_image(undefined, 'login_list/'
-      //	   + encode_uri(replaceDiacritics(ask_login_list))) ;
+      login_list(replaceDiacritics(ask_login_list),
+		 [['', '', _('loading_logins_before') + ask_login_list
+		   + _('loading_logins_after')]]) ;
       var s = document.createElement('script') ;
       s.src = url + '/=' + ticket + '/login_list/'
 	+ encode_uri(replaceDiacritics(ask_login_list)) ;
       the_body.appendChild(s) ;
     }
-	return true ;
+  return true ;
 }
 
 var element_focused_saved = false ;
@@ -2070,14 +2066,16 @@ function login_list_select(event)
   if ( t.options[t.selectedIndex] )
     {
       var s = t.options[t.selectedIndex].value ;
-      if ( element_focused_saved )
-	element_focused_saved.value = s ;
-      else
-	the_current_cell.input.value = s ;
-      setTimeout(login_list_hide, 100) ;
+      if ( s !== '' )
+	{
+	  if ( element_focused_saved )
+	    element_focused_saved.value = s ;
+	  else
+	    the_current_cell.input.value = s ;
+	}
     }
-  else
-    login_list_hide() ;
+  ask_login_list = s ;
+  login_list_hide() ;
 }
 
 function login_list_select_keydown(event)
@@ -2108,12 +2106,8 @@ function login_list(name, x, current_value)
     }
   
   if ( x.length == 0 )
-    {
-      login_list_hide() ;
-      show_the_tip(the_current_cell.td, _("ALERT_unknown_user")) ;
-      return ;
-    }
-  hide_the_tip_real();  
+      x = [['', '', _("ALERT_unknown_user")]] ;
+  hide_the_tip_real();
 
   var nr = Math.floor(table_attr.nr_lines / 2) ;
   if ( x.length < nr )
