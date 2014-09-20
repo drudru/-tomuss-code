@@ -50,7 +50,7 @@ function cmp_id(a)
 
 function cmp_name(a)
 {
-  return a[2] + a[1] ;
+  return a[2] + ' ' + a[1] ;
 }
 
 function cmp_ue_x(a)
@@ -70,7 +70,7 @@ function cmp_ue_x(a)
        x = ' ' ;
     a[2] = a[2].substr(0,4) ;
   
-    return a[2] + a[1] + a[0] + x ;
+    return a[2] + ' ' + a[1] + ' ' + a[0] + ' ' + x ;
 }
 
 function cmp_ue(a)
@@ -108,7 +108,8 @@ function sort(f)
                     n.childNodes[3].innerHTML,
                     n.childNodes[4].innerHTML,
                     n.childNodes[5].innerHTML,
-                    n.childNodes[6].innerHTML
+                    n.childNodes[6].innerHTML,
+                    n.childNodes[7].innerHTML,
                    ]
                  ) ;
            }
@@ -132,6 +133,7 @@ function sort(f)
             n.childNodes[4].innerHTML = content[i][5] ;
             n.childNodes[5].innerHTML = content[i][6] ;
             n.childNodes[6].innerHTML = content[i][7] ;
+            n.childNodes[7].innerHTML = content[i][8] ;
             i++ ;
         }
       }

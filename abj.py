@@ -407,11 +407,11 @@ def alpha_html(browser, year, semester, ue_name_endswith=None,
                 write('DAS', date, ue_code, cgi.escape(comment), author2)
     browser.write('</tbody></table>'
                   + '<script>abj_messages = [%s,%s,%s,%s] ; </script>' % (
-            utilities.js(utilities._("MSG_abj_choose_action")),
-            utilities.js(utilities._("MSG_abj_hide_abj")),
-            utilities.js(utilities._("MSG_abj_hide_da")),
-            utilities.js(utilities._("MSG_abj_display_all")))
-                  + '</script>')
+                      utilities.js(utilities._("MSG_abj_choose_action")),
+                      utilities.js(utilities._("MSG_abj_hide_abj")),
+                      utilities.js(utilities._("MSG_abj_hide_da")),
+                      utilities.js(utilities._("MSG_abj_display_all")))
+              )
     browser.write(utilities.read_file(os.path.join('FILES', 'abj_recap.html')))
 
 
