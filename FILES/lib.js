@@ -73,9 +73,8 @@ var highlight_list ;
 var request_id ;
 var connection_state ;
 var last_server_answer ;
-var nr_saved ;
 var auto_save_running ;
-var pending_requests ;
+var pending_requests, pending_requests_first ;
 var scrollbar_right ;
 var ask_login_list ;
 var first_day ;
@@ -172,9 +171,9 @@ function lib_init()
   request_id = 0 ;
   connection_state = 'ok' ;
   last_server_answer = millisec() ;
-  nr_saved = 0 ;
   auto_save_running = false ;
   pending_requests = [] ;
+  pending_requests_first = 0 ;
   i_am_root = myindex(root, my_identity) != -1 ;
 
   if ( divtable ) // In a table
@@ -3099,19 +3098,16 @@ function store_unsaved()
   if ( ! table_attr.autosave )
     return ;
   auto_save_errors() ; // Cleanup pending_requests list
-  if ( pending_requests.length == 0 )
-    return ;
   if ( ! localStorage )
     {
       Alert("ERROR_save_to_localstorage_failed") ;
       return ;
     }
   var s = [] ;
-  for(var i in pending_requests)
-    {
-      i = pending_requests[i] ;
-      s.push(i.content) ;
-    }
+  for(var i=pending_requests_first; i < pending_requests.length; i++)
+    s.push(pending_requests[i].content) ;
+  if ( s.length == 0 )
+    return ;
   var key = '/' + year + '/' + semester + '/' + ue ;
   if ( localStorage[key] )
     localStorage[key] += '\n' + s.join('\n') ;
@@ -3346,7 +3342,6 @@ var time_before_reasking = 1000 ;
 
 function auto_save_errors()
 {
-  var nr_unsaved = 0 ;
   var errors = 0 ;
   var i ;
   // Problem if the server is slow to answer
@@ -3367,16 +3362,20 @@ function auto_save_errors()
      '),last_server_answer=' + last_server_answer + ']' );
 
   var d = millisec() ;
-  nr_saved = 0 ;
+  var nr_unsaved = 0 ;
 
-  for(var i in pending_requests)
+  for(var ii=pending_requests_first; ii < pending_requests.length; ii++)
     {
-      i = pending_requests[i] ;
+      i = pending_requests[ii] ;
       if ( i.saved )
-	continue ;
+	{
+	  if ( ii == pending_requests_first )
+	    pending_requests_first++ ;
+	  continue ;
+	}
       nr_unsaved++ ;
       // Some browsers don't like many connections
-      if ( nr_unsaved > 10 + nr_saved )
+      if ( nr_unsaved > 10 )
 	break ;
       // Retry to load the image each N seconds and the first time
       if ( d > i.time + time_before_reasking || ! i.requested )
@@ -3404,13 +3403,6 @@ function auto_save_errors()
       window.location = window.location ;
       do_reload_when_all_saved = false ;
     }
-
-  // Remove the item 10 by 10 (it's slow one by one)
-  for(var i=10; i>=0; i--)
-    if (  pending_requests[i] && ! pending_requests[i].saved )
-      break ;
-  if ( i == -1 )
-    pending_requests.splice(0,10) ;
 
   if ( connection_state == 'ok' && errors
        && d > last_server_answer + max_answer_time/10 ) // TO BE THREAD SAFE
@@ -3459,7 +3451,7 @@ function auto_save_errors()
   _d('autosave)\n');
   auto_save_running = false ;
 
-  if ( pending_requests.length != 0 )
+  if ( pending_requests.length != pending_requests_first )
       return true ; // Continue
 }
 
@@ -3470,9 +3462,8 @@ function auto_save_errors()
 //    * When the server answer by the normal connection (page_answer).
 function saved(r)
 {
-  nr_saved++ ;
   time_before_reasking = 1000 ;
-  for(var i in pending_requests)
+  for(var i=pending_requests_first; i < pending_requests.length; i++)
     {
       if ( pending_requests[i].request_id == r )
 	{
