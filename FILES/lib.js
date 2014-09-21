@@ -237,9 +237,9 @@ function compute_nr_lines()
 {
   if ( ! header_height )
     {
-      setTimeout(compute_header_height, 1000) ;
       table_attr.nr_lines = zebra_step + 1 ;
       compute_nr_lines.do_compute_nr_lines = true ;
+      setTimeout(compute_header_height, 200) ;
       return ;
     }
   if ( ! compute_nr_lines.do_compute_nr_lines)
@@ -950,6 +950,10 @@ function table_init()
 {
   var thetable ;
 
+  if ( table_init.running ) // FireFox multithreaded JS
+    return ;
+  table_init.running = true ;
+
   // Create the table
   // The first child is HOVER
   while( divtable.childNodes[1] )
@@ -1056,6 +1060,7 @@ function table_init()
 	  td.onmousemove = mouse_over ;
 	}
     }
+  table_init.running = false ;
 }
 
 /******************************************************************************
