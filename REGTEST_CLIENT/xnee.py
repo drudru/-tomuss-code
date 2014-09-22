@@ -20,6 +20,10 @@ class Xnee:
         o = []
         if '--no-resolution-adjustment' in c:
             o.append('--no-resolution-adjustment')
+        if '-fcr' in c:
+            o.append('--force-core-replay')
+            o.append('--no-synchronise')
+            o.append('--force-replay')
 
         print 'xnee version:', xnee
             

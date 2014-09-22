@@ -27,14 +27,7 @@ from ._ucbl_ import update_student, terminate_update, cell_change
 from .. import configuration
 
 # Do not edit this first line (see SCRIPTS/install_demo)
-update_student_information = _ucbl_.update_student_information + """
-function student_picture_url(login)
-{
-  if ( login )
-    return '/' + login_to_id(login) + '.png' ;
-  return '' ;
-}
-"""
+update_student_information = _ucbl_.update_student_information
 
 def create(table):
     _ucbl_.create(table)
@@ -55,10 +48,11 @@ def init(table):
 
 def content(table):
     tt = abj.get_table_tt(table.year, table.semester)
-    tt.loading = True # Do not save next change in database
-    tt.cell_change(tt.pages[0], '0_0', 'x', 'k07')
-    tt.cell_change(tt.pages[0], '0_3', 'x', '1')
-    tt.loading = False
+    if tt.pages:
+        tt.loading = True # Do not save next change in database
+        tt.cell_change(tt.pages[0], '0_0', 'x', 'k07')
+        tt.cell_change(tt.pages[0], '0_3', 'x', '1')
+        tt.loading = False
 
     return update_student_information
 
@@ -75,7 +69,11 @@ def update_inscrits_ue(the_ids, table, page):
             t.append(i)
 
         update_student(table, page, the_ids, t)
-    #update_student(table,page,the_ids,('k00',u'xxx',u'yyy','xxx@yyy','',''))
+
+    if table.ue.endswith('99'):
+        for i in range(100):
+            update_student(table, page, the_ids,
+                           ('k%03d'%i, 'xxx', 'yyy', 'xxx@yyy', '', ''))
     terminate_update(table, the_ids)
 
 def create_column(table, title, content_type, average=10., delta=5.):
