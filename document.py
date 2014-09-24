@@ -1571,7 +1571,11 @@ def check_new_students_real():
                 warn('start update students of %s' % t.ue, what="table")
 
                 if t.template and hasattr(t.template, 'check'):
-                    t.template.check(t)
+                    try:
+                        t.template.check(t)
+                    except:
+                        utilities.send_backtrace('', 'Student list %s' % t)
+
                 warn('done %s' % t.ue, what="table")
                 mails = inscrits.L_batch.mails(list(t.logins()) + t.authors())
                 mails.update(t.mails)
