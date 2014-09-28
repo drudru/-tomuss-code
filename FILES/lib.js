@@ -4269,30 +4269,30 @@ function reconnect(force)
       // Must be defined last: resetted by .open()
       xmlhttp.onreadystatechange=function()
 	{
-	  if (xmlhttp.readyState >= 3 && xmlhttp.status == 200)
+	  if (this.readyState >= 3 && this.status == 200)
 	    {
 	      var t ;
-	      t = xmlhttp.responseText.substr(xmlhttp.nb_read) ;
-	      xmlhttp.js_buffer += t ;
-	      xmlhttp.nb_read += t.length ;
+	      t = this.responseText.substr(this.nb_read) ;
+	      this.js_buffer += t ;
+	      this.nb_read += t.length ;
 	      // Evaluate only complete <script>....</script> sequence
-	      t = xmlhttp.js_buffer.split("</script>");
+	      t = this.js_buffer.split("</script>");
 	      var to_eval = '' ;
 	      for(var i in t)
 		{
 		  if ( i != t.length - 1 )
 		    to_eval += t[i].split('<script>')[1] + ';' ;
 		  else
-		    xmlhttp.js_buffer = t[i] ;
+		    this.js_buffer = t[i] ;
 		}
-	      eval(to_eval.replace(xmlhttp.clean_js, '//')) ;
+	      eval(to_eval.replace(this.clean_js, '//')) ;
 	      // If the buffer is really too big: create a new one
-	      if ( xmlhttp.nb_read > 100000000 )
+	      if ( this.nb_read > 100000000 )
 		{
-		  xmlhttp.abort() ;
-		  xmlhttp.nb_read = 0 ;
-		  xmlhttp.open("GET", connection, true) ;
-		  xmlhttp.send() ;
+		  this.abort() ;
+		  this.nb_read = 0 ;
+		  this.open("GET", connection, true) ;
+		  this.send() ;
 		}
 	    }
 	} ;

@@ -1692,16 +1692,17 @@ var GUI = new GUI_record() ;
 function GUI_save()
 {
   GUI.save() ;
-  if ( millisec() - GUI.last_interaction > 60000 )
+  if ( millisec() - GUI.last_interaction > 60000
+       && connection_state != 'no_connection' )
     {
       /* Close connection in order to free open socket */
       if ( xmlhttp )
 	{
 	  xmlhttp.abort() ;
 	  xmlhttp = undefined ;
-	  connection_state = 'no_connection' ;
-	  document.getElementById('connection_state').innerHTML += '...' ;
 	}
+      connection_state = 'no_connection' ;
+      document.getElementById('connection_state').innerHTML += '...' ;
     }
 }
 
