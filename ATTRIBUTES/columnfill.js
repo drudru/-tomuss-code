@@ -129,7 +129,7 @@ function fill_column_parse(t)
       max = Number(max) ;
     
     // Current number, maximum number, value
-    t[i] = [0, max, t[i].split('{{{')[0].replace(/[ \t]*$/,'')] ;
+    t[i] = [0, max, t[i].split('{{{')[0].replace(/[ \t]*$/,''), i] ;
   }
   // The dispatch is slow, but the algorithm is simple.
   var to_dispatch = filtered_lines.length ;
@@ -138,7 +138,9 @@ function fill_column_parse(t)
   {
     if ( a[0] != b[0] )
       return a[0] - b[0] ;
-    return b[1] - a[1] ;
+    if (  b[1] != a[1] )
+      return b[1] - a[1] ;
+    return a[3] - b[3] ; // do not change user order
   }
   while( to_dispatch )
   {
