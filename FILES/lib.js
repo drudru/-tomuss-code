@@ -2145,7 +2145,15 @@ function login_list(name, x, current_value)
   if ( autoselect === undefined )
     autoselect = 0 ;
 
-  x.sort() ;
+  x.sort(function(a,b) {
+      if ( a[0] < b[0] ) return -1 ;
+      if ( a[0] > b[0] ) return 1 ;
+      if ( a[1] < b[1] ) return -1 ;
+      if ( a[1] > b[1] ) return 1 ;
+      if ( a[2] < b[2] ) return -1 ;
+      if ( a[2] > b[2] ) return 1 ;
+      return 0 }) ;
+
   for(var ii in x)
     {
       var i = x[ii] ;
