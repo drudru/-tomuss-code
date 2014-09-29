@@ -933,7 +933,8 @@ def manage_key_real(dirname, key, separation=3, content=None, reduce_ok=True,
     except OSError:
         pass
     
-    f1 = os.path.join(dirname, key[:separation])
+    key_dir = key.split(os.path.sep)[0]
+    f1 = os.path.join(dirname, key_dir[:separation])
     if content is None and not os.path.isdir(f1):
         return False
     try:
@@ -942,7 +943,6 @@ def manage_key_real(dirname, key, separation=3, content=None, reduce_ok=True,
         pass
 
     if os.path.sep in key:
-        key_dir = key.split(os.path.sep)[0]
         if content is None and not os.path.isdir(os.path.join(f1, key_dir)):
             return False
         try:
