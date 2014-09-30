@@ -1665,10 +1665,10 @@ GUI_record.prototype.add = function(attr_name, event, value) {
       this.debug.innerHTML += this.events[this.events.length-1] + '\n' ;
       this.debug.scrollTop = 100000000 ;
     }
-  
-  if ( connection_state == 'no_connection' )
-    reconnect(true) ;
 
+  if ( document.getElementById('connection_state') )
+    if ( connection_state == 'no_connection' )
+      reconnect(true) ;
 } ;
 
 GUI_record.prototype.add_key = function(event, value) {
@@ -1691,6 +1691,8 @@ GUI_record.prototype.add_key = function(event, value) {
 var GUI = new GUI_record() ;
 function GUI_save()
 {
+  if ( ! document.getElementById('connection_state') )
+    return ;
   GUI.save() ;
   if ( millisec() - GUI.last_interaction > 60000
        && connection_state != 'no_connection' )
