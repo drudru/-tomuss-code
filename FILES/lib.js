@@ -1775,6 +1775,8 @@ function change_option(option, value)
   var loc =  window.location.toString().split("?")[0] ;
   // Remove old option value
   loc = loc.replace(RegExp('/=' + option + '=[^/]*'), '') ;
+  // Remove trailing /
+  loc = loc.replace(RegExp('/+$'), '') ;
   if ( value )
     loc += '/=' + option + '=' + value ;
   // Replace state because Undo this way has yet to be done
