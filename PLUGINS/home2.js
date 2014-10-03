@@ -144,9 +144,12 @@ function ue_line_out_more()
 function ue_line_close()
 {
   ue_line_out_more() ;
-  ue_line_over_plus.childNodes[1].style.display = 'none' ;
-  ue_line_over_plus.childNodes[1].innerHTML = '' ;
-  ue_line_over_plus.childNodes[0].innerHTML = '+' ;
+  if ( ue_line_over_plus ) // Can be undefined from storageEventHandler
+    {
+      ue_line_over_plus.childNodes[1].style.display = 'none' ;
+      ue_line_over_plus.childNodes[1].innerHTML = '' ;
+      ue_line_over_plus.childNodes[0].innerHTML = '+' ;
+    }
 }
 
 function ue_line_out(t)
@@ -716,6 +719,9 @@ function update_ues_searched(txt, txt_upper)
 
 function update_ues2(txt)
 {
+  try { if ( all_ues['!exists'] ) return ; } // Never return here
+  catch(e) { return ; } // If all_ues is not defined: do nothing.
+
   if ( all_ues_sorted === undefined )
     {
       // Initialize sorted UES
@@ -752,16 +758,14 @@ function update_ues2(txt)
   update_ues_master_of(txt, txt_upper) ;
   update_ues_unsaved() ;
 
-  if ( window.localStorage )
-    {
-      try
-	{
-	  window.addEventListener('storage', storageEventHandler, false);
-	}
-      catch(e)
-	{
-	}
-    }
+  try
+  {
+    if ( window.localStorage )
+      window.addEventListener('storage', storageEventHandler, false);
+  }
+  catch(e)
+  {
+  }
 }
 
 function storageEventHandler(e)
