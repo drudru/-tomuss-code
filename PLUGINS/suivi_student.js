@@ -197,35 +197,16 @@ function detect_small_screen(force)
 
 var display_update_nb = 0 ;
 var older_students = '' ;
-var display_data ;
 
-function start_display()
+function display_update_real()
 {
-  display_data = {} ;
-
-  // Protect the last DVI.display_suivi in case of multiple student display
-  var p = document.getElementById('display_suivi').parentNode ;
-  document.getElementById('display_suivi').id = '' ;
-  var e = document.createElement('DIV') ;
-  e.id = 'display_suivi' ;
-  p.appendChild(e) ;
-}
-
-function display_update(key_values, top)
-{
-  if ( top === undefined )
-    top = display_update.top ;
   if ( display_update_nb == 0 )
     setInterval(detect_small_screen, 100) ;
-  if ( key_values )
-    for(var i in key_values)
-      display_data[key_values[i][0]] = key_values[i][1] ;
-  document.getElementById('display_suivi').innerHTML = display_display(display_definition[top]) ;
+  document.getElementById('display_suivi').innerHTML = display_display(display_definition[display_update.top]) ;
 
   display_update_nb++ ;
   detect_small_screen.window_width = 0 ; // Force update
   detect_small_screen() ;
-  display_update.top = top ;
 }
 
 function DisplayHorizontal(node, separator)
@@ -495,7 +476,7 @@ function preference_toggle(item)
    
    display_data['Preferences'][item] = 1 - display_data['Preferences'][item] ;
    DisplayPreferencesPopup(true) ;
-   display_update() ;
+   display_update_real() ;
    var data = display_data['Preferences'] ;
    var t = []
    for(var i in data)

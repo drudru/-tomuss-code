@@ -72,6 +72,35 @@ def do_update(server, s, top):
     
 def data_to_display(server, top):
     """Create the page by updating it every 0.2 seconds or more"""
+    server.the_file.write('''
+<script>
+var display_data ;
+
+function start_display()
+{
+  display_data = {} ;
+  var display_suivi = document.getElementById('display_suivi') ;
+  if ( ! display_suivi )
+    return ; // It will be created with initialize_suivi_real
+
+  // Protect the last DVI.display_suivi in case of multiple student display
+  var p = display_suivi.parentNode ;
+  display_suivi.id = '' ;
+  var e = document.createElement('DIV') ;
+  e.id = 'display_suivi' ;
+  p.appendChild(e) ;
+}
+
+function display_update(key_values, top)
+{
+  for(var i in key_values)
+    display_data[key_values[i][0]] = key_values[i][1] ;
+  display_update.top = top ;
+  try { display_update_real() ; }
+  catch(e) { } ;
+}
+</script>
+    ''')
     server.the_file.write('<script>start_display();</script>')
     start = t = time.time()
     s = []
