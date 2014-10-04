@@ -3447,7 +3447,7 @@ msgstr "<h1>Vous n'êtes pas autorisé à accéder à cette table</h1>\n"
 
 msgid "MSG_new_page_in_past"
 msgstr " n'existe pas, et il n'est pas possible de créer\n"
-       "des tables dans le passé."
+       "des tables dans le passé (ni le futur d'ailleurs)."
 
 msgid "ALERT_new_page_too_old"
 msgstr "Votre page est trop vieille, réactualisez la.\n"
