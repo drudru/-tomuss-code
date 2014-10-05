@@ -2363,7 +2363,7 @@ Column.prototype.is_computed = function() {
 } ;
 
 Column.prototype.cell_is_modifiable = function() {
-  return this.real_type.cell_is_modifiable !== undefined ;
+  return this.real_type.cell_is_modifiable ;
 } ;
 
 /*****************************************************************************/
