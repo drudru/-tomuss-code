@@ -208,11 +208,9 @@ def update_student(table, page, the_ids, infos):
             # do not erase user provided information
             if ((grp != '' or x[3].author == data.ro_user)
                 and configuration.allow_student_removal
-                and (x[3].value == '' or x[3].author == data.ro_user)):
-                if x[3].value == '':
-                    table.cell_change(grp_page, "0_3", key, grp)
-                else:
-                    table.cell_change(page, "0_3", key, grp)
+                and (x[3].value == '' or x[3].author == data.ro_user
+                     or x[3].author == data.no_user)):
+                table.cell_change(grp_page, "0_3", key, grp)
             if ((seq != '' or x[4].author == data.ro_user)
                 and configuration.allow_student_removal
                 and (x[4].value == '' or x[4].author == data.ro_user)):
