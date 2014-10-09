@@ -104,7 +104,8 @@ def get_column_from_a_table(column, table_list):
             error(column, 'ALERT_url_import_computed', url)
             return
         for line in table.lines.values():
-            values[line[0].value].append((getter(line[col.data_col]), url))
+            if line[0].value != '':
+                values[line[0].value].append((getter(line[col.data_col]), url))
     for line_id, line in column.table.lines.items():
         new_val = values[line[0].value]
         if len(new_val) == 0:
