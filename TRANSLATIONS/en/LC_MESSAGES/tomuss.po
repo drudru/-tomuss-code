@@ -5432,7 +5432,13 @@ msgid "DisplayAdvertising"
 msgstr "You like TOMUSS? Tell everybody"
 
 msgid "mail_on_new_student"
-msgstr "There are the new registered students in your tables:"
+msgstr "There are the new (un)registered students in your tables:"
+
+msgid "mail_on_new_student+"
+msgstr "New registered students:"
+
+msgid "mail_on_new_student-"
+msgstr "Just UNregistered students:"
 
 msgid "loading_logins_before"
 msgstr "Currently searching '"

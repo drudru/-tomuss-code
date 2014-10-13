@@ -5548,7 +5548,13 @@ msgid "DisplayAdvertising"
 msgstr "Vous aimez TOMUSS&nbsp;? Faites le savoir"
 
 msgid "mail_on_new_student"
-msgstr "Voici des nouveaux étudiants qui sont arrivés dans vos UE :"
+msgstr "Arrivées et départs d'étudiants dans vos UE :"
+
+msgid "mail_on_new_student+"
+msgstr "Nouveaux étudiants :"
+
+msgid "mail_on_new_student-"
+msgstr "Étudiants désinscrits :"
 
 msgid "loading_logins_before"
 msgstr "Chargement des «"

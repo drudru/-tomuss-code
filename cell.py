@@ -74,6 +74,9 @@ class CellEmpty(CellVirtual):
     def date_seconds(self):
         return 0
 
+    def previous_value(self):
+        return ''
+
 cellempty = CellEmpty()
 
 class CellValue(CellVirtual):
@@ -108,6 +111,9 @@ class CellValue(CellVirtual):
         c = Cell(self.value, self.author, self.date)
         c.set_value(value, author, date)
         return c
+
+    def previous_value(self):
+        return ''
 
     def js(self):
         """Generate the Cell JavaScript object with the minimal code,
@@ -182,6 +188,11 @@ class Cell(CellValue):
         self.author = author
         self.date = date
         return self
+
+    def previous_value(self):
+        if self.history:
+            return self.history.split('·')[-2].split('\n')[-2]
+        return ''
 
     def js(self):
         """Generate the Cell JavaScript object with the minimal code,

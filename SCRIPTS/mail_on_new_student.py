@@ -77,29 +77,52 @@ for table in tablestat.les_ues(configuration.year_semester[0],
             table.unload()
             continue
     students = []
+    students_removed = []
     for line in table.lines.values():
-        if line[0].author != data.ro_user:
-            continue # Not official student.
-        if not configuration.is_a_student(line[0].value):
-            continue
         if line[0].date_seconds() < last_run:
             continue
-        if line[0].value == '':
+        if (line[0].author == data.ro_user
+            and configuration.is_a_student(line[0].value)):
+            add = True
+        elif configuration.is_a_student(line[0].previous_value()):
+            add = False
+        else:
             continue
+
         etapes = inscrits.L_batch.etapes_of_student(line[0].value)
-        students.append(formate % (
-            line[0].value,
-            unicode(line[2].value, "utf-8")
-            + ' ' + unicode(line[1].value.title(), 'utf-8'),
-            unicode(line[3].value, "utf-8"),
-            unicode(line[4].value, "utf-8"),
-            ' '.join(etapes)
-        ))
+        if add:
+            students.append(formate % (
+                line[0].value,
+                unicode(line[2].value, "utf-8")
+                + ' ' + unicode(line[1].value.title(), 'utf-8'),
+                unicode(line[3].value, "utf-8"),
+                unicode(line[4].value, "utf-8"),
+                ' '.join(etapes)
+            ))
+        else:
+            student_id = line[0].previous_value()
+            if line[1].value:
+                # If the value is here, use it.
+                fn = unicode(line[2].value, "utf-8")
+                sn = unicode(line[1].value.title(), 'utf-8')
+            else:
+                fn, sn = inscrits.L_batch.firstname_and_surname(student_id)
+            students_removed.append(formate % (
+                student_id, fn + ' ' + sn.title(),
+                unicode(line[3].value, "utf-8"),
+                unicode(line[4].value, "utf-8"),
+                ' '.join(etapes)
+            ))
     if (len(students) != 0
         and len(students) < no_mail_if_more_than * len(table.lines)
+
+        or
+
+        len(students_removed) != 0
+        and len(students_removed) < no_mail_if_more_than * len(table.lines)
     ):
         for teach in table.masters:
-            teachers[teach][ue] = students
+            teachers[teach][ue] = (students, students_removed)
     table.unload()
 
 for teach, ues in teachers.items():
@@ -109,21 +132,31 @@ for teach, ues in teachers.items():
     print 'X'*79
     print mail
     message = [utilities.__("mail_on_new_student") + '\n\n\n']
-    for ue, student_list in ues.items():
-        message.append('='*79 + '\n'
-                       + ue + ' ' + all_ues[ue].intitule() + '\n'
-                       + ', '.join(all_ues[ue].responsables_login()) + '\n'
-                       + '-'*79 + '\n'
-                       + header + '\n'
-                       + '-'*79 + '\n'
-                       + ''.join('%s\n' % student
-                                 for student in student_list)
-                       + '\n\n'
-                       )
+    for ue, student_lists in ues.items():
+        students, students_removed = student_lists
+
+        m = ('='*79 + '\n'
+             + ue + ' ' + all_ues[ue].intitule() + '\n'
+             + ', '.join(all_ues[ue].responsables_login()) + '\n'
+             + '-'*79 + '\n'
+             + header + '\n'
+             + '-'*79 + '\n'
+             )
+
+        if students:
+            m += utilities.__("mail_on_new_student+") + '\n' + ''.join(
+                '%s\n' % student
+                for student in students)
+        if students_removed:
+            m += '\n' + utilities.__("mail_on_new_student-") + '\n' + ''.join(
+                '%s\n' % student
+                for student in students_removed)
+
+        message.append(m)
     print ''.join(message).encode('utf-8')
     utilities.send_mail(mail,
                         utilities._("MSG_auto_update_done"),
-                        ''.join(message),
+                        '\n\n'.join(message),
                         show_to=True)
 
 
