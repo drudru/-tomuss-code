@@ -1090,22 +1090,12 @@ function DisplayLogo(node)
 
 function DisplaySemesters(node)
 {
-  var y = year, s = semester ;
-  if ( node.data[y + '/' + s] === undefined )
-    return '' ;
-  var ys ;
-  do
-    {
-      ys = previous_year_semester(y, s) ;
-      
-      if ( node.data[ys[0] + '/' + ys[1]] === undefined )
-	break ;
-
-      y = ys[0] ;
-      s = ys[1] ;
-    }
-  while(1) ;
-  s = semesters[0] ; // First semester of the real year
+  var y = '9999' ;
+  for(var ys in node.data)
+    if ( ys < y )
+      y = ys ;
+  y = y.split('/')[0] ; // Older year
+  var s = semesters[0] ; // First semester of the real year
       
   var t = [], highlight ;
   do
