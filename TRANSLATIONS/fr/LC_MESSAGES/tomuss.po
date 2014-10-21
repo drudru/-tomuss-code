@@ -4591,6 +4591,9 @@ msgstr "Suivi: Les étudiants peuvent rendre leur suivi privé si True"
 msgid "config_table_advertising"
 msgstr "Suivi: Affiche de la publicité pour TOMUSS"
 
+msgid "config_table_removal_allowed"
+msgstr "Pas de mise à jour si le nombre d'étudiants à désinscrire > à ce %"
+
 msgid "COL_TITLE_orientation"
 msgstr "Orientation"
 

@@ -104,6 +104,7 @@ variable_list = [
     "time_between_mails",
     "grp_modifiable",
     "advertising",
+    "removal_allowed",
     ]
 
 deprecated = set(('root', 'invited_teachers', 'invited_administratives',

@@ -26,8 +26,6 @@ from ..utilities import warn
 from .. import utilities
 from .. import configuration
 
-removal_allowed = 0.15
-
 update_student_information = """
 
 function update_student_information(line)
@@ -98,18 +96,20 @@ def student_add_allowed(table):
     """Returns the new student list or False if there is to many
     students to remove"""
     
-    warn('%s allow_student_removal %s' % (
-        table.ue, configuration.allow_student_removal), what="table")
-
     # Check if it is an old 'students' method
     new_list = list(table.retrieve_student_list())
     
     old_list = set(table.logins_valid())
     nr_to_delete = len( old_list
                         - set(x[0] for x in new_list) )
+    warn('%s allow_student_removal %s nr_to_delete %s/%d' % (
+        table.ue, configuration.allow_student_removal, nr_to_delete,
+        len(old_list)
+    ), what="table")
+
     if nr_to_delete == 0:
         return new_list
-    if nr_to_delete / float(len(old_list)) > removal_allowed:
+    if nr_to_delete / float(len(old_list)) > configuration.removal_allowed:
         if (configuration.year_semester == (table.year, table.semester)
             and configuration.year_semester != configuration.year_semester_next
             ):
@@ -300,16 +300,19 @@ def terminate_update(table, the_ids):
         to_remove = [line_id
                      for line_id, line in table.lines.items()
                      if line[0].value not in the_ids
+                         and line[0].value
+                         and len(line) > 5 and line[5].value != 'non'
                          and line[grp_col].value != 'FERMEE'
                      ]
-        # Do not remove if there is more than :
-        #     15% removal (>=20 lines)
-        #     50% removal (<20 lines)
-        # Or if there is less than 12 students
-        if len(table.lines) >= 20:
-            if len(to_remove) > 1+len(table.lines)*removal_allowed:
+        warn('%s allow_student_removal %s nr_to_delete %s/%d' % (
+            table.ue, allow_student_removal, len(to_remove),
+            len(table.lines)
+        ), what="table")
+        if len(table.lines) >= 20: # More than 20 students.
+            if len(to_remove) > 1+len(table.lines)*configuration.removal_allowed:
                 allow_student_removal = False
         else:
+            # Less than 20, do not remove more than the half
             if len(to_remove) >= 1+len(table.lines)/2:
                 allow_student_removal = False
         

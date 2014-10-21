@@ -152,6 +152,10 @@ language = 'en'
 # students not present or noted.
 abinj = 0.25
 
+# If:  #removed_student > removal_allowed * old_#students
+# Then the student list of the table is not updated/
+removal_allowed = 0.15
+
 # Check the list of student each X seconds (for actives UE)
 students_check_interval = 3600
 
