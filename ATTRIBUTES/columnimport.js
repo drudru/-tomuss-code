@@ -80,7 +80,6 @@ function import_column_do(comments)
 	    {
 	      problems += _("MSG_columnimport_add") + m[0]
 		+ _("MSG_columnimport_instead_of") + multiline[i] + '\n' ;
-	      continue ;
 	    }
 	  m[0] = login_to_id(m[0]) ;
 	  if ( login_to_line_id(m[0]) !== undefined )
