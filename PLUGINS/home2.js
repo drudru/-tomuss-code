@@ -508,9 +508,9 @@ function ue_line(ue, code, content)
   var html_class = '' ;
   if ( ue )
     {
-      if (code.match(/^UE-/) && ue.nr_students_ue)
+      if (ue.nr_students_ue)
 	html_class += ' with_students' ;
-      if (code.match(/^EC-/) == 0 && ue.nr_students_ec)
+      else if (code.match(/^EC-/) == 0 && ue.nr_students_ec)
 	html_class += ' with_students' ;
     }
 
