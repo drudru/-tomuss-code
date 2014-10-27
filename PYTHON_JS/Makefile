@@ -71,7 +71,8 @@ regtest_python:
 
 regtest_js:tomuss_python_regtest.js xxx_tomuss.js
 	@echo "Running regression tests for JavaScript with 'node'"
-	@$(NODE) tomuss_python_regtest.js
+	@cat xxx_tomuss.js tomuss_python_regtest.js >xxx.js
+	@$(NODE) xxx.js
 	@echo
 
 regtest_js_O:tomuss_python_regtest_O.js xxx_tomuss.js
