@@ -759,9 +759,12 @@ function new_new_interface()
 
   t = [] ;
   t.push('<div class="one_line">') ;
-  t.push(column_input_attr('visibility_date',
-			   'empty before=' + _("BEFORE_column_attr_visibility_date")
-			   + ' beforeclass=widthleft')) ;
+  t.push(column_input_attr('visibility',
+			   [[0, _("SELECT_column_visibility_date")],
+			    [1, _("SELECT_column_visibility_no")],
+			    [2, _("SELECT_column_visibility_never")],
+			   ])) ;
+  t.push(column_input_attr('visibility_date', 'empty')) ;
   t.push('</div>') ;
   t.push('<div class="one_line">') ;
   t.push(column_input_attr('red', 'before=' + _("BEFORE_column_attr_red")

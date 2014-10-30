@@ -971,9 +971,25 @@ msgstr "Weight"
 msgid "BEFORE_column_attr_repetition"
 msgstr "Repetition"
 
+msgid "TIP_column_visibility"
+msgstr "On the 'suivi' page, the column will be:\n"
+       "<ul>\n"
+       "<li> visible the indicated date or immediatly;\n"
+       "<li> hidden to the students;\n"
+       "<li> invisible for anybody\n"
+       "</ul>"
+
 #. Label before the attribute
-msgid "BEFORE_column_attr_visibility_date"
-msgstr "Visible&nbsp;the:&nbsp;"
+msgid "SELECT_column_visibility_date"
+msgstr "Visible the"
+
+#. Label before the attribute
+msgid "SELECT_column_visibility_no"
+msgstr "Hidden to students"
+
+#. Label before the attribute
+msgid "SELECT_column_visibility_never"
+msgstr "Hidden to everybody"
 
 #. Label before the attribute
 msgid "BEFORE_column_attr_course_dates"

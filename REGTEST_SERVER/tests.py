@@ -1188,6 +1188,28 @@ def tests():
         # This history is not visible
         assert('1.234' not in c)
 
+    if do('visibility2'):
+        s.url('=' + root + '/%s/UE-INF22UE9' % ys)
+        c = s.url('='+root+'/%s/UE-INF22UE9/1/0/column_attr_visibility/col_0/1' % ys)
+        assert(c == ok_png)
+        c = s.url('='+root+'/%s/UE-INF22UE9/1/1/cell_change/0_0/lin_0/10045678' % ys)
+        assert(c == ok_png)
+        c = s.url('='+root+'/%s/UE-INF22UE9/1/2/cell_change/col_0/lin_0/12.31' % ys)
+        assert(c == ok_png)
+        c = s.url('='+root+'/%s/UE-INF22UE9/1/3/column_attr_visibility/col_1/2' % ys)
+        assert(c == ok_png)
+        c = s.url('='+root+'/%s/UE-INF22UE9/1/4/cell_change/col_1/lin_0/19.62' % ys)
+        assert(c == ok_png)
+        
+        ss.start()
+        c = ss.url('=' + abj + '/%s/10045678' % ys)
+        assert('"ue": "UE-INF22UE9"' in c)
+        assert('12.31' in c)
+        assert('19.62' not in c)
+        c = ss.url('=' + abj + '/%s/%%2010045678' % ys)
+        assert('12.31' not in c)
+        assert('19.62' not in c)
+        
     if do('import'):
         s.url('=' + root + '/%s/UE-INF21UE9' % ys)
         c = s.url('=' + root + '/%s/UE-INF21UE9/1/0/column_attr_title/col_0/T1' % ys)

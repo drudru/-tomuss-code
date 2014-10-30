@@ -294,7 +294,9 @@ class Line(object):
                     ]
         else:
             return [cell.json()
-                    for cell in self.cells]
+                    for cell, col in zip(self.cells,
+                                         columns)
+                    if col.visibility != 2]
 
 class Lines(object):
     """The Lines object is usable as a Python list of Line.
@@ -390,6 +392,8 @@ class Lines(object):
                 # Student display : so the column must be visible
                 if not column.visible():
                     continue
+            if column.visibility == 2:
+                continue
             s = column.stat(cell, lines)
             if s:
                 d[column.the_id] = column.stat(cell, lines)

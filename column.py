@@ -485,6 +485,8 @@ class Column(object):
         """Returns true if the column is visible for the student"""
         if self.title.startswith('.'):
             return False
+        if self.visibility:
+            return False
         if self.visibility_date:
             date = time.strftime('%Y%m%d')
             if self.visibility_date > date:
@@ -599,14 +601,13 @@ class Columns(object):
 
     def js(self, hide, python=False):
         """Returns the javaScript code describing all NEEDED columns."""
-        if hide is 1:
-            columns = []
-            for c in self.columns:
-                if not c.visible():
-                    continue
-                columns.append(c)
-        else:
-            columns = self.columns
+        columns = []
+        for c in self.columns:
+            if c.visibility == 2:
+                continue
+            if hide is 1 and not c.visible():
+                continue
+            columns.append(c)
 
         if python:
             return [c.js(hide, python=True)
