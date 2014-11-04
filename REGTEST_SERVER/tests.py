@@ -1814,6 +1814,72 @@ cell_change(1,'0_2','ticket_time_to_live','%d',"")
                   '/2/3/cell_change/col_0/L1/4')
         assert(c == ok_png)
 
+    if do('groupcolumn'):
+        
+        s.url('=' + root + '/%s/UE-groupcolumn' % ys)
+        c = s.url('=' + root + '/%s/UE-groupcolumn' % ys +
+                  '/1/0/column_attr_title/C0/C0')
+        assert(c == ok_png)
+        c = s.url('=' + root + '/%s/UE-groupcolumn' % ys +
+                  '/1/1/column_attr_title/C1/C1')
+        assert(c == ok_png)
+
+
+        # another user set a cell
+        s.url('=' + abj + '/%s/UE-groupcolumn' % ys)
+        c = s.url('=' + abj + '/%s/UE-groupcolumn' % ys +
+                  '/2/0/cell_change/C1/L12/16.61')
+
+        
+        c = s.url('=' + root + '/%s/UE-groupcolumn' % ys +
+                  '/1/2/column_attr_groupcolumn/C1/C0')
+        assert(c == ok_png)
+        c = s.url('=' + root + '/%s/UE-groupcolumn' % ys +
+                  '/1/3/column_attr_groupcolumn/C1/C0')
+        assert(c == ok_png)
+        n = 4
+        for student, group in (
+                ('10800111', '1'), # 4
+                ('10800112', '1'), # 6
+                ('10800113', '2'), # 8
+                ('10800114', '2'), # 10
+                ('10800115', '2'), # 12
+                ('10800116', ''),  # 14
+                ('10800117', ''),  # 16
+                ):
+            c = s.url('=' + root + '/%s/UE-groupcolumn' % ys +
+                      '/1/%s/cell_change/0_0/L%d/%s' % (n, n, student))
+            assert(c == ok_png)
+            c = s.url('=' + root + '/%s/UE-groupcolumn' % ys +
+                      '/1/%d/cell_change/C0/L%d/%s' % (n+1,n, group))
+            assert(c == ok_png)
+            n += 2
+
+        # First user modify values
+        c = s.url('=' + root + '/%s/UE-groupcolumn' % ys +
+                  '/1/%d/cell_change/C1/L4/13.31' % n)
+        assert(c == ok_png)
+        n += 1
+        c = s.url('=' + root + '/%s/UE-groupcolumn' % ys +
+                  '/1/%d/cell_change/C1/L8/14.41' % n)
+        assert(c == ok_png)
+        n += 1
+        c = s.url('=' + root + '/%s/UE-groupcolumn' % ys +
+                  '/1/%d/cell_change/C1/L14/15.51' % n)
+        assert(c == ok_png)
+
+        for cell in (
+                (1, 'C1', 'L4', 13.31),
+                (1, 'C1', 'L6', 13.31),
+                (1, 'C1', 'L8', 14.41),
+                (1, 'C1', 'L10', 14.41),
+                (2, 'C1', 'L12', 16.61), # untouched
+                (1, 'C1', 'L14', 15.51),
+                ):
+            check('Y%d/S%s/UE-groupcolumn' % (year, semester) + '.py',
+                  cell_required = cell, dump=False)
+        
+
 if '1' in sys.argv:
    sys.argv.remove('1')
    only_once = True

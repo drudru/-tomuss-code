@@ -743,6 +743,10 @@ function new_new_interface()
   t.push(column_input_attr('rounding',
 			   'before=' + _("BEFORE_column_attr_rounding")
 			   + ' beforeclass=widthleft')) ;
+  t.push('&nbsp;&nbsp;') ;
+  t.push(column_input_attr('groupcolumn',
+			   'before=' + _("BEFORE_column_attr_groupcolumn")
+			   + '&nbsp;')) ;
   t.push('</div>') ;
   t.push('<div class="one_line">') ;
   t.push(column_input_attr('weight', 'before=' +_("BEFORE_column_attr_weight")

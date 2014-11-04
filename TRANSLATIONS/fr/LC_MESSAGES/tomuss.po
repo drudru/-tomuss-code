@@ -195,6 +195,22 @@ msgstr "<b>Arrondi des nombres</b>.<br>\n"
        "0.5 : seulement des notes comme 10 10.5 11 11.5"
 
 #. Attribute Tip
+msgid "TIP_column_attr_groupcolumn"
+msgstr "<b>Titre de la colonne contenant le groupe de l'étudiant</b>.<br>\n"
+       "Quand vous saisissez une valeur, elle est recopiée<br>\n"
+       "à l'identique pour tous les membres du groupe.<br>\n"
+       "Le nom du groupe peut être un groupe de TD ou bien un numéro de binôme."
+
+msgid "MSG_columngroup+"
+msgstr "Rejoint :"
+
+msgid "MSG_columngroup-"
+msgstr "Quitte :"
+
+msgid "ALERT_columngroup_change"
+msgstr "L'étudiant change de groupe"
+
+#. Attribute Tip
 msgid "TIP_column_attr_weight"
 msgstr "<b>Poids de cette colonne</b> dans les moyennes pondérées.<br>\n"
  "    Des poids entiers sont préférables.<br>\n"
@@ -956,6 +972,10 @@ msgstr "&nbsp;pires"
 #. Label before the attribute
 msgid "BEFORE_column_attr_rounding"
 msgstr "Arrondi"
+
+#. Label before the attribute
+msgid "BEFORE_column_attr_groupcolumn"
+msgstr "Groupe"
 
 #. Label before the attribute
 msgid "BEFORE_column_attr_weight"
@@ -5276,6 +5296,9 @@ msgstr "DD/MM/YYYY pour les étudiants"
 
 msgid "rounding.png"
 msgstr "Saisir 0.1 pour avoir une seule décimale"
+
+msgid "groupcolumn.png"
+msgstr "Titre de la colonne contenant le nom du groupe"
 
 msgid "course_dates.png"
 msgstr "des enseignements de cette colonne"

@@ -753,9 +753,23 @@ class Table(object):
             else:
                 self.send_update(page, t)
             cell_changed_list_fast.append((self, lin, a_column))
+
+            if a_column.groupcolumn:
+                col = self.columns.from_title(a_column.groupcolumn)
+                if col:
+                    d_col = col.data_col
+                    group = str(line[d_col].value)
+                    if group != '':
+                        for line_key, i_line in self.lines.items():
+                            if str(i_line[d_col].value) == group:
+                                if self.authorized(page.user_name,
+                                                   i_line[a_column.data_col],
+                                                   a_column):
+                                    self.cell_change(page, a_column.the_id,
+                                                     line_key, value,
+                                                     force_update=True)
         else:
             page.request += 1
-
         return 'ok.png'
 
     def default_nr_columns_change(self, n):

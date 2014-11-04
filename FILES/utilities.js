@@ -1433,6 +1433,20 @@ function cell_set_value2(v)
   return this ; // To be compatible with Python set_value method
 }
 
+function cell_set_value_local(value)
+{
+  this.history += this.value + '\n('+ this.date + ' ' + this.author + '),·' ;
+  this.set_value(value) ;
+  this.author = my_identity ;
+  var d = new Date() ;
+  this.date = '' + d.getFullYear() +
+    two_digits(d.getMonth()+1) +
+    two_digits(d.getDate()) +
+    two_digits(d.getHours()) +
+    two_digits(d.getMinutes()) +
+    two_digits(d.getSeconds()) ;
+}
+
 function cell_set_comment(v)
 {
   this.comment = v ;
@@ -1565,6 +1579,7 @@ Cell.prototype.restore = cell_restore ;
 Cell.prototype.value_html = cell_value_html ;
 Cell.prototype.value_fixed = cell_value_fixed ;
 Cell.prototype.set_value = cell_set_value2 ;
+Cell.prototype.set_value_local = cell_set_value_local ;
 Cell.prototype.set_comment = cell_set_comment ;
 Cell.prototype.comment_html = cell_comment_html ;
 Cell.prototype.modifiable = cell_modifiable ;
@@ -2591,7 +2606,8 @@ function current_do_completion(backspace)
 	    completions.push([completion, "", "", "", completion]) ;
 	}
     }
-  else if ( input.id == 't_column_columns' )
+  else if ( input.id == 't_column_columns'
+	    || input.id == 't_column_groupcolumn')
     {
       var names = input.value.split(' ') ;
       var last = names[names.length-1].toLowerCase() ;

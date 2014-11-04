@@ -1,7 +1,7 @@
 #!/bin/env python
 # -*- coding: utf-8 -*-
 #    TOMUSS: The Online Multi User Simple Spreadsheet
-#    Copyright (C) 2012 Thierry EXCOFFIER, Universite Claude Bernard
+#    Copyright (C) 2014 Thierry EXCOFFIER, Universite Claude Bernard
 #
 #    This program is free software; you can redistribute it and/or modify
 #    it under the terms of the GNU General Public License as published by
@@ -17,32 +17,18 @@
 #    along with this program; if not, write to the Free Software
 #    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 #
-#    Contact: Thierry.EXCOFFIER@bat710.univ-lyon1.fr
+#    Contact: Thierry.EXCOFFIER@univ-lyon1.fr
 
 from ..column import ColumnAttr
 
-class ColumnRounding(ColumnAttr):
-    default_value = ''
-    name = 'rounding'
-    display_table = 1
-    check_and_set = 'set_rounding'
-    always_visible = 1
-    priority = 1 # Must be computed AFTER 'comment' attribute (historical)
-
-    def check(self, value):
-        if value == '':
-            return
-        try:
-            float(value)
-        except ValueError:
-            return '_("ALERT_rounding")'
-
-    css = """
-#menutop DIV.tabs INPUT#t_column_rounding { width: 23% ; }
-#t_column_rounding.empty {
-  background-image: url('rounding.png');
+class ColumnGroupColumn(ColumnAttr):
+    name = 'groupcolumn'
+    check_and_set = 'set_comment'
+    css = '''
+#menutop DIV.tabs INPUT#t_column_groupcolumn { width: 23% ; }
+#t_column_groupcolumn.empty {
+  background-image: url("groupcolumn.png");
   background-repeat: no-repeat;
   background-position: 2px 2px;
-}
-
-"""
+}'''
+    

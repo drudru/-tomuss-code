@@ -199,7 +199,21 @@ msgstr "<b>Rounding of numbers</b>.<br>\n"
        "1: only integer numbers<br>\n"
        "0.5: only values as 10 10.5 11 11.5"
 
-       
+#. Attribute Tip
+msgid "TIP_column_attr_groupcolumn"
+msgstr "<b>Title of the column containing is the student group</b>.<br>\n"
+       "Entered values are copied to all the group members.\n"
+       "The group can contain 1, 2 or many students."
+
+msgid "MSG_columngroup+"
+msgstr "Join:"
+
+msgid "MSG_columngroup-"
+msgstr "Quit:"
+
+msgid "ALERT_columngroup_change"
+msgstr "The student change of group"
+
 #. Attribute Tip
 msgid "TIP_column_attr_weight"
 msgstr ""
@@ -962,6 +976,10 @@ msgstr "&nbsp;worst"
 #. Label before the attribute
 msgid "BEFORE_column_attr_rounding"
 msgstr "Rounding"
+
+#. Label before the attribute
+msgid "BEFORE_column_attr_groupcolumn"
+msgstr "Group"
 
 #. Label before the attribute
 msgid "BEFORE_column_attr_weight"
@@ -5201,6 +5219,9 @@ msgstr "Enter the cell default value"
 
 msgid "rounding.png"
 msgstr "Enter 0.1 to have only one decimal"
+
+msgid "groupcolumn.png"
+msgstr "Column title containing group names"
 
 msgid "course_dates.png"
 msgstr "of sessions for this column"

@@ -2747,20 +2747,55 @@ function cell_set_value_real(line_id, data_col, value, td)
   if ( value === undefined )
     return ;
 
+  // Used as a group column
+  for(var i in columns)
+    if ( columns[i].groupcolumn == column.title )
+      {
+	var e = [], quoi ;
+	var group = lines[line_id][column.data_col].value.toString() ;
+	var value_group = lines[line_id][columns[i].data_col].value ;
+	for (var line_key in lines)
+	  {
+	    if ( line_key == line_id )
+	      continue ;
+	    quoi = '' ;
+	    if ( lines[line_key][columns[i].data_col].value !== ''
+		 && group !== ''
+		 && lines[line_key][column.data_col].value.toString()
+		 == group )
+	      quoi = '-' ;
+	    if ( lines[line_key][columns[i].data_col].value !== ''
+		 && lines[line_key][columns[i].data_col].value !== value_group
+		 && value !== ''
+		 && lines[line_key][column.data_col].value.toString()
+		 == value.toString() )
+	      quoi = '+' ;
+	    if ( quoi )
+	      e.push(_('MSG_columngroup' + quoi)
+		     + ' ' + lines[line_key][0].value + ' '
+		     + lines[line_key][1].value + ' '
+		     + lines[line_key][2].value + ' '
+		     + columns[i].title
+		     + (quoi == '+' ?
+			' : ' + lines[line_key][columns[i].data_col].value
+			+ '≠' + value_group : '')
+		     + '\n') ;
+	  }
+	if ( e.length )
+	  {
+	    e.sort() ;
+	    alert_append(_("ALERT_columngroup_change") + '\n\n'
+			 + lines[line_id][column.data_col].value
+			 + '→'
+			 + value + '\n\n'
+			 + e.join(""));
+	  }
+      }
+
   create_column(columns[data_col]) ;
   add_a_new_line(line_id) ;
 
-  // Does history should be modified in set_value ?
-  cell.history += cell.value + '\n('+ cell.date + ' ' + cell.author + '),·' ;
-  cell.set_value(value) ;
-  cell.author = my_identity ;
-  var d = new Date() ;
-  cell.date = '' + d.getFullYear() +
-    two_digits(d.getMonth()+1) +
-    two_digits(d.getDate()) +
-    two_digits(d.getHours()) +
-    two_digits(d.getMinutes()) +
-    two_digits(d.getSeconds()) ;
+  cell.set_value_local(value) ;
 
   var v ;
   if ( td !== undefined )
@@ -2776,8 +2811,28 @@ function cell_set_value_real(line_id, data_col, value, td)
 
   update_histogram(true) ; // XXX
 
+  if ( column.groupcolumn )
+    {
+      var col = data_col_from_col_title(column.groupcolumn) ;
+      if ( col )
+	{
+	  var group = lines[line_id][col].value.toString() ;
+	  if ( group !== '' )
+	    for (var line_key in lines)
+	      {
+		var cell = lines[line_key][column.data_col] ;
+		if ( lines[line_key][col].value.toString() == group
+		     && cell.modifiable(column) )
+		  {
+		    cell.set_value_local(value) ;
+		    td = td_from_line_id_data_col(line_key, column.data_col) ;
+		    if ( td !== undefined )
+		      update_cell(td, cell, column) ;
+		  }
+	      }
+	}
+    }  
   return v ;
-
 }
 
 function cell_set_value(td, value, line_id, data_col)
