@@ -43,7 +43,7 @@ function set_title(value, column, xcolumn_attr)
   // Regex can not be used easely with special characters
   // that may appear in titles.
 
-  if ( ! xcolumn_attr && column.title !== '' )
+  if ( xcolumn_attr === false && column.title !== '' )
     {
       var job_to_do = [] ;
 
@@ -59,7 +59,10 @@ function set_title(value, column, xcolumn_attr)
 	    continue ;
 	  if ( ! column_change_allowed(formula_column) )
 	    {
-	      alert_append(_("ALERT_columntitle_unchangeable")) ;
+	      alert_append(_("ALERT_columntitle_unchangeable")
+			   + '\n\n'+column.title + ' ∈ '
+			   + formula_column.title + '('
+			   + formula_column.author + ')') ;
 	      return column.title ;
 	    }
 	  job_to_do.push([formula_column, 'columns', w]) ;
