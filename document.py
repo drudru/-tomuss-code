@@ -402,8 +402,8 @@ class Table(object):
             column.real_weight = tomuss_python.to_float(column.weight)
             column.real_weight_add = not column.weight.startswith(('+','-'))
             column.min, column.max = column.min_max()
-            column.best_of = tomuss_python.to_float(column.best)
-            column.mean_of = tomuss_python.to_float(column.worst)
+            column.best_of = int(tomuss_python.to_float(column.best))
+            column.mean_of = int(tomuss_python.to_float(column.worst))
             if column.rounding == '':
                 column.round_by = 0
             else:
