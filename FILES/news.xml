@@ -915,6 +915,62 @@ Les améliorations les plus visibles sont :
       </description>
       <guid>60</guid>
     </item>
+    <item>
+      <title>xx/11/2014 : Version 5.4.0</title>
+      <link>http://tomuss.univ-lyon1.fr/</link>
+      <description>
+	Un grand changement interne de TOMUSS à permis
+	d'apporter de nouvelles fonctionnalités :
+	&lt;p&gt;
+	Le calcul de la moyenne est plus naturel dans les cas
+	pathologiques (ABI, TNR, ABJ) quand on enlève les notes les
+	plus mauvaises. ABI et TNR sont considérés comme des 0.
+	Vous pouvez consulter le
+	&lt;a href="http://perso.univ-lyon1.fr/thierry.excoffier/TOMUSS/moyenne.html"&gt;récapitulatif des changements de calcul de moyenne&lt;/a&gt;
+	&lt;p&gt;
+	Si le résultat d'une moyenne est NaN, ABI, ABJ, PPN alors
+	le responsable de l'UE peut saisir une note à la place.
+	Il ne peut pas changer une note calculée.
+	&lt;p&gt;
+	Le rang et les autres statistiques sont maintenant affichés
+	pour les moyennes sur la page du suivi de l'étudiants.
+	&lt;p&gt;
+	On peut maintenant
+	&lt;a href="http://perso.univ-lyon1.fr/thierry.excoffier/TOMUSS/doc_table.html#Extraire une colonne d'une autre table TOMUSS"&gt;
+	importer dynamiquement une colonne&lt;/a&gt; de moyenne
+	d'une table TOMUSS dans une autre table TOMUSS.
+	&lt;p&gt;
+	Le propriétaire d'une colonne peut maintenant définir quelles
+	sont les cellules modifiables de la colonne.
+	Par exemple, autoriser la modification des ABI par n'importe qui,
+	interdire la modification d'une valeur une fois saisie,
+	autoriser la modification par n'importe qui des valeurs
+	saisie par lui-même, interdire les modifications si la saisie
+	a été faite il y a plus de 7 jours...
+	Le critère est un
+	&lt;a href="http://perso.univ-lyon1.fr/thierry.excoffier/TOMUSS/doc_table.html#Les filtres de TOMUSS"&gt;
+	filtre&lt;/a&gt;,
+	il n'y a donc rien de nouveau à apprendre.
+	&lt;p&gt;
+	Il y a un menu permettant de rendre une colonne invisible
+	dans le suivi aux étudiants, et même aux enseignants
+	sans date limite.
+	A n'utiliser qu'à bon escient, les étudiants peuvent demander
+	à ce que ces informations leurs soient communiquées.
+	&lt;p&gt;
+	TOMUSS comprend maintenant la notion de binôme, trinôme...
+	Il suffit d'indiquer dans la colonne contenant la note le
+	titre de la colonne contenant le nom du groupe (binome).
+	Quand on saisit une valeur pour un des membres du groupe,
+	elle est recopiée pour les autres.
+	&lt;p&gt;
+	&lt;b&gt;
+	Ses fonctionnalités sont toutes nouvelles,
+	en cas de problème, prévenez rapidement.
+	&lt;/b&gt;
+      </description>
+      <guid>61</guid>
+    </item>
 
   </channel>
 </rss>

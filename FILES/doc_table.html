@@ -76,10 +76,10 @@
       indiquer la date à laquelle la colonne doit leur être affichée.
       À cette date, leur note pour cette colonne deviendra visible.
     <p>
-      Les étudiants peuvent voir leur classement pour chacune des
-      notes saisies, mais pas pour les moyennes (bug).
+      Les étudiants peuvent voir leur classement et les statistiques
+      pour chacune des notes.
       Les enseignants peuvent voir le rang de l'étudiant dans une
-      UE pour toutes les colonnes (y compris les moyennes)
+      UE pour toutes les colonnes
       en mettant le curseur sur la photo de l'étudiant
       quand il sont en train d'éditer l'UE en question.
     </div>
@@ -447,7 +447,7 @@
 	comme facteur multiplicatif.
 	Ceci permet de faire une addition et non une moyenne.
       <li> Si le poids d'une colonne est négatif.
-	Alors la valeur est soustraite au lieu d'être ajouté.
+	Alors la valeur est soustraite au lieu d'être ajoutée.
 	le poids de cette colonne n'est pas ajouté aux autres quand
 	on calcule la moyenne pondérée, mais il est utilisé
 	comme facteur multiplicatif.
@@ -1055,11 +1055,6 @@
 	L'importation est faite quand la table est visitée, on peut
 	la forcer en cliquant sur le 'Forcer la mise à jour' dans
 	l'onglet 'Action' du bloc 'Table'.
-      <p>
-	<b>ATTENTION : TOMUSS ne peut pas récupérer des résultats
-	  de calcul comme la moyenne par exemple.</b>
-      
-      
       
     </div>
 
@@ -1322,6 +1317,9 @@
       <tr>
 	<td> <b>Colorier</b> en rouge/vert les cellules d'une colonne.
 	<td> Dans l'onglet «Affiche» du bloc central «Colonne»</tr>
+      <tr>
+	<td> <b>Droit d'accès</b> des cellules d'une colonne.
+	<td> Dans l'onglet «Config» du bloc central «Colonne»</tr>
     </table>
 	<p>
 	  N'oubliez pas que toutes les actions sur la table
