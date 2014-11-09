@@ -21,6 +21,26 @@
 def average_regtest():
 
     global columns
+
+    for infos in (
+            (((11.5, 0.5), (0, 0.5), (0, 1), (1, 1)), 2.5, 0.5),
+            (((9, 15), (16.5, 15), (13, 15), (12.5, 15), (11.5, 20), (5, 20)),
+              10.9, 0.1),
+            (((16, 6), (12, 6), (9.5, 3), (10, 3), (12, 3), (11, 3), (7, 8),
+              (4, 8)), 9.588, 0.001),
+            ):
+        value_and_weights, result, rounding = infos
+        columns = [Column(real_weight=value_weight[1])
+                   for value_weight in value_and_weights
+                   ]
+        columns.append(Column(average_columns=range(len(value_and_weights)),
+                              round_by = rounding))
+        line = [Cell(value_weight[0])
+                for value_weight in value_and_weights
+            ]
+        line.append(CE(result))
+        check_result(line, len(value_and_weights), compute_average)
+
     columns = [Column(), Column(), Column(),
                Column(average_columns = [0, 1, 2]),
                Column(average_columns = [0, 1, 2], best_of=-1),

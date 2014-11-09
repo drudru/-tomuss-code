@@ -47,19 +47,19 @@ PythonJS:
 update:
 	cd PythonJS ; git pull https://github.com/PythonJS/PythonJS.git
 
-tomuss_python.py:$(OBJS) Makefile
+tomuss_python.py:$(OBJS) $(LOCAL) Makefile
 	@cat $(OBJS) $(LOCAL) >$@
 
-tomuss_python.js:$(OBJS) Makefile
+tomuss_python.js:$(OBJS) $(LOCAL) Makefile
 	@$(TRANSLATE) '#WITHJAVASCRIPT#'
 
-tomuss_python_O.js:$(OBJS) Makefile
+tomuss_python_O.js:$(OBJS) $(LOCAL) Makefile
 	@$(TRANSLATE) '#WITHOUTJAVASCRIPT#'
 
-tomuss_python_regtest.js:$(OBJS) $(REGTEST) $(LOCAL_REGTEST) Makefile
+tomuss_python_regtest.js:$(OBJS) $(REGTEST) $(LOCAL) $(LOCAL_REGTEST) Makefile
 	@$(TRANSLATE) '#WITHJAVASCRIPT#' "$(REGTEST) $(LOCAL_REGTEST)"
 
-tomuss_python_regtest_O.js:$(OBJS) $(REGTEST) $(LOCAL_REGTEST) Makefile
+tomuss_python_regtest_O.js:$(OBJS) $(REGTEST) $(LOCAL) $(LOCAL_REGTEST) Makefile
 	@$(TRANSLATE) '#WITHOUTJAVASCRIPT#' "$(REGTEST) $(LOCAL_REGTEST)"
 
 regtest: PythonJS regtest_python regtest_js regtest_js_O
