@@ -47,8 +47,8 @@ PythonJS:
 update:
 	cd PythonJS ; git pull https://github.com/PythonJS/PythonJS.git
 
-tomuss_python.py:$(OBJS)
-	@cat $(OBJS) >$@
+tomuss_python.py:$(OBJS) Makefile
+	@cat $(OBJS) $(LOCAL) >$@
 
 tomuss_python.js:$(OBJS) Makefile
 	@$(TRANSLATE) '#WITHJAVASCRIPT#'
