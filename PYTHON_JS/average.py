@@ -166,6 +166,8 @@ def compute_cell_safe(data_col, line, compute_function):
     If the computed value is not a number and the cell was containing
     a newer value, then the old cell value is restored.
     """
+    if line[data_col].comment == 'Fixed!':
+        return # To override the computed value
     old_value = line[data_col].value
     compute_function(data_col, line)
     if columns[data_col].cell_is_modifiable():
