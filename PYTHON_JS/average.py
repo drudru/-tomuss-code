@@ -128,6 +128,7 @@ def compute_average(data_col, line):
         if nr_abi >= len(column.average_columns) - nr_sum:
             value = abi
         else:
+            sumw += 1e-16 ; # Fix .499999999999999 numbers
             value = (column.min
                      + sumw * (column.max - column.min) / weight
                      + sum2)
