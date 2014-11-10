@@ -72,6 +72,7 @@ def plugins_tomuss():
     from .PLUGINS import rsskey
     from .PLUGINS import signature
     from .PLUGINS import restart
+    from .PLUGINS import opensearch
     from . import signature
 
     plugins_tomuss_more()
