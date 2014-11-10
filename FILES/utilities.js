@@ -2613,6 +2613,8 @@ function current_do_completion(backspace)
       var last = names[names.length-1].toLowerCase() ;
       for(var column in columns)
 	{
+	  if ( column_empty(column) )
+	    continue ;
 	  column = columns[column] ;
 	  if ( column.title.substr(0, last.length).toLowerCase() == last )
 	    {
