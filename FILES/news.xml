@@ -916,10 +916,10 @@ Les améliorations les plus visibles sont :
       <guid>60</guid>
     </item>
     <item>
-      <title>xx/11/2014 : Version 5.4.0</title>
+      <title>11/11/2014 : Version 5.4.0</title>
       <link>http://tomuss.univ-lyon1.fr/</link>
       <description>
-	Un grand changement interne de TOMUSS à permis
+	Un grand changement interne de TOMUSS a permis
 	d'apporter de nouvelles fonctionnalités :
 	&lt;p&gt;
 	Le calcul de la moyenne est plus naturel dans les cas
@@ -945,7 +945,7 @@ Les améliorations les plus visibles sont :
 	Par exemple, autoriser la modification des ABI par n'importe qui,
 	interdire la modification d'une valeur une fois saisie,
 	autoriser la modification par n'importe qui des valeurs
-	saisie par lui-même, interdire les modifications si la saisie
+	saisies par lui-même, interdire les modifications si la saisie
 	a été faite il y a plus de 7 jours...
 	Le critère est un
 	&lt;a href="http://perso.univ-lyon1.fr/thierry.excoffier/TOMUSS/doc_table.html#Les filtres de TOMUSS"&gt;
