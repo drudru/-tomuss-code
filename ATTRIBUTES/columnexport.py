@@ -39,6 +39,7 @@ DIV.import_export {
   top: 25%;
   padding: 0.5em ;
   z-index: 10;
+  overflow: auto ;
 }
 DIV.import_export TEXTAREA { 
   width: 100%;

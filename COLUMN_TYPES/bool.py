@@ -32,6 +32,7 @@ class Bool(note.Note):
     tip_filter = "TIP_filter_Bool"
     should_be_a_float = 0
     attributes_visible = ('url_import',)
+    cell_completions = "bool_completions"
 
     def cell_indicator(self, column, value, cell, lines):
         return '', None

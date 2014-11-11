@@ -31,6 +31,12 @@ function test_prst(value, column)
   return '' ;
 }
 
+function prst_completions(value, column)
+{
+  column.possible_values = [pre, abi, abj, ''] ;
+  return completions_enumeration(value, column) ;
+}
+
 function toggle_PA(test, v, values, column)
 {
   v = test(v, column) ;

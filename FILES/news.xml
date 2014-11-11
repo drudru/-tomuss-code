@@ -971,6 +971,18 @@ Les améliorations les plus visibles sont :
       </description>
       <guid>61</guid>
     </item>
+    <item>
+      <title>xx/11/2014 : Version 5.4.0</title>
+      <link>http://tomuss.univ-lyon1.fr/</link>
+      <description>
+	&lt;p&gt;
+	Sur écran tactile (tablette),
+	le trombinoscope permet de directement saisir
+	les présences sur la photo de l'étudiant.
+	Cela s'applique aussi aux énumérations et aux booléens.
+      </description>
+      <guid>62</guid>
+    </item>
 
   </channel>
 </rss>

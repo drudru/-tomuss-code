@@ -34,3 +34,4 @@ class Prst(note.Note):
     should_be_a_float = 0
     attributes_visible = ('url_import',)
     cell_indicator = note.Note.cell_indicator_prst
+    cell_completions = "prst_completions"

@@ -24,6 +24,12 @@ function toggle_bool(value)
   return toggle_PA(test_bool, value, [yes, no]) ;
 }
 
+function bool_completions(value, column)
+{
+  column.possible_values = [yes, no, ''] ;
+  return completions_enumeration(value, column) ;
+}
+
 function test_bool(value, column)
 {
   if ( value === undefined )

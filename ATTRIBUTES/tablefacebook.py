@@ -1,7 +1,7 @@
 #!/bin/env python
 # -*- coding: utf-8 -*-
 #    TOMUSS: The Online Multi User Simple Spreadsheet
-#    Copyright (C) 2011 Thierry EXCOFFIER, Universite Claude Bernard
+#    Copyright (C) 2011-2014 Thierry EXCOFFIER, Universite Claude Bernard
 #
 #    This program is free software; you can redistribute it and/or modify
 #    it under the terms of the GNU General Public License as published by
@@ -28,7 +28,7 @@ class TableFaceBook(TableAttr):
     action = "tablefacebook"
     css = '''
 DIV.facebook {
-  border: 1px solid black ;
+  border: 1px solid #888 ;
   display: block ;
   float: left;
   padding: 1px ;
@@ -38,11 +38,27 @@ DIV.facebook {
   width: 8em ;
   margin: 2px ;
   overflow: hidden;
+  position: relative;
 }
-DIV.facebook IMG { 
+DIV.facebook DIV.items {
+    position: absolute;
+    top: 0em;
+    right: 0em ;
+    left: 0em ;
+    }
+DIV.facebook DIV.content {
+    bottom: 0px ;
+    position: absolute;
+    }
+DIV.facebook DIV.item { opacity: 0.3; right: 0; height: 1em }
+DIV.facebook DIV.selecteditem { opacity: 0.7; }
+DIV.facebook SPAN { float: left }
+DIV.facebook SPAN IMG { width: 0.5em; height: 0.5em }
+DIV.facebook IMG.pic {
   width: 8em ;
   border: 0 ;
 }
+DIV.phone_facebook { right: 0; bottom: 0; height: 100%; left: 0; top: 0 }
 
 @media print { DIV.facebook { font-size: 75% ; } }
 '''
