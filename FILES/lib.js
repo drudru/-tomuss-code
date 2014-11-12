@@ -3912,7 +3912,7 @@ function columns_in_javascript()
       p.push("max:" + column.max) ;
       p.push("ordered_index:" + column.ordered_index) ;
       p.push("rounding:" + js(column.rounding)) ;
-      s.push('{' + p.join(',\n') + '}') ;
+      s.push('Col({' + p.join(',\n') + '})') ;
     }
   return '[\n' + s.join(',\n') + ']' ;
 }
