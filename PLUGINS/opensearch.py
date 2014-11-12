@@ -25,13 +25,15 @@ from .. import configuration
 from .. import utilities
 from .. import inscrits
 from .. import teacher
+from .. import files
 
-def opensearch_desc(server):
-    server.the_file.write(u"""<?xml version="1.0" encoding="UTF-8"?>
-<OpenSearchDescription xmlns="http://a9.com/-/spec/opensearch/1.1/"
-                       xmlns:moz="http://www.mozilla.org/2006/browser/search/">
+files.files['opensearch_desc.xml'] = utilities.StaticFile(
+    "opensearch_desc.xml",
+    "application/opensearchdescription+xml",
+    """<?xml version="1.0" encoding="UTF-8"?>
+<OpenSearchDescription xmlns="http://a9.com/-/spec/opensearch/1.1/">
   <ShortName>TOMUSS</ShortName>
-  <Description>Etudiant/UE</Description>
+  <Description>Etudiant/Enseignant/UE</Description>
   <InputEncoding>UTF-8</InputEncoding>
   <Url type="text/html" method="GET" template="%s/search/{searchTerms}">
   </Url>
@@ -124,14 +126,6 @@ H1 { text-align: center }
     server.the_file.write("</tr></table>")
     if n == 0:
         server.the_file.write("?")
-
-plugin.Plugin('opensearch_desc', '/opensearch_desc',
-              function=opensearch_desc,
-              authenticated=False,
-              documentation = "Opensearch description",
-              mimetype="application/opensearchdescription+xml",
-              cached = True,
-              )
 
 plugin.Plugin('search', '/search/{*}',
               function=search,
