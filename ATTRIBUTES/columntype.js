@@ -50,7 +50,7 @@ function set_type(value, column, xcolumn_attr)
     {
 	// Only here on local user interaction
 	var use = _('B_' + column.real_type.title).split("(")[1] ;
-	if ( use == 'ID)' )
+	if ( use == 'ID)' && data_col_from_col_title('ID') !== undefined )
 	    column_attr_set(column, 'columns', 'ID') ;
         if ( column.real_type.type_type !== 'data' && column.empty_is === '' )
 	    column_attr_set(column, 'empty_is', '???') ;
