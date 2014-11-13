@@ -23,6 +23,7 @@ import inspect
 from . import text
 from .. import inscrits
 from .. import data
+from .. import utilities
 
 class Code_Etape(text.Text):
     human_priority = 12
@@ -110,6 +111,14 @@ class Code_Etape(text.Text):
                     # Do not replace user defined input with nothing
                     continue
                 value = ''
+
+            if isinstance(value, str):
+                v = unicode(value, "utf-8", "replace").encode("utf-8")
+                if v != value:
+                    utilities.send_backtrace(
+                        "%s %s %s" % (the_table, column.title, v),
+                        'Bad value encoding')
+                    value = v
             the_table.lock()
             try:
                 the_table.cell_change(the_table.pages[0], column.the_id,
