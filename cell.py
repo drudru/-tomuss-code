@@ -234,7 +234,7 @@ class Cell(CellValue):
         elif self.author:
             return (self.value, self.author)
         elif self.value:
-            return (self.value)
+            return (self.value, )
         else:
             return ()
 

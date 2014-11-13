@@ -1030,9 +1030,7 @@ function DisplayLastGrades(node)
 	    continue ;
 	  if ( cell[1].length < 2 )
 	    continue ; // System value
-	  if ( cell[1].substr(0,2) == '*\003' )
-	    continue ; // Computed value value
-	s.push([ue, data_col]) ;
+	  s.push([ue, data_col]) ;
 	}
     }
   if ( s.length == 0 )

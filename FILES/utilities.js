@@ -1392,12 +1392,6 @@ function cell_changeable(column)
       return _("ERROR_table_read_only") ;
   if ( column.locked )
       return _("ALERT_locked_column") ;
-  if ( ! column.real_type.cell_is_modifiable )
-    {
-       // Computed numbers are not modifiable
-      if ( ! isNaN(this.value) && this.author.substr(0,2) == '*\003' )
-	return _("ERROR_tablelinear_value_not_modifiable") ;
-    }
   if ( this.author === '*' && this.value !== '')
     return _("ERROR_value_not_modifiable") + '\n'
       + _("ERROR_value_system_defined") ;
