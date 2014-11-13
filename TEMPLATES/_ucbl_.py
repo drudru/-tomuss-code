@@ -383,6 +383,9 @@ def check_get_info():
             check_get_info.safe_to_check = False
             continue
 
+        grp_col = table.columns.get_grp()
+        seq_col = table.columns.get_seq()
+
         # DO NOT USE the user page (use pages[0])
         # BECAUSE IT BREAKS THE NUMBER OF REQUESTS
         # It loose value on tomuss reboot.
@@ -397,12 +400,17 @@ def check_get_info():
                 table.cell_change(table.pages[0], '0_2', lin, surname,
                                   force_update=True)
 
-            if value or line[3].author == data.ro_user:
-                table.cell_change(table.pages[0], '0_3', lin, '',
-                                  force_update=True)
-            if value or line[4].author == data.ro_user:
-                table.cell_change(table.pages[0], '0_4', lin, '',
-                                  force_update=True)
+            if grp_col:
+                if value or line[3].author == data.ro_user:
+                    table.cell_change(table.pages[0],
+                                      table.columns[grp_col].the_id, lin, '',
+                                      force_update=True)
+            if seq_col:
+                if value or line[4].author == data.ro_user:
+                    table.cell_change(table.pages[0],
+                                      table.columns[seq_col].the_id, lin, '',
+                                      force_update=True)
+
         finally:
             table.unlock()
 

@@ -606,7 +606,7 @@ class Table(object):
         if user_name == data.ro_user or user_name == data.rw_user:
             return True
         # Values setted by user '*' are not modifiable
-        if value.author == data.ro_user:
+        if value.author == data.ro_user and value.value != '':
             return False
         # The masters of the UE may change any value setted by another user
         if user_name in self.masters:
