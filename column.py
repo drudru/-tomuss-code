@@ -603,7 +603,7 @@ class Columns(object):
         """Returns the javaScript code describing all NEEDED columns."""
         columns = []
         for c in self.columns:
-            if c.visibility == 2:
+            if hide is not False and c.visibility == 2:
                 continue
             if hide is 1 and not c.visible():
                 continue
