@@ -179,7 +179,8 @@ function detect_small_screen(force)
   for(var item in display_data['Preferences'])
     top_class += ' ' + item + '_' + display_data['Preferences'][item] ;
 
-  if ( the_body.className != top_class ) // To not relaunch CSS animation
+  // To not relaunch CSS animation
+  if ( the_body && the_body.className != top_class )
     {
       the_body.className = top_class ;
       hide_rightclip() ;
@@ -736,6 +737,8 @@ function enter_in_ue(event)
 function hide_cellbox_tip()
 {
   var t = document.getElementById("cellbox_tip") ;
+  if ( ! t )
+    return ;
   t.className = "hidden" ;
   if ( t.grades )
     t.grades.className = t.grades.className.toString()
