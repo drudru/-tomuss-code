@@ -493,6 +493,11 @@ function encode_uri(t)
     .replace(/[+]/g, "$$2B").replace(/%0A/g, "$$0A").replace(/%0D/g, "$$0D") ;
 }
 
+function decode_uri(t)
+{
+  return unescape(t.toString().replace(/[$]/g, "%")) ;
+}
+
 function encode_uri_option(t)
 {
   return encode_uri(t).replace(/_/g, '__')
@@ -501,11 +506,7 @@ function encode_uri_option(t)
 
 function decode_uri_option(t)
 {
-  return unescape(t.toString().replace(/\$2F/g,'/').replace(/\$3F/g,'?')
-		  .replace(/\$23/g,'#').replace(/\$2E/g,'.')
-		  .replace(/\$26/g,'&').replace(/\$2B/g,'+').replace(/\$20/g,' ')
-		  .replace(/_E/g,'=').replace(/_C/g,':').replace(/__/g,'_')
-		  .replace(/\$24/g, '$')) ;
+  return decode_uri(t).replace(/_E/g,'=').replace(/_C/g,':').replace(/__/g,'_');
 }
 
 function encode_value(txt)

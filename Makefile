@@ -35,7 +35,7 @@ tags:
 regtest1:clean translations
 	@cd PYTHON_JS ; $(MAKE) regtest_python
 	@cd PYTHON_JS ; \
-        if [ -d PythonJS -a -x node ] ; \
+        if [ -d PythonJS -a -x $$(which node) ] ; \
         then $(MAKE) regtest_js_O ; \
 	else $(MAKE) warning ; \
 	fi

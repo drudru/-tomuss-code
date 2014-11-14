@@ -3246,6 +3246,7 @@ function restore_unsaved()
 	{
 	  var data_col = data_col_from_col_id(line[1]) ;
 	  var line_id = line[2] ;
+	  line[3] = decode_uri(line[3]) ;
 	  if ( data_col !== undefined && lines[line_id] !== undefined )
 	    {
 	      if ( lines[line_id][data_col].value == line[3] )
