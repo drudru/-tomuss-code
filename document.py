@@ -1744,6 +1744,8 @@ def it_is_a_bad_request(request, page, tabl, output_file):
                 request, page.request))
             output_file.write(files.files['ok.png'])
             output_file.close()
+            sender.append(page.browser_file,
+                          '<script>saved(%d);</script>\n' % request)
         except IOError:
             pass
         except:
