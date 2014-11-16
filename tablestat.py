@@ -66,6 +66,8 @@ def all_the_tables(directory=None):
             if ue.endswith('.py'):
                 if ue == '__init__.py' or ue == 'abjs.py':
                     continue
+                if os.path.islink(os.path.join(directory, ue)):
+                    continue
                 name = directory.split(os.path.sep)
                 year = name[-2]
                 if year[0] != 'Y':

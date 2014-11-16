@@ -5496,3 +5496,18 @@ msgstr "Currently searching '"
 msgid "loading_logins_after"
 msgstr "'"
 
+msgid "year"
+msgstr "Year"
+
+msgid "semester"
+msgstr "Semester"
+
+msgid "MSG_table_modification_date"
+msgstr "Modification date of the table"
+
+msgid "LINK_fix_modifiables"
+msgstr "Modifiable tables that should not be"
+
+msgid "HELP_fix_modifiables"
+msgstr "Allow to put in readonly the old modifiable tables"
+

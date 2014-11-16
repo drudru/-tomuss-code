@@ -73,6 +73,7 @@ def plugins_tomuss():
     from .PLUGINS import signature
     from .PLUGINS import restart
     from .PLUGINS import opensearch
+    from .PLUGINS import fix_modifiables
     from . import signature
 
     plugins_tomuss_more()

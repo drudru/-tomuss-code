@@ -5610,3 +5610,18 @@ msgstr "Chargement des «"
 msgid "loading_logins_after"
 msgstr "» en cours"
 
+msgid "year"
+msgstr "Année"
+
+msgid "semester"
+msgstr "Semestre"
+
+msgid "MSG_table_modification_date"
+msgstr "Date de modification de la table"
+
+msgid "LINK_fix_modifiables"
+msgstr "Tables modifiable qui ne devraient pas"
+
+msgid "HELP_fix_modifiables"
+msgstr "Permet de remettre en lecture seulement les tables du passé."
+
