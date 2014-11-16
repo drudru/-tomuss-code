@@ -2729,6 +2729,12 @@ function cell_set_value_real(line_id, data_col, value, td)
   var cell = lines[line_id][data_col] ;
   var column = columns[data_col] ;
 
+  if ( ! modification_allowed_on_this_line(line_id, data_col, value) )
+    {
+      GUI.add("cell_change_error", undefined, "not_allowed") ;
+      return ;
+    }
+
   // toString is used because '' != '0' and '00' != '000'
   // === is not used because 5.1 == "5.1"
   if ( value.toString() == lines[line_id][data_col].value.toString() )

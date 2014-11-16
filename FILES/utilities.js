@@ -2744,13 +2744,6 @@ function current_change(value)
 	      }
 	}
     }
-  if ( ! modification_allowed_on_this_line(this.line_id,this.data_col, value) )
-    {	    
-      this.input.value = this.initial_value ;
-      current_change_running = false ;
-      GUI.add("cell_change_error", undefined, "not_allowed") ;
-      return ;
-    }
   if ( this.missing_id(value) )
     {
 	Alert("ALERT_missing_id") ;
