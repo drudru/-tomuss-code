@@ -3264,6 +3264,7 @@ function restore_unsaved()
     }
   if ( message == '' )
     {
+      restore_unsaved_forgot() ;
       return ;
     }
   restore_unsaved.t_splited = t_splited ;
