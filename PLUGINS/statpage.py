@@ -60,7 +60,7 @@ def stat_page(server):
     for t in tables:
         nr_empty = 0
         for p in t.pages:
-            if p.request == 0:
+            if p.nr_cell_change == 0:
                 nr_empty += 1
         nr_cells = 0
         for line in t.lines:

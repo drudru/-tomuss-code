@@ -17,8 +17,6 @@ A { text-decoration: none; }
 
 
 
-BODY.autosavefailed H1 { font-size: 130% ; }
-
 BODY.tomuss H1 { font-size: 90% }
 
 IMG { cursor: default; }
@@ -27,9 +25,6 @@ BODY.tomuss, BODY.tomuss TABLE INPUT, BODY.tomuss TABLE TD, BODY.tomuss TH, BODY
   padding: 0px ;
   margin: 0px;
 }
-
-
-BODY.autosavefailed, BODY.autosavefailed P, BODY.autosavefailed H1, BODY.autosavefailed TABLE.tablehelp TD, BODY.autosavefailed TABLE.tablehelp TH, BODY.autosavefailed #menutop TD  { background-color: #F88 ; }
 
 .identity {
   font-size: 80% ;

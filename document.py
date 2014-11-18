@@ -69,13 +69,14 @@ canceled_loads = []
 tables_of_student = {}
 
 class Page(object):
+    request = 0
     def __init__(self, the_ticket, user_name, page_id, ttable,
                  user_ip, user_browser, date=None):
         self.ticket = the_ticket
         self.user_name = user_name
         self.page_id = page_id
         self.table = ttable
-        self.request = 0
+        self.nr_cell_change = 0
         self.browser_file = None
         self.user_ip = user_ip
         self.user_browser = user_browser
@@ -733,6 +734,7 @@ class Table(object):
         cell = line[a_column.data_col] = cell.set_value(value=value,
                                                         author=page.user_name,
                                                         date=date)
+        page.nr_cell_change += 1
         if not self.loading:
             self.log('cell_change(%s,%s,%s,%s,"%s")' % (
                 page.page_id,
@@ -768,8 +770,6 @@ class Table(object):
                                     self.cell_change(page, a_column.the_id,
                                                      line_key, value,
                                                      force_update=True)
-        else:
-            page.request += 1
         return 'ok.png'
 
     def default_nr_columns_change(self, n):
@@ -888,8 +888,6 @@ class Table(object):
                 js(value),
                 )
             self.send_update(page, t)
-        else:
-            page.request += 1
 
         line[a_column.data_col] = line[a_column.data_col].set_comment(value)
 
@@ -1023,8 +1021,6 @@ class Table(object):
             t = '<script>Xcolumn_delete(%s,%s);</script>\n' % (
                 js(page.user_name), js(col))
             self.send_update(page, t)
-        else:
-            page.request += 1
 
         for line in self.lines.values():
             line.pop(a_column.data_col)
@@ -1698,7 +1694,7 @@ def check_indexes_to_update():
 def check_new_students():
     while True:
         if configuration.regtest_sync:
-            time.sleep(0.001)
+            time.sleep(0.01)
         else:
             time.sleep(1)
 
@@ -1745,7 +1741,8 @@ def it_is_a_bad_request(request, page, tabl, output_file):
             output_file.write(files.files['ok.png'])
             output_file.close()
             sender.append(page.browser_file,
-                          '<script>saved(%d);</script>\n' % request)
+                          '<script>saved(%d);</script>\n' % request,
+                          index=len(tabl.sent_to_browsers)+1)
         except IOError:
             pass
         except:
@@ -1761,27 +1758,7 @@ def should_be_delayed(request, page, tabl, r, t):
     if tabl.the_lock.locked():
         return True
     if page.request < request:
-        # Count the number of identical request
-        n = 0
-        for old in t[::-1]:
-            if old[0] == r[0] and old[1] == r[1]:
-                n += 1
-            else:
-                break
-        if n > 12:
-            # We received 12 times the same request. (6 is too small)
-            # So, we hit a request-accounting bug.
-            # For example: server restart and browser 'update_content'
-            # request that is not stored in the table data file.
-            utilities.send_backtrace('Bad Request Number (%s!=%s)' %
-                                     (page.request, request), exception=False)
-            # We fix the page request number
-            # So we no more delay this request handling
-            page.request = request
-            sender.append(page.browser_file,
-                          '<script>Alert("ERROR_server_bug");</script>')
-        else:
-            return True
+        return True
 
 def process_request(page, tabl, action, path):
     page.request += 1

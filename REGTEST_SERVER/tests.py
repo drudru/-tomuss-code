@@ -1101,9 +1101,11 @@ def tests():
         c = s.url('=' + root + '/%s/UE-INF11UE2/1/2/cell_change/0_0/0_0/10800000' % ys)
         c = s.url('=' + root + '/%s/UE-INF11UE2/1/3/cell_change/0_3/0_0/X'% ys)
         assert( c == ok_png)
+        c = s.url('=' + root + '/%s/UE-INF11UE2' % ys)
+        assert( ('C("X","%s"' % root) in c)
         ss.start()
         c = ss.url('%s/rss2/UE-INF11UE2' % ys)
-        assert(_("MSG_suivi_student_RSS_table").split("<br>")[1] % 4
+        assert(_("MSG_suivi_student_RSS_table").split("<br>")[1] % 2
                in c)
         c = ss.url('=' + abj + '/%s/10800000' % ys)
         assert('[], [], ["X", "%s"' % root in c)
@@ -1273,8 +1275,9 @@ def tests():
 
     if do('past'):
         # Normal user can't modify the past
-        utilities.mkpath('DBregtest/Y%d/SAutomne' % (year-1))
-        utilities.write_file('DBregtest/Y%d/SAutomne/UE-pastue.py' % (year-1),
+        utilities.mkpath_safe('DBregtest/Y%d/SAutomne' % (year-1))
+        utilities.write_file_safe('DBregtest/Y%d/SAutomne/UE-pastue.py'
+                                  % (year-1),
                              """# -*- coding: utf8 -*-
 from data import *
 new_page('' ,'*', '', '', None)
@@ -1350,9 +1353,9 @@ new_page('' ,'*', '', '', None)
         s.stop()
         s.restart()
         check('Y%d/S%s/UE-lost.py' % (year, semester), nr_pages = 2)
-        c = s.url('=' + abj +'/%s/UE-lost/0' % ys)
+        c = s.url('=' + abj +'/%s/UE-lost/0/0' % ys)
         assert('click_to_revalidate_ticket' in c)
-        c = s.url('=' + abj +'/%s/UE-lost/2' % ys)
+        c = s.url('=' + abj +'/%s/UE-lost/2/0' % ys)
         assert('server_answered' in c)
         
     if do('template_reload'):
@@ -1410,6 +1413,8 @@ def create(table):
         
         c = s.url('=' + abj +'/%s/UE-etape' % ys_old)
         assert('modifiable:0' in c)
+        c = s.url('=' + abj +'/%s/UE-etape/1/6' % ys_old)
+        assert('set_updating(1);' in c)
         c = s.url('='+abj+'/%s/UE-etape/1/6/table_attr_modifiable/1' % ys_old)
         assert(c == ok_png)
         c = s.url('='+abj+'/%s/UE-etape/1/7/cell_change/0_0/L4/10800003' % ys_old)
@@ -1441,8 +1446,8 @@ def create(table):
        except:
           pass
        ticket_ttl = 6
-       utilities.write_file(conf + '.old', utilities.read_file(conf))
-       utilities.append_file(conf,'''
+       utilities.write_file_safe(conf + '.old', utilities.read_file(conf))
+       utilities.append_file_safe(conf,'''
 cell_change(1,'0_2','check_down_connections_interval',2,"")
 cell_change(1,'0_2','unload_interval',2,"")
 cell_change(1,'0_2','ticket_time_to_live','%d',"")
@@ -1460,17 +1465,17 @@ cell_change(1,'0_2','ticket_time_to_live','%d',"")
        assert('runlog' in c)
 
        # TOMUSS assumes that this page come from the future so it must
-       # be from en read-only table (not the case here).
+       # be from a read-only table (not the case here).
        # So it redirect browser in order to reload the table (read-only)
-       c = s.url('='+abj+'/%d/Dossiers/regtest-bug1/10' % uyear)
+       c = s.url('='+abj+'/%d/Dossiers/regtest-bug1/10/0' % uyear)
        assert('window.parent.location' in c)
-       c = s.url('='+abj+'/%d/Dossiers/regtest-bug1/0' % uyear)
+       c = s.url('='+abj+'/%d/Dossiers/regtest-bug1/0/0' % uyear)
 
        # We are not allowed to see an old page from an other navigator
        assert('window.parent.click_to_revalidate_ticket' in c)
 
        # This the good page content
-       c = s.url('='+abj+'/%d/Dossiers/regtest-bug1/1' % uyear,
+       c = s.url('='+abj+'/%d/Dossiers/regtest-bug1/1/0' % uyear,
                  display_log_if_error=False, timeout=1)
        # Because page load does not end
        assert('***TIMEOUT***' in c)
@@ -1496,15 +1501,15 @@ cell_change(1,'0_2','ticket_time_to_live','%d',"")
        assert( ok )
 
        # Make the ticket last longer because if it is short regtest may fail
-       utilities.append_file(conf,
-       'cell_change(1,"0_2","ticket_time_to_live","1000","")\n')
+       utilities.append_file_safe(conf,
+       'cell_change(1,"0_2","ticket_time_to_live","1984","")\n')
        c = s.url('=' + root + '/0/Dossiers/config_table/page_unload')
        assert(_("MSG_page_unload_after") in c)
        c = s.url('=' + root + '/0/Dossiers/config_table')
-       assert( ok )
+       assert( 'C("1984","super.user"' in c )
 
        # The browser attempt to reconnect
-       c = s.url('='+abj+'/%d/Dossiers/regtest-bug1/1' % uyear,
+       c = s.url('='+abj+'/%d/Dossiers/regtest-bug1/1/0' % uyear,
                  display_log_if_error=False)
        # Because page load does not end
        # assert('***TIMEOUT***' in c)

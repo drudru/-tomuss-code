@@ -138,7 +138,7 @@ def send_thread(verbose=False):
 
 @utilities.add_a_lock
 def append(f, txt, keep_open=True, index=None):
-    # if not txt.startswith('GIF'): utilities.warn('%s %s %s' % (f, txt[0:20], keep_open), what='sender')
+    # if not txt.startswith('GIF'): utilities.warn('%s %s %s' % (f, txt[0:20], keep_open))
     if f is None:
         utilities.warn('f is None: ' + txt)
         return

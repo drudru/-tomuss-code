@@ -45,14 +45,17 @@ class Server(object):
         if Server.start_time == 0:
             Server.start_time = time.time()
         for dirname in ['DBregtest', 'BACKUP_DBregtest',
+                        '/tmp/DBregtest', '/tmp/BACKUP_DBregtest', 
                         ] + glob.glob('TMP/TICKETS/*'):
             print 'delete:', dirname
-            if os.path.isfile(dirname):
+            try:
                 os.unlink(dirname)
-            else:
+            except OSError:
                 shutil.rmtree(dirname, ignore_errors=True)
-        utilities.mkpath_safe('DBregtest/Y%d/SAutomne' %
-                              (configuration.year_semester[0]-1))
+        for i in ('DBregtest', 'BACKUP_DBregtest'):
+            name = '/tmp/%s/Y%d/SAutomne'%(i, configuration.year_semester[0]-1)
+            utilities.mkpath_safe(name)
+            os.symlink(name, i)
         self.restart('w', sync=sync)
 
     def log_files(self, mode):

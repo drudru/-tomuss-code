@@ -4174,6 +4174,9 @@ msgstr "Value modified by "
 msgid "MSG_suivi_student_RSS_table"
 msgstr "Connection at %s,<br>%d changes done"
 
+msgid "MSG_suivi_student_RSS_table_nr_change"
+msgstr "%d modifications by %s"
+
 msgid "MSG_suivi_student_set_referent"
 msgstr "Change its referent"
 

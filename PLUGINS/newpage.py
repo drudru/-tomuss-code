@@ -64,8 +64,11 @@ class StringFile(object):
         if self.real_file:
             content = ''.join(self.content) 
             self.content = [] # no big memory leakage
-            self.real_file.write(content)
-            self.real_file.flush()
+            try:
+                self.real_file.write(content)
+                self.real_file.flush()
+            except AttributeError:
+                self.closed = True
         else:
             if time.time() - self.open_time > 60:
                 self.closed = True
@@ -265,6 +268,11 @@ def answer_page(server):
         table, page = document.table(server.the_year, server.the_semester,
                                      server.the_ue, server.the_page,
                                      server.ticket)
+        if server.the_student:
+            # Do not revert request sent
+            # It is possible to go in the future because page.request
+            # may forgot incrementation.
+            page.request = max(int(server.the_student), page.request)
     except ValueError:
         server.the_file.write(
             '''
@@ -322,7 +330,7 @@ else
         else:
             table.active_page(page, page.browser_file)
 
-plugin.Plugin('answer_page', '/{Y}/{S}/{U}/{P}',
+plugin.Plugin('answer_page', '/{Y}/{S}/{U}/{P}/{I}',
               function=answer_page, group='staff',
               keep_open = True,
               priority = -2, # Before other actions

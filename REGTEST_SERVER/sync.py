@@ -95,12 +95,12 @@ def tests(s):
     print "Start first browser: A"
     a = s.url("=" + root + '/0/Public/sync')
     assert('page_id = "1"' in a)
-    a_link = Reader("=" +root+ '/0/Public/sync/1')
+    a_link = Reader("=" +root+ '/0/Public/sync/1/0')
 
     print "Start second browser: B"
     b = s.url("=" + root + '/0/Public/sync')
     assert('page_id = "2"' in b)
-    b_link = Reader("=" +root+ '/0/Public/sync/2')
+    b_link = Reader("=" +root+ '/0/Public/sync/2/0')
     time.sleep(1)
     wait_nr_file(s, 2)
     
@@ -127,7 +127,7 @@ def tests(s):
     time.sleep(1)
 
     print "B restore the link"
-    b_link = Reader("=" +root+ '/0/Public/sync/2')
+    b_link = Reader("=" +root+ '/0/Public/sync/2/1')
 
     b_link.want_content('Xcell_change("col_0","line_1","SyncBroken"')
     b_link.must_not_contain('SyncValue')
@@ -142,7 +142,7 @@ def tests(s):
 
 
     print "B restore the link 2"
-    b_link = Reader("=" +root+ '/0/Public/sync/2')
+    b_link = Reader("=" +root+ '/0/Public/sync/2/1')
     b_link.want_content('SyncLongBroke')
     b_link.must_not_contain('Xcell_change("col_0","line_0","SyncValue"')
     b_link.must_not_contain('Xcolumn_attr(\'title\',"col_0","SyncTitle"')
@@ -153,7 +153,7 @@ def tests(s):
     wait_nr_file(s, 1)
     
     print "B restore the link 3"
-    b_link = Reader("=" +root+ '/0/Public/sync/2')
+    b_link = Reader("=" +root+ '/0/Public/sync/2/1')
     b_link.want_content("</script>")
     b_link.must_not_contain('Xcell_change("col_0","line_1","SyncLongBroke')
     

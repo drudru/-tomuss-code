@@ -1689,10 +1689,7 @@ GUI_record.prototype.add = function(attr_name, event, value) {
       this.debug.innerHTML += this.events[this.events.length-1] + '\n' ;
       this.debug.scrollTop = 100000000 ;
     }
-
-  if ( document.getElementById('connection_state') )
-    if ( connection_state == 'no_connection' )
-      reconnect(true) ;
+  connection_state.reconnect() ;
 } ;
 
 GUI_record.prototype.add_key = function(event, value) {
@@ -1715,21 +1712,11 @@ GUI_record.prototype.add_key = function(event, value) {
 var GUI = new GUI_record() ;
 function GUI_save()
 {
-  if ( ! document.getElementById('connection_state') )
+  if ( ! connection_state.connection_open )
     return ;
   GUI.save() ;
-  if ( millisec() - GUI.last_interaction > 60000
-       && connection_state != 'no_connection' )
-    {
-      /* Close connection in order to free open socket */
-      if ( xmlhttp )
-	{
-	  xmlhttp.abort() ;
-	  xmlhttp = undefined ;
-	}
-      connection_state = 'no_connection' ;
-      document.getElementById('connection_state').innerHTML += '...' ;
-    }
+  if ( millisec() - GUI.last_interaction > 60000 )
+    connection_state.close_connection() ;
 }
 
 

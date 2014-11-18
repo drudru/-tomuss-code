@@ -31,7 +31,6 @@ var periodic_work_period = 100 ; // In millisecs
 // Work value
 var popup_blocker = false ;
 var element_focused ;           // If undefined: it is the current_cell
-var server_feedback ;
 var line_offset ;		// The page being displayed
 var column_offset ;
 var filters ;			// The filters to apply to the lines
@@ -70,9 +69,7 @@ var table_fill_hook ;
 var next_page_col ;
 var next_page_line ;
 var highlight_list ;
-var request_id ;
 var connection_state ;
-var last_server_answer ;
 var auto_save_running ;
 var pending_requests, pending_requests_first ;
 var scrollbar_right ;
@@ -96,7 +93,6 @@ var the_comment ;
 var linefilter ;
 var horizontal_scrollbar ;
 var vertical_scrollbar ;
-var t_authenticate ;
 var t_student_picture ;
 var t_student_firstname ;
 var t_student_surname ;
@@ -130,7 +126,6 @@ function lib_init()
   linefilter           = document.getElementById('linefilter'           );
   horizontal_scrollbar = document.getElementById('horizontal_scrollbar' );
   vertical_scrollbar   = document.getElementById('vertical_scrollbar'   );
-  t_authenticate       = document.getElementById('authenticate'         );
   t_student_picture    = document.getElementById('t_student_picture'    );
   t_student_firstname  = document.getElementById('t_student_firstname'  );
   t_student_surname    = document.getElementById('t_student_surname'    );
@@ -141,7 +136,6 @@ function lib_init()
   t_date               = document.getElementById('t_date'               );
   t_author             = document.getElementById('t_author'             );
   t_menutop            = document.getElementById('menutop'              );
-  server_feedback      = document.getElementById('server_feedback'      );
 
   if ( root === undefined )
     root = [] ;
@@ -168,9 +162,7 @@ function lib_init()
   popup_on_red_line = true ;
   do_not_read_option = false ; // Option disabled for virtual tables
   the_current_cell = new Current() ;
-  request_id = 0 ;
-  connection_state = 'ok' ;
-  last_server_answer = millisec() ;
+  connection_state = new Connection() ;
   auto_save_running = false ;
   pending_requests = [] ;
   pending_requests_first = 0 ;
@@ -3134,22 +3126,251 @@ function cell_goto(td, do_not_focus)
 
 /* Communication to the server */
 
+function Connection()
+{
+  this.start_time = millisec() ;
+  this.server_feedback = document.getElementById('server_feedback');
+  this.server_answer   = document.getElementById('server_answer') ;
+  this.t_authenticate  = document.getElementById('authenticate');
+  this.connection_state= document.getElementById('connection_state') ;
+  if ( ! this.server_feedback )
+    return ; // Home page
+  this.server_alive() ; // update last_server_answer because it is alive
+  this.last_reconnect = millisec() ;
+  this.last_server_check = millisec() ;
+  this.server_start_time = 0 ;
+  this.connection_open = false ; // false or undefined(checking)
+  this.tomuss_boot_time = 5000 ; // Time before TOMUSS is fully started
+}
+Connection.prototype.time = function(v)
+{
+  return ((v - this.start_time)/1000).toFixed(1) ;
+} ;
+
+Connection.prototype.debug = function(txt)
+{
+  return ; // XXX
+  console.log(
+  [
+   txt + ' ' + this.time(millisec())
+   + " need_connection:" + this.need_connection(),
+   "Server alive = " + this.is_server_alive() + '('
+   + this.time(this.server_start_time) + ')'
+   + " Connection alive = " + this.connection_open
+   + " "
+   + (pending_requests ? pending_requests_first + '/' + pending_requests.length
+      : ''),
+   "reconnect = " + this.time(this.last_reconnect)
+   + " server check = " + this.time(this.last_server_check),
+   "server answer = " + this.time(this.last_server_answer)
+   + " time_check_interval = " + this.time_check_interval
+   ].join("\n")) ;
+} ;
+
+Connection.prototype.server_alive = function(what)
+{
+  if ( this.server_start_time == 0 )
+    this.server_start_time = millisec() ;
+  this.last_server_answer = millisec() ;
+  this.server_feedback.innerHTML = '' ;
+  if ( what === undefined )
+    what = "server_alive" ;
+  this.debug(what) ;
+} ;
+
+Connection.prototype.is_server_alive = function()
+{
+  if ( this.connection_open )
+    return true ;
+  if ( millisec() - this.last_server_answer < 1000 )
+    return true ;
+} ;
+
+Connection.prototype.check_if_server_is_alive = function()
+{
+  if ( millisec() - this.last_server_check < this.time_check_interval )
+    return ;
+  this.last_server_check = millisec() ;
+  this.server_feedback.innerHTML = '<img src="' + url + '/status/' + millisec()
+  + '" width="8" height="8" onload="connection_state.server_alive();">' ;
+  this.debug("check_if_server_is_alive") ;
+}
+
+Connection.prototype.connection_alive = function(message)
+{
+  var before = this.connection_open ;
+  this.connection_open = true ;
+  this.revalidate_on_screen = false ;
+  this.connection_state.innerHTML = _('MSG_connected') ;
+  this.t_authenticate.style.display = 'none' ;
+  this.time_check_interval = 1000 ;
+  this.server_alive(message) ;
+  if ( before === false || before === undefined )
+    {
+      if ( pending_requests )
+	{
+	  auto_save_errors() ; // Ask now that the server restarted
+	}
+    }
+} ;
+
+Connection.prototype.increase_time_check_interval = function()
+{
+  this.time_check_interval = Math.min(this.time_check_interval * 1.1, 30000) ;
+} ;
+
+Connection.prototype.broken_connection = function()
+{
+  this.increase_time_check_interval() ;
+  if ( ! this.connection_open )
+    return ;
+  if ( millisec() < this.last_server_answer + 1000 )
+    return ; // The server may take some time to answer
+  if ( millisec() < this.last_reconnect + this.tomuss_boot_time )
+    return ; // Just reconnected, so wait a little longer
+
+  this.server_start_time = 0 ;
+  this.connection_open = false ;
+  this.connection_state.innerHTML = _('MSG_unconnected');
+  this.check_if_server_is_alive() ;
+  this.debug("broken_connection") ;
+} ;
+
+Connection.prototype.close_connection = function()
+{
+  if ( ! this.connection_open )
+    return ;
+  if ( pending_requests.length != pending_requests_first )
+    return ; // do not close if data is being sent
+  this.server_start_time = 0 ;
+  this.connection_open = 0 ;
+  if ( this.xmlhttp )
+    {
+      this.xmlhttp.abort() ;
+      this.xmlhttp = undefined ;
+    }
+  this.connection_state.innerHTML += '...' ;
+  this.debug("close_connection") ;
+} ;
+
+Connection.prototype.revalidate_ticket = function()
+{
+  this.time_check_interval = 1000 ;
+  this.t_authenticate.style.display = 'none' ;
+  window_open(encodeURI(url + '/allow/' + ticket + '/' + millisec())) ;
+}
+
+Connection.prototype.click_to_revalidate_ticket = function()
+{
+  if ( millisec() - this.server_start_time < this.tomuss_boot_time )
+    return ;
+  var m =  '<a onclick="javascript: connection_state.revalidate_ticket()">'
+            + _("MSG_reauthenticate") + '</a>' ;
+  this.t_authenticate.style.display = 'block' ;
+  this.t_authenticate.innerHTML = m ;
+  this.connection_state.innerHTML= _('MSG_unconnected') ;
+  this.revalidate_on_screen = true ;
+  this.debug("click_to_revalidate_ticket") ;
+} ;
+
+function click_to_revalidate_ticket()
+{
+  connection_state.click_to_revalidate_ticket() ;
+}
+
+Connection.prototype.need_connection = function(force)
+{
+  if ( this.connection_open )
+    return ;
+  if ( ue == 'VIRTUALUE' || ue == '' )
+    return ;
+  if ( check_down_connections_interval == 0 )
+    return ;
+  if ( !force && millisec() - this.last_reconnect < this.time_check_interval )
+    return ;
+  if ( ! this.server_answer )
+    return ;
+  return true ;
+} ;
+
+Connection.prototype.reconnect = function(force)
+{
+  if ( ! this.need_connection(force) )
+    return ;
+  if ( ! this.is_server_alive() )
+    {
+      this.check_if_server_is_alive() ;
+      return ;
+    }
+  if ( this.connection_open === undefined && !this.revalidate_on_screen )
+    {
+      this.click_to_revalidate_ticket() ;
+      return ;
+    }
+  var connection = url + "/=" + ticket + '/' + year
+    + '/' + semester + '/' + ue + '/' + page_id + '/' + pending_requests_first;
+
+  // Request without answer must have been lost, resent them without waiting
+  for(var ii=pending_requests_first; ii < pending_requests.length; ii++)
+    pending_requests[ii].requested = false ;
+
+  if ( window.XMLHttpRequest )
+    {
+      if ( this.xmlhttp )
+	this.xmlhttp.abort() ;
+      this.xmlhttp = new XMLHttpRequest();
+      this.xmlhttp.nb_read = 0 ;
+      this.xmlhttp.js_buffer = '' ;
+      // Remove things that are not JavaScript and 'var' definition
+      // used in the IFRAME case
+      this.xmlhttp.clean_js = new RegExp("^var ", "g") ;
+      this.xmlhttp.open("GET", connection, true) ;
+      this.xmlhttp.setRequestHeader("If-Modified-Since",
+				    "Thu, 1 Jan 1970 00:00:00 GMT") ;
+      this.xmlhttp.setRequestHeader("Cache-Control", "no-cache") ;
+
+      // Must be defined last: resetted by .open()
+      this.xmlhttp.onreadystatechange = function()
+	{
+	  if (this.readyState >= 3 && this.status == 200)
+	    {
+	      var t ;
+	      t = this.responseText.substr(this.nb_read) ;
+	      this.js_buffer += t ;
+	      this.nb_read += t.length ;
+	      // Evaluate only complete <script>....</script> sequence
+	      t = this.js_buffer.split("</script>");
+	      var to_eval = '' ;
+	      for(var i in t)
+		{
+		  if ( i != t.length - 1 )
+		    to_eval += t[i].split('<script>')[1] + ';' ;
+		  else
+		    this.js_buffer = t[i] ;
+		}
+	      eval(to_eval.replace(this.clean_js, '//')) ;
+	      // If the buffer is really too big: create a new one
+	      if ( this.nb_read > 100000000 )
+		{
+		  this.abort() ;
+		  this.nb_read = 0 ;
+		  this.open("GET", connection, true) ;
+		  this.send() ;
+		}
+	    }
+	} ;
+      this.xmlhttp.send() ;
+    }
+  else
+      this.server_answer.src = connection ;
+  this.connection_open = undefined ;
+  this.last_reconnect = millisec() ;
+  this.debug("reconnect(" +  pending_requests_first + ')') ;
+} ;
+
 function server_answered(t)
 {
-  last_server_answer = millisec() ;
-
-  if ( connection_state != 'ok' )
-    {
-      _d('An image was received : state=' + connection_state + '\n');
-      the_body.className = 'tomuss' ;
-      t_authenticate.style.display = 'none' ;
-      server_feedback.answered = true ;
-      connection_state = 'ok' ;
-      document.getElementById('connection_state').innerHTML= _('MSG_connected');
-      server_feedback.innerHTML = '' ; // Hide green image
-      reconnect() ;
-      time_before_reasking = 1000 ;
-    }
+  connection_state.connection_alive("server_answered(" + t + ')') ;
 
   if ( t === undefined )
     return ;
@@ -3163,20 +3384,6 @@ function server_answered(t)
     return ; // Not an image
 
   saved(t.request.request_id) ;
-}
-
-function revalidate_ticket()
-{
-  _d('A server feedback was received\n');
-  server_feedback.answered = true ;
-
-  if ( connection_state == 'no_connection' )
-    {
-      connection_state = 'no_save' ;
-      document.getElementById('connection_state').innerHTML =
-	_('MSG_unconnected');
-      reconnect() ; // To not wait the timeout
-    }
 }
 
 // XXX Does not work if there is 2 browser page open in the table.
@@ -3297,7 +3504,7 @@ function restore_unsaved()
 function Request(content)
 {
   this.content = content ;
-  this.request_id = request_id++ ;
+  this.request_id = pending_requests.length ;
   this.time = millisec() ;
   this.firsttime = this.time ;
   this.requested = false ;
@@ -3341,17 +3548,6 @@ function request_send()
 
 Request.prototype.url = request_url ;
 Request.prototype.send = request_send ;
-
-function click_to_revalidate_ticket()
-{
-  var m =  '<a onclick="javascript: t_authenticate.style.display = \'none\' ; window_open(\''
-    + encodeURI(url + '/allow/' + ticket + '/' + millisec())
-    + '\')">' + _("MSG_reauthenticate") + '</a>' ; 
-  t_authenticate.style.display = 'block' ;
-  t_authenticate.innerHTML = m ;
-  connection_state = 'auth' ;
-  document.getElementById('connection_state').innerHTML= _('MSG_unconnected');
-}
 
 /*
  ****************************************************************************
@@ -3423,8 +3619,6 @@ function periodic_work_do()
     }
 }
 
-var time_before_reasking = 1000 ;
-
 // **********************************************************
 // Restart image loading if the connection was not successul
 // **********************************************************
@@ -3437,19 +3631,16 @@ function auto_save_errors()
   // In millisecond
   var max_answer_time = 10000 ;
 
-  if ( last_server_answer != 0
-       && (millisec() - last_server_answer) > 5000+1000*check_down_connections_interval)
-      reconnect() ;
-
   if ( auto_save_running || ! table_attr.autosave )
     return true ;
 
   auto_save_running = true ;
-
-  _d('(autosave[' + connection_state + ', server_feedback(answered=' +
-     server_feedback.answered + ',time=' + server_feedback.time +
-     '),last_server_answer=' + last_server_answer + ']' );
-
+  connection_state.reconnect() ;
+  /* If sending image is not done, then alive connection is not detected
+     So these lines must not be added :
+  if ( connection_state.connection_open === false )
+    return ;
+  */
   var d = millisec() ;
   var nr_unsaved = 0 ;
 
@@ -3467,16 +3658,14 @@ function auto_save_errors()
       if ( nr_unsaved > 10 )
 	break ;
       // Retry to load the image each N seconds and the first time
-      if ( d > i.time + time_before_reasking || ! i.requested )
+      if ( d > i.time + connection_state.time_check_interval || ! i.requested )
 	{
 	  if ( i.requested )
 	    errors++ ; // Because it is requested again
 	  i.send() ;
-	  time_before_reasking *= 1.1 ;
-	  time_before_reasking = Math.min(30000, time_before_reasking) ;
+	  connection_state.debug("send(" + ii + ",errors=" + errors + ')') ;
 	}
     }
-
   var saving = document.getElementById('saving') ;
   if ( saving )
     {
@@ -3493,51 +3682,8 @@ function auto_save_errors()
       do_reload_when_all_saved = false ;
     }
 
-  if ( connection_state == 'ok' && errors
-       && d > last_server_answer + max_answer_time/10 ) // TO BE THREAD SAFE
-    {
-      _d('\nSTATE=no_save ==> ');
-      connection_state = 'no_save' ;
-      document.getElementById('connection_state').innerHTML=
-	_('MSG_unconnected');
-
-      server_feedback.answered = false ;
-      server_feedback.time = d ;
-      server_feedback.innerHTML = '<img src="' + url + '/status/' + d +
-	'" width="8" height="8" onload="revalidate_ticket();">' ;
-      _d(server_feedback.innerHTML + '\n');      
-    }
-
-  if ( connection_state == 'no_connection'
-       && d - server_feedback.time > 2*max_answer_time)
-    {
-      server_feedback.innerHTML = '<img src="' + url + '/status/' + d +
-	'" width="8" height="8" onload="revalidate_ticket();">' ;
-      server_feedback.time = d ;
-    }
-
-  // See PLUGINS/newpage.py before modifying
-  if ( connection_state == 'no_save'
-       && d - server_feedback.time > max_answer_time )
-    {
-      last_reconnect = 0 ;
-      if ( server_feedback.answered )
-	click_to_revalidate_ticket() ;
-      else
-	{
-	  _d('STATE=NO_CONNECTION');
-	  Alert("MSG_connection_staled") ;
-	  if (  last_server_answer < d )
-	    {
-	      // Nothing was received while alert was displayed
-	      the_body.className = 'tomuss autosavefailed' ;
-	      connection_state = 'no_connection' ;
-	      document.getElementById('connection_state').innerHTML= _('MSG_unconnected');
-	    }
-	}
-    }
-
-  _d('autosave)\n');
+  if ( errors )
+    connection_state.broken_connection() ;
   auto_save_running = false ;
 
   if ( pending_requests.length != pending_requests_first )
@@ -3551,23 +3697,16 @@ function auto_save_errors()
 //    * When the server answer by the normal connection (page_answer).
 function saved(r)
 {
-  time_before_reasking = 1000 ;
-  for(var i=pending_requests_first; i < pending_requests.length; i++)
-    {
-      if ( pending_requests[i].request_id == r )
-	{
-	  if ( pending_requests[i].saved )
-	    return ;
-	  pending_requests[i].saved = true ;
-	  server_log.removeChild(pending_requests[i].image_pending) ;
-	  return ;
-	}
-    }
+  connection_state.connection_alive("saved(" + r + ')') ;
+  if ( pending_requests[r].saved )
+    return ;
+  pending_requests[r].saved = true ;
+  server_log.removeChild(pending_requests[r].image_pending) ;
 }
 
 function connected()
 {
-  last_server_answer = millisec() ;
+  connection_state.connection_alive("connected()") ;
 }
 
 function url_base()
@@ -4320,79 +4459,6 @@ function update_a_menu(min, current, all, max, select)
 }
 
 
-var last_reconnect = 0 ;
-var reconnect_giveup ;
-var xmlhttp ;
-
-function reconnect(force)
-{
-  if ( ue == 'VIRTUALUE' || ue == '' )
-    return ;
-  if ( check_down_connections_interval == 0 )
-    return ;
-  if ( !force && millisec() - last_reconnect < 1000*check_down_connections_interval )
-    return ;
-  var server_answer = document.getElementById('server_answer') ;
-  if ( ! server_answer )
-    return ;
-  if ( connection_state == 'auth' )
-    return ;
-
-  var connection = url + "/=" + ticket + '/' + year
-    + '/' + semester + '/' + ue + '/' + page_id ;
-
-  if ( window.XMLHttpRequest )
-    {
-      if ( xmlhttp )
-	xmlhttp.abort() ;
-      xmlhttp = new XMLHttpRequest();
-      xmlhttp.nb_read = 0 ;
-      xmlhttp.js_buffer = '' ;
-      // Remove things that are not JavaScript and 'var' definition
-      // used in the IFRAME case
-      xmlhttp.clean_js = new RegExp("^var ", "g") ;
-      xmlhttp.open("GET", connection, true) ;
-      xmlhttp.setRequestHeader("If-Modified-Since",
-			       "Thu, 1 Jan 1970 00:00:00 GMT") ; 
-      xmlhttp.setRequestHeader("Cache-Control", "no-cache") ;
-
-      // Must be defined last: resetted by .open()
-      xmlhttp.onreadystatechange=function()
-	{
-	  if (this.readyState >= 3 && this.status == 200)
-	    {
-	      var t ;
-	      t = this.responseText.substr(this.nb_read) ;
-	      this.js_buffer += t ;
-	      this.nb_read += t.length ;
-	      // Evaluate only complete <script>....</script> sequence
-	      t = this.js_buffer.split("</script>");
-	      var to_eval = '' ;
-	      for(var i in t)
-		{
-		  if ( i != t.length - 1 )
-		    to_eval += t[i].split('<script>')[1] + ';' ;
-		  else
-		    this.js_buffer = t[i] ;
-		}
-	      eval(to_eval.replace(this.clean_js, '//')) ;
-	      // If the buffer is really too big: create a new one
-	      if ( this.nb_read > 100000000 )
-		{
-		  this.abort() ;
-		  this.nb_read = 0 ;
-		  this.open("GET", connection, true) ;
-		  this.send() ;
-		}
-	    }
-	} ;
-      xmlhttp.send() ;
-    }
-  else
-      server_answer.src = connection ;
-  last_reconnect = millisec() ;
-}
-
 function initialise_columns()
 {
   for(var data_col in columns)
@@ -4576,7 +4642,7 @@ function runlog(the_columns, the_lines)
 
 
   // Firefox bug : the page refresh reload the old iframe, not the new one
-  setTimeout(reconnect, 10) ;
+  // setTimeout(reconnect, 10) ;
 
   the_current_cell.jump(nr_headers, 0, true) ;
   the_current_cell.update_table_headers() ;

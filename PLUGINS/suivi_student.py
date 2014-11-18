@@ -825,12 +825,12 @@ def page_rss2(server):
     if t is None:
         return
     # Only the 10 most recents pages containing modifications
-    for p in [i for i in t.pages[1:] if i.request > 0 and i.date][-10:]:
+    for p in [i for i in t.pages[1:] if i.nr_cell_change > 0 and i.date][-10:]:
         date = p.date_time()
 
         d = utilities._("MSG_suivi_student_RSS_table") % (
              utilities.nice_date(p.date),
-             p.request,
+             p.nr_cell_change,
              )
         t1 = p.day().replace('/', '$2F')
         # %3C %3E to not broke XML syntax
@@ -839,7 +839,11 @@ def page_rss2(server):
             p.user_name, t1, t1)
         server.the_file.write(
             '<item>\n' +
-            '<title>%d modifications par %s</title>\n' % (p.request, p.user_name) +
+            '<title>' +
+            utilities._("MSG_suivi_student_RSS_table_nr_change") % (
+                p.nr_cell_change,
+                p.user_name) +
+            '</title>' +
             '<description>%s</description>\n' % cgi.escape(d) +
             '<link>%s%s</link>\n' % (link, f) +
             '<pubDate>%s</pubDate>\n' % rss_date(date)+

@@ -106,7 +106,6 @@ class ColumnAttr(object):
                 column.author = page.user_name
             if self.name == 'columns': # XXX Copy past and not the right place
                 column.column_ordered_cache = None
-            page.request += 1
             return 'ok.png'
         
         if not table.modifiable:
@@ -223,7 +222,6 @@ class TableAttr(ColumnAttr):
     def set(self, table, page, value):
         if table.loading:
             setattr(table, self.name, self.encode(value))
-            page.request += 1
             return 'ok.png'
 
         teachers = table.masters

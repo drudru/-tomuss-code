@@ -189,7 +189,7 @@ class MyRequestBroker(utilities.FakeRequestHandler):
 
         if not self.ticket:
             # XXX : If Answer is an image : no redirect
-            if len(self.the_path) > 4:
+            if len(self.the_path) > 5:
                 try:
                     int(self.the_path[3])     # Page number
                     float(self.the_path[4])   # Request number
