@@ -1604,9 +1604,13 @@ function GUI_record()
       this.debug.style.background = 'white' ;
       this.debug.style.overflow = 'auto' ;
     }
+  this.save_interval = 60000 ;
+  this.close_if_unused = this.save_interval ;
+  this.ping_interval = 5 * this.save_interval ;
   this.start = millisec() ;
   this.start_o = new Date() ;
   this.last_interaction = this.start ;
+  this.last_ping = millisec() ;
 }
 
 GUI_record.prototype.save = function()
@@ -1652,7 +1656,7 @@ GUI_record.prototype.initialize = function()
     this.body.appendChild(this.debug) ;
   this.initialized = true ;
   // Save once per minute
-  setInterval(GUI_save, 60000) ;
+  setInterval(GUI_save, this.save_interval) ;
 }
 
 GUI_record.prototype.add = function(attr_name, event, value) {
@@ -1713,9 +1717,18 @@ var GUI = new GUI_record() ;
 function GUI_save()
 {
   if ( ! connection_state.connection_open )
-    return ;
+    {
+      if ( millisec() - GUI.last_ping > GUI.ping_interval )
+	{
+	  // To keep the table loaded on server side
+	  // in order to keep the resync buffer.
+	  connection_state.reconnect_real() ;
+	  GUI.last_ping = millisec() ;
+	}
+      return ;
+    }
   GUI.save() ;
-  if ( millisec() - GUI.last_interaction > 60000 )
+  if ( millisec() - GUI.last_interaction > GUI.close_if_unused )
     connection_state.close_connection() ;
 }
 

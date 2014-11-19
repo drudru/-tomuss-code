@@ -3293,26 +3293,10 @@ Connection.prototype.need_connection = function(force)
   return true ;
 } ;
 
-Connection.prototype.reconnect = function(force)
+Connection.prototype.reconnect_real = function()
 {
-  if ( ! this.need_connection(force) )
-    return ;
-  if ( ! this.is_server_alive() )
-    {
-      this.check_if_server_is_alive() ;
-      return ;
-    }
-  if ( this.connection_open === undefined && !this.revalidate_on_screen )
-    {
-      this.click_to_revalidate_ticket() ;
-      return ;
-    }
   var connection = url + "/=" + ticket + '/' + year
     + '/' + semester + '/' + ue + '/' + page_id + '/' + pending_requests_first;
-
-  // Request without answer must have been lost, resent them without waiting
-  for(var ii=pending_requests_first; ii < pending_requests.length; ii++)
-    pending_requests[ii].requested = false ;
 
   if ( window.XMLHttpRequest )
     {
@@ -3363,6 +3347,27 @@ Connection.prototype.reconnect = function(force)
     }
   else
       this.server_answer.src = connection ;
+}
+
+Connection.prototype.reconnect = function(force)
+{
+  if ( ! this.need_connection(force) )
+    return ;
+  if ( ! this.is_server_alive() )
+    {
+      this.check_if_server_is_alive() ;
+      return ;
+    }
+  if ( this.connection_open === undefined && !this.revalidate_on_screen )
+    {
+      this.click_to_revalidate_ticket() ;
+      return ;
+    }
+  // Request without answer must have been lost, resent them without waiting
+  for(var ii=pending_requests_first; ii < pending_requests.length; ii++)
+    pending_requests[ii].requested = false ;
+
+  this.reconnect_real() ;
   this.connection_open = undefined ;
   this.last_reconnect = millisec() ;
   this.debug("reconnect(" +  pending_requests_first + ')') ;
