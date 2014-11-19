@@ -29,7 +29,6 @@ var maximum_url_length = 3000 ;
 var is_a_teacher = false ;
 var periodic_work_period = 100 ; // In millisecs
 // Work value
-var popup_blocker = false ;
 var element_focused ;           // If undefined: it is the current_cell
 var line_offset ;		// The page being displayed
 var column_offset ;
@@ -4580,9 +4579,6 @@ function runlog(the_columns, the_lines)
     the_body.onunload = '' ;
     the_body.onkeydown = '' ;
     w = new_one() ;
-    
-    if (w)
-      setTimeout(function() { if ( popup_blocker ) { Alert("ALERT_popup");popup_blocker=false;}} , 10000) ;
   }
   if ( get_option('print-table', 'a') !== 'a' )
     {

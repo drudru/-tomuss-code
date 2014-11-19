@@ -741,8 +741,6 @@ function window_open(url, replace)
     {
       Alert("ALERT_popup") ;
     }
-  setTimeout(function() { if ( w.outerHeight === 0 ) popup_blocker = true ;},
-	     500) ;
   return w ;
 }
 
