@@ -3281,19 +3281,22 @@ Connection.prototype.need_connection = function(force)
 {
   if ( this.connection_open )
     return ;
+  if ( ! this.server_answer )
+    return ;
   if ( ue == 'VIRTUALUE' || ue == '' )
     return ;
   if ( check_down_connections_interval == 0 )
     return ;
   if ( !force && millisec() - this.last_reconnect < this.time_check_interval )
     return ;
-  if ( ! this.server_answer )
-    return ;
   return true ;
 } ;
 
 Connection.prototype.reconnect_real = function()
 {
+  if ( ! this.server_answer )
+    return ;
+
   var connection = url + "/=" + ticket + '/' + year
     + '/' + semester + '/' + ue + '/' + page_id + '/' + pending_requests_first;
 
