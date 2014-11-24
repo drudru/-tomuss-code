@@ -29,7 +29,14 @@ class Get_Referent(mail.Mail):
 
     def get_all_values(self, column, line_ids):
         students = tuple(self.values(column, line_ids))
-        year, semester = configuration.year_semester
+        if column.table.semester in configuration.semesters:
+            # A normal student table: look in the past
+            year = column.table.year
+            semester = column.table.semester
+        else:
+            # Unknown semester: take the current one
+            year, semester = configuration.year_semester
+
         infos = referent.referent_dict(year, semester)
         for line_id, student in students:
             student = inscrits.login_to_student_id(student)
