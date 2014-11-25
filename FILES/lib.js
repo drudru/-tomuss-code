@@ -1813,11 +1813,9 @@ function line_filter_change(value)
 function sort_lines23(a,b)
 {
   var c, cc, va, vb ;
-  var a_empty = line_empty(a) ;
-  var b_empty = line_empty(b) ;
-  if ( a_empty && ! b_empty )
+  if ( a.empty && ! b.empty )
     return 1 ;
-  if ( b_empty && ! a_empty )
+  if ( b.empty && ! a.empty )
     return -1 ;
   for(var c in sort_columns)
     {
@@ -1835,6 +1833,8 @@ function sort_lines23(a,b)
 
 function sort_lines3()
 {
+  for(var i in filtered_lines)
+    filtered_lines[i].empty = line_empty(filtered_lines[i]) ;
   filtered_lines.sort(sort_lines23) ;
 }
 
