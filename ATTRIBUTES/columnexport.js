@@ -36,7 +36,7 @@ function cell_value_export(column)
 	case abj: return abjvalue ;
 	case ppn: return ppnvalue ;
 	case tnr: return tnrvalue ;
-	default: return xx.replace(/\n/g, '⏎') ;
+	default: return xx.replace(/\n/g, '⏎') ; // encode_lf_tab: why not ?
 	}
     }
   else
@@ -215,14 +215,21 @@ function do_columnexport()
     for(var i in uniques)
       t.push(i) ;
     t.sort() ;
-    for(var i in t)
-    {
-      i = t[i] ;
-      if ( columnexport_options.students )
-	v.push(i + '\t' + uniques[i].join(' ')) ;
-      else
-	v.push(i) ;
-    }
+    if ( t.length == 1 && t[0].length == 0 )
+      {
+	v = uniques[t[0]] ; // Export unique on ID column
+      }
+    else
+      {
+	for(var i in t)
+	{
+	  i = t[i] ;
+	  if ( columnexport_options.students )
+	    v.push(i + '\t' + uniques[i].join(' ')) ;
+	  else
+	    v.push(i) ;
+	}
+      }
   }
   var co = document.getElementById('columnexport_output') ;
   co.value = v.join('\n') ;
