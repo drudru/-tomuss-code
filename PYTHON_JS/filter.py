@@ -359,7 +359,7 @@ class Filter(object):
             node, string = self.parse(string, username, column_type)
             self.filters.append((mode, node))
             if len(string) and (string[0] == '|' or string[0] == '&'):
-                mode =  string[0]
+                mode = string[0]
                 string = string[1:]
             else:
                 mode = '&'
@@ -394,7 +394,8 @@ class Filter(object):
                     and len(string) > i
                     and filterAttributes.get(string[i], '') == '' # the value
                     and search_operator(string[i])[1][0] == ''    # starting by
-                    and string[i] not in '&|'
+                    and string[i] not in '&|@#:?<>=~!'
+                    and negate == False
                     ):
                     # Filter 'a b' is to translated as 'a\ b' because
                     # starting by both 'a' and 'b' is impossible
@@ -402,12 +403,12 @@ class Filter(object):
                     pass
                 elif " |&".find(char) >= 0:
                     i -= 1
-                    break                
+                    break
                 if char == '\\':
                     protected = True
                     continue
             else:
-                protected = False    
+                protected = False
             value += char
 
         if len(value) == 0 and operator[0] == '':
@@ -416,7 +417,7 @@ class Filter(object):
                 dummy, operator = search_operator('=')
             elif attr == 'comment' or attr == 'history':
                 # Special filters : '#' and ':'
-                dummy, operator = search_operator('=')                
+                dummy, operator = search_operator('=')
                 negate = not negate
 
         node = FilterOperator(operator, attr, value, column_type)
