@@ -1423,6 +1423,7 @@ function cell_set_value2(v)
 {
   this.value = v ;
   this._key = undefined ;
+  login_to_line_id.dict = undefined ; // Clear cache
   return this ; // To be compatible with Python set_value method
 }
 

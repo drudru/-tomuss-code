@@ -3766,9 +3766,13 @@ function append_image(td, text, force)
 
 function login_to_line_id(login)
 {
-  for(var line_id in lines)
-    if (login_to_id(lines[line_id][0].value) == login)
-      return line_id ;
+  if ( login_to_line_id.dict === undefined )
+    {
+      login_to_line_id.dict = {} ;
+      for(var line_id in lines)
+	login_to_line_id.dict[login_to_id(lines[line_id][0].value)] = line_id ;
+    }
+  return login_to_line_id.dict[login_to_id(login)] ;
 }
 
 
