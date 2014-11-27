@@ -3294,7 +3294,7 @@ Connection.prototype.need_connection = function(force)
 
 Connection.prototype.reconnect_real = function()
 {
-  if ( ! this.server_answer )
+  if ( ! this.server_answer || page_id === '' )
     return ;
 
   var connection = url + "/=" + ticket + '/' + year
@@ -3626,6 +3626,8 @@ function periodic_work_do()
     }
 }
 
+var max_socket_open = 5 ;
+
 // **********************************************************
 // Restart image loading if the connection was not successul
 // **********************************************************
@@ -3662,7 +3664,7 @@ function auto_save_errors()
 	}
       nr_unsaved++ ;
       // Some browsers don't like many connections
-      if ( nr_unsaved > 10 )
+      if ( nr_unsaved > max_socket_open )
 	break ;
       // Retry to load the image each N seconds and the first time
       if ( d > i.time + connection_state.time_check_interval || ! i.requested )
@@ -3676,7 +3678,7 @@ function auto_save_errors()
   var saving = document.getElementById('saving') ;
   if ( saving )
     {
-      if ( nr_unsaved > 10 )
+      if ( nr_unsaved > max_socket_open )
 	document.getElementById('saving').style.display = 'block' ;
       if ( nr_unsaved == 0 )
 	document.getElementById('saving').style.display = 'none' ;
