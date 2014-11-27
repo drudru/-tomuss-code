@@ -37,7 +37,7 @@ def live_status(server):
 plugin.Plugin('live_status_svg', '/live_status.svg',
               function=live_status, group='roots',
               mimetype = "image/svg+xml",
-              keep_open = True,
+              keep_open = True, unsafe=False,
               link=plugin.Link(html_class='verysafe',where='debug',priority=-9)
               )
 
