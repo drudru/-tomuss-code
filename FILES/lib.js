@@ -4210,6 +4210,7 @@ function html_begin_head(hide_title, pb, more)
       'semester = "' + semester + '" ;\n' +
       'ticket = "' + ticket + '" ;\n' +
       'ue = "VIRTUALUE" ;\n' +
+      'real_ue = "' + ue + '" ;\n' +
       'root = [];\n' +
       'suivi = "' + suivi + '";\n' +
       'version = "' + version + '" ;\n' +
