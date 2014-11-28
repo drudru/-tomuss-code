@@ -87,6 +87,9 @@ class File(object):
             # Close on error
             try:
                 if not self.file.closed:
+                    if hasattr(self.file, "_sock") and self.file._sock:
+                        self.file._sock.shutdown(socket.SHUT_RDWR)
+                        self.file._sock.close()
                     self.file.close()
             except socket.error:
                 try:
@@ -102,12 +105,12 @@ class File(object):
         return True
 
 def send_live_status(txt):
+    global live_status
+    live_status = [fi for fi in live_status if not fi.closed]
     for f in live_status:
         append(f, txt)
 
 def add_client(f):
-    global live_status
-    live_status = [fi for fi in live_status if not fi.closed]
     live_status.append(f)
 
 def send_thread(verbose=False):
