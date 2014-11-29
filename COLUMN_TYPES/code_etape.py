@@ -73,13 +73,13 @@ class Code_Etape(text.Text):
         data_col = self.data_col(the_table, column)
         if data_col is None:
             return ()
-        return [
+        return (
             (line_id, self.get_one_value(
                     the_table.lines[line_id][data_col].value,
                     column, line_id)
              )
             for line_id in (line_ids or the_table.lines)
-            ]
+            )
         
     def update_all(self, the_table, column, attr=None, line_ids=None):
         if attr is not None and attr.name != 'columns' and attr.name != 'type':
@@ -102,16 +102,10 @@ class Code_Etape(text.Text):
         else:
             raise ValueError("Missing method: get_all_values or get_one_value")
 
-        values = dict(values) # line_id → value
-        for line_id in line_ids:
-            value = values.get(line_id)
-            if value is None:
-                if (the_table.lines[line_id][column.data_col].author
-                    not in (data.ro_user, data.rw_user, data.no_user)):
-                    # Do not replace user defined input with nothing
-                    continue
-                value = ''
 
+        line_id_done = set()
+        for line_id, value in values:
+            line_id_done.add(line_id)
             if isinstance(value, str):
                 v = unicode(value, "utf-8", "replace").encode("utf-8")
                 if v != value:
@@ -125,3 +119,13 @@ class Code_Etape(text.Text):
                                       line_id, value)
             finally:
                 the_table.unlock()
+
+        # Erase system defined cells without value
+        for line_id in line_id_done - set(line_ids):
+            if (the_table.lines[line_id][column.data_col].author
+                in (data.ro_user, data.rw_user, data.no_user)):
+                try:
+                    the_table.cell_change(the_table.pages[0], column.the_id,
+                                          line_id, '')
+                finally:
+                    the_table.unlock()
