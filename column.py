@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 #    TOMUSS: The Online Multi User Simple Spreadsheet
-#    Copyright (C) 2008-2013 Thierry EXCOFFIER, Universite Claude Bernard
+#    Copyright (C) 2008-2014 Thierry EXCOFFIER, Universite Claude Bernard
 #
 #    This program is free software; you can redistribute it and/or modify
 #    it under the terms of the GNU General Public License as published by
@@ -22,7 +22,6 @@
 import os
 import re
 import time
-import hashlib
 import json
 import math
 from .utilities import js
@@ -122,14 +121,6 @@ class ColumnAttr(object):
             return table.error(page,
                                utilities._("MSG_column_colattr_unmodifiable")
                                + self.name)
-        # The columns list is not modifiable for a Note
-        # But the names in column list must be renamed on column rename.
-        # It is so because columns_list value is not forgotten when
-        # the type is changed.
-        # if getattr(column.type, 'set_' + self.name) == 'unmodifiable':
-        #    return table.error(page,
-        #                       "Attribut de colonne non modifiable:"+self.name)
-            
         error = self.check(value)
         if error:
             table.error(page, error)
@@ -137,15 +128,15 @@ class ColumnAttr(object):
 
         value = self.encode(value)
 
-        if (self.name == 'type' and column.type.type_type != 'data'
-            and value.type_type == 'data' ):
-            # give the user the erase access
-            for line_id, line in table.lines.items():
-                cell = line[column.data_col]
-                if cell.value and cell.author == data.ro_user:
-                    table.cell_change(page, column.the_id, line_id,
-                                      cell.value, force_update=True)
-            
+        if self.name == 'type':
+            if column.type.type_type != 'data' and value.type_type == 'data':
+                # give the user the erase access
+                for line_id, line in table.lines.items():
+                    cell = line[column.data_col]
+                    if cell.value and cell.author == data.ro_user:
+                        table.cell_change(page, column.the_id, line_id,
+                                          cell.value, force_update=True)
+                column.type.leave_this_type(table, page, column, value)
 
         # The "value == ''" is here because in some case Javascript want
         # to create a column by sending an empty title.

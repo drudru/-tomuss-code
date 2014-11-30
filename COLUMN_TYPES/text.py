@@ -219,6 +219,12 @@ class Text(object):
     # DO NOT INDICATES ATTRIBUTES VISIBLE BY ALL THE COLUMN TYPES
     attributes_visible = ('completion', 'repetition', 'url_import')
 
+    # This function is called when the column is no more of this type
+    # For example to stop file sharing for the 'document upload' type
+    # because the file sharing is done by an external server.
+    def leave_this_type(self, table, page, column, value):
+        return
+
     def value_range(self, v_min, v_max):
         """Display the range of the possible values"""
         return ''
