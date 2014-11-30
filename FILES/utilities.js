@@ -2793,15 +2793,13 @@ function current_change(value)
 
 function current_toggle()
 {
-  if ( this.td.className.search('ro') != -1 && this.column.type != 'URL' )
-    return ;
-
   var toggle = this.column.real_type.ondoubleclick ;
   if ( toggle === undefined )
-    {
-      return ;
-    }
-  this.input.value = toggle(this.input.value, this.column) ;
+    return ;
+  var value = toggle(this.input.value, this.column) ;
+  if ( this.td.className.search('ro') != -1 )
+    return ;
+  this.input.value = value ;
   this.change() ;
   this.update() ;
 }
