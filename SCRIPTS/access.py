@@ -35,8 +35,11 @@ class Stats:
     def add_YYYYMMDDHHMMSS(self, date):
         if date == '':
             return
+        year = int(date[0:4])
+        if year < 2000:
+            year += 1000 # An UCBL plugin remove 1000 year to highlight change
         t = int(time.mktime((
-            int(date[0:4]),
+            year,
             int(date[4:6]),
             int(date[6:8]),
             int(date[8:10]),
