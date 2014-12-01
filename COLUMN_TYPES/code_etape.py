@@ -104,6 +104,8 @@ class Code_Etape(text.Text):
 
 
         line_id_done = set()
+        data_col = the_table.column_inscrit()
+        rw_page = None
         for line_id, value in values:
             line_id_done.add(line_id)
             if isinstance(value, str):
@@ -115,8 +117,14 @@ class Code_Etape(text.Text):
                     value = v
             the_table.lock()
             try:
-                the_table.cell_change(the_table.pages[0], column.the_id,
-                                      line_id, value)
+                if (data_col
+                    and the_table.lines[line_id][data_col].value) == 'non':
+                    if rw_page is None:
+                        rw_page = the_table.get_rw_page()
+                    page = rw_page
+                else:
+                    page = the_table.pages[0]
+                the_table.cell_change(page, column.the_id, line_id, value)
             finally:
                 the_table.unlock()
 
