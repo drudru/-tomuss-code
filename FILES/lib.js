@@ -250,7 +250,7 @@ function compute_nr_lines()
       table_attr.nr_lines = (window_height() - header_height
 			     - horizontal_scrollbar.offsetHeight
 			     /* XXX Magic number for Chrome/Opera */
-			     - 12 // horizontal_scrollbar.offsetHeight ???
+			     - 15 // horizontal_scrollbar.offsetHeight ???
 			     ) / line_height ;
       table_attr.nr_lines = Math.floor(table_attr.nr_lines) - nr_headers ;
       compute_nr_lines.do_compute_nr_lines = false ;
