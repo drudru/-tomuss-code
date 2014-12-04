@@ -452,10 +452,20 @@ function empty_header(event)
   event = the_event(event) ;
   var input = event.target ;
 
-  input.className = input.className.replace('empty','') ;
+  input.className = input.className.replace(/empty/g,'') ;
   input.onmouseover = mouse_over ;
   input.onkeyup = filter_keyup ;
   input.onblur = filter_unfocus ;
+}
+
+function header_focus(t, event)
+{
+  t = t.parentNode ;
+  show_the_tip(t) ;
+  the_current_cell.change() ;
+  the_current_cell.jump(the_current_cell.lin, col_from_td(t), true) ;
+  element_focused = t ;
+  empty_header(event) ;
 }
 
 function filter_unfocus(event)
@@ -558,15 +568,6 @@ function set_tip_position(td, bottom)
       return ;
     }
   set_element_relative_position(td, tip) ;
-}
-
-function header_focus(t)
-{
-  t = t.parentNode ;
-  show_the_tip(t) ;
-  the_current_cell.change() ;
-  the_current_cell.jump(the_current_cell.lin, col_from_td(t), true) ;
-  element_focused = t ;
 }
 
 function header_title_click(t)
@@ -1003,7 +1004,7 @@ function table_init()
     }
   table.appendChild(tr_title) ;
 
-  th.innerHTML = '<INPUT TYPE="TEXT" onfocus="header_focus(this)" onblur="element_focused=undefined">' ;
+  th.innerHTML = '<INPUT TYPE="TEXT" onfocus="header_focus(this,event)" onblur="element_focused=undefined">' ;
   tr_filter = document.createElement('tr') ;
   tr_filter.className = 'filter' ;
   for(var i = 0 ; i < table_attr.nr_columns ; i++ )
