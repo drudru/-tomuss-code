@@ -46,6 +46,22 @@ def date_range(from_date, to_date):
             return
         day += one_day
 
+def date_by_reversed_weeks(from_date, to_date):
+    day = datetime.datetime(int(from_date[:4]), int(from_date[4:6]),
+                            int(from_date[6:]))
+    last = datetime.datetime(int(to_date[:4]), int(to_date[4:6]),
+                             int(to_date[6:]))
+    one_day = datetime.timedelta(days=1)
+    two_week = datetime.timedelta(days=14)
+    last -= datetime.timedelta(days = last.isoweekday()) # Sunday
+    while True:
+        for dummy_i in range(7):
+            last += one_day
+            yield (last.strftime("%Y-%m-%d"), last.timetuple())
+            if last == day:
+                return
+        last -= two_week
+
 def backtrace_list(server, from_date, to_date, what):
     for dirname, dummy_time in date_range(from_date, to_date):
         full_dirname = os.path.join("LOGS", "BACKTRACES", dirname)
@@ -105,10 +121,16 @@ def classifier(filename=None, subject=None):
     return 'warning', subject
     
 def backtrace_day(server, from_date, to_date, dummy_what):
-    s = []
     first_time = True
     a = ' <a target="list" class="%s" onfocus="dofocus(event)" href="list/%s/%s/%s">%d</a><br>'
-    for dirname, time_tuple in date_range(from_date, to_date):
+    days = eval(server._("MSG_days"))
+    days = days[1:] + days[0:1]
+    server.the_file.write('<table class="day">'
+                          + "<tr>"
+                          + ''.join('<th>%s' % d for d in days) 
+                          + '</tr>')
+
+    for dirname, time_tuple in date_by_reversed_weeks(from_date, to_date):
         weekday = time_tuple[6]
         if weekday <= 0 or first_time:
             t = "<tr>"
@@ -136,19 +158,13 @@ def backtrace_day(server, from_date, to_date, dummy_what):
                     t += '&nbsp;<br>'
         if time_tuple[6] == 6:
             t += "</tr>"
-            s.append(t)
+        server.the_file.write(t)
+        t = ''
     if time_tuple[6] != 6:
         t += "</tr>"
-        s.append(t)
+        server.the_file.write(t)
 
-    days = eval(server._("MSG_days"))
-    days = days[1:] + days[0:1]
-    s.append("<tr>" +
-             ''.join('<th>%s' % d for d in days) +
-             '</tr>')
-
-    s.reverse()
-    server.the_file.write('<table class="day">' + ''.join(s) + "</table>")
+    server.the_file.write("</table>")
 
 def backtrace_home(server):
     dates = sorted(os.listdir(os.path.join("LOGS", "BACKTRACES")))
