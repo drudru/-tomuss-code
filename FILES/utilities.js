@@ -1606,10 +1606,8 @@ function GUI_record()
   this.save_interval = 60000 ;
   this.close_if_unused = this.save_interval ;
   this.ping_interval = 5 * this.save_interval ;
-  this.start = millisec() ;
   this.start_o = new Date() ;
-  this.last_interaction = this.start ;
-  this.last_ping = millisec() ;
+  this.last_close=this.last_ping=this.last_interaction=this.start = millisec();
 }
 
 GUI_record.prototype.save = function()
@@ -1715,20 +1713,39 @@ GUI_record.prototype.add_key = function(event, value) {
 var GUI = new GUI_record() ;
 function GUI_save()
 {
+  var now = millisec() ;
   if ( ! connection_state.connection_open )
     {
-      if ( millisec() - GUI.last_ping > GUI.ping_interval )
+      if ( now - GUI.last_ping > GUI.ping_interval )
 	{
 	  // To keep the table loaded on server side
 	  // in order to keep the resync buffer.
 	  connection_state.reconnect_real() ;
-	  GUI.last_ping = millisec() ;
+	  GUI.last_ping = now ;
+	  GUI.last_close = now - 1 ;
+	}
+      else
+	{
+	  if ( now - GUI.last_ping > GUI.save_interval / 10
+	       && GUI.last_close < GUI.last_ping )
+	    {
+	      // No answer to the last ping
+	      click_to_revalidate_ticket() ;
+	      GUI.last_close = now ;
+	    }
 	}
       return ;
     }
   GUI.save() ;
-  if ( millisec() - GUI.last_interaction > GUI.close_if_unused )
-    connection_state.close_connection() ;
+  if ( now - GUI.last_interaction > GUI.close_if_unused )
+    {
+      // Do not close immediatly to let read the data
+      if ( now - GUI.last_ping > 1000 )
+	{
+	  connection_state.close_connection() ;
+	  GUI.last_close = now ;
+	}
+    }
 }
 
 

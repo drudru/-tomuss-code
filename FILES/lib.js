@@ -3263,6 +3263,11 @@ Connection.prototype.click_to_revalidate_ticket = function()
 {
   if ( millisec() - this.server_start_time < this.tomuss_boot_time )
     return ;
+  if ( ! this.is_server_alive() )
+    {
+      this.check_if_server_is_alive() ;
+      return ;
+    }
   var m =  '<a onclick="javascript: connection_state.revalidate_ticket()">'
             + _("MSG_reauthenticate") + '</a>' ;
   this.t_authenticate.style.display = 'block' ;
