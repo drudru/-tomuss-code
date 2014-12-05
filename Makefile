@@ -33,8 +33,9 @@ tags:
 	etags $$(git ls-files -- '*.js' '*.py') $$(cd LOCAL ; git ls-files -- '*.js' '*.py' | sed 's,^,LOCAL/,') 
 
 regtest1:clean translations
-	@cd PYTHON_JS ; $(MAKE) regtest_python
 	@cd PYTHON_JS ; \
+	rm -f tomuss_python.py tomuss_python_O.js ; \
+        $(MAKE) tomuss_python.py tomuss_python_O.js regtest ; \
         if [ -d PythonJS -a -x "$$(which node)" ] ; \
         then $(MAKE) regtest_js_O ; \
 	else $(MAKE) warning ; \

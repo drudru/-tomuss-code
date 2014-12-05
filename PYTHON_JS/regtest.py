@@ -28,40 +28,27 @@ tnr_short = tnr = "TNR"
 ppn_short = ppn = "PPN"
 pre_short = pre = "PRE"
 
-columns = []
-
 class Column:
-    def __init__(self,
-                 average_columns = (),
-                 real_weight = 1,
-                 real_weight_add = True,
-                 min = 0,
-                 max = 20,
-                 mean_of = 0,
-                 best_of = 0,
-                 round_by = 0,
-                 empty_is = '',
-                 test_filter='',
-                 comment='',
-                 computed=0,
-                 ):
+    def __init__(self, args={}):
         # self.__dict__ is not translated into javascript
         # ** is not translated into javascript
-        self.average_columns = average_columns
-        self.real_weight = real_weight
-        self.real_weight_add = real_weight_add
-        self.min = min
-        self.max = max
-        self.mean_of = mean_of
-        self.best_of = best_of
-        self.round_by = round_by
-        self.empty_is = empty_is
-        self.test_filter = test_filter
-        self.comment = comment
-        self.computed = computed
+        if not args:
+            args = {}
+        self.average_columns = args.get("average_columns", [])
+        self.real_weight     = args.get("real_weight", 1)
+        self.real_weight_add = args.get("real_weight_add", True)
+        self.min             = args.get("min", 0)
+        self.max             = args.get("max", 20)
+        self.mean_of         = args.get("mean_of", 0)
+        self.best_of         = args.get("best_of", 0)
+        self.round_by        = args.get("round_by", 0)
+        self.empty_is        = args.get("empty_is", "")
+        self.test_filter     = args.get("test_filter", "")
+        self.comment         = args.get("comment", "")
+        self.computed        = args.get("computed", 0)
 
     def nmbr_filter(self, cell):
-        return Filter(self.test_filter, "","").eval(cell)
+        return Filter(self.test_filter, "","").evaluate(cell)
     def is_computed(self):
         return self.computed
 
@@ -80,6 +67,9 @@ class Cell:
     def __repr__(self):
         return repr(self.value)
 
+if python_mode:
+    C = Cell
+
 def strip0(txt):
     txt = str(txt)
     if txt in ('0', '0.', '0.0'):
@@ -91,7 +81,7 @@ def strip0(txt):
     return txt
 
 def CE(expected):
-    return Cell(-1, expected=expected)
+    return Cell(-1, "", "", "", "", expected)
 
 def check_result(line, col, fct):
     fct(col, line)
@@ -102,10 +92,18 @@ def check_result(line, col, fct):
                 return
         except ValueError:
             pass
-        print '='*77
-        print "Column:", col
-        print line
-        print 'Expected:', line[col].expected
-        print 'Computed:', line[col].value
+        print('='*77)
+        print("Column:", col)
+        print(line)
+        print('Expected:', line[col].expected)
+        print('Computed:', line[col].value)
         regression_test_failed
-    
+
+
+columns = []
+
+def columns_set(cols):
+    while len(columns):
+        columns.pop()
+    for c in cols:
+        columns.append(c)

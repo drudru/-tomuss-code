@@ -10,9 +10,14 @@ export PYTHONJS = $(HOME)/PythonJS
 
 all:regtest_python tomuss_python.js tomuss_python_O.js regtest_js regtest_js_O stats
 
-OBJS = preamble.py filter.py average.py maximum.py nmbr.py cow.py diff_date.py weighted_percent.py
+OBJS = filter.py average.py maximum.py nmbr.py cow.py diff_date.py weighted_percent.py
+OBJS_JS = preamble.py preamble_js.py $(OBJS)
+OBJS_PYTHON = preamble.py preamble_python.py $(OBJS)
 REGTEST = regtest.py filter_regtest.py average_regtest.py maximum_regtest.py nmbr_regtest.py diff_date_regtest.py weighted_percent_regtest.py
+
 PYJS = PythonJS/pythonjs/translator.py --no-wrapper
+PYJS = RapydScript/bin/rapydscript --prettify --bare
+
 
 LOCAL=$(shell if [ -d ../LOCAL/LOCAL_PYTHON_JS ] ; then ls ../LOCAL/LOCAL_PYTHON_JS/*.py | grep -v regtest ; fi)
 LOCAL_REGTEST=$(shell if [ -d ../LOCAL/LOCAL_PYTHON_JS ] ; then echo ../LOCAL/LOCAL_PYTHON_JS/*_regtest.py ; fi)
@@ -20,9 +25,9 @@ LOCAL_REGTEST=$(shell if [ -d ../LOCAL/LOCAL_PYTHON_JS ] ; then echo ../LOCAL/LO
 TRANSLATE = f() { \
 if [ -f PythonJS/pythonjs/translator.py ] ; \
 then \
-echo "Python translation to JavaScript:" $(OBJS) $$2 $$1 ; \
+echo "Python translation to JavaScript:" $(OBJS_JS) $$2 $$1 ; \
 (  \
-sed -e "s/$$1/'''/" $(OBJS) $(LOCAL) $$2 | tee xxx.debug | \
+sed -e "s/$$1/'''/" $(OBJS_JS) $(LOCAL) $$2 | tee xxx.debug | \
 $(PYJS) \
 ) >$@ ; \
 else \
@@ -47,26 +52,26 @@ PythonJS:
 update:
 	cd PythonJS ; git pull https://github.com/PythonJS/PythonJS.git
 
-tomuss_python.py:$(OBJS) $(LOCAL) Makefile
-	@cat $(OBJS) $(LOCAL) >$@
+tomuss_python.py:$(OBJS_PYTHON) $(LOCAL) Makefile
+	@cat $(OBJS_PYTHON) $(LOCAL) >$@
 
-tomuss_python.js:$(OBJS) $(LOCAL) Makefile
+tomuss_python.js:$(OBJS_JS) $(LOCAL) Makefile
 	@$(TRANSLATE) '#WITHJAVASCRIPT#'
 
-tomuss_python_O.js:$(OBJS) $(LOCAL) Makefile
+tomuss_python_O.js:$(OBJS_JS) $(LOCAL) Makefile
 	@$(TRANSLATE) '#WITHOUTJAVASCRIPT#'
 
-tomuss_python_regtest.js:$(OBJS) $(REGTEST) $(LOCAL) $(LOCAL_REGTEST) Makefile
+tomuss_python_regtest.js:$(OBJS_JS) $(REGTEST) $(LOCAL) $(LOCAL_REGTEST) Makefile
 	@$(TRANSLATE) '#WITHJAVASCRIPT#' "$(REGTEST) $(LOCAL_REGTEST)"
 
-tomuss_python_regtest_O.js:$(OBJS) $(REGTEST) $(LOCAL) $(LOCAL_REGTEST) Makefile
+tomuss_python_regtest_O.js:$(OBJS_JS) $(REGTEST) $(LOCAL) $(LOCAL_REGTEST) Makefile
 	@$(TRANSLATE) '#WITHOUTJAVASCRIPT#' "$(REGTEST) $(LOCAL_REGTEST)"
 
 regtest: PythonJS regtest_python regtest_js regtest_js_O
 
 regtest_python:
 	@echo "Running regression tests in Python"
-	@cat $(OBJS) $(LOCAL) $(REGTEST) $(LOCAL_REGTEST) >xxx.py;python xxx.py
+	@cat $(OBJS_PYTHON) $(LOCAL) $(REGTEST) $(LOCAL_REGTEST) >xxx.py;python xxx.py
 	@echo
 
 regtest_js:tomuss_python_regtest.js xxx_tomuss.js
@@ -82,14 +87,14 @@ regtest_js_O:tomuss_python_regtest_O.js xxx_tomuss.js
 	@echo
 
 stats:
-	@wc $(OBJS) tomuss_python*.js
+	@wc $(OBJS_JS) tomuss_python*.js
 
 clean:
 	# Do not delete tomuss_python_O.js, it may be not buildable
 	-rm tomuss_python.js tomuss_python_regtest.js tomuss_python_regtest_O.js xxx*
 
 xxx_tomuss.js:Makefile ../FILES/lib.js ../FILES/utilities.js ../COLUMN_TYPES/text.js deprecated.js
-	@echo 'window = { location:""} ; ' >$@
+	@echo 'window = { "location":""} ; ' >$@
 	@echo 'navigator = { } ; ' >>$@
 	@echo 'var today = "20140101" ;' >>$@
 	@cat ../FILES/lib.js ../FILES/utilities.js ../COLUMN_TYPES/text.js deprecated.js >>$@

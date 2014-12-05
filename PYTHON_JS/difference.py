@@ -19,9 +19,6 @@
 # Contact: Thierry.EXCOFFIER@univ-lyon1.fr
 
 """
-"""
-
-if False and python_mode:
     # Generate values to include in this program
     v = (12, 0, abi, abj, ppn, tnr, nan)
     itertools = __import__("itertools")
@@ -33,22 +30,23 @@ if False and python_mode:
     print 'values = ['
     print '\n'.join(sorted(t))
     print ']'
+"""
 
-columns = [Column(), Column(), Column(),
-           Column(average_columns = [0,1,2]),
-           Column(average_columns = [0,1,2], best_of=-1),
-           Column(average_columns = [0,1,2], mean_of=-1),
-           Column(average_columns = [0,1,2], best_of=-1, mean_of=-1),
-           Column(real_weight=1, real_weight_add=False),
-           Column(average_columns = [0,1,2,7]),
-           Column(real_weight=1, real_weight_add=False),
-           Column(average_columns = [0,1,2,9]),
-           Column(real_weight_add=False),
-           Column(real_weight_add=False),
-           Column(real_weight_add=False),
-           Column(average_columns = [11,12,13]),
-           Column(average_columns = [11,12,13]),
-]            
+columns_set([Column(), Column(), Column(),
+             Column( {"average_columns":[0,1,2]}),
+           Column( {"average_columns":[0,1,2], "best_of":-1}),
+           Column( {"average_columns":[0,1,2], "mean_of":-1}),
+           Column( {"average_columns":[0,1,2], "best_of":-1, "mean_of":-1}),
+           Column( {"real_weight":1, "real_weight_add":False}),
+           Column( {"average_columns":[0,1,2,7]}),
+           Column( {"real_weight":1, "real_weight_add":False}),
+           Column( {"average_columns":[0,1,2,9]}),
+           Column( {"real_weight_add":False}),
+           Column( {"real_weight_add":False}),
+           Column( {"real_weight_add":False}),
+           Column( {"average_columns":[11,12,13]}),
+           Column( {"average_columns":[11,12,13]}),
+])
 
 values = [
     ('ABI', 'ABI', 'ABI'),
@@ -158,7 +156,7 @@ values = [
 s = []
 t = []
 def infos():
-    return ('[' + ','.join("'" + str(x) + "'" for x in i)
+    return ('[' + ','.join(["'" + str(x) + "'" for x in i])
             + (',"%s"' % strip0(line[3].value))
             + (',"%s"' % strip0(line[4].value))
             + (',"%s"' % strip0(line[5].value))

@@ -29,92 +29,13 @@
 # This value must never be changed once table have been created by users
 contextual_case_sensitive = False
 
-flat_map = u'\x00\x01\x02\x03\x04\x05\x06\x07\x08\x09\x0a\x0b\x0c\x0d\x0e\x0f\x10\x11\x12\x13\x14\x15\x16\x17\x18\x19\x1a\x1b\x1c\x1d\x1e\x1f !"#$%&\'()*+,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\\]^_`abcdefghijklmnopqrstuvwxyz{|}~\x7f\x80\x81\x82\x83\x84\x85\x86\x87\x88\x89\x8a\x8b\x8c\x8d\x8e\x8f\x90\x91\x92\x93\x94\x95\x96\x97\x98\x99\x9a\x9b\x9c\x9d\x9e\x9f\xa0¡¢£¤¥¦§¨©ª«¬­®¯°±²³´µ¶·¸¹º»¼½¾¿AAAAAAACEEEEIIIIDNOOOOOOOUUUUYÞßaaaaaaaceeeeiiiiðnooooooouuuuyþy'
 
-
-# print "".join("\\x%02x" % i for i in range(256))
-
-if python_mode:
-    # Python
-    def flat(txt):
-        return txt.translate(flat_map)
-    def or_keyword():
-        try:
-            return __import__('sys').modules['TOMUSS.utilities']._('or')
-        except KeyError:
-            try:
-                return __import__('utilities')._('or')
-            except ImportError:
-                return 'or'
-        
-else:
-    def or_keyword():
-        return _('or')
-    @javascript
-    def char_flat(c):
-        return flat_map.substr(c.charCodeAt(0),1)
-    @javascript
-    def flat(txt):
-        return JS(u'txt.replace(/[\x80-\xFF]/g, char_flat)')
-
-if not python_mode:
-    unicode = str
-
-year_month_day = None
-current_seconds = None
-
-if python_mode:
-    def update_today():
-        time = __import__('time')
-        global year_month_day
-        year_month_day = time.localtime()
-        current_seconds = time.time()
-else:
-    def update_today():
-        JS("""year_month_day =new Date() ; year_month_day = [year_month_day.getFullYear(), year_month_day.getMonth() + 1, year_month_day.getDate()] ; current_seconds =new Date() ; current_seconds = current_seconds.getTime()/1000 ;""")
-
-update_today()
-
-if python_mode:
-    def seconds_to_date(seconds):
-        time = __import__('time')
-        return time.strftime('%Y%m%d%H%M%S', time.localtime(seconds))
-    def date_to_seconds(date):
-        time = __import__('time')
-        return time.mktime(time.strptime(date.ljust(14, '0'), '%Y%m%d%H%M%S'))
-else:
-    def seconds_to_date(seconds):
-        d = JS("new Date(seconds * 1000)")
-        return (d.getFullYear() + two_digits(d.getMonth()+1)
-                + two_digits(d.getDate()) + two_digits(d.getHours())
-                + two_digits(d.getMinutes()) + two_digits(d.getSeconds()) )
-    def date_to_seconds(date):
-        return get_date_tomuss(date).getTime() / 1000
-
-if python_mode:
-    def REsplit(expreg, txt):
-        re = __import__('re')
-        return re.split(expreg, txt)
-else:
-    def REsplit(expreg, txt):
-        return txt.split(RegExp(expreg))
+current_seconds, year_month_day = update_today()
 
 def js_str(txt):
     return "'" + txt.replace("\\","\\\\").replace("'","\\'") + "'"
 
-def to_float(txt):
-    try:
-        return float(txt.replace(',', '.'))
-    except: # Because txt is a float or not a number in a string
-        return float(txt)
-
 nan = float('NaN')
-
-def to_float_or_nan(txt):
-    try:
-        return to_float(txt)
-    except:
-        return nan
 
 # Dates are defined as string : YYYYMMDDHHMMSS
 # We assume that date are all valid.
@@ -189,25 +110,25 @@ def user_date_to_date(txt):
     return str(the_year) + two_digits(the_month) + two_digits(the_day) + t
 
     
-class FilterNegate(object):
-    """The negation node in the filter tree"""
+class FilterNegate:
+    # The negation node in the filter tree"""
     def __init__(self, node):
         self.node = node
-    def eval(self, cell):
-        return not self.node.eval(cell)
+    def evaluate(self, cell):
+        return not self.node.evaluate(cell)
     def js(self):
         return '!' + self.node.js()
 
-class FilterTrue(object):
-    """True"""
-    def eval(self, cell):
+class FilterTrue:
+    # True
+    def evaluate(self, cell):
         return True
     def js(self):
         return 'true'
 
-class FilterFalse(object):
-    """False"""
-    def eval(self, cell):
+class FilterFalse:
+    # False
+    def evaluate(self, cell):
         return False
     def js(self):
         return 'false'
@@ -218,9 +139,9 @@ def search_operator(string):
             return string[len(operator[0]):], operator
     return string, operator
 
-class FilterOperator(object):
-    """Compare node to a constant in the filter tree"""
-    """No inherence possible with PythonJS, so there are no sub classes"""
+class FilterOperator:
+    # Compare node to a constant in the filter tree
+    # No inherence possible with PythonJS, so there are no sub classes
     def __init__(self, operator, what, value, column_type):
         self.date_value = None
         if what == 'date' or (column_type == 'Date' and what == "value"):
@@ -261,7 +182,7 @@ class FilterOperator(object):
         if not self.diacritic_sensitive:
             self.string_value = flat(self.string_value)
         
-    def eval(self, cell):
+    def evaluate(self, cell):
         v = getattr(cell, self.what)
         try:
             v = unicode(v, 'utf-8')
@@ -321,31 +242,39 @@ class FilterOperator(object):
 #    * the python eval
 #    * a function creating the JavaScript code to do the same evaluation.
 #    * The reverse numeric operator
-filterOperators = [
-    ['<=', lambda a, b: a <= b, lambda a, b: '(' + a + '<=' + b + ')', '>='],
-    ['<' , lambda a, b: a < b , lambda a, b: '(' + a + '<'  + b + ')', '>' ],
-    ['>=', lambda a, b: a >= b, lambda a, b: '(' + a + '>=' + b + ')', '<='],
-    ['>' , lambda a, b: a > b , lambda a, b: '(' + a + '>'  + b + ')', '<' ],
-    ['=' , lambda a, b: a == b, lambda a, b: '(' + a + '==' + b + ')', '=' ],
-    ['~' ,
-     lambda a, b: b in a,
-     lambda a, b: '(' + a + '.indexOf('+b+')!=-1)',
-     None
-     ],
-    [''  ,
-     lambda a, b: a.startswith(b),
-     lambda a, b: '(' + a + '.substr(0,' + b + '.length)==' + b + ')',
-     None
-     ],
-    ]
 
+def LE(a, b): return a <= b
+def LE_str(a, b): return '(' + a + '<=' + b + ')'
+def LT(a, b): return a < b
+def LT_str(a, b): return '(' + a + '<' + b + ')'
+def GE(a, b): return a >= b
+def GE_str(a, b): return '(' + a + '>=' + b + ')'
+def GT(a, b): return a > b
+def GT_str(a, b): return '(' + a + '>' + b + ')'
+def EQ(a, b): return a == b
+def EQ_str(a, b): return '(' + a + '==' + b + ')'
+def TILDE(a, b): return b in a
+def TILDE_str(a, b): return '(' + a + '.indexOf(' + b + ') != -1)'
+def START(a, b): return a.startswith(b)
+def START_str(a, b): return '(' + a + '.substr(0,' + b + '.length)==' + b + ')'
+
+
+filterOperators = [
+    ['<=', LE, LE_str, '>='],
+    ['<' , LT, LT_str, '>' ],
+    ['>=', GE, GE_str, '<='],
+    ['>' , GT, GT_str, '<' ],
+    ['=' , EQ, EQ_str, '=' ],
+    ['~' , TILDE, TILDE_str, None],
+    [''  , START, START_str, None],
+    ]
 filterAttributes = {'@': 'author',
                     '#': 'comment',
                     ':': 'history',
                     '?': 'date'}
 
-class Filter(object):
-    """Parse the filter to create a list of nodes"""
+class Filter:
+    # Parse the filter to create a list of nodes
     def __init__(self, string, username, column_type):
         if string == '':
             self.filters = [('', FilterTrue())]
@@ -425,18 +354,18 @@ class Filter(object):
             node = FilterNegate(node)
         return node, string[i:]
 
-    def eval(self, cell):
+    def evaluate(self, cell):
         for f in self.filters:
             if f[0] == '':
-                result = f[1].eval(cell)
+                result = f[1].evaluate(cell)
             elif f[0] == '&':
-                result = result and f[1].eval(cell)
+                result = result and f[1].evaluate(cell)
             else:
-                result = result or f[1].eval(cell)
+                result = result or f[1].evaluate(cell)
 
         if debug:
             error = False
-            if not python_mode:
+            if not python_mode: # not python_mode:
                 error = "Can not compile js: " + self.js()
                 js = self.compiled_js()
                 error = "Can not evaluate compiled filter: " + js
@@ -444,11 +373,12 @@ class Filter(object):
                 if value == result:
                     error = False
                 else:
-                    error = (u"Unexpected value: «" + value
-                             + u'» in place of «' + result
-                             + u'» for:\n\tcell: ' + cell.js()
-                             + '\n\tjs: ' + js + u'»')
+                    error = ("Unexpected value: '" + value
+                             + "' in place of '" + result
+                             + "' for:\n\tcell: " + cell.js()
+                             + '\n\tjs: ' + js + "'")
             if error:
+                print(error)
                 raise ValueError(error)
 
         return result

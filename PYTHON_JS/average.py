@@ -21,17 +21,8 @@
 """
 """
 
-if python_mode:
-    rint = round
-    isNaN = __import__("math").isnan
-    ceil = __import__("math").ceil
-else:
-    rint = Math.round
-    ceil = Math.ceil
-
 def compute_average(data_col, line):
     column = columns[data_col]
-
     if len(column.average_columns) == 0:
         line[data_col] = line[data_col].set_value('')
         return
@@ -42,7 +33,6 @@ def compute_average(data_col, line):
     nr_abi = 0
     values = []
     line[data_col] = line[data_col].set_value(nan)
-
     for data_column in column.average_columns:
         value = line[data_column].value
         origin = columns[data_column]

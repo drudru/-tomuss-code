@@ -19,37 +19,33 @@
 # Contact: Thierry.EXCOFFIER@univ-lyon1.fr
 
 def average_regtest():
-
-    global columns
-
-    for infos in (
-            (((11.5, 0.5), (0, 0.5), (0, 1), (1, 1)), 2.5, 0.5),
-            (((9, 15), (16.5, 15), (13, 15), (12.5, 15), (11.5, 20), (5, 20)),
-              10.9, 0.1),
-            (((16, 6), (12, 6), (9.5, 3), (10, 3), (12, 3), (11, 3), (7, 8),
-              (4, 8)), 9.588, 0.001),
-            ):
+    for infos in [
+            [[(11.5, 0.5), (0, 0.5), (0, 1), (1, 1)], 2.5, 0.5],
+            [[(9, 15), (16.5, 15), (13, 15), (12.5, 15), (11.5, 20), (5, 20)],
+              10.9, 0.1],
+            [[(16, 6), (12, 6), (9.5, 3), (10, 3), (12, 3), (11, 3), (7, 8),
+              (4, 8)], 9.588, 0.001],
+            ]:
         value_and_weights, result, rounding = infos
-        columns = [Column(real_weight=value_weight[1])
+        columns_set([Column({'real_weight':value_weight[1]})
                    for value_weight in value_and_weights
-                   ]
-        columns.append(Column(average_columns=range(len(value_and_weights)),
-                              round_by = rounding))
+                   ])
+        columns.append(Column({'average_columns':range(len(value_and_weights)),
+                               'round_by': rounding}))
         line = [Cell(value_weight[0])
                 for value_weight in value_and_weights
             ]
         line.append(CE(result))
         check_result(line, len(value_and_weights), compute_average)
-
-    columns = [Column(), Column(), Column(),
-               Column(average_columns = [0, 1, 2]),
-               Column(average_columns = [0, 1, 2], best_of=-1),
-               Column(average_columns = [0, 1, 2], mean_of=-1),
-               Column(real_weight = 3, min=-40, max=-20),
-               Column(average_columns = [5, 6]),
-               Column(real_weight_add = False, real_weight = -0.1),
-               Column(average_columns = [5, 8]),
-               ]
+    columns_set([Column(), Column(), Column(),
+                 Column({"average_columns":[0, 1, 2]}),
+               Column({"average_columns":[0, 1, 2], "best_of":-1}),
+               Column({"average_columns":[0, 1, 2], "mean_of":-1}),
+               Column({"real_weight":3, "min":-40, "max":-20}),
+               Column({"average_columns":[5, 6]}),
+               Column({"real_weight_add":False, "real_weight":-0.1}),
+               Column({"average_columns":[5, 8]}),
+               ])
     g = Cell(-30)
     C = CE
     for line in [
@@ -72,159 +68,159 @@ def average_regtest():
         check_result(line, 7, compute_average)
         check_result(line, 9, compute_average)
 
-    for value, expect in (
-        (1.22, (2, 1, 1.2, 1.2)),
-        (1.27, (2, 1, 1.2, 1.3)),
-        (1.31, (2, 1, 1.4, 1.3)),
-        (-.24, (0, 0, -0.2, -0.2)),
-        (-.69, (0,-1, -0.6, -0.7)),
-        ):
+    for value, expect in [
+            [1.22, [2, 1, 1.2, 1.2]],
+            [1.27, [2, 1, 1.2, 1.3]],
+            [1.31, [2, 1, 1.4, 1.3]],
+            [-.24, [0, 0, -0.2, -0.2]],
+            [-.69, [0,-1, -0.6, -0.7]],
+        ]:
         for i in range(len(expect)):
-            round_by = (2, 1, 0.2, 0.1)[i]
+            round_by = [2, 1, 0.2, 0.1][i]
             exp = expect[i]
-            columns = [Column(),
-                       Column(average_columns = [0], round_by = round_by)
-                       ]
+            columns_set([Column(),
+                         Column({'average_columns':[0], 'round_by':round_by})
+                       ])
             check_result([Cell(value), C(exp)], 1, compute_average)
-    
-    columns = [Column(real_weight_add = False, empty_is=abi),
-               Column(real_weight_add = False),
-               Column(average_columns = [0,1])]
-    for v1, v2, expect in (
-        (1  , 1  , 2  ),
-        (abi, 1  , 1  ),
-        (abi, abi, abi),
-        (abi, 0  , 0  ),
-        ('' , abi, abi),
-        (abj, 1  , nan),
-        (ppn, 1  , nan),
-        (abj, 0  , nan),
-        (abj, abj, abj),
-        (abi, tnr, abi),
-        (1  , abi, 1  ),
-        ):
+
+    columns_set([Column({"real_weight_add":False, "empty_is":abi}),
+                 Column({"real_weight_add":False}),
+                 Column({'average_columns':[0,1]})])
+    for v1, v2, expect in [
+        [1  , 1  , 2  ],
+        [abi, 1  , 1  ],
+        [abi, abi, abi],
+        [abi, 0  , 0  ],
+        ['' , abi, abi],
+        [abj, 1  , nan],
+        [ppn, 1  , nan],
+        [abj, 0  , nan],
+        [abj, abj, abj],
+        [abi, tnr, abi],
+        [1  , abi, 1  ],
+        ]:
         check_result([Cell(v1), Cell(v2), C(expect)], 2, compute_average)
 
-    columns = [Column(), Column(), Column(),
-               Column(average_columns = [0,1,2]),
-               Column(average_columns = [0,1,2], best_of=-1),
-               Column(average_columns = [0,1,2], mean_of=-1),
-               Column(average_columns = [0,1,2], best_of=-1, mean_of=-1),
-               Column(real_weight=1, real_weight_add=False),
-               Column(average_columns = [0,1,2,7]),
-               Column(real_weight=1, real_weight_add=False),
-               Column(average_columns = [0,1,2,9]),
-               Column(real_weight_add=False),
-               Column(real_weight_add=False),
-               Column(real_weight_add=False),
-               Column(average_columns = [11,12,13]),
-               ]            
+    columns_set([Column(), Column(), Column(),
+                 Column( {"average_columns":[0,1,2]}),
+               Column( {"average_columns":[0,1,2], "best_of":-1}),
+               Column( {"average_columns":[0,1,2], "mean_of":-1}),
+               Column( {"average_columns":[0,1,2], "best_of":-1, "mean_of":-1}),
+               Column( {"real_weight":1, "real_weight_add":False}),
+               Column( {"average_columns":[0,1,2,7]}),
+               Column( {"real_weight":1, "real_weight_add":False}),
+               Column( {"average_columns":[0,1,2,9]}),
+               Column( {"real_weight_add":False}),
+               Column( {"real_weight_add":False}),
+               Column( {"real_weight_add":False}),
+               Column( {"average_columns":[11,12,13]}),
+               ])
         
-    for cells, value, v_best, v_mean, v_best_mean, v_p1, v_m1, v_sum in (
-((abi, abi, abi), abi, abi, abi, abi, abi, abi, abi),
-((abi, abi, abj),   0,   0,   0, nan,   1,  -1, nan),
-((abi, abi, ppn),   0,   0,   0, nan,   1,  -1, nan),
-((abi, abi, tnr), abi, abi, abi, abi, abi, abi, abi),
-((abi, abj, abj),   0, nan, nan, nan,   1,  -1, nan),
-((abi, abj, ppn),   0, nan, nan, nan,   1,  -1, nan),
-((abi, abj, tnr),   0,   0,   0, nan,   1,  -1, nan),
-((abi, ppn, ppn),   0, nan, nan, nan,   1,  -1, nan),
-((abi, ppn, tnr),   0,   0,   0, nan,   1,  -1, nan),
-((abi, tnr, tnr), abi, abi, abi, abi, abi, abi, abi),
-((abj, abj, abj), abj, nan, nan, nan, abj, abj, abj),
-((abj, abj, ppn), ppn, nan, nan, nan, ppn, ppn, nan),
-((abj, abj, tnr),   0, nan, nan, nan,   1,  -1, nan),
-((abj, ppn, ppn), ppn, nan, nan, nan, ppn, ppn, nan),
-((abj, ppn, tnr),   0, nan, nan, nan,   1,  -1, nan),
-((abj, tnr, tnr),   0,   0,   0, nan,   1,  -1, nan),
-((ppn, ppn, ppn), ppn, nan, nan, nan, ppn, ppn, nan),
-((ppn, ppn, tnr),   0, nan, nan, nan,   1,  -1, nan),
-((ppn, tnr, tnr),   0,   0,   0, nan,   1,  -1, nan),
-((tnr, tnr, tnr), abi, abi, abi, abi, abi, abi, abi),
-((  0, abi, abi),   0,   0,   0,   0,   1,  -1,   0),
-((  0, abi, abj),   0,   0,   0, nan,   1,  -1, nan),
-((  0, abi, ppn),   0,   0,   0, nan,   1,  -1, nan),
-((  0, abi, tnr),   0,   0,   0,   0,   1,  -1,   0),
-((  0, abj, abj),   0, nan, nan, nan,   1,  -1, nan),
-((  0, abj, ppn),   0, nan, nan, nan,   1,  -1, nan),
-((  0, abj, tnr),   0,   0,   0, nan,   1,  -1, nan),
-((  0, ppn, ppn),   0, nan, nan, nan,   1,  -1, nan),
-((  0, ppn, tnr),   0,   0,   0, nan,   1,  -1, nan),
-((  0, tnr, tnr),   0,   0,   0,   0,   1,  -1,   0),
-((  0,   0, abi),   0,   0,   0,   0,   1,  -1,   0),
-((  0,   0, abj),   0,   0,   0, nan,   1,  -1, nan),
-((  0,   0, ppn),   0,   0,   0, nan,   1,  -1, nan),
-((  0,   0, tnr),   0,   0,   0,   0,   1,  -1,   0),
-((  0,   0,   0),   0,   0,   0,   0,   1,  -1,   0),
-((  0,   0,  12),   4,   0,   6,   0,   5,   3,  12),
-((  0,   0, nan), nan, nan, nan, nan, nan, nan, nan),
-((  0,  12, abi),   4,   0,   6,   0,   5,   3,  12),
-((  0,  12, abj),   6,   0,  12, nan,   7,   5, nan),
-((  0,  12, ppn),   6,   0,  12, nan,   7,   5, nan),
-((  0,  12, tnr),   4,   0,   6,   0,   5,   3,  12),
-((  0,  12,  12),   8,   6,  12,  12,   9,   7,  24),
-((  0,  12, nan), nan, nan, nan, nan, nan, nan, nan),
-((  0, nan, abi), nan, nan, nan, nan, nan, nan, nan),
-((  0, nan, abj), nan, nan, nan, nan, nan, nan, nan),
-((  0, nan, ppn), nan, nan, nan, nan, nan, nan, nan),
-((  0, nan, tnr), nan, nan, nan, nan, nan, nan, nan),
-((  0, nan,   0), nan, nan, nan, nan, nan, nan, nan),
-((  0, nan,  12), nan, nan, nan, nan, nan, nan, nan),
-((  0, nan, nan), nan, nan, nan, nan, nan, nan, nan),
-(( 12, abi, abi),   4,   0,   6,   0,   5,   3,  12),
-(( 12, abi, abj),   6,   0,  12, nan,   7,   5, nan),
-(( 12, abi, ppn),   6,   0,  12, nan,   7,   5, nan),
-(( 12, abi, tnr),   4,   0,   6,   0,   5,   3,  12),
-(( 12, abj, abj),  12, nan, nan, nan,  13,  11, nan),
-(( 12, abj, ppn),  12, nan, nan, nan,  13,  11, nan),
-(( 12, abj, tnr),   6,   0,  12, nan,   7,   5, nan),
-(( 12, ppn, ppn),  12, nan, nan, nan,  13,  11, nan),
-(( 12, ppn, tnr),   6,   0,  12, nan,   7,   5, nan),
-(( 12, tnr, tnr),   4,   0,   6,   0,   5,   3,  12),
-(( 12,  12, abi),   8,   6,  12,  12,   9,   7,  24),
-(( 12,  12, abj),  12,  12,  12, nan,  13,  11, nan),
-(( 12,  12, ppn),  12,  12,  12, nan,  13,  11, nan),
-(( 12,  12, tnr),   8,   6,  12,  12,   9,   7,  24),
-(( 12,  12,  12),  12,  12,  12,  12,  13,  11,  36),
-(( 12,  12, nan), nan, nan, nan, nan, nan, nan, nan),
-(( 12, nan, abi), nan, nan, nan, nan, nan, nan, nan),
-(( 12, nan, abj), nan, nan, nan, nan, nan, nan, nan),
-(( 12, nan, ppn), nan, nan, nan, nan, nan, nan, nan),
-(( 12, nan, tnr), nan, nan, nan, nan, nan, nan, nan),
-(( 12, nan,   0), nan, nan, nan, nan, nan, nan, nan),
-(( 12, nan,  12), nan, nan, nan, nan, nan, nan, nan),
-(( 12, nan, nan), nan, nan, nan, nan, nan, nan, nan),
-((nan, abi, abi), nan, nan, nan, nan, nan, nan, nan),
-((nan, abi, abj), nan, nan, nan, nan, nan, nan, nan),
-((nan, abi, ppn), nan, nan, nan, nan, nan, nan, nan),
-((nan, abi, tnr), nan, nan, nan, nan, nan, nan, nan),
-((nan, abj, abj), nan, nan, nan, nan, nan, nan, nan),
-((nan, abj, ppn), nan, nan, nan, nan, nan, nan, nan),
-((nan, abj, tnr), nan, nan, nan, nan, nan, nan, nan),
-((nan, ppn, ppn), nan, nan, nan, nan, nan, nan, nan),
-((nan, ppn, tnr), nan, nan, nan, nan, nan, nan, nan),
-((nan, tnr, tnr), nan, nan, nan, nan, nan, nan, nan),
-((nan,   0, abi), nan, nan, nan, nan, nan, nan, nan),
-((nan,   0, abj), nan, nan, nan, nan, nan, nan, nan),
-((nan,   0, ppn), nan, nan, nan, nan, nan, nan, nan),
-((nan,   0, tnr), nan, nan, nan, nan, nan, nan, nan),
-((nan,   0,   0), nan, nan, nan, nan, nan, nan, nan),
-((nan,   0,  12), nan, nan, nan, nan, nan, nan, nan),
-((nan,   0, nan), nan, nan, nan, nan, nan, nan, nan),
-((nan,  12, abi), nan, nan, nan, nan, nan, nan, nan),
-((nan,  12, abj), nan, nan, nan, nan, nan, nan, nan),
-((nan,  12, ppn), nan, nan, nan, nan, nan, nan, nan),
-((nan,  12, tnr), nan, nan, nan, nan, nan, nan, nan),
-((nan,  12,  12), nan, nan, nan, nan, nan, nan, nan),
-((nan,  12, nan), nan, nan, nan, nan, nan, nan, nan),
-((nan, nan, abi), nan, nan, nan, nan, nan, nan, nan),
-((nan, nan, abj), nan, nan, nan, nan, nan, nan, nan),
-((nan, nan, ppn), nan, nan, nan, nan, nan, nan, nan),
-((nan, nan, tnr), nan, nan, nan, nan, nan, nan, nan),
-((nan, nan,   0), nan, nan, nan, nan, nan, nan, nan),
-((nan, nan,  12), nan, nan, nan, nan, nan, nan, nan),
-((nan, nan, nan), nan, nan, nan, nan, nan, nan, nan),
-        ):
+    for cells, value, v_best, v_mean, v_best_mean, v_p1, v_m1, v_sum in [
+[[abi, abi, abi], abi, abi, abi, abi, abi, abi, abi],
+[[abi, abi, abj],   0,   0,   0, nan,   1,  -1, nan],
+[[abi, abi, ppn],   0,   0,   0, nan,   1,  -1, nan],
+[[abi, abi, tnr], abi, abi, abi, abi, abi, abi, abi],
+[[abi, abj, abj],   0, nan, nan, nan,   1,  -1, nan],
+[[abi, abj, ppn],   0, nan, nan, nan,   1,  -1, nan],
+[[abi, abj, tnr],   0,   0,   0, nan,   1,  -1, nan],
+[[abi, ppn, ppn],   0, nan, nan, nan,   1,  -1, nan],
+[[abi, ppn, tnr],   0,   0,   0, nan,   1,  -1, nan],
+[[abi, tnr, tnr], abi, abi, abi, abi, abi, abi, abi],
+[[abj, abj, abj], abj, nan, nan, nan, abj, abj, abj],
+[[abj, abj, ppn], ppn, nan, nan, nan, ppn, ppn, nan],
+[[abj, abj, tnr],   0, nan, nan, nan,   1,  -1, nan],
+[[abj, ppn, ppn], ppn, nan, nan, nan, ppn, ppn, nan],
+[[abj, ppn, tnr],   0, nan, nan, nan,   1,  -1, nan],
+[[abj, tnr, tnr],   0,   0,   0, nan,   1,  -1, nan],
+[[ppn, ppn, ppn], ppn, nan, nan, nan, ppn, ppn, nan],
+[[ppn, ppn, tnr],   0, nan, nan, nan,   1,  -1, nan],
+[[ppn, tnr, tnr],   0,   0,   0, nan,   1,  -1, nan],
+[[tnr, tnr, tnr], abi, abi, abi, abi, abi, abi, abi],
+[[  0, abi, abi],   0,   0,   0,   0,   1,  -1,   0],
+[[  0, abi, abj],   0,   0,   0, nan,   1,  -1, nan],
+[[  0, abi, ppn],   0,   0,   0, nan,   1,  -1, nan],
+[[  0, abi, tnr],   0,   0,   0,   0,   1,  -1,   0],
+[[  0, abj, abj],   0, nan, nan, nan,   1,  -1, nan],
+[[  0, abj, ppn],   0, nan, nan, nan,   1,  -1, nan],
+[[  0, abj, tnr],   0,   0,   0, nan,   1,  -1, nan],
+[[  0, ppn, ppn],   0, nan, nan, nan,   1,  -1, nan],
+[[  0, ppn, tnr],   0,   0,   0, nan,   1,  -1, nan],
+[[  0, tnr, tnr],   0,   0,   0,   0,   1,  -1,   0],
+[[  0,   0, abi],   0,   0,   0,   0,   1,  -1,   0],
+[[  0,   0, abj],   0,   0,   0, nan,   1,  -1, nan],
+[[  0,   0, ppn],   0,   0,   0, nan,   1,  -1, nan],
+[[  0,   0, tnr],   0,   0,   0,   0,   1,  -1,   0],
+[[  0,   0,   0],   0,   0,   0,   0,   1,  -1,   0],
+[[  0,   0,  12],   4,   0,   6,   0,   5,   3,  12],
+[[  0,   0, nan], nan, nan, nan, nan, nan, nan, nan],
+[[  0,  12, abi],   4,   0,   6,   0,   5,   3,  12],
+[[  0,  12, abj],   6,   0,  12, nan,   7,   5, nan],
+[[  0,  12, ppn],   6,   0,  12, nan,   7,   5, nan],
+[[  0,  12, tnr],   4,   0,   6,   0,   5,   3,  12],
+[[  0,  12,  12],   8,   6,  12,  12,   9,   7,  24],
+[[  0,  12, nan], nan, nan, nan, nan, nan, nan, nan],
+[[  0, nan, abi], nan, nan, nan, nan, nan, nan, nan],
+[[  0, nan, abj], nan, nan, nan, nan, nan, nan, nan],
+[[  0, nan, ppn], nan, nan, nan, nan, nan, nan, nan],
+[[  0, nan, tnr], nan, nan, nan, nan, nan, nan, nan],
+[[  0, nan,   0], nan, nan, nan, nan, nan, nan, nan],
+[[  0, nan,  12], nan, nan, nan, nan, nan, nan, nan],
+[[  0, nan, nan], nan, nan, nan, nan, nan, nan, nan],
+[[ 12, abi, abi],   4,   0,   6,   0,   5,   3,  12],
+[[ 12, abi, abj],   6,   0,  12, nan,   7,   5, nan],
+[[ 12, abi, ppn],   6,   0,  12, nan,   7,   5, nan],
+[[ 12, abi, tnr],   4,   0,   6,   0,   5,   3,  12],
+[[ 12, abj, abj],  12, nan, nan, nan,  13,  11, nan],
+[[ 12, abj, ppn],  12, nan, nan, nan,  13,  11, nan],
+[[ 12, abj, tnr],   6,   0,  12, nan,   7,   5, nan],
+[[ 12, ppn, ppn],  12, nan, nan, nan,  13,  11, nan],
+[[ 12, ppn, tnr],   6,   0,  12, nan,   7,   5, nan],
+[[ 12, tnr, tnr],   4,   0,   6,   0,   5,   3,  12],
+[[ 12,  12, abi],   8,   6,  12,  12,   9,   7,  24],
+[[ 12,  12, abj],  12,  12,  12, nan,  13,  11, nan],
+[[ 12,  12, ppn],  12,  12,  12, nan,  13,  11, nan],
+[[ 12,  12, tnr],   8,   6,  12,  12,   9,   7,  24],
+[[ 12,  12,  12],  12,  12,  12,  12,  13,  11,  36],
+[[ 12,  12, nan], nan, nan, nan, nan, nan, nan, nan],
+[[ 12, nan, abi], nan, nan, nan, nan, nan, nan, nan],
+[[ 12, nan, abj], nan, nan, nan, nan, nan, nan, nan],
+[[ 12, nan, ppn], nan, nan, nan, nan, nan, nan, nan],
+[[ 12, nan, tnr], nan, nan, nan, nan, nan, nan, nan],
+[[ 12, nan,   0], nan, nan, nan, nan, nan, nan, nan],
+[[ 12, nan,  12], nan, nan, nan, nan, nan, nan, nan],
+[[ 12, nan, nan], nan, nan, nan, nan, nan, nan, nan],
+[[nan, abi, abi], nan, nan, nan, nan, nan, nan, nan],
+[[nan, abi, abj], nan, nan, nan, nan, nan, nan, nan],
+[[nan, abi, ppn], nan, nan, nan, nan, nan, nan, nan],
+[[nan, abi, tnr], nan, nan, nan, nan, nan, nan, nan],
+[[nan, abj, abj], nan, nan, nan, nan, nan, nan, nan],
+[[nan, abj, ppn], nan, nan, nan, nan, nan, nan, nan],
+[[nan, abj, tnr], nan, nan, nan, nan, nan, nan, nan],
+[[nan, ppn, ppn], nan, nan, nan, nan, nan, nan, nan],
+[[nan, ppn, tnr], nan, nan, nan, nan, nan, nan, nan],
+[[nan, tnr, tnr], nan, nan, nan, nan, nan, nan, nan],
+[[nan,   0, abi], nan, nan, nan, nan, nan, nan, nan],
+[[nan,   0, abj], nan, nan, nan, nan, nan, nan, nan],
+[[nan,   0, ppn], nan, nan, nan, nan, nan, nan, nan],
+[[nan,   0, tnr], nan, nan, nan, nan, nan, nan, nan],
+[[nan,   0,   0], nan, nan, nan, nan, nan, nan, nan],
+[[nan,   0,  12], nan, nan, nan, nan, nan, nan, nan],
+[[nan,   0, nan], nan, nan, nan, nan, nan, nan, nan],
+[[nan,  12, abi], nan, nan, nan, nan, nan, nan, nan],
+[[nan,  12, abj], nan, nan, nan, nan, nan, nan, nan],
+[[nan,  12, ppn], nan, nan, nan, nan, nan, nan, nan],
+[[nan,  12, tnr], nan, nan, nan, nan, nan, nan, nan],
+[[nan,  12,  12], nan, nan, nan, nan, nan, nan, nan],
+[[nan,  12, nan], nan, nan, nan, nan, nan, nan, nan],
+[[nan, nan, abi], nan, nan, nan, nan, nan, nan, nan],
+[[nan, nan, abj], nan, nan, nan, nan, nan, nan, nan],
+[[nan, nan, ppn], nan, nan, nan, nan, nan, nan, nan],
+[[nan, nan, tnr], nan, nan, nan, nan, nan, nan, nan],
+[[nan, nan,   0], nan, nan, nan, nan, nan, nan, nan],
+[[nan, nan,  12], nan, nan, nan, nan, nan, nan, nan],
+[[nan, nan, nan], nan, nan, nan, nan, nan, nan, nan],
+        ]:
         line = [Cell(cells[0]), Cell(cells[1]), Cell(cells[2]),
                 C(value), C(v_best), C(v_mean), C(v_best_mean),
                 Cell(1), C(v_p1), Cell(-1), C(v_m1),
@@ -241,18 +237,21 @@ def average_regtest():
             return [[values[0]]]
         result = []
         for i in range(len(values)):
-            for v in combinations(values[:i] + values[i+1:]):
+            tous_sauf_i = values[:i]
+            for j in values[i+1:]:
+                tous_sauf_i.append(j)
+            for v in combinations(tous_sauf_i):
                 v.append(values[i])
                 result.append(v)
         return result
-    columns = [Column(), Column(), Column(), Column(), Column(), Column(),
-               Column(average_columns = [0, 1, 2, 3, 4 ,5],
-                      mean_of=-3),
-               ]
-    for i in combinations((3, abi, abj, tnr, ppn, 2)):
+    columns_set([Column(), Column(), Column(), Column(), Column(), Column(),
+               Column({"average_columns":[0, 1, 2, 3, 4 ,5],
+                       "mean_of":-3}),
+               ])
+    for i in combinations([3, abi, abj, tnr, ppn, 2]):
         check_result([Cell(i[0]), Cell(i[1]), Cell(i[2]), Cell(i[3]),
                       Cell(i[4]), Cell(i[5]), C(3)], 6, compute_average)
 
-    print 'Average regtest are fine'
+    print('Average regtest are fine')
 
 average_regtest()

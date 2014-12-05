@@ -20,6 +20,9 @@
 
 debug = False # It is set to True by filter_regtest.py
 
+year_month_day = None
+current_seconds = None
+
 try:
     #WITHJAVASCRIPT#
     pythonjs.configure(javascript=True)
@@ -28,6 +31,4 @@ try:
     pass
 except:
     pass
-
-python_mode = hasattr("", 'translate')
 

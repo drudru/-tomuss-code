@@ -411,7 +411,7 @@ class Table(object):
                 column.round_by = float(column.rounding)
             column.nmbr_filter = tomuss_python.Filter(column.test_filter,
                                                       '',
-                                                      column.type.name).eval
+                                                      column.type.name).evaluate
             if column.is_computed():
                 try:
                     column.average_columns = [
@@ -597,7 +597,7 @@ class Table(object):
     @utilities.add_a_method_cache
     def cell_writable_filter(self, filter_user_type):
         from .PYTHON_JS import tomuss_python
-        return tomuss_python.Filter(*filter_user_type).eval
+        return tomuss_python.Filter(*filter_user_type).evaluate
 
     def authorized(self, user_name, value, column=None):
         # Authorized because the test have yet be done in the past

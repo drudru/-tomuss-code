@@ -29,9 +29,9 @@ def compute_max_real(data_col, line):
     for data_column in column.average_columns:
         val = line[data_column].value
         col =  columns[data_column]
-        if val == '':
+        if str(val) == '':
             val = col.empty_is
-        if val == '':
+        if str(val) == '':
             return
         value = to_float_or_nan(val)
         if isNaN(value):

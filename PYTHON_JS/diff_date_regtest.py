@@ -18,22 +18,19 @@
 #
 # Contact: Thierry.EXCOFFIER@univ-lyon1.fr
 
-columns = []
-
 def diff_date_regtest():
-    global columns
-    columns = [Column(), Column(), Column(average_columns = [0, 1])]
-    for values in (
+    columns_set([Column(), Column(), Column({"average_columns":[0, 1]})])
+    for values in [
             ('5/1/2014', '6/1/2014', 1),
             ('6/1/2014', '5/1/2014', -1),
             ('6/1', '6/2', 31),
             ('1', '2', 1),
             ('1j', '2j', -1),
             ('', '', 0),
-            ):
+            ]:
         line = [Cell(values[0]), Cell(values[1]), CE(values[2])]
         check_result(line, 2, compute_diff_date)
         
-    print 'Diff_date regtest are fine'
+    print('Diff_date regtest are fine')
 
 diff_date_regtest()

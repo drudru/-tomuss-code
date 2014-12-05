@@ -39,7 +39,7 @@ def compute_diff_date(data_col, line):
     for dc in column.average_columns:
         value = line[dc].value
         col = columns[dc]
-        if value == '':
+        if str(value) == '':
             value = col.empty_is
         values.append(date_to_seconds(user_date_to_date(value)))
 

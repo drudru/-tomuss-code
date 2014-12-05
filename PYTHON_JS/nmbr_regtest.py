@@ -18,33 +18,27 @@
 #
 # Contact: Thierry.EXCOFFIER@univ-lyon1.fr
 
-columns = []
-
-if python_mode:
-    C = Cell
-
 def nmbr_regtest():
-    global columns
-    line = [Cell(5, author="john"), Cell('foo', comment="C1"),
-            Cell('', date="20140101121212"), CE(0)]
-    for filter, result in (
-            ('>3', 1),
-            ('>1', 2),
-            ('=', 0),
-            ('>1 <5', 1),
-            ('#', 1),
-            ('#d', 0),
-            ('#c', 1),
-            ('=5 | #=C1 | ?=01/01/2014', 3),
-            ):
-        columns = [Column(), Column(), Column(empty_is=2),
-                   Column(average_columns = [0, 1, 2],
-                          test_filter=filter
+    line = [Cell(5, "john"), Cell('foo', "", "", "C1"),
+            Cell('', '', "20140101121212"), CE(0)]
+    for filter, result in [
+            ['>3', 1],
+            ['>1', 2],
+            ['=', 0],
+            ['>1 <5', 1],
+            ['#', 1],
+            ['#d', 0],
+            ['#c', 1],
+            ['=5 | #=C1 | ?=01/01/2014', 3],
+            ]:
+        columns_set([Column(), Column(), Column({'empty_is':2}),
+                   Column({"average_columns":[0, 1, 2],
+                          'test_filter':filter}
                       ),
-               ]
+               ])
         line[3].expected = result
         check_result(line, 3, compute_nmbr)
         
-    print 'Nmbr regtest are fine'
+    print('Nmbr regtest are fine')
 
 nmbr_regtest()

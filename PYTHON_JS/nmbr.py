@@ -26,7 +26,7 @@ def compute_nmbr(data_col, line):
     nr = 0
     for dc in column.average_columns:
         cell = line[dc]
-        if cell.value == '':
+        if str(cell.value) == '':
             col = columns[dc]
             cell = C(col.empty_is, cell.author, cell.date,
                      cell.comment, cell.history)
