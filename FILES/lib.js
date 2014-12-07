@@ -4868,7 +4868,7 @@ function javascript_regtest_ue()
       if ( col_type == 'Nmbr' )
 	{
 	  set(t_column_columns, 'Saisie Note AttendueNote Moy AttendueMoy') ;
-	  set(t_column_test_filter, '>1 ou =i ou ~u') ;
+	  set(t_column_test_filter, '>1 | =i | ~u') ;
 	}
 
       the_current_cell.cursor_right() ;
@@ -4888,9 +4888,9 @@ function javascript_regtest_ue()
   fill_col(inputs, notes, 'p%20n%27est%20pas%20une%20note%20valide%20car%20non%20dans%20l%27intervalle%20%5B0%3B20%5D%0AI%28ABINJ%29%2C%20J%28ABJUS%29%2C%20N%28PPNOT%29%2C%20T%28TNR%29<hr>o%20n%27est%20pas%20une%20note%20valide%20car%20non%20dans%20l%27intervalle%20%5B0%3B20%5D%0AI%28ABINJ%29%2C%20J%28ABJUS%29%2C%20N%28PPNOT%29%2C%20T%28TNR%29<hr>4/3/2008%20n%27est%20pas%20une%20note%20valide%20car%20non%20dans%20l%27intervalle%20%5B0%3B20%5D%0AI%28ABINJ%29%2C%20J%28ABJUS%29%2C%20N%28PPNOT%29%2C%20T%28TNR%29<hr>3/4/8%20n%27est%20pas%20une%20note%20valide%20car%20non%20dans%20l%27intervalle%20%5B0%3B20%5D%0AI%28ABINJ%29%2C%20J%28ABJUS%29%2C%20N%28PPNOT%29%2C%20T%28TNR%29<hr>12/12/99%20n%27est%20pas%20une%20note%20valide%20car%20non%20dans%20l%27intervalle%20%5B0%3B20%5D%0AI%28ABINJ%29%2C%20J%28ABJUS%29%2C%20N%28PPNOT%29%2C%20T%28TNR%29<hr>');
   fill_col(notes, undefined, '');
   var non_modifiable = 'R%E9sultat%20de%20calcul%20non%20modifiable<hr>R%E9sultat%20de%20calcul%20non%20modifiable<hr>R%E9sultat%20de%20calcul%20non%20modifiable<hr>R%E9sultat%20de%20calcul%20non%20modifiable<hr>R%E9sultat%20de%20calcul%20non%20modifiable<hr>R%E9sultat%20de%20calcul%20non%20modifiable<hr>R%E9sultat%20de%20calcul%20non%20modifiable<hr>R%E9sultat%20de%20calcul%20non%20modifiable<hr>R%E9sultat%20de%20calcul%20non%20modifiable<hr>R%E9sultat%20de%20calcul%20non%20modifiable<hr>R%E9sultat%20de%20calcul%20non%20modifiable<hr>R%E9sultat%20de%20calcul%20non%20modifiable<hr>' ;
-  fill_col(nmbr, moys, non_modifiable);
+  fill_col(nmbr, moys, '' /*non_modifiable*/ );
   fill_col(moys, undefined, '');
-  fill_col(inputs, nmbr, non_modifiable);
+  fill_col(inputs, nmbr, '' /*non_modifiable*/ );
   fill_col(nmbr, undefined, '');
   fill_col(inputs, boole, '');
   fill_col(boole, undefined, '');
