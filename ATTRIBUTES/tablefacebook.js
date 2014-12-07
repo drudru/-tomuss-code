@@ -142,7 +142,7 @@ function phone_facebook()
 	}
       }
       more += '</div>' ;
-      t.append(facebook_picture(line, more)) ;
+      t.push(facebook_picture(line, more)) ;
     }
 
   create_popup('phone_facebook',
