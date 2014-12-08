@@ -381,7 +381,7 @@ function DisplayMails(node)
     ref = '' ;
 
   return '<a href="mailto:?to='
-    + encode_uri(node.data.join(',') + ref
+    + escape(node.data.join(',') + ref
 		 + '&subject=' + display_data['Login'] + ' '
 		 + display_data['Names'][0] + ' ' + display_data['Names'][1])
     + '">'
