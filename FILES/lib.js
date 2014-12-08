@@ -3191,6 +3191,8 @@ Connection.prototype.check_if_server_is_alive = function()
   if ( millisec() - this.last_server_check < this.time_check_interval )
     return ;
   this.last_server_check = millisec() ;
+  if ( ! this.server_feedback )
+    return ;
   this.server_feedback.innerHTML = '<img src="' + url + '/status/' + millisec()
   + '" width="8" height="8" onload="connection_state.server_alive();">' ;
   this.debug("check_if_server_is_alive") ;

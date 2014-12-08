@@ -216,7 +216,8 @@ class RegTest(Authenticator):
     """
     def an_id(self, server):
         from . import ticket
-        return str(abs(hash(ticket.client_ip(server))))
+        return str(abs(hash(ticket.client_ip(server)
+                            + server.headers.get("user-agent", ''))))
     
     def login_from_ticket(self, ticket_key, dummy_service, server):
         code = ticket_key.split('-')
