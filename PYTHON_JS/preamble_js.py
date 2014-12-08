@@ -29,14 +29,12 @@ try:
     javascript
 except:
     # javascript decorator is only used by PythonJS translator
-    def javascript(x):
-        return x
+    javascript = def(x): return x
 
 try:
     str
 except:
-    def str(x):
-        return "" + x
+    str = def(x): return "" + x
 
 try:
     "".join([])
@@ -76,7 +74,7 @@ except:
 
 try:
     int(null)
-    def parseInt(txt):
+    parseInt = def(txt):
         if txt == null:
             raise ValueError()
         return Number(txt)
