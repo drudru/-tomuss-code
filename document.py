@@ -546,11 +546,10 @@ class Table(object):
 
     def remove_active_page(self, page):
         self.active_pages.remove(page)
-        page.index = getattr(page.browser_file, 'index', page.index)
         page.browser_file = None # stop a memory leak
             
     def send_update(self, page, value, store=True):
-        warn('actives: %s' % str(self.active_pages), what='table')
+        warn('%s actives: %s' % (page, str(self.active_pages)), what='table')
         if store:
             self.sent_to_browsers.append(value)
         for p in tuple(self.active_pages):
@@ -589,10 +588,10 @@ class Table(object):
                 continue
             if value is True:
                 sender.append(p.browser_file, self.content(p),
-                              index=len(self.sent_to_browsers))
+                              index=len(self.sent_to_browsers), page=p)
             else:
                 sender.append(p.browser_file, value,
-                              index=len(self.sent_to_browsers))
+                              index=len(self.sent_to_browsers), page=p)
 
     @utilities.add_a_method_cache
     def cell_writable_filter(self, filter_user_type):
@@ -1742,7 +1741,7 @@ def it_is_a_bad_request(request, page, tabl, output_file):
             output_file.close()
             sender.append(page.browser_file,
                           '<script>saved(%d);</script>\n' % request,
-                          index=len(tabl.sent_to_browsers)+1)
+                          index=len(tabl.sent_to_browsers)+1, page=page)
         except IOError:
             pass
         except:
@@ -1838,14 +1837,14 @@ def check_requests():
                 page.answer = 'bug.png'
                 real_bug = False
             try:
-                warn('Send %s(%s) %s' % (output_file, output_file.closed,
-                                         page.answer), what="table")
+                warn('Send %s(%s) %s %s' % (output_file, output_file.closed,
+                                         page.answer, page.browser_file), what="table")
                 if not output_file.closed:
                     output_file.write(files.files[page.answer])
                     output_file.close()
                 sender.append(page.browser_file,
                               '<script>saved(%d);</script>\n' % request,
-                              index=len(tabl.sent_to_browsers)+1)
+                              index=len(tabl.sent_to_browsers)+1, page=page)
                 if page.answer == 'bug.png' and real_bug:
                     sender.append(page.browser_file,
                                   '<script>Alert("ERROR_server_bug");</script>')

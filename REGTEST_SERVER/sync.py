@@ -77,6 +77,7 @@ class Reader:
         # Even the del does not make it.
         # So the 'send_alert' in the 'wait_nr_file' loop
         # Allow to wait the real close
+        self.file.fp._sock.fp._sock.shutdown(socket.SHUT_RDWR)
         self.file.fp._sock.fp._sock.close()
         self.file.close()
         del self.file
@@ -89,7 +90,7 @@ def wait_nr_file(s, nb):
         actives = x.count("<b><a")
         if actives == nb:
             break
-        time.sleep(1)
+        time.sleep(0.2)
 
 def tests(s):
     print "Start first browser: A"
@@ -101,7 +102,6 @@ def tests(s):
     b = s.url("=" + root + '/0/Public/sync')
     assert('page_id = "2"' in b)
     b_link = Reader("=" +root+ '/0/Public/sync/2/0')
-    time.sleep(1)
     wait_nr_file(s, 2)
     
     print "A create a column"
@@ -119,12 +119,12 @@ def tests(s):
                 
     a_link.want_content('SyncValue')
     b_link.close()
+    wait_nr_file(s, 1)
     
     print "A change a cell 1"
     assert(s.url("=" + root
                  + '/0/Public/sync/1/1/cell_change/col_0/line_1/SyncBroken')
            == ok_png)
-    time.sleep(1)
 
     print "B restore the link"
     b_link = Reader("=" +root+ '/0/Public/sync/2/1')

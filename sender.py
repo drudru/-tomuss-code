@@ -33,7 +33,7 @@ class File(object):
     nr_active_thread = 0
     to_send = {}
 
-    def __init__(self, f, txt, keep_open, index):
+    def __init__(self, f, txt, keep_open, index, page):
         assert(append.the_lock.locked())
         self.file = f
         File.to_send[f] = self
@@ -41,6 +41,7 @@ class File(object):
         self.keep_open = keep_open
         self.in_processing = False
         self.index = index
+        self.page = page
         
     def append(self, txt, keep_open, index):
         assert(append.the_lock.locked())
@@ -73,29 +74,19 @@ class File(object):
             append.the_lock.release()
 
         try:
-            # xxx.write('+' + txt + '\n')
-            self.file.write(txt)
+            # self.file.write does garantee data flushing
+            self.file._sock.send(txt)
 
-            if keep_open:
-                self.file.flush()
-            else:
+            if not keep_open:
                 self.file.close()
 
-            if index is not None:
-                self.file.index = index # Successfuly wrote
+            if self.page is not None:
+                self.page.index = index # Successfuly wrote
         except:
-            # Close on error
-            try:
-                if not self.file.closed:
-                    if hasattr(self.file, "_sock") and self.file._sock:
-                        self.file._sock.shutdown(socket.SHUT_RDWR)
-                        self.file._sock.close()
-                    self.file.close()
-            except socket.error:
-                try:
-                    self.file.closed = True
-                except AttributeError:
-                    pass
+            if self.page is not None:
+                class Closed:
+                    closed = True
+                self.page.browser_file = Closed()
             
             append.the_lock.acquire()            
             self.delete()
@@ -140,7 +131,7 @@ def send_thread(verbose=False):
                     f.file, f.file.closed))
 
 @utilities.add_a_lock
-def append(f, txt, keep_open=True, index=None):
+def append(f, txt, keep_open=True, index=None, page=None):
     # if not txt.startswith('GIF'): utilities.warn('%s %s %s' % (f, txt[0:20], keep_open))
     if f is None:
         utilities.warn('f is None: ' + txt)
@@ -149,7 +140,7 @@ def append(f, txt, keep_open=True, index=None):
     try:
         File.to_send[f].append(txt, keep_open, index)
     except KeyError:
-        File(f, txt, keep_open, index)
+        File(f, txt, keep_open, index, page)
 
 import re
 import os

@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 #    TOMUSS: The Online Multi User Simple Spreadsheet
-#    Copyright (C) 2008-2011 Thierry EXCOFFIER, Universite Claude Bernard
+#    Copyright (C) 2008-2014 Thierry EXCOFFIER, Universite Claude Bernard
 #
 #    This program is free software; you can redistribute it and/or modify
 #    it under the terms of the GNU General Public License as published by
@@ -48,48 +48,6 @@ var  login_list      = window.parent.login_list      ;
 var  set_updating    = window.parent.set_updating    ;
 </script>
     '''
-
-class StringFile(object):
-    """This class allows to store content before the browser asks it.
-    """
-    def __init__(self):
-        self.closed = False
-        self.real_file = None
-        self.open_time = time.time()
-        # XXX COPY/PASTE in the end of lib.js
-        self.content = [initial_content]
-    def write(self, txt):
-        self.content.append(txt)
-    def flush(self):
-        if self.real_file:
-            content = ''.join(self.content) 
-            self.content = [] # no big memory leakage
-            try:
-                self.real_file.write(content)
-                self.real_file.flush()
-            except AttributeError:
-                self.closed = True
-        else:
-            if time.time() - self.open_time > 60:
-                self.closed = True
-    def set_real_file(self, f):
-        if self.real_file is not None:
-            self.content = [initial_content]
-        self.real_file = f
-    def close(self):
-        self.flush()
-        if self.real_file:
-            self.real_file.close()
-            self.closed = True
-    def __str__(self):
-        if self.real_file:
-            rfc = self.real_file.closed
-        else:
-            rfc = '???'
-        return 'closed=%s content=%d real_file=%s RF.closed=%s' % (
-            self.closed, len(self.content), self.real_file, rfc
-            ) + ''.join(self.content)
-
 
 def extented(year, semester, ue):
     table = document.table(year, semester, ue, create=False)
@@ -141,8 +99,7 @@ def new_page(server):
     start_load = time.time()
     try:
         table, page = document.table(server.the_year, server.the_semester,
-                                     server.the_ue, None, server.ticket,
-                                     do_not_unload='new_page')
+                                     server.the_ue, None, server.ticket)
     except IOError:
         server.the_file.write(server._("TIP_violet_square"))
         server.close_connection_now()
@@ -158,7 +115,6 @@ def new_page(server):
         return
 
     if not table.on_disc:
-        table.do_not_unload_remove('new_page')
         server.the_file.write("%s/%s/%s" % (
                 server.the_year, server.the_semester, server.the_ue))
         server.the_file.write(server._("MSG_new_page_in_past"))
@@ -166,7 +122,6 @@ def new_page(server):
         return
 
     if table.is_extended:
-        table.do_not_unload_remove('new_page')
         # Take the link destination (assuming ../..) and remove the .py
         year, semester, ue = table.link_to()
         link_to = '../../%s/%s/%s' % (year, semester, ue)
@@ -203,57 +158,14 @@ def new_page(server):
                              os.path.join(server.ticket.user_name, 'pages'),
                              content = repr(d)
                              )
-    page.use_frame = True
-    page.use_linear = '=linear=' in server.options
-    if configuration.regtest_sync or page.use_linear:
-        if not configuration.regtest_bug1:
-            page.use_frame = False
-
-    warn('New page, use_frame=%d' % page.use_frame, what="table")
     # With this lock cell modification can't be lost
     # between page content creation and the page activation
-    table.lock()
-    try:
-        if True:
-            server.the_file.write(table.content(page))
-        else:
-            # simulation slow connection
-            for i in table.content(page).split('\n'):
-                server.the_file.write(i + '\n')
-                if 'P(' in i:
-                    time.sleep(0.01)
-        server.the_file.flush()
-
-        if page.use_frame:
-            table.active_page(page, StringFile())
-        else:
-            table.active_page(page, server.the_file)
-    finally:
-        # Can't be unloaded because it is active.
-        table.do_not_unload_remove('new_page')
-        table.unlock()
-    if configuration.regtest_sync:
-        # We want immediate update of navigator content
-        while sender.File.nr_active_thread or sender.File.to_send:
-            time.sleep(0.01)
-        if not configuration.regtest_bug1:
-            server.close_connection_now()
+    server.the_file.write(table.content(page))
     warn('Actives=%s do_not_unload=%s' % (
         table.active_pages, table.do_not_unload), what="table")
 
     page.start_load = start_load # For end_of_load computation
-
-    if page.use_frame:
-        server.close_connection_now()
-    else:
-        if page.use_linear:
-            table.active_pages.remove(page) # Avoid 'Canceled load' message
-            server.close_connection_now()
-            # page.browser_file.close()
-        else:
-            # XXX: I can't remember why it is here
-            time.sleep(8) # 5 seconds is too short
-
+    server.close_connection_now()
 
 plugin.Plugin('emptyname', '/{Y}/{S}/', response=307,
               headers = lambda x: (('Location', '%s/=%s' %
@@ -293,42 +205,24 @@ else
         utilities.send_backtrace('', 'Page not found')
         return
 
-    if not hasattr(page, 'use_frame'):
-        warn('Browser reconnection', what="error")
-        page.use_frame = True
+    server.the_file.write("<!-- page.index=%d page.request=%d sent_to_browser=%d browser=%s closed=%s sync=%s\n -->\n" % (
+        page.index, page.request,
+        len(table.sent_to_browsers),
+        type(page.browser_file),
+        page.browser_file and page.browser_file.closed,
+        configuration.regtest_sync ))
 
-    if not page.use_frame:
-        warn('Page not using frame (LINEAR?)', what="error")
-        server.close_connection_now()
-        return
-
-    if page.browser_file:
-        table.lock()
-        try:
-            if page.browser_file.closed:
-                # The page was not closed by the document thread
-                table.remove_active_page(page)
-        finally:
-            table.unlock()
-    
-    if isinstance(page.browser_file, StringFile):
-        warn('ok', what="info")
-        page.browser_file.set_real_file(server.the_file)
-        sender.append(page.browser_file, str(page.page_id) ) # Flush data
+    server.the_file.write(initial_content)
+    if page.index is not None and page.index > 0:
+        server.the_file.write(''.join(table.sent_to_browsers[page.index-1:]))
     else:
-        warn('Browser reconnection index=%s' % page.index, what='Info')
-        if page.browser_file is None:
-             page.browser_file = StringFile()
-        if page.index is not None:
-            page.browser_file.write(
-                ''.join(table.sent_to_browsers[page.index-1:]))
-        page.browser_file.set_real_file(server.the_file)
-        page.browser_file.flush()
-        page.end_of_load = 0 # end_of_load will not be called
-        if configuration.regtest_sync:
-            server.close_connection_now()
-        else:
-            table.active_page(page, page.browser_file)
+        # Content sent between page loading and newpage
+        server.the_file.write(''.join(table.sent_to_browsers))
+    server.the_file.flush()
+    if configuration.regtest_sync:
+        server.close_connection_now()
+    else:
+        table.active_page(page, server.the_file)
 
 plugin.Plugin('answer_page', '/{Y}/{S}/{U}/{P}/{I}',
               function=answer_page, group='staff',

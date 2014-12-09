@@ -1445,7 +1445,7 @@ def create(table):
           os.unlink(conf + 'c')
        except:
           pass
-       ticket_ttl = 6
+       ticket_ttl = 1
        utilities.write_file_safe(conf + '.old', utilities.read_file(conf))
        utilities.append_file_safe(conf,'''
 cell_change(1,'0_2','check_down_connections_interval',2,"")
@@ -1924,13 +1924,13 @@ while True:
         except:
             shutil.rmtree('DBregtest', ignore_errors=True)
             shutil.rmtree('BACKUP_DBregtest', ignore_errors=True)
+        if ss and ss.started:
+            ss.stop()
 
         if exit_status == 0 and do('sync'):
             assert(os.system("cd REGTEST_SERVER ; ./sync.py") == 0)
             
         m.append('Running time : %g seconds' % (time.time() - start))
-        if ss and ss.started:
-            ss.stop()
         for i in m:
             print i
         if only_once:

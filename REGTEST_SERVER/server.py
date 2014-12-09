@@ -112,7 +112,11 @@ class Server(object):
                     c = ''
                     try:
                         while True:
-                            c += f.read(1)
+                            x = f.read(1)
+                            if x == '':
+                                c += '!***TIMEOUT***!'
+                                break
+                            c += x
                     except socket.timeout:
                         c += '***TIMEOUT***'
                 else:

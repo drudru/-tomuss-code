@@ -3203,7 +3203,8 @@ Connection.prototype.connection_alive = function(message)
   var before = this.connection_open ;
   this.connection_open = true ;
   this.revalidate_on_screen = false ;
-  this.connection_state.innerHTML = _('MSG_connected') ;
+  if ( this.connection_state )
+    this.connection_state.innerHTML = _('MSG_connected') ;
   this.t_authenticate.style.display = 'none' ;
   this.time_check_interval = 1000 ;
   this.server_alive(message) ;
