@@ -49,6 +49,11 @@ except:
     String.prototype.strip = String.prototype.trim
 
 try:
+    "".lstrip()
+except:
+    String.prototype.lstrip = String.prototype.trimLeft
+
+try:
     "".startswith("")
 except:
     def __startswith__(t):

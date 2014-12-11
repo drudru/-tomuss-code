@@ -281,15 +281,14 @@ class Filter:
             return
         self.filters = []
         # OR is replaced by its translation
-        string = string.replace(" " + or_keyword() + " ", " | ").strip()
+        string = string.replace(" " + or_keyword() + " ", " | ")
         mode = ''
         while string:
-            string = string.strip()
             node, string = self.parse(string, username, column_type)
             self.filters.append((mode, node))
             if len(string) and (string[0] == '|' or string[0] == '&'):
                 mode = string[0]
-                string = string[1:]
+                string = string[1:].lstrip()
             else:
                 mode = '&'
 
@@ -352,7 +351,8 @@ class Filter:
         node = FilterOperator(operator, attr, value, column_type)
         if negate:
             node = FilterNegate(node)
-        return node, string[i:]
+
+        return node, string[i:].lstrip()
 
     def evaluate(self, cell):
         for f in self.filters:

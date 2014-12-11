@@ -77,9 +77,9 @@ def filterRegtest():
                 '?>10/05/2014_17',
                 '?<5j', '?<114h', '?>4j',
                 '#=', ":",
-                '@~=', '@~\\&=', "@~\\ n", "@~H",
+                '@~=', '@~\\&=', "@~\\ n", "@~\\ ", "@~H",
                 "@~h", "@~e", "@~é", "@~ê", "@~E", "@~→/",
-                "#="
+                "#=", "=4 ", "4 "
                 ]:
         if not Filter(tst, "", "").evaluate(c):
             bug("BUG1", tst)
@@ -97,6 +97,7 @@ def filterRegtest():
                 'undefined',
                 "@~è", contextual_case_sensitive and "@~J" or 'NO',
                 "@~=/", # Test if → is lost
+                "\\ ",
                 ]:
         if Filter(tst, "", "").evaluate(c):
             bug("BUG3", tst)
