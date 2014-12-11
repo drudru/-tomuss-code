@@ -741,11 +741,11 @@ function new_new_interface()
   t.push('</div>') ;
   t.push('<div class="one_line">') ;
   t.push(column_input_attr('rounding',
-			   'before=' + _("BEFORE_column_attr_rounding")
+			   'empty before=' + _("BEFORE_column_attr_rounding")
 			   + ' beforeclass=widthleft')) ;
   t.push('&nbsp;&nbsp;') ;
   t.push(column_input_attr('groupcolumn',
-			   'before=' + _("BEFORE_column_attr_groupcolumn")
+			   'empty before=' + _("BEFORE_column_attr_groupcolumn")
 			   + '&nbsp;')) ;
   t.push('</div>') ;
   t.push('<div class="one_line">') ;
@@ -772,15 +772,15 @@ function new_new_interface()
   t.push('</div>') ;
   t.push('<div class="one_line">') ;
   t.push(column_input_attr('red', 'before=' + _("BEFORE_column_attr_red")
-			   + ' beforeclass=widthleft%20color_red')) ;
+			   + ' empty beforeclass=widthleft%20color_red')) ;
   t.push(column_input_attr('green', 'before=' + _("BEFORE_column_attr_green")
-			   + ' beforeclass=color_green')) ;
+			   + ' empty beforeclass=color_green')) ;
   t.push('</div>') ;
   t.push('<div class="one_line">') ;
   t.push(column_input_attr('redtext', 'before='+_("BEFORE_column_attr_red")
-			   + ' beforeclass=widthleft%20redtext')) ;
+			   + ' empty beforeclass=widthleft%20redtext')) ;
   t.push(column_input_attr('greentext', 'before='+_("BEFORE_column_attr_green")
-			  + ' beforeclass=greentext')) ;
+			  + ' empty beforeclass=greentext')) ;
   t.push('</div>') ;
   t.push('<div class="one_line" style="text-align:center">') ;
   t.push(hidden_txt('<img src="_FILES_/prev.gif" style="height:1em" onclick="do_move_column_left();GUI.add(\'column_position\',\'\',\'left\')">',
