@@ -22,7 +22,7 @@
 from ..column import ColumnAttr
 
 class ColumnCellWritable(ColumnAttr):
-    default_value = "= | @"
+    default_value = "= | @ | @="
     name = 'cell_writable'
     check_and_set = '''
 function(value, column)
