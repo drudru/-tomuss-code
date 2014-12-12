@@ -100,3 +100,47 @@ plugin.Plugin('tablecopy', '/{Y}/{S}/{U}/tablecopy/{*}',
               function=tablecopy, group='staff',
               mimetype = "text/plain; charset=UTF-8",
               )
+
+
+def remove_history(server):
+    """Remove the history of the table.
+    Do not call from a thread.
+
+    Beware: users with non unclosed table will have bad_allow.html answer
+    when trying to use the old table with the new one.
+    """
+    server.the_file.write('<h1>' + server._("MSG_remove_history") + '</h1>')
+    table = document.table(server.the_year, server.the_semester,
+                           server.the_ue, None, None)
+
+    if server.ticket.user_name not in table.masters:
+        server.the_file.write(server._("MSG_extension_not_master"))
+        return
+    if not table.modifiable:
+        server.the_file.write(server._("TIP_table_attr_modifiable"))
+        return
+    if len(table.active_pages) > 1:
+        server.the_file.write(server._('MSG_remove_history_open')
+                              % ('<ul>'
+                                 + ''.join('<li> %s %s' % (page.user_name,
+                                                           page.date)
+                                           for page in table.active_pages
+                                       )
+                                 + '</ul>'
+                                 )
+                              + '<br>')
+    if 'ok' in server.the_path:
+        table.unload(force=True)
+        utilities.unlink_safe(table.filename)
+        f = open(table.filename, "w")
+        f.write(table.rewrite())
+        f.close()
+        server.the_file.write(server._("MSG_tablecopy_done"))
+    else:
+        server.the_file.write('<p><a href="ok">'
+                        + server._('MSG_remove_history_confirm')
+                        + '</a>')
+
+plugin.Plugin('remove_history', '/{Y}/{S}/{U}/remove_history/{*}',
+              function=remove_history, group='staff',
+              )

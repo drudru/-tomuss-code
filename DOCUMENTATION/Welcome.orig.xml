@@ -869,9 +869,12 @@ Only one template can be applied.
     The templates may defines&nbsp;:
 </p>
     <ul>
-      <li> '<b>create</b>': How the table is initialized on creation.</li>
-      <li> '<b>init</b>': A hook called before table is loaded.</li>
-      <li> '<b>onload</b>': A hook called after table is loaded.</li>
+      <li> '<b>create</b>': How the table is initialized on creation.
+      This function must take little time</li>
+      <li> '<b>init</b>': A hook called before table is loaded.
+      This function must take little time</li>
+      <li> '<b>onload</b>': A hook called after table is loaded.
+      This function must take little time</li>
       <li> '<b>content</b>': A function returning the Javascript code
       to be appended to web page.
       </li>

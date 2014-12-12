@@ -5514,3 +5514,15 @@ msgstr "Modifiable tables that should not be"
 msgid "HELP_fix_modifiables"
 msgstr "Allow to put in readonly the old modifiable tables"
 
+msgid "MSG_remove_history"
+msgstr "Remove the modification history of this table"
+
+msgid "MSG_remove_history_open"
+msgstr "There are browsers on this table:\n"
+       "%s\n"
+       "Continuing this action will close the browser pages and may\n"
+       "trigger data loss.<br>\n"
+       "So it is not a good idea."
+
+msgid "MSG_remove_history_confirm"
+msgstr "Follow this link to confirm this action"

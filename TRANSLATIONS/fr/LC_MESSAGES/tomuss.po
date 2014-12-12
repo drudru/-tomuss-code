@@ -5628,3 +5628,16 @@ msgstr "Tables modifiable qui ne devraient pas"
 msgid "HELP_fix_modifiables"
 msgstr "Permet de remettre en lecture seulement les tables du passé."
 
+msgid "MSG_remove_history"
+msgstr "Effacer l'historique des modifications de cette table"
+
+msgid "MSG_remove_history_open"
+msgstr "Il y a des navigateurs qui utilisent cette table :\n"
+       "%s\n"
+       "Effectuer cette opération va fermer ces pages au risque\n"
+       "de perdre des données.<br>\n"
+       "C'est donc fortement déconseillé."
+
+msgid "MSG_remove_history_confirm"
+msgstr "Suivre ce lien pour confirmer cette opération."
+

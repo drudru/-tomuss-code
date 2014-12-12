@@ -155,7 +155,14 @@ function tablecopy_do(t)
     }
 }
 
-
+function remove_history()
+{
+  create_popup('import_div', '',
+	       '<iframe style="width:100%;height:20em" src="'
+	       + url + '/=' + ticket + '/' + year + '/' + semester + '/'
+	       + ue + '/remove_history/' + '"></iframe>',
+	       '', false) ;
+}
 
 function table_copy()
 {
@@ -164,7 +171,10 @@ function table_copy()
   var next_ys = next_year_semester(year, semester) ;
   var previous_ys = previous_year_semester(year, semester) ;
 
-  current = year + '<br>' + semester + '<br>' + ue ;
+  current = year + '<br>' + semester + '<br>' + ue + '<br>'
+    + '<a style="font-size:50%;font-weight:normal"'
+    + ' onclick="javascript:remove_history()'
+    + '">' + _('MSG_remove_history') + '</a>' ;
   previous_year = '<b>' + (year-1) + '</b><br>' + semester + '<br>' + ue ;
   previous = previous_ys[0] + '<br><b>' + previous_ys[1] + '</b><br>' + ue ;
   next = next_ys[0] + '<br><b>' + next_ys[1] + '</b><br>' + ue ;
