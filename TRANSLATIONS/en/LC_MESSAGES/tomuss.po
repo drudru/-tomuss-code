@@ -4135,19 +4135,10 @@ msgstr "special examination condition:"
 
 
 msgid "MSG_suivi_student_ue_changes"
-msgstr "%d modified values in %d UE"
-
-msgid "TH_suivi_student_ue"
-msgstr "Link to the table"
+msgstr "The modified tables:"
 
 msgid "TH_suivi_student_nr_grades"
-msgstr "Number<br>of grades"
-
-msgid "TH_suivi_student_first_change"
-msgstr "First change<br>the"
-
-msgid "TH_suivi_student_last_change"
-msgstr "Last change<br>the"
+msgstr "Number of values entered"
 
 msgid "MSG_suivi_student_contact_for"
 msgstr "Referent for the following students "

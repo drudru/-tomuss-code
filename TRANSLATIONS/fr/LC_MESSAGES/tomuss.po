@@ -4185,19 +4185,10 @@ msgstr "Conditions spéciales d'examen"
 
 
 msgid "MSG_suivi_student_ue_changes"
-msgstr "Il a modifié %d notes dans %d UE"
-
-msgid "TH_suivi_student_ue"
-msgstr "Lien vers l'UE"
+msgstr "Tables qui ont été modifiées :"
 
 msgid "TH_suivi_student_nr_grades"
-msgstr "Nombre<br>de notes"
-
-msgid "TH_suivi_student_first_change"
-msgstr "Première<br>modification le"
-
-msgid "TH_suivi_student_last_change"
-msgstr "Dernière<br>modification le"
+msgstr "Nombre de valeurs saisies"
 
 msgid "MSG_suivi_student_contact_for"
 msgstr "Contact/référent pédagogique pour les étudiants suivants "

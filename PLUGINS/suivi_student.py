@@ -340,6 +340,19 @@ def display_students(server):
             for student in students
             ]
 
+def display_tables(server):
+    if server.is_a_student:
+        return ''
+    tables = utilities.manage_key('LOGINS',
+                                  os.path.join(server.suivi_login,
+                                               'tables'))
+    if not tables:
+        return ''
+    return [
+        year_semester_ue + (n,)
+        for year_semester_ue, n in eval(tables).items()
+    ]
+
 def display_preferences_get(login):
     prefs = utilities.manage_key('LOGINS', os.path.join(login, 'preferences'))
     if prefs:
@@ -401,6 +414,7 @@ D('ReferentNP'  , 'BodyLeft'  ,2, js='Horizontal',data=display_referent_notepad)
 D('LastGrades'  , 'BodyLeft'  ,3)
 D('Grades'      , 'BodyLeft'  ,4, data=display_grades)
 D('Students'    , 'BodyLeft'  ,5, data=display_students)
+D('Tables'      , 'BodyLeft'  ,6, data=display_tables)
 
 D('Semesters'   , 'BodyRight' ,1, data=display_semesters)
 D('LinksTable'  , 'BodyRight' ,2)
@@ -582,43 +596,6 @@ def home(server, nothing_behind=True):
 
 plugin.Plugin('home', '/', group='staff', function = home, unsafe=False)
 
-def modified_tables(server, login):
-    """This function is currently unused
-    It search all the modified tables
-    """
-    for t in tablestat.les_ues(server.year, server.semester, true_file=True):
-        for line in t.lines.values():
-            if t not in tables:
-                for v in line:
-                    if v.author == login:
-                        url = ('<a href="%s/=' % configuration.server_url +
-                               ticket.ticket + '/' +
-                               str(t.year) + '/' + str(t.semester) + '/' +
-                               t.ue + '/=full_filter=@' + login +
-                               '" target="_blank">' +
-                               t.location() + '</a>'
-                               )
-                        tables[t] = tablestat.TableStat(url)
-                        break
-    for t in tables:
-        for line in t.lines.values():
-            for v in line:
-                if v.author == login:
-                    tables[t].update(v)
-    
-    if tables:
-        s += ("<p>" + server._("MSG_suivi_student_ue_changes") % (
-                sum([v.nr for v in tables.values()]),
-                len(tables)) +
-              '\n'.join(['''
-<TABLE class="colored"><tr>
-<th><script>Write("TH_suivi_student_ue");</script></th>
-<th><script>Write("TH_suivi_student_nr_grades");</script></th>
-<th><script>Write("TH_suivi_student_first_change");</script></th>
-<th><script>Write("TH_suivi_student_last_change");</script></th></tr>
-'''] +
-                        [ str(t) for t in tables.values()] +
-                        ['</TABLE>']))
 
 def page_suivi(server):
     """Display the informations about all the students indicated."""

@@ -1408,6 +1408,38 @@ function DisplayStudents(node)
   return s + '</table>' ;
 }
 
+function DisplayTables(node)
+{
+  var s = [] ;
+  if ( node.data.length == 0 )
+    return '' ;
+  node.data.sort() ;
+  s.push('<hr>' + _("MSG_suivi_student_ue_changes")) ;
+  for(var year=node.data[0][0]; year <= node.data[node.data.length-1][0];year++)
+    {
+      for(var sem=0; sem<semesters.length; sem++)
+	{
+	  var semester = semesters[sem] ;
+	  var ss = [] ;
+	  for(var i in node.data)
+	    if ( node.data[i][0] == year && node.data[i][1] == semester )
+	      ss.push('<a target="_blank" href="'
+			+ url + '/=' + ticket + '/' + year
+			+ '/' + semester + '/' + node.data[i][2]
+			+ '/=full_filter=@' + display_data['Login'] + '">'
+			+ node.data[i][2] + '</a><sup>'
+			+ hidden_txt(node.data[i][3],
+				       _("TH_suivi_student_nr_grades"))
+			+ '</sup> ') ;
+	  if ( ss.length )
+	    s.push('<tr><td>' + year + ' ' + semester + '<td>'
+		   + ss.join('') + '</tr>') ;
+	}
+    }
+  return '<table class="colored">' + s.join('') + '</table>' ;
+}
+DisplayTables.need_node = ['Tables', 'Login'] ;
+
 function DisplayMoreOnSuivi(node)
 {
   return node.data ;

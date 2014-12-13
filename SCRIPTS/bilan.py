@@ -28,18 +28,25 @@ from .. import utilities
 from .. import document
 print configuration.suivi
 
+# teacher -> { (year, semester, ue): number_of_cell }
+teachers_tables = collections.defaultdict(
+    lambda: collections.defaultdict(int))
+
 class UE:
     def __init__(self):
         self.infos = {}
 
-    def add(self, table, line):
+    def add(self, table, line, result):
         prst = 0
         abinj = 0
         abjus = 0
         summation = 0
         nr = 0
         weight = 0.
+        key = (table.year, table.semester, table.ue)
         for cell, column in zip(line, table.columns)[6:]:
+            if len(cell.author) > 1:
+                teachers_tables[cell.author][key] += 1
             value = cell.value
             if not column.is_computed() and value == '' and column.empty_is:
                 value = column.empty_is
@@ -67,15 +74,21 @@ class UE:
                 except ValueError:
                     pass
 
-        if nr == 0 or weight == 0.:
-            if nr != 0 and weight == 0:
-                print 'Null column weight in', table
-            summation = "-1"
-        else:
-            summation = '%.3f' % (summation/weight)
+        summ = "-1"
+        if result:
+            min, max = result.min_max()
+            try:
+                summ = (float(line[result.data_col].value) - min) / max
+            except ValueError:
+                pass
+        if summ == "-1":
+            if nr == 0 or weight == 0.:
+                if nr != 0 and weight == 0:
+                    print 'Null column weight in', table
+            else:
+                summ = '%.3f' % (summation/weight)
         
-        self.infos[table.year, table.semester] = (prst, abinj, abjus,
-                                                  summation, nr)
+        self.infos[table.year, table.semester] = (prst, abinj, abjus, summ, nr)
 
     def __str__(self):
         keys = list(self.infos.keys())
@@ -110,6 +123,9 @@ for syear in os.listdir(configuration.db):
             if not ue.official_ue:
                 ue.unload()
                 continue
+            result = ue.columns.result_column()
+            if result:
+                ue.compute_columns()
             name = ue.ue
             for i in ue.the_keys():
                 students_index[i].append((ue.year, ue.semester, ue.ue))
@@ -128,7 +144,7 @@ for syear in os.listdir(configuration.db):
                 if name not in s:
                     s[name] = UE()
                 lines = tuple(ue.get_lines(i))
-                s[name].add(ue , lines[0])
+                s[name].add(ue, lines[0], result)
 
             ue.unload()
 
@@ -145,6 +161,7 @@ utilities.write_file(os.path.join('TMP', 'index_are_computed'),
 
 def safe(x):
     return re.sub('[^a-zA-Z]', '_', x).encode('latin1')
+
 
 for i, ues in students.items():
     # from .. import inscrits
@@ -165,4 +182,9 @@ for i, ues in students.items():
         # Non existent student
         print 'Non existent student:', i
 
+
+for teacher, tables in teachers_tables.items():
+    print teacher
+    utilities.manage_key('LOGINS', os.path.join(teacher, 'tables'),
+                         content=repr(dict(tables)))
 

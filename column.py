@@ -498,6 +498,9 @@ class Column(object):
     def cell_is_modifiable(self):
         return self.type.cell_is_modifiable
 
+    def __str__(self):
+        return '%s/%s' % (self.table, self.title)
+
 class Columns(object):
     """A set of Column associated to a table.
     The columns are stored in a list, so they have an index.
@@ -627,3 +630,30 @@ class Columns(object):
         self.column_ordered_cache = done
         return done
         
+    def result_column(self):
+        """
+        Return the result column if there is one or:
+          * False : no column found (bug?)
+          * () : no computed result columns
+          * 0 : there is a grade not used in the computation of the result
+        """
+        ordered = self.columns_ordered()
+        if not ordered:
+            return False
+        may_be_top = ordered[-1]
+        if not may_be_top.is_computed():
+            return ()
+        to_add = [may_be_top.title]
+        used_titles = set()
+        while to_add:
+            title = to_add.pop()
+            used_titles.add(title)
+            column = self.from_title(title)
+            if column:
+                to_add += column.depends_on()
+            else:
+                print 'XXX not found:', title
+        for column in self.columns:
+            if column.type.name == 'Note' and column.title not in used_titles:
+                return 0
+        return may_be_top
