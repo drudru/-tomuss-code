@@ -204,7 +204,8 @@ def update_link(lin_id, line):
 def onload(table):
     add_new_links_in_the_table(table)
     for lin_id, line in table.lines.items():
-        update_link(lin_id, line)
+        if line[0].value:
+            update_link(lin_id, line)
 
 def cell_change(table, page, col, lin_id, value, dummy_date):
     """Update all the link attributes"""
