@@ -5032,7 +5032,14 @@ window.onerror = function(message, url_error, lineNumber) {
   i.src = url + '/log/javascript_errors/'
         + encode_uri('[' + js(now) + ',' + js(message) + ',' + js(url_error)
 		     + ',' + js(lineNumber) + ',' + js(window.location)
-		     + ',' + js(window.username) + ']') ;
+		     + ',' + js(window.username)
+		     + ',' + js(navigator.platform
+				+ '/' + navigator.appName
+				+ '/' + navigator.appVersion
+				+ '/' + navigator.product
+				)
+		     + ',' + js(navigator.userAgent)
+		     + ']') ;
   if ( ! window.server_log )
     server_log = document.getElementsByTagName('BODY')[0] ;
   server_log.appendChild(i) ;

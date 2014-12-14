@@ -51,7 +51,15 @@ except:
 try:
     "".lstrip()
 except:
-    String.prototype.lstrip = String.prototype.trimLeft
+    if String.prototype.trimLeft:
+        String.prototype.lstrip = String.prototype.trimLeft
+    else:
+        def __trimLeft__():
+            i = 0
+            while this[i] == ' ':
+                i += 1
+            return this[i:]
+        String.prototype.lstrip = __trimLeft__
 
 try:
     "".startswith("")
