@@ -215,7 +215,6 @@ else
     server.the_file.write(initial_content)
     if page.index is not None and page.index > 0:
         server.the_file.write(''.join(table.sent_to_browsers[page.index-1:]))
-        page.end_of_load = 0 # end_of_load will not be called
     else:
         # Content sent between page loading and newpage
         server.the_file.write(''.join(table.sent_to_browsers))

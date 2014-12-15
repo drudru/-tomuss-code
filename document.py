@@ -557,7 +557,7 @@ class Table(object):
                 continue
             if p.browser_file.closed:
                 self.remove_active_page(p)
-                if not hasattr(p, 'end_of_load'):
+                if hasattr(p, 'start_load') and not hasattr(p, 'end_of_load'):
                     global canceled_loads
                     # Update list of canceled page load
                     now = time.time()
