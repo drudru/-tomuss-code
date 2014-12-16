@@ -5026,6 +5026,7 @@ function set_updating(bool)
 }
 
 window.onerror = function(message, url_error, lineNumber) {
+  window.onerror = function() { return false ; } ; // Only first error
   var i = document.createElement('IMG') ;
   var now = new Date() ;
   i.width = i.height = 1 ;
