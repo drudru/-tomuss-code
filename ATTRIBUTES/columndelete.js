@@ -47,7 +47,7 @@ function column_delete()
       Alert("ALERT_columndelete_used", c) ;
       return ;
     }
-  if ( column.the_local_id !== undefined )
+  if ( column.is_empty )
     {
       Alert("ALERT_columndelete_void") ;
       return ;
