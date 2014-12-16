@@ -60,7 +60,7 @@ class Code_Etape(text.Text):
         # Merge line_id and returned value
         for line_id, student in students:
             student = inscrits.login_to_student_id(student)
-            yield line_id, ' '.join(sorted(students_etapes.get(student,[])))
+            yield line_id, ' '.join(students_etapes.get(student,[]))
 
     def get_one_value(self, student_id, column, line_id):
         """Deprecated, Define get_all_values"""

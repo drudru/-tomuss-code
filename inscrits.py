@@ -384,8 +384,8 @@ class LDAP_Logic(object):
     def etapes_of_student(self, login):
         """Assumes that LDAP contains OU with ' etape-XXXX' inside"""
         a = self.member_of_list(utilities.the_login(login))
-        return [aa.split(' etape-')[1].split(',')[0]
-                for aa in a if ' etape-' in aa]
+        return sorted(aa.split(' etape-')[1].split(',')[0]
+                for aa in a if ' etape-' in aa)
 
     def etapes_of_students(self, logins):
         """If possible, optimize this function"""
