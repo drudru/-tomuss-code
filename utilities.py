@@ -786,7 +786,7 @@ def import_reload(filename):
         for o in gc.get_referrers(old_module):
             if isinstance(o, dict):
                 for k, v in o.items():
-                    if v is old_module:
+                    if v is old_module and k != 'old_module':
                         o[k] = module
                         break
     else:

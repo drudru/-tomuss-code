@@ -210,8 +210,6 @@ def init_plugins():
     for p in plugin.plugins:
         all_css.append(p.css)
     files.files['style.css'].append('plugins.py', '\n'.join(all_css))
-    
-
 
 def load_types():
     types.clear()
@@ -287,8 +285,14 @@ function _%s()
     column.initialize()
 
     init_plugins()
-    
+
     files.files['types.js'].append('plugins.py', all_js)
+
+    # Update the types of columns
+    from . import document
+    for table in document.tables.values():
+        for column in table.columns:
+            column.type = types[column.type.name]
 
     return reloadeds
 
