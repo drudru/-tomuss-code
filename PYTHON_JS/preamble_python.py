@@ -25,6 +25,12 @@ import math
 
 python_mode = True
 
+def replace_all(txt, regexp, value):
+    return txt.replace(regexp, value)
+
+def js_str(txt):
+    return '"' + txt.replace("\\", "\\\\").replace('"', '\\"') + '"'
+
 # print "".join("\\x%02x" % i for i in range(256))
 
 

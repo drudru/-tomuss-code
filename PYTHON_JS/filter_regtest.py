@@ -65,7 +65,7 @@ def filterRegtest():
             return ('Cell(' + self.value + ',' + self.author + ','
                    + self.date + ',' + self.history + ',' + self.comment
                     + ')')
-    tst = "joHé n<>Ê#@?&=→/"
+    tst = "joHé n<>Ê#@?&=→/\\\\"
     c = Cell(4, tst, "20140510181920", "14", "")
     # Simple filter that should return True.
     # They are also tested prefixed by !
@@ -79,7 +79,7 @@ def filterRegtest():
                 '#=', ":",
                 '@~=', '@~\\&=', "@~\\ n", "@~\\ ", "@~H",
                 "@~h", "@~e", "@~é", "@~ê", "@~E", "@~→/",
-                "#=", "=4 ", "4 "
+                "#=", "=4 ", "4 ", "@~\\\\\\\\"
                 ]:
         if not Filter(tst, "", "").evaluate(c):
             bug("BUG1", tst)
@@ -109,9 +109,10 @@ def filterRegtest():
     for tst in ["@j&:14", "@j &:14", "@j & :14", "@j& :14", "@j :14",
                 "@j & :14 & =4", "@j :14 =4", "@j   :14   =4",
                 "=4|=5", "=4 | =5", "=5 | =4", "=5 OR =4", "=5 OR !=6",
-                "@~&=4", '!a !b', '!a 4', '4 !a'
+                "@~&=4", '!a !b', '!a 4', '4 !a',
+                "=5 OR =4 OR =3", "=4 OR =3 OR =5", "=3 OR =5 OR =4",
                 ]:
-        tst = tst.replace('OR', or_keyword())
+        tst = replace_all(tst, 'OR', or_keyword())
         if not Filter(tst, "", "").evaluate(c):
             bug("BUG5", tst)
 
@@ -177,6 +178,10 @@ def filterRegtest():
 
 if str(5) != '5': # For translation to JS source
     float2str_bug
+
+if js_str('\\"\'\\') != '"\\\\\\"\'\\\\"':
+    js_str_bug1
+
 dateRegtest()
 filterRegtest()
 print('Filter regtest are fine')

@@ -104,7 +104,13 @@ except:
     o = Object
     o.defineProperty(Object.prototype, 'get' ,
                           {'enumerable': false, 'value': __getter__}) ;
-    
+
+def replace_all(txt, regexp, value):
+    return txt.replace(RegExp(regexp, "g"), value)
+
+def js_str(txt):
+    return JSON.stringify(txt)
+
 ##############################################################################
 #
 # Not easely writable in Python

@@ -32,8 +32,6 @@ contextual_case_sensitive = False
 
 current_seconds, year_month_day = update_today()
 
-def js_str(txt):
-    return "'" + txt.replace("\\","\\\\").replace("'","\\'") + "'"
 
 nan = float('NaN')
 
@@ -281,7 +279,7 @@ class Filter:
             return
         self.filters = []
         # OR is replaced by its translation
-        string = string.replace(" " + or_keyword() + " ", " | ")
+        string = replace_all(string," " + or_keyword() + " ", " | ")
         mode = ''
         while string:
             node, string = self.parse(string, username, column_type)
