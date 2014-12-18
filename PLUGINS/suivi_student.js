@@ -759,6 +759,7 @@ function display_cellbox_tip(event, nr)
       t.do_not_display = false ;
       return ;
     }
+  t.onmouseleave = function() { t.className = "hidden" ; } ;
   t.className = "" ;
   DisplayGrades.column = display_saved[nr][0] ;
   DisplayGrades.cell = display_saved[nr][1] ;
