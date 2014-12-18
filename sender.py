@@ -61,8 +61,7 @@ class File(object):
         assert(self.in_processing)
         append.the_lock.acquire()
         try:
-            # The mergin of <script> may a raise a FireFox bug.
-            txt = ''.join(self.send).replace('</script>\n<script>','')
+            txt = ''.join(self.send)
             self.send = []
             keep_open = self.keep_open
             index = self.index
@@ -74,10 +73,11 @@ class File(object):
             append.the_lock.release()
 
         try:
-            # self.file.write does garantee data flushing
-            self.file._sock.send(txt)
+            self.file.write(txt)
 
-            if not keep_open:
+            if keep_open:
+                self.file.flush()
+            else:
                 self.file.close()
 
             if self.page is not None:
