@@ -628,6 +628,8 @@ class StaticFile(object):
                     return True
 
     def copy_on_disc(self):
+        if configuration.read_only:
+            return # The suivi server do not write on disc
         dirname = os.path.join("TMP", configuration.version)
         mkpath(dirname)
         filename = os.path.join(dirname, self.name.split(os.path.sep)[-1])
