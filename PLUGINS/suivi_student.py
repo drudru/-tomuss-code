@@ -341,7 +341,7 @@ def display_students(server):
             ]
 
 def display_tables(server):
-    if server.is_a_student:
+    if server.is_a_student and not getattr(server, 'teacher_as_a_student',0):
         return ''
     tables = utilities.manage_key('LOGINS',
                                   os.path.join(server.suivi_login,

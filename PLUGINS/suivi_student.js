@@ -1432,7 +1432,7 @@ function DisplayTables(node)
 				       _("TH_suivi_student_nr_grades"))
 			+ '</sup> ') ;
 	  if ( ss.length )
-	    s.push('<tr><td>' + year + ' ' + semester + '<td>'
+	    s.push('<tr><td>' + year + '&nbsp;' + semester + '<td>'
 		   + ss.join('') + '</tr>') ;
 	}
     }
