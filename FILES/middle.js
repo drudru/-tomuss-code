@@ -46,7 +46,8 @@ function update_student_information_default(line)
   var src = student_picture_url(line[0].value) ;
   if ( src != t_student_picture.src )
     {
-      t_student_picture.src = '_FILES_/tip.png' ;
+      if ( t_student_picture.src !== '' )
+	t_student_picture.src = '_FILES_/tip.png' ;
       if ( line[0].value )
 	t_student_picture.src = student_picture_url(line[0].value) ;
     }
