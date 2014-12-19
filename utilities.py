@@ -1288,7 +1288,7 @@ class FakeRequestHandler(BaseHTTPServer.BaseHTTPRequestHandler):
             self.the_rfile.close()
             self.the_fp.close()
             self.the_sock.close()
-        except AttributeError:
+        except (AttributeError, socket.error):
             pass
 
     def unsafe(self):
