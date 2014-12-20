@@ -79,6 +79,7 @@ for name in (
     'xxx.page_load_time_evolution.png',
     'xxx.page_load_time_evolutionW.png',
     'xxx.preferences.png',
+    'xxx.histogram_diff.png', 'xxx.student_diff.png',
     'all_ues.js',
     'premier_cours.html',
     ):

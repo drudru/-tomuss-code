@@ -5364,6 +5364,24 @@ msgstr "Nombre de chargements de page par semaine"
 msgid "LABEL_page_load_time_days"
 msgstr "Jours"
 
+msgid "LABEL_median_time_between_access"
+msgstr "Temps médian entre 2 visites"
+
+msgid "LABEL_number_of_users"
+msgstr "Nombre d'étudiant avec ce temps médian"
+
+msgid "LABEL_number_of_users_per_median_time"
+msgstr "Nombre d'étudiants par temps médian entre 2 visites"
+
+msgid "LABEL_time_between_access"
+msgstr "Temps entre 2 accès"
+
+msgid "LABEL_number_of_access"
+msgstr "Nombre d'accès"
+
+msgid "LABEL_time_between_user_access"
+msgstr "Nombre d'accès en fonction de la différence de temps entre 2 visites"
+
 msgid "TITLE_signature"
 msgstr "Répondez aux questions suivantes. On ne peut pas modifier sa réponse"
 

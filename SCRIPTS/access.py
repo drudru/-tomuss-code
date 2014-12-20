@@ -9,6 +9,8 @@ import tomuss_init
 import os
 import time
 import glob
+import math
+import collections
 from .. import utilities
 from .. import configuration
 
@@ -23,7 +25,22 @@ def plot(filename, commands):
     f.write(commands.encode('latin-1'))
     f.close()
 
-class Stats:
+def parse_date(date):
+    year = int(date[0:4])
+    if year < 2000:
+        year += 1000 # An UCBL plugin remove 1000 year to highlight change
+    t = int(time.mktime((
+        year,
+        int(date[4:6]),
+        int(date[6:8]),
+        int(date[8:10]),
+        int(date[10:12]),
+        int(date[12:14]),
+        0,0,-1 # Guess DST
+        )))
+    return t
+
+class Stats(object):
     def __init__(self):
         self.days = [0] * 7
         self.hours = [0] * 24
@@ -32,19 +49,13 @@ class Stats:
         self.last = 0
         self.duration = 0
 
-    def add_YYYYMMDDHHMMSS(self, date):
+    def add_YYYYMMDDHHMMSS(self, date, seconds=None):
         if date == '':
             return
-        year = int(date[0:4])
-        if year < 2000:
-            year += 1000 # An UCBL plugin remove 1000 year to highlight change
-        t = int(time.mktime((
-            year,
-            int(date[4:6]),
-            int(date[6:8]),
-            int(date[8:10]),
-            0,0,0,0,-1 # Guess DST
-            )))
+        if seconds:
+            t = seconds
+        else:
+            t = parse_date(date)
         if t < self.first:
             self.first = t
         if t > self.last:
@@ -121,7 +132,7 @@ class Stats:
             av = sum([v[1] for v in a]) / float(len(a))
         else:
             av = 0
-        start_year, start_month = time.localtime(a[0][0])[0:2]
+        start_year, dummy_start_month = time.localtime(a[0][0])[0:2]
 
         year = start_year
         years = []
@@ -159,54 +170,145 @@ class Stats:
                         'cell_change', visits)),
                 ','.join(years), av, _("B_Moy")))
 
+def analyse_cellchange():
+    d = configuration.db + '/Y*/S[!T]*/*.py'
 
-d = configuration.db + '/Y*/S[!T]*/*.py'
+    print 'Analyse:', d
 
-print 'Analyse:', d
+    f = os.popen("grep -h '^cell_change' 2>/dev/null " + d, "r")
+    stat = Stats()
+    for line in f:
+        if line == '':
+            break
+        if line.split('(')[1][0] == '0': # Do not count auto-filled cells
+            continue
+        t = line.replace("'",'"').split('"')[-2]
+        stat.add_YYYYMMDDHHMMSS(t)
+    f.close()
 
-f = os.popen("grep -h '^cell_change' 2>/dev/null " + d, "r")
-stats = Stats()
-for line in f:
-    if line == '':
-        break
-    if line.split('(')[1][0] == '0': # Do not count auto-filled cells
-        continue
-    tt = line.replace("'",'"').split('"')[-2]
-    stats.add_YYYYMMDDHHMMSS(tt)
-f.close()
-    
-stats.plot_weeks('xxx.change.weeks.png')
-stats.plot_days('xxx.change.days.png')
-stats.plot_hours('xxx.change.hours.png')
+    stat.plot_weeks('xxx.change.weeks.png')
+    stat.plot_days('xxx.change.days.png')
+    stat.plot_hours('xxx.change.hours.png')
+
+analyse_cellchange()
 
 # Compute number of different students per day
 
+power = 1.5
+
 stats = Stats()
-for filename in glob.glob(os.path.join("LOGS", "SUIVI*/*.connections")):
+histogram_diff = [0] * 1000
+student_diff = collections.defaultdict(list)
+for filenam in glob.glob(os.path.join("LOGS", "SUIVI*/*.connections")):
     try:
-        f = open(filename, "r")
+        ff = open(filenam, "r")
     except IOError:
         continue
     last = ''
     histo = [''] * 10 # Not recount the same student before 10 other students
-    for line in f:
-        line = line.split(' ', 1)
-        if len(line) != 2:
+    last_access = {}
+    for lin in ff:
+        lin = lin.split(' ', 1)
+        if len(lin) != 2:
             continue
-        if line[1] in histo:
-            histo.remove(line[1])
-            histo.append(line[1])
+        tt, login = lin
+        if len(tt) != 14:
+            print tt
             continue
-        if len(line[0]) != 14:
-            print line[0]
+        secondes = parse_date(tt)
+        if configuration.is_a_student(login):
+            if login in last_access:
+                diff = secondes - last_access[login]
+                student_diff[login].append(diff)
+                if diff >= 2:
+                    histogram_diff[int(math.log(diff)/math.log(power))] += 1
+                else:
+                    histogram_diff[0] += 1
+            last_access[login] = secondes
+        if login in histo:
+            histo.remove(login)
+            histo.append(login)
             continue
         histo.pop(0)
-        histo.append(line[1])
-        stats.add_YYYYMMDDHHMMSS(line[0])
-    f.close()
+        histo.append(login)
+        stats.add_YYYYMMDDHHMMSS(tt, seconds=secondes)
+    ff.close()
 
 stats.plot_hours('xxx.suivi.hours.png', 'visits')
 stats.plot_days('xxx.suivi.days.png', 'visits')
 stats.plot_weeks('xxx.suivi.weeks.png', 'visits')
 
-os.system('SCRIPTS/page_load_time')       
+while histogram_diff[-1] == 0:
+    histogram_diff.pop()
+
+def seconds_to_human(s):
+    if s < 60:
+        return "%ds" % s
+    s /= 60.
+    if s < 60:
+        return "%dm" % s
+    s /= 60.
+    if s < 24:
+        return "%dh" % s
+    s /= 24.
+    if s < 30:
+        return "%dd" % s
+    return "%dM" % (s/30)
+
+ff = open("xxx.histogram_diff", "w")
+for ii, nb in enumerate(histogram_diff):
+    ff.write("%d %d\n" % (ii, nb))
+ff.close()
+
+
+tt =     [1, 2, 3, 5, 8, 15, 30]
+for ii in [1, 2, 3, 5, 8, 15, 30]:
+    tt.append( ii*60 )
+for ii in [1, 2, 3, 5, 10]:
+    tt.append( ii*60*60 )
+for ii in [1, 2, 3, 5, 10, 15]:
+    tt.append( ii*60*60*24 )
+for ii in [1, 2, 3, 5, 10, 30]:
+    tt.append( ii*60*60*24*30 )
+
+tics = ['"%s" %f' % (seconds_to_human(ii), math.log(ii)/math.log(power))
+        for ii in tt
+        if ii < power**(len(histogram_diff)-1)
+        ]
+
+def plot_histogram_diff(filename, x_title, y_title, fig_title):
+    plot('%s.png' % filename, """
+    set logscale y
+    set xlabel "%s"
+    set ylabel "%s"
+    set xtics (%s)
+    plot '%s' with boxes fs solid 0.3 title "%s"
+    """ % (x_title, y_title, ','.join(tics), filename, fig_title))
+
+plot_histogram_diff('xxx.histogram_diff',
+                    _("LABEL_time_between_access"),
+                    _("LABEL_number_of_access"),
+                    _("LABEL_time_between_user_access"))
+
+histogram_diff = [0] * 1000
+for diffs in student_diff.values():
+    diffs.sort()
+    diff = diffs[len(diffs)//2]
+    if diff == 0:
+        histogram_diff[0] += 1
+    else:
+        histogram_diff[int(math.log(diff)/math.log(power))] += 1
+while histogram_diff[-1] == 0:
+    histogram_diff.pop()
+
+ff = open("xxx.student_diff", "w")
+for ii, nb in enumerate(histogram_diff):
+    ff.write("%d %d\n" % (ii, nb))
+ff.close()
+
+plot_histogram_diff('xxx.student_diff',
+                    _("LABEL_median_time_between_access"),
+                    _("LABEL_number_of_users"),
+                    _("LABEL_number_of_users_per_median_time"))
+
+os.system('SCRIPTS/page_load_time')

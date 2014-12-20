@@ -5287,6 +5287,24 @@ msgstr "Number of page load per week"
 msgid "LABEL_page_load_time_days"
 msgstr "Days"
 
+msgid "LABEL_median_time_between_access"
+msgstr "Median time between 2 visits"
+
+msgid "LABEL_number_of_users"
+msgstr "Number of students with this median time"
+
+msgid "LABEL_number_of_users_per_median_time"
+msgstr "Number of students per median time between 2 visits"
+
+msgid "LABEL_time_between_access"
+msgstr "Time between 2 access"
+
+msgid "LABEL_number_of_access"
+msgstr "Number of access"
+
+msgid "LABEL_time_between_user_access"
+msgstr "Number of access in function of the time beween 2 access"
+
 msgid "TITLE_signature"
 msgstr "Answer next questions. Answer given are not modifiable"
 
