@@ -3152,18 +3152,19 @@ Connection.prototype.debug = function(txt)
   return ; // XXX
   console.log(
   [
-   txt + ' ' + this.time(millisec())
-   + " need_connection:" + this.need_connection(),
-   "Server alive = " + this.is_server_alive() + '('
-   + this.time(this.server_start_time) + ')'
-   + " Connection alive = " + this.connection_open
+   '====' + txt + '====',
+   'now=' + this.time(millisec())
+   + " need_connection:" + this.need_connection()
+   + " is_server_alive()= " + this.is_server_alive(),
+   ' server_start_time=' + this.time(this.server_start_time)
+   + " connection_open= " + this.connection_open
    + " "
    + (pending_requests ? pending_requests_first + '/' + pending_requests.length
       : ''),
-   "reconnect = " + this.time(this.last_reconnect)
-   + " server check = " + this.time(this.last_server_check),
-   "server answer = " + this.time(this.last_server_answer)
-   + " time_check_interval = " + this.time_check_interval
+   "last_reconnect= " + this.time(this.last_reconnect)
+   + " last_server_check= " + this.time(this.last_server_check),
+   "last_server_answer= " + this.time(this.last_server_answer)
+   + " time_check_interval= " + this.time_check_interval
    ].join("\n")) ;
 } ;
 
@@ -3272,6 +3273,8 @@ Connection.prototype.click_to_revalidate_ticket = function()
       this.check_if_server_is_alive() ;
       return ;
     }
+  if ( this.server_start_time === 0 )
+    return ;
   var m =  '<a onclick="javascript: connection_state.revalidate_ticket()">'
             + _("MSG_reauthenticate") + '</a>' ;
   this.t_authenticate.style.display = 'block' ;
