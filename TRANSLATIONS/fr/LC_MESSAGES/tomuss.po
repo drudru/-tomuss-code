@@ -4833,9 +4833,6 @@ msgstr "<b>PUIS</b> indiquer l'UE avec la dispense :"
 msgid "B_abj_set_ue"
 msgstr "Choisissez l'UE"
 
-msgid "MSG_authentication_close"
-msgstr "Vous pouvez <a href=\"javascript:window.close()\">fermer</a> cette page."
-
 msgid "MSG_cell_full_table"
 msgstr "Voir le tableau de note complet"
 

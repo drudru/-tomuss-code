@@ -30,7 +30,7 @@ Beware, ticket_from_url method must be fast and never freeze.
 login_from_ticket can call other web services and lag a couple of seconds.
 """
 
-import httplib 
+import httplib
 import urllib2
 import time
 import random
@@ -213,33 +213,55 @@ class RegTest(Authenticator):
     To allow /=user.name/ tickets without any testing.
     For the demo server, create a fake ticket for each IP address,
     so the interface user language is associated to the IP.
+
+    It try to emulate a CAS answering always yes.
+
+    Really dirty programming.
+    Nothing is safe here.
+    Do not use as a start point.
     """
-    def an_id(self, server):
-        from . import ticket
-        return str(abs(hash(ticket.client_ip(server)
-                            + server.headers.get("user-agent", ''))))
+    good_tickets = set()
     
     def login_from_ticket(self, ticket_key, dummy_service, server):
         code = ticket_key.split('-')
         if real_regtest:
             return code[0]
+        from . import ticket
+        if ticket_key in ticket.tickets:
+            if not ticket.tickets[ticket_key].is_fine(server):
+                self.good_tickets.remove(ticket_key)
+                return False
+        else:
+            if ticket_key not in self.good_tickets:
+                return False
         if len(code) == 1:
-            return False
-        if self.an_id(server) != code[1]:
             return False
         return code[0]
 
     def redirection(self, service, server):
-        for item in server.path.split('/'):
-            if item.startswith('='):
-                ticket = item[1:] + '-' + self.an_id(server)
-                break
-        else:
-            ticket = 'user.name'
-        if '?' in service:
-            return '%s&ticket=%s' % (service, ticket)
-        else:
-            return '%s?ticket=%s' % (service, ticket)
+        if '?' not in service:
+            service += '?auth=regtest'
+        service = service.replace('$2E', '.')
+        tickt = 'user.name'
+        if server.path.startswith('/='):
+            tickt = server.path.split('/')[1].strip('=')
+        elif '?' in server.path:
+            item = server.path.split('?')[1]
+            if 'ticket=' in item:
+                tickt = item.split("ticket=")[1]
+        elif '/allow/' in server.path:
+            tickt = server.path.split('/allow/')[1]
+        elif hasattr(server, 'old_ticket'): # suivi.py case
+            tickt = server.old_ticket
+        username = tickt.split('-')[0]
+
+        if "&create_ticket=" in server.path:
+            tickt = server.path.split("&create_ticket=")[1]
+            self.good_tickets.add(tickt)
+            return '%s&ticket=%s' % (service, tickt)
+
+        tickt = username + '-' + str(random.randrange(1000000000000))
+        return '%s&create_ticket=%s' % (service, tickt)
 
 
 class FaceBook(Authenticator):
@@ -272,7 +294,7 @@ class FaceBook(Authenticator):
         f.close()
 
         conn = httplib.HTTPSConnection('graph.facebook.com')
-        conn.request('DELETE', '/me/permissions?' + access_token) 
+        conn.request('DELETE', '/me/permissions?' + access_token)
         conn.getresponse()
         conn.close()
         

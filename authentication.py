@@ -23,7 +23,6 @@ from . import utilities
 from . import inscrits
 from . import ticket
 from . import sender
-from . import plugin
 from . import configuration
 from . import document
 
@@ -101,8 +100,12 @@ def get_path(server, server_url):
                             ):
                     # Update the old ticket
                     ticket.tickets[path[1]] = ticket.clone(path[1], t)
-                    redirect(server, configuration.url_files
-                             + '/auth_close.html')
+                    # Should display something in the IFRAME?
+                    server.send_response(200)
+                    server.send_header('Content-Type','text/html;charset=UTF-8')
+                    server.end_headers()
+                    server.the_file.write(
+                        "<script>window.parent.connected()</script>")
                 else:
                     redirect(server, configuration.url_files
                              + '/allow_error.html')

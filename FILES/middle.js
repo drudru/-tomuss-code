@@ -1173,7 +1173,7 @@ function create_popup(html_class, title, before, after, default_answer)
 function tail_html()
 {
   if ( preferences.interface == 'L' )
-    return '<span id="server_feedback"></span><div id="authenticate"></div>';
+    return '<span id="server_feedback"></span><iframe id="authenticate"></iframe>';
 
   var a ;
 
@@ -1186,7 +1186,7 @@ function tail_html()
     a = '<p class="copyright"></p>';
 
   a += "<div id=\"saving\">" + _("MESSAGE_data_begin_sent") + "</div>" +
-    '<div id="authenticate"></div>' +
+    '<iframe id="authenticate"></iframe>' +
     '<div id="current_input_div">' +
     '<input id="current_input" ' +
     'ondblclick="the_current_cell.toggle();" ' +

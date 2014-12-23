@@ -140,13 +140,16 @@ class MyRequestBroker(utilities.FakeRequestHandler):
         warn('ticket=%s' % str(self.ticket)[:-1])
         warn('the_path=%s' % str(self.the_path))
 
+        if path.startswith('/='):
+            # For RegTest authenticator
+            self.old_ticket = path.split("/")[1][1:]
         # Restore year/semester in order to have a good redirection
         if configuration.regtest:
             self.path = '/%d/%s' % (self.year, self.semester) + path
         else:
             # Remove old ticket.
             self.path = '/%d/%s' % (
-                self.year, self.semester) + re.sub("^/=[^/]*", "", path)
+                self.year, self.semester) + re.sub("^/=[^/]*/?", "/", path)
         # Don't want to be blocked by authentication
         authentication.ok(self)
 

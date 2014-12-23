@@ -1368,10 +1368,6 @@ def init(launch_threads=True):
     s += "var server_language = %s ;\n" % js(configuration.language)
     from . import files # Here to avoid circular import
     files.files['types.js'].append("utilities.py", s)
-    files.files['auth_close.html'] = StaticFile(
-        'auth_close.html',
-        content=_("MSG_authentication_close")
-        + '<script>window.close();</script>')
     files.files['allow_error.html'] = StaticFile(
         'allow_error.html',
         content=_("TIP_violet_square"))

@@ -4770,9 +4770,6 @@ msgstr "<b>THEN</b> indicate the UE with AE:"
 msgid "B_abj_set_ue"
 msgstr "Choose the UE"
 
-msgid "MSG_authentication_close"
-msgstr "You can now <a href=\"javascript:window.close()\">close</a> this page."
-
 msgid "MSG_cell_full_table"
 msgstr "Display full table"
 

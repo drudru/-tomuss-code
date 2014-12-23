@@ -3257,13 +3257,6 @@ Connection.prototype.close_connection = function()
   this.debug("close_connection") ;
 } ;
 
-Connection.prototype.revalidate_ticket = function()
-{
-  this.time_check_interval = 1000 ;
-  this.t_authenticate.style.display = 'none' ;
-  window_open(encodeURI(url + '/allow/' + ticket + '/' + millisec())) ;
-}
-
 Connection.prototype.click_to_revalidate_ticket = function()
 {
   if ( millisec() - this.server_start_time < this.tomuss_boot_time )
@@ -3275,12 +3268,11 @@ Connection.prototype.click_to_revalidate_ticket = function()
     }
   if ( this.server_start_time === 0 )
     return ;
-  var m =  '<a onclick="javascript: connection_state.revalidate_ticket()">'
-            + _("MSG_reauthenticate") + '</a>' ;
+  this.t_authenticate.src = url + '/allow/' + ticket + '/' + millisec() ;
   this.t_authenticate.style.display = 'block' ;
-  this.t_authenticate.innerHTML = m ;
   this.connection_state.innerHTML= _('MSG_unconnected') ;
   this.revalidate_on_screen = true ;
+  this.time_check_interval = 1000 ;
   this.debug("click_to_revalidate_ticket") ;
 } ;
 
