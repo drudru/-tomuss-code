@@ -2439,23 +2439,25 @@ function previous_page(previous_cell, dy)
   return true ;
 }
 
-function first_page(previous_cell, dy)
+function first_page()
 {
   if ( need_to_save_change() )
     the_current_cell.change() ;
   line_offset = 0 ;
-  table_fill(true) ;
+  the_current_cell.lin = nr_headers ;
+  table_fill(false) ;
   return true ;
 }
 
-function last_page(previous_cell, dy)
+function last_page()
 {
   if ( need_to_save_change() )
     the_current_cell.change() ;
-  line_offset =  filtered_lines.length - table_attr.nr_lines - 1 ;
+  line_offset = nr_not_empty_lines - table_attr.nr_lines + 1 ;
   if ( line_offset < 0 )
     line_offset = 0 ;
-  table_fill(true) ;
+  the_current_cell.lin = table_attr.nr_lines ;
+  table_fill(false) ;
   return true ;
 }
 
@@ -2478,7 +2480,6 @@ function table_fill_hook_horizontal()
 function page_horizontal(direction, col, do_not_focus)
 {
   var cls = column_list_all() ;
-
   if ( ! do_not_focus )
     the_current_cell.change() ;
 

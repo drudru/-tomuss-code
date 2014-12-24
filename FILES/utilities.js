@@ -2303,9 +2303,14 @@ function alt_shortcut(event, td)
     case 191: /* Qwerty / */
     case 59: /* Azerty / */
     case 58: /* Azerty : */
-	select_tab("cellule", _("TAB_cell")) ;
-	the_comment.focus() ;
-	break ;
+      select_tab("cellule", _("TAB_cell")) ;
+      the_comment.focus() ;
+      break ;
+    case 13:
+      document.getElementById("t_editor").value = the_current_cell.input.value;
+      select_tab("cellule", "✎") ;
+      document.getElementById("t_editor").focus() ;
+      break ;
     case 18: // ALT
       // Navigator must process the event
     default:
@@ -2407,9 +2412,23 @@ function current_keydown(event, in_input)
 	    return ;
 	}
     }
-       
   if ( event.altKey && ! event.ctrlKey )
     {
+      if ( ! event.shiftKey && key == 34 ) // Page down
+	{
+	  if ( column_offset + table_attr.nr_columns - nr_freezed()
+	       >= column_list_all().length )
+	    return ;
+	  page_horizontal(table_attr.nr_columns - nr_freezed()) ;
+	  stop_event(event) ;
+	  return false ;
+	}
+      if ( ! event.shiftKey && key == 33 ) // Page up
+	{
+	  page_horizontal(-table_attr.nr_columns + nr_freezed()) ;
+	  stop_event(event) ;
+	  return false ;
+	}
       if ( event.charCode === undefined )
 	{
 	  // IE case
@@ -2439,7 +2458,7 @@ function current_keydown(event, in_input)
   if ( (key == 35 || key == 36) && ! event.ctrlKey)
     return ;
 
-  if ( event.ctrlKey )
+  if ( ! event.shiftKey && event.ctrlKey )
     {
       switch( key )
 	{
@@ -2453,10 +2472,41 @@ function current_keydown(event, in_input)
 	  print_selection() ;
 	  stop_event(event) ;
 	  return false ;
+	case 48: // 0
+	  select_tab("column", _("TAB_column")) ;
+	  document.getElementById('columns_filter').focus() ;
+	  stop_event(event) ;
+	  return false ;
 	case 33:
 	case 34:
 	  // Let the browser change the tab
 	  return true ;
+	}
+    }
+
+  if ( event.shiftKey && event.ctrlKey )
+    {
+      switch( key )
+	{
+	case 48: // 0
+	  select_tab("table", _("TAB_table")) ;
+	  var f = document.getElementById('fullfilter') ;
+	  f.value = "#" ;
+	  f.focus() ;
+	  stop_event(event) ;
+	  return false ;
+	case 53: // (
+	  linefilter.value = '' ;
+	  control_f() ;
+	  stop_event(event) ;
+	  return false ;
+	case 161: // !
+	case 164: // $
+	case 165: // %
+	  select_tab("column", _("TAB_formula")) ;
+	  document.getElementById('t_column_rounding').focus() ;
+	  stop_event(event) ;
+	  return false ;
 	}
     }
 
@@ -2467,9 +2517,27 @@ function current_keydown(event, in_input)
     selection = get_selection(event.target) ;
   switch(key)
     {
-    case 40: this.cursor_down() ; GUI.add_key(event) ; break ;
-    case 13: this.cursor_down() ; GUI.add_key(event) ; break ;
-    case 38: this.cursor_up()   ; GUI.add_key(event) ; break ;
+    case 40:
+      if ( event.ctrlKey )
+	last_page() ;
+      else
+	this.cursor_down() ;
+      GUI.add_key(event) ;
+      break ;
+    case 13:
+      if ( event.shiftKey )
+	this.cursor_up() ;
+      else
+	this.cursor_down() ;
+      GUI.add_key(event) ;
+      break ;
+    case 38:
+      if ( event.ctrlKey )
+	first_page() ;
+      else
+	this.cursor_up() ;
+      GUI.add_key(event) ;
+      break ;
     case 34: next_page()        ; GUI.add_key(event) ; break ;
     case 33: previous_page()    ; GUI.add_key(event) ; break ;
     case 36: first_page()       ; GUI.add_key(event) ; break ;
@@ -2536,6 +2604,14 @@ function current_keydown(event, in_input)
 	  this.focus() ;
 	}
       break ;
+    case 113: // F2
+      if ( event.shiftKey )
+	{
+	  select_tab("cellule", _("TAB_cell")) ;
+	  the_comment.focus() ;
+	  break ;
+	}
+      // Fall thru
     default:
       if ( ! this.cell_modifiable() )
 	{
