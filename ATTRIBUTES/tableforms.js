@@ -352,5 +352,7 @@ function table_forms()
 	}
     table_forms_resize() ;
     table_forms_update(the_current_cell) ;
+  
     hide_the_tip(true) ;
+    the_current_cell.update() ;
 }
