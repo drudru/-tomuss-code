@@ -650,7 +650,7 @@ function new_new_interface()
   // CELLULE / Editor
 
   t = [] ;
-  t.push(hidden_txt('<textarea id="t_editor" onfocus="element_focused = the_event(event).target ; element_focused.style.height = element_focused.parentNode.parentNode.parentNode.offsetHeight + \'px\'" onblur="if (element_focused) { the_current_cell.change(this.value) ; element_focused = undefined;  } "></textarea>',
+  t.push(hidden_txt('<textarea id="t_editor" onfocus="element_focused = the_event(event).target ; element_focused.style.height = element_focused.parentNode.parentNode.parentNode.offsetHeight + \'px\' ; element_focused.initial_value = this.value" onblur="if (element_focused) { the_current_cell.change(this.value) ; element_focused = undefined;  } "></textarea>',
 		    _("TIP_cell_editor"))) ;
   o.push(['✎' /* ✍ */ , t.join('\n')]) ;
 		 

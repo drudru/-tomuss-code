@@ -2053,7 +2053,10 @@ function login_list_select(event)
       if ( s !== '' )
 	{
 	  if ( element_focused_saved )
-	    element_focused_saved.value = s ;
+	    {
+	      element_focused_saved.value = s ;
+	      element_focused_saved.scrollLeft = 9999 ;
+	    }
 	  else
 	    the_current_cell.input.value = s ;
 	}
@@ -2480,6 +2483,8 @@ function table_fill_hook_horizontal()
 function page_horizontal(direction, col, do_not_focus)
 {
   var cls = column_list_all() ;
+  if ( column_offset + direction >= cls.length )
+    return ;
   if ( ! do_not_focus )
     the_current_cell.change() ;
 
@@ -2515,14 +2520,16 @@ function page_horizontal(direction, col, do_not_focus)
   change_option('column_offset', column_offset ? column_offset : '') ;
 }
 
-function next_page_horizontal(delta)
+function next_page_horizontal(full_page)
 {
-  page_horizontal( Math.floor((table_attr.nr_columns-nr_freezed()) / 2),delta);
+  var n = table_attr.nr_columns - nr_freezed() ;
+  page_horizontal( full_page ? n : Math.floor(n / 2)) ;
 }
 
-function previous_page_horizontal(delta)
+function previous_page_horizontal(full_page)
 {
-  page_horizontal(-Math.floor((table_attr.nr_columns-nr_freezed())/ 2),delta) ;
+  var n = table_attr.nr_columns - nr_freezed() ;
+  page_horizontal( full_page ? -n : -Math.floor(n / 2)) ;
 }
 
 

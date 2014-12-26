@@ -2281,44 +2281,17 @@ function control_f()
     linefilter.select();  
 }
 
-function alt_shortcut(event, td)
+function focus_on_cell_comment()
 {
-  switch(event.charCode)
-    {
-    case 38: /* AZERTY: 1/& */
-    case 55: /* AZERTY: 1/& */
-    case 49: /* QWERTY: 1/! */
-      toggle_display_tips() ;
-      break ;
+  select_tab("cellule", _("TAB_cell")) ;
+  the_comment.focus() ;
+}
 
-    case 189: /* AZERTY: 8/_ */
-    case 109: /* AZERTY: 8/_ */
-    case 95:  /* AZERTY: 8/_ */
-    case 56:  /* QWERTY: 8/ * */
-      control_f() ;
-      break;
-    case 16:
-    case 0:
-      break ;
-    case 191: /* Qwerty / */
-    case 59: /* Azerty / */
-    case 58: /* Azerty : */
-      select_tab("cellule", _("TAB_cell")) ;
-      the_comment.focus() ;
-      break ;
-    case 13:
-      document.getElementById("t_editor").value = the_current_cell.input.value;
-      select_tab("cellule", "✎") ;
-      document.getElementById("t_editor").focus() ;
-      break ;
-    case 18: // ALT
-      // Navigator must process the event
-    default:
-	// alert(event.charCode);
-      return true ;
-    }
-  stop_event(event) ; // Else ALTs are navigator shortcut
-  return false ;
+function focus_on_editor()
+{
+  document.getElementById("t_editor").value = the_current_cell.input.value;
+  select_tab("cellule", "✎") ;
+  document.getElementById("t_editor").focus() ;
 }
 
 function triggerKeyboardEvent(el, keyCode)
@@ -2342,305 +2315,305 @@ function triggerKeyboardEvent(el, keyCode)
       el.fireEvent("onkeydown", eventObj) ;
 }
 
-var last_input_key_time ;
-
-function current_keydown(event, in_input)
+function select_go_up(down)
 {
-  last_user_interaction = millisec() ;
-  event = the_event(event) ;
-  var key = event.keyCode ;
-  if ( last_user_interaction - last_input_key_time < 10 )
+  if ( element_focused.my_selected_index != element_focused.selectedIndex )
     {
-      // Not a real key but a virtual one, forget it
-      if ( key == 229 ) // End of input in Chrome and safari
-	return
-      // XXX The repetition case is not tested :
-      // http://stackoverflow.com/questions/25043934/is-it-ok-to-ignore-keydown-events-with-keycode-229
-    }
-  last_input_key_time = last_user_interaction ;
-  if ( popup_is_open() )
-    {
-      if ( key == 27 )
-	{
-	  GUI.add_key(event, "popup-close") ;
-	  popup_close() ;
-	}
-      return ;
-    }
-  if ( element_focused )
-    {
-      if ( element_focused.tagName == 'TEXTAREA' )
-	return ;
-      else if ( element_focused.id == "table_forms_keypress" )
-	{
-	  if ( key < 41 && key != 27 )
-	    return ;
-	}
-      else if ( element_focused.tagName == 'SELECT' )
-	{
-	  // Autocompletion menu
-	  var nb_item = element_focused.childNodes.length ;
-	  if ( key == 38 || key == 40 )
-	    {
-	      GUI.add_key(event, "select") ;
-	      if ( element_focused.my_selected_index
-		   != element_focused.selectedIndex )
-		{
-		  // The SELECT object change itself the line when using keys.
-		  // So do not change it ourself.
-		  element_focused.my_selected_index = -1 ;
-		  // XXX The first keystroke when SELECT is active
-		  // move twice on FireFox
-		  return ;
-		}
-
-	      element_focused.selectedIndex = (element_focused.selectedIndex
-					       + key - 39) % nb_item ;
-	      element_focused.my_selected_index =element_focused.selectedIndex;
-	      stop_event(event) ;
-	      return ;
-	    }
-	  else if ( key == 13 || key == 27 )
-	    {
-	      GUI.add_key(event, "select") ;
-	      event.target = element_focused ;
-	      element_focused.onchange(event) ;
-	      stop_event(event) ;
-	      return ;
-	    }
-	  if ( key < 40 && key != 8 )
-	    return ;
-	}
-    }
-  if ( event.altKey && ! event.ctrlKey )
-    {
-      if ( ! event.shiftKey && key == 34 ) // Page down
-	{
-	  if ( column_offset + table_attr.nr_columns - nr_freezed()
-	       >= column_list_all().length )
-	    return ;
-	  page_horizontal(table_attr.nr_columns - nr_freezed()) ;
-	  stop_event(event) ;
-	  return false ;
-	}
-      if ( ! event.shiftKey && key == 33 ) // Page up
-	{
-	  page_horizontal(-table_attr.nr_columns + nr_freezed()) ;
-	  stop_event(event) ;
-	  return false ;
-	}
-      if ( event.charCode === undefined )
-	{
-	  // IE case
-	  event.charCode = event.keyCode ;
-	  if ( alt_shortcut(event, this.td) )
-	    return true ; // Navigator must process event
-	  stop_event(event) ;
-	  return false ;
-	}
-      return ;
-    }
-  if ( in_input )
-    {
-      // Manage only left and right
-      if ( key != 37  && key != 39 )
-	return ;
+      // The SELECT object change itself the line when using keys.
+      // So do not change it ourself.
+      element_focused.my_selected_index = -1 ;
+      // XXX The first keystroke when SELECT is active
+      // move twice on FireFox
     }
   else
     {
-      // Do not manage left and right cursor if an <input> is focused
-      if ( element_focused )
-	{
-	  if (key == 37 || key == 39)
-	    return ;
-	}
+      var nb_item = element_focused.childNodes.length ;
+      element_focused.selectedIndex = (element_focused.selectedIndex
+				       + element_focused.childNodes.length
+				       + (down === 1 ? 1 : -1)) % nb_item ;
+      element_focused.my_selected_index = element_focused.selectedIndex;
     }
-  if ( (key == 35 || key == 36) && ! event.ctrlKey)
+}
+
+function select_go_down()
+{
+  select_go_up(1) ;
+}
+
+function select_terminate(event)
+{
+  event.target = element_focused ;
+  element_focused.onchange(event) ;
+}
+
+function focus_on_column_filter()
+{
+  select_tab("column", _("TAB_column")) ;
+  document.getElementById('columns_filter').focus() ;
+}
+
+function select_all_cells_with_a_comment()
+{
+  select_tab("table", _("TAB_table")) ;
+  var f = document.getElementById('fullfilter') ;
+  f.value = "#" ;
+  f.focus() ;
+}
+
+function clear_line_filter()
+{
+  linefilter.value = '' ;
+  control_f() ;
+}
+
+function focus_on_rounding()
+{
+  select_tab("column", _("TAB_formula")) ;
+  document.getElementById('t_column_rounding').focus() ;
+}
+
+function move_cursor_right()
+{
+  the_current_cell.cursor_right() ;
+}
+
+function move_cursor_left()
+{
+  the_current_cell.cursor_left() ;
+}
+
+function move_cursor_up()
+{
+  the_current_cell.cursor_up() ;
+}
+
+function move_cursor_down()
+{
+  the_current_cell.cursor_down() ;
+}
+
+function cancel_input_editing()
+{
+  element_focused.value = element_focused.initial_value ;
+  var a = element_focused ;
+  the_current_cell.focus() ; // XXX The input value is unchanged without this
+  a.focus() ;
+  // Launch filter updating
+  triggerKeyboardEvent(a, -1) ;
+}
+
+function cancel_cell_editing()
+{
+  the_current_cell.input.value = the_current_cell.initial_value ;
+  the_current_cell.input.blur() ;
+  the_current_cell.focus() ;
+}
+
+function cancel_select_editing()
+{
+  login_list_hide() ;
+  if ( element_focused )
+      cancel_input_editing() ;
+  else
+    {
+      // Do not cancel the current value in order
+      // to allow to enter value not in the selection list
+      // cancel_cell_editing() ;
+    }
+}
+					    
+var last_input_key_time ;
+
+/*
+  First selector indicate:
+    S Shift pressed
+    C Control pressed
+    A Alt pressed
+    P Popup opened
+    F last_user_interaction - last_input_key_time < 10
+    T The focus is on the table
+    i The focus is on a table cell (in_input===true)
+    t The focus is on a TEXTAREA
+    s The focus is on a SELECT
+    f The focus is on #table_forms_keypress
+    L The cursor is at the left of the input
+    R The cursor is at the right of the input
+    M The current cell is modifiable
+  If prefixed by a '!' then the condition must be false
+
+  Second selector is a list of key or keycode.
+  If undefined all the keycode are accepted
+
+  The last item is the function to call (first argument is the event)
+  When it is called, no more tests are done and the event is cancelled.
+  If there is no function: nothing is done and the event is not stopped.
+*/
+var shortcuts ;
+
+function init_shortcuts()
+{
+  if ( shortcuts )
     return ;
+  shortcuts = [
+["F", [229]],            // http://stackoverflow.com/questions/25043934
+["P", [27]             , popup_close],
+["s", [27]             , cancel_select_editing],
+["!T", [27]            , cancel_input_editing],
+["T", [27]             , cancel_cell_editing],
+["t"],
+["f"],                   //  key < 41 && key != 27 : return
+["s", [38]             , select_go_up],
+["Ss", [9]             , select_go_up],
+["s", [40, 9]          , select_go_down],
+["s", [13]             , select_terminate],
+// ["s", undefined        ],  // key < 40 && key != 8 : return
+["C", [33, 34]],         //  Do not touch control next/previous page
+["A", [33]             , previous_page_horizontal],
+["A", [34]             , next_page_horizontal],
+["A", ['1', '&', '7']  , toggle_display_tips],
+["A", ['8','_','m','½'], control_f, "deprecated"],
+["A", [0, 16]          , test_nothing],
+["A", [":", ";", "¿"]  , focus_on_cell_comment],
+["A", [13]             , focus_on_editor],
+["!T", [37, 39]],        // Do not touch left/right cursor
+["S", [37, 39]],         // Do not touch left/right cursor
+["C", ["F"]            , control_f],
+["C", ["P"]            , print_selection],
+["SC", ["0"]           , select_all_cells_with_a_comment],
+["C", ["0"]            , focus_on_column_filter],
+["SC", ["(", '5', '9'] , clear_line_filter],
+["SC", ["!","$","%",161,164,165], focus_on_rounding],
+["C", [38]             , first_page],
+["", [38]              , move_cursor_up],
+["C", [40]             , last_page],
+["", [40]              , move_cursor_down],
+["S", [13]             , move_cursor_up],
+["", [13]              , move_cursor_down],
+["", [33]              , previous_page],
+["", [34]              , next_page],
+["S", [9]              , move_cursor_left],
+["", [9]               , move_cursor_right],
+["C", [37]             , move_cursor_left],
+["C", [39]             , move_cursor_right],
+["L", [37]             , move_cursor_left],
+["R", [39]             , move_cursor_right],
+["S", [113]            , focus_on_cell_comment],
+["C"],
+["!M", undefined       , test_nothing], // Stop event
+		 ] ;
+}
 
-  if ( ! event.shiftKey && event.ctrlKey )
-    {
-      switch( key )
-	{
-	case 70: // F
-	  GUI.add_key(event, "find") ;
-	  control_f() ;
-	  stop_event(event) ;
-	  return false ;
-	case 80: // P
-	  GUI.add_key(event, "print") ;
-	  print_selection() ;
-	  stop_event(event) ;
-	  return false ;
-	case 48: // 0
-	  select_tab("column", _("TAB_column")) ;
-	  document.getElementById('columns_filter').focus() ;
-	  stop_event(event) ;
-	  return false ;
-	case 33:
-	case 34:
-	  // Let the browser change the tab
-	  return true ;
-	}
-    }
-
-  if ( event.shiftKey && event.ctrlKey )
-    {
-      switch( key )
-	{
-	case 48: // 0
-	  select_tab("table", _("TAB_table")) ;
-	  var f = document.getElementById('fullfilter') ;
-	  f.value = "#" ;
-	  f.focus() ;
-	  stop_event(event) ;
-	  return false ;
-	case 53: // (
-	  linefilter.value = '' ;
-	  control_f() ;
-	  stop_event(event) ;
-	  return false ;
-	case 161: // !
-	case 164: // $
-	case 165: // %
-	  select_tab("column", _("TAB_formula")) ;
-	  document.getElementById('t_column_rounding').focus() ;
-	  stop_event(event) ;
-	  return false ;
-	}
-    }
-
-  // __d('alt=' + event.altKey + ' ctrl=' + event.ctrlKey + ' key=' + key + ' charcode=' + event.charCode + ' which=' + event.real_event.which + '\n') ;
-
+function current_keydown(event, in_input)
+{
+  init_shortcuts() ;
+  last_user_interaction = millisec() ;
+  event = the_event(event) ;
+  var key = event.keyCode ;
   var selection ;
   if ( event.target.tagName === 'INPUT' )
     selection = get_selection(event.target) ;
-  switch(key)
+  var fast = (last_user_interaction - last_input_key_time < 10) ;
+  last_input_key_time = last_user_interaction ;
+  for(var shortcut in shortcuts)
     {
-    case 40:
-      if ( event.ctrlKey )
-	last_page() ;
-      else
-	this.cursor_down() ;
-      GUI.add_key(event) ;
-      break ;
-    case 13:
-      if ( event.shiftKey )
-	this.cursor_up() ;
-      else
-	this.cursor_down() ;
-      GUI.add_key(event) ;
-      break ;
-    case 38:
-      if ( event.ctrlKey )
-	first_page() ;
-      else
-	this.cursor_up() ;
-      GUI.add_key(event) ;
-      break ;
-    case 34: next_page()        ; GUI.add_key(event) ; break ;
-    case 33: previous_page()    ; GUI.add_key(event) ; break ;
-    case 36: first_page()       ; GUI.add_key(event) ; break ;
-    case 35: last_page()        ; GUI.add_key(event) ; break ;
-    case 37:
-      if ( event.shiftKey )
-	return true ;
-      if ( event.ctrlKey
-	   || this.input.value.length === 0
-	   || !this.cell_modifiable()
-	   || (selection && selection.start === 0 
-	       && (selection.end === this.input.textLength ||
-		   selection.end === this.input.value.length ||
-		   selection.end === 0)
-	       )
-	   )
+      shortcut = shortcuts[shortcut] ;
+      var state = true ;
+      for(var selector=0; selector<shortcut[0].length; selector++)
 	{
-	  GUI.add_key(event) ;
-	  this.cursor_left() ;
-	}
-      else
-	return true ;
-      break ;
-    case 9:
-      GUI.add_key(event) ;
-      if ( event.shiftKey )
-	  this.cursor_left() ;
-      else
-	  this.cursor_right() ;
-      break ;
-    case 39:
-      if ( event.shiftKey )
-	return true ;
-      if ( selection && ( event.ctrlKey
-			  || this.input.value.length === 0
-			  || !this.cell_modifiable()
-			  || this.input.textLength == selection.end
-			  || this.input.value.length == selection.end
-			  )
-	   )
-	{
-	  GUI.add_key(event) ;
-	  this.cursor_right() ;
-	}
-      else
-	return true ;
-      break ;
-    case 27: // Escape Key
-      // alert('' + this.input.value + '/' + this.initial_value) ;
-      GUI.add_key(event) ;
-      if ( element_focused )
-	{
-	  element_focused.value = element_focused.initial_value ;
-	  var a = element_focused ;
-	  this.focus() ; // XXX The input value is unchanged without this
-	  a.focus() ;
-	  // Launch filter updating
-	  triggerKeyboardEvent(a, -1) ;
-	}
-      else
-	{
-	  this.input.value = this.initial_value ;
-	  this.input.blur() ;
-	  this.focus() ;
-	}
-      break ;
-    case 113: // F2
-      if ( event.shiftKey )
-	{
-	  select_tab("cellule", _("TAB_cell")) ;
-	  the_comment.focus() ;
-	  break ;
-	}
-      // Fall thru
-    default:
-      if ( ! this.cell_modifiable() )
-	{
-	  if ( event.ctrlKey === false && element_focused === undefined )
+	  switch(shortcut[0].substr(selector,1))
 	    {
-	      // We don't want to allow cell content modification
-	      // XXX : Should not allow ^X and ^V
-	      // Added the 2009-06-22
-	      stop_event(event) ;
-	      return false ;
+	    case 'C': state = event.ctrlKey          ; break ;
+	    case 'S': state = event.shiftKey         ; break ;
+	    case 'A': state = event.altKey           ; break ;
+	    case 'P': state = popup_is_open()        ; break ;
+	    case 'T': state = ! element_focused      ; break ;
+	    case 'i': state = in_input               ; break ;
+	    case 'M': state = this.cell_modifiable() || element_focused ;
+	      break ;
+	    case 'F': state = fast                   ; break ;
+	    case 't': state = element_focused
+		&& element_focused.tagName == 'TEXTAREA' ;
+		break ;
+	    case 's': state = element_focused
+		&& element_focused.tagName == 'SELECT' ;
+		break ;
+	    case 'f': state = element_focused
+		&& element_focused.id == 'table_forms_keypress' ;
+		break ;
+	    case 'L':
+	      state = this.input.value.length === 0
+		|| !this.cell_modifiable()
+		|| (selection && selection.start === 0
+		    && (selection.end === this.input.textLength ||
+			selection.end === this.input.value.length ||
+			selection.end === 0)
+		    ) ;
+	      break ;
+	    case 'R':
+	      state = selection && (this.input.value.length === 0
+				    || !this.cell_modifiable()
+				    || this.input.textLength == selection.end
+				    || this.input.value.length == selection.end
+				    ) ;
+	      break ;
+	    case '!': break ;
+	    default:
+	      alert('Bug shortcut') ;
+	    }
+	  if ( selector>0 && shortcut[0].substr(selector-1,1) == '!' )
+	    state = !state ;
+	  if ( ! state )
+	    {
+	      // console.log("Bad selector:" + shortcut[0]) ;
+	      break ;
 	    }
 	}
-      // completion
-      
-      if ( selection
-	   && (key >= 48 || key == 8)
-	   && event.ctrlKey === false
-	   && event.target.value.length == selection.end ) // No control code
+      if ( ! state )
+	continue ; //  Bad selector: next shortcut
+      if ( shortcut[1] !== undefined )
 	{
-	  if ( do_completion_for_this_input == undefined )
+	  state = false ;
+	  for(var test_key in shortcut[1])
 	    {
-	      do_completion_for_this_input = event.target ;
-	      setTimeout('the_current_cell.do_completion(' + (key==8) +')', 1);
+	      test_key = shortcut[1][test_key] ;
+	      if ( test_key === key ||
+		   (test_key.toLowerCase && test_key.charCodeAt(0) === key))
+		{
+		  state = true ;
+		  break ;
+		}
 	    }
+	}
+      if ( !state )
+	{
+	  // console.log("Bad keys:" + shortcut[0] + ' ' + shortcut[1]) ;
+	  continue ;
+	}
+      // console.log(shortcut[0] + "/" + shortcut[1] + '/' + (shortcut[2] ? shortcut[2].name : 'undefined')) ;
+      if ( shortcut[2] !== undefined )
+	{
+	  GUI.add_key(event, shortcut[2].name) ;
+	  shortcut[2](event) ;
+	  stop_event(event) ;
+	  return false ;
 	}
       return true ;
     }
-  stop_event(event) ;
-  return false ;
+  // console.log("No selector match selection=" + selection + " key=" + key + " value.length=" + event.target.value.length ) ;
+
+  // completion
+
+  if ( selection
+       && (key >= 48 || key == 8)
+       && event.target.value.length == selection.end ) // No control code
+    {
+      if ( do_completion_for_this_input == undefined )
+	{
+	  do_completion_for_this_input = event.target ;
+	  setTimeout('the_current_cell.do_completion(' + (key==8) +')', 1);
+	}
+    }
+  return true ;
 }
 
 var do_completion_for_this_input ;
