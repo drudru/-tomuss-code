@@ -2032,19 +2032,6 @@ function login_list_hide()
   get_tip_element().do_not_hide = false ;
   the_current_cell.blur_disabled = false ;
   hide_the_tip_real() ;
-  if ( element_focused_saved != false )
-    {
-      element_focused = element_focused_saved ;
-      if ( element_focused )
-	{
-	  if (element_focused.saved_blur != noblur)
-	    element_focused.onblur = element_focused.saved_blur ;
-	  element_focused.focus() ;
-	}
-      else
-	the_current_cell.input.focus() ;
-    }
-  element_focused_saved = false ;
 }
 
 function login_list_select(event)
@@ -4331,6 +4318,20 @@ function hide_the_tip_real(force)
     {
       display_tips = display_tips_saved ;
       display_tips_saved = undefined ;
+    }
+
+  if ( element_focused_saved != false )
+    {
+      element_focused = element_focused_saved ;
+      if ( element_focused )
+	{
+	  if (element_focused.saved_blur != noblur)
+	    element_focused.onblur = element_focused.saved_blur ;
+	  element_focused.focus() ;
+	}
+      else
+	the_current_cell.input.focus() ;
+      element_focused_saved = false ;
     }
 }
 
