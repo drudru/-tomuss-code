@@ -393,8 +393,8 @@ class Column(object):
     def js(self, hide, python=False):
         """Returns the JavaScript describing the column.
         hide=False : For the table editor
-        hide=1 for a teacher on the suivi 
-        hide=True for a student on the suivi 
+        hide=1 for a student on the suivi
+        hide=True for a teacher on the suivi
         """
         d = {}
         for attr in column_attributes():
@@ -405,11 +405,11 @@ class Column(object):
                 if hide:
                     value = re.sub(r'(TITLE|IMPORT|BASE)\([^)]*\)', '', value)
             elif attr.name == 'columns':
-                if hide is 1:
+                if hide:
                     titles = []
                     for title in self.depends_on():
                         col = self.table.columns.from_title(title)
-                        if col and col.visible():
+                        if col and col.visible(hide):
                             titles.append(title)
                     value = ' '.join(titles)
             if value != attr.default_value:
@@ -470,8 +470,14 @@ class Column(object):
             
         return get_floats(self.table.lines.values()), get_floats(lines)
 
-    def visible(self):
-        """Returns true if the column is visible for the student"""
+    def visible(self, hide):
+        """Returns true if the column is visible.
+        See 'js' method for explanation about 'hide'
+        """
+        if not hide:
+            return True # For the table
+        if hide is True and self.visibility != 2:
+            return True # Teacher
         if self.title.startswith('.'):
             return False
         if self.visibility:
@@ -593,13 +599,10 @@ class Columns(object):
 
     def js(self, hide, python=False):
         """Returns the javaScript code describing all NEEDED columns."""
-        columns = []
-        for c in self.columns:
-            if hide is not False and c.visibility == 2:
-                continue
-            if hide is 1 and not c.visible():
-                continue
-            columns.append(c)
+        columns = [ c
+                    for c in self.columns
+                    if c.visible(hide)
+                ]
 
         if python:
             return [c.js(hide, python=True)

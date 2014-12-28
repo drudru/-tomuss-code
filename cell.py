@@ -274,29 +274,22 @@ class Line(object):
         """The the number of cell in the line."""
         return len(self.cells)
 
-    def js(self, for_student=False, columns=None):
-        """Translate the line in JavaScript"""
-        if for_student:
-            return '[' + ','.join([cell.js_student()
-                                   for cell, col in zip(self.cells,
-                                                        columns)
-                                   if col.visible()]) + ']'
-        else:
-            return '[' + ','.join([cell.js() for cell in self.cells]) + ']'
+    def js(self):
+        """Translate the line in JavaScript."""
+        return '[' + ','.join([cell.js() for cell in self.cells]) + ']'
 
     def json(self, for_student=False, columns=None):
         """Translate the line in JavaScript"""
         if for_student:
-            return [cell.json()[:4]
-                    for cell, col in zip(self.cells,
-                                         columns)
-                    if col.visible()
+            return [cell.json()[:4] # Hide history
+                    for cell, col in zip(self.cells, columns)
+                    if col.visible(hide=1)
                     ]
         else:
             return [cell.json()
-                    for cell, col in zip(self.cells,
-                                         columns)
-                    if col.visibility != 2]
+                    for cell, col in zip(self.cells, columns)
+                    if col.visible(hide=True)
+                    ]
 
 class Lines(object):
     """The Lines object is usable as a Python list of Line.
@@ -388,11 +381,7 @@ class Lines(object):
         val_col = zip(line.cells, self.columns.columns)
         d = {}
         for cell, column in val_col[3:]:
-            if not link:
-                # Student display : so the column must be visible
-                if not column.visible():
-                    continue
-            if column.visibility == 2:
+            if not column.visible(hide = link and True or 1):
                 continue
             s = column.stat(cell, lines)
             if s:
@@ -406,11 +395,11 @@ class Lines(object):
 
         return d
 
-    def js(self, for_student=False):
+    def js(self):
         """Create JavaScript generating all the lines data."""
         s = []
         for line_id, line in self.lines.items():
             s.append('P(%s,' % utilities.js(line_id)
-                     + line.js(for_student) + ');')
+                     + line.js() + ');')
         return s
 

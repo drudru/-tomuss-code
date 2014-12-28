@@ -720,7 +720,7 @@ def page_rss(server):
                     continue
                 if cell.value == '':
                     continue
-                if not column.visible():
+                if not column.visible(hide=1):
                     continue # Hidden column
                 if not column.is_computed():
                     s.append((cell.date, cell, t, column))
