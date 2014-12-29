@@ -33,6 +33,8 @@ BODY.tomuss, BODY.tomuss TABLE INPUT, BODY.tomuss TABLE TD, BODY.tomuss TH, BODY
   margin-left:2em;
 }
 
+.identity IMG { height: 1em }
+
 #updating { display:none; background: orange }
 
 .table_ro { background-color: #F00; color: #FFF }
