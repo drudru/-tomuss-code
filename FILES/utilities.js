@@ -2421,7 +2421,14 @@ function cancel_select_editing()
       // cancel_cell_editing() ;
     }
 }
-					    
+
+function fill_column_with_value()
+{
+  var value = the_current_cell.input.value ;
+  fill_column() ;
+  document.getElementById('column_fill_input').value = value ;
+}
+
 var last_input_key_time ;
 
 /*
@@ -2475,6 +2482,7 @@ function init_shortcuts()
 ["A", [0, 16]          , test_nothing],
 ["A", [":", ";", "¿"]  , focus_on_cell_comment],
 ["A", [13]             , focus_on_editor],
+["C", [13, "D"]        , fill_column_with_value],
 ["!T", [37, 39]],        // Do not touch left/right cursor
 ["S", [37, 39]],         // Do not touch left/right cursor
 ["C", ["F"]            , control_f],

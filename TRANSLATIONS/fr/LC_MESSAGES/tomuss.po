@@ -971,7 +971,8 @@ msgstr "Sélectionne toutes les cellules avec un commentaire"
 msgid "SHORTCUT_toggle_display_tips"
 msgstr " Affiche ou cache les bulles d'aide"
 
-
+msgid "SHORTCUT_fill_column_with_value"
+msgstr "Remplir la colonne avec la valeur de la cellule courante"
 
 #. GUI Label
 msgid "LABEL_save"

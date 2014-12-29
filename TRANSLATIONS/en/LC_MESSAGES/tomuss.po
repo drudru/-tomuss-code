@@ -975,6 +975,8 @@ msgstr "Select all the commented cells"
 msgid "SHORTCUT_toggle_display_tips"
 msgstr " Hide or show the tips"
 
+msgid "SHORTCUT_fill_column_with_value"
+msgstr "Fill the column with the current call value"
 
 
 #. GUI Label
