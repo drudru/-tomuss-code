@@ -674,11 +674,9 @@ function new_new_interface()
   t.push('</div>') ;
   
   t.push('<div class="one_line">') ;
-  t.push(hidden_txt(_("LABEL_ALT8"), _("TIP_ALT8"))) ;
+  t.push(hidden_txt(_("LABEL_shortcuts"),
+		    '<!--INSTANTDISPLAY-->' + display_short_cuts())) ;
   t.push('</div>')
-  t.push('<div class="one_line">') ;
-  t.push(hidden_txt(_("LABEL_ALT1"), _("TIP_ALT1"))) ;
-  t.push('</div>') ;
   o.push([_('TAB_?'), t.join('\n')]) ;
 
   // CELLULE

@@ -2503,6 +2503,58 @@ function init_shortcuts()
 		 ] ;
 }
 
+function display_short_cuts()
+{
+  var t = [] ;
+  init_shortcuts() ;
+  for(var i in shortcuts)
+    {
+      var shortcut = shortcuts[i] ;
+      if ( shortcut[2] === undefined
+	   || shortcut[2] === test_nothing
+	   || shortcut[1] === undefined
+	   || shortcut[0].match(/[a-zFTLR]/)
+	   || shortcut[3]
+	   )
+	continue ;
+      var key = shortcut[1][0] ;
+      switch(key)
+	{
+        case   9: key = '⇥'  ; break ;
+        case  27: key = 'Esc'; break ;
+        case  13: key = '⏎'  ; break ;
+        case  33: key = '⎗'  ; break ;
+        case  34: key = '⎘'  ; break ;
+        case  37: key = '←' ; break ;
+        case  38: key = '↑'  ; break ;
+        case  39: key = '→' ; break ;
+        case  40: key = '↓'  ; break ;
+        case 113: key = 'F2' ; break ;
+	}
+      t.push([_('SHORTCUT_' + shortcut[2].name),
+	      shortcut[0].replace('C', 'Ctrl ').replace('S', 'Shft ')
+	      .replace('A', 'Alt ').replace(/[P]/, ''),
+	      key]) ;
+    }
+  t.sort() ;
+  var s = '' ;
+  for(var i=0; i<t.length; i++)
+    {
+      for(var j=i+1; j<t.length; j++)
+	if ( t[i][0] != t[j][0] )
+	  break ;
+	else
+	  t[j][0] = undefined ;
+      s += '<tr><td class="modifier">' + t[i][1]
+	+ '<td class="key">' + t[i][2]
+	+ (t[i][0] ? '<td rowspan="' + (j-i) + '">' + t[i][0] : '')
+	+ '</tr>' ;
+    }
+  var h = Math.floor(window_height() * 0.75) ;
+  return '<div class="shortcuts" style="max-height:' + h + 'px"><table>'
+    + s + '</table></div>' ;
+}
+
 function current_keydown(event, in_input)
 {
   init_shortcuts() ;

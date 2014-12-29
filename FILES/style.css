@@ -290,6 +290,21 @@ DIV#tip SPAN.title { background-color: #CCF ; }
 
 DIV#tip UL, DIV#tip P { margin: 0px ; }
 
+DIV.shortcuts {
+    overflow:auto ;
+    background: #888 ;
+    }
+DIV.shortcuts TD {
+    background: #FFF
+    }
+DIV.shortcuts TD.key {
+    text-align: center ;
+    font-size: 150% ;
+    }
+DIV.shortcuts TD.modifier {
+    text-align:right
+    }
+
 
 IMG.photo { 
   width: 100px ;

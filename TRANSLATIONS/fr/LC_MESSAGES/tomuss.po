@@ -908,24 +908,70 @@ msgid "TIP_LABEL_square"
 msgstr "Mettez le curseur sur les petits carrés pour savoir<br>\n"
        "ce qu'ils représentent."
 
-#. Label cell attribute
-msgid "LABEL_ALT8"
-msgstr "Ctrl-f : édite le filtre de lignes"
+msgid "LABEL_shortcuts"
+msgstr "Liste des raccourcis clavier"
 
-#. Tip cell attribute
-msgid "TIP_ALT8"
-msgstr "Le filtre de ligne permet de n'afficher que les lignes<br>\n"
-       "qui contiennent le début de ce que vous avez tapé.<br>\n"
-       "Par exemple le NOM, PRÉNOM ou numéro d'étudiant"
+msgid "SHORTCUT_clear_line_filter"
+msgstr "Efface le filtre de sélection de lignes"
 
- #. Label cell attribute
-msgid "LABEL_ALT1"
-msgstr "ALT-1 : cache/affiche les bulles d'aide"
+msgid "SHORTCUT_control_f"
+msgstr "Saisie du filtre de sélection de lignes"
 
-#. Tip cell attribute
-msgid "TIP_ALT1"
-msgstr "Au cas où les bulles d'aide soient gênantes<br>\n"
-       "Vous pouvez aussi l'indiquer dans vos préférences"
+msgid "SHORTCUT_first_page"
+msgstr "Va sur la page initiale"
+
+msgid "SHORTCUT_focus_on_cell_comment"
+msgstr "Saisie d'un commentaire sur la cellule"
+
+msgid "SHORTCUT_focus_on_column_filter"
+msgstr "Saisie du filtre de sélection de colonne"
+
+msgid "SHORTCUT_focus_on_editor"
+msgstr "Passage en mode édition multi ligne de la cellule"
+
+msgid "SHORTCUT_focus_on_rounding"
+msgstr "Saisie de l'arrondi à utiliser pour la colonne"
+
+msgid "SHORTCUT_last_page"
+msgstr "Va sur la page finale"
+
+msgid "SHORTCUT_move_cursor_down"
+msgstr "Va sur la cellule au dessous"
+
+msgid "SHORTCUT_move_cursor_left"
+msgstr "Va sur la cellule de gauche"
+
+msgid "SHORTCUT_move_cursor_right"
+msgstr "Va sur la cellule de droite"
+
+msgid "SHORTCUT_move_cursor_up"
+msgstr "Va sur la cellule au dessus"
+
+msgid "SHORTCUT_next_page"
+msgstr "Va sur la page suivante"
+
+msgid "SHORTCUT_next_page_horizontal"
+msgstr "Va sur la page de droite"
+
+msgid "SHORTCUT_popup_close"
+msgstr "Ferme la fenêtre popup<br>ou annule la saisie en cours"
+
+msgid "SHORTCUT_previous_page"
+msgstr "Va sur la page précédente"
+
+msgid "SHORTCUT_previous_page_horizontal"
+msgstr "Va sur la page de gauche"
+
+msgid "SHORTCUT_print_selection"
+msgstr "Imprime la table"
+
+msgid "SHORTCUT_select_all_cells_with_a_comment"
+msgstr "Sélectionne toutes les cellules avec un commentaire"
+
+msgid "SHORTCUT_toggle_display_tips"
+msgstr " Affiche ou cache les bulles d'aide"
+
+
 
 #. GUI Label
 msgid "LABEL_save"

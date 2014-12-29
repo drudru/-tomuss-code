@@ -912,24 +912,70 @@ msgstr " green square = value saved!"
 msgid "TIP_LABEL_square"
 msgstr "Put the pointer on the small squares to known what they mean."
 
-#. Label cell attribute
-msgid "LABEL_ALT8"
-msgstr "Ctrl-f : line filter edition"
+msgid "LABEL_shortcuts"
+msgstr "Keyboard shortcut list"
 
-#. Tip cell attribute
-msgid "TIP_ALT8"
-msgstr "The line filter allow to only display line beginning<br>\n"
-       "by the filter value.<br>\n"
-       "For example a firstname, surname or student number."
+msgid "SHORTCUT_clear_line_filter"
+msgstr "Clear the line filter"
 
-#. Label cell attribute
-msgid "LABEL_ALT1"
-msgstr "ALT-1 : Hide/Show the tool tips"
+msgid "SHORTCUT_control_f"
+msgstr "Enter a line selector filter"
 
-#. Tip cell attribute
-msgid "TIP_ALT1"
-msgstr "To use if the tool tips annoy you.<br>\n"
-       "You can also set this fact in your preferences"
+msgid "SHORTCUT_first_page"
+msgstr "Goto page first"
+
+msgid "SHORTCUT_focus_on_cell_comment"
+msgstr "Enter a cell comment"
+
+msgid "SHORTCUT_focus_on_column_filter"
+msgstr "Enter a column filter"
+
+msgid "SHORTCUT_focus_on_editor"
+msgstr "Multi line cell editing mode"
+
+msgid "SHORTCUT_focus_on_rounding"
+msgstr "Enter the column rounding precision"
+
+msgid "SHORTCUT_last_page"
+msgstr "Goto page last"
+
+msgid "SHORTCUT_move_cursor_down"
+msgstr "Goto cell down"
+
+msgid "SHORTCUT_move_cursor_left"
+msgstr "Goto cell left"
+
+msgid "SHORTCUT_move_cursor_right"
+msgstr "Goto cell right"
+
+msgid "SHORTCUT_move_cursor_up"
+msgstr "Goto cell up"
+
+msgid "SHORTCUT_next_page"
+msgstr "Goto page next"
+
+msgid "SHORTCUT_next_page_horizontal"
+msgstr "Goto page right"
+
+msgid "SHORTCUT_popup_close"
+msgstr "Close the popup or cancel the current value edition"
+
+msgid "SHORTCUT_previous_page"
+msgstr "Goto page previous"
+
+msgid "SHORTCUT_previous_page_horizontal"
+msgstr "Goto page left"
+
+msgid "SHORTCUT_print_selection"
+msgstr "Print the table"
+
+msgid "SHORTCUT_select_all_cells_with_a_comment"
+msgstr "Select all the commented cells"
+
+msgid "SHORTCUT_toggle_display_tips"
+msgstr " Hide or show the tips"
+
+
 
 #. GUI Label
 msgid "LABEL_save"
