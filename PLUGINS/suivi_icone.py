@@ -58,7 +58,8 @@ def student_icone(server):
                 
     n = max(int(len(prst)**0.5), int(len(note)**0.5), 3) + 1
     s = [(238, 238, 238)] * ((2*n+1) * n)
-    for i in range(n): s[n+i*(2*n+1)] = (255, 255, 255)
+    for i in range(n):
+        s[n+i*(2*n+1)] = (255, 255, 255)
 
     for i, vv in enumerate(prst):
         vv = int(vv * 255)
@@ -74,15 +75,7 @@ def student_icone(server):
     
 plugin.Plugin('icone', '/{_I}',
               function=student_icone,
-              # launch_thread=True,
-              authenticated=False,
-              mimetype = 'image/png',
-              cached = True,
-              )
-
-plugin.Plugin('icone_withticket', '/{?}/{_I}',
-              function=student_icone,
-              authenticated=False,
+              priority=-20,
               # launch_thread=True,
               mimetype = 'image/png',
               cached = True,

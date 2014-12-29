@@ -1109,8 +1109,8 @@ function DisplaySemesters(node)
 	highlight = '' ;
 
       if (is_a_teacher)
-	icone = '<img class="icone" src="' + node.data[y + '/' + s] + '/_'
-	  + display_data['Login'] + '">' ;
+	icone = '<img class="icone" src="' + node.data[y + '/' + s]
+	  + '/=' + ticket + '/_' + display_data['Login'] + '">' ;
       else
 	icone = '' ;
       if ( node.data[y + '/' + s] )
