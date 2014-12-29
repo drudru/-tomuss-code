@@ -221,11 +221,15 @@ configuration.tell_to_reload_config = tell_to_reload_config
     
 def tell_reload_config():
     import urllib2
+    import random
+    import os
 
     utilities.warn('Tell "suivi" to reload config')
+    i = str(random.randrange(1000000000))
+    utilities.write_file(os.path.join('TMP', 'xxx.load_config'), i)
     for url, port, year, semester, host in configuration.suivi.servers():
         try:
-            f = urllib2.urlopen(url + '/load_config')
+            f = urllib2.urlopen(url + '/load_config/' + i)
             f.read()
             f.close()
         except urllib2.URLError:

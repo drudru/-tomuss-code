@@ -91,17 +91,18 @@ class MyRequestBroker(utilities.FakeRequestHandler):
             self.year, self.semester = configuration.year_semester
         path = '/' + '/'.join(self.the_path)
 
-        if path[1:] == 'load_config':
-            to_reload = ('config_table', 'config_plugin', 'config_acls',
-                         'config_cache')
-            for tt in to_reload:
-                conf = document.table(0, 'Dossiers', tt, None, None, ro=True)
-                conf.do_not_unload = []
-                conf.unload()
-            for tt in to_reload:
-                document.table(0, 'Dossiers', tt, None, None, ro=True)
-            
-            configuration.config_acls_clear_cache()
+        if path.startswith('/load_config/'):
+            i = utilities.read_file(os.path.join('TMP', 'xxx.load_config'))
+            if path == '/load_config/' + i:
+                to_reload = ('config_table', 'config_plugin', 'config_acls',
+                             'config_cache')
+                for tt in to_reload:
+                    conf = document.table(0, 'Dossiers',tt, None, None,ro=True)
+                    conf.do_not_unload = []
+                    conf.unload()
+                for tt in to_reload:
+                    document.table(0, 'Dossiers', tt, None, None, ro=True)
+                configuration.config_acls_clear_cache()
             self.send_response(200)
             self.send_header('Content-Type', 'text/plain')
             self.end_headers()
