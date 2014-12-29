@@ -34,21 +34,24 @@ function caution_message()
 
 function fill_column()
 {
-  if ( tr_filter.childNodes[0].firstChild.value === ''
-     || tr_filter.childNodes[0].firstChild.value === '!=')
-      for(var i in filtered_lines)
-	  if ( filtered_lines[i][0].is_empty() )
-              {
-		  var filter0 = tr_filter.childNodes[0].firstChild ;
-		  Alert('MSG_fill_remove_empty');
-		  the_current_cell.jump(nr_headers, the_current_cell.col,true);
-		  filter0.value = '!=' ;
-		  filter0.className = filter0.className.replace('empty','') ;
-		  filter_change_column(filter0.value, columns[0]) ;
-		  periodic_work_remove(update_filtered_lines) ,
-		  update_filtered_lines() ;
-		  break ;
-	      }
+  if ( columns[0].filter === '' )
+  {
+    for(var i in filtered_lines)
+    {
+      if ( filtered_lines[i][0].is_empty() )
+      {
+	the_current_cell.jump(nr_headers, the_current_cell.col, true) ;
+	filter_change_column('!=', columns[0]) ;
+	// The previous function modify the current column filter :-(
+	// So restore it.
+	filter_change_column(the_current_cell.column.filter,
+			     the_current_cell.column) ;
+	table_fill(true, true, true) ;
+	Alert('MSG_fill_remove_empty') ;
+	break ;
+      }
+    }
+  }
 
   create_popup('fill_column_div',
 	       _("TITLE_fill_before")
