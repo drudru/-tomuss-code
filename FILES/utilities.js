@@ -2463,52 +2463,61 @@ function init_shortcuts()
     return ;
   shortcuts = [
 ["F", [229]],            // http://stackoverflow.com/questions/25043934
-["P", [27]             , popup_close],
-["s", [27]             , cancel_select_editing],
-["!T", [27]            , cancel_input_editing],
-["T", [27]             , cancel_cell_editing],
+["P", [27]             , "popup_close"],
+["s", [27]             , "cancel_select_editing"],
+["!T", [27]            , "cancel_input_editing"],
+["T", [27]             , "cancel_cell_editing"],
 ["t"],
 ["f"],                   //  key < 41 && key != 27 : return
-["s", [38]             , select_go_up],
-["Ss", [9]             , select_go_up],
-["s", [40, 9]          , select_go_down],
-["s", [13]             , select_terminate],
+["s", [38]             , "select_go_up"],
+["Ss", [9]             , "select_go_up"],
+["s", [40, 9]          , "select_go_down"],
+["s", [13]             , "select_terminate"],
 // ["s", undefined        ],  // key < 40 && key != 8 : return
 ["C", [33, 34]],         //  Do not touch control next/previous page
-["A", [33]             , previous_page_horizontal],
-["A", [34]             , next_page_horizontal],
-["A", ['1', '&', '7']  , toggle_display_tips],
-["A", ['8','_','m','½'], control_f, "deprecated"],
-["A", [0, 16]          , test_nothing],
-["A", [":", ";", "¿"]  , focus_on_cell_comment],
-["A", [13]             , focus_on_editor],
-["C", [13, "D"]        , fill_column_with_value],
+["A", [33]             , "previous_page_horizontal"],
+["A", [34]             , "next_page_horizontal"],
+["A", ['1', '&', '7']  , "toggle_display_tips"],
+["A", ['8','_','m','½'], "control_f", "deprecated"],
+["A", [0, 16]          , "test_nothing"],
+["A", [":", ";", "¿"]  , "focus_on_cell_comment"],
+["A", [13]             , "focus_on_editor"],
+["C", [13, "D"]        , "fill_column_with_value"],
 ["!T", [37, 39]],        // Do not touch left/right cursor
 ["S", [37, 39]],         // Do not touch left/right cursor
-["C", ["F"]            , control_f],
-["C", ["P"]            , print_selection],
-["SC", ["0"]           , select_all_cells_with_a_comment],
-["C", ["0"]            , focus_on_column_filter],
-["SC", ["(", '5', '9'] , clear_line_filter],
-["SC", ["!","$","%",161,164,165], focus_on_rounding],
-["C", [38]             , first_page],
-["", [38]              , move_cursor_up],
-["C", [40]             , last_page],
-["", [40]              , move_cursor_down],
-["S", [13]             , move_cursor_up],
-["", [13]              , move_cursor_down],
-["", [33]              , previous_page],
-["", [34]              , next_page],
-["S", [9]              , move_cursor_left],
-["", [9]               , move_cursor_right],
-["C", [37]             , move_cursor_left],
-["C", [39]             , move_cursor_right],
-["L", [37]             , move_cursor_left],
-["R", [39]             , move_cursor_right],
-["S", [113]            , focus_on_cell_comment],
+["C", ["F"]            , "control_f"],
+["C", ["P"]            , "print_selection"],
+["SC", ["0"]           , "select_all_cells_with_a_comment"],
+["C", ["0"]            , "focus_on_column_filter"],
+["SC", ["(", '5', '9'] , "clear_line_filter"],
+["SC", ["!","$","%",161,164,165], "focus_on_rounding"],
+["C", [38]             , "first_page"],
+["", [38]              , "move_cursor_up"],
+["C", [40]             , "last_page"],
+["", [40]              , "move_cursor_down"],
+["S", [13]             , "move_cursor_up"],
+["", [13]              , "move_cursor_down"],
+["", [33]              , "previous_page"],
+["", [34]              , "next_page"],
+["S", [9]              , "move_cursor_left"],
+["", [9]               , "move_cursor_right"],
+["C", [37]             , "move_cursor_left"],
+["C", [39]             , "move_cursor_right"],
+["L", [37]             , "move_cursor_left"],
+["R", [39]             , "move_cursor_right"],
+["S", [113]            , "focus_on_cell_comment"],
 ["C"],
-["!M", undefined       , test_nothing], // Stop event
+["!M", undefined       , "test_nothing"], // Stop event
 		 ] ;
+  for(var i in shortcuts)
+    {
+      var shortcut = shortcuts[i] ;
+      if ( shortcut[2] )
+	{
+	  shortcut.name = shortcut[2] ;
+	  shortcut[2] = eval(shortcut[2]) ;
+	}
+    }
 }
 
 function display_short_cuts()
@@ -2539,7 +2548,7 @@ function display_short_cuts()
         case  40: key = '↓'  ; break ;
         case 113: key = 'F2' ; break ;
 	}
-      t.push([_('SHORTCUT_' + shortcut[2].name),
+      t.push([_('SHORTCUT_' + shortcut.name),
 	      shortcut[0].replace('C', 'Ctrl ').replace('S', 'Shft ')
 	      .replace('A', 'Alt ').replace(/[P]/, ''),
 	      key]) ;
@@ -2649,10 +2658,10 @@ function current_keydown(event, in_input)
 	  // console.log("Bad keys:" + shortcut[0] + ' ' + shortcut[1]) ;
 	  continue ;
 	}
-      // console.log(shortcut[0] + "/" + shortcut[1] + '/' + (shortcut[2] ? shortcut[2].name : 'undefined')) ;
+      // console.log(shortcut[0] + "/" + shortcut[1] + '/' + (shortcut[2] ? shortcut.name : 'undefined')) ;
       if ( shortcut[2] !== undefined )
 	{
-	  GUI.add_key(event, shortcut[2].name) ;
+	  GUI.add_key(event, shortcut.name) ;
 	  shortcut[2](event) ;
 	  stop_event(event) ;
 	  return false ;
