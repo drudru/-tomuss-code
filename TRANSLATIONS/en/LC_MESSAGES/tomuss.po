@@ -939,16 +939,16 @@ msgstr "Enter the column rounding precision"
 msgid "SHORTCUT_last_page"
 msgstr "Goto page last"
 
-msgid "SHORTCUT_move_cursor_down"
+msgid "SHORTCUT_cursor_down"
 msgstr "Goto cell down"
 
-msgid "SHORTCUT_move_cursor_left"
+msgid "SHORTCUT_cursor_left"
 msgstr "Goto cell left"
 
-msgid "SHORTCUT_move_cursor_right"
+msgid "SHORTCUT_cursor_right"
 msgstr "Goto cell right"
 
-msgid "SHORTCUT_move_cursor_up"
+msgid "SHORTCUT_cursor_up"
 msgstr "Goto cell up"
 
 msgid "SHORTCUT_next_page"

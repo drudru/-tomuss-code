@@ -935,16 +935,16 @@ msgstr "Saisie de l'arrondi à utiliser pour la colonne"
 msgid "SHORTCUT_last_page"
 msgstr "Va sur la page finale"
 
-msgid "SHORTCUT_move_cursor_down"
+msgid "SHORTCUT_cursor_down"
 msgstr "Va sur la cellule au dessous"
 
-msgid "SHORTCUT_move_cursor_left"
+msgid "SHORTCUT_cursor_left"
 msgstr "Va sur la cellule de gauche"
 
-msgid "SHORTCUT_move_cursor_right"
+msgid "SHORTCUT_cursor_right"
 msgstr "Va sur la cellule de droite"
 
-msgid "SHORTCUT_move_cursor_up"
+msgid "SHORTCUT_cursor_up"
 msgstr "Va sur la cellule au dessus"
 
 msgid "SHORTCUT_next_page"

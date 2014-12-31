@@ -1010,7 +1010,7 @@ function Stats(v_min, v_max, empty_is)
 }
 
 // This function does not works when merging things with not the same size
-function stats_merge(v)
+Stats.prototype.merge = function(v)
 {
   var value ;
   this.min = Math.min(this.min, v.min) ;
@@ -1030,9 +1030,9 @@ function stats_merge(v)
       this.all_values[i] += v.all_values[i] ;
     else
       this.all_values[i] = v.all_values[i] ;
-}
+} ;
 
-function stats_add(v)
+Stats.prototype.add = function(v)
 {
   if ( v === '' )
     v = this.empty_is ;
@@ -1060,24 +1060,24 @@ function stats_add(v)
   this.histogram[i]++ ;
   this.values.push(v) ;
   this.nr++ ;
-}
+} ;
 
-function stats_variance()
+Stats.prototype.variance = function()
 {
   return this.sum2/this.nr - (this.sum/this.nr)*(this.sum/this.nr)  ;
-}
+} ;
 
-function stats_standard_deviation()
+Stats.prototype.standard_deviation = function()
 {
   return Math.pow(this.variance(), 0.5) ;
-}
+} ;
 
-function stats_average()
+Stats.prototype.average = function()
 {
   return this.sum / this.nr ;
-}
+} ;
 
-function stats_mediane()
+Stats.prototype.mediane = function()
 {
   if ( this.values.length )
     {
@@ -1086,9 +1086,9 @@ function stats_mediane()
     }
   else
     return Number(0);
-}
+} ;
 
-function stats_uniques()
+Stats.prototype.uniques = function()
 {
   var d = {} ;
   for(var i in this.values)
@@ -1102,9 +1102,9 @@ function stats_uniques()
     else
       d[i] = this.all_values[i] ;
   return d ;
-}
+} ;
 
-function stats_nr_uniques()
+Stats.prototype.nr_uniques = function()
 {
   var d = this.uniques() ;
   var j = 0 ;
@@ -1113,25 +1113,26 @@ function stats_nr_uniques()
       j++ ;
 
   return j ;
-}
-function stats_histo_max()
+} ;
+
+Stats.prototype.histo_max = function()
 {
   var maxmax = 1 ;
   for(var i=0; i<20; i++)
     if ( this.histogram[i] > maxmax ) maxmax = this.histogram[i] ;
   return maxmax ;
-}
+} ;
 
-function stats_maxmax()
+Stats.prototype.maxmax = function()
 {
   var maxmax = this.histo_max() ;
   for(var i in this.all_values)
     if ( this.all_values[i] > maxmax ) maxmax = this.all_values[i] ;
   return maxmax ;
-}
+} ;
 
 // The final \n is important : see update_tip_from_value
-function stats_html_resume()
+Stats.prototype.html_resume = function()
 {
   return _('B_s_minimum') +':&nbsp;'  +this.min            .toFixed(3)+'<br>' +
     _('B_s_maximum') +':&nbsp;'  +this.max                 .toFixed(3)+'<br>' +
@@ -1141,24 +1142,13 @@ function stats_html_resume()
     _('B_s_stddev')  +':&nbsp;'  +this.standard_deviation().toFixed(3)+'<br>' +
     _('B_s_sum')+' '+this.nr+' '+_('B_s_sum_2')+':&nbsp;'
     +this.sum.toFixed(3)+'\n';
-}
+} ;
 
-function stats_normalized_average()
+Stats.prototype.normalized_average = function()
 {
   return (this.average() - this.v_min) / this.size ;
-}
+} ;
 
-Stats.prototype.add = stats_add  ;
-Stats.prototype.variance = stats_variance  ;
-Stats.prototype.standard_deviation = stats_standard_deviation  ;
-Stats.prototype.html_resume = stats_html_resume ;
-Stats.prototype.average = stats_average ;
-Stats.prototype.mediane = stats_mediane ;
-Stats.prototype.maxmax = stats_maxmax ;
-Stats.prototype.histo_max = stats_histo_max ;
-Stats.prototype.merge = stats_merge ;
-Stats.prototype.uniques = stats_uniques ;
-Stats.prototype.nr_uniques = stats_nr_uniques ;
 Stats.prototype.nr_abi = function() { return this.all_values[abi] ; } ;
 Stats.prototype.nr_abj = function() { return this.all_values[abj] ; } ;
 Stats.prototype.nr_ppn = function() { return this.all_values[ppn] ; } ;
@@ -1166,7 +1156,6 @@ Stats.prototype.nr_nan = function() { return this.all_values[''] ; } ;
 Stats.prototype.nr_pre = function() { return this.all_values[pre] ; } ;
 Stats.prototype.nr_yes = function() { return this.all_values[yes] ; } ;
 Stats.prototype.nr_no  = function() { return this.all_values[no] ; } ;
-Stats.prototype.normalized_average = stats_normalized_average ;
 
 function compute_histogram(data_col)
 {
@@ -1325,31 +1314,31 @@ function Cell(value,author,date,comment,history)
   this.history = history ;
 }
 
-function cell_tostring()
+Cell.prototype.toString = function()
 {
   return 'C(v=' + this.value + ',a=' + this.author + ',d=' + this.date + ',c='
     + this.comment + ',h=' + this.history + ',k=' + this._key + ')' ;
-}
+} ;
 
 function C(value,author,date,comment,history)
 {
   return new Cell(value,author,date,comment,history) ;
 }
 
-function cell_save()
+Cell.prototype.save = function()
 {
   this._save = this.value ;
-}
+} ;
 
-function cell_restore()
+Cell.prototype.restore = function()
 {
   this.set_value(this._save) ;
-}
+} ;
 
-function cell_value_html()
+Cell.prototype.value_html = function()
 {
   return html(this.value) ;
-}
+} ;
 
 function tofixed(n)
 {
@@ -1368,7 +1357,7 @@ function local_number(n)
 }
 
 
-function cell_value_fixed()
+Cell.prototype.value_fixed = function()
 {
   var v = Number(this.value) ;
   if ( isNaN(v) )
@@ -1378,14 +1367,14 @@ function cell_value_fixed()
       return '' ;
     else
       return tofixed(v) ;
-}
+} ;
 
-function cell_comment_html()
+Cell.prototype.comment_html = function()
 {
   return html(this.comment).replace(/\n/g, '<br>') ;
-}
+} ;
 
-function cell_changeable(column)
+Cell.prototype.changeable = function(column)
 {
   if ( ! table_attr.modifiable )
       return _("ERROR_table_read_only") ;
@@ -1407,27 +1396,27 @@ function cell_changeable(column)
     return true ;
   else
     return _("ERROR_value_defined_by_another_user") + table_attr.masters;
-}
+} ;
 
-function cell_modifiable(column)
+Cell.prototype.modifiable = function(column)
 {
   return this.changeable(column) === true ;
-}
+} ;
 
-function cell_is_mine()
+Cell.prototype.is_mine = function()
 {
   return (this.author== my_identity|| this.author === '' || this.value === '');
-}
+} ;
 
-function cell_set_value2(v)
+Cell.prototype.set_value = function(v)
 {
   this.value = v ;
   this._key = undefined ;
   login_to_line_id.dict = undefined ; // Clear cache
   return this ; // To be compatible with Python set_value method
-}
+} ;
 
-function cell_set_value_local(value)
+Cell.prototype.set_value_local = function(value)
 {
   this.history += this.value + '\n('+ this.date + ' ' + this.author + '),·' ;
   this.set_value(value) ;
@@ -1439,22 +1428,22 @@ function cell_set_value_local(value)
     two_digits(d.getHours()) +
     two_digits(d.getMinutes()) +
     two_digits(d.getSeconds()) ;
-}
+} ;
 
-function cell_set_comment(v)
+Cell.prototype.set_comment = function(v)
 {
   this.comment = v ;
-}
+} ;
 
-function cell_is_not_empty()
+Cell.prototype.is_not_empty = function()
 {
   return this.value.toString() !== '' || this.comment !== '' ;
-}
+} ;
 
-function cell_is_empty()
+Cell.prototype.is_empty = function()
 {
   return this.value.toString() === '' && this.comment === '' ;
-}
+} ;
 
 function get_author(author)
 {
@@ -1474,13 +1463,13 @@ function get_author2(column)
 }
 
 
-function cell_get_author()
+Cell.prototype.get_author = function()
 {
   return get_author(this.author) ;
-}
+} ;
 
 // Allow to sort correctly and intuitivly mixed data types
-function cell_key(empty_is)
+Cell.prototype.key = function(empty_is)
 {
   if ( this._key !== undefined )
     return this._key ;
@@ -1535,7 +1524,7 @@ function cell_key(empty_is)
 	}
     }
   return this._key ;
-}
+} ;
 
 function js(t)
 {
@@ -1551,7 +1540,7 @@ function js2(t)
     + "'" ;
 }
 
-function cell_get_data()
+Cell.prototype.get_data = function()
 {
   var v ;
   if ( this.value.toFixed )
@@ -1559,32 +1548,13 @@ function cell_get_data()
   else
     v = js(this.value) ;
   return 'C(' + v + ',' + js(this.author) + ',' + js(this.date) + ',' + js(this.comment) + ')' ;
-}
+} ;
 
-function cell_date_DDMMYYYY()
+Cell.prototype.date_DDMMYYYY = function()
 {
    var x = this.date ;
    return x.slice(6, 8) + '/' + x.slice(4, 6) + '/' + x.slice(0, 4) ;
-}
-
-Cell.prototype.save = cell_save ;
-Cell.prototype.get_data = cell_get_data ;
-Cell.prototype.restore = cell_restore ;
-Cell.prototype.value_html = cell_value_html ;
-Cell.prototype.value_fixed = cell_value_fixed ;
-Cell.prototype.set_value = cell_set_value2 ;
-Cell.prototype.set_value_local = cell_set_value_local ;
-Cell.prototype.set_comment = cell_set_comment ;
-Cell.prototype.comment_html = cell_comment_html ;
-Cell.prototype.modifiable = cell_modifiable ;
-Cell.prototype.changeable = cell_changeable ;
-Cell.prototype.is_mine = cell_is_mine ;
-Cell.prototype.key = cell_key ;
-Cell.prototype.is_empty = cell_is_empty ;
-Cell.prototype.is_not_empty = cell_is_not_empty ;
-Cell.prototype.toString = cell_tostring ;
-Cell.prototype.get_author = cell_get_author ;
-Cell.prototype.date_DDMMYYYY = cell_date_DDMMYYYY ;
+} ;
 
 /*
  * GUI recording
@@ -1892,7 +1862,7 @@ function update_attribute_value(e, attr, table, editable)
 }
 
 // Update ALL the columns headers saw by the user.
-function current_update_column_headers()
+Current.prototype.update_column_headers = function()
 {
   if ( this.do_update_column_headers == false )
     return ;
@@ -1938,9 +1908,9 @@ function current_update_column_headers()
 			     !column_attributes[attr].need_authorization
 			     || !disabled) ;
     }
-}
+} ;
 
-function current_update_cell_headers()
+Current.prototype.update_cell_headers = function()
 {
   var cell = this.cell ;
 
@@ -1976,9 +1946,9 @@ function current_update_cell_headers()
 			'<!--INSTANTDISPLAY-->' + line_resume(this.line_id),'');
   t_editor.value = cell.value ;
   t_editor.disabled = !cell.modifiable(this.column) ;
-}
+} ;
 
-function current_update_table_headers()
+Current.prototype.update_table_headers = function()
 {
   var disabled ;
   var editable ;
@@ -2008,9 +1978,9 @@ function current_update_table_headers()
 	editable = !attributes.need_authorization || !disabled  ;
       update_attribute_value(e, attributes, table_attr, editable) ;
     }
-}
+} ;
 
-function current_update_headers_real()
+Current.prototype.update_headers_real = function()
 {
   var img ;
 
@@ -2065,19 +2035,14 @@ function current_update_headers_real()
     }
   // Update hidden columns menu
   update_hiddens_menu() ;
-}
+} ;
 
-function current_update_headers_()
+Current.prototype.update_headers = function()
 {
-    the_current_cell.update_headers_real() ;
+  periodic_work_add(this.update_headers_real.bind(this)) ;
 }
 
-function current_update_headers()
-{
-    periodic_work_add(current_update_headers_) ;
-}
-
-function current_jump(lin, col, do_not_focus, line_id, data_col)
+Current.prototype.jump = function(lin, col, do_not_focus, line_id, data_col)
 {
   if ( data_col === undefined )
     data_col = data_col_from_col(col) ;
@@ -2170,16 +2135,8 @@ function current_jump(lin, col, do_not_focus, line_id, data_col)
 
   if ( ! do_not_focus )
     {
-      // If focus is done immediatly, the middle button paste
-      // insert HTML source into the <div> element !
-      // This is a firefox bug (see next comment)
-      // The next line is not good : fast input garbaged on non empty cell
-      // setTimeout("the_current_cell.focus() ;", 1) ;
-
-      // DO NOT REMOVE THE STRING TO PASS THE FUNCTION.
-      // IT WILL BREAK THINGS BECAUSE IT IS NO MORE A METHOD BUT A FUNCTION
-      setTimeout('the_current_cell.focus()',100) ; // Opera
-      the_current_cell.focus() ;
+      setTimeout(this.focus.bind(this),100) ; // For Opera
+      this.focus() ;
     }
   this.update_headers() ; //this.previous_col == this.col) ;
 
@@ -2188,7 +2145,7 @@ function current_jump(lin, col, do_not_focus, line_id, data_col)
     this.input_div.removeChild(this.input_div.firstChild) ;
 
   table_highlight_column() ;
-}
+} ;
 
 function current_jump_if_possible(line_id, data_col, do_not_focus)
 {
@@ -2197,22 +2154,22 @@ function current_jump_if_possible(line_id, data_col, do_not_focus)
     this.jump(lin_from_td(td), col_from_td(td), do_not_focus) ;
 }
 
-function current_focus()
+Current.prototype.focus = function()
 {
   //this.input.contentEditable = this.cell.modifiable() ;
   this.input.focus() ;
   if ( this.input.select )
     this.input.select() ;
   this.input_div_focus() ;
-}
+} ;
 
-function current_cell_modifiable()
+Current.prototype.cell_modifiable = function()
 {
   return this.cell.modifiable(this.column) ;
-}
+} ;
    
 // Update input from real table content (external change)
-function current_update(do_not_focus)
+Current.prototype.update = function(do_not_focus)
 {
   var lin, col ;
 
@@ -2225,9 +2182,9 @@ function current_update(do_not_focus)
     col = table_attr.nr_columns - 1 ;
 
   this.jump(lin, col, do_not_focus) ;
-}
+} ;
 
-function current_cursor_down()
+Current.prototype.cursor_down = function()
 {
   this.change() ;
   if ( this.lin == table_attr.nr_lines + nr_headers - 1 )
@@ -2237,9 +2194,9 @@ function current_cursor_down()
     }
   else
     this.jump(this.lin + 1, this.col) ;
-}
+} ;
 
-function current_cursor_up()
+Current.prototype.cursor_up = function()
 {
   this.change() ;
   if ( this.lin == nr_headers )
@@ -2252,9 +2209,9 @@ function current_cursor_up()
     }
   else
     this.jump(this.lin - 1, this.col) ;
-}
+} ;
 
-function current_cursor_right()
+Current.prototype.cursor_right = function()
 {
   this.change() ;
 
@@ -2262,16 +2219,16 @@ function current_cursor_right()
     next_page_horizontal() ;
   else
     this.jump(this.lin, this.col + 1) ;
-}
+} ;
 
-function current_cursor_left()
+Current.prototype.cursor_left = function()
 {
   this.change() ;
   if ( this.col === 0 || ( column_offset !== 0 && this.col == nr_freezed() ) )
     previous_page_horizontal() ;
   else
     this.jump(this.lin, this.col - 1) ;  
-}
+} ;
 
 function control_f()
 {
@@ -2287,12 +2244,12 @@ function focus_on_cell_comment()
   the_comment.focus() ;
 }
 
-function focus_on_editor()
+Current.prototype.focus_on_editor = function()
 {
-  document.getElementById("t_editor").value = the_current_cell.input.value;
+  document.getElementById("t_editor").value = this.input.value;
   select_tab("cellule", "✎") ;
   document.getElementById("t_editor").focus() ;
-}
+} ;
 
 function triggerKeyboardEvent(el, keyCode)
 {
@@ -2372,26 +2329,6 @@ function focus_on_rounding()
   document.getElementById('t_column_rounding').focus() ;
 }
 
-function move_cursor_right()
-{
-  the_current_cell.cursor_right() ;
-}
-
-function move_cursor_left()
-{
-  the_current_cell.cursor_left() ;
-}
-
-function move_cursor_up()
-{
-  the_current_cell.cursor_up() ;
-}
-
-function move_cursor_down()
-{
-  the_current_cell.cursor_down() ;
-}
-
 function cancel_input_editing()
 {
   element_focused.value = element_focused.initial_value ;
@@ -2402,11 +2339,11 @@ function cancel_input_editing()
   triggerKeyboardEvent(a, -1) ;
 }
 
-function cancel_cell_editing()
+Current.prototype.cancel_cell_editing = function()
 {
-  the_current_cell.input.value = the_current_cell.initial_value ;
-  the_current_cell.input.blur() ;
-  the_current_cell.focus() ;
+  this.input.value = this.initial_value ;
+  this.input.blur() ;
+  this.focus() ;
 }
 
 function cancel_select_editing()
@@ -2492,32 +2429,23 @@ function init_shortcuts()
 ["SC", ["(", '5', '9'] , "clear_line_filter"],
 ["SC", ["!","$","%",161,164,165], "focus_on_rounding"],
 ["C", [38]             , "first_page"],
-["", [38]              , "move_cursor_up"],
+["", [38]              , "cursor_up"],
 ["C", [40]             , "last_page"],
-["", [40]              , "move_cursor_down"],
-["S", [13]             , "move_cursor_up"],
-["", [13]              , "move_cursor_down"],
+["", [40]              , "cursor_down"],
+["S", [13]             , "cursor_up"],
+["", [13]              , "cursor_down"],
 ["", [33]              , "previous_page"],
 ["", [34]              , "next_page"],
-["S", [9]              , "move_cursor_left"],
-["", [9]               , "move_cursor_right"],
-["C", [37]             , "move_cursor_left"],
-["C", [39]             , "move_cursor_right"],
-["L", [37]             , "move_cursor_left"],
-["R", [39]             , "move_cursor_right"],
+["S", [9]              , "cursor_left"],
+["", [9]               , "cursor_right"],
+["C", [37]             , "cursor_left"],
+["C", [39]             , "cursor_right"],
+["L", [37]             , "cursor_left"],
+["R", [39]             , "cursor_right"],
 ["S", [113]            , "focus_on_cell_comment"],
 ["C"],
 ["!M", undefined       , "test_nothing"], // Stop event
 		 ] ;
-  for(var i in shortcuts)
-    {
-      var shortcut = shortcuts[i] ;
-      if ( shortcut[2] )
-	{
-	  shortcut.name = shortcut[2] ;
-	  shortcut[2] = eval(shortcut[2]) ;
-	}
-    }
 }
 
 function display_short_cuts()
@@ -2528,7 +2456,7 @@ function display_short_cuts()
     {
       var shortcut = shortcuts[i] ;
       if ( shortcut[2] === undefined
-	   || shortcut[2] === test_nothing
+	   || shortcut[2] === "test_nothing"
 	   || shortcut[1] === undefined
 	   || shortcut[0].match(/[a-zFTLR]/)
 	   || shortcut[3]
@@ -2548,7 +2476,7 @@ function display_short_cuts()
         case  40: key = '↓'  ; break ;
         case 113: key = 'F2' ; break ;
 	}
-      t.push([_('SHORTCUT_' + shortcut.name),
+      t.push([_('SHORTCUT_' + shortcut[2]),
 	      shortcut[0].replace('C', 'Ctrl ').replace('S', 'Shft ')
 	      .replace('A', 'Alt ').replace(/[P]/, ''),
 	      key]) ;
@@ -2572,7 +2500,7 @@ function display_short_cuts()
     + s + '</table></div>' ;
 }
 
-function current_keydown(event, in_input)
+Current.prototype.keydown = function(event, in_input)
 {
   init_shortcuts() ;
   last_user_interaction = millisec() ;
@@ -2658,11 +2586,14 @@ function current_keydown(event, in_input)
 	  // console.log("Bad keys:" + shortcut[0] + ' ' + shortcut[1]) ;
 	  continue ;
 	}
-      // console.log(shortcut[0] + "/" + shortcut[1] + '/' + (shortcut[2] ? shortcut.name : 'undefined')) ;
+      // console.log(shortcut[0] + "/" + shortcut[1] + '/' + (shortcut[2] ? shortcut[2] : 'undefined')) ;
       if ( shortcut[2] !== undefined )
 	{
-	  GUI.add_key(event, shortcut.name) ;
-	  shortcut[2](event) ;
+	  GUI.add_key(event, shortcut[2]) ;
+
+	  // Use method if it exists, if not use a function
+	  try      { eval("this." + shortcut[2] + "(event)") ; }
+	  catch(e) { eval(shortcut[2])(event) ; }
 	  stop_event(event) ;
 	  return false ;
 	}
@@ -2683,11 +2614,11 @@ function current_keydown(event, in_input)
 	}
     }
   return true ;
-}
+} ;
 
 var do_completion_for_this_input ;
 
-function current_do_completion(backspace)
+Current.prototype.do_completion = function(backspace)
 {
   var completion, completions = [] ;
   var input = do_completion_for_this_input ;
@@ -2804,7 +2735,7 @@ function current_do_completion(backspace)
 		    length,
 		    input.value.length) ;
     }
-}
+} ;
 
 var current_change_running = false ;
 
@@ -2813,23 +2744,23 @@ var current_change_running = false ;
   It is called for each interactive cell change.
   If 'true' is returned, an alert is displayed to the user.
 */
-function current_missing_id(value)
+Current.prototype.missing_id = function(value)
 {
   return (this.data_col !== 0
 	  && lines[this.line_id][0].is_empty()
 	  && value !=='') ;
-}
+} ;
 
 
-function current_input_div_focus()
+Current.prototype.input_div_focus = function()
 {
   if ( this.focused )
     this.input_div.style.border = "3px solid blue" ;
   else
     this.input_div.style.border = "3px solid gray" ;  
-}
+} ;
 
-function current_change(value)
+Current.prototype.change = function(value)
 {
   this.input_div_focus() ;
   
@@ -2924,9 +2855,9 @@ function current_change(value)
   update_line(this.line_id, this.data_col) ;
   current_change_running = false ;
   GUI.add("cell_change", undefined, this.input.value) ;
-}
+} ;
 
-function current_toggle()
+Current.prototype.toggle = function()
 {
   var toggle = this.column.real_type.ondoubleclick ;
   if ( toggle === undefined )
@@ -2937,25 +2868,4 @@ function current_toggle()
   this.input.value = value ;
   this.change() ;
   this.update() ;
-}
-
-Current.prototype.jump                  = current_jump                  ;
-Current.prototype.jump_if_possible      = current_jump_if_possible      ;
-Current.prototype.change                = current_change                ;
-Current.prototype.input_div_focus       = current_input_div_focus       ;
-Current.prototype.keydown               = current_keydown               ;
-Current.prototype.update                = current_update                ;
-Current.prototype.cursor_down           = current_cursor_down           ;
-Current.prototype.cursor_up             = current_cursor_up             ;
-Current.prototype.cursor_left           = current_cursor_left           ;
-Current.prototype.cursor_right          = current_cursor_right          ;
-Current.prototype.focus                 = current_focus                 ;
-Current.prototype.toggle                = current_toggle                ;
-Current.prototype.cell_modifiable       = current_cell_modifiable       ;
-Current.prototype.missing_id            = current_missing_id            ;
-Current.prototype.do_completion         = current_do_completion         ;
-Current.prototype.update_headers        = current_update_headers        ;
-Current.prototype.update_headers_real   = current_update_headers_real   ;
-Current.prototype.update_cell_headers   = current_update_cell_headers   ;
-Current.prototype.update_column_headers = current_update_column_headers ;
-Current.prototype.update_table_headers  = current_update_table_headers  ;
+} ;
