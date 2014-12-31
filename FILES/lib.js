@@ -2459,7 +2459,8 @@ function last_page()
   line_offset = nr_not_empty_lines - table_attr.nr_lines + 1 ;
   if ( line_offset < 0 )
     line_offset = 0 ;
-  the_current_cell.lin = table_attr.nr_lines ;
+  the_current_cell.lin = Math.min(table_attr.nr_lines + 1 - nr_headers,
+				  nr_not_empty_lines) ;
   table_fill(false) ;
   return true ;
 }
