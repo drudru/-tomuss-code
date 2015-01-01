@@ -4102,11 +4102,16 @@ function toggle_button(text, dictionnary, name, help)
   return a ;
 }
 
-function radio_buttons(variable, values, selected)
+function radio_buttons(variable, values, selected, action)
 {
   var value, the_class, tip, v ;
-  var s = ['<script>' + variable + ' = "' + selected + '";</script>'] ;
+  var s = [] ;
 
+  if ( variable.indexOf('.') == -1 )
+    s.push('<script>' + variable + ' = "' + selected + '";</script>') ;
+
+  if ( action === undefined )
+    action = "do_printable_display=true" ;
   s.push('<var>') ;
   for(var i in values)
     {
@@ -4128,7 +4133,7 @@ function radio_buttons(variable, values, selected)
       v = '<span class="button_toggle ' + the_class
 	+ '" onclick="' + variable + "='" + value
 	+ "'; radio_clean(this);this.className += ' toggled' ;"
-	+ 'do_printable_display=true;">' +
+	+ action + '">' +
 	(tip ? hidden_txt(value,tip) : value) + '</span>' ;
       s.push(v) ;
     }

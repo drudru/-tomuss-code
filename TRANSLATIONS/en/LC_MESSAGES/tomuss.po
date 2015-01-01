@@ -660,8 +660,7 @@ msgstr "Preferences"
 
 #. Label Tip
 msgid "TIP_preferences"
-msgstr "This link allow to manage your preferences<br>\n"
-       "Preferences are applied to <b>all</b> the tables"
+msgstr "These preferences are applied to <b>all</b> the tables."
 
 #. GUI Label
 msgid "LABEL_howto"
@@ -4356,13 +4355,13 @@ msgid "Preferences_nr_cols"
 msgstr "Default number of columns displayed"
 
 msgid "Preferences_zebra_step"
-msgstr "Number of lines between wide separator"
+msgstr "lines between thick separators"
 
 msgid "Preferences_page_step"
-msgstr "With 0.5: «next page» key, move by half a page"
+msgstr ": translation done by the<br>«next/previous page» keys. 1 = full page"
 
 msgid "Preferences_invert_name"
-msgstr "Invert firstname and surname columns"
+msgstr "invert firstname and surname columns"
 
 msgid "Preferences_scrollbar_right"
 msgstr "Display the vertical scrollbar on the right side"
@@ -4374,7 +4373,7 @@ msgid "Preferences_v_scrollbar"
 msgstr "Display the vertical scrollbar"
 
 msgid "Preferences_v_scrollbar_nr"
-msgstr "Number of characters displayed in the vertical scrollbar"
+msgstr "characters displayed in the vertical scrollbar"
 
 msgid "Preferences_interface"
 msgstr "User interface: N:normal L:linear (better accessibility)"
@@ -4383,7 +4382,7 @@ msgid "Preferences_current_suivi"
 msgstr "Home page: use the current semester for the 'suivi' page"
 
 msgid "Preferences_language"
-msgstr "User interface language (fr, en)"
+msgstr "interface language"
 
 msgid "Preferences_home_3scrollbar"
 msgstr "If YES, there is one scrollbar per column instead of one for the home page"

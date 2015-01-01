@@ -118,6 +118,87 @@ function show_help_popup()
 	       , '', false) ;
 }
 
+function preference_change(t, value)
+{
+  table_init() ;
+  table_fill(true, true, true) ;
+  var img = document.createElement('IMG') ;
+  img.src = url + '/=' + ticket + '/save_preferences/' + value ;
+  img.className = 'server' ;
+  t.appendChild(img) ;
+}
+
+function zebra_change(t)
+{
+  preference_change(t, "zebra_step=" + zebra_step) ;
+}
+
+function invert_name_change(t)
+{
+  if ( columns.length > 2 && columns[2].title == COL_TITLE_0_2)
+    {
+      if ( preferences.invert_name == yes )
+	columns[2].position = columns[1].position - 0.1 ;
+      else
+	columns[2].position = columns[1].position + 0.1 ;
+    }
+
+  preference_change(t, "invert_name="+(preferences.invert_name==yes ? 1 : 0)) ;
+}
+
+function language_change(t)
+{
+  preference_change(t, "language=" + preferences.language) ;
+  if (table_attr.autosave && pending_requests.length == pending_requests_first)
+    window.location = window.location ;
+}
+
+function v_scrollbar_nr_change(t)
+{
+  preference_change(t, "v_scrollbar_nr=" + preferences.v_scrollbar_nr) ;
+}
+
+function page_step_change(t)
+{
+  preference_change(t, "page_step=" + preferences.page_step) ;
+}
+
+function show_preferences_popup()
+{
+  if ( popup_is_open() )
+    {
+      popup_close() ;
+      return ;
+    }
+  create_popup('help_popup', _("LABEL_preferences"),
+	       _('TIP_preferences')
+	       + '<p>'
+	       + radio_buttons('zebra_step/*.*/', ["3", "4", "5", "10"],
+			       zebra_step, "zebra_change(this)")
+	       + _("Preferences_zebra_step")
+	       + '<p>'
+	       + radio_buttons('preferences.invert_name', [yes, no],
+			       test_bool(preferences.invert_name),
+			       "invert_name_change(this)")
+	       + _("Preferences_invert_name")
+	       + '<p>'
+	       + radio_buttons('preferences.language', ["en", "fr"],
+			       preferences.language.split(',')[0],
+			       "language_change(this)")
+	       + _("Preferences_language")
+	       + '<p>'
+	       + radio_buttons('preferences.v_scrollbar_nr', ["0", "1", "2"],
+			       preferences.v_scrollbar_nr,
+			       "v_scrollbar_nr_change(this)")
+	       + _("Preferences_v_scrollbar_nr")
+	       + '<p>'
+	       + radio_buttons('preferences.page_step', ["0.25", "0.5", "1"],
+			       preferences.page_step,
+			       "page_step_change(this)")
+	       + _("Preferences_page_step")
+	       ,'' , false) ;
+}
+
 function head_html()
 {
   if ( window.location.pathname.search('=read-only=') != -1 )
@@ -148,16 +229,14 @@ function head_html()
     + '<tr><td><a href="' + url + '/=' + ticket + '/logout">'
     + _('LABEL_logout') + '</a> <b>' + my_identity + '</b>'
     + '<br>'
-    + hidden_txt('<a href="' + url + '/=' + ticket + '/0/Preferences/'
-		 + my_identity2 + '" target="_blank">' + _('LABEL_preferences')
-		 + '</a>', _('TIP_preferences')) + ', '
     + hidden_txt(_('MSG_connected'), _('TIP_connection_state'), '',
 		 'connection_state')
     + hidden_txt(_('MSG_updating'), _('TIP_updating'), '', 'updating')
     + '<td class="icons">'
     + '&nbsp;<a target="_blank" href="' + rss2
-    + '"><img style="border:0px" src="_FILES_/feed.png"></a>'
-    + '&nbsp;<a href="javascript:show_help_popup()">' + _("TAB_?")+'</a>&nbsp;'
+    + '"><img style="border:0px" src="_FILES_/feed.png"></a>&nbsp;'
+    + '<a href="javascript:show_help_popup()">' + _("TAB_?")+'</a>&nbsp;'
+    + '<a href="javascript:show_preferences_popup()">⚙</a>&nbsp;'
     + '</tr></table>'
     + '<div id="charsize" style="position:absolute;top:-999px">8</div>'
     + '<h1>'

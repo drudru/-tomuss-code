@@ -26,7 +26,6 @@ Save user preferences for suivi
 import os
 from .. import plugin
 from .. import utilities
-from .. import configuration
 from .. import files
 
 def save_preferences(server):
@@ -37,8 +36,10 @@ def save_preferences(server):
         item = item.split('=')
         assert(len(item) == 2)
         assert(utilities.safe(item[0]) == item[0])
-        d[item[0]] = int(item[1])
-        assert(d[item[0]] in (0,1))
+        try:
+            d[item[0]] = int(item[1])
+        except ValueError:
+            d[item[0]] = item[1]
     utilities.manage_key('LOGINS', os.path.join(login, 'preferences'),
                          content = repr(d))
     server.the_file.write(str(files.files['ok.png']))

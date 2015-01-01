@@ -651,8 +651,7 @@ msgstr "Préférences"
 
 #. Label Tip
 msgid "TIP_preferences"
-msgstr "Ce lien vous permet de régler les préférences.<br>\n"
-       "Les préférences sont appliquées à <b>tous</b> les tableaux"
+msgstr "Ces préférences sont appliquées à <b>tous</b> les tableaux."
 
 #. GUI Label
 msgid "LABEL_howto"
@@ -4407,13 +4406,13 @@ msgid "Preferences_nr_cols"
 msgstr "Nombre de colonnes affichées par défaut"
 
 msgid "Preferences_zebra_step"
-msgstr "Nombre de lignes entre les traits épais"
+msgstr "lignes entre les traits épais"
 
 msgid "Preferences_page_step"
-msgstr "Avec 0,5 «page suivante» décale d'½ page"
+msgstr " : décalage quand on passe à la page<br>suivante/précédente, 1 = page entière"
 
 msgid "Preferences_invert_name"
-msgstr "Inverse les colonnes NOM et PRÉNOM"
+msgstr "inverse les colonnes NOM et PRÉNOM"
 
 msgid "Preferences_scrollbar_right"
 msgstr "Affiche l'ascenseur vertical à droite"
@@ -4425,7 +4424,7 @@ msgid "Preferences_v_scrollbar"
 msgstr "Affiche l'ascenseur vertical"
 
 msgid "Preferences_v_scrollbar_nr"
-msgstr "Nombre de caractères affichés dans l'ascenseur vertical"
+msgstr "caractères affichés dans l'ascenseur vertical"
 
 msgid "Preferences_interface"
 msgstr "Interface utilisateur : N:normal L:lineaire (pour malvoyant)"
@@ -4434,7 +4433,7 @@ msgid "Preferences_current_suivi"
 msgstr "Page d'accueil : on fait le suivi du semestre courant au lieu du semestre choisi"
 
 msgid "Preferences_language"
-msgstr "Langage de l'interface (fr, en)"
+msgstr "langue de l'interface utilisateur"
 
 msgid "Preferences_home_3scrollbar"
 msgstr "Si OUI alors il y a un ascenseur par zone au lieu d'un seul pour la page d'accueil"

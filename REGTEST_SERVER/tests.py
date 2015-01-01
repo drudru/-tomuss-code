@@ -242,71 +242,20 @@ def tests():
         assert(not_in_demo_mode in c)
 
     if do('preferences'):
-        # First load : progressive display
-        c = s.url('=' + abj + '/0/Preferences/'+utilities.login_to_module(abj))
-        lines_id = ['current_suivi', 'display_tips', 'favoris_sort',
-                    'home_3scrollbar', 
-                    'interface', 'invert_name', 'language', 'nr_cols',
-                    'nr_favorites', 'nr_lines', 'page_step', 'scrollbar_right',
-                    'v_scrollbar', 'v_scrollbar_nr', 'zebra_step']
-        nr_columns = 4
-        nr_pages = 3
-        nr_cells = len(lines_id) * (nr_columns-1)
-        check('Y0/SPreferences/' + utilities.login_to_module(abj) + '.py',
-              masters_expected = [abj], nr_pages = nr_pages,
-              nr_columns = nr_columns, lines_id = lines_id,
-              nr_cells = nr_cells,
-              dump=False)
+        c = s.url('=' + abj).split('preferences=')[-1]
+        c = c.split(';')[0]
+        assert("'home_3scrollbar': 1" in c)
 
-        # Second load : full table is here
-        c = s.url('=' + abj + '/0/Preferences/'+utilities.login_to_module(abj))
-        assert('P("zebra_step",[' in c)
-        assert_col({"the_id":"0_2","type":"Text","author":"*","freezed":"F","hidden":1,
-                   "position":2,"title":_("COL_TITLE_order"),"width":2}, c)
-        assert('Xcell_change(' not in c)
-        assert("x.value=" not in c)
-        nr_pages += 1
-        check('Y0/SPreferences/' + utilities.login_to_module(abj) + '.py',
-              masters_expected = [abj], nr_pages = nr_pages,
-              nr_columns = nr_columns, lines_id = lines_id,
-              nr_cells = nr_cells,
-              dump=False)
-
-        # Try to change explanation : impossible
-        c = s.url('='+abj+'/0/Preferences/' + utilities.login_to_module(abj) +
-                  '/2/0/cell_change/0_0/display_tips/_A_')
-        assert(c == bad_png)
-        check('Y0/SPreferences/' + utilities.login_to_module(abj) + '.py',
-              masters_expected = [abj], nr_pages = nr_pages,
-              nr_columns = nr_columns, lines_id = lines_id,
-              nr_cells = nr_cells,
-              dump=False)
-
-        # Try to change recommended value : impossible
-        c = s.url('='+abj+'/0/Preferences/' + utilities.login_to_module(abj) +
-                  '/2/1/cell_change/0_1/display_tips/_B_')
-        assert(c == bad_png)
-        check('Y0/SPreferences/' + utilities.login_to_module(abj) + '.py',
-              masters_expected = [abj], nr_pages = nr_pages,
-              nr_columns = nr_columns, lines_id = lines_id,
-              nr_cells = nr_cells,
-              dump=False)
-
-        # Try to change value : ok
-        c = s.url('='+abj+'/0/Preferences/' + utilities.login_to_module(abj) +
-                  '/2/2/cell_change/0_3/display_tips/_D_')
+        c = s.url('=' + abj + '/save_preferences/favoris_sort=1')
         assert(c == ok_png)
-        nr_cells += 1
-        check('Y0/SPreferences/' + utilities.login_to_module(abj) + '.py',
-              masters_expected = [abj], nr_pages = nr_pages,
-              nr_columns = nr_columns, lines_id = lines_id,
-              nr_cells = nr_cells,
-              cell_required = (2,'0_3','display_tips','_D_'),
-              dump=False)
 
-        c = s.url('=' + abj + '/0/Preferences/'+utilities.login_to_module(abj))
-        assert("'display_tips': '_D_'" in c)
+        c = utilities.read_file('DBregtest/LOGINS/%s/%s/preferences' % (
+            abj[:3], abj))
+        assert("{'favoris_sort': 1}" == c)
 
+        c = s.url('=' + abj).split('preferences=')[-1]
+        c = c.split(';')[0]
+        assert("'favoris_sort': 1" in c)
 
     if do('emptydossier'):
         c = s.url('=' + abj + '/%d/Dossiers/emptydossier' % uyear)

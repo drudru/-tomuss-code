@@ -128,14 +128,43 @@ def filter_language(language):
     return ','.join(t)
 
 def get_preferences(user_name, create_pref=True, the_ticket=None):
-    my_identity2 = utilities.login_to_module(user_name)
-    prefs_table = table(0, 'Preferences', my_identity2, None, None,
-                        create=create_pref)
+    from PLUGINS import suivi_student
+    p = suivi_student.display_preferences_get(user_name)
+    for k, v in {'display_tips'   : 1,
+                 'nr_favorites'   : 6,
+                 'nr_lines'       : 0,
+                 'nr_cols'        : 0,
+                 'zebra_step'     : 5,
+                 'page_step'      : 1,
+                 'invert_name'    : 1,
+                 'scrollbar_right': 1,
+                 'favoris_sort'   : 0,
+                 'v_scrollbar'    : 1,
+                 'v_scrollbar_nr' : 1,
+                 'interface'      : "N",
+                 'current_suivi'  : 0,
+                 'home_3scrollbar': 1,
+    }.items():
+        if k not in p:
+            p[k] = v
 
-    if prefs_table is None:
-        p = {}
-    else:
-        p = prefs_table.template.preferences(prefs_table)
+    # XXX compatibility with old TOMUSS version
+    my_identity2 = utilities.login_to_module(user_name)
+    old_prefs = table_filename(0, 'Preferences', my_identity2)
+    if os.path.exists(old_prefs):
+        prefs_table = table(0, 'Preferences', my_identity2, None, None,
+                            create=False)
+        if prefs_table is not None:
+            for k, v in p.items():
+                # Do not get theses preferences.
+                if k in ('nr_lines', 'nr_cols', 'display_tips'):
+                    continue
+                if k in prefs_table.lines:
+                    p[k] = prefs_table.lines[k][3].value
+            utilities.manage_key('LOGINS',os.path.join(user_name,'preferences'),
+                                 content = repr(p))
+            os.unlink(old_prefs)
+
     warn('Language in preferences: (%s)' % p.get('language', ''), what="lang")
     if p.get('language', '') == '':
         if the_ticket is None:

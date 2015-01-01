@@ -53,6 +53,8 @@ DIV.import_export.help_popup {
     padding-right: 0px ;
     overflow: hidden ;
     border: 1px solid black ;
+    opacity: 0.9 ;
+    background: #FFF ;
 }
 
 DIV.help_popup P { margin-top: 0.8em ; }

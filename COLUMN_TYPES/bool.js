@@ -34,10 +34,11 @@ function test_bool(value, column)
 {
   if ( value === undefined )
     return '' ;
-  var v = value.toUpperCase() ;
-  if ( v == yes_char || v == '1' || v == yes )
+  if ( value.toUpperCase )
+    value = value.toUpperCase() ;
+  if ( value == yes_char || value == '1' || value == yes )
     return yes ;
-  if ( v == no_char || v == '0' || v == no )
+  if ( value == no_char || value == '0' || value == no )
     return no ;
   return '' ;
 }
