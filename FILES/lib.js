@@ -2411,7 +2411,7 @@ function next_page(next_cell, dy)
   if ( dy === undefined )
     dy = Number((table_attr.nr_lines * preferences.page_step).toFixed(0)) ;
 
-  if ( next_cell )
+  if ( next_cell === true )
     {
       table_fill_hook = function() {
 	cell_goto(table.childNodes[nr_headers+table_attr.nr_lines-dy].childNodes[the_current_cell.col]) ;
@@ -2430,7 +2430,7 @@ function previous_page(previous_cell, dy)
     the_current_cell.change() ;
   if ( dy === undefined )
     dy = Number((table_attr.nr_lines * preferences.page_step).toFixed(0)) ;
-  if ( previous_cell )
+  if ( previous_cell === true )
     {
       table_fill_hook = function() {
 	cell_goto(table.childNodes[nr_headers+dy-1].childNodes[the_current_cell.col]) ; } ;
