@@ -27,13 +27,40 @@ BODY.tomuss, BODY.tomuss TABLE INPUT, BODY.tomuss TABLE TD, BODY.tomuss TH, BODY
 }
 
 .identity {
-  font-size: 80% ;
   float: right ;
-  text-align: right;
   margin-left:2em;
 }
 
-.identity IMG { height: 1em }
+.identity TD {
+    font-size: 80% ;
+    white-space: nowrap ;
+    text-align: right;
+}
+
+.identity .icons {
+    font-weight:bold ;
+    font-size:170% ;
+}
+
+.identity IMG { height: 0.8em }
+
+DIV.import_export.help_popup {
+    top: 2em ;
+    right: 0px ;
+    left: auto ;
+    bottom: 0px ;
+    max-width: 35em ;
+    padding-right: 0px ;
+    overflow: hidden ;
+    border: 1px solid black ;
+}
+
+DIV.help_popup P { margin-top: 0.8em ; }
+
+DIV.scrollable {
+    overflow: auto ;
+    max-height: 97% ;
+}
 
 #updating { display:none; background: orange }
 
@@ -293,15 +320,13 @@ DIV#tip SPAN.title { background-color: #CCF ; }
 DIV#tip UL, DIV#tip P { margin: 0px ; }
 
 DIV.shortcuts {
-    overflow:auto ;
     background: #888 ;
     }
 DIV.shortcuts TD {
-    background: #FFF
+    background: #EEE
     }
 DIV.shortcuts TD.key {
     text-align: center ;
-    font-size: 150% ;
     }
 DIV.shortcuts TD.modifier {
     text-align:right

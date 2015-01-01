@@ -656,11 +656,7 @@ msgstr "Ce lien vous permet de régler les préférences.<br>\n"
 
 #. GUI Label
 msgid "LABEL_howto"
-msgstr "Aides"
-
-#. Label Tip
-msgid "TIP_howto"
-msgstr "Catalogue de video explicatives de TOMUSS"
+msgstr "Catalogue des videos explicatives de TOMUSS"
 
 #. GUI Label
 msgid "MSG_connected"
@@ -745,8 +741,7 @@ msgstr "Documentation complète et intéractive"
 
 #. Tip
 msgid "TIP_documentation"
-msgstr "Cliquez sur le lien pour avoir tous les détails sur<br>\n"
-       "l'utilisation de ce tableur"
+msgstr "Suivez ces liens pour avoir plus d'informations :"
 
 #. Tip cell attribute
 msgid "TIP_cell_attr_student_picture"
@@ -850,12 +845,7 @@ msgstr "Info"
 
 #. GUI Label
 msgid "LABEL_styles"
-msgstr "<span class=\"ro\">S</span>"
-       "<span class=\"comment\">t</span>"
-       "<span class=\"today\">y</span>"
-       "<span class=\"is_an_abj\">l</span>"
-       "<span class=\"non\">e</span>"
-       "<span class=\"tt\">s</span> d'affichage utilisés dans la table"
+msgstr "Styles d'affichage utilisés dans la table :"
 
 #. Tip cell attribute
 msgid "TIP_styles"
@@ -865,7 +855,7 @@ msgstr "<span class=\"ro\">Le texte est gris si la cellule\n"
        "commentaire.</span><br>\n"
        "<span class=\"today\">Le texte est gras si la cellule\n"
        "a été modifiée aujourd'hui.</span><br>\n"
-       "<span class=\"is_an_abj\">Si ABINJ est souligné,\n"
+       "<span class=\"is_an_abj\">ABINJ souligné :\n"
        "cliquez dessus pour vérifier s'il a un justificatif.</span><br>\n"
        "<span class=\"non\">Le fond est rouge si l'étudiant\n"
        "n'est pas inscrit à l'UE.</span><br>\n"
@@ -909,7 +899,7 @@ msgstr "Mettez le curseur sur les petits carrés pour savoir<br>\n"
        "ce qu'ils représentent."
 
 msgid "LABEL_shortcuts"
-msgstr "Liste des raccourcis clavier"
+msgstr "Liste des raccourcis clavier :"
 
 msgid "SHORTCUT_clear_line_filter"
 msgstr "Efface le filtre de sélection de lignes"
@@ -1171,7 +1161,7 @@ msgid "LABEL_column_attr_author"
 msgstr "Définie par "
 
 msgid "LABEL_help_autosave"
-msgstr "Ce que vous faites est sauvegardé automatiquement"
+msgstr "Ce que vous faites est automatiquement enregistré, pas besoin de sauver."
 
 msgid "TIP_help_autosave"
 msgstr "Quand vous saisissez une note dans une cellule<br>\n"
@@ -1181,7 +1171,7 @@ msgstr "Quand vous saisissez une note dans une cellule<br>\n"
        "src=\"_FILES_/ok.png\"> la sauvegarde n'est pas garantie."
 
 msgid "LABEL_help_visibility"
-msgstr "Rien n'est caché aux étudiants par défaut"
+msgstr "Par défaut, rien n'est caché aux étudiants."
 
 msgid "TIP_help_visibility"
 msgstr "Vous pouvez rendre la table complète invisible<br>\n"
@@ -1191,9 +1181,6 @@ msgstr "Vous pouvez rendre la table complète invisible<br>\n"
 
 msgid "LABEL_help_average"
 msgstr "Comment calculer une moyenne ?"
-
-msgid "TIP_help_average"
-msgstr "Il est recommandé de lire le sommaire de la documentation."
 
 #. GUI Label
 msgid "LABEL_nr_filtered_lines"
@@ -5694,3 +5681,5 @@ msgstr "Il y a des navigateurs qui utilisent cette table :\n"
 msgid "MSG_remove_history_confirm"
 msgstr "Suivre ce lien pour confirmer cette opération."
 
+msgid "TITLE_help_popup"
+msgstr "Ce qu'il faut savoir"

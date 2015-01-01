@@ -70,6 +70,54 @@ function toggle_bookmarked(t)
     + ue + '/bookmark" width="8" height="8">' ;
 }
 
+function show_help_popup()
+{
+  if ( popup_is_open() )
+    {
+      popup_close() ;
+      return ;
+    }
+  create_popup('help_popup', _("TITLE_help_popup"),
+	       '<div class="scrollable">'
+	       + hidden_txt(_("LABEL_help_autosave"), _("TIP_help_autosave"))
+	       + '<p>'
+	       + hidden_txt(_("LABEL_help_visibility"),_("TIP_help_visibility"))
+	       + '<p>'
+	       + _("LABEL_table_help")
+	       + '<p><b>' + _("TIP_documentation") + '</b>'
+	       + '<div class="shortcuts"><table>'
+	       + '<tr><td><a href="_FILES_/doc_table.html" target="_blank">'
+	       + _("LABEL_documentation") + '</a></tr>'
+	       + '<tr><td>'
+	       + '<a target="_blank" href="_FILES_/doc_table.html#Calcul de moyenne">' +
+			    _("LABEL_help_average") + '</a>'
+	       + '</tr><tr><td>'
+	       + '<a href="javascript:howto()">' + _('LABEL_howto') + '</a>'
+	       + '</tr></table></div>'
+	       
+	       + '<p><b>' + _("LABEL_styles") + '</b>'
+	       + '<div class="shortcuts"><table>'
+	       + _("TIP_styles").replace(/<span/g,"<tr><td><span")
+	       .replace(/<br>/g, '</tr>')
+	       + '</tr></table></div>'
+
+	       + '<p><b>' + _("TIP_square") + '</b>'
+	       + '<div class="shortcuts"><table>'
+	       + '<tr><td><img class="server" src="data:"> '
+	       + _("TIP_orange_square") + '</tr>'
+	       + '<tr><td><img class="server" src="_FILES_/ok.png"> '
+	       + _("TIP_green_square") + '</tr>'
+	       + '<tr><td><img class="server" src="_FILES_/bad.png"> '
+	       + _("TIP_red_square") + '</tr>'
+	       +  '<tr><td><img class="server" src="_FILES_/bug.png"> '
+	       + _("TIP_violet_square")  + '</tr></table></div>'
+	       
+	       + '<p><b>' + _("LABEL_shortcuts") + '</b>'
+	       + display_short_cuts()
+	       + '</div>'
+	       , '', false) ;
+}
+
 function head_html()
 {
   if ( window.location.pathname.search('=read-only=') != -1 )
@@ -96,19 +144,22 @@ function head_html()
     + 'onkeydown="the_current_cell.keydown(event, false)">'
     // This message is visible in FireFox (bug ?)
     //   '<noscript>Activez JavaScript et réactualisez la page</noscript>'+
-    + '<div class="identity">'
-    + '<p><a href="' + url + '/=' + ticket + '/logout">'
+    + '<table class="identity">'
+    + '<tr><td><a href="' + url + '/=' + ticket + '/logout">'
     + _('LABEL_logout') + '</a> <b>' + my_identity + '</b>'
-    + '<a href="' + rss2 + '"><img style="border:0px" src="_FILES_/feed.png"></a>'
-    + hidden_txt('<a href="javascript:howto()">'
-		  + _('LABEL_howto') + '</a>', _('TIP_howto')) + ', '
+    + '<br>'
     + hidden_txt('<a href="' + url + '/=' + ticket + '/0/Preferences/'
 		 + my_identity2 + '" target="_blank">' + _('LABEL_preferences')
 		 + '</a>', _('TIP_preferences')) + ', '
     + hidden_txt(_('MSG_connected'), _('TIP_connection_state'), '',
 		 'connection_state')
     + hidden_txt(_('MSG_updating'), _('TIP_updating'), '', 'updating')
-    + '</div><div id="charsize" style="position:absolute;top:-999px">8</div>'
+    + '<td class="icons">'
+    + '&nbsp;<a target="_blank" href="' + rss2
+    + '"><img style="border:0px" src="_FILES_/feed.png"></a>'
+    + '&nbsp;<a href="javascript:show_help_popup()">' + _("TAB_?")+'</a>&nbsp;'
+    + '</tr></table>'
+    + '<div id="charsize" style="position:absolute;top:-999px">8</div>'
     + '<h1>'
     + hidden_txt('<a onclick="toggle_bookmarked(this)">'
 		 + (bookmarked ? '★' : '☆')+'</a>',
@@ -609,12 +660,6 @@ function new_new_interface()
 {
   var o, t ;
 
-  var doc_link = '<div class="one_line">' +
-    hidden_txt('<a href="_FILES_/doc_table.html" target="_blank">' +
-	       _("LABEL_documentation") + '</a>',  _("TIP_documentation"))
-      + '</div>' ;
-
-
   // CELLULE / Cellule
 
   t = ['<table class="cell"><tr><td>'] ;
@@ -654,31 +699,6 @@ function new_new_interface()
 		    _("TIP_cell_editor"))) ;
   o.push(['✎' /* ✍ */ , t.join('\n')]) ;
 		 
-  // CELLULE / ?
-
-  t = [] ;
-  t.push(doc_link) ;
-  t.push('<div class="one_line">') ;
-  t.push(hidden_txt(_("LABEL_styles"), _("TIP_styles"))) ;
-  t.push('</div>') ;
-  t.push('<div class="one_line">') ;
-  t.push(hidden_txt('&nbsp;<img class="server"> ',
-		    _("TIP_square") + _("TIP_orange_square"))) ;
-  t.push(hidden_txt('&nbsp;<img class="server" src="_FILES_/ok.png"> ',
-		    _("TIP_square") + _("TIP_green_square"))) ;
-  t.push(hidden_txt('&nbsp;<img class="server" src="_FILES_/bad.png"> ',
-		    _("TIP_square") + _("TIP_red_square"))) ;
-  t.push(hidden_txt('&nbsp;<img class="server" src="_FILES_/bug.png">',
-		    _("TIP_square") + _("TIP_violet_square"))) ;
-  t.push(hidden_txt(_("LABEL_square"), _("TIP_LABEL_square"))) ;
-  t.push('</div>') ;
-  
-  t.push('<div class="one_line">') ;
-  t.push(hidden_txt(_("LABEL_shortcuts"),
-		    '<!--INSTANTDISPLAY-->' + display_short_cuts())) ;
-  t.push('</div>')
-  o.push([_('TAB_?'), t.join('\n')]) ;
-
   // CELLULE
 
   var w = [] ;
@@ -871,23 +891,6 @@ function new_new_interface()
 
   o.push([_("TAB_column_action"), t.join('\n')]) ;
 
-  // COLUMN / Help
-
-  t = [] ;
-  t.push(doc_link) ;
-  t.push('<div class="one_line">') ;
-  t.push(hidden_txt(_("LABEL_help_autosave"), _("TIP_help_autosave"))) ;
-  t.push('</div>') ;
-  t.push('<div class="one_line">') ;
-  t.push(hidden_txt(_("LABEL_help_visibility"), _("TIP_help_visibility"))) ;
-  t.push('</div>') ;
-  t.push('<div class="one_line">') ;
-  t.push(hidden_txt('<a target="_blank" href="_FILES_/doc_table.html#Calcul de moyenne">' +
-		    _("LABEL_help_average"), _("TIP_help_average"))) ;
-  t.push('</div>') ;
-
-  o.push([_("TAB_?"), t.join('\n')]) ;
-
   // COLUMN
 
   w.push('</td><td class="tabbed_headers">') ;
@@ -1040,13 +1043,6 @@ function new_new_interface()
   }
 
   o.push([_("TAB_table_info"), t.join('\n')]) ;
-
-  // Table / Help
-
-  o.push([_('TAB_?'),
-	  '<div class="scroll_auto">'
-	  + doc_link + _("LABEL_table_help") + '</div>'
-	  ]) ;
 
   w.push('</td><td class="tabbed_headers">') ;
   w.push( create_tabs('table', o) ) ;

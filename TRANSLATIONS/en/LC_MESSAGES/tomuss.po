@@ -665,11 +665,7 @@ msgstr "This link allow to manage your preferences<br>\n"
 
 #. GUI Label
 msgid "LABEL_howto"
-msgstr "HowTo"
-
-#. Label Tip
-msgid "TIP_howto"
-msgstr "Explanatory videos"
+msgstr "Some video tutorials"
 
 #. GUI Label
 msgid "MSG_connected"
@@ -752,8 +748,7 @@ msgstr "Interactive full documentation"
 
 #. Tip
 msgid "TIP_documentation"
-msgstr "Follow this link to have all the details<br>\n"
-       "about this spreadsheet utilisation"
+msgstr "Follow these links to have more documentation:"
 
 #. Tip cell attribute
 msgid "TIP_cell_attr_student_picture"
@@ -856,27 +851,22 @@ msgstr "Info"
 
 #. GUI Label
 msgid "LABEL_styles"
-msgstr "Display <span class=\"ro\">S</span>"
-       "<span class=\"comment\">t</span>"
-       "<span class=\"today\">y</span>"
-       "<span class=\"is_an_abj\">l</span>"
-       "<span class=\"non\">e</span>"
-       "<span class=\"tt\">s</span> used in the table"
+msgstr "Display styles used in the table:"
 
 #. Tip cell attribute
 msgid "TIP_styles"
-msgstr "<span class=\"ro\">The text is grey is the cell\n"
+msgstr "<span class=\"ro\">The text is grey if the cell\n"
        "has been defined by another user.</span><br>\n"
        "<span class=\"comment\">Triangle if there is a\n"
        "comment.</span><br>\n"
-       "<span class=\"today\">Bold text is the cell\n"
+       "<span class=\"today\">Bold text if the cell\n"
        "was modified today.</span><br>\n"
-       "<span class=\"is_an_abj\">If ILV (Injustified Leave) is underlined,\n"
+       "<span class=\"is_an_abj\">ILV (Injustified Leave) underlined:\n"
        "check the 'leave' justifications.</span><br>\n"
        "<span class=\"non\">Red background if the student\n"
        "is not registered in the UE.</span><br>\n"
        "<span class=\"tt\">Blue background if the student\n"
-       "has special examination conditions (TT).</span><br>\n"
+       "has special examination conditions.</span><br>\n"
        "<span class=\"filtered\">Yellow background if the\n"
        "cell is selected by a filter</span>"
 
@@ -886,8 +876,8 @@ msgstr "This small square appears when:<br>"
 
 #. Tip cell attribute
 msgid "TIP_orange_square"
-msgstr "the browser try to store the value in the server,<br>\n"
-       "if is take more than 5 seconds, there is a <b>problem</b> (network?).\n"
+msgstr "The browser is trying to store the value in the server,<br>\n"
+       "if is take more than 5 seconds, there is a <b>problem</b> (network?).<br>\n"
        "Try to not work in these conditions."
 
 #. Tip cell attribute
@@ -896,7 +886,7 @@ msgstr "The value has been <b>stored with success</b> on the server."
 
 #. Tip cell attribute
 msgid "TIP_red_square"
-msgstr "the server <b>rejected the value change</b>.<br>\n"
+msgstr "The server <b>rejected the value change</b>.<br>\n"
        "May be you are not allowed to modify the value"
 
 #. Tip cell attribute
@@ -913,7 +903,7 @@ msgid "TIP_LABEL_square"
 msgstr "Put the pointer on the small squares to known what they mean."
 
 msgid "LABEL_shortcuts"
-msgstr "Keyboard shortcut list"
+msgstr "Keyboard shortcut list:"
 
 msgid "SHORTCUT_clear_line_filter"
 msgstr "Clear the line filter"
@@ -976,7 +966,7 @@ msgid "SHORTCUT_toggle_display_tips"
 msgstr " Hide or show the tips"
 
 msgid "SHORTCUT_fill_column_with_value"
-msgstr "Fill the column with the current call value"
+msgstr "Fill the column with the current cell value"
 
 
 #. GUI Label
@@ -1180,7 +1170,7 @@ msgstr "Defined by "
 
 #. Label column attribute
 msgid "LABEL_help_autosave"
-msgstr "All your actions are immediately recorded."
+msgstr "All your actions are immediately recorded, no need to save."
 
 #. Label column attribute
 msgid "TIP_help_autosave"
@@ -1190,7 +1180,7 @@ msgstr "When you modify a cell, a <img class=\"server\" src=\"_FILES_/ok.png\">\
        "the data is not saved."
 
 msgid "LABEL_help_visibility"
-msgstr "By default, nothing is hidden to students"
+msgstr "By default, nothing is hidden to students."
 
 msgid "TIP_help_visibility"
 msgstr "You can hide the table in ``Parametrage'' tab.<br>\n"
@@ -1199,9 +1189,6 @@ msgstr "You can hide the table in ``Parametrage'' tab.<br>\n"
 
 msgid "LABEL_help_average"
 msgstr "How to compute an average?"
-
-msgid "TIP_help_average"
-msgstr "It is recommended to read the documentation table of content"
 
 #. GUI Label
 msgid "LABEL_nr_filtered_lines"
@@ -5580,3 +5567,6 @@ msgstr "There are browsers on this table:\n"
 
 msgid "MSG_remove_history_confirm"
 msgstr "Follow this link to confirm this action"
+
+msgid "TITLE_help_popup"
+msgstr "What you need to know"

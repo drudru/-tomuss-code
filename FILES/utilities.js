@@ -2495,9 +2495,7 @@ function display_short_cuts()
 	+ (t[i][0] ? '<td rowspan="' + (j-i) + '">' + t[i][0] : '')
 	+ '</tr>' ;
     }
-  var h = Math.floor(window_height() * 0.75) ;
-  return '<div class="shortcuts" style="max-height:' + h + 'px"><table>'
-    + s + '</table></div>' ;
+  return '<div class="shortcuts"><table>' + s + '</table></div>' ;
 }
 
 Current.prototype.keydown = function(event, in_input)
