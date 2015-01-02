@@ -161,9 +161,11 @@ def get_preferences(user_name, create_pref=True, the_ticket=None):
                     continue
                 if k in prefs_table.lines:
                     p[k] = prefs_table.lines[k][3].value
-            utilities.manage_key('LOGINS',os.path.join(user_name,'preferences'),
-                                 content = repr(p))
-            os.unlink(old_prefs)
+            if create_pref:
+                utilities.manage_key('LOGINS',
+                                     os.path.join(user_name,'preferences'),
+                                     content = repr(p))
+                os.unlink(old_prefs)
 
     warn('Language in preferences: (%s)' % p.get('language', ''), what="lang")
     if p.get('language', '') == '':
