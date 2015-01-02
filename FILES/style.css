@@ -44,20 +44,23 @@ BODY.tomuss, BODY.tomuss TABLE INPUT, BODY.tomuss TABLE TD, BODY.tomuss TH, BODY
 
 .identity IMG { height: 0.8em }
 
-DIV.import_export.help_popup {
+DIV.import_export.top_right {
     top: 2em ;
     right: 0px ;
     left: auto ;
-    bottom: 0px ;
     max-width: 35em ;
-    padding-right: 0px ;
-    overflow: hidden ;
     border: 1px solid black ;
     opacity: 0.9 ;
     background: #FFF ;
 }
 
-DIV.help_popup P { margin-top: 0.8em ; }
+DIV.import_export.help_popup {
+    bottom: 0px ;
+    padding-right: 0px ;
+    overflow: hidden ;
+}
+
+DIV.top_right P { margin-top: 0.8em ; }
 
 DIV.scrollable {
     overflow: auto ;

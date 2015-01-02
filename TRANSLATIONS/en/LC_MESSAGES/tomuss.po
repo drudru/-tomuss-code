@@ -662,6 +662,12 @@ msgstr "Preferences"
 msgid "TIP_preferences"
 msgstr "These preferences are applied to <b>all</b> the tables."
 
+#. Label Tip
+msgid "MSG_home_preferences"
+msgstr "The home page customization.<br>\n"
+       "for the other parameters, go on the 'suivi'<br>\n"
+       "or on a table."
+
 #. GUI Label
 msgid "LABEL_howto"
 msgstr "Some video tutorials"
@@ -2356,12 +2362,6 @@ msgid "MSG_home_welcome"
 msgstr "Select <b>2008/Test</b> to try TOMUSS safely\n"
        "and click on an UE to edit it."
 
-
-msgid "MSG_home_contact"
-msgstr "Contact"
-
-msgid "MSG_home_documentation"
-msgstr "Documentation"
 
 msgid "ALERT_no_double_clic"
 msgstr "A simple-click, not a double one!"
@@ -4346,7 +4346,7 @@ msgid "Preferences_display_tips"
 msgstr "Display tips"
 
 msgid "Preferences_nr_favorites"
-msgstr "Home page: number of favorite UE displayed"
+msgstr "favorite UE displayed"
 
 msgid "Preferences_nr_lines"
 msgstr "Default number of lines displayed in table"
@@ -4367,7 +4367,7 @@ msgid "Preferences_scrollbar_right"
 msgstr "Display the vertical scrollbar on the right side"
 
 msgid "Preferences_favoris_sort"
-msgstr "Home page: sort favorites UE by code (not name)"
+msgstr "Sort favorites UE by code (not name)"
 
 msgid "Preferences_v_scrollbar"
 msgstr "Display the vertical scrollbar"

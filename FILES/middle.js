@@ -77,7 +77,7 @@ function show_help_popup()
       popup_close() ;
       return ;
     }
-  create_popup('help_popup', _("TITLE_help_popup"),
+  create_popup('top_right help_popup', _("TITLE_help_popup"),
 	       '<div class="scrollable">'
 	       + hidden_txt(_("LABEL_help_autosave"), _("TIP_help_autosave"))
 	       + '<p>'
@@ -120,8 +120,11 @@ function show_help_popup()
 
 function preference_change(t, value)
 {
-  table_init() ;
-  table_fill(true, true, true) ;
+  if ( linefilter )
+    {
+      table_init() ;
+      table_fill(true, true, true) ;
+    }
   var img = document.createElement('IMG') ;
   img.src = url + '/=' + ticket + '/save_preferences/' + value ;
   img.className = 'server' ;
@@ -149,7 +152,9 @@ function invert_name_change(t)
 function language_change(t)
 {
   preference_change(t, "language=" + preferences.language) ;
-  if (table_attr.autosave && pending_requests.length == pending_requests_first)
+  if (!linefilter
+      || table_attr.autosave
+      && pending_requests.length == pending_requests_first)
     window.location = window.location ;
 }
 
@@ -163,6 +168,13 @@ function page_step_change(t)
   preference_change(t, "page_step=" + preferences.page_step) ;
 }
 
+function show_preferences_language()
+{
+  return radio_buttons('preferences.language', ["en", "fr"],
+		       preferences.language.split(',')[0],
+		       "language_change(this)") + _("Preferences_language")
+}
+
 function show_preferences_popup()
 {
   if ( popup_is_open() )
@@ -170,7 +182,7 @@ function show_preferences_popup()
       popup_close() ;
       return ;
     }
-  create_popup('help_popup', _("LABEL_preferences"),
+  create_popup('top_right', _("LABEL_preferences"),
 	       _('TIP_preferences')
 	       + '<p>'
 	       + radio_buttons('zebra_step/*.*/', ["3", "4", "5", "10"],
@@ -182,10 +194,7 @@ function show_preferences_popup()
 			       "invert_name_change(this)")
 	       + _("Preferences_invert_name")
 	       + '<p>'
-	       + radio_buttons('preferences.language', ["en", "fr"],
-			       preferences.language.split(',')[0],
-			       "language_change(this)")
-	       + _("Preferences_language")
+	       + show_preferences_language()
 	       + '<p>'
 	       + radio_buttons('preferences.v_scrollbar_nr', ["0", "1", "2"],
 			       preferences.v_scrollbar_nr,

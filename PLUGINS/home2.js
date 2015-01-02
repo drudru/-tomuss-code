@@ -638,7 +638,7 @@ function update_ues_favorites(txt, txt_upper)
   ues_favorites_sorted.sort(cmp_favorites) ;
   ues_favorites_sorted= ues_favorites_sorted.slice(0,preferences.nr_favorites);
 
-  if ( preferences.favoris_sort === yes )
+  if ( test_bool(preferences.favoris_sort) === yes )
     ues_favorites_sorted.sort() ;
   
   var s = ['<tr><th colspan="3">' +
@@ -1172,7 +1172,7 @@ function go_suivi_student(x)
 {
   var s = suivi[year_semester()] ;
   
-  if ( s && preferences.current_suivi == no )
+  if ( s && test_bool(preferences.current_suivi) == no )
     goto_url(s + "/" + x) ;
   else
     goto_url(suivi[current_year_semester()] + "/" + x) ;
@@ -1195,39 +1195,117 @@ function change_icones()
   }
 }
 
+function favoris_sort_change(t)
+{
+  preference_change(t, "favoris_sort="+(preferences.favoris_sort==yes ? 1 : 0));
+  generate_home_page_ue_change_real(true) ;
+}
+
+function current_suivi_change(t)
+{
+  preference_change(t,"current_suivi="+(preferences.current_suivi==yes ?1:0));
+}
+
+function home_3scrollbar_change(t)
+{
+  home_resize_event(true) ;
+  preference_change(t,"home_3scrollbar="
+		    + (preferences.home_3scrollbar == yes ? 1 : 0));
+}
+
+function nr_favorites_change(t, event)
+{
+  event = the_event(event) ;
+  if ( event.keyCode != 13 )
+    return ;
+  preferences.nr_favorites = t.value ;
+  preference_change(t.parentNode, "nr_favorites=" + preferences.nr_favorites);
+  generate_home_page_ue_change_real(true) ;
+}
+
+function home_preferences_popup()
+{
+  if ( popup_is_open() )
+    {
+      popup_close() ;
+      return ;
+    }
+  create_popup('top_right', _("LABEL_preferences"),
+	        _('MSG_home_preferences')
+	       + '<p>'
+	       + show_preferences_language()
+	       + '<p>'
+	       + radio_buttons('preferences.favoris_sort', [no, yes],
+	                       test_bool(preferences.favoris_sort),
+                               "favoris_sort_change(this)")
+	       + _("Preferences_favoris_sort")
+	       + '<p>'
+	       + '<span><input value="' + preferences.nr_favorites
+	       + '" style="width:1.5em;background:#080;color:#FFF"'
+	       + ' onkeypress="nr_favorites_change(this, event)"></span> '
+	       + _("Preferences_nr_favorites")
+	       + '<br>' + _("MSG_enter")
+	       + '<p>'
+	       + radio_buttons('preferences.current_suivi', [no, yes],
+	                       test_bool(preferences.current_suivi),
+                               "current_suivi_change(this)")
+	       + _("Preferences_current_suivi")
+	       + '<p>'
+	       + radio_buttons('preferences.home_3scrollbar', [no, yes],
+	                       test_bool(preferences.home_3scrollbar),
+                               "home_3scrollbar_change(this)")
+	       + _("Preferences_home_3scrollbar")
+	       ,'', false) ;
+}
+
+function home_help_popup()
+{
+  if ( popup_is_open() )
+    {
+      popup_close() ;
+      return ;
+    }
+  create_popup('top_right', 'TOMUSS <span class="copyright">'
+	       + tomuss_version + '</span>',
+	       _("MSG_home_welcome")
+	       + '<p>'
+	       + '<a href="_FILES_/doc_table.html" target="_blank">'
+	       + _("LABEL_documentation") + '</a>'
+	       + '<p>'
+	       + '<a href="mailto:' + admin + '">'
+	       + _("MSG_suivi_student_mail_link") + '</a>'
+	       ,'', false) ;
+}
+
 function generate_home_page_top()
 {
     var t = '<TITLE>' + _("MSG_home_title") + '</TITLE>'
-	+ '<BODY'
-	+ ' onkeypress="if (the_event(event).keyCode==27) ue_line_close();">'
-        + '<div class="identity">'
-	+ '<p style="margin-top: 0">'
-	+ '<a href="' + url + '/=' + ticket + '/logout">'
-	+ _("LABEL_logout") + '</a> <b>' + username + '</b>'
-	+ '<a href="' + url
-	+ '/news.xml"><img style="border:0px;vertical-align:top" src="'
-	+ '_FILES_/feed.png"></a><br>'
-	+ '<a href="mailto:' + admin + '">' + _("MSG_home_contact") + '</a>.'
-	+ ' <a target="_blank" href="'+url+'/doc_table.html">'
-	+ _("MSG_home_documentation") + '</a>.'
-	+ ' <a target="_blank" href="' + url + '/=' + ticket
-	+ '/0/Preferences/' + username2 + '">' + _("LABEL_preferences") + '</a>'
-        + '. <span class="copyright">TOMUSS ' + tomuss_version + '</span>'
-	+ '</p>'
-	+ '</div>'
-	+ information_message
-	+ bad_password_message
-    // Do not insert spaces in the next line
-	+ '<H1 style="margin-top: 0">TOMUSS <select id="s" onchange="change_icones()" style="font-size:70%">'
-	+ semester_list + '</select></H1>'
-	+ '<p class="testmessage">' + _("MSG_home_welcome") + '</p>' ;
-    document.write(t) ;
+    + '<BODY'
+    + ' onkeypress="if (the_event(event).keyCode==27) ue_line_close();">'
+    + '<table class="identity">'
+    + '<tr><td>'
+    + '<a href="' + url + '/=' + ticket + '/logout">'
+    + _("LABEL_logout") + '</a><br><b>' + username + '</b>'
+    + '<td class="icons">&nbsp;'
+    + '<a target="_blank" href="' + url
+    + '/news.xml"><img style="border:0px;" src="'
+    + '_FILES_/feed.png"></a>&nbsp;'
+    + '<a href="javascript:home_help_popup()">' + _("TAB_?")+'</a>&nbsp;'
+    + '<a href="javascript:home_preferences_popup()">⚙</a>&nbsp;'
+    + '</tr></table>'
+    + '</div>'
+    + information_message
+    + bad_password_message
+  // Do not insert spaces in the next line
+    + '<H1 style="margin-top: 0;">TOMUSS <select id="s" onchange="change_icones()" style="font-size:70%; vertical-align:top">'
+    + semester_list + '</select></H1>' ;
+  document.write(t) ;
 }
 
-function generate_home_page_ue_change_real()
+function generate_home_page_ue_change_real(force)
 {
   var input = document.getElementById('ue_input_name') ;
-  if ( input.value != input.old_value )
+  if ( force || input.value != input.old_value )
   {
     update_ues2(input.value) ;
     input.old_value = input.value ;
@@ -1390,21 +1468,31 @@ function generate_home_page_actions()
 
 var home_page_height ;
 
-function home_resize_event()
+function home_resize_event(force)
 {
   var height = window_height() ;
-  
-  if ( home_page_height != height )
+
+  if ( force || home_page_height != height )
   {
     home_page_height = height ;
-    var e = document.getElementById("scrollable_right") ;
-    e.style.height = height - findPosY(e) - e.scrollTop - 8 + 'px' ;
-    e = document.getElementById("scrollable_left") ;
-    e.onscroll = ue_line_out ;
-    e.style.height = height - findPosY(e) - e.scrollTop - 8 + 'px' ;
-    e = document.getElementById("scrollable_center") ;
-    e.onscroll = ue_line_out ;
-    e.style.height = height - findPosY(e) - e.scrollTop - 8 + 'px' ;
+    var cols = ["scrollable_right", "scrollable_left", "scrollable_center"] ;
+    if ( test_bool(preferences.home_3scrollbar) == yes )
+    {
+      for(var e in cols)
+	{
+	  e = document.getElementById(cols[e]) ;
+	  e.style.height = height - findPosY(e) - e.scrollTop - 8 + 'px' ;
+	  e.onscroll = ue_line_out ;
+	}
+    }
+  else
+    {
+      for(var e in cols)
+	{
+	  e = document.getElementById(cols[e]) ;
+	  e.style.height = 'auto' ;
+	}      
+    }
     ue_line_out() ;
   }
   return true ;
@@ -1466,10 +1554,5 @@ function generate_home_page()
     generate_home_page_hook() ;
 
     document.write('<div id="feedback"></div>') ;
-
-  if ( test_bool(preferences.home_3scrollbar) == yes )
-  {
     periodic_work_add(home_resize_event) ;
-  }    
-
 }

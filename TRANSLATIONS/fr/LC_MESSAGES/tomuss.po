@@ -653,6 +653,12 @@ msgstr "Préférences"
 msgid "TIP_preferences"
 msgstr "Ces préférences sont appliquées à <b>tous</b> les tableaux."
 
+#. Label Tip
+msgid "MSG_home_preferences"
+msgstr "Les préférences liées à la page d'accueil.<br>\n"
+       "Pour les autres préférences, allez sur le suivi<br>\n"
+       "ou bien sur un tableau."
+
 #. GUI Label
 msgid "LABEL_howto"
 msgstr "Catalogue des videos explicatives de TOMUSS"
@@ -2359,14 +2365,8 @@ msgstr "Accueil TOMUSS"
 
 msgid "MSG_home_welcome"
 msgstr "Pour essayer TOMUSS sans danger, choisissez <b>2008/Test</b>\n"
-       "dans la liste ci-dessus, puis choisissez une UE."
+       "dans la liste ci-dessus, puis cliquez une UE."
 
-
-msgid "MSG_home_contact"
-msgstr "Contact"
-
-msgid "MSG_home_documentation"
-msgstr "Documentation"
 
 msgid "ALERT_no_double_clic"
 msgstr "Ne double-cliquez pas, un simple clic suffit !"
@@ -4397,7 +4397,7 @@ msgid "Preferences_display_tips"
 msgstr "Affiche les bulles d'aides"
 
 msgid "Preferences_nr_favorites"
-msgstr "Page d'accueil : nombre d'UE favorites affichées"
+msgstr "UE favorites affichées"
 
 msgid "Preferences_nr_lines"
 msgstr "Nombre de lignes affichées par défaut"
@@ -4418,7 +4418,7 @@ msgid "Preferences_scrollbar_right"
 msgstr "Affiche l'ascenseur vertical à droite"
 
 msgid "Preferences_favoris_sort"
-msgstr "Page d'accueil : trie les favoris par code"
+msgstr "trier les UE favorites par code"
 
 msgid "Preferences_v_scrollbar"
 msgstr "Affiche l'ascenseur vertical"
@@ -4430,13 +4430,13 @@ msgid "Preferences_interface"
 msgstr "Interface utilisateur : N:normal L:lineaire (pour malvoyant)"
 
 msgid "Preferences_current_suivi"
-msgstr "Page d'accueil : on fait le suivi du semestre courant au lieu du semestre choisi"
+msgstr "aller sur le suivi de l'étudiant du semestre<br>courant au lieu du semestre choisi dans le menu"
 
 msgid "Preferences_language"
 msgstr "langue de l'interface utilisateur"
 
 msgid "Preferences_home_3scrollbar"
-msgstr "Si OUI alors il y a un ascenseur par zone au lieu d'un seul pour la page d'accueil"
+msgstr "un ascenseur pour chacune des 3 colonnes"
 
 msgid "COL_TITLE_explanations"
 msgstr "Explications"
