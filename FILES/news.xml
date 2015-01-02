@@ -972,7 +972,7 @@ Les améliorations les plus visibles sont :
       <guid>61</guid>
     </item>
     <item>
-      <title>xx/11/2014 : Version 5.4.0</title>
+      <title>19/11/2014 : Version 5.5.0</title>
       <link>http://tomuss.univ-lyon1.fr/</link>
       <description>
 	&lt;p&gt;
@@ -982,6 +982,40 @@ Les améliorations les plus visibles sont :
 	Cela s'applique aussi aux énumérations et aux booléens.
       </description>
       <guid>62</guid>
+    </item>
+    <item>
+      <title>02/01/2015 : Version 5.5.8</title>
+      <link>http://tomuss.univ-lyon1.fr/</link>
+      <description>
+	&lt;p&gt;
+	Ajout d'une fenêtre d'aide et de paramétrage pour la page d'accueil
+	et l'éditeur de table.
+	&lt;p&gt;
+	Ajout de quelques raccourcis clavier standard d'édition de tables,
+	la liste des raccourcis est indiquée dans l'aide de l'éditeur
+	de table.
+	&lt;p&gt;
+	La &lt;a href="https://tomuss.univ-lyon1.fr/stats.html"&gt;
+	page de statistiques TOMUSS&lt;/a&gt; affiche le temps moyen
+	entre 2 visites d'étudiants au suivi.
+	&lt;p&gt;
+	La liste des UE dans lesquelles vous avez fait des saisies
+	est visible sur votre
+ 	&lt;a href="https://tomusss.univ-lyon1.fr/"&gt;page de suivi&lt;/a&gt;.
+	&lt;p&gt;
+	Attention la moyenne sans la plus mauvaise note ne donne plus
+	le même résultat :
+	&lt;a href="http://perso.univ-lyon1.fr/thierry.excoffier/TOMUSS/moyenne.html"&gt;calcul de moyenne&lt;/a&gt;
+	&lt;p&gt;
+	Le bilan de l'étudiant (accessible seulement aux enseignants référents)
+	utilise la colonne contenant la moyenne totale de la table si
+	elle existe.
+	&lt;p&gt;
+	Il est maintenant possible d'effacer l'historique d'une	table
+	en passant par l'utilitaire de copie de table.
+	A n'utiliser qu'en cas d'extrême nécessité.
+      </description>
+      <guid>63</guid>
     </item>
 
   </channel>
