@@ -62,12 +62,17 @@ function update_student_information(line)
   update_student_information_default(line) ;
 }
 
+function bookmarked_indicator()
+{
+  return bookmarked ? '<span style="color:#00F">★</span>' : '☆' ;
+}
+
 function toggle_bookmarked(t)
 {
   bookmarked = ! bookmarked ;
-  t.innerHTML = (bookmarked ? '★' : '☆') +
+  t.innerHTML = bookmarked_indicator() +
     '<img src="' + url + "/=" + ticket + '/' + year + '/' + semester + '/'
-    + ue + '/bookmark" width="8" height="8">' ;
+    + ue + '/bookmark" class="server">' ;
 }
 
 function show_help_popup()
@@ -242,16 +247,16 @@ function head_html()
 		 'connection_state')
     + hidden_txt(_('MSG_updating'), _('TIP_updating'), '', 'updating')
     + '<td class="icons">'
-    + '&nbsp;<a target="_blank" href="' + rss2
-    + '"><img style="border:0px" src="_FILES_/feed.png"></a>&nbsp;'
-    + '<a href="javascript:show_help_popup()">' + _("TAB_?")+'</a>&nbsp;'
-    + '<a href="javascript:show_preferences_popup()">⚙</a>&nbsp;'
+    + '<a target="_blank" href="' + rss2
+    + '"><img style="border:0px" src="_FILES_/feed.png"></a>'
+    + hidden_txt('<a onclick="toggle_bookmarked(this)">'
+		 + bookmarked_indicator() + '</a>',
+		 _('TIP_bookmark'))
+    + '<a href="javascript:show_help_popup()">' + _("TAB_?") + '</a>'
+    + '<a href="javascript:show_preferences_popup()">⚙</a>'
     + '</tr></table>'
     + '<div id="charsize" style="position:absolute;top:-999px">8</div>'
     + '<h1>'
-    + hidden_txt('<a onclick="toggle_bookmarked(this)">'
-		 + (bookmarked ? '★' : '☆')+'</a>',
-		 '<!--INSTANTDISPLAY-->' + _('TIP_bookmark'))
     ;
 
  var semester_color = semesters_color[myindex(semesters, semester)] ;
