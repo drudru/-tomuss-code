@@ -78,6 +78,7 @@ plugin.Plugin('icone', '/{_I}',
               priority=-20,
               # launch_thread=True,
               mimetype = 'image/png',
+              unsafe=False,
               cached = True,
               )
 
