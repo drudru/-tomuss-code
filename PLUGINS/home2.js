@@ -714,7 +714,8 @@ function update_ues_searched(txt, txt_upper)
 	   + _("TIP_home_no_ue") + '</td></tr>');
 
   s = ue_line_join(s) ;
-  document.getElementById('ue_list_search').innerHTML = '<table class="with_margin uelist searchresult"><colgroup><col class="code"><col class="title"><col class="responsable"></colgroup>' + s + '</table>' ;
+  if ( document.getElementById('ue_list_search') )
+    document.getElementById('ue_list_search').innerHTML = '<table class="with_margin uelist searchresult"><colgroup><col class="code"><col class="title"><col class="responsable"></colgroup>' + s + '</table>' ;
 }
 
 function update_ues2(txt)
