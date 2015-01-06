@@ -97,14 +97,18 @@ def user_date_to_date(txt):
         the_day = int(txt[0])
     except:
         return '9999'
-    try:
-        the_month = int(txt[1])
-    except:
-        the_month = year_month_day[1]
-    try:
-        the_year = int(txt[2])
-    except:
-        the_year = year_month_day[0]
+    the_month = year_month_day[1]
+    if len(txt) >= 2:
+        try:
+            the_month = int(txt[1])
+        except:
+            pass
+    the_year = year_month_day[0]
+    if len(txt) >= 3:
+        try:
+            the_year = int(txt[2])
+        except:
+            pass
     return str(the_year) + two_digits(the_month) + two_digits(the_day) + t
 
     

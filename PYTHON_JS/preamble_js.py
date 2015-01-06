@@ -86,15 +86,6 @@ except:
                           {'enumerable': False,'value': Array.prototype.push}) ;
 
 try:
-    int(null)
-    parseInt = def(txt):
-        if txt == null:
-            raise ValueError()
-        return Number(txt)
-except:
-    pass
-
-try:
     {}.get("p", "m")
 except:
     def __getter__(key, defaultv):
