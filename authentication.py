@@ -140,12 +140,8 @@ def authentication_thread():
         time.sleep(0.1)
         while len(authentication_requests):
             x = authentication_requests.pop()
-            while not x.wfile.closed or not x.rfile.closed:
-                time.sleep(0.01)
-            # now it is safe because the Handler has closed the file
             x.restore_connection()
             redirect_loc = authentication_redirect
-                    
             try:
                 if not x.ticket or not x.ticket.is_fine(x):
                     x.ticket, dummy_the_path = get_path(x, redirect_loc)

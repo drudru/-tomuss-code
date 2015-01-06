@@ -1093,9 +1093,6 @@ class Useles(object):
     def shutdown(self,dummy=None):
         pass
 
-Useles = Useles()
-
-
 class Variables(object):
     """Map variables to a TOMUSS configuration table stored in 0/Variables/group
 
@@ -1255,23 +1252,32 @@ class FakeRequestHandler(BaseHTTPServer.BaseHTTPRequestHandler):
             self.__class__.log_time.__func__(self, action, **keys)
 
     def do_not_close_connection(self):
-        self.wfile = Useles
+        self.wfile = Useles()
         self.the_rfile = self.rfile
-        self.rfile = Useles
+        self.rfile = Useles()
         self.please_do_not_close = True
         try:
             # self.request is self.connection
             # self.rfile is self.wfile
             self.the_sock = self.request._sock
-            self.connection._sock = Useles
-            self.request._sock = Useles
+            self.connection._sock = Useles()
+            self.request._sock = Useles()
             self.the_fp = self.headers.__dict__['fp']
-            self.headers.__dict__['fp'] = Useles
+            self.headers.__dict__['fp'] = Useles()
         except AttributeError:
             # Before Python 2.7
             pass
 
     def restore_connection(self):
+        # Do not want to restore the connection before
+        # the dummy connection was closed by HTTPBaseRequest
+        i = 0
+        while not self.wfile.closed or not self.rfile.closed:
+            time.sleep(0.01)
+            i += 1
+            if i == 100:
+                send_backtrace('', 'Not closed', exception=False)
+                break
         self.wfile = self.the_file
         self.rfile = self.the_rfile
         self.please_do_not_close = False
