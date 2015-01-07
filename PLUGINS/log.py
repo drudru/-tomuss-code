@@ -36,7 +36,8 @@ def log(server):
     
     if server.the_path[0] not in ('help', 'javascript_errors'):
         return
-    text = '/'.join(server.the_path[1:]) + '\n'
+    text = '/'.join(server.the_path[1:]).replace('\n','\\n'
+    ).replace('\r', '\\r') + '\n'
     # XXX Not process safe
     f = open(os.path.join('LOGS', server.the_path[0]), 'a')
     f.write(text[:1000].strip() + '\n')
