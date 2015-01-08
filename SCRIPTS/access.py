@@ -278,7 +278,6 @@ tics = ['"%s" %f' % (seconds_to_human(ii), math.log(ii)/math.log(power))
 
 def plot_histogram_diff(filename, x_title, y_title, fig_title):
     plot('%s.png' % filename, """
-    set logscale y
     set xlabel "%s"
     set ylabel "%s"
     set xtics (%s)

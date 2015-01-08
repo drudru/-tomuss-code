@@ -612,6 +612,8 @@ function clone_event(event)
   e.x = event.x ;
   e.y = event.y ;
   e.which = event.which ;
+  if ( e.altKey && e.ctrlKey )
+    e.ctrlKey = false ; // XXX Because AltGr key set both!
   if ( e.type == 'keypress' )
     e.charCode = event.charCode ;
   if ( event.detail )
