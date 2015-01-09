@@ -150,8 +150,7 @@ def get_preferences(user_name, create_pref=True, the_ticket=None):
 
     # XXX compatibility with old TOMUSS version
     my_identity2 = utilities.login_to_module(user_name)
-    old_prefs = table_filename(0, 'Preferences', my_identity2)
-    if os.path.exists(old_prefs):
+    if os.path.exists(table_filename(0, 'Preferences', my_identity2)):
         prefs_table = table(0, 'Preferences', my_identity2, None, None,
                             create=False)
         if prefs_table is not None:
@@ -165,7 +164,7 @@ def get_preferences(user_name, create_pref=True, the_ticket=None):
                 utilities.manage_key('LOGINS',
                                      os.path.join(user_name,'preferences'),
                                      content = repr(p))
-                os.unlink(old_prefs)
+                prefs_table.delete()
 
     warn('Language in preferences: (%s)' % p.get('language', ''), what="lang")
     if p.get('language', '') == '':
