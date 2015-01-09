@@ -5036,6 +5036,8 @@ function set_updating(bool)
 }
 
 window.onerror = function(message, url_error, lineNumber) {
+  if ( lineNumber == 0 )
+    return false ; // Error not in a TOMUSS script
   window.onerror = function() { return false ; } ; // Only first error
   var i = document.createElement('IMG') ;
   var now = new Date() ;
