@@ -45,7 +45,7 @@ def append(filename, key, content):
 
 for name in (
     'style.css',
-    'favicon.ico',
+    'favicon.ico', 'logo.png',
     'header.png',
     'verysafe.png', 'safe.png', 'unsafe.png', 'veryunsafe.png',
     'tip.png', 'feed.png', 'news.xml', 'eye.png', 'butterflynet.png',
