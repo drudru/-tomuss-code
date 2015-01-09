@@ -673,6 +673,10 @@ msgid "LABEL_howto"
 msgstr "Some video tutorials"
 
 #. GUI Label
+msgid "LABEL_filters"
+msgstr "How to filter cells, lines, columns..."
+
+#. GUI Label
 msgid "MSG_connected"
 msgstr "Live link to server"
 

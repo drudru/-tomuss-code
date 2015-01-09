@@ -94,8 +94,11 @@ function show_help_popup()
 	       + '<tr><td><a href="_FILES_/doc_table.html" target="_blank">'
 	       + _("LABEL_documentation") + '</a></tr>'
 	       + '<tr><td>'
-	       + '<a target="_blank" href="_FILES_/doc_table.html#Calcul de moyenne">' +
-			    _("LABEL_help_average") + '</a>'
+	       + '<a target="_blank" href="_FILES_/doc_table.html#toc-average">'
+	       + _("LABEL_help_average") + '</a>'
+	       + '</tr><tr><td>'
+	       + '<a target="_blank" href="_FILES_/doc_table.html#filtres">' +
+	       _("LABEL_filters") + '</a>'
 	       + '</tr><tr><td>'
 	       + '<a href="javascript:howto()">' + _('LABEL_howto') + '</a>'
 	       + '</tr></table></div>'

@@ -664,6 +664,10 @@ msgid "LABEL_howto"
 msgstr "Catalogue des videos explicatives de TOMUSS"
 
 #. GUI Label
+msgid "LABEL_filters"
+msgstr "Comment filtrer les cellules, lignes, colonnes..."
+
+#. GUI Label
 msgid "MSG_connected"
 msgstr "Connecté au serveur"
 

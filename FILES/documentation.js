@@ -98,7 +98,7 @@ function go_hash(name, keep_filter)
     filter() ;
     display = true ;
   }
-  
+
   setTimeout(function() {
 		   window.location.hash = name ;
 		   set_current() ;
@@ -281,6 +281,8 @@ for(var i_div in divs)
     for(var ee in div.childNodes)
       {
         var e = div.childNodes[ee] ;
+	if ( e.tagName == 'A' && '#'+e.name == window.location.hash.toString() )
+	  hash_found = true ;
         if ( e.tagName && e.tagName.length == 2 )
           {
             text_divs.push(div) ;
