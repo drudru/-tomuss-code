@@ -1160,6 +1160,7 @@ function popup_close()
 	popup_old_values[e.className] = e.getElementsByTagName('TEXTAREA'
 							       )[0].value ;
       e.parentNode.removeChild(e);
+      GUI.add('popup', '', 'close') ;
     }
 }
 
@@ -1226,7 +1227,6 @@ function create_popup(html_class, title, before, after, default_answer)
 {
   popup_close() ;
   hide_the_tip_real() ;
-
   var new_value ;
 
   if ( default_answer )
@@ -1253,6 +1253,13 @@ function create_popup(html_class, title, before, after, default_answer)
 
   if ( default_answer !== false )
     popup.getElementsByTagName('TEXTAREA')[0].focus() ;
+
+  try {
+    GUI.add('popup', undefined, arguments.callee.caller.name) ;
+  }
+  catch(e) {
+    GUI.add('popup', undefined, html_class) ;
+  }
 }
 
 
