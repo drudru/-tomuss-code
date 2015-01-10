@@ -275,7 +275,10 @@ plugin.Plugin('gcbig'   , '/gcbig'   , group='roots', function=gcbig,
 def requests(server):
     """Displays the requests queue"""
 
-    server.the_file.write('<table><tr><th>Request<th>Page<th>Action<th>Path<th>Current Cell Value</tr>')
+    server.the_file.write(
+        '<head><title>LOST REQUESTS</title></head>'
+        '<table>'
+        '<tr><th>Request<th>Page<th>Action<th>Path<th>Current Cell Value</tr>')
     for request in sorted(document.request_list,
                           key = lambda x: (x[2], x[1])):
         request = list(request[1:-1])
@@ -294,7 +297,7 @@ def requests(server):
             else:
                 v = '???' + request[3][0] + '???'
                 t = '???????'
-            if str(v) != str(request[3][2]):
+            if str(v).rstrip('.0') != str(request[3][2]).rstrip('.0'):
                 t = '<span style="background:#F88">' + t + '(!=' + cgi.escape(request[3][2]) + ')'
         else:
             t = ''
