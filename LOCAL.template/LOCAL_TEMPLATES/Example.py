@@ -10,10 +10,12 @@ If you do not do this, the Mail and ABJ and TT functionnalities will not work.
 
 """
 
-
-from ... import data
 from ... import document
 from ... import configuration
+
+# Define prototype to take automaticaly its functions.
+# _ucbl_.check is reusable, it brings many functionnalities: see Favoris.py
+# prototype = "_ucbl_"
 
 def create(table):
     """This function is called when the table is created on first visit.

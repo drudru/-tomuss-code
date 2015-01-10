@@ -20,7 +20,6 @@
 #    Contact: Thierry.EXCOFFIER@bat710.univ-lyon1.fr
 
 import time
-from .. import data
 from .. import configuration
 from .. import utilities
 from . import _ucbl_

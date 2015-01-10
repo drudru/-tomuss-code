@@ -1317,10 +1317,11 @@ def create(table):
     table.new_page("", ro_user, "", "")
 ''')
         f.close()
+        t = time.time()
         c = s.url('=' + abj +'/%s/xxx_regtest-1' % ys)
         assert("XXX_REGTEST1" in c)
-        time.sleep(1)
-
+        while time.time() - t < 1:
+            pass
         f = open('TEMPLATES/xxx_regtest.py', 'a')
         f.write('def content(table): return "XXX_REGTEST2"\n')
         f.close()

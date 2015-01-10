@@ -26,11 +26,12 @@ to match the modification. For example, the columns order.
 
 import os
 import cgi
-from .. import data
 from .. import inscrits
 from .. import utilities
 from .. import configuration
 from . import _ucbl_
+
+prototype = "_ucbl_"
 
 def referent_resume(table, login):
     s = []
@@ -174,5 +175,3 @@ def update_inscrits_referents(the_ids, table, page):
 
 def check(table, update_inscrits=update_inscrits_referents):
     _ucbl_.check(table, update_inscrits)
-    
-cell_change = _ucbl_.cell_change

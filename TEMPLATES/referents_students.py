@@ -21,7 +21,6 @@
 
 """The table contains student ID, not login"""
 
-from .. import data
 from .. import inscrits
 from .. import configuration
 from ..utilities import _

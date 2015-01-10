@@ -22,8 +22,9 @@
 import re
 from .. import utilities
 from .. import configuration
-from ._ucbl_ import check, update_student_information, create, update_student, cell_change
 from . import _ucbl_
+
+prototype = "_ucbl_"
 
 def init(table):
     _ucbl_.init(table)
@@ -75,7 +76,7 @@ t_student_picture.parentNode.href = '%s/=' + ticket + '/' + year + '/' + semeste
 }
 """ % utilities.StaticFile._url_
     else:
-        c += update_student_information
+        c += _ucbl_.update_student_information
 
     return c
 

@@ -20,14 +20,13 @@
 #    Contact: Thierry.EXCOFFIER@bat710.univ-lyon1.fr
 
 import os
-from .. import data
 from .. import inscrits
 from .. import utilities
 from .. import configuration
 from .. import referent
 from . import _ucbl_
 
-from .Referents import init, content
+prototype = "Referents"
 
 def check_columns(table):
     page = table.pages[0]
@@ -117,9 +116,5 @@ def update_inscrits_favoris(the_ids, table, page):
                           if utilities.the_login(the_id) not in done]
     _ucbl_.remove_students_from_table(table, students_to_remove)
 
-    
 def check(table, update_inscrits=update_inscrits_favoris):
     _ucbl_.check(table, update_inscrits)
-
-
-cell_change = _ucbl_.cell_change

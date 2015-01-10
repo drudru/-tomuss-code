@@ -23,8 +23,9 @@ import random
 from .. import inscrits
 from .. import abj
 from . import _ucbl_
-from ._ucbl_ import update_student, terminate_update, cell_change
 from .. import configuration
+
+prototype = "_ucbl_"
 
 # Do not edit this first line (see SCRIPTS/install_demo)
 update_student_information = _ucbl_.update_student_information
@@ -68,13 +69,13 @@ def update_inscrits_ue(the_ids, table, page):
                 i = i.encode('utf8')
             t.append(i)
 
-        update_student(table, page, the_ids, t)
+        _ucbl_.update_student(table, page, the_ids, t)
 
     if table.ue.endswith('99'):
         for i in range(100):
-            update_student(table, page, the_ids,
-                           ('k%03d'%i, 'xxx', 'yyy', 'xxx@yyy', '', ''))
-    terminate_update(table, the_ids)
+            _ucbl_.update_student(table, page, the_ids,
+                                  ('k%03d'%i, 'xxx', 'yyy', 'xxx@yyy', '', ''))
+    _ucbl_.terminate_update(table, the_ids)
 
 def create_column(table, title, content_type, average=10., delta=5.):
     p = table.pages[1]

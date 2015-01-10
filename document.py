@@ -192,13 +192,6 @@ def get_preferences(user_name, create_pref=True, the_ticket=None):
 def table_head_more(dummy_ue):
     return ''
 
-class TT:
-    def create(self, ttable):
-        ttable.get_ro_page()
-        ttable.table_attr(ttable.pages[0],'masters',[ttable.user])
-
-empty_template = TT()
-
 def translations_init(language):
     languages = []
     language = filter_language(language + ',' + configuration.language)
@@ -264,14 +257,70 @@ def table_head(year=None, semester=None, the_ticket=None,
             (hide_more and '' or table_head_more(ue)) +
             '</script>\n')
 
-def import_template(names):
-    for name in names:
-        if configuration.regtest and name[0] == 'LOCAL':
+class Template(object):
+    loaded = {}
+    module = None
+    update_time = 0
+
+    def __init__(self, name):
+        self.name = name
+
+    def update_template(self):
+        if time.time() - self.update_time < 2:
+            if not configuration.regtest:
+                return
+        self.update_time = time.time()
+        if self.name == "NONE":
+            return
+        self.module = utilities.import_reload(self.name)[0]
+        if hasattr(self.module, 'prototype'):
+            prototype = import_template(self.module.prototype)
+        else:
+            prototype = None
+        for item in ('init', 'create', 'onload', 'cell_change',
+                     'comment_change', 'content', 'css', 'check'):
+            if hasattr(self.module, item):
+                self.__dict__[item] = getattr(self.module, item)
+            elif prototype:
+                self.__dict__[item] = getattr(prototype, item)
+
+    def init(*args, **keys):
+        pass
+    def create(self, ttable):
+        ttable.get_ro_page()
+        ttable.table_attr(ttable.pages[0], 'masters', [ttable.user])
+    def onload(*args, **keys):
+        pass
+    def cell_change(*args, **keys):
+        pass
+    def comment_change(*args, **keys):
+        pass
+    css = ''
+    def check(*args, **keys):
+        pass
+    def content(*args, **keys):
+        return ''
+
+def search_template(name):
+    if name in Template.loaded:
+        return Template.loaded[name]
+    for path in (
+            ('LOCAL', 'LOCAL_TEMPLATES', name.lstrip('/')),
+            ('TEMPLATES', name.lstrip('/')),
+        ):
+        if (configuration.regtest or name.startswith('/')
+            ) and path[0] == 'LOCAL':
             continue
-        filename = os.path.join(*name) + '.py'
+        filename = os.path.join(*path) + '.py'
         if os.path.exists(filename):
-            return utilities.import_reload(filename)[0]
-    return None
+            t = Template(filename)
+            Template.loaded[name] = t
+            return t
+
+def import_template(ue, semester=''):
+    t = search_template(ue) or search_template(semester) or Template('NONE')
+    t.update_template()
+    return t
 
 class Table(object):
     new_abjs = None
@@ -323,21 +372,13 @@ class Table(object):
         self.filename = os.path.join(dirname, ue + '.py')
         self.is_extended = os.path.islink(self.filename)
 
-        self.template = import_template((
-            ('LOCAL', 'LOCAL_TEMPLATES', self.ue_code),
-            ('TEMPLATES', self.ue_code),
-            ('LOCAL', 'LOCAL_TEMPLATES', self.semester),
-            ('TEMPLATES', self.semester),
-            ))
-        if self.template is None:            
-            self.template = empty_template
+        self.template = import_template(self.ue_code, self.semester)
+        self.template.init(self)
 
-        if hasattr(self.template, 'init'):
-            self.template.init(self)
-            
-        for v in self.template.__dict__.values():
-            if isinstance(v, utilities.Variables):
-                self.group = v._group
+        if self.template.module:
+            for v in self.template.module.__dict__.values():
+                if isinstance(v, utilities.Variables):
+                    self.group = v._group
 
         created = False
         self.on_disc = True
@@ -382,18 +423,14 @@ class Table(object):
             # But this lock does not protect anything
             self.lock()
             try:
-                if hasattr(self.template, "create"):
-                    self.template.create(self)
-                else:
-                    empty_template.create(self)
+                self.template.create(self)
             finally:
                 self.unlock()
                 warn('Unlock', what='table')
             warn('Create end', what='table')
             self.pages[0].request = 1 # Not an empty page, it's for the stats
 
-        if self.template and hasattr(self.template, 'onload'):
-            self.template.onload(self)
+        self.template.onload(self)
             
         if not ro:
             # Check mails or new students
@@ -732,10 +769,7 @@ class Table(object):
                     % (js(value), js(a_column.title)))
                 return 'bad.png'
 
-
-        if (not self.loading and self.template
-            and not equal
-            and hasattr(self.template, 'cell_change')):
+        if not self.loading and not equal:
             self.template.cell_change(self, page, col, lin, value, date)
 
         if a_column.data_col == 0:
@@ -902,8 +936,7 @@ class Table(object):
                                    line[a_column.data_col]):
                 return self.bad_auth(page, "comment_change %s/%s/%s" % (
                         col, lin, value))
-            if hasattr(self.template, 'comment_change'):
-                self.template.comment_change(self, page, col, lin, value)
+            self.template.comment_change(self, page, col, lin, value)
             self.log('comment_change(%s,%s,%s,%s)' % (
                 page.page_id,
                 repr(col),
@@ -1192,12 +1225,10 @@ class Table(object):
             s.append('}')
             if self.new_abjs:
                 s.append(self.new_abjs)
-            if self.template and hasattr(self.template, 'content'):
-                s.append(self.template.content(self))
+            s.append(self.template.content(self))
             s.append('initialize();')
             s.append('--></script>  \n')
-            if self.template and hasattr(self.template, 'css'):
-                s.append('<style>' + self.template.css + '</style>')
+            s.append('<style>' + self.template.css + '</style>')
         finally:
             pass
 
@@ -1659,11 +1690,10 @@ def check_new_students_real():
                 utilities.bufferize_this_file(t.filename)
                 warn('start update students of %s' % t.ue, what="table")
 
-                if t.template and hasattr(t.template, 'check'):
-                    try:
-                        t.template.check(t)
-                    except:
-                        utilities.send_backtrace('', 'Student list %s' % t)
+                try:
+                    t.template.check(t)
+                except:
+                    utilities.send_backtrace('', 'Student list %s' % t)
 
                 warn('done %s' % t.ue, what="table")
                 mails = inscrits.L_batch.mails(list(t.logins()) + t.authors())

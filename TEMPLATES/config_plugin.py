@@ -22,7 +22,6 @@
 from .. import configuration
 from .. import plugin
 from .. import plugins
-from .. import data
 from .. import utilities
 from .. import sender
 

@@ -24,7 +24,6 @@ The title and help is translated if it is found in the translations files.
 """
 
 import ast
-from .. import data
 from .. import utilities
 from .. import configuration
 from .. import plugin
