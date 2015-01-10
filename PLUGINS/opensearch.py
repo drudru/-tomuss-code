@@ -33,12 +33,13 @@ files.files['opensearch_desc.xml'] = utilities.StaticFile(
     """<?xml version="1.0" encoding="UTF-8"?>
 <OpenSearchDescription xmlns="http://a9.com/-/spec/opensearch/1.1/">
   <ShortName>TOMUSS</ShortName>
-  <Description>Etudiant/Enseignant/UE</Description>
+  <Image height="16" width="16" type="image/x-icon">%s/favicon.ico</Image>
+  <Description>Etudiant/Enseignant/UE2</Description>
   <InputEncoding>UTF-8</InputEncoding>
   <Url type="text/html" method="GET" template="%s/search/{searchTerms}">
   </Url>
 </OpenSearchDescription>
-""" % (configuration.server_url,))
+    """ % (configuration.server_url, configuration.url_files))
 
 def link(server, info):
     return '<a href="%s/%s">%s %s</a><br>\n' % (
