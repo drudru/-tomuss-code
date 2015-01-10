@@ -218,6 +218,8 @@ class MyRequestBroker(utilities.FakeRequestHandler):
         try:
             self.do_GET_real()
         except: # IOError
+            if '/picture/' in self.path:
+                return # To common error to be logged
             user_name = self.__dict__.get('ticket', '')
             if not user_name:
                 user_name = ''

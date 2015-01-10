@@ -23,10 +23,11 @@
 Use this plugin in order to make TOMUSS send student pictures.
 """
 
+import os
+import socket
 from .. import plugin
 from .. import utilities
 from .. import inscrits
-import os
 
 def picture(server):
     """Display the picture of a student"""
@@ -40,7 +41,7 @@ def picture(server):
         server.the_file.write(
             utilities.read_file(os.path.join('PICTURES',
                                              student_id + '.' + extension)))
-    except IOError:
+    except (IOError, socket.error):
         pass
 
 plugin.Plugin('picture', '/picture/{?}',
