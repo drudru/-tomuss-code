@@ -36,7 +36,7 @@ class ColumnType(ColumnAttr):
     def decode(self, value):
         return value.name
     css = """
-DIV.tabs #t_column_type { width: 10em; font-weight: bold }
+DIV.tabs #t_column_type { min-width: 10em; font-weight: bold }
 .type_chooser_div { border: 3px solid black }
 .type_chooser_div TABLE TR { vertical-align:top }
 .type_chooser_div TABLE TD { white-space: nowrap;}
