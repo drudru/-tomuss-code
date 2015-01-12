@@ -25,6 +25,8 @@ def average_regtest():
               10.9, 0.1],
             [[(16, 6), (12, 6), (9.5, 3), (10, 3), (12, 3), (11, 3), (7, 8),
               (4, 8)], 9.588, 0.001],
+            [[(16.5, 1.25), ("", 1.25)], nan, 0.01],
+            [[("", 1.25), (16.5, 1.25)], nan, 0.01],
             ]:
         value_and_weights, result, rounding = infos
         columns_set([Column({'real_weight':value_weight[1]})
@@ -59,6 +61,7 @@ def average_regtest():
 [Cell(tnr),Cell(abj),Cell(ppn),C(0  ),C(nan),C(nan),g,C(nan  ),g,C(nan)],
 [Cell(0  ),Cell(0  ),Cell(0  ),C(0  ),C(0  ),C(0  ),g,C(7.5  ),g,C(3  )],
 [Cell(pre),Cell(pre),Cell(pre),C(20 ),C(20 ),C(20 ),g,C(12.5 ),g,C(23 )],
+[Cell(1  ),Cell(1  ),Cell("" ),C(nan),C(nan),C(nan),g,C(nan  ),g,C(nan)],
 # ABI + 0 = ABI
 [Cell(abi),Cell(abi),Cell(abi),C(abi),C(abi),C(abi),g,C(7.5  ),Cell(0),C(abi)],
 ]:

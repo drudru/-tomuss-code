@@ -159,12 +159,21 @@ def compute_cell_safe(data_col, line, compute_function):
     if line[data_col].comment == 'Fixed!':
         return # To override the computed value
     old_value = line[data_col]
+    old_value_value = old_value.value
+    old_value_author = old_value.author
+    old_value_history = old_value.history
     compute_function(data_col, line)
     if columns[data_col].cell_is_modifiable():
         return # For COW column type
     if isNaN(to_float_or_nan(line[data_col].value)):
         if get_most_recent_date(data_col, line, True) < line[data_col].date:
-            line[data_col] = old_value
+            if line[data_col] is old_value:
+                # XXX Dirty : compute_function must not modify the line
+                old_value.value = old_value_value
+                old_value.author = old_value_author
+                old_value.history = old_value_history
+            else:
+                line[data_col] = old_value
         else:
             line[data_col].author = '?'
     else:
