@@ -2425,6 +2425,7 @@ function init_shortcuts()
 ["C", [13, "D"]        , "fill_column_with_value"],
 ["!T", [37, 39]],        // Do not touch left/right cursor
 ["S", [37, 39]],         // Do not touch left/right cursor
+["A", [37, 39]],         // Do not touch left/right cursor
 ["C", ["F"]            , "control_f"],
 ["C", ["P"]            , "print_selection"],
 ["SC", ["0"]           , "select_all_cells_with_a_comment"],
