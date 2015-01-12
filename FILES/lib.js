@@ -2792,7 +2792,7 @@ function cell_set_value_real(line_id, data_col, value, td)
   create_column(columns[data_col]) ;
   add_a_new_line(line_id) ;
 
-  cell.set_value_local(value) ;
+  cell.set_value(value) ;
 
   var v ;
   if ( td !== undefined )
@@ -2821,7 +2821,7 @@ function cell_set_value_real(line_id, data_col, value, td)
 		if ( lines[line_key][col].value.toString() == group
 		     && cell.modifiable(column) )
 		  {
-		    cell.set_value_local(value) ;
+		    cell.set_value(value) ;
 		    td = td_from_line_id_data_col(line_key, column.data_col) ;
 		    if ( td !== undefined )
 		      update_cell(td, cell, column) ;
@@ -3786,7 +3786,7 @@ function Xcell_change(col, line_id, value, date, identity, history)
 
   var cell = lines[line_id][data_col] ;
 
-  cell.set_value(value) ;
+  cell.set_value_real(value) ;
   cell.author = identity ;
   cell.date = date ;
   cell.history = history ;

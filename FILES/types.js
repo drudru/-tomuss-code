@@ -79,7 +79,7 @@ function update_column_recursive(column, line)
       update_column_recursive(columns[column.average_columns[c]], line) ;
       column.need_update |= columns[column.average_columns[c]].need_update ;
     }
-  
+
   if ( column.need_update )
     {
       if ( line === undefined )

@@ -1334,7 +1334,7 @@ Cell.prototype.save = function()
 
 Cell.prototype.restore = function()
 {
-  this.set_value(this._save) ;
+  this.set_value_real(this._save) ;
 } ;
 
 Cell.prototype.value_html = function()
@@ -1410,7 +1410,7 @@ Cell.prototype.is_mine = function()
   return (this.author== my_identity|| this.author === '' || this.value === '');
 } ;
 
-Cell.prototype.set_value = function(v)
+Cell.prototype.set_value_real = function(v)
 {
   this.value = v ;
   this._key = undefined ;
@@ -1418,10 +1418,10 @@ Cell.prototype.set_value = function(v)
   return this ; // To be compatible with Python set_value method
 } ;
 
-Cell.prototype.set_value_local = function(value)
+Cell.prototype.set_value = function(value)
 {
   this.history += this.value + '\n('+ this.date + ' ' + this.author + '),·' ;
-  this.set_value(value) ;
+  this.set_value_real(value) ;
   this.author = my_identity ;
   var d = new Date() ;
   this.date = '' + d.getFullYear() +
@@ -1430,6 +1430,7 @@ Cell.prototype.set_value_local = function(value)
     two_digits(d.getHours()) +
     two_digits(d.getMinutes()) +
     two_digits(d.getSeconds()) ;
+  return this ;
 } ;
 
 Cell.prototype.set_comment = function(v)
