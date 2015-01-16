@@ -1652,6 +1652,7 @@ cell_change(1,'0_2','ticket_time_to_live','%d',"")
         assert(c == ok_png)
         c = s.url('=user.1/%s/UE-acls' % ys)
         assert('runlog(columns, lines)' in c)
+        time.sleep(1)
         c = ss.url('=user.1/%s/user.2' % ys)
         assert('is_a_teacher = 1' in c and 'initialize_suivi()' in c)
         
