@@ -151,6 +151,7 @@ def check(table, update_inscrits=update_inscrits_ue):
     warn("Update student list", what="check")
     if (configuration.allow_student_list_update
         or update_inscrits != update_inscrits_ue
+        or table.force_update
         ) and table.modifiable and table.update_inscrits:
         page = table.pages[0]
         warn("Update inscrits", what="check")
