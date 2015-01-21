@@ -21,6 +21,7 @@ import os
 import sys
 import re
 import collections
+import math
 import tomuss_init
 from .. import configuration
 from .. import tablestat
@@ -81,10 +82,11 @@ class UE:
                 summ = (float(line[result.data_col].value) - min) / max
             except ValueError:
                 pass
-        if summ == "-1":
+        if summ == "-1" or math.isnan(summ):
             if nr == 0 or weight == 0.:
                 if nr != 0 and weight == 0:
                     print 'Null column weight in', table
+                summ = "-1"
             else:
                 summ = '%.3f' % (summation/weight)
         
