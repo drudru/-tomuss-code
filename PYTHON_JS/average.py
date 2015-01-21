@@ -24,15 +24,13 @@
 def compute_average(data_col, line):
     column = columns[data_col]
     if len(column.average_columns) == 0:
-        line[data_col] = line[data_col].set_value('')
-        return
+        return ''
 
     nr_abj = 0
     nr_ppn = 0
     nr_add = 0
     nr_abi = 0
     values = []
-    line[data_col] = line[data_col].set_value(nan)
     for data_column in column.average_columns:
         value = line[data_column].value
         origin = columns[data_column]
@@ -41,7 +39,7 @@ def compute_average(data_col, line):
         if str(value) == '': # str is here to turn arround the JavaScript cast
             value = origin.empty_is
             if str(value) == '':
-                return # Empty cell ==> NaN
+                return nan # Empty cell
         if not origin.real_weight_add:
             nr_add += 1
         if value in (abj, abj_short):
@@ -60,23 +58,22 @@ def compute_average(data_col, line):
             try:
                 value = to_float(value)
             except:
-                return
+                return nan
             if isNaN(value):
-                return
+                return nan
             if origin.real_weight_add:
                 values.append([
                         (value - origin.min) / (origin.max - origin.min),
                         data_column, ''])
             else:
                 if column.mean_of or column.best_of:
-                    line[data_col] = line[data_col].set_value('???')
-                    return
+                    return '???'
                 values.append([value, data_column, ''])
 
     values.sort() # XXX
     if column.best_of:
         if len(values) < abs(column.best_of):
-            return
+            return nan
         if column.best_of > 0:
             # Keep the 'best_of' best grades (historical functionnality)
             values = values[-column.best_of:]
@@ -85,7 +82,7 @@ def compute_average(data_col, line):
             values = values[:column.best_of]
     if column.mean_of:
         if len(values) < -column.mean_of:
-            return
+            return nan
         values = values[-column.mean_of:]
 
     weight = 0  # The full weight
@@ -116,29 +113,27 @@ def compute_average(data_col, line):
     # print "%s abi:%s abj:%s ppn:%s sum:%s weight:%s used:%s add:%s only_add:%s only_abj:%s" % (values, nr_abi, nr_abj, nr_ppn, nr_sum, weight, nr_used, nr_add, only_add, only_abj)
     if weight != 0:
         if nr_abi >= len(column.average_columns) - nr_sum:
-            value = abi
+            return abi
         else:
             sumw += 1e-16 ; # Fix .499999999999999 numbers
             value = (column.min
                      + sumw * (column.max - column.min) / weight
                      + sum2)
             if column.round_by:
-                value = rint(value / column.round_by) * column.round_by
+                return rint(value / column.round_by) * column.round_by
             else:
-                value = rint(value * 1000000) / 1000000
+                return rint(value * 1000000) / 1000000
     elif nr_sum == len(column.average_columns):
         if nr_abi == nr_sum:
-            value = abi
+            return abi
         else:
-            value = sum2
+            return sum2
     elif only_abj:
-        value = abj
+        return abj
     elif nr_ppn + nr_abj == len(column.average_columns) - nr_add:
-        value = ppn
+        return ppn
     else:
-        value = nan
-    line[data_col] = line[data_col].set_value(value)
-
+        return nan
 
 def get_most_recent_date(data_col, line, not_root=False):
     if not not_root:
@@ -158,25 +153,19 @@ def compute_cell_safe(data_col, line, compute_function):
     """
     if line[data_col].comment == 'Fixed!':
         return # To override the computed value
-    old_value = line[data_col]
-    old_value_value = old_value.value
-    old_value_author = old_value.author
-    old_value_history = old_value.history
-    old_value_date = old_value.date
-    compute_function(data_col, line)
+    date = line[data_col].date
+    v = compute_function(data_col, line)
+
     if columns[data_col].cell_is_modifiable():
+        line[data_col] = line[data_col].set_value(v)
+        line[data_col].date = date
         return # For COW column type
-    if isNaN(to_float_or_nan(line[data_col].value)):
-        if get_most_recent_date(data_col, line, True) < old_value_date:
-            if line[data_col] is old_value:
-                # XXX Dirty : compute_function must not modify the line
-                old_value.value = old_value_value
-                old_value.author = old_value_author
-                old_value.history = old_value_history
-                old_value.date = old_value_date
-            else:
-                line[data_col] = old_value
-        else:
+    if isNaN(to_float_or_nan(v)):
+        if get_most_recent_date(data_col, line, True) > line[data_col].date:
+            line[data_col] = line[data_col].set_value(v)
+            line[data_col].date = date
             line[data_col].author = '?'
     else:
+        line[data_col] = line[data_col].set_value(v)
+        line[data_col].date = date
         line[data_col].author = '*'

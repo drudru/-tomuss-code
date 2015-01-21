@@ -33,4 +33,4 @@ def compute_nmbr(data_col, line):
         if column.nmbr_filter(cell):
             nr += 1
 
-    line[data_col] = line[data_col].set_value(nr)
+    return nr

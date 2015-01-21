@@ -25,14 +25,14 @@ def compute_cow(data_col, line):
     column = columns[data_col]
 
     if len(column.average_columns) != 1:
-        return
+        return line[data_col].value
 
     if line[data_col].author != '':
-        return
+        return line[data_col].value
 
     c = column.average_columns[0]
     value = line[c].value ;
     if value == '':
         value = columns[c].empty_is
 
-    line[data_col] = line[data_col].set_value(value)
+    return value

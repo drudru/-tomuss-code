@@ -24,7 +24,6 @@
 def compute_max_real(data_col, line):
     column = columns[data_col]
     the_max = -1e10
-    line[data_col] = line[data_col].set_value(nan)
     nr_abi = 0
     for data_column in column.average_columns:
         val = line[data_column].value
@@ -32,7 +31,7 @@ def compute_max_real(data_col, line):
         if str(val) == '':
             val = col.empty_is
         if str(val) == '':
-            return
+            return nan
         value = to_float_or_nan(val)
         if isNaN(value):
             if val in (abi, tnr):
@@ -41,7 +40,7 @@ def compute_max_real(data_col, line):
             elif val in (abj, ppn):
                 continue
             else:
-                return
+                return nan
         else:
             value = (value - col.min) / col.max
         if value > the_max:
@@ -49,8 +48,7 @@ def compute_max_real(data_col, line):
 
     if the_max > -1e10:
         if nr_abi == len(column.average_columns):
-            line[data_col] = line[data_col].set_value(abi)
+            return abi
         else:
-            line[data_col] = line[data_col].set_value(
-                the_max * (column.max - column.min) + column.min)
-
+            return the_max * (column.max - column.min) + column.min
+    return nan

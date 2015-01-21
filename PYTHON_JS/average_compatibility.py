@@ -53,7 +53,8 @@ for(var line in lines)
  {
    compute_average_old(data_col, lines[line]) ;
    var old_value = lines[line][data_col].value ;
-   compute_average(data_col, lines[line]) ;
+   var v = compute_average(data_col, lines[line]) ;
+   lines[line][data_col].set_value(v) ;
    var new_val = lines[line][data_col].value.toString()
    if ( old_value.toString() != new_val && new_val != 'NaN' && new_val != '0' )
           {

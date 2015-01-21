@@ -84,7 +84,7 @@ def CE(expected):
     return Cell(-1, "", "", "", "", expected)
 
 def check_result(line, col, fct):
-    fct(col, line)
+    line[col] = line[col].set_value(fct(col, line))
     if strip0(line[col].value) != strip0(line[col].expected):
         try:
             if abs(float(line[col].value) - float(line[col].expected)

@@ -25,7 +25,7 @@ def compute_diff_date(data_col, line):
     column = columns[data_col]
     
     if len(column.average_columns) != 2:
-        return
+        return line[data_col].value
 
     # The column comment give the time divisor.
     # If it contains /7 then the difference is computed in weeks
@@ -44,7 +44,6 @@ def compute_diff_date(data_col, line):
         values.append(date_to_seconds(user_date_to_date(value)))
 
     try:
-        line[data_col] = line[data_col].set_value(
-            (values[1] - values[0])/(div*86400))
+        return (values[1] - values[0]) / (div*86400)
     except:
-        line[data_col] = line[data_col].set_value('')
+        return ''

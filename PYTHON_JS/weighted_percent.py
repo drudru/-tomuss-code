@@ -48,8 +48,7 @@ def compute_weighted_percent(data_col, line):
     column = columns[data_col]
 
     if len(column.average_columns) != 1:
-      line[data_col] = line[data_col].set_value('')
-      return
+      return ''
     v = (column.min + (column.max - column.min) *
          compute_weighted_percent_(column.average_columns[0],
                                    line, column)
@@ -58,5 +57,5 @@ def compute_weighted_percent(data_col, line):
     if column.round_by:
         v = rint(v / column.round_by) * column.round_by
 
-    line[data_col] = line[data_col].set_value(v)
+    return v
 
