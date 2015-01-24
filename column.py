@@ -646,6 +646,9 @@ class Columns(object):
         may_be_top = ordered[-1]
         if not may_be_top.is_computed():
             return ()
+        if (may_be_top.type.name == 'Weighted_Percent'
+            and ordered[-2].type.name == 'Moy'):
+            may_be_top = ordered[-2]
         to_add = [may_be_top.title]
         used_titles = set()
         while to_add:
