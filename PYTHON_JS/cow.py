@@ -32,7 +32,7 @@ def compute_cow(data_col, line):
 
     c = column.average_columns[0]
     value = line[c].value ;
-    if value == '':
+    if str(value) == '':
         value = columns[c].empty_is
 
     return value
