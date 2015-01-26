@@ -1663,7 +1663,7 @@ GUI_record.prototype.add = function(attr_name, event, value) {
       this.debug.innerHTML += this.events[this.events.length-1] + '\n' ;
       this.debug.scrollTop = 100000000 ;
     }
-  connection_state.reconnect() ;
+  try { connection_state.reconnect() ; } catch(e) { } ;
 } ;
 
 GUI_record.prototype.add_key = function(event, value) {
