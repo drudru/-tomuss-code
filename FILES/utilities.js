@@ -2404,6 +2404,7 @@ function init_shortcuts()
   shortcuts = [
 ["F", [229]],            // http://stackoverflow.com/questions/25043934
 ["P", [27]             , "popup_close"],
+["P"],
 ["s", [27]             , "cancel_select_editing"],
 ["!T", [27]            , "cancel_input_editing"],
 ["T", [27]             , "cancel_cell_editing"],
