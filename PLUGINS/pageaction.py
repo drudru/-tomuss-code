@@ -150,6 +150,9 @@ def extension(server):
     server.the_file.write(server._("MSG_extension_ok")
                           % (server.the_semester, next_semester))
 
+    utilities.start_new_thread(document.update_indexes,
+                               (next_year, next_semester, server.the_ue))
+
 plugin.Plugin('extension', '/{Y}/{S}/{U}/extension', group='staff',
               function=extension,
               )

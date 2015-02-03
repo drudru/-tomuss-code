@@ -96,6 +96,9 @@ def new_page(server):
                          os.path.sep.join(first_table.split(os.path.sep)[-3:])
                          ),
             filename)
+        utilities.start_new_thread(document.update_indexes,
+                                   (server.the_year, server.the_semester,
+                                    server.the_ue))
     start_load = time.time()
     try:
         table, page = document.table(server.the_year, server.the_semester,

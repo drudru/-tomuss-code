@@ -1733,7 +1733,6 @@ def update_index(login, action=None):
     c = action(c) # Update index content
     utilities.manage_key('LOGINS', os.path.join(login, 'index'),
                          content = repr(c))
-    
 
 def check_indexes_to_update():
     while indexes_to_update:
@@ -1749,7 +1748,12 @@ def check_indexes_to_update():
             return x
         update_index(old, remove)
         update_index(new, append)
-                
+
+def update_indexes(year, semester, ue):
+    the_table = table(year, semester, ue)
+    for login in the_table.logins_valid():
+        indexes_to_update.append((the_table, '', utilities.the_login(login)))
+
 def check_new_students():
     while True:
         if configuration.regtest_sync:
