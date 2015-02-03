@@ -144,16 +144,11 @@ def extension(server):
 
     utilities.symlink_safe(os.path.join('..', '..', new_filename),
                            old_filename)
-
-    pages = len(table.active_pages) + len(t.active_pages)
-
     table.unload(force=True)
     t.unload(force=True)
 
     server.the_file.write(server._("MSG_extension_ok")
                           % (server.the_semester, next_semester))
-    return
-        
 
 plugin.Plugin('extension', '/{Y}/{S}/{U}/extension', group='staff',
               function=extension,

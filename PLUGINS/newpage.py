@@ -81,9 +81,9 @@ def new_page(server):
     filename = document.table_filename(server.the_year, server.the_semester,
                                        server.the_ue)
     first_semester = configuration.university_semesters[0]
-    first_table = document.table_filename(utilities.university_year(),
-                                          first_semester,
-                                          server.the_ue)
+    first_table = document.table_filename(
+        utilities.university_year(server.the_year, server.the_semester),
+        first_semester, server.the_ue)
     # XXX Not working if UE ends with -1 -2...
     if (server.the_semester != first_semester
         and not os.path.exists(filename)
