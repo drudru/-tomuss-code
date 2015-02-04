@@ -601,7 +601,7 @@ class Table(object):
         p = Page(ticket, user_name, len(self.pages), self,
                  user_ip, user_browser, date)
         p.logged = self.loading or self.modifiable
-        p.index = len(self.sent_to_browsers) - 1
+        p.index = len(self.sent_to_browsers)
         self.pages.append(p)
         return p
 
@@ -1192,6 +1192,7 @@ class Table(object):
         try:
             s.append('  <script><!--')
             s.append(utilities.wait_scripts())
+            s.append('var page_index = %d ;' % page.index)
             s.append('--></script> ')
             lines = self.lines.js()
             i = 0
@@ -1805,7 +1806,7 @@ def it_is_a_bad_request(request, page, tabl, output_file):
             output_file.close()
             sender.append(page.browser_file,
                           '<script>saved(%d);</script>\n' % request,
-                          index=len(tabl.sent_to_browsers)+1, page=page)
+                          index=len(tabl.sent_to_browsers), page=page)
         except IOError:
             pass
         except:
@@ -1908,7 +1909,7 @@ def check_requests():
                     output_file.close()
                 sender.append(page.browser_file,
                               '<script>saved(%d);</script>\n' % request,
-                              index=len(tabl.sent_to_browsers)+1, page=page)
+                              index=len(tabl.sent_to_browsers), page=page)
                 if page.answer == 'bug.png' and real_bug:
                     sender.append(page.browser_file,
                                   '<script>Alert("ERROR_server_bug");</script>')

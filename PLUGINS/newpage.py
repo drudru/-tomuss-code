@@ -190,7 +190,14 @@ def answer_page(server):
             # Do not revert request sent
             # It is possible to go in the future because page.request
             # may forgot incrementation.
-            page.request = max(int(server.the_student), page.request)
+            try:
+                page.index = int(server.the_student.split('.')[1])
+            except:
+                pass
+            page.request = max(int(server.the_student.split('.')[0]),
+                               page.request)
+            if page.index > len(table.sent_to_browsers):
+                page.index = 0 # Server rebooted
     except ValueError:
         server.the_file.write(
             '''
@@ -219,11 +226,7 @@ else
         configuration.regtest_sync ))
 
     server.the_file.write(initial_content)
-    if page.index is not None and page.index > 0:
-        server.the_file.write(''.join(table.sent_to_browsers[page.index-1:]))
-    else:
-        # Content sent between page loading and newpage
-        server.the_file.write(''.join(table.sent_to_browsers))
+    server.the_file.write(''.join(table.sent_to_browsers[page.index:]))
     server.the_file.flush()
     if configuration.regtest_sync:
         server.close_connection_now()

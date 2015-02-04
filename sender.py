@@ -61,17 +61,19 @@ class File(object):
         assert(self.in_processing)
         append.the_lock.acquire()
         try:
-            txt = ''.join(self.send)
-            self.send = []
-            keep_open = self.keep_open
-            index = self.index
-            if txt == '':
+            if len(self.send) == 0:
                 # Remove this sender object, no more useful
                 self.delete()
                 return False
+            to_send = self.send
+            self.send = []
+            keep_open = self.keep_open
+            index = self.index
         finally:
             append.the_lock.release()
-
+        if index is not None:
+            to_send.append('<script>window.page_index=%d</script>\n' % index)
+        txt = ''.join(to_send)
         try:
             self.file.write(txt)
 
@@ -79,9 +81,6 @@ class File(object):
                 self.file.flush()
             else:
                 self.file.close()
-
-            if self.page is not None:
-                self.page.index = index # Successfuly wrote
         except:
             if self.page is not None:
                 class Closed:

@@ -3298,7 +3298,8 @@ Connection.prototype.reconnect_real = function()
     return ;
 
   var connection = url + "/=" + ticket + '/' + year
-    + '/' + semester + '/' + ue + '/' + page_id + '/' + pending_requests_first;
+    + '/' + semester + '/' + ue + '/' + page_id + '/' + pending_requests_first
+    + '.' + page_index ;
 
   if ( window.XMLHttpRequest )
     {
