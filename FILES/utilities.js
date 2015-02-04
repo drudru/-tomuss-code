@@ -1420,7 +1420,8 @@ Cell.prototype.set_value_real = function(v)
 
 Cell.prototype.set_value = function(value)
 {
-  this.history += this.value + '\n('+ this.date + ' ' + this.author + '),·' ;
+  if ( this.history !== '' || this.value !== '' )
+     this.history += this.value + '\n('+ this.date + ' ' + this.author + '),·';
   this.set_value_real(value) ;
   this.author = my_identity ;
   var d = new Date() ;
