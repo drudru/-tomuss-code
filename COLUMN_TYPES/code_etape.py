@@ -72,14 +72,12 @@ class Code_Etape(text.Text):
     def simulate_get_all_values(self, the_table, column, line_ids):
         data_col = self.data_col(the_table, column)
         if data_col is None:
-            return ()
-        return (
-            (line_id, self.get_one_value(
-                    the_table.lines[line_id][data_col].value,
-                    column, line_id)
-             )
-            for line_id in (line_ids or the_table.lines)
-            )
+            return
+        for line_id in (line_ids or the_table.lines):
+            v =  self.get_one_value(the_table.lines[line_id][data_col].value,
+                                    column, line_id)
+            if v is not None:
+                yield (line_id, v)
         
     def update_all(self, the_table, column, attr=None, line_ids=None):
         if attr is not None and attr.name != 'columns' and attr.name != 'type':
