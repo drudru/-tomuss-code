@@ -116,8 +116,8 @@ def tests(s):
     assert(s.url("=" + root
                  + '/0/Public/sync/2/0/cell_change/col_0/line_0/SyncValue')
            == ok_png)
-                
     a_link.want_content('SyncValue')
+    b_link.want_content('window.page_index=3')
     b_link.close()
     wait_nr_file(s, 1)
     
@@ -127,33 +127,50 @@ def tests(s):
            == ok_png)
 
     print "B restore the link"
-    b_link = Reader("=" +root+ '/0/Public/sync/2/1')
+    b_link = Reader("=" +root+ '/0/Public/sync/2/1.4')
 
     b_link.want_content('Xcell_change("col_0","line_1","SyncBroken"')
-    b_link.must_not_contain('SyncValue')
-    b_link.must_not_contain('SyncTitle')
+    b_link.must_not_contain('Xcell_change("col_0","line_0","SyncValue"')
+    b_link.must_not_contain('Xcolumn_attr(\'title\',"col_0","SyncTitle")')
+    time.sleep(0.1)
+    for n in range(14, 11, -1):
+        try:
+            b_link.want_content('window.page_index=%d' % n)
+        except ValueError:
+            pass
+        break
+    else:
+        raise ValueError("Bad page index 1")
+
     b_link.close()
     wait_nr_file(s, 1)
 
-    print "A change a cell 2"
+    print "A change a cell 2. n=%d" % n
     assert(s.url("=" + root
                  + '/0/Public/sync/1/2/cell_change/col_0/line_1/SyncLongBroke')
            == ok_png)
 
 
     print "B restore the link 2"
-    b_link = Reader("=" +root+ '/0/Public/sync/2/1')
+    b_link = Reader("=" +root+ '/0/Public/sync/2/1.%d' % n)
     b_link.want_content('SyncLongBroke')
     b_link.must_not_contain('Xcell_change("col_0","line_0","SyncValue"')
     b_link.must_not_contain('Xcolumn_attr(\'title\',"col_0","SyncTitle"')
     b_link.must_not_contain('Xcell_change("col_0","line_1","SyncBroken"')
     wait_nr_file(s, 2)
-
+    for n in range(20, 18, -1):
+        try:
+            b_link.want_content('window.page_index=%d' % n)
+        except ValueError:
+            pass
+        break
+    else:
+        raise ValueError("Bad page index")
     b_link.close()
     wait_nr_file(s, 1)
     
-    print "B restore the link 3"
-    b_link = Reader("=" +root+ '/0/Public/sync/2/1')
+    print "B restore the link 3. n=%d" % n
+    b_link = Reader("=" +root+ '/0/Public/sync/2/1.%d' % n)
     b_link.want_content("</script>")
     b_link.must_not_contain('Xcell_change("col_0","line_1","SyncLongBroke')
     

@@ -488,7 +488,7 @@ if __name__ == "__main__":
 
     generate_data_files()
     configuration.language = 'en'
-    
+    configuration.url_files = ''
     plugins_tomuss()
     plugin.html('DOCUMENTATION/xxx_tomuss_plugins.html')
 
