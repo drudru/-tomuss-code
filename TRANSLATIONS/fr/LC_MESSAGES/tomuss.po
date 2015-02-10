@@ -71,11 +71,12 @@ msgstr "Affiche 0 si ce n'est pas la première inscription de l'étudiant,\n"
 
 #. Columns types, button text in the menu
 msgid "B_Moy"
-msgstr "Moyenne"
+msgstr "Moyenne pondérée"
 
 msgid "H_Moy"
 msgstr "Calcule la moyenne d'un ensemble de note en considérant que<br>\n"
-       "ABI = TNR = 0 et que ABJ est retiré du calcul."
+       "ABI = TNR = 0 et que ABJ est retiré du calcul.<br>\n"
+       "Le poids de chaque colonne est défini dans l'onglet «Formule»"
 
 #. Columns types, button text in the menu
 msgid "B_Firstname"

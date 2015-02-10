@@ -77,11 +77,12 @@ msgstr "Display 0 if it is not the first student registration.\n"
 
 #. Columns types, button text in the menu
 msgid "B_Moy"
-msgstr "Average"
+msgstr "Weighted average"
 
 msgid "H_Moy"
 msgstr "Compute the average with InjLeave = WorkNotGiven = 0 and<br>\n"
-       "the JusLeave is not taken into account in the average."
+       "the JusLeave is not taken into account in the average.<br>\n"
+       "The column 'weight' is defined in the 'Formula' tab."
 
 #. Columns types, button text in the menu
 msgid "B_Firstname"
