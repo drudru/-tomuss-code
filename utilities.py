@@ -332,23 +332,37 @@ def send_mail(to, subject, message, frome=None, show_to=False, reply_to=None,
     if isinstance(message, unicode):            
         message = message.encode('utf-8')
     
+    use_backup_smtp = False
     while True: # Stop only if the mail is sent
         try:
             smtpresult = send_mail.session.sendmail(frome, recipients,
                                                     header + '\n' + message)
             break
         except smtplib.SMTPRecipientsRefused:
-            warn("Can't deliver mail to " + repr(recipients))
-            break
+            send_backtrace('from=%s\nrecipients=%s\nheaders=%s\nmessage=%s' %
+                           (repr(frome), repr(recipients), repr(header),
+                            repr(message)))
+            try:
+                if use_backup_smtp:
+                    warn("Lost mail from %s to %s" % (
+                        repr(frome), repr(recipients)), what="Error")
+                    break
+                use_backup_smtp = True
+                send_mail.session = smtplib.SMTP(configuration.smtpserver.split(' ')[1])
+            except IndexError:
+                warn("Lost mail (no backup SMTP server) from %s to %s" % (
+                    repr(frome), repr(recipients)), what="Error")
+                break
+            continue
         except smtplib.SMTPServerDisconnected:
             # It is normal: connection is closed by SMTP if unused
-            send_mail.session = smtplib.SMTP(configuration.smtpserver)
+            send_mail.session = smtplib.SMTP(configuration.smtpserver.split(' ')[0])
             continue
         except:
             if send_mail.session is not None:
                 send_backtrace('from=%s\nrecipients=%s\nheaders=%s' %
                                (repr(frome), repr(recipients), repr(header)))
-            send_mail.session = smtplib.SMTP(configuration.smtpserver)
+            send_mail.session = smtplib.SMTP(configuration.smtpserver.split(' ')[0])
 
     try:
         if smtpresult:
