@@ -323,7 +323,7 @@ def send_mail(to, subject, message, frome=None, show_to=False, reply_to=None,
     if error_to:
         header += 'Error-To: ' + error_to + '\n'
         
-    if message.startswith('<html>'):
+    if message.startswith('<html>') or message.startswith('<!DOCTYPE html>') :
         header += 'Content-Type: text/html; charset=UTF-8\n'
     else:
         if isinstance(message, unicode):
