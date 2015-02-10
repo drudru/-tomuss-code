@@ -190,8 +190,12 @@ msgstr "When computing the average,<br>\n"
 #. Attribute Tip
 msgid "TIP_column_attr_worst"
 msgstr "When computing the average,<br>\n"
-       "the X worst grades will not be used.<br>\n"
-       "BEWARE: a JustLeave is not taken as a bad grade"
+       "the X worst grades will not be used."
+
+#. Attribute Tip
+msgid "TIP_column_attr_abj_is"
+msgstr "When removing grades to compute the average,<br>\n"
+       "the JLV behaviour must be defined."
 
 #. Attribute Tip
 msgid "TIP_column_attr_rounding"
@@ -1035,6 +1039,12 @@ msgstr "Weight"
 #. Label before the attribute
 msgid "BEFORE_column_attr_repetition"
 msgstr "Repetition"
+
+msgid "SELECT_column_abj_is_nothing"
+msgstr "JLV is not a grade"
+
+msgid "SELECT_column_abj_is_average"
+msgstr "JLV → average of the others"
 
 msgid "TIP_column_visibility"
 msgstr "On the 'suivi' page, the column will be:\n"

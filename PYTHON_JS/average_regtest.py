@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 # TOMUSS: The Online Multi User Simple Spreadsheet
-# Copyright (C) 2014 Thierry EXCOFFIER, Universite Claude Bernard
+# Copyright (C) 2014-2015 Thierry EXCOFFIER, Universite Claude Bernard
 #
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -254,6 +254,42 @@ def average_regtest():
     for i in combinations([3, abi, abj, tnr, ppn, 2]):
         check_result([Cell(i[0]), Cell(i[1]), Cell(i[2]), Cell(i[3]),
                       Cell(i[4]), Cell(i[5]), C(3)], 6, compute_average)
+
+    columns_set([Column(), Column(), Column(),
+                 Column({"average_columns":[0, 1, 2],
+                         "abj_is": 1}),
+                 Column({"average_columns":[0, 1, 2],
+                         "mean_of":-1, "abj_is": 1}),
+                 Column({"average_columns":[0, 1, 2],
+                         "best_of":-1, "abj_is": 1}),
+                 Column({"average_columns":[0, 1, 2],
+                         "mean_of":-1, "best_of":-1, "abj_is": 1}),
+             ])
+    for line in [
+            [Cell(1  ),Cell(1  ),Cell(1  ),C(1  ), C(1  ), C(1  ), C(1  )],
+            [Cell(3  ),Cell(3  ),Cell(9  ),C(5  ), C(6  ), C(3  ), C(3  )],
+            [Cell(2  ),Cell(6  ),Cell(abj),C(4  ), C(5  ), C(3  ), C(4  )],
+            [Cell(2  ),Cell(abj),Cell(abj),C(2  ), C(2  ), C(2  ), C(2  )],
+            [Cell(abj),Cell(abj),Cell(abj),C(abj), C(abj), C(abj), C(abj)],
+            [Cell(abi),Cell(abj),Cell(abj),C(0  ), C(0  ), C(0  ), C(0  )],
+    ]:
+        check_result(line, 3, compute_average)
+        check_result(line, 4, compute_average)
+        check_result(line, 5, compute_average)
+        check_result(line, 6, compute_average)
+# Not allowed to use mean_of or best_of with additions
+#     columns_set([Column(), Column(), Column(),
+#                  Column({"real_weight_add":False, "real_weight":1}),
+#                  Column({"average_columns":[0, 1, 2, 3],
+#                          "mean_of":-1, "abj_is": 1}),
+#              ])
+#     for line in [
+#             [Cell(2  ),Cell(6  ),Cell(abj), Cell(1), C(6  )],
+#             [Cell(2  ),Cell(abj),Cell(abj), Cell(1), C(3  )],
+#             [Cell(abj),Cell(abj),Cell(abj), Cell(1), C(ppn)],
+#             [Cell(abi),Cell(abj),Cell(abj), Cell(1), C(1  )],
+#     ]:
+#         check_result(line, 4, compute_average)
 
     print('Average regtest are fine')
 

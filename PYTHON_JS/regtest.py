@@ -46,6 +46,7 @@ class Column:
         self.test_filter     = args.get("test_filter", "")
         self.comment         = args.get("comment", "")
         self.computed        = args.get("computed", 0)
+        self.abj_is          = args.get("abj_is", 0)
 
     def nmbr_filter(self, cell):
         return Filter(self.test_filter, "","").evaluate(cell)

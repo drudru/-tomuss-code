@@ -70,6 +70,26 @@ def compute_average(data_col, line):
                     return '???'
                 values.append([value, data_column, ''])
 
+    if column.abj_is == 1 and nr_abj != 0:
+        # Replace the ABJs by the average
+        weight = 0
+        sumw = 0
+        for c in values:
+            origin = columns[c[1]]
+            value = c[0]
+            if origin.real_weight_add:
+                w = origin.real_weight
+                sumw += w * value
+                weight += w
+        if weight:
+            note = sumw / weight
+            for data_column in column.average_columns:
+                if line[data_column].value in (abj, abj_short):
+                    values.append([note, data_column, ''])
+            nr_abj = 0
+        else:
+            if nr_abj == len(column.average_columns):
+                return abj
     values.sort() # XXX
     if column.best_of:
         if len(values) < abs(column.best_of):

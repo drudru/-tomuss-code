@@ -853,6 +853,10 @@ function new_new_interface()
 			   + ' after=' + _("BEFORE_column_attr_best")
 			   + ' beforeclass=widthleft')) ;
   t.push(column_input_attr('worst','after='+_("BEFORE_column_attr_worst") )) ;
+  t.push(column_input_attr('abj_is',
+			   [[0, _("SELECT_column_abj_is_nothing")],
+			    [1, _("SELECT_column_abj_is_average")],
+			   ])) ;
   t.push('</div>') ;
   t.push('<div class="one_line">') ;
   t.push(column_input_attr('rounding',
@@ -881,7 +885,7 @@ function new_new_interface()
   t.push(column_input_attr('visibility',
 			   [[0, _("SELECT_column_visibility_date")],
 			    [1, _("SELECT_column_visibility_no")],
-			    [2, _("SELECT_column_visibility_never")],
+			    [2, _("SELECT_column_visibility_never")]
 			   ])) ;
   t.push(column_input_attr('visibility_date', 'empty')) ;
   t.push('</div>') ;
@@ -951,7 +955,7 @@ function new_new_interface()
   t.push(column_input_attr('locked',
 			   [
 			    [0, _("SELECT_column_locked_no")],
-			    [1, _("SELECT_column_locked_yes")],
+			    [1, _("SELECT_column_locked_yes")]
 			   ]
 			   )) ;
   t.push(column_input_attr('cell_writable'
@@ -959,7 +963,7 @@ function new_new_interface()
   t.push(column_input_attr('modifiable',
 			   [[0, _("SELECT_column_modifiable_by_nobody")],
 			    [1, _("SELECT_column_modifiable_by_teachers")],
-			    [2, _("SELECT_column_modifiable_by_students")],
+			    [2, _("SELECT_column_modifiable_by_students")]
 			   ])) ;
   t.push('</div>') ;
 
