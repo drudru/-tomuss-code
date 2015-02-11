@@ -25,6 +25,7 @@ import time
 
 class ColumnVisibilityDate(ColumnAttr):
     name = 'visibility_date'
+    update_table_headers = 1
     def check(self, date):
         if date == '':
             return

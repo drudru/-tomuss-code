@@ -254,8 +254,11 @@ BODY TABLE.colored TR TD.filtered, #current_input.filtered, BODY TABLE.colored T
 
 TABLE#thetable TH.sorted { 
   font-weight: bold ;
-  color: #00F ;
   background-color: #BFB;
+}
+
+TABLE#thetable TH.hidden_to_student {
+  color: #B83 ;
 }
 
 

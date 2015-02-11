@@ -25,4 +25,4 @@ class ColumnVisibility(ColumnModifiable):
     name = 'visibility'
     formatter = "column_visibility_formatter"
     css = ''
-    
+    update_table_headers = 1

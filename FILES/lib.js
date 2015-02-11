@@ -1628,6 +1628,8 @@ function table_header_fill_real()
 	className = 'ro' ;
       else
 	className = '' ;
+      if ( ! column.is_visible() )
+	className += ' hidden_to_student' ;
 
       var td_title = tr_title.childNodes[col] ;
       var td_filter = tr_filter.childNodes[col] ;
@@ -1642,6 +1644,7 @@ function table_header_fill_real()
       // td_title.data_col = td_filter.data_col = column.data_col ;
 
       title.firstChild.innerHTML = html(column.title) ;
+
       td_filter.childNodes[0].value = column.filter ;
       if ( column.filter === '' )
 	td_filter.childNodes[0].className = 'empty' ;
@@ -2351,8 +2354,21 @@ Column.prototype.cell_is_modifiable = function() {
   return this.real_type.cell_is_modifiable ;
 } ;
 
-/*****************************************************************************/
+Column.prototype.is_visible = function() {
+  if ( this.visibility != 0 )
+    return false ;
+  if ( this.title.substr(0,1) == '.' )
+    return false ;
+  if ( this.visibility_date != '' )
+    {
+      var now = new Date() ;
+      if ( this.visibility_date > now.formate('%Y%m%d') )
+	return false ;
+    }
+  return true ;
+} ;
 
+/*****************************************************************************/
 
 function add_empty_columns()
 {
