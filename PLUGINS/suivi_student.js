@@ -966,13 +966,24 @@ function DisplayUEGrades(node)
 }
 DisplayUEGrades.need_node = [] ;
 
+/*REDEFINE
+ This function allow to sort the table on the suivi page
+ in the wanted order.
+ By default the UE code
+*/
+function get_ue_priority(ue)
+{
+  return ue.ue ;
+}
+
 function DisplayGrades(node)
 {
   if ( node.data === undefined )
     return '<span style="background:#FF0">' + _("MSG_suivi_student_wait")
       + '</span>' ;
 
-  node.data[0].sort(function(a,b) { return b.ue < a.ue ? 1 : -1 ; }) ;
+  node.data[0].sort(function(a,b)
+	     { return get_ue_priority(b) < get_ue_priority(a) ? 1 : -1 ; }) ;
   var s = '' ;
   for(var i in node.data[0])
     {
