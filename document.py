@@ -1113,14 +1113,14 @@ class Table(object):
                 yield v[0].value
 
     def logins_valid(self):
-        
-        if self.column_inscrit() is None:
+        c = self.column_inscrit()
+        if c is None:
             for v in self.lines.values():
                 if v[0].value != '':
                     yield v[0].value
         else:
             for v in self.lines.values():
-                if v[0].value != '' and v[5].value != 'non':
+                if v[0].value != '' and v[c].value != 'non':
                     yield v[0].value
 
     def the_keys(self):

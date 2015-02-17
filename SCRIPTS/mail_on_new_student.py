@@ -90,6 +90,7 @@ for table in all_tables:
             continue
     students = []
     students_removed = []
+    col_inscrit = table.column_inscrit()
     for line in table.lines.values():
         if line[0].date_seconds() < last_run:
             continue
@@ -101,7 +102,10 @@ for table in all_tables:
             add = False
         elif (line[0].author == data.rw_user
               and configuration.is_a_student(line[0].value)):
-            add = False
+            if col_inscrit is None or line[col_inscrit].value == 'non':
+                add = False
+            else:
+                continue
         else:
             continue
 
