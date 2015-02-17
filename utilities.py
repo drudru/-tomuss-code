@@ -1124,7 +1124,7 @@ class Variables(object):
        * The V.foo value will change if the user modify
          the table 0/Variables/group
        * The user may only enter values of the same type.
-         With the example, only integer values are allowed
+         With the example, only integer values are allowed for 'bar'
        * The table is filled only when it is used (V.foo will do it)
 
     """
@@ -1165,6 +1165,9 @@ class Variables(object):
             finally:
                 t.unlock()
             self.__dict__["_initialized"] = True
+            # To give information to the table template Variables
+            t.Variables = getattr(t, 'Variables', set())
+            t.Variables.update(self._variables)
         if t is None  or   name not in t.lines:
             try:
                 return self._variables[name][1]

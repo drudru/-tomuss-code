@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 #    TOMUSS: The Online Multi User Simple Spreadsheet
-#    Copyright (C) 2012 Thierry EXCOFFIER, Universite Claude Bernard
+#    Copyright (C) 2012-2015 Thierry EXCOFFIER, Universite Claude Bernard
 #
 #    This program is free software; you can redistribute it and/or modify
 #    it under the terms of the GNU General Public License as published by
@@ -42,14 +42,25 @@ def create(table):
     table.table_attr(p, 'default_nr_columns', 3)
     table.table_attr(p, 'default_sort_column', 0)
 
+def onload(table):
+    def clear_unused_variables(table=table):
+        v = getattr(table, 'Variables', ())
+        for k, line in table.lines.items():
+            if k not in v:
+                for cell in line:
+                    cell.author = data.rw_user # Do not pollute history
+    utilities.start_job(clear_unused_variables, 60)
+
 def cell_change(table, page, col, lin, value, dummy_date):
     if page.page_id == 0:
         return
     line = table.lines[lin]
-    if line[0].author != data.ro_user or col != '2':
+    if col not in '012':
         sender.append(page.browser_file,
                       '<script>Alert("ERROR_value_not_modifiable");</script>')
         raise ValueError(utilities._("ERROR_value_not_modifiable"))
+    if col != "2" or line[0].author != data.ro_user:
+        return
     t = line[1].value
     try:
         v = ast.literal_eval(value)
