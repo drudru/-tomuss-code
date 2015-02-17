@@ -2762,7 +2762,7 @@ function cell_set_value_real(line_id, data_col, value, td)
 
   // Used as a group column
   for(var i in columns)
-    if ( columns[i].groupcolumn == column.title )
+    if ( columns[i].groupcolumn == column.title && column.title !== '' )
       {
 	var e = [], quoi ;
 	var group = lines[line_id][column.data_col].value.toString() ;
@@ -2824,7 +2824,7 @@ function cell_set_value_real(line_id, data_col, value, td)
 
   update_histogram(true) ; // XXX
 
-  if ( column.groupcolumn )
+  if ( column.groupcolumn !== '' )
     {
       var col = data_col_from_col_title(column.groupcolumn) ;
       if ( col )
