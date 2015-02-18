@@ -25,7 +25,17 @@ def compute_average(data_col, line):
     column = columns[data_col]
     if len(column.average_columns) == 0:
         return ''
-
+    if column.best_of or column.mean_of:
+        weight = None
+        for data_column in column.average_columns:
+            origin = columns[data_column]
+            if not origin.real_weight_add:
+                return _('ERROR_addition_not_allowed')
+            if weight is None:
+                weight = origin.real_weight
+                continue
+            if weight != origin.real_weight:
+                return _('ERROR_different_not_allowed')
     nr_abj = 0
     nr_ppn = 0
     nr_add = 0
@@ -104,7 +114,6 @@ def compute_average(data_col, line):
         if len(values) < -column.mean_of:
             return nan
         values = values[-column.mean_of:]
-
     weight = 0  # The full weight
     sumw = 0    # Normal weighted average
     sum2 = 0    # An addition to do once the average is computed

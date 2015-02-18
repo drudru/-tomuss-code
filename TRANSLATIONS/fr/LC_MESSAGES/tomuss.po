@@ -1020,6 +1020,12 @@ msgstr "&nbsp;meilleures,&nbsp;"
 msgid "BEFORE_column_attr_worst"
 msgstr "&nbsp;pires"
 
+msgid "ERROR_addition_not_allowed"
+msgstr "Une colonne a un poids avec + ou -"
+
+msgid "ERROR_different_not_allowed"
+msgstr "Une colonne a un poids différent des autres"
+
 #. Label before the attribute
 msgid "BEFORE_column_attr_rounding"
 msgstr "Arrondi"

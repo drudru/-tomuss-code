@@ -1025,6 +1025,12 @@ msgstr "&nbsp;best,&nbsp;"
 msgid "BEFORE_column_attr_worst"
 msgstr "&nbsp;worst"
 
+msgid "ERROR_addition_not_allowed"
+msgstr "Column weight with + or -"
+
+msgid "ERROR_different_not_allowed"
+msgstr "Column weights are not equals"
+
 #. Label before the attribute
 msgid "BEFORE_column_attr_rounding"
 msgstr "Rounding"
