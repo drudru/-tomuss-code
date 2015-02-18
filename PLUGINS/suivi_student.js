@@ -313,12 +313,24 @@ function DisplayRightClip(node)
 }
 DisplayRightClip.need_node = [] ;
 
+function load_full_size_picture(event)
+{
+  var tip = get_tip_element() ;
+  imgs = tip.getElementsByTagName('IMG') ;
+  for(var i in imgs)
+    if ( imgs[i].className == 'big' && imgs[i].src === '')
+      {
+	imgs[i].src = student_picture_url(display_data['Login']) ;
+	break ;
+      }
+}
+
 function DisplayPicture(node)
 {
   return hidden_txt('<img class="small" src="'
-		    + student_picture_url(display_data['Login']) + '">',
-		    '<img src="'
-		    + student_picture_url(display_data['Login']) + '">') ;
+		    + student_picture_icon_url(display_data['Login']) + '">',
+		    '<img class="big">', undefined, undefined,
+		    "load_full_size_picture(event)") ;
 }
 DisplayPicture.need_node = ['Login'] ;
 
