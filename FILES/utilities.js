@@ -1,7 +1,7 @@
 // -*- coding: utf-8; mode: Java; c-basic-offset: 2; tab-width: 8; -*-
 /*
   TOMUSS: The Online Multi User Simple Spreadsheet
-  Copyright (C) 2008-2014 Thierry EXCOFFIER, Universite Claude Bernard
+  Copyright (C) 2008-2015 Thierry EXCOFFIER, Universite Claude Bernard
 
   This program is free software; you can redistribute it and/or modify
   it under the terms of the GNU General Public License as published by
@@ -446,7 +446,7 @@ function hidden_over(event)
   {
     target = target.parentNode ;
   }
-  
+
   var value = compute_tip(target) ;
   show_the_tip(target, value, target.id ? target.id : target.textContent) ;
 }
@@ -456,7 +456,7 @@ function hidden_out()
   hide_the_tip_real() ;
 }
 
-function hidden_txt(html, help, classname, id)
+function hidden_txt(html, help, classname, id, myonshow)
 {
   if ( id )
     id = ' id="' + id + '"' ;
@@ -466,13 +466,18 @@ function hidden_txt(html, help, classname, id)
     classname = ' ' + classname ;
   else
     classname = '' ;
+  if ( myonshow === undefined )
+    myonshow = '' ;
 
   if ( html === undefined )
     html = '????????' ;
   html = html.toString() ;
   html = html.replace('<a', '<a onfocus="hidden_over(event);" onblur="hidden_out();"') ;
 
-  return '<div ' + id + 'class="tipped' + classname + '" onmouseover="hidden_over(event);" onmouseout="hidden_out();"><div class="help"><p>' + help + '<div></div></div><div class="text">' + html + '</div></div>' ;
+  return '<div ' + id + 'class="tipped' + classname
+    + '" onmouseover="hidden_over(event);' + myonshow
+    + '" onmouseout="hidden_out();' + myonshow + '"><div class="help"><p>'
+    + help + '<div></div></div><div class="text">' + html + '</div></div>' ;
 }
 
 
@@ -841,6 +846,17 @@ function student_picture_url(login)
 {
   if ( login )
     return url + '/=' + ticket + '/picture/' + login_to_id(login) + '.JPG' ;
+  return '' ;
+}
+
+/*REDEFINE
+  This function returns the URL of the student picture icon.
+  30 pixel wide
+*/
+function student_picture_icon_url(login)
+{
+  if ( login )
+    return url+'/=' + ticket + '/picture-icon/' + login_to_id(login) + '.JPG';
   return '' ;
 }
 
