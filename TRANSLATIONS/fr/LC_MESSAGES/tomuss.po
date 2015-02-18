@@ -79,6 +79,17 @@ msgstr "Calcule la moyenne d'un ensemble de note en considérant que<br>\n"
        "Le poids de chaque colonne est défini dans l'onglet «Formule»"
 
 #. Columns types, button text in the menu
+msgid "B_Product"
+msgstr "Multiplication"
+
+msgid "H_Product"
+msgstr "Calcule le produit de plusieurs colonnes<br>\n"
+       "Tous les poids doivent être égaux à 1."
+
+msgid "ERROR_all_weight_equals_to_1"
+msgstr "Tous les poids doivent être égaux à 1"
+
+#. Columns types, button text in the menu
 msgid "B_Firstname"
 msgstr "Prénom(ID)"
 

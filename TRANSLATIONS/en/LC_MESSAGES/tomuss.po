@@ -85,6 +85,17 @@ msgstr "Compute the average with InjLeave = WorkNotGiven = 0 and<br>\n"
        "The column 'weight' is defined in the 'Formula' tab."
 
 #. Columns types, button text in the menu
+msgid "B_Product"
+msgstr "Product"
+
+msgid "H_Product"
+msgstr "Multiply the values in the columns<br>\n"
+       "All the column weights must be equal to 1."
+
+msgid "ERROR_all_weight_equals_to_1"
+msgstr "All the column weights must be equal to 1."
+
+#. Columns types, button text in the menu
 msgid "B_Firstname"
 msgstr "Firstname(ID)"
 

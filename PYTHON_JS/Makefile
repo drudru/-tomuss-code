@@ -4,10 +4,10 @@
 
 all:regtest_python tomuss_python.js tomuss_python_O.js regtest_js regtest_js_O stats
 
-OBJS = filter.py average.py maximum.py nmbr.py cow.py diff_date.py weighted_percent.py
+OBJS = filter.py average.py maximum.py nmbr.py cow.py diff_date.py weighted_percent.py product.py
 OBJS_JS = preamble.py preamble_js.py $(OBJS)
 OBJS_PYTHON = preamble.py preamble_python.py $(OBJS)
-REGTEST = regtest.py filter_regtest.py average_regtest.py maximum_regtest.py nmbr_regtest.py diff_date_regtest.py weighted_percent_regtest.py
+REGTEST = regtest.py *_regtest.py
 
 PYJS = RapydScript/bin/rapydscript --prettify --bare
 
