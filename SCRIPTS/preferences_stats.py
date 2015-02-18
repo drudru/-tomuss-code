@@ -9,6 +9,7 @@ import glob
 import collections
 import os
 import math
+import ast
 import tomuss_init
 from .. import utilities
 
@@ -17,11 +18,41 @@ nb_set = collections.defaultdict(int)
 pairs = collections.defaultdict(int)
 data = []
 nb = 0
+
+defaults = {
+    'favoris_sort': '0',
+    'invert_name': '1',
+    'zebra_step': '5',
+    'interface': 'N',
+    'nr_lines': 0,
+    'nr_cols': 0,
+    'scrollbar_right': '1',
+    'nr_favorites': '6',
+    'page_step': '1',
+    'current_suivi': '0',
+    'v_scrollbar_nr': '1',
+    'home_3scrollbar': '1',
+    'v_scrollbar': '1',
+    'language': 'fr',
+    'display_tips': 1,
+    }
+
 for filename in glob.glob("DB/LOGINS/*/*/preferences"):
-    d = eval(utilities.read_file(filename))
+    d = ast.literal_eval(utilities.read_file(filename)
+                         .replace("OUI", "1")
+                         .replace("NON", "0")
+                         .replace("N", "0")
+                     )
     nb += 1
     s = []
     for k in sorted(d):
+        if k in defaults:
+            if d[k] == defaults[k]:
+                del d[k]
+                continue
+            if k == 'interface':
+                del d[k]
+                continue
         if d[k]:
             nb_on[k] += 1
             s.append(k)
@@ -67,13 +98,16 @@ f = open("xxx.preferences.dot", "w")
 f.write('''
 graph "fichiers" {
 node[shape=circle,style="filled",fillcolor="white",fixedsize=true];
-edge[splines="false",fontname="courier"];
-graph[charset="Latin1", orientation="P"];
+edge[splines="false",fontname="courier",color="grey"];
+graph[charset="Latin1",orientation="P",outputorder=edgesfirst];
 ''')
 nb_on_max = float(max(nb_on.values()))
 for k, v in nb_on.items():
+    percent = (100*v)//nb
+    if percent < 10:
+        percent = '%.1f' % ((100.*v)/nb)
     f.write('%s [width="%s", label="%s\\n%s%%"] ;\n' % (
-            k, 2*(v/nb_on_max)**0.5, k, (100*v)//nb))
+            k, 2*(v/nb_on_max)**0.5, k, percent))
 
 for k, v in pairs.items():
     # Between 0 and 10
