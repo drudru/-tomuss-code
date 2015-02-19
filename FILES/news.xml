@@ -1017,6 +1017,23 @@ Les améliorations les plus visibles sont :
       </description>
       <guid>63</guid>
     </item>
+    <item>
+      <title>19/02/2015 : Version 5.5.13</title>
+      <link>http://tomuss.univ-lyon1.fr/</link>
+      <description>
+	&lt;p&gt;
+	Dans l'éditeur de table, les colonnes cachées aux étudiants
+	ont leur titre orange.
+	&lt;p&gt;
+	Il est possible de faire des multiplications de colonne.
+	Par exemple pour multiplier la note par le pourcentage de plagiat.
+	&lt;p&gt;
+	Quand on fait une moyenne en enlevant des notes,
+	on peut maintenant décider que ABJ est une note égale
+	à la moyenne des notes moyennées.
+      </description>
+      <guid>64</guid>
+    </item>
 
   </channel>
 </rss>
