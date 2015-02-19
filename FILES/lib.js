@@ -995,7 +995,9 @@ function table_init()
   tr_title = document.createElement('tr') ;
   tr_title.className = 'column_title' ;
   var th = document.createElement('th') ;
-  th.innerHTML = '<div onmousedown="header_title_click(this);sort_column(event);GUI.add(\'column_sort\',\'\',the_current_cell.column.title)"><span>&nbsp;</span><img src="_FILES_/sort_down.png" width="12"><img src="_FILES_/sort_down2.png" width="12"></div>' ;
+  th.innerHTML = '<div onclick="header_title_click(this);">'
+    + '<span>&nbsp;</span>'
+    + '<div onclick="header_title_click(this.parentNode);sort_column(event);GUI.add(\'column_sort\',\'\',the_current_cell.column.title)"></div>' ;
   for(var i = 0 ; i < table_attr.nr_columns ; i++ )
     {
       var th2 = th.cloneNode(true) ;
@@ -1655,21 +1657,24 @@ function table_header_fill_real()
       
       td_title.className = className ;
 
+      var icon = title.childNodes[1] ;
+      icon.innerHTML = "▲" ;
+      icon.className = "icon_hidden" ;
       for(var i=0; i<2; i++)
 	{
-	  var img = title.childNodes[i+1] ;
 	  if ( column != sort_columns[i] )
-	    img.style.display = 'none' ;
-	  else
+	    continue ;
+	  var triangle ;
+	  if ( i == 0 )
 	    {
-	      if ( i == 0 )
-		td_title.className += ' sorted' ;
-	      if ( column.dir < 0 )
-		img.src = img.src.replace('sort_up', 'sort_down');
-	      else
-		img.src = img.src.replace('sort_down', 'sort_up');
-	      img.style.display = '' ;
+	      td_title.className += ' sorted' ;
+	      triangle = ["▼", "", "▲"] ;
 	    }
+	  else
+	    triangle = ["▽", "", "△"] ;
+	  icon.innerHTML = triangle[column.dir+1] ;
+	  icon.className = "" ;
+	  break ;
 	}
     }
 

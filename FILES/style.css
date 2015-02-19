@@ -257,6 +257,25 @@ TABLE#thetable TH.sorted {
   background-color: #BFB;
 }
 
+TR.column_title DIV {
+    position: relative ;
+}
+
+TR.column_title DIV DIV {
+    position: absolute ;
+    right: 0px ;
+    width: auto ;
+}
+
+TR.column_title DIV:hover DIV.icon_hidden {
+    display: block ;
+    color: #888 ;
+}
+
+TR.column_title DIV.icon_hidden {
+    display: none ;
+}
+
 TABLE#thetable TH.hidden_to_student {
   color: #B83 ;
 }
