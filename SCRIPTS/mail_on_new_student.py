@@ -112,7 +112,7 @@ for table in all_tables:
         etapes = inscrits.L_batch.etapes_of_student(line[0].value)
         if add:
             students.append(formate % (
-                line[0].value,
+                unicode(line[0].value, "utf-8"),
                 unicode(line[2].value, "utf-8")
                 + ' ' + unicode(line[1].value.title(), 'utf-8'),
                 unicode(line[3].value, "utf-8"),
@@ -129,7 +129,7 @@ for table in all_tables:
                 fn = unicode(line[2].previous_value(), "utf-8")
                 sn = unicode(line[1].previous_value(), 'utf-8')
             students_removed.append(formate % (
-                student_id, fn + ' ' + sn.title(),
+                unicode(student_id, "utf-8"), fn + ' ' + sn.title(),
                 unicode(line[3].value, "utf-8"),
                 unicode(line[4].value, "utf-8"),
                 ' '.join(etapes)
