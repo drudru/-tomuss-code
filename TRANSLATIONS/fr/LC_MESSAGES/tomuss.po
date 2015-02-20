@@ -2264,10 +2264,11 @@ msgstr "Exemple de filtre :\n"
        "<li><b>~ab</b> pour afficher les valeurs contenant <b>ab</b>\n"
        "<li><b>!A</b> pour afficher seulement les valeurs\n"
        "ne commençant pas par <b>A</b>\n"
+       "<li><b>a ou b</b> pour afficher ce qui commence par <b>a</b> ou par <b>b</b>\n"
        "</ul>"
 
 msgid "TIP_column_title"
-msgstr "Titre de la colonne, cliquez dessus\n"
+msgstr "Titre de la colonne, sur le triangle\n"
        "pour la <b>trier</b> dans une direction ou l'autre.<br>\n"
        "<b>Changez le titre</b> dans la zone au dessous de l'onglet «Colonne»"
 

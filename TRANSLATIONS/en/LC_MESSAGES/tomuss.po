@@ -2257,10 +2257,11 @@ msgstr "For example:\n"
        "<li><b>abc</b> to see values starting by <b>abc</b>\n"
        "<li><b>~ab</b> to see values containing <b>ab</b>\n"
        "<li><b>!A</b> to see values not starting by <b>A</b>\n"
+       "<li><b>a or b</b> to see values starting by <b>a</b> or by <b>b</b>\n"
        "</ul>"
 
 msgid "TIP_column_title"
-msgstr "Column title, click it to <b>sort</b> it or reverse the sort.<br>\n"
+msgstr "Column title, click on the triangle to <b>sort</b> it or reverse the sort.<br>\n"
        "to <b>change the title</b>: do it in the «Column» tab"
 
 msgid "TIP_cell_Bool"
