@@ -107,7 +107,7 @@ def get_column_from_a_table(column, table_list):
     for line_id, line in column.table.lines.items():
         new_val = values[line[0].value]
         if len(new_val) == 0:
-            new_val = ""
+            continue
         elif len(new_val) == 1:
             new_val = new_val[0][0]
         else:
