@@ -95,10 +95,13 @@ def create(table):
 def student_add_allowed(table):
     """Returns the new student list or False if there is to many
     students to remove"""
-    
+
+    if configuration.do_not_update_student_list(table):
+        return False
+
     # Check if it is an old 'students' method
     new_list = list(table.retrieve_student_list())
-    
+
     old_list = set(table.logins_valid())
     nr_to_delete = len( old_list
                         - set(x[0] for x in new_list) )

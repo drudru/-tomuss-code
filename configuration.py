@@ -302,6 +302,12 @@ def student_class(login):
 def cell_change(table, page, col, lin, value, date):
     return
 
+#REDEFINE
+# Return True if the table student list must not be updated
+# even if it should be.
+# For example to not update student lists between 17:15 and 18:15
+def do_not_update_student_list(table):
+    return False
 
 # LDAP informations
 # A list of LDAP server to query
