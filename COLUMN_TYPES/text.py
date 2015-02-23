@@ -1,7 +1,7 @@
 #!/bin/env python
 # -*- coding: utf-8 -*-
 #    TOMUSS: The Online Multi User Simple Spreadsheet
-#    Copyright (C) 2008-2014 Thierry EXCOFFIER, Universite Claude Bernard
+#    Copyright (C) 2008-2015 Thierry EXCOFFIER, Universite Claude Bernard
 #
 #    This program is free software; you can redistribute it and/or modify
 #    it under the terms of the GNU General Public License as published by
@@ -17,9 +17,8 @@
 #    along with this program; if not, write to the Free Software
 #    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 #
-#    Contact: Thierry.EXCOFFIER@bat710.univ-lyon1.fr
+#    Contact: Thierry.EXCOFFIER@univ-lyon1.fr
 
-import cgi
 import collections
 import re
 from .. import utilities
@@ -110,6 +109,8 @@ def get_column_from_a_table(column, table_list):
             continue
         elif len(new_val) == 1:
             new_val = new_val[0][0]
+            if new_val == '':
+                new_val = ' ' # To forbid user modification (it will be erased)
         else:
             new_val = ' '.join("%s(%s)" % (v, u) for v, u in new_val)
         if line[column.data_col].value != new_val:
