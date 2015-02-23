@@ -29,7 +29,7 @@ import gettext
 import cgi
 import threading
 import shutil
-import gc
+import imp
 import ast
 from . import configuration
 
@@ -795,19 +795,8 @@ def import_reload(filename):
     mtime_pyc =  os.path.getmtime(filename + 'c')
     to_reload = mtime > mtime_pyc
     if to_reload:
-        unload_module(module_name)
-        __import__(module_name)
-        module = sys.modules[module_name]
-        # replace the old by the new one
-        for o in gc.get_referrers(old_module):
-            if isinstance(o, dict):
-                for k, v in o.items():
-                    if v is old_module and k != 'old_module':
-                        o[k] = module
-                        break
-    else:
-        module = old_module
-    return module, to_reload
+        imp.reload(old_module)
+    return old_module, to_reload
 
 def nice_date(x):
     year = x[0:4]
