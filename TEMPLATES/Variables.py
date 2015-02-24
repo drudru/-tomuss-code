@@ -42,6 +42,9 @@ def create(table):
     table.table_attr(p, 'default_nr_columns', 3)
     table.table_attr(p, 'default_sort_column', 0)
 
+def init(table):
+    table.do_not_unload_add('*Variables')
+
 def onload(table):
     def clear_unused_variables(table=table):
         v = getattr(table, 'Variables', ())
