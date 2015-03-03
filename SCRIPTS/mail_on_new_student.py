@@ -125,13 +125,15 @@ for table in all_tables:
                 # If the value is here, use it.
                 fn = unicode(line[2].value, "utf-8")
                 sn = unicode(line[1].value, 'utf-8')
+                grp = unicode(line[3].value, "utf-8"),
+                seq = unicode(line[4].value, "utf-8"),
             else:
                 fn = unicode(line[2].previous_value(), "utf-8")
                 sn = unicode(line[1].previous_value(), 'utf-8')
+                grp = unicode(line[3].previous_value(), "utf-8")
+                seq = unicode(line[4].previous_value(), 'utf-8')
             students_removed.append(formate % (
-                unicode(student_id, "utf-8"), fn + ' ' + sn.title(),
-                unicode(line[3].value, "utf-8"),
-                unicode(line[4].value, "utf-8"),
+                unicode(student_id, "utf-8"), fn + ' ' + sn.title(), grp, seq,
                 ' '.join(etapes)
             ))
     if (len(students) != 0
