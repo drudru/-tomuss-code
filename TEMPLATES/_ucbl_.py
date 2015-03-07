@@ -253,8 +253,8 @@ def update_student(table, page, the_ids, infos):
 
 def remove_students_from_table(table, students):
     """If the line is 'empty' then it is erased.
-    If it contains user information, ro_user cells are given to rw_user
-    so any user can erase the line manualy"""
+    If it contains user information, ro_user cells are given to no_user
+    so the table master can erase the line manualy"""
 
     data_col = table.column_inscrit()
     if data_col:
@@ -291,8 +291,9 @@ def remove_students_from_table(table, students):
                     if (line[i].value and line[i].author == data.ro_user
                         and i != data_col):
                         if p == None:
-                            p = table.get_rw_page()
-                        table.cell_change(p, column.the_id, line_id)
+                            p = table.get_nobody_page()
+                        table.cell_change(p, column.the_id, line_id,
+                                          force_update=True)
     finally:
         table.unlock()
 
