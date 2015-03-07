@@ -39,10 +39,7 @@ var nr_not_empty_lines ;        // Number of non empty lines
 var sort_columns ;		// Define the sort columns
 var table ;			// The table displayed on the screen
 var tr_title ;			// The header TR element for 'title'
-var tr_type ;
-var tr_weight ;
 var tr_filter ;
-var tip_display_date ;
 var i_am_the_teacher ;
 var i_am_root ;
 var teachers ;
@@ -59,7 +56,6 @@ var do_not_read_option ;	// Option disabled for virtual tables
 var the_current_cell ;
 var today ;
 var debug_window ;
-var delayed_list ;
 var mouse_over_old_td ; // To not recompute the tip on each mousemove.
 var filtered_lines ;
 var table_fill_do_not_focus ;
@@ -147,11 +143,9 @@ function lib_init()
   nr_new_lines      = 0    ;// Number of created lines
   nr_new_columns    = 0    ;// Number of created columns
   sort_columns      = []   ;// Define the sort columns
-  tip_display_date  = 0    ;
   i_am_the_teacher  = false;
   teachers          = []   ;
   display_tips      = true ;
-  delayed_list = [] ;
   highlight_list = [] ;
   columns_filter = compile_filter_generic('') ;
   columns_filter_value = '' ;
@@ -2983,8 +2977,6 @@ function set_element_relative_position(anchor, element)
   var pos = findPos(anchor) ;
 
   var element_width = Math.max(element.offsetWidth, 200) ;
-
-  tip_display_date = millisec() ;
 
   if ( pos[1] > scrollTop() + window_height()/2 )
     {
