@@ -566,6 +566,8 @@ function set_tip_position(td, bottom)
 
 function header_title_click(t)
 {
+  if ( data_col_from_td(t.parentNode) === the_current_cell.data_col )
+    return ;
   last_user_interaction = millisec() ;
   if ( element_focused && element_focused.onblur )
     element_focused.onblur() ;
