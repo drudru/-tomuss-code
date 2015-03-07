@@ -680,6 +680,9 @@ function show_the_tip(td, tip_content, what)
 
   var bottom = false ;
   var data_col, line_id, column, type, s ;
+
+  if ( td.tagName == 'SPAN' && td.parentNode.tagName == 'TD' )
+    td = td.parentNode ; // For the green square on modified cells
   try {
     data_col = data_col_from_td(td) ;
     line_id = line_id_from_td(td) ;
