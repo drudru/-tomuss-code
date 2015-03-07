@@ -67,7 +67,7 @@ def load_picture(student_id, extension, icon=''):
         if has_pil:
             i = PIL.Image.open(full_name)
             width = configuration.icon_picture_width
-            j = i.resize((width, (i.size[1] * width) / i.size[0]))
+            j = i.resize((width, (i.size[1] * width) // i.size[0]))
             j.save(name)
             return name
         return full_name
@@ -116,15 +116,17 @@ plugin.Plugin('my_picture', '/picture/{?}',
               group='!staff',
               cached = True,
               unsafe=False,
+              priority = -10 # Before student_redirection
               )
 
-plugin.Plugin('my_picture_icon', '/picture_icon/{?}',
+plugin.Plugin('my_picture_icon', '/picture-icon/{?}',
               function=lambda server: my_picture(server, icon='-'),
               mimetype='image/jpeg',
               group='!staff',
               cached = True,
               unsafe=False,
-              )
+              priority = -10 # Before student_redirection
+             )
 
 
 
