@@ -721,6 +721,7 @@ function show_the_tip(td, tip_content, what)
 	    s += (1+myindex(filtered_lines, line)) + '<br>' ;
 	  if ( cell.value )
 	    s += '<b>' + html(cell.value).replace(/\n/g,"<br>") + '</b><br>' ;
+	  s += cell.get_author() + ' ' + date(cell.date) + '<br>' ;
 	  if ( i_am_root )
 	    s += 'line_id=' + line_id + ', col_id=' + column.the_id ;
 	  // highlight line
