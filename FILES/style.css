@@ -133,7 +133,17 @@ TABLE#thetable TD, TABLE#thetable TH, TABLE#thetable TH SPAN, TABLE#thetable INP
   margin: 0px;
 }
 
-TABLE#thetable TD { height: 1.28em; } /* 1.1 was not good for Chrome */
+TABLE#thetable TD {
+    height: 1.28em ;  /* 1.1 was not good for Chrome */
+    position: relative ; /* To allow positonning of _key value in the cell */
+}
+
+.sorted_value {
+    font-size: 60% ;
+    line-height: 1em ;
+    color: #66F ;
+    position:absolute;
+}
 
 DIV#current_input_div { 
   position: absolute ;

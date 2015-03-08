@@ -487,9 +487,9 @@ function sort_column_update_option()
 
 
 /* The title is clicked */
-function sort_column(event, data_col)
+function sort_column(event, data_col, force)
 {
-  if ( periodic_work_in_queue(table_fill_do) )
+  if ( !force && periodic_work_in_queue(table_fill_do) )
     return ;
 
   if ( data_col === undefined )
@@ -527,7 +527,36 @@ function sort_column(event, data_col)
   sort_columns = t ;  
   table_fill(true, true,true) ;
   sort_column_update_option() ;
-  }
+}
+
+function sort_column_by(data_col, what)
+{
+  columns[data_col].sort_by = what ;
+  hide_the_tip_real(true) ;
+  sort_column(undefined, data_col, true) ;
+}
+
+function sort_column_menu(event)
+{
+  var what = ['LABEL_sort_value', 'LABEL_sort_date', 'LABEL_sort_author',
+	      'LABEL_sort_comment'] ;
+  var data_col=data_col_from_td(the_event(event).target.parentNode.parentNode);
+  var column = columns[data_col]
+  if ( column.is_computed() )
+    what.push('LABEL_sort_%ABJ') ;
+  var s = [] ;
+  for(i in what)
+    {
+      i = what[i] ;
+      var v = ' <a style="color:#00F" onmousedown="sort_column_by('
+	+ data_col + ",'" + i + '\')">' + _(i) + '</a>' ;
+      if ( column.sort_by == i )
+	v = '<b>' + v + '</b>' ;
+      s.push(v) ;
+    }
+  show_the_tip(event.target, "<!--INSTANTDISPLAY-->" + _('LABEL_sort_by')
+	       + s.join(', ')) ;
+}
 
 function get_tip_element()
 {
@@ -997,7 +1026,7 @@ function table_init()
   var th = document.createElement('th') ;
   th.innerHTML = '<div onclick="header_title_click(this);">'
     + '<span>&nbsp;</span>'
-    + '<div onclick="header_title_click(this.parentNode);sort_column(event);GUI.add(\'column_sort\',\'\',the_current_cell.column.title)"></div>' ;
+    + '<div onclick="header_title_click(this.parentNode);sort_column();GUI.add(\'column_sort\',\'\',the_current_cell.column.title)" onmouseenter="sort_column_menu(event)"></div></div>' ;
   for(var i = 0 ; i < table_attr.nr_columns ; i++ )
     {
       var th2 = th.cloneNode(true) ;
@@ -1830,8 +1859,8 @@ function sort_lines23(a,b)
     {
       c = sort_columns[c] ;
       cc = c.data_col ;
-      va = a[cc].key(c.empty_is) ;
-      vb = b[cc].key(c.empty_is) ;
+      va = a[cc]._key ;
+      vb = b[cc]._key ;
       if ( va > vb )
 	return c.dir ;
       if ( va < vb )
@@ -1842,8 +1871,43 @@ function sort_lines23(a,b)
 
 function sort_lines3()
 {
+  var v, cell ;
   for(var i in filtered_lines)
-    filtered_lines[i].empty = line_empty(filtered_lines[i]) ;
+    {
+      filtered_lines[i].empty = line_empty(filtered_lines[i]) ;
+      for(var c in sort_columns)
+	{
+	  c = sort_columns[c] ;
+	  cell = filtered_lines[i][c.data_col] ;
+	  
+	  switch(c.sort_by)
+	    {
+	    case undefined:
+	    case 'LABEL_sort_value'  : v = cell.key(c.empty_is) ; break ;
+	    case 'LABEL_sort_author' :
+	      v = cell.author.replace(".", "<br>") ;
+	      break ;
+	    case 'LABEL_sort_date'   :
+	      v = cell.date.substr(0,4) + ' '
+		+ cell.date.substr(4,2) + ' '
+		+ cell.date.substr(6,2) + '<br>'
+		+ cell.date.substr(8,2) + ':'
+		+ cell.date.substr(10,2) + ':'
+		+ cell.date.substr(12) ;
+	      break ;
+	    case 'LABEL_sort_comment':
+	      v = html(cell.comment).replace('\n', '<br>') ;
+	      break ;
+	    case 'LABEL_sort_%ABJ':
+	      var o = {nmbr_filter: function(x) { return x.value == abj || x.value == ppn ; }};
+	      v = compute_weighted_percent_(c.data_col, filtered_lines[i], o);
+	      v = Math.round(1000*v)/10. ;
+	      break ;
+	    }
+	  cell._key = v ;
+	}
+    }
+
   filtered_lines.sort(sort_lines23) ;
 }
 
@@ -2312,10 +2376,10 @@ function add_empty_column(keep_data)
     d = -1 ;
 
   var column = Col({the_id:page_id + '_' + nr_new_columns,
-		the_local_id:  nr_new_columns.toString(),
-		data_col: columns.length,
-		is_empty: keep_data === undefined,
-		filter: ""
+		    the_local_id:  nr_new_columns.toString(),
+		    data_col: columns.length,
+		    is_empty: keep_data === undefined,
+		    filter: ""
     }) ;
 
   column.real_type = type_title_to_type(column_attributes['type'].default_value) ;
@@ -2344,6 +2408,7 @@ function Column(attrs)
   for(var attr in column_attributes)
     if ( this[attr] === undefined )
       this[attr] = column_attributes[attr].default_value ;
+  this.sort_by = 'LABEL_sort_value' ;
 }
 
 function Col(attrs)
@@ -2656,10 +2721,29 @@ function update_cell(td, cell, column, abj)
   td.className = className ;
   while( td.childNodes[1] )
     td.removeChild(td.childNodes[0]) ; // Remove feedback square
+
+  if ( column.sort_by != 'LABEL_sort_value' && cell._key !== undefined )
+    {
+      var vv = document.createElement('SPAN') ;
+      vv.className = "sorted_value" ;
+      if ( cell.value.toFixed )
+	{
+	  vv.style.left = '0px' ;
+	  vv.style.textAlign = 'left' ;
+	}
+      else
+	{
+	  vv.style.right = '0px' ;
+	  vv.style.textAlign = 'right' ;
+	}
+      vv.innerHTML = cell._key ;
+      td.insertBefore(vv, td.firstChild) ;
+    }
+
   if ( v === '' )
-    td.childNodes[0].nodeValue = ' ' ; // If empty : zebra are not displayed
+    td.lastChild.nodeValue = ' ' ; // If empty : zebra are not displayed
   else
-    td.childNodes[0].nodeValue = v.toString() ;
+    td.lastChild.nodeValue = v.toString() ;
 
   return v ;
 }

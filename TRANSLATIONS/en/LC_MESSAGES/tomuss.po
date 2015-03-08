@@ -2261,8 +2261,8 @@ msgstr "For example:\n"
        "</ul>"
 
 msgid "TIP_column_title"
-msgstr "Column title, click on the triangle to <b>sort</b> it or reverse the sort.<br>\n"
-       "to <b>change the title</b>: do it in the «Column» tab"
+msgstr "Click on the triangle to <b>sort</b> it or reverse the sort.<br>\n"
+       "To <b>change the title</b>: do it in the «Column» tab"
 
 msgid "TIP_cell_Bool"
 msgstr "Boolean, enter Y : yes, N : no"
@@ -5602,3 +5602,17 @@ msgstr "Follow this link to confirm this action"
 
 msgid "TITLE_help_popup"
 msgstr "What you need to know"
+
+
+msgid "LABEL_sort_by"
+msgstr "Sort by:"
+msgid "LABEL_sort_value"
+msgstr "value"
+msgid "LABEL_sort_date"
+msgstr "date"
+msgid "LABEL_sort_author"
+msgstr "author"
+msgid "LABEL_sort_comment"
+msgstr "comment"
+msgid "LABEL_sort_%ABJ"
+msgstr "%JLV+CG"
