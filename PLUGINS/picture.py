@@ -47,6 +47,7 @@ def get_the_picture(student_id, filename):
 configuration.get_the_picture = get_the_picture
 configuration.icon_picture_width = 30
 configuration.picture_ttl = 24*3600
+configuration.picture_extension = '.JPG'
 
 def load_picture(student_id, extension, icon=''):
     """Update the file on disk if it is needed
@@ -105,9 +106,10 @@ plugin.Plugin('picture_icon', '/picture-icon/{?}',
               unsafe=False,
               )
 
-def my_picture(server, icon=False):
+def my_picture(server, icon=''):
     """Display the connected user picture"""
-    server.something = inscrits.login_to_student_id(server.ticket.user_name) + '.JPG'
+    server.something = (inscrits.login_to_student_id(server.ticket.user_name)
+                        + configuration.picture_extension)
     picture(server, icon)
 
 plugin.Plugin('my_picture', '/picture/{?}',
