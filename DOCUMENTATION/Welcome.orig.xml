@@ -1235,12 +1235,9 @@ Some non automatic work to do: see <tt>LOCAL/Makefile</tt>
 
     <h2><a name="pitfall">TOMUSS Pitfall</a></h2>
 
-    <p>When loading a Python module, never store the 'configuration'
-values in local variables because the configuration module may
-not be fully loaded.</p>
-
-    <p>Use the function 'unload_module' to unload a Python module
-in order to not have a memory leak.</p>
+    <p>When loading a Python module, never store the module
+attributes in local variables because they can change on module reload
+or if the tomuss startup is not terminated.</p>
 
     <p>Never modify the database files if the table is loaded in the
 TOMUSS server.</p>

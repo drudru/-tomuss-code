@@ -20,6 +20,7 @@
 #    Contact: Thierry.EXCOFFIER@bat710.univ-lyon1.fr
 
 import os
+import imp
 from . import inscrits
 from . import utilities
 from . import configuration
@@ -87,11 +88,9 @@ def all_ues(compute=False):
             t = os.path.getmtime(os.path.join('TMP', 'xxx_toute_les_ues.py'))
             if not hasattr(all_ues,'t') or all_ues.t != t:
                 warn('Reload all ues')
-                utilities.unload_module('TOMUSS.TMP.xxx_toute_les_ues')
-                from .TMP import xxx_toute_les_ues
+                imp.reload(xxx_toute_les_ues)
                 all_ues.t = t
                 warn('ok')
-
             return xxx_toute_les_ues.all
     except (ImportError, OSError, ValueError):
         warn("The UE list does not exists, create first one")

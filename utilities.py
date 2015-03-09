@@ -229,7 +229,7 @@ def year_semester_from_date(yyyymm):
     month = int(yyyymm[4:6])
     year = int(yyyymm[:4])
 
-    for s, m in zip(configuration.semesters,configuration.semesters_months): 
+    for s, m in zip(configuration.semesters,configuration.semesters_months):
         if m[0] <= month <= m[1]:
             return year, s
         if m[0] <= 12+month <= m[1]:
@@ -329,7 +329,7 @@ def send_mail(to, subject, message, frome=None, show_to=False, reply_to=None,
         if isinstance(message, unicode):
             header += 'Content-Type: text/plain; charset=UTF-8\n'
 
-    if isinstance(message, unicode):            
+    if isinstance(message, unicode):
         message = message.encode('utf-8')
     
     use_backup_smtp = False
@@ -772,18 +772,6 @@ def add_a_method_cache(fct, timeout=None, not_cached='neverreturnedvalue'):
     f.not_cached = not_cached
     return f
 
-
-def unload_module(m):
-    if m not in sys.modules:
-        return
-    # print "unload", m
-    del(sys.modules[m])
-    # print "UNLOAD", '.'.join(m.split('.')[:-1]), '====', m.split('.')[-1]
-    try:
-        del(sys.modules['.'.join(m.split('.')[:-1])].__dict__[m.split('.')[-1]])
-    except KeyError:
-        pass
-
 def import_reload(filename):
     mtime = os.path.getmtime(filename)
     name = filename.split(os.path.sep)
@@ -1043,7 +1031,6 @@ def charte_signed(login, server=None, year=None, semester=None):
         time.sleep(1)
 
 def lock_state():
-    import imp
     s = 'Global Python import locked: %s\n' % imp.lock_held()
     for f in lock_list:
         if f.the_lock.locked():
@@ -1071,14 +1058,14 @@ def on_kill(dummy_x, dummy_y):
 
 def print_lock_state_clean_cache():
     while True:
-        
         f = open(os.path.join('LOGS', 'xxx.locks.%d' % os.getpid()), 'w')
-        f.write(lock_state())
+        f.write(lock_state() + '\n\n')
+        f.write('\n'.join(t.stack() for t in thread_list))
         f.close()
 
         for cache in caches:
             cache.clean(cache)
-            
+
         time.sleep(60)
 
 class Useles(object):
