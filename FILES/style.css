@@ -271,10 +271,11 @@ TR.column_title DIV {
     position: relative ;
 }
 
-TR.column_title DIV DIV {
+TR.column_title DIV DIV { /* Sorting triangle */
     position: absolute ;
     right: 0px ;
     width: auto ;
+    height: 1.2em ; /* Bad height on Chrome on Windows */
 }
 
 TR.column_title DIV:hover DIV.icon_hidden {

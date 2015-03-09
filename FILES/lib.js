@@ -548,14 +548,16 @@ function sort_column_menu(event)
   for(i in what)
     {
       i = what[i] ;
-      var v = ' <a style="color:#00F" onmousedown="sort_column_by('
+      var v = '<li><a style="color:#00F" onmousedown="sort_column_by('
 	+ data_col + ",'" + i + '\')">' + _(i) + '</a>' ;
       if ( column.sort_by == i )
 	v = '<b>' + v + '</b>' ;
       s.push(v) ;
     }
-  show_the_tip(event.target, "<!--INSTANTDISPLAY-->" + _('LABEL_sort_by')
-	       + s.join(', ')) ;
+  show_the_tip(event.target,
+	       "<!--INSTANTDISPLAY-->" + _('LABEL_sort_by')
+	       + '<ul style="padding-left:1.5em">'
+	       + s.join('') + '</ul>') ;
 }
 
 function get_tip_element()
@@ -1687,7 +1689,7 @@ function table_header_fill_real()
       td_title.className = className ;
 
       var icon = title.childNodes[1] ;
-      icon.innerHTML = "▲" ;
+      icon.innerHTML = "&nbsp;▲" ;
       icon.className = "icon_hidden" ;
       for(var i=0; i<2; i++)
 	{
@@ -1701,7 +1703,7 @@ function table_header_fill_real()
 	    }
 	  else
 	    triangle = ["▽", "", "△"] ;
-	  icon.innerHTML = triangle[column.dir+1] ;
+	  icon.innerHTML = '&nbsp;' + triangle[column.dir+1] ;
 	  icon.className = "" ;
 	  break ;
 	}
