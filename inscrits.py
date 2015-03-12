@@ -42,7 +42,7 @@ def safe(txt):
     """Values safe in an LDAP request"""
     if not isinstance(txt, basestring):
         return ''
-    return safe_re.sub('', txt)
+    return safe_re.sub('_', txt)
 
 class LDAP_Logic(object):
     def member_of(self, groupe, base=configuration.ou_students):
