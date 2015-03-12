@@ -43,7 +43,7 @@ def tablecopy(server):
     """Copy the table in another EMPTY one"""
     _ = utilities._
 
-    server.the_file.write(_("MSG_tablecopy_start") + "\n")
+    server.the_file.write('<pre>' + _("MSG_tablecopy_start") + "\n")
     table = document.table(server.the_year, server.the_semester,
                            server.the_ue, None, None)
     server.the_file.write(_("MSG_tablecopy_read") + "\n")
@@ -94,11 +94,10 @@ def tablecopy(server):
     server.the_file.write("\n" + _("MSG_tablecopy_done") + "\n")
     url = "%s/%s/%s/%s" % (configuration.server_url,
                              dest_year, dest_semester, newname)
-    server.the_file.write(url + '\n')
+    server.the_file.write('<a target="_blank" href="%s">%s</a>' % (url, url))
 
 plugin.Plugin('tablecopy', '/{Y}/{S}/{U}/tablecopy/{*}',
               function=tablecopy, group='staff',
-              mimetype = "text/plain; charset=UTF-8",
               )
 
 
