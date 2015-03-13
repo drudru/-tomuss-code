@@ -1649,6 +1649,7 @@ function table_header_fill_real()
       if ( w <= 0 )
 	w = 1 ;
       colgroup.childNodes[col].width = w ;
+      colgroup.childNodes[col].className = 'col_id_' + cls[col].the_id ;
       //x += '   ' + w ;
     }
   //alert(x) ;

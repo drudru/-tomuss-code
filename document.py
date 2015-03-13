@@ -1989,7 +1989,7 @@ def update_computed_values_slow():
             for col in the_table.columns.use(a_column):
                 col.type.update_all(the_table, col)
 
-def virtual_table(server, the_columns, the_lines, table_attrs={}, js=""):
+def virtual_table(server, the_columns, the_lines, table_attrs={}, js="",css=""):
     """Send the table to the browser without storage.
     Do not use in a not threaded plugin.
     """
@@ -2023,6 +2023,7 @@ def virtual_table(server, the_columns, the_lines, table_attrs={}, js=""):
     columns = '[' + ',\n'.join([the_column.js(hide=False)
                                 for the_column in the_columns]) + ']'
     server.the_file.write("""
+    <style>%s</style>
     <script>
     %s
     %s
@@ -2040,7 +2041,7 @@ def virtual_table(server, the_columns, the_lines, table_attrs={}, js=""):
     }
     initialize() ;
     </script>
-    """ % (utilities.wait_scripts(),
+    """ % (css, utilities.wait_scripts(),
            js, columns, lines, utilities.js(repr(server.the_path)) ))
 
     logins = list(line[0].value
