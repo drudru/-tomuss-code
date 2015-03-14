@@ -97,10 +97,11 @@ class ColumnAttr(object):
         to be send into the database or into the browser"""
         return value
         
-    def set(self, table, page, column, value):
+    def set(self, table, page, column, value, date):
         """Set the value of the attribute"""
         if table.loading:
             setattr(column, self.name, self.encode(value))
+            setattr(column, self.name + '__mtime', date)
             if self.name != 'comment': # Historical remnent
                 column.author = page.user_name
             if self.name == 'columns': # XXX Copy past and not the right place
@@ -146,10 +147,11 @@ class ColumnAttr(object):
             return 'ok.png' # Unchanged value
 
         setattr(column, self.name, value)
+        setattr(column, self.name + '__mtime', date)
         
-        table.log('column_attr(%s,%s,%s,%s)' % (
+        table.log('column_attr(%s,%s,%s,%s,%s)' % (
             repr(self.name), page.page_id, repr(column.the_id),
-            repr(self.decode(value))))
+            repr(self.decode(value)), repr(date)))
 
         if self.propagate:
             t = '<script>Xcolumn_attr(%s,%s,%s);</script>' % (
@@ -210,9 +212,10 @@ class TableAttr(ColumnAttr):
         """Called when the user make the change, not when loading table"""
         pass
         
-    def set(self, table, page, value):
+    def set(self, table, page, value, date):
         if table.loading:
             setattr(table, self.name, self.encode(value))
+            setattr(table, self.name + '__mtime', date)
             return 'ok.png'
 
         teachers = table.masters
@@ -256,9 +259,11 @@ class TableAttr(ColumnAttr):
         self.update(table, old_value, value, page)
 
         setattr(table, self.name, value)
+        setattr(table, self.name + '__mtime', date)
         
-        table.log('table_attr(%s,%s,%s)' % (
-            repr(self.name), page.page_id, repr(self.decode(value))))
+        table.log('table_attr(%s,%s,%s,%s)' % (
+            repr(self.name), page.page_id, repr(self.decode(value)),
+            repr(date)))
         t = '<script>Xtable_attr(%s,%s);</script>\n' % (
             repr(self.name), js(self.decode(value)))
         table.send_update(page, t)

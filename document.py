@@ -1014,14 +1014,16 @@ class Table(object):
         col = self.columns.from_id(col_id)
         if col is None:
             col = self.add_empty_column(page, col_id)
-        return column.ColumnAttr.attrs[attr].set(self, page, col, value)
+        date = time.strftime('%Y%m%d%H%M%S')
+        return column.ColumnAttr.attrs[attr].set(self, page, col, value, date)
 
     def column_changed(self, a_column, attribute):
         "An column attribute change, column content may be updated"
         column_changed_list.append((self, a_column, attribute))
 
     def table_attr(self, page, attr, value):
-        return column.TableAttr.attrs[attr].set(self, page, value)
+        date = time.strftime('%Y%m%d%H%M%S')
+        return column.TableAttr.attrs[attr].set(self, page, value, date)
 
     def column_comment(self, page, col_id, comment):
         """DEPRECATED : use column_attr"""
@@ -1035,30 +1037,30 @@ class Table(object):
         if col is None:
             col = self.add_empty_column(page, col_id)
         attrs = column.ColumnAttr.attrs
-        attrs['type'].set(self, page, col, ttype)
-        attrs['title'].set(self, page, col, title)
-        attrs['freezed'].set(self, page, col, freezed)
-        attrs['hidden'].set(self, page, col, hidden)
-        attrs['width'].set(self, page, col, width)
+        attrs['type'].set(self, page, col, ttype, '')
+        attrs['title'].set(self, page, col, title, '')
+        attrs['freezed'].set(self, page, col, freezed, '')
+        attrs['hidden'].set(self, page, col, hidden, '')
+        attrs['width'].set(self, page, col, width, '')
 
         t = test.split(';')
         if len(t) == 4:
             test = '[' + t[0].strip('[') + ';' + t[3].strip(']') + ']'
-            attrs['red'].set(self, page, col, t[1])
-            attrs['green'].set(self, page, col, t[2])
+            attrs['red'].set(self, page, col, t[1], '')
+            attrs['green'].set(self, page, col, t[2], '')
         if ttype == 'Nmbr':
-            attrs['test_filter'].set(self, page, col, test)
+            attrs['test_filter'].set(self, page, col, test, '')
         else:
             if test:
-                attrs['minmax'].set(self, page, col, test)
+                attrs['minmax'].set(self, page, col, test, '')
 
         t = re.split(' +', weight)
         if len(t) > 1:
             weight = t[0]
-            attrs['columns'].set(self, page, col, ' '.join(t[1:]))
+            attrs['columns'].set(self, page, col, ' '.join(t[1:]), '')
 
         if weight:
-            attrs['weight'].set(self, page, col, weight)
+            attrs['weight'].set(self, page, col, weight, '')
 
 
     def column_delete(self, page, col):
@@ -1105,7 +1107,7 @@ class Table(object):
 
     def date_change(self, page, date):
         """Deprecated"""
-        return column.TableAttr.attrs['dates'].set(self, page, date)
+        return column.TableAttr.attrs['dates'].set(self, page, date, '')
 
     def logins(self):
         for v in self.lines.values():

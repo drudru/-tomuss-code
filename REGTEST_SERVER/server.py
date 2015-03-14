@@ -213,10 +213,10 @@ def check(filename,
         cells.append((page_id, col_id, line_id, value))
     def comment_change(page_id, col_id, line_id, comment):
         cells.append((page_id, col_id, line_id, comment))
-    def column_attr(attr, page_id, col_id, value):
+    def column_attr(attr, page_id, col_id, value, dummy_date):
         columns.append((attr, page_id, col_id, value))
         column_dict[col_id] = True
-    def table_attr(attr, page_id, value):
+    def table_attr(attr, page_id, value, dummy_date):
         if attr == 'masters':
             while masters:
                 masters.pop()

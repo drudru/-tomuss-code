@@ -63,14 +63,14 @@ def comment_change(page_id, col, lin, value):
     """Change the comment on a cell."""
     _table.comment_change(_table.pages[page_id], col, lin, value)
 
-def table_attr(attr, page_id, value):
+def table_attr(attr, page_id, value, date=''):
     """Set a table attribute"""
     from . import column
     attr = column.TableAttr.attrs[attr]
     page = _table.pages[page_id]
-    attr.set(_table, page, value)
+    attr.set(_table, page, value, date)
 
-def column_attr(attr, page_id, col_id, value):
+def column_attr(attr, page_id, col_id, value, date=''):
     """Set a column attribute"""
     from . import column
     attr = column.ColumnAttr.attrs[attr]
@@ -79,7 +79,7 @@ def column_attr(attr, page_id, col_id, value):
     if col is None:
         col = _table.add_empty_column(page, col_id)
 
-    attr.set(_table, page, col, value)
+    attr.set(_table, page, col, value, date)
 
 # DEPRECATED !!!!!!!!!
 # The following function are only used to load table created
