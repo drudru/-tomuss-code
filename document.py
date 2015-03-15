@@ -1349,6 +1349,7 @@ class Table(object):
                 update_students.remove(self) # No update student list.
         except ValueError:
             pass
+
         return deleted
 
     def delete(self):
@@ -1527,7 +1528,7 @@ def tables_manage(action, year, semester, ue, do_not_unload=0, new_table=None):
             tables[year, semester, ue] = None
             return False
     elif action == 'del':
-        try:            
+        try:
             t = tables[year, semester, ue]
             if not t:
                 return # Yet destroyed
@@ -1540,7 +1541,7 @@ def tables_manage(action, year, semester, ue, do_not_unload=0, new_table=None):
                 return False
             # write access to the table will make an error.
             t.unloaded = True
-            del tables[year, semester, ue]            
+            del tables[year, semester, ue]
             return True
         except KeyError:
             return # Yet destroyed

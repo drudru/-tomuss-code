@@ -1034,6 +1034,24 @@ Les améliorations les plus visibles sont :
       </description>
       <guid>64</guid>
     </item>
+    <item>
+      <title>15/03/2015 : Version 5.5.15</title>
+      <link>http://tomuss.univ-lyon1.fr/</link>
+      <description>
+	&lt;p&gt;
+	Pour trier une colonne il faut maintenant cliquer sur le triangle.
+	On peut éventuellement utiliser le menu pour trier les lignes
+	en fonction de la date ou l'auteur de la saisie ou bien
+	du commentaire de cellule.
+	La valeur utilisée pour trier est affichée dans la cellule
+	en plus de la valeur de la cellule.
+	&lt;p&gt;
+	Les lignes des étudiants désinscrits ne sont maintenant
+	effaçable que par le responsable de l'UE.
+	&lt;p&gt;
+      </description>
+      <guid>65</guid>
+    </item>
 
   </channel>
 </rss>

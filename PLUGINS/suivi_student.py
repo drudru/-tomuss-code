@@ -715,7 +715,7 @@ def page_rss(server):
     
     for t in the_ues(server.year, server.semester, login):
         for line in t.get_lines(login):
-            for cell,column in zip(line[6:], t.columns[6:]):
+            for cell, column in zip(line[6:], t.columns[6:]):
                 if cell.date > limit:
                     continue
                 if cell.value == '':
@@ -723,7 +723,12 @@ def page_rss(server):
                 if not column.visible(hide=1):
                     continue # Hidden column
                 if not column.is_computed():
-                    s.append((cell.date, cell, t, column))
+                    s.append((max(cell.date,
+                                  getattr(column, 'visibility_date__mtime',''),
+                                  getattr(column, 'visibility__mtime', ''),
+                                  column.visibility_date
+                              ),
+                              cell, t, column))
     s.sort()
     for date, cell, table, column in s[-10:]:
         if cell.comment:

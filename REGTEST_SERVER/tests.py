@@ -66,6 +66,9 @@ abj_date_previous = '1/1/%d' % (uyear-1)
 abj_date_current  = '1/1/%d' % (uyear)
 abj_date_next     = '31/12/%d' % (uyear+1)
 
+now_plus_32_days = time.strftime('%Y%m%d',time.localtime(time.time()+86400*63))
+now_plus_30_days = time.strftime('%Y%m%d',time.localtime(time.time()+86400*30))
+
 print ys, uyear
 
 _ = utilities._
@@ -83,6 +86,11 @@ def do(t):
     return c
 do.found = False
 
+def save_sec():
+    save_sec.time = int(time.time())
+def wait_sec():
+    while int(time.time()) == save_sec.time:
+        time.sleep(0.1)
 
 if len(sys.argv) == 1:
     print 'You can indicate in parameters the tests you want to do'
@@ -916,6 +924,7 @@ def tests():
 
     if do('rss'):
         create_u2()
+        save_sec()
         ss.start()
         c = ss.url('%s/rss/10800000' % ys)
         assert(_("MSG_suivi_student_RSS_forbiden_title") in c)
@@ -938,9 +947,31 @@ def tests():
         key = utilities.manage_key('LOGINS', '10800000/rsskey')
         assert(key is not False)
         
-        c = ss.url('%s/rss/%s' % (ys, key))        
-        # assert('UE-INF20UE2 : TITLE0 : 22.22/20' in c)
+        c = ss.url('%s/rss/%s' % (ys, key))
         assert('<title>UE-INF20UE2 : TITLE0 : 11.11/20</title>' in c)
+
+        c2 = ss.url('%s/rss/%s' % (ys, key))
+        assert(c.split('</lastBuildDate>')[1] ==
+               c2.split('</lastBuildDate>')[1])
+
+        wait_sec()
+        c = s.url('=' + root + '/%s/UE-INF20UE2' % ys)
+        page = c.split('page_id = "')[1].split('"')[0]
+        c = s.url('=' + root + '/%s/UE-INF20UE2' % ys +
+                  '/%s/0/column_attr_visibility_date/col_0/%s'
+                  % (page, now_plus_30_days))
+        assert(c == ok_png)
+        c = s.url('=' + root + '/%s/UE-INF20UE2' % ys +
+                  '/%s/1/column_attr_visibility_date/col_0/'
+                  % (page,))
+        assert(c == ok_png)
+
+        c = ss.url('=' + root + '/%s/unload/%s' % (ys, 'UE-INF20UE2'))
+        assert(c == '')
+        c = ss.url('%s/rss/%s' % (ys, key))
+        assert('<title>UE-INF20UE2 : TITLE0 : 11.11/20</title>' in c)
+        assert(c.split('</lastBuildDate>')[1] !=
+               c2.split('</lastBuildDate>')[1]) # RSS want the most recent date
 
     if do('suivi'):
         create_tt()
@@ -1101,14 +1132,8 @@ def tests():
         assert(c == ok_png)
         c = s.url('=' + root + '/%s/UE-INF20UE9/1/2/column_attr_visibility_date/col_0/99' % ys)
         assert(c == bug_png)
-        now_plus_32_days = time.strftime('%Y%m%d',
-                                         time.localtime(time.time()+86400*63)
-                                         )
         c = s.url('=' + root + '/%s/UE-INF20UE9/1/3/column_attr_visibility_date/col_0/%s' % (ys, now_plus_32_days))
         assert(c == bug_png)
-        now_plus_30_days = time.strftime('%Y%m%d',
-                                         time.localtime(time.time()+86400*30)
-                                         )
         c = s.url('=' + root + '/%s/UE-INF20UE9/1/4/column_attr_visibility_date/col_0/%s' % (ys, now_plus_30_days))
         assert(c == ok_png)
         c = s.url('=' + root + '/%s/UE-INF20UE9/1/5/cell_change/0_0/lin_0/10123456' % ys)
