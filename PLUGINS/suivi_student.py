@@ -726,7 +726,7 @@ def page_rss(server):
                     s.append((max(cell.date,
                                   getattr(column, 'visibility_date__mtime',''),
                                   getattr(column, 'visibility__mtime', ''),
-                                  column.visibility_date
+                                  column.visibility_date + '000000'
                               ),
                               cell, t, column))
     s.sort()
