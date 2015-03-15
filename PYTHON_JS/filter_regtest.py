@@ -28,6 +28,7 @@ def checkDate(value, expected):
 
 year_month_day = [2014, 5, 15, 12]
 current_seconds = 1400148000
+minors = []
         
 def dateRegtest():
     if ','.join(REsplit("[ab]", "1a2b3")) != '1,2,3':

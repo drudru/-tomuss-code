@@ -567,6 +567,9 @@ def close_patched(self):
     return self.close_original()
 urllib.addinfourl.close = close_patched
 
+# Only defined here for regtest. Overwritten by config_login template
+def major_of(login):
+    return []
 ###############################################################################
 # DO NOT MODIFY
 ###############################################################################

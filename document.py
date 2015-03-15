@@ -244,6 +244,7 @@ def table_head(year=None, semester=None, the_ticket=None,
             'lines = {};\n' +
             'columns = [];\n' +
             'lines_to_load = 0 ;\n' +
+            'minors = %s ;\n' % js(configuration.major_of(user_name)) +
             'ticket_time_to_live = %d ;\n' % configuration.ticket_time_to_live +
             'max_visibility_date = %d ;\n' % configuration.max_visibility_date +
             'gui_record = %d ;\n' % int(configuration.gui_record) +

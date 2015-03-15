@@ -75,6 +75,12 @@ def to_float_or_nan(txt):
     except:
         return nan
 
+try:
+    from .. import configuration
+    def major_of(login):
+        return configuration.major_of(login)
+except ValueError:
+    pass
 
 rint = round
 isNaN = math.isnan

@@ -32,3 +32,5 @@ try:
 except:
     pass
 
+def major_of(login):
+    return []

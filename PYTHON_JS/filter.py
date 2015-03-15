@@ -259,7 +259,9 @@ def TILDE(a, b): return b in a
 def TILDE_str(a, b): return '(' + a + '.indexOf(' + b + ') != -1)'
 def START(a, b): return a.startswith(b)
 def START_str(a, b): return '(' + a + '.substr(0,' + b + '.length)==' + b + ')'
-
+def AUTHOR(a, b): return a == b or a in major_of(b)
+def AUTHOR_str(a, b): return ('(' + a + '==' + b + '||myindex(minors,'
+                              + a + ')!=-1)')
 
 filterOperators = [
     ['<=', LE, LE_str, '>='],
@@ -344,7 +346,7 @@ class Filter:
         if len(value) == 0 and operator[0] == '':
             if attr == 'author':
                 value = username
-                dummy, operator = search_operator('=')
+                operator = ['', AUTHOR, AUTHOR_str, None]
             elif attr == 'comment' or attr == 'history':
                 # Special filters : '#' and ':'
                 dummy, operator = search_operator('=')

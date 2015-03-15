@@ -1423,7 +1423,9 @@ Cell.prototype.modifiable = function(column)
 
 Cell.prototype.is_mine = function()
 {
-  return (this.author== my_identity|| this.author === '' || this.value === '');
+  return (this.author== my_identity|| this.author === '' || this.value === ''
+	  || myindex(minors, this.author) != -1
+	  ) ;
 } ;
 
 Cell.prototype.set_value_real = function(v)
@@ -1993,7 +1995,7 @@ Current.prototype.update_table_headers = function()
 	editable = !disabled
 	  || i_am_root || myindex(table_attr.masters, my_identity) != -1
 	  || (table_attr.modifiable && !table_attr.masters[0])
-	  || myindex(table_attr.managers, my_identity) != -1
+	  || myindex(table_attr.managers, my_identity) != -1 ;
       else
 	editable = !attributes.need_authorization || !disabled  ;
       update_attribute_value(e, attributes, table_attr, editable) ;

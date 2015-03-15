@@ -2765,6 +2765,8 @@ function column_change_allowed_text(column)
     return true ;
   if ( i_am_the_teacher )
     return true ;
+  if ( myindex(minors, column.author) != -1 )
+    return true ;
   return _("ERROR_value_defined_by_another_user") ;
 }
 
