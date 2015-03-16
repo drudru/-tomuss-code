@@ -28,7 +28,5 @@ class ColumnGroupColumn(ColumnAttr):
 #menutop DIV.tabs INPUT#t_column_groupcolumn { width: 23% ; }
 #t_column_groupcolumn.empty {
   background-image: url("groupcolumn.png");
-  background-repeat: no-repeat;
-  background-position: 2px 2px;
 }'''
     

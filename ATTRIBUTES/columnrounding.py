@@ -41,8 +41,6 @@ class ColumnRounding(ColumnAttr):
 #menutop DIV.tabs INPUT#t_column_rounding { width: 23% ; }
 #t_column_rounding.empty {
   background-image: url('rounding.png');
-  background-repeat: no-repeat;
-  background-position: 2px 2px;
 }
 
 """

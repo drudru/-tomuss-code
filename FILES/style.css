@@ -51,7 +51,7 @@ DIV.import_export.top_right {
     max-width: 35em ;
     border: 1px solid black ;
     opacity: 0.9 ;
-    background: #FFF ;
+    background-color: #FFF ;
 }
 
 DIV.import_export.help_popup {
@@ -67,7 +67,7 @@ DIV.scrollable {
     max-height: 97% ;
 }
 
-#updating { display:none; background: orange }
+#updating { display:none; background-color: orange }
 
 .table_ro { background-color: #F00; color: #FFF }
 
@@ -174,15 +174,20 @@ THEAD TR TD {
   white-space: normal;
 }
 
-/* TR.filter TH INPUT.notempty { background-color: #DFD ; } */
-TR.filter TH INPUT.empty {
-  background: url("filtre.png") #DFD ;
+.empty {
   background-repeat: no-repeat ;
   background-position: 2px 2px;
+  background-size: auto 0.9em ;
+}
+
+/* TR.filter TH INPUT.notempty { background-color: #DFD ; } */
+TR.filter TH INPUT.empty {
+  background-image: url("filtre.png") ;
+  background-color: #DFD ;
 }
 
 TR.filter TH INPUT {
-  background: #FF0 ;
+  background-color: #FF0 ;
 }
 
 
@@ -190,18 +195,17 @@ TR.filter TH INPUT {
 TR.filter TH INPUT.freezed { border-bottom: 1px solid black; }
 
 #linefilter, #columns_filter, #fullfilter {
-  background: #FFF ;
+  background-color: #FFF ;
   border: 1px solid black ;
 }
 
 #menutop #linefilter, #menutop #columns_filter, #menutop #fullfilter {
-  background: #FF0 ;
+  background-color: #FF0 ;
 }
 
 #menutop #linefilter.empty, #menutop #columns_filter.empty, #menutop #fullfilter.empty {
-  background: url("filtre2.png") white ;
-  background-repeat: no-repeat ;
-  background-position: 2px 1px;
+  background-image: url("filtre2.png") ;
+  background-color: white ;
 }
 
 TR.tablefilter INPUT { width: 10em ; }
@@ -358,10 +362,10 @@ DIV#tip SPAN.title { background-color: #CCF ; }
 DIV#tip UL, DIV#tip P { margin: 0px ; }
 
 DIV.shortcuts {
-    background: #888 ;
+    background-color: #888 ;
     }
 DIV.shortcuts TD {
-    background: #EEE
+    background-color: #EEE
     }
 DIV.shortcuts TD.key {
     text-align: center ;
@@ -631,8 +635,6 @@ INPUT#comment { width: 100% ; clear: both; }
 
 #comment.empty {
   background-image: url("comment.png");
-  background-repeat: no-repeat;
-  background-position: 2px 2px;
 }
 
 H1 {  margin: 0px  }

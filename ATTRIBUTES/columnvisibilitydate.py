@@ -48,8 +48,6 @@ function(column, value)
     css = """
 #t_column_visibility_date.empty {
   background-image: url('visible.png');
-  background-repeat: no-repeat;
-  background-position: 2px 2px;
 }
 
 #menutop DIV.tabs #t_column_visibility_date { width: 73% }

@@ -33,8 +33,6 @@ class ColumnTitle(ColumnAttr):
     css = '''
 #t_column_title.empty {
   background-image: url("title.png");
-  background-repeat: no-repeat;
-  background-position: 2px 2px;
 }
 #t_column_title { font-weight: bold ; }
 '''

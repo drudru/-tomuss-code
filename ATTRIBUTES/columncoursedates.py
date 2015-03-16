@@ -44,7 +44,5 @@ class ColumnCourseDates(ColumnAttr):
     css = """#menutop DIV.tabs #t_column_course_dates { width: 73% }
 #t_column_course_dates.empty {
   background-image: url('course_dates.png');
-  background-repeat: no-repeat;
-  background-position: 2px 2px;
 }
 """
