@@ -35,7 +35,6 @@ def table_statistics(server):
         table.nr_cols = len(t.columns)
         table.nr_pages = len(t.pages)
         table.nr_lines = len(t.lines)
-        table.is_extended = t.is_extended
         table.empty = t.empty()
         table.problem_in_column_name = t.problem_in_column_name()
         table.modifiable = t.modifiable
@@ -111,10 +110,6 @@ def table_statistics(server):
                       title=server._('COL_TITLE_nb_unregistered'),
                       comment=server._('COL_COMMENT_nb_unregistered'),
                       ),
-        column.Column('cb', '', type='Bool', width=1,
-                      title=server._('COL_TITLE_extended'),
-                      comment=server._('COL_COMMENT_extended'),
-                      ),
         column.Column('cc', '', type='Text', width=4,
                       title=server._('COL_TITLE_empty'),
                       comment=server._('COL_COMMENT_empty'),
@@ -156,7 +151,6 @@ def table_statistics(server):
                 CellValue(t.date_max),
                 CellValue(t.nr_inscrits),
                 CellValue(t.nr_not_inscrits),
-                CellValue(t.is_extended and configuration.yes or configuration.no),
                 CellValue(t.empty[1]),
                 CellValue(len([g for g in t.group_and_seq if g != ''])),
                 CellValue(t.problem_in_column_name),

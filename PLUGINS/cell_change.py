@@ -42,9 +42,6 @@ def cell_change(server):
         and table.the_keys()[server.ticket.user_name][0] != lin):
         return 'bad.png'
     year, semester, ue = server.the_year, server.the_semester, server.the_ue
-    if table.is_extended:
-        year, semester, ue = table.link_to()
-        
     table, page = document.table(year, semester, ue, None, server.ticket,
                                  do_not_unload='cell_change')
     try:

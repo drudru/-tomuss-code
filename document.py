@@ -118,6 +118,25 @@ class Page(object):
 def table_filename(year, semester, ue):
     return os.path.join(configuration.db, 'Y'+str(year), 'S'+semester, ue + '.py')
 
+def link_to(filename):
+    ln = os.readlink(filename)[:-3].split(os.path.sep)
+    ue = ln[-1]
+    if len(ln) == 3:
+        assert(ln[0] == '..')
+        assert(ln[1][0] == 'S')
+        year = self.year
+        semestre = ln[1][1:]
+    elif len(ln) == 5:
+        assert(ln[0] == '..')
+        assert(ln[1] == '..')
+        assert(ln[2][0] == 'Y')
+        assert(ln[3][0] == 'S')
+        year = int(ln[2][1:])
+        semestre = ln[3][1:]
+    else:
+        assert(len(ln) == 1)
+    return year, semestre, ue
+
 def filter_language(language):
     # Remove not translated languages and duplicates
     t = []
@@ -371,7 +390,6 @@ class Table(object):
         dirname = os.path.join(configuration.db,
                                'Y'+str(self.year), 'S'+self.semester)
         self.filename = os.path.join(dirname, ue + '.py')
-        self.is_extended = os.path.islink(self.filename)
 
         self.template = import_template(self.ue_code, self.semester)
         self.template.init(self)
@@ -447,11 +465,6 @@ class Table(object):
                         tables_of_student[login].add(self.ue)
                 else:
                     tables_of_student[login] = set((self.ue,))
-
-        if self.is_extended:
-            self.destination_is_modifiable = self.modifiable
-            # To forbid the edit of the same table with 2 names
-            self.modifiable = 0
 
         if ro:
             self.compute_columns()
@@ -578,8 +591,6 @@ class Table(object):
             self.panic('Modification on an unloaded table')
         if not self.the_lock.locked():
             self.panic('Modification on an unlocked table')
-        if self.is_extended:
-            self.panic('Modification on an extended table')
         if configuration.read_only:
             self.panic('Modification in a readonly process')
                 
@@ -1470,25 +1481,6 @@ class Table(object):
         if self.the_abjs() != old_abjs:
             self.send_update(None,'<script>' + self.new_abjs + '</script>')
 
-    def link_to(self):
-        ln = os.readlink(self.filename)[:-3].split(os.path.sep)
-        ue = ln[-1]
-        if len(ln) == 3:
-            assert(ln[0] == '..')
-            assert(ln[1][0] == 'S')
-            year = self.year
-            semestre = ln[1][1:]
-        elif len(ln) == 5:
-            assert(ln[0] == '..')
-            assert(ln[1] == '..')
-            assert(ln[2][0] == 'Y')
-            assert(ln[3][0] == 'S')
-            year = int(ln[2][1:])
-            semestre = ln[3][1:]
-        else:
-            assert(len(ln) == 1)
-        return year, semestre, ue
-
     def retrieve_student_list(self):
         """This function allows to call old code in order
         to upgrade TOMUSS without having to update customized code.
@@ -1542,7 +1534,11 @@ def tables_manage(action, year, semester, ue, do_not_unload=0, new_table=None):
                 return False
             # write access to the table will make an error.
             t.unloaded = True
-            del tables[year, semester, ue]
+
+            # A loop because extended table have multiple keys
+            for k, v in tables.items():
+                if v is t:
+                    del tables[k]
             return True
         except KeyError:
             return # Yet destroyed
@@ -1586,6 +1582,17 @@ def table(year, semester, ue, page=None, ticket=None, ro=False, create=True,
         # I must create the table
         # Only one thread can be here at the same time.
         try:
+            filename = table_filename(year, semester, ue)
+            if os.path.islink(filename):
+                y, s, u = link_to(filename)
+                t = table(y, s, u, page=page, ticket=ticket, ro=ro,
+                          create=create, do_not_unload=do_not_unload)
+                if t:
+                    if ticket:
+                        tables[year, semester, ue] = t[0]
+                    else:
+                        tables[year, semester, ue] = t
+                return t
             if ticket == None:
                 if (not create
                     and not os.path.exists(table_filename(year, semester, ue))):

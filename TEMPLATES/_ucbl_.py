@@ -128,7 +128,7 @@ def update_inscrits_ue(the_ids, table, page):
     if len(table.columns) < 6: # Stat table
         return
     
-    table.with_inscrits = table.columns[5].title == 'Inscrit' and not table.is_extended
+    table.with_inscrits = table.columns[5].title == 'Inscrit'
 
     warn("Update inscrit list of " + table.ue, what="check")
 

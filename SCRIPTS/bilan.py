@@ -130,9 +130,9 @@ for syear in os.listdir(configuration.db):
                 ue.compute_columns()
             name = ue.ue
             for i in ue.the_keys():
-                students_index[i].append((ue.year, ue.semester, ue.ue))
-            if ue.is_extended:
-                ue.unload()
+                students_index[i].append((year, semester, ue.ue))
+            if (year, semester) != (ue.year, ue.semester):
+                # ue.unload()
                 continue
 
             sys.stderr.write(name + ' ')

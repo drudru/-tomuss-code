@@ -126,18 +126,6 @@ def new_page(server):
         server.the_file.write(server._("MSG_new_page_in_past"))
         server.close_connection_now()
         return
-
-    if table.is_extended:
-        # Take the link destination (assuming ../..) and remove the .py
-        year, semester, ue = table.link_to()
-        link_to = '../../%s/%s/%s' % (year, semester, ue)
-        # Check table dates
-        # XXX It is done here in order to fix old files
-        extented(year, semester, ue)
-        server.the_file.write(
-            '<meta HTTP-EQUIV="REFRESH" content="0; url=%s">' % (link_to,))
-        server.close_connection_now()
-        return
     
     warn('New page, do_not_unload=%s' % table.do_not_unload, what="table")
 

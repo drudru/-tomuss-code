@@ -495,9 +495,7 @@ class Column(object):
 
     def is_modifiable(self, teacher, ticket, cell):
         """From 'suivi' by student or teacher"""
-        return ((self.table.modifiable
-                 or self.table.is_extended
-                 and self.table.destination_is_modifiable)
+        return (self.table.modifiable
                 and self.modifiable
                 and (teacher or self.modifiable == 2)
                 and self.table.authorized(ticket.user_name, cell)

@@ -31,10 +31,7 @@ def init(table):
     table.default_sort_column = 2
     table.modifiable = 0
     have_an_extension = False
-    if table.is_extended:
-        # Never modify via a symbolic link
-        pass
-    elif (re.search(configuration.ue_not_per_semester, table.ue_code)
+    if (re.search(configuration.ue_not_per_semester, table.ue_code)
           and table.semester == configuration.university_semesters[0]
           and table.year == utilities.university_year()):
         # Not an UE per semester : all the semesters points on the first
