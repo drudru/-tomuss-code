@@ -66,6 +66,8 @@ def major_of(login):
     return list(minors)
 
 def cell_change(table, page, col, lin, value, dummy_date):
+    if col not in 'ab':
+        return
     for login in splitter.split(value):
         if not configuration.is_member_of(login, 'staff'):
             sender.append(page.browser_file,
