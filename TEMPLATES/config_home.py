@@ -109,6 +109,7 @@ def add_new_links_in_the_table(table):
         i = 0
         for where, priority, html_class, group, url in  default_links:
             lin_id = str(i)
+            i += 1
             if lin_id in table.lines:
                 continue
             table.cell_change(rw, '0', lin_id, where)
@@ -118,7 +119,6 @@ def add_new_links_in_the_table(table):
             table.cell_change(rw, '4', lin_id, 'LINK_' + url)
             table.cell_change(rw, '5', lin_id, url)
             table.cell_change(rw, '6', lin_id, 'HELP_' + url)
-            i += 1
         for p in plugin.plugins:
             link = p.link
             if not link:
