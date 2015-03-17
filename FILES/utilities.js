@@ -21,6 +21,7 @@
 */
 
 var languages ;
+var minors = [] ;
 
 function __(txt)
 {
