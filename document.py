@@ -471,7 +471,7 @@ class Table(object):
 
     @utilities.add_a_lock
     def compute_columns(self):
-        """"""
+        """ """
         from .PYTHON_JS import tomuss_python
         from . import cell
         tomuss_python.columns = self.columns.columns
@@ -1554,8 +1554,9 @@ def tables_values():
     # Do not use a tuple because it must be sortable
     # XXX Need a lock ?
     return [t
-            for t in tuple(tables.values())
+            for k, t in tuple(tables.items())
             if t not in (None, False, True)
+            and k == (t.year, t.semester, t.ue)
             ]
 
             
