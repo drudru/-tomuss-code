@@ -330,10 +330,12 @@ def memory_size_checker(server):
             continue
         try:
             server.the_file.write(
-                '\n'*2 + '<hr>' + '%d → %d' % (mem, current) + '<hr>'+'\n'*2+
-                '\n'.join(t.stack()
+                '\n\n%d → %d\n\n' % (mem, current)
+                + '\n'.join(t.stack()
                           for t in utilities.thread_list
-                          ))
+                      )
+                + '\n'*2 + '<hr>\n'
+            )
             server.the_file.flush()
         except:
             break
@@ -341,7 +343,8 @@ def memory_size_checker(server):
 
 plugin.Plugin('memory_size_checker', '/memory_size_checker',
               group='roots', function=memory_size_checker, launch_thread=True,
-              link=plugin.Link(where='debug', html_class='verysafe')
+              link=plugin.Link(where='debug', html_class='verysafe'),
+              unsafe=False
               )
 
 def atomic_checker(server):
