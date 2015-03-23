@@ -18,10 +18,10 @@ for i in ('http_proxy', 'https_proxy'):
 from .. import utilities
 from .. import configuration
 
-def is_running(url):
-    if url != is_running.last_url:
+def is_running1(url):
+    if url != is_running1.last_url:
         print 'Check if running:', url
-        is_running.last_url = url
+        is_running1.last_url = url
     else:
         print '*',
     sys.stdout.flush()
@@ -32,7 +32,10 @@ def is_running(url):
         return 'User-agent:' in c
     except IOError:
         return False
-is_running.last_url = ''
+is_running1.last_url = ''
+
+def is_running(url):
+    return is_running1(url) or is_running1(url)
 
 def run(url, command, run_only_if_not_properly_stopped, name=None,strace=""):
     if name == None:
