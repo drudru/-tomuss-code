@@ -2691,7 +2691,7 @@ function update_cell(td, cell, column, abj)
 		  t = column.parsed_course_dates[date] ;
 		  if ( t >= first && t <= last )
 		    {
-		      className = className.substr(2).replace(' default','')
+		      className = className.replace(' default','')
 		      className += ' is_not_an_abi' ;
 		      stop = true ;
 		      break ;
