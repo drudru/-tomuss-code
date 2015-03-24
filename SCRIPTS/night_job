@@ -10,20 +10,21 @@ SCRIPTS/access.py  >LOGS/xxx_crontab_night_job.access 2>&1
 echo "Start compute preferences statistics the $(date)"
 SCRIPTS/preferences_stats.py  >LOGS/xxx_crontab_night_job.preferences 2>&1
 
-echo "Start compute student bilan the $(date)"
-SCRIPTS/bilan.py >LOGS/xxx_crontab_night_job.bilan 2>&1
-
 echo "Start database mirroring check the $(date)"
 SCRIPTS/mirror_check >LOGS/xxx_crontab_night_job.mirror_check 2>&1
 
 echo "Start updating database from external sources the $(date)"
-cd LOCAL
-make >../LOGS/xxx_crontab_night_job.local 2>&1
+(
+    cd LOCAL
+    make >../LOGS/xxx_crontab_night_job.local 2>&1
+)
+
+echo "Start compute student bilan the $(date)"
+SCRIPTS/bilan.py >LOGS/xxx_crontab_night_job.bilan 2>&1
 
 echo "End of night job the $(date)"
 
 
-cd ..
 M=''
 for I in LOGS/xxx_crontab_*
 do
