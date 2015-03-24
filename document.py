@@ -469,6 +469,15 @@ class Table(object):
         if ro:
             self.compute_columns()
 
+        self.extensions = []
+        if self.semester == configuration.university_semesters[0]:
+            for dy, sem in zip(configuration.semesters_year,
+                               configuration.semesters):
+                if sem == self.semester:
+                    continue
+                if os.path.islink(table_filename(year-dy, sem, self.ue)):
+                    self.extensions.append((year-dy, sem))
+
     @utilities.add_a_lock
     def compute_columns(self):
         """ """
@@ -801,9 +810,11 @@ class Table(object):
             self.the_key_dict[new_login].append(lin)
             if not self.loading and self.official_ue:
                 indexes_to_update.append((self, login, new_login))
+                for y, s in self.extensions:
+                    indexes_to_update_append(y, s, self.ue, login, new_login)
+
         elif on_a_new_line:
             self.the_key_dict[''].append(lin)
-            
 
         # The class may change on value change
         cell = line[a_column.data_col] = cell.set_value(value=value,
@@ -1380,6 +1391,8 @@ class Table(object):
             self.master_of_update('-', name)
         for login in self.the_keys():
             indexes_to_update.append((self, login, ''))
+            for y, s in self.extensions:
+                indexes_to_update_append(y, s, self.ue, login, '')
 
         def remove_bookmarks():
             import glob
@@ -1746,6 +1759,13 @@ def update_index(login, action=None):
     c = action(c) # Update index content
     utilities.manage_key('LOGINS', os.path.join(login, 'index'),
                          content = repr(c))
+
+def indexes_to_update_append(the_year, the_semester, the_ue, old, new):
+    class X:
+        year = the_year
+        semester = the_semester
+        ue = the_ue
+    indexes_to_update.append((X, old, new))
 
 def check_indexes_to_update():
     while indexes_to_update:
