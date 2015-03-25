@@ -1886,7 +1886,10 @@ function sort_lines3()
 	  switch(c.sort_by)
 	    {
 	    case undefined:
-	    case 'LABEL_sort_value'  : v = cell.key(c.empty_is) ; break ;
+	    case 'LABEL_sort_value'  :
+	      cell._key = undefined ;
+	      v = cell.key(c.empty_is) ;
+	      break ;
 	    case 'LABEL_sort_author' :
 	      v = cell.author.replace(".", "<br>") ;
 	      break ;
