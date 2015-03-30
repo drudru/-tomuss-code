@@ -1040,6 +1040,17 @@ def lock_state():
         s += '%s [%s]\n' % (f.fct.func_name, f.fct.__module__)
     return s
 
+main_thread =  threading.current_thread()
+
+def all_the_stacks():
+    return ('\n'.join(t.stack() for t in thread_list)
+            + '\n\nMain thread\n\n' + str(main_thread)
+            + '\n'
+            + ''.join(traceback.format_stack(
+                sys._current_frames()[main_thread.ident]))
+            + '\n'
+            )
+
 def on_kill(dummy_x, dummy_y):
     sys.stderr.write('=' * 79 + '\n' +
                      'KILLED\n' +
@@ -1050,7 +1061,7 @@ def on_kill(dummy_x, dummy_y):
                      '=' * 79 + '\n'
                      'THREADS\n' +
                      '-' * 79 + '\n' +
-                     '\n'.join(t.stack() for t in thread_list) +
+                     all_the_stacks() +
                      '=' * 79 + '\n'
                      )
     traceback.print_stack()
@@ -1060,7 +1071,7 @@ def print_lock_state_clean_cache():
     while True:
         f = open(os.path.join('LOGS', 'xxx.locks.%d' % os.getpid()), 'w')
         f.write(lock_state() + '\n\n')
-        f.write('\n'.join(t.stack() for t in thread_list))
+        f.write(all_the_stacks())
         f.close()
 
         for cache in caches:
