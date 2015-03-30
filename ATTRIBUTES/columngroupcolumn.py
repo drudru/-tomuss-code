@@ -23,6 +23,7 @@ from ..column import ColumnAttr
 
 class ColumnGroupColumn(ColumnAttr):
     name = 'groupcolumn'
+    always_visible = 1
     check_and_set = 'set_comment'
     css = '''
 #menutop DIV.tabs INPUT#t_column_groupcolumn { width: 23% ; }

@@ -31,7 +31,7 @@ class Bool(note.Note):
     ondoubleclick = 'toggle_bool'
     tip_filter = "TIP_filter_Bool"
     should_be_a_float = 0
-    attributes_visible = ('url_import',)
+    attributes_visible = ('url_import', 'groupcolumn', 'repetition')
     cell_completions = "bool_completions"
 
     def cell_indicator(self, column, value, cell, lines):

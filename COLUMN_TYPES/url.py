@@ -25,5 +25,6 @@ class URL(text.Text):
     human_priority = 10
     tip_cell = "TIP_cell_URL"
     ondoubleclick = 'follow_url'
-    attributes_visible = ('url_base', 'url_title', 'repetition', 'url_import')
+    attributes_visible = ('url_base', 'url_title', 'repetition', 'url_import',
+                          'groupcolumn')
     formatte_suivi = 'url_format_suivi'

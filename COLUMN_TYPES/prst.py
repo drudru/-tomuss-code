@@ -32,6 +32,6 @@ class Prst(note.Note):
     tip_filter = "TIP_filter_Prst"
     tip_test = ''
     should_be_a_float = 0
-    attributes_visible = ('url_import',)
+    attributes_visible = ('url_import', 'groupcolumn', 'repetition')
     cell_indicator = note.Note.cell_indicator_prst
     cell_completions = "prst_completions"

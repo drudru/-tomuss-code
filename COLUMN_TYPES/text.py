@@ -218,7 +218,8 @@ class Text(object):
 
     # The columns attributes that should be displayed for this type
     # DO NOT INDICATES ATTRIBUTES VISIBLE BY ALL THE COLUMN TYPES
-    attributes_visible = ('completion', 'repetition', 'url_import')
+    attributes_visible = ('completion', 'repetition', 'url_import',
+                          "groupcolumn")
 
     # This function is called when the column is no more of this type
     # For example to stop file sharing for the 'document upload' type
