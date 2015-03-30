@@ -34,7 +34,7 @@ function get_original_cow_column()
 function toggle_cow(value)
 {
   var column = get_original_cow_column() ;
-  if ( column )
+  if ( column && column.real_type.ondoubleclick )
     return column.real_type.ondoubleclick(value) ;
   else
     return value ;

@@ -1,7 +1,7 @@
 // -*- coding: utf-8 -*-
 /*
     TOMUSS: The Online Multi User Simple Spreadsheet
-    Copyright (C) 2008-2012 Thierry EXCOFFIER, Universite Claude Bernard
+    Copyright (C) 2008-2015 Thierry EXCOFFIER, Universite Claude Bernard
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -137,7 +137,13 @@ function popup_type_choosed(type)
   if ( myindex(column_attributes['columns'].visible_for, type) >= 0 )
   {
     if ( the_current_cell.column.columns === '' )
-      alert(_("columns.png")) ;
+      {
+	var n = 'ALERT_change_to_' + type ;
+	if ( _(n) == n )
+	  alert(_("columns.png")) ;
+	else
+	  alert(_(n)) ;
+      }
     select_tab("column", _("TAB_formula")) ;
     document.getElementById('t_column_columns').focus() ;
     highlight_add(document.getElementById('t_column_columns')) ;

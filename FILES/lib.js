@@ -4983,8 +4983,10 @@ function javascript_regtest_ue()
       var col_type = col_types[col_type2] ;
       set(t_column_title, col_type) ;
       set(t_column_type, col_types2[col_type2]) ;
-      if ( col_type == 'Moy' || col_type == 'Nmbr' )
-	expected("Saisir%20les%20noms%20des%20colonnes%20%E0%20combiner%20%28s%E9par%E9s%20par%20un%20espace%29<hr>") ;
+      if ( col_type == 'Moy' )
+	expected("Indiquez%20maintenant%20les%20titres%20des%20colonnes%20%E0%20moyenner%20en%20les%20s%E9parant%20par%20un%20espace.%0A%0ALes%20poids%20sont%20%E0%20indiquer%20dans%20l%27onglet%20%ABFormule%BB%20de%20chacune%20des%20colonnes%20que%20vous%20moyennez.%0A%0ALes%20poids%20peuvent%20%EAtre%20des%20nombres%20entiers%20ou%20%E0%20virgule.<hr>") ;
+      else if ( col_type == 'Nmbr' )
+	expected("Indiquez%20maintenant%20les%20titres%20des%20colonnes%20contenant%20les%20valeurs%20%E0%20compter%20en%20les%20s%E9parant%20par%20un%20espace.%0A%0ACe%20que%20vous%20voulez%20compter%20est%20indiqu%E9%20dans%20le%20filtre%20qui%20est%20%E0%20droite%20du%20type%20de%20la%20colonne.<hr>") ;
       the_current_cell.update_headers_real() ;
       if ( col_type == 'Moy' )
 	{
