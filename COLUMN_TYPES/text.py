@@ -71,6 +71,9 @@ getters = {
     }
 
 def get_column_from_a_table(column, table_list):
+    """It is possible to extract multiple table/columns.
+    In this case, values are concatened
+    """
     values = collections.defaultdict(list)
     try:
         getter = getters[table_list[0]]

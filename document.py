@@ -27,6 +27,7 @@ import re
 import collections
 import cgi
 import inspect
+import math
 from . import utilities
 from . import configuration
 from . import column
@@ -764,6 +765,8 @@ class Table(object):
         if a_column.type.name == 'Note':
             try:
                 value = float(value)
+                if math.isnan(value):
+                    value = "NaN"
             except ValueError:
                 pass
 

@@ -127,13 +127,3 @@ def table_comment(page_id, comment):
 def default_nr_columns(nr):
     """DEPRECATED: Specify the default number of columns displayed on screen."""
     _table.default_nr_columns_change(nr)
-
-
-
-
-
-
-
-
-
-
