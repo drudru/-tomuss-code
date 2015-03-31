@@ -57,11 +57,10 @@ def init(table):
 
 @utilities.add_a_cache
 def major_of(login):
-    defined = re.compile(r'\b' + login + r'\b')
     minors = set()
     for line in major_of.table.lines.values():
-        if defined.match(line[0].value):
-            minors.update(splitter.split(line[1].value.strip().lower()))
+        if login in splitter.split(line[0].value):
+            minors.update(splitter.split(line[1].value.strip()))
     minors.discard(login)
     return list(minors)
 
