@@ -172,6 +172,8 @@ BODY.big_text_1 { font-size: 150% }
   background-color: #FFC0C0 ;
 }
 
+.hidden_to_student { background: #FFA500 ; color: black }
+
 /********** not grade Cells are transparent for teachers  *************/
 
 .highlight_grade_1 .CellBox {

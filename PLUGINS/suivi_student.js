@@ -709,7 +709,11 @@ DisplayCellFormula.need_node = [] ;
 
 function DisplayCellTitle(node)
 {
-  return html(DisplayGrades.column.title.replace(/_/g, ' ')) ;
+  var title = html(DisplayGrades.column.title.replace(/_/g, ' ')) ;
+  if ( DisplayGrades.column.visibility == 1
+       || DisplayGrades.column.title.substr(0,1) == '.' )
+    title = '<span class="hidden_to_student">' + title + '</span>' ;
+  return title ;
 }
 DisplayCellTitle.need_node = [] ;
 
