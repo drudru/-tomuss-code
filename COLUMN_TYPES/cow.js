@@ -47,3 +47,12 @@ function test_cow(value, column)
     return column.real_type.cell_test(value, column) ;
   return value ;
 }
+
+function cow_format(c, column)
+{
+  var data_col = column.average_columns[0] ;
+  if ( data_col !== undefined )
+    return columns[data_col].real_type.formatte(c, column) ;
+  else
+    return c ;
+}

@@ -26,7 +26,7 @@ class COW(max.Max):
     cell_compute = 'compute_cow'
     cell_is_modifiable = 1
     tip_cell = "TIP_cell_Text"
-    formatte = 'text_format'
+    formatte = 'cow_format'
     cell_test = 'test_cow'
     ondoubleclick = 'toggle_cow'
     attributes_visible = ('minmax', 'columns', 'weight', 'rounding',
