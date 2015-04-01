@@ -30,7 +30,9 @@ from .. import column
 
 def teachers_statistics(server):
     """Create a table of statistics about all the teachers"""
-    teachers = {'': TableStat('')}
+    teachers = {data.rw_user: TableStat(data.rw_user),
+                data.no_user: TableStat(data.no_user),
+            }
     for t in les_ues(server.year, server.semester):
         for c in t.columns:
             user_name = c.author
