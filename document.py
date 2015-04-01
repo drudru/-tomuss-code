@@ -747,14 +747,16 @@ class Table(object):
 
         old_value = str(cell.value)
         new_value = str(value)
+        if new_value == 'nan':
+            value = "nan"
         # If the old value is the float 10
         # And the new one the string 10
         # The string compare will be false because "10.0" != "10"
         # So we also compare non string values.
         try:
-            equal = float(cell.value) == float(value)
+            equal = old_value == new_value or float(cell.value) == float(value)
         except ValueError:
-            equal = old_value == new_value
+            equal = False
         if equal:
             if cell.author == page.user_name:
                 return 'ok.png'
@@ -764,9 +766,8 @@ class Table(object):
         # if isinstance(value, str) and value.find('.') != -1:
         if a_column.type.name == 'Note':
             try:
-                value = float(value)
-                if math.isnan(value):
-                    value = "NaN"
+                if value != "nan":
+                    value = float(value)
             except ValueError:
                 pass
 
