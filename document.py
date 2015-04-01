@@ -1246,7 +1246,11 @@ class Table(object):
             document.write(head_html()) ;
             insert_middle();
             ''')
-            s.append(self.columns.js(hide=False))
+            if page.user_name in self.masters:
+                hide = None
+            else:
+                hide = False
+            s.append(self.columns.js(hide=hide))
 
             s.append('document.write(tail_html());')
             s.append('runlog(columns, lines) ;')

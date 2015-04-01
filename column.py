@@ -397,15 +397,16 @@ class Column(object):
 
     def js(self, hide, python=False):
         """Returns the JavaScript describing the column.
+        hide=None  : For the table editor if it is a table master
         hide=False : For the table editor
-        hide=1 for a student on the suivi
-        hide=True for a teacher on the suivi
+        hide=1     : for a student on the suivi
+        hide=True  : for a teacher on the suivi
         """
         d = {}
         for attr in column_attributes():
             value = getattr(self, attr.name)
-            if attr.name == 'url_import':
-                continue # private
+            if attr.name == 'url_import' and ':' in value and hide is not None:
+                continue # private in case of password protected url
             elif attr.name == 'comment':
                 if hide:
                     value = re.sub(r'(TITLE|IMPORT|BASE)\([^)]*\)', '', value)
