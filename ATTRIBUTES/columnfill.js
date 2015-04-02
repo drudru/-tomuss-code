@@ -179,14 +179,20 @@ function fill_column_do_fill(comments)
 	    document.getElementById('column_fill_abab').value), comments) ;
     else if ( choice === "42 43 44 45..." )
     {
-	var t = document.getElementById('column_fill_numbers').value ;
-	var left = t.replace(/[0-9]+.*/, '') ;
-	var right = t.replace(/^[^0-9]*[0-9]+/, '') ;
-	var start = Number(t.replace(/^[^0-9]*([0-9]+).*$/, '$1')) ;
-	var v = [] ;
-	for(var i = start; i < start + filtered_lines.length; i++)
-	  v.push([1, 1, left + i + right]) ;
-	fill_column_do_abab(v, comments) ;
+      var t = document.getElementById('column_fill_numbers').value ;
+      var x = t.match(/([0-9]+)([^0-9]*)$/) ;
+      var before = t.substr(0, t.length - x[0].length) ;
+      var after = x[2] ;
+      var start = Number(x[1]) ;
+      var v = [], s ;
+      for(var i = start; i < start + filtered_lines.length; i++)
+      {
+	s = i.toString() ;
+	while( s.length < x[1].length )
+	  s = '0' + s ;
+	v.push([1, 1, before + s + after]) ;
+      }
+      fill_column_do_abab(v, comments) ;
     }
     else
 	alert_real(choice);
