@@ -679,24 +679,31 @@ A:hover { text-decoration: underline }
 
 /*****************************************************************************/
 /* New new interface */
-DIV.tabs DIV.titles { white-space: nowrap }
+DIV.tabs DIV.titles {
+    white-space: nowrap ;
+}
 DIV.tabs DIV.titles SPAN {
   border: 1px solid black ;
   margin-right: 2px ;
   cursor: pointer ;
-}
-DIV.tabs DIV.titles SPAN:hover {
-  background: #DFD ;
+  border-top-right-radius: 0.4em ;
+  border-top-left-radius: 0.4em ;
+  opacity: 0.5 ;
 }
 
 DIV.tabs DIV.titles SPAN:first-child {
   font-weight: bold ;
 }
 
-DIV.tabs DIV.titles SPAN.tab_selected {
-  background: #0F0 ;
-  border-bottom: 0px ;
+DIV.tabs DIV.titles SPAN.tab_selected, DIV.tabs DIV.titles SPAN:hover {
+  opacity: 1 ;
 }
+
+DIV.tabs DIV.titles SPAN.tab_selected {
+  border-bottom: 0px ;
+  background: #BFB ;
+}
+
 DIV.tabs DIV.contents {
   border: 1px solid black;
   height: 7.6em;
