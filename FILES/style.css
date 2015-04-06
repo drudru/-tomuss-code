@@ -684,11 +684,11 @@ DIV.tabs DIV.titles {
 }
 DIV.tabs DIV.titles SPAN {
   border: 1px solid black ;
-  margin-right: 2px ;
+  margin-right: -1px ;
   cursor: pointer ;
   border-top-right-radius: 0.4em ;
   border-top-left-radius: 0.4em ;
-  opacity: 0.5 ;
+  opacity: 0.7 ;
 }
 
 DIV.tabs DIV.titles SPAN:first-child {
