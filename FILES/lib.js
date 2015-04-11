@@ -3852,6 +3852,8 @@ function append_image(td, text, force)
 {
   if ( ! table_attr.modifiable && ! force )
     return ;
+  if ( ue == 'VIRTUALUE' || ue == '' )
+    return ;
   var request = new Request(text) ;
   pending_requests.push(request) ;
   periodic_work_add(auto_save_errors) ;
