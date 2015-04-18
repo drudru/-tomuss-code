@@ -1580,9 +1580,6 @@ def tables_values():
             and k == (t.year, t.semester, t.ue)
             ]
 
-            
-
-
 def table(year, semester, ue, page=None, ticket=None, ro=False, create=True,
           do_not_unload=0):
     """With a ticket : return table and page
@@ -1609,11 +1606,10 @@ def table(year, semester, ue, page=None, ticket=None, ro=False, create=True,
                 y, s, u = link_to(filename)
                 t = table(y, s, u, page=page, ticket=ticket, ro=ro,
                           create=create, do_not_unload=do_not_unload)
-                if t:
-                    if ticket:
-                        tables[year, semester, ue] = t[0]
-                    else:
-                        tables[year, semester, ue] = t
+                if (y, s, u) in tables:
+                    tables[year, semester, ue] = tables[y, s, u]
+                else:
+                    del tables[year, semester, ue]
                 return t
             if ticket == None:
                 if (not create
@@ -1651,7 +1647,7 @@ def table(year, semester, ue, page=None, ticket=None, ro=False, create=True,
         # with the bad page and so the bad ticket.
         # It will be accused of hacking.
         page = None
-    
+
     if page == None:
         if ticket == None:
             return t
