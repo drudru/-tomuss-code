@@ -26,6 +26,7 @@ class TablePrivate(TableModifiable):
 function(value)
 {
   if ( (table_attr.masters.length == 0 || ! i_am_the_teacher) && value == 1
+       && myindex(table_attr.managers, my_identity) == -1
        && ! i_am_root )
     {
       Alert("ALERT_colmunprivate") ;
