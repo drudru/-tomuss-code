@@ -5786,3 +5786,57 @@ msgstr "Indiquez maintenant le titre de la colonne que vous voulez recopier "
        "Si vous modifiez la copie, la valeur que vous aurez saisie "
        "ne sera plus jamais mise à jour."
 
+msgid "COL_TITLE_room_name"
+msgstr "Lieu"
+
+msgid "COL_COMMENT_room_name"
+msgstr "Nom de l'amphithéâtre ou de la salle"
+
+msgid "COL_TITLE_room_places"
+msgstr "Places"
+
+msgid "COL_COMMENT_room_places"
+msgstr "10-15 99 -11 représente les salles : 10 12 13 14 15 99"
+
+msgid "COL_TITLE_room_url"
+msgstr "URL"
+
+msgid "COL_COMMENT_room_url"
+msgstr "Emplacement de la salle"
+
+msgid "COL_TITLE_room_comment"
+msgstr "Remarques"
+
+msgid "COL_COMMENT_room_comment"
+msgstr "Affichées aux enseignants et étudiants"
+
+msgid "COL_COMMENT_config_room"
+msgstr "Informations permettant de placer les étudiants pour les examens"
+
+msgid "COL_TITLE_room_use"
+msgstr "Utilise"
+
+msgid "MSG_fill_room"
+msgstr "Cochez les salles dans lesquelles vous répartissez les étudiants."
+
+msgid "MSG_fill_room_nothing"
+msgstr "Aucune cellule vide nécessitant la saisie d'une salle"
+
+msgid "MSG_no_rooms"
+msgstr "Demandez à l'administrateur de définir la liste des salles utilisables."
+
+msgid "MSG_fill_room_text"
+msgstr "Le type de la colonne doit être «Texte libre»"
+
+msgid "MSG_fill_room_place"
+msgstr "ajoute les N° de place au nom de la salle"
+
+msgid "MSG_fill_room_place_separator"
+msgstr " place N°"
+
+msgid "LINK_/0/Dossiers/config_room"
+msgstr "Configurer la liste des salles"
+
+msgid "HELP_/0/Dossiers/config_room"
+msgstr "Cela permet de définir les numéros de place qui existent dans les salles pour les examens. C'est utilisé par le remplissage de colonne."
+

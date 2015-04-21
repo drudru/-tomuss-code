@@ -1,7 +1,7 @@
 // -*- coding: utf-8 -*-
 /*
   TOMUSS: The Online Multi User Simple Spreadsheet
-  Copyright (C) 2011-2014 Thierry EXCOFFIER, Universite Claude Bernard
+  Copyright (C) 2011-2015 Thierry EXCOFFIER, Universite Claude Bernard
 
   This program is free software; you can redistribute it and/or modify
   it under the terms of the GNU General Public License as published by
@@ -20,6 +20,8 @@
   Contact: Thierry.EXCOFFIER@bat710.univ-lyon1.fr
 */
 
+var place_separator ;
+
 function caution_message()
 {
   if ( table_attr.autosave )
@@ -30,6 +32,177 @@ function caution_message()
 	+ _("MSG_fill_warning_middle") + '</a> ' +_("MSG_fill_warning_right")
 	+ '</div>' ;
   return '' ;
+}
+
+function room_numbers(text)
+{
+  var n = [], from, to ;
+  text = text.split(/ +/) ;
+  for(var i in text)
+    {
+      var range = text[i].split(/-+/) ;
+      if ( range.length == 2 && range[0].length != 0 )
+	{
+	  from = Number(range[0]) ;
+	  to = Number(range[1]) ;
+	}
+      else
+	{
+	  from = Number(text[i]) ;
+	  if ( from < 0 )
+	    {
+	      var to_remove = myindex(n, -from) ;
+	      if ( to_remove >= 0 )
+		n.splice(to_remove, 1) ;
+	      continue ;
+	    }
+	  to = from ;
+	}
+      if ( ! isNaN(from) && ! isNaN(to) )
+	for(var j = from; j <= to ; j++)
+	  n.push(j) ;
+    }
+  return n ;
+}
+
+function fill_analyse_rooms()
+{
+  if ( ! analyse_rooms.places_used || ! analyse_rooms.places_used[''] )
+    return ; // nothing to dispatch
+  var e = document.getElementById("analyse_rooms") ;
+  var full_size = 0 ;
+  var to_dispatch = analyse_rooms.places_used[''][4] ;
+  for(var i=1; i<e.childNodes.length; i++)
+    {
+      var infos = analyse_rooms.places_used[analyse_rooms.index[i-1]] ;
+      var label = e.childNodes[i].firstChild.firstChild ;
+      var input = label.childNodes[0] ;
+      if ( input.checked )
+	{
+	  infos[5] = room_numbers(infos[1]).length ;
+	  full_size += infos[5] ;
+	  to_dispatch += infos[4] ;
+	}
+      else
+	infos[5] = 0 ;
+    }
+  fill_analyse_rooms.dispatch = [] ;
+  for(var i=1; i<e.childNodes.length; i++)
+    {
+      var infos = analyse_rooms.places_used[analyse_rooms.index[i-1]] ;
+      var label = e.childNodes[i].firstChild.firstChild ;
+      var input = label.childNodes[0] ;
+      var text = label.childNodes[2] ;
+      var take ;
+      if ( infos[5] )
+	{
+	  if ( 0 )
+	    console.log('to_dispatch=' + to_dispatch
+			+ ' size=' + infos[5]
+			+ ' full_size=' + full_size
+			+ ' yet_used=' + infos[4]) ;
+	  take = Math.max(0,
+			  Math.round(to_dispatch * infos[5] / full_size
+				    ) - infos[4]) ;
+	  to_dispatch -= take + infos[4] ;
+	  }
+      else
+	take = 0 ;
+      full_size -= infos[5] ;
+      var numbers = room_numbers(infos[1]) ;
+      var place, n ;
+      for(var j=0; j<take; j++)
+	{
+	  // Search an unused place number
+	  do
+	    {
+	      place = infos[0] + place_separator + numbers.shift() ;
+	    }
+	  while( analyse_rooms.number_used[place] ) ;
+	  fill_analyse_rooms.dispatch.push(place.replace(
+	    place_separator + 'undefined', '')) ;
+	}
+
+      var s = [] ;
+      if ( infos[4] !== 0 )
+	s.push(infos[4]) ;
+      if ( take !== 0 )
+	s.push(take) ;
+      if ( s.length === 0 )
+	s.push('') ;
+      var max = room_numbers(infos[1]).length ;
+      s = s.join('+') + '/' + max ;
+      var inside =  infos[4] + take ;
+      if ( inside > max )
+	s = hidden_txt('<span style="color:#F00">' + s + '</span>',
+		       '+' + (inside - max) + ' !') ;
+      text.innerHTML = s ;
+    }
+}
+
+function analyse_rooms(column)
+{
+  if ( column.real_type.title != 'Text' )
+    return _("MSG_fill_room_text") ;
+  place_separator = _("MSG_fill_room_place_separator") ;
+  var v ;
+  analyse_rooms.places_used = {} ;
+  analyse_rooms.number_used = {} ;
+  for(var i in rooms)
+    {
+      analyse_rooms.places_used[rooms[i][0]] = rooms[i] ;
+      rooms[i][4] = 0 ; // Yet used places
+    }
+  for(var i in filtered_lines)
+    {
+      v = filtered_lines[i][column.data_col].value ;
+      var room = v.split(place_separator)[0] ;
+      if ( analyse_rooms.places_used[room] === undefined )
+	analyse_rooms.places_used[room] = [room, '1-9999', '', '', 0] ;
+      analyse_rooms.places_used[room][4]++ ;
+      analyse_rooms.number_used[v] = true ;
+    }
+  analyse_rooms.index = [] ;
+  for(var i in analyse_rooms.places_used)
+    if ( i !== '' )
+      analyse_rooms.index.push(i) ;
+  analyse_rooms.index.sort() ;
+  
+  var s = [analyse_rooms.places_used[''] === undefined
+	   ? _('MSG_fill_room_nothing')
+	   : _('MSG_fill_room')
+	   + '<br><label><input type="checkbox" style="width:auto" id="room_places"> '
+	   + _('MSG_fill_room_place') + '</label>',
+	   ,
+	   '<table class="colored"><tbody id="analyse_rooms">',
+	   '<tr>',
+	   '<th>', _('COL_TITLE_room_use'),
+	   '<th>', _('COL_TITLE_room_name'),
+	   '<th>', _('COL_TITLE_room_places'),
+	   '<th>', _('COL_TITLE_room_comment'),
+	   '</tr>'
+	  ] ;
+  for(var i in analyse_rooms.index)
+    {
+      i = analyse_rooms.index[i] ;
+      i = analyse_rooms.places_used[i] ;
+      s.push('<tr><td style="white-space:pre"><label><input style="width:auto;" type="checkbox" onchange="fill_analyse_rooms()"> <span></span></label><td>')
+      if ( i[2] !== '' )
+	s.push('<a target="_blank" href="' + i[2] + '">'
+	       + html(i[0]) + '</a>') ;
+      else
+	s.push(html(i[0])) ;
+      s.push("<td>") ;
+      s.push(html(i[1])) ;
+      s.push('<td>') ;
+      s.push(html(i[3])) ;
+      s.push('</tr>') ;
+    }
+  s.push("</tbody></table>") ;
+  if ( len(rooms) == 0 )
+    s.push('<div class="color_red">' + _('MSG_no_rooms') + "</div>") ;
+
+  return s.join('') ;
 }
 
 function fill_column()
@@ -71,20 +244,21 @@ function fill_column()
 				 ["ABC ABC ABC...",
 				  _('MSG_fill_multiple')
 				  +' <tt>A B C A B C A B C...</tt>'
-				  +'<br>'
-				  +'<TEXTAREA id="column_fill_abab"></TEXTAREA>'
+				  +'<div class="fillbottom"><TEXTAREA id="column_fill_abab"></TEXTAREA></div>'
 				 ],
 				 ["AA... BB... CC...",
 				  _('MSG_fill_multiple')
 				  +' <tt>A A... B B... C C...</tt><br>'
 				  +_('MSG_fill_equal')
-				  +'<br>'
-				  +'<TEXTAREA id="column_fill_aabb"></TEXTAREA>'
+				  +'<div class="fillbottom"><TEXTAREA id="column_fill_aabb"></TEXTAREA></div>'
 				  ],
 				 ["42 43 44 45...",
 				  _('MSG_fill_numbers')
 				  +'<br>'
 				  +'<INPUT id="column_fill_numbers">'
+				  ],
+				 [_("COL_TITLE_room_name"),
+				  analyse_rooms(the_current_cell.column)
 				  ]
 
 			     ])
@@ -98,6 +272,7 @@ function fill_column()
 	       '', false
 	       ) ;
   select_tab("tablefill", _("TAB_fill_one")) ;
+  fill_analyse_rooms() ;
   popup_text_area().rows = 4 ;
 }
 
@@ -194,6 +369,23 @@ function fill_column_do_fill(comments)
       }
       fill_column_do_abab(v, comments) ;
     }
+    else if ( choice === _('COL_TITLE_room_name') )
+      {
+	var v = [] ;
+	var add_place = document.getElementById("room_places").checked ;
+	for(var i = 0; i < filtered_lines.length; i++)
+	  {
+	    var val = filtered_lines[i][popup_column().data_col].value ;
+	    if ( val === '' )
+	      {
+		val = fill_analyse_rooms.dispatch.shift() ;
+		if ( ! add_place )
+		  val = val.split(place_separator)[0] ;
+	      }
+	    v.push([1, 1, val]) ;
+	  }
+	fill_column_do_abab(v, comments) ;
+      }
     else
 	alert_real(choice);
    

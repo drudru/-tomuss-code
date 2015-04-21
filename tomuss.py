@@ -316,6 +316,7 @@ if __name__ == "__main__":
     document.table(0, 'Dossiers', 'config_home', None, None)
     document.table(0, 'Dossiers', 'config_cache', None, None)
     document.table(0, 'Dossiers', 'config_login', None, None)
+    document.table(0, 'Dossiers', 'config_room', None, None)
 
     from . import display
     display.init()

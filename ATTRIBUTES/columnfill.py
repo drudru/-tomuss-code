@@ -29,14 +29,25 @@ class ColumnFill(ColumnAttr):
     default_value = 1
     check_and_set = 'function() { return 1; }'
     css = """
-    DIV.fill_column_div { border: 4px solid red ; }
+    DIV.fill_column_div { border: 4px solid red ; max-height: 70% }
     #stop_the_auto_save { float:right; font-size:70%; border:1px solid red}
     DIV.fill_column_div BUTTON, DIV.fill_column_div SELECT { font-size: 100% }
     DIV.fill_column_div TEXTAREA { height: 5em }
     #tablefill { font-size: 100%; }
     #tablefill SPAN, #tablefill .content { padding: 3px }
-    #tablefill .contents { margin-top: 3px; height: 10.1em }
+    #tablefill .contents { margin-top: 3px;
+                           height: auto ;
+                           height: 12.1em ;
+                         }
+    #tablefill .contents > DIV { overflow: auto ; position: relative }
     #tablefill DIV.titles SPAN:first-child { font-weight: normal }
-    #tablefill TEXTAREA { height: 5em }
-    #tablefill INPUT { width: 100% }
+    #tablefill .fillbottom TEXTAREA { width: 98% ; height: 100% ;
+    }
+    #tablefill INPUT { width: 98% }
+    .fillbottom {
+    position: absolute ;
+    bottom: 0px ;
+    left: 0px ;
+    right: 0px ;
+    }
     """

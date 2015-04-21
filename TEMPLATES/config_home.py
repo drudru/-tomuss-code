@@ -50,6 +50,7 @@ default_links = (
     ("debug"  ,   0,"verysafe",'roots',"/0/Test/test_types"),
     ("root_rw",-805,"safe"    ,'roots',"/0/Dossiers/config_cache"),
     ("root_rw",-804,"safe"    ,'roots',"/0/Dossiers/config_login"),
+    ("root_rw",-803,"safe"    ,'roots',"/0/Dossiers/config_room"),
     )
 
 columns = {

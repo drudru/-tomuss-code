@@ -5661,3 +5661,59 @@ msgid "ALERT_change_to_COW"
 msgstr "Enter now the title of the column you want to dynamicaly copy.\n\n"
        "If you modify the copy, the modified value will never be automaticaly "
        "updated."
+
+
+msgid "COL_TITLE_room_name"
+msgstr "Place"
+
+msgid "COL_COMMENT_room_name"
+msgstr "Room"
+
+msgid "COL_TITLE_room_places"
+msgstr "Places"
+
+msgid "COL_COMMENT_room_places"
+msgstr "10-15 99 -11 indicates the place numbers: 10 12 13 14 15 99"
+
+msgid "COL_TITLE_room_url"
+msgstr "URL"
+
+msgid "COL_COMMENT_room_url"
+msgstr "Where the room is"
+
+msgid "COL_TITLE_room_comment"
+msgstr "Comments"
+
+msgid "COL_COMMENT_room_comment"
+msgstr "Displayed to the teachers and students"
+
+msgid "COL_COMMENT_config_room"
+msgstr "Information allowing to place the students in the rooms"
+
+msgid "COL_TITLE_room_use"
+msgstr "Use"
+
+msgid "MSG_fill_room"
+msgstr "Check the rooms you use to dispatch the students."
+
+msgid "MSG_fill_room_nothing"
+msgstr "No empty cell needing to be filled with a room"
+
+msgid "MSG_no_rooms"
+msgstr "Ask your administrator to define the set of usable rooms."
+
+msgid "MSG_fill_room_text"
+msgstr "The column type must be «Free text»"
+
+msgid "MSG_fill_room_place"
+msgstr "Add the place number after the room name"
+
+msgid "MSG_fill_room_place_separator"
+msgstr " place #"
+
+msgid "LINK_/0/Dossiers/config_room"
+msgstr "Modify rooms definitions"
+
+msgid "HELP_/0/Dossiers/config_room"
+msgstr "Allow to define the rooms and the numbering of places in the rooms for the examinations"
+
