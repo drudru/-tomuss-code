@@ -841,8 +841,10 @@ function wheel(event)
     return ;
   if ( element_focused && element_focused.tagName == 'TEXTAREA' )
     return ;
-
-  if ( the_event(event).wheelDelta < 0 )
+  var e = the_event(event) ;
+  if ( e.ctrlKey || e.altKey || e.metaKey || e.shiftKey )
+    return ;
+  if ( e.wheelDelta < 0 )
     next_page(undefined, zebra_step) ;
   else
     previous_page(undefined, zebra_step) ;
