@@ -701,7 +701,11 @@ function table_input_attr(attr, options)
 			    "t_table_attr_", "table_attr_") ;
 }
 
-/* tabbed view */
+/* tabbed view
+  tabs = [ ['title1', 'content1', 'optional JS triggered by selection'],
+           ...
+	 ]
+ */
 
 function create_tabs(name, tabs, more)
 {
@@ -710,9 +714,12 @@ function create_tabs(name, tabs, more)
 
   var s = ['<div class="tabs" id="' + name + '"><div class="titles">'] ;
   for(var i in tabs)
-     s.push('<span id="title_' + tabs[i][0] + '" onclick="last_user_interaction=millisec();select_tab(\'' + name + "','" +
-            tabs[i][0] + '\',1);">' + tabs[i][0]
-             + '</span>') ;
+     s.push('<span id="title_' + tabs[i][0]
+	    + '" onclick="last_user_interaction=millisec();select_tab(\''
+	    + name + "','" + tabs[i][0] + '\',1);"'
+	    + (tabs[i][2] ? ' onkeypress="' + tabs[i][2] + '"' : '')
+	    + '>' + tabs[i][0]
+	    + '</span>') ;
   s.push(more + '</div><div class="contents">') ;
   for(var i in tabs)
      s.push('<div class="content" id="title_' + tabs[i][0] + '">'
@@ -737,7 +744,11 @@ function select_tab(name, tab, gui)
         if ( child.id != 'title_' + tab )
             child.className = '' ;
         else
+	  {
             child.className = 'tab_selected' ;
+	    if ( child.onkeypress )
+	      child.onkeypress() ;
+	  }
   if ( gui && GUI )
     GUI.add('tab_' + name, '', tab) ;
 }

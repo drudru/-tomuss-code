@@ -239,23 +239,27 @@ function fill_column()
 				 ],
 				 [_('TAB_fill_one'),
 				  _('MSG_fill_one') + '<br>'
-				  + '<INPUT id="column_fill_input"><br>'
+				  + '<INPUT id="column_fill_input"><br>',
+				  "document.getElementById('column_fill_input').focus()"
 				 ],
 				 ["ABC ABC ABC...",
 				  _('MSG_fill_multiple')
 				  +' <tt>A B C A B C A B C...</tt>'
-				  +'<div class="fillbottom"><TEXTAREA id="column_fill_abab"></TEXTAREA></div>'
+				  +'<div class="fillbottom"><TEXTAREA id="column_fill_abab"></TEXTAREA></div>',
+				  "document.getElementById('column_fill_abab').focus()"
 				 ],
 				 ["AA... BB... CC...",
 				  _('MSG_fill_multiple')
 				  +' <tt>A A... B B... C C...</tt><br>'
 				  +_('MSG_fill_equal')
-				  +'<div class="fillbottom"><TEXTAREA id="column_fill_aabb"></TEXTAREA></div>'
+				  +'<div class="fillbottom"><TEXTAREA id="column_fill_aabb"></TEXTAREA></div>',
+				  "document.getElementById('column_fill_aabb').focus()"
 				  ],
 				 ["42 43 44 45...",
 				  _('MSG_fill_numbers')
 				  +'<br>'
-				  +'<INPUT id="column_fill_numbers">'
+				  +'<INPUT id="column_fill_numbers">',
+				  "document.getElementById('column_fill_numbers').focus()"
 				  ],
 				 [_("COL_TITLE_room_name"),
 				  analyse_rooms(the_current_cell.column)
