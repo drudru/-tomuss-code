@@ -36,11 +36,13 @@ function caution_message()
 
 function room_numbers(text)
 {
-  var n = [], from, to ;
+  var n = [], from, to, padding = ' ' ;
   text = text.split(/ +/) ;
   for(var i in text)
     {
       var range = text[i].split(/-+/) ;
+      if ( text[i].substr(0,1) === '0' && text[i] != '0' )
+	padding = '0' ;
       if ( range.length == 2 && range[0].length != 0 )
 	{
 	  from = Number(range[0]) ;
@@ -58,10 +60,17 @@ function room_numbers(text)
 	    }
 	  to = from ;
 	}
+      
       if ( ! isNaN(from) && ! isNaN(to) )
 	for(var j = from; j <= to ; j++)
-	  n.push(j) ;
+	  {
+	    n.push(j) ;
+	  }
     }
+  var length = n[n.length-1].toString().length ;
+  for(var i in n)
+    while ( n[i].toString().length < length )
+      n[i] = padding + n[i] ;
   return n ;
 }
 
@@ -153,15 +162,27 @@ function analyse_rooms(column)
       analyse_rooms.places_used[rooms[i][0]] = rooms[i] ;
       rooms[i][4] = 0 ; // Yet used places
     }
-  for(var i in filtered_lines)
+  for(var i in lines)
     {
-      v = filtered_lines[i][column.data_col].value ;
+      if ( line_empty(lines[i]) )
+	continue ;
+      v = lines[i][column.data_col].value.toString() ;
       var room = v.split(place_separator)[0] ;
       if ( analyse_rooms.places_used[room] === undefined )
 	analyse_rooms.places_used[room] = [room, '1-9999', '', '', 0] ;
       analyse_rooms.places_used[room][4]++ ;
       analyse_rooms.number_used[v] = true ;
     }
+  if ( analyse_rooms.places_used[''] )
+    {
+      analyse_rooms.places_used[''][4] = 0 ;
+      for(var i in filtered_lines)
+      {
+	if ( filtered_lines[i][column.data_col].value === '' )
+	  analyse_rooms.places_used[''][4]++ ;
+      }
+    }
+
   analyse_rooms.index = [] ;
   for(var i in analyse_rooms.places_used)
     if ( i !== '' )
