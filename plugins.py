@@ -206,9 +206,9 @@ def column_type_list():
 
 def init_plugins():
     # Compute CSS for plugins
-    all_css = []
+    all_css = set()
     for p in plugin.plugins:
-        all_css.append(p.css)
+        all_css.add(p.css)
     files.files['style.css'].append('plugins.py', '\n'.join(all_css))
 
 def load_types():

@@ -322,7 +322,7 @@ def initialize():
         '\n')
 
 
-    css = '\n'.join([attr.css for attr in attributes])
+    css = '\n'.join(set(attr.css for attr in attributes))
     files.files['style.css'].append('column.py', css)
 
     global types_using_columns
