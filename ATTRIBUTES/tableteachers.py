@@ -19,9 +19,9 @@
 #
 #    Contact: Thierry.EXCOFFIER@bat710.univ-lyon1.fr
 
-from .tablemasters import TableMasters
+from . import tablemasters
 
-class TableTeachers(TableMasters):
+class TableTeachers(tablemasters.TableMasters):
     name = 'teachers'
     formatter = '''
 function(value)

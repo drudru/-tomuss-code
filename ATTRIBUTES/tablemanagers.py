@@ -20,9 +20,9 @@
 #    Contact: Thierry.EXCOFFIER@bat710.univ-lyon1.fr
 
 from .. import configuration
-from .tabletabletitle import TableTableTitle
+from . import tabletabletitle
 
-class TableManagers(TableTableTitle):
+class TableManagers(tabletabletitle.TableTableTitle):
     name = 'managers'
     def default_value(self, table):
         if table:

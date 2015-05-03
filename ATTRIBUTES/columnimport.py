@@ -19,9 +19,9 @@
 #
 #    Contact: Thierry.EXCOFFIER@bat710.univ-lyon1.fr
 
-from .columnexport import ColumnExport
+from . import columnexport
 
-class ColumnImport(ColumnExport):
+class ColumnImport(columnexport.ColumnExport):
     name = "import"
     action = "import_column"
     css = "DIV.import_div { border: 4px solid red ; }"

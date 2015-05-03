@@ -19,9 +19,9 @@
 #
 #    Contact: Thierry.EXCOFFIER@bat710.univ-lyon1.fr
 
-from .columnfill import ColumnFill
+from . import columnfill
 
-class ColumnStats(ColumnFill):
+class ColumnStats(columnfill.ColumnFill):
     name = "stats"
     action = "update_histogram"
     gui_display = "GUI_none"

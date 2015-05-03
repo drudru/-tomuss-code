@@ -19,9 +19,9 @@
 #
 #    Contact: Thierry.EXCOFFIER@bat710.univ-lyon1.fr
 
-from .tabletabletitle import TableTableTitle
+from . import tabletabletitle
 
-class TableCode(TableTableTitle):
+class TableCode(tabletabletitle.TableTableTitle):
     name = 'code'
 
     def default_value(self, table):

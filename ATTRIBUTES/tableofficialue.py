@@ -19,10 +19,10 @@
 #
 #    Contact: Thierry.EXCOFFIER@bat710.univ-lyon1.fr
 
-from .tablemodifiable import TableModifiable
+from . import tablemodifiable
 from .. import document
 
-class TableOfficialUE(TableModifiable):
+class TableOfficialUE(tablemodifiable.TableModifiable):
     name = 'official_ue'
     # This value is set to True by the TEMPLATE/_ucbl_.py
     # Only the official UEs are displayed in the 'suivi'

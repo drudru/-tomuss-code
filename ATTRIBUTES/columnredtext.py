@@ -19,8 +19,8 @@
 #
 #    Contact: Thierry.EXCOFFIER@bat710.univ-lyon1.fr
 
-from .columngreen import ColumnGreen
+from . import columngreen
 
-class ColumnRedText(ColumnGreen):
+class ColumnRedText(columngreen.ColumnGreen):
     name = 'redtext'
     check_and_set = 'set_redtext'

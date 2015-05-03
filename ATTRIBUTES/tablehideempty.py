@@ -19,9 +19,9 @@
 #
 #    Contact: Thierry.EXCOFFIER@bat710.univ-lyon1.fr
 
-from .tablemodifiable import TableModifiable
+from . import tablemodifiable
 
-class HideEmpty(TableModifiable):
+class HideEmpty(tablemodifiable.TableModifiable):
     name = 'hide_empty'
     default_value = 0
     gui_display = "GUI_select"

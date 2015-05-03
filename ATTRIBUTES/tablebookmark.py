@@ -19,9 +19,9 @@
 #
 #    Contact: Thierry.EXCOFFIER@bat710.univ-lyon1.fr
 
-from .tablemodifiable import TableModifiable
+from . import tablemodifiable
 
-class TableBookmark(TableModifiable):
+class TableBookmark(tablemodifiable.TableModifiable):
     name = 'bookmark'
     default_value = 1
     formatter = "table_bookmark"

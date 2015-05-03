@@ -19,13 +19,13 @@
 #
 #    Contact: Thierry.EXCOFFIER@univ-lyon1.fr
 
-from .tableexport import TableExport
+from . import tableexport
 from .. import utilities
 from .. import document
 from .. import plugin
 from .. import configuration
 
-class TableCopy(TableExport):
+class TableCopy(tableexport.TableExport):
     default_value = 1
     name = 't_copy'
     action = 'table_copy'

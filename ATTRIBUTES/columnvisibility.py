@@ -19,9 +19,9 @@
 #
 #    Contact: Thierry.EXCOFFIER@bat710.univ-lyon1.fr
 
-from .columnmodifiable import ColumnModifiable
+from . import columnmodifiable
 
-class ColumnVisibility(ColumnModifiable):
+class ColumnVisibility(columnmodifiable.ColumnModifiable):
     name = 'visibility'
     formatter = "column_visibility_formatter"
     css = ''

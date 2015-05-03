@@ -19,8 +19,8 @@
 #
 #    Contact: Thierry.EXCOFFIER@bat710.univ-lyon1.fr
 
-from .columnfill import ColumnFill
+from . import columnfill
 
-class ColumnDelete(ColumnFill):
+class ColumnDelete(columnfill.ColumnFill):
     name = "delete"
     action = "column_delete"

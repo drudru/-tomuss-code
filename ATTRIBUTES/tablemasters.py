@@ -22,9 +22,9 @@
 import re
 from .. import utilities
 from .. import configuration
-from .tabletabletitle import TableTableTitle
+from . import tabletabletitle
 
-class TableMasters(TableTableTitle):
+class TableMasters(tabletabletitle.TableTableTitle):
     name = 'masters'
     priority = -1 # Must compute 'i_am_the_teacher' before other attributes
     update_headers = 1

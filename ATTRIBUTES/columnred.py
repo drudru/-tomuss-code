@@ -19,9 +19,9 @@
 #
 #    Contact: Thierry.EXCOFFIER@bat710.univ-lyon1.fr
 
-from .columngreen import ColumnGreen
+from . import columngreen
 
-class ColumnRed(ColumnGreen):
+class ColumnRed(columngreen.ColumnGreen):
     name = 'red'
     check_and_set = 'set_red'
     css = """

@@ -19,9 +19,9 @@
 #
 #    Contact: Thierry.EXCOFFIER@bat710.univ-lyon1.fr
 
-from .tablemodifiable import TableModifiable
+from . import tablemodifiable
 
-class TablePrivate(TableModifiable):
+class TablePrivate(tablemodifiable.TableModifiable):
     formatter = r'''
 function(value)
 {
