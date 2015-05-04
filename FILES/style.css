@@ -214,10 +214,6 @@ TR.tablefilter INPUT { width: 10em ; }
 TR.ok TD, #current_input.ok, SPAN.ok {  }
 BODY TABLE.colored TR.non TD, #current_input.non, SPAN.non, LI.non { background-color: #FBB; }
 
-TD.rw, #current_input.rw, .rw { 
-  color: black ;
-}
-
 TR.column_title TH { color: #00F; }
 TR.column_title TH.ro { color: #88F; }
 TR.column_title DIV { position: relative; width:100% }
