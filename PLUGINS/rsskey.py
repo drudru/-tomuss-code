@@ -34,6 +34,10 @@ def rsskey(server):
 
     key = utilities.manage_key('LOGINS', os.path.join(login, 'rsskey'))
     if key is False:
+        if '*' in login:
+            utilities.send_backtrace(login, "BUG '*' in login name!",
+                                     exception=False)
+            return
         random.seed()
         key = random.randint(0, 1000000000000000000)
         random.seed(id(login))

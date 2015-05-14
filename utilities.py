@@ -990,7 +990,8 @@ def manage_key(dirname, key, separation=3, content=None, reduce_ok=True,
     if configuration.backup:
         d = manage_key_real(os.path.join(configuration.backup
                                          + configuration.db, dirname),
-                            key, separation, content, reduce_ok, append)
+                            key, separation, content, reduce_ok, append,
+                            delete)
         if c != d:
             send_backtrace('normal=%s\nbackup=%s\n' % (repr(c), repr(d)),
                            'manage key backup' + key, exception=False)

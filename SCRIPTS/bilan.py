@@ -187,6 +187,8 @@ for i, ues in students.items():
 
 for teacher, tables in teachers_tables.items():
     print teacher
-    utilities.manage_key('LOGINS', os.path.join(teacher, 'tables'),
-                         content=repr(dict(tables)))
+    if utilities.manage_key('LOGINS', os.path.join(teacher, 'tables')):
+        # Only update the key if it exists
+        utilities.manage_key('LOGINS', os.path.join(teacher, 'tables'),
+                             content=repr(dict(tables)))
 
