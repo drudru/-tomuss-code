@@ -2170,7 +2170,10 @@ msgid "MSG_unmodifiable_cells"
 msgstr "cellules ne sont pas modifiables car vous n'avez pas le droit."
 
 msgid "MSG_fill"
-msgstr "Choisissez comment vous voulez remplir la colonne&nbsp;:"
+msgstr "Options de remplissage&nbsp;:"
+
+msgid "MSG_fill_safe"
+msgstr "Rien ne sera modifié tant que vous ne cliquez pas sur «Remplir !»"
 
 msgid "TAB_fill_clear"
 msgstr "Vider"
@@ -2203,6 +2206,71 @@ msgstr "Si vous saisissez « Place 8, Amphi X » les cellules vont prendre\n"
 msgid "MSG_fill_equal"
 msgstr "Le remplissage est le plus équilibré possible.<br>\n"
        "<small>Pour avoir 5 B au maximum, saisissez <b>B {{{5}}}</b></small>"
+
+msgid "MSG_fill_modify"
+msgstr "Effacer"
+
+msgid "TIP_fill_modify"
+msgstr "<!--INSTANTDISPLAY-->Efface les cellules filtrées pour pouvoir changer la valeur"
+
+msgid "MSG_fill_interleave"
+msgstr "Interclasser"
+
+msgid "TIP_fill_interleave"
+msgstr "<!--INSTANTDISPLAY-->Au lieu de faire AAABBBCCC on rempli avec ABCABCABC"
+
+msgid "MSG_fill_unfiltered"
+msgstr "Équilibrer globalement"
+
+msgid "TIP_fill_unfiltered"
+msgstr "<!--INSTANTDISPLAY-->Tient compte des lignes cachées pour équilibrer le remplissage"
+
+msgid "MSG_fill_comment"
+msgstr "Commenter"
+
+msgid "TIP_fill_comment"
+msgstr "<!--INSTANTDISPLAY-->Travaille sur les commentaires des cellules au lieu de leur valeur"
+
+msgid "MSG_fill_pad0"
+msgstr "0001"
+
+msgid "TIP_fill_pad0"
+msgstr "<!--INSTANTDISPLAY-->Ajoute des 0 devant les nombres"
+
+msgid "TIP_TITLE_fill_?"
+msgstr "Cocher pour remplir avec cette valeur"
+
+msgid "COL_TITLE_fill_used"
+msgstr "Déjà"
+
+msgid "TIP_TITLE_fill_used"
+msgstr "Nombre d'utilisations de la valeur avant remplissage"
+
+msgid "COL_TITLE_fill_use"
+msgstr "Ajoute"
+
+msgid "TIP_TITLE_fill_use"
+msgstr "Nombre d'affectations suplémentaires qui vont être faites pour remplir"
+
+msgid "COL_TITLE_fill_possible"
+msgstr "Numéros possibles"
+
+msgid "TIP_TITLE_fill_possible"
+msgstr "Par exemple : 1-100 200-300 -33 +150"
+
+msgid "COL_TITLE_fill_name"
+msgstr "Remplir avec ce texte"
+
+msgid "TIP_TITLE_fill_name"
+msgstr "Lors du remplissage, on remplace %% par le nombre"
+
+msgid "COL_TITLE_fill_comment"
+msgstr "Remarques"
+
+msgid "TIP_TITLE_fill_result"
+msgstr "Explique ce qu'il va se passer quand vous cliquerez sur 'Remplir'"
+
+
 
 msgid "ALERT_column_fill_max"
 msgstr "Les nombres maximums indiqués ne permettent pas le remplissage."
@@ -5820,7 +5888,25 @@ msgid "MSG_fill_room"
 msgstr "Cochez les salles dans lesquelles vous répartissez les étudiants."
 
 msgid "MSG_fill_room_nothing"
-msgstr "Aucune cellule vide nécessitant la saisie d'une salle"
+msgstr "Aucune cellule vide nécessitant d'être remplie. Activez 'Effacer' pour modifier les cellules déjà remplies"
+
+msgid "MSG_fill_no_change"
+msgstr "Ce remplissage ne modifie aucune valeur"
+
+msgid "MSG_fill_empty_not_empty"
+msgstr "Des valeurs sont effacées alors que d'autres sont remplies.\n"
+       "Avez-vous oublié de décocher quelque chose ?"
+
+msgid "MSG_fill_overflow"
+msgstr " débordements de salle lors de l'affectation, ils ont la place '???'"
+
+msgid "MSG_fill_unwritable"
+msgstr " modifications interdites de cellules"
+
+msgid "MSG_fill_bad_format"
+msgstr "Les valeurs indiquées en rouge ne peuvent être enregistrées dans \n"
+       "ce type de colonne : par exemple il faut remplir une colonne\n "
+       "de note avec ABI et non A"
 
 msgid "MSG_no_rooms"
 msgstr "Demandez à l'administrateur de définir la liste des salles utilisables."
@@ -5831,8 +5917,11 @@ msgstr "Le type de la colonne doit être «Texte libre»"
 msgid "MSG_fill_room_place"
 msgstr "ajoute les N° de place au nom de la salle"
 
-msgid "MSG_fill_room_place_separator"
-msgstr " place N°"
+msgid "MSG_fill_the_values"
+msgstr "Remplir les valeurs !"
+
+msgid "MSG_fill_the_comments"
+msgstr "Remplir les commentaires !"
 
 msgid "LINK_/0/Dossiers/config_room"
 msgstr "Configurer la liste des salles"

@@ -20,7 +20,7 @@
   Contact: Thierry.EXCOFFIER@bat710.univ-lyon1.fr
 */
 
-var place_separator ;
+// bouton remplir
 
 function caution_message()
 {
@@ -34,15 +34,58 @@ function caution_message()
   return '' ;
 }
 
-function room_numbers(text)
+/****************************************************************************/
+
+function Places(text)
 {
-  var n = [], from, to, padding = ' ' ;
+  this.text = text ;
+  this.intervals = [] ; // first and last value are included
+  this.parse(text) ;
+  if ( this.intervals.length )
+    this.length = this.intervals[this.intervals.length-1][1].toString().length;
+  this.nr_places = 0 ;
+  for(var i in this.intervals)
+    this.nr_places += this.intervals[i][1] - this.intervals[i][0] + 1 ;
+  this.init() ;
+}
+
+Places.prototype.init = function(text) {
+  this.interval_number = 0 ;
+  this.last_number = this.intervals[0] ? this.intervals[0][0] - 1 : 0 ;
+} ;
+
+Places.prototype.next = function(padding) {
+  var from_to = this.intervals[this.interval_number] ;
+  if ( ! from_to )
+    return ;
+  if ( this.last_number === from_to[1] )
+    {
+      this.interval_number++ ;
+      if ( this.intervals[this.interval_number] )
+	this.last_number = this.intervals[this.interval_number][0] ;
+      else
+	return ;
+    }
+  else
+    this.last_number++ ;
+
+  n = this.last_number.toString() ;
+
+  if ( padding !== '' )
+  {
+    while ( n.length < this.length )
+      n = padding + n ;
+  }
+  return n ;
+} ;
+
+Places.prototype.parse = function(text) {
+  var from, to ;
+
   text = text.split(/ +/) ;
   for(var i in text)
     {
       var range = text[i].split(/-+/) ;
-      if ( text[i].substr(0,1) === '0' && text[i] != '0' )
-	padding = '0' ;
       if ( range.length == 2 && range[0].length != 0 )
 	{
 	  from = Number(range[0]) ;
@@ -50,427 +93,591 @@ function room_numbers(text)
 	}
       else
 	{
+	  if ( text[i] === '' )
+	    continue ;
 	  from = Number(text[i]) ;
 	  if ( from < 0 )
 	    {
-	      var to_remove = myindex(n, -from) ;
-	      if ( to_remove >= 0 )
-		n.splice(to_remove, 1) ;
+	      from = -from ;
+	      for(var j in this.intervals)
+		{
+		  if ( this.intervals[j][0] > from ) // before interval
+		    continue ;
+		  if ( this.intervals[j][1] < from ) // after interval
+		    continue ;
+		  if ( this.intervals[j][0] == from )
+		    this.intervals[j][0]++ ; // 1-10 -1
+		  else if ( this.intervals[j][1] == from )
+		    this.intervals[j][1]-- ; // 1-10 -10
+		  else if ( this.intervals[j][1] > i ) // in interval
+		  {
+		    this.intervals.splice(Number(j)+1, 0,
+					  [from+1, this.intervals[j][1]]) ;
+		    this.intervals[j][1] = from - 1 ;
+		  }
+		  break ;
+		}
 	      continue ;
 	    }
 	  to = from ;
 	}
       
-      if ( ! isNaN(from) && ! isNaN(to) )
-	for(var j = from; j <= to ; j++)
-	  {
-	    n.push(j) ;
-	  }
-    }
-  var length = n[n.length-1].toString().length ;
-  for(var i in n)
-    while ( n[i].toString().length < length )
-      n[i] = padding + n[i] ;
-  return n ;
-}
-
-function fill_analyse_rooms()
-{
-  if ( ! analyse_rooms.places_used || ! analyse_rooms.places_used[''] )
-    return ; // nothing to dispatch
-  var e = document.getElementById("analyse_rooms") ;
-  var full_size = 0 ;
-  var to_dispatch = analyse_rooms.places_used[''][4] ;
-  for(var i=1; i<e.childNodes.length; i++)
-    {
-      var infos = analyse_rooms.places_used[analyse_rooms.index[i-1]] ;
-      var label = e.childNodes[i].firstChild.firstChild ;
-      var input = label.childNodes[0] ;
-      if ( input.checked )
-	{
-	  infos[5] = room_numbers(infos[1]).length ;
-	  full_size += infos[5] ;
-	  to_dispatch += infos[4] ;
-	}
-      else
-	infos[5] = 0 ;
-    }
-  fill_analyse_rooms.dispatch = [] ;
-  for(var i=1; i<e.childNodes.length; i++)
-    {
-      var infos = analyse_rooms.places_used[analyse_rooms.index[i-1]] ;
-      var label = e.childNodes[i].firstChild.firstChild ;
-      var input = label.childNodes[0] ;
-      var text = label.childNodes[2] ;
-      var take ;
-      if ( infos[5] )
-	{
-	  if ( 0 )
-	    console.log('to_dispatch=' + to_dispatch
-			+ ' size=' + infos[5]
-			+ ' full_size=' + full_size
-			+ ' yet_used=' + infos[4]) ;
-	  take = Math.max(0,
-			  Math.round(to_dispatch * infos[5] / full_size
-				    ) - infos[4]) ;
-	  to_dispatch -= take + infos[4] ;
-	  }
-      else
-	take = 0 ;
-      full_size -= infos[5] ;
-      var numbers = room_numbers(infos[1]) ;
-      var place, n ;
-      for(var j=0; j<take; j++)
-	{
-	  // Search an unused place number
-	  do
-	    {
-	      place = infos[0] + place_separator + numbers.shift() ;
-	    }
-	  while( analyse_rooms.number_used[place] ) ;
-	  fill_analyse_rooms.dispatch.push(place.replace(
-	    place_separator + 'undefined', '')) ;
-	}
-
-      var s = [] ;
-      if ( infos[4] !== 0 )
-	s.push(infos[4]) ;
-      if ( take !== 0 )
-	s.push(take) ;
-      if ( s.length === 0 )
-	s.push('') ;
-      var max = room_numbers(infos[1]).length ;
-      s = s.join('+') + '/' + max ;
-      var inside =  infos[4] + take ;
-      if ( inside > max )
-	s = hidden_txt('<span style="color:#F00">' + s + '</span>',
-		       '+' + (inside - max) + ' !') ;
-      text.innerHTML = s ;
-    }
-}
-
-function analyse_rooms(column)
-{
-  if ( column.real_type.title != 'Text' )
-    return _("MSG_fill_room_text") ;
-  place_separator = _("MSG_fill_room_place_separator") ;
-  var v ;
-  analyse_rooms.places_used = {} ;
-  analyse_rooms.number_used = {} ;
-  for(var i in rooms)
-    {
-      analyse_rooms.places_used[rooms[i][0]] = rooms[i] ;
-      rooms[i][4] = 0 ; // Yet used places
-    }
-  for(var i in lines)
-    {
-      if ( line_empty(lines[i]) )
+      if ( isNaN(from) || isNaN(to) )
 	continue ;
-      v = lines[i][column.data_col].value.toString() ;
-      var room = v.split(place_separator)[0] ;
-      if ( analyse_rooms.places_used[room] === undefined )
-	analyse_rooms.places_used[room] = [room, '1-9999', '', '', 0] ;
-      analyse_rooms.places_used[room][4]++ ;
-      analyse_rooms.number_used[v] = true ;
+      if ( from > to )
+	continue ;
+      for(var j=0; j < this.intervals.length; j++)
+	if ( this.intervals[j][1] > from )
+	  break ;
+      this.intervals.splice(j, 0, [from, to]) ;
     }
-  if ( analyse_rooms.places_used[''] )
-    {
-      analyse_rooms.places_used[''][4] = 0 ;
-      for(var i in filtered_lines)
-      {
-	if ( filtered_lines[i][column.data_col].value === '' )
-	  analyse_rooms.places_used[''][4]++ ;
-      }
-    }
+} ;
+if ( new Places("31-35 11-15 21-25 -21 -25 -23 -11 -35  9 19 29 39"
+	       ).intervals.toString()
+     != "9,9,12,15,19,19,22,22,24,24,29,29,31,34,39,39" )
+  alert("BUG") ;
 
-  analyse_rooms.index = [] ;
-  for(var i in analyse_rooms.places_used)
-    if ( i !== '' )
-      analyse_rooms.index.push(i) ;
-  analyse_rooms.index.sort() ;
-  
-  var s = [analyse_rooms.places_used[''] === undefined
-	   ? _('MSG_fill_room_nothing')
-	   : _('MSG_fill_room')
-	   + '<br><label><input type="checkbox" style="width:auto" id="room_places"> '
-	   + _('MSG_fill_room_place') + '</label>',
-	   ,
-	   '<table class="colored"><tbody id="analyse_rooms">',
-	   '<tr>',
-	   '<th>', _('COL_TITLE_room_use'),
-	   '<th>', _('COL_TITLE_room_name'),
-	   '<th>', _('COL_TITLE_room_places'),
-	   '<th>', _('COL_TITLE_room_comment'),
-	   '</tr>'
-	  ] ;
-  for(var i in analyse_rooms.index)
+/****************************************************************************/
+
+function Room(infos)
+{
+  this.id      = Room.id++ ;
+  this.name    = infos[0] ;
+  this.places  = new Places(infos[1] || '1-9999') ;
+  this.url     = infos[2] || '' ;
+  this.comment = infos[3] || '' ;
+  this.predefined_places = !!infos[1] ;
+  this.predefined_name = !!infos[0] ;
+  this.clear() ;
+}
+Room.id = 0 ;
+
+Room.prototype.clear = function()
+{
+  this.nr_used = 0 ;         // Number of places yet used
+  this.number_used = {} ;    // Indexed by the place number
+  this.nr_will_be_used = 0 ; // Will be used be the filling
+  this.places.init() ;       // Goto before the first place
+} ;
+
+Room.prototype.add_predefined = function(line_id, place)
+{
+  this.nr_used++ ;
+  this.number_used[place] = true ;
+} ;
+
+Room.prototype.html = function()
+{
+  var cb = '<input type="checkbox" class="room_cb">' ;
+  var name = '<input value="' + encode_value(this.name) + '">' ;
+  return '<tr class="room_line '
+    + (this.predefined_places ? 'room_predefined' :
+       (this.created_empty ? 'room_created_empty' : 'room_yet_used')
+      )
+    + (this.in_comment & !this.in_value ? ' only_comment' : '')
+    + (!this.in_comment & this.in_value ? ' only_value' : '')
+    + '" id="ROOM_' + this.id
+    + '"><td>' + cb
+    + '<td class="room_used">'
+    + '<td class="room_used">'
+    + '<td class="room_name">' + name
+    + '<td class="room_places"><input value="'
+    + encode_value(this.places.text) + '">'
+    + (this.comment
+       ? '<td class="room_comment">'
+       + (this.url ? '<a target="_blank" href="' + this.url + '">' : '')
+       + html(this.comment)
+       + (this.url ? '</a>' : '')
+       : '<td> '
+       )
+    + '</tr>' ;
+} ;
+
+Room.prototype.get_tr = function() {
+  return document.getElementById('ROOM_' + this.id) ;
+} ;
+Room.prototype.get_toggle = function() {
+  return this.get_tr().childNodes[0].firstChild ;
+} ;
+Room.prototype.get_nr_used = function() {
+  return this.get_tr().childNodes[1] ;
+} ;
+Room.prototype.get_nr_will_be_used = function() {
+  return this.get_tr().childNodes[2] ;
+} ;
+Room.prototype.get_name = function(i) {
+  return this.get_tr().childNodes[3].firstChild ;
+} ;
+Room.prototype.get_places = function(i) {
+  return this.get_tr().childNodes[4].firstChild ;
+} ;
+Room.prototype.get_comment = function(i) {
+  return this.get_tr().childNodes[5].firstChild ;
+} ;
+
+Room.prototype.update_html = function()
+{
+  this.get_nr_used().innerHTML = this.nr_used ? this.nr_used : ' ' ;
+  var total = this.nr_used + this.nr_will_be_used ;
+  var overflow = total - this.places.nr_places ;
+  this.get_nr_will_be_used().innerHTML = this.nr_will_be_used
+    ? this.nr_will_be_used + (
+      overflow > 0
+	? '<span class="fill_warning">(' + overflow + ')</span>'
+	: '')
+  : ' ' ;
+} ;
+
+
+/****************************************************************************/
+
+function Filler()
+{
+  this.toggles = {
+    'modify': false,
+    'interleave': false,
+    'unfiltered': true,
+    'comment': false,
+    'pad0': true
+  } ;
+  this.column = the_current_cell.column ;
+  this.data_col = the_current_cell.column.data_col ;
+  this.create_rooms() ;
+  this.id = setInterval(this.update_html.bind(this), 100) ;
+}
+
+Filler.prototype.menu = function() {
+  return '<div class="fill_menu">'
+    + toggle_button(_("MSG_fill_modify"), "Filler.filler.toggles",
+		       'modify', _("TIP_fill_modify"))
+    + ' '
+    + toggle_button(_("MSG_fill_interleave"), "Filler.filler.toggles",
+		    'interleave', _("TIP_fill_interleave"))
+    + ' '
+    + toggle_button(_("MSG_fill_unfiltered"), "Filler.filler.toggles",
+		    'unfiltered', _("TIP_fill_unfiltered"))
+    + ' '
+    + toggle_button(_("MSG_fill_comment"), "Filler.filler.toggles",
+		    'comment', _("TIP_fill_comment"))
+    + ' '
+    + toggle_button(_("MSG_fill_pad0"), "Filler.filler.toggles",
+		    'pad0', _("TIP_fill_pad0"))
+  + '</div>'
+    ;
+} ;
+
+//  if ( column.real_type.title != 'Text' )
+
+
+function text_to_room_and_place(text)
+{
+  var m = text.match(/(.*[^0-9.])([0-9]+)(.*)/) ;
+  if ( m )
+      return [m[0] + '%%' + m[2], m[1]] ;
+  m = text.match(/^[0-9]+$/) ;
+  if ( m )
+    return ['%%', text] ;
+  return [text, 'undefined'] ;
+}
+
+
+Filler.prototype.create_rooms = function() {
+  var room ;
+  this.rooms = {} ; // Indexed by room name
+  // Create predefined rooms
+  for(var i in rooms)
+    this.rooms[rooms[i][0]] = new Room(rooms[i]) ;
+  for(var lin_id in lines)
+  {
+    if ( lines[lin_id][0].value === '' )
+      continue ;
+    v = lines[lin_id][this.data_col] ;
+
+    room = text_to_room_and_place(v.comment)[0] ;
+    if ( this.rooms[room] === undefined )
+	this.rooms[room] = new Room([room]) ;
+    this.rooms[room].in_comment = true ;
+
+    room = text_to_room_and_place(v.value.toString())[0] ;
+    if ( this.rooms[room] === undefined )
+      this.rooms[room] = new Room([room]) ;
+    this.rooms[room].in_value = true ;
+  }
+  // The list of room in alphabetical order
+  this.index = [] ;
+  for(var i in this.rooms)
+    this.index.push(i) ;
+  var r = this.rooms ;
+  this.index.sort(function(a,b)
+		 {
+		   a = r[a] ;
+		   b = r[b] ;
+		   if ( a.predefined_places && ! b.predefined_places )
+		     return 1 ;
+		   if ( ! a.predefined_places && b.predefined_places )
+		     return -1 ;
+		   if ( a.name > b.name )
+		     return 1 ;
+		   if ( a.name < b.name )
+		     return -1 ;
+		   return 0 ;
+		 }) ;
+} ;
+
+Filler.prototype.add_empty_input = function() {
+  var table = document.getElementById("fill_table") ;
+  var i = 0 ;
+  if ( this.example_row_defined )
+  {
+    var cell, room ;
+    for(i in this.index)
     {
-      i = analyse_rooms.index[i] ;
-      i = analyse_rooms.places_used[i] ;
-      s.push('<tr><td style="white-space:pre"><label><input style="width:auto;" type="checkbox" onchange="fill_analyse_rooms()"> <span></span></label><td>')
-      if ( i[2] !== '' )
-	s.push('<a target="_blank" href="' + i[2] + '">'
-	       + html(i[0]) + '</a>') ;
-      else
-	s.push(html(i[0])) ;
-      s.push("<td>") ;
-      s.push(html(i[1])) ;
-      s.push('<td>') ;
-      s.push(html(i[3])) ;
+      room = this.rooms[this.index[i]] ;
+      cell = room.get_name() ;
+      if ( ! room.created_empty )
+	break ;
+      if ( cell.value === '' )
+	return ; // Yet an empty input
+    }
+  }
+  var room = new Room(['']) ;
+  room.created_empty = true ;
+  this.rooms[' empty' + i] = room ;
+  this.index.splice(i, 0, ' empty' + i) ;
+
+  var d = document.createElement('TBODY') ;
+  d.innerHTML = room.html() ;
+  d = d.firstChild ;
+  i = Number(i) ;
+  if ( table.rows[i+1] )
+    table.firstChild.insertBefore(d, table.rows[i+1]) ;
+  else
+    table.firstChild.appendChild(d) ;
+
+  if ( ! this.example_row_defined ) 
+    {
+      this.example_row_defined = true ;
+      room.get_toggle().checked = true ;
+      room.get_name().value = "Darwin (%%)" ;
+      room.get_name().focus() ;
+      room.get_name().select() ;
+      this.add_empty_input() ;
+    }
+} ;
+
+Filler.prototype.rooms_get_usage = function() {
+  var v ;
+  for(var i in this.rooms)
+    this.rooms[i].clear() ;
+  for(var i in lines)
+    lines[i].is_filtered = false ;
+  for(var i in filtered_lines)
+    filtered_lines[i].is_filtered = true ;
+  var check = this.toggles.unfiltered ? lines : filtered_lines ;
+  this.nr_to_dispatch = 0 ;
+  for(var i in check)
+  {
+    if ( check[i][0].value === '' )
+      continue ;
+    if ( this.toggles.modify && check[i].is_filtered )
+      {
+	// All the filtered values are going to be erased
+	this.nr_to_dispatch++ ;
+	continue
+      }
+    v = check[i][this.data_col] ;
+    if ( this.toggles.comment )
+      v = v.comment ;
+    else
+      v = v.value.toString() ;
+    if ( v === '' && check[i].is_filtered )
+      this.nr_to_dispatch++ ;
+    var room_and_place = text_to_room_and_place(v) ;
+    var room = room_and_place[0] ;
+    var place = room_and_place[1] ;
+    this.rooms[room].add_predefined(check[i].line_id, place) ;
+  }
+} ;
+
+Filler.prototype.init_rooms = function() {
+  var s = [] ;
+
+  for(var i in this.index)
+    {
+      s.push(this.rooms[this.index[i]].html()) ;
       s.push('</tr>') ;
     }
-  s.push("</tbody></table>") ;
-  if ( len(rooms) == 0 )
-    s.push('<div class="color_red">' + _('MSG_no_rooms') + "</div>") ;
-
   return s.join('') ;
-}
+} ;
+
+Filler.prototype.state_change = function()
+{
+  var s = '' ;
+  for(var i in this.toggles)
+    s += i + ':' + this.toggles[i] + " " ;
+  for(var i in this.rooms)
+    {
+      this.rooms[i].checked = this.rooms[i].get_toggle().checked ;
+      if ( this.rooms[i].get_places().value !== undefined )
+	this.rooms[i].places = new Places(this.rooms[i].get_places().value) ;
+      this.rooms[i].name = this.rooms[i].get_name().value ;
+      s += i
+	+ ':' + this.rooms[i].checked
+	+ ':' + this.rooms[i].name
+	+ ':' + this.rooms[i].places.text
+	+ "\n"
+      ;
+    }
+  if ( s == this.old_state )
+    return false ;
+  this.old_state = s ;
+  return true ;
+} ;
+
+Filler.prototype.update_html = function() {
+  var feedback = document.getElementById('fill_result') ;
+  if ( ! feedback )
+    {
+      clearInterval(this.id) ;
+      return ;
+    }
+  if ( ! this.state_change() )
+    return ;
+  var table = document.getElementById("fill_table") ;
+  if ( this.toggles.comment )
+    table.className = 'show_in_comment' ;
+  else
+    table.className = 'show_in_value' ;
+  this.add_empty_input() ;
+  this.rooms_get_usage() ;
+  for(var i in this.rooms)
+    this.rooms[i].update_html() ;
+  var to_dispatch = this.nr_to_dispatch ;
+
+  if ( to_dispatch == 0 )
+    {
+      feedback.innerHTML = '<div class="fill_important">'
+	+ _("MSG_fill_room_nothing") + '</div>' ;
+      return ;
+    }
+
+  var full_size = 0 ;
+  this.nr_rooms_used = 0 ;
+  for(var room in this.rooms)
+    {
+      room = this.rooms[room] ;
+      if ( room.checked )
+	{
+	  full_size += room.places.nr_places ;
+	  to_dispatch += room.nr_used ;
+	  room.nr_will_be_used = 0 ;
+	  this.nr_rooms_used++ ;
+	}
+      else
+	room.nr_will_be_used = '' ;
+    }
+  this.dispatch = [] ;
+  var fill_empty_value = false ;
+  var fill_value = false ;
+  var overflow = 0 ;
+  for(var room in this.index)
+    {
+      var room = this.rooms[this.index[room]] ;
+      if ( ! room.checked )
+	continue ;
+      room.nr_will_be_used = Math.max(0,
+				      Math.round(to_dispatch
+						 * room.places.nr_places
+						 / full_size) - room.nr_used) ;
+      to_dispatch -= room.nr_will_be_used + room.nr_used ;
+      full_size -= room.places.nr_places ;
+      if ( room.name !== '' )
+	 fill_value = true ;
+      else
+	fill_empty_value = true ;
+
+      for(var j=0; j<room.nr_will_be_used; j++)
+	{
+	  // Search an unused place number
+	  var place ;
+	  do
+	    {
+	      place = room.places.next(this.toggles.pad0 ? '0' : ' ') ;
+	      if ( place === undefined )
+		break ;
+	    }
+	  while( room.number_used[place] ) ;
+	  if ( place === undefined )
+	    overflow++ ;
+	  else
+	    room.number_used[place] = true ;
+	  this.dispatch.push([this.toggles.interleave
+			      ? j * this.nr_rooms_used
+			      : 0,
+			      place === undefined
+			      ? room.name.replace('%%', '???')
+			      : room.name.replace('%%', place),
+			      place]) ;
+	}
+      room.update_html() ;
+    }
+  if ( this.toggles.interleave )
+    this.dispatch.sort(function (a, b) { return a[0] - b[0] ; }) ;
+  if ( this.dispatch.length == 0 )
+    {
+     feedback.innerHTML = '<div class="fill_important">'
+	+ _("MSG_fill_room") + '</div>' ;
+      return ;
+    }
+
+  var j = 0 ;
+  for(var i in filtered_lines)
+    {
+      if ( filtered_lines[i][0].value === '' )
+	continue ;
+      var c = filtered_lines[i][this.data_col] ;
+      var v = this.toggles.comment ? c.comment : c.value ;
+      if ( this.toggles.modify )
+	this.dispatch[j++].push(filtered_lines[i]) ;
+      else
+	if ( v === '' )
+	  this.dispatch[j++].push(filtered_lines[i]) ;
+    }
+  if ( j != this.dispatch.length )
+    {
+      console.log(filtered_lines.length) ;
+      console.log(this.dispatch) ;
+      console.log(j) ;
+      alert("BUG columnfill") ;
+      return ;
+    }
+  
+  var s = [] ;
+  var unwritable = 0 ;
+  alert_append_start() ;
+  for(var i in this.dispatch)
+    {
+      var cell = this.dispatch[i][3][this.data_col] ;
+      var old_val = this.toggles.comment ? cell.comment : cell.value ;
+      var new_val = this.dispatch[i][1] ;
+      if ( old_val == new_val )
+	continue ;
+      var classe ;
+      if ( ! cell.modifiable(this.column) )
+      {
+	classe = "fill_error" ;
+	unwritable++ ;
+      }
+      else if ( this.dispatch[i][2] === undefined )
+	classe = "fill_warning" ;
+      else
+	classe = "" ;
+      if ( ! this.toggles.comment )
+	{
+	  var v = this.column.real_type.cell_test(new_val, this.column) ;
+	  if ( new_val != v )
+	  {
+	    if ( v !== undefined )
+	    {
+	      new_val = v ;
+	      classe += " fill_replace" ;
+	    }
+	    else
+	    {
+	      classe += " fill_error" ;
+	    }
+	  }
+	}
+      s.push('<div class="' + classe + '">'
+	     + html(old_val) + '→' + html(new_val) + '</div>') ;
+    }
+  s = ''.join(s) ;
+  if ( this.dispatch.length === 0 )
+    s = '<div class="fill_important">' + _("MSG_fill_room") + '</div>' ;
+  else if ( s === '' )
+    s = '<div class="fill_important">' + _("MSG_fill_no_change") + '</div>' ;
+  if ( fill_empty_value && fill_value )
+    s = '<div class="fill_warning">'
+    + _("MSG_fill_empty_not_empty") + '</div>' + s ;
+  if ( overflow )
+    s = '<div class="fill_warning">' + overflow + ' ' + _("MSG_fill_overflow")
+    + '</div>' + s ;
+  if ( unwritable )
+    s = '<div class="fill_error">' + unwritable + ' '+ _("MSG_fill_unwritable")
+    + '</div>' + s ;
+  if ( alert_merged !== '' )
+    {
+      s = '<div class="fill_error">'+_("MSG_fill_bad_format")+'</div>' + s ;
+      alert_merged = '' ;
+    }
+    s = '<button onclick="Filler.filler.do_fill()">'
+    + ( this.toggles.comment
+	? _("MSG_fill_the_comments")
+	: _("MSG_fill_the_values")
+      ) + '</button>' + s ;
+  feedback.innerHTML = s ;
+  alert_append_stop() ;
+} ;
+
+Filler.prototype.do_fill = function()
+{
+  popup_close() ;
+  alert_append_start() ;
+  for(var d in this.dispatch)
+  {
+    d = this.dispatch[d] ;
+    var line = d[3] ;
+    var cell = line[this.data_col] ;
+    var old_val = this.toggles.comment ? cell.comment : cell.value ;
+    var new_val = d[1] ;
+    if ( old_val == new_val )
+      continue ;
+    if ( this.toggles.comment )
+      comment_change(line.line_id, this.data_col, new_val) ;
+    else
+      cell_set_value_real(line.line_id, this.data_col, new_val) ;
+  }
+  alert_append_stop() ;
+  this.column.need_update = true ;
+  update_columns() ;
+  table_fill() ;
+} ;
+
+/****************************************************************************/
 
 function fill_column()
 {
-  if ( columns[0].filter === '' )
-  {
-    for(var i in filtered_lines)
-    {
-      if ( filtered_lines[i][0].is_empty() )
-      {
-	the_current_cell.jump(nr_headers, the_current_cell.col, true) ;
-	filter_change_column('!=', columns[0]) ;
-	// The previous function modify the current column filter :-(
-	// So restore it.
-	filter_change_column(the_current_cell.column.filter,
-			     the_current_cell.column) ;
-	table_fill(true, true, true) ;
-	Alert('MSG_fill_remove_empty') ;
-	break ;
-      }
-    }
-  }
-
+  // MSG_fill_remove_empty MSG_fill TAB_fill_clear MSG_fill_clear TAB_fill_one MSG_fill_one MSG_fill_multiple MSG_fill_numbers COL_TITLE_room_name MSG_fill_before B_fill B_fill_comments MSG_fill_after MSG_fill_room_text
+  Filler.filler = new Filler() ;
+  var id = '<!--INSTANTDISPLAY-->' ;
   create_popup('fill_column_div',
 	       _("TITLE_fill_before")
 	       + the_current_cell.column.title + _("TITLE_fill_after"),
-	       caution_message()
-	       + fill_column_problems(the_current_cell.data_col)
-	       + _("MSG_fill") + '<br>&nbsp;<br>'
-	       + create_tabs('tablefill',
-			     [
-				 [_('TAB_fill_clear'),
-				  _('MSG_fill_clear')
-				 ],
-				 [_('TAB_fill_one'),
-				  _('MSG_fill_one') + '<br>'
-				  + '<INPUT id="column_fill_input"><br>',
-				  "document.getElementById('column_fill_input').focus()"
-				 ],
-				 ["ABC ABC ABC...",
-				  _('MSG_fill_multiple')
-				  +' <tt>A B C A B C A B C...</tt>'
-				  +'<div class="fillbottom"><TEXTAREA id="column_fill_abab"></TEXTAREA></div>',
-				  "document.getElementById('column_fill_abab').focus()"
-				 ],
-				 ["AA... BB... CC...",
-				  _('MSG_fill_multiple')
-				  +' <tt>A A... B B... C C...</tt><br>'
-				  +_('MSG_fill_equal')
-				  +'<div class="fillbottom"><TEXTAREA id="column_fill_aabb"></TEXTAREA></div>',
-				  "document.getElementById('column_fill_aabb').focus()"
-				  ],
-				 ["42 43 44 45...",
-				  _('MSG_fill_numbers')
-				  +'<br>'
-				  +'<INPUT id="column_fill_numbers">',
-				  "document.getElementById('column_fill_numbers').focus()"
-				  ],
-				 [_("COL_TITLE_room_name"),
-				  analyse_rooms(the_current_cell.column)
-				  ]
-
-			     ])
-	       +  _('MSG_fill_before')
-	       + ' <BUTTON OnClick="fill_column_do_fill();">'
-	       + _('B_fill') + '</BUTTON>/'
-	       + '<BUTTON OnClick="fill_column_do_fill(true);">'
-	       + _('B_fill_comments') + '</BUTTON> '
-	       +  _('MSG_fill_after')
-	       ,
-	       '', false
+	     /*  caution_message() + */ _('MSG_fill')
+	       + Filler.filler.menu()
+	       + '<div id="fill_is_safe">' + _('MSG_fill_safe') + '</div>'
+	       + '<table id="fill_table" onmousemove="if ( the_event(event).target.className != \'text\' ) hide_the_tip_real(true)">'
+	       + '<tr>'
+	       + '<th>' + hidden_txt(_('?'),
+				     id + _("TIP_TITLE_fill_?"))
+	       + '<th>' + hidden_txt(_("COL_TITLE_fill_used"),
+				     id + _("TIP_TITLE_fill_used"))
+	       + '<th>' + hidden_txt(_("COL_TITLE_fill_use"),
+				     id + _("TIP_TITLE_fill_use"))
+	       + '<th>' + hidden_txt(_("COL_TITLE_fill_name"),
+				     id + _("TIP_TITLE_fill_name"))
+	       + '<th>' + hidden_txt(_("COL_TITLE_fill_possible"),
+				     id + _("TIP_TITLE_fill_possible"))
+	       + '<th>' + _("COL_TITLE_fill_comment")
+	       + '<td class="fill_result" rowspan="'
+	       + Filler.filler.index.length
+	       + '" style="height:' + 1.2*Filler.filler.index.length
+	       + 'em"><div id="fill_result" style="height:'
+               + 1.2*Filler.filler.index.length + 'em"></div>'
+	       + '</tr>'
+	       + Filler.filler.init_rooms()
+	       + '</table>',
+	       '',
+	       false
 	       ) ;
-  select_tab("tablefill", _("TAB_fill_one")) ;
-  fill_analyse_rooms() ;
-  popup_text_area().rows = 4 ;
-}
-
-function fill_column_problems(data_col)
-{
-  var errors = 0, ok = 0 ;
-  for(var i in filtered_lines)
-    {
-      if ( filtered_lines[i][data_col].modifiable(columns[data_col]) )
-	ok++ ;
-      else
-	errors++ ;
-    }
-  var msg = '<p>' + ok + ' ' + _('MSG_modifiable_cells') + '</p>' ;
-  if ( errors )
-    msg += '<p><span  class="color_red">' + errors
-    + ' ' + _('MSG_unmodifiable_cells') + '</span></p>' ;
-
-  return msg ;
-}
-
-function fill_column_parse(t)
-{
-  var t = parse_lines(t) ;
-  var max ;
-  for(var i in t)
-  {
-    max = t[i].replace(/.*{{{(.*)}}}.*/, "$1") ;
-    if ( max == t[i] || isNaN(max) )
-      max = 999999999 ;
-    else
-      max = Number(max) ;
-    
-    // Current number, maximum number, value
-    t[i] = [0, max, t[i].split('{{{')[0].replace(/[ \t]*$/,''), i] ;
-  }
-  // The dispatch is slow, but the algorithm is simple.
-  var to_dispatch = filtered_lines.length ;
-  var not_full = t.slice(0, t.length) ;
-  function sort_values(a, b)
-  {
-    if ( a[0] != b[0] )
-      return a[0] - b[0] ;
-    if (  b[1] != a[1] )
-      return b[1] - a[1] ;
-    return a[3] - b[3] ; // do not change user order
-  }
-  while( to_dispatch )
-  {
-    not_full.sort(sort_values) ;
-    if ( not_full[0][0] >= not_full[0][1] )
-    {
-      not_full.shift() ;
-      if ( not_full.length == 0 )
-	Alert('ALERT_column_fill_max') ;
-      continue ;
-    }
-    not_full[0][0]++ ;
-    to_dispatch-- ;
-  }
-  return t ;
-}
-
-function fill_column_do_fill(comments)
-{
-    alert_append_start() ;
-
-    var choice = selected_tab('tablefill') ;
-    if ( choice === _('TAB_fill_clear') )
-      fill_column_do_aabb([[999999999, 999999999, '']], comments) ;
-    else if ( choice === _('TAB_fill_one') )
-	fill_column_do_abab(fill_column_parse(
-	    document.getElementById('column_fill_input').value), comments) ;
-    else if ( choice === "AA... BB... CC..." )
-	fill_column_do_aabb(fill_column_parse(
-	  document.getElementById('column_fill_aabb').value), comments, true) ;
-    else if ( choice === "ABC ABC ABC..." )
-	fill_column_do_abab(fill_column_parse(
-	    document.getElementById('column_fill_abab').value), comments) ;
-    else if ( choice === "42 43 44 45..." )
-    {
-      var t = document.getElementById('column_fill_numbers').value ;
-      var x = t.match(/([0-9]+)([^0-9]*)$/) ;
-      var before = t.substr(0, t.length - x[0].length) ;
-      var after = x[2] ;
-      var start = Number(x[1]) ;
-      var v = [], s ;
-      for(var i = start; i < start + filtered_lines.length; i++)
-      {
-	s = i.toString() ;
-	while( s.length < x[1].length )
-	  s = '0' + s ;
-	v.push([1, 1, before + s + after]) ;
-      }
-      fill_column_do_abab(v, comments) ;
-    }
-    else if ( choice === _('COL_TITLE_room_name') )
-      {
-	var v = [] ;
-	var add_place = document.getElementById("room_places").checked ;
-	for(var i = 0; i < filtered_lines.length; i++)
-	  {
-	    var val = filtered_lines[i][popup_column().data_col].value ;
-	    if ( val === '' )
-	      {
-		val = fill_analyse_rooms.dispatch.shift() ;
-		if ( ! add_place )
-		  val = val.split(place_separator)[0] ;
-	      }
-	    v.push([1, 1, val]) ;
-	  }
-	fill_column_do_abab(v, comments) ;
-      }
-    else
-	alert_real(choice);
-   
-    alert_append_stop() ;
-    the_current_cell.column.need_update = true ;
-    update_columns() ;
-    popup_close() ;
-    table_fill() ;
-}
-
-function fill_column_do_aabb(values, comments, display_report)
-{
-  var j, value, last_sorted_value, current_sorted_value ;
-  var sorted = sort_columns[0].data_col ;
-  var message = values[0][2] + ': ' + filtered_lines[0][sorted].value ;
-
-  for(j in filtered_lines)
-    {
-      current_sorted_value = filtered_lines[j][sorted].value ;
-      while( values[0][0] == 0 )
-      {
-	values.shift() ; // remove full value
-	message += '→' + last_sorted_value + '\n'
-	  + values[0][2] + ': ' + current_sorted_value ;
-      }
-      last_sorted_value = current_sorted_value ;
-      value = values[0] ;
-      value[0]-- ;
-      
-      if ( comments )
-	comment_change(filtered_lines[j].line_id, popup_column().data_col,
-		       value[2]) ;
-      else
-	cell_set_value_real(filtered_lines[j].line_id,
-			    popup_column().data_col, value[2]) ;
-
-    }
-  message += '→' + last_sorted_value + '\n' ;
-  if ( display_report )
-    alert(message) ;
-}
-
-function fill_column_do_abab(values, comments)
-{
-  var i, j, value ;
-
-  i = 0 ;
-  for(j in filtered_lines)
-    {
-      while( values[i%values.length][0] == 0 )
-	i++ ;
-      value = values[i%values.length] ;
-      value[0]-- ;
-      
-      if ( comments )
-	comment_change(filtered_lines[j].line_id, popup_column().data_col,
-		       value[2]) ;
-      else
-	cell_set_value_real(filtered_lines[j].line_id,
-			    popup_column().data_col, value[2]) ;
-      i++ ;
-    }
 }

@@ -29,25 +29,30 @@ class ColumnFill(ColumnAttr):
     default_value = 1
     check_and_set = 'function() { return 1; }'
     css = """
-    DIV.fill_column_div { border: 4px solid red ; max-height: 70% }
+    #popup DIV.fill_column_div { border: 4px solid red ; overflow:scroll ;
+                          left: 5%; right: 5%; bottom: 5% ; top: 5%}
     #stop_the_auto_save { float:right; font-size:70%; border:1px solid red}
-    DIV.fill_column_div BUTTON, DIV.fill_column_div SELECT { font-size: 100% }
-    DIV.fill_column_div TEXTAREA { height: 5em }
-    #tablefill { font-size: 100%; }
-    #tablefill SPAN, #tablefill .content { padding: 3px }
-    #tablefill .contents { margin-top: 3px;
-                           height: auto ;
-                           height: 12.1em ;
-                         }
-    #tablefill .contents > DIV { overflow: auto ; position: relative }
-    #tablefill DIV.titles SPAN:first-child { font-weight: normal }
-    #tablefill .fillbottom TEXTAREA { width: 98% ; height: 100% ;
-    }
-    #tablefill INPUT { width: 98% }
-    .fillbottom {
-    position: absolute ;
-    bottom: 0px ;
-    left: 0px ;
-    right: 0px ;
-    }
+    .fill_menu { margin-top: 0.3em ; margin-bottom: 0.3em ; }
+    #fill_table { margin-top: 0.3em ; border-spacing: 1px }
+    #fill_table TR { vertical-align: top ; }
+    #fill_table TH { border: 1px solid black; }
+    #fill_table TH DIV.tipped { width: 100%; display: block }
+    .room_line { height: 1.1em }
+    .room_cb { width: 1em }
+    .room_used { width: 3em }
+    .room_places { width: 15% }
+    .room_name { width: 35% }
+    .room_comment { width: 20% ; font-size: 50% ; border:1px solid #DDD }
+    .room_comment:hover { transform: scale(2,2) ;
+        background: #EEE ; border: 1px solid #888 }
+    TD.fill_result { overflow: auto ; font-size: 60% ; width: 30% }
+    .fill_error { color: #FFF ; background: #F00 }
+    .fill_important { color: #000 ; background: #0F0 }
+    .fill_warning { color: #000 ; background: orange }
+    .fill_replace { color: #800 ; }
+    .room_predefined INPUT { background: #FFE }
+    .room_created_empty INPUT { background: #FFF }
+    .room_yet_used INPUT { background: #EEF }
+    .show_in_comment TR.only_value, .show_in_value TR.only_comment
+        { display: none }
     """

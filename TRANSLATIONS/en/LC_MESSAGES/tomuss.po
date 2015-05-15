@@ -2169,6 +2169,9 @@ msgstr "cells are not modifiable because you have not the access rights."
 msgid "MSG_fill"
 msgstr "Choose your filling method for this column."
 
+msgid "MSG_fill_safe"
+msgstr "Nothing will be changed until you click on 'Fill!'"
+
 msgid "TAB_fill_clear"
 msgstr "Clear"
 
@@ -2200,6 +2203,63 @@ msgstr "If you enter ' Place 8 room X ' cells will be filled with:\n"
 msgid "MSG_fill_equal"
 msgstr "If it is possible the numbers of A, B an C will be equal.<br>\n"
        "<small>If the maximum number of B is 5, enter <b>B {{{5}}}</b></small>"
+
+msgid "MSG_fill_modify"
+msgstr "Clear"
+
+msgid "TIP_fill_modify"
+msgstr "<!--INSTANTDISPLAY-->Clear filtered cells before filling"
+
+msgid "MSG_fill_interleave"
+msgstr "Interleave"
+
+msgid "TIP_fill_interleave"
+msgstr "<!--INSTANTDISPLAY-->Do AAABBBCCC in place of ABCABCABC"
+
+msgid "MSG_fill_unfiltered"
+msgstr "Global"
+
+msgid "TIP_fill_unfiltered"
+msgstr "<!--INSTANTDISPLAY-->Use hidden lines to dispatch nicely the values"
+
+msgid "MSG_fill_comment"
+msgstr "Comments"
+
+msgid "TIP_fill_comment"
+msgstr "Works on cell comments in place of cell values"
+
+msgid "TIP_fill_pad0"
+msgstr "<!--INSTANTDISPLAY-->Pad the numbers with 0"
+
+msgid "TIP_TITLE_fill_?"
+msgstr "Check to use this value for filling"
+
+msgid "COL_TITLE_fill_used"
+msgstr "Yet"
+
+msgid "TIP_TITLE_fill_used"
+msgstr "Number of use before the filling"
+
+msgid "COL_TITLE_fill_use"
+msgstr "Add"
+
+msgid "COL_TITLE_fill_possible"
+msgstr "Possible numbers"
+
+msgid "TIP_TITLE_fill_possible"
+msgstr "For example: 1-100 200-300 -33 150"
+
+msgid "COL_TITLE_fill_name"
+msgstr "Fill with this text"
+
+msgid "TIP_TITLE_fill_name"
+msgstr "On filling, we replace %% in the name by the number"
+
+msgid "COL_TITLE_fill_comment"
+msgstr "About this value"
+
+msgid "TIP_TITLE_fill_result"
+msgstr "Explain what will happen when you click on 'Fill'"
 
 msgid "ALERT_column_fill_max"
 msgstr "Enlarge your constraint on maximum, filling is impossible"
@@ -5697,7 +5757,24 @@ msgid "MSG_fill_room"
 msgstr "Check the rooms you use to dispatch the students."
 
 msgid "MSG_fill_room_nothing"
-msgstr "No empty cell needing to be filled with a room"
+msgstr "No empty values needing to be modified, Activate 'Clear' to modify value yet filled."
+
+msgid "MSG_fill_no_change"
+msgstr "This filling changes nothing"
+
+msgid "MSG_fill_empty_not_empty"
+msgstr "Some values are erased and other are set.\n"
+       "Do you forgot to uncheck something?"
+
+msgid "MSG_fill_overflow"
+msgstr " filling room overflow, they have the number '???'"
+
+msgid "MSG_fill_unwritable"
+msgstr " unauthorized cell modification"
+
+msgid "MSG_fill_bad_format"
+msgstr "Values in red can not be wrote in the cell for this column type.\n "
+       "Change the value or the column content type."
 
 msgid "MSG_no_rooms"
 msgstr "Ask your administrator to define the set of usable rooms."
@@ -5708,8 +5785,11 @@ msgstr "The column type must be «Free text»"
 msgid "MSG_fill_room_place"
 msgstr "Add the place number after the room name"
 
-msgid "MSG_fill_room_place_separator"
-msgstr " place #"
+msgid "MSG_fill_the_values"
+msgstr "Fill the values!"
+
+msgid "MSG_fill_the_comments"
+msgstr "Fill the comments!"
 
 msgid "LINK_/0/Dossiers/config_room"
 msgstr "Modify rooms definitions"
