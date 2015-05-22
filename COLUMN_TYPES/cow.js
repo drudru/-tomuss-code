@@ -19,9 +19,8 @@
     Contact: Thierry.EXCOFFIER@bat710.univ-lyon1.fr
 */
 
-function get_original_cow_column()
+function get_original_cow_column(column)
 {
-  var column = the_current_cell.column ;
   while(column.type == 'COW')
     {
       column = columns[column.average_columns[0]] ;
@@ -33,7 +32,7 @@ function get_original_cow_column()
 
 function toggle_cow(value)
 {
-  var column = get_original_cow_column() ;
+  var column = get_original_cow_column(the_current_cell.column) ;
   if ( column && column.real_type.ondoubleclick )
     return column.real_type.ondoubleclick(value) ;
   else
@@ -42,7 +41,7 @@ function toggle_cow(value)
 
 function test_cow(value, column)
 {
-  var column = get_original_cow_column() ;
+  var column = get_original_cow_column(the_current_cell.column) ;
   if ( column )
     return column.real_type.cell_test(value, column) ;
   return value ;
@@ -50,9 +49,9 @@ function test_cow(value, column)
 
 function cow_format(c, column)
 {
-  var data_col = column.average_columns[0] ;
-  if ( data_col !== undefined )
-    return columns[data_col].real_type.formatte(c, column) ;
+  var column = get_original_cow_column(column) ;
+  if ( column )
+    return column.real_type.formatte(c, column) ;
   else
     return c ;
 }
