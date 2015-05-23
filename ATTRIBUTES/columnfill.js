@@ -20,8 +20,6 @@
   Contact: Thierry.EXCOFFIER@bat710.univ-lyon1.fr
 */
 
-// bouton remplir
-
 function caution_message()
 {
   if ( table_attr.autosave )
@@ -410,6 +408,12 @@ Filler.prototype.init_rooms = function() {
   return s.join('') ;
 } ;
 
+function pulsing(element, state)
+{
+  element.className = element.className.replace(" pulsing", "")
+      + (state ? " pulsing" : "") ;
+}
+
 Filler.prototype.state_change = function()
 {
   var s = '' ;
@@ -454,6 +458,10 @@ Filler.prototype.update_html = function() {
     this.rooms[i].update_html() ;
   var to_dispatch = this.nr_to_dispatch ;
 
+  pulsing(document.getElementById('Filler.filler.toggles.modify'),
+	  to_dispatch == 0) ;
+  for(var room in this.rooms)
+    pulsing(this.rooms[room].get_toggle(), false) ;
   if ( to_dispatch == 0 )
     {
       feedback.innerHTML = '<div class="fill_important">'
@@ -469,32 +477,40 @@ Filler.prototype.update_html = function() {
       if ( room.checked )
 	{
 	  full_size += room.places.nr_places ;
-	  to_dispatch += room.nr_used ;
 	  room.nr_will_be_used = 0 ;
+	  if ( room.name !== '' )
+	    to_dispatch += room.nr_used ;
 	  this.nr_rooms_used++ ;
 	}
       else
 	room.nr_will_be_used = '' ;
     }
   this.dispatch = [] ;
-  var fill_empty_value = false ;
-  var fill_value = false ;
+  var fill_empty_value = 0 ;
+  var fill_value = 0 ;
   var overflow = 0 ;
+
   for(var room in this.index)
     {
       var room = this.rooms[this.index[room]] ;
       if ( ! room.checked )
 	continue ;
+      var nr_used = (room.name === '' ? 0 : room.nr_used) ;
       room.nr_will_be_used = Math.max(0,
 				      Math.round(to_dispatch
 						 * room.places.nr_places
-						 / full_size) - room.nr_used) ;
-      to_dispatch -= room.nr_will_be_used + room.nr_used ;
+						 / full_size) - nr_used) ;
+      if ( 0 )
+	console.log('to_dispatch=' + to_dispatch
+		    + ' nr_used=' + room.nr_used
+		    + ' will_be_used=' + room.nr_will_be_used
+		    + ' full_size=' + full_size) ;
+      to_dispatch -= room.nr_will_be_used + nr_used ;
       full_size -= room.places.nr_places ;
       if ( room.name !== '' )
-	 fill_value = true ;
+	 fill_value++ ;
       else
-	fill_empty_value = true ;
+	fill_empty_value++ ;
 
       for(var j=0; j<room.nr_will_be_used; j++)
 	{
@@ -525,6 +541,9 @@ Filler.prototype.update_html = function() {
     this.dispatch.sort(function (a, b) { return a[0] - b[0] ; }) ;
   if ( this.dispatch.length == 0 )
     {
+      for(var room in this.rooms)
+	pulsing(this.rooms[room].get_toggle(), true) ;
+
      feedback.innerHTML = '<div class="fill_important">'
 	+ _("MSG_fill_room") + '</div>' ;
       return ;
@@ -597,8 +616,22 @@ Filler.prototype.update_html = function() {
   else if ( s === '' )
     s = '<div class="fill_important">' + _("MSG_fill_no_change") + '</div>' ;
   if ( fill_empty_value && fill_value )
-    s = '<div class="fill_warning">'
-    + _("MSG_fill_empty_not_empty") + '</div>' + s ;
+    {
+      s = '<div class="fill_warning">'
+	+ _("MSG_fill_empty_not_empty") + '</div>' + s ;
+      for(var room in this.rooms)
+	{
+	  if ( this.rooms[room].name === ''
+	       && this.rooms[room].checked
+	       && fill_empty_value == 1
+	     )
+	      pulsing(this.rooms[room].get_toggle(), true) ;
+	  else if ( this.rooms[room].name !== ''
+		    && fill_value == 1
+		    && this.rooms[room].checked )
+	    pulsing(this.rooms[room].get_toggle(), true) ;
+	}
+    }
   if ( overflow )
     s = '<div class="fill_warning">' + overflow + ' ' + _("MSG_fill_overflow")
     + '</div>' + s ;

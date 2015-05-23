@@ -55,4 +55,25 @@ class ColumnFill(ColumnAttr):
     .room_yet_used INPUT { background: #EEF }
     .show_in_comment TR.only_value, .show_in_value TR.only_comment
         { display: none }
+
+  .pulsing {
+  animation-duration: 2s;
+  animation-name: keys_pulsing;
+  animation-iteration-count: infinite;
+  display: inline-block ;
+    }
+ @keyframes keys_pulsing {
+    0% { transform: scale(1,1) }
+   20% { transform: scale(1.5,1.5) }
+   40% { transform: scale(1,1) }
+  100% { transform: scale(1,1) }
+  }
+    /*
+ @keyframes keys_pulsing {
+    0%   { transform: rotate(15deg) }
+    50%  { transform: rotate(-15deg) }
+    100% { transform: rotate(15deg) }
+  }
+    */
+
     """
