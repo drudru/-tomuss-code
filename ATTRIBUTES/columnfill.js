@@ -284,7 +284,11 @@ Filler.prototype.create_rooms = function() {
   this.rooms = {} ; // Indexed by room name
   // Create predefined rooms
   for(var i in rooms)
-    this.rooms[rooms[i][0]] = new Room(rooms[i]) ;
+    {
+      this.rooms[rooms[i][0]] = new Room(rooms[i]) ;
+      if ( rooms[i][0].indexOf('%%') != -1 )
+	this.example_row_defined = true ;
+    }
   for(var lin_id in lines)
   {
     if ( lines[lin_id][0].value === '' )
