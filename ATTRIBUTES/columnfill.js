@@ -442,6 +442,28 @@ Filler.prototype.state_change = function()
   return true ;
 } ;
 
+Filler.prototype.nr_visible_lines = function() {
+  var nr = 0 ;
+  for(var room in this.rooms)
+    {
+      room = this.rooms[room] ;
+      if ( ! room.in_comment && ! room.in_value )
+	nr++ ;
+      else
+	if ( this.toggles.comment )
+	  {
+	    if ( room.in_comment )
+	      nr++ ;
+	  }
+      else
+	  {
+	    if ( room.in_value )
+	      nr++ ;
+	  }
+    }
+  return nr ;
+} ;
+
 Filler.prototype.update_html = function() {
   var feedback = document.getElementById('fill_result') ;
   if ( ! feedback )
@@ -451,6 +473,7 @@ Filler.prototype.update_html = function() {
     }
   if ( ! this.state_change() )
     return ;
+  feedback.parentNode.style.height = feedback.style.height = 1.2 * this.nr_visible_lines() + 'em' ;
   var table = document.getElementById("fill_table") ;
   if ( this.toggles.comment )
     table.className = 'show_in_comment' ;
@@ -708,9 +731,7 @@ function fill_column()
 	       + '<th>' + _("COL_TITLE_fill_comment")
 	       + '<td class="fill_result" rowspan="'
 	       + Filler.filler.index.length
-	       + '" style="height:' + 1.2*Filler.filler.index.length
-	       + 'em"><div id="fill_result" style="height:'
-               + 1.2*Filler.filler.index.length + 'em"></div>'
+	       + '"><div id="fill_result"></div>'
 	       + '</tr>'
 	       + Filler.filler.init_rooms()
 	       + '</table>',
