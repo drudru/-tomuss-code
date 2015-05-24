@@ -164,10 +164,39 @@ Room.prototype.add_predefined = function(line_id, place)
   this.number_used[place] = true ;
 } ;
 
+function fill_column_past_event(event)
+{
+  event = the_event(event) ;
+  var data = event.real_event.clipboardData.getData('text/plain').trim() ;
+  if ( data.indexOf('\n') == -1 )
+    return ;
+  data = data.split(/[\r\n]+/) ;
+
+  var tr = event.target ;
+  while ( ! tr.id )
+    tr = tr.parentNode ;
+
+  event.target.value = data[0] ;
+  for(var i in data)
+    {
+      var value = data[Number(i)+1] ;
+      if ( value === undefined )
+	continue ;
+      value = value.trim() ;
+      if ( value === '' )
+	continue ;
+      Filler.filler.add_empty_input().get_name().value = value ;
+    }
+  Filler.filler.update_html() ;
+  stop_event(event) ;
+}
+
 Room.prototype.html = function()
 {
   var cb = '<input type="checkbox" class="room_cb">' ;
-  var name = '<input value="' + encode_value(this.name) + '">' ;
+  var name = '<input value="' + encode_value(this.name)
+    + '" onpaste="fill_column_past_event(event)'
+    + '">' ;
   return '<tr class="room_line '
     + (this.predefined_places ? 'room_predefined' :
        (this.created_empty ? 'room_created_empty' : 'room_yet_used')
@@ -342,6 +371,8 @@ Filler.prototype.add_empty_input = function() {
 	return ; // Yet an empty input
     }
   }
+  if ( value === undefined )
+    value = '' ;
   var room = new Room(['']) ;
   room.created_empty = true ;
   this.rooms[' empty' + i] = room ;
@@ -363,8 +394,9 @@ Filler.prototype.add_empty_input = function() {
       room.get_name().value = "Darwin (%%)" ;
       room.get_name().focus() ;
       room.get_name().select() ;
-      this.add_empty_input() ;
+      return this.add_empty_input() ;
     }
+  return room ;
 } ;
 
 Filler.prototype.rooms_get_usage = function() {

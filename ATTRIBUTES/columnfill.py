@@ -57,10 +57,13 @@ class ColumnFill(ColumnAttr):
         { display: none }
 
   .pulsing {
+  display: inline-block ;
   animation-duration: 2s;
   animation-name: keys_pulsing;
   animation-iteration-count: infinite;
-  display: inline-block ;
+  -webkit-animation-duration: 2s;
+  -webkit-animation-name: keys_pulsing;
+  -webkit-animation-iteration-count: infinite;
     }
  @keyframes keys_pulsing {
     0% { transform: scale(1,1) }
@@ -68,12 +71,11 @@ class ColumnFill(ColumnAttr):
    40% { transform: scale(1,1) }
   100% { transform: scale(1,1) }
   }
-    /*
- @keyframes keys_pulsing {
-    0%   { transform: rotate(15deg) }
-    50%  { transform: rotate(-15deg) }
-    100% { transform: rotate(15deg) }
+ @-webkit-keyframes keys_pulsing {
+    0% { transform: scale(1,1) }
+   20% { transform: scale(1.5,1.5) }
+   40% { transform: scale(1,1) }
+  100% { transform: scale(1,1) }
   }
-    */
 
     """
