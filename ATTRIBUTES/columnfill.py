@@ -50,6 +50,7 @@ class ColumnFill(ColumnAttr):
     .fill_important { color: #000 ; background: #0F0 }
     .fill_warning { color: #000 ; background: orange }
     .fill_replace { color: #800 ; }
+    .room_enumeration INPUT { background: #EFF }
     .room_predefined INPUT { background: #FFE }
     .room_created_empty INPUT { background: #FFF }
     .room_yet_used INPUT { background: #EEF }

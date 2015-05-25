@@ -164,6 +164,13 @@ Room.prototype.add_predefined = function(line_id, place)
   this.number_used[place] = true ;
 } ;
 
+Room.prototype.get_key = function()
+{
+  return (this.enumeration ? '0' : '1')
+  + (this.predefined_places ? '1' : '0')
+  + this.name ;
+} ;
+
 function fill_column_past_event(event)
 {
   event = the_event(event) ;
@@ -216,7 +223,9 @@ Room.prototype.html = function()
     + '">' ;
   return '<tr class="room_line '
     + (this.predefined_places ? 'room_predefined' :
-       (this.created_empty ? 'room_created_empty' : 'room_yet_used')
+       (this.created_empty ? 'room_created_empty' :
+	(this.enumeration ? 'room_enumeration' :
+	 'room_yet_used'))
       )
     + (this.in_comment & !this.in_value ? ' only_comment' : '')
     + (!this.in_comment & this.in_value ? ' only_value' : '')
@@ -367,6 +376,21 @@ function text_to_room_and_place(text)
 Filler.prototype.create_rooms = function() {
   var room ;
   this.rooms = {} ; // Indexed by room name
+  var enumeration = this.column.real_type.cell_completions('', this.column) ;
+  if ( this.column.type == 'Note' )
+    enumeration = [abi, abj, ppn, tnr] ; // Do not want popup menu for grades
+  if ( ! enumeration.toUpperCase ) // A table of possible values
+    {
+      for(var i in enumeration)
+	{
+	  {
+	    i = enumeration[i] ;
+	    this.rooms[i] = new Room([i]) ;
+	    this.rooms[i].enumeration = true ;
+	  }
+	}
+    }
+
   // Create predefined rooms
   for(var i in rooms)
     {
@@ -397,15 +421,11 @@ Filler.prototype.create_rooms = function() {
   var r = this.rooms ;
   this.index.sort(function(a,b)
 		 {
-		   a = r[a] ;
-		   b = r[b] ;
-		   if ( a.predefined_places && ! b.predefined_places )
+		   a = r[a].get_key() ;
+		   b = r[b].get_key() ;
+		   if ( a > b )
 		     return 1 ;
-		   if ( ! a.predefined_places && b.predefined_places )
-		     return -1 ;
-		   if ( a.name > b.name )
-		     return 1 ;
-		   if ( a.name < b.name )
+		   if ( a < b )
 		     return -1 ;
 		   return 0 ;
 		 }) ;
