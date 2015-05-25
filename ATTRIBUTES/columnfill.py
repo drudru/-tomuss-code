@@ -45,7 +45,16 @@ class ColumnFill(ColumnAttr):
     .room_comment { width: 20% ; font-size: 50% ; border:1px solid #DDD }
     .room_comment:hover { transform: scale(2,2) ;
         background: #EEE ; border: 1px solid #888 }
-    TD.fill_result { overflow: auto ; font-size: 60% ; width: 30% }
+    TD.fill_result {
+        overflow: auto ;
+        font-size: 60% ;
+        width: 30%;
+        line-height: 1em ;
+    }
+    TD.fill_result SPAN {
+    font-size: 200% ;
+    vertical-align: bottom ;
+    }
     .fill_error { color: #FFF ; background: #F00 }
     .fill_important { color: #000 ; background: #0F0 }
     .fill_warning { color: #000 ; background: orange }

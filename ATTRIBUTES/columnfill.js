@@ -751,7 +751,7 @@ Filler.prototype.update_html = function() {
 	  }
 	}
       s.push('<div class="' + classe + '">'
-	     + html(old_val) + '→' + html(new_val) + '</div>') ;
+	     + html(old_val) + '<span>→</span>' + html(new_val) + '</div>') ;
     }
   s = ''.join(s) ;
   if ( this.dispatch.length === 0 )
