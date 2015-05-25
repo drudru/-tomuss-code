@@ -460,7 +460,12 @@ Filler.prototype.state_change = function()
       this.rooms[i].checked = this.rooms[i].get_toggle().checked ;
       if ( this.rooms[i].get_places().value !== undefined )
 	this.rooms[i].places = new Places(this.rooms[i].get_places().value) ;
-      this.rooms[i].name = this.rooms[i].get_name().value ;
+      if ( this.rooms[i].name != this.rooms[i].get_name().value )
+	{
+	  this.rooms[i].name = this.rooms[i].get_name().value ;
+	  this.rooms[i].checked = true ;
+	  this.rooms[i].get_toggle().checked = true ;
+	}
       s += i
 	+ ':' + this.rooms[i].checked
 	+ ':' + this.rooms[i].name
