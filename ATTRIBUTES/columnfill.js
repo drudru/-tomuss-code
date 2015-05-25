@@ -172,10 +172,6 @@ function fill_column_past_event(event)
     return ;
   data = data.split(/[\r\n]+/) ;
 
-  var tr = event.target ;
-  while ( ! tr.id )
-    tr = tr.parentNode ;
-
   event.target.value = data[0] ;
   for(var i in data)
     {
@@ -191,11 +187,32 @@ function fill_column_past_event(event)
   stop_event(event) ;
 }
 
+function fill_column_keypress(event)
+{
+  event = the_event(event) ;
+  switch ( event.keyCode )
+  {
+  case 13:
+  case 40:
+    var room = Filler.filler.next_room(Filler.filler.get_room(event.target)) ;
+    if ( room !== undefined )
+      room.get_name().focus() ;
+    break ;
+  case 38:
+    var room = Filler.filler.previous_room(
+      Filler.filler.get_room(event.target)) ;
+    if ( room !== undefined )
+      room.get_name().focus() ;
+    break ;
+  }    
+}
+
 Room.prototype.html = function()
 {
   var cb = '<input type="checkbox" class="room_cb">' ;
   var name = '<input value="' + encode_value(this.name)
     + '" onpaste="fill_column_past_event(event)'
+    + '" onkeypress="fill_column_keypress(event)'
     + '">' ;
   return '<tr class="room_line '
     + (this.predefined_places ? 'room_predefined' :
@@ -272,6 +289,45 @@ function Filler()
   this.create_rooms() ;
   this.id = setInterval(this.update_html.bind(this), 100) ;
 }
+
+Filler.prototype.get_room = function(element) {
+  while(element.tagName != 'TR')
+    element = element.parentNode ;
+  var id = element.id.split("_")[1] ;
+  for(var room in this.rooms)
+    {
+      room = this.rooms[room] ;
+      if ( room.id == id )
+	return room ;
+    }
+} ;
+
+Filler.prototype.room_index = function(room) {
+  for(var i = 0; i < this.index.length; i++)
+    if ( this.rooms[this.index[i]] === room )
+      break ;
+  return i ;
+} ;
+
+Filler.prototype.next_room = function(room) {
+  var i = this.room_index(room) ;
+  while(i++ < this.index.length )
+  {
+    var next = this.rooms[this.index[i]] ;
+    if ( this.visible(next) )
+      return next ;
+  }
+} ;
+
+Filler.prototype.previous_room = function(room) {
+  var i = this.room_index(room) ;
+  while(--i >= 0)
+  {
+    var next = this.rooms[this.index[i]] ;
+    if ( this.visible(next) )
+      return next ;
+  }
+} ;
 
 Filler.prototype.menu = function() {
   return '<div class="fill_menu">'
@@ -386,7 +442,8 @@ Filler.prototype.add_empty_input = function() {
     table.firstChild.insertBefore(d, table.rows[i+1]) ;
   else
     table.firstChild.appendChild(d) ;
-
+  if ( i == 0 )
+    room.get_name().focus() ; // Focus on first empty input
   if ( ! this.example_row_defined ) 
     {
       this.example_row_defined = true ;
@@ -479,25 +536,27 @@ Filler.prototype.state_change = function()
   return true ;
 } ;
 
+Filler.prototype.visible = function(room) {
+  if ( ! room.in_comment && ! room.in_value )
+    return true ;
+  if ( this.toggles.comment )
+  {
+    if ( room.in_comment )
+      return true ;
+  }
+  else
+  {
+    if ( room.in_value )
+      return true ;
+  }
+} ;
+
+
 Filler.prototype.nr_visible_lines = function() {
   var nr = 0 ;
   for(var room in this.rooms)
-    {
-      room = this.rooms[room] ;
-      if ( ! room.in_comment && ! room.in_value )
-	nr++ ;
-      else
-	if ( this.toggles.comment )
-	  {
-	    if ( room.in_comment )
-	      nr++ ;
-	  }
-      else
-	  {
-	    if ( room.in_value )
-	      nr++ ;
-	  }
-    }
+    if(this.visible(this.rooms[room]))
+      nr++ ;
   return nr ;
 } ;
 
