@@ -5162,11 +5162,15 @@ window.onerror = function(message, url_error, lineNumber) {
   window.onerror = function() { return false ; } ; // Only first error
   var i = document.createElement('IMG') ;
   var now = new Date() ;
+  var user ;
+  try { user = window.username ; }
+  catch(e) { user = window.my_identity ; }
+    
   i.width = i.height = 1 ;
   i.src = url + '/log/javascript_errors/'
         + encode_uri('[' + js(now) + ',' + js(message) + ',' + js(url_error)
 		     + ',' + js(lineNumber) + ',' + js(window.location)
-		     + ',' + js(window.username)
+		     + ',' + js(user)
 		     + ',' + js(navigator.platform
 				+ '/' + navigator.appName
 				+ '/' + navigator.appVersion
