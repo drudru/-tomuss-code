@@ -234,15 +234,16 @@ Room.prototype.html = function()
     + '<td class="room_used">'
     + '<td class="room_used">'
     + '<td class="room_name">' + name
-    + '<td class="room_places"><input value="'
-    + encode_value(this.places.text) + '">'
-    + (this.comment
-       ? '<td class="room_comment">'
+    + (this.comment ?
+       '<div class="room_comment">'
        + (this.url ? '<a target="_blank" href="' + this.url + '">' : '')
        + html(this.comment)
        + (this.url ? '</a>' : '')
-       : '<td> '
+       + '</div>'
+       : ''
        )
+    + '<td class="room_places"><input value="'
+    + encode_value(this.places.text) + '">'
     + '</tr>' ;
 } ;
 
@@ -265,7 +266,7 @@ Room.prototype.get_places = function(i) {
   return this.get_tr().childNodes[4].firstChild ;
 } ;
 Room.prototype.get_comment = function(i) {
-  return this.get_tr().childNodes[5].firstChild ;
+  return this.get_tr().childNodes[3].childNodes[1] ;
 } ;
 
 Room.prototype.update_html = function()
@@ -844,7 +845,6 @@ function fill_column()
 				     id + _("TIP_TITLE_fill_name"))
 	       + '<th>' + hidden_txt(_("COL_TITLE_fill_possible"),
 				     id + _("TIP_TITLE_fill_possible"))
-	       + '<th>' + _("COL_TITLE_fill_comment")
 	       + '<td class="fill_result" rowspan="'
 	       + Filler.filler.index.length
 	       + '"><div id="fill_result"></div>'

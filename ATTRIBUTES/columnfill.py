@@ -42,13 +42,22 @@ class ColumnFill(ColumnAttr):
     .room_used { width: 3em }
     .room_places { width: 15% }
     .room_name { width: 35% }
-    .room_comment { width: 20% ; font-size: 50% ; border:1px solid #DDD }
-    .room_comment:hover { transform: scale(2,2) ;
-        background: #EEE ; border: 1px solid #888 }
+    .room_comment {
+         width: 15em ;
+         position: absolute ;
+         left: 30% ;
+         margin-top: 1.4em ;
+         border:1px solid #888 ;
+         display: none ;
+         background: rgba(255,255,255,0.9) ;
+         z-index: 1000 ;
+    }
+    .room_name:hover .room_comment {
+         display: inline-block ;
+        }
     TD.fill_result {
         overflow: auto ;
-        font-size: 60% ;
-        width: 30%;
+        width: 50%;
         line-height: 1em ;
     }
     TD.fill_result SPAN {
@@ -77,13 +86,13 @@ class ColumnFill(ColumnAttr):
     }
  @keyframes keys_pulsing {
     0% { transform: scale(1,1) }
-   20% { transform: scale(1.5,1.5) }
+   20% { transform: scale(1.2,1.2) }
    40% { transform: scale(1,1) }
   100% { transform: scale(1,1) }
   }
  @-webkit-keyframes keys_pulsing {
     0% { transform: scale(1,1) }
-   20% { transform: scale(1.5,1.5) }
+   20% { transform: scale(1.2,1.2) }
    40% { transform: scale(1,1) }
   100% { transform: scale(1,1) }
   }
