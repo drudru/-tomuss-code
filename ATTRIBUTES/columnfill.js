@@ -607,10 +607,12 @@ Filler.prototype.update_html = function() {
   pulsing(document.getElementById('select.modify'), to_dispatch == 0) ;
   for(var room in this.rooms)
     pulsing(this.rooms[room].get_toggle().parentNode, false) ;
+  var message = '<p><b>' + _("MSG_fill_room_message") + '</b>' ;
   if ( to_dispatch == 0 )
     {
-      feedback.innerHTML = '<div class="fill_important">'
-	+ _("MSG_fill_room_nothing") + '</div>' ;
+      feedback.innerHTML = message
+	+ '<div class="fill_important">' + _("MSG_fill_room_nothing")
+	+ '</div>' ;
       return ;
     }
 
@@ -689,7 +691,7 @@ Filler.prototype.update_html = function() {
       for(var room in this.rooms)
 	pulsing(this.rooms[room].get_toggle().parentNode, true) ;
 
-     feedback.innerHTML = '<div class="fill_important">'
+     feedback.innerHTML = message + '<div class="fill_important">'
 	+ _("MSG_fill_room") + '</div>' ;
       return ;
     }
@@ -755,14 +757,16 @@ Filler.prototype.update_html = function() {
       s.push('<div class="' + classe + '">'
 	     + html(old_val) + '<tt>→</tt>' + html(new_val) + '</div>') ;
     }
-  s = ''.join(s) ;
+  s = '<p><b>' + _("MSG_fill_room_simulation") + '</b>' + ''.join(s) ;
   if ( this.dispatch.length === 0 )
-    s = '<div class="fill_important">' + _("MSG_fill_room") + '</div>' ;
+    s = message + '<div class="fill_important">'
+    + _("MSG_fill_room") + '</div>' ;
   else if ( s === '' )
-    s = '<div class="fill_important">' + _("MSG_fill_no_change") + '</div>' ;
+    s = message + '<div class="fill_important">'
+    + _("MSG_fill_no_change") + '</div>' ;
   if ( fill_empty_value && fill_value )
     {
-      s = '<div class="fill_warning">'
+      s = message + '<div class="fill_warning">'
 	+ _("MSG_fill_empty_not_empty") + '</div>' + s ;
       for(var room in this.rooms)
 	{
@@ -778,21 +782,23 @@ Filler.prototype.update_html = function() {
 	}
     }
   if ( overflow )
-    s = '<div class="fill_warning">' + overflow + ' ' + _("MSG_fill_overflow")
-    + '</div>' + s ;
+    s = message + '<div class="fill_warning">'
+    + overflow + ' ' + _("MSG_fill_overflow") + '</div>' + s ;
   if ( unwritable )
-    s = '<div class="fill_error">' + unwritable + ' '+ _("MSG_fill_unwritable")
-    + '</div>' + s ;
+    s = message + '<div class="fill_error">'
+    + unwritable + ' '+ _("MSG_fill_unwritable") + '</div>' + s ;
   if ( alert_merged !== '' )
     {
-      s = '<div class="fill_error">'+_("MSG_fill_bad_format")+'</div>' + s ;
+      s = message + '<div class="fill_error">'
+	+ _("MSG_fill_bad_format")+'</div>' + s ;
       alert_merged = '' ;
     }
-    s = '<button onclick="Filler.filler.do_fill()">'
+    s += '<p><b>' + _("MSG_fill_room_go")
+    + '</b><p><button onclick="Filler.filler.do_fill()">'
     + ( this.toggles.comment
 	? _("MSG_fill_the_comments")
 	: _("MSG_fill_the_values")
-      ) + '</button>' + s ;
+      ) + '</button>' ;
   feedback.innerHTML = s ;
   alert_append_stop() ;
 } ;

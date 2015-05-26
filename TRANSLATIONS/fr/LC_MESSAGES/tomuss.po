@@ -2220,10 +2220,10 @@ msgid "TIP_fill_no_interleave"
 msgstr "Remplissage AAAABBBBCCCC"
 
 msgid "TIP_fill_unfiltered"
-msgstr "Equilibre en tenant compte des valeurs cachées"
+msgstr "Equilibre globalement en tenant compte des valeurs cachées"
 
 msgid "TIP_fill_no_unfiltered"
-msgstr "Equilibre en fonction des valeurs filtrées"
+msgstr "Equilibre les valeurs filtrées"
 
 msgid "TIP_fill_comment"
 msgstr "Modifie les commentaires des cellules"
@@ -5884,11 +5884,20 @@ msgstr "Informations permettant de placer les étudiants pour les examens"
 msgid "COL_TITLE_room_use"
 msgstr "Utilise"
 
+msgid "MSG_fill_room_message"
+msgstr "Message"
+
+msgid "MSG_fill_room_simulation"
+msgstr "Simulation"
+
+msgid "MSG_fill_room_go"
+msgstr "Tout est OK : cliquez sur le bouton"
+
 msgid "MSG_fill_room"
 msgstr "Cochez les salles dans lesquelles vous répartissez les étudiants."
 
 msgid "MSG_fill_room_nothing"
-msgstr "Aucune cellule vide nécessitant d'être remplie. Activez 'Effacer' pour modifier les cellules déjà remplies"
+msgstr "Aucune cellule vide nécessitant d'être remplie. Modifiez l'option mise en évidence"
 
 msgid "MSG_fill_no_change"
 msgstr "Ce remplissage ne modifie aucune valeur"

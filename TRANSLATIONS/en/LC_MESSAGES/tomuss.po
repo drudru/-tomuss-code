@@ -5756,6 +5756,15 @@ msgstr "Information allowing to place the students in the rooms"
 msgid "COL_TITLE_room_use"
 msgstr "Use"
 
+msgid "MSG_fill_room_message"
+msgstr "Message"
+
+msgid "MSG_fill_room_simulation"
+msgstr "Simulation"
+
+msgid "MSG_fill_room_go"
+msgstr "OK: click on the button"
+
 msgid "MSG_fill_room"
 msgstr "Check the rooms you use to dispatch the students."
 
