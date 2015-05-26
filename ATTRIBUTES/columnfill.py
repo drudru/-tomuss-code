@@ -32,8 +32,11 @@ class ColumnFill(ColumnAttr):
     #popup DIV.fill_column_div { border: 4px solid red ; overflow:scroll ;
                           left: 5%; right: 5%; bottom: 5% ; top: 5%}
     #stop_the_auto_save { float:right; font-size:70%; border:1px solid red}
-    .fill_menu { margin-top: 0.3em ; margin-bottom: 0.3em ; }
-    #fill_table { margin-top: 0.3em ; border-spacing: 1px }
+    .fill_menu {
+    line-height: 1.7em ;
+    width: 17em;
+    }
+    #fill_table { margin-top: 0.3em ; border-spacing: 0.1em }
     #fill_table TR { vertical-align: top ; }
     #fill_table TH { border: 1px solid black; }
     #fill_table TH DIV.tipped { width: 100%; display: block }
@@ -55,12 +58,13 @@ class ColumnFill(ColumnAttr):
     .room_name:hover .room_comment {
          display: inline-block ;
         }
-    TD.fill_result {
+    BODY.tomuss TABLE TD.fill_result {
         overflow: auto ;
-        width: 50%;
+        width: 17em; /* copy/paste */
         line-height: 1em ;
+        padding-left: 0.2em ;
     }
-    TD.fill_result SPAN {
+    TD.fill_result TT {
     font-size: 200% ;
     vertical-align: bottom ;
     }
@@ -76,7 +80,7 @@ class ColumnFill(ColumnAttr):
         { display: none }
 
   .pulsing {
-  display: inline-block ;
+  /* display: inline-block ; */
   animation-duration: 2s;
   animation-name: keys_pulsing;
   animation-iteration-count: infinite;
@@ -85,16 +89,14 @@ class ColumnFill(ColumnAttr):
   -webkit-animation-iteration-count: infinite;
     }
  @keyframes keys_pulsing {
-    0% { transform: scale(1,1) }
-   20% { transform: scale(1.2,1.2) }
-   40% { transform: scale(1,1) }
-  100% { transform: scale(1,1) }
+    0% { background: #EEE }
+    50% { background: #BBB }
+    100% { background: #EEE }
   }
  @-webkit-keyframes keys_pulsing {
-    0% { transform: scale(1,1) }
-   20% { transform: scale(1.2,1.2) }
-   40% { transform: scale(1,1) }
-  100% { transform: scale(1,1) }
+    0% { background: #EEE }
+    50% { background: #BBB }
+    100% { background: #EEE }
   }
 
     """

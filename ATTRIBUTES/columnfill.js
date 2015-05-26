@@ -288,11 +288,11 @@ Room.prototype.update_html = function()
 function Filler()
 {
   this.toggles = {
-    'modify': false,
-    'interleave': false,
-    'unfiltered': true,
-    'comment': false,
-    'pad0': true
+    'modify': 0,
+    'interleave': 0,
+    'unfiltered': 1,
+    'comment': 0,
+    'pad0': 1
   } ;
   this.column = the_current_cell.column ;
   this.data_col = the_current_cell.column.data_col ;
@@ -340,23 +340,18 @@ Filler.prototype.previous_room = function(room) {
 } ;
 
 Filler.prototype.menu = function() {
-  return '<div class="fill_menu">'
-    + toggle_button(_("MSG_fill_modify"), "Filler.filler.toggles",
-		       'modify', _("TIP_fill_modify"))
-    + ' '
-    + toggle_button(_("MSG_fill_interleave"), "Filler.filler.toggles",
-		    'interleave', _("TIP_fill_interleave"))
-    + ' '
-    + toggle_button(_("MSG_fill_unfiltered"), "Filler.filler.toggles",
-		    'unfiltered', _("TIP_fill_unfiltered"))
-    + ' '
-    + toggle_button(_("MSG_fill_comment"), "Filler.filler.toggles",
-		    'comment', _("TIP_fill_comment"))
-    + ' '
-    + toggle_button(_("MSG_fill_pad0"), "Filler.filler.toggles",
-		    'pad0', _("TIP_fill_pad0"))
-  + '</div>'
-    ;
+  s = '<div class="fill_menu">' ;
+  for(var key in this.toggles)
+    {
+      s += '<select id="select.' + key + '" value="' + this.toggles[key] + '">'
+	+ '<option' + (! this.toggles[key] ? ' selected': "")
+	+ '>' + _("TIP_fill_no_" + key) + '</option>'
+	+ '<option' + (this.toggles[key] ? ' selected': "")
+	+ '>' + _("TIP_fill_" + key) + '</option>'
+	+ '</select>' ;
+    }
+  s += '</div>' ;
+  return s ;
 } ;
 
 //  if ( column.real_type.title != 'Text' )
@@ -532,7 +527,12 @@ Filler.prototype.state_change = function()
 {
   var s = '' ;
   for(var i in this.toggles)
-    s += i + ':' + this.toggles[i] + " " ;
+    {
+      var e = document.getElementById('select.' + i) ;
+      if ( e )
+	this.toggles[i] = e.selectedIndex ;
+      s += i + ':' + this.toggles[i] + " " ;
+    }
   for(var i in this.rooms)
     {
       this.rooms[i].checked = this.rooms[i].get_toggle().checked ;
@@ -590,7 +590,9 @@ Filler.prototype.update_html = function() {
     }
   if ( ! this.state_change() )
     return ;
-  feedback.parentNode.style.height = feedback.style.height = 1.2 * this.nr_visible_lines() + 'em' ;
+  feedback.parentNode.parentNode.style.height =
+    feedback.parentNode.style.height =
+    feedback.style.height = 1.2 * this.nr_visible_lines() + 'em' ;
   var table = document.getElementById("fill_table") ;
   if ( this.toggles.comment )
     table.className = 'show_in_comment' ;
@@ -602,10 +604,9 @@ Filler.prototype.update_html = function() {
     this.rooms[i].update_html() ;
   var to_dispatch = this.nr_to_dispatch ;
 
-  pulsing(document.getElementById('Filler.filler.toggles.modify'),
-	  to_dispatch == 0) ;
+  pulsing(document.getElementById('select.modify'), to_dispatch == 0) ;
   for(var room in this.rooms)
-    pulsing(this.rooms[room].get_toggle(), false) ;
+    pulsing(this.rooms[room].get_toggle().parentNode, false) ;
   if ( to_dispatch == 0 )
     {
       feedback.innerHTML = '<div class="fill_important">'
@@ -686,7 +687,7 @@ Filler.prototype.update_html = function() {
   if ( this.dispatch.length == 0 )
     {
       for(var room in this.rooms)
-	pulsing(this.rooms[room].get_toggle(), true) ;
+	pulsing(this.rooms[room].get_toggle().parentNode, true) ;
 
      feedback.innerHTML = '<div class="fill_important">'
 	+ _("MSG_fill_room") + '</div>' ;
@@ -752,7 +753,7 @@ Filler.prototype.update_html = function() {
 	  }
 	}
       s.push('<div class="' + classe + '">'
-	     + html(old_val) + '<span>→</span>' + html(new_val) + '</div>') ;
+	     + html(old_val) + '<tt>→</tt>' + html(new_val) + '</div>') ;
     }
   s = ''.join(s) ;
   if ( this.dispatch.length === 0 )
@@ -769,11 +770,11 @@ Filler.prototype.update_html = function() {
 	       && this.rooms[room].checked
 	       && fill_empty_value == 1
 	     )
-	      pulsing(this.rooms[room].get_toggle(), true) ;
+	      pulsing(this.rooms[room].get_toggle().parentNode, true) ;
 	  else if ( this.rooms[room].name !== ''
 		    && fill_value == 1
 		    && this.rooms[room].checked )
-	    pulsing(this.rooms[room].get_toggle(), true) ;
+	    pulsing(this.rooms[room].get_toggle().parentNode, true) ;
 	}
     }
   if ( overflow )
@@ -830,8 +831,7 @@ function fill_column()
   create_popup('fill_column_div',
 	       _("TITLE_fill_before")
 	       + the_current_cell.column.title + _("TITLE_fill_after"),
-	     /*  caution_message() + */ _('MSG_fill')
-	       + Filler.filler.menu()
+	       caution_message()
 	       + '<div id="fill_is_safe">' + _('MSG_fill_safe') + '</div>'
 	       + '<table id="fill_table" onmousemove="if ( the_event(event).target.className != \'text\' ) hide_the_tip_real(true)">'
 	       + '<tr>'
@@ -847,8 +847,12 @@ function fill_column()
 				     id + _("TIP_TITLE_fill_possible"))
 	       + '<td class="fill_result" rowspan="'
 	       + Filler.filler.index.length
-	       + '"><div id="fill_result"></div>'
-	       + '</tr>'
+	       + '">'
+               + '<div class="fill_column_right"><b>'
+               + _('MSG_fill') + '</b>'
+	       + Filler.filler.menu()
+               + '<div id="fill_result"></div>'
+	       + '</div></tr>'
 	       + Filler.filler.init_rooms()
 	       + '</table>',
 	       '',

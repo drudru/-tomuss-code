@@ -2170,10 +2170,10 @@ msgid "MSG_unmodifiable_cells"
 msgstr "cellules ne sont pas modifiables car vous n'avez pas le droit."
 
 msgid "MSG_fill"
-msgstr "Options de remplissage&nbsp;:"
+msgstr "Options de remplissage"
 
 msgid "MSG_fill_safe"
-msgstr "Rien ne sera modifié tant que vous ne cliquez pas sur «Remplir !»"
+msgstr "Rien ne sera modifié tant que vous ne cliquez pas sur «Remplir !»"
 
 msgid "TAB_fill_clear"
 msgstr "Vider"
@@ -2207,35 +2207,35 @@ msgid "MSG_fill_equal"
 msgstr "Le remplissage est le plus équilibré possible.<br>\n"
        "<small>Pour avoir 5 B au maximum, saisissez <b>B {{{5}}}</b></small>"
 
-msgid "MSG_fill_modify"
-msgstr "Effacer"
-
 msgid "TIP_fill_modify"
-msgstr "<!--INSTANTDISPLAY-->Efface les cellules filtrées pour pouvoir changer la valeur"
+msgstr "Change les valeurs existantes"
 
-msgid "MSG_fill_interleave"
-msgstr "Interclasser"
+msgid "TIP_fill_no_modify"
+msgstr "Remplir seulement les valeurs vides"
 
 msgid "TIP_fill_interleave"
-msgstr "<!--INSTANTDISPLAY-->Au lieu de faire AAABBBCCC on rempli avec ABCABCABC"
+msgstr "Remplissage ABCABCABCABC"
 
-msgid "MSG_fill_unfiltered"
-msgstr "Équilibrer globalement"
+msgid "TIP_fill_no_interleave"
+msgstr "Remplissage AAAABBBBCCCC"
 
 msgid "TIP_fill_unfiltered"
-msgstr "<!--INSTANTDISPLAY-->Tient compte des lignes cachées pour équilibrer le remplissage"
+msgstr "Equilibre en tenant compte des valeurs cachées"
 
-msgid "MSG_fill_comment"
-msgstr "Commenter"
+msgid "TIP_fill_no_unfiltered"
+msgstr "Equilibre en fonction des valeurs filtrées"
 
 msgid "TIP_fill_comment"
-msgstr "<!--INSTANTDISPLAY-->Travaille sur les commentaires des cellules au lieu de leur valeur"
+msgstr "Modifie les commentaires des cellules"
 
-msgid "MSG_fill_pad0"
-msgstr "0001"
+msgid "TIP_fill_no_comment"
+msgstr "Modifie les valeurs des cellules"
 
 msgid "TIP_fill_pad0"
-msgstr "<!--INSTANTDISPLAY-->Ajoute des 0 devant les nombres"
+msgstr "Ajoute des 0 devant les nombres"
+
+msgid "TIP_fill_no_pad0"
+msgstr "Ajoute des espaces devant les nombres"
 
 msgid "TIP_TITLE_fill_?"
 msgstr "Cocher pour remplir avec cette valeur"

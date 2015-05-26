@@ -2204,32 +2204,35 @@ msgid "MSG_fill_equal"
 msgstr "If it is possible the numbers of A, B an C will be equal.<br>\n"
        "<small>If the maximum number of B is 5, enter <b>B {{{5}}}</b></small>"
 
-msgid "MSG_fill_modify"
-msgstr "Clear"
-
 msgid "TIP_fill_modify"
-msgstr "<!--INSTANTDISPLAY-->Clear filtered cells before filling"
+msgstr "Modify non empty valuess"
 
-msgid "MSG_fill_interleave"
-msgstr "Interleave"
+msgid "TIP_fill_no_modify"
+msgstr "Fill only empty values"
 
 msgid "TIP_fill_interleave"
-msgstr "<!--INSTANTDISPLAY-->Do AAABBBCCC in place of ABCABCABC"
+msgstr "ABCABCABCABC filling"
 
-msgid "MSG_fill_unfiltered"
-msgstr "Global"
+msgid "TIP_fill_no_interleave"
+msgstr "AAAABBBBCCCC filling"
 
 msgid "TIP_fill_unfiltered"
-msgstr "<!--INSTANTDISPLAY-->Use hidden lines to dispatch nicely the values"
+msgstr "Take into account hidden values to dispatch nicely"
 
-msgid "MSG_fill_comment"
-msgstr "Comments"
+msgid "TIP_fill_no_unfiltered"
+msgstr "Look only filtered values to dispatch"
 
 msgid "TIP_fill_comment"
-msgstr "Works on cell comments in place of cell values"
+msgstr "Modify the cell's comment"
+
+msgid "TIP_fill_no_comment"
+msgstr "Modify the cell's value"
 
 msgid "TIP_fill_pad0"
-msgstr "<!--INSTANTDISPLAY-->Pad the numbers with 0"
+msgstr "Pad numbers with 0"
+
+msgid "TIP_fill_no_pad0"
+msgstr "Pad numbers with spaces"
 
 msgid "TIP_TITLE_fill_?"
 msgstr "Check to use this value for filling"
@@ -5757,7 +5760,7 @@ msgid "MSG_fill_room"
 msgstr "Check the rooms you use to dispatch the students."
 
 msgid "MSG_fill_room_nothing"
-msgstr "No empty values needing to be modified, Activate 'Clear' to modify value yet filled."
+msgstr "No empty values needing to be modified, modify the higlighted option."
 
 msgid "MSG_fill_no_change"
 msgstr "This filling changes nothing"
