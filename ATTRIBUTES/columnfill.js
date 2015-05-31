@@ -406,23 +406,29 @@ Filler.prototype.create_rooms = function() {
     }
 
   // Create predefined rooms
-  for(var i in rooms)
+  if ( this.column.type != 'Note' && this.column.type != 'Prst' )
+  {
+    for(var i in rooms)
     {
       this.rooms[rooms[i][0]] = new Room(rooms[i]) ;
       if ( rooms[i][0].indexOf('%%') != -1 )
 	this.example_row_defined = true ;
     }
+  }
+  else
+    this.example_row_defined = true ;
+      
   for(var lin_id in lines)
   {
     if ( lines[lin_id][0].value === '' )
       continue ;
     v = lines[lin_id][this.data_col] ;
-
+    
     room = text_to_room_and_place(v.comment)[0] ;
     if ( this.rooms[room] === undefined )
-	this.rooms[room] = new Room([room]) ;
+      this.rooms[room] = new Room([room]) ;
     this.rooms[room].in_comment = true ;
-
+    
     room = text_to_room_and_place(v.value.toString())[0] ;
     if ( this.rooms[room] === undefined )
       this.rooms[room] = new Room([room]) ;
@@ -434,7 +440,7 @@ Filler.prototype.create_rooms = function() {
     this.index.push(i) ;
   var r = this.rooms ;
   this.index.sort(function(a,b)
-		 {
+		  {
 		   a = r[a].get_key() ;
 		   b = r[b].get_key() ;
 		   if ( a > b )
@@ -854,7 +860,9 @@ function fill_column()
   var id = '<!--INSTANTDISPLAY-->' ;
   create_popup('fill_column_div',
 	       _("TITLE_fill_before")
-	       + the_current_cell.column.title + _("TITLE_fill_after"),
+	       + the_current_cell.column.title + _("TITLE_fill_after")
+	       + ' (' + _('B_' + the_current_cell.column.real_type.title) + ')'
+	       ,
 	       caution_message()
 	       + '<div id="fill_is_safe">' + _('MSG_fill_safe') + '</div>'
 	       + '<table id="fill_table" onmousemove="if ( the_event(event).target.className != \'text\' ) hide_the_tip_real(true)">'
