@@ -743,19 +743,21 @@ Filler.prototype.update_html = function() {
     }
   
   var s = [] ;
-  var unwritable = 0 ;
+  var unwritable = 0, problems = 0 ;
   alert_append_start() ;
   for(var i in this.dispatch)
     {
       var cell = this.dispatch[i][3][this.data_col] ;
       var old_val = this.toggles.comment ? cell.comment : cell.value ;
       var new_val = this.dispatch[i][1] ;
+      var tip ;
       if ( old_val == new_val )
 	continue ;
       var classe ;
       if ( ! cell.modifiable(this.column) )
       {
 	classe = "fill_error" ;
+	tip = _("ERROR_value_not_modifiable") ;
 	unwritable++ ;
       }
       else if ( this.dispatch[i][2] === undefined )
@@ -775,11 +777,16 @@ Filler.prototype.update_html = function() {
 	    else
 	    {
 	      classe += " fill_error" ;
+	      problems++ ;
+	      tip = alert_merged ;
+	      alert_merged = '' ;
 	    }
 	  }
 	}
-      s.push('<div class="' + classe + '">'
-	     + html(old_val) + '<tt>→</tt>' + html(new_val) + '</div>') ;
+      var v = html(old_val) + '<div class="arrow">→</div>' + html(new_val) ;
+      if ( tip )
+	v = hidden_txt(v, '<!--INSTANTDISPLAY-->' + tip) ;
+      s.push('<div class="' + classe + '">' + v + '</div>') ;
     }
   s = '<p><b>' + _("MSG_fill_room_simulation") + '</b>' + ''.join(s) ;
   if ( this.dispatch.length === 0 )
@@ -811,11 +818,10 @@ Filler.prototype.update_html = function() {
   if ( unwritable )
     s = message + '<div class="fill_error">'
     + unwritable + ' '+ _("MSG_fill_unwritable") + '</div>' + s ;
-  if ( alert_merged !== '' )
+  if ( problems )
     {
       s = message + '<div class="fill_error">'
 	+ _("MSG_fill_bad_format")+'</div>' + s ;
-      alert_merged = '' ;
     }
     s += '<p><b>' + _("MSG_fill_room_go")
     + '</b><p><button onclick="Filler.filler.do_fill()">'

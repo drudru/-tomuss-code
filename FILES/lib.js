@@ -3071,9 +3071,8 @@ function set_element_relative_position(anchor, element)
     anchor = anchor.parentNode ;
 
   var pos = findPos(anchor) ;
-
+  
   var element_width = Math.max(element.offsetWidth, 200) ;
-
   if ( pos[1] > scrollTop() + window_height()/2 )
     {
       element.style.bottom = window_height() - pos[1] + 'px' ;

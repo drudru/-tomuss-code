@@ -64,9 +64,10 @@ class ColumnFill(ColumnAttr):
         line-height: 1em ;
         padding-left: 0.2em ;
     }
-    TD.fill_result TT {
+    TD.fill_result DIV.arrow {
     font-size: 200% ;
     vertical-align: bottom ;
+    display: inline ;
     }
     .fill_error { color: #FFF ; background: #F00 }
     .fill_important { color: #000 ; background: #0F0 }
