@@ -158,10 +158,22 @@ Room.prototype.clear = function()
   this.places.init() ;       // Goto before the first place
 } ;
 
+function remove_leading_0_and_space(txt)
+{
+  for(;;)
+    {
+      var f = txt.substr(0,1) ;
+      if ( f == '0' || f == ' ' )
+	txt = txt.substr(1) ;
+      else
+	return txt ;
+    }
+}
+
 Room.prototype.add_predefined = function(line_id, place)
 {
   this.nr_used++ ;
-  this.number_used[place] = true ;
+  this.number_used[remove_leading_0_and_space(place)] = true ;
 } ;
 
 Room.prototype.get_key = function()
@@ -675,7 +687,7 @@ Filler.prototype.update_html = function() {
 	      if ( place === undefined )
 		break ;
 	    }
-	  while( room.number_used[place] ) ;
+	  while( room.number_used[remove_leading_0_and_space(place)] ) ;
 	  if ( place === undefined )
 	    overflow++ ;
 	  else
