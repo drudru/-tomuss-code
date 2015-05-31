@@ -34,7 +34,7 @@ class ColumnFill(ColumnAttr):
     #stop_the_auto_save { float:right; font-size:70%; border:1px solid red}
     .fill_menu {
     line-height: 1.7em ;
-    width: 17em;
+    width: 17em; /* copy/paste */
     }
     #fill_table { margin-top: 0.3em ; border-spacing: 0.1em }
     #fill_table TR { vertical-align: top ; }
@@ -48,7 +48,7 @@ class ColumnFill(ColumnAttr):
     .room_comment {
          width: 15em ;
          position: absolute ;
-         left: 30% ;
+         left: 40% ;
          margin-top: 1.4em ;
          border:1px solid #888 ;
          display: none ;

@@ -17,7 +17,7 @@
   along with this program; if not, write to the Free Software
   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
-  Contact: Thierry.EXCOFFIER@bat710.univ-lyon1.fr
+  Contact: Thierry.EXCOFFIER@univ-lyon1.fr
 */
 
 function caution_message()
@@ -233,6 +233,7 @@ Room.prototype.html = function()
     + '"><td>' + cb
     + '<td class="room_used">'
     + '<td class="room_used">'
+    + '<td class="room_used">'
     + '<td class="room_name">' + name
     + (this.comment ?
        '<div class="room_comment">'
@@ -259,23 +260,28 @@ Room.prototype.get_nr_used = function() {
 Room.prototype.get_nr_will_be_used = function() {
   return this.get_tr().childNodes[2] ;
 } ;
-Room.prototype.get_name = function(i) {
-  return this.get_tr().childNodes[3].firstChild ;
+Room.prototype.get_total = function() {
+  return this.get_tr().childNodes[3] ;
 } ;
-Room.prototype.get_places = function(i) {
+Room.prototype.get_name = function(i) {
   return this.get_tr().childNodes[4].firstChild ;
 } ;
+Room.prototype.get_places = function(i) {
+  return this.get_tr().childNodes[5].firstChild ;
+} ;
 Room.prototype.get_comment = function(i) {
-  return this.get_tr().childNodes[3].childNodes[1] ;
+  return this.get_tr().childNodes[4].childNodes[1] ;
 } ;
 
 Room.prototype.update_html = function()
 {
   this.get_nr_used().innerHTML = this.nr_used ? this.nr_used : ' ' ;
+  this.get_nr_will_be_used().innerHTML = this.nr_will_be_used
+    ? '+' + this.nr_will_be_used : ' ' ;
   var total = this.nr_used + this.nr_will_be_used ;
   var overflow = total - this.places.nr_places ;
-  this.get_nr_will_be_used().innerHTML = this.nr_will_be_used
-    ? this.nr_will_be_used + (
+  this.get_total().innerHTML = this.nr_will_be_used
+    ? '=' + total + (
       overflow > 0
 	? '<span class="fill_warning">(' + overflow + ')</span>'
 	: '')
@@ -847,6 +853,8 @@ function fill_column()
 				     id + _("TIP_TITLE_fill_used"))
 	       + '<th>' + hidden_txt(_("COL_TITLE_fill_use"),
 				     id + _("TIP_TITLE_fill_use"))
+	       + '<th>' + hidden_txt(_("COL_TITLE_fill_total"),
+				     id + _("TIP_TITLE_fill_total"))
 	       + '<th>' + hidden_txt(_("COL_TITLE_fill_name"),
 				     id + _("TIP_TITLE_fill_name"))
 	       + '<th>' + hidden_txt(_("COL_TITLE_fill_possible"),

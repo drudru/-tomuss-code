@@ -2246,6 +2246,12 @@ msgstr "Number of use before the filling"
 msgid "COL_TITLE_fill_use"
 msgstr "Add"
 
+msgid "COL_TITLE_fill_total"
+msgstr "Total"
+
+msgid "TIP_TITLE_fill_total"
+msgstr "Number of use after the filling"
+
 msgid "COL_TITLE_fill_possible"
 msgstr "Possible numbers"
 

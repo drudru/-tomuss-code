@@ -2173,7 +2173,7 @@ msgid "MSG_fill"
 msgstr "Options de remplissage"
 
 msgid "MSG_fill_safe"
-msgstr "Rien ne sera modifié tant que vous ne cliquez pas sur «Remplir !»"
+msgstr "Rien n'est modifié tant que vous ne cliquez pas sur le bouton «Remplir !»"
 
 msgid "TAB_fill_clear"
 msgstr "Vider"
@@ -2251,6 +2251,12 @@ msgstr "Ajoute"
 
 msgid "TIP_TITLE_fill_use"
 msgstr "Nombre d'affectations suplémentaires qui vont être faites pour remplir"
+
+msgid "COL_TITLE_fill_total"
+msgstr "Total"
+
+msgid "TIP_TITLE_fill_total"
+msgstr "Nombre d'occurrences après le remplissage"
 
 msgid "COL_TITLE_fill_possible"
 msgstr "Numéros possibles"
@@ -5891,7 +5897,7 @@ msgid "MSG_fill_room_simulation"
 msgstr "Simulation"
 
 msgid "MSG_fill_room_go"
-msgstr "Tout est OK : cliquez sur le bouton"
+msgstr "Si tout est OK :<br>cliquez sur le bouton"
 
 msgid "MSG_fill_room"
 msgstr "Cochez les salles dans lesquelles vous répartissez les étudiants."
