@@ -20,15 +20,18 @@
   Contact: Thierry.EXCOFFIER@univ-lyon1.fr
 */
 
-function caution_message()
+function caution_message(no_float)
 {
   if ( table_attr.autosave )
-    return '<div id="stop_the_auto_save">' + _("MSG_fill_warning_left")
-	+ ' <a href="#" onclick="select_tab(\'table\', \''
-	+ _("TAB_column_action")
-	+ '\');table_autosave_toggle();document.getElementById(\'stop_the_auto_save\').style.display=\'none\';">'
-	+ _("MSG_fill_warning_middle") + '</a> ' +_("MSG_fill_warning_right")
-	+ '</div>' ;
+    return '<div id="stop_the_auto_save" style="'
+    + (no_float ? '' : 'float:right;')
+    + '">'
+    + _("MSG_fill_warning_left")
+    + ' <a href="#" onclick="select_tab(\'table\', \''
+    + _("TAB_column_action")
+    + '\');table_autosave_toggle();document.getElementById(\'stop_the_auto_save\').style.display=\'none\';">'
+    + _("MSG_fill_warning_middle") + '</a> ' +_("MSG_fill_warning_right")
+    + '</div>' ;
   return '' ;
 }
 
@@ -242,16 +245,16 @@ Room.prototype.html = function()
     + (this.in_comment & !this.in_value ? ' only_comment' : '')
     + (!this.in_comment & this.in_value ? ' only_value' : '')
     + '" id="ROOM_' + this.id
-    + '"><td>' + cb
+    + '"><td class="room_cb">' + cb
     + '<td class="room_used">'
     + '<td class="room_used">'
     + '<td class="room_used">'
     + '<td class="room_name">' + name
     + (this.comment ?
        '<div class="room_comment">'
-       + (this.url ? '<a target="_blank" href="' + this.url + '">' : '')
+       + (this.url !== '' ? '<a target="_blank" href="' + this.url + '">' : '')
        + html(this.comment)
-       + (this.url ? '</a>' : '')
+       + (this.url !== '' ? '</a>' : '')
        + '</div>'
        : ''
        )
@@ -287,10 +290,14 @@ Room.prototype.get_comment = function(i) {
 
 Room.prototype.update_html = function()
 {
-  this.get_nr_used().innerHTML = this.nr_used ? this.nr_used : ' ' ;
+  this.get_nr_used().innerHTML = this.nr_used
+    ? (this.name === '' && this.checked
+       ? '<span style="color:#888">' + this.nr_used + '</span>'
+       : this.nr_used)
+    : ' ' ;
   this.get_nr_will_be_used().innerHTML = this.nr_will_be_used
     ? '+' + this.nr_will_be_used : ' ' ;
-  var total = this.nr_used + this.nr_will_be_used ;
+  var total = (this.name === '' ? 0 : this.nr_used) + this.nr_will_be_used ;
   var overflow = total - this.places.nr_places ;
   this.get_total().innerHTML = this.nr_will_be_used
     ? '=' + total + (
@@ -614,9 +621,7 @@ Filler.prototype.update_html = function() {
     }
   if ( ! this.state_change() )
     return ;
-  feedback.parentNode.parentNode.style.height =
-    feedback.parentNode.style.height =
-    feedback.style.height = 1.2 * this.nr_visible_lines() + 'em' ;
+  feedback.parentNode.parentNode.setAttribute('rowspan', this.index.length+1) ;
   var table = document.getElementById("fill_table") ;
   if ( this.toggles.comment )
     table.className = 'show_in_comment' ;
@@ -631,14 +636,12 @@ Filler.prototype.update_html = function() {
   pulsing(document.getElementById('select.modify'), to_dispatch == 0) ;
   for(var room in this.rooms)
     pulsing(this.rooms[room].get_toggle().parentNode, false) ;
-  var message = '<p><b>' + _("MSG_fill_room_message") + '</b>' ;
+  
+  var messages = [] ;
+
   if ( to_dispatch == 0 )
-    {
-      feedback.innerHTML = message
-	+ '<div class="fill_important">' + _("MSG_fill_room_nothing")
-	+ '</div>' ;
-      return ;
-    }
+    messages.push('<div class="fill_important">' + _("MSG_fill_room_nothing")
+		  + '</div>') ;
 
   var full_size = 0 ;
   this.nr_rooms_used = 0 ;
@@ -656,27 +659,53 @@ Filler.prototype.update_html = function() {
       else
 	room.nr_will_be_used = '' ;
     }
+  // If there is an overflow, less values are to be dispatched
+  var change = false ;
+  do
+    {
+      change = false ;
+      for(var room in this.index)
+      {
+	var room = this.rooms[this.index[room]] ;
+	if ( ! room.checked || room.name === '' )
+	  continue ;
+	var nr_used = (room.name === '' ? 0 : room.nr_used) ;
+	var goal = Math.round(to_dispatch * room.places.nr_places / full_size);
+	if ( goal < room.nr_used )
+	  {
+	    room.checked = false ; // XXX really not nice
+	    to_dispatch -= room.nr_used ;
+	    full_size -= room.places.nr_places ;
+	    change = true ;
+	    messages.push('<div class="fill_warning">'
+			  + '«' + html(room.name) + '» '
+			  + _("MSG_fill_room_overflow")
+			  + '</div>') ;
+	  }
+	}
+    }
+  while(change) ;      
   this.dispatch = [] ;
   var fill_empty_value = 0 ;
   var fill_value = 0 ;
   var overflow = 0 ;
-
   for(var room in this.index)
     {
       var room = this.rooms[this.index[room]] ;
       if ( ! room.checked )
 	continue ;
       var nr_used = (room.name === '' ? 0 : room.nr_used) ;
-      room.nr_will_be_used = Math.max(0,
-				      Math.round(to_dispatch
-						 * room.places.nr_places
-						 / full_size) - nr_used) ;
+      room.nr_will_be_used = Math.round(to_dispatch
+					* room.places.nr_places
+					/ full_size) - nr_used ;
       if ( 0 )
 	console.log('to_dispatch=' + to_dispatch
-		    + ' nr_used=' + room.nr_used
+		    + ' nr_used=' + nr_used
 		    + ' will_be_used=' + room.nr_will_be_used
 		    + ' full_size=' + full_size) ;
       to_dispatch -= room.nr_will_be_used + nr_used ;
+      if ( room.nr_will_be_used < 0 )
+	room.nr_will_be_used = 0 ;
       full_size -= room.places.nr_places ;
       if ( room.name !== '' )
 	 fill_value++ ;
@@ -710,47 +739,51 @@ Filler.prototype.update_html = function() {
     }
   if ( this.toggles.interleave )
     this.dispatch.sort(function (a, b) { return a[0] - b[0] ; }) ;
-  if ( this.dispatch.length == 0 )
+  if ( to_dispatch != 0 && this.dispatch.length == 0 )
     {
       for(var room in this.rooms)
 	pulsing(this.rooms[room].get_toggle().parentNode, true) ;
 
-     feedback.innerHTML = message + '<div class="fill_important">'
-	+ _("MSG_fill_room") + '</div>' ;
-      return ;
+      messages.push('<div class="fill_important">' + _("MSG_fill_room")
+		    + '</div>') ;
     }
-
-  var j = 0 ;
-  for(var i in filtered_lines)
+  else
     {
-      if ( filtered_lines[i][0].value === '' )
-	continue ;
-      var c = filtered_lines[i][this.data_col] ;
-      var v = this.toggles.comment ? c.comment : c.value ;
-      if ( this.toggles.modify )
-	this.dispatch[j++].push(filtered_lines[i]) ;
-      else
-	if ( v === '' )
+      var j = 0 ;
+      for(var i in filtered_lines)
+      {
+	if ( filtered_lines[i][0].value === '' )
+	  continue ;
+	var c = filtered_lines[i][this.data_col] ;
+	var v = this.toggles.comment ? c.comment : c.value ;
+	if ( this.toggles.modify )
 	  this.dispatch[j++].push(filtered_lines[i]) ;
-    }
-  if ( j != this.dispatch.length )
-    {
-      console.log(filtered_lines.length) ;
-      console.log(this.dispatch) ;
-      console.log(j) ;
-      alert("BUG columnfill") ;
-      return ;
+	else
+	  if ( v === '' )
+	    this.dispatch[j++].push(filtered_lines[i]) ;
+      }
+      if ( j != this.dispatch.length )
+      {
+	console.log('BUG to_dispatch=' + to_dispatch
+		    + ' filtered_lines=' + filtered_lines.length
+		    + ' j=' + j
+		    + ' nr_to_dispatch=' + this.nr_to_dispatch
+		   ) ;
+	console.log(this.dispatch) ;
+	alert("BUG columnfill") ;
+	return ;
+      }
     }
   
   var s = [] ;
-  var unwritable = 0, problems = 0 ;
+  var unwritable = 0, problems = 0, replacements = 0 ;
   alert_append_start() ;
   for(var i in this.dispatch)
     {
       var cell = this.dispatch[i][3][this.data_col] ;
       var old_val = this.toggles.comment ? cell.comment : cell.value ;
       var new_val = this.dispatch[i][1] ;
-      var tip ;
+      var tip = '' ;
       if ( old_val == new_val )
 	continue ;
       var classe ;
@@ -761,7 +794,10 @@ Filler.prototype.update_html = function() {
 	unwritable++ ;
       }
       else if ( this.dispatch[i][2] === undefined )
-	classe = "fill_warning" ;
+	{
+	  classe = "fill_warning" ;
+	  tip = _("MSG_fill_overflow") ;
+	}
       else
 	classe = "" ;
       if ( ! this.toggles.comment )
@@ -771,8 +807,10 @@ Filler.prototype.update_html = function() {
 	  {
 	    if ( v !== undefined )
 	    {
+	      tip = html(new_val) + '→' + html(v) ;
 	      new_val = v ;
 	      classe += " fill_replace" ;
+	      replacements++ ;
 	    }
 	    else
 	    {
@@ -783,22 +821,34 @@ Filler.prototype.update_html = function() {
 	    }
 	  }
 	}
-      var v = html(old_val) + '<div class="arrow">→</div>' + html(new_val) ;
       if ( tip )
-	v = hidden_txt(v, '<!--INSTANTDISPLAY-->' + tip) ;
-      s.push('<div class="' + classe + '">' + v + '</div>') ;
+	tip = '<!--INSTANTDISPLAY-->' + tip ;
+      s.push('<tr><td class="old_value">'
+	     + (tip !== '' ? hidden_txt(html(old_val), tip) : html(old_val))
+	     + '<td class="' + classe + '">'
+	     + (tip !== '' ? hidden_txt('→', tip) : '→')
+	     + '<td class="new_value">'
+	     + (tip !== '' ? hidden_txt(html(new_val), tip) : html(new_val))
+	     + '</tr>') ;
     }
-  s = '<p><b>' + _("MSG_fill_room_simulation") + '</b>' + ''.join(s) ;
-  if ( this.dispatch.length === 0 )
-    s = message + '<div class="fill_important">'
-    + _("MSG_fill_room") + '</div>' ;
-  else if ( s === '' )
-    s = message + '<div class="fill_important">'
-    + _("MSG_fill_no_change") + '</div>' ;
+  s = '<h3>' + _("MSG_fill_room_simulation")
+    + '</h3><table class="simulation">'
+    + (s.length == 0
+       ? '<tr><td colspan="2">' + _("MSG_fill_no_change") + '</tr>'
+       : '<tr><td class="old_value">' + _("MSG_fill_room_old_value")
+       + '<td>'
+       + '<td class="new_value">' + _("MSG_fill_room_new_value") + '</tr>'
+       + ''.join(s)
+      )
+    + '</table>' ;
+  
+  if ( s === '' )
+    messages.push('<div class="fill_important">'
+		  + _("MSG_fill_no_change") + '</div>') ;
   if ( fill_empty_value && fill_value )
     {
-      s = message + '<div class="fill_warning">'
-	+ _("MSG_fill_empty_not_empty") + '</div>' + s ;
+      messages.push('<div class="fill_warning">'
+		    + _("MSG_fill_empty_not_empty") + '</div>') ;
       for(var room in this.rooms)
 	{
 	  if ( this.rooms[room].name === ''
@@ -813,18 +863,27 @@ Filler.prototype.update_html = function() {
 	}
     }
   if ( overflow )
-    s = message + '<div class="fill_warning">'
-    + overflow + ' ' + _("MSG_fill_overflow") + '</div>' + s ;
+    messages.push('<div class="fill_warning">' + overflow + ' '
+		  + _("MSG_fill_overflow") + '</div>') ;
   if ( unwritable )
-    s = message + '<div class="fill_error">'
-    + unwritable + ' '+ _("MSG_fill_unwritable") + '</div>' + s ;
+    messages.push('<div class="fill_error">' + unwritable + ' '
+		  + _("MSG_fill_unwritable") + '</div>') ;
   if ( problems )
-    {
-      s = message + '<div class="fill_error">'
-	+ _("MSG_fill_bad_format")+'</div>' + s ;
-    }
-    s += '<p><b>' + _("MSG_fill_room_go")
-    + '</b><p><button onclick="Filler.filler.do_fill()">'
+      messages.push('<div class="fill_error">' + _("MSG_fill_bad_format")
+		    + '</div>') ;
+  if ( replacements )
+      messages.push('<div class="fill_replace">' + replacements
+		    + _("MSG_fill_replace") + '</div>') ;
+  s = '<h3>' + _("MSG_fill_room_message")
+    + '</h3><div class="fill_room_messages">'
+    + (messages.length == 0
+       ? _("MSG_fill_room_message_none")
+       : messages.join('')
+      )
+    + '</div>' + s + '<h3>' + _("MSG_fill_room_go")
+    + '</h3>'
+    + caution_message(true)
+    + '<button onclick="Filler.filler.do_fill()">'
     + ( this.toggles.comment
 	? _("MSG_fill_the_comments")
 	: _("MSG_fill_the_values")
@@ -869,8 +928,7 @@ function fill_column()
 	       + the_current_cell.column.title + _("TITLE_fill_after")
 	       + ' (' + _('B_' + the_current_cell.column.real_type.title) + ')'
 	       ,
-	       caution_message()
-	       + '<div id="fill_is_safe">' + _('MSG_fill_safe') + '</div>'
+	       '<div id="fill_is_safe">' + _('MSG_fill_safe') + '</div>'
 	       + '<table id="fill_table" onmousemove="if ( the_event(event).target.className != \'text\' ) hide_the_tip_real(true)">'
 	       + '<tr>'
 	       + '<th>' + hidden_txt(_('?'),
@@ -888,8 +946,9 @@ function fill_column()
 	       + '<td class="fill_result" rowspan="'
 	       + Filler.filler.index.length
 	       + '">'
-               + '<div class="fill_column_right"><b>'
-               + _('MSG_fill') + '</b>'
+               + '<div class="fill_column_right">'
+	       + '<h3 style="clear: both; margin-top: 0px">'
+	       + _('MSG_fill') + '</h3>'
 	       + Filler.filler.menu()
                + '<div id="fill_result"></div>'
 	       + '</div></tr>'

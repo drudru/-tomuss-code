@@ -2170,7 +2170,7 @@ msgid "MSG_unmodifiable_cells"
 msgstr "cellules ne sont pas modifiables car vous n'avez pas le droit."
 
 msgid "MSG_fill"
-msgstr "Options de remplissage"
+msgstr "Options de remplissage :"
 
 msgid "MSG_fill_safe"
 msgstr "Rien n'est modifié tant que vous ne cliquez pas sur le bouton «Remplir !»"
@@ -5891,19 +5891,31 @@ msgid "COL_TITLE_room_use"
 msgstr "Utilise"
 
 msgid "MSG_fill_room_message"
-msgstr "Message"
+msgstr "Messages :"
+
+msgid "MSG_fill_room_message_none"
+msgstr "Pas de problème à signaler"
 
 msgid "MSG_fill_room_simulation"
-msgstr "Simulation"
+msgstr "Aperçu des changements :"
+
+msgid "MSG_fill_room_old_value"
+msgstr "Avant"
+
+msgid "MSG_fill_room_new_value"
+msgstr "Après"
 
 msgid "MSG_fill_room_go"
-msgstr "Si tout est OK :<br>cliquez sur le bouton"
+msgstr "Cliquez pour remplir :"
 
 msgid "MSG_fill_room"
 msgstr "Cochez les salles dans lesquelles vous répartissez les étudiants."
 
 msgid "MSG_fill_room_nothing"
 msgstr "Aucune cellule vide nécessitant d'être remplie. Modifiez l'option mise en évidence"
+
+msgid "MSG_fill_room_overflow"
+msgstr " est déjà trop utilisée, elle n'est donc pas remplie."
 
 msgid "MSG_fill_no_change"
 msgstr "Ce remplissage ne modifie aucune valeur"
@@ -5913,10 +5925,13 @@ msgstr "Des valeurs sont effacées alors que d'autres sont remplies.\n"
        "Avez-vous oublié de décocher quelque chose ?"
 
 msgid "MSG_fill_overflow"
-msgstr " débordements de salle lors de l'affectation, ils ont la place '???'"
+msgstr " débordements de salle lors de l'affectation."
 
 msgid "MSG_fill_unwritable"
-msgstr " modifications interdites de cellules"
+msgstr " modifications interdites de cellules."
+
+msgid "MSG_fill_replace"
+msgstr " valeurs modifiées lors de l'enregistrement."
 
 msgid "MSG_fill_bad_format"
 msgstr "Les valeurs indiquées en rouge ne peuvent être enregistrées dans \n"

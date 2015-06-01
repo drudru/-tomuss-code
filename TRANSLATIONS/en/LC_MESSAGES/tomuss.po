@@ -5763,19 +5763,31 @@ msgid "COL_TITLE_room_use"
 msgstr "Use"
 
 msgid "MSG_fill_room_message"
-msgstr "Message"
+msgstr "Messages"
+
+msgid "MSG_fill_room_message_none"
+msgstr "Nothing to report"
 
 msgid "MSG_fill_room_simulation"
-msgstr "Simulation"
+msgstr "Preview of changes"
+
+msgid "MSG_fill_room_old_value"
+msgstr "Before"
+
+msgid "MSG_fill_room_new_value"
+msgstr "After"
 
 msgid "MSG_fill_room_go"
-msgstr "OK: click on the button"
+msgstr "Click to fill:"
 
 msgid "MSG_fill_room"
 msgstr "Check the rooms you use to dispatch the students."
 
 msgid "MSG_fill_room_nothing"
 msgstr "No empty values needing to be modified, modify the higlighted option."
+
+msgid "MSG_fill_room_overflow"
+msgstr " is yet overused, it will not be more filled."
 
 msgid "MSG_fill_no_change"
 msgstr "This filling changes nothing"
@@ -5785,10 +5797,13 @@ msgstr "Some values are erased and other are set.\n"
        "Do you forgot to uncheck something?"
 
 msgid "MSG_fill_overflow"
-msgstr " filling room overflow, they have the number '???'"
+msgstr " filling room overflow."
 
 msgid "MSG_fill_unwritable"
-msgstr " unauthorized cell modification"
+msgstr " unauthorized cell modification."
+
+msgid "MSG_fill_replace"
+msgstr " values modified before writing."
 
 msgid "MSG_fill_bad_format"
 msgstr "Values in red can not be wrote in the cell for this column type.\n "

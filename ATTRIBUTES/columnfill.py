@@ -31,20 +31,26 @@ class ColumnFill(ColumnAttr):
     css = """
     #popup DIV.fill_column_div { border: 4px solid red ; overflow:scroll ;
                           left: 5%; right: 5%; bottom: 5% ; top: 5%}
-    #stop_the_auto_save { float:right; font-size:70%; border:1px solid red}
+    #stop_the_auto_save { font-size:70%; border:1px solid red}
     .fill_menu {
     line-height: 1.7em ;
-    width: 17em; /* copy/paste */
+    width: 18em; /* copy/paste */
     }
-    #fill_table { margin-top: 0.3em ; border-spacing: 0.1em }
+    .fill_column_right { height: 0px }
+    #fill_table { margin-top: 0.3em ; border-spacing: 0px }
     #fill_table TR { vertical-align: top ; }
-    #fill_table TH { border: 1px solid black; }
+    #fill_table TH {
+    padding: 1px ;
+    border-left: 1px solid black;
+    border-top: 1px solid black;
+    }
     #fill_table TH DIV.tipped { width: 100%; display: block }
+    .room_cb, .room_used { border-bottom: 1px solid #CCC }
     .room_line { height: 1.1em }
     .room_cb { width: 1em }
     .room_used { width: 3em }
-    .room_places { width: 15% }
-    .room_name { width: 35% }
+    .room_places { width: 30% }
+    .room_name { width: 70% }
     .room_comment {
          width: 15em ;
          position: absolute ;
@@ -55,30 +61,35 @@ class ColumnFill(ColumnAttr):
          background: rgba(255,255,255,0.9) ;
          z-index: 1000 ;
     }
+    TABLE.simulation { border: 1px solid black }
+    TD.old_value { text-align: right }
+    TD.old_value, TD.new_value { white-space: nowrap; width: 50% }
     .room_name:hover .room_comment {
          display: inline-block ;
         }
     BODY.tomuss TABLE TD.fill_result {
-        overflow: auto ;
-        width: 17em; /* copy/paste */
+        overflow: visible ;
+        width: 18em; /* copy/paste */
         line-height: 1em ;
         padding-left: 0.2em ;
     }
-    TD.fill_result DIV.arrow {
-    font-size: 200% ;
-    vertical-align: bottom ;
-    display: inline ;
+    DIV.fill_important, DIV.fill_warning, DIV.fill_error, DIV.fill_replace {
+    margin-bottom: 0.5em ;
+    border: 1px solid black ;
     }
-    .fill_error { color: #FFF ; background: #F00 }
-    .fill_important { color: #000 ; background: #0F0 }
-    .fill_warning { color: #000 ; background: orange }
-    .fill_replace { color: #800 ; }
+    .fill_result H3 { margin-bottom: 0.4em ; font-size: 100% }
+    .fill_result #stop_the_auto_save { margin-bottom: 1em }
+    .fill_error { background: #F88; }
+    .fill_important { color: #000 ; background: #8F8 }
+    .fill_warning { background: orange ; }
+    .fill_replace { background: #F8F ; }
     .room_enumeration INPUT { background: #EFF }
     .room_predefined INPUT { background: #FFE }
     .room_created_empty INPUT { background: #FFF }
     .room_yet_used INPUT { background: #EEF }
     .show_in_comment TR.only_value, .show_in_value TR.only_comment
         { display: none }
+    .fill_result BUTTON { width: 100% ; }
 
   .pulsing {
   /* display: inline-block ; */
