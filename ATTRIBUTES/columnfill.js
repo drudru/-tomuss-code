@@ -865,6 +865,21 @@ Filler.prototype.update_html = function() {
   if ( overflow )
     messages.push('<div class="fill_warning">' + overflow + ' '
 		  + _("MSG_fill_overflow") + '</div>') ;
+  if ( this.toggles.interleave && this.dispatch.length !== 0 )
+  {
+    var v = [] ;
+    for(var room in this.index)
+    {
+      var room = this.rooms[this.index[room]] ;
+      if ( ! room.checked )
+	continue ;
+      v.push(room.nr_will_be_used) ;
+    }
+    v.sort() ;
+    if ( v[v.length-1] - v[0] > 1 )
+      messages.push('<div class="fill_warning">'
+		    + _("MSG_fill_bad_interleave") + '</div>') ;
+  }
   if ( unwritable )
     messages.push('<div class="fill_error">' + unwritable + ' '
 		  + _("MSG_fill_unwritable") + '</div>') ;

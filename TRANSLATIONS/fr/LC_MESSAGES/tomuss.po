@@ -5930,6 +5930,11 @@ msgstr " débordements de salle lors de l'affectation."
 msgid "MSG_fill_unwritable"
 msgstr " modifications interdites de cellules."
 
+msgid "MSG_fill_bad_interleave"
+msgstr "Les valeurs ayant des capacités différentes, "
+       "l'interclassement n'est pas parfait.\n"
+       "Mettez les mêmes capacités pour que l'interclassement soit bon."
+
 msgid "MSG_fill_replace"
 msgstr " valeurs modifiées lors de l'enregistrement."
 

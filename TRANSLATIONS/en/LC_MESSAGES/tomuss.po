@@ -5802,6 +5802,10 @@ msgstr " filling room overflow."
 msgid "MSG_fill_unwritable"
 msgstr " unauthorized cell modification."
 
+msgid "MSG_fill_bad_interleave"
+msgstr "The values have not the same capacity so the interleaving is bad.\n"
+       "Set the same capacity to fix the problem."
+
 msgid "MSG_fill_replace"
 msgstr " values modified before writing."
 
