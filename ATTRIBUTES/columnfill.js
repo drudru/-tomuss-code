@@ -384,7 +384,7 @@ Filler.prototype.menu = function() {
 
 function text_to_room_and_place(text)
 {
-  var m = text.match(/(.*[^0-9.])([0-9]+)(.*)/) ;
+  var m = text.match(/(.*[^0-9. ])( *[0-9]+)(.*)/) ;
   if ( m )
       return [m[1] + '%%' + m[3], m[2]] ;
   m = text.match(/^[0-9]+$/) ;
