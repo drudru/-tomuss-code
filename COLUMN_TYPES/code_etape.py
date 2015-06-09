@@ -127,9 +127,10 @@ class Code_Etape(text.Text):
                 the_table.unlock()
 
         # Erase system defined cells without value
-        for line_id in line_id_done - set(line_ids):
+        for line_id in set(line_ids) - line_id_done:
             if (the_table.lines[line_id][column.data_col].author
                 in (data.ro_user, data.rw_user, data.no_user)):
+                the_table.lock()
                 try:
                     the_table.cell_change(the_table.pages[0], column.the_id,
                                           line_id, '')
