@@ -34,6 +34,7 @@ from . import sender
 ldap.set_option(ldap.OPT_REFERRALS, 0)
 ldap.set_option(ldap.OPT_NETWORK_TIMEOUT, 1) # For connect
 ldap.set_option(ldap.OPT_TIMEOUT, 600)       # For reading data
+ldap.set_option(ldap.OPT_X_TLS_REQUIRE_CERT, ldap.OPT_X_TLS_NEVER)
 
 warn = utilities.warn
 
@@ -505,8 +506,14 @@ class LDAP(LDAP_Logic):
             warn('Try connect to ' + configuration.ldap_server[self.server],
                  what="ldap")
             try:
-                c = ldap.open(configuration.ldap_server[self.server],
-                              port=configuration.ldap_server_port)
+                if configuration.ldap_server_port == 636:
+                    protocol = "ldaps"
+                else:
+                    protocol = "ldap"
+                c = ldap.initialize("%s://%s:%d" % (
+                    protocol,
+                    configuration.ldap_server[self.server],
+                    configuration.ldap_server_port))
                 c.simple_bind_s(configuration.ldap_server_login,
                                 configuration.ldap_server_password)
                 warn('Connect done', what="ldap")
