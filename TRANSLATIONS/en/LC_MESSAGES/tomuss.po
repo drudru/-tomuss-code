@@ -2234,6 +2234,9 @@ msgstr "Pad numbers with 0"
 msgid "TIP_fill_no_pad0"
 msgstr "Pad numbers with spaces"
 
+msgid "TIP_fill_empty_pad0"
+msgstr "No padding (values not sortable)"
+
 msgid "TIP_TITLE_fill_?"
 msgstr "Check to use this value for filling"
 

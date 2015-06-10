@@ -2155,10 +2155,10 @@ msgid "TITLE_fill_after"
 msgstr "»"
 
 msgid "MSG_fill_warning_left"
-msgstr "Ces opérations ne sont pas annulables.<br>"
+msgstr "Si vous n'êtes pas sûr de vous, alors<br>"
 
 msgid "MSG_fill_warning_middle"
-msgstr "Désactivez la sauvegarde automatique.<br>"
+msgstr "désactivez la sauvegarde automatique.<br>"
 
 msgid "MSG_fill_warning_right"
 msgstr "Vous la réactiverez après avoir vérifié le résultat."
@@ -2173,7 +2173,7 @@ msgid "MSG_fill"
 msgstr "Options de remplissage :"
 
 msgid "MSG_fill_safe"
-msgstr "Rien n'est modifié tant que vous ne cliquez pas sur le bouton «Remplir !»"
+msgstr "Rien n'est modifié dans la colonne tant que vous ne validez pas."
 
 msgid "TAB_fill_clear"
 msgstr "Vider"
@@ -2214,16 +2214,16 @@ msgid "TIP_fill_no_modify"
 msgstr "Remplir seulement les valeurs vides"
 
 msgid "TIP_fill_interleave"
-msgstr "Remplissage ABCABCABCABC"
+msgstr "Remplir sous la forme ABCABCABCABC"
 
 msgid "TIP_fill_no_interleave"
-msgstr "Remplissage AAAABBBBCCCC"
+msgstr "Remplir sous la forme AAAABBBBCCCC"
 
 msgid "TIP_fill_unfiltered"
 msgstr "Equilibre globalement en tenant compte des valeurs cachées"
 
 msgid "TIP_fill_no_unfiltered"
-msgstr "Equilibre les valeurs filtrées"
+msgstr "Equilibre seulement les valeurs affichées"
 
 msgid "TIP_fill_comment"
 msgstr "Modifie les commentaires des cellules"
@@ -2236,6 +2236,9 @@ msgstr "Ajoute des 0 devant les nombres"
 
 msgid "TIP_fill_no_pad0"
 msgstr "Ajoute des espaces devant les nombres"
+
+msgid "TIP_fill_empty_pad0"
+msgstr "Ajoute rien (le tri sera mauvais)"
 
 msgid "TIP_TITLE_fill_?"
 msgstr "Cocher pour remplir avec cette valeur"

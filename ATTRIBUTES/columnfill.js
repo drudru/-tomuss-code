@@ -369,10 +369,15 @@ Filler.prototype.menu = function() {
   for(var key in this.toggles)
     {
       s += '<select id="select.' + key + '" value="' + this.toggles[key] + '">'
-	+ '<option' + (! this.toggles[key] ? ' selected': "")
+	+ '<option' + (this.toggles[key] == 0 ? ' selected': "")
 	+ '>' + _("TIP_fill_no_" + key) + '</option>'
-	+ '<option' + (this.toggles[key] ? ' selected': "")
+	+ '<option' + (this.toggles[key] == 1 ? ' selected': "")
 	+ '>' + _("TIP_fill_" + key) + '</option>'
+	+ (key == 'pad0'
+	   ? '<option' + (this.toggles[key] == 2 ? ' selected': "")
+	   + '>' + _("TIP_fill_empty_" + key) + '</option>'
+	   : ''
+	   )
 	+ '</select>' ;
     }
   s += '</div>' ;
@@ -718,7 +723,7 @@ Filler.prototype.update_html = function() {
 	  var place ;
 	  do
 	    {
-	      place = room.places.next(this.toggles.pad0 ? '0' : ' ') ;
+	      place = room.places.next([' ', '0', ''][this.toggles.pad0]) ;
 	      if ( place === undefined )
 		break ;
 	    }

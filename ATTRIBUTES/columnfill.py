@@ -63,7 +63,7 @@ class ColumnFill(ColumnAttr):
     }
     TABLE.simulation { border: 1px solid black }
     TD.old_value { text-align: right }
-    TD.old_value, TD.new_value { white-space: nowrap; width: 50% }
+    TD.old_value, TD.new_value { white-space: pre; width: 50% }
     .room_name:hover .room_comment {
          display: inline-block ;
         }
