@@ -61,6 +61,7 @@ class ColumnFill(ColumnAttr):
          background: rgba(255,255,255,0.9) ;
          z-index: 1000 ;
     }
+    #popup DIV.fill_column_div INPUT { padding-left: 2px }
     TABLE.simulation { border: 1px solid black }
     TD.old_value { text-align: right }
     TD.old_value, TD.new_value { white-space: pre; width: 50% }

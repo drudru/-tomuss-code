@@ -245,10 +245,11 @@ Room.prototype.html = function()
     + (this.in_comment & !this.in_value ? ' only_comment' : '')
     + (!this.in_comment & this.in_value ? ' only_value' : '')
     + '" id="ROOM_' + this.id
-    + '"><td class="room_cb">' + cb
+    + '">'
     + '<td class="room_used">'
     + '<td class="room_used">'
     + '<td class="room_used">'
+    + '<td class="room_cb">' + cb
     + '<td class="room_name">' + name
     + (this.comment ?
        '<div class="room_comment">'
@@ -267,16 +268,16 @@ Room.prototype.get_tr = function() {
   return document.getElementById('ROOM_' + this.id) ;
 } ;
 Room.prototype.get_toggle = function() {
-  return this.get_tr().childNodes[0].firstChild ;
+  return this.get_tr().childNodes[3].firstChild ;
 } ;
 Room.prototype.get_nr_used = function() {
-  return this.get_tr().childNodes[1] ;
+  return this.get_tr().childNodes[0] ;
 } ;
 Room.prototype.get_nr_will_be_used = function() {
-  return this.get_tr().childNodes[2] ;
+  return this.get_tr().childNodes[1] ;
 } ;
 Room.prototype.get_total = function() {
-  return this.get_tr().childNodes[3] ;
+  return this.get_tr().childNodes[2] ;
 } ;
 Room.prototype.get_name = function(i) {
   return this.get_tr().childNodes[4].firstChild ;
@@ -384,9 +385,6 @@ Filler.prototype.menu = function() {
   return s ;
 } ;
 
-//  if ( column.real_type.title != 'Text' )
-
-
 function text_to_room_and_place(text)
 {
   var m = text.match(/(.*[^0-9. ])( *[0-9]+)(.*)/) ;
@@ -397,7 +395,6 @@ function text_to_room_and_place(text)
     return ['%%', text] ;
   return [text, 'undefined'] ;
 }
-
 
 Filler.prototype.create_rooms = function() {
   var room ;
@@ -951,14 +948,14 @@ function fill_column()
 	       '<div id="fill_is_safe">' + _('MSG_fill_safe') + '</div>'
 	       + '<table id="fill_table" onmousemove="if ( the_event(event).target.className != \'text\' ) hide_the_tip_real(true)">'
 	       + '<tr>'
-	       + '<th>' + hidden_txt(_('?'),
-				     id + _("TIP_TITLE_fill_?"))
 	       + '<th>' + hidden_txt(_("COL_TITLE_fill_used"),
 				     id + _("TIP_TITLE_fill_used"))
 	       + '<th>' + hidden_txt(_("COL_TITLE_fill_use"),
 				     id + _("TIP_TITLE_fill_use"))
 	       + '<th>' + hidden_txt(_("COL_TITLE_fill_total"),
 				     id + _("TIP_TITLE_fill_total"))
+	       + '<th>' + hidden_txt(_('?'),
+				     id + _("TIP_TITLE_fill_?"))
 	       + '<th>' + hidden_txt(_("COL_TITLE_fill_name"),
 				     id + _("TIP_TITLE_fill_name"))
 	       + '<th>' + hidden_txt(_("COL_TITLE_fill_possible"),
