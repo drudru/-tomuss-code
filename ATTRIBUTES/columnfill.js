@@ -944,7 +944,6 @@ Filler.prototype.do_fill = function()
 
 function fill_column()
 {
-  // MSG_fill_remove_empty MSG_fill TAB_fill_clear MSG_fill_clear TAB_fill_one MSG_fill_one MSG_fill_multiple MSG_fill_numbers COL_TITLE_room_name MSG_fill_before B_fill B_fill_comments MSG_fill_after MSG_fill_room_text
   Filler.filler = new Filler() ;
   var id = '<!--INSTANTDISPLAY-->' ;
   create_popup('fill_column_div',

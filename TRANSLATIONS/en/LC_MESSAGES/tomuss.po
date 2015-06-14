@@ -719,9 +719,6 @@ msgstr "Can't import the column because this column does not exists"
 msgid "ALERT_url_import_private"
 msgstr "It is forbidden to import from a private table"
 
-msgid "ALERT_url_import_computed"
-msgstr "It is impossible to import a computed value as average"
-
 msgid "ALERT_url_import_bad"
 msgstr "The URL is inaccessible"
 
@@ -831,10 +828,6 @@ msgid "TAB_?"
 msgstr "?"
 
 #. Tab label
-msgid "TAB_parametrage"
-msgstr "Parametrage"
-
-#. Tab label
 msgid "TAB_column"
 msgstr "Column"
 
@@ -918,14 +911,6 @@ msgstr "The server <b>rejected the value change</b>.<br>\n"
 msgid "TIP_violet_square"
 msgstr "There is a <b>bug</b> somewhere,<br>\n"
        "the administrator must have received a mail pointing the problem."
-
-#. Label cell attribute
-msgid "LABEL_square"
-msgstr " green square = value saved!"
-
-#. Label cell attribute
-msgid "TIP_LABEL_square"
-msgstr "Put the pointer on the small squares to known what they mean."
 
 msgid "LABEL_shortcuts"
 msgstr "Keyboard shortcut list:"
@@ -1064,8 +1049,8 @@ msgstr "JLV is not a grade"
 msgid "SELECT_column_abj_is_average"
 msgstr "JLV → average of the others"
 
-msgid "TIP_column_visibility"
-msgstr "On the 'suivi' page, the column will be:\n"
+msgid "TIP_column_attr_visibility"
+msgstr "On the 'suivi' page, the column may be:\n"
        "<ul>\n"
        "<li> visible the indicated date or immediatly;\n"
        "<li> hidden to the students;\n"
@@ -1128,10 +1113,6 @@ msgstr "Teachers:&nbsp;"
 msgid "BEFORE_table_masters"
 msgstr "Administrators:&nbsp;"
 
-
-#. Tip common to some other tips
-msgid "TIP_not_visible_by_others"
-msgstr "The modification will not be visible to other users."
 
 #. Tip column action
 msgid "TIP_column_move_left"
@@ -1423,19 +1404,6 @@ msgid "MSG_not_yet_saved"
 msgstr "Modification not yet saved"
 
 #. GUI
-msgid "MSG_reauthenticate"
-msgstr "CLICK HERE<br>TO AUTHENTICATE AGAIN<br>\n"
-       "your session expired or your network address changed."
-
-#. GUI
-msgid "MSG_connection_staled"
-msgstr "No data save was possible the last 5 seconds.\n"
-       "The modifications will be saved when network connection will be up.\n"
-       "You will lost your work if you close or reload this page.\n"
-       "You should wait that all the orange square become green\n"
-       "before resuming your work."
-
-#. GUI
 msgid "MSG_refresh"
 msgstr "Sorry, I must redraw all the table because an important\n"
        "modification has been done on the table."
@@ -1487,23 +1455,6 @@ msgstr "Title"
 #. GUI
 msgid "SUIVI_comment"
 msgstr "Comment:"
-
-#. GUI
-msgid "SUIVI_modification_date"
-msgstr "Modification date:"
-
-#. GUI
-msgid "SUIVI_modification_author"
-msgstr "By:"
-
-#. GUI
-msgid "SUIVI_weight_add"
-msgstr "+ or - the number *"
-
-#. GUI
-msgid "SUIVI_weight_average"
-msgstr "Weight in the average:"
-
 
 msgid "SUIVI_best_of_before"
 msgstr "The "
@@ -1778,9 +1729,6 @@ msgstr "In your message you use non existent column title between [ ].\n"
 
 msgid "MSG_mail_archive"
 msgstr "[FOR_ARCHIVAGE]"
-
-msgid "MSG_mail_massmail_feedback"
-msgstr "Mass Mailing"
 
 msgid "MSG_stat_flower_horizontal"
 msgstr "Horizontal axis: group average"
@@ -2163,46 +2111,11 @@ msgstr "If the result is fine, you will reactivate it."
 msgid "MSG_modifiable_cells"
 msgstr "cells will be modified."
 
-msgid "MSG_unmodifiable_cells"
-msgstr "cells are not modifiable because you have not the access rights."
-
 msgid "MSG_fill"
 msgstr "Choose your filling method for this column."
 
 msgid "MSG_fill_safe"
 msgstr "Nothing will be changed until you click on 'Fill!'"
-
-msgid "TAB_fill_clear"
-msgstr "Clear"
-
-msgid "MSG_fill_clear"
-msgstr "All the cells you can modify will be blanked when\n"
-       "you click on the button"
-
-msgid "TAB_fill_one"
-msgstr "Fill"
-
-msgid "MSG_fill_one"
-msgstr "Set value to put in the cells.<br>\n"
-       "And then, click on the bottom button."
-
-msgid "MSG_fill_multiple"
-msgstr "If you enter the values A, B and C.<br>\n"
-       "The cells in their current order, will take the following values:"
-
-msgid "MSG_fill_numbers"
-msgstr "If you enter ' Place 8 room X ' cells will be filled with:\n"
-       "<div style=\"margin-left: 1em\">\n"
-       "'Place 8 room X'<br>\n"
-       "'Place 9 room X'<br>\n"
-       "'Place 10 room X'<br>\n"
-       "... until the last cell.</div>\n"
-       "If you enter '100' they will be set to 100, 101, 102..."
-       
-
-msgid "MSG_fill_equal"
-msgstr "If it is possible the numbers of A, B an C will be equal.<br>\n"
-       "<small>If the maximum number of B is 5, enter <b>B {{{5}}}</b></small>"
 
 msgid "TIP_fill_modify"
 msgstr "Modify non empty valuess"
@@ -2270,27 +2183,11 @@ msgstr "On filling, we replace %% in the name by the number"
 msgid "COL_TITLE_fill_comment"
 msgstr "About this value"
 
-msgid "TIP_TITLE_fill_result"
-msgstr "Explain what will happen when you click on 'Fill'"
-
-msgid "ALERT_column_fill_max"
-msgstr "Enlarge your constraint on maximum, filling is impossible"
-       
-msgid "MSG_fill_before"
-msgstr "Then click to change cells"
-
 msgid "B_fill"
 msgstr "values"
 
 msgid "B_fill_comments"
 msgstr "comments"
-
-msgid "MSG_fill_after"
-msgstr "of filtered cells."
-
-msgid "MSG_fill_remove_empty"
-msgstr "Empty lines have been filtered because it seems the normal behavior.\n"
-       "To really fill them: remove the filter."
 
 msgid "ERROR_server_bug"
 msgstr "There is a bug, the administrator has been mailed.\n"
@@ -2361,12 +2258,6 @@ msgid "TIP_cell_URL"
 msgstr "The URL as http://...."
 
 
-msgid "MSG_Moy_on_columns"
-msgstr " on columns: "
-
-msgid "MSG_Moy_operation"
-msgstr " Compute: "
-
 msgid "MSG_Note_ABINJ"
 msgstr "The grade or attendance was not entered by the teacher<br>\n"
        "for this student, but it was for the other students of its group.<br>\n"
@@ -2379,21 +2270,6 @@ msgstr "The grade or attendance was not entered by the teacher<br>\n"
        "<li> justified leave has no been yet taken into account.\n"
        "</ul>"
 
-
-msgid "MSG_Note_rank_before"
-msgstr "The rank of this grade is "
-
-msgid "MSG_Note_rank_middle"
-msgstr " on the "
-
-msgid "MSG_Note_rank_after_1"
-msgstr " grades of the group."
-
-msgid "MSG_Note_rank_after_2"
-msgstr " grades of the UE."
-
-msgid "MSG_Note_full_average"
-msgstr "Grade average and mediane :"
 
 msgid "MSG_URL"
 msgstr "Click here."
@@ -3103,7 +2979,7 @@ msgstr "The title must not contain space"
 msgid "LABEL_tablelinear_column_type"
 msgstr "Type"
 
-msgid "ERROR_tablelinear_column_type"
+msgid "TIP_tablelinear_column_type"
 msgstr "Possible types are: Note, Prst, Moy, Text, Nmbr, Bool, Max"
 
 msgid "LABEL_tablelinear_column_weight"
@@ -3825,9 +3701,6 @@ msgstr "Reload all the modified Python code on disk in the directories:\n"
        "PLUGINS, ATTRIBUTES, COLUMN_TYPES and all the Javascript and CSS.\n"
        "Module launching threads when loaded must not be reloaded..."
        
-msgid "ALERT_send_alert"
-msgstr "Message from TOMUSS:"
-
 msgid "MSG_send_alert"
 msgstr "Message sent : "
 
@@ -4148,15 +4021,6 @@ msgstr "Referent teacher statistics"
 msgid "HELP_referents"
 msgstr "display statistics about referent teachers"
 
-msgid "MSG_hide_empty_cells"
-msgstr "Hide empty cells."
-
-msgid "MSG_show_empty_cells"
-msgstr "Show empty cells."
-
-msgid "MSG_help"
-msgstr "Help/Explanations"
-
 msgid "MSG_suivi_student_mail_subject"
 msgstr "A bug in TOMUSS suivi"
 
@@ -4224,9 +4088,6 @@ msgstr "Teacher mails"
 
 msgid "TIP_suivi_student_mail_all"
 msgstr "The mail of each of the teachers of this student and of its referent"
-
-msgid "MSG_suivi_student_look"
-msgstr "Look:"
 
 msgid "MSG_suivi_student_official_bilan"
 msgstr "Official grades"
@@ -4773,9 +4634,6 @@ msgstr "What"
 msgid "TH_end_or_ue"
 msgstr "End date or UE"
 
-msgid "MSG_unknown_teacher"
-msgstr "UNKNOWN TEACHER!"
-
 msgid "MSG_abj_unknown_mail"
 msgstr "UNKNOWN MAIL !"
 
@@ -4947,9 +4805,6 @@ msgstr "There is a table comment: %s"
 
 msgid "MSG_document_table_title"
 msgstr "A column title is set"
-
-msgid "MSG_document_table_master"
-msgstr "A new master is defined"
 
 msgid "MSG_document_table_cell"
 msgstr "A cell is not empty"
@@ -5490,7 +5345,7 @@ msgstr "Hello.\n"
        "\n"
        "Sincerely yours."
 
-msgid "MSG_signature_miss_button"
+msgid "ALERT_signature_miss_button"
 msgstr "You must at least put an {{{OK}}} button at the end."
 
 msgid "SUBJECT_signature_done"
@@ -5818,12 +5673,6 @@ msgstr "Values in red can not be wrote in the cell for this column type.\n "
 
 msgid "MSG_no_rooms"
 msgstr "Ask your administrator to define the set of usable rooms."
-
-msgid "MSG_fill_room_text"
-msgstr "The column type must be «Free text»"
-
-msgid "MSG_fill_room_place"
-msgstr "Add the place number after the room name"
 
 msgid "MSG_fill_the_values"
 msgstr "Fill the values!"

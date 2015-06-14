@@ -710,9 +710,6 @@ msgstr "La colonne que vous avez indiqué n'existe pas"
 msgid "ALERT_url_import_private"
 msgstr "Il est interdit d'importer à partir d'une table privée"
 
-msgid "ALERT_url_import_computed"
-msgstr "Il n'est pas possible d'importer un résultat de calcul"
-
 msgid "ALERT_url_import_bad"
 msgstr "L'URL indiqué n'est pas/plus accessible."
 
@@ -824,10 +821,6 @@ msgid "TAB_?"
 msgstr "?"
 
 #. Tab label
-msgid "TAB_parametrage"
-msgstr "Paramétrage"
-
-#. Tab label
 msgid "TAB_column"
 msgstr "Colonne"
 
@@ -913,15 +906,6 @@ msgstr "le serveur <b>refuse de stocker cette valeur</b>.<br>\n"
 msgid "TIP_violet_square"
 msgstr "Il y a un <b>bug</b> quelque part,<br>\n"
        "le responsable du logiciel a reçu un message le prévenant."
-
-#. Label cell attribute
-msgid "LABEL_square"
-msgstr " carré vert = sauvegarde réussie !"
-
-#. Label cell attribute
-msgid "TIP_LABEL_square"
-msgstr "Mettez le curseur sur les petits carrés pour savoir<br>\n"
-       "ce qu'ils représentent."
 
 msgid "LABEL_shortcuts"
 msgstr "Liste des raccourcis clavier :"
@@ -1059,8 +1043,8 @@ msgstr "ABJ n'est pas une note"
 msgid "SELECT_column_abj_is_average"
 msgstr "ABJ → moyenne des autres"
 
-msgid "TIP_column_visibility"
-msgstr "Sur la page de 'suivi' la colonne sera :\n"
+msgid "TIP_column_attr_visibility"
+msgstr "Sur la page de 'suivi' la colonne peut-être :\n"
        "<ul>\n"
        "<li> visible à la date indiquée ou immédiatement ;\n"
        "<li> cachée aux étudiants ;\n"
@@ -1120,10 +1104,6 @@ msgstr "Responsables&nbsp;:&nbsp;"
 msgid "BEFORE_table_teachers"
 msgstr "Intervenants&nbsp;:&nbsp;"
 
-
-#. Tip common to some other tips
-msgid "TIP_not_visible_by_others"
-msgstr "Ce changement n'est pas visible par les autres utilisateurs."
 
 #. Tip column action
 msgid "TIP_column_move_left"
@@ -1417,19 +1397,6 @@ msgid "MSG_not_yet_saved"
 msgstr "Changement pas encore sauvegardé"
 
 #. GUI
-msgid "MSG_reauthenticate"
-msgstr "CLIQUEZ ICI<br>POUR VOUS AUTHENTIFIER À NOUVEAU<br>\n"
-       "votre session a expiré ou<br>votre machine a changé de réseau."
-#. GUI
-msgid "MSG_connection_staled"
-msgstr "Cela fait 5 secondes que l'on n'arrive pas à sauvegarder\n"
-       "votre travail sur le serveur.\n"
-       "Il sera sauvegardé quand la connexion internet sera rétablie.\n\n"
-       "Vous perdrez votre travail si vous fermez/rechargez la page web.\n\n"
-       "Il est préférable d'attendre que TOUS les carrés oranges\n"
-       "deviennent verts avant de continuer à travailler."
-
-#. GUI
 msgid "MSG_refresh"
 msgstr "Désolé pour le dérangement, mais je dois tout réafficher\n"
        "il y a une mise à jour importante dans la table."
@@ -1483,22 +1450,6 @@ msgstr "Titre"
 #. GUI
 msgid "SUIVI_comment"
 msgstr "Commentaire :"
-
-#. GUI
-msgid "SUIVI_modification_date"
-msgstr "Date modification :"
-
-#. GUI
-msgid "SUIVI_modification_author"
-msgstr "Par :"
-
-#. GUI
-msgid "SUIVI_weight_add"
-msgstr "+ ou - la valeur * par"
-
-#. GUI
-msgid "SUIVI_weight_average"
-msgstr "Poids dans la moyenne pondérée :"
 
 msgid "SUIVI_best_of_before"
 msgstr "Les "
@@ -1779,9 +1730,6 @@ msgstr "Dans votre message, vous faites référence à des noms de colonnes "
 
 msgid "MSG_mail_archive"
 msgstr "[POUR_ARCHIVAGE]"
-
-msgid "MSG_mail_massmail_feedback"
-msgstr "Publipostage"
 
 msgid "MSG_stat_flower_horizontal"
 msgstr "Axe horizontal : moyenne du groupe"
@@ -2166,46 +2114,11 @@ msgstr "Vous la réactiverez après avoir vérifié le résultat."
 msgid "MSG_modifiable_cells"
 msgstr "cellules vont être modifiées."
 
-msgid "MSG_unmodifiable_cells"
-msgstr "cellules ne sont pas modifiables car vous n'avez pas le droit."
-
 msgid "MSG_fill"
 msgstr "Options de remplissage :"
 
 msgid "MSG_fill_safe"
 msgstr "Rien n'est modifié dans la colonne tant que vous ne validez pas."
-
-msgid "TAB_fill_clear"
-msgstr "Vider"
-
-msgid "MSG_fill_clear"
-msgstr "Toutes les cellules que vous pouvez modifier seront vidées\n"
-       "quand vous cliquerez sur le bouton en bas"
-
-msgid "TAB_fill_one"
-msgstr "Remplir"
-
-msgid "MSG_fill_one"
-msgstr "Choisissez la valeur que doivent prendre les cellules.<br>\n"
-       "Puis cliquez sur le bouton en bas."
-
-msgid "MSG_fill_multiple"
-msgstr "Si vous saisissez A sur la première ligne, B et C sur les deux suivantes.<br>\n"
-       "Les cellules vont prendre comme valeur dans l'ordre\n"
-       "dans lesquelles elles sont actuellement affichées :"
-
-msgid "MSG_fill_numbers"
-msgstr "Si vous saisissez « Place 8, Amphi X » les cellules vont prendre\n"
-       "comme valeurs&nbsp;:<div style=\"margin-left: 1em\">\n"
-       "« Place 8, Amphi X »<br>\n"
-       "« Place 9, Amphi X »<br>\n"
-       "« Place 10, Amphi X »<br>\n"
-       "... jusqu'à la dernière cellule.</div>\n"
-       "Si vous saisissez « 100 » elles contiendront 100, 101, 102..."
-       
-msgid "MSG_fill_equal"
-msgstr "Le remplissage est le plus équilibré possible.<br>\n"
-       "<small>Pour avoir 5 B au maximum, saisissez <b>B {{{5}}}</b></small>"
 
 msgid "TIP_fill_modify"
 msgstr "Change les valeurs existantes"
@@ -2214,10 +2127,10 @@ msgid "TIP_fill_no_modify"
 msgstr "Remplir seulement les valeurs vides"
 
 msgid "TIP_fill_interleave"
-msgstr "Remplir sous la forme ABCABCABCABC"
+msgstr "Remplir sous la forme A, B, C, A, B, C"
 
 msgid "TIP_fill_no_interleave"
-msgstr "Remplir sous la forme AAAABBBBCCCC"
+msgstr "Remplir sous la forme A, A, B, B, C, C"
 
 msgid "TIP_fill_unfiltered"
 msgstr "Equilibre globalement en tenant compte des valeurs cachées"
@@ -2276,31 +2189,11 @@ msgstr "Lors du remplissage, on remplace %% par le nombre"
 msgid "COL_TITLE_fill_comment"
 msgstr "Remarques"
 
-msgid "TIP_TITLE_fill_result"
-msgstr "Explique ce qu'il va se passer quand vous cliquerez sur 'Remplir'"
-
-
-
-msgid "ALERT_column_fill_max"
-msgstr "Les nombres maximums indiqués ne permettent pas le remplissage."
-
-msgid "MSG_fill_before"
-msgstr "Puis cliquez pour changer les "
-
 msgid "B_fill"
 msgstr "valeurs"
 
 msgid "B_fill_comments"
 msgstr "commentaires"
-
-msgid "MSG_fill_after"
-msgstr "des cellules filtrées."
-
-
-msgid "MSG_fill_remove_empty"
-msgstr "Les lignes vides ont été filtrées car vous ne voulez certainement\n"
-       "pas les remplir.\n"
-       "Vous pouvez enlevez le filtre maintenant si vous désirez les remplir."
 
 msgid "ERROR_server_bug"
 msgstr "Un bug s'est produit, l'administrateur a été prévenu.\n"
@@ -2373,12 +2266,6 @@ msgstr "Présence, tapez P : Présent, I : ABI, J : ABJ"
 msgid "TIP_cell_URL"
 msgstr "L'URL sous la forme http://...."
 
-msgid "MSG_Moy_on_columns"
-msgstr " sur les colonnes : "
-
-msgid "MSG_Moy_operation"
-msgstr " Calcul effectué : "
-
 msgid "MSG_Note_ABINJ"
 msgstr "La note ou présence n'est pas indiquée par l'enseignant<br>\n"
        "pour cet étudiant, mais elle l'était pour les autres étudiants<br>\n"
@@ -2390,21 +2277,6 @@ msgstr "La note ou présence n'est pas indiquée par l'enseignant<br>\n"
        "<li> sa copie ne soit pas encore corrigée ;\n"
        "<li> son justificatif d'absence ne soit pas encore pris en compte.\n"
        "</ul>"
-
-msgid "MSG_Note_rank_before"
-msgstr "Le rang de cette note est "
-
-msgid "MSG_Note_rank_middle"
-msgstr " sur les "
-
-msgid "MSG_Note_rank_after_1"
-msgstr " notes dans le groupe."
-
-msgid "MSG_Note_rank_after_2"
-msgstr " notes dans l'UE."
-
-msgid "MSG_Note_full_average"
-msgstr "Moyenne et médiane des notes :"
 
 msgid "MSG_URL"
 msgstr "Cliquez ici"
@@ -3117,7 +2989,7 @@ msgstr "Le titre ne doit pas contenir d'espace"
 msgid "LABEL_tablelinear_column_type"
 msgstr "Type"
 
-msgid "ERROR_tablelinear_column_type"
+msgid "TIP_tablelinear_column_type"
 msgstr "Les types possibles sont : Note, Prst, Moy, Text, Nmbr, Bool, Max"
 
 msgid "LABEL_tablelinear_column_weight"
@@ -3858,9 +3730,6 @@ msgstr "Met à jours les plugins modifiés sur disque.\n"
        "Les plugins modifiant l'état de l'application\n"
        "ou lançant des threads ne doivent pas être rechargés."
 
-msgid "ALERT_send_alert"
-msgstr "Message de TOMUSS :"
-
 msgid "MSG_send_alert"
 msgstr "Message envoyé : "
 
@@ -4191,15 +4060,6 @@ msgid "HELP_referents"
 msgstr "Affiche des statistiques sur les enseignants référents pédagogiques"
 
 
-msgid "MSG_hide_empty_cells"
-msgstr "Cacher les cases vides."
-
-msgid "MSG_show_empty_cells"
-msgstr "Montrer les cases vides."
-
-msgid "MSG_help"
-msgstr "Aides/Explications"
-
 msgid "MSG_suivi_student_mail_subject"
 msgstr "Un bug dans le suivi de TOMUSS"
 
@@ -4275,9 +4135,6 @@ msgstr "Mails responsables"
 msgid "TIP_suivi_student_mail_all"
 msgstr "Liste les adresses mails du réferent ainsi que des<br>\n"
        "enseignants responsables des UE suivies par l'étudiant."
-
-msgid "MSG_suivi_student_look"
-msgstr "Regarder :"
 
 msgid "MSG_suivi_student_official_bilan"
 msgstr "Bilan APOGÉE"
@@ -4832,9 +4689,6 @@ msgstr "Quoi"
 msgid "TH_end_or_ue"
 msgstr "Date fin ou UE"
 
-msgid "MSG_unknown_teacher"
-msgstr "ENSEIGNANT INCONNU !"
-
 msgid "MSG_abj_unknown_mail"
 msgstr "MAIL INCONNU !"
 
@@ -5014,9 +4868,6 @@ msgstr "Il y a un commentaire de table : %s"
 
 msgid "MSG_document_table_title"
 msgstr "Un titre de colonne a été saisi"
-
-msgid "MSG_document_table_master"
-msgstr "La liste des responsables a été changée"
 
 msgid "MSG_document_table_cell"
 msgstr "Une cellule n'est pas vide"
@@ -5573,7 +5424,7 @@ msgstr "Bonjour.\n"
        "\n"
        "Amicalement."
 
-msgid "MSG_signature_miss_button"
+msgid "ALERT_signature_miss_button"
 msgstr "Il faut au moins laisser un bouton {{{OK}}}"
 
 msgid "SUBJECT_signature_done"
@@ -5912,7 +5763,7 @@ msgid "MSG_fill_room_go"
 msgstr "Cliquez pour remplir :"
 
 msgid "MSG_fill_room"
-msgstr "Cochez les salles dans lesquelles vous répartissez les étudiants."
+msgstr "Cochez les valeurs que vous voulez utiliser pour le remplissage de la colonne."
 
 msgid "MSG_fill_room_nothing"
 msgstr "Aucune cellule vide nécessitant d'être remplie. Modifiez l'option mise en évidence"
@@ -5928,7 +5779,7 @@ msgstr "Des valeurs sont effacées alors que d'autres sont remplies.\n"
        "Avez-vous oublié de décocher quelque chose ?"
 
 msgid "MSG_fill_overflow"
-msgstr " débordements de salle lors de l'affectation."
+msgstr " il n'y a pas assez de numéros possibles lors de l'affectation."
 
 msgid "MSG_fill_unwritable"
 msgstr " modifications interdites de cellules."
@@ -5948,12 +5799,6 @@ msgstr "Les valeurs indiquées en rouge ne peuvent être enregistrées dans \n"
 
 msgid "MSG_no_rooms"
 msgstr "Demandez à l'administrateur de définir la liste des salles utilisables."
-
-msgid "MSG_fill_room_text"
-msgstr "Le type de la colonne doit être «Texte libre»"
-
-msgid "MSG_fill_room_place"
-msgstr "ajoute les N° de place au nom de la salle"
 
 msgid "MSG_fill_the_values"
 msgstr "Remplir les valeurs !"

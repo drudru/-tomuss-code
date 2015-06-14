@@ -1,0 +1,53 @@
+#!/bin/sh
+# -*- sh -*-
+
+echo "Search the translations possibly unused"
+
+cat TRANSLATIONS/*/*/tomuss.po |
+grep "^msgid" |
+sed -e 's/msgid "//' -e 's/"//' |
+sort -u |
+while read KEY
+do
+    # Many translations ID are computed, so not foundable in source files.
+    case "$KEY" in
+	"") ;;
+	ALERT_change_to_*) ;;
+	BOX_*) ;;
+	COL_COMMENT_*) ;;
+	COL_TITLE_*) ;;
+	HELP_*) ;;
+	LABEL_cell_change_*) ;;
+	LABEL_visits_*) ;;
+	LINK_*) ;;
+	MSG_columngroup[-+]) ;;
+	Preference_*) ;;
+	Preferences_*) ;;
+	SHORTCUT_*) ;;
+	TH_type_type_*) ;;
+	TIP_column_attr_*) ;;
+	TIP_fill_*) ;;
+	TIP_table_attr_*) ;;
+	TIP_stat_*) ;;
+	TITLE_column_attr_*) ;;
+	TITLE_table_attr_*) ;;
+	[BH]_*) ;;
+	config_table_*) ;;
+	mail_on_new_student[-+]) ;;
+	*)
+	    echo -n "="
+	    if ! git grep -q -e "\b$KEY[^a-zA-Z0-9_-]" -- '*.py' '*.js' '*.html' 'SCRIPTS/*' >/dev/null
+		then
+		echo
+		echo "($KEY)"
+		grep -A 1 --color "msgid.*\"$KEY\"" TRANSLATIONS/*/*/tomuss.po
+		fi
+	    ;;
+    esac
+done
+echo
+echo "DONE"
+
+
+
+
