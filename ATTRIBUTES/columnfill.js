@@ -423,6 +423,8 @@ Filler.prototype.create_rooms = function() {
       if ( rooms[i][0].indexOf('%%') != -1 )
 	this.example_row_defined = true ;
     }
+    if ( rooms.length == 0 )
+      this.rooms['none'] = new Room([_("MSG_no_rooms"), "", "", ""]) ;
   }
   else
     this.example_row_defined = true ;
@@ -956,7 +958,7 @@ function fill_column()
 				     id + _("TIP_TITLE_fill_total"))
 	       + '<th>' + hidden_txt(_('?'),
 				     id + _("TIP_TITLE_fill_?"))
-	       + '<th>' + hidden_txt(_("COL_TITLE_fill_name"),
+	       + '<th class="nowrap">' + hidden_txt(_("COL_TITLE_fill_name"),
 				     id + _("TIP_TITLE_fill_name"))
 	       + '<th>' + hidden_txt(_("COL_TITLE_fill_possible"),
 				     id + _("TIP_TITLE_fill_possible"))
