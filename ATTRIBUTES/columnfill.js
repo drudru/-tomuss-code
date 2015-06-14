@@ -780,7 +780,7 @@ Filler.prototype.update_html = function() {
     }
   
   var s = [] ;
-  var unwritable = 0, problems = 0, replacements = 0 ;
+  var unwritable = 0, problems = 0, replacements = 0, changes = 0 ;
   alert_append_start() ;
   for(var i in this.dispatch)
     {
@@ -827,6 +827,8 @@ Filler.prototype.update_html = function() {
 	}
       if ( tip )
 	tip = '<!--INSTANTDISPLAY-->' + tip ;
+      if ( old_val != new_val )
+	changes++ ;
       s.push('<tr><td class="old_value">'
 	     + (tip !== '' ? hidden_txt(html(old_val), tip) : html(old_val))
 	     + '<td class="' + classe + '">'
@@ -893,9 +895,12 @@ Filler.prototype.update_html = function() {
   if ( replacements )
       messages.push('<div class="fill_replace">' + replacements
 		    + _("MSG_fill_replace") + '</div>') ;
+  if ( changes )
+      messages.push('<div class="fill_room_messages">' + changes + ' '
+		    + _("MSG_modifiable_cells") + '</div>') ;
   s = '<h3>' + _("MSG_fill_room_message")
     + '</h3><div class="fill_room_messages">'
-    + (messages.length == 0
+    + (messages.length == 0 // Never true
        ? _("MSG_fill_room_message_none")
        : messages.join('')
       )
