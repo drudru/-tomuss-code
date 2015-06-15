@@ -188,8 +188,12 @@ def compute_cell_safe(data_col, line, compute_function):
     if columns[data_col].cell_is_modifiable():
         if v != line[data_col].value:
             line[data_col] = line[data_col].set_value(v)
-            line[data_col].date = date
-            line[data_col].author = '?'
+            line[data_col].date = ''
+            try:
+                a = line[columns[data_col].average_columns[0]].author
+            except:
+                a = '?'
+            line[data_col].author = a
         return # For COW column type
     if isNaN(to_float_or_nan(v)):
         if get_most_recent_date(data_col, line, True) > line[data_col].date:

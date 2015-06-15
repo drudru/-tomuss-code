@@ -27,7 +27,7 @@ def compute_cow(data_col, line):
     if len(column.average_columns) != 1:
         return line[data_col].value
 
-    if line[data_col].author != '?' and  line[data_col].author != '':
+    if line[data_col].date != '':
         return line[data_col].value
 
     c = column.average_columns[0]
