@@ -5686,3 +5686,9 @@ msgstr "Modify rooms definitions"
 msgid "HELP_/0/Dossiers/config_room"
 msgstr "Allow to define the rooms and the numbering of places in the rooms for the examinations"
 
+msgid "ALT_photo_ID"
+msgstr "Photo ID"
+
+msgid "ALT_logo"
+msgstr "Logo"
+

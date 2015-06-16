@@ -95,7 +95,11 @@ function display_create_tree()
        display_definition[i].children.sort(function(a,b)
 					   {return a.priority - b.priority;});
 }
-
+// The display function returns a string (html) or an array
+// [ "html content",
+//   ["html class1", "html class2"...],
+//   ["style1", "style2"...],
+//   "other attributes"]
 function display_display(node)
 {
   node.data = display_data[node.name] ;
@@ -252,6 +256,10 @@ function is_inside_rightclip(element)
 
 function set_rightclip(classe, event)
 {
+  if ( millisec() - set_rightclip.time < 10 )
+    return ;
+  set_rightclip.time = millisec() ;
+  
   var e = document.getElementById("rightclip") ;
   if ( ! e )
     return ;
@@ -273,6 +281,7 @@ function set_rightclip(classe, event)
   } ;
   return 
 }
+set_rightclip.time = 0 ;
 
 function show_rightclip(event)
 {
@@ -327,9 +336,11 @@ function load_full_size_picture(event)
 
 function DisplayPicture(node)
 {
-  return hidden_txt('<img class="small" src="'
+  return hidden_txt('<img class="small" alt="'
+		    + _('ALT_photo_ID') + '" src="'
 		    + student_picture_icon_url(display_data['Login']) + '">',
-		    '<img class="big">', undefined, undefined,
+		    '<img class="big" alt="'
+		     + _('ALT_photo_ID') + '">', undefined, undefined,
 		    "load_full_size_picture(event)") ;
 }
 DisplayPicture.need_node = ['Login'] ;
@@ -475,7 +486,7 @@ function DisplayExplanationPopup()
 
 function DisplayExplanation(node)
 {
-  return ['?', '', '', 'onclick="DisplayExplanationPopup()"'] ;
+  return ['?', 'clickable', '', 'onclick="DisplayExplanationPopup()"'] ;
 }
 // DisplayExplanation.need_node = [] ;
 
@@ -540,7 +551,7 @@ function DisplayPreferences(node)
   for(var item in node.data)
     if ( node.data[item] === undefined )
       node.data[item] = 0 ;
-  return ['⚙', '', '', 'onclick="DisplayPreferencesPopup()"'] ;
+  return ['≡', 'clickable', '', 'onclick="DisplayPreferencesPopup()"'] ;
 }
 DisplayPreferences.need_node = ['Preferences', 'Login'] ;
 
@@ -1113,8 +1124,15 @@ function DisplayLogo(node)
 {
   if ( node.data === '' || node.data == 'http://xxx.yyy.zzz/logo.png' )
     return '' ;
-  return '<img src="' + node.data + '">' ;
+  return '<img src="' + node.data + '" alt="' + _("ALT_logo") + '">' ;
 }
+
+function DisplayYearSemester(node)
+{
+  return '<span class="Display" style="font-size:200%">»</span>'
+    + year + '/' + semester ;
+}
+DisplayYearSemester.need_node = [] ;
 
 function DisplaySemesters(node)
 {
@@ -1182,6 +1200,7 @@ function DisplayGetStudent(node)
     return '' ; // I am yet its referent
 
   return hidden_txt('<img onclick="catch_this_student(event)" '
+		    + 'alt="' + _("MSG_home_become_referent") + '" '
 		    + 'src="' + url_files
 		    + '/butterflynet.png">', _('MSG_bilan_take_student'));
 }
@@ -1315,7 +1334,8 @@ function DisplayRSS(node)
   return hidden_txt('<a href="' + url_suivi + '/rss/' + node.data + '">'
 		    + _("MSG_suivi_student_RSS")
 		    + '<img src="' + url_files
-		    + '/feed.png" style="border:0px"></a>',
+		    + '/feed.png" alt="' + _("TIP_suivi_student_RSS")
+		    + '" style="border:0px"></a>',
 		    _("TIP_suivi_student_RSS"))
     + '<link href="' + url_suivi + '/rss/' + node.data
     + '" rel="alternate" title="TOMUSS" type="application/rss+xml">' ;

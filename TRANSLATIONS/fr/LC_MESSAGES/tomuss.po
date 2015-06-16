@@ -5812,3 +5812,8 @@ msgstr "Configurer la liste des salles"
 msgid "HELP_/0/Dossiers/config_room"
 msgstr "Cela permet de définir les numéros de place qui existent dans les salles pour les examens. C'est utilisé par le remplissage de colonne."
 
+msgid "ALT_photo_ID"
+msgstr "Photo d'identité"
+
+msgid "ALT_logo"
+msgstr "Logo"

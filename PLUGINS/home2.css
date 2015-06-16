@@ -62,6 +62,7 @@ COL.student_icon { width: 35px; }
 COL.code { width: 7.6em ; }
 COL.responsable { width: 10em ; }
 
+#scrollable_left TABLE.uelist { min-width: 30em ; }
 TABLE.uelist INPUT { width: 5em ;  }
 
 TABLE.uelist TR.search TD { padding: 0.4em ; color: black; }

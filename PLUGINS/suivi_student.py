@@ -425,6 +425,7 @@ D('MoreOnSuivi' , 'BodyRight' ,9, data=display_more_on_suivi)
 D('Advertising' , 'BodyRight',99, data=lambda server: configuration.advertising)
 
 D('Logo'        , 'User'      ,0, data=display_logo)
+D('YearSemester', 'User'      ,1.9)
 D('Reload'      , 'User'      ,2)
 D('Profiling'   , 'User'      ,3)
 D('IdentityR'   , 'User'      ,-1, js='Horizontal') # Yes : -1

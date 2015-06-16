@@ -256,7 +256,7 @@ function head_html()
 		 + bookmarked_indicator() + '</a>',
 		 _('TIP_bookmark'))
     + '<a href="javascript:show_help_popup()">' + _("TAB_?") + '</a>'
-    + '<a href="javascript:show_preferences_popup()">⚙</a>'
+    + '<a href="javascript:show_preferences_popup()">≡</a>'
     + '</tr></table>'
     + '<div id="charsize" style="position:absolute;top:-999px">8</div>'
     + '<h1>'

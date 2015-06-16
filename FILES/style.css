@@ -15,6 +15,12 @@ BODY, TABLE TD, #current_input, TR.filter INPUT {
 INPUT { cursor: text ; }
 A { text-decoration: none; }
 
+.clickable {
+    cursor: pointer ;
+}
+.clickable:hover {
+    text-decoration: underline ;
+}
 
 
 BODY.tomuss H1 { font-size: 90% }
@@ -671,7 +677,7 @@ span.toggled { background: #080 ; color: white }
 .small { font-size: 80% }
 .smaller { font-size: 60% }
 
-A:hover { text-decoration: underline }
+A[href]:hover { text-decoration: underline }
 
 /*****************************************************************************/
 /* New new interface */

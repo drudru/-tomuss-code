@@ -53,6 +53,7 @@ BODY DIV.preferences_popup, BODY DIV.explanations_popup {
     left: auto ;
     width: 20em ;
     opacity: 0.9 ;
+    max-width: 95% ;
 }
 DIV.preferences_popup IMG { width: 1em }
 
@@ -84,8 +85,9 @@ BODY DIV.explanations_popup {
 .Semesters IMG { height: 1.3em ;}
 .Preamble {
     padding: 0.2em;
-    background-color: #FF8080;
+    background-color: #000;
     text-align: center ;
+    color: #FFF
 }
 .Message {
     padding: 0.2em;
@@ -107,7 +109,7 @@ BODY DIV.explanations_popup {
 .CellTop, .CellBottom {
     font-size: 60% ;
 }
-SPAN.displaygrey { color: #888 }
+SPAN.displaygrey { color: #555 }
 .CellBox INPUT {
     width: 20em;
     opacity: 1 ; /* Do not work */
@@ -273,27 +275,33 @@ BODY.hide_right_column_1 .hide_rightclip {
 BODY.hide_right_column_1 .show_rightclip {
     z-index: 2 ; /* Hide cellbox tip */
     opacity: 1 ;
-    width: 21em ;
+    width: 21.6em ;
+    max-width: 100% ;
     -webkit-animation-duration: 0.5s;
     -webkit-animation-name: make_large_bodyright;
     animation-duration: 0.5s;
     animation-name: make_large_bodyright;
 }
+BODY.hide_right_column_1 .BodyRight {
+    border: 2px solid black ;
+    padding: 0.3em ;
+}
+
 @-webkit-keyframes make_large_bodyright {
   from { width: 5em ; opacity: 0.3 }
-  to   { width: 21em; opacity: 1 }
+  to   { width: 21.6em; opacity: 1 }
 }
 @-webkit-keyframes make_small_bodyright {
-  from { width: 21em; opacity: 1   }
+  from { width: 21.6em; opacity: 1   }
   to   { width: 5em ; opacity: 0.3 }
 }
 
 @keyframes make_large_bodyright {
   from { width: 5em ; opacity: 0.3 }
-  to   { width: 21em; opacity: 1 }
+  to   { width: 21.6em; opacity: 1 }
 }
 @keyframes make_small_bodyright {
-  from { width: 21em; opacity: 1   }
+  from { width: 21.6em; opacity: 1   }
   to   { width: 5em ; opacity: 0.3 }
 }
 

@@ -1292,7 +1292,7 @@ function generate_home_page_top()
     + '/news.xml"><img style="border:0px;" src="'
     + '_FILES_/feed.png"></a>&nbsp;'
     + '<a href="javascript:home_help_popup()">' + _("TAB_?")+'</a>&nbsp;'
-    + '<a href="javascript:home_preferences_popup()">⚙</a>&nbsp;'
+    + '<a href="javascript:home_preferences_popup()">≡</a>&nbsp;'
     + '</tr></table>'
     + '</div>'
     + information_message
