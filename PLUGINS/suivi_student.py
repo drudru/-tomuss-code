@@ -20,8 +20,6 @@
 #    Contact: Thierry.EXCOFFIER@bat710.univ-lyon1.fr
 
 """
-If there is a ':' before the login name then the APOGEE link is
-translated as an IFRAME to include all the information.
 """
 
 import os

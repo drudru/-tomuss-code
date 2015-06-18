@@ -456,7 +456,7 @@ def js(t):
         # return repr(unicode(t,'utf8').encode('latin1'))
         return '"' + t.replace('\\','\\\\').replace('"','\\"').replace('>','\\x3E').replace('<','\\x3C').replace('&', '\\x26').replace('\r','').replace('\n','\\n') + '"'
     elif isinstance(t, float):
-        return '%g' % t
+        return '%s' % t # DO NOT USE %g: 4.9999998 => 5
     elif isinstance(t, dict):
         return '{' + ','.join("'%s':%s" % (k, js(v))
                               for k, v in t.items()) + '}'
