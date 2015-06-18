@@ -532,14 +532,16 @@ function DisplayPreferencesPopup(do_no_hide)
 	       return 0 ;
 	     }
 	     ) ;
-  var s = [] ;
+  var s = [], label ;
   for(var item in items)
     {
       item = items[item] ;
-      s.push('<li onclick="preference_toggle(\'' + item + '\')"'
-	     + ' id="preference_' + item + '"'
-	     + ' class="selection_' + data[item] + '">'
-	     + _('Preference_' + item)  + '</li>') ;
+      label = 'Preference_' + item ;
+      if (  _(label) != label )
+	s.push('<li onclick="preference_toggle(\'' + item + '\')"'
+	       + ' id="preference_' + item + '"'
+	       + ' class="selection_' + data[item] + '">'
+	       + _(label)  + '</li>') ;
     }
   create_popup('preferences_popup', _('LABEL_preferences') + '<br>'
 	       + (is_a_teacher ? username : display_data['Login']),
