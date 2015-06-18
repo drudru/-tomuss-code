@@ -5448,6 +5448,9 @@ msgstr "Do not truncate cell content."
 msgid "Preference_recursive_formula"
 msgstr "Detailed average formula display"
 
+msgid "Preference_green_prst"
+msgstr "Color PRST with green"
+
 
 msgid "LINK_restart_tomuss"
 msgstr "Restart TOMUSS"

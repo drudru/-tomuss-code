@@ -935,9 +935,13 @@ function DisplayCellBox(node)
 		 || DisplayGrades.column.type == 'Note'
 		 || DisplayGrades.column.type == 'Prst'
 		 )
-		&& DisplayGrades.cell.value !== '')
-	classes.push(grade_to_class(DisplayGrades.column,
-				    DisplayGrades.value)) ;
+		&& DisplayGrades.cell.value !== ''
+		&& (
+		    display_data['Preferences'].green_prst
+		    || DisplayGrades.value != pre
+		    ))
+	  classes.push(grade_to_class(DisplayGrades.column,
+				      DisplayGrades.value)) ;
     }
     
   if ( DisplayGrades.cell.comment )

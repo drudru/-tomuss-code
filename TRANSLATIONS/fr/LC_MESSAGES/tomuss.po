@@ -5567,6 +5567,9 @@ msgstr "Ne tronque pas le texte dans les cases."
 msgid "Preference_recursive_formula"
 msgstr "Affichage détaillé des moyennes"
 
+msgid "Preference_green_prst"
+msgstr "Colorier en vert les PRST"
+
 
 msgid "LINK_restart_tomuss"
 msgstr "Relance TOMUSS"

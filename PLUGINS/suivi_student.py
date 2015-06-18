@@ -372,7 +372,8 @@ def display_preferences(server):
 
     for k in ('show_empty', 'color_value', 'highlight_grade', 'private_suivi',
               'hide_right_column', 'big_text', 'hide_picture',
-              'no_teacher_color', 'big_box', 'recursive_formula'):
+              'no_teacher_color', 'big_box', 'recursive_formula',
+              'green_prst'):
         if k not in prefs:
             prefs[k] = 0
 
