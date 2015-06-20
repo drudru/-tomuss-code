@@ -565,6 +565,49 @@ function DisplayLogout(node)
 }
 DisplayLogout.need_node = [] ;
 
+function DisplayUEToggle_key(ue)
+{
+  return year + '/' + semester + '/' + ue ;
+}
+
+function DisplayUEToggle_text(ue)
+{
+  return localStorage[DisplayUEToggle_key(ue)] == "closed" ? '▶' : '▼' ;
+}
+
+function DisplayUEToggle_is_open(ue)
+{
+  return localStorage[DisplayUEToggle_key(ue)] != 'closed' ;
+}
+
+function DisplayUEToggle_do(event, ue)
+{
+  var k = DisplayUEToggle_key(ue) ;
+  localStorage[k] = localStorage[k] == "closed" ? "open" : "closed" ;
+  var t = the_event(event).target ;
+  t.innerHTML = DisplayUEToggle_text(ue) ;
+  if ( DisplayUEToggle_is_open(ue) )
+    t.parentNode.parentNode.nextSibling.style.display = "initial" ;
+  else
+    t.parentNode.parentNode.nextSibling.style.display = "none" ;
+}
+
+function DisplayUEToggle(node)
+{
+  try {
+    return '<a class="clickable" onclick="DisplayUEToggle_do(event,'
+      + js2(DisplayGrades.ue.ue) + ')">'
+      +  DisplayUEToggle_text(DisplayGrades.ue.ue)
+      + '</a>' ;
+  }
+  catch(e)
+    {
+      return '' ;
+    }
+}
+DisplayUEToggle.need_node = [] ;
+
+
 function DisplayUETitle(node)
 {
   var ue = DisplayGrades.ue ;
@@ -995,6 +1038,8 @@ function DisplayUEGrades(node)
 	ss = ss.replace('class="', 'class="is_empty ') ;
       s += ss ;
     }
+  if ( ! DisplayUEToggle_is_open(ue.ue) )
+    return [s, "", "display:none"] ;
   return s ;
 }
 DisplayUEGrades.need_node = [] ;

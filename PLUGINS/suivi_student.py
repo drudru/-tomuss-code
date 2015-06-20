@@ -465,6 +465,7 @@ D('UEHeader'    , 'UE'        ,0, js='Horizontal')
 D('UEComment'   , 'UE'        ,1)
 D('UEGrades'    , 'UE'        ,2)
 
+D('UEToggle'    , 'UEHeader'  ,-1)
 D('UETitle'     , 'UEHeader'  ,0)
 D('UEMasters'   , 'UEHeader'  ,1)
 
