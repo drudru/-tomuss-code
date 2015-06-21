@@ -99,6 +99,7 @@ BODY DIV.explanations_popup {
     color: white ;
     background-color: #FF0000;
 }
+.DisplayNames { white-space: nowrap ; }
 .Grades H3 { margin-bottom: 0px; }
 .UE { display: block; margin-top: 1em ; }
 .UETitle { font-weight: bold ; }
