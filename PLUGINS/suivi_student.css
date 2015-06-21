@@ -286,6 +286,9 @@ BODY.hide_right_column_1 .BodyRight {
     border: 2px solid black ;
     padding: 0.3em ;
 }
+BODY.hide_right_column_1 .TopLine {
+    font-size: 150% ;
+}
 
 @-webkit-keyframes make_large_bodyright {
   from { width: 5em ; opacity: 0.3 }
