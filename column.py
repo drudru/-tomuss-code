@@ -620,7 +620,8 @@ class Columns(object):
         return self.columns.__iter__()
 
     def columns_ordered(self):
-        """Returns columns with the good computing order for dependencies"""
+        """Returns columns with the good computing order for dependencies.
+        Beware: the last item can be an unused column."""
         if self.column_ordered_cache:
             return self.column_ordered_cache
         done = []
@@ -647,8 +648,10 @@ class Columns(object):
         ordered = self.columns_ordered()
         if not ordered:
             return False
-        may_be_top = ordered[-1]
-        if not may_be_top.is_computed():
+        for may_be_top in ordered[::-1]:
+            if may_be_top.is_computed():
+                break
+        else:
             return ()
         if (may_be_top.type.name == 'Weighted_Percent'
             and ordered[-2].type.name == 'Moy'):
