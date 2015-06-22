@@ -436,7 +436,7 @@ Function are launched on header events
 function filter_keyup(event)
 {
   var e = the_event(event) ;
-  if ( e.keyCode > 40 || e.keyCode == 8 )
+  if ( e.keyCode > 40 || e.keyCode == 8 || e.keyCode == 32 )
     header_change_on_update(e, e.target, '') ;
   GUI.add("column_filter", event);
 }
