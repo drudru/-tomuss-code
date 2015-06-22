@@ -320,13 +320,21 @@ class Filter:
         for char in string:
             i += 1
             if not protected:
+                if char == ' ':
+                    # Search non space char
+                    next_char = ""
+                    for next_char in string[i:]:
+                        if next_char != ' ':
+                            break
+                    if next_char == ' ':
+                        break
+
                 if (char == ' '
                     and operator[0] == ''
                     and attr == 'value'
-                    and len(string) > i
-                    and filterAttributes.get(string[i], '') == '' # the value
-                    and search_operator(string[i])[1][0] == ''    # starting by
-                    and string[i] not in '&|@#:?<>=~!'
+                    and filterAttributes.get(next_char, '') == '' # the value
+                    and search_operator(next_char)[1][0] == ''    # starting by
+                    and next_char not in '&|@#:?<>=~!'
                     and negate == False
                     ):
                     # Filter 'a b' is to translated as 'a\ b' because

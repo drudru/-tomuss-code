@@ -80,7 +80,8 @@ def filterRegtest():
                 '#=', ":",
                 '@~=', '@~\\&=', "@~\\ n", "@~\\ ", "@~H",
                 "@~h", "@~e", "@~é", "@~ê", "@~E", "@~→/",
-                "#=", "=4 ", "4 ", "@~\\\\\\\\"
+                "#=", "=4 ", "4 ", "@~\\\\\\\\",
+                "@~\\ ",
                 ]:
         if not Filter(tst, "", "").evaluate(c):
             bug("BUG1", tst)
@@ -102,12 +103,17 @@ def filterRegtest():
                 ]:
         if Filter(tst, "", "").evaluate(c):
             bug("BUG3", tst)
+        if Filter(tst+' ', "", "").evaluate(c):
+            bug("BUG3space", tst)
         tst = '!' + tst
         if not Filter(tst, "", "").evaluate(c):
             bug("BUG4", tst)
+        if not Filter(tst + ' ', "", "").evaluate(c):
+            bug("BUG4space", tst)
 
     # Complex filter that should return True.
     for tst in ["@j&:14", "@j &:14", "@j & :14", "@j& :14", "@j :14",
+                "4 :14", "4  :14",
                 "@j & :14 & =4", "@j :14 =4", "@j   :14   =4",
                 "=4|=5", "=4 | =5", "=5 | =4", "=5 OR =4", "=5 OR !=6",
                 "@~&=4", '!a !b', '!a 4', '4 !a',
@@ -116,6 +122,8 @@ def filterRegtest():
         tst = replace_all(tst, 'OR', or_keyword())
         if not Filter(tst, "", "").evaluate(c):
             bug("BUG5", tst)
+        if not Filter(tst + ' ', "", "").evaluate(c):
+            bug("BUG5space", tst)
 
     # Complex filter that should return False.
     for tst in ['@j & :13', '@k & :14', '@j :13', '@k :14', '@k   :14',
@@ -123,6 +131,8 @@ def filterRegtest():
                 ]:
         if Filter(tst, "", "").evaluate(c):
             bug("BUG6", tst)
+        if Filter(tst+' ', "", "").evaluate(c):
+            bug("BUG6space", tst)
 
     # Special cases
     for cell_filters_result in [
@@ -172,6 +182,12 @@ def filterRegtest():
                 '<10/5/2014\\ 18', '<10/5/2014_18:19','<10/5/2014-18:19:20']:
         if Filter(tst, "", "Date").evaluate(c):
             bug("BUG11", tst, username="", column_type="Date")
+
+    # Double spaces
+    c = Cell('a  b', "", "", "", "")
+    for tst in ['a ', 'a  b  ', 'a  ~b  ', '~\\ ', "~\\ \\ "]:
+        if Filter(tst, "", "").evaluate(c) is not True:
+            bug("BUG12", tst, username="", column_type="Text")
 
         
     if len(bugs):
