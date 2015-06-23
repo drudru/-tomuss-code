@@ -5692,6 +5692,6 @@ msgstr "Allow to define the rooms and the numbering of places in the rooms for t
 msgid "ALT_photo_ID"
 msgstr "Photo ID"
 
-msgid "ALT_logo"
-msgstr "Logo"
+msgid "MSG_suivi_student_logo"
+msgstr "Where am I?"
 

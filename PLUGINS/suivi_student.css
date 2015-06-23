@@ -32,6 +32,7 @@ BODY.Automne .BodyRight
 .TopLine { font-size: 200% ; }
 .Picture IMG.small { height: 1.5em ;}
 .User * { vertical-align: middle }
+.YearSemester { font-size: 70%; text-align: center }
 .IdentityR { float: right ; }
 .Logout { text-align: right }
 .Explanation, .Preferences {
@@ -66,6 +67,7 @@ BODY DIV.explanations_popup {
 .preferences_popup LI { margin-top: 0.2em }
 
 .Logo IMG { height: 2.4em ; border: 0px }
+DIV.logo_popup { top: 2.2em ; left: 0px ; }
 .RSS IFRAME { position: absolute; left: -100px ; }
 .displayRSS IMG { height: 1em }
 .BodyLeft {

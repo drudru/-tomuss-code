@@ -5818,5 +5818,5 @@ msgstr "Cela permet de définir les numéros de place qui existent dans les sall
 msgid "ALT_photo_ID"
 msgstr "Photo d'identité"
 
-msgid "ALT_logo"
-msgstr "Logo"
+msgid "MSG_suivi_student_logo"
+msgstr "Où suis-je ?"

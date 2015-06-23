@@ -1166,17 +1166,35 @@ function DisplayLastGrades(node)
 }
 DisplayLastGrades.need_node = ['Grades'] ;
 
+function DisplayLogoPopup(node)
+{
+  if ( popup_classname() == 'logo_popup' )
+    {
+      popup_close() ;
+      return ;
+    }
+  create_popup('logo_popup',_('MSG_suivi_student_logo'),
+	       DisplayLogo.popup_content, '', false) ;
+}
+
 function DisplayLogo(node)
 {
   if ( node.data === '' || node.data == 'http://xxx.yyy.zzz/logo.png' )
     return '' ;
-  return '<img src="' + node.data + '" alt="' + _("ALT_logo") + '">' ;
+  var s = [] ;
+  for(var i in node.children)
+    s.append(display_display(node.children[i])) ;
+  DisplayLogo.popup_content = s.join("<br>") ;
+
+  return '<img'
+    + ( node.children.length ? ' onclick="DisplayLogoPopup()"' : '')
+    + ' alt="' + _("MSG_suivi_student_logo") + '"'
+    + ' src="' + node.data + '">' ;
 }
 
 function DisplayYearSemester(node)
 {
-  return '<span class="Display" style="font-size:200%">»</span>'
-    + year + '/' + semester ;
+  return '<span class="Display">' + year + '<br>' + semester + '</span>'
 }
 DisplayYearSemester.need_node = [] ;
 
@@ -1311,7 +1329,7 @@ function sign(t, message_id)
   for(var i=0; i<b.length; i++)
      if ( b[i].id != "signature_done" && ! b[i].disabled )
         return ;
-  document.getElementById("signature_done").style.display = 'block' ; 
+  document.getElementById("signature_done").style.display = 'block' ;
 }
 
 function DisplayAskQuestion(node)
