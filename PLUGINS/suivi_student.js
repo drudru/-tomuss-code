@@ -543,7 +543,10 @@ function DisplayPreferencesPopup(do_no_hide)
 	       + ' class="selection_' + data[item] + '">'
 	       + _(label)  + '</li>') ;
     }
-  create_popup('preferences_popup', _('LABEL_preferences') + '<br>'
+  create_popup('preferences_popup',
+	       '<small>' + _('LABEL_preferences')
+	       + '/<a href="' + url_suivi + '/=' + ticket + '/logout">'
+	       + _("LABEL_logout") +'</a></small><br>'
 	       + (is_a_teacher ? username : display_data['Login']),
 	       '<ul>' + s.join('') + '</ul>', '', false) ;
 }
@@ -556,14 +559,6 @@ function DisplayPreferences(node)
   return ['≡', 'clickable', '', 'onclick="DisplayPreferencesPopup()"'] ;
 }
 DisplayPreferences.need_node = ['Preferences', 'Login'] ;
-
-function DisplayLogout(node)
-{
-  return '<a href="' + url_suivi + '/=' + ticket + '/logout">'
-    + _("LABEL_logout") +'</a> '
-    + '<br><b>' + username + '</b>' ;
-}
-DisplayLogout.need_node = [] ;
 
 function DisplayUEToggle_key(ue)
 {

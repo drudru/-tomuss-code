@@ -429,7 +429,6 @@ D('Reload'      , 'User'      ,2)
 D('Profiling'   , 'User'      ,3)
 D('IdentityR'   , 'User'      ,-1, js='Horizontal') # Yes : -1
 
-D('Logout'      , 'IdentityR' ,-1)
 D('Explanation' , 'IdentityR' ,0, data=display_copyright)
 D('Preferences' , 'IdentityR' ,1, data=display_preferences)
 
