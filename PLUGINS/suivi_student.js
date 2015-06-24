@@ -1186,10 +1186,17 @@ function DisplayLogo(node)
     s.append(display_display(node.children[i])) ;
   DisplayLogo.popup_content = s.join("<br>") ;
 
-  return '<img'
-    + ( node.children.length ? ' onclick="DisplayLogoPopup()"' : '')
+  var img = '<img'
+    + ( node.children.length
+	? ' onclick="DisplayLogoPopup()"'
+	: '')
     + ' alt="' + _("MSG_suivi_student_logo") + '"'
     + ' src="' + node.data + '">' ;
+
+  if ( s.length != 0 )
+    img = hidden_txt(img, _("MSG_suivi_student_logo")) ;
+
+  return img ;
 }
 
 function DisplayYearSemester(node)

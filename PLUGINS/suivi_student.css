@@ -66,8 +66,10 @@ BODY DIV.explanations_popup {
 
 .preferences_popup LI { margin-top: 0.2em }
 
-.Logo IMG { height: 2.4em ; border: 0px }
-DIV.logo_popup { top: 2.2em ; left: 0px ; }
+.Logo IMG { height: 2.4em ; border: 1px solid white }
+.Logo IMG:hover { border: 1px solid black }
+DIV.logo_popup { top: 2.2em ; left: 0px ; right: auto }
+
 .RSS IFRAME { position: absolute; left: -100px ; }
 .displayRSS IMG { height: 1em }
 .BodyLeft {
