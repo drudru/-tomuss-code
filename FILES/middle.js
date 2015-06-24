@@ -157,6 +157,11 @@ function invert_name_change(t)
   preference_change(t, "invert_name="+(preferences.invert_name==yes ? 1 : 0)) ;
 }
 
+function debug_table_change(t)
+{
+  preference_change(t, "debug_table="+(preferences.debug_table==yes ? 1 : 0)) ;
+}
+
 function language_change(t)
 {
   preference_change(t, "language=" + preferences.language) ;
@@ -213,6 +218,14 @@ function show_preferences_popup()
 			       preferences.page_step,
 			       "page_step_change(this)")
 	       + _("Preferences_page_step")
+	       + (i_am_root
+		  ? '<p>'
+		  + radio_buttons('preferences.debug_table', [yes, no],
+				  test_bool(preferences.debug_table),
+				  "debug_table_change(this)")
+		  + _("Preference_debug_suivi")
+		  : ''
+		  )
 	       ,'' , false) ;
 }
 
@@ -633,7 +646,7 @@ function an_input_attribute(attr, options, prefix_id, prefix_)
   var tip = _('TIP_' + prefix_ + attr.name) ;
   if ( tip === 'TIP_' + prefix_ + attr.name )
     tip = '' ;
-  if ( i_am_root )
+  if ( preferences.debug_table )
     tip += '<hr><b>' + prefix_ + attr.name + '</b>' ;
   var the_id = prefix_id + attr.name ;
   var title = _('TITLE_' + prefix_ + attr.name) ;

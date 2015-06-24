@@ -1826,7 +1826,7 @@ function update_attribute_value(e, attr, table, editable)
 
       if ( tip_exists )
 	{
-	    if ( i_am_root )
+	    if ( preferences.debug_table )
 	       tip_content += '<hr><b>' + e.id + '</b>' ;
 	    try {
 		tip_top(e).firstChild.innerHTML = tip_content ;
@@ -1860,7 +1860,7 @@ function update_attribute_value(e, attr, table, editable)
 	  else
 	      tip_id += '__0' ;
 	  tip_content = _(tip_id) ;
-	  if ( i_am_root )
+	  if ( preferences.debug_table )
 	    tip_content += '<hr><b>' + e.id + '</b>' ;
 	  tip_top(e).firstChild.innerHTML = tip_content ;
 	}

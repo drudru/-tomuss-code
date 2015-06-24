@@ -486,7 +486,7 @@ DisplaySignature.need_node = ['Login'] ;
 
 function DisplayReload(node)
 {
-  if ( ! is_a_teacher || ! i_am_root )
+  if ( ! is_a_teacher || ! display_data['Preferences']['debug_suivi'] )
     return '' ;
   return '<a href="reload_plugins">' + _("TITLE_reload_plugins") + '</a>' ;
 }
@@ -494,7 +494,7 @@ DisplayReload.need_node = [] ;
 
 function DisplayProfiling(node)
 {
-  if ( ! is_a_teacher || ! i_am_root )
+  if ( ! is_a_teacher || ! display_data['Preferences']['debug_suivi'] )
     return '' ;
   var t = [] ;
   for(var i in node.data)
@@ -1470,7 +1470,7 @@ function DisplayLinksTable(node)
 	  t.push('<tr>') ;
 	}
       var c = display_display(node.children[ii]) ;
-      if ( i_am_root )
+      if ( display_data['Preferences']['debug_suivi'] )
 	{
 	  t.push('<td>' + (c || ('<span class="displaygrey">'
 				 + node.children[ii].name + '</span>'))) ;

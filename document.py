@@ -163,6 +163,7 @@ def get_preferences(user_name, create_pref=True, the_ticket=None):
                  'v_scrollbar_nr' : 1,
                  'interface'      : "N",
                  'current_suivi'  : 0,
+                 'debug_table'    : 0,
                  'home_3scrollbar': 1,
     }.items():
         if k not in p:

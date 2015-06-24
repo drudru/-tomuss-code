@@ -752,7 +752,7 @@ function show_the_tip(td, tip_content, what)
 	  if ( cell.value )
 	    s += '<b>' + html(cell.value).replace(/\n/g,"<br>") + '</b><br>' ;
 	  s += cell.get_author() + ' ' + date(cell.date) + '<br>' ;
-	  if ( i_am_root )
+	  if ( preferences.debug_table )
 	    s += 'line_id=' + line_id + ', col_id=' + column.the_id ;
 	  // highlight line
 	  remove_highlight() ;
