@@ -377,6 +377,10 @@ def display_preferences(server):
         if k not in prefs:
             prefs[k] = 0
 
+    if login in configuration.root:
+        if 'debug_suivi' not in prefs:
+            prefs['debug_suivi'] = 0
+
     # XXX For old files from TOMUSS before 5.3.2
     priv = utilities.manage_key('LOGINS', os.path.join(login, 'private'))
     if priv and priv.startswith('1'):

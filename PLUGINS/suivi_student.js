@@ -95,6 +95,30 @@ function display_create_tree()
        display_definition[i].children.sort(function(a,b)
 					   {return a.priority - b.priority;});
 }
+
+function display_display_debug(event, txt)
+{
+  var t = document.getElementById('display_display_tip') ;
+  if ( ! t )
+    {
+      var e = document.createElement('DIV') ;
+      e.id = 'display_display_tip' ;
+      e.style.position = 'absolute' ;
+      e.style.background = '#000' ;
+      e.style.color = '#FFF' ;
+      e.style.opacity = 0.7 ;
+      e.style.fontSize = "70%" ;
+      e.style.zIndex = 10000 ;
+      the_body.appendChild(e) ;
+      display_display_debug.e = e ;
+    }
+  event = the_event(event) ;
+  display_display_debug.e.innerHTML = txt ;
+  var pos = findPos(event.target) ;
+  display_display_debug.e.style.left = pos[0]+event.target.offsetWidth + 'px' ;
+  display_display_debug.e.style.top = pos[1]+event.target.offsetHeight + 'px' ;
+}
+
 // The display function returns a string (html) or an array
 // [ "html content",
 //   ["html class1", "html class2"...],
@@ -128,9 +152,26 @@ function display_display(node)
     styles = ' style="' + styles.join(';') + '"' ;
   else
     styles = '' ;
+
+  if ( display_data['Preferences']['debug_suivi']
+       && content.indexOf("display_display_debug") == -1 )
+    {
+      var s = [] ;
+      var n = node ;
+      while(n)
+	{
+	  s.push(n.name + '(' + n.priority + ')') ;
+	  n = display_definition[n.containers[0]] ;
+	}
+      more += ' onmouseover="display_display_debug(event,'
+	+ js2(s.join('<br>')) + ')"' ;
+    }
   
-  return '<div class="' + classes.join(' ') + '"' + styles + more + '>'
+
+  content = '<div class="' + classes.join(' ') + '"' + styles + more + '>'
     + content + '</div>' ;
+
+  return content ;
 }
 
 function detect_small_screen(force)
@@ -502,7 +543,7 @@ function preference_toggle(item)
    DisplayPreferencesPopup(true) ;
    display_update_real() ;
    var data = display_data['Preferences'] ;
-   var t = []
+   var t = [] ;
    for(var i in data)
      t.push(i + '=' + data[i]) ;
    var img = document.createElement('IMG') ;

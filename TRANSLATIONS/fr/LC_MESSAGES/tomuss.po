@@ -5570,6 +5570,9 @@ msgstr "Affichage détaillé des moyennes"
 msgid "Preference_green_prst"
 msgstr "Colorier en vert les PRST"
 
+msgid "Preference_debug_suivi"
+msgstr "Aide au développeur"
+
 
 msgid "LINK_restart_tomuss"
 msgstr "Relance TOMUSS"

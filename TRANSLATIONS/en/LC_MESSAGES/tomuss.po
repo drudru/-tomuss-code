@@ -5451,6 +5451,9 @@ msgstr "Detailed average formula display"
 msgid "Preference_green_prst"
 msgstr "Color PRST with green"
 
+msgid "Preference_debug_suivi"
+msgstr "Developper's help"
+
 
 msgid "LINK_restart_tomuss"
 msgstr "Restart TOMUSS"
