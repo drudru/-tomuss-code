@@ -541,6 +541,7 @@ function preference_toggle(item)
    
    display_data['Preferences'][item] = 1 - display_data['Preferences'][item] ;
    DisplayPreferencesPopup(true) ;
+   DisplayGrades.no_hover = false ;
    display_update_real() ;
    var data = display_data['Preferences'] ;
    var t = [] ;
