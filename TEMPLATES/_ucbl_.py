@@ -321,7 +321,9 @@ def terminate_update(table, the_ids):
             # Less than 20, do not remove more than the half
             if len(to_remove) >= 1+len(table.lines)/2:
                 allow_student_removal = False
-        
+
+        if table.force_update:
+            allow_student_removal = True
         table.lock()
         try:
             students_to_remove = set()
