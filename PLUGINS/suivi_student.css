@@ -1,29 +1,13 @@
-/* CSS for Display framework */
 
 /*********************** Normal CSS ***********************/
 
-BODY { margin: 0px ;
+BODY {
        background-position: top right ;
        background-image: none ;
        background-repeat: repeat-y;
-       margin-left: 0.2em ;
-     }
-
-BODY.Printemps,
-BODY.Printemps TABLE.colored TD,
-BODY.Printemps .BodyRight
-{ background-color: #f9fff6 }
-BODY.Automne,
-BODY.Automne TABLE.colored TD,
-BODY.Automne .BodyRight
-{ background-color: #fff5e0 }
-
-.Display {
-    display: inline-block ;
-    vertical-align: top ;
 }
 
-.CellBox > .Display, .DisplayVertical > .Display, .DisplayUE > .Display {
+.CellBox > .Display, .DisplayUE > .Display {
     display: block ;
 }
 
@@ -426,13 +410,6 @@ TABLE.memberof TD { background-color: #DDD; }
 
 @media print {
 
-.noprint { display: none ; }
-
-BODY, BODY.Printemps, BODY.Automne {
-    background-color: white ;
-    background: white ;
-    background-image: none ;
-}
 BODY.hide_right_column_1.Printemps { background-image: none ; }
 BODY.hide_right_column_1.Automne { background-image: none ; }
 
@@ -443,6 +420,4 @@ BODY.hide_right_column_1.Automne { background-image: none ; }
     }
 
 .BodyLeft, .Body, .Top, .Grades { display: inline }
-
-#cellbox_tip * { display: none }
 }

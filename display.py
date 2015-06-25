@@ -24,8 +24,55 @@ import time
 from . import files
 from . import utilities
 from . import configuration
+from . import document
 
 display_dict = {}
+
+def send_headers(server, css_file, js_file, init_function, more_js=""):
+    server.the_file.write(
+        str(document.the_head)
+        + '''
+<link rel="stylesheet" href="%s/display.css" type="text/css">
+<link rel="stylesheet" href="%s/%s" type="text/css">
+<script src="%s/display.js" onload="this.onloadDone=true;"></script>
+<script src="%s/%s" onload="this.onloadDone=true;"></script>
+''' % (configuration.url_files, configuration.url_files, css_file,
+       configuration.url_files,
+       configuration.url_files, js_file)
+        + document.translations_init(server.ticket.language)
+        )
+    server.the_file.flush()
+    server.the_file.write(
+        '<noscript><h1>'+server._('MSG_need_javascript')+'</h1></noscript>\n'
+        + "<script>"
+        + "var ticket   = %s;\n" % utilities.js(server.ticket.ticket    )
+        + "var username = %s;\n" % utilities.js(server.ticket.user_name )
+        + "var admin    = %s;\n" % utilities.js(configuration.maintainer)
+        + "var url = %s;\n" % utilities.js(configuration.server_url)
+        + "var url_suivi = %s;\n" % utilities.js(utilities.StaticFile._url_)
+        + "var url_files = %s ;\n" % utilities.js(configuration.url_files)
+        + "var root = %s ;\n" % utilities.js(list(configuration.root))
+        + "var maintainer = %s;\n" % utilities.js(configuration.maintainer)
+        + "var semester = %s;\n" % utilities.js(configuration.year_semester[1])
+        + 'var bilan_des_notes = %s ; \n' % utilities.js(
+            configuration.bilan_des_notes)
+        + more_js
+        + """
+</script>
+</head>
+<body>
+<div id="top"></div>
+<script>
+        """
+        + utilities.wait_scripts()
+        + 'function initialize_display()'
+        + '{ if ( ! wait_scripts("initialize_display()") ) return ;\n'
+        + 'start_display() ;\n'
+        + init_function + '() ; }\n'
+        + 'initialize_display();\n'
+        + '</script>\n'
+        + '<div id="display_suivi"></div>'
+        )
 
 class Display:
     """The class name will be call as JavaScript function to generate HTML"""
@@ -54,10 +101,10 @@ def init():
         d[display.name] = [display.containers, display.priority]
         if display.js:
             d[display.name].append(display.js)
-    files.files['suivi_student.js'].append(
+    files.files['display.js'].append(
         "display.py",
         '\nvar display_definition = ' + json.dumps(d)
-        + '\n;display_create_tree();\n')
+        + ';\n')
 
 def do_update(server, s, top):
     server.the_file.write(
@@ -68,40 +115,9 @@ def do_update(server, s, top):
                     or None
                     ).replace('>','\\x3E'), top))
     server.the_file.flush()
-    
-    
+
 def data_to_display(server, top):
     """Create the page by updating it every 0.2 seconds or more"""
-    server.the_file.write('''
-<script>
-var display_data ;
-
-function start_display()
-{
-  display_data = {} ;
-  var display_suivi = document.getElementById('display_suivi') ;
-  if ( ! display_suivi )
-    return ; // It will be created with initialize_suivi_real
-
-  // Protect the last DVI.display_suivi in case of multiple student display
-  var p = display_suivi.parentNode ;
-  display_suivi.id = '' ;
-  var e = document.createElement('DIV') ;
-  e.id = 'display_suivi' ;
-  p.appendChild(e) ;
-}
-
-function display_update(key_values, top)
-{
-  for(var i in key_values)
-    display_data[key_values[i][0]] = key_values[i][1] ;
-  display_update.top = top ;
-  try { display_update_real() ; }
-  catch(e) { } ;
-}
-</script>
-    ''')
-    server.the_file.write('<script>start_display();</script>')
     start = t = time.time()
     s = []
     profiling = {}

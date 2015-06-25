@@ -44,7 +44,7 @@ def append(filename, key, content):
     files[filename].append(key, content)
 
 for name in (
-    'style.css',
+    'style.css', 'display.css', 'display.js',
     'favicon.ico', 'logo.png',
     'header.png',
     'verysafe.png', 'safe.png', 'unsafe.png', 'veryunsafe.png',

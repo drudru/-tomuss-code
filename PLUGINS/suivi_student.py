@@ -550,44 +550,15 @@ plugin.Plugin('accept', '/accept', function=accept, group='!staff',
               password_ok = None)
 
 def suivi_headers(server, is_student=True):
-    server.the_file.write(
-        str(document.the_head)
-        + '''<link rel="stylesheet" href="%s/suivi_student.css" type="text/css">
-<script src="%s/suivi_student.js" onload="this.onloadDone=true;"></script>
-''' % (configuration.url_files, configuration.url_files)        
-        + document.translations_init(server.ticket.language)
-        )
-    server.the_file.flush()
-    server.the_file.write(
-        '<noscript><h1>'+server._('MSG_need_javascript')+'</h1></noscript>\n'
-        + "<script>"
-        + 'var table_attr = {} ;'
+    display.send_headers(
+        server, "suivi_student.css", "suivi_student.js",
+        "initialize_suivi_real",
+        'var table_attr = {} ;'
         + "var semester = %s;\n" % utilities.js(server.semester         )
         + "var year     = %s;\n" % utilities.js(server.year             )
-        + "var ticket   = %s;\n" % utilities.js(server.ticket.ticket    )
-        + "var username = %s;\n" % utilities.js(server.ticket.user_name )
-        + "var admin    = %s;\n" % utilities.js(configuration.maintainer)
         + "var is_a_teacher = %s;\n" % int(not is_student)
-        + "var url = %s;\n" % utilities.js(configuration.server_url)
-        + "var url_suivi = %s;\n" % utilities.js(utilities.StaticFile._url_)
-        + "var url_files = %s ;\n" % utilities.js(configuration.url_files)
-        + "var root = %s ;\n" % utilities.js(list(configuration.root))
-        + "var maintainer = %s;\n" % utilities.js(configuration.maintainer)
         + 'var max_visibility_date = %d;\n' % configuration.max_visibility_date
-        + 'var bilan_des_notes = %s ; \n' % utilities.js(
-            configuration.bilan_des_notes)
-        + "</script>\n"
-        + "</head>\n"
-        + '<body class="%s">\n' % server.semester
-        + '<div id="top"></div>'
-        + '<script>\n'
-        + utilities.wait_scripts()
-        + 'function initialize_suivi()'
-        + '{ if ( ! wait_scripts("initialize_suivi()") ) return ;'
-        + 'initialize_suivi_real() ; }'
-        + 'initialize_suivi();\n'
-        + '</script>\n'        
-        )
+    )
 
 def home(server, nothing_behind=True):
     """Display the home page for 'suivi', it asks the student id."""
