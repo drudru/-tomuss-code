@@ -2409,7 +2409,7 @@ msgid "B_home_bookmark"
 msgstr "Ajouter à vos favoris"
 
 msgid "B_home_unsemestrialize"
-msgstr "Passer cette UE en NON-SEMESTRIALISÉ"
+msgstr "Passer cette UE en non-semestrialisé"
 
 msgid "B_home_delete_table"
 msgstr "Détruire"
@@ -2481,7 +2481,7 @@ msgstr "Vos tables"
 msgid "TIP_home_master_of"
 msgstr "Ces tables TOMUSS ne correspondent pas à des UE<br>\n"
        "Mais vous en êtes un des responsables ou bien vous\n"
-       "avez cliquez sur ☆ en éditant la table."
+       "avez cliqué sur ☆ en éditant la table."
 
 msgid "TH_home_ue_master"
 msgstr "Responsable des UE"
@@ -2499,6 +2499,9 @@ msgstr "Aucune UE ne correspond à votre recherche"
 msgid "TH_home_bookmark_ue"
 msgstr "UE Favorites"
 
+msgid "TH_home_acceded_ue"
+msgstr "UE souvent accédées"
+
 msgid "TIP_home_bookmark_ue_before"
 msgstr "Vous pouvez modifier cette liste en cliquant sur le "
 
@@ -2514,10 +2517,10 @@ msgstr "VISITEZ CES TABLES POUR SAUVER LEUR CONTENU.<br>\n"
        "En effet, le contenu de ces tables est en parti dans votre navigateur"
 
 msgid "TH_home_bookmark_student"
-msgstr "étudiants favoris"
+msgstr "favoris"
 
 msgid "TH_home_refered_student"
-msgstr "étudiants liés"
+msgstr "liés"
 
 msgid "TH_home_import_refered"
 msgstr "Devenir référent d'une liste d'étudiants"
@@ -2575,6 +2578,25 @@ msgstr "Je veux être le référent pédagogique !"
 msgid "MSG_home_reload"
 msgstr "Actualisez la page d'accueil pour voir la nouvelle liste."
 
+msgid "MSG_home_~any~"
+msgstr "Tous"
+
+msgid "MSG_home_tt"
+msgstr "Tiers Temps"
+
+msgid "MSG_home_first_registration"
+msgstr "Première inscription"
+
+msgid "MSG_home_presence"
+msgstr "Choisir le groupe puis la séance pour laquelle noter les présences :"
+
+msgid "MSG_home_no_presence"
+msgstr "Aucune colonne de type «Présence»"
+
+msgid "MSG_home_wait"
+msgstr "En attente de la réponse du serveur"
+
+
 msgid "BOX_abj_master"
 msgstr "<!--1-->Scolarité"
 
@@ -2595,6 +2617,31 @@ msgstr "<!--8-->Debuggage"
 
 msgid "BOX_deprecated"
 msgstr "<!--9-->Obsolete"
+
+
+msgid "sort_A"
+msgstr "Trier par code UE"
+
+msgid "sort_α"
+msgstr "Trier par intitulé d'UE"
+
+msgid "sort_☆"
+msgstr "Trier par nombre d'accès"
+
+msgid "sort_★"
+msgstr "Trier les favorites"
+
+msgid "sort_#"
+msgstr "Trier par nombre d'étudiants"
+
+msgid "TIP_open"
+msgstr "Ouvrir ce bloc"
+
+msgid "TIP_close"
+msgstr "Fermer ce bloc"
+
+
+
 
 msgid "ALERT_coursedates_invalid"
 msgstr " n'est pas une date valide."

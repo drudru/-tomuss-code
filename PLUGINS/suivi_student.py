@@ -558,6 +558,7 @@ def suivi_headers(server, is_student=True):
         + "var year     = %s;\n" % utilities.js(server.year             )
         + "var is_a_teacher = %s;\n" % int(not is_student)
         + 'var max_visibility_date = %d;\n' % configuration.max_visibility_date
+        + 'column_get_option_running = true ;\n'
     )
 
 def home(server, nothing_behind=True):
@@ -607,10 +608,14 @@ def page_suivi(server):
                   for login in logins]).encode('utf8') +
         '</title>'
                           )
+    done = False
     for login in logins:
         try:
+            if done:
+                server.the_file.write("<script>start_display()</script>")
             login = utilities.the_login(login)
             student_statistics(login, server, is_a_student=False,expand=expand)
+            done = True
         except ValueError:
             raise
         server.the_file.flush()

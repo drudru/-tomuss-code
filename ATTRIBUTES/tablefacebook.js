@@ -1,7 +1,7 @@
 // -*- coding: utf-8 -*-
 /*
     TOMUSS: The Online Multi User Simple Spreadsheet
-    Copyright (C) 2008-2014 Thierry EXCOFFIER, Universite Claude Bernard
+    Copyright (C) 2008-2015 Thierry EXCOFFIER, Universite Claude Bernard
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -78,7 +78,7 @@ function facebook_click(event)
   var a = event.target.parentNode.parentNode.parentNode.getElementsByTagName('A')[0] ;
   var student = a.href.toString().replace(new RegExp(".*/", ""), "") ;
   var line_id = login_to_line_id(login_to_id(student)) ;
-  var data_col = popup_column().data_col ;
+  var data_col = the_phone_popup_column.data_col ;
   if ( lines[line_id][data_col].value == value )
     return ;
   var items = event.target.parentNode.parentNode.childNodes ;
@@ -90,17 +90,27 @@ function facebook_click(event)
     }
   cell_set_value(event.target.parentNode, value, line_id, data_col)
   update_cell_at(line_id, data_col) ;
-  the_current_cell.update(true) ;
+  try {
+    the_current_cell.update(true) ;
+    } catch(e) { console.log(e) ; } // For phone_facebook
   event.target.parentNode.className = 'selecteditem' ;
   event.target.parentNode.style.border = "0.1em solid "
     + event.target.parentNode.style.color ;
+  clearTimeout(update_histogram_id) ; // For phone_facebook
 }
 
-function phone_facebook()
+var the_phone_popup_column
+
+function phone_facebook(column_id)
 {
   var cls, v, color ;
   var t = [] ;
-  var column = the_current_cell.column ;
+  var column ;
+  if ( column_id ) // From home page
+    column = columns[data_col_from_col_id(column_id)] ;
+  else
+    column = the_current_cell.column ;
+  the_phone_popup_column = column ;
   var vals = column.real_type.cell_completions("", column) ;
   if ( vals.length == 0 )
     return true ;
@@ -150,18 +160,28 @@ function phone_facebook()
 		    + ' ' + column.title),
 	       t.join(''),
 	       '', false) ;
+  if ( column_id )
+    {
+      var e = document.getElementById('popup_id') ;
+      e.style.left = 0 ;
+      e.style.right = 0 ;
+      e.style.top = 0 ;
+      e.style.bottom = 0 ;
+      e.style.height = "auto" ;
+      e.getElementsByTagName('BUTTON')[0].style.display = "none" ;
+    }
 }
 
-function tablefacebook(replace)
+function tablefacebook(replace, column_id)
 {
   var p, s, line ;
   /*
   if ( ! phone_facebook() )
     return ;
   */
-  if ( do_touchstart.touch_device )
+  if ( do_touchstart.touch_device || column_id )
     {
-      if ( ! phone_facebook() )
+      if ( ! phone_facebook(column_id) )
 	return ;
     }
 

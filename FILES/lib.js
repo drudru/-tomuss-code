@@ -159,7 +159,7 @@ function lib_init()
   auto_save_running = false ;
   pending_requests = [] ;
   pending_requests_first = 0 ;
-  i_am_root = myindex(root, my_identity) != -1 ;
+  i_am_root |= myindex(root, my_identity) != -1 ;
 
   if ( divtable ) // In a table
     {
@@ -4745,7 +4745,9 @@ function runlog(the_columns, the_lines)
   if ( get_option('facebook', 'a') !== 'a' )
     {
       replace_window_content(function()
-			     { tablefacebook('_self')}) ;
+			     { tablefacebook('_self',
+					     get_option('facebook',
+							undefined))}) ;
       return ;
     }
   if ( table_forms_element || get_option('tableforms', 'a') !== 'a' )

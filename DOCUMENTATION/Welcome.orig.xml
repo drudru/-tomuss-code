@@ -1242,6 +1242,63 @@ or if the tomuss startup is not terminated.</p>
     <p>Never modify the database files if the table is loaded in the
 TOMUSS server.</p>
 
+    <h2><a name="display">How to customize the display</a></h2>
+
+    <p>The table display can only be modified by patching <tt>middle.js</tt>
+    except for the information tab that is filled with <tt>table_info</tt>
+    content.</p>
+
+    <p>The suivi and home page are defined dynamicaly and can be easely
+    enhanced by adding content boxes.
+    Activate the developer helps to explore the content tree
+    and get the name and display priority of the items.
+    The content tree is defined in <tt>home3.py</tt> and
+    <tt>suivi_student.py</tt> and is modifiable by any module.
+    </p>
+
+    <p>Python side:</p>
+
+    <pre>from .. import display
+
+def myData(server):
+    return [1, ['python', 'data'], 'structure']
+
+display.Display(
+   "YourBoxName",   # DisplayYourBoxName(node) JS function returns the HTML
+   "ContainerName", # Use a list if there is more than one container
+   float(priority), # Can be negative
+   # js="Vertical", # Use DisplayVertical to display children
+   # data=myData    # The fast functions are evaluated first
+   )</pre>
+
+    <p>JavaScript side:</p>
+
+<pre>function DisplayYourBoxName(node)
+{
+  // node.data is the value returned by 'myData'
+  return node.data.join(' === ') ;
+}
+// DisplayYourBoxName.need_node = ['YourBoxName'] ;</pre>
+
+    <p>To store cleanly your JS/CSS code:</p>
+    <pre>from .. import files
+
+files.add('LOCAL', 'my_boxes.js')
+files.files['home3.js'].append('my_boxes.py', files.files['my_boxes.js'])
+
+files.add('LOCAL', 'my_boxes.css')
+files.files['home3.css'].append('my_boxes.py', files.files['my_boxes.css'])
+</pre>
+
+<p>To modify the student suivi page, replace <tt>home3</tt> by
+<tt>suivi_student</tt>
+</p>
+
+<p>When debugging JS and CSS only a page reload is needed.
+When modifying 'myData' function, the plugins must be reloaded
+to take the change into account.</p>
+
+
     <h2><a name="local">Functions to redefine in order to customize TOMUSS</a></h2>
 
     <p>

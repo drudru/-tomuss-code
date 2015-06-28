@@ -1,2 +1,407 @@
 
-/* */
+BODY {
+    margin: 0px ;
+    border: 0px ;
+    font-size: 20px ;
+    background-position: center 0px;
+}
+TD { padding: 0px }
+
+.Home       { width: 100% ; }
+.HomeSemesters SELECT { font-size: 110% }
+.HomeRight { float: right }
+.HomeFeed IMG { height: 0.7em }
+
+.HomePreferences,
+.HomeHelp,
+.HomeFeed,
+.HomeTitle
+{ font-size: 170%; font-weight: bold }
+
+.HomePreferences,
+.HomeHelp,
+.HomeFeed
+{ margin-left: 0.2em; margin-right: 0.2em }
+
+.HomeIdentity {
+    font-size: 80% ;
+    text-align: right ;
+}
+.HomeLogin {
+    font-weight: bold ;
+}
+
+.HomeMessage {
+    margin: 0.5em ;
+    padding: 0.5em ;
+}
+
+.HomePreferencesLanguages,
+.HomePreferencesFavoritesSort,
+.HomePreferencesFavoritesNumber,
+.HomePreferencesYearSemester,
+.HomePreferences3ScrollBars,
+.HomePreferencesDebug {
+    display: block ;
+    margin: 0.6em ;
+}
+
+.HomeColumns > TABLE {
+    width: 100% ;
+    table-layout: fixed ;
+}
+
+.HomeColumns DIV.tabs { font-size: 100% }
+.HomeColumns DIV.tabs DIV.contents { overflow: visible }
+
+.HomeColumns > TABLE > TBODY > TR:first-child > TD {
+    font-size: 150% ;
+    text-align: center ;
+}
+
+.HomeColumns > TABLE > TBODY > TR > TD {
+    overflow: visible ;
+    vertical-align: top;
+}
+
+.HomeColumns .button_toggle {
+    display: inline-block ;
+    text-align: center ;
+}
+
+#home3 > DIV.contents {
+    height: auto ;
+    border: 0px ;
+}
+
+.ue_list {
+    border: 1px solid #4A4 ;
+    margin-bottom: 0.5em ;
+}
+
+#ue_search_result, .HomeStudentStudents, .HomeStudentTeachers {
+    margin-top: -0.5em ;
+}
+
+
+.HomeColumns DIV.titles SPAN {
+    font-size: 150% ;
+    padding-left: 0.4em ;
+    padding-right: 0.4em ;
+}
+
+.table_title {
+    text-align: center ;
+    background: #CFC ;
+    width: 100% ;
+    position: relative ;
+    border-bottom: 1px solid #4A4 ;
+}
+
+.table_title .select_ue_sort {
+    position: absolute ;
+    left: 0px ;
+    top: 0px ;
+}
+
+.select_ue_sort .selected {
+    background: #4F4 ;
+}
+.select_ue_sort SELECT {
+    font-size: 80%;
+    font-weight: bold ;
+    vertical-align: top;
+}
+
+.table_title DIV.open_close {
+    position: absolute ;
+    right: 0px ;
+    top: 0px ;
+    width: auto ;
+}
+
+.HomeUEUnsaved .table_title {
+    color: #F00 ;
+}
+
+.HomeUE, .HomeStudents, .HomeStudents > .Display, .HomeActions {
+    width: 100% ;
+}
+
+.HomeUE > .Display {
+    display: block ;
+}
+
+.search_box {
+    margin: 0.25em ;
+    padding-right: 7px ;
+}
+
+.search_box INPUT {
+    width: 100% ;
+}
+
+.ue_line {
+    white-space: nowrap ;
+    vertical-align: top ;
+    display: block ;
+    margin: 0px ;
+    padding: 0px ;
+    position: relative ;
+    overflow: hidden ;
+    height: 2em ;
+    border: 1px solid #EEE ;
+}
+
+.ue_line > DIV {
+    display: inline-block ;
+    position: absolute ;
+}
+
+.ue_line:hover {
+    background: #FFF ;
+    overflow: visible ;
+    z-index: 3 ;
+    border: 1px solid #BBB ;
+}
+
+.HomeStudentMenu, .HomeUEMenuActions, .HomeUEMenuColumns {
+    border-left: 1px solid #BBB ;
+    border-right: 1px solid #BBB ;
+}
+
+.HomeStudentMenu, .HomeUEMenuColumns {
+    border-bottom: 1px solid #BBB ;
+    padding-bottom: 0.25em ;
+    margin-left: -1px ;
+}
+
+TT.icon {
+    display: inline-block ;
+    font-size: 170% ;
+    vertical-align: top ;
+    margin-top: -0.3em ;
+}
+
+.HomeUEMenuColumns B {
+    background: #FFF ;
+}
+
+.HomeUE .ue_code, .HomeUE .ue_icons             { width: 140px ; }
+.HomeUE .ue_right                               { left: 142px ; }
+.HomeStudents .ue_code, .HomeStudents .ue_icons { width: 105px ; }
+.HomeStudents .ue_right                         { left: 107px ; }
+
+.ue_title, .ue_more {
+    position: absolute ;
+}
+
+.ue_title SPAN { font-weight: normal }
+
+.ue_more, .ue_icons {
+    opacity: 0.3 ;
+    font-size: 90% ;
+    top: 1.1em ;
+}
+
+.ue_credits {
+    color: #000 ;
+}
+
+.table_title .select_ue_sort, .open_close, .ue_credits {
+    opacity: 0.3
+}
+
+
+.ue_code, .ue_icons {
+    overflow: hidden ;
+}
+
+.ue_line .ue_code:hover {
+    overflow: visible ;
+    z-index: 1 ;
+    width: auto ;
+    padding-right: 0.5em ;
+    background: #FFF ;
+}
+
+.ue_icons {
+    z-index: 1 ; /* To not be hidden by ue_code */
+    overflow: visible ; /* for the tip */
+}
+.ue_icons IMG {
+    height: 0.5em ;
+}
+
+.table_title:hover .select_ue_sort,
+.ue_line:hover .ue_more,
+.table_title:hover .ue_icons,
+.ue_line:hover .ue_icons,
+.ue_line:hover .ue_credits {
+    opacity: 1 ;
+}
+
+.HomeUEMenu, .HomeStudentMenu {
+    background: #FFF ;
+    width: 100% ;
+    z-index: 2 ;
+    margin-top: 2em ;
+}
+
+.HomeUEMenuActions > .Display,
+.HomeUEMenuColumns .Display,
+.HomeStudentMenu2 > .Display,
+.HomeStudentMenu3 > .Display {
+    border: 1px solid black ;
+    width: 9em ;
+    white-space: normal ;
+    font-size: 70% ;
+    text-align: center ;
+    height: 4.5em ;
+    position: relative ;
+    margin: 0.15em ;
+}
+
+.HomeUEMenuColumns { white-space: normal }
+.HomeUEMenuColumns .Display {
+    overflow: hidden;
+    border: 0px solid black ;
+    border-bottom: 1px solid black ;
+}
+.HomeUEMenuColumns .Display:hover { overflow: visible }
+.HomeUEMenuColumns .Display DIV {
+    background: #FFF ;
+    border: 1px solid black ;
+    min-height: 4.5em ;
+}
+
+.HomeUEMenuActions > .Display > DIV,
+.HomeStudentMenu2 > .Display > DIV,
+.HomeStudentMenu3 > .Display > DIV {
+    position: relative ;
+    top: 50%;
+    transform: translateY(-50%) ;
+}
+
+.HomeStudentGet {
+    background-image: url(butterflynet.png) ;
+    background-repeat: no-repeat;
+    background-position: right bottom ;
+}
+
+.HomeUEOpenRO {
+    background: #CFC ;
+}
+
+.HomeUEOpen {
+    font-weight: bold ;
+}
+
+.HomeUEClose, .HomeUEUnsemestrialize {
+    background: #FCC ;
+}
+
+.HomeStudents .ue_icons IMG {
+    height: 1em ;
+}
+
+.HomeStudents SELECT {
+    width: 4em ;
+    font-weight: normal ;
+}
+
+.first_registration .ue_title, .HomeStudents OPTION[value=first_registration] {
+     font-weight: bold ;
+}
+
+.HomeStudentPicture { height: 1em ; }
+.HomeStudentPicture IMG { height: 1.2em ; }
+.HomeStudentPicture DIV.fast_tip > DIV > IMG { height: 14em ; }
+
+.HomeStudentSuivi { font-weight: bold }
+
+.safety { height: 0.7em }
+.help { display: none }
+.HomeActions .ue_line {
+    white-space: normal ;
+    height: 2.5em ;
+}
+
+.HomeActions .ue_line .ue_more, .HomeActions .ue_line A {
+    display: block ;
+    width: 100%;
+    position: initial ;
+}
+
+.HomeActions .ue_line:hover .ue_more, .HomeActions .ue_line:hover A {
+    background: #FFF ;
+}
+.HomeActions .ue_line:hover .ue_more {
+    overflow: hidden ;
+    -webkit-animation-name: enlarge ;
+    -webkit-animation-duration: 6s;
+    animation-name: enlarge ;
+    animation-duration: 6s;
+    height: auto ;
+}
+@-webkit-keyframes enlarge {
+    0% { max-height: 0em; }
+  100% { max-height: 10em }
+}
+@keyframes enlarge {
+    0% { max-height: 0em; }
+  100% { max-height: 10em }
+}
+
+.highlight { background: #FF0 }
+
+DIV.fast_tip {
+    position: relative ;
+    display: inline ;
+}
+
+DIV.fast_tip > DIV {
+    display: none ;
+    background-image: url(tip.png) ;
+    border: 1px solid #888 ;
+    z-index: 5 ;
+    position: absolute ;
+    top: 1.6em ;
+    left: 0px ;
+    font-size: 80% ;
+    text-align: left ;
+    color: #000 ;
+}
+
+DIV.fast_tip:hover > DIV {
+    display: block ;
+    -webkit-animation-name: fadein ;
+    -webkit-animation-duration: 1s;
+    animation-name: fadein ;
+    animation-duration: 1s;
+}
+@-webkit-keyframes fadein {
+  from { opacity: 0 ; }
+  to { opacity: 1; }
+}
+@keyframes fadein {
+  from { opacity: 0 ; }
+  to { opacity: 1; }
+}
+
+
+DIV.fast_tip > DIV:hover {
+    display: none ;
+}
+
+*[onclick] {
+  cursor: pointer;
+  color: #00C ;
+}
+
+*[onclick]:hover {
+    text-decoration: underline ;
+}
+
+
+

@@ -21,6 +21,7 @@
 
 from .. import plugin
 from .. import utilities
+from .. import files
 import os
 
 def favorite_student(server):
@@ -42,8 +43,9 @@ def favorite_student(server):
         
     utilities.manage_key('LOGINS', os.path.join(login, 'favstu'),
                          content = repr(d))
-    return 'ok'
+    server.the_file.write(files.files['ok.png'])
 
 plugin.Plugin('favorite_student', '/favorite_student/{?}',
+              mimetype = 'image/png',
               function=favorite_student, group='staff')
 

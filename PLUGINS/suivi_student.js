@@ -1085,20 +1085,6 @@ function DisplaySemesters(node)
 }
 DisplaySemesters.need_node = ['Semesters', 'Login'] ;
 
-
-function catch_this_student(event, login)
-{
-  event = the_event(event) ;
-  if ( confirm(_('MSG_bilan_take_student')) )
-    {
-      create_popup('import_div',_('MSG_bilan_take_student'),
-		   '<iframe src="' + url + '/=' + ticket + '/referent_get/'
-		   + display_data['Login']
-		   + '" style="width:100%;height:5em">iframe</iframe>',
-		   '', false) ;
-    }
-}
-
 function DisplayGetStudent(node)
 {
   if ( ! is_a_teacher )
@@ -1106,7 +1092,8 @@ function DisplayGetStudent(node)
   if ( display_data['Referent'][4] == username )
     return '' ; // I am yet its referent
 
-  return hidden_txt('<img onclick="catch_this_student(event)" '
+  return hidden_txt('<img onclick="catch_this_student('
+		    + js2(display_data['Login']) + ')" '
 		    + 'alt="' + _("MSG_home_become_referent") + '" '
 		    + 'src="' + url_files
 		    + '/butterflynet.png">', _('MSG_bilan_take_student'));

@@ -58,7 +58,8 @@ DIV.facebook IMG.pic {
   width: 8em ;
   border: 0 ;
 }
-DIV.phone_facebook { right: 0; bottom: 0; height: 100%; left: 0; top: 0 }
+
+DIV.import_export.phone_facebook { left: 5%; right: 5% ; top: 5% ; height: 90%; }
 
 @media print { DIV.facebook { font-size: 75% ; } }
 '''

@@ -54,6 +54,7 @@ def send_headers(server, css_file, js_file, init_function, more_js=""):
         + "var root = %s ;\n" % utilities.js(list(configuration.root))
         + "var maintainer = %s;\n" % utilities.js(configuration.maintainer)
         + "var semester = %s;\n" % utilities.js(configuration.year_semester[1])
+        + 'var tomuss_version="%s";\n' % configuration.version
         + 'var bilan_des_notes = %s ; \n' % utilities.js(
             configuration.bilan_des_notes)
         + more_js

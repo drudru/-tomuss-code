@@ -995,6 +995,19 @@ function P(k,t)
 }
 
 
+function catch_this_student(login)
+{
+  if ( confirm(_('MSG_bilan_take_student')) )
+    {
+      create_popup('import_div',
+		   _('MSG_bilan_take_student').split("\n")[1],
+		   '<iframe src="' + url + '/=' + ticket + '/referent_get/'
+		   + login
+		   + '" style="width:100%;height:5em">iframe</iframe>',
+		   '', false) ;
+    }
+}
+
 /******************************************************************************
  *
  *

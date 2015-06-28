@@ -27,7 +27,7 @@ from .. import plugin
 from .. import document
 from ..utilities import warn
 from .. import configuration
-from .. import sender
+from .. import files
 from .. import utilities
 from .. import column
 
@@ -249,8 +249,9 @@ def set_page(server):
                          os.path.join(server.ticket.user_name, 'pages'),
                          content = repr(d)
                          )
+    server.the_file.write(str(files.files['ok.png']))
     return 'ok'
 
 plugin.Plugin('set_page', '/set_page/{U}/{P}', function=set_page,
-              group='staff')
+              mimetype="image/png", group='staff')
 

@@ -75,6 +75,7 @@ def plugins_tomuss():
     from .PLUGINS import restart
     from .PLUGINS import opensearch
     from .PLUGINS import fix_modifiables
+    from .PLUGINS import get_columns
     from . import signature
 
     plugins_tomuss_more()

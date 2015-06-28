@@ -1,8 +1,6 @@
 // -*- coding: utf-8; mode: Java; c-basic-offset: 2; tab-width: 8; -*-
 
-var i_am_root ;
 var unload_element ;
-var the_body ;
 var display_data ;
 var display_do_debug = true ;
 
@@ -30,7 +28,7 @@ function display_update(key_values, top)
     display_data[key_values[i][0]] = key_values[i][1] ;
   display_update.top = top ;
   try { display_update_real() ; }
-  catch(e) { } ;
+  catch(e) { console.log(e) ; } ;
 }
 
 function display_create_tree()
@@ -100,6 +98,8 @@ function display_display(node)
   node.data = display_data[node.name] ;
   if ( node.data === "" )
     return '' ;
+  if ( node.fct === undefined )
+    console.log(node) ;
   var need_node = node.fct.need_node ;
   if ( node.data === undefined && need_node === undefined)
     return '' ;  

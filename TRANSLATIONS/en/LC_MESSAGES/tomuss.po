@@ -2491,6 +2491,9 @@ msgstr "No UE found with your keyword"
 msgid "TH_home_bookmark_ue"
 msgstr "Favorite UE"
 
+msgid "TH_home_acceded_ue"
+msgstr "Most acceded UE"
+
 msgid "TIP_home_bookmark_ue_before"
 msgstr "To modify the list: click on "
 
@@ -2507,10 +2510,10 @@ msgstr "EDIT THESE TABLES TO SAVE THEIR CONTENT.<br>\n"
        "It is necessary because some data is only in your browser"
 
 msgid "TH_home_bookmark_student"
-msgstr "favorites students"
+msgstr "favorites"
 
 msgid "TH_home_refered_student"
-msgstr "refered students"
+msgstr "refered"
 
 msgid "TH_home_import_refered"
 msgstr "Become referent of this list of students"
@@ -2568,6 +2571,25 @@ msgstr "I want to be the referent!"
 msgid "MSG_home_reload"
 msgstr "Update the home page to see the new list."
 
+msgid "MSG_home_~any~"
+msgstr "All"
+
+msgid "MSG_home_tt"
+msgstr "Special Examination Condition"
+
+msgid "MSG_home_first_registration"
+msgstr "first registration"
+
+msgid "MSG_home_presence"
+msgstr "Choose the group and then the course to register the attendance:"
+
+msgid "MSG_home_no_presence"
+msgstr "No colonne of 'Present' type"
+
+msgid "MSG_home_wait"
+msgstr "Waiting the server answer"
+
+
 msgid "BOX_abj_master"
 msgstr "<!--1-->Schooling"
 
@@ -2588,6 +2610,28 @@ msgstr "<!--8-->Debug"
 
 msgid "BOX_deprecated"
 msgstr "<!--9-->Deprecated"
+
+msgid "sort_A"
+msgstr "Sort by UE code"
+
+msgid "sort_α"
+msgstr "Sort by UE title"
+
+msgid "sort_☆"
+msgstr "Sort by number of access"
+
+msgid "sort_★"
+msgstr "Sort favorites"
+
+msgid "sort_#"
+msgstr "Sort by number of students"
+
+msgid "TIP_open"
+msgstr "Open box"
+
+msgid "TIP_close"
+msgstr "Close box"
+
 
 msgid "ALERT_coursedates_invalid"
 msgstr " is not a valid date."
