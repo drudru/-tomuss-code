@@ -868,7 +868,11 @@ function display_cellbox_tip(event, nr)
       t.do_not_display = false ;
       return ;
     }
-  t.onmouseleave = function() { t.className = "hidden" ; } ;
+  t.onmouseleave = function() {
+    // FireFox bug: leave if the cursor go inside the menu
+    if ( t.getElementsByTagName('SELECT').length == 0 )
+      t.className = "hidden" ;
+  } ;
   t.className = "" ;
   DisplayGrades.column = display_saved[nr][0] ;
   DisplayGrades.cell = display_saved[nr][1] ;
