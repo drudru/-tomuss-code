@@ -951,6 +951,7 @@ function grade_to_class(column, grade)
   if ( grade == abj )  return 'abjus' ;
   if ( grade == tnr )  return 'tnr' ;
   if ( grade == pre )  return 'prst' ;
+  if ( isNaN(grade) )  return '' ;
   
   var ci = (grade - column.min) / (column.max - column.min) ;
 
