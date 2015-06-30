@@ -23,15 +23,20 @@
 Save user preferences for suivi
 """
 
+import ast
 import os
 from .. import plugin
 from .. import utilities
 from .. import files
 
 def save_preferences(server):
-    """Set the private state of the student"""
+    """Set the user preferences"""
     login = utilities.the_login(server.ticket.user_name)
-    d = {}
+    d = utilities.manage_key('LOGINS', os.path.join(login, 'preferences'))
+    if d:
+        d = ast.literal_eval(d)
+    else:
+        d = {}
     for item in server.the_path:
         item = item.split('=')
         assert(len(item) == 2)
