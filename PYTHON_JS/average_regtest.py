@@ -39,6 +39,11 @@ def average_regtest():
                 for value_weight in value_and_weights
             ]
         line.append(CE(result))
+        columns[0].table.rounding = 0
+        check_result(line, len(value_and_weights), compute_average)
+        columns[0].table.rounding = 1
+        if infos[-2] == 15:
+            line[-1] = CE(14.5)
         check_result(line, len(value_and_weights), compute_average)
     columns_set([Column(), Column(), Column(),
                  Column({"average_columns":[0, 1, 2]}),

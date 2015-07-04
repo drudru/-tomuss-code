@@ -91,6 +91,7 @@ def create(table):
             table.date_change(p, ts.split(' ')[0] + ' ' + ts2.split(' ')[1])
         else:
             table.date_change(p, ts)
+    table.table_attr(p, 'rounding', 1) # Rounding down down
 
 def student_add_allowed(table):
     """Returns the new student list or False if there is to many

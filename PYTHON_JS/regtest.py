@@ -28,6 +28,10 @@ tnr_short = tnr = "TNR"
 ppn_short = ppn = "PPN"
 pre_short = pre = "PRE"
 
+class Table:
+    def __init__(self):
+        self.rounding = 0
+
 class Column:
     def __init__(self, args={}):
         # self.__dict__ is not translated into javascript
@@ -47,6 +51,8 @@ class Column:
         self.comment         = args.get("comment", "")
         self.computed        = args.get("computed", 0)
         self.abj_is          = args.get("abj_is", 0)
+        if len(columns) != 0:
+            self.table = columns[0].table
 
     def nmbr_filter(self, cell):
         return Filter(self.test_filter, "","").evaluate(cell)
@@ -106,5 +112,7 @@ columns = []
 def columns_set(cols):
     while len(columns):
         columns.pop()
+    t = Table()
     for c in cols:
         columns.append(c)
+        c.table = t

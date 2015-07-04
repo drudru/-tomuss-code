@@ -2417,6 +2417,7 @@ function Column(attrs)
     if ( this[attr] === undefined )
       this[attr] = column_attributes[attr].default_value ;
   this.sort_by = 'LABEL_sort_value' ;
+  this.table = table_attr ;
 }
 
 function Col(attrs)

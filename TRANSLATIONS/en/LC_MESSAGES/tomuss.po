@@ -5377,6 +5377,18 @@ msgid "TIP_table_attr_hide_empty"
 msgstr "You can choose to not display the empty lines that have an history.\n"
        "This allow to have only really clean empty lines."
 
+msgid "TIP_table_attr_rounding"
+msgstr "If you compute average in TOMUSS and in other applications<br>\n"
+       "then it is recommended to compute rounded down average.<br>\n"
+       "You will always find values smaller than in the other applications."
+msgid "SELECT_table_rounding_down"
+msgstr "Rounded down display"
+msgid "SELECT_table_rounding_down_down"
+msgstr "Rounded down average: no problems"
+msgid "SELECT_table_rounding_no"
+msgstr "Exact average and rounding to the nearest: Danger"
+
+
 msgid "ALERT_date_format"
 msgstr "Enter a date as Day/Month/Year"
        "Or Day/Month or only the Day (of the current month).\n"

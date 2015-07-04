@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 # TOMUSS: The Online Multi User Simple Spreadsheet
-# Copyright (C) 2014 Thierry EXCOFFIER, Universite Claude Bernard
+# Copyright (C) 2014-2015 Thierry EXCOFFIER, Universite Claude Bernard
 #
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -19,6 +19,17 @@
 # Contact: Thierry.EXCOFFIER@univ-lyon1.fr
 
 """
+About rounding:
+
+   0: Display down rounding (old behaviour)
+      Average are rounded to the nearest if a rounding value is defined
+      If no rounding is defined, average value is not rounded.
+      On display, values are down rounded.
+
+   1: Compute down rounding (new default recommended behaviour)
+      All intermediate values are down rounded
+
+   2: Perfect compute, rounding to the nearest
 """
 
 def compute_average(data_col, line):
@@ -71,6 +82,13 @@ def compute_average(data_col, line):
                 return nan
             if isNaN(value):
                 return nan
+
+            if column.table.rounding == 1:
+                if origin.round_by:
+                    value = rint(value / origin.round_by) * origin.round_by
+                else:
+                    value = rint(value * 1000000) / 1000000
+
             if origin.real_weight_add:
                 values.append([
                         (value - origin.min) / (origin.max - origin.min),
@@ -148,7 +166,7 @@ def compute_average(data_col, line):
             value = (column.min
                      + sumw * (column.max - column.min) / weight
                      + sum2)
-            if column.round_by:
+            if column.table.rounding <= 1 and column.round_by:
                 return rint(value / column.round_by) * column.round_by
             else:
                 return rint(value * 1000000) / 1000000

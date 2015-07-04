@@ -40,7 +40,6 @@ class ColumnAttr(object):
     update_headers = 0              # Update the Cell/Column/Table headers
     update_table_headers = 0        # Update the table headers
     need_authorization = 1          # Authorization needed to modify attribute
-    update_content = False          # On change, update column content
     only_masters = 0                # Only the table masters see the attribute
     propagate = 1                   # Change is sent to other browsers
     # String to display to the user
