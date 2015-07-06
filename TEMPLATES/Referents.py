@@ -145,10 +145,7 @@ def update_inscrits_referents(the_ids, table, page):
                 s = configuration.yes
             else:
                 s = configuration.no
-        if configuration.student_in_first_year(login):
-            pe = configuration.yes
-        else:
-            pe = configuration.no
+        pe = configuration.student_in_first_year(login)
         table.lock()
         try:
             lines = list(table.get_items(login))
@@ -162,7 +159,10 @@ def update_inscrits_referents(the_ids, table, page):
 
             if lines and lines[0][1][fire].value == '':
                 #  FiRe only setted if empty, it must never change
-                table.cell_change(page, "FiRe"  ,line, pe)
+                if pe is True:
+                    table.cell_change(page, "FiRe", line, configuration.yes)
+                elif pe is False:
+                    table.cell_change(page, "FiRe", line, configuration.no)
             table.cell_change(page, contrat ,line, s)
 
         finally:

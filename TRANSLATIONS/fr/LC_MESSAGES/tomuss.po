@@ -3975,7 +3975,7 @@ msgid "COL_TITLE_FiRe"
 msgstr "Primo-entrant"
 
 msgid "COL_COMMENT_FiRe"
-msgstr "Première inscription en licence."
+msgstr "Première inscription en première année de licence."
 
 msgid "COL_TITLE_CON1"
 msgstr "TOMUSS"

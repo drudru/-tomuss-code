@@ -267,9 +267,16 @@ def first_registration(login):
 
 #REDEFINE
 # Returns True if the student is in the first year.
+#         False if it is not
+#         Node if the information is not known
 # The information is displayed in the 'blocnote'
 def student_in_first_year(login):
-    return first_registration(login) == 1
+    fr = first_registration(login)
+    if fr == 1:
+        return True
+    if isinstance(fr, int):
+        return False
+    return None
 
 #REDEFINE
 # Returns False to hide the student suivi to every one.
