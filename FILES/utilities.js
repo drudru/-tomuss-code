@@ -32,6 +32,8 @@ function __(txt)
 	if ( t )
 	    return t ;
     }
+  if ( translations['fr'] && translations['fr'][txt] )
+    return translations['fr'][txt] ;
   return txt ;
 }
 
