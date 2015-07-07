@@ -62,7 +62,7 @@ referent_columns = {
     '0_4' : {'hidden':1},
     '0_5' : {'position': 3,'type':'Text', "width":1, "freezed":'F',
              "hidden":1, 'title':'Inscrit'},
-    'FiRe': {'position': 4,'type':'Bool', "width":2, "freezed":'F'},
+    'FiRe': {'position': 4,'type':'Bool', "width":1, "freezed":'F'},
     'CON1': {'position': 5,'type':'Bool', "width":2},
     'REM1': {'position': 6,'type':'Text', "width":6},
     'RDV1': {'position': 7,'type':'Prst', "width":2},
@@ -88,14 +88,16 @@ def check_columns(table):
     if len(table.columns) != 0 and table.columns.from_id('FiRe') is None:
         table.modifiable = 0
         return # Old table : no more columns update
-    for k, v in referent_columns.items():
+    cols = dict(referent_columns.items())
+    cols.update(configuration.local_columns(table))
+    for k, v in cols.items():
         x = utilities._('COL_TITLE_' + k)
         if x != 'COL_TITLE_' + k:
             v['title'] = x
         x = utilities._('COL_COMMENT_' + k)
         if x != 'COL_COMMENT_' + k:
             v['comment'] = x
-    table.update_columns(referent_columns)
+    table.update_columns(cols)
 
 def content(dummy_table):
     return _ucbl_.update_student_information
@@ -110,9 +112,9 @@ def onload(table):
 def create(table):
     p = table.get_ro_page()
     table.table_attr(p, 'masters', [utilities.module_to_login(table.ue)])
-    check_columns(table)
     table.table_attr(p, 'default_nr_columns', 9)
     table.table_attr(p, 'default_sort_column', 2)
+    check_columns(table)
 
 def update_inscrits_referents(the_ids, table, page):
     from .. import referent
