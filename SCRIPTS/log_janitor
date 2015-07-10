@@ -3,7 +3,7 @@
 
 LOGS=LOGS/[ST]*/[0-9][0-9][0-9][0-9]-*[0-9]
 
-exho "Remove old logs"
+echo "Remove old logs"
 find $LOGS            -type f -mtime +200 -exec rm {} \;
 
 echo "Compress logs"

@@ -295,20 +295,23 @@ class LDAP_Logic(object):
         if len(name) == 1:
             return
         q = []
+        if ' ' in name and len(name) >= 3:
+            both = '(%s=%s*)' % (configuration.attr_surname,
+                                 utilities.safe_space_quote(name))
+        else:
+            both = ''
         for start in name.split(' '):
             start = utilities.safe_quote(start.strip())
             if start == '':
                 continue
-            q.append('(|(%s=%s*)(%s=%s*)(%s=%s*))' % (
+            q.append('(|(%s=%s*)(%s=%s*)(%s=%s*)%s)' % (
                 configuration.attr_surname, start,
                 configuration.attr_firstname, start,
-                configuration.attr_login, start))
+                configuration.attr_login, start,
+                both))
         if len(q) == 0:
             return
         q = '(&' + ''.join(q) + ')'
-        if ' ' in name and len(name) >= 3:
-            q = '(|' + q + '(%s=%s*)' % (configuration.attr_surname,
-                                         utilities.safe_space_quote(name))+ ')'
 
         if base:
             if base.startswith("CN="):
