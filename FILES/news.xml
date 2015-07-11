@@ -1054,6 +1054,27 @@ Les améliorations les plus visibles sont :
       </description>
       <guid>65</guid>
     </item>
+    <item>
+      <title>11/07/2015 : Version 5.5.27</title>
+      <link>http://tomuss.univ-lyon1.fr/</link>
+      <description>
+	&lt;p&gt;
+	On peut définir des login qui ont le droit de modifier
+	les notes saisies par d'autre login,
+	par exemple «j.bond» peut modifier les notes de «j.bond2».
+	La relation peut être symétrique.
+	&lt;p&gt;
+	Le remplissage de colonne a complètement été refait.
+	Il permet de faire toutes les tâches courantes.
+	&lt;p&gt;
+	Pour chaque table on peut définir la méthode pour faire les arrondis.
+	La méthode par défaut fait des calculs systématiquement arrondis
+	vers le bas (même si cela fausse les notes) afin de garantir
+	que TOMUSS trouvera moins que n'importe quel autre logiciel.	
+	&lt;p&gt;
+      </description>
+      <guid>66</guid>
+    </item>
 
   </channel>
 </rss>
