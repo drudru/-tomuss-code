@@ -392,7 +392,7 @@ backup = 'BACKUP_' # Use None or False or '' if no backup
 
 # URL of the 'tomuss' server
 server_port = 8888
-server_base_url = 'http://' + socket.getfqdn()
+server_base_url = 'http://' + socket.gethostbyname(socket.gethostname())
 server_url = '%s:%d' % (server_base_url, server_port)
 
 # URLs of the 'suivi' servers

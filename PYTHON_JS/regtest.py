@@ -76,6 +76,8 @@ class Cell:
 
 if python_mode:
     C = Cell
+    os.environ['TZ'] = 'GMT-2'
+    time.tzset()
 
 def strip0(txt):
     txt = str(txt)

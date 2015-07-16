@@ -45,6 +45,7 @@ for i, semester in enumerate(configuration.semesters):
     configuration.suivi.add(
         time.localtime()[0],      # The current Year
         semester,                 # A semester
-        socket.getfqdn() + ':%d', # The user visible URL for the 'suivi' server
+        # The user visible URL for the 'suivi' server
+        socket.gethostbyname(socket.gethostname()) + ':%d',
         8889 + i)                 # The socket port number of the server
 

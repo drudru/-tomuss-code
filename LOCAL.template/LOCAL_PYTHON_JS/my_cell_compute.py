@@ -9,4 +9,4 @@ def compute_my_cell_compute(data_col, line):
     s = ""
     for dc in column.average_columns:
         s += line[dc].value
-    line[data_col] = line[data_col].set_value(s)
+    return s

@@ -27,7 +27,7 @@ else \
 $(MAKE) warning ; \
 fi ; } ; f
 
-NODE = export NODE_MODULE_CONTEXTS=1 ; node
+NODE = export NODE_MODULE_CONTEXTS=1 ; export TZ=GMT-2 ; node
 
 warning:
 	@echo "==============================================================="
