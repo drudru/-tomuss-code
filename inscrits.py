@@ -509,7 +509,7 @@ class LDAP(LDAP_Logic):
             warn('Try connect to ' + configuration.ldap_server[self.server],
                  what="ldap")
             try:
-                if configuration.ldap_server_port == 636:
+                if configuration.ldap_server_port in (636, 6360):
                     protocol = "ldaps"
                 else:
                     protocol = "ldap"

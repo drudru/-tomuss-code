@@ -146,7 +146,7 @@ function display_display(node)
       more = ' ' + content[3] ;
       content = content[0] ;
     }
-  if ( content === '' )
+  if ( content === '' || ! content )
     return '' ;
   if ( styles.length )
     styles = ' style="' + styles.join(';') + '"' ;
