@@ -498,7 +498,7 @@ class Column(object):
         return (self.table.modifiable
                 and self.modifiable
                 and (teacher or self.modifiable == 2)
-                and self.table.authorized(ticket.user_name, cell)
+                and self.table.authorized(ticket.user_name, cell, column=self)
                 )
 
     def is_computed(self):

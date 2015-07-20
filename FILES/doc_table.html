@@ -321,16 +321,16 @@
 	jusqu'à la position désirée.
       <li><p>
 	Pour <b>trier les lignes</b> en fonction du contenu d'une colonne
-	il suffit de cliquer sur le titre de la colonne.
+	il suffit de cliquer sur le triangle dans titre de la colonne.
       </li>
       <li><p>
 	Si l'on veut <b>trier en fonction de plusieurs colonnes</b>
-	(en cas d'égalité) il suffit de cliquer sur les titres
-	de colonne dans le bon ordre.
+	(en cas d'égalité) il suffit de cliquer sur les triangles
+	dans le bon ordre.
       </li>
       <li><p>
 	Pour <b>changer l'ordre de tri</b> il faut cliquer à nouveau
-	sur le titre de la colonne.
+	sur le triangle.
       </li>
 	  <li><p> On peut associer un <b>commentaire</b> à la colonne
 	      pour expliquer plus précisemment son titre ou donner
@@ -393,6 +393,68 @@
       alors vous indiquez le nombre limite dans le champs
       «Répétition» de l'onglet «Colonne / Formule»
 
+    </div>
+
+    <div>
+    <h3>Dépôt de document</h3>
+    <p>
+      Fonctionnalité expérimentale sans garanti.
+      Ne pas utiliser pour le moment.
+    <p>
+      Pour créer un zone de dépôt pour les étudiants :
+      <ul>
+	<li> Vous mettez le type de colonne «Dépôt»
+	<li> Vous pouvez indiquer à la droite du type la taille
+	  maximum autorisée pour le fichier déposé.
+	<li> Pour que les étudiants puissent déposer :
+	  il faut dans l'onglet «Config» basculer de
+	  «Personne ne peux modifier à partir du suivi»
+	  à «Les étudiants peuvent modifier leur valeur à partir du suivi»
+      </ul>
+    <p>
+      Quelques remarques :
+      <ul>
+	<li> On ne peut déposer qu'un seul document par cellule.
+	<li> La valeur de la cellule est la taille en Ko du document.
+	<li> Le commentaire de la cellule contient le type mime du fichier
+	  ainsi que son nom original sur le disque du déposant.
+	<li> Les enseignants peuvent déposer à la place des étudiants.
+	<li> Il n'y a pas de date limite de dépôt.
+	<li> Les étudiants peuvent remplacer le fichier déposé.
+	  Les anciens fichiers déposés sont écrasés.
+	<li> Les étudiants peuvent charger ce qu'ils ont déposé.
+	<li> On ne peut pas effacer de fichier.
+	<li> Les fichiers déposés sont détruits à la fin du semestre.
+      </ul>
+      Astuces d'utilisation :
+      <ul>
+	<li> <b>Trier par date de dépôt ou les afficher.</b><br>
+	  Vous mettez le curseur sur «▼» et vous cliquez sur «Date»
+	<li> <b>Colorier en rouge les dépôts après la date limite.</b><br>
+	  Dans l'onglet «Affiche» vous mettez «?&gt;20/07/2015-14:00:00» dans
+	  le champ «Rougir»
+	<li> <b>Envoyer un message à ceux qui n'ont pas déposé le document.</b><br>
+	  Vous mettez «=» dans le filtre de la colonne de dépôt
+	  et vous cliquez sur le bouton «Mail»
+	<li> <b>Interdire la modification après le premier chargement.</b><br>
+	  Dans l'onglet «Config» vous mettez «=» dans le champs
+	  «Cellule modifiable si». Les cellules non vides ne seront plus modifiables.
+	<li> <b>Autoriser quelques étudiants à redéposer.</b><br>
+	  <ul>
+	    <li> Vous mettez «OK» dans les cellules des étudiants,
+	    <li> Dans l'onglet «Config» vous mettez «=OK» dans le champs
+	      «Cellule modifiable si».
+	    <li> Dans l'onglet «Config» vous basculez de
+	      «Personne ne peux modifier à partir du suivi»
+	      à «Les étudiants peuvent modifier leur valeur à partir du suivi».
+	    <li> Bien que le dépôt soit ouvert les autres étudiants
+	      ne pourront pas déposer ou redéposer.
+	  </ul>
+	<li> <b>Avoir un fichier ZIP des étudiants pour son groupe de TD.</b><br>
+	  Vous filtrez vos étudiants et vous cliquez sur «Charger ZIP»
+	  L'extraction du ZIP créera un répertoire «CodeUE_TitreColonne»
+	  contenant un fichier par étudiant «N°étu_prénom_nom_fichier»
+      </ul>
     </div>
 
     <div>

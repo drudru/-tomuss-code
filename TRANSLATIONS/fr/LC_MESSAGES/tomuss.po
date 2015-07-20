@@ -183,6 +183,13 @@ msgstr "Calcule la différence en 2 dates en jours.<br>\n"
        "Pour la calculer en semaines, mettez /7 dans le commentaire<br>\n"
        "de la colonne (ou /30 pour des mois)"
 
+#. Columns types, button text in the menu
+msgid "B_Upload"
+msgstr "Dépôt"
+
+msgid "H_Upload"
+msgstr "Dépôt d'un fichier par les étudiants"
+
 
 #. Attribute Tip
 msgid "TIP_column_attr_comment"
@@ -486,6 +493,10 @@ msgid "TIP_column_attr_locked"
 msgstr "<b>Autorisation de modification des cellules de la colonne</b><br>\n"
  "Si les cellules sont protégées alors les modifications sont interdites<br>\n"
  "même le remplissage de cellules vides."
+
+#. Attribute Tip
+msgid "TIP_column_attr_upload_max"
+msgstr "<b>Taille maximum du fichier en kilo octets</b>"
 
 #. Attribute Tip
 msgid "TIP_table_attr_comment"
@@ -5733,6 +5744,13 @@ msgstr "Indiquez maintenant le titre de la colonne que vous voulez recopier "
        "Si vous modifiez la copie, la valeur que vous aurez saisie "
        "ne sera plus jamais mise à jour."
 
+msgid "ALERT_change_to_Upload"
+msgstr "Indiquez maintenant que les étudiants ont le droit de modifier\n"
+       "le contenu des cellules dans le suivi (onglet «Config»).\n\n"
+       "La valeur de la cellule est la taille du fichier déposé en Ko.\n\n"
+       "Le commentaire indique le type du fichier déposé.\n\n"
+       "Pour faire afficher les dates de dépôts, triez la colonne par date."
+
 msgid "COL_TITLE_room_name"
 msgstr "Lieu"
 
@@ -5836,3 +5854,36 @@ msgstr "Photo d'identité"
 
 msgid "MSG_suivi_student_logo"
 msgstr "Où suis-je ?"
+
+
+msgid "MSG_upload_start"
+msgstr "Début de l'envoi du fichier"
+
+msgid "MSG_upload_size"
+msgstr "Taille de votre fichier :"
+
+msgid "MSG_upload_type"
+msgstr "Type de votre fichier :"
+
+msgid "MSG_upload_new"
+msgstr "Envoyer :"
+
+msgid "MSG_upload_get"
+msgstr "Récupérer"
+
+msgid "MSG_upload_change"
+msgstr "Remplacer le fichier par"
+
+msgid "MSG_no_file_uploaded"
+msgstr "Pas de fichier"
+
+msgid "MSG_upload_fail_max"
+msgstr "L'envoit à échoué car votre fichier contient trop d'octets :"
+
+msgid "TITLE_column_attr_upload_zip"
+msgstr "Charger ZIP"
+
+msgid "TIP_column_attr_upload_zip"
+msgstr "Création du ZIP à partir des documents filtrées de la colonne<br>\n"
+       "Cette opération peut être longue : il faut patienter"
+

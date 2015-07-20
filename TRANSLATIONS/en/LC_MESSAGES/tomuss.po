@@ -187,6 +187,13 @@ msgid "H_Diff_Date"
 msgstr "Compute time in day between 2 dates.\n"
        "To have weeks, put /7 in the column comment."
 
+#. Columns types, button text in the menu
+msgid "B_Upload"
+msgstr "Upload"
+
+msgid "H_Upload"
+msgstr "Allow students to upload a file"
+
 
 #. Attribute Tip
 msgid "TIP_column_attr_comment"
@@ -494,6 +501,9 @@ msgid "TIP_column_attr_locked"
 msgstr "<b>Allow cell modification in the column</b><br>\n"
  "If cells are protected they are not modifiable even if they are empty."
 
+#. Attribute Tip
+msgid "TIP_column_attr_upload_max"
+msgstr "<b>Maximum file size in kilo bytes</b>"
 
 #. Attribute Tip
 msgid "TIP_table_attr_comment"
@@ -5607,6 +5617,12 @@ msgstr "Enter now the title of the column you want to dynamicaly copy.\n\n"
        "If you modify the copy, the modified value will never be automaticaly "
        "updated."
 
+msgid "ALERT_change_to_Upload"
+msgstr "In the «Config» tab, indicate that students are allowed\n"
+       "to change the cells values.\n\n"
+       "The cell value is the size of the file.\n\n"
+       "The cell comment is the file type.\n\n"
+       "To see deposite time, sort column content per date."
 
 msgid "COL_TITLE_room_name"
 msgstr "Place"
@@ -5709,4 +5725,35 @@ msgstr "Photo ID"
 
 msgid "MSG_suivi_student_logo"
 msgstr "Where am I?"
+
+msgid "MSG_upload_start"
+msgstr "Starting the file upload"
+
+msgid "MSG_upload_size"
+msgstr "Uploaded file size:"
+
+msgid "MSG_upload_type"
+msgstr "Uploaded file type:"
+
+msgid "MSG_upload_new"
+msgstr "Upload:"
+
+msgid "MSG_upload_get"
+msgstr "Download"
+
+msgid "MSG_upload_change"
+msgstr "Replace file by"
+
+msgid "MSG_no_file_uploaded"
+msgstr "No uploaded file"
+
+msgid "MSG_upload_fail_max"
+msgstr "The upload failed because there are too many bytes in your file:"
+
+msgid "TITLE_column_attr_upload_zip"
+msgstr "Load ZIP"
+
+msgid "TIP_column_attr_upload_zip"
+msgstr "Create the ZIP from the filtered file in the column<br>\n"
+       "This may take a long time, please wait."
 

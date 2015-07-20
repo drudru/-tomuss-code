@@ -876,9 +876,10 @@ function display_cellbox_tip(event, nr)
   t.className = "" ;
   DisplayGrades.column = display_saved[nr][0] ;
   DisplayGrades.cell = display_saved[nr][1] ;
-  DisplayGrades.html_object = c.getElementsByTagName('INPUT')[0]
+  DisplayGrades.html_object = c.getElementsByTagName('FORM')[0]
+    || c.getElementsByTagName('INPUT')[0]
     || c.getElementsByTagName('SELECT')[0] ;
-  if ( DisplayGrades.html_object )
+  if ( DisplayGrades.html_object && DisplayGrades.html_object.value )
     DisplayGrades.value = DisplayGrades.html_object.value ;
   else
     DisplayGrades.value = display_saved[nr][2] ;

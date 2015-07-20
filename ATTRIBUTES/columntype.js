@@ -148,4 +148,6 @@ function popup_type_choosed(type)
     document.getElementById('t_column_columns').focus() ;
     highlight_add(document.getElementById('t_column_columns')) ;
   }
+  else if ( _('ALERT_change_to_' + type) != 'ALERT_change_to_' + type )
+    alert(_('ALERT_change_to_' + type)) ;
 }
