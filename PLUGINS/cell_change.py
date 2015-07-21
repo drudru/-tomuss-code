@@ -24,31 +24,16 @@ from .. import plugin
 from .. import document
 
 def cell_change(server):
-    col = server.the_path[0]
-    lin = server.the_path[1]
+    err = document.get_cell_from_table(server)
+    if isinstance(err, basestring):
+        return 'bad.png'
+    table, page, column, lin = err
     value = server.the_path[2]
-    table = document.table(server.the_year, server.the_semester,
-                           server.the_ue, create=False)
-    column = table.columns.from_id(col)
-    if lin not in table.lines or column is None:
-        return 'bad.png'
-    # Test if the column is modifiable in the 'suivi'
-    if not column.is_modifiable(server.ticket.is_a_teacher,
-                                server.ticket,
-                                table.lines[lin][column.data_col]):
-        return 'bad.png'
-    # The student can only modify its line
-    if (not server.ticket.is_a_teacher
-        and table.the_keys()[server.ticket.user_name][0] != lin):
-        return 'bad.png'
-    year, semester, ue = server.the_year, server.the_semester, server.the_ue
-    table, page = document.table(year, semester, ue, None, server.ticket,
-                                 do_not_unload='cell_change')
     try:
         table.lock()
         try:
             try:
-                return table.cell_change(page, col, lin, value)
+                return table.cell_change(page, column.the_id, lin, value)
             except ValueError:
                 return 'bad.png'
         finally:

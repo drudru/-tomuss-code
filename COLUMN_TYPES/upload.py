@@ -19,12 +19,6 @@
 #
 #    Contact: Thierry.EXCOFFIER@univ-lyon1.fr
 
-"""
-Charger plusieurs fichiers
-Effacer les fichiers
-doc
-"""
-
 import os
 import subprocess
 import cgi
@@ -45,40 +39,8 @@ class Upload(text.Text):
     formatte_suivi = 'upload_format_suivi'
     human_priority = 20
 
-def get_cell_from_table(server, allowed_types, ro=False):
-    """server.the_path must starts by 'col_id/lin_id'
-    Return an error string or the tuple (table, page, column, lin_id)
-    Once the cell value is modified, call:
-         table.do_not_unload_remove('cell_change')
-    """
-    table = document.table(server.the_year, server.the_semester,
-                           server.the_ue, create=False)
-    if not table:
-        return "Can't find table"
-    col_id = server.the_path[0]
-    lin = server.the_path[1]
-    column = table.columns.from_id(col_id)
-    if not column:
-        return "Can't find column"
-    if column.type.name not in allowed_types:
-        return "Not an %s column type" % allowed_types
-    if (not server.ticket.is_a_teacher
-        and table.the_keys()[server.ticket.user_name][0] != lin):
-        return 'Your are not allowed to read/modify this value'
-    if ro:
-        return table, column, lin
-    if not column.is_modifiable(server.ticket.is_a_teacher,
-                                server.ticket,
-                                table.lines[lin][column.data_col]):
-        return "Not modifiable value"
-
-    table, page = document.table(server.the_year, server.the_semester,
-                                 server.the_ue, None, server.ticket,
-                                 do_not_unload='cell_change')
-    return table, page, column, lin
-
 def upload_post(server):
-    err = get_cell_from_table(server, ('Upload',))
+    err = document.get_cell_from_table(server, ('Upload',))
     if isinstance(err, basestring):
         server.the_file.write(err)
         raise ValueError(err)
@@ -125,7 +87,7 @@ def upload_post(server):
 
 
 def upload_get(server):
-    err = get_cell_from_table(server, ('Upload',), ro=True)
+    err = document.get_cell_from_table_ro(server, ('Upload',))
     server.restore_connection()
     if isinstance(err, basestring):
         server.send_response(200)

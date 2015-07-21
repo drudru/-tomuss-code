@@ -1510,6 +1510,46 @@ class Table(object):
         return retrieve_student_list(self.ue_code,
                                      self.year, self.semester, self)
 
+def get_cell_from_table_ro(server, allowed_types=None):
+    """server.the_path must starts by 'col_id/lin_id'
+    Return an error string or the tuple (table, column, lin_id)
+    """
+    t = table(server.the_year, server.the_semester,
+              server.the_ue, create=False)
+    if not t:
+        return "Can't find table"
+    col_id = server.the_path[0]
+    lin = server.the_path[1]
+    column = t.columns.from_id(col_id)
+    if not column:
+        return "Can't find column"
+    if allowed_types  and  column.type.name not in allowed_types:
+        return "Not an %s column type" % allowed_types
+    if (not server.ticket.is_a_teacher
+        and t.the_keys()[server.ticket.user_name][0] != lin):
+        return 'Your are not allowed to read/modify this value'
+    return t, column, lin
+
+def get_cell_from_table(server, allowed_types=None):
+    """server.the_path must starts by 'col_id/lin_id'
+    Return an error string or the tuple (table, page, column, lin_id)
+    Once the cell value is modified, call:
+         table.do_not_unload_remove('cell_change')
+    """
+    err = get_cell_from_table_ro(server, allowed_types)
+    if isinstance(err, basestring):
+        return err
+    t, column, lin = err
+    if not column.is_modifiable(server.ticket.is_a_teacher,
+                                server.ticket,
+                                t.lines[lin][column.data_col]):
+        return "Not modifiable value"
+
+    t, page = table(server.the_year, server.the_semester,
+                    server.the_ue, None, server.ticket,
+                    do_not_unload='cell_change')
+    return t, page, column, lin
+
 def retrieve_student_list(ue, year=None, semester=None, table=None):
     args = inspect.getargspec(inscrits.L_batch.students).args
     options = {}
