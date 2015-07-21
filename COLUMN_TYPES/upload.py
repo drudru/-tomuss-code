@@ -39,6 +39,20 @@ class Upload(text.Text):
     formatte_suivi = 'upload_format_suivi'
     human_priority = 20
 
+def check_virus(data):
+    try:
+        import pyclamd
+        pc = pyclamd.ClamdUnixSocket()
+    except:
+        return '' # Not installed or not running
+
+    res = pc.scan_stream(data)
+    del pc
+    if res:
+        return ', '.join(res.values())
+    else:
+        return ''
+
 def upload_post(server):
     err = document.get_cell_from_table(server, ('Upload',))
     if isinstance(err, basestring):
@@ -59,8 +73,15 @@ def upload_post(server):
         if len(data) > float(column.upload_max) * 1000:
             server.the_file.write('<p style="color:red">%s %d &gt; %d'
                                   % (server._("MSG_upload_fail_max"),
-                                     len(data), float(column.upload_max) * 1000))
+                                     len(data), float(column.upload_max)*1000))
             return
+        err = check_virus(data)
+        if err:
+            server.the_file.write('<p style="background:#F00;color:#FFF">%s %s'
+                                  % (server._("MSG_virus_found"),
+                                     cgi.escape(err)))
+            return
+        server.the_file.write('<p>' + server._("MSG_no_virus_found"))
 
         path = container_path(column)
         utilities.mkpath(path, create_init=False)
@@ -77,8 +98,8 @@ def upload_post(server):
         
         table.lock()
         try:
-            table.cell_change(page, column.the_id, lin_id, len(data)/1000.)
-            table.comment_change(page, column.the_id, lin_id, magic + ' ' + filename)
+            table.cell_change(page, column.the_id  ,lin_id, len(data)/1000.)
+            table.comment_change(page,column.the_id,lin_id, magic+' '+filename)
         finally:
             table.unlock()
     finally:

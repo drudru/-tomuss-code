@@ -5887,3 +5887,9 @@ msgid "TIP_column_attr_upload_zip"
 msgstr "Création du ZIP à partir des documents filtrées de la colonne<br>\n"
        "Cette opération peut être longue : il faut patienter"
 
+msgid "MSG_no_virus_found"
+msgstr "Aucun virus n'a été détecté."
+
+msgid "MSG_virus_found"
+msgstr "Un virus à été trouvé :"
+
