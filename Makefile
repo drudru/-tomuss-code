@@ -124,8 +124,11 @@ translations:
 full-tar:
 	@$(MAKE) clean 2>/dev/null >&2
 	@tar -cf - \
-		--exclude 'Trash' \
+		--exclude 'TMP' \
 		--exclude 'LOGS' \
+		--exclude 'Trash' \
+		--exclude 'PICTURES' \
+		--exclude 'UPLOAD' \
 		--exclude 'DBregtest' \
 		--exclude 'DBtest' \
 		--exclude 'BACKUP_DBregtest' \
