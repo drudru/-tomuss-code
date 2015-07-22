@@ -86,7 +86,7 @@ def home_page(server):
 
     for login in referent.students_of_a_teacher(user_name):
         a,b,c = inscrits.L_fast.firstname_and_surname_and_mail(login)
-        pe = int(configuration.student_in_first_year(login))
+        pe = int(configuration.student_in_first_year(login) or False)
         refered.append(('[' + utilities.js(login) + ','
                         + utilities.js(a) + ','
                         + utilities.js(b) + ','
