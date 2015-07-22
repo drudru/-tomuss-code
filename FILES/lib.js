@@ -2933,6 +2933,8 @@ function cell_set_value_real(line_id, data_col, value, td)
 	  if ( group !== '' )
 	    for (var line_key in lines)
 	      {
+		if ( line_key == line_id )
+		  continue ; // Itself
 		var cell = lines[line_key][column.data_col] ;
 		if ( lines[line_key][col].value.toString() == group
 		     && cell.modifiable(column) )

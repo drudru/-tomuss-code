@@ -5768,3 +5768,6 @@ msgstr "Choose the file to send:"
 
 msgid "MSG_upload_wait"
 msgstr "Wait while your file is being sent to the server."
+
+msgid "MSG_upload_no_file"
+msgstr "Can't find this file."

@@ -5894,8 +5894,10 @@ msgid "MSG_virus_found"
 msgstr "Un virus à été trouvé :"
 
 msgid "MSG_upload_file"
-msgstr "Choisissez le nom du fichier à déposer :"
+msgstr "Choisissez le fichier à déposer :"
 
 msgid "MSG_upload_wait"
 msgstr "Patientez pendant que votre fichier est envoyé au serveur."
 
+msgid "MSG_upload_no_file"
+msgstr "Ne trouve pas le fichier déposé."

@@ -21,7 +21,7 @@
 
 function safe_url(t)
 {
-  return t.replace(RegExp('[$%&?/\\]', 'g'), '_') ;
+  return t.replace(RegExp('[$%&?/\\\\]', 'g'), '_') ;
 }
 
 function upload_filename(t)
@@ -29,6 +29,8 @@ function upload_filename(t)
   t = t.replace("; ", "").split(' ')[1] ;
   if ( t )
     t = safe_url(t) ;
+  else
+    t = '' ;
   return t ;
 }
 
@@ -105,11 +107,10 @@ function upload_format_suivi()
   var value = DisplayGrades.value, upload_url, label ;
   var empty = (value === ''
 	       || value == DisplayGrades.column.empty_is
-	       ) || upload_filename(DisplayGrades.cell.comment) == undefined ;
+	       ) ;
   var s = [] ;
   if ( ! empty )
-    s.push(_('MSG_upload_get')
-	   + '<a target="_blank" href="'
+    s.push('<a target="_blank" href="'
 	   + url + '/=' + ticket + '/' + year + '/' + semester
 	   + '/' + DisplayGrades.ue.ue
 	   + '/upload_get/' + DisplayGrades.column.the_id
@@ -117,6 +118,7 @@ function upload_format_suivi()
 	   + '/' + DisplayGrades.ue.ue + "_" + safe_url(DisplayGrades.column.title)
 	   + "_" + upload_filename(DisplayGrades.cell.comment)
 	   + '">'
+	   + _('MSG_upload_get')
 	   + ' ' + html(upload_filename(DisplayGrades.cell.comment))
 	   + '</a> ' + DisplayGrades.value + "KB") ;
 

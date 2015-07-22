@@ -507,6 +507,24 @@ class Column(object):
     def cell_is_modifiable(self):
         return self.type.cell_is_modifiable
 
+    def lines_of_the_group(self, a_line):
+        """Return a list of (lin_id, line) for lines in the same group.
+        The line in argument is not listed."""
+        if not self.groupcolumn:
+            return
+        col = self.table.columns.from_title(self.groupcolumn)
+        if not col:
+            return
+        data_col = col.data_col
+        group = str(a_line[data_col].value)
+        if group == '':
+            return
+        for lin_id, line in self.table.lines.items():
+            if line is a_line:
+                continue
+            if str(line[data_col].value) == group:
+                yield lin_id, line
+
     def __str__(self):
         return '%s/%s' % (self.table, self.title)
 

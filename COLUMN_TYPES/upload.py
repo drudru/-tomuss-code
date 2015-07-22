@@ -34,7 +34,8 @@ def container_path(column):
 
 class Upload(text.Text):
     type_type = 'computed'
-    attributes_visible = ('rounding', 'weight', 'upload_max', 'upload_zip')
+    attributes_visible = ('rounding', 'weight', 'upload_max', 'upload_zip',
+                          'groupcolumn')
     ondoubleclick = 'upload_double_click'
     formatte_suivi = 'upload_format_suivi'
     human_priority = 20
@@ -91,7 +92,7 @@ def upload_post(server):
                                             len(data)))
 
         magic = subprocess.check_output(["file", "--mime", file_path])
-        magic = magic.split(": ", 1)[1]
+        magic = magic.split(": ", 1)[1].strip()
         server.the_file.write('<p>%s %s' % (server._("MSG_upload_type"),
                                             cgi.escape(magic)))
         
@@ -106,7 +107,6 @@ def upload_post(server):
         table.do_not_unload_remove('cell_change')
         server.close_connection_now()
 
-
 def upload_get(server):
     err = document.get_cell_from_table_ro(server, ('Upload',))
     server.restore_connection()
@@ -118,14 +118,22 @@ def upload_get(server):
         raise ValueError(err)
     table, column, lin_id = err
     path = container_path(column)
-    file_path = os.path.join(path, lin_id)
-
+    line = table.lines[lin_id]
+    for a_lin_id, a_line in ((lin_id, line),
+                            ) + tuple(column.lines_of_the_group(line)):
+        file_path = os.path.join(path, a_lin_id)
+        try:
+            data = utilities.read_file(file_path)
+            mime = a_line[column.data_col].comment
+            mime = mime.replace("; ", ";").split(' ')[0].strip()
+            break
+        except IOError:
+            data = server._("MSG_upload_no_file")
+            mime = "text/plain; charset=utf-8"
     server.send_response(200)
-    server.send_header('Content-Type',
-                       table.lines[lin_id][column.data_col].comment
-                       .replace("; ", ";").split(' ')[0])
+    server.send_header('Content-Type', mime)
     server.end_headers()
-    server.the_file.write(utilities.read_file(file_path))
+    server.the_file.write(data)
 
 plugin.Plugin('upload_post', '/{Y}/{S}/{U}/upload_post/{*}',
               function=upload_post, launch_thread = True,
