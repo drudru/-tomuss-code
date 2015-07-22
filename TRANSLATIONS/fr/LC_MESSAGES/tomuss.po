@@ -5869,7 +5869,7 @@ msgid "MSG_upload_new"
 msgstr "Déposer"
 
 msgid "MSG_upload_get"
-msgstr "Récupérer"
+msgstr "Vérifier"
 
 msgid "MSG_upload_change"
 msgstr "Remplacer ce fichier"

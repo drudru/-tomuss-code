@@ -5739,7 +5739,7 @@ msgid "MSG_upload_new"
 msgstr "Upload:"
 
 msgid "MSG_upload_get"
-msgstr "Download"
+msgstr "Verify"
 
 msgid "MSG_upload_change"
 msgstr "Replace file by"

@@ -34,22 +34,42 @@ function upload_filename(t)
   return t ;
 }
 
-function upload_file_choosed(t, ue)
-{
-  var div = document.createElement("DIV") ;
-  div.style.fontWeight = "bold" ;
-  div.innerHTML = _("MSG_upload_wait") ;
-  t.parentNode.appendChild(div) ;
-  t.nextSibling.value = t.value ;
-  t.parentNode.submit() ;
-  unload = document.createElement('IMG') ;
-  unload.src = url_suivi + '/=' + ticket + '/unload/' + ue ;
-  unload.width = unload.height = 1 ;
-  the_body.appendChild(unload) ;
-}
-
 function upload_popup(t, ue, col_id, lin_id)
 {
+  function upload_file_choosed(t)
+  {
+    var div = document.createElement("DIV") ;
+    div.style.fontWeight = "bold" ;
+    div.innerHTML = _("MSG_upload_wait") ;
+    t.parentNode.appendChild(div) ;
+    t.nextSibling.value = t.value ;
+    t.parentNode.submit() ;
+    unload = document.createElement('IMG') ;
+    unload.src = url_suivi + '/=' + ticket + '/unload/' + ue ;
+    unload.width = unload.height = 1 ;
+    the_body.appendChild(unload) ;
+    for(var i in display_data['Grades'][0])
+      {
+	var obj_ue =  display_data['Grades'][0][i] ;
+	if ( obj_ue.ue == ue )
+	{
+	  for(var j in obj_ue.columns)
+	    {
+	      if ( obj_ue.columns[j].the_id == col_id )
+	      {
+		var cell = obj_ue.line[j] ;
+		cell[0] = "?" ;
+		cell[3] = "; ? " + t.value ;
+		DisplayGrades.no_hover = false ;
+		display_update_real() ;
+		break ;
+	      }
+	    }
+	  break ;
+	}
+      }
+  }
+
   var pos = findPos(t) ;
   var div = document.createElement('DIV') ;
   div.style.position = "absolute" ;
