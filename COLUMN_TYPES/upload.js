@@ -21,7 +21,7 @@
 
 function safe_url(t)
 {
-  return t.replace(RegExp('[$%&?/]', 'g'), '_') ;
+  return t.replace(RegExp('[$%&?/\\]', 'g'), '_') ;
 }
 
 function upload_filename(t)
@@ -34,12 +34,58 @@ function upload_filename(t)
 
 function upload_file_choosed(t, ue)
 {
+  var div = document.createElement("DIV") ;
+  div.style.fontWeight = "bold" ;
+  div.innerHTML = _("MSG_upload_wait") ;
+  t.parentNode.appendChild(div) ;
   t.nextSibling.value = t.value ;
+  t.parentNode.submit() ;
   unload = document.createElement('IMG') ;
   unload.src = url_suivi + '/=' + ticket + '/unload/' + ue ;
   unload.width = unload.height = 1 ;
   the_body.appendChild(unload) ;
-  t.parentNode.submit() ;
+}
+
+function upload_popup(t, ue, col_id, lin_id)
+{
+  var pos = findPos(t) ;
+  var div = document.createElement('DIV') ;
+  div.style.position = "absolute" ;
+  div.style.left = pos[0] + "px" ;
+  div.style.top = pos[1] + "px" ;
+  div.style.background = "#FFF" ;
+  div.style.width = "20em" ;
+  div.style.height = "15em" ;
+  div.style.border = "4px solid red" ;
+  div.style.zIndex = 100000 ;
+  div.style.opacity = 0.9 ;
+  div.innerHTML = '<button style="float:right;margin:0px" onclick="the_body.removeChild(this.parentNode)">×</button>'
+    + '<span style="font-size: 150%">' + _("MSG_upload_new") + '</span>' ;
+
+  var iframe = document.createElement('IFRAME') ;
+  iframe.style.width = iframe.style.height = "100%" ;
+  div.appendChild(iframe) ;
+  the_body.appendChild(div) ;
+
+  iframew = iframe.contentWindow
+    ? iframe.contentWindow
+    : (iframe.contentDocument.document
+       ? iframe.contentDocument.document
+       : iframe.contentDocument) ;
+  iframew.document.open();
+  iframew.upload_file_choosed = upload_file_choosed ;
+  iframew.document.write(
+      '<form action="'+ url + '/=' + ticket + '/' + year + '/' + semester
+      + '/' + ue + '/upload_post/' + col_id + '/' + lin_id
+      + '" method="POST" enctype="multipart/form-data">'
+      + _('MSG_upload_file')
+      + '<br>'
+      + ' <input type="file" name="data" onchange="upload_file_choosed(this,'
+      + js2(ue) + ')">'
+      + '<input type="text" name="filename" hidden=1>'
+      + '</form>')
+  iframew.document.close();
+  return ;
 }
 
 function upload_double_click(value)
@@ -77,20 +123,14 @@ function upload_format_suivi()
   if ( cell_modifiable_on_suivi() )
     {
       s.push(
-	'<form action="'+ url + '/=' + ticket + '/' + year + '/' + semester
-	  + '/' + DisplayGrades.ue.ue + '/upload_post/'
-	  + DisplayGrades.column.the_id
-	  + '/' + DisplayGrades.ue.line_id
-	  + '" method="POST" enctype="multipart/form-data">'
+	'<a href="#" onclick="upload_popup(this,' + js2(DisplayGrades.ue.ue)
+	  + ',' + js2(DisplayGrades.column.the_id)
+	  + ',' + js2(DisplayGrades.ue.line_id) + ')">'
 	  + (empty
 	     ? _('MSG_upload_new')
 	     : _('MSG_upload_change')
-	    )	
-	  + ' <input type="file" name="data" onchange="upload_file_choosed(this,'
-	  + js2(DisplayGrades.ue.ue) + ')">'
-	  + '<input type="text" name="filename" hidden=1>'
-	  + '</form>'
-      ) ;
+	    )
+	  + '</a>') ;
     }
   if ( s.length === 0 )
     return _('MSG_no_file_uploaded') ;

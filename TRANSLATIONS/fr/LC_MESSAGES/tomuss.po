@@ -5856,29 +5856,29 @@ msgid "MSG_suivi_student_logo"
 msgstr "Où suis-je ?"
 
 
-msgid "MSG_upload_start"
-msgstr "Début de l'envoi du fichier"
+msgid "MSG_upload_stop"
+msgstr "Votre fichier a été déposé avec succès."
 
 msgid "MSG_upload_size"
-msgstr "Taille de votre fichier :"
+msgstr "Taille de votre fichier en octet :"
 
 msgid "MSG_upload_type"
 msgstr "Type de votre fichier :"
 
 msgid "MSG_upload_new"
-msgstr "Envoyer :"
+msgstr "Déposer"
 
 msgid "MSG_upload_get"
 msgstr "Récupérer"
 
 msgid "MSG_upload_change"
-msgstr "Remplacer le fichier par"
+msgstr "Remplacer ce fichier"
 
 msgid "MSG_no_file_uploaded"
 msgstr "Pas de fichier"
 
 msgid "MSG_upload_fail_max"
-msgstr "L'envoit à échoué car votre fichier contient trop d'octets :"
+msgstr "L'envoit a échoué car votre fichier contient trop d'octets :"
 
 msgid "TITLE_column_attr_upload_zip"
 msgstr "Charger ZIP"
@@ -5892,4 +5892,10 @@ msgstr "Aucun virus n'a été détecté."
 
 msgid "MSG_virus_found"
 msgstr "Un virus à été trouvé :"
+
+msgid "MSG_upload_file"
+msgstr "Choisissez le nom du fichier à déposer :"
+
+msgid "MSG_upload_wait"
+msgstr "Patientez pendant que votre fichier est envoyé au serveur."
 

@@ -22,14 +22,17 @@
 from .columnfill import ColumnFill
 from .. import plugin
 from .. import document
-from .. import utilities
 from ..COLUMN_TYPES import upload
-
 
 class ColumnUploadZip(ColumnFill):
     name = 'upload_zip'
     action = 'upload_zip'
 
+def filename_from_comment(txt):
+    txt = txt.replace("; ", ";").split(' ',1)
+    if len(txt) != 2:
+        return 'unknown'
+    return txt[1].replace("/", "_").replace("\\", "_")
 
 def upload_zip(server):
     import zipfile
@@ -54,9 +57,8 @@ def upload_zip(server):
                 filename,
                 "%d_%s_%s_%s" % (table.year, table.semester, table.ue,
                                  column.title.replace('/','_'))
-                + '/' + line[0].value + "_" + line[1].value + '_' + line[2].value
-                + '_' + line[column.data_col].comment.replace("; ", ";"
-                                                          ).split(' ',1)[1]
+                + '/' + line[0].value +"_"+ line[1].value +'_'+ line[2].value
+                + '_' + filename_from_comment(line[column.data_col].comment)
             )
     zf.close()
     f = open(name, "r")

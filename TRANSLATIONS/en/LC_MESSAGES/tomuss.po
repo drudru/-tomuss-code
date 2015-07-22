@@ -5726,11 +5726,11 @@ msgstr "Photo ID"
 msgid "MSG_suivi_student_logo"
 msgstr "Where am I?"
 
-msgid "MSG_upload_start"
-msgstr "Starting the file upload"
+msgid "MSG_upload_stop"
+msgstr "Your file has been successfuly sent."
 
 msgid "MSG_upload_size"
-msgstr "Uploaded file size:"
+msgstr "Uploaded file size in bytes:"
 
 msgid "MSG_upload_type"
 msgstr "Uploaded file type:"
@@ -5762,3 +5762,9 @@ msgstr "No virus found."
 
 msgid "MSG_virus_found"
 msgstr "A virus has been detected:"
+
+msgid "MSG_upload_file"
+msgstr "Choose the file to send:"
+
+msgid "MSG_upload_wait"
+msgstr "Wait while your file is being sent to the server."

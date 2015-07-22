@@ -60,15 +60,14 @@ def upload_post(server):
         raise ValueError(err)
     table, page, column, lin_id = err
     try:
-        server.the_file.write('<h1>%s</h1>' % server._("MSG_upload_start"))
         data = server.get_posted_data()
         if data is None or 'data' not in data:
             server.the_file.write("BUG")
             return
-        filename = data["filename"][0]
+        filename = data["filename"][0].replace("\\", "/").split("/")[-1]
         data = data["data"][0]
 
-        server.the_file.write('<b>' + cgi.escape(filename) + '</b>')
+        server.the_file.write('<p><b>' + cgi.escape(filename) + '</b>')
 
         if len(data) > float(column.upload_max) * 1000:
             server.the_file.write('<p style="color:red">%s %d &gt; %d'
@@ -102,6 +101,7 @@ def upload_post(server):
             table.comment_change(page,column.the_id,lin_id, magic+' '+filename)
         finally:
             table.unlock()
+        server.the_file.write('<p>' + server._("MSG_upload_stop"))
     finally:
         table.do_not_unload_remove('cell_change')
         server.close_connection_now()

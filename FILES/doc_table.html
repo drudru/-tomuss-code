@@ -436,19 +436,19 @@
 	<li> <b>Colorier en rouge les dépôts après la date limite.</b><br>
 	  Dans l'onglet «Affiche» vous mettez «?&gt;20/07/2015-14:00:00» dans
 	  le champ «Rougir»
-	  <li> <b>Colorier en vert les dépôts PDF</b><br>
-	    Dans l'onglet «Affiche» vous mettez «#application/pdf» dans
+	<li> <b>Colorier en vert les dépôts PDF</b><br>
+	  Dans l'onglet «Affiche» vous mettez «#application/pdf» dans
 	  le champ «Verdir»
 	<li> <b>Envoyer un message à ceux qui n'ont pas déposé le document.</b><br>
 	  Vous mettez «=» dans le filtre de la colonne de dépôt
 	  et vous cliquez sur le bouton «Mail»
 	<li> <b>Interdire la modification après le premier chargement.</b><br>
-	  Dans l'onglet «Config» vous mettez «=» dans le champs
+	  Dans l'onglet «Config» vous mettez «=» dans le champ
 	  «Cellule modifiable si». Les cellules non vides ne seront plus modifiables.
 	<li> <b>Autoriser quelques étudiants à redéposer.</b><br>
 	  <ul>
 	    <li> Vous mettez «OK» dans les cellules des étudiants,
-	    <li> Dans l'onglet «Config» vous mettez «=OK» dans le champs
+	    <li> Dans l'onglet «Config» vous mettez «=OK» dans le champ
 	      «Cellule modifiable si».
 	    <li> Dans l'onglet «Config» vous basculez de
 	      «Personne ne peux modifier à partir du suivi»
@@ -456,6 +456,13 @@
 	    <li> Bien que le dépôt soit ouvert les autres étudiants
 	      ne pourront pas déposer ou redéposer.
 	  </ul>
+	<li> <b>Donner 6 minutes aux étudiants pour redéposer s'ils se sont trompés.</b><br>
+	Dans l'onglet «Config» vous mettez «= ou @ ?&lt;0.1h»
+	  dans le champ
+	  «Cellule modifiable si».
+	  Après 6 minutes les étudiants ne pourront plus changer
+	  le fichier déposé.
+
 	<li> <b>Avoir un fichier ZIP des étudiants pour son groupe de TD.</b><br>
 	  Vous filtrez vos étudiants et vous cliquez sur «Charger ZIP»
 	  L'extraction du ZIP créera un répertoire «CodeUE_TitreColonne»
