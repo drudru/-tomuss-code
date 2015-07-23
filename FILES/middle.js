@@ -850,6 +850,7 @@ function new_new_interface()
   t.push(column_input_attr('upload_max')) ;
   t.push(column_input_attr('minmax')) ;
   t.push(column_input_attr('upload_zip')) ;
+  t.push(column_input_attr('import_zip')) ;
   t.push('</div>') ;
   t.push('<div class="one_line">') ;
   t.push('<table id="t_column_stats"></table>') ;

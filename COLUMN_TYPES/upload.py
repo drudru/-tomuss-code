@@ -35,7 +35,7 @@ def container_path(column):
 class Upload(text.Text):
     type_type = 'computed'
     attributes_visible = ('rounding', 'weight', 'upload_max', 'upload_zip',
-                          'groupcolumn')
+                          'groupcolumn', 'import_zip')
     ondoubleclick = 'upload_double_click'
     formatte_suivi = 'upload_format_suivi'
     human_priority = 20
@@ -54,6 +54,36 @@ def check_virus(data):
     else:
         return ''
 
+def save_file(server, page, column, lin_id, data, filename):
+    err = check_virus(data)
+    if err:
+        server.the_file.write(
+            '<span style="background:#F00;color:#FFF">%s %s</span>\n'
+            % (server._("MSG_virus_found"), cgi.escape(err)))
+        return
+    server.the_file.write(server._("MSG_no_virus_found") + '\n')
+    path = container_path(column)
+    utilities.mkpath(path, create_init=False)
+    file_path = os.path.join(path, lin_id)
+    if os.path.exists(file_path):
+        os.rename(file_path, file_path + '~')
+    utilities.write_file(file_path, data)
+
+    server.the_file.write('- <span>%s %s</span>\n' %
+                          (server._("MSG_upload_size"), len(data)))
+
+    magic = subprocess.check_output(["file", "--mime", file_path])
+    magic = magic.split(": ", 1)[1].strip()
+    server.the_file.write('- <span>%s %s<span>\n'
+                          % (server._("MSG_upload_type"), cgi.escape(magic)))
+    table = column.table
+    table.lock()
+    try:
+        table.cell_change   (page, column.the_id, lin_id, len(data)/1000.)
+        table.comment_change(page, column.the_id, lin_id, magic+' '+filename)
+    finally:
+        table.unlock()
+
 def upload_post(server):
     err = document.get_cell_from_table(server, ('Upload',))
     if isinstance(err, basestring):
@@ -61,6 +91,7 @@ def upload_post(server):
         raise ValueError(err)
     table, page, column, lin_id = err
     try:
+        server.the_file.write(server._("MSG_abj_wait"))
         data = server.get_posted_data()
         if data is None or 'data' not in data:
             server.the_file.write("BUG")
@@ -68,40 +99,14 @@ def upload_post(server):
         filename = data["filename"][0].replace("\\", "/").split("/")[-1]
         data = data["data"][0]
 
-        server.the_file.write('<p><b>' + cgi.escape(filename) + '</b>')
+        server.the_file.write('<p><b>' + cgi.escape(filename) + '</b>\n')
 
         if len(data) > float(column.upload_max) * 1000:
-            server.the_file.write('<p style="color:red">%s %d &gt; %d'
+            server.the_file.write('<p style="color:red">%s %d &gt; %d\n'
                                   % (server._("MSG_upload_fail_max"),
                                      len(data), float(column.upload_max)*1000))
             return
-        err = check_virus(data)
-        if err:
-            server.the_file.write('<p style="background:#F00;color:#FFF">%s %s'
-                                  % (server._("MSG_virus_found"),
-                                     cgi.escape(err)))
-            return
-        server.the_file.write('<p>' + server._("MSG_no_virus_found"))
-
-        path = container_path(column)
-        utilities.mkpath(path, create_init=False)
-        file_path = os.path.join(path, lin_id)
-        utilities.write_file(file_path, data)
-
-        server.the_file.write('<p>%s %s' % (server._("MSG_upload_size"),
-                                            len(data)))
-
-        magic = subprocess.check_output(["file", "--mime", file_path])
-        magic = magic.split(": ", 1)[1].strip()
-        server.the_file.write('<p>%s %s' % (server._("MSG_upload_type"),
-                                            cgi.escape(magic)))
-        
-        table.lock()
-        try:
-            table.cell_change(page, column.the_id  ,lin_id, len(data)/1000.)
-            table.comment_change(page,column.the_id,lin_id, magic+' '+filename)
-        finally:
-            table.unlock()
+        save_file(server, page, column, lin_id, data, filename)
         server.the_file.write('<p>' + server._("MSG_upload_stop"))
     finally:
         table.do_not_unload_remove('cell_change')

@@ -34,13 +34,26 @@ function upload_filename(t)
   return t ;
 }
 
+function iframe_write(iframe, hook, content)
+{
+  var iframew = iframe.contentWindow
+    ? iframe.contentWindow
+    : (iframe.contentDocument.document
+       ? iframe.contentDocument.document
+       : iframe.contentDocument) ;
+  iframew.document.open();
+  iframew.upload_file_choosed = hook ;
+  iframew.document.write(content) ;
+  iframew.document.close();
+}
+
 function upload_popup(t, ue, col_id, lin_id)
 {
   function upload_file_choosed(t)
   {
     var div = document.createElement("DIV") ;
     div.style.fontWeight = "bold" ;
-    div.innerHTML = _("MSG_upload_wait") ;
+    div.innerHTML = _("MSG_abj_wait") ;
     t.parentNode.appendChild(div) ;
     t.nextSibling.value = t.value ;
     t.parentNode.submit() ;
@@ -77,7 +90,7 @@ function upload_popup(t, ue, col_id, lin_id)
   div.style.top = pos[1] + "px" ;
   div.style.background = "#FFF" ;
   div.style.width = "20em" ;
-  div.style.height = "15em" ;
+  div.style.height = "17em" ;
   div.style.border = "4px solid red" ;
   div.style.zIndex = 100000 ;
   div.style.opacity = 0.9 ;
@@ -88,26 +101,15 @@ function upload_popup(t, ue, col_id, lin_id)
   iframe.style.width = iframe.style.height = "100%" ;
   div.appendChild(iframe) ;
   the_body.appendChild(div) ;
-
-  iframew = iframe.contentWindow
-    ? iframe.contentWindow
-    : (iframe.contentDocument.document
-       ? iframe.contentDocument.document
-       : iframe.contentDocument) ;
-  iframew.document.open();
-  iframew.upload_file_choosed = upload_file_choosed ;
-  iframew.document.write(
+  iframe_write(iframe, upload_file_choosed,
       '<form action="'+ url + '/=' + ticket + '/' + year + '/' + semester
       + '/' + ue + '/upload_post/' + col_id + '/' + lin_id
       + '" method="POST" enctype="multipart/form-data">'
       + _('MSG_upload_file')
       + '<br>'
-      + ' <input type="file" name="data" onchange="upload_file_choosed(this,'
-      + js2(ue) + ')">'
+      + '<input type="file" name="data" onchange="upload_file_choosed(this)">'
       + '<input type="text" name="filename" hidden=1>'
-      + '</form>')
-  iframew.document.close();
-  return ;
+      + '</form>') ;
 }
 
 function upload_double_click(value)

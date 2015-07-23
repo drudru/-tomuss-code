@@ -5860,10 +5860,10 @@ msgid "MSG_upload_stop"
 msgstr "Votre fichier a été déposé avec succès."
 
 msgid "MSG_upload_size"
-msgstr "Taille de votre fichier en octet :"
+msgstr "Taille en octet :"
 
 msgid "MSG_upload_type"
-msgstr "Type de votre fichier :"
+msgstr "Type :"
 
 msgid "MSG_upload_new"
 msgstr "Déposer"
@@ -5887,6 +5887,18 @@ msgid "TIP_column_attr_upload_zip"
 msgstr "Création du ZIP à partir des documents filtrées de la colonne<br>\n"
        "Cette opération peut être longue : il faut patienter"
 
+msgid "TITLE_column_attr_import_zip"
+msgstr "Import ZIP"
+
+msgid "TIP_column_attr_import_zip"
+msgstr "Remplir la colonne avec des fichiers extraits du ZIP que vous envoyez.<br>\n"
+       "Les fichiers doivent impérativement être de la forme :<br>\n"
+       "<b>NomDeRépertoireOptionnel/NuméroÉtudiant#NomDuFichier</b><br>\n"
+       "C'est le caractère # qui est important.<br>\n"
+       "<br>\n"
+       "Si vous avez le droit, les fichiers existants seront écrasés.<br>\n"
+       "Les filtres ne sont pas pris en compte (comme dans l'importation)"
+
 msgid "MSG_no_virus_found"
 msgstr "Aucun virus n'a été détecté."
 
@@ -5895,9 +5907,6 @@ msgstr "Un virus à été trouvé :"
 
 msgid "MSG_upload_file"
 msgstr "Choisissez le fichier à déposer :"
-
-msgid "MSG_upload_wait"
-msgstr "Patientez pendant que votre fichier est envoyé au serveur."
 
 msgid "MSG_upload_no_file"
 msgstr "Ne trouve pas le fichier déposé."

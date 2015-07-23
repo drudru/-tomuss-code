@@ -5757,6 +5757,18 @@ msgid "TIP_column_attr_upload_zip"
 msgstr "Create the ZIP from the filtered file in the column<br>\n"
        "This may take a long time, please wait."
 
+msgid "TITLE_column_attr_import_zip"
+msgstr "Import ZIP"
+
+msgid "TIP_column_attr_import_zip"
+msgstr "Fill the column with files from the ZIP file you send.<br>\n"
+       "The file names must follow this template:<br>\n"
+       "<tt>OptionalDirectoryName/StudentID#FileName</tt><br>\n"
+       "The # is mandatory."
+       "<br>\n"
+       "If you are authorized, it will overwrite existing files.<br>\n"
+       "Filters are not taken into account (as in import)"
+
 msgid "MSG_no_virus_found"
 msgstr "No virus found."
 
@@ -5765,9 +5777,6 @@ msgstr "A virus has been detected:"
 
 msgid "MSG_upload_file"
 msgstr "Choose the file to send:"
-
-msgid "MSG_upload_wait"
-msgstr "Wait while your file is being sent to the server."
 
 msgid "MSG_upload_no_file"
 msgstr "Can't find this file."
