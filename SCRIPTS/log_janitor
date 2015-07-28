@@ -10,7 +10,7 @@ echo "Compress logs"
 find $LOGS            -type f -mtime +2 ! -name "*.bz2"  -exec bzip2 -v -9 {} \;
 
 echo "Remove old backtraces"
-find LOGS/BACKTRACES/ -type d -mtime +60  -exec rm -r {} \;
+find LOGS/BACKTRACES/ -maxdepth 1 -type d -mtime +60  -exec rm -r {} \;
 
 echo "Remove old table in 2008/Tests"
 mkdir Trash/$(date +"%Y%m%d")
