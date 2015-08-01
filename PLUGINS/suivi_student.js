@@ -1042,7 +1042,7 @@ var columns, line ;
 function DisplayUEGrades(node)
 {
   var ue = DisplayGrades.ue ;
-  table_attr = undefined ;
+  table_attr = ue ;
   line = [] ;
   for(var i in ue.line)
     {
@@ -1113,8 +1113,9 @@ function DisplayGrades(node)
 	{
 	  s += display_display(display_definition['UE']) ;
 	}
-      catch(e) // Add 'if 0' to search the problem in the debugger
+      catch(e)
 	{
+	  console.log(e) ;
 	  s += '<h1>' + DisplayGrades.ue.ue + ' : BUG</h1>' + e ;
 	}
     }

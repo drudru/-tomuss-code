@@ -22,7 +22,7 @@
 
 function set_rounding(value, column)
 {
-  if ( table_attr && table_attr.rounding <= 1 )
+  if ( table_attr.rounding <= 1 )
     column.do_rounding = function(v) { return v.toFixed ? tofixed(v) : v ; } ;
   else
     column.do_rounding = function(v) { return v.toFixed ? v.toFixed(2) : v ;} ;
