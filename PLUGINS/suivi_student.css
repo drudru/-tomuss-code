@@ -233,17 +233,6 @@ BODY.big_text_1 { font-size: 150% }
 .highlight_grade_1 .UEMasters {opacity: 1; }
 }
 
-/*********************** Not working inline_block (IE) *******************/
-
-BODY.bad_inline_block .Display {
-    display: inline ;
-}
-BODY.bad_inline_block .Logout { text-decoration: underline }
-
-BODY.bad_inline_block #cellbox_tip.hidden { display: none }
-
-BODY.bad_inline_block .BodyLeft { width: 75% }
-
 /*********************** Small screen *******************/
 
 BODY.hide_right_column_1.hide_picture_0.Printemps { background-image: url(printemps.png) ; }

@@ -150,7 +150,7 @@ function detect_small_screen(force)
     return ;
   detect_small_screen.window_width = window_width() ;
       
-  var smallscreen, not_working=0, width, lefts = [], div ;
+  var smallscreen, width, lefts = [], div ;
   var divs = document.getElementsByTagName('DIV') ;
   var top_class = semester ;
   for(i = 0 ; i < divs.length ; i++)
@@ -158,11 +158,6 @@ function detect_small_screen(force)
       div = divs[i] ;
       if ( div === undefined || div.className === undefined )
 	continue ;
-      if ( div.className.toString().match(/DisplayPreferences/)
-	   && (div.offsetLeft < 20
-	      || the_body.className.toString().indexOf("bad_inline_block") != -1 )
-	   )
-	not_working++ ;
       if ( div.className.toString().indexOf('BodyLeft') != -1 )
 	{
 	  lefts.push(div) ;
@@ -179,11 +174,6 @@ function detect_small_screen(force)
 	  detect_small_screen.initial_width = div.offsetWidth ;
 	}
       smallscreen = detect_small_screen.initial_width / window_width() > 0.35 ;
-    }
-  if ( not_working )
-    {
-      top_class += ' bad_inline_block' ;
-      smallscreen = false ;
     }
   if ( is_a_teacher )
     top_class += ' teacher_view' ;
