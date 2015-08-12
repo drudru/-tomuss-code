@@ -105,28 +105,28 @@ def create(table):
 def add_new_links_in_the_table(table):
     """Create missing lines in the table"""
     rw = table.pages[1]
+    def change(col, lin_id, value):
+        if lin_id not in table.lines  or  '<script' in str(value):
+            table.cell_change(rw, col, lin_id, value)
+        
     table.lock()
     try:
         i = 0
         for where, priority, html_class, group, url in  default_links:
             lin_id = str(i)
             i += 1
-            if lin_id in table.lines:
-                continue
-            table.cell_change(rw, '0', lin_id, where)
-            table.cell_change(rw, '1', lin_id, priority)
-            table.cell_change(rw, '2', lin_id, html_class)
-            table.cell_change(rw, '3', lin_id, group)
-            table.cell_change(rw, '4', lin_id, 'LINK_' + url)
-            table.cell_change(rw, '5', lin_id, url)
-            table.cell_change(rw, '6', lin_id, 'HELP_' + url)
+            change('0', lin_id, where)
+            change('1', lin_id, priority)
+            change('2', lin_id, html_class)
+            change('3', lin_id, group)
+            change('4', lin_id, 'LINK_' + url)
+            change('5', lin_id, url)
+            change('6', lin_id, 'HELP_' + url)
         for p in plugin.plugins:
             link = p.link
             if not link:
                 continue
             lin_id = p.name
-            if lin_id in table.lines:
-                continue
             if link.text:
                 text = link.text
             elif link.plugin:
@@ -139,13 +139,13 @@ def add_new_links_in_the_table(table):
                 help = 'HELP_' + link.plugin.name
             else:
                 help = ''
-            table.cell_change(rw, '0', lin_id, link.where)
-            table.cell_change(rw, '1', lin_id, link.priority)
-            table.cell_change(rw, '2', lin_id, link.html_class)
-            table.cell_change(rw, '3', lin_id, str(link.group))
-            table.cell_change(rw, '4', lin_id, text)
-            table.cell_change(rw, '5', lin_id, link.url)
-            table.cell_change(rw, '6', lin_id, help)
+            change('0', lin_id, link.where)
+            change('1', lin_id, link.priority)
+            change('2', lin_id, link.html_class)
+            change('3', lin_id, str(link.group))
+            change('4', lin_id, text)
+            change('5', lin_id, link.url)
+            change('6', lin_id, help)
     finally:
         table.unlock()
 
