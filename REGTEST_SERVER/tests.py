@@ -1666,20 +1666,20 @@ cell_change(1,'0_2','ticket_time_to_live','%d',"")
         ss.start()
         # User not in LDAP
         c = s.url('=user.1/%s/UE-acls' % ys)
-        assert('is_a_teacher = 0' in c and 'initialize_suivi()' in c)
+        assert('is_a_teacher = 0' in c and 'initialize_suivi_real()' in c)
         c = s.url(acls)
         assert('grp:referents' in c)
         c = s.url(acls + '1/0/cell_change/a/L1/user.1')
         assert(c == ok_png)
         c = s.url('=user.1/%s/UE-acls' % ys)
-        assert('initialize_suivi()' in c)
+        assert('initialize_suivi_real()' in c)
         c = s.url(acls + '1/1/cell_change/b/L1/referents')
         assert(c == ok_png)
         c = s.url('=user.1/%s/UE-acls' % ys)
         assert('runlog(columns, lines)' in c)
         time.sleep(1)
         c = ss.url('=user.1/%s/user.2' % ys)
-        assert('is_a_teacher = 1' in c and 'initialize_suivi()' in c)
+        assert('is_a_teacher = 1' in c and 'initialize_suivi_real()' in c)
         
         # User in LDAP
         c = s.url('=user.2/%s/UE-acls' % ys)
@@ -1687,7 +1687,7 @@ cell_change(1,'0_2','ticket_time_to_live','%d',"")
 
         # User in LDAP but not teacher
         c = s.url('=user.3/%s/UE-acls' % ys)
-        assert('is_a_teacher = 0' in c and 'initialize_suivi()' in c)
+        assert('is_a_teacher = 0' in c and 'initialize_suivi_real()' in c)
 
     if do('owner'):
         c = s.url('=' + abj +'/%s/UE-owner' % ys)
