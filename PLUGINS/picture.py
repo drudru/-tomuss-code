@@ -96,6 +96,7 @@ plugin.Plugin('picture', '/picture/{?}',
               group='staff',
               cached = True,
               unsafe=False,
+              priority = -10 # Before student_redirection
               )
 
 plugin.Plugin('picture_icon', '/picture-icon/{?}',
