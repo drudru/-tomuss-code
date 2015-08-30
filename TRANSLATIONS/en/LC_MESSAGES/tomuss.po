@@ -2121,6 +2121,9 @@ msgstr "If the result is fine, you will reactivate it."
 msgid "MSG_modifiable_cells"
 msgstr "cells will be modified."
 
+msgid "MSG_unchanged_cells"
+msgstr "cells will not be modified because not empty."
+
 msgid "MSG_fill"
 msgstr "Choose your filling method for this column."
 

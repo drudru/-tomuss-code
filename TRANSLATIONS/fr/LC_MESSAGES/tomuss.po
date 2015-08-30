@@ -2123,7 +2123,10 @@ msgid "MSG_fill_warning_right"
 msgstr "Vous la réactiverez après avoir vérifié le résultat."
 
 msgid "MSG_modifiable_cells"
-msgstr "cellules vont être modifiées."
+msgstr "cellules vont être modifiées car non vides."
+
+msgid "MSG_unchanged_cells"
+msgstr "cellules ne vont pas être modifiées."
 
 msgid "MSG_fill"
 msgstr "Options de remplissage :"

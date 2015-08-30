@@ -558,6 +558,13 @@ function pulsing(element, state)
       + (state ? " pulsing" : "") ;
 }
 
+Filler.prototype.use_a_number = function()
+{
+  for(var i in this.rooms)
+    if ( this.rooms[i].checked && this.rooms[i].name.indexOf("%%") != -1 )
+      return true ;
+} ;
+
 Filler.prototype.state_change = function()
 {
   var s = '' ;
@@ -605,6 +612,10 @@ Filler.prototype.visible = function(room) {
     if ( room.in_value )
       return true ;
   }
+} ;
+
+Filler.prototype.highlight_option = function(option, bool) {
+    document.getElementById("select." + option).style.opacity = bool ? 1 : 0.4;
 } ;
 
 
@@ -663,6 +674,11 @@ Filler.prototype.update_html = function() {
       else
 	room.nr_will_be_used = '' ;
     }
+  this.highlight_option("interleave", this.nr_rooms_used >= 2) ;
+  this.highlight_option("unfiltered", filters.length != 0
+			|| full_filter || line_filter) ;
+  this.highlight_option("pad0", this.use_a_number()) ;
+
   // If there is an overflow, less values are to be dispatched
   var change = false ;
   do
@@ -693,6 +709,7 @@ Filler.prototype.update_html = function() {
   var fill_empty_value = 0 ;
   var fill_value = 0 ;
   var overflow = 0 ;
+  var not_empty = 0 ;
   for(var room in this.index)
     {
       var room = this.rooms[this.index[room]] ;
@@ -760,11 +777,10 @@ Filler.prototype.update_html = function() {
 	  continue ;
 	var c = filtered_lines[i][this.data_col] ;
 	var v = this.toggles.comment ? c.comment : c.value ;
-	if ( this.toggles.modify )
+	if ( v !== '' )
+	  not_empty++ ;
+	if ( this.toggles.modify || v === '' )
 	  this.dispatch[j++].push(filtered_lines[i]) ;
-	else
-	  if ( v === '' )
-	    this.dispatch[j++].push(filtered_lines[i]) ;
       }
       if ( j != this.dispatch.length )
       {
@@ -898,6 +914,10 @@ Filler.prototype.update_html = function() {
   if ( changes )
       messages.push('<div class="fill_room_messages">' + changes + ' '
 		    + _("MSG_modifiable_cells") + '</div>') ;
+  if ( not_empty && ! this.toggles.modify )
+      messages.push('<div class="fill_room_messages">' + not_empty + ' '
+		    + _("MSG_unchanged_cells") + '</div>') ;
+  this.highlight_option("modify", not_empty > 0) ;
   s = '<h3>' + _("MSG_fill_room_message")
     + '</h3><div class="fill_room_messages">'
     + (messages.length == 0 // Never true
