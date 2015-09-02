@@ -223,10 +223,9 @@ plugin.Plugin('locks'   , '/locks'   , group='roots', function=locks,
 def threads(server):
     """Displays the running thread"""
     server.the_file.write('<title>' + server._("MSG_threads_title")
-                          + '</title><pre>' +
-                          '\n'.join(cgi.escape(t.stack())
-                                    for t in utilities.thread_list) +
-                          '</pre>')
+                          + '</title><pre>'
+                          + cgi.escape(utilities.all_the_stacks())
+                          + '</pre>')
 
 plugin.Plugin('threads'   , '/threads'   , group='roots', function=threads,
               link=plugin.Link(where='debug', html_class='verysafe')

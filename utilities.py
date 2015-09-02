@@ -1044,13 +1044,12 @@ def lock_state():
 main_thread =  threading.current_thread()
 
 def all_the_stacks():
-    return ('\n'.join(t.stack() for t in thread_list)
-            + '\n\nMain thread\n\n' + str(main_thread)
-            + '\n'
-            + ''.join(traceback.format_stack(
-                sys._current_frames()[main_thread.ident]))
-            + '\n'
-            )
+    me = threading.current_thread()
+    return '\n'.join(
+        ''.join(traceback.format_stack(sys._current_frames()[t.ident]))
+        for t in threading.enumerate()
+        if t is not me
+    )
 
 def on_kill(dummy_x, dummy_y):
     sys.stderr.write('=' * 79 + '\n' +
