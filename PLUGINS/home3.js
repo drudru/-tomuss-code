@@ -210,19 +210,20 @@ function go_suivi(x)
 
 function open_ue(t, code)
 {
-  while( t.className != 'ue_line' )
+  while( ! t.className.match(/\bue_line\b/) )
     t = t.parentNode ;
   if ( t.childNodes[t.childNodes.length-1].className.match('HomeUEMenu') )
     {
-      t.removeChild(t.childNodes[t.childNodes.length-1]) ;
+      t.onmouseleave() ;
       return ;
     }
+  t.className += " ue_line_hover" ;
   var m = document.createElement("DIV") ;
   open_ue.code = code ;
   m.innerHTML = display_display(display_definition["HomeUEMenu"]) ;
   m = m.firstChild ;
   t.onmouseleave = function() {
-    try { t.removeChild(m) ; } catch(e) {} ; t.onmouseleave = "" ; } ;
+    try { t.removeChild(m) ; t.className = t.className.replace(" ue_line_hover", "") ; } catch(e) {} ; t.onmouseleave = "" ; } ;
   t.appendChild(m) ;
 }
 
@@ -564,9 +565,9 @@ function DisplayHomeColumns(node)
   display_do_debug = preferences.debug_home ;
   i_am_root = myindex(root, username) != -1 ; // XXX yet in lib.js
   var s = ['<style>',
-	   '.HomeUE .ue_line:hover {width:', window_width()   - 40,'px ;}',
-	   '.HomeStudents .ue_line:hover{width:',window_width()/2 - 20,'px ;}',
-	   'DIV.tabs .ue_line:hover {width:',window_width()   - 30,'px ;}',
+	   '.HomeUE .ue_line_hover {width:', window_width()   - 40,'px ;}',
+	   '.HomeStudents .ue_line_hover{width:',window_width()/2 - 20,'px ;}',
+	   'DIV.tabs .ue_line_hover {width:',window_width()   - 30,'px ;}',
 	   'DIV.tabs .ue_title, DIV.tabs .ue_more { width:',window_width() - 165,'px ;}',
 	   '.ue_title, .ue_more {width:',  window_width() - 170, 'px;}',
 	   '.HomeStudents .ue_title, .HomeStudents .ue_more {width:',
@@ -1422,15 +1423,16 @@ function open_student(t, code)
     t = t.parentNode ;
   if ( t.childNodes[t.childNodes.length-1].className.match('HomeStudentMenu') )
     {
-      t.removeChild(t.childNodes[t.childNodes.length-1]) ;
+      t.onmouseleave() ;
       return ;
     }
+  t.className += " ue_line_hover" ;
   var m = document.createElement("DIV") ;
   open_student.code = code ;
   m.innerHTML = display_display(display_definition["HomeStudentMenu"]) ;
   m = m.firstChild ;
   t.onmouseleave = function() {
-    try { t.removeChild(m) ; } catch(e) {} ; t.onmouseleave = "" ; } ;
+    try { t.removeChild(m) ;  t.className = t.className.replace(" ue_line_hover", "") ; } catch(e) {} ; t.onmouseleave = "" ; } ;
   t.appendChild(m) ;
 }
 

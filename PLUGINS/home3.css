@@ -160,6 +160,8 @@ TD { padding: 0px }
 
 .ue_line:hover {
     background: #FFF ;
+}
+.ue_line_hover, .HomeActions .ue_line:hover {
     overflow: visible ;
     z-index: 3 ;
     border: 1px solid #BBB ;
