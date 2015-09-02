@@ -229,8 +229,8 @@ function open_ue(t, code)
 
 function box_button(txt, url)
 {
-  return '<div onclick="goto_url(\'' + url + '\')">'
-    + txt.replace(/([-.@])/g, "$1 ") + '</div>' ;
+  return ['<div>' + txt.replace(/([-.@])/g, "$1 ") + '</div>', [], [],
+	  'onclick="goto_url(\'' + url + '\')"'] ;
 }
 
 function DisplayHomeUEOpen(node)
