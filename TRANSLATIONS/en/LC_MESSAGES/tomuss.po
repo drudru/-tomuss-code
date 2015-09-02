@@ -3966,20 +3966,11 @@ msgstr "IP"
 msgid "COL_COMMENT_ticket_IP"
 msgstr "IP address of connection"
 
-msgid "COL_TITLE_ticket_abjm"
-msgstr "JLVM"
+msgid "COL_TITLE_ticket_access_rights"
+msgstr "Droits d'accès"
 
-msgid "COL_COMMENT_ticket_abjm"
-msgstr "Is an JLV manager"
-
-msgid "COL_TITLE_ticket_teacher"
-msgstr "Teacher"
-
-msgid "COL_COMMENT_ticket_teacher"
-msgstr "It is a teacher"
-
-msgid "COL_TITLE_ticket_browser"
-msgstr "Browser"
+msgid "COL_COMMENT_ticket_access_rights"
+msgstr "T: Teacher, J: JLV Master, R: Referent master, r: referent, A: administrative, P: password ok"
 
 msgid "COL_COMMENT_ticket_browser"
 msgstr "Browser used with this ticket"

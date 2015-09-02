@@ -4008,17 +4008,11 @@ msgstr "IP"
 msgid "COL_COMMENT_ticket_IP"
 msgstr "Adresse IP de connexion"
 
-msgid "COL_TITLE_ticket_abjm"
-msgstr "ABJM"
+msgid "COL_TITLE_ticket_access_rights"
+msgstr "Droits d'accès"
 
-msgid "COL_COMMENT_ticket_abjm"
-msgstr "Est un gestionnaire des ABJ"
-
-msgid "COL_TITLE_ticket_teacher"
-msgstr "Prof"
-
-msgid "COL_COMMENT_ticket_teacher"
-msgstr "Est un enseignant"
+msgid "COL_COMMENT_ticket_access_rights"
+msgstr "T: Enseignant, J: Maître des ABJ, R: Responsable des référents, r: Référent, A: administratif, P: password ok"
 
 msgid "COL_TITLE_ticket_browser"
 msgstr "Navigateur"
