@@ -754,6 +754,7 @@ function select_open_close(t, event)
   if ( t.innerHTML == '⇧' )
     {
       t.innerHTML = '⇩' ;
+      t.nextSibling.innerHTML = _("TIP_open") ;
       t = get_ue_table(t) ;
       while( t.childNodes[1] )
 	t.removeChild(t.childNodes[1]) ;
