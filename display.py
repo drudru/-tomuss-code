@@ -92,7 +92,7 @@ class Display:
         if self.name == top:
             return True
         for parent in self.containers:
-            if display_dict[parent].is_in(top):
+            if parent in display_dict  and  display_dict[parent].is_in(top):
                 return True
 
 def init():
