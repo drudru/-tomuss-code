@@ -710,24 +710,58 @@ Filler.prototype.update_html = function() {
   var fill_value = 0 ;
   var overflow = 0 ;
   var not_empty = 0 ;
-  for(var room in this.index)
+  var dispatched = 0 ;
+  // Compute number of student per room
+  for(var index_room in this.index)
     {
-      var room = this.rooms[this.index[room]] ;
+      var room = this.rooms[this.index[index_room]] ;
       if ( ! room.checked )
 	continue ;
       var nr_used = (room.name === '' ? 0 : room.nr_used) ;
-      room.nr_will_be_used = Math.round(to_dispatch
+      room.nr_will_be_used = Math.floor(to_dispatch
 					* room.places.nr_places
 					/ full_size) - nr_used ;
-      if ( 0 )
-	console.log('to_dispatch=' + to_dispatch
-		    + ' nr_used=' + nr_used
-		    + ' will_be_used=' + room.nr_will_be_used
-		    + ' full_size=' + full_size) ;
-      to_dispatch -= room.nr_will_be_used + nr_used ;
       if ( room.nr_will_be_used < 0 )
 	room.nr_will_be_used = 0 ;
-      full_size -= room.places.nr_places ;
+      dispatched += room.nr_will_be_used ;
+    }
+  // Fix rounding issues nicely
+  for(var index_room in this.index)
+    {
+      if ( to_dispatch == dispatched )
+	break ;
+      var room = this.rooms[this.index[index_room]] ;
+      if ( ! room.checked )
+	continue ;
+      var nr_used = (room.name === '' ? 0 : room.nr_used) ;
+      if ( room.nr_will_be_used + nr_used < room.places.nr_places )
+	{
+	  room.nr_will_be_used++ ;
+	  room.fix_nr_by_1 = true ;
+	  dispatched++ ;
+	}
+    }
+  // Fix rounding issues not nicely
+  for(var index_room in this.index)
+    {
+      if ( to_dispatch == dispatched )
+	break ;
+      var room = this.rooms[this.index[index_room]] ;
+      if ( ! room.checked )
+	continue ;
+      if ( ! room.fix_nr_by_1 )
+	{
+	  room.nr_will_be_used++ ;
+	  dispatched++ ;
+	}
+    }
+  to_dispatch -= dispatched ;
+
+  for(var index_room in this.index)
+    {
+      var room = this.rooms[this.index[index_room]] ;
+      if ( ! room.checked )
+	continue ;
       if ( room.name !== '' )
 	 fill_value++ ;
       else
@@ -748,13 +782,14 @@ Filler.prototype.update_html = function() {
 	    overflow++ ;
 	  else
 	    room.number_used[place] = true ;
-	  this.dispatch.push([this.toggles.interleave
-			      ? j * this.nr_rooms_used
-			      : 0,
-			      place === undefined
-			      ? room.name.replace('%%', '???')
-			      : room.name.replace('%%', place),
-			      place]) ;
+	  this.dispatch.push(
+	    [this.toggles.interleave
+	     ? j * this.nr_rooms_used * this.index.length + Number(index_room)
+	     : 0,
+	     place === undefined
+	     ? room.name.replace('%%', '???')
+	     : room.name.replace('%%', place),
+	     place]) ;
 	}
       room.update_html() ;
     }
