@@ -184,6 +184,21 @@ def update_column_content(column, url):
                 finally:
                     column.table.unlock()
 
+def restore_user_rights(column):
+    from .. import data
+    no_user = column.table.get_nobody_page()
+    column.table.lock()
+    try:
+        for line_id, line in column.table.lines.items():
+            if line[column.data_col].author == data.ro_user:
+                column.table.cell_change(no_user,
+                                         column.the_id,
+                                         line_id, line[column.data_col].value,
+                                         force_update=True
+                                     )
+    finally:
+        column.table.unlock()
+
 ###############################################################################
 # Text column definition
 ###############################################################################
@@ -297,9 +312,13 @@ class Text(object):
             url = re.sub(r'\).*', '', url)
         elif column.url_import:
             url = column.url_import
+            column.url_import_previous = url
         else:
+            if getattr(column, 'url_import_previous', ''):
+                # The URL was erased, allow the user to change the value
+                restore_user_rights(column)
             return
-        
+
         # Reload even if the value is the same
         # if column.import_url == url:
         #    return
