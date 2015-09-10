@@ -2558,6 +2558,9 @@ msgstr "Recherche infructueuse"
 msgid "MSG_home_clipped"
 msgstr "Liste tronquée..."
 
+msgid "MSG_see_following"
+msgstr "Voir la suite"
+
 msgid "MSG_home_searching"
 msgstr "Recherche en cours"
 

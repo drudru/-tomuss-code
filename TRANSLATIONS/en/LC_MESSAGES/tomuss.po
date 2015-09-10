@@ -2551,6 +2551,9 @@ msgstr "Nothing found"
 msgid "MSG_home_clipped"
 msgstr "Truncated list..."
 
+msgid "MSG_see_following"
+msgstr "Display more items"
+
 msgid "MSG_home_searching"
 msgstr "Searching"
 

@@ -861,11 +861,15 @@ function display_ues(title, tip, codes, options)
   var nr_displayed = 0, classes ;
   var display_student_icon = options.students && (options.code_filter
 						  || codes.length < 40) ;
+  var nr_max = get_option('C' + title, options.nr_max) ;
   for(var ue in codes)
   {
-    if ( nr_displayed == options.nr_max )
+    if ( nr_displayed == nr_max )
       {
-	s.push('<b>' + _("MSG_home_clipped") + '</b>') ;
+	s.push('<b onclick="set_option('
+	       + js2('C' + title) + ',' +  nr_max*4
+	       + ',true);display_update_real()">'
+	       + _("MSG_see_following") + '</b>') ;
 	break ;
       }
     ue = codes[ue] ;
