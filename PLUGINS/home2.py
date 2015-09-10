@@ -104,18 +104,21 @@ def home_page(server):
         favstu = ''
     else:
         favstu = eval(favstu)
-        favstu = inscrits.L_fast.query_logins(favstu,
-                                              (configuration.attr_login,
-                                               configuration.attr_firstname,
-                                               configuration.attr_surname,
-                                               configuration.attr_mail,
-                                               ))
+        favstu_infos = inscrits.L_fast.query_logins(
+            favstu,
+            (configuration.attr_login,
+             configuration.attr_firstname,
+             configuration.attr_surname,
+             configuration.attr_mail,
+         ))
+        for login in set(favstu) - set(x[0] for x in favstu_infos):
+            favstu_infos.append((login, "?", "?", "?"))
         favstu = ','.join(['[%s,%s,%s,%s]' %
                           (utilities.js(inscrits.login_to_student_id(x[0].lower().encode('utf8'))),
                            utilities.js(x[1].encode('utf-8')),
                            utilities.js(x[2].encode('utf-8')),
                            utilities.js(x[3].encode('utf-8')))
-                          for x in favstu])
+                           for x in favstu_infos])
 
     links = []
     for link, the_plugin in plugin.get_links(server):
