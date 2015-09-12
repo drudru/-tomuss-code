@@ -975,7 +975,7 @@ function display_ues(title, tip, codes, options)
     else	
       s.push('<div class="ue_line">'
 	     + '<div class="ue_right" onclick="open_ue(this,' + js2(ue)
-	     + ')" ondblclick="goto_url(' + js2(url_ue(ue[0])) + ')">'
+	     + ')" ondblclick="goto_url(' + js2(url_ue(ue)) + ')">'
 	     + '<div class="ue_title">'
 	     + (info.nr_students_ue ? '<b>' : '')
 	     + string_highlight(html(info.intitule || '????????????????????'),
