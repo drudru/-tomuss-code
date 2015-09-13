@@ -252,18 +252,17 @@ def tests():
     if do('preferences'):
         c = s.url('=' + abj).split('preferences=')[-1]
         c = c.split(';')[0]
-        assert("'home_3scrollbar': 1" in c)
+        assert('"language":"' in c)
 
-        c = s.url('=' + abj + '/save_preferences/favoris_sort=1')
+        c = s.url('=' + abj + '/save_preferences/debug_home=1')
         assert(c == ok_png)
 
         c = utilities.read_file('DBregtest/LOGINS/%s/%s/preferences' % (
             abj[:3], abj))
-        assert("{'favoris_sort': 1}" == c)
+        assert("{'debug_home': 1}" == c)
 
-        c = s.url('=' + abj).split('preferences=')[-1]
-        c = c.split(';')[0]
-        assert("'favoris_sort': 1" in c)
+        c = s.url('=' + abj).split('HomePreferences')[1]
+        assert('"debug_home": 1' in c)
 
     if do('emptydossier'):
         c = s.url('=' + abj + '/%d/Dossiers/emptydossier' % uyear)
@@ -629,7 +628,7 @@ def tests():
                   % ys)
         assert('OK' in c)
         c = s.url('=ue1.master')
-        assert("['0', 'Dossiers', 'UE-INF20UE2']" in c)
+        assert('["0", "Dossiers", "UE-INF20UE2"]' in c)
         c = s.url('=' + root + '/0/Dossiers/UE-INF20UE2')
         assert('TITLE0' in c)
         assert('_TABLE_COMMENT_' in c)

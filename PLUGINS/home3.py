@@ -198,5 +198,5 @@ def home_page(server):
     ''' % (configuration.url_files, int(server.ticket.is_a_referent)))
     display.data_to_display(server, "Home")
 
-plugin.Plugin('homepage3', '/homepage3/{=}', function=home_page, group='staff',
+plugin.Plugin('homepage3', '/{=}', function=home_page, group='staff',
               launch_thread=True, unsafe=False)

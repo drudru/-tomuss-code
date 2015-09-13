@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 #    TOMUSS: The Online Multi User Simple Spreadsheet
-#    Copyright (C) 2008-2014 Thierry EXCOFFIER, Universite Claude Bernard
+#    Copyright (C) 2008-2015 Thierry EXCOFFIER, Universite Claude Bernard
 #
 #    This program is free software; you can redistribute it and/or modify
 #    it under the terms of the GNU General Public License as published by
@@ -32,7 +32,7 @@ import os
 import time
 import sys
 
-version = '5.6.2'
+version = '5.6.3'
 
 ###############################################################################
 # ACLS

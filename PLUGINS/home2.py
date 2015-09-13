@@ -191,5 +191,5 @@ def home_page(server):
         + configuration.url_files + '/all_ues.js"></script>'
         )
 
-plugin.Plugin('homepage2', '/{=}', function=home_page, group='staff',
+plugin.Plugin('homepage2', '/home2/{=}', function=home_page, group='staff',
               launch_thread=True, unsafe=False)
