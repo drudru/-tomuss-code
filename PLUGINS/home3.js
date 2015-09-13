@@ -669,8 +669,10 @@ function code_create(year_semester_ue)
   return code ;
 }
 
-function ue_set_favorite(t, code, nr)
+function ue_set_favorite(event, code, nr)
 {
+  event = the_event(event) ;
+  var t = event.target ;
   var img = document.createElement('IMG') ;
   var bookmarked = get_info(code).is_bookmarked ;
   if ( bookmarked )
@@ -697,11 +699,14 @@ function ue_set_favorite(t, code, nr)
   create_ue_lists.done = false ;
   create_ue_lists() ;
   setTimeout(display_update_real, 1000) ;
+  stop_event(event) ;
 }
 
-function student_set_favorite(t, code, favorite)
+function student_set_favorite(event, code, favorite)
 {
   favorite = ! favorite ;
+  event = the_event(event) ;
+  var t = event.target ;
   var img = document.createElement('IMG') ;
   img.src = base('favorite_student/') + code ;
   t.appendChild(img) ;
@@ -720,6 +725,7 @@ function student_set_favorite(t, code, favorite)
       display_data['HomeStudentFavorites'].push(students_info[code]) ;
     }
   setTimeout(display_update_real, 1000) ;
+  stop_event(event) ;
 }
 
 function get_ue_table(t)
@@ -883,7 +889,7 @@ function display_ues(title, tip, codes, options)
 	  favorite = '★' ;
 	else
 	  favorite = '☆' ;
-	favorite = '<tt onclick="student_set_favorite(this,' + js2(ue[0]) + ','
+	favorite = '<tt onclick="student_set_favorite(event,'+ js2(ue[0]) + ','
 	  + is_a_favorite[ue[0]] +')" class="icon">' + favorite + '</tt>' ;
       }
     else if ( options.actions )
@@ -906,17 +912,16 @@ function display_ues(title, tip, codes, options)
 	  new_nr = (info.nr_access || 0) + 1000000
 	    + 1000000 * create_ue_lists.max ;
 	}
-	favorite = '<tt onclick="ue_set_favorite(this,' + js2(ue) + ','
+	favorite = '<tt onclick="ue_set_favorite(event,' + js2(ue) + ','
 	  + new_nr + ')" class="icon">' + favorite + '</tt>' ;
 	if ( info.is_master_of )
 	  favorite = '' ;
       }
     if ( options.students )
       s.push(
-	'<div class="ue_line ' + classes + '">'
-	+ '<div class="ue_right" onclick="open_student(this,' + js2(ue[0])
-	+ ')" ondblclick="go_suivi(' + js2(url_ue(ue[0])) + ')">'
-	+ '<div class="ue_title">'
+	'<div class="ue_line ' + classes + '" onclick="open_student(this,'
+	+ js2(ue[0]) + ')" ondblclick="go_suivi(' + js2(url_ue(ue[0])) + ')">'
+	+ '<div class="ue_right"><div class="ue_title">'
 	+ string_highlight(html(ue[2] + ' ' + title_case(ue[1])),
 			   ask_login_list)
 	+ '</div>'
@@ -973,10 +978,9 @@ function display_ues(title, tip, codes, options)
 	       ) ;
       }
     else	
-      s.push('<div class="ue_line">'
-	     + '<div class="ue_right" onclick="open_ue(this,' + js2(ue)
+      s.push('<div class="ue_line" onclick="open_ue(this,' + js2(ue)
 	     + ')" ondblclick="goto_url(' + js2(url_ue(ue)) + ')">'
-	     + '<div class="ue_title">'
+	     + '<div class="ue_right"><div class="ue_title">'
 	     + (info.nr_students_ue ? '<b>' : '')
 	     + string_highlight(html(info.intitule || '????????????????????'),
 				search_ue_list.txt)

@@ -4195,7 +4195,7 @@ function columns_in_javascript()
   return '[\n' + s.join(',\n') + ']' ;
 }
 
-function button_toggle(dictionnary, data_col, tag)
+function button_toggle(dictionnary, data_col, tag, event)
 {
   if ( dictionnary[data_col] )
     {
@@ -4208,6 +4208,8 @@ function button_toggle(dictionnary, data_col, tag)
       dictionnary[data_col] = true ;
     }
   do_printable_display = true ;
+  if ( event )
+    stop_event(the_event(event)) ;
 }
 
 function toggle_button(text, dictionnary, name, help)
@@ -4218,7 +4220,7 @@ function toggle_button(text, dictionnary, name, help)
   var a = '<span class="button_toggle' + toggled
     + '" id="' + dictionnary + '.' + name
     + '" onclick="button_toggle('
-    + dictionnary + ",'" + name + "',this)\">"
+    + dictionnary + ",'" + name + "',this,event)\">"
     +  text + '</span>' ;
   return a ;
 }
@@ -4254,7 +4256,7 @@ function radio_buttons(variable, values, selected, action)
       v = '<span class="button_toggle ' + the_class
 	+ '" onclick="' + variable + "='" + value
 	+ "'; radio_clean(this);this.className += ' toggled' ;"
-	+ action + '">' +
+	+ action + ';stop_event(the_event(event))">' +
 	(tip ? hidden_txt(value,tip) : value) + '</span>' ;
       s.push(v) ;
     }
