@@ -227,6 +227,10 @@ TT.icon {
     background: #FFF ;
 }
 
+.ue_line_hover .ue_icons {
+    z-index: 4 ;
+}
+
 .ue_icons {
     z-index: 1 ; /* To not be hidden by ue_code */
     overflow: visible ; /* for the tip */
@@ -361,6 +365,11 @@ TT.icon {
 DIV.fast_tip {
     position: relative ;
     display: inline ;
+}
+
+.ue_icons DIV.fast_tip > DIV {
+    top: 0em ;
+    left: 3em ;
 }
 
 DIV.fast_tip > DIV {
