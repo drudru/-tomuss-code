@@ -2399,9 +2399,13 @@ function cancel_select_editing()
 
 function fill_column_with_value()
 {
-  var value = the_current_cell.input.value ;
   fill_column() ;
-  document.getElementById('column_fill_input').value = value ;
+  var room = Filler.filler.rooms[Filler.filler.index[0]] ;
+  room.get_toggle().checked = true ;
+  room.get_name().value = the_current_cell.input.value ;
+  room.get_name().focus() ;
+  room.get_name().select() ;
+  Filler.filler.update_html() ;
 }
 
 var last_input_key_time ;
