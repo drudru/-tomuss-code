@@ -2551,11 +2551,17 @@ function last_page()
 {
   if ( need_to_save_change() )
     the_current_cell.change() ;
-  line_offset = nr_not_empty_lines - table_attr.nr_lines + 1 ;
+  var nr_lines = Math.min(nr_not_empty_lines, filtered_lines.length) ;
+  line_offset = nr_lines - table_attr.nr_lines + 1 ;
   if ( line_offset < 0 )
-    line_offset = 0 ;
-  the_current_cell.lin = Math.min(table_attr.nr_lines + 1 - nr_headers,
-				  nr_not_empty_lines) ;
+    {
+      line_offset = 0 ;
+      the_current_cell.lin = nr_lines + nr_headers - 1 ;
+    }
+  else
+    {
+      the_current_cell.lin = table_attr.nr_lines - 1 ;
+    }
   table_fill(false) ;
   return true ;
 }
