@@ -1255,7 +1255,9 @@ function update_block_content(name)
   var e = document.getElementById(name) ;
   if ( ! e )
     return ;
-  var html = display_definition[name].fct(display_data[name]) ;
+  var node = display_definition[name] ;
+  node.data = display_data[name.replace('Display', '')] ;
+  var html = node.fct(node) ;
   if ( html instanceof Array)
     html = html[0] ;
   e.innerHTML = html ;
@@ -1471,15 +1473,16 @@ function DisplayHomeStudentFavorites(node)
 		      + "/Favoris/"
 		      + username.replace(/\./g, "__")
 		      ) ;
-  return display_ues(_("TH_home_bookmark_student"), '', node.data,
-		     {students:true, hide_sort: true,
-			 before_title: node.data.length + ' ',
-			 default_order: 'surname+firstname',
-			 code_filter:get_possible_filters(node, is_a_favorite),
-			 title_second_line: student_notepad_link(notebook)
-			 + '/' + student_mails_link()
-			 + '/' + student_suivi_link()
-		     }) ;
+  return [display_ues(_("TH_home_bookmark_student"), '', node.data,
+		      {students:true, hide_sort: true,
+			  before_title: node.data.length + ' ',
+			  default_order: 'surname+firstname',
+			  code_filter:get_possible_filters(node, is_a_favorite),
+			  title_second_line: student_notepad_link(notebook)
+			  + '/' + student_mails_link()
+			  + '/' + student_suivi_link()
+			  }),
+	  [], [], 'id="HomeStudentFavorites"'] ;
 }
 
 function current_semester()
@@ -1500,19 +1503,20 @@ function DisplayHomeStudentRefered(node)
 			 : '')
 		      ) ;
   
-  return display_ues(_("TH_home_refered_student"), '', node.data,
-		     {students:true, hide_sort: true,
-			 before_title: node.data.length + ' ',
-			 code_filter: get_possible_filters(node, is_a_refered),
-			 default_order: 'surname+firstname',
-			 title_second_line:
-		       '<small>'
-			 + student_notepad_link(notebook)
-			 + '/' + student_mails_link()
-			 + '/' + student_suivi_link()
-			 + '/' + student_import_link()
-			 + '</small>'
-			 }) ;
+  return [display_ues(_("TH_home_refered_student"), '', node.data,
+		      {students:true, hide_sort: true,
+			  before_title: node.data.length + ' ',
+			  code_filter: get_possible_filters(node, is_a_refered),
+			  default_order: 'surname+firstname',
+			  title_second_line:
+			'<small>'
+			  + student_notepad_link(notebook)
+			  + '/' + student_mails_link()
+			  + '/' + student_suivi_link()
+			  + '/' + student_import_link()
+			  + '</small>'
+			  }),
+	  [], [], 'id="HomeStudentRefered"'] ;
 }
 
 // This function may be called by 'login_list' plugin.
@@ -1572,12 +1576,11 @@ function search_student_change(t)
 	  setTimeout(function() { update_students_real(t) ; }, 1000) ;
 	}
     }
-  else
-    {
-      update_job.todo.push('HomeStudentStudents') ;
-      update_job.todo.push('HomeStudentTeachers') ;
-      periodic_work_add(update_job) ;
-    }
+  update_job.todo.push('HomeStudentStudents') ;
+  update_job.todo.push('HomeStudentTeachers') ;
+  update_job.todo.push('HomeStudentFavorites') ;
+  update_job.todo.push('HomeStudentRefered') ;
+  periodic_work_add(update_job) ;
 }
 
 function DisplayHomeStudentStudents(node)
