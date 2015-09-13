@@ -2113,6 +2113,12 @@ msgstr "Remplir la colonne «"
 msgid "TITLE_fill_after"
 msgstr "»"
 
+msgid "MSG_column_fill_redo"
+msgstr "refaire"
+
+msgid "TIP_column_fill_redo"
+msgstr "Initialise tous les paramètres pour refaire le dernier remplissage fait"
+
 msgid "MSG_fill_warning_left"
 msgstr "Si vous n'êtes pas sûr de vous, alors<br>"
 

@@ -2109,6 +2109,12 @@ msgstr "Fill the column '"
 msgid "TITLE_fill_after"
 msgstr "'"
 
+msgid "MSG_column_fill_redo"
+msgstr "redo"
+
+msgid "TIP_column_fill_redo"
+msgstr "Init parameters to redo the last filling"
+
 msgid "MSG_fill_warning_left"
 msgstr "These actions are not undoable.<br>"
 

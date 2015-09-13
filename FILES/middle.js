@@ -1008,6 +1008,9 @@ function new_new_interface()
   t.push('</div>') ;
   t.push('<div class="one_line">') ;
   t.push(column_input_attr('fill')) ;
+  t.push(hidden_txt(' (<a href="javascript:fill_column(\'redo\')">'
+		    + _('MSG_column_fill_redo') + '</a>)',
+		    _('TIP_column_fill_redo'))) ;
   t.push('</div>') ;
   t.push('<div class="one_line">') ;
   t.push(column_input_attr('delete')) ;

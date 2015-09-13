@@ -311,18 +311,28 @@ Room.prototype.update_html = function()
 
 /****************************************************************************/
 
-function Filler()
+function Filler(last_filler)
 {
-  this.toggles = {
-    'modify': 0,
-    'interleave': 0,
-    'unfiltered': 1,
-    'comment': 0,
-    'pad0': 1
-  } ;
   this.column = the_current_cell.column ;
   this.data_col = the_current_cell.column.data_col ;
-  this.create_rooms() ;
+  if ( last_filler )
+  {
+    this.toggles = last_filler.toggles ;
+    this.rooms = last_filler.rooms ;
+    this.index = last_filler.index ;
+    this.example_row_defined = true ;
+  }
+  else
+  {
+    this.toggles = {
+      'modify': 0,
+      'interleave': 0,
+      'unfiltered': 1,
+      'comment': 0,
+      'pad0': 1
+    } ;
+    this.create_rooms() ;
+  }
   this.id = setInterval(this.update_html.bind(this), 100) ;
 }
 
@@ -993,13 +1003,14 @@ Filler.prototype.do_fill = function()
   this.column.need_update = true ;
   update_columns() ;
   table_fill() ;
+  Filler.last_state = this ; // Only on successful filling
 } ;
 
 /****************************************************************************/
 
-function fill_column()
+function fill_column(redo)
 {
-  Filler.filler = new Filler() ;
+  Filler.filler = new Filler(redo == 'redo' ? Filler.last_state : undefined) ;
   var id = '<!--INSTANTDISPLAY-->' ;
   create_popup('fill_column_div',
 	       _("TITLE_fill_before")
@@ -1035,4 +1046,13 @@ function fill_column()
 	       '',
 	       false
 	       ) ;
+  if ( redo && Filler.last_state )
+    {
+      for(var room in Filler.filler.rooms)
+	{
+	  room = Filler.filler.rooms[room] ;
+	  room.get_toggle().checked = room.checked ;
+	}
+    }
+  Filler.filler.update_html() ;
 }
