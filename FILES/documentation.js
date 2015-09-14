@@ -100,6 +100,7 @@ function go_hash(name, keep_filter)
   }
 
   setTimeout(function() {
+		   window.location.hash = '' ; // Bug Chrome
 		   window.location.hash = name ;
 		   set_current() ;
 		   input.focus() ;
