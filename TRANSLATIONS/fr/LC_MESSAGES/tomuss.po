@@ -2632,19 +2632,19 @@ msgstr "<!--9-->Obsolete"
 
 
 msgid "sort_A"
-msgstr "Trier par code UE"
+msgstr "Tri code UE"
 
 msgid "sort_α"
-msgstr "Trier par intitulé d'UE"
+msgstr "Tri intitulé"
 
 msgid "sort_☆"
-msgstr "Trier par nombre d'accès"
+msgstr "Tri nb accès"
 
 msgid "sort_★"
-msgstr "Trier les favorites"
+msgstr "Tri favorites"
 
 msgid "sort_#"
-msgstr "Trier par nombre d'étudiants"
+msgstr "Tri nb étudiants"
 
 msgid "TIP_open"
 msgstr "Ouvrir ce bloc"

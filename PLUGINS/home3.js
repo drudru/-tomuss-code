@@ -744,7 +744,7 @@ function get_ue_table_title(t)
 
 function select_ue_sort(t)
 {
-  set_option('S' + get_ue_table_title(t), t.innerHTML) ;
+  set_option('S' + get_ue_table_title(t), t.value) ;
   display_update_real() ;
 }
 
@@ -851,11 +851,13 @@ function display_ues(title, tip, codes, options)
       }
       else if ( ! options.hide_sort )
       {
+	s.push('<select onchange="select_ue_sort(this)">') ;
 	for(var i in ue_sorters)
 	  if ( i.length == 1 )
-	    s.push(fast_tip('<span onclick="select_ue_sort(this)"'
-			    + (i == order ? ' class="selected"' : '')
-			    + '>' + i + '</span>', _("sort_" + i))) ;
+	    s.push('<option' + (i == order ? ' selected' : '')
+		   + ' value="' + i + '">'
+		   + _('sort_' + i) + '</option>') ;
+	s.push("</select>") ;
       }
       s.push('</div></div>') ;
     }

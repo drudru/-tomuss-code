@@ -2624,19 +2624,19 @@ msgid "BOX_deprecated"
 msgstr "<!--9-->Deprecated"
 
 msgid "sort_A"
-msgstr "Sort by UE code"
+msgstr "Sort UE code"
 
 msgid "sort_α"
-msgstr "Sort by UE title"
+msgstr "Sort UE title"
 
 msgid "sort_☆"
-msgstr "Sort by number of access"
+msgstr "Sort nr of access"
 
 msgid "sort_★"
 msgstr "Sort favorites"
 
 msgid "sort_#"
-msgstr "Sort by number of students"
+msgstr "Sort nr students"
 
 msgid "TIP_open"
 msgstr "Open box"
