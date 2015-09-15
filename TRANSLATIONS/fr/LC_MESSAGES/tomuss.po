@@ -3733,6 +3733,9 @@ msgstr "Ceci est un message automatique.\n"
 msgid "LINK_referent_set"
 msgstr "Affecter des étudiants à un enseignant"
 
+msgid "HELP_referent_set"
+msgstr "Les étudiants ne doivent pas déjà avoir un référent"
+
 msgid "MSG_referent_get_orphan_none"
 msgstr "%s n'a pas de référent"
 
@@ -3744,6 +3747,9 @@ msgstr "Il y a eu un problème. Est-ce un étudiant ?"
 
 msgid "LINK_orphan_students"
 msgstr "Enlever le référent d'étudiants"
+
+msgid "HELP_orphan_students"
+msgstr ""
 
 msgid "LINK_referents_update"
 msgstr "Faire l'affectation des référents pédagogiques"
@@ -3765,6 +3771,9 @@ msgstr "Affiche ce que l'affectation va faire."
 
 msgid "LINK_referents_update_safe_R"
 msgstr "Afficher les étudiants qui vont être enlevés aux référents pédagogiques"
+
+msgid "HELP_referents_update_safe_R"
+msgstr ""
 
 msgid "TITLE_reload_plugins"
 msgstr "Rechargement des plugins"

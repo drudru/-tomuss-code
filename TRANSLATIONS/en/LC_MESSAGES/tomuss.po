@@ -3701,6 +3701,9 @@ msgstr "This is an automated message.\n"
 msgid "LINK_referent_set"
 msgstr "Give a referent to a student set"
 
+msgid "HELP_referent_set"
+msgstr "Students must not yet have a referent"
+
 msgid "MSG_referent_get_orphan_none"
 msgstr "%s has no referent teacher"
 
@@ -3712,6 +3715,9 @@ msgstr "There is a problem. Is this a student ?"
 
 msgid "LINK_orphan_students"
 msgstr "Remove the referent teacher of a set of student"
+
+msgid "HELP_orphan_students"
+msgstr ""
 
 msgid "LINK_referents_update"
 msgstr "Find referent teacher for students"
@@ -3733,6 +3739,9 @@ msgstr "No changes are done."
 
 msgid "LINK_referents_update_safe_R"
 msgstr "Displays the students that will be removed to referents."
+
+msgid "HELP_referents_update_safe_R"
+msgstr ""
 
 msgid "TITLE_reload_plugins"
 msgstr "Reload Plugins"
