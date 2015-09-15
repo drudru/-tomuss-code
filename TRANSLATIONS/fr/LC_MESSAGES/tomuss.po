@@ -4951,14 +4951,20 @@ msgstr "'%s' utilise la colonne '%s' qui n'existe pas"
 msgid "LINK_javascript:go_year('Dossiers/tt/=read-only=')"
 msgstr "Consultation des TT"
 
+msgid "HELP_javascript:go_year('Dossiers/tt/=read-only=')"
+msgstr "Ce sont les aménagements d'études"
+
 msgid "LINK_javascript:go_year('Dossiers/tt')"
 msgstr "Modification des TT"
+
+msgid "HELP_javascript:go_year('Dossiers/tt')"
+msgstr "Ce sont les aménagements d'études"
 
 msgid "LINK_//stats.html"
 msgstr "Statistiques TOMUSS"
 
 msgid "HELP_//stats.html"
-msgstr "Affiche les statistiques sur l'utilisation de TOMUSS"
+msgstr "Tables, suivi, rapidité, préférences..."
 
 msgid "LINK_javascript:go('referents_students')"
 msgstr "Table des référents pédagogiques"

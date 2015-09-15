@@ -4882,14 +4882,20 @@ msgstr "'%s' use non-existent column '%s'"
 msgid "LINK_javascript:go_year('Dossiers/tt/=read-only=')"
 msgstr "Look special examination condition"
 
+msgid "HELP_javascript:go_year('Dossiers/tt/=read-only=')"
+msgstr ""
+
 msgid "LINK_javascript:go_year('Dossiers/tt')"
 msgstr "Modify special examination condition"
+
+msgid "HELP_javascript:go_year('Dossiers/tt')"
+msgstr ""
 
 msgid "LINK_//stats.html"
 msgstr "TOMUSS Statistics"
 
 msgid "HELP_//stats.html"
-msgstr "Display TOMUSS usage statistics"
+msgstr "About table, suivi, speed, preferences..."
 
 msgid "LINK_javascript:go('referents_students')"
 msgstr "Table of referent teachers"

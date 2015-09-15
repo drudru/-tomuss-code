@@ -111,6 +111,8 @@ TD { padding: 0px }
     font-size: 80%;
     font-weight: bold ;
     vertical-align: top;
+    width: auto ;
+    font-weight: normal ;
 }
 
 .table_title DIV.open_close {
