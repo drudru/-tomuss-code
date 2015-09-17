@@ -1123,8 +1123,8 @@ function create_ue_lists()
 function storageEventHandler(e)
 {
   create_ue_lists.done = false ;
-  create_ue_lists() ;
-  display_update_real() ;
+  update_job.todo.push('HomeUEUnsaved') ;
+  periodic_work_add(update_job)
 }
 
 function DisplayHomeUEUnsaved(node)
@@ -1136,7 +1136,7 @@ function DisplayHomeUEUnsaved(node)
     }
   create_ue_lists() ;
   if ( create_ue_lists.unsaved_list.length == 0 )
-    return '' ;
+    return [' ', [], [], 'id="HomeUEUnsaved"'] ;
   return [display_ues("TH_home_unsaved_tables",
 		      _("TIP_home_unsaved_tables"),
 		      create_ue_lists.unsaved_list,
