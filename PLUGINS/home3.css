@@ -339,7 +339,8 @@ TT.icon {
 .HomeActions .ue_line .ue_more, .HomeActions .ue_line A {
     display: block ;
     width: 100%;
-    position: initial ;
+    position: relative ;
+    top: 0em ;
 }
 
 .HomeActions .ue_line:hover .ue_more, .HomeActions .ue_line:hover A {
