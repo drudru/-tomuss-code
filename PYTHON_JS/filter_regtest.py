@@ -118,6 +118,11 @@ def filterRegtest():
                 "=4|=5", "=4 | =5", "=5 | =4", "=5 OR =4", "=5 OR !=6",
                 "@~&=4", '!a !b', '!a 4', '4 !a',
                 "=5 OR =4 OR =3", "=4 OR =3 OR =5", "=3 OR =5 OR =4",
+                ">3 <5",
+                ">3 <5 <9",
+                ">3 <5 <9 OR >9",
+                ">3 <5 <9 OR >9 >9",
+                ">9 >9 OR >3 <5 <9",
                 ]:
         tst = replace_all(tst, 'OR', or_keyword())
         if not Filter(tst, "", "").evaluate(c):

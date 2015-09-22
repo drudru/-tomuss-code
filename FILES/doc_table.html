@@ -1537,31 +1537,12 @@
 	entre les tests simples,
       <li> Si on veut faire un «et» on écrit simplement
 	les tests simples en les séparant par un espace.
+      <li>Les «et» sont prioritaires sur les «ou»
     </ul>
 
-    <p>
-      Attention à l'ordre d'évaluation :
-      les opérateurs «ou» et «et» ont la même priorité.
-      Si vous mélangez des «ou» et des «et» il faut
-      tenir compte de l'ordre d'évaluation qui se fait de <b>droite
-      à gauche</b>.
     <ul>
-      <li> <b>&gt;5 &lt;15 ou =20</b>
-	interprété comme : &gt;5 et (&lt;15 ou =20)<br>
-	20 + les entiers strictement plus petits
-	que 15, on garde ceux qui sont strictement plus grand que 5.
-      <li> <b>&gt;5 &lt;15 ou =2</b>
-	interprété comme : &gt;5 et (&lt;15 ou =2)<br>
-	20 + les entiers strictement plus petits
-	que 15, on garde ceux qui sont strictement plus grand que 5,
-	donc le =2 est inutile car la valeur est enlevée à la fin.
-      <li> <b>&lt;=10 ou =20 &lt;=16</b>
-	interprété comme : &lt;=10 ou (=20 et &lt;=16)<br>
-	Les entiers inférieurs ou égaux à 16 et qui sont égaux à 20
-	(il n'en existe pas)
-	auxquels on ajoute les entiers qui sont
-	inférieurs ou égaux à 15.
-	Donc le «ou» et ce qui suit ne sert à rien
+      <li> <b>&gt;5 &lt;7 ou &gt;15 &lt;17</b>
+	interprété comme : (&gt;5 &lt;7) ou (&gt;15 &lt;17)<br>
     </ul>
     <p>
       Pour utiliser un caractère spécial dans le filtre,

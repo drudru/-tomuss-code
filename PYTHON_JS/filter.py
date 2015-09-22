@@ -21,6 +21,7 @@
 # In order to translate to pure JavaScript:
 #    No inherance
 #    Define classes before using them
+#    No else: after for:
 
 """
 """
@@ -281,15 +282,18 @@ class Filter:
     # Parse the filter to create a list of nodes
     def __init__(self, string, username, column_type):
         if string == '':
-            self.filters = [('', FilterTrue())]
+            self.filters = [[FilterTrue()]]
             return
-        self.filters = []
+        self.filters = [] # 'ORed' list of 'ANDed' items
         # OR is replaced by its translation
         string = replace_all(string," " + or_keyword() + " ", " | ")
-        mode = ''
+        mode = "|"
         while string:
             node, string = self.parse(string, username, column_type)
-            self.filters.append((mode, node))
+            if mode == '|':
+                self.filters.append([node])
+            else:
+                self.filters[-1].append(node)
             if len(string) and (string[0] == '|' or string[0] == '&'):
                 mode = string[0]
                 string = string[1:].lstrip()
@@ -367,13 +371,16 @@ class Filter:
         return node, string[i:].lstrip()
 
     def evaluate(self, cell):
+        result = False
         for f in self.filters:
-            if f[0] == '':
-                result = f[1].evaluate(cell)
-            elif f[0] == '&':
-                result = result and f[1].evaluate(cell)
-            else:
-                result = result or f[1].evaluate(cell)
+            bad = False
+            for ff in f:
+                if not ff.evaluate(cell):
+                    bad = True
+                    break
+            if not bad:
+                result = True
+                break
 
         if debug:
             error = False
@@ -396,8 +403,9 @@ class Filter:
         return result
 
     def js(self):
-        return '(' + ''.join([filter[0] + filter[0] + filter[1].js()
-                             for filter in self.filters
+        return '(' + '||'.join(['&&'.join([ff.js()
+                                           for ff in f])
+                                for f in self.filters
                              ]) + ')'
 
     def compiled_js(self):
