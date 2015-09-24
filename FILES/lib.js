@@ -3266,9 +3266,9 @@ Connection.prototype.time = function(v)
 
 Connection.prototype.debug = function(txt)
 {
-  return ; // XXX
-  console.log(
-  [
+  if ( false )
+    console.log(
+		[
    '====' + txt + '====',
    'now=' + this.time(millisec())
    + " need_connection:" + this.need_connection()
