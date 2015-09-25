@@ -156,6 +156,8 @@ class Plugin(object):
                  priority=0,
                  group="",
                  unsafe=True,
+                 # server.uploaded will contain the data
+                 upload_max_size = 0,
                  # Following parameters are deprecated, use group=groupname
                  teacher=None, referent=None, administrative=None,
                  abj_master=None, referent_master=None, root=None,
@@ -199,6 +201,11 @@ class Plugin(object):
         self.priority        = priority
         self.group           = group
         self.unsafe          = unsafe
+        if upload_max_size and not launch_thread:
+            raise ValueError("Uploads must be in a thread")
+        if upload_max_size and 'html' not in mimetype:
+            raise ValueError("Uploads must return HTML mime type")
+        self.upload_max_size = upload_max_size
         # Where the plugin is defined
         self.module = sys._getframe(1).f_code.co_filename
         if link:
@@ -317,6 +324,21 @@ class Plugin(object):
     def backtrace_html(self):
         return "Plugin: " + str(self)
 
+    def send_response(self, server):
+        server.send_response(self.response)
+        if not self.cached:
+            server.send_header('Cache-Control', 'no-cache')
+            server.send_header('Cache-Control', 'no-store')
+        else:
+            server.send_header('Cache-Control',
+                               'max-age=%d' % configuration.maxage)
+
+        for h in self.headers(server):
+            warn('send header: %s' % str(h), what='plugin')
+            server.send_header(*h)
+        server.send_header('Content-Type', self.mimetype)
+        server.end_headers()
+
 def vertical_text(text, size=12, exceptions=()):
     if text in exceptions:
         return text
@@ -420,6 +442,11 @@ def execute(server, plugin):
         pr.enable()
     if plugin.launch_thread:
         try:
+            if plugin.mimetype and plugin.upload_max_size:
+                # XXX Why timeout on wait ?
+                server.restore_connection(wait=False)
+                server.uploaded = server.get_posted_data(plugin.upload_max_size)
+                plugin.send_response(server)
             plugin.function(server)
         except:
             utilities.send_backtrace('Path = ' + str(server.the_path) + '\n' +
@@ -520,20 +547,8 @@ def dispatch_request(server, manage_error=True):
     warn('match %s(%s), path: %s' % (p.name, p.url, server.the_path),
          what='plugin')
 
-    if p.mimetype:
-        server.send_response(p.response)
-        if not p.cached:
-            server.send_header('Cache-Control', 'no-cache')
-            server.send_header('Cache-Control', 'no-store')
-        else:
-            server.send_header('Cache-Control',
-                               'max-age=%d' % configuration.maxage)
-
-        for h in p.headers(server):    
-            warn('send header: %s' % str(h), what='plugin')
-            server.send_header(*h)
-        server.send_header('Content-Type', p.mimetype)
-        server.end_headers()
+    if p.mimetype and not p.upload_max_size:
+        p.send_response(server)
     server.plugin = p
     
     if p.keep_open or p.launch_thread:

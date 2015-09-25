@@ -53,7 +53,7 @@ plugin.Plugin('log', '/log/{*}',
 
 def gui_record(server):
     """Store a text in a log file"""
-    posted_data = server.get_posted_data()
+    posted_data = server.uploaded
     if posted_data is None:
         return
 
@@ -74,7 +74,7 @@ def gui_record(server):
 
 plugin.Plugin('gui_record', '/gui_record',
               function = gui_record,
-              group='staff',
+              group='staff', upload_max_size = 100000,
               launch_thread=True,
               )
 

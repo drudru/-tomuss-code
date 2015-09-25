@@ -53,7 +53,7 @@ def import_zip(server):
         if column.type.name != 'Upload':
             raise ValueError('Not good type')
         server.the_file.write('<p>' + server._("MSG_abj_wait") + '\n')
-        data = StringIO.StringIO(server.get_posted_data()['data'][0])
+        data = StringIO.StringIO(server.uploaded['data'][0])
         zf = zipfile.ZipFile(data, mode="r")
         page = table.get_a_page_for((server.ticket.user_name,))
         for filename in zf.namelist():
@@ -92,5 +92,5 @@ def import_zip(server):
 
 plugin.Plugin('import_zip', '/{Y}/{S}/{U}/import_zip/{*}',
               function=import_zip, launch_thread = True,
-              priority = -10 # Before student_redirection
+              upload_max_size = 2000000000,
           )

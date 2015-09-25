@@ -1210,15 +1210,32 @@ class FakeRequestHandler(BaseHTTPServer.BaseHTTPRequestHandler):
         self.it_is_a_post = True
         self.do_GET()
 
-    def get_posted_data(self):
+    def get_posted_data(self, size=50000000):
         if not self.it_is_a_post:
             return None
         ctype, pdict = cgi.parse_header(self.headers.getheader('content-type'))
         if ctype != 'multipart/form-data':
             warn("ctype=%s" % ctype)
             return None
-        return cgi.parse_multipart(self.the_rfile, pdict)
-            
+        if False:
+            # XXX It should work
+            r = []
+            s = 0
+            while True:
+                r.append(self.the_rfile.read(4096))
+                if len(r[-1]) == 0:
+                    break
+                s += len(r[-1])
+                if s >= size:
+                    self.the_file.write("too big")
+                    return None
+                # self.the_file.write(" .")
+            import StringIO
+            r = StringIO.StringIO(''.join(r))
+            return cgi.parse_multipart(r, pdict)
+        else:
+            return cgi.parse_multipart(self.the_rfile, pdict)
+
     def send_response(self, i, comment=None):
         if comment:
             # To answer HEAD request no handled
@@ -1272,16 +1289,17 @@ class FakeRequestHandler(BaseHTTPServer.BaseHTTPRequestHandler):
             # Before Python 2.7
             pass
 
-    def restore_connection(self):
+    def restore_connection(self, wait=True):
         # Do not want to restore the connection before
         # the dummy connection was closed by HTTPBaseRequest
-        i = 0
-        while not self.wfile.closed or not self.rfile.closed:
-            time.sleep(0.01)
-            i += 1
-            if i == 100:
-                send_backtrace('', 'Not closed', exception=False)
-                break
+        if wait:
+            i = 0
+            while not self.wfile.closed:
+                time.sleep(0.01)
+                i += 1
+                if i == 100:
+                    send_backtrace('', 'Not closed', exception=False)
+                    break
         self.wfile = self.the_file
         self.rfile = self.the_rfile
         self.please_do_not_close = False

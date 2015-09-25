@@ -85,17 +85,18 @@ def save_file(server, page, column, lin_id, data, filename):
         table.unlock()
 
 def upload_post(server):
+    data = server.uploaded
+
+    if data is None or 'data' not in data:
+        server.the_file.write("BUG")
+        return
+
     err = document.get_cell_from_table(server, ('Upload',))
     if isinstance(err, basestring):
         server.the_file.write(err)
         raise ValueError(err)
     table, page, column, lin_id = err
     try:
-        server.the_file.write(server._("MSG_abj_wait"))
-        data = server.get_posted_data()
-        if data is None or 'data' not in data:
-            server.the_file.write("BUG")
-            return
         filename = data["filename"][0].replace("\\", "/").split("/")[-1]
         data = data["data"][0]
 
@@ -142,6 +143,7 @@ def upload_get(server):
 
 plugin.Plugin('upload_post', '/{Y}/{S}/{U}/upload_post/{*}',
               function=upload_post, launch_thread = True,
+              upload_max_size = 40000000,
               priority = -10 # Before student_redirection
           )
 

@@ -48,7 +48,7 @@ def send_mail(server):
                           + server._("MSG_abj_wait") + '</h1>')
     server.the_file.flush()
     
-    data = server.get_posted_data()
+    data = server.uploaded
     if data is None:
         server.the_file.write("BUG")
         return
@@ -138,4 +138,5 @@ e.parentNode.removeChild(e) ;
         time.sleep(1)
 
 plugin.Plugin('send_mail', '/send_mail', function=send_mail,
+              upload_max_size = 1000000,
               group='staff', launch_thread=True)
