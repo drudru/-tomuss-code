@@ -770,7 +770,7 @@ msgstr "Étudiant non inscrit à l'UE.\n"
 
 #. GUI Label
 msgid "LABEL_documentation"
-msgstr "Documentation complète et intéractive"
+msgstr "Documentation complète et interactive"
 
 #. Tip
 msgid "TIP_documentation"

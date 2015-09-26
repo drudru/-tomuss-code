@@ -922,7 +922,7 @@ function display_ues(title, tip, codes, options)
     if ( options.students )
       s.push(
 	'<div class="ue_line ' + classes + '" onclick="open_student(this,'
-	+ js2(ue[0]) + ')" ondblclick="go_suivi(' + js2(url_ue(ue[0])) + ')">'
+	+ js2(ue[0]) + ')" ondblclick="go_suivi(' + js2(ue[0]) + ')">'
 	+ '<div class="ue_right"><div class="ue_title">'
 	+ string_highlight(html(ue[2] + ' ' + title_case(ue[1])),
 			   ask_login_list)
