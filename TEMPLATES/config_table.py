@@ -105,6 +105,7 @@ variable_list = [
     "grp_modifiable",
     "advertising",
     "removal_allowed",
+    "upload_max",
     ]
 
 deprecated = set(('root', 'invited_teachers', 'invited_administratives',

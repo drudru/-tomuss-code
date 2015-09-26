@@ -32,7 +32,7 @@ import os
 import time
 import sys
 
-version = '5.6.4'
+version = '5.6.5'
 
 ###############################################################################
 # ACLS
@@ -374,6 +374,9 @@ grp_modifiable = False
 
 # Display advertising for TOMUSS
 advertising = False
+
+# Maximum upload size for Upload columns
+upload_max = 50000
 
 ###############################################################################
 # The following variables should be fine for testing purpose (local server)

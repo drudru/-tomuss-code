@@ -28,6 +28,9 @@ class ColumnUploadMax(ColumnAttr):
     check_and_set = """
 function(value, column)
 {
-  return a_float(value) ;
+  value = a_float(value) ;
+  if ( value > upload_max )
+      value = upload_max ;
+  return value ;
 }
 """

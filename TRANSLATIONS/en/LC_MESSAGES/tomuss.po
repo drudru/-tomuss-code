@@ -4643,6 +4643,9 @@ msgstr "Suivi: Allow the student restrict their 'suivi' access if True"
 msgid "config_table_advertising"
 msgstr "Suivi: display advertising for TOMUSS"
 
+msgid "config_table_upload_max"
+msgstr "Suivi: Maximum upload size in the Upload column"
+
 msgid "config_table_removal_allowed"
 msgstr "No student list update if the number of students to remove is > than this %"
 

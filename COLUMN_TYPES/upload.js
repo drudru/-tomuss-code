@@ -108,7 +108,8 @@ function upload_popup(t, ue, col_id, lin_id)
       + _('MSG_upload_file')
       + '<br>'
       + '<input type="file" name="data" onchange="upload_file_choosed(this)">'
-      + '<input type="text" name="filename" hidden=1>'
+      + '<input type="text" name="filename" hidden=1><br>'
+      + DisplayGrades.column.upload_max + "KB " + _("Maximum")
       + '</form>') ;
 }
 
