@@ -52,14 +52,16 @@ except KeyError:
 def or_keyword():
     return _('or')
 
-def update_today():
-    return time.time(), time.localtime()
+def millisec():
+    return time.time() * 1000
 
 def seconds_to_date(seconds):
     return time.strftime('%Y%m%d%H%M%S', time.localtime(seconds))
 
 def date_to_seconds(date):
     return time.mktime(time.strptime(date.ljust(14, '0'), '%Y%m%d%H%M%S'))
+
+localtime = time.localtime
 
 def REsplit(expreg, txt):
     return re.split(expreg, txt)

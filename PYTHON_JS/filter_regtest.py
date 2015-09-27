@@ -26,9 +26,13 @@ def checkDate(value, expected):
         print('Expected:', expected)
         regression_test_failed
 
-year_month_day = [2014, 5, 15, 12]
-current_seconds = 1400148000
 minors = []
+
+def localtime():
+    return [2014, 5, 15, 12]
+
+def millisec():
+    return 1400148000 * 1000
         
 def dateRegtest():
     if ','.join(REsplit("[ab]", "1a2b3")) != '1,2,3':

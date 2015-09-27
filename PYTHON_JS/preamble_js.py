@@ -124,13 +124,12 @@ def flat(txt):
 
 unicode = str
 
-def update_today():
+def localtime():
     year_month_day = new(Date)
-    current_seconds = year_month_day.getTime()/1000
     year_month_day = [year_month_day.getFullYear(),
                       year_month_day.getMonth() + 1,
                       year_month_day.getDate()]
-    return current_seconds, year_month_day
+    return year_month_day
 
 def seconds_to_date(seconds):
     d = new(Date)

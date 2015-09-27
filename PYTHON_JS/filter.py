@@ -30,10 +30,6 @@
 # This value must never be changed once table have been created by users
 contextual_case_sensitive = False
 
-
-current_seconds, year_month_day = update_today()
-
-
 nan = float('NaN')
 
 # Dates are defined as string : YYYYMMDDHHMMSS
@@ -67,20 +63,24 @@ letter_to_duration['j'] = letter_to_duration['d']
 def is_a_relative_date(txt):
     return txt != '' and txt[-1] in letter_to_duration
 
+def get_relative_date(txt):
+    try:
+        nb = float(txt[:-1])
+    except:
+        return "9999"
+    return seconds_to_date(
+        millisec()/1000 - nb * letter_to_duration[txt[-1]] * 60*60)
+
 def user_date_to_date(txt):
     if txt == '':
         # Today
+        year_month_day = localtime()
         return (str(year_month_day[0])
                 + two_digits(year_month_day[1])
                 + two_digits(year_month_day[2])
                 )
     if is_a_relative_date(txt):
-        try:
-            nb = float(txt[:-1])
-        except:
-            return "9999"
-        return seconds_to_date(
-            current_seconds - nb * letter_to_duration[txt[-1]] * 60*60)
+        return get_relative_date(txt)
 
     txt = REsplit("[- _]", txt)
     t = ''
@@ -93,6 +93,7 @@ def user_date_to_date(txt):
                 t += two_digits(int(hms))
             except:
                 break
+    year_month_day = localtime()
     txt = txt[0].split('/')
     try:
         the_day = int(txt[0])
@@ -153,7 +154,9 @@ class FilterOperator:
             if operator[3] is not None:
                 if is_a_relative_date(value):
                     dummy, operator = search_operator(operator[3])
-                self.date_value = user_date_to_date(value)
+                    self.date_value = value
+                else:
+                    self.date_value = user_date_to_date(value)
         self.what = what
         self.operator = operator[0]
         self.python = operator[1]
@@ -201,7 +204,10 @@ class FilterOperator:
         if self.date_value is not None:
             if self.what == "value":
                 v = user_date_to_date(v)
-            r = self.python(v[:len(self.date_value)], self.date_value)
+            if is_a_relative_date(self.date_value):
+                r = self.python(v, get_relative_date(self.date_value))
+            else:
+                r = self.python(v[:len(self.date_value)], self.date_value)
         elif self.is_string_operator:
             r = self.python(v, self.string_value)
         else:
@@ -215,12 +221,14 @@ class FilterOperator:
     def js(self):
         if self.date_value is not None:
             if self.what == 'date':
-                return self.js_string('cell.date.substr(0,'
-                                      + str(len(self.date_value)) + ')',
-                                      '"' + self.date_value + '"')
+                v = 'cell.date'
             else:
-                return self.js_string('user_date_to_date(cell.value).substr(0,'
-                                      + str(len(self.date_value)) + ')',
+                v = 'user_date_to_date(cell.value)'
+            if is_a_relative_date(self.date_value):
+                d = 'get_relative_date(' + js_str(self.date_value) + ')'
+                return self.js_string(v, d)
+            else:
+                return self.js_string(v + '.substr(0,' + str(len(self.date_value)) + ')',
                                       '"' + self.date_value + '"')
         if self.is_number:
             return self.js_string('to_float_or_nan(cell.' + self.what + ')',
