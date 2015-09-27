@@ -1859,6 +1859,72 @@ cell_change(1,'0_2','ticket_time_to_live','%d',"")
             check('Y%d/S%s/UE-groupcolumn' % (year, semester) + '.py',
                   cell_required = cell, dump=False)
         
+    if do('upload'):
+        try:
+            os.unlink('UPLOAD/%s/UP-upload/A/0_0' % ys)
+        except OSError:
+            pass
+        c = s.url('=' + abj +'/%s/UE-upload' % ys)
+        # Modifiable by student
+        c = s.url('='+abj+'/%s/UE-upload/1/0/column_attr_type/A/Upload'%ys)
+        assert(c == ok_png)
+        c = s.url('='+abj+'/%s/UE-upload/1/1/column_attr_modifiable/A/2'%ys)
+        assert(c == ok_png)
+        c = s.url('='+abj+'/%s/UE-upload/1/2/column_attr_cell_writable/A/=0.016|='%ys)
+        assert(c == ok_png)
+        # Add student
+        c = s.url('=' + abj + '/%s/UE-upload' % ys
+                  + '/1/3/cell_change/0_0/0_0/10800000')
+        assert(c == ok_png)
+
+        ss.start()
+        c = ss.url('=' + abj + '/%s/10800000' % ys)
+        assert('UE-upload' in c)
+        c = s.post('=10800000/%s/UE-upload/upload_post/A/0_0' % ys,
+                   fields = ( ("filename", "foo.txt"), ),
+                   files = ( ("data", "FOO.TXT", "the file content"), )
+               )
+        assert('Uploaded file size in bytes: 16' in c)
+        assert('Uploaded file type: text/plain; charset=us-ascii' in c)
+        assert('>foo.txt<' in c)
+        assert('No virus found.' in c)
+        f = utilities.read_file('UPLOAD/%s/UE-upload/A/0_0' % ys)
+        assert(f == "the file content")
+
+        c = s.post('=10800000/%s/UE-upload/upload_post/A/0_0' % ys,
+                   fields = ( ("filename", "foo.txt"), ),
+                   files = ( ("data", "FOO.TXT", "the file content 2"), )
+               )
+        assert('Uploaded file size in bytes: 18' in c)
+        f = utilities.read_file('UPLOAD/%s/UE-upload/A/0_0' % ys)
+        assert(f == "the file content 2")
+
+        c = s.url('=' + abj +'/%s/UE-upload' % ys)
+        assert('C(0.018,"10800000",' in c)
+        assert(',"text/plain; charset=us-ascii foo.txt",' in c)
+        c = s.post('=10800000/%s/UE-upload/upload_post/A/0_0' % ys,
+                   fields = ( ("filename", "foo.txt"), ),
+                   files = ( ("data", "FOO.TXT", "the file content 3"), )
+               )
+        assert(utilities._("ERROR_value_not_modifiable") in c)
+
+        c = s.url('='+abj+'/%s/UE-upload/1/3/column_attr_cell_writable/A/?<0.0001h'%ys)
+        assert(c == ok_png)
+        c = s.post('=10800000/%s/UE-upload/upload_post/A/0_0' % ys,
+                   fields = ( ("filename", "foo.txt"), ),
+                   files = ( ("data", "FOO.TXT", "the file content 4"), )
+               )
+        assert(utilities._("ERROR_value_not_modifiable") in c)
+
+        c = s.url('='+abj+'/%s/UE-upload/1/4/column_attr_cell_writable/A/?<0.01h'%ys)
+        assert(c == ok_png)
+        c = s.post('=10800000/%s/UE-upload/upload_post/A/0_0' % ys,
+                   fields = ( ("filename", "foo.txt"), ),
+                   files = ( ("data", "FOO.TXT", "the file content 5"), )
+               )
+        assert('No virus found.' in c)
+        f = utilities.read_file('UPLOAD/%s/UE-upload/A/0_0' % ys)
+        assert(f == "the file content 5")
 
 if '1' in sys.argv:
    sys.argv.remove('1')
