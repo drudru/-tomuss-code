@@ -546,7 +546,6 @@ function DisplayHomePreferences(node)
 // #F00 #FFF to have white on a red background
 function DisplayHomeMessage(node)
 {
-  return 'm';
   if ( node.data !== '' )
     {
       var d = node.data.match(RegExp("((#[0-9A-F]{3}  *)*)(.*)")) ;
