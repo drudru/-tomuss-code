@@ -4478,6 +4478,9 @@ msgstr "langue de l'interface utilisateur"
 msgid "Preferences_home_3scrollbar"
 msgstr "un ascenseur pour chacune des 3 colonnes"
 
+msgid "MSG_text_size"
+msgstr "taille du texte"
+
 msgid "COL_TITLE_explanations"
 msgstr "Explications"
 

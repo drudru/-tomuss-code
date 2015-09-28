@@ -140,6 +140,7 @@ D('HomeHelp'       , 'HomeRight' ,3)
 D('HomePreferences', 'HomeRight' ,4, HomePreferences)
 
 D('HomePreferencesLanguages'       , 'HomePreferences',0)
+D('HomePreferencesSize'            , 'HomePreferences',1)
 D('HomePreferencesYearSemester'    , 'HomePreferences',3)
 D('HomePreferences3ScrollBars'     , 'HomePreferences',4)
 D('HomePreferencesDebug'           , 'HomePreferences',9)

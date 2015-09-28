@@ -451,6 +451,22 @@ function DisplayHomePreferencesLanguages(node)
 }
 DisplayHomePreferencesLanguages.need_node = [] ;
 
+function change_text_size(t)
+{
+  set_option('text_size', preferences.text_size) ;
+  the_body.style.fontSize = preferences.text_size ;
+}
+
+function DisplayHomePreferencesSize(node)
+{
+  return radio_buttons('preferences.text_size', ['70%', '100%', '150%'],
+	               preferences.text_size,
+                       "change_text_size(this)")
+    + _("MSG_text_size") ;
+ ;
+}
+DisplayHomePreferencesSize.need_node = [] ;
+
 function current_suivi_change(t)
 {
   preference_change(t,"current_suivi="+(preferences.current_suivi==yes ?1:0));
@@ -474,10 +490,12 @@ function home_3scrollbar_change(t)
 function DisplayHomePreferences3ScrollBars(node)
 {
   return '' ;
+  /*
   return radio_buttons('preferences.home_3scrollbar', [no, yes],
 	               test_bool(preferences.home_3scrollbar),
                        "home_3scrollbar_change(this)")
     + _("Preferences_home_3scrollbar") ;
+  */
 }
 DisplayHomePreferences3ScrollBars.need_node = [] ;
 
@@ -517,6 +535,9 @@ function DisplayHomePreferences(node)
   display_do_debug = node.data['debug_home'] ;
   preferences = node.data ;
   languages = [preferences.language] ;
+  if ( ! preferences.text_size )
+    preferences.text_size = get_option('text_size', '100%') ;
+  the_body.style.fontSize = preferences.text_size ;
   return '<a href="javascript:home_preferences_popup()">≡</a>' ;
 }
 
