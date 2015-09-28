@@ -1888,16 +1888,16 @@ cell_change(1,'0_2','ticket_time_to_live','%d',"")
         assert('Uploaded file type: text/plain; charset=us-ascii' in c)
         assert('>foo.txt<' in c)
         assert('No virus found.' in c)
-        f = utilities.read_file('UPLOAD/%s/UE-upload/A/0_0' % ys)
-        assert(f == "the file content")
+        c = utilities.read_file('UPLOAD/%s/UE-upload/A/0_0' % ys)
+        assert(c == "the file content")
 
         c = s.post('=10800000/%s/UE-upload/upload_post/A/0_0' % ys,
                    fields = ( ("filename", "foo.txt"), ),
                    files = ( ("data", "FOO.TXT", "the file content 2"), )
                )
         assert('Uploaded file size in bytes: 18' in c)
-        f = utilities.read_file('UPLOAD/%s/UE-upload/A/0_0' % ys)
-        assert(f == "the file content 2")
+        c = utilities.read_file('UPLOAD/%s/UE-upload/A/0_0' % ys)
+        assert(c == "the file content 2")
 
         c = s.url('=' + abj +'/%s/UE-upload' % ys)
         assert('C(0.018,"10800000",' in c)
@@ -1923,8 +1923,8 @@ cell_change(1,'0_2','ticket_time_to_live','%d',"")
                    files = ( ("data", "FOO.TXT", "the file content 5"), )
                )
         assert('No virus found.' in c)
-        f = utilities.read_file('UPLOAD/%s/UE-upload/A/0_0' % ys)
-        assert(f == "the file content 5")
+        c = utilities.read_file('UPLOAD/%s/UE-upload/A/0_0' % ys)
+        assert(c == "the file content 5")
 
 if '1' in sys.argv:
    sys.argv.remove('1')
@@ -1953,12 +1953,15 @@ while True:
         elif c == bug_png:
             print 'assert: bug_png'
         else:
+            print "Unknown value:"
             f = open('xxx.html', 'w')
             f.write(c)
             f.close()
             print c
-        print 'End of regressions tests : failure'       
-        raise
+        print 'End of regressions tests : failure'
+    except:
+        import traceback
+        traceback.print_exc(file=sys.stdout)
     finally:
         try:
             s.stop()

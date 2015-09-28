@@ -89,7 +89,13 @@ def post_multipart(url, fields, files, cj):
     h.endheaders()
     h.send(body)
     errcode, errmsg, headers = h.getreply()
-    return h.file.read()
+    # XXX All these test should not be necessary.
+    # But the file uploading fail sometime without these
+    if h.file:
+        h.file._sock.settimeout(None)
+        return h.file.read() or post_multipart(url, fields, files, cj)
+    else:
+        return post_multipart(url, fields, files, cj)
 
 class Server(object):
     port = 8888
