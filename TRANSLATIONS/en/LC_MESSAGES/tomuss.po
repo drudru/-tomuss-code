@@ -3717,7 +3717,7 @@ msgid "LINK_orphan_students"
 msgstr "Remove the referent teacher of a set of student"
 
 msgid "HELP_orphan_students"
-msgstr ""
+msgstr " "
 
 msgid "LINK_referents_update"
 msgstr "Find referent teacher for students"
@@ -3741,7 +3741,7 @@ msgid "LINK_referents_update_safe_R"
 msgstr "Displays the students that will be removed to referents."
 
 msgid "HELP_referents_update_safe_R"
-msgstr ""
+msgstr " "
 
 msgid "TITLE_reload_plugins"
 msgstr "Reload Plugins"
@@ -4898,13 +4898,13 @@ msgid "LINK_javascript:go_year('Dossiers/tt/=read-only=')"
 msgstr "Look special examination condition"
 
 msgid "HELP_javascript:go_year('Dossiers/tt/=read-only=')"
-msgstr ""
+msgstr " "
 
 msgid "LINK_javascript:go_year('Dossiers/tt')"
 msgstr "Modify special examination condition"
 
 msgid "HELP_javascript:go_year('Dossiers/tt')"
-msgstr ""
+msgstr " "
 
 msgid "LINK_//stats.html"
 msgstr "TOMUSS Statistics"

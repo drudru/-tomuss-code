@@ -3749,7 +3749,7 @@ msgid "LINK_orphan_students"
 msgstr "Enlever le référent d'étudiants"
 
 msgid "HELP_orphan_students"
-msgstr ""
+msgstr " "
 
 msgid "LINK_referents_update"
 msgstr "Faire l'affectation des référents pédagogiques"
@@ -3773,7 +3773,7 @@ msgid "LINK_referents_update_safe_R"
 msgstr "Afficher les étudiants qui vont être enlevés aux référents pédagogiques"
 
 msgid "HELP_referents_update_safe_R"
-msgstr ""
+msgstr " "
 
 msgid "TITLE_reload_plugins"
 msgstr "Rechargement des plugins"

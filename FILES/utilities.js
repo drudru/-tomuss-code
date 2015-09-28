@@ -28,9 +28,9 @@ function __(txt)
   var t ;
   for(var i in languages)
     {
-	t = translations[languages[i]][txt] ;
-	if ( t )
-	    return t ;
+	t = translations[languages[i]] ;
+	if ( t && t[txt] )
+	    return t[txt] ;
     }
   if ( translations['fr'] && translations['fr'][txt] )
     return translations['fr'][txt] ;
