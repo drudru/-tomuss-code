@@ -480,7 +480,7 @@ function DisplayUE(node)
   var s = DisplayVertical(node) ;
   for(var data_col in columns)
     if ( columns[data_col].freezed == "C"
-	 && line[data_col].value.indexOf('non') != -1 )
+	 && line[data_col].value.match(/\bnon\b/) )
       {
 	s = '<div class="nonInscrit">'
 	  + _("WARN_unregistered_student") + '<br><br>' + s + '</div>' ;
