@@ -839,6 +839,8 @@ function display_ues(title, tip, codes, options)
 	     + (options.before_title || '')
 	     + (tip ? hidden_txt(_(title), tip) : _(title))
 	     ) ;
+      if ( display_data['HomePreferences']['debug_home'] )
+	s.push('<small>' + display_ues.nb++ + '</small>') ;
       if ( options.title_second_line )
 	s.push("<br>" + options.title_second_line) ;
       if ( ! options.hide_open_close )
@@ -1048,6 +1050,7 @@ function display_ues(title, tip, codes, options)
   s.push("</div>") ;
   return s.join('') ;
 }
+display_ues.nb = 0 ;
 
 // Merge all information from Favorites, Bookmark and MasterOf
 // into 'all_ues' and create the lists to display.
@@ -1143,7 +1146,7 @@ function create_ue_lists()
 function storageEventHandler(e)
 {
   create_ue_lists.done = false ;
-  update_job.todo.push('HomeUEUnsaved') ;
+  update_job.todo['HomeUEUnsaved'] = true ;
   periodic_work_add(update_job)
 }
 
@@ -1287,8 +1290,13 @@ function update_block_content(name)
 
 function update_job()
 {
-  update_block_content(update_job.todo.pop()) ;
-  return update_job.todo.length ;
+  for(var block in update_job.todo)
+    {
+      update_block_content(block) ;
+      delete update_job.todo[block] ;
+      return true ;
+    }
+  return false ;
 }
 update_job.todo = [] ;
 
@@ -1302,7 +1310,7 @@ function search_ue_change(t)
     search_ue_list(t.value) ;
 
   for(var i in display_definition['HomeUE'].children)
-    update_job.todo.push(display_definition['HomeUE'].children[i].name) ;
+    update_job.todo[display_definition['HomeUE'].children[i].name] = true ;
   periodic_work_add(update_job)
 }
 search_ue_change.last_value = get_option('ue', '') ;
@@ -1563,9 +1571,9 @@ function full_login_list(login, results, add)
     full_login_list.style.display = "none" ;
 
   if ( add == 'student' )
-    update_job.todo.push('HomeStudentStudents') ;
+    update_job.todo['HomeStudentStudents'] = true ;
   else
-    update_job.todo.push('HomeStudentTeachers') ;
+    update_job.todo['HomeStudentTeachers'] = true ;
   periodic_work_add(update_job) ;
 }
 full_login_list.cache = {} ;
@@ -1598,10 +1606,10 @@ function search_student_change(t)
 	  setTimeout(function() { update_students_real(t) ; }, 1000) ;
 	}
     }
-  update_job.todo.push('HomeStudentStudents') ;
-  update_job.todo.push('HomeStudentTeachers') ;
-  update_job.todo.push('HomeStudentFavorites') ;
-  update_job.todo.push('HomeStudentRefered') ;
+  update_job.todo['HomeStudentStudents' ] = true ;
+  update_job.todo['HomeStudentTeachers' ] = true ;
+  update_job.todo['HomeStudentFavorites'] = true ;
+  update_job.todo['HomeStudentRefered'  ] = true ;
   periodic_work_add(update_job) ;
 }
 
