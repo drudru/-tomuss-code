@@ -4343,6 +4343,7 @@ function html_begin_head(hide_title, pb, more)
       'year = "' + year + '" ;\n' +
       'semester = "' + semester + '" ;\n' +
       'ticket = "' + ticket + '" ;\n' +
+      'upload_max = "' + upload_max + '" ;\n' +
       'ue = "VIRTUALUE" ;\n' +
       'real_ue = "' + ue + '" ;\n' +
       'root = [];\n' +
