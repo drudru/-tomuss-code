@@ -82,7 +82,9 @@ def get_student_info(logins):
                                         configuration.attr_surname,
                                         configuration.attr_mail,
                                     ))
-    for login in set(logins) - set(x[0] for x in fav):
+    for login in set(utilities.the_login(login)
+                     for login in logins
+                    ) - set(x[0] for x in fav):
         fav.append([login, "?", "?", "?"])
     tt = document.table(utilities.university_year(), 'Dossiers', 'tt')
     tt = tt.the_current_tt(tt)
