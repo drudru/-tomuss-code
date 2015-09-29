@@ -683,10 +683,9 @@ function code_clean_up(code)
 
 function code_create(year_semester_ue)
 {
-  var code = year_semester_ue.join('/') ;
   if ( ! year_semester_ue[3] )
-    year_semester_ue.push(code) ;
-  return code ;
+    year_semester_ue.push(year_semester_ue.join('/')) ;
+  return year_semester_ue[3] ;
 }
 
 function ue_set_favorite(event, code, nr)
