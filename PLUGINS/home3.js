@@ -960,6 +960,7 @@ function display_ues(title, tip, codes, options)
 		   : _("B_home_bookmark"))
 	+ ' ' + ( display_student_icon && suivi[year_semester()]
 		  ? fast_tip('<img src="' + suivi[year_semester()]
+			     + '/=' + ticket
 			     + '/_' + ue[0] + '">',
 			     _("TIP_home_squares"))
 		  : '')
@@ -1312,7 +1313,7 @@ function DisplayHomeUE(node)
 		       {default_order: 'A', hide_open_close: true})
 	  ] ;
   s[0] = s[0].substr(0, s[0].length - 6) ; // Remove last </div>
-  s.push('<div class="search_box"><input onkeyup="search_ue_change(this)" value="' + encode_value(search_ue_change.last_value) + '"></div></div>') ;
+  s.push('<div class="search_box"><input onkeyup="search_ue_change(this)" onpaste="t=this;setTimeout(function(){search_ue_change(t);},100)" value="' + encode_value(search_ue_change.last_value) + '"></div></div>') ;
   s.push('<div id="ue_search_result" class="ue_list">') ;
   if ( search_ue_change.last_value )
     s.push(search_ue_list(search_ue_change.last_value)) ;
@@ -1646,7 +1647,7 @@ function DisplayHomeStudents(node)
    default_order: "surname+firstname"})
 	   ] ;
   s[0] = s[0].substr(0, s[0].length - 6) ; // Remove last </div>
-  s.push('<div class="search_box"><input id="students_list" onkeyup="search_student_change(this)" value="'
+  s.push('<div class="search_box"><input id="students_list" onkeyup="search_student_change(this)" onpaste="t=this;setTimeout(function(){search_student_change(t);},100)" value="'
 	 + encode_value(ask_login_list && ask_login_list.toLowerCase() || '')
 	 + '"><div style="display:none">' + _("MSG_home_searching")
 	 + '</div></div></div>') ;
