@@ -158,7 +158,12 @@ function first_university_year_semester()
 function url_ue_last(code)
 {
   if ( code.indexOf('/') == -1 )
-    code = year_semester() +'/'+ (code.indexOf('-') == -1 ? 'UE-' : '') + code ;
+    {
+      if ( all_ues[code].login === undefined || code.indexOf("-") != -1 )
+	code = year_semester() + '/' + code ;
+      else
+	code = year_semester() +'/UE-' + code ;
+    }
   else
     code = code_clean_up(code) ;
   return code ;
@@ -1006,7 +1011,7 @@ function display_ues(title, tip, codes, options)
 	     + ')" ondblclick="goto_url(' + js2(url_ue(ue)) + ')">'
 	     + '<div class="ue_right"><div class="ue_title">'
 	     + (info.nr_students_ue ? '<b>' : '')
-	     + string_highlight(html(info.intitule || '????????????????????'),
+	     + string_highlight(html(info.intitule || ''),
 				search_ue_list.txt)
 	     + (info.credit > 0 ? ' <span class="ue_credits">'
 		+ info.credit + ' ' + _("MSG_home_credit") + '</span>' : '')
