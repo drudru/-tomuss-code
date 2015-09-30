@@ -1084,6 +1084,8 @@ function create_ue_lists()
   create_ue_lists.max = 0 ;
   for(var code in display_data['HomeUEFavorites'])
   {
+    if ( code == 'undefined' )
+      continue ;
     var nr = display_data['HomeUEFavorites'][code] ;
     create_ue_lists.acceded_list.push(code) ;
     if ( nr >= 1000000 )
@@ -1112,15 +1114,17 @@ function create_ue_lists()
     var ue = all_ues[code] = get_info(code) ;
     ue.intitule = year_semester_ue[2] ;
     list.push(code) ;
-    return ue ;    
+    return ue ;
   }
   
   for(var i in display_data['HomeUEBookmarked'])
     add_to(display_data['HomeUEBookmarked'][i],
 	   create_ue_lists.master_of_list).is_bookmarked = true ;
+
   for(var i in display_data['HomeUEMasterOf'])
     add_to(display_data['HomeUEMasterOf'][i],
 	   create_ue_lists.master_of_list).is_master_of = true ;
+
   create_ue_lists.ues_teacher = [] ;
   for(var ue in create_ue_lists.all_ues)
   {
@@ -1600,7 +1604,7 @@ function search_student_change(t)
   ask_login_list = replaceDiacritics(t.value.trim()).toUpperCase() ;
   set_option('student', ask_login_list) ;
   if ( t.value.trim().length >= 2
-       && full_login_list.cache[ask_login_list] == undefined
+       && full_login_list.cache[ask_login_list] === undefined
        )
     {
       if ( t.parentNode.lastChild.style )
