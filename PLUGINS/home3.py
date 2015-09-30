@@ -37,7 +37,7 @@ files.add('PLUGINS', 'home3.js')
 
 @utilities.add_a_cache0
 def HomeSemesters():
-    return configuration.suivi.urls_sorted() ;
+    return configuration.suivi.urls_sorted()
 
 def HomePreferences(server):
     return document.get_preferences(server.ticket.user_name, True,

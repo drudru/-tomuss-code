@@ -1673,7 +1673,7 @@ function do_action(action, html_class, help)
     if (! confirm(help + '\n\n' + _("ALERT_are_you_sure2")) )
       return ;
   if ( action.substr(0,1) == '/' )
-    goto_url(base(action.substr(1))) ;
+    goto_url(url + action) ;
   else
     goto_url(base(action)) ;
 }
