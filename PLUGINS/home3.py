@@ -97,10 +97,12 @@ def get_student_info(logins):
     return fav
 
 def HomeStudentFavorites(server):
-    fav = ast.literal_eval(
-        utilities.manage_key('LOGINS',
-                             os.path.join(server.ticket.user_name, 'favstu')))
-    return get_student_info(fav)
+    fav = utilities.manage_key('LOGINS',
+                               os.path.join(server.ticket.user_name, 'favstu'))
+    if fav:
+        fav = ast.literal_eval(fav)
+        return get_student_info(fav)
+    return ()
 
 def HomeStudentRefered(server):
     fav = referent.students_of_a_teacher(server.ticket.user_name)
