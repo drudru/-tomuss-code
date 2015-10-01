@@ -805,7 +805,10 @@ function select_open_close(t, event)
 	t.removeChild(t.childNodes[1]) ;
     }
   else
-    display_update_real() ;
+    {
+      update_job.todo[get_ue_table(t).parentNode.id] = true ;
+      periodic_work_add(update_job) ;
+    }
   stop_event(event) ;
 }
 
@@ -1171,7 +1174,7 @@ function storageEventHandler(e)
 {
   create_ue_lists.done = false ;
   update_job.todo['HomeUEUnsaved'] = true ;
-  periodic_work_add(update_job)
+  periodic_work_add(update_job) ;
 }
 
 function DisplayHomeUEUnsaved(node)
