@@ -848,6 +848,8 @@ function display_ues(title, tip, codes, options)
   var order = get_option('S' + title, options.default_order) ;
   var opened = get_option('B' + title, '⇧') == '⇧' ;
   var s = ['<div class="ue_list">'] ;
+  if ( options.hide_open_close )
+    opened = true ;
   if ( ! options.hide_title )
     {
       s.push('<div class="table_title" alt='
