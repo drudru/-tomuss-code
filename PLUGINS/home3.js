@@ -159,10 +159,17 @@ function url_ue_last(code)
 {
   if ( code.indexOf('/') == -1 )
     {
-      if ( all_ues[code].login === undefined || code.indexOf("-") != -1 )
-	code = year_semester() + '/' + code ;
-      else
-	code = year_semester() +'/UE-' + code ;
+      try
+	{
+	  if ( all_ues[code].login === undefined || code.indexOf("-") != -1 )
+	    code = year_semester() + '/' + code ;
+	  else
+	    code = year_semester() +'/UE-' + code ;
+	}
+      catch(e)
+	{
+	  code = year_semester() + '/' + code ;
+	}
     }
   else
     code = code_clean_up(code) ;
@@ -464,7 +471,7 @@ function change_text_size(t)
 
 function DisplayHomePreferencesSize(node)
 {
-  return radio_buttons('preferences.text_size', ['70%', '100%', '150%'],
+  return radio_buttons('preferences.text_size', ['70%', '100%', '150%', '200%'],
 	               preferences.text_size,
                        "change_text_size(this)")
     + _("MSG_text_size") ;
