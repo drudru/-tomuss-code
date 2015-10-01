@@ -48,9 +48,17 @@ function parse_options(value)
   return parsed ;
 }
 
+function get_hash()
+{
+  var h = location.href.split("#")[1] || "" ;
+  try { h = decodeURIComponent(h) ; }
+  catch(e) {}
+  return parse_options(h) ;
+}
+
 function get_option(name, default_value)
 {
-  return parse_options(window.location.hash.substr(1))[name]
+  return get_hash()[name]
     || (localStorage && parse_options(localStorage['homepage'])[name])
     || default_value ; 
 }
@@ -65,9 +73,9 @@ function options_string(options)
 
 function set_option(name, value, only_session)
 {
-  var h = parse_options(window.location.hash.substr(1)) ;
+  var h = get_hash() ;
   h[name] = value ;
-  window.location.hash = options_string(h) ;
+  window.location.hash = encodeURIComponent(options_string(h)) ;
 
   if ( localStorage && !only_session )
     {
