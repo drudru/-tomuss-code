@@ -806,8 +806,13 @@ function select_open_close(t, event)
     }
   else
     {
-      update_job.todo[get_ue_table(t).parentNode.id] = true ;
-      periodic_work_add(update_job) ;
+      if ( get_ue_table(t).parentNode.id )
+	{
+	  update_job.todo[get_ue_table(t).parentNode.id] = true ;
+	  periodic_work_add(update_job) ;
+	}
+      else
+	display_update_real() ;
     }
   stop_event(event) ;
 }
