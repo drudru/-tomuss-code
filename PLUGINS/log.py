@@ -73,7 +73,7 @@ def gui_record(server):
                          + data + ')\n', append=True)
 
 plugin.Plugin('gui_record', '/gui_record',
-              function = gui_record,
+              function = gui_record, no_output = True,
               group='staff', upload_max_size = 100000,
               launch_thread=True,
               )

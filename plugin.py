@@ -158,6 +158,7 @@ class Plugin(object):
                  unsafe=True,
                  # server.uploaded will contain the data
                  upload_max_size = 0,
+                 no_output = False, # The plugin writes an answer to browser
                  # Following parameters are deprecated, use group=groupname
                  teacher=None, referent=None, administrative=None,
                  abj_master=None, referent_master=None, root=None,
@@ -201,6 +202,7 @@ class Plugin(object):
         self.priority        = priority
         self.group           = group
         self.unsafe          = unsafe
+        self.no_output       = no_output
         if upload_max_size and not launch_thread:
             raise ValueError("Uploads must be in a thread")
         if upload_max_size and 'html' not in mimetype:
@@ -443,10 +445,13 @@ def execute(server, plugin):
     if plugin.launch_thread:
         try:
             if plugin.mimetype and plugin.upload_max_size:
-                # XXX Why timeout on wait ?
-                server.restore_connection(wait=False)
+                server.restore_connection()
                 server.uploaded = server.get_posted_data(plugin.upload_max_size)
-                plugin.send_response(server)
+                try:
+                    plugin.send_response(server)
+                except AttributeError:
+                    if not plugin.no_output:
+                        raise
             plugin.function(server)
         except:
             utilities.send_backtrace('Path = ' + str(server.the_path) + '\n' +
