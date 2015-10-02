@@ -1271,7 +1271,7 @@ function DisplayLinksTable(node)
   t.push('</tr></table>') ;
   return t.join('') ;
 }
-DisplayLinksTable.need_node = [] ;
+DisplayLinksTable.need_node = ['Preferences'] ;
 
 function DisplayTT(node)
 {
