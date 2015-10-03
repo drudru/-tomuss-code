@@ -45,17 +45,17 @@ def send_headers(server, css_file, js_file, init_function, more_js=""):
     server.the_file.write(
         '<noscript><h1>'+server._('MSG_need_javascript')+'</h1></noscript>\n'
         + "<script>"
-        + "var ticket   = %s;\n" % utilities.js(server.ticket.ticket    )
-        + "var username = %s;\n" % utilities.js(server.ticket.user_name )
-        + "var admin    = %s;\n" % utilities.js(configuration.maintainer)
-        + "var url = %s;\n" % utilities.js(configuration.server_url)
-        + "var url_suivi = %s;\n" % utilities.js(utilities.StaticFile._url_)
-        + "var url_files = %s ;\n" % utilities.js(configuration.url_files)
-        + "var root = %s ;\n" % utilities.js(list(configuration.root))
-        + "var maintainer = %s;\n" % utilities.js(configuration.maintainer)
-        + "var semester = %s;\n" % utilities.js(configuration.year_semester[1])
+        + "var ticket=%s;\n" % utilities.js(server.ticket.ticket    )
+        + "var username=%s;\n" % utilities.js(server.ticket.user_name )
+        + "var admin=%s;\n" % utilities.js(configuration.maintainer)
+        + "var url=%s;\n" % utilities.js(configuration.server_url)
+        + "var url_suivi=%s;\n" % utilities.js(utilities.StaticFile._url_)
+        + "var url_files=%s ;\n" % utilities.js(configuration.url_files)
+        + "var root=%s ;\n" % utilities.js(list(configuration.root))
+        + "var maintainer=%s;\n" % utilities.js(configuration.maintainer)
+        + "var semester=%s;\n" % utilities.js(configuration.year_semester[1])
         + 'var tomuss_version="%s";\n' % configuration.version
-        + 'var bilan_des_notes = %s ; \n' % utilities.js(
+        + 'var bilan_des_notes= %s ; \n' % utilities.js(
             configuration.bilan_des_notes)
         + more_js
         + """
