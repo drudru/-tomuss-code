@@ -1201,7 +1201,7 @@ function DisplayHomeUEUnsaved(node)
 			  default_order: "A"}),
 	  [], [], 'id="HomeUEUnsaved"'] ;
 }
-DisplayHomeUEUnsaved.need_node = [] ;
+DisplayHomeUEUnsaved.need_node = ['HomePreferences'] ;
 
 
 function DisplayHomeUEFavorites(node)
@@ -1216,7 +1216,8 @@ function DisplayHomeUEFavorites(node)
 	  [], [], 'id="HomeUEFavorites"'] ;
 }
 DisplayHomeUEFavorites.need_node = ['HomeUEBookmarked' ,'HomeUEFavorites',
-				    'HomeUEMasterOf', 'HomeSemesters'] ;
+				    'HomeUEMasterOf', 'HomeSemesters',
+				    'HomePreferences'] ;
 
 function DisplayHomeUEAcceded(node)
 {
@@ -1365,7 +1366,7 @@ function DisplayHomeUE(node)
     s.push(display_display(children[i])) ;
   return s.join('') ;
 }
-DisplayHomeUE.need_node = [] ;
+DisplayHomeUE.need_node = ['HomePreferences'] ;
 
 function university_year()
 {
@@ -1698,7 +1699,7 @@ function DisplayHomeStudents(node)
     s.push(display_display(children[i])) ;
   return s.join('') ;
 }
-DisplayHomeStudents.need_node = [] ;
+DisplayHomeStudents.need_node = ['HomePreferences'] ;
 
 
 function do_action(action, html_class, help)

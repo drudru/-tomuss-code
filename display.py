@@ -131,7 +131,7 @@ def data_to_display(server, top):
                     utilities.send_backtrace('', 'Display: ' + display.name)
                     continue
                 tt = time.time()
-                display.time = (4*display.time + (tt - t)) / 5
+                display.time = max(display.time, tt - t)
                 profiling[display.name] = int(display.time*1000000)
                 t = tt
                 if t - start > 0.02:
