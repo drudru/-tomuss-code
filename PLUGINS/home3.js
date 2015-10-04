@@ -1107,8 +1107,16 @@ function create_ue_lists()
     }
 
   create_ue_lists.max = 0 ;
+  var ue_first = [] ;
   for(var code in display_data['HomeUEFavorites'])
+    if ( code.substr(0,3) == 'UE-' )
+      ue_first.push(code) ;
+  for(var code in display_data['HomeUEFavorites'])
+    if ( code.substr(0,3) != 'UE-' )
+      ue_first.push(code) ;
+  for(var code in ue_first)
   {
+    code = ue_first[code] ;
     if ( code == 'undefined' )
       continue ;
     var nr = display_data['HomeUEFavorites'][code] ;
