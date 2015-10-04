@@ -1031,50 +1031,56 @@ function display_ues(title, tip, codes, options)
 	       + '</div></div>'
 	       ) ;
       }
-    else	
-      s.push('<div class="ue_line" onclick="open_ue(this,' + js2(ue)
-	     + ')" ondblclick="goto_url(' + js2(url_ue(ue)) + ')">'
-	     + '<div class="ue_right"><div class="ue_title">'
-	     + (info.nr_students_ue ? '<b>' : '')
-	     + string_highlight(html(info.intitule || ''),
-				search_ue_list.txt)
-	     + (info.credit > 0 ? ' <span class="ue_credits">'
-		+ info.credit + ' ' + _("MSG_home_credit") + '</span>' : '')
-	     + (info.nr_students_ue ? '</b>' : '')
-	     + '</div><div class="ue_more">'
-	     + string_highlight(html(info.responsable
-				     ? info.responsable.join(', ')
-				     : ''), search_ue_list.txt) + ' '
-	     + (info.old_names
-		? fast_tip(string_highlight(html(info.old_names.join(' ')),
-					    search_ue_list.txt),
-			   _("MSG_home_old_codes"))
-		: '')
-	     + '</div></div><div class="ue_code">'
-	     + string_highlight(ue, search_ue_list.txt)
-	     + '</div><div class="ue_icons">'
-	     + fast_tip(favorite,
-			(Math.round(info.nr_access / 1000000)
-			 ? _("B_home_remove_bookmark")
-			 : _("B_home_bookmark"))
-			+ (info.nr_access
-			   ? '<br>' + _("MSG_home_nr_view_before")
-			   + (info.nr_access % 1000000)
-			   + _("MSG_home_nr_view_after")
-			   : '')
-			)
-	     + ' ' + (info.tt
-		      ? fast_tip('<tt class="icon">♿</tt>',
-				 info.tt + ' ' + _("MSG_print_tt_title"))
-		      : '')
-	     + ' ' + (info.nr_students_ue
-		      ? ' ' + fast_tip(info.nr_students_ue,
-				       info.nr_students_ue
-				       + ' ' + _("TH_home_students")
-				       )
-		      : '')
-	     + '</div></div>'
-	     ) ;
+    else
+      {
+	var code = ue ;
+	if ( code.match('/') )
+	  code = code.replace(RegExp("(/[^/]*)$"),
+			      '<span class="path_code">$1</span>') ;
+	s.push('<div class="ue_line" onclick="open_ue(this,' + js2(ue)
+	       + ')" ondblclick="goto_url(' + js2(url_ue(ue)) + ')">'
+	       + '<div class="ue_right"><div class="ue_title">'
+	       + (info.nr_students_ue ? '<b>' : '')
+	       + string_highlight(html(info.intitule || ''),
+				  search_ue_list.txt)
+	       + (info.credit > 0 ? ' <span class="ue_credits">'
+		  + info.credit + ' ' + _("MSG_home_credit") + '</span>' : '')
+	       + (info.nr_students_ue ? '</b>' : '')
+	       + '</div><div class="ue_more">'
+	       + string_highlight(html(info.responsable
+				       ? info.responsable.join(', ')
+				       : ''), search_ue_list.txt) + ' '
+	       + (info.old_names
+		  ? fast_tip(string_highlight(html(info.old_names.join(' ')),
+					      search_ue_list.txt),
+			     _("MSG_home_old_codes"))
+		  : '')
+	       + '</div></div><div class="ue_code">'
+	       + string_highlight(code, search_ue_list.txt)
+	       + '</div><div class="ue_icons">'
+	       + fast_tip(favorite,
+			  (Math.round(info.nr_access / 1000000)
+			   ? _("B_home_remove_bookmark")
+			   : _("B_home_bookmark"))
+			  + (info.nr_access
+			     ? '<br>' + _("MSG_home_nr_view_before")
+			     + (info.nr_access % 1000000)
+			     + _("MSG_home_nr_view_after")
+			     : '')
+			  )
+	       + ' ' + (info.tt
+			? fast_tip('<tt class="icon">♿</tt>',
+				   info.tt + ' ' + _("MSG_print_tt_title"))
+			: '')
+	       + ' ' + (info.nr_students_ue
+			? ' ' + fast_tip(info.nr_students_ue,
+					 info.nr_students_ue
+					 + ' ' + _("TH_home_students")
+					 )
+			: '')
+	       + '</div></div>'
+	       ) ;
+      }
     nr_displayed++ ;
   }
   s.push("</div>") ;

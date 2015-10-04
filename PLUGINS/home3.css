@@ -216,6 +216,8 @@ TT.icon {
     opacity: 0.3
 }
 
+.path_code { display: none }
+.ue_code:hover .path_code { display: inline }
 
 .ue_code, .ue_icons {
     overflow: hidden ;
