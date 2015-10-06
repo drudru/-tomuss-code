@@ -1215,8 +1215,9 @@ function DisplayHomeUEUnsaved(node)
 			  default_order: "A"}),
 	  [], [], 'id="HomeUEUnsaved"'] ;
 }
-DisplayHomeUEUnsaved.need_node = ['HomePreferences'] ;
-
+DisplayHomeUEUnsaved.need_node = ['HomeUEBookmarked' ,'HomeUEFavorites',
+				  'HomeUEMasterOf', 'HomeSemesters',
+				  'HomePreferences'] ;
 
 function DisplayHomeUEFavorites(node)
 {
@@ -1229,9 +1230,7 @@ function DisplayHomeUEFavorites(node)
 		      {default_order:'★'}),
 	  [], [], 'id="HomeUEFavorites"'] ;
 }
-DisplayHomeUEFavorites.need_node = ['HomeUEBookmarked' ,'HomeUEFavorites',
-				    'HomeUEMasterOf', 'HomeSemesters',
-				    'HomePreferences'] ;
+DisplayHomeUEFavorites.need_node = DisplayHomeUEUnsaved.need_node ;
 
 function DisplayHomeUEAcceded(node)
 {
