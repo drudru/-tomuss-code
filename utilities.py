@@ -324,11 +324,13 @@ def send_mail(to, subject, message, frome=None, show_to=False, reply_to=None,
         header += 'Error-To: ' + error_to + '\n'
         
     if message.startswith('<html>') or message.startswith('<!DOCTYPE html>') :
-        header += 'Content-Type: text/html; charset=UTF-8\n'
+        header += 'Content-Type: text/html; charset="utf-8"\n'
     else:
         if isinstance(message, unicode):
-            header += 'Content-Type: text/plain; charset=UTF-8\n'
+            header += 'Content-Type: text/plain; charset="utf-8"\n'
 
+    header += "Content-Transfer-Encoding: 8bit\n"
+    header += "MIME-Version: 1.0\n"
     if isinstance(message, unicode):
         message = message.encode('utf-8')
     
