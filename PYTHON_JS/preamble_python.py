@@ -78,6 +78,9 @@ def to_float_or_nan(txt):
     except:
         return nan
 
+def python_pop(array, i):
+    array.pop(i)
+
 try:
     from .. import configuration
     def major_of(login):

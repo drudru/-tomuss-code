@@ -24,6 +24,17 @@ from .. import configuration
 from .. import utilities
 from .. import files
 from .. import sender
+from ..PYTHON_JS import tomuss_python
+from ..PYTHON_JS import places
+
+class Room(object):
+    def __init__(self, key, line):
+        self.key     = key
+        self.name    = line[0].value
+        self.places  = line[1].value
+        self.url     = line[2].value
+        self.comment = line[3].value
+        self.Places  = places.Places(self.places)
 
 def create(table):
     if table.year != 0 or table.semester != 'Dossiers':
@@ -51,8 +62,16 @@ def create(table):
     table.table_attr(p, 'default_nr_columns', 4)
     table.table_attr(p, 'comment', _("COL_COMMENT_config_room"))
 
+def rooms_list(table):
+    return [Room(key, line)
+            for key, line in table.lines.items()
+            if line[0].value != ""
+        ]
+
 def init(table):
     table.do_not_unload_add('*config_room')
+    table.rooms_list = rooms_list
+
 
 def onload(table):
     make_json(table)

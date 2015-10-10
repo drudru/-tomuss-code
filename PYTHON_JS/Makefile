@@ -4,7 +4,7 @@
 
 all:regtest_python tomuss_python.js tomuss_python_O.js regtest_js regtest_js_O stats
 
-OBJS = filter.py average.py maximum.py nmbr.py cow.py diff_date.py weighted_percent.py product.py
+OBJS = filter.py average.py maximum.py nmbr.py cow.py diff_date.py weighted_percent.py product.py places.py
 OBJS_JS = preamble.py preamble_js.py $(OBJS)
 OBJS_PYTHON = preamble.py preamble_python.py $(OBJS)
 REGTEST = regtest.py *_regtest.py
@@ -20,7 +20,9 @@ if [ -f RapydScript/bin/rapydscript ] ; \
 then \
 echo "Python translation to JavaScript:" $(OBJS_JS) $$2 $$1 ; \
 (  \
-sed -e "s/$$1/'''/" $(OBJS_JS) $(LOCAL) $$2 | tee xxx.debug | \
+sed -e "s/$$1/'''/" $(OBJS_JS) $(LOCAL) $$2 | \
+sed 's/yield/YIELD/' | \
+tee xxx.debug | \
 $(PYJS) \
 ) >$@ ; \
 else \
@@ -43,7 +45,7 @@ translator:
 	then \
         git clone git://github.com/atsepkov/RapydScript.git ; \
 	cd RapydScript ; \
-	git checkout d2897bc844bdc5c15c051eb4c9cb68ece982f2c0 ; \
+	git checkout e2c8b247a5b1a1024a8e7adae188b7bb78a77ede ; \
 	fi
 
 tomuss_python.py:$(OBJS_PYTHON) $(LOCAL) Makefile

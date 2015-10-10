@@ -78,12 +78,21 @@ try:
 except:
     String.prototype.lower = String.prototype.toLowerCase
 
+o = Object
+
 try:
     [].append(0)
 except:
-    o = Object
     o.defineProperty(Array.prototype, 'append' ,
-                          {'enumerable': False,'value': Array.prototype.push}) ;
+                     {'enumerable': False,'value': Array.prototype.push}) ;
+
+try:
+    [].insert(0, 0, 0)
+except:
+    def _array_insert_(index, data):
+        this.splice(index, 0, data)
+    o.defineProperty(Array.prototype, 'insert' ,
+                     {'enumerable': False,'value': _array_insert_}) ;
 
 try:
     {}.get("p", "m")
@@ -92,9 +101,11 @@ except:
         if this[key] is undefined:
             return defaultv
         return this[key]
-    o = Object
     o.defineProperty(Object.prototype, 'get' ,
-                          {'enumerable': false, 'value': __getter__}) ;
+                     {'enumerable': false, 'value': __getter__}) ;
+
+def python_pop(array, i):
+    array.splice(i, 1)
 
 def replace_all(txt, regexp, value):
     return txt.replace(RegExp(regexp, "g"), value)

@@ -37,109 +37,6 @@ function caution_message(no_float)
 
 /****************************************************************************/
 
-function Places(text)
-{
-  this.text = text ;
-  this.intervals = [] ; // first and last value are included
-  this.parse(text) ;
-  if ( this.intervals.length )
-    this.length = this.intervals[this.intervals.length-1][1].toString().length;
-  this.nr_places = 0 ;
-  for(var i in this.intervals)
-    this.nr_places += this.intervals[i][1] - this.intervals[i][0] + 1 ;
-  this.init() ;
-}
-
-Places.prototype.init = function(text) {
-  this.interval_number = 0 ;
-  this.last_number = this.intervals[0] ? this.intervals[0][0] - 1 : 0 ;
-} ;
-
-Places.prototype.next = function(padding) {
-  var from_to = this.intervals[this.interval_number] ;
-  if ( ! from_to )
-    return ;
-  if ( this.last_number === from_to[1] )
-    {
-      this.interval_number++ ;
-      if ( this.intervals[this.interval_number] )
-	this.last_number = this.intervals[this.interval_number][0] ;
-      else
-	return ;
-    }
-  else
-    this.last_number++ ;
-
-  n = this.last_number.toString() ;
-
-  if ( padding !== '' )
-  {
-    while ( n.length < this.length )
-      n = padding + n ;
-  }
-  return n ;
-} ;
-
-Places.prototype.parse = function(text) {
-  var from, to ;
-
-  text = text.split(/ +/) ;
-  for(var i in text)
-    {
-      var range = text[i].split(/-+/) ;
-      if ( range.length == 2 && range[0].length != 0 )
-	{
-	  from = Number(range[0]) ;
-	  to = Number(range[1]) ;
-	}
-      else
-	{
-	  if ( text[i] === '' )
-	    continue ;
-	  from = Number(text[i]) ;
-	  if ( from < 0 )
-	    {
-	      from = -from ;
-	      for(var j in this.intervals)
-		{
-		  if ( this.intervals[j][0] > from ) // before interval
-		    continue ;
-		  if ( this.intervals[j][1] < from ) // after interval
-		    continue ;
-		  if ( this.intervals[j][0] == from )
-		    this.intervals[j][0]++ ; // 1-10 -1
-		  else if ( this.intervals[j][1] == from )
-		    this.intervals[j][1]-- ; // 1-10 -10
-		  else if ( this.intervals[j][1] > i ) // in interval
-		  {
-		    this.intervals.splice(Number(j)+1, 0,
-					  [from+1, this.intervals[j][1]]) ;
-		    this.intervals[j][1] = from - 1 ;
-		  }
-		  break ;
-		}
-	      continue ;
-	    }
-	  to = from ;
-	}
-      
-      if ( isNaN(from) || isNaN(to) )
-	continue ;
-      if ( from > to )
-	continue ;
-      for(var j=0; j < this.intervals.length; j++)
-	if ( this.intervals[j][1] > from )
-	  break ;
-      this.intervals.splice(j, 0, [from, to]) ;
-    }
-} ;
-if ( new Places("31-35 11-15 21-25 -21 -25 -23 -11 -35  9 19 29 39"
-	       ).intervals.toString()
-     != "9,9,12,15,19,19,22,22,24,24,29,29,31,34,39,39" )
-  alert("BUG") ;
-
-/****************************************************************************/
-
 function Room(infos)
 {
   this.id      = Room.id++ ;
@@ -158,7 +55,7 @@ Room.prototype.clear = function()
   this.nr_used = 0 ;         // Number of places yet used
   this.number_used = {} ;    // Indexed by the place number
   this.nr_will_be_used = 0 ; // Will be used be the filling
-  this.places.init() ;       // Goto before the first place
+  this.places.iter_start('') ;       // Goto before the first place
 } ;
 
 function remove_leading_0_and_space(txt)
@@ -783,7 +680,7 @@ Filler.prototype.update_html = function() {
 	  var place ;
 	  do
 	    {
-	      place = room.places.next([' ', '0', ''][this.toggles.pad0]) ;
+	      place = room.places.iter_next([' ', '0', ''][this.toggles.pad0]);
 	      if ( place === undefined )
 		break ;
 	    }
