@@ -57,10 +57,14 @@ def create(table):
 
 def translate_tt(tt_value):
     """Translate some TT values to more informative values"""
-    if tt_value.strip() == '1' or tt_value.lower() == 'o':
+    if (tt_value.strip() == '1'
+        or tt_value.upper() == utilities._('yes')[0]
+        or tt_value.upper() == utilities._('yes')
+        ):
         return '1/3'
-    else:
-        return tt_value
+    if tt_value.upper() == utilities._('no')[0]:
+        return utilities._('no')
+    return tt_value
 
 class SpecialExaminationCondition(object):
     begin = ""
