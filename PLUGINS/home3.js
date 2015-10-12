@@ -714,27 +714,28 @@ function ue_set_favorite(event, code, nr)
   var t = event.target ;
   var img = document.createElement('IMG') ;
   var bookmarked = get_info(code).is_bookmarked ;
+  var code_ue = code_clean_up(code) ;
   if ( bookmarked )
-    img.src = base(code_clean_up(code)) + '/bookmark' ;
-  else
-    img.src = base('set_page/') + code_clean_up(code) + '/' + nr ;
-
+    code_ue = bookmarked ;
+  else if ( code_ue.indexOf('/') == -1 )
+    code_ue = year_semester() + '/' + code_ue ;
+  img.src = base(code_ue + '/bookmark') ;
   t.appendChild(img) ;
 
   if ( bookmarked )
   {
     get_info(code).is_bookmarked = false ;
     for(var i in display_data['HomeUEBookmarked'])
-      if ( display_data['HomeUEBookmarked'][i][3] == code )
+      if ( display_data['HomeUEBookmarked'][i][3] == bookmarked )
 	{
 	  display_data['HomeUEBookmarked'].splice(i, 1) ;
 	  break ;
 	}
   }
   else
-  {
-    display_data['HomeUEFavorites'][code] = get_info(code).nr_access = nr ;
-  }
+    {
+      display_data['HomeUEBookmarked'].push(code_ue.split('/')) ;
+    }
   create_ue_lists.done = false ;
   create_ue_lists() ;
   setTimeout(display_update_real, 1000) ;
@@ -828,13 +829,10 @@ var ue_sorters = {
   '☆': function(a,b) {
     a = get_info(a).nr_access || 0 ;
     b = get_info(b).nr_access || 0 ;
-    return b % 1000000 - a % 1000000 ;
+    return b - a ;
   },
   '★': function(a,b) {
-    a = get_info(a).nr_access || 0 ;
-    b = get_info(b).nr_access || 0 ;
-    return Math.round(b / 1000000)
-      - Math.round(a / 1000000) ;
+    return !get_info(a).is_bookmarked - !get_info(b).is_bookmarked ;
   },
   '#': function(a,b) {
     a = get_info(a).nr_students_ue || 0 ;
@@ -953,22 +951,15 @@ function display_ues(title, tip, codes, options)
 	if ( current && code_clean_up(ue).substr(0, current.length) != current)
 	  continue ;
 	info = get_info(ue) ;
-	if ( Math.round(info.nr_access / 1000000) || info.is_bookmarked
-	   )
-	{
+	if ( info.is_bookmarked )
 	  favorite = '★' ;
-	  new_nr = info.nr_access % 1000000 ;
-	}
 	else
-	{
 	  favorite = '☆' ;
-	  new_nr = (info.nr_access || 0) + 1000000
-	    + 1000000 * create_ue_lists.max ;
-	}
-	favorite = '<tt onclick="ue_set_favorite(event,' + js2(ue) + ','
-	  + new_nr + ')" class="icon">' + favorite + '</tt>' ;
-	if ( info.is_master_of )
-	  favorite = '' ;
+	if ( info.is_master_of && favorite == '☆' )
+	  favorite = '' ; // ♚
+	else
+	  favorite = '<tt onclick="ue_set_favorite(event,' + js2(ue)
+	    + ')" class="icon">' + favorite + '</tt>' ;
       }
     if ( options.students )
       s.push(
@@ -1059,12 +1050,12 @@ function display_ues(title, tip, codes, options)
 	       + string_highlight(code, search_ue_list.txt)
 	       + '</div><div class="ue_icons">'
 	       + fast_tip(favorite,
-			  (Math.round(info.nr_access / 1000000)
+			  (info.is_bookmarked
 			   ? _("B_home_remove_bookmark")
 			   : _("B_home_bookmark"))
 			  + (info.nr_access
 			     ? '<br>' + _("MSG_home_nr_view_before")
-			     + (info.nr_access % 1000000)
+			     + info.nr_access
 			     + _("MSG_home_nr_view_after")
 			     : '')
 			  )
@@ -1090,6 +1081,7 @@ display_ues.nb = 0 ;
 
 // Merge all information from Favorites, Bookmark and MasterOf
 // into 'all_ues' and create the lists to display.
+// create_ue_lists.all_ues[ue] contains the original UE list
 function create_ue_lists()
 {
   if ( create_ue_lists.done
@@ -1112,22 +1104,37 @@ function create_ue_lists()
 	create_ue_lists.all_ues[ue] = all_ues[ue] ;
     }
 
-  create_ue_lists.max = 0 ;
   var ue_first = [] ;
-  for(var code in display_data['HomeUEFavorites'])
+  for(var code in display_data['HomeUENrAccess'])
     if ( code.substr(0,3) == 'UE-' )
       ue_first.push(code) ;
-  for(var code in display_data['HomeUEFavorites'])
+  for(var code in display_data['HomeUENrAccess'])
     if ( code.substr(0,3) != 'UE-' )
       ue_first.push(code) ;
+  var is_bookmarked = {} ;
+  for(var code in display_data['HomeUEBookmarked'])
+    {
+      code = display_data['HomeUEBookmarked'][code][2] ;
+      is_bookmarked[code] = true ;
+      // Allow to see never visited table in favorites:
+      if ( ! display_data['HomeUENrAccess'][code]
+	   && ! display_data['HomeUENrAccess'][code.replace(/^UE-/, "")]
+	   && get_info(code).intitule
+	   )
+	create_ue_lists.favorite_list.push(code) ;
+    }
+	
   for(var code in ue_first)
   {
     code = ue_first[code] ;
     if ( code == 'undefined' )
       continue ;
-    var nr = display_data['HomeUEFavorites'][code] ;
+    var nr = display_data['HomeUENrAccess'][code] ;
     create_ue_lists.acceded_list.push(code) ;
-    if ( nr >= 1000000 )
+    if ( is_bookmarked[code]
+	 && (create_ue_lists.all_ues[code]
+	     || create_ue_lists.all_ues[code.replace(/^UE-/, "")]
+	     ))
       create_ue_lists.favorite_list.push(code) ;
     create_ue_lists.max = Math.max(create_ue_lists.max, nr) ;
 
@@ -1139,7 +1146,7 @@ function create_ue_lists()
 	all_ues[code].nr_access += nr ;
       }
   }
-  create_ue_lists.max = Math.round(create_ue_lists.max / 1000000) ;
+  create_ue_lists.max = Math.round(create_ue_lists.max) ;
 
   function add_to(year_semester_ue, list, force_add)
   {
@@ -1157,12 +1164,20 @@ function create_ue_lists()
   }
   
   for(var i in display_data['HomeUEBookmarked'])
-    add_to(display_data['HomeUEBookmarked'][i],
-	   create_ue_lists.master_of_list).is_bookmarked = true ;
+    {
+      var year_semester_ue = display_data['HomeUEBookmarked'][i] ;
+      add_to(year_semester_ue, create_ue_lists.master_of_list) ;
+      get_info(year_semester_ue[3]).is_bookmarked = year_semester_ue[3] ;
+    }
 
   for(var i in display_data['HomeUEMasterOf'])
-    add_to(display_data['HomeUEMasterOf'][i],
-	   create_ue_lists.master_of_list).is_master_of = true ;
+    {
+      var ue = add_to(display_data['HomeUEMasterOf'][i],
+		      create_ue_lists.master_of_list) ;
+      ue.is_master_of = true ;
+      if ( ue.is_bookmarked )
+	create_ue_lists.master_of_list.pop() ;
+    }
 
   create_ue_lists.ues_teacher = [] ;
   for(var ue in create_ue_lists.all_ues)
@@ -1215,11 +1230,11 @@ function DisplayHomeUEUnsaved(node)
 			  default_order: "A"}),
 	  [], [], 'id="HomeUEUnsaved"'] ;
 }
-DisplayHomeUEUnsaved.need_node = ['HomeUEBookmarked' ,'HomeUEFavorites',
+DisplayHomeUEUnsaved.need_node = ['HomeUEBookmarked' ,'HomeUENrAccess',
 				  'HomeUEMasterOf', 'HomeSemesters',
 				  'HomePreferences'] ;
 
-function DisplayHomeUEFavorites(node)
+function DisplayHomeUENrAccess(node)
 {
   create_ue_lists() ;
   if ( create_ue_lists.favorite_list.length == 0 )
@@ -1228,9 +1243,9 @@ function DisplayHomeUEFavorites(node)
 		      _("TIP_home_bookmark_ue_before") + '★',
 		      create_ue_lists.favorite_list,
 		      {default_order:'★'}),
-	  [], [], 'id="HomeUEFavorites"'] ;
+	  [], [], 'id="HomeUENrAccess"'] ;
 }
-DisplayHomeUEFavorites.need_node = DisplayHomeUEUnsaved.need_node ;
+DisplayHomeUENrAccess.need_node = DisplayHomeUEUnsaved.need_node ;
 
 function DisplayHomeUEAcceded(node)
 {
@@ -1239,7 +1254,7 @@ function DisplayHomeUEAcceded(node)
 		      {default_order: '☆', nr_max: 5}),
 	  [], [], 'id="HomeUEAcceded"'] ;
 }
-DisplayHomeUEAcceded.need_node = DisplayHomeUEFavorites.need_node ;
+DisplayHomeUEAcceded.need_node = DisplayHomeUENrAccess.need_node ;
 
 function DisplayHomeUEBookmarked(node)
 {
@@ -1254,7 +1269,7 @@ function DisplayHomeUEBookmarked(node)
 		      {default_order: 'A', code_filter: years}),
 	  [], [], 'id="HomeUEBookmarked"'] ;
 }
-DisplayHomeUEBookmarked.need_node = DisplayHomeUEFavorites.need_node ;
+DisplayHomeUEBookmarked.need_node = DisplayHomeUENrAccess.need_node ;
 
 function DisplayHomeUETeacher(node)
 {
@@ -1266,7 +1281,7 @@ function DisplayHomeUETeacher(node)
 		      {default_order: 'A'}),
 	  [], [], 'id="HomeUETeacher"'] ;
 }
-DisplayHomeUETeacher.need_node = DisplayHomeUEFavorites.need_node ;
+DisplayHomeUETeacher.need_node = DisplayHomeUENrAccess.need_node ;
 
 function DisplayHomeUEMasterOf(node)
 {
@@ -1315,7 +1330,11 @@ function search_ue_list(txt)
 		&& string_contains(ue.old_names.join(' '), txt)
 	      )
 	 )
-	ues.push(ue.name) ;
+	if ( ue.nr_students_ue != undefined
+	     && ! ue.name.match(/-/) ) // 'etape-'
+	  ues.push('UE-' + ue.name) ;
+	else
+	  ues.push(ue.name) ;
     }
   if ( ues.length == 0 )
     return '<b>' + _("MSG_home_nothing") + '</b>' ;

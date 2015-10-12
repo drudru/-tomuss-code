@@ -43,7 +43,7 @@ def HomePreferences(server):
     return document.get_preferences(server.ticket.user_name, True,
                                     the_ticket=server.ticket)
 
-def HomeUEFavorites(server):
+def HomeUENrAccess(server):
     fav = utilities.manage_key('LOGINS',
                                os.path.join(server.ticket.user_name, 'pages'))
     if fav:
@@ -157,7 +157,7 @@ D('HomeStudents'                   , 'HomeColumns',1)
 D('HomeActions'                    , 'HomeColumns',2, HomeActions)
 
 D('HomeUEUnsaved'                  , 'HomeUE', 0)
-D('HomeUEFavorites'                , 'HomeUE', 1, HomeUEFavorites)
+D('HomeUENrAccess'                 , 'HomeUE', 1, HomeUENrAccess)
 D('HomeUETeacher'                  , 'HomeUE', 2)
 D('HomeUEAcceded'                  , 'HomeUE', 3)
 D('HomeUEBookmarked'               , 'HomeUE', 4, HomeUEBookmarked)

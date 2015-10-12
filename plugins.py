@@ -41,7 +41,6 @@ def plugins_tomuss():
     from .PLUGINS import cell_change
     from .PLUGINS import clean
     from .PLUGINS import gc_state
-    from .PLUGINS import home2
     from .PLUGINS import home3
     from .PLUGINS import logout
     from .PLUGINS import newpage

@@ -143,13 +143,18 @@ fi
 sleep 1
 
 # Database conversion
+V=$(make version)
 for I in  $REAL $BACK
 do
   if [ -d "$REAL/TOMUSS_DB/CHARTES" ]
   then
-    SCRIPTS/convert_2_8_12_to_2_8_13 "I/TOMUSS_DB"
+    SCRIPTS/convert_2_8_12_to_2_8_13 "$I/TOMUSS_DB"
   fi
   SCRIPTS/convert_2_12_11_to_2_12_12 "$I/TOMUSS_DB"
+  if [ "$V" '<' '5.6.6' ]
+  then
+      SCRIPTS/convert_5_6_5_to_5_7_0 "$I/TOMUSS_DB"
+  fi
 done
 
 # Do not start server

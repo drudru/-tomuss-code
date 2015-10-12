@@ -1,0 +1,53 @@
+#!/usr/bin/python
+# -*- python -*-
+
+# Arguments : DB et BACKUP_DB
+
+import ast
+import glob
+import sys
+
+def convert(user_pages):
+    print user_pages
+    f = open(user_pages, "r")
+    numbers = ast.literal_eval(f.read())
+    f.close()
+    if not numbers:
+        return
+    if max(numbers.values()) < 1000000 and min(numbers.values()) > 0:
+        return
+
+    user_bookmarked = user[:-5] +  "bookmarked"
+    try:
+        f = open(user_bookmarked, "r")
+        bookmarks = ast.literal_eval(f.read())
+        f.close()
+    except:
+        bookmarks = []
+    print '='*99
+    print numbers
+    print bookmarks
+    print
+    for ue, nr in numbers.items():
+        if nr > 0 and nr < 1000000:
+            continue
+        numbers[ue] = (nr + 1000000) % 1000000
+        if numbers[ue] == 0:
+            del numbers[ue]
+        if nr > 0:
+            bookmarks.append((0, '_', ue))
+
+    print numbers
+    print bookmarks
+
+    f = open(user_pages, "w")
+    f.write(repr(numbers))
+    f.close()
+    if bookmarks:
+        f = open(user_bookmarked, "w")
+        f.write(repr(bookmarks))
+        f.close()
+
+for db in sys.argv[1:]:
+    for user in glob.glob(db + "/LOGINS/*/*/pages"):
+        convert(user)

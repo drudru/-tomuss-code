@@ -231,27 +231,3 @@ plugin.Plugin('pagenew', '/{Y}/{S}/{U}/{=}', function=new_page, group='staff',
               keep_open = True,
               launch_thread = True, unsafe=False)
 
-def set_page(server):
-    """Set the number of page load (for favorites management by users)"""
-    d = utilities.manage_key('LOGINS',
-                             os.path.join(server.ticket.user_name, 'pages')
-                             )
-    if d is False:
-        d = {}
-    else:
-        d = eval(d)
-    if server.the_page:
-        d[server.the_ue] = server.the_page # Safe because {P} is integer
-    else:
-        if server.the_ue in d:
-            del d[server.the_ue]
-    utilities.manage_key('LOGINS',
-                         os.path.join(server.ticket.user_name, 'pages'),
-                         content = repr(d)
-                         )
-    server.the_file.write(str(files.files['ok.png']))
-    return 'ok'
-
-plugin.Plugin('set_page', '/set_page/{U}/{P}', function=set_page,
-              mimetype="image/png", group='staff')
-
