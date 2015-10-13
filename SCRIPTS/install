@@ -130,6 +130,9 @@ do
   mv $I/SERVEUR_NOTES.new $I/SERVEUR_NOTES
 done
 
+# Version number of the running version
+V=$(cd $REAL/$HIST ; make version)
+
 # Stop current
 if [ -d $REAL/$HIST ]
 then
@@ -143,7 +146,6 @@ fi
 sleep 1
 
 # Database conversion
-V=$(make version)
 for I in  $REAL $BACK
 do
   if [ -d "$REAL/TOMUSS_DB/CHARTES" ]
