@@ -30,16 +30,17 @@ function get_the_upload_url()
   return url ;
 }
 
+function upload_file_choosed(t)
+{
+  var div = document.createElement("DIV") ;
+  div.innerHTML = '<p style="color:red">' + _("MSG_abj_wait") + '</p>' ;
+  t.parentNode.appendChild(div) ;
+  t.nextSibling.value = t.value ;
+  t.parentNode.submit() ;
+}
+
 function import_zip()
 {
-  function upload_file_choosed(t)
-  {
-    var div = document.createElement("DIV") ;
-    div.innerHTML = '<p style="color:red">' + _("MSG_abj_wait") + '</p>' ;
-    t.parentNode.appendChild(div) ;
-    t.nextSibling.value = t.value ;
-    t.parentNode.submit() ;
-  }
   create_popup("import_zip", _("TITLE_column_attr_import_zip"),
 	       '<iframe id="frame_import_zip"></iframe>', '', false) ;
   

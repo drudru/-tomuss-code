@@ -53,10 +53,10 @@ def send_mail(server):
         server.the_file.write("BUG")
         return
 
-    subject = data['subject'][0]
-    message = data['message'][0]
-    recipients = data['recipients'][0].split("\001")
-    titles = data['titles'][0].split("\001")
+    subject = data.getfirst('subject')
+    message = data.getfirst('message')
+    recipients = data.getfirst('recipients').split("\001")
+    titles = data.getfirst('titles').split("\001")
     
     frome = inscrits.L_slow.mail(server.ticket.user_name)
     if frome is None:

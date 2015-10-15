@@ -54,6 +54,17 @@ def check_virus(data):
     else:
         return ''
 
+def copy_stream(instream, outstream):
+    n = 0
+    while True:
+        a = instream.read(65536)
+        if a == "":
+            break
+        n += len(a)
+        outstream.write(a)
+    outstream.close()
+    return n
+
 def save_file(server, page, column, lin_id, data, filename):
     err = check_virus(data)
     if err:
@@ -67,10 +78,14 @@ def save_file(server, page, column, lin_id, data, filename):
     file_path = os.path.join(path, lin_id)
     if os.path.exists(file_path):
         os.rename(file_path, file_path + '~')
-    utilities.write_file(file_path, data)
+
+    data.seek(0) # because check_virus read it
+    f = open(file_path, "w")
+    n = copy_stream(data, f)
+    data.close() # Free FieldStorage
 
     server.the_file.write('- <span>%s %s</span>\n' %
-                          (server._("MSG_upload_size"), len(data)))
+                          (server._("MSG_upload_size"), n))
 
     magic = subprocess.check_output(["file", "--mime", file_path])
     magic = magic.split(": ", 1)[1].strip()
@@ -79,7 +94,7 @@ def save_file(server, page, column, lin_id, data, filename):
     table = column.table
     table.lock()
     try:
-        table.cell_change   (page, column.the_id, lin_id, len(data)/1000.)
+        table.cell_change   (page, column.the_id, lin_id, n/1000.)
         table.comment_change(page, column.the_id, lin_id, magic+' '+filename)
     finally:
         table.unlock()
@@ -97,17 +112,20 @@ def upload_post(server):
         raise ValueError(err)
     table, page, column, lin_id = err
     try:
-        filename = data["filename"][0].replace("\\", "/").split("/")[-1]
-        data = data["data"][0]
+        filename = data.getfirst("filename").replace("\\", "/").split("/")[-1]
+        stream = data["data"].file
 
         server.the_file.write('<p><b>' + cgi.escape(filename) + '</b>\n')
+        stream.seek(0, 2)
+        size = stream.tell()
+        stream.seek(0)
 
-        if len(data) > float(column.upload_max) * 1000:
+        if size > float(column.upload_max) * 1000:
             server.the_file.write('<p style="color:red">%s %d &gt; %d\n'
                                   % (server._("MSG_upload_fail_max"),
-                                     len(data), float(column.upload_max)*1000))
+                                     size, float(column.upload_max)*1000))
             return
-        save_file(server, page, column, lin_id, data, filename)
+        save_file(server, page, column, lin_id, stream, filename)
         server.the_file.write('<p>' + server._("MSG_upload_stop"))
     finally:
         table.do_not_unload_remove('cell_change')
@@ -129,10 +147,15 @@ def upload_get(server):
                             ) + tuple(column.lines_of_the_group(line)):
         file_path = os.path.join(path, a_lin_id)
         try:
-            data = utilities.read_file(file_path)
             mime = a_line[column.data_col].comment
             mime = mime.replace("; ", ";").split(' ')[0].strip()
-            break
+            server.send_response(200)
+            server.send_header('Content-Type', mime)
+            server.end_headers()
+            f = open(file_path, "r")
+            copy_stream(f, server.the_file)
+            f.close()
+            return
         except IOError:
             data = server._("MSG_upload_no_file")
             mime = "text/plain; charset=utf-8"

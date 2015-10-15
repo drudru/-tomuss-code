@@ -1212,31 +1212,21 @@ class FakeRequestHandler(BaseHTTPServer.BaseHTTPRequestHandler):
         self.it_is_a_post = True
         self.do_GET()
 
-    def get_posted_data(self, size=50000000):
+    def get_field_storage(self, size=50000000):
         if not self.it_is_a_post:
             return None
-        ctype, pdict = cgi.parse_header(self.headers.getheader('content-type'))
-        if ctype != 'multipart/form-data':
-            warn("ctype=%s" % ctype)
-            return None
-        if False:
-            # XXX It should work
-            r = []
-            s = 0
-            while True:
-                r.append(self.the_rfile.read(4096))
-                if len(r[-1]) == 0:
-                    break
-                s += len(r[-1])
-                if s >= size:
-                    self.the_file.write("too big")
-                    return None
-                # self.the_file.write(" .")
-            import StringIO
-            r = StringIO.StringIO(''.join(r))
-            return cgi.parse_multipart(r, pdict)
-        else:
-            return cgi.parse_multipart(self.the_rfile, pdict)
+        return cgi.FieldStorage(fp=self.the_rfile, headers=self.headers,
+                                environ={'REQUEST_METHOD':'POST'})
+
+    def get_posted_data(self, size=50000000):
+        """Provide compatibility for the old usage.
+        Do not use: it takes a lot of memory.
+        """
+        fs = self.get_field_storage(size)
+        d = {}
+        for k in fs.keys():
+            d[k] = [fs.getfirst(k, '')]
+        return d
 
     def send_response(self, i, comment=None):
         if comment:
@@ -1260,7 +1250,7 @@ class FakeRequestHandler(BaseHTTPServer.BaseHTTPRequestHandler):
                 s += '<b>' + k + '</b>:' + cgi.escape(str(v)) + '<br>\n'
         s += '<h2>SERVER DICT</h2>\n'
         for k,v in self.__dict__.items():
-            if k != 'headers':
+            if k != 'headers' and k != 'uploaded':
                 s += '<b>' + k + '</b>:' + cgi.escape(str(v)) + '<br>\n'
         return s
 

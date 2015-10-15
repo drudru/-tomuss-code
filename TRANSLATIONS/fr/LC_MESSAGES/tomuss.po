@@ -5984,3 +5984,7 @@ msgstr "Choisissez le fichier à déposer :"
 
 msgid "MSG_upload_no_file"
 msgstr "Ne trouve pas le fichier déposé."
+
+msgid "MSG_importzip_no_login"
+msgstr "Je ne trouve pas le numéro de l'étudiant"
+

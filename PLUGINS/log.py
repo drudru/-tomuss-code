@@ -57,9 +57,9 @@ def gui_record(server):
     if posted_data is None:
         return
 
-    table = posted_data['table'][0]
-    start = posted_data['start'][0]
-    data = posted_data['data'][0]
+    table = posted_data.getfirst('table')
+    start = posted_data.getfirst('start')
+    data = posted_data.getfirst('data')
     try:
         ast.literal_eval(data)
         ast.literal_eval(start)

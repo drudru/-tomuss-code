@@ -5848,3 +5848,6 @@ msgstr "Choose the file to send:"
 
 msgid "MSG_upload_no_file"
 msgstr "Can't find this file."
+
+msgid "MSG_importzip_no_login"
+msgstr "Can't find the student login"

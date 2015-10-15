@@ -446,7 +446,7 @@ def execute(server, plugin):
         try:
             if plugin.mimetype and plugin.upload_max_size:
                 server.restore_connection()
-                server.uploaded = server.get_posted_data(plugin.upload_max_size)
+                server.uploaded = server.get_field_storage(plugin.upload_max_size)
                 try:
                     plugin.send_response(server)
                 except AttributeError:

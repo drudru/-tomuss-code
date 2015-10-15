@@ -20,7 +20,6 @@
 #    Contact: Thierry.EXCOFFIER@bat710.univ-lyon1.fr
 
 import re
-import StringIO
 import cgi
 from .columnfill import ColumnFill
 from .. import plugin
@@ -53,8 +52,7 @@ def import_zip(server):
         if column.type.name != 'Upload':
             raise ValueError('Not good type')
         server.the_file.write('<p>' + server._("MSG_abj_wait") + '\n')
-        data = StringIO.StringIO(server.uploaded['data'][0])
-        zf = zipfile.ZipFile(data, mode="r")
+        zf = zipfile.ZipFile(server.uploaded['data'].file, mode="r")
         page = table.get_a_page_for((server.ticket.user_name,))
         for filename in zf.namelist():
             server.the_file.write('<br>' + cgi.escape(filename) + '\n')
