@@ -225,6 +225,14 @@ def translations_init(language):
             % js(language)
             + '\n'.join(languages) + '\n')
 
+
+@utilities.add_a_cache0
+def all_the_semesters():
+    return js(configuration.special_semesters + ''.join(
+        '<option>%s/%s</option>' % (year, semester)
+        for dummy_url, dummy_port, year, semester, dummy_host in
+        configuration.suivi.urls_sorted()))
+
 def table_head(year=None, semester=None, the_ticket=None,
                user_name='', page_id=-1, ue='',
                create_pref=True,
@@ -270,6 +278,7 @@ def table_head(year=None, semester=None, the_ticket=None,
             'upload_max = %d ;\n' % configuration.upload_max +
             'max_visibility_date = %d ;\n' % configuration.max_visibility_date +
             'gui_record = %d ;\n' % int(configuration.gui_record) +
+            'all_the_semesters = %s ;\n' % all_the_semesters() +
             'check_down_connections_interval = %d ;\n' % configuration.check_down_connections_interval +
             'table_attr = {\n' +
                 ',\n'.join(attr.name+':'+js(

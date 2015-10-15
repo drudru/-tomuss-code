@@ -4354,6 +4354,7 @@ function html_begin_head(hide_title, pb, more)
       'lines = {} ;\n' +
       'adeweb = {};\n' + // XXX should not be here (LOCAL/spiral.py)
       'table_attr = ' + a + ';\n' +
+      'all_the_semesters = ' + js(all_the_semesters) + ' ;\n' +
       wait_scripts + // The function definition
       '</script>\n' +
       '<title>' + ue + ' ' + year + ' ' + semester + '</title>' +

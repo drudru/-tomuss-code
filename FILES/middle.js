@@ -280,7 +280,7 @@ function head_html()
  var options ;
  if ( semester_color )
    {
-     options = "__OPTIONS__" ;
+     options = all_the_semesters ;
      if ( options.indexOf( year + '/' + semester) === -1 )
        options += '<option>' +  year + '/' + semester + '</option>' ;
      options = options.replace('>' + year + '/' + semester,
