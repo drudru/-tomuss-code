@@ -46,7 +46,8 @@ class Places:
             self.iter_current[0][0] = start + 1
         start = str(start)
         if padding != '':
-            start = start.rjust(self.length, padding)
+            while len(start) < self.length:
+                start = padding + start
         return start
 
     def iter(self, padding=''):
