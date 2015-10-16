@@ -1774,6 +1774,8 @@ def check_new_students_real():
 
                 try:
                     t.template.check(t)
+                except UserWarning:
+                    pass
                 except:
                     utilities.send_backtrace('', 'Student list %s' % t)
 
