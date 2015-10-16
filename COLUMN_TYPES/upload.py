@@ -32,6 +32,12 @@ def container_path(column):
                         column.table.semester, column.table.ue,
                         column.the_id)
 
+def length(stream):
+    stream.seek(0, 2)
+    size = stream.tell()
+    stream.seek(0)
+    return size
+
 class Upload(text.Text):
     type_type = 'computed'
     attributes_visible = ('rounding', 'weight', 'upload_max', 'upload_zip',
@@ -40,24 +46,43 @@ class Upload(text.Text):
     formatte_suivi = 'upload_format_suivi'
     human_priority = 20
 
+
+class HackClamd:
+    """Pyclamd does not allow to use an open file"""
+    def __init__(self, stream):
+        self.stream = stream
+        self.length = length(stream)
+    def __getitem__(self, item):
+        if self.length == 0:
+            return ''
+        if item.start == 0:
+            x = self.stream.read(min(self.length, item.stop))
+            self.length -= len(x)
+            return x
+        return self
+    def __len__(self):
+        return self.length
+
 def check_virus(data):
+    utilities.warn("SCAN: INIT")
     try:
         import pyclamd
         pc = pyclamd.ClamdUnixSocket()
     except:
+        utilities.warn("SCAN: CAN'T CONNECT TO CLAMAV")
         return '' # Not installed or not running
-
-    res = pc.scan_stream(data)
-    del pc
+    utilities.warn("SCAN: START")
+    res = pc.scan_stream(HackClamd(data))
+    utilities.warn("SCAN: STOP %s" % res)
     if res:
-        return ', '.join(res.values())
+        return repr(res)
     else:
         return ''
 
 def copy_stream(instream, outstream):
     n = 0
     while True:
-        a = instream.read(65536)
+        a = instream.read(4096)
         if a == "":
             break
         n += len(a)
@@ -71,7 +96,7 @@ def save_file(server, page, column, lin_id, data, filename):
         server.the_file.write(
             '<span style="background:#F00;color:#FFF">%s %s</span>\n'
             % (server._("MSG_virus_found"), cgi.escape(err)))
-        return
+        return err
     server.the_file.write(server._("MSG_no_virus_found") + '\n')
     path = container_path(column)
     utilities.mkpath(path, create_init=False)
@@ -116,17 +141,16 @@ def upload_post(server):
         stream = data["data"].file
 
         server.the_file.write('<p><b>' + cgi.escape(filename) + '</b>\n')
-        stream.seek(0, 2)
-        size = stream.tell()
-        stream.seek(0)
+        size = length(stream)
 
         if size > float(column.upload_max) * 1000:
             server.the_file.write('<p style="color:red">%s %d &gt; %d\n'
                                   % (server._("MSG_upload_fail_max"),
                                      size, float(column.upload_max)*1000))
             return
-        save_file(server, page, column, lin_id, stream, filename)
-        server.the_file.write('<p>' + server._("MSG_upload_stop"))
+        err = save_file(server, page, column, lin_id, stream, filename)
+        if not err:
+            server.the_file.write('<p>' + server._("MSG_upload_stop"))
     finally:
         table.do_not_unload_remove('cell_change')
         server.close_connection_now()
