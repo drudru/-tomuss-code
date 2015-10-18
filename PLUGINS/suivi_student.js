@@ -83,7 +83,7 @@ function is_inside_rightclip(element)
 
 function set_rightclip(classe, event)
 {
-  if ( millisec() - set_rightclip.time < 10 )
+  if ( millisec() - set_rightclip.time < 100 )
     return ;
   set_rightclip.time = millisec() ;
   
