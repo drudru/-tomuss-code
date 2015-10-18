@@ -287,6 +287,34 @@ BODY.hide_right_column_1 .TopLine {
   to   { width: 5em ; opacity: 0.3 }
 }
 
+/*********************** Black and White *******************/
+
+BODY.hide_right_column_1.hide_picture_0.black_and_white_1,
+BODY.black_and_white_1.Automne TABLE.colored TD,
+BODY.black_and_white_1.Automne .BodyRight,
+BODY.black_and_white_1 #cellbox_tip,
+BODY.black_and_white_1 DIV.import_export
+{
+    background: #FFF ;
+    color: #000 ;
+}
+
+BODY.black_and_white_1 #cellbox_tip:hover,
+BODY.black_and_white_1 DIV.import_export
+{
+    border: 1px solid black ;
+    opacity: 1 ;
+}
+
+BODY.black_and_white_1.Automne TABLE.colored TH,
+BODY.black_and_white_1.Automne TABLE.colored CAPTION
+{
+    background: #FFF ;
+    color: #000 ;
+    font-weight: bold ;
+}
+
+
 /*********************** Long text *******************/
 
 .long_text { font-size: 49% ; white-space: normal ; min-height: 2.6em ;}

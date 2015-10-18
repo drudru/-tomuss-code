@@ -5544,6 +5544,9 @@ msgstr "Color PRST with green"
 msgid "Preference_debug_suivi"
 msgstr "Developper's help"
 
+msgid "Preference_black_and_white"
+msgstr "Black and white display"
+
 
 msgid "LINK_restart_tomuss"
 msgstr "Restart TOMUSS"

@@ -791,32 +791,34 @@ function DisplayCellBox(node)
     }
   var classes = ['DisplayType' + DisplayGrades.column.type] ;
   var styles = [] ;
-  if ( DisplayGrades.column.red + DisplayGrades.column.green
-       + DisplayGrades.column.redtext + DisplayGrades.column.greentext != ''
-       && ! display_data['Preferences']['no_teacher_color'])
-    classes.push(cell_class(DisplayGrades.cell, DisplayGrades.column)) ;
-  else if ( DisplayGrades.column.real_weight_add )
+  if ( ! display_data['Preferences']['black_and_white'] )
     {
-      if ( DisplayGrades.cellstats
-	   && DisplayGrades.cellstats.rank !== undefined
-	   && DisplayGrades.cellstats.nr >= 10
-           && ! display_data['Preferences']['color_value']
-	   )
-	styles.push(rank_to_color(DisplayGrades.cellstats.rank,
-				  DisplayGrades.cellstats.nr)) ;
-      else if ( (DisplayGrades.column.type == 'Moy'
-		 || DisplayGrades.column.type == 'Note'
-		 || DisplayGrades.column.type == 'Prst'
-		 )
-		&& DisplayGrades.cell.value !== ''
-		&& (
-		    display_data['Preferences'].green_prst
-		    || DisplayGrades.value != pre
-		    ))
-	  classes.push(grade_to_class(DisplayGrades.column,
-				      DisplayGrades.value)) ;
+      if ( DisplayGrades.column.red + DisplayGrades.column.green
+	   + DisplayGrades.column.redtext + DisplayGrades.column.greentext != ''
+	   && ! display_data['Preferences']['no_teacher_color'])
+	classes.push(cell_class(DisplayGrades.cell, DisplayGrades.column)) ;
+      else if ( DisplayGrades.column.real_weight_add )
+	{
+	  if ( DisplayGrades.cellstats
+	       && DisplayGrades.cellstats.rank !== undefined
+	       && DisplayGrades.cellstats.nr >= 10
+	       && ! display_data['Preferences']['color_value']
+	       )
+	    styles.push(rank_to_color(DisplayGrades.cellstats.rank,
+				      DisplayGrades.cellstats.nr)) ;
+	  else if ( (DisplayGrades.column.type == 'Moy'
+		     || DisplayGrades.column.type == 'Note'
+		     || DisplayGrades.column.type == 'Prst'
+		     )
+		    && DisplayGrades.cell.value !== ''
+		    && (
+			display_data['Preferences'].green_prst
+			|| DisplayGrades.value != pre
+			))
+	    classes.push(grade_to_class(DisplayGrades.column,
+					DisplayGrades.value)) ;
+	}
     }
-    
   if ( DisplayGrades.cell.comment )
     styles.push('font-weight: bold') ;
   

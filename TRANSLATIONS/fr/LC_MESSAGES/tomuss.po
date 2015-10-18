@@ -5671,6 +5671,9 @@ msgstr "Colorier en vert les PRST"
 msgid "Preference_debug_suivi"
 msgstr "Aide au développeur"
 
+msgid "Preference_black_and_white"
+msgstr "Affichage noir et blanc"
+
 
 msgid "LINK_restart_tomuss"
 msgstr "Relance TOMUSS"
