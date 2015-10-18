@@ -1626,10 +1626,11 @@ GUI_record.prototype.save = function()
     return ;
   var s = [] ;
   for(var i in this.events)
-    s.push('[' + this.events[i][0]
-	   + ',"' + this.events[i][1] + '"'
-	   + (this.events[i][2] ? ',' + js(this.events[i][2]) : '')
-	   + ']') ;
+    if ( this.events[i][0] !== undefined ) // XXX it may happen: but how?
+      s.push('[' + this.events[i][0]
+	     + ',"' + this.events[i][1] + '"'
+	     + (this.events[i][2] ? ',' + js(this.events[i][2]) : '')
+	     + ']') ;
   var fd ;
   try {
     fd = new FormData() ;
