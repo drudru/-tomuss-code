@@ -171,12 +171,12 @@ def upload_get(server):
                             ) + tuple(column.lines_of_the_group(line)):
         file_path = os.path.join(path, a_lin_id)
         try:
+            f = open(file_path, "r")
             mime = a_line[column.data_col].comment
             mime = mime.replace("; ", ";").split(' ')[0].strip()
             server.send_response(200)
             server.send_header('Content-Type', mime)
             server.end_headers()
-            f = open(file_path, "r")
             copy_stream(f, server.the_file)
             f.close()
             return
