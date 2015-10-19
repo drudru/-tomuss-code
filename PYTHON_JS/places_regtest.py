@@ -57,7 +57,7 @@ def places_regtest():
         p.iter_start()
         while True:
             i = p.iter_next()
-            if i == "":
+            if i is None:
                 break
             result.append(int(i))
 

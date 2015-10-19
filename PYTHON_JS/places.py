@@ -38,7 +38,7 @@ class Places:
     def iter_next(self, padding=""):
         """Do not use yield because it needs ECMA script 6"""
         if len(self.iter_current) == 0:
-            return ""
+            return None # None is needed
         start, end = self.iter_current[0]
         if start == end:
             python_pop(self.iter_current, 0)
