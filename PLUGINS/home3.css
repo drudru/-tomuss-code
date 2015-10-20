@@ -420,5 +420,7 @@ DIV.fast_tip > DIV:hover {
     text-decoration: underline ;
 }
 
+#popup .import_export { position: fixed ; }
+
 
 

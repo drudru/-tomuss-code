@@ -33,7 +33,7 @@ DIV.export_div {
 /* Also used by 'import' */
 
 DIV.import_export { 
-  position: fixed;
+  position: absolute;
   left: 10%;
   right: 10%;
   top: 25%;
