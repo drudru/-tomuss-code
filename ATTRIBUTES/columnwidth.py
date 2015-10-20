@@ -31,3 +31,4 @@ class ColumnWidth(ColumnAttr):
     gui_display = "GUI_a"
     strokable = 0
     propagate = 0
+    need_authorization = 0

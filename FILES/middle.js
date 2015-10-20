@@ -323,9 +323,6 @@ function column_attr_set(column, attr, value, td, force_save)
   var old_value = column[attr] ;
   var i_can_modify_column = column_change_allowed(column) ;
 
-  if ( !i_can_modify_column && i_am_the_teacher && attr == 'width' )
-      i_can_modify_column = true ;
-
   if ( old_value == value )
     {
 	if ( !i_can_modify_column )

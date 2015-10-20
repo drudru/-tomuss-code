@@ -1,7 +1,7 @@
-// -*- coding: utf-8 -*-
+// -*- coding: utf-8; mode: Java; c-basic-offset: 2; tab-width: 8; -*-
 /*
     TOMUSS: The Online Multi User Simple Spreadsheet
-    Copyright (C) 2008-2013 Thierry EXCOFFIER, Universite Claude Bernard
+    Copyright (C) 2008-2015 Thierry EXCOFFIER, Universite Claude Bernard
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -17,7 +17,7 @@
     along with this program; if not, write to the Free Software
     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
-    Contact: Thierry.EXCOFFIER@bat710.univ-lyon1.fr
+    Contact: Thierry.EXCOFFIER@univ-lyon1.fr
 */
 
 var column_get_option_running ; // true on table loading
@@ -56,17 +56,14 @@ function column_update_option(attr, value)
   change_option(attr + 's', p) ;
 }
 
-function column_get_option(attr, hook, alternate_option_name)
+function column_get_option(attr, alternate_option_name)
 {
-  if ( hook === undefined )
-    hook = function(value, column) { return value ; } ;
-  
   var h = get_option(attr + 's', '') ;
   if ( h === '' )
     h = get_option(alternate_option_name + 's', '') ; // Compatibility
   h = h.split('=') ;
   for(var i in h)
-  {
+    {
       var j = h[i].split(':') ;
       if ( j.length != 2 )
 	break ;
@@ -74,9 +71,16 @@ function column_get_option(attr, hook, alternate_option_name)
       if ( data_col === undefined )
 	if ( columns[Number(j[0])] )
 	  data_col = Number(j[0]) ;  // For compatibility with old bookmarks
-      if ( data_col !== undefined )
-	columns[data_col][attr] = hook(decode_uri_option(j[1]),
-				       columns[data_col]) ;
+      if ( data_col === undefined )
+	continue ;
+      if ( attr !== 'filter' )
+	column_attr_set(columns[data_col], attr, decode_uri_option(j[1])) ;
+      else
+	{
+	  init_column(columns[data_col]) ;
+	  columns[data_col][attr] = set_filter_generic(decode_uri_option(j[1]),
+						       columns[data_col]) ;
+	}
     }
 }
 
@@ -179,16 +183,9 @@ function get_all_options()
   column_get_option('redtext') ;
   column_get_option('greentext') ;
   column_get_option('position') ;
-  column_get_option('freezed',undefined,
-		    'frozen' // old option name
-		   ) ;
-  column_get_option('filter',
-		    function(value, column)
-		    {
-		      init_column(column) ;
-		      return set_filter_generic(value, column) ;
-		    }) ;
-
+  column_get_option('width') ;
+  column_get_option('freezed', 'frozen') ; // old option name
+  column_get_option('filter') ;
   update_filters() ;
 
   _d('end get_all_options\n') ;

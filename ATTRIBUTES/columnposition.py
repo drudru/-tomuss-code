@@ -33,3 +33,4 @@ class ColumnPosition(ColumnAttr):
     update_table_headers = 1
     display_table = 1
     propagate = 0
+    need_authorization = 0

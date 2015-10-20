@@ -2186,7 +2186,7 @@ Current.prototype.jump = function(lin, col, do_not_focus, line_id, data_col)
   table_highlight_column() ;
 } ;
 
-function current_jump_if_possible(line_id, data_col, do_not_focus)
+Current.prototype.jump_if_possible = function(line_id, data_col, do_not_focus)
 {
   var td = td_from_line_id_data_col(line_id, data_col) ;
   if ( td )

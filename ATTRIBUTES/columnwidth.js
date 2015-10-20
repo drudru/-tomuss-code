@@ -28,6 +28,7 @@ function bigger_column()
   setTimeout('update_table_size()', 200) ;
   column_attr_set(column, 'width', column.width
 		  , document.getElementById("column_attr_width"), true) ;
+  column_update_option('width', column.width) ;
 }
 
 function smaller_column()
@@ -40,6 +41,7 @@ function smaller_column()
       setTimeout('update_table_size()', 200) ;
       column_attr_set(column, 'width', column.width,
 		      document.getElementById("column_attr_width"), true) ;
+      column_update_option('width', column.width) ;
     }
 }
 
