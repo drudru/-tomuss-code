@@ -135,8 +135,10 @@ function year_semester()
   var s = document.getElementById("s") ;
   if ( s )
     return s.value ;
-  else
-    return '' ;
+  // The semester menu list is not yet on screen: take the last one
+  var hs = display_data['HomeSemesters'] ;
+  hs = hs[hs.length - 1] ;
+  return hs[2] + '/' + hs[3] ;
 }
 
 function current_year_semester()
