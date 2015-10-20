@@ -19,7 +19,7 @@
 # Contact: Thierry.EXCOFFIER@univ-lyon1.fr
 
 """
-Utillities for the regression tests
+Utilities for the regression tests
 """
 
 abi_short = abi = "ABI"
@@ -27,6 +27,8 @@ abj_short = abj = "ABJ"
 tnr_short = tnr = "TNR"
 ppn_short = ppn = "PPN"
 pre_short = pre = "PRE"
+def or_keyword():
+    return "or"
 
 class Table:
     def __init__(self):

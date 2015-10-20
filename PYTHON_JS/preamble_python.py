@@ -22,7 +22,7 @@ import time
 import re
 import sys
 import math
-import os
+import os # Really needed
 
 python_mode = True
 
@@ -48,9 +48,6 @@ except KeyError:
         _ = __import__('utilities')._
     except ImportError:
         _ = lambda x: x
-
-def or_keyword():
-    return _('or')
 
 def millisec():
     return time.time() * 1000
@@ -83,6 +80,8 @@ def python_pop(array, i):
 
 try:
     from .. import configuration
+    def or_keyword():
+        return configuration.or_keyword
     def major_of(login):
         return configuration.major_of(login)
 except ValueError:
