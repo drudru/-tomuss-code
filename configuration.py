@@ -378,6 +378,10 @@ advertising = False
 # Maximum upload size for Upload columns
 upload_max = 50000
 
+# Number of seconds the pending requests are kept before sending a mail
+# to the administrator and forgot them
+pending_request_TTL = 3600
+
 ###############################################################################
 # The following variables should be fine for testing purpose (local server)
 ###############################################################################

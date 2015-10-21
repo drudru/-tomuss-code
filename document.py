@@ -27,7 +27,6 @@ import re
 import collections
 import cgi
 import inspect
-import math
 from . import utilities
 from . import configuration
 from . import column
@@ -71,6 +70,7 @@ tables_of_student = {}
 
 class Page(object):
     request = 0
+    last_request = 0
     def __init__(self, the_ticket, user_name, page_id, ttable,
                  user_ip, user_browser, date=None):
         self.ticket = the_ticket
@@ -98,6 +98,7 @@ class Page(object):
             raise ValueError('Cheater')
 
     def add_request(self, request, action, path, output_file):
+        self.last_request = time.time()
         request_list.append((self.page_id, request, self, action, path,
                              output_file))
 
@@ -1908,7 +1909,7 @@ def it_is_a_bad_request(request, page, tabl, output_file):
                                  exception=False)
         return True
 
-def should_be_delayed(request, page, tabl, r, t):
+def should_be_delayed(request, page, tabl):
     if tabl.the_lock.locked():
         return True
     if page.request < request:
@@ -1963,7 +1964,7 @@ def check_requests():
             # a little less secure. So it is disabled (see YYY comments)
             continue
         my_request_list.sort()
-        valid_request = []
+        to_discard = set()
         for r in my_request_list:
             page_id, request, page, action, path, output_file = r
             tabl = page.table
@@ -1975,8 +1976,10 @@ def check_requests():
                 continue
             # utilities.bufferize_this_file(tabl.filename) # YYY
             # It is only useful to compare to previous requests
-            valid_request.append(r)
-            if should_be_delayed(request, page, tabl, r, valid_request):
+            if should_be_delayed(request, page, tabl):
+                if (time.time()
+                    - page.last_request) > configuration.pending_request_TTL:
+                    to_discard.add(page)
                 # do not decrement do_not_unload
                 # Keep in request_list
                 continue
@@ -1993,7 +1996,8 @@ def check_requests():
                 real_bug = False
             try:
                 warn('Send %s(%s) %s %s' % (output_file, output_file.closed,
-                                         page.answer, page.browser_file), what="table")
+                                            page.answer, page.browser_file),
+                     what="table")
                 if not output_file.closed:
                     output_file.write(files.files[page.answer])
                     output_file.close()
@@ -2005,6 +2009,44 @@ def check_requests():
                                   '<script>Alert("ERROR_server_bug");</script>')
             except socket.error:
                 pass
+
+        # Old requests without an answer: forget them
+        for page_to_discard in to_discard:
+            s = []
+            for r in tuple(request_list):
+                page_id, request, page, action, path, output_file = r
+                if page is not page_to_discard:
+                    continue
+                request_list.remove(r)
+                page.table.do_not_unload_remove('page_action')
+
+                if action == 'cell_change':
+                    col = page.table.columns.from_id(path[0])
+                    if not col:
+                        continue
+                    line = page.table.lines[path[1]]
+                    old_value = line[col.data_col].value
+                    if str(old_value).rstrip("0.") != path[2].rstrip('.0'):
+                        s.append('[%s] %s %s %s %s current:%s unsaved:%s\n'
+                                 % (request, line[0].value, line[1].value,
+                                    line[2].value, col.title,
+                                    old_value, path[2]))
+                else:
+                    s.append("[%s] %s %s\n" % (request, action, path))
+            if s:
+                s = ["Verify if these values really need to be saved\n\n",
+                     "Page: ", str(page_to_discard), "\n\n",
+                     "No more browser requests since %s seconds"
+                     % configuration.pending_request_TTL,
+                    '\n\n',
+                     "Erased requests :\n"
+                 ] + s
+                utilities.send_mail_in_background(
+                    configuration.maintainer,
+                    "TOMUSS: Erase old pending requests",
+                    unicode(''.join(s), 'utf-8'),
+                    show_to=True)
+
         # utilities.bufferize_this_file(None) # YYY Flush buffers
                            
 
