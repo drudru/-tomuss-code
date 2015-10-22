@@ -212,6 +212,7 @@ class MyRequestBroker(utilities.FakeRequestHandler):
     def do_GET(self):
         global current_time
         self.start_time = time.time()
+        utilities.important_job_add("do_GET")
         if self.start_time - current_time > configuration.unload_interval:
             current_time = self.start_time
             document.remove_unused_tables() # Not in a thread : avoid problems
@@ -242,6 +243,7 @@ class MyRequestBroker(utilities.FakeRequestHandler):
                     self.send_file('bug.png')
             except:
                 pass
+        utilities.important_job_remove("do_GET")
 
 if __name__ == "__main__":
     utilities.display_stack_on_kill()

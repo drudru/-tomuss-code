@@ -37,6 +37,7 @@ def infos(server, page):
 
 def stat_page(server):
     """Display the tables in memory and the user on them."""
+    server.the_file.write(repr(utilities.current_jobs) + '\n')
     if utilities.send_mail_in_background_list:
         server.the_file.write(
             '<b>' + server._("MSG_send_mail_error") + '</b>' +

@@ -71,15 +71,16 @@ def signature_hook(student_login, value, data):
         fn, sn, mail = inscrits.L_fast.firstname_and_surname_and_mail(
             student_login)
         value = unicode(value, 'utf-8')
-        utilities.send_mail(inscrits.L_fast.mail(teacher),
-                            utilities.__("SUBJECT_signature_done")
-                            + ' ' + value,
-                            utilities.__("MSG_signature_answer") + '\n'
-                            + student_login + ' ' + fn + ' ' + sn + ' : '
-                            + value,
-                            frome = mail,
-                            show_to=True
-                            )
+        utilities.send_mail_in_background(
+            inscrits.L_fast.mail(teacher),
+            utilities.__("SUBJECT_signature_done")
+            + ' ' + value,
+            utilities.__("MSG_signature_answer") + '\n'
+            + student_login + ' ' + fn + ' ' + sn + ' : '
+            + value,
+            frome = mail,
+            show_to=True
+        )
         
 configuration.signature_hook = signature_hook
 

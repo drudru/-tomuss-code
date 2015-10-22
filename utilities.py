@@ -441,14 +441,19 @@ send_mail_in_background_list = []
 def sendmail_thread():
     """Send the mail in background with a minimal time between mails"""
     sendmail_thread.safe_to_check = False
-    while send_mail_in_background_list:
-        sendmail_thread.safe_to_check = True
-        time.sleep(configuration.time_between_mails)
-        send_mail(*send_mail_in_background_list.pop(0))
-        sendmail_thread.safe_to_check = False
+    important_job_add('send_mail_in_background')
+    try:
+        while send_mail_in_background_list:
+            sendmail_thread.safe_to_check = True
+            time.sleep(configuration.time_between_mails)
+            send_mail(*send_mail_in_background_list.pop(0))
+            sendmail_thread.safe_to_check = False
+    finally:
+        important_job_remove('send_mail_in_background')
 
 def send_mail_in_background(to, subject, message, frome=None, show_to=False,
                             reply_to=None, error_to=None):
+    important_job_add('send_mail_in_background')
     send_mail_in_background_list.append((to, subject, message, frome,
                                          show_to, reply_to, error_to))
     start_job(sendmail_thread, 1)
@@ -1362,7 +1367,29 @@ def start_job(fct, seconds):
     fct.job_in_file = True
     start_new_thread(wait, ())
 
-    
+
+current_jobs = set()
+no_more_important_job = False
+
+def important_job_add(job_name):
+    current_jobs.add(job_name)
+    while no_more_important_job:
+        time.sleep(0.1)
+
+def important_job_remove(job_name):
+    current_jobs.remove(job_name)
+
+def important_job_running():
+    """If it returns None, no more important job are allowed and
+    it is safe to stop TOMUSS"""
+    global no_more_important_job
+    no_more_important_job = True
+    if current_jobs:
+        no_more_important_job = False
+        return True
+
+
+
 def display_stack_on_kill():
     import signal
     signal.signal(signal.SIGTERM, on_kill)

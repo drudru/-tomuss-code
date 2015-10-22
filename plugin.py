@@ -444,15 +444,24 @@ def execute(server, plugin):
         pr.enable()
     if plugin.launch_thread:
         try:
-            if plugin.mimetype and plugin.upload_max_size:
-                server.restore_connection()
-                server.uploaded = server.get_field_storage(plugin.upload_max_size)
-                try:
-                    plugin.send_response(server)
-                except AttributeError:
-                    if not plugin.no_output:
-                        raise
-            plugin.function(server)
+            x = None
+            try:
+                if plugin.mimetype and plugin.upload_max_size:
+                    x = "uploading_%d" % id(server)
+                    utilities.important_job_add(x)
+                    server.restore_connection(wait=False)
+                    server.uploaded = server.get_field_storage(
+                        plugin.upload_max_size)
+                    try:
+                        plugin.send_response(server)
+                    except AttributeError:
+                        if not plugin.no_output:
+                            raise
+
+                plugin.function(server)
+            finally:
+                if x:
+                    utilities.important_job_remove(x)
         except:
             utilities.send_backtrace('Path = ' + str(server.the_path) + '\n' +
                                      'Ticket = ' + str(server.ticket) + '\n',

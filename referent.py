@@ -498,12 +498,13 @@ def update_referents(ticket, f, really_do_it = False, add_students=True):
 
         if really_do_it:
             mail = inscrits.L_batch.mail(tteacher.name)
-            utilities.send_mail(mail,
-                                utilities.__("MSG_referent_mail_subject"),
-                                utilities.__("MSG_referent_mail_body") %
-                                ('<br>\n'.join(tteacher.message),
-                                 configuration.server_url),
-                                frome=my_mail)
+            utilities.send_mail_in_background(
+                mail,
+                utilities.__("MSG_referent_mail_subject"),
+                utilities.__("MSG_referent_mail_body") %
+                ('<br>\n'.join(tteacher.message),
+                 configuration.server_url),
+                frome=my_mail)
 
         
         

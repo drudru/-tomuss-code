@@ -27,9 +27,8 @@ import subprocess
 from .. import plugin
 from .. import utilities
 from .. import document
-from .. import sender
 
-wait = 10 # Tables must be unused for this time in minutes
+wait = 1 # Tables must be unused for this time in minutes
 
 def restart_tomuss(server, start=True):
     "Restart TOMUSS when it is unused"
@@ -42,23 +41,15 @@ def restart_tomuss(server, start=True):
     w(_("HELP_restart_tomuss"))
     while True:
         w(time.ctime() + ' ')
-        if utilities.send_mail_in_background_list:
-            w(_("MSG_restart_mailqueue")
-              % len(utilities.send_mail_in_background_list))
-        elif document.request_list:
-            w(_("MSG_restart_request_list") % len(document.request_list))
-        elif sender.File.to_send:
-            w(_("MSG_restart_sender") % len(sender.File.to_send))
+        for t in document.tables_values():
+            mtime = time.time() - t.mtime
+            if  mtime < wait*60:
+                w(_("MSG_restart_access") % wait
+                  + ' <small>(%s mtime=%d seconds)</small>' % (t, mtime))
+                break
         else:
-            for t in document.tables_values():
-                atime = time.time() - t.atime
-                mtime = time.time() - t.mtime
-                if (atime < wait*60 or mtime < wait*60):
-                    w(_("MSG_restart_access") % wait
-                      + ' <small>(%s atime=%.2f mtime=%.2f)</small>' % (
-                            t, atime/60, mtime/60)
-                      )
-                    break
+            if utilities.important_job_running():
+                w(str(utilities.current_jobs))
             else:
                 # Restart TOMUSS
                 w('GO '*10)
@@ -69,7 +60,7 @@ def restart_tomuss(server, start=True):
                 time.sleep(1)
                 os.kill(os.getpid(), signal.SIGTERM)
                 time.sleep(1)
-                os.kill(os.getpid(), signal.SIGKILL)                
+                os.kill(os.getpid(), signal.SIGKILL)
                 return # Never here
         time.sleep(wait*6)
 

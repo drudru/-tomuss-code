@@ -99,8 +99,11 @@ class Page(object):
 
     def add_request(self, request, action, path, output_file):
         self.last_request = time.time()
+        check_requests.the_lock.acquire()
         request_list.append((self.page_id, request, self, action, path,
                              output_file))
+        check_requests.the_lock.release()
+        utilities.important_job_add('request')
 
     def __str__(self):
         return '%s[%s]:%s(%s)' % (self.table, self.page_id, self.user_name,
@@ -1769,6 +1772,7 @@ def check_new_students_real():
             if t.unloaded:
                 continue
             try:
+                utilities.important_job_add('check_new_students_real')
                 t.send_update(None, "<script>set_updating(1);</script>")
                 utilities.bufferize_this_file(t.filename)
                 warn('start update students of %s' % t.ue, what="table")
@@ -1792,6 +1796,7 @@ def check_new_students_real():
                     t.force_update = 0
                 t.update_the_abjs()
             finally:
+                utilities.important_job_remove('check_new_students_real')
                 t.do_not_unload_remove('check_new_students_real')
                 utilities.bufferize_this_file(None)
                 t.send_update(None, "<script>set_updating(0);</script>")
@@ -1953,6 +1958,7 @@ def process_request(page, tabl, action, path):
         update_students.append(tabl)
         check_new_students_real()
 
+
 request_list = []
 def check_requests():
     while True:
@@ -1994,6 +2000,12 @@ def check_requests():
                 utilities.send_backtrace('check_requests: '+action+repr(path))
                 page.answer = 'bug.png'
                 real_bug = False
+
+            check_requests.the_lock.acquire()
+            if not request_list:
+                utilities.important_job_remove('request')
+            check_requests.the_lock.release()
+
             try:
                 warn('Send %s(%s) %s %s' % (output_file, output_file.closed,
                                             page.answer, page.browser_file),
@@ -2049,6 +2061,8 @@ def check_requests():
 
         # utilities.bufferize_this_file(None) # YYY Flush buffers
                            
+check_requests.the_lock = threading.Lock()
+        
 
 # continuous send of packets to check connections
 from . import ticket

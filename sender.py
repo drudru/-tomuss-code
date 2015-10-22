@@ -54,6 +54,8 @@ class File(object):
 
     def delete(self):
         del File.to_send[self.file]
+        if not File.to_send:
+            utilities.important_job_remove("sender") # In a locked state
         File.nr_active_thread -= 1
 
     def send_text(self):
@@ -139,6 +141,7 @@ def append(f, txt, keep_open=True, index=None, page=None):
     try:
         File.to_send[f].append(txt, keep_open, index)
     except KeyError:
+        utilities.important_job_add("sender")
         File(f, txt, keep_open, index, page)
 
 import re
