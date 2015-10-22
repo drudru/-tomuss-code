@@ -72,6 +72,8 @@ function upload_popup(t, ue, col_id, lin_id)
 	      {
 		var cell = obj_ue.line[j] ;
 		cell[0] = "?" ;
+		cell[1] = cell[1] || "" ;
+		cell[2] = cell[2] || "" ;
 		cell[3] = "; ? " + t.value ;
 		DisplayGrades.no_hover = false ;
 		display_update_real() ;
