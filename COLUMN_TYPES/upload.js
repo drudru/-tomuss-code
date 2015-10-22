@@ -148,7 +148,8 @@ function upload_format_suivi()
   if ( cell_modifiable_on_suivi() )
     {
       s.push(
-	'<a href="#" onclick="upload_popup(this,' + js2(DisplayGrades.ue.ue)
+	'<a class="clickable" style="color:blue" onclick="upload_popup(this,'
+	  + js2(DisplayGrades.ue.ue)
 	  + ',' + js2(DisplayGrades.column.the_id)
 	  + ',' + js2(DisplayGrades.ue.line_id) + ')">'
 	  + (empty
