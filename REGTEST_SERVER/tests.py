@@ -1926,6 +1926,25 @@ cell_change(1,'0_2','ticket_time_to_live','%d',"")
         c = utilities.read_file('UPLOAD/%s/UE-upload/A/0_0' % ys)
         assert(c == "the file content 5")
 
+    if do('start_job'):
+        c = [[],[],[]]
+        def f1():
+            c[0].append(1)
+            time.sleep(0.1)
+        def f2():
+            c[1].append(1)
+            time.sleep(0.2)
+        def f3():
+            c[2].append(1)
+            time.sleep(0.239)
+        for i in range(1000):
+            utilities.start_job(f1, 0.6)
+            utilities.start_job(f2, 0.4)
+            utilities.start_job(f3, 0)
+            time.sleep(0.001) # one second duration
+        assert(c == [[1], [1, 1], [1, 1, 1, 1, 1, 1]])
+
+
 if '1' in sys.argv:
    sys.argv.remove('1')
    only_once = True
@@ -1953,7 +1972,7 @@ while True:
         elif c == bug_png:
             print 'assert: bug_png'
         else:
-            print "Unknown value:"
+            print "Unknown value:", str(c)[:100]
             f = open('xxx.html', 'w')
             f.write(c)
             f.close()

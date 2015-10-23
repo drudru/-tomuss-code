@@ -370,9 +370,7 @@ def check_get_info():
     if configuration.regtest:
         return
 
-    check_get_info.safe_to_check = False
     while get_info:
-        check_get_info.safe_to_check = True
         table, lin, dummy_page, value = get_info.pop()
         line = table.lines[lin]
         if value == '':
@@ -389,7 +387,6 @@ def check_get_info():
             # was unloaded, so it can't be stored.
             # To not pollute the backtrace logs, we do not
             # try to store the value.
-            check_get_info.safe_to_check = False
             continue
 
         grp_col = table.columns.get_grp()
@@ -425,4 +422,3 @@ def check_get_info():
 
         portails = [i.encode('latin-1') for i in inscrits.L_batch.portail(value)]
         table.update_portail(line[0].value, portails)
-        check_get_info.safe_to_check = False

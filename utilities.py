@@ -440,14 +440,11 @@ def stop_threads():
 send_mail_in_background_list = []
 def sendmail_thread():
     """Send the mail in background with a minimal time between mails"""
-    sendmail_thread.safe_to_check = False
     important_job_add('send_mail_in_background')
     try:
         while send_mail_in_background_list:
-            sendmail_thread.safe_to_check = True
             time.sleep(configuration.time_between_mails)
             send_mail(*send_mail_in_background_list.pop(0))
-            sendmail_thread.safe_to_check = False
     finally:
         important_job_remove('send_mail_in_background')
 
@@ -1331,40 +1328,38 @@ class FakeRequestHandler(BaseHTTPServer.BaseHTTPRequestHandler):
 def start_threads():
     start_new_thread_immortal(print_lock_state_clean_cache, ())
 
-
+@add_a_lock
 def start_job(fct, seconds):
     """In a new thread 'fct' will be called in 'seconds'.
     If the same 'fct' is started multiple times, only the first one
-    is taken into account.
-    
-    This function is NOT SAFE, because if a job is started while the function
-    is on its way out, it will not be restarted.
-    To be safe, protect the test ending the function as in:
-    
-        my_fct.safe_to_check = False
-        while list_of_thing_to_do:
-             my_fct.safe_to_check = True
-             work
-             my_fct.safe_to_check = False
+    is taken into account until 0.1 seconds before its execution end.
+    The minimum time interval between 2 'fct' calls is 'seconds'
+    A function call may take more than 'seconds' to execute.
+    Unecessary call are possible.
     """
-    if getattr(fct, 'job_in_file', False):
-        for dummy_i in range(100):
-            if fct.safe_to_check:
-                return
-        send_backtrace(repr(fct), "start job never safe_to_check")
+    fct.last_request = time.time()
+    if getattr(fct, 'processing', False):
         return
 
     def wait():
-        time.sleep(seconds)
-        try:
-            fct()
-        finally:
-            fct.job_in_file = False
-            fct.safe_to_check = True
+        while True:
+            time.sleep(seconds)
+            try:
+                fct()
+            finally:
+                t = time.time()
+                start_job.the_lock.acquire()
+                try:
+                    # -0.1 to be sure the function is not on its way out
+                    if fct.last_request < t - 0.1:
+                        # The processing of the last request has been done
+                        fct.processing = False
+                        break
+                finally:
+                     start_job.the_lock.release()
     if fct.__doc__:
         wait.__doc__ = ('Wait %d before running:\n\n' % seconds) + fct.__doc__
-    fct.safe_to_check = True
-    fct.job_in_file = True
+    fct.processing = True
     start_new_thread(wait, ())
 
 
@@ -1424,49 +1419,4 @@ def init(launch_threads=True):
         'ip_error.html',
         content=_("ip_error.html"))
     files.add('PLUGINS', 'suivi_student_charte.html')
-
-if __name__ == "__main__":
-    def square(g):
-        print 'square', g
-        return g*g
-    square = add_a_cache(square)
-    print square(6)
-    print square(7)
-    print square(8)
-    print square(7)
-    print square(6)
-
-    def square(g):
-        print 'square', g
-        return g*g
-    square = add_a_cache(square, not_cached=64)
-    print square(7)
-    print square(7)
-    print square(8)
-    print square(8)
-
-    class X:
-        @add_a_method_cache
-        def square(self, g):
-            print 'square', g
-            return g*g
-    xx = X()
-    xx.square(10)
-    xx.square(10)
-    xx.square(20)
-            
-
-    def xxx(g):
-        if g <= 1:
-            return 1
-        return g * xxx(g-1)
-
-    print xxx(1)
-    print xxx(2)
-    xxx = add_a_lock(xxx)
-    print xxx(1)
-    print xxx(2)
-
-    
-
         
