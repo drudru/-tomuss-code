@@ -422,3 +422,5 @@ def check_get_info():
 
         portails = [i.encode('latin-1') for i in inscrits.L_batch.portail(value)]
         table.update_portail(line[0].value, portails)
+        t = time.time()
+    return t

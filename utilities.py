@@ -445,8 +445,10 @@ def sendmail_thread():
         while send_mail_in_background_list:
             time.sleep(configuration.time_between_mails)
             send_mail(*send_mail_in_background_list.pop(0))
+            t = time.time()
     finally:
         important_job_remove('send_mail_in_background')
+    return t
 
 def send_mail_in_background(to, subject, message, frome=None, show_to=False,
                             reply_to=None, error_to=None):
@@ -1330,12 +1332,18 @@ def start_threads():
 
 @add_a_lock
 def start_job(fct, seconds):
-    """In a new thread 'fct' will be called in 'seconds'.
-    If the same 'fct' is started multiple times, only the first one
-    is taken into account until 0.1 seconds before its execution end.
-    The minimum time interval between 2 'fct' calls is 'seconds'
-    A function call may take more than 'seconds' to execute.
-    Unecessary call are possible.
+    """
+    If needed: run 'fct' in 'seconds' in a new thread.
+
+    'fct' returns its completion time (the time just before the last work checking)
+    or None if it is assumed that completion time is: now - 0.01 second
+
+    A new thread is started only if the current job is completed.
+    So the number of 'fct' call can be less than the number of 'start_job' call.
+
+    'fct' may take more than 'seconds' to execute.
+
+    The minimum time between 'fct' end and next start is 'seconds'
     """
     fct.last_request = time.time()
     if getattr(fct, 'processing', False):
@@ -1344,15 +1352,16 @@ def start_job(fct, seconds):
     def wait():
         while True:
             time.sleep(seconds)
+            t = None
             try:
-                fct()
+                t = fct()
             finally:
-                t = time.time()
+                if t is None:
+                    # -0.01 to be sure the function is not on its way out
+                    t = time.time() - 0.01
                 start_job.the_lock.acquire()
                 try:
-                    # -0.1 to be sure the function is not on its way out
-                    if fct.last_request < t - 0.1:
-                        # The processing of the last request has been done
+                    if fct.last_request < t:
                         fct.processing = False
                         break
                 finally:
