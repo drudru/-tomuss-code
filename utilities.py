@@ -1051,11 +1051,15 @@ main_thread =  threading.current_thread()
 
 def all_the_stacks():
     me = threading.current_thread()
-    return '\n'.join(
-        ''.join(traceback.format_stack(sys._current_frames()[t.ident]))
-        for t in threading.enumerate()
-        if t is not me
-    )
+    frames = sys._current_frames()
+    s = []
+    for t in threading.enumerate():
+        if t is not me:
+            try:
+                s.append(''.join(traceback.format_stack(frames[t.ident])))
+            except KeyError:
+                pass
+    return '\n'.join(s)
 
 def on_kill(dummy_x, dummy_y):
     sys.stderr.write('=' * 79 + '\n' +
@@ -1350,22 +1354,19 @@ def start_job(fct, seconds):
         return
 
     def wait():
-        while True:
+        while fct.processing:
             time.sleep(seconds)
             t = None
             try:
                 t = fct()
             finally:
                 if t is None:
-                    # -0.01 to be sure the function is not on its way out
+                    # -0.01 to be sure the function was not on its way out
                     t = time.time() - 0.01
                 start_job.the_lock.acquire()
-                try:
-                    if fct.last_request < t:
-                        fct.processing = False
-                        break
-                finally:
-                     start_job.the_lock.release()
+                if fct.last_request < t:
+                    fct.processing = False
+                start_job.the_lock.release()
     if fct.__doc__:
         wait.__doc__ = ('Wait %d before running:\n\n' % seconds) + fct.__doc__
     fct.processing = True
