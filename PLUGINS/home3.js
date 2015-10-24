@@ -58,9 +58,11 @@ function get_hash()
 
 function get_option(name, default_value)
 {
+  try {
   return get_hash()[name]
     || (localStorage && parse_options(localStorage['homepage'])[name])
-    || default_value ; 
+    || default_value ;
+  } catch(e) { return get_hash()[name] || default_value ; } ;
 }
 
 function options_string(options)
@@ -79,9 +81,13 @@ function set_option(name, value, only_session)
 
   if ( localStorage && !only_session )
     {
-      var h = parse_options(localStorage['homepage']) ;
-      h[name] = value ;
-      localStorage['homepage'] = options_string(h) ;
+      try {
+	var h = parse_options(localStorage['homepage']) ;
+	h[name] = value ;
+	localStorage['homepage'] = options_string(h) ;
+      }
+      catch(e) { alert('LocalStorage NOT WORKING: ASK HELP TO FIX YOUR BROWSER\n\n'
+		       + navigator.userAgent + ':\n\n' + e) ; }
     }
 }
 
@@ -1214,16 +1220,19 @@ function create_ue_lists()
   }
 
   // List of unsaved tables
-  var index = localStorage && localStorage['index'] ;
-  if ( index && index !== '' )
-    {
-      index = index.substr(1).split('\n') ;
-      for(var i in index)
-	{
-	  add_to(index[i].substr(1).split('/'),
-		 create_ue_lists.unsaved_list, true) ;
-	}
-    }
+  try {
+    var index = localStorage && localStorage['index'] ;
+    if ( index && index !== '' )
+      {
+	index = index.substr(1).split('\n') ;
+	for(var i in index)
+	  {
+	    add_to(index[i].substr(1).split('/'),
+		   create_ue_lists.unsaved_list, true) ;
+	  }
+      }
+  }
+  catch(e) {} ;
 
   create_ue_lists.done = true ;
   create_ue_lists.yet_done = true ;

@@ -396,18 +396,28 @@ function DisplayUEToggle_key(ue)
 
 function DisplayUEToggle_text(ue)
 {
-  return localStorage[DisplayUEToggle_key(ue)] == "closed" ? '▶' : '▼' ;
+  try {
+    return localStorage[DisplayUEToggle_key(ue)] == "closed" ? '▶' : '▼' ;
+  } catch(e) { return '§' ; }
 }
 
 function DisplayUEToggle_is_open(ue)
 {
-  return localStorage[DisplayUEToggle_key(ue)] != 'closed' ;
+  try {
+    return localStorage[DisplayUEToggle_key(ue)] != 'closed' ;
+  } catch(e) { return true ; }
 }
 
 function DisplayUEToggle_do(event, ue)
 {
   var k = DisplayUEToggle_key(ue) ;
-  localStorage[k] = localStorage[k] == "closed" ? "open" : "closed" ;
+  try {
+    localStorage[k] = localStorage[k] == "closed" ? "open" : "closed" ;
+  }
+  catch(e) {
+    alert('LocalStorage NOT WORKING: ASK HELP\n\n'
+	  + navigator.userAgent + ':\n\n' + e) ;
+  }
   var t = the_event(event).target ;
   t.innerHTML = DisplayUEToggle_text(ue) ;
   if ( DisplayUEToggle_is_open(ue) )
