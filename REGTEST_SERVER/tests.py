@@ -1945,7 +1945,7 @@ cell_change(1,'0_2','ticket_time_to_live','%d',"")
             utilities.start_job(f2, 0.4)
             utilities.start_job(f3, 0)
             time.sleep(0.001) # one second duration
-        assert(c == [[1], [1, 1], [1, 1, 1, 1, 1, 1]])
+        assert(c == [[1], [1, 1], [1, 1, 1, 1, 1]])
 
 
 if '1' in sys.argv:
