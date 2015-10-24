@@ -1574,7 +1574,7 @@ function js(t)
 function js2(t)
 {
   return "'" + t.toString().replace(/\\/g,'\\\\')
-    .replace(/'/g,"\\'").replace(/\n/g,'\\n')
+    .replace(/'/g,"\\'").replace(/[\n\r]/g,'\\n').replace(/"/g,'\\042')
     + "'" ;
 }
 
