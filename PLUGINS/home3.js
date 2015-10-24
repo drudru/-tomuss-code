@@ -770,6 +770,15 @@ function student_set_favorite(event, code, favorite)
   stop_event(event) ;
 }
 
+function action_set_favorite(event, code, favorite)
+{
+  is_a_favorite_action[code] = ! favorite ;
+  try {
+    localStorage["favorite_actions"] = JSON.stringify(is_a_favorite_action) ;
+  } catch(e) { } ;
+  display_update_real() ;
+}
+
 function get_ue_table(t)
 {
   while( ! t.firstChild || ! t.firstChild.getAttribute
@@ -947,6 +956,18 @@ function display_ues(title, tip, codes, options)
       }
     else if ( options.actions )
       {
+	if ( options.favorite_toggle )
+	  {
+	    if ( is_a_favorite_action[ue[3]] )
+	      favorite = '★' ;
+	    else
+	      favorite = '☆' ;
+	    favorite = '<tt onclick="action_set_favorite(event,'+ js2(ue[3])
+	      + ',' + is_a_favorite_action[ue[3]] +')" class="icon">'
+	      + favorite + '</tt>' ;
+	  }
+	else
+	  favorite = '' ;
       }
     else
       {
@@ -1020,7 +1041,7 @@ function display_ues(title, tip, codes, options)
 	s.push('<div class="ue_line">'
 	       + el
 	       + '<img class="safety" src="_FILES_/' + link[2] + '.png">'
-	       + link[3] + eld + '<div class="ue_more">' + help
+	       + link[3] + eld + '<div class="ue_more">' + favorite + help
 	       + '</div></div>'
 	       ) ;
       }
@@ -1412,6 +1433,7 @@ function university_year()
 }
 
 var is_a_favorite = {} ;
+var is_a_favorite_action = {} ;
 var is_a_refered = {} ;
 var students_info = {} ;
 
@@ -1765,8 +1787,11 @@ function the_year()
 function DisplayHomeActions(node)
 {
   var links = node.data ;
-  var boxes = {}, link_name, link_help ;
+  var boxes = {}, link_name, link_help, favorites = [] ;
   var nb_actions = 0 ;
+  try {
+  is_a_favorite_action = JSON.parse(localStorage["favorite_actions"] || "{}") ;
+  } catch(e) { } ;
   for(var i in links)
     {
       if ( links[i][7] === '' )
@@ -1788,6 +1813,8 @@ function DisplayHomeActions(node)
 	boxes[link_name].push(links[i]) ;
       else
 	boxes[link_name] = [ links[i] ] ;
+      if ( is_a_favorite_action[links[i][3]] )
+	favorites.push(links[i]) ;
     }
   var sorted_boxes = [] ;
   for(var box_name in boxes)
@@ -1799,6 +1826,10 @@ function DisplayHomeActions(node)
     }
   sorted_boxes.sort() ;
   var t = [] ;
+  if ( favorites.length )
+    t.push(display_ues('', '', favorites, {
+	  actions: true, hide_sort: true, do_not_sort: true,
+	    favorite_toggle: true })) ;
   for(var box_name in sorted_boxes)
     {
       box_name = sorted_boxes[box_name] ;
@@ -1814,8 +1845,10 @@ function DisplayHomeActions(node)
 		   return 1 ;
 	       }) ;
       t.push(display_ues(box_name[0], '', box, {
-	    actions: true, hide_sort: true, do_not_sort: true})) ;
+	    actions: true, hide_sort: true, do_not_sort: true,
+	      favorite_toggle: links.length > 30})) ;
     }
+
   var children = display_definition['HomeActions'].children ;
   for(var i in children)
     t.push(display_display(children[i])) ;
