@@ -1928,24 +1928,25 @@ cell_change(1,'0_2','ticket_time_to_live','%d',"")
 
     if do('start_job'):
         c = [[],[],[]]
+        t = time.time()
         def f1():
-            c[0].append(1)
+            c[0].append(time.time()-t)
             time.sleep(0.1)
             return time.time() # Tell that all data before this time is processed
         def f2():
-            c[1].append(1)
+            c[1].append(time.time()-t)
             time.sleep(0.2)
             return time.time() # Tell that all data before this time is processed
         def f3():
-            c[2].append(1)
+            c[2].append(time.time()-t)
             time.sleep(0.239)
             return time.time() # Tell that all data before this time is processed
-        for i in range(1000):
+        while time.time() < t + 1:
             utilities.start_job(f1, 0.6)
-            utilities.start_job(f2, 0.4)
+            utilities.start_job(f2, 0.3)
             utilities.start_job(f3, 0)
-            time.sleep(0.001) # one second duration
-        assert(c == [[1], [1, 1], [1, 1, 1, 1, 1]])
+            time.sleep(0.001)
+        assert(len(c[0]) == 1 and len(c[1]) == 2 and len(c[2]) == 5)
 
 
 if '1' in sys.argv:
@@ -1975,7 +1976,7 @@ while True:
         elif c == bug_png:
             print 'assert: bug_png'
         else:
-            print "Unknown value:", str(c)[:100]
+            print "Unknown value:", str(c)[:1000]
             f = open('xxx.html', 'w')
             f.write(c)
             f.close()
