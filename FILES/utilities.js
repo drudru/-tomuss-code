@@ -1408,7 +1408,7 @@ Cell.prototype.comment_html = function()
   return html(this.comment).replace(/\n/g, '<br>') ;
 } ;
 
-Cell.prototype.changeable = function(column)
+Cell.prototype.changeable = function(line, column)
 {
   if ( ! table_attr.modifiable )
       return _("ERROR_table_read_only") ;
@@ -1424,7 +1424,7 @@ Cell.prototype.changeable = function(column)
   if ( column.cell_writable === '' )
     r = this.is_mine() ;
   else
-    r = column.cell_writable_filter(this) ;
+    r = column.cell_writable_filter(line, this) ;
 
   if ( r )
     return true ;
@@ -1432,9 +1432,9 @@ Cell.prototype.changeable = function(column)
     return _("ERROR_value_defined_by_another_user") + table_attr.masters;
 } ;
 
-Cell.prototype.modifiable = function(column)
+Cell.prototype.modifiable = function(line, column)
 {
-  return this.changeable(column) === true ;
+  return this.changeable(line, column) === true ;
 } ;
 
 Cell.prototype.is_mine = function()
@@ -1839,11 +1839,17 @@ function update_attribute_value(e, attr, table, editable)
 	update_input(e, formatted, attr.empty(value)) ;
       else
 	update_input(e, formatted, attr.empty(table, value)) ;
-
+      if ( table[attr.name + '_error'] )
+         e.className += " attribute_error" ;
+      else
+         e.className = e.className.replace(/ attribute_error/, "") ;
       if ( tip_exists )
 	{
 	    if ( preferences.debug_table )
 	       tip_content += '<hr><b>' + e.id + '</b>' ;
+            if ( table[attr.name + '_error'] )
+               tip_content += '<p class="attribute_error">'
+                              + table[attr.name + '_error'] + '</p>' ;
 	    try {
 		tip_top(e).firstChild.innerHTML = tip_content ;
 	    }
@@ -1956,7 +1962,7 @@ Current.prototype.update_cell_headers = function()
   if ( the_comment )
     {
       update_input(the_comment, cell.comment, cell.comment === '') ;
-      set_editable(the_comment, cell.modifiable(this.column)) ;
+      set_editable(the_comment, cell.modifiable(this.line, this.column)) ;
     }
 
   update_value_and_tip(t_value, cell.value) ;
@@ -1984,7 +1990,7 @@ Current.prototype.update_cell_headers = function()
   update_tip_from_value(t_student_picture.parentNode,
 			'<!--INSTANTDISPLAY-->' + line_resume(this.line_id),'');
   t_editor.value = cell.value ;
-  t_editor.disabled = !cell.modifiable(this.column) ;
+  t_editor.disabled = !cell.modifiable(this.line, this.column) ;
 } ;
 
 Current.prototype.update_table_headers = function()
@@ -2113,7 +2119,7 @@ Current.prototype.jump = function(lin, col, do_not_focus, line_id, data_col)
 	{
 	  save.onblur(save) ;
 	}
-      if ( ! cell.modifiable(columns[data_col]) )
+      if ( ! cell.modifiable(line, columns[data_col]) )
 	{
 	  save.focus() ;
 	  if ( element_focused === undefined )
@@ -2124,7 +2130,7 @@ Current.prototype.jump = function(lin, col, do_not_focus, line_id, data_col)
     }
 
   /* Removed the 19/1/2010 In order to select RO values
-     if (  ! cell.modifiable(column) )
+     if (  ! cell.modifiable(line, column) )
      do_not_focus = true ;
   */
 
@@ -2195,7 +2201,7 @@ Current.prototype.jump_if_possible = function(line_id, data_col, do_not_focus)
 
 Current.prototype.focus = function()
 {
-  //this.input.contentEditable = this.cell.modifiable() ;
+  //this.input.contentEditable = this.cell.modifiable(this.line, this.column) ;
   this.input.focus() ;
   if ( this.input.select )
     this.input.select() ;
@@ -2204,7 +2210,7 @@ Current.prototype.focus = function()
 
 Current.prototype.cell_modifiable = function()
 {
-  return this.cell.modifiable(this.column) ;
+  return this.cell.modifiable(this.line, this.column) ;
 } ;
    
 // Update input from real table content (external change)

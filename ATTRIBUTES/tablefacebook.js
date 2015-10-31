@@ -128,7 +128,7 @@ function phone_facebook(column_id)
       if ( line[0].value === '' )
 	continue ;
       var more = '<div class="items" style="font-size:' + fontsize + '%">' ;
-      if ( line[column.data_col].modifiable(column) )
+      if ( line[column.data_col].modifiable(line, column) )
       {
 	for(var i in vals)
 	{

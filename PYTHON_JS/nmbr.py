@@ -30,7 +30,7 @@ def compute_nmbr(data_col, line):
             col = columns[dc]
             cell = C(col.empty_is, cell.author, cell.date,
                      cell.comment, cell.history)
-        if column.nmbr_filter(cell):
+        if column.nmbr_filter(line, cell):
             nr += 1
 
     return nr

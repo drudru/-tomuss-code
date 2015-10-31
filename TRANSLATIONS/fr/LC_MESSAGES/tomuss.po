@@ -716,7 +716,7 @@ msgid "ALERT_url_import_table"
 msgstr "La table que vous avez indiqué pour extraire la colonne n'existe pas"
 
 msgid "ALERT_url_import_column"
-msgstr "La colonne que vous avez indiqué n'existe pas"
+msgstr "La colonne que vous avez indiquée n'existe pas"
 
 msgid "ALERT_url_import_private"
 msgstr "Il est interdit d'importer à partir d'une table privée"
@@ -2256,6 +2256,10 @@ msgstr "Exemple de filtre :\n"
        "ne commençant pas par <b>A</b>\n"
        "<li><b>a ou b</b> pour afficher ce qui commence par <b>a</b> ou par <b>b</b>\n"
        "</ul>"
+
+msgid "MSG_depends_on_invisible"
+msgstr "Le filtre dépend d'une colonne cachée, en conséquence il sera faux\n"
+       "sur la page de suivi des personnes ne pouvant voir la colonne."
 
 msgid "TIP_column_title"
 msgstr "Cliquez sur le triangle\n"

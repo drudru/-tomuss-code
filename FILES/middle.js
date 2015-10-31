@@ -449,6 +449,12 @@ function attr_update_user_interface(attr, column, force_update_header)
 
   if ( attr.update_table_headers )
     table_header_fill() ;
+  else if ( attr.what == 'column' )
+    {
+      e = document.getElementById('t_column_' + attr.name) ;
+      if ( e )
+	update_attribute_value(e, attr, column, true) ;
+    }
 }
 
 function an_user_update(event, input, column, attr)
@@ -528,7 +534,12 @@ function header_change_on_update(event, input, what)
       switch(input.parentNode.parentNode.className)
 	{
 	case 'filter':
-	    filter_change_column(input.value, column) 
+	  filter_change_column(input.value, column) ;
+	  if ( column.filter_error )
+	    event.target.className += ' attribute_error' ;
+	  else
+	    event.target.className = event.target.className
+	      .replace(/ attribute_error/g, '') ;
 	  break ;
 	}
     }
@@ -579,7 +590,7 @@ function header_input_focus(e)
       e.blur() ;
       return ;
     }
-  e.className = '' ; // Remove 'empty' class
+  e.className = e.className.replace(/\bempty\b/, '') ; // Remove 'empty' class
   element_focused = e ;
   e.initial_value = e.value ;
 

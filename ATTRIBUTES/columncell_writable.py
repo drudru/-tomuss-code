@@ -27,7 +27,8 @@ class ColumnCellWritable(ColumnAttr):
     check_and_set = '''
 function(value, column)
 {
-    column.cell_writable_filter = compile_filter_generic(value) ;
+    column.cell_writable_filter = compile_filter_generic(value, column, true) ;
+    column.cell_writable_error = column.cell_writable_filter.errors ;
     return value ;
 }'''
     always_visible = 1

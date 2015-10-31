@@ -22,13 +22,13 @@
 
 function returns_false() { return false ; } ;
 
-function the_green_filter(c, column)
-{
-  return c.value > column.color_green ;
-}
-
 function set_green(value, column)
 {
+  function the_green_filter(line, cell)
+  {
+    return cell.value > column.color_green ;
+  }
+
   if ( value === undefined )
     value = '' ;
   if ( value === '' )
@@ -43,7 +43,7 @@ function set_green(value, column)
     }
   else if ( isNaN(value) )
     {
-      column.color_green_filter = compile_filter_generic(value, column) ;
+      column.color_green_filter = compile_filter_generic(value, column, true) ;
     }
   else
     {
@@ -51,6 +51,7 @@ function set_green(value, column)
       column.color_green_filter = the_green_filter ;
       column.color_green = value ;
     }
+  column.green_error = column.color_green_filter.errors ;
   column_update_option('green', value) ;
 
   return value ;

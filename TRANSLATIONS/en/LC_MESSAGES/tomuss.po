@@ -2248,6 +2248,10 @@ msgstr "For example:\n"
        "<li><b>a or b</b> to see values starting by <b>a</b> or by <b>b</b>\n"
        "</ul>"
 
+msgid "MSG_depends_on_invisible"
+msgstr "The filter depends on an hidden column, so it while be false\n"
+       "on the 'suivi' page for users not allowed to see the column."
+
 msgid "TIP_column_title"
 msgstr "Click on the triangle to <b>sort</b> it or reverse the sort.<br>\n"
        "To <b>change the title</b>: do it in the «Column» tab"

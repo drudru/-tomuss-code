@@ -54,7 +54,8 @@ function initialize_suivi_real()
 function cell_modifiable_on_suivi()
 {
   table_attr = DisplayGrades.table_attr ;
-  if ( ! DisplayGrades.cell.modifiable(DisplayGrades.column) )
+  if ( ! DisplayGrades.cell.modifiable(DisplayGrades.ue.line,
+				       DisplayGrades.column) )
     return ;
   if ( ! DisplayGrades.column.modifiable )
     return ;
@@ -807,7 +808,9 @@ function DisplayCellBox(node)
       if ( DisplayGrades.column.red + DisplayGrades.column.green
 	   + DisplayGrades.column.redtext + DisplayGrades.column.greentext != ''
 	   && ! display_data['Preferences']['no_teacher_color'])
-	classes.push(cell_class(DisplayGrades.cell, DisplayGrades.column)) ;
+	classes.push(cell_class(DisplayGrades.column,
+				DisplayGrades.ue.line_real,
+				DisplayGrades.cell)) ;
       else if ( DisplayGrades.column.real_weight_add )
 	{
 	  if ( DisplayGrades.cellstats
@@ -849,6 +852,7 @@ function DisplayUEGrades(node)
       i = ue.line[i] ;
       line.push(C(i[0], i[1], i[2], i[3])) ;
     }
+  ue.line_real = line ;
   columns = [] ;
   for(var i in ue.columns)
     columns.push(Col(ue.columns[i])) ;

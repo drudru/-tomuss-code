@@ -702,7 +702,7 @@ class Table(object):
         from .PYTHON_JS import tomuss_python
         return tomuss_python.Filter(*filter_user_type).evaluate
 
-    def authorized(self, user_name, value, column=None):
+    def authorized(self, user_name, value, column=None, line=None):
         # Authorized because the test have yet be done in the past
         if self.loading:
             return True
@@ -721,7 +721,7 @@ class Table(object):
         if column and column.cell_writable:
             return self.cell_writable_filter(
                 (column.cell_writable, user_name, column.type.name)
-            )(value)
+            )(line, value)
         # Empty values are modifiable by anyone
         if value.value == '':
             return True
@@ -752,7 +752,7 @@ class Table(object):
             value = cell.value
 
         if not self.loading and not force_update:
-            if not self.authorized(page.user_name, cell, a_column):
+            if not self.authorized(page.user_name, cell, a_column, line):
                 utilities.warn('cell value = (%s)' % cell.value)
                 return self.bad_auth(page, "cell_change %s/%s/%s" % (
                         col, lin, value))
@@ -869,7 +869,7 @@ class Table(object):
                     for line_key, i_line in a_column.lines_of_the_group(line):
                         if self.authorized(page.user_name,
                                            i_line[a_column.data_col],
-                                           a_column):
+                                           a_column, i_line):
                             self.cell_change(page, a_column.the_id,
                                              line_key, value,
                                              force_update=True)
@@ -976,7 +976,7 @@ class Table(object):
         
         if not self.loading:
             if not self.authorized(page.user_name,
-                                   line[a_column.data_col]):
+                                   line[a_column.data_col], a_column, line):
                 return self.bad_auth(page, "comment_change %s/%s/%s" % (
                         col, lin, value))
             self.template.comment_change(self, page, col, lin, value)

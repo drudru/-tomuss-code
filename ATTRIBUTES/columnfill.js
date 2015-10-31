@@ -752,7 +752,7 @@ Filler.prototype.update_html = function() {
       if ( old_val == new_val )
 	continue ;
       var classe ;
-      if ( ! cell.modifiable(this.column) )
+      if ( ! cell.modifiable(this.dispatch[i][3], this.column) )
       {
 	classe = "fill_error" ;
 	tip = _("ERROR_value_not_modifiable") ;

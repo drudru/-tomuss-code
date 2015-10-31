@@ -53,11 +53,12 @@ class Column:
         self.comment         = args.get("comment", "")
         self.computed        = args.get("computed", 0)
         self.abj_is          = args.get("abj_is", 0)
+        self.title           = args.get("title", "")
         if len(columns) != 0:
             self.table = columns[0].table
 
-    def nmbr_filter(self, cell):
-        return Filter(self.test_filter, "","").evaluate(cell)
+    def nmbr_filter(self, line, cell):
+        return Filter(self.test_filter, "","").evaluate(line, cell)
     def is_computed(self):
         return self.computed
 
@@ -120,3 +121,10 @@ def columns_set(cols):
     for c in cols:
         columns.append(c)
         c.table = t
+
+if python_mode:
+    def data_col_from_col_title(title):
+        for i, column in enumerate(columns):
+            if column.title == title:
+                return i
+        return None

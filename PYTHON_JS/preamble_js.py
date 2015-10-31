@@ -139,9 +139,13 @@ def localtime():
                       year_month_day.getDate()]
     return year_month_day
 
-def seconds_to_date(seconds):
+def seconds_to_date(seconds=None):
     d = new(Date)
-    d.setTime(seconds * 1000)
+    if seconds:
+        d.setTime(seconds * 1000)
+    else:
+        if debug:
+            d.setTime(millisec())
     return (d.getFullYear() + two_digits(d.getMonth()+1)
             + two_digits(d.getDate()) + two_digits(d.getHours())
             + two_digits(d.getMinutes()) + two_digits(d.getSeconds()) )
@@ -157,6 +161,15 @@ def to_float_or_nan(txt):
         return Number.prototype.constructor(txt.replace(',', '.'))
     except:
         return Number.prototype.constructor(txt)
+
+def to_float_or_small(txt):
+    try:
+        n = Number.prototype.constructor(txt.replace(',', '.'))
+    except:
+        n = txt
+    if isNaN(n):
+        return -1e50
+    return n
 
 def to_float(txt):
     n = to_float_or_nan(txt)

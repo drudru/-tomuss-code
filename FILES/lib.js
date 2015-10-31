@@ -1,7 +1,7 @@
 // -*- coding: utf-8; mode: Java; c-basic-offset: 2; tab-width: 8; -*-
 /*
     TOMUSS: The Online Multi User Simple Spreadsheet
-    Copyright (C) 2008-2014 Thierry EXCOFFIER, Universite Claude Bernard
+    Copyright (C) 2008-2015 Thierry EXCOFFIER, Universite Claude Bernard
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -17,7 +17,7 @@
     along with this program; if not, write to the Free Software
     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
-    Contact: Thierry.EXCOFFIER@bat710.univ-lyon1.fr
+    Contact: Thierry.EXCOFFIER@univ-lyon1.fr
 */
 
 // Constants
@@ -738,8 +738,18 @@ function show_the_tip(td, tip_content, what)
 		return ;
 	    }
 	  s = _(type['tip_' + td.parentNode.className.split(' ')[0]]) ;
+	  if ( column.filter_error && td.parentNode.className == 'filter' )
+	    {
+	      s += '<div class="attribute_error">' + column.filter_error
+		+ "</div>" ;
+	    }
 	  what = td.parentNode.className.split(' ')[0] ;
 	  remove_highlight() ;
+	  if ( preferences.debug_table )
+	    {
+	      for(var i in filters)
+		s += "<hr>" + filters[i][0] ;
+	    }
 	}
       else
 	{
@@ -747,7 +757,7 @@ function show_the_tip(td, tip_content, what)
 	  if ( line === undefined )
 	    return ;
 	  var cell = line[data_col] ;
-	  if ( cell.modifiable(column) && type.tip_cell )
+	  if ( cell.modifiable(line, column) && type.tip_cell )
 	    s = '<span class="title">' + _(type.tip_cell) + '</span><br>' ;
 	  else
 	    s = '' ;
@@ -771,7 +781,18 @@ function show_the_tip(td, tip_content, what)
 	}
     }
   else
-    s = tip_content ;
+    {
+      var more ;
+      switch(td.id)
+	{
+	case 'linefilter'    : more = line_filter    ; break ;
+	case 'columns_filter': more = columns_filter ; break ;
+	case 'full_filter'   : more = full_filter    ; break ;
+	}
+      if ( more && more.errors )
+	more = '<div class="attribute_error">' + more.errors + '</div>' ;
+      s = tip_content + more ;
+    }
 
   if ( ! display_tips )
     return ;
@@ -1121,7 +1142,8 @@ function update_line(line_id, data_col)
       if ( column.real_type.cell_compute === undefined )
 	continue ;
       if ( data_col != data_col2 ) // To not erase green square
-	update_cell(tr.childNodes[column.col], line[data_col2], column);
+	update_cell(tr.childNodes[column.col], line[data_col2], column,
+		    undefined, line);
     }
 }
 
@@ -1137,7 +1159,7 @@ function update_cell_at(line_id, data_col)
     return ;
   var tr = table.childNodes[lin + nr_headers] ;
   update_cell(tr.childNodes[col], lines[line_id][data_col],
-	      columns[data_col]);
+	      columns[data_col], undefined, lines[line_id]);
 }
 
 /******************************************************************************
@@ -1147,10 +1169,22 @@ Update the header of the table
 function set_columns_filter(h)
 {
   var cf = document.getElementById('columns_filter') ;
-  cf.className = '' ;
+  if ( h === '' )
+    cf.className = 'empty' ;
+  else
+    cf.className = '' ;
   cf.value = h ;
   columns_filter_value = h ;
   columns_filter = compile_filter_generic(h) ;
+  try {
+    columns_filter(undefined, filtered_lines[0][0]) ;
+  }
+  catch(e) {
+    columns_filter = compile_filter_generic('=') ;
+    columns_filter.errors = "BUG" ;
+  }
+  if ( columns_filter.errors )
+    cf.className = 'attribute_error' ;
 }
 
 
@@ -1159,18 +1193,10 @@ function columns_filter_change(v)
   if ( columns_filter_value == v.value )
     return ;
 
-  if ( v.value === '' )
-    {
-      // XXX 2010-03-01
-      v.className = 'empty' ;
-    }
-  else
-    v.className = '' ;
-  columns_filter = compile_filter_generic(v.value) ;
+  set_columns_filter(v.value) ;
 
   column_offset = 0 ;
   table_fill(true, true,true) ;
-  columns_filter_value = v.value ;
 
   change_option('columns_filter', encode_uri_option(columns_filter_value)) ;
   change_option('column_offset') ;
@@ -1186,7 +1212,7 @@ function column_list_full_filter_hide(column, data_col)
     {
       for(var lin in filtered_lines)
 	{
-	  if ( full_filter(filtered_lines[lin][data_col]) )
+	  if ( full_filter(filtered_lines[lin], filtered_lines[lin][data_col]) )
 	    return false ;
 	}
       column.column_list_full_filter = true ;
@@ -1215,7 +1241,7 @@ function column_list(col_offset, number_of_cols)
       if ( column.hidden == 1 )
 	continue ;
       var v = C(column.title, column.author, '20080101', column.comment) ;
-      if ( ! columns_filter(v) && !column.is_empty )
+      if ( ! columns_filter(undefined, v) && !column.is_empty )
 	continue ;
       if ( column_list_full_filter_hide(column, data_col) )
 	continue ;
@@ -1696,6 +1722,8 @@ function table_header_fill_real()
 	td_filter.childNodes[0].className = 'empty' ;
       else
 	td_filter.childNodes[0].className = '' ;
+      if ( column.filter_error )
+	td_filter.childNodes[0].className += ' attribute_error' ;
       if ( column.freezed !== '' )
 	td_filter.childNodes[0].className += ' freezed' ;
       
@@ -1762,7 +1790,7 @@ function get_filtered_lines()
       for(var filter in filters)
 	{
 	  filter = filters[filter] ;
-	  if ( ! filter[0](line[filter[1]], filter[2]) )
+	  if ( ! filter[0](line, line[filter[1]], filter[2]) )
 	    {
 	      ok = false ;
 	      break ;
@@ -1798,6 +1826,11 @@ function full_filter_change(value)
     {
       value.className = '' ;
       full_filter = compile_filter_generic(value.value) ;
+      if ( full_filter.errors )
+	value.className = "attribute_error" ;
+      else
+	value.className = value.className.replace("attribute_error", "") ;
+
     }
   column_offset = 0 ;
   line_offset = 0 ;
@@ -1850,7 +1883,12 @@ function line_filter_change_real()
     {
       value.className = '' ;
       line_filter = compile_filter_generic(value.value) ;
+      if ( line_filter.errors )
+	value.className = "attribute_error" ;
+      else
+	value.className = value.className.replace("attribute_error", "") ;
     }
+    
   //  column_offset = 0 ;
   line_offset = 0 ;
   table_fill(true, true,true) ; 
@@ -1950,7 +1988,7 @@ function update_filtered_lines()
 	{
 	  line = filtered_lines[line] ;
 	  for(var column in cls)
-	    if ( full_filter( line[cls[column]] ) )
+	    if ( full_filter(line, line[cls[column]] ) )
 	      {
 		f.push(line) ;
 		break ;
@@ -1967,7 +2005,7 @@ function update_filtered_lines()
 	{
 	  line = filtered_lines[line] ;
 	  for(var column in cls)
-	    if ( line_filter( line[cls[column]] ) )
+	    if ( line_filter(line, line[cls[column]] ) )
 	      {
 		f.push(line) ;
 		break ;
@@ -2035,7 +2073,7 @@ function line_fill(line, write, cls, empty_column)
 	  td.innerHTML = ' ' ;
 	}
       else
-	update_cell(td, the_line[data_col], cls[col], abj) ;
+	update_cell(td, the_line[data_col], cls[col], abj, the_line) ;
     }
 }
 
@@ -2658,25 +2696,25 @@ function cell_get_value_real(line_id, data_col)
 					      columns[data_col]);
 }
 
-function cell_class(cell, column)
+function cell_class(column, line, cell)
 {
   var className = '' ;
 
-  if ( column.color_green_filter(cell, column) )
+  if ( column.color_green_filter(line, cell) )
     className += ' color_green' ;
-  if ( column.color_red_filter(cell, column) )
+  if ( column.color_red_filter(line, cell) )
     className += ' color_red' ;  
-  if ( column.color_greentext_filter(cell, column) )
+  if ( column.color_greentext_filter(line, cell) )
     className += ' greentext' ;
-  if ( column.color_redtext_filter(cell, column) )
+  if ( column.color_redtext_filter(line, cell) )
     className += ' redtext' ;
   return className ;
 }
 
-function update_cell(td, cell, column, abj)
+function update_cell(td, cell, column, abj, line)
 {
   var v = cell.value ;
-  var className = cell_class(cell, column) ;
+  var className = cell_class(column, line, cell) ;
   if ( className.indexOf('text') == -1 )
     if ( cell.is_mine() && column.real_type.cell_is_modifiable )
       className += ' rw' ;
@@ -2696,9 +2734,9 @@ function update_cell(td, cell, column, abj)
       className += ' number' ;
       v = column.real_type.formatte(v, column) ;
     }
-  if ( full_filter && full_filter(cell) )
+  if ( full_filter && full_filter(line, cell) )
     className += ' filtered' ;
-  else if ( line_filter && line_filter(cell) )
+  else if ( line_filter && line_filter(line, cell) )
     className += ' filtered' ;
   
   if ( v === abi && abj && abj[0].length )
@@ -2863,7 +2901,7 @@ function cell_set_value_real(line_id, data_col, value, td)
   if ( value.toString() == lines[line_id][data_col].value.toString() )
     return ;
 
-  if ( ! cell.modifiable(column) )
+  if ( ! cell.modifiable(lines[line_id], column) )
     return ;
 
   if ( column.is_empty && columns_filter_value !== '' )
@@ -2931,7 +2969,7 @@ function cell_set_value_real(line_id, data_col, value, td)
 
   var v ;
   if ( td !== undefined )
-    v = update_cell(td, cell, column) ;
+    v = update_cell(td, cell, column, undefined, lines[line_id]) ;
 
   /* Create cell */
   append_image(td, 'cell_change/' + column.the_id + '/' +
@@ -2956,12 +2994,12 @@ function cell_set_value_real(line_id, data_col, value, td)
 		  continue ; // Itself
 		var cell = lines[line_key][column.data_col] ;
 		if ( lines[line_key][col].value.toString() == group
-		     && cell.modifiable(column) )
+		     && cell.modifiable(lines[line_key], column) )
 		  {
 		    cell.set_value(value) ;
 		    td = td_from_line_id_data_col(line_key, column.data_col) ;
 		    if ( td !== undefined )
-		      update_cell(td, cell, column) ;
+		      update_cell(td, cell, column,undefined,lines[line_key]) ;
 		  }
 	      }
 	}
@@ -3932,7 +3970,7 @@ function Xcell_change(col, line_id, value, date, identity, history)
 
   if ( td !== undefined )
     {
-      update_cell(td, cell, columns[data_col]) ;
+      update_cell(td, cell, columns[data_col], undefined, lines[line_id]) ;
       if ( td == the_current_cell.td )
 	{
 	  the_current_cell.update_cell_headers() ;
@@ -3954,7 +3992,7 @@ function Xcomment_change(identity, col, line_id, value)
   var td = td_from_line_id_data_col(line_id, data_col) ;
   if ( td !== undefined )
     {
-      update_cell(td, cell, columns[data_col]) ;
+      update_cell(td, cell, columns[data_col], undefined, lines[line_id]) ;
       if ( cell === the_current_cell.cell )
 	the_current_cell.update_cell_headers() ;
     }
@@ -4045,7 +4083,8 @@ function comment_change(line_id, data_col, comment, td)
   create_column(columns[data_col]) ;
   add_a_new_line(line_id) ;
 
-  var ok = lines[line_id][data_col].changeable(columns[data_col]) ;
+  var ok = lines[line_id][data_col].changeable(lines[line_id],
+					       columns[data_col]) ;
   if ( ok !== true )
     {
       alert_append(ok) ;
@@ -4057,7 +4096,8 @@ function comment_change(line_id, data_col, comment, td)
   append_image(td, 'comment_change/' + col_id + '/' +
 	       line_id + '/' + encode_uri(comment)) ;
   if ( td )
-    update_cell(td, lines[line_id][data_col], columns[data_col]) ;
+    update_cell(td, lines[line_id][data_col], columns[data_col], undefined,
+		lines[line_id]) ;
 }
 
 function comment_on_change()
@@ -4070,7 +4110,8 @@ function comment_on_change()
   if ( lines[the_current_cell.line_id][the_current_cell.data_col].comment == input.value )
     return ;
 
-  if ( ! cell.modifiable(the_current_cell.column) )
+  if ( ! cell.modifiable(lines[the_current_cell.line_id],
+			 the_current_cell.column) )
     {
       Alert("ERROR_value_not_modifiable") ;
       return ;

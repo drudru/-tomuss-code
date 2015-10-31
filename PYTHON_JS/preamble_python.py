@@ -52,8 +52,11 @@ except KeyError:
 def millisec():
     return time.time() * 1000
 
-def seconds_to_date(seconds):
-    return time.strftime('%Y%m%d%H%M%S', time.localtime(seconds))
+def seconds_to_date(seconds=None):
+    if debug and seconds is None:
+        return time.strftime('%Y%m%d%H%M%S', time.localtime(millisec()/1000))
+    else:
+        return time.strftime('%Y%m%d%H%M%S', time.localtime(seconds))
 
 def date_to_seconds(date):
     return time.mktime(time.strptime(date.ljust(14, '0'), '%Y%m%d%H%M%S'))
@@ -67,6 +70,8 @@ def to_float(txt):
     try:
         return float(txt.replace(',', '.'))
     except: # Because txt is a float or not a number in a string
+        if txt == '':
+            return 0.
         return float(txt)
 
 def to_float_or_nan(txt):

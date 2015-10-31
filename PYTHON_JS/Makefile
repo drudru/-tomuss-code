@@ -101,6 +101,13 @@ difference.js:difference.py xxx_tomuss.js Makefile
 	@$(NODE) xxx.js
 	@echo
 
+used_filters:
+	find ../DB/Y[!0]* -name '*.py' -print0 | \
+	xargs -0 grep -e 'filter' -e 'cell_writable' | \
+	sed -e "s/.*['"\""],['"\""]//" -e "s/..$$//" | \
+	awk '{T[$$0]++;} END { for(i in T) print T[i], i ; }' | \
+	sort -n
+
 # Only for personnal testing
 
 test:

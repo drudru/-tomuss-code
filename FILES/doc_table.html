@@ -406,7 +406,7 @@
       <ul>
 	<li> Vous mettez le type de colonne «Dépôt»
 	<li> Vous pouvez indiquer à la droite du type la taille
-	  maximum autorisée pour le fichier déposé.
+	  maximum autorisée pour le fichier déposé en kilo octets.
 	<li> Pour que les étudiants puissent déposer :
 	  il faut dans l'onglet «Config» basculer de
 	  «Personne ne peux modifier à partir du suivi»
@@ -420,21 +420,96 @@
 	<li> Le commentaire de la cellule contient le type mime du fichier
 	  ainsi que son nom original sur le disque du déposant.
 	<li> Les enseignants peuvent déposer à la place des étudiants.
-	<li> Il n'y a pas de date limite de dépôt.
-	<li> Les étudiants peuvent remplacer le fichier déposé.
-	  Les anciens fichiers déposés sont écrasés.
 	<li> Les étudiants peuvent charger ce qu'ils ont déposé.
 	<li> On ne peut pas effacer de fichier.
 	<li> Les fichiers déposés sont détruits à la fin du semestre.
 	<li> Il n'y a pas d'anti-plagiat.
-	<li> Dans la tableau, si l'on double click sur la cellule
+	<li> Dans la tableau, si l'on double clic sur la cellule
 	  cela charge le document déposé.
-	<li> si des groupes d'étudiants sont utilisés, celui qui a déposé
-	  est le seul à pouvoir modifier.
-	  Les autres peuvent voir ce qu'il a déposé.
+	<li> si des groupes d'étudiants sont utilisés,
+	  Les autres membres du groupe peuvent voir ce qui a été déposé.
 	  Il y a un commentaire sur la cellule de celui qui a fait le dépôt.
       </ul>
-      Astuces d'utilisation :
+      Si vous ne changez pas le comportement par défaut, alors :
+      <ul>
+	<li> Il n'y a pas de date limite de dépôt.
+	<li> Les étudiants peuvent remplacer le fichier déposé.
+	  Les anciens fichiers déposés sont écrasés.
+	<li> Si des groupes d'étudiants sont utilisés, celui qui a déposé
+	  est le seul à pouvoir modifier.
+      </ul>
+      <p>Droits de déposer.
+	<p>
+	    Le droit de dépôt est défini par le champ «Cellule modifiable si»
+	    qui est dans l'onglet «Config».
+	    Essayez de faire le plus simple possible car il est facile
+	    de se tromper.
+	    <br>
+	    Voici quelques filtres que l'on va utiliser pour gérer cela,
+	    vous pouvez les tester en coloriant les cellules.
+	    <ul>
+	      <li> «=» tout seul indique que la cellule est vide
+		et donc qu'il n'y a pas de dépôt.
+	      <li> «@» tout seul indique que c'est l'étudiant qui a fait
+		le précédent dépôt (donc ni son binôme ni le prof)
+	      <li> «?[]» est la date actuelle.
+	      <li> «?» est la date de modification de la cellule.
+	      <li> «@[]» est le login de la personne qui regarde/modifie.
+	    </ul>
+	    <table>
+	      <tr><td> <td style="text-align:center">
+		  <b>«Cellule modifiable si»</b><br>
+		    Le «<b>ou</b>» fait parti du filtre.
+	      </tr>
+	      <tr>
+		<td> Donner 6 minutes aux étudiants pour redéposer
+		  s'ils se sont trompés.
+		  <td> = <b>ou</b> @ ?&lt;0.1h
+	      </tr>
+	      <tr>
+		<td> Autoriser des étudiants à redéposer une fois.<br>
+		  Mettre OK dans les cellules des étudiants en question.
+		  <td> =OK
+	      </tr>
+	      <tr>
+		<td>Interdire la modification après le premier dépôt.<br>
+		<td> =
+	      </tr>
+	      <tr>
+		<td> Autoriser 1 ou 2 étudiants déposer.<br>
+		  <td style="white-space:nowrap"> @[]=p0000000 <b>ou</b> @[]=p1234567
+	      </tr>
+	      <tr>
+		<td> Autoriser une séquence à déposer.
+		  <td> [Seq]=1 = <b>ou</b> [Seq]=1 @
+	      </tr>
+	      <tr>
+		<td> Indiquer une date limite de dépôt.
+		  <td style="white-space:nowrap"> = ?[]&lt;30/1/2015-15:00:00
+	      </tr>
+	      <tr>
+		<td> Date limite + séquence + redépôt autorisé
+		  <td>
+		    ?[]&lt;30/1/2015 [Seq]=1 =<br> <b>ou</b> ?[]&lt;30/1/2015 [Seq]=1 @
+	      </tr>
+	      <tr>
+		<td> Date limite + séquence + redépôt autorisé,
+		  autorise les étudiants à écraser ce que
+		  l'enseignant ou le binôme a saisi.<br>
+		  <b>Autorise tous les enseignants à écraser
+		    la cellule</b>
+		  <td>
+		    ?[]&lt;30/1/2015 [Seq]=1
+	      </tr>
+	      <tr>
+		<td> Idem avec plusieurs séquences et groupes et
+		  des dates de début.
+		  <td>
+		    ?[]&gt;30/1/2015-09:00 ?[]&lt;30/1/2015-10:00 [Seq]=1<br>
+		    <b>ou</b> ?[]&gt;31/1/2015-10:00 ?[]&lt;31/1/2015-11:00 [Seq]=2<br>
+	      </tr>
+	    </table>
+      <p>Astuces d'utilisation :
       <ul>
 	<li> <b>Trier par date de dépôt ou les afficher.</b><br>
 	  Vous mettez le curseur sur «▼» et vous cliquez sur «Date»
@@ -447,27 +522,6 @@
 	<li> <b>Envoyer un message à ceux qui n'ont pas déposé le document.</b><br>
 	  Vous mettez «=» dans le filtre de la colonne de dépôt
 	  et vous cliquez sur le bouton «Mail»
-	<li> <b>Interdire la modification après le premier chargement.</b><br>
-	  Dans l'onglet «Config» vous mettez «=» dans le champ
-	  «Cellule modifiable si». Les cellules non vides ne seront plus modifiables.
-	<li> <b>Autoriser quelques étudiants à redéposer.</b><br>
-	  <ul>
-	    <li> Vous mettez «OK» dans les cellules des étudiants,
-	    <li> Dans l'onglet «Config» vous mettez «=OK» dans le champ
-	      «Cellule modifiable si».
-	    <li> Dans l'onglet «Config» vous basculez de
-	      «Personne ne peux modifier à partir du suivi»
-	      à «Les étudiants peuvent modifier leur valeur à partir du suivi».
-	    <li> Bien que le dépôt soit ouvert les autres étudiants
-	      ne pourront pas déposer ou redéposer.
-	  </ul>
-	<li> <b>Donner 6 minutes aux étudiants pour redéposer s'ils se sont trompés.</b><br>
-	Dans l'onglet «Config» vous mettez «= ou @ ?&lt;0.1h»
-	  dans le champ
-	  «Cellule modifiable si».
-	  Après 6 minutes les étudiants ne pourront plus changer
-	  le fichier déposé.
-
 	<li> <b>Récupérer un fichier ZIP des documents des étudiants
 	    pour son groupe de TD.</b><br>
 	  Vous filtrez vos étudiants et vous cliquez sur «Charger ZIP»
@@ -1471,6 +1525,12 @@
       <tr class="highlight"><td> <b>@ ?</b><td> Les valeurs que j'ai modifiées aujourd'hui.</tr>
       <tr><td> <b>!@ ?</b><td> Les valeurs modifiées par les autres aujourd'hui.</tr>
       <tr class="highlight"><td> <b>=0 ou =ABINJ ou =PPNOT</b><td> L'une des trois valeurs</tr>
+      <tr><td> <b>[Seq]=5</b><td> La valeur dans colonne <tt>Seq</tt> est égale à 5</tr>
+      <tr class="highlight"><td> <b>[Grp]A</b><td> La valeur dans colonne <tt>Grp</tt> commence par A</tr>
+      <tr><td> <b>[TD2]&gt;[TD1]</b><td> La note de TD2 est supérieure à celle de TD1</tr>
+      <tr class="highlight"><td> <b>?[]&lt;30/01/2015-11:45</b><td> La date actuelle est avant la date indiquée</tr>
+      <tr><td> <b>@[]=[EnseignantTP]</b><td> La personne connecté à son login indiqué dans la colonne EnseignantTP</tr>
+      <tr class="highlight"><td> <b>#[TD3]~A</b><td> Le commentaire dans la colonne <tt>TD3</tt> contient A</tr>
 </table>
 
 
@@ -1512,18 +1572,20 @@
 	  <li>
             La valeur à tester peut être&nbsp;:
 	    <ul>
-	       <li> une chaine vide.<br>
-	       <li><b>123.456</b> Si c'est un nombre, alors les tests seront numériques
+	      <li> une chaine vide.<br>
+	      <li><b>123.456</b> Si c'est un nombre, alors les tests seront numériques
 		et donc '5' sera bien égal à '5.0'<br>
-	       <li><b>abcde</b> Si c'est une chaine, alors les opérateurs
+	      <li><b>abcde</b> Si c'est une chaine, alors les opérateurs
 		seront lexicographiques et ne feront pas la différence
 		entre les minuscules et les majuscules.
 		Sauf si la chaine contient des majuscules ou des accents.
-	    <li>
-	    <b>JJ/MM/AAAA</b> Pour comparer des dates.
-	    <li><b>99h</b> Il y a 99 heures.
-		<li> <b>99j</b> Il y a 99 jours.
-	  </ul>
+	      <li><b>[TitreDeColonne]</b> le contenu de la colonne indiquée.
+		On peut ajouter <b>?@:#</b> avant le crochet pour prendre
+		un autre attribut.
+	      <li> <b>JJ/MM/AAAA</b> Pour comparer des dates.
+	      <li> <b>99h</b> Il y a 99 heures.
+	      <li> <b>99j</b> Il y a 99 jours.
+	    </ul>
 	</ul>
 
 
@@ -1640,7 +1702,7 @@
       on peut avoir plusieurs groupes différents TD, TP, projet...
     </p>
     </div>
-
+    </div>
     <script src="documentation.js"></script>
   </body>
 </html>

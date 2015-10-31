@@ -20,13 +20,13 @@
     Contact: Thierry.EXCOFFIER@bat710.univ-lyon1.fr
 */
 
-function the_greentext_filter(c, column)
-{
-  return c.value > column.color_greentext ;
-}
-
 function set_greentext(value, column)
 {
+  function the_greentext_filter(line, cell)
+  {
+    return cell.value > column.color_greentext ;
+  }
+
   if ( value === undefined )
     value = '' ;
   if ( value === '' )
@@ -41,7 +41,7 @@ function set_greentext(value, column)
     }
   else if ( isNaN(value) )
     {
-      column.color_greentext_filter = compile_filter_generic(value, column) ;
+      column.color_greentext_filter = compile_filter_generic(value,column,true);
     }
   else
     {
@@ -49,6 +49,7 @@ function set_greentext(value, column)
       column.color_greentext_filter = the_greentext_filter ;
       column.color_greentext = value ;
     }
+  column.greentext_error = column.color_greentext_filter.errors ;
   column_update_option('greentext', value) ;
 
   return value ;

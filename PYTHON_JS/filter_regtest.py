@@ -33,7 +33,7 @@ def localtime():
 
 def millisec():
     return 1400148000 * 1000
-        
+
 def dateRegtest():
     if ','.join(REsplit("[ab]", "1a2b3")) != '1,2,3':
         regression_test_failed
@@ -72,6 +72,7 @@ def filterRegtest():
                     + ')')
     tst = "joHé n<>Ê#@?&=→/\\\\"
     c = Cell(4, tst, "20140510181920", "14", "")
+    line = []
     # Simple filter that should return True.
     # They are also tested prefixed by !
     for tst in ['', '<5', '<=4', '>3', '=4', '>=4', '@j', '@<k', ':<15', ':~4',
@@ -85,12 +86,14 @@ def filterRegtest():
                 '@~=', '@~\\&=', "@~\\ n", "@~\\ ", "@~H",
                 "@~h", "@~e", "@~é", "@~ê", "@~E", "@~→/",
                 "#=", "=4 ", "4 ", "@~\\\\\\\\",
-                "@~\\ ",
+                "@~\\ ", "@>é", "@<ô"
                 ]:
-        if not Filter(tst, "", "").evaluate(c):
+        if not Filter(tst, "", "").evaluate(line, c):
             bug("BUG1", tst)
+        if not Filter(' ' + tst + ' ', "", "").evaluate(line, c):
+            bug("BUG1.1", ' ' + tst + ' ')
         tst = '!' + tst
-        if Filter(tst, "", "").evaluate(c):
+        if Filter(tst, "", "").evaluate(line, c):
             bug("BUG2", tst)
     # Simple filter that should return False.
     # They are also tested prefixed by !
@@ -102,17 +105,18 @@ def filterRegtest():
                 '?', '?<=4j',
                 'undefined',
                 "@~è", contextual_case_sensitive and "@~J" or 'NO',
+                "@>ô",
                 "@~=/", # Test if → is lost
                 "\\ ",
                 ]:
-        if Filter(tst, "", "").evaluate(c):
+        if Filter(tst, "", "").evaluate(line, c):
             bug("BUG3", tst)
-        if Filter(tst+' ', "", "").evaluate(c):
+        if Filter(tst+' ', "", "").evaluate(line, c):
             bug("BUG3space", tst)
         tst = '!' + tst
-        if not Filter(tst, "", "").evaluate(c):
+        if not Filter(tst, "", "").evaluate(line, c):
             bug("BUG4", tst)
-        if not Filter(tst + ' ', "", "").evaluate(c):
+        if not Filter(tst + ' ', "", "").evaluate(line, c):
             bug("BUG4space", tst)
 
     # Complex filter that should return True.
@@ -129,18 +133,18 @@ def filterRegtest():
                 ">9 >9 OR >3 <5 <9",
                 ]:
         tst = replace_all(tst, 'OR', or_keyword())
-        if not Filter(tst, "", "").evaluate(c):
+        if not Filter(tst, "", "").evaluate(line, c):
             bug("BUG5", tst)
-        if not Filter(tst + ' ', "", "").evaluate(c):
+        if not Filter(tst + ' ', "", "").evaluate(line, c):
             bug("BUG5space", tst)
 
     # Complex filter that should return False.
     for tst in ['@j & :13', '@k & :14', '@j :13', '@k :14', '@k   :14',
                 '@~&=', "@~ n", 'b !4', '!4 b',
                 ]:
-        if Filter(tst, "", "").evaluate(c):
+        if Filter(tst, "", "").evaluate(line, c):
             bug("BUG6", tst)
-        if Filter(tst+' ', "", "").evaluate(c):
+        if Filter(tst+' ', "", "").evaluate(line, c):
             bug("BUG6space", tst)
 
     # Special cases
@@ -172,11 +176,11 @@ def filterRegtest():
         ]:
         cell, filters, result = cell_filters_result
         if Filter(filters[0], filters[1], filters[2]
-                  ).evaluate(Cell(cell[0], cell[1], cell[2], cell[3], cell[4]
+                  ).evaluate(line, Cell(cell[0], cell[1], cell[2], cell[3], cell[4]
                               )) != result:
             bug("BUG7", filters[0], username=filters[1])
         if Filter('!'+filters[0], filters[1], filters[2]
-                  ).evaluate(Cell(cell[0], cell[1], cell[2], cell[3], cell[4]
+                  ).evaluate(line, Cell(cell[0], cell[1], cell[2], cell[3], cell[4]
                               )) == result:
             print(cell, filters)
             bug("BUG8", '!'+filters[0], username=filters[1])
@@ -185,20 +189,84 @@ def filterRegtest():
     c = Cell('10/5/2014 18:19:20', "", "", "", "")
     for tst in ['<16/5/2014', '<16/5', '<16', "=10", "=10/5", "=10/5/2014",
                 '<10/5/2014\\ 19', '<=10/5/2014-18:19','<10/5/2014-18:19:21']:
-        if not Filter(tst, "", "Date").evaluate(c):
+        if not Filter(tst, "", "Date").evaluate(line, c):
             bug("BUG10", tst, username="", column_type="Date")
     for tst in ['<9/5/2014', '<9/5', '<9',
                 '<10/5/2014\\ 18', '<10/5/2014_18:19','<10/5/2014-18:19:20']:
-        if Filter(tst, "", "Date").evaluate(c):
+        if Filter(tst, "", "Date").evaluate(line, c):
             bug("BUG11", tst, username="", column_type="Date")
 
     # Double spaces
     c = Cell('a  b', "", "", "", "")
     for tst in ['a ', 'a  b  ', 'a  ~b  ', '~\\ ', "~\\ \\ "]:
-        if Filter(tst, "", "").evaluate(c) is not True:
+        if Filter(tst, "", "").evaluate(line, c) is not True:
             bug("BUG12", tst, username="", column_type="Text")
 
-        
+    # Other column on operator left
+    columns_set([Column({'title': 'A'}),
+                 Column({'title': 'B'}),
+                 Column({'title': 'C'}),
+                 Column({'title': 'D'}),
+                 Column({'title': 'E'}),
+                 Column({'title': 'F'}),
+                 Column({'title': 'G'}),
+                 Column({'title': 'H'}),
+             ])
+    line = [Cell('Va', "Aa", "20140510181920", "8,8", "Ca"),
+            Cell('9,9' , "Ab", "20140510181930", "Va", "Cb"),
+            Cell('10', "Ac", "20140510181940", "8.8", "Cc"),
+            Cell('10/5/2014 18:19:35', "Ad", "20140510181950", "", "Cd"),
+            Cell(8.9, "Ae", "20140510181940", "He", "Ce"),
+            Cell("9a", "Af", "20140510181940", "Hf", "Cf"),
+            Cell(11, "Ag", "20140515120000", "Aa", "15/5/2014 13"),
+            Cell(0, "Ah", "20140515120000", "Hh", "Ch"),
+            ]
+    # Comment dire : le commentaire commence par la valeur de ?
+    for tst in ['9', '[A]=Va', '[C]=10', '[A]V', '[A]<Vb', '[A]~a', '![A]>Va',
+                '[C]1', '[A] [C]', '9 [A]',
+                '#[A]=Ca', '#[A]C', '!#[A]>D', '[B]<10',
+                '[A]=Va [B]=9,9 @[C]Ac ?[B]=10/5/2014 !?[B]=11/5/2014',
+                ":=[A]", ":<[C]", ":~[A]", "<=[B]", "<[C]",
+                "?<[D]", "?[A]<[D]", "?[C]>[D]",
+                "?[B]>?[A]", "?[C]>?[B]", "!?[C]<?[A]", "?>?[A]", "?<?[C]",
+                ":[A]=:[C]", ":<:[A]",
+                "[D]=[D]", ":[D]=:[D]", "#[D]=#[D]", "?[D]=?[D]", "@[D]=@[D]",
+                "[D]>=[D]",":[D]>=:[D]","#[D]>=#[D]","?[D]>=?[D]","@[D]>=@[D]",
+                "[D]<=[D]",":[D]<=:[D]","#[D]<=#[D]","?[D]<=?[D]","@[D]<=@[D]",
+                "[D]~[D]", ":[D]~:[D]", "#[D]~#[D]", "?[D]~?[D]", "@[D]~@[D]",
+                "@[C]>@[B] [C]>[B] [A]=:[B]",
+                "[E]<[G]", "[E]<[B]",
+                "[E]>[F]", # XXX Not nice because 9a is smaller than 8
+                "@[A]=Aa", ":[G]=@[A]", "@[]=Ad", "@[]=@[D]", "@[]=ad",
+                "?[]=15/5/2014-12", "?[]=?[G]", "?[G]=?[]", "[D]<?[]",
+                "#[G]>?[]", "#[F]>?[]",
+                "[H]=:[D]"
+            ]:
+        if Filter(tst, "Ad", "").evaluate(line, line[1]) is not True:
+            bug("BUG13", tst, username="Ad", column_type="Text")
+
+    # Check other_data_col
+    for tst in [
+            ["A", []],
+            ["[B]", [1]],
+            ["?[C]", [2]],
+            [">[D]", [3]],
+            ["?[] @[]", []],
+            ["[E]>[F]", [4,5]],
+            ["[G] | [H]", [6,7]],
+            ["[H] [G] | ?[B]<?[A]", [0,1,6,7]],
+            ]:
+        computed = Filter(tst[0], "", "").other_data_col()
+        expected = tst[1]
+        error = len(computed) != len(expected)
+        for i in range(len(computed)):
+            if computed[i] != expected[i]:
+                error = True
+        if error:
+            print(computed)
+            print(expected)
+            bug("other_data_col", tst[0])
+
     if len(bugs):
         regression_test_failed
 

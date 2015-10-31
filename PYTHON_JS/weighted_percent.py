@@ -24,7 +24,7 @@
 def compute_weighted_percent_(data_col, line, root_col):
     column = columns[data_col]
     if not column.is_computed():
-        if root_col.nmbr_filter(line[data_col]):
+        if root_col.nmbr_filter(line, line[data_col]):
             return 1.
         else:
             return 0.

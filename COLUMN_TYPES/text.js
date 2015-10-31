@@ -31,19 +31,33 @@ function type_title_to_type(title)
   // alert_append('bug type_title_to_type : ' + title);
 }
 
-function compile_filter_generic(value, column)
+function compile_filter_generic(value, column, error_if_hidden)
 {
+  var typ ;
   if ( column )
-    column = column.type.name ;
+    column_type = column.type.name ;
   else
-    column = 'Text' ;
-  var g = new Filter(value, my_identity, column) ;
+    column_type = 'Text' ;
+  var g = new Filter(value, my_identity, column_type) ;
+  if ( error_if_hidden )
+    {
+      var used = g.other_data_col() ;
+      for(var i in used)
+      {
+	if ( ! columns[used[i]].is_visible() )
+	{
+	  g.errors[html('«' + columns[used[i]].title) + '» '
+		   + _("MSG_depends_on_invisible")] = true ;
+	}
+      }
+    }
   return g.compiled_js() ;
 }
 
 function set_filter_generic(value, column)
 {
   column.real_filter = compile_filter_generic(value, column) ;
+  column.filter_error = column.real_filter.errors ;
   column_update_option('filter', value) ;
   return value ;
 }

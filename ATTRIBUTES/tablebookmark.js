@@ -165,6 +165,8 @@ function get_all_options()
       cf.value = h ;
       line_filter_value = h ;
       line_filter = compile_filter_generic(h) ;
+      if ( line_filter.errors )
+	cf.className = "attribute_error" ;
     }
 
   h = get_option('full_filter', '', true) ;
@@ -176,6 +178,8 @@ function get_all_options()
       ff.value = h ;
       full_filter_value = h ;
       full_filter = compile_filter_generic(h) ;
+      if ( full_filter.errors )
+	ff.className = "attribute_error" ;
     }
 
   column_get_option('red') ;

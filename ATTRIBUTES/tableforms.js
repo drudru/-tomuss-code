@@ -241,7 +241,7 @@ function table_forms_update(THIS)
 	    var img = tr.getElementsByTagName('IMG') ;
 	    if ( img.length )
 		img[0].parentNode.removeChild(img[0]) ;
-	    if (! cell.modifiable(columns[tr.data_col]) )
+	    if (! cell.modifiable(THIS.line, columns[tr.data_col]) )
 		tr.className += 'ro' ;
 	}
 }
