@@ -449,7 +449,7 @@ def execute(server, plugin):
                 if plugin.mimetype and plugin.upload_max_size:
                     x = "uploading_%d" % id(server)
                     utilities.important_job_add(x)
-                    server.restore_connection(wait=False)
+                    server.restore_connection()
                     server.uploaded = server.get_field_storage(
                         plugin.upload_max_size)
                     try:
