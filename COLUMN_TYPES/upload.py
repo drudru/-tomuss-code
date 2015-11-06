@@ -72,7 +72,10 @@ def check_virus(data):
         utilities.warn("SCAN: CAN'T CONNECT TO CLAMAV")
         return '' # Not installed or not running
     utilities.warn("SCAN: START")
-    res = pc.scan_stream(HackClamd(data))
+    if isinstance(data, basestring):
+        res = pc.scan_stream(data)
+    else:
+        res = pc.scan_stream(HackClamd(data))
     utilities.warn("SCAN: STOP %s" % res)
     if res:
         return repr(res)
@@ -104,10 +107,16 @@ def save_file(server, page, column, lin_id, data, filename):
     if os.path.exists(file_path):
         os.rename(file_path, file_path + '~')
 
-    data.seek(0) # because check_virus read it
-    f = open(file_path, "w")
-    n = copy_stream(data, f)
-    data.close() # Free FieldStorage
+    if isinstance(data, basestring):
+        f = open(file_path, "w")
+        n = len(data)
+        f.write(data)
+        f.close()
+    else:
+        data.seek(0) # because check_virus read it
+        f = open(file_path, "w")
+        n = copy_stream(data, f)
+        data.close() # Free FieldStorage
 
     server.the_file.write('- <span>%s %s</span>\n' %
                           (server._("MSG_upload_size"), n))
