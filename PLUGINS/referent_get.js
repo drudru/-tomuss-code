@@ -38,10 +38,9 @@ function go_referent_set_do()
   var teacher = document.getElementById('go_referent_set').value ;
 
   create_popup('import_list', _("TITLE_referent_get_do"),
-	       '<iframe width="100%" src="' + base
-	       + 'referent_set/' + teacher + '/'
-	       + values.join('/') + '">' + '</iframe>',
-	       "", false) ;
+	       '<iframe width="100%" src="'
+	       + base('referent_set/' + teacher + '/' + values.join('/'))
+	       + '">' + '</iframe>', "", false) ;
 }
 
 function go_orphan_students()
@@ -57,9 +56,8 @@ function go_orphan_students_do()
 {
   var values = popup_text_area().value.split(/[ \t\n,;.:]+/) ;
 
-  create_popup('import_list',
-	       _("TITLE_referent_get_do"),
-	       '<iframe width="100%" src="' + base
-	       + 'orphan_students/' + values.join('/') + '">' + '</iframe>',
-	       "", false) ;
+  create_popup('import_list', _("TITLE_referent_get_do"),
+	       '<iframe width="100%" src="'
+	       + base('orphan_students/' + values.join('/'))
+	       + '">' + '</iframe>', "", false) ;
 }
