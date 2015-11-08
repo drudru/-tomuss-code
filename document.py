@@ -1894,7 +1894,11 @@ def login_list(page, name):
 def it_is_a_bad_request(request, page, tabl, output_file):
     if page.request > request:
         # An old request was given. Assume same answer XXX
-        tabl.do_not_unload_remove('page_action')
+        try:
+            tabl.do_not_unload_remove('page_action')
+        except:
+            # May be raised by template reloading: forgot request
+            utilities.send_backtrace("do_not_unload_remove failed")
         try:
             warn('Old request asked : %d in place of %d' % (
                 request, page.request))
