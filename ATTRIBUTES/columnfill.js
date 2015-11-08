@@ -681,8 +681,11 @@ Filler.prototype.update_html = function() {
 	  do
 	    {
 	      place = room.places.iter_next([' ', '0', ''][this.toggles.pad0]);
-	      if ( place === undefined )
-		break ;
+	      if ( place === undefined || place === null )
+		{
+		  place = undefined ;
+		  break ;
+		}
 	    }
 	  while( room.number_used[remove_leading_0_and_space(place)] ) ;
 	  if ( place === undefined )
