@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 #    TOMUSS: The Online Multi User Simple Spreadsheet
 #    Copyright (C) 2010 Thierry EXCOFFIER, Universite Claude Bernard
@@ -67,9 +67,9 @@ bilan("%s","%s",%s,%s,%s,%s,%s,%s,%s) ;
                server.ticket.ticket,
                configuration.server_url,
                server.ticket.ticket, server.the_student, v,
-               utilities.js(firstname.title().encode('utf8')),
-               utilities.js(surname.upper().encode('utf8')),
-               utilities.js(mail.encode('utf8')),
+               utilities.js(firstname.title()),
+               utilities.js(surname.upper()),
+               utilities.js(mail),
                configuration.suivi.all(server.ticket.ticket),
                i_can_refer,
                configuration.external_bilan(server.the_student)

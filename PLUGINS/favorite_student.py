@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 #    TOMUSS: The Online Multi User Simple Spreadsheet
 #    Copyright (C) 2010 Thierry EXCOFFIER, Universite Claude Bernard
@@ -43,7 +43,7 @@ def favorite_student(server):
         
     utilities.manage_key('LOGINS', os.path.join(login, 'favstu'),
                          content = repr(d))
-    server.the_file.write(files.files['ok.png'])
+    server.the_file.write(files.files['ok.png'].bytes())
 
 plugin.Plugin('favorite_student', '/favorite_student/{?}',
               mimetype = 'image/png',

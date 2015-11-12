@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 #    TOMUSS: The Online Multi User Simple Spreadsheet
 #    Copyright (C) 2009-2013 Thierry EXCOFFIER, Universite Claude Bernard
@@ -27,7 +27,7 @@ from . import utilities
 
 live_status = []
 
-# xxx = open('xxx', 'w')
+# xxx = open('xxx', 'w', encoding = "utf-8")
 
 class File(object):
     nr_active_thread = 0
@@ -74,8 +74,11 @@ class File(object):
         finally:
             append.the_lock.release()
         if index is not None:
-            to_send.append('<script>window.page_index=%d</script>\n' % index)
-        txt = ''.join(to_send)
+            to_send.append(('<script>window.page_index=%d</script>\n' % index))
+        if isinstance(to_send[0], str) :
+            txt = ''.join(to_send)
+        else :
+            txt = b''.join(to_send)
         try:
             self.file.write(txt)
 
@@ -151,7 +154,7 @@ def get_stats():
     a = 100 * os.getloadavg()[0]
 
     try:
-        f = open('/proc/diskstats', 'r')
+        f = open('/proc/diskstats', 'r', encoding = "utf-8")
         b = [ re.split('  *',' ' + i) for i in f.readlines() ]
         f.close()
         c = sum([ int(i[14]) for i in b if not i[3][-1].isdigit() ])
@@ -161,7 +164,7 @@ def get_stats():
         b = 0
 
     try:
-        f = open('/proc/net/dev', 'r')
+        f = open('/proc/net/dev', 'r', encoding = "utf-8")
         j = [i.replace(':',' ') for i in f.readlines() if 'eth0' in i][0]
         f.close()
         j = re.split('  *',' ' + j)

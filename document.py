@@ -1,4 +1,4 @@
-#!/bin/env python
+#!/bin/env python3
 # -*- coding: utf-8 -*-
 #    TOMUSS: The Online Multi User Simple Spreadsheet
 #    Copyright (C) 2008-2014 Thierry EXCOFFIER, Universite Claude Bernard
@@ -25,7 +25,7 @@ import threading
 import socket
 import re
 import collections
-import cgi
+import html
 import inspect
 from . import utilities
 from . import configuration
@@ -115,8 +115,8 @@ class Page(object):
         return self.date[6:8] + '/' + self.date[4:6] + '/' + self.date[:4]
 
     def backtrace_html(self):
-        return (cgi.escape(str(self)) + '<br>'
-               + cgi.escape(self.user_browser) + '<br>'
+        return (html.escape(str(self)) + '<br>'
+               + html.escape(self.user_browser) + '<br>'
                 + self.user_ip)
 
 
@@ -152,7 +152,7 @@ def filter_language(language):
     return ','.join(t)
 
 def get_preferences(user_name, create_pref=True, the_ticket=None):
-    from PLUGINS import suivi_student
+    from .PLUGINS import suivi_student
     p = suivi_student.display_preferences_get(user_name)
     for k, v in {'display_tips'   : 1,
                  'nr_favorites'   : 6,
@@ -202,7 +202,7 @@ def get_preferences(user_name, create_pref=True, the_ticket=None):
         p['language'] = the_ticket.language
 
     p['language'] = filter_language(p['language'])
-    warn('Language after filtering: ' + p['language'])
+    warn('Language after filtering: ' + p['language'],what="lang")
     if p['language'] == '':
         warn('Language in server: (%s)' % configuration.language,
              what="lang")
@@ -582,14 +582,14 @@ class Table(object):
         self.mails[login] = mail
         self.send_update(None,
                          ('<script>update_mail(' + repr(login)
-                         + ',' + js(mail) + ');</script>\n').encode('utf-8')
+                         + ',' + js(mail) + ');</script>\n')
                          )
 
     def update_portail(self, login, portail): 
         self.portails[login] = portail
         self.send_update(None,
                          ('<script>update_portail(' + repr(login)
-                         + ',' + js(portail) + ');</script>\n').encode('utf-8')
+                         + ',' + js(portail) + ');</script>\n')
                          )
         
     def lock(self):
@@ -678,9 +678,8 @@ class Table(object):
                                 user_mail,
                                 # XXX need translation
                                 utilities._("MSG_document_problems"),
-                                unicode(utilities.read_file(
-                                        os.path.join('FILES', 'mail_cancel')),
-                                        'utf8').encode('latin1')
+                                utilities.read_file(
+                                        os.path.join('FILES', 'mail_cancel'))
                                 )
 
                     # Send a mail to the maintainer
@@ -739,7 +738,6 @@ class Table(object):
                     change_author=True):
         if not self.loading and not self.modifiable:
             return self.bad_ro(page)
-
         a_column = self.columns.from_id(col)
         if a_column == None:
             raise ValueError(utilities._("MSG_document_bug_column") % col)
@@ -1008,7 +1006,7 @@ class Table(object):
             return False, utilities._("MSG_document_table_today")
         if self.comment:
             return False, utilities._("MSG_document_table_comment"
-                                      ) % cgi.escape(self.comment)
+                                      ) % html.escape(self.comment)
         if not empty_even_if_column_created:
             for c in self.columns:
                 if c.author != data.ro_user and c.author != data.no_user:
@@ -1203,7 +1201,7 @@ class Table(object):
             for cell in v:
                 if cell.author not in ('', data.ro_user, data.no_user):
                     a[cell.author] = True
-        return list(a.keys())
+        return tuple(a)
 
     def update_columns(self, columns, ro_page=None):
         """Update the default columns of the table.
@@ -1508,7 +1506,7 @@ class Table(object):
                               for a,b,dummy_c,d in the_abjs]),
                     ','.join(['[%s,%s,%s]' % (js(a),js(b),js(d))
                               for a,b,dummy_c,d in da]),
-                    js(tt.encode('utf-8'))))
+                    js(tt)))
 
         self.new_abjs = 'change_abjs({%s});\n' % ',\n'.join(t)
         return self.new_abjs
@@ -1552,7 +1550,7 @@ def get_cell_from_table(server, allowed_types=None):
          table.do_not_unload_remove('cell_change')
     """
     err = get_cell_from_table_ro(server, allowed_types)
-    if isinstance(err, basestring):
+    if isinstance(err, str):
         return err
     t, column, lin = err
     if not column.is_modifiable(server.ticket.is_a_teacher,
@@ -1622,7 +1620,7 @@ def tables_manage(action, year, semester, ue, do_not_unload=0, new_table=None):
             t.unloaded = True
 
             # A loop because extended table have multiple keys
-            for k, v in tables.items():
+            for k, v in list(tables.items()):
                 if v is t:
                     del tables[k]
             return True
@@ -1789,7 +1787,7 @@ def check_new_students_real():
                     utilities.send_backtrace('', 'Student list %s' % t)
 
                 warn('done %s' % t.ue, what="table")
-                mails = inscrits.L_batch.mails(list(t.logins()) + t.authors())
+                mails = inscrits.L_batch.mails(tuple(t.logins()) + t.authors())
                 mails.update(t.mails)
                 t.change_mails(mails)
                 if t.modifiable:
@@ -1879,10 +1877,10 @@ def login_list(page, name):
     if t:
         s = []
         for lo, surname, firstname, cn in t:
-            s.append('[' + utilities.js(lo.encode('utf-8'))
-                     + ',' + utilities.js(surname.upper().encode('utf-8'))
-                     + ',' + utilities.js(firstname.title().encode('utf-8'))
-                     + ',' + utilities.js(cn.encode('utf-8'))
+            s.append('[' + utilities.js(lo)
+                     + ',' + utilities.js(surname.upper())
+                     + ',' + utilities.js(firstname.title())
+                     + ',' + utilities.js(cn)
                      + ']')
     else:
         s = []
@@ -1906,7 +1904,7 @@ def it_is_a_bad_request(request, page, tabl, output_file):
         try:
             warn('Old request asked : %d in place of %d' % (
                 request, page.request))
-            output_file.write(files.files['ok.png'])
+            output_file.write(files.files['ok.png'].bytes())
             output_file.close()
             sender.append(page.browser_file,
                           '<script>saved(%d);</script>\n' % request,
@@ -1977,7 +1975,7 @@ def check_requests():
             # In fact the buffering only gain 10% in user time and is
             # a little less secure. So it is disabled (see YYY comments)
             continue
-        my_request_list.sort()
+        my_request_list.sort(key=lambda x: (x[0], x[1]))
         to_discard = set()
         for r in my_request_list:
             page_id, request, page, action, path, output_file = r
@@ -2019,7 +2017,7 @@ def check_requests():
                                             page.answer, page.browser_file),
                      what="table")
                 if not output_file.closed:
-                    output_file.write(files.files[page.answer])
+                    output_file.write(files.files[page.answer].bytes())
                     output_file.close()
                 sender.append(page.browser_file,
                               '<script>saved(%d);</script>\n' % request,
@@ -2064,7 +2062,7 @@ def check_requests():
                 utilities.send_mail_in_background(
                     configuration.maintainer,
                     "TOMUSS: Erase old pending requests",
-                    unicode(''.join(s), 'utf-8'),
+                    ''.join(s),
                     show_to=True)
 
         # utilities.bufferize_this_file(None) # YYY Flush buffers
@@ -2080,10 +2078,16 @@ def check_down_connections():
         # Force rewrite of modified files in TMP/version/file
         # These files can be used by a static file server
         for f in files.files.values():
-            try:
-                str(f)
-            except OSError:
-                pass
+            if 'image' not in f.mimetype:
+                try:
+                    str(f)
+                except :
+                    pass
+            else :
+                try:
+                    f.bytes()
+                except OSError:
+                    pass
 
         time.sleep(configuration.check_down_connections_interval)
         for ttable in tables_values():
@@ -2123,7 +2127,7 @@ def update_computed_values_fast():
             if login not in the_table.mails:
                 m = inscrits.L_fast.mail(login)
                 if m:
-                    the_table.update_mail(login, m.encode('utf-8'))
+                    the_table.update_mail(login, m)
             # Update mail if login changed
             if a_column.data_col == 0:
                 login = the_table.lines[lin][0].value
@@ -2205,7 +2209,6 @@ def virtual_table(server, the_columns, the_lines, table_attrs={}, js="",css=""):
     mails = inscrits.L_batch.mails(logins)
     server.the_file.write("<script>Xtable_attr('mails',%s);</script>\n"
                           % utilities.js(mails))
-    server.close_connection_now()
        
 def start_threads():
     utilities.start_new_thread_immortal(check_new_students, ())

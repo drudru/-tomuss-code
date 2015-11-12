@@ -1,4 +1,4 @@
-#!/usr/bin/python
+#!/usr/bin/python3
 # -*- coding: utf-8 -*-
 
 """
@@ -120,7 +120,7 @@ def content():
                         if f is None or size > 1000000:
                             if f:
                                 f.close()
-                            f = open('xxx_%04d_data.js' % index, "w")
+                            f = open('xxx_%04d_data.js' % index, "w", encoding = "utf-8")
                             index += 1
                             size = 0
                         need = True
@@ -145,7 +145,7 @@ else:
     files = glob.glob('xxx_[0-9][0-9][0-9][0-9]_data.js')
 
 for filename in files:
-    print "#", filename
+    print("#", filename)
     sys.stdout.flush()
     utilities.write_file('xxx.' + filename,
                          headers + utilities.read_file(filename)

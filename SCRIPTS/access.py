@@ -1,4 +1,4 @@
-#!/usr/bin/python
+#!/usr/bin/python3
 # -*- coding: latin-1 -*-
 
 """
@@ -14,15 +14,15 @@ import collections
 from .. import utilities
 from .. import configuration
 
-_ = utilities.__
+_ = utilities._
 
 def plot(filename, commands):
-    print 'Plotting', filename
+    print('Plotting', filename)
     f = os.popen('gnuplot', 'w')
     f.write('set encoding iso_8859_1\n')
     f.write('set terminal png large font arial tiny\n')
     f.write("set output 'TMP/%s'\n" % filename)
-    f.write(commands.encode('latin-1'))
+    f.write(commands)
     f.close()
 
 def parse_date(date):
@@ -73,17 +73,14 @@ class Stats(object):
         else:
             self.dates[t] = 1
 
-
     def date_number(self):
-        a = self.dates.items()
-        a.sort()
-        return a
+        return sorted(self.dates.items())
 
     def plot_hours(self, name, visits='cell_change'):
         d = self.duration / 86400.
         if d < 1:
             d = 1
-        f = open("xxx", 'w')
+        f = open("xxx", 'w', encoding = "utf-8")
         f.write('\n'.join(['%d %g' % (v[0], v[1]/d)
                            for v in enumerate(self.hours)]))
         f.close()
@@ -106,7 +103,7 @@ class Stats(object):
         d = self.duration / (7*86400.)
         if d < 1:
             d = 1
-        f = open('xxx', 'w')
+        f = open('xxx', 'w', encoding = "utf-8")
         f.write('\n'.join(['%d %g' % (v[0], v[1]/d)
                            for v in enumerate(self.days)]))
         f.close()
@@ -137,7 +134,7 @@ class Stats(object):
         year = start_year
         years = []
         while a:
-            f = open('xxx.%d' % year, 'w')
+            f = open('xxx.%d' % year, 'w', encoding = "utf-8")
             while a:
                 local = time.localtime(a[0][0])
                 if local[0] == year:
@@ -173,7 +170,7 @@ class Stats(object):
 def analyse_cellchange():
     d = configuration.db + '/Y*/S[!T]*/*.py'
 
-    print 'Analyse:', d
+    print('Analyse:', d)
 
     f = os.popen("grep -h '^cell_change' 2>/dev/null " + d, "r")
     stat = Stats()
@@ -201,7 +198,7 @@ histogram_diff = [0] * 1000
 student_diff = collections.defaultdict(list)
 for filenam in glob.glob(os.path.join("LOGS", "SUIVI*/*.connections")):
     try:
-        ff = open(filenam, "r")
+        ff = open(filenam, "r", encoding = "utf-8")
     except IOError:
         continue
     last = ''
@@ -213,7 +210,7 @@ for filenam in glob.glob(os.path.join("LOGS", "SUIVI*/*.connections")):
             continue
         tt, login = lin
         if len(tt) != 14:
-            print tt
+            print(tt)
             continue
         secondes = parse_date(tt)
         if configuration.is_a_student(login):
@@ -255,7 +252,7 @@ def seconds_to_human(s):
         return "%dd" % s
     return "%dM" % (s/30)
 
-ff = open("xxx.histogram_diff", "w")
+ff = open("xxx.histogram_diff", "w", encoding = "utf-8")
 for ii, nb in enumerate(histogram_diff):
     ff.write("%d %d\n" % (ii, nb))
 ff.close()
@@ -300,7 +297,7 @@ for diffs in student_diff.values():
 while histogram_diff[-1] == 0:
     histogram_diff.pop()
 
-ff = open("xxx.student_diff", "w")
+ff = open("xxx.student_diff", "w", encoding = "utf-8")
 for ii, nb in enumerate(histogram_diff):
     ff.write("%d %d\n" % (ii, nb))
 ff.close()

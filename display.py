@@ -1,4 +1,4 @@
-#!/usr/bin/python
+#!/usr/bin/python3
 # -*- coding: utf-8 -*-
 #    TOMUSS: The Online Multi User Simple Spreadsheet
 #    Copyright (C) 2014 Thierry EXCOFFIER, Universite Claude Bernard
@@ -45,7 +45,7 @@ def send_headers(server, css_file, js_file, init_function, more_js=""):
     server.the_file.write(
         '<noscript><h1>'+server._('MSG_need_javascript')+'</h1></noscript>\n'
         + "<script>"
-        + "var ticket=%s;\n" % utilities.js(server.ticket.ticket    )
+        + "var ticket=%s;\n" % utilities.js(server.ticket.ticket)
         + "var username=%s;\n" % utilities.js(server.ticket.user_name )
         + "var admin=%s;\n" % utilities.js(configuration.maintainer)
         + "var url=%s;\n" % utilities.js(configuration.server_url)
@@ -138,7 +138,6 @@ def data_to_display(server, top):
                     do_update(server, s, top)
                     s = []
                     start = t
-                    
     s.append(("Profiling", profiling))
     do_update(server, s, top)
 

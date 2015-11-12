@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 #    TOMUSS: The Online Multi User Simple Spreadsheet
 #    Copyright (C) 2009 Thierry EXCOFFIER, Universite Claude Bernard
@@ -36,7 +36,7 @@ def live_status(server):
 
 plugin.Plugin('live_status_svg', '/live_status.svg',
               function=live_status, group='roots',
-              mimetype = "image/svg+xml",
+              mimetype = "image/svg+xml;charset=UTF-8",
               keep_open = True, unsafe=False,
               link=plugin.Link(html_class='verysafe',where='debug',priority=-9)
               )

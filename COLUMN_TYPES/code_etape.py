@@ -1,4 +1,4 @@
-#!/bin/env python
+#!/bin/env python3
 # -*- coding: utf-8 -*-
 #    TOMUSS: The Online Multi User Simple Spreadsheet
 #    Copyright (C) 2011-2014 Thierry EXCOFFIER, Universite Claude Bernard
@@ -45,7 +45,7 @@ class Code_Etape(text.Text):
         if data_col is None:
             return []
         if line_ids is None:
-            line_ids = column.table.lines.keys()
+            line_ids = list(column.table.lines.keys())
         return [(line_id, column.table.lines[line_id][data_col].value)
                 for line_id in line_ids
                 ]
@@ -83,7 +83,7 @@ class Code_Etape(text.Text):
         if attr is not None and attr.name != 'columns' and attr.name != 'type':
             return
         if line_ids is None:
-            line_ids = column.table.lines.keys()
+            line_ids = list(column.table.lines.keys())
 
         if 'get_all_values' in self.__class__.__dict__:
             if 'line_ids' in inspect.getargspec(self.get_all_values).args:
@@ -106,13 +106,6 @@ class Code_Etape(text.Text):
         rw_page = None
         for line_id, value in values:
             line_id_done.add(line_id)
-            if isinstance(value, str):
-                v = unicode(value, "utf-8", "replace").encode("utf-8")
-                if v != value:
-                    utilities.send_backtrace(
-                        "%s %s %s" % (the_table, column.title, v),
-                        'Bad value encoding')
-                    value = v
             the_table.lock()
             try:
                 if (data_col

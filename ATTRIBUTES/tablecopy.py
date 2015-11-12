@@ -1,4 +1,4 @@
-#!/bin/env python
+#!/bin/env python3
 # -*- coding: utf-8 -*-
 #    TOMUSS: The Online Multi User Simple Spreadsheet
 #    Copyright (C) 2011-2013 Thierry EXCOFFIER, Universite Claude Bernard
@@ -131,7 +131,7 @@ def remove_history(server):
     if 'ok' in server.the_path:
         table.unload(force=True)
         utilities.unlink_safe(table.filename)
-        f = open(table.filename, "w")
+        f = open(table.filename, "w", encoding = "utf-8")
         f.write(table.rewrite())
         f.close()
         server.the_file.write(server._("MSG_tablecopy_done"))

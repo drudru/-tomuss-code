@@ -1,4 +1,4 @@
-#!/usr/bin/python
+#!/usr/bin/python3
 # -*- python -*-
 
 import os
@@ -54,8 +54,8 @@ for a, b in pairs(versions):
             state = ''
             continue
         logs.append('  ' + line)
-    print '\n' + '-'*79
-    print first_date, b, '  ===>  ', last_date, a
-    print '-'*79
-    print '\n'.join(logs)
+    print('\n' + '-'*79)
+    print(first_date, b, '  ===>  ', last_date, a)
+    print('-'*79)
+    print('\n'.join(logs))
     f.close()

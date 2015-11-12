@@ -1,4 +1,4 @@
-#!/bin/env python
+#!/bin/env python3
 # -*- coding: utf-8 -*-
 #    TOMUSS: The Online Multi User Simple Spreadsheet
 #    Copyright (C) 2010-2012 Thierry EXCOFFIER, Universite Claude Bernard
@@ -20,7 +20,7 @@
 #    Contact: Thierry.EXCOFFIER@bat710.univ-lyon1.fr
 
 import time
-import cgi
+import html
 from .. import plugin
 from .. import inscrits
 from .. import utilities
@@ -63,9 +63,9 @@ def send_mail(server):
         server.the_file.write('<b style="color:#F00">'
                               + server._("MSG_send_mail_impossible")
                               + '</b>'
-                              + '<pre><hr><b>' + cgi.escape(subject)
+                              + '<pre><hr><b>' + html.escape(subject)
                               + '</b><hr>\n'
-                              + cgi.escape(message) + '<hr>'
+                              + html.escape(message) + '<hr>'
                               + '\n'.join(
                 inscrits.L_slow.mail(recipient.split("\002")[0])
                 for recipient in recipients)
@@ -91,9 +91,7 @@ def send_mail(server):
             content = content.replace(title, value)
             the_subject = the_subject.replace(title, value)
 
-        the_subject = unicode(the_subject, 'utf-8').encode('utf-8')
-        content = unicode(content, 'utf-8')
-        # print m, the_subject, content, frome
+        # print( m, the_subject, content, frome)
         utilities.send_mail_in_background(m, the_subject, content, frome)
         good_mails.append(m)
         progress_bar_update(server, nb, len(recipients))
@@ -105,12 +103,12 @@ e.parentNode.removeChild(e) ;
         
     last = utilities.send_mail_in_background_list[-1]
     nb_mails = len(utilities.send_mail_in_background_list)
-    archive = unicode(message, 'utf-8') + '\n' + '='*79 + '\n'
+    archive = message + '\n' + '='*79 + '\n'
     if bad_mails:
-        archive += (server.__("MSG_send_mail_error") + '\n'
+        archive += (server._("MSG_send_mail_error") + '\n'
                     + '\n'.join(bad_mails) + '\n'
                     )
-    archive += (server.__("MSG_send_mail_done") + '\n'
+    archive += (server._("MSG_send_mail_done") + '\n'
                 + '\n'.join(good_mails) + '\n'
                 )
 

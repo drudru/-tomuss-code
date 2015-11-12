@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 #    TOMUSS: The Online Multi User Simple Spreadsheet)
 #    Copyright (C) 2008-2012 Thierry EXCOFFIER, Universite Claude Bernard
@@ -50,7 +50,7 @@ def uninterested(server):
                          ]
         except AttributeError:
             continue
-        for line in t.lines.values():            
+        for line in t.lines.values():
             students_in_blocnote[utilities.the_login(line[0].value)] = [
                 line[data_col].value
                 for data_col in data_cols
@@ -104,23 +104,9 @@ def uninterested(server):
 
     log.close()
 
-    k = list(students.keys())
-
-    def compare(x, y):
-        r = cmp(students_notes[x], students_notes[y])
-        if r:
-            return r
-        r = cmp(students[x], students[y])
-        if r:
-            return r
-        r = cmp(int(x in students_in_blocnote), int(y in students_in_blocnote))
-        if r:
-            return r
-        if x not in students_in_blocnote:
-            return 0
-        return cmp(students_in_blocnote[x], students_in_blocnote[y])
-        
-    k.sort(compare)
+    def key(x):
+        return (students_notes[x], students[x], x in students_in_blocnote)
+    k = sorted(students.keys(), key=key)
 
     f.write('<html><title>%s</title><body>\n' % server._("LINK_uninterested"))
     f.write('<script src="/utilities.js"></script>\n')
@@ -159,7 +145,7 @@ def uninterested(server):
         if referent_mail == None:
             referent_mail = ''
         else:
-            referent_mail = referent_mail.encode('utf-8')
+            referent_mail = referent_mail
         x += '<td>' + '</td><td>'.join(bn) + '</td><td>' + referent_mail + '</td>'
         for ue, note in students_ue[s].items():
             x += '<td>' + ue + note + '</td>'

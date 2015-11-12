@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 #    Copyright (C) 2014 Thierry EXCOFFIER, Universite Claude Bernard
 #
@@ -55,11 +55,11 @@ all_ues = teacher.all_ues()
 
 formate = '%10s %-40s %8s %-8s %s'
 
-header = formate % (utilities.__("COL_TITLE_0_0"),
-                    utilities.__("COL_TITLE_0_2")
-                    + ' ' + utilities.__("COL_TITLE_0_1"),
-                    utilities.__("COL_TITLE_0_3"),
-                    utilities.__("COL_TITLE_0_4"),
+header = formate % (utilities._("COL_TITLE_0_0"),
+                    utilities._("COL_TITLE_0_2")
+                    + ' ' + utilities._("COL_TITLE_0_1"),
+                    utilities._("COL_TITLE_0_3"),
+                    utilities._("COL_TITLE_0_4"),
                     ''
                    )
 
@@ -78,7 +78,7 @@ else:
                   ]
 
 for table in all_tables:
-    print table
+    print(table)
     if '-' not in table.ue or not table.official_ue:
         table.unload()
         continue
@@ -112,28 +112,27 @@ for table in all_tables:
         etapes = inscrits.L_batch.etapes_of_student(line[0].value)
         if add:
             students.append(formate % (
-                unicode(line[0].value, "utf-8"),
-                unicode(line[2].value, "utf-8")
-                + ' ' + unicode(line[1].value.title(), 'utf-8'),
-                unicode(line[3].value, "utf-8"),
-                unicode(line[4].value, "utf-8"),
+                line[0].value,
+                line[2].value + ' ' + line[1].value.title(),
+                line[3].value,
+                line[4].value,
                 ' '.join(etapes)
             ))
         else:
             student_id = line[0].previous_value()
             if line[1].value:
                 # If the value is here, use it.
-                fn = unicode(line[2].value, "utf-8")
-                sn = unicode(line[1].value, 'utf-8')
-                grp = unicode(line[3].value, "utf-8"),
-                seq = unicode(line[4].value, "utf-8"),
+                fn = line[2].value
+                sn = line[1].value
+                grp = line[3].value,
+                seq = line[4].value,
             else:
-                fn = unicode(line[2].previous_value(), "utf-8")
-                sn = unicode(line[1].previous_value(), 'utf-8')
-                grp = unicode(line[3].previous_value(), "utf-8")
-                seq = unicode(line[4].previous_value(), 'utf-8')
+                fn = line[2].previous_value()
+                sn = line[1].previous_value()
+                grp = line[3].previous_value()
+                seq = line[4].previous_value()
             students_removed.append(formate % (
-                unicode(student_id, "utf-8"), fn + ' ' + sn.title(), grp, seq,
+                student_id, fn + ' ' + sn.title(), grp, seq,
                 ' '.join(etapes)
             ))
     if (len(students) != 0
@@ -152,9 +151,7 @@ for teach, ues in teachers.items():
     mail = inscrits.L_batch.mail(teach)
     if not mail:
         continue
-    print 'X'*79
-    print mail
-    message = [utilities.__("mail_on_new_student") + '\n\n\n']
+    message = [utilities._("mail_on_new_student") + '\n\n\n']
     for ue, student_lists in ues.items():
         students, students_removed = student_lists
 
@@ -167,16 +164,16 @@ for teach, ues in teachers.items():
              )
 
         if students:
-            m += utilities.__("mail_on_new_student+") + '\n' + ''.join(
+            m += utilities._("mail_on_new_student+") + '\n' + ''.join(
                 '%s\n' % student
                 for student in students)
         if students_removed:
-            m += '\n' + utilities.__("mail_on_new_student-") + '\n' + ''.join(
+            m += '\n' + utilities._("mail_on_new_student-") + '\n' + ''.join(
                 '%s\n' % student
                 for student in students_removed)
 
         message.append(m)
-    print ''.join(message).encode('utf-8')
+    print(''.join(message))
     utilities.send_mail(mail,
                         utilities._("MSG_auto_update_done"),
                         '\n\n'.join(message),
@@ -185,12 +182,3 @@ for teach, ues in teachers.items():
 
 
 utilities.write_file(timestamp, str(today))
-
-
-
-
-
-               
-
-
-

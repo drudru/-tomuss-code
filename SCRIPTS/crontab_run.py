@@ -1,4 +1,4 @@
-#!/usr/bin/python
+#!/usr/bin/python3
 # Tests if TOMUSS is running and starts it if it is not.
 # If called with argument 'crontab' it does not run
 # tomuss if it was stoped with 'make stop'
@@ -8,11 +8,11 @@ import sys
 import os
 import signal
 import time
-import urllib2
+import urllib.request, urllib.error, urllib.parse
 import tomuss_init
 
 for i in ('http_proxy', 'https_proxy'):
-    if os.environ.has_key(i):
+    if i in os.environ:
         del os.environ[i]
 
 from .. import utilities
@@ -20,13 +20,13 @@ from .. import configuration
 
 def is_running1(url):
     if url != is_running1.last_url:
-        print 'Check if running:', url
+        print('Check if running:', url)
         is_running1.last_url = url
     else:
-        print '*',
+        print('*', end=' ')
     sys.stdout.flush()
     try:
-        f = urllib2.urlopen(url + '/robots.txt')
+        f = urllib.request.urlopen(url + '/robots.txt')
         c = f.read()
         f.close()
         return 'User-agent:' in c
@@ -48,7 +48,7 @@ def run(url, command, run_only_if_not_properly_stopped, name=None,strace=""):
         pass
     except ValueError:
         pass
-    print url + ', PID=' + str(pid),
+    print(url + ', PID=' + str(pid), end=' ')
     sys.stdout.flush()
     if run_only_if_not_properly_stopped:
         if pid == '':
@@ -80,10 +80,10 @@ for I in * ; do echo "$I: wchan=$(cat $I/wchan) sleepavg=$(grep SleepAVG $I/stat
                                     url + ' relaunched')
                 time.sleep(1) # Let server some time to write logs
             except OSError:
-                print ', No Process',
+                print(', No Process', end=' ')
                 sys.stdout.flush()
                 pass # Normal case : there is no process (reboot or core-dump)
-        print ', start'
+        print(', start')
         utilities.mkpath(logdir)
         logname = time.strftime('%Y-%m-%d_%H:%M:%S')
         loglink = os.path.join(logdir, 'log')
@@ -102,14 +102,14 @@ fi
 ''' %
                   (strace, command, logdir, logname, logdir))
     else:
-        print ', yet running'
+        print(', yet running')
 
 def stop(name):
     pid = None
     try:
-        f = open(os.path.join('LOGS', name.upper(), 'pid'))
+        f = open(os.path.join('LOGS', name.upper(), 'pid'), encoding = "utf-8")
     except IOError:
-        print '%s : there is no "pid" file to stop it' % name
+        print('%s : there is no "pid" file to stop it' % name)
         return
     try:
         try:
@@ -118,11 +118,11 @@ def stop(name):
             return
     finally:
         f.close()
-    print '%s : PID = %d' % (name, pid)
+    print('%s : PID = %d' % (name, pid))
     try:
         os.kill(pid, 15)
         utilities.write_file(os.path.join('LOGS', name.upper(), 'pid'), '')
-        print name, 'stopped'
+        print(name, 'stopped')
         return pid
     except OSError:
         pass
@@ -134,15 +134,15 @@ def stop_suivi():
 def stop_safe():
     if not is_running(configuration.server_url):
         return
-    print '\a'
-    print "Goto on TOMUSS home page, and choose 'stop tomuss'"
-    print "The new version will be started automaticaly"
-    print "If you want to stop TOMUSS right NOW, type '^C' once"
+    print('\a')
+    print("Goto on TOMUSS home page, and choose 'stop tomuss'")
+    print("The new version will be started automaticaly")
+    print("If you want to stop TOMUSS right NOW, type '^C' once")
     try:
         while is_running(configuration.server_url):
             time.sleep(1)
     except KeyboardInterrupt:
-        print "\nStopping TOMUSS not nicely"
+        print("\nStopping TOMUSS not nicely")
         stop('tomuss')
             
 def restart_suivi():
@@ -205,9 +205,9 @@ lock = os.path.join('TMP','crontab_run.running')
 
 if os.path.exists(lock):
     if time.time() - os.path.getmtime(lock) < 3600:
-        print 'The crontab is yet running'
+        print('The crontab is yet running')
         sys.exit(0)
-    print "Assume the lock is really too old (host reboot?)"
+    print("Assume the lock is really too old (host reboot?)")
     os.remove(lock)
 
 try:

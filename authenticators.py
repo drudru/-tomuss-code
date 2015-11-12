@@ -1,3 +1,4 @@
+#!/usr/bin/env python3
 #    TOMUSS: The Online Multi User Simple Spreadsheet
 #    Copyright (C) 2008-2014 Thierry EXCOFFIER, Universite Claude Bernard
 #
@@ -30,11 +31,11 @@ Beware, ticket_from_url method must be fast and never freeze.
 login_from_ticket can call other web services and lag a couple of seconds.
 """
 
-import httplib
-import urllib2
+from http import client
+#import http.client
+import urllib.request, urllib.error, urllib.parse
 import time
 import random
-import cgi
 import sys
 
 real_regtest = 'real_regtest' in sys.argv
@@ -51,7 +52,7 @@ class Authenticator(object):
     def ticket_from_url(self, server):
         """The ticket or None"""
         try:
-            form = cgi.parse_qs(server.path.split('?')[-1])
+            form = urllib.parse.parse_qs(server.path.split('?')[-1])
             return form[self.ticket_name][0]
         except (KeyError, IndexError):
             return
@@ -68,10 +69,10 @@ class CAS(Authenticator):
         i = 0
         while True:
             try:
-                casdata = urllib2.urlopen("%s/validate?service=%s&ticket=%s" %(
+                casdata = urllib.request.urlopen("%s/validate?service=%s&ticket=%s" %(
                     self.provider, service, ticket_key))
                 break
-            except urllib2.URLError:
+            except urllib.error.URLError:
                 from . import utilities
                 if i == 1: # Retry only once
                     global last_mail_sended
@@ -82,11 +83,9 @@ class CAS(Authenticator):
                     return False
                 time.sleep(i)
                 i += 1
-
-        test = casdata.readline().strip()
-
+        test = casdata.readline().strip().decode("utf-8")
         if test == 'yes':
-            login_name = casdata.readlines()[0].strip().lower()
+            login_name = casdata.readlines()[0].strip().lower().decode("utf-8")
             if login_name[0].isdigit():
                 login_name = "an_hacker_is_here"
         else:
@@ -127,7 +126,7 @@ class OpenID(Authenticator):
         from openid.consumer import consumer
         # path = configuration.server_url + server.path.split('?')[0]
         d = {}
-        for k, v in cgi.parse_qs(server.path.split('?')[-1]).items():
+        for k, v in urllib.parse.parse_qs(server.path.split('?')[-1]).items():
             d[k] = v[0]
         s = self.cons.complete(d, service)
         if s.status == consumer.SUCCESS:
@@ -144,7 +143,7 @@ class OpenID(Authenticator):
 
     def ticket_from_url(self, server):
         try:
-            form = cgi.parse_qs(server.path.split('?')[-1])
+            form = urllib.parse.parse_qs(server.path.split('?')[-1])
             handle = form['openid.assoc_handle'][0]
             return '%x' % (hash(handle)*hash(handle[::-1]))
         except KeyError:
@@ -274,12 +273,12 @@ class FaceBook(Authenticator):
     ticket_name = 'state'
 
     def login_from_ticket(self, dummy_ticket_key, service, server):
-        form = cgi.parse_qs(server.path.split('?')[-1])
+        form = urllib.parse.parse_qs(server.path.split('?')[-1])
         try:
             code = form['code'][0]
         except KeyError:
             return
-        f = urllib2.urlopen(
+        f = urllib.request.urlopen(
             "https://graph.facebook.com/oauth/access_token?"
             "client_id=%s&redirect_uri=%s&client_secret=%s&code=%s" %
             (self.provider[0], service, self.provider[1], code,
@@ -289,11 +288,11 @@ class FaceBook(Authenticator):
         if not access_token.startswith("access_token="):
             return
         
-        f = urllib2.urlopen("https://graph.facebook.com/me?" + access_token)
+        f = urllib.request.urlopen("https://graph.facebook.com/me?" + access_token)
         user_data = f.read()
         f.close()
 
-        conn = httplib.HTTPSConnection('graph.facebook.com')
+        conn = http.client.HTTPSConnection('graph.facebook.com')
         conn.request('DELETE', '/me/permissions?' + access_token)
         conn.getresponse()
         conn.close()

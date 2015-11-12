@@ -1,9 +1,9 @@
-#!/usr/bin/python
+#!/usr/bin/python3
 
 import os
 import time
 import subprocess
-import cgi
+import html
 import sys
 
 class Rects:
@@ -20,7 +20,7 @@ class Rects:
         return str(self.rects)
 
     def items(self):
-        return self.rects.items()
+        return list(self.rects.items())
 
     def filter(self, x_min=None, x_max=None, y_min=None, y_max=None,
                text=None, x_left_max=None, uniq=False, sentence=None):
@@ -45,8 +45,8 @@ class Rects:
                     continue
             t.append(r)
         if sentence:
-            print sentence
-            print t
+            print(sentence)
+            print(t)
             if len(sentence) != len(t):
                 return None
             for rect, word in zip(t, sentence):
@@ -90,7 +90,7 @@ class Display:
             self.title = title
             self.start_dumper()
             self.server = None
-            print 'Dumper created'
+            print('Dumper created')
             return
         
         while True:
@@ -108,13 +108,13 @@ class Display:
                 )
 
             output = self.server.stdout.read(80)
-            print output
+            print(output)
             if "Fatal server error" not in output:
                 break
             port += 1
 
         import time ; time.sleep(1)
-        print "X server runs on display :%d" % port
+        print("X server runs on display :%d" % port)
         self.port = port
         self.width = int(resolution.split('x')[0])
         self.height = int(resolution.split('x')[1])
@@ -124,7 +124,7 @@ class Display:
         self.start_dumper()
 
     def start_dumper(self):
-        print 'Start dumper', self.port, self.catalogue
+        print('Start dumper', self.port, self.catalogue)
         self.dumper = subprocess.Popen(
                 ('nice', './dumper', ':%d' % self.port,
                  self.catalogue),
@@ -179,21 +179,21 @@ class Display:
         self.dumper.stdin.flush()
         line = self.dumper.stdout.readline()
         if False:
-            f = open('xxx.analyses', 'a')
+            f = open('xxx.analyses', 'a', encoding = "utf-8")
             f.write(line)
             f.close()
         try:
             return eval(line)
         except SyntaxError: # Le dumper a planter :-( XXX Pourquoi
-            print 'line=(%s)' % line
+            print('line=(%s)' % line)
             self.start_dumper()
             self.dump()
             return self.rects()
 
     def wait_change(self, comment="", timeout=60):
         t = time.time()
-        print 'WAIT CHANGE', comment
-        print '\t',
+        print('WAIT CHANGE', comment)
+        print('\t', end=' ')
         self.dump()
         while self.diff() <= self.pixel_diff_min:
             if time.time() - t > timeout:
@@ -201,7 +201,7 @@ class Display:
             sys.stdout.write('*')
             sys.stdout.flush()
             self.dump()
-        print ' CHANGED !'
+        print(' CHANGED !')
         return True
 
     def wait_end_of_change(self, wait=None, timeout=None):
@@ -212,7 +212,7 @@ class Display:
             wait = self.no_change_interval
         if timeout is None:
             timeout = 40
-        print 'WAIT END OF CHANGE (%f seconds) ' % wait,
+        print('WAIT END OF CHANGE (%f seconds) ' % wait, end=' ')
 
         start = t = time.time()
         while time.time() - t < wait:
@@ -238,12 +238,12 @@ class Display:
         s = ''
         for x, y, dx, dy, txt in self.rects():
             s += '<div style="position:absolute;background:#0F0;left:%d;top:%d;width:%d;height:%d">%s</div>\n' % (
-                x*zoom, y*zoom, dx*zoom, dy*zoom, cgi.escape(txt))
+                x*zoom, y*zoom, dx*zoom, dy*zoom, html.escape(txt))
         return s
     
 
 if __name__ == "__main__":
     d = Display(server='', port=1)
-    print d.rects()
+    print(d.rects())
     for i in d.rects().filter(x_min=382, y_min=320, x_max=500):
-        print i
+        print(i)

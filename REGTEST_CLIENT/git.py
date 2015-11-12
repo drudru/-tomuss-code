@@ -1,4 +1,4 @@
-#!/usr/bin/python
+#!/usr/bin/python3
 
 """
 Args :
@@ -13,7 +13,7 @@ import shutil
 import sys
 import time
 
-print 'Cloning TOMUSS'
+print('Cloning TOMUSS')
 os.system('git clone .. /tmp/TOMUSS-REGTEST')
 
 if not os.path.isdir('Trash'):
@@ -27,13 +27,13 @@ except OSError:
     pass
 
 def read_file(filename):
-    f = open(filename, 'r')
+    f = open(filename, 'r', encoding = "utf-8")
     c = f.read()
     f.close()
     return c
 
 def p(txt):
-    print '==', txt.strip()
+    print('==', txt.strip())
     sys.stdout.flush()
 
 start = '2.14.7'
@@ -64,7 +64,7 @@ for line in lines:
         p("Take the snapshots of the first commit")
         os.system('./test.py --tomuss_dir /tmp/TOMUSS-REGTEST --trash '
                   + 'Trash/GIT/' + commit)
-        open('Trash/GIT/' + commit + '/resume', 'w').close()
+        open('Trash/GIT/' + commit + '/resume', 'w', encoding = "utf-8").close()
         continue
 
     messages = []
@@ -94,7 +94,7 @@ for line in lines:
 
     p('The regression tests are NOT fine for ' + commit)
     os.mkdir('Trash/GIT/' + commit)
-    g = open('Trash/GIT/' + commit + '/resume', 'a')
+    g = open('Trash/GIT/' + commit + '/resume', 'a', encoding = "utf-8")
     g.write(time.ctime() + '\n')
     g.write(''.join(messages))
     g.close()

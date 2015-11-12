@@ -1,4 +1,4 @@
-#!/usr/bin/python
+#!/usr/bin/python3
 # -*- coding: latin-1 -*-
 
 """
@@ -27,7 +27,7 @@ from .. import configuration
 from .. import tablestat
 from .. import utilities
 from .. import document
-print configuration.suivi
+print(configuration.suivi)
 
 # teacher -> { (year, semester, ue): number_of_cell }
 teachers_tables = collections.defaultdict(
@@ -45,7 +45,7 @@ class UE:
         nr = 0
         weight = 0.
         key = (table.year, table.semester, table.ue)
-        for cell, column in zip(line, table.columns)[6:]:
+        for cell, column in list(zip(line, table.columns))[6:]:
             if len(cell.author) > 1:
                 teachers_tables[cell.author][key] += 1
             value = cell.value
@@ -85,7 +85,7 @@ class UE:
         if summ == "-1" or math.isnan(summ):
             if nr == 0 or weight == 0.:
                 if nr != 0 and weight == 0:
-                    print 'Null column weight in', table
+                    print('Null column weight in', table)
                 summ = "-1"
             else:
                 summ = '%.3f' % (summation/weight)
@@ -162,13 +162,13 @@ utilities.write_file(os.path.join('TMP', 'index_are_computed'),
                      'done')
 
 def safe(x):
-    return re.sub('[^a-zA-Z]', '_', x).encode('latin1')
+    return re.sub('[^a-zA-Z]', '_', x)
 
 
 for i, ues in students.items():
     # from .. import inscrits
     # a = inscrits.L_batch.firstname_and_surname(i)
-    # print i, safe(a[1].upper()), safe(a[0].lower()),
+    # print(i, safe(a[1].upper()), safe(a[0].lower()),)
     s = sorted(list(ues), key=lambda x: len(ues[x].infos))
     s.reverse()
 
@@ -176,17 +176,17 @@ for i, ues in students.items():
     for ue in s:
         v.append( repr(ue) + ':' + str(ues[ue]) )
 
-    print i
+    print(i)
     try:
         utilities.manage_key('LOGINS', os.path.join(i, 'resume'),
                              content='{' + ',\n'.join(v) + '}')
     except IOError:
         # Non existent student
-        print 'Non existent student:', i
+        print('Non existent student:', i)
 
 
 for teacher, tables in teachers_tables.items():
-    print teacher
+    print(teacher)
     if utilities.manage_key('LOGINS', os.path.join(teacher, 'tables')):
         # Only update the key if it exists
         utilities.manage_key('LOGINS', os.path.join(teacher, 'tables'),

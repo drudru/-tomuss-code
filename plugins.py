@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 #    TOMUSS: The Online Multi User Simple Spreadsheet
 #    Copyright (C) 2008-2012 Thierry EXCOFFIER, Universite Claude Bernard
@@ -20,12 +20,14 @@
 #    Contact: Thierry.EXCOFFIER@bat710.univ-lyon1.fr
 
 import tomuss_init
-import cgi
+import html
 import os
+import io
 from . import plugin
 from . import utilities
 from . import files
 from . import configuration
+import collections
 
 suivi_plugins = []
 
@@ -76,7 +78,7 @@ def plugins_tomuss():
     from .PLUGINS import fix_modifiables
     from .PLUGINS import get_columns
     from . import signature
-    if configuration.blur:
+    if getattr(configuration, 'blur', False):
         from .PLUGINS import blur
     plugins_tomuss_more()
 
@@ -154,7 +156,7 @@ def types_ordered(root='Text'):
 
 def the_value(t):
     try:
-        return t.im_func.__module__.split('.')[2]
+        return t.__func__.__module__.split('.')[2]
     except AttributeError:
         return str(t)
 
@@ -268,7 +270,7 @@ def load_types():
             for k in m.keys:
                 if getattr(m, k) == getattr(s, k):
                     continue
-                if callable(getattr(m, k)):
+                if isinstance(getattr(m, k), collections.Callable):
                     continue                    
                 v.append('  t.%s = %s ;' % (k, m.attribute_js_value(k)))
             all_js += '''
@@ -316,11 +318,9 @@ def generate_data_files(suivi=False):
             t = gettext.translation('tomuss', directory, [language])
         except IOError:
             return
-        
         for k, v in t._catalog.items():
             if k:
-                f.write('%s:%s,\n' % (js(k.encode('utf8')),
-                                      js(v.encode('utf8'))))
+                f.write('%s:%s,\n' % (js(k),js(v)))
 
     import itertools
     local_translation = os.path.join('LOCAL', 'LOCAL_TRANSLATIONS')
@@ -333,7 +333,7 @@ def generate_data_files(suivi=False):
         filename = os.path.join('TMP', language + '.js')
 
         if not suivi:
-            f = open(filename, 'w')
+            f = open(filename, 'w', encoding = "utf-8")
             f.write('translations["' + language + '"] = {')
             generate_js('TRANSLATIONS')
             generate_js(local_translation)
@@ -345,11 +345,11 @@ def generate_data_files(suivi=False):
     # Generate POT file from data.
     #####################################
 
-    f = open('xxx_tomuss.pot', 'w')
-    g = open(os.path.join('LOCAL', 'xxx_tomuss.pot'), 'w')
+    f = open('xxx_tomuss.pot', 'w', encoding = "utf-8")
+    g = open(os.path.join('LOCAL', 'xxx_tomuss.pot'), 'w', encoding = "utf-8")
 
     def w(o, comment, msgid, msgstr):
-        if isinstance(o, file):
+        if isinstance(o, io.IOBase):
             ww = o
         else:
             if 'LOCAL' in o.__module__:
@@ -375,8 +375,8 @@ def generate_data_files(suivi=False):
             'B_' + column_type, column_type)
 
     from . import column
-    for attr_name, value in (column.ColumnAttr.attrs.items()
-                             + column.TableAttr.attrs.items()):
+    for attr_name, value in (list(column.ColumnAttr.attrs.items())
+                             + list(column.TableAttr.attrs.items())):
         if isinstance(value, column.TableAttr):
             t = 'TIP_table_attr_'
         else:
@@ -411,7 +411,7 @@ TABLE.types .defined { background: #FDD ; }
 </style>
 <table class="types">"""
 
-    f = open('DOCUMENTATION/xxx_type.html', 'w')
+    f = open('DOCUMENTATION/xxx_type.html', 'w', encoding = "utf-8")
     f.write(head)
     first_line = True
     for m in types_ordered():
@@ -430,7 +430,7 @@ TABLE.types .defined { background: #FDD ; }
     f.write('</tbody></table>\n')
     f.close()
 
-    f = open('DOCUMENTATION/xxx_type2.html', 'w')
+    f = open('DOCUMENTATION/xxx_type2.html', 'w', encoding = "utf-8")
     f.write(head)
     f.write('<thead>')
     f.write('<tr><td>')
@@ -445,7 +445,7 @@ TABLE.types .defined { background: #FDD ; }
     f.write('</tbody></table>\n')
     f.close()
 
-    f = open('DOCUMENTATION/xxx_column_attr.html', 'w')
+    f = open('DOCUMENTATION/xxx_column_attr.html', 'w', encoding = "utf-8")
     from . import column
     f.write('''<table border="1">
 <tbody>
@@ -463,13 +463,13 @@ TABLE.types .defined { background: #FDD ; }
     for attr in column.column_attributes():
         f.write('<tr>')
         for i in a:
-            f.write('<td>' + cgi.escape(str(getattr(attr, i))) + '</td>')
+            f.write('<td>' + html.escape(str(getattr(attr, i))) + '</td>')
         f.write('</tr>\n')
             
     f.write('</tbody></table>\n')
     f.close()
 
-    f = open('DOCUMENTATION/xxx_table_attr.html', 'w')
+    f = open('DOCUMENTATION/xxx_table_attr.html', 'w', encoding = "utf-8")
     f.write('''<table border="1">
 <tbody>
 ''')
@@ -481,7 +481,7 @@ TABLE.types .defined { background: #FDD ; }
     for attr in column.table_attributes():
         f.write('<tr>')
         for i in a:
-            f.write('<td>' + cgi.escape(str(getattr(attr, i))) + '</td>')
+            f.write('<td>' + html.escape(str(getattr(attr, i))) + '</td>')
         f.write('</tr>\n')
             
     f.write('</tbody></table>\n')
@@ -494,16 +494,16 @@ if __name__ == "__main__":
     configuration.language = 'en'
     configuration.url_files = ''
     plugins_tomuss()
-    plugin.html('DOCUMENTATION/xxx_tomuss_plugins.html')
+    plugin.create_html('DOCUMENTATION/xxx_tomuss_plugins.html')
 
     tt = plugin.plugins
     plugin.plugins = suivi_plugins
-    plugin.html('DOCUMENTATION/xxx_suivi_plugins.html')
+    plugin.create_html('DOCUMENTATION/xxx_suivi_plugins.html')
 
     plugin.plugins += tt
     plugin.doc('DOCUMENTATION/xxx_doc_plugins.html')
 
-    ff = open('DOCUMENTATION/xxx_visibility.txt', 'w')
+    ff = open('DOCUMENTATION/xxx_visibility.txt', 'w', encoding = "utf-8")
     from . import column
     for tt in sorted(column.ColumnAttr.attrs):
         tt = column.ColumnAttr.attrs[tt]

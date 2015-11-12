@@ -2,12 +2,12 @@
 # -*- ksh -*-
 
 _() {
-python -c '
+python3 -c '
 import tomuss_init
 import sys
-import utilities
+from . import utilities
 for i in sys.argv[1:]:
-   print utilities.__(i).encode("latin-1")
+   print(utilities._(i))
 ' $1
 }
 
@@ -70,7 +70,7 @@ DATE=$(expr $(date +'%s') - \( $NR_DAYS '*' $DAY \))
 
 
 grep page_load_time LOGS/TOMUSS/$(date '+%Y').times |
-python -c '
+python3 -c '
 import sys
 import itertools
 d = list([[] for i in range('$NR_DAYS')])

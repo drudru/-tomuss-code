@@ -1,4 +1,4 @@
-#!/usr/bin/python
+#!/usr/bin/python3
 # -*- coding: latin-1 -*-
 
 """
@@ -63,38 +63,38 @@ for filename in glob.glob("DB/LOGINS/*/*/preferences"):
     nb_set[' '.join(s)] += 1
     data.append(d)
 
-print nb, "students with preferences"
+print(nb, "students with preferences")
 for k in sorted(nb_on, key=lambda x: nb_on[x]):
     v = nb_on[k]
-    print "%-4d %2d%% %s" % (v, (100*v)/nb, k)
-print 'Pairs'
+    print("%-4d %2d%% %s" % (v, (100*v)/nb, k))
+print('Pairs')
 for k in sorted(pairs, key=lambda x: pairs[x]):
-    print pairs[k], k
+    print(pairs[k], k)
 f = '%8.8s'
 sorted_nb_on = sorted(nb_on)
-print ' '.join(f % i for i in ['',] + sorted_nb_on)
+print(' '.join(f % i for i in ['',] + sorted_nb_on))
 for i in sorted_nb_on:
-    print f % i,
+    print(f % i, end=' ')
     for j in sorted_nb_on:
         if i > j:
-            print f % pairs.get((i, j), ''),
+            print(f % pairs.get((i, j), ''), end=' ')
         elif i < j:
-            print f % pairs.get((j, i), ''),
+            print(f % pairs.get((j, i), ''), end=' ')
         else:
-            print f % '',
-    print
+            print(f % '', end=' ')
+    print()
 
-print 'Sets'
+print('Sets')
 for k in sorted(nb_set, key=lambda x: (nb_set[x], x)):
-    print nb_set[k], k
-print 'Data'
-print ','.join(nb_on)
+    print(nb_set[k], k)
+print('Data')
+print(','.join(nb_on))
 for d in data:
-    print ','.join(
+    print(','.join(
         '1' if d.get(i,0) else '0'
-        for i in nb_on)
-print 'Dot file'
-f = open("xxx.preferences.dot", "w")
+        for i in nb_on))
+print('Dot file')
+f = open("xxx.preferences.dot", "w", encoding = "utf-8")
 f.write('''
 graph "fichiers" {
 node[shape=circle,style="filled",fillcolor="white",fixedsize=true];

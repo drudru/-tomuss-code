@@ -1,4 +1,4 @@
-#!/usr/bin/python
+#!/usr/bin/python3
 
 """
 This script generate a javascript file testing for all the usage
@@ -14,8 +14,8 @@ import tomuss_init
 from .. import tablestat
 from .. import utilities
 
-print utilities.read_file("deprecated.js")
-print """
+print(utilities.read_file("deprecated.js"))
+print("""
 function check_compat(filter, cells, column_type)
 {
     var f = compile_filter_generic_old(filter) ;
@@ -30,7 +30,7 @@ function check_compat(filter, cells, column_type)
           }
 }
 
-"""
+""")
 
 
 sys.stderr.write('Loading all tables\n')
@@ -68,9 +68,9 @@ for t in tablestat.all_the_tables():
             
 
     for k, v in filters.items():
-        print '// ' + t
-        print ('check_compat(' + utilities.js(k[0]) + ',['
+        print('// ' + t)
+        print(('check_compat(' + utilities.js(k[0]) + ',['
                + ','.join(cell.js()
                           for cell in v)
                + '], %s);' % utilities.js(k[1])
-               )
+               ))

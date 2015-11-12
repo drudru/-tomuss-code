@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 #    TOMUSS: The Online Multi User Simple Spreadsheet
 #    Copyright (C) 2009-2013 Thierry EXCOFFIER, Universite Claude Bernard
@@ -164,7 +164,7 @@ def set_value(variable, value):
         value = ast.literal_eval(value)
         if not isinstance(value, type(current)):
             utilities.warn("VARIABLE=%s CURRENT=%s NEW=%s" %
-                 (variable, current, value), what="Error")
+                 (variable, current, value), what="error")
             raise ValueError("Big issue")
     elif isinstance(current, float):
         value = float(value)
@@ -221,7 +221,7 @@ def tell_to_reload_config():
 configuration.tell_to_reload_config = tell_to_reload_config
     
 def tell_reload_config():
-    import urllib2
+    import urllib.request, urllib.error, urllib.parse
     import random
     import os
 
@@ -230,9 +230,9 @@ def tell_reload_config():
     utilities.write_file(os.path.join('TMP', 'xxx.load_config'), i)
     for url, port, year, semester, host in configuration.suivi.servers():
         try:
-            f = urllib2.urlopen(url + '/load_config/' + i)
+            f = urllib.request.urlopen(url + '/load_config/' + i)
             f.read()
             f.close()
-        except urllib2.URLError:
+        except urllib.error.URLError:
             pass # If one 'suivi' server is not running, continue
         

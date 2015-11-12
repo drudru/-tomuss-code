@@ -1,4 +1,4 @@
-#!/usr/bin/python
+#!/usr/bin/python3
 # -*- coding: utf-8 -*-
 #    TOMUSS: The Online Multi User Simple Spreadsheet
 #    Copyright (C) 2008-2012 Thierry EXCOFFIER, Universite Claude Bernard
@@ -26,36 +26,48 @@ import os
 import sys
 import traceback
 import gettext
+import html
 import cgi
 import threading
 import shutil
 import imp
 import ast
+import tomuss_init
 from . import configuration
 
-def read_file(filename):
-    f = open(filename, 'r')
+def read_file(filename, encoding="utf-8"):
+    if encoding == "bytes":
+        f = open(filename, "rb")
+    else:
+        f = open(filename, "r", encoding=encoding)
     c = f.read()
     f.close()
     return c
 
-def write_file(filename, content):
+def write_file(filename, content, encoding="utf-8"):
+    if content == None:
+        warn('%s : 0' % (filename), what='debug')
+        return
     warn('%s : %d' % (filename, len(content)), what='debug')
-    f = open(filename, 'w')
+    opt = 'w'
+    if encoding == "bytes":
+        opt = opt + 'b'
+        encoding = None
+    f = open(filename, opt,encoding = encoding)
     f.write(content)
     f.close()
 
 def write_file_safe(filename, content):
-    write_file(filename, content)
+    write_file(filename, content,"utf-8")
     if configuration.backup:
-        write_file(configuration.backup + filename, content)
+        write_file(configuration.backup + filename, content,"utf-8")
 
 lock_list = []
 
 def add_a_lock(fct):
     """Add a lock to a function to forbid simultaneous call"""
     def f(*arg, **keys):
-        warn('[[[' + f.fct.func_name + ']]]', what='debug')
+        warn('[[[' + f.fct.__name__ + ']]]', what='debug')
         f.the_lock.acquire()
         try:
             r = f.fct(*arg, **keys)
@@ -65,7 +77,7 @@ def add_a_lock(fct):
     f.fct = fct
     f.the_lock = threading.Lock()
     f.__doc__ = fct.__doc__
-    f.func_name = fct.func_name
+    f.__name__ = fct.__name__
     f.__module__ = fct.__module__
     lock_list.append(f)
     return f
@@ -76,11 +88,11 @@ def append_file_unlocked(filename, content):
         before = os.path.getsize(filename)
     except OSError:
         before = 0
-    f = open(filename, 'a')
+    f = open(filename, 'a', encoding = "utf-8")
     f.write(content)
     f.close()
     after = os.path.getsize(filename)
-    if before + len(content) != after:
+    if before + len(content.encode("utf-8")) != after:
         raise IOError("Append file failed %s before=%d + %d ==> %d" % (
             filename, before, len(content), after))
     if filename.endswith('.py'):
@@ -110,12 +122,16 @@ def bufferize_this_file(filename):
     
 @add_a_lock
 def append_file(filename, content):
+    if isinstance(content,bytes):
+        raise TypeError("1"*25," 128, utilities")
     if filename == filename_to_bufferize:
         filename_buffer.append(content)
     else:
         append_file_unlocked(filename, content)
 
 def append_file_safe(filename, content):
+    if isinstance(content, bytes):
+        raise TypeError("1"*25," 134, utilities")
     append_file(filename, content)
     if configuration.backup:
         append_file(configuration.backup + filename, content)
@@ -164,7 +180,7 @@ def safe_space_quote(txt):
     return re.sub('[^\'0-9a-zA-Z-. ]', '_', txt)
 
 def flat(txt):
-    return txt.translate(u"\x00\x01\x02\x03\x04\x05\x06\x07\x08\x09\x0a\x0b\x0c\x0d\x0e\x0f\x10\x11\x12\x13\x14\x15\x16\x17\x18\x19\x1a\x1b\x1c\x1d\x1e\x1f ! #$%&'()*+,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\\]^_`abcdefghijklmnopqrstuvwxyz{|}~?\x80\x81\x82\x83\x84\x85\x86\x87\x88\x89\x8a\x8b\x8c\x8d\x8e\x8f\x90\x91\x92\x93\x94\x95\x96\x97\x98\x99\x9a\x9b\x9c\x9d\x9e\x9f?????Y|?????????????'u?.????????AAAAAA?CEEEEIIIIDNOOOOOXOUUUUY?Baaaaaa?ceeeeiiiionooooo??uuuuy?y")
+    return txt.translate("\x00\x01\x02\x03\x04\x05\x06\x07\x08\x09\x0a\x0b\x0c\x0d\x0e\x0f\x10\x11\x12\x13\x14\x15\x16\x17\x18\x19\x1a\x1b\x1c\x1d\x1e\x1f ! #$%&'()*+,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\\]^_`abcdefghijklmnopqrstuvwxyz{|}~?\x80\x81\x82\x83\x84\x85\x86\x87\x88\x89\x8a\x8b\x8c\x8d\x8e\x8f\x90\x91\x92\x93\x94\x95\x96\x97\x98\x99\x9a\x9b\x9c\x9d\x9e\x9f?????Y|?????????????'u?.????????AAAAAA?CEEEEIIIIDNOOOOOXOUUUUY?Baaaaaa?ceeeeiiiionooooo??uuuuy?y")
 
 def same(a, b):
     return flat(a).lower() == flat(b).lower()
@@ -286,6 +302,10 @@ def send_mail(to, subject, message, frome=None, show_to=False, reply_to=None,
     "Not safe with user given subject"
     import smtplib
 
+    if configuration.regtest :
+        # XXX
+        to = "marianne.tery@univ-lyon1.fr"
+        frome = "marianne.tery@univ-lyon1.fr"
     if isinstance(to, list) or isinstance(to, tuple):
         recipients = to
     else:
@@ -300,45 +320,44 @@ def send_mail(to, subject, message, frome=None, show_to=False, reply_to=None,
         if '@' not in addr or '.' not in addr:
             continue
         try:
-            new_to.append(addr.encode('ascii'))
+            new_to.append(addr)
         except UnicodeEncodeError:
             warn('bad email address: ' + repr(addr), what='error')
     to = new_to
     if len(to) == 0:
         return
     
-    header = "From: " + frome + '\n'
-    if isinstance(subject, unicode):
-        s = subject.encode("utf-8")
-    else:
-        s = subject
-    header += "Subject: " + s.replace('\n',' ').replace('\r',' ') + '\n'
+    header = "From: {}\n".format(frome)
+
+    s = subject.replace('\n',' ').replace('\r',' ')
+    header += "Subject: {}\n".format(s)
     if len(to) == 1:
-        header += "To: " + to[0] + '\n'
+        header += "To: {}\n".format(to[0])
     elif show_to:
         for tto in to:
-            header += "To: " + tto + '\n'
+            header += "To: {}\n".format(tto)
     if reply_to:
-        header += 'Reply-To: ' + reply_to + '\n'
+        header += 'Reply-To: {}\n'.format(reply_to)
     if error_to:
-        header += 'Error-To: ' + error_to + '\n'
+        header += 'Error-To: {}\n'.format(error_to)
         
     if message.startswith('<html>') or message.startswith('<!DOCTYPE html>') :
         header += 'Content-Type: text/html; charset="utf-8"\n'
     else:
-        if isinstance(message, unicode):
+        if isinstance(message, str):
             header += 'Content-Type: text/plain; charset="utf-8"\n'
 
     header += "Content-Transfer-Encoding: 8bit\n"
     header += "MIME-Version: 1.0\n"
-    if isinstance(message, unicode):
-        message = message.encode('utf-8')
-    
+
     use_backup_smtp = False
     while True: # Stop only if the mail is sent
         try:
+            for x in [frome,recipients,header,message]:
+                if isinstance(x, bytes):
+                    raise TypeError("pas d'encodage avant")
             smtpresult = send_mail.session.sendmail(frome, recipients,
-                                                    header + '\n' + message)
+                                                    (header + '\n' + message).encode('utf-8'))
             break
         except smtplib.SMTPRecipientsRefused:
             send_backtrace('from=%s\nrecipients=%s\nheaders=%s\nmessage=%s' %
@@ -347,13 +366,13 @@ def send_mail(to, subject, message, frome=None, show_to=False, reply_to=None,
             try:
                 if use_backup_smtp:
                     warn("Lost mail from %s to %s" % (
-                        repr(frome), repr(recipients)), what="Error")
+                        repr(frome), repr(recipients)), what="error")
                     break
                 use_backup_smtp = True
                 send_mail.session = smtplib.SMTP(configuration.smtpserver.split(' ')[1])
             except IndexError:
                 warn("Lost mail (no backup SMTP server) from %s to %s" % (
-                    repr(frome), repr(recipients)), what="Error")
+                    repr(frome), repr(recipients)), what="error")
                 break
             continue
         except smtplib.SMTPServerDisconnected:
@@ -405,11 +424,11 @@ def start_new_thread(fct, args, send_mail=True, immortal=False):
                     warn('strptime' + str(self), what='error')
                     time.sleep(0.1)
             while True:
-                warn('Call ' + self.fct.func_name)
+                warn('Call ' + self.fct.__name__)
                 try:
                     self.fct(*self.args)
                 except:
-                    warn("Exception in %s" % self, what="Error")
+                    warn("Exception in %s" % self, what="error")
                     if self.send_mail:
                         send_backtrace("Exception in %s" % self)
                 if not self.immortal:
@@ -419,7 +438,7 @@ def start_new_thread(fct, args, send_mail=True, immortal=False):
             return str(self)
         def __str__(self):
             return 'Thread immortal=%-5s send_mail=%-5s %s' % (
-                   self.immortal, self.send_mail, fct.func_name)
+                   self.immortal, self.send_mail, fct.__name__)
 
         def stack(self):
             return (str(self) + '\n'
@@ -458,8 +477,9 @@ def send_mail_in_background(to, subject, message, frome=None, show_to=False,
     start_job(sendmail_thread, 1)
 
 def js(t):
-    if isinstance(t, basestring):
-        # return repr(unicode(t,'utf8').encode('latin1'))
+    if isinstance(t,bytes):
+        raise TypeError("not bytes here")
+    if isinstance(t, str):
         return '"' + t.replace('\\','\\\\').replace('"','\\"').replace('>','\\x3E').replace('<','\\x3C').replace('&', '\\x26').replace('\r','').replace('\n','\\n') + '"'
     elif isinstance(t, float):
         return '%s' % t # DO NOT USE %g: 4.9999998 => 5
@@ -474,14 +494,14 @@ def js(t):
 def js2(t):
     return '"' + t.replace('\\','\\\\').replace('"','\\"').replace('\n','\\n') + '"'
 
-def mkpath(path, create_init=True, mode=0777):
+def mkpath(path, create_init=True, mode=0o777):
     s = ''
     for i in path.split(os.path.sep):
         s += i + os.path.sep
         try:
             os.mkdir(s, mode)
             if create_init:
-                write_file(os.path.join(s, '__init__.py'), '')
+                write_file(os.path.join(s, '__init__.py'), '',"utf-8")
         except OSError:
             pass
 
@@ -496,7 +516,7 @@ def mkpath_safe(path):
 # This function translate student ID to student login.
 # The returned value must be usable safely.
 def the_login(student):
-    if isinstance(student, basestring):
+    if isinstance(student, str):
         return safe(student)
     return ''
 
@@ -529,7 +549,7 @@ def frame_info(frame, displayed):
     for k, v in frame.f_locals.items():
         if id(v) not in displayed:
             try:
-                s += "<p><b>" + cgi.escape(k) + "</b>:<br>" + v.backtrace_html() + "\n"
+                s += "<p><b>" + html.escape(k) + "</b>:<br>" + v.backtrace_html() + "\n"
             except AttributeError:
                 pass
             except TypeError:
@@ -554,11 +574,11 @@ def send_backtrace(txt, subject='Backtrace', exception=True):
     s = ''
     if txt:
         s += ('<h1>Information reported by the exception catcher</h1><pre>' +
-               cgi.escape(txt) + '</pre>\n')
+               html.escape(txt) + '</pre>\n')
     if exception and sys.exc_info()[0] != None:
         s += '<h1>Exception stack</h1>\n'
-        s += '<p>Exception class: ' + cgi.escape(str(sys.exc_info()[0])) + '\n'
-        s += '<p>Exception value: ' + cgi.escape(str(sys.exc_info()[1])) + '\n'
+        s += '<p>Exception class: ' + html.escape(str(sys.exc_info()[0])) + '\n'
+        s += '<p>Exception value: ' + html.escape(str(sys.exc_info()[1])) + '\n'
         f = sys.exc_info()[2]
         s += '<p>Exception Stack:<table>\n'
         x = ''
@@ -584,7 +604,7 @@ def send_backtrace(txt, subject='Backtrace', exception=True):
 
     s = '<html><style>TABLE TD { border: 1px solid black;} .name { text-align:right } PRE { background: white ; border: 2px solid red ;}</style><body>' + s + '</body></html>'
     
-    f = open(filename, "a")
+    f = open(filename, "a", encoding = "utf-8")
     f.write(subject + '\n' + s)
     f.close()
     warn(subject + '\n' + s, what="error")
@@ -599,8 +619,17 @@ send_backtrace.last_subject = ''
 
 def compressBuf(buf):
     import gzip
-    import StringIO
-    zbuf = StringIO.StringIO()
+    import io
+    zbuf = io.BytesIO()
+    zfile = gzip.GzipFile(None, 'wb', 9, zbuf)
+    zfile.write(buf.encode("utf-8"))
+    zfile.close()
+    return zbuf.getvalue() # XXX is str or bin
+
+def compressBufImg(buf):
+    import gzip
+    import io
+    zbuf = io.BytesIO()
     zfile = gzip.GzipFile(None, 'wb', 9, zbuf)
     zfile.write(buf)
     zfile.close()
@@ -608,15 +637,15 @@ def compressBuf(buf):
 
 class StaticFile(object):
     """Emulate a string, but it is a file content"""
-    mimetypes = {'html': 'text/html;charset=utf8',
-                'css': 'text/css;charset=utf8',
+    mimetypes = {'html': 'text/html;charset=utf-8',
+                'css': 'text/css;charset=utf-8',
                 'png': 'image/png',
                 'ico': 'image/png',
                 'jpg': 'image/jpeg',
                 'gif': 'image/gif',
-                'js': 'application/x-javascript;charset=utf8',
-                'txt': 'text/plain',
-                'xml': 'application/rss+xml;charset=utf8',
+                'js': 'application/x-javascript;charset=utf-8',
+                'txt': 'text/plain;charset=utf-8',
+                'xml': 'application/rss+xml;charset=utf-8',
                 }
     _url_ = 'http://???/' # The current server (TOMUSS or 'suivi')
                 
@@ -653,12 +682,30 @@ class StaticFile(object):
         dirname = os.path.join("TMP", configuration.version)
         mkpath(dirname)
         filename = os.path.join(dirname, self.name.split(os.path.sep)[-1])
-        write_file(filename, self.content)
+        if 'image' in self.mimetype :
+            write_file(filename, self.content, "bytes")
+        else:
+            write_file(filename, self.content, "utf-8")
+
+    def get_zipped(self):
+        if "image" in self.mimetype:
+            self.bytes()
+        else :
+            str(self)
+        return self.gzipped
+
+    def bytes(self):
+        if self.need_update():
+            self.time = os.path.getmtime(self.name)
+            self.content = read_file(self.name, "bytes")
+            self.gzipped = compressBufImg(self.content)
+            self.copy_on_disc()
+        return self.content
 
     def __str__(self):
         if self.need_update():
             self.time = os.path.getmtime(self.name)
-            content = read_file(self.name)
+            content = read_file(self.name, "utf-8")
             for old, new in self.replace_text.values():
                 content = content.replace(old, new)
             content += ''.join(str(i) for i in self.append_text.values())
@@ -667,7 +714,6 @@ class StaticFile(object):
             self.content = content
             self.gzipped = compressBuf(self.content)
             self.copy_on_disc()
-
         return self.content
 
     def clear_cache(self):
@@ -719,7 +765,7 @@ def add_a_cache0(fct, timeout=None):
 def clean_cache(f):
     if getattr(f, 'last_value_on_exception', 0):
         return # Do not erase in order to reuse if there is an exception
-    for key, value in f.cache.items():
+    for key, value in list(f.cache.items()):
         if time.time() - value[1] > f.timeout:
             del f.cache[key]
 
@@ -786,7 +832,7 @@ def import_reload(filename):
     module_name = '.'.join(name)
     __import__(module_name) # force the .pyc creation
     old_module = sys.modules[module_name]
-    mtime_pyc =  os.path.getmtime(filename + 'c')
+    mtime_pyc =  os.path.getmtime(old_module.__spec__._cached)
     to_reload = mtime > mtime_pyc
     if to_reload:
         imp.reload(old_module)
@@ -861,7 +907,7 @@ class AtomicWrite(object):
     def __init__(self, filename, reduce_ok=True, display_diff=False):
         self.real_filename = filename
         self.filename = filename + '.new'
-        self.file = open(self.filename, 'w')
+        self.file = open(self.filename, 'w', encoding = "utf-8")
         self.reduce_ok = reduce_ok
         self.display_diff = display_diff
     def write(self, v):
@@ -897,11 +943,11 @@ def count(t):
     (nr_identical_items, item_value)
     """
     t = t.__iter__()
-    last = t.next()
+    last = next(t)
     i = 1
     try:
         while True:
-            a = t.next()
+            a = next(t)
             if a == last:
                 i += 1
             else:
@@ -917,7 +963,7 @@ def get_tuples(an_iterable, size):
     (1, 2, 3)
     (4, 5, 6)
     """
-    return zip( * ( [iter(an_iterable)]*size ) )
+    return list(zip( * ( [iter(an_iterable)]*size ) ))
 
     
 def manage_key_real(dirname, key, separation=3, content=None, reduce_ok=True,
@@ -937,7 +983,7 @@ def manage_key_real(dirname, key, separation=3, content=None, reduce_ok=True,
     if content is None and not os.path.isdir(f1):
         return False
     try:
-        os.mkdir(f1, 0750)
+        os.mkdir(f1, 0o750)
     except OSError:
         pass
 
@@ -945,7 +991,7 @@ def manage_key_real(dirname, key, separation=3, content=None, reduce_ok=True,
         if content is None and not os.path.isdir(os.path.join(f1, key_dir)):
             return False
         try:
-            os.mkdir(os.path.join(f1, key_dir), 0750)
+            os.mkdir(os.path.join(f1, key_dir), 0o750)
         except OSError:
             pass
 
@@ -954,7 +1000,7 @@ def manage_key_real(dirname, key, separation=3, content=None, reduce_ok=True,
         if delete:
             os.unlink(f1)
             return
-        f = open(f1, 'r')
+        f = open(f1, 'r', encoding = "utf-8")
         c = f.read()
         f.close()
     else:
@@ -975,7 +1021,7 @@ def manage_key_real(dirname, key, separation=3, content=None, reduce_ok=True,
                 warn("Size not reduced for " + f1)
                 return c
         if content != c: # Write if modified (non-existant files are empty)
-            f = open(f1, 'w')
+            f = open(f1, 'w', encoding = "utf-8")
             f.write(content)
             f.close()
     return c
@@ -1044,7 +1090,7 @@ def lock_state():
             s += 'Locked   '
         else:
             s += 'Unlocked '
-        s += '%s [%s]\n' % (f.fct.func_name, f.fct.__module__)
+        s += '%s [%s]\n' % (f.fct.__name__, f.fct.__module__)
     return s
 
 main_thread =  threading.current_thread()
@@ -1079,7 +1125,7 @@ def on_kill(dummy_x, dummy_y):
 
 def print_lock_state_clean_cache():
     while True:
-        f = open(os.path.join('LOGS', 'xxx.locks.%d' % os.getpid()), 'w')
+        f = open(os.path.join('LOGS', 'xxx.locks.%d' % os.getpid()), 'w', encoding = "utf-8")
         f.write(lock_state() + '\n\n')
         f.write(all_the_stacks())
         f.close()
@@ -1088,21 +1134,6 @@ def print_lock_state_clean_cache():
             cache.clean(cache)
 
         time.sleep(60)
-
-class Useles(object):
-    closed = False
-    def close(self):
-        self.closed = True
-    def flush(self):
-        pass
-    def write(self, dummy_txt):
-        raise ValueError('write on Useles')
-
-    # For socket replacement
-    def sendall(self, dummy=None):
-        pass
-    def shutdown(self,dummy=None):
-        pass
 
 class Variables(object):
     """Map variables to a TOMUSS configuration table stored in 0/Variables/group
@@ -1137,7 +1168,7 @@ class Variables(object):
         # Can't create the table here: catch 22
 
     def __iter__(self):
-        return self._variables.keys()
+        return list(self._variables.keys())
 
     def items(self):
         for k in self._variables:
@@ -1201,13 +1232,15 @@ def _(msgid, language=None):
 
 _.language = None
 
-def __(txt):
-    return unicode(_(txt), 'utf-8')
+import http.server
 
-import BaseHTTPServer
+class HTTPServer(http.server.HTTPServer):
+    old_shutdown_request = http.server.HTTPServer.shutdown_request
 
+    def shutdown_request(self, request):
+        return
 
-class FakeRequestHandler(BaseHTTPServer.BaseHTTPRequestHandler):
+class FakeRequestHandler(http.server.BaseHTTPRequestHandler):
     """
     """
     please_do_not_close = False
@@ -1216,35 +1249,52 @@ class FakeRequestHandler(BaseHTTPServer.BaseHTTPRequestHandler):
     it_is_a_post = False
     do_profile = False
 
+    def test(self, depth=3, node=None):
+        if node is None:
+            node = self
+        if depth == 0:
+            return
+        if not hasattr(node, "__dict__"):
+            return
+        for k, v in node.__dict__.items():
+            if isinstance(v, socket.SocketIO):
+                print(k, v)
+        for k, v in node.__dict__.items():
+            self.test(depth-1, v)
+
+
     def do_POST(self):
+        self.wfile.write = self.wfile._sock.sendall
         self.it_is_a_post = True
         self.do_GET()
 
     def get_field_storage(self, size=50000000):
         if not self.it_is_a_post:
             return None
-        return cgi.FieldStorage(fp=self.the_rfile, headers=self.headers,
-                                environ={'REQUEST_METHOD':'POST'})
+        return cgi.FieldStorage(fp=self.rfile, headers=self.headers,
+                                environ={'REQUEST_METHOD' : 'POST'})
 
     def get_posted_data(self, size=50000000):
         """Provide compatibility for the old usage.
         Do not use: it takes a lot of memory.
         """
         fs = self.get_field_storage(size)
+        if fs is None:
+            return None
         d = {}
         for k in fs.keys():
             d[k] = [fs.getfirst(k, '')]
         return d
 
-    def send_response(self, i, comment=None):
-        if comment:
-            # To answer HEAD request no handled
-            BaseHTTPServer.BaseHTTPRequestHandler.send_response(self,i,comment)
-            return
-        BaseHTTPServer.BaseHTTPRequestHandler.send_response(self, i)
-        # Needed for HTTP/1.1 requests
-        self.send_header('Connection', 'close')
-        self.wfile.flush()
+    #def send_response(self, i, comment=None):
+        #if comment:
+            ## To answer HEAD request no handled
+            #http.server.BaseHTTPRequestHandler.send_response(self,i,comment)
+            #return
+        #http.server.BaseHTTPRequestHandler.send_response(self, i)
+        ## Needed for HTTP/1.1 requests
+        #self.send_header('Connection', 'close')
+        ## self.wfile.flush()
 
     def backtrace_html(self):
         s = repr(self) + '\nRequest started %f seconds before\n' % (
@@ -1255,11 +1305,11 @@ class FakeRequestHandler(BaseHTTPServer.BaseHTTPRequestHandler):
         s += '<h2>SERVER HEADERS</h2>\n'
         for k,v in self.headers.items():
             if k != 'authorization':
-                s += '<b>' + k + '</b>:' + cgi.escape(str(v)) + '<br>\n'
+                s += '<b>' + k + '</b>:' + html.escape(str(v)) + '<br>\n'
         s += '<h2>SERVER DICT</h2>\n'
         for k,v in self.__dict__.items():
             if k != 'headers' and k != 'uploaded':
-                s += '<b>' + k + '</b>:' + cgi.escape(str(v)) + '<br>\n'
+                s += '<b>' + k + '</b>:' + html.escape(str(v)) + '<br>\n'
         return s
 
     def address_string(self):
@@ -1268,56 +1318,32 @@ class FakeRequestHandler(BaseHTTPServer.BaseHTTPRequestHandler):
 
     def log_time(self, action, **keys):
         try:
-            self.__class__.log_time.im_func(self, action, **keys)
+            self.__class__.log_time.__func__(self, action, **keys)
         except TypeError:
             self.__class__.log_time.__func__(self, action, **keys)
 
     def do_not_close_connection(self):
-        self.wfile = Useles()
-        self.the_rfile = self.rfile
-        self.rfile = Useles()
         self.please_do_not_close = True
-        try:
-            # self.request is self.connection
-            # self.rfile is self.wfile
-            self.the_sock = self.request._sock
-            self.connection._sock = Useles()
-            self.request._sock = Useles()
-            self.the_fp = self.headers.__dict__['fp']
-            self.headers.__dict__['fp'] = Useles()
-        except AttributeError:
-            # Before Python 2.7
-            pass
-
-    def restore_connection(self, wait=True):
-        # Do not want to restore the connection before
-        # the dummy connection was closed by HTTPBaseRequest
-        if wait:
-            i = 0
-            while not self.wfile.closed:
-                time.sleep(0.01)
-                i += 1
-                if i == 100:
-                    send_backtrace('', 'Not closed', exception=False)
-                    break
-        self.wfile = self.the_file
-        self.rfile = self.the_rfile
-        self.please_do_not_close = False
-        try:
-            self.request._sock = self.the_sock
-            self.headers.__dict__['fp'] = self.the_fp
-        except ValueError:
-            # Before Python 2.7
-            pass
+        def close(file=self.wfile, old_close=self.wfile.close):
+            # If the thread run the job before the request is handled
+            # The flush is called by the Python library on a closed file.
+            setattr(file, 'flush', lambda:True)
+            if file._sock:
+                file._sock.close()
+            old_close()
+        self.wfile.close = close
 
     def close_connection_now(self):
-        self.the_file.close()
-        try:
-            self.the_rfile.close()
-            self.the_fp.close()
-            self.the_sock.close()
-        except (AttributeError, socket.error):
-            pass
+        sock = self.wfile._sock
+        if sock:
+            self.server.old_shutdown_request(sock)
+        http.server.BaseHTTPRequestHandler.finish(self)
+        self.please_do_not_close = True
+
+    old_finish = http.server.BaseHTTPRequestHandler.finish
+    def finish(self):
+       if not self.please_do_not_close:
+            self.old_finish()
 
     def unsafe(self):
         if 'unsafe=1' in self.path:
@@ -1328,8 +1354,8 @@ class FakeRequestHandler(BaseHTTPServer.BaseHTTPRequestHandler):
     def _(self, msgid):
         return _(msgid, self.ticket.language.split(','))
 
-    def __(self, msgid):
-        return unicode(self._(msgid), "utf-8")
+#    def __(self, msgid):
+#        return str(self._(msgid), "utf-8")
 
 def start_threads():
     start_new_thread_immortal(print_lock_state_clean_cache, ())
@@ -1404,7 +1430,7 @@ def init(launch_threads=True):
         start_threads()
     display_stack_on_kill()
     configuration.ampms_full = [
-        unicode(ampm, 'utf-8') for ampm in eval(_("MSG_ampms_full"))]
+        ampm for ampm in eval(_("MSG_ampms_full"))]
     s = ""
     for k in ("yes", "no", "abi", "abj", "pre", "tnr", "ppn"):
         configuration.__dict__[k] = _(k)

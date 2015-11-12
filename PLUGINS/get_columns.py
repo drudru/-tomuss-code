@@ -1,4 +1,4 @@
-#!/bin/env python
+#!/bin/env python3
 # -*- coding: utf-8 -*-
 #    TOMUSS: The Online Multi User Simple Spreadsheet
 #    Copyright (C) 2015 Thierry EXCOFFIER, Universite Claude Bernard
@@ -46,6 +46,6 @@ def get_columns(server):
 plugin.Plugin('get_columns', '/{Y}/{S}/{U}/get_columns',
               function=get_columns,
               group='staff',
-              mimetype = 'application/x-javascript',
+              mimetype = 'application/x-javascript; charset=UTF-8',
               unsafe=False,
               )

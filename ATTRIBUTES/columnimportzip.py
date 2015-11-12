@@ -1,4 +1,4 @@
-#!/bin/env python
+#!/bin/env python3
 # -*- coding: utf-8 -*-
 #    TOMUSS: The Online Multi User Simple Spreadsheet
 #    Copyright (C) 2015 Thierry EXCOFFIER, Universite Claude Bernard
@@ -20,7 +20,7 @@
 #    Contact: Thierry.EXCOFFIER@bat710.univ-lyon1.fr
 
 import re
-import cgi
+import html
 from .columnfill import ColumnFill
 from .. import plugin
 from .. import document
@@ -55,7 +55,7 @@ def import_zip(server):
         zf = zipfile.ZipFile(server.uploaded['data'].file, mode="r")
         page = table.get_a_page_for((server.ticket.user_name,))
         for filename in zf.namelist():
-            server.the_file.write('<br>' + cgi.escape(filename) + '\n')
+            server.the_file.write('<br>' + html.escape(filename) + '\n')
             for name in re.split("[#:@/\\\\]", filename):
                 name = name.strip()
                 if name == '':
@@ -74,7 +74,7 @@ def import_zip(server):
                                       + '</span>\n')
                 continue
 
-            f = zf.open(filename, "r")
+            f = zf.open(filename, "r", encoding = "utf-8")
             data = f.read()
             f.close()
             upload.save_file(

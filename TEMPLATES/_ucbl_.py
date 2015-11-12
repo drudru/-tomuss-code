@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 #    TOMUSS: The Online Multi User Simple Spreadsheet
 #    Copyright (C) 2009-2013 Thierry EXCOFFIER, Universite Claude Bernard
@@ -167,15 +167,12 @@ def check(table, update_inscrits=update_inscrits_ue):
     if False:
         # The old slow method
         portails = {}
-        for login in list(the_ids.keys()):
-            portails[login] = [i.encode('latin1')
-                               for i in inscrits.L_batch.portail(login)]
+        for login in the_ids.keys():
+            portails[login] = list(inscrits.L_batch.portail(login))
     else:
         portails = {}
-        for login, p in inscrits.L_batch.portails(the_ids.keys()).items():
-            portails[inscrits.login_to_student_id(login)] = [
-                i.encode("latin-1")
-                for i in p]
+        for login, p in inscrits.L_batch.portails(list(the_ids.keys())).items():
+            portails[inscrits.login_to_student_id(login)] = [ i for i in p]
     warn("Change portails", what="check")
     table.change_portails(portails)
     # Take mails from student list and not the user database
@@ -309,7 +306,7 @@ def terminate_update(table, the_ids):
                 allow_student_removal = False
         else:
             # Less than 20, do not remove more than the half
-            if len(to_remove) >= 1+len(table.lines)/2:
+            if len(to_remove) >= 1+len(table.lines)//2:
                 allow_student_removal = False
 
         if table.force_update:
@@ -367,8 +364,6 @@ def check_get_info():
         else:
             firstname, surname = inscrits.L_batch.firstname_and_surname(
                 value)
-
-        firstname = firstname.encode('utf-8')
         line = table.lines[lin]
 
         if table.unloaded:
@@ -391,7 +386,6 @@ def check_get_info():
                 table.cell_change(table.pages[0], '0_1', lin, firstname,
                                   force_update=True)
             if value or line[2].author == data.ro_user:
-                surname = surname.encode('utf-8')
                 table.cell_change(table.pages[0], '0_2', lin, surname,
                                   force_update=True)
 
@@ -409,7 +403,7 @@ def check_get_info():
         finally:
             table.unlock()
 
-        portails = [i.encode('latin-1') for i in inscrits.L_batch.portail(value)]
+        portails = list(inscrits.L_batch.portail(value))
         table.update_portail(line[0].value, portails)
         t = time.time()
     return t

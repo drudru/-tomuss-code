@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 #    TOMUSS: The Online Multi User Simple Spreadsheet
 #    Copyright (C) 2008-2014 Thierry EXCOFFIER, Universite Claude Bernard
@@ -89,6 +89,8 @@ class ColumnAttr(object):
     def encode(self, value):
         """Translate the value (string from browser or other) into
         the Python internal coding (not the stored form)"""
+        if isinstance(value, bytes):
+            raise ValueError("Encoding problem for %s" % value)
         return value
 
     def decode(self, value):
@@ -179,6 +181,7 @@ class ColumnAttr(object):
 
     def js(self):
         """Attribute JavaScript description"""
+
         return ('"' + self.name + '"' +
                 ':{' +
                 'display_table:' + str(self.display_table)+
@@ -306,6 +309,8 @@ def initialize():
             if hasattr(item, 'name'):
                 if key in names:
                     continue
+                if key.startswith('__'):
+                    continue
                 names.add(key)
                 attributes.append(item())
                 reloadeds.append((item.__name__, reloaded))
@@ -377,10 +382,10 @@ class Column(object):
 
     def dump(self):
         """'print' all the column information for debugging"""
-        print self.js()
+        print(self.js())
         i = self.data_col
         for line in self.table.lines.values():
-            print line[0].value, line[1].value, line[2].value, line[i].value
+            print(line[0].value, line[1].value, line[2].value, line[i].value)
 
     def min_max(self):
         """From the Note 'test' value stored as [min;red;green;max]
@@ -682,7 +687,7 @@ class Columns(object):
             if column:
                 to_add += column.depends_on()
             else:
-                print 'XXX not found:', title
+                print('XXX not found:', title)
         for column in self.columns:
             if column.type.name == 'Note' and column.title not in used_titles:
                 return 0

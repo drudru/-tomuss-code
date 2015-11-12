@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 #    TOMUSS: The Online Multi User Simple Spreadsheet)
 #    Copyright (C) 2010 Thierry EXCOFFIER, Universite Claude Bernard
@@ -19,7 +19,7 @@
 #
 #    Contact: Thierry.EXCOFFIER@bat710.univ-lyon1.fr
 
-import cgi
+import html
 from .. import plugin
 from .. import document
 from .. import utilities
@@ -73,7 +73,7 @@ def display(server):
                 s = utilities.the_login(line[0].value)
                 if s == '':
                     continue
-                students[s][i] = cgi.escape(str(line[data_col].value))
+                students[s][i] = html.escape(str(line[data_col].value))
             i += 1
 
     # display
@@ -165,7 +165,7 @@ def display_fusion(server,
                 if line[0].value == '':
                     continue
                 s = utilities.the_login(line[0].value)
-                v = '<td>' + cgi.escape(str(line[data_col].value))
+                v = '<td>' + html.escape(str(line[data_col].value))
                 if with_column:
                     v += '<td>' + column_title
                 if with_author:
@@ -179,8 +179,8 @@ def display_fusion(server,
     for student, values in students.items():
         firstname, surname = inscrits.L_batch.firstname_and_surname(student)
         f.write('<tr><td>' + inscrits.login_to_student_id(student)
-                + '<td>' + firstname.encode('utf8')
-                + '<td>' + surname.encode('utf8')
+                + '<td>' + firstname
+                + '<td>' + surname
                 + ''.join(values) + '</tr>\n')
     f.write('</tbody>')
     f.write('</table>')

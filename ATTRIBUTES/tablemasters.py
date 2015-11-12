@@ -1,4 +1,4 @@
-#!/bin/env python
+#!/bin/env python3
 # -*- coding: utf-8 -*-
 #    TOMUSS: The Online Multi User Simple Spreadsheet
 #    Copyright (C) 2008-2011 Thierry EXCOFFIER, Universite Claude Bernard
@@ -80,7 +80,5 @@ return value ;
     def default_value(self, table):
         ue = self.get_ue(table)
         if ue:
-            return [login.encode('utf8')
-                    for login in ue.responsables_login()
-                    ]
+            return list(ue.responsables_login())
         return []

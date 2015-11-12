@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 #    TOMUSS: The Online Multi User Simple Spreadsheet
 #    Copyright (C) 2014 Thierry EXCOFFIER, Universite Claude Bernard
@@ -19,7 +19,7 @@
 #
 #    Contact: Thierry.EXCOFFIER@bat710.univ-lyon1.fr
 
-import cgi
+import html
 from .. import plugin
 from .. import configuration
 from .. import utilities
@@ -44,8 +44,8 @@ files.files['opensearch_desc.xml'] = utilities.StaticFile(
 def link(server, info):
     return '<a href="%s/%s">%s %s</a><br>\n' % (
         configuration.suivi.url(ticket=server.ticket.ticket),
-        info[0], cgi.escape(info[1]),
-        cgi.escape(info[2].title()))
+        info[0], html.escape(info[1]),
+        html.escape(info[2].title()))
 
 def display(server, name, who, where):
     infos = inscrits.L_slow.firstname_or_surname_to_logins(
@@ -61,7 +61,7 @@ def display(server, name, who, where):
     if infos:
         server.the_file.write(
             "<h2>%s</h2>\n" % who
-            + ''.join(link(server, x) for x in infos).encode('utf-8')
+            + ''.join(link(server, x) for x in infos)
         )
     return len(infos)
 
@@ -91,7 +91,7 @@ def display_ue(server, name):
                        configuration.year_semester[1],
                        code(x.name),
                        code(x.name),
-                       x.intitule().encode('utf-8'))
+                       x.intitule())
                       for x in ues)
         )
     return len(ues)
@@ -102,8 +102,7 @@ def search(server):
             ticket = "thierry.excoffier"
             language = "fr"
         server.ticket = Debug()
-    q = utilities.flat(unicode('/'.join(server.the_path),
-                               'utf-8')).replace('+', ' ').encode('utf-8')
+    q = utilities.flat('/'.join(server.the_path)).replace('+', ' ')
     if len(q) < 2:
         server.the_file.write("?")
         return
@@ -116,7 +115,7 @@ H1 { text-align: center }
 </style>
 <h1>«%s»</h1>
 <table style="vertical-align:top"><tr><td>
-    ''' % cgi.escape(q).encode("utf-8"))
+    ''' % html.escape(q))
     n = display(server, q, server._("MSG_mail_students"),
                 configuration.cn_students)
     server.the_file.write("<td>")

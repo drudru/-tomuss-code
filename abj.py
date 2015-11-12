@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 #    TOMUSS: The Online Multi User Simple Spreadsheet
 #    Copyright (C) 2008-2014 Thierry EXCOFFIER, Universite Claude Bernard
@@ -23,7 +23,7 @@
 
 import os
 import time
-import cgi
+import html
 import glob
 from . import utilities
 from . import configuration
@@ -88,10 +88,10 @@ class Abj(object):
         to_date = a_date(to_date)
         for abj in self.abjs:
             if (from_date, to_date) == abj[:2]:
-                print 'Do no add twice the same ABJ for', self.login
-                print from_date, to_date, user_name, date, comment
+                print('Do no add twice the same ABJ for', self.login)
+                print(from_date, to_date, user_name, date, comment)
                 for i in self.abjs:
-                    print '\t', i
+                    print('\t', i)
                 return
         if not date:
             date = time.strftime('%Y%m%d%H%M%S')
@@ -180,7 +180,7 @@ class Abj(object):
         ues = inscrits.L_fast.ues_of_a_student_short(self.login)
         if len(self.da) == 0:
             return ues
-        da = zip(*self.da)[0]
+        da = list(zip(*self.da))[0]
         return [ue_code for ue_code in ues if ue_code not in da]
 
     def current_abjs(self):
@@ -220,7 +220,7 @@ class Abjs(object):
                    'rem2'  : self.rem   ,
                    'rem_da': self.rem_da,
                    }
-        f = open(filename, "r")            
+        f = open(filename, "r", encoding = "utf-8")
         for line in f:
             if '(' not in line:
                 continue
@@ -281,11 +281,11 @@ def html_abjs(year, semester, student, full=False):
     a = Abj(year, semester, student)
     a_abj = a.js(full=full)
     if len(a_abj) > 2:
-        s += ('node.data = ' + unicode(a.js(full=full, current=True), 'utf-8')
+        s += ('node.data = ' + a.js(full=full, current=True)
               + '; document.write(DisplayAbjs(node)) ;')
     a_da = a.js_da()
     if len(a_da) > 2:
-        s += ('node.data = ' + unicode(a.js_da(current=True), 'utf-8')
+        s += ('node.data = ' + a.js_da(current=True)
               + '; document.write(DisplayDA(node)) ;')
     if s:
         return '<script>node = {} ;' + s + '</script>'
@@ -307,14 +307,12 @@ def a_student(browser, year, semester, ticket, student):
         ', '.join(inscrits.L_fast.portail(student)).replace("'","\\'")
         )
     abj = Abj(year, semester, student)
-    html += "document.write(window.parent.display_abjs(%s));" % unicode(
-        abj.js(), 'utf-8')
-    html += "document.write(window.parent.display_da(%s));" % unicode(
-        abj.js_da(), 'utf-8')
+    html += "document.write(window.parent.display_abjs(%s));" % abj.js()
+    html += "document.write(window.parent.display_da(%s));" % abj.js_da()
     ue_list = abj.ues_without_da()
     ue_list.sort()
     html += "window.parent.ues_without_da(%s);" % js(ue_list) + '</SCRIPT>'
-    browser.write(html.encode('utf8'))
+    browser.write(html)
 
 def tierstemps(student_id, table_tt=None, only_current=True):
     """Returns a strings containing all tiers-temps informations about
@@ -323,7 +321,7 @@ def tierstemps(student_id, table_tt=None, only_current=True):
     if table_tt == None:
         # Get TT for current year
         table_tt = get_table_tt(*configuration.year_semester)
-    _ = utilities.__
+    _ = utilities._
     tt = table_tt.the_current_tt(table_tt).get(student_id, None)
     if tt and (not only_current or tt.current()):
         html = ""
@@ -395,16 +393,14 @@ def alpha_html(browser, year, semester, ue_name_endswith=None,
 
         def write(a, b, c, d, e):            
             fn, sn = inscrits.L_slow.firstname_and_surname(login)
-            fn = fn.encode('utf8')
-            sn = sn.encode('utf8')
             browser.write( line % (fn, sn, login, a, b, c ,d, e))
         student = Abj(year, semester, login)
         for from_date, to_date, author2, comment in student.abjs:
             if author is None or author == author2:
-                write('ABJ', from_date, to_date, cgi.escape(comment), author2)
+                write('ABJ', from_date, to_date, html.escape(comment), author2)
         for ue_code, date, author2, comment in student.da:
             if author is None or author == author2:
-                write('DAS', date, ue_code, cgi.escape(comment), author2)
+                write('DAS', date, ue_code, html.escape(comment), author2)
     browser.write('</tbody></table>'
                   + '<script>abj_messages = [%s,%s,%s,%s] ; </script>' % (
                       utilities.js(utilities._("MSG_abj_choose_action")),
@@ -485,7 +481,7 @@ def ue_mails_and_comments(ue_code):
             
     other_mails = []
     for an_other_mail in teacher.other_mails(ue_code[3:]):
-        an_other_mail = an_other_mail.lower().encode('utf-8')
+        an_other_mail = an_other_mail.lower()
         if an_other_mail not in mails:
             other_mails.append(an_other_mail)
 
@@ -501,7 +497,7 @@ def ue_mails_and_comments(ue_code):
         for an_other_mail in the_ue.mails():
             an_other_mail = an_other_mail.lower()
             if an_other_mail not in mails:
-                other_mails.append(unicode(an_other_mail, 'utf-8'))
+                other_mails.append(an_other_mail)
 
         if other_mails:
             text.append("   " + utilities._("MSG_other_mail2") +
@@ -527,21 +523,21 @@ def ue_resume(ue_code, year, semester, browser=None):
         text = []
         browser.write(utilities._("MSG_suivi_student_wait") + '\n')
     else:
-        text = [utilities.__("MSG_abj_mail_header") % configuration.server_url
+        text = [utilities._("MSG_abj_mail_header") % configuration.server_url
                 + '\n\n']
 
     if not the_ue:
-        text.append(underline(ue_code + utilities.__("MSG_abj_no_title")))
+        text.append(underline(ue_code + utilities._("MSG_abj_no_title")))
     else:
         text.append(underline(ue_code + ' : ' + the_ue.intitule()))
 
-    text.append('\n' + utilities.__("MSG_abj_link") + '\n\n')
+    text.append('\n' + utilities._("MSG_abj_link") + '\n\n')
     text.append('    %s/%s/%s/%s/resume\n' % (
         configuration.server_url, year, semester, ue_code))
     #
     # The UE managers
     #
-    text.append(underline(utilities.__("MSG_abj_master"), char='-'))
+    text.append(underline(utilities._("MSG_abj_master"), char='-'))
     mails, infos = ue_mails_and_comments(ue_code)
     text += infos
 
@@ -579,23 +575,23 @@ def ue_resume(ue_code, year, semester, browser=None):
         nr_letters = feedback(browser, 'A', nr_letters)
         if first:
             first = False
-            text.append(underline(utilities.__("TH_ABJ_list"), char='-'))
+            text.append(underline(utilities._("TH_ABJ_list"), char='-'))
         fs = inscrits.L_slow.firstname_and_surname(student.login)
         the_abjs = ('   * ' + student.login + ' ' + fs[1].upper() + ' ' +
                     fs[0].title() + '\n')
         for abj in abjs_pruned:
             if abj[0] == abj[1]:
-                an_abj = '      - ' + utilities.__("MSG_abj_the") \
+                an_abj = '      - ' + utilities._("MSG_abj_the") \
                     + ' ' + nice_date(abj[0])
             elif abj[0][:-1] == abj[1][:-1]:
-                an_abj = '      - ' + utilities.__("MSG_abj_the") \
+                an_abj = '      - ' + utilities._("MSG_abj_the") \
                     + ' ' + abj[0][:-1]
             else:
-                an_abj = "      - " + utilities.__("MSG_abjtt_from_before") \
+                an_abj = "      - " + utilities._("MSG_abjtt_from_before") \
                     + " " + nice_date(abj[0]) + ' ' \
-                    + utilities.__("TH_until") + ' ' + nice_date(abj[1]) 
+                    + utilities._("TH_until") + ' ' + nice_date(abj[1])
             if abj[3]:
-                an_abj += ' (' + unicode(abj[3],'utf8') + ')'
+                an_abj += ' (' + abj[3] + ')'
             
             the_abjs += an_abj + '\n'
         infos.append( (utilities.flat(fs[1]).lower(),
@@ -603,7 +599,7 @@ def ue_resume(ue_code, year, semester, browser=None):
                     the_abjs) )
     if infos:
         infos.sort()
-        text += zip(*infos)[2]
+        text += list(zip(*infos))[2]
     #
     # The DA
     #
@@ -617,14 +613,14 @@ def ue_resume(ue_code, year, semester, browser=None):
             nr_letters = feedback(browser, 'D', nr_letters)
             if first:
                 first = False
-                text.append(underline(utilities.__("MSG_abj_da_list"),
+                text.append(underline(utilities._("MSG_abj_da_list"),
                                    char='-'))
             fs = inscrits.L_slow.firstname_and_surname(student_login)
             an_abj = ('   * ' + student_login + ' '
                       + fs[1].upper() + ' ' + fs[0].title()
-                      + ' ' + utilities.__("MSG_abj_tt_from") + dates[0][1])
+                      + ' ' + utilities._("MSG_abj_tt_from") + dates[0][1])
             if dates[0][3]:
-                an_abj += ' (' + unicode(dates[0][3],'utf-8') + ')'
+                an_abj += ' (' + dates[0][3] + ')'
             an_abj += '\n'
             
             infos.append((utilities.flat(fs[1]).lower(),
@@ -632,7 +628,7 @@ def ue_resume(ue_code, year, semester, browser=None):
                           an_abj))
     if infos:
         infos.sort()
-        text += zip(*infos)[2]
+        text += list(zip(*infos))[2]
     #
     # The TT
     #
@@ -647,7 +643,7 @@ def ue_resume(ue_code, year, semester, browser=None):
         nr_letters = feedback(browser, 'T', nr_letters)
         if first:
             first = False
-            text.append(underline(utilities.__("MSG_abj_tt_list"),
+            text.append(underline(utilities._("MSG_abj_tt_list"),
                                char='-'))
         fs = inscrits.L_slow.firstname_and_surname(student_login)
         a_tt = ('   * ' + student_login + ' ' + fs[1].upper() + ' '
@@ -660,7 +656,7 @@ def ue_resume(ue_code, year, semester, browser=None):
 
     if infos:
         infos.sort()
-        text += zip(*infos)[2]
+        text += list(zip(*infos))[2]
 
     return text, mails
 
@@ -669,7 +665,6 @@ to_send_ok = [] # (Recipent, Title, message) list
 def list_mail(browser, year, semester, only_licence=True):
     """Compute and display for all the UE the 'ue_resume'.
     Store the result in order to send all the mails after human check"""
-
     to_send = []
     sender = configuration.abj_sender
     browser.write(utilities._("MSG_abj_sender") + sender)
@@ -689,30 +684,24 @@ def list_mail(browser, year, semester, only_licence=True):
     for student_login in tt_logins:
         for ue_code in inscrits.L_batch.ues_of_a_student_short(student_login):
             ues[ue_code] = True
-
     if only_licence:
         ues = [ue_code for ue_code in ues if ue_code[-1] == 'L']
-
     for ue_code in ues:
         lines, mails = ue_resume(ue_code, year, semester)
-        browser.write(''.join(lines).encode('utf8'))
+        browser.write(''.join(lines))
         if mails:
             to_send.append( (mails,
                              'ABJ + DA + TT pour l\'UE ' + ue_code,
                              ''.join(lines)) )
-
     global to_send_ok
     to_send_ok = to_send
-    
     browser.write('</pre>' + utilities._("MSG_abj_send") % len(to_send))
-    browser.close()
-
 
 to_send_ok_example = [
     (['exco@bat710.univ-lyon1.fr', 'thierry.excoffier@bat710.univ-lyon1.fr'],
      'UE_CODE x',
      'blabla'),
-    (['exco@liris.univ-lyon1.fr', u'excé@www710.univ-lyon1.fr'],
+    (['exco@liris.univ-lyon1.fr', 'excé@www710.univ-lyon1.fr'],
      'UE_CODE y',
      'blaBLA'),
     (['exco@bat710.univ-lyon1.fr', 'thierry.excoffier@bat710.univ-lyon1.fr'],

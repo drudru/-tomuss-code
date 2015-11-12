@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 #    TOMUSS: The Online Multi User Simple Spreadsheet
 #    Copyright (C) 2009-2012 Thierry EXCOFFIER, Universite Claude Bernard
@@ -25,7 +25,7 @@ to match the modification. For example, the columns order.
 """
 
 import os
-import cgi
+import html
 from .. import inscrits
 from .. import utilities
 from .. import configuration
@@ -41,13 +41,12 @@ def referent_resume(table, login):
             if i >= 3 and line[i].value:
                 if first:
                     s.append('<div class="blocnote">'
-                             + unicode(utilities._("MSG_Referents_suivi"),
-                                       'utf8')
+                             + utilities._("MSG_Referents_suivi")
                              % (table.year, table.year+1) + '<br>')
                     first = False
-                s.append(u'%s&nbsp;:&nbsp;<b>%s</b>,'
-                         % ( unicode(col.title, 'utf8'),
-                             unicode(cgi.escape(str(line[i].value)), 'utf8') ))
+                s.append('%s&nbsp;:&nbsp;<b>%s</b>,'
+                         % ( col.title,
+                             html.escape(str(line[i].value)) ))
     if first == False:
         s.append('</div>')
     return '\n'.join(s)
@@ -88,7 +87,7 @@ def check_columns(table):
     if len(table.columns) != 0 and table.columns.from_id('FiRe') is None:
         table.modifiable = 0
         return # Old table : no more columns update
-    cols = dict(referent_columns.items())
+    cols = dict(list(referent_columns.items()))
     cols.update(configuration.local_columns(table))
     for k, v in cols.items():
         x = utilities._('COL_TITLE_' + k)
@@ -134,7 +133,7 @@ def update_inscrits_referents(the_ids, table, page):
         login = utilities.the_login(the_id)
         done[login] = True
         firstname,surname,mail = inscrits.L_batch.firstname_and_surname_and_mail(login)
-        the_ids[the_id] = mail.encode('utf-8')
+        the_ids[the_id] = mail
         # COpy/Paste with Favoris.py
         if referent.need_a_charte(login):
             if utilities.charte_signed(login, year=table.year,
@@ -156,8 +155,8 @@ def update_inscrits_referents(the_ids, table, page):
             else:
                 line = lines[0][0] # Never 2 lines with one student
             table.cell_change(page, "0_0"   ,line, the_id)
-            table.cell_change(page, "0_1"   ,line, firstname.encode('utf-8'))
-            table.cell_change(page, "0_2"   ,line, surname.encode('utf-8'))
+            table.cell_change(page, "0_1"   ,line, firstname)
+            table.cell_change(page, "0_2"   ,line, surname)
 
             if lines and lines[0][1][fire].value == '':
                 #  FiRe only setted if empty, it must never change

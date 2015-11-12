@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 #    TOMUSS: The Online Multi User Simple Spreadsheet)
 #    Copyright (C) 2008-2011 Thierry EXCOFFIER, Universite Claude Bernard
@@ -43,7 +43,7 @@ def student_icone(server):
     note = []
     ues = tablestat.the_ues(server.year, server.semester, login)
     if not ues:
-        server.the_file.write(str(files.files['tip.png']))
+        server.the_file.write(files.files['tip.png'].bytes())
         return
     for t in ues:
         for line in t.get_lines(login):

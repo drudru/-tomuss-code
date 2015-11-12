@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 #    TOMUSS: The Online Multi User Simple Spreadsheet
 #    Copyright (C) 2009-2012 Thierry EXCOFFIER, Universite Claude Bernard
@@ -22,13 +22,14 @@
 import sys
 import os
 import shutil
-import httplib
+import http.client
 import time
 import json
 import traceback
 
 sys.argv.append("real_regtest")
 sys.argv.append("protect_do_not_display")
+
 import tomuss_init
 from .. import configuration
 from .. import utilities
@@ -47,9 +48,9 @@ assert( root != abj )
 
 configuration.language = 'en'
 
-ok_png = utilities.read_file('FILES/ok.png')
-bad_png = utilities.read_file('FILES/bad.png')
-bug_png = utilities.read_file('FILES/bug.png')
+ok_png = utilities.read_file('FILES/ok.png','bytes')
+bad_png = utilities.read_file('FILES/bad.png','bytes')
+bug_png = utilities.read_file('FILES/bug.png','bytes')
 unauthorized_html = utilities._("MSG_new_page_unauthorized")
 not_in_demo_mode = utilities._("MSG_evaluate")
 deletion_done = utilities._("MSG_delete_this_table_done")
@@ -68,19 +69,19 @@ abj_date_next     = '31/12/%d' % (uyear+1)
 now_plus_32_days = time.strftime('%Y%m%d',time.localtime(time.time()+86400*63))
 now_plus_30_days = time.strftime('%Y%m%d',time.localtime(time.time()+86400*30))
 
-print ys, uyear
+print(ys, uyear)
 
 _ = utilities._
 
 
-names = open('xxx.names','w')
+names = open('xxx.names','w', encoding = "utf-8")
 
 def do(t):
     names.write(' ' + t)
     names.flush()
     c = len(sys.argv) == 1 or t in sys.argv or do.found
     if c:
-        print t
+        print(t)
         do.found = True
     return c
 do.found = False
@@ -92,7 +93,7 @@ def wait_sec():
         time.sleep(0.1)
 
 if len(sys.argv) == 1:
-    print 'You can indicate in parameters the tests you want to do'
+    print('You can indicate in parameters the tests you want to do')
 
 c = ''
 s = ''
@@ -226,7 +227,6 @@ def tests():
     ss = ServerSuivi()
     s = Server()
     s.start()
-
     if do('badurl'):
         c = s.url('=' + root + '/BADURL')
         assert(c == 'bad_url')
@@ -522,7 +522,7 @@ def tests():
         # Take the page of somebody else
         c = s.url('=' + root + '/%d/Dossiers/badpage' % uyear +
                   '/0/0/column_change/col_0/TITLE0/Note/[0;20]/1//1')
-        assert('Cheater' in c or c == bug_png)
+        assert( c == bug_png or 'Cheater' in c)
 
     if do('cellprotect'):
         c = s.url('=' + root + '/9999/Test/cellprotect')
@@ -936,15 +936,14 @@ def tests():
         if False:
             # The HTML no more contains the URL
             c = c.split('<iframe src="')[1].split('"')[0]
-            import urllib2
-            f = urllib2.urlopen(c)
+            import urllib.request, urllib.error, urllib.parse
+            f = urllib.request.urlopen(c)
             c = f.read()
             f.close()
         else:
             c = s.url('=10800000/rsskey')
         key = utilities.manage_key('LOGINS', '10800000/rsskey')
         assert(key is not False)
-        
         c = ss.url('%s/rss/%s' % (ys, key))
         assert('<title>UE-INF20UE2 : TITLE0 : 11.11/20</title>' in c)
 
@@ -1061,12 +1060,15 @@ def tests():
 
         c = ss.url('=' + abj + '/%s/*' % ys )
         assert(_("COL_TITLE_nb_cells_entered") in c)
-        assert('{"0": [C("%s"),' % abj in c)
+        # le dictionnaire n'est pas toujours dans le meme ordre
+        assert(': [C("%s"),' % abj in c)
+
 
         c = ss.url('=' + abj + '/%s/*2' % ys )
         assert(_("COL_TITLE_nb_teachers") in c)
         # assert('P([C("teachers","*"),' in c)
-        assert('"1": [C("UE-INF20UE2"),' in c)
+        # le dictionnaire n'est pas toujours dans le meme ordre
+        assert(': [C("UE-INF20UE2"),' in c)
 
     if do('private'):
         c = s.url('=' + root + '/%s/UE-INF11UE2' % ys)
@@ -1093,7 +1095,9 @@ def tests():
         create_u2()
         ss.start()
         c = ss.url('=' + root + '/%s/resume/UE-INF20UE2/UE-INF20UE2' % ys)
-        assert('lines = {"0": [C("10800001"),C(),C(),C(1),C(1),C()],\n"1": [C("10800000"),C("Jacques"),C("MARTIN"),C(1),C(1),C()]}' in c)
+        # assert('lines = {"0": [C("10800001"),C(),C(),C(1),C(1),C()],\n"1": [C("10800000"),C("Jacques"),C("MARTIN"),C(1),C(1),C()]}' in c)
+        assert(': [C("10800001"),C(),C(),C(1),C(1),C()]' in c)
+        assert(': [C("10800000"),C("Jacques"),C("MARTIN"),C(1),C(1),C()]' in c)
 
     if do('delete_this_table'):
         create_u2()
@@ -1192,7 +1196,7 @@ def tests():
         assert(c == ok_png)
         c = s.url('=' + root + '/%s/UE-INF21UE9/1/2/cell_change/0_0/0_0/10123456' % ys)
         assert(c == ok_png)
-        f = open('xxx.csv', 'w')
+        f = open('xxx.csv', 'w', encoding = "utf-8")
         f.write('qqqq,qqq,qqqq\n10123456,4.4444,XXXXYYYY\nttt,yyy,uuu,uu')
         f.close()
         csv = ('file://%s/xxx.csv' % os.getcwd()).replace('/','$2F')
@@ -1208,7 +1212,7 @@ def tests():
         assert('XXXXYYYY' in c)
 
         # Change values
-        f = open('xxx.csv', 'w')
+        f = open('xxx.csv', 'w', encoding = "utf-8")
         f.write('qqqq,qqq,qqqq\n10123456,val=é,val=è\r\nttt,yyy,uuu,uu\n1,2,3')
         f.close()
         c = s.url('=' + root + '/%s/UE-INF21UE9/1/5/column_attr_comment/col_0/xxIMPORT()yy' % ys)
@@ -1225,7 +1229,7 @@ def tests():
         assert('XXXXYYYY' in c)
         assert('val=é' in c)
         assert('val=è' in c)
-        f = open('xxx.csv', 'w')
+        f = open('xxx.csv', 'w', encoding = "utf-8")
         f.write('qqqq,qqq,qqqq\r10123456,val2=\xe9,val2=\xe8\rttt,yyy,uuu,uu\r1,2,3')
         f.close()
         c = s.url('=' + root + '/%s/UE-INF21UE9/1/9/column_attr_comment/col_0/xxIMPORT()yy' % ys)
@@ -1331,7 +1335,7 @@ new_page('' ,'*', '', '', None)
         assert('server_answered' in c)
         
     if do('template_reload'):
-        f = open('TEMPLATES/xxx_regtest.py', 'w')
+        f = open('TEMPLATES/xxx_regtest.py', 'w', encoding = "utf-8")
         f.write('''
 from data import ro_user
 def content(table):
@@ -1345,13 +1349,13 @@ def create(table):
         assert("XXX_REGTEST1" in c)
         while time.time() - t < 1:
             pass
-        f = open('TEMPLATES/xxx_regtest.py', 'a')
+        f = open('TEMPLATES/xxx_regtest.py', 'a', encoding = "utf-8")
         f.write('def content(table): return "XXX_REGTEST2"\n')
         f.close()
         c = s.url('=' + abj +'/%s/xxx_regtest-3' % ys)
         assert("XXX_REGTEST2" in c)
         os.unlink('TEMPLATES/xxx_regtest.py')
-        os.unlink('TEMPLATES/xxx_regtest.pyc')
+        os.unlink('TEMPLATES/__pycache__/xxx_regtest.cpython-34.pyc')
 
     if do('code_etape'):
         c = s.url('=' + abj +'/%s/UE-etape' % ys)
@@ -1468,7 +1472,7 @@ cell_change(1,'0_2','ticket_time_to_live','%d',"")
        ok = False
        try:
           c = s.url('='+abj+'/%d/Dossiers/regtest-bug1/1/0/column_attr_title/col_0/TITLE0' % uyear, display_log_if_error=False, stop_if_error=False)
-       except httplib.BadStatusLine:
+       except http.client.BadStatusLine:
           # The ticket is no more fine : the server does not reply
           ok = True
        assert( ok )
@@ -1697,7 +1701,7 @@ cell_change(1,'0_2','ticket_time_to_live','%d',"")
         c = s.url('='+abj+'/%s/UE-owner/1/2/cell_change/0_0/a/10800001' % ys)
         assert( c == ok_png )
         c = s.url('='+abj+'/%s/UE-owner/1/3/cell_change/A/a/FOO' % ys)
-        assert( c == bad_png )
+        assert( c == bad_png )  # XXX
         c = s.url('='+abj+'/%s/UE-owner/1/4/column_attr_type/A/Text' % ys)
         assert( c == ok_png )
         c = s.url('='+abj+'/%s/UE-owner/1/5/cell_change/A/a/FOO' % ys)
@@ -1711,6 +1715,7 @@ cell_change(1,'0_2','ticket_time_to_live','%d',"")
         assert( 'LABEL_signature_new' not in c )
         c = s.url('=' + abj
                   + '/signature_new/p0800001/1/sig_message{{{sig_button}}}')
+
         assert(utilities._("MSG_saved") in c)
         c = ss.url('=p0800001/%s' % ys)
         assert('AskQuestion' in c)
@@ -1881,29 +1886,31 @@ cell_change(1,'0_2','ticket_time_to_live','%d',"")
         assert('UE-upload' in c)
         c = s.post('=10800000/%s/UE-upload/upload_post/A/0_0' % ys,
                    fields = ( ("filename", "foo.txt"), ),
-                   files = ( ("data", "FOO.TXT", "the file content"), )
+                   files = ( ("data", "FOO.TXT", b"the file content"), )
                )
         assert('Uploaded file size in bytes: 16' in c)
         assert('Uploaded file type: text/plain; charset=us-ascii' in c)
         assert('>foo.txt<' in c)
         assert('No virus found.' in c)
-        c = utilities.read_file('UPLOAD/%s/UE-upload/A/0_0' % ys)
-        assert(c == "the file content")
+        c = utilities.read_file('UPLOAD/%s/UE-upload/A/0_0' % ys,
+                                encoding="bytes")
+        assert(c == b"the file content")
 
         c = s.post('=10800000/%s/UE-upload/upload_post/A/0_0' % ys,
                    fields = ( ("filename", "foo.txt"), ),
-                   files = ( ("data", "FOO.TXT", "the file content 2"), )
+                   files = ( ("data", "FOO.TXT", b"the file content 2"), )
                )
         assert('Uploaded file size in bytes: 18' in c)
-        c = utilities.read_file('UPLOAD/%s/UE-upload/A/0_0' % ys)
-        assert(c == "the file content 2")
+        c = utilities.read_file('UPLOAD/%s/UE-upload/A/0_0' % ys,
+                                encoding="bytes")
+        assert(c == b"the file content 2")
 
         c = s.url('=' + abj +'/%s/UE-upload' % ys)
         assert('C(0.018,"10800000",' in c)
         assert(',"text/plain; charset=us-ascii foo.txt",' in c)
         c = s.post('=10800000/%s/UE-upload/upload_post/A/0_0' % ys,
                    fields = ( ("filename", "foo.txt"), ),
-                   files = ( ("data", "FOO.TXT", "the file content 3"), )
+                   files = ( ("data", "FOO.TXT", b"the file content 3"), )
                )
         assert(utilities._("ERROR_value_not_modifiable") in c)
 
@@ -1911,7 +1918,7 @@ cell_change(1,'0_2','ticket_time_to_live','%d',"")
         assert(c == ok_png)
         c = s.post('=10800000/%s/UE-upload/upload_post/A/0_0' % ys,
                    fields = ( ("filename", "foo.txt"), ),
-                   files = ( ("data", "FOO.TXT", "the file content 4"), )
+                   files = ( ("data", "FOO.TXT", b"the file content 4"), )
                )
         assert(utilities._("ERROR_value_not_modifiable") in c)
 
@@ -1919,12 +1926,13 @@ cell_change(1,'0_2','ticket_time_to_live','%d',"")
         assert(c == ok_png)
         c = s.post('=10800000/%s/UE-upload/upload_post/A/0_0' % ys,
                    fields = ( ("filename", "foo.txt"), ),
-                   files = ( ("data", "FOO.TXT", "the file content 5"), )
+                   files = ( ("data", "FOO.TXT",
+                              b"the\rfile\ncontent 5 \201\002"), )
                )
         assert('No virus found.' in c)
-        c = utilities.read_file('UPLOAD/%s/UE-upload/A/0_0' % ys)
-        assert(c == "the file content 5")
-
+        c = utilities.read_file('UPLOAD/%s/UE-upload/A/0_0' % ys,
+                                 encoding="bytes" )
+        assert(c == b"the\rfile\ncontent 5 \201\002")
     if do('start_job'):
         c = [[],[],[]]
         t = time.time()
@@ -1964,23 +1972,23 @@ while True:
     try:
         tests()
         exit_status = 0
-        print 'Test fine'
+        print('Test fine')
     except AssertionError:
         if c == '':
-            print 'assert: empty !!!!!'
+            print('assert: empty !!!!!')
         elif c == bad_png:
-            print 'assert: bad_png'
+            print('assert: bad_png')
         elif c == ok_png:
-            print 'assert: ok_png'
+            print('assert: ok_png')
         elif c == bug_png:
-            print 'assert: bug_png'
+            print('assert: bug_png')
         else:
-            print "Unknown value:", str(c)[:1000]
-            f = open('xxx.html', 'w')
+            print("Unknown value:", str(c)[:1000])
+            f = open('xxx.html', 'w', encoding = "utf-8")
             f.write(c)
             f.close()
-            print c
-        print 'End of regressions tests : failure'
+            print(c)
+        print('End of regressions tests : failure')
         traceback.print_exc(file=sys.stdout)
     except:
         traceback.print_exc(file=sys.stdout)
@@ -1998,7 +2006,7 @@ while True:
             
         m.append('Running time : %g seconds' % (time.time() - start))
         for i in m:
-            print i
+            print(i)
         if only_once:
             break
 

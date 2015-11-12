@@ -1,4 +1,4 @@
-#!/usr/bin/python
+#!/usr/bin/python3
 
 """Create the translated image background for empty INPUT"""
 
@@ -12,7 +12,7 @@ for m in ('comment.png', 'filtre.png', 'filtre2.png',
           'visible.png' ,'empty.png', 'rounding.png',
 	  'course_dates.png', "import.png", 'groupcolumn.png'):
     name = "xxx.%s.svg" % m.split('.')[0]
-    f = open(name, "w")
+    f = open(name, "w", encoding = "utf-8")
     f.write('''<?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <svg>
 <text

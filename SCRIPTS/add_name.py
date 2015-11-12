@@ -1,4 +1,4 @@
-#!/usr/bin/python
+#!/usr/bin/python3
 
 """
 It is a filter
@@ -16,7 +16,7 @@ w = csv.writer(sys.stdout)
 
 for line in csv.reader(sys.stdin):
     w.writerow([line[0],
-                ' '.join(inscrits.L_batch.firstname_and_surname(line[0])[::-1]).encode('utf8')
+                ' '.join(inscrits.L_batch.firstname_and_surname(line[0])[::-1])
                 ] + line[1:])
 
 

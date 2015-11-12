@@ -1,4 +1,4 @@
-#!/bin/env python
+#!/bin/env python3
 # -*- coding: utf-8 -*-
 #    TOMUSS: The Online Multi User Simple Spreadsheet
 #    Copyright (C) 2010 Thierry EXCOFFIER, Universite Claude Bernard
@@ -44,10 +44,9 @@ def login_list_of(text, base):
 
     r = []
     for login, surname, firstname, mail  in a:
-        login = login.lower().encode('utf8')
-        firstname = firstname.title().encode('utf8')
-        surname = surname.upper().encode('utf8')
-        mail = mail.encode('utf8')
+        login = login.lower()
+        firstname = firstname.title()
+        surname = surname.upper()
         r.append('[' + utilities.js(login)
                  + ',' + utilities.js(firstname)
                  + ',' + utilities.js(surname)
@@ -67,7 +66,7 @@ def login_list(server):
 plugin.Plugin('login_list', '/login_list/{*}',
               function=login_list,
               group='staff',
-              mimetype = 'application/x-javascript',
+              mimetype = 'application/x-javascript; charset=UTF-8',
               launch_thread=True, unsafe=False,
               priority = -10 # Before student_redirection
               )

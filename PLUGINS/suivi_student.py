@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 #    TOMUSS: The Online Multi User Simple Spreadsheet
 #    Copyright (C) 2008-2014 Thierry EXCOFFIER, Universite Claude Bernard
@@ -24,7 +24,7 @@
 
 import os
 import time
-import cgi
+import html
 import collections
 from .. import plugin
 from .. import configuration
@@ -73,10 +73,9 @@ def display_mails(server):
         if tuple(t.get_items(server.suivi_login)):
             for teacher_login in t.masters:
                 teachers[teacher_login].append(t.ue)
-
     if not teachers:
         return '' # No teachers
-    return [' '.join(v) + ' <' + str(inscrits.L_fast.mail(k)) + '>'
+    return [' '.join(v) + ' <' + inscrits.L_fast.mail(k) + '>'
             for k, v in teachers.items()
             ]
 
@@ -188,15 +187,14 @@ def display_member_of(server):
     member_of = list(inscrits.L_fast.member_of_list(server.suivi_login))
     member_of.sort()
     member_of = [
-        unicode(i, configuration.ldap_encoding)
-        .replace(',DC=univ-lyon1,DC=fr','')
+        i.replace(',DC=univ-lyon1,DC=fr','')
         for i in member_of
         ]
     etapes = []
     for etape in inscrits.L_fast.etapes_of_student(server.suivi_login):
         e = teacher.all_ues().get('etape-' + etape)
         if e:
-            title = e.intitule().encode('utf-8')
+            title = e.intitule()
         else:
             title = "???"
         etapes.append([etape, title])
@@ -258,8 +256,6 @@ def display_grades(server):
                 title = ''
             if t not in codes:
                 s.append((t, title))
-
-    ss.sort()
     return [ss, s]
 
 def display_students(server):
@@ -539,7 +535,7 @@ def page_suivi(server):
         '<title>' +
         ', '.join([inscrits.L_fast.firstname_and_surname(login)[0].title() +
                    ' ' + inscrits.L_fast.firstname_and_surname(login)[1]
-                  for login in logins]).encode('utf8') +
+                  for login in logins]) +
         '</title>'
                           )
     done = False
@@ -561,13 +557,12 @@ plugin.Plugin('infos', '/{*}', group='staff', password_ok = None,
               )
 
 def escape(t):
-    return unicode(t,'utf-8').replace('>', u'\ufe65').replace('<', u'\ufe64').replace('&','&amp;').encode('utf-8')
+    # > and < must really be not interpretable at any level of escape
+    return t.replace('>', '﹥').replace('<', '﹤').replace('&','&amp;')
 
 def rss_author(x):
     try:
         fn, sn = inscrits.L_fast.firstname_and_surname(x)
-        fn = fn.encode('utf8')
-        sn = sn.encode('utf8')
         return inscrits.L_fast.mail(x) + ' (%s %s)' % (fn.title(), sn.upper())
     except:
         return x
@@ -646,15 +641,15 @@ def page_rss(server):
     s.sort()
     for date, cell, table, column in s[-10:]:
         if cell.comment:
-            comment= cgi.escape(utilities._("MSG_suivi_student_RSS_value_comment")
-                                + '<b>') + escape(cell.comment) + cgi.escape('</b>,<br>')
+            comment= html.escape(utilities._("MSG_suivi_student_RSS_value_comment")
+                                + '<b>') + escape(cell.comment) + html.escape('</b>,<br>')
         else:
             comment = ''
         if column.comment:
             column_comment = utilities._("MSG_suivi_student_RSS_column_comment"
                                       ) + '«' + \
-                             escape(column.title) + cgi.escape('» : <b>') + escape(
-                column.comment) + cgi.escape('</b>,<br>')
+                             escape(column.title) + html.escape('» : <b>') + escape(
+                column.comment) + html.escape('</b>,<br>')
         else:
             column_comment = ''
         if column.type.name == 'Note':
@@ -664,7 +659,7 @@ def page_rss(server):
         table_title = escape(table.table_title)
         if table.comment:
             table_title += ' (<b>' + escape(table.comment) + '</b>)'
-        table_title = cgi.escape(table_title + ',<br>')
+        table_title = html.escape(table_title + ',<br>')
         server.the_file.write(
             '<item>\n' +
             '<title>%s : %s : %s%s</title>\n' % (table.ue,
@@ -675,7 +670,7 @@ def page_rss(server):
                 table_title,
                 column_comment,
                 comment,
-                cgi.escape(utilities._("MSG_suivi_student_RSS_value_modified")
+                html.escape(utilities._("MSG_suivi_student_RSS_value_modified")
                            + '<b>' + cell.author
                            + '</b>,<br>' + utilities.nice_date(cell.date)
                            + '<br>')
@@ -696,7 +691,7 @@ def page_rss(server):
 plugin.Plugin('rss', '/rss/{*}', authenticated=False, password_ok = None,
               function = page_rss,
               launch_thread=False,
-              mimetype = 'application/rss+xml',
+              mimetype = 'application/rss+xml; charset=utf-8',
               )
 
 def page_rss2(server):
@@ -740,7 +735,7 @@ def page_rss2(server):
                 p.nr_cell_change,
                 p.user_name) +
             '</title>' +
-            '<description>%s</description>\n' % cgi.escape(d) +
+            '<description>%s</description>\n' % html.escape(d) +
             '<link>%s%s</link>\n' % (link, f) +
             '<pubDate>%s</pubDate>\n' % rss_date(date)+
             '<author>%s</author>\n' % rss_author(p.user_name) +
@@ -756,5 +751,5 @@ def page_rss2(server):
 plugin.Plugin('rss2', '/rss2/{*}', authenticated=False, password_ok = None,
               function = page_rss2,
               launch_thread=False,
-              mimetype = 'application/rss+xml',
+              mimetype = 'application/rss+xml; charset=utf-8',
               )

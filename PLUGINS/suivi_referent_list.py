@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 #    TOMUSS: The Online Multi User Simple Spreadsheet)
 #    Copyright (C) 2008-2011 Thierry EXCOFFIER, Universite Claude Bernard
@@ -51,9 +51,9 @@ def referents_table_real():
         except KeyError:
             firstname, surname, mail = inscrits.L_batch.firstname_and_surname_and_mail(r)
             d[r] = firstname, surname, mail
-        s_surname = student.surname.encode('latin1')
-        s_firstname = student.firstname.title().encode('latin1')
-        yield (p, student.key, s_surname, s_firstname, surname.encode('latin1'), firstname.title().encode('latin1'), mail.encode('latin1'))
+        s_surname = student.surname
+        s_firstname = student.firstname.title()
+        yield (p, student.key, s_surname, s_firstname, surname, firstname.title(), mail)
 
 
 @utilities.add_a_lock
@@ -92,14 +92,14 @@ def referents_html(server):
 plugin.Plugin('referents.csv', '/referents.csv',
               function=referents_csv,
               authenticated=False,
-              mimetype = 'text/csv; charset=latin1',
+              mimetype = 'text/csv; charset=utf-8',
               launch_thread=True,
               )
 
 plugin.Plugin('referents.xls', '/referents.xls',
               function=referents_html, # Yes HTML not xls or csv
               authenticated=False,
-              mimetype = 'application/excel; charset=latin1',
+              mimetype = 'application/excel; charset=utf-8',
               launch_thread=True,
               link=plugin.Link(
         url="javascript:go_suivi('referents.xls')",
@@ -110,7 +110,7 @@ plugin.Plugin('referents.xls', '/referents.xls',
 
 plugin.Plugin('referents.html', '/referents.html',
               function=referents_html, # Yes HTML not xls or csv
-              mimetype = 'text/html; charset=latin1',
+              mimetype = 'text/html; charset=utf-8',
               authenticated=False,
               launch_thread=True,
               link=plugin.Link(

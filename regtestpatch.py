@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 #    TOMUSS: The Online Multi User Simple Spreadsheet)
 #    Copyright (C) 2008-2012 Thierry EXCOFFIER, Universite Claude Bernard
@@ -46,7 +46,7 @@ def do_patch():
                     yield ('10800000', 'Jacques', 'MARTIN', 'jacques@martin',
                            'A', '1')
                 if len(ue) == 3 and ue.startswith('UE') and ue[-1].isdigit():
-                    for i in inscrits.demo_animaux.values()[-1]:
+                    for i in list(inscrits.demo_animaux.values())[-1]:
                         yield i
                 return
 
@@ -103,14 +103,14 @@ def do_patch():
                         r = []
                         for a in attributes:
                             if a == configuration.attr_login:
-                                r.append(unicode(i,
+                                r.append(str(i,
                                                  configuration.ldap_encoding))
                             elif a == configuration.attr_surname:
                                 r.append(infos[2])
                             elif a == configuration.attr_firstname:
                                 r.append(infos[1])
                             elif a == configuration.attr_mail:
-                                r.append(unicode(infos[3],
+                                r.append(str(infos[3],
                                                  configuration.ldap_encoding))
                         all.append(r)
                 return all

@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 #    TOMUSS: The Online Multi User Simple Spreadsheet
 #    Copyright (C) 2009 Thierry EXCOFFIER, Universite Claude Bernard
@@ -42,7 +42,7 @@ class Lock(object):
         self.name = name
         
     def acquire(self, *args):
-        # print 'ACQUIRE', self
+        # print('ACQUIRE', self)
         self.my_lock.acquire()
         t = threading.currentThread()
         if t in self.lock_stacks:
@@ -54,8 +54,8 @@ class Lock(object):
             if self is not lock:
                 self.locked_after[lock] = True
                 if self in lock.locked_after:
-                    print 'SELF:', self
-                    print 'LOCK:', lock
+                    print('SELF:', self)
+                    print('LOCK:', lock)
                     self.debug()
                     raise ValueError("Possible deadlock")
             
@@ -64,7 +64,7 @@ class Lock(object):
         return self.lock.acquire(*args)
 
     def release(self):
-        # print 'RELEASE', self
+        # print('RELEASE', self)
         self.my_lock.acquire()
         self.lock_stacks[threading.currentThread()].pop()
         self.my_lock.release()
@@ -75,12 +75,12 @@ class Lock(object):
 
     def debug(self):
         import pprint
-        print '=============================== lock stacks:'
-        print pprint.pformat(self.lock_stacks)
-        print '=============================== the locks:'
+        print('=============================== lock stacks:')
+        print(pprint.pformat(self.lock_stacks))
+        print('=============================== the locks:')
         for i in self.all_the_locks:
-            print 'LOCK:', i, 'IS LOCKED AFTER:'
-            print pprint.pformat(i.locked_after)
+            print('LOCK:', i, 'IS LOCKED AFTER:')
+            print(pprint.pformat(i.locked_after))
 
     def __repr__(self):
         if self.name:

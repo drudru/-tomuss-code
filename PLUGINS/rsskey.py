@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 #    TOMUSS: The Online Multi User Simple Spreadsheet
 #    Copyright (C) 2013 Thierry EXCOFFIER, Universite Claude Bernard
@@ -48,5 +48,6 @@ def rsskey(server):
         utilities.manage_key('RSSLOGINS', key, content=login, separation=2)
     server.the_file.write(key)
 
-plugin.Plugin('rsskey', '/rsskey', function=rsskey, mimetype='text/plain',
+plugin.Plugin('rsskey', '/rsskey', function=rsskey,
+              mimetype='text/plain; charset=utf-8',
               priority=-10, password_ok = None, unsafe=False)

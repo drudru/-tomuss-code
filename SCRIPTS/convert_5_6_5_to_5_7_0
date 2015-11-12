@@ -1,4 +1,4 @@
-#!/usr/bin/python
+#!/usr/bin/python3
 # -*- python -*-
 
 # Arguments : DB et BACKUP_DB
@@ -8,7 +8,7 @@ import glob
 import sys
 
 def convert(user_pages):
-    print user_pages
+    print(user_pages)
     f = open(user_pages, "r")
     numbers = ast.literal_eval(f.read())
     f.close()
@@ -24,10 +24,10 @@ def convert(user_pages):
         f.close()
     except:
         bookmarks = []
-    print '='*99
-    print numbers
-    print bookmarks
-    print
+    print('='*99)
+    print(numbers)
+    print(bookmarks)
+    print()
     for ue, nr in numbers.items():
         if nr > 0 and nr < 1000000:
             continue
@@ -37,8 +37,8 @@ def convert(user_pages):
         if nr > 0:
             bookmarks.append((0, '_', ue))
 
-    print numbers
-    print bookmarks
+    print(numbers)
+    print(bookmarks)
 
     f = open(user_pages, "w")
     f.write(repr(numbers))

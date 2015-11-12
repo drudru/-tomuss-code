@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 #    TOMUSS: The Online Multi User Simple Spreadsheet
 #    Copyright (C) 2009-2010 Thierry EXCOFFIER, Universite Claude Bernard
@@ -84,7 +84,7 @@ def update_inscrits_favoris(the_ids, table, page):
         the_id = inscrits.login_to_student_id(login)
         done[login] = True
         firstname,surname,mail = inscrits.L_batch.firstname_and_surname_and_mail(login)
-        the_ids[the_id] = mail.encode('utf-8')
+        the_ids[the_id] = mail
         # COpy/Paste with Referents.py
         if referent.need_a_charte(login):
             if utilities.charte_signed(login, year=table.year,
@@ -105,8 +105,8 @@ def update_inscrits_favoris(the_ids, table, page):
             else:
                 line = lines[0][0]
             table.cell_change(page, "0_0", line, the_id)
-            table.cell_change(page, "0_1", line, firstname.encode('utf-8'))
-            table.cell_change(page, "0_2", line, surname.encode('utf-8'))
+            table.cell_change(page, "0_1", line, firstname)
+            table.cell_change(page, "0_2", line, surname)
             table.cell_change(page, contrat, line, s)
         finally:
             table.unlock()

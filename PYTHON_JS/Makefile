@@ -35,7 +35,7 @@ regtest: translator regtest_python regtest_js
 
 regtest_python:
 	@echo "Running regression tests in Python"
-	@cat $(OBJS_PYTHON) $(LOCAL) $(REGTEST) $(LOCAL_REGTEST) >xxx.py;python xxx.py
+	@cat $(OBJS_PYTHON) $(LOCAL) $(REGTEST) $(LOCAL_REGTEST) >xxx.py;python3 xxx.py
 	@echo
 
 regtest_js:tomuss_python_regtest.js xxx_tomuss.js

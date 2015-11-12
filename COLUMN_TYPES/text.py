@@ -1,4 +1,4 @@
-#!/bin/env python
+#!/bin/env python3
 # -*- coding: utf-8 -*-
 #    TOMUSS: The Online Multi User Simple Spreadsheet
 #    Copyright (C) 2008-2015 Thierry EXCOFFIER, Universite Claude Bernard
@@ -34,11 +34,18 @@ cookies = None
 
 def read_url_not_cached(url):
     """Read an URL content to import in a column"""
-    import urllib2
+    import urllib.request, urllib.error, urllib.parse
     try:
-        f = urllib2.urlopen(url)
-        c = f.read()
-        f.close()
+        with urllib.request.urlopen(url) as f:
+            c = f.read()
+            encoding = f.headers.get_content_charset()
+            if encoding:
+                c = c.decode(encoding)
+            else:
+                try:
+                    c = c.decode('utf-8')
+                except UnicodeDecodeError:
+                    c = c.decode('latin-1')
 
         if '<html>' in c.lower():
             try:
@@ -151,18 +158,8 @@ def update_column_content(column, url):
     if c is None:
         error(column, 'ALERT_url_import_bad')
         return
-    for encoding in ('utf8', 'latin1'):
-        try:
-            c = unicode(c, encoding)
-            break
-        except:
-            pass
-    else:
-        utilities.send_backtrace('Bad encoding for %s' % url,
-                                 exception=False)
-        return # Bad encoding
 
-    c = c.encode('utf8').replace('\r','\n').split('\n')
+    c = c.replace('\r','\n').split('\n')
 
     utilities.warn('READ %d LINES IN %s' % (len(c), url))
 

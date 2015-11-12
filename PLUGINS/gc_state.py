@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 #    TOMUSS: The Online Multi User Simple Spreadsheet
 #    Copyright (C) 2008-2014 Thierry EXCOFFIER, Universite Claude Bernard
@@ -23,7 +23,7 @@ import os
 import time
 import collections
 import gc
-import cgi
+import html
 import math
 import sys
 from .. import objgraph
@@ -50,7 +50,7 @@ def gc_top(server):
             nr, utilities.StaticFile._url_, server.ticket.ticket, name, name))
     server.the_file.write('</pre>')
     # server.the_file.write('Leak :<pre>')
-    # t = ['%s\n' % cgi.escape(repr(o)[:80])
+    # t = ['%s\n' % html.escape(repr(o)[:80])
     #      for o in leaking
     #      ]
     # t.sort()
@@ -101,14 +101,14 @@ def gc_type(server):
                         utilities.StaticFile._url_,
                         server.ticket.ticket,
                         i,
-                        cgi.escape(repr(what[k][i])[:100])))
+                        html.escape(repr(what[k][i])[:100])))
 
         for n, i in enumerate(what[k]):
             server.the_file.write('        <a href="%s/=%s/object/%s">%s</a>\n' % (
                 utilities.StaticFile._url_,
                 server.ticket.ticket,
                 i,
-                cgi.escape(repr(what[k][i])[:100])))
+                html.escape(repr(what[k][i])[:100])))
             if n == 50:
                 break
         server.the_file.write('\n')
@@ -125,7 +125,7 @@ def gc_object(server):
     gc.collect()
     filename = os.path.join('TMP', 'objects.png')
     objgraph.show_backrefs(i, max_depth=5, too_many=10, filename=filename)
-    server.the_file.write(utilities.read_file(filename))
+    server.the_file.write(utilities.read_file(filename, "bytes"))
 
 plugin.Plugin('gctop'   , '/gc'        , group='roots', function=gc_top,
               launch_thread=True,
@@ -196,9 +196,9 @@ def caches(server):
             doc = cache.__doc__
         
         s.append('<tr><td>%s<br><span style="font-size:60%%">%s</span><td>%s<td>%s<td width="50%%">%s<td>%s<td>%s items %s' % (
-            cache.fct.func_name.replace('_',' '),
+            cache.fct.__name__.replace('_',' '),
             cache.fct.__module__.replace('.', ' '),
-            cgi.escape(doc),
+            html.escape(doc),
             cache.the_type.replace('_',' '),
             since, cache.timeout, nr_items, size))
     s.append('</table>')
@@ -224,7 +224,7 @@ def threads(server):
     """Displays the running thread"""
     server.the_file.write('<title>' + server._("MSG_threads_title")
                           + '</title><pre>'
-                          + cgi.escape(utilities.all_the_stacks())
+                          + html.escape(utilities.all_the_stacks())
                           + '</pre>')
 
 plugin.Plugin('threads'   , '/threads'   , group='roots', function=threads,
@@ -257,7 +257,7 @@ def gcbig(server):
             for o in objects:
                 server.the_file.write('   <a href="object/%d">%s</a>\n' % (
                         id(o),
-                        cgi.escape(repr(o)[:200])))
+                        html.escape(repr(o)[:200])))
         
         
     server.the_file.write('</pre>')
@@ -287,7 +287,7 @@ def requests(server):
                 line_id = request[3][1]
                 line = request[1].table.lines[line_id]
                 v = line[column.data_col].value
-                t = cgi.escape(
+                t = html.escape(
                     line[0].value + ' ' + line[1].value + ' ' + line[2].value
                     + ' ' + column.title + '='
                     + str(v)
@@ -297,12 +297,12 @@ def requests(server):
                 v = '???' + request[3][0] + '???'
                 t = '???????'
             if str(v).rstrip('.0') != str(request[3][2]).rstrip('.0'):
-                t = '<span style="background:#F88">' + t + '(!=' + cgi.escape(request[3][2]) + ')'
+                t = '<span style="background:#F88">' + t + '(!=' + html.escape(request[3][2]) + ')'
         else:
             t = ''
         request[0] = '%s(%s)' % (request[0], request[1].request)
         server.the_file.write('<tr>'
-                              + ''.join("<td>" + cgi.escape(str(v))
+                              + ''.join("<td>" + html.escape(str(v))
                                         for v in request)
                               + '<td>' + t + '</tr>')
     server.the_file.write('</table>')
@@ -348,7 +348,7 @@ plugin.Plugin('memory_size_checker', '/memory_size_checker',
 
 def atomic_checker(server):
     """Compute the size of atomic Python type : integer, string"""
-    atomic_types = (basestring, int, long, float)
+    atomic_types = (str, int, int, float)
     gc.collect()
     objs = gc.get_objects()
     atomics = set()
@@ -370,7 +370,7 @@ def atomic_checker(server):
 
     for a_type, stat in t.items():
         server.the_file.write("%d %s %d bytes<br>\n" %(stat[0],
-                                                       cgi.escape(str(a_type)),
+                                                       html.escape(str(a_type)),
                                                        stat[1]))
 
 plugin.Plugin('atomic_checker', '/atomic_checker',

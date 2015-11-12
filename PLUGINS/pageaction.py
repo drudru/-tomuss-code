@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 #    TOMUSS: The Online Multi User Simple Spreadsheet
 #    Copyright (C) 2008 Thierry EXCOFFIER, Universite Claude Bernard
@@ -58,7 +58,7 @@ def page_resume(server):
     It is the same list being sended by mail."""
     lines, dummy_mails = abj.ue_resume(server.the_ue, server.the_year,
                                        server.the_semester, server.the_file)
-    server.the_file.write(''.join(lines).encode('utf-8'))
+    server.the_file.write(''.join(lines))
 
 
 plugin.Plugin('pagerewrite', '/{Y}/{S}/{U}/rewrite',
@@ -172,7 +172,7 @@ def bookmark(server):
     else:
         bookmarked.append(bookmark)
     utilities.manage_key('LOGINS', key, content = repr(bookmarked))
-    server.the_file.write(str(files.files['ok.png']))
+    server.the_file.write(files.files['ok.png'].bytes())
 
 plugin.Plugin('bookmark', '/{Y}/{S}/{U}/bookmark', group='staff',
               function=bookmark, mimetype = 'image/png'

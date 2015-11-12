@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 #    TOMUSS: The Online Multi User Simple Spreadsheet
 #    Copyright (C) 2009-2011 Thierry EXCOFFIER, Universite Claude Bernard
@@ -62,11 +62,9 @@ def update_inscrits_ue(the_ids, table, page):
     if not table.with_inscrits:
         return
 
-    for infos in inscrits.demo_animaux.values()[:-1]:
+    for infos in list(inscrits.demo_animaux.values())[:-1]:
         t = []
         for i in infos:
-            if isinstance(i, unicode):
-                i = i.encode('utf8')
             t.append(i)
 
         _ucbl_.update_student(table, page, the_ids, t)

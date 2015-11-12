@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 #    TOMUSS: The Online Multi User Simple Spreadsheet
 #    Copyright (C) 2013 Thierry EXCOFFIER, Universite Claude Bernard
@@ -54,7 +54,7 @@ def create(table):
     table.update_columns(columns, ro)
 
 def get_lin_id(cache):
-    return cache.fct.__module__.split('.',1)[1] + '.' + cache.fct.func_name
+    return cache.fct.__module__.split('.',1)[1] + '.' + cache.fct.__name__
     
 def add_new_links_in_the_table(table):
     """Create missing lines in the table"""

@@ -42,7 +42,7 @@ def create_blurred():
     surnames = set()
     student_ids = set()
     def canonise(txt):
-        return utilities.flat(unicode(txt, 'utf-8').lower())
+        return utilities.flat(txt.lower())
     def add_login(login):
         if "." not in login:
             return

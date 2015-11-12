@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 #    TOMUSS: The Online Multi User Simple Spreadsheet
 #    Copyright (C) 2008-2014 Thierry EXCOFFIER, Universite Claude Bernard
@@ -105,8 +105,8 @@ def new_page(server):
                                      server.the_ue, None, server.ticket)
     except IOError:
         server.the_file.write(server._("TIP_violet_square"))
-        server.close_connection_now()
         utilities.send_backtrace(repr(server.the_path), 'Newpage IOError')
+        server.close_connection_now()
         return
 
     if table == None:
@@ -217,7 +217,7 @@ else
     server.the_file.write(''.join(table.sent_to_browsers[page.index:]))
     server.the_file.flush()
     if configuration.regtest_sync:
-        server.close_connection_now()
+        server.please_do_not_close = False
     else:
         table.active_page(page, server.the_file)
 

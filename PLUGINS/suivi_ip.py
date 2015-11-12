@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 #    TOMUSS: The Online Multi User Simple Spreadsheet)
 #    Copyright (C) 2009 Thierry EXCOFFIER, Universite Claude Bernard
@@ -60,7 +60,7 @@ def the_ip(server):
 
 plugin.Plugin('ip', '/ip', function=the_ip, group='roots',
               launch_thread = True,
-              mimetype = "text/plain",
+              mimetype = "text/plain; charset=utf-8",
               link=plugin.Link(where="deprecated", html_class="verysafe",
                                url="javascript:go_suivi('ip')"),
               )

@@ -1,4 +1,4 @@
-#!/usr/bin/python
+#!/usr/bin/python3
 # -*- coding: utf-8 -*-
 #    TOMUSS: The Online Multi User Simple Spreadsheet
 #    Copyright (C) 2013 Thierry EXCOFFIER, Universite Claude Bernard
@@ -52,7 +52,7 @@ The message will be displayed in HTML.
 
 import os
 import time
-import cgi
+import html
 import re
 import tomuss_init
 from . import utilities
@@ -90,9 +90,9 @@ class Question(object):
             biggest_line = max(len(line)
                                for line in self.message.split('\n'))
             if biggest_line < 80:
-                message = '<pre>' + cgi.escape(self.message) + '</pre>'
+                message = '<pre>' + html.escape(self.message) + '</pre>'
             else:
-                message = '<tt>' + cgi.escape(self.message).replace('\n',
+                message = '<tt>' + html.escape(self.message).replace('\n',
                                                                     '<br>'
                                                                     ) + '</tt>'
         t = (
@@ -102,7 +102,7 @@ class Question(object):
                      )
             + '</div>')
         if self.answer:
-            t = re.sub(">(" + cgi.escape(self.answer) + '<)',
+            t = re.sub(">(" + html.escape(self.answer) + '<)',
                        ' style="background:#8F8">(%s)\\1' %
                        utilities.nice_date(self.answer_date),
                        t)
@@ -237,7 +237,7 @@ def signature(server):
     else:
         add_answer(server.ticket.user_name, int(server.the_year),
                    server.something)
-    server.the_file.write(files.files['ok.png'])
+    server.the_file.write(files.files['ok.png'].bytes())
 
 plugin.Plugin('signature', '/signature/{Y}/{?}', function=signature,
               group="!staff",
@@ -254,7 +254,7 @@ def signatures(server):
     qs = get_state(login)
     server.the_file.write(
         '<h1>' + login + ' '
-        + ' '.join(inscrits.L_fast.firstname_and_surname(login)).encode('utf-8')
+        + ' '.join(inscrits.L_fast.firstname_and_surname(login))
         + '<br>'
         + server._("TITLE_signatures") + '</h1>'
         + qs.html_answered()
@@ -264,7 +264,6 @@ plugin.Plugin('signatures', '/signatures/{I}', function=signatures,
               unsafe=False)
 
 def test_hook(login, value, data):
-    print '*'*99, login, value, data
     test_hook.login = login
     test_hook.value = value
     test_hook.data = data
@@ -275,8 +274,8 @@ def test():
     def check(expected):
         qs = str(get_state("p0000000"))
         if qs != expected:
-            print 'Expected:', expected
-            print 'Result:  ', qs
+            print('Expected:', expected)
+            print('Result:  ', qs)
             raise ValueError("bug")
         
     utilities.manage_key("LOGINS", os.path.join("p0000000","signatures"),
@@ -297,12 +296,12 @@ def test():
     assert(test_hook.data == "YYY")
     add_question("p0000000", "file:ok.png", 'test_hook', 'TTT', 1.)
     add_answer("p0000000", 2, "OUI")
-    assert(str(files.files['ok.png']) in get_state("p0000000").html_answered())
-    print 'Tests are fine'
+    assert(files.files['ok.png'].bytes() in get_state("p0000000").html_answered())
+    print('Tests are fine')
 
 def translate_chartes_to_signatures():
     import glob
-    print "WAIT, IT'S LONG..."
+    print("WAIT, IT'S LONG...")
     message = "file:suivi_student_charte.html"
     content = utilities.read_file(os.path.join('PLUGINS',
                                                'suivi_student_charte.html'))
@@ -315,7 +314,7 @@ def translate_chartes_to_signatures():
         login = parts[3]
         now = os.path.getmtime(filename)
         now = time.strftime("%Y%m%d%H%M%S", time.localtime(now))
-        print login,
+        print(login, end=' ')
         todo.append((now, login, filename))
 
     for now, login, filename in sorted(todo):
@@ -323,7 +322,7 @@ def translate_chartes_to_signatures():
         q = tuple(get_state(login).get_by_content(message))[-1]
         add_answer(login, q.message_id, answer, now)
         utilities.unlink_safe(filename)
-        print login, now
+        print(login, now)
 
    
 if __name__ == "__main__":

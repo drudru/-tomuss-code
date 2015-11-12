@@ -1,3 +1,4 @@
+#!/usr/bin/python3
 # -*- coding: utf-8 -*-
 # TOMUSS: The Online Multi User Simple Spreadsheet
 # Copyright (C) 2013-2014 Thierry EXCOFFIER, Universite Claude Bernard

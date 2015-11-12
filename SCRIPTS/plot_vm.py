@@ -1,6 +1,6 @@
-#!/usr/bin/python
+#!/usr/bin/python3
 
-f = open("LOGS/VM_usage", "r")
+f = open("LOGS/VM_usage", "r", encoding = "utf-8")
 data = []
 last = '24'
 for line in f:
@@ -25,14 +25,14 @@ plt = matplotlib.pyplot
 plt.xlabel("Heure")
 plt.ylabel("Mem")
 plt.figure()
-plt.axes().set_xticks(range(24))
+plt.axes().set_xticks(list(range(24)))
 
 for day in data:
-    h, x, y = zip(*day)
+    h, x, y = list(zip(*day))
     plt.plot(h, x, color="red", alpha=1, linewidth=0.1)
     plt.plot(h, y, color="green", alpha=1, linewidth=0.1)
 
 plt.savefig("xxx-vm-usage.png", dpi=300)
 
-print "xxx-vm-usage.png computed"
+print("xxx-vm-usage.png computed")
 

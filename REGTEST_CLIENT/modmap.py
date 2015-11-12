@@ -1,4 +1,4 @@
-#!/usr/bin/python
+#!/usr/bin/python3
 
 import os
 import re
@@ -41,4 +41,4 @@ def init(port):
 
 if __name__ == "__main__":
     for k in init(0):
-        print k
+        print(k)

@@ -1,4 +1,4 @@
-#!/usr/bin/python
+#!/usr/bin/python3
 
 """
 Parameters :
@@ -11,7 +11,7 @@ import sys
 import time
 import math
 
-times = open(sys.argv[1])
+times = open(sys.argv[1], encoding = "utf-8")
 plugin = sys.argv[2]
 interval = int(sys.argv[3])
 
@@ -51,21 +51,21 @@ def histogram(v=[], minimum=0.001, maximum=5000, header=False):
                     for i in h)
 
 
-print histogram(header=True)
+print(histogram(header=True))
 for t, i in enumerate(stats):
     if not i:
         continue
     i.sort()
-    print time.strftime('%Y%m%d',time.localtime((start+t)*interval)
-                        ), histogram(i)
+    print(time.strftime('%Y%m%d',time.localtime((start+t)*interval)
+                        ), histogram(i))
         
         
-print histogram(header=True)
+print(histogram(header=True))
 for t, i in enumerate(hours):
     if not i:
         continue
     i.sort()
-    print "%02d:00   " % t, histogram(i)
+    print("%02d:00   " % t, histogram(i))
         
         
     

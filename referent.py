@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 #    TOMUSS: The Online Multi User Simple Spreadsheet)
 #    Copyright (C) 2008-2011 Thierry EXCOFFIER, Universite Claude Bernard
@@ -51,7 +51,7 @@ def need_a_charte(login):
 def student_list(f, pportails, not_in_list):
     f.write('<h1>' + utilities._("TITLE_referent_student_list") + '</h1>\n')
     students = {}
-    print pportails
+    print(pportails)
     for portail in pportails:
         f.write('<h2>' + portail + '</h2>')
         f.flush()
@@ -102,9 +102,9 @@ def analyse_groups(student, groups):
 class Student(object):
     def __init__(self, v, portail):
         self.key = v[0]
-        self.firstname = unicode(v[1], 'utf8')
-        self.surname = unicode(v[2], 'utf8')
-        self.mail = unicode(v[3], 'utf8')
+        self.firstname = v[1]
+        self.surname = v[2]
+        self.mail = v[3]
         self.portail = portail
         self.primo_entrant = self.key[1:3] == '%2d' % (
             utilities.university_year() - 2000)
@@ -251,7 +251,7 @@ def add_student_to_referent_hook(referent, student_id):
 
 def add_student_to_this_line(table, line_key, line, student):
     student = inscrits.login_to_student_id(student)
-    for cell, column in zip(line, table.columns)[2:]:
+    for cell, column in list(zip(line, table.columns))[2:]:
         if cell.value == '':
             table.lock()
             try:
@@ -266,8 +266,8 @@ def add_student_to_this_line(table, line_key, line, student):
                     student)
                 utilities.send_mail_in_background(
                     inscrits.L_fast.mail(student),
-                    utilities.__("MSG_referent_change_subject"),
-                    utilities.__("MSG_referent_change_message") % (
+                    utilities._("MSG_referent_change_subject"),
+                    utilities._("MSG_referent_change_message") % (
                         stu[0].title(), stu[1],
                         ref[0].title(), ref[1], ref[2],
                         ),
@@ -398,7 +398,7 @@ def update_referents(ticket, f, really_do_it = False, add_students=True):
                         table.cell_change(page, 'b', line_key, '')
                 tteacher = None
 
-            for cell_key, cell in zip(table.columns, line)[2:]:
+            for cell_key, cell in list(zip(table.columns, line))[2:]:
                 if cell.value == '':
                     continue
                 cell_key = cell_key.the_id
@@ -428,7 +428,7 @@ def update_referents(ticket, f, really_do_it = False, add_students=True):
                                                               'old_referent'),
                                                  content=line[0].value)
                         tteacher.message.append(
-                            utilities.__("MSG_referent_remove_student") +
+                            utilities._("MSG_referent_remove_student") +
                             '%s %s' % (the_student,
                                        ' '.join(inscrits.L_slow.firstname_and_surname_and_mail(the_student))))
                         f.write('<br>\n')
@@ -451,7 +451,7 @@ def update_referents(ticket, f, really_do_it = False, add_students=True):
         for student in students.values():
             if student_need_a_referent(student, all_cells, f):
                 missing.append(student.key)
-                f.write(student.html().encode('utf8') + '<br>\n')
+                f.write(student.html() + '<br>\n')
 
     f.write('<h1>%s</h1>\n' % utilities._("TITLE_referent_teacher_list"))
     sorted_teachers = list(all_teachers.values())
@@ -468,7 +468,7 @@ def update_referents(ticket, f, really_do_it = False, add_students=True):
         tteacher = search_best_teacher(students[s], sorted_teachers, f, all_teachers)
         if tteacher == None:
             f.write('<li> ' + utilities._("MSG_referent_no_teacher") %
-                    students[s].html().encode('utf8') + '\n')
+                    students[s].html() + '\n')
             missing.remove(s)
             continue
         ss = s
@@ -477,7 +477,7 @@ def update_referents(ticket, f, really_do_it = False, add_students=True):
         f.write('<li><b>' + tteacher.name + '[' + str(tteacher.nr) + ']</b> (%s): '
                 % (tteacher.discipline,) + ss)
         tteacher.append(s)
-        tteacher.message.append(utilities.__("MSG_referent_add_student")
+        tteacher.message.append(utilities._("MSG_referent_add_student")
                                 % students[s].html())
         if really_do_it:
             add_student_to_this_line(table,
@@ -494,14 +494,14 @@ def update_referents(ticket, f, really_do_it = False, add_students=True):
         if not tteacher.message:
             continue
         f.write('<li> %s<br>\n' % tteacher.name
-                + '<br>\n'.join(tteacher.message).encode('utf8'))
+                + '<br>\n'.join(tteacher.message))
 
         if really_do_it:
             mail = inscrits.L_batch.mail(tteacher.name)
             utilities.send_mail_in_background(
                 mail,
-                utilities.__("MSG_referent_mail_subject"),
-                utilities.__("MSG_referent_mail_body") %
+                utilities._("MSG_referent_mail_subject"),
+                utilities._("MSG_referent_mail_body") %
                 ('<br>\n'.join(tteacher.message),
                  configuration.server_url),
                 frome=my_mail)

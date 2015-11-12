@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 #    TOMUSS: The Online Multi User Simple Spreadsheet
 #    Copyright (C) 2009 Thierry EXCOFFIER, Universite Claude Bernard
@@ -25,14 +25,14 @@ import subprocess
 import shutil
 import glob
 import time
-import urllib2
+import urllib.request, urllib.error, urllib.parse
 import socket
 from .. import configuration
 from .. import utilities
 
 # To make casauth work we should not use a proxy
 for ii in ('http_proxy', 'https_proxy'):
-    if os.environ.has_key(ii):
+    if ii in os.environ:
         del os.environ[ii]
 
 def get_content_type(filename):
@@ -45,24 +45,30 @@ def encode_multipart_formdata(fields, files):
     files is a sequence of (name, filename, value) elements for data to be uploaded as files
     Return (content_type, body) ready for httplib.HTTP instance
     """
-    BOUNDARY = '----------ThIs_Is_tHe_bouNdaRY_$'
-    CRLF = '\r\n'
+    BOUNDARY = b'----------ThIs_Is_tHe_bouNdaRY_$'
+    CRLF = b'\r\n'
     L = []
     for (key, value) in fields:
-        L.append('--' + BOUNDARY)
-        L.append('Content-Disposition: form-data; name="%s"' % key)
-        L.append('')
-        L.append(value)
+        L.append(b'--' + BOUNDARY)
+        L.append(b'Content-Disposition: form-data; name="'
+                 + key.encode("utf-8") + b'"')
+        L.append(b'')
+        L.append(value.encode("utf-8"))
     for (key, filename, value) in files:
-        L.append('--' + BOUNDARY)
-        L.append('Content-Disposition: form-data; name="%s"; filename="%s"' % (key, filename))
-        L.append('Content-Type: %s' % get_content_type(filename))
-        L.append('')
+        L.append(b'--' + BOUNDARY)
+        L.append(b'Content-Disposition: form-data; name="'
+                 + key.encode("utf-8")
+                 + b'"; filename="'
+                 + filename.encode("utf-8")
+                 + b'"')
+        L.append(b'Content-Type: '
+                 + get_content_type(filename).encode("utf-8"))
+        L.append(b'')
         L.append(value)
-    L.append('--' + BOUNDARY + '--')
-    L.append('')
+    L.append(b'--' + BOUNDARY + b'--')
+    L.append(b'')
     body = CRLF.join(L)
-    content_type = 'multipart/form-data; boundary=%s' % BOUNDARY
+    content_type = b'multipart/form-data; boundary=' + BOUNDARY
     return content_type, body
 
 def post_multipart(url, fields, files, cj):
@@ -72,11 +78,11 @@ def post_multipart(url, fields, files, cj):
     files is a sequence of (name, filename, value) elements for data to be uploaded as files
     Return the server's response page.
     """
-    import httplib
+    import http.client
     host = url.split('/')[2]
     selector = '/' + url.split('/', 3)[-1]
     content_type, body = encode_multipart_formdata(fields, files)
-    h = httplib.HTTP(host)
+    h = http.client.HTTPConnection(host)
     h.putrequest('POST', selector)
     h.putheader('content-type', content_type)
     h.putheader('content-length', str(len(body)))
@@ -88,14 +94,15 @@ def post_multipart(url, fields, files, cj):
                                     ))
     h.endheaders()
     h.send(body)
-    errcode, errmsg, headers = h.getreply()
-    # XXX All these test should not be necessary.
-    # But the file uploading fail sometime without these
-    if h.file:
-        h.file._sock.settimeout(None)
-        return h.file.read() or post_multipart(url, fields, files, cj)
-    else:
-        return post_multipart(url, fields, files, cj)
+    return h.getresponse().read().decode("utf-8")
+    # errcode, errmsg, headers = h.getresponse()
+    # # XXX All these test should not be necessary.
+    # # But the file uploading fail sometime without these
+    # if h.file:
+    #     h.file._sock.settimeout(None)
+    #     return h.file.read() or post_multipart(url, fields, files, cj)
+    # else:
+    #     return post_multipart(url, fields, files, cj)
 
 class Server(object):
     port = 8888
@@ -109,7 +116,7 @@ class Server(object):
         for dirname in ['DBregtest', 'BACKUP_DBregtest',
                         '/tmp/DBregtest', '/tmp/BACKUP_DBregtest', 
                         ] + glob.glob('TMP/TICKETS/*'):
-            print 'delete:', dirname
+            print('delete:', dirname)
             try:
                 os.unlink(dirname)
             except OSError:
@@ -122,8 +129,8 @@ class Server(object):
 
     def log_files(self, mode):
         if True:
-            return (open('xxx.' + self.name + '.stdout', mode),
-                    open('xxx.' + self.name + '.stderr', mode))
+            return (open('xxx.' + self.name + '.stdout', mode, encoding = "utf-8"),
+                    open('xxx.' + self.name + '.stderr', mode, encoding = "utf-8"))
         else:
             return sys.stdout, sys.stderr
 
@@ -135,7 +142,7 @@ class Server(object):
                          display_log_if_error=False, silent=i)
                 self.started = True
                 break
-            except (urllib2.HTTPError, urllib2.URLError):
+            except (urllib.error.HTTPError, urllib.error.URLError):
                 i += 1
                 sys.stdout.write('*')
                 sys.stdout.flush()
@@ -160,36 +167,40 @@ class Server(object):
             returns_file=False, timeout=0, silent=False):
         full_url = self.get_url(url)
         if not silent:
-            print ' %6.2f ' % (time.time() - Server.start_time) + url,
+            print(' %6.2f ' % (time.time() - Server.start_time) + url, end=' ')
         sys.stdout.flush()
         try:
             if timeout:
-                f = urllib2.urlopen(full_url, timeout=timeout)
+                f = urllib.request.urlopen(full_url, timeout=timeout)
             else:
-                f = urllib2.urlopen(full_url)
+                f = urllib.request.urlopen(full_url)
             if returns_file:
                 c = f
             else:
+                c = b""
                 if timeout:
-                    c = ''
                     try:
                         while True:
                             x = f.read(1)
-                            if x == '':
-                                c += '!***TIMEOUT***!'
+                            if x == b'':
+                                c += b'!***TIMEOUT***!'
                                 break
                             c += x
                     except socket.timeout:
-                        c += '***TIMEOUT***'
+                        c += b'***TIMEOUT***'
                 else:
                     c = f.read()
-            print '*'
+                if b"PNG" not in c :
+                    # if b"utf-8" not in c:
+                    #     print(c)
+                    c = c.decode(encoding="utf-8", errors="replace")
+            print('*')
         except:
             if stop_if_error:
                 self.stop()
             if display_log_if_error:
-                print self.stdout()
-                print self.stderr()
+                print(self.stdout())
+                print(self.stderr())
             raise
         if not returns_file:
             f.close()
@@ -203,7 +214,7 @@ class Server(object):
             name = os.path.join('DBregtest',
                                 'Y'+url[-3], 'S'+url[-2], url[-1]+'.py')
             if os.path.exists(name):
-                f = open(name, "r")
+                f = open(name, "r", encoding = "utf-8")
                 x = f.read()
                 f.close()
                 assert("# 0" in x)
@@ -225,9 +236,9 @@ class Server(object):
 
     def post(self, url, fields=(), files=()):
         full_url = self.get_url(url)
-        print ' %6.2f ' % (time.time() - Server.start_time) + url,
+        print(' %6.2f ' % (time.time() - Server.start_time) + url, end=' ')
         c = post_multipart(full_url, fields, files, {})
-        print "*"
+        print("*")
         return c
 
 class ServerSuivi(Server):
@@ -309,7 +320,7 @@ def check(filename,
 
     the_lines_id = {}
     if cells:
-        for line_id in zip(*cells)[2]:
+        for line_id in list(zip(*cells))[2]:
             the_lines_id[line_id] = True
         the_lines_id = list(the_lines_id.keys())
         the_lines_id.sort()
@@ -317,26 +328,26 @@ def check(filename,
         the_lines_id = []
         
     if masters_expected != None and masters_expected != masters:
-        print 'Masters =', masters
-        print 'Masters Expected =', masters_expected
+        print('Masters =', masters)
+        print('Masters Expected =', masters_expected)
         raise ValueError(filename + '\nBad masters')
     if nr_pages != None and nr_pages != len(pages):
-        print '#pages =', len(pages)
-        print '#pages Expected =', nr_pages
+        print('#pages =', len(pages))
+        print('#pages Expected =', nr_pages)
         raise ValueError(filename + '\nBad #pages')
     if nr_columns != None and nr_columns != len(column_dict):
-        print '#columns =', len(column_dict)
-        print '#columns Expected =', nr_columns
+        print('#columns =', len(column_dict))
+        print('#columns Expected =', nr_columns)
         for col in columns:
-            print '\t',col
+            print('\t',col)
         raise ValueError(filename + '\nBad #columns')
     if lines_id != None and lines_id != the_lines_id:
-        print '#lines_id =', the_lines_id
-        print '#lines_id Expected =', lines_id
+        print('#lines_id =', the_lines_id)
+        print('#lines_id Expected =', lines_id)
         raise ValueError(filename + '\nBad lines_id')
     if nr_cells != None and nr_cells != len(cells):
-        print '#cells =', len(cells)
-        print '#cells Expected =', nr_cells
+        print('#cells =', len(cells))
+        print('#cells Expected =', nr_cells)
         raise ValueError(filename + '\nBad #cells')
     if cell_required != None:
         one_cell_required = [cell_required]
@@ -350,25 +361,25 @@ def check(filename,
                 continue
             break
         else:
-            print 'cells ='
+            print('cells =')
             for cell in cells:
-                print '\t',cell
-            print 'one_cell required =', one_cell_required
+                print('\t',cell)
+            print('one_cell required =', one_cell_required)
             raise ValueError(filename + '\nCell required')
     if column_required != None:
         for i in columns:
             if i == column_required:
                 break
         else:
-            print 'columns =', columns
-            print 'column required =', column_required
+            print('columns =', columns)
+            print('column required =', column_required)
             raise ValueError(filename + '\nColumn required')
             
 
     if dump:
-        print masters
-        print pages
-        print columns
-        print nr_columns
-        print cells
-        print the_lines_id
+        print(masters)
+        print(pages)
+        print(columns)
+        print(nr_columns)
+        print(cells)
+        print(the_lines_id)

@@ -1,3 +1,4 @@
+#!/usr/bin/python3
 # -*- coding: utf-8 -*-
 # TOMUSS: The Online Multi User Simple Spreadsheet
 # Copyright (C) 2014 Thierry EXCOFFIER, Universite Claude Bernard
@@ -27,9 +28,9 @@
                       for i in itertools.product(v, v, v)
                       )
          ]
-    print 'values = ['
-    print '\n'.join(sorted(t))
-    print ']'
+    print('values = [')
+    print('\n'.join(sorted(t)))
+    print(']')
 """
 
 columns_set([Column(), Column(), Column(),
@@ -189,5 +190,5 @@ for i in values:
     compute_average_old(14, line)
     compute_max_real_old(15, line)
     t.append(infos())
-print 'new_values = [', ',\n'.join(s), '];'
-print 'old_values = [', ',\n'.join(t), '];'
+print('new_values = [', ',\n'.join(s), '];')
+print('old_values = [', ',\n'.join(t), '];')

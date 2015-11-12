@@ -1,4 +1,4 @@
-#!/usr/bin/python
+#!/usr/bin/python3
 
 """
 THIS CODE IS NOT WORKING.
@@ -28,7 +28,7 @@ ls = subprocess.Popen(["git", '--no-pager', 'ls-files'],
 for filename in ls.stdout:
     filename = filename.strip()
     lines = []
-    f = open(filename, "r")
+    f = open(filename, "r", encoding = "utf-8")
     modified = False
     line_number = 0
     for line in f:
@@ -38,9 +38,9 @@ for filename in ls.stdout:
         if not match:
             continue
         left, var, name, array_or_dict, right = match.groups()
-        print '='*79
-        print "%s:%d %s" % (filename, line_number, line.strip())
-        print '.'*79
+        print('='*79)
+        print("%s:%d %s" % (filename, line_number, line.strip()))
+        print('.'*79)
         before = []
         found = False
         array_or_dict_name = re.split('[.[(]', array_or_dict)[0]
@@ -81,8 +81,8 @@ for filename in ls.stdout:
                     
         before.reverse()
         for i in before:
-            print i,
-        print
+            print(i, end=' ')
+        print()
 
         if not found:
             try:
@@ -90,24 +90,24 @@ for filename in ls.stdout:
                     ['git', '--no-pager', 'grep',
                      r'\b' + array_or_dict_name + r'\b *= ',
                      '--', '*.js'])
-                print 'Affectations to this array or dict name:'
-                print x
-                print
+                print('Affectations to this array or dict name:')
+                print(x)
+                print()
             except:
                 pass
         if found == 'function':
-            print 'Calls to this function:'
+            print('Calls to this function:')
             name = previous_line.split('function ')[1].split('(')[0].strip()
             x = subprocess.check_output(['git', '--no-pager', 'grep', '-E',
                                          r'\b' + name + r'\(',
                                          '--', '*.js'])
-            print x
-            print
+            print(x)
+            print()
 
         # POSER LA QUESTION : dict / array / latter
-        print "   left:", left
-        print "   var:", var
-        print "   name:", name
-        print "   array_or_dict:", repr(array_or_dict)
-        print "   right:", right
+        print("   left:", left)
+        print("   var:", var)
+        print("   name:", name)
+        print("   array_or_dict:", repr(array_or_dict))
+        print("   right:", right)
     f.close()

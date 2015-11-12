@@ -1,4 +1,4 @@
-#!/usr/bin/python
+#!/usr/bin/python3
 
 import sys
 import re
@@ -9,4 +9,4 @@ for n in "012345678":
     c = re.sub(n + "9999[0-9]*,", chr(ord(n)+1) + ",", c)
     c = re.sub(n + r"\.9999[0-9]*,", chr(ord(n)+1) + ",", c)
 
-print c
+print(c)

@@ -1,4 +1,4 @@
-#!/bin/env python
+#!/bin/env python3
 # -*- coding: utf-8 -*-
 #    TOMUSS: The Online Multi User Simple Spreadsheet
 #    Copyright (C) 2015 Thierry EXCOFFIER, Universite Claude Bernard
@@ -21,7 +21,7 @@
 
 import os
 import subprocess
-import cgi
+import html
 from .. import utilities
 from .. import plugin
 from .. import document
@@ -72,7 +72,7 @@ def check_virus(data):
         utilities.warn("SCAN: CAN'T CONNECT TO CLAMAV")
         return '' # Not installed or not running
     utilities.warn("SCAN: START")
-    if isinstance(data, basestring):
+    if isinstance(data, str):
         res = pc.scan_stream(data)
     else:
         res = pc.scan_stream(HackClamd(data))
@@ -86,7 +86,7 @@ def copy_stream(instream, outstream):
     n = 0
     while True:
         a = instream.read(4096)
-        if a == "":
+        if a == b"":
             break
         n += len(a)
         outstream.write(a)
@@ -98,7 +98,7 @@ def save_file(server, page, column, lin_id, data, filename):
     if err:
         server.the_file.write(
             '<span style="background:#F00;color:#FFF">%s %s</span>\n'
-            % (server._("MSG_virus_found"), cgi.escape(err)))
+            % (server._("MSG_virus_found"), html.escape(err)))
         return err
     server.the_file.write(server._("MSG_no_virus_found") + '\n')
     path = container_path(column)
@@ -107,14 +107,14 @@ def save_file(server, page, column, lin_id, data, filename):
     if os.path.exists(file_path):
         os.rename(file_path, file_path + '~')
 
-    if isinstance(data, basestring):
-        f = open(file_path, "w")
+    if isinstance(data, str):
+        f = open(file_path, "w", encoding = "utf-8")
         n = len(data)
         f.write(data)
         f.close()
     else:
         data.seek(0) # because check_virus read it
-        f = open(file_path, "w")
+        f = open(file_path, "wb")
         n = copy_stream(data, f)
         data.close() # Free FieldStorage
 
@@ -122,9 +122,9 @@ def save_file(server, page, column, lin_id, data, filename):
                           (server._("MSG_upload_size"), n))
 
     magic = subprocess.check_output(["file", "--mime", file_path])
-    magic = magic.split(": ", 1)[1].strip()
+    magic = magic.decode("utf-8").split(": ", 1)[1].strip()
     server.the_file.write('- <span>%s %s<span>\n'
-                          % (server._("MSG_upload_type"), cgi.escape(magic)))
+                          % (server._("MSG_upload_type"), html.escape(magic)))
     table = column.table
     table.lock()
     try:
@@ -135,13 +135,12 @@ def save_file(server, page, column, lin_id, data, filename):
 
 def upload_post(server):
     data = server.uploaded
-
     if data is None or 'data' not in data:
         server.the_file.write(server._('MSG_bad_ticket'))
         return
 
     err = document.get_cell_from_table(server, ('Upload',))
-    if isinstance(err, basestring):
+    if isinstance(err, str):
         server.the_file.write(err)
         server.close_connection_now()
         return
@@ -150,7 +149,7 @@ def upload_post(server):
         filename = data.getfirst("filename").replace("\\", "/").split("/")[-1]
         stream = data["data"].file
 
-        server.the_file.write('<p><b>' + cgi.escape(filename) + '</b>\n')
+        server.the_file.write('<p><b>' + html.escape(filename) + '</b>\n')
         size = length(stream)
 
         if size > float(column.upload_max) * 1000:
@@ -163,12 +162,10 @@ def upload_post(server):
             server.the_file.write('<p>' + server._("MSG_upload_stop"))
     finally:
         table.do_not_unload_remove('cell_change')
-        server.close_connection_now()
 
 def upload_get(server):
     err = document.get_cell_from_table_ro(server, ('Upload',))
-    server.restore_connection()
-    if isinstance(err, basestring):
+    if isinstance(err, str):
         server.send_response(200)
         server.send_header('Content-Type', 'text/plain; charset=utf-8')
         server.end_headers()
@@ -181,7 +178,7 @@ def upload_get(server):
                             ) + tuple(column.lines_of_the_group(line)):
         file_path = os.path.join(path, a_lin_id)
         try:
-            f = open(file_path, "r")
+            f = open(file_path, "rb")
             mime = a_line[column.data_col].comment
             mime = mime.replace("; ", ";").split(' ')[0].strip()
             server.send_response(200)

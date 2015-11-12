@@ -1,3 +1,4 @@
+#!/usr/bin/python3
 # -*- coding: utf-8 -*-
 # TOMUSS: The Online Multi User Simple Spreadsheet
 # Copyright (C) 2013-2014 Thierry EXCOFFIER, Universite Claude Bernard
@@ -22,8 +23,8 @@ debug = True
 
 def checkDate(value, expected):
     if user_date_to_date(value) != expected:
-        print("user_date_to_date(",value,')=', user_date_to_date(value))
-        print('Expected:', expected)
+        print(("user_date_to_date(",value,')=', user_date_to_date(value)))
+        print(('Expected:', expected))
         regression_test_failed
 
 minors = []
@@ -56,8 +57,8 @@ def dateRegtest():
 def filterRegtest():
     bugs = []
     def bug(message, txt, username="", column_type=""):
-        print(message + ' for ' + txt)
-        print(Filter(txt, username, column_type).js())
+        print((message + ' for ' + txt))
+        print((Filter(txt, username, column_type).js()))
         bugs.append(1)
     class Cell:
         def __init__(self, value, author, date, history, comment):
@@ -182,7 +183,7 @@ def filterRegtest():
         if Filter('!'+filters[0], filters[1], filters[2]
                   ).evaluate(line, Cell(cell[0], cell[1], cell[2], cell[3], cell[4]
                               )) == result:
-            print(cell, filters)
+            print((cell, filters))
             bug("BUG8", '!'+filters[0], username=filters[1])
 
     # Date

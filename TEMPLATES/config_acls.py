@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 #    TOMUSS: The Online Multi User Simple Spreadsheet
 #    Copyright (C) 2012 Thierry EXCOFFIER, Universite Claude Bernard
@@ -142,9 +142,9 @@ def trace(fct):
         try:
             a = fct(*args, **keys)
         except:
-            print 'RAISE ERROR'
+            print('RAISE ERROR')
             raise
-        print fct, repr(args)[:50], keys, '====>', a
+        print(fct, repr(args)[:50], keys, '====>', a)
         return a
     return f
 

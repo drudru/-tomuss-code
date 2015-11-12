@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 #    TOMUSS: The Online Multi User Simple Spreadsheet
 #    Copyright (C) 2008-2011 Thierry EXCOFFIER, Universite Claude Bernard
@@ -24,7 +24,7 @@ import time
 import sys
 import os
 import glob
-import BaseHTTPServer
+import http.server
 from . import abj
 from . import configuration
 from . import utilities
@@ -64,11 +64,9 @@ class MyRequestBroker(utilities.FakeRequestHandler):
         if name not in files:
             return
         s = files[name]
-        content = str(s)
+        content = s.get_zipped()
         self.send_response(200)
-        if len(content) > 1000:
-            content = s.gzipped
-            self.send_header('Content-Encoding', 'gzip')
+        self.send_header('Content-Encoding', 'gzip')
         if s.name and len(content) != 0:
             self.send_header('Content-Length', len(content))
         self.send_header('Content-Type', s.mimetype)
@@ -161,7 +159,7 @@ class MyRequestBroker(utilities.FakeRequestHandler):
             self.send_header('Cache-Control', 'no-store')
             self.send_header('Content-Type', 'image/png')
             self.end_headers()
-            self.wfile.write(files['ok.png'])
+            self.wfile.write(files['ok.png'].bytes())
             self.log_time('status')
             return
 
@@ -172,7 +170,7 @@ class MyRequestBroker(utilities.FakeRequestHandler):
             self.send_header('Cache-Control', 'no-store')
             self.send_header('Content-Type', 'text/plain')
             self.end_headers()
-            self.wfile.write('stopped')
+            self.wfile.write(b'stopped')
             running = False
             return
 
@@ -180,9 +178,7 @@ class MyRequestBroker(utilities.FakeRequestHandler):
         self.ticket = ticket.get_ticket_objet(the_ticket, self)
         warn('ticket=%s' % str(self.ticket)[:-1])
         warn('the_path=%s' % str(self.the_path))
-
         self.the_file = self.wfile
-
         if plugin.dispatch_request(self, manage_error=False) is None:
             # An unauthenticated dispatch was done
             return
@@ -212,6 +208,7 @@ class MyRequestBroker(utilities.FakeRequestHandler):
     def do_GET(self):
         global current_time
         self.start_time = time.time()
+        self.wfile.write = self.wfile._sock.sendall
         utilities.important_job_add("do_GET")
         if self.start_time - current_time > configuration.unload_interval:
             current_time = self.start_time
@@ -232,22 +229,22 @@ class MyRequestBroker(utilities.FakeRequestHandler):
                                      + self.path + ') ' + user_name
                                      )
             try:
-                if 'the_file' in self.__dict__:
-                    self.wfile = self.the_file
                 if 'plugin' in self.__dict__:
                     if self.plugin.mimetype == 'image/png':
-                        self.wfile.write(files['bug.png'])
+                        self.wfile.write(files['bug.png'].bytes())
                     else:
-                        self.wfile.write('There is a bug')
+                        self.wfile.write(b'There is a bug')
                 else:
                     self.send_file('bug.png')
+                self.wfile.close()
             except:
                 pass
         utilities.important_job_remove("do_GET")
 
+
+
 if __name__ == "__main__":
     utilities.display_stack_on_kill()
-    
     if 'regtest' in sys.argv:
         configuration.regtest = True
     if 'regtest_sync' in sys.argv:
@@ -261,7 +258,6 @@ if __name__ == "__main__":
     plugins.load_types()
     document.table(0, 'Dossiers', 'config_table', None, None)
     document.table(0, 'Dossiers', 'config_acls', None, None)
-
     if 'checker' in sys.argv:
         from . import tablestat
         from .TEMPLATES import _ucbl_
@@ -275,7 +271,7 @@ if __name__ == "__main__":
         
     if 'recompute_the_ue_list' in sys.argv:
         from . import teacher
-        print teacher.all_ues(compute=True)
+        print(teacher.all_ues(compute=True))
         sys.exit(0)
 
     from . import authentication
@@ -284,9 +280,9 @@ if __name__ == "__main__":
     import socket
     for i in range(5):
         try:
-            server = BaseHTTPServer.HTTPServer(("0.0.0.0",
-                                                configuration.server_port),
-                                               MyRequestBroker)
+            server = utilities.HTTPServer(("0.0.0.0",
+                                           configuration.server_port),
+                                          MyRequestBroker)
             break
         except socket.error:
             warn('Socket port used: %s' % configuration.server_port)
@@ -328,22 +324,22 @@ if __name__ == "__main__":
     # Wait the end of the flow
     while utilities.filename_to_bufferize is not None:
         time.sleep(0.1)
-    print '\n\n\n' +'*'*78
-    print utilities._("MSG_tomuss_start"
-                      ) % (configuration.server_url + '/=super.user')
+    print('\n\n\n' +'*'*78)
+    print(utilities._("MSG_tomuss_start"
+                      ) % (configuration.server_url + '/=super.user'))
     if configuration.regtest:
         regtest = 'regtest'
     else:
         regtest = ''
     for url, port, year, semester, host in configuration.suivi.servers():
-        print '\t./suivi.py %d %s %d' % (year, semester, port), regtest
-    print '*'*78 + '\n\n'
+        print('\t./suivi.py %d %s %d' % (year, semester, port), regtest)
+    print('*'*78 + '\n\n')
 
     # Translation of old files to new format
     for filename in glob.glob(os.path.join(configuration.db,
                                            'Y*', 'S*', 'abjs.py')):
         conv_year, conv_semester = filename.split(os.path.sep)[-3:-1]
-        print 'Start translation of', filename
+        print('Start translation of', filename)
         abj.Abjs(int(conv_year[1:]), conv_semester[1:])
 
     if 'profile' in sys.argv:

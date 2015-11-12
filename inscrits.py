@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 #    TOMUSS: The Online Multi User Simple Spreadsheet)
 #    Copyright (C) 2008-2012 Thierry EXCOFFIER, Universite Claude Bernard
@@ -19,29 +19,35 @@
 #
 #    Contact: Thierry.EXCOFFIER@bat710.univ-lyon1.fr
 
-
-# BUG : In many places, there is missing :
-#                 unicode(...., configuration.ldap_encoding)
-
 import tomuss_init
-import ldap
+import ldap3
+import ssl
 import re
 import time
 from . import configuration
 from . import utilities
 from . import sender
 
+"""
 ldap.set_option(ldap.OPT_REFERRALS, 0)
 ldap.set_option(ldap.OPT_NETWORK_TIMEOUT, 1) # For connect
 ldap.set_option(ldap.OPT_TIMEOUT, 600)       # For reading data
 ldap.set_option(ldap.OPT_X_TLS_REQUIRE_CERT, ldap.OPT_X_TLS_NEVER)
+"""
+
+# ldap3.RESPONSE_WAITING_TIMEOUT = 1
+# ldap3.RESPONSE_WAITING_TIMEOUT = 1
+# ldap3.RESULT_TOO_LATE = 1
+# ldap3.RESULT_TIME_LIMIT_EXCEEDED = 3
+# ldap3.RESPONSE_COMPLETE = 1
+ldap3.LDAPTimeLimitExceededResult = 1
 
 warn = utilities.warn
 
 safe_re = re.compile('[^0-9a-zA-Z-. _]')
 def safe(txt):
     """Values safe in an LDAP request"""
-    if not isinstance(txt, basestring):
+    if not isinstance(txt, str):
         return ''
     return safe_re.sub('_', txt)
 
@@ -79,7 +85,7 @@ class LDAP_Logic(object):
         for i in [i[0] for i in ues]:
             dues[i[3:].split(' ')[0]] = True
 
-        dues = dues.keys()
+        dues = list(dues.keys())
         dues.sort()
         return dues
 
@@ -131,11 +137,11 @@ class LDAP_Logic(object):
     def get_attributes(self, login, attributes):
         """From the login of the person, retrieve the attributes"""
         if login in demo_animaux:
-            a = dict(zip((configuration.attr_firstname,
+            a = dict(list(zip((configuration.attr_firstname,
                           configuration.attr_surname,
                           configuration.attr_mail),
-                         [(i.encode(configuration.ldap_encoding),)
-                          for i in demo_animaux[login][1:4]]))
+                         [(i,)
+                          for i in demo_animaux[login][1:4]])))
         else:
             a = self.query_login(login, attributes)
         if not a:
@@ -143,7 +149,7 @@ class LDAP_Logic(object):
         if a.get(configuration.attr_mail) == None:
             a[configuration.attr_mail] = [str(login)] # No unicode please
 
-        return [unicode(a.get(i, ('Inconnu',))[0],configuration.ldap_encoding) for i in attributes]
+        return [a.get(i, ('Inconnu',))[0] for i in attributes]
         
 
     def firstname_and_surname(self, login):
@@ -164,8 +170,8 @@ class LDAP_Logic(object):
             logins,
             (configuration.attr_login, configuration.attr_mail)):
             if x[1]:
-                login = login_to_student_id(x[0].lower()).encode('utf-8')
-                the_mails[login] = x[1].encode('utf-8')
+                login = login_to_student_id(x[0].lower())
+                the_mails[login] = x[1]
         return the_mails
 
     def phone(self, login):
@@ -188,7 +194,7 @@ class LDAP_Logic(object):
                                         configuration.attr_surname,
                                         configuration.attr_mail,
                                         ))
-        return [x[0], x[1], x[2].encode('utf8')]
+        return [x[0], x[1], x[2]]
 
     get_student_info = firstname_and_surname_and_mail
 
@@ -211,8 +217,7 @@ class LDAP_Logic(object):
     def portail(self, login):
         """From the login of the person, retrieve the portails"""
         a = self.member_of_list(login)
-        return [unicode(configuration.is_a_portail(aa),
-                        configuration.ldap_encoding)
+        return [configuration.is_a_portail(aa)
                 for aa in a
                 if configuration.is_a_portail(aa)]
 
@@ -225,8 +230,7 @@ class LDAP_Logic(object):
         p = {}
         for attrs in a:
             p[attrs[configuration.attr_login][0]] = [
-                unicode(configuration.is_a_portail(aa),
-                        configuration.ldap_encoding)
+                configuration.is_a_portail(aa)
                 for aa in attrs.get('memberOf', ())
                 if configuration.is_a_portail(aa)]
         return p
@@ -252,8 +256,7 @@ class LDAP_Logic(object):
             if configuration.attr_login not in x[1]:
                 continue
             i = 0
-            n = unicode(x[1][configuration.attr_login][0],
-                        configuration.ldap_encoding)
+            n = x[1][configuration.attr_login][0]
             if '.' in n:
                 i += 10000
             if not n[-1].isdigit():
@@ -272,8 +275,7 @@ class LDAP_Logic(object):
         aa = self.query_login(surname.replace(' ','-') + '.'
                              + firstname.replace(' ','-'))
         if aa:
-            return unicode(aa[configuration.attr_login][0],
-                           configuration.ldap_encoding).lower()
+            return aa[configuration.attr_login][0].lower()
         return None
 
     @utilities.add_a_method_cache
@@ -333,19 +335,23 @@ class LDAP_Logic(object):
                         async=nr+1
                         )
         i = attributes.index(configuration.attr_login)
-        for x in self.generator(aa, nr): # For all the answers
+        if type(aa) != list : print("i"*50, " inscrit 337 aa",type(aa))
+        for xx in aa :
+            if type(xx) != list : print("i"*50, " inscrit 337 xx",type(xx))
+            x = xx[1]
             if x.get(configuration.attr_login) == None:
                 continue
-            r = [unicode(x.get(attr,('',))[0],
-                         configuration.ldap_encoding)  
+            r = [x.get(attr,('',))[0]
                  for attr in attributes
                  ]
             r[i] = r[i].lower() # login must be in lower case
             yield r
         if self.connexion is not True:
-            self.connexion.cancel(aa)
+            self.connexion.abandon(aa)
 
     def query_logins(self, logins, attributes, only_first_value=True):
+        if not logins:
+            return ()
         chunk_size = 1000
         if len(logins) > chunk_size:
             r = []
@@ -369,8 +375,7 @@ class LDAP_Logic(object):
             if i[0] != None:
                 i = i[1]
                 if only_first_value:
-                    r.append([unicode(i.get(attr,('',))[0],
-                                      configuration.ldap_encoding)
+                    r.append([i.get(attr,('',))[0]
                               for attr in attributes])
                 else:
                     r.append(i)
@@ -510,37 +515,41 @@ class LDAP(LDAP_Logic):
                  what="ldap")
             try:
                 if configuration.ldap_server_port in (636, 6360):
-                    protocol = "ldaps"
+                    use_ssl = True
                 else:
-                    protocol = "ldap"
-                c = ldap.initialize("%s://%s:%d" % (
-                    protocol,
+                    use_ssl = False
+                c = ldap3.Server(
                     configuration.ldap_server[self.server],
-                    configuration.ldap_server_port))
-                c.simple_bind_s(configuration.ldap_server_login,
-                                configuration.ldap_server_password)
+                    port=configuration.ldap_server_port,
+                    use_ssl = use_ssl)
+                c = ldap3.Connection(c,
+                                     user = configuration.ldap_server_login,
+                                     password = configuration.ldap_server_password,
+                                     authentication = ldap3.AUTH_SIMPLE,
+                                     raise_exceptions = True)
                 warn('Connect done', what="ldap")
+                # c.strategy.restartable_sleep_time = 0
+                # c.strategy.restartable_tries = 1
+                if use_ssl:
+                    c.tls = ldap3.Tls()
+                    # if 'TLS_CA' in settings and settings['TLS_CA']:
+                    #    c.tls.ca_certs_file = settings['TLS_CA']
+                    c.tls.validate = ssl.CERT_NONE
+                c.open()
+                c.start_tls()
+                c.bind()
                 self.connexion = c
-                
                 return
-            except ldap.SERVER_DOWN:
-                warn('Can not connect to %s: SERVER_DOWN'
-                     % configuration.ldap_server[self.server], what="error")
+            except ldap3.LDAPException as e:
+                warn('Can not connect to {}: SERVER_DOWN'.format(configuration.ldap_server[self.server]),
+                     what="error")
                 self.server = (self.server + 1) % len(configuration.ldap_server)
-            except ldap.TIMEOUT:
+            except OSError: #XXX ldap.TIMEOUT
                 warn('Can not connect to %s: TIMEOUT'
                      % configuration.ldap_server[self.server], what="error")
                 self.server = (self.server + 1) % len(configuration.ldap_server)
             time.sleep(1)
 
-    def generator(self, msg_id, nr):
-        while nr:
-            nr -= 1
-            result_type, result = self.connexion.result(msg_id, all=0)
-            if result_type == ldap.RES_SEARCH_RESULT:
-                break
-            if result_type == ldap.RES_SEARCH_ENTRY:
-                yield result[0][1]
 
     def query(self, search, attributes=(configuration.attr_login,),
               base=configuration.ou_groups, async=False):
@@ -564,21 +573,33 @@ class LDAP(LDAP_Logic):
                 start_time = time.time()
                 sender.send_live_status(
                          '<script>b("/%s");</script>\n' % self.name)
-                if async:
-                    s = self.connexion.search_ext(base, ldap.SCOPE_SUBTREE,
-                                              search, attributes, sizelimit=async)
+                # if async:
+                #     s = self.connexion.search_ext(base, ldap.SCOPE_SUBTREE,
+                #                               search, attributes, sizelimit=async)
+                # else:
+                #     s = self.connexion.search_s(base, ldap.SCOPE_SUBTREE,
+                #                                 search, attributes)
+                self.connexion.search(base, search, ldap3.SEARCH_SCOPE_WHOLE_SUBTREE,
+                                      time_limit = ldap3.LDAPTimeLimitExceededResult,
+                                      attributes=attributes)
+                s = self.connexion.response
+                t = []
+                if s == None : # attention si None on peut pas faire la suite , il faut revoir
+                    print(attributes)
+                    return t
                 else:
-                    s = self.connexion.search_s(base, ldap.SCOPE_SUBTREE,
-                                                search, attributes)
-                sender.send_live_status(
-                         '<script>d("%s","/%s","",%6.4f,%s,"","","");</script>\n' %
-                         (configuration.ldap_server[self.server],
-                          self.name,
-                          time.time() - start_time,
-                          utilities.js(search + ':' + repr(attributes))))
-
-                return s
-            except ldap.LDAPError, e:           
+                    for line in s:
+                        if 'attributes' in line:
+                           t.append([line['dn'], line['attributes']])
+                    sender.send_live_status(
+                             '<script>d("%s","/%s","",%6.4f,%s,"","","");</script>\n' %
+                             (configuration.ldap_server[self.server],
+                              self.name,
+                              time.time() - start_time,
+                              utilities.js(search + ':' + repr(attributes))))
+                    # print(" C ")
+                    return t
+            except ldap3.LDAPException as e:
                 sender.send_live_status(
                          '<script>d("%s","/%s","",1,"","%s","%s","%s");</script>\n' %
                          (
@@ -589,7 +610,7 @@ class LDAP(LDAP_Logic):
                     e.__class__.__name__))
 
                 warn('Uncatched: %s: %s QUERY=%s ATTRIBUTES=%s' % (
-                    e,
+                    e.description,
                     configuration.ldap_server[self.server],
                     search, repr(attributes)
                     ), what='error')
@@ -600,11 +621,10 @@ class LDAP(LDAP_Logic):
                         + 'QUERY=' + search + '\n'
                         + 'ATTRIBUTES=' + repr(attributes) + '\n'
                         + 'BASE=' + base + '\n'
-                        , 'LDAP Error')
-
-                if isinstance(e, (ldap.SIZELIMIT_EXCEEDED,
-                                  ldap.NO_SUCH_OBJECT,
-                                  ldap.TIMELIMIT_EXCEEDED)):
+                        , subject = 'LDAP Error', exception = False)
+                if isinstance(e, (ldap3.core.exceptions.LDAPSizeLimitExceededResult,
+                                  ldap3.core.exceptions.LDAPNoSuchObjectResult,
+                                  ldap3.core.exceptions.LDAPTimeLimitExceededResult)):
                     return ()
                 time.sleep(1)
                 self.connect() # Assume temporary network problem
@@ -660,33 +680,99 @@ def a_mailto(login):
         mail, firstname.title(), surname, login)
 
 demo_animaux = {
-    'k01':('k01',u'Bernard' ,u'BONOBO'      ,'bbonobo@africa.net'     ,'M',''),
-    'k02':('k02',u'Georges' ,u'ROUGE GORGE' ,'grouge-gorge@europe.net','O',''),
-    'k03':('k03',u'Magalie' ,u'MIGALE'      ,'mmigale@africa.net'     ,'A',''),
-    'k04':('k04',u'Lucien'  ,u'LEZARD'      ,'llezard@france.net'     ,'R',''),
-    'k05':('k05',u'Théodore',u'TIGRE'       ,'ttigre@asia.net'        ,'M',''),
-    'k06':('k06',u'Simon'   ,u'SCORPION'    ,'sscorpion@africa.net'   ,'A',''),
-    'k07':('k07',u'Cécilia' ,u'CHEVAL'      ,'ccheval@europe.net'     ,'M',''),
-    'k08':('k08',u'Tatiana' ,u'TORTUE'      ,'ttortue@ocean.net'      ,'R',''),
-    'k09':('k09',u'Ambroise',u'AIGLE'       ,'aaigle@america.net'     ,'O',''),
-    'k10':('k10',u'Bill'    ,u'BOA'         ,'bboa@africa.net'        ,'R',''),
-    'k11':('k11',u'Merlin'  ,u'MYRIAPODE'   ,'mmerlin@europe.net'     ,'A',''),
-    'k12':('k12',u'Fanny'   ,u'FLAMANT ROSE','fflamant-rose@europ.net','O',''),
-    'k13':('k13',u'Olivier' ,u'OURS'        ,'oours@us.net'           ,'M',''),
+    'k01':('k01','Bernard' ,'BONOBO'      ,'bbonobo@africa.net'     ,'M',''),
+    'k02':('k02','Georges' ,'ROUGE GORGE' ,'grouge-gorge@europe.net','O',''),
+    'k03':('k03','Magalie' ,'MIGALE'      ,'mmigale@africa.net'     ,'A',''),
+    'k04':('k04','Lucien'  ,'LEZARD'      ,'llezard@france.net'     ,'R',''),
+    'k05':('k05','Théodore','TIGRE'       ,'ttigre@asia.net'        ,'M',''),
+    'k06':('k06','Simon'   ,'SCORPION'    ,'sscorpion@africa.net'   ,'A',''),
+    'k07':('k07','Cécilia' ,'CHEVAL'      ,'ccheval@europe.net'     ,'M',''),
+    'k08':('k08','Tatiana' ,'TORTUE'      ,'ttortue@ocean.net'      ,'R',''),
+    'k09':('k09','Ambroise','AIGLE'       ,'aaigle@america.net'     ,'O',''),
+    'k10':('k10','Bill'    ,'BOA'         ,'bboa@africa.net'        ,'R',''),
+    'k11':('k11','Merlin'  ,'MYRIAPODE'   ,'mmerlin@europe.net'     ,'A',''),
+    'k12':('k12','Fanny'   ,'FLAMANT ROSE','fflamant-rose@europ.net','O',''),
+    'k13':('k13','Olivier' ,'OURS'        ,'oours@us.net'           ,'M',''),
     }
 
 if __name__ == "__main__":
     tomuss_init.terminate_init()
     from . import inscrits
-    inscrits.init()
-    L = inscrits.L_fast
-    print L.ues_of_a_student_short('p1312574')
-    print L.firstname_and_surname_and_mail_from_logins(('11210822','11209176'))
-    for ii in L.students('UE-BIO2010L'):
-        print ii
-    print L.phone('thierry.excoffier')
-    print L.ues_of_a_student('p0805711')
-    print L.ues_of_a_student_short('p0805711')
-    for ii in L.ues_of_a_student_with_groups('p0805711'):
-        print ii
 
+    #à mettre à jour pour les tests de régression
+    liste_test = ('thierry.excoffier','tartuffe.lampion','11210822','11200000','11200195','10502337','11104146',
+                  '10902458','1020384','11113439','11113584','11519500','11411588','1423367','11300176')
+    inscrits.init()
+
+    print("*"*10," TEST DU LDAP ","*"*10)
+    # print("tester avec un mauvais serveur, machine n'ayant pas de LDAP (127.0.0.1)")
+    # configuration.ldap_server = ('tery-OptiPlex-3010.univ-lyon1.fr',)
+    # configuration.ldap_server_port = 50007
+    # L = inscrits.L_fast
+    # print(L.phone('thierry.excoffier'))
+    #
+    # configuration.ldap_server = ('dsi-dc-ordi-1.univ-lyon1.fr','dsi-dc-ordi-1.univ-lyon1.fr')
+
+    print("tester requete longue")
+    L = inscrits.L_slow
+    aa = L.query(
+            search='(sn=b*)',
+            attributes = (configuration.attr_login, configuration.attr_mail,
+                          'lastLogonTimestamp',),
+            base=configuration.ou_top)
+    if isinstance(aa, list) :
+        print(len(aa))
+    else :
+        print("timeout")
+
+    print("*"*10," TEST SUR LA CONNEXION RAPIDE ","*"*10)
+    L = inscrits.L_fast
+
+    print("\ttest sur une personne")
+    print(L.phone(liste_test[0]))
+    print(ldap3.RESULT_SUCCESS)
+
+    # print(L.firstname_and_surname_to_login('thierry','excoffier'))
+    # print(L.firstname_surname_to_login('thierry excoffier'))
+    # for i in L.firstname_or_surname_to_logins('thierry'):
+    #     print(i)
+    # for i in L.firstname_or_surname_to_logins('xz'):
+    #     print(i)
+    # print(L.firstname_and_surname_and_mail(liste_test[0]))
+    #
+    # print("\ttest sur une liste")
+    # print(L.phone_from_logins(liste_test))
+    # print(L.mails(liste_test))
+    # print(L.firstname_and_surname_and_mail_from_logins(liste_test))
+    #
+    # print("\ntest sur les UEs")
+    # print(L.portail(liste_test[2]))
+    # print(L.portails(liste_test))
+    # print(L.etapes_of_student(liste_test[2]))
+    # print(L.etapes_of_students(liste_test))
+    # print(L.ues_of_a_student(liste_test[2]))
+    # print(L.ues_of_a_student_short(liste_test[2]))
+    # for ii in L.ues_of_a_student_with_groups(liste_test[2]):
+    #     print(ii)
+    #
+    # for ii in L.students('UE-INF2233M', force_ldap=True):
+    #     print(ii)
+    #
+    # for ii in L.member_of_list("thierry.excoffier"):
+    #     print(ii)
+
+    #print("*"*10," TEST SUR LA CONNEXION LENT ","*"*10)
+
+    #print("*"*10," TEST SUR LA CONNEXION BATCH ","*"*10)
+
+
+#reste à tester
+
+#L.is_a_referent
+#L.is_in_one_of_the_groups
+#L.iuta_grp_seq
+#L.students_of_sub_ue
+#L.member_of
+#L.ue_list_of_grp_seq
+#L.password_ok
+#L.get_ldap_ues

@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 #    TOMUSS: The Online Multi User Simple Spreadsheet)
 #    Copyright (C) 2009 Thierry EXCOFFIER, Universite Claude Bernard
@@ -39,18 +39,16 @@ def the_badname(server):
             if login.strip() == '':
                 continue
             first_name, surname = inscrits.L_batch.firstname_and_surname(login)
-            if (normalize(first_name) != normalize(unicode(line[1].value,
-                                                           'utf-8'))
-                or normalize(surname) != normalize(unicode(line[2].value,
-                                                           'utf-8'))):
+            if (normalize(first_name) != normalize(line[1].value)
+                or normalize(surname) != normalize(line[2].value)):
                 server.the_file.write('* ')
                 server.the_file.flush()
                 students.append((
                     login, t.ue,
-                    first_name.encode('utf-8'),
-                    unicode(line[1].value, 'utf-8').encode('utf-8'),
-                    surname.encode('utf-8'),
-                    unicode(line[2].value, 'utf-8').encode('utf-8')))
+                    first_name,
+                    line[1].value,
+                    surname,
+                    line[2].value))
         if not hasattr(t, "rtime"):
             t.unload()
 

@@ -1,4 +1,4 @@
-#!/usr/bin/python
+#!/usr/bin/python3
 # -*- coding: utf-8 -*-
 #    TOMUSS: The Online Multi User Simple Spreadsheet
 #    Copyright (C) 2013 Thierry EXCOFFIER, Universite Claude Bernard
@@ -27,7 +27,7 @@ As the 'signature' framework is used, the student can not
 use the suivi until the message is answered.
 """
 
-import cgi
+import html
 from .. import signature
 from .. import configuration
 from .. import files
@@ -70,12 +70,11 @@ def signature_hook(student_login, value, data):
     if int(send_mail):
         fn, sn, mail = inscrits.L_fast.firstname_and_surname_and_mail(
             student_login)
-        value = unicode(value, 'utf-8')
         utilities.send_mail_in_background(
             inscrits.L_fast.mail(teacher),
-            utilities.__("SUBJECT_signature_done")
+            utilities._("SUBJECT_signature_done")
             + ' ' + value,
-            utilities.__("MSG_signature_answer") + '\n'
+            utilities._("MSG_signature_answer") + '\n'
             + student_login + ' ' + fn + ' ' + sn + ' : '
             + value,
             frome = mail,
@@ -87,20 +86,19 @@ configuration.signature_hook = signature_hook
 
 def signature_new(server):
     """Add a question to ask to the student"""
-    send_mail, message = server.the_time, unicode(server.something, 'utf-8')
+    send_mail, message = server.the_time, server.something
     fn, sn, mail = inscrits.L_fast.firstname_and_surname_and_mail(
         server.ticket.user_name)
-    message = (server.__("MSG_signature_from")
+    message = (server._("MSG_signature_from")
                + fn +' '+ sn + ' ' + mail + '\n\n'
                + message)
-    message = message.encode('utf-8')
     signature.add_question(server.the_student,
                            message,
                            "signature_hook",
                            (server.ticket.user_name, send_mail),
                            timeout=99999)
     server.the_file.write(server._('MSG_saved')
-                          + '<pre>' + cgi.escape(message) + '</pre>')
+                          + '<pre>' + html.escape(message) + '</pre>')
 
 plugin.Plugin('signature_new', '/signature_new/{I}/{ }/{?}',
               function=signature_new,

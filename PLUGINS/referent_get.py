@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 #    TOMUSS: The Online Multi User Simple Spreadsheet
 #    Copyright (C) 2010 Thierry EXCOFFIER, Universite Claude Bernard
@@ -52,9 +52,9 @@ def referent_get_a_student(server, login, students, student,
                 try:
                     utilities.send_mail_in_background(
                         inscrits.L_fast.mail(old_referent),
-                        utilities.__("MSG_referent_get_subject")
+                        utilities._("MSG_referent_get_subject")
                         % (student, firstname, surname),
-                        utilities.__("MSG_referent_get_message")
+                        utilities._("MSG_referent_get_message")
                         % (student, firstname, surname, login),
                         frome=configuration.maintainer, show_to=True)
                 except:
@@ -68,12 +68,12 @@ def referent_get_a_student(server, login, students, student,
         except:
             utilities.send_backtrace('referent get %s' % student)
             server.the_file.write('%s : %s %s %s\n' % (
-                    student, firstname.encode('utf8'), surname.encode('utf8'),
+                    student, firstname, surname,
                     server._("MSG_referent_get_problem")))
             return
 
         server.the_file.write('%s : %s %s\n' % (
-            student, firstname.encode('utf8'), surname.encode('utf8')))
+            student, firstname, surname))
 
 def referent_get(server):
     """Add a student to its refered students"""

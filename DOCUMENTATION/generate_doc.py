@@ -1,9 +1,9 @@
-#!/usr/bin/python
+#!/usr/bin/python3
 
 import sys
 import re
 import os
-import cgi
+import html
 
 import tomuss_init
 
@@ -12,11 +12,11 @@ import tomuss_init
 ###############################################################################
 
 def code(txt):
-    return cgi.escape(txt).replace(' ','&nbsp;') + '<br/>'
+    return html.escape(txt).replace(' ','&nbsp;') + '<br/>'
 
 def parse(filename):
     t = []
-    f = open(filename, 'r')
+    f = open(filename, 'r', encoding = "utf-8")
     state = 'outside'
     for line in f:
         striped = line.strip()
@@ -61,7 +61,7 @@ def parse(filename):
     return t
 
 
-f = open('xxx_redefined.html','w')
+f = open('xxx_redefined.html','w', encoding = "utf-8")
 redefined = []
 for place in ('.', 'FILES', 'PLUGINS', 'TEMPLATES', 'COLUMN_TYPES', 'ATTRIBUTES'):
     for n in os.listdir(place):
@@ -79,11 +79,11 @@ f.close()
 # Create 'xxx_data.html'
 ###############################################################################
 from .. import data
-g = open('xxx_data.html', 'w')
+g = open('xxx_data.html', 'w', encoding = "utf-8")
 for key, value in data.__dict__.items():
-    if hasattr(value, 'func_name') and 'DEPRECATED' not in value.func_doc:
-        g.write('<p><b>' + key + '</b>(' + ', '.join(value.func_code.co_varnames) +
-                '): ' + str(value.func_doc) + '</p>')
+    if hasattr(value, 'func_name') and 'DEPRECATED' not in value.__doc__:
+        g.write('<p><b>' + key + '</b>(' + ', '.join(value.__code__.co_varnames) +
+                '): ' + str(value.__doc__) + '</p>')
 g.close()
 
 ###############################################################################
@@ -93,7 +93,7 @@ g.close()
 from .. import cell
 from .. import column
 from .. import teacher
-g = open('xxx_objects.html', 'w')
+g = open('xxx_objects.html', 'w', encoding = "utf-8")
 objects = list(cell.__dict__.items()) + list(column.__dict__.items()) + \
           list(teacher.__dict__.items())
 objects.sort(key=lambda x: x[0])
@@ -109,8 +109,8 @@ for key, value in objects:
         if not hasattr(v, '__call__'):
             continue
         s = '<li>\'<b>' + k + '</b>\''
-        if v.func_doc:
-            s += ": " + str(v.func_doc)
+        if v.__doc__:
+            s += ": " + str(v.__doc__)
         s += '</li>'
         x.append(s)
     if x:
@@ -129,7 +129,7 @@ for line in sys.stdin.readlines():
         new.append(line)
         continue
     try:
-        g = open(line.strip().split(' ')[-1], 'r')
+        g = open(line.strip().split(' ')[-1], 'r', encoding = "utf-8")
         new += g.readlines()            
         g.close()
     except IOError:
@@ -156,7 +156,7 @@ for line in new:
         line = line.replace('</', '</a></')
         toc += line
 
-g = open('xxx_toc.html', 'w')
+g = open('xxx_toc.html', 'w', encoding = "utf-8")
 g.write(toc)
 g.close()
 

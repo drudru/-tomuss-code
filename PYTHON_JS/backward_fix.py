@@ -1,4 +1,4 @@
-#!/usr/bin/python
+#!/usr/bin/python3
 # -*- coding: utf-8 -*-
 
 """
@@ -16,16 +16,16 @@ def x(table, **k):
         return
     if new == 'ABJUS':
         return
-    print "%-30s %-6s %6s %10s %-10s" % (table, col_id, line_id, old, new)
+    print("%-30s %-6s %6s %10s %-10s" % (table, col_id, line_id, old, new))
 
     year, semester, ue = table.split('/')
-    f = open("../DB/Y%s/S%s/%s.py" % (year, semester, ue), "a")
+    f = open("../DB/Y%s/S%s/%s.py" % (year, semester, ue), "a", encoding = "utf-8")
     f.write("cell_change(0,'%s','%s','%s', '20141111111111')\n" % (
         col_id, line_id, old))
     f.write("comment_change(0,'%s','%s','Fixed!')\n" % (col_id, line_id))
         
 
-f = open("conversion_ucbl_2014.py", "r")
+f = open("conversion_ucbl_2014.py", "r", encoding = "utf-8")
 content = f.read()
 f.close()
 

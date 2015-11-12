@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 #    TOMUSS: The Online Multi User Simple Spreadsheet
 #    Copyright (C) 2008 Thierry EXCOFFIER, Universite Claude Bernard
@@ -20,7 +20,7 @@
 #    Contact: Thierry.EXCOFFIER@bat710.univ-lyon1.fr
 
 import time
-import cgi
+import html
 from .. import plugin
 from .. import document
 from .. import utilities
@@ -41,7 +41,7 @@ def stat_page(server):
     if utilities.send_mail_in_background_list:
         server.the_file.write(
             '<b>' + server._("MSG_send_mail_error") + '</b>' +
-            ' '.join(zip(*utilities.send_mail_in_background_list)[0]))
+            ' '.join(list(zip(*utilities.send_mail_in_background_list))[0]))
         
     s = ['<title>'
          + server._("TITLE_statpage") + '</title><table border><tbody><tr><th>'
@@ -109,7 +109,7 @@ TH, TD { border: 1px solid black ; }
 <table>""")
         for i, v in enumerate(table.sent_to_browsers):
             server.the_file.write("<tr><th>%s<td>%s</tr>" % (
-                    i, cgi.escape(v)))
+                    i, html.escape(v)))
         server.the_file.write("</table>")
 
 plugin.Plugin('tablebuffer', '/tablebuffer/{Y}/{S}/{U}',

@@ -1,3 +1,4 @@
+#!/usr/bin/python3
 # -*- coding: utf-8 -*-
 # TOMUSS: The Online Multi User Simple Spreadsheet
 # Copyright (C) 2014-2015 Thierry EXCOFFIER, Universite Claude Bernard
@@ -85,9 +86,9 @@ def compute_average(data_col, line):
 
             if column.table.rounding == 1:
                 if origin.round_by:
-                    value = rint(value / origin.round_by) * origin.round_by
+                    value = rint(value / origin.round_by,0) * origin.round_by
                 else:
-                    value = rint(value * 1000000) / 1000000
+                    value = rint(value * 1000000,0) / 1000000
 
             if origin.real_weight_add:
                 values.append([
@@ -164,7 +165,7 @@ def compute_average(data_col, line):
     else:
         only_abj = False
 
-    # print "%s abi:%s abj:%s ppn:%s sum:%s weight:%s used:%s add:%s only_add:%s only_abj:%s" % (values, nr_abi, nr_abj, nr_ppn, nr_sum, weight, nr_used, nr_add, only_add, only_abj)
+    # print("%s abi:%s abj:%s ppn:%s sum:%s weight:%s used:%s add:%s only_add:%s only_abj:%s" % (values, nr_abi, nr_abj, nr_ppn, nr_sum, weight, nr_used, nr_add, only_add, only_abj))
     if weight != 0:
         if nr_abi >= len(column.average_columns) - nr_sum:
             return abi
@@ -174,9 +175,9 @@ def compute_average(data_col, line):
                      + sumw * (column.max - column.min) / weight
                      + sum2)
             if column.table.rounding <= 1 and column.round_by:
-                return rint(value / column.round_by) * column.round_by
+                return rint(value / column.round_by,0) * column.round_by
             else:
-                return rint(value * 1000000) / 1000000
+                return rint(value * 1000000,0) / 1000000
     elif nr_sum == len(column.average_columns):
         if nr_abi == nr_sum:
             return abi

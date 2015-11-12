@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 #    TOMUSS: The Online Multi User Simple Spreadsheetl)
 #    Copyright (C) 2008-2011 Thierry EXCOFFIER, Universite Claude Bernard
@@ -46,7 +46,7 @@ def get_ue_dict():
         ues[name] = UE(
             name, # UE Name
             ['ue%d.master' % i],# Teacher names
-            u'UE%d Title' % i,  # UE title
+            'UE%d Title' % i,  # UE title
             [],                 # Departments of UE
             1000+i,             # SPIRAL key for the UE
             ['ue%d.master' % i],# Login of teachers
@@ -64,10 +64,9 @@ def create_all_ues_js(ues):
     ff.write('var all_ues = {\n')
     ue_list = []
     for ue, uev in ues.items():
-        print ue
+        print(ue)
         tt_list = []
-        ue_list.append('%s:%s' % (utilities.js(ue).encode('utf-8'),
-                                      uev.js(tt_list).encode('utf-8')))
+        ue_list.append('%s:%s' % (utilities.js(ue), uev.js(tt_list)))
         ff_tt_list.write('%s : %s\n' % (ue, ', '.join(tt_list)))
     ff.write(',\n'.join(ue_list))
     ff.write('} ;\n')
@@ -294,7 +293,7 @@ def parcours_names(les_ues):
     for ue in les_ues.values():
         for q in ue.parcours():
             names[q] = True
-    return names.keys()
+    return list(names.keys())
 
 def ues_for_parcour(les_ues, p):
     t = []

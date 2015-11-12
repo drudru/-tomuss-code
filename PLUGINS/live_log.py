@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 #    TOMUSS: The Online Multi User Simple Spreadsheet
 #    Copyright (C) 2008 Thierry EXCOFFIER, Universite Claude Bernard
@@ -28,7 +28,7 @@ def live_log(server):
 
 plugin.Plugin('live_log', '/live_log',
               function=live_log, group='roots',
-              mimetype = "text/plain",
+              mimetype = "text/plain;charset=UTF-8",
               launch_thread = True,
               keep_open = True,
               link=plugin.Link(html_class='verysafe', where='debug')

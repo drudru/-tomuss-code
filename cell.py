@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 #    TOMUSS: The Online Multi User Simple Spreadsheet
 #    Copyright (C) 2008-2012 Thierry EXCOFFIER, Universite Claude Bernard
@@ -357,7 +357,7 @@ class Lines(object):
         grp = self.get_grp(line)
         seq = self.get_seq(line)
         lines = list(self.columns.table.lines_of_grp(grp, seq))
-        for value, column in zip(line, self.columns.columns)[6:]:
+        for value, column in list(zip(line, self.columns.columns))[6:]:
             if column.type.name == what or (what=='Note' and column.type.name == 'Text'):
                c = column.cell_indicator(value, lines)[1]
                if c != None:
@@ -378,7 +378,7 @@ class Lines(object):
         lines = list(table.lines_of_grp(grp, seq))
         
         # Put cells in column order
-        val_col = zip(line.cells, self.columns.columns)
+        val_col = list(zip(line.cells, self.columns.columns))
         d = {}
         for cell, column in val_col[3:]:
             if not column.visible(hide = link and True or 1):

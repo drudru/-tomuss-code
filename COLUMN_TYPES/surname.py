@@ -1,4 +1,4 @@
-#!/bin/env python
+#!/bin/env python3
 # -*- coding: utf-8 -*-
 #    TOMUSS: The Online Multi User Simple Spreadsheet
 #    Copyright (C) 2011 Thierry EXCOFFIER, Universite Claude Bernard
@@ -34,4 +34,4 @@ class Surname(mail.Mail):
         for line_id, student in students:
             student = utilities.the_login(student).lower()
             if student in infos:
-                yield line_id, infos[student][1].title().encode('utf-8')
+                yield line_id, infos[student][1].title()

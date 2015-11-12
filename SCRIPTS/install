@@ -153,9 +153,17 @@ do
     SCRIPTS/convert_2_8_12_to_2_8_13 "$I/TOMUSS_DB"
   fi
   SCRIPTS/convert_2_12_11_to_2_12_12 "$I/TOMUSS_DB"
-  if [ "$V" '<' '5.6.6' ]
+  if [ $(python3 -c "print('$V'.split('.') < '5.6.6'.split('.'))") = "True" ]
   then
       SCRIPTS/convert_5_6_5_to_5_7_0 "$I/TOMUSS_DB"
+  fi
+  if [ $(python3 -c "print('$V'.split('.') < '6.0.0'.split('.'))") = "True" ]
+  then
+      SCRIPTS/convert_2_to_3 "$I/TOMUSS_DB"
+      if [ -x LOCAL/convert_2_to_3.py ]
+	  then
+	  LOCAL/convert_2_to_3.py "$I/TOMUSS_DB"
+	  fi
   fi
 done
 

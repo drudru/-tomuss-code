@@ -1,4 +1,4 @@
-#!/bin/env python
+#!/bin/env python3
 # -*- coding: utf-8 -*-
 #    TOMUSS: The Online Multi User Simple Spreadsheet
 #    Copyright (C) 2011-2013 Thierry EXCOFFIER, Universite Claude Bernard
@@ -37,7 +37,7 @@ class Enumeration(text.Text):
             nb = collections.defaultdict(int)
             data_col = column.data_col
             if column.repetition > 0:
-                verify_lines = column.table.lines.values()
+                verify_lines = list(column.table.lines.values())
             else:
                 verify_lines = lines
             for line in verify_lines:

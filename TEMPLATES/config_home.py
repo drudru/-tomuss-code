@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 #    TOMUSS: The Online Multi User Simple Spreadsheet
 #    Copyright (C) 2012-2013 Thierry EXCOFFIER, Universite Claude Bernard
@@ -105,9 +105,12 @@ def create(table):
 def add_new_links_in_the_table(table):
     """Create missing lines in the table"""
     rw = table.pages[1]
-    def change(col, lin_id, value):
-        if lin_id not in table.lines  or  '<script' in str(value):
-            table.cell_change(rw, col, lin_id, value)
+    def change(lin_id, values):
+        yet_in = lin_id in table.lines
+        for col, value in enumerate(values):
+            col = str(col)
+            if  not yet_in or '<script' in str(value):
+                table.cell_change(rw, col, lin_id, value)
         
     table.lock()
     try:
@@ -115,13 +118,9 @@ def add_new_links_in_the_table(table):
         for where, priority, html_class, group, url in  default_links:
             lin_id = str(i)
             i += 1
-            change('0', lin_id, where)
-            change('1', lin_id, priority)
-            change('2', lin_id, html_class)
-            change('3', lin_id, group)
-            change('4', lin_id, 'LINK_' + url)
-            change('5', lin_id, url)
-            change('6', lin_id, 'HELP_' + url)
+            change(lin_id,
+                   (where, priority, html_class, group, 'LINK_' + url,
+                    url, 'HELP_' + url))
         for p in plugin.plugins:
             link = p.link
             if not link:
@@ -139,13 +138,8 @@ def add_new_links_in_the_table(table):
                 help = 'HELP_' + link.plugin.name
             else:
                 help = ''
-            change('0', lin_id, link.where)
-            change('1', lin_id, link.priority)
-            change('2', lin_id, link.html_class)
-            change('3', lin_id, str(link.group))
-            change('4', lin_id, text)
-            change('5', lin_id, link.url)
-            change('6', lin_id, help)
+            change(lin_id, (link.where, link.priority, link.html_class,
+                            str(link.group), text, link.url, help))
     finally:
         table.unlock()
 

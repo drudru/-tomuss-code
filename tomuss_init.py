@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 #    Copyright (C) 2010-2012 Thierry EXCOFFIER, Universite Claude Bernard
 #
@@ -23,7 +23,11 @@ import os
 
 package_name = "TOMUSS" # Choose your package name (for absolute import)
 
-caller_globals = sys._getframe(1).f_globals
+for i in range(10):
+    try:
+        caller_globals = sys._getframe(i).f_globals
+    except ValueError:
+        break
 
 # Only the __main__ must become a package, not the other modules.
 if caller_globals["__name__"] == '__main__':
@@ -48,6 +52,7 @@ if caller_globals["__name__"] == '__main__':
         sys.modules[package_name] = imp.load_module(local_name[0],
                                                     open_file, file_name,
                                                     description)
+    sys.modules[package_name].__name__ = 'TOMUSS'
     # The python path can be reset to the initial value
     sys.path.pop(0)
 

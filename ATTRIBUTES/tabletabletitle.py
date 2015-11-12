@@ -1,4 +1,4 @@
-#!/bin/env python
+#!/bin/env python3
 # -*- coding: utf-8 -*-
 #    TOMUSS: The Online Multi User Simple Spreadsheet
 #    Copyright (C) 2008-2011 Thierry EXCOFFIER, Universite Claude Bernard
@@ -38,5 +38,5 @@ class TableTableTitle(TableAttr):
     def default_value(self, table):
         ue = self.get_ue(table)
         if ue:
-            return ue.intitule().title().encode('utf-8')
+            return ue.intitule().title()
         return ''

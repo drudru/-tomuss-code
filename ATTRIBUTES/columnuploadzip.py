@@ -1,4 +1,4 @@
-#!/bin/env python
+#!/bin/env python3
 # -*- coding: utf-8 -*-
 #    TOMUSS: The Online Multi User Simple Spreadsheet
 #    Copyright (C) 2015 Thierry EXCOFFIER, Universite Claude Bernard
@@ -61,7 +61,7 @@ def upload_zip(server):
                 + '_' + filename_from_comment(line[column.data_col].comment)
             )
     zf.close()
-    f = open(name, "r")
+    f = open(name, "r", encoding = "utf-8")
     while True:
         c = f.read(1000000)
         if c == '':

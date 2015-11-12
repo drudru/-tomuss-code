@@ -47,10 +47,10 @@ import itertools
 
 
 try:
-    basestring
+    str
 except NameError:
     # Python 3.x compatibility
-    basestring = str
+    str = str
 
 try:
     iteritems = dict.iteritems
@@ -131,7 +131,7 @@ def most_common_types(limit=10, objects=None):
        New parameter: ``objects``.
 
     """
-    stats = sorted(typestats(objects).items(), key=operator.itemgetter(1),
+    stats = sorted(list(typestats(objects).items()), key=operator.itemgetter(1),
                    reverse=True)
     if limit:
         stats = stats[:limit]
@@ -161,7 +161,7 @@ def show_most_common_types(limit=10, objects=None):
     stats = most_common_types(limit, objects)
     width = max(len(name) for name, count in stats)
     for name, count in stats:
-        print('%-*s %i' % (width, name, count))
+        print(('%-*s %i' % (width, name, count)))
 
 
 def show_growth(limit=10, peak_stats={}):
@@ -194,14 +194,14 @@ def show_growth(limit=10, peak_stats={}):
         if count > old_count:
             deltas[name] = count - old_count
             peak_stats[name] = count
-    deltas = sorted(deltas.items(), key=operator.itemgetter(1),
+    deltas = sorted(list(deltas.items()), key=operator.itemgetter(1),
                     reverse=True)
     if limit:
         deltas = deltas[:limit]
     if deltas:
         width = max(len(name) for name, count in deltas)
         for name, delta in deltas:
-            print('%-*s%9d %+9d' % (width, name, stats[name], delta))
+            print(('%-*s%9d %+9d' % (width, name, stats[name], delta)))
 
 
 def get_leaking_objects(objects=None):
@@ -455,7 +455,7 @@ def show_chain(*chains, **kw):
     chains = [chain for chain in chains if chain] # remove empty ones
     def in_chains(x, ids=set(map(id, itertools.chain(*chains)))):
         return id(x) in ids
-    max_depth = max(map(len, chains)) - 1
+    max_depth = max(list(map(len, chains))) - 1
     if backrefs:
         show_backrefs([chain[-1] for chain in chains], max_depth=max_depth,
                       filter=in_chains, **kw)
@@ -572,7 +572,7 @@ def show_graph(objs, edge_func, swap_source_target,
         for source in neighbours:
             if id(source) in ignore:
                 continue
-            if filter and not filter(source):
+            if filter and not list(filter(source)):
                 continue
             if n >= too_many:
                 skipped += 1
@@ -602,7 +602,7 @@ def show_graph(objs, edge_func, swap_source_target,
             f.write('  too_many_%s[fontcolor=white];\n' % (obj_node_id(target)))
     f.write("}\n")
     f.close()
-    print("Graph written to %s (%d nodes)" % (dot_filename, nodes))
+    print(("Graph written to %s (%d nodes)" % (dot_filename, nodes)))
     if filename and filename.endswith('.dot'):
         # nothing else to do, the user asked for a .dot file
         return
@@ -617,19 +617,19 @@ def show_graph(objs, edge_func, swap_source_target,
             png_filename = filename
         else:
             if filename:
-                print("Unrecognized file type (%s)" % filename)
+                print(("Unrecognized file type (%s)" % filename))
             fd, png_filename = tempfile.mkstemp('.png', text=False)
             f = os.fdopen(fd, "wb")
         dot = subprocess.Popen(['dot', '-Tpng', dot_filename],
                                stdout=f, close_fds=False)
         dot.wait()
         f.close()
-        print("Image generated as %s" % png_filename)
+        print(("Image generated as %s" % png_filename))
     else:
         if filename:
             print("Graph viewer (xdot) and image renderer (dot) not found, not doing anything else")
         else:
-            print("Unrecognized file type (%s), not doing anything else" % filename)
+            print(("Unrecognized file type (%s), not doing anything else" % filename))
 
 
 def obj_node_id(obj):
@@ -677,10 +677,10 @@ def short_repr(obj):
                 return obj.__func__.__name__
         except AttributeError:
             # Python < 2.6 compatibility
-            if obj.im_self is not None:
-                return obj.im_func.__name__ + ' (bound)'
+            if obj.__self__ is not None:
+                return obj.__func__.__name__ + ' (bound)'
             else:
-                return obj.im_func.__name__
+                return obj.__func__.__name__
 
     if isinstance(obj, types.FrameType):
         return '%s:%s' % (obj.f_code.co_filename, obj.f_lineno)
@@ -718,9 +718,9 @@ def edge_label(source, target):
                 return ' [label="__func__",weight=10]'
         except AttributeError:
             # Python < 2.6 compatibility
-            if target is source.im_self:
+            if target is source.__self__:
                 return ' [label="im_self",weight=10]'
-            if target is source.im_func:
+            if target is source.__func__:
                 return ' [label="im_func",weight=10]'
     if isinstance(source, types.FunctionType):
         for k in dir(source):
@@ -729,7 +729,7 @@ def edge_label(source, target):
     if isinstance(source, dict):
         for k, v in iteritems(source):
             if v is target:
-                if isinstance(k, basestring) and is_identifier(k):
+                if isinstance(k, str) and is_identifier(k):
                     return ' [label="%s",weight=2]' % quote(k)
                 else:
                     return ' [label="%s"]' % quote(type(k).__name__ + "\n"

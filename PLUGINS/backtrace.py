@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 #    TOMUSS: The Online Multi User Simple Spreadsheet
 #    Copyright (C) 2012 Thierry EXCOFFIER, Universite Claude Bernard
@@ -19,7 +19,7 @@
 #
 #    Contact: Thierry.EXCOFFIER@bat710.univ-lyon1.fr
 
-import cgi
+import html
 import datetime
 import os
 import collections
@@ -82,7 +82,7 @@ def backtrace_list(server, from_date, to_date, what):
                         w,
                         dirname + '/' + filename,
                         filename.replace(".html", ""),
-                        cgi.escape(content)))
+                        html.escape(content)))
         maxi = float(max(d.values()))
         def cell(hour):
             v = d['%02d' % hour]
@@ -100,7 +100,7 @@ def backtrace_list(server, from_date, to_date, what):
 
 def classifier(filename=None, subject=None):
     if filename:
-        f = open(filename, "r")
+        f = open(filename, "r", encoding = "utf-8")
         subject = f.readline()
         f.close()
     if './' not in subject:

@@ -15,14 +15,14 @@ recompute_the_ue_list:
 
 clean:
 	@echo 'CLEAN'
-	@-find . \( -name '*~' \
+	@rm -rf DBregtest BACKUP_DBregtest
+	@find . \( -name '*~' \
                  -o -name '*.pyc' \
                  -o -name '*.bak' \
                  -o -name '*.mo' \
 		 -o -name '*flymake*' \
                  -o -name 'xxx[!_]*' \) \
                  -exec rm {} \; 2>/dev/null
-	@rm -rf DBregtest BACKUP_DBregtest
 	@for I in */. ;\
           do [ -f $$I/Makefile ] && ( cd $$I ; \
                                       echo "CLEAN $$I" ; \
@@ -39,7 +39,7 @@ regtest1:clean translations
 regtest:regtest1
 	cd REGTEST_SERVER ; make regtest
 
-V := $(shell python -c 'import tomuss_init ; from . import configuration;print configuration.version' 2>/dev/null)
+V := $(shell python3 -c 'import tomuss_init ; from . import configuration;print configuration.version' 2>/dev/null)
 
 release:translations
 	@echo "Check if we are in the 'stable' branch"

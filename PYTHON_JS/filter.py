@@ -1,3 +1,4 @@
+#!/usr/bin/python3
 # -*- coding: utf-8 -*-
 # TOMUSS: The Online Multi User Simple Spreadsheet
 # Copyright (C) 2013-2015 Thierry EXCOFFIER, Universite Claude Bernard
@@ -112,12 +113,6 @@ def user_date_to_date(txt):
             pass
     return str(the_year) + two_digits(the_month) + two_digits(the_day) + t
 
-def as_string(value):
-    try:
-        return unicode(value, 'utf-8')
-    except:
-        return unicode(value) # Number
-    
 class FilterNegate:
     # The negation node in the filter tree"""
     def __init__(self, node):
@@ -146,7 +141,6 @@ def search_operator(string):
         if string.startswith(operator[0]):
             return string[len(operator[0]):], operator
     return string, operator
-
 
 class FilterAny:
     operator = None
@@ -210,7 +204,7 @@ class FilterFloat(FilterAny):
 class FilterStr(FilterAny):
     def __init__(self, operator, value, column_type, python_left, js_left):
         def get_string(line, cell):
-            return as_string(python_left(line, cell))
+            return str(python_left(line, cell))
         value_lower = value.lower()
         hide_upper = value_lower == value  or  not contextual_case_sensitive
         if hide_upper:
@@ -254,7 +248,7 @@ class FilterAnyStr(FilterAny):
                  python_left, js_left, username=""):
         if data_col >= 0:
             def right(line):
-                return flat((as_string(getattr(line[data_col],
+                return flat((str(getattr(line[data_col],
                                                what_right)) + value).lower())
             self.right = right
             self.js_right = ("line[" + str(data_col) + "]."
@@ -276,7 +270,7 @@ class FilterAnyStr(FilterAny):
         self.js_right = 'flat(' + self.js_right + ').toLowerCase()'
 
         def left_cell_flat_lower(line, cell):
-            return flat(as_string(python_left(line, cell)).lower())
+            return flat(str(python_left(line, cell)).lower())
         self.left = left_cell_flat_lower
         self.js_left = "flat(" + js_left + ".toString().toLowerCase())"
 
@@ -332,8 +326,8 @@ class FilterAnyType(FilterAny):
             return self.python(left, right)
         right = to_float_or_nan(self.right(line))
         if isNaN(right):
-            return self.python(flat(as_string(self.left(line, cell)).lower()),
-                               flat(as_string(self.right(line)).lower()))
+            return self.python(flat(str(self.left(line, cell)).lower()),
+                               flat(str(self.right(line)).lower()))
         left = -1e50
         return self.python(left, right)
 
@@ -365,17 +359,17 @@ def FilterOperator(operator, what, value, column_type,
             or what == "history"
             or (value == '' and (what == 'value' or what == 'comment'))
         ):
-            f = FilterStr(operator, as_string(value), column_type,
+            f = FilterStr(operator, str(value), column_type,
                      python_left, js_left)
         elif what == 'date' or (column_type == 'Date' and what == "value"):
-            f = FilterDate(operator, what, as_string(value), column_type,
+            f = FilterDate(operator, what, str(value), column_type,
                      python_left, js_left)
         else:
             try:
                 f = FilterFloat(operator, to_float(value), column_type,
                      python_left, js_left)
             except:
-                f = FilterStr(operator, as_string(value), column_type,
+                f = FilterStr(operator, str(value), column_type,
                      python_left, js_left)
     else:
         data_col, string = elsewhere

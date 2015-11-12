@@ -1,3 +1,4 @@
+#!/usr/bin/python3
 # -*- coding: utf-8 -*-
 # TOMUSS: The Online Multi User Simple Spreadsheet
 # Copyright (C) 2014 Thierry EXCOFFIER, Universite Claude Bernard
@@ -55,7 +56,7 @@ def compute_weighted_percent(data_col, line):
          )
 
     if column.round_by:
-        v = rint(v / column.round_by) * column.round_by
+        v = rint(v / column.round_by,0) * column.round_by
 
     return v
 

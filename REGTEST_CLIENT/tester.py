@@ -9,7 +9,7 @@ import os
 import sys
 import dumper
 from xnee import Xnee
-import urllib2
+import urllib.request, urllib.error, urllib.parse
 
 tomuss_dir = '..'
 trash = 'Trash'
@@ -19,7 +19,7 @@ retry = 1
 continue_on_error = False
 
 for i in ('http_proxy', 'https_proxy', 'MAIL', 'MAILCHECK'):
-    if os.environ.has_key(i):
+    if i in os.environ:
         del os.environ[i]
 
 os.environ["HOME"] = tmp_dir
@@ -38,12 +38,12 @@ def rmdir(pattern):
         except OSError:
             os.unlink(i)
         if os.path.exists(i):
-            print i + ' deletion failed, move it.'
+            print(i + ' deletion failed, move it.')
             rmdir(i + '~')
-            print 'rename', i, 'to', i + '~'
+            print('rename', i, 'to', i + '~')
             os.rename(i, i + '~')
         if os.path.exists(i):
-            print 'BUG'
+            print('BUG')
 
 def create_open(path):
     for i in range(1, len(path)):
@@ -51,7 +51,7 @@ def create_open(path):
             os.mkdir(os.path.sep.join(path[:i]))
         except OSError:
             pass
-    return open(os.path.sep.join(path), 'w')
+    return open(os.path.sep.join(path), 'w', encoding = "utf-8")
 
 def create_write(path, content):
     f = create_open(path)
@@ -67,7 +67,7 @@ class Tester(object):
     """
     
     def __init__(self, client, output, server, x11="/usr/bin/Xvfb"):
-        print 'Creating tester'
+        print('Creating tester')
         self.client = client
         self.client_name = self.client.split(' ')[0]
         self.server = server
@@ -112,10 +112,10 @@ class Tester(object):
         # time.sleep(10)
         self.xnee.key("Escape") # Remove any visible popup
         # self.check_image('start')
-        print 'Tester started for', self.client_name
+        print('Tester started for', self.client_name)
 
     def start_tomuss(self):
-        print "Start TOMUSS"
+        print("Start TOMUSS")
         rmdir(tmp_dir)
         rmdir('/tmp/DBregtest')
         rmdir('/tmp/BACKUP_DBregtest')
@@ -131,18 +131,18 @@ class Tester(object):
                 os.mkdir(tomuss_dir + '/' + i)
             except OSError:
                 pass
-            open(tomuss_dir + '/' + i + '/__init__.py', 'w').close()
+            open(tomuss_dir + '/' + i + '/__init__.py', 'w', encoding = "utf-8").close()
 
         try:
             os.mkdir(tmp_dir)
         except OSError:
-            print 'BEWARE: a running program held a file in ', tmp_dir
+            print('BEWARE: a running program held a file in ', tmp_dir)
 
         snapdir = os.path.join(trash, self.client_name)
         if not os.path.isdir(snapdir):
             os.mkdir(snapdir)
         
-        print "Configure account"
+        print("Configure account")
         create_write((tmp_dir, '.config', 'chromium', 'Default','Preferences'),
                      '''
                      {
@@ -159,23 +159,23 @@ class Tester(object):
                   + '--type bool "0"')
 
         # os.system('echo $HOME ; ls -lsa %s' % tmp_dir)
-        print "Run server"
+        print("Run server")
         os.system('(cd %s ; ./tomuss.py regtest real_regtest >/dev/null 2>&1 &)' %
                   tomuss_dir)
-        print "Wait server start"
+        print("Wait server start")
         while True:
             try:
                 time.sleep(1)
-                f = urllib2.urlopen("http://%s:8888/=super.user/"%self.server)
+                f = urllib.request.urlopen("http://%s:8888/=super.user/"%self.server)
                 f.read()
                 f.close()
                 break
-            except urllib2.URLError:
+            except urllib.error.URLError:
                 continue
 
     def stop_tomuss(self):
-        print 'Stop tomuss'
-        f = urllib2.urlopen("http://%s:8888/stop" % self.server)
+        print('Stop tomuss')
+        f = urllib.request.urlopen("http://%s:8888/stop" % self.server)
         assert('stopped' in f.read())
         f.close()
 
@@ -187,7 +187,7 @@ class Tester(object):
         # self.xnee.key('F11') # don't work with chromium
 
     def goto_url(self, url):
-        print 'goto', url
+        print('goto', url)
         self.display_message('URL: <a href="' + url + '">'
                              + url.replace('/', ' /') + '</a>')
         self.xnee.key("l", control=True)
@@ -228,7 +228,7 @@ class Tester(object):
 
     def check_image(self, filename, retry=True, message=None,
                     hide=False, wait=None, timeout=40):
-        print 'check_image', filename
+        print('check_image', filename)
         if message:
             self.display_message(message)
 
@@ -242,7 +242,7 @@ class Tester(object):
                 self.display.dump()
                 sys.stdout.flush()
                 if not escaped and time.time() - start > timeout - 2:
-                    print 'Escape !'
+                    print('Escape !')
                     self.xnee.key('Escape') # Epiphany bug ?
                     escaped = True
                 if time.time() - start > timeout:
@@ -251,12 +251,12 @@ class Tester(object):
                 time.sleep(1)
         else:
             if self.display.wait_end_of_change(wait=wait) is False:
-                print 'Escape !'
+                print('Escape !')
                 self.xnee.key('Escape') # Epiphany bug ?
                 self.display.wait_end_of_change(wait=1)
             
             self.display.store_dump(snapshot)
-            print snapshot, 'created'
+            print(snapshot, 'created')
             identical = True
 
         if not hide:
@@ -266,13 +266,13 @@ class Tester(object):
 
         if identical is not True:
             self.error("%s{%d}" % (filename, identical), filename)
-            print snapshot, 'is not the same !!!!!!!!!!!!'
+            print(snapshot, 'is not the same !!!!!!!!!!!!')
             self.errors.append(filename)
             if not continue_on_error:
                 raise Regtest('Difference')
 
     def stop(self):
-        print 'Stop test for this browser'
+        print('Stop test for this browser')
         self.stop_tomuss()
         self.xnee.key("w", control=True)
         time.sleep(0.2)

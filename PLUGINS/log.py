@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 #    TOMUSS: The Online Multi User Simple Spreadsheet
 #    Copyright (C) 2010-2013 Thierry EXCOFFIER, Universite Claude Bernard
@@ -39,7 +39,7 @@ def log(server):
     text = '/'.join(server.the_path[1:]).replace('\n','\\n'
     ).replace('\r', '\\r') + '\n'
     # XXX Not process safe
-    f = open(os.path.join('LOGS', server.the_path[0]), 'a')
+    f = open(os.path.join('LOGS', server.the_path[0]), 'a', encoding = "utf-8")
     f.write(text[:1000].strip() + '\n')
     f.close()
     

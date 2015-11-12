@@ -1,4 +1,4 @@
-#!/bin/env python
+#!/bin/env python3
 # -*- coding: utf-8 -*-
 #    TOMUSS: The Online Multi User Simple Spreadsheet
 #    Copyright (C) 2013 Thierry EXCOFFIER, Universite Claude Bernard
@@ -26,8 +26,6 @@ class TableManagers(tabletabletitle.TableTableTitle):
     name = 'managers'
     def default_value(self, table):
         if table:
-            return [login.encode('utf8')
-                    for login in configuration.get_managers(table.ue_code)
-                    ]
+            return list(configuration.get_managers(table.ue_code))
         else:
             return []

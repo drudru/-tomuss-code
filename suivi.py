@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 #    TOMUSS: The Online Multi User Simple Spreadsheet)
 #    Copyright (C) 2008-2013 Thierry EXCOFFIER, Universite Claude Bernard
@@ -27,7 +27,7 @@ import os
 import sys
 import time
 import re
-import BaseHTTPServer
+import http.server
 from . import configuration
 from . import utilities
 from . import authentication
@@ -61,6 +61,7 @@ class MyRequestBroker(utilities.FakeRequestHandler):
         if ticket.client_ip(self) in configuration.banned_ip:
             return
         self.start_time = time.time()
+        self.wfile.write = self.wfile._sock.sendall
         self.the_port = server_port
         self.ticket = None
 
@@ -106,7 +107,7 @@ class MyRequestBroker(utilities.FakeRequestHandler):
             self.send_response(200)
             self.send_header('Content-Type', 'text/plain')
             self.end_headers()
-            self.wfile.write('ok')
+            self.wfile.write(b'ok')
             return
 
         if path[1:] == 'robots.txt':
@@ -124,7 +125,7 @@ class MyRequestBroker(utilities.FakeRequestHandler):
             self.send_header('Cache-Control', 'no-store')
             self.send_header('Content-Type', 'text/plain')
             self.end_headers()
-            self.wfile.write('stopped')
+            self.wfile.write(b'stopped')
             running = False
             return
         
@@ -201,8 +202,6 @@ if __name__ == "__main__":
                    ro=True, create=False)
     warn("Configuration table loaded, do_not_display=%s" % repr(configuration.do_not_display))
     utilities.init()
-
-
     utilities.mkpath(os.path.join("LOGS", "SUIVI%d" % server_port))
     logs = open(os.path.join("LOGS", "SUIVI%d" % server_port,
                              str(time.localtime()[0]) + '.connections'), "a")
@@ -214,32 +213,29 @@ if __name__ == "__main__":
                    ro=True, create=False)
     document.table(0, 'Dossiers', 'config_cache', None, None,
                    ro=True, create=False)
-
     authentication.run_authentication()
 
-    server = BaseHTTPServer.HTTPServer(("0.0.0.0", server_port),
+    server = utilities.HTTPServer(("0.0.0.0", server_port),
                                        MyRequestBroker)
     server.last_unload = 0
-
     StaticFile._url_ = configuration.suivi.url(year, semester, ticket='')
     authentication.authentication_redirect = '/'.join(StaticFile._url_.split('/')[:-2])
-    
     plugins.generate_data_files(suivi=True)
 
     if configuration.regtest:
         # 'Suivi' regtest fail because list of modified UE
         # is not displayed for teachers
         configuration.index_are_computed = False
-
     if not configuration.index_are_computed:
         from . import tablestat
 
         # Load all the tables, in order to allow fast access
+        if year is None:
+            year, semester = configuration.year_semester
         for t in tablestat.les_ues(year, semester):
             if False:
                 warn("%s grpcol=%s seqcol=%s" % (t.ue, t.columns.get_grp(),
                                                  t.columns.get_seq()))
-
     warn("Server Ready on: " + authentication.authentication_redirect)
     while running:
         server.handle_request()

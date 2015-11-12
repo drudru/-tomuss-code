@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 #    TOMUSS: The Online Multi User Simple Spreadsheet
 #    Copyright (C) 2011-2014 Thierry EXCOFFIER, Universite Claude Bernard
@@ -84,7 +84,7 @@ def picture(server, icon=''):
     login = server.something.split('.')
     student_id = inscrits.login_to_student_id('.'.join(login[:-1]))
     extension = login[-1]
-    data = utilities.read_file(load_picture(student_id, extension, icon))
+    data = utilities.read_file(load_picture(student_id, extension, icon),"bytes")
     try:
         server.the_file.write(data)
     except socket.error:

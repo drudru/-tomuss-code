@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 #    TOMUSS: The Online Multi User Simple Spreadsheet
 #    Copyright (C) 2013 Thierry EXCOFFIER, Universite Claude Bernard
@@ -47,7 +47,7 @@ def save_preferences(server):
             d[item[0]] = item[1]
     utilities.manage_key('LOGINS', os.path.join(login, 'preferences'),
                          content = repr(d))
-    server.the_file.write(str(files.files['ok.png']))
+    server.the_file.write(files.files['ok.png'].bytes())
 
     # XXX For old files from TOMUSS before 5.3.2
     utilities.manage_key('LOGINS', os.path.join(login, 'private'),

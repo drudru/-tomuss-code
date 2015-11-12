@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 #    TOMUSS: The Online Multi User Simple Spreadsheet)
 #    Copyright (C) 2014 Thierry EXCOFFIER, Universite Claude Bernard
@@ -98,7 +98,7 @@ function on_cell_change(data_lin, data_col, value)
                                 or configuration.no),
                   )))
         t.unload()
-    print 'RUNTIME %.1f minutes' % ((time.time() - start)/60)
+    print('RUNTIME %.1f minutes' % ((time.time() - start)/60))
     server.the_file.write('<script>x()</script>')
 
     columns = [
@@ -136,7 +136,7 @@ plugin.Plugin('fix_modifiables', '/fix_modifiables', function=fix_modifiables,
 def fix_modifiable(server):
     t = document.table(server.the_year, server.the_semester, server.the_ue)
     if t is None:
-        server.the_file.write(files.files["bug.png"])
+        server.the_file.write(files.files["bug.png"].bytes())
         return
     try:
         t.lock()
@@ -144,7 +144,7 @@ def fix_modifiable(server):
     finally:
         t.unlock()
     t.unload()
-    server.the_file.write(files.files["ok.png"])
+    server.the_file.write(files.files["ok.png"].bytes())
 
 plugin.Plugin('fix_modifiable',
               '/fix_modifiable/{Y}/{S}/{U}', function=fix_modifiable,

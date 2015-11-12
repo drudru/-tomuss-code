@@ -42,7 +42,7 @@ fi
 
 if [ '' != "$M" ]
 then
-  python -c "
+  python3 -c "
 import tomuss_init
 tomuss_init.terminate_init()
 from . import utilities 

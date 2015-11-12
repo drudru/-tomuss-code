@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 #    TOMUSS: The Online Multi User Simple Spreadsheet
 #    Copyright (C) 2008-2012 Thierry EXCOFFIER, Universite Claude Bernard
@@ -19,9 +19,10 @@
 #
 #    Contact: Thierry.EXCOFFIER@bat710.univ-lyon1.fr
 
+import codecs
 import socket
 import re
-import cgi
+import html
 import os
 import sys
 from . import configuration
@@ -191,6 +192,12 @@ class Plugin(object):
             unsafe = False
         self.response        = response
         self.mimetype        = mimetype
+        # XXX si dans mimetype il y a autre chose que utf-8 ???
+        if mimetype and ("utf-8" in mimetype or "UTF-8" in mimetype):
+            self.codec       = codecs.getwriter("utf-8")
+        else :
+            self.codec       = lambda x: x
+
         self.headers         = headers
         self.launch_thread   = launch_thread
         self.keep_open       = keep_open
@@ -219,8 +226,8 @@ class Plugin(object):
 
         for plugin in plugins:
             if plugin.name == self.name:
-                f1 = plugin.function.func_code.co_filename
-                f2 = self.function.func_code.co_filename
+                f1 = plugin.function.__code__.co_filename
+                f2 = self.function.__code__.co_filename
                 if f1.split(os.path.sep)[-1] == f2.split(os.path.sep)[-1]:
                     # __main__ module is loaded twice
                     continue
@@ -266,19 +273,19 @@ class Plugin(object):
         s = '<tr><td><b><a name="plugin_%s">%s</a></b><br/>' % (
             self.name, self.name)
         if self.function.__doc__:
-            filename_full = self.function.func_code.co_filename
+            filename_full = self.function.__code__.co_filename
             filename = filename_full.split(os.path.sep)[-1]
             s += ('<a href="' +
                   'src' + filename_full.replace(os.getcwd(), '') + '">' +
                   filename + ':' +
-                  str(self.function.func_code.co_firstlineno) + '</a>')
+                  str(self.function.__code__.co_firstlineno) + '</a>')
 
         s += '</td><td>'
         if self.link:
             s += '<b>%s</b> in %s<br/><em>%s</em>' % (
-                cgi.escape(self.link.get_text()),
+                html.escape(self.link.get_text()),
                 self.link.where,
-                cgi.escape(self.link.get_help()),
+                html.escape(self.link.get_help()),
                 )
         s += '</td><td>'
         if self.documentation:
@@ -348,8 +355,8 @@ def vertical_text(text, size=12, exceptions=()):
     size = str(size)
     return '<svg xmlns="http://www.w3.org/2000/svg"><text transform="matrix(0,-1,1,0,' + size + ',' + str(height) + ')">' + text + '</text></svg>\n'
 
-def html(filename):
-    f = open(filename, 'w')
+def create_html(filename):
+    f = open(filename, 'w', encoding = "utf-8")
     f.write("<table class=\"plugin\" border=\"1\"><thead><tr>"
             "<th>Name</th>"
             "<th>URL template</th>"
@@ -369,10 +376,10 @@ def doc(filename):
     uniq = {}
     for p in plugins:
         uniq[p.name] = p
-    uniq = uniq.values()
+    uniq = list(uniq.values())
     uniq.sort(key=lambda x: x.name)
     
-    f = open(filename, 'w')
+    f = open(filename, 'w', encoding = "utf-8")
     f.write('<table border="1" class="plugin_doc">')
     f.write('<thead><tr><th>Name and location</th><th>Link and position</th><th>Explanations</th></tr></thead>')
     for p in uniq:
@@ -449,7 +456,6 @@ def execute(server, plugin):
                 if plugin.mimetype and plugin.upload_max_size:
                     x = "uploading_%d" % id(server)
                     utilities.important_job_add(x)
-                    server.restore_connection()
                     server.uploaded = server.get_field_storage(
                         plugin.upload_max_size)
                     try:
@@ -469,7 +475,7 @@ def execute(server, plugin):
                                      )
             try:
                 if 'image' in plugin.mimetype:
-                    server.the_file.write(files.files['bug.png'])
+                    server.the_file.write(files.files['bug.png'].bytes())
                 else:
                     server.the_file.write('*'*100 + "<br>\n"
                                           + server._("ERROR_server_bug")
@@ -479,6 +485,7 @@ def execute(server, plugin):
                 pass
             server.the_file = None
             return
+        # keep_open forcément à faux pour 90/ des plugins
         if not plugin.keep_open:
             server.close_connection_now()
         server.the_file = None
@@ -518,7 +525,6 @@ def dispatch_request(server, manage_error=True):
     warn('dispatch %s' % server.the_path, what='debug')
     unsafe = server.unsafe()
     p = search_plugin(server, manage_error)
-    
     if p is False:
         if manage_error:
             global to_top
@@ -537,6 +543,8 @@ def dispatch_request(server, manage_error=True):
         else:
             return False
 
+    server.the_file = p.codec(server.the_file)
+
     if p.unsafe and unsafe:
         server.send_response(p.response)
         server.send_header('Content-Type', 'text/html; charset=UTF-8')
@@ -544,9 +552,9 @@ def dispatch_request(server, manage_error=True):
         from . import authentication
         url = (authentication.authentication_redirect
                + server.path.replace("unsafe=1", "unsafe=0"))
-        server.the_file.write(server._('MSG_beware_XSS')
-                              + '<br><a href="' + url + '">'
-                              + url.split("?")[0] + '</a>')
+
+        to_send = server._('MSG_beware_XSS') + '<br><a href="' + url + '">' + url.split("?")[0] + '</a>'
+        server.the_file.write(to_send)
         server.the_file.close()
         utilities.send_backtrace("XSS attack on " + server.ticket.user_name,
                                  "URL: %s\nTICKET: %s" % (url, server.ticket),
@@ -567,7 +575,6 @@ def dispatch_request(server, manage_error=True):
     
     if p.keep_open or p.launch_thread:
         server.do_not_close_connection()
-        server.please_do_not_close = True
         warn('keep_open (closed=%s)' % server.the_file.closed, what='plugin')
 
     if p.launch_thread:

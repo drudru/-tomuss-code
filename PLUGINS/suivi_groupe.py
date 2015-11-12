@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 #    TOMUSS: The Online Multi User Simple Spreadsheet
 #    Copyright (C) 2010-2013 Thierry EXCOFFIER, Universite Claude Bernard
@@ -148,7 +148,6 @@ def page_one_groupe(server):
     w.writerow((line[0].value, '', '', line[3].value))
 
 plugin.Plugin('groupe', '/groupe', group='abj_masters',
-              mimetype = 'text/html',
               function = page_groupe,
               launch_thread=True,
               link=plugin.Link(where="grouping", html_class="verysafe",
@@ -158,7 +157,7 @@ plugin.Plugin('groupe', '/groupe', group='abj_masters',
 
 plugin.Plugin('one_groupe', '/groupe/{*}',
               group='staff',
-              mimetype = 'text/csv',
+              mimetype = 'text/csv; charset=utf-8',
               function = page_one_groupe,
               launch_thread=True
               )

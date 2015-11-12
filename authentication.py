@@ -140,17 +140,17 @@ def authentication_thread():
         time.sleep(0.1)
         while len(authentication_requests):
             x = authentication_requests.pop()
-            x.restore_connection()
             redirect_loc = authentication_redirect
             try:
                 if not x.ticket or not x.ticket.is_fine(x):
                     x.ticket, dummy_the_path = get_path(x, redirect_loc)
-                    if x.ticket == None:
+                    if x.ticket is None:
                         x.log_time('redirection')
                         continue # Redirection done
 
                 update_ticket(x.ticket)
                 # The request can be executed
+                x.please_do_not_close = False
                 try:
                     x.do_GET_real_real_safe()
                 except AttributeError:

@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 #    TOMUSS: The Online Multi User Simple Spreadsheet
 #    Copyright (C) 2008-2015 Thierry EXCOFFIER, Universite Claude Bernard
@@ -32,7 +32,7 @@ import os
 import time
 import sys
 
-version = '5.8.3'
+version = '6.0.0'
 
 ###############################################################################
 # ACLS
@@ -102,7 +102,7 @@ def set_semesters(*x):
     global semesters, semesters_year, semesters_months, semesters_color
     global university_semesters
     
-    semesters, semesters_year, semesters_months, semesters_color = zip(*x)
+    semesters, semesters_year, semesters_months, semesters_color = list(zip(*x))
 
     # For old Python version
     semesters_year = list(semesters_year)
@@ -345,7 +345,7 @@ ldap_server = ('ldap1.domain.org', 'ldap2.domain.org', 'ldap3.domain.org')
 ldap_server_login = 'login_name'
 ldap_server_password = 'the_password'
 ldap_server_port = 389
-ldap_encoding = 'utf8'
+ldap_encoding = 'utf-8'
 ldap_reconnect = 60
 
 # A login is assumed as a teacher one if it contains this stubstring
@@ -438,6 +438,9 @@ suivi.add(time.localtime()[0]  , semesters[1],socket.getfqdn()+':%d', 8890)
 # Do not display 'debug' warning
 do_not_display = ('debug', 'auth', 'table', 'ldap', 'plugin',
                   'check', 'lang', 'DNU')
+# do_not_display = ("Xdebug", "Xauth", "Xtable", "auth", "check", "debug", "DNU", "lang", "ldap" "plugin", "table", "URL",
+#                   "error", "info" )
+#do_not_display = ()
 
 # Message on the top page
 message = ''
@@ -489,7 +492,7 @@ def local_columns(table):
 
 # The CAS server for authentication.
 cas = 'https://configure.cas.url.or.use.regtest.parameter/cas'
-import authenticators
+from . import authenticators
 
 # You can define you own Authenticator. default one is CAS.
 # DO NOT MODIFY THIS HERE. Use  LOCAL/config.py to change the value
@@ -592,18 +595,6 @@ bad_password = lambda: """
 ###############################################################################
 ###############################################################################
 
-# XXX Avoid bug in Python 2.4 (fildes not closed in circular list)
-
-import urllib
-urllib.addinfourl.close_original = urllib.addinfourl.close
-def close_patched(self):
-    try:
-        self.fp._sock.recv=None
-    except:
-        pass
-    return self.close_original()
-urllib.addinfourl.close = close_patched
-
 # Only defined here for regtest. Overwritten by config_login template
 def major_of(login):
     return []
@@ -641,14 +632,14 @@ def terminate():
         maxage = 1
 
     if not os.path.exists(db):
-        utilities.mkpath(db, mode=0700)
+        utilities.mkpath(db, mode=0o700)
     if backup and not os.path.isdir(backup + db):
-        utilities.mkpath(backup + db, mode=0700)
+        utilities.mkpath(backup + db, mode=0o700)
 
     if os.path.exists('tomuss.py'):
         utilities.mkpath('TMP')
         if not os.path.exists(ticket_directory):
-            os.mkdir(ticket_directory, 0700)
+            os.mkdir(ticket_directory, 0o700)
 
         if not os.path.isdir(backup + db):
             sys.stderr.write('Backup disabled : directory does not exists\n')

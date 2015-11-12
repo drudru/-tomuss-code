@@ -1,4 +1,4 @@
-#!/usr/bin/python
+#!/usr/bin/python3
 # -*- coding: utf-8 -*-
 #    TOMUSS: The Online Multi User Simple Spreadsheet
 #    Copyright (C) 2008-2011 Thierry EXCOFFIER, Universite Claude Bernard
@@ -28,10 +28,10 @@ class Suivi(object):
             self.http = 'http'
     def urls_sorted(self):
         from . import utilities
-        urls = self.urls.items()
+        urls = list(self.urls.items())
         urls.sort(key=lambda x: utilities.semester_key(x[0][0], x[0][1]))
         if urls:
-            return zip(*urls)[1]
+            return tuple(zip(*urls))[1]
         else:
             return ()
     def servers(self):

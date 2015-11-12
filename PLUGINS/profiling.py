@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 #    TOMUSS: The Online Multi User Simple Spreadsheet)
 #    Copyright (C) 2008-2012 Thierry EXCOFFIER, Universite Claude Bernard
@@ -59,7 +59,7 @@ class Stat:
             self.values.sort()
             self.sorted = True
         if self.nr:
-            return self.values[len(self.values)/2]
+            return self.values[len(self.values)//2]
         else:
             return 1
 
@@ -82,7 +82,7 @@ class Stat:
 
 def run(service_name, lines):
     try:
-        f = open(os.path.join('LOGS', service_name), 'r')
+        f = open(os.path.join('LOGS', service_name), 'r', encoding = "utf-8")
     except IOError:
         utilities.warn(service_name + ' unreadable')
         return
@@ -121,8 +121,7 @@ def run(service_name, lines):
             d[name][5].add(duration)
         
     keys = list(d.keys())
-    keys.sort(lambda x, y: cmp(d[x][0].sum/(d[x][0].nr+1),
-                               d[y][0].sum/(d[y][0].nr+1)) )
+    keys.sort(key = lambda x: d[x][0].sum/(d[x][0].nr+1))
     keys.reverse()
     for k in keys:
         launch_thread = ' '

@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 #    TOMUSS: The Online Multi User Simple Spreadsheet
 #    Copyright (C) 2009-2013 Thierry EXCOFFIER, Universite Claude Bernard
@@ -90,7 +90,7 @@ class SpecialExaminationCondition(object):
         if line[7].value == configuration.yes:
             self.room = True
         if line[10].value:
-            self.remarks = unicode(line[10].value, 'utf-8')
+            self.remarks = line[10].value
 
     def current(self):
         return self.begin_seconds < time.time() < self.end_seconds

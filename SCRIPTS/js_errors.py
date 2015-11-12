@@ -1,4 +1,4 @@
-#!/usr/bin/python
+#!/usr/bin/python3
 # -*- coding: utf-8
 
 import ast
@@ -18,11 +18,11 @@ class Opt:
         s = sys.argv[0]
         for name, value in self.__dict__.items():
             s += " --" + name + "=" + str(value)
-        print s
-        print "   * depth   : maximum depth of the tree"
-        print "   * stop    : tree is pruned under this attribute"
-        print "   * minimum : hide items if less than this value"
-        print
+        print(s)
+        print("   * depth   : maximum depth of the tree")
+        print("   * stop    : tree is pruned under this attribute")
+        print("   * minimum : hide items if less than this value")
+        print()
         
 opt = Opt()
 
@@ -33,13 +33,13 @@ def canonize(txt):
     return re.sub('=ST[-0-9a-zA-Z.]*', 'Ⓣ', txt
     ).replace(".univ-lyon1.fr","").replace("; ", ";").strip(" .")
 
-f = open("LOGS/javascript_errors", "r")
+f = open("LOGS/javascript_errors", "r", encoding = "utf-8")
 lines = []
 for line in f:
     try:
         lines.append([canonize(i) for i in ast.literal_eval(line)[1:]])
     except SyntaxError:
-        print line
+        print(line)
 f.close()
 lines = [line
 	for line in lines
@@ -83,19 +83,19 @@ def most_common_recursive(lines, cols, depth=0):
 
         if repetition < nr_lines // 20 and depth != 0:
             break
-        v = unicode(value, "UTF-8", "replace")
+        # v = str(value, "UTF-8", "replace")
+        v = value
         if len(v) > 60:
             v1 = v[:len(v)//2]
             v2 = v[len(v)//2:]
         else:
             v1 = v
             v2 = ''
-        v1 = v1.encode("utf-8")
-        v2 = v2.encode("utf-8")
-        print '   |'*depth + "%d*%s=%s" % (repetition, cols[column], v1)
+
+        print('   |'*depth + "%d*%s=%s" % (repetition, cols[column], v1))
         if v2:
-            print '   |'*depth + " "*len(cols[column]+str(repetition)+"*="
-                                           ) + v2
+            print('   |'*depth + " "*len(cols[column]+str(repetition)+"*="
+                                           ) + v2)
 
         selected = []
         unselected = []

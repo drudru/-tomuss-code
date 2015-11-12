@@ -19,8 +19,8 @@
 
 import os
 import time
-import cgi
-import urllib
+import html
+import urllib.request, urllib.parse, urllib.error
 from . import utilities
 from . import configuration
 
@@ -35,7 +35,7 @@ def client_ip(server):
             return utilities.safe(ip.split(",")[0])
         except IndexError:
             return utilities.safe(ip)
-    except KeyError:
+    except AttributeError:
         return utilities.safe(server.client_address[0])
 
 class Ticket(object):
@@ -133,7 +133,7 @@ class Ticket(object):
         return self.log()
 
     def backtrace_html(self):
-        return cgi.escape(self.log())
+        return html.escape(self.log())
 
 
 # A class is better....
@@ -165,7 +165,7 @@ def get_ticket_string(server):
 
     if ticket:
         ticket = ticket.replace("/", "_").replace("&", "_").replace("?", "_").replace("%", "_")
-    return ticket, [urllib.unquote(x)
+    return ticket, [urllib.parse.unquote(x)
                     for x in path]
 
 def clone(ticket_key, ticket):

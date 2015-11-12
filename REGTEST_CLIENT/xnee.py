@@ -1,4 +1,4 @@
-#!/usr/bin/python
+#!/usr/bin/python3
 
 import os
 import time
@@ -8,7 +8,7 @@ import subprocess
 class Xnee:
     def __init__(self, port=0):
         """The port is the X11 port (0 by default)"""
-        print 'xnee start on display', port
+        print('xnee start on display', port)
         for xnee in ('cnee', 'xnee'):
             f = os.popen('%s --help 2>&1 ; %s --version 2>&1' % (xnee,xnee),
                          'r')
@@ -25,10 +25,10 @@ class Xnee:
             o.append('--no-synchronise')
             o.append('--force-replay')
 
-        print 'xnee version:', xnee
+        print('xnee version:', xnee)
             
         self.keys = modmap.init(port)
-        print 'modmap read'
+        print('modmap read')
 
         if 'Alt_L' not in self.keys:
             os.system('''xmodmap -display :%d -e "keycode 64 = Alt_L" \
@@ -51,7 +51,7 @@ class Xnee:
             self.keys = modmap.init(port)
 
 
-        print 'run xnee'
+        print('run xnee')
         self.process = subprocess.Popen([xnee,
                                          '--display',
                                          ':%d' % port,
@@ -66,7 +66,7 @@ class Xnee:
         if xnee == 'xnee':
             self.key('a') # To turn around an old xnee bug (unbutu 6.10)
 
-        print xnee, 'is running'
+        print(xnee, 'is running')
 
         # self.file.write("# Xnee version:           1.08\n")
         # os.system('export DISPLAY=:%d ; xmodmap -pk ; xmodmap -pm' % port)

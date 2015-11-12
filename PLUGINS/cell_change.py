@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 #    TOMUSS: The Online Multi User Simple Spreadsheet
 #    Copyright (C) 2008 Thierry EXCOFFIER, Universite Claude Bernard
@@ -25,7 +25,7 @@ from .. import document
 
 def cell_change(server):
     err = document.get_cell_from_table(server)
-    if isinstance(err, basestring):
+    if isinstance(err, str):
         return 'bad.png'
     table, page, column, lin = err
     value = server.the_path[2]

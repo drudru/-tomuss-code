@@ -1,4 +1,4 @@
-#!/usr/bin/python
+#!/usr/bin/python3
 
 """
 Most Timing configurations are in 'display.py'
@@ -74,7 +74,7 @@ def main():
     except OSError:
         pass
     name = os.path.join(tester.log_dir, 'xxx.html.new')
-    output = open(name, 'w')
+    output = open(name, 'w', encoding = "utf-8")
     output.write('''
     <style>
     TABLE { background: black; border-spacing: 1 }
@@ -88,7 +88,7 @@ def main():
     </style>
     <table><tr>
     ''')
-    print 'The log file:', name
+    print('The log file:', name)
 
     server = socket.getfqdn()
     if server == 'pundit.univ-lyon1.fr':
@@ -131,13 +131,13 @@ def main():
     ok = True
     for name, args in t:
         for i in range(retry):
-            print '*'*79
-            print '= Start testing', name
-            print '*'*79
+            print('*'*79)
+            print('= Start testing', name)
+            print('*'*79)
             m = do_tests(name+' >/dev/null 2>&1 ' + args,
                          output, server, len(t))
-            print 'Testing done for', name
-            print '=', m
+            print('Testing done for', name)
+            print('=', m)
             s += m
             if ':ok' in m:
                 break
@@ -148,14 +148,14 @@ def main():
     os.rename(os.path.join(tester.log_dir, 'xxx.html.new'),
               os.path.join(tester.log_dir, 'xxx.html'))
 
-    print 'Results are in %s/xxx.html' % tester.log_dir
-    print s
-    print '= Runtime: %.1f' % ((time.time() - start)/60), 'minutes'
+    print('Results are in %s/xxx.html' % tester.log_dir)
+    print(s)
+    print('= Runtime: %.1f' % ((time.time() - start)/60), 'minutes')
     if ok:
-        print 'REGTESTSOK'
+        print('REGTESTSOK')
         sys.exit(0)
     else:
-        print 'REGTESTSBAD'
+        print('REGTESTSBAD')
         sys.exit(1)
 
 

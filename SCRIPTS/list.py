@@ -1,4 +1,4 @@
-#!/usr/bin/python
+#!/usr/bin/python3
 
 """
 Affiche annuaire
@@ -39,24 +39,22 @@ if sys.argv[1] == 'checkmail':
         for j in q:
             if j[0]:
                 login = j[1].get(configuration.attr_login,[''])[0]
-                givenname = unicode(j[1].get(
-                        configuration.attr_firstname,[''])[0],'utf-8')
+                givenname = j[1].get(configuration.attr_firstname,[''])[0]
                 givenname = utilities.flat(givenname).replace(' ','-').upper()
-                sn = unicode(j[1].get(
-                        configuration.attr_surname,[''])[0],'utf8')
+                sn = j[1].get(configuration.attr_surname,[''])[0]
                 sn = utilities.flat(sn).replace(' ','-').upper()
-                mail = unicode(j[1].get(configuration.attr_mail,[''])[0],'utf8')
+                mail = j[1].get(configuration.attr_mail,[''])[0]
                 mail = mail.split(';')[0]
                 if sn == '' or givenname == '':
                     continue
                 if '@' not in mail:
-                    print '%-24s @\t' % login + mail
+                    print('%-24s @\t' % login + mail)
                     bad['@'].append(login)
                     continue
                 try:
                     name, domain = mail.upper().split('@')
                 except ValueError:
-                    print '%-24s @@\t' % login + mail
+                    print('%-24s @@\t' % login + mail)
                     bad['@@'].append(login)
                     continue
 
@@ -65,33 +63,33 @@ if sys.argv[1] == 'checkmail':
                 x = re.sub("[-a-zA-Z_.0-9@\']", "", mail)
                 if x:
                     bad[x].append(login + ':' + mail)
-                    print '%-24s ' % login + repr(x) + '\t' + mail.encode('utf-8')
+                    print('%-24s ' % login + repr(x) + '\t' + mail)
 
-    for d in sorted(dom.keys(), key=lambda x: dom[x]):
-        print d.encode('utf-8'), dom[d]
+    for d in sorted(list(dom.keys()), key=lambda x: dom[x]):
+        print(d, dom[d])
     for k, v in bad.items():
-        print k.encode('utf-8'), v
+        print(k, v)
     sys.exit(0)
 
 q = L.query("(" + s + ")", attributes=(), base=configuration.ou_top)
 
 for j in q:
     try:
-        print j[0]
+        print(j[0])
     except:
         pass
 for j in q[0][1].items():
     if j[0] == 'memberOf':
-        print j[0]
+        print(j[0])
         for kk in j[1]:
-            print '\t' + kk
+            print('\t' + kk)
     else:
         if len(j[1]) == 1:
-            print j[0] + ':', j[1][0]
+            print(j[0] + ':', j[1][0])
         else:
-            print j[0]
+            print(j[0])
             for k in j[1]:
-                print '\t' + k
+                print('\t' + k)
 
 
 sys.stderr.close()
