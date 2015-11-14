@@ -21,6 +21,7 @@
 #    Contact: Thierry.EXCOFFIER@bat710.univ-lyon1.fr
 
 import os
+import time
 from . import document
 from . import configuration
 from . import utilities
@@ -130,3 +131,54 @@ class TableStat(object):
             self.date(self.date_min),
             self.date(self.date_max),
             )
+
+last_full_read_time = 0
+
+def dir_mtime(year, semester):
+    name = os.path.join(configuration.db, "Y%s" % year, "S" + semester)
+    return os.path.getmtime(name)
+
+def update_the_ues(year, semester):
+    """Reread all thes ues"""
+    global last_full_read_time
+    if (tuple(configuration.year_semester) == (year, semester)
+        or tuple(configuration.year_semester_next) == (year, semester)):
+        dt = 60
+    else:
+        dt = 3600
+    mtime = dir_mtime(year, semester)
+    if configuration.regtest or mtime - last_full_read_time > dt:
+        last_full_read_time = mtime
+        # Force the generator to do its job to check new students or tables
+        tuple(les_ues(year, semester, true_file=False))
+
+def the_ues(year, semester, login):
+    if not configuration.index_are_computed:
+        update_the_ues(year, semester)
+    login = utilities.the_login(login)
+    tables = []
+    if document.tables_of_student:
+        student_tables = document.tables_of_student.get(login,[])
+    else:
+        table_list = document.update_index(login)
+        if table_list is None:
+            return ()
+        student_tables = [document.table(*t, ro=True, create=False)
+                          for t in set(table_list) # Remove duplicates
+                          if t[0] == year and t[1] == semester
+                          ]
+        # Remove UE indexed but no more on disc
+        student_tables = [t
+                          for t in student_tables
+                          if t
+                          ]
+        now = time.time()
+        for t in student_tables:
+            t.rtime = now
+        return [t
+                for t in student_tables
+                if t.official_ue
+                ]
+    for ue in student_tables:
+        tables.append(document.table(year, semester, ue, ro=True))
+    return tables

@@ -22,7 +22,7 @@
 from .. import plugin
 from .. import utilities
 from .. import files
-from . import suivi_student
+from .. import tablestat
 
 try:
     import PIL.Image
@@ -41,7 +41,7 @@ def student_icone(server):
     
     prst = []
     note = []
-    ues = suivi_student.the_ues(server.year, server.semester, login)
+    ues = tablestat.the_ues(server.year, server.semester, login)
     if not ues:
         server.the_file.write(str(files.files['tip.png']))
         return

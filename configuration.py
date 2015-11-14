@@ -279,14 +279,37 @@ def student_in_first_year(login):
     return None
 
 #REDEFINE
-# Returns False to hide the student suivi to every one.
-# Returns True to display the student suivi
-# Returns None to allow 'suivi' acces to teachers grading the student
-# or to anybody if the student has not restricted the access
+# Returns True if the teacher can see a private suivi.
+def concerned_teachers(server, the_student):
+    if server.ticket.user_name == the_student:
+        return True
+
+    if is_member_of(server.ticket.user_name, ('grp:see_private_suivi',)):
+        return True
+
+    # The current referent only, not the old ones
+    year, semester = year_semester
+    from . import referent
+    if referent.referent(year, semester, the_student)==server.ticket.user_name:
+        return True
+
+    from . import tablestat
+    for t in tablestat.the_ues(server.year, server.semester, the_student):
+        if server.ticket.user_name in t.masters:
+            return True
+        # Anybody who enter a grade
+        for line in t.get_lines(the_student):
+            for cell in line:
+                if cell.author == server.ticket.user_name:
+                    return True
+
+#REDEFINE
+# Returns False to hide the student 'suivi' to every one
+# except the 'concerned_teachers'
 def visible_from_suivi(dummy_server, dummy_login):
     # You can check the teacher name in dummy_server.ticket.user_name
     # and the student name in dummy_login
-    return None
+    return True
 
 #REDEFINE
 # Returns HTML class names for table lines class in the table editor.

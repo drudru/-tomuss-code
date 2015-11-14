@@ -42,90 +42,18 @@ from .. import signature
 files.add('PLUGINS', 'suivi_student.css')
 files.add('PLUGINS', 'suivi_student.js')
 
-last_full_read_time = 0
-
-def dir_mtime(year, semester):
-    name = os.path.join(configuration.db, "Y%s" % year, "S" + semester)
-    return os.path.getmtime(name)
-
-def update_the_ues(year, semester):
-    """Reread all thes ues"""
-    global last_full_read_time
-    if (tuple(configuration.year_semester) == (year, semester)
-        or tuple(configuration.year_semester_next) == (year, semester)):
-        dt = 60
-    else:
-        dt = 3600
-    mtime = dir_mtime(year, semester)
-    if configuration.regtest or mtime - last_full_read_time > dt:
-        last_full_read_time = mtime
-        # Force the generator to do its job to check new students or tables
-        tuple(tablestat.les_ues(year, semester, true_file=False))
-
-def the_ues(year, semester, login):
-    if not configuration.index_are_computed:
-        update_the_ues(year, semester)
-    login = utilities.the_login(login)
-    tables = []
-    if document.tables_of_student:
-        student_tables = document.tables_of_student.get(login,[])
-    else:
-        table_list = document.update_index(login)
-        if table_list is None:
-            return ()
-        student_tables = [document.table(*t, ro=True, create=False)
-                          for t in set(table_list) # Remove duplicates
-                          if t[0] == year and t[1] == semester
-                          ]
-        # Remove UE indexed but no more on disc
-        student_tables = [t
-                          for t in student_tables
-                          if t
-                          ]
-        now = time.time()
-        for t in student_tables:
-            t.rtime = now
-        return [t
-                for t in student_tables
-                if t.official_ue
-                ]
-    for ue in student_tables:
-        tables.append(document.table(year, semester, ue, ro=True))
-    return tables
-
 def teacher_can_see_suivi(server, the_student):
     prefs = display_preferences_get(the_student)
     priv = bool(prefs.get('private_suivi', False))
-
-    if server.ticket.user_name == the_student:
+    server.concerned_teachers = configuration.concerned_teachers(server,
+                                                                 the_student)
+    if server.concerned_teachers:
         return priv, True
 
-    if configuration.is_member_of(server.ticket.user_name,
-                                  ('grp:see_private_suivi',)):
-        return priv, True
+    if priv:
+        return priv, False
 
-    # The current referent only, not the old ones
-    year, semester = configuration.year_semester
-    if referent.referent(year, semester, the_student)==server.ticket.user_name:
-        return priv, True
-    
-    local = configuration.visible_from_suivi(server, the_student)
-    if local is not None:
-        return priv, local
-    
-    if not priv:
-        return priv, True
-    
-    for t in the_ues(server.year, server.semester, the_student):
-        if server.ticket.user_name in t.masters:
-            return priv, True
-        # Anybody who enter a grade
-        for line in t.get_lines(the_student):
-            for cell in line:
-                if cell.author == server.ticket.user_name:
-                    return priv, True
-    
-    return priv, False
+    return priv, configuration.visible_from_suivi(server, the_student)
 
 def display_referent(server):
     ref = referent.referent(server.year, server.semester, server.suivi_login)
@@ -140,7 +68,8 @@ def display_mails(server):
     if server.is_a_student:
         return '' # Student can't see all teacher mail addresses
     teachers = collections.defaultdict(list)
-    for t in the_ues(server.year, server.semester, server.suivi_login):
+    for t in tablestat.the_ues(server.year, server.semester,
+                               server.suivi_login):
         if tuple(t.get_items(server.suivi_login)):
             for teacher_login in t.masters:
                 teachers[teacher_login].append(t.ue)
@@ -305,7 +234,8 @@ def display_grades(server):
     ss = []
     s = []
     codes = {}
-    for t in the_ues(server.year, server.semester, server.suivi_login):
+    for t in tablestat.the_ues(server.year, server.semester,
+                               server.suivi_login):
         for line_id, line in t.get_items(server.suivi_login):
             ss.append(json(server, t, line, line_id))
             if ss[-1]:
@@ -694,7 +624,7 @@ def page_rss(server):
     else:
         limit = time.strftime('%Y%m%d%H%M%S',time.localtime(time.time() - 3600))
     
-    for t in the_ues(server.year, server.semester, login):
+    for t in tablestat.the_ues(server.year, server.semester, login):
         for line in t.get_lines(login):
             for cell, column in zip(line[6:], t.columns[6:]):
                 if cell.date > limit:
