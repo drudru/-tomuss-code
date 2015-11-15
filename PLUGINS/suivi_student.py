@@ -171,11 +171,13 @@ def display_rss(server):
     return ''
 
 def display_tt(server):
-    table = document.table(utilities.university_year(), 'Dossiers', 'tt',
-                           ro=True)
-    tt = abj.tierstemps(server.suivi_login, table_tt=table)
-    if tt:
-        return tt
+    if (server.concerned_teachers
+        or configuration.is_member_of(server.ticket.user_name,
+                                      ('grp:see_tt_suivi',))
+        ):
+        table = document.table(utilities.university_year(), 'Dossiers', 'tt',
+                               ro=True)
+        return abj.tierstemps(server.suivi_login, table_tt=table) or ''
     else:
         return ''
 

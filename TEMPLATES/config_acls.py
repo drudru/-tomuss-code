@@ -65,6 +65,7 @@ def defaults():
         pass
     yield 'staff', 'grp:referent_masters'
     yield 'see_private_suivi', 'grp:roots'
+    yield 'see_tt_suivi', 'grp:staff'
 
 def create(table):
     """Retrieve informations from configuration.py and old table_config.py"""
