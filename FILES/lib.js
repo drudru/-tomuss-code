@@ -211,9 +211,13 @@ function compute_header_height()
     {
       document.body.style.overflow = 'hidden';
       header_height = findPosY(table.childNodes[0].childNodes[0]) ;
+      var old = table_attr.nr_lines ;
       compute_nr_lines() ;
-      table_init() ;
-      table_fill(true,true,true) ;
+      if ( old !== table_attr.nr_lines )
+	{
+	  table_init() ;
+	  table_fill(true,true,true) ;
+	}
     }
 }
 
@@ -223,7 +227,7 @@ function compute_nr_lines()
     {
       table_attr.nr_lines = zebra_step + 1 ;
       compute_nr_lines.do_compute_nr_lines = true ;
-      setTimeout(compute_header_height, 200) ;
+      periodic_work_add(compute_header_height) ;
       return ;
     }
   if ( ! compute_nr_lines.do_compute_nr_lines)
@@ -2043,7 +2047,7 @@ function table_fill_do()
 	    // The table column resize in case of horizontal scroll with
 	    // variable size columns.
 	    setTimeout("the_current_cell.update("+table_fill_do_not_focus+");",
-		       periodic_work_period+1) ;
+		       periodic_work_period+1) ; // XXX *2 in place of +1 ???
 	}
 }
 
