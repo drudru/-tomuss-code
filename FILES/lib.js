@@ -1176,6 +1176,24 @@ function columns_filter_change(v)
   change_option('column_offset') ;
 }
 
+function column_list_full_filter_hide(column, data_col)
+{
+  if ( column.column_list_full_filter !== undefined )
+    return column.column_list_full_filter ;
+
+  column.column_list_full_filter = false ;
+  if ( full_filter && !column.is_empty )
+    {
+      for(var lin in filtered_lines)
+	{
+	  if ( full_filter(filtered_lines[lin][data_col]) )
+	    return false ;
+	}
+      column.column_list_full_filter = true ;
+      return true ;
+    }
+}
+
 function column_list(col_offset, number_of_cols)
 {
   if ( col_offset === undefined )
@@ -1199,20 +1217,8 @@ function column_list(col_offset, number_of_cols)
       var v = C(column.title, column.author, '20080101', column.comment) ;
       if ( ! columns_filter(v) && !column.is_empty )
 	continue ;
-      if ( full_filter  && !column.is_empty )
-	{
-	  var ok = false ;
-	  for(var lin in filtered_lines)
-	    {
-	      if ( full_filter(filtered_lines[lin][data_col]) )
-		{
-		  ok = true ;
-		  break ;
-		}
-	    }
-	  if ( ! ok )
-	    continue ;
-	}
+      if ( column_list_full_filter_hide(column, data_col) )
+	continue ;
       cl.push(column) ;
     }
 
@@ -1779,6 +1785,9 @@ function full_filter_change(value)
 {
   if ( full_filter_value == value.value )
     return ;
+
+  for(var data_col in columns)
+    columns[data_col].column_list_full_filter = undefined ;
 
   if ( value.value === '' )
     {
