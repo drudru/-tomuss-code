@@ -422,5 +422,6 @@ DIV.fast_tip > DIV:hover {
 
 #popup .import_export { position: fixed ; }
 
+INPUT:focus { background: #FF0 ; }
 
 

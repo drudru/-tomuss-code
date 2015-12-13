@@ -1420,12 +1420,14 @@ function DisplayHomeUE(node)
 		       {default_order: 'A', hide_open_close: true})
 	  ] ;
   s[0] = s[0].substr(0, s[0].length - 6) ; // Remove last </div>
-  s.push('<div class="search_box"><input onkeyup="search_ue_change(this)" onpaste="t=this;setTimeout(function(){search_ue_change(t);},100)" value="' + encode_value(search_ue_change.last_value) + '"></div></div>') ;
+  s.push('<div class="search_box"><input id="search_ue" onkeyup="search_ue_change(this)" onpaste="t=this;setTimeout(function(){search_ue_change(t);},100)" value="' + encode_value(search_ue_change.last_value) + '"></div></div>') ;
   s.push('<div id="ue_search_result" class="ue_list">') ;
   if ( search_ue_change.last_value )
     s.push(search_ue_list(search_ue_change.last_value)) ;
   s.push('</div>') ;
   var children = display_definition['HomeUE'].children ;
+  setTimeout(function() { document.getElementById('search_ue').select() ; },
+	     100) ;
   for(var i in children)
     s.push(display_display(children[i])) ;
   return s.join('') ;
