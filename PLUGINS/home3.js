@@ -106,7 +106,10 @@ function DisplayHomeSemesters(node)
   if ( current === '' )
     {
       current = node.data[node.data.length - 1] ;
-      current = current[2] + '/' + current[3] ;
+      if ( current )
+	current = current[2] + '/' + current[3] ;
+      else
+	current = year_semester ; // No suivi server
     }
   s.push('<option>2008/Test</option>') ;
   for(var i in node.data)
