@@ -498,7 +498,8 @@ function DisplayUE(node)
 	break ;
       }
 
-  return [s, [], [], 'onmouseenter="enter_in_ue(event)"'] ;
+  return [s, [], [], 'onmouseenter="enter_in_ue(event)" id="'
+	  + DisplayGrades.ue.ue + '"'] ;
 }
 DisplayUE.need_node = [] ;
 
@@ -942,7 +943,15 @@ DisplayGrades.need_node = ['Login', 'Grades', 'Preferences'] ;
 
 function goto_cellbox(o)
 {
-  window.location.hash = o.innerHTML.split('<')[0] ;
+  if ( goto_cellbox.old )
+    {
+      goto_cellbox.old.style.background = "none" ;
+      goto_cellbox.oldo.style.background = "none" ;
+    }
+  goto_cellbox.old = document.getElementById(o.innerHTML.split('<')[0]) ;
+  goto_cellbox.old.style.background = "#FF8" ;
+  goto_cellbox.oldo = o ;
+  o.style.background = "#FF8" ;
 }
 
 function DisplayLastGrades(node)
@@ -981,7 +990,7 @@ function DisplayLastGrades(node)
   today.setSeconds(0) ;
   today = today.getTime() ;
   var daynames = [_("LABEL_Day0"), _("LABEL_Day1"), _("LABEL_Day2")] ;
-  var lastday ;
+  var lastday, max ;
   for(var i in s)
     {
       var ue = s[i][0] ;
@@ -1004,11 +1013,22 @@ function DisplayLastGrades(node)
 	  t.push('<div class="Display day">' + day + '</div>') ;
 	  lastday = day ;
 	}
-      
-      t.push('<div onclick="goto_cellbox(this)" class="Display a_grade">'
+      max = "" ;
+      if ( column.type == 'Upload' )
+	max = _("Kb") ;
+      else if ( column.type == 'Note' )
+	{
+	  if ( !column.minmax )
+	    max = "/20" ;
+	  else if ( column.minmax.substr(0,3) == "[0;" )
+	    max = "/" + column.minmax.split(";")[1].split(']')[0] ;
+	}
+      if ( max !== "" )
+	max = '<span style="font-size:60%">' + max + "</span>" ;
+      t.push('<div onmouseover="goto_cellbox(this)" class="Display a_grade">'
 	     + ue.ue
 	     + '<br>' + html(column.title || '???')
-	     + '<br><span>' + html(cell[0]) + "</span></div>") ;
+	     + '<br><span>' + html(cell[0]) + max + "</span></div>") ;
     }
   return '<hr>' + t.join('') ;
 }

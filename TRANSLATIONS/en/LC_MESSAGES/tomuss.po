@@ -2919,7 +2919,7 @@ msgstr "The destination table is NOT EMPTY:\n"
        "The deletion is possible from the 'Action' tab of 'Table'."
 
 msgid "MSG_tablecopy_check"
-msgstr "Copy done (%.1fKo), checking if all is fine."
+msgstr "Copy done (%.1fKB), checking if all is fine."
 
 msgid "MSG_tablecopy_done"
 msgstr "OK: Copy seems fine."
@@ -5854,3 +5854,6 @@ msgstr "Can't find this file."
 
 msgid "MSG_importzip_no_login"
 msgstr "Can't find the student login"
+
+msgid "Kb"
+msgstr "Kb"
