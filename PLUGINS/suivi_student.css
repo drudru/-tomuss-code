@@ -170,10 +170,8 @@ BODY.big_text_1 { font-size: 150% }
 
 .highlight_grade_1 .CellBox {
     opacity: 0.511 ;
-    -webkit-animation-duration: 0.5s;
-    -webkit-animation-name: fadeout2;
-    animation-duration: 0.5s;
-    animation-name: fadeout2;
+    -webkit-transition: opacity 0.5s ;
+    transition: opacity 0.5s;
 }
 
 .highlight_grade_1 .displayUE:hover .DisplayTypeNote,
@@ -181,51 +179,26 @@ BODY.big_text_1 { font-size: 150% }
 .highlight_grade_1 .DisplayTypeNote,
 .highlight_grade_1 #cellbox_tip .CellBox {
     opacity:1 ;
-    -webkit-animation-name: none ;
-    animation-name: none ;
+    -webkit-transition: opacity 0.5s ;
+    transition: opacity 0.5s;
 }
 
 .highlight_grade_1 .UEMasters {
     opacity: 0.511 ;
-    -webkit-animation-duration: 0.5s;
-    -webkit-animation-name: fadeout2;
-    animation-duration: 0.5s;
-    animation-name: fadeout2;
+    -webkit-transition: opacity 0.5s ;
+    transition: opacity 0.5s;
 }
 
 .highlight_grade_1 .displayUE:hover .CellBox,
 .highlight_grade_1 .tip_displayed .CellBox {
     opacity:1 ;
-    -webkit-animation-duration: 0.5s;
-    -webkit-animation-name: fadein2;
-    animation-duration: 0.5s;
-    animation-name: fadein2;
+    -webkit-transition: opacity 0.5s ;
+    transition: opacity 0.5s;
 }
 
 .highlight_grade_1 .tip_displayed .UEMasters,
 .highlight_grade_1 .UE:hover .UEMasters {
     opacity: 1 ;
-    -webkit-animation-duration: 0.5s;
-    -webkit-animation-name: fadein2;
-    animation-duration: 0.5s;
-    animation-name: fadein2;
-}
-
-@-webkit-keyframes fadeout2 {
-  from { opacity: 1 ; }
-  to { opacity: 0.511; }
-}
-@-webkit-keyframes fadein2 {
-  from { opacity: 0.511 ; }
-  to { opacity: 1; }
-}
-@keyframes fadeout2 {
-  from { opacity: 1 ; }
-  to { opacity: 0.511; }
-}
-@keyframes fadein2 {
-  from { opacity: 0.511 ; }
-  to { opacity: 1; }
 }
 
 @media print {
@@ -246,20 +219,16 @@ BODY.hide_right_column_1.big_box_0 .CellBox {
 BODY.hide_right_column_1 .hide_rightclip {
     opacity: 0.3 ;
     width: 5em ;
-    -webkit-animation-duration: 0.5s;
-    -webkit-animation-name: make_small_bodyright;
-    animation-duration: 0.5s;
-    animation-name: make_small_bodyright;
+    -webkit-transition: opacity 0.5s, width 1s ;
+    transition: opacity 0.5s, width 1s;
 }
 BODY.hide_right_column_1 .show_rightclip {
     z-index: 2 ; /* Hide cellbox tip */
     opacity: 1 ;
     width: 21.6em ;
     max-width: 100% ;
-    -webkit-animation-duration: 0.5s;
-    -webkit-animation-name: make_large_bodyright;
-    animation-duration: 0.5s;
-    animation-name: make_large_bodyright;
+    -webkit-transition: opacity 0.5s, width 1s ;
+    transition: opacity 0.5s, width 1s;
 }
 BODY.hide_right_column_1 .BodyRight {
     border: 2px solid black ;
@@ -267,24 +236,6 @@ BODY.hide_right_column_1 .BodyRight {
 }
 BODY.hide_right_column_1 .TopLine {
     font-size: 150% ;
-}
-
-@-webkit-keyframes make_large_bodyright {
-  from { width: 5em ; opacity: 0.3 }
-  to   { width: 21.6em; opacity: 1 }
-}
-@-webkit-keyframes make_small_bodyright {
-  from { width: 21.6em; opacity: 1   }
-  to   { width: 5em ; opacity: 0.3 }
-}
-
-@keyframes make_large_bodyright {
-  from { width: 5em ; opacity: 0.3 }
-  to   { width: 21.6em; opacity: 1 }
-}
-@keyframes make_small_bodyright {
-  from { width: 21.6em; opacity: 1   }
-  to   { width: 5em ; opacity: 0.3 }
 }
 
 /*********************** Black and White *******************/
@@ -333,30 +284,15 @@ DIV.tipped DIV.text:hover { background: url(tip.png) }
     z-index: 1 ;
     background: #EEF ;
     opacity: 0.9 ;
-    -webkit-animation-duration: 0.5s;
-    -webkit-animation-name: fadein;
-    animation-duration: 0.5s;
-    animation-name: fadein;
+    -webkit-transition: opacity 1s, visibility 1s ;
+    transition: opacity 1s, visibility 1s ;
+    visibility: visible;
 }
 #cellbox_tip.hidden {
-    font-size: 0% ; /* left, z-index, display are not usable :-( */
-    opacity: 0; /* Hide the remaining border pixels */
-    /* fadeout raise bug in Chrome : the font size is not 100% */
-    animation-duration: 0.2s;
-    animation-name: fadeout;
+    opacity: 0;
+    visibility: hidden;
 }
-@-webkit-keyframes fadein {
-  from { opacity: 0 ; }
-  to { opacity: 0.9; }
-}
-@keyframes fadeout {
-  from { opacity: 0.9 ; font-size:100% }
-  to { opacity: 0; font-size:100% ; }
-}
-@keyframes fadein {
-  from { opacity: 0 ; }
-  to { opacity: 0.9; }
-}
+
 #cellbox_tip .CellBox {
     margin-top: 0px ;
     margin-bottom: 0px ;
