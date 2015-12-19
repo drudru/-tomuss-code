@@ -319,6 +319,17 @@ DIV#tip.tip_fade_in {
   to { opacity: 1; }
 }
 
+.yellow {
+    background: #FF0 ;
+    -webkit-transition: background 0.5s ;
+    transition: background 0.5s ;
+}
+
+.not_yellow {
+    -webkit-transition: background 3s ;
+    transition: background 3s ;
+}
+
 /************************ Old CSS *****************************/
 
 .prst     { background-color: #8F8 ;               }

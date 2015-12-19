@@ -943,15 +943,22 @@ DisplayGrades.need_node = ['Login', 'Grades', 'Preferences'] ;
 
 function goto_cellbox(o)
 {
+  goto_cellbox.old = document.getElementById(o.innerHTML.split('<')[0]) ;
+  goto_cellbox.old.className = goto_cellbox.old.className.replace("not_yellow",
+								  "")+" yellow";
+  goto_cellbox.oldo = o ;
+  o.className = o.className.replace("not_yellow", "") + " yellow" ;
+}
+
+function ungoto_cellbox(o)
+{
   if ( goto_cellbox.old )
     {
-      goto_cellbox.old.style.background = "none" ;
-      goto_cellbox.oldo.style.background = "none" ;
+      goto_cellbox.old.className=goto_cellbox.old.className.replace("yellow",
+								      'not_yellow') ;
+      goto_cellbox.oldo.className=goto_cellbox.oldo.className.replace("yellow",
+								      'not_yellow');
     }
-  goto_cellbox.old = document.getElementById(o.innerHTML.split('<')[0]) ;
-  goto_cellbox.old.style.background = "#FF8" ;
-  goto_cellbox.oldo = o ;
-  o.style.background = "#FF8" ;
 }
 
 function DisplayLastGrades(node)
@@ -1025,7 +1032,7 @@ function DisplayLastGrades(node)
 	}
       if ( max !== "" )
 	max = '<span style="font-size:60%">' + max + "</span>" ;
-      t.push('<div onmouseover="goto_cellbox(this)" class="Display a_grade">'
+      t.push('<div onmouseover="goto_cellbox(this)" onmouseout="ungoto_cellbox(this)" class="Display a_grade">'
 	     + ue.ue
 	     + '<br>' + html(column.title || '???')
 	     + '<br><span>' + html(cell[0]) + max + "</span></div>") ;
