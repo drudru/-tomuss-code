@@ -182,7 +182,8 @@ function detect_small_screen(force)
   if ( smallscreen )
     top_class += ' hide_right_column_1' ;
   for(var item in display_data['Preferences'])
-    top_class += ' ' + item + '_' + display_data['Preferences'][item] ;
+    if ( item != 'hide_right_column' || display_data['Preferences'][item] == 1 )
+      top_class += ' ' + item + '_' + display_data['Preferences'][item] ;
 
   // To not relaunch CSS animation
   if ( the_body && the_body.className != top_class )
@@ -190,6 +191,7 @@ function detect_small_screen(force)
       the_body.className = top_class ;
       hide_rightclip() ;
     }
+  smallscreen = top_class.indexOf('hide_right_column_1') != -1 ;
   detect_small_screen.small_screen = smallscreen ;
   var twidth = window_width() - (smallscreen
 				? 100

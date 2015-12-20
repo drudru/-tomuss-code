@@ -110,7 +110,7 @@ SPAN.displaygrey { color: #555 }
     font-size: 70% ;
 }
 .CellBox {
-    max-width: 22em ;
+    max-width: 8em ;
     border: 1px solid black ;
     overflow: hidden ;
     margin-top: 0.2em ;
@@ -216,6 +216,10 @@ BODY.hide_right_column_1.big_box_0 .CellBox {
     width: 3.8em;
     }
 
+BODY.big_box_1 .CellBox {
+    max-width: 22em;
+    }
+
 BODY.hide_right_column_1 .hide_rightclip {
     opacity: 0.3 ;
     width: 5em ;
@@ -272,6 +276,7 @@ BODY.black_and_white_1.Automne TABLE.colored CAPTION
 .long_text { font-size: 49% ; white-space: normal ; min-height: 2.6em ;}
 #cellbox_tip .long_text { font-size: 100% ; height: auto; min-height: initial; }
 BODY.hide_right_column_1 .long_text { height: 2.6em ; }
+.DisplayTypeUpload A { white-space: nowrap ; }
 
 
 /*********************** Tip management *******************/

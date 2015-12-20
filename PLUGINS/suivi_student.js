@@ -618,7 +618,7 @@ function DisplayCellValue(node)
     len = t.split('>')[1].split('<')[0].length ;
   else
     len = t.length ;
-  if ( len < 50 )
+  if ( len < 40 )
     return t ;
   return [t, 'long_text', '', ''] ;
 }
