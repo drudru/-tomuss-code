@@ -72,7 +72,6 @@ DIV.logo_popup { top: 2.2em ; left: 0px ; right: auto }
 .GetStudent IMG { height: 1em ; }
 .Semesters IMG { height: 1.3em ;}
 .Preamble {
-    padding: 0.2em;
     background-color: #000;
     text-align: center ;
     color: #FFF
@@ -121,8 +120,6 @@ SPAN.displaygrey { color: #555 }
 }
 
 .CellTitle { font-size: 60% ; }
-
-.Grades { margin-left: 0.4em ; }
 
 .DisplayTypeMoy { font-style: italic }
 

@@ -565,9 +565,9 @@ function DisplayCellAvg(node)
     return '' ;
   if ( DisplayGrades.cellstats.average === undefined)
     return '' ;
-  return ' <span class="displaygrey">' + _('Average') + '</span>'
+  return ' <span class="displaygrey">' + _('Average') + '</span> '
     + DisplayGrades.column.do_rounding(DisplayGrades.cellstats.average)
-    +  ' <span class="displaygrey">' + _('Mediane') + '</span>'
+    +  ' <span class="displaygrey">' + _('Mediane') + '</span> '
     + DisplayGrades.cellstats.mediane ;
 }
 DisplayCellAvg.need_node = [] ;
