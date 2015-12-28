@@ -782,14 +782,14 @@ function show_the_tip(td, tip_content, what)
     }
   else
     {
-      var more ;
+      var more= '' ;
       switch(td.id)
 	{
 	case 'linefilter'    : more = line_filter    ; break ;
 	case 'columns_filter': more = columns_filter ; break ;
 	case 'full_filter'   : more = full_filter    ; break ;
 	}
-      if ( more && more.errors )
+      if ( more.errors )
 	more = '<div class="attribute_error">' + more.errors + '</div>' ;
       s = tip_content + more ;
     }
