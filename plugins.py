@@ -76,7 +76,8 @@ def plugins_tomuss():
     from .PLUGINS import fix_modifiables
     from .PLUGINS import get_columns
     from . import signature
-
+    if configuration.blur:
+        from .PLUGINS import blur
     plugins_tomuss_more()
 
     tomuss_plugins = list(plugin.plugins)
@@ -125,6 +126,8 @@ def plugins_suivi():
     from .PLUGINS import count
     from .PLUGINS import signature
     from . import signature
+    if getattr(configuration, 'blur', False):
+        from .PLUGINS import blur
     plugins_suivi_more()
     init_plugins()
 
