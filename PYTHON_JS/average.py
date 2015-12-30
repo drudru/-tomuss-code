@@ -98,8 +98,8 @@ def compute_average(data_col, line):
                     return '???'
                 values.append([value, data_column, ''])
 
-    if column.abj_is == 1 and nr_abj != 0:
-        # Replace the ABJs by the average
+    if column.abj_is and (nr_abj != 0 or nr_ppn != 0):
+        # Replace the ABJ/PPN by the average
         weight = 0
         sumw = 0
         for c in values:
@@ -112,12 +112,19 @@ def compute_average(data_col, line):
         if weight:
             note = sumw / weight
             for data_column in column.average_columns:
-                if line[data_column].value in (abj, abj_short):
+                if ((column.abj_is & 1)
+                    and line[data_column].value in (abj, abj_short)):
                     values.append([note, data_column, ''])
-            nr_abj = 0
+                    nr_abj = 0
+                if ((column.abj_is & 2)
+                    and line[data_column].value in (ppn, ppn_short)):
+                    values.append([note, data_column, ''])
+                    nr_ppn = 0
         else:
             if nr_abj == len(column.average_columns):
                 return abj
+            if nr_ppn == len(column.average_columns):
+                return ppn
     values.sort() # XXX
     if column.best_of:
         if len(values) < abs(column.best_of):

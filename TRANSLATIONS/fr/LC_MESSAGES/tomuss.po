@@ -1049,10 +1049,16 @@ msgid "BEFORE_column_attr_repetition"
 msgstr "Répétition"
 
 msgid "SELECT_column_abj_is_nothing"
-msgstr "ABJ n'est pas une note"
+msgstr "ABJ/PPN ne sont pas des notes"
 
 msgid "SELECT_column_abj_is_average"
-msgstr "ABJ → moyenne des autres"
+msgstr "ABJ → moyenne des notes"
+
+msgid "SELECT_column_ppn_is_average"
+msgstr "PPN → moyenne des notes"
+
+msgid "SELECT_column_abj_ppn_is_average"
+msgstr "ABJ/PPN → moyenne des notes"
 
 msgid "TIP_column_attr_visibility"
 msgstr "Sur la page de 'suivi' la colonne peut-être :\n"

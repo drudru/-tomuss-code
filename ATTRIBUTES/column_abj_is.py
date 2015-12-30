@@ -27,7 +27,6 @@ class ColumnABJ_is(ColumnAttr):
     display_table = 1
     name = 'abj_is'
     check_and_set = "function(value, column) { column.need_update = true ; return Number(value) ;}"
-    # formatter = "function(column, value) { var e = document.getElementById('t_column_modifiable') ; if ( e ) if ( value >= 2 ) e.style.background = '#F88' ; else e.style.background = '' ; return value ;}"
 
     def encode(self, value):
         try:
@@ -35,7 +34,7 @@ class ColumnABJ_is(ColumnAttr):
         except ValueError:
             return 0
     def check(self, value):
-        if value in (0, 1, '0', '1'):
+        if value in (0, 1, 2, 3, '0', '1', '2', '3'):
             return ''
         return self.check_error(value)
 

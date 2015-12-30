@@ -1054,10 +1054,16 @@ msgid "BEFORE_column_attr_repetition"
 msgstr "Repetition"
 
 msgid "SELECT_column_abj_is_nothing"
-msgstr "JLV is not a grade"
+msgstr "JLV/CG are not grades"
 
 msgid "SELECT_column_abj_is_average"
 msgstr "JLV → average of the others"
+
+msgid "SELECT_column_ppn_is_average"
+msgstr "CG → average of the others"
+
+msgid "SELECT_column_abj_ppn_is_average"
+msgstr "JLV/CG → average of the others"
 
 msgid "TIP_column_attr_visibility"
 msgstr "On the 'suivi' page, the column may be:\n"

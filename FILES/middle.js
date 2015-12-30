@@ -891,6 +891,8 @@ function new_new_interface()
   t.push(column_input_attr('abj_is',
 			   [[0, _("SELECT_column_abj_is_nothing")],
 			    [1, _("SELECT_column_abj_is_average")],
+			    [2, _("SELECT_column_ppn_is_average")],
+			    [3, _("SELECT_column_abj_ppn_is_average")],
 			   ])) ;
   t.push('</div>') ;
   t.push('<div class="one_line">') ;
