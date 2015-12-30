@@ -164,7 +164,7 @@ class Server(object):
         return 'http://' + socket.getfqdn() + ':' + str(self.port) + '/' + url
 
     def url(self, url, stop_if_error=True, display_log_if_error=True,
-            returns_file=False, timeout=0, silent=False):
+            returns_file=False, timeout=0, silent=False, read_bytes=False):
         full_url = self.get_url(url)
         if not silent:
             print(' %6.2f ' % (time.time() - Server.start_time) + url, end=' ')
@@ -190,7 +190,7 @@ class Server(object):
                         c += b'***TIMEOUT***'
                 else:
                     c = f.read()
-                if b"PNG" not in c :
+                if not read_bytes and b"PNG" not in c :
                     # if b"utf-8" not in c:
                     #     print(c)
                     c = c.decode(encoding="utf-8", errors="replace")

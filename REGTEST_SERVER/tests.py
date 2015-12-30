@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 #    TOMUSS: The Online Multi User Simple Spreadsheet
-#    Copyright (C) 2009-2012 Thierry EXCOFFIER, Universite Claude Bernard
+#    Copyright (C) 2009-2015 Thierry EXCOFFIER, Universite Claude Bernard
 #
 #    This program is free software; you can redistribute it and/or modify
 #    it under the terms of the GNU General Public License as published by
@@ -17,7 +17,7 @@
 #    along with this program; if not, write to the Free Software
 #    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 #
-#    Contact: Thierry.EXCOFFIER@bat710.univ-lyon1.fr
+#    Contact: Thierry.EXCOFFIER@univ-lyon1.fr
 
 import sys
 import os
@@ -36,6 +36,9 @@ from .. import utilities
 from .server import Server, ServerSuivi, check
 sys.argv.remove("real_regtest")
 sys.argv.remove("protect_do_not_display")
+
+configuration.do_not_display = ('debug', 'auth', 'table', 'ldap', 'plugin',
+                                'check', 'lang', 'DNU', 'info')
 
 configuration.regtest = True
 
@@ -1928,15 +1931,15 @@ cell_change(1,'0_2','ticket_time_to_live','%d',"")
     if do('start_job'):
         c = [[],[],[]]
         t = time.time()
-        def f1():
+        def f1(c=c):
             c[0].append(time.time()-t)
             time.sleep(0.1)
             return time.time() # Tell that all data before this time is processed
-        def f2():
+        def f2(c=c):
             c[1].append(time.time()-t)
             time.sleep(0.2)
             return time.time() # Tell that all data before this time is processed
-        def f3():
+        def f3(c=c):
             c[2].append(time.time()-t)
             time.sleep(0.239)
             return time.time() # Tell that all data before this time is processed
@@ -1947,6 +1950,36 @@ cell_change(1,'0_2','ticket_time_to_live','%d',"")
             time.sleep(0.001)
         assert(len(c[0]) == 1 and len(c[1]) == 2 and len(c[2]) == 5)
 
+    if do('js-api'):
+        c = s.url('=' + abj +'/%s/UE-js' % ys)
+        data = []
+        for script in c.split('<script ')[1:]:
+            url = script.split(':%d/' % configuration.server_port
+                           )[1].split('"')[0]
+            data.append(s.url(url, read_bytes=True))
+        utilities.write_file("xxx.js.gz", b''.join(data), encoding="bytes")
+        data = []
+        for script in c.split('<script>')[1:]:
+            script = script.replace("<!--", "")
+            script = script.split("</script>")[0].replace("-->", "")
+            script = script.replace("\ninitialize()", "\n")
+            data.append(script)
+        utilities.write_file("xxx.js", '\n'.join(data))
+        f = os.popen("""
+        (
+         cat REGTEST_SERVER/preamble.js xxx.js
+         zcat xxx.js.gz
+         cat REGTEST_SERVER/tests.js
+        ) >xxx_full.js
+        (node xxx_full.js || nodejs xxx_full.js) 2>&1 3>&1
+        """, "r")
+        for c in f.readlines():
+            print("NODEJS:" + c.strip())
+            if 'tests are fine' in c:
+                break
+        else:
+            js_tests_failed
+        f.close()
 
 if '1' in sys.argv:
    sys.argv.remove('1')

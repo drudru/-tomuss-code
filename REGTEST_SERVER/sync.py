@@ -28,11 +28,16 @@ import urllib.request, urllib.error, urllib.parse
 import socket
 
 sys.argv.append("real_regtest")
+sys.argv.append("protect_do_not_display")
 import tomuss_init
 from .. import configuration
 from .. import utilities
 from . import server
 sys.argv.remove("real_regtest")
+sys.argv.remove("protect_do_not_display")
+
+configuration.do_not_display = ('debug', 'auth', 'table', 'ldap', 'plugin',
+                                'check', 'lang', 'DNU', 'info')
 
 configuration.regtest = True
 
