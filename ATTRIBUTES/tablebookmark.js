@@ -163,7 +163,6 @@ function get_all_options()
       var cf = document.getElementById('linefilter') ;
       cf.className = '' ;
       cf.value = h ;
-      line_filter_value = h ;
       line_filter = compile_filter_generic(h) ;
       if ( line_filter.errors )
 	cf.className = "attribute_error" ;
@@ -176,7 +175,6 @@ function get_all_options()
       var ff = document.getElementById('fullfilter') ;
       ff.className = '' ;
       ff.value = h ;
-      full_filter_value = h ;
       full_filter = compile_filter_generic(h) ;
       if ( full_filter.errors )
 	ff.className = "attribute_error" ;

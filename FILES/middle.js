@@ -344,7 +344,7 @@ function column_attr_set(column, attr, value, td, force_save)
     }
 
   if ( column.is_empty && column.data_col > 0
-       && ( columns_filter_value || full_filter) )
+       && ( columns_filter.filter || full_filter) )
     {
 	alert_append(_('ERROR_column_creation')) ;
 	return ;

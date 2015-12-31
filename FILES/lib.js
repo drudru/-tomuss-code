@@ -45,11 +45,8 @@ var i_am_root ;
 var teachers ;
 var display_tips ;
 var columns_filter ;
-var columns_filter_value ;
 var full_filter ;
-var full_filter_value ;
 var line_filter ;
-var line_filter_value ;
 var tr_classname ;		// Column containing the className of the line
 var popup_on_red_line ;
 var do_not_read_option ;	// Option disabled for virtual tables
@@ -148,9 +145,6 @@ function lib_init()
   display_tips      = true ;
   highlight_list = [] ;
   columns_filter = compile_filter_generic('') ;
-  columns_filter_value = '' ;
-  full_filter_value = '' ;
-  line_filter_value = '' ;
   prst_is_input = true ;
   popup_on_red_line = true ;
   do_not_read_option = false ; // Option disabled for virtual tables
@@ -782,15 +776,17 @@ function show_the_tip(td, tip_content, what)
     }
   else
     {
-      var more= '' ;
+      var more ;
       switch(td.id)
 	{
 	case 'linefilter'    : more = line_filter    ; break ;
 	case 'columns_filter': more = columns_filter ; break ;
 	case 'full_filter'   : more = full_filter    ; break ;
 	}
-      if ( more.errors )
+      if ( more && more.errors )
 	more = '<div class="attribute_error">' + more.errors + '</div>' ;
+      else
+	more = "" ;
       s = tip_content + more ;
     }
 
@@ -1174,10 +1170,9 @@ function set_columns_filter(h)
   else
     cf.className = '' ;
   cf.value = h ;
-  columns_filter_value = h ;
   columns_filter = compile_filter_generic(h) ;
   try {
-    columns_filter(undefined, filtered_lines[0][0]) ;
+    columns_filter(undefined, C()) ;
   }
   catch(e) {
     columns_filter = compile_filter_generic('=') ;
@@ -1190,7 +1185,7 @@ function set_columns_filter(h)
 
 function columns_filter_change(v)
 {
-  if ( columns_filter_value == v.value )
+  if ( columns_filter.filter == v.value )
     return ;
 
   set_columns_filter(v.value) ;
@@ -1198,7 +1193,7 @@ function columns_filter_change(v)
   column_offset = 0 ;
   table_fill(true, true,true) ;
 
-  change_option('columns_filter', encode_uri_option(columns_filter_value)) ;
+  change_option('columns_filter', encode_uri_option(columns_filter.filter)) ;
   change_option('column_offset') ;
 }
 
@@ -1811,7 +1806,7 @@ function get_filtered_lines()
 
 function full_filter_change(value)
 {
-  if ( full_filter_value == value.value )
+  if ( (full_filter ? full_filter.filter : "") == value.value )
     return ;
 
   for(var data_col in columns)
@@ -1835,9 +1830,8 @@ function full_filter_change(value)
   column_offset = 0 ;
   line_offset = 0 ;
   table_fill(true, true,true) ; 
-  full_filter_value = value.value ;
 
-  change_option('full_filter', encode_uri_option(full_filter_value))
+  change_option('full_filter', encode_uri_option(value.value))
   change_option('column_offset') ;
 }
 
@@ -1866,12 +1860,13 @@ var line_filter_change_value ;
 
 function line_filter_change_real()
 {
-  value = line_filter_change_value ;
+  var value = line_filter_change_value ;
   if ( ! value )
     return ;
   line_filter_change_value = undefined ;
+  var old_value = line_filter ? line_filter.filter : "" ;
   
-  if ( line_filter_value == value.value )
+  if ( old_value == value.value )
     return ;
 
   if ( value.value === '' )
@@ -1892,7 +1887,6 @@ function line_filter_change_real()
   //  column_offset = 0 ;
   line_offset = 0 ;
   table_fill(true, true,true) ; 
-  line_filter_value = value.value ;
   update_histogram(true) ;
 
   change_option('line_filter', encode_uri_option(value.value)) ;
@@ -2904,7 +2898,7 @@ function cell_set_value_real(line_id, data_col, value, td)
   if ( ! cell.modifiable(lines[line_id], column) )
     return ;
 
-  if ( column.is_empty && columns_filter_value !== '' )
+  if ( column.is_empty && columns_filter.filter !== '' )
     {
       Alert("ERROR_column_creation") ;
       return;
