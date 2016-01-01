@@ -40,10 +40,10 @@ regtest1:clean translations
         then $(MAKE) regtest_js_O ; \
 	else $(MAKE) warning ; \
 	fi
-	cd REGTEST_SERVER ; ./tests.py 1 2>/dev/null
+	cd REGTEST_SERVER ; make regtest1
 
 regtest:regtest1
-	cd REGTEST_SERVER ; ./tests.py 2>/dev/null
+	cd REGTEST_SERVER ; make regtest
 
 V := $(shell python -c 'import tomuss_init ; from . import configuration;print configuration.version' 2>/dev/null)
 

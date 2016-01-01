@@ -27,17 +27,15 @@ import time
 import json
 
 sys.argv.append("real_regtest")
+sys.argv.append("protect_do_not_display")
 import tomuss_init
 from .. import configuration
 from .. import utilities
 from .server import Server, ServerSuivi, check
 sys.argv.remove("real_regtest")
-
+sys.argv.remove("protect_do_not_display")
 
 configuration.regtest = True
-
-from .. import regtestpatch
-regtestpatch.do_patch()
 
 root     = configuration.root[0]
 abj      = configuration.invited_abj_masters[1]

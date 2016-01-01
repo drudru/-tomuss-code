@@ -23,13 +23,18 @@
 Modify the application in order to support regression tests.
 """
 
+import sys
 from . import configuration
+
+if "protect_do_not_display" in sys.argv:
+    configuration.do_not_display = ('debug', 'auth', 'table', 'ldap', 'plugin',
+                                    'check', 'lang', 'DNU', 'info')
+
 from . import inscrits
 from . import referent
 from . import utilities
 
 def do_patch():
-
     if configuration.regtest:
         configuration.db = 'DBregtest'
         configuration.allow_student_list_update = True
@@ -130,7 +135,8 @@ def do_patch():
     if not configuration.regtest:
         return
 
-    configuration.do_not_display = ()
+    if "protect_do_not_display" not in sys.argv:
+        configuration.do_not_display = ()
 
     def student_list(f, portails, not_in):
         return {'10800000': referent.Student(('10800000', 'JacqueS',

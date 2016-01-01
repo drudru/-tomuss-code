@@ -637,7 +637,6 @@ def terminate():
     url_files = server_url + '/files/' + version
     
     if db == 'DBregtest':
-        utilities.do_not_display = ()
         maxage = 1
 
     if not os.path.exists(db):
