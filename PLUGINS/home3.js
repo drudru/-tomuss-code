@@ -817,8 +817,11 @@ function select_code_filter(t)
 function select_open_close(t, event)
 {
   set_option('B' + get_ue_table_title(t), t.innerHTML == '⇧' ? '⇩' : '⇧') ;
+  var title = t.parentNode.parentNode.parentNode ;
+  title.className = title.className.replace(/ is_(open|close)/, '') ;
   if ( t.innerHTML == '⇧' )
     {
+      title.className += " is_close" ;
       t.innerHTML = '⇩' ;
       t.nextSibling.innerHTML = _("TIP_open") ;
       t = get_ue_table(t) ;
@@ -827,6 +830,7 @@ function select_open_close(t, event)
     }
   else
     {
+      title.className += " is_close" ;
       if ( get_ue_table(t).parentNode.id )
 	{
 	  update_job.todo[get_ue_table(t).parentNode.id] = true ;
@@ -875,8 +879,8 @@ function display_ues(title, tip, codes, options)
     opened = true ;
   if ( ! options.hide_title )
     {
-      s.push('<div class="table_title" alt='
-	     + js2(title)
+      s.push('<div class="table_title ' + (opened ? 'is_open' : 'is_close')
+	     + '" alt=' + js2(title)
 	     + (options.hide_sort
 		&& ! options.code_filter
 		&& ! options.hide_open_close

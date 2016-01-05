@@ -122,6 +122,15 @@ TD { padding: 0px }
     width: auto ;
 }
 
+.is_close .open_close {
+    opacity: 1 ;
+}
+
+.HomeStudents .is_close {
+    text-decoration: line-through ;
+    text-decoration-color: #000 ;
+}
+
 .HomeUEUnsaved .table_title {
     color: #F00 ;
 }
