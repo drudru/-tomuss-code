@@ -83,11 +83,9 @@ def get_column_from_a_table(column, table_list):
     
     for url in re.split("  *", table_list):
         splited = url.split('/')
-        if len(splited) < 2:
-            error(column, 'ALERT_url_import_table', url)
-            return
         year, semester, table_name, column_name = ([
-                column.table.year, column.table.semester] + splited)[-4:]
+            column.table.year, column.table.semester,
+            column.table.ue] + splited)[-4:]
         year = int(year)
         semester = utilities.safe(semester)
         table_name = utilities.safe(table_name)
