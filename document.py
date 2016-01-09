@@ -1568,6 +1568,10 @@ def get_cell_from_table(server, allowed_types=None):
     t, page = table(server.the_year, server.the_semester,
                     server.the_ue, None, server.ticket,
                     do_not_unload='cell_change')
+
+    if t is None:
+        return server._("MSG_bad_ticket")
+
     return t, page, column, lin
 
 def retrieve_student_list(ue, year=None, semester=None, table=None):

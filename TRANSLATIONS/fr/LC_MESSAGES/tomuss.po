@@ -5967,6 +5967,11 @@ msgstr "Pas de fichier"
 msgid "MSG_upload_fail_max"
 msgstr "L'envoit a échoué car votre fichier contient trop d'octets :"
 
+msgid "MSG_bad_ticket"
+msgstr "Un problème s'est produit. Votre session a probablement expiré.\n"
+       "Réactualisez la page en appuyant sur la touche F5 et réessayez.\n"
+       "Si le problème persiste, prévenez l'administrateur TOMUSS"
+
 msgid "TITLE_column_attr_upload_zip"
 msgstr "Charger ZIP"
 

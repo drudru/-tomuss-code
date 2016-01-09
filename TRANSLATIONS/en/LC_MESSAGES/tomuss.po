@@ -5831,6 +5831,11 @@ msgstr "No uploaded file"
 msgid "MSG_upload_fail_max"
 msgstr "The upload failed because there are too many bytes in your file:"
 
+msgid "MSG_bad_ticket"
+msgstr "Your session probably expired.\n"
+       "Reload the page by pressing the F5 key.\n"
+       "If the problem persists, contact the TOMUSS administrator."
+
 msgid "TITLE_column_attr_upload_zip"
 msgstr "Load ZIP"
 

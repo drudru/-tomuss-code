@@ -143,7 +143,8 @@ def upload_post(server):
     err = document.get_cell_from_table(server, ('Upload',))
     if isinstance(err, basestring):
         server.the_file.write(err)
-        raise ValueError(err)
+        server.close_connection_now()
+        return
     table, page, column, lin_id = err
     try:
         filename = data.getfirst("filename").replace("\\", "/").split("/")[-1]
