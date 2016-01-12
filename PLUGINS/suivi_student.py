@@ -230,6 +230,7 @@ def json(server, table, line, line_id):
                                     columns = table.columns)
     table_attrs['stats'] = table.lines.line_stat(
         table, line, link=not server.is_a_student)
+    table_attrs['rounding'] = table.rounding
     return table_attrs
 
 def display_grades(server):

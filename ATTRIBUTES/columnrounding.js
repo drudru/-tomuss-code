@@ -57,7 +57,7 @@ function set_rounding(value, column)
   else
     column.do_rounding = function(v) {
       return v.toFixed ? (Math.round(v/value)*value).toFixed(digit) : v ; } ;
-    
+
   return value ;
 }
 

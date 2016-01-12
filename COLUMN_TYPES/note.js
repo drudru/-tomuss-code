@@ -118,7 +118,7 @@ function note_format_suivi()
     : '[' + DisplayGrades.column.min + ';' + DisplayGrades.column.max + ']' ;
   if ( DisplayGrades.column.min == 0 && DisplayGrades.column.max == 20 )
     s = '<span class="displaygrey">' + s + '</span>' ;
-  
+
   return DisplayGrades.column.do_rounding(DisplayGrades.value)
     + '<small style="font-size:60%">' + s + '</small>' ;
 }
