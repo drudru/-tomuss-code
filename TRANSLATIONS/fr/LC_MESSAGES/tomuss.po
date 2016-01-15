@@ -190,6 +190,11 @@ msgstr "Dépôt"
 msgid "H_Upload"
 msgstr "Dépôt d'un fichier par les étudiants"
 
+msgid "B_Notation"
+msgstr "Notation (Expérimental)"
+
+msgid "H_Notation"
+msgstr "Description détaillée de la note. Double cliquez pour ouvrir l'éditeur."
 
 #. Attribute Tip
 msgid "TIP_column_attr_comment"
@@ -2301,6 +2306,9 @@ msgstr "Présence, tapez P : Présent, I : ABI, J : ABJ"
 
 msgid "TIP_cell_URL"
 msgstr "L'URL sous la forme http://...."
+
+msgid "TIP_cell_Notation"
+msgstr "Double cliquez pour éditer cette note"
 
 msgid "MSG_Note_ABINJ"
 msgstr "La note ou présence n'est pas indiquée par l'enseignant<br>\n"
@@ -6028,3 +6036,30 @@ msgstr "Ko"
 msgid "MSG_not_a_zip"
 msgstr "Ce n'est pas un fichier ZIP valide"
 
+msgid "MSG_notation_question"
+msgstr "Intitulé question"
+
+msgid "MSG_notation_comment"
+msgstr "Commentaire personnalisé"
+
+msgid "ALERT_delete_line"
+msgstr "Voulez-vous vraiment faire disparaître cette question ?"
+
+msgid "TIP_bonus_toggle"
+msgstr "Basculer entre des points normaux ou des\n"
+       "points bonus ne comptant pas dans le barème"
+
+msgid "MSG_notation_max_error"
+msgstr "L'interval maximum de notation &gt;0 et &le;100"
+
+msgid "MSG_notation_value_error"
+msgstr "La note dépasse l'interval de notation"
+
+msgid "MSG_notation_not_allowed"
+msgstr "Vous n'avez pas l'autorisation de changer le barême"
+
+msgid "MSG_notation_to_much_comment"
+msgstr "Raccourcissez les commentaires sinon la sauvegarde risque d'échouer"
+
+msgid "MSG_notation_help"
+msgstr "Pour sauvegarder : changer d'étudiant ou fermer cette popup"

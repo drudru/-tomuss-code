@@ -251,7 +251,7 @@ function head_html()
 
   var w = '<link href="'+rss2+'" rel="alternate" title="TOMUSS" type="application/rss+xml">'
     + '<title>' + ue + ' ' + year + ' ' + semester + ' ' + my_identity + '</title></head>'
-    + '<body id="body" class="tomuss" onunload="the_current_cell.change();store_unsaved()" '
+    + '<body id="body" class="tomuss" onunload="the_current_cell.change();popup_close();store_unsaved()" '
     + 'onkeydown="the_current_cell.keydown(event, false)">'
     // This message is visible in FireFox (bug ?)
     //   '<noscript>Activez JavaScript et réactualisez la page</noscript>'+

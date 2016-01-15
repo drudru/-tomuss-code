@@ -194,6 +194,12 @@ msgstr "Upload"
 msgid "H_Upload"
 msgstr "Allow students to upload a file"
 
+msgid "B_Notation"
+msgstr "Notation (Experimental)"
+
+msgid "H_Notation"
+msgstr "Details about the grade. Double click to open the grade editor"
+
 
 #. Attribute Tip
 msgid "TIP_column_attr_comment"
@@ -2292,6 +2298,8 @@ msgstr "P: Present, I: not here, J: justified non attendance"
 msgid "TIP_cell_URL"
 msgstr "The URL as http://...."
 
+msgid "TIP_cell_Notation"
+msgstr "Double click to edit the grade"
 
 msgid "MSG_Note_ABINJ"
 msgstr "The grade or attendance was not entered by the teacher<br>\n"
@@ -5891,3 +5899,32 @@ msgstr "Kb"
 
 msgid "MSG_not_a_zip"
 msgstr "This is not a valid ZIP file"
+
+
+msgid "MSG_notation_question"
+msgstr "Question title"
+
+msgid "MSG_notation_comment"
+msgstr "Personnalised comment for the student"
+
+msgid "ALERT_delete_line"
+msgstr "Do you really want to remove this question?"
+
+msgid "TIP_bonus_toggle"
+msgstr "Toggle between normal points or bonus points"
+
+msgid "MSG_notation_max_error"
+msgstr "Maximum grade is &gt;0 and &le;100"
+
+msgid "MSG_notation_value_error"
+msgstr "The grade is not inside the possible values"
+
+msgid "MSG_notation_not_allowed"
+msgstr "You are not allowed to change the maximum grade"
+
+msgid "MSG_notation_to_much_comment"
+msgstr "Shorten your comments, the recording may fail"
+
+msgid "MSG_notation_help"
+msgstr "To save: move to another student or close this popup"
+
