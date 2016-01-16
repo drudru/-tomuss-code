@@ -779,7 +779,7 @@ class Table(object):
                 return 'ok.png'
 
         # if isinstance(value, str) and value.find('.') != -1:
-        if a_column.type.name == 'Note':
+        if a_column.type.should_be_a_float:
             try:
                 if value != "nan":
                     value = float(value)
