@@ -41,7 +41,7 @@ function toggle_cow(value)
 
 function test_cow(value, column)
 {
-  var column = get_original_cow_column(the_current_cell.column) ;
+  column = get_original_cow_column(column) ;
   if ( column )
     return column.real_type.cell_test(value, column) ;
   return value ;
@@ -49,7 +49,7 @@ function test_cow(value, column)
 
 function cow_format(c, column)
 {
-  var column = get_original_cow_column(column) ;
+  column = get_original_cow_column(column) ;
   if ( column )
     return column.real_type.formatte(c, column) ;
   else

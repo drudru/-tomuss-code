@@ -216,6 +216,8 @@ def compute_cell_safe(data_col, line, compute_function):
             line[data_col].date = ''
             try:
                 a = line[columns[data_col].average_columns[0]].author
+                if a == '*':
+                    a = '?' # COW on an average must be modifiable
             except:
                 a = '?'
             line[data_col].author = a
