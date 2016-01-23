@@ -33,14 +33,8 @@ tags:
 	etags $$(git ls-files -- '*.js' '*.py') $$(cd LOCAL ; git ls-files -- '*.js' '*.py' | sed 's,^,LOCAL/,') 
 
 regtest1:clean translations
-	@cd PYTHON_JS ; \
-	rm -f tomuss_python.py tomuss_python_O.js ; \
-        $(MAKE) tomuss_python.py tomuss_python_O.js regtest ; \
-        if [ -d PythonJS -a -x "$$(which node)" ] ; \
-        then $(MAKE) regtest_js_O ; \
-	else $(MAKE) warning ; \
-	fi
-	cd REGTEST_SERVER ; make regtest1
+	@cd PYTHON_JS ; $(MAKE) fullclean all
+	@cd REGTEST_SERVER ; make regtest1
 
 regtest:regtest1
 	cd REGTEST_SERVER ; make regtest
@@ -77,9 +71,9 @@ tar:
 	@cp -a $$(pwd)/?* /tmp/TOMUSS-$(V)
 	@echo "Remove what is not in GIT"
 	@git ls-files -o --directory | (cd /tmp/TOMUSS-$(V) && xargs rm -r || true)
-	@echo "Copy tomuss_python_O.js"
+	@echo "Copy tomuss_python.js"
 	@make translations
-	@cp PYTHON_JS/tomuss_python_O.js /tmp/TOMUSS-$(V)/PYTHON_JS
+	@cp PYTHON_JS/tomuss_python.js /tmp/TOMUSS-$(V)/PYTHON_JS
 	@echo "Rename LOCAL.template to LOCAL"
 	@mv /tmp/TOMUSS-$(V)/LOCAL.template /tmp/TOMUSS-$(V)/LOCAL
 	@cd /tmp ; \
@@ -116,7 +110,7 @@ translations:
          done
 	SCRIPTS/create_backgrounds.py
 	cd FILES ; $(MAKE)
-	cd PYTHON_JS ; $(MAKE) tomuss_python.py tomuss_python_O.js
+	cd PYTHON_JS ; $(MAKE) tomuss_python.py tomuss_python.js
 
 %.mo:%.po
 	msgfmt $*.po -o $*.mo

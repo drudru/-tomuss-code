@@ -101,5 +101,5 @@ files['lib.js'].append('files.py',
 
 # Array.prototype.issubset
 
-add('PYTHON_JS', 'tomuss_python_O.js')
-files['utilities.js'].append('files.py', files['tomuss_python_O.js'])
+add('PYTHON_JS', 'tomuss_python.js')
+files['utilities.js'].append('files.py', files['tomuss_python.js'])

@@ -2,42 +2,16 @@
 #    node debug xxx.js
 # And 'c' to continue
 
-all:regtest_python tomuss_python.js tomuss_python_O.js regtest_js regtest_js_O stats
+all:regtest_python tomuss_python.js regtest_js stats
 
 OBJS = filter.py average.py maximum.py nmbr.py cow.py diff_date.py weighted_percent.py product.py places.py
 OBJS_JS = preamble.py preamble_js.py $(OBJS)
 OBJS_PYTHON = preamble.py preamble_python.py $(OBJS)
 REGTEST = regtest.py *_regtest.py
-
-PYJS = RapydScript/bin/rapydscript --prettify --bare
-
+JS=../FILES/lib.js ../FILES/utilities.js ../COLUMN_TYPES/text.js deprecated.js
 
 LOCAL=$(shell if [ -d ../LOCAL/LOCAL_PYTHON_JS ] ; then ls ../LOCAL/LOCAL_PYTHON_JS/*.py | grep -v regtest ; fi)
 LOCAL_REGTEST=$(shell if [ -d ../LOCAL/LOCAL_PYTHON_JS ] ; then echo ../LOCAL/LOCAL_PYTHON_JS/*_regtest.py ; fi)
-
-TRANSLATE = f() { \
-if [ -f RapydScript/bin/rapydscript ] ; \
-then \
-echo "Python translation to JavaScript:" $(OBJS_JS) $$2 $$1 ; \
-(  \
-sed -e "s/$$1/'''/" $(OBJS_JS) $(LOCAL) $$2 | \
-sed 's/yield/YIELD/' | \
-tee xxx.debug | \
-$(PYJS) \
-) >$@ ; \
-else \
-$(MAKE) warning ; \
-fi ; } ; f
-
-NODE = export NODE_MODULE_CONTEXTS=1 ; export TZ=GMT-2 ; node
-
-warning:
-	@echo "==============================================================="
-	@echo "RapydScript not installed: no Python to JavaScript translation"
-	@echo "You are using the staticaly translated JS from the tarball"
-	@echo "To install the translator, run:  cd PYTHON_JS ; make translator"
-	@echo "You need to install node.js in order to make regression tests"
-	@echo "==============================================================="
 
 translator:
 	@echo "Cloning translator repository, checkout a working version"
@@ -52,18 +26,12 @@ tomuss_python.py:$(OBJS_PYTHON) $(LOCAL) Makefile
 	@cat $(OBJS_PYTHON) $(LOCAL) >$@
 
 tomuss_python.js:$(OBJS_JS) $(LOCAL) Makefile
-	@$(TRANSLATE) '#WITHJAVASCRIPT#'
-
-tomuss_python_O.js:$(OBJS_JS) $(LOCAL) Makefile
-	@$(TRANSLATE) '#WITHOUTJAVASCRIPT#'
+	@./python_to_js "$(OBJS_JS) $(LOCAL)" $@
 
 tomuss_python_regtest.js:$(OBJS_JS) $(REGTEST) $(LOCAL) $(LOCAL_REGTEST) Makefile
-	@$(TRANSLATE) '#WITHJAVASCRIPT#' "$(REGTEST) $(LOCAL_REGTEST)"
+	@./python_to_js "$(OBJS_JS) $(LOCAL) $(REGTEST) $(LOCAL_REGTEST)" $@
 
-tomuss_python_regtest_O.js:$(OBJS_JS) $(REGTEST) $(LOCAL) $(LOCAL_REGTEST) Makefile
-	@$(TRANSLATE) '#WITHOUTJAVASCRIPT#' "$(REGTEST) $(LOCAL_REGTEST)"
-
-regtest: translator regtest_python regtest_js regtest_js_O
+regtest: translator regtest_python regtest_js
 
 regtest_python:
 	@echo "Running regression tests in Python"
@@ -73,32 +41,30 @@ regtest_python:
 regtest_js:tomuss_python_regtest.js xxx_tomuss.js
 	@echo "Running regression tests for JavaScript with 'node'"
 	@cat xxx_tomuss.js tomuss_python_regtest.js >xxx.js
-	@$(NODE) xxx.js
-	@echo
-
-regtest_js_O:tomuss_python_regtest_O.js xxx_tomuss.js
-	@echo "Running regression tests for optimized JavaScript with 'node'"
-	@cat xxx_tomuss.js tomuss_python_regtest_O.js >xxx.js
-	@$(NODE) xxx.js
+	@./my_nodejs xxx.js
 	@echo
 
 stats:
 	@wc $(OBJS_JS) tomuss_python*.js
 
 clean:
-	@echo "Do not delete tomuss_python_O.js, it may be not buildable"
-	@-rm tomuss_python.js tomuss_python_regtest.js tomuss_python_regtest_O.js xxx*
+	@echo "$@"
+	@-rm tomuss_python_regtest.js xxx*
 
-xxx_tomuss.js:Makefile ../FILES/lib.js ../FILES/utilities.js ../COLUMN_TYPES/text.js deprecated.js
+fullclean:clean
+	@echo "$@"
+	@-rm tomuss_python.js
+
+xxx_tomuss.js:Makefile $(JS)
 	@echo 'window = { "location":""} ; ' >$@
 	@echo 'navigator = { } ; ' >>$@
 	@echo 'var today = "20140101" ;' >>$@
-	@cat ../FILES/lib.js ../FILES/utilities.js ../COLUMN_TYPES/text.js deprecated.js >>$@
+	@cat $(JS) >>$@
 
 difference.js:difference.py xxx_tomuss.js Makefile
-	@$(TRANSLATE) '#WITHOUTJAVASCRIPT#' "regtest.py difference.py"
+	@./python_to_js "regtest.py difference.py" difference.js
 	@cat xxx_tomuss.js difference.js >xxx.js
-	@$(NODE) xxx.js
+	@./my_nodejs xxx.js
 	@echo
 
 used_filters:
@@ -111,6 +77,6 @@ used_filters:
 # Only for personnal testing
 
 test:
-	$(PYJS) test.py >xxx.js
-	$(NODE) xxx.js
+	./python_to_js test.py xxx.js
+	./my_nodejs xxx.js
 

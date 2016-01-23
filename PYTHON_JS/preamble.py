@@ -20,14 +20,5 @@
 
 debug = False # It is set to True by filter_regtest.py
 
-try:
-    #WITHJAVASCRIPT#
-    pythonjs.configure(javascript=True)
-    #WITHJAVASCRIPT#
-    pythonjs.configure(runtime_exceptions=False)
-    pass
-except:
-    pass
-
 def major_of(login):
     return []
