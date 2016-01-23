@@ -5020,6 +5020,7 @@ function javascript_regtest_ue()
   add_empty_columns() ;
   table_attr.default_sort_column = 0 ;
   sort_columns = [columns[0],columns[1]] ;
+  sort_lines3 = function() { } ;
   update_filtered_lines();
   the_current_cell.jump(nr_headers,0) ;
   table_attr.nr_columns = 12 ;
