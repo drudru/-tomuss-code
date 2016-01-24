@@ -1476,7 +1476,7 @@
 	  les lignes et colonnes ne contenant pas l'information filtrée.
 	<td> En bas du bloc de droite «Table».</tr>
       <tr>
-	<td> <b>Compter</b> le nombre de cellule correspondant au filtre.
+	<td> <b>Compter</b> le nombre de cellules correspondant au filtre.
 	<td> A droite du type de colonne quand celui-ci est
 	  <tt>Nombre de</tt></tr>
       <tr>
@@ -1504,10 +1504,14 @@
       <tr><td> <b>&gt;5</b><td> la valeur est strictement supérieure à 5.</tr>
       <tr class="highlight"><td> <b>&gt;5 &lt;15</b><td> Les nombres entre 5 et 15 exclus.</tr>
       <tr><td> <b>&lt;=5 ou &gt;15</b><td> Les nombres inférieurs à 5 ou supérieurs à 15.</tr>
-      <tr class="highlight"><td> <b>#</b><td> La valeur a un commentaire (<b>!#=</b>).</tr>
-      <tr><td> <b>?</b><td> La valeur a été modifiée aujourd'hui (<b>?=JJ/MM/YYYY</b>).</tr>
-      <tr class="highlight"><td> <b>@</b><td> La valeur a été modifiée par vous même (<b>@=prenom.nom</b>).</tr>
-      <tr><td> <b>:</b><td> La valeur a un historique, elle a été changée plusieurs fois (<b>!:=</b>).</tr>
+      <tr class="highlight"><td> <b>#</b><td> La valeur a un commentaire associé.<br>
+	  C'est équivalent à : <b><tt>!#=</tt></b></tr>
+      <tr><td> <b>?</b><td> La valeur a été modifiée aujourd'hui.<br>
+	  C'est équivalent à : <b><tt>?=JJ/MM/YYYY</tt></b></tr>
+      <tr class="highlight"><td> <b>@</b><td> La valeur a été modifiée par vous même.<br>
+	  C'est équivalent à : <b><tt>@=mon_prenom.mon_nom</tt></b></tr>
+      <tr><td> <b>:</b><td> La valeur a un historique, elle a été modifiée.<br>
+	  C'est équivalent à : <b><tt>!:=</tt></b></tr>
       <tr class="highlight"><td> <b>&lt;1/3/2008</b><td> la valeur est une date antérieure au 1 Mars 2008.</tr>
       <tr><td> <b>@=jacques.martin</b><td> la personne qui a modifié la cellule est <tt>jacques.martin</tt></tr>
       <tr class="highlight"><td> <b>#ok</b><td> le commentaire commence par <tt>ok</tt></tr>
@@ -1525,11 +1529,11 @@
       <tr class="highlight"><td> <b>@ ?</b><td> Les valeurs que j'ai modifiées aujourd'hui.</tr>
       <tr><td> <b>!@ ?</b><td> Les valeurs modifiées par les autres aujourd'hui.</tr>
       <tr class="highlight"><td> <b>=0 ou =ABINJ ou =PPNOT</b><td> L'une des trois valeurs</tr>
-      <tr><td> <b>[Seq]=5</b><td> La valeur dans colonne <tt>Seq</tt> est égale à 5</tr>
-      <tr class="highlight"><td> <b>[Grp]A</b><td> La valeur dans colonne <tt>Grp</tt> commence par A</tr>
-      <tr><td> <b>[TD2]&gt;[TD1]</b><td> La note de TD2 est supérieure à celle de TD1</tr>
+      <tr><td> <b>[Seq]=5</b><td> La valeur dans la colonne <tt>Seq</tt> est égale à 5</tr>
+      <tr class="highlight"><td> <b>[Grp]A</b><td> La valeur dans la colonne <tt>Grp</tt> commence par A</tr>
+      <tr><td> <b>[TD2]&gt;[TD1]</b><td> La note indiquée dans la colonne <tt>TD2</tt> est supérieure à celle de la colonne <tt>TD1</tt></tr>
       <tr class="highlight"><td> <b>?[]&lt;30/01/2015-11:45</b><td> La date actuelle est avant la date indiquée</tr>
-      <tr><td> <b>@[]=[EnseignantTP]</b><td> La personne connecté à son login indiqué dans la colonne EnseignantTP</tr>
+      <tr><td> <b>@[]=[EnseignantTP]</b><td> La personne connectée a son login indiqué comme valeur dans la colonne <tt>EnseignantTP</tt></tr>
       <tr class="highlight"><td> <b>#[TD3]~A</b><td> Le commentaire dans la colonne <tt>TD3</tt> contient A</tr>
 </table>
 

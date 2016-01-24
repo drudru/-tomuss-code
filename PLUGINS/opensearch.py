@@ -39,7 +39,7 @@ files.files['opensearch_desc.xml'] = utilities.StaticFile(
   <Url type="text/html" method="GET" template="%s/search/{searchTerms}">
   </Url>
 </OpenSearchDescription>
-    """ % (configuration.server_url, configuration.url_files))
+    """ % (configuration.url_files, configuration.server_url))
 
 def link(server, info):
     return '<a href="%s/%s">%s %s</a><br>\n' % (
