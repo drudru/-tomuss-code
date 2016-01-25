@@ -80,20 +80,32 @@ def get_column_from_a_table(column, table_list):
     except KeyError:
         getter = lambda x: x.value
     table_list = table_list.lstrip(''.join(getters)).strip()
-    
+    table = None
+    col = None
     for url in re.split("  *", table_list):
-        splited = url.split('/')
-        year, semester, table_name, column_name = ([
-            column.table.year, column.table.semester,
-            column.table.ue] + splited)[-4:]
-        year = int(year)
-        semester = utilities.safe(semester)
-        table_name = utilities.safe(table_name)
-        table = document.table(year, semester, table_name, create=False)
+        for prepend in (
+                '',
+                '%d/' % column.table.year,
+                '%d/%s/' % (column.table.year, column.table.semester),
+                '%d/%s/%s/' % (column.table.year, column.table.semester,
+                               column.table.ue)
+                ):
+            splited = (prepend + url).split('/', 3)
+            if len(splited) != 4:
+                continue
+            year, semester, table_name, column_name = splited
+            year = int(year)
+            semester = utilities.safe(semester)
+            table_name = utilities.safe(table_name)
+            table = document.table(year, semester, table_name, create=False)
+            if not table:
+                continue
+            col = table.columns.from_title(column_name)
+            if col:
+                break # Got the good path
         if not table:
             error(column, 'ALERT_url_import_table', url)
             return
-        col = table.columns.from_title(column_name)
         if not col:
             error(column, 'ALERT_url_import_column', url)
             return
