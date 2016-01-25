@@ -83,6 +83,12 @@ def to_float_or_nan(txt):
 def python_pop(array, i):
     array.pop(i)
 
+def data_col_from_col_title(title):
+    for i, column in enumerate(columns):
+        if column.title == title:
+            return i
+    return None
+
 try:
     from .. import configuration
     def or_keyword():

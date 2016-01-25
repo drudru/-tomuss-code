@@ -121,10 +121,3 @@ def columns_set(cols):
     for c in cols:
         columns.append(c)
         c.table = t
-
-if python_mode:
-    def data_col_from_col_title(title):
-        for i, column in enumerate(columns):
-            if column.title == title:
-                return i
-        return None
