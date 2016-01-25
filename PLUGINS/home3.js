@@ -582,7 +582,7 @@ function DisplayHomeMessage(node)
       var d = node.data.match(RegExp("((#[0-9A-F]{3}  *)*)(.*)")) ;
       var cols = d[1] ? d[1].split(/  */) : [] ;
       return [d[3], [], ["background:" + (cols[0] || "#FFF"),
-			 "color:" + (cols[1] || "#FFF"),
+			 "color:" + (cols[1] || "#000"),
 			 "border: 4px solid " + (cols[2] || "#000")
 			 ], ''] ;
     }
