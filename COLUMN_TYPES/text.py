@@ -94,7 +94,10 @@ def get_column_from_a_table(column, table_list):
             if len(splited) != 4:
                 continue
             year, semester, table_name, column_name = splited
-            year = int(year)
+            try:
+                year = int(year)
+            except ValueError:
+                continue
             semester = utilities.safe(semester)
             table_name = utilities.safe(table_name)
             table = document.table(year, semester, table_name, create=False)
