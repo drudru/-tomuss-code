@@ -2135,7 +2135,7 @@ msgid "MSG_fill_warning_right"
 msgstr "Vous la réactiverez après avoir vérifié le résultat."
 
 msgid "MSG_modifiable_cells"
-msgstr "cellules vont être modifiées car non vides."
+msgstr "cellules vont être modifiées."
 
 msgid "MSG_unchanged_cells"
 msgstr "cellules ne vont pas être modifiées."
@@ -2178,6 +2178,12 @@ msgstr "Ajoute des espaces devant les nombres"
 
 msgid "TIP_fill_empty_pad0"
 msgstr "Ajoute rien (le tri sera mauvais)"
+
+msgid "TIP_fill_relative"
+msgstr "Équilibre en % de remplissage"
+
+msgid "TIP_fill_no_relative"
+msgstr "Équilibre en nombre de valeurs"
 
 msgid "TIP_TITLE_fill_?"
 msgstr "Cocher pour remplir avec cette valeur"

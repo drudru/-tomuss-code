@@ -1,7 +1,7 @@
 // -*- coding: utf-8 -*-
 /*
   TOMUSS: The Online Multi User Simple Spreadsheet
-  Copyright (C) 2011-2015 Thierry EXCOFFIER, Universite Claude Bernard
+  Copyright (C) 2011-2016 Thierry EXCOFFIER, Universite Claude Bernard
 
   This program is free software; you can redistribute it and/or modify
   it under the terms of the GNU General Public License as published by
@@ -56,6 +56,8 @@ Room.prototype.clear = function()
   this.number_used = {} ;    // Indexed by the place number
   this.nr_will_be_used = 0 ; // Will be used be the filling
   this.places.iter_start('') ;       // Goto before the first place
+  this.nr_erased = 0 ;       // Number of value erase
+
 } ;
 
 function remove_leading_0_and_space(txt)
@@ -126,6 +128,43 @@ function fill_column_keypress(event)
   }    
 }
 
+Room.prototype.new_size = function()
+{
+  return this.nr_used + this.nr_will_be_used - this.nr_erased ;
+}
+
+Room.prototype.filling = function()
+{
+  // +1 because 0/9 should be more filled than 0/999
+  return (this.new_size() + 1) / this.places.nr_places ;
+}
+
+Room.prototype.yet_overflowed = function()
+{
+  return this.checked && this.nr_used >= this.places.nr_places ;
+}
+
+Room.prototype.get_place = function(pad0)
+{
+  this.nr_will_be_used++ ;
+  // Search an unused place number
+  var place ;
+  do
+  {
+    place = this.places.iter_next([' ', '0', ''][pad0]);
+    if ( place === undefined || place === null )
+    {
+      place = undefined ;
+      break ;
+    }
+  }
+  while( this.number_used[remove_leading_0_and_space(place)] ) ;
+  if ( place )
+    this.number_used[place] = true ;
+  return place ;
+}
+
+
 Room.prototype.html = function()
 {
   var cb = '<input type="checkbox" class="room_cb">' ;
@@ -193,11 +232,16 @@ Room.prototype.update_html = function()
        ? '<span style="color:#888">' + this.nr_used + '</span>'
        : this.nr_used)
     : ' ' ;
-  this.get_nr_will_be_used().innerHTML = this.nr_will_be_used
-    ? '+' + this.nr_will_be_used : ' ' ;
-  var total = (this.name === '' ? 0 : this.nr_used) + this.nr_will_be_used ;
+  var n = this.nr_will_be_used - this.nr_erased ;
+  if ( n > 0 )
+    n = '+' + n ;
+  else if ( n == 0 )
+    n = ' ' ;
+
+  this.get_nr_will_be_used().innerHTML = n ;
+  var total = this.nr_used + this.nr_will_be_used - this.nr_erased ;
   var overflow = total - this.places.nr_places ;
-  this.get_total().innerHTML = this.nr_will_be_used
+  this.get_total().innerHTML = total
     ? '=' + total + (
       overflow > 0
 	? '<span class="fill_warning">(' + overflow + ')</span>'
@@ -226,7 +270,8 @@ function Filler(last_filler)
       'interleave': 0,
       'unfiltered': 1,
       'comment': 0,
-      'pad0': 1
+      'pad0': 1,
+      'relative': 0
     } ;
     this.create_rooms() ;
   }
@@ -414,38 +459,44 @@ Filler.prototype.add_empty_input = function() {
   return room ;
 } ;
 
+Filler.prototype.count_line = function(line) {
+  if ( line[0].value === '' ) // No ID
+    return ;
+  var v = line[this.data_col] ;
+  if ( this.toggles.comment )
+    v = v.comment ;
+  else
+    v = v.value.toString() ;
+  var room_and_place = text_to_room_and_place(v) ;
+  var room = room_and_place[0] ;
+  var place = room_and_place[1] ;
+  if ( (this.toggles.modify || v === '') && line.is_filtered )
+  {
+    this.to_dispatch.push(line) ;
+    if ( this.toggles.modify )
+      this.rooms[room].nr_erased++ ;
+  }
+  if ( v !== '' )
+    this.not_empty++ ;
+  this.rooms[room].add_predefined(line.line_id, place) ;
+}
+
 Filler.prototype.rooms_get_usage = function() {
-  var v ;
   for(var i in this.rooms)
     this.rooms[i].clear() ;
+  this.to_dispatch = [] ;
+  this.not_empty = 0 ;
   for(var i in lines)
     lines[i].is_filtered = false ;
   for(var i in filtered_lines)
-    filtered_lines[i].is_filtered = true ;
-  var check = this.toggles.unfiltered ? lines : filtered_lines ;
-  this.nr_to_dispatch = 0 ;
-  for(var i in check)
-  {
-    if ( check[i][0].value === '' )
-      continue ;
-    if ( this.toggles.modify && check[i].is_filtered )
-      {
-	// All the filtered values are going to be erased
-	this.nr_to_dispatch++ ;
-	continue
-      }
-    v = check[i][this.data_col] ;
-    if ( this.toggles.comment )
-      v = v.comment ;
-    else
-      v = v.value.toString() ;
-    if ( v === '' && check[i].is_filtered )
-      this.nr_to_dispatch++ ;
-    var room_and_place = text_to_room_and_place(v) ;
-    var room = room_and_place[0] ;
-    var place = room_and_place[1] ;
-    this.rooms[room].add_predefined(check[i].line_id, place) ;
-  }
+    {
+      filtered_lines[i].is_filtered = true ;
+      this.count_line(filtered_lines[i]) ;
+    }
+  if ( this.toggles.unfiltered )
+    for(var i in lines)
+      if ( ! lines[i].is_filtered )
+	this.count_line(lines[i]) ;
 } ;
 
 Filler.prototype.init_rooms = function() {
@@ -550,162 +601,74 @@ Filler.prototype.update_html = function() {
   else
     table.className = 'show_in_value' ;
   this.add_empty_input() ;
-  this.rooms_get_usage() ;
-  for(var i in this.rooms)
-    this.rooms[i].update_html() ;
-  var to_dispatch = this.nr_to_dispatch ;
+  this.rooms_get_usage() ; // Compute to_dispatch, not_empty
 
-  pulsing(document.getElementById('select.modify'), to_dispatch == 0) ;
+  pulsing(document.getElementById('select.modify'),
+	  this.to_dispatch.length == 0) ;
   for(var room in this.rooms)
     pulsing(this.rooms[room].get_toggle().parentNode, false) ;
   
   var messages = [] ;
 
-  if ( to_dispatch == 0 )
+  if ( this.to_dispatch.length == 0 )
     messages.push('<div class="fill_important">' + _("MSG_fill_room_nothing")
 		  + '</div>') ;
 
-  var full_size = 0 ;
-  this.nr_rooms_used = 0 ;
+  this.rooms_to_use = [] ;
   for(var room in this.rooms)
     {
       room = this.rooms[room] ;
       if ( room.checked )
 	{
-	  full_size += room.places.nr_places ;
 	  room.nr_will_be_used = 0 ;
-	  if ( room.name !== '' )
-	    to_dispatch += room.nr_used ;
-	  this.nr_rooms_used++ ;
+	  this.rooms_to_use.push(room) ;
 	}
       else
 	room.nr_will_be_used = '' ;
     }
-  this.highlight_option("interleave", this.nr_rooms_used >= 2) ;
+  function priority_r(r) { return r.new_size() ; }
+  function priority_f(r) { return r.filling() ; }
+  priority = this.toggles.relative ? priority_f : priority_r ;
+
+  this.rooms_to_use.sort(function(a,b) {return priority(a) - priority(b) ;});
+  this.highlight_option("interleave", this.rooms_to_use.length >= 2) ;
+  this.highlight_option("relative", this.rooms_to_use.length >= 2) ;
   this.highlight_option("unfiltered", filters.length != 0
 			|| full_filter || line_filter) ;
   this.highlight_option("pad0", this.use_a_number()) ;
 
-  // If there is an overflow, less values are to be dispatched
-  var change = false ;
-  do
-    {
-      change = false ;
-      for(var room in this.index)
-      {
-	var room = this.rooms[this.index[room]] ;
-	if ( ! room.checked || room.name === '' )
-	  continue ;
-	var nr_used = (room.name === '' ? 0 : room.nr_used) ;
-	var goal = Math.round(to_dispatch * room.places.nr_places / full_size);
-	if ( goal < room.nr_used )
-	  {
-	    room.checked = false ; // XXX really not nice
-	    to_dispatch -= room.nr_used ;
-	    full_size -= room.places.nr_places ;
-	    change = true ;
-	    messages.push('<div class="fill_warning">'
-			  + '«' + html(room.name) + '» '
-			  + _("MSG_fill_room_overflow")
-			  + '</div>') ;
-	  }
-	}
-    }
-  while(change) ;      
-  this.dispatch = [] ;
-  var fill_empty_value = 0 ;
   var fill_value = 0 ;
+  var fill_empty_value = 0 ;
   var overflow = 0 ;
-  var not_empty = 0 ;
-  var dispatched = 0 ;
-  // Compute number of student per room
-  for(var index_room in this.index)
+  var room, place ;
+  this.todo = [] ;
+  if ( this.rooms_to_use.length )
+    for(var i in this.to_dispatch)
     {
-      var room = this.rooms[this.index[index_room]] ;
-      if ( ! room.checked )
-	continue ;
-      var nr_used = (room.name === '' ? 0 : room.nr_used) ;
-      room.nr_will_be_used = Math.floor(to_dispatch
-					* room.places.nr_places
-					/ full_size) - nr_used ;
-      if ( room.nr_will_be_used < 0 )
-	room.nr_will_be_used = 0 ;
-      dispatched += room.nr_will_be_used ;
-    }
-  // Fix rounding issues nicely
-  for(var index_room in this.index)
-    {
-      if ( to_dispatch == dispatched )
-	break ;
-      var room = this.rooms[this.index[index_room]] ;
-      if ( ! room.checked )
-	continue ;
-      var nr_used = (room.name === '' ? 0 : room.nr_used) ;
-      if ( room.nr_will_be_used + nr_used < room.places.nr_places )
-	{
-	  room.nr_will_be_used++ ;
-	  room.fix_nr_by_1 = true ;
-	  dispatched++ ;
-	}
-    }
-  // Fix rounding issues not nicely
-  for(var index_room in this.index)
-    {
-      if ( to_dispatch == dispatched )
-	break ;
-      var room = this.rooms[this.index[index_room]] ;
-      if ( ! room.checked )
-	continue ;
-      if ( ! room.fix_nr_by_1 )
-	{
-	  room.nr_will_be_used++ ;
-	  dispatched++ ;
-	}
-    }
-  to_dispatch -= dispatched ;
-
-  for(var index_room in this.index)
-    {
-      var room = this.rooms[this.index[index_room]] ;
-      if ( ! room.checked )
-	continue ;
+      room = this.rooms_to_use[0]
       if ( room.name !== '' )
-	 fill_value++ ;
+	fill_value++ ;
       else
 	fill_empty_value++ ;
 
-      for(var j=0; j<room.nr_will_be_used; j++)
+      place = room.get_place(this.toggles.pad0) ;
+      if ( place === undefined )
+	overflow++ ;
+      this.todo.push([room, place, i]) ;
+      // Sort the rooms by filling
+      for(var j = 1 ; j < this.rooms_to_use.length ; j++)
 	{
-	  // Search an unused place number
-	  var place ;
-	  do
-	    {
-	      place = room.places.iter_next([' ', '0', ''][this.toggles.pad0]);
-	      if ( place === undefined || place === null )
-		{
-		  place = undefined ;
-		  break ;
-		}
-	    }
-	  while( room.number_used[remove_leading_0_and_space(place)] ) ;
-	  if ( place === undefined )
-	    overflow++ ;
-	  else
-	    room.number_used[place] = true ;
-	  this.dispatch.push(
-	    [this.toggles.interleave
-	     ? j * this.nr_rooms_used * this.index.length + Number(index_room)
-	     : 0,
-	     place === undefined
-	     ? room.name.replace('%%', '???')
-	     : room.name.replace('%%', place),
-	     place]) ;
+	  if ( priority(this.rooms_to_use[j-1])
+	     < priority(this.rooms_to_use[j]) )
+	    break ;
+	  var tmp = this.rooms_to_use[j-1] ;
+	  this.rooms_to_use[j-1] = this.rooms_to_use[j] ;
+	  this.rooms_to_use[j] = tmp ;
 	}
-      room.update_html() ;
     }
-  if ( this.toggles.interleave )
-    this.dispatch.sort(function (a, b) { return a[0] - b[0] ; }) ;
-  if ( to_dispatch != 0 && this.dispatch.length == 0 )
+  for(var i in this.rooms)
+    this.rooms[i].update_html() ;
+  if ( this.to_dispatch.length != 0 && this.todo.length == 0 )
     {
       for(var room in this.rooms)
 	pulsing(this.rooms[room].get_toggle().parentNode, true) ;
@@ -713,52 +676,48 @@ Filler.prototype.update_html = function() {
       messages.push('<div class="fill_important">' + _("MSG_fill_room")
 		    + '</div>') ;
     }
-  else
+  for(var room in this.rooms)
     {
-      var j = 0 ;
-      for(var i in filtered_lines)
-      {
-	if ( filtered_lines[i][0].value === '' )
-	  continue ;
-	var c = filtered_lines[i][this.data_col] ;
-	var v = this.toggles.comment ? c.comment : c.value ;
-	if ( v !== '' )
-	  not_empty++ ;
-	if ( this.toggles.modify || v === '' )
-	  this.dispatch[j++].push(filtered_lines[i]) ;
-      }
-      if ( j != this.dispatch.length )
-      {
-	console.log('BUG to_dispatch=' + to_dispatch
-		    + ' filtered_lines=' + filtered_lines.length
-		    + ' j=' + j
-		    + ' nr_to_dispatch=' + this.nr_to_dispatch
-		   ) ;
-	console.log(this.dispatch) ;
-	alert("BUG columnfill") ;
-	return ;
-      }
+      if ( this.rooms[room].yet_overflowed() )
+	messages.push('<div class="fill_warning">'
+		      + '«' + html(this.rooms[room].name) + '» '
+		      + _("MSG_fill_room_overflow")
+		      + '</div>') ;
     }
-  
+  if ( ! this.toggles.interleave )
+    this.todo.sort(function (a, b) {
+      return a[0].name > b[0].name ? 1
+	: (a[0].name < b[0].name ? -1 : a[2] - b[2]) ;
+    })
+  if ( this.to_dispatch.length != this.todo.length
+       && this.todo.length != 0 )
+    alert("BUG column fill") ;
   var s = [] ;
   var unwritable = 0, problems = 0, replacements = 0, changes = 0 ;
   alert_append_start() ;
-  for(var i in this.dispatch)
+  this.todo_real = [] ;
+  for(var i in this.todo)
     {
-      var cell = this.dispatch[i][3][this.data_col] ;
+      var room = this.todo[i][0] ;
+      var place = this.todo[i][1] ;
+      var line = this.to_dispatch[i] ;
+      var cell = line[this.data_col] ;
       var old_val = this.toggles.comment ? cell.comment : cell.value ;
-      var new_val = this.dispatch[i][1] ;
+      var new_val = place
+	? room.name.replace('%%', place)
+	: room.name.replace('%%', '???') ;
       var tip = '' ;
       if ( old_val == new_val )
 	continue ;
+      this.todo_real.push([new_val, line]) ;
       var classe ;
-      if ( ! cell.modifiable(this.dispatch[i][3], this.column) )
+      if ( ! cell.modifiable(line, this.column) )
       {
 	classe = "fill_error" ;
 	tip = _("ERROR_value_not_modifiable") ;
 	unwritable++ ;
       }
-      else if ( this.dispatch[i][2] === undefined )
+      else if ( place === undefined )
 	{
 	  classe = "fill_warning" ;
 	  tip = _("MSG_fill_overflow") ;
@@ -832,21 +791,6 @@ Filler.prototype.update_html = function() {
   if ( overflow )
     messages.push('<div class="fill_warning">' + overflow + ' '
 		  + _("MSG_fill_overflow") + '</div>') ;
-  if ( this.toggles.interleave && this.dispatch.length !== 0 )
-  {
-    var v = [] ;
-    for(var room in this.index)
-    {
-      var room = this.rooms[this.index[room]] ;
-      if ( ! room.checked )
-	continue ;
-      v.push(room.nr_will_be_used) ;
-    }
-    v.sort() ;
-    if ( v[v.length-1] - v[0] > 1 )
-      messages.push('<div class="fill_warning">'
-		    + _("MSG_fill_bad_interleave") + '</div>') ;
-  }
   if ( unwritable )
     messages.push('<div class="fill_error">' + unwritable + ' '
 		  + _("MSG_fill_unwritable") + '</div>') ;
@@ -859,10 +803,10 @@ Filler.prototype.update_html = function() {
   if ( changes )
       messages.push('<div class="fill_room_messages">' + changes + ' '
 		    + _("MSG_modifiable_cells") + '</div>') ;
-  if ( not_empty && ! this.toggles.modify )
-      messages.push('<div class="fill_room_messages">' + not_empty + ' '
+  if ( this.not_empty && ! this.toggles.modify )
+      messages.push('<div class="fill_room_messages">' + this.not_empty + ' '
 		    + _("MSG_unchanged_cells") + '</div>') ;
-  this.highlight_option("modify", not_empty > 0) ;
+  this.highlight_option("modify", this.not_empty > 0) ;
   s = '<h3>' + _("MSG_fill_room_message")
     + '</h3><div class="fill_room_messages">'
     + (messages.length == 0 // Never true
@@ -885,15 +829,10 @@ Filler.prototype.do_fill = function()
 {
   popup_close() ;
   alert_append_start() ;
-  for(var d in this.dispatch)
+  for(var d in this.todo_real)
   {
-    d = this.dispatch[d] ;
-    var line = d[3] ;
-    var cell = line[this.data_col] ;
-    var old_val = this.toggles.comment ? cell.comment : cell.value ;
-    var new_val = d[1] ;
-    if ( old_val == new_val )
-      continue ;
+    var new_val = this.todo_real[d][0] ;
+    var line = this.todo_real[d][1] ;
     if ( this.toggles.comment )
       comment_change(line.line_id, this.data_col, new_val) ;
     else
