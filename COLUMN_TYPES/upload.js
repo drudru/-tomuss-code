@@ -21,17 +21,12 @@
 
 function safe_url(t)
 {
-  return t.replace(RegExp('[$%&?/\\\\]', 'g'), '_') ;
+  return t.replace(RegExp('[$%&?/\\\\: `]', 'g'), '_') ;
 }
 
 function upload_filename(t)
 {
-  t = t.replace("; ", "").split(' ')[1] ;
-  if ( t )
-    t = safe_url(t) ;
-  else
-    t = '' ;
-  return t ;
+  return safe_url(t.replace(/^[^;]*; [^ ]* */, '')) ;
 }
 
 function iframe_write(iframe, hook, content)
