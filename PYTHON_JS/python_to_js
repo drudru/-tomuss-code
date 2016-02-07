@@ -5,16 +5,7 @@ export TRANSLATOR=RapydScript/bin/rapydscript
 
 if [ ! -x $TRANSLATOR ]
 then
-    echo "==============================================================="
-    echo "RapydScript not installed: no Python to JavaScript translation"
-    echo "You are using the staticaly translated JS from the tarball"
-    echo "To install the translator, run:"
-    echo ""
-    echo "  (cd PYTHON_JS ; make translator)"
-    echo ""
-    echo "You need to install 'nodejs' in order to make regression tests"
-    echo "==============================================================="
-    exit 1
+    make translator
 fi >&2
 
 if [ -f $2 ]
