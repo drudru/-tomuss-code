@@ -137,7 +137,7 @@ def upload_post(server):
     data = server.uploaded
 
     if data is None or 'data' not in data:
-        server.the_file.write("BUG")
+        server.the_file.write(server._('MSG_bad_ticket'))
         return
 
     err = document.get_cell_from_table(server, ('Upload',))
