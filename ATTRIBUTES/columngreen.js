@@ -24,9 +24,9 @@ function returns_false() { return false ; } ;
 
 function set_green(value, column)
 {
-  function the_green_filter(line, cell)
+  function the_green_filter()
   {
-    return cell.value > column.color_green ;
+    return compile_filter_generic(">" + value, column, true) ;
   }
 
   if ( value === undefined )
@@ -37,9 +37,9 @@ function set_green(value, column)
     }
   else if ( value === 'NaN' )
     {
-      column.color_green_filter = the_green_filter ;
       var stats = compute_histogram(column.data_col) ;
-      column.color_green = stats.average() + stats.standard_deviation() ;
+      value = stats.average() + stats.standard_deviation() ;
+      column.color_green_filter = the_green_filter() ;
     }
   else if ( isNaN(value) )
     {
@@ -47,9 +47,7 @@ function set_green(value, column)
     }
   else
     {
-      value = Number(value) ;
-      column.color_green_filter = the_green_filter ;
-      column.color_green = value ;
+      column.color_green_filter = the_green_filter() ;
     }
   column.green_error = column.color_green_filter.errors ;
   column_update_option('green', value) ;

@@ -24,7 +24,7 @@ function set_redtext(value, column)
 {
   function the_redtext_filter(line, cell)
   {
-    return cell.value < column.color_redtext ;
+    return compile_filter_generic("<" + value, column, true) ;
   }
 
   if ( value === undefined )
@@ -35,9 +35,9 @@ function set_redtext(value, column)
     }
   else if ( value === 'NaN' )
     {
-      column.color_redtext_filter = the_redtext_filter ;
       var stats = compute_histogram(column.data_col) ;
-      column.color_redtext = stats.average() - stats.standard_deviation()/2 ;
+      value = stats.average() - stats.standard_deviation()/2 ;
+      column.color_redtext_filter = the_redtext_filter() ;
     }
   else if ( isNaN(value) )
     {
@@ -45,9 +45,7 @@ function set_redtext(value, column)
     }
   else
     {
-      value = Number(value) ;
-      column.color_redtext_filter = the_redtext_filter ;
-      column.color_redtext = value ;
+      column.color_redtext_filter = the_redtext_filter() ;
     }
   column.redtext_error = column.color_redtext_filter.errors ;
   column_update_option('redtext', value) ;

@@ -208,13 +208,13 @@ function printable_display_page(lines, title, page_break)
 	      txt_line.push(v) ;
 	      if ( v === '' )
 		v = '&nbsp;' ;
-	      if ( columns[c].green_filter(cell, columns[c]) )
+	      if ( columns[c].green_filter(line, cell) )
 		html_class += ' color_green' ;
-	      if ( columns[c].red_filter(cell, columns[c]) )
+	      if ( columns[c].red_filter(line, cell) )
 		html_class += ' color_red' ;
-	      if ( columns[c].greentext_filter(cell, columns[c]) )
+	      if ( columns[c].greentext_filter(line, cell) )
 		html_class += ' greentext' ;
-	      if ( columns[c].redtext_filter(cell, columns[c]) )
+	      if ( columns[c].redtext_filter(line, cell) )
 		html_class += ' redtext' ;
 	    
 	      s.push('<td class="' + html_class + '">' + v + '</td>') ;

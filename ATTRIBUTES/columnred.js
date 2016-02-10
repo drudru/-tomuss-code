@@ -22,9 +22,9 @@
 
 function set_red(value, column)
 {
-  function the_red_filter(line, cell)
+  function the_red_filter()
   {
-    return cell.value < column.color_red ;
+    return compile_filter_generic("<" + value, column, true) ;
   }
 
   if ( value === undefined )
@@ -35,9 +35,9 @@ function set_red(value, column)
     }
   else if ( value === 'NaN' )
     {
-      column.color_red_filter = the_red_filter ;
       var stats = compute_histogram(column.data_col) ;
-      column.color_red = stats.average() - stats.standard_deviation() ;
+      value = stats.average() - stats.standard_deviation() ;
+      column.color_red_filter = the_red_filter() ;
     }
   else if ( isNaN(value) )
     {
@@ -45,9 +45,7 @@ function set_red(value, column)
     }
   else
     {
-      value = Number(value) ;
-      column.color_red_filter = the_red_filter ;
-      column.color_red = value ;
+      column.color_red_filter = the_red_filter() ;
     }
   column.red_error = column.color_red_filter.errors ;
   column_update_option('red', value) ;
