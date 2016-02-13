@@ -194,18 +194,6 @@ def update_student(table, page, the_ids, infos):
         the_ids[the_id] = the_id
     table.lock()
     try:
-        nobody = table.get_nobody_page()
-        for i in range(len(table.columns), len(infos)):
-            # Should be in LOCAL directory
-            if i == 6:
-                title = 'Quoi'
-            elif i == 7:
-                title = 'Quand'
-            else:
-                title = ''
-            table.column_change (nobody,
-                                 "0_%d" % i,
-                                 title, 'Text', '', '', '', 0, 6)
         if configuration.grp_modifiable:
             grp_page = table.get_nobody_page()
         else:
