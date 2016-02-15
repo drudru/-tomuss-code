@@ -503,7 +503,7 @@ function encode_uri(t)
 
 function decode_uri(t)
 {
-  return unescape(t.toString().replace(/[$]/g, "%")) ;
+  return decodeURI(t.toString().replace(/[$]/g, "%")) ;
 }
 
 function encode_uri_option(t)

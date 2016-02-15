@@ -386,7 +386,7 @@ function get_option(name, default_value, do_not_unescape)
     return default_value ;
   o = o[1].split('/')[0] ;
   if ( ! do_not_unescape )
-    o = unescape(o) ;
+    o = decodeURI(o) ;
   return o ;
 }
 
