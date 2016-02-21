@@ -25,6 +25,7 @@ import shutil
 import httplib
 import time
 import json
+import traceback
 
 sys.argv.append("real_regtest")
 sys.argv.append("protect_do_not_display")
@@ -815,7 +816,7 @@ def tests():
         assert('),C("Jacques","*","' in c)
         assert('),C("MARTIN","*","' in c)
         assert('),C(11.11,"%s","' % root in c)
-        assert("'10800000':\"jacques@martin\"" in c)
+        assert('"10800000":"jacques@martin"' in c)
         assert('change_abjs({"10800000":[[["%sM","%sA","com5"]],[["UE-INF20UE2","1/1/%d","com2"]],""]});' % (
             abj_date_current, abj_date_next, year) in c)
 
@@ -837,7 +838,7 @@ def tests():
         assert('),C("Jacques","*","' in c)
         assert('),C("MARTIN","*","' in c)
         assert('),C(11.11,"%s","' % root in c)
-        assert("'10800000':\"jacques@martin\"" in c)
+        assert('"10800000":"jacques@martin"' in c)
         assert('change_abjs({"10800000":[[["%sM","%sA","com5"]],[["UE-INF20UE2","1/1/%d","com2"]],""]});' % (
             abj_date_current, abj_date_next, year) in c)
 
@@ -1980,8 +1981,8 @@ while True:
             f.close()
             print c
         print 'End of regressions tests : failure'
+        traceback.print_exc(file=sys.stdout)
     except:
-        import traceback
         traceback.print_exc(file=sys.stdout)
     finally:
         try:

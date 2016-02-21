@@ -464,7 +464,7 @@ def js(t):
     elif isinstance(t, float):
         return '%s' % t # DO NOT USE %g: 4.9999998 => 5
     elif isinstance(t, dict):
-        return '{' + ','.join("'%s':%s" % (k, js(v))
+        return '{' + ','.join("%s:%s" % (js(k), js(v))
                               for k, v in t.items()) + '}'
     elif isinstance(t, tuple):
         return str(list(t))
