@@ -233,9 +233,10 @@ function DisplayMails(node)
     ref = '' ;
 
   return '<a href="mailto:?to='
-    + escape(node.data.join(',') + ref
-		 + '&subject=' + display_data['Login'] + ' '
-		 + display_data['Names'][0] + ' ' + display_data['Names'][1])
+    + escape(node.data.join(',') + ref)
+    + '&subject=' + escape(display_data['Login'] + ' '
+			   + display_data['Names'][0]
+			   + ' ' + display_data['Names'][1])
     + '">'
     + hidden_txt(_("MSG_suivi_student_mail_all"),
 		 _("TIP_suivi_student_mail_all")) + '</a>' ;
