@@ -319,10 +319,7 @@ def send_mail(to, subject, message, frome=None, show_to=False, reply_to=None,
             continue
         if '@' not in addr or '.' not in addr:
             continue
-        try:
-            new_to.append(addr)
-        except UnicodeEncodeError:
-            warn('bad email address: ' + repr(addr), what='error')
+        new_to.append(addr)
     to = new_to
     if len(to) == 0:
         return
@@ -353,11 +350,9 @@ def send_mail(to, subject, message, frome=None, show_to=False, reply_to=None,
     use_backup_smtp = False
     while True: # Stop only if the mail is sent
         try:
-            for x in [frome,recipients,header,message]:
-                if isinstance(x, bytes):
-                    raise TypeError("pas d'encodage avant")
-            smtpresult = send_mail.session.sendmail(frome, recipients,
-                                                    (header + '\n' + message).encode('utf-8'))
+            smtpresult = send_mail.session.sendmail(
+                frome, recipients,
+                (header + '\n' + message).encode('utf-8'))
             break
         except smtplib.SMTPRecipientsRefused:
             send_backtrace('from=%s\nrecipients=%s\nheaders=%s\nmessage=%s' %
@@ -375,15 +370,15 @@ def send_mail(to, subject, message, frome=None, show_to=False, reply_to=None,
                     repr(frome), repr(recipients)), what="error")
                 break
             continue
-        except smtplib.SMTPServerDisconnected:
+        except (smtplib.SMTPServerDisconnected, smtplib.SMTPSenderRefused):
             # It is normal: connection is closed by SMTP if unused
-            send_mail.session = smtplib.SMTP(configuration.smtpserver.split(' ')[0])
-            continue
+            pass
         except:
             if send_mail.session is not None:
                 send_backtrace('from=%s\nrecipients=%s\nheaders=%s' %
                                (repr(frome), repr(recipients), repr(header)))
-            send_mail.session = smtplib.SMTP(configuration.smtpserver.split(' ')[0])
+        # Reconnect
+        send_mail.session = smtplib.SMTP(configuration.smtpserver.split(' ')[0])
 
     try:
         if smtpresult:
