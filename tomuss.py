@@ -66,7 +66,12 @@ class MyRequestBroker(utilities.FakeRequestHandler):
         s = files[name]
         content = s.get_zipped()
         self.send_response(200)
-        self.send_header('Content-Encoding', 'gzip')
+        if len(content) < 100 or 'image' in s.mimetype:
+            content = s.content
+            if isinstance(content, str):
+                content = content.encode('utf-8')
+        else:
+            self.send_header('Content-Encoding', 'gzip')
         if s.name and len(content) != 0:
             self.send_header('Content-Length', len(content))
         self.send_header('Content-Type', s.mimetype)

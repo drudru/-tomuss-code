@@ -115,7 +115,8 @@ class MyRequestBroker(utilities.FakeRequestHandler):
             self.send_header('Content-Type', 'text/plain')
             self.end_headers()
             self.wfile.write(utilities.read_file(os.path.join("FILES",
-                                                              "robots.txt")))
+                                                              "robots.txt"),
+                                                 encoding='bytes'))
             return
 
         if configuration.regtest and path == '/stop':
