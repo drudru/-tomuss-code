@@ -1075,6 +1075,25 @@ Les améliorations les plus visibles sont :
       </description>
       <guid>66</guid>
     </item>
+    <item>
+      <title>26/02/2016 : Version 5.8.3</title>
+      <link>http://tomuss.univ-lyon1.fr/</link>
+      <description>
+	&lt;p&gt;
+	On peut définir la méthode d'arrondi pour la table.
+	&lt;p&gt;
+	Nouvelle interface de remplissage de colonnes.
+	&lt;p&gt;
+	Importation possible de documents par l'étudiant ou par l'enseignant.
+	&lt;p&gt;
+	On peut noter des actions de la colonne de droite comme favorites.
+	&lt;p&gt;
+	Les filtres permettent maintenant de tester le contenu d'une
+	autre colonne, la date courante	ainsi que l'utilisateur connecté.
+	&lt;p&gt;
+      </description>
+      <guid>67</guid>
+    </item>
 
   </channel>
 </rss>
