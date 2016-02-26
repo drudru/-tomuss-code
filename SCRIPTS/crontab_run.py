@@ -29,7 +29,7 @@ def is_running1(url):
         f = urllib.request.urlopen(url + '/robots.txt')
         c = f.read()
         f.close()
-        return 'User-agent:' in c
+        return b'User-agent:' in c
     except IOError:
         return False
 is_running1.last_url = ''
