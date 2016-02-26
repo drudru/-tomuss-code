@@ -346,8 +346,6 @@ class LDAP_Logic(object):
                  ]
             r[i] = r[i].lower() # login must be in lower case
             yield r
-        if self.connexion is not True:
-            self.connexion.abandon(aa)
 
     def query_logins(self, logins, attributes, only_first_value=True):
         if not logins:
