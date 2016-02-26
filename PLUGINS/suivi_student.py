@@ -622,6 +622,7 @@ def page_rss(server):
     else:
         limit = time.strftime('%Y%m%d%H%M%S',time.localtime(time.time() - 3600))
     
+    i = 0
     for t in tablestat.the_ues(server.year, server.semester, login):
         for line in t.get_lines(login):
             for cell, column in zip(line[6:], t.columns[6:]):
@@ -636,10 +637,11 @@ def page_rss(server):
                                   getattr(column, 'visibility_date__mtime',''),
                                   getattr(column, 'visibility__mtime', ''),
                                   column.visibility_date + '000000'
-                              ),
+                              ), i,
                               cell, t, column))
+                    i += 1 # All first items must be different
     s.sort()
-    for date, cell, table, column in s[-10:]:
+    for date, i, cell, table, column in s[-10:]:
         if cell.comment:
             comment= html.escape(utilities._("MSG_suivi_student_RSS_value_comment")
                                 + '<b>') + escape(cell.comment) + html.escape('</b>,<br>')
