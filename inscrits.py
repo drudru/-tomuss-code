@@ -28,19 +28,7 @@ from . import configuration
 from . import utilities
 from . import sender
 
-"""
-ldap.set_option(ldap.OPT_REFERRALS, 0)
-ldap.set_option(ldap.OPT_NETWORK_TIMEOUT, 1) # For connect
-ldap.set_option(ldap.OPT_TIMEOUT, 600)       # For reading data
-ldap.set_option(ldap.OPT_X_TLS_REQUIRE_CERT, ldap.OPT_X_TLS_NEVER)
-"""
-
-# ldap3.RESPONSE_WAITING_TIMEOUT = 1
-# ldap3.RESPONSE_WAITING_TIMEOUT = 1
-# ldap3.RESULT_TOO_LATE = 1
-# ldap3.RESULT_TIME_LIMIT_EXCEEDED = 3
-# ldap3.RESPONSE_COMPLETE = 1
-ldap3.LDAPTimeLimitExceededResult = 1
+ldap3.LDAPTimeLimitExceededResult = 5
 
 warn = utilities.warn
 
@@ -526,8 +514,6 @@ class LDAP(LDAP_Logic):
                                      authentication = ldap3.AUTH_SIMPLE,
                                      raise_exceptions = True)
                 warn('Connect done', what="ldap")
-                # c.strategy.restartable_sleep_time = 0
-                # c.strategy.restartable_tries = 1
                 if use_ssl:
                     c.tls = ldap3.Tls()
                     # if 'TLS_CA' in settings and settings['TLS_CA']:
@@ -539,7 +525,8 @@ class LDAP(LDAP_Logic):
                 self.connexion = c
                 return
             except ldap3.LDAPException as e:
-                warn('Can not connect to {}: SERVER_DOWN'.format(configuration.ldap_server[self.server]),
+                warn('Can not connect to {}: SERVER_DOWN'.format(
+                    configuration.ldap_server[self.server]),
                      what="error")
                 self.server = (self.server + 1) % len(configuration.ldap_server)
             except OSError: #XXX ldap.TIMEOUT
@@ -571,19 +558,17 @@ class LDAP(LDAP_Logic):
                 start_time = time.time()
                 sender.send_live_status(
                          '<script>b("/%s");</script>\n' % self.name)
-                # if async:
-                #     s = self.connexion.search_ext(base, ldap.SCOPE_SUBTREE,
-                #                               search, attributes, sizelimit=async)
-                # else:
-                #     s = self.connexion.search_s(base, ldap.SCOPE_SUBTREE,
-                #                                 search, attributes)
-                self.connexion.search(base, search, ldap3.SEARCH_SCOPE_WHOLE_SUBTREE,
-                                      time_limit = ldap3.LDAPTimeLimitExceededResult,
-                                      attributes=attributes)
+                self.connexion.search(
+                    base, search, ldap3.SEARCH_SCOPE_WHOLE_SUBTREE,
+                    time_limit = ldap3.LDAPTimeLimitExceededResult,
+                    attributes=attributes)
                 s = self.connexion.response
                 t = []
-                if s == None : # attention si None on peut pas faire la suite , il faut revoir
-                    print(attributes)
+                if s is None :
+                    utilities.send_backtrace(
+                        "Attributes = %s\nRequest = %s" % (attributes,
+                                                           search),
+                        subject = "LDAP returns None")
                     return t
                 else:
                     for line in s:
@@ -595,7 +580,6 @@ class LDAP(LDAP_Logic):
                               self.name,
                               time.time() - start_time,
                               utilities.js(search + ':' + repr(attributes))))
-                    # print(" C ")
                     return t
             except ldap3.LDAPException as e:
                 sender.send_live_status(
@@ -608,7 +592,7 @@ class LDAP(LDAP_Logic):
                     e.__class__.__name__))
 
                 warn('Uncatched: %s: %s QUERY=%s ATTRIBUTES=%s' % (
-                    e.description,
+                    e.__class__.__name__,
                     configuration.ldap_server[self.server],
                     search, repr(attributes)
                     ), what='error')
@@ -620,9 +604,9 @@ class LDAP(LDAP_Logic):
                         + 'ATTRIBUTES=' + repr(attributes) + '\n'
                         + 'BASE=' + base + '\n'
                         , subject = 'LDAP Error', exception = False)
-                if isinstance(e, (ldap3.core.exceptions.LDAPSizeLimitExceededResult,
-                                  ldap3.core.exceptions.LDAPNoSuchObjectResult,
-                                  ldap3.core.exceptions.LDAPTimeLimitExceededResult)):
+                if isinstance(e, (
+                        ldap3.core.exceptions.LDAPSizeLimitExceededResult,
+                        ldap3.core.exceptions.LDAPNoSuchObjectResult)):
                     return ()
                 time.sleep(1)
                 self.connect() # Assume temporary network problem
