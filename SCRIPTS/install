@@ -159,7 +159,7 @@ do
   fi
   if [ $(python3 -c "print('$V'.split('.') < '6.0.0'.split('.'))") = "True" ]
   then
-      SCRIPTS/convert_2_to_3 "$I/TOMUSS_DB"
+      SCRIPTS/convert_2_to_3.py "$I/TOMUSS_DB"
       if [ -x LOCAL/convert_2_to_3.py ]
 	  then
 	  LOCAL/convert_2_to_3.py "$I/TOMUSS_DB"
