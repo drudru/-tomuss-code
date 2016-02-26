@@ -576,7 +576,7 @@ import socket
 def send_backtrace(txt, subject='Backtrace', exception=True):
     s = configuration.version
     if exception and sys.exc_info()[0] != None \
-       and sys.exc_info()[0] == socket.error:
+       and sys.exc_info()[0] == BrokenPipeError:
         s += '*'
     else:
         s += ' '
