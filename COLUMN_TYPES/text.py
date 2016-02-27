@@ -34,19 +34,8 @@ cookies = None
 
 def read_url_not_cached(url):
     """Read an URL content to import in a column"""
-    import urllib.request, urllib.error, urllib.parse
     try:
-        with urllib.request.urlopen(url) as f:
-            c = f.read()
-            encoding = f.headers.get_content_charset()
-            if encoding:
-                c = c.decode(encoding)
-            else:
-                try:
-                    c = c.decode('utf-8')
-                except UnicodeDecodeError:
-                    c = c.decode('latin-1')
-
+        c = utilities.read_url(url)
         if '<html>' in c.lower():
             try:
                 from ..LOCAL import fakeuser

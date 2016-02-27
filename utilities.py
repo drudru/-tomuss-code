@@ -32,6 +32,7 @@ import threading
 import shutil
 import imp
 import ast
+import urllib
 import tomuss_init
 from . import configuration
 
@@ -56,6 +57,22 @@ def write_file(filename, content, encoding="utf-8"):
     f = open(filename, opt,encoding = encoding)
     f.write(content)
     f.close()
+
+def read_url(url):
+    try:
+        with urllib.request.urlopen(url) as f:
+            c = f.read()
+            encoding = f.headers.get_content_charset()
+            if encoding:
+                c = c.decode(encoding)
+            else:
+                try:
+                    c = c.decode('utf-8')
+                except UnicodeDecodeError:
+                    c = c.decode('latin-1')
+    except urllib.error.HTTPError as e:
+        raise IOError(str(e))
+    return c
 
 def write_file_safe(filename, content):
     write_file(filename, content,"utf-8")

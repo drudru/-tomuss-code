@@ -8,7 +8,6 @@ import sys
 import os
 import signal
 import time
-import urllib.request, urllib.error, urllib.parse
 import tomuss_init
 
 for i in ('http_proxy', 'https_proxy'):
@@ -26,10 +25,7 @@ def is_running1(url):
         print('*', end=' ')
     sys.stdout.flush()
     try:
-        f = urllib.request.urlopen(url + '/robots.txt')
-        c = f.read()
-        f.close()
-        return b'User-agent:' in c
+        return 'User-agent:' in utilities.read_url(url + '/robots.txt')
     except IOError:
         return False
 is_running1.last_url = ''

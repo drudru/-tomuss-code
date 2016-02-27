@@ -278,20 +278,16 @@ class FaceBook(Authenticator):
             code = form['code'][0]
         except KeyError:
             return
-        f = urllib.request.urlopen(
+        access_token = utilities.read_url(
             "https://graph.facebook.com/oauth/access_token?"
             "client_id=%s&redirect_uri=%s&client_secret=%s&code=%s" %
             (self.provider[0], service, self.provider[1], code,
             ))
-        access_token = f.read()
-        f.close()
         if not access_token.startswith("access_token="):
             return
         
-        f = urllib.request.urlopen("https://graph.facebook.com/me?" + access_token)
-        user_data = f.read()
-        f.close()
-
+        user_data = utilities.read_url("https://graph.facebook.com/me?"
+                                       + access_token)
         conn = http.client.HTTPSConnection('graph.facebook.com')
         conn.request('DELETE', '/me/permissions?' + access_token)
         conn.getresponse()

@@ -932,16 +932,8 @@ def tests():
         key = utilities.manage_key('LOGINS', '10800001/rsskey')
         assert(key is False)
 
-        c = ss.url('=10800000/%s' % ys)
-        if False:
-            # The HTML no more contains the URL
-            c = c.split('<iframe src="')[1].split('"')[0]
-            import urllib.request, urllib.error, urllib.parse
-            f = urllib.request.urlopen(c)
-            c = f.read()
-            f.close()
-        else:
-            c = s.url('=10800000/rsskey')
+        ss.url('=10800000/%s' % ys)
+        s.url('=10800000/rsskey')
         key = utilities.manage_key('LOGINS', '10800000/rsskey')
         assert(key is not False)
         c = ss.url('%s/rss/%s' % (ys, key))

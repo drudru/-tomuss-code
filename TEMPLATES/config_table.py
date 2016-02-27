@@ -230,9 +230,7 @@ def tell_reload_config():
     utilities.write_file(os.path.join('TMP', 'xxx.load_config'), i)
     for url, port, year, semester, host in configuration.suivi.servers():
         try:
-            f = urllib.request.urlopen(url + '/load_config/' + i)
-            f.read()
-            f.close()
+            utilities.read_url(url + '/load_config/' + i)
         except urllib.error.URLError:
             pass # If one 'suivi' server is not running, continue
         
