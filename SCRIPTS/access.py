@@ -18,7 +18,7 @@ _ = utilities._
 
 def plot(filename, commands):
     print('Plotting', filename)
-    f = os.popen('gnuplot', 'w')
+    f = os.popen('iconv -f UTF8 -t ISO-8859-1 | gnuplot', 'w')
     f.write('set encoding iso_8859_1\n')
     f.write('set terminal png large font arial tiny\n')
     f.write("set output 'TMP/%s'\n" % filename)
@@ -65,7 +65,7 @@ class Stats(object):
         self.hours[ int(date[8:10]) ] += 1
         self.days[ time.localtime(t)[6] ] += 1
 
-        t /= 86400 * 7
+        t //= 86400 * 7
         t *= 86400 * 7
 
         if t in self.dates:
@@ -191,45 +191,52 @@ analyse_cellchange()
 
 # Compute number of different students per day
 
+def read_visits():
+    visits = collections.defaultdict(list)
+    for filename in glob.glob(os.path.join("LOGS", "SUIVI*/*.connections")):
+        print(filename)
+        try:
+            f = open(filename, "r", encoding = 'utf-8')
+        except IOError:
+            continue
+        for line in f:
+            line = line.split(' ', 1)
+            if len(line) != 2:
+                continue
+            t, a_login = line
+            if len(t) != 14:
+                print(t)
+                continue
+            if configuration.is_a_student(a_login):
+                visits[a_login].append(t)
+        f.close()
+    return visits
+
 power = 1.5
 
 stats = Stats()
 histogram_diff = [0] * 1000
-student_diff = collections.defaultdict(list)
-for filenam in glob.glob(os.path.join("LOGS", "SUIVI*/*.connections")):
-    try:
-        ff = open(filenam, "r", encoding = "utf-8")
-    except IOError:
-        continue
-    last = ''
-    histo = [''] * 10 # Not recount the same student before 10 other students
-    last_access = {}
-    for lin in ff:
-        lin = lin.split(' ', 1)
-        if len(lin) != 2:
-            continue
-        tt, login = lin
-        if len(tt) != 14:
-            print(tt)
-            continue
+student_diff = {}
+for login, times in read_visits().items():
+    times.sort()
+    last = None
+    diffs = []
+    for tt in times:
         secondes = parse_date(tt)
-        if configuration.is_a_student(login):
-            if login in last_access:
-                diff = secondes - last_access[login]
-                student_diff[login].append(diff)
-                if diff >= 2:
-                    histogram_diff[int(math.log(diff)/math.log(power))] += 1
-                else:
-                    histogram_diff[0] += 1
-            last_access[login] = secondes
-        if login in histo:
-            histo.remove(login)
-            histo.append(login)
-            continue
-        histo.pop(0)
-        histo.append(login)
-        stats.add_YYYYMMDDHHMMSS(tt, seconds=secondes)
-    ff.close()
+        if last is not None:
+            diff = secondes - last
+            if diff >= 2:
+                histogram_diff[int(math.log(diff)/math.log(power))] += 1
+            else:
+                histogram_diff[0] += 1
+            diffs.append(diff)
+        else:
+            diff = 9999
+        if diff > 3600:
+            stats.add_YYYYMMDDHHMMSS(tt, seconds=secondes)
+        last = secondes
+    if diffs:
+        student_diff[login] = diffs
 
 stats.plot_hours('xxx.suivi.hours.png', 'visits')
 stats.plot_days('xxx.suivi.days.png', 'visits')
