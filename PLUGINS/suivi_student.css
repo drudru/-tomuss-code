@@ -117,6 +117,7 @@ SPAN.displaygrey { color: #555 }
     margin-right: 0.4em ;
     margin-left: 0px ;
     white-space: nowrap ;
+    max-height: 2.5em ;
 }
 
 .CellTitle { font-size: 60% ; }
@@ -302,6 +303,7 @@ DIV.tipped DIV.text:hover { background: url(tip.png) }
     overflow: visible ;
     white-space: normal ;
     max-width: initial ;
+    max-height: initial ;
 }
 
 
