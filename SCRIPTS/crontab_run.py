@@ -80,23 +80,12 @@ for I in * ; do echo "$I: wchan=$(cat $I/wchan) sleepavg=$(grep SleepAVG $I/stat
                 sys.stdout.flush()
                 pass # Normal case : there is no process (reboot or core-dump)
         print(', start')
-        utilities.mkpath(logdir)
-        logname = time.strftime('%Y-%m-%d_%H:%M:%S')
-        loglink = os.path.join(logdir, 'log')
-        if os.path.islink(loglink):
-            os.unlink(loglink)
-        os.symlink(logname, loglink)
         os.system('''. LOCAL/profile
 ulimit -s 1024
-nohup %s ./%s >%s/%s 2>&1 &
-P=$!
+nohup %s ./%s daemon &
 sleep 1 # Wait server start
-if [ -d /proc/$P ]
-then
-echo $P >%s/pid
-fi
 ''' %
-                  (strace, command, logdir, logname, logdir))
+                  (strace, command))
     else:
         print(', yet running')
 
@@ -117,7 +106,6 @@ def stop(name):
     print('%s : PID = %d' % (name, pid))
     try:
         os.kill(pid, 15)
-        utilities.write_file(os.path.join('LOGS', name.upper(), 'pid'), '')
         print(name, 'stopped')
         return pid
     except OSError:

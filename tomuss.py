@@ -249,6 +249,8 @@ class MyRequestBroker(utilities.FakeRequestHandler):
 
 
 if __name__ == "__main__":
+    if 'daemon' in sys.argv:
+        utilities.start_as_daemon(os.path.join("LOGS", "TOMUSS"))
     utilities.display_stack_on_kill()
     if 'regtest' in sys.argv:
         configuration.regtest = True

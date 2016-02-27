@@ -186,6 +186,8 @@ if __name__ == "__main__":
     except:
         sys.stderr.write("%s yearYYYY|any semester|any TCPport\n"% sys.argv[0])
         sys.exit(1)
+    if 'daemon' in sys.argv:
+        utilities.start_as_daemon(os.path.join("LOGS", "SUIVI%d"% server_port))
 
     for i in sys.argv:
         if i == 'regtest':

@@ -1467,4 +1467,21 @@ def init(launch_threads=True):
         'ip_error.html',
         content=_("ip_error.html"))
     files.add('PLUGINS', 'suivi_student_charte.html')
-        
+
+def start_as_daemon(logdir):
+    mkpath(logdir)
+    logname = time.strftime('%Y-%m-%d_%H:%M:%S')
+    start_as_daemon.log = open(os.path.join(logdir, logname), "w")
+    os.dup2(start_as_daemon.log.fileno() ,1)
+    sys.stderr = sys.stdout
+    loglink = os.path.join(logdir, 'log')
+    if os.path.islink(loglink):
+        os.unlink(loglink)
+    os.symlink(logname, loglink)
+
+    pid = os.path.join(logdir, 'pid')
+    write_file(pid, str(os.getpid()))
+
+    import atexit
+    atexit.register(os.unlink, pid)
+
