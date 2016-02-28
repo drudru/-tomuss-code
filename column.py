@@ -422,6 +422,12 @@ class Column(object):
                         if col and col.visible(hide):
                             titles.append(title)
                     value = ' '.join(titles)
+            elif attr.name == 'visibility_date':
+                if value == '':
+                    # Became visible on the last change
+                    value = max(getattr(self, 'visibility_date__mtime',''),
+                                getattr(self, 'visibility__mtime', '')
+                                )
             if value != attr.default_value:
                 if attr.name == 'type':
                     value = value.name

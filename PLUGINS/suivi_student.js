@@ -966,6 +966,20 @@ function ungoto_cellbox(o)
     }
 }
 
+function cell_visibility_date(cell, column)
+{
+  if ( cell[2] === undefined )
+    return new Date(0) ;
+  var modif_time = get_date_tomuss(cell[2]) ;
+  if ( column.visibility_date === '' || column.visibility_date === undefined )
+    return modif_time ;
+  var column_visible_date = get_date_tomuss(column.visibility_date) ;
+  if ( column_visible_date < modif_time )
+    return modif_time ;
+  else
+    return column_visible_date ;
+}
+
 function DisplayLastGrades(node)
 {
   if ( is_a_teacher )
@@ -982,8 +996,8 @@ function DisplayLastGrades(node)
 	  var cell = ue.line[data_col] ;
 	  if ( cell[0] === '' )
 	    continue ;
-	  if ( cell[2] === undefined
-	       || get_date_tomuss(cell[2]).getTime() < one_week )
+	  if ( cell_visibility_date(cell, ue.columns[data_col]).getTime()
+	       < one_week )
 	    continue ;
 	  if ( cell[1].length < 2 )
 	    continue ; // System value
@@ -1007,13 +1021,13 @@ function DisplayLastGrades(node)
     {
       var ue = s[i][0] ;
       var data_col = s[i][1] ;
+      var column = ue.columns[data_col] ;
       var cell = ue.line[data_col] ;
-      var quand = get_date_tomuss(cell[2]) ;
+      var quand = cell_visibility_date(cell, column) ;
       quand.setHours(0) ;
       quand.setMinutes(0) ;
       quand.setSeconds(0) ;
       quand = quand.getTime() ;
-      var column = ue.columns[data_col] ;
       var nb_days = Math.round((today - quand)/86400000) ;
       var day = daynames[nb_days] ;
       if ( day === undefined )
