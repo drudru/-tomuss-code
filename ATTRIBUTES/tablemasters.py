@@ -42,7 +42,7 @@ else
    teachers = value.split(/ +/) ;
   }
 if ( teachers.length )
-    i_am_the_teacher = myindex(teachers, my_identity) != -1 ;
+    i_am_the_teacher |= myindex(teachers, my_identity) != -1 ;
 else
     i_am_the_teacher = false ;
 return value ;
@@ -76,6 +76,13 @@ return value ;
         for login in old_value:
             if login not in new_value:
                 table.master_of_update('-', login)
+                if login == page.user_name:
+                    # Do not remove immediatly the right to modify the list
+                    # The user may have made an error, we should allow
+                    # to fix it until the next page unloading.
+                    table.managers = set(table.managers)
+                    table.managers.add(page.user_name)
+
 
     def default_value(self, table):
         ue = self.get_ue(table)
