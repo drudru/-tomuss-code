@@ -2017,6 +2017,7 @@ while True:
         traceback.print_exc(file=sys.stdout)
     except:
         traceback.print_exc(file=sys.stdout)
+        break
     finally:
         try:
             s.stop()
