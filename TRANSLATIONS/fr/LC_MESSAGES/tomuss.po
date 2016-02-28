@@ -5978,6 +5978,10 @@ msgstr "Un problème s'est produit. Votre session a probablement expiré.\n"
        "Réactualisez la page en appuyant sur la touche F5 et réessayez.\n"
        "Si le problème persiste, prévenez l'administrateur TOMUSS"
 
+msgid "CONFIRM_upload_last"
+msgstr "OK : le dernier fichier déposé.\n\n"
+       "Annuler : l'avant-dernier fichier déposé."
+
 msgid "TITLE_column_attr_upload_zip"
 msgstr "Charger ZIP"
 

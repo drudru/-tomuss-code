@@ -193,7 +193,7 @@ def upload_get(server):
     server.send_response(200)
     server.send_header('Content-Type', mime)
     server.end_headers()
-    server.the_file.write(data)
+    server.the_file.write(data.encode("utf-8"))
 
 plugin.Plugin('upload_post', '/{Y}/{S}/{U}/upload_post/{*}',
               function=upload_post, launch_thread = True,

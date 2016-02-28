@@ -5842,6 +5842,10 @@ msgstr "Your session probably expired.\n"
        "Reload the page by pressing the F5 key.\n"
        "If the problem persists, contact the TOMUSS administrator."
 
+msgid "CONFIRM_upload_last"
+msgstr "OK: the last uploaded file.\n\n"
+       "Cancel: the before the last uploaded file."
+
 msgid "TITLE_column_attr_upload_zip"
 msgstr "Load ZIP"
 

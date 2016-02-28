@@ -114,11 +114,18 @@ function upload_double_click(value)
 {
   if ( value === '' )
     return value ;
+  var more = "" ;
+  if ( the_current_cell.cell.history.indexOf("·") != -1 )
+    {
+      if ( ! confirm(_("CONFIRM_upload_last")) )
+	more = "~" ;
+    }
   window.open(url + '/=' + ticket + '/' + year + '/' + semester + '/' + ue
-    + '/upload_get/' + the_current_cell.column.the_id
-    + '/' + the_current_cell.line_id
-    + '/' + the_current_cell.line[1].value + ' ' + the_current_cell.line[2].value
-    + ' ' + upload_filename(the_current_cell.cell.comment)) ;
+	      + '/upload_get/' + the_current_cell.column.the_id
+	      + '/' + the_current_cell.line_id + more
+	      + '/' + the_current_cell.line[1].value + ' '
+	      + the_current_cell.line[2].value
+	      + ' ' + upload_filename(the_current_cell.cell.comment)) ;
   return value ;
 }
 
