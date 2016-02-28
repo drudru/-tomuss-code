@@ -3643,6 +3643,12 @@ msgstr "Moy"
 msgid "COL_COMMENT_avg"
 msgstr "Temps de réponse moyen du plugin en millisecondes"
 
+msgid "COL_TITLE_med"
+msgstr "Médiane"
+
+msgid "COL_COMMENT_med"
+msgstr "Temps médian de réponse du plugin en millisecondes"
+
 msgid "COL_TITLE_avg/med"
 msgstr "Moy/Méd"
 

@@ -3611,6 +3611,12 @@ msgstr "Avg"
 msgid "COL_COMMENT_avg"
 msgstr "Average answer time in milliseconds"
 
+msgid "COL_TITLE_med"
+msgstr "Median"
+
+msgid "COL_COMMENT_med"
+msgstr "Median answer time in millisecond"
+
 msgid "COL_TITLE_avg/med"
 msgstr "Avg/Med"
 

@@ -138,7 +138,7 @@ def run(service_name, lines):
             lines.append(cell.Line((
                         cell.CellValue(service_name),
                         cell.CellValue(k),
-                        cell.CellValue(dd.avg()*1000),
+                        cell.CellValue(dd.mediane()*1000),
                         cell.CellValue(dd.avg()/dd.mediane()),
                         cell.CellValue(dd.min*1000),
                         cell.CellValue(dd.max*1000),
@@ -162,8 +162,8 @@ def profiling(server):
         column.Column('1', '', freezed='F', width=2, type='Text',
                       title=server._('COL_TITLE_plugin')),
         column.Column('2', '', width=2, type='Note', minmax='[0;1000]',
-                      title=server._('COL_TITLE_avg'),
-                      comment=server._('COL_COMMENT_avg'),
+                      title=server._('COL_TITLE_med'),
+                      comment=server._('COL_COMMENT_med'),
                       ),
         column.Column('3', '', width=2, type='Note', minmax='[0;10]',
                       title=server._('COL_TITLE_avg/med'),
@@ -198,7 +198,7 @@ def profiling(server):
                       comment=server._('COL_COMMENT_when'),
                       ),
         )
-    lines = []                     
+    lines = []
     run(os.path.join('TOMUSS', str(server.the_year) + '.times'), lines)
 
     for url, port, year, semester, host in configuration.suivi.servers():
