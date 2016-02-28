@@ -108,7 +108,7 @@ class ColumnAttr(object):
             if self.name == 'columns': # XXX Copy past and not the right place
                 column.column_ordered_cache = None
             return 'ok.png'
-        
+
         if not table.modifiable:
             return table.bad_ro(page)
         
@@ -124,6 +124,9 @@ class ColumnAttr(object):
                                utilities._("MSG_column_colattr_unmodifiable")
                                + self.name)
         error = self.check(value)
+        if self.name == 'title' and not error:
+            if table.columns.from_title(value):
+                error = "Two columns with the same title"
         if error:
             table.error(page, error)
             raise ValueError(error)
