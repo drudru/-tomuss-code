@@ -107,8 +107,8 @@ def save_file(server, page, column, lin_id, data, filename):
     if os.path.exists(file_path):
         os.rename(file_path, file_path + '~')
 
-    if isinstance(data, str):
-        f = open(file_path, "w", encoding = "utf-8")
+    if isinstance(data, bytes):
+        f = open(file_path, "wb")
         n = len(data)
         f.write(data)
         f.close()

@@ -74,7 +74,7 @@ def import_zip(server):
                                       + '</span>\n')
                 continue
 
-            f = zf.open(filename, "r", encoding = "utf-8")
+            f = zf.open(filename, "r")
             data = f.read()
             f.close()
             upload.save_file(
