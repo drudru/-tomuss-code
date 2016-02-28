@@ -285,8 +285,9 @@ function head_html()
        options += '<option>' +  year + '/' + semester + '</option>' ;
      options = options.replace('>' + year + '/' + semester,
 			       ' selected>' + year + '/' + semester) ;
-     options = '<select onchange="semester_change(this);" '
-       + 'style="background:' + semester_color + '">'
+     options = options.replace(/<option/g,
+			       '<option onmouseup="semester_change(this);"') ;
+     options = '<select style="background:' + semester_color + '">'
        + options + '</select>' ;
    }
  else
@@ -302,10 +303,9 @@ function head_html()
 function semester_change(t)
 {
   t.blur() ;
-  window.open(url + '/=' + ticket + '/'
-	      + t.childNodes[t.selectedIndex].innerHTML + '/' + ue) ;
-  for(var i=0;i<t.childNodes.length;i++)
-      if ( t.childNodes[i].innerHTML == year + '/' + semester )
+  window.open(url + '/=' + ticket + '/' + t.innerHTML + '/' + ue) ;
+  for(var i=0;i<t.parentNode.childNodes.length;i++)
+      if ( t.parentNode.childNodes[i].innerHTML == year + '/' + semester )
 	  {
 	      t.selectedIndex = i ;
 	      break ;
