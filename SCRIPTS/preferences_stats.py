@@ -2,16 +2,14 @@
 # -*- coding: latin-1 -*-
 
 """
-Suivi Preference statistics
+Preference statistics
 """
 
-import glob
 import collections
 import os
 import math
-import ast
 import tomuss_init
-from .. import utilities
+from ..PLUGINS import suivi_preferences
 
 nb_on = collections.defaultdict(int)
 nb_set = collections.defaultdict(int)
@@ -19,40 +17,10 @@ pairs = collections.defaultdict(int)
 data = []
 nb = 0
 
-defaults = {
-    'favoris_sort': '0',
-    'invert_name': '1',
-    'zebra_step': '5',
-    'interface': 'N',
-    'nr_lines': 0,
-    'nr_cols': 0,
-    'scrollbar_right': '1',
-    'nr_favorites': '6',
-    'page_step': '1',
-    'current_suivi': '0',
-    'v_scrollbar_nr': '1',
-    'home_3scrollbar': '1',
-    'v_scrollbar': '1',
-    'language': 'fr',
-    'display_tips': 1,
-    }
-
-for filename in glob.glob("DB/LOGINS/*/*/preferences"):
-    d = ast.literal_eval(utilities.read_file(filename)
-                         .replace("OUI", "1")
-                         .replace("NON", "0")
-                         .replace("N", "0")
-                     )
+for dummy_login, d in suivi_preferences.read():
     nb += 1
     s = []
     for k in sorted(d):
-        if k in defaults:
-            if d[k] == defaults[k]:
-                del d[k]
-                continue
-            if k == 'interface':
-                del d[k]
-                continue
         if d[k]:
             nb_on[k] += 1
             s.append(k)

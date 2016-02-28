@@ -19,6 +19,9 @@
 #
 #    Contact: Thierry.EXCOFFIER@bat710.univ-lyon1.fr
 
+import os
+import glob
+import ast
 from .. import plugin
 from .. import utilities
 from .. import tablestat
@@ -26,18 +29,63 @@ from .. import document
 from .. import column
 from .. import cell
 
+defaults = {
+    'favoris_sort': '0',
+    'invert_name': '1',
+    'zebra_step': '5',
+    'interface': '0',
+    'nr_lines': '0',
+    'nr_cols': '0',
+    'scrollbar_right': '1',
+    'nr_favorites': '6',
+    'page_step': '1',
+    'current_suivi': '0',
+    'v_scrollbar_nr': '1',
+    'home_3scrollbar': '1',
+    'v_scrollbar': '1',
+    'language': 'fr',
+    'display_tips': '1',
+    'black_and_white': '0',
+    'big_box': '0',
+    'big_text': '0',
+    'color_value': '0',
+    'green_prst': '0',
+    'hide_picture': '0',
+    'hide_right_column': '0',
+    'highlight_grade': '1',
+    'no_teacher_color': '0',
+    'private_suivi': '0',
+    'recursive_formula': '0',
+    'show_empty': '0',
+    'debug_table': '0',
+    'debug_home': '0',
+    'debug_suivi': '0',
+    }
+
+def read():
+    for filename in glob.glob(os.path.join("DB", "LOGINS", "*", "*",
+                                           "preferences")):
+        d = ast.literal_eval(utilities.read_file(filename)
+                             .replace("OUI", "1")
+                             .replace("NON", "0")
+                             .replace("N", "0")
+                         )
+        # Remove unchanged preferences
+        d = {k: str(v)
+             for k, v in d.items()
+             if k != 'interface' and defaults.get(k, '') != str(v)
+             }
+        yield (filename.split(os.path.sep)[-2], d)
+
 def preferences(server):
     """Join of all the preferences table"""
 
     lines = []
-    for t in tablestat.les_ues('0', 'Preferences', all_files=True):
-        login = utilities.module_to_login(t.ue)
-        for key, line in t.lines.items():
-            if line[3].value.lower() != line[1].value.lower():
-                lines.append(cell.Line((cell.CellValue(login),
-                                        cell.CellValue(key),
-                                        cell.CellValue(line[3].value))))
-        t.unload()
+    for login, d in read():
+        for k, v in d.items():
+            lines.append(cell.Line((cell.CellValue(login),
+                                    cell.CellValue(k),
+                                    cell.CellValue(v))))
     columns = [
         column.Column('0', '', freezed='F', width=6,
                       title=server._('COL_TITLE_ID')),
