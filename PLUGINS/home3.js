@@ -146,15 +146,23 @@ function year_semester()
     return s.value ;
   // The semester menu list is not yet on screen: take the last one
   var hs = display_data['HomeSemesters'] ;
-  hs = hs[hs.length - 1] ;
-  return hs[2] + '/' + hs[3] ;
+  if ( hs )
+    {
+      hs = hs[hs.length - 1] ;
+      return hs[2] + '/' + hs[3] ;
+    }
+  return '2008/Test' ;
 }
 
 function current_year_semester()
 {
   var s = display_data["HomeSemesters"] ;
-  s = s[s.length - 1] ;
-  return s[2] + '/' + s[3] ;
+  if ( s )
+    {
+      s = s[s.length - 1] ;
+      return s[2] + '/' + s[3] ;
+    }
+  return '2008/Test' ;
 }
 
 function first_university_year_semester()
@@ -549,6 +557,12 @@ DisplayHomePreferencesDebug.need_node = [] ;
 
 function home_preferences_popup()
 {
+    if ( popup_is_open() )
+    {
+      popup_close() ;
+      return ;
+    }
+
   var s = [_('MSG_home_preferences')] ;
   var children = display_definition['HomePreferences'].children ;
   for(var i in children)
