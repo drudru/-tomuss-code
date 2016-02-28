@@ -313,30 +313,34 @@ def generate_data_files(suivi=False):
     import gettext
     js = utilities.js
 
-    def generate_js(directory):
+    def generate_js(directory, dictionary):
         try:
-            t = gettext.translation('tomuss', directory, [language])
+             dictionary.update(
+                 gettext.translation('tomuss', directory,
+                                     [language])._catalog.items()
+             )
         except IOError:
             return
-        for k, v in t._catalog.items():
-            if k:
-                f.write('%s:%s,\n' % (js(k),js(v)))
 
     import itertools
     local_translation = os.path.join('LOCAL', 'LOCAL_TRANSLATIONS')
     if not os.path.exists(local_translation):
         os.mkdir(local_translation)
-    for language in itertools.chain(os.listdir('TRANSLATIONS'),
-                                    os.listdir(local_translation)):
+    for language in set(itertools.chain(os.listdir('TRANSLATIONS'),
+                                        os.listdir(local_translation))):
         language = language.lower()
         languages.add(language)
         filename = os.path.join('TMP', language + '.js')
 
         if not suivi:
+            d = {}
+            generate_js('TRANSLATIONS', d)
+            generate_js(local_translation, d)
             f = open(filename, 'w', encoding = "utf-8")
             f.write('translations["' + language + '"] = {')
-            generate_js('TRANSLATIONS')
-            generate_js(local_translation)
+            for k, v in d.items():
+                if k:
+                    f.write('%s:%s,\n' % (js(k),js(v)))
             f.write('"_":""} ;\n')
             f.close()
         files.files[language + '.js'] = utilities.StaticFile(filename)
