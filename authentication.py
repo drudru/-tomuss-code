@@ -105,7 +105,7 @@ def get_path(server, server_url):
                     server.send_header('Content-Type','text/html;charset=UTF-8')
                     server.end_headers()
                     server.the_file.write(
-                        "<script>window.parent.connected()</script>")
+                        b"<script>window.parent.connected()</script>")
                 else:
                     redirect(server, configuration.url_files
                              + '/allow_error.html')
