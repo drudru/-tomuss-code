@@ -543,8 +543,6 @@ def dispatch_request(server, manage_error=True):
         else:
             return False
 
-    server.the_file = p.codec(server.the_file)
-
     if p.unsafe and unsafe:
         server.send_response(p.response)
         server.send_header('Content-Type', 'text/html; charset=UTF-8')
@@ -554,12 +552,14 @@ def dispatch_request(server, manage_error=True):
                + server.path.replace("unsafe=1", "unsafe=0"))
 
         to_send = server._('MSG_beware_XSS') + '<br><a href="' + url + '">' + url.split("?")[0] + '</a>'
-        server.the_file.write(to_send)
+        server.the_file.write(to_send.encode("utf-8"))
         server.the_file.close()
         utilities.send_backtrace("XSS attack on " + server.ticket.user_name,
                                  "URL: %s\nTICKET: %s" % (url, server.ticket),
                                  exception=False)
         return
+
+    server.the_file = p.codec(server.the_file)
 
     try:
         server.the_ue = server.the_ue

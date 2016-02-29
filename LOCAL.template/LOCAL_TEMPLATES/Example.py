@@ -153,3 +153,7 @@ def cell_change(table, page, col_id, lin_id, new_value, date):
     This function must be fast.
     """
     pass
+
+css = """
+/* Insert your CSS here */
+"""
