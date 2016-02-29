@@ -75,7 +75,7 @@ def display_mails(server):
                 teachers[teacher_login].append(t.ue)
     if not teachers:
         return '' # No teachers
-    return [' '.join(v) + ' <' + inscrits.L_fast.mail(k) + '>'
+    return [' '.join(v) + ' <' + (inscrits.L_fast.mail(k) or k) + '>'
             for k, v in teachers.items()
             ]
 
