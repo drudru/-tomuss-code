@@ -45,7 +45,7 @@ def upload_zip(server):
     column = table.columns.from_id(server.the_path[0])
     dirname = upload.container_path(column)
     f, name = tempfile.mkstemp()
-    zf = zipfile.ZipFile(os.fdopen(f, "w"),
+    zf = zipfile.ZipFile(os.fdopen(f, "wb"),
                          mode="w", compression=zipfile.ZIP_DEFLATED)
     for lin_id in server.the_path[1:-1]:
         if lin_id not in table.lines:
@@ -61,10 +61,10 @@ def upload_zip(server):
                 + '_' + filename_from_comment(line[column.data_col].comment)
             )
     zf.close()
-    f = open(name, "r", encoding = "utf-8")
+    f = open(name, "rb")
     while True:
         c = f.read(1000000)
-        if c == '':
+        if c == b'':
             break
         else:
             server.the_file.write(c)
