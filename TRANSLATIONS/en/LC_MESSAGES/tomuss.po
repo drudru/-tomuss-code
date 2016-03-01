@@ -5640,7 +5640,7 @@ msgid "LINK_fix_modifiables"
 msgstr "Modifiable tables that should not be"
 
 msgid "HELP_fix_modifiables"
-msgstr "Allow to put in readonly the old modifiable tables"
+msgstr "Fill the column with 'NO' to put the tables in read only"
 
 msgid "MSG_remove_history"
 msgstr "Remove the modification history of this table"

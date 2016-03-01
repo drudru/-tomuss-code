@@ -54,7 +54,7 @@ function on_cell_change(data_lin, data_col, value)
     var line = lines[data_lin] ;
     var cell = line[data_col] ;
     // Localy update the cell in data and on the screen
-    cell.set_value_local(value) ;
+    cell.set_value(value) ;
     var td = td_from_line_id_data_col(data_lin, data_col) ;
     if ( td !== undefined )
          update_cell(td, cell, columns[data_col]) ;
@@ -72,6 +72,11 @@ function on_cell_change(data_lin, data_col, value)
         document.getElementById('log').appendChild(img) ;
     }
     return false ; // Do not send the normal cell change to the server
+}
+
+function init_fix_modif()
+{
+  modification_allowed_on_this_line = on_cell_change ;
 }
 </script>''')
 
@@ -118,14 +123,15 @@ function on_cell_change(data_lin, data_col, value)
         column.Column('c8', '', type='Bool', width=1,
                       cell_writable="",
                       title=server._('SELECT_table_modifiable_true'),
+                      comment=server._("HELP_fix_modifiables"),
                   ),
         ]
     table_attrs = {
-        'comment': server._('Basculer en non modifiable les tables'),
+        'comment': server._("HELP_fix_modifiables"),
         'default_nr_columns': 5,
         'default_sort_columns': [0,1,2],
         }
-    server.the_file.write("""<script>setTimeout("var modification_allowed_on_this_line = on_cell_change;", 1000) ;</script>""")
+    server.the_file.write("<script>setTimeout(init_fix_modif,1000);</script>")
     document.virtual_table(server, columns, lines, table_attrs=table_attrs)
 
 plugin.Plugin('fix_modifiables', '/fix_modifiables', function=fix_modifiables,

@@ -5768,7 +5768,7 @@ msgid "LINK_fix_modifiables"
 msgstr "Tables modifiable qui ne devraient pas"
 
 msgid "HELP_fix_modifiables"
-msgstr "Permet de remettre en lecture seulement les tables du passé."
+msgstr "Remplir la colonne de 'NON' pour remettre en lecture seulement les tables du passé."
 
 msgid "MSG_remove_history"
 msgstr "Effacer l'historique des modifications de cette table"
