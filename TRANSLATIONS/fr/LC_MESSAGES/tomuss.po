@@ -6025,3 +6025,6 @@ msgstr "Je ne trouve pas le numéro de l'étudiant"
 msgid "Kb"
 msgstr "Ko"
 
+msgid "MSG_not_a_zip"
+msgstr "Ce n'est pas un fichier ZIP valide"
+

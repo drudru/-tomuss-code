@@ -83,6 +83,8 @@ def import_zip(server):
                            ).replace('/','_').replace("\\", "_"))
 
         zf.close()
+    except zipfile.BadZipFile:
+        server.the_file.write('<p>' + server._("MSG_not_a_zip"))
     finally:
         server.the_file.write('<p>THE END')
         table.do_not_unload_remove('import_zip')

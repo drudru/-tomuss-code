@@ -5888,3 +5888,6 @@ msgstr "Can't find the student login"
 
 msgid "Kb"
 msgstr "Kb"
+
+msgid "MSG_not_a_zip"
+msgstr "This is not a valid ZIP file"
