@@ -124,9 +124,6 @@ class ColumnAttr(object):
                                utilities._("MSG_column_colattr_unmodifiable")
                                + self.name)
         error = self.check(value)
-        if self.name == 'title' and not error:
-            if table.columns.from_title(value):
-                error = "Two columns with the same title"
         if error:
             table.error(page, error)
             raise ValueError(error)
@@ -149,6 +146,11 @@ class ColumnAttr(object):
         # in order to create the column.
         if value == getattr(column, self.name) and value != '':
             return 'ok.png' # Unchanged value
+
+        if self.name == 'title':
+            if table.columns.from_title(value):
+                table.error(page, "Two columns with the same title")
+                raise ValueError(error)
 
         setattr(column, self.name, value)
         setattr(column, self.name + '__mtime', date)
