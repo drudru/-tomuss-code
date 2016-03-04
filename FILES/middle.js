@@ -285,7 +285,7 @@ function head_html()
        options += '<option>' +  year + '/' + semester + '</option>' ;
      options = options.replace('>' + year + '/' + semester,
 			       ' selected>' + year + '/' + semester) ;
-     options = '<select onclick="semester_change(this)" style="background:'
+     options = '<select onchange="semester_change(this)" onclick="semester_change(this)" style="background:'
        + semester_color + '">' + options + '</select>' ;
    }
  else
