@@ -78,6 +78,10 @@ def extented(year, semester, ue):
 def new_page(server):
     """Create a new page and send the table editor to the client."""
 
+    if configuration.table_redirection(server):
+        server.close_connection_now()
+        return
+
     filename = document.table_filename(server.the_year, server.the_semester,
                                        server.the_ue)
     first_semester = configuration.university_semesters[0]
@@ -99,6 +103,7 @@ def new_page(server):
         utilities.start_new_thread(document.update_indexes,
                                    (server.the_year, server.the_semester,
                                     server.the_ue))
+
     start_load = time.time()
     try:
         table, page = document.table(server.the_year, server.the_semester,

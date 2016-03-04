@@ -575,6 +575,22 @@ def home_page_js_hook(dummy_server):
     return ''
 
 #REDEFINE
+# When opening a table, this function can trigger a redirection
+# based on the argument analysis
+def table_redirection(server):
+    from . import document
+    if os.path.exists(document.table_filename(server.the_year,
+                                              server.the_semester,
+                                              server.the_ue)):
+        return
+    if server.the_ue.startswith('EC-'):
+        server.the_file.write("<script>window.location = '%s%s' ;</script>"
+                              % (server_url,
+                                 server.path.replace("/EC-", "/UE-")))
+        return True
+
+
+#REDEFINE
 # These functions must NEVER be redefined once TOMUSS is in usage,
 # because the date are stored in plain text in files.
 # So changing this function will broke every existing files
