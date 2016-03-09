@@ -1276,7 +1276,8 @@ class Table(object):
             s.append(self.template.content(self))
             s.append('initialize();')
             s.append('--></script>  \n')
-            s.append('<style>' + self.template.css + '</style>')
+            s.append('<style id="template_style">'
+                     + self.template.css + '</style>')
         finally:
             pass
 

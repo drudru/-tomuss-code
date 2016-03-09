@@ -1722,6 +1722,8 @@ GUI_record.prototype.add_key = function(event, value) {
 var GUI = new GUI_record() ;
 function GUI_save()
 {
+  if ( ! connection_state )
+     return ;
   var now = millisec() ;
   if ( ! connection_state.connection_open )
     {

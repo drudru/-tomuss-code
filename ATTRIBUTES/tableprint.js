@@ -208,15 +208,7 @@ function printable_display_page(lines, title, page_break)
 	      txt_line.push(v) ;
 	      if ( v === '' )
 		v = '&nbsp;' ;
-	      if ( columns[c].green_filter(line, cell) )
-		html_class += ' color_green' ;
-	      if ( columns[c].red_filter(line, cell) )
-		html_class += ' color_red' ;
-	      if ( columns[c].greentext_filter(line, cell) )
-		html_class += ' greentext' ;
-	      if ( columns[c].redtext_filter(line, cell) )
-		html_class += ' redtext' ;
-	    
+	      html_class += ' ' + cell_class(columns[c], line, cell) ;
 	      s.push('<td class="' + html_class + '">' + v + '</td>') ;
 	    }
 	  t.push( txt_line.join('\t') ) ;
@@ -382,6 +374,8 @@ function print_selection(object, emargement, replace)
 {
   free_print_headers = [_("MSG_print_present"), _("MSG_print_given")] ;
   var p = [ printable_introduction() ] ;
+  p.push('<style>' + document.getElementById('template_style').textContent
+	 + '</style>') ;
   p.push('<script>') ;
   p.push('var do_printable_display = true ;') ;
   p.push('var columns_to_display = {};') ;
@@ -401,12 +395,14 @@ function print_selection(object, emargement, replace)
   p.push('var columns = ' + columns_in_javascript() + ';') ;
   p.push('var tr_classname = ' + tr_classname + ';') ;
   p.push('var lines ;') ;
+  p.push(cell_class.toString()) ;
   p.push('function initialize() {') ;
   p.push('if ( ! wait_scripts("initialize()") ) return ;') ;
   var lines_js = lines_in_javascript() ;
   p.push('lines = ' + lines_js + ';') ;
   if ( emargement )
     p.push('do_emargement();') ;
+  p.push('for(var i in lines) lines[i].line_id = i ;') ;
   p.push('initialise_columns() ;') ;
   p.push('setInterval("printable_display()", 200);') ;
   p.push('}') ;

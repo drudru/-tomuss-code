@@ -395,7 +395,9 @@ TD.today, #current_input.today, .today {
   font-weight: bolder ;
 }
 
-TD.default { color: #BBB }
+TD.default { color: #BBB;
+	     position: relative ; /* Needed for cell merging */
+	   }
 
 
 SPAN#teachers { font-weight: bold ; }
