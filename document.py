@@ -1249,6 +1249,8 @@ class Table(object):
                 s.append('--></script><div class="loading_bar"><div style="width:%d%%">&nbsp;</div></div>'
                          % int(i*100./to_load) )
             s.append('  <style>DIV.loading_bar { display: none;}</style>')
+            s.append('<style id="template_style">'
+                     + self.template.css + '</style>')
             s.append('''  <script><!--
             function initialize()
             {
@@ -1276,8 +1278,6 @@ class Table(object):
             s.append(self.template.content(self))
             s.append('initialize();')
             s.append('--></script>  \n')
-            s.append('<style id="template_style">'
-                     + self.template.css + '</style>')
         finally:
             pass
 
