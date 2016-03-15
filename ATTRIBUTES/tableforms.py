@@ -97,18 +97,14 @@ class TableForms(TableAttr):
 
 .tableform TEXTAREA, .tableform INPUT {
    background: white ;
-   width: 100% ;
+   width: 99% ;
 }
 BODY.tomuss .tableform H1 { text-align: center; font-size: 140%; }
 
-.tableform .close { float: right ; }
+DIV.tableform BUTTON.close { float: right ; font-size: 100% }
 
 TABLE#thetable TR.currentformline TD {
     background-color: #000 ;
     color: #FFF ;
  }
-
-
-
-
 '''
