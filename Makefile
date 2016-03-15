@@ -39,7 +39,7 @@ regtest1:clean translations
 regtest:regtest1
 	cd REGTEST_SERVER ; make regtest
 
-V := $(shell python3 -c 'import tomuss_init ; from . import configuration;print configuration.version' 2>/dev/null)
+V := $(shell python3 -c 'import tomuss_init ; from TOMUSS import configuration;print(configuration.version)' 2>/dev/null)
 
 release:translations
 	@echo "Check if we are in the 'stable' branch"

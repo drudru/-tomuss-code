@@ -20,11 +20,15 @@ versions.insert(0, '7236ceb319fb02e34394c091964c214510c735b2')
 versions.reverse()
 
 for a, b in pairs(versions):
-    f = os.popen('git log %s..%s' % (b, a), 'r')
+    f = os.popen('git log %s..%s | iconv -f ISO-8859-1 -t UTF-8' % (b, a), 'r')
     state = ''
     logs = []
     last_date = None
     for line in f:
+        try:
+            line = line.encode("latin-1").decode("utf-8")
+        except:
+            pass
         if line.startswith('commit'):
             continue
         if line.startswith('Author'):
