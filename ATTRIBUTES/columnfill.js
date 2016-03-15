@@ -707,7 +707,7 @@ Filler.prototype.update_html = function() {
 	? room.name.replace('%%', place)
 	: room.name.replace('%%', '???') ;
       var tip = '' ;
-      if ( old_val == new_val )
+      if ( old_val === new_val )
 	continue ;
       this.todo_real.push([new_val, line]) ;
       var classe ;
