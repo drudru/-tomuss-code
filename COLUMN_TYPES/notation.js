@@ -36,6 +36,7 @@ Type of question:
   * 0 : question
   * 1 : deleted question
   * 2 : question bonus
+  * 3 : comment
 
 Priorities:
   * 0, 1, 2, 3... for the original question list
@@ -46,11 +47,12 @@ Priorities:
   XXX BAD: these comments indicate some lines to be modified synchronously
 */
 
+var notation_debug = false ;
+
 // TODO
-// XXX Save grades after questions
+// XXX Average
 // XXX Rounding for step = 3
 // XXX Export global
-// XXX Global Comments
 // XXX Comment completion
 // XXX Feedback sauvegarde
 
@@ -175,7 +177,8 @@ NotationQuestion.prototype.set_grade_to = function(value)
   this.grade.not_graded = false ;
 } ;
 
-NotationQuestion.prototype.html = function(modifiable, questions_modifiable)
+NotationQuestion.prototype.html = function(modifiable, questions_modifiable,
+					  somebody_is_graded)
 {
   var q, comment ;
   var q_class = "question" ;
@@ -197,14 +200,21 @@ NotationQuestion.prototype.html = function(modifiable, questions_modifiable)
     + '<input value="' + encode_value(q) + '"'
     + ' class="' + q_class + '"'
     + ' onpaste="Notation.on_paste(event)"'
+    + ' ondrop="Notation.on_paste(event)"'
     + ' onfocus="Notation.on_focus(event)"'
+    + ' spellcheck="true"'
     + (modifiable ? '' : ' disabled')
-    + '>'
+    + '><div class="bonus_comment">'
     + (questions_modifiable
        ? hidden_txt('<span class="bonus">Ⓑ</span>', _('TIP_bonus_toggle'))
        : '<span class="bonus not_modifiable">Ⓑ</span>'
-      )
-    + '<canvas tabindex="0"></canvas>'
+      ) + '<br>'
+    + ((questions_modifiable && ! somebody_is_graded)
+       ? hidden_txt('<span class="make_comment">Ⓒ</span>',
+		    _('TIP_make_comment'))
+       : ''
+      ) + '<br>'
+    + '</div><canvas tabindex="0" onfocus="Notation.on_focus(event)"></canvas>'
     + '<div class="incdec">'
     + (questions_modifiable
        ? '<span class="inc">⊕</span><br><span class="dec">⊖</span>'
@@ -212,11 +222,19 @@ NotationQuestion.prototype.html = function(modifiable, questions_modifiable)
     + '</div>'
     + '<input'
     + (modifiable ? '' : ' disabled')
-    + ' onfocus="Notation.on_focus(event)"'
     + ' onpaste="Notation.on_paste(event)"'
+    + ' ondrop="Notation.on_paste(event)"'
+    + ' onfocus="Notation.on_focus(event)"'
+    + ' spellcheck="true"'
     + ' value="' + encode_value(comment) + '"'
     + ' class="' + c_class + '">'
-    + (i_am_root ? this.priority + ' ' + this.initial_value : '')
+    + (notation_debug
+       ? '<br>' + this.id
+       + ' priority=' + this.priority
+       + ' initial_value=' + this.initial_value
+       + ' somebody_is_graded=' + somebody_is_graded
+       + ' questions_modifiable=' + questions_modifiable
+       : '')
     + '</div>' ;
 } ;
 
@@ -283,8 +301,12 @@ NotationQuestion.prototype.slots_width = function() {
 
 NotationQuestion.prototype.draw_canvas = function()
 {
-  var canvas = document.getElementById(this.id
-				      ).getElementsByTagName('CANVAS')[0] ;
+  var canvas = document.getElementById(this.id) ;
+  if ( ! canvas )
+    return ; // deleted question
+  canvas = canvas.getElementsByTagName('CANVAS')[0] ;
+  if ( ! canvas )
+    return ;
   canvas.width = canvas.offsetWidth ;
   canvas.height = canvas.offsetHeight ;
 
@@ -331,6 +353,9 @@ NotationQuestion.prototype.is_a_question = function() {
 NotationQuestion.prototype.is_a_bonus = function() {
   return this.type === 2 ; } ;
 
+NotationQuestion.prototype.is_a_comment = function() {
+  return this.type === 3 ; } ;
+
 NotationQuestion.prototype.is_a_question_or_bonus = function() {
   return this.is_a_question() || this.is_a_bonus() ; } ;
 
@@ -347,6 +372,12 @@ NotationQuestion.prototype.is_fully_empty_question = function() {
   return this.is_an_empty_question()
     && this.grade.grade === 0 && this.grade.comment === '' ; } ;
 
+NotationQuestion.prototype.toggle_comment = function() {
+  this.set_grade_to(1 - this.grade.stored) ;
+  document.getElementById(this.id).className = 'a_comment'
+    + ( this.grade.stored ? ' selected' : '') ;
+} ;
+
 var notation_default = new NotationQuestion({}) ;
 delete notation_default["initial_value"] ;
 delete notation_default["grade"] ;
@@ -357,35 +388,46 @@ function Notation()
 
 Notation.prototype.log = function(txt)
 {
-  console.log(txt) ;
+  if ( notation_debug )
+    console.log(txt) ;
 } ;
 
 Notation.prototype.start = function()
 {
-  if ( ! this.jump_old )
-    this.jump_old = the_current_cell.jump.bind(the_current_cell) ;
+  this.jump_old = the_current_cell.jump.bind(the_current_cell) ;
+  this.popup_is_open = popup_is_open ;
+  var me = this ;
+  popup_is_open = function() { return me.stop_event ; } ;
   this.column = the_current_cell.column ;
   the_current_cell.jump = this.jump.bind(this) ;
   create_popup(
     'notation_content',
     '<style>'
       + 'DIV.notation_content { border: 2px solid black; top: 10em ; right: 1em; bottom: 0px; left: 25% }'
-      + '#notation_content { white-space: nowrap }'
+      + 'DIV.notation_content .the_questions { white-space: nowrap ; position: absolute; top: 2em ; bottom: 25%; right: 0px; left: 0px ; overflow: auto }'
+      + 'DIV.notation_content .the_comments { position: absolute; top: 75% ; bottom: 0px; overflow: auto }'
       + 'DIV.notation_content .empty { color: #888 }'
       + 'DIV.notation_content INPUT { font-size: 100% }'
       + 'DIV.notation_content DIV * { vertical-align: middle }'
       + 'DIV.notation_content INPUT.question { width: 20% }'
-      + 'DIV.notation_content INPUT.comment_input { width: 52% ; }'
-      + 'DIV.notation_content CANVAS { width: 20% ; height: 1.5em ; opacity: 0.5 ; cursor: pointer }'
-      + 'DIV.notation_content .incdec, DIV.notation_content .bonus {cursor: pointer }'
-      + 'DIV.notation_content DIV:hover > CANVAS { opacity: 1 }'
-      + 'DIV.notation_content .incdec, DIV.notation_content .bonus { opacity:0 ; display: inline-block; text-align: right; transition: opacity 2s }'
+      + 'DIV.notation_content INPUT.comment_input { width: 50% ; }'
+      + 'DIV.notation_content CANVAS { width: 20% ; height: 1.4em ; opacity: 0.5 ; cursor: pointer }'
+      + 'DIV.notation_content .incdec, DIV.notation_content .bonus_comment {line-height: 0.8em ; }'
+      + 'DIV.notation_content .incdec, DIV.notation_content .bonus_comment, .edit_comment, .delete_comment {cursor: pointer }'
+      + 'DIV.notation_content .focus CANVAS { opacity: 1 }'
+      + 'DIV.notation_content .incdec, DIV.notation_content .bonus_comment { display: inline-block; text-align: right; }'
+      + 'DIV.notation_content .incdec, DIV.notation_content .bonus_comment .bonus, DIV.notation_content .bonus_comment .make_comment { opacity:0 ; }'
+      + 'DIV.notation_content .last_ones { font-weight: bold }'
+      + 'DIV.notation_content .delete_comment { color: #F00 }'
       + 'DIV.notation_content H1 { position: relative ; height: 1.5em}'
       + 'DIV.type2 .bonus { color: #00F }'
+      + 'DIV.notation_content DIV.a_comment { display: inline-block; border: 1px solid black; margin: 4px ; }'
+      + 'DIV.notation_content DIV.a_comment:hover { background: #FFF }'
+      + 'DIV.notation_content DIV.a_comment.selected { color: #00F;border: 1px solid #00F  }'
       + '#notation_student { }'
       + '#notation_column { position: absolute ; right: 4em;}'
       + '#notation_grade {  }'
-      + 'CANVAS:hover + DIV.incdec, DIV.incdec:hover, .question:hover + DIV SPAN.bonus, SPAN.bonus:hover, DIV.notation_content .type2 .bonus { opacity: 1 }'
+      + 'DIV.notation_content .focus DIV.incdec, DIV.notation_content .focus DIV.bonus_comment *, DIV.notation_content .type2 .bonus_comment .bonus { opacity: 1 }'
       + '</style>'
       + '<h1>'
       + '<span id="notation_column">' + html(this.column.title) + '</span>'
@@ -408,7 +450,6 @@ Notation.prototype.start = function()
   popup_close = this.close.bind(this) ;
   this.parse_questions(this.column.comment) ;
   this.select_current_line() ;
-  this.add_empty_question_if_needed() ;
   this.column_modifiable = column_change_allowed(this.column) ;
   this.update_popup() ;
   this.notation_error.innerHTML = _("MSG_notation_help") ;
@@ -487,6 +528,8 @@ Notation.prototype.jump = function(lin, col, do_not_focus, line_id, data_col)
   this.jump_old(lin, col, do_not_focus, line_id, data_col) ;
   this.select_current_line() ;
   this.update_popup() ;
+  if ( ! this.jump_from_notation )
+    this.stop_event = false ;
 } ;
 
 Notation.prototype.update_all_grades = function()
@@ -515,6 +558,7 @@ Notation.prototype.close = function()
   the_current_cell.jump = this.jump_old ;
   popup_close = this.popup_close ;
   popup_close() ;
+  popup_is_open = this.popup_is_open ;
   this.update_all_grades() ;
   table_fill(true, true, true, true) ;
 } ;
@@ -648,7 +692,6 @@ Notation.prototype.add_empty_question_if_needed = function()
     return ;
   var id = this.unused_id() ;
   this.questions[id] = new NotationQuestion({id: id, priority: 9999}) ;
-  this.update_popup() ;
 } ;
 
 Notation.prototype.maximum = function()
@@ -683,22 +726,15 @@ Notation.prototype.focus = function(question, what)
   if ( ! question )
     return ;
   this.log("focus " + question.id + ' what=' + what);
-  for(var i in this.notation_content.childNodes)
-  {
-    if ( this.notation_content.childNodes[i].id == question.id )
-    {
-      if ( ! this.modifiable )
-	what = 2 ; // XXX BAD
-      var e = this.notation_content.childNodes[i].childNodes ;
-      if ( e )
-      {
-	e = e[what] ;
-	e.focus() ;
-	try { set_selection(e, 0, 0) ; } catch(e) { } ;
-      }
-      break ;
-    }
-  }
+  var e = document.getElementById(question.id) ;
+  if ( ! e || ! e.childNodes )
+    return ;
+  if ( ! this.modifiable )
+    what = 2 ; // XXX BAD
+  if ( what != -1 )
+    e = e.childNodes[what] ;
+  e.focus() ;
+  try { set_selection(e, 0, 0) ; } catch(e) { } ;
 } ;
 
 Notation.prototype.is_an_empty_value = function(value)
@@ -711,6 +747,11 @@ Notation.prototype.on_focus = function(event)
 {
   this.log("on_focus") ;
   event = this.get_event(event) ;
+  if ( this.old_focused )
+     this.old_focused.className = this.old_focused.className.replace(/ *focus/,
+								     '') ;
+  this.old_focused = event.line ;
+  event.line.className += ' focus' ;
   if ( this.is_an_empty_value(event.target.value) )
   {
     event.target.value = '' ;
@@ -741,6 +782,7 @@ Notation.prototype.update_popup = function()
 {
   this.log("update") ;
   var i ;
+  this.add_empty_question_if_needed() ;
   this.update_title() ;
 
   var questions = [] ;
@@ -748,17 +790,45 @@ Notation.prototype.update_popup = function()
     if ( this.questions[i].is_a_question_or_bonus() )
       questions.push(this.questions[i]) ;
   this.sort_questions(questions) ;
-
   var s = [] ;
+  s.push('<div class="the_questions">') ;
   for(i in questions)
-    s.push(questions[i].html(this.modifiable, this.column_modifiable)) ;
+      s.push(questions[i].html(this.modifiable, this.column_modifiable,
+			      this.somebody_is_graded(questions[i].id))) ;
+  s.push('</div>') ;
+
+  questions = [] ;
+  for(i in this.questions)
+    if ( this.questions[i].is_a_comment() )
+      questions.push(this.questions[i]) ;
+  questions.sort(function(a, b) { return a.question < b.question
+				  ? -1
+				  : (a.question > b.question ? 1 : 0) ; }) ;
+  s.push('<div class="the_comments">') ;
+  for(i in questions)
+    s.push('<div tabindex="0" class="a_comment'
+	   + (questions[i].grade.stored ? " selected" : "")
+	   + (questions[i].priority >= 1000 ? " last_ones" : "")
+	   + '" id="' + questions[i].id + '">'
+	   + ((this.somebody_is_graded(questions[i].id)
+	      || ! this.column_modifiable)
+	      ? ''
+	      : '<span class="edit_comment">✎</span> ')
+	   + html(questions[i].question)
+	   + (notation_debug ? " " + questions[i].id : "")
+	   + ((this.somebody_is_graded(questions[i].id)
+	      || ! this.column_modifiable)
+	      ? ''
+	      : ' <span class="delete_comment">×</span>')
+	   + '</div>') ;
+  s.push('</div>') ;
+
   this.notation_content.innerHTML = s.join('') ;
 
-  for(i in questions)
-  {
-    if ( questions[i].is_a_question_or_bonus() )
-      questions[i].draw_canvas() ;
-  }
+  for(i in this.questions)
+    if ( this.questions[i].is_a_question_or_bonus() )
+      if ( this.questions[i].is_a_question_or_bonus() )
+	this.questions[i].draw_canvas() ;
 } ;
 
 Notation.prototype.unused_id = function()
@@ -824,6 +894,8 @@ Notation.prototype.on_mouse_down = function(event)
 {
   this.log("on_mouse_down") ;
   event = this.get_event(event) ;
+  this.stop_event = true ;
+
   GUI.add("notation_mouse_down", event, event.what) ;
 
   if ( ! event.question )
@@ -833,7 +905,7 @@ Notation.prototype.on_mouse_down = function(event)
   {
     if ( ! this.column_modifiable )
       return ;
-    switch(event.target.className)
+    switch(event.target.className.split(' ')[0])
     {
     case 'inc':
       event.question.steps = Math.min(event.question.steps+1, 10) ;
@@ -849,10 +921,37 @@ Notation.prototype.on_mouse_down = function(event)
       event.line.className = event.line.className.replace(
 	  /type[0-9]/, 'type' + event.question.type) ;
       break ;
+    case 'make_comment':
+      event.question.type = 3 ;
+      event.line.className = event.line.className.replace(
+	  /type[0-9]/, 'type3') ;
+      this.update_popup() ;
+      break ;
+    case 'a_comment':
+      if ( this.modifiable )
+	event.question.toggle_comment() ;
+      else
+	alert(_("ERROR_value_defined_by_another_user")) ;
+      break ;
+    case 'delete_comment':
+      event.question.type = 1 ;
+      this.update_popup() ;
+      break ;
+    case 'edit_comment':
+      var v = prompt(_("MSG_notation_comment"), event.question.question) ;
+      if ( v )
+	{
+	  event.question.question = v ;
+	  this.update_popup() ;
+	}
+      break ;
     }
   }
   else
-    stop_event(event) ;
+    {
+      event.target.focus() ;
+      stop_event(event) ;
+    }
   this.on_mouse_move(event, true) ;
 } ;
 
@@ -887,6 +986,21 @@ Notation.prototype.get_comments = function(id)
     catch(e) { }
   }
   return comments ;
+} ;
+
+Notation.prototype.somebody_is_graded = function(id)
+{
+  var g ;
+  for(var line_id in lines)
+  {
+    try {
+      g = JSON.parse(lines[line_id][this.column.data_col].comment) ;
+      if ( g[id] )
+	return true ;
+    }
+    catch(e) { }
+  }
+  return false ;
 } ;
 
 Notation.prototype.on_comment_change = function(event)
@@ -944,11 +1058,18 @@ Notation.prototype.on_question_change = function(event)
 Notation.prototype.on_keyup = function(event)
 {
   event = this.get_event(event) ;
+  this.log("keyup what=" + event.what + ' question=' + event.question.id) ;
   var questions = this.question_list() ;
   var question_index = myindex(questions, event.question) ;
-
   if ( event.keyCode <= 40 )
     GUI.add("notation_key", event, event.what) ;
+
+  if ( event.target.className.split(' ')[0] == 'a_comment'
+     && (event.keyCode == 32 || event.keyCode == 13) )
+  {
+    event.question.toggle_comment() ;
+    return ;
+  }
 
   switch(event.keyCode)
   {
@@ -958,8 +1079,8 @@ Notation.prototype.on_keyup = function(event)
     if ( event.what == 'question' || event.what == 'comment' )
     {
       var s = get_selection(event.target) ;
-      if ( event.what == 'question' )
-	this.add_empty_question_if_needed() ;
+      if ( event.what == 'question' && ! this.contain_empty_question() )
+	this.update_popup() ;
     }
     questions = this.question_list() ;
     this.focus(questions[question_index	+ (event.keyCode == 38 ? -1 : 1)],
@@ -980,12 +1101,14 @@ Notation.prototype.on_keyup = function(event)
     break ;
   case 34: // Next page
   case 33: // Previous page
+    this.jump_from_notation = true ;
     if ( event.keyCode == 34 )
       the_current_cell.cursor_down() ;
     else
       the_current_cell.cursor_up() ;
+    this.jump_from_notation = false ;
     setTimeout(function() {
-      Notation.focus(questions[question_index], event.child_nr) ; }, 100) ;
+      Notation.focus(event.question, event.child_nr) ; }, 100) ;
     break ;
   default:
     if ( event.target.value == event.target.old_value )
@@ -1025,12 +1148,16 @@ Notation.prototype.suivi = function()
        '<table class="notation_suivi" style="overflow:scroll;">'
       ] ;
   for(var question in questions)
-  {
-    question = questions[question] ;
-    s.push(question.suivi());
-  }
+    s.push(questions[question].suivi());
   s.push("</table>");
-  return s.join("") ;
+  var c = []
+  for(var question in this.questions)
+    {
+      question = this.questions[question] ;
+      if ( question.is_a_comment() && question.grade.stored )
+	c.push(html(question.question));
+    }
+  return s.join("") + c.join('<br>') ;
 } ;
 
 Notation = new Notation() ; // Only one instance
