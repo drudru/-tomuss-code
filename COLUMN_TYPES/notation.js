@@ -20,26 +20,35 @@
 */
 
 /*
-  Classes :
+
+Classes:
   * NotationGrade : grade, max and comment
   * NotationQuestion : question, max, steps, type
   + NotationGrade
   * Notation : question list
 
-  The question list and the grade list:
+The question list and the grade list:
   * are updated on each keystroke
   * are stored on student change
   The grades of all the students are computed on popup close.
 
-  Type of question :
+Type of question:
   * 0 : question
   * 1 : deleted question
   * 2 : question bonus
 
-  XXX BAD: these comments indicate some lines to modified synchronously
+Priorities:
+  * 0, 1, 2, 3... for the original question list
+  * ...           for the remote created questions
+  * 1000, 1001... for the localy created questions (updated after merging)
+  * 9999          for the empty question (updated to 1000... if filled)
+
+  XXX BAD: these comments indicate some lines to be modified synchronously
 */
 
 // TODO
+// XXX Save grades after questions
+// XXX Rounding for step = 3
 // XXX Export global
 // XXX Global Comments
 // XXX Comment completion
@@ -60,11 +69,11 @@ NotationGrade.prototype.set_comment = function(value)
   var g ;
   try {
     g = RegExp('^ *([-0-9.]*)[-0-9. ]*/([0-9.]*) *((.|\n)*)', 'm').exec(value) ;
-    g = [Number(g[1]), Number(g[2]), g[3]] ;
+    g = [g[1], g[2], g[3]] ;
   }
   catch(e) {
     g = RegExp('^ *([-0-9.]*)', 'm').exec(value) ;
-    g = [isNaN(g[1]) ? this.stored : Number(g[1]), this.max, this.comment] ;
+    g = [g[1], undefined, this.comment] ;
   }
   var error = this.set_grade(g[0], g[1]) ;
   this.local_change |= this.comment != g[2] ;
@@ -77,10 +86,14 @@ NotationGrade.prototype.set_grade = function(value, max)
 {
   var old_stored = this.stored ;
   var error ;
+  if ( isNaN(value) || value === '' )
+    value = this.stored ;
+  if ( isNaN(max) || max === '' )
+    max = this.max ;
   this.max = Math.max(0.1, Math.min(100, max)) ;
   if ( this.max != max )
     error = "MSG_notation_max_error" ;
-  this.stored = Math.max(this.min === undefined ? -9999 : this.min,
+  this.stored = Math.max(this.min === undefined ? -99999 : this.min,
 			 Math.min(this.max, value)) ;
   if ( this.stored != value )
     error = "MSG_notation_value_error" ;
@@ -138,16 +151,26 @@ NotationQuestion.prototype.set_grade = function(txt)
   var not_graded = ! txt ;
   if ( not_graded )
     txt = "0/" + this.max ;
-  this.grade = new NotationGrade(txt) ;
-  this.grade.not_graded = not_graded ;
+  this.new_grade(txt, not_graded) ;
 } ;
 
-NotationQuestion.prototype.set_grade_to = function(value)
+NotationQuestion.prototype.new_grade = function(txt, not_graded)
+{
+  this.grade = new NotationGrade(txt) ;
+  this.grade.not_graded = not_graded ;
+  this.set_min() ;
+} ;
+
+NotationQuestion.prototype.set_min = function()
 {
   if ( this.is_a_bonus() )
     this.grade.min = -this.grade.max ;
   else
     this.grade.min = 0 ;
+}
+
+NotationQuestion.prototype.set_grade_to = function(value)
+{
   this.grade.set_grade(value, this.max) ;
   this.grade.not_graded = false ;
 } ;
@@ -193,6 +216,7 @@ NotationQuestion.prototype.html = function(modifiable, questions_modifiable)
     + ' onpaste="Notation.on_paste(event)"'
     + ' value="' + encode_value(comment) + '"'
     + ' class="' + c_class + '">'
+    + (i_am_root ? this.priority + ' ' + this.initial_value : '')
     + '</div>' ;
 } ;
 
@@ -217,7 +241,11 @@ NotationQuestion.prototype.set_comment = function(value, column_modifiable)
   if ( this.max != this.grade.max && ! column_modifiable )
     error = "MSG_notation_not_allowed" ;
   else
-    this.max = this.grade.max ;
+    {
+      this.max = this.grade.max ;
+      this.set_min() ;
+    }
+
   return error ;
 } ;
 
@@ -267,12 +295,17 @@ NotationQuestion.prototype.draw_canvas = function()
     c.fillRect(0, 0, canvas.width, canvas.height) ;
   }
   c.fillStyle = "#000" ;
+  c.beginPath() ;
+  c.moveTo(0, 0) ;
+  c.lineTo(canvas.width, 0) ;
+  c.closePath() ;
+  c.stroke() ;
   for(var i = 0 ; i <= this.nr_slots() ; i++)
   {
     var x = canvas.width * i / this.nr_slots() ;
     c.beginPath() ;
     c.moveTo(x, 0) ;
-    c.lineTo(x, canvas.height * (i % this.steps === 0 ? 0.5 : 0.25)) ;
+    c.lineTo(x, canvas.height * (i % this.steps === 0 ? 1 : 0.5)) ;
     c.closePath() ;
     c.stroke() ;
   }
@@ -324,7 +357,7 @@ function Notation()
 
 Notation.prototype.log = function(txt)
 {
-  // console.log(txt) ;
+  console.log(txt) ;
 } ;
 
 Notation.prototype.start = function()
@@ -336,7 +369,7 @@ Notation.prototype.start = function()
   create_popup(
     'notation_content',
     '<style>'
-      + 'DIV.notation_content { border: 2px solid black; top: 10em ; left: 23em ; right: 1em; bottom: 0px }'
+      + 'DIV.notation_content { border: 2px solid black; top: 10em ; right: 1em; bottom: 0px; left: 25% }'
       + '#notation_content { white-space: nowrap }'
       + 'DIV.notation_content .empty { color: #888 }'
       + 'DIV.notation_content INPUT { font-size: 100% }'
@@ -344,6 +377,7 @@ Notation.prototype.start = function()
       + 'DIV.notation_content INPUT.question { width: 20% }'
       + 'DIV.notation_content INPUT.comment_input { width: 52% ; }'
       + 'DIV.notation_content CANVAS { width: 20% ; height: 1.5em ; opacity: 0.5 ; cursor: pointer }'
+      + 'DIV.notation_content .incdec, DIV.notation_content .bonus {cursor: pointer }'
       + 'DIV.notation_content DIV:hover > CANVAS { opacity: 1 }'
       + 'DIV.notation_content .incdec, DIV.notation_content .bonus { opacity:0 ; display: inline-block; text-align: right; transition: opacity 2s }'
       + 'DIV.notation_content H1 { position: relative ; height: 1.5em}'
@@ -365,6 +399,7 @@ Notation.prototype.start = function()
       + ' onmousemove="Notation.on_mouse_move(event)"'
       + '></div>',
     '', false) ;
+  this.local_priority = 1000 ;
   this.popup_close = popup_close ;
   this.notation_student = document.getElementById("notation_student") ;
   this.notation_grade   = document.getElementById("notation_grade") ;
@@ -383,7 +418,7 @@ Notation.prototype.start = function()
 
 Notation.prototype.parse_questions = function(txt)
 {
-  this.log("parse") ;
+  this.log("parse questions") ;
   var questions ;
   try {
     questions = JSON.parse(txt) ;
@@ -393,7 +428,7 @@ Notation.prototype.parse_questions = function(txt)
   this.questions = {} ;
   for(var i in questions)
   {
-    questions[i].priority = i ;
+    questions[i].priority = Number(i) ;
     this.questions[questions[i].id] = new NotationQuestion(questions[i]) ;
   }
 } ;
@@ -401,8 +436,8 @@ Notation.prototype.parse_questions = function(txt)
 Notation.prototype.save_current_line = function()
 {
   this.log("save_current_line " + (this.line ? this.line[0].value : "?")) ;
-  this.save_grades() ;
   this.save_questions() ;
+  this.save_grades() ;
 } ;
 
 Notation.prototype.clear_current_line = function()
@@ -433,11 +468,13 @@ Notation.prototype.select_current_line = function()
   this.notation_error.innerHTML = "" ;
 } ;
 
-Notation.prototype.question_list = function()
+Notation.prototype.question_list = function(with_deleted)
 {
   var questions = [] ;
   for(var i in this.questions)
-    if ( this.questions[i].is_a_question_or_bonus() )
+    if ( this.questions[i].is_a_question_or_bonus()
+	 || with_deleted
+       )
       questions.push(this.questions[i]) ;
   this.sort_questions(questions) ;
   return questions ;
@@ -486,25 +523,42 @@ Notation.prototype.merge_question_changes = function()
 {
   var current = this.questions ;
   this.parse_questions(this.column.comment) ;
-  var externes = this.questions ;
+  var remotes = this.question_list(true) ;
   this.questions = current ;
-  var priority = millisec() ;
-  for(var i in externes)
+  this.log("Merge before: " + JSON.stringify(this.questions)) ;
+  this.log("Merge remote: " + JSON.stringify(remotes)) ;
+  current = this.question_list(true) ;
+  var done = {} ;
+  for(var i in remotes)
   {
-    if ( ! this.questions[i] )
+    var remote = remotes[i] ;
+    var local = this.questions[remote.id] ;
+    done[remote.id] = true ;
+    if ( ! local )
     {
-      // New question from somebody
-      this.questions[i] = externes[i] ;
-      this.questions[i].priority = priority + i ;
+      this.log('New question from somebody: ' + remote.id) ;
+      this.questions[remote.id] = remote ;
     }
-    else if ( this.questions[i].initial_value == this.questions[i].hash() )
+    else if ( local.initial_value == local.hash() )
     {
-      // Not changed by local user
-      var saved_priority = this.questions[i].priority ;
-      this.questions[i] = externes[i] ;
-      this.questions[i].priority = saved_priority ;
+      this.log('Not changed by local user: ' + remote.id) ;
+      remote.grade = this.questions[remote.id].grade ; // Keep grades
+      this.questions[remote.id] = remote ;
+    }
+    else
+    {
+      this.log('Changed by local user: ' + remote.id) ;
+      this.log('initial_hash: ' + local.initial_value) ;
+      this.log('current hash: ' + local.hash()) ;
+      this.questions[remote.id].priority = remote.priority ;
     }
   }
+  // Only local questions
+  for(var i in current)
+    if ( ! done[current[i].id] && ! this.is_the_last(current[i])  )
+      current[i].priority = this.local_priority++ ;
+
+  this.log("Merge after: " + JSON.stringify(this.questions)) ;
 } ;
 
 Notation.prototype.save_questions = function()
@@ -513,18 +567,31 @@ Notation.prototype.save_questions = function()
   this.merge_question_changes() ;
   var questions = [] ;
   for(var question in this.questions)
-    if ( ! this.questions[question].is_the_last )
-      questions.push(this.questions[question]) ;
+  {
+    question = this.questions[question] ;
+    if ( ! this.is_the_last(question) )
+      {
+	questions.push(question) ;
+	question.initial_value = question.hash() ;
+      }
+  }
   this.sort_questions(questions) ;
   var v = JSON.stringify(questions) ;
   if ( v != this.column.comment )
   {
+    this.log("save questions old: " + this.column.comment) ;
+    this.log("save questions new: " + v) ;
     column_attr_set(this.column, 'comment', v) ;
     column_attr_set(this.column, 'minmax', '[0;' + this.maximum() + ']') ;
     the_current_cell.do_update_column_headers = true ;
     the_current_cell.update_column_headers() ;
   }
 } ;
+
+Notation.prototype.is_the_last = function(question) {
+  var questions = this.question_list() ;
+  return question == questions[questions.length-1] ; } ;
+
 
 Notation.prototype.merge_grade_changes = function()
 {
@@ -538,11 +605,8 @@ Notation.prototype.merge_grade_changes = function()
     if ( ! question )
       continue ;
     if ( question.grade.not_graded || ! question.grade.local_change )
-    {
       // Get the grade from somebody else
-      question.grade = new NotationGrade(grades[grade]) ;
-      question.grade.not_graded = false ;
-    }
+      question.new_grade(grades[grade]) ;
   }
 } ;
 
@@ -561,7 +625,11 @@ Notation.prototype.save_grades = function()
   this.merge_grade_changes() ;
   var v = this.get_json_grades() ;
   if ( v != this.cell.comment && v !== '{}' )
-    comment_change(this.line.line_id, this.column.data_col, v) ;
+    {
+      comment_change(this.line.line_id, this.column.data_col, v) ;
+      for(var i in this.questions)
+	this.questions[i].grade.local_change = false ;
+    }
 } ;
 
 Notation.prototype.contain_empty_question = function()
@@ -579,7 +647,7 @@ Notation.prototype.add_empty_question_if_needed = function()
   if ( this.contain_empty_question() )
     return ;
   var id = this.unused_id() ;
-  this.questions[id] = new NotationQuestion({id: id, priority: millisec()}) ;
+  this.questions[id] = new NotationQuestion({id: id, priority: 9999}) ;
   this.update_popup() ;
 } ;
 
@@ -674,22 +742,24 @@ Notation.prototype.update_popup = function()
   this.log("update") ;
   var i ;
   this.update_title() ;
+
   var questions = [] ;
   for(i in this.questions)
     if ( this.questions[i].is_a_question_or_bonus() )
-      questions.push(this.questions[i].html(this.modifiable,
-					    this.column_modifiable)) ;
+      questions.push(this.questions[i]) ;
   this.sort_questions(questions) ;
-  this.notation_content.innerHTML = questions.join('') ;
-  for(i in this.questions)
-  {
-    if ( this.questions[i].is_a_question_or_bonus() )
-      this.questions[i].draw_canvas() ;
-    this.questions[i].is_the_last = false ;
-  }
-  this.questions[i].is_the_last = true ;
-} ;
 
+  var s = [] ;
+  for(i in questions)
+    s.push(questions[i].html(this.modifiable, this.column_modifiable)) ;
+  this.notation_content.innerHTML = s.join('') ;
+
+  for(i in questions)
+  {
+    if ( questions[i].is_a_question_or_bonus() )
+      questions[i].draw_canvas() ;
+  }
+} ;
 
 Notation.prototype.unused_id = function()
 {
@@ -704,6 +774,7 @@ Notation.prototype.unused_id = function()
 
 Notation.prototype.get_event = function(event)
 {
+  last_user_interaction = millisec() ;
   event = the_event(event) ;
   event.line = event.target ;
   while( ! event.line.id )
@@ -753,6 +824,7 @@ Notation.prototype.on_mouse_down = function(event)
 {
   this.log("on_mouse_down") ;
   event = this.get_event(event) ;
+  GUI.add("notation_mouse_down", event, event.what) ;
 
   if ( ! event.question )
     return ;
@@ -779,6 +851,8 @@ Notation.prototype.on_mouse_down = function(event)
       break ;
     }
   }
+  else
+    stop_event(event) ;
   this.on_mouse_move(event, true) ;
 } ;
 
@@ -792,6 +866,7 @@ Notation.prototype.on_paste = function(event)
 {
   this.log("on_paste") ;
   event = this.get_event(event) ;
+  GUI.add("notation_paste", event, event.what) ;
   var me = this ;
   if ( event.what == 'comment' )
     setTimeout(function() { me.on_comment_change(event) ; }, 100) ;
@@ -862,8 +937,8 @@ Notation.prototype.on_question_change = function(event)
 {
   this.log("on_question_change " + event.target.value) ;
   event.question.question = event.target.value ;
-  if ( event.question.question !== '' )
-    event.question.is_the_last = false ;
+  if ( this.is_the_last(event.question) && event.question.question !== '' )
+    event.question.priority = this.local_priority++ ;
 } ;
 
 Notation.prototype.on_keyup = function(event)
@@ -871,6 +946,9 @@ Notation.prototype.on_keyup = function(event)
   event = this.get_event(event) ;
   var questions = this.question_list() ;
   var question_index = myindex(questions, event.question) ;
+
+  if ( event.keyCode <= 40 )
+    GUI.add("notation_key", event, event.what) ;
 
   switch(event.keyCode)
   {
@@ -881,10 +959,7 @@ Notation.prototype.on_keyup = function(event)
     {
       var s = get_selection(event.target) ;
       if ( event.what == 'question' )
-      {
-	this.save_current_line() ;
 	this.add_empty_question_if_needed() ;
-      }
     }
     questions = this.question_list() ;
     this.focus(questions[question_index	+ (event.keyCode == 38 ? -1 : 1)],
@@ -923,7 +998,7 @@ Notation.prototype.on_keyup = function(event)
   }
 
   if ( event.what == 'question' && event.target.value === ''
-       && ! event.question.is_the_last
+       && ! this.is_the_last(event.question)
      )
   {
     if ( confirm(_("ALERT_delete_line")) )
