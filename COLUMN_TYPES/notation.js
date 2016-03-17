@@ -24,7 +24,7 @@
 Classes:
   * NotationGrade : grade, max and comment
   * NotationQuestion : question, max, steps, type
-  + NotationGrade
+    + NotationGrade
   * Notation : question list
 
 The question list and the grade list:
@@ -50,8 +50,7 @@ Priorities:
 var notation_debug = false ;
 
 // TODO
-// XXX Missing grade
-// XXX Rounding for step = 3
+// XXX Huge Tip fix: do scroll
 // XXX Export global
 // XXX Comment completion
 // XXX Feedback sauvegarde
@@ -421,6 +420,7 @@ NotationQuestion.prototype.somebody_is_graded = function(id)
 var notation_default = new NotationQuestion({}) ;
 delete notation_default["initial_value"] ;
 delete notation_default["grade"] ;
+delete notation_default["stats"] ;
 
 function Notation()
 {
@@ -444,7 +444,7 @@ Notation.prototype.start = function()
     'notation_content',
     '<style>'
       + 'DIV.notation_content { border: 2px solid black; top: 10em ; right: 1em; bottom: 0px; left: 25% }'
-      + 'DIV.notation_content .the_questions { white-space: nowrap ; position: absolute; top: 2em ; bottom: 25%; right: 0px; left: 0px ; overflow: auto }'
+      + 'DIV.notation_content .the_questions { white-space: nowrap ; position: absolute; top: 3em ; bottom: 25%; right: 0px; left: 0px ; overflow: auto }'
       + 'DIV.notation_content .the_comments { position: absolute; top: 75% ; bottom: 0px; overflow: auto }'
       + 'DIV.notation_content .empty { color: #888 }'
       + 'DIV.notation_content INPUT { font-size: 100% }'
@@ -472,8 +472,10 @@ Notation.prototype.start = function()
       + '<h1>'
       + '<span id="notation_column">' + html(this.column.title) + '</span>'
       + '<span id="notation_student"></span>: '
-      + '<span id="notation_grade"></span> '
-      + '<span id="notation_error"></span></h1>',
+      + '<span id="notation_grade"></span><br>'
+      + '<span id="notation_other"></span>'
+      + '<span id="notation_error"></span>'
+      + '</h1>',
     '<div id="notation_content"'
       + ' onmouseup="Notation.on_mouse_up(event)"'
       + ' onmousedown="Notation.on_mouse_down(event)"'
@@ -487,14 +489,21 @@ Notation.prototype.start = function()
   this.notation_grade   = document.getElementById("notation_grade") ;
   this.notation_content = document.getElementById("notation_content") ;
   this.notation_error   = document.getElementById("notation_error") ;
+  this.notation_other   = document.getElementById("notation_other") ;
   popup_close = this.close.bind(this) ;
   this.parse_questions(this.column.comment) ;
   this.select_current_line() ;
   this.column_modifiable = column_change_allowed(this.column) ;
   this.compute_stats() ;
   this.update_popup() ;
-  this.notation_error.innerHTML = _("MSG_notation_help") ;
-  this.notation_error.style.color = "#888" ;
+  if ( this.column.comment === '' )
+    this.notation_error.innerHTML = '<div style="position:absolute;top: 6em; font-weight: normal">'
+  + _("MSG_notation_introduction") + '</div>' ;
+  else
+    {
+      this.notation_error.innerHTML = _("MSG_notation_help") ;
+      this.notation_error.style.color = "#888" ;
+    }
   this.focus(this.question_list()[0], 2 /* XXX BAD */) ;
 } ;
 
@@ -540,15 +549,44 @@ Notation.prototype.parse_grades = function(txt)
     this.questions[i].set_grade(grades[i]) ;
 } ;
 
+Notation.prototype.get_the_commented_line = function(line)
+{
+  if ( this.column.groupcolumn === '' )
+    return line ;
+
+  var col = data_col_from_col_title(this.column.groupcolumn) ;
+  if ( ! col )
+    return line ;
+
+  var group = line[col].value.toString() ;
+  if ( group === '' )
+    return line ;
+  for(var line_key in lines)
+  {
+    if ( lines[line_key][col].value.toString() == group
+	 && lines[line_key][this.column.data_col].comment !== '' )
+      return lines[line_key] ;
+  }
+  return line ;
+} ;
+
 Notation.prototype.select_current_line = function()
 {
   this.log("select_current_line " + the_current_cell.line[0].value) ;
   the_current_cell.tr.className += ' currentformline' ;
-  this.line = the_current_cell.line ;
+  this.line = this.get_the_commented_line(the_current_cell.line) ;
   this.cell = this.line[this.column.data_col] ;
   this.parse_grades(this.cell.comment) ;
   this.modifiable = this.cell && this.cell.is_mine() || i_am_the_teacher ;
   this.notation_error.innerHTML = "" ;
+  this.notation_student.innerHTML = html(this.line[0].value)
+    + ' ' + html(this.line[1].value) + ' ' + html(this.line[2].value) ;
+  if ( this.line != the_current_cell.line )
+    this.notation_other.innerHTML = '→ '
+    + html(the_current_cell.line[1].value) + ' '
+    + html(the_current_cell.line[2].value) + ' ' ;
+  else
+    this.notation_other.innerHTML = '' ;
 } ;
 
 Notation.prototype.question_list = function(with_deleted)
@@ -805,8 +843,6 @@ Notation.prototype.on_focus = function(event)
 Notation.prototype.update_title = function()
 {
   this.log("update title") ;
-  this.notation_student.innerHTML = html(this.line[0].value)
-    + ' ' + html(this.line[1].value) + ' ' + html(this.line[2].value) ;
   var s = this.get_grade() + '/' + this.maximum() ;
   var b = this.get_bonus() ;
   if ( b )
@@ -1045,7 +1081,6 @@ Notation.prototype.compute_stats = function()
   for(var question in this.questions)
     this.max_graded = Math.max(this.questions[question].stats.nr,
 			       this.max_graded) ;
-  console.log(this.max_graded) ;
   for(var question in this.questions)
     this.questions[question].max_graded = this.max_graded ;
 } ;
@@ -1126,7 +1161,7 @@ Notation.prototype.on_keyup = function(event)
     if ( event.what == 'question' || event.what == 'comment' )
     {
       var s = get_selection(event.target) ;
-      if ( event.what == 'question' && ! this.contain_empty_question() )
+      if ( ! this.contain_empty_question() )
 	this.update_popup() ;
     }
     questions = this.question_list() ;
