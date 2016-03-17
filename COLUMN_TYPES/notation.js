@@ -50,11 +50,16 @@ Priorities:
 var notation_debug = false ;
 
 // TODO
-// XXX Average
+// XXX Missing grade
 // XXX Rounding for step = 3
 // XXX Export global
 // XXX Comment completion
 // XXX Feedback sauvegarde
+
+function trunc(x)
+{
+  return Number(x.toFixed(3)) ;
+}
 
 function NotationGrade(txt)
 {
@@ -119,6 +124,7 @@ function NotationQuestion(dict)
   for(var key in dict)
     this[key] = dict[key] ;
   this.initial_value = this.hash() ;
+  this.stats = new Stats() ;
   this.set_grade() ;
 }
 
@@ -171,14 +177,23 @@ NotationQuestion.prototype.set_min = function()
     this.grade.min = 0 ;
 }
 
-NotationQuestion.prototype.set_grade_to = function(value)
+NotationQuestion.prototype.remove_grade = function(v)
 {
-  this.grade.set_grade(value, this.max) ;
-  this.grade.not_graded = false ;
+  this.stats.all_values[v]-- ;
+  this.stats.nr-- ;
+  this.stats.sum -= v ;
+  this.stats.sum2 -= v*v ;
 } ;
 
-NotationQuestion.prototype.html = function(modifiable, questions_modifiable,
-					  somebody_is_graded)
+NotationQuestion.prototype.set_grade_to = function(value)
+{
+  this.remove_grade(this.grade.grade) ;
+  this.grade.set_grade(value, this.max) ;
+  this.grade.not_graded = false ;
+  this.stats.add(this.grade.grade) ;
+} ;
+
+NotationQuestion.prototype.html = function(modifiable, questions_modifiable)
 {
   var q, comment ;
   var q_class = "question" ;
@@ -209,7 +224,7 @@ NotationQuestion.prototype.html = function(modifiable, questions_modifiable,
        ? hidden_txt('<span class="bonus">Ⓑ</span>', _('TIP_bonus_toggle'))
        : '<span class="bonus not_modifiable">Ⓑ</span>'
       ) + '<br>'
-    + ((questions_modifiable && ! somebody_is_graded)
+    + ((questions_modifiable && ! this.somebody_is_graded())
        ? hidden_txt('<span class="make_comment">Ⓒ</span>',
 		    _('TIP_make_comment'))
        : ''
@@ -232,7 +247,7 @@ NotationQuestion.prototype.html = function(modifiable, questions_modifiable,
        ? '<br>' + this.id
        + ' priority=' + this.priority
        + ' initial_value=' + this.initial_value
-       + ' somebody_is_graded=' + somebody_is_graded
+       + ' somebody_is_graded=' + this.somebody_is_graded()
        + ' questions_modifiable=' + questions_modifiable
        : '')
     + '</div>' ;
@@ -255,6 +270,7 @@ NotationQuestion.prototype.suivi = function()
 
 NotationQuestion.prototype.set_comment = function(value, column_modifiable)
 {
+  this.remove_grade(this.grade.grade) ;
   var error = this.grade.set_comment(value) ;
   if ( this.max != this.grade.max && ! column_modifiable )
     error = "MSG_notation_not_allowed" ;
@@ -262,6 +278,7 @@ NotationQuestion.prototype.set_comment = function(value, column_modifiable)
     {
       this.max = this.grade.max ;
       this.set_min() ;
+      this.stats.add(this.grade.grade) ;
     }
 
   return error ;
@@ -311,25 +328,19 @@ NotationQuestion.prototype.draw_canvas = function()
   canvas.height = canvas.offsetHeight ;
 
   var c = canvas.getContext("2d") ;
+
+  function line(x1, y1, x2, y2)
+  {
+    c.beginPath() ;
+    c.moveTo(canvas.width * x1, canvas.height * y1) ;
+    c.lineTo(canvas.width * x2, canvas.height * y2) ;
+    c.closePath() ;
+    c.stroke() ;
+  }
   if ( this.grade.not_graded )
   {
     c.fillStyle = "#FFF" ;
     c.fillRect(0, 0, canvas.width, canvas.height) ;
-  }
-  c.fillStyle = "#000" ;
-  c.beginPath() ;
-  c.moveTo(0, 0) ;
-  c.lineTo(canvas.width, 0) ;
-  c.closePath() ;
-  c.stroke() ;
-  for(var i = 0 ; i <= this.nr_slots() ; i++)
-  {
-    var x = canvas.width * i / this.nr_slots() ;
-    c.beginPath() ;
-    c.moveTo(x, 0) ;
-    c.lineTo(x, canvas.height * (i % this.steps === 0 ? 1 : 0.5)) ;
-    c.closePath() ;
-    c.stroke() ;
   }
   if ( ! this.grade.not_graded )
   {
@@ -338,13 +349,37 @@ NotationQuestion.prototype.draw_canvas = function()
     c.fillRect(canvas.width * this.get_x_left(), 0,
 	       canvas.width * this.slots_width(), canvas.height) ;
   }
+  for(var i = 0 ; i <= this.nr_slots() ; i++)
+  {
+    var x = i / this.nr_slots() ;
+    line(x, 0, x, i % this.steps === 0 ? 1 : 0.5) ;
+  }
   c.fillStyle = "#000" ;
   c.font = "10px sans";
   for(var i = 0 ; i <= this.get_max(); i++)
     c.fillText(
-      Number((this.is_a_bonus() ? i - this.get_max()/2 : i).toFixed(3)),
+      trunc(this.is_a_bonus() ? i - this.get_max()/2 : i),
       canvas.width * (i/this.get_max_right() + this.slots_width()/2) - 4,
       canvas.height - 1);
+  c.strokeStyle = "#000" ;
+  line(0, 0, 1, 0) ;
+  if ( this.stats.nr >= 5 )
+    {
+      var avg = this.stats.average() ;
+      if ( this.is_a_bonus() )
+	avg = avg + 0.5 ;
+      var stddev = this.stats.standard_deviation() / 2 ;
+      console.log(this.max_graded + '<=' + this.stats.nr) ;
+      if ( this.max_graded <= this.stats.nr )
+	c.fillStyle = c.strokeStyle = "#44F" ;
+      else
+	c.fillStyle = c.strokeStyle = "#0FF" ;
+      line(avg - stddev, 0.125, avg + stddev, 0.125) ;
+      c.beginPath() ;
+      c.arc(avg * canvas.width, canvas.height/8,canvas.height/6, 0,2*Math.PI);
+      c.closePath() ;
+      c.fill() ;
+    }
 } ;
 
 NotationQuestion.prototype.is_a_question = function() {
@@ -376,6 +411,11 @@ NotationQuestion.prototype.toggle_comment = function() {
   this.set_grade_to(1 - this.grade.stored) ;
   document.getElementById(this.id).className = 'a_comment'
     + ( this.grade.stored ? ' selected' : '') ;
+} ;
+
+NotationQuestion.prototype.somebody_is_graded = function(id)
+{
+  return this.stats.nr != 0 ;
 } ;
 
 var notation_default = new NotationQuestion({}) ;
@@ -451,6 +491,7 @@ Notation.prototype.start = function()
   this.parse_questions(this.column.comment) ;
   this.select_current_line() ;
   this.column_modifiable = column_change_allowed(this.column) ;
+  this.compute_stats() ;
   this.update_popup() ;
   this.notation_error.innerHTML = _("MSG_notation_help") ;
   this.notation_error.style.color = "#888" ;
@@ -479,6 +520,7 @@ Notation.prototype.save_current_line = function()
   this.log("save_current_line " + (this.line ? this.line[0].value : "?")) ;
   this.save_questions() ;
   this.save_grades() ;
+  this.compute_stats() ;
 } ;
 
 Notation.prototype.clear_current_line = function()
@@ -700,7 +742,7 @@ Notation.prototype.maximum = function()
   for(var i in this.questions)
     if ( this.questions[i].is_not_an_empty_question() )
       sum += this.questions[i].max ;
-  return Number(sum.toFixed(3)) ;
+  return trunc(sum) ;
 } ;
 
 Notation.prototype.get_grade = function()
@@ -709,7 +751,7 @@ Notation.prototype.get_grade = function()
   for(var i in this.questions)
     if ( this.questions[i].is_not_an_empty_question() )
       sum += this.questions[i].grade.grade * this.questions[i].max ;
-  return Number(sum.toFixed(3)) ;
+  return trunc(sum) ;
 } ;
 
 Notation.prototype.get_bonus = function()
@@ -718,7 +760,7 @@ Notation.prototype.get_bonus = function()
   for(var i in this.questions)
     if ( this.questions[i].is_not_an_empty_bonus(i) )
       sum += this.questions[i].grade.stored ;
-  return sum ;
+  return trunc(sum) ;
 } ;
 
 Notation.prototype.focus = function(question, what)
@@ -768,7 +810,7 @@ Notation.prototype.update_title = function()
   var s = this.get_grade() + '/' + this.maximum() ;
   var b = this.get_bonus() ;
   if ( b )
-    s += ' → ' + (this.get_grade()+this.get_bonus()) +'Ⓑ/'+ this.maximum() ;
+    s += ' → ' + trunc(this.get_grade()+this.get_bonus()) +'Ⓑ/'+ this.maximum() ;
   this.notation_grade.innerHTML = s ;
 } ;
 
@@ -793,8 +835,7 @@ Notation.prototype.update_popup = function()
   var s = [] ;
   s.push('<div class="the_questions">') ;
   for(i in questions)
-      s.push(questions[i].html(this.modifiable, this.column_modifiable,
-			      this.somebody_is_graded(questions[i].id))) ;
+      s.push(questions[i].html(this.modifiable, this.column_modifiable)) ;
   s.push('</div>') ;
 
   questions = [] ;
@@ -810,16 +851,12 @@ Notation.prototype.update_popup = function()
 	   + (questions[i].grade.stored ? " selected" : "")
 	   + (questions[i].priority >= 1000 ? " last_ones" : "")
 	   + '" id="' + questions[i].id + '">'
-	   + ((this.somebody_is_graded(questions[i].id)
-	      || ! this.column_modifiable)
-	      ? ''
-	      : '<span class="edit_comment">✎</span> ')
+	   + ((questions[i].somebody_is_graded() || ! this.column_modifiable)
+	      ? '' : '<span class="edit_comment">✎</span> ')
 	   + html(questions[i].question)
 	   + (notation_debug ? " " + questions[i].id : "")
-	   + ((this.somebody_is_graded(questions[i].id)
-	      || ! this.column_modifiable)
-	      ? ''
-	      : ' <span class="delete_comment">×</span>')
+	   + ((questions[i].somebody_is_graded() || ! this.column_modifiable)
+	      ? '' : ' <span class="delete_comment">×</span>')
 	   + '</div>') ;
   s.push('</div>') ;
 
@@ -988,19 +1025,29 @@ Notation.prototype.get_comments = function(id)
   return comments ;
 } ;
 
-Notation.prototype.somebody_is_graded = function(id)
+Notation.prototype.compute_stats = function()
 {
-  var g ;
+  for(var question in this.questions)
+    this.questions[question].stats = new Stats() ;
   for(var line_id in lines)
   {
     try {
       g = JSON.parse(lines[line_id][this.column.data_col].comment) ;
-      if ( g[id] )
-	return true ;
+      for(var id in g)
+      {
+	var grade = new NotationGrade(g[id]) ;
+	this.questions[id].stats.add(grade.stored / grade.max) ;
+      }
     }
     catch(e) { }
   }
-  return false ;
+  this.max_graded = 0 ;
+  for(var question in this.questions)
+    this.max_graded = Math.max(this.questions[question].stats.nr,
+			       this.max_graded) ;
+  console.log(this.max_graded) ;
+  for(var question in this.questions)
+    this.questions[question].max_graded = this.max_graded ;
 } ;
 
 Notation.prototype.on_comment_change = function(event)
