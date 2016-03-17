@@ -24,6 +24,7 @@ import re
 import time
 import json
 import math
+import collections
 from .utilities import js
 from . import utilities
 from . import configuration
@@ -540,6 +541,20 @@ class Column(object):
                 continue
             if str(line[data_col].value) == group:
                 yield lin_id, line
+
+    def get_the_groups(self):
+        """Return a dict:   {"group_name": [line,...],...}
+        """
+        if not self.groupcolumn:
+            return {}
+        col = self.table.columns.from_title(self.groupcolumn)
+        if not col:
+            return {}
+        data_col = col.data_col
+        d = collections.defaultdict(list)
+        for lin_id, line in self.table.lines.items():
+            d[str(line[data_col].value)].append(line)
+        return d
 
     def __str__(self):
         return '%s/%s' % (self.table, self.title)

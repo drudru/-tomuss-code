@@ -497,6 +497,9 @@ class Table(object):
     @utilities.add_a_lock
     def compute_columns(self):
         """ """
+        for column in self.columns:
+            column.type.update_for_suivi(column)
+
         from .PYTHON_JS import tomuss_python
         from . import cell
         tomuss_python.columns = self.columns.columns

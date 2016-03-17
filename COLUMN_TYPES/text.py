@@ -336,4 +336,10 @@ class Text(object):
 
         update_column_content(column, url)
 
+    def update_for_suivi(self, dummy_column):
+        """Do some update before column computation.
+        Needed by notation.py
+        """
+        return
+
 Text.keys = sorted([i for i in Text.__dict__ if not i.startswith('_')])

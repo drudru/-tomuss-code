@@ -30,3 +30,18 @@ class Notation(note.Note):
                           "groupcolumn")
     formatte_suivi = "notation_format_suivi"
 
+    def update_for_suivi(self, column):
+        data_col = column.data_col
+        for dummy_group, lines in column.get_the_groups().items():
+            if len(lines) == 1:
+                continue
+            comments = []
+            for line in lines:
+                cell = line[data_col]
+                if cell.comment:
+                    comments.append(cell.comment)
+            if len(comments) == 1:
+                comment = comments[0]
+                for line in lines:
+                    line[data_col] = line[data_col].set_comment(comment)
+
