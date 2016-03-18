@@ -7,25 +7,31 @@ function _cell(s, url)
   var url_s = url.split('/') ;
   var ue = url_s[url_s.length-4] ;
 
-  iframe = document.createElement('iframe') ;
-  iframe.className = 'feedback' ;
-  if ( DisplayGrades.html_object )
-    {
-      var cell = DisplayGrades.html_object.parentNode.parentNode ;
-      if ( cell.lastChild.tagName != 'IFRAME' )
-	cell.appendChild(document.createElement('br')) ;
-      cell.appendChild(iframe) ;
-    }
-  else
-    s.parentNode.appendChild(iframe) ;
-
-  DisplayGrades.html_object.value = s.value ;
   var new_s = DisplayGrades.column.real_type.cell_test(s.value,
 						       DisplayGrades.column) ;
   if ( new_s !== undefined )
     s.value = new_s ;
 
+  iframe = document.createElement('iframe') ;
+  iframe.className = 'feedback' ;
   iframe.src = url + '/' + encode_uri(s.value) ;
+
+  if ( DisplayGrades.html_object )
+    {
+      DisplayGrades.table_attr.line[DisplayGrades.column.data_col][0] = s.value;
+      var e = document.createElement("DIV") ;
+      DisplayGrades.no_hover = false ;
+      e.innerHTML = display_display(DisplayGrades.ue_node) ;
+      e = e.firstChild ;
+      var line = DisplayGrades.cellbox.parentNode ;
+      var position = myindex(line.childNodes, DisplayGrades.cellbox) ;
+      e.childNodes[position].appendChild(iframe) ;
+      var ue = line.parentNode ;
+      ue.removeChild(ue.lastChild) ;
+      ue.appendChild(e) ;
+    }
+  else
+    s.parentNode.appendChild(iframe) ;
 
   unload = document.createElement('IMG') ;
   unload.src = url_suivi + '/=' + ticket + '/unload/' + ue ;
@@ -33,7 +39,6 @@ function _cell(s, url)
   the_body.appendChild(unload) ;
 
   hide_cellbox_tip() ;
-  s.blur() ;
 }
 
 function initialize_suivi_real()
@@ -674,6 +679,7 @@ function display_cellbox_tip(event, nr)
       t.className = "hidden" ;
   } ;
   t.className = "" ;
+  DisplayGrades.cellbox = c ;
   DisplayGrades.column = display_saved[nr][0] ;
   DisplayGrades.cell = display_saved[nr][1] ;
   DisplayGrades.html_object = c.getElementsByTagName('FORM')[0]
@@ -687,6 +693,7 @@ function display_cellbox_tip(event, nr)
   DisplayGrades.ue = display_saved[nr][4] ;
   DisplayGrades.formula = display_saved[nr][5] ;
   DisplayGrades.table_attr = display_saved[nr][6] ;
+  DisplayGrades.ue_node = display_saved[nr][7] ;
   DisplayGrades.no_hover = true ;
   t.innerHTML = display_display(display_definition['Cell']);
   t.style.top = findPosY(c) - t.childNodes[0].childNodes[0].offsetHeight+'px';
@@ -778,7 +785,8 @@ function DisplayCellBox(node)
 					 DisplayGrades.cellstats,
 					 DisplayGrades.ue,
 					 display_tree(DisplayGrades.column),
-					 DisplayGrades.table_attr
+					 DisplayGrades.table_attr,
+					 DisplayGrades.ue_node
 					 ] ;
       if ( DisplayGrades.column.type == 'Moy' )
 	{
@@ -866,6 +874,7 @@ function DisplayUEGrades(node)
   // update_columns(line);
 
   DisplayGrades.table_attr = ue ;
+  DisplayGrades.ue_node = node ;
   var s = '' ;
   var ordered_columns = column_list_all() ;
   for(var data_col in ordered_columns)
