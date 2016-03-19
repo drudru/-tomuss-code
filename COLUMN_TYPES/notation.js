@@ -72,11 +72,11 @@ NotationGrade.prototype.set_comment = function(value)
 {
   var g ;
   try {
-    g = RegExp('^ *([-0-9.]*)[-0-9. ]*/([0-9.]*) *((.|\n)*)', 'm').exec(value) ;
+    g = RegExp('^ *([-0-9.]*)[-0-9. ]*/([0-9.]*) *(.*)').exec(value) ;
     g = [g[1], g[2], g[1] === '' && g[3] === '' ? this.comment : g[3]] ;
   }
   catch(e) {
-    g = RegExp('^ *([-0-9.]*)(.*)', 'm').exec(value) ;
+    g = RegExp('^ *([-0-9.]*)(.*)').exec(value) ;
     g = [g[1], undefined, g[2] || this.comment] ;
   }
   var error = this.set_grade(g[0], g[1]) ;
@@ -118,8 +118,23 @@ function NotationQuestion(dict)
   this.max = 1 ;
   this.steps = 2 ;
   this.type = 0 ;
-  for(var key in dict)
-    this[key] = dict[key] ;
+
+  if ( dict.substr )
+    {
+      g = RegExp('([^ ]*) ([0-9]*)([QDBC])([0-9.]*) (.*)').exec(dict) ;
+      if ( g.length != 6 )
+	alert("Can not parse: " + dict) ;
+      this.id = g[1] ;
+      this.steps = Number(g[2]) ;
+      this.type = myindex("QDBC", g[3]) ;
+      this.max = Number(g[4]) ;
+      this.question = g[5] ;
+    }
+  else
+    {
+      for(var key in dict)
+	this[key] = dict[key] ;
+    }
   this.initial_value = this.hash() ;
   this.stats = new Stats() ;
   this.set_grade() ;
@@ -127,11 +142,8 @@ function NotationQuestion(dict)
 
 NotationQuestion.prototype.toJSON = function()
 {
-  var d = {id: this.id} ;
-  for(var key in notation_default)
-    if ( this[key] != notation_default[key] )
-      d[key] = this[key] ;
-  return d ;
+  return this.id + ' ' + this.steps + "QDBC".substr(this.type,1) + this.max
+     + ' ' + this.question ;
 } ;
 
 NotationQuestion.prototype.hash = function()
@@ -405,19 +417,17 @@ NotationQuestion.prototype.is_fully_empty_question = function() {
 
 NotationQuestion.prototype.toggle_comment = function() {
   this.set_grade_to(1 - this.grade.stored) ;
-  document.getElementById(this.id).className = 'a_comment'
-    + ( this.grade.stored ? ' selected' : '') ;
+  var toggle = document.getElementById(this.id) ;
+  toggle.className = 'a_comment' + ( this.grade.stored ? ' selected' : '') ;
+  var stat = toggle.getElementsByTagName("SPAN")[0] ;
+  stat.innerHTML = Number(stat.innerHTML) + (this.grade.stored ? 1 : -1) ;
+  toggle.focus() ; // XXX This does not work !
 } ;
 
 NotationQuestion.prototype.somebody_is_graded = function(id)
 {
   return this.stats.nr != 0 ;
 } ;
-
-var notation_default = new NotationQuestion({}) ;
-delete notation_default["initial_value"] ;
-delete notation_default["grade"] ;
-delete notation_default["stats"] ;
 
 function Notation()
 {
@@ -440,10 +450,10 @@ Notation.prototype.start = function()
   create_popup(
     'notation_content',
     '<style>'
-      + 'DIV.notation_content { border: 2px solid black; top: 10em ; right: 1em; bottom: 0px; left: 25% }'
+      + 'DIV.notation_content { border: 2px solid black; top: 10em ; right: 1em; bottom: 0px; left: 25%; padding: 0px }'
       + 'DIV.notation_content .the_completions { display: block; position: absolute; right: 0px }'
-      + 'DIV.notation_content .the_questions { white-space: nowrap ; position: absolute; top: 3em ; bottom: 25%; right: 0px; left: 0px ; overflow: auto }'
-      + 'DIV.notation_content .the_comments { position: absolute; top: 75% ; bottom: 0px; overflow: auto }'
+      + 'DIV.notation_content .the_questions { white-space: nowrap ; position: absolute; top: 3em ; bottom: 25%; right: 0px; left: 0px ; overflow-x: auto; overflow-y: scroll }'
+      + 'DIV.notation_content .the_comments { position: absolute; top: 75% ; bottom: 0px; overflow: auto; border-top: 1px solid #000 }'
       + 'DIV.notation_content .empty { color: #888 }'
       + 'DIV.notation_content INPUT { font-size: 100% }'
       + 'DIV.notation_content DIV * { vertical-align: middle }'
@@ -451,20 +461,21 @@ Notation.prototype.start = function()
       + 'DIV.notation_content INPUT.comment_input { width: 40% ; }'
       + 'DIV.notation_content CANVAS { width: 20% ; height: 1.4em ; opacity: 0.5 ; cursor: pointer }'
       + 'DIV.notation_content .incdec, DIV.notation_content .bonus_comment {line-height: 0.8em ; }'
-      + 'DIV.notation_content .incdec, DIV.notation_content .bonus_comment, .edit_comment, .delete_comment {cursor: pointer }'
+      + 'DIV.notation_content .incdec, DIV.notation_content .bonus_comment, .edit_comment {cursor: pointer }'
       + 'DIV.notation_content .focus CANVAS { opacity: 1 }'
       + 'DIV.notation_content .incdec, DIV.notation_content .bonus_comment { display: inline-block; text-align: right; }'
       + 'DIV.notation_content .incdec, DIV.notation_content .bonus_comment .bonus, DIV.notation_content .bonus_comment .make_comment { opacity:0 ; }'
-      + 'DIV.notation_content .last_ones { font-weight: bold }'
-      + 'DIV.notation_content .delete_comment { color: #F00 }'
+      + 'DIV.notation_content .last_ones { background: #FFF }'
       + 'DIV.notation_content H1 { position: relative ; height: 1.5em}'
       + 'DIV.type2 .bonus { color: #00F }'
-      + 'DIV.notation_content DIV.a_comment { display: inline-block; border: 1px solid black; margin: 4px ; }'
+      + 'DIV.notation_content DIV.a_comment { display: inline-block; border: 2px solid #FFF; margin: 4px ; }'
       + 'DIV.notation_content DIV.a_comment:hover { background: #FFF }'
-      + 'DIV.notation_content DIV.a_comment.selected { color: #00F;border: 1px solid #00F  }'
+      + 'DIV.notation_content DIV.a_comment.selected { border: 2px solid black }'
+      + "DIV.notation_content DIV.a_comment.selected:before { content: '☑'  }"
+      + "DIV.notation_content DIV.a_comment:before { content: '☐'  }"
       + 'DIV.notation_content .a_completion { border: 1px solid black; margin: 4px ; white-space: normal; font-size: 80% }'
       + 'DIV.notation_content .a_completion:hover { background: #FFF }'
-      + 'DIV.notation_content .a_completion SPAN { color: #888 }'
+      + 'DIV.notation_content .stat { color: #888 ; margin: 0.2em }'
       + '#notation_student { }'
       + '#notation_column { position: absolute ; right: 4em;}'
       + '#notation_grade {  }'
@@ -481,6 +492,7 @@ Notation.prototype.start = function()
       + ' onmouseup="Notation.on_mouse_up(event)"'
       + ' onmousedown="Notation.on_mouse_down(event)"'
       + ' onkeyup="Notation.on_keyup(event)"'
+      + ' onkeydown="Notation.on_keydown(event)"'
       + ' onmousemove="Notation.on_mouse_move(event)"'
       + '></div>',
     '', false) ;
@@ -495,11 +507,10 @@ Notation.prototype.start = function()
   this.parse_questions(this.column.comment) ;
   this.select_current_line() ;
   this.column_modifiable = column_change_allowed(this.column) ;
-  this.compute_stats() ;
   this.update_popup() ;
   if ( this.column.comment === '' )
     this.notation_error.innerHTML = '<div style="position:absolute;top: 6em; font-weight: normal">'
-  + _("MSG_notation_introduction") + '</div>' ;
+  + _("MSG_notation_introduction") + _("TIP_limit") + '</div>' ;
   else
     {
       this.notation_error.innerHTML = _("MSG_notation_help") ;
@@ -520,8 +531,9 @@ Notation.prototype.parse_questions = function(txt)
   this.questions = {} ;
   for(var i in questions)
   {
-    questions[i].priority = Number(i) ;
-    this.questions[questions[i].id] = new NotationQuestion(questions[i]) ;
+    var question = new NotationQuestion(questions[i]) ;
+    question.priority = Number(i) ;
+    this.questions[question.id] = question ;
   }
 } ;
 
@@ -530,7 +542,6 @@ Notation.prototype.save_current_line = function()
   this.log("save_current_line " + (this.line ? this.line[0].value : "?")) ;
   this.save_questions() ;
   this.save_grades() ;
-  this.compute_stats() ;
 } ;
 
 Notation.prototype.clear_current_line = function()
@@ -863,6 +874,7 @@ Notation.prototype.update_popup = function()
   this.log("update") ;
   var i ;
   this.add_empty_question_if_needed() ;
+  this.compute_stats() ;
   this.update_title() ;
 
   var questions = [] ;
@@ -890,12 +902,11 @@ Notation.prototype.update_popup = function()
 	   + (questions[i].grade.stored ? " selected" : "")
 	   + (questions[i].priority >= 1000 ? " last_ones" : "")
 	   + '" id="' + questions[i].id + '">'
-	   + ((questions[i].somebody_is_graded() || ! this.column_modifiable)
-	      ? '' : '<span class="edit_comment">✎</span> ')
+	   + '<span class="stat">' + questions[i].stats.sum + '</span>'
 	   + html(questions[i].question)
 	   + (notation_debug ? " " + questions[i].id : "")
 	   + ((questions[i].somebody_is_graded() || ! this.column_modifiable)
-	      ? '' : ' <span class="delete_comment">×</span>')
+	      ? '' : ' <span class="edit_comment">✎</span>')
 	   + '</div>') ;
   s.push('</div>') ;
 
@@ -927,16 +938,26 @@ Notation.prototype.get_event = function(event)
     event.line = event.line.parentNode ;
   event.question = this.questions[event.line.id] ;
   event.what = '' ;
-  event.question_input = event.line.childNodes[0] ; // XXX BAD
-  event.canvas         = event.line.childNodes[2] ; // XXX BAD
-  event.comment_input  = event.line.childNodes[4] ; // XXX BAD
-  event.child_nr       = myindex(event.line.childNodes, event.target) ;
-  switch(event.target)
-  {
-  case event.question_input: event.what = 'question' ; break ;
-  case event.canvas        : event.what = 'canvas'   ; break ;
-  case event.comment_input : event.what = 'comment'  ; break ;
-  }
+  if ( event.line.childNodes.length == 5 )
+    {
+      // On a question line
+      event.question_input = event.line.childNodes[0] ; // XXX BAD
+      event.canvas         = event.line.childNodes[2] ; // XXX BAD
+      event.comment_input  = event.line.childNodes[4] ; // XXX BAD
+      event.child_nr       = myindex(event.line.childNodes, event.target) ;
+      switch(event.target)
+      {
+      case event.question_input: event.what = 'question' ; break ;
+      case event.canvas        : event.what = 'canvas'   ; break ;
+      case event.comment_input : event.what = 'comment'  ; break ;
+      }
+    }
+  else
+    {
+      event.child_nr = -1 ;
+      if ( event.target.className == 'stat' )
+	event.target = event.target.parentNode ;
+    }
   return event ;
 } ;
 
@@ -962,7 +983,8 @@ Notation.prototype.on_mouse_move = function(event, force)
     if ( event.question.is_a_bonus() )
       x -= event.question.max ;
     event.question.set_grade_to(x) ;
-    event.comment_input.value = event.question.grade_and_comment() ;
+    if ( event.comment_input )
+      event.comment_input.value = event.question.grade_and_comment() ;
   }
   event.question.draw_canvas() ;
   this.update_title() ;
@@ -996,7 +1018,9 @@ Notation.prototype.on_mouse_down = function(event)
     return ;
     }
   this.button_pressed_on = event.question.id ;
-  if (event.what != 'canvas')
+  if (event.what == 'canvas')
+    event.target.focus() ;
+  else
   {
     if ( ! this.column_modifiable )
       return ;
@@ -1028,25 +1052,18 @@ Notation.prototype.on_mouse_down = function(event)
       else
 	alert(_("ERROR_value_defined_by_another_user")) ;
       break ;
-    case 'delete_comment':
-      event.question.type = 1 ;
-      this.update_popup() ;
-      break ;
     case 'edit_comment':
-      var v = prompt(_("MSG_notation_comment"), event.question.question) ;
+      var v = prompt(_("MSG_notation_edit_comment"), event.question.question) ;
       if ( v )
 	{
 	  event.question.question = v ;
+	  if ( v === '' )
+	    event.question.type = 1 ;
 	  this.update_popup() ;
 	}
       break ;
     }
   }
-  else
-    {
-      event.target.focus() ;
-      stop_event(event) ;
-    }
   this.on_mouse_move(event, true) ;
 } ;
 
@@ -1068,27 +1085,9 @@ Notation.prototype.on_paste = function(event)
     setTimeout(function() { me.on_question_change(event) ; }, 100) ;
 } ;
 
-Notation.prototype.get_comments = function(id)
-{
-  var g, comments = {} ;
-  for(var line_id in lines)
-  {
-    try {
-      g = JSON.parse(lines[line_id][this.column.data_col].comment) ;
-      if ( ! g[id] )
-	continue ;
-      g = g[id].replace(/[^ ]* */, "") ;
-      if ( comments[g] === undefined )
-	comments[g] = 0 ;
-      comments[g] += 1 ;
-    }
-    catch(e) { }
-  }
-  return comments ;
-} ;
-
 Notation.prototype.compute_stats = function()
 {
+  this.global_comments = {} ;
   for(var question in this.questions)
     this.questions[question].stats = new Stats() ;
   for(var line_id in lines)
@@ -1098,11 +1097,24 @@ Notation.prototype.compute_stats = function()
       for(var id in g)
       {
 	var grade = new NotationGrade(g[id]) ;
-	this.questions[id].stats.add(grade.stored / grade.max) ;
+	var question = this.questions[id] ;
+	if(question.is_a_question() || question.is_a_bonus())
+	{
+	  question.stats.add(grade.stored / grade.max) ;
+	  if ( this.global_comments[grade.comment] === undefined )
+	    this.global_comments[grade.comment] = 0 ;
+	  this.global_comments[grade.comment]++ ;
+	}
+	else if ( question.is_a_comment() )
+	  question.stats.add(1) ;
       }
     }
     catch(e) { }
   }
+  this.global_comments_sorted = [] ;
+  for(var i in this.global_comments)
+    this.global_comments_sorted.push(i) ;
+  this.global_comments_sorted.sort() ;
   this.max_graded = 0 ;
   for(var question in this.questions)
     this.max_graded = Math.max(this.questions[question].stats.nr,
@@ -1130,29 +1142,38 @@ Notation.prototype.on_comment_change = function(event)
     this.notation_error.style.color = "#888" ;
     this.notation_error.style.fontSize = "70%" ;
     event.target.style.color = '#000' ;
-    this.notation_error.innerHTML = length +'/'+ max_url_length ;
+    this.notation_error.innerHTML = hidden_txt(length +'/'+ max_url_length,
+					       _("TIP_limit")) ;
   }
   event.question.draw_canvas() ;
   this.update_title() ;
-  this.update_completions(event) ;
+  var completion = this.update_completions(event) ;
+  if ( completion )
+    do_autocompletion(event.target, event.target.value + completion) ;
 } ;
 
 Notation.prototype.update_completions = function(event)
 {
-  var comments = this.get_comments(event.question.id) ;
-  var completions = [] ;
-  var c = [] ;
-  for(var i in comments)
-    c.push(i) ;
-  c.sort() ;
   var current = event.question.grade.comment ;
-  for(var i in c)
-    if ( c[i].substr(0, current.length) == current )
-      completions.push('<div class="a_completion"><span>' + comments[c[i]]
-		       + '</span> ' + c[i] + '</div>') ;
+  var completions = [] ;
+  var remain ;
+  for(var comment in this.global_comments_sorted)
+    {
+      comment = this.global_comments_sorted[comment] ;
+      if ( comment.substr(0, current.length) == current )
+	{
+	  completions.push('<div class="a_completion"><span class="stat">'
+			   + this.global_comments[comment]
+			   + '</span> ' + html(comment) + '</div>') ;
+	  remain = comment.substr(current.length) ;
+	}
+    }
   this.the_completions.innerHTML = completions.join("") ;
   this.the_completions.style.top = event.target.offsetTop + 'px' ;
-  this.the_completions.style.left = event.line.childNodes[4].offsetLeft + event.line.childNodes[4].offsetWidth + "px" ;
+  this.the_completions.style.left = event.line.childNodes[4].offsetLeft
+    + event.line.childNodes[4].offsetWidth + "px" ;
+  if ( completions.length == 1 )
+    return remain ;
 } ;
 
 Notation.prototype.on_question_change = function(event)
@@ -1161,6 +1182,19 @@ Notation.prototype.on_question_change = function(event)
   event.question.question = event.target.value ;
   if ( this.is_the_last(event.question) && event.question.question !== '' )
     event.question.priority = this.local_priority++ ;
+} ;
+
+Notation.prototype.on_keydown = function(event)
+{
+  event = this.get_event(event) ;
+  if ( event.keyCode == 13
+       || event.keyCode == 38
+       || event.keyCode == 40
+       || (event.keyCode == 32
+	   && event.target.className.split(' ')[0] == 'a_comment'
+	   )
+     )
+    stop_event(event) ;
 } ;
 
 Notation.prototype.on_keyup = function(event)

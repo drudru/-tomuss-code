@@ -6042,12 +6042,19 @@ msgstr "Intitulé question"
 msgid "MSG_notation_comment"
 msgstr "Commentaire personnalisé"
 
+msgid "MSG_notation_edit_comment"
+msgstr "Vous pouvez corriger votre commentaire.\nOu bien effacer le texte pour l'enlever de la liste."
+
 msgid "ALERT_delete_line"
 msgstr "Voulez-vous vraiment faire disparaître cette question ?"
 
 msgid "TIP_bonus_toggle"
 msgstr "Basculer entre des points normaux ou des\n"
        "points bonus ne comptant pas dans le barème"
+
+msgid "TIP_make_comment"
+msgstr "Pour transformer ce texte en un commentaire global\n"
+       "qui sera affiché dans le menu du bas."
 
 msgid "MSG_notation_max_error"
 msgstr "L'interval maximum de notation &gt;0 et &le;100"
@@ -6063,6 +6070,9 @@ msgstr "Raccourcissez les commentaires sinon la sauvegarde risque d'échouer"
 
 msgid "MSG_notation_help"
 msgstr "Pour sauvegarder : changer d'étudiant ou fermer cette popup"
+
+msgid "TIP_limit"
+msgstr "Vous êtes limité à 1000 octets par étudiants."
 
 msgid "MSG_notation_introduction"
 msgstr "Pour chaque question à corriger :<ul>\n"
@@ -6088,5 +6098,5 @@ msgstr "Pour chaque question à corriger :<ul>\n"
        "<li> Le trait bleu indique après 5 étudiants la moyenne et\n"
        "l'écart type, il devient cyan si la question n'a pas été notée\n"
        "pour un des étudiants\n"
-       "<li> Vous êtes limité à 1000 octets par étudiants.\n"
        "</ul>"
+

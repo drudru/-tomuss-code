@@ -5907,11 +5907,18 @@ msgstr "Question title"
 msgid "MSG_notation_comment"
 msgstr "Personnalised comment for the student"
 
+msgid "MSG_notation_edit_comment"
+msgstr "Edti the global comment,\nor erase the text to delete the comment."
+
 msgid "ALERT_delete_line"
 msgstr "Do you really want to remove this question?"
 
 msgid "TIP_bonus_toggle"
 msgstr "Toggle between normal points or bonus points"
+
+msgid "TIP_make_comment"
+msgstr "Make this text a global comment that will be displayed\n"
+       "in the bottom menu."
 
 msgid "MSG_notation_max_error"
 msgstr "Maximum grade is &gt;0 and &le;100"
@@ -5927,6 +5934,9 @@ msgstr "Shorten your comments, the recording may fail"
 
 msgid "MSG_notation_help"
 msgstr "To save: move to another student or close this popup"
+
+msgid "TIP_limit"
+msgstr "No more than 1000 bytes per student"
 
 msgid "MSG_notation_introduction"
 msgstr "For each question to grade:<ul>\n"
@@ -5951,5 +5961,4 @@ msgstr "For each question to grade:<ul>\n"
        "<li> The blue strike indicates the average and standard deviation\n"
        "after 5 student étudiants, it become cyan if the question has not\n"
        "been graded for a student.\n"
-       "<li> No more than 1000 bytes per student.\n"
        "</ul>"

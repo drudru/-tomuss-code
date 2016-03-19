@@ -2762,31 +2762,33 @@ Current.prototype.do_completion = function(backspace)
   if ( completion && completion.substr
        && completion.substr(0, input.value.length).toLowerCase()
        == input.value.toLowerCase())
-    {
-      var length = input.value.length ;
-      if (window.KeyEvent)
-	{
-	  input.value = "" ;
-	  for(var i=0; i<completion.length; i++)
-	    {
-	      // Done this way to right scroll when there is a long value
-	      triggerKeyboardEvent(input, completion.charCodeAt(i)) ;
-	      if (input.value.length == 0)
-		{
-		    // Hit a bug, fallback on a classic method
-		    input.value = completion ;
-		    break ;
-		}
-	    }
-	}
-      else
-	input.value = completion ;
-      
-      set_selection(input,
-		    length,
-		    input.value.length) ;
-    }
+      do_autocompletion(input, completion) ;
 } ;
+
+function do_autocompletion(input, completion)
+{
+  var length = input.value.length ;
+  if (window.KeyEvent)
+    {
+       input.value = "" ;
+       for(var i=0; i<completion.length; i++)
+         {
+           // Done this way to right scroll when there is a long value
+           triggerKeyboardEvent(input, completion.charCodeAt(i)) ;
+           if (input.value.length == 0)
+             {
+                 // Hit a bug, fallback on a classic method
+                 input.value = completion ;
+                 break ;
+             }
+         }
+    }
+  else
+    input.value = completion ;
+  
+  set_selection(input, length, input.value.length) ;
+}
+
 
 var current_change_running = false ;
 
