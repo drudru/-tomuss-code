@@ -992,7 +992,7 @@ Notation.prototype.on_mouse_move = function(event, force)
   if ( this.button_pressed_on != event.question.id )
     return ;
 
-  if ( event.what == 'canvas')
+  if ( event.what == 'canvas' && event.question.question !== "")
   {
     // -4 because of borders
     var x = (event.x - findPosX(event.target) - 4) / event.target.offsetWidth ;
@@ -1261,7 +1261,7 @@ Notation.prototype.on_keyup = function(event)
     break ;
   case 37: // Cursor left
   case 39: // Cursor right
-    if ( event.what == 'canvas' )
+    if ( event.what == 'canvas' && event.question.question !== "" )
     {
       if ( ! this.modifiable )
 	break ;
@@ -1398,7 +1398,8 @@ function notation_export()
       }
       for(var question in g)
 	{
-	  if ( ! Notation.questions[question].is_a_comment() )
+	  if ( ! Notation.questions[question]
+	      || ! Notation.questions[question].is_a_comment() )
 	    continue ;
 	  if ( g[question] && g[question].substr(0,1) != '0' )	    
 	    t.push(Notation.questions[question].question) ;
