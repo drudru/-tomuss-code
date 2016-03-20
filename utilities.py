@@ -870,6 +870,8 @@ def wait_scripts():
     # By the way :
     #    * this function can not be stored in a script.
     #    * It must not be in a loop
+    t = list(time.localtime()[:6])
+    t[1] -= 1 # Month starts et 0 in JavaScript
     return """
     function wait_scripts(recall)
     {
@@ -885,17 +887,17 @@ def wait_scripts():
                    continue ;
                if ( e.onloadDone )
                    continue ;
-            /*   if ( e.readyState === "loaded" )
-                   continue ; */
                if ( e.readyState === "complete" )
                    continue ;
                setTimeout(recall, 1000) ;
                return ;
                }
          }
+    var d = new Date%s ;
+    millisec.delta = d.getTime() - millisec() + 1000 ; // 1s to load page
     return true ;
     }
-         """
+         """ % str(tuple(t))
 
 
 

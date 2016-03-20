@@ -85,19 +85,23 @@ function title_case(txt)
 /*****************************************************************************/
 /*****************************************************************************/
 
-function millisec()
+function millisec() // Server time
 {
   var d = new Date() ;
-  return d.getTime() ;
+  return d.getTime() + millisec.delta ;
 }
+millisec.delta = 0 ;
 
 /* Return a Date from text like : JJ/MM/AAAA */
 /* Or a number of day or hours or minutes from now as 5j 4h 3m */
 function get_date(value)
 {
+  var d, time ;
+  if ( ! value ) // Current server time
+    return new Date(millisec()) ;
+
   value = value.toString() ;
   var v = value.split('/') ;
-  var d, time ;
 
   if ( v.length == 1 && isNaN(value.substr(value.length-1)) )
     {
@@ -113,13 +117,13 @@ function get_date(value)
       switch( value.substr(value.length-1).toLowerCase() )
 	{
 	case 'a':
-	case 'y': d.setTime(d.getTime() - v*365*24*60*60*1000) ; break ;
-	case 'm': d.setTime(d.getTime() - v*30*24*60*60*1000) ; break ;
+	case 'y': d.setTime(millisec() - v*365*24*60*60*1000) ; break ;
+	case 'm': d.setTime(millisec() - v*30*24*60*60*1000) ; break ;
 	case 'w':
-	case 's': d.setTime(d.getTime() - v*7*24*60*60*1000) ; break ;
+	case 's': d.setTime(millisec() - v*7*24*60*60*1000) ; break ;
 	case 'j':
-	case 'd': d.setTime(d.getTime() - v*24*60*60*1000) ; break ;
-	case 'h': d.setTime(d.getTime() - v*60*60*1000) ; break ;
+	case 'd': d.setTime(millisec() - v*24*60*60*1000) ; break ;
+	case 'h': d.setTime(millisec() - v*60*60*1000) ; break ;
 	default:  return false ;
 	}
       d.sup = d ;
@@ -1458,7 +1462,7 @@ Cell.prototype.set_value = function(value)
      this.history += this.value + '\n('+ this.date + ' ' + this.author + '),·';
   this.set_value_real(value) ;
   this.author = my_identity ;
-  var d = new Date() ;
+  var d = new Date() ; // Browser side date
   this.date = '' + d.getFullYear() +
     two_digits(d.getMonth()+1) +
     two_digits(d.getDate()) +

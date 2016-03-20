@@ -2485,8 +2485,7 @@ Column.prototype.is_visible = function() {
     return false ;
   if ( this.visibility_date != '' )
     {
-      var now = new Date() ;
-      if ( this.visibility_date > now.formate('%Y%m%d') )
+      if ( this.visibility_date > get_date().formate('%Y%m%d') )
 	return false ;
     }
   return true ;

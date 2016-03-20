@@ -137,8 +137,7 @@ def seconds_to_date(seconds=None):
     if seconds:
         d.setTime(seconds * 1000)
     else:
-        if debug:
-            d.setTime(millisec())
+        d.setTime(millisec())
     return (d.getFullYear() + two_digits(d.getMonth()+1)
             + two_digits(d.getDate()) + two_digits(d.getHours())
             + two_digits(d.getMinutes()) + two_digits(d.getSeconds()) )
