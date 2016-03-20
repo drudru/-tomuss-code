@@ -6074,6 +6074,9 @@ msgstr "Pour sauvegarder : changer d'étudiant ou fermer cette popup"
 msgid "TIP_limit"
 msgstr "Vous êtes limité à 1000 octets par étudiants."
 
+msgid "ALERT_notation_save"
+msgstr "Enregistrer les modifications faites sur cet étudiant ?"
+
 msgid "MSG_notation_introduction"
 msgstr "Pour chaque question à corriger :<ul>\n"
        "<li> Indiquez la question sous une forme courte à gauche.\n"

@@ -33,10 +33,10 @@ The question list and the grade list:
   The grades of all the students are computed on popup close.
 
 Type of question:
-  * 0 : question
-  * 1 : deleted question
-  * 2 : question bonus
-  * 3 : comment
+  * 0 : Q question
+  * 1 : D deleted question
+  * 2 : B question bonus
+  * 3 : C comment
 
 Priorities:
   * 0, 1, 2, 3... for the original question list
@@ -48,6 +48,7 @@ Priorities:
 */
 
 var notation_debug = false ;
+var notation_types = "QDBC" ;
 
 // TODO
 // XXX Export global
@@ -121,12 +122,13 @@ function NotationQuestion(dict)
 
   if ( dict.substr )
     {
-      g = RegExp('([^ ]*) ([0-9]*)([QDBC])([0-9.]*) (.*)').exec(dict) ;
+      g = RegExp('([^ ]*) ([0-9]*)([' + notation_types
+		 + '])([0-9.]*) (.*)').exec(dict) ;
       if ( g.length != 6 )
 	alert("Can not parse: " + dict) ;
       this.id = g[1] ;
       this.steps = Number(g[2]) ;
-      this.type = myindex("QDBC", g[3]) ;
+      this.type = myindex(notation_types, g[3]) ;
       this.max = Number(g[4]) ;
       this.question = g[5] ;
     }
@@ -142,8 +144,8 @@ function NotationQuestion(dict)
 
 NotationQuestion.prototype.toJSON = function()
 {
-  return this.id + ' ' + this.steps + "QDBC".substr(this.type,1) + this.max
-     + ' ' + this.question ;
+  return this.id + ' ' + this.steps + notation_types.substr(this.type,1)
+    + this.max + ' ' + this.question ;
 } ;
 
 NotationQuestion.prototype.hash = function()
@@ -513,8 +515,11 @@ Notation.prototype.start = function()
   + _("MSG_notation_introduction") + _("TIP_limit") + '</div>' ;
   else
     {
-      this.notation_error.innerHTML = _("MSG_notation_help") ;
-      this.notation_error.style.color = "#888" ;
+      if ( this.modifiable )
+	{
+	  this.notation_error.innerHTML = _("MSG_notation_help") ;
+	  this.notation_error.style.color = "#888" ;
+	}
     }
   this.focus(this.question_list()[0], 2 /* XXX BAD */) ;
 } ;
@@ -646,7 +651,11 @@ Notation.prototype.update_all_grades = function()
 Notation.prototype.close = function()
 {
   this.log("close") ;
-  this.clear_current_line() ;
+  if ( this.cancel_save )
+    this.cancel_save = false ;
+  else
+    this.clear_current_line() ;
+
   the_current_cell.jump = this.jump_old ;
   popup_close = this.popup_close ;
   popup_close() ;
@@ -699,6 +708,8 @@ Notation.prototype.merge_question_changes = function()
 
 Notation.prototype.save_questions = function()
 {
+  if ( ! this.column_modifiable )
+    return ;
   this.log("save questions") ;
   this.merge_question_changes() ;
   var questions = [] ;
@@ -757,6 +768,8 @@ Notation.prototype.get_json_grades = function()
 
 Notation.prototype.save_grades = function()
 {
+  if ( ! this.modifiable )
+    return ;
   this.log("save student") ;
   this.merge_grade_changes() ;
   var v = this.get_json_grades() ;
@@ -1064,7 +1077,8 @@ Notation.prototype.on_mouse_down = function(event)
       break ;
     }
   }
-  this.on_mouse_move(event, true) ;
+  if ( this.modifiable )
+    this.on_mouse_move(event, true) ;
 } ;
 
 Notation.prototype.on_mouse_up = function(event)
@@ -1154,13 +1168,13 @@ Notation.prototype.on_comment_change = function(event)
 
 Notation.prototype.update_completions = function(event)
 {
-  var current = event.question.grade.comment ;
+  var current = event.question.grade.comment.toLowerCase() ;
   var completions = [] ;
   var remain ;
   for(var comment in this.global_comments_sorted)
     {
       comment = this.global_comments_sorted[comment] ;
-      if ( comment.substr(0, current.length) == current )
+      if ( comment.substr(0, current.length).toLowerCase() == current )
 	{
 	  completions.push('<div class="a_completion"><span class="stat">'
 			   + this.global_comments[comment]
@@ -1187,12 +1201,18 @@ Notation.prototype.on_question_change = function(event)
 Notation.prototype.on_keydown = function(event)
 {
   event = this.get_event(event) ;
+  if ( event.keyCode == 27 // Escape
+       && ! confirm(_("ALERT_notation_save")) )
+    this.cancel_save = true ;
+
   if ( event.keyCode == 13
        || event.keyCode == 38
        || event.keyCode == 40
        || (event.keyCode == 32
 	   && event.target.className.split(' ')[0] == 'a_comment'
 	   )
+       || ((event.keyCode == 37 || event.keyCode == 39)
+	   && event.what == 'canvas')
      )
     stop_event(event) ;
 } ;
@@ -1233,6 +1253,8 @@ Notation.prototype.on_keyup = function(event)
   case 39: // Cursor right
     if ( event.what == 'canvas' )
     {
+      if ( ! this.modifiable )
+	break ;
       var x = event.question.grade.grade ;
       x += (event.keyCode == 37 ? -1 : 1)
 	* 1/(event.question.max * event.question.steps) ;

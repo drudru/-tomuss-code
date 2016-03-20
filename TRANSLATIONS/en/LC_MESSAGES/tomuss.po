@@ -5938,6 +5938,9 @@ msgstr "To save: move to another student or close this popup"
 msgid "TIP_limit"
 msgstr "No more than 1000 bytes per student"
 
+msgid "ALERT_notation_save"
+msgstr "Save the modifications done on this student?"
+
 msgid "MSG_notation_introduction"
 msgstr "For each question to grade:<ul>\n"
        "<li> Enter the question on the left.\n"
