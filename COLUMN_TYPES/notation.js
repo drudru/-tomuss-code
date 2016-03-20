@@ -761,8 +761,14 @@ Notation.prototype.get_json_grades = function()
 {
   var grades = {} ;
   for(var i in this.questions)
-    if ( ! this.questions[i].grade.not_graded )
-      grades[i] = this.questions[i].grade ;
+    {
+      var question = this.questions[i] ;
+      if ( question.grade.not_graded )
+	continue ;
+      if ( question.is_a_comment() && question.grade.grade === 0)
+	continue ;
+      grades[i] = question.grade ;
+    }
   return JSON.stringify(grades) ;
 } ;
 
@@ -773,7 +779,9 @@ Notation.prototype.save_grades = function()
   this.log("save student") ;
   this.merge_grade_changes() ;
   var v = this.get_json_grades() ;
-  if ( v != this.cell.comment && v !== '{}' )
+  if ( v == '{}' )
+    v = ''
+  if ( v != this.cell.comment )
     {
       comment_change(this.line.line_id, this.column.data_col, v) ;
       for(var i in this.questions)
@@ -1208,6 +1216,8 @@ Notation.prototype.on_keydown = function(event)
   if ( event.keyCode == 13
        || event.keyCode == 38
        || event.keyCode == 40
+       || event.keyCode == 33
+       || event.keyCode == 34
        || (event.keyCode == 32
 	   && event.target.className.split(' ')[0] == 'a_comment'
 	   )
@@ -1340,4 +1350,63 @@ function notation_format_suivi()
   return hidden_txt(
     html(DisplayGrades.cell.value + '/' + DisplayGrades.column.max),
     Notation.suivi()) ;
+}
+
+function notation_export()
+{
+  Notation.parse_questions(the_current_cell.column.comment) ;
+  var csv = [] ;
+  var data_col = the_current_cell.data_col ;
+  var questions = Notation.question_list() ;
+  var g, t = [_("COL_TITLE_ID"),
+	      _("COL_TITLE_surname"), _("COL_TITLE_firstname")] ;
+  for(var question in questions)
+  {
+    question = questions[question] ;
+    if ( question.is_a_bonus() )
+      t.push("Ⓑ") ;
+    else
+      t.push(question.max) ;
+    t.push(question.question) ;
+  }
+  csv.push(t.join('\t') + '\n\n') ;
+  
+  for(var lin in filtered_lines)
+  {
+    line = filtered_lines[lin] ;
+    t = [line[0].value, line[2].value, line[1].value] ;
+    try {
+      g = JSON.parse(line[data_col].comment) ;
+    }
+    catch(e) { g = undefined }
+    if ( g )
+    {
+      for(var question in questions)
+      {
+	question = questions[question] ;
+	if ( g[question.id] )
+	{
+	  var grade = new NotationGrade(g[question.id]) ;
+	  t.push(trunc(grade.grade * question.max)) ;
+	  t.push(grade.comment) ;
+	}
+	else
+	{
+	  t.push("???") ;
+	  t.push("") ;
+	}
+      }
+      for(var question in g)
+	{
+	  if ( ! Notation.questions[question].is_a_comment() )
+	    continue ;
+	  if ( g[question] && g[question].substr(0,1) != '0' )	    
+	    t.push(Notation.questions[question].question) ;
+	}
+    }
+    csv.push(t.join('\t') + '\n') ;
+  }
+  create_popup('export_column', _("MSG_print_popup_title"),
+	       _("MSG_print_popup_content"), "") ;
+  popup_set_value(csv.join('') + '\n') ;
 }
