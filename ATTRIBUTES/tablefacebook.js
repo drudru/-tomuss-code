@@ -138,10 +138,12 @@ function phone_facebook(column_id)
 	    cls = 'item' ;
 	  if ( vals[i] == abi )
 	    color = "F00" ;
-	  else if  ( vals[i] == abj )
+	  else if ( vals[i] == abj )
 	    color = "00F" ;
-	  else
+	  else if ( vals[i] == pre )
 	    color = "0F0" ;
+	  else
+	    color = "888" ;
 	  v = html(vals[i]) ;
 	  if ( v == '' )
 	    v = '&nbsp;' ;
