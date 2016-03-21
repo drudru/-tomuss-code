@@ -757,8 +757,18 @@ Filler.prototype.update_html = function() {
 	     + (tip !== '' ? hidden_txt(html(new_val), tip) : html(new_val))
 	     + '</tr>') ;
     }
+    var button = '' ;
+    if ( s.length )
+      button = ('<button onclick="Filler.filler.do_fill()">'
+		+ ( this.toggles.comment
+		    ? _("MSG_fill_the_comments")
+		    : _("MSG_fill_the_values")
+		  ) + '</button><p>&nbsp;</p>' + caution_message(true)) ;
+
   s = '<h3>' + _("MSG_fill_room_simulation")
-    + '</h3><table class="simulation">'
+    + '</h3>'
+    + (s.length > 10 ? button : '')
+    + '<table class="simulation">'
     + (s.length == 0
        ? '<tr><td colspan="2">' + _("MSG_fill_no_change") + '</tr>'
        : '<tr><td class="old_value">' + _("MSG_fill_room_old_value")
@@ -766,8 +776,8 @@ Filler.prototype.update_html = function() {
        + '<td class="new_value">' + _("MSG_fill_room_new_value") + '</tr>'
        + ''.join(s)
       )
-    + '</table>' ;
-  
+    + '</table><p>&nbsp;</p>' + button ;
+
   if ( s === '' )
     messages.push('<div class="fill_important">'
 		  + _("MSG_fill_no_change") + '</div>') ;
@@ -813,14 +823,7 @@ Filler.prototype.update_html = function() {
        ? _("MSG_fill_room_message_none")
        : messages.join('')
       )
-    + '</div>' + s + '<h3>' + _("MSG_fill_room_go")
-    + '</h3>'
-    + caution_message(true)
-    + '<button onclick="Filler.filler.do_fill()">'
-    + ( this.toggles.comment
-	? _("MSG_fill_the_comments")
-	: _("MSG_fill_the_values")
-      ) + '</button>' ;
+    + '</div>' + s ;
   feedback.innerHTML = s ;
   alert_append_stop() ;
 } ;
