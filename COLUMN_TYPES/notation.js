@@ -51,7 +51,6 @@ var notation_debug = false ;
 var notation_types = "QDBC" ;
 
 // TODO
-// XXX Export global
 // XXX Feedback sauvegarde
 
 function trunc(x)
@@ -904,7 +903,7 @@ Notation.prototype.update_popup = function()
       questions.push(this.questions[i]) ;
   this.sort_questions(questions) ;
   var s = [] ;
-  s.push('<div class="the_questions">') ;
+  s.push('<div id="the_questions" class="the_questions">') ;
   s.push('<div class="the_completions" id="the_completions"></div>') ;
   for(i in questions)
       s.push(questions[i].html(this.modifiable, this.column_modifiable)) ;
@@ -1111,7 +1110,11 @@ Notation.prototype.compute_stats = function()
 {
   this.global_comments = {} ;
   for(var question in this.questions)
-    this.questions[question].stats = new Stats() ;
+    {
+      this.questions[question].stats = new Stats() ;
+      if ( this.questions[question].is_a_comment )
+	this.global_comments[this.questions[question].question] = 1 ;
+    }
   for(var line_id in lines)
   {
     try {
@@ -1191,7 +1194,8 @@ Notation.prototype.update_completions = function(event)
 	}
     }
   this.the_completions.innerHTML = completions.join("") ;
-  this.the_completions.style.top = event.target.offsetTop + 'px' ;
+  this.the_completions.style.top = document.getElementById("the_questions")
+    .scrollTop + 'px' ;
   this.the_completions.style.left = event.line.childNodes[4].offsetLeft
     + event.line.childNodes[4].offsetWidth + "px" ;
   if ( completions.length == 1 )
