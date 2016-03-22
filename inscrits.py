@@ -553,6 +553,7 @@ class LDAP(LDAP_Logic):
             for a in attributes:
                 t[a] = [a + '?']
             return (('cn?',t),)
+        nr_none_return = 0
         while True:
             try:
                 start_time = time.time()
@@ -565,11 +566,15 @@ class LDAP(LDAP_Logic):
                 s = self.connexion.response
                 t = []
                 if s is None :
-                    utilities.send_backtrace(
-                        "Attributes = %s\nRequest = %s" % (attributes,
-                                                           search),
-                        subject = "LDAP returns None")
-                    return t
+                    time.sleep(1)
+                    self.connect() # Assume temporary network problem
+                    nr_none_return += 1
+                    if nr_none_return == 10:
+                        utilities.send_backtrace(
+                            "Attributes = %s\nRequest = %s" % (attributes,
+                                                               search),
+                            subject = "LDAP returns None")
+                        return t
                 else:
                     for line in s:
                         if 'attributes' in line:
@@ -598,12 +603,12 @@ class LDAP(LDAP_Logic):
                     ), what='error')
                 if time.time() > self.time_last_mail + 10:
                     self.time_last_mail = time.time()
-                    utilities.send_backtrace(
-                        configuration.ldap_server[self.server] + '\n'
-                        + 'QUERY=' + search + '\n'
-                        + 'ATTRIBUTES=' + repr(attributes) + '\n'
-                        + 'BASE=' + base + '\n'
-                        , subject = 'LDAP Error', exception = False)
+                    # utilities.send_backtrace(
+                    #     configuration.ldap_server[self.server] + '\n'
+                    #     + 'QUERY=' + search + '\n'
+                    #     + 'ATTRIBUTES=' + repr(attributes) + '\n'
+                    #     + 'BASE=' + base + '\n'
+                    #     , subject = 'LDAP Error', exception = False)
                 if isinstance(e, (
                         ldap3.core.exceptions.LDAPSizeLimitExceededResult,
                         ldap3.core.exceptions.LDAPNoSuchObjectResult)):

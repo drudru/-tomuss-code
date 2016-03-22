@@ -160,8 +160,9 @@ def authentication_thread():
                     x.close_connection_now()
                     
             except (AttributeError, IOError, socket.error):
-                utilities.send_backtrace(
-                    '', subject = 'AUTH '+ str(x.ticket)[:-1])
+                pass
+                # utilities.send_backtrace(
+                #    '', subject = 'AUTH '+ str(x.ticket)[:-1])
 
 def run_authentication():
     utilities.start_new_thread_immortal(authentication_thread, ())
