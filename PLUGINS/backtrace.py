@@ -100,8 +100,12 @@ def backtrace_list(server, from_date, to_date, what):
 
 def classifier(filename=None, subject=None):
     if filename:
-        f = open(filename, "r", encoding = "utf-8")
-        subject = f.readline()
+        f = open(filename, "rb")
+        c = f.readline()
+        try:
+            subject = c.decode("utf-8")
+        except:
+            subject = c.decode("latin-1")
         f.close()
     if './' not in subject:
         return 'important', subject
