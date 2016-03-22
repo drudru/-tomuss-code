@@ -745,7 +745,7 @@ function window_open(url, replace)
       title = replace ;
       }
   try {
-    w = window.open(url, title) ;
+    w = window.open(url, semester + '-' + ue + '-' + window_counter) ;
   }
   catch(e) {
     // XXX IE
