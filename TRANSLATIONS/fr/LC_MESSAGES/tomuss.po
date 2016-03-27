@@ -6124,3 +6124,6 @@ msgstr "Ajouter les questions suivantes :"
 
 msgid "MSG_Bonus"
 msgstr "Bonus"
+
+msgid "ALERT_change_to_Notation"
+msgstr "Double cliquez sur une cellule pour ouvrir l'éditeur de notation détaillée"

@@ -453,8 +453,8 @@ Notation.prototype.start = function()
     '<style>'
       + 'DIV.notation_content { border: 2px solid black; top: 10em ; right: 1em; bottom: 0px; left: 25%; padding: 0px }'
       + 'DIV.notation_content .the_completions { display: block; position: absolute; right: 0px }'
-      + 'DIV.notation_content .the_questions { white-space: nowrap ; position: absolute; top: 3em ; bottom: 25%; right: 0px; left: 0px ; overflow-x: auto; overflow-y: scroll }'
-      + 'DIV.notation_content .the_comments { position: absolute; top: 75% ; bottom: 0px; overflow: auto; border-top: 1px solid #000 }'
+      + 'DIV.notation_content .the_questions { white-space: nowrap ; position: absolute; top: 3em ; right: 0px; left: 0px ; overflow-x: auto; overflow-y: scroll }'
+      + 'DIV.notation_content .the_comments { position: absolute; bottom: 0px; overflow: auto; border-top: 1px solid #000 }'
       + 'DIV.notation_content .empty { color: #888 }'
       + 'DIV.notation_content INPUT { font-size: 100% }'
       + 'DIV.notation_content DIV * { vertical-align: middle }'
@@ -507,8 +507,9 @@ Notation.prototype.start = function()
   popup_close = this.close.bind(this) ;
   this.select_current_line() ;
   this.update_popup() ;
+  this.update_popup() ; // To compute good sizes for question and comments
   if ( this.column.comment === '' )
-    this.notation_error.innerHTML = '<div style="position:absolute;top: 6em; font-weight: normal">'
+    this.notation_error.innerHTML = '<div style="position:absolute;top: 6em; font-weight: normal; color: #000; font-size: 150%">'
   + _("MSG_notation_introduction") + _("TIP_limit") + '</div>' ;
   else
     {
@@ -926,6 +927,12 @@ Notation.prototype.sort_questions = function(questions)
   questions.sort(function(a,b) { return a.priority - b.priority ; }) ;
 } ;
 
+function get_scroll_size(e)
+{
+  try { return e.lastChild.offsetTop + e.lastChild.offsetHeight ; }
+  catch(e) { return 1 ; }
+}
+
 Notation.prototype.update_popup = function()
 {
   this.log("update") ;
@@ -933,7 +940,8 @@ Notation.prototype.update_popup = function()
   this.add_empty_question_if_needed() ;
   this.compute_stats() ;
   this.update_title() ;
-
+  var question_size = get_scroll_size(this.notation_content.childNodes[0]) ;
+  var comment_size = get_scroll_size(this.notation_content.childNodes[1]) ;
   var questions = [] ;
   for(i in this.questions)
     if ( this.questions[i].is_a_question_or_bonus() )
@@ -973,6 +981,11 @@ Notation.prototype.update_popup = function()
     if ( this.questions[i].is_a_question_or_bonus() )
       if ( this.questions[i].is_a_question_or_bonus() )
 	this.questions[i].draw_canvas() ;
+
+  var percent = 100 * comment_size / (question_size + comment_size) ;
+  percent = Math.max(percent, 7) ;
+  this.notation_content.childNodes[0].style.bottom = percent + '%' ;
+  this.notation_content.childNodes[1].style.top = (100 - percent) + '%' ;
 } ;
 
 Notation.prototype.unused_id = function()

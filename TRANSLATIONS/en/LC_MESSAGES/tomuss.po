@@ -5987,3 +5987,6 @@ msgstr "Append the following questions :"
 
 msgid "MSG_Bonus"
 msgstr "Bonus"
+
+msgid "ALERT_change_to_Notation"
+msgstr "Double click on a cell to open the detailed grade editor"
