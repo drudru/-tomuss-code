@@ -4499,6 +4499,9 @@ msgstr "caractères affichés dans l'ascenseur vertical"
 msgid "Preferences_interface"
 msgstr "Interface utilisateur : N:normal L:lineaire (pour malvoyant)"
 
+msgid "Preferences_one_line_more"
+msgstr "Affiche une ligne suivante quand on déplace la cellule courante"
+
 msgid "Preferences_current_suivi"
 msgstr "aller sur le suivi de l'étudiant du semestre<br>courant au lieu du semestre choisi dans le menu"
 

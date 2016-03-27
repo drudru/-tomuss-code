@@ -181,6 +181,12 @@ function page_step_change(t)
   preference_change(t, "page_step=" + preferences.page_step) ;
 }
 
+function one_line_more_change(t)
+{
+  preferences.one_line_more = preferences.one_line_more == yes ? 1 : 0 ;
+  preference_change(t, "one_line_more=" + preferences.one_line_more) ;
+}
+
 function show_preferences_language()
 {
   return radio_buttons('preferences.language', ["en", "fr"],
@@ -218,6 +224,11 @@ function show_preferences_popup()
 			       preferences.page_step,
 			       "page_step_change(this)")
 	       + _("Preferences_page_step")
+	       + '<p>'
+	       + radio_buttons('preferences.one_line_more', [yes, no],
+			       test_bool(preferences.one_line_more),
+			       "one_line_more_change(this)")
+	       + _("Preferences_one_line_more")
 	       + (i_am_root
 		  ? '<p>'
 		  + radio_buttons('preferences.debug_table', [yes, no],

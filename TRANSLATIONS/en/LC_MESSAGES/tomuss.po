@@ -4440,6 +4440,9 @@ msgstr "characters displayed in the vertical scrollbar"
 msgid "Preferences_interface"
 msgstr "User interface: N:normal L:linear (better accessibility)"
 
+msgid "Preferences_one_line_more"
+msgstr "Display the next line when moving up/down the current cell"
+
 msgid "Preferences_current_suivi"
 msgstr "Home page: use the current semester for the 'suivi' page"
 

@@ -2238,7 +2238,8 @@ Current.prototype.update = function(do_not_focus)
 Current.prototype.cursor_down = function()
 {
   this.change() ;
-  if ( this.lin == table_attr.nr_lines + nr_headers - 1 )
+  if ( this.lin >= table_attr.nr_lines + nr_headers -
+          (1 + preferences.one_line_more))
     {
       next_page(true, 1) ;
       // table_fill_try() ; // Want change NOW (bad input if fast typing)
@@ -2250,15 +2251,13 @@ Current.prototype.cursor_down = function()
 Current.prototype.cursor_up = function()
 {
   this.change() ;
-  if ( this.lin == nr_headers )
-    {
-      if ( line_offset !== 0 )
+  if ( this.lin <= nr_headers + preferences.one_line_more
+       && line_offset !== 0 )
 	{
 	  previous_page(true, 1) ;
 	  // table_fill_try() ; // Want change NOW (bad input if fast typing)
 	}
-    }
-  else
+  else if ( this.lin > nr_headers )
     this.jump(this.lin - 1, this.col) ;
 } ;
 
