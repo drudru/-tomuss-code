@@ -170,6 +170,7 @@ def get_preferences(user_name, create_pref=True, the_ticket=None):
                  'debug_table'    : 0,
                  'home_3scrollbar': 1,
                  'one_line_more'  : 1,
+                 'filter_freezed' : 0,
     }.items():
         if k not in p:
             p[k] = v

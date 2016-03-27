@@ -4443,6 +4443,9 @@ msgstr "User interface: N:normal L:linear (better accessibility)"
 msgid "Preferences_one_line_more"
 msgstr "Display the next line when moving up/down the current cell"
 
+msgid "Preferences_filter_freezed"
+msgstr "Froze the columns with a filter"
+
 msgid "Preferences_current_suivi"
 msgstr "Home page: use the current semester for the 'suivi' page"
 

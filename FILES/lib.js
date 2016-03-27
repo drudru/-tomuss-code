@@ -1233,6 +1233,12 @@ function column_list(col_offset, number_of_cols)
 	  freezed.push(column) ;
 	  continue ;
 	}
+      if ( preferences.filter_freezed
+	   && column.filter !== '' && column.filter !== undefined )
+	{
+	  freezed.push(column) ;
+	  continue ;
+	}
       if ( column.hidden == 1 )
 	continue ;
       var v = C(column.title, column.author, '20080101', column.comment) ;
