@@ -27,7 +27,7 @@ class Notation(note.Note):
     human_priority = 0
     ondoubleclick = 'notation_open'
     attributes_visible = ('minmax', 'weight', 'rounding', 'repetition',
-                          "groupcolumn", "notation_export")
+                          "groupcolumn", "notation_export", "notation_import")
     formatte_suivi = "notation_format_suivi"
 
     def update_for_suivi(self, column):

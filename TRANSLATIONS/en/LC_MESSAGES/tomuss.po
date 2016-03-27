@@ -5965,3 +5965,25 @@ msgstr "For each question to grade:<ul>\n"
        "after 5 student étudiants, it become cyan if the question has not\n"
        "been graded for a student.\n"
        "</ul>"
+
+msgid "TITLE_column_attr_notation_export"
+msgstr "Export"
+
+msgid "TITLE_column_attr_notation_import"
+msgstr "Import"
+
+msgid "MSG_notation_import_title"
+msgstr "Import notation details in"
+
+msgid "MSG_notation_import"
+msgstr "Copy your spreadsheet data here with the same formating than\n"
+       "the exported data:"
+
+msgid "MSG_notation_import_warning"
+msgstr "Firstnames and surnames are not used nor checked."
+
+msgid "MSG_notation_confirm_import"
+msgstr "Append the following questions :"
+
+msgid "MSG_Bonus"
+msgstr "Bonus"

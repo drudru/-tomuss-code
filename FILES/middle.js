@@ -861,6 +861,7 @@ function new_new_interface()
   t.push(column_input_attr('upload_zip')) ;
   t.push(column_input_attr('import_zip')) ;
   t.push(column_input_attr('notation_export')) ;
+  t.push(column_input_attr('notation_import')) ;
   t.push('</div>') ;
   t.push('<div class="one_line">') ;
   t.push('<table id="t_column_stats"></table>') ;

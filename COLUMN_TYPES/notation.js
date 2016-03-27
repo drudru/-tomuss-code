@@ -446,8 +446,8 @@ Notation.prototype.start = function()
   this.popup_is_open = popup_is_open ;
   var me = this ;
   popup_is_open = function() { return me.stop_event ; } ;
-  this.column = the_current_cell.column ;
   the_current_cell.jump = this.jump.bind(this) ;
+  this.init(the_current_cell.column) ;
   create_popup(
     'notation_content',
     '<style>'
@@ -505,9 +505,7 @@ Notation.prototype.start = function()
   this.notation_error   = document.getElementById("notation_error") ;
   this.notation_other   = document.getElementById("notation_other") ;
   popup_close = this.close.bind(this) ;
-  this.parse_questions(this.column.comment) ;
   this.select_current_line() ;
-  this.column_modifiable = column_change_allowed(this.column) ;
   this.update_popup() ;
   if ( this.column.comment === '' )
     this.notation_error.innerHTML = '<div style="position:absolute;top: 6em; font-weight: normal">'
@@ -521,6 +519,13 @@ Notation.prototype.start = function()
 	}
     }
   this.focus(this.question_list()[0], 2 /* XXX BAD */) ;
+} ;
+
+Notation.prototype.init = function(column)
+{
+  this.column = column ;
+  this.column_modifiable = column_change_allowed(column) ;
+  this.parse_questions(column.comment) ;
 } ;
 
 Notation.prototype.parse_questions = function(txt)
@@ -586,14 +591,19 @@ Notation.prototype.get_the_commented_line = function(line)
   return line ;
 } ;
 
+Notation.prototype.init_cell = function(line)
+{
+  this.line = this.get_the_commented_line(line) ;
+  this.cell = this.line[this.column.data_col] ;
+  this.parse_grades(this.cell.comment) ;
+  this.modifiable = this.cell && this.cell.is_mine() || i_am_the_teacher ;
+} ;
+
 Notation.prototype.select_current_line = function()
 {
   this.log("select_current_line " + the_current_cell.line[0].value) ;
   the_current_cell.tr.className += ' currentformline' ;
-  this.line = this.get_the_commented_line(the_current_cell.line) ;
-  this.cell = this.line[this.column.data_col] ;
-  this.parse_grades(this.cell.comment) ;
-  this.modifiable = this.cell && this.cell.is_mine() || i_am_the_teacher ;
+  this.init_cell(the_current_cell.line) ;
   this.notation_error.innerHTML = "" ;
   this.notation_student.innerHTML = html(this.line[0].value)
     + ' ' + html(this.line[1].value) + ' ' + html(this.line[2].value) ;
@@ -723,10 +733,10 @@ Notation.prototype.save_questions = function()
   }
   this.sort_questions(questions) ;
   var v = JSON.stringify(questions) ;
+  this.log("save questions old: " + this.column.comment) ;
+  this.log("save questions new: " + v) ;
   if ( v != this.column.comment )
   {
-    this.log("save questions old: " + this.column.comment) ;
-    this.log("save questions new: " + v) ;
     column_attr_set(this.column, 'comment', v) ;
     column_attr_set(this.column, 'minmax', '[0;' + this.maximum() + ']') ;
     the_current_cell.do_update_column_headers = true ;
@@ -735,6 +745,8 @@ Notation.prototype.save_questions = function()
 } ;
 
 Notation.prototype.is_the_last = function(question) {
+  if  ( question.question !== '' )
+    return false ;
   var questions = this.question_list() ;
   return question == questions[questions.length-1] ; } ;
 
@@ -780,8 +792,11 @@ Notation.prototype.save_grades = function()
   var v = this.get_json_grades() ;
   if ( v == '{}' )
     v = ''
+  this.log("Old: " + this.cell.comment) ;
+  this.log("New: " + v) ;
   if ( v != this.cell.comment )
     {
+      this.log("Store into " + this.line.line_id + ' ' + this.column.data_col);
       comment_change(this.line.line_id, this.column.data_col, v) ;
       for(var i in this.questions)
 	this.questions[i].grade.local_change = false ;
@@ -797,13 +812,35 @@ Notation.prototype.contain_empty_question = function()
   return false ;
 } ;
 
-Notation.prototype.add_empty_question_if_needed = function()
+Notation.prototype.add_empty_question_if_needed = function(txt, max)
 {
   this.log("add_empty_question_if_needed") ;
   if ( this.contain_empty_question() )
     return ;
   var id = this.unused_id() ;
   this.questions[id] = new NotationQuestion({id: id, priority: 9999}) ;
+  if ( txt )
+    this.questions[id].question = txt ;
+  switch(max)
+  {
+  case _("MSG_Bonus").toLowerCase():
+    this.questions[id].type = 2 ;
+    this.questions[id].max = 5 ;
+    break ;
+  case undefined:
+    break ;
+  default:
+    this.questions[id].max = Number(max) ;
+    break ;
+  }
+
+  if ( this.notation_error )
+  {
+    this.notation_error.innerHTML = '' ;
+    this.update_error() ;
+  }
+
+  return this.questions[id] ;
 } ;
 
 Notation.prototype.maximum = function()
@@ -1112,7 +1149,7 @@ Notation.prototype.compute_stats = function()
   for(var question in this.questions)
     {
       this.questions[question].stats = new Stats() ;
-      if ( this.questions[question].is_a_comment )
+      if ( this.questions[question].is_a_comment() )
 	this.global_comments[this.questions[question].question] = 1 ;
     }
   for(var line_id in lines)
@@ -1148,17 +1185,16 @@ Notation.prototype.compute_stats = function()
     this.questions[question].max_graded = this.max_graded ;
 } ;
 
-Notation.prototype.on_comment_change = function(event)
+Notation.prototype.update_error = function(error, element)
 {
-  this.log("on_comment_change " + event.target.value) ;
-  var error = event.question.set_comment(event.target.value,
-					 this.column_modifiable) ;
   var length = this.get_json_grades().length ;
   if ( length > max_url_length )
     error = "MSG_notation_to_much_comment" ;
   if ( error )
   {
-    this.notation_error.style.color = event.target.style.color = '#F00';
+    this.notation_error.style.color ='#F00' ;
+    if ( element )
+      element.style.color = this.notation_error.style.color ;
     this.notation_error.style.fontSize = "100%" ;
     this.notation_error.innerHTML = _(error) ;
   }
@@ -1166,10 +1202,19 @@ Notation.prototype.on_comment_change = function(event)
   {
     this.notation_error.style.color = "#888" ;
     this.notation_error.style.fontSize = "70%" ;
-    event.target.style.color = '#000' ;
+    if ( element )
+      element.style.color = "#000" ;
     this.notation_error.innerHTML = hidden_txt(length +'/'+ max_url_length,
 					       _("TIP_limit")) ;
   }
+} ;
+
+Notation.prototype.on_comment_change = function(event)
+{
+  this.log("on_comment_change " + event.target.value) ;
+  var error = event.question.set_comment(event.target.value,
+					 this.column_modifiable) ;
+  this.update_error(error, event.target) ;
   event.question.draw_canvas() ;
   this.update_title() ;
   var completion = this.update_completions(event) ;
@@ -1339,6 +1384,79 @@ Notation.prototype.suivi = function()
   return s.join("") + c.join('<br>') + '</div>' ;
 } ;
 
+Notation.prototype.get_question_from_question = function(question)
+{
+  question = question.toLowerCase() ;
+  for(var j in this.questions)
+    if ( this.questions[j].question.toLowerCase() == question )
+      return this.questions[j] ;
+} ;
+
+Notation.prototype.import_do = function(csv)
+{
+  if ( csv.length < 2 )
+    return "???" ;
+  var question_texts = csv[0].split(/\t/) ;
+  var questions = [] ;
+  var column = popup_column() ;
+  var messages = "" ;
+
+  this.init(column)
+  for(var i=3; i < question_texts.length; i += 2)
+    {
+      var question = question_texts[i+1] ;
+      var max = question_texts[i].toLowerCase() ;
+      var q = this.get_question_from_question(question) ;
+      if ( q )
+      {
+	if ( isNaN(max) && max != _("MSG_Bonus").toLowerCase() )
+	  return max + "=NaN && " + max + "!=" + _("MSG_Bonus") ;
+	if ( q.is_a_bonus() && max != _("MSG_Bonus").toLowerCase() )
+	  return q.question + ' : ' + _("MSG_Bonus") + ' ?' ;
+	if ( q.is_a_question() && q.max != Number(max) )
+	  return q.question + "\n" + q.max + ' != ' + max ;
+      }
+      else
+	{
+	  q = this.add_empty_question_if_needed(question, max) ;
+	  messages += "\n/" + max + ' ' + question ;
+	}
+      questions.push(q) ;
+    }
+  if ( messages !== "" )
+    if ( ! confirm(_("MSG_notation_confirm_import") + '\n' + messages) )
+      return _("MSG_tablelinear_cancel") ;
+  var g ;
+  for(var i in csv)
+    {
+      if ( i == 0 )
+	continue ;
+      var grades = csv[i].split(/ *\t */) ;
+      if ( grades[0] === '' || ! grades[0] )
+	continue ;
+      var lin_id = login_to_line_id(grades[0]) ;
+      if ( ! lin_id )
+	return grades[0] + ' ???' ;
+      this.init_cell(lines[lin_id]) ;
+      for(var j in questions)
+	{
+	  g = grades[3 + 2*j] ;
+	  if ( g === '' )
+	    continue ;
+	  if ( isNaN(g) )
+	    return questions[j].question + ": " + g + "=NaN" ;
+	  if ( g > questions[j].max )
+	    return questions[j].question + ": " + g + ">" + questions[j].max ;
+	  questions[j].set_grade(g + '/' + questions[j].max) ;
+	  questions[j].set_comment(grades[4 + 2*j], true) ;
+	}
+      this.save_grades() ;
+    }
+  this.save_questions() ; // Must be after
+  this.update_all_grades() ;
+  table_fill(true, true, true, true) ;
+}
+
 Notation = new Notation() ; // Only one instance
 
 function notation_open(value, column)
@@ -1359,22 +1477,31 @@ function notation_format_suivi()
 function notation_export()
 {
   Notation.parse_questions(the_current_cell.column.comment) ;
-  var csv = [] ;
-  var data_col = the_current_cell.data_col ;
   var questions = Notation.question_list() ;
-  var g, t = [_("COL_TITLE_ID"),
-	      _("COL_TITLE_surname"), _("COL_TITLE_firstname")] ;
+  var data_col = the_current_cell.data_col ;
+  var csv = [] ;
+  var g ;
+
+  t = [_("COL_TITLE_ID"), _("COL_TITLE_surname"), _("COL_TITLE_firstname")] ;
   for(var question in questions)
   {
     question = questions[question] ;
     if ( question.is_a_bonus() )
-      t.push("Ⓑ") ;
+      t.push(_("MSG_Bonus")) ;
     else
       t.push(question.max) ;
-    t.push(question.question) ;
+    t.push(html(question.question)) ;
   }
-  csv.push(t.join('\t') + '\n\n') ;
-  
+  csv.push('<tr><th>' + t.join('<th>') + '</tr>\n') ;
+
+  t = ['', '', ''] ;
+  for(var question in questions)
+    {
+      t.push(_("B_Note")) ;
+      t.push(_("TH_comment")) ;
+    }
+  csv.push(['<tr><th>' + t.join('<th>') + '</tr>\n']) ;
+
   for(var lin in filtered_lines)
   {
     line = filtered_lines[lin] ;
@@ -1392,7 +1519,7 @@ function notation_export()
 	{
 	  var grade = new NotationGrade(g[question.id]) ;
 	  t.push(trunc(grade.grade * question.max)) ;
-	  t.push(grade.comment) ;
+	  t.push(html(grade.comment)) ;
 	}
 	else
 	{
@@ -1405,13 +1532,62 @@ function notation_export()
 	  if ( ! Notation.questions[question]
 	      || ! Notation.questions[question].is_a_comment() )
 	    continue ;
-	  if ( g[question] && g[question].substr(0,1) != '0' )	    
+	  if ( g[question] && g[question].substr(0,1) != '0' )
 	    t.push(Notation.questions[question].question) ;
 	}
     }
-    csv.push(t.join('\t') + '\n') ;
+    csv.push('<tr><td>' + t.join('<td>') + '</tr>\n') ;
   }
-  create_popup('export_column', _("MSG_print_popup_title"),
-	       _("MSG_print_popup_content"), "") ;
-  popup_set_value(csv.join('') + '\n') ;
+  create_popup('notation_export', _("MSG_print_popup_title"),
+	      '',
+	       '<style>DIV.import_export.notation_export { bottom: 3em; left: 3em; right: 3em; top: 3em ; border: 4px solid green }</style>'
+	       + '<table class="colored" style="height: 20em;font-size: 50%;">'
+	       + csv.join('') + '</table>',
+	       false) ;
+}
+
+function notation_import_do()
+{
+  var error = Notation.import_do(popup_value()) ;
+  if ( error )
+    alert(error) ;
+  else
+    popup_close() ;
+}
+
+function notation_import()
+{
+  if ( ! column_change_allowed(this.column) )
+    {
+      alert(_("ERROR_value_not_modifiable")) ;
+      return ;
+    }
+  var c = _("TH_comment").substr(0, 7) ;
+  var g = _("B_Note").substr(0, 7) ;
+  var example = [
+    [_("COL_TITLE_ID"), _("COL_TITLE_surname"), _("COL_TITLE_firstname"),
+     2, "Quest X", 2, "Quest Y", _("MSG_Bonus"), "Z"],
+    ['', '', '', g, c, g, c, g, c],
+    [],
+    ["1160000", "", "", 2   , "Good!"  , 1, "Bien"   , 1   , "Super!"],
+    ["1160001", "", "", 0.5 , "False"  , 1, "Faux"   , 0   , ""],
+    ["1160002", "", "", 0.25, "Bad :-(", 0, "Mauvais", -0.5, "Spelling"]
+  ] ;
+  for(var i = 0 ; i < 3 && i < filtered_lines.length; i++)
+    {
+      example[i+3][0] = filtered_lines[i][0].value.substr(0,8) ;
+      example[i+3][1] = filtered_lines[i][2].value.substr(0,4) + '…' ;
+      example[i+3][2] = filtered_lines[i][1].value.substr(0,4) + '…' ;
+    }
+  for(var i = 0 ; i < example.length; i++)
+      example[i] = example[i].join("\t") ;
+
+  var title = _("MSG_notation_import_title") + ' «'
+    + the_current_cell.column.title + '»' ;
+  create_popup('import_div', title,
+	       caution_message() + _("MSG_notation_import"),
+	       '<button onclick="notation_import_do()">'
+	       + title + '</button><p>'
+	       + _("MSG_notation_import_warning"),
+	       example.join('\n')) ;
 }

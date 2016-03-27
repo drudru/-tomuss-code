@@ -185,10 +185,10 @@ msgstr "Calcule la différence en 2 dates en jours.<br>\n"
 
 #. Columns types, button text in the menu
 msgid "B_Upload"
-msgstr "Dépôt"
+msgstr "Dépôt de fichier"
 
 msgid "H_Upload"
-msgstr "Dépôt d'un fichier par les étudiants"
+msgstr "Dépôt d'un fichier par les étudiants ou de tous par le responsable"
 
 msgid "B_Notation"
 msgstr "Notation (Expérimental)"
@@ -6098,8 +6098,29 @@ msgstr "Pour chaque question à corriger :<ul>\n"
        "</ul>\n"
        "Divers :<ul>\n"
        "<li> La barre de note est blanche si l'étudiant n'a pas de note.\n"
-       "<li> Le trait bleu indique après 5 étudiants la moyenne et\n"
+       "<li> Le trait bleu indique après 5 étudiants notés la moyenne et\n"
        "l'écart type, il devient cyan si la question n'a pas été notée\n"
        "pour un des étudiants\n"
        "</ul>"
 
+msgid "TITLE_column_attr_notation_export"
+msgstr "Exporter"
+
+msgid "TITLE_column_attr_notation_import"
+msgstr "Importer"
+
+msgid "MSG_notation_import_title"
+msgstr "Importer les détails de notation dans"
+
+msgid "MSG_notation_import"
+msgstr "Copie les données de votre tableur ici, sous la même forme\n"
+       "que la version exportée :"
+
+msgid "MSG_notation_import_warning"
+msgstr "Les noms et prénoms ne sont pas utilisés ni vérifiés."
+
+msgid "MSG_notation_confirm_import"
+msgstr "Ajouter les questions suivantes :"
+
+msgid "MSG_Bonus"
+msgstr "Bonus"
