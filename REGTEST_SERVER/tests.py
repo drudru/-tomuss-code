@@ -1950,6 +1950,30 @@ cell_change(1,'0_2','ticket_time_to_live','%d',"")
             time.sleep(0.001)
         assert(len(c[0]) == 1 and len(c[1]) == 2 and len(c[2]) == 5)
 
+    if do('repet-grp'):
+        c = s.url('=' + abj +'/%s/UE-repet-grp' % ys)
+        c =s.url('='+abj+'/%s/UE-repet-grp/1/0/column_attr_repetition/COL/1'%ys)
+        assert(c == ok_png)
+        c =s.url('='+abj+'/%s/UE-repet-grp/1/1/column_attr_groupcolumn/COL/Grp'%ys)
+        assert(c == ok_png)
+        c = s.url('=' + abj + '/%s/UE-repet-grp' % ys +
+                  '/1/2/cell_change/0_0/0_0/10800001')
+        assert(c == ok_png)
+        c = s.url('=' + abj + '/%s/UE-repet-grp' % ys +
+                  '/1/3/cell_change/0_3/0_0/A')
+        assert(c == ok_png)
+        c = s.url('=' + abj + '/%s/UE-repet-grp' % ys +
+                  '/1/4/cell_change/0_0/0_1/10800002')
+        assert(c == ok_png)
+        c = s.url('=' + abj + '/%s/UE-repet-grp' % ys +
+                  '/1/5/cell_change/0_3/0_1/A')
+        assert(c == ok_png)
+        c = s.url('=' + abj + '/%s/UE-repet-grp' % ys +
+                  '/1/6/cell_change/COL/0_0/7')
+        assert(c == ok_png)
+        check('Y%d/S%s/UE-repet-grp.py' % (year, semester),
+              cell_required = (1, 'COL', '0_1', 7.))
+
     if do('js-api'):
         c = s.url('=' + abj +'/%s/UE-js' % ys)
         data = []

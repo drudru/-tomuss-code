@@ -791,7 +791,9 @@ class Table(object):
             and a_column.repetition
             and value != ''
             and not equal
-            ):
+            # 'repetition' is checked only for the first member
+            and not getattr(a_column, 'groupcolumn_running', False)
+        ):
             n = 0
             data_col = a_column.data_col
             if a_column.repetition > 0:
