@@ -28,6 +28,7 @@ function table_forms_resize()
     if ( ! table_forms_element )
 	return ;
 
+    table_header_fill() ;
     var tr = table_forms_element.getElementsByTagName('tbody')[0].firstChild ;
     var top_left_e, col=0 ;
     var cls = column_list_all() ;
