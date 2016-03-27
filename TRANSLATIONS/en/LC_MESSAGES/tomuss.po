@@ -5990,3 +5990,9 @@ msgstr "Bonus"
 
 msgid "ALERT_change_to_Notation"
 msgstr "Double click on a cell to open the detailed grade editor"
+
+
+msgid "ALERT_notation_conflict"
+msgstr "BEWARE there is more than one cell comment for the group's students\n"
+       "You must erase all the comment, except the one containing\n"
+       "the detailed grading."

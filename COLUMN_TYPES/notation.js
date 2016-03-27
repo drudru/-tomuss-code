@@ -583,13 +583,23 @@ Notation.prototype.get_the_commented_line = function(line)
   var group = line[col].value.toString() ;
   if ( group === '' )
     return line ;
+  var group_lines = [] ;
   for(var line_key in lines)
   {
     if ( lines[line_key][col].value.toString() == group
 	 && lines[line_key][this.column.data_col].comment !== '' )
-      return lines[line_key] ;
+      group_lines.push(lines[line_key]) ;
   }
-  return line ;
+  if ( group_lines.length > 1 )
+    {
+      var message = _("ALERT_notation_conflict") + '\n' ;
+      for(var i in group_lines)
+	message += group_lines[i][0].value + ' ' + group_lines[i][1].value
+	+ ' ' + group_lines[i][2].value + '\n' ;
+      alert(message) ;
+      return group_lines[0] ;
+    }
+  return group_lines.length ? group_lines[0] : line ;
 } ;
 
 Notation.prototype.init_cell = function(line)

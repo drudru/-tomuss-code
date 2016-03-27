@@ -6127,3 +6127,9 @@ msgstr "Bonus"
 
 msgid "ALERT_change_to_Notation"
 msgstr "Double cliquez sur une cellule pour ouvrir l'éditeur de notation détaillée"
+
+msgid "ALERT_notation_conflict"
+msgstr "ATTENTION plusieurs étudiants du groupe ont un commentaire\n"
+       "permettant de stocker la notation détaillé.\n"
+       "Vous devez effacer tous les commentaires de ces étudiants\n"
+       "sauf celui qui contient la notation détaillée."
