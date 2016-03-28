@@ -75,7 +75,6 @@ TD { padding: 0px }
 }
 
 .ue_list {
-    border: 1px solid #4A4 ;
     margin-bottom: 0.5em ;
 }
 
@@ -92,10 +91,8 @@ TD { padding: 0px }
 
 .table_title {
     text-align: center ;
-    background: #CFC ;
     width: 100% ;
     position: relative ;
-    border-bottom: 1px solid #4A4 ;
 }
 
 .table_title .select_ue_sort {

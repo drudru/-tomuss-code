@@ -109,18 +109,19 @@ function DisplayHomeSemesters(node)
       if ( current )
 	current = current[2] + '/' + current[3] ;
       else
-	current = year_semester ; // No suivi server
+	current = year_semester() ; // No suivi server
     }
   s.push('<option>2008/Test</option>') ;
   for(var i in node.data)
     {
-      var year_semester = node.data[i][2] +'/'+ node.data[i][3] ;
-      s.push("<option"
-	     + (year_semester == current ? ' selected' :  '')
-	     + ">" + year_semester + '</option>');
-      suivi[year_semester] = node.data[i][0] ;
+      var ys = node.data[i][2] +'/'+ node.data[i][3] ;
+      s.push("<option" + (ys == current ? ' selected' :  '')
+	     + ">" + ys + '</option>');
+      suivi[ys] = node.data[i][0] ;
     }
   s.push('</select>') ;
+  set_body_theme(get_option("year_semester", year_semester()).split('/')[1]) ;
+
   return s.join('') ;
 }
 
@@ -555,6 +556,17 @@ function DisplayHomePreferencesDebug(node)
 }
 DisplayHomePreferencesDebug.need_node = [] ;
 
+function theme_change(theme, t)
+{
+  preferences.theme = theme ;
+  preference_change(t, "theme=" + theme) ;
+  set_body_theme(get_option("year_semester", year_semester()).split('/')[1]) ;
+  popup_close() ;
+  home_preferences_popup() ;
+}
+
+DisplayHomePreferencesThemes.need_node = [] ;
+
 function home_preferences_popup()
 {
     if ( popup_is_open() )
@@ -888,7 +900,7 @@ function display_ues(title, tip, codes, options)
 {
   var order = get_option('S' + title, options.default_order) ;
   var opened = get_option('B' + title, '⇧') == '⇧' ;
-  var s = ['<div class="ue_list">'] ;
+  var s = ['<div class="ue_list border">'] ;
   if ( options.hide_open_close )
     opened = true ;
   if ( ! options.hide_title )
@@ -1019,7 +1031,8 @@ function display_ues(title, tip, codes, options)
       }
     if ( options.students )
       s.push(
-	'<div class="ue_line ' + classes + '" onclick="open_student(this,'
+	'<div class="ue_line border '
+	+ classes + '" onclick="open_student(this,'
 	+ js2(ue[0]) + ')" ondblclick="go_suivi(' + js2(ue[0]) + ')">'
 	+ '<div class="ue_right"><div class="ue_title">'
 	+ string_highlight(html(ue[2] + ' ' + title_case(ue[1])),
@@ -1449,7 +1462,7 @@ function DisplayHomeUE(node)
 	  ] ;
   s[0] = s[0].substr(0, s[0].length - 6) ; // Remove last </div>
   s.push('<div class="search_box"><input id="search_ue" onkeyup="search_ue_change(this)" onpaste="t=this;setTimeout(function(){search_ue_change(t);},100)" value="' + encode_value(search_ue_change.last_value) + '"></div></div>') ;
-  s.push('<div id="ue_search_result" class="ue_list">') ;
+  s.push('<div id="ue_search_result" class="ue_list border">') ;
   if ( search_ue_change.last_value )
     s.push(search_ue_list(search_ue_change.last_value)) ;
   s.push('</div>') ;
@@ -1484,7 +1497,7 @@ function student_notepad_link(path)
 
 function get_student_list(t)
 {
-  while( t.className != 'ue_list' )
+  while( t.className.substr(0,7) != 'ue_list' )
     t = t.parentNode ;
   var s = [] ;
   for(var i = 1 ; i < t.childNodes.length; i++)

@@ -6005,3 +6005,12 @@ msgstr "BEWARE there is more than one cell comment for the group's students\n"
 
 msgid "ALERT_to_text"
 msgstr "Do you want to change this column type to 'Free text'?"
+
+msgid "TIP_default_theme"
+msgstr "The 'Semester' display theme uses the default table theme.<br>\n"
+       "The other themes are applied is they are not overridden."
+
+msgid "MSG_theme"
+msgstr "Themes:"
+
+

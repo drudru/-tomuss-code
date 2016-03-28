@@ -1,11 +1,112 @@
 
-BODY, BODY TABLE.colored TD { background-color: #EEEEEE ; }
-
 BODY {
   background-image: url('_LOGO_');
   background-repeat: no-repeat;
   background-position: center -10px;
 }
+
+/* BODY.themeP DIV.import_export */
+
+/* GREY THEME */
+
+.themeG, .themeG TABLE.colored TD, .themeG .BodyRight, .themeG>SPAN.BodyRight
+{ background-color: #F8F8F8 }
+.themeG TH, .themeG TH INPUT, .themeG .table_title,
+.themeG .tab_selected, .themeG>SPAN.tab_selected
+{ background-color: #E8E8E8 }
+.themeG .sorted, .themeG .toggled, TH.themeG>SPAN.toggled
+{ background-color: #DDD }
+.themeG .border, TH.themeG.border
+{ border: 1px solid #888 ; }
+.themeG .table_title
+{ border-bottom: 1px solid #888 ; }
+
+
+/* PRINTEMPS THEME */
+
+.themeP, .themeP TABLE.colored TD, .themeP .BodyRight, .themeP>SPAN.BodyRight
+{ background-color: #F9FFF6 }
+.themeP TH, .themeP TH INPUT, .themeP .table_title,
+.themeP .tab_selected, .themeP>SPAN.tab_selected
+{ background-color: #DFD ; }
+.themeP .sorted, .themeP .toggled, TH.themeP>SPAN.toggled
+{ background-color: #BFB ; }
+.themeP .border, TH.themeP.border
+{ border: 1px solid #0F0 ; }
+.themeP .table_title
+{ border-bottom: 1px solid #0F0 ; }
+
+/* AUTOMNE THEME */
+
+.themeA, .themeA TABLE.colored TD, .themeA .BodyRight, .themeA>SPAN.BodyRight
+{ background-color: #FFF5E0 }
+.themeA TH, .themeA TH INPUT, .themeA .table_title,
+.themeA .tab_selected, .themeA>SPAN.tab_selected
+{ background-color: #FDC ; }
+.themeA .sorted, .themeA .toggled, TH.themeA>SPAN.toggled
+{ background-color: #FCB ; }
+.themeA .border, TH.themeA.border
+{ border: 1px solid #FA6 ; }
+.themeA .table_title
+{ border-bottom: 1px solid #FA6 ; }
+
+/* Dossier THEME */
+
+.themeD, .themeD TABLE.colored TD, .themeD .BodyRight, .themeD>SPAN.BodyRight
+{ background-color: #FFF7FD }
+.themeD TH, .themeD TH INPUT, .themeD .table_title,
+.themeD .tab_selected, .themeD>SPAN.tab_selected
+{ background-color: #FFDDF6 ; }
+.themeD .sorted, .themeD .toggled, TH.themeD>SPAN.toggled
+{ background-color: #FFC5EF ; }
+.themeD .border, TH.themeD.border
+{ border: 1px solid #FF7CDB ; }
+.themeD .table_title
+{ border-bottom: 1px solid #FF7CDB ; }
+
+/* Referent THEME */
+
+.themeR, .themeR TABLE.colored TD, .themeR .BodyRight, .themeR>SPAN.BodyRight
+{ background-color: #F0FFFF }
+.themeR TH, .themeR TH INPUT, .themeR .table_title,
+.themeR .tab_selected, .themeR>SPAN.tab_selected
+{ background-color: #CFFEFF ; }
+.themeR .sorted, .themeR .toggled, TH.themeR>SPAN.toggled
+{ background-color: #99FDFF ; }
+.themeR .border, TH.themeR.border
+{ border: 1px solid #00E9F1 ; }
+.themeR .table_title
+{ border-bottom: 1px solid #00E9F1 ; }
+
+/* BLACK AND WHITE THEME */
+
+.themeBW, .themeBW TABLE.colored TD, .themeBW .BodyRight,
+TH.themeBW>SPAN.BodyRight, TH.themeBW>SPAN.tab_selected
+{ background-color: #FFF ; color: #000 }
+
+.themeBW .border, .themeBW.border
+{ border: 1px solid #000 ; }
+.themeBW .table_title
+{ border-bottom: 1px solid #000 ; }
+
+.themeBW #cellbox_tip:hover,
+.themeBW DIV.import_export
+{
+    border: 1px solid black ;
+    opacity: 1 ;
+}
+
+.themeBW TABLE.colored TH,
+.themeBW TABLE.colored CAPTION,
+.themeBW .table_title,
+.themeBW span.toggled
+{
+    background: #FFF ;
+    color: #000 ;
+    font-weight: bold ;
+}
+
+.themeBW A, .themeBW [onclick] { color: #000 }
 
 BODY, TABLE TD, #current_input, TR.filter INPUT {
   border: none ;
@@ -23,11 +124,11 @@ A { text-decoration: none; }
 }
 
 
-BODY.tomuss H1 { font-size: 90% }
+BODY H1 { font-size: 90% }
 
 IMG { cursor: default; }
 
-BODY.tomuss, BODY.tomuss TABLE INPUT, BODY.tomuss TABLE TD, BODY.tomuss TH, BODY.tomuss P, BODY.tomuss H1 { 
+BODY, BODY TABLE INPUT, BODY TABLE TD, BODY TH, BODY P, BODY H1 { 
   padding: 0px ;
   margin: 0px;
 }
@@ -165,10 +266,7 @@ DIV#current_input_div INPUT#current_input {
 
 TH, TH INPUT, TH P {
   font-weight: 500 ;
-  background-color: #DFD ;
-/*  background: url(header.png) #DFD ; */
 }
-
 
 TH SELECT { 
   background-color: #CDC ;
@@ -190,7 +288,7 @@ THEAD TR TD {
 /* TR.filter TH INPUT.notempty { background-color: #DFD ; } */
 TR.filter TH INPUT.empty {
   background-image: url("filtre.png") ;
-  background-color: #DFD ;
+  background-color: inherit ;
 }
 
 TR.filter TH INPUT {
@@ -271,7 +369,6 @@ BODY TABLE.colored TR TD.filtered, #current_input.filtered, BODY TABLE.colored T
 
 TABLE#thetable TH.sorted { 
   font-weight: bold ;
-  background-color: #BFB;
 }
 
 TR.column_title DIV {
@@ -665,20 +762,20 @@ TR#dates TD { padding: 3px ;
   background: #FF0 ;
 }
 
-span.button_toggle { 
-  border: 1px solid black;
+.button_toggle { 
+  border: 2px solid #AAA ;
   padding: 0px ;
   white-space: nowrap ;
-  vertical-align: middle;
+  vertical-align: middle ;
+  border-spacing: 0px ;
+  cursor: pointer ;
+}
+
+.button_toggle.toggled {
+  border: 2px solid #000 ;
 }
 
 TABLE.hidden_on_paper span.button_toggle { font-size: 70% ; }
-
-span.button_toggle:hover { background: white ; color: black }
-
-span.toggled:hover { background: #0C0 ; color: #0F0 }
-
-span.toggled { background: #080 ; color: white }
 
 .nowrap, TABLE.nowrap TD, TABLE.tdnowrap TD { white-space: nowrap ; }
 
@@ -711,7 +808,6 @@ DIV.tabs DIV.titles SPAN.tab_selected, DIV.tabs DIV.titles SPAN:hover {
 
 DIV.tabs DIV.titles SPAN.tab_selected {
   border-bottom: 0px ;
-  background: #BFB ;
 }
 
 DIV.tabs DIV.contents {

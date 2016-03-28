@@ -101,7 +101,7 @@ var root ;
 var my_identity ;
 var days, days_full, months, months_full, ampms, ampms_full ;
 var contains_pm ;
-
+var css_themes = ["", "G", "A", "P", "D", "R", "BW"] ; // In style.css
 
 
 function lib_init()
@@ -4375,11 +4375,8 @@ function goto_resume()
   window_open(url + '/=' + ticket + '/' + year + '/' + semester + '/' + ue + '/resume');
 }
 
-// pb = page break
-function html_begin_head(hide_title, pb, more)
+function html_begin_head()
 {
-  var s = '' ;
-
   var p = '{' ;
   for(var i in preferences)
     p += i + ':"' + preferences[i] + '",' ;
@@ -4396,57 +4393,45 @@ function html_begin_head(hide_title, pb, more)
     languages += '<script onload="this.onloadDone=true;" src="_FILES_/'
       + all[i] + '.js"></script>' ;
   
-  if ( ! pb )
-    s = '<html><head>\n' +
-      '<link rel="stylesheet" href="_FILES_/style.css" type="text/css">\n' +
-      '<script src="_FILES_/utilities.js" onload="this.onloadDone=true;"></script>\n' +
-      '<script src="_FILES_/middle.js" onload="this.onloadDone=true;"></script>\n' +
-      '<script src="_FILES_/lib.js" onload="this.onloadDone=true;"></script>\n' +
-      '<script src="_FILES_/types.js" onload="this.onloadDone=true;"></script>\n' +
-      '<script src="_FILES_/abj.js" onload="this.onloadDone=true;"></script>\n' +
-      '<style id="computed_style"></style>\n' +
-      '<script>var translations = {} ; </script>\n' +
-      languages +
-      '<script>\n' +
-      'page_id = "" ;\n' +
-      'check_down_connections_interval = 0 ;\n' +
-      'url = "' + url.split('/=')[0] + '";\n' +
-      'my_identity = "' + my_identity + '" ;\n' +
-      'year = "' + year + '" ;\n' +
-      'semester = "' + semester + '" ;\n' +
-      'ticket = "' + ticket + '" ;\n' +
-      'upload_max = "' + upload_max + '" ;\n' +
-      'ue = "VIRTUALUE" ;\n' +
-      'real_ue = "' + ue + '" ;\n' +
-      'root = [];\n' +
-      'suivi = "' + suivi + '";\n' +
-      'version = "' + version + '" ;\n' +
-      'preferences = ' + p + ';\n' +
-      'columns = [] ;\n' +
-      'lines = {} ;\n' +
-      'adeweb = {};\n' + // XXX should not be here (LOCAL/spiral.py)
-      'table_attr = ' + a + ';\n' +
-      'all_the_semesters = ' + js(all_the_semesters) + ' ;\n' +
-      wait_scripts + // The function definition
-      '</script>\n' +
-      '<title>' + ue + ' ' + year + ' ' + semester + '</title>' +
-      '</head>' ;
-
-  if ( ! pb )
-    pb = '' ;
-  if ( ! more )
-    more = '' ;
-  else
-    more = '<br>' + more ;
-
-  if ( ! hide_title )
-    {
-      s += '<body>' ;
-      s += '<h1 ' +pb + '>' + year + ' ' + semester + ' '
-	+ ue + '<br>' +	html(table_attr.table_title) + more + '</h1>\n' + the_filters() ;
-    }
-
-  return s ;
+  return [
+     '<html><head>',
+     '<link rel="stylesheet" href="_FILES_/style.css" type="text/css">',
+     '<script src="_FILES_/utilities.js" onload="this.onloadDone=true;">',
+     '</script>',
+     '<script src="_FILES_/middle.js" onload="this.onloadDone=true;">',
+     '</script>',
+     '<script src="_FILES_/lib.js" onload="this.onloadDone=true;"></script>',
+     '<script src="_FILES_/types.js" onload="this.onloadDone=true;"></script>',
+     '<script src="_FILES_/abj.js" onload="this.onloadDone=true;"></script>',
+     '<style id="computed_style"></style>',
+     '<script>var translations = {} ; </script>',
+     languages,
+     '<script>',
+     'page_id = "" ;',
+     'check_down_connections_interval = 0 ;',
+     'url = "' + url.split('/=')[0] + '" ;',
+     'my_identity = "' + my_identity + '" ;',
+     'year = "' + year + '" ;',
+     'semester = "' + semester + '" ;',
+     'ticket = "' + ticket + '" ;',
+     'upload_max = "' + upload_max + '" ;',
+     'ue = "VIRTUALUE" ;',
+     'real_ue = "' + ue + '" ;',
+     'root = [];',
+     'suivi = "' + suivi + '";',
+     'version = "' + version + '" ;',
+     'preferences = ' + p + ';',
+     'columns = [] ;',
+     'lines = {} ;',
+     'adeweb = {} ;', // XXX should not be here (LOCAL/spiral.py)
+     'table_attr = ' + a + ';',
+     'all_the_semesters = ' + js(all_the_semesters) + ' ;',
+     wait_scripts, // The function definition
+     '</script>',
+     '<title>' + ue + ' ' + year + ' ' + semester + '</title>',
+     '</head>',
+     '<body class="' + the_body.className + '">'
+     ].join('\n') ;
 }
 
 function notes_columns()
@@ -4473,9 +4458,7 @@ function notes_columns()
 
 function virtual_table_common_begin()
 {
-  return html_begin_head(true) +
-    head_html() +
-    new_interface() ;
+  return html_begin_head() + head_html() + new_interface() ;
 }
 
 // Function to enhance and coordinate with tail.html
@@ -4694,6 +4677,14 @@ function update_a_menu(min, current, all, max, select)
   select.selectedIndex = sel ;
 }
 
+function set_body_theme(the_semester)
+{
+  var theme = preferences.theme === ''
+    ? the_semester.substr(0,1) // A or P or T
+    : preferences.theme ;
+  theme = css_themes[Math.max(myindex(css_themes, theme), 1)] ;
+  the_body.className = "theme" + theme ;
+}
 
 function initialise_columns()
 {
@@ -4800,6 +4791,8 @@ function runlog(the_columns, the_lines)
   update_popup_on_red_line() ;
   update_filtered_lines() ;
   try { table_fill_hook = template_init ; } catch(e) { }
+
+  set_body_theme(semester)
 
   // This function is used when we want to replace the current window
   // content by the popup content.

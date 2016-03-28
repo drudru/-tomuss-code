@@ -1271,7 +1271,7 @@ function display_statistics(object)
 
   var w = window_open(url + '/files/' + version + '/ok.png') ;
   w.document.open('text/html') ;
-  w.document.write(html_begin_head(true) + p.join('\n')) ;
+  w.document.write(html_begin_head() + p.join('\n')) ;
   w.document.close() ;
   return w ;
 }

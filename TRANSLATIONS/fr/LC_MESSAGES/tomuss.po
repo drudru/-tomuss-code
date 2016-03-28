@@ -6142,3 +6142,10 @@ msgstr "ATTENTION plusieurs étudiants du groupe ont un commentaire\n"
 
 msgid "ALERT_to_text"
 msgstr "Voulez-vous que cette colonne contienne du texte libre ?"
+
+msgid "TIP_default_theme"
+msgstr "Le thème 'Semestre' utilise un affichage dépendant du semestre.<br>\n"
+       "Les autres thèmes sont appliqués sauf si quelqu'un les redéfinit."
+
+msgid "MSG_theme"
+msgstr "Thèmes :"

@@ -223,7 +223,7 @@ function tablefacebook(replace, column_id)
 
   var w = window_open(url + '/files/' + version + '/ok.png', replace) ;
   w.document.open('text/html') ;
-  w.document.write(html_begin_head(true) + p.join('\n')) ;
+  w.document.write(html_begin_head() + p.join('\n')) ;
   w.document.close() ;
   return w ;
 }

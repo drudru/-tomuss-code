@@ -74,7 +74,7 @@ function abj_per_day()
   var w = window_open(url + '/files/' + version + '/ok.png') ;
   w.document.open('text/html') ;
 
-  var p = html_begin_head(true) ;
+  var p = html_begin_head() ;
 
 
   var title = _("TITLE_abjtt") + ' ' + ue + ' ' + semester + ' ' + year ;

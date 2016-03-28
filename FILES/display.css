@@ -4,15 +4,6 @@ BODY { margin: 0px ;
        margin-left: 0.2em ;
      }
 
-BODY.Printemps,
-BODY.Printemps TABLE.colored TD,
-BODY.Printemps .BodyRight
-{ background-color: #f9fff6 }
-BODY.Automne,
-BODY.Automne TABLE.colored TD,
-BODY.Automne .BodyRight
-{ background-color: #fff5e0 }
-
 .Display {
     display: inline-block ;
     vertical-align: top ;
@@ -31,7 +22,7 @@ BODY.Automne .BodyRight
 
 .noprint { display: none ; }
 
-BODY, BODY.Printemps, BODY.Automne {
+BODY, BODY.themeP, BODY.themeA, BODY.themeD, BODY.themeR, BODY.themeG {
     background-color: white ;
     background: white ;
     background-image: none ;

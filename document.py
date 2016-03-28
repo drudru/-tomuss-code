@@ -172,6 +172,7 @@ def get_preferences(user_name, create_pref=True, the_ticket=None):
                  'home_3scrollbar': 1,
                  'one_line_more'  : 1,
                  'filter_freezed' : 0,
+                 'theme'          : "",
     }.items():
         if k not in p:
             p[k] = v
@@ -247,12 +248,6 @@ def table_head(year=None, semester=None, the_ticket=None,
     s = configuration.suivi.url(year, semester, the_ticket)
     t = ticket.tickets.get(the_ticket, None)
     prefs_table = get_preferences(user_name, create_pref, the_ticket=t)
-    try:
-        background = configuration.semesters_color[configuration.semesters.index(semester)]
-        background = '<style>BODY, TABLE INPUT, #current_input, BODY TABLE.colored TD { background-color: ' + background + '}</style>'
-    except ValueError:
-        background = ''
-
     my_identity2 = utilities.login_to_module(user_name)
 
     bookmarked = utilities.manage_key('LOGINS',
@@ -260,7 +255,7 @@ def table_head(year=None, semester=None, the_ticket=None,
     if bookmarked:
         bookmarked = (year, semester, ue) in eval(bookmarked)
 
-    return (str(the_head) + background +
+    return (str(the_head) +
             translations_init(prefs_table['language']) +
             (table.template.headers if table else '')
             + '<script>\n' +

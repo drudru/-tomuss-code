@@ -152,7 +152,13 @@ function detect_small_screen(force)
       
   var smallscreen, width, lefts = [], div ;
   var divs = document.getElementsByTagName('DIV') ;
-  var top_class = semester ;
+  var default_theme = "theme" + semester.substr(0,1) ;
+  var top_class = the_body.className
+    .replace(/ (teacher_view|student_view|hide_right_column)[^ ]*/, '')
+    .replace(/theme_/, "theme")
+    .replace(/theme\b/, default_theme) ;
+  if ( top_class.indexOf("theme") == -1 )
+    top_class += ' ' + default_theme ;
   for(i = 0 ; i < divs.length ; i++)
     {
       div = divs[i] ;

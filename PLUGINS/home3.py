@@ -147,6 +147,7 @@ D('HomePreferencesLanguages'       , 'HomePreferences',0)
 D('HomePreferencesSize'            , 'HomePreferences',1)
 D('HomePreferencesYearSemester'    , 'HomePreferences',3)
 D('HomePreferences3ScrollBars'     , 'HomePreferences',4)
+D('HomePreferencesThemes'          , 'HomePreferences',5)
 D('HomePreferencesDebug'           , 'HomePreferences',9)
 
 D('HomeLogout'                     , 'HomeIdentity',0)

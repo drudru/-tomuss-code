@@ -282,7 +282,7 @@ function display_button(data_col, title, selected, table_name, tip, not_escape,
     title = html(title) ;
   if ( tip )
     title = hidden_txt(title, tip) ;
-  return '<span class="button_toggle ' + selected + ' ' + html_class
+  return '<span class="clickable button_toggle ' + selected + ' ' + html_class
     + '" onclick="button_toggle(' + table_name + ','
     + data_col + ',this);do_printable_display=true;"'
     + ' id="' + table_name + '_'
@@ -501,7 +501,7 @@ function print_selection(object, emargement, replace)
 
   var w = window_open(url + '/files/' + version + '/ok.png', replace) ;
   w.document.open('text/html') ;
-  w.document.write(html_begin_head(true) + p.join('\n')) ;
+  w.document.write(html_begin_head() + p.join('\n')) ;
   w.document.close() ;
   return w ;
 }

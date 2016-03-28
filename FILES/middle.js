@@ -297,23 +297,13 @@ function head_html()
     + '<h1>'
     ;
 
- var semester_color = semesters_color[myindex(semesters, semester)] ;
-
- var options ;
- if ( semester_color )
-   {
-     options = all_the_semesters ;
-     if ( options.indexOf( year + '/' + semester) === -1 )
-       options += '<option>' +  year + '/' + semester + '</option>' ;
-     options = options.replace('>' + year + '/' + semester,
-			       ' selected>' + year + '/' + semester) ;
-     options = '<select onchange="semester_change(this)" onclick="semester_change(this)" style="background:'
-       + semester_color + '">' + options + '</select>' ;
-   }
- else
-   {
-     options = '<span>' + year + ' ' + semester + '</span>' ;
-   }
+ options = all_the_semesters ;
+ if ( options.indexOf( year + '/' + semester) === -1 )
+    options += '<option>' +  year + '/' + semester + '</option>' ;
+ options = options.replace('>' + year + '/' + semester,
+			    ' selected>' + year + '/' + semester) ;
+ options = '<select onchange="semester_change(this)" '
+    + 'onclick="semester_change(this)">' + options + '</select>' ;
 
  w += options + ' ' + ue + ' ' + table_attr.table_title + '</h1>' ;
 
@@ -672,6 +662,54 @@ function header_input(the_id, the_header_name, options)
     + '" onkeyup="' + onkey  +'" onpaste="' + onkey + '">' + after ;
 }
 
+function theme_change(theme, t)
+{
+  var themes = document.getElementById("GUI_themes")
+    .firstChild.firstChild.childNodes ;
+  for(var i=0; i < themes.length; i++)
+    {
+      var button = themes[i].firstChild ;
+      if ( button.tagName == "TABLE" )
+	button.className = button.className.replace(" toggled", "") ;
+    }
+  preferences.theme = theme ;
+  t.parentNode.parentNode.parentNode.className += " toggled" ;
+  set_body_theme(semester) ;
+
+  alert_append_start() ;
+  table_attr_set('theme', theme) ;
+  if ( alert_merged !== '' )
+    localStorage['/' + year + '/' + semester + '/' + ue + '/theme'] = theme ;
+  alert_merged = false ;
+}
+
+function DisplayHomePreferencesThemes(node) // Used by home3.js
+{
+  var themes = [node === undefined
+		? '<td style="font-size:200%">'
+		: '<td>',
+		hidden_txt(_("MSG_theme"), _("TIP_default_theme"))] ;
+  for(var i in css_themes)
+    {
+      var selected = css_themes[i] == (preferences.theme || "") ;
+      var theme = 'theme' + css_themes[i] + ' ' ;
+      themes.push('<td><table class="button_toggle '
+		  + (selected  ? 'toggled' : '')
+		  + '"><tbody>'
+		  + '<tr><th class="' + theme + 'border" onclick="theme_change('
+		  + js2(css_themes[i]) + ', this)" style="border-width: 2px">'
+		  + '<span class="BodyRight">'
+		  + (i == 0 ? _("semester") : ' ') + '</span>'
+		  + '<span class="tab_selected"> </span>'
+		  + '<span class="toggled"> </span>'
+		  + '</th></tr></tbody></table>') ;
+    }
+  return '<table'
+    + (node === undefined
+       ? ' style="display:inline-block;font-size:50%;vertical-align:bottom"'
+       : '') + ' id="GUI_themes"><tr>' + themes.join('') + '</tr></table>' ;
+}
+
 function an_input_attribute(attr, options, prefix_id, prefix_)
 {
   var tip = _('TIP_' + prefix_ + attr.name) ;
@@ -728,6 +766,13 @@ function an_input_attribute(attr, options, prefix_id, prefix_)
                         + ' onblur="if(element_focused===undefined)return;element_focused=undefined;">'
                         + opts + '</select>',
 			tip) ;
+    case 'GUI_theme':
+      if ( table_attr.theme !== '' )
+	preferences.theme = table_attr.theme ;
+      var t = localStorage['/' + year + '/' + semester + '/' + ue + '/theme'];
+      if ( t !== undefined )
+	preferences.theme = t ;
+      return DisplayHomePreferencesThemes() ;
     default:
       alert('BUG gui_display') ;
     }
@@ -1103,6 +1148,7 @@ function new_new_interface()
   t.push('<div class="one_line">') ;
   t.push(table_input_attr('default_nr_columns',
 			  'before='+_("BEFORE_table_attr_default_nr_columns")));
+  t.push(table_input_attr('theme')) ;
   t.push('</div>') ;
   t.push('<div class="one_line">') ;
   t.push(table_input_attr('bookmark',

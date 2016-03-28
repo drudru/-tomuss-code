@@ -206,8 +206,8 @@ BODY.big_text_1 { font-size: 150% }
 
 /*********************** Small screen *******************/
 
-BODY.hide_right_column_1.hide_picture_0.Printemps { background-image: url(printemps.png) ; }
-BODY.hide_right_column_1.hide_picture_0.Automne { background-image: url(automne.png) ; }
+BODY.hide_right_column_1.hide_picture_0.themeP { background-image: url(printemps.png) ; }
+BODY.hide_right_column_1.hide_picture_0.themeA { background-image: url(automne.png) ; }
 
 BODY.hide_right_column_1.big_box_0 .CellBox {
     min-width: 3.8em;
@@ -239,35 +239,6 @@ BODY.hide_right_column_1 .BodyRight {
 BODY.hide_right_column_1 .TopLine {
     font-size: 150% ;
 }
-
-/*********************** Black and White *******************/
-
-BODY.hide_right_column_1.hide_picture_0.black_and_white_1,
-BODY.black_and_white_1.Automne TABLE.colored TD,
-BODY.black_and_white_1.Automne .BodyRight,
-BODY.black_and_white_1.Automne,
-BODY.black_and_white_1 #cellbox_tip,
-BODY.black_and_white_1 DIV.import_export
-{
-    background: #FFF ;
-    color: #000 ;
-}
-
-BODY.black_and_white_1 #cellbox_tip:hover,
-BODY.black_and_white_1 DIV.import_export
-{
-    border: 1px solid black ;
-    opacity: 1 ;
-}
-
-BODY.black_and_white_1.Automne TABLE.colored TH,
-BODY.black_and_white_1.Automne TABLE.colored CAPTION
-{
-    background: #FFF ;
-    color: #000 ;
-    font-weight: bold ;
-}
-
 
 /*********************** Long text *******************/
 
@@ -340,7 +311,7 @@ DIV#tip.tip_fade_in {
 .abinj    { background-color: #F88 ;               }
 .tnr      { background-color: #FAA ;               }
 .abinj2   { background-color: #F88 ;               }
-.abjus    { background-color: #88F ;               }
+.abjus    { background-color: #CCF ;               }
 .novalue  { background-color: #DDD ;               }
 .verygood { background-color: #0F0 ;               }
 .good     { background-color: #BFB ;               }
@@ -379,8 +350,8 @@ TABLE.memberof TD { background-color: #DDD; }
 
 @media print {
 
-BODY.hide_right_column_1.Printemps { background-image: none ; }
-BODY.hide_right_column_1.Automne { background-image: none ; }
+BODY.hide_right_column_1.themeP { background-image: none ; }
+BODY.hide_right_column_1.themeA { background-image: none ; }
 
 .BodyRight, .RightClip, .GetStudent { display: none ; }
 
