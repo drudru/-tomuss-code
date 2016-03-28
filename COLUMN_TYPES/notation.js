@@ -1598,7 +1598,7 @@ function notation_import()
   ] ;
   for(var i = 0 ; i < 3 && i < filtered_lines.length; i++)
     {
-      example[i+3][0] = filtered_lines[i][0].value.substr(0,8) ;
+      example[i+3][0] = filtered_lines[i][0].value.substr(0,7) ;
       example[i+3][1] = filtered_lines[i][2].value.substr(0,4) + '…' ;
       example[i+3][2] = filtered_lines[i][1].value.substr(0,4) + '…' ;
     }

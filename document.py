@@ -796,17 +796,29 @@ class Table(object):
             # 'repetition' is checked only for the first member
             and not getattr(a_column, 'groupcolumn_running', False)
         ):
-            n = 0
             data_col = a_column.data_col
+            group = None
+            if a_column.groupcolumn:
+                group = self.columns.from_title(a_column.groupcolumn)
+                if group:
+                    group = group.data_col
             if a_column.repetition > 0:
                 verify_lines = self.lines.values()
             else:
                 grp = line[self.columns.get_grp()].value
                 seq = line[self.columns.get_seq()].value
-                verify_lines = list(self.columns.table.lines_of_grp(grp, seq))
-            for a_line in verify_lines:
-                if a_line[data_col].value == value:
-                    n += 1
+                verify_lines = self.columns.table.lines_of_grp(grp, seq)
+            if group is None:
+                n = 0
+                for a_line in verify_lines:
+                    if a_line[data_col].value == value:
+                        n += 1
+            else:
+                groups = set()
+                for a_line in verify_lines:
+                    if a_line[data_col].value == value:
+                        groups.add(str(line[group].value))
+                n = len(groups)
             if n >= abs(a_column.repetition):
                 sender.append(
                     page.browser_file,

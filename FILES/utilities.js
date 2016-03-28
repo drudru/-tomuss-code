@@ -2871,7 +2871,7 @@ Current.prototype.change = function(value)
     }
   if ( this.column && this.column.real_repetition && value !== '' )
     {
-      var n = 0 ;
+      var n ;
       var verify_lines ;
 
       if ( this.column.real_repetition > 0 )
@@ -2888,10 +2888,22 @@ Current.prototype.change = function(value)
 		verify_lines.push(line) ;
 	    }
 	}
-
-      for(var line in verify_lines)
-	if ( verify_lines[line][this.data_col].value == value )
-	  n++ ;
+      var col = data_col_from_col_title(this.column.groupcolumn) ;
+      if ( col === undefined )
+         {
+         n = 0 ;
+         for(var line in verify_lines)
+	    if ( verify_lines[line][this.data_col].value == value )
+	       n++ ;
+         }
+      else
+         {
+            var groups = {} ;
+            for(var line in verify_lines)
+              if ( verify_lines[line][this.data_col].value == value )
+                  groups[verify_lines[line][col].value] = true ;
+            n = dict_size(groups) ;
+         }
       if ( n >= Math.abs(this.column.real_repetition) )
 	{
 	    alert(_("ALERT_duplicate_before") + n + _("ALERT_duplicate_after")
