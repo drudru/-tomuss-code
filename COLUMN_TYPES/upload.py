@@ -169,7 +169,7 @@ def upload_get(server):
         server.send_response(200)
         server.send_header('Content-Type', 'text/plain; charset=utf-8')
         server.end_headers()
-        server.the_file.write(err)
+        server.the_file.write(err.encode("utf-8"))
         raise ValueError(err)
     table, column, lin_id = err
     path = container_path(column)
