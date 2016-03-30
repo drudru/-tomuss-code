@@ -1,9 +1,6 @@
 #!/bin/sh
 # -*- ksh -*-
 
-echo "Start crypted backup the $(date)"
-SCRIPTS/sauvegarde >LOGS/xxx_crontab_night_job.sauvegarde 2>&1
-
 echo "Start compute access statistics the $(date)"
 SCRIPTS/access.py  >LOGS/xxx_crontab_night_job.access 2>&1
 

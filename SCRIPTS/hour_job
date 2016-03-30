@@ -1,0 +1,160 @@
+#!/bin/sh
+# -*- sh -*-
+# The remote account must be empty, its GIT configuration will be modified.
+#
+# Set a value for BACKUP_USER in the .profile as login@hostname.example.org
+#
+# On the local host:
+#    * Do an rsync on $BACKUP_USER
+# On the remote host:
+#    * Do a git commit on an HOUR/DAY/MONTH/YEAR repository (only one)
+#    * Do a git cleanup if necessary when reaching 336 commits (in background)
+#      Keep only the 118 newer commits, the others are merged.
+
+H=336 # Maximum number of commit allowed
+
+log() {
+    echo "___$(date +%H:%M:%S)___ $*" >&2
+}
+
+# 2 because itself and and $() process
+if [ "$(ps -e | grep hour_job | wc --lines)" != 2 ]
+    then
+    log "hour_job.py is yet running, let it finish the previous job"
+    exit 1
+    fi
+
+do_is_backup_needed() {
+    log "Do I Need a $I commit?"
+    cd TOMUSS_DB
+    rm .git
+    ln -s "../TOMUSS_$I/.git" .
+    git log --date=iso8601 --max-count=1 2>/dev/null \
+         | grep "^Date" \
+         | sed 's/[-:]/ /g' \
+         >xxx
+    read Date YEAR MONTH DAY HOUR MINUTE <xxx
+    rm xxx
+    log "GIT last commit: $YEAR-$MONTH-$DAY"
+
+    case "$I" in
+    YEAR)  return $(expr "$YEAR"  = "$(date +%Y)") ;;
+    MONTH) return $(expr "$MONTH" = "$(date +%m)") ;;
+    DAY)   return $(expr "$DAY"   = "$(date +%d)") ;;
+    HOUR)  return 0 ;;
+    *)     log "BUG"
+	   exit 1
+    esac
+}
+
+do_commit() {
+    log "Do commit $I"
+    git add --all .
+    git commit -a -m "Backup $I '$(date +%Y-%m-%d_%H:%M:%S)'"
+}
+
+do_cleanup_editor() {
+    log "Fake text editor for $1"
+    LAST=$(wc --lines <"$1")
+    LINE=$(expr $LAST - $H / 2 - 25)
+    if [ $LINE -ge 2 ]
+    then
+	sed -i "2,$LINE s/^pick/f/" "$1"
+    fi
+    exit 0
+}
+
+do_cleanup() {
+    # 6 = Saturday
+    if [ "$(date +%u)" = 6 -a "$(git log --oneline | wc --lines)" -ge "$H" ]
+    then
+        log "Keep only $H/2 commits of $1"
+	export GIT_EDITOR="$0 DO_CLEANUP_EDITOR"
+	git rebase --interactive "$(git rev-list HEAD | tail -n 1)"
+        log "Run garbage collector"
+	git gc --aggressive
+    fi
+}
+
+do_decimate_editor() {
+    log "Fake text editor for decimate:$1 $2"
+    while read A
+    do
+	echo "$A"
+	head -"$1" | sed 's/^pick/f/'
+    done <"$2" >xxx && mv xxx "$2"
+}
+
+do_decimate() {
+    log "Merge $1 commits together"
+    export GIT_EDITOR="$0 DO_DECIMATE_EDITOR $1"
+    git rebase --interactive "$(git rev-list HEAD | tail -n 1)"
+}
+
+do_config_git() {
+    log "Configure GIT"
+    git config --global user.email "backup@user.name"
+    git config --global user.name "backup user"
+}
+
+do_create_repository() {
+    log "Check GIT repository $I"
+    cd
+    if [ ! -d "TOMUSS_$1" ]
+    then
+	log "Create GIT repository $I"
+	mkdir "TOMUSS_$1"
+	cd "TOMUSS_$1"
+	git init
+	cd
+    fi
+}
+
+do_backup() {
+    do_config_git
+    for I in YEAR MONTH DAY HOUR
+    do
+	do_create_repository "$I"
+	if do_is_backup_needed "$I"
+	then
+	    do_commit "$I"
+	    nohup "$0" DO_CLEANUP "$I" &
+            log "Do not make the other backups"
+	    break
+	fi
+    done
+}
+
+do_rsync() {
+    log "Do rsync DB"
+    rsync --archive --no-g --delete \
+        --exclude '*.bak' \
+        --exclude '*.pyc' \
+        --exclude '*~' \
+        --verbose \
+        DB/. "$BACKUP_USER:TOMUSS_DB"
+    log "Do rsync UPLOAD (never delete)"
+    rsync --archive --no-g --verbose --exclude '*~' \
+	  UPLOAD/. "$BACKUP_USER:UPLOAD"
+}
+
+do_main() {
+    if [ "" = "$BACKUP_USER" ]
+    then
+	log "No hourly backup, you need to put in $HOME/.profile :"
+	log 'export BACKUP_USER="login@hostname.example.org"'
+	exit 1
+    fi
+    do_rsync
+    scp "$0" "$BACKUP_USER":hour_job
+    ssh "$BACKUP_USER" 'chmod 755 hour_job ; nice $HOME/hour_job RUN'
+}
+
+case "$1" in
+    "") do_main ;;
+    "RUN") do_backup ;;
+    "DO_CLEANUP") do_cleanup "$2" ;;
+    "DO_CLEANUP_EDITOR") shift ; do_cleanup_editor "$@" ;;
+    "DO_DECIMATE") do_decimate "$2" ;;
+    "DO_DECIMATE_EDITOR") shift ; do_decimate_editor "$@" ;;
+esac
