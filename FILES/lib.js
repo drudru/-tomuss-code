@@ -1234,7 +1234,8 @@ function column_list(col_offset, number_of_cols)
 	  continue ;
 	}
       if ( preferences.filter_freezed
-	   && column.filter !== '' && column.filter !== undefined )
+	   && column.initial_filter !== ''
+	   && column.initial_filter !== undefined )
 	{
 	  freezed.push(column) ;
 	  continue ;
@@ -1662,6 +1663,10 @@ function table_header_fill()
 
 function table_header_fill_real()
 {
+  for(var data_col in columns)
+    // To not change column position while modifying the filter
+    columns[data_col].initial_filter = columns[data_col].filter ;
+  
   var empty_column = add_empty_columns() ;
   var cls = column_list() ;
   var w ;
