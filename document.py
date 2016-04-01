@@ -1446,7 +1446,9 @@ class Table(object):
                 bookmarked = eval(utilities.manage_key('LOGINS', key))
                 if bookmark in bookmarked:
                     bookmarked.remove(bookmark)
-                    utilities.manage_key('LOGINS', key, content = repr(bookmarked))
+                    utilities.manage_key(
+                        'LOGINS', key,
+                        content = utilities.stable_repr(bookmarked))
                     warn('Remove %s bookmark for %s' % (bookmark, login))
             warn("Remove bookmarks done")
         utilities.start_new_thread(remove_bookmarks, ())            
@@ -1496,7 +1498,7 @@ class Table(object):
             return
 
         utilities.manage_key('LOGINS', os.path.join(name, 'master_of'),
-                             content = repr(d))
+                             content = utilities.stable_repr(d))
 
     def the_abjs(self):
         from . import abj
@@ -1844,7 +1846,7 @@ def update_index(login, action=None):
         return c
     c = action(c) # Update index content
     utilities.manage_key('LOGINS', os.path.join(login, 'index'),
-                         content = repr(c))
+                         content = utilities.stable_repr(c))
 
 def indexes_to_update_append(the_year, the_semester, the_ue, old, new):
     class X:

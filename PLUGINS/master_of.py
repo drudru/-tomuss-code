@@ -58,7 +58,7 @@ def master_of(server):
     for user, tables in users.items():
         utilities.manage_key('LOGINS',
                              os.path.join(user, 'master_of'),
-                             content = repr(tables)
+                             content = utilities.stable_repr(tables)
                              )
 
 plugin.Plugin('master_of', '/master_of',

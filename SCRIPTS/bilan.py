@@ -166,20 +166,10 @@ def safe(x):
 
 
 for i, ues in students.items():
-    # from .. import inscrits
-    # a = inscrits.L_batch.firstname_and_surname(i)
-    # print(i, safe(a[1].upper()), safe(a[0].lower()),)
-    s = sorted(list(ues), key=lambda x: len(ues[x].infos))
-    s.reverse()
-
-    v = []
-    for ue in s:
-        v.append( repr(ue) + ':' + str(ues[ue]) )
-
     print(i)
     try:
         utilities.manage_key('LOGINS', os.path.join(i, 'resume'),
-                             content='{' + ',\n'.join(v) + '}')
+                             content=utilities.stable_repr(ues))
     except IOError:
         # Non existent student
         print('Non existent student:', i)
@@ -190,5 +180,5 @@ for teacher, tables in teachers_tables.items():
     if utilities.manage_key('LOGINS', os.path.join(teacher, 'tables')):
         # Only update the key if it exists
         utilities.manage_key('LOGINS', os.path.join(teacher, 'tables'),
-                             content=repr(dict(tables)))
+                             content=utilities.stable_repr(tables))
 

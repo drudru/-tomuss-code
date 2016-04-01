@@ -42,7 +42,7 @@ def favorite_student(server):
         d.append(student)
         
     utilities.manage_key('LOGINS', os.path.join(login, 'favstu'),
-                         content = repr(d))
+                         content = utilities.stable_repr(d))
     server.the_file.write(files.files['ok.png'].bytes())
 
 plugin.Plugin('favorite_student', '/favorite_student/{?}',

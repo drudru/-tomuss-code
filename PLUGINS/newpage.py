@@ -155,7 +155,7 @@ def new_page(server):
             d[server.the_ue] += 1
         utilities.manage_key('LOGINS',
                              os.path.join(server.ticket.user_name, 'pages'),
-                             content = repr(d)
+                             content = utilities.stable_repr(d)
                              )
     # With this lock cell modification can't be lost
     # between page content creation and the page activation

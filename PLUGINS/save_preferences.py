@@ -46,7 +46,7 @@ def save_preferences(server):
         except ValueError:
             d[item[0]] = item[1]
     utilities.manage_key('LOGINS', os.path.join(login, 'preferences'),
-                         content = repr(d))
+                         content = utilities.stable_repr(d))
     server.the_file.write(files.files['ok.png'].bytes())
 
     # XXX For old files from TOMUSS before 5.3.2

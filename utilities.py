@@ -202,6 +202,16 @@ def flat(txt):
 def same(a, b):
     return flat(a).lower() == flat(b).lower()
 
+def stable_repr(dic):
+    if isinstance(dic, dict):
+        t = []
+        for k in sorted(dic):
+            t.append("{}:{}".format(repr(k), repr(dic[k])))
+        return '{' + ',\n'.join(t) + '}'
+    else:
+        return '[' + ',\n'.join(repr(i) for i in sorted(dic)) + ']'
+
+
 def university_year(year=None, semester=None):
     if semester is None:
         semester = configuration.year_semester[1]

@@ -171,7 +171,8 @@ def bookmark(server):
         bookmarked.remove(bookmark)
     else:
         bookmarked.append(bookmark)
-    utilities.manage_key('LOGINS', key, content = repr(bookmarked))
+    utilities.manage_key('LOGINS', key, content = utilities.stable_repr(
+        bookmarked))
     server.the_file.write(files.files['ok.png'].bytes())
 
 plugin.Plugin('bookmark', '/{Y}/{S}/{U}/bookmark', group='staff',
