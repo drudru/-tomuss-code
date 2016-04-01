@@ -146,7 +146,7 @@ function year_semester()
     return s.value ;
   // The semester menu list is not yet on screen: take the last one
   var hs = display_data['HomeSemesters'] ;
-  if ( hs )
+  if ( hs && hs[hs.length - 1] )
     {
       hs = hs[hs.length - 1] ;
       return hs[2] + '/' + hs[3] ;
