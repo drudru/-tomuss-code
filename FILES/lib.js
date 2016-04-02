@@ -1963,7 +1963,7 @@ function sort_lines3()
 	      v = html(cell.comment).replace('\n', '<br>') ;
 	      break ;
 	    case 'LABEL_sort_%ABJ':
-	      var o = {nmbr_filter: function(x) { return x.value == abj || x.value == ppn ; }};
+	      var o = {nmbr_filter: function(line, x) { return x.value == abj || x.value == ppn ; }};
 	      v = compute_weighted_percent_(c.data_col, filtered_lines[i], o);
 	      v = Math.round(1000*v)/10. ;
 	      break ;
