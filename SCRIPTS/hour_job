@@ -17,10 +17,11 @@ log() {
     echo "___$(date +%H:%M:%S)___ $*" >&2
 }
 
-# 2 because itself and and $() process
-if [ "$(ps -e | grep hour_job | wc --lines)" != 2 ]
+ps -e >xxx.hour_job
+if [ "$(grep hour_job <xxx.hour_job | wc --lines)" != 1 ]
     then
     log "hour_job.py is yet running, let it finish the previous job"
+    cat xxx.hour_job
     exit 1
     fi
 
@@ -142,7 +143,7 @@ do_main() {
     if [ "" = "$BACKUP_USER" ]
     then
 	log "No hourly backup, you need to put in $HOME/.profile :"
-	log 'export BACKUP_USER="login@hostname.example.org"'
+	log 'export BACKUP_USER="backuplogin@hostname.example.org"'
 	exit 1
     fi
     do_rsync
