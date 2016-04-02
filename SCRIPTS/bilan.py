@@ -92,7 +92,7 @@ class UE:
         
         self.infos[table.year, table.semester] = (prst, abinj, abjus, summ, nr)
 
-    def __str__(self):
+    def __repr__(self):
         keys = list(self.infos.keys())
         keys.sort(key=lambda x: utilities.semester_key(x[0], x[1]))
         s = []
