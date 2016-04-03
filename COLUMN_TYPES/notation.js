@@ -1305,8 +1305,8 @@ Notation.prototype.on_keyup = function(event)
   this.log("keyup what=" + event.what + ' question=' + event.question.id) ;
   var questions = this.question_list() ;
   var question_index = myindex(questions, event.question) ;
-  if ( event.keyCode <= 40 )
-    GUI.add("notation_key", event, event.what) ;
+  if ( event.keyCode <= 40 && event.keyCode != 37 &&  event.keyCode != 39)
+    GUI.add_key(event, "notation_key") ;
 
   if ( event.target.className.split(' ')[0] == 'a_comment'
      && (event.keyCode == 32 || event.keyCode == 13) )
