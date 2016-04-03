@@ -1020,6 +1020,14 @@ def manage_key_real(dirname, key, separation=3, content=None, reduce_ok=True,
             pass
 
     f1 = os.path.join(f1, key)
+
+    if append:
+        f = open(f1, 'a', encoding = "utf-8")
+        f.write(content)
+        f.close()
+        # Do not return content because it may be large
+        return
+
     if os.path.exists(f1):
         if delete:
             os.unlink(f1)
@@ -1038,12 +1046,9 @@ def manage_key_real(dirname, key, separation=3, content=None, reduce_ok=True,
 
         if c is False:
             c = ''
-        if append:
-            content = c + content
-        else:
-            if not reduce_ok and len(content) < len(c)*0.5:
-                warn("Size not reduced for " + f1)
-                return c
+        if not reduce_ok and len(content) < len(c)*0.5:
+            warn("Size not reduced for " + f1)
+            return c
         if content != c: # Write if modified (non-existant files are empty)
             f = open(f1, 'w', encoding = "utf-8")
             f.write(content)
