@@ -1204,14 +1204,14 @@ class Variables(object):
         # and the table template.
         t = document.table(0, "Variables", '_' + self._group)
         if t and t.modifiable and not self._initialized:
-            ro = t.pages[0]
             rw = t.pages[1]
             t.lock()
             try:
                 for k, v in self._variables.items():
                     new_line = k not in t.lines
-                    t.cell_change(ro, '0', k, v[0])
-                    t.cell_change(ro, '1', k, v[1].__class__.__name__)
+                    t.cell_change(rw, '0', k, v[0], force_update=True)
+                    t.cell_change(rw, '1', k, v[1].__class__.__name__,
+                                  force_update=True)
                     if new_line:
                         t.cell_change(rw, '2', k, repr(v[1]))
             finally:

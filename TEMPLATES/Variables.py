@@ -28,7 +28,7 @@ from .. import sender
 
 def create(table):
     p = table.get_ro_page()
-    table.get_a_root_page()
+    table.get_nobody_page()
     _ = utilities._
     table.table_attr(p, 'masters', list(configuration.root))
 
@@ -44,15 +44,6 @@ def create(table):
 
 def init(table):
     table.do_not_unload_add('*Variables')
-
-def onload(table):
-    def clear_unused_variables(table=table):
-        v = getattr(table, 'Variables', ())
-        for k, line in table.lines.items():
-            if k not in v:
-                for cell in line:
-                    cell.author = data.rw_user # Do not pollute history
-    utilities.start_job(clear_unused_variables, 60)
 
 def cell_change(table, page, col, lin, value, dummy_date):
     if page.page_id == 0:
