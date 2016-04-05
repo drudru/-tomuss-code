@@ -378,12 +378,10 @@ class Table(object):
             # Break the import in the file
             raise ValueError("Invalid table name: '%s'" % self.ue)
 
-        # Remove -1 -2 -3 at the end of the UE name
-        if len(ue) > 4 and ue[-1].isdigit() and ue[-2] == '-':
-            self.ue_code = ue[:-2]
-        elif (len(ue) > 5
-              and ue[-1].isdigit() and ue[-2].isdigit() and ue[-3] == '-'):
-            self.ue_code = ue[:-3]
+        # Remove -1 -2 -3 ... -9999... at the end of the UE name
+        ue_code = ue.split('-')
+        if len(ue_code) > 2 and utilities.is_an_int(ue_code[-1]):
+            self.ue_code = '-'.join(ue_code[:-1])
         else:
             self.ue_code = ue
 

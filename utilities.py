@@ -211,6 +211,12 @@ def stable_repr(dic):
     else:
         return '[' + ',\n'.join(repr(i) for i in sorted(dic)) + ']'
 
+def is_an_int(txt):
+    try:
+        int(txt)
+        return True
+    except ValueError:
+        return False
 
 def university_year(year=None, semester=None):
     if semester is None:
