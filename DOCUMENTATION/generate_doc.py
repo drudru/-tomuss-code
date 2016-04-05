@@ -65,7 +65,7 @@ f = open('xxx_redefined.html','w', encoding = "utf-8")
 redefined = []
 for place in ('.', 'FILES', 'PLUGINS', 'TEMPLATES', 'COLUMN_TYPES', 'ATTRIBUTES'):
     for n in os.listdir(place):
-        if n.endswith('.js') or n.endswith('.py'):
+        if (n.endswith('.js') and place != '.') or n.endswith('.py'):
             redefined += parse(os.path.join(place,n))
 
 f.write('<table border="1">\n')
