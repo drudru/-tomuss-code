@@ -380,7 +380,7 @@ class Table(object):
 
         # Remove -1 -2 -3 ... -9999... at the end of the UE name
         ue_code = ue.split('-')
-        if len(ue_code) > 2 and utilities.is_an_int(ue_code[-1]):
+        if len(ue_code) >= 2 and utilities.is_an_int(ue_code[-1]):
             self.ue_code = '-'.join(ue_code[:-1])
         else:
             self.ue_code = ue
