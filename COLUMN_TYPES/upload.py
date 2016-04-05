@@ -94,6 +94,27 @@ def copy_stream(instream, outstream):
     return n
 
 def save_file(server, page, column, lin_id, data, filename):
+    # Search a student with yet a downloaded file
+    table = column.table
+    line = table.lines[lin_id]
+    path = container_path(column)
+    for a_lin_id, a_line in column.lines_of_the_group(line):
+        if (a_line[column.data_col].comment != ''
+            and os.path.exists(os.path.join(path, a_lin_id))
+        ):
+            if table.authorized(page.user_name, line[column.data_col],
+                                column, a_line):
+                server.the_file.write("<p>→ %s %s<p>" % (
+                    html.escape(a_line[1].value),
+                    html.escape(a_line[2].value)))
+                lin_id = a_lin_id
+                break
+            else:
+                utilities.send_backtrace(
+                    "{}<br>{}→{}".format(column, lin_id, a_lin_id),
+                    "UPLOAD failed"
+                )
+
     err = check_virus(data)
     if err:
         server.the_file.write(
@@ -125,7 +146,6 @@ def save_file(server, page, column, lin_id, data, filename):
     magic = magic.decode("utf-8").split(": ", 1)[1].strip()
     server.the_file.write('- <span>%s %s<span>\n'
                           % (server._("MSG_upload_type"), html.escape(magic)))
-    table = column.table
     table.lock()
     try:
         table.cell_change   (page, column.the_id, lin_id, n/1000.)
