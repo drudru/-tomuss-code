@@ -457,7 +457,10 @@ class Filter:
     # Parse the filter to create a list of nodes
     def __init__(self, string, username, column_type, the_columns=None):
         if the_columns is None:
-            the_columns = columns # Global value for JavaScript
+            try:
+                the_columns = columns # Global value for JavaScript
+            except:
+                the_columns = None # Home page
         self.errors = {}
         self.string = string
         while string.startswith(" "):
