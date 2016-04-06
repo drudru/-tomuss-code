@@ -674,9 +674,15 @@ function display_cellbox_tip(event, nr)
       return ;
     }
   t.onmouseleave = function() {
-    // FireFox bug: leave if the cursor go inside the menu
-    if ( t.getElementsByTagName('SELECT').length == 0 )
-      t.className = "hidden" ;
+    // Tricky: if the cellbox tip has the focus, do not hide it
+    var s = document.activeElement ;
+    while( s )
+      {
+	if ( s == t )
+	  return ;
+	s = s.parentNode ;
+      }
+    t.className = "hidden" ;
   } ;
   t.className = "" ;
   DisplayGrades.cellbox = c ;
