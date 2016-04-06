@@ -64,6 +64,8 @@ js = utilities.js
 
 canceled_loads = []
 
+filter_cache = {}
+
 # Key : student_id, give the tables ue name
 # Used only in 'suivi' because it does not contain year/semester
 tables_of_student = {}
@@ -518,9 +520,9 @@ class Table(object):
                 column.round_by = 0
             else:
                 column.round_by = float(column.rounding)
-            column.nmbr_filter = tomuss_python.Filter(column.test_filter,
-                                                      '',
-                                                      column.type.name).evaluate
+            column.nmbr_filter = tomuss_python.Filter(
+                column.test_filter, '', column.type.name, self.columns.columns
+            ).evaluate
             if column.is_computed():
                 try:
                     column.average_columns = [
@@ -699,10 +701,16 @@ class Table(object):
                 sender.append(p.browser_file, value,
                               index=len(self.sent_to_browsers), page=p)
 
-    @utilities.add_a_method_cache
-    def cell_writable_filter(self, filter_user_type):
+    def cell_writable_filter(self, the_filter, user, column_type):
         from .PYTHON_JS import tomuss_python
-        return tomuss_python.Filter(*filter_user_type).evaluate
+        if '[' in the_filter:
+            return tomuss_python.Filter(the_filter, user, column_type,
+                                        self.columns.columns).evaluate
+        filter_user_type = (the_filter, user, column_type)
+        if filter_user_type not in filter_cache:
+            filter_cache[filter_user_type] = tomuss_python.Filter(
+                the_filter, user, column_type, False).evaluate
+        return filter_cache[filter_user_type]
 
     def authorized(self, user_name, value, column=None, line=None):
         # Authorized because the test have yet be done in the past
@@ -720,10 +728,9 @@ class Table(object):
         # Values setted by user '' are modifiable
         if value.author == data.rw_user:
             return True
-        if column and column.cell_writable:
+        if column and line and column.cell_writable:
             return self.cell_writable_filter(
-                (column.cell_writable, user_name, column.type.name)
-            )(line, value)
+                column.cell_writable, user_name, column.type.name)(line, value)
         # Empty values are modifiable by anyone
         if value.value == '':
             return True
@@ -1580,7 +1587,7 @@ def get_cell_from_table(server, allowed_types=None):
 
     if not t.authorized(server.ticket.user_name,
                         t.lines[lin][column.data_col],
-                        column):
+                        column, t.lines[lin]):
         return server._("ERROR_value_not_modifiable")
 
     t, page = table(server.the_year, server.the_semester,

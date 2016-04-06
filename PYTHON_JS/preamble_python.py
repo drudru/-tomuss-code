@@ -84,7 +84,7 @@ def to_float_or_nan(txt):
 def python_pop(array, i):
     array.pop(i)
 
-def data_col_from_col_title(title):
+def data_col_from_col_title(title, columns):
     for i, column in enumerate(columns):
         if column.title == title:
             return i

@@ -346,13 +346,13 @@ class FilterAnyType(FilterAny):
 
 
 def FilterOperator(operator, what, value, column_type,
-                   python_left, js_left, username, errors):
+                   python_left, js_left, username, errors, columns):
     if value and value[0] in filterAttributes:
         what_right = filterAttributes[value[0]]
-        elsewhere = from_another_column(value[1:], errors)
+        elsewhere = from_another_column(value[1:], errors, columns)
     else:
         what_right = "value"
-        elsewhere = from_another_column(value, errors)
+        elsewhere = from_another_column(value, errors, columns)
     if elsewhere is None:
         if (operator[0] == "~"
             or (operator[0] == "" and what != "date")
@@ -439,7 +439,7 @@ filterAttributes = {'@': 'author',
                     ':': 'history',
                     '?': 'date'}
 
-def from_another_column(string, errors):
+def from_another_column(string, errors, columns):
     if not string.startswith('['):
         return None
     s = string.split(']')
@@ -447,7 +447,7 @@ def from_another_column(string, errors):
         return None
     if s[0][1:] == '':
         return -1, string[len(s[0])+1:]
-    data_col = data_col_from_col_title(s[0][1:])
+    data_col = data_col_from_col_title(s[0][1:], columns)
     if data_col or data_col == 0:
         return data_col, string[len(s[0])+1:]
     errors["«" + s[0][1:] + '» ' + _("ALERT_url_import_column")] = True
@@ -455,7 +455,9 @@ def from_another_column(string, errors):
 
 class Filter:
     # Parse the filter to create a list of nodes
-    def __init__(self, string, username, column_type):
+    def __init__(self, string, username, column_type, the_columns=None):
+        if the_columns is None:
+            the_columns = columns # Global value for JavaScript
         self.errors = {}
         self.string = string
         while string.startswith(" "):
@@ -468,7 +470,8 @@ class Filter:
         string = replace_all(string," " + or_keyword() + " ", " | ")
         mode = "|"
         while string:
-            node, string = self.parse(string, username, column_type)
+            node, string = self.parse(string, username, column_type,
+                                      the_columns)
             if mode == '|':
                 self.filters.append([node])
             else:
@@ -479,7 +482,7 @@ class Filter:
             else:
                 mode = '&'
 
-    def parse(self, string, username, column_type):
+    def parse(self, string, username, column_type, columns):
         negate = False
         if string[0] == '!':
             negate = True
@@ -496,7 +499,7 @@ class Filter:
                 return FilterFalse(), ''
             else:
                 return FilterTrue(), ''
-        elsewhere = from_another_column(string, self.errors)
+        elsewhere = from_another_column(string, self.errors, columns)
         if elsewhere is None:
             def left_cell1(dummy_line, cell):
                 return getattr(cell, attr)
@@ -571,7 +574,8 @@ class Filter:
                 negate = not negate
 
         node = FilterOperator(operator, attr, value, column_type,
-                              left_cell, js_left_cell, username, self.errors)
+                              left_cell, js_left_cell, username, self.errors,
+                              columns)
 
         if elsewhere is not None and elsewhere[0] >= 0:
             node.data_col_left = elsewhere[0]

@@ -59,7 +59,7 @@ class Column:
             self.table = columns[0].table
 
     def nmbr_filter(self, line, cell):
-        return Filter(self.test_filter, "","").evaluate(line, cell)
+        return Filter(self.test_filter, "", "").evaluate(line, cell)
     def is_computed(self):
         return self.computed
 

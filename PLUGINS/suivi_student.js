@@ -59,7 +59,7 @@ function initialize_suivi_real()
 function cell_modifiable_on_suivi()
 {
   table_attr = DisplayGrades.table_attr ;
-  if ( ! DisplayGrades.cell.modifiable(DisplayGrades.ue.line,
+  if ( ! DisplayGrades.cell.modifiable(DisplayGrades.ue.line_real,
 				       DisplayGrades.column) )
     return ;
   if ( ! DisplayGrades.column.modifiable )
