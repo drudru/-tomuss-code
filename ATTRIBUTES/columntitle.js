@@ -98,6 +98,7 @@ function set_title(value, column, xcolumn_attr)
 	    }
 	}
       // Title change is possible
+      column.title = value ; // Now to enable filter compilation
       for(var i in job_to_do)
 	column_attr_set(job_to_do[i][0], job_to_do[i][1], job_to_do[i][2]) ;
     }
