@@ -80,8 +80,8 @@ return value ;
                     # Do not remove immediatly the right to modify the list
                     # The user may have made an error, we should allow
                     # to fix it until the next page unloading.
-                    table.managers = set(table.managers)
-                    table.managers.add(page.user_name)
+                    if page.user_name not in table.managers:
+                        table.managers.append(page.user_name)
 
 
     def default_value(self, table):

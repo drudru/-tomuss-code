@@ -505,8 +505,6 @@ def send_mail_in_background(to, subject, message, frome=None, show_to=False,
     start_job(sendmail_thread, 1)
 
 def js(t):
-    if isinstance(t,bytes):
-        raise TypeError("not bytes here")
     if isinstance(t, str):
         return '"' + t.replace('\\','\\\\').replace('"','\\"').replace('>','\\x3E').replace('<','\\x3C').replace('&', '\\x26').replace('\r','').replace('\n','\\n') + '"'
     elif isinstance(t, float):
@@ -516,6 +514,10 @@ def js(t):
                               for k, v in t.items()) + '}'
     elif isinstance(t, tuple):
         return str(list(t))
+    elif isinstance(t, set):
+        raise TypeError("not sets here")
+    elif isinstance(t, bytes):
+        raise TypeError("not bytes here")
     else:
         return str(t)
 
