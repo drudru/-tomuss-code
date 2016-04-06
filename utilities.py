@@ -795,9 +795,12 @@ def add_a_cache0(fct, timeout=None):
 def clean_cache(f):
     if getattr(f, 'last_value_on_exception', 0):
         return # Do not erase in order to reuse if there is an exception
-    for key, value in list(f.cache.items()):
-        if time.time() - value[1] > f.timeout:
-            del f.cache[key]
+    try:
+        for key, value in list(f.cache.items()):
+            if time.time() - value[1] > f.timeout:
+                del f.cache[key]
+    except RuntimeError: # dictionary changed size during iteration
+        pass
 
 def add_a_cache(fct, timeout=3600, not_cached='neverreturnedvalue',
                 last_value_on_exception=False):
