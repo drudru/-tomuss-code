@@ -33,6 +33,11 @@ function set_columns(value, column, xcolumn_attr)
       column.average_from = [] ;
       column.average_columns = [] ;
       column.need_update = true ;
+      if ( column.type == 'Nmbr' )
+	{
+	  column.minmax = '[0;1]' ;
+	  column.max = 1 ;
+	}
       return value ;
     }
 

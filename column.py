@@ -397,7 +397,7 @@ class Column(object):
         """From the Note 'test' value stored as [min;red;green;max]
         returns the min and the max as float numbers."""
         if self.type.name == 'Nmbr':
-            return 0, len(self.depends_on())
+            return 0, max(1, len(self.depends_on()))
         x = self.minmax.strip('[]').split(';')
         v_min, v_max = x[0], x[-1]
         try:

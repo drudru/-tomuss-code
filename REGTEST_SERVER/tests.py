@@ -1994,6 +1994,31 @@ cell_change(1,'0_2','ticket_time_to_live','%d',"")
         check('Y%d/S%s/UE-repet-grp.py' % (year, semester),
               cell_required = (1, 'COL', '0_2', 7.))
 
+    if do('nmbr'):
+        # Check Nmbr with 0 columns
+        c = s.url('=' + abj +'/%s/UE-nmbr' % ys)
+        c = s.url('='+abj+'/%s/UE-nmbr/1/0/column_attr_title/A/A' % ys)
+        assert( c == ok_png )
+        c = s.url('='+abj+'/%s/UE-nmbr/1/1/column_attr_type/A/Nmbr' % ys)
+        assert( c == ok_png )
+        c = s.url('='+abj+'/%s/UE-nmbr/1/2/cell_change/0_0/0_0/10800100' % ys)
+        assert(c == ok_png)
+        c = s.url('='+abj+'/%s/UE-nmbr/1/3/column_attr_title/B/B' % ys)
+        assert( c == ok_png )
+        c = s.url('='+abj+'/%s/UE-nmbr/1/4/column_attr_type/B/Note' % ys)
+        assert( c == ok_png )
+        c = s.url('='+abj+'/%s/UE-nmbr/1/5/cell_change/B/0_0/11.11' % ys)
+        assert(c == ok_png)
+        c = s.url('='+abj+'/%s/UE-nmbr/1/6/column_attr_type/C/Moy' % ys)
+        assert( c == ok_png )
+        c = s.url('='+abj+'/%s/UE-nmbr/1/7/column_attr_columns/C/A%%20B' % ys)
+        assert( c == ok_png )
+        ss.start()
+        c = ss.url('=' + root + '/10800100')
+        assert('"columns": "A B"' in c)
+        assert('11.11' in c)
+        assert('5.555' in c)
+
     if do('js-api'):
         c = s.url('=' + abj +'/%s/UE-js' % ys)
         data = []

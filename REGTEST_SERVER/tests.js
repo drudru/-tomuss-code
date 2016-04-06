@@ -309,6 +309,28 @@ if ( lines["lin_0"][8].author != "test" )
 check_requests('cell_change/1_2/lin_0/5') ;
 check_alerts("") ;
 
+
+// Create a Nmbr without columns.
+// Do it like it was a page loading and not user creation
+
+columns.push(Col({"the_id": "Nmbr", "title": "Nmbr", "type": "Nmbr"})) ;
+column = columns[9] ;
+init_column(column) ;
+column_attr_set(column, "title", "Nmbr") ;
+column_attr_set(column, "type", "Nmbr") ;
+column_attr_set(column, "columns", "") ;
+check_requests('') ;
+check_alerts("") ;
+
+if ( column.max != 1 || column.minmax != "[0;1]" )
+  error(column.minmax) ;
+
+column_attr_set(column, "columns", "Average Cow") ;
+if ( column.max != 2 || column.minmax != "[0;2]" )
+  error(column.minmax) ;
+
+
+
 // All is done
 
 if ( tests_are_fine )
