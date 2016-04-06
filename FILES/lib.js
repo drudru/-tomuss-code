@@ -1135,7 +1135,12 @@ function update_line(line_id, data_col)
       column = columns[data_col2] ;
       if ( column.col === undefined )
 	continue ;
-      if ( column.real_type.cell_compute === undefined )
+      if ( column.real_type.cell_compute === undefined
+	   && column.red.indexOf('[') == -1
+	   && column.green.indexOf('[') == -1
+	   && column.redtext.indexOf('[') == -1
+	   && column.greentext.indexOf('[') == -1
+	   )
 	continue ;
       if ( data_col != data_col2 ) // To not erase green square
 	update_cell(tr.childNodes[column.col], line[data_col2], column,
