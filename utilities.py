@@ -54,9 +54,10 @@ def write_file(filename, content, encoding="utf-8"):
     if encoding == "bytes":
         opt = opt + 'b'
         encoding = None
-    f = open(filename, opt,encoding = encoding)
+    f = open(filename + '~', opt, encoding = encoding)
     f.write(content)
     f.close()
+    os.rename(filename + '~', filename)
 
 def read_url(url):
     try:
@@ -652,15 +653,8 @@ def compressBuf(buf):
     import io
     zbuf = io.BytesIO()
     zfile = gzip.GzipFile(None, 'wb', 9, zbuf)
-    zfile.write(buf.encode("utf-8"))
-    zfile.close()
-    return zbuf.getvalue() # XXX is str or bin
-
-def compressBufImg(buf):
-    import gzip
-    import io
-    zbuf = io.BytesIO()
-    zfile = gzip.GzipFile(None, 'wb', 9, zbuf)
+    if isinstance(buf, str):
+        buf = buf.encode("utf-8")
     zfile.write(buf)
     zfile.close()
     return zbuf.getvalue()
@@ -722,13 +716,15 @@ class StaticFile(object):
             self.bytes()
         else :
             str(self)
+        if self.gzipped is None:
+            self.gzipped = compressBuf(self.content)
         return self.gzipped
 
     def bytes(self):
         if self.need_update():
             self.time = os.path.getmtime(self.name)
             self.content = read_file(self.name, "bytes")
-            self.gzipped = compressBufImg(self.content)
+            self.gzipped = None
             self.copy_on_disc()
         return self.content
 
@@ -742,7 +738,7 @@ class StaticFile(object):
             if self.name.endswith('.js') or self.name.endswith('.html'):
                 content = content.replace('_FILES_', configuration.url_files)
             self.content = content
-            self.gzipped = compressBuf(self.content)
+            self.gzipped = None
             self.copy_on_disc()
         return self.content
 
