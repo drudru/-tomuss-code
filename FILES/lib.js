@@ -4398,12 +4398,12 @@ function html_begin_head(hide_title, pb, more)
   
   if ( ! pb )
     s = '<html><head>\n' +
-      '<link rel="stylesheet" href="'+url + '/style.css" type="text/css">\n' +
-      '<script src="' + url + '/utilities.js" onload="this.onloadDone=true;"></script>\n' +
-      '<script src="' + url + '/middle.js" onload="this.onloadDone=true;"></script>\n' +
-      '<script src="' + url + '/lib.js" onload="this.onloadDone=true;"></script>\n' +
-      '<script src="' + url + '/types.js" onload="this.onloadDone=true;"></script>\n' +
-      '<script src="' + url + '/abj.js" onload="this.onloadDone=true;"></script>\n' +
+      '<link rel="stylesheet" href="_FILES_/style.css" type="text/css">\n' +
+      '<script src="_FILES_/utilities.js" onload="this.onloadDone=true;"></script>\n' +
+      '<script src="_FILES_/middle.js" onload="this.onloadDone=true;"></script>\n' +
+      '<script src="_FILES_/lib.js" onload="this.onloadDone=true;"></script>\n' +
+      '<script src="_FILES_/types.js" onload="this.onloadDone=true;"></script>\n' +
+      '<script src="_FILES_/abj.js" onload="this.onloadDone=true;"></script>\n' +
       '<style id="computed_style"></style>\n' +
       '<script>var translations = {} ; </script>\n' +
       languages +
