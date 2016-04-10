@@ -2922,9 +2922,18 @@ function cell_set_value_real(line_id, data_col, value, td)
        && columns[column.data_col-1].is_empty )
       alert_append(_("ERROR_column_left_to_right")) ;
 
+  var orig_value = value ;
   value = column.real_type.cell_test(value, column);
   if ( value === undefined )
-    return ;
+    {
+      if ( ! column.is_empty )
+	return ;
+      if ( ! confirm(_("ALERT_to_text")) )
+	return ;
+      column_attr_set(column, "type", "Text", undefined, true) ;
+      the_current_cell.do_update_column_headers = true ;
+      return cell_set_value_real(line_id, data_col, orig_value, td) ;
+    }
 
   // Used as a group column
   for(var i in columns)

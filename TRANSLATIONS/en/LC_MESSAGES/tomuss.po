@@ -6002,3 +6002,6 @@ msgid "ALERT_notation_conflict"
 msgstr "BEWARE there is more than one cell comment for the group's students\n"
        "You must erase all the comment, except the one containing\n"
        "the detailed grading."
+
+msgid "ALERT_to_text"
+msgstr "Do you want to change this column type to 'Free text'?"

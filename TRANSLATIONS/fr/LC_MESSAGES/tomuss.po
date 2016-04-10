@@ -6139,3 +6139,6 @@ msgstr "ATTENTION plusieurs étudiants du groupe ont un commentaire\n"
        "permettant de stocker la notation détaillé.\n"
        "Vous devez effacer tous les commentaires de ces étudiants\n"
        "sauf celui qui contient la notation détaillée."
+
+msgid "ALERT_to_text"
+msgstr "Voulez-vous que cette colonne contienne du texte libre ?"
