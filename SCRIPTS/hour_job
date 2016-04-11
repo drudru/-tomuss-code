@@ -140,6 +140,9 @@ do_rsync() {
 }
 
 do_main() {
+    log "================================================================"
+    log $(date)
+    log "================================================================"
     if [ "" = "$BACKUP_USER" ]
     then
 	log "No hourly backup, you need to put in $HOME/.profile :"
