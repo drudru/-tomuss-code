@@ -125,24 +125,23 @@ class Page(object):
 def table_filename(year, semester, ue):
     return os.path.join(configuration.db, 'Y'+str(year), 'S'+semester, ue + '.py')
 
-def link_to(filename):
+def link_to(filename, year, semester):
     ln = os.readlink(filename)[:-3].split(os.path.sep)
     ue = ln[-1]
-    if len(ln) == 3:
-        assert(ln[0] == '..')
-        assert(ln[1][0] == 'S')
-        year = self.year
-        semestre = ln[1][1:]
-    elif len(ln) == 5:
+    if len(ln) == 5:
         assert(ln[0] == '..')
         assert(ln[1] == '..')
         assert(ln[2][0] == 'Y')
         assert(ln[3][0] == 'S')
         year = int(ln[2][1:])
-        semestre = ln[3][1:]
+        semester = ln[3][1:]
+    elif len(ln) == 3:
+        assert(ln[0] == '..')
+        assert(ln[1][0] == 'S')
+        semester = ln[1][1:]
     else:
         assert(len(ln) == 1)
-    return year, semestre, ue
+    return year, semester, ue
 
 def filter_language(language):
     # Remove not translated languages and duplicates
@@ -1693,7 +1692,7 @@ def table(year, semester, ue, page=None, ticket=None, ro=False, create=True,
         try:
             filename = table_filename(year, semester, ue)
             if os.path.islink(filename):
-                y, s, u = link_to(filename)
+                y, s, u = link_to(filename, year, semester)
                 t = table(y, s, u, page=page, ticket=ticket, ro=ro,
                           create=create, do_not_unload=do_not_unload)
                 if (y, s, u) in tables:
