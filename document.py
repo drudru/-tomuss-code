@@ -262,7 +262,8 @@ def table_head(year=None, semester=None, the_ticket=None,
 
     return (str(the_head) + background +
             translations_init(prefs_table['language']) +
-            '<script>\n' +
+            (table.template.headers if table else '')
+            + '<script>\n' +
             'page_id = "%d" ;\n' % page_id +
             'my_identity = %s ;\n' % repr(user_name) +
             'my_identity2 = %s ;\n' % repr(my_identity2) +
@@ -303,6 +304,7 @@ class Template(object):
 
     def __init__(self, name):
         self.name = name
+        self.splited = name.split(os.path.sep)
 
     def update_template(self):
         if time.time() - self.update_time < 2:
@@ -323,6 +325,23 @@ class Template(object):
             elif prototype:
                 self.__dict__[item] = getattr(prototype, item)
 
+        self.headers = ''
+        if prototype:
+            self.headers += prototype.headers
+        for extension in ('.css', '.js'):
+            if os.path.exists(self.name[:-3] + extension):
+                name = self.splited[-1].replace(".py", extension)
+                if name not in files.files:
+                    path = list(self.splited)
+                    path[-1] = name
+                    files.add(*path)
+                self.headers += {
+                    ".css":
+                    '<link rel="stylesheet" href="{}/{}" type="text/css">',
+                    ".js":
+                    '<script src="{}/{}" onload="this.onloadDone=true"></script>'
+                    }[extension].format(configuration.url_files, name)
+
     def init(*args, **keys):
         pass
     def create(self, ttable):
@@ -335,6 +354,7 @@ class Template(object):
     def comment_change(*args, **keys):
         pass
     css = ''
+    headers = ''
     def check(*args, **keys):
         pass
     def content(*args, **keys):
