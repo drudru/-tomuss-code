@@ -4798,7 +4798,8 @@ function runlog(the_columns, the_lines)
   update_line_menu() ;
   update_column_menu() ;
   update_popup_on_red_line() ;
-  update_filtered_lines();
+  update_filtered_lines() ;
+  try { table_fill_hook = template_init ; } catch(e) { }
 
   // This function is used when we want to replace the current window
   // content by the popup content.
