@@ -2816,7 +2816,7 @@ Current.prototype.input_div_focus = function()
     this.input_div.style.border = "3px solid gray" ;  
 } ;
 
-Current.prototype.change = function(value)
+Current.prototype.change = function()
 {
   this.input_div_focus() ;
   
@@ -2831,8 +2831,7 @@ Current.prototype.change = function(value)
       if ( element_focused.blur )
 	element_focused.blur() ;
     }
-  if ( value === undefined )
-    value = this.input.value ;
+  var value = this.input.value ;
   
   if ( value == this.initial_value )
     return ;
