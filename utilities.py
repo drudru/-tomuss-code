@@ -801,23 +801,38 @@ def clean_cache(f):
 def add_a_cache(fct, timeout=3600, not_cached='neverreturnedvalue',
                 last_value_on_exception=False):
     """Add a cache to a function with one parameter.
+
     If the returned value is 'not_cached' then it is not cached.
-    If the cached function may sometime raise an exception,
-    it may be interesting to set last_value_on_exception=True in order
+
+    If the cached function may raise an exception,
+    it may be interesting to set 'last_value_on_exception=True' in order
     to return the previously cached value and hide the exception.
+
+    If 'last_value_on_exception="disk"' then the cache is stored on disk.
+    So, if there is an exception on the first call,
+    the last value is restored from disk.
     """
     def f(x):
         cache = f.cache.get(x, ('',0))
         if time.time() - cache[1] > f.timeout:
+            on_disk = f.last_value_on_exception == 'disk'
             try:
                 cache = (f.fct(x), time.time())
             except:
                 if f.last_value_on_exception and cache[1] != 0:
                     cache = (cache[0], time.time())
-                    send_backtrace(str(f.fct), "Cache update failed",
-                                   exception=False)
+                    send_backtrace(str(f.fct), "Cache update failed")
                 else:
-                    raise
+                    if on_disk:
+                        c = read_file(os.path.join(f.dirname, safe(repr(x))))
+                        cache = (ast.literal_eval(c), time.time())
+                        on_disk = False
+                        send_backtrace(str(f.fct), "Restore cache from disk")
+                    else:
+                        raise
+            if on_disk:
+                write_file(os.path.join(f.dirname, safe(repr(x))),
+                           repr(cache[0]))
             
         if cache[0] == f.not_cached:
             return f.not_cached
@@ -829,6 +844,9 @@ def add_a_cache(fct, timeout=3600, not_cached='neverreturnedvalue',
     f.clean = clean_cache
     f.not_cached = not_cached
     f.last_value_on_exception = last_value_on_exception
+    if last_value_on_exception == 'disk':
+        f.dirname = os.path.join('TMP', 'CACHE', f.fct.__name__)
+        mkpath(f.dirname)
     return f
 
 def add_a_method_cache(fct, timeout=None, not_cached='neverreturnedvalue'):
