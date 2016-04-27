@@ -24,6 +24,7 @@ import ldap3
 import ssl
 import re
 import time
+import threading
 from . import configuration
 from . import utilities
 from . import sender
@@ -489,6 +490,7 @@ class LDAP(LDAP_Logic):
         self.name = name
         self.last_query = 0
         self.time_last_mail = 0
+        self.lock = threading.Lock()
 
     def connect(self):
         if ( len(configuration.ldap_server) == 0
@@ -559,11 +561,15 @@ class LDAP(LDAP_Logic):
                 start_time = time.time()
                 sender.send_live_status(
                          '<script>b("/%s");</script>\n' % self.name)
-                self.connexion.search(
-                    base, search, ldap3.SEARCH_SCOPE_WHOLE_SUBTREE,
-                    time_limit = ldap3.LDAPTimeLimitExceededResult,
-                    attributes=attributes)
-                s = self.connexion.response
+                self.lock.acquire()
+                try:
+                    self.connexion.search(
+                        base, search, ldap3.SEARCH_SCOPE_WHOLE_SUBTREE,
+                        time_limit = ldap3.LDAPTimeLimitExceededResult,
+                        attributes=attributes)
+                    s = self.connexion.response
+                finally:
+                    self.lock.release()
                 t = []
                 if s is None :
                     time.sleep(1)
