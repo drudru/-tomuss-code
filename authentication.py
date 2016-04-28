@@ -19,6 +19,7 @@
 
 import time
 import socket
+import urllib.request
 from . import utilities
 from . import inscrits
 from . import ticket
@@ -30,10 +31,11 @@ warn = utilities.warn
 
 # To synchronize with JavaScript encode_uri and decode_uri_option
 def canonize(s):
-    return (s.replace("$", "$24").replace('?','$3F').replace('#','$23')
+    return urllib.request.quote(s
+            .replace("$", "$24").replace('?','$3F').replace('#','$23')
             .replace("/", "$2F").replace("&", '$26').replace(".", '$2E')
             .replace("+", '$2B').replace(" ", "$20").replace("\n", "$0A")
-            .replace("\r", "$0D")
+            .replace("\r", "$0D"), safe="/$=;:@,"
             )
 
 def redirect(server, url):
