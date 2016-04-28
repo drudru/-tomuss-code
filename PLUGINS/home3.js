@@ -926,7 +926,13 @@ function display_ues(title, tip, codes, options)
 	for(var i in options.code_filter)
 	  t.push(i) ;
 	t.sort() ;
-	current = get_option('F' + title, t[t.length - 1]) ;
+
+	var date = new Date() ;
+	current = t[t.length - 1] ;
+	if ( !isNaN(current) && current > date.getFullYear() )
+	  current = date.getFullYear().toString() ;
+
+	current = get_option('F' + title, current) ;
 	s.push('<select onchange="select_code_filter(this)">') ;
 	for(var i in t)
 	  s.push('<option' + (t[i] == current ? ' selected' : '')
