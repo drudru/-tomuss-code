@@ -814,31 +814,33 @@ def add_a_cache(fct, timeout=3600, not_cached='neverreturnedvalue',
     """
     def f(x):
         cache = f.cache.get(x, ('',0))
-        if time.time() - cache[1] > f.timeout:
+        # XXX The lock protect only the cache update, not the cache test.
+        # So the cache may be updated twice in a row.
+        if (time.time() - cache[1] > f.timeout
+            and f.lock.acquire(blocking = cache[1]==0 )):
             on_disk = f.last_value_on_exception == 'disk'
             try:
                 cache = (f.fct(x), time.time())
             except:
                 if f.last_value_on_exception and cache[1] != 0:
+                    # Do not retry immediatly
                     cache = (cache[0], time.time())
                     send_backtrace(str(f.fct), "Cache update failed")
                 else:
                     if on_disk:
                         c = read_file(os.path.join(f.dirname, safe(repr(x))))
                         cache = (ast.literal_eval(c), time.time())
-                        on_disk = False
                         send_backtrace(str(f.fct), "Restore cache from disk")
                     else:
                         raise
-            if on_disk:
-                write_file(os.path.join(f.dirname, safe(repr(x))),
-                           repr(cache[0]))
-            
-        if cache[0] == f.not_cached:
-            return f.not_cached
-        else:
-            f.cache[x] = cache
-            return cache[0]
+                on_disk = False
+            finally:
+                f.cache[x] = cache
+                if on_disk:
+                    write_file(os.path.join(f.dirname, safe(repr(x))),
+                               repr(cache[0]))
+                f.lock.release()
+        return cache[0]
     f.cache = {}
     register_cache(f, fct, timeout, 'add_a_cache')
     f.clean = clean_cache
@@ -847,6 +849,7 @@ def add_a_cache(fct, timeout=3600, not_cached='neverreturnedvalue',
     if last_value_on_exception == 'disk':
         f.dirname = os.path.join('TMP', 'CACHE', f.fct.__name__)
         mkpath(f.dirname)
+    f.lock = threading.Lock()
     return f
 
 def add_a_method_cache(fct, timeout=None, not_cached='neverreturnedvalue'):
