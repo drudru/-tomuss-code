@@ -1382,6 +1382,7 @@ function search_ue_list(txt)
       done[ue.name] = true ;
       if ( string_contains(ue.intitule, txt)
 	   || string_contains(ue.name, txt)
+	   || string_contains('UE-' + ue.name, txt)
 	   || ( ue.responsable
 		&& string_contains(ue.responsable.join(', '), txt)
 	      )
