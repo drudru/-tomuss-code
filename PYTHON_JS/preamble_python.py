@@ -99,6 +99,12 @@ try:
 except ValueError:
     pass
 
+def as_fixed(t):
+    try:
+        return '{:.3f}'.format(float(t))
+    except ValueError:
+        return t
+
 rint = round
 isNaN = math.isnan
 ceil = math.ceil

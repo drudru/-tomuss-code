@@ -169,5 +169,12 @@ def to_float(txt):
         raise ValueError("not float")
     return n
 
+def as_fixed(t):
+    v = Number(t)
+    if isNaN(v):
+        return t
+    else:
+        return v.toFixed(3)
+
 rint = Math.round
 ceil = Math.ceil

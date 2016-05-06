@@ -1,7 +1,7 @@
 #!/usr/bin/python3
 # -*- coding: utf-8 -*-
 # TOMUSS: The Online Multi User Simple Spreadsheet
-# Copyright (C) 2013-2015 Thierry EXCOFFIER, Universite Claude Bernard
+# Copyright (C) 2013-2016 Thierry EXCOFFIER, Universite Claude Bernard
 #
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -20,9 +20,9 @@
 # Contact: Thierry.EXCOFFIER@univ-lyon1.fr
 
 # In order to translate to pure JavaScript:
-#    No inherance
 #    Define classes before using them
 #    No else: after for:
+#    No format or %
 
 # Set to True if 'B' filter must not found 'b' value.
 # This value must never be changed once tables have been created by users
@@ -113,6 +113,95 @@ def user_date_to_date(txt):
             pass
     return str(the_year) + two_digits(the_month) + two_digits(the_day) + t
 
+
+class CellAttr:
+    def __init__(self):
+        pass
+class CellAttrCell(CellAttr):
+    def __init__(self, what):
+        self.what = what
+    def fct(self, dummy_line, cell):
+        return getattr(cell, self.what)
+    def js(self):
+        return 'cell.' + self.what
+class CellAttrOther(CellAttr):
+    def __init__(self, data_col, what):
+        self.what = what
+        self.data_col = data_col
+    def fct(self, line, cell):
+        return getattr(line[self.data_col], self.what)
+    def js(self):
+        return 'line[' + str(self.data_col) + '].' + self.what
+
+class CellAttrConst(CellAttr):
+    def __init__(self, value):
+        self.value = value
+    def fct(self, dummy_line, dummy_cell):
+        return self.value
+    def js(self):
+        return js_str(self.value)
+class CellAttrConstDate(CellAttrConst):
+    def fct(self, dummy_line, dummy_cell):
+        return get_relative_date(self.value)
+    def js(self):
+        return "get_relative_date(" + js_str(self.value) + ")"
+
+class CellAttrConstSeconds(CellAttr):
+    def fct(self, dummy_line, dummy_cell):
+        return seconds_to_date()
+    def js(self):
+        return "seconds_to_date()"
+
+class CellAttrAsDate(CellAttr):
+    def __init__(self, cellattr):
+        self.cellattr = cellattr
+    def fct(self, line, cell):
+        return user_date_to_date(self.cellattr.fct(line, cell))
+    def js(self):
+        return "user_date_to_date(" + self.cellattr.js() + ')'
+class CellAttrAsFloat(CellAttrAsDate):
+    def fct(self, line, cell):
+        return to_float_or_nan(self.cellattr.fct(line, cell))
+    def js(self):
+        return "to_float_or_nan(" + self.cellattr.js() + ')'
+class CellAttrAsString(CellAttrAsDate):
+    def fct(self, line, cell):
+        return str(self.cellattr.fct(line, cell))
+    def js(self):
+        return self.cellattr.js() + '.toString()'
+class CellAttrAsLower(CellAttrAsDate):
+    def fct(self, line, cell):
+        return self.cellattr.fct(line, cell).lower()
+    def js(self):
+        return self.cellattr.js() + '.toLowerCase()'
+class CellAttrAsFlat(CellAttrAsDate):
+    def fct(self, line, cell):
+        return flat(self.cellattr.fct(line, cell))
+    def js(self):
+        return "flat(" + self.cellattr.js() + ')'
+class CellAttrAsFixed(CellAttrAsDate):
+    def fct(self, line, cell):
+        return as_fixed(self.cellattr.fct(line, cell))
+    def js(self):
+        return "as_fixed(" + self.cellattr.js() + ")"
+class CellAttrTruncate(CellAttr):
+    def __init__(self, cellattr, length):
+        self.cellattr = cellattr
+        self.length = length
+    def fct(self, line, cell):
+        return self.cellattr.fct(line, cell)[:self.length]
+    def js(self):
+        return self.cellattr.js() + ".substr(0," + str(self.length) + ')'
+class CellAttrAppend(CellAttr):
+    def __init__(self, cellattr, value):
+        self.cellattr = cellattr
+        self.value = value
+    def fct(self, line, cell):
+        return self.cellattr.fct(line, cell) + self.value
+    def js(self):
+        return '(' + self.cellattr.js() + '+' + js_str(self.value) + ')'
+
+
 class FilterNegate:
     # The negation node in the filter tree"""
     def __init__(self, node):
@@ -147,68 +236,41 @@ class FilterAny:
     data_col_left = None
     data_col_right = None
     def evaluate(self, line, cell):
-        return self.python(self.left(line, cell), self.right(line))
+        return self.python(self.left.fct(line, cell),
+                           self.right.fct(line, cell))
 
     def js(self):
-        return self.js_string(self.js_left, self.js_right)
+        return self.js_string(self.left.js(), self.right.js())
 
 class FilterDate(FilterAny):
-    def __init__(self, operator, what, value, column_type,
-                 python_left, js_left):
+    def __init__(self, operator, what, value, column_type, left):
         if operator[0] == '':
             dummy, operator = search_operator('=')
-        self.left = python_left
-        self.js_left = js_left
+        self.left = left
+        if what != "date":
+            self.left = CellAttrAsDate(self.left)
         if is_a_relative_date(value):
             dummy, operator = search_operator(operator[3])
-            def right_relative_date(dummy_line):
-                return get_relative_date(value)
-            self.right = right_relative_date
-            self.js_right = "get_relative_date(" + js_str(value) + ")"
-            if what != "date":
-                def left_cell_as_date(line, cell):
-                    return user_date_to_date(python_left(line, cell))
-                self.left = left_cell_as_date
-                self.js_left = "user_date_to_date(" + self.js_left + ')'
+            self.right = CellAttrConstDate(value)
         else:
             value = user_date_to_date(value)
-            def right_const(dummy_line):
-                return value
-            self.right = right_const
-            self.js_right = js_str(value)
-            if what == "date":
-                def left_cell_truncated(line, cell):
-                    return python_left(line, cell)[:len(value)]
-                self.left = left_cell_truncated
-                self.js_left = self.js_left+".substr(0," + str(len(value))+')'
-            else:
-                def left_cell_as_date_truncated(line, cell):
-                    return user_date_to_date(python_left(line, cell)
-                    )[:len(value)]
-                self.left = left_cell_as_date_truncated
-                self.js_left = "user_date_to_date(" + self.js_left + ").substr(0," + str(
-                    len(value)) + ')'
+            self.left = CellAttrTruncate(self.left, len(value))
+            self.right = CellAttrConst(value)
         self.operator = operator
 
 class FilterFloat(FilterAny):
-    def __init__(self, operator, value, column_type, python_left, js_left):
-        def left_cell_as_float(line, cell):
-            return to_float_or_nan(python_left(line, cell))
-        self.left = left_cell_as_float
-        self.js_left = "to_float_or_nan(" + js_left + ')'
-        def right_const(dummy_line):
-            return value
-        self.right = right_const
-        self.js_right = str(value)
+    def __init__(self, operator, value, column_type, left):
+        self.left = CellAttrAsFloat(left)
+        self.right = CellAttrConst(value)
 
 class FilterStr(FilterAny):
-    def __init__(self, operator, value, column_type, python_left, js_left):
-        def get_string(line, cell):
-            return str(python_left(line, cell))
+    def __init__(self, operator, value, column_type, left):
+        self.left = CellAttrAsString(left)
         value_lower = value.lower()
         hide_upper = value_lower == value  or  not contextual_case_sensitive
         if hide_upper:
             value = value_lower
+            self.left = CellAttrAsLower(self.left)
 
         value_flat = flat(value)
         hide_diacritics = (value_flat == value
@@ -217,136 +279,80 @@ class FilterStr(FilterAny):
                            )
         if hide_diacritics:
             value = value_flat
+            self.left = CellAttrAsFlat(self.left)
 
-        def right_const(dummy_line):
-            return value
-        self.right = right_const
-        self.js_right = js_str(value)
-        if hide_upper:
-            if hide_diacritics:
-                def left_cell_flat_lower(line, cell):
-                    return flat(get_string(line, cell).lower())
-                self.left = left_cell_flat_lower
-                self.js_left = "flat(" + js_left + ".toString().toLowerCase())"
-            else:
-                def left_cell_lower(line, cell):
-                    return get_string(line, cell).lower()
-                self.left = left_cell_lower
-                self.js_left = js_left + ".toString().toLowerCase()"
-        else:
-            if hide_diacritics:
-                def left_cell_flat(line, cell):
-                    return flat(get_string(line, cell))
-                self.left = left_cell_flat
-                self.js_left = "flat(" + js_left + ")"
-            else:
-                self.left = get_string
-                self.js_left = js_left
+        self.right = CellAttrConst(value)
 
 class FilterAnyStr(FilterAny):
     def __init__(self, operator, what_right, data_col, value, column_type,
-                 python_left, js_left, username=""):
+                 left, username=""):
         if data_col >= 0:
-            def right(line):
-                return flat((str(getattr(line[data_col],
-                                               what_right)) + value).lower())
-            self.right = right
-            self.js_right = ("line[" + str(data_col) + "]."
-                             + what_right + ".toString()")
+            self.right = CellAttrAsString(CellAttrOther(data_col, what_right))
         else:
             if what_right == 'author':
-                def right_author(line):
-                    return username
-                self.right = right_author
-                self.js_right = js2(username)
+                self.right = CellAttrConst(username)
             else:
                 # Undefined behavior
-                def right_none(line):
-                    return ''
-                self.right = right_none
-                self.js_right = "''"
+                self.right = CellAttrConst('')
         if value:
-            self.js_right = '(' + self.js_right + '+' + js_str(value) + ')'
-        self.js_right = 'flat(' + self.js_right + ').toLowerCase()'
-
-        def left_cell_flat_lower(line, cell):
-            return flat(str(python_left(line, cell)).lower())
-        self.left = left_cell_flat_lower
-        self.js_left = "flat(" + js_left + ".toString().toLowerCase())"
+            self.right = CellAttrAppend(self.right, value)
+        self.right = CellAttrAsFlat(CellAttrAsLower(self.right))
+        self.left = CellAttrAsFlat(CellAttrAsLower(left))
 
 class FilterAnyDate(FilterAny):
-    def __init__(self, operator, what, what_right, data_col, column_type,
-                 python_left, js_left):
+    def __init__(self, operator, what, what_right, data_col, column_type, left):
         if what_right == 'date' and data_col >= 0:
-            def right1(line):
-                return getattr(line[data_col], what_right)
-            self.right = right1
-            self.js_right = "line[" + str(data_col) + "]." + what_right
+            self.right = CellAttrOther(data_col, what_right)
         elif what_right == 'date':
-            def right11(line):
-                return seconds_to_date()
-            self.right = right11
-            self.js_right = "seconds_to_date()"
+            self.right = CellAttrConstSeconds()
         else:
-            def right2(line):
-                return user_date_to_date(getattr(line[data_col], what_right))
-            self.right = right2
-            self.js_right = ("user_date_to_date(line[" + str(data_col) + "]."
-                             + what_right + ')')
+            self.right = CellAttrAsDate(CellAttrOther(data_col, what_right))
 
-        if what == 'date':
-            self.left = python_left
-            self.js_left = js_left
-        else:
-            def left(line, cell):
-                return user_date_to_date(python_left(line, cell))
-            self.left = left
-            self.js_left = "user_date_to_date(" + js_left + ")"
+        self.left = left
+        if what != 'date':
+            self.left = CellAttrAsDate(self.left)
 
 class FilterAnyType(FilterAny):
-    def __init__(self, operator, what_right, data_col, column_type,
-                 python_left, js_left):
-        def right(line):
-            return getattr(line[data_col], what_right)
-        self.right = right
-        self.js_right = "line[" + str(data_col) + "]." + what_right
-        self.left = python_left
-        self.js_left = js_left
+    def __init__(self, operator, what_right, data_col, column_type, left):
+        self.right = CellAttrOther(data_col, what_right)
+        self.left = left
         if operator[0] == '=':
             self.js_oper = "=="
         else:
             self.js_oper = operator[0]
 
     def evaluate(self, line, cell):
-        left = to_float_or_nan(self.left(line, cell))
+        left = to_float_or_nan(self.left.fct(line, cell))
         if not isNaN(left):
-            right = to_float_or_nan(self.right(line))
+            right = to_float_or_nan(self.right.fct(line, cell))
             if isNaN(right):
                 right = -1e50
             return self.python(left, right)
-        right = to_float_or_nan(self.right(line))
+        right = to_float_or_nan(self.right.fct(line, cell))
         if isNaN(right):
-            return self.python(flat(str(self.left(line, cell)).lower()),
-                               flat(str(self.right(line)).lower()))
+            return self.python(flat(str(self.left.fct(line, cell)).lower()),
+                               flat(str(self.right.fct(line, cell)).lower()))
         left = -1e50
         return self.python(left, right)
 
     def js(self):
+        left = self.left.js()
+        right = self.right.js()
         return (
-            "((isNaN(to_float_or_nan(" + self.js_left
-            + ')) && isNaN(to_float_or_nan(' + self.js_right
+            "((isNaN(to_float_or_nan(" + left
+            + ')) && isNaN(to_float_or_nan(' + right
             + '))) ? '
-            + "flat(" + self.js_left  + ".toString().toLowerCase())"
+            + "flat(" + left  + ".toString().toLowerCase())"
             + self.js_oper
-            + "flat(" + self.js_right  + ".toString().toLowerCase())"
-            + ":to_float_or_small(" + self.js_left + ')'
+            + "flat(" + right  + ".toString().toLowerCase())"
+            + ":to_float_or_small(" + left + ')'
             + self.js_oper
-            + "to_float_or_small(" + self.js_right + '))'
+            + "to_float_or_small(" + right + '))'
             )
 
 
 def FilterOperator(operator, what, value, column_type,
-                   python_left, js_left, username, errors, columns):
+                   left, username, errors, columns):
     if value and value[0] in filterAttributes:
         what_right = filterAttributes[value[0]]
         elsewhere = from_another_column(value[1:], errors, columns)
@@ -359,38 +365,34 @@ def FilterOperator(operator, what, value, column_type,
             or what == "history"
             or (value == '' and (what == 'value' or what == 'comment'))
         ):
-            f = FilterStr(operator, str(value), column_type,
-                     python_left, js_left)
+            f = FilterStr(operator, str(value), column_type, left)
         elif what == 'date' or (column_type == 'Date' and what == "value"):
-            f = FilterDate(operator, what, str(value), column_type,
-                     python_left, js_left)
+            f = FilterDate(operator, what, str(value), column_type, left)
         else:
             try:
-                f = FilterFloat(operator, to_float(value), column_type,
-                     python_left, js_left)
+                f = FilterFloat(operator, to_float(value), column_type, left)
             except:
-                f = FilterStr(operator, str(value), column_type,
-                     python_left, js_left)
+                f = FilterStr(operator, str(value), column_type, left)
     else:
         data_col, string = elsewhere
         if data_col == -1:
             if what_right == 'author':
                 f = FilterAnyStr(operator, what_right, -1, string,
-                                 column_type, python_left, js_left, username)
+                                 column_type, left, username)
             elif what_right == 'date':
                 f = FilterAnyDate(operator, what, what_right, -1, column_type,
-                                  python_left, js_left)
+                                  left)
             else:
                 return FilterFalse()
         elif operator[0] == "~" or operator[0] == "" or string != "":
             f = FilterAnyStr(operator, what_right, data_col, string,
-                             column_type, python_left, js_left)
+                             column_type, left)
         elif what == 'date' or  (column_type == 'Date' and what == "value"):
             f = FilterAnyDate(operator, what,what_right, data_col, column_type,
-                              python_left, js_left)
+                              left)
         else:
             f = FilterAnyType(operator, what_right, data_col, column_type,
-                              python_left, js_left)
+                              left)
         if data_col >= 0:
             f.data_col_right = data_col
 
@@ -504,30 +506,22 @@ class Filter:
                 return FilterTrue(), ''
         elsewhere = from_another_column(string, self.errors, columns)
         if elsewhere is None:
-            def left_cell1(dummy_line, cell):
-                return getattr(cell, attr)
-            js_left_cell = "cell." + attr
-            left_cell = left_cell1
+            left = CellAttrCell(attr)
+            if attr == 'value':
+                left = CellAttrAsFixed(left)
         else:
             data_col, string = elsewhere
             if data_col == -1:
                 if attr == 'author':
-                    def left_who(dummy_line, dummy_cell):
-                        return username
-                    js_left_cell = js_str(username)
-                    left_cell = left_who
+                    left = CellAttrConst(username)
                 elif attr == 'date':
-                    def left_date(dummy_line, dummy_cell):
-                        return seconds_to_date()
-                    js_left_cell = 'seconds_to_date()'
-                    left_cell = left_date
+                    left = CellAttrConstSeconds()
                 else:
                     return FilterFalse(), ''
             else:
-                def left_cell2(line, cell):
-                    return getattr(line[data_col], attr)
-                js_left_cell = "line[" + str(data_col) + '].' + attr
-                left_cell = left_cell2
+                left = CellAttrOther(data_col, attr)
+                if attr == 'value':
+                    left = CellAttrAsFixed(left)
         string, operator = search_operator(string)
         value = ''
         protected = False
@@ -577,8 +571,7 @@ class Filter:
                 negate = not negate
 
         node = FilterOperator(operator, attr, value, column_type,
-                              left_cell, js_left_cell, username, self.errors,
-                              columns)
+                              left, username, self.errors, columns)
 
         if elsewhere is not None and elsewhere[0] >= 0:
             node.data_col_left = elsewhere[0]

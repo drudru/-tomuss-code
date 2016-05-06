@@ -86,11 +86,13 @@ def filterRegtest():
                 '#=', ":",
                 '@~=', '@~\\&=', "@~\\ n", "@~\\ ", "@~H",
                 "@~h", "@~e", "@~é", "@~ê", "@~E", "@~→/",
-                "#=", "=4 ", "4 ", "@~\\\\\\\\",
+                "#=", "=4 ", "4 ", "4.", "4.0", "@~\\\\\\\\",
                 "@~\\ ", "@>é", "@<ô"
                 ]:
-        if not Filter(tst, "", "").evaluate(line, c):
+        if not Filter(tst, "", "Note").evaluate(line, c):
             bug("BUG1", tst)
+        if not Filter(tst, "", "").evaluate(line, c):
+            bug("BUG1.0", tst)
         if not Filter(' ' + tst + ' ', "", "").evaluate(line, c):
             bug("BUG1.1", ' ' + tst + ' ')
         tst = '!' + tst
@@ -213,16 +215,16 @@ def filterRegtest():
                  Column({'title': 'G'}),
                  Column({'title': 'H'}),
              ])
-    line = [Cell('Va', "Aa", "20140510181920", "8,8", "Ca"),
-            Cell('9,9' , "Ab", "20140510181930", "Va", "Cb"),
-            Cell('10', "Ac", "20140510181940", "8.8", "Cc"),
-            Cell('10/5/2014 18:19:35', "Ad", "20140510181950", "", "Cd"),
-            Cell(8.9, "Ae", "20140510181940", "He", "Ce"),
-            Cell("9a", "Af", "20140510181940", "Hf", "Cf"),
-            Cell(11, "Ag", "20140515120000", "Aa", "15/5/2014 13"),
-            Cell(0, "Ah", "20140515120000", "Hh", "Ch"),
-            ]
-    # Comment dire : le commentaire commence par la valeur de ?
+    line = [
+        Cell('Va'                ,"Aa","20140510181920","8,8","Ca"),
+        Cell('9,9'               ,"Ab","20140510181930","Va" ,"Cb"),
+        Cell('10'                ,"Ac","20140510181940","8.8","Cc"),
+        Cell('10/5/2014 18:19:35',"Ad","20140510181950",""   ,"Cd"),
+        Cell(8.9                 ,"Ae","20140510181940","He" ,"Ce"),
+        Cell("9a"                ,"Af","20140510181940","Hf" ,"Cf"),
+        Cell(11                  ,"Ag","20140515120000","Aa" ,"15/5/2014 13"),
+        Cell(0                   ,"Ah","20140515120000","Hh" ,"Cee"),
+    ]
     for tst in ['9', '[A]=Va', '[C]=10', '[A]V', '[A]<Vb', '[A]~a', '![A]>Va',
                 '[C]1', '[A] [C]', '9 [A]',
                 '#[A]=Ca', '#[A]C', '!#[A]>D', '[B]<10',
@@ -241,7 +243,7 @@ def filterRegtest():
                 "@[A]=Aa", ":[G]=@[A]", "@[]=Ad", "@[]=@[D]", "@[]=ad",
                 "?[]=15/5/2014-12", "?[]=?[G]", "?[G]=?[]", "[D]<?[]",
                 "#[G]>?[]", "#[F]>?[]",
-                "[H]=:[D]"
+                "[H]=:[D]", "[H]0.", "#[H]#[E]"
             ]:
         if Filter(tst, "Ad", "").evaluate(line, line[1]) is not True:
             bug("BUG13", tst, username="Ad", column_type="Text")
