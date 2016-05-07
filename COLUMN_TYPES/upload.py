@@ -139,12 +139,12 @@ def save_file(server, page, column, lin_id, data, filename):
         n = copy_stream(data, f)
         data.close() # Free FieldStorage
 
-    server.the_file.write('- <span>%s %s</span>\n' %
+    server.the_file.write('<br><span>%s %s</span>\n' %
                           (server._("MSG_upload_size"), n))
 
     magic = subprocess.check_output(["file", "--mime", file_path])
     magic = magic.decode("utf-8").split(": ", 1)[1].strip()
-    server.the_file.write('- <span>%s %s<span>\n'
+    server.the_file.write('<br><span>%s %s<span>\n'
                           % (server._("MSG_upload_type"), html.escape(magic)))
     table.lock()
     try:

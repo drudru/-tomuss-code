@@ -42,7 +42,7 @@ function iframe_write(iframe, hook, content)
   iframew.document.close();
 }
 
-function upload_popup(t, ue, col_id, lin_id)
+function upload_popup(t, ue, col_id, lin_id, title)
 {
   function upload_file_choosed(t)
   {
@@ -52,6 +52,11 @@ function upload_popup(t, ue, col_id, lin_id)
     t.parentNode.appendChild(div) ;
     t.nextSibling.value = t.value ;
     t.parentNode.submit() ;
+    try {
+      if ( url_suivi === undefined )
+	return ;
+      }
+    catch(e) { return ; }
     unload = document.createElement('IMG') ;
     unload.src = url_suivi + '/=' + ticket + '/unload/' + ue ;
     unload.width = unload.height = 1 ;
@@ -79,41 +84,63 @@ function upload_popup(t, ue, col_id, lin_id)
 	}
       }
   }
-
+  var width = 24 ; // em
   var pos = findPos(t) ;
   var div = document.createElement('DIV') ;
   div.style.position = "absolute" ;
   div.style.left = pos[0] + "px" ;
   div.style.top = pos[1] + "px" ;
   div.style.background = "#FFF" ;
-  div.style.width = "20em" ;
-  div.style.height = "17em" ;
+  div.style.width = width + 'em' ;
   div.style.border = "4px solid red" ;
   div.style.zIndex = 100000 ;
   div.style.opacity = 0.9 ;
   div.innerHTML = '<button style="float:right;margin:0px" onclick="the_body.removeChild(this.parentNode)">×</button>'
-    + '<span style="font-size: 150%">' + _("MSG_upload_new") + '</span>' ;
+    + '<span style="font-size: 150%">' + _("MSG_upload_new") + '</span>'
+    + (title ? title : '') ;
+  the_body.appendChild(div) ;
+  var free_right = window_width() - (div.offsetWidth + div.offsetLeft) ;
+  if ( free_right < 0 )
+     div.style.left  = (div.offsetLeft + free_right) + 'px' ;
 
   var iframe = document.createElement('IFRAME') ;
-  iframe.style.width = iframe.style.height = "100%" ;
+  iframe.style.width = (width - 0.5) + 'em' ;
+  iframe.style.height = "15em" ;
   div.appendChild(iframe) ;
-  the_body.appendChild(div) ;
-  iframe_write(iframe, upload_file_choosed,
-      '<form action="'+ url + '/=' + ticket + '/' + year + '/' + semester
+  iframe_write(iframe,
+	       upload_file_choosed,
+	       '<body style="width:' + (width - 1) + 'em">'
+      + '<form action="'+ url + '/=' + ticket + '/' + year + '/' + semester
       + '/' + ue + '/upload_post/' + col_id + '/' + lin_id
       + '" method="POST" enctype="multipart/form-data">'
       + _('MSG_upload_file')
       + '<br>'
       + '<input type="file" name="data" onchange="upload_file_choosed(this)">'
       + '<input type="text" name="filename" hidden=1><br>'
-      + DisplayGrades.column.upload_max + "KB " + _("Maximum")
+      + (t == the_current_cell.input ?
+	 the_current_cell.column.upload_max : DisplayGrades.column.upload_max)
+	       + "KB " + _("Maximum")
       + '</form>') ;
 }
 
 function upload_double_click(value)
 {
   if ( value === '' )
-    return value ;
+    {
+      var ok = the_current_cell.cell.changeable(the_current_cell.line,
+						the_current_cell.column) ;
+      if ( ok !== true )
+	{
+	  alert(ok) ;
+	  return value ;
+	}
+      upload_popup(the_current_cell.input, ue,
+		   the_current_cell.column.the_id, the_current_cell.line_id,
+		   '→' + html(the_current_cell.column.title) + '<br>'
+		   + html(the_current_cell.line[1].value + ' '
+			  + the_current_cell.line[2].value)) ;
+      return value ;
+    }
   var more = "" ;
   if ( the_current_cell.cell.history.indexOf("·") != -1 )
     {
@@ -155,7 +182,8 @@ function upload_format_suivi()
 	'<a class="clickable" style="color:blue" onclick="upload_popup(this,'
 	  + js2(DisplayGrades.ue.ue)
 	  + ',' + js2(DisplayGrades.column.the_id)
-	  + ',' + js2(DisplayGrades.ue.line_id) + ')">'
+	  + ',' + js2(DisplayGrades.ue.line_id)
+	  + ',' + js2('→' + DisplayGrades.column.title) + ')">'
 	  + (empty
 	     ? _('MSG_upload_new')
 	     : _('MSG_upload_change')
