@@ -136,9 +136,19 @@ check_requests('column_attr_cell_writable/1_0/%5BA%5D=%20%7C%20@%5B%5D=test') ;
 if ( column.type != 'Note' )
   error(column.type) ;
 
+// Is the cell content writable
+
+c = lines['lin_0'][6].changeable(lines['lin_0'], column)
+if ( c !== true )
+  error("Cell not changeable: " + c) ;
+
 // Set bad value in the new column
 
 cell_set_value_real("lin_0", 6, "x") ;
+
+if ( lines['lin_0'][6].value !== '' )
+  error("Cell changed!") ;
+
 check_requests('') ;
 check_alerts('x' + _("ALERT_bad_grade") + "[0;20]\n"
 	     + "I(INJLEAVE), J(JUSLEAVE), C(CANTGRADE), W(WNGIVEN)") ;

@@ -506,8 +506,9 @@ class Filter:
                 return FilterTrue(), ''
         elsewhere = from_another_column(string, self.errors, columns)
         if elsewhere is None:
+            string, operator = search_operator(string)
             left = CellAttrCell(attr)
-            if attr == 'value':
+            if attr == 'value' and operator[0] == '':
                 left = CellAttrAsFixed(left)
         else:
             data_col, string = elsewhere
@@ -518,11 +519,12 @@ class Filter:
                     left = CellAttrConstSeconds()
                 else:
                     return FilterFalse(), ''
+                string, operator = search_operator(string)
             else:
+                string, operator = search_operator(string)
                 left = CellAttrOther(data_col, attr)
-                if attr == 'value':
+                if attr == 'value' and operator[0] == '':
                     left = CellAttrAsFixed(left)
-        string, operator = search_operator(string)
         value = ''
         protected = False
         i = 0

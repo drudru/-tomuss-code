@@ -1542,7 +1542,7 @@ cell_change(1,'0_2','ticket_time_to_live','%d',"")
 
         # For the teacher
         c = s.url('=' + abj + '/%s/UE-modifcol' % ys + '/cell/C/0_1/'+_("yes"))
-        assert('red' in c)
+        assert('green' in c)
         c = s.url('=' + abj + '/%s/UE-modifcol' % ys + '/cell/A/0_1/'+_("yes"))
         assert('green' in c)
         c = s.url('=' + abj + '/%s/UE-modifcol' % ys + '/cell/B/0_1/'+_("yes"))

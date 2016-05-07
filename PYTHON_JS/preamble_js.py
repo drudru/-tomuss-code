@@ -170,6 +170,8 @@ def to_float(txt):
     return n
 
 def as_fixed(t):
+    if t == '':
+        return t
     v = Number(t)
     if isNaN(v):
         return t

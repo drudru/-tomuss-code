@@ -514,8 +514,7 @@ class Column(object):
         """From 'suivi' by student or teacher"""
         return (self.table.modifiable
                 # Commented because always modifiable from the table editor
-                # and self.modifiable
-                # and (teacher or self.modifiable == 2)
+                and (self.modifiable == 2 or teacher)
                 and self.table.authorized(ticket.user_name, cell, column=self)
                 )
 
