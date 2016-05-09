@@ -329,7 +329,7 @@ class Template(object):
                 if name not in files.files:
                     path = list(self.splited)
                     path[-1] = name
-                    files.add(*path)
+                    str(files.add(*path))
                 self.headers += {
                     ".css":
                     '<link rel="stylesheet" href="{}/{}" type="text/css">',
@@ -2118,17 +2118,7 @@ def check_down_connections():
         # This is done here, because testing this once per minute is fine.
         # Force rewrite of modified files in TMP/version/file
         # These files can be used by a static file server
-        for f in files.files.values():
-            if 'image' not in f.mimetype:
-                try:
-                    str(f)
-                except :
-                    pass
-            else :
-                try:
-                    f.bytes()
-                except OSError:
-                    pass
+        files.update_static_files()
 
         time.sleep(configuration.check_down_connections_interval)
         for ttable in tables_values():

@@ -33,7 +33,7 @@ def add(*args):
         files[filename].append_text = old.append_text
         files[filename].replace_text = old.replace_text
         files[filename].clear_cache()
-        str(files[filename]) # XXX It does not work without this !
+        str(files[filename]) # Store the static file for the web server
     return files[filename]
 
 def append(filename, key, content):
@@ -42,6 +42,7 @@ def append(filename, key, content):
         files[filename] = utilities.StaticFile(os.path.join("FILES",
                                                             "bad.png"))
     files[filename].append(key, content)
+    utilities.start_job(update_static_files, 1)
 
 for name in (
     'style.css', 'display.css', 'display.js',
@@ -95,11 +96,19 @@ files['lib.js'].append('files.py',
                        + utilities.js(configuration.semesters_color) + ';\n'
                        )
 
-# Array.prototype.jsify
-# Array Remove en double
-# _setup_array_prototype();
-
-# Array.prototype.issubset
-
 add('PYTHON_JS', 'tomuss_python.js')
 files['utilities.js'].append('files.py', files['tomuss_python.js'])
+
+def update_static_files():
+    for f in files.values():
+        if 'image' not in f.mimetype:
+            try:
+                str(f)
+            except :
+                pass
+        else :
+            try:
+                f.bytes()
+            except OSError:
+                pass
+

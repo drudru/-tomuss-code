@@ -29,7 +29,7 @@ from . import abj
 from . import configuration
 from . import utilities
 from . import document
-from .files import files
+from . import files
 from . import ticket
 from . import sender
 
@@ -61,9 +61,9 @@ class MyRequestBroker(utilities.FakeRequestHandler):
 
     def send_file(self, name):
         # print self.headers
-        if name not in files:
+        if name not in files.files:
             return
-        s = files[name]
+        s = files.files[name]
         content = s.get_zipped()
         self.send_response(200)
         if len(content) < 100 or 'image' in s.mimetype:
@@ -149,10 +149,10 @@ class MyRequestBroker(utilities.FakeRequestHandler):
             return
 
         if (self.path.startswith('/files/' + configuration.version)
-            or self.path != '/' and self.path[1:] in files
+            or self.path != '/' and self.path[1:] in files.files
             ):
             name = self.path.split("/")[-1]
-            if name in files:
+            if name in files.files:
                 self.send_file(name)
                 self.log_time('static-file')
             return
@@ -164,7 +164,7 @@ class MyRequestBroker(utilities.FakeRequestHandler):
             self.send_header('Cache-Control', 'no-store')
             self.send_header('Content-Type', 'image/png')
             self.end_headers()
-            self.wfile.write(files['ok.png'].bytes())
+            self.wfile.write(files.files['ok.png'].bytes())
             self.log_time('status')
             return
 
@@ -236,7 +236,7 @@ class MyRequestBroker(utilities.FakeRequestHandler):
             try:
                 if 'plugin' in self.__dict__:
                     if self.plugin.mimetype == 'image/png':
-                        self.wfile.write(files['bug.png'].bytes())
+                        self.wfile.write(files.files['bug.png'].bytes())
                     else:
                         self.wfile.write(b'There is a bug')
                 else:
@@ -326,6 +326,7 @@ if __name__ == "__main__":
 
     from . import display
     display.init()
+    files.update_static_files()
 
     # While there is an updating table, there is many messages
     # Wait the end of the flow
