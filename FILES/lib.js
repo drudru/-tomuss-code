@@ -1258,7 +1258,10 @@ function column_list(col_offset, number_of_cols)
   freezed.sort(function(a,b) {return a.position - b.position ;}) ;
   cl.sort(function(a,b) {return a.position - b.position ;}) ;
 
-  return freezed.concat(cl.slice(col_offset, col_offset + number_of_cols - freezed.length));
+  if ( number_of_cols > freezed.length )
+    return freezed.concat(cl.slice(col_offset,
+				   col_offset + number_of_cols - freezed.length));
+  return freezed ;
 }
 
 /* This function is used by CSV and print
