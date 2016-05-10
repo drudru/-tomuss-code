@@ -465,8 +465,10 @@ function DisplayUETitle(node)
 			  + login_to_id(display_data['Login'])
 			  + '=" target="_blank">*</a>)',
 			  _("MSG_cell_one_line")) ;
+      return '<a name="' + ue.ue + '">' + title + '</a>' ;
     }
-  return '<a name="' + ue.ue + '">' + title + '</a>' ;
+  else
+      return '<a tabindex="0" name="' + ue.ue + '">' + title + '</a>' ;
 }
 DisplayUETitle.need_node = [] ;
 
@@ -811,7 +813,8 @@ function DisplayCellBox(node)
 	  display_saved[display_saved_nr][5] = display_saved[display_saved_nr][5]
 	    .replace("<ul", html(DisplayGrades.column.test_filter) + '<ul') ;
 	}
-      more = 'onmousemove="display_cellbox_tip(event,'
+      more = 'tabindex="0" onfocus="display_cellbox_tip(event,'
+	+ display_saved_nr + ');" onmousemove="display_cellbox_tip(event,'
 	+ display_saved_nr + ');" onmouseenter="display_cellbox_tip(event,'
 	+ display_saved_nr + ');"' ;
       display_saved_nr++ ;
@@ -1066,7 +1069,7 @@ function DisplayLastGrades(node)
 	}
       if ( max !== "" )
 	max = '<span style="font-size:60%">' + max + "</span>" ;
-      t.push('<div onmouseover="goto_cellbox(this)" onmouseout="ungoto_cellbox(this)" class="Display a_grade">'
+      t.push('<div tabindex="0" onmouseover="goto_cellbox(this)" onmouseout="ungoto_cellbox(this)" class="Display a_grade">'
 	     + ue.ue
 	     + '<br>' + html(column.title || '???')
 	     + '<br><span>' + html(cell[0]) + max + "</span></div>") ;
