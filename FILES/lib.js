@@ -4398,6 +4398,9 @@ function html_begin_head()
   
   return [
      '<html><head>',
+     '<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />',
+     '<meta charset="utf-8">',
+     '<META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=UTF-8">',
      '<link rel="stylesheet" href="_FILES_/style.css" type="text/css">',
      '<script src="_FILES_/utilities.js" onload="this.onloadDone=true;">',
      '</script>',
