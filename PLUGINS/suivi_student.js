@@ -321,7 +321,8 @@ function DisplayExplanationPopup()
 
 function DisplayExplanation(node)
 {
-  return ['?', 'clickable', '', 'onclick="DisplayExplanationPopup()"'] ;
+  return hidden_txt('<a href="javascript:DisplayExplanationPopup()">?</a>',
+		    _("COL_TITLE_explanations")) ;
 }
 // DisplayExplanation.need_node = [] ;
 
@@ -393,7 +394,8 @@ function DisplayPreferences(node)
   for(var item in node.data)
     if ( node.data[item] === undefined )
       node.data[item] = 0 ;
-  return ['≡', 'clickable', '', 'onclick="DisplayPreferencesPopup()"'] ;
+  return hidden_txt('<a href="javascript:DisplayPreferencesPopup()">≡</a>',
+		    _("LABEL_preferences")) ;
 }
 DisplayPreferences.need_node = ['Preferences', 'Login'] ;
 
