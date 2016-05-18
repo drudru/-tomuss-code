@@ -818,6 +818,32 @@ function create_tabs(name, tabs, more)
   return s.join('') ;
 }
 
+function update_column_position_menu()
+{
+  var t = document.getElementById('t_column_position') ;
+  if ( ! t )
+    return ;
+  var option ;
+  while( t.firstChild )
+    t.removeChild(t.firstChild) ;
+  var cols = column_list(0, columns.length) ;
+  for(var i in cols)
+    {
+      var column = cols[i] ;
+      if ( i > 0 && column != the_current_cell.column )
+	{
+	  option = document.createElement('option') ;
+	  option.innerHTML = html(column.title) ;
+	  option.value = (column.position + cols[i-1].position) / 2 ;
+	  t.appendChild(option) ;
+	  if ( cols[i-1] == the_current_cell.column )
+	    option.selected = true ;
+	}
+      if ( column.is_empty && column != the_current_cell.column  )
+	break ;
+    }
+}
+
 function select_tab(name, tab, gui)
 {
   var tabs = document.getElementById(name) ;
@@ -1009,12 +1035,21 @@ function new_new_interface()
 			  + ' empty beforeclass=greentext')) ;
   t.push('</div>') ;
   t.push('<div class="one_line" style="text-align:center">') ;
-  t.push(hidden_txt('<img src="_FILES_/prev.gif" style="height:1em" onclick="do_move_column_left();GUI.add(\'column_position\',\'\',\'left\')">',
-		    _("TIP_column_move_left"))) ;
-  t.push(hidden_txt(_("TITLE_column_attr_position"),
-		    _("TIP_column_local_attr"),"","column_attr_position")) ;
-  t.push(hidden_txt('<img src="_FILES_/next.gif" style="height:1em" onclick="do_move_column_right();GUI.add(\'column_position\',\'\',\'right\')">',
-		    _("TIP_column_move_right"))) ;
+
+  if ( true )
+    {
+      t.push(_("BEFORE_column_attr_position")) ;
+      t.push(column_input_attr('position', [])) ;
+    }
+  else
+    {
+      t.push(hidden_txt('<img src="_FILES_/prev.gif" style="height:1em" onclick="do_move_column_left();GUI.add(\'column_position\',\'\',\'left\')">',
+			_("TIP_column_move_left"))) ;
+      t.push(hidden_txt(_("TITLE_column_attr_position"),
+			_("TIP_column_local_attr"),"","column_attr_position")) ;
+      t.push(hidden_txt('<img src="_FILES_/next.gif" style="height:1em" onclick="do_move_column_right();GUI.add(\'column_position\',\'\',\'right\')">',
+			_("TIP_column_move_right"))) ;
+    }
   t.push('&nbsp;') ;
   /*
   t.push('</div>') ;

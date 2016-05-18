@@ -27,9 +27,7 @@ class ColumnPosition(ColumnAttr):
     check_and_set = 'test_float'
     def encode(self, value):
         return float(value)
-    action = 'save_position_column'
-    gui_display = "GUI_a"
-    strokable = 0
+    gui_display = "GUI_select"
     update_table_headers = 1
     display_table = 1
     propagate = 0

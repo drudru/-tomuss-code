@@ -488,6 +488,13 @@ msgstr "<b>Colorie en rouge</b> les cellules contenant<br>\n"
  "    une valeur inférieure à celle indiquée.<br>\n"
  "    On peut utiliser un filtre quelconque !"
 
+ #. Attribute Tip
+msgid "TIP_column_attr_position"
+msgstr "<b>Change la position de la colonne</b><br>"
+       "Si vous êtes autorisé à changer cette valeur,<br>\n"
+       "le changement sera persistent et<br>\n"
+       "visible par les autres utilisateurs"
+
 #. Attribute Tip
 msgid "TIP_column_attr_delete"
 msgstr "<b>Détruit cette colonne</b> si elle est vide.<br>\n"
@@ -1010,6 +1017,10 @@ msgstr "Rougir"
 #. Label before the attribute
 msgid "BEFORE_column_attr_green"
 msgstr "Verdir"
+
+#. Label before the attribute
+msgid "BEFORE_column_attr_position"
+msgstr "À gauche de"
 
 #. Label before the attribute
 msgid "BEFORE_column_attr_empty_is"

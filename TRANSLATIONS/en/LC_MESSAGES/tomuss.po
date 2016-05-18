@@ -497,6 +497,12 @@ msgstr ""
 "A generic filter can be used."
 
 #. Attribute Tip
+msgid "TIP_column_attr_position"
+msgstr "<b>Set the column position</b><br>\n"
+       "If you are authorized to change the value,<br>\n"
+       "then the change will be visible to other users."
+
+#. Attribute Tip
 msgid "TIP_column_attr_delete"
 msgstr ""
 "<b>Delete this column</b> if it is empty.<br>\n"
@@ -1016,6 +1022,10 @@ msgstr "Red coloring"
 #. Label before the attribute
 msgid "BEFORE_column_attr_green"
 msgstr "Green coloring"
+
+#. Label before the attribute
+msgid "BEFORE_column_attr_position"
+msgstr "Left of"
 
 #. Label before the attribute
 msgid "BEFORE_column_attr_empty_is"

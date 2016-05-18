@@ -2086,6 +2086,8 @@ Current.prototype.update_headers_real = function()
     }
   // Update hidden columns menu
   update_hiddens_menu() ;
+  // Update left of menu
+  update_column_position_menu() ;
 } ;
 
 Current.prototype.update_headers = function()
