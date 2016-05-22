@@ -200,7 +200,7 @@ function detect_small_screen(force)
   smallscreen = top_class.indexOf('hide_right_column_1') != -1 ;
   detect_small_screen.small_screen = smallscreen ;
   var twidth = window_width() - (smallscreen
-				? 100
+				? 110
 				 : (detect_small_screen.initial_width + 30)
 				) ; // +30 for FireFox
   if ( twidth > 100 )
