@@ -1,14 +1,49 @@
 // -*- coding: utf-8; mode: Java; c-basic-offset: 2; tab-width: 8; -*-
 
+
+function DisplayUEGradesInit(ue)
+{
+  table_attr = ue ;
+  line = [] ;
+  for(var i in ue.line)
+    {
+      i = ue.line[i] ;
+      line.push(C(i[0], i[1], i[2], i[3])) ;
+    }
+  ue.line_real = line ;
+  columns = [] ;
+  for(var i in ue.columns)
+    columns.push(Col(ue.columns[i])) ;
+
+  for(var data_col in columns)
+    {
+      init_column(columns[data_col]) ;
+      columns[data_col].data_col = data_col ;
+    }
+  DisplayGrades.table_attr = ue ;
+}
+
+
 /* To send the cell change and feedback */
 
 function _cell(s, url)
 {
   var url_s = url.split('/') ;
   var ue = url_s[url_s.length-4] ;
-
-  var new_s = DisplayGrades.column.real_type.cell_test(s.value,
-						       DisplayGrades.column) ;
+  var grades = display_data["Grades"][0] ;
+  table_attr = undefined ;
+  for(var i in grades)
+    {
+      if ( grades[i].ue == ue )
+	{
+	  DisplayUEGradesInit(grades[i]) ;
+	  break ;
+	}
+    }
+  var col_id = url_s[url_s.length-2] ;
+  var data_col = data_col_from_col_id(col_id) ;
+  var column = columns[data_col] ;
+  var new_s = column.real_type.cell_test(s.value, column) ;
   if ( new_s !== undefined )
     s.value = new_s ;
 
@@ -18,6 +53,7 @@ function _cell(s, url)
 
   if ( DisplayGrades.html_object )
     {
+      // The DisplayGrades attributes are initialised by 'display_cellbox_tip'
       DisplayGrades.table_attr.line[DisplayGrades.column.data_col][0] = s.value;
       var e = document.createElement("DIV") ;
       DisplayGrades.no_hover = false ;
@@ -865,27 +901,9 @@ var columns, line ;
 function DisplayUEGrades(node)
 {
   var ue = DisplayGrades.ue ;
-  table_attr = ue ;
-  line = [] ;
-  for(var i in ue.line)
-    {
-      i = ue.line[i] ;
-      line.push(C(i[0], i[1], i[2], i[3])) ;
-    }
-  ue.line_real = line ;
-  columns = [] ;
-  for(var i in ue.columns)
-    columns.push(Col(ue.columns[i])) ;
-  
-  for(var data_col in columns)
-    {
-      init_column(columns[data_col]) ;
-      columns[data_col].data_col = data_col ;
-    }
-  // update_columns(line);
-
-  DisplayGrades.table_attr = ue ;
+  DisplayUEGradesInit(ue) ;
   DisplayGrades.ue_node = node ;
+
   var s = '' ;
   var ordered_columns = column_list_all() ;
   for(var data_col in ordered_columns)
@@ -1000,13 +1018,10 @@ function cell_visibility_date(cell, column)
     return column_visible_date ;
 }
 
-function DisplayLastGrades(node)
+function DisplayLastGradesList(time_limit)
 {
-  if ( is_a_teacher )
-    return '' ;
   var grades = display_data['Grades'][0] ;
   var s = [] ;
-  var one_week = millisec() - 7*24*3600000 ;
   
   for(var ue in grades)
     {
@@ -1017,18 +1032,27 @@ function DisplayLastGrades(node)
 	  if ( cell[0] === '' )
 	    continue ;
 	  if ( cell_visibility_date(cell, ue.columns[data_col]).getTime()
-	       < one_week )
+	       < time_limit )
 	    continue ;
 	  if ( cell[1].length < 2 )
 	    continue ; // System value
 	  s.push([ue, data_col]) ;
 	}
     }
-  if ( s.length == 0 )
-    return '' ;
   s.sort(function(a, b) {
       return a[0].line[a[1]][2] < b[0].line[b[1]][2] ? 1 : -1
 	}) ;
+  return s ;
+}
+
+function DisplayLastGrades(node)
+{
+  if ( is_a_teacher )
+    return '' ;
+  var one_week = millisec() - 7*24*3600000 ;
+  var s = DisplayLastGradesList(one_week) ;
+  if ( s.length == 0 )
+    return '' ;
   var t = [] ;
   var today = new Date() ;
   today.setHours(0) ;
@@ -1119,7 +1143,7 @@ function DisplayYearSemester(node)
 }
 DisplayYearSemester.need_node = [] ;
 
-function DisplaySemesters(node)
+function DisplaySemesters(node, textual)
 {
   var y = '9999' ;
   for(var ys in node.data)
@@ -1131,30 +1155,42 @@ function DisplaySemesters(node)
   var t = [], highlight ;
   do
     {
-      if ( s == semesters[0] )
-	t.push('</tr><tr><td>' + y + '</td>') ;
-      if ( y == year && s == semester)
-	highlight = ' style="background: #FF0"' ;
+      if ( textual )
+	{
+	  t.push('<p><a href="' + node.data[y + '/' + s]
+		 + '/=' + ticket + '/' + display_data['Login'] + '/*">'
+		 + y + ' ' + s + '</a>'
+		 ) ;
+	}
       else
-	highlight = '' ;
-
-      if (is_a_teacher)
-	icone = '<img class="icone" src="' + node.data[y + '/' + s]
-	  + '/=' + ticket + '/_' + display_data['Login'] + '">' ;
-      else
-	icone = '' ;
-      if ( node.data[y + '/' + s] )
-	t.push('<td' + highlight + '><a href="' + node.data[y + '/' + s]
-	       + '/=' + ticket + '/' + display_data['Login'] + '">'
-	       + icone + s + '</a></td>') ;
-      else
-	t.push('<td>&nbsp;</td>') ;
+	{
+	  if ( s == semesters[0] )
+	    t.push('</tr><tr><td>' + y + '</td>') ;
+	  if ( y == year && s == semester)
+	    highlight = ' style="background: #FF0"' ;
+	  else
+	    highlight = '' ;
+	  
+	  if (is_a_teacher)
+	    icone = '<img class="icone" src="' + node.data[y + '/' + s]
+	      + '/=' + ticket + '/_' + display_data['Login'] + '">' ;
+	  else
+	    icone = '' ;
+	  if ( node.data[y + '/' + s] )
+	    t.push('<td' + highlight + '><a href="' + node.data[y + '/' + s]
+		   + '/=' + ticket + '/' + display_data['Login'] + '">'
+		   + icone + s + '</a></td>') ;
+	  else
+	    t.push('<td>&nbsp;</td>') ;
+	}
 
       ys = next_year_semester(y, s) ;
       y = ys[0] ;
       s = ys[1] ;
     }
   while(node.data[y + '/' + s] || s != semesters[0]) ;
+  if ( textual )
+    return t.join('')
   return '<table class="tomuss_links colored">'
     + '<tr><th colspan="3">'
     + hidden_txt(_("MSG_suivi_student_semesters"),
@@ -1528,3 +1564,227 @@ function DisplaySetReferent(node)
     + _("MSG_suivi_student_set_referent") + '</a></div>' ;
 }
 DisplayAdvertising.need_node = ['SetReferent', 'Login'] ;
+
+function DisplayToTextual(node)
+{
+  return '<a href="' + display_data['Login']
+    + '/*" style="color: #FFF">😎<span style="font-size: 0.1px; opacity: 0.1">'
+    + _("MSG_T_to_textual") + '</span></a>' ;
+}
+DisplayToTextual.need_node = ['Login'] ;
+
+function DisplayT_Title(node)
+{
+  the_body.className = 'textual' ;
+  return year + ' ' + semester + ', '
+    + display_data['T_Names'][0] + ' '
+    + display_data['T_Names'][1] + ', '
+    + display_data['T_Login'] + ', '
+    + display_data['T_Names'][2] ;
+}
+DisplayT_Title.need_node = ['T_Names', 'T_Login'] ;
+
+function DisplayT_Message(node)
+{
+  return '<section><h2>' + html(node.data) + '</h2></section>' ;
+}
+
+function DisplayT_Messages(node)
+{
+  var m = DisplayMessages(node) ;
+  if ( ! m )
+    return '' ;
+  return  '<section><h2>' + _("MSG_T_Messages") + '</h2>' + m + '</section>' ;
+}
+DisplayT_Messages.need_node = ['Abjs'] ;
+
+function DisplayT_Grades_Lasts(node)
+{
+  display_data['Grades'] = display_data['T_Grades'] ; // Compatibility
+  var one_month = millisec() - 30*24*3600000 ;
+  var s = DisplayLastGradesList(one_month) ;
+  var t  = [] ;
+  for(var i in s)
+    {
+      DisplayUEGradesInit(s[i][0]) ;
+      DisplayGrades.ue = s[i][0] ;
+      DisplayGrades.column = columns[s[i][1]] ;
+      t.push(DisplayT_Grades_Cell()) ;
+    }
+  return '<section><h2>' + _("MSG_T_last_grades") + '</h2>' + t.join("")
+    + '</section>' ;
+}
+DisplayT_Grades_Lasts.need_node = ['T_Grades'] ;
+
+var translated_acronyms = ["abi", "abj", "pre", "tnr", "ppn"] ;
+
+function DisplayT_Grades_Cell()
+{
+  var column = DisplayGrades.column ;
+  DisplayGrades.cell = line[column.data_col] ;
+  DisplayGrades.value = DisplayGrades.cell.value ;
+  if ( DisplayGrades.value === '' )
+    DisplayGrades.value = column.empty_is ;
+  if ( DisplayGrades.value === '' && !cell_modifiable_on_suivi() )
+    return '' ;
+  DisplayGrades.cellstats = DisplayGrades.ue.stats[column.the_id] ||{};
+  var sep = '<p>' ;
+  var formula = '' ;
+  var cellstats = DisplayGrades.cellstats ;
+  var cell = DisplayGrades.cell ;
+  if ( column.average_from && column.average_from.length )
+    {
+      formula = [] ;
+      for(var i in column.average_columns)
+	{
+	  var col = columns[column.average_columns[i]] ;
+	  var s = html(col.title).replace(/[-_]/g, " ") ;
+	  if ( column.type == 'Moy' )
+	    s += ' ' + _("MSG_T_weight") + ' ' + col.weight ;
+	  formula.push(s) ;
+	}
+      formula = sep + _('B_' + column.type) + ' : ' + formula.join(', ') ;
+    }
+  var formatted = column.real_type.formatte_suivi()
+    .replace(RegExp('>/([0-9])'), '>' + _('MSG_T_on') + '$1')
+    .replace(/0*<small/g, '<small')
+    .replace(/[.]<small/g, '<small') ;
+  if ( ! cell_modifiable_on_suivi() )
+    { //  PRST → Present
+      for(var i in translated_acronyms)
+	formatted = formatted.replace(RegExp(_(translated_acronyms[i])),
+				      _('MSG_T_' + translated_acronyms[i])) ;
+    }
+ 
+  return '<section><h4>' + html(column.title.replace(/[-_]/g, ' '))
+    + ' : ' + formatted + '</h4>'
+    + (column.comment
+       ? sep + _('MSG_T_column_comment') + ' '
+       + html(column.comment)
+       : '')
+    + (cell.comment
+       ? sep + _('MSG_T_cell_comment') + ' ' + html(cell.comment)
+       : '')
+    + (cell.author.length > 1
+       ? sep + _('MSG_T_cell_author')+' '+html(cell.author.replace(/[.]/, ' '))
+       : '')
+    + (cell.author.length > 1
+       ? sep + _('MSG_T_cell_date') + ' ' + date_full(cell.date)
+       : '')
+    + formula
+    + (cellstats && column.real_weight_add && cellstats.rank !== undefined
+       ? sep + _('MSG_T_rank_global') + ' ' + (cellstats.rank+1)
+       + _('MSG_T_on') + DisplayGrades.cellstats.nr
+       : '')
+    + (cellstats && column.real_weight_add && cellstats.rank_grp !== undefined
+       && cellstats.nr_in_grp != cellstats.nr
+       ? sep + _('MSG_T_rank_group')
+       + ' ' + (cellstats.rank_grp+1)
+       + _('MSG_T_on') + cellstats.nr_in_grp
+       : '')
+    + (cellstats && cellstats.average !== undefined
+       ? sep + _('MSG_T_average') + ' ' + cellstats.average.toFixed(2)
+       + sep + _('MSG_T_mediane') + ' ' + cellstats.mediane.toFixed(2)
+       : '')
+    + '</section>'
+    ;
+}
+
+
+function DisplayT_Grades(node)
+{
+  display_data['Grades'] = display_data['T_Grades'] ; // Compatibility
+  var grades = display_data['T_Grades'][0] ;
+  var u = [] ;
+  for(var ue in grades)
+    {
+      ue = grades[ue] ;
+      DisplayGrades.ue = ue ;
+      DisplayUEGradesInit(ue) ;
+      var ordered_columns = column_list_all() ;
+      var g = [] ;
+      for(var data_col in ordered_columns)
+	{
+	  data_col = ordered_columns[data_col] ;
+	  if ( data_col < 3 )
+	    continue ;
+	  if ( columns[data_col].freezed == "C" )
+	    continue ;
+	  DisplayGrades.column = columns[data_col] ;
+	  g.push(DisplayT_Grades_Cell()) ;
+	}
+      u.push('<section><h3>' + ue.ue + ' ' + html(ue.table_title)
+	     + (ue.masters.length != 0
+		? ', ' + _("MSG_T_masters") + ' ' + DisplayUEMasters()
+		: '')
+	     + '</h3>'
+	     + '<a name="' + ue.ue + '">' + g.join('') + '</a></section>') ;
+    }
+  u.sort() ;
+
+  return '<section><h2>' + _("MSG_T_UEs") + '</h2>' + u.join("") +'</section>';
+}
+DisplayT_Grades.need_node = ['T_Grades'] ;
+
+function DisplayT_Abjs(node)
+{
+  display_data['Abjs'] = display_data['T_Abjs'] ; // Compatibility
+  var m = DisplayAbjs(node) ;
+  if ( m )
+    return '<section><h2>' + _("MSG_T_Abjs") + '</h2>' + m + '</section>';
+  else
+    return '' ;
+}
+
+function DisplayT_DA(node)
+{
+  display_data['DA'] = display_data['T_DA'] ; // Compatibility
+  var m = DisplayDA(node) ;
+  if ( m )
+    return '<section><h2>' + _("TITLE_abjtt_da")+'</h2>' + m + '</section>';
+  else
+    return '' ;
+}
+
+function DisplayT_TT(node)
+{
+  display_data['TT'] = display_data['T_TT'] ; // Compatibility
+  var m = DisplayTT(node) ;
+  if ( m )
+    return '<section><h2>' + _("MSG_suivi_student_tt") + '</h2>'
+      + m + '</section>' ;
+  else
+    return '' ;
+}
+
+function DisplayT_Semesters(node)
+{
+  display_data['Login'] = display_data['T_Login'] ; // Compatibility
+  display_data['Semesters'] = display_data['T_Semesters'] ; // Compatibility
+  var m = DisplaySemesters(node, true) ;
+  if ( m )
+    return '<section><h2>' + _("MSG_suivi_student_semesters")
+      + '</h2>' + m + '</section>' ;
+  else
+    return '' ;
+}
+DisplaySemesters.need_node = ['T_Semesters', 'T_Login'] ;
+
+function DisplayT_LinksTable(node)
+{
+  var s = [] ;
+  var content = node.children[0].children ;
+   for(var i in content)
+     {
+       c = display_display(content[i]) ;
+       if ( c !== '' )
+	 s.push(c.replace(/<div class=.(tipped|help)[^>]*>/g,
+			  '<div style="display:inline">')
+		.replace(/<div class="text">/g,
+			 ' : <div style="display:inline">') 
+		.replace(/(<div><.div>|<p>|<.p>)/g, '')) ;
+     }
+   return '<section><h2>' + _("MSG_T_informations") + '</h2>'
+     + s.join("<br>") + '</section>' ;
+}
+DisplayT_LinksTable.need_node = [] ;

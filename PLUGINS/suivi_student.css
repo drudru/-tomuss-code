@@ -1,4 +1,12 @@
 
+SECTION { margin-left: 1em }
+.textual P, .textual H1, .textual H2, .textual H3, .textual H4 {
+    white-space: nowrap
+}
+.textual H1, .textual H2, .textual H3, .textual H4 {
+    margin-bottom: 0.1em ;
+}
+
 /*********************** Normal CSS ***********************/
 
 BODY {

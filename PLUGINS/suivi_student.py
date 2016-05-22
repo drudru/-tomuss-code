@@ -349,13 +349,14 @@ D('Students'    , 'BodyLeft'  ,5, data=display_students)
 D('Tables'      , 'BodyLeft'  ,6, data=display_tables)
 
 D('Semesters'   , 'BodyRight' ,1, data=display_semesters)
-D('LinksTable'  , 'BodyRight' ,2)
+D('LinksTable'  , ['BodyRight', 'T_LinksTable'] ,2)
 D('Abjs'        , 'BodyRight' ,3, data=display_abjs)
 D('DA'          , 'BodyRight' ,4, data=display_da)
 D('TT'          , 'BodyRight' ,5, data=display_tt)
 D('MoreOnSuivi' , 'BodyRight' ,9, data=display_more_on_suivi)
 D('Advertising' , 'BodyRight',99, data=lambda server: configuration.advertising)
 
+D('ToTextual'   , 'User'      ,-10)
 D('Logo'        , 'User'      ,0, data=display_logo)
 D('YearSemester', 'User'      ,1.9)
 D('Reload'      , 'User'      ,2)
@@ -428,6 +429,24 @@ D('CellAvg'     , 'CellStatLine',1)
 D('CellType'    , 'CellTypeLine'      ,0)
 D('CellFormula' , 'CellTypeLine'      ,1)
 
+
+D('Textual'     , []          ,0, js="Vertical") # Fully linear textual page
+
+D('T_Title'     , 'Textual'   ,1)
+D('T_Login'     , 'T_Title'   ,1, data=display_login)
+D('T_Names'     , 'T_Title'   ,2, data=display_names)
+
+D('T_Message'     , 'Textual'   ,10, data=display_message)
+D('T_Messages'    , 'Textual'   ,20)
+D('T_Grades_Lasts', 'Textual'   ,30)
+D('T_Grades'      , 'Textual'   ,40, data=display_grades)
+D('T_Abjs'        , 'Textual'   ,50, data=display_abjs)
+D('T_DA'          , 'Textual'   ,60, data=display_da)
+D('T_TT'          , 'Textual'   ,70, data=display_tt)
+D('T_LinksTable'  , 'Textual'   ,80)
+D('T_Semesters'   , 'Textual'   ,90, data=display_semesters)
+
+
 def student_statistics(login, server, is_a_student=False, expand=False,
                        is_a_referent=False):
     utilities.warn('Start', what='table')
@@ -446,7 +465,10 @@ def student_statistics(login, server, is_a_student=False, expand=False,
         if server.suivi_question_html:
             return display.data_to_display(server, 'Question')
 
-    return display.data_to_display(server, 'Top')
+    if '*' in server.the_path:
+        return display.data_to_display(server, 'Textual')
+    else:
+        return display.data_to_display(server, 'Top')
 
 def page_tail(server):
     # Not in JS in case of multiple students on the same page

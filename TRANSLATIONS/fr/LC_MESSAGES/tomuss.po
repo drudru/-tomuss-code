@@ -6160,3 +6160,69 @@ msgstr "Le thème 'Semestre' utilise un affichage dépendant du semestre.<br>\n"
 
 msgid "MSG_theme"
 msgstr "Thèmes :"
+
+msgid "MSG_T_UEs"
+msgstr "Tous les cours"
+
+msgid "MSG_T_column_comment"
+msgstr "commentaire général :"
+
+msgid "MSG_T_cell_comment"
+msgstr "commentaire pour cette valeur :"
+
+msgid "MSG_T_cell_author"
+msgstr "saisie par"
+
+msgid "MSG_T_cell_date"
+msgstr "saisie le"
+
+msgid "MSG_T_masters"
+msgstr "responsables :"
+
+msgid "MSG_T_on"
+msgstr " sur "
+
+msgid "MSG_T_rank_global"
+msgstr "rang de la note,"
+
+msgid "MSG_T_rank_group"
+msgstr "rang de la note dans le groupe,"
+
+msgid "MSG_T_average"
+msgstr "moyenne des notes,"
+
+msgid "MSG_T_mediane"
+msgstr "médiane des notes,"
+
+msgid "MSG_T_weight"
+msgstr "avec un poids de"
+
+msgid "MSG_T_last_grades"
+msgstr "Dernières valeurs modifiées"
+
+msgid "MSG_T_Messages"
+msgstr "Messages de la scolarité"
+
+msgid "MSG_T_Abjs"
+msgstr "Liste des justificatifs d'absence"
+
+msgid "MSG_T_abi"
+msgstr "absence injustifiée"
+
+msgid "MSG_T_abj"
+msgstr "absence justifiée"
+
+msgid "MSG_T_pre"
+msgstr "présent"
+
+msgid "MSG_T_tnr"
+msgstr "travail non rendu"
+
+msgid "MSG_T_ppn"
+msgstr "impossible de noter"
+
+msgid "MSG_T_informations"
+msgstr "Informations et liens"
+
+msgid "MSG_T_to_textual"
+msgstr "Version du site pour lecteur écran"
