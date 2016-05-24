@@ -2257,7 +2257,7 @@ function login_list(name, x, current_value)
 
   var autoselect ;
   for(var ii in x)
-    if ( x[ii][0] == current_value )
+    if ( x[ii][0].substr(0, current_value.length) == current_value )
       {
 	autoselect = ii ;
 	break ;

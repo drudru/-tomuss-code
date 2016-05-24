@@ -2696,6 +2696,7 @@ Current.prototype.do_completion = function(backspace)
 	  for(var i in c)
 	    completions.push([c[i], "", "", "", c[i]]) ;
 	  completions.sort() ;
+          last = input.value ;
 	}
       else if ( this.column.completion )
 	{
