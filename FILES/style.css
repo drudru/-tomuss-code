@@ -113,7 +113,18 @@ BODY, TABLE TD, #current_input, TR.filter INPUT {
   font-family: sans-serif ;
   cursor: text ;
 }
-INPUT { cursor: text ; }
+INPUT {
+    cursor: text ;
+    background: #FFF ;
+    border: 1px solid #888 ;
+}
+
+SELECT {
+    border: 1px solid #888 ;
+    border-radius: 0.5em ;
+    vertical-align: top ;
+}
+
 A { text-decoration: none; }
 
 .clickable {
@@ -122,7 +133,6 @@ A { text-decoration: none; }
 .clickable:hover {
     text-decoration: underline ;
 }
-
 
 BODY H1 { font-size: 90% }
 
