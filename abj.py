@@ -296,9 +296,9 @@ def a_student(browser, year, semester, ticket, student):
     student = inscrits.login_to_student_id(student)
     html = """
 <link rel="stylesheet" href="%s/style.css" type="text/css">
-<body class="abj_body">
+<body class="themeG">
 <div id="student_display"><IMG src="%s"></div>
-""" % (configuration.server_url, configuration.picture(student, ticket))
+""" % (configuration.url_files, configuration.picture(student, ticket))
 
     html += "<A HREF=\"%s/%s\">%s</A>, <small>%s</small><SCRIPT>" % (
         configuration.suivi.url(year,semester,ticket.ticket),

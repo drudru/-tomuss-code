@@ -5,7 +5,7 @@
 
     <p>
       <script>Write("MSG_abj_student_id")</script>
-      <input id="student" type="text" maxlength="8" size="8" onkeyup="login_change();">
+      <input id="student" type="text" maxlength="8" size="8" onkeyup="login_change();" onmouseup="setTimeout(login_change,100);">
     </p>
     <!-- <object id="student_data" type="text/html" data=""></object> -->
     <iframe id="datasend">
@@ -22,8 +22,8 @@
 	<tr id="ampm"><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
       </tbody>
     </table>
-      <span id="startdate"><input id="start" type="text" size="13" onkeypress="update_button_real()" onkeyup="update_button_real()"><span class="arrow">&uarr;</span></span>
-      <span id="enddate"><span class="arrow">&uarr;</span><input id="end" type="text" size="13" onkeypress="update_button_real()" onkeyup="update_button_real()"></span>
+      <span id="startdate" style="line-height:1.5em"><input id="start" type="text" size="13" onkeypress="update_button_real()" onkeyup="update_button_real()"><span class="arrow">&uarr;</span></span>
+      <span id="enddate" style="line-height:1.5em"><span class="arrow">&uarr;</span><input id="end" type="text" size="13" onkeypress="update_button_real()" onkeyup="update_button_real()"></span>
     &nbsp;<br>
     &nbsp;<br>
     &nbsp;<br>
@@ -54,6 +54,8 @@ page = Number(page_id) ;
 baset = url + '/=' + ticket + '/' + year + '/' + semester + '/abj/' + page + '/' ;
 document.getElementById('h1').innerHTML += ' ' + semester + ' ' + year ;
 abj_init() ;
+the_body = document.getElementById("body") ;
+set_body_theme('Test') ;
 --></SCRIPT>
 
 <!-- do not remove the next lines: we need events if cursor is under date ruler -->
