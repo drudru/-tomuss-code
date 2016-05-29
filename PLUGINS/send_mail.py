@@ -80,10 +80,13 @@ def send_mail(server):
     good_mails = []
     for nb, recipient in enumerate(recipients):
         recipient = recipient.split("\002")
-        m = inscrits.L_slow.mail(recipient[0])
-        if m is None:
-            bad_mails.append(recipient[0])
-            continue
+        if '@' in recipient[0]:
+            m = recipient[0]
+        else:
+            m = inscrits.L_slow.mail(recipient[0])
+            if m is None:
+                bad_mails.append(recipient[0])
+                continue
         content = message
         the_subject = subject
         for title, value in zip(titles, recipient[1:]):
