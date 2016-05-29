@@ -1576,11 +1576,12 @@ DisplayToTextual.need_node = ['Login'] ;
 function DisplayT_Title(node)
 {
   the_body.className = 'textual' ;
-  return year + ' ' + semester + ', '
+  return '<title>TOMUSS</title>' + year + ' ' + semester + ', '
     + display_data['T_Names'][0] + ' '
     + display_data['T_Names'][1] + ', '
     + display_data['T_Login'] + ', '
-    + display_data['T_Names'][2] ;
+    + display_data['T_Names'][2] + '<br>'
+    + _("MSG_suivi_student_important") ;
 }
 DisplayT_Title.need_node = ['T_Names', 'T_Login'] ;
 
@@ -1649,21 +1650,30 @@ function DisplayT_Grades_Cell()
     .replace(RegExp('>/([0-9])'), '>' + _('MSG_T_on') + '$1')
     .replace(/0*<small/g, '<small')
     .replace(/[.]<small/g, '<small') ;
+  var column_comment = html(column.comment) ;
+  var comment = html(cell.comment) ;
   if ( ! cell_modifiable_on_suivi() )
-    { //  PRST → Present
+    {
+      //  PRST → Present
       for(var i in translated_acronyms)
 	formatted = formatted.replace(RegExp(_(translated_acronyms[i])),
 				      _('MSG_T_' + translated_acronyms[i])) ;
+      var tip = formatted.replace(/.*(<table.*<.table>).*/, "$1") ;
+      if ( tip !== formatted )
+	{
+	  // The only case is the Notation column type
+	  comment = tip.replace("<table", '<table style="width:auto"') ;
+	  column_comment = '' ;
+	}
     }
  
   return '<section><h4>' + html(column.title.replace(/[-_]/g, ' '))
     + ' : ' + formatted + '</h4>'
-    + (column.comment
-       ? sep + _('MSG_T_column_comment') + ' '
-       + html(column.comment)
+    + (column_comment
+       ? sep + _('MSG_T_column_comment') + ' ' + column_comment
        : '')
-    + (cell.comment
-       ? sep + _('MSG_T_cell_comment') + ' ' + html(cell.comment)
+    + (comment
+       ? sep + _('MSG_T_cell_comment') + ' ' + comment
        : '')
     + (cell.author.length > 1
        ? sep + _('MSG_T_cell_author')+' '+html(cell.author.replace(/[.]/, ' '))

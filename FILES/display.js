@@ -2,7 +2,7 @@
 
 var unload_element ;
 var display_data ;
-var display_do_debug = true ;
+var display_do_debug = false ;
 
 function start_display()
 {
