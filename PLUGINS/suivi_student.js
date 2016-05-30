@@ -1610,7 +1610,7 @@ function DisplayT_Grades_Lasts(node)
       DisplayUEGradesInit(s[i][0]) ;
       DisplayGrades.ue = s[i][0] ;
       DisplayGrades.column = columns[s[i][1]] ;
-      t.push(DisplayT_Grades_Cell()) ;
+      t.push(DisplayT_Grades_Cell(true)) ;
     }
   return '<section><h2>' + _("MSG_T_last_grades") + '</h2>' + t.join("")
     + '</section>' ;
@@ -1619,7 +1619,7 @@ DisplayT_Grades_Lasts.need_node = ['T_Grades'] ;
 
 var translated_acronyms = ["abi", "abj", "pre", "tnr", "ppn"] ;
 
-function DisplayT_Grades_Cell()
+function DisplayT_Grades_Cell(display_ue)
 {
   var column = DisplayGrades.column ;
   DisplayGrades.cell = line[column.data_col] ;
@@ -1667,7 +1667,10 @@ function DisplayT_Grades_Cell()
 	}
     }
  
-  return '<section><h4>' + html(column.title.replace(/[-_]/g, ' '))
+  return '<section><h4>'
+    + (display_ue ? html(DisplayGrades.ue.ue)
+       + ' ' + html(DisplayGrades.ue.table_title) + ', ' : '')
+    + html(column.title.replace(/[-_]/g, ' '))
     + ' : ' + formatted + '</h4>'
     + (column_comment
        ? sep + _('MSG_T_column_comment') + ' ' + column_comment
