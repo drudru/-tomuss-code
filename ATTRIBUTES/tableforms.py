@@ -77,12 +77,12 @@ class TableForms(TableAttr):
    color: #BBB ;
 }
 
-.tableform TEXTAREA:focus, BODY.tomuss .tableform INPUT:focus {
+.tableform TEXTAREA:focus, .tableform INPUT:focus {
   border: 3px solid #00F ;
   padding: 0px ;
 }
 
-.tableform TEXTAREA, BODY.tomuss .tableform INPUT {
+.tableform TEXTAREA, .tableform INPUT {
   border: 1px solid black ;
   padding: 2px ;
   margin: 1px ;

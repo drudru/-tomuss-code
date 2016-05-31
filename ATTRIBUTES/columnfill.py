@@ -68,7 +68,7 @@ class ColumnFill(ColumnAttr):
     .room_name:hover .room_comment {
          display: inline-block ;
         }
-    BODY.tomuss TABLE TD.fill_result {
+    TD.fill_result {
         overflow: visible ;
         width: 18em; /* copy/paste */
         line-height: 1em ;

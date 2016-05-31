@@ -124,6 +124,9 @@ SELECT {
     border-radius: 0.5em ;
     vertical-align: top ;
 }
+.gui_button:hover, SELECT:hover {
+    background-color: #FAFAFA ;
+}
 
 A { text-decoration: none; }
 
