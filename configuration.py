@@ -287,6 +287,14 @@ def concerned_teachers(server, the_student):
     if is_member_of(server.ticket.user_name, ('grp:see_private_suivi',)):
         return True
 
+    if is_member_of(server.ticket.user_name, ('grp:tt_masters',)):
+        # TT masters are concerned by TT students
+        from . import document
+        from . import utilities
+        tt = document.table(utilities.university_year(), 'Dossiers', 'tt')
+        if tt and len(tuple(tt.get_lines(the_student))) != 0:
+            return True
+
     # The current referent only, not the old ones
     year, semester = year_semester
     from . import referent
