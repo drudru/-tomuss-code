@@ -3139,7 +3139,7 @@ function student_abjs(login)
     }
   if ( abjs_da[2] )
     s += '<p class="tierstemps"><b>' + _('MSG_TT')
-      + '</b> :<br>' + abjs_da[2].replace(/\n/g, '<br>') ;
+      + '</b> :<br>' + html(abjs_da[2]).replace(/\n/g, '<br>') ;
 
   return s ;
 }

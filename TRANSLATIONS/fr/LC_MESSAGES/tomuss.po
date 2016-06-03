@@ -901,7 +901,7 @@ msgstr "<span class=\"ro\">Le texte est gris si la cellule\n"
        "<span class=\"non\">Le fond est rouge si l'étudiant\n"
        "n'est pas inscrit à l'UE.</span><br>\n"
        "<span class=\"tt\">Le fond est bleu si l'étudiant\n"
-       "a un tiers temps.</span><br>\n"
+       "a un aménagement des examens.</span><br>\n"
        "<span class=\"filtered\">Le fond est jaune si la\n"
        "cellule est sélectionnée par un filtre</span>"
 
@@ -1419,7 +1419,7 @@ msgstr "Dispense d'assiduité pour l'UE, à partir du"
 
 #. GUI
 msgid "MSG_TT"
-msgstr "Actuellement avec un tiers temps"
+msgstr "Aménagements des examens et contrôles continus"
 
 #. GUI
 msgid "MSG_currently_saving"
@@ -3381,7 +3381,7 @@ msgid "HELP_abjlistmail"
 msgstr "Ceci permettra d'envoyer un message à tous les\n"
        "responsables d'UE de licence en leur indiquant\n"
        "la liste des étudiants avec des absences justifiées,\n"
-       "des dispenses et les tiers temps."
+       "des dispenses et des aménagements d'examens."
 
 msgid "LINK_backtrace"
 msgstr "Affiche les backtraces"
@@ -4761,41 +4761,8 @@ msgstr "Pas de mise à jour si le nombre d'étudiants à désinscrire > à ce %"
 msgid "COL_TITLE_orientation"
 msgstr "Orientation"
 
-msgid "COL_TITLE_+write"
-msgstr "+Ecrit"
-
-msgid "COL_COMMENT_+write"
-msgstr "Temps supplémentaire pour les épreuves écrites"
-
-msgid "COL_TITLE_+speech"
-msgstr "+Oral"
-
-msgid "COL_COMMENT_+speech"
-msgstr "Temps supplémentaire pour les épreuves orales"
-
-msgid "COL_TITLE_+practical"
-msgstr "+TP"
-
-msgid "COL_COMMENT_+practical"
-msgstr "Temps supplémentaire pour les épreuves de TP"
-
-msgid "COL_TITLE_+assistant"
-msgstr "Secrétaire"
-
-msgid "COL_COMMENT_+assistant"
-msgstr "Dispose d'un assistant pour l'aider"
-
-msgid "COL_TITLE_+room"
-msgstr "Salle_Particulière"
-
-msgid "COL_COMMENT_+room"
-msgstr "Dispose d'une salle particulière"
-
 msgid "COL_COMMENT_tt_duration"
 msgstr "A saisir si ce n'est pas pour toute l'année"
-
-msgid "COL_TITLE_tt_remarks"
-msgstr "Remarques_Et_Autres_Dispositions"
 
 msgid "TH_until"
 msgstr "Jusqu'au "
@@ -4830,7 +4797,8 @@ msgstr "AUCUN RESPONSABLE CONNU"
 msgid "MSG_abj_mail_header"
 msgstr "Mesdames, Messieurs,\n"
        "\n"
-       "Voici la liste des étudiants en dispense d'assiduité, en tiers temps\n"
+       "Voici la liste des étudiants en dispense d'assiduité,\n"
+       "avec des aménagements des examens et contrôles continus\n"
        "et ceux qui ont justifié leurs absences.\n"
        "Ces informations sont disponibles sur %s\n"
        "Sur ce site il est possible d'afficher les ABJ pour une date donnée.\n"

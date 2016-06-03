@@ -4701,42 +4701,6 @@ msgstr "No student list update if the number of students to remove is > than thi
 msgid "COL_TITLE_orientation"
 msgstr "Orientation"
 
-msgid "COL_TITLE_+write"
-msgstr "+Write"
-
-msgid "COL_COMMENT_+write"
-msgstr "Extra time for written assessments"
-
-msgid "COL_TITLE_+speech"
-msgstr "+Speech"
-
-msgid "COL_COMMENT_+speech"
-msgstr "Extra time for oral assessments"
-
-msgid "COL_TITLE_+practical"
-msgstr "+Practical"
-
-msgid "COL_COMMENT_+practical"
-msgstr "Extra time for practical work assessments"
-
-msgid "COL_TITLE_+assistant"
-msgstr "Assistant"
-
-msgid "COL_COMMENT_+assistant"
-msgstr "An assistant is necessary"
-
-msgid "COL_TITLE_+room"
-msgstr "Private_room"
-
-msgid "COL_COMMENT_+room"
-msgstr "A special room is necessary"
-
-msgid "COL_COMMENT_tt_duration"
-msgstr "Enter the date if it is not for the full year"
-
-msgid "COL_TITLE_tt_remarks"
-msgstr "Remarks_and_other_constraints"
-
 msgid "TH_until"
 msgstr "until"
 

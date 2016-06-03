@@ -289,9 +289,9 @@ def concerned_teachers(server, the_student):
 
     if is_member_of(server.ticket.user_name, ('grp:tt_masters',)):
         # TT masters are concerned by TT students
-        from . import document
+        from . import abj
         from . import utilities
-        tt = document.table(utilities.university_year(), 'Dossiers', 'tt')
+        tt = abj.get_table_tt(*year_semester)
         if tt and len(tuple(tt.get_lines(the_student))) != 0:
             return True
 

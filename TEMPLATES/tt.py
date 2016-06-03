@@ -20,12 +20,12 @@
 #    Contact: Thierry.EXCOFFIER@bat710.univ-lyon1.fr
 
 import time
+import html
 from .. import configuration
 from .. import utilities
 from . import _ucbl_
 
 def create(table):
-    
     p = table.get_ro_page()
     table.table_attr(p, 'default_nr_columns', 11)
 
@@ -35,24 +35,18 @@ def create(table):
         masters = configuration.tt_masters
     _ = utilities._
     table.table_attr(p, 'masters', list(masters))
-    table.column_change(p,'0_0',_("COL_TITLE_0_0")       ,'Login','','','',0,4)
-    table.column_change(p,'0_1',_("COL_TITLE_0_1")    ,'Text','','','',0,8)
-    table.column_change(p,'0_2',_("COL_TITLE_0_2")    ,'Text','','' ,'',0,8)
-    table.column_change(p,'0_3',_("COL_TITLE_+write")    ,'Text','','1','',0,3)
-    table.column_comment(p,'0_3', _("COL_COMMENT_+write"))
-    table.column_change(p,'0_4',_("COL_TITLE_+speech")   ,'Text','','1','',0,3)
-    table.column_comment(p,'0_4',_("COL_COMMENT_+speech"))
-    table.column_change(p,'0_5',_("COL_TITLE_+practical"),'Text','','1','',0,3)
-    table.column_comment(p,'0_5',_("COL_COMMENT_+practical"))
-    table.column_change(p,'0_6',_("COL_TITLE_+assistant"),'Bool','','1','',0,2)
-    table.column_comment(p,'0_6',_("COL_COMMENT_+assistant"))
-    table.column_change(p,'0_7',_("COL_TITLE_+room")     ,'Bool','','1','',0,2)
-    table.column_comment(p,'0_7',_("COL_COMMENT_+room"))
-    table.column_change(p,'0_8',_("TH_begin")            ,'Date','','' ,'',0,6)
-    table.column_comment(p,'0_8', _("COL_COMMENT_tt_duration"))
-    table.column_change(p,'0_9',_("TH_end")              ,'Date','','' ,'',0,6)
-    table.column_comment(p,'0_9', _("COL_COMMENT_tt_duration"))
-    table.column_change(p,'0_10',_("COL_TITLE_tt_remarks"),'Text','','','',0,13)
+    table.update_columns({
+        '0_0':{'type':'Login', 'title':_("COL_TITLE_0_0"), "width":4,
+               "freezed":'F'},
+        '0_1':{'type':'Text' , 'title':_("COL_TITLE_0_1"), "width":8,
+               "freezed":'F'},
+        '0_2':{'type':'Text' , 'title':_("COL_TITLE_0_2"), "width":8,
+               "freezed":'F'},
+        '0_8':{'type':'Date' , 'title':_("TH_begin")     , "width":6,
+               'comment': _("COL_COMMENT_tt_duration")},
+        '0_9':{'type':'Date' , 'title':_("TH_end")       , "width":6,
+               'comment': _("COL_COMMENT_tt_duration")},
+    })
     table.table_attr(p, 'default_sort_column', 2)
 
 def translate_tt(tt_value):
@@ -71,40 +65,64 @@ class SpecialExaminationCondition(object):
     begin_seconds = 0
     end = ""
     end_seconds = 8000000000
-    assistant = False
-    room = False
-    remarks = False
+    predefined = set(('0_0', '0_1', '0_2', '0_8', '0_9'))
     
-    def __init__(self, line):
-        if line[8].value:
-            self.begin = line[8].value
+    def __init__(self, line, table):
+        self.table = table
+        self.line = line
+        if line[table.col_begin].value:
+            self.begin = line[table.col_begin].value
             self.begin_seconds = configuration.date_to_time(self.begin)
-        if line[9].value:
-            self.end = line[9].value
+        if line[table.col_end].value:
+            self.end = line[table.col_end].value
             self.end_seconds = configuration.date_to_time(self.end)
-        self.written_exam = translate_tt(line[3].value)
-        self.spoken_exam = translate_tt(line[4].value)
-        self.practical_exam = translate_tt(line[5].value)
-        if line[6].value == configuration.yes:
-            self.assistant = True
-        if line[7].value == configuration.yes:
-            self.room = True
-        if line[10].value:
-            self.remarks = line[10].value
 
     def current(self):
         return self.begin_seconds < time.time() < self.end_seconds
+
+    def text(self):
+        s = []
+        if self.begin:
+            s.append(utilities._("MSG_abj_tt_from") + self.begin)
+        if self.end:
+            s.append(utilities._('TH_until') + self.end)
+        for column in self.table.columns.left_to_right():
+            if column.the_id in self.predefined:
+                continue
+            value = self.line[column.data_col].value
+            comment = self.line[column.data_col].comment
+            if value == '' and comment == '':
+                continue
+            if column.the_id.startswith("0_"):
+                # Historical table
+                if value.upper().startswith('N') or value == 0:
+                    continue
+                if column.type.name == "Text":
+                    value = translate_tt(value)
+            if comment == '' or value == '':
+                value = value + comment
+            else:
+                value += ' (' + comment + ')'
+            value = value.replace('_', ' ') # For enumeration
+            if column.comment:
+                s.append('{}: {}.'.format(column.comment.split("///")[0],
+                                          value))
+            else:
+                s.append(value + '.')
+        return '\n'.join(s)
 
 @utilities.add_a_lock
 def the_current_tt(table):
     if table.the_current_tt_time == table.mtime:
         return table.the_current_tt_cache
     table.the_current_tt_time = table.mtime
+    table.col_begin = table.columns.from_id("0_8").data_col
+    table.col_end = table.columns.from_id("0_9").data_col
     d = {}
     for line in table.lines.values():
         if len(line[0].value) < 2:
             continue
-        d[line[0].value] = SpecialExaminationCondition(line)
+        d[line[0].value] = SpecialExaminationCondition(line, table)
     table.the_current_tt_cache = d
     return d
     

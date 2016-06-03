@@ -718,3 +718,6 @@ class Columns(object):
             if column.type.name == 'Note' and column.title not in used_titles:
                 return 0
         return may_be_top
+
+    def left_to_right(self):
+        return sorted(self.columns, key=lambda c: c.position)

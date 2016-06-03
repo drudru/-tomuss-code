@@ -108,32 +108,22 @@ def create_tt():
     if 'create_tt' in done:
         return
     done['create_tt'] = True
+    tt = '=' + abj + '/%d/Dossiers/tt' % uyear
 
     global c
-    c = s.url('=' + abj + '/%d/Dossiers/tt' % uyear)
-    assert_col({"the_id":"0_10","type":"Text","author":"*","position":10,
-               "title":_("COL_TITLE_tt_remarks"),"width":13}, c)
+    c = s.url(tt)
+    assert_col({"the_id":"0_8","type":"Date","author":"*","position":3,
+                "title":_("TH_begin"),"width":6}, c)
 
-    c = s.url('=' + abj + '/%d/Dossiers/tt' % uyear
-              + '/1/0/cell_change/0_0/0_0/10800000')
+    c = s.url(tt + '/1/0/column_attr_title/col_0/COL_TITLE')
     assert( c == ok_png)
-    c = s.url('=' + abj + '/%d/Dossiers/tt' % uyear
-              + '/1/1/cell_change/0_3/0_0/1')
+    c = s.url(tt + '/1/1/column_attr_comment/col_0/COL_COMMENT')
     assert( c == ok_png)
-    c = s.url('=' + abj + '/%d/Dossiers/tt' % uyear
-              + '/1/2/cell_change/0_4/0_0/1')
+    c = s.url(tt + '/1/2/cell_change/0_0/0_0/10800000')
     assert( c == ok_png)
-    c = s.url('=' + abj + '/%d/Dossiers/tt' % uyear
-              + '/1/3/cell_change/0_5/0_0/1')
+    c = s.url(tt + '/1/3/cell_change/col_0/0_0/CELL_VALUE')
     assert( c == ok_png)
-    c = s.url('=' + abj + '/%d/Dossiers/tt' % uyear
-              + '/1/4/cell_change/0_6/0_0/' + _("yes"))
-    assert( c == ok_png)
-    c = s.url('=' + abj + '/%d/Dossiers/tt' % uyear
-              + '/1/5/cell_change/0_7/0_0/' + _("yes"))
-    assert( c == ok_png)
-    c = s.url('=' + abj + '/%d/Dossiers/tt' % uyear
-              + '/1/6/cell_change/0_10/0_0/TTT')
+    c = s.url(tt + '/1/4/comment_change/col_0/0_0/CELL_COMMENT')
     assert( c == ok_png)
 
 def create_u2():
@@ -867,29 +857,16 @@ def tests():
         create_tt()
 
         c = s.url('=' + root + '/%s/UE-INF20UE2' % ys)
-        assert(_("COL_COMMENT_+room") + '.\\nTTT.\\n' in c)
-        assert(_("COL_COMMENT_+write") + ' : 1/3.\\n' in c)
-        assert(_("COL_COMMENT_+speech") + ' : 1/3.\\n' in c)
-        assert(_("COL_COMMENT_+practical") + ' : 1/3.\\n' in c)
-        assert(_("COL_COMMENT_+assistant") in c)
+        assert('COL_COMMENT: CELL VALUE (CELL COMMENT)' in c)
 
         s.stop()
         s.restart()
 
         c = s.url('=' + root + '/%s/UE-INF20UE2' % ys)
-        assert(_("COL_COMMENT_+room") + '.\\nTTT.\\n' in c)
-        assert(_("COL_COMMENT_+write") + ' : 1/3.\\n' in c)
-        assert(_("COL_COMMENT_+speech") + ' : 1/3.\\n' in c)
-        assert(_("COL_COMMENT_+practical") + ' : 1/3.\\n' in c)
-        assert(_("COL_COMMENT_+assistant") in c)
+        assert('COL_COMMENT: CELL VALUE (CELL COMMENT)' in c)
 
         c = s.url('=' + root + '/%s/UE-INF20UE2/resume' % ys)
-        assert('- TTT' in c)
-        assert(_("COL_COMMENT_+room")  in c)
-        assert(_("COL_COMMENT_+assistant") in c)
-        assert(_("COL_COMMENT_+practical") + ' : 1/3.' in c)
-        assert(_("COL_COMMENT_+write") + ' : 1/3.' in c)
-        assert(_("COL_COMMENT_+speech") + ' : 1/3.' in c)
+        assert('- COL_COMMENT: CELL VALUE (CELL COMMENT)' in c)
 
     if do('delcol'):
         c = s.url('=' + abj + '/%d/Dossiers/delcol' % uyear)

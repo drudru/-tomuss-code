@@ -425,9 +425,20 @@ rem_da(login, ue        , user_name, action_date)
 
     <h3><a name="tt_storage">TT storage</a></h3>
 
-    <p>The information about 'Tiers Temps' are stored in a normal table,
-the columns order must not be modified.
-There is a line per student.</p>
+    <p>
+      The information about 'Tiers Temps' are stored in a normal table,
+      it contains the student ID, the begin and end date of the exception.
+    </p>
+    <p>
+      You can add any columns to the table, the informations will be displayed
+      to the teachers, Each column add an information line containing:
+      <tt>COLUMN COMMENT: CELL VALUE (CELL COMMENT).</tt>
+      This line is not displayed if there is no value nor comment.
+    </p>
+    <p>
+      To be useful, a single 'Comment' column is needed to explain the
+      case to the teachers.
+    </p>
 
     <h3><a name="referent_storage">Referent storage</a></h3>
 

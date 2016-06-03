@@ -321,29 +321,10 @@ def tierstemps(student_id, table_tt=None, only_current=True):
     if table_tt == None:
         # Get TT for current year
         table_tt = get_table_tt(*configuration.year_semester)
-    _ = utilities._
     tt = table_tt.the_current_tt(table_tt).get(student_id, None)
     if tt and (not only_current or tt.current()):
-        html = ""
-        if tt.begin:
-            html += _("MSG_abj_tt_from") + tt.begin + '\n'
-        if tt.end:
-            html += _('TH_until') + tt.end + '\n'            
-        if tt.written_exam:
-            html += _("COL_COMMENT_+write") + " : %s.\n" % tt.written_exam
-        if tt.spoken_exam:
-            html += _("COL_COMMENT_+speech") + " : %s.\n" % tt.spoken_exam
-        if tt.practical_exam:
-            html += _("COL_COMMENT_+practical") + " : %s.\n" % tt.practical_exam
-        if tt.assistant:
-            html += _("COL_COMMENT_+assistant") + ".\n"
-        if tt.room:
-            html += _("COL_COMMENT_+room") + ".\n"
-        if tt.remarks:
-            html += tt.remarks + '.\n'
-        return html
+        return tt.text()
     return ''
-
 
 def title(name, sort_fct):
     """Columns title with the link to sort the HTML table"""
@@ -648,7 +629,7 @@ def ue_resume(ue_code, year, semester, browser=None):
         fs = inscrits.L_slow.firstname_and_surname(student_login)
         a_tt = ('   * ' + student_login + ' ' + fs[1].upper() + ' '
                 + fs[0].title() + '\n')
-        for line in infos_tt.split('\n')[:-1]:
+        for line in infos_tt.strip().split('\n'):
             a_tt += '      - ' + line + '\n'
         infos.append((utilities.flat(fs[1]).lower(),
                       utilities.flat(fs[0]).lower(),
