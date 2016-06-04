@@ -14,8 +14,9 @@ BODY {
 .themeG TH, .themeG TH INPUT, .themeG .table_title,
 .themeG .tab_selected, .themeG>SPAN.tab_selected
 { background-color: #E8E8E8 }
-.themeG .sorted, .themeG .toggled, TH.themeG>SPAN.toggled
+.themeG .sorted, TH.themeG>SPAN.toggled
 { background-color: #DDD }
+.themeG .toggled { background-color: #FFF }
 .themeG .border, TH.themeG.border
 { border: 1px solid #888 ; }
 .themeG .table_title
@@ -99,7 +100,7 @@ TH.themeBW>SPAN.BodyRight, TH.themeBW>SPAN.tab_selected
 .themeBW TABLE.colored TH,
 .themeBW TABLE.colored CAPTION,
 .themeBW .table_title,
-.themeBW span.toggled
+.themeBW .toggled
 {
     background: #FFF ;
     color: #000 ;
@@ -782,6 +783,9 @@ TR#dates TD { padding: 3px ;
   vertical-align: middle ;
   border-spacing: 0px ;
   cursor: pointer ;
+  color: black ;
+  background: inherit ;
+  margin: 1px ;
 }
 
 .button_toggle.toggled {

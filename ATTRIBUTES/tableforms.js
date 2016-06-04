@@ -141,6 +141,8 @@ function table_forms_save_input(input)
 function table_forms_blur(event)
 {
     var input = the_event(event).target ;
+    if ( input.tagName == 'BUTTON' )
+      return ;
     table_forms_save_input(input) ;
     var tr = table_forms_tr(input) ;
     if ( tr.data_col == the_current_cell.data_col )
@@ -171,6 +173,17 @@ function table_forms_update_computed_values(THIS)
 	}
 }
 
+function tableform_enum(event)
+{
+  var button = the_event(event).target ;
+  if ( button.textContent == '×' )
+    button.setAttribute('value', '') ;
+  else
+    button.setAttribute('value', button.textContent.replace(/ /g, "_")) ;
+  table_forms_save_input(button) ;
+  table_forms_update(the_current_cell, true) ;
+}
+
 function table_forms_keypress(event)
 {
     var input = the_event(event).target ;
@@ -179,6 +192,8 @@ function table_forms_keypress(event)
 	{
 	    if ( element_focused.tagName == 'SELECT' )
 	         return ; // Completion menu
+	    if ( element_focused.tagName == 'BUTTON' )
+	         return ; // Enumeration
 	    if ( input.tagName == 'INPUT' || event.keyCode == 9  )
 		{
 		    var tr ;
@@ -208,7 +223,7 @@ function table_forms_drop(event)
     table_forms_goto(event) ;
 }
 
-function table_forms_update(THIS)
+function table_forms_update(THIS, keep_img)
 {
     var t = table_forms_element.getElementsByTagName('tbody')[0] ;
     var i, tr, cell ;
@@ -239,11 +254,29 @@ function table_forms_update(THIS)
 		if ( columns[tr.data_col].empty_is )
 		  tr.className += 'default ' ;
 	      }
-	    var img = tr.getElementsByTagName('IMG') ;
-	    if ( img.length )
-		img[0].parentNode.removeChild(img[0]) ;
+	    if ( ! keep_img )
+	      {
+		var img = tr.getElementsByTagName('IMG') ;
+		if ( img.length )
+		  img[0].parentNode.removeChild(img[0]) ;
+	      }
 	    if (! cell.modifiable(THIS.line, columns[tr.data_col]) )
 		tr.className += 'ro' ;
+
+	    if ( columns[tr.data_col].type == 'Enumeration' )
+	      {
+		var buttons = tr.getElementsByTagName("BUTTON") ;
+		var value = THIS.line[tr.data_col].value.replace(/_/g, " ") ;
+		if ( value === "" )
+		  value = "×" ;
+		for(var j=0; j <buttons.length; j++)
+		  {
+		    var c = buttons[j].className.toString().replace(/ toggled/g, "") ;
+		    if ( buttons[j].textContent == value )
+		      c += " toggled" ;
+		    buttons[j].className = c ;
+		  }
+	      }
 	}
 }
 
@@ -345,7 +378,17 @@ function table_forms()
 		}
 	    else
 		more = ''
-	    if ( nr_line == 1 )
+	    if ( column.type == 'Enumeration' && column )
+	      {
+		var action = e + ' class="button_toggle clickable" onclick="tableform_enum(event)"' ;
+		var s = '<button' + action + '>×</button>' ;
+		for(j in column.possible_values)
+		  s += ' <button' + action + '>'
+		  + html(column.possible_values[j].replace(/_/g, " "))
+		  + '</button>' ;
+		td_value.innerHTML = s ;
+	      }
+	    else if ( nr_line == 1 )
 		td_value.innerHTML = '<INPUT' + e + more + '>' ;
 	    else
 		td_value.innerHTML = '<TEXTAREA' + e + more + '></TEXTAREA>' ;
