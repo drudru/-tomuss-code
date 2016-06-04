@@ -2462,7 +2462,8 @@ function init_shortcuts()
 ["!T", [27]            , "cancel_input_editing"],
 ["T", [27]             , "cancel_cell_editing"],
 ["t"],
-["f"],                   //  key < 41 && key != 27 : return
+["f", true, false],   // Any normal character: do completion
+["f"],
 ["s", [38]             , "select_go_up"],
 ["Ss", [9]             , "select_go_up"],
 ["s", [40, 9]          , "select_go_down"],
@@ -2623,7 +2624,13 @@ Current.prototype.keydown = function(event, in_input)
 	}
       if ( ! state )
 	continue ; //  Bad selector: next shortcut
-      if ( shortcut[1] !== undefined )
+      if ( shortcut[1] === true )
+	{   // Allow only normal characters and backspace (completion)
+            state = true ;
+            if ( key <= 40 && key != 8 )
+               state = false ;
+        }
+      else if ( shortcut[1] !== undefined )
 	{
 	  state = false ;
 	  for(var test_key in shortcut[1])
@@ -2637,12 +2644,15 @@ Current.prototype.keydown = function(event, in_input)
 		}
 	    }
 	}
+
       if ( !state )
 	{
 	  // console.log("Bad keys:" + shortcut[0] + ' ' + shortcut[1]) ;
 	  continue ;
 	}
       // console.log(shortcut[0] + "/" + shortcut[1] + '/' + (shortcut[2] ? shortcut[2] : 'undefined')) ;
+      if ( shortcut[2] === false )
+          break ; // Manage completion
       if ( shortcut[2] !== undefined )
 	{
 	  GUI.add_key(event, shortcut[2]) ;
@@ -2690,7 +2700,7 @@ Current.prototype.do_completion = function(backspace)
 	}
 
       var c = this.column.real_type.cell_completions(input.value,this.column) ;
-      if ( c != input.value )
+      if ( c != input.value && c.length != 0 )
 	{
 	  // It is an enumeration
 	  for(var i in c)
@@ -2698,7 +2708,7 @@ Current.prototype.do_completion = function(backspace)
 	  completions.sort() ;
           last = input.value ;
 	}
-      else if ( this.column.completion )
+      else if ( this.column.completion != 0 )
 	{
 	  // Auto completion from content
 	  var uniques = compute_histogram(this.column.data_col).uniques() ;
