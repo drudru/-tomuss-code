@@ -4710,6 +4710,9 @@ msgstr "Dispense<br>for UE"
 msgid "MSG_see_more"
 msgstr "See more."
 
+msgid "MSG_abj_tt_from"
+msgstr "Since"
+
 msgid "TH_what"
 msgstr "What"
 

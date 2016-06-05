@@ -4765,7 +4765,7 @@ msgid "COL_COMMENT_tt_duration"
 msgstr "A saisir si ce n'est pas pour toute l'année"
 
 msgid "TH_until"
-msgstr "Jusqu'au "
+msgstr "jusqu'au"
 
 msgid "TH_da_for_ue"
 msgstr "Dispense<br>pour l'UE"
@@ -4774,7 +4774,7 @@ msgid "MSG_see_more"
 msgstr "Voir plus."
 
 msgid "MSG_abj_tt_from"
-msgstr "À partir du "
+msgstr "À partir du"
 
 msgid "TH_what"
 msgstr "Quoi"

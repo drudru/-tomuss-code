@@ -36,12 +36,12 @@ def create(table):
     _ = utilities._
     table.table_attr(p, 'masters', list(masters))
     table.update_columns({
-        '0_0':{'type':'Login', 'title':_("COL_TITLE_0_0"), "width":4,
+        '0_0':{'type':'Login'    , 'title':_("COL_TITLE_0_0"), "width":4,
                "freezed":'F'},
-        '0_1':{'type':'Text' , 'title':_("COL_TITLE_0_1"), "width":8,
-               "freezed":'F'},
-        '0_2':{'type':'Text' , 'title':_("COL_TITLE_0_2"), "width":8,
-               "freezed":'F'},
+        '0_1':{'type':'Surname'  , 'title':_("COL_TITLE_0_1"), "width":8,
+               "freezed":'F', 'columns': _("COL_TITLE_0_0")},
+        '0_2':{'type':'Firstname', 'title':_("COL_TITLE_0_2"), "width":8,
+               "freezed":'F', 'columns': _("COL_TITLE_0_0")},
         '0_8':{'type':'Date' , 'title':_("TH_begin")     , "width":6,
                'comment': _("COL_COMMENT_tt_duration")},
         '0_9':{'type':'Date' , 'title':_("TH_end")       , "width":6,
@@ -83,9 +83,12 @@ class SpecialExaminationCondition(object):
     def text(self):
         s = []
         if self.begin:
-            s.append(utilities._("MSG_abj_tt_from") + self.begin)
+            s.append(utilities._("MSG_abj_tt_from") + ' ' + self.begin)
         if self.end:
-            s.append(utilities._('TH_until') + self.end)
+            s.append(utilities._('TH_until') + ' ' + self.end)
+        if s:
+            s = [' '.join(s)]
+
         for column in self.table.columns.left_to_right():
             if column.the_id in self.predefined:
                 continue
