@@ -141,9 +141,8 @@ function table_forms_save_input(input)
 function table_forms_blur(event)
 {
     var input = the_event(event).target ;
-    if ( input.tagName == 'BUTTON' )
-      return ;
-    table_forms_save_input(input) ;
+    if ( input.tagName != 'BUTTON' )
+      table_forms_save_input(input) ;
     var tr = table_forms_tr(input) ;
     if ( tr.data_col == the_current_cell.data_col )
 	input.value = the_current_cell.cell.value ; // Oui => OUI
