@@ -103,15 +103,13 @@ def do_patch():
                         r = []
                         for a in attributes:
                             if a == configuration.attr_login:
-                                r.append(str(i,
-                                                 configuration.ldap_encoding))
+                                r.append(i)
                             elif a == configuration.attr_surname:
                                 r.append(infos[2])
                             elif a == configuration.attr_firstname:
                                 r.append(infos[1])
                             elif a == configuration.attr_mail:
-                                r.append(str(infos[3],
-                                                 configuration.ldap_encoding))
+                                r.append(infos[3])
                         all.append(r)
                 return all
 
