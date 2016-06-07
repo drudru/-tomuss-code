@@ -256,6 +256,8 @@ if __name__ == "__main__":
         configuration.regtest = True
     if 'regtest_sync' in sys.argv:
         configuration.regtest_sync = True
+    if 'regtest_load_local' in sys.argv:
+        configuration.regtest_load_local = True
     configuration.blur = 'blur' in sys.argv
     configuration.regtest_bug1 = 'regtest-bug1' in sys.argv
     from . import regtestpatch

@@ -422,6 +422,7 @@ pending_request_TTL = 3600
 # If there is a real authentication, it should be set to False.
 regtest = False
 regtest_sync = False
+regtest_load_local = False
 
 # Name of the database directory (should not start by ., .. or /)
 db = 'DB'
@@ -645,7 +646,7 @@ def terminate():
     from . import utilities
     import sys
 
-    if not regtest:
+    if not regtest or regtest_load_local:
         from .LOCAL import config # Your local configuration goes inside LOCAL
 
     global url_files, maxage, backup

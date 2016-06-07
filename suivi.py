@@ -192,6 +192,8 @@ if __name__ == "__main__":
     for i in sys.argv:
         if i == 'regtest':
             configuration.regtest = True
+        if i == 'regtest_load_local':
+            configuration.regtest_load_local = True
     configuration.blur = 'blur' in sys.argv
     from . import regtestpatch
     regtestpatch.do_patch()

@@ -110,7 +110,7 @@ class Server(object):
     started = False
     start_time = 0
     
-    def start(self, cleaning=True, sync=True):
+    def start(self, cleaning=True, sync=True, load_local=False):
         if Server.start_time == 0:
             Server.start_time = time.time()
         for dirname in ['DBregtest', 'BACKUP_DBregtest',
@@ -125,7 +125,7 @@ class Server(object):
             name = '/tmp/%s/Y%d/SAutomne'%(i, configuration.year_semester[0]-1)
             utilities.mkpath_safe(name)
             os.symlink(name, i)
-        self.restart('w', sync=sync)
+        self.restart('w', sync=sync, load_local=load_local)
 
     def log_files(self, mode):
         if True:
@@ -138,7 +138,7 @@ class Server(object):
         i = 0
         while True:
             try:
-                self.url('=super.user/evaluate/1', stop_if_error=False,
+                self.url('=' + configuration.root[0] + '/evaluate/1', stop_if_error=False,
                          display_log_if_error=False, silent=i)
                 self.started = True
                 break
@@ -149,11 +149,13 @@ class Server(object):
                 time.sleep(0.1)
 
 
-    def restart(self, mode='a', more=[], sync=True):
+    def restart(self, mode='a', more=[], sync=True, load_local=False):
         stdout, stderr = self.log_files(mode)
         args = ['./tomuss.py', 'regtest', 'real_regtest']
         if sync:
             args.append('regtest_sync')
+        if load_local:
+            args.append('regtest_load_local')
         self.process = subprocess.Popen(args + more,
                                         stdout = stdout.fileno(),
                                         stderr = stderr.fileno(),

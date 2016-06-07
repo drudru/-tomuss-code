@@ -200,7 +200,7 @@ def column_type_list():
     from . import COLUMN_TYPES
     for filename in os.listdir(COLUMN_TYPES.__path__[0]):
         yield 'COLUMN_TYPES', filename
-    if configuration.regtest:
+    if configuration.regtest and not configuration.regtest_load_local:
         return
 
     try:

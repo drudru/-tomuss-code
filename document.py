@@ -362,7 +362,8 @@ def search_template(name):
             ('LOCAL', 'LOCAL_TEMPLATES', name.lstrip('/')),
             ('TEMPLATES', name.lstrip('/')),
         ):
-        if (configuration.regtest or name.startswith('/')
+        if ((configuration.regtest and not configuration.regtest_load_local)
+              or name.startswith('/')
             ) and path[0] == 'LOCAL':
             continue
         filename = os.path.join(*path) + '.py'
