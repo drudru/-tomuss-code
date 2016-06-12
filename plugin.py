@@ -123,6 +123,12 @@ def __int(server, path, i):
     if not path[i].startswith('_'):
         return False
     server.the_student = utilities.the_login(path[i][1:])
+def _request_number(server, path, i):
+    try:
+        float(path[i])
+    except ValueError:
+        return False
+    server.request_number = path[i]
 def _options(server, path, i):
     while len(path) != i and path[i].startswith('='):
         server.options.append(path[i])
@@ -135,7 +141,7 @@ def _options(server, path, i):
 specials = {
      '{Y}': _year, '{ }': _time, '{S}': _semester, '{U}': _ue, '{P}': _page,
      '{?}': _something, '{I}': _int, '{_I}': __int, '{*}': _anything,
-     '{=}': _options
+     '{=}': _options, '{R}': _request_number
      }
 
 

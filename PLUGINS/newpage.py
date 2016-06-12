@@ -179,15 +179,15 @@ def answer_page(server):
         table, page = document.table(server.the_year, server.the_semester,
                                      server.the_ue, server.the_page,
                                      server.ticket)
-        if server.the_student:
+        if server.request_number:
             # Do not revert request sent
             # It is possible to go in the future because page.request
             # may forgot incrementation.
             try:
-                page.index = int(server.the_student.split('.')[1])
+                page.index = int(server.request_number.split('.')[1])
             except:
                 pass
-            page.request = max(int(server.the_student.split('.')[0]),
+            page.request = max(int(server.request_number.split('.')[0]),
                                page.request)
             if page.index > len(table.sent_to_browsers):
                 page.index = 0 # Server rebooted
@@ -226,7 +226,7 @@ else
     else:
         table.active_page(page, server.the_file)
 
-plugin.Plugin('answer_page', '/{Y}/{S}/{U}/{P}/{I}',
+plugin.Plugin('answer_page', '/{Y}/{S}/{U}/{P}/{R}',
               function=answer_page, group='staff',
               keep_open = True,
               priority = -2, # Before other actions
