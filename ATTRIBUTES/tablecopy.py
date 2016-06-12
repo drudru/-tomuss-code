@@ -92,8 +92,9 @@ def tablecopy(server):
         dest_table.master_of_update('+', name)
 
     server.the_file.write("\n" + _("MSG_tablecopy_done") + "\n")
-    url = "%s/%s/%s/%s" % (configuration.server_url,
-                             dest_year, dest_semester, newname)
+    url = "%s/=%s/%s/%s/%s" % (configuration.server_url,
+                               server.ticket.ticket,
+                               dest_year, dest_semester, newname)
     server.the_file.write('<a target="_blank" href="%s">%s</a>' % (url, url))
 
 plugin.Plugin('tablecopy', '/{Y}/{S}/{U}/tablecopy/{*}',
