@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 #    TOMUSS: The Online Multi User Simple Spreadsheet)
-#    Copyright (C) 2008-2012 Thierry EXCOFFIER, Universite Claude Bernard
+#    Copyright (C) 2008-2016 Thierry EXCOFFIER, Universite Claude Bernard
 #
 #    This program is free software; you can redistribute it and/or modify
 #    it under the terms of the GNU General Public License as published by
@@ -317,12 +317,7 @@ class LDAP_Logic(object):
             attributes = [configuration.attr_login,
                           configuration.attr_surname,
                           configuration.attr_firstname]
-        nr = 100 # Maximum number of answer
-        aa = self.query(q,
-                        base=base,
-                        attributes=attributes,
-                        async=nr+1
-                        )
+        aa = self.query(q, base=base, attributes=attributes)
         i = attributes.index(configuration.attr_login)
         if type(aa) != list : print("i"*50, " inscrit 337 aa",type(aa))
         for xx in aa :
@@ -481,76 +476,52 @@ class Empty(LDAP_Logic):
 # the 'students' method returning the student list for an UE.
 # The student list may be computed without using LDAP.
 class LDAP(LDAP_Logic):
-    """A LDAP connection.
-    If a server is broken, take the next one
-    """
-    def __init__(self, name='LDAP'):
-        self.connexion = None
-        self.server = -1
-        self.name = name
-        self.last_query = 0
+    """An LDAP connection."""
+    connection = True
+    def __init__(self):
         self.time_last_mail = 0
-        self.lock = threading.Lock()
+        self.connect()
 
     def connect(self):
         if ( len(configuration.ldap_server) == 0
              or configuration.ldap_server[0].endswith('.domain.org')):
             # Fake LDAP server, do not use it
-            self.connexion = True
             return
-        while True:
-            warn('Try connect to ' + configuration.ldap_server[self.server],
-                 what="ldap")
-            try:
-                if configuration.ldap_server_port in (636, 6360):
-                    use_ssl = True
-                else:
-                    use_ssl = False
-                c = ldap3.Server(
-                    configuration.ldap_server[self.server],
-                    port=configuration.ldap_server_port,
-                    use_ssl = use_ssl)
-                c = ldap3.Connection(c,
-                                     user = configuration.ldap_server_login,
-                                     password = configuration.ldap_server_password,
-                                     authentication = ldap3.AUTH_SIMPLE,
-                                     raise_exceptions = True)
-                warn('Connect done', what="ldap")
-                if use_ssl:
-                    c.tls = ldap3.Tls()
-                    # if 'TLS_CA' in settings and settings['TLS_CA']:
-                    #    c.tls.ca_certs_file = settings['TLS_CA']
-                    c.tls.validate = ssl.CERT_NONE
-                c.open()
-                c.start_tls()
-                c.bind()
-                self.connexion = c
-                return
-            except ldap3.LDAPException as e:
-                warn('Can not connect to {}: SERVER_DOWN'.format(
-                    configuration.ldap_server[self.server]),
-                     what="error")
-                self.server = (self.server + 1) % len(configuration.ldap_server)
-            except OSError: #XXX ldap.TIMEOUT
-                warn('Can not connect to %s: TIMEOUT'
-                     % configuration.ldap_server[self.server], what="error")
-                self.server = (self.server + 1) % len(configuration.ldap_server)
-            time.sleep(1)
 
+        servers = [
+            ldap3.Server(host, configuration.ldap_server_port,
+                         use_ssl = configuration.ldap_server_port in (636, 6360)
+                     )
+            for host in configuration.ldap_server
+            ]
+        # configuration.ldap_reconnect
+        server_pool = ldap3.ServerPool(servers,
+                                       ldap3.POOLING_STRATEGY_ROUND_ROBIN,
+                                       active=True, exhaust=600)
+        self.connection = ldap3.Connection(
+            server_pool,
+            user = configuration.ldap_server_login,
+            password = configuration.ldap_server_password,
+            authentication = ldap3.AUTH_SIMPLE,
+            raise_exceptions = True,
+            client_strategy = ldap3.STRATEGY_REUSABLE_THREADED,
+            pool_size = 4,
+        )
+        self.connection.tls = ldap3.Tls()
+        self.connection.tls.validate = ssl.CERT_NONE
+        self.connection.open()
+        self.connection.start_tls()
+        self.connection.bind()
 
     def query(self, search, attributes=(configuration.attr_login,),
-              base=configuration.ou_groups, async=False):
+              base=configuration.ou_groups):
         """Returns a list of answers.
         A answer is a pair : (CN, dictionnary)
         """
         t = time.time()
-        if (t - self.last_query > configuration.ldap_reconnect
-            or self.connexion is None):
-            self.connect()
-        self.last_query = t
         # warn('search=%s base=%s attr=%s' % (search, base, attributes) )
-        if self.connexion is True:
-            # Fake connexion
+        if self.connection is True:
+            # Fake connection
             t = {}
             for a in attributes:
                 t[a] = [a + '?']
@@ -559,21 +530,16 @@ class LDAP(LDAP_Logic):
         while True:
             try:
                 start_time = time.time()
-                sender.send_live_status(
-                         '<script>b("/%s");</script>\n' % self.name)
-                self.lock.acquire()
-                try:
-                    self.connexion.search(
-                        base, search, ldap3.SEARCH_SCOPE_WHOLE_SUBTREE,
-                        time_limit = ldap3.LDAPTimeLimitExceededResult,
-                        attributes=attributes)
-                    s = self.connexion.response
-                finally:
-                    self.lock.release()
+                sender.send_live_status('<script>b("/LDAP");</script>\n')
+                msg_id = self.connection.search(
+                    base, search, ldap3.SEARCH_SCOPE_WHOLE_SUBTREE,
+                    time_limit = ldap3.LDAPTimeLimitExceededResult,
+                    attributes=attributes)
+                s = self.connection.get_response(msg_id)[0]
                 t = []
-                if s is None :
-                    time.sleep(1)
+                if s is None:
                     self.connect() # Assume temporary network problem
+                    time.sleep(1)
                     nr_none_return += 1
                     if nr_none_return == 10:
                         utilities.send_backtrace(
@@ -584,27 +550,18 @@ class LDAP(LDAP_Logic):
                 else:
                     for line in s:
                         if 'attributes' in line:
-                           t.append([line['dn'], line['attributes']])
+                            t.append([line['dn'], line['attributes']])
                     sender.send_live_status(
-                             '<script>d("%s","/%s","",%6.4f,%s,"","","");</script>\n' %
-                             (configuration.ldap_server[self.server],
-                              self.name,
-                              time.time() - start_time,
-                              utilities.js(search + ':' + repr(attributes))))
+                        '<script>d("LDAP","/LDAP","",%6.4f,%s,"","","");</script>\n' %
+                        (time.time() - start_time,
+                         utilities.js(search + ':' + repr(attributes))))
                     return t
             except ldap3.LDAPException as e:
                 sender.send_live_status(
-                         '<script>d("%s","/%s","",1,"","%s","%s","%s");</script>\n' %
-                         (
-                    configuration.ldap_server[self.server],
-                    self.name,
-                    time.ctime(start_time),
-                    configuration.ldap_server[self.server],
-                    e.__class__.__name__))
-
-                warn('Uncatched: %s: %s QUERY=%s ATTRIBUTES=%s' % (
+                    '<script>d("LDAP","/LDAP","",1,"","%s","LDAP","%s");</script>\n' %
+                    (time.ctime(start_time), e.__class__.__name__))
+                warn('Uncatched: %s QUERY=%s ATTRIBUTES=%s' % (
                     e.__class__.__name__,
-                    configuration.ldap_server[self.server],
                     search, repr(attributes)
                     ), what='error')
                 if time.time() > self.time_last_mail + 10:
@@ -650,9 +607,7 @@ L_batch = None # Any request in a batch thread
 def init():
     global L_fast, L_slow, L_batch
     utilities.warn('Create LDAP connector')
-    L_fast = LDAP()
-    L_slow = LDAP('LDAP2')
-    L_batch = LDAP('LDAP3')
+    L_fast = L_slow = L_batch = LDAP()
 
 #REDEFINE
 # If the student login in LDAP is not the same as the student ID.
@@ -687,85 +642,3 @@ demo_animaux = {
     'k12':('k12','Fanny'   ,'FLAMANT ROSE','fflamant-rose@europ.net','O',''),
     'k13':('k13','Olivier' ,'OURS'        ,'oours@us.net'           ,'M',''),
     }
-
-if __name__ == "__main__":
-    tomuss_init.terminate_init()
-    from . import inscrits
-
-    #à mettre à jour pour les tests de régression
-    liste_test = ('thierry.excoffier','tartuffe.lampion','11210822','11200000','11200195','10502337','11104146',
-                  '10902458','1020384','11113439','11113584','11519500','11411588','1423367','11300176')
-    inscrits.init()
-
-    print("*"*10," TEST DU LDAP ","*"*10)
-    # print("tester avec un mauvais serveur, machine n'ayant pas de LDAP (127.0.0.1)")
-    # configuration.ldap_server = ('tery-OptiPlex-3010.univ-lyon1.fr',)
-    # configuration.ldap_server_port = 50007
-    # L = inscrits.L_fast
-    # print(L.phone('thierry.excoffier'))
-    #
-    # configuration.ldap_server = ('dsi-dc-ordi-1.univ-lyon1.fr','dsi-dc-ordi-1.univ-lyon1.fr')
-
-    print("tester requete longue")
-    L = inscrits.L_slow
-    aa = L.query(
-            search='(sn=b*)',
-            attributes = (configuration.attr_login, configuration.attr_mail,
-                          'lastLogonTimestamp',),
-            base=configuration.ou_top)
-    if isinstance(aa, list) :
-        print(len(aa))
-    else :
-        print("timeout")
-
-    print("*"*10," TEST SUR LA CONNEXION RAPIDE ","*"*10)
-    L = inscrits.L_fast
-
-    print("\ttest sur une personne")
-    print(L.phone(liste_test[0]))
-    print(ldap3.RESULT_SUCCESS)
-
-    # print(L.firstname_and_surname_to_login('thierry','excoffier'))
-    # print(L.firstname_surname_to_login('thierry excoffier'))
-    # for i in L.firstname_or_surname_to_logins('thierry'):
-    #     print(i)
-    # for i in L.firstname_or_surname_to_logins('xz'):
-    #     print(i)
-    # print(L.firstname_and_surname_and_mail(liste_test[0]))
-    #
-    # print("\ttest sur une liste")
-    # print(L.phone_from_logins(liste_test))
-    # print(L.mails(liste_test))
-    # print(L.firstname_and_surname_and_mail_from_logins(liste_test))
-    #
-    # print("\ntest sur les UEs")
-    # print(L.portail(liste_test[2]))
-    # print(L.portails(liste_test))
-    # print(L.etapes_of_student(liste_test[2]))
-    # print(L.etapes_of_students(liste_test))
-    # print(L.ues_of_a_student(liste_test[2]))
-    # print(L.ues_of_a_student_short(liste_test[2]))
-    # for ii in L.ues_of_a_student_with_groups(liste_test[2]):
-    #     print(ii)
-    #
-    # for ii in L.students('UE-INF2233M', force_ldap=True):
-    #     print(ii)
-    #
-    # for ii in L.member_of_list("thierry.excoffier"):
-    #     print(ii)
-
-    #print("*"*10," TEST SUR LA CONNEXION LENT ","*"*10)
-
-    #print("*"*10," TEST SUR LA CONNEXION BATCH ","*"*10)
-
-
-#reste à tester
-
-#L.is_a_referent
-#L.is_in_one_of_the_groups
-#L.iuta_grp_seq
-#L.students_of_sub_ue
-#L.member_of
-#L.ue_list_of_grp_seq
-#L.password_ok
-#L.get_ldap_ues
