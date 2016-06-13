@@ -1726,8 +1726,8 @@ function DisplayT_Grades(node)
 	  DisplayGrades.column = columns[data_col] ;
 	  g.push(DisplayT_Grades_Cell()) ;
 	}
-      u.push('<section><h3>' + ue.ue + ' ' + html(ue.table_title)
-	     + (ue.masters.length != 0
+      u.push('<section><h3>' + ue.ue + ' ' + html(ue.table_title || '')
+	     + ((ue.masters && ue.masters.length != 0)
 		? ', ' + _("MSG_T_masters") + ' ' + DisplayUEMasters()
 		: '')
 	     + '</h3>'
