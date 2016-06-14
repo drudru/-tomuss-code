@@ -150,7 +150,9 @@ class ColumnAttr(object):
 
         if self.name == 'title':
             if table.columns.from_title(value):
-                table.error(page, "Two columns with the same title")
+                table.error(page,
+                            "Two columns with the same title: {}".format(value)
+                )
                 raise ValueError(error)
 
         setattr(column, self.name, value)

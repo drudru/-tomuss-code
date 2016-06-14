@@ -96,7 +96,7 @@ class MyRequestBroker(utilities.FakeRequestHandler):
             i = utilities.read_file(os.path.join('TMP', 'xxx.load_config'))
             if path == '/load_config/' + i:
                 to_reload = ('config_table', 'config_plugin', 'config_acls',
-                             'config_cache')
+                             'config_cache', 'config_messages')
                 for tt in to_reload:
                     conf = document.table(0, 'Dossiers',tt, None, None,ro=True)
                     conf.do_not_unload = []
@@ -215,6 +215,8 @@ if __name__ == "__main__":
     document.table(0, 'Dossiers', 'config_plugin', None, None,
                    ro=True, create=False)
     document.table(0, 'Dossiers', 'config_cache', None, None,
+                   ro=True, create=False)
+    document.table(0, 'Dossiers', 'config_messages', None, None,
                    ro=True, create=False)
     authentication.run_authentication()
 

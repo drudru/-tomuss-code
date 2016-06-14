@@ -146,6 +146,13 @@ def display_message(server):
     else:
         return ''
 
+def display_grp_messages(server):
+    if server.is_a_student:
+        login = server.suivi_login
+    else:
+        login = server.ticket.user_name
+    return configuration.get_messages(login)
+
 def display_abjs(server):
     return [
         (from_date, to_date, comment)
@@ -333,6 +340,7 @@ D('User'        ,['Top','Private','Question'],-3, js='Horizontal')
 D('Preamble'    ,['Top','Private','Question'],-2)
 D('Message'     ,'Top'        ,-1, js="Horizontal", data=display_message)
 D('Messages'    ,'Top'        ,-0.5) # To one student only
+D('GrpMessages' ,'Top'        ,-0.1, data=display_grp_messages)
 D('Body'        ,'Top'        ,1, js='Horizontal')
 
 D('BodyLeft'    , 'Body'      ,0, js='Vertical')
@@ -437,7 +445,7 @@ D('T_Login'     , 'T_Title'   ,1, data=display_login)
 D('T_Names'     , 'T_Title'   ,2, data=display_names)
 
 D('T_Message'     , 'Textual'   ,10, data=display_message)
-D('T_Messages'    , 'Textual'   ,20)
+D('T_Messages'    , 'Textual'   ,20, data=display_grp_messages)
 D('T_Grades_Lasts', 'Textual'   ,30)
 D('T_Grades'      , 'Textual'   ,40, data=display_grades)
 D('T_Abjs'        , 'Textual'   ,50, data=display_abjs)

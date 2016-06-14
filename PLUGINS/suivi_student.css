@@ -94,6 +94,12 @@ DIV.logo_popup { top: 2.2em ; left: 0px ; right: auto }
     color: white ;
     background-color: #FF0000;
 }
+.GrpMessages > DIV {
+    border: 1px solid #CCC ;
+    margin: 1em ;
+    padding: 0.1em ;
+    background: #FFF ;
+}
 .DisplayNames { white-space: nowrap ; }
 .Grades H3 { margin-bottom: 0px; }
 .UE { display: block; margin-top: 1em ; }

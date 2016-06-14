@@ -51,6 +51,7 @@ default_links = (
     ("root_rw",-805,"safe"    ,'roots',"/0/Dossiers/config_cache"),
     ("root_rw",-804,"safe"    ,'roots',"/0/Dossiers/config_login"),
     ("root_rw",-803,"safe"    ,'roots',"/0/Dossiers/config_room"),
+    ("root_rw",-802,"safe"    ,'roots',"/0/Dossiers/config_messages"),
     )
 
 columns = {
@@ -61,7 +62,7 @@ columns = {
     '1': {'type': 'Note', 'freezed': 'F',
           'title': utilities._("COL_TITLE_ch_priority"),
           'comment': utilities._("COL_COMMENT_ch_priority"),
-          'width': 2, 'minmax': '[-100;100]',
+          'width': 2, 'minmax': '[-1000;1000]',
           },
     '2': {'type': 'Enumeration', 'freezed': 'F',
           'enumeration': 'veryunsafe unsafe safe verysafe',

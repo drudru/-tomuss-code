@@ -6058,3 +6058,28 @@ msgid "MSG_T_to_textual"
 msgstr "If you use a screen reader, follow this link"
 
 
+
+msgid "COL_TITLE_messages_order"
+msgstr "Order"
+
+msgid "COL_COMMENT_messages_order"
+msgstr "Smaller are displayed first"
+
+msgid "COL_TITLE_messages_group"
+msgstr "Groups"
+
+msgid "COL_COMMENT_messages_group"
+msgstr "Groups for which the message is displayed:\n"
+       "('user.name', 'grp:staff', 'ldap:yyy')"
+
+msgid "COMMENT_messages"
+msgstr "The HTML messages to display on the 'suivi' page."
+
+msgid "LINK_/0/Dossiers/config_messages"
+msgstr "Edit the 'suivi' page messages"
+
+msgid "HELP_/0/Dossiers/config_messages"
+msgstr "Allow to display a message to an user group."
+
+
+

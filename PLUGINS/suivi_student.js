@@ -1565,6 +1565,15 @@ function DisplaySetReferent(node)
 }
 DisplayAdvertising.need_node = ['SetReferent', 'Login'] ;
 
+
+function DisplayGrpMessages(node)
+{
+  var s = '' ;
+  for(var i in node.data)
+    s += '<div>' + node.data[i] + '</div>' ;
+  return s ;
+}
+
 function DisplayToTextual(node)
 {
   return '<a href="' + display_data['Login']
@@ -1593,11 +1602,16 @@ function DisplayT_Message(node)
 function DisplayT_Messages(node)
 {
   var m = DisplayMessages(node) ;
-  if ( ! m )
-    return '' ;
-  return  '<section><h2>' + _("MSG_T_Messages") + '</h2>' + m + '</section>' ;
+  var s = '' ;
+  s += '<p>' + m + '</p>' ;
+  for(var i in node.data)
+    s += '<p>' + node.data[i] + '</p>' ;
+  if ( s === '' )
+    return "" ;
+  return '<section><h2>' + _("MSG_T_Messages") + '</h2>' + s +  '</section>' ;
 }
 DisplayT_Messages.need_node = ['Abjs'] ;
+
 
 function DisplayT_Grades_Lasts(node)
 {

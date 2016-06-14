@@ -6169,7 +6169,7 @@ msgid "MSG_T_last_grades"
 msgstr "Dernières valeurs modifiées"
 
 msgid "MSG_T_Messages"
-msgstr "Messages de la scolarité"
+msgstr "Messages importants"
 
 msgid "MSG_T_Abjs"
 msgstr "Liste des justificatifs d'absence"
@@ -6194,3 +6194,27 @@ msgstr "Informations et liens"
 
 msgid "MSG_T_to_textual"
 msgstr "Version du site pour lecteur écran"
+
+
+msgid "COL_TITLE_messages_order"
+msgstr "Ordre"
+
+msgid "COL_COMMENT_messages_order"
+msgstr "Les plus petits sont affichés en premier"
+
+msgid "COL_TITLE_messages_group"
+msgstr "Groupes"
+
+msgid "COL_COMMENT_messages_group"
+msgstr "Groupes pour lequels le message est affiché :\n"
+       "('user.name', 'grp:staff', 'ldap:yyy')"
+
+msgid "COMMENT_messages"
+msgstr "Les messages (en HTML) à afficher sur la page de suivi."
+
+msgid "LINK_/0/Dossiers/config_messages"
+msgstr "Éditer les messages de la page de suivi"
+
+msgid "HELP_/0/Dossiers/config_messages"
+msgstr "Permet d'afficher des messages ciblés par groupes d'utilisateur."
+
