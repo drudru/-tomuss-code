@@ -59,7 +59,7 @@ referent_columns = {
     '0_2' : {'position': 2,'type':'Text', "width":6, "freezed":'F'},
     '0_3' : {'hidden':1},
     '0_4' : {'hidden':1},
-    '0_5' : {'position': 3,'type':'Text', "width":1, "freezed":'F',
+    '0_5' : {'position': 3,'type':'Text', "width":1, "freezed":'C',
              "hidden":1, 'title':'Inscrit'},
     'FiRe': {'position': 4,'type':'Bool', "width":1, "freezed":'F'},
     'CON1': {'position': 5,'type':'Bool', "width":2},
@@ -72,7 +72,6 @@ referent_columns = {
     'RDV3': {'position':12,'type':'Prst', "width":2},
     'RDV4': {'position':13,'type':'Prst', "width":2},
     'JUR2': {'position':14,'type':'Text', "width":6},
-    'Insc': {'type':'Text', "hidden":1, "freezed": 'C', 'title': 'Inscrit'},
     }
 
 def init(table):
