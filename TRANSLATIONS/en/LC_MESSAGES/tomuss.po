@@ -5991,3 +5991,70 @@ msgid "MSG_theme"
 msgstr "Themes:"
 
 
+msgid "MSG_T_UEs"
+msgstr "All the courses"
+
+msgid "MSG_T_column_comment"
+msgstr "generic comment:"
+
+msgid "MSG_T_cell_comment"
+msgstr "value comment:"
+
+msgid "MSG_T_cell_author"
+msgstr "entered by"
+
+msgid "MSG_T_cell_date"
+msgstr "entered the"
+
+msgid "MSG_T_masters"
+msgstr "managers :"
+
+msgid "MSG_T_on"
+msgstr " on "
+
+msgid "MSG_T_rank_global"
+msgstr "grade rank,"
+
+msgid "MSG_T_rank_group"
+msgstr "grade rank in the group,"
+
+msgid "MSG_T_average"
+msgstr "grade average,"
+
+msgid "MSG_T_mediane"
+msgstr "grade mediane,"
+
+msgid "MSG_T_weight"
+msgstr "with a weight of"
+
+msgid "MSG_T_last_grades"
+msgstr "Last values modified"
+
+msgid "MSG_T_Messages"
+msgstr "Important notices"
+
+msgid "MSG_T_Abjs"
+msgstr "Justified leave list"
+
+msgid "MSG_T_abi"
+msgstr "unjustified leave"
+
+msgid "MSG_T_abj"
+msgstr "justified leave"
+
+msgid "MSG_T_pre"
+msgstr "present"
+
+msgid "MSG_T_tnr"
+msgstr "work not given"
+
+msgid "MSG_T_ppn"
+msgstr "grading impossible"
+
+msgid "MSG_T_informations"
+msgstr "Informations and links"
+
+msgid "MSG_T_to_textual"
+msgstr "If you use a screen reader, follow this link"
+
+
