@@ -1658,7 +1658,11 @@ function DisplayT_Grades_Cell(display_ue)
 	    s += ' ' + _("MSG_T_weight") + ' ' + col.weight ;
 	  formula.push(s) ;
 	}
-      formula = sep + _('B_' + column.type) + ' : ' + formula.join(', ') ;
+      formula = sep + _('B_' + column.type)
+	+ ( column.type == 'Weighted_Percent' || column.type == 'Nmbr'
+	    ? " '" + html(column.test_filter) + "'"
+	    : '')
+	+ ' : ' + formula.join(', ') ;
     }
   var formatted = column.real_type.formatte_suivi()
     .replace(RegExp('>/([0-9])'), '>' + _('MSG_T_on') + '$1')
