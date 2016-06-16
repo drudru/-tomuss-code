@@ -47,6 +47,8 @@ function Room(infos)
   this.predefined_places = !!infos[1] ;
   this.predefined_name = !!infos[0] ;
   this.clear() ;
+  if ( infos[0] === '' )
+    this.in_value = this.in_comment = true ;
 }
 Room.id = 0 ;
 
@@ -259,9 +261,8 @@ function Filler(last_filler)
   if ( last_filler )
   {
     this.toggles = last_filler.toggles ;
-    this.rooms = last_filler.rooms ;
     this.index = last_filler.index ;
-    this.example_row_defined = true ;
+    this.create_rooms(last_filler.rooms) ;
   }
   else
   {
@@ -348,9 +349,15 @@ function text_to_room_and_place(text)
   return [text, 'undefined'] ;
 }
 
-Filler.prototype.create_rooms = function() {
+Filler.prototype.create_rooms = function(last_rooms) {
   var room ;
   this.rooms = {} ; // Indexed by room name
+  // Initialize wtih previous values
+  if ( last_rooms )
+    {
+      this.example_row_defined = true ;
+      this.rooms = last_rooms ;
+    }
   var enumeration = this.column.real_type.cell_completions('', this.column) ;
   if ( this.column.type == 'Note' )
     enumeration = [abi, abj, ppn, tnr] ; // Do not want popup menu for grades
@@ -358,11 +365,11 @@ Filler.prototype.create_rooms = function() {
     {
       for(var i in enumeration)
 	{
-	  {
-	    i = enumeration[i] ;
-	    this.rooms[i] = new Room([i]) ;
-	    this.rooms[i].enumeration = true ;
-	  }
+	  i = enumeration[i] ;
+	  if ( this.rooms[i] )
+	    continue ;
+	  this.rooms[i] = new Room([i]) ;
+	  this.rooms[i].enumeration = true ;
 	}
     }
 
@@ -371,8 +378,11 @@ Filler.prototype.create_rooms = function() {
   {
     for(var i in rooms)
     {
-      this.rooms[rooms[i][0]] = new Room(rooms[i]) ;
-      if ( rooms[i][0].indexOf('%%') != -1 )
+      room = rooms[i][0] ;
+      if ( this.rooms[room] )
+	continue ;
+      this.rooms[room] = new Room(rooms[i]) ;
+      if ( room.indexOf('%%') != -1 )
 	this.example_row_defined = true ;
     }
     if ( rooms.length == 0 )
@@ -424,8 +434,6 @@ Filler.prototype.add_empty_input = function() {
     {
       room = this.rooms[this.index[i]] ;
       cell = room.get_name() ;
-      if ( ! room.created_empty )
-	break ;
       if ( cell.value === '' )
 	return ; // Yet an empty input
     }
