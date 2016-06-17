@@ -51,7 +51,9 @@ do_is_backup_needed() {
 do_commit() {
     log "Do commit $I"
     git add --all .
+    ERRORS="$ERRORS add:$?"
     git commit -a -m "Backup $I '$(date +%Y-%m-%d_%H:%M:%S)'"
+    ERRORS="$ERRORS commit:$?"
 }
 
 do_cleanup_editor() {
@@ -134,9 +136,11 @@ do_rsync() {
         --exclude '*~' \
         --verbose \
         DB/. "$BACKUP_USER:TOMUSS_DB"
+    ERRORS="$ERRORS rsync:$?"
     log "Do rsync UPLOAD (never delete)"
     rsync --archive --no-g --verbose --exclude '*~' \
 	  UPLOAD/. "$BACKUP_USER:UPLOAD"
+    ERRORS="$ERRORS rsync:$?"
 }
 
 do_main() {
@@ -151,7 +155,9 @@ do_main() {
     fi
     do_rsync
     scp "$0" "$BACKUP_USER":hour_job
+    ERRORS="$ERRORS scp:$?"
     ssh "$BACKUP_USER" 'chmod 755 hour_job ; nice $HOME/hour_job RUN'
+    ERRORS="$ERRORS ssh:$?"
 }
 
 case "$1" in
@@ -162,3 +168,21 @@ case "$1" in
     "DO_DECIMATE") do_decimate "$2" ;;
     "DO_DECIMATE_EDITOR") shift ; do_decimate_editor "$@" ;;
 esac
+
+case "$ERRORS" in
+    *[1-9]*)
+	if [ -d SCRIPTS ]
+	then
+	    SCRIPTS/alert_mail.py "BUG in hour job" "
+Look at LOGS/xxx_crontab_1h
+
+ERRORS=$ERRORS
+"
+	else
+	    echo "ERRORS = $ERRORS" >&2
+	    exit 1
+	fi
+	;;
+esac
+
+exit 0
