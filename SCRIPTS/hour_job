@@ -18,7 +18,9 @@ log() {
 }
 
 ps -e >xxx.hour_job
-if [ "$(grep hour_job <xxx.hour_job | wc --lines)" != 1 ]
+if [ "$1" != "" \
+    -a "$1" != "RUN" \
+    -a "$(grep hour_job <xxx.hour_job | wc --lines)" != 1 ]
     then
     log "hour_job.py is yet running, let it finish the previous job"
     cat xxx.hour_job
@@ -49,11 +51,16 @@ do_is_backup_needed() {
 }
 
 do_commit() {
-    log "Do commit $I"
-    git add --all .
-    ERRORS="$ERRORS add:$?"
-    git commit -a -m "Backup $I '$(date +%Y-%m-%d_%H:%M:%S)'"
-    ERRORS="$ERRORS commit:$?"
+    if [ "" = "$(git ls-files -m)" ]
+    then
+	log "Nothing to commit into $I"
+    else
+	log "Do commit $I"
+	git add --all .
+	ERRORS="$ERRORS add:$?"
+	git commit -a -m "Backup $I '$(date +%Y-%m-%d_%H:%M:%S)'"
+	ERRORS="$ERRORS commit:$?"
+    fi
 }
 
 do_cleanup_editor() {
