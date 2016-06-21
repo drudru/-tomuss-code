@@ -47,16 +47,6 @@ def init(table):
     table.comment = "Pictures from wiki commons"
     table.default_sort_column = 2 # compatibility with old files
 
-def content(table):
-    tt = abj.get_table_tt(table.year, table.semester)
-    if tt.pages:
-        tt.loading = True # Do not save next change in database
-        tt.cell_change(tt.pages[0], '0_0', 'x', 'k07')
-        tt.cell_change(tt.pages[0], '0_3', 'x', '1')
-        tt.loading = False
-
-    return update_student_information
-
 def update_inscrits_ue(the_ids, table, page):
     table.with_inscrits = table.columns[5].title == 'Inscrit'
     if not table.with_inscrits:

@@ -20,7 +20,6 @@
 #    Contact: Thierry.EXCOFFIER@bat710.univ-lyon1.fr
 
 import time
-import html
 from .. import configuration
 from .. import utilities
 from . import _ucbl_
@@ -143,10 +142,5 @@ def init(table):
 def content(dummy_table):
     return _ucbl_.update_student_information
 
-def cell_change(table, page, col, lin, value, dummy_date):
+def cell_change(table, dummy_page,dummy_col,dummy_lin,dummy_value,dummy_date):
     table.the_current_tt_time = -1
-    _ucbl_.cell_change(table, page, col, lin, value, dummy_date)
-
-def check(table):
-    # Get mails and portails
-    _ucbl_.check(table, update_inscrits=lambda x,y,z: None)
