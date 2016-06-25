@@ -505,7 +505,8 @@ class LDAP(LDAP_Logic):
             authentication = ldap3.AUTH_SIMPLE,
             raise_exceptions = True,
             client_strategy = ldap3.STRATEGY_REUSABLE_THREADED,
-            pool_size = 4,
+            pool_size = 8,
+            pool_lifetime = 60
         )
         self.connection.tls = ldap3.Tls()
         self.connection.tls.validate = ssl.CERT_NONE
