@@ -1190,7 +1190,7 @@ function DisplaySemesters(node, textual)
     }
   while(node.data[y + '/' + s] || s != semesters[0]) ;
   if ( textual )
-    return t.join('')
+    return t.join('') ;
   return '<table class="tomuss_links colored">'
     + '<tr><th colspan="3">'
     + hidden_txt(_("MSG_suivi_student_semesters"),
@@ -1799,7 +1799,7 @@ function DisplayT_Semesters(node)
   else
     return '' ;
 }
-DisplaySemesters.need_node = ['T_Semesters', 'T_Login'] ;
+DisplayT_Semesters.need_node = ['T_Semesters', 'T_Login'] ;
 
 function DisplayT_LinksTable(node)
 {
