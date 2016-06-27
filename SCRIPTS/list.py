@@ -71,7 +71,7 @@ if sys.argv[1] == 'checkmail':
         print(k, v)
     sys.exit(0)
 
-q = L.query("(" + s + ")", attributes=(), base=configuration.ou_top)
+q = L.query("(" + s + ")", attributes='*', base=configuration.ou_top)
 
 for j in q:
     try:
