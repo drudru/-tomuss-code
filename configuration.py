@@ -32,7 +32,7 @@ import os
 import time
 import sys
 
-version = '6.0.13'
+version = '6.0.14'
 
 ###############################################################################
 # ACLS
@@ -634,6 +634,9 @@ config_debug = ''
 
 def do_nothing(*args):
     pass
+
+def get_messages(login): # Overwritten by TEMPLATES/config.messages.py
+    return ()
 
 ###############################################################################
 # Terminate configuration

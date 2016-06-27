@@ -91,14 +91,4 @@ for j in q[0][1].items():
             for k in j[1]:
                 print('\t' + k)
 
-
 sys.stderr.close()
-
-"""
-    if True:
-        # display information about about an object
-        # q = L.query("(CN=DV012B*)", attributes=("DN",), base=configuration.ou_top)
-        #q = L.query("(CN=*)", base='OU=LISTES DE DIFFUSIONS ETUDIANTES,OU=IUT A,DC=univ-lyon1,DC=fr',
-        # q = L.query("(CN=*APO*medecine*)", base='DC=univ-lyon1,DC=fr', attributes=("CN",)        )
-        # q = L.query("(CN=127376 APO-M*)", attributes=(), base=configuration.ou_top)
-"""

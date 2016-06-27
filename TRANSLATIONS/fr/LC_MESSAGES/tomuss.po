@@ -6209,6 +6209,9 @@ msgid "COL_COMMENT_messages_group"
 msgstr "Groupes pour lequels le message est affiché :\n"
        "('user.name', 'grp:staff', 'ldap:yyy')"
 
+msgid "COL_TITLE_messages"
+msgstr "Message_HTML"
+
 msgid "COMMENT_messages"
 msgstr "Les messages (en HTML) à afficher sur la page de suivi."
 
