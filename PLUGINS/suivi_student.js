@@ -1029,19 +1029,21 @@ function DisplayLastGradesList(time_limit)
       for(var data_col in ue.line)
 	{
 	  var cell = ue.line[data_col] ;
-	  if ( cell[0] === '' )
-	    continue ;
-	  if ( cell_visibility_date(cell, ue.columns[data_col]).getTime()
-	       < time_limit )
+	  if ( cell[0] === '' || cell[0] === undefined )
 	    continue ;
 	  if ( cell[1].length < 2 )
 	    continue ; // System value
-	  s.push([ue, data_col]) ;
+	  var time = cell_visibility_date(cell, ue.columns[data_col]) ;
+	  time.setHours(0) ;
+	  time.setMinutes(0) ;
+	  time.setSeconds(0) ;
+	  time = time.getTime();
+	  if ( time < time_limit )
+	    continue ;
+	  s.push([ue, data_col, time]) ;
 	}
     }
-  s.sort(function(a, b) {
-      return a[0].line[a[1]][2] < b[0].line[b[1]][2] ? 1 : -1
-	}) ;
+  s.sort(function(a, b) { return b[2] - a[2] ; }) ;
   return s ;
 }
 
@@ -1065,13 +1067,9 @@ function DisplayLastGrades(node)
     {
       var ue = s[i][0] ;
       var data_col = s[i][1] ;
+      var quand = s[i][2] ;
       var column = ue.columns[data_col] ;
       var cell = ue.line[data_col] ;
-      var quand = cell_visibility_date(cell, column) ;
-      quand.setHours(0) ;
-      quand.setMinutes(0) ;
-      quand.setSeconds(0) ;
-      quand = quand.getTime() ;
       var nb_days = Math.round((today - quand)/86400000) ;
       var day = daynames[nb_days] ;
       if ( day === undefined )
@@ -1684,10 +1682,9 @@ function DisplayT_Grades_Cell(display_ue)
 	  column_comment = '' ;
 	}
     }
- 
   return '<section><h4>'
     + (display_ue ? html(DisplayGrades.ue.ue)
-       + ' ' + html(DisplayGrades.ue.table_title) + ', ' : '')
+       + ' ' + html(DisplayGrades.ue.table_title || '') + ', ' : '')
     + html(column.title.replace(/[-_]/g, ' '))
     + ' : ' + formatted + '</h4>'
     + (column_comment
