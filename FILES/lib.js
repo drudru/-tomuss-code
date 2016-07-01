@@ -2560,7 +2560,7 @@ function next_page(next_cell, dy)
     the_current_cell.change() ;
 
   if ( filtered_lines !== undefined 
-       && line_offset + table_attr.nr_lines > filtered_lines.length )
+       && line_offset + table_attr.nr_lines > nr_not_empty_lines + 1 )
     return true;
 
   if ( dy === undefined )
@@ -2982,7 +2982,8 @@ function cell_set_value_real(line_id, data_col, value, td)
 
   create_column(columns[data_col]) ;
   add_a_new_line(line_id) ;
-
+  if ( line_empty(lines[line_id]) && value !== '' )
+    nr_not_empty_lines++ ;
   cell.set_value(value) ;
 
   var v ;
