@@ -1795,11 +1795,6 @@ function get_filtered_lines()
   for(var line in lines)
     {
       line = lines[line] ;
-      empty = line_empty(line) ;
-      if ( ! empty )
-	nr_not_empty_lines++ ;
-      if ( empty ) // empty on screen
-	continue ;
       var ok = true ;
       for(var filter in filters)
 	{
@@ -1812,6 +1807,8 @@ function get_filtered_lines()
 	}
       if ( ! ok )
 	continue ;
+      if ( line_empty(line) !== true  )
+	nr_not_empty_lines++ ;
 
       f.push(line) ;
     } 
