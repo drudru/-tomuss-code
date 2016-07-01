@@ -1093,10 +1093,10 @@ function display_ues(title, tip, codes, options)
       }
     else
       {
-	var code = ue ;
+	var code = string_highlight(ue, search_ue_list.txt) ;
 	if ( code.match('/') )
-	  code = code.replace(RegExp("(/[^/]*)$"),
-			      '<span class="path_code">$1</span>') ;
+	  code = code.replace(RegExp("([^<])(/[^/]*)$"),
+			      '$1<span class="path_code">$2</span>') ;
 	s.push('<div class="ue_line" onclick="open_ue(this,' + js2(ue)
 	       + ')" ondblclick="goto_url(' + js2(url_ue(ue)) + ')">'
 	       + '<div class="ue_right"><div class="ue_title">'
@@ -1116,7 +1116,7 @@ function display_ues(title, tip, codes, options)
 			     _("MSG_home_old_codes"))
 		  : '')
 	       + '</div></div><div class="ue_code">'
-	       + string_highlight(code, search_ue_list.txt)
+	       + code
 	       + '</div><div class="ue_icons">'
 	       + fast_tip(favorite,
 			  (info.is_bookmarked
