@@ -1776,14 +1776,11 @@ function get_filtered_lines()
 {
   var f = [], empty ;
 
-  nr_not_empty_lines = 0 ;
   if ( filters.length === 0 )
     {
       for(var line in lines)
 	{
 	  empty = line_empty(lines[line]) ;
-	  if ( ! empty )           // Not empty on screen
-	    nr_not_empty_lines++ ;
 	  if ( table_attr.hide_empty && empty )
 	    continue ;	    
 	  if ( empty !== true )
@@ -1807,9 +1804,6 @@ function get_filtered_lines()
 	}
       if ( ! ok )
 	continue ;
-      if ( line_empty(line) !== true  )
-	nr_not_empty_lines++ ;
-
       f.push(line) ;
     } 
   return f ;
@@ -2023,6 +2017,11 @@ function update_filtered_lines()
 	}
       filtered_lines = f ;
     }
+
+  nr_not_empty_lines = 0 ;
+  for(var line in filtered_lines)
+    if ( line_empty(filtered_lines[line]) !== true  )
+      nr_not_empty_lines++ ;
 
   update_line_menu() ;
 
