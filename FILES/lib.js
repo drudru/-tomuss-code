@@ -3249,15 +3249,14 @@ function update_value_and_tip(o, value)
   if ( o.tagName == 'SELECT' )
     return ;
 
-  value = html(value.toString()) ;
-  var v = value + '&nbsp;' ;
+  var v = html(value.toString()) + '&nbsp;' ;
   if ( o.innerHTML != v )
     {
       highlight_add(o) ;
       if ( o.tagName != 'INPUT' )
 	{
 	  o.innerHTML = v ;
-	  update_tip_from_value(o, value) ;
+	  update_tip_from_value(o, value.toString()) ;
 	}
     }
 }
