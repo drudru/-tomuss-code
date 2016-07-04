@@ -63,10 +63,17 @@ function set_columns(value, column, xcolumn_attr)
       if ( ! ok )
 	{
 	  if ( xcolumn_attr === true )
-	    // Wait the good value
-	    // Next time 'xcolumn_attr' will be '1' in place of 'true'
-	    setTimeout(function() {set_columns(value, column, 1)},
-		       1000) ;
+	    {
+	      // Wait the good value
+	      // Next time 'xcolumn_attr' will be '1' in place of 'true'
+	      setTimeout(function() {
+		set_columns(value, column, 1);
+		attr_update_user_interface(column_attributes['columns'],
+					   column) ;
+	      }, 1000) ;
+	      column.average_columns = [] ;
+	      return value ;
+	    }
 	  else
 	    {
 	      if ( column_modifiable_attr('columns', column) )

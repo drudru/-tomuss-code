@@ -515,9 +515,6 @@ function an_user_update(event, input, column, attr)
 
   input.theoldvalue = new_value ;
 
-  if ( attr == 'type' )
-    init_column(column) ; // Need to update other attributes.
-
   attr_update_user_interface(attr, column) ;
   compute_tip(input);
 }
