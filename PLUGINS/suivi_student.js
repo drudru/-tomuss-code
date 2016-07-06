@@ -1575,8 +1575,8 @@ function DisplayGrpMessages(node)
 function DisplayToTextual(node)
 {
   return '<a href="' + display_data['Login']
-    + '/*" style="color: #FFF">😎<span style="font-size: 0.1px; opacity: 0.1">'
-    + _("MSG_T_to_textual") + '</span></a>' ;
+    + '/*" style="color: #FFF;font-size: 2px; opacity: 0.1">'
+    + _("MSG_T_to_textual") + '</a>' ;
 }
 DisplayToTextual.need_node = ['Login'] ;
 
