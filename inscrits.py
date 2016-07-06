@@ -29,7 +29,7 @@ from . import configuration
 from . import utilities
 from . import sender
 
-ldap3.LDAPTimeLimitExceededResult = 5
+time_limit = 5 # seconds
 
 warn = utilities.warn
 
@@ -498,6 +498,11 @@ class LDAP(LDAP_Logic):
         server_pool = ldap3.ServerPool(servers,
                                        ldap3.POOLING_STRATEGY_ROUND_ROBIN,
                                        active=True, exhaust=600)
+        if self.connection and self.connection is not True:
+            try:
+                self.connection.unbind()
+            except:
+                pass
         self.connection = ldap3.Connection(
             server_pool,
             user = configuration.ldap_server_login,
@@ -534,7 +539,7 @@ class LDAP(LDAP_Logic):
                 sender.send_live_status('<script>b("/LDAP");</script>\n')
                 msg_id = self.connection.search(
                     base, search, ldap3.SEARCH_SCOPE_WHOLE_SUBTREE,
-                    time_limit = ldap3.LDAPTimeLimitExceededResult,
+                    time_limit = time_limit,
                     attributes=attributes)
                 s = self.connection.get_response(msg_id)[0]
                 t = []
