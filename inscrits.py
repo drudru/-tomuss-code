@@ -30,6 +30,7 @@ from . import utilities
 from . import sender
 
 time_limit = 5 # seconds
+ldap3.RESTARTABLE_TRIES = 1
 
 warn = utilities.warn
 
@@ -510,7 +511,7 @@ class LDAP(LDAP_Logic):
             authentication = ldap3.AUTH_SIMPLE,
             raise_exceptions = True,
             client_strategy = ldap3.STRATEGY_REUSABLE_THREADED,
-            pool_size = 8,
+            pool_size = 3,
             pool_lifetime = 60
         )
         self.connection.tls = ldap3.Tls()
@@ -613,7 +614,9 @@ L_batch = None # Any request in a batch thread
 def init():
     global L_fast, L_slow, L_batch
     utilities.warn('Create LDAP connector')
-    L_fast = L_slow = L_batch = LDAP()
+    L_fast = LDAP()
+    L_slow = LDAP()
+    L_batch = LDAP()
 
 #REDEFINE
 # If the student login in LDAP is not the same as the student ID.
