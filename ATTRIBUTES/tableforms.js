@@ -222,6 +222,19 @@ function table_forms_drop(event)
     table_forms_goto(event) ;
 }
 
+function table_forms_stop_event(event)
+{
+  event = the_event(event) ;
+  if ( (event.real_event.key.length === 1
+       || event.real_event.key == "Backspace")
+       && ! event.ctrlKey
+     )
+    {
+      Alert("ERROR_value_not_modifiable") ;
+      stop_event(event) ;
+    }
+}
+
 function table_forms_update(THIS, keep_img)
 {
     var t = table_forms_element.getElementsByTagName('tbody')[0] ;
@@ -260,7 +273,12 @@ function table_forms_update(THIS, keep_img)
 		  img[0].parentNode.removeChild(img[0]) ;
 	      }
 	    if (! cell.modifiable(THIS.line, columns[tr.data_col]) )
+	      {
 		tr.className += 'ro' ;
+		tr.onkeydown = table_forms_stop_event ;
+	      }
+	    else
+	      tr.onkeydown = function() { } ;
 
 	    if ( columns[tr.data_col].type == 'Enumeration' )
 	      {
