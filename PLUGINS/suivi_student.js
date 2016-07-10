@@ -466,10 +466,19 @@ function DisplayUEToggle_do(event, ue)
   }
   var t = the_event(event).target ;
   t.innerHTML = DisplayUEToggle_text(ue) ;
+  var content = t.parentNode.parentNode.nextSibling ;
   if ( DisplayUEToggle_is_open(ue) )
-    t.parentNode.parentNode.nextSibling.style.display = "initial" ;
+    content.style.display = "block" ;
   else
-    t.parentNode.parentNode.nextSibling.style.display = "none" ;
+    content.style.display = "none" ;
+  if ( content.className.toString().indexOf("UEComment") != -1 )
+    {
+      content = content.nextSibling ;
+      if ( DisplayUEToggle_is_open(ue) )
+	content.style.display = "block" ;
+      else
+	content.style.display = "none" ;
+    }
 }
 
 function DisplayUEToggle(node)
