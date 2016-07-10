@@ -97,7 +97,7 @@ TD { padding: 0px }
 
 .table_title .select_ue_sort {
     position: absolute ;
-    left: 0px ;
+    right: 0px ;
     top: 0px ;
 }
 
@@ -114,7 +114,7 @@ TD { padding: 0px }
 
 .table_title DIV.open_close {
     position: absolute ;
-    right: 0px ;
+    left: 0px ;
     top: 0px ;
     width: auto ;
 }
@@ -124,7 +124,7 @@ TD { padding: 0px }
 }
 
 .HomeStudents .is_close {
-    text-decoration: line-through ;
+/*    text-decoration: line-through ; */
     text-decoration-color: #000 ;
 }
 

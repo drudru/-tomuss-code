@@ -842,13 +842,13 @@ function select_code_filter(t)
 
 function select_open_close(t, event)
 {
-  set_option('B' + get_ue_table_title(t), t.innerHTML == '⇧' ? '⇩' : '⇧') ;
+  set_option('B' + get_ue_table_title(t), t.innerHTML == icon_close ? icon_open : icon_close) ;
   var title = t.parentNode.parentNode.parentNode ;
   title.className = title.className.replace(/ is_(open|close)/, '') ;
-  if ( t.innerHTML == '⇧' )
+  if ( t.innerHTML == icon_close )
     {
       title.className += " is_close" ;
-      t.innerHTML = '⇩' ;
+      t.innerHTML = icon_open ;
       t.nextSibling.innerHTML = _("TIP_open") ;
       t = get_ue_table(t) ;
       while( t.childNodes[1] )
@@ -896,10 +896,13 @@ var ue_sorters = {
   }
 } ;
 
+var icon_open = '▶' ;
+var icon_close = '▼' ;
+
 function display_ues(title, tip, codes, options)
 {
   var order = get_option('S' + title, options.default_order) ;
-  var opened = get_option('B' + title, '⇧') == '⇧' ;
+  var opened = get_option('B' + title, icon_close) != icon_open ;
   var s = ['<div class="ue_list border">'] ;
   if ( options.hide_open_close )
     opened = true ;
@@ -924,7 +927,7 @@ function display_ues(title, tip, codes, options)
       if ( ! options.hide_open_close )
 	s.push('<div class="open_close ue_icons">'
 	       + fast_tip('<span onclick="select_open_close(this,event)">'
-			  + (opened ? '⇧' : '⇩')
+			  + (opened ? icon_close : icon_open)
 			  + '</span>',
 			  opened ? _("TIP_close") : _("TIP_open")
 			 )
