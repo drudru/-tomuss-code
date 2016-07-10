@@ -842,7 +842,8 @@ function select_code_filter(t)
 
 function select_open_close(t, event)
 {
-  set_option('B' + get_ue_table_title(t), t.innerHTML == icon_close ? icon_open : icon_close) ;
+  set_option('B' + get_ue_table_title(t),
+	     t.innerHTML == icon_close ? icon_open : icon_close) ;
   var title = t.parentNode.parentNode.parentNode ;
   title.className = title.className.replace(/ is_(open|close)/, '') ;
   if ( t.innerHTML == icon_close )
@@ -978,6 +979,15 @@ function display_ues(title, tip, codes, options)
   var display_student_icon = options.students && (options.code_filter
 						  || codes.length < 40) ;
   var nr_max = get_option('C' + title, options.nr_max) ;
+  if ( codes.length == 0
+       && opened
+       && options.students
+       && ! options.hide_open_close
+       && ! update_students_real.pending
+       && document.getElementById('students_list')
+       && document.getElementById('students_list').value.length > 1
+       )
+    s.push(_("MSG_home_nothing"));
   for(var ue in codes)
   {
     if ( nr_displayed == nr_max )
