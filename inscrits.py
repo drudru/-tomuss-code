@@ -30,7 +30,6 @@ from . import utilities
 from . import sender
 
 time_limit = 5 # seconds
-ldap3.RESTARTABLE_TRIES = 1
 
 warn = utilities.warn
 
@@ -496,9 +495,12 @@ class LDAP(LDAP_Logic):
             for host in configuration.ldap_server
             ]
         # configuration.ldap_reconnect
-        server_pool = ldap3.ServerPool(servers,
-                                       ldap3.POOLING_STRATEGY_ROUND_ROBIN,
-                                       active=True, exhaust=600)
+        if len(servers) == 1:
+            server_pool = servers[0]
+        else:
+            server_pool = ldap3.ServerPool(servers,
+                                           ldap3.POOLING_STRATEGY_ROUND_ROBIN,
+                                           active=True, exhaust=600)
         if self.connection and self.connection is not True:
             try:
                 self.connection.unbind()
