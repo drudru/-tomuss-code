@@ -566,7 +566,10 @@ class Filter:
         if len(value) == 0 and operator[0] == '':
             if attr == 'author':
                 value = username
-                operator = ['', AUTHOR, AUTHOR_str, None]
+                if elsewhere is None:
+                    operator = ['', AUTHOR, AUTHOR_str, None]
+                else:
+                    left = CellAttrCell("value")
             elif attr == 'comment' or attr == 'history':
                 # Special filters : '#' and ':'
                 dummy, operator = search_operator('=')
