@@ -165,10 +165,17 @@ SPAN.displaygrey { color: #555 }
 
 BODY.big_text_1 { font-size: 150% }
 
+.preferences_popup LI { list-style: none; margin-left: -0.7em ; }
+.preferences_popup LI:before {
+    position: absolute ;
+    left: 4px ;
+    font-size: 120% ;
+}
 .selection_0:hover { background: #EEE }
 .selection_1:hover { background: #FFD }
-.selection_0 { list-style-type: circle }
-.selection_1 { list-style-type: disc ; background: #FF8 }
+.selection_0:before { content: '☐'; }
+.selection_1:before { content: '☑'; }
+.selection_1 { background: #FF8 }
 
 .show_empty_0 .is_empty { display: none }
 
