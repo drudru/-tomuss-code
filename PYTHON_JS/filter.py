@@ -455,6 +455,8 @@ def from_another_column(string, errors, columns):
     errors["«" + s[0][1:] + '» ' + _("ALERT_url_import_column")] = True
     return None
 
+cached_filters = {}
+
 class Filter:
     # Parse the filter to create a list of nodes
     def __init__(self, string, username, column_type, the_columns=None):
@@ -625,7 +627,13 @@ class Filter:
                              ]) + ')'
 
     def compiled_js(self):
-        f = eval('(function x(line, cell) { return ' + self.js() + ';})')
+        source = self.js()
+        if source not in cached_filters:
+            cached_filters[source] = eval('(function x(line, cell) { return '
+                                          + source + ';})')
+        x = cached_filters[source]
+        def f(line, cell):
+            return x(line, cell)
         f.errors = self.get_errors()
         f.filter = self.string
         return f
