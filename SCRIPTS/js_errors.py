@@ -68,7 +68,7 @@ def most_common_recursive(lines, cols, depth=0):
     nr_lines = len(lines)
     while lines:
         counters = []
-        max_val = 0
+        max_val = (0,'','')
         for i, col in enumerate(cols):
             counter = collections.defaultdict(int)            
             for line in lines:
