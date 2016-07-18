@@ -155,6 +155,7 @@ function detect_small_screen(force)
   var default_theme = "theme" + semester.substr(0,1) ;
   var top_class = the_body.className
     .replace(/ (teacher_view|student_view|hide_right_column)[^ ]*/, '')
+    .replace(/ [a-z_]*_[01]/g, '')
     .replace(/theme_/, "theme")
     .replace(/theme\b/, default_theme) ;
   if ( top_class.indexOf("theme") == -1 )
@@ -188,7 +189,7 @@ function detect_small_screen(force)
   if ( smallscreen )
     top_class += ' hide_right_column_1' ;
   for(var item in display_data['Preferences'])
-    if ( item != 'hide_right_column' || display_data['Preferences'][item] == 1 )
+    if ( item != 'hide_right_column' )
       top_class += ' ' + item + '_' + display_data['Preferences'][item] ;
 
   // To not relaunch CSS animation
