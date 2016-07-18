@@ -23,6 +23,8 @@ function start_display()
 
 function display_update(key_values, top)
 {
+  if ( display_do_debug )
+    console.log("==================== Display update ======================") ;
   the_body = document.getElementsByTagName('BODY')[0] ;
   for(var i in key_values)
     display_data[key_values[i][0]] = key_values[i][1] ;
@@ -98,6 +100,9 @@ function display_display(node)
   node.data = display_data[node.name] ;
   if ( node.data === "" )
     return '' ;
+  var start ;
+  if ( display_do_debug )
+    start = millisec() ;
   if ( node.fct === undefined )
     console.log(node) ;
   var need_node = node.fct.need_node ;
@@ -118,29 +123,37 @@ function display_display(node)
       content = content[0] ;
     }
   if ( content === '' || ! content )
-    return '' ;
-  if ( styles.length )
-    styles = ' style="' + styles.join(';') + '"' ;
+    content = '' ;
   else
-    styles = '' ;
-
-  if ( display_do_debug && content.indexOf("display_display_debug") == -1 )
     {
-      var s = [] ;
-      var n = node ;
-      while(n)
+      if ( styles.length )
+	styles = ' style="' + styles.join(';') + '"' ;
+      else
+	styles = '' ;
+
+      if ( display_do_debug && content.indexOf("display_display_debug") == -1 )
 	{
-	  s.push(n.name + '(' + n.priority + ')') ;
-	  n = display_definition[n.containers[0]] ;
+	  var s = [] ;
+	  var n = node ;
+	  while(n)
+	    {
+	      s.push(n.name + '(' + n.priority + ')') ;
+	      n = display_definition[n.containers[0]] ;
+	    }
+	  more += ' onmouseover="display_display_debug(event,'
+	    + js2(s.join('<br>')) + ')"' ;
 	}
-      more += ' onmouseover="display_display_debug(event,'
-	+ js2(s.join('<br>')) + ')"' ;
+
+      content = '<div class="' + classes.join(' ') + '"' + styles + more + '>'
+	+ content + '</div>' ;
     }
-  
 
-  content = '<div class="' + classes.join(' ') + '"' + styles + more + '>'
-    + content + '</div>' ;
-
+  if ( display_do_debug )
+    {
+      var dt = millisec() - start ;
+      if ( dt > 1 )
+	console.log(node.name + ':' + dt + 'ms') ;
+    }
   return content ;
 }
 
