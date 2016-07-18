@@ -196,6 +196,12 @@ msgstr "Notation (Expérimental)"
 msgid "H_Notation"
 msgstr "Description détaillée de la note. Double cliquez pour ouvrir l'éditeur."
 
+msgid "B_Can_Bring_A_Pc"
+msgstr "Peut amener un PC(ID)"
+
+msgid "H_Can_Bring_A_Pc"
+msgstr "Si nécessaire l'étudiant peut amener un ordinateur. Il indique cette information dans les préférences de sa page de suivi TOMUSS"
+
 #. Attribute Tip
 msgid "TIP_column_attr_comment"
 msgstr "<b>Commentaire pour cette colonne.</b><br>\n"
@@ -5688,6 +5694,10 @@ msgstr "Aide au développeur"
 
 msgid "Preference_black_and_white"
 msgstr "Affichage noir et blanc"
+
+#. Unsecable space to put it at the end of the list
+msgid "Preference_can_bring_a_pc"
+msgstr " <em style=\"color: #040\">Je peux amener un ordinateur pour certains enseignements"
 
 
 msgid "LINK_restart_tomuss"

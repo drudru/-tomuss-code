@@ -200,6 +200,13 @@ msgstr "Notation (Experimental)"
 msgid "H_Notation"
 msgstr "Details about the grade. Double click to open the grade editor"
 
+msgid "B_Can_Bring_A_Pc"
+msgstr "Can bring a PC(ID)"
+
+msgid "H_Can_Bring_A_Pc"
+msgstr "The student can bring a PC to some courses. This fact can be edited in the preferences on the 'suivi' page"
+
+
 
 #. Attribute Tip
 msgid "TIP_column_attr_comment"
@@ -5559,6 +5566,10 @@ msgstr "Developper's help"
 
 msgid "Preference_black_and_white"
 msgstr "Black and white display"
+
+#. Unsecable space to put it at the end of the list
+msgid "Preference_can_bring_a_pc"
+msgstr " <em style=\"color: #040\">I can bring a computer at some courses"
 
 
 msgid "LINK_restart_tomuss"

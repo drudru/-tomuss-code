@@ -43,7 +43,7 @@ files.add('PLUGINS', 'suivi_student.css')
 files.add('PLUGINS', 'suivi_student.js')
 
 def teacher_can_see_suivi(server, the_student):
-    prefs = display_preferences_get(the_student)
+    prefs = utilities.display_preferences_get(the_student)
     priv = bool(prefs.get('private_suivi', False))
     server.concerned_teachers = configuration.concerned_teachers(server,
                                                                  the_student)
@@ -287,19 +287,12 @@ def display_tables(server):
         for year_semester_ue, n in eval(tables).items()
     ]
 
-def display_preferences_get(login):
-    prefs = utilities.manage_key('LOGINS', os.path.join(login, 'preferences'))
-    if prefs:
-        return eval(prefs)
-    else:
-        return {}
-
 def display_preferences(server):
     if server.is_a_student:
         login = server.suivi_login
     else:
         login = server.ticket.user_name
-    prefs = display_preferences_get(login)
+    prefs = utilities.display_preferences_get(login)
     if not prefs:
         if server.is_a_student:
             prefs = {}
@@ -309,7 +302,7 @@ def display_preferences(server):
     for k in ('show_empty', 'color_value', 'highlight_grade', 'private_suivi',
               'hide_right_column', 'big_text', 'hide_picture',
               'no_teacher_color', 'big_box', 'recursive_formula',
-              'green_prst', 'black_and_white'):
+              'green_prst', 'black_and_white', 'can_bring_a_pc'):
         if k not in prefs:
             prefs[k] = 0
 

@@ -1140,6 +1140,13 @@ def charte_signed(login, server=None, year=None, semester=None):
                                  server.ticket.ticket) )
         time.sleep(1)
 
+def display_preferences_get(login):
+    prefs = manage_key('LOGINS', os.path.join(login, 'preferences'))
+    if prefs:
+        return eval(prefs)
+    else:
+        return {}
+
 def lock_state():
     s = 'Global Python import locked: %s\n' % imp.lock_held()
     for f in lock_list:

@@ -154,7 +154,7 @@ def filter_language(language):
 
 def get_preferences(user_name, create_pref=True, the_ticket=None):
     from .PLUGINS import suivi_student
-    p = suivi_student.display_preferences_get(user_name)
+    p = utilities.display_preferences_get(user_name)
     for k, v in {'display_tips'   : 1,
                  'nr_favorites'   : 6,
                  'nr_lines'       : 0,
