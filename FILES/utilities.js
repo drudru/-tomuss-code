@@ -539,7 +539,7 @@ function decode_lf_tab(txt)
 }
 
 // Adapted from Andrea Azzola's Blog
-function do_post_data(dictionary, url)
+function do_post_data(dictionary, url, target)
 {
   // Create the form object
   var form = document.createElement("form") ;
@@ -547,7 +547,9 @@ function do_post_data(dictionary, url)
   form.setAttribute("action", url) ;
   form.setAttribute("enctype", "multipart/form-data") ;
   form.setAttribute("encoding", "multipart/form-data") ; // For IE
-  form.setAttribute("target", "_blank") ;
+  if ( target === undefined )
+     target = "_blank" ;
+  form.setAttribute("target", target) ;
 
   // For each key-value pair
   for (key in dictionary)
