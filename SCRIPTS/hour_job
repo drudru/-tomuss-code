@@ -30,7 +30,7 @@ if [ "$1" != "" \
 do_is_backup_needed() {
     log "Do I Need a $I commit?"
     cd TOMUSS_DB
-    rm .git
+    rm .git 2>/dev/null
     ln -s "../TOMUSS_$I/.git" .
     git log --date=iso8601 --max-count=1 2>/dev/null \
          | grep "^Date" \
