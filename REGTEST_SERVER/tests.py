@@ -1326,8 +1326,8 @@ def create(table):
         f.close()
         c = s.url('=' + abj +'/%s/xxx_regtest-3' % ys)
         assert("XXX_REGTEST2" in c)
-        os.unlink('TEMPLATES/xxx_regtest.py')
-        os.unlink('TEMPLATES/__pycache__/xxx_regtest.cpython-34.pyc')
+        from ..TEMPLATES import xxx_regtest
+        os.unlink(xxx_regtest.__cached__)
 
     if do('code_etape'):
         c = s.url('=' + abj +'/%s/UE-etape' % ys)
