@@ -512,7 +512,7 @@ class LDAP(LDAP_Logic):
             password = configuration.ldap_server_password,
             authentication = ldap3.AUTH_SIMPLE,
             raise_exceptions = True,
-            client_strategy = ldap3.STRATEGY_REUSABLE_THREADED,
+            client_strategy = ldap3.STRATEGY_ASYNC_THREADED,
             pool_size = 3,
             pool_lifetime = 60
         )
