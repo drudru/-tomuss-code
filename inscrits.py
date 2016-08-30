@@ -334,7 +334,7 @@ class LDAP_Logic(object):
     def query_logins(self, logins, attributes, only_first_value=True):
         if not logins:
             return ()
-        chunk_size = 1000
+        chunk_size = 100
         if len(logins) > chunk_size:
             r = []
             chunk = logins[:]
