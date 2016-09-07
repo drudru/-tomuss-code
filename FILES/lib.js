@@ -36,6 +36,7 @@ var filters ;			// The filters to apply to the lines
 var nr_new_lines ;		// Number of created lines
 var nr_new_columns ;		// Number of created columns
 var nr_not_empty_lines ;        // Number of non empty lines
+var nr_not_fully_empty_lines ;  // Number of non empty lines
 var sort_columns ;		// Define the sort columns
 var table ;			// The table displayed on the screen
 var tr_title ;			// The header TR element for 'title'
@@ -1978,6 +1979,17 @@ function sort_lines3()
 Update the content of the table
 ******************************************************************************/
 
+function update_nr_empty(line)
+{
+  switch ( line_empty(line) )
+    {
+    case false:
+      nr_not_empty_lines++ ;
+      // Fall thru
+    case 1:
+      nr_not_fully_empty_lines++ ;
+    }
+}
 
 function update_filtered_lines()
 {
@@ -2019,9 +2031,9 @@ function update_filtered_lines()
     }
 
   nr_not_empty_lines = 0 ;
+  nr_not_fully_empty_lines = 0 ;
   for(var line in filtered_lines)
-    if ( line_empty(filtered_lines[line]) !== true  )
-      nr_not_empty_lines++ ;
+    update_nr_empty(filtered_lines[line]) ;
 
   update_line_menu() ;
 
@@ -2556,7 +2568,7 @@ function next_page(next_cell, dy)
     the_current_cell.change() ;
 
   if ( filtered_lines !== undefined 
-       && line_offset + table_attr.nr_lines > nr_not_empty_lines + 1 )
+       && line_offset + table_attr.nr_lines > nr_not_fully_empty_lines + 1 )
     return true;
 
   if ( dy === undefined )
@@ -2607,7 +2619,7 @@ function last_page()
 {
   if ( need_to_save_change() )
     the_current_cell.change() ;
-  var nr_lines = Math.min(nr_not_empty_lines, filtered_lines.length) ;
+  var nr_lines = Math.min(nr_not_fully_empty_lines, filtered_lines.length) ;
   line_offset = nr_lines - table_attr.nr_lines + 1 ;
   if ( line_offset < 0 )
     {
@@ -2978,8 +2990,8 @@ function cell_set_value_real(line_id, data_col, value, td)
 
   create_column(columns[data_col]) ;
   add_a_new_line(line_id) ;
-  if ( line_empty(lines[line_id]) && value !== '' )
-    nr_not_empty_lines++ ;
+  if ( value !== '' )
+    update_nr_empty(lines[line_id]) ;
   cell.set_value(value) ;
 
   var v ;
