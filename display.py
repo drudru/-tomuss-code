@@ -119,12 +119,15 @@ def do_update(server, s, top):
 
 def data_to_display(server, top):
     """Create the page by updating it every 0.2 seconds or more"""
-    start = t = time.time()
+    t = time.time()
     s = []
     profiling = {}
     for display in sorted(display_dict.values(), key=lambda x: x.time):
         if display.data:
             if display.is_in(top):
+                if display.time > 0.2:
+                    do_update(server, s, top)
+                    s = []
                 try:
                     s.append((display.name, display.data(server)))
                 except:
@@ -134,10 +137,6 @@ def data_to_display(server, top):
                 display.time = max(display.time, tt - t)
                 profiling[display.name] = int(display.time*1000000)
                 t = tt
-                if t - start > 0.02:
-                    do_update(server, s, top)
-                    s = []
-                    start = t
     s.append(("Profiling", profiling))
     do_update(server, s, top)
 
