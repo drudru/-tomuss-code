@@ -143,6 +143,9 @@ for table in all_tables:
         len(students_removed) != 0
         and len(students_removed) < no_mail_if_more_than * len(table.lines)
     ):
+        # XXX 10 because %10s
+        students.sort(key=lambda x: x[10:])
+        students_removed.sort(key=lambda x: x[10:])
         for teach in table.masters:
             teachers[teach][ue] = (students, students_removed)
     table.unload()
