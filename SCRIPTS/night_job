@@ -25,7 +25,8 @@ echo "End of night job the $(date)"
 M=''
 for I in LOGS/xxx_crontab_*
 do
-  N=$(expr $(grep -ic traceback $I) - $(tr ':' '\n' <$I | grep -ic shutdown))
+    N=$(expr $(grep -ic traceback $I) - $(tr ':' '\n' <$I |
+                               grep -ic -e shutdown -e LDAPSocketCloseError))
   if [ "$N" -gt 0 ]
   then
     M="$M $I"
