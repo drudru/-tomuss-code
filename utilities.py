@@ -488,22 +488,17 @@ def stop_threads():
 send_mail_in_background_list = []
 def sendmail_thread():
     """Send the mail in background with a minimal time between mails"""
-    important_job_add('send_mail_in_background')
-    try:
-        while send_mail_in_background_list:
-            time.sleep(configuration.time_between_mails)
-            send_mail(*send_mail_in_background_list.pop(0))
-            t = time.time()
-    finally:
-        important_job_remove('send_mail_in_background')
+    while send_mail_in_background_list:
+        time.sleep(configuration.time_between_mails)
+        send_mail(*send_mail_in_background_list.pop(0))
+        t = time.time()
     return t
 
 def send_mail_in_background(to, subject, message, frome=None, show_to=False,
                             reply_to=None, error_to=None):
-    important_job_add('send_mail_in_background')
     send_mail_in_background_list.append((to, subject, message, frome,
                                          show_to, reply_to, error_to))
-    start_job(sendmail_thread, 1)
+    start_job(sendmail_thread, 1, important='send_mail_in_background')
 
 def js(t):
     if isinstance(t, str):
@@ -1425,7 +1420,7 @@ def start_threads():
     start_new_thread_immortal(print_lock_state_clean_cache, ())
 
 @add_a_lock
-def start_job(fct, seconds):
+def start_job(fct, seconds, important=None):
     """
     If needed: run 'fct' in 'seconds' in a new thread.
 
@@ -1456,10 +1451,14 @@ def start_job(fct, seconds):
                 start_job.the_lock.acquire()
                 if fct.last_request < t:
                     fct.processing = False
+                    if important:
+                        important_job_remove(important)
                 start_job.the_lock.release()
     if fct.__doc__:
         wait.__doc__ = ('Wait %d before running:\n\n' % seconds) + fct.__doc__
     fct.processing = True
+    if important:
+        important_job_add(important)
     start_new_thread(wait, ())
 
 

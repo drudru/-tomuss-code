@@ -1921,11 +1921,14 @@ cell_change(1,'0_2','ticket_time_to_live','%d',"")
             time.sleep(0.239)
             return time.time() # Tell that all data before this time is processed
         while time.time() < t + 1:
-            utilities.start_job(f1, 0.6)
-            utilities.start_job(f2, 0.3)
-            utilities.start_job(f3, 0)
+            utilities.start_job(f1, 0.6, important="f1")
+            utilities.start_job(f2, 0.3, important="f2")
+            utilities.start_job(f3, 0, important="f3")
             time.sleep(0.001)
         assert(len(c[0]) == 1 and len(c[1]) == 2 and len(c[2]) == 5)
+        while len(utilities.current_jobs) != 0:
+            time.sleep(0.1)
+        assert(len(c[0]) == 2 and len(c[1]) == 2 and len(c[2]) == 5)
 
     if do('repet-grp'):
         c = s.url('=' + abj +'/%s/UE-repet-grp' % ys)
