@@ -190,9 +190,19 @@ function _d(txt)
 {
 }
 
+function charsize()
+{
+  return document.getElementById("charsize").offsetWidth ;
+}
+
+function char_per_line()
+{
+  return window_width() / charsize() ;
+}
+
 function compute_nr_cols()
 {
-  table_attr.nr_columns = Math.floor(window_width() / document.getElementById("charsize").offsetWidth / 8.5) ;
+  table_attr.nr_columns = Math.floor(char_per_line() / 8.5) ;
   if ( table_attr.nr_columns <= 0 )
     // Needed for 'statistics_per_group' virtual table
     table_attr.nr_columns = 1 ;
@@ -1695,12 +1705,13 @@ function table_header_fill_real()
     }
 
   //var x = '' ;
+  var cs = charsize() ;
   for(var col = 0 ; col < table_attr.nr_columns ; col++)
     {
       w = ((window_width()*cls[col].width)/width-8).toFixed(0) ;
       // tr_title.childNodes[col].style.width = width + 'px' ;
-      if ( w <= 0 )
-	w = 1 ;
+      if ( w <= cs )
+	w = cs ;
       colgroup.childNodes[col].width = w ;
       colgroup.childNodes[col].className = 'col_id_' + cls[col].the_id ;
       //x += '   ' + w ;
