@@ -1343,9 +1343,10 @@ class Table(object):
             authors = set()
             for c in self.columns:
                 authors.add(c.author)
-            for line in self.lines.values():
-                for cell in line:
-                    authors.add(cell.author)
+            if not only_columns:
+                for line in self.lines.values():
+                    for cell in line:
+                        authors.add(cell.author)
             authors.discard(data.ro_user)
             for author in authors:
                 pages[author] = len(pages)
