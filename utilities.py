@@ -1533,6 +1533,10 @@ def start_as_daemon(logdir):
     pid = os.path.join(logdir, 'pid')
     write_file(pid, str(os.getpid()))
 
-    import atexit
-    atexit.register(os.unlink, pid)
+    # atexit can be called and the process can fail to exit.
+    # In this case, the PID must remain in order to allow crontab_run.py
+    # to kill the process.
+    # So the next lines are commented.
+    # import atexit
+    # atexit.register(os.unlink, pid)
 
