@@ -260,6 +260,7 @@ if __name__ == "__main__":
         configuration.regtest_load_local = True
     configuration.blur = 'blur' in sys.argv
     configuration.regtest_bug1 = 'regtest-bug1' in sys.argv
+    configuration.read_only = None # Indicate that it is not a script
     from . import regtestpatch
     regtestpatch.do_patch()
     from . import plugin # AFTER from . import regtestpatch???
