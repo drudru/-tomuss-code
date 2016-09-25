@@ -63,7 +63,7 @@ def upload_zip(server):
     zf.close()
     f = open(name, "rb")
     while True:
-        c = f.read(100000)
+        c = f.read(1024)
         if c == b'':
             break
         else:
