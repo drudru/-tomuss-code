@@ -1572,7 +1572,7 @@ msgid "B_print_dot"
 msgstr "le point"
 
 msgid "MSG_print_tt_title"
-msgstr "Tiers-temps"
+msgstr "Aménagements d’Examens"
 
 msgid "MSG_print_popup_title"
 msgstr "Copiez ceci dans votre tableur"
@@ -2032,10 +2032,10 @@ msgid "MSG_abjtt_more_after"
 msgstr "en une seule page."
 
 msgid "TITLE_abjtt_tt"
-msgstr "Tiers-temps"
+msgstr "Aménagements d’Examens"
 
 msgid "TITLE_abjtt_no_tt"
-msgstr "Pas de tiers-temps"
+msgstr "Pas d'aménagements d’examens"
 
 msgid "TITLE_abjtt_da"
 msgstr "Dispenses d'assiduité"
@@ -2635,7 +2635,7 @@ msgid "MSG_home_~any~"
 msgstr "Tous"
 
 msgid "MSG_home_tt"
-msgstr "Tiers Temps"
+msgstr "Aménagements d’Examens"
 
 msgid "MSG_home_first_registration"
 msgstr "Première inscription"
