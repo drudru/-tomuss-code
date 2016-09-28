@@ -37,9 +37,9 @@ def create(table):
     table.update_columns({
         '0_0':{'type':'Login'    , 'title':_("COL_TITLE_0_0"), "width":4,
                "freezed":'F'},
-        '0_1':{'type':'Surname'  , 'title':_("COL_TITLE_0_1"), "width":8,
+        '0_1':{'type':'Firstname'  , 'title':_("COL_TITLE_0_1"), "width":8,
                "freezed":'F', 'columns': _("COL_TITLE_0_0")},
-        '0_2':{'type':'Firstname', 'title':_("COL_TITLE_0_2"), "width":8,
+        '0_2':{'type':'Surname', 'title':_("COL_TITLE_0_2"), "width":8,
                "freezed":'F', 'columns': _("COL_TITLE_0_0")},
         '0_8':{'type':'Date' , 'title':_("TH_begin")     , "width":6,
                'comment': _("COL_COMMENT_tt_duration")},
