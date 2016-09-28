@@ -566,7 +566,7 @@ msgstr ""
 
 #. Attribute Tip
 msgid "TIP_table_attr_abj"
-msgstr "Affichage des justificatifs d'absence,<br>des dispenses d'assiduité et des tiers temps"
+msgstr "Affichage des justificatifs d'absence,<br>des dispenses d'assiduité et des aménagements d'examens"
 
 #. Attribute Tip
 msgid "TIP_table_attr_official_ue"
@@ -1542,10 +1542,10 @@ msgid "MSG_print_nr_tt_before"
 msgstr "dont"
 
 msgid "MSG_print_nr_tt_after"
-msgstr "tiers-temps"
+msgstr "aménagements d'examens"
 
 msgid "B_print_no_tt"
-msgstr ", pas de tiers-temps"
+msgstr ", pas d'aménagement d'examen"
 
 msgid "MSG_print_nr_present"
 msgstr "Nombre de présents :"
@@ -1572,7 +1572,7 @@ msgid "B_print_dot"
 msgstr "le point"
 
 msgid "MSG_print_tt_title"
-msgstr "Aménagements d’Examens"
+msgstr "Aménagements d’examens"
 
 msgid "MSG_print_popup_title"
 msgstr "Copiez ceci dans votre tableur"
@@ -1595,10 +1595,10 @@ msgid "MSG_print_hide_title"
 msgstr "Vous pouvez cacher des colonnes en cliquant sur le titre et les lignes en cliquant sur le numéro"
 
 msgid "MSG_print_display_tt"
-msgstr "Affiche tiers-temps"
+msgstr "Affiche les aménagements d'examens"
 
 msgid "TIP_print_display_tt"
-msgstr "Si oui alors le détail sur les tiers-temps<br>"
+msgstr "Si oui alors le détail sur les aménagements d'examens<br>"
        "est indiqué sur une feuille à part."
 
 msgid "MSG_print_display_separator"
@@ -2032,7 +2032,7 @@ msgid "MSG_abjtt_more_after"
 msgstr "en une seule page."
 
 msgid "TITLE_abjtt_tt"
-msgstr "Aménagements d’Examens"
+msgstr "Aménagements d'examens"
 
 msgid "TITLE_abjtt_no_tt"
 msgstr "Pas d'aménagements d’examens"
@@ -2494,7 +2494,7 @@ msgstr "Carré de couleur de gauche : les présences<br>\n"
        "Carré de couleur de droite : les notes"
 
 msgid "TIP_home_tt"
-msgstr "Il y a au moins<br>un tiers temps<br>qui suit l'UE"
+msgstr "Il est nécessaire de prévoir au moins un aménagement d'examen"
 
 msgid "TH_home_ue"
 msgstr "UE et étapes"
@@ -2635,7 +2635,7 @@ msgid "MSG_home_~any~"
 msgstr "Tous"
 
 msgid "MSG_home_tt"
-msgstr "Aménagements d’Examens"
+msgstr "Aménagements d'examens"
 
 msgid "MSG_home_first_registration"
 msgstr "Première inscription"
@@ -4826,7 +4826,7 @@ msgid "MSG_abj_da_list"
 msgstr "Liste des étudiants avec une DA"
 
 msgid "MSG_abj_tt_list"
-msgstr "Liste des étudiants avec un tiers-temps"
+msgstr "Liste des étudiants avec un aménagement d'examen"
 
 msgid "MSG_abj_sender"
 msgstr "Les messages seront envoyés au nom de "
