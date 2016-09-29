@@ -765,7 +765,7 @@ function ue_set_favorite(event, code, nr)
     for(var i in display_data['HomeUEBookmarked'])
       if ( display_data['HomeUEBookmarked'][i][3] == bookmarked )
 	{
-	  display_data['HomeUEBookmarked'].splice(i, 1) ;
+	  display_data['HomeUEBookmarked'].splice(Number(i), 1) ;
 	  break ;
 	}
   }
@@ -792,7 +792,7 @@ function student_set_favorite(event, code, favorite)
       for(var i in display_data['HomeStudentFavorites'])
 	if ( display_data['HomeStudentFavorites'][i][0] == code )
       {
-	display_data['HomeStudentFavorites'].splice(i, 1) ;
+	display_data['HomeStudentFavorites'].splice(Number(i), 1) ;
 	break ;
       }
       is_a_favorite[code] = false ;
