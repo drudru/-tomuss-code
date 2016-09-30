@@ -181,6 +181,17 @@ def check(table, update_inscrits=update_inscrits_ue):
     table.change_mails(mails)
     warn("Update done", what="check")
 
+def modify_is_safe(new_value, cell):
+    if not configuration.allow_student_removal:
+        return False
+    if new_value == '':
+        # Erase only ro_user values
+        return cell.author == data.ro_user
+    return (cell.value == ''
+            or cell.author == data.ro_user
+            or cell.author == data.no_user
+            or cell.author == data.rw_user)
+
 def update_student(table, page, the_ids, infos):
     the_id, firstname, surname, mail, grp, seq = infos[:6]
     if the_id in the_ids:
@@ -198,19 +209,12 @@ def update_student(table, page, the_ids, infos):
 
         for key, x in table.get_items(the_id):
             # do not erase user provided information
-            if ((grp != '' or x[3].author == data.ro_user)
-                and configuration.allow_student_removal
-                and (x[3].value == '' or x[3].author == data.ro_user
-                     or x[3].author == data.no_user)):
+            if modify_is_safe(grp, x[3]):
                 table.cell_change(grp_page, "0_3", key, grp)
-            if ((seq != '' or x[4].author == data.ro_user)
-                and configuration.allow_student_removal
-                and (x[4].value == '' or x[4].author == data.ro_user)):
+            if modify_is_safe(seq, x[4]):
                 table.cell_change(page, "0_4", key, seq)
             for col, val in enumerate(infos[6:]):
-                if ((val != '' or x[col+6].author == data.ro_user)
-                    and (configuration.allow_student_removal
-                         or x[col+6].value == '')):
+                if modify_is_safe(val, x[col+6].author):
                     table.cell_change(page,
                                       table.columns[col+6].the_id, key, val)
             if table.with_inscrits:
