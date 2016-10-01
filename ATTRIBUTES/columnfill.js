@@ -127,7 +127,7 @@ function fill_column_keypress(event)
     if ( room !== undefined )
       room.get_name().focus() ;
     break ;
-  }    
+  }
 }
 
 Room.prototype.new_size = function()
@@ -435,20 +435,27 @@ Filler.prototype.add_empty_input = function() {
       room = this.rooms[this.index[i]] ;
       cell = room.get_name() ;
       if ( cell.value === '' )
+      {
+	this.the_unamed_room = room ;
 	return ; // Yet an empty input
+      }
     }
   }
   if ( value === undefined )
     value = '' ;
   var room = new Room(['']) ;
   room.created_empty = true ;
+
+  if ( this.the_unamed_room !== undefined )
+    i = this.room_index(this.the_unamed_room) + 1 ;
+  else
+    i = 0 ;
   this.rooms[' empty' + i] = room ;
   this.index.splice(i, 0, ' empty' + i) ;
 
   var d = document.createElement('TBODY') ;
   d.innerHTML = room.html() ;
   d = d.firstChild ;
-  i = Number(i) ;
   if ( table.rows[i+1] )
     table.firstChild.insertBefore(d, table.rows[i+1]) ;
   else
@@ -464,6 +471,7 @@ Filler.prototype.add_empty_input = function() {
       room.get_name().select() ;
       return this.add_empty_input() ;
     }
+  this.the_unamed_room = room ;
   return room ;
 } ;
 
