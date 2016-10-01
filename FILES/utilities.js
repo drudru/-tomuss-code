@@ -1807,7 +1807,7 @@ if ( navigator.appName == 'Opera' )
      if (  item.selectedIndex === undefined ) // XXX: FireFox bug
        item.contentEditable = !!editable;
      item.tomuss_editable = !!editable ;
-     // item.disabled = ! editable ; // No more tip on unsensitives
+     item.disabled = ! editable ; // No more tip on unsensitives
    };
 
 function update_attribute_value(e, attr, table, editable)
