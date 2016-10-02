@@ -55,7 +55,7 @@ class ColumnFill(ColumnAttr):
          width: 15em ;
          position: absolute ;
          left: 40% ;
-         margin-top: 1.4em ;
+         margin-top: 1.2em ;
          border:1px solid #888 ;
          display: none ;
          background: rgba(255,255,255,0.9) ;

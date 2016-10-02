@@ -133,18 +133,18 @@ function fill_column_keypress(event)
 Room.prototype.new_size = function()
 {
   return this.nr_used + this.nr_will_be_used - this.nr_erased ;
-}
+} ;
 
 Room.prototype.filling = function()
 {
   // +1 because 0/9 should be more filled than 0/999
   return (this.new_size() + 1) / this.places.nr_places ;
-}
+} ;
 
 Room.prototype.yet_overflowed = function()
 {
   return this.checked && this.nr_used >= this.places.nr_places ;
-}
+} ;
 
 Room.prototype.get_place = function(pad0)
 {
@@ -164,22 +164,25 @@ Room.prototype.get_place = function(pad0)
   if ( place )
     this.number_used[place] = true ;
   return place ;
-}
+} ;
 
+Room.prototype.name_modifiable = function()
+{
+  return this.nr_used == 0 ;
+} ;
 
 Room.prototype.html = function()
 {
   var cb = '<input type="checkbox" class="room_cb">' ;
+  var html_class = (this.predefined_places ? 'room_predefined' :
+		    (this.created_empty ? 'room_created_empty' :
+		     (this.enumeration ? 'room_enumeration' :
+		      'room_yet_used'))) ;
   var name = '<input value="' + encode_value(this.name)
-    + '" onpaste="fill_column_past_event(event)'
-    + '" onkeypress="fill_column_keypress(event)'
-    + '">' ;
-  return '<tr class="room_line '
-    + (this.predefined_places ? 'room_predefined' :
-       (this.created_empty ? 'room_created_empty' :
-	(this.enumeration ? 'room_enumeration' :
-	 'room_yet_used'))
-      )
+      + '" onpaste="fill_column_past_event(event)'
+      + '" onkeypress="fill_column_keypress(event)"'
+      + '>' ;
+  return '<tr class="room_line ' + html_class
     + (this.in_comment & !this.in_value ? ' only_comment' : '')
     + (!this.in_comment & this.in_value ? ' only_value' : '')
     + '" id="ROOM_' + this.id
@@ -239,6 +242,8 @@ Room.prototype.update_html = function()
     n = '+' + n ;
   else if ( n == 0 )
     n = ' ' ;
+  if ( this.nr_used )
+    this.get_name().disabled = true ;
 
   this.get_nr_will_be_used().innerHTML = n ;
   var total = this.nr_used + this.nr_will_be_used - this.nr_erased ;
@@ -396,11 +401,14 @@ Filler.prototype.create_rooms = function(last_rooms) {
     if ( lines[lin_id][0].value === '' )
       continue ;
     v = lines[lin_id][this.data_col] ;
-    
-    room = text_to_room_and_place(v.comment)[0] ;
-    if ( this.rooms[room] === undefined )
-      this.rooms[room] = new Room([room]) ;
-    this.rooms[room].in_comment = true ;
+
+    if ( v.comment !== '' )
+    {
+      room = text_to_room_and_place(v.comment)[0] ;
+      if ( this.rooms[room] === undefined )
+	this.rooms[room] = new Room([room]) ;
+      this.rooms[room].in_comment = true ;
+    }
     
     room = text_to_room_and_place(v.value.toString())[0] ;
     if ( this.rooms[room] === undefined )
@@ -429,20 +437,17 @@ Filler.prototype.add_empty_input = function() {
   var i = 0 ;
   if ( this.example_row_defined )
   {
-    var cell, room ;
+    var room ;
     for(i in this.index)
     {
       room = this.rooms[this.index[i]] ;
-      cell = room.get_name() ;
-      if ( cell.value === '' )
+      if ( room.get_name().value === '' && room.name_modifiable() )
       {
 	this.the_unamed_room = room ;
 	return ; // Yet an empty input
       }
     }
   }
-  if ( value === undefined )
-    value = '' ;
   var room = new Room(['']) ;
   room.created_empty = true ;
 
@@ -489,8 +494,7 @@ Filler.prototype.count_line = function(line) {
   if ( (this.toggles.modify || v === '') && line.is_filtered )
   {
     this.to_dispatch.push(line) ;
-    if ( this.toggles.modify )
-      this.rooms[room].nr_erased++ ;
+    this.rooms[room].nr_erased++ ;
   }
   if ( v !== '' )
     this.not_empty++ ;
@@ -616,8 +620,8 @@ Filler.prototype.update_html = function() {
     table.className = 'show_in_comment' ;
   else
     table.className = 'show_in_value' ;
-  this.add_empty_input() ;
   this.rooms_get_usage() ; // Compute to_dispatch, not_empty
+  this.add_empty_input() ;
 
   pulsing(document.getElementById('select.modify'),
 	  this.to_dispatch.length == 0) ;
