@@ -28,8 +28,14 @@
 function column_attr_try_replace(formula_column, attr, old_value, new_value,
 				 job_to_do)
 {
-  w = formula_column[attr].replace(old_value, new_value) ;
-  if ( w != formula_column[attr] )
+  var v = formula_column[attr] ;
+  var w = v ;
+  if ( attr == 'columns')
+    w = ' ' + w.replace(/ /g, "  ") + ' ' ;
+  w = w.replace(old_value, new_value) ;
+  if ( attr == 'columns')
+    w = w.replace(/  /g, " ").replace(/^ /, "").replace(/ $/, "") ;
+  if ( w != v )
     {
       if ( ! column_change_allowed(formula_column) )
 	return true ;
@@ -71,11 +77,12 @@ function set_title(value, column, xcolumn_attr)
       for(var data_col in columns)
 	{
 	  var formula_column = columns[data_col] ;
-	  var s1 = "\\[" + title + "\\]" ;
+	  var s1 = RegExp("\\[" + title + "\\]", "g") ;
 	  var s2 = "[" + protect_regexp_right(value) + "]" ;
 	  var changes = [
 	    ['columns',
-	     "(^| )" + title + "( |$)", "$1"+protect_regexp_right(value)+"$2"],
+	     RegExp(" " + title + " ", "g"),
+	     protect_regexp_right(" " + value + " ")],
             ['green'        , s1, s2],
             ['greentext'    , s1, s2],
             ['red'          , s1, s2],
@@ -86,8 +93,7 @@ function set_title(value, column, xcolumn_attr)
 	    {
 	      i = changes[i] ;
 	      if ( column_attr_try_replace(formula_column, i[0],
-					   RegExp(i[1], "g"),
-					   i[2], job_to_do) )
+					   i[1], i[2], job_to_do) )
 	      {
 		alert_append(_("ALERT_columntitle_unchangeable")
 			     + '\n\n' + column.title + ' ∈ '
