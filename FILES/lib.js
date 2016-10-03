@@ -1990,14 +1990,11 @@ function sort_lines3()
 Update the content of the table
 ******************************************************************************/
 
-function update_nr_empty(line)
+function update_nr_empty(line, value)
 {
-  switch ( line_empty(line) )
+  if ( value !== '' &&  line_empty(line) )
     {
-    case false:
       nr_not_empty_lines++ ;
-      // Fall thru
-    case 1:
       nr_not_fully_empty_lines++ ;
     }
 }
@@ -2044,7 +2041,11 @@ function update_filtered_lines()
   nr_not_empty_lines = 0 ;
   nr_not_fully_empty_lines = 0 ;
   for(var line in filtered_lines)
-    update_nr_empty(filtered_lines[line]) ;
+    switch ( line_empty(filtered_lines[line]) )
+      {
+      case false: nr_not_empty_lines++ ;       // Fall thru
+      case 1:     nr_not_fully_empty_lines++ ;
+      }
 
   update_line_menu() ;
 
@@ -3001,8 +3002,7 @@ function cell_set_value_real(line_id, data_col, value, td)
 
   create_column(columns[data_col]) ;
   add_a_new_line(line_id) ;
-  if ( value !== '' )
-    update_nr_empty(lines[line_id]) ;
+  update_nr_empty(lines[line_id], value) ;
   cell.set_value(value) ;
 
   var v ;
@@ -3997,6 +3997,7 @@ function Xcell_change(col, line_id, value, date, identity, history)
   add_a_new_line(line_id, true) ;
 
   var cell = lines[line_id][data_col] ;
+  update_nr_empty(lines[line_id], value) ;
 
   cell.set_value_real(value) ;
   cell.author = identity ;
