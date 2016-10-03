@@ -685,7 +685,10 @@ var display_saved_nr = 0 ;
 
 function enter_in_ue(event)
 {
-  popup_close() ;
+  if ( popup_classname() === undefined )
+    {
+      popup_close() ;
+    }
   var t = document.getElementById("cellbox_tip") ;
   if ( ! t || ! t.grades )
     return ;
