@@ -214,7 +214,7 @@ def update_student(table, page, the_ids, infos):
             if modify_is_safe(seq, x[4]):
                 table.cell_change(page, "0_4", key, seq)
             for col, val in enumerate(infos[6:]):
-                if modify_is_safe(val, x[col+6].author):
+                if modify_is_safe(val, x[col+6]):
                     table.cell_change(page,
                                       table.columns[col+6].the_id, key, val)
             if table.with_inscrits:
