@@ -70,7 +70,8 @@ def update_referents(dummy_the_ids, table, page):
                 login = infos[1][configuration.attr_login][0].lower()
                 line = tuple(table.get_lines(login))
                 if len(line) == 0:
-                    table.cell_change(page, "a", str(len(table.lines)), login)
+                    line = table.get_line_id_or_create(login)
+                    table.cell_change(page, "a", line, login)
         finally:
             table.unlock()
 

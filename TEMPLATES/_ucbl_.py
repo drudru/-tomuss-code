@@ -103,7 +103,6 @@ def student_add_allowed(table):
 
     # Check if it is an old 'students' method
     new_list = list(table.retrieve_student_list())
-
     old_list = set(table.logins_valid())
     nr_to_delete = len( old_list
                         - set(x[0] for x in new_list) )
@@ -135,7 +134,6 @@ def update_inscrits_ue(the_ids, table, page):
     warn("Update inscrit list of " + table.ue, what="check")
 
     new_list = student_add_allowed(table)
-
     warn("Update inscrit list of " + table.ue + ' DONE', what="check")
 
     if new_list:
@@ -224,7 +222,7 @@ def update_student(table, page, the_ids, infos):
                     table.cell_change(page, "0_2", key, surname)
             break
         else: # The FOR does not found the student
-            lin = '0_' + str(len(table.lines))
+            lin = table.get_line_id_or_create(the_id)
             table.cell_change(page, "0_0", lin, the_id)
             if firstname:
                 table.cell_change(page, "0_1", lin, firstname)
@@ -238,7 +236,6 @@ def update_student(table, page, the_ids, infos):
                 if val != '':
                     table.cell_change(page,
                                       table.columns[col+6].the_id, lin, val)
-                    
     finally:
         table.unlock()
 

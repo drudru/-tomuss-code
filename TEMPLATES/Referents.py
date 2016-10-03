@@ -148,11 +148,7 @@ def update_inscrits_referents(the_ids, table, page):
         pe = configuration.student_in_first_year(login)
         table.lock()
         try:
-            lines = list(table.get_items(login))
-            if len(lines) == 0:
-                line = "0_" + str(len(table.lines))
-            else:
-                line = lines[0][0] # Never 2 lines with one student
+            line = table.get_line_id_or_create(login)
             table.cell_change(page, "0_0"   ,line, the_id)
             table.cell_change(page, "0_1"   ,line, firstname)
             table.cell_change(page, "0_2"   ,line, surname)

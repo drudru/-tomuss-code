@@ -1216,6 +1216,19 @@ class Table(object):
                 yield self.lines[lin]
         return
 
+    def get_line_id_or_create(self, login):
+        login = utilities.the_login(login)
+        line_id = self.the_key_dict.get(login, None)
+        if line_id is not None:
+            return line_id[0]
+        i = len(self.lines)
+        while True:
+            line_id = "0_" + str(i)
+            if line_id not in self.lines:
+                break
+            i += 1
+        return line_id
+
     def lines_of_grp(self, grp, seq):
         if grp == '':
             return # Do not auto compute ABINJ??? if there is no real groups
