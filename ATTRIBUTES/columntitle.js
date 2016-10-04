@@ -28,14 +28,8 @@
 function column_attr_try_replace(formula_column, attr, old_value, new_value,
 				 job_to_do)
 {
-  var v = formula_column[attr] ;
-  var w = v ;
-  if ( attr == 'columns')
-    w = ' ' + w.replace(/ /g, "  ") + ' ' ;
-  w = w.replace(old_value, new_value) ;
-  if ( attr == 'columns')
-    w = w.replace(/  /g, " ").replace(/^ /, "").replace(/ $/, "") ;
-  if ( w != v )
+  var w = formula_column[attr].replace(old_value, new_value) ;
+  if ( w != formula_column[attr] )
     {
       if ( ! column_change_allowed(formula_column) )
 	return true ;
@@ -81,8 +75,8 @@ function set_title(value, column, xcolumn_attr)
 	  var s2 = "[" + protect_regexp_right(value) + "]" ;
 	  var changes = [
 	    ['columns',
-	     RegExp(" " + title + " ", "g"),
-	     protect_regexp_right(" " + value + " ")],
+	     RegExp("( |^)" + title + "(?= |$)", "g"),
+	     protect_regexp_right(" " + value)],
             ['green'        , s1, s2],
             ['greentext'    , s1, s2],
             ['red'          , s1, s2],
