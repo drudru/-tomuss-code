@@ -1766,6 +1766,12 @@ msgid "ALERT_mail_unknown_column"
 msgstr "In your message you use non existent column title between [ ].\n"
        "Do you want to send the messages without the replacements for: "
 
+msgid "TO:"
+msgstr "To"
+
+msgid "CC:"
+msgstr "+ carbons copies to"
+
 msgid "MSG_mail_archive"
 msgstr "[FOR_ARCHIVAGE]"
 

@@ -158,18 +158,54 @@ function personal_mailing()
     || (ue + ' ' + table_attr.table_title + _("MSG_mail_massmail_subject")) ;
   var message = localStorage['personal_mailing.message.' + ue]
       || _("MSG_mail_massmail_message") ;
+
+  var addresses = [' ' + _('MSG_mail_students') + ' '] ;
+  for(var data_col in columns)
+  {
+    if (columns[data_col].contain_mails() )
+    {
+      addresses.push(columns[data_col].title) ;
+    }
+  }
+  var buttons ;
+  if ( addresses.length == 1 )
+    buttons = '' ;
+  else
+  {
+    buttons = _('TO:') + ' <select id="mail_to">' ;
+    for(var i in addresses)
+      buttons += ' <option>' + html(addresses[i]) + '</option>' ;
+    buttons += "</select> " + _("CC:")
+      + ' <select id="mail_cc"><option></option>' ;
+    for(var i in addresses)
+      buttons += ' <option>' + html(addresses[i]) + '</option>' ;
+    buttons += "</select><br>" ;
+  }
   create_popup('personal_mailing_div',
 	       _("MSG_mail_massmail_title"),
 	       _("MSG_mail_massmail_text")
 	       + '<input id="personal_mailing" style="width:100%" value="'
 	       + encode_value(subject) + '"><br>'
 	       + _("MSG_mail_massmail_your_message"),
-	       _("MSG_mail_massmail_to_send") + nb
-	       + _("MSG_mail_massmail_to_send_2"),
+	       buttons
+	       + _("MSG_mail_massmail_to_send") + nb
+	       + _("MSG_mail_massmail_to_send_2")
+	       ,
 	       message
 	      ) ;
 }
 
+function get_mail_data_col(id)
+{
+  id = document.getElementById(id) ;
+  if ( ! id )
+    return 0 ;
+  if ( id.value === '' )
+    return -1 ;
+  if ( id.value === ' ' + _('MSG_mail_students') + ' ')
+    return 0 ;
+  return data_col_from_col_title(id.value) ;
+}
 
 function personal_mailing_do()
 {
@@ -210,27 +246,35 @@ function personal_mailing_do()
       return ;
 
   // Compute recipients and their data
-  var recipents = [] ;
+  var students = [] ;
+  var cc = [] ;
+  var data_col_to = get_mail_data_col("mail_to") ;
+  var data_col_cc = get_mail_data_col("mail_cc") ;
+  if ( data_col_cc == data_col_to )
+    data_col_cc = -1 ;
   for(var i in filtered_lines)
     {
       line = filtered_lines[i] ;
       if ( line[0].value )
 	{
-	  var v = line[0].value ;
+	  var v = line[data_col_to].value.toString().replace("mailto:", "") ;
           for(data_col in data_cols)
 	    v += '\002' + (line[data_cols[data_col]].value === ''
 			   ? columns[data_cols[data_col]].empty_is
 			   : line[data_cols[data_col]].value) ;
-	  recipents.push(v) ;
+	  students.push(v) ;
+	  if ( data_col_cc >= 0 )
+	    cc.push(line[data_col_cc].value.toString().replace("mailto:", "")) ;
 	}
     }
-  do_post_data(
-    {'subject': subject,
-     'message': message,
-     'recipients': recipents.join("\001"),
-     'titles': data_cols_titles.join("\001")
-    },
-    url + '/=' + ticket + '/send_mail') ;
+  var d = {'subject': subject,
+	   'message': message,
+	   'recipients': students.join("\001"),
+	   'titles': data_cols_titles.join("\001")
+	  } ;
+  if ( data_col_cc >= 0 )
+    d["cc"] = cc.join("\001") ;
+  do_post_data(d, url + '/=' + ticket + '/send_mail') ;
   popup_close();
 }
 

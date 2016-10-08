@@ -1767,6 +1767,12 @@ msgstr "Dans votre message, vous faites référence à des noms de colonnes "
        "Voulez-vous quand même envoyer les messages sans faire "
        "les remplacements pour les champs suivants : "
 
+msgid "TO:"
+msgstr "Pour"
+
+msgid "CC:"
+msgstr "+ les copies carbones à"
+
 msgid "MSG_mail_archive"
 msgstr "[POUR_ARCHIVAGE]"
 

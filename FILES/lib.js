@@ -2530,6 +2530,29 @@ Column.prototype.is_visible = function() {
   return true ;
 } ;
 
+Column.prototype.all_cells_are_empty = function() {
+  for(var lin in lines)
+    if ( lines[lin][this.data_col].value !== '' )
+      return false ;
+  return true ;
+} ;
+
+Column.prototype.contain_mails = function() {
+  if ( this.all_cells_are_empty() )
+    return false ;
+  for(var lin in lines)
+    {
+      var value = lines[lin][this.data_col].value ;
+      if ( ! value.match )
+	  return false ; // An int
+      if ( value.match('^ *$') )
+	continue ;
+      if ( ! value.match("^(mailto:)?[-'_.a-zA-Z0-9]*@[-'_.a-zA-Z0-9]*$") )
+	  return false ;
+    }
+  return true ;
+} ;
+
 /*****************************************************************************/
 
 function add_empty_columns()

@@ -332,7 +332,7 @@ def warn(text, what='info'):
 
 @add_a_lock
 def send_mail(to, subject, message, frome=None, show_to=False, reply_to=None,
-              error_to=None):
+              error_to=None, cc=()):
     "Not safe with user given subject"
     import smtplib
 
@@ -367,6 +367,8 @@ def send_mail(to, subject, message, frome=None, show_to=False, reply_to=None,
     elif show_to:
         for tto in to:
             header += "To: {}\n".format(tto)
+    for tto in cc:
+        header += "CC: {}\n".format(tto)
     if reply_to:
         header += 'Reply-To: {}\n'.format(reply_to)
     if error_to:
@@ -495,9 +497,9 @@ def sendmail_thread():
     return t
 
 def send_mail_in_background(to, subject, message, frome=None, show_to=False,
-                            reply_to=None, error_to=None):
+                            reply_to=None, error_to=None, cc=()):
     send_mail_in_background_list.append((to, subject, message, frome,
-                                         show_to, reply_to, error_to))
+                                         show_to, reply_to, error_to, cc))
     start_job(sendmail_thread, 1, important='send_mail_in_background')
 
 def js(t):

@@ -38,6 +38,11 @@ document.getElementById('loading_bar').style.width = '%f%%' ;
 </script>""" % ((100.*nb)/nb_max))
     server.the_file.flush()
 
+def get_mail(txt):
+    if '@' in txt:
+        return txt
+    return inscrits.L_slow.mail(txt)
+
 def send_mail(server):
     """Send personnalized mails"""
     if configuration.regtest:
@@ -57,7 +62,10 @@ def send_mail(server):
     message = data.getfirst('message')
     recipients = data.getfirst('recipients').split("\001")
     titles = data.getfirst('titles').split("\001")
-    
+    try:
+        cc = data.getfirst('cc').split("\001")
+    except AttributeError:
+        cc = None
     frome = inscrits.L_slow.mail(server.ticket.user_name)
     if frome is None:
         server.the_file.write('<b style="color:#F00">'
@@ -80,13 +88,10 @@ def send_mail(server):
     good_mails = []
     for nb, recipient in enumerate(recipients):
         recipient = recipient.split("\002")
-        if '@' in recipient[0]:
-            m = recipient[0]
-        else:
-            m = inscrits.L_slow.mail(recipient[0])
-            if m is None:
-                bad_mails.append(recipient[0])
-                continue
+        m = get_mail(recipient[0])
+        if m is None:
+            bad_mails.append(recipient[0])
+            continue
         content = message
         the_subject = subject
         for title, value in zip(titles, recipient[1:]):
@@ -95,7 +100,13 @@ def send_mail(server):
             the_subject = the_subject.replace(title, value)
 
         # print( m, the_subject, content, frome)
-        utilities.send_mail_in_background(m, the_subject, content, frome)
+        carbon_copy = ()
+        if cc:
+            cc[nb] = get_mail(cc[nb])
+            if cc[nb]:
+                carbon_copy = (cc[nb],)
+        utilities.send_mail_in_background(m, the_subject, content, frome,
+                                          show_to = True, cc = carbon_copy)
         good_mails.append(m)
         progress_bar_update(server, nb, len(recipients))
 
@@ -115,6 +126,13 @@ e.parentNode.removeChild(e) ;
                     )
     archive += (server._("MSG_send_mail_done") + '\n'
                 + '\n'.join(good_mails) + '\n'
+                )
+    if cc:
+        archive += (server._("CC:") + '\n'
+                + '\n'.join(i
+                            for i in cc
+                            if i
+                ) + '\n'
                 )
 
     utilities.send_mail_in_background(frome,
