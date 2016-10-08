@@ -154,9 +154,10 @@ function personal_mailing()
     if ( filtered_lines[i][0].value )
       nb++ ;
 
-  var subject = personal_mailing.old_subject
+  var subject = localStorage['personal_mailing.subject.' + ue]
     || (ue + ' ' + table_attr.table_title + _("MSG_mail_massmail_subject")) ;
-  
+  var message = localStorage['personal_mailing.message.' + ue]
+      || _("MSG_mail_massmail_message") ;
   create_popup('personal_mailing_div',
 	       _("MSG_mail_massmail_title"),
 	       _("MSG_mail_massmail_text")
@@ -165,7 +166,7 @@ function personal_mailing()
 	       + _("MSG_mail_massmail_your_message"),
 	       _("MSG_mail_massmail_to_send") + nb
 	       + _("MSG_mail_massmail_to_send_2"),
-	       _("MSG_mail_massmail_message")
+	       message
 	      ) ;
 }
 
@@ -173,15 +174,16 @@ function personal_mailing()
 function personal_mailing_do()
 {
   var mailing_mail = popup_value() ;
+  var message = mailing_mail.join('\n') ;
   var subject = document.getElementById('personal_mailing').value ;
-  personal_mailing.old_subject = subject ;
+  localStorage['personal_mailing.subject.' + ue] = subject ;
+  localStorage['personal_mailing.message.' + ue] = message ;
   var data_cols = [], data_cols_titles = [] ;
-  var t, col_name, nr, message, line, data_col ;
+  var t, col_name, line, data_col ;
   var url_content, feedback_content ;
   var nr_frame ;
 
   nr = 0 ;
-  message = mailing_mail.join('\n') ;
   var unknown_titles = [] ;
 
   // Compute used data_cols

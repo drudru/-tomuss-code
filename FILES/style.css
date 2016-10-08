@@ -742,7 +742,7 @@ INPUT#comment { width: 100% ; clear: both; }
 
 #menutop SELECT { width: 25% ; font-size: 80%; }
 
-.gui_button {;
+.gui_button {
   margin: 0px ;
   background: #EEE ;
   border: 1px outset #AAA ;

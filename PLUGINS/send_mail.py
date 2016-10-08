@@ -103,8 +103,10 @@ def send_mail(server):
 var e = document.getElementById('prepare');
 e.parentNode.removeChild(e) ;
 </script>""")
-        
-    last = utilities.send_mail_in_background_list[-1]
+    try:
+        last = utilities.send_mail_in_background_list[-1]
+    except IndexError:
+        last = None
     nb_mails = len(utilities.send_mail_in_background_list)
     archive = message + '\n' + '='*79 + '\n'
     if bad_mails:
