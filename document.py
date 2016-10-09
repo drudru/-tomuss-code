@@ -1903,6 +1903,8 @@ def check_indexes_to_update():
             return x
         update_index(old, remove)
         update_index(new, append)
+        t = time.time()
+    return t
 
 def update_indexes(year, semester, ue):
     the_table = table(year, semester, ue)

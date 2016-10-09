@@ -20,6 +20,7 @@
 #    Contact: Thierry.EXCOFFIER@bat710.univ-lyon1.fr
 
 from . import tablemodifiable
+from .. import utilities
 from .. import document
 
 class TableOfficialUE(tablemodifiable.TableModifiable):
@@ -37,3 +38,5 @@ class TableOfficialUE(tablemodifiable.TableModifiable):
                 document.indexes_to_update.append((table, '', login))
             else:
                 document.indexes_to_update.append((table, login, ''))
+        utilities.start_job(document.check_indexes_to_update, 0)
+

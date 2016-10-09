@@ -91,6 +91,11 @@ def tablecopy(server):
     for name in dest_table.masters:
         dest_table.master_of_update('+', name)
 
+    if dest_table.official_ue:
+        for login in dest_table.the_keys():
+            document.indexes_to_update.append((dest_table, '', login))
+        utilities.start_job(document.check_indexes_to_update, 0)
+
     server.the_file.write("\n" + _("MSG_tablecopy_done") + "\n")
     url = "%s/=%s/%s/%s/%s" % (configuration.server_url,
                                server.ticket.ticket,
