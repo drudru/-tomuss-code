@@ -1890,6 +1890,7 @@ def indexes_to_update_append(the_year, the_semester, the_ue, old, new):
     indexes_to_update.append((X, old, new))
 
 def check_indexes_to_update():
+    t = time.time()
     while indexes_to_update:
         tabl, old, new = indexes_to_update.pop(0)
         def remove(x):
