@@ -1500,6 +1500,7 @@ function notation_format_suivi()
 function notation_export()
 {
   Notation.parse_questions(the_current_cell.column.comment) ;
+  Notation.column = the_current_cell.column ;
   var questions = Notation.question_list() ;
   var data_col = the_current_cell.data_col ;
   var csv = [] ;
@@ -1530,7 +1531,7 @@ function notation_export()
     line = filtered_lines[lin] ;
     t = [line[0].value, line[2].value, line[1].value] ;
     try {
-      g = JSON.parse(line[data_col].comment) ;
+      g = JSON.parse(Notation.get_the_commented_line(line)[data_col].comment) ;
     }
     catch(e) { g = undefined }
     if ( g )
