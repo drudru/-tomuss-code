@@ -37,6 +37,8 @@ var nr_new_lines ;		// Number of created lines
 var nr_new_columns ;		// Number of created columns
 var nr_not_empty_lines ;        // Number of non empty lines
 var nr_not_fully_empty_lines ;  // Number of non empty lines
+var nr_filtered_not_empty_lines ;        // Number of non empty lines
+var nr_filtered_not_fully_empty_lines ;  // Number of non empty lines
 var sort_columns ;		// Define the sort columns
 var table ;			// The table displayed on the screen
 var tr_title ;			// The header TR element for 'title'
@@ -1990,13 +1992,39 @@ function sort_lines3()
 Update the content of the table
 ******************************************************************************/
 
-function update_nr_empty(line, value)
+var count_empty = {false: 1, 1: 0, true: 0} ;
+var count_fully_empty = {false: 1, 1: 1, true: 0} ;
+
+function update_nr_empty(empty_before, empty_after, filtered)
 {
-  if ( value !== '' &&  line_empty(line) )
+  var ne  = count_empty      [empty_after] - count_empty      [empty_before] ;
+  var nfe = count_fully_empty[empty_after] - count_fully_empty[empty_before] ;
+  nr_not_empty_lines += ne ;
+  nr_not_fully_empty_lines += nfe ;
+
+  if ( filtered )
     {
-      nr_not_empty_lines++ ;
-      nr_not_fully_empty_lines++ ;
+      nr_filtered_not_empty_lines += ne ;
+      nr_filtered_not_fully_empty_lines += nfe ;
     }
+  if ( ne || nfe )
+    periodic_work_add(update_line_counts) ;
+}
+
+function update_line_counts()
+{
+  if ( nr_filtered_lines
+       && Number(nr_filtered_lines.innerHTML) != nr_filtered_not_empty_lines )
+    {
+      var empty = nr_filtered_not_fully_empty_lines
+	- nr_filtered_not_empty_lines ;
+      nr_filtered_lines.innerHTML = nr_filtered_not_empty_lines
+	+ (empty ? " (+" + empty + '∅)' : "") ;
+      highlight_add(nr_filtered_lines) ;
+    }
+  if ( document.getElementById('nr_not_empty_lines') )
+    document.getElementById('nr_not_empty_lines').innerHTML
+      = nr_not_empty_lines ;
 }
 
 function update_filtered_lines()
@@ -2038,14 +2066,20 @@ function update_filtered_lines()
       filtered_lines = f ;
     }
 
-  nr_not_empty_lines = 0 ;
-  nr_not_fully_empty_lines = 0 ;
+  for(var line in lines)
+    lines[line].is_filtered = false ;
+
+  nr_filtered_not_empty_lines = 0 ;
+  nr_filtered_not_fully_empty_lines = 0 ;
   for(var line in filtered_lines)
-    switch ( line_empty(filtered_lines[line]) )
-      {
-      case false: nr_not_empty_lines++ ;       // Fall thru
-      case 1:     nr_not_fully_empty_lines++ ;
-      }
+    {
+      filtered_lines[line].is_filtered = true ;
+      switch ( line_empty(filtered_lines[line]) )
+	{
+	case false: nr_filtered_not_empty_lines++ ;       // Fall thru
+	case 1:     nr_filtered_not_fully_empty_lines++ ;
+	}
+    }
 
   update_line_menu() ;
 
@@ -2060,16 +2094,7 @@ function update_filtered_lines()
   var d3 = millisec() ;
   _d('Filter time: ' + (d2 - d1) + 'ms, Sort time: ' + (d3 - d2) + 'ms');
 
-  if ( nr_filtered_lines
-       && nr_filtered_lines.innerHTML != filtered_lines.length )
-    {
-      nr_filtered_lines.innerHTML = filtered_lines.length ;
-      highlight_add(nr_filtered_lines) ;
-    }
-  if ( document.getElementById('nr_not_empty_lines') )
-    document.getElementById('nr_not_empty_lines').innerHTML
-      = nr_not_empty_lines ;
-
+  update_line_counts() ;
   update_vertical_scrollbar() ;
 }
 
@@ -2603,7 +2628,7 @@ function next_page(next_cell, dy)
     the_current_cell.change() ;
 
   if ( filtered_lines !== undefined 
-       && line_offset + table_attr.nr_lines > nr_not_fully_empty_lines + 1 )
+       && line_offset + table_attr.nr_lines > nr_filtered_not_fully_empty_lines + 1 )
     return true;
 
   if ( dy === undefined )
@@ -2654,7 +2679,7 @@ function last_page()
 {
   if ( need_to_save_change() )
     the_current_cell.change() ;
-  var nr_lines = Math.min(nr_not_fully_empty_lines, filtered_lines.length) ;
+  var nr_lines = Math.min(nr_filtered_not_fully_empty_lines, filtered_lines.length) ;
   line_offset = nr_lines - table_attr.nr_lines + 1 ;
   if ( line_offset < 0 )
     {
@@ -2914,6 +2939,7 @@ function add_a_new_line(line_id, hide_if_created)
     return ;
   
   filtered_lines.push(line) ;
+  line.is_filtered = true ;
 
   /* Update screen table with the new id */
   var lin = filtered_lines.length - 1 - line_offset ;
@@ -2921,6 +2947,7 @@ function add_a_new_line(line_id, hide_if_created)
     {
       line_fill(filtered_lines.length-1, lin + nr_headers) ;
     }
+  update_vertical_scrollbar() ;
   return line_id ;
 }
 
@@ -3025,8 +3052,10 @@ function cell_set_value_real(line_id, data_col, value, td)
 
   create_column(columns[data_col]) ;
   add_a_new_line(line_id) ;
-  update_nr_empty(lines[line_id], value) ;
+  var empty_before = line_empty(lines[line_id]) ;
   cell.set_value(value) ;
+  update_nr_empty(empty_before, line_empty(lines[line_id]),
+		  lines[line_id].is_filtered) ;
 
   var v ;
   if ( td !== undefined )
@@ -4020,12 +4049,14 @@ function Xcell_change(col, line_id, value, date, identity, history)
   add_a_new_line(line_id, true) ;
 
   var cell = lines[line_id][data_col] ;
-  update_nr_empty(lines[line_id], value) ;
+  var empty_before = line_empty(lines[line_id]) ;
 
   cell.set_value_real(value) ;
   cell.author = identity ;
   cell.date = date ;
   cell.history = history ;
+  update_nr_empty(empty_before, line_empty(lines[line_id]),
+		  lines[line_id].is_filtered) ;
 
   var td = td_from_line_id_data_col(line_id, data_col) ;
 
@@ -4786,9 +4817,16 @@ function runlog(the_columns, the_lines)
   if ( test_bool(preferences.v_scrollbar) == no )
     vertical_scrollbar = undefined ;
 
+  nr_not_empty_lines = 0 ;
+  nr_not_fully_empty_lines = 0 ;
   for(var line_id in lines)
     {
       lines[line_id].line_id = line_id ;
+      switch ( line_empty(lines[line_id]) )
+	{
+	case false: nr_not_empty_lines++ ;       // Fall thru
+	case 1:     nr_not_fully_empty_lines++ ;
+	}
     }
 
   initialise_columns() ;

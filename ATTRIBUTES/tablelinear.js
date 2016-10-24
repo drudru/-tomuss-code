@@ -293,7 +293,7 @@ function Linear()
       function() {return _("MSG_tablelinear_table_stats") ; },
       '',
       function() { return filtered_lines.length
-		   + _("MSG_tablelinear_table_lines") + nr_not_empty_lines ; }
+		   + _("MSG_tablelinear_table_lines") + nr_filtered_not_empty_lines ; }
       ),
      new Information
      (this,

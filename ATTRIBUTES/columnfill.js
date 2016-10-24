@@ -506,11 +506,8 @@ Filler.prototype.rooms_get_usage = function() {
     this.rooms[i].clear() ;
   this.to_dispatch = [] ;
   this.not_empty = 0 ;
-  for(var i in lines)
-    lines[i].is_filtered = false ;
   for(var i in filtered_lines)
     {
-      filtered_lines[i].is_filtered = true ;
       this.count_line(filtered_lines[i]) ;
     }
   if ( this.toggles.unfiltered )

@@ -2234,6 +2234,7 @@ def virtual_table(server, the_columns, the_lines, table_attrs={}, js="",css=""):
     <script>
     %s
     %s
+    var page_index = 0 ;
     function initialize()
     {
     if ( ! wait_scripts("initialize()") )
