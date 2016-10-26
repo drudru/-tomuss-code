@@ -2562,18 +2562,21 @@ Column.prototype.all_cells_are_empty = function() {
   return true ;
 } ;
 
-Column.prototype.contain_mails = function() {
+Column.prototype.contain_mails = function(allow_multiple) {
   if ( this.all_cells_are_empty() )
     return false ;
+  var mail = "[-'_.a-zA-Z0-9]*@[-'_.a-zA-Z0-9]*" ;
+  var test = mail ;
+  if ( allow_multiple )
+    test += "( +" + mail + ")*" ;
+  test = RegExp("^( *$|(mailto:)?" + test + ")$") ;
   for(var lin in lines)
     {
       var value = lines[lin][this.data_col].value ;
       if ( ! value.match )
-	  return false ; // An int
-      if ( value.match('^ *$') )
-	continue ;
-      if ( ! value.match("^(mailto:)?[-'_.a-zA-Z0-9]*@[-'_.a-zA-Z0-9]*$") )
-	  return false ;
+	return false ; // An int
+      if ( ! test.exec(value) )
+	return false ;
     }
   return true ;
 } ;

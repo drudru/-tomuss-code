@@ -162,7 +162,7 @@ function personal_mailing()
   var addresses = [' ' + _('MSG_mail_students') + ' '] ;
   for(var data_col in columns)
   {
-    if (columns[data_col].contain_mails() )
+    if (columns[data_col].contain_mails(true) )
     {
       addresses.push(columns[data_col].title) ;
     }

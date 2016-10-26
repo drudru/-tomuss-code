@@ -21,6 +21,7 @@
 
 import time
 import html
+import re
 from .. import plugin
 from .. import inscrits
 from .. import utilities
@@ -40,8 +41,11 @@ document.getElementById('loading_bar').style.width = '%f%%' ;
 
 def get_mail(txt):
     if '@' in txt:
-        return txt
-    return inscrits.L_slow.mail(txt)
+        return re.split(" +", txt)
+    mail = inscrits.L_slow.mail(txt)
+    if mail:
+        return [mail]
+    return
 
 def send_mail(server):
     """Send personnalized mails"""
@@ -104,7 +108,7 @@ def send_mail(server):
         if cc:
             cc[nb] = get_mail(cc[nb])
             if cc[nb]:
-                carbon_copy = (cc[nb],)
+                carbon_copy = cc[nb]
         utilities.send_mail_in_background(m, the_subject, content, frome,
                                           show_to = True, cc = carbon_copy)
         good_mails.append(m)
@@ -125,11 +129,11 @@ e.parentNode.removeChild(e) ;
                     + '\n'.join(bad_mails) + '\n'
                     )
     archive += (server._("MSG_send_mail_done") + '\n'
-                + '\n'.join(good_mails) + '\n'
+                + '\n'.join(' '.join(i) for i in good_mails) + '\n'
                 )
     if cc:
         archive += (server._("CC:") + '\n'
-                + '\n'.join(i
+                + '\n'.join(' '.join(i)
                             for i in cc
                             if i
                 ) + '\n'
