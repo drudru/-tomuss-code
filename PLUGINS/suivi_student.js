@@ -1586,8 +1586,15 @@ function DisplayGrpMessages(node)
 
 function DisplayToTextual(node)
 {
-  return '<a href="' + display_data['Login']
-    + '/*">●<span style="color: #FFF;font-size: 2px; opacity: 0.1">'
+  var today = new Date() ;
+  var img ;
+  if ( today.getMonth() == 9 && today.getDate() == 31 )
+    img = "👻" ;
+  else
+    img = "●" ;
+
+  return '<a href="' + display_data['Login'] + '/*">'
+    + img + '<span style="color: #FFF;font-size: 2px; opacity: 0.1">'
     + _("MSG_T_to_textual") + '</span></a>' ;
 }
 DisplayToTextual.need_node = ['Login'] ;
