@@ -1216,11 +1216,7 @@ class Table(object):
                 yield self.lines[lin]
         return
 
-    def get_line_id_or_create(self, login):
-        login = utilities.the_login(login)
-        line_id = self.the_key_dict.get(login, None)
-        if line_id is not None:
-            return line_id[0]
+    def create_line_id(self):
         i = len(self.lines)
         while True:
             line_id = "0_" + str(i)
@@ -1228,6 +1224,13 @@ class Table(object):
                 break
             i += 1
         return line_id
+
+    def get_line_id_or_create(self, login):
+        login = utilities.the_login(login)
+        line_id = self.the_key_dict.get(login, None)
+        if line_id is not None:
+            return line_id[0]
+        return self.create_line_id()
 
     def lines_of_grp(self, grp, seq):
         if grp == '':
