@@ -149,16 +149,16 @@ def update_inscrits_referents(the_ids, table, page):
         table.lock()
         try:
             line = table.get_line_id_or_create(login)
-            table.cell_change(page, "0_0"   ,line, the_id)
-            table.cell_change(page, "0_1"   ,line, firstname)
-            table.cell_change(page, "0_2"   ,line, surname)
-
-            if lines and lines[0][1][fire].value == '':
+            lines = tuple(table.get_items(login))
+            if len(lines) == 0:
                 #  FiRe only setted if empty, it must never change
                 if pe is True:
                     table.cell_change(page, "FiRe", line, configuration.yes)
                 elif pe is False:
                     table.cell_change(page, "FiRe", line, configuration.no)
+            table.cell_change(page, "0_0"   ,line, the_id)
+            table.cell_change(page, "0_1"   ,line, firstname)
+            table.cell_change(page, "0_2"   ,line, surname)
             table.cell_change(page, contrat ,line, s)
 
         finally:
