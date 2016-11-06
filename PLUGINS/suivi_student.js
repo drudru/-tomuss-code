@@ -594,6 +594,20 @@ function DisplayCellColumn(node)
 }
 DisplayCellColumn.need_node = [] ;
 
+function DisplayCellGroupMembers(node)
+{
+  var members = DisplayGrades.cellstats.group_members ;
+  if ( ! members )
+    return '' ;
+  if ( members.length == 0 )
+    return 'Alone' ;
+  var s = [DisplayGrades.column.groupcolumn + ' : '] ;
+  for(var i in members)
+    s.push(members[i][0] + ' ' + members[i][1] + ' ' + members[i][2]) ;
+  return s.join('<br>\n') ;
+}
+DisplayCellGroupMembers.need_node = [] ;
+
 function DisplayCellRank(node)
 {
   if ( DisplayGrades.cellstats === undefined )

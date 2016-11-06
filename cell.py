@@ -383,9 +383,9 @@ class Lines(object):
         for cell, column in val_col[3:]:
             if not column.visible(hide = link and True or 1):
                 continue
-            s = column.stat(cell, lines)
+            s = column.stat(cell, lines, line)
             if s:
-                d[column.the_id] = column.stat(cell, lines)
+                d[column.the_id] = s
 
         # XXX
         # if empty_line and table.ue_code != table.ue:

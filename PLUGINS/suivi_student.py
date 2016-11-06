@@ -410,9 +410,10 @@ D('CellTop'     , 'Cell'      ,0, js='Vertical')
 D('CellBox'     , 'Cell'      ,1)
 D('CellBottom'  , 'Cell'      ,2, js='Vertical')
 
-D('CellAuthorLine', 'CellBottom',0, js='Horizontal')
-D('CellColumn'  , 'CellBottom',2)
-D('CellComment' , 'CellBottom',1)
+D('CellAuthorLine'  , 'CellBottom',0, js='Horizontal')
+D('CellComment'     , 'CellBottom',1)
+D('CellColumn'      , 'CellBottom',2)
+D('CellGroupMembers', 'CellBottom',3)
 
 D('CellAuthor' , 'CellAuthorLine',0)
 D('CellMTime'  , 'CellAuthorLine',1)

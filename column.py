@@ -446,15 +446,20 @@ class Column(object):
         else:
             return 'Col(' + json.dumps(d) + ')'
 
-    def stat(self, cell, lines):
+    def stat(self, cell, lines, line):
         """Format a cell value in order to display it.
         It uses the formatter defined by the column type."""
         if cell.value != '':
             value = cell.value
         else:
             value = self.empty_is
-            
-        return self.type.stat(self, value, cell, lines)
+        d = self.type.stat(self, value, cell, lines)
+        if self.groupcolumn:
+            names = []
+            for line_key, i_line in self.lines_of_the_group(line):
+                names.append([i.value for i in i_line[:3]])
+            d["group_members"] = names
+        return d
 
     def cell_indicator(self, cell, lines):
         """Compute if the cell value is a good or bad one.
