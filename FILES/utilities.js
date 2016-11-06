@@ -2326,7 +2326,7 @@ function triggerKeyboardEvent(el, keyCode)
       el.fireEvent("onkeydown", eventObj) ;
 }
 
-function select_go_up(down)
+function select_move(nb)
 {
   if ( element_focused.my_selected_index != element_focused.selectedIndex )
     {
@@ -2339,16 +2339,30 @@ function select_go_up(down)
   else
     {
       var nb_item = element_focused.childNodes.length ;
-      element_focused.selectedIndex = (element_focused.selectedIndex
-				       + element_focused.childNodes.length
-				       + (down === 1 ? 1 : -1)) % nb_item ;
+      var i = element_focused.selectedIndex + nb ;
+      if ( nb > 0 )
+         i = Math.min(element_focused.childNodes.length - 1, i) ;
+      else
+         i = Math.max(0, i) ;
+      element_focused.selectedIndex = i ;
       element_focused.my_selected_index = element_focused.selectedIndex;
     }
 }
 
+function select_go_up()
+{
+  select_move(-1) ;
+}
+
 function select_go_down()
 {
-  select_go_up(1) ;
+  select_move(1) ;
+}
+
+function select_go_page(event)
+{
+  var nb = Math.floor(event.target.size / 2) ;
+  select_move(event.keyCode == 33 ? -nb : nb) ;
 }
 
 function select_terminate(event)
@@ -2469,6 +2483,7 @@ function init_shortcuts()
 ["s", [38]             , "select_go_up"],
 ["Ss", [9]             , "select_go_up"],
 ["s", [40, 9]          , "select_go_down"],
+["s", [33, 34]         , "select_go_page"],
 ["s", [13]             , "select_terminate"],
 // ["s", undefined        ],  // key < 40 && key != 8 : return
 ["C", [33, 34]],         //  Do not touch control next/previous page
