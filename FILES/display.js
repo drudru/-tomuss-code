@@ -266,3 +266,72 @@ function DisplayVertical(node)
   return DisplayHorizontal(node, '') ;
 }
 DisplayVertical.need_node = [] ;
+
+function display_debug_information()
+{
+  return i_am_root ;
+  return display_data['Preferences']
+    && display_data['Preferences']['debug_suivi']
+    || display_data['HomePreferences']
+    && display_data['HomePreferences']['debug_home'] ;
+}
+
+function DisplayProfiling(node)
+{
+  if ( ! display_debug_information() )
+    return '' ;
+  var t = [] ;
+  for(var i in node.data)
+    t.push([node.data[i], i]) ;
+  t.sort(function(a,b) { return b[0] - a[0] ; }) ;
+  return hidden_txt('⌚',
+		    '<!--INSTANTDISPLAY-->' + _('LINK_profiling')
+		    + '<br>' + t.join('<br>')) ;
+}
+DisplayProfiling.need_node = [] ;
+
+function display_display_tree(node, s)
+{
+  if ( node === undefined )
+    {
+      var s = [] ;
+      for(var node in display_definition)
+	{
+	  node = display_definition[node] ;
+	  if ( node.containers.length == 0 )
+	    {
+	      s.push("<ul>") ;
+	      display_display_tree(node, s) ;
+	      s.push("</ul><hr>") ;
+	    }
+	}
+      new_window(s.join(''), "text/html") ;
+      return ;
+    }
+  s.push("<li> [" + node.priority + '] <b>' + html(node.name) + '</b>'
+	 + ('Display' + node.name != node.js ? ' ' + node.js : '')
+	 + (display_data[node.name]
+	    ? (' <span style="font-size: 70%">'
+	       + html(JSON.stringify(display_data[node.name])
+		      .replace(/,/g, ', ').substr(0,1000))
+	       + '</span>'
+	       )
+	    : '')
+	 )
+    ;
+  if ( node.children.length )
+    {
+      s.push("<ul>") ;
+      for(var i in node.children)
+	display_display_tree(node.children[i], s) ;
+      s.push("</ul>") ;
+    }
+}
+
+function DisplayTree(node)
+{
+  if ( ! display_debug_information() )
+    return '' ;
+  return '<a href="javascript:display_display_tree()">🌳</a>' ;
+}
+DisplayTree.need_node = [] ;

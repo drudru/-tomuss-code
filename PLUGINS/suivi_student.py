@@ -361,7 +361,8 @@ D('ToTextual'   , 'User'      ,-10)
 D('Logo'        , 'User'      ,0, data=display_logo)
 D('YearSemester', 'User'      ,1.9)
 D('Reload'      , 'User'      ,2)
-D('Profiling'   , 'User'      ,3)
+D('Profiling'   , ['User', 'HomeTop'],3)
+D('Tree'        , ['User', 'HomeTop'],4)
 D('IdentityR'   , 'User'      ,-1, js='Horizontal') # Yes : -1
 
 D('Explanation' , 'IdentityR' ,0, data=display_copyright)

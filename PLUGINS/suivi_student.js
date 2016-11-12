@@ -322,18 +322,6 @@ function DisplayReload(node)
 }
 DisplayReload.need_node = [] ;
 
-function DisplayProfiling(node)
-{
-  if ( ! is_a_teacher || ! display_data['Preferences']['debug_suivi'] )
-    return '' ;
-  var t = [] ;
-  for(var i in node.data)
-    t.push([node.data[i], i]) ;
-  t.sort(function(a,b) { return b[0] - a[0] ; }) ;
-  return hidden_txt(_('LINK_profiling'), t.join('<br>')) ;
-}
-
-
 function DisplayExplanationPopup()
 {
   if ( popup_classname() == 'explanations_popup' )

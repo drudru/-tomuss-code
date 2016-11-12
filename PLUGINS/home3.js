@@ -125,21 +125,6 @@ function DisplayHomeSemesters(node)
   return s.join('') ;
 }
 
-// XXX copy/paste of suivi_student.js
-function DisplayHomeProfiling(node)
-{
-  if ( ! display_data['HomePreferences']['debug_home'] )
-    return '' ;
-  var t = [] ;
-  node.data = display_data['Profiling'] ;
-  for(var i in node.data)
-    t.push([node.data[i], i]) ;
-  t.sort(function(a,b) { return b[0] - a[0] ; }) ;
-  return fast_tip(_('LINK_profiling'), t.join('<br>')) ;
-}
-DisplayHomeProfiling.need_node = ['HomePreferences'] ;
-
-
 function year_semester()
 {
   var s = document.getElementById("s") ;
@@ -921,7 +906,8 @@ function display_ues(title, tip, codes, options)
 	     + (options.before_title || '')
 	     + (tip ? hidden_txt(_(title), tip) : _(title))
 	     ) ;
-      if ( display_data['HomePreferences']['debug_home'] )
+      if ( display_data['HomePreferences']
+	   && display_data['HomePreferences']['debug_home'] )
 	s.push('<small>' + display_ues.nb++ + '</small>') ;
       if ( options.title_second_line )
 	s.push("<br>" + options.title_second_line) ;

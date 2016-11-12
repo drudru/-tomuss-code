@@ -136,7 +136,6 @@ D('HomeColumns'    , 'Home'      ,3)
 
 D('HomeTitle'      , 'HomeTop'   ,0)
 D('HomeSemesters'  , 'HomeTop'   ,1, lambda x: HomeSemesters())
-D('HomeProfiling'  , 'HomeTop'   ,2)
 
 D('HomeIdentity'   , 'HomeRight' ,1, js='Vertical')
 D('HomeFeed'       , 'HomeRight' ,2)
