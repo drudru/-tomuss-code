@@ -1463,6 +1463,23 @@ function DisplayMemberOf(node)
   return hidden_txt(_("MSG_suivi_student_memberof"), mo) + etapes ;
 }
 
+function DisplayACLS(node)
+{
+  if ( node.data === undefined || ! is_a_teacher)
+    return '' ;
+  var groups = [] ;
+  for(var i in node.data)
+    groups.push(i) ;
+  groups.sort() ;
+  var s = [] ;
+  for(var i in groups)
+    {
+      i = groups[i] ;
+      s.push(node.data[i] ? i : '<span style="color: #888">' + i + '</span>') ;
+    }
+  return '<div style="font-size: 80%">ACLS: ' + s.join(", ") + '</div>' ;
+}
+
 function DisplayStudents(node)
 {
   var s = _("MSG_suivi_student_contact_for") + '<table class="colored">' ;

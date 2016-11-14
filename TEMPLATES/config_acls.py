@@ -249,3 +249,15 @@ def clear_cache():
 clear_cache()
 
 configuration.config_acls_clear_cache = clear_cache
+
+def all_the_groups():
+    return {line[1].value
+            for line in acls.lines.values()
+    }
+
+def check_all_groups(login):
+    return {group: is_member_of(login, group)
+            for group in all_the_groups()
+    }
+
+configuration.check_all_groups = check_all_groups

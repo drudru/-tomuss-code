@@ -355,6 +355,11 @@ D('Abjs'        , 'BodyRight' ,3, data=display_abjs)
 D('DA'          , 'BodyRight' ,4, data=display_da)
 D('TT'          , 'BodyRight' ,5, data=display_tt)
 D('MoreOnSuivi' , 'BodyRight' ,9, data=display_more_on_suivi)
+D('ACLS'        , 'BodyRight' ,12,
+  lambda server:
+  configuration.check_all_groups(server.suivi_login)
+  if server.ticket.user_name in configuration.root
+  else None)
 D('Advertising' , 'BodyRight',99, data=lambda server: configuration.advertising)
 
 D('ToTextual'   , 'User'      ,-10)
@@ -391,6 +396,7 @@ D('Signature'   , 'LinksTable',7, display_signature)
 
 D('RSS'         , 'LinksTable',8, data=display_rss)
 D('MemberOf'    , 'LinksTable',10, data=display_member_of)
+
 
 # Template of an UE
 
