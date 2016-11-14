@@ -33,6 +33,7 @@ import shutil
 import imp
 import ast
 import urllib
+import codecs
 import tomuss_init
 from . import configuration
 
@@ -361,7 +362,8 @@ def send_mail(to, subject, message, frome=None, show_to=False, reply_to=None,
     header = "From: {}\n".format(frome)
 
     s = subject.replace('\n',' ').replace('\r',' ')
-    header += "Subject: {}\n".format(s)
+    header += "Subject: =?utf-8?Q?{}?=\n".format(
+        codecs.encode(s.encode("utf-8"), "quotedprintable").decode("ascii"))
     if len(to) == 1:
         header += "To: {}\n".format(to[0])
     elif show_to:
