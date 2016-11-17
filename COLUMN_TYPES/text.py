@@ -24,6 +24,7 @@ import re
 from .. import utilities
 from .. import configuration
 from .. import document
+from .. import sender
 
 ###############################################################################
 # This part is for column import.
@@ -55,9 +56,13 @@ def error(column, message, more=None):
         return
     if more is None:
         more = column.url_import
-    column.table.send_update(
-        None, "<script>Alert('%s', %s);</script>" %(message,
-        utilities.js("\n" + column.title + ' : ' + more)))
+    for page in column.table.active_pages:
+        if page.user_name == column.author:
+            sender.append(
+                page.browser_file,
+                "<script>Alert('%s', %s);</script>"
+                % (message,
+                   utilities.js("\n" + column.title + ' : ' + more)))
 
 getters = {
     ':': lambda x: x.history,
