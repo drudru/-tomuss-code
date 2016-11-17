@@ -1187,7 +1187,8 @@ function set_columns_filter(h)
     cf.className = 'empty' ;
   else
     cf.className = '' ;
-  cf.value = h ;
+  if ( cf.value != h )
+    cf.value = h ;
   columns_filter = compile_filter_generic(h) ;
   try {
     columns_filter(undefined, C()) ;
