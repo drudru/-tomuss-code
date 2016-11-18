@@ -2576,6 +2576,7 @@ function display_short_cuts()
 
 Current.prototype.keydown = function(event, in_input)
 {
+  connection_state.reconnect() ;
   init_shortcuts() ;
   last_user_interaction = millisec() ;
   event = the_event(event) ;
