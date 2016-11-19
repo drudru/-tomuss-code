@@ -1151,9 +1151,19 @@ function DisplayLogo(node)
 
 function DisplayYearSemester(node)
 {
-  return '<span class="Display">' + year + '<br>' + semester + '</span>'
+  return '<span class="Display">' + year + '<br>' + semester + '</span>' ;
 }
 DisplayYearSemester.need_node = [] ;
+
+function DisplayGoHome(node)
+{
+  if ( ! is_a_teacher && node.data )
+    return ['<a href="' + url + '/=' + ticket + '">'
+	    + _("MSG_signature_done") + '</a>',
+	    [],
+	    ['width:10em; text-align:center; white-space:normal; font-size:80%']
+	    ] ;
+}
 
 function DisplaySemesters(node, textual)
 {

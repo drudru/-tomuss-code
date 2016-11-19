@@ -365,6 +365,8 @@ D('Advertising' , 'BodyRight',99, data=lambda server: configuration.advertising)
 D('ToTextual'   , 'User'      ,-10)
 D('Logo'        , 'User'      ,0, data=display_logo)
 D('YearSemester', 'User'      ,1.9)
+D('GoHome'      , 'User'      ,1.95,
+  data=lambda server: getattr(server, "teacher_as_a_student", 0))
 D('Reload'      , 'User'      ,2)
 D('Profiling'   , ['User', 'HomeTop'],3)
 D('Tree'        , ['User', 'HomeTop'],4)
