@@ -1641,7 +1641,8 @@ function update_vertical_scrollbar_real()
   s = '<span class="position">&nbsp;</span><img src="_FILES_/up.gif" onclick="javascript:previous_page();"><img src="_FILES_/down.gif" onclick="javascript:next_page();"><span class="cursor"></span>' ;
 
 
-  if ( preferences.v_scrollbar_nr )
+  if ( preferences.v_scrollbar_nr
+       && columns[data_col].sort_by == 'LABEL_sort_value' )
     for(var i in filtered_lines)
       {
 	v = filtered_lines[i][data_col].value.toString().substr(0,preferences.v_scrollbar_nr) ;
