@@ -6237,3 +6237,5 @@ msgstr "Éditer les messages de la page de suivi"
 msgid "HELP_/0/Dossiers/config_messages"
 msgstr "Permet d'afficher des messages ciblés par groupes d'utilisateur."
 
+msgid "ALERT_position_freezed"
+msgstr "La colonne étant figée, elle ne se déplacera peut-être pas ou vous voulez..."

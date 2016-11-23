@@ -6101,5 +6101,8 @@ msgstr "Edit the 'suivi' page messages"
 msgid "HELP_/0/Dossiers/config_messages"
 msgstr "Allow to display a message to an user group."
 
+msgid "ALERT_position_freezed"
+msgstr "As the column is freezed, it may not move where you want..."
+
 
 

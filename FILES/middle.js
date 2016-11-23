@@ -823,6 +823,13 @@ function update_column_position_menu()
   var option ;
   while( t.firstChild )
     t.removeChild(t.firstChild) ;
+  if ( t.realonchange === undefined )
+    t.realonchange = t.onchange ;
+  if ( the_current_cell.column.freezed )
+    t.onchange = function(event) { Alert("ALERT_position_freezed") ;
+				   t.realonchange(event) ; } ;
+  else
+    t.onchange = t.realonchange ;
   var cols = column_list(0, columns.length) ;
   for(var i in cols)
     {
