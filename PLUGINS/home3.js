@@ -905,6 +905,10 @@ function display_ues(title, tip, codes, options)
 	     + '>'
 	     + (options.before_title || '')
 	     + (tip ? hidden_txt(_(title), tip) : _(title))
+	     + (codes.length
+		? ' <small class="ue_icons" style="font-size:80%">('
+		+ codes.length + ')</small>'
+		: '')
 	     ) ;
       if ( display_data['HomePreferences']
 	   && display_data['HomePreferences']['debug_home'] )
