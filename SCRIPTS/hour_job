@@ -1,8 +1,10 @@
 #!/bin/sh
 # -*- sh -*-
+# This script do a remote backup on a git repository.
+#
 # The remote account must be empty, its GIT configuration will be modified.
 #
-# Set a value for BACKUP_USER in the .profile as login@hostname.example.org
+# Set a value for BACKUP_USER in '~/.profile' as 'login@hostname.example.org'
 #
 # On the local host:
 #    * Do an rsync on $BACKUP_USER
@@ -16,16 +18,6 @@ H=336 # Maximum number of commit allowed
 log() {
     echo "___$(date +%H:%M:%S)___ $*" >&2
 }
-
-ps -e >xxx.hour_job
-if [ "$1" != "" \
-    -a "$1" != "RUN" \
-    -a "$(grep hour_job <xxx.hour_job | wc --lines)" != 1 ]
-    then
-    log "hour_job.py is yet running, let it finish the previous job"
-    cat xxx.hour_job
-    exit 1
-    fi
 
 do_is_backup_needed() {
     log "Do I Need a $I commit?"
@@ -63,26 +55,24 @@ do_commit() {
     fi
 }
 
-do_cleanup_editor() {
-    log "Fake text editor for $1"
-    LAST=$(wc --lines <"$1")
-    LINE=$(expr $LAST - $H / 2 - 25)
-    if [ $LINE -ge 2 ]
-    then
-	sed -i "2,$LINE s/^pick/f/" "$1"
-    fi
-    exit 0
-}
-
 do_cleanup() {
     # 6 = Saturday
-    if [ "$(date +%u)" = 6 -a "$(git log --oneline | wc --lines)" -ge "$H" ]
+    if [ "$(date +%u)" -eq 6 ]
     then
-        log "Keep only $H/2 commits of $1"
-	export GIT_EDITOR="$0 DO_CLEANUP_EDITOR"
-	git rebase --interactive "$(git rev-list HEAD | tail -n 1)"
-        log "Run garbage collector"
-	git gc --aggressive
+	if [ "$(git log --oneline | wc --lines)" -ge "$H" ]
+	then
+            log "Keep only $H/2 commits of $1"
+	    git rev-list --all | sed -n "$(expr $H / 2)p" >.git/info/graft
+	    git filter-branch -f -- --all
+	    rm .git/info/graft
+	fi
+	if [ ! -f .git/last_gc \
+	     -o "$(date +%Y-%m-%d)" != "$(cat .git/last_gc 2>/dev/null)" ]
+	then
+            log "Run the garbage collector once a day"
+	    git gc
+	    date +%Y-%m-%d >.git/last_gc
+	fi
     fi
 }
 
@@ -116,6 +106,7 @@ do_create_repository() {
 	mkdir "TOMUSS_$1"
 	cd "TOMUSS_$1"
 	git init
+	git config --global gc.auto 0
 	cd
     fi
 }
@@ -128,7 +119,7 @@ do_backup() {
 	if do_is_backup_needed "$I"
 	then
 	    do_commit "$I"
-	    nohup "$0" DO_CLEANUP "$I" &
+	    nohup "$0" DO_CLEANUP "$I"
             log "Do not make the other backups"
 	    break
 	fi
@@ -151,6 +142,12 @@ do_rsync() {
 }
 
 do_main() {
+    if [ -f xxx.hour_job ]
+    then
+	log "hour_job.py is yet running, let it finish the previous job."
+	exit 1
+    fi
+    date >xxx.hour_job
     log "================================================================"
     log $(date)
     log "================================================================"
@@ -165,13 +162,13 @@ do_main() {
     ERRORS="$ERRORS scp:$?"
     ssh "$BACKUP_USER" 'chmod 755 hour_job ; nice $HOME/hour_job RUN'
     ERRORS="$ERRORS ssh:$?"
+    rm xxx.hour_job
 }
 
 case "$1" in
     "") do_main ;;
     "RUN") do_backup ;;
     "DO_CLEANUP") do_cleanup "$2" ;;
-    "DO_CLEANUP_EDITOR") shift ; do_cleanup_editor "$@" ;;
     "DO_DECIMATE") do_decimate "$2" ;;
     "DO_DECIMATE_EDITOR") shift ; do_decimate_editor "$@" ;;
 esac
