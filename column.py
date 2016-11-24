@@ -435,7 +435,7 @@ class Column(object):
                     # Became visible on the last change
                     value = max(getattr(self, 'visibility_date__mtime',''),
                                 getattr(self, 'visibility__mtime', '')
-                                )
+                                )[:8]
             if value != attr.default_value:
                 if attr.name == 'type':
                     value = value.name
