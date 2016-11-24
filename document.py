@@ -1353,20 +1353,19 @@ class Table(object):
         s.append("new_page('' ,'" + data.ro_user + "', '', '')")
         pages = collections.defaultdict(lambda: 1)
         pages[data.ro_user] = 0
+        authors = set()
+        for c in self.columns:
+            authors.add(c.author)
         if user_name:
-            s.append("new_page('' ,'%s', '', '')" % user_name)
-        else:
-            authors = set()
-            for c in self.columns:
-                authors.add(c.author)
-            if not only_columns:
-                for line in self.lines.values():
-                    for cell in line:
-                        authors.add(cell.author)
-            authors.discard(data.ro_user)
-            for author in authors:
-                pages[author] = len(pages)
-                s.append("new_page('' ,'%s', '', '')" % author)
+            authors.add(user_name)
+        if not only_columns:
+            for line in self.lines.values():
+                for cell in line:
+                    authors.add(cell.author)
+        authors.discard(data.ro_user)
+        for author in authors:
+            pages[author] = len(pages)
+            s.append("new_page('' ,'%s', '', '')" % author)
             
         for c in self.columns:
             for attr in column.ColumnAttr.attrs.values():
