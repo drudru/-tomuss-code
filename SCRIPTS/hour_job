@@ -10,10 +10,10 @@
 #    * Do an rsync on $BACKUP_USER
 # On the remote host:
 #    * Do a git commit on an HOUR/DAY/MONTH/YEAR repository (only one)
-#    * Do a git cleanup if necessary when reaching 336 commits (in background)
-#      Keep only the 118 newer commits, the others are merged.
+#    * Do a git cleanup if necessary when reaching 672 commits (in background)
+#      Keep only the 336 newer commits, the others are merged.
 
-H=336 # Maximum number of commit allowed
+H=672 # Maximum number of commit allowed
 
 log() {
     echo "___$(date +%H:%M:%S)___ $*" >&2
@@ -21,9 +21,8 @@ log() {
 
 do_is_backup_needed() {
     log "Do I Need a $I commit?"
-    cd TOMUSS_DB
-    rm .git 2>/dev/null
-    ln -s "../TOMUSS_$I/.git" .
+    export GIT_DIR="$(pwd)/TOMUSS_$I/.git"
+    export GIT_WORK_TREE="$(pwd)/TOMUSS_DB/"
     git log --date=iso8601 --max-count=1 2>/dev/null \
          | grep "^Date" \
          | sed 's/[-:]/ /g' \
@@ -43,16 +42,12 @@ do_is_backup_needed() {
 }
 
 do_commit() {
-    if [ "" = "$(git ls-files -m)" ]
-    then
-	log "Nothing to commit into $I"
-    else
-	log "Do commit $I"
-	git add --all .
-	ERRORS="$ERRORS add:$?"
-	git commit -a -m "Backup $I '$(date +%Y-%m-%d_%H:%M:%S)'"
-	ERRORS="$ERRORS commit:$?"
-    fi
+    log "Do commit $I"
+    git add --all "$GIT_WORK_TREE"
+    ERRORS="$ERRORS add:$?"
+    git commit -a -m "Backup $I '$(date +%Y-%m-%d_%H:%M:%S)'"
+    # XXX Error on empty commit
+    # ERRORS="$ERRORS commit:$?"
 }
 
 do_cleanup() {
@@ -62,16 +57,16 @@ do_cleanup() {
 	if [ "$(git log --oneline | wc --lines)" -ge "$H" ]
 	then
             log "Keep only $H/2 commits of $1"
-	    git rev-list --all | sed -n "$(expr $H / 2)p" >.git/info/graft
+	    git rev-list --all | sed -n "$(expr $H / 2)p" >"$GIT_DIR"/info/graft
 	    git filter-branch -f -- --all
-	    rm .git/info/graft
+	    rm "$GIT_DIR"/info/graft
 	fi
-	if [ ! -f .git/last_gc \
-	     -o "$(date +%Y-%m-%d)" != "$(cat .git/last_gc 2>/dev/null)" ]
+	if [ ! -f "$GIT_DIR"/last_gc \
+	     -o "$(date +%Y-%m-%d)" != "$(cat "$GIT_DIR"/last_gc 2>/dev/null)" ]
 	then
             log "Run the garbage collector once a day"
 	    git gc
-	    date +%Y-%m-%d >.git/last_gc
+	    date +%Y-%m-%d >"$GIT_DIR"/last_gc
 	fi
     fi
 }
@@ -99,15 +94,16 @@ do_config_git() {
 
 do_create_repository() {
     log "Check GIT repository $I"
-    cd
     if [ ! -d "TOMUSS_$1" ]
     then
 	log "Create GIT repository $I"
 	mkdir "TOMUSS_$1"
-	cd "TOMUSS_$1"
-	git init
-	git config --global gc.auto 0
-	cd
+	(
+	    cd "TOMUSS_$1"
+	    unset GIT_DIR GIT_WORK_TREE
+	    git init
+	    git config --global gc.auto 0
+	)
     fi
 }
 
@@ -157,10 +153,22 @@ do_main() {
 	log 'export BACKUP_USER="backuplogin@hostname.example.org"'
 	exit 1
     fi
-    do_rsync
     scp "$0" "$BACKUP_USER":hour_job
-    ERRORS="$ERRORS scp:$?"
-    ssh "$BACKUP_USER" 'chmod 755 hour_job ; nice $HOME/hour_job RUN'
+    case "$BACKUP_USER" in
+	*"@$(hostname)")
+	    # Assume that the DB is readeable by the $BACKUP_USER
+	    # No need to copy it.
+	    ssh "$BACKUP_USER" "[ -L TOMUSS_DB ] && rm TOMUSS_DB
+                                [ -d TOMUSS_DB ] && mv TOMUSS_DB TOMUSS_DB.old
+                                ln -s $(pwd)/DB TOMUSS_DB"
+	;;
+	*)
+	    do_rsync
+	    ERRORS="$ERRORS scp:$?"
+	    ;;
+    esac
+    ssh "$BACKUP_USER" 'chmod 755 hour_job
+                        ionice -c Idle nice $HOME/hour_job RUN'
     ERRORS="$ERRORS ssh:$?"
     rm xxx.hour_job
 }
