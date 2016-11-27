@@ -2793,7 +2793,48 @@ function cell_class(column, line, cell)
   return className ;
 }
 
-function update_cell(td, cell, column, abj, line)
+function there_is_an_abj(cell, column, abj)
+{
+  if ( ! abj || abj[0].length == 0 )
+    return ;
+  if ( column.parsed_course_dates )
+    {
+      var t, first, last ;
+      for(var a in abj[0])
+	{
+	  a = abj[0][a] ;
+	  if ( ! abj_is_fine(a) )
+	    continue ;
+	  first = parse_date(a[0]).getTime() ;
+	  last = parse_date(a[1]).getTime() ;
+	  for(var date in column.parsed_course_dates)
+	    {
+	      t = column.parsed_course_dates[date] ;
+	      if ( t >= first && t <= last )
+		return 'is_not_an_abi' ;
+	    }
+	}
+    }
+  else
+    {
+      var d = new Date(cell.date.substr(0,4),
+		       cell.date.substr(4,2)-1,
+		       cell.date.substr(6,2)) ;
+      d = d.getTime() ;
+      for(var a in abj[0])
+	{
+	  a = abj[0][a] ;
+	  if ( ! abj_is_fine(a) )
+	    continue ;
+	  if ( parse_date(a[0]).getTime() <= d
+	       && d < parse_date(a[1]).getTime() + 86400000*7 )
+	    return 'is_an_abj' ;
+	}
+    }
+}
+
+
+function update_cell(td, cell, column, abj_list, line)
 {
   var v = cell.value ;
   var className = cell_class(column, line, cell) ;
@@ -2820,51 +2861,20 @@ function update_cell(td, cell, column, abj, line)
     className += ' filtered' ;
   else if ( line_filter && line_filter(line, cell) )
     className += ' filtered' ;
-  
-  if ( v === abi && abj && abj[0].length )
+
+  // XXX : This does not work if there are no courses dates
+  // because the ABJ modify the ABI date
+  if ( v === abj && column.parsed_course_dates )
     {
-      if ( column.parsed_course_dates )
-	{
-	  var t, first, last, stop = false ;
-	  for(var a in abj[0])
-	    {
-	      a = abj[0][a] ;
-	      first = parse_date(a[0]).getTime() ;
-	      last = parse_date(a[1]).getTime() ;
-	      for(var date in column.parsed_course_dates)
-		{
-		  t = column.parsed_course_dates[date] ;
-		  if ( t >= first && t <= last )
-		    {
-		      className = className.replace(' default','')
-		      className += ' is_not_an_abi' ;
-		      stop = true ;
-		      break ;
-		    }
-		}
-	      if ( stop )
-		break ;
-	    }
-	}
-      else
-	{
-	  var d = new Date(cell.date.substr(0,4),
-			   cell.date.substr(4,2)-1,
-			   cell.date.substr(6,2)) ;
-	  d = d.getTime() ;
-	  for(var a in abj[0])
-	    {
-	      a = abj[0][a] ;
-	      if ( ! abj_is_fine(a) )
-		continue ;
-	      if ( parse_date(a[0]).getTime() <= d
-		   && d < parse_date(a[1]).getTime() + 86400000*7 )
-		{
-		  className += ' is_an_abj' ;
-		  break ;
-		}
-	    }
-	}
+      var c = there_is_an_abj(cell, column, abj_list) ;
+      if ( ! c )
+	className = className.replace(' default','') + ' is_not_an_abj' ;
+    }
+  if ( v === abi && column.parsed_course_dates)
+    {
+      var c = there_is_an_abj(cell, column, abj_list) ;
+      if ( c )
+	className = className.replace(' default','') + ' ' + c ;
     }
   td.className = className ;
   while( td.childNodes[1] )

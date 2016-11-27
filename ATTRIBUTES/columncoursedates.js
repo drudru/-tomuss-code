@@ -39,7 +39,10 @@ function course_dates_formatter(column, value)
 function set_course_dates(value, column, interactive_modification)
 {
   if ( value === '')
+  {
+    column.parsed_course_dates = undefined ;
     return value ;
+  }
   var dates = value.split(/[ ,;]+/) ;
   var t = [] ;
   column.parsed_course_dates = [] ;

@@ -350,7 +350,7 @@ TD.empty {
 BODY TABLE.colored TR.highlight_current TD { color: #00A;  }
 
 
-.is_an_abj { text-decoration: underline ; }
+.is_an_abj, .is_not_an_abj { text-decoration: underline ; }
 .is_not_an_abi, .ro.is_not_an_abi, .greentext.is_not_an_abi { color: #F00 ; }
 
 TABLE#thetable TD.number, TD.number, #current_input.number { 
