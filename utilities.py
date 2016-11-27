@@ -363,7 +363,7 @@ def send_mail(to, subject, message, frome=None, show_to=False, reply_to=None,
 
     s = subject.replace('\n',' ').replace('\r',' ')
     header += "Subject: =?utf-8?Q?{}?=\n".format(
-        codecs.encode(s.encode("utf-8"), "quotedprintable").replace(b"\n", b"").decode("ascii"))
+        codecs.encode(s.encode("utf-8"), "quotedprintable").replace(b"=\n", b"").decode("ascii"))
     if len(to) == 1:
         header += "To: {}\n".format(to[0])
     elif show_to:
