@@ -142,7 +142,12 @@ TD { padding: 0px }
 
 .search_box {
     margin: 0.25em ;
-    padding-right: 7px ;
+    padding-right: 1em ;
+}
+
+.HomeReset {
+    float: right ;
+    font-size: 150% ;
 }
 
 .search_box INPUT {

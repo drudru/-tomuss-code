@@ -1458,13 +1458,20 @@ function search_ue_change(t)
 }
 search_ue_change.last_value = get_option('ue', '') ;
 
+function HomeReset(event)
+{
+  var input = the_event(event).target.nextSibling.firstChild ;
+  input.value = '' ;
+  input.onpaste() ;
+}
+
 function DisplayHomeUE(node)
 {
   var s = [display_ues("TH_home_search", _("TIP_home_search_ue"), [],
 		       {default_order: 'A', hide_open_close: true})
 	  ] ;
   s[0] = s[0].substr(0, s[0].length - 6) ; // Remove last </div>
-  s.push('<div class="search_box"><input id="search_ue" onkeyup="search_ue_change(this)" onpaste="t=this;setTimeout(function(){search_ue_change(t);},100)" value="' + encode_value(search_ue_change.last_value) + '"></div></div>') ;
+  s.push('<div class="HomeReset" onclick="HomeReset(event)">×</div><div class="search_box"><input id="search_ue" onkeyup="search_ue_change(this)" onpaste="t=this;setTimeout(function(){search_ue_change(t);},100)" value="' + encode_value(search_ue_change.last_value) + '"></div></div>') ;
   s.push('<div id="ue_search_result" class="ue_list border">') ;
   if ( search_ue_change.last_value )
     s.push(search_ue_list(search_ue_change.last_value)) ;
@@ -1801,7 +1808,7 @@ function DisplayHomeStudents(node)
    default_order: "surname+firstname"})
 	   ] ;
   s[0] = s[0].substr(0, s[0].length - 6) ; // Remove last </div>
-  s.push('<div class="search_box"><input id="students_list" onkeyup="search_student_change(this)" onpaste="t=this;setTimeout(function(){search_student_change(t);},100)" value="'
+  s.push('<div class="HomeReset" onclick="HomeReset(event)">×</div><div class="search_box"><input id="students_list" onkeyup="search_student_change(this)" onpaste="t=this;setTimeout(function(){search_student_change(t);},100)" value="'
 	 + encode_value(ask_login_list && ask_login_list.toLowerCase() || '')
 	 + '"><div style="display:none">' + _("MSG_home_searching")
 	 + '</div></div></div>') ;
