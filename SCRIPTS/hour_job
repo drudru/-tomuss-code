@@ -51,24 +51,30 @@ do_commit() {
 }
 
 do_cleanup() {
-    # 6 = Saturday
-    if [ "$(date +%u)" -eq 6 ]
+    if [ ! -f "$GIT_DIR"/last_gc ]
     then
-	if [ "$(git log --oneline | wc --lines)" -ge "$H" ]
-	then
-            log "Keep only $H/2 commits of $1"
-	    git rev-list --all | sed -n "$(expr $H / 2)p" >"$GIT_DIR"/info/graft
-	    git filter-branch -f -- --all
-	    rm "$GIT_DIR"/info/graft
-	fi
-	if [ ! -f "$GIT_DIR"/last_gc \
-	     -o "$(date +%Y-%m-%d)" != "$(cat "$GIT_DIR"/last_gc 2>/dev/null)" ]
-	then
-            log "Run the garbage collector once a day"
-	    git gc
-	    date +%Y-%m-%d >"$GIT_DIR"/last_gc
-	fi
+	echo 0 >"$GIT_DIR"/last_gc
     fi
+    DT=$(expr "$(date +%s)" - "$(cat "$GIT_DIR"/last_gc)")
+    if [ "$DT" -le 864000 ]
+    then
+	# Do a cleanup only once for 10 days
+	return
+    fi
+    date +%s >"$GIT_DIR"/last_gc
+
+    if [ "$(git log --oneline | wc --lines)" -ge "$H" ]
+    then
+        log "Keep only $H/2 commits of $1"
+	git rev-list --all | sed -n "$(expr $H / 2)p" >"$GIT_DIR"/info/grafts
+	if [ ! -d "$HOME/git-rewrite" ] ; then mkdir "$HOME/git-rewrite" ; fi
+	(cd "$GIT_WORK_TREE" ;
+	 git filter-branch -d "$HOME/git-rewrite" -f -- --all)
+	rm -rf "$HOME/git-rewrite"
+	rm "$GIT_DIR"/info/grafts
+    fi
+    log "Run the garbage collector."
+    git gc
 }
 
 do_decimate_editor() {
@@ -115,7 +121,7 @@ do_backup() {
 	if do_is_backup_needed "$I"
 	then
 	    do_commit "$I"
-	    nohup "$0" DO_CLEANUP "$I"
+	    do_cleanup "$I"
             log "Do not make the other backups"
 	    break
 	fi
@@ -176,7 +182,6 @@ do_main() {
 case "$1" in
     "") do_main ;;
     "RUN") do_backup ;;
-    "DO_CLEANUP") do_cleanup "$2" ;;
     "DO_DECIMATE") do_decimate "$2" ;;
     "DO_DECIMATE_EDITOR") shift ; do_decimate_editor "$@" ;;
 esac
