@@ -156,7 +156,7 @@ function printable_display_page(lines, title, page_break)
 	  s.push('</tr>') ;
 	  t.push( txt_line.join('\t') ) ;
 	}
-      s.push('<thead>') ;
+      s.push('</thead><tbody>') ;
       i = 1 ;
       for(var line_id in lines)
 	{
