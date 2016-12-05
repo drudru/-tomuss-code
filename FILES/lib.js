@@ -4981,7 +4981,16 @@ function runlog(the_columns, the_lines)
   the_current_cell.jump(nr_headers, 0, true) ;
   the_current_cell.update_table_headers() ;
 
-  restore_unsaved() ;
+  // The restore popup must not be erased by the table filling
+  var old_table_fill_hook = table_fill_hook ;
+  function ask_for_restore()
+  {
+    if ( old_table_fill_hook )
+      old_table_fill_hook() ;
+    restore_unsaved() ;
+  }
+  table_fill_hook = ask_for_restore ;
+
   document.getElementById("linefilter").focus() ;
   column_get_option_running = false ;
 }
