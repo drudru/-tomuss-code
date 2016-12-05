@@ -165,7 +165,7 @@ function printable_display_page(lines, title, page_break)
 	    html_class = '' ;
 	  else
 	    html_class = line[tr_classname].value ;
-	  if ( nr_lines == i || i % preferences.zebra_step === 1 )
+	  if ( i % preferences.zebra_step === 1 )
 	    html_class += ' separator' ;
 	  s.push('<tr class="' + html_class + '"><td class="hidden_on_paper" onclick="delete lines[\'' + line_id + '\'];do_printable_display=true;">'
 		 + i + '</td>') ;
