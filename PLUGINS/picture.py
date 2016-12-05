@@ -96,7 +96,8 @@ plugin.Plugin('picture', '/picture/{?}',
               group='staff',
               cached = True,
               unsafe=False,
-              priority = -10 # Before student_redirection
+              priority = -10, # Before student_redirection
+              launch_thread = True,
               )
 
 plugin.Plugin('picture_icon', '/picture-icon/{?}',
@@ -105,6 +106,7 @@ plugin.Plugin('picture_icon', '/picture-icon/{?}',
               group='staff',
               cached = True,
               unsafe=False,
+              launch_thread = True,
               )
 
 def my_picture(server, icon=''):
@@ -119,6 +121,7 @@ plugin.Plugin('my_picture', '/picture/{?}',
               group='!staff',
               cached = True,
               unsafe=False,
+              launch_thread = True,
               priority = -10 # Before student_redirection
               )
 
@@ -128,6 +131,7 @@ plugin.Plugin('my_picture_icon', '/picture-icon/{?}',
               group='!staff',
               cached = True,
               unsafe=False,
+              launch_thread = True,
               priority = -10 # Before student_redirection
              )
 
