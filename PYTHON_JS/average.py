@@ -76,6 +76,8 @@ def compute_average(data_col, line):
         elif value in (abi, abi_short):
             nr_abi += 1
             values.append([0, data_column, abi])
+        elif value == "DEF":
+            return "DEF"
         else:
             try:
                 value = to_float(value)
@@ -98,6 +100,9 @@ def compute_average(data_col, line):
                 if column.mean_of or column.best_of:
                     return '???'
                 values.append([value, data_column, ''])
+
+    if nr_abi and column.abi_is == 1:
+        return "DEF"
 
     if column.abj_is and (nr_abj != 0 or nr_ppn != 0):
         # Replace the ABJ/PPN by the average

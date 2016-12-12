@@ -223,6 +223,10 @@ msgstr "Lors du calcul de la moyenne en enlevant des notes,<br>\n"
        "il faut indiquer ce que représente ABJ"
 
 #. Attribute Tip
+msgid "TIP_column_attr_abi_is"
+msgstr "Détermine comment la moyenne est calculée quand il y a un ABI"
+
+#. Attribute Tip
 msgid "TIP_column_attr_rounding"
 msgstr "<b>Arrondi des nombres</b>.<br>\n"
        "1 : seulement des notes entières<br>\n"
@@ -1081,6 +1085,13 @@ msgstr "PPN → moyenne des notes"
 
 msgid "SELECT_column_abj_ppn_is_average"
 msgstr "ABJ/PPN → moyenne des notes"
+
+msgid "SELECT_column_abi_is_0"
+msgstr "ABI → 0"
+
+msgid "SELECT_column_abi_is_DEF"
+msgstr "ABI → DEF"
+
 
 msgid "TIP_column_attr_visibility"
 msgstr "Sur la page de 'suivi' la colonne peut-être :\n"

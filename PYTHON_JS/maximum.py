@@ -40,12 +40,17 @@ def compute_max_real(data_col, line):
                 value = col.min
             elif val in (abj, ppn):
                 continue
+            elif val == "DEF":
+                return "DEF"
             else:
                 return nan
         else:
             value = (value - col.min) / col.max
         if value > the_max:
             the_max = value
+
+    if nr_abi and column.abi_is == 1:
+        return "DEF"
 
     if the_max > -1e10:
         if nr_abi == len(column.average_columns):

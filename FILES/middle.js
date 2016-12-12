@@ -959,6 +959,10 @@ function new_new_interface()
   t.push(column_input_attr('import_zip')) ;
   t.push(column_input_attr('notation_export')) ;
   t.push(column_input_attr('notation_import')) ;
+  t.push(column_input_attr('abi_is',
+			   [[0, _("SELECT_column_abi_is_0")],
+			    [1, _("SELECT_column_abi_is_DEF")]
+			   ])) ;
   t.push('</div>') ;
   t.push('<div class="one_line">') ;
   t.push('<table id="t_column_stats"></table>') ;

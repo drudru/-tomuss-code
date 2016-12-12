@@ -27,7 +27,7 @@ class Moy(note.Note):
     cell_is_modifiable = 0
     type_type = 'computed'
     attributes_visible = ('minmax', 'columns', 'weight', 'best', 'worst',
-                          'rounding', 'abj_is')
+                          'rounding', 'abj_is', 'abi_is')
 
     def cell_indicator(self, column, value, cell, lines):
         return '', None

@@ -54,6 +54,7 @@ class Column:
         self.comment         = args.get("comment", "")
         self.computed        = args.get("computed", 0)
         self.abj_is          = args.get("abj_is", 0)
+        self.abi_is          = args.get("abi_is", 0)
         self.title           = args.get("title", "")
         if len(columns) != 0:
             self.table = columns[0].table
