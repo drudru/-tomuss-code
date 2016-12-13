@@ -21,6 +21,8 @@
 
 import json
 import time
+import os
+import ast
 from . import files
 from . import utilities
 from . import configuration
@@ -75,9 +77,15 @@ def send_headers(server, css_file, js_file, init_function, more_js=""):
         + '<div id="display_suivi"></div>'
         )
 
+order_file = os.path.join("TMP", "xxx_display_{}".format(
+    configuration.read_only))
+try:
+    order = ast.literal_eval(utilities.read_file(order_file))
+except:
+    order = {}
+
 class Display:
     """The class name will be call as JavaScript function to generate HTML"""
-    time = 0
     def __init__(self, name, containers, priority, data=None,
                  js=None):
         self.name = name
@@ -87,6 +95,7 @@ class Display:
         self.priority = priority
         self.data = data
         self.js = js
+        self.time = order.get(name, 0) / 10000000
         display_dict[name] = self
     def is_in(self, top):
         if self.name == top:
@@ -139,4 +148,8 @@ def data_to_display(server, top):
                 t = tt
     s.append(("Profiling", profiling))
     do_update(server, s, top)
+    data_to_display.nr_call += 1
+    if data_to_display.nr_call % 10 == 0:
+        utilities.write_file(order_file, repr(profiling))
 
+data_to_display.nr_call = 0
