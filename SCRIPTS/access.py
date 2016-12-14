@@ -200,7 +200,7 @@ def read_visits():
         except IOError:
             continue
         for line in f:
-            line = line.split(' ', 1)
+            line = line.strip().split(' ', 1)
             if len(line) != 2:
                 continue
             t, a_login = line
