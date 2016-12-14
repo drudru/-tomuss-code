@@ -53,9 +53,13 @@ class HackClamd(bytearray):
         self.stream = stream
         self.length = length(stream)
     def __getitem__(self, item):
+        if item.stop is None:
+            # pyclamd 0.3.9
+            return self
         if self.length == 0:
             return b''
-        x = self.stream.read(min(self.length, item.stop - item.start))
+        start = item.start or 0
+        x = self.stream.read(min(self.length, item.stop - start))
         self.length -= len(x)
         return x
     def __len__(self):
@@ -75,10 +79,15 @@ def check_virus(data):
         utilities.send_backtrace("", "CAN'T CONNECT TO CLAMAV")
         return None # Not installed or not running
     utilities.warn("SCAN: START")
-    if isinstance(data, str):
-        res = pc.scan_stream(data)
-    else:
-        res = pc.scan_stream(HackClamd(data))
+    try:
+        if isinstance(data, str):
+            res = pc.scan_stream(data)
+        else:
+            res = pc.scan_stream(HackClamd(data))
+    except:
+        utilities.send_backtrace("", "SCAN STREAM FAIL")
+        return None # Bug
+        
     utilities.warn("SCAN: STOP %s" % res)
     if res:
         return repr(res)
