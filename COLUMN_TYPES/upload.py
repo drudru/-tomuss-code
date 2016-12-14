@@ -47,19 +47,17 @@ class Upload(text.Text):
     human_priority = 20
 
 
-class HackClamd:
+class HackClamd(bytearray):
     """Pyclamd does not allow to use an open file"""
     def __init__(self, stream):
         self.stream = stream
         self.length = length(stream)
     def __getitem__(self, item):
         if self.length == 0:
-            return ''
-        if item.start == 0:
-            x = self.stream.read(min(self.length, item.stop))
-            self.length -= len(x)
-            return x
-        return self
+            return b''
+        x = self.stream.read(min(self.length, item.stop - item.start))
+        self.length -= len(x)
+        return x
     def __len__(self):
         return self.length
 
@@ -67,10 +65,15 @@ def check_virus(data):
     utilities.warn("SCAN: INIT")
     try:
         import pyclamd
-        pc = pyclamd.ClamdUnixSocket()
+        try:
+            pc = pyclamd.ClamdUnixSocket()
+        except NameError:
+            # Fix a pyclamd bug
+            pyclamd.__dict__["__builtins__"]["basestring"] = str
+            pc = pyclamd.ClamdUnixSocket()
     except:
-        utilities.warn("SCAN: CAN'T CONNECT TO CLAMAV")
-        return '' # Not installed or not running
+        utilities.send_backtrace("", "CAN'T CONNECT TO CLAMAV")
+        return None # Not installed or not running
     utilities.warn("SCAN: START")
     if isinstance(data, str):
         res = pc.scan_stream(data)
@@ -121,7 +124,8 @@ def save_file(server, page, column, lin_id, data, filename):
             '<span style="background:#F00;color:#FFF">%s %s</span>\n'
             % (server._("MSG_virus_found"), html.escape(err)))
         return err
-    server.the_file.write(server._("MSG_no_virus_found") + '\n')
+    if err is not None:
+        server.the_file.write(server._("MSG_no_virus_found") + '\n')
     path = container_path(column)
     utilities.mkpath(path, create_init=False)
     file_path = os.path.join(path, lin_id)
