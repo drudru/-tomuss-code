@@ -207,7 +207,7 @@ def remove_old_files():
             pass
 
 @utilities.add_a_lock
-def get_ticket_objet(ticket, server):
+def get_ticket_objet(ticket, server, check_ticket=True):
     """Get the ticket object from the ticket string
        * None if no ticket
        * False if ticket invalid to quickly
@@ -233,7 +233,7 @@ def get_ticket_objet(ticket, server):
 
     ticket_object = tickets.get(ticket, None)
 
-    if ticket_object  and not ticket_object.is_fine(server):
+    if ticket_object  and check_ticket and not ticket_object.is_fine(server):
         warn('TICKET NOT FINE : %.3f secs, %s %s %s' % (
                 time.time() - ticket_object.date,
                 str(ticket_object).strip(),

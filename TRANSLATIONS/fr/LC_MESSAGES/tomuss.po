@@ -4781,6 +4781,9 @@ msgstr "Suivi: Taille maximum de dépôt de fichier"
 msgid "config_table_removal_allowed"
 msgstr "Pas de mise à jour si le nombre d'étudiants à désinscrire > à ce %"
 
+msgid "config_table_single_logout"
+msgstr "Accès: Accepte les messages 'single logout'"
+
 msgid "COL_TITLE_orientation"
 msgstr "Orientation"
 

@@ -61,6 +61,9 @@ class Authenticator(object):
         """Logout only from TOMUSS, not other services"""
         return
 
+    def logout_ticket(self, posted_data):
+        return
+
 class CAS(Authenticator):
     def login_from_ticket(self, ticket_key, service, dummy_server):
         """Return False on bad ticket.
@@ -100,6 +103,12 @@ class CAS(Authenticator):
 
     def logout(self, dummy_server):
         return self.provider + '/logout'
+
+    def logout_ticket(self, posted_data):
+        t = posted_data['logoutRequest']
+        return t.value.split('<samlp:SessionIndex>')[1].split(
+            '</samlp:SessionIndex>')[0]
+
 
 class OpenID(Authenticator):
     """For example:

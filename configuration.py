@@ -413,6 +413,9 @@ upload_max = 50000
 # to the administrator and forgot them
 pending_request_TTL = 3600
 
+# Centralised logout for all the applications
+single_logout = True
+
 ###############################################################################
 # The following variables should be fine for testing purpose (local server)
 ###############################################################################

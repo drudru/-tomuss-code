@@ -4721,6 +4721,9 @@ msgstr "Suivi: Maximum upload size in the Upload column"
 msgid "config_table_removal_allowed"
 msgstr "No student list update if the number of students to remove is > than this %"
 
+msgid "config_table_single_logout"
+msgstr "Access: Accept 'single logout' messages"
+
 msgid "COL_TITLE_orientation"
 msgstr "Orientation"
 

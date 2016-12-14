@@ -145,6 +145,24 @@ def authentication_thread():
             redirect_loc = authentication_redirect
             try:
                 if not x.ticket or not x.ticket.is_fine(x):
+                    if x.it_is_a_post:
+                        # No redirection on POST:
+                        #  * Expired tickets
+                        #  * CAS logout
+                        try:
+                            post = x.get_field_storage(10000)
+                            t = configuration.authenticator.logout_ticket(post)
+                        except:
+                            warn('Not a logout POST', what="auth")
+                            t = None
+                        if t:
+                            t = ticket.get_ticket_objet(t, x, check_ticket=False)
+                            if t and configuration.single_logout:
+                                warn('Logout {}'.format(t), what="auth")
+                                t.remove()
+                        if not x.please_do_not_close:
+                            x.close_connection_now()
+                        continue
                     x.ticket, dummy_the_path = get_path(x, redirect_loc)
                     if x.ticket is None:
                         x.log_time('redirection')
