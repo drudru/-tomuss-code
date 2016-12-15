@@ -2031,6 +2031,34 @@ cell_change(1,'0_2','ticket_time_to_live','%d',"")
             js_tests_failed
         f.close()
 
+    if do('import2'):
+        s.url('=' + abj + '/%s/UE-imp' % ys)
+        c = s.url('=' + abj + '/%s/UE-imp/1/0/column_attr_title/C/N' % ys)
+        assert( c == ok_png )
+        c = s.url('=' + abj + '/%s/UE-imp/1/1/column_attr_empty_is/C/!Def!'%ys)
+        assert( c == ok_png )
+        c = s.url('=' + abj + '/%s/UE-imp/1/2/cell_change/0_0/0_0/p0800001'%ys)
+        assert(c == ok_png)
+        c = s.url('=' + abj + '/%s/UE-imp/1/3/cell_change/0_0/0_1/p0800002'%ys)
+        assert(c == ok_png)
+
+        s.url('=' + abj + '/%s/UE-imp2' % ys)
+        c = s.url('=' + abj +'/%s/UE-imp2/1/0/cell_change/0_0/0_0/p0800001'%ys)
+        assert(c == ok_png)
+        c = s.url('=' + abj + '/%s/UE-imp2/1/1/column_attr_title/C/E' % ys)
+        assert( c == ok_png )
+        u = ('UE-imp/N').replace('/', '$2F')
+        c = s.url('=' + abj + ('/%s/UE-imp2/1/2/column_attr_url_import/C/'%ys)
+                  + u)
+        assert( c == ok_png )
+        c = s.url('=' + abj + '/%s/UE-imp2' % ys)
+        assert('C("!Def!","*","' in c)
+
+        c = s.url('=' + abj +'/%s/UE-imp2/1/3/cell_change/0_0/0_1/p0800002'%ys)
+        assert(c == ok_png)
+        c = s.url('=' + abj + '/%s/UE-imp2' % ys)
+        assert(c.count("!Def!") == 2)
+
 if '1' in sys.argv:
    sys.argv.remove('1')
    only_once = True

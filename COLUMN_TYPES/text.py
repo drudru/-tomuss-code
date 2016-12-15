@@ -119,7 +119,10 @@ def get_column_from_a_table(column, table_list):
         table.compute_columns()
         for line in table.lines.values():
             if line[0].value != '':
-                values[line[0].value].append((getter(line[col.data_col]), url))
+                v = getter(line[col.data_col])
+                if v == '':
+                    v = col.empty_is
+                values[line[0].value].append((v, url))
     for line_id, line in column.table.lines.items():
         new_val = values[line[0].value]
         if len(new_val) == 0:
