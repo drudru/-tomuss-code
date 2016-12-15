@@ -389,7 +389,7 @@ def send_mail(to, subject, message, frome=None, show_to=False, reply_to=None,
     while True: # Stop only if the mail is sent
         try:
             smtpresult = send_mail.session.sendmail(
-                frome, recipients,
+                frome, tuple(recipients) + tuple(cc),
                 (header + '\n' + message).encode('utf-8'))
             break
         except smtplib.SMTPRecipientsRefused:
