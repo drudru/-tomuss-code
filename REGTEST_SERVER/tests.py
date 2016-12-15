@@ -1856,6 +1856,7 @@ cell_change(1,'0_2','ticket_time_to_live','%d',"")
         ss.start()
         c = ss.url('=' + abj + '/%s/10800000' % ys)
         assert('UE-upload' in c)
+        s.url('=10800000/bad_url') # Create the ticket on GET not POST
         c = s.post('=10800000/%s/UE-upload/upload_post/A/0_0' % ys,
                    fields = ( ("filename", "foo.txt"), ),
                    files = ( ("data", "FOO.TXT", b"the file content"), )
@@ -1863,7 +1864,7 @@ cell_change(1,'0_2','ticket_time_to_live','%d',"")
         assert('Uploaded file size in bytes: 16' in c)
         assert('Uploaded file type: text/plain; charset=us-ascii' in c)
         assert('>foo.txt<' in c)
-        assert('No virus found.' in c)
+        # assert('No virus found.' in c)
         c = utilities.read_file('UPLOAD/%s/UE-upload/A/0_0' % ys,
                                 encoding="bytes")
         assert(c == b"the file content")
@@ -1901,7 +1902,7 @@ cell_change(1,'0_2','ticket_time_to_live','%d',"")
                    files = ( ("data", "FOO.TXT",
                               b"the\rfile\ncontent 5 \201\002"), )
                )
-        assert('No virus found.' in c)
+        assert('Your file has been successfuly sent.' in c)
         c = utilities.read_file('UPLOAD/%s/UE-upload/A/0_0' % ys,
                                  encoding="bytes" )
         assert(c == b"the\rfile\ncontent 5 \201\002")
