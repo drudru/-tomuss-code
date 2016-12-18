@@ -1094,6 +1094,33 @@ Les améliorations les plus visibles sont :
       </description>
       <guid>67</guid>
     </item>
+    <item>
+      <title>18/12/2016 : Version 6.0.23</title>
+      <link>http://tomuss.univ-lyon1.fr/</link>
+      <description>
+	&lt;p&gt;
+	Sur la page de suivi, les étudiants peuvent indiquer dans
+	leurs préférences (icone ≡), s'ils peuvent amener un ordinateur.
+	Les enseignants peuvent récupérer l'information via un
+	type de colonne dans l'éditeur de table.
+	&lt;p&gt;
+	Vous pouvez changer globalement le thème d'affichage (icone ≡)
+	pour vous même, ou bien l'imposer aux autres pour une table
+	dont vous êtes responsable (onglet «Paramétrage»).
+	&lt;p&gt;
+	Dans les préférence de l'éditeur de table (icone ≡),
+	vous pouvez indiquer qu'il faut toujours afficher
+	les colonnes qui contiennent un filtre.
+	&lt;p&gt;
+	Pour les groupes d'étudiants (binôme, trinôme ou plus)
+	avec un facteur de répétition maximum des valeurs saisies.
+	Le facteur de répétition tient compte du nombre de groupes
+	et non du nombre d'étudiants.
+	Ceci permet par exemple de choisir un sujet différent par groupe
+	quelque	soit le nombre d'étudiants présents dans le groupe.
+      </description>
+      <guid>68</guid>
+    </item>
 
   </channel>
 </rss>
