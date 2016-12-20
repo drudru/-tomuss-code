@@ -107,7 +107,12 @@ def get_path(server, server_url):
                     server.send_header('Content-Type','text/html;charset=UTF-8')
                     server.end_headers()
                     server.the_file.write(
-                        b"<script>window.parent.connected()</script>")
+                        ("""
+                        <script>window.parent.connected()</script>
+                        <h1><a href="javascript:window.close()">
+                        """
+                        + utilities._("MSG_session_done")
+                        + '</a></h1>').encode("utf-8"))
                 else:
                     redirect(server, configuration.url_files
                              + '/allow_error.html')

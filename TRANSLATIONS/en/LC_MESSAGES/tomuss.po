@@ -4724,6 +4724,9 @@ msgstr "No student list update if the number of students to remove is > than thi
 msgid "config_table_single_logout"
 msgstr "Access: Accept 'single logout' messages"
 
+msgid "config_table_authenticate_iframe"
+msgstr "Access: The login page is included in an IFRAME"
+
 msgid "COL_TITLE_orientation"
 msgstr "Orientation"
 
@@ -6117,5 +6120,14 @@ msgstr "Allow to display a message to an user group."
 msgid "ALERT_position_freezed"
 msgstr "As the column is freezed, it may not move where you want..."
 
+msgid "MSG_session_expired"
+msgstr "Session expired"
 
+msgid "MSG_session_reconnect"
+msgstr "Click on"
 
+msgid "MSG_session_link"
+msgstr "resume the session"
+
+msgid "MSG_session_done"
+msgstr "You can now close this page."

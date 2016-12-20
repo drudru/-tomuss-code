@@ -32,7 +32,7 @@ import os
 import time
 import sys
 
-version = '6.0.24'
+version = '6.0.25'
 
 ###############################################################################
 # ACLS
@@ -415,6 +415,9 @@ pending_request_TTL = 3600
 
 # Centralised logout for all the applications
 single_logout = True
+
+# The login page (CAS) can be included in an IFRAME
+authenticate_iframe = False
 
 ###############################################################################
 # The following variables should be fine for testing purpose (local server)

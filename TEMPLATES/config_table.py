@@ -107,6 +107,7 @@ variable_list = [
     "removal_allowed",
     "upload_max",
     "single_logout",
+    "authenticate_iframe",
     ]
 
 deprecated = set(('root', 'invited_teachers', 'invited_administratives',

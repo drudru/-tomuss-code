@@ -3540,7 +3540,14 @@ Connection.prototype.click_to_revalidate_ticket = function()
     }
   if ( this.server_start_time === 0 )
     return ;
-  this.t_authenticate.src = url + '/allow/' + ticket + '/' + millisec() ;
+  var validate = url + '/allow/' + ticket + '/' + millisec() ;
+  if ( authenticate_iframe )
+    this.t_authenticate.src = validate ;
+  else
+    this.t_authenticate.innerHTML = "<h2>" + _("MSG_session_expired") + "</h2>"
+      + _("MSG_session_reconnect")
+      + ' <a href="' + validate + '" target="_blank">'
+      + _("MSG_session_link") + '</a>' ;
   this.t_authenticate.style.display = 'block' ;
   this.connection_state.innerHTML= _('MSG_unconnected') ;
   this.revalidate_on_screen = true ;

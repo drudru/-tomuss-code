@@ -4784,6 +4784,9 @@ msgstr "Pas de mise à jour si le nombre d'étudiants à désinscrire > à ce %"
 msgid "config_table_single_logout"
 msgstr "Accès: Accepte les messages 'single logout'"
 
+msgid "config_table_authenticate_iframe"
+msgstr "Accès: Inclusion de la page de login dans une IFRAME"
+
 msgid "COL_TITLE_orientation"
 msgstr "Orientation"
 
@@ -6253,3 +6256,16 @@ msgstr "Permet d'afficher des messages ciblés par groupes d'utilisateur."
 
 msgid "ALERT_position_freezed"
 msgstr "La colonne étant figée, elle ne se déplacera peut-être pas ou vous voulez..."
+
+
+msgid "MSG_session_expired"
+msgstr "La session a expiré"
+
+msgid "MSG_session_reconnect"
+msgstr "Cliquez sur "
+
+msgid "MSG_session_link"
+msgstr "réactiver la session"
+
+msgid "MSG_session_done"
+msgstr "Vous pouvez maintenant fermer cette page."

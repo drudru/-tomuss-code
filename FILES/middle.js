@@ -1443,7 +1443,10 @@ function tail_html()
     a = '<p class="copyright"></p>';
 
   a += "<div id=\"saving\">" + _("MESSAGE_data_begin_sent") + "</div>" +
-    '<iframe id="authenticate"></iframe>' +
+    (authenticate_iframe
+     ? '<iframe id="authenticate"></iframe>'
+     : '<div id="authenticate"></div>'
+     ) +
     '<div id="current_input_div">' +
     '<input id="current_input" ' +
     'ondblclick="the_current_cell.toggle();" ' +

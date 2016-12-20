@@ -283,6 +283,7 @@ def table_head(year=None, semester=None, the_ticket=None,
             'gui_record = %d ;\n' % int(configuration.gui_record) +
             'all_the_semesters = %s ;\n' % all_the_semesters() +
             'check_down_connections_interval = %d ;\n' % configuration.check_down_connections_interval +
+            "authenticate_iframe = %s ;\n" % int(configuration.authenticate_iframe) +
             'table_attr = {\n' +
                 ',\n'.join(attr.name+':'+js(
                 getattr(attrs_from, attr.name,
