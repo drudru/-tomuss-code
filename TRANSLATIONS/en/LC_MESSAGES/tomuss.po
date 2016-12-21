@@ -4727,6 +4727,9 @@ msgstr "Access: Accept 'single logout' messages"
 msgid "config_table_authenticate_iframe"
 msgstr "Access: The login page is included in an IFRAME"
 
+msgid "config_table_special_days"
+msgstr "Suivi: The top left char displayed on 'suivi' defined day by day"
+
 msgid "COL_TITLE_orientation"
 msgstr "Orientation"
 

@@ -1513,6 +1513,7 @@ def init(launch_threads=True):
     s += "function or_keyword() { return %s; }" % js(_('or'))
     s += "var COL_TITLE_0_2 = %s;\n" % js(_("COL_TITLE_0_2"))
     s += "var server_language = %s ;\n" % js(configuration.language)
+    s += "var special_days = %s ;\n" % js(configuration.special_days)
     from . import files # Here to avoid circular import
     files.files['types.js'].append("utilities.py", s)
     files.files['allow_error.html'] = StaticFile(

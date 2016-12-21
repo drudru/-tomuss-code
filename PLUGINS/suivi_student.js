@@ -1616,13 +1616,11 @@ function DisplayGrpMessages(node)
 function DisplayToTextual(node)
 {
   var today = new Date() ;
-  var img ;
-  if ( today.getMonth() == 9 && today.getDate() == 31 )
-    img = "👻" ;
-  else
-    img = "●" ;
+  console.log(today.getDate() +'/' + (today.getMonth()+1));
+  var img = special_days[today.getDate() +'/' + (today.getMonth()+1)] || "●" ;
 
-  return '<a href="' + display_data['Login'] + '/*">'
+  return '<a href="' + display_data['Login'] + '/*"'
+    + (img ==  "●" ? '' : 'style="font-size:200%"') + '>'
     + img + '<span style="color: #FFF;font-size: 2px; opacity: 0.1">'
     + _("MSG_T_to_textual") + '</span></a>' ;
 }

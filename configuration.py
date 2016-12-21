@@ -419,6 +419,18 @@ single_logout = True
 # The login page (CAS) can be included in an IFRAME
 authenticate_iframe = False
 
+# The text displayed to access the screen reader interface.
+# It can be changed day by day, here are the french dates:
+special_days = {
+  "14/2": "💕",
+  "21/3": "🀦",
+  "21/6": "🀧", "22/6": "🀧",
+  "22/9": "🀨", "23/9": "🀨",
+  "31/10": "🎃", "1/11": "👻",
+  "21/12": "🀩", "22/12": "🀩", "23/12": "🎄", "24/12": "🎅", "25/12": "📦",
+  "31/12": "🎉", "1/1": "😴"
+} ;
+
 ###############################################################################
 # The following variables should be fine for testing purpose (local server)
 ###############################################################################

@@ -108,6 +108,7 @@ variable_list = [
     "upload_max",
     "single_logout",
     "authenticate_iframe",
+    "special_days",
     ]
 
 deprecated = set(('root', 'invited_teachers', 'invited_administratives',
@@ -137,7 +138,7 @@ def check(table):
                             v = '()'
                         else:
                             v = '('+','.join([utilities.js(i) for i in v])+',)'
-                    elif isinstance(v, bool):
+                    elif isinstance(v, (bool, dict)):
                         v = repr(v)
                     table.cell_change(p_ro,'0_0', variable,variable)
                     table.cell_change(p_rw, '0_2', variable, v)
