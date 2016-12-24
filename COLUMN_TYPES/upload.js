@@ -92,7 +92,7 @@ function upload_popup(t, ue, col_id, lin_id, title)
   div.style.top = pos[1] + "px" ;
   div.style.background = "#FFF" ;
   div.style.width = width + 'em' ;
-  div.style.border = "4px solid red" ;
+  div.style.border = "4px solid #000" ;
   div.style.zIndex = 100000 ;
   div.style.opacity = 0.9 ;
   div.innerHTML = '<button style="float:right;margin:0px" onclick="the_body.removeChild(this.parentNode)">×</button>'

@@ -161,8 +161,14 @@ def save_file(server, page, column, lin_id, data, filename):
                           % (server._("MSG_upload_type"), html.escape(magic)))
     table.lock()
     try:
-        table.cell_change   (page, column.the_id, lin_id, n/1000.)
-        table.comment_change(page, column.the_id, lin_id, magic+' '+filename)
+        result = table.comment_change(page, column.the_id, lin_id,
+                                      magic + ' ' + filename)
+        if result != "ok.png":
+            utilities.send_backtrace(str(result),
+                                     "UPLOAD CELL COMMENT CHANGE FAIL")
+        # force_update=True because the writable cell check can be: "#="
+        table.cell_change(page, column.the_id, lin_id, n/1000.,
+                          force_update=True)
     finally:
         table.unlock()
 
@@ -192,7 +198,8 @@ def upload_post(server):
             return
         err = save_file(server, page, column, lin_id, stream, filename)
         if not err:
-            server.the_file.write('<p>' + server._("MSG_upload_stop"))
+            server.the_file.write('<p style="background:#8F8">'
+                                  + server._("MSG_upload_stop"))
     finally:
         table.do_not_unload_remove('cell_change')
 
