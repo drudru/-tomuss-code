@@ -49,7 +49,7 @@ configuration.icon_picture_width = 30
 configuration.picture_ttl = 24*3600
 configuration.picture_extension = '.JPG'
 
-def load_picture(student_id, extension, icon=''):
+def load_picture_(student_id, extension, icon=''):
     """Update the file on disk if it is needed
     icon may be '_'
     Return the image filename or another one
@@ -62,7 +62,7 @@ def load_picture(student_id, extension, icon=''):
     if not icon:
         # Get the full size image from elsewhere and store it if it exists
         return configuration.get_the_picture(student_id, name)
-    full_size = load_picture(student_id, extension)
+    full_size = load_picture_(student_id, extension)
     full_name = os.path.join('PICTURES', student_id + '.' + extension)
     if os.path.exists(full_name):
         if has_pil:
@@ -75,6 +75,10 @@ def load_picture(student_id, extension, icon=''):
     if os.path.exists(full_size):
         return full_size
     return os.path.join('FILES', 'bug.png')
+
+@utilities.add_a_lock
+def load_picture(student_id, extension, icon=''):
+    return load_picture_(student_id, extension, icon)
 
 def picture(server, icon=''):
     """Display the picture of a student"""
