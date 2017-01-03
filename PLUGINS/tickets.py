@@ -29,7 +29,7 @@ from .. import column
 def tickets(server):
     """Display tickets"""
     lines = []
-    for t in ticket.tickets.values():
+    for t in ticket.get_values():
         lines.append(cell.Line((
                     cell.CellValue(t.user_name),
                     cell.CellValue(time.strftime('%Y-%m-%d %H:%M.%S',

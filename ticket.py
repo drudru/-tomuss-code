@@ -105,7 +105,7 @@ class Ticket(object):
         """Remove all the tickets of the user to avoid problems"""
         warn('Remove ticket : %s' % self, what="auth")
         user = self.user_name
-        for key, value in list(tickets.items()):
+        for key, value in get_items():
             if value.user_name == user:
                 warn('Delete ticket : %s' % tickets[key], what="auth")
                 tickets[key].date = 0
@@ -151,6 +151,14 @@ def add_ticket(ticket, user_name, user_ip, user_browser, language=''):
     get_ticket_objet.the_lock.release()
     utilities.write_file(os.path.join(configuration.ticket_directory, t.ticket), t.log())
     return t
+
+def get_items():
+    with get_ticket_objet.the_lock:
+        return tuple(tickets.items())
+
+def get_values():
+    with get_ticket_objet.the_lock:
+        return tuple(tickets.values())
 
 def get_ticket_string(server):
     """Extract from the path the ticket as a string (or None) and the path"""
