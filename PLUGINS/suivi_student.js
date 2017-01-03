@@ -316,7 +316,8 @@ DisplaySignature.need_node = ['Login'] ;
 
 function DisplayReload(node)
 {
-  if ( ! is_a_teacher || ! display_data['Preferences']['debug_suivi'] )
+  if ( ! is_a_teacher || ! display_data['Preferences']
+       || ! display_data['Preferences']['debug_suivi'] )
     return '' ;
   return '<a href="reload_plugins">' + _("TITLE_reload_plugins") + '</a>' ;
 }
@@ -1616,7 +1617,6 @@ function DisplayGrpMessages(node)
 function DisplayToTextual(node)
 {
   var today = new Date() ;
-  console.log(today.getDate() +'/' + (today.getMonth()+1));
   var img = special_days[today.getDate() +'/' + (today.getMonth()+1)] || "●" ;
 
   return '<a href="' + display_data['Login'] + '/*"'
