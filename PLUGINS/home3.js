@@ -1189,8 +1189,7 @@ function create_ue_lists()
       code = display_data['HomeUEBookmarked'][code][2] ;
       is_bookmarked[code] = true ;
       // Allow to see never visited table in favorites:
-      if ( ! display_data['HomeUENrAccess'][code]
-	   && ! display_data['HomeUENrAccess'][code.replace(/^UE-/, "")]
+      if ( display_data['HomeUENrAccess'][code.replace(/^[^-]*-/, "")]
 	   && get_info(code).intitule
 	   )
 	create_ue_lists.favorite_list.push(code) ;
@@ -1204,9 +1203,8 @@ function create_ue_lists()
     var nr = display_data['HomeUENrAccess'][code] ;
     create_ue_lists.acceded_list.push(code) ;
     if ( is_bookmarked[code]
-	 && (create_ue_lists.all_ues[code]
-	     || create_ue_lists.all_ues[code.replace(/^UE-/, "")]
-	     ))
+	 && create_ue_lists.all_ues[code.replace(/^[^-]*-/, "")]
+	 )
       create_ue_lists.favorite_list.push(code) ;
     create_ue_lists.max = Math.max(create_ue_lists.max, nr) ;
 
