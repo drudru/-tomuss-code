@@ -635,6 +635,9 @@ bad_password = lambda: """
      style="border:5px solid black;padding:5px;position:absolute;left:10%;top:10%;right:10%;background:red;color:white;font-size:150%">
 """ + __import__('utilities')._("MSG_trivial_password")
 
+# Default directory mode
+umask = 0o750
+
 ###############################################################################
 ###############################################################################
 

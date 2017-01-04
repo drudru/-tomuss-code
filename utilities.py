@@ -524,7 +524,7 @@ def js(t):
 def js2(t):
     return '"' + t.replace('\\','\\\\').replace('"','\\"').replace('\n','\\n') + '"'
 
-def mkpath(path, create_init=True, mode=0o777):
+def mkpath(path, create_init=True, mode=configuration.umask):
     s = ''
     for i in path.split(os.path.sep):
         s += i + os.path.sep
@@ -1034,7 +1034,7 @@ def manage_key_real(dirname, key, separation=3, content=None, reduce_ok=True,
     if content is None and not os.path.isdir(f1):
         return False
     try:
-        os.mkdir(f1, 0o750)
+        os.mkdir(f1, configuration.umask)
     except OSError:
         pass
 
@@ -1042,7 +1042,7 @@ def manage_key_real(dirname, key, separation=3, content=None, reduce_ok=True,
         if content is None and not os.path.isdir(os.path.join(f1, key_dir)):
             return False
         try:
-            os.mkdir(os.path.join(f1, key_dir), 0o750)
+            os.mkdir(os.path.join(f1, key_dir), configuration.umask)
         except OSError:
             pass
 
