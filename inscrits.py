@@ -478,11 +478,17 @@ class Empty(LDAP_Logic):
 class LDAP(LDAP_Logic):
     """An LDAP connection."""
     connection = True
+    connect_time = 0
     def __init__(self):
         self.time_last_mail = 0
         self.connect()
 
+    @utilities.add_a_lock
     def connect(self):
+        if time.time() - self.connect_time < 1:
+            # The reconnection was done by another thread.
+            # We must not reinitialize the connection once again.
+            return
         if ( len(configuration.ldap_server) == 0
              or configuration.ldap_server[0].endswith('.domain.org')):
             # Fake LDAP server, do not use it
@@ -501,12 +507,7 @@ class LDAP(LDAP_Logic):
             server_pool = ldap3.ServerPool(servers,
                                            ldap3.POOLING_STRATEGY_ROUND_ROBIN,
                                            active=True, exhaust=600)
-        if self.connection and self.connection is not True:
-            try:
-                self.connection.unbind()
-            except:
-                pass
-        self.connection = ldap3.Connection(
+        connection = ldap3.Connection(
             server_pool,
             user = configuration.ldap_server_login,
             password = configuration.ldap_server_password,
@@ -516,11 +517,19 @@ class LDAP(LDAP_Logic):
             pool_size = 3,
             pool_lifetime = 60
         )
-        self.connection.tls = ldap3.Tls()
-        self.connection.tls.validate = ssl.CERT_NONE
-        self.connection.open()
-        self.connection.start_tls()
-        self.connection.bind()
+        connection.tls = ldap3.Tls()
+        connection.tls.validate = ssl.CERT_NONE
+        connection.open()
+        connection.start_tls()
+        connection.bind()
+        old_connection = self.connection
+        self.connection = connection
+        if old_connection and old_connection is not True:
+            try:
+                old_connection.unbind()
+            except:
+                pass
+        self.connect_time = time.time()
 
     def query(self, search, attributes=(configuration.attr_login,),
               base=configuration.ou_groups):
