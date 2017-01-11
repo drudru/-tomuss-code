@@ -703,7 +703,7 @@ class StaticFile(object):
         if configuration.read_only is not None:
             return # Only TOMUSS server write on disc
         dirname = os.path.join("TMP", configuration.version)
-        mkpath(dirname)
+        mkpath(dirname, mode=0o755) # The static web server needs access
         filename = os.path.join(dirname, self.name.split(os.path.sep)[-1])
         if 'image' in self.mimetype :
             write_file(filename, self.content, "bytes")
