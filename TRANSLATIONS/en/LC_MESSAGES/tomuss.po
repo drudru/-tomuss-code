@@ -6134,3 +6134,15 @@ msgstr "resume the session"
 
 msgid "MSG_session_done"
 msgstr "You can now close this page."
+
+
+msgid "TITLE_table_attr_t_create"
+msgstr "Create"
+msgid "MSG_table_create"
+msgstr "Attendance columns creation"
+msgid "MSG_table_create_slot"
+msgstr "Indicate the week slot names:"
+msgid "MSG_table_create_number"
+msgstr "Number of weeks: "
+msgid "MSG_table_create_do"
+msgstr "Click here to create the columns: "

@@ -1260,6 +1260,8 @@ function new_new_interface()
   t = [] ;
 
   t.push('<div class="one_line">') ;
+  t.push(table_input_attr('t_create')) ;
+  t.push('/') ;
   t.push(table_input_attr('t_export')) ;
   t.push('/') ;
   t.push(table_input_attr('t_import')) ;

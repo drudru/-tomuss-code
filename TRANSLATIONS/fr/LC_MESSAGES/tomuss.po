@@ -6272,3 +6272,15 @@ msgstr "réactiver la session"
 
 msgid "MSG_session_done"
 msgstr "Vous pouvez maintenant fermer cette page."
+
+
+msgid "TITLE_table_attr_t_create"
+msgstr "Créer"
+msgid "MSG_table_create"
+msgstr "Création des colonnes de présence"
+msgid "MSG_table_create_slot"
+msgstr "Indiquez les noms des créneaux de la semaine :"
+msgid "MSG_table_create_number"
+msgstr "Nombre de semaines : "
+msgid "MSG_table_create_do"
+msgstr "Cliquez ici pour créer les colonnes de présence : "
