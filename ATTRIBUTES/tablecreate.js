@@ -45,6 +45,7 @@ function table_create_compute_columns()
   var nr = Number(document.getElementById('table_create_nr').value) ;
   var c = [] ;
   var used = {} ;
+  var all = [] ;
   
   for(var n=1 ; n <= nr ; n++)
   {
@@ -53,7 +54,8 @@ function table_create_compute_columns()
       var title = document.getElementById('table_create_'+i).value ;
       if ( title !== '' )
       {
-	title = title + n ;
+	title = title.replace(/ /g, '_') + n ;
+	all.push(title) ;
 	if ( used[title] === undefined
 	     && data_col_from_col_title(title) === undefined )
 	{
@@ -63,6 +65,10 @@ function table_create_compute_columns()
       }
     }
   }
+  if ( data_col_from_col_title("#" + abi) === undefined )
+    c.splice(0, 0,
+	     {title: "#" + abi, type: "Nmbr", test_filter: abi, rounding: 1,
+	      columns: all.join(' ')}) ;
   return c ;
 }
 
