@@ -703,7 +703,7 @@ function DisplayHomePreferencesThemes(node) // Used by home3.js
     }
   return '<table'
     + (node === undefined
-       ? ' style="display:inline-block;font-size:50%;vertical-align:bottom"'
+       ? ' style="display:inline-block;font-size:50%;vertical-align:top"'
        : '') + ' id="GUI_themes"><tr>' + themes.join('') + '</tr></table>' ;
 }
 
