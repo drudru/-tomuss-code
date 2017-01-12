@@ -316,8 +316,8 @@ function do_presence(t)
   var filters = '' ;
   try {
     var grp_seq = selected_grp_seq.split("<")[0].split("/") ;
-    if ( grp_seq[1] !== undefined )
-      filters = '/=filters=' + '0_3:' + grp_seq[1] + '=0_4:' + grp_seq[0] ;
+    if ( grp_seq[1] !== undefined ) // '_E' == '='
+      filters = '/=filters=' + '0_3:_E' + grp_seq[1] + '=0_4:_E' + grp_seq[0] ;
   }
   catch(e) {} ;
   goto_url(url_ue(open_ue.code)
