@@ -1188,10 +1188,7 @@ function create_ue_lists()
     {
       code = display_data['HomeUEBookmarked'][code][2] ;
       is_bookmarked[code] = true ;
-      // Allow to see never visited table in favorites:
-      if ( display_data['HomeUENrAccess'][code.replace(/^[^-]*-/, "")]
-	   && get_info(code).intitule
-	   )
+      if ( get_info(code).intitule )
 	create_ue_lists.favorite_list.push(code) ;
     }
 	
@@ -1202,10 +1199,6 @@ function create_ue_lists()
       continue ;
     var nr = display_data['HomeUENrAccess'][code] ;
     create_ue_lists.acceded_list.push(code) ;
-    if ( is_bookmarked[code]
-	 && create_ue_lists.all_ues[code.replace(/^[^-]*-/, "")]
-	 )
-      create_ue_lists.favorite_list.push(code) ;
     create_ue_lists.max = Math.max(create_ue_lists.max, nr) ;
 
     if ( ! create_ue_lists.yet_done )
@@ -1237,6 +1230,7 @@ function create_ue_lists()
     {
       var year_semester_ue = display_data['HomeUEBookmarked'][i] ;
       add_to(year_semester_ue, create_ue_lists.master_of_list) ;
+      get_info(year_semester_ue[2]).is_bookmarked = year_semester_ue[3] ;
       get_info(year_semester_ue[3]).is_bookmarked = year_semester_ue[3] ;
     }
 
