@@ -76,7 +76,7 @@ def message(teacher, all_students, since):
         mail = [inscrits.L_batch.mail(teacher), configuration.maintainer]
         utilities.send_mail(to = mail,
                             subject = "TOMUSS " + configuration.abi
-                            + '(' + teacher + ')',
+                            + ' (' + teacher + ')',
                             message =
                             nice_date(since) + ' >>>> ' + time.strftime("%c")
                             + '\n\n\n' + '\n'.join(messages),
@@ -88,6 +88,8 @@ class Stat:
     def __init__(self, teachers, since):
         self.teachers = teachers
         self.students = {login: [] for login in students(teachers)}
+        print("{} referents, {} students".format(
+            len(teachers), len(self.students)))
         self.since = since
     def analyse(self, ue):
         ue = document.table(configuration.year_semester[0],
@@ -102,6 +104,8 @@ class Stat:
     def analyse_all(self):
         for ue in ues(self.students):
             self.analyse(ue)
+        print("{} ABI this week".format(sum(len(x)
+                                            for x in self.students.values())))
         locale.setlocale(locale.LC_TIME,
                          configuration.language + '_'
                          + configuration.language.upper() + '.utf8')
