@@ -1138,7 +1138,9 @@ function new_new_interface()
   t.push('<div class="one_line">') ;
   t.push(column_input_attr('delete')) ;
   t.push('</div>') ;
-  t.push(one_line(_("LABEL_column_attr_author")
+  t.push(one_line(
+		  column_input_attr('speak')
+		  + ' ' + _("LABEL_column_attr_author")
 		  + '<span id="t_column_author"></span>',
 		  _("TIP_column_attr_author"))) ;
 

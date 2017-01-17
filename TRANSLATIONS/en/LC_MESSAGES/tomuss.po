@@ -6146,3 +6146,8 @@ msgid "MSG_table_create_number"
 msgstr "Number of weeks: "
 msgid "MSG_table_create_do"
 msgstr "Click here to create the columns: "
+
+msgid "TITLE_column_attr_speak"
+msgstr "🔊"
+msgid "TIP_column_attr_speak"
+msgstr "Speak the column content or stop the reading"
