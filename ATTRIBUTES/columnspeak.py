@@ -20,28 +20,47 @@
 #    Contact: Thierry.EXCOFFIER@univ-lyon1.fr
 
 import subprocess
-from . import columnexport
+from ..column import ColumnAttr
 from .. import plugin
 from .. import document
 from .. import configuration
 
-class ColumnSpeak(columnexport.ColumnExport):
+class ColumnSpeak(ColumnAttr):
     name = "speak"
     action = "column_speak"
+    always_visible = 1
+    check_and_set = "function(value, column) { return Number(value) ;}"
+    need_authorization = 0
+
+    def encode(self, value):
+        try:
+            return int(value)
+        except ValueError:
+            return 0
+    def check(self, value):
+        if value in (0, 1, 2, 3, '0', '1', '2', '3'):
+            return ''
+        return self.check_error(value)
+
+    gui_display = "GUI_select"
+    css = '#menutop DIV.tabs #t_column_speak { width: 8em }'
+
 
     javascript = """
-function column_speak()
+function column_speak(select)
 {
+  var action = select.selectedIndex ;
   var a = document.getElementsByTagName("AUDIO") ;
   if ( a.length )
     {
     a[0].parentNode.removeChild(a[0]) ;
-    return
+    if ( action == 0 )
+        return ;
     }
   a = document.createElement("AUDIO") ;
   var t = '<source src="' + url + '/=' + ticket + '/' + year + '/'
-          + semester + '/' + ue + '/column_speak/' + the_current_cell.column.data_col
-          ;
+          + semester + '/' + ue + '/column_speak/'
+          + the_current_cell.column.data_col + '/' + action ;
   for(var line in filtered_lines)
      t += '/' + filtered_lines[line][0].value ;
   a.controls = true ;
@@ -58,14 +77,15 @@ def column_speak(server):
     if table is None:
         return
     col = int(server.the_path[0])
+    speed = int(server.the_path[1])
     s = []
-    for student in server.the_path[1:]:
+    for student in server.the_path[2:]:
         for line_id, line in table.get_items(student):
-            s.append("{} {} {} .".format(line[2].value.title(),
-                                         line[1].value.title(),
-                                         line[col].value))
-    p = subprocess.Popen("espeak -v {} -b 1 --stdin --stdout".format(
-        configuration.language).split(' '),
+            s.append("{}. {}. . {} .".format(line[2].value.title(),
+                                           line[1].value.title(),
+                                           line[col].value))
+    p = subprocess.Popen("espeak -v {} -s {} -b 1 --stdin --stdout".format(
+        configuration.language, int(120 * 1.2**speed)).split(' '),
                          stdin = subprocess.PIPE,
                          stdout = server.the_file,
                          stderr = subprocess.STDOUT)

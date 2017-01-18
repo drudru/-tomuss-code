@@ -1139,7 +1139,12 @@ function new_new_interface()
   t.push(column_input_attr('delete')) ;
   t.push('</div>') ;
   t.push(one_line(
-		  column_input_attr('speak')
+		  column_input_attr('speak',
+				    [[0, _("SELECT_column_speak_stop")],
+				     [1, _("SELECT_column_speak_slow")],
+				     [2, _("SELECT_column_speak")],
+				     [3, _("SELECT_column_speak_fast")]
+				     ])
 		  + ' ' + _("LABEL_column_attr_author")
 		  + '<span id="t_column_author"></span>',
 		  _("TIP_column_attr_author"))) ;
