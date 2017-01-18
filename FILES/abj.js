@@ -231,7 +231,7 @@ function date_to_store(d, allow_far_future)
 
 function update_button_real()
 {
-  sendabj.value = _("MSG_abj_save") + '\n'
+  sendabj.innerHTML = _("MSG_abj_save") + '\n'
     + nice_date(date_to_store(start.value))
     + '\n' + _("TH_until") + '\n' + nice_date(date_to_store(end.value)) ;
   sendmessage.value = _("MSG_message_save") + ' ' + comment.value ;
