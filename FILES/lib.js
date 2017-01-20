@@ -2979,6 +2979,27 @@ function create_column(column)
     }
 }
 
+// self is not included in the returned lines
+function lines_of_the_group(column, line_id)
+{
+  var g = [] ;
+  if ( column.groupcolumn === '' )
+    return g ;
+  var col = data_col_from_col_title(column.groupcolumn) ;
+  if ( ! col )
+    return g ;
+  var group = lines[line_id][col].value.toString() ;
+  if ( group !== '' )
+    for (var line_key in lines)
+      {
+	if ( line_key == line_id )
+	  continue ; // Itself
+	if ( lines[line_key][col].value.toString() === group )
+	  g.push(lines[line_key]) ;
+      }
+  return g ;
+}
+
 function cell_set_value_real(line_id, data_col, value, td)
 {
   var cell = lines[line_id][data_col] ;
@@ -3086,27 +3107,17 @@ function cell_set_value_real(line_id, data_col, value, td)
 
   update_histogram(true) ; // XXX
 
-  if ( column.groupcolumn !== '' )
+  var g = lines_of_the_group(column, line_id) ;
+  if ( g.length )
     {
-      var col = data_col_from_col_title(column.groupcolumn) ;
-      if ( col )
+      for (var line in g)
 	{
-	  var group = lines[line_id][col].value.toString() ;
-	  if ( group !== '' )
-	    for (var line_key in lines)
-	      {
-		if ( line_key == line_id )
-		  continue ; // Itself
-		var cell = lines[line_key][column.data_col] ;
-		if ( lines[line_key][col].value.toString() == group
-		     && cell.modifiable(lines[line_key], column) )
-		  {
-		    cell.set_value(value) ;
-		    td = td_from_line_id_data_col(line_key, column.data_col) ;
-		    if ( td !== undefined )
-		      update_cell(td, cell, column,undefined,lines[line_key]) ;
-		  }
-	      }
+	  line = g[line] ;
+	  var cell = line[column.data_col] ;
+	  cell.set_value(value) ;
+	  td = td_from_line_id_data_col(line.line_id, column.data_col) ;
+	  if ( td !== undefined )
+	    update_cell(td, cell, column, undefined, line) ;
 	}
     }  
   return v ;

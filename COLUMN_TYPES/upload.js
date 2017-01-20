@@ -147,12 +147,28 @@ function upload_double_click(value)
       if ( ! confirm(_("CONFIRM_upload_last")) )
 	more = "~" ;
     }
+  var filename = the_current_cell.cell.comment ;
+  if ( filename === '' )
+  {
+    var g = lines_of_the_group(the_current_cell.column,
+			       the_current_cell.line_id) ;
+    for(var i in g)
+    {
+      var comment = g[i][the_current_cell.column.data_col].comment  ;
+      if ( comment !== '' )
+      {
+	filename = comment ;
+	break ;
+      }
+    }
+  }
+
   window.open(url + '/=' + ticket + '/' + year + '/' + semester + '/' + ue
 	      + '/upload_get/' + the_current_cell.column.the_id
 	      + '/' + the_current_cell.line_id + more
 	      + '/' + the_current_cell.line[1].value + ' '
 	      + the_current_cell.line[2].value
-	      + ' ' + upload_filename(the_current_cell.cell.comment)) ;
+	      + ' ' + upload_filename(filename)) ;
   return value ;
 }
 
