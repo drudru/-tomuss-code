@@ -3555,10 +3555,23 @@ Connection.prototype.click_to_revalidate_ticket = function()
   if ( authenticate_iframe )
     this.t_authenticate.src = validate ;
   else
-    this.t_authenticate.innerHTML = "<h2>" + _("MSG_session_expired") + "</h2>"
-      + _("MSG_session_reconnect")
-      + ' <a href="' + validate + '" target="_blank">'
-      + _("MSG_session_link") + '</a>' ;
+    {
+      this.t_authenticate.innerHTML =
+	"<h2>" + _("MSG_session_expired") + "</h2>"
+	+ _("MSG_session_reconnect")
+	+ ' <a href="' + validate + '" target="_blank">'
+	+ _("MSG_session_link") + '</a>' ;
+      this.t_authenticate.style.width = "80%" ;
+      this.t_authenticate.style.height = "80%" ;
+      this.t_authenticate.style.top = "10%" ;
+      this.t_authenticate.style.left = "10%" ;
+      var c = this ;
+      this.t_authenticate.onmouseup = function() {
+	c.t_authenticate.style.width = c.t_authenticate.style.height = "auto" ;
+	c.t_authenticate.style.top = c.t_authenticate.style.left = "0px" ;
+	c.time_check_interval = 100 ;
+	} ;
+    }
   this.t_authenticate.style.display = 'block' ;
   this.connection_state.innerHTML= _('MSG_unconnected') ;
   this.revalidate_on_screen = true ;

@@ -124,11 +124,12 @@ def __int(server, path, i):
         return False
     server.the_student = utilities.the_login(path[i][1:])
 def _request_number(server, path, i):
-    try:
-        float(path[i])
-    except ValueError:
+    path = path[i]
+    if not path:
         return False
-    server.request_number = path[i]
+    if not path[0].isdigit():
+        return False
+    server.request_number = path
 def _options(server, path, i):
     while len(path) != i and path[i].startswith('='):
         server.options.append(path[i])
