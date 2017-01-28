@@ -183,14 +183,21 @@ def answer_page(server):
             # Do not revert request sent
             # It is possible to go in the future because page.request
             # may forgot incrementation.
+
+            request_page_creation = server.request_number.split('.')
             try:
-                page.index = int(server.request_number.split('.')[1])
+                page.index = int(request_page_creation[1])
             except:
                 pass
-            page.request = max(int(server.request_number.split('.')[0]),
+            page.request = max(int(request_page_creation[0]),
                                page.request)
             if page.index > len(table.sent_to_browsers):
                 page.index = 0 # Server rebooted
+
+            if (len(request_page_creation) >= 3
+                and request_page_creation[2] != table.pages[0].date
+                ):
+                raise Exception("The table has been copied or deleted...")
     except ValueError:
         server.the_file.write(
             '''

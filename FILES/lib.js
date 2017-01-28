@@ -3606,7 +3606,7 @@ Connection.prototype.reconnect_real = function()
 
   var connection = url + "/=" + ticket + '/' + year
     + '/' + semester + '/' + ue + '/' + page_id + '/' + pending_requests_first
-    + '.' + page_index ;
+    + '.' + page_index + '.' + table_creation_date ;
 
   if ( window.XMLHttpRequest )
     {

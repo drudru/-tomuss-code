@@ -260,6 +260,8 @@ def table_head(year=None, semester=None, the_ticket=None,
             (table.template.headers if table else '')
             + '<script>\n' +
             'page_id = "%d" ;\n' % page_id +
+            'table_creation_date = "%s" ;\n' % (table.pages[0].date
+                                                if table else "None") +
             'my_identity = %s ;\n' % repr(user_name) +
             'my_identity2 = %s ;\n' % repr(my_identity2) +
             'url = %s ;\n' % js(configuration.server_url) +
@@ -648,6 +650,8 @@ class Table(object):
 
     def new_page(self, ticket, user_name, user_ip, user_browser, date=None):
         if not self.loading and self.modifiable:
+            if date is None:
+                date = time.strftime('%Y%m%d%H%M%S')
             self.log('new_page(%s ,%s, %s, %s, %s) # %d' % (
                 repr(ticket),
                 repr(user_name),
