@@ -196,6 +196,7 @@ def answer_page(server):
 
             if (len(request_page_creation) >= 3
                 and request_page_creation[2] != table.pages[0].date
+                and request_page_creation[2] != "None"
                 ):
                 raise Exception("The table has been copied or deleted...")
     except ValueError:
