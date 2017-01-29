@@ -1777,7 +1777,8 @@ def table(year, semester, ue, page=None, ticket=None, ro=False, create=True,
     if page == None:
         if ticket == None:
             return t
-        if not t.readable_by(ticket):
+        # It is allowed to change a cell on a private table
+        if do_not_unload != 'cell_change' and not t.readable_by(ticket):
             try:
                 t.do_not_unload_remove('new_page')
             except ValueError:
