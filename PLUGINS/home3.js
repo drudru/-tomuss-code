@@ -1496,9 +1496,26 @@ var is_a_favorite_action = {} ;
 var is_a_refered = {} ;
 var students_info = {} ;
 
+function follow_notebook_link(t, path)
+{
+  var title = get_ue_table(t).firstChild.innerHTML ;
+  var filter = '' ;
+  if ( title.match('\\([0-9]+/[0-9]+\\)') )
+    {
+      var students = get_student_list(t) ;
+      var s = [] ;
+      for(var i in students)
+	s.push(students_info[students[i]][0]) ;
+      filter = '/=filters=' + '0_0:' + s.join('|') ;
+    }
+  window.open(path + filter) ;
+}
+
 function student_notepad_link(path)
 {
-  return fast_tip('<a href="' + path + '" target="_blank">' + _("TH_home_notepad") + '</a>',
+  return fast_tip('<a onclick="follow_notebook_link(this,\''
+		  + path + '\')">'
+		  + _("TH_home_notepad") + '</a>',
 		  _("TIP_home_notepad")) ;
 }
 
