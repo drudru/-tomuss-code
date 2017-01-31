@@ -890,6 +890,7 @@ function display_ues(title, tip, codes, options)
   var order = get_option('S' + title, options.default_order) ;
   var opened = get_option('B' + title, icon_close) != icon_open ;
   var s = ['<div class="ue_list border">'] ;
+  var length_index ;
   if ( options.hide_open_close )
     opened = true ;
   if ( ! options.hide_title )
@@ -904,12 +905,14 @@ function display_ues(title, tip, codes, options)
 		)
 	     + '>'
 	     + (options.before_title || '')
-	     + (tip ? hidden_txt(_(title), tip) : _(title))
-	     + (codes.length
-		? ' <small class="ue_icons" style="font-size:80%">('
-		+ codes.length + ')</small>'
-		: '')
-	     ) ;
+	     + (tip ? hidden_txt(_(title), tip) : _(title))) ;
+      if ( codes.length )
+	{
+	  s.push(' <small class="ue_icons" style="font-size:80%">(') ;
+	  length_index = s.length ; // Updated at the end
+	  s.push(codes.length) ;
+	  s.push(')</small>') ;
+	}
       if ( display_data['HomePreferences']
 	   && display_data['HomePreferences']['debug_home'] )
 	s.push('<small>' + display_ues.nb++ + '</small>') ;
@@ -1146,6 +1149,8 @@ function display_ues(title, tip, codes, options)
       }
     nr_displayed++ ;
   }
+  if ( length_index !== undefined && nr_displayed != s[length_index] )
+    s[length_index] = nr_displayed + '/' + s[length_index] ;
   s.push("</div>") ;
   return s.join('') ;
 }
@@ -1650,7 +1655,6 @@ function DisplayHomeStudentFavorites(node)
 		      ) ;
   return [display_ues(_("TH_home_bookmark_student"), '', node.data,
 		      {students:true, hide_sort: true,
-			  before_title: node.data.length + ' ',
 			  default_order: 'surname+firstname',
 			  code_filter:get_possible_filters(node, is_a_favorite),
 			  title_second_line: student_notepad_link(notebook)
@@ -1680,7 +1684,6 @@ function DisplayHomeStudentRefered(node)
   
   return [display_ues(_("TH_home_refered_student"), '', node.data,
 		      {students:true, hide_sort: true,
-			  before_title: node.data.length + ' ',
 			  code_filter: get_possible_filters(node, is_a_refered),
 			  default_order: 'surname+firstname',
 			  title_second_line:
