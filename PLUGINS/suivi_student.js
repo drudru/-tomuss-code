@@ -267,15 +267,15 @@ function DisplayReferent(node)
 function DisplayMails(node)
 {
   var ref ;
-  if ( display_data['Referent'][3] === undefined )
+  if ( display_data['Referent'][3] !== undefined )
     ref = ',' + _("MSG_suivi_student_referent") + '<'
       + display_data['Referent'][2] + '>' ;
   else
     ref = '' ;
 
   return '<a href="mailto:?to='
-    + escape(node.data.join(',') + ref)
-    + '&subject=' + escape(display_data['Login'] + ' '
+    + encodeURIComponent(node.data.join(',') + ref)
+    + '&subject=' + encodeURIComponent(display_data['Login'] + ' '
 			   + display_data['Names'][0]
 			   + ' ' + display_data['Names'][1])
     + '">'
