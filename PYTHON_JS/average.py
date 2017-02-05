@@ -199,7 +199,7 @@ def get_most_recent_date(data_col, line, not_root=False):
     if not not_root:
         if not columns[data_col].is_computed():
             return line[data_col].date
-    date = "0"
+    date = ""
     for data_column in columns[data_col].average_columns:
         d = get_most_recent_date(data_column, line)
         if d > date:
@@ -229,7 +229,7 @@ def compute_cell_safe(data_col, line, compute_function):
             line[data_col].author = a
         return # For COW column type
     if isNaN(to_float_or_nan(v)):
-        if get_most_recent_date(data_col, line, True) > line[data_col].date:
+        if get_most_recent_date(data_col, line, True) >= line[data_col].date:
             line[data_col] = line[data_col].set_value(v)
             line[data_col].date = date
             line[data_col].author = '?'

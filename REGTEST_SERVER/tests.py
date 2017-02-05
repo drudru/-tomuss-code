@@ -2059,6 +2059,80 @@ cell_change(1,'0_2','ticket_time_to_live','%d',"")
         c = s.url('=' + abj + '/%s/UE-imp2' % ys)
         assert(c.count("!Def!") == 2)
 
+    if do('average_change'):
+        c = s.url('=' + root + '/%s/UE-avg_chg' % ys)
+        c = s.url('=' + root + '/%s/UE-avg_chg' % ys +
+                  '/1/0/column_attr_title/col_0/a')
+        assert(c == ok_png)
+        c = s.url('=' + root + '/%s/UE-avg_chg' % ys +
+                  '/1/1/column_attr_type/col_1/Moy')
+        assert(c == ok_png)
+        c = s.url('=' + root + '/%s/UE-avg_chg' % ys +
+                  '/1/2/column_attr_title/col_1/Moy')
+        assert(c == ok_png)
+        c = s.url('=' + root + '/%s/UE-avg_chg' % ys +
+                  '/1/3/column_attr_columns/col_1/a')
+        assert(c == ok_png)
+        c = s.url('=' + root + '/%s/UE-avg_chg' % ys +
+                  '/1/4/cell_change/0_0/lin_0/a_login')
+        assert(c == ok_png)
+        c = s.url('=' + root + '/%s/UE-avg_chg' % ys +
+                  '/1/5/cell_change/col_1/lin_0/16.43')
+        assert(c == bad_png) # Average not changeable because not master
+        c = s.url('=' + root + '/%s/UE-avg_chg' % ys +
+                  '/1/6/table_attr_masters/' + abj)
+        assert(c == ok_png)
+        c = s.url('=' + abj + '/%s/UE-avg_chg' % ys)
+        c = s.url('=' + abj + '/%s/UE-avg_chg' % ys +
+                  '/2/0/cell_change/col_1/lin_0/16.43')
+        assert(c == ok_png) # Average changeable because master
+        c = s.url('=' + root + '/%s/UE-avg_chg' % ys)
+        assert("16.43" in c)
+
+        # If a value is changed: modified average is not erased server
+        # side (except if it is needed)
+        c = s.url('=' + root + '/%s/UE-avg_chg' % ys +
+                  '/1/7/cell_change/col_0/lin_0/11.11')
+        assert(c == ok_png)
+        c = s.url('=' + root + '/%s/UE-avg_chg' % ys)
+        assert("11.11" in c)
+        assert("16.43" in c)
+
+        # No more possible to modify the average if it is a number
+        c = s.url('=' + root + '/%s/UE-avg_chg' % ys +
+                  '/1/8/cell_change/col_1/lin_0/17.87')
+        assert(c == bad_png)
+        c = s.url('=' + root + '/%s/UE-avg_chg' % ys)
+        assert("17.87" not in c)
+
+        # Erase value: average is modifiable by master
+        time.sleep(1)
+        c = s.url('=' + root + '/%s/UE-avg_chg' % ys +
+                  '/1/9/cell_change/col_0/lin_0/ABJUS')
+        assert(c == ok_png)
+
+        c = s.url('=' + root + '/%s/UE-avg_chg' % ys +
+                  '/1/10/cell_change/col_1/lin_0/9.99')
+        assert(c == bad_png)
+        c = s.url('=' + abj + '/%s/UE-avg_chg' % ys +
+                  '/2/1/cell_change/col_1/lin_0/9.99')
+        assert(c == ok_png)
+        c = s.url('=' + root + '/%s/UE-avg_chg' % ys)
+        assert('C("ABJUS"' in c)
+        date = c.split('C(9.99,"' + abj + '","')[1][:14]
+
+        # Must be possible to set the same value
+        c = s.url('=' + root + '/%s/UE-avg_chg' % ys +
+                  '/1/11/cell_change/col_0/lin_0/')
+        assert(c == ok_png)
+        time.sleep(1)
+        c = s.url('=' + abj + '/%s/UE-avg_chg' % ys +
+                  '/2/2/cell_change/col_1/lin_0/9.99')
+        assert(c == ok_png)
+        c = s.url('=' + root + '/%s/UE-avg_chg' % ys)
+        date2 = c.split('C(9.99,"' + abj + '","')[1][:14]
+        assert(date2 > date)
+
 if '1' in sys.argv:
    sys.argv.remove('1')
    only_once = True

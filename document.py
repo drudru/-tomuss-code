@@ -19,6 +19,7 @@
 #
 #    Contact: Thierry.EXCOFFIER@bat710.univ-lyon1.fr
 
+import math
 import os
 import time
 import threading
@@ -515,8 +516,10 @@ class Table(object):
                     self.extensions.append((year-dy, sem))
 
     @utilities.add_a_lock
-    def compute_columns(self):
+    def compute_columns(self, lines=None):
         """ """
+        if lines is None:
+            lines = tuple(self.lines.values())
         for column in self.columns:
             column.type.update_for_suivi(column)
 
@@ -554,7 +557,7 @@ class Table(object):
                 cell_compute = eval(column.type.cell_compute,
                                     tomuss_python.__dict__
                                 )
-                for line in self.lines.values():
+                for line in lines:
                     tomuss_python.compute_cell_safe(column.data_col, line,
                                                     cell_compute)
 
@@ -780,6 +783,13 @@ class Table(object):
             value = cell.value
 
         if not self.loading and not force_update:
+            if a_column.is_computed():
+                # XXX if the method is locked, it may take time
+                self.compute_columns([line])
+                cell = line[a_column.data_col] # Class change is possible
+                # Now the cell contains the right value
+                if isinstance(cell.value, float) and not math.isnan(cell.value):
+                    return 'bad.png'
             if not self.authorized(page.user_name, cell, a_column, line):
                 utilities.warn('cell value = (%s)' % cell.value)
                 return self.bad_auth(page, "cell_change %s/%s/%s" % (
@@ -787,7 +797,6 @@ class Table(object):
             if a_column.locked and page.user_name != data.ro_user:
                 self.error(page, utilities._("MSG_document_column_locked"))
                 return 'bad.png'
-
         old_value = str(cell.value)
         new_value = str(value)
         if new_value == 'nan':
