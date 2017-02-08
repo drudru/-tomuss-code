@@ -4529,6 +4529,7 @@ function html_begin_head()
      '<style id="computed_style"></style>',
      '<script>var translations = {} ; </script>',
      languages,
+     table_headers,
      '<script>',
      'page_id = "" ;',
      'check_down_connections_interval = 0 ;',
@@ -4553,6 +4554,7 @@ function html_begin_head()
      'columns = [] ;',
      'lines = {} ;',
      'adeweb = {} ;', // XXX should not be here (LOCAL/spiral.py)
+     // "table_headers = " + JSON.stringify(table_headers) + ";",
      'table_attr = ' + a + ';',
      'all_the_semesters = ' + js(all_the_semesters) + ' ;',
      wait_scripts, // The function definition
