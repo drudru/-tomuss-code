@@ -4504,7 +4504,8 @@ function html_begin_head()
 
   var a = '{' ;
   for(var i in table_attr)
-    a += i + ':' + js(table_attributes[i].formatter(table_attr[i])) + ',' ;
+    a += i + ':' + JSON.stringify(table_attributes[i].formatter(table_attr[i]))
+      + ',' ;
   a = a.substr(0,a.length-1) + '}' ;
 
   var languages = '' ;
