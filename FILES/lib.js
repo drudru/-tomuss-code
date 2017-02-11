@@ -1247,14 +1247,8 @@ function column_list(col_offset, number_of_cols)
     {
       var column = columns[data_col] ;
 
-      if ( column.freezed == 'F' && column.hidden != 1 )
-	{
-	  freezed.push(column) ;
-	  continue ;
-	}
-      if ( preferences.filter_freezed
-	   && column.initial_filter !== ''
-	   && column.initial_filter !== undefined )
+      if ( (column.freezed == 'F' || column.filter_freeze)
+	   && column.hidden != 1 )
 	{
 	  freezed.push(column) ;
 	  continue ;
@@ -1686,10 +1680,6 @@ function table_header_fill()
 
 function table_header_fill_real()
 {
-  for(var data_col in columns)
-    // To not change column position while modifying the filter
-    columns[data_col].initial_filter = columns[data_col].filter ;
-  
   var empty_column = add_empty_columns() ;
   var cls = column_list() ;
   var w ;
@@ -2712,6 +2702,23 @@ function table_fill_hook_horizontal()
 }
 
 /*
+ * Autofreeze columns with a filter
+ */
+function autofreeze()
+{
+  if ( preferences.filter_freezed )
+    {
+      for(var data_col in columns)
+	{
+	  var column = columns[data_col] ;
+	  if ( column.filter !== '' && column.filter !== undefined )
+	      column.filter_freeze = true ;
+	  else
+	      column.filter_freeze = false ;
+	}
+    }
+}
+/*
  * If 'col' is defined : then it is the required column (centered)
  * Else 'direction' is a delta
  */
@@ -2723,6 +2730,7 @@ function page_horizontal(direction, col, do_not_focus)
   if ( ! do_not_focus )
     the_current_cell.change() ;
 
+  autofreeze() ;
   if ( col === undefined )
     {
       col = myindex(cls, the_current_cell.data_col) +
@@ -2753,6 +2761,7 @@ function page_horizontal(direction, col, do_not_focus)
   periodic_work_do() ;
 
   change_option('column_offset', column_offset ? column_offset : '') ;
+
 }
 
 function next_page_horizontal(full_page)
@@ -4986,6 +4995,7 @@ function runlog(the_columns, the_lines)
    */
 
   table_init() ;
+  autofreeze() ;
   table_fill(true, true, true) ;
 
   if ( ue == 'javascript_regtest_ue' )
