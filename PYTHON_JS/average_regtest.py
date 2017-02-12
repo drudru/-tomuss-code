@@ -71,6 +71,8 @@ def average_regtest():
 [Cell(1  ),Cell(1  ),Cell("" ),C(nan),C(nan),C(nan),g,C(nan  ),g,C(nan)],
 # ABI + 0 = ABI
 [Cell(abi),Cell(abi),Cell(abi),C(abi),C(abi),C(abi),g,C(7.5  ),Cell(0),C(abi)],
+# allowed_grades
+[Cell("DIS"),Cell(1),Cell(3)  ,C(2  ),C(1  ),C(3  ),g,C(8.25 ),g,C(6)],
 ]:
         check_result(line, 3, compute_average)
         check_result(line, 4, compute_average)

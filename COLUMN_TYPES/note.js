@@ -83,21 +83,27 @@ function test_note(value, column)
     return tnr ;
   if ( v === '' )
     return v ;
+  if ( allowed_grades[v] )
+    return v ;
   v = a_float(v) ;
   if ( column.round_by )
     {
       v = Math.round(v / column.round_by) * column.round_by ;
     }
   if ( isNaN(v) || v < column.min || v > column.max )
-    {
-      alert_append(value + _("ALERT_bad_grade") + column.minmax + "\n" +
-		   abi_char + "(" + abi + "), " +
-		   abj_char + "(" + abj + "), " +
-		   ppn_char + "(" + ppn + '), ' +
-		   tnr_char + "(" + tnr + ')'
-		  )
-      return ;
-    }
+  {
+    var more = [] ;
+    for(var i in allowed_grades)
+      more.push('\n' + i + ' : ' + allowed_grades[i][1]) ;
+
+    alert_append(value + _("ALERT_bad_grade") + column.minmax + "\n" +
+		 abi_char + "(" + abi + "), " +
+		 abj_char + "(" + abj + "), " +
+		 ppn_char + "(" + ppn + '), ' +
+		 tnr_char + "(" + tnr + ')' + more.join(" ")
+		)
+    return ;
+  }
 
   return v ;
 }

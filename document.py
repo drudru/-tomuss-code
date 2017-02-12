@@ -533,6 +533,7 @@ class Table(object):
             setattr(tomuss_python, i, getattr(configuration, i, ''))
             setattr(tomuss_python, i+'_short',
                         getattr(configuration, i+'_short', ''))
+        tomuss_python.allowed_grades = configuration.allowed_grades
         for column in self.columns.columns_ordered():
             column.real_weight = tomuss_python.to_float(column.weight)
             column.real_weight_add = not column.weight.startswith(('+','-'))

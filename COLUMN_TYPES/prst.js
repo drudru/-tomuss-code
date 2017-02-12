@@ -28,6 +28,8 @@ function test_prst(value, column)
     return abj ;
   if ( v === pre_char || v === pre_short || v === pre )
     return pre ;
+  if ( allowed_grades[v] )
+    return v ;
   return '' ;
 }
 

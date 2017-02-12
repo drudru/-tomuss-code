@@ -431,6 +431,11 @@ special_days = {
   "31/12": "🎉", "1/1": "😴"
 } ;
 
+# Add new allowed grades:
+#    The key is the new grade
+#    The value is a pair: [a basic grade as ABJ or PPN,  a tip for the user]
+allowed_grades = {}
+
 ###############################################################################
 # The following variables should be fine for testing purpose (local server)
 ###############################################################################

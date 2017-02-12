@@ -62,6 +62,7 @@ def compute_average(data_col, line):
             value = origin.empty_is
             if str(value) == '':
                 return nan # Empty cell
+        value = allowed_grades.get(value, [value])[0]
         if not origin.real_weight_add:
             nr_add += 1
         if value in (abj, abj_short):

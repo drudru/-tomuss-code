@@ -30,6 +30,7 @@ ppn_short = ppn = "PPN"
 pre_short = pre = "PRE"
 def or_keyword():
     return "or"
+allowed_grades = {'DIS': [ppn, ""]}
 
 class Table:
     def __init__(self):

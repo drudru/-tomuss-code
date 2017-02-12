@@ -4790,6 +4790,9 @@ msgstr "Accès: Inclusion de la page de login dans une IFRAME"
 msgid "config_table_special_days"
 msgstr "Suivi: Le caractère affiché en haut à gauche du suivi défini jour par jour"
 
+msgid "config_table_allowed_grades"
+msgstr "Ajoute des synonymes aux types de note : {'DIS':['PPN','Dispense']}"
+
 msgid "COL_TITLE_orientation"
 msgstr "Orientation"
 

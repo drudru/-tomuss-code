@@ -4730,6 +4730,10 @@ msgstr "Access: The login page is included in an IFRAME"
 msgid "config_table_special_days"
 msgstr "Suivi: The top left char displayed on 'suivi' defined day by day"
 
+msgid "config_table_allowed_grades"
+msgstr "Add aliases to grades: {'DIS':['CANTGRADE','Dispense'], 'A':[5, 'Excellent']}"
+
+
 msgid "COL_TITLE_orientation"
 msgstr "Orientation"
 
