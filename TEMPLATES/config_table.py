@@ -154,7 +154,7 @@ def set_value(variable, value):
     current = configuration.__dict__[variable]
 
     if isinstance(current, tuple) or isinstance(current, list) \
-             or isinstance(current, bool):
+             or isinstance(current, bool) or isinstance(current, dict):
         if configuration.regtest:
             import re
             try:
