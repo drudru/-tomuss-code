@@ -70,7 +70,7 @@ def new_page_stat(the_year):
             nav = 'Opera '
         elif 'KHTML' in client:
             nav = 'KHTML '
-        elif 'Gecko' in client:
+        elif 'Gecko/' in client:
             nav = 'Gecko ' + client.split('Gecko/')[1].split(" ")[0]
         elif 'Python-urllib' in client:
             nav = 'Python-urllib ' + client.split('Python-urllib/')[1]
