@@ -6002,6 +6002,9 @@ msgstr "Déposer"
 msgid "MSG_upload_get"
 msgstr "Vérifier"
 
+msgid "MSG_upload_replace"
+msgstr "Remplace le dépôt de :"
+
 msgid "MSG_upload_change"
 msgstr "Remplacer ce fichier"
 

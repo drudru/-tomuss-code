@@ -5865,6 +5865,9 @@ msgstr "Upload:"
 msgid "MSG_upload_get"
 msgstr "Verify"
 
+msgid "MSG_upload_replace"
+msgstr "Replace the uploaded file of"
+
 msgid "MSG_upload_change"
 msgstr "Replace file by"
 

@@ -110,23 +110,6 @@ def save_file(server, page, column, lin_id, data, filename):
     table = column.table
     line = table.lines[lin_id]
     path = container_path(column)
-    for a_lin_id, a_line in column.lines_of_the_group(line):
-        if (a_line[column.data_col].comment != ''
-            and os.path.exists(os.path.join(path, a_lin_id))
-        ):
-            if table.authorized(page.user_name, line[column.data_col],
-                                column, a_line):
-                server.the_file.write("<p>→ %s %s<p>" % (
-                    html.escape(a_line[1].value),
-                    html.escape(a_line[2].value)))
-                lin_id = a_lin_id
-                break
-            else:
-                utilities.send_backtrace(
-                    "{}<br>{}→{}".format(column, lin_id, a_lin_id),
-                    "UPLOAD failed"
-                )
-
     err = check_virus(data)
     if err:
         server.the_file.write(
@@ -135,7 +118,6 @@ def save_file(server, page, column, lin_id, data, filename):
         return err
     if err is not None:
         server.the_file.write(server._("MSG_no_virus_found") + '\n')
-    path = container_path(column)
     utilities.mkpath(path, create_init=False)
     file_path = os.path.join(path, lin_id)
     if os.path.exists(file_path):
@@ -169,6 +151,17 @@ def save_file(server, page, column, lin_id, data, filename):
         # force_update=True because the writable cell check can be: "#="
         table.cell_change(page, column.the_id, lin_id, n/1000.,
                           force_update=True)
+
+        # Erase upload of the other students of the group:
+        for a_lin_id, a_line in column.lines_of_the_group(line):
+            if a_lin_id != lin_id and a_line[column.data_col].comment:
+                result = table.comment_change(page, column.the_id, a_lin_id,'')
+                if os.path.exists(os.path.join(path, a_lin_id)):
+                    server.the_file.write("<p>%s %s %s" % (
+                        server._("MSG_upload_replace"),
+                        html.escape(a_line[1].value),
+                        html.escape(a_line[2].value)))
+
     finally:
         table.unlock()
 
