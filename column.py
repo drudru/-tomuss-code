@@ -517,12 +517,13 @@ class Column(object):
                 return False
         return True
 
-    def is_modifiable(self, teacher, ticket, cell):
+    def is_modifiable(self, teacher, ticket, cell, line):
         """From 'suivi' by student or teacher"""
         return (self.table.modifiable
                 # Commented because always modifiable from the table editor
                 and (self.modifiable == 2 or teacher)
-                and self.table.authorized(ticket.user_name, cell, column=self)
+                and self.table.authorized(ticket.user_name, cell, column=self,
+                                          line=line)
                 )
 
     def is_computed(self):

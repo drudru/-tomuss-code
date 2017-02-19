@@ -1630,7 +1630,8 @@ def get_cell_from_table(server, allowed_types=None):
     t, column, lin = err
     if not column.is_modifiable(server.ticket.is_a_teacher,
                                 server.ticket,
-                                t.lines[lin][column.data_col]):
+                                t.lines[lin][column.data_col],
+                                t.lines[lin]):
         return server._("ERROR_value_not_modifiable")
 
     if not t.authorized(server.ticket.user_name,
