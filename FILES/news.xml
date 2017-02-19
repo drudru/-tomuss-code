@@ -1121,6 +1121,21 @@ Les améliorations les plus visibles sont :
       </description>
       <guid>68</guid>
     </item>
+    <item>
+      <title>19/02/2017 : Version 6.0.29</title>
+      <link>http://tomuss.univ-lyon1.fr/</link>
+      <description>
+	&lt;p&gt;
+	On peut indiquer qu'une moyenne avec une ABI donne DEF comme résultat.
+	&lt;p&gt;
+	On peut faire lire (n'oubliez pas d'allumer les enceintes)
+	le contenu d'une colonne (onglet «Column/Action»).
+	&lt;p&gt;
+	On peut créer plein de colonnes de type présence rapidement :
+	Lien «Créer» de l'onglet «Table/Action»
+      </description>
+      <guid>69</guid>
+    </item>
 
   </channel>
 </rss>
