@@ -53,9 +53,8 @@ def send_mail(server):
         server.the_file.write(server._("MSG_evaluate"))
         return
 
-    server.the_file.write('<div id="prepare"><h1>'
-                          + server._("MSG_abj_wait") + '</h1>')
-    server.the_file.flush()
+    progress_bar = utilities.ProgressBar(
+        server, message = '<h1>' + server._("MSG_abj_wait") + '</h1>')
     
     data = server.uploaded
     if data is None:
@@ -84,9 +83,8 @@ def send_mail(server):
                               + '</pre>')
         return
         
-    server.the_file.write(server._("MSG_send_mail_start") % len(recipients))
-    progress_bar(server)
-    server.the_file.write('</div>') # end prepare
+    progress_bar.append_to_message(server._("MSG_send_mail_start")
+                                   % len(recipients))
 
     bad_mails = []
     good_mails = []
@@ -112,12 +110,9 @@ def send_mail(server):
         utilities.send_mail_in_background(m, the_subject, content, frome,
                                           show_to = True, cc = carbon_copy)
         good_mails.append(m)
-        progress_bar_update(server, nb, len(recipients))
+        progress_bar.update(nb, len(recipients))
+    progress_bar.hide()
 
-    server.the_file.write("""<script>
-var e = document.getElementById('prepare');
-e.parentNode.removeChild(e) ;
-</script>""")
     try:
         last = utilities.send_mail_in_background_list[-1]
     except IndexError:
@@ -147,15 +142,15 @@ e.parentNode.removeChild(e) ;
     if bad_mails:
         server.the_file.write(server._("MSG_send_mail_error")
                               + ', '.join(bad_mails) + '\n')
-    server.the_file.write('<p>' + server._("MSG_send_mail_close"))
-    progress_bar(server)
+    progress_bar = utilities.ProgressBar(
+        server, '<p>' + server._("MSG_send_mail_close"))
     while True:
         try:
             pos = utilities.send_mail_in_background_list.index(last)
         except ValueError:
             pos = 0
         try:
-            progress_bar_update(server, nb_mails - pos, nb_mails)
+            progress_bar.update(nb_mails - pos, nb_mails)
         except:
             break
         if pos == 0:

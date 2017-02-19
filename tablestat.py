@@ -28,9 +28,13 @@ from . import utilities
 
 table_mtimes = {}
 
+def les_ues_files(year, semester):
+    dirname = os.path.join(configuration.db,'Y'+ str(year),'S' + str(semester))
+    return dirname, tuple(utilities.python_files(dirname))
+
 def les_ues(year, semester, true_file=False, all_files=False, ro=True):
     """true_file is for UE that link to another UE"""
-    dirname = os.path.join(configuration.db,'Y'+ str(year),'S' + str(semester))
+    dirname, files = les_ues_files(year, semester)
     for ue in utilities.python_files(dirname):
         if ue == 'abjs.py':
             continue

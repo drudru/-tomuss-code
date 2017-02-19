@@ -24,24 +24,29 @@ from .. import document
 from .. import utilities
 from .. import referent
 from .. import data
-from ..tablestat import TableStat, les_ues
+from .. import tablestat
 from ..cell import CellValue, Line
 from .. import column
 
 def teachers_statistics(server):
     """Create a table of statistics about all the teachers"""
-    teachers = {data.rw_user: TableStat(data.rw_user),
-                data.no_user: TableStat(data.no_user),
+    pb = utilities.ProgressBar(server)
+    nr_max = len(tablestat.les_ues_files(server.year, server.semester)[1])
+    teachers = {data.rw_user: tablestat.TableStat(data.rw_user),
+                data.no_user: tablestat.TableStat(data.no_user),
             }
-    for t in les_ues(server.year, server.semester):
+    i = 0
+    for t in tablestat.les_ues(server.year, server.semester):
+        pb.update(i, nr_max)
+        i += 1
         for c in t.columns:
             user_name = c.author
             if user_name not in teachers:
-                teachers[user_name] = TableStat(user_name)
+                teachers[user_name] = tablestat.TableStat(user_name)
             teachers[user_name].nr_cols += 1
         for p in t.pages:
             if p.user_name not in teachers:
-                teachers[p.user_name] = TableStat(p.user_name)
+                teachers[p.user_name] = tablestat.TableStat(p.user_name)
             teachers[p.user_name].nr_pages += 1
             try:
                 teachers[p.user_name].pages_per_table[t.ue] += 1
@@ -57,11 +62,11 @@ def teachers_statistics(server):
     for t in referent.les_blocsnotes(year):
         for p in t.pages:
             if p.user_name not in teachers:
-                teachers[p.user_name] = TableStat(p.user_name)
+                teachers[p.user_name] = tablestat.TableStat(p.user_name)
             teachers[p.user_name].nr_pages += 1
         user_name = utilities.module_to_login(t.ue)
         if user_name not in teachers:
-            teachers[user_name] = TableStat(user_name)
+            teachers[user_name] = tablestat.TableStat(user_name)
         # teachers[user_name].nr_students = len([x for x in t.logins() if x])
         teachers[user_name].nr_students = len(
             referent.students_of_a_teacher(user_name))
@@ -157,6 +162,7 @@ def teachers_statistics(server):
                     CellValue(t.date_min),
                     CellValue(t.date_max),
                     )))
+    pb.hide()
     document.virtual_table(server, columns, lines, table_attrs=table_attrs)
 
 plugin.Plugin('teachers', '/*', function=teachers_statistics,

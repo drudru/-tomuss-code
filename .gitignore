@@ -27,6 +27,7 @@ FILES/teacher.png
 FILES/title.png
 FILES/visible.png
 LOCAL/
+LOCAL.shibboleth/
 LOGS/
 PICTURES/*.JPG
 PYTHON_JS/PythonJS/

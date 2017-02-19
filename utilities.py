@@ -1546,3 +1546,51 @@ def start_as_daemon(logdir):
     # import atexit
     # atexit.register(os.unlink, pid)
 
+class ProgressBar:
+    """Insert a progress bar in the generated HTML.
+
+    pb = utilities.ProgressBar(server, message="<h1>Title</h1>")
+    pb.update(n, n_max)
+    pb.hide()
+    """
+    nr = 0
+    last_update = 0
+
+    def __init__(self, server, message = "", auto_hide = False):
+        self.server = server
+        self.html_id = "progressbar{}".format(self.nr)
+        self.auto_hide = auto_hide
+        ProgressBar.nr += 1
+        server.the_file.write('''
+<div><div>{}</div>
+<div style="border:2px solid black;">
+<div id="{}" style="background:#8F8; border-right: 2px solid #0F0">&nbsp;</div>
+</div></div>'''.format(message, self.html_id))
+
+    def update(self, nb, nb_max):
+        now = time.time()
+        if now - self.last_update > 1 or nb == nb_max:
+            self.server.the_file.write("""<script>
+            var x = document.getElementById('{}') ;
+            x.style.width = '{}%' ;
+            x.innerHTML = '{}/{}' ;
+            </script>""".format(self.html_id,
+                                100 * nb / nb_max, nb, nb_max))
+            self.server.the_file.flush()
+            self.last_update = now
+        if self.auto_hide and nb >= nb_max:
+            self.hide()
+
+    def append_to_message(self, text):
+        self.server.the_file.write("""<script>
+        var x = document.getElementById('{}').parentNode.parentNode.firstChild;
+        x.innerHTML += {} ;
+        </script>""".format(self.html_id, js(text)))
+        self.server.the_file.flush()
+
+    def hide(self):
+        self.server.the_file.write("""<script>
+        var x = document.getElementById('{}').parentNode.parentNode ;
+        x.parentNode.removeChild(x) ;
+        </script>""".format(self.html_id))
+        self.server.the_file.flush()

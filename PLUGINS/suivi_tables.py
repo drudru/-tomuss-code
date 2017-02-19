@@ -22,16 +22,22 @@
 from .. import plugin
 from .. import column
 from .. import document
-from ..tablestat import TableStat, les_ues
+from .. import tablestat
 from ..cell import CellValue, Line
 from .. import configuration
+from .. import utilities
 
 def table_statistics(server):
     """Create a table of statistics about all the tables."""
-    
-    tables = {'': TableStat('')}
-    for t in les_ues(server.year, server.semester):
-        tables[t.ue] = table = TableStat(t.ue)
+
+    p = utilities.ProgressBar(server)
+    nr_max = len(tablestat.les_ues_files(server.year, server.semester)[1])
+    tables = {'': tablestat.TableStat('')}
+    i = 0
+    for t in tablestat.les_ues(server.year, server.semester):
+        p.update(i, nr_max)
+        i += 1
+        tables[t.ue] = table = tablestat.TableStat(t.ue)
         table.nr_cols = len(t.columns)
         table.nr_pages = len(t.pages)
         table.nr_lines = len(t.lines)
@@ -156,7 +162,7 @@ def table_statistics(server):
                 CellValue(t.problem_in_column_name),
                 CellValue(t.modifiable and configuration.yes or configuration.no),
                 )))
-
+    p.hide()
     document.virtual_table(server, columns, lines, table_attrs=table_attrs)
 
 plugin.Plugin('tables', '/*2', function=table_statistics,
