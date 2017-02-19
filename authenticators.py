@@ -61,7 +61,7 @@ class Authenticator(object):
         """Logout only from TOMUSS, not other services"""
         return
 
-    def logout_ticket(self, posted_data):
+    def logout_ticket(self, server):
         return
 
 class CAS(Authenticator):
@@ -104,8 +104,8 @@ class CAS(Authenticator):
     def logout(self, dummy_server):
         return self.provider + '/logout'
 
-    def logout_ticket(self, posted_data):
-        t = posted_data['logoutRequest']
+    def logout_ticket(self, server):
+        t = server.get_field_storage(10000)['logoutRequest']
         return t.value.split('<samlp:SessionIndex>')[1].split(
             '</samlp:SessionIndex>')[0]
 

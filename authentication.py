@@ -154,20 +154,26 @@ def authentication_thread():
                         # No redirection on POST:
                         #  * Expired tickets
                         #  * CAS logout
+                        #  * SAML Login
                         try:
-                            post = x.get_field_storage(10000)
-                            t = configuration.authenticator.logout_ticket(post)
+                            t = configuration.authenticator.logout_ticket(x)
                         except:
-                            warn('Not a logout POST', what="auth")
+                            warn('Not a logout/login POST', what="auth")
                             t = None
-                        if t:
-                            t = ticket.get_ticket_objet(t, x, check_ticket=False)
+                        if t and t != "redirection":
+                            if t.startswith("https://"):
+                                # It is a login
+                                redirect(x, t)
+                                continue
+                            t = ticket.get_ticket_objet(t, x,
+                                                        check_ticket=False)
                             if t and configuration.single_logout:
                                 warn('Logout {}'.format(t), what="auth")
                                 t.remove()
-                        if not x.please_do_not_close:
-                            x.close_connection_now()
-                        continue
+                        if t != "redirection":
+                            if not x.please_do_not_close:
+                                x.close_connection_now()
+                            continue
                     x.ticket, dummy_the_path = get_path(x, redirect_loc)
                     if x.ticket is None:
                         x.log_time('redirection')
