@@ -113,11 +113,6 @@ def send_mail(server):
         progress_bar.update(nb, len(recipients))
     progress_bar.hide()
 
-    try:
-        last = utilities.send_mail_in_background_list[-1]
-    except IndexError:
-        last = None
-    nb_mails = len(utilities.send_mail_in_background_list)
     archive = message + '\n' + '='*79 + '\n'
     if bad_mails:
         archive += (server._("MSG_send_mail_error") + '\n'
@@ -143,19 +138,8 @@ def send_mail(server):
         server.the_file.write(server._("MSG_send_mail_error")
                               + ', '.join(bad_mails) + '\n')
     progress_bar = utilities.ProgressBar(
-        server, '<p>' + server._("MSG_send_mail_close"))
-    while True:
-        try:
-            pos = utilities.send_mail_in_background_list.index(last)
-        except ValueError:
-            pos = 0
-        try:
-            progress_bar.update(nb_mails - pos, nb_mails)
-        except:
-            break
-        if pos == 0:
-            break
-        time.sleep(1)
+        server, '<p>' + server._("MSG_send_mail_close"), show_numbers=False)
+    progress_bar.wait_mail_sent()
 
 plugin.Plugin('send_mail', '/send_mail', function=send_mail,
               upload_max_size = 1000000,

@@ -1556,26 +1556,31 @@ class ProgressBar:
     nr = 0
     last_update = 0
 
-    def __init__(self, server, message = "", auto_hide = False):
+    def __init__(self, server, message = "", auto_hide = False,
+                 show_numbers = True):
         self.server = server
         self.html_id = "progressbar{}".format(self.nr)
         self.auto_hide = auto_hide
+        self.show_numbers = show_numbers
         ProgressBar.nr += 1
         server.the_file.write('''
 <div><div>{}</div>
 <div style="border:2px solid black;">
-<div id="{}" style="background:#8F8; border-right: 2px solid #0F0">&nbsp;</div>
+<div id="{}" style="background:#8F8; border-right: 2px solid #080">&nbsp;</div>
 </div></div>'''.format(message, self.html_id))
 
     def update(self, nb, nb_max):
         now = time.time()
         if now - self.last_update > 1 or nb == nb_max:
+            if self.show_numbers:
+                more = "x.innerHTML = '{}/{}' ;".format(nb, nb_max)
+            else:
+                more = ""
             self.server.the_file.write("""<script>
             var x = document.getElementById('{}') ;
             x.style.width = '{}%' ;
-            x.innerHTML = '{}/{}' ;
-            </script>""".format(self.html_id,
-                                100 * nb / nb_max, nb, nb_max))
+            {}
+            </script>""".format(self.html_id, 100 * nb / nb_max, more))
             self.server.the_file.flush()
             self.last_update = now
         if self.auto_hide and nb >= nb_max:
@@ -1594,3 +1599,23 @@ class ProgressBar:
         x.parentNode.removeChild(x) ;
         </script>""".format(self.html_id))
         self.server.the_file.flush()
+
+    def wait_mail_sent(self):
+        try:
+            last = send_mail_in_background_list[-1]
+        except IndexError:
+            last = None
+        nb_mails = len(send_mail_in_background_list)
+
+        while True:
+            try:
+                pos = send_mail_in_background_list.index(last)
+            except ValueError:
+                pos = 0
+            try:
+                self.update(nb_mails - pos, nb_mails)
+            except:
+                break
+            if pos == 0:
+                break
+            time.sleep(1)
