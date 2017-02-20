@@ -265,7 +265,7 @@ NotationQuestion.prototype.html = function(modifiable, questions_modifiable)
 
 NotationQuestion.prototype.suivi = function()
 {
-  if ( this.is_a_bonus() && this.grade.stored == 0 )
+  if ( this.is_a_bonus() && this.grade.stored == 0 && this.grade.comment === '')
     return '' ;
   return '<tr><td style="text-align:right">'
     + (this.is_a_question()
