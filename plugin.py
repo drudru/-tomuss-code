@@ -457,6 +457,7 @@ def execute(server, plugin):
         pr = cProfile.Profile(time.time)
         pr.enable()
     if plugin.launch_thread:
+        server.the_file._sock.settimeout(60)
         try:
             x = None
             try:
