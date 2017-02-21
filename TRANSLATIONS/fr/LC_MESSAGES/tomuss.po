@@ -4274,7 +4274,7 @@ msgstr "Liste les adresses mails du réferent ainsi que des<br>\n"
        "enseignants responsables des UE suivies par l'étudiant."
 
 msgid "MSG_suivi_student_official_bilan"
-msgstr "Bilan APOGÉE"
+msgstr "Bilan de note"
 
 msgid "TIP_suivi_student_official_bilan"
 msgstr "Affiche le récapitulatif des notes présentes dans APOGÉE<br>\n"
