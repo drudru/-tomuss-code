@@ -1276,6 +1276,7 @@ function new_new_interface()
   t.push('</div>') ;
   t.push('<div class="one_line">') ;
   t.push(table_input_attr('t_copy')) ;
+  t.push(', ' + table_input_attr('invitation')) ;
   t.push('</div>') ;
   t.push('<div class="one_line">') ;
   t.push(table_input_attr('autosave')) ;
