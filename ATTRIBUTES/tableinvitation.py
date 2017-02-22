@@ -61,13 +61,14 @@ def invitation(server):
     subject = data.getfirst('subject')
     message = data.getfirst('message')
     days = data.getfirst('days')
+    invitation_type = data.getfirst('type')
     recipients = data.getfirst('recipients').split("\001")
     frome = inscrits.L_slow.mail(server.ticket.user_name)
 
     for nb, recipient in enumerate(recipients):
-        link = "{}/{}/{}/{}/{}".format(
+        link = "{}/{}/{}/{}/{}/{}".format(
             server.the_year, server.the_semester, server.the_ue,
-            recipient, int(time.time()) + int(days)*86400)
+            recipient, invitation_type, int(time.time()) + int(days)*86400)
         link = (configuration.server_url + "/invitation_accept/"
                 + link + '/' + checksum(link))
 
@@ -101,7 +102,7 @@ def invitation_accept(server):
         server.the_file.write(server._("MSG_evaluate"))
         return
 
-    year, semester, ue, recipient, max_time, the_checksum = server.the_path
+    year, semester, ue, recipient, typ, max_time, the_checksum = server.the_path
     link = '/'.join(server.the_path[:-1])
     if checksum(link) != the_checksum:
         server.the_file.write(server._("MSG_invitation_bad"))
@@ -115,6 +116,12 @@ def invitation_accept(server):
     if server.ticket.user_name in table.the_key_dict:
         server.the_file.write(server._("MSG_invitation_yet_in"))
         return
+
+    if typ == 'one_shot':
+        for line in table.lines.values():
+            if line[0].comment == recipient:
+                server.the_file.write(server._("MSG_invitation_yet_used"))
+                return
 
     try:
         table.lock()

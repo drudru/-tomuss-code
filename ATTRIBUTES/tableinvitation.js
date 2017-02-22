@@ -43,6 +43,12 @@ function send_invitation()
 	       + _("MSG_invitation_send") + '</button>'
 	       + ' <input id="invitation_days" style="width:2em" value="2">'
 	       + ' ' + _("ALERT_columnvisibility_date_far_futur2")
+	       + ' <select id="invitation_type" style="font-size:140%">'
+	       + '<option value="sharable" default>'
+	       + _("invitation_sharable") + "</option>"
+	       + '<option value="one_shot" default>'
+	       + _("invitation_one_shot") + "</option>"
+	       + "</select>"
 	       , _("MSG_invitation_message_default")
 	      ) ;
 }
@@ -53,12 +59,14 @@ function invitation_do()
   var message = mailing_mail.join('\n') ;
   var subject = document.getElementById('invitation_subject').value ;
   var mails = document.getElementById('invitation_mails').value ;
+  var type = document.getElementById('invitation_type').value ;
   localStorage['invitation.subject.' + ue] = subject ;
   localStorage['invitation.message.' + ue] = message ;
   localStorage['invitation.mails.' + ue] = mails ;
 
   var d = {'subject': subject,
 	   'message': message,
+	   'type': type,
 	   "days": document.getElementById('invitation_days').value,
 	   'recipients': mails.replace(/[\n\t ;,]+/g, "\001")
 	  } ;
