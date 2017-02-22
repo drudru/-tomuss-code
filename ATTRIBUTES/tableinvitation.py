@@ -111,6 +111,11 @@ def invitation_accept(server):
         return
 
     table = document.table(year, semester, ue, create=False)
+
+    if server.ticket.user_name in table.the_key_dict:
+        server.the_file.write(server._("MSG_invitation_yet_in"))
+        return
+
     try:
         table.lock()
         page = table.get_nobody_page()
