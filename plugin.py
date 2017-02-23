@@ -116,8 +116,6 @@ def _page(server, path, i):
     except ValueError:
         return False
 def _int(server, path, i):
-    if not path[i][-1].isdigit():
-        return False
     server.the_student = utilities.the_login(path[i])
 def __int(server, path, i):
     if not path[i].startswith('_'):

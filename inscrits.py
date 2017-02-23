@@ -33,7 +33,7 @@ time_limit = 5 # seconds
 
 warn = utilities.warn
 
-safe_re = re.compile('[^0-9a-zA-Z-. _]')
+safe_re = re.compile('[^0-9a-zA-Z-. _@]')
 def safe(txt):
     """Values safe in an LDAP request"""
     if not isinstance(txt, str):
