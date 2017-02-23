@@ -137,5 +137,6 @@ def invitation_accept(server):
     
 
 plugin.Plugin('invitation_accept', '/invitation_accept/{*}',
-              function=invitation_accept, unsafe=False
+              function=invitation_accept, unsafe=False,
+              priority = -10 # Before student_redirection
               )
