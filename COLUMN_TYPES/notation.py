@@ -32,7 +32,9 @@ class Notation(note.Note):
 
     def update_for_suivi(self, column):
         data_col = column.data_col
-        for dummy_group, lines in column.get_the_groups().items():
+        for group, lines in column.get_the_groups().items():
+            if group == '':
+                continue
             if len(lines) == 1:
                 continue
             comments = []

@@ -552,6 +552,7 @@ class Column(object):
 
     def get_the_groups(self):
         """Return a dict:   {"group_name": [line,...],...}
+        Beware: the empty groupe name is possible
         """
         if not self.groupcolumn:
             return {}
