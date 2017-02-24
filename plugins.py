@@ -77,6 +77,7 @@ def plugins_tomuss():
     from .PLUGINS import opensearch
     from .PLUGINS import fix_modifiables
     from .PLUGINS import get_columns
+    from .PLUGINS import create_table
     from . import signature
     if getattr(configuration, 'blur', False):
         from .PLUGINS import blur
