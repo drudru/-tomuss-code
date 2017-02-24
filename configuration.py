@@ -436,6 +436,9 @@ special_days = {
 #    The value is a pair: [a basic grade as ABJ or PPN,  a tip for the user]
 allowed_grades = {}
 
+# Allow users to upload their face picture.
+allow_picture_upload = False
+
 ###############################################################################
 # The following variables should be fine for testing purpose (local server)
 ###############################################################################

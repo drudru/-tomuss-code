@@ -110,6 +110,7 @@ variable_list = [
     "authenticate_iframe",
     "special_days",
     "allowed_grades",
+    "allow_picture_upload",
     ]
 
 deprecated = set(('root', 'invited_teachers', 'invited_administratives',

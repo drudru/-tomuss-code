@@ -49,6 +49,15 @@ configuration.icon_picture_width = 30
 configuration.picture_ttl = 24*3600
 configuration.picture_extension = '.JPG'
 
+def find_size(i, max_width):
+    height = (max_width * i.size[1]) // i.size[0]
+    if height > 2 * max_width:
+        height = 2 * max_width
+        width = (height * i.size[0]) // i.size[1]
+    if max_width > i.size[0] and height > i.size[1]:
+        return i.size[0], i.size[1]
+    return max_width, height
+
 def load_picture_(student_id, extension, icon=''):
     """Update the file on disk if it is needed
     icon may be '_'
@@ -67,8 +76,7 @@ def load_picture_(student_id, extension, icon=''):
     if os.path.exists(full_name):
         if has_pil:
             i = PIL.Image.open(full_name)
-            width = configuration.icon_picture_width
-            j = i.resize((width, (i.size[1] * width) // i.size[0]))
+            i = i.resize(find_size(i, configuration.icon_picture_width))
             j.save(name)
             return name
         return full_name
@@ -115,8 +123,9 @@ plugin.Plugin('picture_icon', '/picture-icon/{?}',
 
 def my_picture(server, icon=''):
     """Display the connected user picture"""
-    server.something = (inscrits.login_to_student_id(server.ticket.user_name)
-                        + configuration.picture_extension)
+    if configuration.is_a_student_login(server.something):
+        server.something = (inscrits.login_to_student_id(
+            server.ticket.user_name) + configuration.picture_extension)
     picture(server, icon)
 
 plugin.Plugin('my_picture', '/picture/{?}',
@@ -135,6 +144,61 @@ plugin.Plugin('my_picture_icon', '/picture-icon/{?}',
               group='!staff',
               cached = True,
               unsafe=False,
+              launch_thread = True,
+              priority = -10 # Before student_redirection
+             )
+
+# Picture uploading
+
+from .. import display
+display.Display("PictureUpload", "LinksTable", 20,
+                lambda x: has_pil and configuration.allow_picture_upload)
+
+from .. import files
+files.files["display.js"].append("picture.py", """
+function DisplayPictureUpload(node)
+{
+  return hidden_txt(
+       '<a href="javascript:picture_upload()">' + _("MSG_picture_upload")
+        + '</a>',_("TIP_picture_upload")) ;
+}
+function picture_upload()
+{
+   create_popup("picture_upload", '<h1>' + _("MSG_picture_upload") + '</h1>',
+                _("MSG_picture_upload_choose") + ' ' + username
+                + '<p>' + _("TIP_picture_upload")
+                + '<form action="' + url + '/=' + ticket + '/my_picture_upload"'
+                + ' onchange="this.submit()"'
+                + ' enctype="multipart/form-data" method="post">'
+                + '<input type="file" name="datafile" size="40"></form>',
+                '', false) ;
+}
+""")
+
+def my_picture_upload(server):
+    if not configuration.allow_picture_upload:
+        return
+    posted_data = server.get_posted_data(size=10000000)
+    image = posted_data['datafile'][0]
+    import io
+    f = io.BytesIO(image)
+    i = PIL.Image.open(f).convert('RGB')
+
+    student_id = inscrits.login_to_student_id(server.ticket.user_name)
+    j = i.resize(find_size(i, configuration.icon_picture_width))
+    j.save(os.path.join('PICTURES', student_id + '-.JPG'))
+
+    j = i.resize(find_size(i, 8 * configuration.icon_picture_width))
+    j.save(os.path.join('PICTURES', student_id + '.JPG'))
+
+    url = configuration.server_url + '/=' + server.ticket.ticket + '/picture'
+    server.the_file.write('<img src="{}.JPG"><p><img src="{}.JPG">'.format(
+        url + '-icon/' + server.ticket.user_name,
+        url + '/' + server.ticket.user_name,
+        ))
+
+plugin.Plugin('my_picture_upload', '/my_picture_upload',
+              function=my_picture_upload,
               launch_thread = True,
               priority = -10 # Before student_redirection
              )

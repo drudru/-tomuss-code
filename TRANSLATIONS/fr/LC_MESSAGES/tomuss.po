@@ -4797,6 +4797,21 @@ msgstr "Suivi: Le caractère affiché en haut à gauche du suivi défini jour pa
 msgid "config_table_allowed_grades"
 msgstr "Ajoute des synonymes aux types de note : {'DIS':['PPN','Dispense']}"
 
+msgid "config_table_allow_picture_upload"
+msgstr "Autorise les utilisateurs à charger leur photo d'identité (True/False)"
+
+msgid "config_table_show_teacher_pictures"
+msgstr "Suivi: Affiche les photos des enseignants (True/False)"
+
+msgid "MSG_picture_upload"
+msgstr "Changer votre photo"
+
+msgid "TIP_picture_upload"
+msgstr "Elle sera visible par tout le monde"
+
+msgid "MSG_picture_upload_choose"
+msgstr "Choisissez le fichier contenant votre photo d'identité"
+
 msgid "COL_TITLE_orientation"
 msgstr "Orientation"
 

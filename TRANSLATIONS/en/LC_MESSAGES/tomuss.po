@@ -4737,6 +4737,18 @@ msgstr "Suivi: The top left char displayed on 'suivi' defined day by day"
 msgid "config_table_allowed_grades"
 msgstr "Add aliases to grades: {'DIS':['CANTGRADE','Dispense'], 'A':[5, 'Excellent']}"
 
+msgid "config_table_allow_picture_upload"
+msgstr "Allow the users to upload their face picture (True/False)"
+
+
+msgid "MSG_picture_upload"
+msgstr "Change your face"
+
+msgid "TIP_picture_upload"
+msgstr "It will be visible by everybody"
+
+msgid "MSG_picture_upload_choose"
+msgstr "Choose the file containing your identity picture."
 
 msgid "COL_TITLE_orientation"
 msgstr "Orientation"
