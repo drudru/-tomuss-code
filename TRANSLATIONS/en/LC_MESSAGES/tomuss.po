@@ -4740,6 +4740,8 @@ msgstr "Add aliases to grades: {'DIS':['CANTGRADE','Dispense'], 'A':[5, 'Excelle
 msgid "config_table_allow_picture_upload"
 msgstr "Allow the users to upload their face picture (True/False)"
 
+msgid "config_table_show_teacher_pictures"
+msgstr "Suivi: Display teacher faces (True/False)"
 
 msgid "MSG_picture_upload"
 msgstr "Change your face"

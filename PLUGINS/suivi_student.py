@@ -58,8 +58,8 @@ def teacher_can_see_suivi(server, the_student):
 def display_referent(server):
     ref = referent.referent(server.year, server.semester, server.suivi_login)
     if ref:
-        return list(inscrits.L_fast.firstname_and_surname_and_mail(ref))+[0,ref]
-    return [0, 0, 0, referent.need_a_referent(server.suivi_login), ref]
+        return list(inscrits.L_fast.firstname_and_surname_and_mail(ref))+[ref,0]
+    return [0, 0, 0, ref, referent.need_a_referent(server.suivi_login)]
 
 def display_copyright(server):
     return configuration.version
@@ -221,9 +221,18 @@ def json(server, table, line, line_id):
         if value == '' or value == 0 or value == () or value == []:
             continue
         table_attrs[attr.name] = value
-    table_attrs['masters'] = [
-        inscrits.L_fast.firstname_and_surname_and_mail(login)
-        for login in table.masters]
+        masters = []
+    for login in table.masters:
+        m = list(inscrits.L_fast.firstname_and_surname_and_mail(login))
+        if configuration.show_teacher_pictures:
+            if login in teacher_with_picture:
+                m.append(login)
+            else:
+                if os.path.exists(os.path.join("PICTURES", login+'.JPG')):
+                    teacher_with_picture.add(login)
+                    m.append(login)
+        masters.append(m)
+    table_attrs['masters'] = masters
     table_attrs['ue'] = table.ue
     table_attrs['year'] = table.year
     table_attrs['semester'] = table.semester
@@ -238,6 +247,8 @@ def json(server, table, line, line_id):
     table_attrs['rounding'] = table.rounding
     return table_attrs
 
+teacher_with_picture = set()
+
 def display_grades(server):
     ss = []
     s = []
@@ -249,6 +260,7 @@ def display_grades(server):
             if ss[-1]:
                 # A line has been displayed
                 codes[t.ue_code] = True
+
     if (configuration.suivi_display_more_ue
         and (server.year, server.semester) == configuration.year_semester
         and (not server.is_a_student or configuration.suivi_check_student_lists(server.suivi_login))

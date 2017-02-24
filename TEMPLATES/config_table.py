@@ -111,6 +111,7 @@ variable_list = [
     "special_days",
     "allowed_grades",
     "allow_picture_upload",
+    "show_teacher_pictures",
     ]
 
 deprecated = set(('root', 'invited_teachers', 'invited_administratives',

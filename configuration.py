@@ -439,6 +439,9 @@ allowed_grades = {}
 # Allow users to upload their face picture.
 allow_picture_upload = False
 
+# Display teacher faces on the suivi page.
+show_teacher_pictures = False
+
 ###############################################################################
 # The following variables should be fine for testing purpose (local server)
 ###############################################################################

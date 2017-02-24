@@ -239,8 +239,12 @@ DisplayBilan.need_node = ['Login'] ;
 
 function displaynames(data)
 {
-  return '<a href="mailto:' + data[2] + '">'
+  var mail = '<a href="mailto:' + data[2] + '">'
     + title_case(data[0]) + ' ' + data[1] + '</a>' ;
+  if ( data[3] !== undefined )
+    mail = '<img src="' + url + '/=' + ticket + '/picture-icon/' + data[3]
+      + '.JPG">' + mail ;
+  return mail ;
 }
 
 function DisplayNames(node)
@@ -250,7 +254,7 @@ function DisplayNames(node)
 
 function DisplayReferent(node)
 {
-  switch(node.data[3])
+  switch(node.data[4])
     {
     case false:
       return hidden_txt(_('MSG_suivi_student_no_referent'),
@@ -267,7 +271,7 @@ function DisplayReferent(node)
 function DisplayMails(node)
 {
   var ref ;
-  if ( display_data['Referent'][3] !== undefined )
+  if ( display_data['Referent'][4] !== undefined )
     ref = ',' + _("MSG_suivi_student_referent") + '<'
       + display_data['Referent'][2] + '>' ;
   else
@@ -1226,7 +1230,7 @@ function DisplayGetStudent(node)
 {
   if ( ! is_a_teacher )
     return '' ;
-  if ( display_data['Referent'][4] == username )
+  if ( display_data['Referent'][3] == username )
     return '' ; // I am yet its referent
 
   return hidden_txt('<img onclick="catch_this_student('
