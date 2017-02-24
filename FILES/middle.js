@@ -1204,11 +1204,13 @@ function new_new_interface()
   t.push(table_input_attr('bookmark',
 			  [[0,_("SELECT_table_bookmark_false")],
 			   [1,_("SELECT_table_bookmark_true")]])) ;
-  t.push('</div>') ;
-  t.push('<div class="one_line">') ;
   t.push(table_input_attr('hide_empty',
 			  [[0, _("SELECT_table_hide_empty_false")],
 			   [1, _("SELECT_table_hide_empty_true")]])) ;
+  t.push('</div>') ;
+  t.push('<div class="one_line">') ;
+  if ( table_attr.code === "" )
+    t.push(_("BEFORE_table_title") + table_input_attr('table_title')) ;
   t.push('</div>') ;
   t.push('<div class="one_line">') ;
   t.push(table_input_attr('rounding',

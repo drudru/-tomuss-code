@@ -26,4 +26,4 @@ class TableBookmark(tablemodifiable.TableModifiable):
     default_value = 1
     formatter = "table_bookmark"
     gui_display = "GUI_select"
-    css = "#menutop #t_table_attr_bookmark { width: 100% }"
+    css = "#menutop #t_table_attr_bookmark { width: 49% }"

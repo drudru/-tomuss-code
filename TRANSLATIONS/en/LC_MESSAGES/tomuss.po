@@ -544,7 +544,7 @@ msgstr ""
 
 #. Attribute Tip
 msgid "TIP_table_attr_table_title"
-msgstr ""
+msgstr "Table title displayed to the students."
 
 #. Attribute Tip
 msgid "TIP_table_attr_modifiable"
@@ -1149,6 +1149,10 @@ msgstr "This table is:"
 #. Label before the attribute
 msgid "BEFORE_table_official_ue"
 msgstr "Student display: "
+
+#. Label before the attribute
+msgid "BEFORE_table_title"
+msgstr "UE title: "
 
 #. Label before the attribute
 msgid "BEFORE_table_dates"
