@@ -68,7 +68,7 @@ def invitation(server):
     for nb, recipient in enumerate(recipients):
         link = "{}/{}/{}/{}/{}/{}".format(
             server.the_year, server.the_semester, server.the_ue,
-            recipient, invitation_type, int(time.time()) + int(days)*86400)
+            recipient, invitation_type, int(time.time()) + float(days)*86400)
         link = (configuration.server_url + "/invitation_accept/"
                 + link + '/' + checksum(link))
 

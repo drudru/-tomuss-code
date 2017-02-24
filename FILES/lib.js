@@ -5041,6 +5041,12 @@ function runlog(the_columns, the_lines)
 
   document.getElementById("linefilter").focus() ;
   column_get_option_running = false ;
+
+  if ( table_attr.code === '' && table_attr.modifiable !== 0
+       && i_am_the_teacher && nr_not_empty_lines === 0
+       && millisec() - get_date_tomuss(table_creation_date).getTime() < 86400000
+       )
+    send_invitation() ;
 }
 
 

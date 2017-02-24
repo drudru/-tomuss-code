@@ -45,9 +45,9 @@ function send_invitation()
 	       + ' ' + _("ALERT_columnvisibility_date_far_futur2")
 	       + ' <select id="invitation_type" style="font-size:140%">'
 	       + '<option value="sharable" default>'
-	       + _("invitation_sharable") + "</option>"
+	       + _("MSG_invitation_sharable") + "</option>"
 	       + '<option value="one_shot" default>'
-	       + _("invitation_one_shot") + "</option>"
+	       + _("MSG_invitation_one_shot") + "</option>"
 	       + "</select>"
 	       , _("MSG_invitation_message_default")
 	      ) ;
