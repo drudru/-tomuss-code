@@ -21,9 +21,10 @@
 
 from .. import plugin
 from .. import document
-from . import tabletabletitle
+from ..column import TableAttr
 
-class TableDelete(tabletabletitle.TableTableTitle):
+class TableDelete(TableAttr):
+    default_value = 1
     name = 'table_delete'
     action = 'table_delete'
     gui_display = "GUI_a"
