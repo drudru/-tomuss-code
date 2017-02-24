@@ -442,6 +442,9 @@ allow_picture_upload = False
 # Display teacher faces on the suivi page.
 show_teacher_pictures = False
 
+# Allow teachers to upload their face picture.
+allow_teacher_picture_upload = False
+
 ###############################################################################
 # The following variables should be fine for testing purpose (local server)
 ###############################################################################

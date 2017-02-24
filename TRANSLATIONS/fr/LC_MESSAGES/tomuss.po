@@ -4803,6 +4803,9 @@ msgstr "Autorise les utilisateurs à charger leur photo d'identité (True/False)
 msgid "config_table_show_teacher_pictures"
 msgstr "Suivi: Affiche les photos des enseignants (True/False)"
 
+msgid "config_table_allow_teacher_picture_upload"
+msgstr "Autorise les enseignants à changer leur photo d'identité"
+
 msgid "MSG_picture_upload"
 msgstr "Changer votre photo"
 
@@ -4810,7 +4813,13 @@ msgid "TIP_picture_upload"
 msgstr "Elle sera visible par tout le monde"
 
 msgid "MSG_picture_upload_choose"
-msgstr "Choisissez le fichier contenant votre photo d'identité"
+msgstr "Choisissez le fichier contenant la photo d'identité de"
+
+msgid "LINK_my_picture_upload"
+msgstr "Changer votre photo"
+
+msgid "HELP_my_picture_upload"
+msgstr "Votre photo sera alors affichée aux étudiants dans leur suivi"
 
 msgid "COL_TITLE_orientation"
 msgstr "Orientation"

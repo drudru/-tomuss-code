@@ -150,14 +150,24 @@ plugin.Plugin('my_picture_icon', '/picture-icon/{?}',
 
 # Picture uploading
 
+def uploadable(server):
+    return has_pil and (configuration.allow_picture_upload
+                        or (configuration.allow_teacher_picture_upload
+                            and server.teacher_as_a_student))
+
 from .. import display
 display.Display("PictureUpload", "LinksTable", 20,
-                lambda x: has_pil and configuration.allow_picture_upload)
+                lambda server: (server.is_a_student
+                                or (server.the_path[0].startswith(' ')
+                                    and configuration.allow_picture_upload)
+                ) and uploadable(server))
 
 from .. import files
 files.files["display.js"].append("picture.py", """
 function DisplayPictureUpload(node)
 {
+  if ( ! node.data )
+    return ;
   return hidden_txt(
        '<a href="javascript:picture_upload()">' + _("MSG_picture_upload")
         + '</a>',_("TIP_picture_upload")) ;
@@ -176,7 +186,7 @@ function picture_upload()
 """)
 
 def my_picture_upload(server):
-    if not configuration.allow_picture_upload:
+    if not uploadable(server):
         return
     posted_data = server.get_posted_data(size=10000000)
     image = posted_data['datafile'][0]
@@ -200,7 +210,11 @@ def my_picture_upload(server):
 plugin.Plugin('my_picture_upload', '/my_picture_upload',
               function=my_picture_upload,
               launch_thread = True,
-              priority = -10 # Before student_redirection
+              priority = -10, # Before student_redirection
+              link=plugin.Link(html_class="verysafe",
+                               where="root_rw",
+                               url="javascript:picture_upload()"
+                               ),
              )
 
 
