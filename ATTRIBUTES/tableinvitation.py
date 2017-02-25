@@ -68,7 +68,7 @@ def invitation(server):
     for nb, recipient in enumerate(recipients):
         link = "{}/{}/{}/{}/{}/{}".format(
             server.the_year, server.the_semester, server.the_ue,
-            recipient, invitation_type, int(time.time()) + float(days)*86400)
+            recipient, invitation_type, int(time.time() + float(days)*86400))
         link = (configuration.server_url + "/invitation_accept/"
                 + link + '/' + checksum(link))
 
@@ -133,9 +133,12 @@ def invitation_accept(server):
     finally:
         table.unlock()
         
-    server.the_file.write(server._("MSG_invitation_accepted"))
+    server.the_file.write(
+        server._("MSG_invitation_accepted")
+        + '<p><a href="{}">{}</a>'.format(
+            configuration.suivi.url(ticket=server.ticket.ticket),
+            server._("MSG_home_title")))
     
-
 plugin.Plugin('invitation_accept', '/invitation_accept/{*}',
               function=invitation_accept, unsafe=False,
               priority = -10 # Before student_redirection
