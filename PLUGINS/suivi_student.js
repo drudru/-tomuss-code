@@ -191,27 +191,40 @@ function DisplayRightClip(node)
 }
 DisplayRightClip.need_node = [] ;
 
-function load_full_size_picture(login)
+function load_full_size_picture(event, login)
 {
+  var imgs = [] ;
+
   var tip = get_tip_element() ;
-  imgs = tip.getElementsByTagName('IMG') ;
+  var yet = tip.getElementsByTagName('IMG') ;
+  for(var i in yet)
+    imgs['X' + i] = yet[i] ;
+
+  var e = the_event(event).target ;
+  while ( e.className != 'tipped' )
+    e = e.parentNode ;
+  var yet = e.getElementsByTagName('IMG') ;
+  for(var i in yet)
+    imgs['Y' + i] = yet[i] ;
+
   for(var i in imgs)
-    if ( imgs[i].className == 'big' && imgs[i].src === '')
-      {
-	imgs[i].src = student_picture_url(login) ;
-	break ;
-      }
+    if ( imgs[i].className == 'big' )
+      imgs[i].src = student_picture_url(login) ;
+}
+
+function DisplayPicture_(login)
+{
+  return hidden_txt('<img class="small" alt="' + _('ALT_photo_ID') + '" src="'
+		    + student_picture_icon_url(login)
+		    + '" style="vertical-align:top">',
+		    '<img class="big" alt="'
+		     + _('ALT_photo_ID') + '">', undefined, undefined,
+		    "load_full_size_picture(event," + js2(login) + ")") ;
 }
 
 function DisplayPicture(node)
 {
-  return hidden_txt('<img class="small" alt="'
-		    + _('ALT_photo_ID') + '" src="'
-		    + student_picture_icon_url(display_data['Login']) + '">',
-		    '<img class="big" alt="'
-		     + _('ALT_photo_ID') + '">', undefined, undefined,
-		    "load_full_size_picture("
-		    + js2(display_data['Login']) + ")") ;
+  return DisplayPicture_(display_data['Login']) ;
 }
 DisplayPicture.need_node = ['Login'] ;
 
@@ -242,8 +255,7 @@ function displaynames(data)
   var mail = '<a href="mailto:' + data[2] + '">'
     + title_case(data[0]) + ' ' + data[1] + '</a>' ;
   if ( data[3] !== undefined )
-    mail = '<img src="' + url + '/=' + ticket + '/picture-icon/' + data[3]
-      + '.JPG">' + mail ;
+    mail = DisplayPicture_(data[3]) + mail ;
   return mail ;
 }
 
