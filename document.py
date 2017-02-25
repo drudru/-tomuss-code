@@ -235,12 +235,17 @@ def translations_init(language):
             + '\n'.join(languages) + '\n')
 
 
-@utilities.add_a_cache0
-def all_the_semesters():
-    return js(configuration.special_semesters + ''.join(
-        '<option>%s/%s</option>' % (year, semester)
-        for dummy_url, dummy_port, year, semester, dummy_host in
-        configuration.suivi.urls_sorted()))
+@utilities.add_a_cache
+def all_the_semesters(code):
+    s = [configuration.special_semesters]
+    for dummy_url, dummy_port, year, semester, dummy_host in \
+        configuration.suivi.urls_sorted():
+        if os.path.exists(os.path.join(configuration.db,
+                                       'Y' + str(year),
+                                       'S' + str(semester),
+                                       code + '.py')):
+            s.append('<option>%s/%s</option>' % (year, semester))
+    return js(''.join(s))
 
 def table_head(year=None, semester=None, the_ticket=None,
                user_name='', page_id=-1, ue='',
@@ -284,7 +289,8 @@ def table_head(year=None, semester=None, the_ticket=None,
             'upload_max = %d ;\n' % configuration.upload_max +
             'max_visibility_date = %d ;\n' % configuration.max_visibility_date +
             'gui_record = %d ;\n' % int(configuration.gui_record) +
-            'all_the_semesters = %s ;\n' % all_the_semesters() +
+            'all_the_semesters = %s ;\n' % all_the_semesters(
+                table.ue if table else '') +
             'check_down_connections_interval = %d ;\n' % configuration.check_down_connections_interval +
             "authenticate_iframe = %s ;\n" % int(configuration.authenticate_iframe) +
             "table_headers = %s;\n" % js(table.template.headers
