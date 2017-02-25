@@ -151,9 +151,10 @@ plugin.Plugin('my_picture_icon', '/picture-icon/{?}',
 # Picture uploading
 
 def uploadable(server):
-    return has_pil and (configuration.allow_picture_upload
-                        or (configuration.allow_teacher_picture_upload
-                            and getattr(server, 'teacher_as_a_student', True)))
+    return not configuration.regtest and has_pil and (
+        configuration.allow_picture_upload
+        or (configuration.allow_teacher_picture_upload
+            and getattr(server, 'teacher_as_a_student', True)))
 
 from .. import display
 display.Display("PictureUpload", "LinksTable", 20,
