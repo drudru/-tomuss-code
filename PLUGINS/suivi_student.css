@@ -22,7 +22,7 @@ BODY {
 .Top, .User, .Body, .Grades, .Private, .Preamble, .Message, .Messages, .UEHeader {
     width: 100% ; }
 .TopLine { font-size: 200% ; }
-.Picture IMG.small { height: 1.5em ;}
+DIV.tipped DIV.text IMG.small { height: 1.5em ;}
 .User * { vertical-align: middle }
 .YearSemester { text-align: center }
 .IdentityR { float: right ; }
