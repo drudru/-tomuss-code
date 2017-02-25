@@ -184,6 +184,7 @@ BODY.big_text_1 { font-size: 150% }
 }
 
 .hidden_to_student { background: #FFA500 ; color: black }
+.modifiable_by_student { background: #FFCCCC ; color: black }
 
 /********** not grade Cells are transparent for teachers  *************/
 

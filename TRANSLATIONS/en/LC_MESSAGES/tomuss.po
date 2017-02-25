@@ -919,7 +919,11 @@ msgstr "<span class=\"ro\">The text is grey if the cell\n"
        "<span class=\"tt\">Blue background if the student\n"
        "has special examination conditions.</span><br>\n"
        "<span class=\"filtered\">Yellow background if the\n"
-       "cell is selected by a filter</span>"
+       "cell is selected by a filter.</span>\n"
+       "<span class=\"hidden_to_student\">Column hidden to students.\n"
+       "</span>\n"
+       "<span class=\"modifiable_by_student\">Column content modifiable\n"
+       "by the student.</span>"
 
 #. Tip cell attribute
 msgid "TIP_square"

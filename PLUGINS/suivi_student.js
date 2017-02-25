@@ -677,7 +677,12 @@ DisplayCellFormula.need_node = [] ;
 function DisplayCellTitle(node)
 {
   var title = html(DisplayGrades.column.title.replace(/_/g, ' ')) ;
-  if ( ! DisplayGrades.column.is_visible() )
+  if ( DisplayGrades.column.is_visible() )
+    {
+      if ( is_a_teacher && DisplayGrades.column.modifiable == 2 )
+	title = '<span class="modifiable_by_student">' + title + '</span>' ;
+    }
+  else
     title = '<span class="hidden_to_student">' + title + '</span>' ;
   return title ;
 }

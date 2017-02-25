@@ -1720,7 +1720,12 @@ function table_header_fill_real()
 	className = 'ro' ;
       else
 	className = '' ;
-      if ( ! column.is_visible() )
+      if ( column.is_visible() )
+	{
+	  if ( column.modifiable == 2 )
+	    className += ' modifiable_by_student' ;
+	}
+      else
 	className += ' hidden_to_student' ;
 
       var td_title = tr_title.childNodes[col] ;

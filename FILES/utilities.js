@@ -2541,15 +2541,15 @@ function display_short_cuts()
       var key = shortcut[1][0] ;
       switch(key)
 	{
-        case   9: key = '⇥'  ; break ;
+        case   9: key = '⭾'  ; break ;
         case  27: key = 'Esc'; break ;
-        case  13: key = '⏎'  ; break ;
-        case  33: key = '⎗'  ; break ;
-        case  34: key = '⎘'  ; break ;
-        case  37: key = '←' ; break ;
-        case  38: key = '↑'  ; break ;
-        case  39: key = '→' ; break ;
-        case  40: key = '↓'  ; break ;
+        case  13: key = '⮠'  ; break ;
+        case  33: key = '⭻'  ; break ;
+        case  34: key = '⭽'  ; break ;
+        case  37: key = '⭠' ; break ;
+        case  38: key = '⭡'  ; break ;
+        case  39: key = '⭢' ; break ;
+        case  40: key = '⭣'  ; break ;
         case 113: key = 'F2' ; break ;
 	}
       t.push([_('SHORTCUT_' + shortcut[2]),

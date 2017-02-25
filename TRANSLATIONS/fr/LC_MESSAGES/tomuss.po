@@ -913,7 +913,11 @@ msgstr "<span class=\"ro\">Le texte est gris si la cellule\n"
        "<span class=\"tt\">Le fond est bleu si l'étudiant\n"
        "a un aménagement des examens.</span><br>\n"
        "<span class=\"filtered\">Le fond est jaune si la\n"
-       "cellule est sélectionnée par un filtre</span>"
+       "cellule est sélectionnée par un filtre.</span>\n"
+       "<span class=\"hidden_to_student\">La colonne est cachée\n"
+       "aux étudiants.</span>\n"
+       "<span class=\"modifiable_by_student\">Le contenu de la colonne\n"
+       "est modifiable par l'étudiant.</span>"
 
 #. Tip cell attribute
 msgid "TIP_square"
