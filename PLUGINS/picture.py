@@ -154,7 +154,7 @@ def uploadable(server):
     return not configuration.regtest and has_pil and (
         configuration.allow_picture_upload
         or (configuration.allow_teacher_picture_upload
-            and getattr(server, 'teacher_as_a_student', True)))
+            and getattr(server, 'teacher_as_a_student', False)))
 
 from .. import display
 display.Display("PictureUpload", "LinksTable", 20,
