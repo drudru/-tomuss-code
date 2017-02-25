@@ -4815,6 +4815,12 @@ msgstr "Elle sera visible par tout le monde"
 msgid "MSG_picture_upload_choose"
 msgstr "Choisissez le fichier contenant la photo d'identité de"
 
+msgid "MSG_picture_upload_icon"
+msgstr "Taille affichée par défaut :"
+
+msgid "MSG_picture_upload_large"
+msgstr "Taille maximum affichée :"
+
 msgid "LINK_my_picture_upload"
 msgstr "Changer votre photo"
 

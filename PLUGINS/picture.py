@@ -179,6 +179,7 @@ function picture_upload()
                 + '<p>' + _("TIP_picture_upload")
                 + '<form action="' + url + '/=' + ticket + '/my_picture_upload"'
                 + ' onchange="this.submit()"'
+                + ' target="_blank"'
                 + ' enctype="multipart/form-data" method="post">'
                 + '<input type="file" name="datafile" size="40"></form>',
                 '', false) ;
@@ -187,6 +188,12 @@ function picture_upload()
 
 def my_picture_upload(server):
     if not uploadable(server):
+        server.the_file.write(
+            server._("config_table_allow_picture_upload")
+            + ' : ' + str(configuration.allow_picture_upload)
+            + '<p>' + server._("config_table_allow_teacher_picture_upload")
+            + ' : ' + str(configuration.allow_teacher_picture_upload)
+        )
         return
     posted_data = server.get_posted_data(size=10000000)
     image = posted_data['datafile'][0]
@@ -202,9 +209,12 @@ def my_picture_upload(server):
     j.save(os.path.join('PICTURES', student_id + '.JPG'))
 
     url = configuration.server_url + '/=' + server.ticket.ticket + '/picture'
-    server.the_file.write('<img src="{}.JPG"><p><img src="{}.JPG">'.format(
-        url + '-icon/' + server.ticket.user_name,
-        url + '/' + server.ticket.user_name,
+    server.the_file.write(
+        '{}<p><img src="{}.JPG"><p>{}<p><img src="{}.JPG">'.format(
+            server._("MSG_picture_upload_icon"),
+            url + '-icon/' + server.ticket.user_name,
+            server._("MSG_picture_upload_large"),
+            url + '/' + server.ticket.user_name,
         ))
 
 plugin.Plugin('my_picture_upload', '/my_picture_upload',
