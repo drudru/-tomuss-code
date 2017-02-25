@@ -77,7 +77,7 @@ def load_picture_(student_id, extension, icon=''):
         if has_pil:
             i = PIL.Image.open(full_name)
             i = i.resize(find_size(i, configuration.icon_picture_width))
-            j.save(name)
+            i.save(name)
             return name
         return full_name
     if os.path.exists(full_size):
@@ -123,7 +123,7 @@ plugin.Plugin('picture_icon', '/picture-icon/{?}',
 
 def my_picture(server, icon=''):
     """Display the connected user picture"""
-    if configuration.is_a_student_login(server.something):
+    if configuration.is_a_student(server.something):
         server.something = (inscrits.login_to_student_id(
             server.ticket.user_name) + configuration.picture_extension)
     picture(server, icon)
