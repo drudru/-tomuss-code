@@ -1290,12 +1290,14 @@ class Table(object):
     
     def authors(self):
         """List of all the logins that have modified a cell value"""
-        a = {}
+        a = set()
         for v in self.lines.values():
             for cell in v:
                 if cell.author not in ('', data.ro_user, data.no_user):
-                    a[cell.author] = True
-        return tuple(a)
+                    a.add(cell.author)
+        a.update(self.masters)
+        a.update(self.teachers)
+        return a
 
     def update_columns(self, columns, ro_page=None):
         """Update the default columns of the table.
@@ -1873,7 +1875,8 @@ def check_new_students_real():
                     utilities.send_backtrace('', 'Student list %s' % t)
 
                 warn('done %s' % t.ue, what="table")
-                mails = inscrits.L_batch.mails(tuple(t.logins()) + t.authors())
+                mails = inscrits.L_batch.mails(
+                    tuple(set(t.logins()) | t.authors()))
                 mails.update(t.mails)
                 t.change_mails(mails)
                 if t.modifiable:

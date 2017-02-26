@@ -67,6 +67,13 @@ function authors_mails(missing)
 	    }
 	}      
     }
+  if ( add_masters_mails )
+  {
+    for(var i in table_attr.masters)
+      a[table_attr.masters[i]] = table_attr.masters[i] ;
+    for(var i in table_attr.teachers)
+      a[table_attr.teachers[i]] = table_attr.teachers[i] ;
+  }
   var s = '' ;
   for(var i in a)
     {
@@ -81,6 +88,7 @@ function authors_mails(missing)
 }
 
 var mail_separator = '\n' ;
+var add_masters_mails = false ;
 
 function mail_div_box(mails)
 {
