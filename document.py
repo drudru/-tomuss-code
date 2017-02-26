@@ -28,6 +28,7 @@ import re
 import collections
 import html
 import inspect
+import glob
 from . import utilities
 from . import configuration
 from . import column
@@ -234,17 +235,32 @@ def translations_init(language):
             % js(language)
             + '\n'.join(languages) + '\n')
 
+@utilities.add_a_cache0
+def the_years():
+    return sorted(int(y[-4:])
+                  for y in glob.glob(os.path.join(configuration.db, "Y2???"))
+    )
 
 @utilities.add_a_cache
-def all_the_semesters(code):
-    s = [configuration.special_semesters]
-    for dummy_url, dummy_port, year, semester, dummy_host in \
-        configuration.suivi.urls_sorted():
-        if os.path.exists(os.path.join(configuration.db,
-                                       'Y' + str(year),
-                                       'S' + str(semester),
-                                       code + '.py')):
-            s.append('<option>%s/%s</option>' % (year, semester))
+def all_the_semesters(code_semester):
+    code, table_semester = code_semester
+    if table_semester not in configuration.semesters:
+        s = []
+        for year in the_years():
+            if os.path.exists(os.path.join(configuration.db,
+                                           'Y' + str(year),
+                                           'S' + str(table_semester),
+                                           code + '.py')):
+                s.append('<option>%s/%s</option>' % (year, table_semester))
+    else:
+        s = [configuration.special_semesters]
+        for dummy_url, dummy_port, year, semester, dummy_host in \
+            configuration.suivi.urls_sorted():
+            if os.path.exists(os.path.join(configuration.db,
+                                           'Y' + str(year),
+                                           'S' + str(semester),
+                                           code + '.py')):
+                s.append('<option>%s/%s</option>' % (year, semester))
     return js(''.join(s))
 
 def table_head(year=None, semester=None, the_ticket=None,
@@ -290,7 +306,7 @@ def table_head(year=None, semester=None, the_ticket=None,
             'max_visibility_date = %d ;\n' % configuration.max_visibility_date +
             'gui_record = %d ;\n' % int(configuration.gui_record) +
             'all_the_semesters = %s ;\n' % all_the_semesters(
-                table.ue if table else '') +
+                (table.ue, table.semester) if table else ('', '')) +
             'check_down_connections_interval = %d ;\n' % configuration.check_down_connections_interval +
             "authenticate_iframe = %s ;\n" % int(configuration.authenticate_iframe) +
             "table_headers = %s;\n" % js(table.template.headers
@@ -1939,7 +1955,6 @@ def check_new_students():
 ue_to_delete = []
 
 def remove_bookmarks():
-    import glob
     to_delete = set()
     while ue_to_delete:
         to_delete.add(ue_to_delete.pop())
