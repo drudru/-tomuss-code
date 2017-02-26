@@ -35,15 +35,19 @@ def les_ues_files(year, semester):
 def les_ues(year, semester, true_file=False, all_files=False, ro=True):
     """true_file is for UE that link to another UE"""
     dirname, files = les_ues_files(year, semester)
-    for ue in utilities.python_files(dirname):
-        if ue == 'abjs.py':
+    for ue in files:
+        if ue in ('abjs.py', 'undefined.py'):
             continue
-        if true_file and os.path.islink(os.path.join(dirname, ue)):
+        filename = os.path.join(dirname, ue)
+        if true_file and os.path.islink(filename):
             continue
-        if ue == 'undefined.py':
-            continue
-        filename = document.table_filename(str(year), str(semester), ue[:-3])
-        mtime = os.path.getmtime(filename)
+        try:
+            mtime = os.path.getmtime(filename)
+        except FileNotFoundError:
+            if os.path.islink(filename):
+                os.unlink(filename)
+                continue
+            raise
         last_mtime, official = table_mtimes.get(filename, (0, False))
         if not official and last_mtime == mtime:
             # The not official table has not be modified
