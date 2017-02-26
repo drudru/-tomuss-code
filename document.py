@@ -1495,22 +1495,9 @@ class Table(object):
             for y, s in self.extensions:
                 indexes_to_update_append(y, s, self.ue, login, '')
 
-        def remove_bookmarks():
-            import glob
-            bookmark = (self.year, self.semester, self.ue)
-            for filename in glob.glob(os.path.join(configuration.db, 'LOGINS',
-                                                   '*', '*', 'bookmarked')):
-                login = filename.split(os.path.sep)[-2]
-                key = os.path.join(login, 'bookmarked')
-                bookmarked = eval(utilities.manage_key('LOGINS', key))
-                if bookmark in bookmarked:
-                    bookmarked.remove(bookmark)
-                    utilities.manage_key(
-                        'LOGINS', key,
-                        content = utilities.stable_repr(bookmarked))
-                    warn('Remove %s bookmark for %s' % (bookmark, login))
-            warn("Remove bookmarks done")
-        utilities.start_new_thread(remove_bookmarks, ())            
+        ue_to_delete.append((self.year, self.semester, self.ue))
+        utilities.start_job(remove_bookmarks, 60 * 5,
+                            important='update_bookmarks')
 
     def send_alert(self, text):
         self.send_update(None, '<script>alert(_("ALERT_message_for")+%s);</script>\n' %
@@ -1948,6 +1935,26 @@ def check_new_students():
 
         check_indexes_to_update()
         check_new_students_real()
+
+ue_to_delete = []
+
+def remove_bookmarks():
+    import glob
+    to_delete = set()
+    while ue_to_delete:
+        to_delete.add(ue_to_delete.pop())
+        t = time.time()
+    for filename in glob.glob(os.path.join(configuration.db, 'LOGINS',
+                                           '*', '*', 'bookmarked')):
+        login = filename.split(os.path.sep)[-2]
+        key = os.path.join(login, 'bookmarked')
+        bookmarked = set(eval(utilities.manage_key('LOGINS', key)))
+        cleaned = bookmarked - to_delete
+        if bookmarked != cleaned:
+            utilities.manage_key(
+                'LOGINS', key, content = utilities.stable_repr(list(cleaned)))
+    warn("Remove bookmarks done")
+    return t
 
 def login_list(page, name):
     # XXX Not very clean the : configuration.teachers[-1]
