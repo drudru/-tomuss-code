@@ -208,10 +208,10 @@ def stable_repr(dic):
     if isinstance(dic, dict):
         t = []
         for k in sorted(dic):
-            t.append("{}:{}".format(repr(k), repr(dic[k])))
-        return '{' + ',\n'.join(t) + '}'
+            t.append("{}:{},\n".format(repr(k), repr(dic[k])))
+        return '{\n' + ''.join(t) + '}'
     else:
-        return '[' + ',\n'.join(repr(i) for i in sorted(dic)) + ']'
+        return '[\n' + ''.join(repr(i) + ',\n' for i in sorted(dic)) + ']'
 
 def is_an_int(txt):
     try:
