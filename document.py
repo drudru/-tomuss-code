@@ -1609,6 +1609,18 @@ class Table(object):
         return retrieve_student_list(self.ue_code,
                                      self.year, self.semester, self)
 
+    def allow_modification_of_system_columns(self, line_id, data_col):
+        p = None
+        line = self.lines[line_id]
+        for i, column in enumerate(self.columns):
+            if (line[i].value != ''
+                and line[i].author == data.ro_user
+                and i != data_col):
+                if p == None:
+                    p = self.get_nobody_page()
+                self.cell_change(p, column.the_id, line_id, force_update=True)
+
+
 def get_cell_from_table_ro(server, allowed_types=None):
     """server.the_path must starts by 'col_id/lin_id'
     Return an error string or the tuple (table, column, lin_id)
