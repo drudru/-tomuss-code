@@ -4834,6 +4834,9 @@ msgstr "Changer votre photo"
 msgid "HELP_my_picture_upload"
 msgstr "Votre photo sera alors affichée aux étudiants dans leur suivi"
 
+msgid "MSG_picture_upload_send"
+msgstr "Envoyer la photo !"
+
 msgid "COL_TITLE_orientation"
 msgstr "Orientation"
 

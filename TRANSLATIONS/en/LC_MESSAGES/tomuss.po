@@ -4774,6 +4774,9 @@ msgstr "Change your ID picture"
 msgid "HELP_my_picture_upload"
 msgstr "Your picture will be displayed to student on their suivi page."
 
+msgid "MSG_picture_upload_send"
+msgstr "Send the picture!"
+
 msgid "COL_TITLE_orientation"
 msgstr "Orientation"
 

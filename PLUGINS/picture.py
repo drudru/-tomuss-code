@@ -181,10 +181,12 @@ function picture_upload()
                 _("MSG_picture_upload_choose") + ' ' + username
                 + '<p>' + _("TIP_picture_upload")
                 + '<form action="' + url + '/=' + ticket + '/my_picture_upload"'
-                + ' onchange="this.submit()"'
                 + ' target="_blank"'
                 + ' enctype="multipart/form-data" method="post">'
-                + '<input type="file" name="datafile" size="40"></form>',
+                + '<input type="file" name="datafile" size="40"><br>'
+                + '<input type="submit" value="'
+                + encode_value(_("MSG_picture_upload_send")) + '">'
+                + '</form>',
                 '', false) ;
 }
 """)
