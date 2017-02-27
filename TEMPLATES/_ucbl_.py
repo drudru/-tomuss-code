@@ -242,7 +242,9 @@ def update_student(table, page, the_ids, infos):
 def allow_modification_of_system_columns(table, line_id, line, data_col):
     p = None
     for i, column in enumerate(table.columns):
-        if line[i].value and line[i].author == data.ro_user and i != data_col:
+        if (line[i].value != ''
+            and line[i].author == data.ro_user
+            and i != data_col):
             if p == None:
                 p = table.get_nobody_page()
             table.cell_change(p, column.the_id, line_id, force_update=True)
@@ -275,7 +277,7 @@ def remove_students_from_table(table, students):
             if line_empty(line):
                 # Clear the line
                 for i, column in enumerate(table.columns):
-                    if line[i].value:
+                    if line[i].value != '':
                         table.cell_change(table.pages[0],
                                           column.the_id, line_id, '')
             else:
