@@ -150,18 +150,20 @@ plugin.Plugin('my_picture_icon', '/picture-icon/{?}',
 
 # Picture uploading
 
-def uploadable(server):
+def uploadable(server, allow_if_teacher=True):
     return not configuration.regtest and has_pil and (
         configuration.allow_picture_upload
         or (configuration.allow_teacher_picture_upload
-            and getattr(server, 'teacher_as_a_student', False)))
+            and server.ticket.is_a_teacher
+            and allow_if_teacher))
 
 from .. import display
 display.Display("PictureUpload", "LinksTable", 20,
                 lambda server: (server.is_a_student
                                 or (server.the_path[0].startswith(' ')
                                     and configuration.allow_picture_upload)
-                ) and uploadable(server))
+                ) and uploadable(server,
+                                 server.teacher_as_a_student))
 
 from .. import files
 files.files["display.js"].append("picture.py", """
