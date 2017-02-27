@@ -251,7 +251,7 @@ def tests():
 
         c = utilities.read_file('DBregtest/LOGINS/%s/%s/preferences' % (
             abj[:3], abj))
-        assert("{'debug_home':1}" == c)
+        assert("{\n'debug_home':1,\n}" == c)
 
         c = s.url('=' + abj).split('HomePreferences')[1]
         assert('"debug_home": 1' in c)
