@@ -54,14 +54,12 @@ def compute_average(data_col, line):
     nr_abi = 0
     values = []
     for data_column in column.average_columns:
-        value = line[data_column].value
         origin = columns[data_column]
         if origin.real_weight == 0:
             continue
+        value = line[data_column].get_value(origin)
         if str(value) == '': # str is here to turn arround the JavaScript cast
-            value = origin.empty_is
-            if str(value) == '':
-                return nan # Empty cell
+            return nan # Empty cell
         value = allowed_grades.get(value, [value])[0]
         if not origin.real_weight_add:
             nr_add += 1
@@ -120,11 +118,11 @@ def compute_average(data_col, line):
             note = sumw / weight
             for data_column in column.average_columns:
                 if ((column.abj_is & 1)
-                    and line[data_column].value in (abj, abj_short)):
+                    and line[data_column].get_value(columns[data_column]) in (abj, abj_short)):
                     values.append([note, data_column, ''])
                     nr_abj = 0
                 if ((column.abj_is & 2)
-                    and line[data_column].value in (ppn, ppn_short)):
+                    and line[data_column].get_value(columns[data_column]) in (ppn, ppn_short)):
                     values.append([note, data_column, ''])
                     nr_ppn = 0
         else:

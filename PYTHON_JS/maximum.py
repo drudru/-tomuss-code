@@ -27,10 +27,8 @@ def compute_max_real(data_col, line):
     the_max = -1e10
     nr_abi = 0
     for data_column in column.average_columns:
-        val = line[data_column].value
         col =  columns[data_column]
-        if str(val) == '':
-            val = col.empty_is
+        val = line[data_column].get_value(col)
         if str(val) == '':
             return nan
         value = to_float_or_nan(val)

@@ -1512,6 +1512,13 @@ Cell.prototype.get_author = function()
   return get_author(this.author) ;
 } ;
 
+Cell.prototype.get_value = function(column)
+{
+  if ( this.value === '' )
+    return column.empty_is ;
+  return this.value ;
+}
+
 // Allow to sort correctly and intuitivly mixed data types
 Cell.prototype.key = function(empty_is)
 {

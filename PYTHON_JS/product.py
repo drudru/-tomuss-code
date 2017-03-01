@@ -32,14 +32,12 @@ def compute_product(data_col, line):
     nr_abi = 0
     product = 1
     for data_column in column.average_columns:
-        value = line[data_column].value
         origin = columns[data_column]
         if str(origin.real_weight) != "1":
             return _('ERROR_all_weight_equals_to_1')
-        if str(value) == '': # str is here to turn arround the JavaScript cast
-            value = origin.empty_is
-            if str(value) == '':
-                return nan # Empty cell
+        value = line[data_column].get_value(origin)
+        if str(value) == '': # str() to turn around JS cast
+            return nan # Empty cell
         if value in (abj, abj_short):
             nr_abj += 1
         elif value in (ppn, ppn_short):

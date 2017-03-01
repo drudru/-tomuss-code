@@ -77,6 +77,9 @@ class CellEmpty(CellVirtual):
     def previous_value(self):
         return ''
 
+    def get_value(self, column):
+        return column.empty_is
+
 cellempty = CellEmpty()
 
 class CellValue(CellVirtual):
@@ -147,6 +150,10 @@ class CellValue(CellVirtual):
         else:
             return 0
 
+    def get_value(self, column):
+        if self.value == '':
+            return column.empty_is
+        return self.value
 
 
 class Cell(CellValue):

@@ -77,6 +77,10 @@ class Cell:
     def set_value(self, x):
         self.value = x
         return self
+    def get_value(self, col):
+        if str(self.value) == '':
+            return col.empty_is
+        return self.value
     def __repr__(self):
         return repr(self.value)
 

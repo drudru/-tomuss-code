@@ -38,10 +38,8 @@ def compute_diff_date(data_col, line):
 
     values = []
     for dc in column.average_columns:
-        value = line[dc].value
         col = columns[dc]
-        if str(value) == '':
-            value = col.empty_is
+        value = line[dc].get_value(col)
         values.append(date_to_seconds(user_date_to_date(value)))
 
     try:

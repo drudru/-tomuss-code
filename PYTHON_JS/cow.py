@@ -32,8 +32,4 @@ def compute_cow(data_col, line):
         return line[data_col].value
 
     c = column.average_columns[0]
-    value = line[c].value ;
-    if str(value) == '':
-        value = columns[c].empty_is
-
-    return value
+    return line[c].get_value(columns[c])
