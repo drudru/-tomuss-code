@@ -163,7 +163,7 @@ display.Display("PictureUpload", "LinksTable", 20,
                                 or (server.the_path[0].startswith(' ')
                                     and configuration.allow_picture_upload)
                 ) and uploadable(server,
-                                 server.teacher_as_a_student))
+                                 getattr(server, 'teacher_as_a_student', 0)))
 
 from .. import files
 files.files["display.js"].append("picture.py", """
