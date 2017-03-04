@@ -27,14 +27,26 @@ function set_type(value, column, xcolumn_attr)
   if ( column.real_type
        && column.real_type.cell_compute !== undefined
        && checked.cell_compute === undefined
-       && the_current_cell.line[column.data_col]._save !== undefined
        )
-	{
-	  // Restore uncomputed values. XXX some may missing if never in client
-	  for(var line in lines)
-	    lines[line][column.data_col].restore() ;
-	  table_fill(false, false, true) ;
-	}
+  {
+    if ( the_current_cell.line[column.data_col]._save !== undefined )
+    {
+      // Restore uncomputed values. XXX some may missing if never in client
+      for(var line in lines)
+	lines[line][column.data_col].restore() ;
+    }
+    else
+    {
+      // Make values user modifiable
+      for(var line in lines)
+      {
+	var cell = lines[line][column.data_col] ;
+	if ( cell.author.length <= 1 )
+	  cell.set_value('') ;
+      }
+    }
+    table_fill(false, false, true) ;
+  }
   if ( column.real_type
        && column.real_type.cell_compute === undefined
        && checked.cell_compute !== undefined )
@@ -68,7 +80,7 @@ function popup_type_choice(t)
 					    '<small><small>$1</small></small>')
 		     + '</a>',
 		     _('H_' + type)) ;
-  if ( type === 'Note' || type === 'Prst' || type == 'Moy' )
+  if ( type === 'Note' || type === 'Prst' || type === 'Moy' )
     e = '<b>' + e + '</b>' ;
   return e ;
 }
