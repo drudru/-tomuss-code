@@ -202,6 +202,12 @@ msgstr "Peut amener un PC(ID)"
 msgid "H_Can_Bring_A_Pc"
 msgstr "Si nécessaire l'étudiant peut amener un ordinateur. Il indique cette information dans les préférences de sa page de suivi TOMUSS"
 
+msgid "B_If_Else"
+msgstr "If filtre: c1 else c2"
+
+msgid "H_If_Else"
+msgstr "Si le filtre retourne vrai, alors on prend la valeur de la première colonne, sinon on prend celle de la deuxième"
+
 #. Attribute Tip
 msgid "TIP_column_attr_comment"
 msgstr "<b>Commentaire pour cette colonne.</b><br>\n"
@@ -5912,6 +5918,12 @@ msgstr "Indiquez maintenant les titres des colonnes contenant les valeurs "
        "\n"
        "Ce que vous voulez compter est indiqué dans le filtre "
        "qui est à droite du type de la colonne."
+
+msgid "ALERT_change_to_If_Else"
+msgstr "Indiquez maintenant le filtre représentant le test\n"
+       "(par exemple «[Note1]>[Note2]»)  à droite du type de la colonne.\n"
+       "Et les noms des 2 colonnes qui donnent le résultat.\n"
+       "Si l'on veut un maximum : «Note1 Note2»"
 
 msgid "ALERT_change_to_COW"
 msgstr "Indiquez maintenant le titre de la colonne que vous voulez recopier "

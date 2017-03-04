@@ -551,6 +551,23 @@
       <li> Vous effacez les NaN en utilisant la fonctionnalité de
 	<a href="#remplir">remplissage de colonne</a>.
     </ul>
+    <p>
+      Si vous tenez à avoir une note finale ne distinguant pas les 2 sessions,
+      le plus simple est de créer cette formule :
+      <ul>
+	<li> «Note UE» (Moyenne de «TP», «TD», «Examen»)
+	  <ul>
+	    <li> «TP» (Note)
+	    <li> «TD» (Note)
+	    <li> «Examen» (de type «If filtre: c1 else c2» avec comme filtre «[Session2]=»
+	      afin de retourner la note de session1 seulement si l'étudiant
+	      n'est pas venu en session2)
+	      <ul>
+		<li> «Session1» (Note)
+		<li> «Session2» (Note)
+	      </ul>
+	  </ul>
+      </ul>
     </div>
 
     <div>

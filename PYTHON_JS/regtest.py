@@ -52,6 +52,7 @@ class Column:
         self.round_by        = args.get("round_by", 0)
         self.empty_is        = args.get("empty_is", "")
         self.test_filter     = args.get("test_filter", "")
+        self.test_if         = args.get("test_if", "")
         self.comment         = args.get("comment", "")
         self.computed        = args.get("computed", 0)
         self.abj_is          = args.get("abj_is", 0)
@@ -62,6 +63,8 @@ class Column:
 
     def nmbr_filter(self, line, cell):
         return Filter(self.test_filter, "", "").evaluate(line, cell)
+    def if_filter(self, line, cell):
+        return Filter(self.test_if, "", "").evaluate(line, cell)
     def is_computed(self):
         return self.computed
 

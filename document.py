@@ -569,6 +569,9 @@ class Table(object):
             column.nmbr_filter = tomuss_python.Filter(
                 column.test_filter, '', column.type.name, self.columns.columns
             ).evaluate
+            column.if_filter = tomuss_python.Filter(
+                column.test_if, '', column.type.name, self.columns.columns
+            ).evaluate
             if column.is_computed():
                 try:
                     column.average_columns = [
