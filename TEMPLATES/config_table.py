@@ -85,7 +85,6 @@ variable_list = [
     'students_check_interval',
     'maximum_out_of_date',
     'maxage',
-    'ldap_reconnect',
     "ticket_time_to_live",
     "unload_interval",
     "check_down_connections_interval",
@@ -118,7 +117,7 @@ variable_list = [
 deprecated = set(('root', 'invited_teachers', 'invited_administratives',
                   'invited_abj_masters', 'tt_masters', 'teachers',
                   'administratives', 'abj_masters',
-                  'referents'))
+                  'referents', 'ldap_reconnect'))
 
 variables = {}
 

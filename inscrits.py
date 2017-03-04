@@ -556,8 +556,8 @@ class LDAP(LDAP_Logic):
                 s = self.connection.get_response(msg_id)[0]
                 t = []
                 if s is None:
-                    self.connect() # Assume temporary network problem
                     time.sleep(1)
+                    self.connect() # Assume temporary network problem
                     nr_none_return += 1
                     if nr_none_return == 10:
                         utilities.send_backtrace(
@@ -574,6 +574,12 @@ class LDAP(LDAP_Logic):
                         (time.time() - start_time,
                          utilities.js(search + ':' + repr(attributes))))
                     return t
+            except ldap3.LDAPSocketOpenError:
+                if nr_none_return:
+                    warn('LDAPSocketOpenError', what="Error")
+                    time.sleep(1)
+                self.connect()
+                nr_none_return += 1
             except ldap3.LDAPException as e:
                 sender.send_live_status(
                     '<script>d("LDAP","/LDAP","",1,"","%s","LDAP","%s");</script>\n' %
@@ -584,12 +590,12 @@ class LDAP(LDAP_Logic):
                     ), what='error')
                 if time.time() > self.time_last_mail + 10:
                     self.time_last_mail = time.time()
-                    # utilities.send_backtrace(
-                    #     configuration.ldap_server[self.server] + '\n'
-                    #     + 'QUERY=' + search + '\n'
-                    #     + 'ATTRIBUTES=' + repr(attributes) + '\n'
-                    #     + 'BASE=' + base + '\n'
-                    #     , subject = 'LDAP Error', exception = False)
+                    utilities.send_backtrace(
+                        configuration.ldap_server[self.server] + '\n'
+                        + 'QUERY=' + search + '\n'
+                        + 'ATTRIBUTES=' + repr(attributes) + '\n'
+                        + 'BASE=' + base + '\n'
+                        , subject = 'LDAP Error', exception = False)
                 if isinstance(e, (
                         ldap3.core.exceptions.LDAPSizeLimitExceededResult,
                         ldap3.core.exceptions.LDAPNoSuchObjectResult)):
