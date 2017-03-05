@@ -23,6 +23,7 @@ clean:
 		 -o -name '*flymake*' \
                  -o -name 'xxx[!_]*' \) \
                  -exec rm {} \; 2>/dev/null
+	@find . -depth -name '__pycache__' -exec rm -r {} ';'
 	@for I in */. ;\
           do [ -f $$I/Makefile ] && ( cd $$I ; \
                                       echo "CLEAN $$I" ; \
