@@ -44,16 +44,17 @@ def create(table):
 
 def init(table):
     table.do_not_unload_add('*Variables')
+    table.variables = set()
 
 def cell_change(table, page, col, lin, value, dummy_date):
-    if page.page_id == 0:
+    if page.page_id <= 1:
         return
     line = table.lines[lin]
     if col not in '012':
         sender.append(page.browser_file,
                       '<script>Alert("ERROR_value_not_modifiable");</script>')
         raise ValueError(utilities._("ERROR_value_not_modifiable"))
-    if col != "2" or line[0].author != data.ro_user:
+    if col != "2" or line[0].value == '':
         return
     t = line[1].value
     try:
@@ -66,3 +67,5 @@ def cell_change(table, page, col, lin, value, dummy_date):
         sender.append(page.browser_file,
                       '<script>Alert("ALERT_unexpected_type");</script>')
         raise ValueError(utilities._("ALERT_unexpected_type"))
+    for v in table.variables:
+        v._clean_()

@@ -1217,10 +1217,7 @@ class Variables(object):
        * The user may only enter values of the same type.
          With the example, only integer values are allowed for 'bar'
        * The table is filled only when it is used (V.foo will do it)
-
     """
-    _initialized = False
-    
     def __init__(self, variables, group=None):
         self.__dict__['_variables'] = variables
         if group is None:
@@ -1231,18 +1228,21 @@ class Variables(object):
         # Can't create the table here: catch 22
 
     def __iter__(self):
-        return list(self._variables.keys())
+        return (key
+                for key in self.__dict__
+                if not key.startswith('_')
+                )
 
-    def items(self):
-        for k in self._variables:
-            yield k, getattr(self, k)
+    def _clean_(self):
+        for k in tuple(iter(self)):
+            self.__dict__.pop(k)
 
     def __getattr__(self, name):
         from . import document
         # '_' to remove ambiguity between 'Variables' template
         # and the table template.
         t = document.table(0, "Variables", '_' + self._group)
-        if t and t.modifiable and not self._initialized:
+        if t and t.modifiable:
             rw = t.pages[1]
             t.lock()
             try:
@@ -1255,16 +1255,13 @@ class Variables(object):
                         t.cell_change(rw, '2', k, repr(v[1]))
             finally:
                 t.unlock()
-            self.__dict__["_initialized"] = True
-            # To give information to the table template Variables
-            t.Variables = getattr(t, 'Variables', set())
-            t.Variables.update(self._variables)
-        if t is None  or   name not in t.lines:
+            t.variables.add(self)
+        for k, v in t.lines.items():
             try:
-                return self._variables[name][1]
-            except KeyError:
-                raise AttributeError(name)
-        return ast.literal_eval(t.lines[name][2].value)
+                self.__dict__[k] = ast.literal_eval(v[2].value)
+            except SyntaxError:
+                self.__dict__[k] = None
+        return self.__dict__[name]
 
     def __setattr__(self, name, value):
         raise AttributeError("Edit the Variable table to change parameters")

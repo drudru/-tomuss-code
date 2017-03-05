@@ -2133,6 +2133,38 @@ cell_change(1,'0_2','ticket_time_to_live','%d',"")
         date2 = c.split('C(9.99,"' + abj + '","')[1][:14]
         assert(date2 > date)
 
+    if do('variable'):
+        import ast
+        import re
+        from .tests_config import vars
+        for k, v in vars.items():
+            c = s.url('get_var/' + k)
+            assert(ast.literal_eval(c) == v[1])
+        c = s.url('=' + root + '/0/Variables/_variables')
+        c = re.sub('"[0-9]+"', '""', c)
+        assert( 'C("int","?",""),C("","?","")' in c)
+        assert( 'C("tuple","?",""),C("(8, 9)","?","")' in c)
+        assert( 'C("str","?",""),C("\'7\'","?","")' in c)
+        assert( 'C("list","?",""),C("[10, 11]","?","")' in c)
+        c = s.url('=' + root +
+                  '/0/Variables/_variables/2/0/cell_change/2/test_int/2017')
+        assert(c == ok_png)
+        c = s.url('get_var/test_int')
+        assert(c == "2017")
+        c = s.url('=' + root +
+                  '/0/Variables/_variables/2/1/cell_change/2/test_int/a')
+        assert(c == bug_png)
+        c = s.url('get_var/test_int')
+        assert(c == "2017")
+        c = s.url('=' + root +
+                  '/0/Variables/_variables/2/2/cell_change/2/test_list/[0,1]')
+        assert(c == ok_png)
+        c = s.url('get_var/test_list')
+        assert(c == "[0, 1]")
+        c = s.url('=' + root +
+                  '/0/Variables/_variables/2/3/cell_change/2/test_list/')
+        assert(c == bug_png)
+
 if '1' in sys.argv:
    sys.argv.remove('1')
    only_once = True

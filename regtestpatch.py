@@ -127,6 +127,9 @@ def do_patch():
         from . import authenticators
         configuration.Authenticator = authenticators.RegTest
 
+
+    from TOMUSS.REGTEST_SERVER import variables
+
     # AFTER : because it creates an LDAP connection
     configuration.terminate()
 
