@@ -30,6 +30,9 @@ import traceback
 sys.argv.append("real_regtest")
 sys.argv.append("protect_do_not_display")
 
+import tests_config
+tests_config.init(time.localtime()[0])
+
 import tomuss_init
 from .. import configuration
 from .. import utilities
@@ -737,7 +740,7 @@ def tests():
               dump=False)
 
         c = s.url('=' + root + '/9999/Test/comments')
-        assert('comment:"_COMMENT4_",' in c)
+        assert('comment:"_COMMENT4_"' in c)
         assert_col({"the_id":"col_0","type":"Note","author":root,
                    "comment":"_COMMENT_","position":6,"title":"TITLE0"}, c)
 
@@ -2136,8 +2139,7 @@ cell_change(1,'0_2','ticket_time_to_live','%d',"")
     if do('variable'):
         import ast
         import re
-        from .tests_config import vars
-        for k, v in vars.items():
+        for k, v in tests_config.vars.items():
             c = s.url('get_var/' + k)
             assert(ast.literal_eval(c) == v[1])
         c = s.url('=' + root + '/0/Variables/_variables')
@@ -2199,6 +2201,7 @@ while True:
             print(c)
         print('End of regressions tests : failure')
         traceback.print_exc(file=sys.stdout)
+        break
     except:
         traceback.print_exc(file=sys.stdout)
         break

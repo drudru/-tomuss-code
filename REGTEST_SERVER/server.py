@@ -23,10 +23,10 @@ import os
 import sys
 import subprocess
 import shutil
-import glob
 import time
 import urllib.request, urllib.error, urllib.parse
 import socket
+import tests_config
 from .. import configuration
 from .. import utilities
 
@@ -113,18 +113,7 @@ class Server(object):
     def start(self, cleaning=True, sync=True, load_local=False):
         if Server.start_time == 0:
             Server.start_time = time.time()
-        for dirname in ['DBregtest', 'BACKUP_DBregtest',
-                        '/tmp/DBregtest', '/tmp/BACKUP_DBregtest', 
-                        ] + glob.glob('TMP/TICKETS/*'):
-            print('delete:', dirname)
-            try:
-                os.unlink(dirname)
-            except OSError:
-                shutil.rmtree(dirname, ignore_errors=True)
-        for i in ('DBregtest', 'BACKUP_DBregtest'):
-            name = '/tmp/%s/Y%d/SAutomne'%(i, configuration.year_semester[0]-1)
-            utilities.mkpath_safe(name)
-            os.symlink(name, i)
+        tests_config.init(configuration.year_semester[0])
         self.restart('w', sync=sync, load_local=load_local)
 
     def log_files(self, mode):
