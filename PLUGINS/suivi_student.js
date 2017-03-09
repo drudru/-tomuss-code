@@ -566,7 +566,7 @@ function DisplayUE(node)
       s += '<div style="margin-left: 2em">' ;
       for(var i in children)
 	{
-	  DisplayGrades.ue = DisplayGrades.dict[children[i]] ;
+	  DisplayGrades.ue = DisplayUETree.dict[children[i]] ;
 	  s += display_display(display_definition['UE']) ;
 	}
       s += '</div></div>' ;
@@ -581,6 +581,20 @@ DisplayUE.need_node = [] ;
 function DisplayUETree(node)
 {
   var ues = display_data["Grades"][0] ;
+
+  DisplayUETree.dict = {} ;
+  for(var i in ues)
+    DisplayUETree.dict[ues[i].ue] = ues[i] ;
+
+  for(var i in node.data)
+    {
+      if ( DisplayUETree.dict[node.data[i]] )
+	continue ;
+      // Parent does not exists: create a fake one
+      ues.push({ue: node.data[i], table_title: ""}) ;
+      DisplayUETree.dict[node.data[i]] = ues[ues.length-1] ;
+    }
+
   ues.sort(function(a,b)
 	   { return get_ue_priority(b) < get_ue_priority(a) ? 1 : -1 ; }) ;
 
@@ -976,7 +990,7 @@ function DisplayUEGrades(node)
   DisplayUEGradesInit(ue) ;
   DisplayGrades.ue_node = node ;
 
-  var s = '' ;
+  var s = ' ' ; // Not empty in order to generate a <div>
   var ordered_columns = column_list_all() ;
   for(var data_col in ordered_columns)
     {
@@ -1018,16 +1032,13 @@ function DisplayGrades(node)
     return '<span style="background:#FF0">' + _("MSG_suivi_student_wait")
       + '</span>' ;
 
-  DisplayGrades.dict = {} ;
-  for(var i in node.data[0])
-    DisplayGrades.dict[node.data[0][i].ue] = node.data[0][i] ;
   var s = '' ;
   for(var i in node.data[0])
     {
       DisplayGrades.ue = node.data[0][i] ;
       if ( DisplayUETree.parent
 	   && DisplayUETree.parent[DisplayGrades.ue.ue] !== undefined
-	   && DisplayGrades.dict[DisplayUETree.parent[DisplayGrades.ue.ue]]
+	   && DisplayUETree.dict[DisplayUETree.parent[DisplayGrades.ue.ue]]
 	   !== undefined
 	   )
 	continue ;
