@@ -347,6 +347,15 @@ def cell_change(table, page, col, lin, value, date):
 def do_not_update_student_list(table):
     return False
 
+#REDEFINE
+# Returns the UE tree for the student, for each UE its parent UE:
+def display_tree(server):
+    if server.suivi_login == 'k01':
+        # For 'k01' UE2 and UE3 are displayed inside UE1 on the suivi page
+        return {"UE-UE2": "UE-UE1", "UE-UE3": "UE-UE1"}
+    return {"UE-UE5": "UE-UE4", "UE-UE6": "UE-UE4",
+            "UE-UE7": "UE-UE5", "UE-UE8": "UE-UE5"}
+
 # LDAP informations
 # A list of LDAP server to query
 ldap_server = ('ldap1.domain.org', 'ldap2.domain.org', 'ldap3.domain.org')

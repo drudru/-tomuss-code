@@ -558,12 +558,48 @@ function DisplayUE(node)
 	  + _("WARN_unregistered_student") + '<br><br>' + s + '</div>' ;
 	break ;
       }
+  if ( DisplayUETree.children && DisplayUETree.children[DisplayGrades.ue.ue])
+    {
+      s = s.substr(0, s.length-6) ; // Remove </div>
+      var save = DisplayGrades.ue ;
+      var children = DisplayUETree.children[DisplayGrades.ue.ue] ;
+      s += '<div style="margin-left: 2em">' ;
+      for(var i in children)
+	{
+	  DisplayGrades.ue = DisplayGrades.dict[children[i]] ;
+	  s += display_display(display_definition['UE']) ;
+	}
+      s += '</div></div>' ;
+      DisplayGrades.ue = save ;
+    }
 
   return [s, [], [], 'onmouseenter="enter_in_ue(event)" id="'
 	  + DisplayGrades.ue.ue + '"'] ;
 }
 DisplayUE.need_node = [] ;
 
+function DisplayUETree(node)
+{
+  var ues = display_data["Grades"][0] ;
+  ues.sort(function(a,b)
+	   { return get_ue_priority(b) < get_ue_priority(a) ? 1 : -1 ; }) ;
+
+  var children = {} ;
+  for(var k in ues)
+    {
+      k = ues[k].ue ;
+      var parent = node.data[k] ;
+      if ( ! parent )
+	continue ;
+      if ( children[parent] === undefined )
+	children[parent] = [] ;
+      children[parent].push(k) ;
+    }
+
+  DisplayUETree.children = children ;
+  DisplayUETree.parent = node.data ;
+}
+DisplayUETree.need_node = ["UETree", "Grades"] ;
 
 function DisplayCellAuthor(node)
 {
@@ -982,12 +1018,19 @@ function DisplayGrades(node)
     return '<span style="background:#FF0">' + _("MSG_suivi_student_wait")
       + '</span>' ;
 
-  node.data[0].sort(function(a,b)
-	     { return get_ue_priority(b) < get_ue_priority(a) ? 1 : -1 ; }) ;
+  DisplayGrades.dict = {} ;
+  for(var i in node.data[0])
+    DisplayGrades.dict[node.data[0][i].ue] = node.data[0][i] ;
   var s = '' ;
   for(var i in node.data[0])
     {
       DisplayGrades.ue = node.data[0][i] ;
+      if ( DisplayUETree.parent
+	   && DisplayUETree.parent[DisplayGrades.ue.ue] !== undefined
+	   && DisplayGrades.dict[DisplayUETree.parent[DisplayGrades.ue.ue]]
+	   !== undefined
+	   )
+	continue ;
       try
 	{
 	  s += display_display(display_definition['UE']) ;
