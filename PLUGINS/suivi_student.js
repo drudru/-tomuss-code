@@ -506,7 +506,7 @@ function DisplayUETitle(node)
 {
   var ue = DisplayGrades.ue ;
   var title = html(ue.ue + ' ' + (ue.table_title || '')) ;
-  if ( is_a_teacher )
+  if ( is_a_teacher && ue.semester )
     {
       var url_table = url + '/=' + ticket + '/' + ue.year
 	+ '/' + ue.semester + '/' + ue.ue ;
@@ -578,21 +578,37 @@ function DisplayUE(node)
 }
 DisplayUE.need_node = [] ;
 
+function remove_prefix(txt)
+{
+  return txt.split('-')[1] || txt ;
+}
+
 function DisplayUETree(node)
 {
   var ues = display_data["Grades"][0] ;
 
   DisplayUETree.dict = {} ;
   for(var i in ues)
-    DisplayUETree.dict[ues[i].ue] = ues[i] ;
+    {
+      var code = ues[i].ue ;
+      DisplayUETree.dict[code] = ues[i] ;
+      if ( ! node.data[code] )
+	node.data[code] = node.data[remove_prefix(code)] ;
+    }
 
   for(var i in node.data)
     {
-      if ( DisplayUETree.dict[node.data[i]] )
+      var code = node.data[i] ;
+      if ( DisplayUETree.dict[code] )
 	continue ;
+      if ( DisplayUETree.dict[remove_prefix(code)] )
+	{
+	  node.data[i] = remove_prefix(code) ;
+	  continue ;
+	}
       // Parent does not exists: create a fake one
-      ues.push({ue: node.data[i], table_title: ""}) ;
-      DisplayUETree.dict[node.data[i]] = ues[ues.length-1] ;
+      ues.push({ue: code, table_title: ""}) ;
+      DisplayUETree.dict[code] = ues[ues.length-1] ;
     }
 
   ues.sort(function(a,b)
