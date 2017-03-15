@@ -405,11 +405,11 @@ TR.column_title DIV.icon_hidden {
     display: none ;
 }
 
-TABLE#thetable TH.hidden_to_student, SPAN.hidden_to_student {
+TABLE#thetable TH.hidden_to_student {
   color: #B83 ;
 }
 
-TABLE#thetable TH.modifiable_by_student, SPAN.modifiable_by_student {
+TABLE#thetable TH.modifiable_by_student {
   color: #F55 ;
 }
 
