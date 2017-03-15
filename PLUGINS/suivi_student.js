@@ -586,29 +586,29 @@ function remove_prefix(txt)
 function DisplayUETree(node)
 {
   var ues = display_data["Grades"][0] ;
-
+  var with_prefix = {} ;
   DisplayUETree.dict = {} ;
   for(var i in ues)
     {
       var code = ues[i].ue ;
+      with_prefix[remove_prefix(code)] = code ;
       DisplayUETree.dict[code] = ues[i] ;
-      if ( ! node.data[code] )
-	node.data[code] = node.data[remove_prefix(code)] ;
     }
+
+  var translated = {} ;
+  for(var i in node.data)
+      translated[with_prefix[i] || i]
+	= with_prefix[node.data[i]] || node.data[i] ;
+  node.data = translated ;
 
   for(var i in node.data)
     {
-      var code = node.data[i] ;
-      if ( DisplayUETree.dict[code] )
-	continue ;
-      if ( DisplayUETree.dict[remove_prefix(code)] )
-	{
-	  node.data[i] = remove_prefix(code) ;
-	  continue ;
+      var parent = node.data[i] ;
+      if ( ! DisplayUETree.dict[parent] )
+	{ // Parent does not exist, so create a fake one
+	  ues.push({ue: parent, table_title: ""}) ;
+	  DisplayUETree.dict[parent] = ues[ues.length-1] ;
 	}
-      // Parent does not exists: create a fake one
-      ues.push({ue: code, table_title: ""}) ;
-      DisplayUETree.dict[code] = ues[ues.length-1] ;
     }
 
   ues.sort(function(a,b)
