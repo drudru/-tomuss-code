@@ -563,6 +563,8 @@ function DisplayUE(node)
       s = s.substr(0, s.length-6) ; // Remove </div>
       var save = DisplayGrades.ue ;
       var children = DisplayUETree.children[DisplayGrades.ue.ue] ;
+      if ( len(children) == 0 && DisplayGrades.ue.fake_ue )
+	return ;
       s += '<div style="margin-left: 2em">' ;
       for(var i in children)
 	{
@@ -606,7 +608,7 @@ function DisplayUETree(node)
       var parent = node.data[i] ;
       if ( ! DisplayUETree.dict[parent] )
 	{ // Parent does not exist, so create a fake one
-	  ues.push({ue: parent, table_title: ""}) ;
+	  ues.push({ue: parent, table_title: "", fake_ue: true}) ;
 	  DisplayUETree.dict[parent] = ues[ues.length-1] ;
 	}
     }
@@ -616,13 +618,13 @@ function DisplayUETree(node)
 
   var children = {} ;
   for(var k in ues)
+    children[ues[k].ue] = [] ;
+  for(var k in ues)
     {
       k = ues[k].ue ;
       var parent = node.data[k] ;
       if ( ! parent )
 	continue ;
-      if ( children[parent] === undefined )
-	children[parent] = [] ;
       children[parent].push(k) ;
     }
 
