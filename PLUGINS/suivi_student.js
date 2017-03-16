@@ -599,6 +599,7 @@ function DisplayUETree(node)
 
   var translated = {} ;
   for(var i in node.data)
+    if ( node.data[i] != i )
       translated[with_prefix[i] || i]
 	= with_prefix[node.data[i]] || node.data[i] ;
   node.data = translated ;
