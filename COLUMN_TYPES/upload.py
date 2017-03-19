@@ -196,6 +196,19 @@ def upload_post(server):
     finally:
         table.do_not_unload_remove('cell_change')
 
+def upload_get_done(server, mime, file_path):
+    try:
+        f = open(file_path, "rb")
+        mime = mime.replace("; ", ";").split(' ')[0].strip()
+        server.send_response(200)
+        server.send_header('Content-Type', mime)
+        server.end_headers()
+        copy_stream(f, server.the_file)
+        f.close()
+        return True
+    except IOError:
+        return
+
 def upload_get(server):
     err = document.get_cell_from_table_ro(server, ('Upload',))
     if isinstance(err, str):
@@ -206,23 +219,36 @@ def upload_get(server):
         raise ValueError(err)
     table, column, lin_id = err
     path = container_path(column)
+    if lin_id.endswith('~'):
+        old_version = "~"
+        lin_id = lin_id[:-1]
+    else:
+        old_version = ""
     line = table.lines[lin_id]
-    for a_lin_id, a_line in ((lin_id, line),
-                            ) + tuple(column.lines_of_the_group(line)):
-        file_path = os.path.join(path, a_lin_id)
-        try:
-            f = open(file_path, "rb")
-            mime = a_line[column.data_col].comment
-            mime = mime.replace("; ", ";").split(' ')[0].strip()
-            server.send_response(200)
-            server.send_header('Content-Type', mime)
-            server.end_headers()
-            copy_stream(f, server.the_file)
-            f.close()
+    lines_to_test = ((lin_id, line),) + tuple(column.lines_of_the_group(line))
+    mime = "application/octet-stream"
+    for a_lin_id, a_line in lines_to_test:
+        if a_line[column.data_col].value == '':
+            continue
+        mime = a_line[column.data_col].comment
+        if ';' not in mime:
+            continue
+        if upload_get_done(server, mime,
+                           os.path.join(path, a_lin_id + old_version)):
             return
-        except IOError:
-            data = server._("MSG_upload_no_file")
-            mime = "text/plain; charset=utf-8"
+    old_version = ""
+    for a_lin_id, a_line in lines_to_test:
+        if a_line[column.data_col].value == '':
+            continue
+        if ';' in a_line[column.data_col].comment:
+            continue
+        # Assume the same MIME type found in the previous loop
+        if upload_get_done(server, mime,
+                           os.path.join(path, a_lin_id + old_version)):
+            return
+
+    data = server._("MSG_upload_no_file")
+    mime = "text/plain; charset=utf-8"
     server.send_response(200)
     server.send_header('Content-Type', mime)
     server.end_headers()
