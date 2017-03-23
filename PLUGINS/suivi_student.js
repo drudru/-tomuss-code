@@ -547,6 +547,16 @@ function DisplayUEComment(node)
 }
 DisplayUEComment.need_node = [] ;
 
+function hide_fake_ue(ue)
+{
+  if ( ! ue.fake_ue )
+    return false ;
+  for(var i in DisplayUETree.children[ue.ue])
+    if ( ! hide_fake_ue(DisplayUETree.dict[DisplayUETree.children[ue.ue][i]]) )
+      return false ;
+  return true ;
+}
+
 function DisplayUE(node)
 {
   var s = DisplayVertical(node) ;
@@ -563,7 +573,7 @@ function DisplayUE(node)
       s = s.substr(0, s.length-6) ; // Remove </div>
       var save = DisplayGrades.ue ;
       var children = DisplayUETree.children[DisplayGrades.ue.ue] ;
-      if ( len(children) == 0 && DisplayGrades.ue.fake_ue )
+      if ( hide_fake_ue(DisplayGrades.ue) )
 	return ;
       s += '<div style="margin-left: 2em">' ;
       for(var i in children)
