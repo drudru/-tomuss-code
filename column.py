@@ -509,7 +509,9 @@ class Column(object):
             return True # Teacher
         if self.title.startswith('.'):
             return False
-        if self.visibility:
+        if self.visibility == 3:
+            return True
+        if self.visibility > 0:
             return False
         if self.visibility_date:
             date = time.strftime('%Y%m%d')

@@ -26,3 +26,7 @@ class ColumnVisibility(columnmodifiable.ColumnModifiable):
     formatter = "column_visibility_formatter"
     css = ''
     update_table_headers = 1
+    def check(self, value):
+        if value in (0, 1, 2, 3, '0', '1', '2', '3'):
+            return ''
+        return self.check_error(value)

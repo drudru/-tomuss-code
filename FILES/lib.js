@@ -1724,6 +1724,8 @@ function table_header_fill_real()
 	{
 	  if ( column.modifiable == 2 )
 	    className += ' modifiable_by_student' ;
+	  else if ( column.visibility == 3 )
+	    className += ' public_display' ;
 	}
       else
 	className += ' hidden_to_student' ;
@@ -2540,7 +2542,7 @@ Column.prototype.cell_is_modifiable = function() {
 } ;
 
 Column.prototype.is_visible = function() {
-  if ( this.visibility != 0 )
+  if ( this.visibility != 0 && this.visibility != 3 )
     return false ;
   if ( this.title.substr(0,1) == '.' )
     return false ;

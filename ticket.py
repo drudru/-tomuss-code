@@ -139,9 +139,12 @@ class Ticket(object):
     def backtrace_html(self):
         return html.escape(self.log())
 
+class Anonymous:
+    language = configuration.language
+    ticket = "none"
+    user_name = "anonymous"
 
 # A class is better....
-
 tickets = {}
 
 def add(ticket, user_name, user_ip, user_browser, date=None, language=''):

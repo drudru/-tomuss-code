@@ -26,16 +26,12 @@ function column_visibility_formatter(column, value)
   var s = document.getElementById('t_column_visibility') ;
   if ( input )
     {
-      if ( value > 0 )
-      {
-	set_editable(input, false) ;
+      set_editable(input, value == 0) ;
+      input.style.display = value == 0 ? "inline" : "none" ;
+      if ( value != 0 && value != 3 )
 	s.style.width = "99%" ;
-      }
       else
-      {
-	set_editable(input, true) ;
 	s.style.width = "25%" ;
-      }
     }
   return value ;
 }

@@ -1639,9 +1639,12 @@ def get_cell_from_table_ro(server, allowed_types=None):
         return "Can't find column"
     if allowed_types  and  column.type.name not in allowed_types:
         return "Not an %s column type" % allowed_types
-    if (not server.ticket.is_a_teacher
-        and t.the_keys()[server.ticket.user_name][0] != lin):
-        return 'Your are not allowed to read/modify this value'
+    if column.visibility != 3: # Not a public column
+        if server.ticket.ticket == "none":
+            return "No anonymous access allowed"
+        if (not server.ticket.is_a_teacher
+            and t.the_keys()[server.ticket.user_name][0] != lin):
+            return 'Your are not allowed to read/modify this value'
     return t, column, lin
 
 def get_cell_from_table(server, allowed_types=None):

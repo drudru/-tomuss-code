@@ -413,6 +413,10 @@ TABLE#thetable TH.modifiable_by_student {
   color: #F55 ;
 }
 
+TABLE#thetable TH.public_display {
+  color: #080 ;
+}
+
 IMG.server { 
   width: 7px ;
   height: 7px ;

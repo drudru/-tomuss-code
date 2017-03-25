@@ -25,6 +25,7 @@ import html
 from .. import utilities
 from .. import plugin
 from .. import document
+from .. import ticket
 from . import text
 
 def container_path(column):
@@ -209,7 +210,9 @@ def upload_get_done(server, mime, file_path):
     except IOError:
         return
 
-def upload_get(server):
+def upload_get(server, public=False):
+    if public:
+        server.ticket = ticket.Anonymous()
     err = document.get_cell_from_table_ro(server, ('Upload',))
     if isinstance(err, str):
         server.send_response(200)
@@ -263,5 +266,12 @@ plugin.Plugin('upload_post', '/{Y}/{S}/{U}/upload_post/{*}',
 plugin.Plugin('upload_get', '/{Y}/{S}/{U}/upload_get/{*}',
               function=upload_get, launch_thread = True,
               mimetype=None,
+              priority = -10 # Before student_redirection
+          )
+
+plugin.Plugin('upload_get_public', '/{Y}/{S}/{U}/upload_get_public/{*}',
+              function=lambda server: upload_get(server, public=True),
+              launch_thread = True, mimetype=None,
+              authenticated = False,
               priority = -10 # Before student_redirection
           )

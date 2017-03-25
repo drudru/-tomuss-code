@@ -128,6 +128,7 @@ def plugins_suivi():
     from .PLUGINS import reload_plugins
     from .PLUGINS import count
     from .PLUGINS import signature
+    from .PLUGINS import public
     from . import signature
     if getattr(configuration, 'blur', False):
         from .PLUGINS import blur

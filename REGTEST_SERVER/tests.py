@@ -19,6 +19,7 @@
 #
 #    Contact: Thierry.EXCOFFIER@univ-lyon1.fr
 
+import ast
 import sys
 import os
 import shutil
@@ -2137,7 +2138,6 @@ cell_change(1,'0_2','ticket_time_to_live','%d',"")
         assert(date2 > date)
 
     if do('variable'):
-        import ast
         import re
         for k, v in tests_config.vars.items():
             c = s.url('get_var/' + k)
@@ -2166,6 +2166,77 @@ cell_change(1,'0_2','ticket_time_to_live','%d',"")
         c = s.url('=' + root +
                   '/0/Variables/_variables/2/3/cell_change/2/test_list/')
         assert(c == bug_png)
+
+    if do('public'):
+        s.url('=' + abj + '/%s/UE-public' % ys)
+        c = s.url('='+abj+'/%s/UE-public/1/0/column_attr_title/C/ColT' % ys)
+        assert(c == ok_png)
+        c = s.url('='+abj+'/%s/UE-public/1/1/cell_change/C/L/12.34' % ys)
+        assert(c == ok_png)
+        ss.start()
+        c = ss.url('/public/%s/UE-public' % ys)
+        assert(c == '')
+        c = s.url('='+abj+'/%s/UE-public/1/2/column_attr_visibility/C/3' % ys)
+        assert(c == ok_png)
+        c = ss.url('=' + abj + '/%s/unload/UE-public' % ys)
+        assert(c == '')
+        c = ss.url('public/%s/UE-public' % ys)
+        cols = ast.literal_eval(c.split("var columns = ")[1].split(";")[0])
+        assert(len(cols) == 1)
+        col = cols[0]
+        assert(col["author"] == abj)
+        assert(col["title"] == "ColT")
+        assert(col["visibility"] == 3)
+        lines = ast.literal_eval(c.split("var lines = ")[1].split(";")[0])
+        assert(len(lines) == 1)
+        line = lines['L']
+        assert(len(line) == 1)
+        cell = line[0]
+        assert(len(cell) == 3)
+        assert(cell[0] == 12.34)
+        assert(cell[1] == abj)
+
+        c = s.url('='+abj+'/%s/UE-public/1/3/column_attr_visibility/D/3' % ys)
+        assert(c == ok_png)
+        c = s.url('='+abj+'/%s/UE-public/1/4/column_attr_cell_writable/D/' % ys)
+        assert(c == ok_png)
+        c = s.url('='+abj+'/%s/UE-public/1/5/column_attr_modifiable/D/2' % ys)
+        assert(c == ok_png)
+        c = s.url('='+abj+'/%s/UE-public/1/6/cell_change/D/L/6.78' % ys)
+        assert(c == ok_png)
+        c = s.url('='+abj+'/%s/UE-public/1/7/column_attr_type/D/Upload' % ys)
+        assert(c == ok_png)
+        c = ss.url('=' + abj + '/%s/unload/UE-public' % ys)
+        assert(c == '')
+        c = ss.url('public/%s/UE-public' % ys)
+        cols = ast.literal_eval(c.split("var columns = ")[1].split(";")[0])
+        assert(len(cols) == 2)
+        assert("modifiable" not in cols[1])
+        lines = ast.literal_eval(c.split("var lines = ")[1].split(";")[0])
+        assert(len(lines) == 1)
+        line = lines['L']
+        assert(len(line) == 2)
+        cell = line[1]
+        assert(len(cell) == 3)
+        assert(cell[0] == 6.78)
+        assert(cell[1] == abj)
+
+        c = s.post('=' + abj + '/%s/UE-public/upload_post/D/L' % ys,
+                   fields = ( ("filename", "foo.txt"), ),
+                   files = ( ("data", "FOO.TXT", b"the file content"), )
+               )
+        assert('Your file has been successfuly sent.' in c)
+
+        c = s.url('=' + abj + '/%s/UE-public/upload_get/D/L' % ys)
+        assert(c == "the file content")
+        c = s.url('%s/UE-public/upload_get/D/L' % ys)
+        assert('You are here because you followed a direct link inside TOMUSS'
+               in c)
+        c = s.url('%s/UE-public/upload_get_public/D/L' % ys)
+        assert(c == "the file content")
+        c = s.url('=garbage/%s/UE-public/upload_get_public/D/L' % ys)
+        assert(c == "the file content")
+
 
 if '1' in sys.argv:
    sys.argv.remove('1')

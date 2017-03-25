@@ -760,6 +760,8 @@ function DisplayCellTitle(node)
     {
       if ( is_a_teacher && DisplayGrades.column.modifiable == 2 )
 	title = '<span class="modifiable_by_student">' + title + '</span>' ;
+      else if ( is_a_teacher && DisplayGrades.column.visibility == 3 )
+	title = '<span class="public_display">' + title + '</span>' ;
     }
   else
     title = '<span class="hidden_to_student">' + title + '</span>' ;
@@ -931,6 +933,46 @@ function grade_to_class(column, grade)
   return 'verybad' ;
 }
 
+function get_cell_class_and_style()
+{
+  var classes = ['DisplayType' + DisplayGrades.column.type] ;
+  var styles = [] ;
+  if ( ! display_data['Preferences']['black_and_white'] )
+    {
+      if ( DisplayGrades.column.red + DisplayGrades.column.green
+	   + DisplayGrades.column.redtext + DisplayGrades.column.greentext != ''
+	   && ! display_data['Preferences']['no_teacher_color'])
+	classes.push(cell_class(DisplayGrades.column,
+				DisplayGrades.ue.line_real,
+				DisplayGrades.cell)) ;
+      else if ( DisplayGrades.column.real_weight_add )
+	{
+	  if ( DisplayGrades.cellstats
+	       && DisplayGrades.cellstats.rank !== undefined
+	       && DisplayGrades.cellstats.nr >= 10
+	       && ! display_data['Preferences']['color_value']
+	       )
+	    styles.push(rank_to_color(DisplayGrades.cellstats.rank,
+				      DisplayGrades.cellstats.nr)) ;
+	  else if ( (DisplayGrades.column.type == 'Moy'
+		     || DisplayGrades.column.type == 'Note'
+		     || DisplayGrades.column.type == 'Prst'
+		     )
+		    && DisplayGrades.cell.value !== ''
+		    && (
+			display_data['Preferences'].green_prst
+			|| DisplayGrades.value != pre
+			))
+	    classes.push(grade_to_class(DisplayGrades.column,
+					DisplayGrades.value)) ;
+	}
+    }
+  if ( DisplayGrades.cell.comment )
+    styles.push('font-weight: bold') ;
+
+  return [classes, styles] ;
+}
+
 function DisplayCellBox(node)
 {
   if ( ! is_a_teacher &&  DisplayGrades.column.title.substr(0,1) == '.' )
@@ -972,42 +1014,8 @@ function DisplayCellBox(node)
 	+ display_saved_nr + ');"' ;
       display_saved_nr++ ;
     }
-  var classes = ['DisplayType' + DisplayGrades.column.type] ;
-  var styles = [] ;
-  if ( ! display_data['Preferences']['black_and_white'] )
-    {
-      if ( DisplayGrades.column.red + DisplayGrades.column.green
-	   + DisplayGrades.column.redtext + DisplayGrades.column.greentext != ''
-	   && ! display_data['Preferences']['no_teacher_color'])
-	classes.push(cell_class(DisplayGrades.column,
-				DisplayGrades.ue.line_real,
-				DisplayGrades.cell)) ;
-      else if ( DisplayGrades.column.real_weight_add )
-	{
-	  if ( DisplayGrades.cellstats
-	       && DisplayGrades.cellstats.rank !== undefined
-	       && DisplayGrades.cellstats.nr >= 10
-	       && ! display_data['Preferences']['color_value']
-	       )
-	    styles.push(rank_to_color(DisplayGrades.cellstats.rank,
-				      DisplayGrades.cellstats.nr)) ;
-	  else if ( (DisplayGrades.column.type == 'Moy'
-		     || DisplayGrades.column.type == 'Note'
-		     || DisplayGrades.column.type == 'Prst'
-		     )
-		    && DisplayGrades.cell.value !== ''
-		    && (
-			display_data['Preferences'].green_prst
-			|| DisplayGrades.value != pre
-			))
-	    classes.push(grade_to_class(DisplayGrades.column,
-					DisplayGrades.value)) ;
-	}
-    }
-  if ( DisplayGrades.cell.comment )
-    styles.push('font-weight: bold') ;
-  
-  return [s, classes, styles, more] ;
+  var class_and_style = get_cell_class_and_style() ;
+  return [s, class_and_style[0], class_and_style[1], more] ;
 }
 DisplayCellBox.need_node = [] ;
 

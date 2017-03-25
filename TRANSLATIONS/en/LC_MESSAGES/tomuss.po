@@ -1115,7 +1115,9 @@ msgstr "On the 'suivi' page, the column may be:\n"
        "<li> visible the indicated date or immediatly;\n"
        "<li> hidden to the students;\n"
        "<li> invisible for anybody\n"
-       "</ul>"
+       "</ul>\n"
+       "Or the full column content can be displayed on the web\n"
+       "without any authentication."
 
 #. Label before the attribute
 msgid "SELECT_column_visibility_date"
@@ -1128,6 +1130,12 @@ msgstr "Hidden to students"
 #. Label before the attribute
 msgid "SELECT_column_visibility_never"
 msgstr "Hidden to everybody"
+
+msgid "SELECT_column_visibility_public"
+msgstr "Displayed publicly"
+
+msgid "MSG_visibility_link"
+msgstr "Anonymous share link"
 
 #. Label before the attribute
 msgid "BEFORE_column_attr_course_dates"

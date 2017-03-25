@@ -181,15 +181,18 @@ function upload_format_suivi()
   var s = [] ;
   if ( ! empty )
     s.push('<a target="_blank" href="'
-	   + url + '/=' + ticket + '/' + year + '/' + semester
+	   + url
+	   + (ticket == 'none' ? '' : '/=' + ticket) + '/'
+	   + DisplayGrades.ue.year + '/' + DisplayGrades.ue.semester
 	   + '/' + DisplayGrades.ue.ue
-	   + '/upload_get/' + DisplayGrades.column.the_id
+	   + (ticket == 'none' ? '/upload_get_public/' : '/upload_get/')
+	   + DisplayGrades.column.the_id
 	   + '/' + DisplayGrades.ue.line_id
 	   + '/' + DisplayGrades.ue.ue + "_" + safe_url(DisplayGrades.column.title)
 	   + "_" + upload_filename(DisplayGrades.cell.comment)
 	   + '">'
-	   + _('MSG_upload_get')
-	   + ' ' + html(upload_filename(DisplayGrades.cell.comment))
+	   + (ticket == 'none' ? '' : _('MSG_upload_get') + ' ')
+	   + html(upload_filename(DisplayGrades.cell.comment))
 	   + '</a> ' + DisplayGrades.value + "KB") ;
 
   if ( cell_modifiable_on_suivi() )
