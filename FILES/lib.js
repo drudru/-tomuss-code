@@ -3437,7 +3437,8 @@ function Connection()
   this.last_server_check = millisec() ;
   this.server_start_time = 0 ;
   this.connection_open = false ; // false or undefined(checking)
-  this.tomuss_boot_time = 5000 ; // Time before TOMUSS is fully started
+  // Time before TOMUSS is fully started or take to answer under heavy load
+  this.tomuss_boot_time = 5000 ;
 }
 Connection.prototype.time = function(v)
 {
@@ -3504,7 +3505,7 @@ Connection.prototype.connection_alive = function(message)
   if ( this.connection_state )
     this.connection_state.innerHTML = _('MSG_connected') ;
   this.t_authenticate.style.display = 'none' ;
-  this.time_check_interval = 1000 ;
+  this.time_check_interval = this.tomuss_boot_time ;
   this.server_alive(message) ;
   if ( before === false || before === undefined )
     {
@@ -3589,7 +3590,7 @@ Connection.prototype.click_to_revalidate_ticket = function()
   this.t_authenticate.style.display = 'block' ;
   this.connection_state.innerHTML= _('MSG_unconnected') ;
   this.revalidate_on_screen = true ;
-  this.time_check_interval = 1000 ;
+  this.time_check_interval = this.tomuss_boot_time ;
   this.debug("click_to_revalidate_ticket") ;
 } ;
 
