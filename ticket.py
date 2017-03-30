@@ -107,9 +107,13 @@ class Ticket(object):
         user = self.user_name
         for key, value in get_items():
             if value.user_name == user:
-                warn('Delete ticket : %s' % tickets[key], what="auth")
-                tickets[key].date = 0
-                tickets[key].remove_file()
+                tickets[key].remove_this_ticket()
+
+    def remove_this_ticket(self):
+        """Expired ticket"""
+        warn('Remove this ticket : %s' % self, what="auth")
+        self.date = 0
+        self.remove_file()
 
     def access_right(self):
         if not hasattr(self,'is_a_teacher'):

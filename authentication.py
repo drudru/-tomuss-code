@@ -169,7 +169,7 @@ def authentication_thread():
                                                         check_ticket=False)
                             if t and configuration.single_logout:
                                 warn('Logout {}'.format(t), what="auth")
-                                t.remove()
+                                t.remove_this_ticket()
                         if t != "redirection":
                             if not x.please_do_not_close:
                                 x.close_connection_now()
