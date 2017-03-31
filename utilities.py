@@ -546,9 +546,7 @@ def mkpath_safe(path):
 # This function translate student ID to student login.
 # The returned value must be usable safely.
 def the_login(student):
-    if isinstance(student, str):
-        return safe(student)
-    return ''
+    return safe(str(student))
 
 def tipped(html, tip, classname="", url=''):
     """Do not use this function, use 'hidden' javascript utility"""
