@@ -480,12 +480,13 @@ def execute(server, plugin):
                                      subject = 'Plugin ' + plugin.name,
                                      )
             try:
-                if 'image' in plugin.mimetype:
-                    server.the_file.write(files.files['bug.png'].bytes())
-                else:
-                    server.the_file.write('*'*100 + "<br>\n"
-                                          + server._("ERROR_server_bug")
-                                          + "<br>\n" + '*'*100)
+                if plugin.mimetype:
+                    if 'image' in plugin.mimetype:
+                        server.the_file.write(files.files['bug.png'].bytes())
+                    else:
+                        server.the_file.write('*'*100 + "<br>\n"
+                                              + server._("ERROR_server_bug")
+                                              + "<br>\n" + '*'*100)
                 server.close_connection_now()
             except:
                 pass
