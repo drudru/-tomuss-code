@@ -2237,6 +2237,16 @@ cell_change(1,'0_2','ticket_time_to_live','%d',"")
         c = s.url('=garbage/%s/UE-public/upload_get_public/D/L' % ys)
         assert(c == "the file content")
 
+        # Add a public with login
+        c = s.url('='+abj+'/%s/UE-public/1/8/column_attr_visibility/E/4' % ys)
+        assert(c == ok_png)
+        c = s.url('='+abj+'/%s/UE-public/1/9/cell_change/E/L/13.57' % ys)
+        assert(c == ok_png)
+        c = ss.url('=' + abj + '/%s/unload/UE-public' % ys)
+        c = ss.url('public/%s/UE-public' % ys)
+        assert('13.57' not in c)
+        c = ss.url('=john.doe/public_login/%s/UE-public' % ys)
+        assert('13.57' in c)
 
 if '1' in sys.argv:
    sys.argv.remove('1')

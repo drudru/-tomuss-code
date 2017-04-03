@@ -2,11 +2,14 @@ var preferences = {"language":"fr"} ;
 var my_identity = "" ;
 var upload_max = 100000;
 display_data["Preferences"] = {} ;
+display_data["Grades"] = [[]] ;
+var the_body ;
 
 function init_data()
 {
-  document.getElementsByTagName("BODY")[0].className = "themeG" ;
   lib_init() ;
+  the_body = document.getElementsByTagName("BODY")[0] ;
+  the_body.className = "themeG" ;
   for(var i in columns)
   {
     columns[i].columns = '' ;
@@ -101,6 +104,8 @@ function fill_data()
       DisplayGrades.column = columns[c] ;
       DisplayGrades.cell = lines[i][c] ;
       DisplayGrades.value = lines[i][c].value ;
+      // DisplayGrades.cellstats = table_attr.stats[columns[c].the_id] || {} ;
+      DisplayGrades.cellstats = {} ;
       cs = get_cell_class_and_style() ;
       s.push('<td class="' + cs[0] + '" style="' + cs[1] + '">'
              + DisplayGrades.column.real_type.formatte_suivi()

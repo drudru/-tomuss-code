@@ -1,7 +1,7 @@
 #!/bin/env python3
 # -*- coding: utf-8 -*-
 #    TOMUSS: The Online Multi User Simple Spreadsheet
-#    Copyright (C) 2014 Thierry EXCOFFIER, Universite Claude Bernard
+#    Copyright (C) 2014,2017 Thierry EXCOFFIER, Universite Claude Bernard
 #
 #    This program is free software; you can redistribute it and/or modify
 #    it under the terms of the GNU General Public License as published by
@@ -17,7 +17,7 @@
 #    along with this program; if not, write to the Free Software
 #    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 #
-#    Contact: Thierry.EXCOFFIER@bat710.univ-lyon1.fr
+#    Contact: Thierry.EXCOFFIER@univ-lyon1.fr
 
 from . import columnmodifiable
 
@@ -27,6 +27,6 @@ class ColumnVisibility(columnmodifiable.ColumnModifiable):
     css = ''
     update_table_headers = 1
     def check(self, value):
-        if value in (0, 1, 2, 3, '0', '1', '2', '3'):
+        if str(value) in "01234":
             return ''
         return self.check_error(value)

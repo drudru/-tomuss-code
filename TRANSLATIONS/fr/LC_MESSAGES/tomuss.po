@@ -1111,7 +1111,7 @@ msgstr "Sur la page de 'suivi' la colonne peut-être :\n"
        "<li> invisible pour tout le monde.\n"
        "</ul>\n"
        "Ou bien, le contenu complet de la colonne peut être\n"
-       "affiché publiquement sur le web sans authentification."
+       "affiché publiquement sur le web avec ou sans authentification."
 
 #. Label before the attribute
 msgid "SELECT_column_visibility_date"
@@ -1124,10 +1124,16 @@ msgid "SELECT_column_visibility_never"
 msgstr "Cachée à tout le monde"
 
 msgid "SELECT_column_visibility_public"
-msgstr "Affichée publiquement"
+msgstr "Affichée publiquement sans authentification"
+
+msgid "SELECT_column_visibility_public_login"
+msgstr "Affichée publiquement avec authentification"
 
 msgid "MSG_visibility_link"
 msgstr "Lien de partage anonyme"
+
+msgid "MSG_visibility_login"
+msgstr "Lien de partage avec login"
 
 msgid "BEFORE_column_attr_course_dates"
 msgstr "Dates cours&nbsp;:&nbsp;"

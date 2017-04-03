@@ -1132,10 +1132,16 @@ msgid "SELECT_column_visibility_never"
 msgstr "Hidden to everybody"
 
 msgid "SELECT_column_visibility_public"
-msgstr "Displayed publicly"
+msgstr "Displayed publicly without login"
+
+msgid "SELECT_column_visibility_public_login"
+msgstr "Displayed publicly with login"
 
 msgid "MSG_visibility_link"
 msgstr "Anonymous share link"
+
+msgid "MSG_visibility_login"
+msgstr "Share link with authentication"
 
 #. Label before the attribute
 msgid "BEFORE_column_attr_course_dates"

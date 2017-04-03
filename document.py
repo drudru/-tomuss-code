@@ -1642,7 +1642,8 @@ def get_cell_from_table_ro(server, allowed_types=None):
     if column.visibility != 3: # Not a public column
         if server.ticket.ticket == "none":
             return "No anonymous access allowed"
-        if (not server.ticket.is_a_teacher
+        if (column.visibility != 4
+            and not server.ticket.is_a_teacher
             and t.the_keys()[server.ticket.user_name][0] != lin):
             return 'Your are not allowed to read/modify this value'
     return t, column, lin

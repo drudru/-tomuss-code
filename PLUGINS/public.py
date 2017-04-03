@@ -23,14 +23,13 @@ import json
 import cgi
 from .. import plugin
 from .. import document
-from .. import configuration
 from .. import ticket
 from .. import files
 from . import suivi_student
 
 files.add("PLUGINS", "public.js")
 
-def public(server):
+def public(server, login=False):
     t = document.table(server.the_year, server.the_semester, server.the_ue,
                        create=False)
     if not t:
@@ -39,9 +38,12 @@ def public(server):
     for col in t.columns:
         if col.visibility == 3:
             to_display.append(col)
+        elif col.visibility == 4 and login:
+            to_display.append(col)
     if not to_display:
         return
-    server.ticket = ticket.Anonymous()
+    if not login:
+        server.ticket = ticket.Anonymous()
     suivi_student.suivi_headers(server, is_student=True)
     title = "{}/{}/{} {}".format(server.the_year, server.the_semester,
                                  server.the_ue, t.table_title)
@@ -53,7 +55,8 @@ def public(server):
     cols = []
     for col in to_display:
         col = col.js(hide=1, python=True)
-        col.pop("modifiable", None) # Never modifiable on a public page
+        if True or not login:
+            col.pop("modifiable", None) # Never modifiable on a public page
         cols.append(col)
     server.the_file.write('<div id="content"></div><script><!--\n'
                           + "var columns = "
@@ -66,7 +69,8 @@ def public(server):
                       for col in to_display]
     server.the_file.write(json.dumps(d))
     table_attr = {'ue': server.the_ue, 'year': server.the_year,
-                  'semester': server.the_semester}
+                  'semester': server.the_semester, "modifiable": int(login)
+                  }
     server.the_file.write(";\nvar table_attr = "
                           + json.dumps(table_attr) + ";\n"
                           + str(files.files["public.js"])
@@ -74,4 +78,9 @@ def public(server):
 
 plugin.Plugin('public', '/public/{Y}/{S}/{U}', function=public,
               launch_thread=True, authenticated=False
+              )
+
+plugin.Plugin('public_login', '/public_login/{Y}/{S}/{U}',
+              function=lambda server: public(server, login=True),
+              launch_thread=True, unsafe=False
               )

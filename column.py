@@ -509,7 +509,7 @@ class Column(object):
             return True # Teacher
         if self.title.startswith('.'):
             return False
-        if self.visibility == 3:
+        if self.visibility == 3 or self.visibility == 4:
             return True
         if self.visibility > 0:
             return False
