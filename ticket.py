@@ -171,7 +171,7 @@ def get_ticket_string(server):
     """Extract from the path the ticket as a string (or None) and the path"""
     warn('PATH: %s' % server.path, what='auth')
     if server.path.startswith("/="):
-        path = server.path.split("/")
+        path = server.path.split("?")[0].split("/")
         ticket = path[1][1:]
         path = path[2:]
     else:
