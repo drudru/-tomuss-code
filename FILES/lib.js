@@ -3528,7 +3528,7 @@ Connection.prototype.broken_connection = function()
   this.increase_time_check_interval() ;
   if ( ! this.connection_open )
     return ;
-  if ( millisec() < this.last_server_answer + 1000 )
+  if ( millisec() < this.last_server_answer + this.tomuss_boot_time )
     return ; // The server may take some time to answer
   if ( millisec() < this.last_reconnect + this.tomuss_boot_time )
     return ; // Just reconnected, so wait a little longer
@@ -4067,6 +4067,11 @@ function append_image(td, text, force)
     return ;
   if ( ue == 'VIRTUALUE' || ue == '' )
     return ;
+  if ( text.length > maximum_url_length )
+    {
+      Alert("ALERT_column_not_saved") ;
+      return ;
+    }
   var request = new Request(text) ;
   pending_requests.push(request) ;
   periodic_work_add(auto_save_errors) ;
