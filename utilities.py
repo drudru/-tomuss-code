@@ -461,9 +461,12 @@ def start_new_thread(fct, args, send_mail=True, immortal=False):
                 try:
                     self.fct(*self.args)
                 except:
-                    warn("Exception in %s" % self, what="error")
-                    if self.send_mail:
-                        send_backtrace("Exception in %s" % self)
+                    try:
+                        warn("Exception in %s" % self, what="error")
+                        if self.send_mail:
+                            send_backtrace("Exception in %s" % self)
+                    except:
+                        pass
                 if not self.immortal:
                     break
             thread_list.remove(self)
@@ -576,12 +579,12 @@ def frame_info(frame, displayed):
         frame.f_lineno)
     for k, v in frame.f_locals.items():
         if id(v) not in displayed:
-            try:
-                s += "<p><b>" + html.escape(k) + "</b>:<br>" + v.backtrace_html() + "\n"
-            except AttributeError:
-                pass
-            except TypeError:
-                pass
+            if hasattr(v, 'backtrace_html'):
+                try:
+                    s += ("<p><b>" + html.escape(k) + "</b>:<br>"
+                          + v.backtrace_html() + "\n")
+                except TypeError:
+                    pass
             displayed[id(v)] = True
     s += '</tr>'
     return s
