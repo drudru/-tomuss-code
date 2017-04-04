@@ -142,7 +142,7 @@ function upload_double_click(value)
       return value ;
     }
   var more = "" ;
-  if ( the_current_cell.cell.history.indexOf("·") != -1 )
+  if ( the_current_cell.cell.history.length > 6 )
     {
       if ( ! confirm(_("CONFIRM_upload_last")) )
 	more = "~" ;
