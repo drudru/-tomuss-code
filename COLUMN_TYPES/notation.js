@@ -1242,7 +1242,10 @@ Notation.prototype.on_comment_change = function(event)
   this.update_title() ;
   var completion = this.update_completions(event) ;
   if ( completion )
+  {
     do_autocompletion(event.target, event.target.value + completion) ;
+    event.question.set_comment(event.target.value, this.column_modifiable) ;
+  }
 } ;
 
 Notation.prototype.update_completions = function(event)
