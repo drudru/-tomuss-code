@@ -105,5 +105,7 @@ if caller_globals["__name__"] == '__main__':
         from TOMUSS import document
         document.table(0, 'Dossiers', 'config_table', None, None)
 
-    if '.' in __package__:
+    if ('.' in __package__
+        and not sys.modules["__main__"].__dict__.get("fast_tomuss_init", 0)
+        ):
         terminate_init()
