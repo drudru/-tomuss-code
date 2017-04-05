@@ -2366,6 +2366,9 @@ msgstr "The URL as http://...."
 msgid "TIP_cell_Notation"
 msgstr "Double click to edit the grade"
 
+msgid "TIP_cell_Upload"
+msgstr "Double-click to download or upload a file"
+
 msgid "MSG_Note_ABINJ"
 msgstr "The grade or attendance was not entered by the teacher<br>\n"
        "for this student, but it was for the other students of its group.<br>\n"

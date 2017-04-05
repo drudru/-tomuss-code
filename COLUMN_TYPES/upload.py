@@ -46,7 +46,7 @@ class Upload(text.Text):
     ondoubleclick = 'upload_double_click'
     formatte_suivi = 'upload_format_suivi'
     human_priority = 20
-
+    tip_cell = "TIP_cell_Upload"
 
 class HackClamd(bytearray):
     """Pyclamd does not allow to use an open file"""

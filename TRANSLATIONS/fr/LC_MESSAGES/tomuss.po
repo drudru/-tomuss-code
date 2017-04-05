@@ -766,9 +766,9 @@ msgstr "Seule la personne qui a saisie la valeur peut la modifier.\n"
        "Ou bien l'un des responsables d'UE : "
 
 msgid "ERROR_column_creation"
-msgstr "On a pas le droit de créer des colonnes quand\n"
-       "il y a un filtre de colonne ou table.\n"
-       "Désolé, vous devez enlever les filtres."
+msgstr "Il n’est pas possible de créer des colonnes quand un filtre est actif.\n"
+       "Vous devez donc enlever les filtres avant de créer une colonne.\n"
+       "(Désolé !)"
 
 msgid "ERROR_column_left_to_right"
 msgstr "Il faut créer les colonnes de gauche à droite.\n\n"
@@ -2374,6 +2374,9 @@ msgstr "L'URL sous la forme http://...."
 
 msgid "TIP_cell_Notation"
 msgstr "Double cliquez pour éditer cette note"
+
+msgid "TIP_cell_Upload"
+msgstr "Double-cliquez pour regarder ou déposer un fichier"
 
 msgid "MSG_Note_ABINJ"
 msgstr "La note ou présence n'est pas indiquée par l'enseignant<br>\n"
