@@ -76,6 +76,7 @@ var current_window_height ;
 var table_info = [] ; // see middle.js
 var last_user_interaction = 0 ; // setted with millisec()
 var zebra_step ;
+var is_a_virtual_ue ;
 
 // HTML elements
 var divtable ;
@@ -136,7 +137,7 @@ function lib_init()
     root = [] ;
   if ( my_identity === undefined )
     my_identity = 'identity undefined' ;
-
+  is_a_virtual_ue = ue === 'VIRTUALUE' || ue === '' || page_id <= 0 ;
   line_offset       = 0    ;// The page being displayed
   column_offset     = 0    ;
   filters           = []   ;// The filters to apply to the lines
@@ -3607,9 +3608,9 @@ Connection.prototype.need_connection = function(force)
     return ;
   if ( ! this.server_answer )
     return ;
-  if ( ue == 'VIRTUALUE' || ue == '' )
+  if ( is_a_virtual_ue )
     return ;
-  if ( check_down_connections_interval == 0 )
+  if ( check_down_connections_interval === 0 )
     return ;
   if ( !force && millisec() - this.last_reconnect < this.time_check_interval )
     return ;
@@ -3618,7 +3619,7 @@ Connection.prototype.need_connection = function(force)
 
 Connection.prototype.reconnect_real = function()
 {
-  if ( ! this.server_answer || page_id === '' )
+  if ( ! this.server_answer || is_a_virtual_ue )
     return ;
 
   var connection = url + "/=" + ticket + '/' + year
@@ -4065,7 +4066,7 @@ function append_image(td, text, force)
 {
   if ( ! table_attr.modifiable && ! force )
     return ;
-  if ( ue == 'VIRTUALUE' || ue == '' )
+  if ( is_a_virtual_ue )
     return ;
   if ( text.length > maximum_url_length )
     {
@@ -5030,7 +5031,7 @@ function runlog(the_columns, the_lines)
   else
     window.onresize = manage_window_resize_event ;
  	
-  if ( ue != 'VIRTUALUE' && ue != '' && page_id > 0 )
+  if ( ! is_a_virtual_ue )
     document.write('<img width="1" height="1" src="' + url + "/=" + ticket
 		   + '/' + year + '/' + semester + '/' + ue + '/' +
 		   page_id + '/end_of_load" style="position:absolute;left:0;top:0">') ;

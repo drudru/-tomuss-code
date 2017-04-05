@@ -1471,7 +1471,7 @@ function tail_html()
     'OnBlur="the_current_cell.focused=false;the_current_cell.change()" ' +
     '>' +
     '</div>' ;
-  if ( ue != 'VIRTUALUE' )
+  if ( ! is_a_virtual_ue )
     {
         if ( navigator.appName == 'Microsoft Internet Explorer' )
 	    window.XMLHttpRequest = false ;
