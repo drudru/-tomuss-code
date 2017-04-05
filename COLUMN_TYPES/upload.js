@@ -191,7 +191,7 @@ function upload_format_suivi()
 	   + '/' + DisplayGrades.ue.ue + "_" + safe_url(DisplayGrades.column.title)
 	   + "_" + upload_filename(DisplayGrades.cell.comment)
 	   + '">'
-	   + (ticket == 'none' ? '' : _('MSG_upload_get') + ' ')
+	   + (display_data["Login"] ? _('MSG_upload_get') + ' ' : '')
 	   + html(upload_filename(DisplayGrades.cell.comment))
 	   + '</a> ' + DisplayGrades.value + "KB") ;
 

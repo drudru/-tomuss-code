@@ -112,9 +112,11 @@ function fill_data()
       // DisplayGrades.cellstats = table_attr.stats[columns[c].the_id] || {} ;
       DisplayGrades.cellstats = {} ;
       cs = get_cell_class_and_style() ;
+      var text = DisplayGrades.column.real_type.formatte_suivi() ;
+      if ( DisplayGrades.cell.comment !== "")
+	text = hidden_txt(text, html(DisplayGrades.cell.comment)) ;
       s.push('<td class="' + cs[0] + '" style="' + cs[1] + '">'
-             + DisplayGrades.column.real_type.formatte_suivi()
-             + '</td>') ;
+             + text + '</td>') ;
     }
     s.push('</tr>') ;
   }
