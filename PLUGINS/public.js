@@ -72,8 +72,10 @@ function fill_data()
   var s = [] ;
   s.push('<table class="colored">') ;
   s.push("<tr>") ;
-  for(var c in columns)
+  var cols = column_list_all() ;
+  for(var c in cols)
   {
+    c = cols[c] ;
     var title = html(columns[c].title) ;
     if ( columns[c].comment )
       title = hidden_txt(title, html(columns[c].comment)) ;
@@ -96,11 +98,14 @@ function fill_data()
   DisplayGrades.table_attr = DisplayGrades.ue ;
   for(var i in lines)
   {
+    if ( line_empty(lines[i]) )
+      continue ;
     s.push("<tr>") ;
     DisplayGrades.ue.line_real = lines[i] ;
     DisplayGrades.ue.line_id = lines[i].line_id ;
-    for(var c in columns)
+    for(var c in cols)
     {
+      c = cols[c] ;
       DisplayGrades.column = columns[c] ;
       DisplayGrades.cell = lines[i][c] ;
       DisplayGrades.value = lines[i][c].value ;
