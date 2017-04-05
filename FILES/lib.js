@@ -137,7 +137,14 @@ function lib_init()
     root = [] ;
   if ( my_identity === undefined )
     my_identity = 'identity undefined' ;
-  is_a_virtual_ue = ue === 'VIRTUALUE' || ue === '' || page_id <= 0 ;
+  try
+    {
+      is_a_virtual_ue = ue === 'VIRTUALUE' || ue === '' || page_id <= 0 ;
+    }
+  catch(e)
+    {
+      is_a_virtual_ue = true ;
+    }
   line_offset       = 0    ;// The page being displayed
   column_offset     = 0    ;
   filters           = []   ;// The filters to apply to the lines
