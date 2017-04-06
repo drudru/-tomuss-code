@@ -3400,30 +3400,14 @@ msgstr "Modification des ABJ et DA"
 msgid "HELP_abj"
 msgstr "Permet d'aller sur la page d'édition des\n"
        "justificatifs d'absence et des dispenses d'assiduité"
-       
-msgid "LINK_abjalpha"
-msgstr "Récapitulatif ABJ+DA des licences"
 
-msgid "HELP_abjalpha"
-msgstr "Liste les justificatifs d'absence ainsi que les\n"
-       "dispenses d'assiduité qui ont été saisies pour tous\n"
-       "les étudiants de licence."
+msgid "LINK_abjhtml"
+msgstr "Récapitulatif ABJ+DA des étudiants"
 
-msgid "LINK_abjalphamaster"
-msgstr "Récapitulatif ABJ+DA des masters"
-
-msgid "HELP_abjalphamaster"
-msgstr "Liste les justificatifs d'absence ainsi que les\n"
-       "dispenses d'assiduité qui ont été saisies pour tous\n"
-       "les étudiants de master."
-
-msgid "LINK_abjalphaepu"
-msgstr "Récapitulatif ABJ+DA de l'EPU"
-
-msgid "HELP_abjalphaepu"
-msgstr "Liste les justificatifs d'absence ainsi que les\n"
-       "dispenses d'assiduité qui ont été saisies pour tous\n"
-       "les étudiants de l'EPU."
+msgid "HELP_abjhtml"
+msgstr "Vous devez indiquez en fin d'URL une expression régulière\n"
+       "filtrant les codes UE qui vous intéressent.\n"
+       "Il suffit que l'étudiant suive une seule des UE pour être listé."
 
 msgid "LINK_abjalphaauthor"
 msgstr "Récapitulatif ABJ+DA que vous avez saisies"

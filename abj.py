@@ -25,6 +25,7 @@ import os
 import time
 import html
 import glob
+import re
 from . import utilities
 from . import configuration
 from . import inscrits
@@ -248,11 +249,16 @@ class Abjs(object):
         Abj(self.year, self.semester, login).store_rem_da(
             ue_code, user_name, date)
 
-    def students(self):
-        for filename in glob.glob(
-            os.path.join(configuration.db, 'LOGINS','*','*',
-                         'abj_%s' % self.year)):
-            yield filename.split(os.path.sep)[-2]
+    def students(self, progress_bar=None):
+        i = 0
+        dirs = tuple(glob.glob(os.path.join(configuration.db, 'LOGINS','*')))
+        for key in dirs:
+            if progress_bar:
+                i += 1
+                progress_bar.update(i, len(dirs))
+            for filename in glob.glob(os.path.join(key, '*',
+                                                   'abj_%s' % self.year)):
+                yield filename.split(os.path.sep)[-2]
 
 def add_abjs(year, semester, ticket, student, from_date, to_date, comment):
     """Helper function"""
@@ -333,20 +339,23 @@ def title(name, sort_fct):
             sort_fct +
             ')">Trier</a>)</span>')
 
-def alpha_html(browser, year, semester, ue_name_endswith=None,
-               ue_name_startswith=None, author=None):
+def alpha_html(server, year, semester, ue_name_endswith="",
+               ue_name_startswith="", author=None, match=None):
     """Returns ABJ/DA information for all the students in HTML format"""
     _ = utilities._
-    browser.write('''<html>
+    write = server.the_file.write
+    write('''<html>
 <head>
 <META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=UTF-8">
 </head>
 <body>
-<div id="x">%s</div>
-<table style="table-layout: fixed" border><tbody id="t">
-''' % _("MSG_suivi_student_wait") )
+<div id="x"></div>
+''')
+    progress_bar = utilities.ProgressBar(
+        server, message = '<h1>' + server._("MSG_suivi_student_wait")+'</h1>')
+    write('<table style="table-layout: fixed" border><tbody id="t">')
     line = '<tr>'  +  '<td>%s</td>' * 8  +  '</tr>\n'
-    browser.write(line % (
+    write(line % (
         _("COL_TITLE_0_1"),
         title(_("COL_TITLE_0_2"), 'cmp_name'),
         title(_("COL_TITLE_0_0"),  'cmp_id'),
@@ -356,41 +365,40 @@ def alpha_html(browser, year, semester, ue_name_endswith=None,
         title(_("TH_comment"), 'cmp_comment'),
         title(_("TH_abj_author"), 'cmp_comment'),
         ))
-    for login in Abjs(year, semester).students():
-        if ue_name_endswith:
+    if match is None:
+        match = "^" + ue_name_endswith + ".*" + ue_name_startswith + "$"
+    match_compiled = re.compile(match)
+    students = tuple(Abjs(year, semester).students(progress_bar))
+    nb = 0
+    for login in students:
+        nb += 1
+        progress_bar.update(nb, len(students))
+        if match != "^.*$":
             for ue_code in inscrits.L_batch.ues_of_a_student_short(login):
-                if ue_code.endswith(ue_name_endswith):
+                if match_compiled.match(ue_code):
                     break
             else:
-                # No UE ended by the required character
-                continue
-        if ue_name_startswith:
-            for ue_code in inscrits.L_batch.ues_of_a_student_short(login):
-                if ue_code.startswith(ue_name_startswith):
-                    break
-            else:
-                # No UE start by the required character
                 continue
 
-        def write(a, b, c, d, e):            
+        def w(a, b, c, d, e):
             fn, sn = inscrits.L_slow.firstname_and_surname(login)
-            browser.write( line % (fn, sn, login, a, b, c ,d, e))
+            write( line % (fn, sn, login, a, b, c ,d, e))
         student = Abj(year, semester, login)
         for from_date, to_date, author2, comment in student.abjs:
             if author is None or author == author2:
-                write('ABJ', from_date, to_date, html.escape(comment), author2)
+                w('ABJ', from_date, to_date, html.escape(comment), author2)
         for ue_code, date, author2, comment in student.da:
             if author is None or author == author2:
-                write('DAS', date, ue_code, html.escape(comment), author2)
-    browser.write('</tbody></table>'
-                  + '<script>abj_messages = [%s,%s,%s,%s] ; </script>' % (
-                      utilities.js(utilities._("MSG_abj_choose_action")),
-                      utilities.js(utilities._("MSG_abj_hide_abj")),
-                      utilities.js(utilities._("MSG_abj_hide_da")),
-                      utilities.js(utilities._("MSG_abj_display_all")))
-              )
-    browser.write(utilities.read_file(os.path.join('FILES', 'abj_recap.html')))
-
+                w('DAS', date, ue_code, html.escape(comment), author2)
+    write('</tbody></table>'
+          + '<script>abj_messages = [%s,%s,%s,%s] ; </script>' % (
+              utilities.js(utilities._("MSG_abj_choose_action")),
+              utilities.js(utilities._("MSG_abj_hide_abj")),
+              utilities.js(utilities._("MSG_abj_hide_da")),
+              utilities.js(utilities._("MSG_abj_display_all")))
+    )
+    progress_bar.hide()
+    write(utilities.read_file(os.path.join('FILES', 'abj_recap.html')))
 
 def underline(txt, char='='):
     """Returns the text preceded with a line of '=' of same length"""

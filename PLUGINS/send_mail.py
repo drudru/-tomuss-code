@@ -28,12 +28,14 @@ from .. import utilities
 from .. import configuration
 
 def progress_bar(server):
+    "DEPRECATED"
     server.the_file.write('''
 <div style="border:2px solid black;">
 <div id="loading_bar" style="background:green">&nbsp;</div>
 </div>''')
 
 def progress_bar_update(server, nb, nb_max):
+    "DEPRECATED"
     server.the_file.write("""<script>
 document.getElementById('loading_bar').style.width = '%f%%' ;
 </script>""" % ((100.*nb)/nb_max))

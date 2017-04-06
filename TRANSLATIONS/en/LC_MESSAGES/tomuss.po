@@ -3377,27 +3377,14 @@ msgstr "JLV and DA edition"
 msgid "HELP_abj"
 msgstr "Go to the page allowing to edit the justified leaves\n"
        "and the non-attendance authorization."
-       
-msgid "LINK_abjalpha"
-msgstr "Licence: Full JLV+DA report"
 
-msgid "HELP_abjalpha"
-msgstr "Display a table with all the justified leaves\n"
-       "and non-attendance authorization for the licence students"
+msgid "LINK_abjhtml"
+msgstr "Full JLV+DA report of students"
 
-msgid "LINK_abjalphamaster"
-msgstr "Masters: Full JLV+DA report"
-
-msgid "HELP_abjalphamaster"
-msgstr "Display a table with all the justified leaves\n"
-       "and non-attendance authorization for the masters students"
-
-msgid "LINK_abjalphaepu"
-msgstr "EPU: Full JLV+DA report"
-
-msgid "HELP_abjalphaepu"
-msgstr "Display a table with all the justified leaves\n"
-       "and non-attendance authorization for the EPU students"
+msgid "HELP_abjhtml"
+msgstr "You must indicate a regular expression at the URL end\n"
+       "defining the UE code that need to be listed.\n"
+       "A single matching UE will make the student listed."
 
 msgid "LINK_abjalphaauthor"
 msgstr "JLV+DA you entered"

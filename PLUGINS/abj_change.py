@@ -85,29 +85,34 @@ def abj_home(server):
          + str(files['abj.html'])
          )
     server.the_file.write(d)
-    
-def abj_alpha_licence(server):
-    """Send a CSV file containing all the ABJ and DA information
-    for all the students"""
-    abj.alpha_html(server.the_file, server.the_year, server.the_semester,
-                   ue_name_endswith='L')
 
-def abj_alpha_master(server):
-    """Send a CSV file containing all the ABJ and DA information
-    for all the students"""
-    abj.alpha_html(server.the_file, server.the_year, server.the_semester,
-                   ue_name_endswith='M')
+def abj_html(server):
+    """Send an HTML file containing all the ABJ and DA information
+    for the students registered to the specified UE regular expression.
 
-def abj_alpha_epu(server):
-    """Send a CSV file containing all the ABJ and DA information
-    for all the students"""
-    abj.alpha_html(server.the_file, server.the_year, server.the_semester,
-                   ue_name_startswith='UE-EI')
-    
+    Add to 'config_home' table some link :
+       * with container 'abj_master';
+       * the 'verysafe' class;
+       * the group name needing to see the link 'abj_masters'
+
+    For example:
+
+       Master: Full JLV+DA report           javascript:go('abj/html/.*M$24')
+       Licence: Full JLV+DA report          javascript:go('abj/html/.*L$24')
+       EPU: Full JLV+DA report              javascript:go('abj/html/UE-EI')
+
+    $24 because the dollar must be escaped.
+    """
+    if server.the_path[0] == "REGEXP":
+        server.the_file.write(server._("HELP_abjhtml"))
+    else:
+        abj.alpha_html(server, server.the_year, server.the_semester,
+                       match=server.the_path[0])
+
 def abj_alpha_author(server):
     """Send a CSV file containing all the ABJ and DA information
     for all the students"""
-    abj.alpha_html(server.the_file, server.the_year, server.the_semester,
+    abj.alpha_html(server, server.the_year, server.the_semester,
                    author=server.ticket.user_name)
     
 def abj_send_mail(server):
@@ -169,34 +174,14 @@ plugin.Plugin('abj', '/{Y}/{S}/abj', function=abj_home, group='abj_masters',
               priority = -3, unsafe=False,
               )
 
-plugin.Plugin('abjalpha', '/{Y}/{S}/abj/alpha.xls',
-              function=abj_alpha_licence, group='abj_masters',
+plugin.Plugin('abjhtml', '/{Y}/{S}/abj/html/{*}',
+              function=abj_html, group='abj_masters',
               launch_thread = True,
-              link=plugin.Link(
-                  url="javascript:go('abj/alpha.xls')",
-                  where='abj_master', html_class="verysafe",
-                  ),
               priority = -3,
-              )
-
-plugin.Plugin('abjalphamaster', '/{Y}/{S}/abj/alpha_master.xls',
-              function=abj_alpha_master, group='abj_masters',
-              launch_thread = True,
               link=plugin.Link(
-                  url="javascript:go('abj/alpha_master.xls')",
-                  where='abj_master', html_class="verysafe",
+                  url="javascript:go('abj/html/REGEXP')",
+                  where='abj_master', html_class="safe",
                   ),
-              priority = -3,
-              )
-
-plugin.Plugin('abjalphaepu', '/{Y}/{S}/abj/alpha_epu.xls',
-              function=abj_alpha_epu, group='abj_masters',
-              launch_thread = True,
-              link=plugin.Link(
-                  url="javascript:go('abj/alpha_epu.xls')",
-                  where='abj_master', html_class="verysafe",
-                  ),
-              priority = -3,
               )
 
 plugin.Plugin('abjalphaauthor', '/{Y}/{S}/abj/alpha_author.xls',
