@@ -398,7 +398,7 @@ Filler.prototype.create_rooms = function(last_rooms) {
       
   for(var lin_id in lines)
   {
-    if ( lines[lin_id][0].value === '' )
+    if ( line_empty(lines[lin_id]) )
       continue ;
     v = lines[lin_id][this.data_col] ;
 
@@ -481,7 +481,7 @@ Filler.prototype.add_empty_input = function() {
 } ;
 
 Filler.prototype.count_line = function(line) {
-  if ( line[0].value === '' ) // No ID
+  if ( line_empty(line) )
     return ;
   var v = line[this.data_col] ;
   if ( this.toggles.comment )
