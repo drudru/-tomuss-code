@@ -229,3 +229,13 @@ function update_student_information(line)
 }
 
 """
+
+def update_home_page_link(plugin_name):
+    t = document.table(0, "Dossiers", "config_home")
+    lines = tuple(t.get_items(plugin_name))
+    if not lines:
+        return
+    assert(len(lines) == 1)
+    line = lines[0]
+    update_link(line[0], line[1])
+configuration.update_home_page_link = update_home_page_link

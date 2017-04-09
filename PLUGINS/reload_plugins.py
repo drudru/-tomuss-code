@@ -29,6 +29,7 @@ from .. import column
 from .. import plugins
 from .. import files
 from .. import display
+from .. import configuration
 
 def reload_plugins(server):
     """Reload all the plugins from PLUGINS, COLUMN_TYPES, ATTRIBUTES"""
@@ -51,6 +52,9 @@ def reload_plugins(server):
         filename = i.replace('TOMUSS.','',1).replace('.', os.path.sep) + '.py'
         dummy_module, reimported = utilities.import_reload(filename)
         reimported = ('', server._("TH_reload_plugins_reloaded"))[reimported]
+        if reimported:
+            for p in plugin_files[i]:
+                configuration.update_home_page_link(p.name)
         server.the_file.write('<tr><td>%s<td>%d<td>%s</tr>\n' % (
             i, len(plugin_files[i]), reimported))
     server.the_file.write('</table>\n')
