@@ -27,7 +27,11 @@ function upload_zip()
     + '/' ;
   var t = [] ;
   for(var i in filtered_lines)
-    t.push(filtered_lines[i].line_id) ;
+  {
+    var cell = filtered_lines[i][the_current_cell.data_col] ;
+    if ( cell.comment !== '' && cell.value != '' )
+      t.push(filtered_lines[i].line_id) ;
+  }
   t.push(ue + "_" + safe_url(the_current_cell.column.title) + ".zip")
   s += t.join('/') ;
 
