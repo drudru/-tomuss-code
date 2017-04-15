@@ -136,7 +136,7 @@ def invitation_accept(server):
     server.the_file.write(
         server._("MSG_invitation_accepted")
         + '<p><a href="{}">{}</a>'.format(
-            configuration.suivi.url(ticket=server.ticket.ticket),
+            configuration.server_url + '/=' + server.ticket.ticket,
             server._("MSG_home_title")))
     
 plugin.Plugin('invitation_accept', '/invitation_accept/{*}',
