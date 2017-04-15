@@ -12,9 +12,10 @@ import tomuss_init
 from .. import utilities
 from .. import configuration
 
-configuration.server_url = 'http://127.0.0.1:%d' % configuration.server_port
-for url, v in configuration.suivi.urls.items():
-    configuration.suivi.urls[url] = ("http://127.0.0.1:%d" % v[1],) + v[1:]
+if False:
+    configuration.server_url = 'http://127.0.0.1:%d' % configuration.server_port
+    for url, v in configuration.suivi.urls.items():
+        configuration.suivi.urls[url] = ("http://127.0.0.1:%d" % v[1],) + v[1:]
 
 def is_running1(url):
     if url != is_running1.last_url:
