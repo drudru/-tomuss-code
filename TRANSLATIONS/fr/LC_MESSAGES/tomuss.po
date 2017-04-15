@@ -4278,8 +4278,8 @@ msgstr "Seuls les étudiants inscrits pour la première fois\n"
        "à l'université ont un référent pédagogique."
 
 msgid "TIP_suivi_student_no_referent"
-msgstr "Vous n'êtes pas dans la licence STS,\n"
-       "vous n'avez donc pas d'enseignant référent."
+msgstr "Il n'y a pas d'enseignant référent dans votre formation.\n"
+       "Cette situation est donc normale."
 
 msgid "MSG_suivi_student_referent"
 msgstr "Référent"

@@ -231,11 +231,9 @@ function update_student_information(line)
 """
 
 def update_home_page_link(plugin_name):
+    from .. import document
     t = document.table(0, "Dossiers", "config_home")
-    lines = tuple(t.get_items(plugin_name))
-    if not lines:
+    if plugin_name not in t.lines:
         return
-    assert(len(lines) == 1)
-    line = lines[0]
-    update_link(line[0], line[1])
+    update_link(plugin_name,  t.lines[plugin_name])
 configuration.update_home_page_link = update_home_page_link

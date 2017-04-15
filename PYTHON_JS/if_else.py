@@ -28,9 +28,9 @@ def compute_if_else(data_col, line):
     if column.if_filter(line, cell):
         if len(column.average_columns) > 0:
             return line[column.average_columns[0]].get_value(
-                column.average_columns[0])
+                columns[column.average_columns[0]])
     else:
         if len(column.average_columns) > 1:
             return line[column.average_columns[1]].get_value(
-                column.average_columns[1])
-    return cell.value
+                columns[column.average_columns[1]])
+    return cell.get_value(column)
