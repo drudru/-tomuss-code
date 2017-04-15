@@ -9,11 +9,6 @@ import os
 import signal
 import time
 import tomuss_init
-
-for i in ('http_proxy', 'https_proxy'):
-    if i in os.environ:
-        del os.environ[i]
-
 from .. import utilities
 from .. import configuration
 
