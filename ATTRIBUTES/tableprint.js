@@ -470,7 +470,7 @@ function print_selection(object, emargement, replace)
   t.push(hidden_txt('<a onclick="print_add_free_column()">+</a>',
 		    _("TIP_print_add_column"))) ;
   for(var i in free_print_headers)
-      t.push(hidden_txt('<input id="free' + i + '" style="width:15em" onkeypress="do_printable_display=true;">', _("TIP_print_column_name"))) ;
+      t.push(hidden_txt('<input id="free' + i + '" style="width:15em" onkeyup="do_printable_display=true;">', _("TIP_print_column_name"))) ;
   print_choice_line(p, _("MSG_print_display_add_columns"),
 		    _("TIP_print_display_add_columns"),
 		    '<small>' + t.join(' '),
