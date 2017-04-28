@@ -186,7 +186,6 @@ function tablefacebook(replace, column_id)
       if ( ! phone_facebook(column_id) )
 	return ;
     }
-
   p = [printable_introduction(),
        '<p class="hidden_on_paper">',
        _("MSG_facebook_grp"), facebook_a_toggle(3), _("MSG_facebook_and"),
@@ -220,7 +219,6 @@ function tablefacebook(replace, column_id)
   p.push('}') ;
   p.push('setTimeout(initialize,200) ;') ; // Timeout for IE
   p.push('</script>') ;
-
   var w = window_open(url + '/files/' + version + '/ok.png', replace) ;
   w.document.open('text/html') ;
   w.document.write(html_begin_head() + p.join('\n')) ;

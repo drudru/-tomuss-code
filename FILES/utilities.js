@@ -739,6 +739,8 @@ function on_mac()
 var window_counter = 0 ;
 function window_open(url, replace)
 {
+  if ( replace == "_self" )
+    return window ;
   var w ;
   var title = window_counter++ ;
   if ( replace )

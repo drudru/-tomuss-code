@@ -4982,7 +4982,7 @@ function runlog(the_columns, the_lines)
 	the_body.childNodes[i].style.display = 'none' ;
     the_body.onunload = '' ;
     the_body.onkeydown = '' ;
-    w = new_one() ;
+    new_one() ;
   }
   if ( get_option('print-table', 'a') !== 'a' )
     {
