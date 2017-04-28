@@ -4967,6 +4967,11 @@ function runlog(the_columns, the_lines)
 
   set_body_theme(semester)
 
+  if ( ! is_a_virtual_ue )
+    document.write('<img width="1" height="1" src="' + url + "/=" + ticket
+		   + '/' + year + '/' + semester + '/' + ue + '/' +
+		   page_id + '/end_of_load" style="position:absolute;left:0;top:0">') ;
+
   // This function is used when we want to replace the current window
   // content by the popup content.
   // It is NEEDED because some browser open popup UNDER the current window
@@ -5037,12 +5042,6 @@ function runlog(the_columns, the_lines)
     }
   else
     window.onresize = manage_window_resize_event ;
- 	
-  if ( ! is_a_virtual_ue )
-    document.write('<img width="1" height="1" src="' + url + "/=" + ticket
-		   + '/' + year + '/' + semester + '/' + ue + '/' +
-		   page_id + '/end_of_load" style="position:absolute;left:0;top:0">') ;
-
 
   // Firefox bug : the page refresh reload the old iframe, not the new one
   // setTimeout(reconnect, 10) ;
