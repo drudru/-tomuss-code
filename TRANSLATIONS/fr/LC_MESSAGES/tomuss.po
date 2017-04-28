@@ -632,7 +632,7 @@ msgstr "Les LOGINS des enseignants qui ont<br>\n"
 msgid "TIP_table_attr_masters"
 msgstr "Les LOGINS d'enseignants ayant tous les droits sur la table.<br>\n"
  "Les logins sont séparés par un espace.<br>\n"
- "<b>Ajoutez votre nom en premier !</b>"
+ "<b>Ajoutez votre identifiant en premier !</b>"
 
 #. Attribute Tip
 msgid "TIP_table_attr_facebook"

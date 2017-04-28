@@ -302,7 +302,7 @@ THEAD TR TD {
 /* TR.filter TH INPUT.notempty { background-color: #DFD ; } */
 TR.filter TH INPUT.empty {
   background-image: url("filtre.png") ;
-  background-color: inherit ;
+  background-color: transparent ;
 }
 
 TR.filter TH INPUT {

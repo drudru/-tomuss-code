@@ -219,6 +219,10 @@ TT.icon {
     top: 1.1em ;
 }
 
+.table_title .ue_icons {
+    top: 0em ; /* Fix IE */
+}
+
 .ue_credits {
     color: #000 ;
 }

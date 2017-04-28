@@ -656,7 +656,9 @@ function header_input(the_id, the_header_name, options)
 
   return before+'<input style="margin-top:0px" type="text" id="' + the_id + '" class="' + classe
     + '" onfocus="header_input_focus(this)" onblur="' + onblur
-    + '" onkeyup="' + onkey  +'" onpaste="' + onkey + '">' + after ;
+    + '" onkeyup="' + onkey  +'" onpaste="' + onkey
+    + '" oninput="' + onkey // Erase icon on IE
+    + '">' + after ;
 }
 
 function theme_change(theme, t)

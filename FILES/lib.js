@@ -452,10 +452,10 @@ function next_year_semester_number(year, semester)
 Function are launched on header events
 ******************************************************************************/
 
-function filter_keyup(event)
+function filter_keyup(event, force)
 {
   var e = the_event(event) ;
-  if ( e.keyCode > 40 || e.keyCode == 8 || e.keyCode == 32 )
+  if ( force || e.keyCode > 40 || e.keyCode == 8 || e.keyCode == 32 )
     header_change_on_update(e, e.target, '') ;
   GUI.add("column_filter", event);
 }
@@ -1081,7 +1081,7 @@ function table_init()
     }
   table.appendChild(tr_title) ;
 
-  th.innerHTML = '<INPUT TYPE="TEXT" onfocus="header_focus(this,event)" onblur="element_focused=undefined">' ;
+  th.innerHTML = '<INPUT TYPE="TEXT" onfocus="header_focus(this,event)" onblur="element_focused=undefined" oninput="filter_keyup(event, true)">' ;
   tr_filter = document.createElement('tr') ;
   tr_filter.className = 'filter' ;
   for(var i = 0 ; i < table_attr.nr_columns ; i++ )

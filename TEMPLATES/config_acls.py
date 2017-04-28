@@ -82,6 +82,7 @@ def create(table):
                    'type':'Text', "width":8 },
             'b' : {'title': _("COL_TITLE_acls_group"),
                    'comment': _("COL_COMMENT_acls_group"),
+                   'completion': 1,
                    'type':'Text', "width":4 },
             'c' : {'title': _("COL_TITLE_acls_date"),
                    'comment': _("COL_COMMENT_acls_date"),
