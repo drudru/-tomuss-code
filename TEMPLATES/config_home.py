@@ -192,8 +192,10 @@ def update_link(lin_id, line):
             return
 
     for attr_name, value in link_values(lin_id, line).items():
-        if isinstance(getattr(link, attr_name), (tuple, list) ):
+        try:
             value = ast.literal_eval(value)
+        except:
+            pass
         if value:
             setattr(link, attr_name, value)
 

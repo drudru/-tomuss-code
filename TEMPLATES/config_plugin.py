@@ -19,6 +19,7 @@
 #
 #    Contact: Thierry.EXCOFFIER@bat710.univ-lyon1.fr
 
+import ast
 from .. import configuration
 from .. import plugin
 from .. import plugins
@@ -132,7 +133,7 @@ def onload(table):
         p.invited = ()
         if value:
             try:
-                p.invited = eval(value)
+                p.invited = ast.literal_eval(value)
                 if not p.invited:
                     utilities.send_backtrace('config_plugin: ' + str(p),
                                              exception=False)
@@ -157,7 +158,7 @@ def cell_change(table, page, col, lin, value, dummy_date):
         if value.strip() == '':
             continue
         try:
-            p.invited = eval(value)
+            p.invited = ast.literal_eval(value)
         except:
             sender.append(page.browser_file,
                           '<script>alert("Error!");</script>')
