@@ -591,11 +591,11 @@ class LDAP(LDAP_Logic):
                 if time.time() > self.time_last_mail + 10:
                     self.time_last_mail = time.time()
                     utilities.send_backtrace(
-                        configuration.ldap_server[self.server] + '\n'
+                        repr(configuration.ldap_server) + '\n'
                         + 'QUERY=' + search + '\n'
                         + 'ATTRIBUTES=' + repr(attributes) + '\n'
                         + 'BASE=' + base + '\n'
-                        , subject = 'LDAP Error', exception = False)
+                        , subject = 'LDAP Error')
                 if isinstance(e, (
                         ldap3.core.exceptions.LDAPSizeLimitExceededResult,
                         ldap3.core.exceptions.LDAPNoSuchObjectResult)):
