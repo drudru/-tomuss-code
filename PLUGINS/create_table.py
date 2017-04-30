@@ -19,6 +19,7 @@
 #
 #    Contact: Thierry.EXCOFFIER@univ-lyon1.fr
 
+import os
 import re
 import html
 from .. import plugin
@@ -48,21 +49,25 @@ def create_table(server):
                                       + '<br>')
                 private.remove(login)
 
-    t, p = document.table(year, semester, code, ticket=server.ticket)
-    try:
-        t.lock()
-        if not t.masters:
-            t.table_attr(p, 'masters', [server.ticket.user_name])
-        if not t.table_title:
-            t.table_attr(p, 'table_title', title)
-        t.table_attr(p, 'official_ue', int(visible))
-        if private:
-            t.table_attr(p, 'teachers', private)
-    finally:
-        t.unlock()
+    if os.path.exists(document.table_filename(year, semester, code)):
+        message =  server._("MSG_create_table_not_done")
+    else:
+        message = server._("MSG_create_table_done")
+        t, p = document.table(year, semester, code, ticket=server.ticket)
+        try:
+            t.lock()
+            if not t.masters:
+                t.table_attr(p, 'masters', [server.ticket.user_name])
+            if not t.table_title:
+                t.table_attr(p, 'table_title', title)
+            t.table_attr(p, 'official_ue', int(visible))
+            if private:
+                t.table_attr(p, 'teachers', private)
+        finally:
+            t.unlock()
     
     server.the_file.write(
-        '<p>' + server._("MSG_create_table_done")
+        '<p>' + message
         + '<a href="' + configuration.server_url + '/=' + server.ticket.ticket
         + '/' + year + "/" + semester + "/" + code + '" target="_blank">'
         + configuration.server_url + '/' + year + "/" + semester + "/" + code
