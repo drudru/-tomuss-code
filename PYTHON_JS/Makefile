@@ -17,7 +17,7 @@ translator:
 	@echo "Cloning translator repository, checkout a working version"
 	if [ ! -d RapydScript ] ; \
 	then \
-        git clone git://github.com/atsepkov/RapydScript.git ; \
+        git clone https://github.com/atsepkov/RapydScript.git ; \
 	cd RapydScript ; \
 	git checkout e2c8b247a5b1a1024a8e7adae188b7bb78a77ede ; \
 	fi
