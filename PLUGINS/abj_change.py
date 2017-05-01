@@ -180,7 +180,7 @@ plugin.Plugin('abjhtml', '/{Y}/{S}/abj/html/{*}',
               priority = -3,
               link=plugin.Link(
                   url="javascript:go('abj/html/REGEXP')",
-                  where='abj_master', html_class="safe",
+                  where='abj_master', html_class="verysafe",
                   ),
               )
 

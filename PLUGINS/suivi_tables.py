@@ -51,8 +51,10 @@ def table_statistics(server):
                     table.nr_inscrits += 1
                 elif line[col_inscrit].value == 'non':
                     table.nr_not_inscrits += 1
-                group_and_seq = line[3].value + '/' + line[4].value
-                table.group_and_seq[group_and_seq] = True
+                if len(line) > 4:
+                    # XXX Not working nicely if no Grp and Seq column
+                    group_and_seq = str(line[3].value) +'/'+ str(line[4].value)
+                    table.group_and_seq[group_and_seq] = True
                 
             for v in line:
                 table.update(v)
