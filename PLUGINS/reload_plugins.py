@@ -53,8 +53,12 @@ def reload_plugins(server):
         dummy_module, reimported = utilities.import_reload(filename)
         reimported = ('', server._("TH_reload_plugins_reloaded"))[reimported]
         if reimported:
-            for p in plugin_files[i]:
-                configuration.update_home_page_link(p.name)
+            try:
+                for p in plugin_files[i]:
+                    configuration.update_home_page_link(p.name)
+            except AttributeError:
+                # No home page on the 'suivi' server
+                pass
         server.the_file.write('<tr><td>%s<td>%d<td>%s</tr>\n' % (
             i, len(plugin_files[i]), reimported))
     server.the_file.write('</table>\n')
