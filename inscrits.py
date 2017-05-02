@@ -319,9 +319,7 @@ class LDAP_Logic(object):
                           configuration.attr_firstname]
         aa = self.query(q, base=base, attributes=attributes)
         i = attributes.index(configuration.attr_login)
-        if type(aa) != list : print("i"*50, " inscrit 337 aa",type(aa))
         for xx in aa :
-            if type(xx) != list : print("i"*50, " inscrit 337 xx",type(xx))
             x = xx[1]
             if x.get(configuration.attr_login) == None:
                 continue
@@ -595,7 +593,9 @@ class LDAP(LDAP_Logic):
                         + 'QUERY=' + search + '\n'
                         + 'ATTRIBUTES=' + repr(attributes) + '\n'
                         + 'BASE=' + base + '\n'
-                        , subject = 'LDAP Error')
+                        , subject = 'LDAP Error'
+                        , exception=False # str(e) does not work
+                    )
                 if isinstance(e, (
                         ldap3.core.exceptions.LDAPSizeLimitExceededResult,
                         ldap3.core.exceptions.LDAPNoSuchObjectResult)):
