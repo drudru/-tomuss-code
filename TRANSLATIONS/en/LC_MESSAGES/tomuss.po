@@ -4764,6 +4764,9 @@ msgstr "Suivi: Display teacher faces (True/False)"
 msgid "config_table_allow_teacher_picture_upload"
 msgstr "Allow the teachers to change their face picture"
 
+msgid "config_table_private_suivi"
+msgstr "Suivi: With 1, the 'suivi' page is private by default"
+
 msgid "MSG_picture_upload"
 msgstr "Change your face"
 

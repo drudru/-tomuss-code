@@ -310,8 +310,9 @@ def display_preferences(server):
             prefs = {}
         else:
             prefs = {'highlight_grade': 1}
-
-    for k in ('show_empty', 'color_value', 'highlight_grade', 'private_suivi',
+    if 'private_suivi' not in prefs:
+        prefs['private_suivi'] = configuration.private_suivi
+    for k in ('show_empty', 'color_value', 'highlight_grade',
               'hide_right_column', 'big_text', 'hide_picture',
               'no_teacher_color', 'big_box', 'recursive_formula',
               'green_prst', 'black_and_white', 'can_bring_a_pc'):

@@ -4820,6 +4820,9 @@ msgstr "Suivi: Affiche les photos des enseignants (True/False)"
 msgid "config_table_allow_teacher_picture_upload"
 msgstr "Autorise les enseignants à changer leur photo d'identité"
 
+msgid "config_table_private_suivi"
+msgstr "Suivi: Mettre 1 pour que le suivi soit privé par défaut"
+
 msgid "MSG_picture_upload"
 msgstr "Changer votre photo"
 

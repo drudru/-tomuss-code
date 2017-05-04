@@ -224,6 +224,11 @@ suivi_display_more_ue = True
 # Number of days in the future allowed for the column visibility date
 max_visibility_date = 31
 
+# Set to 1 if the default value is the private 'suivi' page.
+# In private mode, only concerned teachers can see the grades.
+# The students may change the value in their preferences.
+private_suivi = 0
+
 #REDEFINE
 # Return True if the name is the code of an official UE.
 # The official UE are displayed to the students in the suivi.
