@@ -1240,11 +1240,14 @@ Notation.prototype.on_comment_change = function(event)
   this.update_error(error, event.target) ;
   event.question.draw_canvas() ;
   this.update_title() ;
-  var completion = this.update_completions(event) ;
-  if ( completion )
+  if ( event.keyCode != 8 )
   {
-    do_autocompletion(event.target, event.target.value + completion) ;
-    event.question.set_comment(event.target.value, this.column_modifiable) ;
+    var completion = this.update_completions(event) ;
+    if ( completion )
+    {
+      do_autocompletion(event.target, event.target.value + completion) ;
+      event.question.set_comment(event.target.value, this.column_modifiable) ;
+    }
   }
 } ;
 
