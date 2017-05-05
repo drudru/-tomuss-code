@@ -1999,7 +1999,8 @@ function sort_lines3()
 Update the content of the table
 ******************************************************************************/
 
-var count_empty = {false: 1, 1: 0, true: 0} ;
+// Key value: return value of 'line_empty()'
+var count_empty       = {false: 1, 1: 0, true: 0} ;
 var count_fully_empty = {false: 1, 1: 1, true: 0} ;
 
 function update_nr_empty(empty_before, empty_after, filtered)
@@ -2957,22 +2958,41 @@ function column_change_allowed(column)
 // Indicate that 'line_id' will be filled
 function add_a_new_line(line_id, hide_if_created)
 {
+  var reuse_old_empty_line ;
+
   if ( line_id === undefined )
     {
-      line_id = page_id + '_' + nr_new_lines ;
-      nr_new_lines++ ;
+      for(var line_id in lines)
+	{
+	  var line = lines[line_id] ;
+	  if ( ! line.is_filtered && line_empty(line) === true )
+	    {
+	      reuse_old_empty_line = true ;
+	      break ;
+	    }
+	}
+      if ( ! reuse_old_empty_line )
+	{
+	  line_id = page_id + '_' + nr_new_lines ;
+	  nr_new_lines++ ;
+	}
+    }
+  else
+    {
+      if ( lines[line_id] )
+	return ;
     }
 
-  if ( lines[line_id] )
-    return ;
+  if ( ! reuse_old_empty_line )
+    {
+      // Create a new line
 
-  // Create a new line
-
-  var line = [] ;
-  for(var c in columns)
-    line[c] = C();
-  line.line_id = line_id ;
-  lines[line_id] = line ;
+      var line = [] ;
+      for(var c in columns)
+	line[c] = C();
+      line.line_id = line_id ;
+      lines[line_id] = line ;
+    }
 
   if ( hide_if_created && (filters.length !== 0 || full_filter || line_filter))
     return ;
