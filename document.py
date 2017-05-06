@@ -544,8 +544,9 @@ class Table(object):
         """ """
         if lines is None:
             lines = tuple(self.lines.values())
-        for column in self.columns:
-            column.type.update_for_suivi(column)
+        if configuration.read_only:
+            for column in self.columns:
+                column.type.update_for_suivi(column)
 
         from .PYTHON_JS import tomuss_python
         from . import cell
