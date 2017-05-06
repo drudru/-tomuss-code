@@ -253,7 +253,7 @@ NotationQuestion.prototype.html = function(modifiable, questions_modifiable)
     + ' spellcheck="true"'
     + ' value="' + encode_value(comment) + '"'
     + ' class="' + c_class + '">'
-    + (notation_debug
+    + (false && notation_debug
        ? '<br>' + this.id
        + ' priority=' + this.priority
        + ' initial_value=' + this.initial_value
@@ -442,6 +442,9 @@ Notation.prototype.log = function(txt)
 
 Notation.prototype.start = function()
 {
+  if ( this.notation_window_open )
+    return ;
+  this.notation_window_open = true ;
   this.jump_old = the_current_cell.jump.bind(the_current_cell) ;
   this.popup_is_open = popup_is_open ;
   var me = this ;
@@ -682,6 +685,7 @@ Notation.prototype.close = function()
   popup_is_open = this.popup_is_open ;
   this.update_all_grades() ;
   table_fill(true, true, true, true) ;
+  this.notation_window_open = false ;
 } ;
 
 Notation.prototype.merge_question_changes = function()
