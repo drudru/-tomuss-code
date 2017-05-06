@@ -771,16 +771,29 @@ Notation.prototype.merge_grade_changes = function()
   var grades ;
   try { grades = JSON.parse(this.cell.comment) ; }
   catch(e) { return ; }
-
+  this.log("Remote: " + this.cell.comment) ;
   for(var grade in grades)
   {
     var question = this.questions[grade] ;
     if ( ! question )
       continue ;
     if ( question.grade.not_graded || ! question.grade.local_change )
-      // Get the grade from somebody else
+    {
+      this.log("Merge remote grade: " + grade) ;
       question.new_grade(grades[grade]) ;
+    }
+    else
+      this.log("Keep local grade: " + grade) ;
   }
+  for(var i in this.questions)
+    {
+      var question = this.questions[i] ;
+      if ( ! question.grade.local_change && grades[question.id] === undefined )
+      {
+	this.log("Remote grade removed: " + question.id) ;
+	question.grade.set_grade(0) ;
+      }
+    }
 } ;
 
 Notation.prototype.get_json_grades = function()
