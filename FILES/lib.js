@@ -1860,6 +1860,7 @@ function full_filter_change(value)
     }
   column_offset = 0 ;
   line_offset = 0 ;
+  the_current_cell.jump(nr_headers, the_current_cell.col, true) ;
   table_fill(true, true,true) ; 
 
   change_option('full_filter', encode_uri_option(value.value))
@@ -1885,7 +1886,6 @@ function change_option(option, value)
   if ( table_attr.bookmark )
     window.history.replaceState('_a_', '_t_', loc) ;
 }
-
 
 var line_filter_change_value ;
 
@@ -1915,8 +1915,8 @@ function line_filter_change_real()
 	value.className = value.className.replace("attribute_error", "") ;
     }
     
-  //  column_offset = 0 ;
   line_offset = 0 ;
+  the_current_cell.jump(nr_headers, the_current_cell.col, true) ;
   table_fill(true, true,true) ; 
   update_histogram(true) ;
 
