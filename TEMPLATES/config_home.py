@@ -90,6 +90,10 @@ columns = {
           'comment': utilities._("COL_COMMENT_ch_help"),
           'width': 12,
           },
+    '7': {'type': 'Text',
+          'title': utilities._("COL_TITLE_plugin"),
+          'width': 2,
+          },
     }
 
 def create(table):
@@ -99,18 +103,22 @@ def create(table):
     ro = table.get_ro_page()
     table.get_a_root_page()
     table.table_attr(ro, 'masters', list(configuration.root))
-    table.table_attr(ro, 'default_nr_columns', 7)
+    table.table_attr(ro, 'default_nr_columns', 8)
     table.table_attr(ro, 'default_sort_column', [0,1])
     table.update_columns(columns, ro)
 
 def add_new_links_in_the_table(table):
     """Create missing lines in the table"""
+    table.update_columns(columns, table.get_ro_page())
     rw = table.pages[1]
     def change(lin_id, values):
         yet_in = lin_id in table.lines
-        for col, value in enumerate(values):
-            col = str(col)
-            if  not yet_in or '<script' in str(value):
+        for data_col, value in enumerate(values):
+            col = str(data_col)
+            if  not yet_in or '<script' in str(value) or (
+                    table.lines[lin_id][data_col].history == ""
+                    and table.lines[lin_id][data_col].value == ""
+                    ):
                 table.cell_change(rw, col, lin_id, value)
         
     table.lock()
@@ -140,7 +148,7 @@ def add_new_links_in_the_table(table):
             else:
                 help = ''
             change(lin_id, (link.where, link.priority, link.html_class,
-                            str(link.group), text, link.url, help))
+                            str(link.group), text, link.url, help, lin_id))
     finally:
         table.unlock()
 
@@ -176,19 +184,15 @@ def link_values(lin_id, line):
 
 def update_link(lin_id, line):
     """Update the attribute of the link from the table content"""
-    if lin_id[0].isdigit():
+    p = plugin.get(lin_id)
+    if p and p.link:
+        link = p.link
+    else:
         for link in plugin.links_without_plugins:
             if link.key == lin_id:
                 break
         else:
             plugin.add_links(plugin.Link(**link_values(lin_id, line)))
-            return
-    else:
-        p = plugin.get(lin_id)
-        if not p:
-            return
-        link = p.link
-        if not link:
             return
 
     for attr_name, value in link_values(lin_id, line).items():
