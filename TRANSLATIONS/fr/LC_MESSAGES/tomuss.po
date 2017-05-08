@@ -2455,7 +2455,7 @@ msgid "MSG_columns_completion_after"
 msgstr "Enlevez un caractère"
 
 msgid "MSG_home_title"
-msgstr "Accueil TOMUSS"
+msgstr "TOMUSS Accueil"
 
 msgid "MSG_home_welcome"
 msgstr "Pour essayer TOMUSS sans danger, choisissez <b>2008/Test</b>\n"

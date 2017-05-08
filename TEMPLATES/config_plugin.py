@@ -25,6 +25,7 @@ from .. import plugin
 from .. import plugins
 from .. import utilities
 from .. import sender
+from .. import data
 
 def update_column(table):
     do_migrate = False
@@ -94,7 +95,9 @@ def check(table, from_create=False):
     try:
         tomuss = set(p.name for p in plugin.plugins)
         suivi = set(p.name for p in plugins.suivi_plugins)
+        done = set()
         for p in plugin.plugins + plugins.suivi_plugins:
+            done.add(p.name)
             if p.name not in table.lines:
                 table.cell_change(table.pages[1], 'invited', p.name,
                                   '("grp:' + p.group + '",)')
@@ -112,7 +115,17 @@ def check(table, from_create=False):
                 is_in += 'S'
                         
             table.cell_change(table.pages[0], 'suivi', p.name, is_in)
-            
+
+        # Make writable old plugins
+        for p, line in table.lines.items():
+            if p in done:
+                continue
+            for column in table.columns:
+                if line[column.data_col].author != data.ro_user:
+                    continue
+                table.cell_change(table.pages[1], column.the_id, p,
+                                  line[column.data_col].value,
+                                  force_update=True)
     finally:
         if not from_create:
             table.unlock()
