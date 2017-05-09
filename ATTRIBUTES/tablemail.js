@@ -217,7 +217,7 @@ function get_mail_data_col(id)
 
 function personal_mailing_do()
 {
-  var mailing_mail = popup_value() ;
+  var mailing_mail = popup_value(true) ;
   var message = mailing_mail.join('\n') ;
   var subject = document.getElementById('personal_mailing').value ;
   localStorage['personal_mailing.subject.' + ue] = subject ;

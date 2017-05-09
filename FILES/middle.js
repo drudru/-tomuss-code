@@ -1345,12 +1345,13 @@ function popup_close()
     }
 }
 
-function parse_lines(text)
+function parse_lines(text, keep_spaces)
 {
-  text = text.replace(/\r\n/g, '\n').replace(/\n\r/g, '\n').
-              replace(/\r/g, '\n').replace(/ *\n */g, "\n").
-              replace(/ *$/g, "").split('\n') ;
+  text = text.replace(/\r\n/g,'\n').replace(/\n\r/g,'\n').replace(/\r/g,'\n');
+  if ( ! keep_spaces )
+    text = text.replace(/ *\n */g, "\n").replace(/ *$/g, "") ;
 
+  text = text.split('\n') ;
   while ( text.length > 1 && text.length && text[text.length-1] === '' )
     text.pop() ;
 
@@ -1362,9 +1363,9 @@ function popup_text_area()
   return document.getElementById('popup_id').getElementsByTagName('TEXTAREA')[0] ;
 }
 
-function popup_value()
+function popup_value(keep_spaces)
 {
-  return parse_lines(popup_text_area().value) ;
+  return parse_lines(popup_text_area().value, keep_spaces) ;
 }
 
 function popup_set_value(value)
