@@ -81,7 +81,7 @@ def check_virus(data):
         return None # Not installed or not running
     utilities.warn("SCAN: START")
     try:
-        if isinstance(data, str):
+        if isinstance(data, bytes):
             res = pc.scan_stream(data)
         else:
             res = pc.scan_stream(HackClamd(data))
