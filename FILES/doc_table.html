@@ -539,21 +539,29 @@
     <div>
     <h3>Deuxième session</h3>
     <p>
-      Si remplacer la note de première session par celle de deuxième
-      session en mettant un commentaire ne vous convient pas,
-      alors la manière la plus simple est la suivante :
-    </p>
-    <ul>
-      <li> Vous créez une colonne contenant uniquement
-	la note de deuxième session.
-      <li> Vous créez une nouvelle colonne moyenne calculant
-	la moyenne en utilisant la note de deuxième session.
-      <li> Vous effacez les NaN en utilisant la fonctionnalité de
-	<a href="#remplir">remplissage de colonne</a>.
-    </ul>
+      Il y a plusieurs manières de la gérer :
+
+      <h4>Méthode recommandée pour éviter les erreurs</h4>
     <p>
-      Si vous tenez à avoir une note finale ne distinguant pas les 2 sessions,
-      le plus simple est de créer cette formule :
+      Voici la procédure :
+      <ul>
+	<li> Vous créez une colonne contenant uniquement
+	  la note de deuxième session.
+	<li> Vous créez une nouvelle colonne moyenne calculant
+	  la moyenne en utilisant la note de deuxième session.
+	<li> Vous effacez les NaN en utilisant la fonctionnalité de
+	  <a href="#remplir">remplissage de colonne</a>.
+      </ul>
+    <p>L'avantage de cette méthode est que vous pouvez facilement filtrer
+      et comparer les notes des deux sessions.
+
+      <h4>Fusionner les deux sessions</h4>
+    <p>
+      Cette méthode n'est <b>pas</b> recommandée,
+      elle va compliquer l'importation des notes dans APOGEE.
+    <p>
+      Pour avoir une note finale ne distinguant pas les 2 sessions,
+      vous créez cette formule :
       <ul>
 	<li> «Note UE» (Moyenne de «TP», «TD», «Examen»)
 	  <ul>
@@ -561,7 +569,8 @@
 	    <li> «TD» (Note)
 	    <li> «Examen» (de type «If filtre: c1 else c2» avec comme filtre «[Session2]=»
 	      afin de retourner la note de session1 seulement si l'étudiant
-	      n'est pas venu en session2)
+	      n'est pas venu en session2).
+	      Elle dépend des deux colonnes d'examen :
 	      <ul>
 		<li> «Session1» (Note)
 		<li> «Session2» (Note)
