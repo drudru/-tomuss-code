@@ -1445,7 +1445,8 @@ class Table(object):
         for line_key, line in self.lines.items():
             for col, cell in zip(self.columns, line):
                 if cell.value != '':
-                    s.append('cell_change(%d,%s,%s,%s,%s)' % (
+                    if cell.date != '': # Not a computed value
+                        s.append('cell_change(%d,%s,%s,%s,%s)' % (
                             pages[cell.author],
                             repr(col.the_id),
                             repr(line_key),
