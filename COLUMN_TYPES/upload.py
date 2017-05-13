@@ -44,6 +44,7 @@ class Upload(text.Text):
     attributes_visible = ('rounding', 'weight', 'upload_max', 'upload_zip',
                           'groupcolumn', 'import_zip')
     ondoubleclick = 'upload_double_click'
+    formatte = 'function(v, column) { if ( column.rounding === "" && v.toFixed ) return v.toFixed(3) ; else return column.do_rounding(v) ; }'
     formatte_suivi = 'upload_format_suivi'
     human_priority = 20
     tip_cell = "TIP_cell_Upload"
