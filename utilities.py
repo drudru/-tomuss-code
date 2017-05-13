@@ -1209,10 +1209,10 @@ class Variables(object):
     V = Variables({'foo': ('foo comment', 'default_value'),
                    'bar': ('bar comment', 5),
                    })
-    print V.foo
+    print(V.foo)
 
     Beware :
-       * The V.foo access time is long.
+       * There is no overhead on V.foo access (except on value change)
        * The V.foo value will change if the user modify
          the table 0/Variables/group
        * The user may only enter values of the same type.

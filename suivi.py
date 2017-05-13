@@ -104,6 +104,15 @@ class MyRequestBroker(utilities.FakeRequestHandler):
                 for tt in to_reload:
                     document.table(0, 'Dossiers', tt, None, None, ro=True)
                 configuration.config_acls_clear_cache()
+            for t in tuple(document.tables.values()):
+                if t.semester == "Variables":
+                    t.do_not_unload = []
+                    t.unload()
+                    try:
+                        for v in t.variables:
+                            v._clean_()
+                    except AttributeError:
+                        pass
             self.send_response(200)
             self.send_header('Content-Type', 'text/plain')
             self.end_headers()

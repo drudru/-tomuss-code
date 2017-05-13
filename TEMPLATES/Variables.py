@@ -69,3 +69,4 @@ def cell_change(table, page, col, lin, value, dummy_date):
         raise ValueError(utilities._("ALERT_unexpected_type"))
     for v in table.variables:
         v._clean_()
+    configuration.tell_to_reload_config()

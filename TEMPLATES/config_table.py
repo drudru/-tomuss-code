@@ -222,8 +222,10 @@ def cell_change(dummy_table, page, col, lin, value, dummy_date):
     tell_to_reload_config()
 
 def tell_to_reload_config():
-    configuration.config_acls_clear_cache()    
-    utilities.start_new_thread(tell_reload_config, ())
+    configuration.config_acls_clear_cache()
+    # XXX 5 seconds wait before 'suivi' server cache reload
+    utilities.start_job(tell_reload_config,
+                        0 if configuration.regtest else 5)
 
 configuration.tell_to_reload_config = tell_to_reload_config
     
