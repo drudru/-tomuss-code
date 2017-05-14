@@ -114,7 +114,7 @@ def check_result(line, col, fct):
                 return
         except ValueError:
             pass
-        print('='*77)
+        print('============================')
         print("Column:", col)
         print(line)
         print('Expected:', line[col].expected)

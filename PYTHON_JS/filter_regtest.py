@@ -188,6 +188,8 @@ def filterRegtest():
         [['a'  , ""    , "", "", ""], ["=a"   , ""    , ""], True],
         [[''   , ""    , "", "","x"], ["#=x"  , ""    , ""], True],
         [['0'  , ""    , "", "", ""], ["="    , ""    , ""], False],
+        [['#'  , ""    , "", "", ""], ["\\#"  , ""    , ""], True],
+        [['!'  , ""    , "", "", ""], ["\\!"  , ""    , ""], True],
         ]:
         cell, filters, result = cell_filters_result
         if Filter(filters[0], filters[1], filters[2]
@@ -255,7 +257,9 @@ def filterRegtest():
                 "@[A]=Aa", ":[G]=@[A]", "@[]=Ad", "@[]=@[D]", "@[]=ad",
                 "?[]=15/5/2014-12", "?[]=?[G]", "?[G]=?[]", "[D]<?[]",
                 "#[G]>?[]", "#[F]>?[]",
-                "[H]=:[D]", "[H]0.", "#[H]#[E]"
+                "[H]=:[D]", "[H]0.", "#[H]#[E]",
+                ">[F]", "!>\\[F]",
+                "@>[F]", "!@<\\[A]", "@>\\[A]",
             ]:
         if Filter(tst, "Ad", "").evaluate(line, line[1]) is not True:
             bug("BUG13", tst, username="Ad", column_type="Text")

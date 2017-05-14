@@ -103,6 +103,7 @@ def python_pop(array, i):
     array.splice(i, 1)
 
 def replace_all(txt, regexp, value):
+    regexp = regexp.replace(RegExp("\\\\", "g"), "\\\\")
     return txt.replace(RegExp(regexp, "g"), value)
 
 def js_str(txt):

@@ -359,6 +359,10 @@ def FilterOperator(operator, what, value, column_type,
     else:
         what_right = "value"
         elsewhere = from_another_column(value, errors, columns)
+
+    value = replace_all(value, "\\\\", "￾")
+    value = replace_all(value, "\\", "")
+    value = replace_all(value, "￾", "\\")
     if elsewhere is None:
         if (operator[0] == "~"
             or (operator[0] == "" and what != "date")
@@ -560,7 +564,6 @@ class Filter:
                     break
                 if char == '\\':
                     protected = True
-                    continue
             else:
                 protected = False
             value += char
