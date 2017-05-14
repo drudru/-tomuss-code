@@ -501,9 +501,12 @@ class Filter:
         # Uncomment to allow white space after negation
         # string = string.lstrip()
         if string:
-            attr = filterAttributes.get(string[0], "value")
-            if attr != 'value':
-                string = string[1:]
+            if string[0] in filterAttributes:
+                attr = filterAttributes[string[0]]
+                if attr != 'value':
+                    string = string[1:]
+            else:
+                attr = "value"
         else:
             attr = 'value'
             if negate:
@@ -532,11 +535,11 @@ class Filter:
                 if attr == 'value' and operator[0] == '':
                     left = CellAttrAsFixed(left)
         value = ''
-        protected = False
+        bs_protected = False
         i = 0
         for char in string:
             i += 1
-            if not protected:
+            if not bs_protected:
                 if char == ' ':
                     # Search non space char
                     next_char = ""
@@ -549,7 +552,7 @@ class Filter:
                 if (char == ' '
                     and operator[0] == ''
                     and attr == 'value'
-                    and filterAttributes.get(next_char, '') == '' # the value
+                    and next_char not in filterAttributes # the value
                     and search_operator(next_char)[1][0] == ''    # starting by
                     and next_char not in '&|@#:?<>=~!['
                     and negate == False
@@ -563,9 +566,9 @@ class Filter:
                     i -= 1
                     break
                 if char == '\\':
-                    protected = True
+                    bs_protected = True
             else:
-                protected = False
+                bs_protected = False
             value += char
 
         if len(value) == 0 and operator[0] == '':

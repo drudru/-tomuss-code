@@ -22,4 +22,5 @@ if [ ! -s $2 ]
 then
     mv $2~ $2 # Restore corrupted file
     exit 1
+
 fi

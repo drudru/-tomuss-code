@@ -36,28 +36,34 @@ class Table:
     def __init__(self):
         self.rounding = 0
 
+def get(args, x, v):
+    if x in args:
+        return args[x]
+    else:
+        return v
+
 class Column:
     def __init__(self, args={}):
         # self.__dict__ is not translated into javascript
         # ** is not translated into javascript
         if not args:
             args = {}
-        self.average_columns = args.get("average_columns", [])
-        self.real_weight     = args.get("real_weight", 1)
-        self.real_weight_add = args.get("real_weight_add", True)
-        self.min             = args.get("min", 0)
-        self.max             = args.get("max", 20)
-        self.mean_of         = args.get("mean_of", 0)
-        self.best_of         = args.get("best_of", 0)
-        self.round_by        = args.get("round_by", 0)
-        self.empty_is        = args.get("empty_is", "")
-        self.test_filter     = args.get("test_filter", "")
-        self.test_if         = args.get("test_if", "")
-        self.comment         = args.get("comment", "")
-        self.computed        = args.get("computed", 0)
-        self.abj_is          = args.get("abj_is", 0)
-        self.abi_is          = args.get("abi_is", 0)
-        self.title           = args.get("title", "")
+        self.average_columns = get(args, "average_columns", [])
+        self.real_weight     = get(args, "real_weight", 1)
+        self.real_weight_add = get(args, "real_weight_add", True)
+        self.min             = get(args, "min", 0)
+        self.max             = get(args, "max", 20)
+        self.mean_of         = get(args, "mean_of", 0)
+        self.best_of         = get(args, "best_of", 0)
+        self.round_by        = get(args, "round_by", 0)
+        self.empty_is        = get(args, "empty_is", "")
+        self.test_filter     = get(args, "test_filter", "")
+        self.test_if         = get(args, "test_if", "")
+        self.comment         = get(args, "comment", "")
+        self.computed        = get(args, "computed", 0)
+        self.abj_is          = get(args, "abj_is", 0)
+        self.abi_is          = get(args, "abi_is", 0)
+        self.title           = get(args, "title", "")
         if len(columns) != 0:
             self.table = columns[0].table
 

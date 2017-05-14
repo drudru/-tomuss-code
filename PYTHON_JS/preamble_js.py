@@ -27,9 +27,9 @@ if "console" not in window:
     window.console = console
 
 try:
-    str
+    str(5)
 except:
-    str = def(x): return "" + x
+    def str(x): return "" + x
 
 try:
     "".join([])
@@ -88,16 +88,6 @@ except:
         this.splice(index, 0, data)
     o.defineProperty(Array.prototype, 'insert' ,
                      {'enumerable': False,'value': _array_insert_}) ;
-
-try:
-    {}.get("p", "m")
-except:
-    def __getter__(key, defaultv):
-        if this[key] is undefined:
-            return defaultv
-        return this[key]
-    o.defineProperty(Object.prototype, 'get' ,
-                     {'enumerable': false, 'value': __getter__}) ;
 
 def python_pop(array, i):
     array.splice(i, 1)

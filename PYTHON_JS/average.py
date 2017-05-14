@@ -60,7 +60,8 @@ def compute_average(data_col, line):
         value = line[data_column].get_value(origin)
         if str(value) == '': # str is here to turn arround the JavaScript cast
             return nan # Empty cell
-        value = allowed_grades.get(value, [value])[0]
+        if value in allowed_grades:
+            value = allowed_grades[value][0]
         if not origin.real_weight_add:
             nr_add += 1
         if value in (abj, abj_short):
@@ -201,7 +202,7 @@ def get_most_recent_date(data_col, line, not_root=False):
     date = ""
     for data_column in columns[data_col].average_columns:
         d = get_most_recent_date(data_column, line)
-        if d > date:
+        if str(d) > str(date): # XXX RapydScript want this
             date = d
     return date
 

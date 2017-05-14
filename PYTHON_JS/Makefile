@@ -13,25 +13,34 @@ JS=../FILES/lib.js ../FILES/utilities.js ../COLUMN_TYPES/text.js deprecated.js
 LOCAL=$(shell if [ -d ../LOCAL/LOCAL_PYTHON_JS ] ; then ls ../LOCAL/LOCAL_PYTHON_JS/*.py | grep -v regtest ; fi)
 LOCAL_REGTEST=$(shell if [ -d ../LOCAL/LOCAL_PYTHON_JS ] ; then echo ../LOCAL/LOCAL_PYTHON_JS/*_regtest.py ; fi)
 
+RAPYDSCRIPT_COMMIT=0483fac4745bca9c531d29963f2daca5e3330e7c
 translator:
-	@echo "Cloning translator repository, checkout a working version"
-	if [ ! -d RapydScript ] ; \
+	@if [ ! -d RapydScript ] ; \
 	then \
-        git clone https://github.com/atsepkov/RapydScript.git ; \
-	cd RapydScript ; \
-	git checkout e2c8b247a5b1a1024a8e7adae188b7bb78a77ede ; \
+		echo "Cloning Python->JS translator repository." ; \
+		git clone https://github.com/atsepkov/RapydScript.git ; \
+		cd RapydScript ; \
+		git checkout $(RAPYDSCRIPT_COMMIT) ; \
+	fi
+	@cd RapydScript ; \
+	if [ $$(git rev-parse HEAD) != $(RAPYDSCRIPT_COMMIT) ] ; \
+	then \
+		echo "Updating Python->JS translator." ; \
+		$(MAKE) clean ; \
+		git fetch ; \
+		git checkout $(RAPYDSCRIPT_COMMIT) ; \
 	fi
 
 tomuss_python.py:$(OBJS_PYTHON) $(LOCAL) Makefile
 	@cat $(OBJS_PYTHON) $(LOCAL) >$@
 
-tomuss_python.js:$(OBJS_JS) $(LOCAL) Makefile
+tomuss_python.js:translator $(OBJS_JS) $(LOCAL) Makefile
 	@./python_to_js "$(OBJS_JS) $(LOCAL)" $@
 
-tomuss_python_regtest.js:$(OBJS_JS) $(REGTEST) $(LOCAL) $(LOCAL_REGTEST) Makefile
+tomuss_python_regtest.js:translator $(OBJS_JS) $(REGTEST) $(LOCAL) $(LOCAL_REGTEST) Makefile
 	@./python_to_js "$(OBJS_JS) $(LOCAL) $(REGTEST) $(LOCAL_REGTEST)" $@
 
-regtest: translator regtest_python regtest_js
+regtest: regtest_python regtest_js
 
 regtest_python:
 	@echo "Running regression tests in Python"
@@ -77,6 +86,8 @@ used_filters:
 # Only for personnal testing
 
 test:
-	./python_to_js test.py xxx.js
-	./my_nodejs xxx.js
+	./python_to_js " preamble_js.py filter.py test.py" xxx.js
+	@echo 'window = { "location":""} ; navigator = { } ;' >xxx2.js
+	@cat xxx.js >>xxx2.js
+	./my_nodejs xxx2.js
 
