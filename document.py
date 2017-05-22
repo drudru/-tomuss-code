@@ -817,7 +817,10 @@ class Table(object):
                 self.compute_columns([line])
                 cell = line[a_column.data_col] # Class change is possible
                 # Now the cell contains the right value
-                if isinstance(cell.value, float) and not math.isnan(cell.value):
+                if (isinstance(cell.value, float)
+                    and not math.isnan(cell.value)
+                    and not a_column.cell_is_modifiable
+                    ):
                     return 'bad.png'
             if not self.authorized(page.user_name, cell, a_column, line):
                 utilities.warn('cell value = (%s)' % cell.value)
