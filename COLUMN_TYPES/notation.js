@@ -691,6 +691,7 @@ Notation.prototype.close = function()
 Notation.prototype.merge_question_changes = function()
 {
   var current = this.questions ;
+  var current_sorted = this.question_list() ;
   this.parse_questions(this.column.comment) ;
   var remotes = this.question_list(true) ;
   this.questions = current ;
@@ -723,9 +724,10 @@ Notation.prototype.merge_question_changes = function()
     }
   }
   // Only local questions
-  for(var i in current)
-    if ( ! done[current[i].id] && ! this.is_the_last(current[i])  )
-      current[i].priority = this.local_priority++ ;
+  for(var i in current_sorted)
+    if ( ! done[current_sorted[i].id]
+	 && ! this.is_the_last(current_sorted[i])  )
+      current_sorted[i].priority = this.local_priority++ ;
 
   this.log("Merge after: " + JSON.stringify(this.questions)) ;
 } ;
