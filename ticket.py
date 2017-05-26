@@ -1,5 +1,5 @@
 #    TOMUSS: The Online Multi User Simple Spreadsheet
-#    Copyright (C) 2008-2014 Thierry EXCOFFIER, Universite Claude Bernard
+#    Copyright (C) 2008-2017 Thierry EXCOFFIER, Universite Claude Bernard
 #
 #    This program is free software; you can redistribute it and/or modify
 #    it under the terms of the GNU General Public License as published by
@@ -20,11 +20,13 @@
 import os
 import time
 import html
+import tempfile
 import urllib.request, urllib.parse, urllib.error
 from . import utilities
 from . import configuration
 
 warn = utilities.warn
+
 
 def client_ip(server):
     try:
@@ -50,6 +52,7 @@ class Ticket(object):
         else:
             self.date = date
         self.set_language(language)
+        self.temporary_drectories = {}
 
     def set_language(self, lang):
         self.language = lang.lower().replace(';',',').replace('-','_')
@@ -94,12 +97,10 @@ class Ticket(object):
                ',' + repr(self.date) + ')\n'
 
     def remove_file(self):
-        try:
-            os.unlink(os.path.join(configuration.ticket_directory, self.ticket))
-        except IOError:
-            pass
-        except OSError:
-            pass
+        utilities.remove_this(
+            os.path.join(configuration.ticket_directory, self.ticket))
+        utilities.remove_this(
+            os.path.join(configuration.ticket_directory + '_TMP', self.ticket))
 
     def remove(self):
         """Remove all the tickets of the user to avoid problems"""
@@ -114,6 +115,23 @@ class Ticket(object):
         warn('Remove this ticket : %s' % self, what="auth")
         self.date = 0
         self.remove_file()
+
+    def temporary_directory_name(self, key=''):
+        return os.path.join(configuration.ticket_directory + '_TMP',
+                            self.ticket, key.replace("/.","/_"))
+
+    def temporary_directory_get(self, key='', erase=False):
+        """Create a session temporary directory.
+        The user must give an unique key."""
+        name = self.temporary_directory_name(key)
+        if erase:
+            import shutil
+            try:
+                shutil.rmtree(name)
+            except OSError:
+                pass
+        utilities.mkpath(name, create_init=False)
+        return name
 
     def access_right(self):
         if not hasattr(self,'is_a_teacher'):
@@ -217,7 +235,7 @@ def remove_old_files():
         try:
             if time.time() - os.path.getmtime(filename) \
                    > configuration.ticket_time_to_live:
-                os.unlink(filename)
+                utilities.remove_this(filename)
         except OSError:
             pass
 
