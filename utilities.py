@@ -1617,3 +1617,19 @@ class ProgressBar:
             if pos == 0:
                 break
             time.sleep(1)
+
+# Remove files and directories in background
+
+_cleanup_list = []
+def _cleanup():
+    while _cleanup_list:
+        try:
+            shutil.rmtree(_cleanup_list.pop())
+        except IOError:
+            pass
+        except OSError:
+            pass
+
+def remove_this(filename):
+    _cleanup_list.append(filename)
+    start_job(_cleanup, 1)
