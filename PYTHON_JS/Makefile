@@ -2,7 +2,7 @@
 #    node debug xxx.js
 # And 'c' to continue
 
-all:regtest_python tomuss_python.js regtest_js stats
+all:regtest_python tomuss_python.js regtest_js stats tomuss_python.py
 
 OBJS = filter.py average.py maximum.py nmbr.py cow.py diff_date.py weighted_percent.py product.py places.py if_else.py
 OBJS_JS = preamble.py preamble_js.py $(OBJS)

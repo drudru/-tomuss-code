@@ -90,7 +90,8 @@ def compute_average(data_col, line):
                 if origin.round_by:
                     value = rint(value / origin.round_by,0) * origin.round_by
                 else:
-                    value = rint(value * 1000000,0) / 1000000
+                    if column.old_function:
+                        value = rint(value * 1000000,0) / 1000000
 
             if origin.real_weight_add:
                 values.append([
@@ -175,14 +176,20 @@ def compute_average(data_col, line):
         if nr_abi >= len(column.average_columns) - nr_sum:
             return abi
         else:
-            sumw += 1e-16 ; # Fix .499999999999999 numbers
+            if column.old_function:
+                sumw += 1e-16
             value = (column.min
                      + sumw * (column.max - column.min) / weight
                      + sum2)
+            if not column.old_function:
+                value -= 1e-14
             if column.table.rounding <= 1 and column.round_by:
                 return rint(value / column.round_by,0) * column.round_by
             else:
-                return rint(value * 1000000,0) / 1000000
+                if column.old_function:
+                    return rint(value * 1000000,0) / 1000000
+                else:
+                    return value
     elif nr_sum == len(column.average_columns):
         if nr_abi == nr_sum:
             return abi

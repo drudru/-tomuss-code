@@ -348,6 +348,7 @@ class Column(object):
     Once the Column is integrated in a table, it memorizes the table pointer.
     """
     data_col = table = None # To remove pychecker complaint
+    old_function = False    # For average.py and average_compatibility.py
     
     def __init__(self, col, username, **keys):
         """Create the column with the same defaults than in the column object

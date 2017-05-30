@@ -253,7 +253,7 @@ if ( column_list_all() != "0,2,1,3,4,6,7" )
   error(column_list_all()) ;
 update_line("lin_0", 7) ;
 
-if ( lines["lin_0"][7].value != "26" )
+if ( 26 - lines["lin_0"][7].value > 1e-9 )
   error(lines["lin_0"][7].value) ;
 if ( lines["lin_0"][7].author != "*" )
   error(lines["lin_0"][7].author) ;
@@ -267,7 +267,7 @@ check_requests('column_attr_title/1_1/Average\n'
 cell_set_value_real("lin_0", 7, "12") ;
 
 check_alerts("") ; // No alert because it is impossible
-if ( lines["lin_0"][7].value != "26" )
+if ( 26 - lines["lin_0"][7].value > 1e-9 )
   error(lines["lin_0"][7].value) ;
 
 check_requests('') ;
@@ -285,7 +285,7 @@ if ( column_list_all() != "0,2,1,3,4,6,7,8" )
   error(column_list_all()) ;
 update_line("lin_0", 8) ;
 
-if ( lines["lin_0"][8].value != "26" )
+if ( 26 - lines["lin_0"][8].value > 1e-9 )
   error(lines["lin_0"][8].value) ;
 if ( lines["lin_0"][8].author != "?" )
   error(lines["lin_0"][8].author) ;
@@ -298,7 +298,7 @@ check_requests('column_attr_title/1_2/Cow\n'
 cell_set_value_real("lin_0", 6, "3") ;
 update_line("lin_0", 6) ;
 
-if ( lines["lin_0"][8].value != "6" )
+if ( 6 - lines["lin_0"][8].value > 1e-9 )
   error(lines["lin_0"][8].value) ;
 
 check_requests('cell_change/1_0/lin_0/3') ;

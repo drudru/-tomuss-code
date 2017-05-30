@@ -64,6 +64,7 @@ class Column:
         self.abj_is          = get(args, "abj_is", 0)
         self.abi_is          = get(args, "abi_is", 0)
         self.title           = get(args, "title", "")
+        self.old_function    = False
         if len(columns) != 0:
             self.table = columns[0].table
 
