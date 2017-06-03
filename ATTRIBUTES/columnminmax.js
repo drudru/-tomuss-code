@@ -38,7 +38,7 @@ if ( value.length != 2 )
     return column.minmax ;
   }
 
-if ( Number(value[0]) >= Number(value[value.length-1]) )
+if ( a_float(value[0]) >= a_float(value[value.length-1]) )
   {
     alert_append(_("ALERT_columnminmax_order") + column.title) ;
     return column.minmax ;

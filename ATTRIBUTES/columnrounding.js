@@ -40,7 +40,7 @@ function set_rounding(value, column)
     column.round_by = undefined ;
     return '' ;
   }
-  value = Number(value) ;
+  value = a_float(value) ;
   if ( value < 0 )
     value = -value ;
   if ( value < 0.001 )
