@@ -5968,6 +5968,10 @@ msgstr "Fill the column with files from the ZIP file you send.<br>\n"
        "If you are authorized, it will overwrite existing files.<br>\n"
        "Filters are not taken into account (as in import)"
 
+msgid "MSG_column_attr_import_zip_pdf"
+msgstr "Once the page dispatching is done:\n"
+       "<button>record the documents</button>."
+
 msgid "MSG_no_virus_found"
 msgstr "No virus found."
 

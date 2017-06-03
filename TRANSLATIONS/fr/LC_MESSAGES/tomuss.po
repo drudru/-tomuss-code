@@ -6102,6 +6102,10 @@ msgstr "Remplir la colonne avec des fichiers extraits du ZIP que vous envoyez.<b
        "Si vous avez le droit, les fichiers existants seront écrasés.<br>\n"
        "Les filtres ne sont pas pris en compte (comme dans l'importation)"
 
+msgid "MSG_column_attr_import_zip_pdf"
+msgstr "Une fois les pages vérifiées :\n"
+       "<button>enregistrez la répartition</button>."
+
 msgid "MSG_no_virus_found"
 msgstr "Aucun virus n'a été détecté."
 

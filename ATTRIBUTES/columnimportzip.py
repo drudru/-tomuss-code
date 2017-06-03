@@ -19,11 +19,17 @@
 #
 #    Contact: Thierry.EXCOFFIER@bat710.univ-lyon1.fr
 
+import os
 import re
 import html
+import glob
+import subprocess
 from .columnfill import ColumnFill
+from .. import sender
 from .. import plugin
 from .. import document
+from .. import configuration
+from .. import utilities
 from ..COLUMN_TYPES import upload
 
 class ColumnImportZip(ColumnFill):
@@ -37,6 +43,83 @@ class ColumnImportZip(ColumnFill):
     #t_column_import_zip { background: #FAA ; }
 """
 
+def name(column):
+    return "{}_{}_{}_{}".format(column.table.year,
+                                column.table.semester,
+                                column.table.ue,
+                                column.the_id)
+def nr_pages(server, column):
+    return len(tuple(glob.glob(os.path.join(server.ticket.temporary_directory_get(name(column)), "*.pdf"))))
+
+def upload_pdf(server):
+    table = document.table(server.the_year, server.the_semester,
+                           server.the_ue, create=False,
+                           do_not_unload='import_zip')
+    column = table.columns.from_id(server.the_path[0])
+    tmp = server.ticket.temporary_directory_get(name(column))
+    page = table.pages[server.the_page]
+    assert(server.ticket.user_name == page.user_name)
+    
+    for line_id in server.uploaded:
+        line = table.lines[line_id]
+        first, nb = server.uploaded.getfirst(line_id).split('\001')
+        first = int(first)
+        nb = int(nb)
+        server.the_file.write("{} : {}-{}<br>".format(line[0].value,
+                                                      first, first+nb-1))
+        joiner = ["pdfjoin"]
+        for i in range(first, first+nb):
+            joiner.append(os.path.join(tmp, "p{:06d}.pdf".format(i)))
+        joiner.append('--outfile')
+        output = os.path.join(tmp, line_id + '.pdf')
+        joiner.append(output)
+        process = subprocess.Popen(joiner)
+        process.wait()
+        with open(output, "rb") as f:
+            upload.save_file(server, page, column, line_id, f, column.title)
+        server.the_file.write('<hr>')
+    server.the_file.write('THE END')
+    
+
+def import_pdf(server, table, column):
+    dirname = server.ticket.temporary_directory_get(name(column), erase=True)
+    server.the_file.write('<pre id="import_feedback_debug">')
+    pdf = os.path.join(dirname, "input.pdf")
+    with open(pdf, "wb") as f:
+        upload.copy_stream(server.uploaded['data'].file, f)
+    subprocess.Popen(('pdfseparate', "input.pdf", "p%06d.pdf"),
+                     stdin = None,
+                     stdout = server.the_file,
+                     stderr = server.the_file,
+                     cwd = dirname).wait()
+    os.unlink(pdf)
+    server.the_file.write("""
+    </pre>
+    <script>
+    document.getElementById('import_feedback_debug').style.display = 'none' ;
+    var importPDF = new window.parent.ImportPDF(document, {},{}) ;
+    </script>""".format(utilities.js(name(column)), nr_pages(server, column)))
+    process = subprocess.Popen(['mogrify',
+                                '-format', 'png',
+                                '-resize', '768',
+                                '-background', 'white',
+                                '-alpha', 'remove',
+                                '-verbose']
+                               + sorted(os.listdir(dirname)),
+                               stdin = None,
+                               stdout = None,
+                               stderr = subprocess.PIPE,
+                               cwd = dirname)
+    page = 1
+    for line in process.stderr:
+        page_name = 'p{:06d}.png'.format(page)
+        if page_name.encode('ascii') not in line:
+            continue
+        page += 1
+        server.the_file.write('<script>importPDF.add()</script>')
+    process.wait()
+    assert(page == nr_pages(server, column) + 1)
+    
 def import_zip(server):
     """
     Upload many files at once.
@@ -52,6 +135,9 @@ def import_zip(server):
         if column.type.name != 'Upload':
             raise ValueError('Not good type')
         server.the_file.write('<p>' + server._("MSG_abj_wait") + '\n')
+        if server.uploaded['data'].filename.lower().endswith(".pdf"):
+            import_pdf(server, table, column)
+            return
         zf = zipfile.ZipFile(server.uploaded['data'].file, mode="r")
         page = table.get_a_page_for((server.ticket.user_name,))
         for filename in zf.namelist():
@@ -83,14 +169,29 @@ def import_zip(server):
                            ).replace('/','_').replace("\\", "_"))
 
         zf.close()
+        server.the_file.write('<p>THE END')
     except zipfile.BadZipFile:
         server.the_file.write('<p>' + server._("MSG_not_a_zip"))
     finally:
-        server.the_file.write('<p>THE END')
         table.do_not_unload_remove('import_zip')
 
 
 plugin.Plugin('import_zip', '/{Y}/{S}/{U}/import_zip/{*}',
               function=import_zip, launch_thread = True,
               upload_max_size = 2000000000,
+          )
+
+plugin.Plugin('upload_pdf', '/{Y}/{S}/{U}/upload_pdf/{P}/{*}',
+              function=upload_pdf, launch_thread = True,
+              upload_max_size = 200000,
+          )
+
+def tmp(server):
+    n = server.ticket.temporary_directory_name(os.path.join(*server.the_path))
+    with open(n, "rb") as f:
+        c = f.read()
+        sender.append(server.the_file, c, keep_open=False)
+
+plugin.Plugin('tmp', '/tmp/{*}',
+              function=tmp, mimetype="image/png"
           )
