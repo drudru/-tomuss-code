@@ -24,6 +24,7 @@ import re
 import time
 import json
 import math
+import inspect
 import collections
 from .utilities import js
 from . import utilities
@@ -314,15 +315,15 @@ def initialize():
             continue
         the_module, reloaded = utilities.import_reload(name)
         for key, item in the_module.__dict__.items():
-            if hasattr(item, 'name'):
+            if (inspect.isclass(item)
+                and issubclass(item, ColumnAttr)
+                and hasattr(item, "name")
+                ):
                 if key in names:
-                    continue
-                if key.startswith('__'):
                     continue
                 names.add(key)
                 attributes.append(item())
                 reloadeds.append((item.__name__, reloaded))
-
     attributes.sort(key=lambda x: (x.priority, x.name))
 
     files.files['types.js'].append('column.py',
