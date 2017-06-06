@@ -67,10 +67,9 @@ def upload_pdf(server):
         nb = int(nb)
         server.the_file.write("{} : {}-{}<br>".format(line[0].value,
                                                       first, first+nb-1))
-        joiner = ["pdfjoin"]
+        joiner = ["pdfunite"]
         for i in range(first, first+nb):
             joiner.append(os.path.join(tmp, "p{:06d}.pdf".format(i)))
-        joiner.append('--outfile')
         output = os.path.join(tmp, line_id + '.pdf')
         joiner.append(output)
         process = subprocess.Popen(joiner)
@@ -102,6 +101,7 @@ def import_pdf(server, table, column):
     process = subprocess.Popen(['mogrify',
                                 '-format', 'png',
                                 '-resize', '768',
+                                '-density', '200',
                                 '-background', 'white',
                                 '-alpha', 'remove',
                                 '-verbose']
@@ -188,6 +188,7 @@ plugin.Plugin('upload_pdf', '/{Y}/{S}/{U}/upload_pdf/{P}/{*}',
 
 def tmp(server):
     n = server.ticket.temporary_directory_name(os.path.join(*server.the_path))
+    server.do_not_close_connection()
     with open(n, "rb") as f:
         c = f.read()
         sender.append(server.the_file, c, keep_open=False)
