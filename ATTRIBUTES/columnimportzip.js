@@ -42,7 +42,7 @@ function upload_file_choosed(t)
 function import_zip()
 {
   create_popup("import_zip", _("TITLE_column_attr_import_zip"),
-	       '<iframe id="frame_import_zip"></iframe>', '', false) ;
+	       '<div class="iframe_container"><iframe id="frame_import_zip"></iframe></div>', '', false) ;
   
   var iframe = document.getElementById("frame_import_zip") ;
   iframe_write(iframe, upload_file_choosed,

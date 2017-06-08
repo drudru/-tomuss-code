@@ -1,7 +1,7 @@
 #!/bin/env python3
 # -*- coding: utf-8 -*-
 #    TOMUSS: The Online Multi User Simple Spreadsheet
-#    Copyright (C) 2015 Thierry EXCOFFIER, Universite Claude Bernard
+#    Copyright (C) 2015-2017 Thierry EXCOFFIER, Universite Claude Bernard
 #
 #    This program is free software; you can redistribute it and/or modify
 #    it under the terms of the GNU General Public License as published by
@@ -17,7 +17,7 @@
 #    along with this program; if not, write to the Free Software
 #    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 #
-#    Contact: Thierry.EXCOFFIER@bat710.univ-lyon1.fr
+#    Contact: Thierry.EXCOFFIER@univ-lyon1.fr
 
 import os
 import re
@@ -39,7 +39,8 @@ class ColumnImportZip(ColumnFill):
     #popup DIV.import_zip { border: 4px solid red ; overflow:scroll ;
                             left: 10%; right: 10%; bottom: 10% ; top: 10% ;
                           }
-    DIV.import_zip IFRAME { position: absolute ; width: 95%; height: 90% }
+    #popup .iframe_container { position: absolute ; left: 0px ; right: 0px; bottom: 5px ; top: 3em }
+    #popup .iframe_container IFRAME { width: 100% ; height: 100%; border: 0px }
     #t_column_import_zip { background: #FAA ; }
 """
 
