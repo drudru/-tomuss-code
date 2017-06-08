@@ -33,7 +33,7 @@ def compute_product(data_col, line):
     product = 1
     for data_column in column.average_columns:
         origin = columns[data_column]
-        if str(origin.real_weight) != "1":
+        if to_float(origin.real_weight) != 1:
             return _('ERROR_all_weight_equals_to_1')
         value = line[data_column].get_value(origin)
         if str(value) == '': # str() to turn around JS cast
