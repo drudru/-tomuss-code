@@ -42,18 +42,16 @@ function upload_file_choosed(t)
 function import_zip()
 {
   create_popup("import_zip", _("TITLE_column_attr_import_zip"),
-	       '<div class="iframe_container"><iframe id="frame_import_zip"></iframe></div>', '', false) ;
+	       '<div id="iframe_container"><iframe id="frame_import_zip"></iframe></div>', '', false) ;
   
   var iframe = document.getElementById("frame_import_zip") ;
   iframe_write(iframe, upload_file_choosed,
 	       _("TIP_column_attr_import_zip")
-	       + '<p>'
+	       + '<h2>' + _('MSG_upload_file') + '</h2>'
 	       + '<form action="' + get_the_upload_url()
 	       + '/=' + ticket + '/' + year + '/' + semester
 	       + '/' + ue + '/import_zip/' + popup_column().the_id
 	       + '" method="POST" enctype="multipart/form-data">'
-	       + _('MSG_upload_file')
-	       + '<br>'
 	       + '<input type="file" name="data" onchange="upload_file_choosed(this)">'
 	       + '<input type="text" name="filename" hidden=1>'
 	       + '</form>') ;
@@ -72,170 +70,244 @@ function ImportPDF(iframe, name, nr_pages)
   this.scroll_left = 10 ;
   this.scroll_top = 50 ;
   this.scroll_done = true ;
-  this.margin = 2.5 ; // Space between students
   this.page_height = 5 ;
-  iframe.write("<style>"
-	       + "#pdfimport   { position: relative ; width: 100% ; }"
-	       + "#pdfpages    { position: absolute; left: 25%; width: 75% }"
-	       + "#pdfstudents { position: absolute; width: 100%; }"
-	       + "#pdfstudents .studentname { text-align: right; width: 25% }"
-	       + ".next_empty .studentname { opacity: 0.25 }"
-	       + "#pdfpages DIV {"
-	       + "    height: " + this.page_height + "em ;"
-	       + "    overflow: scroll ;"
-	       + "    margin: 0px ;"
-	       + "}"
-	       + "#pdfpages DIV.last { margin-bottom: " + this.margin + "em}"
-	       + "#pdfstudents > DIV {"
-	       + "-webkit-transition: margin-top 0.5s, top 0.5s ; "
-	       + "        transition: margin-top 0.5s, top 0.5s ; "
-	       + "}"
-	       + "#pdfstudents > DIV {"
-	       + "    position: absolute ;"
-	       + "    width: 100% ;"
-	       + "}"
-	       + "DIV.first .pdfup, DIV.first .pdfdown, DIV.first .studentswap{"
-	       + "   display: none ; }"
-	       + "DIV.previous_empty .pdfdown, DIV.next_empty .pdfup"
-	       + "{ opacity: 0.2 ; pointer-events: none ; }"
-	       + ".pdfmenu {"
-	       + "    position: absolute;"
-	       + "    font-weight: bold ;"
-	       + "    font-size: 120% ;"
-	       + "    color: #00F ;"
-	       + "    z-index: 1 ;"
-	       + "    margin-top: -" + this.margin*0.6 + "em;"
-	       + "    width: 100% ;"
-	       + "}"
-	       + ".pdfmenu SPAN { cursor: pointer; position: absolute }"
-	       + ".pdfup { left: 30% }"
-	       + ".pdfdown { left: 25% }"
-	       + ".studentswap { left: 20% }"
-	       + "</style>"
-	       + _("MSG_column_attr_import_zip_pdf") + '<br><br>'
-	       + '<div id="pdfimport">'
-	       + '<div id="pdfstudents"></div>'
-	       + '<div id="pdfpages"></div>'
-	       + '</div>') ;
-  var pages_per_student = nr_pages / filtered_lines.length ;
+  iframe.write(
+    "<style>"
+      + "#pdfimport { width: 100% ; position: relative; }"
+      + "#pdfimport .page {"
+      + "    height: " + this.page_height + "em ;"
+      + "    overflow: scroll ;"
+      + "    margin: 0px ;"
+      + "    transition: top 0.5s ; "
+      + "    position: absolute ;"
+      + "}"
+      + "#pdfimport .student {"
+      + "    font-size: 150% ;"
+      + "    color: #00F ;"
+      + "    width: 110% ;" // Negative margin-right
+      + "    height: 1.2em ;"
+      + "    position: relative ;"
+      + "    background: #DDF ;"
+      + "    transition: top 0.5s ; "
+      + "    position: absolute ;"
+      + "    z-index: 1 ;"
+      + "}"
+      + "#pdfimport .highlight_allowed:hover,"
+      + "#pdfimport .moving {"
+      + "    background: #BBF ;"
+      + "}"
+      + "#pdfimport .student SPAN {"
+      + "    cursor: pointer;"
+      + "    position: absolute;"
+      + "    width: 5%;"
+      + "    text-align: center;"
+      + "    transition: opacity 0.5s;"
+      + "}"
+      + "#pdfimport > *:first-child *"
+      + "    { pointer-events: none ; }"
+      + "#pdfimport > *:first-child .pdfup,"
+      + "#pdfimport > *:first-child .pdfdown,"
+      + "#pdfimport > *:first-child .student_swap"
+      + "    { display: none }"
+      + "#pdfimport .pdfup { left: 0% }"
+      + "#pdfimport .pdfdown { left: 5% }"
+      + "#pdfimport .student_swap { left: 10% }"
+      + "#pdfimport .student_swap B {"
+      + "    margin-right: -0.5em; font-size:120%"
+      + "}"
+      + "#pdfimport .student .name {"
+      + "    left: 15% ;"
+      + "    font-size: 80% ;"
+      + "    color: #000 ;"
+      + "    width: 80% ;"
+      + "    pointer-events: none ;"
+      + "    bottom: 0px ;"
+      + "    text-align: left;"
+      + "}"
+      + "#pdfimport .empty .name { opacity: 0.25 }"
+      + "#pdfimport > *:first-child .pdfup,"
+      + "#pdfimport > *:first-child .pdfdown,"
+      + "#pdfimport > *:first-child .swap"
+      + "    { display: none }"
+      + "#pdfimport .previous_empty .pdfdown,"
+      + "#pdfimport .next_empty .pdfup"
+      + "    { opacity: 0.2 ; pointer-events: none ; }"
+      + "</style>"
+      + _("MSG_column_attr_import_zip_pdf") + '<br><br>'
+      + '<div id="pdfimport"></div>') ;
+  var the_lines = [] ;
+  for(var i in filtered_lines)
+  {
+    line = filtered_lines[i] ;
+    if ( ! line_empty(line) )
+      the_lines.push(line) ;
+  }
+  var pages_per_student = nr_pages / the_lines.length ;
   if ( pages_per_student < 1 )
     pages_per_student = 1 ;
-  this.students = iframe.getElementById("pdfstudents") ;
+  this.blocks = iframe.getElementById("pdfimport") ;
+  this.blocks.onmousedown = function(event) {local_this.mousedown(event) ;};
   this.button = iframe.getElementsByTagName("BUTTON")[0] ;
   this.button.onclick = this.send.bind(this) ;
   this.button.disabled = 1 ;
+  this.iframe.onmousemove = this.mousemove.bind(this) ;
+  this.iframe.onmouseup = this.mouseup.bind(this) ;
+  this.iframe_container = document.getElementById('iframe_container') ;
   this.will_scroll() ;
-  for(var i in filtered_lines)
+  var last_page = 0 ;
+  for(var i in the_lines)
   {
-    var line = filtered_lines[i] ;
+    var line = the_lines[i] ;
     var student = iframe.createElement("DIV") ;
-    student.innerHTML = '<div class="pdfmenu">'
-      + '<span class="studentswap">⇵</span>'
+    student.is_student = true ;
+    student.innerHTML =
+      '<span class="student_swap"><b>↑</b>↓</span>'
       + '<span class="pdfdown">▲</span>'
       + '<span class="pdfup">▼</span>'
-      + '</div>'
-      + '<div class="studentname">'
-      + html(line[0].value) + "<br>"
-      + html(line[1].value) + "<br>"
-      + html(line[2].value) + '</div>' ;
-    student.pdfpage = Math.floor(pages_per_student * i) ;
+      + '<span class="name">'
+      + html(line[0].value)+" "+html(line[1].value)+" "+html(line[2].value)
+      + '</span>' ;
     student.pdfline = line ;
     student.onclick = function(event) { local_this.click(event) ; } ;
-    this.students.appendChild(student) ;
+    this.blocks.appendChild(student) ;
+    var new_page = Math.min(Math.floor(pages_per_student * (Number(i)+1)),
+			    nr_pages) ;
+    for(var j = last_page; j < new_page; j++)
+    {
+      var page = iframe.createElement("DIV") ;
+      var img = iframe.createElement("IMG") ;
+      page.appendChild(img) ;
+      page.onscroll = function(event) {
+	var target = the_event(event).target
+	local_this.scroll_top = target.scrollTop ;
+	local_this.scroll_left = target.scrollLeft ;
+	local_this.will_scroll() ; } ;
+      this.blocks.appendChild(page) ;
+      if ( j == 0 )
+	this.to_load = page ;
+    }
+    last_page = new_page ;
   }
-  this.pages = iframe.getElementById("pdfpages") ;
-  for(var i = 0 ; i < nr_pages ; i++)
-  {
-    var page = iframe.createElement("DIV") ;
-    page.onscroll = function(event) {
-      var target = the_event(event).target
-      local_this.scroll_top = target.scrollTop ;
-      local_this.scroll_left = target.scrollLeft ;
-      local_this.will_scroll() ; } ;
-    page.pdfnumber = i + 1 ;
-    this.pages.appendChild(page) ;
-  }
-  this.to_load = this.pages.firstChild ;
+  this.to_load_number = 1 ;
   this.update() ;
+  setTimeout(this.update.bind(this), 100) ;
 }
 
 window.ImportPDF = ImportPDF ; // To allow the IFRAME to use it
 
+ImportPDF.prototype.mousedown = function(event)
+{
+  event = the_event(event) ;
+  if ( ! event.target.is_student )
+    return ;
+  if ( event.target !== this.blocks.firstChild )
+    this.move_student = event.target ;
+  stop_event(event) ;
+} ;
+
+ImportPDF.prototype.mouseup = function(event)
+{
+  if ( this.move_student )
+  {
+    this.move_student = undefined ;
+    this.update() ;
+    stop_event(event) ;
+  }
+} ;
+
+ImportPDF.prototype.move_before = function(block, other)
+{
+  this.blocks.removeChild(block) ;
+  if ( other )
+    this.blocks.insertBefore(block, other) ;
+  else
+    this.blocks.appendChild(block) ;
+} ;
+
+ImportPDF.prototype.move_after = function(block, other)
+{
+//  this.blocks.removeChild(block) ;
+  if ( other.nextSibling )
+    this.blocks.insertBefore(block, other.nextSibling) ;
+  else
+    this.blocks.appendChild(block) ;
+} ;
+
+ImportPDF.prototype.mousemove = function(event)
+{
+  if ( ! this.move_student )
+    return ;
+  event = the_event(event) ;
+  var y = event.y - this.blocks.offsetTop ;
+  for(var block = this.blocks.firstChild ; block ; block = block.nextSibling)
+  {
+    if ( block.offsetTop > y )
+    {
+      if ( this.move_student !== block )
+      {
+	this.move_before(this.move_student, block) ;
+	this.update() ;
+      }
+      break ;
+    }
+    if ( block === this.blocks.lastChild && this.move_student !== block )
+    {
+      this.move_after(this.move_student, block) ;
+      this.update() ;
+    }
+  }
+  var scroll = this.blocks.parentNode ;
+  if ( y < scroll.scrollTop )
+    scroll.scrollTop -= 10 ;
+  if ( y > scroll.scrollTop + this.iframe_container.offsetHeight )
+    scroll.scrollTop += 10 ;
+} ;
+
+
 ImportPDF.prototype.scroll = function()
 {
-  for(var i = 0 ; i < this.pages.childNodes.length ; i++)
+  for(var block = this.blocks.firstChild ; block ; block = block.nextSibling)
   {
-    if ( this.pages.childNodes[i].firstChild
-	 && this.pages.childNodes[i].firstChild.offsetHeight > 0 )
+    if ( ! block.is_student )
     {
-      this.pages.childNodes[i].scrollTop = this.scroll_top ;
-      this.pages.childNodes[i].scrollLeft = this.scroll_left ;
+      block.scrollTop = this.scroll_top ;
+      block.scrollLeft = this.scroll_left ;
     }
   }
   this.scroll_done = true ;
 } ;
 
-ImportPDF.prototype.nr_pages_student = function(student)
-{
-  if ( student.nextSibling )
-    return student.nextSibling.pdfpage - student.pdfpage ;
-  else
-    return this.nr_pages - student.pdfpage ;
-} ;
-
 ImportPDF.prototype.student_empty = function(student)
 {
-  return this.pages.childNodes[student.pdfpage].pdfnumber == 0 ;
+  return ! student.nextSibling || student.nextSibling.is_student ;
+} ;
+
+ImportPDF.prototype.previous_student = function(student)
+{
+  do
+    student = student.previousSibling ;
+  while( student && ! student.is_student ) ;
+  return student ;
+} ;
+
+ImportPDF.prototype.next_student = function(student)
+{
+  do
+    student = student.nextSibling ;
+  while( student && ! student.is_student ) ;
+  return student ;
 } ;
 
 ImportPDF.prototype.translate = function(student, direction)
 {
-  while ( student )
+  for(; student; student = this.next_student(student))
   {
-    student.pdfpage += direction ;
-    student = student.nextSibling ;
-  }
-} ;
-
-ImportPDF.prototype.remove_page_if_empty = function(student, page)
-{
-  if ( page.pdfnumber == 0 )
-  {
-    this.pages.removeChild(page) ;
-    this.translate(student.nextSibling, -1) ;
-    this.nr_pages-- ;
-    return true ;
-  }
-} ;
-
-ImportPDF.prototype.remove_student_without_pdf = function()
-{
-  for(var i = 0 ; i < this.students.childNodes.length ; i++)
-  {
-    var student = this.students.childNodes[i] ;
-    if ( this.nr_pages_student(student) == 0 )
-    {
-      // Add empty page
-      var page = this.iframe.createElement('DIV') ;
-      page.pdfnumber = 0 ;
-      if ( student.nextSibling )
-	this.pages.insertBefore(page, this.pages.childNodes[student.pdfpage]);
-      else
-	this.pages.appendChild(page) ;
-      this.translate(student.nextSibling, 1) ;
-      this.nr_pages++ ;
-      continue ;
-    }
-    if ( this.nr_pages_student(student) == 1 )
-      continue ;
-    if ( this.remove_page_if_empty(student,
-				   this.pages.childNodes[student.pdfpage]))
-      continue ;
-    this.remove_page_if_empty(
-      student,
-      this.pages.childNodes[student.pdfpage
-			    + this.nr_pages_student(student)-1
-			   ]);
+    if ( direction == 1
+	 && student.nextSibling && ! student.nextSibling.is_student )
+      this.move_after(student, student.nextSibling) ;
+    if ( direction == -1
+	 && student.previousSibling && ! student.previousSibling.is_student )
+      this.move_before(student, student.previousSibling) ;
   }
 } ;
 
@@ -243,49 +315,51 @@ ImportPDF.prototype.click = function(event)
 {
   var t = the_event(event).target ;
   var student = t ;
-  while( student.pdfpage === undefined )
+  while( ! student.is_student )
     student = student.parentNode ;
   if ( t.className == 'pdfup' )
     this.translate(student, 1) ;
   else if ( t.className == 'pdfdown' )
     this.translate(student, -1) ;
-  else if ( t.className == 'studentswap' )
+  else if ( t.className == 'student_swap' )
   {
-    var s = student.previousSibling ;
-    this.students.removeChild(student) ;
-    this.students.insertBefore(student, s) ;
-    var p = s.pdfpage ;
-    s.pdfpage = student.pdfpage ;
-    student.pdfpage = p ;
+    var previous_student = this.previous_student(student) ;
+    var s1 = previous_student.nextSibling ;
+    if ( s1 === student )
+      this.move_before(student, previous_student) ;
+    else
+    {
+      var s2 = student.nextSibling ;
+      this.move_before(student, s1) ;
+      this.move_before(previous_student, s2) ;
+    }
   }
-  this.remove_student_without_pdf() ;
   this.update() ;
 } ;
 
 ImportPDF.prototype.update = function()
 {
-  for(var i = 0 ; i < this.pages.childNodes.length ; i++)
+  var cls ;
+  var top = 0 ;
+  for(var block = this.blocks.firstChild ; block ; block = block.nextSibling)
   {
-    this.pages.childNodes[i].className = "" ;
-  }
-  var previous_empty ;
-  for(var i = 0 ; i < this.students.childNodes.length ; i++)
-  {
-    var student = this.students.childNodes[i] ;
-    var page = this.pages.childNodes[student.pdfpage] ;
-    var nr_pages = this.nr_pages_student(student) ;
-    this.pages.childNodes[student.pdfpage + nr_pages - 1].className = "last" ;
-    student.style.top = page.offsetTop + "px" ;
-    student.style.height = nr_pages * this.page_height + 'em' ;
-    var cls = [] ;
-    if ( i == 0 )
-      cls.push('first') ;
-    if ( student.previousSibling && this.student_empty(student.previousSibling) )
-      cls.push('previous_empty') ;
-    if ( this.student_empty(student) )
-      cls.push('next_empty') ;
-    student.className = cls.join(' ') ;
-    previous_empty = page.pdfnumber == 0 ;
+    block.style.top = top ;
+    top += block.offsetHeight ;
+    if ( block.is_student )
+    {
+      cls = ["student"] ;
+      if ( block.previousSibling && block.previousSibling.is_student )
+	cls.push('previous_empty') ;
+      if ( ! block.nextSibling || block.nextSibling.is_student )
+	cls.push('next_empty') ;
+      if ( this.move_student == block )
+	cls.push("moving") ;
+      if ( ! this.move_student && block !== this.blocks.firstChild )
+	cls.push("highlight_allowed") ;
+    }
+    else
+      cls = ["page"] ;
+    block.className = cls.join(' ') ;
   }
 } ;
 
@@ -301,19 +375,14 @@ ImportPDF.prototype.will_scroll = function()
 
 ImportPDF.prototype.add = function()
 {
-  while( this.to_load.pdfnumber === 0 )
+  var page = "00000" + this.to_load_number++ ;
+  this.to_load.firstChild.src = url + "/=" + ticket + '/tmp/' + this.name
+    + '/p' + page.substr(page.length - 6) + '.png' ;
+  do
     this.to_load = this.to_load.nextSibling ;
-  var page = "00000" + this.to_load.pdfnumber ;
-  page = page.substr(page.length - 6) ;
-  this.to_load.innerHTML =
-    '<img src="' + url + "/=" + ticket + '/tmp/' + this.name + '/p'
-    + page + '.png">' ;
-
-  this.to_load = this.to_load.nextSibling ;
+  while( this.to_load && this.to_load.is_student ) ;
   this.will_scroll() ;
 
-  while( this.to_load && this.to_load.pdfnumber === 0 )
-    this.to_load = this.to_load.nextSibling ;
   if ( ! this.to_load )
     this.button.disabled = 0 ;
 } ;
@@ -321,19 +390,21 @@ ImportPDF.prototype.add = function()
 ImportPDF.prototype.send = function()
 {
   var d = {} ;
-  for(var i = 0 ; i < this.students.childNodes.length ; i++)
+  var page = 1 ;
+  for(var block = this.blocks.firstChild ; block ; )
   {
-    var student = this.students.childNodes[i] ;
-    var first_page = this.pages.childNodes[student.pdfpage].pdfnumber ;
-    if ( first_page )
-      d[student.pdfline.line_id] = first_page
-      + '\001' + this.nr_pages_student(student) ;
+    var nr_pages = -1 ;
+    var student = block ;
+    do {
+      block = block.nextSibling ;
+      nr_pages++ ;
+    }
+    while( block && ! block.is_student ) ;
+    if ( nr_pages )
+      d[student.pdfline.line_id] = page + '\001' + nr_pages ;
+    page += nr_pages ;
   }
-
   do_post_data(d,
 	       url + '/=' + ticket + '/' + year + '/' + semester + '/' + ue
 	       + '/upload_pdf/' + page_id + '/' + popup_column().the_id) ;  
 } ;
-
-
-

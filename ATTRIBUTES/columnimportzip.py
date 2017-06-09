@@ -39,8 +39,8 @@ class ColumnImportZip(ColumnFill):
     #popup DIV.import_zip { border: 4px solid red ; overflow:scroll ;
                             left: 10%; right: 10%; bottom: 10% ; top: 10% ;
                           }
-    #popup .iframe_container { position: absolute ; left: 0px ; right: 0px; bottom: 5px ; top: 3em }
-    #popup .iframe_container IFRAME { width: 100% ; height: 100%; border: 0px }
+    #iframe_container { position: absolute ; left: 0px ; right: 0px; bottom: 5px ; top: 3em }
+    #iframe_container IFRAME { width: 100% ; height: 100%; border: 0px }
     #t_column_import_zip { background: #FAA ; }
 """
 
@@ -99,26 +99,16 @@ def import_pdf(server, table, column):
     document.getElementById('import_feedback_debug').style.display = 'none' ;
     var importPDF = new window.parent.ImportPDF(document, {},{}) ;
     </script>""".format(utilities.js(name(column)), nr_pages(server, column)))
-    process = subprocess.Popen(['mogrify',
-                                '-format', 'png',
-                                '-resize', '768',
-                                '-density', '200',
-                                '-background', 'white',
-                                '-alpha', 'remove',
-                                '-verbose']
-                               + sorted(os.listdir(dirname)),
-                               stdin = None,
-                               stdout = None,
-                               stderr = subprocess.PIPE,
-                               cwd = dirname)
     page = 1
-    for line in process.stderr:
-        page_name = 'p{:06d}.png'.format(page)
-        if page_name.encode('ascii') not in line:
-            continue
-        page += 1
+    for pdf in sorted(os.listdir(dirname)):
+        process = subprocess.Popen(['pdftoppm',
+                                    '-png',
+                                    '-singlefile',
+                                    '-r', '100',
+                                    pdf, pdf.replace(".pdf", "")],
+                               cwd = dirname).wait()
         server.the_file.write('<script>importPDF.add()</script>')
-    process.wait()
+        page += 1
     assert(page == nr_pages(server, column) + 1)
     
 def import_zip(server):
