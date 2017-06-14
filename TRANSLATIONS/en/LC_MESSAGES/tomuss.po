@@ -3620,6 +3620,7 @@ msgstr "<h1>You are not allowed to access this table</h1>\n"
        "<ul>\n"
        "<li> The table is in 'Private' mode.\n"
        "<li> A teacher list is defined, and you are not inside.\n"
+       "<li> This table name is no more allowed because it is deprecated.\n"
        "</ul>"
 
 
@@ -4766,6 +4767,9 @@ msgstr "Allow the teachers to change their face picture"
 
 msgid "config_table_private_suivi"
 msgstr "Suivi: With 1, the 'suivi' page is private by default"
+
+msgid "config_table_forbidden_names"
+msgstr "Access: Forbidden to create table names matching this regular expression"
 
 msgid "MSG_picture_upload"
 msgstr "Change your face"

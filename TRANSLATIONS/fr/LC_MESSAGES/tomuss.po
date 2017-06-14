@@ -3648,6 +3648,7 @@ msgstr "<h1>Vous n'êtes pas autorisé à accéder à cette table</h1>\n"
        "<ul>\n"
        "<li> La table a été basculée en 'Privé'.\n"
        "<li> Une liste d'intervenant a été définie et vous n'en faites pas partie.\n"
+       "<li> Cette table n'est plus utilisée, vous devez utilisez le nouveau code.\n"
        "</ul>"
 
 msgid "MSG_new_page_in_past"
@@ -4822,6 +4823,9 @@ msgstr "Autorise les enseignants à changer leur photo d'identité"
 
 msgid "config_table_private_suivi"
 msgstr "Suivi: Mettre 1 pour que le suivi soit privé par défaut"
+
+msgid "config_table_forbidden_names"
+msgstr "Accès: Création interdite des tables indiquées par cette expression régulière"
 
 msgid "MSG_picture_upload"
 msgstr "Changer votre photo"

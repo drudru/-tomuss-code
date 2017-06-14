@@ -84,6 +84,11 @@ def new_page(server):
 
     filename = document.table_filename(server.the_year, server.the_semester,
                                        server.the_ue)
+    if re.match(configuration.forbidden_names, server.the_ue):
+        if not os.path.exists(filename):
+            server.the_file.write(server._("MSG_new_page_unauthorized"))
+            server.close_connection_now()
+            return
     first_semester = configuration.university_semesters[0]
     first_table = document.table_filename(
         utilities.university_year(server.the_year, server.the_semester),

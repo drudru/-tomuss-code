@@ -459,6 +459,9 @@ show_teacher_pictures = False
 # Allow teachers to upload their face picture.
 allow_teacher_picture_upload = False
 
+# Allow teachers to upload their face picture.
+forbidden_names = "^AN_EXTENDED_REGEX$"
+
 ###############################################################################
 # The following variables should be fine for testing purpose (local server)
 ###############################################################################
