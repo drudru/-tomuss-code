@@ -595,8 +595,16 @@ function remove_prefix(txt)
   return txt.split('-')[1] || txt ;
 }
 
+/*REDEFINE
+Called before UE tree construction
+*/
+function DisplayUETreeHook(node)
+{
+}
+
 function DisplayUETree(node)
 {
+  DisplayUETreeHook(node) ;
   var ues = display_data["Grades"][0] ;
   var with_prefix = {} ;
   DisplayUETree.dict = {} ;
@@ -1347,7 +1355,7 @@ function DisplayGetStudent(node)
 		    + 'src="' + url_files
 		    + '/butterflynet.png">', _('MSG_bilan_take_student'));
 }
-DisplayGetStudent.need_node = ['Referent'] ;
+DisplayGetStudent.need_node = ['Referent', 'Login'] ;
 
 function DisplayIsPrivate(node)
 {
