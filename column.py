@@ -108,7 +108,7 @@ class ColumnAttr(object):
             if self.name != 'comment': # Historical remnent
                 column.author = page.user_name
             if self.name == 'columns': # XXX Copy past and not the right place
-                column.column_ordered_cache = None
+                table.columns.column_ordered_cache = None
             return 'ok.png'
 
         if not table.modifiable:
@@ -175,7 +175,7 @@ class ColumnAttr(object):
             column.author = page.user_name
 
         if self.name == 'columns':
-            column.column_ordered_cache = None
+            table.columns.column_ordered_cache = None
 
         table.column_changed(column, self)
 
