@@ -575,6 +575,8 @@ function DisplayUE(node)
       var children = DisplayUETree.children[DisplayGrades.ue.ue] ;
       if ( hide_fake_ue(DisplayGrades.ue) )
 	return ;
+      while ( children.length == 1 && DisplayUETree.dict[children[0]].fake_ue )
+	children = DisplayUETree.children[children[0]] ;
       s += '<div style="margin-left: 2em">' ;
       for(var i in children)
 	{
