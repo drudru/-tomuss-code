@@ -1624,7 +1624,14 @@ _cleanup_list = []
 def _cleanup():
     while _cleanup_list:
         try:
-            shutil.rmtree(_cleanup_list.pop())
+            name = _cleanup_list.pop()
+            if name.startswith('/') or '..' in name:
+                send_backtrace("Bad filename cleanup: " + name)
+                continue
+            if os.path.isdir(name):
+                shutil.rmtree(name)
+            else:
+                os.unlink(name)
         except IOError:
             pass
         except OSError:
