@@ -54,8 +54,7 @@ def nr_pages(server, column):
 
 def upload_pdf(server):
     table = document.table(server.the_year, server.the_semester,
-                           server.the_ue, create=False,
-                           do_not_unload='import_zip')
+                           server.the_ue, create=False)
     column = table.columns.from_id(server.the_path[0])
     tmp = server.ticket.temporary_directory_get(name(column))
     page = table.pages[server.the_page]
