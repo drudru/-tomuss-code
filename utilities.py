@@ -34,6 +34,8 @@ import imp
 import ast
 import urllib
 import codecs
+import email.utils
+import email.header
 import tomuss_init
 from . import configuration
 
@@ -362,8 +364,7 @@ def send_mail(to, subject, message, frome=None, show_to=False, reply_to=None,
     header = "From: {}\n".format(frome)
 
     s = subject.replace('\n',' ').replace('\r',' ')
-    header += "Subject: =?UTF-8?B?{}?=\n".format(
-        codecs.encode(s.encode("utf-8"), "base64").replace(b"\n", b"").decode("ascii"))
+    header += "Subject: " + email.header.Header(s).encode() + '\n'
     if len(to) == 1:
         header += "To: {}\n".format(to[0])
     elif show_to:
@@ -382,15 +383,18 @@ def send_mail(to, subject, message, frome=None, show_to=False, reply_to=None,
         if isinstance(message, str):
             header += 'Content-Type: text/plain; charset="utf-8"\n'
 
+    header += "Date: " + email.utils.formatdate(localtime=True) + '\n'
     header += "Content-Transfer-Encoding: 8bit\n"
     header += "MIME-Version: 1.0\n"
+    header += '\n'
+    header = header.replace("\n", "\r\n")
 
     use_backup_smtp = False
     while True: # Stop only if the mail is sent
         try:
             smtpresult = send_mail.session.sendmail(
                 frome, tuple(recipients) + tuple(cc),
-                (header + '\n' + message).encode('utf-8'))
+                (header + message).encode('utf-8'))
             break
         except smtplib.SMTPRecipientsRefused:
             send_backtrace('from=%s\nrecipients=%s\nheaders=%s\nmessage=%s' %
@@ -417,7 +421,6 @@ def send_mail(to, subject, message, frome=None, show_to=False, reply_to=None,
                                (repr(frome), repr(recipients), repr(header)))
         # Reconnect
         send_mail.session = smtplib.SMTP(configuration.smtpserver.split(' ')[0])
-
     try:
         if smtpresult:
             errstr = ""
