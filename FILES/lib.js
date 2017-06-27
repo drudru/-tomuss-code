@@ -3646,7 +3646,7 @@ Connection.prototype.need_connection = function(force)
 
 Connection.prototype.reconnect_real = function()
 {
-  if ( ! this.server_answer || is_a_virtual_ue )
+  if ( ! this.server_answer || is_a_virtual_ue || page_id === '' )
     return ;
 
   var connection = url + "/=" + ticket + '/' + year
