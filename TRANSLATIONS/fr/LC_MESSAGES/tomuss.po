@@ -623,10 +623,10 @@ msgstr "<b>Interface utilisateur linéaire.</b><br>\n"
 
 #. Attribute Tip
 msgid "TIP_table_attr_teachers"
-msgstr "Les LOGINS des enseignants qui ont<br>\n"
-       "le droit d'accéder à cette table.<br>\n"
+msgstr "Les LOGINS des personnes qui sont les seules<br>\n"
+       "à pouvoir afficher cette table.<br>\n"
        "Les logins sont séparés par un espace.<br>\n"
-       "Si c'est vide, tous les enseignants ont accès à la table."
+       "Si c'est vide, tous le monde peut visiter la table."
 
 #. Attribute Tip
 msgid "TIP_table_attr_masters"
@@ -1180,7 +1180,7 @@ msgstr "Responsables&nbsp;:&nbsp;"
 
 #. Label before the attribute
 msgid "BEFORE_table_teachers"
-msgstr "Intervenants&nbsp;:&nbsp;"
+msgstr "Restreint à&nbsp;:&nbsp;"
 
 
 #. Tip column action

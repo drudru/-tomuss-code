@@ -642,7 +642,7 @@ msgstr ""
 #. Attribute Tip
 msgid "TIP_table_attr_teachers"
 msgstr ""
-"Logins of the user allowed to access this table.<br>\n"
+"Logins of the users allowed to access this table.<br>\n"
 "Logins are space separated.<br>\n"
 "If empty, every teacher can access this table."
 
@@ -1185,7 +1185,7 @@ msgstr "First/last:&nbsp;"
 
 #. Label before the attribute
 msgid "BEFORE_table_teachers"
-msgstr "Teachers:&nbsp;"
+msgstr "Restricted to:&nbsp;"
 
 #. Label before the attribute
 msgid "BEFORE_table_masters"
