@@ -524,6 +524,19 @@ function DisplayHomePreferences3ScrollBars(node)
 }
 DisplayHomePreferences3ScrollBars.need_node = [] ;
 
+function forget_input_change(t)
+{
+  preference_change(t, "forget_input="+(preferences.forget_input==yes ?1:0));
+}
+function DisplayHomePreferencesForgetInput(node)
+{
+  return radio_buttons('preferences.forget_input', [no, yes],
+	               test_bool(preferences.forget_input),
+                       "forget_input_change(this)")
+    + _("Preferences_forget_input") ;
+}
+DisplayHomePreferencesForgetInput.need_node = [] ;
+
 function current_debug_change(t)
 {
   preference_change(t,"debug_home="+(preferences.debug_home==yes ?1:0));
@@ -580,6 +593,11 @@ function DisplayHomePreferences(node)
   if ( ! preferences.text_size )
     preferences.text_size = get_option('text_size', '100%') ;
   the_body.style.fontSize = preferences.text_size ;
+  search_ue_change.last_value = (preferences.forget_input
+				 ? ''
+				 : get_option('ue', '')
+				 ) ;
+
   return '<a href="javascript:home_preferences_popup()">≡</a>' ;
 }
 
@@ -1453,7 +1471,6 @@ function search_ue_change(t)
     update_job.todo[display_definition['HomeUE'].children[i].name] = true ;
   periodic_work_add(update_job)
 }
-search_ue_change.last_value = get_option('ue', '') ;
 
 function HomeReset(event)
 {
@@ -1811,7 +1828,10 @@ function DisplayHomeStudents(node)
 {
   if ( ask_login_list === undefined )
     {
-      ask_login_list = get_option('student', '') ;
+      ask_login_list = (preferences.forget_input
+			? ""
+			: get_option('student', '')
+			) ;
       update_students_real() ;
     }
 

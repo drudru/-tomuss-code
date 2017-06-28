@@ -29,39 +29,6 @@ from .. import document
 from .. import column
 from .. import cell
 
-defaults = {
-    'favoris_sort': '0',
-    'invert_name': '1',
-    'zebra_step': '5',
-    'interface': '0',
-    'nr_lines': '0',
-    'nr_cols': '0',
-    'scrollbar_right': '1',
-    'nr_favorites': '6',
-    'page_step': '1',
-    'current_suivi': '0',
-    'v_scrollbar_nr': '1',
-    'home_3scrollbar': '1',
-    'v_scrollbar': '1',
-    'language': 'fr',
-    'display_tips': '1',
-    'black_and_white': '0',
-    'big_box': '0',
-    'big_text': '0',
-    'color_value': '0',
-    'green_prst': '0',
-    'hide_picture': '0',
-    'hide_right_column': '0',
-    'highlight_grade': '1',
-    'no_teacher_color': '0',
-    'private_suivi': '0',
-    'recursive_formula': '0',
-    'show_empty': '0',
-    'debug_table': '0',
-    'debug_home': '0',
-    'debug_suivi': '0',
-    }
-
 def read():
     for filename in glob.glob(os.path.join("DB", "LOGINS", "*", "*",
                                            "preferences")):
@@ -70,11 +37,6 @@ def read():
                              .replace("NON", "0")
                              .replace("N", "0")
                          )
-        # Remove unchanged preferences
-        d = {k: str(v)
-             for k, v in d.items()
-             if k != 'interface' and defaults.get(k, '') != str(v)
-             }
         yield (filename.split(os.path.sep)[-2], d)
 
 def preferences(server):

@@ -4511,6 +4511,9 @@ msgstr "Interface language"
 msgid "Preferences_home_3scrollbar"
 msgstr "If YES, there is one scrollbar per column instead of one for the home page"
 
+msgid "Preferences_forget_input"
+msgstr "forget the last search"
+
 msgid "MSG_text_size"
 msgstr "Text size"
 
