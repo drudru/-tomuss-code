@@ -114,6 +114,7 @@ function ___NAME__()
 		 formatte_suivi: __FORMATTE_SUIVI__,
                  should_be_a_float: __SHOULD_BE_A_FLOAT__,
 	         type_type: __TYPE_TYPE__,
+	         type_change: __TYPE_CHANGE__,
 	         human_priority: __HUMAN_PRIORITY__
 		 }) ;
   types[types.length-1].index = types.length - 1 ;

@@ -240,6 +240,8 @@ class Text(object):
     cell_is_modifiable = 1
     # In which column display the type
     type_type = 'data'
+    # Called after the user sets the column type
+    type_change = "undefined"
 
     # The columns attributes that should be displayed for this type
     # DO NOT INDICATES ATTRIBUTES VISIBLE BY ALL THE COLUMN TYPES
@@ -289,8 +291,9 @@ class Text(object):
 
     def attribute_js_value(self, k):
         if k.startswith('set_') or k in (
-            'cell_test', 'cell_completions','onmousedown', 'formatte',
-            'formatte_suivi', 'ondoubleclick', 'cell_compute'):
+                'cell_test', 'cell_completions','onmousedown', 'formatte',
+                'formatte_suivi', 'ondoubleclick', 'cell_compute',
+                'type_change'):
             return getattr(self, k)
         else:
             return utilities.js(getattr(self, k))

@@ -67,6 +67,8 @@ function set_type(value, column, xcolumn_attr)
         if ( column.real_type.type_type !== 'data' && column.empty_is === '' )
 	    column_attr_set(column, 'empty_is', '???') ;
     }
+  if ( xcolumn_attr === false && column.real_type.type_change )
+    column.real_type.type_change(column) ;
 
   return value ;
 }
