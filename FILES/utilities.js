@@ -2136,7 +2136,7 @@ Current.prototype.jump = function(lin, col, do_not_focus, line_id, data_col)
       save.blur() ;
       if ( save.onblur )
 	{
-	  save.onblur(save) ;
+	  save.onblur() ;
 	}
       if ( ! cell.modifiable(line, columns[data_col]) )
 	{
