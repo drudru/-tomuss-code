@@ -266,7 +266,7 @@ BODY.hide_right_column_1 .TopLine {
 /*********************** Long text *******************/
 
 .long_text { font-size: 49% ; white-space: normal ; min-height: 2.6em ;}
-#cellbox_tip .long_text { font-size: 100% ; height: auto; min-height: initial; }
+#cellbox_tip .long_text { font-size: 100% ; height: auto; min-height: none; }
 BODY.hide_right_column_1 .long_text { height: 2.6em ; }
 .DisplayTypeUpload A { white-space: nowrap ; }
 
@@ -296,8 +296,8 @@ DIV.tipped DIV.text:hover { background: url(tip.png) }
     width: auto ;
     overflow: visible ;
     white-space: normal ;
-    max-width: initial ;
-    max-height: initial ;
+    max-width: none ;
+    max-height: none ;
 }
 
 
