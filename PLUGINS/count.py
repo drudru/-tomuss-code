@@ -44,8 +44,10 @@ def count(server):
     logins = {}
     columns = [
         column.Column('c0', '', freezed='F', position=0, title='ID'),
-        column.Column('c1', '', freezed='F', position=1, title='Prénom'),
-        column.Column('c2', '', freezed='F', position=2, title='Nom'),
+        column.Column('c1', '', freezed='F', position=1,
+                      title=server._('COL_TITLE_0_1')),
+        column.Column('c2', '', freezed='F', position=2,
+                      title=server._('COL_TITLE_0_2')),
         ]
     weeks = collections.defaultdict(int)
     parse =  column.ColumnAttr.attrs['course_dates'].parse
@@ -136,5 +138,99 @@ def count(server):
 
 plugin.Plugin('count', '/count/{*}',
               function=count, group='staff',
+              launch_thread = True, unsafe=False)
+
+def number(server):
+    """count the number of cells with the given value used in the given tables.
+    It may be used to compute the number of ABINJ for a set of UE.
+
+    http://127.0.0.1:SUIVI_PORT_NUMBER/number/ABINJ/UE-INF1001L/UE-INF1002L
+
+    """
+    logins = {}
+    columns = [
+        column.Column('c0', '', freezed='F', position=0, title='ID'),
+        column.Column('c1', '', freezed='F', position=1,
+                      title=server._('COL_TITLE_0_1')),
+        column.Column('c2', '', freezed='F', position=2,
+                      title=server._('COL_TITLE_0_2')),
+    ]
+    what = server.the_path[0]
+    tables = {}
+    for table in server.the_path[1:]:
+        t = document.table(server.year, server.semester, table, None, None,
+                           create=False, ro=True)
+        if t == None:
+            continue
+        tables[table] = Stat(table)
+        stat = tables[table].nb
+        for data_col, a_column in enumerate(t.columns):
+            for line in t.lines.values():
+                login = line[0].value
+                if not login:
+                    continue
+                if login not in logins:
+                    logins[login] = s = Stat(login)
+                    s.surname = line[1].value
+                    s.name = line[2].value
+                value = line[data_col].value
+                if value == '':
+                    value = a_column.empty_is
+                if value == what:
+                    stat[login] += 1
+                    logins[login].nb[table] += 1
+
+    i = 4
+
+    for title in sorted(tables):
+        columns.append(column.Column(
+            'c%d' % i, '',
+            position=i,
+            title=title,
+            weight='+1',
+            type="Note",
+            minmax='[0;%d]' % (max(tables[title].nb.values())
+                               if tables[title].nb
+                               else 1),
+            empty_is='0',
+            rounding='1',
+            red='>0',
+            green='=1',
+            comment=server._("B_Nmbr")
+            + ' ' + what,
+        ))
+        i += 1
+
+    columns.append(
+        column.Column('c3', '', position=2, title=server._("COL_TITLE_TOTAL"),
+                      type="Moy",
+                      weight='1',
+                      columns=' '.join([c.title for c in columns[3:]]),
+                      rounding='1',
+                      minmax='[0;NaN]',
+                      )
+        )
+    # XXX Really not nice.
+    # Why the 'type' attribute does not work like the others ?
+    columns[-1].type = plugins.types['Moy']
+
+    lines = []
+    for stat in logins.values():
+        lines.append(cell.Line(
+                [
+                    cell.CellValue(stat.login),
+                    cell.CellValue(stat.surname),
+                    cell.CellValue(stat.name)
+                    ] +
+                [cell.CellValue(stat.nb[col.title])
+                 for col in columns[3:]])
+                     )
+    document.virtual_table(server, columns, lines,
+                           { 'default_sort_column': 2 }
+                           )
+
+
+plugin.Plugin('number', '/number/{*}',
+              function=number, group='staff',
               launch_thread = True, unsafe=False)
 
