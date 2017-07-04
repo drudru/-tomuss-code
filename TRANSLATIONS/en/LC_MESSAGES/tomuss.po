@@ -1185,7 +1185,7 @@ msgstr "First/last:&nbsp;"
 
 #. Label before the attribute
 msgid "BEFORE_table_teachers"
-msgstr "Restricted to:&nbsp;"
+msgstr "Restricted&nbsp;to:&nbsp;"
 
 #. Label before the attribute
 msgid "BEFORE_table_masters"

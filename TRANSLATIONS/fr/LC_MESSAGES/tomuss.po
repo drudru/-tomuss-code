@@ -1180,7 +1180,7 @@ msgstr "Responsables&nbsp;:&nbsp;"
 
 #. Label before the attribute
 msgid "BEFORE_table_teachers"
-msgstr "Restreint à&nbsp;:&nbsp;"
+msgstr "Restreint&nbsp;à&nbsp;:&nbsp;"
 
 
 #. Tip column action
