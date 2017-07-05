@@ -141,6 +141,7 @@ def get_column_from_a_table(column, table_list):
                                          line_id, new_val)
             finally:
                 column.table.unlock()
+    restore_user_rights(column, all_lines=False)
 
 @utilities.add_a_lock
 def update_column_content(column, url):
@@ -190,14 +191,17 @@ def update_column_content(column, url):
                                            line_id, new_value)
                 finally:
                     column.table.unlock()
+    restore_user_rights(column, all_lines=False)
 
-def restore_user_rights(column):
+def restore_user_rights(column, all_lines=True):
     from .. import data
-    no_user = column.table.get_nobody_page()
     column.table.lock()
+    no_user = column.table.get_nobody_page()
     try:
         for line_id, line in column.table.lines.items():
-            if line[column.data_col].author == data.ro_user:
+            if (line[column.data_col].author == data.ro_user
+                and (all_lines or line[0].value == '')
+                ):
                 column.table.cell_change(no_user,
                                          column.the_id,
                                          line_id, line[column.data_col].value,
