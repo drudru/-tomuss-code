@@ -135,8 +135,6 @@ def get_column_from_a_table(column, table_list):
                 continue
         if len(new_val) == 1:
             new_val = new_val[0][0]
-            if new_val == '':
-                new_val = ' ' # To forbid user modification (it will be erased)
         else:
             new_val = ' '.join("%s(%s)" % (v, u) for v, u in new_val)
         if line[column.data_col].value != new_val:

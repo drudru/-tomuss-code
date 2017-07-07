@@ -1422,7 +1422,7 @@ Cell.prototype.changeable = function(line, column)
       return _("ERROR_table_read_only") ;
   if ( column.locked )
       return _("ALERT_locked_column") ;
-  if ( this.author === '*' && this.value !== '')
+  if ( this.author === '*' && ( this.value !== '' || column.url_import !== '') )
     return _("ERROR_value_not_modifiable") + '\n'
       + _("ERROR_value_system_defined") ;
   if ( i_am_the_teacher )
