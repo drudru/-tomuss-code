@@ -122,12 +122,18 @@ def get_column_from_a_table(column, table_list):
                 v = getter(line[col.data_col])
                 if v == '':
                     v = col.empty_is
-                values[line[0].value].append((v, url))
+                v = (v, url)
+                values[line[0].value].append(v)
+                login = utilities.the_login(line[0].value)
+                if line[0].value != login:
+                    values[utilities.the_login(line[0].value)].append(v)
     for line_id, line in column.table.lines.items():
-        new_val = values[line[0].value]
-        if len(new_val) == 0:
-            continue
-        elif len(new_val) == 1:
+        new_val = values.get(line[0].value, None)
+        if new_val is None:
+            new_val = values.get(utilities.the_login(line[0].value), None)
+            if new_val is None:
+                continue
+        if len(new_val) == 1:
             new_val = new_val[0][0]
             if new_val == '':
                 new_val = ' ' # To forbid user modification (it will be erased)
