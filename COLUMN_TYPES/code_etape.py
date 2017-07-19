@@ -54,9 +54,15 @@ class Code_Etape(text.Text):
         """Redefine this method to get the [line_id, value] list"""
         # Get the line_id + input value
         students = self.values(column, line_ids)
+        students_id = tuple(inscrits.login_to_student_id(i[1])
+                            for i in students)
         # Get the data from all the input values
-        students_etapes = inscrits.L_slow.etapes_of_students(tuple(
-            inscrits.login_to_student_id(i[1]) for i in students))
+        if inscrits.L_slow.etapes_of_students.__code__.co_argcount == 3:
+            students_etapes = inscrits.L_slow.etapes_of_students(
+                students_id, utilities.university_year(column.table.year,
+                                                       column.table.semester))
+        else:
+            students_etapes = inscrits.L_slow.etapes_of_students(students_id)
         # Merge line_id and returned value
         for line_id, student in students:
             student = inscrits.login_to_student_id(student)

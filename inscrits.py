@@ -370,13 +370,13 @@ class LDAP_Logic(object):
     member_of_list = utilities.add_a_method_cache(member_of_list)
 
 
-    def etapes_of_student(self, login):
+    def etapes_of_student(self, login, year=None):
         """Assumes that LDAP contains OU with ' etape-XXXX' inside"""
         a = self.member_of_list(utilities.the_login(login))
         return sorted(aa.split(' etape-')[1].split(',')[0]
                 for aa in a if ' etape-' in aa)
 
-    def etapes_of_students(self, logins):
+    def etapes_of_students(self, logins, year=None):
         """If possible, optimize this function"""
         d = {}
         for login in logins:
