@@ -45,6 +45,7 @@ def create(table):
 def init(table):
     table.do_not_unload_add('*Variables')
     table.variables = set()
+    table.contains_users = False
 
 def cell_change(table, page, col, lin, value, dummy_date):
     if page.page_id <= 1:

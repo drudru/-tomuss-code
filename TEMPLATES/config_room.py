@@ -71,6 +71,7 @@ def rooms_list(table):
 def init(table):
     table.do_not_unload_add('*config_room')
     table.rooms_list = rooms_list
+    table.contains_users = False
 
 
 def onload(table):

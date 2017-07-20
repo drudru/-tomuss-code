@@ -65,6 +65,7 @@ def get_messages(table, login):
     ]
     
 def init(table):
+    table.contains_users = False
     table.do_not_unload_add('*config_messages')
     table.messages_cache = None
     configuration.get_messages = lambda login: get_messages(table, login)

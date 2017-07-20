@@ -409,6 +409,7 @@ def import_template(ue, semester=''):
 class Table(object):
     new_abjs = None
     force_update = 0
+    contains_users = True
     
     def __init__(self, year, semester, ue, ro=True, user=None):
 
@@ -1900,8 +1901,10 @@ def check_new_students_real():
                     utilities.send_backtrace('', 'Student list %s' % t)
 
                 warn('done %s' % t.ue, what="table")
-                mails = inscrits.L_batch.mails(
-                    tuple(set(t.logins()) | t.authors()))
+                logins_to_get = t.authors()
+                if t.contains_users:
+                    logins_to_get |= set(t.logins())
+                mails = inscrits.L_batch.mails(tuple(logins_to_get))
                 mails.update(t.mails)
                 t.change_mails(mails)
                 if t.modifiable:
@@ -2250,12 +2253,12 @@ def update_computed_values_fast():
                 col.type.update_one(the_table, lin, col)
             # Update mail if new teacher
             login = the_table.lines[lin][a_column.data_col].author
-            if login not in the_table.mails:
+            if login not in the_table.mails and len(login) > 1:
                 m = inscrits.L_fast.mail(login)
                 if m:
                     the_table.update_mail(login, m)
             # Update mail if login changed
-            if a_column.data_col == 0:
+            if a_column.data_col == 0 and the_table.contains_users:
                 login = the_table.lines[lin][0].value
                 if isinstance(login, str):
                     m = inscrits.L_fast.mail(login)

@@ -83,6 +83,7 @@ def create(table):
 def init(table):
     table.default_sort_column = 2
     table.private = 1
+    table.contains_users = False
     table.do_not_unload_add('*config_plugin')
 
 def check(table, from_create=False):

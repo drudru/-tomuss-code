@@ -204,6 +204,7 @@ def update_link(lin_id, line):
             setattr(link, attr_name, value)
 
 def onload(table):
+    table.contains_users = False
     add_new_links_in_the_table(table)
     for lin_id, line in table.lines.items():
         if line[0].value:

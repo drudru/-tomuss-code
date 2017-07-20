@@ -185,6 +185,7 @@ def set_value(variable, value):
         files.files['doc_table.html'].replace('config_table', '_ADMIN_', value)
 
 def init(table):
+    table.contains_users = False
     table.do_not_unload_add('*config_table')
 
     for v in variable_list:

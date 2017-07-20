@@ -73,6 +73,7 @@ def add_new_links_in_the_table(table):
         table.unlock()
 
 def onload(table):
+    table.contains_users = False
     add_new_links_in_the_table(table)
     for cache in utilities.caches:
         lin_id = get_lin_id(cache)
