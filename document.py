@@ -176,6 +176,7 @@ def get_preferences(user_name, create_pref=True, the_ticket=None):
                  'filter_freezed' : 0,
                  'theme'          : "",
                  'forget_input'   : 0,
+                 'compressed'     : 0,
     }.items():
         if k not in p:
             p[k] = v

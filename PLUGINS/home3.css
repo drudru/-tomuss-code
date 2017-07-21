@@ -164,6 +164,16 @@ TD { padding: 0px }
     overflow: hidden ;
     height: 2em ;
     border: 1px solid #EEE ;
+    -webkit-transition: height 0.5s ;
+    transition: height 0.5s;
+}
+
+BODY.compressed_1 .ue_line {
+    height: 1.1em ;
+}
+
+BODY.themeP .ue_line:hover {
+    height: 2em ;
 }
 
 .ue_line > DIV {

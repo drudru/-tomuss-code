@@ -537,6 +537,20 @@ function DisplayHomePreferencesForgetInput(node)
 }
 DisplayHomePreferencesForgetInput.need_node = [] ;
 
+function compressed_change(t)
+{
+  preference_change(t, "compressed="+(preferences.compressed==yes ?1:0));
+}
+
+function DisplayHomePreferencesCompressed(node)
+{
+  return '<p>' + radio_buttons('preferences.compressed', [no, yes],
+	               test_bool(preferences.compressed),
+                       "compressed_change(this)")
+    + _("Preferences_compressed") ;
+}
+DisplayHomePreferencesCompressed.need_node = [] ;
+
 function current_debug_change(t)
 {
   preference_change(t,"debug_home="+(preferences.debug_home==yes ?1:0));

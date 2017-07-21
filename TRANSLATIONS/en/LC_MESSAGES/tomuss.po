@@ -4514,6 +4514,9 @@ msgstr "If YES, there is one scrollbar per column instead of one for the home pa
 msgid "Preferences_forget_input"
 msgstr "forget the last search"
 
+msgid "Preferences_compressed"
+msgstr "shorten display"
+
 msgid "MSG_text_size"
 msgstr "Text size"
 

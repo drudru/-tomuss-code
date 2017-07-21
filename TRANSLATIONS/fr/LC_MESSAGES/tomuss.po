@@ -4570,6 +4570,9 @@ msgstr "un ascenseur pour chacune des 3 colonnes"
 msgid "Preferences_forget_input"
 msgstr "oublier la dernière recherche"
 
+msgid "Preferences_compressed"
+msgstr "raccourcir l'affichage"
+
 msgid "MSG_text_size"
 msgstr "taille du texte"
 
