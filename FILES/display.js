@@ -159,20 +159,13 @@ function display_display(node)
 
 function detect_small_screen(force)
 {
-  if ( window_width() == detect_small_screen.window_width )
+  if ( !force && window_width() == detect_small_screen.window_width )
     return ;
   detect_small_screen.window_width = window_width() ;
       
   var smallscreen, width, lefts = [], div ;
   var divs = document.getElementsByTagName('DIV') ;
-  var default_theme = "theme" + semester.substr(0,1) ;
-  var top_class = the_body.className
-    .replace(/ (teacher_view|student_view|hide_right_column)[^ ]*/, '')
-    .replace(/ [a-z_]*_[01]/g, '')
-    .replace(/theme_/, "theme")
-    .replace(/theme\b/, default_theme) ;
-  if ( top_class.indexOf("theme") == -1 )
-    top_class += ' ' + default_theme ;
+  var top_class = '' ;
   for(i = 0 ; i < divs.length ; i++)
     {
       div = divs[i] ;
@@ -201,9 +194,19 @@ function detect_small_screen(force)
     top_class += ' student_view' ;
   if ( smallscreen )
     top_class += ' hide_right_column_1' ;
-  for(var item in display_data['Preferences'])
-    if ( item != 'hide_right_column' )
-      top_class += ' ' + item + '_' + display_data['Preferences'][item] ;
+  var prefs = display_data['Preferences'] || display_data['HomePreferences'] ;
+  for(var item in prefs)
+    if ( item != 'hide_right_column' || !smallscreen )
+      top_class += ' ' + item + '_' + prefs[item] ;
+
+  top_class = top_class.replace(/theme_(.|..) /, "theme$1 ")
+    .replace("theme_ ", "theme" + semester.substr(0,1) + " ") ;
+
+  if ( top_class.match("black_and_white_1") )
+    top_class = top_class.replace(/theme(.|..) /, "themeBW ") ;
+
+  if ( ! top_class.match(/ theme(.|..) /) )
+    top_class += " theme" + semester.substr(0,1) ;
 
   // To not relaunch CSS animation
   if ( the_body && the_body.className != top_class )

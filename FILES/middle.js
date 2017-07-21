@@ -137,6 +137,17 @@ function preference_change(t, value)
   img.src = url + '/=' + ticket + '/save_preferences/' + value ;
   img.className = 'server' ;
   t.appendChild(img) ;
+
+  var key_value = value.split("=") ;
+  try {
+    if ( display_data )
+      (display_data['Preferences']
+       || display_data['HomePreferences'])[key_value[0]] = key_value[1] ;
+    if ( preferences )
+      preferences[key_value[0]] = key_value[1] ;
+    detect_small_screen(true) ;
+  }
+  catch(e) {} ;
 }
 
 function zebra_change(t)

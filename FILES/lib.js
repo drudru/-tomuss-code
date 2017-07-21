@@ -4869,7 +4869,8 @@ function set_body_theme(the_semester)
     ? the_semester.substr(0,1) // A or P or T
     : preferences.theme ;
   theme = css_themes[Math.max(myindex(css_themes, theme), 1)] ;
-  the_body.className = "theme" + theme ;
+  the_body.className = the_body.className.replace(/ theme[^ ]*/, '')
+    + " theme" + theme ;
 }
 
 function initialise_columns()

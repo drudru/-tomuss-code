@@ -540,7 +540,6 @@ DisplayHomePreferencesForgetInput.need_node = [] ;
 function current_debug_change(t)
 {
   preference_change(t,"debug_home="+(preferences.debug_home==yes ?1:0));
-  preferences.debug_home = preferences.debug_home == yes ;
   display_update_real() ;
 }
 function DisplayHomePreferencesDebug(node)
@@ -556,9 +555,7 @@ DisplayHomePreferencesDebug.need_node = [] ;
 
 function theme_change(theme, t)
 {
-  preferences.theme = theme ;
   preference_change(t, "theme=" + theme) ;
-  set_body_theme(get_option("year_semester", year_semester()).split('/')[1]) ;
   popup_close() ;
   home_preferences_popup() ;
 }
