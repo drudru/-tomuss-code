@@ -1136,6 +1136,35 @@ Les améliorations les plus visibles sont :
       </description>
       <guid>69</guid>
     </item>
+    <item>
+      <title>22/07/2017 : Version 6.0.44</title>
+      <link>http://tomuss.univ-lyon1.fr/</link>
+      <description>
+	&lt;p&gt;
+	On peut envoyer des invitations par mail pour que des personnes
+	puissent s'inscrire dans une table.
+	&lt;p&gt;
+	Les enseignants peuvent afficher la photo de leur choix
+	aux étudiants sur la page de suivi.
+	&lt;p&gt;
+	Il y a maintenant un type de colonne: 'si alors sinon'
+	&lt;p&gt;
+	Si un titre de colonne est rouge, c'est que les étudiants
+	peuvent modifier la cellule les concernant.
+	&lt;p&gt;
+	Il est possible de diffuser des colonnes de tables publiquement
+	avec ou sans authentification.
+	&lt;p&gt;
+	Il est possible d'importer un PDF unique comportant plusieurs copies
+	(pouvant contenir un nombre variable de pages) dans une colonne
+	en répartissant interactivement les copies aux étudiants.
+	&lt;p&gt;
+	Nouvelles options pour la page d'accueil :
+	oublier la dernière recherche.
+	Réduire la hauteur des menus.
+      </description>
+      <guid>70</guid>
+    </item>
 
   </channel>
 </rss>
