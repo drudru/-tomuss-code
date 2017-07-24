@@ -360,7 +360,6 @@ TT.icon {
 .help { display: none }
 .HomeActions .ue_line {
     white-space: normal ;
-    height: 2.5em ;
 }
 
 .HomeActions .ue_line .ue_more, .HomeActions .ue_line A {
