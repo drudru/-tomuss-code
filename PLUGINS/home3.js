@@ -544,7 +544,7 @@ function compressed_change(t)
 
 function DisplayHomePreferencesCompressed(node)
 {
-  return '<p>' + radio_buttons('preferences.compressed', [no, yes],
+  return radio_buttons('preferences.compressed', [no, yes],
 	               test_bool(preferences.compressed),
                        "compressed_change(this)")
     + _("Preferences_compressed") ;
@@ -578,16 +578,18 @@ DisplayHomePreferencesThemes.need_node = [] ;
 
 function home_preferences_popup()
 {
-    if ( popup_is_open() )
+  if ( popup_is_open() )
     {
       popup_close() ;
       return ;
     }
 
-  var s = [_('MSG_home_preferences')] ;
+  var s = [_('MSG_home_preferences'),
+	   '<div class="Preferences">'] ;
   var children = display_definition['HomePreferences'].children ;
   for(var i in children)
     s.push(display_display(children[i])) ;
+  s.push('</div>') ;
 
   create_popup('top_right', 'TOMUSS <span class="copyright">'
 	       + tomuss_version + '</span>',

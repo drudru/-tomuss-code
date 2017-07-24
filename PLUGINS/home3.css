@@ -36,12 +36,7 @@ TD { padding: 0px }
     padding: 0.5em ;
 }
 
-.HomePreferencesLanguages,
-.HomePreferencesFavoritesSort,
-.HomePreferencesFavoritesNumber,
-.HomePreferencesYearSemester,
-.HomePreferences3ScrollBars,
-.HomePreferencesDebug {
+.top_right .Preferences > DIV {
     display: block ;
     margin: 0.6em ;
 }
@@ -164,16 +159,16 @@ TD { padding: 0px }
     overflow: hidden ;
     height: 2em ;
     border: 1px solid #EEE ;
-    -webkit-transition: height 0.5s ;
-    transition: height 0.5s;
+    -webkit-transition: max-height 0.5s ;
+    transition: max-height 0.5s;
 }
 
 BODY.compressed_1 .ue_line {
-    height: 1.1em ;
+    max-height: 1.1em ;
 }
 
 BODY.themeP .ue_line:hover {
-    height: 2em ;
+    max-height: 2.5em ;
 }
 
 .ue_line > DIV {
@@ -360,6 +355,7 @@ TT.icon {
 .help { display: none }
 .HomeActions .ue_line {
     white-space: normal ;
+    height: 2.5em ;
 }
 
 .HomeActions .ue_line .ue_more, .HomeActions .ue_line A {
