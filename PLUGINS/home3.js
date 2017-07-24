@@ -120,7 +120,6 @@ function DisplayHomeSemesters(node)
       suivi[ys] = node.data[i][0] ;
     }
   s.push('</select>') ;
-  set_body_theme(get_option("year_semester", year_semester()).split('/')[1]) ;
 
   return s.join('') ;
 }

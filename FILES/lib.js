@@ -4863,12 +4863,18 @@ function update_a_menu(min, current, all, max, select)
   select.selectedIndex = sel ;
 }
 
+function get_theme(theme)
+{
+  return css_themes[Math.max(myindex(css_themes, theme), 1)] ;
+}
+
+// Used only for table and abj pages
 function set_body_theme(the_semester)
 {
   var theme = preferences.theme === ''
     ? the_semester.substr(0,1) // A or P or T
     : preferences.theme ;
-  theme = css_themes[Math.max(myindex(css_themes, theme), 1)] ;
+  theme = get_theme(theme) ;
   the_body.className = the_body.className.replace(/ theme[^ ]*/, '')
     + " theme" + theme ;
 }
@@ -4986,7 +4992,7 @@ function runlog(the_columns, the_lines)
   update_filtered_lines() ;
   try { table_fill_hook = template_init ; } catch(e) { }
 
-  set_body_theme(semester)
+  set_body_theme(semester) ;
 
   if ( ! is_a_virtual_ue )
     document.write('<img width="1" height="1" src="' + url + "/=" + ticket
