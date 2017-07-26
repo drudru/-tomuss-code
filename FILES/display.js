@@ -200,15 +200,17 @@ function detect_small_screen(force)
       top_class += ' ' + item + '_' + prefs[item] ;
 
   // Set the good theme
+  if ( top_class.indexOf("theme_") == -1 )
+    top_class = "theme_ " + top_class ;
   var s ;
   try { s = year_semester().split("/")[1] ; }
   catch(e) { s = semester ; }
   s = get_theme(s.substr(0,1)) ;
-  top_class = top_class.replace(/theme_(.|..) /, "theme$1 ")
+  top_class = top_class.replace(/theme_([^ ]+) /, "theme$1 ")
     .replace("theme_ ", "theme" + s + " ") ;
 
   if ( top_class.match("black_and_white_1") )
-    top_class = top_class.replace(/theme(.|..) /, "themeBW ") ;
+    top_class = top_class.replace(/theme([^ ]+) /, "themeBW ") ;
 
   // To not relaunch CSS animation
   if ( the_body && the_body.className != top_class )
