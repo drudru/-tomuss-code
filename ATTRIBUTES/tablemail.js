@@ -189,6 +189,7 @@ function personal_mailing()
       buttons += ' <option>' + html(addresses[i]) + '</option>' ;
     buttons += "</select><br>" ;
   }
+  personal_mailing.filtered_lines = filtered_lines ;
   create_popup('personal_mailing_div',
 	       _("MSG_mail_massmail_title"),
 	       _("MSG_mail_massmail_text")
@@ -260,6 +261,12 @@ function personal_mailing_do()
   var data_col_cc = get_mail_data_col("mail_cc") ;
   if ( data_col_cc == data_col_to )
     data_col_cc = -1 ;
+  if ( filtered_lines !== personal_mailing.filtered_lines
+       && ! confirm(_("ALERT_filter_change")))
+       {
+	 popup_close() ;
+	 return ;
+       }
   for(var i in filtered_lines)
     {
       line = filtered_lines[i] ;

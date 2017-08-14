@@ -1809,6 +1809,10 @@ msgstr "Dans votre message, vous faites référence à des noms de colonnes "
        "Voulez-vous quand même envoyer les messages sans faire "
        "les remplacements pour les champs suivants : "
 
+msgid "ALERT_filter_change"
+msgstr "ATTENTION : les messages vont être envoyés aux étudiants\n"
+       "définis par le nouveau filtre et non l'ancien."
+
 msgid "TO:"
 msgstr "Pour"
 

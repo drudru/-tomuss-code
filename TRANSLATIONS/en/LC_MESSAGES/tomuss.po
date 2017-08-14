@@ -1808,6 +1808,10 @@ msgid "ALERT_mail_unknown_column"
 msgstr "In your message you use non existent column title between [ ].\n"
        "Do you want to send the messages without the replacements for: "
 
+msgid "ALERT_filter_change"
+msgstr "BEWARE : mails will be sent to the students defined by\n"
+       "the new filter, not the old one."
+
 msgid "TO:"
 msgstr "To"
 
