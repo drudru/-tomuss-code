@@ -6,84 +6,132 @@ Preference statistics
 """
 
 import collections
-import os
-import math
+import re
 import tomuss_init
 from ..PLUGINS import suivi_preferences
+from .. import utilities
+import matplotlib
+matplotlib.use('Agg')
+import matplotlib.pyplot
+plt = matplotlib.pyplot
 
-nb_on = collections.defaultdict(int)
-nb_set = collections.defaultdict(int)
-pairs = collections.defaultdict(int)
-data = []
-nb = 0
+not_modifiable_by_user = {
+    "v_scrollbar",
+    "scrollbar_right",
+    "home_3scrollbar",
+    "display_tips",
+    "interface", # Must be modifiable in the futur
+    }
 
-for dummy_login, d in suivi_preferences.read():
-    nb += 1
-    s = []
-    for k in sorted(d):
-        if d[k]:
-            nb_on[k] += 1
-            s.append(k)
-    for i in s:
-        for j in s:
-            if i > j:
-                pairs[i, j] += 1
-    nb_set[' '.join(s)] += 1
-    data.append(d)
+deprecated = {
+    "nr_lines",
+    "nr_cols",
+    "favoris_sort",
+    "nr_favorites",
+    }
 
-print(nb, "students with preferences")
-for k in sorted(nb_on, key=lambda x: nb_on[x]):
-    v = nb_on[k]
-    print("%-4d %2d%% %s" % (v, (100*v)/nb, k))
-print('Pairs')
-for k in sorted(pairs, key=lambda x: pairs[x]):
-    print(pairs[k], k)
-f = '%8.8s'
-sorted_nb_on = sorted(nb_on)
-print(' '.join(f % i for i in ['',] + sorted_nb_on))
-for i in sorted_nb_on:
-    print(f % i, end=' ')
-    for j in sorted_nb_on:
-        if i > j:
-            print(f % pairs.get((i, j), ''), end=' ')
-        elif i < j:
-            print(f % pairs.get((j, i), ''), end=' ')
-        else:
-            print(f % '', end=' ')
-    print()
+yes = utilities._("yes")
+no = utilities._("no")
 
-print('Sets')
-for k in sorted(nb_set, key=lambda x: (nb_set[x], x)):
-    print(nb_set[k], k)
-print('Data')
-print(','.join(nb_on))
-for d in data:
-    print(','.join(
-        '1' if d.get(i,0) else '0'
-        for i in nb_on))
-print('Dot file')
-f = open("xxx.preferences.dot", "w", encoding = "utf-8")
-f.write('''
-graph "fichiers" {
-node[shape=circle,style="filled",fillcolor="white",fixedsize=true];
-edge[splines="false",fontname="courier",color="grey"];
-graph[charset="Latin1",orientation="P",outputorder=edgesfirst];
-''')
-nb_on_max = float(max(nb_on.values()))
-for k, v in nb_on.items():
-    percent = (100*v)//nb
-    if percent < 10:
-        percent = '%.1f' % ((100.*v)/nb)
-    f.write('%s [width="%s", label="%s\\n%s%%"] ;\n' % (
-            k, 2*(v/nb_on_max)**0.5, k, percent))
+class Preference:
+    def __init__(self, preference):
+        self.values = {}
+        self.preference = preference
+    def add(self, value):
+        self.values[value] = self.values.get(value, 0) + 1
+    def terminate(self):
+        self.nr_user = sum(self.values.values())
+        self.nr_choices = len(self.values)
+        self.choices = sorted(self.values.items())
+        choices = set(self.values)
+        choices.discard("0")
+        choices.discard("1")
+        self.boolean = len(choices) == 0
+    def plot(self):
+        print("{}[{}]".format(self.preference,  self.nr_user), end="")
+        msg = utilities._("Preferences_" + self.preference)
+        if msg.startswith("Preferences_"):
+            msg = utilities._("Preference_" + self.preference)
+            if msg.startswith("Preference_"):
+                msg = utilities._("MSG_" + self.preference)
+                if msg.startswith("MSG_"):
+                    msg = self.preference
+        msg = re.sub(" *<[^>]*> *", " ", msg).strip("  :.")
+        msg = msg[0].upper() + msg[1:] + ' [' + str(self.nr_user) + ']'
+        plt.text(0.11, self.y + self.nr_choices + 0.2, msg, color=(0,0,0))
+        for i, (k, nr) in enumerate(self.choices):
+            print(" {}:{}%".format(k, int(100*nr/self.nr_user)), end="")
+            y = self.y + i
+            if self.boolean and k == "1":
+                color = (0.75, 1, 0.75)
+            else:
+                color= (0.75, 0.75, 0.75)
+            plt.barh((y,), (nr,), 1, color=color, linewidth=0)
+            if self.boolean:
+                label = yes if k == '1' else no
+            else:
+                label = k
+            percent = 100*nr/self.nr_user
+            if percent >= 10:
+                percent = str(int(percent))
+            elif percent >= 1:
+                percent = "{:.1f}".format(percent)
+            elif percent >= 0.1:
+                percent = "{:.2f}".format(percent)
+            else:
+                percent = "{:.3f}".format(percent)
+            plt.text(0.2, y+0.5, "{} : {}%".format(label, percent),
+                     verticalalignment='center', color=(0,0,1))
+        print()
 
-for k, v in pairs.items():
-    # Between 0 and 10
-    normed = (10.*v) / min(nb_on[k[0]], nb_on[k[1]])
-    f.write('%s -- %s [weight="%d",penwidth="%d"] ;\n' % (k[0], k[1],
-                                                          1000*int(normed**4),
-                                                          math.ceil(normed)))
-f.write('}\n')
-f.close()
+class Preferences:
+    def __init__(self):
+        self.preferences = {}
+        for dummy_login, d in suivi_preferences.read():
+            for k in sorted(d):
+                self.add(k, str(d[k]))
+        self.terminate()
 
-os.system("fdp -Tpng xxx.preferences.dot -o TMP/xxx.preferences.png")
+    def add(self, preference, value):
+        if preference not in self.preferences:
+            self.preferences[preference] = Preference(preference)
+        self.preferences[preference].add(value)
+
+    def terminate(self):
+        self.sorted = [preference
+                       for preference in self.preferences.values()
+                       if preference.preference not in deprecated
+                       and preference.preference not in not_modifiable_by_user
+                       ]
+        self.sorted.sort(key = lambda x: x.preference, reverse=True)
+        i = 0
+        for preference in self.sorted:
+            preference.y = i
+            preference.terminate()
+            i += preference.nr_choices + 1
+        self.max = max(preference.nr_user
+                       for preference in self.sorted)
+
+    def yticks(self):
+        return [preference.y + preference.nr_choices/2
+                for preference in self.sorted]
+    def ylabels(self):
+        return [preference.preference
+                for preference in self.sorted]
+
+    def plot(self):
+        plt.figure(figsize=(8, 20))
+        plt.axes().set_xscale("log")
+        plt.axes().set_xlim(xmin=0.1, xmax=self.max)
+        plt.axes().set_ylim(ymin=0, ymax=self.sorted[-1].y + self.sorted[-1].nr_choices + 1)
+        plt.axes().set_yticks(self.yticks())
+        plt.axes().set_yticklabels(self.ylabels(), multialignment='center')
+        plt.tick_params(labeltop=True)
+        for preference in self.sorted:
+            preference.plot()
+        plt.tight_layout()
+        plt.savefig("TMP/xxx.preferences.png")
+
+Preferences().plot()
+
+
