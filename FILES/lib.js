@@ -2182,11 +2182,8 @@ function manage_window_resize_event()
     }
   if ( current_window_height != height )
     {
-      if ( preferences.nr_lines == 0 )
-	{
-	  compute_nr_lines.do_compute_nr_lines = true ;
-	  compute_nr_lines() ;
-	}
+      compute_nr_lines.do_compute_nr_lines = true ;
+      compute_nr_lines() ;
       update_line_menu() ;
     }
   if ( current_window_width != width || current_window_height != height )
@@ -4923,10 +4920,6 @@ function runlog(the_columns, the_lines)
     {
       columns[2].position = columns[1].position - 0.1 ;
     }
-  if ( preferences.nr_lines > 0 && preferences.nr_lines < 1000 )
-    table_attr.nr_lines = preferences.nr_lines ;
-  if ( preferences.nr_cols > 0 && preferences.nr_cols < 100 )
-    table_attr.nr_columns = preferences.nr_cols ;
 
   if ( table_attr.default_nr_columns )
     table_attr.nr_columns = table_attr.default_nr_columns ;

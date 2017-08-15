@@ -158,14 +158,12 @@ def get_preferences(user_name, create_pref=True, the_ticket=None):
     from .PLUGINS import suivi_student
     p = utilities.display_preferences_get(user_name)
     for k, v in {'display_tips'   : 1,
-                 'nr_favorites'   : 6,
                  'nr_lines'       : 0,
                  'nr_cols'        : 0,
                  'zebra_step'     : 5,
                  'page_step'      : 1,
                  'invert_name'    : 1,
                  'scrollbar_right': 1,
-                 'favoris_sort'   : 0,
                  'v_scrollbar'    : 1,
                  'v_scrollbar_nr' : 1,
                  'interface'      : "N",

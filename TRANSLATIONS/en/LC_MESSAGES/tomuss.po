@@ -4467,15 +4467,6 @@ msgstr "For each students with a refered teacher,\n"
 msgid "Preferences_display_tips"
 msgstr "Display tips"
 
-msgid "Preferences_nr_favorites"
-msgstr "favorite UE displayed"
-
-msgid "Preferences_nr_lines"
-msgstr "Default number of lines displayed in table"
-
-msgid "Preferences_nr_cols"
-msgstr "Default number of columns displayed"
-
 msgid "Preferences_zebra_step"
 msgstr "lines between thick separators"
 
@@ -4487,9 +4478,6 @@ msgstr "invert firstname and surname columns"
 
 msgid "Preferences_scrollbar_right"
 msgstr "Display the vertical scrollbar on the right side"
-
-msgid "Preferences_favoris_sort"
-msgstr "Sort favorites UE by code (not name)"
 
 msgid "Preferences_v_scrollbar"
 msgstr "Display the vertical scrollbar"

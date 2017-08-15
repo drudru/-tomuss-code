@@ -4523,15 +4523,6 @@ msgstr "Pour chaque étudiants suivi par un référent pédagogique,\n"
 msgid "Preferences_display_tips"
 msgstr "Affiche les bulles d'aides"
 
-msgid "Preferences_nr_favorites"
-msgstr "UE favorites affichées"
-
-msgid "Preferences_nr_lines"
-msgstr "Nombre de lignes affichées par défaut"
-
-msgid "Preferences_nr_cols"
-msgstr "Nombre de colonnes affichées par défaut"
-
 msgid "Preferences_zebra_step"
 msgstr "lignes entre les traits épais"
 
@@ -4543,9 +4534,6 @@ msgstr "inverse les colonnes NOM et PRÉNOM"
 
 msgid "Preferences_scrollbar_right"
 msgstr "Affiche l'ascenseur vertical à droite"
-
-msgid "Preferences_favoris_sort"
-msgstr "trier les UE favorites par code"
 
 msgid "Preferences_v_scrollbar"
 msgstr "Affiche l'ascenseur vertical"
