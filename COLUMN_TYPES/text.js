@@ -35,7 +35,7 @@ function compile_filter_generic(value, column, error_if_hidden)
 {
   var typ ;
   if ( column )
-    column_type = column.type.name ;
+    column_type = column.type ;
   else
     column_type = 'Text' ;
   var g = new Filter(value, my_identity, column_type) ;
