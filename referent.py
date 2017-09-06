@@ -438,8 +438,6 @@ def update_referents(ticket, f, really_do_it = False, add_students=True):
                     f.write(utilities._("MSG_referent_remove_duplicate_student")
                             + '%s<br>\n' % cell.value)
                     if really_do_it:
-                        remove_student_from_referent_hook(line[0].value,
-                                                          cell.value)
                         table.cell_change(page, cell_key, line_key, '')
 
     finally:
