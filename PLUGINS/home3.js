@@ -1489,6 +1489,7 @@ function HomeReset(event)
   var input = the_event(event).target.nextSibling.firstChild ;
   input.value = '' ;
   input.onpaste() ;
+  input.focus() ;
 }
 
 function DisplayHomeUE(node)
