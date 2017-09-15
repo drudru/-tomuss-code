@@ -167,6 +167,10 @@ BODY.compressed_1 .ue_line {
     max-height: 1.1em ;
 }
 
+BODY.compressed_1 .ue_line:hover {
+    max-height: 2em ;
+}
+
 BODY.themeP .ue_line:hover {
     max-height: 2.5em ;
 }
