@@ -886,6 +886,8 @@ function wheel(event)
   var e = the_event(event) ;
   if ( e.ctrlKey || e.altKey || e.metaKey || e.shiftKey )
     return ;
+  if ( e.target.scrollHeight >  e.target.offsetHeight )
+    return ; // Use normal scroll
   if ( e.wheelDelta < 0 )
     next_page(undefined, zebra_step) ;
   else
