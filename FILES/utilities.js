@@ -1972,6 +1972,53 @@ Current.prototype.update_column_headers = function()
     }
 } ;
 
+var decal_diff = 100 ;
+
+function triple_diff(t0, t1, t2)
+{
+   if ( t0.length < 7 && t1.length < 7 && t2.length < 7 )
+      return html(t1) ;
+
+   var i0 = 0, i1 = 0, i2 = 0 ;
+   var output = '' ;
+   var decal0, decal2, color ;
+   while(t1[i1])
+    {
+      for(var decal0=0; decal0 < decal_diff; decal0++)
+         if ( t1.substr(i1, 2*decal0+1) == t0.substr(i0+decal0, 2*decal0 + 1) )
+             break ;
+      for(var decal2=0; decal2 < decal_diff; decal2++)
+         if ( t1.substr(i1, 2*decal2+1) == t2.substr(i2+decal2, 2*decal2 + 1) )
+             break ;
+
+      if ( decal0 != decal_diff &&  decal2 != decal_diff )
+             color = '' ;
+      else if ( decal0 != decal_diff )
+      {
+             color = '#FCC' ;
+             decal2 = -1 ;
+      }
+      else if ( decal2 != decal_diff )
+      {
+             color = '#CFC' ;
+             decal0 = -1 ;
+      }
+      else
+      {
+             color = '#FFA' ;
+             decal0 = decal2 = -1 ;
+      }
+      output += (color ? '<span style="background:' + color + '">' : '')
+                + html(t1[i1])
+                + (color ? '</span>' : '') ;
+      i0 += decal0 + 1 ;
+      i1++ ;
+      i2 += decal2 + 1 ;
+    }
+
+   return output.replace(/\n/g, "<br>") ;
+}
+
 Current.prototype.update_cell_headers = function()
 {
   var cell = this.cell ;
@@ -1987,20 +2034,28 @@ Current.prototype.update_cell_headers = function()
   var s = ['<table class="colored not_tip_top">'] ;
   s.push('<tr><th>' + _("B_Date") + '<th>' + _('TH_who') + '<th>'
 	 + _("TH_value") + '</tr>') ;
-  s.push('<tr><td>' + date(cell.date) + '<td>'
-	 + cell.get_author() + '<td>'
-	 + html(cell.value) + '</tr>') ;
   var h = cell.history.split('),·') ;
   h.pop() ;
+  h.append(cell.value + '\n(' + cell.date + ' ' + cell.author)
   h.reverse() ;
+  var values = [] ;
+  var date_author ;
   for(var i in h)
-  {
-    i = h[i].split('\n(') ;
-    var date_author = i[1].split(' ') ;
-    s.push('<tr><td>' + date(date_author[0]) + '<td>'
-	   + get_author(date_author[1])
-	   + '<td>' + html(i[0]) + '</tr>') ;
-  }
+   {
+     var ii = h[i].split('\n(') ;
+     date_author = ii[1].split(' ') ;
+     values[i] = ['<tr><td>' + date(date_author[0]) + '<td>'
+	           + get_author(date_author[1])
+	           + '<td>', ii[0]] ;
+   }
+  values[values.length] = [undefined, ''] ;
+  values[-1] = values[0] ;
+  for(var i in h)
+{
+    s.push(values[i][0] + triple_diff(values[Number(i)+1][1],
+                                      values[i][1],
+                                      values[i-1][1]) + '</tr>') ;
+}
   s.push('</table>') ;
   t_history.innerHTML = s.join('\n') ;
 

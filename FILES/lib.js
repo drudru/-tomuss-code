@@ -886,8 +886,13 @@ function wheel(event)
   var e = the_event(event) ;
   if ( e.ctrlKey || e.altKey || e.metaKey || e.shiftKey )
     return ;
-  if ( e.target.scrollHeight >  e.target.offsetHeight )
-    return ; // Use normal scroll
+  var where = e.target ;
+  while ( where.tagName != 'BODY' )
+    {
+      if ( where.scrollHeight > where.offsetHeight )
+	return ; // Use normal scroll
+      where = where.parentNode ;
+    }
   if ( e.wheelDelta < 0 )
     next_page(undefined, zebra_step) ;
   else

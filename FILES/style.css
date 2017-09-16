@@ -886,6 +886,15 @@ DIV.tabs #t_history,  DIV.tabs .scroll_auto { overflow: auto; height: 100% }
     z-index: 1 ;
 }
 
+DIV.tabs #t_history:hover {
+    position: absolute ;
+    height: 3.5em ;
+    z-index: 1 ;
+    height: auto ;
+    max-height: 90% ;
+    max-width: 99% ;
+}
+
 #t_editor:hover { opacity: 0.95 ; }
 
 
