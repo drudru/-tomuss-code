@@ -20,10 +20,8 @@
 #    Contact: Thierry.EXCOFFIER@bat710.univ-lyon1.fr
 
 from . import moy
-from . import text
 
 class If_Else(moy.Moy):
     human_priority = 5
     cell_compute = 'compute_if_else'
-    formatte = text.Text.formatte
-    attributes_visible = ('test_if', 'columns', 'weight')
+    attributes_visible = ('test_if', 'columns', 'weight', 'rounding')
