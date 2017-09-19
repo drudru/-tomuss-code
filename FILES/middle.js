@@ -881,6 +881,10 @@ function select_tab(name, tab, gui)
 	    if ( child.onkeypress )
 	      child.onkeypress() ;
 	  }
+
+  if ( name != "cellule" && selected_tab(_('cellule')) == '✎' )
+    select_tab("cellule", _("TAB_cell")) ; // Unhide the other blocs
+
   if ( gui && GUI )
     GUI.add('tab_' + name, '', tab) ;
 }
