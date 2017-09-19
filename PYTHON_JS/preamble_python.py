@@ -108,3 +108,4 @@ def as_fixed(t):
 rint = round
 isNaN = math.isnan
 ceil = math.ceil
+floor = math.floor

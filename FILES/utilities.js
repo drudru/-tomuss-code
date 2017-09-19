@@ -1382,7 +1382,7 @@ Cell.prototype.value_html = function()
   return html(this.value) ;
 } ;
 
-function tofixed(n)
+function tofixed(n) // Do not use
 {
   return (Math.floor(n*100+0.0000001)/100).toFixed(2) ;
 }
@@ -1399,7 +1399,7 @@ function local_number(n)
 }
 
 
-Cell.prototype.value_fixed = function()
+Cell.prototype.value_fixed = function() // XXX Do not use
 {
   var v = Number(this.value) ;
   if ( isNaN(v) )

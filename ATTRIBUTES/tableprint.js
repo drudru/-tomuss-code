@@ -187,10 +187,7 @@ function printable_display_page(lines, title, page_break)
 	      if ( cell.value.toFixed )
 		{
 		  html_class += ' number' ;
-		  if ( columns[c].do_rounding )
-		    v = columns[c].do_rounding(cell.value) ;
-		  else
-		    v = tofixed(cell.value) ;
+		  v = columns[c].do_rounding(cell.value) ;
 		  if ( separator == _("B_print_comma") )
 		    v = v.replace('.', ',') ;
 		}

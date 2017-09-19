@@ -171,3 +171,4 @@ def as_fixed(t):
 
 rint = Math.round
 ceil = Math.ceil
+floor = Math.floor

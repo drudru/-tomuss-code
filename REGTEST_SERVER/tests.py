@@ -1734,10 +1734,10 @@ cell_change(1,'0_2','ticket_time_to_live','%d',"")
         assert(c == ok_png)
         ss.start()
         c = ss.url('=' + root +'/%s/extract/UE-extract:Moy' % ys)
-        assert('<td>10800099<td>1.49999999' in c)
+        assert('<td>10800099<td>1.5' in c)
         
         c = ss.url('=' + root +'/%s/fusion/UE-extract:Moy' % ys)
-        assert('<tr><td>10800099<td>10800099Firstname<td>10800099Surname<td>UE-extract<td>1.4999999' in c)
+        assert('<tr><td>10800099<td>10800099Firstname<td>10800099Surname<td>UE-extract<td>1.5' in c)
 
     if do('cell_writable'):
         c = s.url('=' + root + '/%s/UE-cell_writable' % ys)
@@ -2001,8 +2001,8 @@ cell_change(1,'0_2','ticket_time_to_live','%d',"")
         ss.start()
         c = ss.url('=' + root + '/10800100')
         assert('"columns": "A B"' in c)
-        assert('11.11' in c)
-        assert('5.5549999' in c)
+        assert(' 11.11,' in c)
+        assert(' 5.555,' in c)
 
     if do('js-api'):
         c = s.url('=' + abj +'/%s/UE-js' % ys)

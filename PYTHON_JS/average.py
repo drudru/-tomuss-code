@@ -1,7 +1,7 @@
 #!/usr/bin/python3
 # -*- coding: utf-8 -*-
 # TOMUSS: The Online Multi User Simple Spreadsheet
-# Copyright (C) 2014-2015 Thierry EXCOFFIER, Universite Claude Bernard
+# Copyright (C) 2014-2017 Thierry EXCOFFIER, Universite Claude Bernard
 #
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -86,12 +86,9 @@ def compute_average(data_col, line):
             if isNaN(value):
                 return nan
 
-            if column.table.rounding == 1:
-                if origin.round_by:
-                    value = rint(value / origin.round_by,0) * origin.round_by
-                else:
-                    if column.old_function:
-                        value = rint(value * 1000000,0) / 1000000
+            if int(column.table.rounding) == 1: # selectedIndex is String
+                value = do_round(value, origin.round_by, column.table.rounding,
+                                 column.old_function)
 
             if origin.real_weight_add:
                 values.append([
@@ -181,15 +178,10 @@ def compute_average(data_col, line):
             value = (column.min
                      + sumw * (column.max - column.min) / weight
                      + sum2)
-            if not column.old_function:
-                value -= 1e-14
-            if column.table.rounding <= 1 and column.round_by:
-                return rint(value / column.round_by,0) * column.round_by
-            else:
-                if column.old_function:
-                    return rint(value * 1000000,0) / 1000000
-                else:
-                    return value
+            if isNaN(value):
+                return value
+            return do_round(value, column.round_by, column.table.rounding,
+                            column.old_function)
     elif nr_sum == len(column.average_columns):
         if nr_abi == nr_sum:
             return abi
@@ -212,6 +204,18 @@ def get_most_recent_date(data_col, line, not_root=False):
         if str(d) > str(date): # XXX RapydScript want this
             date = d
     return date
+
+def do_round(value, round_by, rounding, old_function):
+    if rounding <= 1 and round_by > 0:
+        if old_function:
+            return rint(value / round_by, 0) * round_by
+        else:
+            return floor(value / round_by + 0.0000001) * round_by
+    else:
+        if old_function:
+            return rint(value * 1000000, 0) / 1000000
+        else:
+            return value
 
 def compute_cell_safe(data_col, line, compute_function):
     """

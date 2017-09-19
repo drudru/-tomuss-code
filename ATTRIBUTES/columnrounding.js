@@ -1,7 +1,7 @@
 // -*- coding: utf-8 -*-
 /*
     TOMUSS: The Online Multi User Simple Spreadsheet
-    Copyright (C) 2012-2014 Thierry EXCOFFIER, Universite Claude Bernard
+    Copyright (C) 2012-2017 Thierry EXCOFFIER, Universite Claude Bernard
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -22,41 +22,26 @@
 
 function set_rounding(value, column)
 {
-  if ( table_attr.rounding <= 1 )
-    column.do_rounding = function(v) { return v.toFixed ? tofixed(v) : v ; } ;
-  else
-    column.do_rounding = function(v) { return v.toFixed ? v.toFixed(2) : v ;} ;
-  
   if ( column.historical_comment )
     return '' ;
-  if ( isNaN(value) )
-  {
-    return '' ;
-  }
-  
   column.need_update = true ;
-  if ( value === '' )
+  if ( value === '' || isNaN(value) )
+    value = 0.01 ;
+  else
   {
-    column.round_by = undefined ;
-    return '' ;
+    value = a_float(value) ;
+    if ( value < 0 )
+      value = -value ;
+    if ( value < 0.001 )
+      value = 0.001 ;
   }
-  value = a_float(value) ;
-  if ( value < 0 )
-    value = -value ;
-  if ( value < 0.001 )
-    value = 0.001 ;
   column.round_by = value ;
 
   var digit = Math.max(0, -Math.floor(Math.log(value)/Math.log(10))) ;
 
-  if ( table_attr.rounding <= 1 )
-    // 'floor' because 9.999 must be displayed as 9.99 an not 10
-    column.do_rounding = function(v) {
-      return v.toFixed ? (Math.floor(v/value+0.0000001)*value).toFixed(digit)
-	: v ; } ;
-  else
-    column.do_rounding = function(v) {
-      return v.toFixed ? (Math.round(v/value)*value).toFixed(digit) : v ; } ;
+  column.do_rounding = function(v) {
+    return v.toFixed ? do_round(v, value, column.table.rounding,
+                                column.old_function).toFixed(digit) : v ; } ;
 
   return value ;
 }
