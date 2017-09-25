@@ -76,7 +76,7 @@ function fill_data()
   for(var c in cols)
   {
     c = cols[c] ;
-    var title = html(columns[c].title) ;
+    var title = html(columns[c].title.replace(/_/g, ' ')) ;
     if ( columns[c].comment )
       title = hidden_txt(title, html(columns[c].comment)) ;
     if ( columns[c] === sort_columns[0] )
