@@ -747,12 +747,8 @@ class Table(object):
                         exception=False)
                         
                 continue
-            if value is True:
-                sender.append(p.browser_file, self.content(p),
-                              index=len(self.sent_to_browsers), page=p)
-            else:
-                sender.append(p.browser_file, value,
-                              index=len(self.sent_to_browsers), page=p)
+            sender.append(p.browser_file, value,
+                          index=len(self.sent_to_browsers), page=p)
 
     def cell_writable_filter(self, the_filter, user, column_type):
         from .PYTHON_JS import tomuss_python
