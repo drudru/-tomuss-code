@@ -1111,7 +1111,7 @@ def tests():
         c = s.url('=' + root + '/%s/UE-INF20UE9/1/2/column_attr_visibility_date/col_0/99' % ys)
         assert(c == bug_png)
         c = s.url('=' + root + '/%s/UE-INF20UE9/1/3/column_attr_visibility_date/col_0/%s' % (ys, now_plus_32_days))
-        assert(c == bug_png)
+        assert(c == bad_png)
         c = s.url('=' + root + '/%s/UE-INF20UE9/1/4/column_attr_visibility_date/col_0/%s' % (ys, now_plus_30_days))
         assert(c == ok_png)
         c = s.url('=' + root + '/%s/UE-INF20UE9/1/5/cell_change/0_0/lin_0/10123456' % ys)

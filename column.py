@@ -127,8 +127,8 @@ class ColumnAttr(object):
                                + self.name)
         error = self.check(value)
         if error:
-            table.error(page, error)
-            raise ValueError(error)
+            return table.error(page, error, backtrace=False,
+                               error_comment="ALERT_column_not_saved")
 
         value = self.encode(value)
 
@@ -252,13 +252,8 @@ class TableAttr(ColumnAttr):
 
         error = self.check(value)
         if error:
-            if '_(' not in error:
-                error = utilities.js(error)
-            t = '<script>alert(%s + "\\n" +%s);</script>\n' % (
-                error, utilities.js(utilities._("ALERT_column_not_saved")))
-                                                               
-            sender.append(page.browser_file, t)
-            return 'bad.png'
+            return table.error(page, error, backtrace=False,
+                               error_comment="ALERT_column_not_saved")
 
         value = self.encode(value)
         old_value = getattr(table, self.name)

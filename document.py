@@ -1023,15 +1023,17 @@ class Table(object):
                                                       self.private))
         return 'ok.png'
 
-    def error(self, page, message, more_in_mail=""):
-        utilities.send_backtrace(
-            'UE: %s, Page: %s' % (self.ue, page)
-            + '\n' + more_in_mail, subject='###' + message,
-            exception=False)
+    def error(self, page, message, more_in_mail="", backtrace=True,
+                error_comment='ERROR_server_bug'):
+        if backtrace:
+            utilities.send_backtrace(
+                'UE: %s, Page: %s' % (self.ue, page)
+                + '\n' + more_in_mail, subject='###' + message,
+                exception=False)
         if '_(' not in message:
             # The message is not javascript program
             message = js(message)
-        message = message + '+"\\n\\n"+_("ERROR_server_bug")'
+        message = message + '+"\\n\\n"+_("{}")'.format(error_comment)
         sender.append(page.browser_file,
                       '<script>alert(%s);</script>\n' % message)
         return "bad.png"
