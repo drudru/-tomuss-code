@@ -2264,6 +2264,12 @@ Current.prototype.jump = function(lin, col, do_not_focus, line_id, data_col)
     this.input_div.removeChild(this.input_div.firstChild) ;
 
   table_highlight_column() ;
+
+  if ( this.cell.value.toString().length > 20
+	&& table_forms_element === undefined
+	&& this.column.type == 'Text'
+	)
+     select_tab("cellule", "✎") ;
 } ;
 
 Current.prototype.jump_if_possible = function(line_id, data_col, do_not_focus)
