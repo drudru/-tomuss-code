@@ -13,7 +13,7 @@ JS=../FILES/lib.js ../FILES/utilities.js ../COLUMN_TYPES/text.js deprecated.js
 LOCAL=$(shell if [ -d ../LOCAL/LOCAL_PYTHON_JS ] ; then ls ../LOCAL/LOCAL_PYTHON_JS/*.py | grep -v regtest ; fi)
 LOCAL_REGTEST=$(shell if [ -d ../LOCAL/LOCAL_PYTHON_JS ] ; then echo ../LOCAL/LOCAL_PYTHON_JS/*_regtest.py ; fi)
 
-RAPYDSCRIPT_COMMIT=0483fac4745bca9c531d29963f2daca5e3330e7c
+RAPYDSCRIPT_COMMIT=f121b356dea6dfc558884af69dd780754d8c5332
 translator:
 	@if [ ! -d RapydScript ] ; \
 	then \
