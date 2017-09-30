@@ -1270,6 +1270,9 @@ function column_list(col_offset, number_of_cols)
 	}
       if ( column.hidden == 1 )
 	continue ;
+      if ( column.private && column.author != my_identity
+           && myindex(column.private, my_identity) == -1 )
+	continue ;
       var v = C(column.title, column.author, '20080101', column.comment) ;
       if ( ! columns_filter(undefined, v) && !column.is_empty )
 	continue ;
@@ -1698,7 +1701,6 @@ function table_header_fill_real()
   var empty_column = add_empty_columns() ;
   var cls = column_list() ;
   var w ;
-  
   the_current_cell.update_column_headers() ;
   update_horizontal_scrollbar(cls) ;
 
@@ -1744,6 +1746,8 @@ function table_header_fill_real()
 	}
       else
 	className += ' hidden_to_student' ;
+      if ( column.private.length != 0)
+        className += ' private_column' ;
 
       var td_title = tr_title.childNodes[col] ;
       var td_filter = tr_filter.childNodes[col] ;

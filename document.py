@@ -1327,7 +1327,7 @@ class Table(object):
             if not locked:
                 self.unlock()
 
-    def content(self, page):
+    def content(self, page, server):
         warn('%s content for page %d' % (
             self.filename, page.page_id))
         s = []
@@ -1339,7 +1339,7 @@ class Table(object):
             s.append(utilities.wait_scripts())
             s.append('var page_index = %d ;' % page.index)
             s.append('--></script> ')
-            lines = self.lines.js()
+            lines = self.lines.js(server.ticket.user_name)
             i = 0
             nb = 100
             to_load = len(lines)

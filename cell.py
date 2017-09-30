@@ -278,12 +278,16 @@ class Line(object):
         self.cells.append(v)
 
     def __len__(self):
-        """The the number of cell in the line."""
+        """The number of cells in the line."""
         return len(self.cells)
 
-    def js(self):
+    def js(self, to_hide=None, columns=None):
         """Translate the line in JavaScript."""
-        return '[' + ','.join([cell.js() for cell in self.cells]) + ']'
+        if to_hide:
+            return '[' + ','.join("C('?','*')" if column in to_hide else cell.js()
+             for cell, column in zip(self.cells, columns)) + ']'
+        else:
+            return '[' + ','.join([cell.js() for cell in self.cells]) + ']'
 
     def json(self, for_student=False, columns=None):
         """Translate the line in JavaScript"""
@@ -402,11 +406,18 @@ class Lines(object):
 
         return d
 
-    def js(self):
+    def columns_to_hide(self, user_name):
+        for column in self.columns:
+            if (column.private and user_name not in column.private
+             and user_name != column.author):
+                yield column
+
+    def js(self, user_name):
         """Create JavaScript generating all the lines data."""
+        to_hide = tuple(self.columns_to_hide(user_name))
         s = []
         for line_id, line in self.lines.items():
             s.append('P(%s,' % utilities.js(line_id)
-                     + line.js() + ');')
+                     + line.js(to_hide, self.columns) + ');')
         return s
 

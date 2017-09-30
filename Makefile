@@ -31,7 +31,8 @@ clean:
          done || true
 
 tags:
-	etags $$(git ls-files -- '*.js' '*.py') $$(cd LOCAL ; git ls-files -- '*.js' '*.py' | sed 's,^,LOCAL/,') 
+	FILES="$$(git ls-files -- '*.js' '*.py') $$(cd LOCAL ; git ls-files -- '*.js' '*.py' | sed 's,^,LOCAL/,')" ; \
+	etags $$FILES ; ctags-exuberant $$FILES
 
 regtest1:clean translations
 	@cd PYTHON_JS ; $(MAKE) fullclean all

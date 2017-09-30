@@ -360,9 +360,16 @@ msgstr "<b>Importer</b> des valeurs dans cette colonne.<br>\n"
 
 #. Attribute Tip
 msgid "TIP_column_attr_hidden"
-msgstr "<b>Cache cette colonne</b><br>\n"
+msgstr "<b>Cache cette colonne sur votre écran</b><br>\n"
  "    Ce changement n'est pas visible par les autres utilisateurs.<br>\n"
  "    Une fois cachée, il faut actualiser la page pour faire réapparaître la colonne."
+
+#. Attribute Tip
+msgid "TIP_column_attr_private"
+msgstr "<b>Cache cette colonne aux autres utilisateurs</b><br>\n"
+ "Indiquez la liste des identifiants des personnes pouvant la voir.<br>\n"
+ "Si la liste est vide, tout le monde peut la voir.<br>\n"
+ "Le propriétaire de la colonne peut toujours la voir."
 
 #. Attribute Tip
 msgid "TIP_column_attr_type"
@@ -5488,6 +5495,9 @@ msgstr "des enseignements de cette colonne"
 
 msgid "import.png"
 msgstr "Année/Semestre/Table/Colonne-a-importer-dynamiquement"
+
+msgid "private.png"
+msgstr "Restreint à"
 
 msgid "ip_error.html"
 msgstr "Votre mobile n'a pas la même adresse IP qu'il y a une seconde.\n"

@@ -366,6 +366,13 @@ msgstr ""
 "Once hidden, a page refresh is needed to make it visible."
 
 #. Attribute Tip
+msgid "TIP_column_attr_private"
+msgstr "<b>Hide this column to the other users</b><br>\n"
+ "Indicate the login list of users allowed to see it.<br>\n"
+ "If the list is empty, any user can see the column.<br>\n"
+ "The column author can always see it."
+
+#. Attribute Tip
 msgid "TIP_column_attr_type"
 msgstr ""
 "<b>Column type</b><br>\n"
@@ -5406,6 +5413,9 @@ msgstr "of sessions for this column"
 
 msgid "import.png"
 msgstr "Year/Semester/Table/Column-to-dynamicaly-import"
+
+msgid "private.png"
+msgstr "Restricted to"
 
 msgid "ip_error.html"
 msgstr "Your cellular has not the same IP than one second ago.\n"

@@ -417,6 +417,10 @@ TABLE#thetable TH.public_display {
   color: #080 ;
 }
 
+TABLE#thetable TH.private_column {
+  background: #FFF ;
+}
+
 IMG.server { 
   width: 7px ;
   height: 7px ;

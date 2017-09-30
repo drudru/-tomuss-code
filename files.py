@@ -55,7 +55,7 @@ for name in (
     'close.png', 'cell_comment.png',
     'filtre.png','filtre2.png', 'comment.png', 'title.png', 'columns.png',
     'visible.png', 'empty.png', 'rounding.png', 'course_dates.png',
-    "import.png", "groupcolumn.png",
+    "import.png", "groupcolumn.png", "private.png",
     'up.gif', 'down.gif', 'next.gif', 'prev.gif',
     'tt.png',
     'lib.js', 'abj.js','types.js','utilities.js',

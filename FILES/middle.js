@@ -1095,6 +1095,8 @@ function new_new_interface()
   t.push(column_input_attr('freezed')) ;
   t.push('. ') ;
   t.push(column_input_attr('hidden')) ;
+  t.push('. ') ;
+  t.push(column_input_attr('private', 'empty')) ;
   t.push('</div>') ;
 
   o.push([_("TAB_display"), t.join('\n')]) ;

@@ -113,7 +113,7 @@ def get_column_from_a_table(column, table_list):
         if not col:
             error(column, 'ALERT_url_import_column', url)
             return
-        if table.private:
+        if table.private or col.private:
             error(column, 'ALERT_url_import_private', url)
             return
         table.compute_columns()

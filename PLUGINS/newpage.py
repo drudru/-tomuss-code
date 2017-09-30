@@ -164,7 +164,7 @@ def new_page(server):
                              )
     # With this lock cell modification can't be lost
     # between page content creation and the page activation
-    server.the_file.write(table.content(page))
+    server.the_file.write(table.content(page, server))
     warn('Actives=%s do_not_unload=%s' % (
         table.active_pages, table.do_not_unload), what="table")
 

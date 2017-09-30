@@ -2248,6 +2248,22 @@ cell_change(1,'0_2','ticket_time_to_live','%d',"")
         c = ss.url('=john.doe/public_login/%s/UE-public' % ys)
         assert('13.57' in c)
 
+    if do('column_private'):
+        s.url('=' + root + '/%s/UE-private' % ys)
+        c = s.url('='+root+'/%s/UE-private/1/0/column_attr_title/C/ColP' % ys)
+        assert(c == ok_png)
+        c = s.url('='+root+'/%s/UE-private/1/1/cell_change/C/L/12.37' % ys)
+        assert(c == ok_png)
+        c = s.url('='+root+'/%s/UE-private/1/2/column_attr_private/C/%s'
+         % (ys, invited))
+        assert(c == ok_png)
+        c = s.url('=' + root + '/%s/UE-private' % ys)
+        assert('12.37' in c)
+        c = s.url('=' + invited + '/%s/UE-private' % ys)
+        assert('12.37' in c)
+        c = s.url('=' + abj + '/%s/UE-private' % ys)
+        assert('12.37' not in c)
+
 if '1' in sys.argv:
    sys.argv.remove('1')
    only_once = True
