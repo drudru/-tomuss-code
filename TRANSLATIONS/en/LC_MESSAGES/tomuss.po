@@ -6319,3 +6319,12 @@ msgid "MSG_create_table_code_nice"
 msgstr "Choose a non empty code, without space and special characters."
 msgid "MSG_create_table_not_done"
 msgstr "The table is yet created, there is its link: "
+
+msgid "MSG_hello"
+msgstr "Hello {} ({})."
+
+msgid "MSG_special_date_subject"
+msgstr "[TOMUSS] Special date"
+msgid "MSG_special_date"
+msgstr "A date indicated by you on TOMUSS has been reached:"
+

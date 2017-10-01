@@ -6463,3 +6463,13 @@ msgid "MSG_create_table_code_nice"
 msgstr "Choisissez un code non vide, sans espace et sans caractères spéciaux."
 msgid "MSG_create_table_not_done"
 msgstr "La table existait déjà, voici le lien à diffuser aux enseignants : "
+
+msgid "MSG_hello"
+msgstr "Bonjour {} ({})."
+
+msgid "MSG_special_date_subject"
+msgstr "[TOMUSS] Date spéciale"
+msgid "MSG_special_date"
+msgstr "Une date spéciale que vous avez indiquée dans TOMUSS a été atteinte :"
+
+

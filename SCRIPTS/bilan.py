@@ -1,5 +1,5 @@
 #!/usr/bin/python3
-# -*- coding: latin-1 -*-
+# -*- coding: utf-8 -*-
 
 """
 Extract from all the UE for all the years and semesters
@@ -22,16 +22,24 @@ import sys
 import re
 import collections
 import math
+import time
+import html
 import tomuss_init
 from .. import configuration
 from .. import tablestat
 from .. import utilities
 from .. import document
+from .. import inscrits
 print(configuration.suivi)
 
 # teacher -> { (year, semester, ue): number_of_cell }
 teachers_tables = collections.defaultdict(
     lambda: collections.defaultdict(int))
+
+# teacher -> [ (year, semester, ue, column, date), ... ]
+special_dates = collections.defaultdict(list)
+
+day_month_year = list(time.localtime())[2::-1]
 
 class UE:
     def __init__(self):
@@ -138,6 +146,17 @@ for syear in os.listdir(configuration.db):
             sys.stderr.write(name + ' ')
             sys.stderr.flush()
 
+            for column in ue.columns:
+                dates = re.findall(
+                    r"\b[0-9]?[0-9]/[0-9]?[0-9]/[0-9][0-9][0-9][0-9]\b",
+                    column.cell_writable)
+                for d in dates:
+                    if [int(i) for i in d.split('/')] == day_month_year:
+                        special_dates[column.author].append(
+                        (year, semester, name, column.title,
+                        re.sub(d, '<b>' + d + '</b>',
+                               html.escape(column.cell_writable))))
+
             for i in ue.logins_valid():
                 i = utilities.the_login(str(i))
                 if not i in students:
@@ -181,4 +200,28 @@ for teacher, tables in teachers_tables.items():
         # Only update the key if it exists
         utilities.manage_key('LOGINS', os.path.join(teacher, 'tables'),
                              content=utilities.stable_repr(tables))
+
+for teacher, dates in special_dates.items():
+    mail = inscrits.L_slow.mail(teacher) or configuration.maintainer
+    message = ["<html>",
+               utilities._("MSG_hello").format(teacher, mail),
+               "<p>",
+               utilities._("MSG_special_date"),
+               '<pre>']
+    for year, semester, name, title, cell_writable in dates:
+        message.append('<a href="{}/{}/{}/{}">{}/{}/{}</a> <b>{}</b> {}'.format(
+                        configuration.server_url, year, semester, name,
+                        year, html.escape(semester),
+                        html.escape(name), html.escape(title),
+                        cell_writable))
+    message.append("</pre>")
+    message.append("</html>")
+    print('\n'.join(message))
+    utilities.send_mail(mail,
+                        utilities._("MSG_special_date_subject"),
+                        '\n'.join(message))
+    utilities.send_mail(configuration.maintainer,
+                        utilities._("MSG_special_date_subject"),
+                        '\n'.join(message))
+
 
