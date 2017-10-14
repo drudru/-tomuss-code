@@ -156,6 +156,7 @@ for syear in os.listdir(configuration.db):
                         (year, semester, name, column.title,
                         re.sub(d, '<b>' + d + '</b>',
                                html.escape(column.cell_writable))))
+                        break
 
             for i in ue.logins_valid():
                 i = utilities.the_login(str(i))
