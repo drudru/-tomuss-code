@@ -2265,11 +2265,21 @@ Current.prototype.jump = function(lin, col, do_not_focus, line_id, data_col)
 
   table_highlight_column() ;
 
-  if ( this.cell.value.toString().length > 20
-	&& table_forms_element === undefined
-	&& this.column.type == 'Text'
-	)
-     select_tab("cellule", "✎") ;
+  if ( table_forms_element === undefined && this.focused
+       && this.column.type == 'Text')
+	{
+	  if ( this.cell.value.toString().length > 30 )
+	  {
+	    if ( selected_tab(_('cellule')) == _('TAB_cell') )
+	    {
+	      select_tab("cellule", "✎") ;
+	      this.auto_select_tab = true ;
+	    }
+	  }
+	  else
+	   if ( this.auto_select_tab )
+	      select_tab("cellule", _('TAB_cell')) ;
+	}
 } ;
 
 Current.prototype.jump_if_possible = function(line_id, data_col, do_not_focus)

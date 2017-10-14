@@ -866,6 +866,7 @@ function select_tab(name, tab, gui)
   var tabs = document.getElementById(name) ;
   if ( ! tabs )
     return ;
+  try { the_current_cell.auto_select_tab = false ; } catch(e) {}
   for(var child = tabs.childNodes[1].firstChild;child;child=child.nextSibling)
      if ( child.id != 'title_' + tab )
          child.style.display = 'none' ;
