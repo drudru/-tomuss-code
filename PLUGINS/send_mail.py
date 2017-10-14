@@ -42,11 +42,11 @@ document.getElementById('loading_bar').style.width = '%f%%' ;
     server.the_file.flush()
 
 def get_mail(txt):
-    if '@' in txt:
-        return re.split(" +", txt)
     mail = inscrits.L_slow.mail(txt)
     if mail:
         return [mail]
+    if '@' in txt:
+        return re.split(" +", txt)
     return
 
 def send_mail(server):
