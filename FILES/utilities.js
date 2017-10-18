@@ -2265,10 +2265,10 @@ Current.prototype.jump = function(lin, col, do_not_focus, line_id, data_col)
 
   table_highlight_column() ;
 
-  if ( table_forms_element === undefined && this.focused
-       && this.column.type == 'Text')
+  if ( table_forms_element === undefined && this.focused )
 	{
-	  if ( this.cell.value.toString().length > 30 )
+	  if ( this.cell.value.toString().length > 30
+	       && this.column.type == 'Text' )
 	  {
 	    if ( selected_tab(_('cellule')) == _('TAB_cell') )
 	    {
