@@ -42,7 +42,7 @@ def length(stream):
 class Upload(text.Text):
     type_type = 'computed'
     attributes_visible = ('rounding', 'weight', 'upload_max', 'upload_zip',
-                          'groupcolumn', 'import_zip')
+                          'groupcolumn', 'import_zip', 'url_title')
     ondoubleclick = 'upload_double_click'
     formatte = 'function(v, column) { if ( column.rounding === "" && v.toFixed ) return v.toFixed(3) ; else return column.do_rounding(v) ; }'
     formatte_suivi = 'upload_format_suivi'

@@ -180,6 +180,9 @@ function upload_format_suivi()
 	       ) ;
   var s = [] ;
   if ( ! empty )
+  {
+    var title = html(DisplayGrades.column.url_title
+                    || upload_filename(DisplayGrades.cell.comment)) ;
     s.push('<a target="_blank" href="'
 	   + url
 	   + (ticket == 'none' ? '' : '/=' + ticket) + '/'
@@ -192,9 +195,9 @@ function upload_format_suivi()
 	   + "_" + upload_filename(DisplayGrades.cell.comment)
 	   + '">'
 	   + (display_data["Login"] ? _('MSG_upload_get') + ' ' : '')
-	   + html(upload_filename(DisplayGrades.cell.comment))
-	   + '</a> ' + DisplayGrades.value + "KB") ;
-
+	   + title + '</a> '
+	   + DisplayGrades.column.do_rounding(DisplayGrades.value) + "KB") ;
+  }
   if ( cell_modifiable_on_suivi() )
     {
       s.push(
