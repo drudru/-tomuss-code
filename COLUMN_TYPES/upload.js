@@ -175,6 +175,8 @@ function upload_double_click(value)
 function upload_format_suivi()
 {
   var value = DisplayGrades.value, upload_url, label ;
+  if ( value.toString().match(/^https?:\/\//) )
+      return url_format_suivi() ;
   var empty = (value === ''
 	       || value == DisplayGrades.column.empty_is
 	       ) ;
