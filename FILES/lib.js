@@ -2508,6 +2508,9 @@ function add_empty_column(keep_data)
   else
     d = -1 ;
 
+  while ( data_col_from_col_id(page_id + '_' + nr_new_columns) !== undefined )
+      nr_new_columns++ ; // Problem raised by history removal
+
   var column = Col({the_id:page_id + '_' + nr_new_columns,
 		    the_local_id:  nr_new_columns.toString(),
 		    data_col: columns.length,
@@ -2981,6 +2984,9 @@ function add_a_new_line(line_id, hide_if_created)
 	}
       if ( ! reuse_old_empty_line )
 	{
+	  while ( lines[page_id + '_' + nr_new_lines] !== undefined )
+	    nr_new_lines++ ; // Problem raised by history removal
+
 	  line_id = page_id + '_' + nr_new_lines ;
 	  nr_new_lines++ ;
 	}
