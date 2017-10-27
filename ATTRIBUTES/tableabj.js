@@ -96,12 +96,14 @@ function abj_per_day()
   var bug = '' ;
   for(var i in the_student_abjs)
     {
-      s += "the_abjs[" + js(i) + "] = [" ;
       if ( lines[login_to_line_id(i)] === undefined )
 	  {
 	      bug += 'BUG : ' + login_to_line_id(i) + ' unfound\n' ;
 	      continue ;
 	  }
+      if ( ! lines[login_to_line_id(i)].is_filtered )
+          continue ;
+      s += "the_abjs[" + js(i) + "] = [" ;
       names += ',' + js(i) + ':'
 	+ js(lines[login_to_line_id(i)][2].value
 	     + ' ' + lines[login_to_line_id(i)][1].value) ;
@@ -199,6 +201,8 @@ function abj_per_day()
 	continue ;
 	
       line = lines[login_to_line_id(login)] ;
+      if ( line && ! line.is_filtered )
+          continue ;
       student = login ;
       if ( line )
 	student = html(line[2].value) + ' ' + html(line[1].value)
