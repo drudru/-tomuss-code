@@ -3626,8 +3626,10 @@ Connection.prototype.click_to_revalidate_ticket = function()
       this.t_authenticate.style.left = "10%" ;
       var c = this ;
       this.t_authenticate.onmouseup = function() {
-	c.t_authenticate.style.width = c.t_authenticate.style.height = "auto" ;
-	c.t_authenticate.style.top = c.t_authenticate.style.left = "0px" ;
+	c.t_authenticate.style.width =
+	c.t_authenticate.style.height =
+	c.t_authenticate.style.left = "auto" ;
+	c.t_authenticate.style.top = c.t_authenticate.style.right = "0px" ;
 	c.time_check_interval = 100 ;
 	} ;
     }
