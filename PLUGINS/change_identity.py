@@ -27,7 +27,7 @@ def change_identity(server):
     "Change of identity for this ticket"
     server.the_file.write(server._("MSG_change_identity_start") + "<br>")
     server.ticket.__init__(server.ticket.ticket,
-                           server.the_path[0],
+                           utilities.safe(server.the_path[0]).lower(),
                            server.ticket.user_ip,
                            server.ticket.user_browser,
                            server.ticket.date)
