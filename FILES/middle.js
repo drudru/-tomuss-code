@@ -1355,9 +1355,12 @@ function popup_close()
   var e = document.getElementById('popup_id') ;
   if ( e )
     {
-      if ( e.getElementsByTagName('TEXTAREA')[0] )
-	popup_old_values[e.className] = e.getElementsByTagName('TEXTAREA'
-							       )[0].value ;
+      var t = e.getElementsByTagName('TEXTAREA') ;
+      for(var i=0; i < t.length; i++)
+	popup_old_values[e.className + '_' + i] = t[i].value ;
+      t = e.getElementsByTagName('INPUT') ;
+      for(var i=0; i < t.length; i++)
+	popup_old_values[e.className + '#' + i] = t[i].value ;
       e.parentNode.removeChild(e);
       GUI.add('popup', '', 'close') ;
     }
@@ -1427,17 +1430,7 @@ function create_popup(html_class, title, before, after, default_answer)
 {
   popup_close() ;
   hide_the_tip_real() ;
-  var new_value ;
-
-  if ( default_answer )
-    {
-      new_value = popup_old_values['import_export ' + html_class] ;
-      if ( new_value === undefined )
-	new_value = default_answer ;
-      new_value = html(new_value) ;
-    }
-  else
-    new_value = '' ;
+  var new_value = default_answer || '' ;
 
   var s = '<div id="popup_id" class="import_export ' + html_class
            + '"><h2>' + title + '</h2>' + before ;
@@ -1448,6 +1441,19 @@ function create_popup(html_class, title, before, after, default_answer)
 
   var popup = popup_get_element() ;
   popup.innerHTML = s ;
+
+  if ( default_answer )
+  {
+    var p = popup.firstChild ;
+    var t = p.getElementsByTagName('TEXTAREA') ;
+    for(var i=0; i < t.length; i++)
+      if ( popup_old_values[p.className + '_' + i] !== undefined )
+	  t[i].value =  popup_old_values[p.className + '_' + i] ;
+    t = p.getElementsByTagName('INPUT') ;
+    for(var i=0; i < t.length; i++)
+      if ( popup_old_values[p.className + '#' + i] !== undefined )
+	  t[i].value = popup_old_values[p.className + '#' + i] ;
+  }
   if ( the_current_cell )
     popup.column = the_current_cell.column ;
 
