@@ -1326,6 +1326,10 @@ class FakeRequestHandler(http.server.BaseHTTPRequestHandler):
         for k, v in node.__dict__.items():
             self.test(depth-1, v)
 
+    def do_HEAD(self):
+        self.send_response(200)
+        self.send_header('Content-Type', 'text/html')
+        self.end_headers()
 
     def do_POST(self):
         self.wfile.write = self.wfile._sock.sendall
