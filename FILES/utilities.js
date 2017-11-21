@@ -1551,7 +1551,7 @@ Cell.prototype.key = function(empty_is)
 	  s = '' ;
 	  for(i=0; i <3 ; i++)
 	    {
-	      x = Number(date[i].split(' ')[0]) ;
+	      x = Number(date[i].split(/[- :_]/)[0]) ;
 	      if ( isNaN(x) )
 		{
 		  break ;
