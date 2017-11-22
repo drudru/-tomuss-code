@@ -76,8 +76,10 @@ class SpecialExaminationCondition(object):
             self.end = line[table.col_end].value
             self.end_seconds = configuration.date_to_time(self.end)
 
-    def current(self):
-        return self.begin_seconds < time.time() < self.end_seconds
+    def current(self, t=None):
+        if t is None:
+            t = time.time()
+        return self.begin_seconds < t < self.end_seconds
 
     def text(self):
         s = []
