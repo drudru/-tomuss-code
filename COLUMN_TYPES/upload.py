@@ -111,6 +111,11 @@ def save_file(server, page, column, lin_id, data, filename):
     # Search a student with yet a downloaded file
     table = column.table
     line = table.lines[lin_id]
+    if not table.authorized(page.user_name, line[column.data_col], column, line):
+        # XXX should be in the lock to be perfect.
+        # but it must be before uploading the file
+        server.the_file.write(server._("ERROR_value_not_modifiable") + '\n')
+        return server._("ERROR_value_not_modifiable")
     path = container_path(column)
     err = check_virus(data)
     if err:
