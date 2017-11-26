@@ -67,6 +67,8 @@ def check(tables, f):
             t.compute_columns()
             old_values = {}
             for key, line in t.lines.items():
+                if line[column.data_col].comment == 'Fixed!':
+                    continue
                 old_values[key] = line[column.data_col].value
 
             save_rounding = column.rounding
@@ -80,7 +82,8 @@ def check(tables, f):
             column.old_function = False
             t.compute_columns()
             errors = []
-            for key, line in t.lines.items():
+            for key in old_values:
+                line = t.lines[key]
                 nr_averages += 1
                 semester_nr_averages += 1
                 try:
