@@ -20,21 +20,24 @@
     Contact: Thierry.EXCOFFIER@bat710.univ-lyon1.fr
 */
 
-function set_rounding(value, column)
+function set_rounding(value, column, xattr)
 {
   if ( column.historical_comment )
     return '' ;
   column.need_update = true ;
   if ( value === '' || isNaN(value) )
-    value = 0.01 ;
+    value = rounding_default ;
   else
   {
     value = a_float(value) ;
     if ( value < 0 )
       value = -value ;
-    if ( value < 0.001 )
-      value = 0.001 ;
+    if ( value < rounding_min )
+      value = rounding_min ;
   }
+  if ( xattr === false && value > rounding_avg && column.type == "Moy" )
+     alert(_("ALERT_avg_rounding") + ' ' + rounding_avg) ;
+
   column.round_by = value ;
 
   var digit = Math.max(0, -Math.floor(Math.log(value)/Math.log(10))) ;

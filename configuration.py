@@ -459,8 +459,12 @@ show_teacher_pictures = False
 # Allow teachers to upload their face picture.
 allow_teacher_picture_upload = False
 
-# Allow teachers to upload their face picture.
+# Do not allow these table names
 forbidden_names = "^AN_EXTENDED_REGEX$"
+
+rounding_avg = 0.001     # Maximum rounding for averages
+rounding_default = 0.01  # Default column rounding
+rounding_min = 0.001     # Minimum rounding value
 
 ###############################################################################
 # The following variables should be fine for testing purpose (local server)

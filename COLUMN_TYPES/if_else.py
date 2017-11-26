@@ -25,3 +25,4 @@ class If_Else(moy.Moy):
     human_priority = 5
     cell_compute = 'compute_if_else'
     attributes_visible = ('test_if', 'columns', 'weight', 'rounding')
+    type_change = "undefined"

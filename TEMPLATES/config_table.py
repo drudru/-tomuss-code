@@ -114,6 +114,7 @@ variable_list = [
     "allow_teacher_picture_upload",
     "private_suivi",
     "forbidden_names",
+    "rounding_default", "rounding_avg", "rounding_min",
     ]
 
 deprecated = set(('root', 'invited_teachers', 'invited_administratives',

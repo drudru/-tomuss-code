@@ -304,6 +304,9 @@ def table_head(year=None, semester=None, the_ticket=None,
             'ticket_time_to_live = %d ;\n' % configuration.ticket_time_to_live +
             'upload_max = %d ;\n' % configuration.upload_max +
             'max_visibility_date = %d ;\n' % configuration.max_visibility_date +
+            "rounding_avg = %f ;\n" % configuration.rounding_avg +
+            "rounding_default = %f ;\n" % configuration.rounding_default +
+            "rounding_min = %f ;\n" % configuration.rounding_min +
             'gui_record = %d ;\n' % int(configuration.gui_record) +
             'all_the_semesters = %s ;\n' % all_the_semesters(
                 (table.ue, table.semester) if table else ('', '')) +

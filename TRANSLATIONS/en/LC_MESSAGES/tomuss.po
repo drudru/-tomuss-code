@@ -4776,6 +4776,15 @@ msgstr "Suivi: With 1, the 'suivi' page is private by default"
 msgid "config_table_forbidden_names"
 msgstr "Access: Forbidden to create table names matching this regular expression"
 
+msgid "config_table_rounding_default"
+msgstr "Rounding: default"
+
+msgid "config_table_rounding_avg"
+msgstr "Rounding: for average"
+
+msgid "config_table_rounding_min"
+msgstr "Rounding: minimal allowed. Never increase this value."
+
 msgid "MSG_picture_upload"
 msgstr "Change your face"
 
@@ -5300,6 +5309,9 @@ msgstr "or"
 
 msgid "ALERT_int_required"
 msgstr "An integer is required"
+
+msgid "ALERT_avg_rounding"
+msgstr "Recommended rounding is 3 digits:"
 
 msgid "ALERT_rounding"
 msgstr "The 'rounding' must be non nul number"

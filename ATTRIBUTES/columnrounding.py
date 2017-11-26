@@ -1,7 +1,7 @@
 #!/bin/env python3
 # -*- coding: utf-8 -*-
 #    TOMUSS: The Online Multi User Simple Spreadsheet
-#    Copyright (C) 2012 Thierry EXCOFFIER, Universite Claude Bernard
+#    Copyright (C) 2012-2017 Thierry EXCOFFIER, Universite Claude Bernard
 #
 #    This program is free software; you can redistribute it and/or modify
 #    it under the terms of the GNU General Public License as published by
@@ -28,6 +28,14 @@ class ColumnRounding(ColumnAttr):
     check_and_set = 'set_rounding'
     always_visible = 1
     priority = 1 # Must be computed AFTER 'comment' attribute (historical)
+    formatter = '''function(column, value)
+     {
+      var e = document.getElementById('t_column_rounding') ;
+      if ( e )
+        e.style.background = (column.type == 'Moy' && value > rounding_avg)
+                             ? '#F88' : '' ;
+      return value ;
+     }'''
 
     def check(self, value):
         if value == '':

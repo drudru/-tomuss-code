@@ -28,6 +28,7 @@ class Moy(note.Note):
     type_type = 'computed'
     attributes_visible = ('minmax', 'columns', 'weight', 'best', 'worst',
                           'rounding', 'abj_is', 'abi_is')
-
+    type_change = """function(column)
+                    {column_attr_set(column, 'rounding', rounding_avg);}"""
     def cell_indicator(self, column, value, cell, lines):
         return '', None

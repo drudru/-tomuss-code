@@ -26,3 +26,4 @@ class Weighted_Percent(moy.Moy):
     cell_compute = 'compute_weighted_percent'
     attributes_visible = ('columns', 'weight', 'rounding', 'test_filter',
                           'minmax')
+    type_change = "undefined"

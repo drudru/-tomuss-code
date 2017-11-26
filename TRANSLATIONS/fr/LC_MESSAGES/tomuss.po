@@ -4832,6 +4832,15 @@ msgstr "Suivi: Mettre 1 pour que le suivi soit privé par défaut"
 msgid "config_table_forbidden_names"
 msgstr "Accès: Création interdite des tables indiquées par cette expression régulière"
 
+msgid "config_table_rounding_default"
+msgstr "Arrondi: celui par défaut"
+
+msgid "config_table_rounding_avg"
+msgstr "Arrondi: recommandé pour les moyennes"
+
+msgid "config_table_rounding_min"
+msgstr "Arrondi: le plus petit autorisé. Ne jamais augmenter cette valeur"
+
 msgid "MSG_picture_upload"
 msgstr "Changer votre photo"
 
@@ -5380,6 +5389,9 @@ msgstr "ou"
 
 msgid "ALERT_int_required"
 msgstr "Vous devez saisir un nombre entier"
+
+msgid "ALERT_avg_rounding"
+msgstr "L'arrondi recommandé pour une moyenne est de 3 chiffres après la virgule :"
 
 msgid "ALERT_rounding"
 msgstr "L'arrondi doit être un nombre entier ou à virgule différent de 0"

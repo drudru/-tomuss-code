@@ -27,3 +27,4 @@ class Nmbr(moy.Moy):
     cell_compute = 'compute_nmbr'
     formatte = text.Text.formatte
     attributes_visible = ('test_filter', 'columns', 'weight')
+    type_change = "undefined"

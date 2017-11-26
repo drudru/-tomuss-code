@@ -25,4 +25,5 @@ class Diff_Date(moy.Moy):
     cell_compute = 'compute_diff_date'
     attributes_visible = ('minmax', 'columns', 'weight', 'rounding')
     human_priority = 100
+    type_change = "undefined"
 

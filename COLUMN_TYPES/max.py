@@ -26,4 +26,5 @@ class Max(moy.Moy):
     cell_compute = 'compute_max_real'
     attributes_visible = tuple(set(moy.Moy.attributes_visible)
                                - set(('best', 'worst', 'rounding')))
+    type_change = "undefined"
 
