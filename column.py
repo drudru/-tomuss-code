@@ -516,6 +516,14 @@ class Column(object):
                 return False
         return True
 
+    def readable_by(self, user_name):
+        if not self.private:
+            return True
+        if user_name == self.author:
+            return True
+        if user_name in self.private:
+            return True
+
     def is_modifiable(self, teacher, ticket, cell, line):
         """From 'suivi' by student or teacher"""
         return (self.table.modifiable

@@ -406,15 +406,12 @@ class Lines(object):
 
         return d
 
-    def columns_to_hide(self, user_name):
-        for column in self.columns:
-            if (column.private and user_name not in column.private
-             and user_name != column.author):
-                yield column
-
     def js(self, user_name):
         """Create JavaScript generating all the lines data."""
-        to_hide = tuple(self.columns_to_hide(user_name))
+        to_hide = tuple(column
+                        for column in self.columns
+                        if not column.readable_by(user_name)
+                        )
         s = []
         for line_id, line in self.lines.items():
             s.append('P(%s,' % utilities.js(line_id)

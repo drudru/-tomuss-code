@@ -33,22 +33,30 @@ def display(server):
     nr_cols = 0
     for what in server.the_path:
         what = what.split(':')
-        tables.append(
-            (document.table(year, semester, what[0], ro=True, create=False),
-             nr_cols,
-             what[1:]))
-        nr_cols += len(what)-1
-        if tables[-1][0] is None:
+        table = document.table(year, semester, what[0], ro=True, create=False)
+        if table is None:
             f.write(server._("MSG_suivi_extract_unknown") + what[0])
             return
-            
-        if not tables[-1][0].readable_by(server.ticket):
-            f.write(server._("MSG_suivi_extract_unreadable")+ tables[-1][0].ue)
+        if not table.readable_by(server.ticket):
+            f.write(server._("MSG_suivi_extract_unreadable") + table.ue)
             return
-
+        data_cols = []
+        for column_title in what[1:]:
+            column = table.columns.from_title(column_title)
+            if column is None:
+                f.write(server._("MSG_suivi_extract_no_col") + column_title
+                        + server._("MSG_suivi_extract_in") + table.ue + '\n')
+                return
+            if not column.readable_by(server.ticket.user_name):
+                f.write(server._("MSG_suivi_extract_unreadable")
+                        + table.ue + ':' + column_title)
+                return
+            data_cols.append(column.data_col)
+        tables.append((table, nr_cols, data_cols))
+        nr_cols += len(data_cols)
   
     # Create dict of all students, with the good number of columns
-    for table, position, columns in tables:
+    for table, position, data_cols in tables:
         for line in table.lines.values():
             if line[0].value == '':
                 continue
@@ -57,18 +65,9 @@ def display(server):
                 students[login] = ['' for i in range(nr_cols)]
 
     # fill the student data
-    for table, position, columns in tables:
-        coli = table.column_inscrit()
-        if coli is None:
-            continue
+    for table, position, data_cols in tables:
         i = position
-        for column_title in columns:
-            column = table.columns.from_title(column_title)
-            if column is None:
-                f.write(server._("MSG_suivi_extract_no_col") + column_title
-                        + server._("MSG_suivi_extract_in") + table.ue + '\n')
-                return
-            data_col = column.data_col
+        for data_col in data_cols:
             for line in table.lines.values():
                 s = utilities.the_login(line[0].value)
                 if s == '':
@@ -80,17 +79,16 @@ def display(server):
     f.write('<body><table border><thead>')
 
     f.write('<tr><th rowspan="2">ID')
-    for table, position, columns in tables:
-        f.write('<th>' + '<th>'.join([table.ue for column in columns]))
+    for table, position, data_cols in tables:
+        f.write('<th>' + '<th>'.join([table.ue for data_col in data_cols]))
     f.write('</tr>')
 
 
     f.write('<tr>')
-    for table, position, columns in tables:
-        f.write('<th>' + '<th>'.join(['%s' % column for column in columns]))
+    for table, position, data_cols in tables:
+        f.write('<th>' + '<th>'.join(['%s' % table.columns[data_col].title
+                                      for data_col in data_cols]))
     f.write('</tr>')
-
-
 
     f.write('</thead>')
     f.write('<tbody>')
@@ -129,12 +127,24 @@ def display_fusion(server,
         if coli is None:
             continue
         if len(what) == 1:
-            what = [column.title for column in table.columns[coli+1:]]
-         
-        tables.append( (table, what[1:]))
+            columns = table.columns[coli+1:]
+        else:
+            columns = []
+            for column_title in what[1:]:
+                column = table.columns.from_title(column_title)
+                if column is None:
+                    f.write(server._("MSG_suivi_extract_no_col") + column_title
+                            + server._("MSG_suivi_extract_in") + table.ue + '\n')
+                    return
+                columns.append(column)
+        columns = [column
+                   for column in columns
+                   if column and column.readable_by(server.ticket.user_name)
+                  ]
+        tables.append( (table, coli, columns) )
   
     # Create dict of all students
-    for table, columns in tables:
+    for table, column_inscrit, columns in tables:
         for line in table.lines.values():
             if line[0].value == '':
                 continue
@@ -143,9 +153,7 @@ def display_fusion(server,
                 students[login] = []
 
     # fill the student data
-    for table, columns in tables:
-        column_inscrit = table.column_inscrit()
-        
+    for table, column_inscrit, columns in tables:
         for line in table.lines.values():
             if line[0].value == '':
                 continue
@@ -154,12 +162,7 @@ def display_fusion(server,
                 v += '<td>' + line[column_inscrit].value
             students[utilities.the_login(line[0].value)].append(v)
 
-        for column_title in columns:
-            column = table.columns.from_title(column_title)
-            if column is None:
-                f.write(server._("MSG_suivi_extract_no_col") + column_title
-                        + server._("MSG_suivi_extract_in") + table.ue + '\n')
-                return
+        for column in columns:
             data_col = column.data_col
             for line in table.lines.values():
                 if line[0].value == '':
@@ -167,13 +170,14 @@ def display_fusion(server,
                 s = utilities.the_login(line[0].value)
                 v = '<td>' + html.escape(str(line[data_col].value))
                 if with_column:
-                    v += '<td>' + column_title
+                    v += '<td>' + column.title
                 if with_author:
                     v += '<td>' + line[data_col].author
                 students[s].append(v)
     # display
-    for table, columns in tables:
-        f.write(table.ue + ' ' + repr(columns) + '<br>')
+    for table, column_inscrit, columns in tables:
+        f.write(table.ue + ' ' + ', '.join(column.title
+                                          for column in columns) + '<br>')
     f.write('<table border>')
     f.write('<tbody>\n')
     for student, values in students.items():

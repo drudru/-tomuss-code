@@ -536,6 +536,7 @@ def suivi_headers(server, is_student=True):
         + "var is_a_teacher = %s;\n" % int(not is_student)
         + 'var max_visibility_date = %d;\n' % configuration.max_visibility_date
         + 'var rounding_default = %s;\n' % configuration.rounding_default
+        + 'var rounding_min = %s;\n' % configuration.rounding_min
         + 'var upload_max = %s;\n' % utilities.js(configuration.upload_max)
         + 'column_get_option_running = true ;\n'
     )
