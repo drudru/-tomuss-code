@@ -1165,6 +1165,19 @@ Les améliorations les plus visibles sont :
       </description>
       <guid>70</guid>
     </item>
+    <item>
+      <title>26/11/2017 : Version 6.1.3</title>
+      <link>http://tomuss.univ-lyon1.fr/</link>
+      <description>
+	&lt;p&gt;
+	Le changement avec le plus grand impact est que le résultat
+	du calcul de la moyenne est arrondi vers le bas au lieu d'être
+	arrondi au plus proche afin d'éviter des problèmes lors des jurys.
+	Les moyennes doivent maintenant être affichées avec 3 chiffres
+	significatifs pour être compatibles avec APOGÉE.
+      </description>
+      <guid>71</guid>
+    </item>
 
   </channel>
 </rss>
