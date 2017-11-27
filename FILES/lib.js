@@ -4622,6 +4622,8 @@ function html_begin_head()
      'suivi = "' + suivi + '";',
      'version = "' + version + '" ;',
      'preferences = ' + p + ';',
+     'rounding_default = ' + rounding_default + ';',
+     'rounding_min = ' + rounding_min + ';',
      'columns = [] ;',
      'lines = {} ;',
      'adeweb = {} ;', // XXX should not be here (LOCAL/spiral.py)
