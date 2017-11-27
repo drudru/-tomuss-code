@@ -2541,6 +2541,15 @@ function Column(attrs)
 {
   for(var attr in attrs)
     this[attr] = attrs[attr] ;
+  if ( this.minmax === undefined && this.type == 'Nmbr' )
+     {
+      // Old table
+      if ( this.columns === undefined )
+        this.minmax = '[0;1]' ;
+      else
+        this.minmax = '[0;' + Math.max(1, this.columns.split(/ +/).length) + ']' ;
+      this.rounding = 1 ;
+     }
   for(var attr in column_attributes)
     if ( this[attr] === undefined )
       this[attr] = column_attributes[attr].default_value ;

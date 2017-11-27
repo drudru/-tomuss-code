@@ -36,6 +36,7 @@ function set_columns(value, column, xcolumn_attr)
       if ( column.type == 'Nmbr' )
 	{
 	  column.minmax = '[0;1]' ;
+	  column.min = 0 ;
 	  column.max = 1 ;
 	}
       return value ;
@@ -99,11 +100,15 @@ function set_columns(value, column, xcolumn_attr)
   column.average_columns = cols ;
   column.average_weight = weight ;
   column.need_update = true ;
-  if ( column.type == 'Nmbr' )
-    {
-      column.minmax = '[0;' + column.average_columns.length + ']' ;
-      column.max = column.average_columns.length ;
-    }
+  if ( xcolumn_attr === false
+       && column.type == 'Nmbr'
+       && column.max != column.average_columns.length)
+      {
+       column_attr_set(column, 'minmax',
+                       '[0;' + column.average_columns.length + ']');
+       the_current_cell.update_headers() ;
+       the_current_cell.do_update_column_headers = true ;
+      }
 
   return value ;
 }

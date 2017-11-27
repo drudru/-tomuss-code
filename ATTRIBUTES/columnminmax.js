@@ -20,7 +20,7 @@
     Contact: Thierry.EXCOFFIER@bat710.univ-lyon1.fr
 */
 
-function set_test_note(v, column)
+function set_test_note(v, column, xattr)
 {
   column.min = 0 ;
   column.max = 20 ;
@@ -57,6 +57,16 @@ if ( isNaN(column.max) )
   }
 value = '[' + column.min + ';' + column.max + ']' ;
 
+if ( xattr === false
+     && column.type == 'Nmbr'
+     && column.max < column.average_columns.length
+     && column.rounding == 1
+      )
+      {
+      column_attr_set(column, 'rounding', rounding_default) ;
+      the_current_cell.update_headers() ;
+      the_current_cell.do_update_column_headers = true ;
+      }
 column.need_update = true ;
 
 return value ;

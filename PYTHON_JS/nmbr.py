@@ -33,5 +33,10 @@ def compute_nmbr(data_col, line):
                      cell.comment, cell.history)
         if column.nmbr_filter(line, cell):
             nr += 1
-
-    return nr
+    if column.min == 0 and column.max == len(column.average_columns):
+        return nr
+    if len(column.average_columns) == 0:
+        return 0
+    return do_round(nr * (column.max - column.min) / len(column.average_columns)
+                    + column.min, column.round_by, column.table.rounding,
+                    column.old_function)

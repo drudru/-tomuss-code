@@ -335,7 +335,7 @@ check_alerts("") ;
 if ( column.max != 1 || column.minmax != "[0;1]" )
   error(column.minmax) ;
 
-column_attr_set(column, "columns", "Average Cow") ;
+column_attr_set(column, "columns", "Average Cow", "interactif") ;
 if ( column.max != 2 || column.minmax != "[0;2]" )
   error(column.minmax) ;
 

@@ -22,7 +22,7 @@
 from ..column import ColumnAttr
 
 class ColumnMinMax(ColumnAttr):
-    default_value = '[0;20]'
+    default_value = '[0;20] ' # XXX The space indicates that it is the default
     display_table = 1
     name = 'minmax'
     check_and_set = 'set_test_note'

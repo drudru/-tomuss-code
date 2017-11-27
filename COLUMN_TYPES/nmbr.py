@@ -25,6 +25,11 @@ from . import text
 class Nmbr(moy.Moy):
     human_priority = -5
     cell_compute = 'compute_nmbr'
-    formatte = text.Text.formatte
-    attributes_visible = ('test_filter', 'columns', 'weight')
-    type_change = "undefined"
+    attributes_visible = ('test_filter', 'columns', 'weight', 'minmax', 'rounding')
+    type_change = """
+function(column)
+{
+ column_attr_set(column, 'minmax', '[0;' +
+                 Math.max(1, column.average_columns.length) + '] ');
+ column_attr_set(column, 'rounding', 1) ;
+}"""

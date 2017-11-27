@@ -395,9 +395,12 @@ class Column(object):
     def min_max(self):
         """From the Note 'test' value stored as [min;red;green;max]
         returns the min and the max as float numbers."""
-        if self.type.name == 'Nmbr':
-            return 0, max(1, len(self.depends_on()))
-        x = self.minmax.strip('[]').split(';')
+        if self.type.name == 'Nmbr' and self.minmax[-1] == ' ':
+            # XXX See columnminmax.py
+            # This column has been defined in an old file
+            self.rounding = 1
+            self.minmax = "[0;{}]".format(max(1, len(self.depends_on())))
+        x = self.minmax.strip('[] ').split(';')
         v_min, v_max = x[0], x[-1]
         try:
             return float(v_min), float(v_max)

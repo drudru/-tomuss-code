@@ -585,8 +585,6 @@ class Table(object):
                     ]
                 except:
                     column.average_columns = []
-                if column.type.name == 'Nmbr':
-                    column.max = max(1, len(column.average_columns))
                 cell_compute = eval(column.type.cell_compute,
                                     tomuss_python.__dict__
                                 )

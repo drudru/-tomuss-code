@@ -21,7 +21,7 @@
 
 def nmbr_regtest():
     line = [Cell(5, "john"), Cell('foo', "", "", "C1"),
-            Cell('', '', "20140101121212"), CE(0)]
+            Cell('', '', "20140101121212"), CE(0), CE(0)]
     for filter, result in [
             ['>3', 1],
             ['>1', 2],
@@ -34,11 +34,20 @@ def nmbr_regtest():
             ]:
         columns_set([Column(), Column(), Column({'empty_is':2}),
                    Column({"average_columns":[0, 1, 2],
+                          'min': 0,
+                          'max': 3,
+                          'test_filter':filter}
+                      ),
+                   Column({"average_columns":[0, 1, 2],
+                          'min': 1,
+                          'max': 2,
                           'test_filter':filter}
                       ),
                ])
         line[3].expected = result
         check_result(line, 3, compute_nmbr)
+        line[4].expected = 1 + result / 3.
+        check_result(line, 4, compute_nmbr)
         
     print('Nmbr regtest are fine')
 
