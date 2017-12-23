@@ -351,6 +351,8 @@ class Plugin(object):
             warn('send header: %s' % str(h), what='plugin')
             server.send_header(*h)
         server.send_header('Content-Type', self.mimetype)
+        for domain in configuration.domains:
+            server.send_header('Access-Control-Allow-Origin', domain)
         server.end_headers()
 
 def vertical_text(text, size=12, exceptions=()):

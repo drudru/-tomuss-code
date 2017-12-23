@@ -81,4 +81,7 @@ class Suivi(object):
             return '{' + ','.join([
                 '"%d/%s": "%s"' % (year, semester, url)
                 for url, port, year, semester, host in self.urls.values()])+'}'
-
+    def domains(self):
+        return set("{}://{}".format(self.http, host)
+                   for url, port, year, semester, host in self.urls.values()
+                   )

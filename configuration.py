@@ -694,6 +694,8 @@ def do_nothing(*args):
 def get_messages(login): # Overwritten by TEMPLATES/config.messages.py
     return ()
 
+domains = None
+
 ###############################################################################
 # Terminate configuration
 ###############################################################################
@@ -737,3 +739,6 @@ def terminate():
         authenticator = Authenticator(cas, server_url)
     else:
         authenticator = authenticators.Password(cas, server_url)
+
+    global domains
+    domains = suivi.domains()

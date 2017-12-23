@@ -246,7 +246,11 @@ class MyRequestBroker(utilities.FakeRequestHandler):
                 pass
         utilities.important_job_remove("do_GET")
 
-
+    def do_OPTIONS(self):
+        self.send_response(200)
+        for domain in configuration.domains:
+            self.send_header('Access-Control-Allow-Origin', domain)
+        self.end_headers()
 
 if __name__ == "__main__":
     if 'daemon' in sys.argv:
