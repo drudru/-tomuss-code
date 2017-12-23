@@ -24,6 +24,7 @@ import re
 import html
 import glob
 import subprocess
+import PyPDF2
 from .columnfill import ColumnFill
 from .. import sender
 from .. import plugin
@@ -39,8 +40,7 @@ class ColumnImportZip(ColumnFill):
     #popup DIV.import_zip { border: 4px solid red ; overflow:scroll ;
                             left: 10%; right: 10%; bottom: 10% ; top: 10% ;
                           }
-    #iframe_container { position: absolute ; left: 0px ; right: 0px; bottom: 5px ; top: 3em }
-    #iframe_container IFRAME { width: 100% ; height: 100%; border: 0px }
+    #popup DIV.import_zip H2 { margin-top: 0.5em ; }
     #t_column_import_zip { background: #FAA ; }
 """
 
@@ -49,8 +49,6 @@ def name(column):
                                 column.table.semester,
                                 column.table.ue,
                                 column.the_id)
-def nr_pages(server, column):
-    return len(tuple(glob.glob(os.path.join(server.ticket.temporary_directory_get(name(column)), "*.pdf"))))
 
 def upload_pdf(server):
     table = document.table(server.the_year, server.the_semester,
@@ -78,37 +76,27 @@ def upload_pdf(server):
             upload.save_file(server, page, column, line_id, f, column.title)
         server.the_file.write('<hr>')
     server.the_file.write('THE END')
-    
 
 def import_pdf(server, table, column):
+    full_pdf = PyPDF2.PdfFileReader(server.uploaded['data'].file)
+    server.the_file.write(
+    "window.importPDF = new window.parent.ImportPDF({},{}) ;"
+                .format(utilities.js(name(column)), full_pdf.getNumPages()))
     dirname = server.ticket.temporary_directory_get(name(column), erase=True)
-    server.the_file.write('<pre id="import_feedback_debug">')
-    pdf = os.path.join(dirname, "input.pdf")
-    with open(pdf, "wb") as f:
-        upload.copy_stream(server.uploaded['data'].file, f)
-    subprocess.Popen(('pdfseparate', "input.pdf", "p%06d.pdf"),
-                     stdin = None,
-                     stdout = server.the_file,
-                     stderr = server.the_file,
-                     cwd = dirname).wait()
-    os.unlink(pdf)
-    server.the_file.write("""
-    </pre>
-    <script>
-    document.getElementById('import_feedback_debug').style.display = 'none' ;
-    var importPDF = new window.parent.ImportPDF(document, {},{}) ;
-    </script>""".format(utilities.js(name(column)), nr_pages(server, column)))
-    page = 1
-    for pdf in sorted(os.listdir(dirname)):
-        process = subprocess.Popen(['pdftoppm',
-                                    '-png',
-                                    '-singlefile',
-                                    '-r', '100',
-                                    pdf, pdf.replace(".pdf", "")],
-                               cwd = dirname).wait()
-        server.the_file.write('<script>importPDF.add()</script>')
-        page += 1
-    assert(page == nr_pages(server, column) + 1)
+    for page_number in range(full_pdf.getNumPages()):
+        pdf = os.path.join(dirname, "p{:06d}.pdf".format(page_number+1))
+        page = full_pdf.getPage(page_number)
+        output = PyPDF2.PdfFileWriter()
+        output.addPage(page)
+        with open(pdf, "wb") as f:
+            output.write(f)
+        print(pdf)
+        process = subprocess.Popen(['pdftoppm', '-png',
+                                      '-singlefile',
+                                      '-r', '100',
+                                      pdf, pdf.replace(".pdf", "")
+                         ]).wait()
+        server.the_file.write('window.importPDF.add();')
     
 def import_zip(server):
     """
@@ -124,7 +112,6 @@ def import_zip(server):
         column = table.columns.from_id(server.the_path[0])
         if column.type.name != 'Upload':
             raise ValueError('Not good type')
-        server.the_file.write('<p>' + server._("MSG_abj_wait") + '\n')
         if server.uploaded['data'].filename.lower().endswith(".pdf"):
             import_pdf(server, table, column)
             return

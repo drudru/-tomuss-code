@@ -1016,6 +1016,38 @@ function catch_this_student(login)
     }
 }
 
+
+function progress_submit(form, do_eval) {
+    var progress = document.createElement("DIV") ;
+    form.parentNode.insertBefore(progress, form.nextSibling) ;
+    var xhr = new XMLHttpRequest();
+    var position = 0 ;
+    xhr.upload.addEventListener('progress', function(event) {
+                var percent = 100 * event.loaded / event.total ;
+		if ( event.loaded != event.total )
+                    progress.innerHTML = _("MSG_abj_wait")
+				     + '<br><b style="font-size:200%">'
+                                     + percent.toFixed(2) + '%</b>' ;
+		else
+                    progress.innerHTML = '' ;
+        }, false) ;
+    xhr.addEventListener('readystatechange', function(event) {
+                if ( event.target.responseText
+		     && event.target.responseText.length > 0 )
+		     {
+		       var r = event.target.responseText.substr(position) ;
+		       position = event.target.responseText.length ;
+		       if ( do_eval )
+			  eval(r) ;
+			else
+                          progress.innerHTML += r ;
+		     }
+        }, false);
+    xhr.open(form.getAttribute('method'), form.getAttribute('action'), true) ;
+    xhr.send(new FormData(form));
+    form.style.display = "none" ;
+}
+
 /******************************************************************************
  *
  *

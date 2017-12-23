@@ -6002,8 +6002,7 @@ msgstr "<p style=\"background:#FFD\">\n"
        "the same order."
 
 msgid "MSG_column_attr_import_zip_pdf"
-msgstr "Once the page dispatching is done:\n"
-       "<button>record the documents</button>."
+msgstr "Record the documents (once the page dispatching is done)."
 
 msgid "MSG_no_virus_found"
 msgstr "No virus found."

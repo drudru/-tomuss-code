@@ -46,12 +46,8 @@ function upload_popup(t, ue, col_id, lin_id, title)
 {
   function upload_file_choosed(t)
   {
-    var div = document.createElement("DIV") ;
-    div.style.fontWeight = "bold" ;
-    div.innerHTML = _("MSG_abj_wait") ;
-    t.parentNode.appendChild(div) ;
     t.nextSibling.value = t.value ;
-    t.parentNode.submit() ;
+    progress_submit(t.parentNode) ;
     try {
       if ( url_suivi === undefined )
 	return ;

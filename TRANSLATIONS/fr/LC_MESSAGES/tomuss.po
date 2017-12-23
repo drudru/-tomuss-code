@@ -6141,8 +6141,7 @@ msgstr "<p style=\"background:#FFD\">\n"
        "ceux qui sont actuellement affichés et dans le même ordre."
 
 msgid "MSG_column_attr_import_zip_pdf"
-msgstr "Une fois les pages vérifiées :\n"
-       "<button>enregistrez la répartition</button>."
+msgstr "Enregistrez la répartition (une fois les pages vérifiées)."
 
 msgid "MSG_no_virus_found"
 msgstr "Aucun virus n'a été détecté."
