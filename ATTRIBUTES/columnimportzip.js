@@ -73,7 +73,7 @@ function ImportPDF(name, nr_pages)
   this.scroll_left = 10 ;
   this.scroll_top = 50 ;
   this.scroll_done = true ;
-  this.page_height = 7 ;
+  this.page_height = 6 ;
   this.iframe.innerHTML = (
     "<style>"
       + "#pdfimport { width: 100% ; position: relative; }"
@@ -203,7 +203,6 @@ function ImportPDF(name, nr_pages)
   }
   this.to_load_number = 1 ;
   this.update() ;
-  setTimeout(this.update.bind(this), 100) ;
 }
 
 ImportPDF.prototype.mousedown = function(event)
@@ -221,14 +220,12 @@ ImportPDF.prototype.mouseup = function(event)
   if ( this.move_student )
   {
     this.move_student = undefined ;
-    this.update() ;
     stop_event(event) ;
   }
 } ;
 
 ImportPDF.prototype.move_before = function(block, other)
 {
-  this.blocks.removeChild(block) ;
   if ( other )
     this.blocks.insertBefore(block, other) ;
   else
@@ -237,7 +234,6 @@ ImportPDF.prototype.move_before = function(block, other)
 
 ImportPDF.prototype.move_after = function(block, other)
 {
-//  this.blocks.removeChild(block) ;
   if ( other.nextSibling )
     this.blocks.insertBefore(block, other.nextSibling) ;
   else
@@ -249,7 +245,7 @@ ImportPDF.prototype.mousemove = function(event)
   if ( ! this.move_student )
     return ;
   event = the_event(event) ;
-  var y = event.y - findPosY(this.blocks) ;
+  var y = event.y - findPosY(this.blocks) - this.height_page / 2 ;
   for(var block = this.blocks.firstChild ; block ; block = block.nextSibling)
   {
     if ( block.offsetTop > y )
@@ -257,14 +253,14 @@ ImportPDF.prototype.mousemove = function(event)
       if ( this.move_student !== block )
       {
 	this.move_before(this.move_student, block) ;
-	this.update() ;
+	this.update_later() ;
       }
       break ;
     }
     if ( block === this.blocks.lastChild && this.move_student !== block )
     {
       this.move_after(this.move_student, block) ;
-      this.update() ;
+      this.update_later() ;
     }
   }
   var scroll = this.blocks.parentNode ;
@@ -345,7 +341,7 @@ ImportPDF.prototype.click = function(event)
       this.move_before(previous_student, s2) ;
     }
   }
-  this.update() ;
+  this.update_later() ;
 } ;
 
 ImportPDF.prototype.update = function()
@@ -357,9 +353,9 @@ ImportPDF.prototype.update = function()
     block.style.top = top + "px" ;
     if ( block.is_student )
     {
-      if ( ! this.height_student )
+      if ( ! this.height_student  &&  block.offsetHeight > 20)
         this.height_student = block.offsetHeight ;
-      top += this.height_student ;
+      top += this.height_student || 20 ;
       cls = ["student"] ;
       if ( block.previousSibling && block.previousSibling.is_student )
 	cls.push('previous_empty') ;
@@ -374,11 +370,17 @@ ImportPDF.prototype.update = function()
     {
       if ( ! this.height_page &&  block.offsetHeight > 20)
         this.height_page = block.offsetHeight ;
-      top += this.height_page ;
+      top += this.height_page || 60 ;
       cls = ["page"] ;
     }
     block.className = cls.join(' ') ;
   }
+} ;
+
+ImportPDF.prototype.update_later = function()
+{
+  periodic_work_add(this.update.bind(this)) ;
+  // setTimeout(this.update.bind(this), 100) ;
 } ;
 
 ImportPDF.prototype.will_scroll = function()
@@ -403,6 +405,8 @@ ImportPDF.prototype.add = function()
 
   if ( ! this.to_load )
     this.button.disabled = 0 ;
+
+  this.update_later() ;
 } ;
 
 ImportPDF.prototype.send = function()
@@ -429,5 +433,5 @@ ImportPDF.prototype.send = function()
   do_post_data(d,
 	       url + '/=' + ticket + '/' + year + '/' + semester + '/' + ue
 	       + '/upload_pdf/' + page_id + '/' + popup_column().the_id,
-               "iframe_pdf") ;  
+               "iframe_pdf") ;
 } ;
