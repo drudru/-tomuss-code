@@ -6054,14 +6054,8 @@ msgstr "The grade is not inside the possible values"
 msgid "MSG_notation_not_allowed"
 msgstr "You are not allowed to change the maximum grade"
 
-msgid "MSG_notation_to_much_comment"
-msgstr "Shorten your comments, the recording may fail"
-
 msgid "MSG_notation_help"
 msgstr "To save: move to another student or close this popup"
-
-msgid "TIP_limit"
-msgstr "No more than 1000 bytes per student"
 
 msgid "ALERT_notation_save"
 msgstr "Save the modifications done on this student?"

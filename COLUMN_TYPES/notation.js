@@ -513,7 +513,7 @@ Notation.prototype.start = function()
   this.update_popup() ; // To compute good sizes for question and comments
   if ( this.column.comment === '' )
     this.notation_error.innerHTML = '<div style="position:absolute;top: 6em; font-weight: normal; color: #000; font-size: 150%">'
-  + _("MSG_notation_introduction") + _("TIP_limit") + '</div>' ;
+  + _("MSG_notation_introduction") + '</div>' ;
   else
     {
       if ( this.modifiable )
@@ -1229,9 +1229,6 @@ Notation.prototype.compute_stats = function()
 
 Notation.prototype.update_error = function(error, element)
 {
-  var length = this.get_json_grades().length ;
-  if ( length > max_url_length )
-    error = "MSG_notation_to_much_comment" ;
   if ( error )
   {
     this.notation_error.style.color ='#F00' ;
@@ -1241,14 +1238,7 @@ Notation.prototype.update_error = function(error, element)
     this.notation_error.innerHTML = _(error) ;
   }
   else
-  {
-    this.notation_error.style.color = "#888" ;
-    this.notation_error.style.fontSize = "70%" ;
-    if ( element )
-      element.style.color = "#000" ;
-    this.notation_error.innerHTML = hidden_txt(length +'/'+ max_url_length,
-					       _("TIP_limit")) ;
-  }
+    this.notation_error.innerHTML = '' ;
 } ;
 
 Notation.prototype.on_comment_change = function(event)

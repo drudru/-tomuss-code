@@ -6193,14 +6193,8 @@ msgstr "La note dépasse l'interval de notation"
 msgid "MSG_notation_not_allowed"
 msgstr "Vous n'avez pas l'autorisation de changer le barême"
 
-msgid "MSG_notation_to_much_comment"
-msgstr "Raccourcissez les commentaires sinon la sauvegarde risque d'échouer"
-
 msgid "MSG_notation_help"
 msgstr "Pour sauvegarder : changer d'étudiant ou fermer cette popup"
-
-msgid "TIP_limit"
-msgstr "Vous êtes limité à 1000 octets par étudiants."
 
 msgid "ALERT_notation_save"
 msgstr "Enregistrer les modifications faites sur cet étudiant ?"
