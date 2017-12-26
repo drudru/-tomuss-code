@@ -1013,7 +1013,7 @@ Notation.prototype.update_popup = function()
 	this.questions[i].draw_canvas() ;
 
   var percent = 100 * comment_size / (question_size + comment_size) ;
-  percent = Math.max(percent, 7) ;
+  percent = Math.min(Math.max(percent, 20), 80) ;
   this.notation_content.childNodes[0].style.bottom = percent + '%' ;
   this.notation_content.childNodes[1].style.top = (100 - percent) + '%' ;
 } ;
