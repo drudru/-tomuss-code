@@ -3895,19 +3895,12 @@ function Request(content)
   this.requested = false ;
 }
 
-function request_url()
+Request.prototype.send = function()
 {
-  var a ;
-  a = url + "/=" + ticket + '/' + year + '/' + semester + '/' + ue + '/' +
-    page_id + '/' + this.request_id ;
+  var base = url + "/=" + ticket + '/' + year + '/' + semester + '/' + ue
+	     + '/' + page_id + '/' + this.request_id ;
   if ( this.time != this.firsttime )
-    a += '.' + millisec() ;
-  return a + '/' + this.content ;
-}
-
-function request_send()
-{
-  var url = this.url() ;
+    base += '.' + millisec() ;
   if ( this.image_pending === undefined )
     {
       // The feedback square under the table
@@ -3919,20 +3912,46 @@ function request_send()
       server_log.appendChild( this.image_pending) ;
       this.image_pending.request = this ;
     }
-  this.image_pending.src = url ;
-  // After because image_pending must be created before receiving 'saved'
-  if ( this.image )
-    {
-      // The inline feedback square
-      this.image.src = url ;
-    }
+  if ( this.content.length > 1000 )
+  {
+    var xhr = new XMLHttpRequest();
+    xhr.request = this ;
+    xhr.addEventListener('readystatechange', function(event) {
+                if ( event.target.response
+		     && event.target.response.byteLength > 0 )
+		     {
+		       xhr.request.image_pending.src = 'data:image/png;base64,'
+		         + btoa(String.fromCharCode.apply(null,
+			        new Uint8Array(event.target.response))) ;
+		       if ( xhr.request.image )
+		            xhr.request.image.src = xhr.request.image_pending.src ;
+		       server_answered(xhr) ;
+		       delete xhr ;
+		     }
+        }, false);
+    xhr.responseType = 'arraybuffer' ;
+    xhr.open("POST", base + '/POST', true) ;
+    var formData = new FormData() ;
+    formData.append('content', this.content) ;
+    xhr.send(formData) ;
+    this.image_pending.src = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAIAAACQd1PeAAAADElEQVQI12P4v04aAAR4Acnqpr0AAAAAAElFTkSuQmCC" ;
+    if ( this.image )
+      this.image.src = this.image_pending.src ;
+  }
+  else
+  {
+    var full_url = base + '/' + this.content ;
+    this.image_pending.src = full_url ;
+    // After because image_pending must be created before receiving 'saved'
+    if ( this.image )
+      {
+	// The inline feedback square
+	this.image.src = full_url ;
+      }
+  }
   this.time = millisec() ;
   this.requested = true ;
-}
-
-
-Request.prototype.url = request_url ;
-Request.prototype.send = request_send ;
+} ;
 
 /*
  ****************************************************************************
@@ -4120,11 +4139,6 @@ function append_image(td, text, force)
     return ;
   if ( is_a_virtual_ue )
     return ;
-  if ( text.length > maximum_url_length )
-    {
-      Alert("ALERT_column_not_saved") ;
-      return ;
-    }
   var request = new Request(text) ;
   pending_requests.push(request) ;
   periodic_work_add(auto_save_errors) ;

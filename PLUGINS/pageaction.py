@@ -21,6 +21,8 @@
 
 import time
 import os
+import cgi
+import urllib.parse
 from .. import plugin
 from .. import document
 from .. import abj
@@ -50,6 +52,14 @@ def page_action(server):
         table.do_not_unload_remove('page_action')
         utilities.send_backtrace(repr(server.the_path), 'Page Action')
         return
+    if action == 'POST':
+        fs = cgi.FieldStorage(fp=server.rfile, headers=server.headers,
+                              environ={'REQUEST_METHOD' : 'POST'})
+        path = [
+                urllib.parse.unquote(i)
+                for i in fs.getfirst('content').replace('$', '%').split('/')
+                ]
+        action = path.pop(0)
     page.add_request(request, action, path, server.the_file)
 
 
