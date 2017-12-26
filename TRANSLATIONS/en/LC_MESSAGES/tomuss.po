@@ -6094,6 +6094,12 @@ msgstr "Export"
 msgid "TITLE_column_attr_notation_import"
 msgstr "Import"
 
+msgid "TIP_column_attr_notation_export__Notation__1"
+msgstr "Get all the comment details to copy them in a spreadsheet."
+
+msgid "TIP_column_attr_notation_import__Notation__1"
+msgstr "Copy detailed comments from a spreadsheet into the column."
+
 msgid "MSG_notation_import_title"
 msgstr "Import notation details in"
 

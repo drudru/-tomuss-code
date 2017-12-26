@@ -6235,6 +6235,12 @@ msgstr "Exporter"
 msgid "TITLE_column_attr_notation_import"
 msgstr "Importer"
 
+msgid "TIP_column_attr_notation_export__Notation__1"
+msgstr "Permet de récupérer l'ensemble des commentaires détaillés dans un tableur."
+
+msgid "TIP_column_attr_notation_import__Notation__1"
+msgstr "Permet d'importer dans la colonne une table de commentaires détaillés."
+
 msgid "MSG_notation_import_title"
 msgstr "Importer les détails de notation dans"
 
