@@ -6033,7 +6033,10 @@ msgid "MSG_notation_comment"
 msgstr "Personnalised comment for the student"
 
 msgid "MSG_notation_edit_comment"
-msgstr "Edti the global comment,\nor erase the text to delete the comment."
+msgstr "Edit the global comment,\nor erase the text to delete the comment."
+
+msgid "MSG_notation_fix_comment"
+msgstr "This comment is in use, apply only minor fixes."
 
 msgid "ALERT_delete_line"
 msgstr "Do you really want to remove this question?"

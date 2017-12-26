@@ -999,8 +999,9 @@ Notation.prototype.update_popup = function()
 	   + '<span class="stat">' + questions[i].stats.sum + '</span>'
 	   + html(questions[i].question)
 	   + (notation_debug ? " " + questions[i].id : "")
-	   + ((questions[i].somebody_is_graded() || ! this.column_modifiable)
-	      ? '' : ' <span class="edit_comment">✎</span>')
+	   + (this.column_modifiable
+	      ? ' <span class="edit_comment">✎</span>'
+	      : '')
 	   + '</div>') ;
   s.push('</div>') ;
 
@@ -1152,11 +1153,15 @@ Notation.prototype.on_mouse_down = function(event)
 	alert(_("ERROR_value_defined_by_another_user")) ;
       break ;
     case 'edit_comment':
-      var v = prompt(_("MSG_notation_edit_comment"), event.question.question) ;
-      if ( v )
+      var v ;
+      if ( event.question.somebody_is_graded() )
+           v = prompt(_("MSG_notation_fix_comment"), event.question.question) ;
+      else
+           v = prompt(_("MSG_notation_edit_comment"), event.question.question) ;
+      if ( v !== null )
 	{
 	  event.question.question = v ;
-	  if ( v === '' )
+	  if ( v === '' &&  ! event.question.somebody_is_graded() )
 	    event.question.type = 1 ;
 	  this.update_popup() ;
 	}

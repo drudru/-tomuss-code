@@ -6171,7 +6171,11 @@ msgid "MSG_notation_comment"
 msgstr "Commentaire personnalisé"
 
 msgid "MSG_notation_edit_comment"
-msgstr "Vous pouvez corriger votre commentaire.\nOu bien effacer le texte pour l'enlever de la liste."
+msgstr "Vous pouvez complètement changer le commentaire.\n"
+       "Ou bien effacer le texte pour l'enlever de la liste."
+
+msgid "MSG_notation_fix_comment"
+msgstr "Ce commentaire est utilisé, vous pouvez le modifier mais seulement légèrement."
 
 msgid "ALERT_delete_line"
 msgstr "Voulez-vous vraiment faire disparaître cette question ?"
