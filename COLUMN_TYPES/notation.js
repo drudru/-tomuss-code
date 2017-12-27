@@ -1108,7 +1108,7 @@ Notation.prototype.on_mouse_down = function(event)
 	      var completion = event.target.textContent ;
 	      event.target = this.old_focused.childNodes[4] ;
 	      event.question = this.questions[this.old_focused.id] ;
-	      event.target.value = completion.replace(/^[0-9]* /, "") ;
+	      event.target.value = completion.replace(/^[^ ]* /, "") ;
 	      event.line = this.old_focused ;
 	      this.on_comment_change(event) ;
 	      event.target.value = event.question.grade_and_comment() ;
@@ -1198,9 +1198,11 @@ Notation.prototype.compute_stats = function()
   this.global_comments = {} ;
   for(var question in this.questions)
     {
-      this.questions[question].stats = new Stats() ;
-      if ( this.questions[question].is_a_comment() )
-	this.global_comments[this.questions[question].question] = 1 ;
+      question = this.questions[question] ;
+      question.stats = new Stats() ;
+      if ( question.is_a_comment() )
+	this.global_comments[question.question] = 1 ;
+      question.comments = {} ;
     }
   for(var line_id in lines)
   {
@@ -1213,9 +1215,14 @@ Notation.prototype.compute_stats = function()
 	if(question.is_a_question() || question.is_a_bonus())
 	{
 	  question.stats.add(grade.stored / grade.max) ;
+
 	  if ( this.global_comments[grade.comment] === undefined )
 	    this.global_comments[grade.comment] = 0 ;
 	  this.global_comments[grade.comment]++ ;
+
+	  if ( question.comments[grade.comment] === undefined )
+	    question.comments[grade.comment] = [] ;
+	  question.comments[grade.comment].push(grade.stored / grade.max) ;
 	}
 	else if ( question.is_a_comment() )
 	  question.stats.add(1) ;
@@ -1229,8 +1236,15 @@ Notation.prototype.compute_stats = function()
   this.global_comments_sorted.sort() ;
   this.max_graded = 0 ;
   for(var question in this.questions)
+  {
     this.max_graded = Math.max(this.questions[question].stats.nr,
 			       this.max_graded) ;
+    var sorted_comments = [] ;
+    for(var comment in this.questions[question].comments)
+        sorted_comments.push(comment) ;
+    sorted_comments.sort() ;
+    this.questions[question].sorted_comments = sorted_comments ;
+  }
   for(var question in this.questions)
     this.questions[question].max_graded = this.max_graded ;
 } ;
@@ -1273,9 +1287,33 @@ Notation.prototype.update_completions = function(event)
   var current = event.question.grade.comment.toLowerCase() ;
   var completions = [] ;
   var remain ;
+  var done = {} ;
+  for(var comment in event.question.sorted_comments)
+  {
+    comment = event.question.sorted_comments[comment] ;
+    if ( comment.substr(0, current.length).toLowerCase() == current )
+    {
+        var grades = event.question.comments[comment] ;
+	grades.sort(function(a,b){ return a - b;});
+	var min = event.question.max * grades[0] ;
+	var max = event.question.max * grades[grades.length-1] ;
+	var g ;
+	if ( min != max )
+	     g = min + ';' + max ;
+	else
+	     g = min ;
+        completions.push('<div class="a_completion"><span class="stat">['
+			   + g
+			   + ']</span> ' + html(comment) + '</div>') ;
+	done[comment] = 1 ;
+    }
+  }
+
   for(var comment in this.global_comments_sorted)
     {
       comment = this.global_comments_sorted[comment] ;
+      if ( done[comment] )
+	continue ;
       if ( comment.substr(0, current.length).toLowerCase() == current )
 	{
 	  completions.push('<div class="a_completion"><span class="stat">'
