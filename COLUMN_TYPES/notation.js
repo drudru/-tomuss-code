@@ -1271,14 +1271,11 @@ Notation.prototype.on_comment_change = function(event)
   this.update_error(error, event.target) ;
   event.question.draw_canvas() ;
   this.update_title() ;
-  if ( event.keyCode != 8 )
+  var completion = this.update_completions(event) ;
+  if ( event.keyCode != 8 && completion )
   {
-    var completion = this.update_completions(event) ;
-    if ( completion )
-    {
       do_autocompletion(event.target, event.target.value + completion) ;
       event.question.set_comment(event.target.value, this.column_modifiable) ;
-    }
   }
 } ;
 
@@ -1363,7 +1360,8 @@ Notation.prototype.on_keydown = function(event)
 Notation.prototype.on_keyup = function(event)
 {
   event = this.get_event(event) ;
-  this.log("keyup what=" + event.what + ' question=' + event.question.id) ;
+  this.log("keyup what=" + event.what + ' question=' + event.question.id
+           + " keycode=" + event.keyCode) ;
   var questions = this.question_list() ;
   var question_index = myindex(questions, event.question) ;
   if ( event.keyCode <= 40 && event.keyCode != 37 &&  event.keyCode != 39)
@@ -1419,6 +1417,7 @@ Notation.prototype.on_keyup = function(event)
       Notation.focus(event.question, event.child_nr) ; }, 100) ;
     break ;
   default:
+    this.log("keyup default " + event.what) ;
     if ( event.target.value == event.target.old_value )
       break ;
     event.target.old_value = event.target.value ;
