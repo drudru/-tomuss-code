@@ -1141,6 +1141,7 @@ Notation.prototype.on_mouse_down = function(event)
 	event.question.type = 0 ;
       event.line.className = event.line.className.replace(
 	  /type[0-9]/, 'type' + event.question.type) ;
+      event.question.set_min() ;
       break ;
     case 'make_comment':
       event.question.type = 3 ;
