@@ -610,7 +610,8 @@ Notation.prototype.init_cell = function(line)
   this.line = this.get_the_commented_line(line) ;
   this.cell = this.line[this.column.data_col] ;
   this.parse_grades(this.cell.comment) ;
-  this.modifiable = this.cell && this.cell.is_mine() || i_am_the_teacher ;
+  this.modifiable = this.cell
+                    && this.cell.changeable(this.line, this.column) === true ;
 } ;
 
 Notation.prototype.select_current_line = function()
