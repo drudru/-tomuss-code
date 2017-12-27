@@ -1123,9 +1123,10 @@ Notation.prototype.on_mouse_down = function(event)
     event.target.focus() ;
   else
   {
-    if ( ! this.column_modifiable )
+    var what = event.target.className.split(' ')[0] ;
+    if ( ! this.column_modifiable && what != 'a_comment')
       return ;
-    switch(event.target.className.split(' ')[0])
+    switch(what)
     {
     case 'inc':
       event.question.steps = Math.min(event.question.steps+1, 10) ;
