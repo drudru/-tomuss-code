@@ -1201,14 +1201,16 @@ Notation.prototype.compute_stats = function()
       question = this.questions[question] ;
       question.stats = new Stats() ;
       if ( question.is_a_comment() )
-	this.global_comments[question.question] = 1 ;
+	this.global_comments[question.question] = 0 ;
       question.comments = {} ;
     }
   for(var line_id in lines)
   {
     try {
       g = JSON.parse(lines[line_id][this.column.data_col].comment) ;
-      for(var id in g)
+      }
+    catch(e) { continue ; }
+    for(var id in g)
       {
 	var grade = new NotationGrade(g[id]) ;
 	var question = this.questions[id] ;
@@ -1225,10 +1227,11 @@ Notation.prototype.compute_stats = function()
 	  question.comments[grade.comment].push(grade.stored / grade.max) ;
 	}
 	else if ( question.is_a_comment() )
+	{
 	  question.stats.add(1) ;
+	  this.global_comments[question.question]++ ;
+	}
       }
-    }
-    catch(e) { }
   }
   this.global_comments_sorted = [] ;
   for(var i in this.global_comments)
