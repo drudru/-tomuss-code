@@ -684,6 +684,10 @@ class StaticFile(object):
                 mimetype = self.mimetypes[n]
         self.mimetype = mimetype
         self.content = content
+        if 'image' in self.mimetype :
+            self.encoding = "bytes"
+        else:
+            self.encoding = "utf-8"
         if self.content:
             # Not a file, so NEVER reload it
             self.time = -1
@@ -709,13 +713,10 @@ class StaticFile(object):
         dirname = os.path.join("TMP", configuration.version)
         mkpath(dirname, mode=0o755) # The static web server needs access
         filename = os.path.join(dirname, self.name.split(os.path.sep)[-1])
-        if 'image' in self.mimetype :
-            write_file(filename, self.content, "bytes")
-        else:
-            write_file(filename, self.content, "utf-8")
+        write_file(filename, self.content, self.encoding)
 
     def get_zipped(self):
-        if "image" in self.mimetype:
+        if self.encoding == "bytes":
             self.bytes()
         else :
             str(self)
@@ -724,17 +725,19 @@ class StaticFile(object):
         return self.gzipped
 
     def bytes(self):
+        assert self.encoding == 'bytes'
         if self.need_update():
             self.time = os.path.getmtime(self.name)
-            self.content = read_file(self.name, "bytes")
+            self.content = read_file(self.name, self.encoding)
             self.gzipped = None
             self.copy_on_disc()
         return self.content
 
     def __str__(self):
+        assert self.encoding != 'bytes'
         if self.need_update():
             self.time = os.path.getmtime(self.name)
-            content = read_file(self.name, "utf-8")
+            content = read_file(self.name, self.encoding)
             for old, new in self.replace_text.values():
                 content = content.replace(old, new)
             content += ''.join(str(i) for i in self.append_text.values())
@@ -750,7 +753,10 @@ class StaticFile(object):
             self.content = None
 
     def __len__(self):
-        return len(str(self))
+        if self.encoding == "bytes":
+            return len(self.bytes())
+        else:
+            return len(str(self))
 
     def replace(self, key, old, new):
         """The replacement is done each time the file is reloaded"""
