@@ -1136,6 +1136,21 @@ Stats.prototype.add = function(v)
   this.nr++ ;
 } ;
 
+Stats.prototype.remove = function(v)
+{
+  if ( isNaN(v) )
+  {
+    if ( this.all_values[v] )
+      this.all_values[v]-- ;
+  }
+  else
+  {
+    this.nr-- ;
+    this.sum -= v ;
+    this.sum2 -= v*v ;
+  }
+} ;
+
 Stats.prototype.variance = function()
 {
   return this.sum2/this.nr - (this.sum/this.nr)*(this.sum/this.nr)  ;

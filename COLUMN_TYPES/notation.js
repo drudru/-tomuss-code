@@ -187,17 +187,16 @@ NotationQuestion.prototype.set_min = function()
     this.grade.min = 0 ;
 }
 
-NotationQuestion.prototype.remove_grade = function(v)
+NotationQuestion.prototype.remove_grade = function()
 {
-  this.stats.all_values[v]-- ;
-  this.stats.nr-- ;
-  this.stats.sum -= v ;
-  this.stats.sum2 -= v*v ;
+  if ( this.grade.not_graded )
+    return ;
+  this.stats.remove(this.grade.grade) ;
 } ;
 
 NotationQuestion.prototype.set_grade_to = function(value)
 {
-  this.remove_grade(this.grade.grade) ;
+  this.remove_grade() ;
   this.grade.set_grade(value, this.max) ;
   this.grade.not_graded = false ;
   this.stats.add(this.grade.grade) ;
@@ -280,7 +279,7 @@ NotationQuestion.prototype.suivi = function()
 
 NotationQuestion.prototype.set_comment = function(value, column_modifiable)
 {
-  this.remove_grade(this.grade.grade) ;
+  this.remove_grade() ;
   var error = this.grade.set_comment(value) ;
   if ( this.max != this.grade.max && ! column_modifiable )
     error = "MSG_notation_not_allowed" ;
@@ -1286,7 +1285,6 @@ Notation.prototype.update_completions = function(event)
 {
   var current = event.question.grade.comment.toLowerCase() ;
   var completions = [] ;
-  var remain ;
   var done = {} ;
   for(var comment in event.question.sorted_comments)
   {
@@ -1315,12 +1313,9 @@ Notation.prototype.update_completions = function(event)
       if ( done[comment] )
 	continue ;
       if ( comment.substr(0, current.length).toLowerCase() == current )
-	{
-	  completions.push('<div class="a_completion"><span class="stat">'
-			   + this.global_comments[comment]
-			   + '</span> ' + html(comment) + '</div>') ;
-	  remain = comment.substr(current.length) ;
-	}
+	completions.push('<div class="a_completion"><span class="stat">'
+			+ this.global_comments[comment]
+			+ '</span> ' + html(comment) + '</div>') ;
     }
   this.the_completions.innerHTML = completions.join("") ;
   this.the_completions.style.top = document.getElementById("the_questions")
@@ -1328,7 +1323,9 @@ Notation.prototype.update_completions = function(event)
   this.the_completions.style.left = event.line.childNodes[4].offsetLeft
     + event.line.childNodes[4].offsetWidth + "px" ;
   if ( completions.length == 1 )
-    return remain ;
+    return completions[0].split("</span> ")[1]
+                         .split("<")[0]
+                         .substr(current.length) ;
 } ;
 
 Notation.prototype.on_question_change = function(event)
