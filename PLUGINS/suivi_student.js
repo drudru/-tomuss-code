@@ -869,6 +869,7 @@ function display_cellbox_tip(event, nr)
   DisplayGrades.ue_node = display_saved[nr][7] ;
   DisplayGrades.no_hover = true ;
   t.innerHTML = display_display(display_definition['Cell']);
+  DisplayGrades.no_hover = false ;
   t.style.top = findPosY(c) - t.childNodes[0].childNodes[0].offsetHeight+'px';
   t.style.left = findPosX(c) + 'px' ;
   t.display_date = millisec() ;
@@ -947,7 +948,8 @@ function get_cell_class_and_style()
 {
   var classes = ['DisplayType' + DisplayGrades.column.type] ;
   var styles = [] ;
-  if ( ! display_data['Preferences']['black_and_white'] )
+  if ( display_data['Preferences'] // Turn around bug on multiple suivi student
+       && ! display_data['Preferences']['black_and_white'] )
     {
       if ( DisplayGrades.column.red + DisplayGrades.column.green
 	   + DisplayGrades.column.redtext + DisplayGrades.column.greentext != ''
