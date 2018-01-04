@@ -6485,6 +6485,7 @@ msgstr "Bonjour {} ({})."
 msgid "MSG_special_date_subject"
 msgstr "[TOMUSS] Date spéciale"
 msgid "MSG_special_date"
-msgstr "Une date spéciale que vous avez indiquée dans TOMUSS a été atteinte :"
+msgstr "Vous recevez ce message car une date spéciale que vous avez indiquée\n"
+       "dans TOMUSS va bientôt être atteinte ou bien est déjà dépassée :"
 
 
