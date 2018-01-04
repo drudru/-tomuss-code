@@ -207,8 +207,13 @@ function goto_url(path)
     }
   goto_url.last_url = path ;
   goto_url.last_time = millisec() ;
-    
+
   window.open(path) ;
+}
+
+function goto_url_grp_seq(path)
+{
+  goto_url(path + grp_seq_filter()) ;
 }
 
 function go(x)
@@ -251,33 +256,39 @@ function open_ue(t, code)
   t.appendChild(m) ;
 }
 
-function box_button(txt, url)
+function box_button(txt, url, grp_seq)
 {
+  if ( grp_seq === undefined )
+    grp_seq = '' ;
   return ['<div>' + txt.replace(/([-.@])/g, "$1 ") + '</div>', [], [],
-	  'onclick="goto_url(\'' + url + '\')"'] ;
+	  'onclick="goto_url' + grp_seq + "('" + url + '\')"'] ;
+}
+
+function box_button_grp_seq(txt, url)
+{
+  return box_button(txt, url, '_grp_seq') ;
 }
 
 function DisplayHomeUEOpen(node)
 {
-  return box_button(_("B_home_edit"),
-		    url_ue(open_ue.code)) ;
+  return box_button_grp_seq(_("B_home_edit"), url_ue(open_ue.code)) ;
 }
 DisplayHomeUEOpen.need_node = [] ;
 function DisplayHomeUEOpenRO(node)
 {
-  return box_button(_("B_home_display"),
-		    url_ue(open_ue.code) + '/=read-only=') ;
+  return box_button_grp_seq(_("B_home_display"),
+                            url_ue(open_ue.code) + '/=read-only=') ;
 }
 DisplayHomeUEOpenRO.need_node = [] ;
 function DisplayHomeUESignature(node)
 {
-  return box_button(_("B_home_signature"),
+  return box_button_grp_seq(_("B_home_signature"),
 		    url_ue(open_ue.code) + '/=signatures-page=/=read-only=') ;
 }
 DisplayHomeUESignature.need_node = [] ;
 function DisplayHomeUEPrint(node)
 {
-  return box_button(_("B_home_export_print"),
+  return box_button_grp_seq(_("B_home_export_print"),
 		    url_ue(open_ue.code) + '/=print-table=/=read-only=') ;
 }
 DisplayHomeUEPrint.need_node = [] ;
@@ -309,18 +320,21 @@ function DisplayHomeUEUnsemestrialize(node)
 }
 DisplayHomeUEUnsemestrialize.need_node = [] ;
 
-
-function do_presence(t)
+function grp_seq_filter()
 {
-  var filters = '' ;
   try {
     var grp_seq = selected_grp_seq.split("<")[0].split("/") ;
     if ( grp_seq[1] !== undefined ) // '_E' == '='
-      filters = '/=filters=' + '0_3:_E' + grp_seq[1] + '=0_4:_E' + grp_seq[0] ;
+      return '/=filters=' + '0_3:_E' + grp_seq[1] + '=0_4:_E' + grp_seq[0] ;
   }
   catch(e) {} ;
+  return '' ;
+}
+
+function do_presence(t)
+{
   goto_url(url_ue(open_ue.code)
-	   + filters
+	   + grp_seq_filter()
 	   + '/=facebook=' + t.getAttribute('alt')
 	   ) ;
 }
@@ -1134,7 +1148,7 @@ function display_ues(title, tip, codes, options)
 	  code = code.replace(RegExp("([^<])(/[^/]*)$"),
 			      '$1<span class="path_code">$2</span>') ;
 	s.push('<div class="ue_line" onclick="open_ue(this,' + js2(ue)
-	       + ')" ondblclick="goto_url(' + js2(url_ue(ue)) + ')">'
+	       + ')" ondblclick="goto_url_grp_seq(' + js2(url_ue(ue)) + ')">'
 	       + '<div class="ue_right"><div class="ue_title">'
 	       + (info.nr_students_ue ? '<b>' : '')
 	       + string_highlight(html(info.intitule || ''),
