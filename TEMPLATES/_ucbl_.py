@@ -42,6 +42,7 @@ update_value_and_tip(t_student_surname, line[2].value) ;
 def line_empty(line):
     for cell in line:
         if (cell.value != ''
+            and cell.value != configuration.abi
             and cell.author != data.ro_user
             and cell.author != data.no_user
             and cell.author != data.rw_user
