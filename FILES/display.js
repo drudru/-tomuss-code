@@ -3,6 +3,7 @@
 var unload_element ;
 var display_data ;
 var display_do_debug = false ;
+var node_to_element = {} ;
 
 function start_display()
 {
@@ -26,10 +27,25 @@ function display_update(key_values, top)
   if ( display_do_debug )
     console.log("==================== Display update ======================") ;
   the_body = document.getElementsByTagName('BODY')[0] ;
-  for(var i in key_values)
-    display_data[key_values[i][0]] = key_values[i][1] ;
+  var only_leaf_change = true ; // to not redraw whole screen on leaf change
+  for(var i in key_values.slice())
+  {
+    var name = key_values[i][0] ;
+    display_data[name] = key_values[i][1] ;
+    if ( display_definition[name].children.length || ! node_to_element[name])
+	only_leaf_change = false ;
+    // Force to redraw leaves XXX DIRECTLY depending on this one
+    for(var i in display_definition[name].needed_by)
+    {
+      var o = display_definition[name].needed_by[i] ;
+      if ( display_definition[o].children.length || ! node_to_element[o] )
+          only_leaf_change = false ;
+      if ( display_data[o] !== undefined )
+	key_values.push([o, display_data[o]]) ;
+    }
+  }
   display_update.top = top ;
-  try { display_update_real() ; }
+  try { display_update_real(only_leaf_change ? key_values : undefined) ; }
   catch(e) { console.log(e) ; } ;
 }
 
@@ -37,18 +53,14 @@ function display_create_tree()
 {
    for(var i in display_definition)
      {
-       display_definition[i].children = [] ;
-       display_definition[i].name = i ;
-       display_definition[i].containers = display_definition[i][0] ;
-       display_definition[i].priority = display_definition[i][1] ;
-       display_definition[i].js = 'Display'
-	 + (display_definition[i][2] || i ) ;
-       try {
-	 display_definition[i].fct = eval(display_definition[i].js) ;
-	 }
-       catch(e)
-	 {
-	 }
+       var dd = display_definition[i] ;
+       dd.children = [] ;
+       dd.name = i ;
+       dd.containers = dd[0] ;
+       dd.priority = dd[1] ;
+       dd.js = 'Display' + (dd[2] || i ) ;
+       dd.needed_by = [] ;
+       try { dd.fct = eval(dd.js) ; } catch(e) { }
      }
    for(var i in display_definition)
      for(var j=0; j<display_definition[i].containers.length; j++)
@@ -59,8 +71,13 @@ function display_create_tree()
 	 display_definition[display_definition[i].containers[j]
 			    ].children.push(display_definition[i]) ;
    for(var i in display_definition)
+    {
        display_definition[i].children.sort(function(a,b)
 					   {return a.priority - b.priority;});
+       var need = display_definition[i].need_node ;
+       for(var i in need)
+	      display_definition[need[i]].needed_by.push(i) ;
+    }
 }
 
 function display_display_debug(event, txt)
@@ -107,7 +124,7 @@ function display_display(node)
     console.log(node) ;
   var need_node = node.fct.need_node ;
   if ( node.data === undefined && need_node === undefined)
-    return '' ;  
+    return '<div class="Display ' + node.name + '" style="display:none"></div>' ;
   for(var i in need_node)
     if ( display_data[need_node[i]] === undefined )
       return '' ;
@@ -237,13 +254,39 @@ function detect_small_screen(force)
 var display_update_nb = 0 ;
 var older_students = '' ;
 
-function display_update_real()
+function display_update_real(key_values)
 {
   if ( display_update.top === undefined )
     return "" ;
   if ( display_update_nb == 0 )
     setInterval(detect_small_screen, 100) ;
-  document.getElementById('display_suivi').innerHTML = display_display(display_definition[display_update.top]) ;
+
+  if ( key_values )
+  {
+        for(var i in key_values)
+	{
+	  i = key_values[i][0] ;
+	  node_to_element[i].outerHTML = display_display(display_definition[i]) ;
+	}
+  }
+  else
+  {
+       document.getElementById('display_suivi').innerHTML = display_display(display_definition[display_update.top]) ;
+
+       var divs = document.getElementById('display_suivi').getElementsByTagName("DIV") ;
+
+       node_to_element = {} ;
+       for(var i = 0 ; i < divs.length ; i++)
+	 {
+	    var div = divs[i] ;
+	    if ( div.className.match(/\bDisplay\b/) )
+	      {
+		var cls = div.className.split(/ +/) ;
+		for(var j = 0 ; j < cls.length ; j++ )
+		  node_to_element[cls[j]] = div ;
+	      }
+         }
+  }
 
   display_update_nb++ ;
   detect_small_screen.window_width = 0 ; // Force update
