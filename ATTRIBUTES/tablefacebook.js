@@ -132,7 +132,7 @@ function phone_facebook(column_id)
       {
 	for(var i in vals)
 	{
-	  if ( vals[i] == line[column.data_col].value )
+	  if ( vals[i] == line[column.data_col].get_value(column) )
 	    cls = 'selecteditem' ;
 	  else
 	    cls = 'item' ;
