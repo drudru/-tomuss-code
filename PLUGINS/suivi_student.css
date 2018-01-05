@@ -328,6 +328,17 @@ DIV#tip.tip_fade_in {
     transition: background 3s ;
 }
 
+
+#popup DIV.check_suivi_url {
+    position: fixed ;
+    left: 10% ;
+    width: 80% ;
+    top: 10% ;
+    height: 80% ;
+    border: 2px solid black ;
+}
+#popup DIV.check_suivi_url IFRAME { width: 100% ; height: 100% }
+
 /************************ Old CSS *****************************/
 
 .prst     { background-color: #8F8 ;               }

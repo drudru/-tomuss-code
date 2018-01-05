@@ -44,8 +44,21 @@ function follow_url(in_value)
    return in_value ;
 }
 
+function url_check_url(t)
+{
+  create_popup("check_suivi_url", "",
+               '<IFRAME src="' + t.value + '"></IFRAME>', '', false);
+}
+
 function url_format_suivi()
 {
+  if ( cell_modifiable_on_suivi() )
+    return '<input class="hidden"'
+    + ' onkeypress="if ( the_event(event).keyCode == 13 ) {url_check_url(this);'
+    + student_input(DisplayGrades.column)
+    + '}" value="' + encode_value(DisplayGrades.value.toString())
+    + '"></input> <small style="font-size:80%">' + _("MSG_enter") + '</small>';
+
   if ( DisplayGrades.value === '' )
     return ' ' ;
 
