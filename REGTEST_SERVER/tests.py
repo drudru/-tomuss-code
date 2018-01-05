@@ -1667,6 +1667,29 @@ cell_change(1,'0_2','ticket_time_to_live','%d',"")
         c = s.url('=user.3/%s/UE-acls' % ys)
         assert('is_a_teacher = 0' in c and 'initialize_suivi_real()' in c)
 
+        # Put user.3 in acls using 'table:0/Dossiers/acls' selector
+
+        c = s.url('=' + root + '/0/Dossiers/acls')
+        assert('runlog' in c)
+
+        c = s.url(acls)
+        assert('user.1' in c)
+        c = s.url(acls + '2/0/cell_change/a/L2/table:0$2FDossiers$2Facls')
+        assert(c == ok_png)
+        c = s.url(acls + '2/1/cell_change/b/L2/staff')
+        assert(c == ok_png)
+
+        c = s.url('=user.3/%s/UE-acls' % ys)
+        assert('runlog(columns, lines)' not in c)
+
+        c = s.url('='+root+'/0/Dossiers/acls/1/0/column_attr_title/col_id/X')
+        assert(c == ok_png)
+        c = s.url('='+root+'/0/Dossiers/acls/1/1/cell_change/col_id/0_0/user.3')
+        assert(c == ok_png)
+
+        c = s.url('=user.3/%s/UE-acls' % ys)
+        assert('runlog(columns, lines)' in c)
+
     if do('owner'):
         c = s.url('=' + abj +'/%s/UE-owner' % ys)
         assert( 'runlog' in c )

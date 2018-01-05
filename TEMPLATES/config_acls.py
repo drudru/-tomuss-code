@@ -24,6 +24,7 @@ from .. import configuration
 from .. import utilities
 from .. import referent
 from .. import inscrits
+from .. import document
 
 acls = None
 
@@ -181,8 +182,20 @@ def login_is_member(login, member, member_of):
         if member == 'grp:':
             return True
         return is_member_of_(login, members(member[4:]), member_of)
+    elif member.startswith('table:'):
+        t = document.table(*member[6:].split("/"), create=False, ro=True)
+        if t:
+            if not hasattr(t, 'cell_change_patched'):
+                t.cell_change_patched = True
+                t.do_not_unload_add('*config_acls:table')
+                t.old_cell_change = t.cell_change
+                def cell_change(*args, **keys):
+                    if args[1] == t.columns[0].the_id:
+                        configuration.config_acls_clear_cache()
+                    return t.old_cell_change(*args, **keys)
+                t.cell_change = cell_change
+            return login in t.the_key_dict
     return False
-
 
 def is_member_of_(login, group, member_of):
     """The negation ! has priority over the other AT THE SAME LEVEL
@@ -212,44 +225,29 @@ def is_member_of_(login, group, member_of):
                 return True
     return False
 
-
-cache = {}
-
-def is_member_of(login, group):
+@utilities.add_a_cache
+def is_member_of_real(login_group):
     """A group name or a tuple"""
-    if (login, group) not in cache:
-        if time.time() - clear_cache.last_clear > 3600:
-            clear_cache()
-        member_of = inscrits.L_fast.member_of_list(login)
-        if group == '':
-            result = True
-        elif is_member_of_(login, members("roots"), member_of):
-            if group:
-                if '!' in group[0]:
-                    result = False
-                else:
-                    result = True
-            else:
-                result = False
-        else:
-            if isinstance(group, str):
-                grp = ("grp:" + group,)
-            else:
-                grp = group
-            result = is_member_of_(login, grp, member_of)
+    login, group = login_group
+    member_of = inscrits.L_fast.member_of_list(login)
+    if group == '':
+        return True
+    if is_member_of_(login, members("roots"), member_of):
+        if group:
+            if '!' in group[0]:
+                return False
+            return True
+        return False
+    if isinstance(group, str):
+        grp = ("grp:" + group,)
+    else:
+        grp = group
+    return is_member_of_(login, grp, member_of)
+configuration.config_acls_clear_cache = is_member_of_real.cache.clear
 
-        cache[login, group] = result
+def is_member_of(*login_group):
+    return is_member_of_real(login_group)
 
-    return cache[login, group]
-
-def clear_cache():
-    utilities.warn("Clear Cache")
-    cache.clear()
-    clear_cache.last_clear = time.time()
-
-clear_cache()
-
-configuration.config_acls_clear_cache = clear_cache
 
 def all_the_groups():
     return {line[1].value
