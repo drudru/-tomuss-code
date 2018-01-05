@@ -1811,6 +1811,9 @@ msgstr "Hello [Firstname] [Surname].\n\n"
        "Your groupe is [Grp] and your sequence is [Seq]\n\n"
        "Good bye."
 
+msgid "MSG_mail_massmail_archive"
+msgstr "Send the mass mailing full report (archivage) to:"
+
 msgid "ALERT_mail_unknown_column"
 msgstr "In your message you use non existent column title between [ ].\n"
        "Do you want to send the messages without the replacements for: "

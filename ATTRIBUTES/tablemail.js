@@ -1,7 +1,7 @@
 // -*- coding: utf-8 -*-
 /*
     TOMUSS: The Online Multi User Simple Spreadsheet
-    Copyright (C) 2008-2014 Thierry EXCOFFIER, Universite Claude Bernard
+    Copyright (C) 2008-2018 Thierry EXCOFFIER, Universite Claude Bernard
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -46,7 +46,7 @@ function students_mails(missing)
   return s ;
 }
 
-function authors_mails(missing)
+function authors_mails(missing, not_me)
 {
   var cls = column_list_all() ;
   var cols = [] ;
@@ -74,6 +74,8 @@ function authors_mails(missing)
     for(var i in table_attr.teachers)
       a[table_attr.teachers[i]] = table_attr.teachers[i] ;
   }
+  if ( not_me && a[my_identity] )
+    delete a[my_identity] ;
   var s = '' ;
   for(var i in a)
     {
@@ -155,8 +157,17 @@ function mail_window()
 		_("MSG_mail_massmail"));
 }
 
+function archive_receivers()
+{
+  var missing = [] ;
+  add_masters_mails = true ;
+  return authors_mails(missing, true) ;
+}
+
 function personal_mailing()
 {
+  var the_author_mails = archive_receivers() ;
+
   var nb = 0;
   for(var i in filtered_lines)
     if ( filtered_lines[i][0].value )
@@ -189,6 +200,12 @@ function personal_mailing()
       buttons += ' <option>' + html(addresses[i]) + '</option>' ;
     buttons += "</select><br>" ;
   }
+  if ( the_author_mails !== '' )
+    buttons += '<label><input id="mail_archive" type="checkbox" onclick="document.getElementById(\'mail_archive_receiver\').disabled = !this.checked">'
+                + _("MSG_mail_massmail_archive") + '</label>'
+		+ '<input disabled="disabled" id="mail_archive_receiver" '
+		+ 'style="width:100%" value="'
+		+ encode_value(the_author_mails) + '"><br>' ;
   personal_mailing.filtered_lines = filtered_lines ;
   create_popup('personal_mailing_div',
 	       _("MSG_mail_massmail_title"),
@@ -287,6 +304,10 @@ function personal_mailing_do()
 	   'recipients': students.join("\001"),
 	   'titles': data_cols_titles.join("\001")
 	  } ;
+  var mail_archive = document.getElementById('mail_archive') ;
+  if ( mail_archive && mail_archive.checked )
+    d['archive'] = document.getElementById('mail_archive_receiver').value
+                    .replace(/[ ,;]*$/, '').replace(/[ ,;]+/g, "\001") ;
   if ( data_col_cc >= 0 )
     d["cc"] = cc.join("\001") ;
   do_post_data(d, url + '/=' + ticket + '/send_mail') ;

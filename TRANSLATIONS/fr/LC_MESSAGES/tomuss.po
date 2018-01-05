@@ -1810,6 +1810,9 @@ msgstr "Bonjour [Prénom] [Nom].\n\n"
        "Votre groupe est [Grp] et votre séquence [Seq]\n\n"
        "Au revoir."
 
+msgid "MSG_mail_massmail_archive"
+msgstr "Envoyer le compte rendu détaillé (archivage) de publipostage à :"
+
 msgid "ALERT_mail_unknown_column"
 msgstr "Dans votre message, vous faites référence à des noms de colonnes "
        "qui n'existent pas.\n"

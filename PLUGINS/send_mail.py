@@ -71,6 +71,10 @@ def send_mail(server):
         cc = data.getfirst('cc').split("\001")
     except AttributeError:
         cc = None
+    try:
+        archive_receiver = data.getfirst('archive').split("\001")
+    except AttributeError:
+        archive_receiver = None
     frome = inscrits.L_slow.mail(server.ticket.user_name)
     if frome is None:
         server.the_file.write('<b style="color:#F00">'
@@ -130,8 +134,11 @@ def send_mail(server):
                             if i
                 ) + '\n'
                 )
-
-    utilities.send_mail_in_background(frome,
+    if archive_receiver:
+        archive_receiver.append(frome)
+    else:
+        archive_receiver = [frome]
+    utilities.send_mail_in_background(archive_receiver,
                                       server._("MSG_mail_archive")
                                       + ' ' + subject,
                                       archive, frome, show_to=True)
