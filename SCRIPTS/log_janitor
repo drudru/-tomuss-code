@@ -4,13 +4,13 @@
 LOGS=LOGS/[ST]*/[0-9][0-9][0-9][0-9]-*[0-9]
 
 echo "Remove old logs"
-find $LOGS            -type f -mtime +200 -exec rm {} \;
+find $LOGS            -type f -mtime +200 -exec rm {} +
 
 echo "Compress logs"
-find $LOGS            -type f -mtime +2 ! -name "*.bz2"  -exec bzip2 -v -9 {} \;
+find $LOGS            -type f -mtime +2 ! -name "*.bz2"  -exec bzip2 -v -9 {} +
 
 echo "Remove old backtraces"
-find LOGS/BACKTRACES/ -maxdepth 1 -type d -mtime +60  -exec rm -r {} \;
+find LOGS/BACKTRACES/ -maxdepth 1 -type d -mtime +60  -exec rm -r {} +
 
 echo "Remove old table in 2008/Tests"
 mkdir Trash/$(date +"%Y%m%d")
@@ -19,11 +19,15 @@ mkdir "$TRASH"
 find DB/Y2008/STest/ -type f -mtime +400 ! -name '__init__.py' -exec mv {} "$TRASH" \;
 
 echo "Remove empty indexes in the database"
-find DB/LOGINS -size 2c \( -name index \) -exec rm {} \;
-find DB/LOGINS -depth -type d -empty -exec rmdir {} \;
+find DB/LOGINS -size 2c \( -name index \) -exec rm {} +
+find DB/LOGINS -depth -type d -empty -exec rmdir {} +
 
 echo "Search strange login names, do not delete them"
 ls -d DB/LOGINS/*/*[!-_.a-zA-Z0-9]*
+
+echo "Remove uploaded file backup older than a year"
+find UPLOAD/ -mtime +400 -name "*~" -exec rm {} +
+
 
 echo "Remove dandling rsskey to login index"
 for I in DB/RSSLOGINS/*/*
