@@ -192,6 +192,7 @@ def login_is_member(login, member, member_of):
                 def cell_change(*args, **keys):
                     if args[1] == t.columns[0].the_id:
                         configuration.config_acls_clear_cache()
+                        configuration.tell_to_reload_config()
                     return t.old_cell_change(*args, **keys)
                 t.cell_change = cell_change
             return login in t.the_key_dict
