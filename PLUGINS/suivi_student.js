@@ -1679,7 +1679,7 @@ function tomuss_plusone()
     var js, fjs = d.getElementsByTagName(s)[0];
     if (d.getElementById(id)) return;
     js = d.createElement(s); js.id = id;
-    js.src = "//connect.facebook.net/en_US/sdk.js#xfbml=1&appId=527673290646131&version=v2.0";
+    js.src = "https://connect.facebook.net/en_US/sdk.js#xfbml=1&appId=527673290646131&version=v2.0";
     fjs.parentNode.insertBefore(js, fjs);
   } ;
   facebook(document, 'script', 'facebook-jssdk');
@@ -1690,21 +1690,22 @@ function DisplayAdvertising(node)
 {
   if ( node.data == false )
     return '' ;
-  setTimeout(tomuss_plusone, 1000) ;
   if ( ! tomuss_plusone.done )
     {
+      setTimeout(tomuss_plusone, 1000) ;
       tomuss_plusone.done = true ;
       
       var po = document.createElement('script');
       po.type = 'text/javascript';
       po.async = true;
-      po.src = 'https://apis.google.com/js/plusone.js?onload=onLoadCallback';
+      po.defer = true;
+      po.src = 'https://apis.google.com/js/platform.js';
       the_body.appendChild(po);
     }
 
-  return '<div id="fb-root"></div><div style="margin-top:1em"><small>' + _("DisplayAdvertising")
-    + '&nbsp;:</small><div id="tomuss_plusone"></div><br>'
-    + '<div class="fb-like" data-href="http://perso.univ-lyon1.fr/thierry.excoffier/TOMUSS/home.html" data-layout="button_count" data-action="like" data-show-faces="false" data-share="false"></div></div>' ;
+  return '<div id="fb-root"></div><div style="margin-top:1em;"><small>' + _("DisplayAdvertising")
+    + '&nbsp;:</small><br><div id="tomuss_plusone"></div><br>'
+    + '<div class="fb-like" data-href="http://perso.univ-lyon1.fr/thierry.excoffier/TOMUSS/home.html" data-layout="button_count" data-action="like" data-show-faces="false" data-share="false"></div>' ;
 }
 DisplayAdvertising.need_node = [] ;
 
