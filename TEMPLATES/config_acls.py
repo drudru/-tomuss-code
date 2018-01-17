@@ -127,7 +127,8 @@ def cell_change(table, page, col, lin, value, dummy_date):
     if page.page_id == 0:
         return
     configuration.tell_to_reload_config()
-    
+
+@utilities.add_a_cache
 def members(group):
     """First level members of a group.
     LDAP members are put in first place for optimization
@@ -137,7 +138,7 @@ def members(group):
              if line[1].value == group
              ]
     membs.sort(key=lambda x: x.startswith('ldap:') and 1 or 0)
-    return membs
+    return tuple(membs) # Must not be modified by error
 
 def trace(fct):
     def f(*args, **keys):
@@ -244,7 +245,12 @@ def is_member_of_real(login_group):
     else:
         grp = group
     return is_member_of_(login, grp, member_of)
-configuration.config_acls_clear_cache = is_member_of_real.cache.clear
+
+def clear_cache():
+    is_member_of_real.cache.clear()
+    members.cache.clear()
+
+configuration.config_acls_clear_cache = clear_cache
 
 def is_member_of(*login_group):
     return is_member_of_real(login_group)
