@@ -75,9 +75,10 @@ class Link(object):
 
         url = self.url
         if url is None:
-            if len(plugin.url) != 1:
-                raise ValueError('BUG: "%s" %s' % (plugin, self))
-            url = '/' + plugin.url[0]
+            if len(self.plugin.url) != 1:
+                url = "javascript:alert('" + self.plugin.name + ": you need to indicate «url=» in the Link() definition.')"
+            else:
+                url = '/' + plugin.url[0]
         if url.startswith('javascript:'):
             target = ''
         elif url.startswith('/'):
