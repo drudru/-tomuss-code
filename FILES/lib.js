@@ -107,7 +107,6 @@ var days, days_full, months, months_full, ampms, ampms_full ;
 var contains_pm ;
 var css_themes = ["", "G", "A", "P", "D", "R", "BW"] ; // In style.css
 
-
 function lib_init()
 {
   divtable             = document.getElementById('divtable'             );
@@ -195,6 +194,13 @@ function lib_init()
   contains_pm = new RegExp('.*(' + ampms[1] + '|' + ampms[1].toLowerCase() + ').*') ;
 }
 
+function get_url_year_semester()
+{
+  var t = window.location.toString().substr(url.length).split('/') ;
+  if ( t[1] == '=' + ticket )
+    t.splice(1, 1) ;
+  return t[1] + '/' + t[2] ;
+}
 
 function _d(txt)
 {
