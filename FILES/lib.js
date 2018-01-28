@@ -2160,8 +2160,13 @@ function line_fill(line, write, cls, empty_column)
     }
 }
 
+var table_fill_force_update_filtered_lines ;
+
 function table_fill_do()
 {
+    if ( table_fill_force_update_filtered_lines )
+	update_filtered_lines() ;
+
     table_fill_real() ;
     
     if ( table_fill_hook )
@@ -2400,8 +2405,7 @@ function table_fill(do_not_focus, display_headers, compute_filtered_lines,
     display_headers = false ;
   table_fill_do_not_focus = do_not_focus ;
   table_fill_force_current_cell_update = force_current_cell_update ;
-  if ( compute_filtered_lines )
-      periodic_work_add(update_filtered_lines) ;
+  table_fill_force_update_filtered_lines = compute_filtered_lines ;
   periodic_work_add(table_fill_do) ;
   if ( display_headers )
     table_header_fill() ;
