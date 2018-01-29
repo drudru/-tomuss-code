@@ -31,9 +31,11 @@ function update_filters(unused_column)
 	continue ;
       filters.push([column.real_filter, data_col, column]) ;
     }
-  line_offset = 0 ;
-  the_current_cell.jump(nr_headers, the_current_cell.col, true) ;
-
+  if ( ! column_get_option_running )
+  {
+    line_offset = 0 ;
+    the_current_cell.jump(nr_headers, the_current_cell.col, true) ;
+  }
   return true ;
 }
 
