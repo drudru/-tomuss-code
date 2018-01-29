@@ -1812,7 +1812,7 @@ Filter and sort the lines of data
 ******************************************************************************/
 function get_filtered_lines()
 {
-  var f = [], empty ;
+  var f = [], empty, ok ;
 
   if ( filters.length === 0 )
     {
@@ -1873,11 +1873,12 @@ function full_filter_change(value)
 	value.className = "attribute_error" ;
       else
 	value.className = value.className.replace("attribute_error", "") ;
-
     }
   column_offset = 0 ;
   line_offset = 0 ;
-  the_current_cell.jump(nr_headers, the_current_cell.col, true) ;
+  table_fill_hook = function() { the_current_cell.jump(nr_headers,
+						       the_current_cell.col,
+						       true); } ;
   table_fill(true, true,true) ; 
 
   change_option('full_filter', encode_uri_option(value.value))
