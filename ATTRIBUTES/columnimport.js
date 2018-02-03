@@ -1,7 +1,7 @@
 // -*- coding: utf-8 -*-
 /*
   TOMUSS: The Online Multi User Simple Spreadsheet
-  Copyright (C) 2011-2013 Thierry EXCOFFIER, Universite Claude Bernard
+  Copyright (C) 2011-2018 Thierry EXCOFFIER, Universite Claude Bernard
 
   This program is free software; you can redistribute it and/or modify
   it under the terms of the GNU General Public License as published by
@@ -30,6 +30,15 @@ function import_column()
       m = '<small><a href="javascript:full_import()">'
 	+ _("MSG_columnimport_link") + '</a></small>' ;
 
+  var choices = '<select id="data_col_key">' ;
+  for(var data_col in columns)
+    if ( ! columns[data_col].is_empty )
+      choices += '<option>'
+	      + html(data_col == 0 ? columns[data_col].comment
+	                           : columns[data_col].title)
+	      + '</option>' ;
+  choices += '</select>' ;
+
   var t = caution_message() ;
   if ( the_current_cell.data_col === 0 )
       t += _("MSG_columnimport_before")
@@ -39,7 +48,7 @@ function import_column()
 	+ _("MSG_columnimport_button_comments") + '</BUTTON> '
 	+ _("MSG_columnimport_after") ;
   else
-      t += _("MSG_columnimport_before2")
+      t += _("MSG_columnimport_before2").replace('<>', choices)
 	+ '<BUTTON OnClick="import_column_do();">'
 	+ _("MSG_columnimport_button2") + '</BUTTON>'
 	+ '/<BUTTON OnClick="import_column_do(true);">'
@@ -62,11 +71,12 @@ function import_column_do(comments)
       create_column(column) ;
     }
 
-  var line_id ;
+  var line_id, line_ids ;
   var replace = '' ;
   var todo = [] ;
-  var i ;
+  var i, j ;
   var problems = '' ;
+  var data_col_key = document.getElementById('data_col_key').selectedIndex ;
 
   if ( data_col === 0 && !comments )
     {
@@ -102,6 +112,18 @@ function import_column_do(comments)
       /* Test 'copy' content */
       var val ;
       var twin = [] ;
+      var key_to_line_id = {} ;
+      if ( data_col_key )
+	for(var line in filtered_lines)
+	  {
+	    val = filtered_lines[line][data_col_key].value ;
+	    if ( key_to_line_id[val] === undefined )
+	      key_to_line_id[val] = [] ;
+	    if ( key_to_line_id[val].length == 1
+	         && column.groupcolumn == columns[data_col_key].title )
+		 continue ; // Only one is needed
+	    key_to_line_id[val].push(filtered_lines[line].line_id) ;
+	  }
       for(i in multiline)
 	{
 	  if ( multiline[i] === '' )
@@ -110,29 +132,38 @@ function import_column_do(comments)
 	  var value = multiline[i].replace(RegExp(login + '[\t ]*'), '') ;
 	  if ( value.replace )
 	    value = value.replace(/⏎/g, '\n') ;
-	  line_id = login_to_line_id(login_to_id(login)) ;
-	  if ( line_id === undefined )
-	    {
-	      replace += login + _("MSG_columnimport_not_found") + value+'\n';
-	      continue ;
-	    }
-	  if ( comments )
-	    val = lines[line_id][data_col].comment ;
-	  else
-	    val = lines[line_id][data_col].value ;
-	  if ( val !== '' && value !== '' && a_float(val) == a_float(value) )
-	    continue ; // Import same float value
-	  if ( val === value )
-	    continue ; // Import same string value
-	  if ( val !== '' )
-	    replace += lines[line_id][0].value+' : '+ val +' ==> '+value+'\n';
-	  if ( twin[line_id] !== undefined )
-	    {
-	      replace += login + _("MSG_columnimport_multiple") + '\n' ;
-	      continue ;
-	    }
-	  twin[line_id] = value ;
-	  todo.push([line_id, data_col, value]) ;
+	  if ( data_col_key == 0 )
+	      line_ids = login_to_line_id(login_to_id(login)) ;
+	    else
+	      line_ids = key_to_line_id[login] ;
+	  if ( line_ids === undefined )
+	      {
+		replace += login + _("MSG_columnimport_not_found") + value+'\n';
+		continue ;
+	      }
+	  if ( line_ids.replace )
+	    line_ids = [line_ids] ;
+	  for(j in line_ids)
+	  {
+	    line_id = line_ids[j] ;
+	    if ( comments )
+	      val = lines[line_id][data_col].comment ;
+	    else
+	      val = lines[line_id][data_col].value ;
+	    if ( val !== '' && value !== '' && a_float(val) == a_float(value) )
+	      continue ; // Import same float value
+	    if ( val === value )
+	      continue ; // Import same string value
+	    if ( val !== '' )
+	      replace += lines[line_id][0].value+' : '+ val +' ==> '+value+'\n';
+	    if ( twin[line_id] !== undefined && data_col_key == 0)
+	      {
+		replace += login + _("MSG_columnimport_multiple") + '\n' ;
+		continue ;
+	      }
+	    twin[line_id] = value ;
+	    todo.push([line_id, data_col, value]) ;
+	  }
 	}
     }
 
