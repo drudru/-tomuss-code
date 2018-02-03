@@ -1801,9 +1801,10 @@ function update_students_real(t)
 
 function search_student_change(t)
 {
-  ask_login_list = replaceDiacritics(t.value.trim()).toUpperCase() ;
+  ask_login_list = replaceDiacritics(
+                           t.value.trim().replace(/\t/g, ' ')).toUpperCase() ;
   set_option('student', ask_login_list) ;
-  if ( t.value.trim().length >= 2
+  if ( ask_login_list.length >= 2
        && full_login_list.cache[ask_login_list] === undefined
        )
     {
