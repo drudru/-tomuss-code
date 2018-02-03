@@ -4,7 +4,7 @@
 LOGS=LOGS/[ST]*/[0-9][0-9][0-9][0-9]-*[0-9]
 
 echo "Remove old logs"
-find $LOGS            -type f -mtime +200 -exec rm {} +
+find $LOGS            -type f -mtime +365 -exec rm {} +
 
 echo "Compress logs"
 find $LOGS            -type f -mtime +2 ! -name "*.bz2"  -exec bzip2 -v -9 {} +
