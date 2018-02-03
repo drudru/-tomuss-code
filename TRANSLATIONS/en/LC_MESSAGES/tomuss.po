@@ -6345,3 +6345,6 @@ msgstr "[TOMUSS] Special date"
 msgid "MSG_special_date"
 msgstr "You receive this message because a special date you indicated in TOMUSS\n"
        "is going to be soonly reached or has yet been reached:"
+
+msgid "MSG_free"
+msgstr "frees"

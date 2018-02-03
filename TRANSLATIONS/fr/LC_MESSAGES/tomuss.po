@@ -6491,4 +6491,5 @@ msgid "MSG_special_date"
 msgstr "Vous recevez ce message car une date spéciale que vous avez indiquée\n"
        "dans TOMUSS va bientôt être atteinte ou bien est déjà dépassée :"
 
-
+msgid "MSG_free"
+msgstr "disponibles"

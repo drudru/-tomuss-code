@@ -1623,12 +1623,12 @@ cell_change(1,'0_2','ticket_time_to_live','%d',"")
 
         ss.start()
         c = ss.url('=10800001/%s/' % ys)
-        assert( '"enumeration": ["", "WWWW"]' in c)
-        assert( '"enumeration": ["", "EEEE", "RRRR"]' in c)
+        assert( '"enumeration": ["", ["WWWW", 1]]' in c)
+        assert( '"enumeration": ["", ["EEEE", 1], ["RRRR", 1]]' in c)
 
         c = ss.url('=10800002/%s/' % ys)
-        assert( '"enumeration": ["", "WWWW"]' in c)
-        assert( '"enumeration": ["", "RRRR"]' in c)
+        assert( '"enumeration": ["", ["WWWW", 1]]' in c)
+        assert( '"enumeration": ["", ["RRRR", 1]]' in c)
 
         c =s.url('=10800001/%s/UE-repetition/cell/C/L3/EEEE' % ys)
         assert('green' in c)

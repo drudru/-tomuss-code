@@ -50,16 +50,26 @@ function enumeration_suivi(choices)
   
   var v = '<select class="hidden" onchange="'
     + student_input(DisplayGrades.column) + '">' ;
-  var sel ;
+  var sel, value, display ;
   for(var i in choices)
   {
     i = choices[i] ;
-    if (i == DisplayGrades.value)
+    value = i.replace !== undefined ? i : i[0] ;
+    if (value == DisplayGrades.value)
       sel = ' selected="1"' ;
     else
       sel = "" ;
-    v += '<option value="' + encode_value(i) + '"' + sel + '>'
-      + html(i) + '</option>' ;
+    if ( i.replace === undefined )
+        {
+          if ( sel !== '' )
+              i = [i[0], i[1]-1] ;
+          value = i[0] ;
+          display = i[0] + ' (' + i[1] + ' ' + _('MSG_free') + ')' ;
+        }
+    else
+        display = value ;
+    v += '<option value="' + encode_value(value) + '"' + sel + '>'
+      + html(display) + '</option>' ;
   }
   v += '</select>' ;
 
