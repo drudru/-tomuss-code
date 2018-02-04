@@ -110,7 +110,9 @@ function update_student_information(line)
 {
    if ( ! t_student_picture.parentNode )
       return ;
-   t_student_picture.parentNode.innerHTML = '' ;
+   t_student_picture.parentNode.innerHTML = '<a target="_blank" href="'
+       + url + '/=' + ticket + '/acls_check">' + _('MSG_acls_check')
+       + '</a>' ;
 
    document.getElementById('horizontal_scrollbar').parentNode.style.display = 'none' ;
 }
@@ -139,6 +141,8 @@ def members(group):
              ]
     membs.sort(key=lambda x: x.startswith('ldap:') and 1 or 0)
     return tuple(membs) # Must not be modified by error
+
+configuration.acls_config_members = members
 
 def trace(fct):
     def f(*args, **keys):
@@ -260,6 +264,7 @@ def all_the_groups():
     return {line[1].value
             for line in acls.lines.values()
     }
+configuration.config_acls_all_the_groups = all_the_groups
 
 def check_all_groups(login):
     return {group: is_member_of(login, group)
@@ -267,3 +272,11 @@ def check_all_groups(login):
     }
 
 configuration.check_all_groups = check_all_groups
+
+def all_users():
+    return set(line[0].value
+               for line in acls.lines.values()
+               if ':' not in line[0].value
+               )
+
+configuration.config_acls_all_users = all_users

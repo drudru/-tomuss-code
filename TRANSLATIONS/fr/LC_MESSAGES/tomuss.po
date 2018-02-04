@@ -6493,3 +6493,6 @@ msgstr "Vous recevez ce message car une date spéciale que vous avez indiquée\n
 
 msgid "MSG_free"
 msgstr "disponibles"
+
+msgid "MSG_acls_check"
+msgstr "Vérifier les ACLS"

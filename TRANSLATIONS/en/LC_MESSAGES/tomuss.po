@@ -6348,3 +6348,6 @@ msgstr "You receive this message because a special date you indicated in TOMUSS\
 
 msgid "MSG_free"
 msgstr "frees"
+
+msgid "MSG_acls_check"
+msgstr "Check ACLS"
