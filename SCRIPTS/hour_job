@@ -147,6 +147,8 @@ do_main() {
     if [ -f xxx.hour_job ]
     then
 	log "hour_job.py is yet running, let it finish the previous job."
+	SCRIPTS/alert_mail.py "SCRIPTS/hour_job.py" \
+			"The previous job was started at $(cat xxx.hour_job)"
 	exit 1
     fi
     date >xxx.hour_job
