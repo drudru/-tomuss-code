@@ -665,14 +665,15 @@ def compressBuf(buf):
 class StaticFile(object):
     """Emulate a string, but it is a file content"""
     mimetypes = {'html': 'text/html;charset=utf-8',
-                'css': 'text/css;charset=utf-8',
-                'png': 'image/png',
-                'ico': 'image/png',
-                'jpg': 'image/jpeg',
-                'gif': 'image/gif',
-                'js': 'application/x-javascript;charset=utf-8',
-                'txt': 'text/plain;charset=utf-8',
-                'xml': 'application/rss+xml;charset=utf-8',
+                 'css': 'text/css;charset=utf-8',
+                 'png': 'image/png',
+                 'ico': 'image/png',
+                 'jpg': 'image/jpeg',
+                 'gif': 'image/gif',
+                 'xls': 'application/vnd.ms-excel;charset=utf-8',
+                 'js': 'application/x-javascript;charset=utf-8',
+                 'txt': 'text/plain;charset=utf-8',
+                 'xml': 'application/rss+xml;charset=utf-8',
                 }
     _url_ = 'http://???/' # The current server (TOMUSS or 'suivi')
                 
