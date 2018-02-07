@@ -840,9 +840,9 @@ class Table(object):
         except ValueError:
             equal = False
         if equal:
-            if cell.author == page.user_name:
-                return 'ok.png'
-            if not change_author:
+            if cell.author == page.user_name or not change_author:
+                line[a_column.data_col].date = (date
+                                               or time.strftime('%Y%m%d%H%M%S'))
                 return 'ok.png'
 
         # if isinstance(value, str) and value.find('.') != -1:
