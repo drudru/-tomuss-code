@@ -841,7 +841,8 @@ class Table(object):
             equal = False
         if equal:
             if cell.author == page.user_name or not change_author:
-                line[a_column.data_col].date = (date
+                if len(page.user_name) > 1:
+                    line[a_column.data_col].date = (date
                                                or time.strftime('%Y%m%d%H%M%S'))
                 return 'ok.png'
 
