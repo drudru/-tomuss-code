@@ -127,25 +127,30 @@ def do_update(server, s, top):
     server.the_file.flush()
 
 def data_to_display(server, top):
-    """Create the page by updating it every 0.2 seconds or more"""
-    t = time.time()
+    """Send update to the page by block.
+       The block duration are 1/16, 1/8, 1/4, 1/2, 1, 1, 1, 1... seconds
+       The faster display blocks are evaluated first.
+    """
+    start = time.time()
+    start_display = 1/16
     s = []
     profiling = {}
     for display in sorted(display_dict.values(), key=lambda x: x.time):
         if display.data:
             if display.is_in(top):
-                if display.time > 0.2:
+                t = time.time()
+                if t - start > start_display:
                     do_update(server, s, top)
                     s = []
+                    start_display = min(1, 2 * start_display)
+                    start = t = time.time()
                 try:
                     s.append((display.name, display.data(server)))
                 except:
                     utilities.send_backtrace('', 'Display: ' + display.name)
                     continue
-                tt = time.time()
-                display.time = max(display.time, tt - t)
+                display.time = max(display.time, time.time() - t)
                 profiling[display.name] = int(display.time*1000000)
-                t = tt
     s.append(("Profiling", profiling))
     do_update(server, s, top)
     data_to_display.nr_call += 1
