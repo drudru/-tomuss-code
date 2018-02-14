@@ -27,8 +27,10 @@ import subprocess
 from .. import plugin
 from .. import utilities
 from .. import document
+from .. import configuration
 
 wait = 1 # Tables must be unused for this time in minutes
+upload = 5 # No upload for this number of minutes
 
 def restart_tomuss(server, start=True):
     "Restart TOMUSS when it is unused"
@@ -41,15 +43,21 @@ def restart_tomuss(server, start=True):
     w(_("HELP_restart_tomuss"))
     while True:
         w(time.ctime() + ' ')
+        now = time.time()
         for t in document.tables_values():
-            mtime = time.time() - t.mtime
+            mtime = now - t.mtime
             if  mtime < wait*60:
                 w(_("MSG_restart_access") % wait
                   + ' <small>(%s mtime=%d seconds)</small>' % (t, mtime))
                 break
         else:
+            time_since_last_upload = now - configuration.time_of_last_upload
             if utilities.important_job_running():
                 w(str(utilities.current_jobs))
+            elif time_since_last_upload < upload*60:
+                w(_("B_Upload")
+                  + ' <small>%ds &lt; %ds</small>' % (
+                           time_since_last_upload, upload*60))
             else:
                 # Restart TOMUSS
                 w('GO '*10)

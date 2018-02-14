@@ -25,6 +25,7 @@ import re
 import html
 import os
 import sys
+import time
 from . import configuration
 from . import utilities
 from . import files
@@ -454,7 +455,6 @@ to_top = None
 def execute(server, plugin):
     if server.do_profile:
         import cProfile
-        import time
         pr = cProfile.Profile(time.time)
         pr.enable()
     if plugin.launch_thread:
@@ -465,6 +465,7 @@ def execute(server, plugin):
                 if plugin.mimetype and plugin.upload_max_size:
                     x = "uploading_%d" % id(server)
                     utilities.important_job_add(x)
+                    configuration.time_of_last_upload = time.time()
                     server.uploaded = server.get_field_storage(
                         plugin.upload_max_size)
                     try:

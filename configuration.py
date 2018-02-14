@@ -696,6 +696,8 @@ def get_messages(login): # Overwritten by TEMPLATES/config.messages.py
 
 domains = None
 
+time_of_last_upload = 0 # To not restart TOMUSS in uploading time span
+
 ###############################################################################
 # Terminate configuration
 ###############################################################################
