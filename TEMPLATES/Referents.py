@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 #    TOMUSS: The Online Multi User Simple Spreadsheet
-#    Copyright (C) 2009-2012 Thierry EXCOFFIER, Universite Claude Bernard
+#    Copyright (C) 2009-2018 Thierry EXCOFFIER, Universite Claude Bernard
 #
 #    This program is free software; you can redistribute it and/or modify
 #    it under the terms of the GNU General Public License as published by
@@ -28,6 +28,7 @@ import os
 import html
 from .. import inscrits
 from .. import utilities
+from .. import data
 from .. import configuration
 from . import _ucbl_
 
@@ -86,7 +87,7 @@ def check_columns(table):
     if len(table.columns) != 0 and table.columns.from_id('FiRe') is None:
         table.modifiable = 0
         return # Old table : no more columns update
-    cols = dict(list(referent_columns.items()))
+    cols = dict(referent_columns.items())
     cols.update(configuration.local_columns(table))
     for k, v in cols.items():
         x = utilities._('COL_TITLE_' + k)
@@ -95,7 +96,19 @@ def check_columns(table):
         x = utilities._('COL_COMMENT_' + k)
         if x != 'COL_COMMENT_' + k:
             v['comment'] = x
-    table.update_columns(cols)
+    ro = {}
+    rw = {}
+    for k, v in cols.items():
+        if k.startswith('0_'):
+            ro[k] = v
+        else:
+            column = table.columns.from_id(k)
+            if column and column.author == data.ro_user:
+                # This is an old referent table
+                continue
+            rw[k] = v
+    table.update_columns(ro)
+    table.update_columns(rw, table.get_a_master_page())
 
 def content(dummy_table):
     return _ucbl_.update_student_information
