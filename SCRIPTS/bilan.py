@@ -15,6 +15,11 @@ as a Python fragment.
        ],
  ...
 }
+
+Full grading information without the UE name is stored in a flat file :
+    LOGINS/XXX/XXXXXX/grades
+It is used to create the icons and timeline.
+
 """
 
 import os
@@ -53,7 +58,7 @@ class UE:
         nr = 0
         weight = 0.
         key = (table.year, table.semester, table.ue)
-        for cell, column in list(zip(line, table.columns))[6:]:
+        for cell, column in tuple(zip(line, table.columns))[6:]:
             if len(cell.author) > 1:
                 teachers_tables[cell.author][key] += 1
             value = cell.value
@@ -113,8 +118,11 @@ class UE:
                      + ']')
         return '[' + ',\n'.join(s) + ']'
 
-students = {}
+students = collections.defaultdict(lambda: collections.defaultdict(UE))
 students_index = collections.defaultdict(list)
+students_grades = collections.defaultdict(list)
+
+preabiabj = (configuration.pre, configuration.abi, configuration.abj)
 
 for syear in os.listdir(configuration.db):
     try:
@@ -157,18 +165,58 @@ for syear in os.listdir(configuration.db):
                         re.sub(d, '<b>' + d + '</b>',
                                html.escape(column.cell_writable))))
                         break
+                if column.type.name == 'Note' and column.weight[0] not in '+-':
+                    min, max = column.min_max()
+                    for line in ue.lines.values():
+                        login = utilities.the_login(str(line[0].value))
+                        if configuration.is_a_student(login):
+                                cell = line[column.data_col]
+                                if cell.date:
+                                    try:
+                                        value = float(cell.value)
+                                    except ValueError:
+                                        if cell.value == configuration.abi:
+                                            students_grades[login].append((
+                                                cell.date,
+                                                ue.year, ue.semester,
+                                                cell.value))
+                                        continue
+                                    if value >= min and value <= max:
+                                        students_grades[login].append((
+                                            cell.date, ue.year, ue.semester,
+                                             (value - min) / (max - min)
+                                            ))
+                elif column.type.name == 'Prst':
+                    for line in ue.lines.values():
+                        login = utilities.the_login(str(line[0].value))
+                        if configuration.is_a_student(login):
+                                cell = line[column.data_col]
+                                if cell.value in preabiabj:
+                                    students_grades[login].append((
+                                            cell.date, ue.year, ue.semester,
+                                            cell.value))
 
             for i in ue.logins_valid():
-                i = utilities.the_login(str(i))
-                if not i in students:
-                    students[i] = {}
-                s = students[i]
-                if name not in s:
-                    s[name] = UE()
-                lines = tuple(ue.get_lines(i))
-                s[name].add(ue, lines[0], result)
+                login = utilities.the_login(str(i))
+                students[login][name].add(ue,
+                                          tuple(ue.get_lines(i))[0],
+                                          result)
 
             ue.unload()
+
+
+for login, grades in students_grades.items():
+    if len(login) >= 3:
+        grades.sort(key=lambda x: (x[0], hash(x)))
+        c = []
+        for date, year, semester, value in grades:
+            if isinstance(value, str):
+                c.append("{} {} {} {}".format(date[:8], year, semester, value))
+            else:
+                c.append("{} {} {} {:g}".format(date[:8], year, semester, value))
+        content = '\n'.join(c)
+        utilities.manage_key('LOGINS', os.path.join(login, 'grades'),
+                             content=content)
 
 # Update all the student indexes
 # It is done only to be sure there is no bad index file (initialisation or bug)
