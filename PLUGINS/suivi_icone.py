@@ -25,6 +25,8 @@ from .. import plugin
 from .. import utilities
 from .. import files
 from .. import tablestat
+from .. import document
+from .. import inscrits
 from .. import configuration
 
 try:
@@ -90,7 +92,6 @@ def student_icone_index(server):
                          128))
     return prst, note
 
-
 def student_icone(server):
     if not ok:
         return
@@ -123,4 +124,33 @@ plugin.Plugin('icone', '/{_I}',
               unsafe=False,
               cached = True,
               )
+
+files.add('PLUGINS', 'timeline.js')
+
+def timeline(server):
+    prefs_table = document.get_preferences(server.ticket.user_name,
+                                           create_pref=False,
+                                           the_ticket=server.ticket)
+    server.the_file.write(
+        str(document.the_head)
+        + document.translations_init(prefs_table['language'])
+        + '''<script src="{0}/timeline.js"></script>
+        <SCRIPT src="{0}/bilan.js"></SCRIPT>
+    <script>'''.format(configuration.url_files))
+    content = utilities.manage_key('LOGINS',
+                                   os.path.join(server.the_student, 'grades'))
+    resume = utilities.manage_key('LOGINS',
+                                   os.path.join(server.the_student, 'resume'))
+    if not content:
+        content = ""
+    server.the_file.write('timeline({},{},{},{}, {});</script>'.format(
+        utilities.js(content),
+        configuration.external_bilan(server.the_student),
+        resume or "{}",
+        utilities.js(server.the_student),
+        utilities.js(inscrits.L_fast.firstname_and_surname_and_mail(
+                                                  server.the_student))
+        ))
+
+plugin.Plugin('timeline', '/timeline/{I}', function=timeline)
 

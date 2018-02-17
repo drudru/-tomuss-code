@@ -6496,3 +6496,14 @@ msgstr "disponibles"
 
 msgid "MSG_acls_check"
 msgstr "Vérifier les ACLS"
+
+msgid "MSG_timeline"
+msgstr "Ceci est expérimental.\n"
+       "Rien n'est cliquable.\n"
+       "Le calendrier indique les dates de saisie,\n"
+       "la couleur du bord indique les présences et\n"
+       "celle du centre les notes.\n"
+       "Dans la partie droite, ce sont les résumés des informations par table."
+
+
+

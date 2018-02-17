@@ -6351,3 +6351,12 @@ msgstr "frees"
 
 msgid "MSG_acls_check"
 msgstr "Check ACLS"
+
+msgid "MSG_timeline"
+msgstr "This is experimental.\n"
+       "Nothing is clikable.\n"
+       "The calendar use the date of input,\n"
+       "the border color indicate attendance and\n"
+       "the center color the grade.\n"
+       "On the right side, there are table informations."
+
