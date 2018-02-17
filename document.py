@@ -478,10 +478,8 @@ class Table(object):
         else:
             if not os.path.exists(self.filename):
                 self.on_disc = False
-
-        if not os.path.exists(self.filename):
-            # Read only table and file does not exists
-            return
+                # Read only table and file does not exists
+                return
 
         self.mtime = os.path.getmtime(self.filename)
 
@@ -498,9 +496,6 @@ class Table(object):
         else:
             if ro:
                 return # Do not create the table
-            # Remove this file because it is created the same second
-            # than the .py file, So it is not recompiled in some case.
-            # os.remove(self.filename + 'c')
             warn('Create start', what='table')
             self.user = user # Usable by template.create()
             # We lock because table change methods expects to be locked.
@@ -508,6 +503,11 @@ class Table(object):
             self.lock()
             try:
                 self.template.create(self)
+            except:
+                utilities.send_backtrace("", "Template.create %s/%s/%s" % (
+                                year, semester, ue))
+                utilities.unlink_safe(self.filename, do_backup=False)
+                raise
             finally:
                 self.unlock()
                 warn('Unlock', what='table')
