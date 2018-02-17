@@ -716,13 +716,10 @@ class Columns(object):
         if not ordered:
             return False
         for may_be_top in ordered[::-1]:
-            if may_be_top.is_computed():
+            if may_be_top.type.name == 'Moy':
                 break
         else:
             return ()
-        if (may_be_top.type.name == 'Weighted_Percent'
-            and ordered[-2].type.name == 'Moy'):
-            may_be_top = ordered[-2]
         to_add = [may_be_top.title]
         used_titles = set()
         while to_add:
