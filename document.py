@@ -1967,10 +1967,14 @@ def check_indexes_to_update():
         t = time.time()
     return t
 
-def update_indexes(year, semester, ue):
-    the_table = table(year, semester, ue)
+def update_indexes(the_year, the_semester, the_ue):
+    class X:
+        year = the_year
+        semester = the_semester
+        ue = the_ue
+    the_table = table(the_year, the_semester, the_ue)
     for login in the_table.logins_valid():
-        indexes_to_update.append((the_table, '', utilities.the_login(login)))
+        indexes_to_update.append((X, '', utilities.the_login(login)))
 
 def check_new_students():
     while True:
