@@ -107,9 +107,9 @@ function timeline(txt, bilan, resume, student_id, fn_sn_mail)
   'DIV.calendar:hover, TH DIV:hover { overflow: visible ; }',
   'SPAN { width:  ' + (timeline.size - 2*timeline.border) + 'px ;',
   '       height: ' + (timeline.size - 2*timeline.border) + 'px ;',
-  '       position: absolute; font-size: 20% ;',
+  '       position: absolute; font-size: 3px ;',
   '       background: #FFF ;',
-  '       line-height: 0.85em ;',
+  '       line-height: 3px ;',
   '       border: ' + timeline.border + 'px solid #EEE }',
   'DIV.calendar.tables { width: auto }',
   '.tables { font-size: 66% ; ',
@@ -166,24 +166,28 @@ function timeline(txt, bilan, resume, student_id, fn_sn_mail)
     else
       grades[t][1].push(v) ;
   }
-  var semester_start, semester_stop, semester, univ_year ;
-  function is_in_semester(month)
-  {
-    return month >= semester_start && month <= semester_stop
-           || semester_stop > 12 && month <= semester_stop - 12 ;
-  }
-  function update_semester_span(year, m)
+  var semester_start, semester_stop, semester, semester_color, univ_year ;
+  function get_year_semester(year, month)
   {
     for(var i in semesters_months)
-    {
-      semester_start = semesters_months[i][0] ;
-      semester_stop = semesters_months[i][1] ;
-      semester = semesters[i] ;
-      univ_year = Number(year) + semesters_year[i] ;
-      if ( is_in_semester(m) )
-          return ;
-    }
-    alert("bug update_semester_span " + m) ;
+      if ( month >= semesters_months[i][0] && month <= semesters_months[i][1] )
+        break ;
+    return [Number(year) + semesters_year[i] - (month < semesters_months[i][0]),
+            semesters[i], semesters_months[i], semesters_color[i]] ;
+  }
+  function is_in_semester(year, month)
+  {
+    var year_semester = get_year_semester(year, month) ;
+    return year_semester[0] == univ_year && year_semester[1] == semester ;
+  }
+  function update_semester_span(year, month)
+  {
+    var year_semester = get_year_semester(y, month) ;
+    semester_start = year_semester[2][0] ;
+    semester_stop = year_semester[2][1] ;
+    semester_color = year_semester[3] ;
+    semester = year_semester[1] ;
+    univ_year = year_semester[0] ;
   }
   function add_months()
   {
@@ -202,7 +206,7 @@ function timeline(txt, bilan, resume, student_id, fn_sn_mail)
     m = i.substr(4, 2) ;
     d = i.substr(6, 2) ;
     v = grades[i] ;
-    if ( ! is_in_semester(m) )
+    if ( ! is_in_semester(y, m) )
     {
       if ( univ_year !== undefined )
       {
@@ -217,7 +221,8 @@ function timeline(txt, bilan, resume, student_id, fn_sn_mail)
       }
       update_semester_span(y, m) ;
 
-      s.push('<tr><th><div>' + univ_year + '<br>' + semester + '</div>') ;
+      s.push('<tr><th style="background:' + semester_color + '"><div>'
+              + univ_year + '<br>' + semester + '</div>') ;
       month = semester_start-1 ;
       year = Number(y) ; // The real year
     }
