@@ -115,6 +115,7 @@ variable_list = [
     "private_suivi",
     "forbidden_names",
     "rounding_default", "rounding_avg", "rounding_min",
+    "clamav_server", "clamav_port",
     ]
 
 deprecated = set(('root', 'invited_teachers', 'invited_administratives',

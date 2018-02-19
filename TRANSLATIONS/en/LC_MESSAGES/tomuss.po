@@ -4788,6 +4788,12 @@ msgstr "Rounding: for average"
 msgid "config_table_rounding_min"
 msgstr "Rounding: minimal allowed. Never increase this value."
 
+msgid "config_table_clamav_server"
+msgstr "CLAMAV: server IP address"
+
+msgid "config_table_clamav_port"
+msgstr "CLAMAV: server socket port"
+
 msgid "MSG_picture_upload"
 msgstr "Change your face"
 

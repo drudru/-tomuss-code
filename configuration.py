@@ -370,6 +370,10 @@ ldap_server_port = 389
 ldap_encoding = 'utf-8'
 ldap_reconnect = 60
 
+# Clamd server
+clamav_server = '127.0.0.1'
+clamav_port = 3310
+
 # A login is assumed as a teacher one if it contains this stubstring
 teacher_if_login_contains = '#'
 

@@ -4844,6 +4844,12 @@ msgstr "Arrondi: recommandé pour les moyennes"
 msgid "config_table_rounding_min"
 msgstr "Arrondi: le plus petit autorisé. Ne jamais augmenter cette valeur"
 
+msgid "config_table_clamav_server"
+msgstr "CLAMAV: adresse IP du serveur"
+
+msgid "config_table_clamav_port"
+msgstr "CLAMAV: port du socket du serveur"
+
 msgid "MSG_picture_upload"
 msgstr "Changer votre photo"
 

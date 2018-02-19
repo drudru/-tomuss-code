@@ -26,6 +26,7 @@ from .. import utilities
 from .. import plugin
 from .. import document
 from .. import ticket
+from .. import configuration
 from . import text
 
 def container_path(column):
@@ -72,7 +73,11 @@ def check_virus(data):
     try:
         import pyclamd
         try:
-            pc = pyclamd.ClamdUnixSocket()
+            if configuration.clamav_server == '127.0.0.1':
+                pc = pyclamd.ClamdUnixSocket()
+            else:
+                pc = pyclamd.ClamdNetworkSocket(host=configuration.clamav_server,
+                                                port=configuration.clamav_port)
         except NameError:
             # Fix a pyclamd bug
             pyclamd.__dict__["__builtins__"]["basestring"] = str
