@@ -1,3 +1,6 @@
+/*REDEFINE
+Display the UE name in the timeline
+*/
 function timeline_display_external_info(year, semester, code, bilan)
 {
   return code ;
@@ -15,59 +18,51 @@ function get_day_html(y, m, d, style, content)
           + content  + '</span>' ;
 }
 
-function end_year(year, month, bilan, resume)
+function end_year(year, month, semester, bilan, resume)
 {
   var s = [] ;
-  while( month++ < 12 )
-    s.push('<td>') ;
-  for(var semester in semesters)
-  {
-    var n = 0 ;
-    semester = semesters[semester] ;
-    for(var i in resume)
-      for(var j in resume[i])
+  var n = 0 ;
+  for(var i in resume)
+    for(var j in resume[i])
+    {
+      var r = resume[i][j] ;
+      if ( r[0] == year && r[1] == semester )
       {
-        var r = resume[i][j] ;
-        if ( r[0] == year && r[1] == semester )
+        if ( n++ % 6 == 0 )
+          s.push('<td><div class="calendar tables">') ;
+        s.push('<div style="color:#' + value_to_color(r[5], 2) + '">') ;
+        s.push(timeline_display_external_info(year, semester, i, bilan,
+                                              j == resume[i].length - 1));
+        s.push('<span class="stats" style="background:#'
+                + value_to_color(r[5], 1.1) + '">') ;
+        if ( r[2] )
+          s.push(r[2] + pre.toLowerCase() + ' ') ;
+        if ( r[3] )
+          s.push(r[3] + abi.toLowerCase() + ' ') ;
+        if ( r[4] )
+          s.push(r[4] + abj.toLowerCase() + ' ') ;
+        s.push('<br>') ;
+        if ( r[6] )
         {
-          if ( n++ % 6 == 0 )
-            s.push('<td><div class="calendar tables">') ;
-          if ( n == 1 )
-          {
-            s.push('<div><b>' + semester + '</b><div>') ;
-            n++ ;
-          }
-          s.push('<div style="color:#' + value_to_color(r[5], 2) + '">') ;
-          s.push(timeline_display_external_info(year, semester, i,bilan));
-          s.push('<span class="stats" style="background:#'
-                  + value_to_color(r[5], 1.1) + '">') ;
-          if ( r[2] )
-            s.push(r[2] + pre.toLowerCase() + ' ') ;
-          if ( r[3] )
-            s.push(r[3] + abi.toLowerCase() + ' ') ;
-          if ( r[4] )
-            s.push(r[4] + abj.toLowerCase() + ' ') ;
-          s.push('<br>') ;
-          if ( r[6] )
-          {
-            s.push(Math.floor(r[5]*20)) ;
-            s.push('/20 ') ;
-            s.push(r[6] + _("MSG_columnstats_grade").toLowerCase()) ;
-            s.push('</span>') ;
-          }
-          else
-            s.push(' ') ;
-          s.push('</div>') ;
+          s.push(Math.floor(r[5]*20)) ;
+          s.push('/20 ') ;
+          s.push(r[6] + _("MSG_columnstats_grade").toLowerCase()) ;
+          s.push('</span>') ;
         }
+        else
+          s.push(' ') ;
+        s.push('</div>') ;
       }
-  }
+    }
   s.push('</tr>') ;
   return s.join('') ;
 }
 
 function init_month(year, month, grades)
 {
-  var s = [] ;
+  if ( month > 12 )
+    month -= 12 ;
+  var s = ['<div class="month">', year, '<br>', months_full[month-1], '</div>'] ;
   var key = year + two_digits(month) ;
   for(var day=1;  day < 99 ; day++)
   {
@@ -116,10 +111,15 @@ function timeline(txt, bilan, resume, student_id, fn_sn_mail)
   '       background: #FFF ;',
   '       line-height: 0.85em ;',
   '       border: ' + timeline.border + 'px solid #EEE }',
+  'DIV.calendar.tables { width: auto }',
+  '.tables { font-size: 66% ; ',
+  '          white-space: nowrap;',
+  '          }',
+  '.tables DIV { height: 1em ; }',
   '.tables SPAN { width:  ' + timeline.size*1.5 + 'px ;',
-  '       height: 2.3em ; text-align: center; color: #000;',
-  '       display: inline-block; position: relative;',
-  '       border: 0px; font-size: 2.3px; line-height: 1.2em; }',
+  '       height: auto ; text-align: center; vertical-align: top ; color: #000;',
+  '       display: inline-block; position: relative; margin-top: 0.3em;',
+  '       border: 0px; font-size: 3px; line-height: 1.25em; }',
   '.tables SPAN.stats { text-align: left ; width: auto; }',
   'DIV.calendar { height: ' + 6*timeline.size + 'px; background: #FFF ; ',
   '         transition: transform 0.2s; }',
@@ -133,26 +133,22 @@ function timeline(txt, bilan, resume, student_id, fn_sn_mail)
   '.x3 { left: ' + 3*timeline.size + 'px }',
   '.x4 { left: ' + 4*timeline.size + 'px }',
   '.x5 { left: ' + 5*timeline.size + 'px }',
-  '.x6 { left: ' + 6*timeline.size + 'px ; border:' + timeline.border + 'px solid #CCC }',
+  '.x6 { left: ' + 6*timeline.size
+                 + 'px ; border:' + timeline.border + 'px solid #CCC }',
+  '.month { left: ' + 7*timeline.size
+         + 'px; position: absolute; pointer-events: none; font-size: 60% }',
   '.y0 { top: 0px }',
   '.y1 { top: ' + 1*timeline.size + 'px }',
   '.y2 { top: ' + 2*timeline.size + 'px }',
   '.y3 { top: ' + 3*timeline.size + 'px }',
   '.y4 { top: ' + 4*timeline.size + 'px }',
   '.y5 { top: ' + 5*timeline.size + 'px }',
-  '.tables { font-size: 50% ; line-height: 1em;',
-  '          white-space: nowrap;',
-  '          width: ' + 7*timeline.size + 'px }',
   '</style>',
   '<h1>', student_id, ' ', title_case(fn_sn_mail[0]), ' ', fn_sn_mail[1],
   ' <small>', fn_sn_mail[2], '</small></h1>',
   _("MSG_timeline"),
   '<p><br><table class="colored">',
-  '<tr><th>'
   ] ;
-  for(var i=0; i < 12; i++)
-    s.push('<th><div>' + months_full[i]) ;
-  s.push('</tr>') ;
   txt = txt.split(/\n/) ;
   var grades = {}, ordered = [] ;
   for(var i in txt)
@@ -170,6 +166,35 @@ function timeline(txt, bilan, resume, student_id, fn_sn_mail)
     else
       grades[t][1].push(v) ;
   }
+  var semester_start, semester_stop, semester, univ_year ;
+  function is_in_semester(month)
+  {
+    return month >= semester_start && month <= semester_stop
+           || semester_stop > 12 && month <= semester_stop - 12 ;
+  }
+  function update_semester_span(year, m)
+  {
+    for(var i in semesters_months)
+    {
+      semester_start = semesters_months[i][0] ;
+      semester_stop = semesters_months[i][1] ;
+      semester = semesters[i] ;
+      univ_year = Number(year) + semesters_year[i] ;
+      if ( is_in_semester(m) )
+          return ;
+    }
+    alert("bug update_semester_span " + m) ;
+  }
+  function add_months()
+  {
+    while( month < m || month > m && month - 12 <  m )
+    {
+      s.push('<td><div class="calendar">') ;
+      month++ ;
+      s.push(init_month(y, month, grades)) ;
+    }
+  }
+
   for(var i in ordered)
   {
     i = ordered[i] ;
@@ -177,31 +202,26 @@ function timeline(txt, bilan, resume, student_id, fn_sn_mail)
     m = i.substr(4, 2) ;
     d = i.substr(6, 2) ;
     v = grades[i] ;
-    if ( y != year || m != month )
+    if ( ! is_in_semester(m) )
+    {
+      if ( univ_year !== undefined )
       {
-        if ( y != year )
-        {
-          if ( year !== undefined )
-          {
-              while( month < 12 )
-              {
-                s.push('<td><div class="calendar">') ;
-                month++ ;
-                s.push(init_month(year, month, grades)) ;
-              }
-              s.push(end_year(year, month, bilan, resume)) ;
-          }
-          year = y ;
-          s.push('<tr><th><div>' + year) ;
-          month = 0 ;
-        }
-        while( month < m )
+        // Terminate the previous line
+        while( month < semester_stop )
         {
           s.push('<td><div class="calendar">') ;
           month++ ;
-          s.push(init_month(y, month, grades)) ;
+          s.push(init_month(year, month, grades)) ;
         }
+        s.push(end_year(year, month, semester, bilan, resume)) ;
       }
+      update_semester_span(y, m) ;
+
+      s.push('<tr><th><div>' + univ_year + '<br>' + semester + '</div>') ;
+      month = semester_start-1 ;
+      year = Number(y) ; // The real year
+    }
+    add_months() ;
     t = '' ;
     if ( v[1].length != 0 )
     {
@@ -224,14 +244,16 @@ function timeline(txt, bilan, resume, student_id, fn_sn_mail)
     }
     s.push(get_day_html(y, m, d, g, t)) ;
   }
-  if ( year !== undefined )
+  if ( univ_year !== undefined )
   {
-    s.push(end_year(year, month, bilan, resume)) ;
+    m = semester_stop ;
+    add_months() ;
+    s.push(end_year(year, month, semester, bilan, resume)) ;
   }
   s.push('</table>') ;
   document.write(s.join('\n')) ;
 }
 
 timeline.border = 1 ;
-timeline.size = 6 ;
+timeline.size = 8 ;
 
