@@ -714,7 +714,10 @@ def terminate():
     import sys
 
     if not regtest or regtest_load_local:
-        from .LOCAL import config # Your local configuration goes inside LOCAL
+        # Your local configuration goes inside LOCAL
+        if not os.path.exists(os.path.join('LOCAL')):
+            os.symlink('LOCAL.template', 'LOCAL')
+        from .LOCAL import config
 
     global url_files, maxage, backup
     

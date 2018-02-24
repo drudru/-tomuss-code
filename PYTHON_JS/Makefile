@@ -13,12 +13,20 @@ JS=../FILES/lib.js ../FILES/utilities.js ../COLUMN_TYPES/text.js deprecated.js
 LOCAL=$(shell if [ -d ../LOCAL/LOCAL_PYTHON_JS ] ; then ls ../LOCAL/LOCAL_PYTHON_JS/*.py | grep -v regtest ; fi)
 LOCAL_REGTEST=$(shell if [ -d ../LOCAL/LOCAL_PYTHON_JS ] ; then echo ../LOCAL/LOCAL_PYTHON_JS/*_regtest.py ; fi)
 
+RAPYDSCRIPT=https://github.com/atsepkov/RapydScript.git
 RAPYDSCRIPT_COMMIT=f121b356dea6dfc558884af69dd780754d8c5332
+
+rapydscript:
+	@echo $(RAPYDSCRIPT)
+
 translator:
 	@if [ ! -d RapydScript ] ; \
 	then \
 		echo "Cloning Python->JS translator repository." ; \
-		git clone https://github.com/atsepkov/RapydScript.git ; \
+		if [ -d /usr/local/RapydScript ] ; \
+		then git clone /usr/local/RapydScript ; \
+		else git clone $(RAPYDSCRIPT) ; \
+		fi ; \
 		cd RapydScript ; \
 		git checkout $(RAPYDSCRIPT_COMMIT) ; \
 	fi
